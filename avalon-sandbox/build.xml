@@ -33,4 +33,12 @@ the LICENSE.txt file.
     <ant antfile="${merlin.home}/build.xml" inheritall="false"/>
   </target>
 
+  <target name="patch">
+    <replace dir="." summary="true"
+       token="http://avalon.apache.org/dtds/"
+       value="http://avalon.apache.org/dtds/" >
+     <include name="**/*.x*"/>
+    </replace>
+  </target>
+
 </project>

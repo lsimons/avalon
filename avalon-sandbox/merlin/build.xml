@@ -10,7 +10,7 @@ the LICENSE.txt file.
 @version 1.0 12/03/2001
 -->
 
-<project name="merlin" default="main" basedir=".">
+<project name="merlin" default="install" basedir=".">
 
   <property file="${basedir}/../ant.properties"/>
   <property file="${basedir}/ant.properties"/>
@@ -19,27 +19,23 @@ the LICENSE.txt file.
   <property file="${basedir}/default.properties"/>
 
   <!-- Classpath for product -->
-  <path id="bootstrap.class.path">
-    <pathelement location="${commons-cli.jar}"/>
-    <pathelement location="${excalibur-i18n.jar}"/>
-  </path>
-
-  <!-- Classpath for product -->
   <path id="project.class.path">
-    <pathelement location="${logkit.jar}"/>
+    <pathelement location="${avalon-logkit.jar}"/>
+    <pathelement location="${commons-collections.jar}"/>
     <pathelement location="${avalon-framework.jar}"/>
     <pathelement location="${excalibur-i18n.jar}"/>
-    <pathelement location="${avalon-meta.jar}"/>
-    <pathelement location="${avalon-lifecycle.jar}"/>
-    <pathelement location="${avalon-assembly.jar}"/>
-    <!--<pathelement location="${excalibur-logger.jar}"/>-->
+    <pathelement location="${excalibur-extension.jar}"/>
+    <pathelement location="${excalibur-util-concurrent.jar}"/>
     <pathelement location="${excalibur-configuration.jar}"/>
+    <pathelement location="${excalibur-collections.jar}"/>
     <pathelement location="${excalibur-pool.jar}"/>
     <pathelement location="${excalibur-thread.jar}"/>
+    <pathelement location="${excalibur-threadcontext.jar}"/>
     <pathelement location="${excalibur-event.jar}"/>
-    <!--<pathelement location="${excalibur-sourceresolve.jar}"/>-->
-    <pathelement location="${util.concurrent.jar}"/>
-    <pathelement location="${commons-collections.jar}"/>
+    <pathelement location="${avalon-assembly.jar}"/>
+    <pathelement location="${avalon-meta.jar}"/>
+    <pathelement location="${avalon-lifecycle.jar}"/>
+    <pathelement location="${merlin-bootstrap.jar}"/>
     <pathelement location="${build.classes}"/>
     <pathelement location="${checkstyle.jar}"/>
     <!--<pathelement location="${xml-apis.jar}"/>-->
@@ -74,21 +70,203 @@ the LICENSE.txt file.
     <ant dir="../assembly" inheritAll="false"/>
   </target>
 
-  <target name="meta-context">
-    <uptodate property="meta-uptodate" targetfile="${avalon-meta.jar}">
-      <srcfiles dir="${avalon-meta.home}/src">
+  <target name="bootstrap-context">
+    <uptodate property="bootstrap-uptodate" targetfile="${merlin-bootstrap.jar}">
+      <srcfiles dir="../merlin-bootstrap/src">
         <include name="**/*.*"/>
       </srcfiles>
     </uptodate>
   </target>
 
-  <target name="meta" depends="meta-context" description="Meta dependency" unless="meta-uptodate">
-    <ant dir="../meta" inheritAll="false"/>
+  <target name="bootstrap" depends="bootstrap-context" 
+      description="Bootstrap dependency" unless="bootstrap-uptodate">
+    <ant dir="../merlin-bootstrap" inheritAll="false"/>
   </target>
 
-  <target name="dependencies" depends="meta,assembly" description="Check dependencies" />
+  <target name="flags">
+        <available property="framework.present"
+               classname="${avalon-framework.key}"
+               classpathref="project.class.path" />
+        <available property="configuration.present"
+               classname="${excalibur-configuration.key}"
+               classpathref="project.class.path" />
+        <available property="i18n.present"
+               classname="${excalibur-i18n.key}"
+               classpathref="project.class.path" />
+        <available property="extension.present"
+               classname="${excalibur-extension.key}"
+               classpathref="project.class.path" />
+        <available property="excalibur-collections.present"
+               classname="${excalibur-collections.key}"
+               classpathref="project.class.path" />
+        <available property="event.present"
+               classname="${excalibur-event.key}"
+               classpathref="project.class.path" />
+        <available property="concurrent.present"
+               classname="${excalibur-util-concurrent.key}"
+               classpathref="project.class.path" />
+        <available property="collections.present"
+               classname="${commons-collections.key}"
+               classpathref="project.class.path" />
+        <available property="logkit.present"
+               classname="${avalon-logkit.key}"
+               classpathref="project.class.path" />
+        <available property="thread.present"
+               classname="${excalibur-thread.key}"
+               classpathref="project.class.path" />
+        <available property="threadcontext.present"
+               classname="${excalibur-threadcontext.key}"
+               classpathref="project.class.path" />
+        <available property="pool.present"
+               classname="${excalibur-pool.key}"
+               classpathref="project.class.path" />
+        <available property="lifecycle.present"
+               classname="${avalon-lifecycle.key}"
+               classpathref="project.class.path" />
+        <available property="meta.present"
+               classname="${avalon-meta.key}"
+               classpathref="project.class.path" />
+        <available property="assembly.present"
+               classname="${avalon-assembly.key}"
+               classpathref="project.class.path" />
+        <available property="bootstrap.present"
+               classname="${merlin-bootstrap.key}"
+               classpathref="project.class.path" />
+  </target>
 
-  <target name="context">
+  <target name="dependencies" depends="external-dependencies,assembly,bootstrap" description="Check dependencies"/>
+
+  <target name="external-dependencies" depends="check-framework,check-i18n,check-configuration,check-extension,check-event,check-excalibur-util-concurrent,check-commons-collections,check-excalibur-collections,check-avalon-logkit,check-thread,check-thread-context,check-pool,check-lifecycle,check-meta,check-assembly,check-bootstrap"/>
+
+  <target name="check-framework" depends="flags" unless="framework.present">
+      <mkdir dir="${local.repository}"/>
+	<get src="${remote.repository}/${avalon-framework.id}/jars/${avalon-framework.name}"
+		dest="${local.repository}/${avalon-framework.name}"
+		verbose="true"
+		usetimestamp="true"/>
+  </target>
+
+  <target name="check-configuration" depends="flags" unless="configuration.present">
+      <mkdir dir="${local.repository}"/>
+	<get src="${remote.repository}/${excalibur-configuration.id}/jars/${excalibur-configuration.name}"
+		dest="${local.repository}/${excalibur-configuration.name}"
+		verbose="true"
+		usetimestamp="true"/>
+  </target>
+
+  <target name="check-i18n" depends="flags" unless="i18n.present">
+      <mkdir dir="${local.repository}"/>
+	<get src="${remote.repository}/${excalibur-i18n.id}/jars/${excalibur-i18n.name}"
+		dest="${local.repository}/${excalibur-i18n.name}"
+		verbose="true"
+		usetimestamp="true"/>
+  </target>
+
+  <target name="check-extension" depends="flags" unless="extension.present">
+      <mkdir dir="${local.repository}"/>
+	<get src="${remote.repository}/${excalibur-extension.id}/jars/${excalibur-extension.name}"
+		dest="${local.repository}/${excalibur-extension.name}"
+		verbose="true"
+		usetimestamp="true"/>
+  </target>
+
+  <target name="check-event" depends="flags" unless="event.present">
+      <mkdir dir="${local.repository}"/>
+	<get src="${remote.repository}/${excalibur-event.id}/jars/${excalibur-event.name}"
+		dest="${local.repository}/${excalibur-event.name}"
+		verbose="true"
+		usetimestamp="true"/>
+  </target>
+
+  <target name="check-excalibur-collections" depends="flags" unless="excalibur-collections.present">
+      <mkdir dir="${local.repository}"/>
+	<get src="${remote.repository}/${excalibur-collections.id}/jars/${excalibur-collections.name}"
+		dest="${local.repository}/${excalibur-collections.name}"
+		verbose="true"
+		usetimestamp="true"/>
+  </target>
+
+  <target name="check-excalibur-util-concurrent" depends="flags" unless="concurrent.present">
+      <mkdir dir="${local.repository}"/>
+	<get src="${remote.repository}/${excalibur-util-concurrent.id}/jars/${excalibur-util-concurrent.name}"
+		dest="${local.repository}/${excalibur-util-concurrent.name}"
+		verbose="true"
+		usetimestamp="true"/>
+  </target>
+
+  <target name="check-commons-collections" depends="flags" unless="collections.present">
+      <mkdir dir="${local.repository}"/>
+	<get src="${remote.repository}/${commons-collections.id}/jars/${commons-collections.name}"
+		dest="${local.repository}/${commons-collections.name}"
+		verbose="true"
+		usetimestamp="true"/>
+  </target>
+
+  <target name="check-avalon-logkit" depends="flags" unless="logkit.present">
+      <mkdir dir="${local.repository}"/>
+	<get src="${remote.repository}/${avalon-logkit.id}/jars/${avalon-logkit.name}"
+		dest="${local.repository}/${avalon-logkit.name}"
+		verbose="true"
+		usetimestamp="true"/>
+  </target>
+
+  <target name="check-thread" depends="flags" unless="thread.present">
+      <mkdir dir="${local.repository}"/>
+	<get src="${remote.repository}/${excalibur-thread.id}/jars/${excalibur-thread.name}"
+		dest="${local.repository}/${excalibur-thread.name}"
+		verbose="true"
+		usetimestamp="true"/>
+  </target>
+
+  <target name="check-thread-context" depends="flags" unless="threadcontext.present">
+      <mkdir dir="${local.repository}"/>
+	<get src="${remote.repository}/${excalibur-threadcontext.id}/jars/${excalibur-threadcontext.name}"
+		dest="${local.repository}/${excalibur-threadcontext.name}"
+		verbose="true"
+		usetimestamp="true"/>
+  </target>
+
+  <target name="check-pool" depends="flags" unless="pool.present">
+      <mkdir dir="${local.repository}"/>
+	<get src="${remote.repository}/${excalibur-pool.id}/jars/${excalibur-pool.name}"
+		dest="${local.repository}/${excalibur-pool.name}"
+		verbose="true"
+		usetimestamp="true"/>
+  </target>
+
+  <target name="check-lifecycle" depends="flags" unless="lifecycle.present">
+      <mkdir dir="${local.repository}"/>
+	<get src="${remote.repository}/${avalon-lifecycle.id}/jars/${avalon-lifecycle.name}"
+		dest="${local.repository}/${avalon-lifecycle.name}"
+		verbose="true"
+		usetimestamp="true"/>
+  </target>
+
+  <target name="check-meta" depends="flags" unless="meta.present">
+      <mkdir dir="${local.repository}"/>
+	<get src="${remote.repository}/${avalon-meta.id}/jars/${avalon-meta.name}"
+		dest="${local.repository}/${avalon-meta.name}"
+		verbose="true"
+		usetimestamp="true"/>
+  </target>
+
+  <target name="check-assembly" depends="flags" unless="meta.present">
+      <mkdir dir="${local.repository}"/>
+	<get src="${remote.repository}/${avalon-assembly.id}/jars/${avalon-assembly.name}"
+		dest="${local.repository}/${avalon-assembly.name}"
+		verbose="true"
+		usetimestamp="true"/>
+  </target>
+
+  <target name="check-bootstrap" depends="flags" unless="bootstrap.present">
+      <mkdir dir="${local.repository}"/>
+	<get src="${remote.repository}/${merlin-bootstrap.id}/jars/${merlin-bootstrap.name}"
+		dest="${local.repository}/${merlin-bootstrap.name}"
+		verbose="true"
+		usetimestamp="true"/>
+  </target>
+
+  <target name="context" depends="dependencies">
     <mkdir dir="${lib.dir}"/>
     <uptodate property="uptodate" targetfile="${build.lib}/${jar.name}">
       <srcfiles dir="${src.dir}">
@@ -100,21 +278,8 @@ the LICENSE.txt file.
     </uptodate>
   </target>
 
-  <target name="context-bootstrap">
-    <mkdir dir="${lib.dir}"/>
-    <uptodate property="uptodate-bootstrap" targetfile="${build.lib}/${bootstrap.jar}">
-      <srcfiles dir="${java.dir}">
-        <include name="**/bootstrap/**/*.*"/>
-        <include name="*.*"/>
-      </srcfiles>
-      <srcfiles dir="${lib.dir}">
-        <include name="**/*.*"/>
-      </srcfiles>
-    </uptodate>
-  </target>
-
   <!-- Compiles the source code -->
-  <target name="compile" depends="context,dependencies" 
+  <target name="compile" depends="context" 
        description="Compiles the source code" unless="uptodate">
     
     <echo message="compiling ${ant.project.name}"/>
@@ -148,33 +313,7 @@ the LICENSE.txt file.
 
   </target>
 
-  <!-- Compiles the bootstrap source code -->
-  <target name="compile-bootstrap" depends="context-bootstrap" 
-       description="Compiles the bootstrap source code" unless="uptodate-bootstrap">
-    
-    <echo message="compiling bootstrap"/>
-    <ant antfile="${excalibur.home}/i18n/build.xml" inheritall="false"/>
-    <mkdir dir="${build.bootstrap}"/>
-
-    <javac srcdir="${java.dir}"
-       destdir="${build.bootstrap}"
-       debug="${build.debug}"
-       optimize="${build.optimize}"
-       deprecation="${build.deprecation}"
-       target="1.2">
-      <src path="${java.dir}" />
-      <include name="Merlin.java"/>
-      <include name="BootstrapRuntimeException.java"/>
-      <include name="Resources.properties"/>
-      <classpath refid="bootstrap.class.path" />
-    </javac>
-
-  </target>
-
-  <!-- Creates the merlin jar files -->
-  <target name="jar" depends="merlin.jar,bootstrap.jar" description="Generates the jar files"/>
-
-  <target name="merlin.jar" depends="compile" description="Generates the merlin jar file" unless="uptodate">
+  <target name="jar" depends="compile" description="Generates the merlin jar file" unless="uptodate">
 
     <mkdir dir="${build.conf}"/>
     <copy todir="${build.conf}" flatten="true">
@@ -206,40 +345,10 @@ the LICENSE.txt file.
 
   </target>
 
-
-  <!--
-  Creation of the bootstrap jar file.  This contains the Excalibut i18n classes and the 
-  commons CLI classes together with a Merlin bootstrap and related i18n resource class.
-  -->
-
-  <target name="bootstrap.jar" depends="compile-bootstrap" 
-      description="Generates the jar files" unless="uptodate-bootstrap">
-
-    <mkdir dir="${build.lib}"/>
-
-    <unzip src="${excalibur-i18n.jar}" dest="${build.bootstrap}"/>
-    <unzip src="${commons-cli.jar}" dest="${build.bootstrap}"/>
-
-    <copy todir="${build.bootstrap}">
-      <fileset dir="${java.dir}">
-        <exclude name="*.java"/>
-      </fileset>
-    </copy>
-
-    <jar jarfile="${build.lib}/${bootstrap.jar}"
-       basedir="${build.bootstrap}"
-       compress="${build.compress}" >
-
-      <exclude name="META-INF/**/*.*"/>
-
-      <manifest>
-        <attribute name="Main-Class" value="Merlin"/>
-      </manifest>
-
-    </jar>
-
-  </target>
-
+  <target name="install" depends="jar,jar-playground">
+      <mkdir dir="${local.repository}"/>
+      <copy toDir="${local.repository}" file="${build.dir}/lib/${jar.name}"/>
+  </target> 
 
   <target name="deploy" depends="jar">
 
@@ -247,23 +356,22 @@ the LICENSE.txt file.
      <copy todir="${common.dir}" file="${avalon-framework.jar}"/>
      <copy todir="${common.dir}" file="${avalon-meta.jar}"/>
      <copy todir="${common.dir}" file="${excalibur-i18n.jar}"/>
-     <copy todir="${common.dir}" file="${logkit.jar}"/>
+     <copy todir="${common.dir}" file="${avalon-logkit.jar}"/>
      <copy todir="${common.dir}" file="${excalibur-configuration.jar}"/>
 
      <mkdir dir="${lib.dir}"/>
      <copy todir="${lib.dir}" file="${build.lib}/${jar.name}"/>
      <copy todir="${lib.dir}" file="${excalibur-collections.jar}"/>
      <copy todir="${lib.dir}" file="${excalibur-extension.jar}"/>
-     <!--<copy todir="${lib.dir}" file="${excalibur-logger.jar}"/>-->
      <copy todir="${lib.dir}" file="${excalibur-event.jar}"/>
      <copy todir="${lib.dir}" file="${commons-collections.jar}"/>
-     <copy todir="${lib.dir}" file="${util.concurrent.jar}"/>
+     <copy todir="${lib.dir}" file="${excalibur-util-concurrent.jar}"/>
      <copy todir="${lib.dir}" file="${excalibur-threadcontext.jar}"/>
-     <!--<copy todir="${lib.dir}" file="${excalibur-sourceresolve.jar}"/>-->
      <copy todir="${lib.dir}" file="${excalibur-pool.jar}"/>
      <copy todir="${lib.dir}" file="${excalibur-thread.jar}"/>
      <copy todir="${lib.dir}" file="${avalon-lifecycle.jar}"/>
      <copy todir="${lib.dir}" file="${avalon-assembly.jar}"/>
+     <copy todir="${lib.dir}" file="${merlin-bootstrap.jar}"/>
      <!--
      <copy todir="${lib.dir}" preservelastmodified="true">
        <fileset dir="${tools.dir}/lib">
@@ -558,9 +666,34 @@ the LICENSE.txt file.
   -->
 
   <target name="patch">
-    <replace dir="src" summary="true"
-       token="xxxx"
-       value="yyyy" >
+    <replace dir="xdocs" summary="true"
+       token="s1 title="
+       value="section name=">
+     <include name="**/*.*"/>
+    </replace>
+    <replace dir="xdocs" summary="true"
+       token="/s1"
+       value="/section">
+     <include name="**/*.*"/>
+    </replace>
+    <replace dir="xdocs" summary="true"
+       token="s2 title="
+       value="subsection name=">
+     <include name="**/*.*"/>
+    </replace>
+    <replace dir="xdocs" summary="true"
+       token="/s2"
+       value="/subsection">
+     <include name="**/*.*"/>
+    </replace>
+    <replace dir="xdocs" summary="true"
+       token="/link"
+       value="/a" >
+     <include name="**/*.*"/>
+    </replace>
+    <replace dir="xdocs" summary="true"
+       token="link href="
+       value="a href=" >
      <include name="**/*.*"/>
     </replace>
   </target>
