@@ -58,19 +58,4 @@ public class DefaultConfigurationRepository
 
         return configuration;
     }
-    
-    public synchronized void removeConfiguration( final String application,
-                                                        final String block )
-        throws ConfigurationException
-    {
-        final String name = application + "." + block;
-        
-        if( !m_configurations.containsKey( name ) )
-        {
-            final String message = REZ.getString( "config.error.remove", block, application );
-            throw new ConfigurationException( message );
-        }
-        
-        m_configurations.remove( name );
-    }
 }
