@@ -8,7 +8,12 @@
 package org.apache.log;
 
 /**
- * A Log target which will do filtering and then pass it onto targets further along in chain.
+ * A Log target which will do filtering and then pass it 
+ * onto targets further along in chain.
+ * 
+ * <p>Filtering can mena that not all LogEvents get passed 
+ * along chain or that the LogEvents passed alongare modified
+ * in some manner.</p>
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */

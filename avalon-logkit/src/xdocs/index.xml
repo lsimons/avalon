@@ -13,14 +13,17 @@
   <body>
     <s1 title="Introduction">
       <p>
-        LogKit is a logging framework similar to the Logging JSR or log4j.
+        LogKit is a logging toolkit designed for secure performance orientated logging
+        in applications. To get started using LogKit, it is recomended that you read the 
+        <link href="whitepaper.html">whitepaper</link> and browse the 
+        <link href="api/index.html">API docs</link>.
       </p>
     </s1>
   </body>
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.2 $ $Date: 2001/03/13 20:41:27 $
+      $Revision: 1.3 $ $Date: 2001/05/12 05:38:58 $
     </legal>
   </footer>
 </document>

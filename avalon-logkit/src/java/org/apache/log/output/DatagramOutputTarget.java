@@ -18,15 +18,14 @@ import org.apache.log.LogTarget;
 
 /**
  * A datagram output target.
- * Useful for writing using custom protocols or
- * else to standards such as syslog.
+ * Useful for writing using custom protocols or writing to syslog daemons.
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public class DatagramOutputTarget
     extends AbstractOutputTarget
 {
-    protected DatagramSocket m_socket;
+    private DatagramSocket m_socket;
 
     /**
      * Create a output target with end point specified by address and port.

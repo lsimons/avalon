@@ -9,6 +9,7 @@
   <menu label="About">
     <menu-item label="Overview" source="index.xml"/>
     <menu-item label="Features" source="features.xml"/>
+    <menu-item label="Whitepaper" source="whitepaper.xml"/>
 <!--
     <menu-item label="Getting Started" source="getting-started.xml"/>
     <menu-item label="Installation" source="install.xml"/>

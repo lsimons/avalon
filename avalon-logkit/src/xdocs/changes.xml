@@ -8,8 +8,9 @@
   </devs>
 
 <release version="1.0" date="May 11, 2001">
-  <action dev="PD" type="add">
-  </action>
+
+  <action dev="PD" type="add">First public release.</action>
+
 </release>
 
 </changes>
