@@ -2,3 +2,4 @@
 .project
 maven.log
 target
+build.properties
