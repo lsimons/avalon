@@ -65,6 +65,7 @@ Legal:
   <property name="xdocs.dir" value="${src.dir}/xdocs"/>
   <property name="context.dir" value="../jakarta-avalon/src/documentation"/>
   <property name="javadocs.dir" value="${docs.dir}/api"/>
+  <property name="tools.jar" value="${java.home}/../lib/tools.jar"/>
 
   <property name="dist.name" value="${Name}-${version}"/>
   <property name="dist.base" value="distributions"/>
@@ -84,7 +85,7 @@ Legal:
   </path>
 
   <path id="tools.class.path">
-    <pathelement location="${java.home}/../lib/tools.jar"/>
+    <pathelement location="${tools.jar}"/>
     <fileset dir="${tools.dir}/lib">
       <exclude name="ant.jar" />
     </fileset>
