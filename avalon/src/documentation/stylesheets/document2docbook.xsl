@@ -32,10 +32,10 @@
       <xsl:attribute name="revisionflag">
         <xsl:choose>
           <xsl:when test="@type='add'">added</xsl:when>
-	  <xsl:when test="@type='update'">changed</xsl:when>
-	  <xsl:when test="@type='remove'">deleted</xsl:when>
-	  <xsl:when test="@type='fix'">off</xsl:when>
-	  <xsl:otherwise>changed</xsl:otherwise>
+          <xsl:when test="@type='update'">changed</xsl:when>
+          <xsl:when test="@type='remove'">deleted</xsl:when>
+          <xsl:when test="@type='fix'">off</xsl:when>
+          <xsl:otherwise>changed</xsl:otherwise>
         </xsl:choose>
       </xsl:attribute>
       <revnumber><xsl:value-of select="../@version"/></revnumber>
