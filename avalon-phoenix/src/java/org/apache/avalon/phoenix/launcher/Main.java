@@ -139,6 +139,24 @@ public final class Main
     private static final File findEngineJar()
         throws Exception
     {
+        final String phoenixHome = findPhoenixHome();
+
+        final String filename =
+            phoenixHome + File.separator + "bin" + File.separator + MAIN_JAR;
+        return ( new File( filename ) ).getCanonicalFile();
+    }
+
+    /**
+     * Utility method to find the home directory
+     * of Phoenix and make sure system property is
+     * set to it.
+     *
+     * @return the location of phoenix directory
+     * @throws Exception if unable to locate directory
+     */
+    private static String findPhoenixHome()
+        throws Exception
+    {
         String phoenixHome = System.getProperty( "phoenix.home", null );
         if( null == phoenixHome )
         {
@@ -148,10 +166,7 @@ public final class Main
 
         phoenixHome = ( new File( phoenixHome ) ).getCanonicalFile().toString();
         System.setProperty( "phoenix.home", phoenixHome );
-
-        final String filename =
-            phoenixHome + File.separator + "bin" + File.separator + MAIN_JAR;
-        return ( new File( filename ) ).getCanonicalFile();
+        return phoenixHome;
     }
 
     /**
