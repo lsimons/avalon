@@ -1,4 +1,0 @@
-Manifest-Version: 1.0
-Specification-Title: Console Specification
-Implementation-Title: Console Service Implementation
-
