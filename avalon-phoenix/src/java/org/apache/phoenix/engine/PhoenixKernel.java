@@ -12,6 +12,8 @@ import org.apache.avalon.atlantis.Application;
 import org.apache.avalon.atlantis.Kernel;
 import org.apache.avalon.camelot.ContainerException;
 import org.apache.avalon.camelot.Entry;
+import org.apache.avalon.component.ComponentException;
+import org.apache.avalon.component.ComponentManager;
 import org.apache.avalon.component.Composable;
 import org.apache.avalon.configuration.Configurable;
 import org.apache.avalon.context.Contextualizable;
@@ -31,11 +33,19 @@ import org.apache.log.LogKit;
  */
 public class PhoenixKernel
     extends AbstractKernel
-    implements Kernel
+    implements Kernel, Composable
 {
+    private ComponentManager       m_componentManager;
+
     public PhoenixKernel()
     {
         m_entryClass = ServerApplicationEntry.class;
+    }
+
+    public void compose( final ComponentManager componentManager )
+        throws ComponentException
+    {
+        m_componentManager = componentManager;
     }
 
     /**
@@ -46,7 +56,7 @@ public class PhoenixKernel
      * @return the new Application
      * @exception ContainerException if an error occurs
      */
-    protected Application createApplicationFor( String name, Entry entry )
+    protected Application createApplicationFor( final String name, final Entry entry )
         throws ContainerException
     {
         //It is here where you could return new EASServerApplication()
@@ -81,7 +91,8 @@ public class PhoenixKernel
 
             if( application instanceof Composable )
             {
-                ((Composable)application).compose( saEntry.getComponentManager() );
+                //CM contains reference to SystemManager
+                ((Composable)application).compose( m_componentManager );
             }
 
             if( application instanceof Configurable )
