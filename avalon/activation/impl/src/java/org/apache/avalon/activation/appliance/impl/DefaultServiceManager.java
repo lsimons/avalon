@@ -99,8 +99,14 @@ class DefaultServiceManager extends AbstractLogEnabled implements ServiceManager
      */
     public DefaultServiceManager( Logger logger, Map map )
     {
-        if( logger == null ) throw new NullPointerException( "logger" );
-        if( map == null ) throw new NullPointerException( "map" );
+        if( logger == null ) 
+        {
+            throw new NullPointerException( "logger" );
+        }
+        if( map == null )
+        {
+            throw new NullPointerException( "map" );
+        }
         super.enableLogging( logger );
         m_map = map;
     }
@@ -148,7 +154,10 @@ class DefaultServiceManager extends AbstractLogEnabled implements ServiceManager
             m_table.put( id, key );
             final String message = 
               "resolved service [" + id + "] for the key [" + key + "].";
-            getLogger().debug( message );
+            if( getLogger().isDebugEnabled() )
+            {
+                getLogger().debug( message );
+            }
             return object;
         }
         catch( Throwable e )
