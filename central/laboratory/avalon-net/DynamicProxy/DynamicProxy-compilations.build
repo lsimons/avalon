@@ -124,11 +124,11 @@
                 </sources>
                 <references defaultexcludes="true">
                     <includes name="${nant.settings.currentframework.frameworkassemblydirectory}/mscorlib.dll"
-                        fromPath="false" />
-                    <includes name="${nant.settings.currentframework.frameworkassemblydirectory}/System.dll" fromPath="false" />
+                         />
+                    <includes name="${nant.settings.currentframework.frameworkassemblydirectory}/System.dll"  />
                     <!-- allow for third party assemblies to be referenced by just storing them in the lib/<framework>/<framework version>/<build configuration> directory -->
                     <includes name="lib/${current.runtime.config}/${current.runtime.version}/${current.build.config}/*.dll"
-                        fromPath="false" />
+                         />
                 </references>
             </csc>
         </ifnot>
@@ -169,11 +169,11 @@
                 </sources>
                 <references defaultexcludes="true">
                     <includes name="${nant.settings.currentframework.frameworkassemblydirectory}/mscorlib.dll"
-                        fromPath="false" />
-                    <includes name="${nant.settings.currentframework.frameworkassemblydirectory}/System.dll" fromPath="false" />
+                        />
+                    <includes name="${nant.settings.currentframework.frameworkassemblydirectory}/System.dll"  />
                     <!-- allow for third party assemblies to be referenced by just storing them in the lib/<framework>/<framework version>/<build configuration> directory -->
                     <includes name="lib/${current.runtime.config}/${current.runtime.version}/${current.build.config}/*.dll"
-                        fromPath="false" />
+                         />
                 </references>
             </csc>
         </ifnot>
@@ -213,10 +213,10 @@
                     <excludes name="${dynproxy.test.name}/*.*" />
                 </sources>
                 <references defaultexcludes="true">
-                    <includes name="${nant.settings.currentframework.frameworkassemblydirectory}/System.dll" fromPath="false" />
+                    <includes name="${nant.settings.currentframework.frameworkassemblydirectory}/System.dll" />
                     <!-- allow for third party assemblies to be referenced by just storing them in the lib/<framework>/<framework version>/<build configuration> directory -->
                     <includes name="lib/${current.runtime.config}/${current.runtime.version}/${current.build.config}/*.dll"
-                        fromPath="false" />
+                        />
                 </references>
             </csc>
         </ifnot>
@@ -257,11 +257,11 @@
                 </sources>
                 <references defaultexcludes="true">
                     <includes name="${nant.settings.currentframework.frameworkassemblydirectory}/mscorlib.dll"
-                        fromPath="false" />
-                    <includes name="${nant.settings.currentframework.frameworkassemblydirectory}/System.dll" fromPath="false" />
+                         />
+                    <includes name="${nant.settings.currentframework.frameworkassemblydirectory}/System.dll"  />
                     <!-- allow for third party assemblies to be referenced by just storing them in the lib/<framework>/<framework version>/<build configuration> directory -->
                     <includes name="lib/${current.runtime.config}/${current.runtime.version}/${current.build.config}/*.dll"
-                        fromPath="false" />
+                         />
                 </references>
             </csc>
         </ifnot>
@@ -278,21 +278,21 @@
             </sources>
             <references defaultexcludes="true">
                 <includes name="${nant.settings.currentframework.frameworkassemblydirectory}/mscorlib.dll"
-                    fromPath="false" />
-                <includes name="${nant.settings.currentframework.frameworkassemblydirectory}/System.dll" fromPath="false" />
-                <includes name="${nant.settings.currentframework.frameworkassemblydirectory}/System.Runtime.Remoting.dll" fromPath="false" />
+                    />
+                <includes name="${nant.settings.currentframework.frameworkassemblydirectory}/System.dll"  />
+                <includes name="${nant.settings.currentframework.frameworkassemblydirectory}/System.Runtime.Remoting.dll"  />
                 <includes name="${nant.settings.currentframework.frameworkassemblydirectory}/System.Data.dll"
-                    fromPath="false" />
+                     />
                 <includes name="${nant.settings.currentframework.frameworkassemblydirectory}/System.Web.dll"
-                    fromPath="false" />
+                     />
                 <includes name="${nant.settings.currentframework.frameworkassemblydirectory}/System.Xml.dll"
-                    fromPath="false" />
+                     />
                 <includes name="${nant.location}/nunit.framework.dll"
-                    fromPath="false" />
-                <includes name="${current.bin.dir}/${dynproxy.assembly}" fromPath="false" />
+                    />
+                <includes name="${current.bin.dir}/${dynproxy.assembly}"  />
                 <!-- allow for third party assemblies to be referenced by just storing them in the lib/<framework>/<framework version>/<build configuration> directory -->
                 <includes name="lib/${current.runtime.config}/${current.runtime.version}/${current.build.config}/*.dll"
-                    fromPath="false" />
+                     />
             </references>
         </csc>
     </target>
