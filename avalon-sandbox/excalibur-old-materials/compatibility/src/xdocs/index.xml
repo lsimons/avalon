@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.1//EN" "document-v11.dtd">
+
+<document>
+  <header>
+    <title>Excalibur Compatibility - Overview</title>
+    <authors>
+      <person name="Berin Loritsch" email="bloritsch@apache.org"/>
+    </authors>
+  </header>
+  <body>
+    <section><title>Introduction</title>
+      <p>
+        Avalon is minimizing the number of projects and utilities it maintains
+	because we need to focus on our charter.  However, we do have users
+	who have used some of the projects that were previously released.  We
+	can't just ignore their needs.  The compatibility project is the
+	graveyard for projects we are no longer supporting.  It exists simply
+	to let our users (and in some cases, our users' users) continue to
+	use their legacy components until they migrate to better supported
+	libraries.
+      </p>
+      <p>
+        Most of the packages in this project have replacement libraries, but
+	it is inevitable that some in here may not have a replacement yet--
+	but the package falls outside our charter.  If you would like to
+	volunteer to maintain those packages in your own library, please
+	contact the <link href="mailto:dev@avalon.apache.org">Avalon
+        Developer's List</link> and let them know of your availability.
+        Packages with a definite and released replacement will be completely
+	deprecated and point to the new classes in the new library.
+      </p>
+    </section>
+    <section><title>Contents</title>
+      <p>
+        Currently the Compatibility has the packages in the following list.
+	If the package has a replacement, then the replacement will be listed
+	as well:
+     </p>
+     <ul>
+       <li>org.apache.avalon.excalibur.cli --&gt; <link href="http://jakarta.apache.org/commons/cli/index.html">Jakarta Commons CLI</link></li>
+       <li>org.apache.avalon.excalibur.collections --&gt; <link href="http://jakarta.apache.org/commons/collections/index.html">Jakarta Commons Collections</link></li>
+       <li>org.apache.avalon.excalibur.concurrent --&gt; <link href="http://gee.cs.oswego.edu/dl/classes/EDU/oswego/cs/dl/util/concurrent/intro.html">Doug Lea's Concurrent Utilities</link></li>
+       <li>org.apache.avalon.excalibur.io --&gt; <link href="http://cvs.apache.org/viewcvs/jakarta-commons-sandbox/io/">Jakarta Commons IO</link> (not released yet)</li>
+     </ul>
+    </section>
+  </body>
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
+      $Revision: 1.1 $ $Date: 2003/03/11 14:08:27 $
+    </legal>
+  </footer>
+</document>
