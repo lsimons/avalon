@@ -292,6 +292,15 @@ public class DefaultEmbeddor
     protected void deployDefaultApplications()
         throws Exception
     {
+        //Name of optional application specified on CLI
+        final String application = m_parameters.getParameter( "application-location", null );
+
+        if( null != application )
+        {
+            final File file = new File( application );
+            deployFile( file );
+        }
+
         final String defaultAppsLocation =
             m_parameters.getParameter( "applications-directory", DEFAULT_APPS_PATH );
         
@@ -313,16 +322,22 @@ public class DefaultEmbeddor
     {
         for( int i = 0; i < files.length; i++ )
         {
-            final String filename = files[ i ].getName();
-
-            int index = filename.lastIndexOf( '.' );
-            if( -1 == index ) index = filename.length();
-
-            final String name = filename.substring( 0, index );
-            final File file = files[ i ].getCanonicalFile();
-
-            deployFile( name, file );
+            deployFile( files[ i ] );
         }
+    }
+
+    private void deployFile( final File file )
+        throws Exception
+    {
+        final String filename = file.getName();
+        
+        int index = filename.lastIndexOf( '.' );
+        if( -1 == index ) index = filename.length();
+        
+        final String name = filename.substring( 0, index );
+        final File canonicalFile = file.getCanonicalFile();
+        
+        deployFile( name, canonicalFile );
     }
 
     protected final synchronized void deployFile( final String name, final File file )

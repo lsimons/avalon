@@ -34,6 +34,7 @@ class CLISetup
     private static final int APPS_PATH_OPT       = 'a';
     private static final int REMOTE_MANAGER_OPT  = 1;
     private static final int DISABLE_HOOK_OPT    = 2;
+    private static final int APPLICATION_OPT     = 3;
 
     ///Parameters created by parsing CLI options
     private Parameters    m_parameters   = new Parameters();
@@ -61,7 +62,7 @@ class CLISetup
      */
     private CLOptionDescriptor[] createCLOptions()
     {
-        final CLOptionDescriptor options[] = new CLOptionDescriptor[ 6 ];
+        final CLOptionDescriptor options[] = new CLOptionDescriptor[ 7 ];
         options[0] =
             new CLOptionDescriptor( "help",
                                     CLOptionDescriptor.ARGUMENT_DISALLOWED,
@@ -97,6 +98,12 @@ class CLISetup
                                     CLOptionDescriptor.ARGUMENT_DISALLOWED,
                                     DISABLE_HOOK_OPT,
                                     REZ.getString( "cli.opt.disable-hook.desc" ) );
+
+        options[6] =
+            new CLOptionDescriptor( "application",
+                                    CLOptionDescriptor.ARGUMENT_REQUIRED,
+                                    APPLICATION_OPT,
+                                    REZ.getString( "cli.opt.application.desc" ) );
 
         return options;
     }
@@ -154,6 +161,10 @@ class CLISetup
             case REMOTE_MANAGER_OPT:
                 m_parameters.setParameter( SystemManager.ROLE,
                                            "org.apache.avalon.phoenix.components.manager.DefaultManager" );
+                break;
+
+            case APPLICATION_OPT:
+                m_parameters.setParameter( "application-location", option.getArgument() );
                 break;
 
             case DISABLE_HOOK_OPT:
