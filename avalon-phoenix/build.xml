@@ -57,6 +57,7 @@ Legal:
   <!-- Set the properties for source directories -->
   <property name="src.dir" value="src"/>
   <property name="java.dir" value="${src.dir}/java"/>
+  <property name="conf.dir" value="${src.dir}/conf"/>
   <property name="script.dir" value="${src.dir}/script"/>
   <property name="manifest.dir" value="${src.dir}/manifest"/>
   <property name="lib.dir" value="lib"/>
@@ -177,6 +178,12 @@ Legal:
       <src path="${build.src}" />
       <exclude name="${constants.file}" />
     </javac>
+
+    <copy todir="${build.classes}">
+      <fileset dir="${java.dir}">
+        <include name="**/*.properties" />
+      </fileset>
+    </copy>
 
     <rmic base="${build.classes}" 
           classname="org.apache.jmx.adaptor.RMIAdaptorImpl" 
@@ -305,6 +312,10 @@ Legal:
          basedir="${build.classes}"
          manifest="${manifest.dir}/loader-Manifest.mf" >
       <include name="org/apache/avalon/phoenix/engine/loader/**"/>
+
+      <zipfileset dir="${conf.dir}" prefix="META-INF/">
+        <include name="java.policy"/>
+      </zipfileset>
     </jar>
 
     <jar jarfile="${build.lib}/avalon-jmx.jar" basedir="${build.classes}">
@@ -321,6 +332,7 @@ Legal:
       <include name="org/apache/avalon/phoenix/metainfo/**"/>
       <include name="org/apache/avalon/phoenix/engine/**"/>
       <exclude name="org/apache/avalon/phoenix/engine/loader/**"/>
+
     </jar>
 
     <!-- temporary hack until camelot/atlantis stabilizes -->
