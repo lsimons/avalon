@@ -22,6 +22,7 @@ import org.apache.avalon.excalibur.logger.LoggerManager;
 import org.apache.avalon.fortress.MetaInfoManager;
 import org.apache.avalon.fortress.RoleManager;
 import org.apache.avalon.fortress.impl.role.ConfigurableRoleManager;
+import org.apache.avalon.fortress.impl.role.ECMRoleManager;
 import org.apache.avalon.fortress.impl.role.FortressRoleManager;
 import org.apache.avalon.fortress.impl.role.Role2MetaInfoManager;
 import org.apache.avalon.fortress.impl.role.ServiceMetaManager;
@@ -85,7 +86,7 @@ import java.util.Iterator;
  * and dispose of them properly when it itself is disposed .</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.53 $ $Date: 2004/04/03 18:10:34 $
+ * @version CVS $Revision: 1.54 $ $Date: 2004/04/05 11:07:08 $
  * @since 4.1
  */
 public class ContextManager
@@ -665,13 +666,23 @@ public class ContextManager
                 roleManager = newRoleManager;
             }
 
-            final ServiceMetaManager metaManager =
-                    new ServiceMetaManager( new Role2MetaInfoManager( roleManager ), classLoader );
+            final MetaInfoManager mim;
+            // if we use the ecm role manager then we don't wrap it inside a service meta manager!
+            if ( roleManager instanceof ECMRoleManager )
+            {
+                mim = new Role2MetaInfoManager( roleManager );                
+            }
+            else
+            {
+                final ServiceMetaManager metaManager =
+                      new ServiceMetaManager( new Role2MetaInfoManager( roleManager ), classLoader );
+                metaManager.enableLogging( m_loggerManager.getLoggerForCategory( "system.meta" ) );
+                metaManager.initialize();
+                mim = metaManager;
+            }
 
-            metaManager.enableLogging( m_loggerManager.getLoggerForCategory( "system.meta" ) );
-            metaManager.initialize();
-            assumeOwnership( metaManager );
-            m_metaInfoManager = metaManager;
+            assumeOwnership( mim );
+            m_metaInfoManager = mim;
         }
     }
 
