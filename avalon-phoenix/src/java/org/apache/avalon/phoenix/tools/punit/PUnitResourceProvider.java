@@ -9,7 +9,6 @@ package org.apache.avalon.phoenix.tools.punit;
 
 import org.apache.excalibur.containerkit.lifecycle.ResourceProvider;
 import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.service.ServiceManager;
@@ -27,6 +26,7 @@ public class PUnitResourceProvider
     private ServiceManager m_serviceManager;
     private ComponentManager m_componentManager;
     private Configuration m_configuration;
+    private Logger m_logger;
 
     /**
      * PUnitResourceProvider
@@ -34,11 +34,12 @@ public class PUnitResourceProvider
      * @param configuration The configuration
      */
     public PUnitResourceProvider( ServiceManager serviceManager,
-                                  Configuration configuration )
+                                  Configuration configuration, Logger logger )
     {
         m_serviceManager = serviceManager;
         m_componentManager = new PUnitComponentManager(serviceManager);
         m_configuration = configuration;
+        m_logger = logger;
     }
 
     /**
@@ -60,8 +61,7 @@ public class PUnitResourceProvider
      */
     public Logger createLogger(Object object) throws Exception
     {
-        // should be queryable mock logger ?
-        return new ConsoleLogger();
+        return m_logger;
     }
 
     /**

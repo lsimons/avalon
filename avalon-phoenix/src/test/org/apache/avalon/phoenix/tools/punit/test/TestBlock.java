@@ -32,31 +32,30 @@ public class TestBlock
 
     public void service( final ServiceManager serviceManager ) throws ServiceException
     {
-        System.out.println("-->1");
+        m_logger.info("service");
         m_serviceManager = serviceManager;
     }
 
     public void initialize() throws Exception
     {
-        System.out.println("-->2");
+        m_logger.warn("initialize");
         m_initialized = true;
     }
 
     public void contextualize(Context context) throws ContextException
     {
-        System.out.println("-->3");
+        m_logger.error("contextualize");
         m_context = context;
     }
 
     public void enableLogging(Logger logger)
     {
-        System.out.println("-->4");
         m_logger = logger;
     }
 
     public void configure(Configuration configuration) throws ConfigurationException
     {
-        System.out.println("-->5");
+        m_logger.fatalError("configure");
         m_configuration = configuration;
     }
 
