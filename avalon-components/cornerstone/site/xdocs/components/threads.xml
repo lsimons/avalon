@@ -55,7 +55,7 @@
         <table>
           <tr><th>Container</th><th>Description</th></tr>
           <tr>
-            <td><a href="../examples/merlin/threads.html">Merlin</a></td>
+            <td><a href="../examples/threads.html">Merlin</a></td>
             <td>
               A demonstration component implementation demonstrates the resolution
               of a ThreadManager and subsequent access to a ThreadPoll against 
