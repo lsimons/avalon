@@ -50,12 +50,13 @@
 
 package org.apache.avalon.activation.appliance;
 
+
 /**
  * A block is an appliance that manages a set of subsidiary 
  * appliance instances.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:30:57 $
+ * @version $Revision: 1.2 $ $Date: 2003/10/07 17:42:55 $
  */
 public interface Block extends Appliance, Engine
 {

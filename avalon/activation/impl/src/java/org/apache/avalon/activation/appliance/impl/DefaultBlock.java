@@ -71,6 +71,7 @@ import org.apache.avalon.activation.appliance.Engine;
 import org.apache.avalon.activation.appliance.ServiceContext;
 import org.apache.avalon.activation.appliance.NoProviderDefinitionException;
 import org.apache.avalon.activation.appliance.DeploymentException;
+import org.apache.avalon.activation.appliance.UnknownServiceException;
 import org.apache.avalon.composition.data.ContextDirective;
 import org.apache.avalon.composition.data.CategoriesDirective;
 import org.apache.avalon.composition.data.ServiceDirective;
@@ -84,6 +85,7 @@ import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.avalon.framework.Version;
 import org.apache.avalon.meta.info.ExtensionDescriptor;
 import org.apache.avalon.meta.info.InfoDescriptor;
 import org.apache.avalon.meta.info.DependencyDescriptor;
@@ -100,7 +102,7 @@ import org.apache.avalon.meta.info.Type;
  * context.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:30:42 $
+ * @version $Revision: 1.2 $ $Date: 2003/10/07 17:42:55 $
  */
 public class DefaultBlock extends AbstractAppliance 
   implements Block, Composite
@@ -377,7 +379,7 @@ public class DefaultBlock extends AbstractAppliance
       throws Exception
     {
         String path = source;
-        if( source.endsWith( "/" ))
+        if(( source.length() > 1 ) && source.endsWith( "/" ))
         {
             path = source.substring( 0, source.length() -1 );
         }
@@ -439,7 +441,7 @@ public class DefaultBlock extends AbstractAppliance
                 }
                 else
                 {
-                    final String error = "Invalid absolute reference: " + path;
+                    final String error = "Invalid absolute reference: [" + path + "]";
                     throw new IllegalArgumentException( error );
                 }
             }
