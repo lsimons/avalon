@@ -54,14 +54,14 @@ public final class DefaultApplication
     private HashMap m_entrys = new HashMap();
 
     /**
-     * ResourceAccessor for blocks.
+     * ResourceProvider for blocks.
      */
-    private BlockAccessor m_blockAccessor;
+    private BlockResourceProvider m_blockAccessor;
 
     /**
-     * ResourceAccessor for listeners.
+     * ResourceProvider for listeners.
      */
-    private ListenerAccessor m_listenerAccessor;
+    private ListenerResourceProvider m_listenerAccessor;
 
     /**
      * Object to support notification of ApplicationListeners.
@@ -202,9 +202,9 @@ public final class DefaultApplication
     public void setApplicationContext( final ApplicationContext context )
     {
         m_context = context;
-        m_blockAccessor = new BlockAccessor( context, this );
+        m_blockAccessor = new BlockResourceProvider( context, this );
         setupLogger( m_blockAccessor, "lifecycle" );
-        m_listenerAccessor = new ListenerAccessor( context );
+        m_listenerAccessor = new ListenerResourceProvider( context );
         setupLogger( m_listenerAccessor, "lifecycle" );
     }
 
