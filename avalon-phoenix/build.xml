@@ -133,8 +133,14 @@ Legal:
     <property name="src.dist.tools" value="${src.dist.dir}/tools"/>
   </target>
 
+  <target name="check-environment">
+    <available property="servlet.present" classname="javax.servlet.Servlet">
+      <classpath refid="project.class.path"/>
+    </available>
+  </target>
+
   <!-- Prepares the build directory -->
-  <target name="prepare" depends="setup-properties">
+  <target name="prepare" depends="setup-properties,check-environment">
 
     <mkdir dir="${build.src}"/>
     <copy todir="${build.src}">
@@ -199,6 +205,7 @@ Legal:
       <classpath refid="project.class.path" />
       <src path="${build.src}" />
       <exclude name="${constants.file}" />
+      <exclude name="org/apache/avalon/phoenix/frontends/ServiceServlet.java" unless="servlet.present"/>
     </javac>
 
     <copy todir="${build.classes}">
