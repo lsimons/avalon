@@ -340,7 +340,9 @@ Legal:
     <filter token="year" value="2002"/>
     <filter token="vendor" value="Apache Software Foundation"/>
 
-        <mkdir dir="${build.context}"/>
+        <delete dir="${build.dir}/work"/>
+
+	<mkdir dir="${build.context}"/>
         <mkdir dir="${build.docs}"/>
         <mkdir dir="${build.xdocs}"/>
         <mkdir dir="${build.dir}/work"/>
@@ -407,6 +409,7 @@ Legal:
             </classpath>
         </java>
 
+        <delete dir="${build.dir}/work"/>
 
        <echo message="  ...docs generated succesfully in ./build/docs dir."/>
        <echo message="-------------------------------------------------------------"/>
