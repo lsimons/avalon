@@ -35,6 +35,10 @@
       <item name="Javadoc" href="/api/index.html"/>
     </menu>
 
+    <menu name="Related Projects">
+      <item name="Merlin" href="http://avalon.apache.org/merlin"/>
+    </menu>
+
  </body>
 
 </project>
