@@ -8,8 +8,6 @@
 package org.apache.excalibur.xml.sax;
 
 import java.io.IOException;
-import org.apache.avalon.framework.component.Component;
-import org.w3c.dom.Document;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -22,7 +20,7 @@ import org.xml.sax.ext.LexicalHandler;
  * the parsed document.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/10/15 23:55:37 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/11/12 23:35:34 $
  */
 public interface Parser
 {

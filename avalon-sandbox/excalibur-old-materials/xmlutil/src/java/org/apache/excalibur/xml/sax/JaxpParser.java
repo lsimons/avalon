@@ -10,13 +10,8 @@ package org.apache.excalibur.xml.sax;
 import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParserFactory;
-import org.xml.sax.ContentHandler;
-import org.xml.sax.ErrorHandler;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
-import org.xml.sax.XMLReader;
-import org.xml.sax.ext.LexicalHandler;
+import org.apache.avalon.excalibur.pool.Poolable;
+import org.apache.avalon.excalibur.xml.EntityResolver;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.parameters.ParameterException;
@@ -25,8 +20,13 @@ import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
-import org.apache.avalon.excalibur.pool.Poolable;
-import org.apache.avalon.excalibur.xml.EntityResolver;
+import org.xml.sax.ContentHandler;
+import org.xml.sax.ErrorHandler;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
+import org.xml.sax.XMLReader;
+import org.xml.sax.ext.LexicalHandler;
 
 /**
  * An XMLParser that is only dependant on JAXP 1.1 compliant parsers.
@@ -64,7 +64,7 @@ import org.apache.avalon.excalibur.xml.EntityResolver;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/11/12 23:32:52 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/11/12 23:35:34 $
  * @avalon.component
  */
 public final class JaxpParser

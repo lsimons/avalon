@@ -21,7 +21,7 @@ import org.xml.sax.helpers.NamespaceSupport;
  * {@link DocumentHandler} to receive SAX version 2.0 events.
  *
  * @author <a href="mailto:mirceatoma@apache.org">Mircea Toma</a>
- * @version CVS $Revision: 1.6 $ $Date: 2002/11/12 23:31:37 $
+ * @version CVS $Revision: 1.7 $ $Date: 2002/11/12 23:35:34 $
  */
 public class DocumentHandlerAdapter
     implements ContentHandler
@@ -36,7 +36,7 @@ public class DocumentHandlerAdapter
     /**
      * Create a new <code>ContentHandlerWrapper</code> instance.
      */
-    public DocumentHandlerAdapter(final DocumentHandler documentHandler)
+    public DocumentHandlerAdapter( final DocumentHandler documentHandler )
     {
         m_documentHandler = documentHandler;
     }
@@ -71,7 +71,7 @@ public class DocumentHandlerAdapter
      */
     public void startPrefixMapping( final String prefix, final String uri ) throws SAXException
     {
-        if ( !m_contextPushed )
+        if( !m_contextPushed )
         {
             m_support.pushContext();
             m_contextPushed = true;
@@ -96,30 +96,30 @@ public class DocumentHandlerAdapter
                               final String raw,
                               final Attributes a ) throws SAXException
     {
-        if ( !m_contextPushed )
+        if( !m_contextPushed )
         {
             m_support.pushContext();
         }
         m_contextPushed = false;
 
-        final String name = getTagName(loc, raw, uri);
+        final String name = getTagName( loc, raw, uri );
 
         final AttributeListImpl attributeList = new AttributeListImpl();
-        for (int i = 0; i < a.getLength(); i++)
+        for( int i = 0; i < a.getLength(); i++ )
         {
             String attributeName = a.getQName( i );
-            if ( ( attributeName == null ) || ( attributeName.length() == 0 ) )
+            if( ( attributeName == null ) || ( attributeName.length() == 0 ) )
             {
-                final String attributeNamespaceURI = a.getURI(i);
-                final String attributeLocalName = a.getLocalName(i);
-                if ( attributeNamespaceURI.length() == 0 )
+                final String attributeNamespaceURI = a.getURI( i );
+                final String attributeLocalName = a.getLocalName( i );
+                if( attributeNamespaceURI.length() == 0 )
                 {
                     attributeName = attributeLocalName;
                 }
                 else
                 {
                     final String prefix = m_support.getPrefix( attributeNamespaceURI );
-                    if (prefix == null)
+                    if( prefix == null )
                     {
                         throw new SAXException( "No attribute prefix for namespace URI: " + attributeNamespaceURI );
                     }
@@ -133,7 +133,7 @@ public class DocumentHandlerAdapter
         while( e.hasMoreElements() )
         {
             final String prefix = (String)e.nextElement();
-            if ( prefix.length() == 0 )
+            if( prefix.length() == 0 )
             {
                 attributeList.addAttribute( XMLNS, CDATA, uri );
             }
@@ -200,7 +200,7 @@ public class DocumentHandlerAdapter
 
     private String getTagName( final String loc, final String raw, final String uri ) throws SAXException
     {
-        if (raw != null && raw.length() > 0)
+        if( raw != null && raw.length() > 0 )
         {
             return raw;
         }
@@ -213,16 +213,16 @@ public class DocumentHandlerAdapter
 
     private String getTagPrefix( final String uri ) throws SAXException
     {
-        if ( m_support.getPrefix( uri ) == null )
+        if( m_support.getPrefix( uri ) == null )
         {
-            if ( ( uri == null ) || ( uri.length() < 1 ) )
+            if( ( uri == null ) || ( uri.length() < 1 ) )
             {
                 return "";
             }
             else
             {
                 final String defaultURI = m_support.getURI( "" );
-                if ( ( defaultURI != null ) && defaultURI.equals( uri ) )
+                if( ( defaultURI != null ) && defaultURI.equals( uri ) )
                 {
                     return ""; // default namespace
                 }
@@ -232,7 +232,8 @@ public class DocumentHandlerAdapter
                 }
             }
         }
-        else {
+        else
+        {
             return m_support.getPrefix( uri );
         }
     }

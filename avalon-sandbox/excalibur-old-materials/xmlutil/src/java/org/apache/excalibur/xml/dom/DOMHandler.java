@@ -15,9 +15,10 @@ import org.xml.sax.ContentHandler;
  * from SAX events sent to the handler.
  *
  * @author <a href="mailto:mirceatoma@apache.org">Mircea Toma</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/08/16 10:42:36 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/11/12 23:35:34 $
  */
-public interface DOMHandler extends ContentHandler
+public interface DOMHandler
+    extends ContentHandler
 {
     Document getDocument();
 }
