@@ -26,6 +26,14 @@ public class SevakServletHolder extends ServletHolder
 {
     private ServiceManager m_serviceManager;
 
+    /**
+     * Construct a Servlet Holder
+     * @param serviceManager the service manager
+     * @param handler the handler
+     * @param name the name
+     * @param className the class name
+     * @param forcedPath the forced path
+     */
     public SevakServletHolder(ServiceManager serviceManager, SevakWebApplicationHandler handler, String name, String className, String forcedPath)
     {
         // this constructor public or protected...
@@ -33,6 +41,12 @@ public class SevakServletHolder extends ServletHolder
         m_serviceManager = serviceManager;
     }
 
+    /**
+     * Create a new instance
+     * @return the instance
+     * @throws InstantiationException if a prob
+     * @throws IllegalAccessException if a prob
+     */
     public synchronized Object newInstance() throws InstantiationException, IllegalAccessException {
         if(_class == null)
             throw new InstantiationException("No class for " + this);

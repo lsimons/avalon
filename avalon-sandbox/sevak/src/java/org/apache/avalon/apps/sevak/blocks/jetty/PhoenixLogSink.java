@@ -23,15 +23,48 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  */
 public class PhoenixLogSink extends AbstractLogEnabled implements LogSink
 {
+
+    /**
+     * Stop (unimpled)
+     * @throws InterruptedException
+     */
+    public void stop() throws InterruptedException
+    {
+    }
+
+    /**
+     * Is this started (always)
+     * @return
+     */
+    public boolean isStarted()
+    {
+        return true;
+    }
+
+    /**
+     * Set Options (un implemented)
+     * @param s the options
+     */
     public void setOptions(String s)
     {
     }
 
+    /**
+     * Get Option (unimplemented)
+     * @return the options
+     */
     public String getOptions()
     {
         return "";
     }
 
+    /**
+     * Log something
+     * @param type the type of message
+     * @param message the message
+     * @param frame the frame
+     * @param time the time
+     */
     public void log(String type, Object message, Frame frame, long time)
     {
         if (type.equals(Log.DEBUG))
@@ -56,21 +89,21 @@ public class PhoenixLogSink extends AbstractLogEnabled implements LogSink
         }
     }
 
+    /**
+     * Log a message
+     * @param message the Message
+     */
     public void log(String message)
     {
         getLogger().info(message);
     }
 
+    /**
+     * Start a logger (unimpled)
+     * @throws Exception
+     */
     public void start() throws Exception
     {
     }
 
-    public void stop() throws InterruptedException
-    {
-    }
-
-    public boolean isStarted()
-    {
-        return true;
-    }
 }
