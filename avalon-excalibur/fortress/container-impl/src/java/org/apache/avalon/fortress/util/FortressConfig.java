@@ -57,6 +57,7 @@ import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.excalibur.event.Sink;
+import org.apache.excalibur.event.command.ThreadManager;
 import org.apache.excalibur.instrument.InstrumentManager;
 import org.apache.excalibur.mpool.PoolManager;
 
@@ -65,7 +66,7 @@ import java.net.URL;
 
 /**
  * Helper class to create a m_context for the ContextManager.
- * @version CVS $Revision: 1.19 $ $Date: 2003/06/11 19:14:42 $
+ * @version CVS $Revision: 1.20 $ $Date: 2003/06/12 18:44:46 $
  */
 public final class FortressConfig
 {
@@ -336,5 +337,10 @@ public final class FortressConfig
     public void setWorkDirectory( final String directory )
     {
         setWorkDirectory( new File( directory ) );
+    }
+
+    public void setThreadManager( final ThreadManager threadManager )
+    {
+        m_context.put( ThreadManager.ROLE, threadManager );
     }
 }
