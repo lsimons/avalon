@@ -68,7 +68,7 @@ public class PluginPlugin extends AbstractPlugin
         getLogger().info( "Validating plugin: " + m_Context.getProjectName() );
         
         File srcDir = new File( m_Context.getProjectDir(), "src/dist/" );
-        File srcFile = new File( srcDir, "build.bsh" );
+        File srcFile = new File( srcDir, "magic.bsh" );
         File destDir = m_Context.getTempDir();
 
         /* Remove any existing content in the Temp dir. */
@@ -103,7 +103,7 @@ public class PluginPlugin extends AbstractPlugin
         javac.setDebug( true );
         javac.setVerbose( false );
         
-        /* Add Class path defined in the build.properties  */
+        /* Add Class path defined in the magic.properties  */
         Path cp = javac.createClasspath();
         Path.PathElement pe = cp.createPathElement();
         pe.setPath( cache.getAbsolutePath() + "/" );

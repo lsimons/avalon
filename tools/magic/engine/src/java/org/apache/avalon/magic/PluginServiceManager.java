@@ -224,7 +224,7 @@ public class PluginServiceManager extends AbstractLogEnabled
     private void appendProperties( PluginProperties props, File dir )
         throws ServiceException
     {
-        File file = new File( dir, "build.properties" );
+        File file = new File( dir, "magic.properties" );
         if( ! file.exists() )
             throw new ServiceException( "File Missing: " + file.getAbsolutePath() );
         loadPropertiesFile( props, file );

@@ -33,7 +33,7 @@ public class FacadeFactory extends AbstractLogEnabled
         throws CreationException
     {
         File pluginDir = context.getPluginDir();
-        File bshFile = new File( pluginDir, "build.bsh" );
+        File bshFile = new File( pluginDir, "magic.bsh" );
         if( bshFile.exists() )
         {
             try
