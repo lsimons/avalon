@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <title>Avalon Framework - Overview</title>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+  </properties>
+
+  <body>
+    <section name="Introduction">
+      <p>
+        The Avalon Framework consists of interfaces
+        that define relationships between commonly used application components,
+        best-of-practice pattern enforcements, and several
+        lightweight convenience implementations of the generic components.
+      </p>
+      <subsection name="Guide to Avalon Framework">
+        <p>
+          The Avalon Framework is based on several important programming
+          concepts (design patterns and COP) which are applied throughout
+          Avalon. These concepts are introduced under the heading
+          <a href="./cop/index.html">Component Oriented</a>.  Application 
+          of these concepts within Avalon is addressed under 
+          <a href="./principals/index.html">Component Development</a>.
+        </p>
+      </subsection>
+      <subsection name="Target Audience">
+          <p>
+            This documentation is aimed towards developers who:
+          </p>
+            <ul>
+                <li>are familiar with <a href="./basics.html">OO Programming</a></li>
+                <li>are interested in the design principles of Avalon</li>
+                <li>wish to develop code that will be incorporated into Avalon</li>
+                <li>wish to reuse Avalon concepts in their own application</li>
+            </ul>
+      </subsection>
+    </section>
+  </body>
+</document>

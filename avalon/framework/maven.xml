@@ -1,4 +1,4 @@
-<project default="avalon:build"  xmlns:maven="jelly:maven" xmlns:j="jelly:core" xmlns:util="jelly:util" xmlns:ant="jelly:ant">
+<project default="build"  xmlns:maven="jelly:maven" xmlns:j="jelly:core" xmlns:util="jelly:util" xmlns:ant="jelly:ant">
 
   <ant:property name="maven.ui.banner.background" value="#fff"/>
   <ant:property name="maven.ui.banner.foreground" value="#000"/>
@@ -10,15 +10,15 @@
   <ant:property name="maven.javadoc.links" value="${sun.j2se.link},${framework.api.link}"/>
 
   <ant:property name="maven.dist.assembly.dir"
-    value="${maven.build.dir}/temp"/>
+    value="${maven.build.dir}/${maven.final.name}"/>
   <ant:property name="maven.dist.bin.archive.dir"
     value="${maven.dist.assembly.dir}/bin"/>
   <ant:property name="maven.dist.src.archive.dir"
     value="${maven.dist.assembly.dir}/src"/>
   <ant:property name="maven.dist.bin.assembly.dir"
-    value="${maven.dist.assembly.dir}/bin/${pom.artifactId}"/>
+    value="${maven.dist.assembly.dir}/bin/${maven.final.name}"/>
   <ant:property name="maven.dist.src.assembly.dir"
-    value="${maven.dist.assembly.dir}/src/${pom.artifactId}"/>
+    value="${maven.dist.assembly.dir}/src/${maven.final.name}"/>
   <ant:property name="maven.dist.dir"
     value="${maven.build.dir}/distributions"/>
 
@@ -32,19 +32,6 @@
   </goal>
 
   <goal name="avalon:build">
-    
-    <echo>
-
-Building the framework using the default target "avalon:build".
-The complete set of target include:
-
-  avalon:clean
-  avalon:build
-  avalon:build-snapshot
-  avalon:dist
-  avalon:site
-    </echo>
-
     <maven:reactor
       basedir="${basedir}"
       includes="*/project.xml"
@@ -52,14 +39,6 @@ The complete set of target include:
       goals="jar:install"
       banner="Building:"
       ignoreFailures="false"/>
-    <ant:copy todir="${maven.build.dir}">
-      <ant:fileset dir="${basedir}/api/target">
-        <ant:include name="${pom.artifactId}-api-${pom.currentVersion}.jar"/>
-      </ant:fileset>
-      <ant:fileset dir="${basedir}/impl/target">
-        <ant:include name="${pom.artifactId}-impl-${pom.currentVersion}.jar"/>
-      </ant:fileset>
-    </ant:copy>
   </goal>
 
   <goal name="avalon:build-snapshot">
@@ -67,25 +46,49 @@ The complete set of target include:
       basedir="${basedir}"
       includes="*/project.xml"
       excludes="site/project.xml"
-      goals="jar:install-snapshot"
-      banner="Building snapshot:"
+      goals="jar:install"
+      banner="Building:"
       ignoreFailures="false"/>
   </goal>
 
-  <goal name="avalon:dist" prereqs="avalon:site,xdist"/>
-
-  <goal name="avalon:site" prereqs="avalon:build">
-    <ant:mkdir dir="${maven.build.dir}"/>
+  <goal name="avalon:dist">
+    <maven:reactor
+      basedir="${basedir}"
+      includes="*/project.xml"
+      excludes="site/project.xml"
+      goals="xdist"
+      banner="Building distribution:"
+      ignoreFailures="false"/>
     <maven:reactor
       basedir="${basedir}"
       includes="site/project.xml"
       goals="site"
       banner="Building site:"
       ignoreFailures="false"/>
+    <attainGoal name="ximport"/>
+  </goal>
+
+  <goal name="ximport">
+    <ant:mkdir dir="${maven.build.dir}"/>
+    <ant:copy toDir="${maven.build.dir}">
+      <fileset dir="${basedir}/api/target/distributions">
+        <include name="*.*"/>
+      </fileset>
+    </ant:copy>
+    <ant:copy toDir="${maven.build.dir}">
+      <fileset dir="${basedir}/impl/target/distributions">
+        <include name="*.*"/>
+      </fileset>
+    </ant:copy>
+    <j:set var="docs.name" value="${maven.final.name}-docs"/>
+    <ant:echo>Building doc kit: ${docs.name}.zip</ant:echo>
+    <ant:zip zipfile="${maven.build.dir}/${docs.name}.zip">
+      <zipfileset dir="${basedir}/site/target/docs" prefix="docs"/>
+    </ant:zip>
   </goal>
 
   <goal
-    name="xdist:prepare-bin-filesystem" 
+    name="xdist:prepare-bin-filesystem" prereqs="jar:jar"
     description="Builds the jar files.">
 
     <ant:delete dir="${maven.dist.bin.assembly.dir}"/>
@@ -105,23 +108,9 @@ The complete set of target include:
     <!-- Copy Jars -->
     <ant:copy todir="${maven.dist.bin.assembly.dir}">
       <ant:fileset dir="${maven.build.dir}">
-        <ant:include name="${pom.artifactId}-api-${pom.currentVersion}.jar"/>
-        <ant:include name="${pom.artifactId}-impl-${pom.currentVersion}.jar"/>
-      </ant:fileset>
-      <ant:fileset dir="${basedir}/site/target">
-        <ant:include name="docs/**"/>
+        <ant:include name="${maven.final.name}.jar"/>
       </ant:fileset>
     </ant:copy>
-
-    <!-- Add composite jar -->
-    <ant:jar jarfile="${maven.build.dir}/${maven.final.name}.jar"
-        compress="true" manifest="manifest.mf">
-      <ant:fileset dir="api/target/classes"/>
-      <ant:fileset dir="impl/target/classes"/>
-    </ant:jar>
-    <ant:copy todir="${maven.dist.bin.assembly.dir}" 
-       file="${maven.build.dir}/${maven.final.name}.jar"/>
-
   </goal>
 
   <goal
@@ -147,14 +136,8 @@ The complete set of target include:
     </ant:copy>
 
     <!-- Copy Source -->
-    <ant:copy todir="${maven.dist.src.assembly.dir}">
-      <ant:fileset dir="${basedir}">
-        <include name="api/**"/>
-        <include name="impl/**"/>
-        <include name="site/**"/>
-        <exclude name="**/target/**"/>
-        <exclude name="**/*.log"/>
-      </ant:fileset>
+    <ant:copy todir="${maven.dist.src.assembly.dir}/src">
+      <ant:fileset dir="${maven.src.dir}" />
     </ant:copy>
 
   </goal>
@@ -178,7 +161,7 @@ The complete set of target include:
   </goal>
 
   <goal
-    name="xdist:build-bin" 
+    name="xdist:build-bin"
     prereqs="xdist:build-setup,xdist:prepare-bin-filesystem"
     description="Build the binary distribution.">
 
