@@ -24,9 +24,9 @@
  <body>
     <menu>
       <item name="Common" href="common/index.html"/>
+      <item name="Management" href="management/index.html"/>
       <item name="Production" href="production/index.html"/>
       <item name="Publication" href="publication/index.html"/>
-      <item name="Management" href="management/index.html"/>
     </menu>
  </body>
 
