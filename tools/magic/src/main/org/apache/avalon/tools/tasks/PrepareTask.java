@@ -30,10 +30,10 @@ import org.apache.tools.ant.taskdefs.Property;
 import org.apache.tools.ant.taskdefs.Copy;
 import org.apache.tools.ant.types.FileSet;
 
-import org.apache.avalon.tools.home.Context;
-import org.apache.avalon.tools.project.Definition;
-import org.apache.avalon.tools.project.ResourceRef;
-import org.apache.avalon.tools.project.Plugin;
+import org.apache.avalon.tools.model.Context;
+import org.apache.avalon.tools.model.Definition;
+import org.apache.avalon.tools.model.ResourceRef;
+import org.apache.avalon.tools.model.Plugin;
 
 /**
  * Load a goal. 

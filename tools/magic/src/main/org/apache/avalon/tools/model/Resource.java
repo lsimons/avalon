@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.avalon.tools.project;
+package org.apache.avalon.tools.model;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -24,8 +24,6 @@ import java.net.URL;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.taskdefs.Get;
-
-import org.apache.avalon.tools.home.Home;
 
 /**
  * Defintion of a resource. 

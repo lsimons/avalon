@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.avalon.tools.project;
+package org.apache.avalon.tools.model;
 
 /**
  * Delcaration of a repository resource reference.

@@ -42,8 +42,8 @@ import org.apache.tools.ant.taskdefs.Copy;
 import org.apache.tools.ant.taskdefs.XSLTProcess;
 import org.apache.tools.ant.taskdefs.Mkdir;
 
-import org.apache.avalon.tools.home.Context;
-import org.apache.avalon.tools.home.Home;
+import org.apache.avalon.tools.model.Context;
+import org.apache.avalon.tools.model.Home;
 
 public class XdocTask extends SystemTask
 {

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.avalon.tools.home;
+package org.apache.avalon.tools.model;
 
 import java.io.File;
 import java.io.IOException;
@@ -40,10 +40,10 @@ import org.apache.tools.ant.types.Path;
 import org.apache.tools.ant.types.FileList;
 import org.apache.tools.ant.taskdefs.optional.net.SetProxy;
 
-import org.apache.avalon.tools.project.Definition;
-import org.apache.avalon.tools.project.ResourceRef;
-import org.apache.avalon.tools.project.Resource;
-import org.apache.avalon.tools.project.Policy;
+import org.apache.avalon.tools.model.Definition;
+import org.apache.avalon.tools.model.ResourceRef;
+import org.apache.avalon.tools.model.Resource;
+import org.apache.avalon.tools.model.Policy;
 
 /**
  *

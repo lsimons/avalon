@@ -1,9 +1,7 @@
 <?xml version="1.0"?>
 <antlib xmlns:current="ant:current">
 
-  <taskdef name="context" classname="org.apache.avalon.tools.home.Context"/>
   <taskdef name="home" classname="org.apache.avalon.tools.tasks.HomeTask"/>
-
   <taskdef name="clean" classname="org.apache.avalon.tools.tasks.CleanTask"/> 
   <taskdef name="prepare" classname="org.apache.avalon.tools.tasks.PrepareTask"/> 
   <taskdef name="init" classname="org.apache.avalon.tools.tasks.InitializeTask"/> 

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.avalon.tools.project;
+package org.apache.avalon.tools.model;
 
 import org.apache.tools.ant.BuildException;
 

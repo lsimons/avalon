@@ -24,7 +24,7 @@ import org.apache.tools.ant.Project;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.taskdefs.Delete;
 
-import org.apache.avalon.tools.home.Context;
+import org.apache.avalon.tools.model.Context;
 
 /**
  * Clean the project by removing the target directory.
