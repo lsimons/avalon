@@ -147,7 +147,15 @@ class LifecycleHelper
         {
             m_applicationListenerSupport.addApplicationListener( (ApplicationListener)listener );
         }
-
+        else
+        {
+            final String message =
+                REZ.getString( "helper.isa-blocklistener.error",
+                               name,
+                               metaData.getClassname() );
+            getLogger().error( message );
+            System.err.println( message );
+        }
     }
 
     public void applicationStarting( ApplicationEvent appEvent ) throws Exception
