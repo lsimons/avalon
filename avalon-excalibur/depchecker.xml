@@ -357,6 +357,8 @@ To use it, type 'ant -f depchecker.xml'
             |   ${ant.home}/lib
             | Typically it is in a jar called:                               |
             |   ${name}                                                      
+            | Suggested Remedy:                                              |
+            |   ${remedy}                                                                  
             '----------------------------------------------------------------'
         </echo>
         <fail message="Failed requirement: class not found"/>
