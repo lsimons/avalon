@@ -32,7 +32,8 @@
     </links>
 
     <menu name="About Avalon Logging">
-      <item name="Overview" href="/about/index.html"/>
+      <item name="Overview" href="/index.html"/>
+      <item name="Specification" href="/api/index.html"/>
       <item name="Implementations" href="/impl/index.html"/>
     </menu>
 

@@ -25,24 +25,14 @@
   </properties>
 
   <body>
-
     <section name="Avalon Logging">
-
-      <p>
-      The avalon-logging package is a open logging platform suitable for 
-      use by container implementators. It is based largely on the original
-      excalibur logging system but with some important changes.  Firstly 
-      it leverages the avalon-repository technology to support dynamic 
-      loading of implementation strategies, secondly, it simplies the
-      overall approach to target configuration, and thirdly, it applies
-      a formal logging category meta-data model that is consitent with 
-      model-driven container solutions.
-      </p>
-
+      <subsection name="Dowload">
+        <p>
+        IN PREP.
+        </p>
+      </subsection>
     </section>
-
   </body>
-
 </document>
 
 

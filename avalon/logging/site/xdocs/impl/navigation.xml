@@ -32,7 +32,8 @@
     </links>
 
     <menu name="About Avalon Logging">
-      <item name="Overview" href="/about/index.html"/>
+      <item name="Overview" href="/index.html"/>
+      <item name="Specification" href="/api/index.html"/>
       <item name="Implementations" href="/impl/index.html">
         <item name="LogKit" href="/impl/logkit/index.html"/>
       </item>
@@ -40,7 +41,7 @@
 
     <menu name="Resources">
       <item name="Javadoc" href="/api/index.html"/>
-      <item name="Download" href="/resources/download.html"/>
+      <item name="Download" href="/download.html"/>
     </menu>
 
     <menu name="Related Projects">
