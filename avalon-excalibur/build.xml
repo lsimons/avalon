@@ -25,12 +25,12 @@
         <ant dir="threadcontext" target="dist"/>
         <ant dir="sourceresolve" target="dist"/>
         <ant dir="monitor" target="dist"/>
-        <ant dir="xmlbundle" target="dist"/>
         
         <!-- Sub projects with dependencies. -->
         <ant dir="pool" target="dist"/>               <!-- collections, concurrent, instrument -->
         <ant dir="thread" target="dist"/>             <!-- lang, instrument, threadcontext, pool -->
         <ant dir="component" target="dist"/>          <!-- collections, logger, instrument, pool -->
+        <ant dir="xmlbundle" target="dist"/>          <!-- component -->
         <ant dir="util" target="dist"/>               <!-- component -->
         <ant dir="testcase" target="dist"/>           <!-- logger, component -->
         <ant dir="event" target="dist"/>              <!-- collections, concurrent, lang, pool, thread, util, event -->
@@ -145,10 +145,10 @@
         <ant dir="datasource" target="jar"/>
         <ant dir="sourceresolve" target="jar"/>
         <ant dir="monitor" target="jar"/>
-        <ant dir="xmlbundle" target="jar"/>
         <ant dir="all" target="all"/>
         <ant dir="cli" target="jar"/>
         <ant dir="component" target="jar"/>
+        <ant dir="xmlbundle" target="jar"/>
         <ant dir="collections" target="jar"/>
         <ant dir="concurrent" target="jar"/>
         <ant dir="i18n" target="jar"/>
@@ -204,13 +204,13 @@
         <ant dir="threadcontext" target="jar"/>
         <ant dir="sourceresolve" target="jar"/>
         <ant dir="monitor" target="jar"/>
-        <ant dir="xmlbundle" target="jar"/>
         
         <!-- Sub projects with dependencies. -->
         <ant dir="pool" target="jar"/>               <!-- collections, concurrent, instrument, sourceresolve -->
         <ant dir="datasource" target="jar"/>         <!-- pool -->
         <ant dir="thread" target="jar"/>             <!-- lang, instrument, threadcontext, pool -->
         <ant dir="component" target="jar"/>          <!-- collections, logger, instrument, pool -->
+        <ant dir="xmlbundle" target="jar"/>          <!-- component -->
         <ant dir="util" target="jar"/>               <!-- component -->
         <ant dir="testcase" target="jar"/>           <!-- logger, component -->
         <ant dir="event" target="jar"/>              <!-- collections, concurrent, lang, pool, thread, util, event -->
