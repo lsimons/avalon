@@ -381,6 +381,51 @@
       </dependencies>
     </project>
 
+    <project basedir="../../runtime/meta/test/testc">
+      <info>
+        <group>avalon/meta/test</group>
+        <name>avalon-test-testc</name>
+      </info>
+      <dependencies>
+        <projects>
+          <projectref key="avalon-framework-api"/>
+        </projects>
+        <plugins>
+          <pluginref key="avalon-meta-tools"/>
+        </plugins>
+      </dependencies>
+    </project>
+
+    <project basedir="../../runtime/meta/test/testd">
+      <info>
+        <group>avalon/meta/test</group>
+        <name>avalon-test-testd</name>
+      </info>
+      <dependencies>
+        <projects>
+          <projectref key="avalon-framework-api"/>
+        </projects>
+        <plugins>
+          <pluginref key="avalon-meta-tools"/>
+        </plugins>
+      </dependencies>
+    </project>
+
+    <project basedir="../../runtime/meta/test/teste">
+      <info>
+        <group>avalon/meta/test</group>
+        <name>avalon-test-teste</name>
+      </info>
+      <dependencies>
+        <projects>
+          <projectref key="avalon-framework-api"/>
+        </projects>
+        <plugins>
+          <pluginref key="avalon-meta-tools"/>
+        </plugins>
+      </dependencies>
+    </project>
+
     <!--
     Avalon Repository.
     -->
