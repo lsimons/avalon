@@ -50,7 +50,7 @@ if not "%PHOENIX_HOME%" == "" goto phoenix_home
 
 echo.
 echo Error: PHOENIX_HOME environment variable is not set.
-echo   This needs to be set manually for Win9x as its command 
+echo   This needs to be set manually for Win9x as its command
 echo   prompt scripting does not allow it to be set automatically.
 echo.
 goto end
@@ -86,6 +86,6 @@ rem uncomment to get enable remote debugging
 rem set DEBUG=-Xdebug -Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=y
 
 rem Kicking the tires and lighting the fires!!!
-"%PHOENIX_JAVACMD%" %DEBUG% "-Djava.ext.dirs=%PHOENIX_HOME%\lib" "-Dphoenix.home=%PHOENIX_HOME%" "-Djava.security.policy=jar:file:%PHOENIX_HOME%/bin/phoenix-loader.jar!/META-INF/java.policy" %PHOENIX_JVM_OPTS% %PHOENIX_SM% -jar "%PHOENIX_HOME%\bin\phoenix-loader.jar" %1 %2 %3 %4 %5 %6 %7 %8 %9
+"%PHOENIX_JAVACMD%" %DEBUG% "-Djava.ext.dirs=%PHOENIX_HOME%\lib;%PHOENIX_HOME%\tools\lib" "-Dphoenix.home=%PHOENIX_HOME%" "-Djava.security.policy=jar:file:%PHOENIX_HOME%/bin/phoenix-loader.jar!/META-INF/java.policy" %PHOENIX_JVM_OPTS% %PHOENIX_SM% -jar "%PHOENIX_HOME%\bin\phoenix-loader.jar" %1 %2 %3 %4 %5 %6 %7 %8 %9
 
 :end
