@@ -53,7 +53,7 @@
   <ant:property name="maven.jar.manifest.extensions.add" value="false"/>
   <ant:property name="maven.checkstyle.format" value="avalon"/>
   <ant:property name="pom.organization.identifier" value="ASF"/>
-  <ant:property name="pom.specificationVersion" value="&merlin-api-version;"/>
+  <ant:property name="pom.specificationVersion" value="&merlin-spec;"/>
   <ant:property name="maven.license.licenseFile" value="${basedir}/LICENSE.txt"/>
   <maven:snapshot project="${pom}"/>
 
@@ -114,6 +114,8 @@
         </ant:fileset>
       </ant:copy>
       <checksum file="${path}"/>
+      <move file="${path}.md5" toFile="temp"/>
+      <move file="temp" toFile="${path}.md5"/>
       <j:if test="${maven_gpg_exe != null}">
         <ant:exec executable="${maven_gpg_exe}">
           <ant:arg value="-a"/>
@@ -156,6 +158,8 @@
         </ant:fileset>
       </ant:copy>
       <checksum file="${path}"/>
+      <move file="${path}.md5" toFile="temp"/>
+      <move file="temp" toFile="${path}.md5"/>
       <j:if test="${maven_gpg_exe != null}">
         <ant:exec executable="${maven_gpg_exe}">
           <ant:arg value="-a"/>
@@ -199,6 +203,8 @@
         </ant:fileset>
       </ant:copy>
       <checksum file="${path}"/>
+      <move file="${path}.md5" toFile="temp"/>
+      <move file="temp" toFile="${path}.md5"/>
       <j:if test="${maven_gpg_exe != null}">
         <ant:exec executable="${maven_gpg_exe}">
           <ant:arg value="-a"/>
@@ -340,6 +346,16 @@
 
   <goal name="avalon:package">
 
+    <ant:delete>
+      <fileset dir="${maven.build.dir}">
+        <include name="*.zip"/>
+        <include name="*.tar"/>
+        <include name="*.tar.gz"/>
+        <include name="*.md5"/>
+        <include name="*.asc"/>
+      </fileset>
+    </ant:delete>
+
     <j:choose>
       <j:when test="${merlin.snapshot}">
         <maven:snapshot project="${pom}"/>
@@ -366,6 +382,8 @@
       </fileset>
     </ant:zip>
     <checksum file="${maven.build.dir}/${package.name}.zip"/>
+    <move file="${maven.build.dir}/${package.name}.zip.md5" toFile="temp"/>
+    <move file="temp" toFile="${maven.build.dir}/${package.name}.zip.md5"/>
     <j:if test="${maven_gpg_exe != null}">
       <ant:exec executable="${maven_gpg_exe}">
         <ant:arg value="-a"/>
@@ -389,6 +407,8 @@
       src="${maven.build.dir}/${package.name}.tar"/>
     <ant:delete file="${maven.build.dir}/${package.name}.tar"/>
     <checksum file="${maven.build.dir}/${package.name}.tar.gz"/>
+    <move file="${maven.build.dir}/${package.name}.tar.gz.md5" toFile="temp"/>
+    <move file="temp" toFile="${maven.build.dir}/${package.name}.tar.gz.md5"/>
     <j:if test="${maven_gpg_exe != null}">
       <ant:exec executable="${maven_gpg_exe}">
         <ant:arg value="-a"/>
@@ -402,6 +422,16 @@
       <zipfileset dir="${basedir}/target/tutorials" prefix="tutorial"/>
     </ant:zip>
     <checksum file="${maven.build.dir}/${tutorial.name}.zip"/>
+    <move file="${maven.build.dir}/${tutorial.name}.zip.md5" toFile="temp"/>
+    <move file="temp" toFile="${maven.build.dir}/${tutorial.name}.zip.md5"/>
+    <j:if test="${maven_gpg_exe != null}">
+      <ant:exec executable="${maven_gpg_exe}">
+        <ant:arg value="-a"/>
+        <ant:arg value="-b"/>
+        <ant:arg value="${maven.build.dir}/${tutorial.name}.zip"/>
+      </ant:exec>
+    </j:if>
+
     <ant:tar longfile="gnu" tarfile="${maven.build.dir}/${tutorial.name}.tar">
       <tarfileset dir="${basedir}/target/tutorials" prefix="tutorial"/>
     </ant:tar>
@@ -410,6 +440,8 @@
       src="${maven.build.dir}/${tutorial.name}.tar"/>
     <ant:delete file="${maven.build.dir}/${tutorial.name}.tar"/>
     <checksum file="${maven.build.dir}/${tutorial.name}.tar.gz"/>
+    <move file="${maven.build.dir}/${tutorial.name}.tar.gz.md5" toFile="temp"/>
+    <move file="temp" toFile="${maven.build.dir}/${tutorial.name}.tar.gz.md5"/>
     <j:if test="${maven_gpg_exe != null}">
       <ant:exec executable="${maven_gpg_exe}">
         <ant:arg value="-a"/>
@@ -553,7 +585,7 @@
   ==============================================================================
   -->
 
-  <goal name="merlin:validate" 
+  <goal name="avalon:validate" 
        description="Validate that the tutorial targets are buildable." >
     <maven:reactor
       basedir="${basedir}"
