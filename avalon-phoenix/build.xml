@@ -314,6 +314,13 @@ Legal:
         </checkstyle>
     </target>
 
+
+    <!-- Create the lite build -->
+    <target name="dist-mx4j" if="mx4j.present">
+	<copy file="${mx4j.jar}" todir="${bin.dist.bin}/lib"/>
+	<copy file="${mx4j-tools.jar}" todir="${bin.dist.bin}/lib"/>
+    </target>
+
     <!-- Copy BeanShell jars -->
     <target name="dist-beanshell" description="Copies Beanshell jars" if="beanshell.jars">
         <copy file="${build.lib}/phoenix-bsh-commands.jar" todir="${bin.dist.lib}"/>
@@ -340,13 +347,7 @@ Legal:
         <mkdir dir="${bin.dist.lib}"/>
         <mkdir dir="${bin.dist.conf}"/>
 
-        <copy todir="${bin.dist.lib}/">
-            <fileset dir="${build.lib}">
-                <include name="phoenix-client.jar"/>
-                <include name="phoenix-client.jar"/>
-                <include name="phoenix-client.jar"/>
-            </fileset>
-        </copy>
+        <copy file="${build.lib}/phoenix-client.jar" todir="${bin.dist.lib}/"/>
         <copy file="${build.lib}/phoenix-loader.jar" todir="${bin.dist.bin}/"/>
         <copy file="${build.lib}/phoenix-engine.jar" todir="${bin.dist.bin}/lib"/>
 
@@ -371,6 +372,7 @@ Legal:
             </fileset>
         </copy>
 
+        <antcall target="dist-mx4j"/>
         <antcall target="dist-beanshell"/>
 
         <!--
