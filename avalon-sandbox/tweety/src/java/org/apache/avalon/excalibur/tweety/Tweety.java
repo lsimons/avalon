@@ -36,7 +36,7 @@ import org.apache.avalon.framework.container.*;
  *@author   <a href="mailto:nicolaken@krysalis.org">Nicola Ken Barozzi</a>
  *@author   <a href="mailto:leosimons@apache.org">Leo Simons</a>
  *@created  June 20, 2002
- *@version  1.1
+ *@version  1.2
  */
 public class Tweety implements LogEnabled, Contextualizable, Configurable, Initializable,
 		Parameterizable, Startable
@@ -106,87 +106,6 @@ chirp-mondo = org.apache.avalon.excalibur.tweety.demos.ChirpWorld
 	 */
 	public Tweety()
 	{
-	}
-
-	//// METHOD TO HANDLE RUNNING FROM COMMAND LINE ////
-	/**
-	 * This method is called to invoke tweety from the command line; It instantiates
-	 * a new <code>Tweety</code> instance, provides the parameters to configure
-	 * tweety by loading them from a file, and then runs tweety itself through its
-	 * lifecycle.
-	 *
-	 * <p><b>Note:</b> we should improve this method to create a sensible context and
-	 * configuration for hosted components.</p>
-	 *
-	 * @param args the command line arguments. We don't use them.
-	 */
-	public static void main( String[] args )
-	{
-		// create logger
-		ConsoleLogger logger = new ConsoleLogger( ConsoleLogger.LEVEL_INFO );
-
-		try
-		{
-			/** @todo: this is stupid. Figure out what to do about contexts */
-			// create dummy context
-			Context context = new DefaultContext();
-
-			/** @todo: this is stupid. Figure out what to do about configurations */
-			// create dummy configuration
-			Configuration config = new DefaultConfiguration( "empty config", "nowhere" );
-
-			// load properties
-			Properties properties = new Properties();
-			properties.load(new FileInputStream("tweety.properties"));
-
-			// create parameters from properties
-			Parameters params = Parameters.fromProperties( properties );
-
-			// debug: show the stuff we feed into tweety
-
-			// create tweety instance
-			Tweety tweety = new Tweety();
-
-			logger.debug("Tweety: Providing tweety with a console logger.");
-			tweety.enableLogging( logger );
-
-			logger.debug("Tweety: Providing tweety with an empty context.");
-			tweety.contextualize( context );
-
-			logger.debug("Tweety: Providing tweety with an empty configuration");
-			tweety.configure( config );
-
-			String[] paramNames = params.getNames();
-			logger.debug("Tweety: Configuring tweety with the following parameters:");
-			for( int i = 0; i < paramNames.length; i++ )
-			{
-					logger.debug("   parameter: " + paramNames[i] +
-						    " = " + params.getParameter(paramNames[i]) );
-			}
-			tweety.parameterize( params );
-
-			logger.debug("Tweety: Initializing tweety.");
-			tweety.initialize();
-
-			logger.debug("Tweety: Starting tweety");
-			tweety.start();
-
-			//
-			// Here hosted components that create threads continue operation till they wish
-			//
-
-			tweety.stop();
-		}
-		catch( java.io.IOException ioe )
-		{
-			logger.error( "Tweety: Error reading configuration file.\nProgram Terminated", ioe );
-			System.exit(-4);
-		}
-		catch( Exception e )
-		{
-			logger.error( "Tweety: Error starting up.\nProgram Terminated", e );
-			System.exit(-2);
-		}
 	}
 
 	//// AVALON FRAMEWORK LIFECYCLE METHODS ////

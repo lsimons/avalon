@@ -38,47 +38,47 @@ public class ChirpWorld implements LogEnabled, Contextualizable, Composable, Ser
   public void enableLogging( Logger logger )
   {
     this.logger = logger;
-    logger.debug("ChirpWorld: enableLogging() called, Logger gotten");
+    logger.debug("tweety.demos.ChirpWorld: enableLogging() called, Logger gotten");
   }
 
   public void contextualize( Context context )
   {
     this.context = context;
-    logger.debug("ChirpWorld: contextualize() called, Context gotten");
+    logger.debug("tweety.demos.ChirpWorld: contextualize() called, Context gotten");
   }
 
   public void compose( ComponentManager cm )
   {
     this.cm = cm;
-    logger.debug("ChirpWorld: compose() called, ComponentManager gotten");
+    logger.debug("tweety.demos.ChirpWorld: compose() called, ComponentManager gotten");
   }
 
   public void service( ServiceManager cm )
   {
     this.sm = sm;
-    logger.debug("ChirpWorld: service() called, ServiceManager gotten");
+    logger.debug("tweety.demos.ChirpWorld: service() called, ServiceManager gotten");
   }
 
   public void initialize()
   {
-    logger.debug("ChirpWorld: initialize() called");
+    logger.debug("tweety.demos.ChirpWorld: initialize() called");
   }
 
   public void start()
   {
-    logger.debug("ChirpWorld: start() called");
+    logger.debug("tweety.demos.ChirpWorld: start() called");
 
-	logger.info( "ChirpWorld: I thawgt I saw a pussycat!" );
+	logger.info( "tweety.demos.ChirpWorld: I thawgt I saw a pussycat!" );
   }
 
   public void stop()
   {
-    logger.debug("ChirpWorld: stop() called");
+    logger.debug("tweety.demos.ChirpWorld: stop() called");
   }
 
   public void dispose()
   {
-    logger.debug("ChirpWorld: dispose called");
+    logger.debug("tweety.demos.ChirpWorld: dispose called");
   }
 
 }
