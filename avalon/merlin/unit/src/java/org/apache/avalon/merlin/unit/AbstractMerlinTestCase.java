@@ -88,6 +88,8 @@ public class AbstractMerlinTestCase extends TestCase
     public static final File MERLIN_DEFAULT_CONFIG_FILE = 
       getProjectFile( "conf/config.xml" );
 
+    private static URL CONF = getProjectPath( "conf/config.xml", false );
+
     //-------------------------------------------------------------------
     // state
     //-------------------------------------------------------------------
