@@ -17,6 +17,7 @@
   <taskdef name="info" classname="org.apache.avalon.tools.tasks.AnnounceTask"/> 
   <taskdef name="artifact" classname="org.apache.avalon.tools.tasks.ArtifactTask"/> 
   <taskdef name="bar" classname="org.apache.avalon.tools.tasks.BarTask"/> 
+  <taskdef name="unbar" classname="org.apache.avalon.tools.tasks.UnbarTask"/> 
   <taskdef name="javadoc" classname="org.apache.avalon.tools.tasks.JavadocTask"/> 
   <taskdef name="publish" classname="org.apache.avalon.tools.tasks.PublishTask"/> 
   <taskdef name="property" classname="org.apache.avalon.tools.tasks.PropertyTask"/> 

@@ -19,7 +19,7 @@
   </target>
 
   <target name="package" depends="standard.package">
-    <x:bar name="avalon-tools.bar"/>
+    <x:bar/>
   </target>
 
   <target name="install" depends="standard.install">
@@ -59,6 +59,10 @@ project.name:    ${project.name}
       <x:svn href="https://svn.apache.org/repos/asf/avalon/trunk/tools/magic"/>
       <x:license file="../../central/system/license/LICENSE.TXT"/>
     </x:gump>
+  </target>
+
+  <target name="unbar">
+    <x:unbar bar="target/deliverables/bars/${project.short-filename}.bar"/>
   </target>
 
 </project>
