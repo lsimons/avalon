@@ -35,7 +35,7 @@ import java.io.Writer;
  * Junit TestCase for all the monitors in Excalibur.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: MonitorTestCase.java,v 1.3 2001/09/25 20:19:06 bloritsch Exp $
+ * @version $Id: MonitorTestCase.java,v 1.4 2001/09/25 20:31:54 bloritsch Exp $
  */
 public class MonitorTestCase extends ExcaliburTestCase implements Initializable
 {
@@ -147,7 +147,7 @@ public class MonitorTestCase extends ExcaliburTestCase implements Initializable
                 {
                     try
                     {
-                        Thread.sleep( 50 );  // sleep 50 millis per iteration
+                        Thread.sleep( 10 );  // sleep 10 millis per iteration
                     }
                     catch( final InterruptedException ie )
                     {
@@ -165,7 +165,7 @@ public class MonitorTestCase extends ExcaliburTestCase implements Initializable
 
             try
             {
-                Thread.sleep( 50 ); // sleep 50 millis at a time
+                Thread.sleep( 10 ); // sleep 10 millis at a time
             }
             catch( final InterruptedException ie )
             {
@@ -181,7 +181,7 @@ public class MonitorTestCase extends ExcaliburTestCase implements Initializable
             {
                 try
                 {
-                    Thread.sleep( 50 ); // sleep 50 millis at a time
+                    Thread.sleep( 10 ); // sleep 10 millis at a time
                 }
                 catch( final InterruptedException ie )
                 {
@@ -197,7 +197,7 @@ public class MonitorTestCase extends ExcaliburTestCase implements Initializable
 
             try
             {
-                Thread.sleep( 50 ); // sleep 50 millis at a time
+                Thread.sleep( 10 ); // sleep 10 millis at a time
             }
             catch( final InterruptedException ie )
             {
@@ -213,7 +213,7 @@ public class MonitorTestCase extends ExcaliburTestCase implements Initializable
             {
                 try
                 {
-                    Thread.sleep( 50 ); // sleep 50 millis at a time
+                    Thread.sleep( 10 ); // sleep 10 millis at a time
                 }
                 catch( final InterruptedException ie )
                 {
