@@ -18,7 +18,8 @@
     <menu-item label="Changes" href="changes.html"/>
     <menu-item type="external" id="api-docs" label="API Docs" href="api/index.html"/>
   </menu>
-  <menu label="Demo Components">
+  <menu label="Demo Applications">
+    <menu-item label="Applications" href="apps.html"/>
     <menu-item label="HTTP Proxy" href="demo-httpproxy.html"/>
     <menu-item label="Simple Server" href="demo-simpleserver.html"/>
   </menu>
