@@ -10,7 +10,6 @@ package org.apache.avalon.framework.configuration;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import org.apache.avalon.framework.configuration.Configuration;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Text;
@@ -20,7 +19,7 @@ import org.w3c.dom.Text;
  * with configuration objects.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2002/10/27 22:57:54 $
+ * @version $Revision: 1.5 $ $Date: 2002/11/07 08:35:27 $
  */
 public class ConfigurationUtil
 {

@@ -1,14 +1,14 @@
-/* ==================================================================== 
- * The Apache Software License, Version 1.1 
- * 
- * Copyright (c) 1997-2002 The Apache Software Foundation. All rights 
- * reserved. 
- * 
- * Redistribution and use in source and binary forms, with or without 
- * modification, are permitted provided that the following conditions 
- * are met: 
- * 
- * 1. Redistributions of source code must retain the above copyright 
+/* ====================================================================
+ * The Apache Software License, Version 1.1
+ *
+ * Copyright (c) 1997-2002 The Apache Software Foundation. All rights
+ * reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright
  *    notice, this list of conditions and the following disclaimer.
  *
  * 2. Redistributions in binary form must reproduce the above copyright
@@ -20,13 +20,13 @@
  *    if any, must include the following acknowledgment:
  *    "This product includes software developed by the
  *    Apache Software Foundation (http://www.apache.org/)."
- *    Alternately, this acknowledgment may appear in the software 
- *    itself, if and wherever such third-party acknowledgments  
+ *    Alternately, this acknowledgment may appear in the software
+ *    itself, if and wherever such third-party acknowledgments
  *    normally appear.
  *
- * 4. The names "Jakarta", "Avalon", and "Apache Software Foundation" 
+ * 4. The names "Jakarta", "Avalon", and "Apache Software Foundation"
  *    must not be used to endorse or promote products derived from this
- *    software without prior written permission. For written 
+ *    software without prior written permission. For written
  *    permission, please contact apache@apache.org.
  *
  * 5. Products derived from this software may not be called "Apache",
@@ -49,9 +49,9 @@
  *
  * This software consists of voluntary contributions made by many
  * individuals on behalf of the Apache Software Foundation. For more
- * information on the Apache Software Foundation, please see 
+ * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
- */ 
+ */
 package org.apache.avalon.framework.configuration;
 
 /**
@@ -63,7 +63,7 @@ package org.apache.avalon.framework.configuration;
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  * @author <a href="mailto:fumagalli@exoffice.com">Pierpaolo Fumagalli</a>
  * @author <a href="mailto:leo.sutic@inspireinfrastructure.com">Leo Sutic</a>
- * @version CVS $Revision: 1.20 $ $Date: 2002/10/21 16:16:49 $
+ * @version CVS $Revision: 1.21 $ $Date: 2002/11/07 08:35:27 $
  */
 public abstract class AbstractConfiguration
     implements Configuration
@@ -510,17 +510,17 @@ public abstract class AbstractConfiguration
     private boolean isTrue( final String value )
     {
         return value.equalsIgnoreCase( "true" )
-          || value.equalsIgnoreCase( "yes" )
-          || value.equalsIgnoreCase( "on" )
-          || value.equalsIgnoreCase( "1" );
+            || value.equalsIgnoreCase( "yes" )
+            || value.equalsIgnoreCase( "on" )
+            || value.equalsIgnoreCase( "1" );
     }
 
     private boolean isFalse( final String value )
     {
         return value.equalsIgnoreCase( "false" )
-          || value.equalsIgnoreCase( "no" )
-          || value.equalsIgnoreCase( "off" )
-          || value.equalsIgnoreCase( "0" );
+            || value.equalsIgnoreCase( "no" )
+            || value.equalsIgnoreCase( "off" )
+            || value.equalsIgnoreCase( "0" );
     }
 
     /**
