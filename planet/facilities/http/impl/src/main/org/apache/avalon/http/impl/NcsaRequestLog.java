@@ -36,6 +36,7 @@ import org.mortbay.http.RequestLog;
 /** Wrapper for the Jetty NCSA request logger.
  *
  * @avalon.component name="http-ncsa-log" lifestyle="singleton"
+ * @avalon.service type="org.mortbay.http.RequestLog" lifestyle="singleton"
  */
 public class NcsaRequestLog extends NCSARequestLog
     implements RequestLog, Parameterizable, Startable

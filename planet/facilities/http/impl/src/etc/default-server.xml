@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<container name="http">
+
+  <classloader>
+    <classpath>
+      <artifact>jar:avalon/http/avalon-http-spi#SNAPSHOT</artifact>
+      <artifact>jar:avalon/http/avalon-http-api#SNAPSHOT</artifact>
+      <artifact>jar:servletapi/servletapi#2.3</artifact>
+      <artifact>jar:jetty/org.mortbay.jetty#SNAPSHOT</artifact>
+      <artifact>jar:avalon/http/avalon-http-util#SNAPSHOT</artifact>
+      <artifact>jar:avalon/util/avalon-util-configuration#1.0.0</artifact>
+      <artifact>jar:avalon/framework/avalon-framework-api#SNAPSHOT</artifact>
+      <artifact>jar:avalon/framework/avalon-framework-impl#SNAPSHOT</artifact>
+      <artifact>jar:avalon/framework/avalon-framework-legacy#SNAPSHOT</artifact>
+      <artifact>jar:avalon/logkit/avalon-logkit#2.0.0</artifact>
+      <artifact>jar:avalon/http/avalon-http-impl#SNAPSHOT</artifact>
+    </classpath>
+  </classloader>
+
+  <component name="socketlistener" class="org.apache.avalon.http.impl.SocketListenerComponent">
+    <parameters>
+      <parameter name="port" value="8088"/>
+    </parameters>
+  </component>
+    
+  <component name="server" class="org.apache.avalon.http.impl.HttpServerImpl" />
+  
+  <component name="context" class="org.apache.avalon.http.impl.HttpContextImpl" />
+  <component name="model-handler" class="org.apache.avalon.http.impl.ModelHandler" >
+    <configuration>
+      <url-path>/test</url-path>
+      <component>test</component>
+    </configuration>
+  </component>
+  <component name="request-log" class="org.apache.avalon.http.impl.NcsaRequestLog" />
+  
+<!--    
+  <container name="model-context" >
+    <component name="realm" class="org.apache.avalon.http.impl.DefaultUserRealm" />
+    <component name="authenticator" class="org.apache.avalon.http.impl.DefaultAuthenticator" />
+  </container>
+-->    
+  
+</container>
+ 

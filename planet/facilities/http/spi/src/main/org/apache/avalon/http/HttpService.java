@@ -27,7 +27,7 @@ import org.mortbay.http.UserRealm;
 /**
  * Defintion of the HttpService service contract.
  *
- * @avalon.service version="1.0"
+ * @avalon.service type="org.apache.avalon.http.HttpService" version="1.0"
  */
 public interface HttpService
 {
