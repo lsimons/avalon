@@ -14,6 +14,8 @@
 ]>
 
 <role-list>
+
+  <!-- single component definitions -->
   <role name="org.apache.avalon.excalibur.xml.Parser"
         shorthand="xml-parser"
         default-class="org.apache.avalon.excalibur.xml.JaxpParser"/>
@@ -29,5 +31,16 @@
   <role name="org.apache.avalon.excalibur.xml.xpath.XPathProcessor"
         shorthand="xpath-processor"
         default-class="org.apache.avalon.excalibur.xml.xpath.XPathProcessorImpl"/>
+
+  <!-- component selector definition -->
+  <role name="org.apache.avalon.excalibur.datasource.DataSourceComponentSelector"
+        shorthand="datasources"
+        default-class="org.apache.avalon.excalibur.component.ExcaliburComponentSelector">
+	<hint shorthand="jdbc" class="org.apache.avalon.excalibur.datasource.ResourceLimitingJdbcDataSource"/>
+    <!-- hint shorthand="jdbc" class="org.apache.avalon.excalibur.datasource.JdbcDataSource"/ -->
+    <hint shorthand="j2ee" class="org.apache.avalon.excalibur.datasource.J2eeDataSource"/>
+    <hint shorthand="informix" class="org.apache.avalon.excalibur.datasource.InformixDataSource"/>
+  </role>
+
 
 </role-list>
