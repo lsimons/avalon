@@ -1,17 +1,11 @@
 <?xml version="1.0"?>
-<!--
-                                README!
 
-    Basic config file that sets up context for server application.
-
--->
 <environment>
 
   <logs version="1.1">
 
     <factories>
       <factory type="file" class="org.apache.avalon.excalibur.logger.factory.FileTargetFactory"/>
-      
     </factories>
 
     <targets>
@@ -39,11 +33,5 @@
       </category>
     </categories>
   </logs>
-
-  <policy>
-    <grant code-base="sar:SAR-INF/lib/*">
-      <permission class="java.security.AllPermission" />
-    </grant>
-  </policy>
 
 </environment>
