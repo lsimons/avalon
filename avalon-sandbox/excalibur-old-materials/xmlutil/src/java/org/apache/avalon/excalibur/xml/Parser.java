@@ -16,32 +16,31 @@ import org.xml.sax.SAXException;
 import org.xml.sax.ext.LexicalHandler;
 
 /**
- *
  * The parser can be used to parse any XML document given
- * by a <code>InputSource</code> object.
+ * by a {@link InputSource} object.
  * It can either send XML events or create a DOM from
  * the parsed document.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/04/22 10:06:04 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/07/07 06:09:51 $
  */
-public interface Parser extends Component
+public interface Parser
+    extends Component
 {
-
     String ROLE = Parser.class.getName();
 
     /**
-     * Parse the <code>InputSource</code> and send
+     * Parse the {@link InputSource} and send
      * SAX events to the consumer.
      * Attention: the consumer can  implement the
-     * <code>LexicalHandler</code> as well.
+     * {@link LexicalHandler} as well.
      * The parse should take care of this.
      */
     void parse( InputSource in, ContentHandler consumer )
         throws SAXException, IOException;
 
     /**
-     * Parse the <code>InputSource</code> and send
+     * Parse the {@link InputSource} and send
      * SAX events to the content handler and
      * the lexical handler.
      */
@@ -51,15 +50,14 @@ public interface Parser extends Component
         throws SAXException, IOException;
 
     /**
-     * Parse the <code>InputSource</code> and create
+     * Parse the {@link InputSource} and create
      * a DOM out of it.
      */
     Document parseDocument( InputSource in )
         throws SAXException, IOException;
 
     /**
-     * Return a new <code>Document</code>.
+     * Return a new {@link Document}.
      */
     Document createDocument() throws SAXException;
-
 }
