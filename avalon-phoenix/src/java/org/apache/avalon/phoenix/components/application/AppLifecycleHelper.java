@@ -9,11 +9,7 @@ package org.apache.avalon.phoenix.components.application;
 
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.avalon.framework.configuration.Configurable;
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.phoenix.ApplicationListener;
 import org.apache.avalon.phoenix.BlockListener;
@@ -57,7 +53,7 @@ class AppLifecycleHelper
     /**
      * ResourceAccessor for listeners.
      */
-    private ListenerAccessor m_listenerAccessor;
+    private final ListenerAccessor m_listenerAccessor;
 
     /**
      * Construct helper object for specified application,
@@ -74,7 +70,7 @@ class AppLifecycleHelper
         m_listenerAccessor = new ListenerAccessor( context );
     }
 
-    public void enableLogging( Logger logger )
+    public void enableLogging( final Logger logger )
     {
         super.enableLogging( logger );
         setupLogger( m_lifecycleHelper );
@@ -94,19 +90,10 @@ class AppLifecycleHelper
         throws Exception
     {
         final String name = metaData.getName();
-        final Object listener = m_listenerAccessor.createObject( metaData );
-
-        if( listener instanceof LogEnabled )
-        {
-            final Logger logger = m_listenerAccessor.createLogger( metaData );
-            ContainerUtil.enableLogging( listener, logger );
-        }
-
-        if( listener instanceof Configurable )
-        {
-            final Configuration configuration = m_listenerAccessor.createConfiguration( metaData );
-            ContainerUtil.configure( listener, configuration );
-        }
+        final Object listener =
+            m_lifecycleHelper.startup( name,
+                                       metaData,
+                                       m_listenerAccessor );
 
         // However onky ApplicationListners can avail of block events.
         if( listener instanceof ApplicationListener )
