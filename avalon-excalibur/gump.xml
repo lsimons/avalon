@@ -468,7 +468,9 @@
             <property name="skip.dependencies" value="true"/>
         </ant>
 
-        <depend project="jakarta-ant" inherit="runtime"/>
+	<depend project="jakarta-ant" inherit="runtime"/>
+        <depend project="jakarta-avalon" runtime="true"/>
+        <depend project="excalibur-altrmi" runtime="true"/>
         <depend project="checkstyle"/>
         <depend project="junit"/>
         <depend project="xml-xerces"/>
