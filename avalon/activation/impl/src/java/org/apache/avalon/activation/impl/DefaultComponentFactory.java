@@ -68,7 +68,7 @@ import org.apache.avalon.util.i18n.Resources;
  * A factory enabling the establishment of component instances.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.10 $ $Date: 2004/03/17 10:30:07 $
+ * @version $Revision: 1.11 $ $Date: 2004/03/23 23:34:35 $
  */
 public class DefaultComponentFactory implements ComponentFactory
 {
@@ -553,7 +553,12 @@ public class DefaultComponentFactory implements ComponentFactory
             catch( NoSuchMethodException e )
             {
                 final String error =
-                  "Multiple constructor ambiguity.";
+                  "Multiple constructor ambiguity in the component model "
+                  + m_model
+                  + ". The component class [" + clazz.getName() 
+                  + "] declares "
+                  + constructors.length
+                  + " public constructors.";
                 throw new LifecycleException( error );
             }
         }
