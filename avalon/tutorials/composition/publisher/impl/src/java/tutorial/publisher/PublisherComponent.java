@@ -31,7 +31,7 @@ import org.apache.avalon.framework.activity.Disposable;
  *
  * @avalon.component version="1.0" name="publisher"
  * @avalon.service type="tutorial.publisher.PublisherService"
- * @author Stephen McConnell
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public class PublisherComponent extends AbstractLogEnabled implements PublisherService, Disposable
 {

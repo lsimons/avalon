@@ -47,9 +47,8 @@ import org.apache.avalon.repository.RepositoryException;
  * Utility class supporting downloading of resources based on 
  * artifact references.
  * 
- * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
- * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.4 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Revision: 1.5 $
  */
 public class LoaderUtils
 {

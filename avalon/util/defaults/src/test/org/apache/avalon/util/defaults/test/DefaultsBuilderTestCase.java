@@ -12,8 +12,8 @@ import org.apache.avalon.util.defaults.DefaultsBuilder;
 /**
  * DefaultsBuilderTestCase
  * 
- * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.1 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Revision: 1.2 $
  */
 public class DefaultsBuilderTestCase extends TestCase
 {

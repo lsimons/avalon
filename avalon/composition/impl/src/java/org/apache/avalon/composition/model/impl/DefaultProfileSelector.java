@@ -31,8 +31,8 @@ import org.apache.avalon.meta.info.ReferenceDescriptor;
  * status. For each category, if a supplied profile matches the category
  * the first profile matching the category is returned.
  *
- * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.6 $ $Date: 2004/02/21 23:54:42 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Revision: 1.7 $ $Date: 2004/02/24 22:18:22 $
  */
 class DefaultProfileSelector implements ProfileSelector
 {

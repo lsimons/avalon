@@ -31,8 +31,8 @@ import java.lang.reflect.Constructor;
  * A abstract utility class that can be used to simplify the 
  * creation of domain specific criteria.
  *
- * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.3 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Revision: 1.4 $
  */
 public class Criteria extends HashMap
 {

@@ -55,8 +55,8 @@ import org.apache.avalon.util.criteria.PackedParameter;
  * A Criteria is a class holding the values supplied by a user 
  * for application to a factory.
  *
- * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.22 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Revision: 1.23 $
  */
 public class DefaultCriteria extends Criteria implements KernelCriteria
 {

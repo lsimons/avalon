@@ -23,8 +23,8 @@ import org.apache.avalon.meta.info.ServiceDescriptor;
  * service together with a component implementation path reference, referencing 
  * the component implementing the service.
  *
- * @author <a href="mailto:mcconnell@osm.net">Stephen McConnell</a>
- * @version CVS $Revision: 1.3 $ $Date: 2004/01/24 23:25:24 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.4 $ $Date: 2004/02/24 22:18:21 $
  */
 public final class ServiceDirective extends ServiceDescriptor
 {

@@ -20,7 +20,7 @@ package tutorial.publisher;
 /**
  * HelloComponent from Merlin's Tutorial
  *
- * @author Stephen McConnell
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public interface PublisherService
 {

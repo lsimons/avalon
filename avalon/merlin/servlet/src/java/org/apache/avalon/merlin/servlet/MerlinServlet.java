@@ -53,7 +53,7 @@ import org.apache.avalon.util.env.Env;
  * context using the key.
  * 
  * 
- * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public class MerlinServlet extends HttpServlet
 {

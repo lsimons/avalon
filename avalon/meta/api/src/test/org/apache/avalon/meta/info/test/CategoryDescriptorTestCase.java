@@ -23,7 +23,7 @@ import org.apache.avalon.meta.info.Descriptor;
 /**
  * CategoryTestCase does XYZ
  *
- * @author <a href="mcconnell.at.apache.org">Stephen McConnell</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version CVS $ Revision: 1.1 $
  */
 public class CategoryDescriptorTestCase extends AbstractDescriptorTestCase

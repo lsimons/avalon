@@ -59,8 +59,8 @@ import org.apache.commons.cli.Options;
 /**
  * Merlin command line handler.
  * 
- * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.19 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Revision: 1.20 $
  */
 public class Main 
 {

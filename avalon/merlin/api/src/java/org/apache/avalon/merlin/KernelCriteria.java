@@ -25,8 +25,8 @@ import org.apache.avalon.repository.Artifact;
 
 /**
  * A service that provides access to versioned resources.
- * @author <a href="mailto:mcconnell@osm.net">Stephen McConnell</a>
- * @version $Revision: 1.7 $ $Date: 2004/02/14 21:33:56 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Revision: 1.8 $ $Date: 2004/02/24 22:18:22 $
  */
 public interface KernelCriteria extends Map
 {

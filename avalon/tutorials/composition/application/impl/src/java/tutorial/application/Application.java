@@ -32,7 +32,7 @@ import tutorial.publisher.PublisherService;
  * PublisherComponent from Merlin's Composition Tutorial
  *
  * @avalon.component version="1.0" name="test"
- * @author Stephen McConnell
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public class Application extends AbstractLogEnabled implements Serviceable, Disposable
 {

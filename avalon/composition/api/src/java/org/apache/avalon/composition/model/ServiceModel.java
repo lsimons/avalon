@@ -22,8 +22,8 @@ import org.apache.avalon.composition.data.ServiceDirective;
 /**
  * Service model manages service exported by a container.
  *
- * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.4 $ $Date: 2004/01/24 23:25:25 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Revision: 1.5 $ $Date: 2004/02/24 22:18:21 $
  */
 public interface ServiceModel
 {
