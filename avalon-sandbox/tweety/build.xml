@@ -365,34 +365,7 @@
 
     </target>
 
-    <!-- Setup the filters -->
-    <target name="setup-filters">
-      <filter token="Name" value="Avalon ${Name}"/>
-      <filter token="name" value="${dir-name}"/>
-      <filter token="version" value="${version}"/>
-      <filter token="year" value="${year}"/>
-      <filter token="status" value="${status}"/>
-      <filter token="release" value="${release}"/>
-      <filter token="short-version" value="${short.version}"/>
-
-        <property name="avalon.base" value="http://jakarta.apache.org/avalon"/>
-        <property name="framework.base" value="http://jakarta.apache.org/avalon/framework"/>
-        <property name="phoenix.base" value="http://jakarta.apache.org/avalon/phoenix"/>
-        <property name="cornerstone.base" value="http://jakarta.apache.org/avalon/cornerstone"/>
-        <property name="logkit.base" value="http://jakarta.apache.org/avalon/logkit"/>
-        <property name="testlet.base" value="http://jakarta.apache.org/avalon/testlet"/>
-
-        <filter token="year" value="${year}"/>
-        <filter token="AVALON_BASE" value="${avalon.base}"/>
-        <filter token="FRAMEWORK_BASE" value="${framework.base}"/>
-        <filter token="PHOENIX_BASE" value="${phoenix.base}"/>
-        <filter token="CORNERSTONE_BASE" value="${cornerstone.base}"/>
-        <filter token="LOGKIT_BASE" value="${logkit.base}"/>
-        <filter token="TESTLET_BASE" value="${testlet.base}"/>
-    </target>
-
-    
-    <!-- Prepares the documentation directory -->
+    <!-- Creates the full docs -->
     <target name="docs" depends="html-docs, javadocs" description="generates all the Avalon documentation"/>
 
     <target name="html-docs" description="generates the xdocs-based documentation">
