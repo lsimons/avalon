@@ -45,4 +45,17 @@ public interface TimeScheduler
      */
     void resetTrigger( String name )
         throws NoSuchElementException;
+
+    /**
+     * Add a trigger failure listener
+     * @param listener the listener
+     */
+    void addTriggerFailureListener(TriggerFailureListener listener);
+
+    /**
+     * Remove a trigger failure listener
+     * @param listener the listener
+     */
+    void removeTriggerFailureListener(TriggerFailureListener listener);
+
 }
