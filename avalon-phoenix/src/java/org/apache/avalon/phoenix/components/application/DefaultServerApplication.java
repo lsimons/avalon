@@ -285,7 +285,7 @@ public final class DefaultServerApplication
         try 
         { 
             final Configuration info = m_builder.build( resource.toString() );
-            return BlockInfoBuilder.build( info ); 
+            return BlockInfoBuilder.build( className, info ); 
         }
         catch( final Exception e )
         {
