@@ -26,7 +26,6 @@ import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.phoenix.components.kernel.DefaultKernel;
 import org.apache.avalon.phoenix.components.kernel.DefaultKernelMBean;
 import org.apache.avalon.phoenix.interfaces.EmbeddorMBean;
-import org.apache.avalon.phoenix.interfaces.ClassLoaderManager;
 import org.apache.avalon.phoenix.interfaces.ConfigurationRepository;
 import org.apache.avalon.phoenix.interfaces.Deployer;
 import org.apache.avalon.phoenix.interfaces.Embeddor;
@@ -63,7 +62,6 @@ public class DefaultManager
     ///Name Adaptor registered with
     private String m_name;
 
-    ///Name Adaptor registered with
     private String m_domain = "Phoenix";
 
     private Embeddor m_embeddor;
@@ -71,7 +69,6 @@ public class DefaultManager
     private LogManager m_logManager;
     private Kernel m_kernel;
     private ConfigurationRepository m_repository;
-    private ClassLoaderManager m_classLoaderManager;
     private PackageRepository m_extensionManager;
 
     public void parameterize( final Parameters parameters )
@@ -93,7 +90,6 @@ public class DefaultManager
         m_kernel = (Kernel)componentManager.lookup( Kernel.ROLE );
         m_deployer = (Deployer)componentManager.lookup( Deployer.ROLE );
         m_repository = (ConfigurationRepository)componentManager.lookup( ConfigurationRepository.ROLE );
-        m_classLoaderManager = (ClassLoaderManager)componentManager.lookup( ClassLoaderManager.ROLE );
         m_logManager = (LogManager)componentManager.lookup( LogManager.ROLE );
         m_extensionManager = (PackageRepository)componentManager.lookup( PackageRepository.ROLE );
     }
@@ -126,7 +122,6 @@ public class DefaultManager
         register( "Deployer", m_deployer, new Class[]{ Deployer.class } );
         register( "LogManager", m_logManager );
         register( "ConfigurationRepository", m_repository );
-        register( "ClassLoaderManager", m_classLoaderManager );
     }
 
     public void start()
