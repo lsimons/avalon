@@ -60,10 +60,15 @@
     <section name="Advanced Features">
       <subsection name="Packaged Deployment Profiles">
         <p>
-Central to the Merlin component management model is the notion deployment profiles. A profile is a predefined deployment template. It enables Merlin to establish a component type and associated context, parameterisation and/or configuration information as a candidate scenario when building a connected set of components.
+Central to the Merlin component management model is the notion of deployment 
+profiles. A profile is a predefined deployment template. It enables Merlin to 
+establish a component type and associated context, parameterization and/or 
+configuration information as a candidate scenario when building a connected 
+set of components.
         </p>
         <p>
-Component deployment profiles are co-located with the component implementation class under a .xprofile resource.
+Component deployment profiles are co-located with the component implementation 
+class under a .xprofile resource.
         </p>
       </subsection>
       <subsection name="Creating a Profile">
@@ -156,9 +161,12 @@ In the logging output we see that Merlin has automatically locating the RandomGe
 [INFO   ] (tutorial.randomizer-primary): seed: 1024
 [INFO   ] (tutorial.hello): resolved random: -1250858422
 [INFO   ] (kernel): dissassembly phase
-[INFO   ] (kernel): disposal phase</source>
+[INFO   ] (kernel): disposal phase
+</source>
         <p>
-Note: When constructing a name for the component based on a packaged profile, Merlin will append the component type name to the profile name, seperated by the - character resulting in the component name 'random-provider-randomizer'.
+Note: When constructing a name for the component based on a packaged profile, 
+Merlin will append the profile name to the component type name, seperated by 
+the - character resulting in the component name 'randomizer-primary'.
         </p>
 
       </subsection>

@@ -75,7 +75,7 @@
         </ul>
         <p>
          Resources supporting this tutorial are included in the 
-         src/tutorials/context/strategy package.
+         tutorials/context/strategy package.
         </p>
       </subsection>
       <subsection name="Contextualization stage definition">

@@ -113,7 +113,14 @@ An extension handler is the implementation class that will be activated by the M
       </source>
 
 <p>
-To complete the defintion of you extension handler you need to prepare the meta-info that will be used by Merlin to identify the extension and the stage interface is supports.  The following &lt;type/&gt; declaration includes an &lt;extensions/&gt; tag that contains a &lt;reference/&gt; element that includes the reference to the Explitable lifecycle stage interface. This is the key that Merlin uses to associate a handler with a component.  If you extension class requires any specific context values, they should be declared in a context element within the extension element.
+To complete the definition of your extension handler you need to prepare the 
+meta-info that will be used by Merlin to identify the extension and the stage 
+interface it supports.  The following &lt;type/&gt; declaration includes an 
+&lt;extensions/&gt; tag that contains a &lt;reference/&gt; element that 
+includes the reference to the Exploitable lifecycle stage interface. This is 
+the key that Merlin uses to associate a handler with a component.  If your 
+extension class requires any specific context values, they should be declared 
+in a &lt;context/&gt; element within the &lt;extension/&gt; element.
 </p>
 
         <source><![CDATA[
@@ -148,7 +155,13 @@ To complete the defintion of you extension handler you need to prepare the meta-
       </source>
 
 <p>
-To complete the defintion of your component you need to prepare the meta-info that will be used by Merlin to identify the stage interface is requires a handler for.  The following &lt;type/&gt; declaration includes an &lt;stage/&gt; tag that contains a &lt;reference/&gt; element that includes the reference to the Exploitable lifecycle stage interface. This is the key that Merlin uses to associate the component with a handler capable of handling the Exploitable interface.
+To complete the defintion of your component you need to prepare the meta-info 
+that will be used by Merlin to identify the stage interface it requires a 
+handler for.  The following &lt;type/&gt; declaration includes a 
+&lt;stage/&gt; tag that contains a &lt;reference/&gt; element that includes 
+a reference to the Exploitable lifecycle stage interface. This is the key that 
+Merlin uses to associate the component with a handler capable of handling the 
+Exploitable interface.
 </p>
 
         <source><![CDATA[
@@ -169,7 +182,11 @@ To complete the defintion of your component you need to prepare the meta-info th
 
     <subsection name="Execution">
 
-<p>To execute the example you simply need to include a reference to you component within a Merlin container declaration.  The following XML source declares a Merlin kernel, container, and component.  You don't need to include the handler because Merlin can sort that out itself based on the information supplied in the meta-info declarations.</p>
+<p>To execute the example you simply need to include a reference to your 
+component within a Merlin container declaration.  The following XML source 
+declares a Merlin kernel, container, and component.  You don't need to include 
+the handler because Merlin can sort that out itself based on the information 
+supplied in the meta-info declarations.</p>
 
 <source><![CDATA[
 
