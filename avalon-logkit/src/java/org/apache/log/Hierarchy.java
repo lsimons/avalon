@@ -195,13 +195,24 @@ public class Hierarchy
     }
 
     /**
-     * Set the LoggerListener associated with hierarchy.
+     * Set the LoggerListener associated with hierarchy.  This is a
+     * unicast listener, so only one LoggerListener is allowed.
      *
      * @param loggerListener the LoggerListener
+     *
+     * @throws UnsupportedOperationException if no more LoggerListeners are
+     *         permitted.
      */
-    public synchronized void setLoggerListener( final LoggerListener loggerListener )
+    public synchronized void addLoggerListener( final LoggerListener loggerListener )
     {
-        m_loggerListener = loggerListener;
+        if ( null == m_loggerListener )
+        {
+            m_loggerListener = loggerListener;
+        }
+        else
+        {
+            throw new UnsupportedOperationException( "LoggerListener already set on a unicast event notifier" );
+        }
     }
 
     /**

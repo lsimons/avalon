@@ -24,12 +24,30 @@ public final class LoggerListenerTestCase
         super( name );
     }
 
+    public void testUnicastLoggerListener()
+    {
+        final Hierarchy hierarchy = new Hierarchy();
+        final RecordingLoggerListener listener = new RecordingLoggerListener();
+
+        try
+        {
+            hierarchy.addLoggerListener( listener );
+            hierarchy.addLoggerListener( listener );
+
+            fail( "You should only be able to add one listener." );
+        }
+        catch (UnsupportedOperationException uoe)
+        {
+            // It passed, yay!
+        }
+    }
+
     public void testPriorityInheritance()
         throws Exception
     {
         final RecordingLoggerListener listener = new RecordingLoggerListener();
         final Hierarchy hierarchy = new Hierarchy();
-        hierarchy.setLoggerListener( listener );
+        hierarchy.addLoggerListener( listener );
 
         final Logger root = hierarchy.getRootLogger();
         final Logger l1 = root.getChildLogger( "logger1" );
