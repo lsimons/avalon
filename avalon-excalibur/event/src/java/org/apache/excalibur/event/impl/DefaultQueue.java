@@ -51,7 +51,7 @@ package org.apache.excalibur.event.impl;
 
 import org.apache.commons.collections.Buffer;
 import org.apache.commons.collections.UnboundedFifoBuffer;
-import org.apache.avalon.excalibur.concurrent.Mutex;
+import EDU.oswego.cs.dl.util.concurrent.ReentrantLock;
 import org.apache.excalibur.event.PreparedEnqueue;
 import org.apache.excalibur.event.SinkException;
 import org.apache.excalibur.event.SinkFullException;
@@ -66,7 +66,7 @@ import org.apache.excalibur.event.SinkFullException;
 public final class DefaultQueue extends AbstractQueue
 {
     private final Buffer m_elements;
-    private final Mutex m_mutex;
+    private final ReentrantLock m_mutex;
     private int m_reserve;
     private final int m_maxSize;
 
@@ -94,7 +94,7 @@ public final class DefaultQueue extends AbstractQueue
             maxSize = -1;
         }
 
-        m_mutex = new Mutex();
+        m_mutex = new ReentrantLock();
         m_reserve = 0;
         m_maxSize = maxSize;
     }
@@ -313,7 +313,7 @@ public final class DefaultQueue extends AbstractQueue
 
         for( int i = 0; i < count; i++ )
         {
-            elements[ i ] = (Object)buf.remove();
+            elements[ i ] = buf.remove();
         }
 
         return elements;
@@ -331,7 +331,7 @@ public final class DefaultQueue extends AbstractQueue
                 {
                     if( size() > 0 )
                     {
-                        element = (Object)m_elements.remove();
+                        element = m_elements.remove();
                     }
                 }
                 finally

@@ -56,7 +56,7 @@ import java.util.Iterator;
 import java.util.Map;
 import org.apache.commons.collections.Buffer;
 import org.apache.commons.collections.UnboundedFifoBuffer;
-import org.apache.avalon.excalibur.concurrent.Mutex;
+import EDU.oswego.cs.dl.util.concurrent.ReentrantLock;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.excalibur.event.EventHandler;
 import org.apache.excalibur.event.Queue;
@@ -101,7 +101,7 @@ public class CommandManager implements EventPipeline, Disposable
 {
     private final Queue m_queue;
     private final HashMap m_signalHandlers;
-    private final Mutex m_mutex;
+    private final ReentrantLock m_mutex;
     private final EventHandler m_eventHandler;
     private final Source[] m_sources;
 
@@ -112,7 +112,7 @@ public class CommandManager implements EventPipeline, Disposable
     {
         m_queue = new DefaultQueue();
         m_signalHandlers = new HashMap();
-        m_mutex = new Mutex();
+        m_mutex = new ReentrantLock();
         m_eventHandler = new CommandEventHandler( Collections.unmodifiableMap( m_signalHandlers ) );
         m_sources = new Source[]{m_queue};
     }

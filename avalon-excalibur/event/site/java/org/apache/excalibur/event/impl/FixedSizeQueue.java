@@ -49,7 +49,7 @@
 */
 package org.apache.excalibur.event.impl;
 
-import org.apache.avalon.excalibur.concurrent.Mutex;
+import EDU.oswego.cs.dl.util.concurrent.ReentrantLock;
 import org.apache.excalibur.event.PreparedEnqueue;
 import org.apache.excalibur.event.SinkException;
 import org.apache.excalibur.event.SinkFullException;
@@ -65,7 +65,7 @@ public final class FixedSizeQueue
     extends AbstractQueue
 {
     private final Object[] m_elements;
-    private final Mutex m_mutex;
+    private final ReentrantLock m_mutex;
     private int m_start = 0;
     private int m_end = 0;
     private int m_reserve = 0;
@@ -82,7 +82,7 @@ public final class FixedSizeQueue
             throw new IllegalArgumentException( "Cannot specify an unbounded Queue" );
 
         m_elements = new Object[ size + 1 ];
-        m_mutex = new Mutex();
+        m_mutex = new ReentrantLock();
     }
 
     public int size()
