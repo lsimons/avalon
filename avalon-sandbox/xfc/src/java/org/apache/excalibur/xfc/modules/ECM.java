@@ -80,7 +80,7 @@ import org.apache.excalibur.xfc.model.RoleRef;
  * </p>
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: ECM.java,v 1.6 2002/10/08 12:49:22 crafterm Exp $
+ * @version CVS $Id: ECM.java,v 1.7 2002/10/08 15:04:40 crafterm Exp $
  */
 public class ECM extends AbstractModule
 {
@@ -330,23 +330,18 @@ public class ECM extends AbstractModule
         try
         {
             Class clazz = Class.forName( classname );
-            Class[] interfaces = clazz.getInterfaces();
+            String handler = getNormalizedHandlerName( clazz );
 
-            for ( int i = 0; i < interfaces.length; ++i )
+            if ( handler != null )
             {
-                String interfaze = interfaces[i].getName();
-
-                if ( m_handlers.containsKey( interfaze ) )
-                {
-                    return (String) m_handlers.get( interfaze );
-                }
+                return handler;
             }
 
-            if ( getLogger().isWarnEnabled() )
+            if ( getLogger().isInfoEnabled() )
             {
-                getLogger().warn(
-                    "Defaulting to 'transient' lifestyle for component " +
-                    clazz.getName()
+                getLogger().info(
+                    "No known component handler discovered on " + clazz.getName() +
+                    ", defaulting to 'transient'"
                 );
             }
 
@@ -371,6 +366,41 @@ public class ECM extends AbstractModule
 
             return TRANSIENT;
         }
+    }
+
+    /**
+     * Method to find out the normalized handler name for a given Class
+     * object. It checks all interfaces implemented by the given Class,
+     * and all subinterfaces of those interfaces, recursively, until
+     * either a known component marker is found, or all interfaces
+     * are exhausted.
+     *
+     * @param interfaze a <code>Class</code> instance
+     * @return normalized handler name
+     */
+    private String getNormalizedHandlerName( final Class interfaze )
+    {
+        // get all interfaces implemented by this Class
+        Class[] interfaces = interfaze.getInterfaces();
+
+        for ( int i = 0; i < interfaces.length; ++i )
+        {
+            // check if this interface is a known component marker
+            if ( m_handlers.containsKey( interfaces[i].getName() ) )
+            {
+                return (String) m_handlers.get( interfaces[i].getName() );
+            }
+
+            // if it's unknown, check for any subinterfaces and recurse
+            String handler = getNormalizedHandlerName( interfaces[i] );
+
+            // if a subinterface is known, return
+            if ( handler != null )
+                return handler;
+        }
+
+        // all interfaces unknown
+        return null;
     }
 
     /**
