@@ -178,7 +178,7 @@ public class CommandManager implements EventPipeline, Disposable
         Object[] remainingElements = getCommandQueue().dequeueAll();
         for( int i = 0; i < remainingElements.length; i++ )
         {
-            getEventHandler.handleEvent( remainingElements[i] );
+            getEventHandler().handleEvent( remainingElements[i] );
         }
     }    
 
