@@ -26,7 +26,7 @@ import org.apache.avalon.excalibur.instrument.manager.interfaces.InstrumentSampl
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.5 $ $Date: 2002/04/03 13:48:48 $
+ * @version CVS $Revision: 1.6 $ $Date: 2002/04/28 17:04:15 $
  * @since 4.1
  */
 class InstrumentClientFrame
@@ -394,7 +394,46 @@ class InstrumentClientFrame
     }
     
     /**
-     * File-Exit callback.
+     * Instrument-CreateSample callback.
      */
+    void instrumentCreateSample( final InstrumentManagerConnection connection,
+                                 final InstrumentableDescriptor instrumentableDescriptor,
+                                 final InstrumentDescriptor instrumentDescriptor )
+    {
+        SwingUtilities.invokeLater( new Runnable()
+        {
+            public void run()
+            {
+                CreateSampleDialog dialog =
+                    new CreateSampleDialog( InstrumentClientFrame.this, instrumentDescriptor );
+                
+                dialog.setSampleDescription( "Each Second" );
+                dialog.setInterval( 1000 );
+                dialog.setSampleCount( 600 );  // 10 minutes of history
+                dialog.setLeaseTime( 600 );
+                dialog.setMaintainLease( true );
+                dialog.show();
+                
+                if ( dialog.getAction() == CreateSampleDialog.BUTTON_OK )
+                {
+                    System.out.println( "New Sample: desc=" + dialog.getSampleDescription() +
+                        ", interval=" + dialog.getInterval() + ", size=" + dialog.getSampleCount() +
+                        ", lease=" + dialog.getLeaseTime() + ", type=" + dialog.getSampleType() );
+                        
+                    InstrumentSampleDescriptor sampleDescriptor =
+                        instrumentDescriptor.createInstrumentSample(
+                            dialog.getSampleDescription(),
+                            dialog.getInterval(),
+                            dialog.getSampleCount(),
+                            dialog.getLeaseTime(),
+                            dialog.getSampleType() );
+                    
+                    // Show a frame for the new sample
+                    openInstrumentSampleFrame( connection, instrumentableDescriptor,
+                        instrumentDescriptor, sampleDescriptor );
+                }
+            }
+        } );
+    }
 }
 

@@ -7,14 +7,13 @@
  */
 package org.apache.avalon.excalibur.instrument.client;
 
-import java.awt.FlowLayout;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -23,11 +22,11 @@ import javax.swing.SwingConstants;
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/04/03 13:48:48 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/04/28 17:04:15 $
  * @since 4.1
  */
 class ConnectDialog
-    extends AbstractOptionDialog
+    extends AbstractTabularOptionDialog
 {
     private JTextField m_hostField;
     private String m_host;
@@ -44,7 +43,8 @@ class ConnectDialog
      */
     ConnectDialog( InstrumentClientFrame frame )
     {
-        super( frame, AbstractOptionDialog.BUTTON_OK | AbstractOptionDialog.BUTTON_CANCEL );
+        super( frame, "Connect to Remote Instrument Manager",
+            AbstractOptionDialog.BUTTON_OK | AbstractOptionDialog.BUTTON_CANCEL );
     }
     
     /*---------------------------------------------------------------
@@ -58,41 +58,6 @@ class ConnectDialog
     protected String getMessage()
     {
         return "Please enter the host and port of the InstrumentManager to connect to.";
-    }
-    
-    /**
-     * Returns the main panel which makes up the guts of the dialog.
-     *
-     * @return The main panel.
-     */
-    protected JPanel getMainPanel()
-    {
-        m_hostField = new JTextField();
-        m_hostField.setColumns( 20 );
-        m_portField = new JTextField();
-        m_portField.setColumns( 6 );
-        
-        JPanel panel = new JPanel();
-        
-        panel.setLayout( new FlowLayout() );
-        Box mainBox = Box.createVerticalBox();
-        
-        Box hostBox = Box.createHorizontalBox();
-        hostBox.add( new JLabel( "Host:" ) );
-        hostBox.add( Box.createHorizontalStrut( 5 ) );
-        hostBox.add( m_hostField );
-        mainBox.add( hostBox );
-        mainBox.add( Box.createVerticalStrut( 5 ) );
-        
-        Box portBox = Box.createHorizontalBox();
-        portBox.add( new JLabel( "Port:" ) );
-        portBox.add( Box.createHorizontalStrut( 5 ) );
-        portBox.add( m_portField );
-        mainBox.add( portBox );
-        
-        panel.add( mainBox );
-        
-        return panel;
     }
     
     /**
@@ -136,6 +101,43 @@ class ConnectDialog
         m_port = port;
         
         return true;
+    }
+    
+    /*---------------------------------------------------------------
+     * AbstractTabularOptionDialog Methods
+     *-------------------------------------------------------------*/
+    /**
+     * Returns an array of labels to use for the components returned from
+     *  getMainPanelComponents().
+     *
+     * @returns An array of labels.
+     */
+    protected String[] getMainPanelLabels()
+    {
+        return new String[]
+        {
+            "Host:",
+            "Port:"
+        };
+    }
+    
+    /**
+     * Returns an array of components to show in the main panel of the dialog.
+     *
+     * @returns An array of components.
+     */
+    protected Component[] getMainPanelComponents()
+    {
+        m_hostField = new JTextField();
+        m_hostField.setColumns( 20 );
+        m_portField = new JTextField();
+        m_portField.setColumns( 6 );
+        
+        return new Component[]
+        {
+            m_hostField,
+            m_portField
+        };
     }
         
     /*---------------------------------------------------------------

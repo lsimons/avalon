@@ -14,7 +14,7 @@ import org.apache.avalon.framework.configuration.Configuration;
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/04/03 13:18:30 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/04/28 17:05:42 $
  * @since 4.1
  */
 public interface InstrumentManagerClient
@@ -27,6 +27,18 @@ public interface InstrumentManagerClient
     
     /** Type which identifies ValueInstruments. */
     int INSTRUMENT_TYPE_VALUE   = 2;
+    
+    /** Type which identifies CounterInstrumentSamples. */
+    int INSTRUMENT_SAMPLE_TYPE_COUNTER = 101;
+    
+    /** Type which identifies MinimumInstrumentSamples. */
+    int INSTRUMENT_SAMPLE_TYPE_MINIMUM = 102;
+    
+    /** Type which identifies MaximumInstrumentSamples. */
+    int INSTRUMENT_SAMPLE_TYPE_MAXIMUM = 103;
+    
+    /** Type which identifies MeanInstrumentSamples. */
+    int INSTRUMENT_SAMPLE_TYPE_MEAN = 104;
     
     /**
      * Returns the name used to identify this InstrumentManager.

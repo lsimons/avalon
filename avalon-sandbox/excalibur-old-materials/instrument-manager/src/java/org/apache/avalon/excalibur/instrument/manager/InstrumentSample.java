@@ -24,7 +24,7 @@ import org.apache.avalon.framework.logger.LogEnabled;
  *  InstrumentClient.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/04/03 13:18:29 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/04/28 17:05:41 $
  * @since 4.1
  */
 public interface InstrumentSample
@@ -99,6 +99,21 @@ public interface InstrumentSample
      * @return The Type of the Instrument which can use the sample.
      */
     int getInstrumentType();
+    
+    /**
+     * Returns the time that the current lease expires.  Permanent samples will
+     *  return a value of 0.
+     *
+     * @return The time that the current lease expires.
+     */
+    long getLeaseExpirationTime();
+    
+    /**
+     * Extends the lease to be lease milliseconds from the current time.
+     *
+     * @param lease The length of the lease in milliseconds.
+     */
+    void extendLease( long lease );
     
     /**
      * Obtains a static snapshot of the InstrumentSample.

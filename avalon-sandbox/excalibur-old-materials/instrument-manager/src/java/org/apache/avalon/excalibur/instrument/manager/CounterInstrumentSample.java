@@ -18,7 +18,7 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
  *  called during the sample period.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/04/22 09:52:34 $
+ * @version CVS $Revision: 1.5 $ $Date: 2002/04/28 17:05:41 $
  * @since 4.1
  */
 class CounterInstrumentSample
@@ -38,10 +38,15 @@ class CounterInstrumentSample
      * @param interval The sample interval of the new InstrumentSample.
      * @param size The number of samples to store as history.  Assumes that size is at least 1.
      * @param description The description of the new InstrumentSample.
+     * @param lease The length of the lease in milliseconds.
      */
-    CounterInstrumentSample( String name, long interval, int size, String description )
+    CounterInstrumentSample( String name,
+                             long interval,
+                             int size,
+                             String description,
+                             long lease )
     {
-        super( name, interval, size, description );
+        super( name, interval, size, description, lease );
         
         // Set the current value to 0 initially.
         m_count = 0;

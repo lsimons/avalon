@@ -16,7 +16,7 @@ import org.apache.avalon.framework.configuration.DefaultConfiguration;
  *  period.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/04/22 07:06:43 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/04/28 17:05:41 $
  * @since 4.1
  */
 class MeanValueInstrumentSample
@@ -35,10 +35,15 @@ class MeanValueInstrumentSample
      * @param interval The sample interval of the new InstrumentSample.
      * @param size The number of samples to store as history.  Assumes that size is at least 1.
      * @param description The description of the new InstrumentSample.
+     * @param lease The length of the lease in milliseconds.
      */
-    MeanValueInstrumentSample( String name, long interval, int size, String description )
+    MeanValueInstrumentSample( String name,
+                               long interval,
+                               int size,
+                               String description,
+                               long lease )
     {
-        super( name, interval, size, description );
+        super( name, interval, size, description, lease );
     }
     
     /*---------------------------------------------------------------

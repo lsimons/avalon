@@ -22,12 +22,14 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.EtchedBorder;
 
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/04/03 13:48:48 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/04/28 17:04:15 $
  * @since 4.1
  */
 public abstract class AbstractOptionDialog
@@ -45,23 +47,37 @@ public abstract class AbstractOptionDialog
      * Creates a new AbstractOptionDialog.
      *
      * @param frame Frame which owns the dialog.
+     * @param title Title for the dialog.
      * @param buttons List of buttons to display.
      */
-    protected AbstractOptionDialog( JFrame frame, int buttons )
+    protected AbstractOptionDialog( JFrame frame, String title, int buttons )
     {
-        super( frame, true );
+        super( frame, title, true );
         
         JPanel contentPane = (JPanel)getContentPane();
         contentPane.setLayout( new BorderLayout() );
         contentPane.setBorder( new EmptyBorder( 5, 5, 5, 5 ) );
         
+        JPanel backPane = new JPanel();
+        backPane.setLayout( new BorderLayout() );
+        backPane.setBorder(
+            new CompoundBorder(
+                new EmptyBorder( 0, 0, 5, 0 ),
+                new CompoundBorder(
+                    new EtchedBorder( EtchedBorder.LOWERED ),
+                    new EmptyBorder( 5, 5, 5, 5 )
+                )
+            )
+        );
+        contentPane.add( backPane, BorderLayout.CENTER );
+        
         // Build the message
-        contentPane.add( new JLabel( getMessage(), SwingConstants.LEFT ), BorderLayout.NORTH );
+        backPane.add( new JLabel( getMessage(), SwingConstants.LEFT ), BorderLayout.NORTH );
         
         // Build the main panel
         JPanel mainPanel = getMainPanel();
-        mainPanel.setBorder( new EmptyBorder( 5, 0, 5, 0 ) );
-        contentPane.add( mainPanel, BorderLayout.CENTER );
+        mainPanel.setBorder( new EmptyBorder( 5, 0, 0, 0 ) );
+        backPane.add( mainPanel, BorderLayout.CENTER );
         
         
         // Build the button panel
@@ -112,6 +128,9 @@ public abstract class AbstractOptionDialog
         setLocation(
             (int)( frameLocation.getX() + (frameSize.getWidth() - size.getWidth() ) / 2 ),
             (int)( frameLocation.getY() + (frameSize.getHeight() - size.getHeight() ) / 2 ) );
+        
+        // Make the dialog a fixed size.
+        setResizable( false );
     }
     
     /*---------------------------------------------------------------

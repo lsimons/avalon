@@ -38,7 +38,7 @@ import org.apache.avalon.framework.logger.Logger;
  *  It is resolved when the Instrumentable actually registers the Instrument.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.5 $ $Date: 2002/04/22 09:52:34 $
+ * @version CVS $Revision: 1.6 $ $Date: 2002/04/28 17:05:41 $
  * @since 4.1
  */
 public class InstrumentProxy
@@ -139,14 +139,15 @@ public class InstrumentProxy
             {
                 Configuration sampleConf = sampleConfs[i];
                 
-                String sampleType = sampleConf.getAttribute( "type" );
+                int sampleType = InstrumentSampleFactory.resolveInstrumentSampleType(
+                    sampleConf.getAttribute( "type" ) );
                 long sampleInterval = sampleConf.getAttributeAsLong( "interval" );
                 int sampleSize = sampleConf.getAttributeAsInteger( "size", 1 );
                 
                 // Build the sample name from its attributes.  This makes it
                 //  possible to avoid forcing the user to maintain a name as well.
-                String sampleName = m_name + "." + sampleType + "." + 
-                    sampleInterval + "." + sampleSize;
+                String sampleName = 
+                    generateSampleName( m_name, sampleType, sampleInterval, sampleSize );
                 
                 String sampleDescription = sampleConf.getAttribute( "description", sampleName );
                 
@@ -156,11 +157,11 @@ public class InstrumentProxy
                         " as \"" + sampleDescription + "\"" );
                 }
                 
-                InstrumentSample InstrumentSample = InstrumentSampleFactory.getInstrumentSample(
-                    sampleType, sampleName, sampleInterval, sampleSize, sampleDescription );
-                InstrumentSample.enableLogging( getLogger() );
+                InstrumentSample instrumentSample = InstrumentSampleFactory.getInstrumentSample(
+                    sampleType, sampleName, sampleInterval, sampleSize, sampleDescription, 0 );
+                instrumentSample.enableLogging( getLogger() );
                 
-                addInstrumentSample( InstrumentSample );
+                addInstrumentSample( instrumentSample );
             }
         }
     }
@@ -463,12 +464,8 @@ public class InstrumentProxy
      * Add a InstrumentSample to the Instrument.
      *
      * @param InstrumentSample InstrumentSample to be added.
-     *
-     * @throws ConfigurationException If there are any configuration problems
-     *                                with the InstrumentSample.
      */
     public void addInstrumentSample( InstrumentSample InstrumentSample )
-        throws ConfigurationException
     {
         synchronized(this)
         {
@@ -481,7 +478,7 @@ public class InstrumentProxy
             else if ( m_type != InstrumentSample.getInstrumentType() )
             {
                 // The type is different.
-                throw new ConfigurationException( "The sample '" + InstrumentSample.getName() + 
+                throw new IllegalStateException( "The sample '" + InstrumentSample.getName() + 
                     "' had its type set to " + getTypeName( m_type ) + 
                     " by another sample.  This sample has a type of " + 
                     getTypeName( InstrumentSample.getInstrumentType() ) + " and is not compatible." );
@@ -491,7 +488,7 @@ public class InstrumentProxy
             String sampleName = InstrumentSample.getName();
             if ( m_samples.get( sampleName ) != null )
             {
-                throw new ConfigurationException( "More than one sample with the same name, '" +
+                throw new IllegalStateException( "More than one sample with the same name, '" +
                     sampleName + "', can not be configured." );
             }
         
@@ -548,6 +545,68 @@ public class InstrumentProxy
             samples = updateInstrumentSampleArray();
         }
         return samples;
+    }
+    
+    /**
+     * Returns a InstrumentSampleDescriptor based on its name.  If the requested
+     *  sample is invalid in any way, then an expired Descriptor will be
+     *  returned.
+     *
+     * @param sampleDescription Description to assign to the new Sample.
+     * @param sampleInterval Sample interval to use in the new Sample.
+     * @param sampleLease Requested lease time for the new Sample in
+     *                    milliseconds.  The InstrumentManager may grant a
+     *                    lease which is shorter or longer than the requested
+     *                    period.
+     * @param sampleType Type of sample to request.  Must be one of the
+     *                   following:  InstrumentManagerClient.INSTRUMENT_SAMPLE_TYPE_COUNTER,
+     *                   InstrumentManagerClient.INSTRUMENT_SAMPLE_TYPE_MINIMUM,
+     *                   InstrumentManagerClient.INSTRUMENT_SAMPLE_TYPE_MAXIMUM,
+     *                   InstrumentManagerClient.INSTRUMENT_SAMPLE_TYPE_MEAN.
+     *
+     * @return A Descriptor of the requested InstrumentSample.
+     *
+     * @throws NoSuchInstrumentSampleException If the specified InstrumentSample
+     *                                      does not exist.
+     */
+    InstrumentSampleDescriptor createInstrumentSample( String sampleDescription,
+                                                       long sampleInterval,
+                                                       int sampleSize,
+                                                       long sampleLease,
+                                                       int sampleType )
+    {
+        getLogger().info("Create new sample for " + m_name + ": interval=" + sampleInterval +
+            ", size=" + sampleSize + ", lease=" + sampleLease + ", type=" +
+            InstrumentSampleFactory.getInstrumentSampleTypeName( sampleType ) );
+        
+        // Validate the parameters
+        long now = System.currentTimeMillis();
+        
+        // Generate a name for the new sample
+        String sampleName = generateSampleName( m_name, sampleType, sampleInterval, sampleSize );
+        
+        synchronized( this )
+        {
+            // It is possible that the requested sample already exists.
+            InstrumentSample instrumentSample = getInstrumentSample( sampleName );
+            if ( instrumentSample != null )
+            {
+                // The requested sample already exists.
+                instrumentSample.extendLease( sampleLease );
+            }
+            else
+            {
+                // The new sample needs to be created.
+                instrumentSample = InstrumentSampleFactory.getInstrumentSample(
+                    sampleType, sampleName, sampleInterval, sampleSize,
+                    sampleDescription, sampleLease );
+                instrumentSample.enableLogging( getLogger() );
+                
+                addInstrumentSample( instrumentSample );
+            }
+            
+            return instrumentSample.getDescriptor();
+        }
     }
     
     /**
@@ -808,5 +867,20 @@ public class InstrumentProxy
         default:
             throw new IllegalArgumentException( type + " is not a known Instrument type." );
         }
+    }
+    
+    /**
+     * Generates a sample name given its parameters.
+     *
+     * @param instrumentName Name of the instrument which owns the sample.
+     */
+    private String generateSampleName( String instrumentName,
+                                       int sampleType,
+                                       long sampleInterval,
+                                       int sampleSize )
+    {
+        return instrumentName + "." +
+            InstrumentSampleFactory.getInstrumentSampleTypeName( sampleType ) + "." + 
+            sampleInterval + "." + sampleSize;
     }
 }

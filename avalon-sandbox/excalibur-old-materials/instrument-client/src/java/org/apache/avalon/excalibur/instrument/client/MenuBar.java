@@ -30,7 +30,7 @@ import org.apache.excalibur.altrmi.common.AltrmiInvocationException;
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.7 $ $Date: 2002/04/04 08:07:05 $
+ * @version CVS $Revision: 1.8 $ $Date: 2002/04/28 17:04:15 $
  * @since 4.1
  */
 public class MenuBar
@@ -253,10 +253,11 @@ public class MenuBar
                 Action action = item.getAction();
                 
                 m_frame.openInstrumentManagerConnectionFrame(
-                    (InstrumentManagerConnection)action.getValue( "connection" ) );
+                    (InstrumentManagerConnection)action.getValue
+                    ( "InstrumentManagerConnection" ) );
             }
         };
-        detailAction.putValue( "connection", connection );
+        detailAction.putValue( "InstrumentManagerConnection", connection );
         
         JMenuItem detailItem = new JMenuItem( detailAction );
         detailItem.setMnemonic( 'D' );
@@ -272,12 +273,12 @@ public class MenuBar
                 Action action = item.getAction();
                 
                 InstrumentManagerConnection connection =
-                    (InstrumentManagerConnection)action.getValue( "connection" );
+                    (InstrumentManagerConnection)action.getValue( "InstrumentManagerConnection" );
                 
                 connection.delete();
             }
         };
-        deleteAction.putValue( "connection", connection );
+        deleteAction.putValue( "InstrumentManagerConnection", connection );
         
         JMenuItem deleteItem = new JMenuItem( deleteAction );
         deleteItem.setMnemonic( 'I' );
@@ -431,45 +432,72 @@ public class MenuBar
 
         boolean showAll = m_menuItemShowUnconfigured.getState();
         
+        // Create Sample
+        Action createAction = new AbstractAction( "Create Sample..." )
+        {
+            public void actionPerformed( ActionEvent event )
+            {
+                JMenuItem item = (JMenuItem)event.getSource();
+                Action action = item.getAction();
+                
+                m_frame.instrumentCreateSample(
+                    (InstrumentManagerConnection)action.getValue( "InstrumentManagerConnection" ),
+                    (InstrumentableDescriptor)action.getValue( "InstrumentableDescriptor" ),
+                    (InstrumentDescriptor)action.getValue( "InstrumentDescriptor" ) );
+            }
+        };
+        createAction.putValue( "InstrumentManagerConnection", connection );
+        createAction.putValue( "InstrumentableDescriptor", instrumentableDescriptor );
+        createAction.putValue( "InstrumentDescriptor", instrumentDescriptor );
+        
+        JMenuItem createItem = new JMenuItem( createAction );
+        createItem.setMnemonic( 'C' );
+        instrumentMenu.add( createItem );
+        
         try
         {
             InstrumentSampleDescriptor[] descriptors =
                 instrumentDescriptor.getInstrumentSampleDescriptors();
             
-            for( int i = 0; i < descriptors.length; i++ )
+            if ( descriptors.length > 0 )
             {
-                InstrumentSampleDescriptor descriptor = descriptors[ i ];
-    
-                if( showAll || descriptor.isConfigured() )
+                instrumentMenu.addSeparator();
+                
+                for( int i = 0; i < descriptors.length; i++ )
                 {
-                    String description = descriptor.getDescription();
-    
-                    Action action = new AbstractAction( description )
+                    InstrumentSampleDescriptor descriptor = descriptors[ i ];
+        
+                    if( showAll || descriptor.isConfigured() )
                     {
-                        public void actionPerformed( ActionEvent event )
+                        String description = descriptor.getDescription();
+        
+                        Action action = new AbstractAction( description )
                         {
-                            JMenuItem menu = (JMenuItem)event.getSource();
-                            Action action = menu.getAction();
-                            
-                            m_frame.openInstrumentSampleFrame(
-                                (InstrumentManagerConnection)action.getValue(
-                                    "InstrumentManagerConnection" ),
-                                (InstrumentableDescriptor)action.getValue(
-                                    "InstrumentableDescriptor" ),
-                                (InstrumentDescriptor)action.getValue(
-                                    "InstrumentDescriptor" ),
-                                (InstrumentSampleDescriptor)action.getValue(
-                                    "InstrumentSampleDescriptor" ) );
-                        }
-                    };
-                    action.putValue( "InstrumentManagerConnection", connection );
-                    action.putValue( "InstrumentableDescriptor", instrumentableDescriptor );
-                    action.putValue( "InstrumentDescriptor", instrumentDescriptor );
-                    action.putValue( "InstrumentSampleDescriptor", descriptor );
-    
-                    JMenuItem item = new JMenuItem( action );
-    
-                    instrumentMenu.add( item );
+                            public void actionPerformed( ActionEvent event )
+                            {
+                                JMenuItem menu = (JMenuItem)event.getSource();
+                                Action action = menu.getAction();
+                                
+                                m_frame.openInstrumentSampleFrame(
+                                    (InstrumentManagerConnection)action.getValue(
+                                        "InstrumentManagerConnection" ),
+                                    (InstrumentableDescriptor)action.getValue(
+                                        "InstrumentableDescriptor" ),
+                                    (InstrumentDescriptor)action.getValue(
+                                        "InstrumentDescriptor" ),
+                                    (InstrumentSampleDescriptor)action.getValue(
+                                        "InstrumentSampleDescriptor" ) );
+                            }
+                        };
+                        action.putValue( "InstrumentManagerConnection", connection );
+                        action.putValue( "InstrumentableDescriptor", instrumentableDescriptor );
+                        action.putValue( "InstrumentDescriptor", instrumentDescriptor );
+                        action.putValue( "InstrumentSampleDescriptor", descriptor );
+        
+                        JMenuItem item = new JMenuItem( action );
+        
+                        instrumentMenu.add( item );
+                    }
                 }
             }
         }

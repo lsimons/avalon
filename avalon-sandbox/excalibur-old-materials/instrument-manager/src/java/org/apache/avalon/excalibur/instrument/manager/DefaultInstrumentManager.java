@@ -40,7 +40,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.5 $ $Date: 2002/04/03 13:18:29 $
+ * @version CVS $Revision: 1.6 $ $Date: 2002/04/28 17:05:41 $
  * @since 4.1
  */
 public class DefaultInstrumentManager
@@ -852,6 +852,7 @@ public class DefaultInstrumentManager
             if( proxy == null )
             {
                 proxy = new InstrumentProxy( profilePointName );
+                proxy.enableLogging( getLogger() );
 
                 // Set the type of the new InstrumentProxy depending on the
                 //  class of the actual Instrument.
