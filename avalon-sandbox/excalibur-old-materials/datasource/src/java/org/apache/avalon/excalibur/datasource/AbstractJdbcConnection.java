@@ -29,7 +29,7 @@ import org.apache.avalon.framework.logger.Logger;
  * total number of Connection objects that are created.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.16 $ $Date: 2002/06/13 17:24:50 $
+ * @version CVS $Revision: 1.17 $ $Date: 2002/11/05 04:34:02 $
  * @since 4.1
  */
 public abstract class AbstractJdbcConnection
@@ -41,6 +41,8 @@ public abstract class AbstractJdbcConnection
     protected PreparedStatement m_testStatement;
     protected SQLException m_testException;
     protected long m_lastUsed = System.currentTimeMillis();
+
+    protected Map m_statements;
 
     /**
      * Private default constructor so that it cannot be instantiated any
@@ -120,6 +122,17 @@ public abstract class AbstractJdbcConnection
         try
         {
             m_connection.clearWarnings();
+
+            Iterator it = m_statements.getKeySet().iterator();
+            while (it.hasNext())
+            {
+                Object key = it.next();
+                Statement statement = (Statement)m_statements.get( key );
+
+                try { statement.close(); } catch ( SQLException se ) {}
+
+                m_statements.remove( key );
+            }
         }
         catch( SQLException se )
         {

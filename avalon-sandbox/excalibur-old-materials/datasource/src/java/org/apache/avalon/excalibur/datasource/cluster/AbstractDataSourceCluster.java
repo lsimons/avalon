@@ -24,7 +24,7 @@ import org.apache.avalon.framework.thread.ThreadSafe;
 
 /**
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/06/13 17:24:51 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/11/05 04:34:02 $
  * @since 4.1
  */
 public abstract class AbstractDataSourceCluster
@@ -68,7 +68,7 @@ public abstract class AbstractDataSourceCluster
      * @throws NoValidConnectionException when there is no valid Connection wrapper
      *         available in the classloader or when the index is not valid.
      *
-     * @throws NoAvailableConnectionException when there are no more available
+     * @throws NoValidConnectionException when there are no more available
      *         Connections in the pool.
      */
     public Connection getConnectionForIndex( int index ) throws SQLException
@@ -88,7 +88,7 @@ public abstract class AbstractDataSourceCluster
      * Called by the Container to tell the component which ComponentLocator
      *  is controlling it.
      *
-     * @param ComponentLocator which curently owns the component.
+     * @param manager which curently owns the component.
      */
     public void compose( ComponentManager manager )
     {

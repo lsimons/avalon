@@ -13,7 +13,7 @@ import org.apache.avalon.excalibur.datasource.DataSourceComponent;
 
 /**
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/04/22 03:04:27 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/11/05 04:34:02 $
  * @since 4.1
  */
 public interface IndexedDataSourceCluster
@@ -36,10 +36,10 @@ public interface IndexedDataSourceCluster
      *
      * @param index Index of the DataSource for which a connection is to be returned.
      *
-     * @throws NoValidConnectionException when there is no valid Connection wrapper
+     * @throws org.apache.avalon.excalibur.datasource.NoValidConnectionException when there is no valid Connection wrapper
      *         available in the classloader or when the index is not valid.
      *
-     * @throws NoAvailableConnectionException when there are no more available
+     * @throws org.apache.avalon.excalibur.datasource.NoAvailableConnectionException when there are no more available
      *         Connections in the pool.
      */
     Connection getConnectionForIndex( int index ) throws SQLException;
