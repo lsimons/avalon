@@ -20,6 +20,17 @@ public interface LogManager
 {
     String ROLE = LogManager.class.getName();
 
-    Hierarchy createHierarchy( SarMetaData metaData, Configuration logs )
+    /**
+     * Create a Logger hierarchy for an applicaiton.
+     *
+     * @param metaData the metaData describing applicaiton
+     * @param logs the configuration data for logs
+     * @param classLoader the ClassLoader for aapplication
+     * @return the configured Logger hierarchy
+     * @throws Exception if an error occurs
+     */
+    Hierarchy createHierarchy( SarMetaData metaData,
+                               Configuration logs,
+                               ClassLoader classLoader )
         throws Exception;
 }

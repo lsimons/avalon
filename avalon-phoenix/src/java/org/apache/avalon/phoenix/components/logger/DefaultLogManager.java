@@ -31,7 +31,8 @@ public class DefaultLogManager
         ResourceManager.getPackageResources( SimpleLogKitManager.class );
 
     public Hierarchy createHierarchy( final SarMetaData metaData,
-                                      final Configuration logs )
+                                      final Configuration logs,
+                                      final ClassLoader classLoader )
         throws Exception
     {
         final DefaultContext context = new DefaultContext();
@@ -57,7 +58,8 @@ public class DefaultLogManager
         }
         else if( version.equals( "1.1" ) )
         {
-            final DefaultLogKitManager manager = new DefaultLogKitManager();
+            final DefaultLogKitManager manager =
+                new DefaultLogKitManager();
             setupLogger( manager );
             manager.contextualize( context );
             manager.configure( logs );
