@@ -17,7 +17,8 @@ import org.apache.avalon.framework.configuration.Configurable;
  * The standard interface for DataSources in Avalon.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.1 $ $Date: 2001/07/19 07:33:01 $
+ * @version CVS $Revision: 1.2 $ $Date: 2001/08/07 10:57:07 $
+ * @since 4.0
  */
 public interface DataSourceComponent
     extends Component, Configurable, ThreadSafe

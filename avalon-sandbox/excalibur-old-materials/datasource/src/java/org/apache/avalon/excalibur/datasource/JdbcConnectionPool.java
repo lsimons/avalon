@@ -21,7 +21,8 @@ import org.apache.avalon.excalibur.pool.Poolable;
  * thread to manage the number of SQL Connections.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.1 $ $Date: 2001/07/19 07:33:01 $
+ * @version CVS $Revision: 1.2 $ $Date: 2001/08/07 10:57:07 $
+ * @since 4.0
  */
 public class JdbcConnectionPool
     extends HardResourceLimitingPool

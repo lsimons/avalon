@@ -23,7 +23,8 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
  * J2EE container pools the datasources properly.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.2 $ $Date: 2001/07/20 16:23:02 $
+ * @version CVS $Revision: 1.3 $ $Date: 2001/08/07 10:57:07 $
+ * @since 4.0
  */
 public class J2eeDataSource
     extends AbstractLoggable
