@@ -16,11 +16,11 @@ import org.apache.excalibur.instrument.manager.interfaces.InstrumentSampleDescri
 
 import org.apache.avalon.framework.activity.Disposable;
 
-import org.apache.excalibur.altrmi.server.ServerException;
-import org.apache.excalibur.altrmi.server.PublicationDescription;
-import org.apache.excalibur.altrmi.server.PublicationException;
-import org.apache.excalibur.altrmi.server.impl.AbstractServer;
-import org.apache.excalibur.altrmi.server.impl.socket.CompleteSocketCustomStreamServer;
+import org.apache.altrmi.server.ServerException;
+import org.apache.altrmi.server.PublicationDescription;
+import org.apache.altrmi.server.PublicationException;
+import org.apache.altrmi.server.impl.AbstractServer;
+import org.apache.altrmi.server.impl.socket.CompleteSocketCustomStreamServer;
 
 /**
  *
@@ -28,7 +28,7 @@ import org.apache.excalibur.altrmi.server.impl.socket.CompleteSocketCustomStream
  *  file.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2003/01/05 23:28:20 $
+ * @version CVS $Revision: 1.3 $ $Date: 2003/02/17 21:23:09 $
  * @since 4.1
  */
 public class InstrumentManagerAltrmiServer
@@ -36,10 +36,10 @@ public class InstrumentManagerAltrmiServer
 {
     /** The default port. */
     public static final int DEFAULT_PORT = 15555;
-    
+
     private int m_port;
     private AbstractServer m_server;
-    
+
     /*---------------------------------------------------------------
      * Constructors
      *-------------------------------------------------------------*/
@@ -48,34 +48,34 @@ public class InstrumentManagerAltrmiServer
     {
         this( manager, DEFAULT_PORT );
     }
-    
+
     public InstrumentManagerAltrmiServer( DefaultInstrumentManager manager, int port )
         throws ServerException, PublicationException
     {
         m_port = port;
-        
+
         InstrumentManagerClientLocalImpl client = new InstrumentManagerClientLocalImpl( manager );
-        
+
         System.out.println( "Creating CompleteSocketCustomStreamServer..." );
         m_server = new CompleteSocketCustomStreamServer( port );
-        
+
         System.out.println( "Publishing InstrumentManagerClient..." );
-        
+
         Class[] additionalFacadeClasses = new Class[]
         {
             InstrumentableDescriptor.class,
             InstrumentDescriptor.class,
             InstrumentSampleDescriptor.class
         };
-        
-        m_server.publish( client, "InstrumentManagerClient", 
+
+        m_server.publish( client, "InstrumentManagerClient",
             new PublicationDescription( InstrumentManagerClient.class, additionalFacadeClasses ) );
-        
+
         System.out.println( "Starting CompleteSocketObjectStreamServer..." );
         m_server.start();
         System.out.println( "Started on port: " + port );
     }
-    
+
     /*---------------------------------------------------------------
      * Disposable Methods
      *-------------------------------------------------------------*/

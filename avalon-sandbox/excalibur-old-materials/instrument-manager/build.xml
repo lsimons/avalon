@@ -13,9 +13,9 @@
     <path id="project.class.path">
         <pathelement location="${build.classes}"/>
         <pathelement location="${avalon-framework.jar}"/>
-        <pathelement location="${excalibur-altrmi-common.jar}"/>
-        <pathelement location="${excalibur-altrmi-server-impl.jar}"/>
-        <pathelement location="${excalibur-altrmi-server-interfaces.jar}"/>
+        <pathelement location="${altrmi-common.jar}"/>
+        <pathelement location="${altrmi-server-impl.jar}"/>
+        <pathelement location="${altrmi-server-interfaces.jar}"/>
         <pathelement location="${excalibur-instrument.jar}"/>
         <pathelement location="${checkstyle.jar}"/>
         <pathelement path="${java.class.path}"/>
@@ -39,7 +39,6 @@
     <target name="dependencies" description="Check dependencies" unless="skip.dependencies">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkCommon"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkFramework"/>
-        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkAltrmiServer"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkInstrument"/>
     </target>
 
@@ -54,7 +53,7 @@
     <!-- Compiles the source code -->
     <target name="compile" depends="dependencies" description="Compiles the source code">
 
-        <available classname="org.apache.excalibur.altrmi.server.ServerException"
+        <available classname="org.apache.altrmi.server.ServerException"
             property="altrmi.present">
             <classpath refid="project.class.path"/>
         </available>
