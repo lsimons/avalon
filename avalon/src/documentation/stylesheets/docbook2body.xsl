@@ -129,20 +129,31 @@
       </center><br/>
       <div align="right">
         <table border="0" cellpadding="2" cellspacing="0" width="100%">
-          <tr>
-	    <td bgcolor="#525D76">
-	      <font color="#ffffff" face="arial,helvetica,sanserif" size="+1"><b>Revisions</b></font>
-	    </td>
-	  </tr>
-	  <tr>
+
+      <xsl:variable name="unique-revisions" 
+            select="revision[not(revnumber=preceding-sibling::revision/revnumber)]/revnumber"/>
+      <xsl:variable name="base" select="."/>
+
+      <xsl:for-each select="$unique-revisions">
+        <tr>
+          <td bgcolor="#525D76">
+	      <font color="#ffffff" face="arial,helvetica,sanserif">
+            <b>Revision <xsl:value-of select="."/> 
+               (<xsl:value-of select="$base/revision[revnumber=current()]/date"/>)
+            </b>
+          </font>
+          </td>
+        </tr>
+        <tr>
 	    <td>
 	      <font color="#000000" face="arial,helvetica,sanserif"><br/>
 	        <ul>
-                  <xsl:apply-templates/>
-		</ul>
+                  <xsl:apply-templates select="$base/revision[revnumber=current()]"/>
+            </ul>
 	      </font>
 	    </td>
-	  </tr>
+        </tr>
+      </xsl:for-each>
 	</table>
       </div>
     </body>
@@ -173,10 +184,8 @@
 	  <img align="absmiddle" alt="changed" border="0" src="images/update.jpg"/>
 	</xsl:otherwise>
       </xsl:choose>
-      <xsl:text>[</xsl:text><xsl:value-of select="revnumber"/><xsl:text>] </xsl:text>
       <xsl:value-of select="revremark"/>
-      <xsl:text> (</xsl:text><xsl:value-of select="authorinitials"/><xsl:text>:</xsl:text>
-      <xsl:value-of select="date"/><xsl:text>)</xsl:text>
+      <xsl:text> (</xsl:text><xsl:value-of select="authorinitials"/><xsl:text>)</xsl:text>
     </li>
   </xsl:template>
 
