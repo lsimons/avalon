@@ -15,7 +15,7 @@ package org.apache.avalon.framework.configuration;
  * @author <a href="mailto:stefano@apache.org">Stefano Mazzocchi</a>
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  * @author <a href="mailto:fumagalli@exoffice.com">Pierpaolo Fumagalli</a>
- * @version CVS $Revision: 1.5 $ $Date: 2001/10/02 16:24:55 $
+ * @version CVS $Revision: 1.6 $ $Date: 2001/11/01 09:13:56 $
  */
 public abstract class AbstractConfiguration
     implements Configuration
@@ -54,9 +54,9 @@ public abstract class AbstractConfiguration
         }
         catch( final Exception nfe )
         {
-            throw
-                new ConfigurationException( "Cannot parse the value of the configuration " +
-                                            "element \"" + getName() + "\" as an integer" );
+            throw new ConfigurationException( "Cannot parse the value \"" + value +
+                                              "\" as an integer in the configuration element \"" +
+                                              getName() + " at " + getLocation() );
         }
     }
 
@@ -115,9 +115,9 @@ public abstract class AbstractConfiguration
         }
         catch( final Exception nfe )
         {
-            throw new ConfigurationException( "Cannot parse the value of the " +
-                                              "configuration element \"" + getName() +
-                                              "\" as a long" );
+            throw new ConfigurationException( "Cannot parse the value \"" + value +
+                                              "\" as a long in the configuration element \"" +
+                                              getName() + " at " + getLocation() );
         }
     }
 
@@ -158,9 +158,9 @@ public abstract class AbstractConfiguration
         }
         catch( final Exception nfe )
         {
-            throw new ConfigurationException( "Cannot parse the value of the " +
-                                              "configuration element \"" + getName() +
-                                              "\" as a float" );
+            throw new ConfigurationException( "Cannot parse the value \"" + value +
+                                              "\" as a float in the configuration element \"" +
+                                              getName() + " at " + getLocation() );
         }
     }
 
@@ -202,9 +202,9 @@ public abstract class AbstractConfiguration
         }
         else
         {
-            throw new ConfigurationException( "Cannot parse the value of the " +
-                                              "configuration element \"" +
-                                              getName() + "\" as a boolean" );
+            throw new ConfigurationException( "Cannot parse the value \"" + value +
+                                              "\" as a boolean in the configuration element \"" +
+                                              getName() + " at " + getLocation() );
         }
     }
 
@@ -280,9 +280,9 @@ public abstract class AbstractConfiguration
         }
         catch( final Exception nfe )
         {
-            throw new ConfigurationException( "Cannot parse the value of the attribute \"" +
-                                              name + "\" of the configuration element \"" +
-                                              getName() + "\" as an integer" );
+            throw new ConfigurationException( "Cannot parse the value \"" + value +
+                                              "\" as an integer in the attribute \"" + 
+                                              name + " at " + getLocation() );
         }
     }
 
@@ -346,9 +346,9 @@ public abstract class AbstractConfiguration
         }
         catch( final Exception nfe )
         {
-            throw new ConfigurationException( "Cannot parse the value of the attribute \"" +
-                                              name + "\" of the configuration element \"" +
-                                              getName() + "\" as a long" );
+            throw new ConfigurationException( "Cannot parse the value \"" + value +
+                                              "\" as a long in the attribute \"" + 
+                                              name + " at " + getLocation() );
         }
     }
 
@@ -393,9 +393,9 @@ public abstract class AbstractConfiguration
         }
         catch( final Exception e )
         {
-            throw new ConfigurationException( "Cannot parse the value of the attribute \"" +
-                                              name + "\" of the configuration element \"" +
-                                              getName() + "\" as a float" );
+            throw new ConfigurationException( "Cannot parse the value \"" + value +
+                                              "\" as a float in the attribute \"" + 
+                                              name + " at " + getLocation() );
         }
     }
 
@@ -442,9 +442,9 @@ public abstract class AbstractConfiguration
         }
         else
         {
-            throw new ConfigurationException( "Cannot parse the value of the attribute \"" +
-                                              name + "\" of the configuration element \"" +
-                                              getName() + "\" as a boolean" );
+            throw new ConfigurationException( "Cannot parse the value \"" + value +
+                                              "\" as a boolean in the attribute \"" + 
+                                              name + " at " + getLocation() );
         }
     }
 
