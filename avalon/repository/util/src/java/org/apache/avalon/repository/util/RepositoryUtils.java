@@ -55,6 +55,9 @@ import java.net.URL ;
 
 import java.io.IOException ;
 import java.io.InputStream ;
+import java.io.File;
+import java.io.FileInputStream ;
+import java.io.FileNotFoundException ;
 
 import java.util.ArrayList;
 import java.util.Properties ;
@@ -74,7 +77,7 @@ import org.apache.avalon.repository.RepositoryException;
  * 
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class RepositoryUtils
 {
@@ -140,6 +143,58 @@ public class RepositoryUtils
         return getAsAttributes( getProperties( repositories, artifact ) ) ;
     }
     
+    /**
+     * Gets the Attribues from the cache.
+     * 
+     * @param cache the reprository cache
+     * @param artifact the artifact to load meta data from
+     * @return the meta data as attributes
+     * @throws RepositoryException if there is execution failure
+     */
+    public static Attributes getAttributes( 
+      File cache, Artifact artifact ) 
+      throws RepositoryException
+    {
+        return getAsAttributes( getProperties( cache, artifact ) ) ;
+    }
+
+    /**
+     * Gets the Properties in the local cache.
+     * 
+     * @param repositories the reprositories to search against
+     * @param artifact the artifact to load meta data from
+     * @return the loaded properties 
+     * @throws RepositoryException if there is any problem loading the 
+     *    properties
+     */
+    public static Properties getProperties( 
+      File cache, Artifact artifact ) 
+      throws RepositoryException
+    {
+        File local = new File( cache, artifact.getPath() + "." + META );
+        if( !local.exists() )
+        {
+            final String error = "Cannot load metadata due to missing resurce.";
+            Throwable cause = new FileNotFoundException( local.toString() );
+            throw new RepositoryException( error, cause );
+        }
+
+        try
+        {
+            Properties properties = new Properties();
+            InputStream input = new FileInputStream( local );
+            properties.load( input );
+            return properties;
+        }
+        catch( Throwable e )
+        {
+            final String error = 
+              "Unexpected error while attempting to load properties from local meta: "
+              + local.toString();
+            throw new RepositoryException( error, e );
+        }
+    }
+
     /**
      * Gets the Properties in a remote properties file.
      * 
