@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE project [
+  <!ENTITY % index SYSTEM "file:index.ent"> %index;
+]>
 
 <project>
   <extend>${basedir}/project.xml</extend>
-  <id>avalon-repository</id>
+  <id>&avalon-repository-id;</id>
   <name>Avalon Repository</name>
   <package>org.apache.avalon</package>
 
@@ -10,29 +13,29 @@
   
   <dependencies>
     <dependency>
-      <groupId>avalon-util</groupId>
-      <artifactId>avalon-util-env</artifactId>
-      <version>1.1-SNAPSHOT</version>
+      <groupId>&avalon-util-id;</groupId>
+      <artifactId>&avalon-util-env-id;</artifactId>
+      <version>&avalon-util-env-version;</version>
     </dependency>
     <dependency>
-      <groupId>avalon-util</groupId>
-      <artifactId>avalon-util-criteria</artifactId>
-      <version>1.1-SNAPSHOT</version>
+      <groupId>&avalon-util-id;</groupId>
+      <artifactId>&avalon-util-criteria-id;</artifactId>
+      <version>&avalon-util-criteria-version;</version>
     </dependency>
     <dependency>
-      <groupId>avalon-util</groupId>
-      <artifactId>avalon-util-defaults</artifactId>
-      <version>1.2-SNAPSHOT</version>
+      <groupId>&avalon-util-id;</groupId>
+      <artifactId>&avalon-util-defaults-id;</artifactId>
+      <version>&avalon-util-defaults-version;</version>
     </dependency>
     <dependency>
-      <groupId>avalon-util</groupId>
-      <artifactId>avalon-util-exception</artifactId>
-      <version>1.0</version>
+      <groupId>&avalon-util-id;</groupId>
+      <artifactId>&avalon-util-exception-id;</artifactId>
+      <version>&avalon-util-exception-version;</version>
     </dependency>
     <dependency>
-      <groupId>avalon-util</groupId>
-      <artifactId>avalon-util-i18n</artifactId>
-      <version>1.0</version>
+      <groupId>&avalon-util-id;</groupId>
+      <artifactId>&avalon-util-i18n-id;</artifactId>
+      <version>&avalon-util-i18n-version;</version>
     </dependency>
   </dependencies>
   

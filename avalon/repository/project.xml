@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE project [
+  <!ENTITY % index SYSTEM "file:index.ent"> %index;
+]>
+
 <!-- 
 Copyright 2004 The Apache Software Foundation
 Licensed  under the  Apache License,  Version 2.0  (the "License");
@@ -19,9 +23,11 @@ limitations under the License.
 
   <pomVersion>3</pomVersion>
   <groupId>avalon</groupId>
-  <id>avalon-repository</id>
+  <id>&avalon-repository-id;</id>
   <name>Avalon Repository</name>
-  <currentVersion>2.0-SNAPSHOT</currentVersion>
+
+  <!-- need a package version identifier -->
+  <currentVersion>&avalon-repository-api-version;</currentVersion>
 
   <organization>
     <name>The Apache Software Foundation</name>

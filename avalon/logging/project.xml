@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE project [
+  <!ENTITY % index SYSTEM "file:index.ent"> %index;
+]>
+
 <!-- 
 Copyright 2004 The Apache Software Foundation
 Licensed  under the  Apache License,  Version 2.0  (the "License");
@@ -18,10 +22,10 @@ limitations under the License.
 <project>
 
   <pomVersion>3</pomVersion>
-  <groupId>avalon-logging</groupId>
-  <id>avalon-logging</id>
+  <groupId>&avalon-logging-id;</groupId>
+  <id>&avalon-logging-id;</id>
   <name>Avalon Logging</name>
-  <currentVersion>1.0</currentVersion>
+  <currentVersion>&avalon-logging-api-version;</currentVersion>
 
   <organization>
     <name>The Apache Software Foundation</name>
