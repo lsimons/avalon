@@ -75,23 +75,31 @@ Merlin 3.2 introduces a complete property configuration model as part of the uni
             <td>${user.home}/merlin.properties</td>
             <td>The user's home directory.</td>
           </tr>
+          <tr>
+            <td>${merlin.home}/merlin.properties</td>
+            <td>The merlin installation directory.</td>
+          </tr>
         </table>
-      <p>
-Values defined under the ${merlin.dir}/merlin.properties take precedence over ${user.home}/merlin.properties.
-      </p>
       </subsection>
       <subsection name="Bootstrap Properties">
         <p>
-The following properties are established by Merlin during the bootstrap phase and cannot be override.
+         The following properties are established by Merlin during the 
+         bootstrap phase and cannot be override.
         </p>
         <table>
           <tr><th>Property</th><th>Default Value</th><th>Description</th></tr>
           <tr>
-            <td>${merlin.dir}</td>
+            <td>merlin.dir</td>
             <td>${user.dir}</td>
-            <td>The working directory used by Merlin.  This value derfaults to 
+            <td>The working directory used by Merlin.  This value defaults to 
              ${user.dir} under normal circumstances.  If a System property
              of ${basedir} is present it will be assigned as ${merlin.dir}.</td>
+          </tr>
+          <tr>
+            <td>merlin.implementation</td>
+            <td>declared under package merlin.properties resource</td>
+            <td>An artifiact specification that references an alternative 
+              kernel implementation. </td>
           </tr>
         </table>
       </subsection>
@@ -104,61 +112,61 @@ The following properties are established by Merlin during the bootstrap phase an
         <table>
           <tr><th>Property</th><th>Default Value</th><th>Description</th></tr>
           <tr>
-            <td>${merlin.home}</td>
+            <td>merlin.home</td>
             <td>${user.home}/.merlin</td>
             <td>The merlin installation directory. Can be overriden with the
               environment variable MERLIN_HOME.</td>
           </tr>
           <tr>
-            <td>${merlin.system}</td>
+            <td>merlin.system</td>
             <td>${merlin.home}/system</td>
             <td>The merlin system repository.</td>
           </tr>
           <tr>
-            <td>${merlin.repository}</td>
+            <td>merlin.repository</td>
             <td>${avalon.home}</td>
             <td>The application repository root directory. The default value
              of ${avalon.home} is resolved relative to the environment variable
              AVALON_HOME and if undefined, will fall back to ${user.home}/.avalon.</td>
           </tr>
           <tr>
-            <td>${merlin.config}</td>
+            <td>merlin.config</td>
             <td>${merlin.home}/config</td>
             <td>The merlin system configuration directory.</td>
           </tr>
           <tr>
-            <td>${merlin.kernel}</td>
+            <td>merlin.kernel</td>
             <td>file:///${merlin.config}/kernel.xml</td>
             <td>The merlin kernel configuration.</td>
           </tr>
           <tr>
-            <td>${merlin.context}</td>
+            <td>merlin.context</td>
             <td>${merlin.dir}/home</td>
             <td>The root directory used by merlin to construct the 
                persistent home directory supplied to a component under 
                the context key urn:avalon:home.</td>
           </tr>
           <tr>
-            <td>${merlin.ext}</td>
+            <td>merlin.ext</td>
             <td>${merlin.dir}</td>
             <td>The root directory used by merlin to resolve jar 
              optional extension jar files.</td>
           </tr>
           <tr>
-            <td>${merlin.info}</td>
+            <td>merlin.info</td>
             <td>false</td>
             <td>The info generation policy.  If 'true' a short 
             information header is generated on startup detailing the 
             kernel parameterization state.</td>
           </tr>
           <tr>
-            <td>${merlin.debug}</td>
+            <td>merlin.debug</td>
             <td>false</td>
             <td>The debug generation policy.  If 'true' all logging 
             channels are assigned the DEBUG logging priority.</td>
           </tr>
           <tr>
-            <td>${merlin.server}</td>
+            <td>merlin.server</td>
             <td>true</td>
             <td>
             The default execution mode.  If 'true' the merlin 
@@ -168,14 +176,14 @@ The following properties are established by Merlin during the bootstrap phase an
             phase.</td>
           </tr>
           <tr>
-            <td>${merlin.deployment}</td>
+            <td>merlin.deployment</td>
             <td></td>
             <td>
             A comma seperated sequence of blocks to be included in the 
             root merlin application block on startup.</td>
           </tr>
           <tr>
-            <td>${merlin.override}</td>
+            <td>merlin.override</td>
             <td></td>
             <td>
             The path to a configuration override targets file. Relative 
