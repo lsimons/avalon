@@ -5106,6 +5106,88 @@
        from="Magic Integration &lt;dev@avalon.apache.org&gt;"/>
   </project>
 
+  <project name="merlin-unit">
+    <license name="central/system/license/LICENSE.TXT"/>
+    <ant basedir="runtime/merlin/legacy">
+      <!-- for magic -->
+      <property name="build.sysclasspath" value="last"/> 
+      <property name="magic.home" reference="home" project="magic"/>
+      <property name="gump.signature" value="@@DATE@@"/>
+      <!-- external references -->
+      <depend property="gump.resource.mailapi" project="javamail">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.log4j" project="logging-log4j-12">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.servletapi" project="jakarta-servletapi-4">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.geronimo-spec-jms" project="jms">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.commons-cli" project="commons-cli">
+        <noclasspath/>
+      </depend>
+      <!-- end for -->
+    </ant>
+    <depend project="magic" runtime="true" inherit="runtime"/> 
+    <!-- for gump -->
+    <depend project="avalon-merlin-unit"><noclasspath/></depend>
+    <depend project="avalon-repository-main"><noclasspath/></depend>
+    <depend project="avalon-repository-spi"><noclasspath/></depend>
+    <depend project="avalon-repository-api"><noclasspath/></depend>
+    <depend project="avalon-repository-util"><noclasspath/></depend>
+    <depend project="avalon-util-exception"><noclasspath/></depend>
+    <depend project="avalon-util-env"><noclasspath/></depend>
+    <depend project="avalon-util-i18n"><noclasspath/></depend>
+    <depend project="avalon-util-criteria"><noclasspath/></depend>
+    <depend project="avalon-util-defaults"><noclasspath/></depend>
+    <depend project="avalon-merlin-impl"><noclasspath/></depend>
+    <depend project="avalon-framework-api"><noclasspath/></depend>
+    <depend project="avalon-logkit"><noclasspath/></depend>
+    <depend project="avalon-util-lifecycle"><noclasspath/></depend>
+    <depend project="avalon-util-extension-api"><noclasspath/></depend>
+    <depend project="avalon-merlin-api"><noclasspath/></depend>
+    <depend project="avalon-composition-api"><noclasspath/></depend>
+    <depend project="avalon-logging-api"><noclasspath/></depend>
+    <depend project="avalon-meta-api"><noclasspath/></depend>
+    <depend project="avalon-framework-impl"><noclasspath/></depend>
+    <depend project="avalon-meta-spi"><noclasspath/></depend>
+    <depend project="avalon-logging-spi"><noclasspath/></depend>
+    <depend project="avalon-logging-impl"><noclasspath/></depend>
+    <depend project="avalon-composition-spi"><noclasspath/></depend>
+    <depend project="avalon-composition-impl"><noclasspath/></depend>
+    <depend project="avalon-meta-impl"><noclasspath/></depend>
+    <depend project="avalon-util-configuration"><noclasspath/></depend>
+    <depend project="avalon-util-extension-impl"><noclasspath/></depend>
+    <depend project="avalon-test-testa"><noclasspath/></depend>
+    <depend project="avalon-test-testb"><noclasspath/></depend>
+    <depend project="avalon-test-testc"><noclasspath/></depend>
+    <depend project="avalon-test-testd"><noclasspath/></depend>
+    <depend project="avalon-test-teste"><noclasspath/></depend>
+    <depend project="avalon-test-dynamics"><noclasspath/></depend>
+    <depend project="avalon-test-includes"><noclasspath/></depend>
+    <depend project="avalon-test-playground"><noclasspath/></depend>
+    <depend project="avalon-test-testcyclic"><noclasspath/></depend>
+    <depend project="avalon-logging-logkit-impl"><noclasspath/></depend>
+    <depend project="avalon-logging-logkit-api"><noclasspath/></depend>
+    <depend project="avalon-logging-log4j"><noclasspath/></depend>
+    <depend project="avalon-logging-logkit-syslog"><noclasspath/></depend>
+    <depend project="avalon-logging-logkit-socket"><noclasspath/></depend>
+    <depend project="avalon-logging-logkit-datagram"><noclasspath/></depend>
+    <depend project="avalon-repository-impl"><noclasspath/></depend>
+    <depend project="avalon-repository-cli"><noclasspath/></depend>
+    <depend project="avalon-activation-impl"><noclasspath/></depend>
+    <depend project="avalon-activation-api"><noclasspath/></depend>
+    <depend project="avalon-test-components"><noclasspath/></depend>
+    <!-- end for -->
+    <home nested="runtime/merlin/legacy/target/deliverables"/>
+    <jar name="jars/merlin-unit-@@DATE@@.jar"/>
+    <nag to="dev@avalon.apache.org"
+       from="Magic Integration &lt;dev@avalon.apache.org&gt;"/>
+  </project>
+
   <project name="avalon-tutorial-config-override">
     <license name="central/system/license/LICENSE.TXT"/>
     <ant basedir="planet/tutorials/configuration/override">

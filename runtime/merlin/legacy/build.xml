@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="merlin-unit" default="install" basedir="." 
+    xmlns:x="antlib:org.apache.avalon.tools">
+
+  <x:home/>
+  <import file="${magic.templates}/standard.xml"/>
+
+  <target name="package">
+    <x:property key="avalon-merlin-unit" feature="path" name="widget"/>
+    <echo>${magic.cache}</echo>
+    <echo>${widget}</echo>
+    <echo>${project.filename}</echo>
+    <mkdir dir="target/deliverables/jars"/>
+    <copy file="${magic.cache}/${widget}" toFile="target/deliverables/jars/${project.filename}"/>
+  </target>
+
+
+</project>
