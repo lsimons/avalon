@@ -17,22 +17,35 @@
 
 package org.apache.avalon.http;
 
-import org.apache.avalon.composition.model.ComponentModel;
+
+import org.mortbay.http.HttpContext;
+import org.mortbay.http.HttpListener;
+import org.mortbay.http.HttpServer;
+import org.mortbay.http.RequestLog;
+import org.mortbay.http.UserRealm;
 
 /**
  * Defintion of the HttpService service contract.
+ *
+ * @avalon.service version="1.0"
  */
 public interface HttpService
 {
-   /**
-    * Register a component model under a context.
-    * @param model the component model
-    */
-    void register( ComponentModel model );
 
-   /**
-    * Unregister the component model under the context.
-    * @param model the component model
-    */
-    void unregister( ComponentModel model );
+    HttpContext addContext( HttpContext context );
+    
+    boolean removeContext( HttpContext context );
+    
+    HttpListener addListener( HttpListener listener );
+    
+    void removeListener( HttpListener listener );
+    
+    UserRealm addRealm( UserRealm realm );
+    
+    UserRealm removeRealm( String realmname );
+
+    RequestLog getRequestLog();
+    
+    void setRequestLog( RequestLog log );
+    
 }
