@@ -24,6 +24,16 @@
       <import plugin="org.apache.avalon.MerlinDeveloperCore"/>
    </requires>
 
+   <extension
+         id="merlinBuilder"
+         name="Merlin Builder"
+         point="org.eclipse.core.resources.builders">
+      <builder>
+         <run
+               class="org.apache.avalon.ide.eclipse.merlin.builder.MerlinBuilder">
+         </run>
+      </builder>
+   </extension>
 
    <extension
          id="merlinProjectNature"

@@ -48,6 +48,8 @@ public class MerlinDeveloperLaunch extends AbstractUIPlugin
         PLUGIN_ID + ".merlinProjectNature";
     public static final String MERLIN_PROJECT_CONFIG_NATURE_ID =
         PLUGIN_ID + ".merlinConfigNature";
+    public static final String MERLIN_BUILDER_ID =
+    PLUGIN_ID + ".merlinBuilder";
     public static final String ID_MERLIN_CONTAINER = 
         MerlinDeveloperLaunch.PLUGIN_ID + ".merlinLaunchConfigurationDelegate"; //$NON-NLS-1$
     public static final String ATTR_MERLIN_CONTAINER_ID = "merlinContainerID"; //$NON-NLS-1$

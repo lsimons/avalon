@@ -19,6 +19,7 @@
 package org.apache.avalon.ide.eclipse.merlin.preferences;
 
 
+import org.apache.avalon.ide.eclipse.merlin.launch.container.MerlinContainerEnvironment;
 import org.apache.avalon.ide.eclipse.merlin.ui.MerlinDeveloperUI;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferencePage;
@@ -39,6 +40,8 @@ public class MerlinMainPreferencePage
 	extends PreferencePage
 	implements IWorkbenchPreferencePage {
 
+    private MerlinContainerEnvironment env;
+    
 	public MerlinMainPreferencePage() {
 		super();
 		setPreferenceStore(MerlinDeveloperUI.getDefault().getPreferenceStore());
@@ -61,7 +64,7 @@ public class MerlinMainPreferencePage
         area.setLayout(gridLayout_1);
         {
             final Group group = new Group(area, SWT.NONE);
-            group.setText("Installation Properties");
+            group.setText("Installation Directories");
             group.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
             final GridLayout gridLayout = new GridLayout();
             gridLayout.numColumns = 3;
@@ -69,80 +72,28 @@ public class MerlinMainPreferencePage
             
             {
                 final Label label = new Label(group, SWT.NONE);
-                label.setText("Merlin Insallation Directory:");
+                label.setText("Avalon:");
             }
             {
                 final Text text = new Text(group, SWT.BORDER);
-                text.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-            }
-            {
-                final Button button = new Button(group, SWT.NONE);
-                button.setText("browse");
+                text.setEnabled(false);
+                final GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
+                gridData.horizontalSpan = 2;
+                text.setLayoutData(gridData);
+                text.setText(env.getAvalonHome());
             }
             {
                 final Label label = new Label(group, SWT.NONE);
-                label.setText("Merlin Configuration Directory:");
+                label.setText("Merlin:");
             }
             {
                 final Text text = new Text(group, SWT.BORDER);
-                text.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL));
+                text.setEnabled(false);
+                final GridData gridData = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
+                gridData.horizontalSpan = 2;
+                text.setLayoutData(gridData);
+                text.setText(env.getMerlinHome());
             }
-            {
-                final Button button = new Button(group, SWT.NONE);
-                button.setText("browse");
-            }
-            {
-                final Label label = new Label(group, SWT.NONE);
-                label.setText("Kernel Configuration File:");
-            }
-            {
-                final Text text = new Text(group, SWT.BORDER);
-                text.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL));
-            }
-            {
-                final Button button = new Button(group, SWT.NONE);
-                button.setText("browse");
-            }
-            {
-                final Label label = new Label(group, SWT.NONE);
-                label.setText("System Repository:");
-            }
-            {
-                final Text text = new Text(group, SWT.BORDER);
-                text.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL));
-            }
-            {
-                final Button button = new Button(group, SWT.NONE);
-                button.setText("browse");
-            }
-            {
-                final Label label = new Label(group, SWT.NONE);
-                label.setText("Application Repository:");
-            }
-            {
-                final Text text = new Text(group, SWT.BORDER);
-                text.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL));
-            }
-            {
-                final Button button = new Button(group, SWT.NONE);
-                button.setText("browse");
-            }
-        }
-        {
-        	final Group group = new Group(area, SWT.NONE);
-        	group.setText("User Properties");
-        	group.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        	final GridLayout gridLayout = new GridLayout();
-        	gridLayout.numColumns = 3;
-        	group.setLayout(gridLayout);
-        }
-        {
-        	final Group group = new Group(area, SWT.NONE);
-        	group.setText("System Properties");
-        	group.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        	final GridLayout gridLayout = new GridLayout();
-        	gridLayout.numColumns = 3;
-        	group.setLayout(gridLayout);
         }
         {
             final Group group = new Group(area, SWT.NONE);
@@ -158,14 +109,21 @@ public class MerlinMainPreferencePage
                 final Button button = new Button(group, SWT.CHECK);
                 button.setText("Show Debug Informations");
             }
-            {
-                final Button button = new Button(group, SWT.CHECK);
-                button.setText("Start Server as permanent Task");
-            }
         }
         
         return null;
     }
 	public void init(IWorkbench workbench) {
+        
+        env = new MerlinContainerEnvironment();
 	}
+    
+    protected void performApply() {
+        
+    }
+    protected void performDefaults() {
+        env.setAvalonDefaultsHome();
+        env.setMerlinDefaultsHome();
+    }
+    
 }

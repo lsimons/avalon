@@ -22,7 +22,6 @@ import java.util.ArrayList;
 
 import org.apache.avalon.ide.eclipse.merlin.launch.MerlinDeveloperLaunch;
 import org.apache.avalon.ide.eclipse.merlin.nature.MerlinProjectNature;
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
@@ -187,16 +186,19 @@ public abstract class AvalonContainer implements IAvalonContainer
             }
         }
     }
-    
-    protected LibraryLocation getToolsLibraryLocation() {
+
+    protected LibraryLocation getToolsLibraryLocation()
+    {
         IPath toolsJarPath = new Path(JavaRuntime.getDefaultVMInstall().getInstallLocation().getPath()).append("lib").append("tools.jar"); //$NON-NLS-1$ //$NON-NLS-2$
-        if (toolsJarPath.toFile().exists()) {
+        if (toolsJarPath.toFile().exists())
+        {
             return new LibraryLocation(toolsJarPath, Path.EMPTY, Path.EMPTY);
-        } else {
+        } else
+        {
             return null;
         }
     }
-    
+
     private IVMInstall getVMInstall(String vmInstallName)
     {
         if (vmInstallName != null)
