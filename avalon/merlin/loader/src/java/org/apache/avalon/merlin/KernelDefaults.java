@@ -77,8 +77,8 @@ import org.apache.avalon.repository.ProxyContext ;
  * Steve in his emails
  * 
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
- * @author $Author: mcconnell $
- * @version $Revision: 1.7 $
+ * @author $Author: akarasulu $
+ * @version $Revision: 1.8 $
  */
 public class KernelDefaults
 {
@@ -700,7 +700,8 @@ public class KernelDefaults
     {
         try 
         {
-            final String userRepoEnv = Env.getEnvVariable( MERLIN_REPO_LOCAL_ENV );
+            final String userRepoEnv = 
+                Env.getEnvVariable( MERLIN_REPO_LOCAL_ENV );
             if( userRepoEnv != null )
             {
                 return new File( userRepoEnv ) ;
