@@ -100,7 +100,7 @@ import org.xml.sax.XMLReader;
  * </p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.28 $ $Date: 2003/03/10 12:11:35 $
+ * @version CVS $Revision: 1.29 $ $Date: 2003/06/11 14:13:36 $
  */
 public class DefaultConfigurationBuilder
 {
@@ -236,6 +236,27 @@ public class DefaultConfigurationBuilder
         throws SAXException, IOException, ConfigurationException
     {
         return build( new InputSource( inputStream ) );
+    }
+
+    /**
+     * Build a configuration object using an InputStream;
+     * supplying a systemId to make messages about all
+     * kinds of errors more meaningfull.
+     * @param inputStream an <code>InputStream</code> value
+     * @param the systemId to set on the intermediate sax
+     *         inputSource
+     * @return a <code>Configuration</code> object
+     * @throws SAXException if a parsing error occurs
+     * @throws IOException if an I/O error occurs
+     * @throws ConfigurationException if an error occurs
+     */
+    public Configuration build( final InputStream inputStream, 
+        final String systemId )
+        throws SAXException, IOException, ConfigurationException
+    {
+        final InputSource inputSource = new InputSource( inputStream );
+        inputSource.setSystemId( systemId );
+        return build( inputSource );
     }
 
     /**
