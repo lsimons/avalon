@@ -8,7 +8,68 @@
     <person name="Berin Loritsch" email="bloritsch@apache.org" id="BL"/>
     <person name="Stuart Roebuck" email="stuart.roebuck@adolos.co.uk" id="SR"/>
     <person name="Eung-ju Park" email="colus@apache.org" id="EP"/>
+    <person name="Leif Mortenson" email="leif@apache.org" id="LM"/>
+    <person name="Giacomo Pati" email="giacomo@apache.org" id="GP"/>
   </devs>
+  <release version="1.0.1" date="January 31, 2001">
+    <action dev="PD" type="fix">
+      Fixed spelling in the documentation files.
+    </action>
+    <action dev="PD" type="fix">
+      Fix javadoc warnings from "@returns" tags used instead of "@return".
+    </action>
+    <action dev="GP" type="update">
+      added new constructors to produce better readable file names in the
+      File Strategy classes.
+    </action>
+    <action dev="PD" type="fix">
+      Added fixes to AsyncLogTarget: Make sure that the LogTarget delegated
+      to cannot disrupt thread by throwing an exception.  Remove uneeded step
+      from documentation.
+    </action>
+    <action dev="PD" type="udpate">
+      Many improvements to PatternFormatter including:  Made it possible to
+      specify the format of date in the auxilliary parameter of the format
+      for dates.  Cached the date and DateFormatter objects so that they are
+      not created every time a LogEvent is formatted.  Added a getRTime()
+      method to format relative time. Just delegates to getTime at the
+      moment for backwards compatability.
+    </action>
+    <action dev="PD" type="update">
+      Made sure that additivity is transitive (in Logger) - even when you
+      only inherit your loggers from your parent.
+    </action>
+    <action dev="PD" type="update">
+      Added isPriorityEnabled() method to Logger to determine if specified
+      priority is enabled.
+    </action>
+    <action dev="LM" type="update">
+      Various build improvements.
+    </action>
+  </release>
+  <release version="1.0" date="October 26, 2001">
+    <action dev="BL" type="remove">
+      Remove references to Testlet (since we migrated to JUnit).
+    </action>
+    <action dev="PD" type="fix">
+      Fixed EOL issues in test so that line formatting works across all
+      systems (rather than just unix).
+    </action>
+    <action dev="PD" type="update">
+      Added in a clearer javadoc class description in PatternFormatter.
+    </action>
+    <action dev="PD" type="update">
+      Made Hierarchy setDefaultLogTargets() which is like
+      setDefaultLogTarget() but accepts an array.
+    </action>
+    <action dev="EP" type="update">
+      Use default log format when use default constructor in
+      AvalonFormatter comaptibility.
+    </action>
+    <action dev="BL" type="update">
+      Various build improvements.
+    </action>
+  </release>
   <release version="1.0b5" date="September 17, 2001">
     <action dev="EP" type="update">
       Updated unit tests to use JUnit rather than Testlet.
