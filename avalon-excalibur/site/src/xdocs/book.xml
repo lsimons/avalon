@@ -10,48 +10,48 @@
   </menu>
 
   <menu label="Containers">
-    <menu-item label="Component" href="http://a/component/index.html"/>
-    <menu-item label="Fortress" href="http://a/fortress/index.html"/>
-    <!--<menu-item label="Merlin" href="http://a/merlin/index.html"/>
-    <menu-item label="Tweety" href="http://a/tweety/index.html"/>-->
+    <menu-item label="Component" href="http://avalon.apache.org/component/index.html"/>
+    <menu-item label="Fortress" href="http://avalon.apache.org/fortress/index.html"/>
+    <!--<menu-item label="Merlin" href="http://avalon.apache.org/merlin/index.html"/>
+    <menu-item label="Tweety" href="http://avalon.apache.org/tweety/index.html"/>-->
   </menu>
 
   <menu label="Components">
-    <menu-item label="Cache" href="http://a/cache/index.html"/>
-    <menu-item label="DataSource" href="http://a/datasource/index.html"/>
-    <menu-item label="Monitor" href="http://a/monitor/index.html"/>
-    <menu-item label="XMLBundle" href="http://a/xmlbundle/index.html"/>
+    <menu-item label="Cache" href="http://avalon.apache.org/cache/index.html"/>
+    <menu-item label="DataSource" href="http://avalon.apache.org/datasource/index.html"/>
+    <menu-item label="Monitor" href="http://avalon.apache.org/monitor/index.html"/>
+    <menu-item label="XMLBundle" href="http://avalon.apache.org/xmlbundle/index.html"/>
   </menu>
 
   <menu label="Resource Managers">
-    <menu-item label="Event" href="http://a/event/index.html"/>
-    <menu-item label="Logger" href="http://a/logger/index.html"/>
-    <menu-item label="Testcase" href="http://a/testcase/index.html"/>
+    <menu-item label="Event" href="http://avalon.apache.org/event/index.html"/>
+    <menu-item label="Logger" href="http://avalon.apache.org/logger/index.html"/>
+    <menu-item label="Testcase" href="http://avalon.apache.org/testcase/index.html"/>
   </menu>
 
   <menu label="Testing and Analysis">
-    <menu-item label="Instrumentation" href="http://a/instrument/index.html"/>
-    <menu-item label="Component Testing Harness" href="http://a/testcase/index.html"/>
+    <menu-item label="Instrumentation" href="http://avalon.apache.org/instrument/index.html"/>
+    <menu-item label="Component Testing Harness" href="http://avalon.apache.org/testcase/index.html"/>
   </menu>
   
   <menu label="Utilities">
-    <menu-item label="AltRMI" href="http://a/altrmi/index.html"/>
-    <menu-item label="Baxter" href="http://a/baxter/index.html"/>
-    <menu-item label="CLI" href="http://a/cli/index.html"/>
-    <menu-item label="Collections" href="http://a/collections/index.html"/>
-    <menu-item label="Configuration" href="http://a/configuration/index.html"/>
-    <menu-item label="Concurrent" href="http://a/concurrent/index.html"/>
-    <menu-item label="Container" href="http://a/container/index.html"/>
-    <menu-item label="Extension" href="http://a/extension/index.html"/>
-    <menu-item label="I/O" href="http://a/io/index.html"/>
-    <menu-item label="Internationalization" href="http://a/i18n/index.html"/>
-    <menu-item label="Logger" href="http://a/logger/index.html"/>
-    <menu-item label="Naming" href="http://a/naming/index.html"/>
-    <menu-item label="Meta" href="http://a/meta/index.html"/>
-    <menu-item label="Pool" href="http://a/pool/index.html"/>
-    <menu-item label="Source Resolver" href="http://a/sourceresolve/index.html"/>
-    <menu-item label="Thread" href="http://a/thread/index.html"/>
-    <menu-item label="Util" href="http://a/util/index.html"/>
+    <menu-item label="AltRMI" href="http://avalon.apache.org/altrmi/index.html"/>
+    <menu-item label="Baxter" href="http://avalon.apache.org/baxter/index.html"/>
+    <menu-item label="CLI" href="http://avalon.apache.org/cli/index.html"/>
+    <menu-item label="Collections" href="http://avalon.apache.org/collections/index.html"/>
+    <menu-item label="Configuration" href="http://avalon.apache.org/configuration/index.html"/>
+    <menu-item label="Concurrent" href="http://avalon.apache.org/concurrent/index.html"/>
+    <menu-item label="Container" href="http://avalon.apache.org/container/index.html"/>
+    <menu-item label="Extension" href="http://avalon.apache.org/extension/index.html"/>
+    <menu-item label="I/O" href="http://avalon.apache.org/io/index.html"/>
+    <menu-item label="Internationalization" href="http://avalon.apache.org/i18n/index.html"/>
+    <menu-item label="Logger" href="http://avalon.apache.org/logger/index.html"/>
+    <menu-item label="Naming" href="http://avalon.apache.org/naming/index.html"/>
+    <menu-item label="Meta" href="http://avalon.apache.org/meta/index.html"/>
+    <menu-item label="Pool" href="http://avalon.apache.org/pool/index.html"/>
+    <menu-item label="Source Resolver" href="http://avalon.apache.org/sourceresolve/index.html"/>
+    <menu-item label="Thread" href="http://avalon.apache.org/thread/index.html"/>
+    <menu-item label="Util" href="http://avalon.apache.org/util/index.html"/>
   </menu>
   
 </book>
