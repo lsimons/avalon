@@ -64,6 +64,7 @@ import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.avalon.framework.CascadingException;
 import org.apache.excalibur.instrument.AbstractLogEnabledInstrumentable;
 import org.apache.excalibur.instrument.CounterInstrument;
 import org.apache.excalibur.mpool.ObjectFactory;
@@ -73,7 +74,7 @@ import org.apache.excalibur.mpool.ObjectFactory;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
- * @version CVS $Revision: 1.23 $ $Date: 2003/04/25 13:31:03 $
+ * @version CVS $Revision: 1.24 $ $Date: 2003/05/08 21:24:46 $
  * @since 4.0
  */
 public final class ComponentFactory
@@ -171,47 +172,56 @@ public final class ComponentFactory
     public Object newInstance()
         throws Exception
     {
-        final Object component = m_componentClass.newInstance();
+        final Object component;
 
-        if ( getLogger().isDebugEnabled() )
+        try
         {
-            final String message =
-                "ComponentFactory creating new instance of " +
-                m_componentClass.getName() + ".";
-            getLogger().debug( message );
+            component = m_componentClass.newInstance();
+
+            if ( getLogger().isDebugEnabled() )
+            {
+                final String message =
+                    "ComponentFactory creating new instance of " +
+                    m_componentClass.getName() + ".";
+                getLogger().debug( message );
+            }
+
+            ContainerUtil.enableLogging( component, m_componentLogger );
+
+            if ( component instanceof Loggable )
+            {
+                final org.apache.log.Logger logkitLogger =
+                    LogKit2AvalonLoggerAdapter.createLogger( m_componentLogger );
+                ( (Loggable) component ).setLogger( logkitLogger );
+            }
+
+            ContainerUtil.contextualize( component, m_context );
+            if ( component instanceof Composable )
+            {
+                ContainerUtil.compose( component, new WrapperComponentManager( m_serviceManager ) );
+            }
+            ContainerUtil.service( component, m_serviceManager );
+            ContainerUtil.configure( component, m_configuration );
+
+            if ( component instanceof Parameterizable )
+            {
+                ContainerUtil.parameterize( component, Parameters.fromConfiguration( m_configuration ) );
+            }
+
+            m_extManager.executeCreationExtensions( component, m_context );
+
+            ContainerUtil.initialize( component );
+
+            ContainerUtil.start( component );
+
+            if ( m_newInstance.isActive() )
+            {
+                m_newInstance.increment();
+            }
         }
-
-        ContainerUtil.enableLogging( component, m_componentLogger );
-
-        if ( component instanceof Loggable )
+        catch (LinkageError le)
         {
-            final org.apache.log.Logger logkitLogger =
-                LogKit2AvalonLoggerAdapter.createLogger( m_componentLogger );
-            ( (Loggable) component ).setLogger( logkitLogger );
-        }
-
-        ContainerUtil.contextualize( component, m_context );
-        if ( component instanceof Composable )
-        {
-            ContainerUtil.compose( component, new WrapperComponentManager( m_serviceManager ) );
-        }
-        ContainerUtil.service( component, m_serviceManager );
-        ContainerUtil.configure( component, m_configuration );
-
-        if ( component instanceof Parameterizable )
-        {
-            ContainerUtil.parameterize( component, Parameters.fromConfiguration( m_configuration ) );
-        }
-
-        m_extManager.executeCreationExtensions( component, m_context );
-
-        ContainerUtil.initialize( component );
-
-        ContainerUtil.start( component );
-
-        if ( m_newInstance.isActive() )
-        {
-            m_newInstance.increment();
+            throw new CascadingException("Could not load component", le);
         }
 
         return component;

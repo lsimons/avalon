@@ -98,7 +98,7 @@ import java.util.Map;
  * Container's Manager can expose that to the instantiating class.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.24 $ $Date: 2003/05/02 04:15:20 $
+ * @version CVS $Revision: 1.25 $ $Date: 2003/05/08 21:24:46 $
  */
 public abstract class AbstractContainer
     extends AbstractLogEnabled
@@ -622,7 +622,7 @@ public abstract class AbstractContainer
             try
             {
                 final ComponentHandler handler = entry.getHandler();
-                
+
                 // Depending on the activation policy of the component decide
                 //  how to initialize the component.  Make sure that we can
                 //  perform the specified activation policy, if not modify it.
@@ -635,7 +635,7 @@ public abstract class AbstractContainer
                         activation = ComponentHandlerMetaData.ACTIVATION_INLINE;
                     }
                 }
-                
+
                 // We now have an activation policy we can handle.
                 switch ( activation )
                 {
@@ -647,12 +647,12 @@ public abstract class AbstractContainer
                         new PrepareHandlerCommand( handler, getLogger() );
                     m_commandQueue.enqueue( element );
                     break;
-                    
+
                 case ComponentHandlerMetaData.ACTIVATION_INLINE:
                     // Initialize the component now.
                     handler.prepareHandler();
                     break;
-                    
+
                 default: // ComponentHandlerMetaData.ACTIVATION_LAZY
                     if ( getLogger().isDebugEnabled() )
                     {
@@ -674,6 +674,17 @@ public abstract class AbstractContainer
                     getLogger().warn( message, e );
                 }
                 buffer.add( e );
+            }
+            catch ( final LinkageError le )
+            {
+                final String cName = entry.getMetaData().getName();
+
+                if ( getLogger().isWarnEnabled() )
+                {
+                    final String message = "Could not initialize component " + cName;
+                    getLogger().warn( message, le );
+                }
+                buffer.add( le );
             }
         }
 
