@@ -53,8 +53,6 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
 
-import org.apache.excalibur.instrument.manager.interfaces.NoSuchInstrumentException;
-
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
@@ -68,7 +66,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * Not Synchronized.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.3 $ $Date: 2003/02/20 17:08:18 $
+ * @version CVS $Revision: 1.4 $ $Date: 2003/02/25 16:28:16 $
  * @since 4.1
  */
 class InstrumentableProxy

@@ -52,8 +52,9 @@ package org.apache.excalibur.xfc.ant;
 import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.excalibur.xfc.Converter;
-import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
+
+import com.thaiopensource.relaxng.parse.BuildException;
 
 /**
  * ANT Task based XFC entry point.
@@ -68,7 +69,7 @@ import org.apache.tools.ant.Task;
  * </p>
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: XFCTask.java,v 1.4 2002/11/12 20:07:50 donaldp Exp $
+ * @version CVS $Id: XFCTask.java,v 1.5 2003/02/25 16:28:40 bloritsch Exp $
  */
 public final class XFCTask
     extends Task

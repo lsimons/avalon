@@ -49,16 +49,16 @@
 */
 package org.apache.excalibur.mpool;
 
+import org.apache.avalon.framework.activity.Disposable;
 import org.apache.commons.collections.Buffer;
 import org.apache.commons.collections.UnboundedFifoBuffer;
-import org.apache.avalon.framework.activity.Disposable;
 
 /**
  * This is an <code>Pool</code> that caches Poolable objects for reuse.
  * Please note that this pool offers no resource limiting whatsoever.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.8 $ $Date: 2002/10/02 15:39:29 $
+ * @version CVS $Revision: 1.9 $ $Date: 2003/02/25 16:28:19 $
  * @since 4.1
  */
 public final class VariableSizePool

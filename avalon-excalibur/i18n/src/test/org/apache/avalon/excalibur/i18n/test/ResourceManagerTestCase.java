@@ -50,7 +50,9 @@
 package org.apache.avalon.excalibur.i18n.test;
 
 import java.util.MissingResourceException;
+
 import junit.framework.TestCase;
+
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 

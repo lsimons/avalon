@@ -9,11 +9,12 @@ package org.apache.avalon.excalibur.datasource.cluster;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+
 import org.apache.avalon.excalibur.datasource.DataSourceComponent;
 
 /**
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/11/05 04:34:02 $
+ * @version CVS $Revision: 1.3 $ $Date: 2003/02/25 16:28:33 $
  * @since 4.1
  */
 public interface IndexedDataSourceCluster

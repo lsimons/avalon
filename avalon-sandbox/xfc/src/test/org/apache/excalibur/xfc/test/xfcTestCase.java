@@ -49,32 +49,26 @@
 */
 package org.apache.excalibur.xfc.test;
 
+import junit.framework.TestCase;
+import junit.textui.TestRunner;
+
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.framework.logger.NullLogger;
-
 import org.apache.excalibur.configuration.ConfigurationUtil;
-
-import org.apache.excalibur.xfc.modules.ecm.ECM;
-import org.apache.excalibur.xfc.model.Definition;
+import org.apache.excalibur.xfc.Module;
 import org.apache.excalibur.xfc.model.Model;
 import org.apache.excalibur.xfc.model.role.RoleRef;
-import org.apache.excalibur.xfc.Main;
-import org.apache.excalibur.xfc.Module;
-
+import org.apache.excalibur.xfc.modules.ecm.ECM;
 import org.apache.excalibur.xfc.test.util.ECMTestRig;
 import org.apache.excalibur.xfc.test.util.FortressTestRig;
-
-import junit.framework.TestCase;
-import junit.textui.TestRunner;
 
 /**
  * XFC TestCase.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: xfcTestCase.java,v 1.9 2003/01/22 04:38:54 jefft Exp $
+ * @version CVS $Id: xfcTestCase.java,v 1.10 2003/02/25 16:28:41 bloritsch Exp $
  */
 public final class xfcTestCase extends TestCase
 {

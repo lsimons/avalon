@@ -10,7 +10,6 @@ package org.apache.excalibur.instrument.test;
 import junit.framework.TestCase;
 
 import org.apache.avalon.framework.logger.ConsoleLogger;
-
 import org.apache.excalibur.instrument.CounterInstrument;
 import org.apache.excalibur.instrument.Instrument;
 import org.apache.excalibur.instrument.Instrumentable;
@@ -20,7 +19,7 @@ import org.apache.excalibur.instrument.ValueInstrument;
  * Test of the AbstractLogEnabledInstrumentable instrument.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/09/26 06:34:53 $
+ * @version CVS $Revision: 1.2 $ $Date: 2003/02/25 16:28:40 $
  */
 public class LogEnabledInstrumentableTestCase
     extends TestCase

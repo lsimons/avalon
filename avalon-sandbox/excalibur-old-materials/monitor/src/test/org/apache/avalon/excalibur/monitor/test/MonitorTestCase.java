@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.OutputStream;
 import java.io.Writer;
+
 import org.apache.avalon.excalibur.monitor.FileResource;
 import org.apache.avalon.excalibur.monitor.Monitor;
 import org.apache.avalon.excalibur.testcase.CascadingAssertionFailedError;
@@ -25,7 +26,7 @@ import org.apache.avalon.framework.component.ComponentSelector;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Id: MonitorTestCase.java,v 1.13 2002/10/02 01:47:04 donaldp Exp $
+ * @version $Id: MonitorTestCase.java,v 1.14 2003/02/25 16:28:39 bloritsch Exp $
  */
 public class MonitorTestCase
     extends ExcaliburTestCase

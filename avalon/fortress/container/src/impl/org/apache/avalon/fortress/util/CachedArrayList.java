@@ -49,9 +49,9 @@
 */
 package org.apache.avalon.fortress.util;
 
-import java.util.List;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * <code>CachedArrayList</code> class.

@@ -7,17 +7,18 @@
  */
 package org.apache.excalibur.xmlizer;
 
-import org.xml.sax.ContentHandler;
-import org.xml.sax.SAXException;
 import java.io.IOException;
 import java.io.InputStream;
+
+import org.xml.sax.ContentHandler;
+import org.xml.sax.SAXException;
 
 /**
  * Converter for transforming any input stream with a given mime-type
  * into SAX events.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.7 $ $Date: 2002/12/06 22:09:45 $
+ * @version CVS $Revision: 1.8 $ $Date: 2003/02/25 16:28:36 $
  */
 public interface XMLizer
 {

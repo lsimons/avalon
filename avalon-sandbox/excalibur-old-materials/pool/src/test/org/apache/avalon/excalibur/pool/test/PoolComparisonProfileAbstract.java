@@ -8,6 +8,7 @@
 package org.apache.avalon.excalibur.pool.test;
 
 import junit.framework.TestCase;
+
 import org.apache.avalon.excalibur.pool.HardResourceLimitingPool;
 import org.apache.avalon.excalibur.pool.ObjectFactory;
 import org.apache.avalon.excalibur.pool.Pool;
@@ -22,7 +23,7 @@ import org.apache.avalon.framework.logger.Logger;
  * Used as a basis for the PoolComparisonProfile Tests
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version $Id: PoolComparisonProfileAbstract.java,v 1.1 2002/04/04 05:09:04 leif Exp $
+ * @version $Id: PoolComparisonProfileAbstract.java,v 1.2 2003/02/25 16:28:25 bloritsch Exp $
  */
 public abstract class PoolComparisonProfileAbstract
     extends TestCase

@@ -9,6 +9,7 @@ package org.apache.excalibur.cache.policy;
 
 import java.util.HashMap;
 import java.util.TreeMap;
+
 import org.apache.excalibur.cache.ReplacementPolicy;
 
 /**

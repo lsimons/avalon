@@ -51,7 +51,7 @@ package org.apache.avalon.excalibur.component;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import org.apache.commons.collections.StaticBucketMap;
+
 import org.apache.avalon.excalibur.logger.LogKitManageable;
 import org.apache.avalon.excalibur.pool.ObjectFactory;
 import org.apache.avalon.framework.activity.Disposable;
@@ -71,6 +71,7 @@ import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.framework.service.WrapperServiceManager;
 import org.apache.avalon.framework.thread.ThreadSafe;
+import org.apache.commons.collections.StaticBucketMap;
 import org.apache.excalibur.instrument.InstrumentManageable;
 import org.apache.excalibur.instrument.InstrumentManager;
 import org.apache.excalibur.instrument.Instrumentable;
@@ -82,7 +83,7 @@ import org.apache.excalibur.instrument.Instrumentable;
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.19 $ $Date: 2003/02/20 17:12:34 $
+ * @version CVS $Revision: 1.20 $ $Date: 2003/02/25 16:28:21 $
  * @since 4.0
  */
 public class DefaultComponentFactory

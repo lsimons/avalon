@@ -50,6 +50,7 @@
 package org.apache.avalon.excalibur.logger.test;
 
 import junit.swingui.TestRunner;
+
 import org.apache.avalon.excalibur.testcase.CascadingAssertionFailedError;
 import org.apache.avalon.excalibur.testcase.ExcaliburTestCase;
 
@@ -57,7 +58,7 @@ import org.apache.avalon.excalibur.testcase.ExcaliburTestCase;
  * LogKitManagementTest.
  *
  * @author <a href="mailto:giacomo@apache,org">Giacomo Pati</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/11/12 21:58:35 $
+ * @version CVS $Revision: 1.5 $ $Date: 2003/02/25 16:28:22 $
  */
 public class LogKitManagementTestCase
     extends ExcaliburTestCase

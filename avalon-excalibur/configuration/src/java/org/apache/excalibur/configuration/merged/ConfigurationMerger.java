@@ -52,6 +52,7 @@ package org.apache.excalibur.configuration.merged;
 
 import java.util.HashSet;
 import java.util.Set;
+
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;

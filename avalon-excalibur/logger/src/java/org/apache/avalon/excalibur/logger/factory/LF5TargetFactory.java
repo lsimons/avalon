@@ -49,13 +49,10 @@
 */
 package org.apache.avalon.excalibur.logger.factory;
 
+import org.apache.avalon.excalibur.logger.LogTargetFactory;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
-
-import org.apache.avalon.excalibur.logger.LogTargetFactory;
-
 import org.apache.log.LogTarget;
-import org.apache.log.format.PatternFormatter;
 import org.apache.log.output.lf5.LF5LogTarget;
 
 /**
@@ -73,7 +70,7 @@ import org.apache.log.output.lf5.LF5LogTarget;
  * format the log event for display on the "NDC" line in the Swing GUI.
  *
  * @author <a href="sylvain@apache.org">Sylvain Wallez</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/01/23 09:40:14 $
+ * @version CVS $Revision: 1.2 $ $Date: 2003/02/25 16:28:18 $
  */
 
 public class LF5TargetFactory implements LogTargetFactory

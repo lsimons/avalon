@@ -51,12 +51,13 @@ package org.apache.avalon.excalibur.logger;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.log.LogTarget;
 
 /**
@@ -64,7 +65,7 @@ import org.apache.log.LogTarget;
  * from a configuration file.
  *
  * @author <a href="mailto:giacomo@apache.org">Giacomo Pati</a>
- * @version CVS $Revision: 1.7 $ $Date: 2002/11/26 08:05:45 $
+ * @version CVS $Revision: 1.8 $ $Date: 2003/02/25 16:28:24 $
  * @since 4.0
  */
 public class DefaultLogTargetManager

@@ -11,6 +11,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.sax.SAXTransformerFactory;
 import javax.xml.transform.sax.TransformerHandler;
+
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
@@ -19,7 +20,7 @@ import org.w3c.dom.Document;
 
 /**
  * @author <a href="mailto:mirceatoma@apache.org">Mircea Toma</a>
- * @version CVS $Revision: 1.7 $ $Date: 2002/11/12 23:35:10 $
+ * @version CVS $Revision: 1.8 $ $Date: 2003/02/25 16:28:36 $
  * @avalon.component
  */
 public class DefaultDOMHandlerFactory

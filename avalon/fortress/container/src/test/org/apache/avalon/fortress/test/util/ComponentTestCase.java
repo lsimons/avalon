@@ -8,6 +8,7 @@
 package org.apache.avalon.fortress.test.util;
 
 import junit.framework.TestCase;
+
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.NullLogger;
@@ -19,7 +20,7 @@ import org.apache.avalon.framework.service.DefaultServiceManager;
  * within your own code.
  *
  * @author <a href="bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/01/27 17:04:49 $
+ * @version CVS $Revision: 1.2 $ $Date: 2003/02/25 16:28:23 $
  */
 public final class ComponentTestCase
     extends TestCase

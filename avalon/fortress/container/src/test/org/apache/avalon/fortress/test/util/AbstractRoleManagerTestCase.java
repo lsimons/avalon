@@ -8,13 +8,14 @@
 package org.apache.avalon.fortress.test.util;
 
 import junit.framework.TestCase;
+
 import org.apache.avalon.fortress.RoleEntry;
 import org.apache.avalon.fortress.RoleManager;
 
 /**
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003/01/27 17:04:49 $
+ * @version $Revision: 1.2 $ $Date: 2003/02/25 16:28:23 $
  */
 public class AbstractRoleManagerTestCase extends TestCase
 {

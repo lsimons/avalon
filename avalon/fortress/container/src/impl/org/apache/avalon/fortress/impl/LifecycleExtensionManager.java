@@ -50,11 +50,12 @@
 package org.apache.avalon.fortress.impl;
 
 import java.util.Iterator;
+
+import org.apache.avalon.fortress.util.CachedArrayList;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.excalibur.container.lifecycle.Accessor;
 import org.apache.excalibur.container.lifecycle.Creator;
-import org.apache.avalon.fortress.util.CachedArrayList;
 
 /**
  * <code>LifecycleExtensionManager</code> class. This class manages a list
@@ -75,7 +76,7 @@ import org.apache.avalon.fortress.util.CachedArrayList;
  * </p>
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/01/27 16:55:41 $
+ * @version CVS $Revision: 1.2 $ $Date: 2003/02/25 16:28:33 $
  * @todo use something from Commons instead of CachedArrayList?
  */
 public class LifecycleExtensionManager

@@ -9,6 +9,7 @@ package org.apache.avalon.excalibur.datasource.cluster;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+
 import org.apache.avalon.excalibur.datasource.NoValidConnectionException;
 
 /**
@@ -96,7 +97,7 @@ import org.apache.avalon.excalibur.datasource.NoValidConnectionException;
  * </pre>
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/04/22 03:04:27 $
+ * @version CVS $Revision: 1.2 $ $Date: 2003/02/25 16:28:33 $
  * @since 4.1
  */
 public class DefaultIndexedDataSourceCluster

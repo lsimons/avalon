@@ -8,6 +8,7 @@
 package org.apache.excalibur.cache.store.test;
 
 import junit.framework.TestCase;
+
 import org.apache.excalibur.cache.CacheStore;
 
 /**

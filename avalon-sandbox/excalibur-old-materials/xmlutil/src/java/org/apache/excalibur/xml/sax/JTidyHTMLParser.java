@@ -7,7 +7,11 @@
  */
 package org.apache.excalibur.xml.sax;
 
+import java.io.IOException;
+import java.util.Properties;
+
 import org.apache.avalon.framework.activity.Initializable;
+import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
@@ -17,24 +21,20 @@ import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.framework.thread.ThreadSafe;
-import org.apache.avalon.framework.component.Component;
 import org.apache.excalibur.xml.dom.DOMSerializer;
-import org.apache.excalibur.xml.sax.SAXParser;
 import org.w3c.dom.Document;
 import org.w3c.tidy.Tidy;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.ext.LexicalHandler;
-import java.io.IOException;
-import java.util.Properties;
 
 /**
  * Converter for transforming an input stream contain text/html data
  * to SAX events.
  *
  * @author <a href="mailto:mirceatoma@apache.org">Mircea Toma</a>
- * @version CVS $Revision: 1.4 $ $Date: 2003/01/22 02:31:27 $
+ * @version CVS $Revision: 1.5 $ $Date: 2003/02/25 16:28:34 $
  */
 public final class JTidyHTMLParser extends AbstractLogEnabled
         implements SAXParser, Serviceable, Configurable, Initializable, ThreadSafe, Component

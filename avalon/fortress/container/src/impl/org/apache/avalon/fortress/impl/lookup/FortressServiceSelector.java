@@ -50,11 +50,12 @@
 package org.apache.avalon.fortress.impl.lookup;
 
 import java.util.Map;
+
+import org.apache.avalon.fortress.Container;
+import org.apache.avalon.fortress.impl.handler.ComponentHandler;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceSelector;
 import org.apache.commons.collections.StaticBucketMap;
-import org.apache.avalon.fortress.Container;
-import org.apache.avalon.fortress.impl.handler.ComponentHandler;
 
 /**
  * This is the Default ServiceSelector for the Container.  It provides
@@ -62,7 +63,7 @@ import org.apache.avalon.fortress.impl.handler.ComponentHandler;
  * the references.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.3 $ $Date: 2003/02/15 17:34:16 $
+ * @version CVS $Revision: 1.4 $ $Date: 2003/02/25 16:28:31 $
  */
 public class FortressServiceSelector
     implements ServiceSelector

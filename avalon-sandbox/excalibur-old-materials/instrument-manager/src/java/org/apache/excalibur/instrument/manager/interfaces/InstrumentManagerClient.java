@@ -49,14 +49,11 @@
 */
 package org.apache.excalibur.instrument.manager.interfaces;
 
-import org.apache.excalibur.instrument.Instrumentable;
-
-import org.apache.avalon.framework.configuration.Configuration;
 
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.4 $ $Date: 2003/02/20 17:08:19 $
+ * @version CVS $Revision: 1.5 $ $Date: 2003/02/25 16:28:56 $
  * @since 4.1
  */
 public interface InstrumentManagerClient

@@ -50,8 +50,8 @@
 package org.apache.excalibur.mpool;
 
 import java.util.Iterator;
-import java.util.Random;
 import java.util.Map;
+import java.util.Random;
 
 import org.apache.commons.collections.StaticBucketMap;
 import org.apache.excalibur.event.Sink;
@@ -63,7 +63,7 @@ import org.apache.excalibur.event.command.RepeatedCommand;
  * the constructor.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.5 $ $Date: 2002/11/09 08:48:31 $
+ * @version CVS $Revision: 1.6 $ $Date: 2003/02/25 16:28:19 $
  * @since 4.1
  */
 public class DefaultPoolManager implements PoolManager

@@ -8,18 +8,18 @@
 
 package org.apache.excalibur.store.impl;
 
-import com.coyotegulch.jisp.KeyObject;
-
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
+
+import com.coyotegulch.jisp.KeyObject;
 
 /**
  * Wrapper class for String Keys to be compatible with the
  * Jisp KeyObject.
  *
  * @author <a href="mailto:g-froehlich@gmx.de">Gerhard Froehlich</a>
- * @version CVS $Id: JispStringKey.java,v 1.2 2002/10/12 10:39:14 froehlich Exp $
+ * @version CVS $Id: JispStringKey.java,v 1.3 2003/02/25 16:28:23 bloritsch Exp $
  */
 final class JispStringKey extends KeyObject {
     final static long serialVersionUID = -6894793231339165076L;

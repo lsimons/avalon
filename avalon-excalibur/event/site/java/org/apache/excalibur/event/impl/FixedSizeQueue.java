@@ -49,10 +49,11 @@
 */
 package org.apache.excalibur.event.impl;
 
-import EDU.oswego.cs.dl.util.concurrent.ReentrantLock;
 import org.apache.excalibur.event.PreparedEnqueue;
 import org.apache.excalibur.event.SinkException;
 import org.apache.excalibur.event.SinkFullException;
+
+import EDU.oswego.cs.dl.util.concurrent.ReentrantLock;
 
 /**
  * An implementation of the <code>Queue</code> that has a fixed size.  Once

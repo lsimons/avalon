@@ -8,6 +8,7 @@
 package org.apache.excalibur.cache.validator.test;
 
 import junit.framework.TestCase;
+
 import org.apache.excalibur.cache.Cache;
 import org.apache.excalibur.cache.ValidatingCache;
 import org.apache.excalibur.cache.impl.LRUCache;

@@ -49,15 +49,18 @@
 */
 package org.apache.avalon.fortress.test;
 
-import java.net.URL;
 import junit.framework.TestCase;
 import junit.textui.TestRunner;
+
 import org.apache.avalon.excalibur.component.ExcaliburComponentManager;
 import org.apache.avalon.excalibur.logger.DefaultLogKitManager;
 import org.apache.avalon.excalibur.monitor.Monitor;
 import org.apache.avalon.excalibur.testcase.CascadingAssertionFailedError;
 import org.apache.avalon.excalibur.testcase.LatchedThreadGroup;
-import org.apache.excalibur.xml.dom.DOMParser;
+import org.apache.avalon.fortress.ContainerManager;
+import org.apache.avalon.fortress.impl.DefaultContainer;
+import org.apache.avalon.fortress.impl.DefaultContainerManager;
+import org.apache.avalon.fortress.util.FortressConfig;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.avalon.framework.container.ContainerUtil;
@@ -68,16 +71,13 @@ import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.logger.NullLogger;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.WrapperServiceManager;
-import org.apache.avalon.fortress.ContainerManager;
-import org.apache.avalon.fortress.impl.DefaultContainerManager;
-import org.apache.avalon.fortress.impl.DefaultContainer;
-import org.apache.avalon.fortress.util.FortressConfig;
+import org.apache.excalibur.xml.dom.DOMParser;
 
 /**
  * Used as a basis for the PoolComparisonProfile Tests
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: ContainerProfile.java,v 1.2 2003/01/28 21:19:17 leosimons Exp $
+ * @version $Id: ContainerProfile.java,v 1.3 2003/02/25 16:28:37 bloritsch Exp $
  */
 public final class ContainerProfile
     extends TestCase

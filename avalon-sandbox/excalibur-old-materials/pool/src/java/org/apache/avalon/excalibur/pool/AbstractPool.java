@@ -51,17 +51,18 @@ package org.apache.avalon.excalibur.pool;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.commons.collections.Buffer; 
-import org.apache.commons.collections.UnboundedFifoBuffer; 
+
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.thread.ThreadSafe;
+import org.apache.commons.collections.Buffer;
+import org.apache.commons.collections.UnboundedFifoBuffer;
 
 /**
  * This is an <code>Pool</code> that caches Poolable objects for reuse.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.7 $ $Date: 2003/02/20 17:09:24 $
+ * @version CVS $Revision: 1.8 $ $Date: 2003/02/25 16:28:49 $
  * @since 4.0
  */
 public abstract class AbstractPool

@@ -9,6 +9,7 @@ package org.apache.excalibur.store;
 
 import java.io.IOException;
 import java.util.Enumeration;
+
 import org.apache.avalon.framework.component.Component;
 
 /**
@@ -27,7 +28,7 @@ import org.apache.avalon.framework.component.Component;
  *         (Apache Software Foundation)
  * @author <a href="mailto:fumagalli@exoffice.com">Pierpaolo Fumagalli</a>
  *         (Apache Software Foundation, Exoffice Technologies)
- * @version CVS $Id: Store.java,v 1.4 2002/08/14 15:33:53 crafterm Exp $
+ * @version CVS $Id: Store.java,v 1.5 2003/02/25 16:28:38 bloritsch Exp $
  */
 public interface Store
     extends Component

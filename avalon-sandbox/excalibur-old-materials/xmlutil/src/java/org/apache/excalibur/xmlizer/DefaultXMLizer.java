@@ -7,6 +7,11 @@
  */
 package org.apache.excalibur.xmlizer;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -20,10 +25,6 @@ import org.apache.excalibur.xml.sax.SAXParser;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Converter for transforming any input stream with a given mime-type
@@ -34,7 +35,7 @@ import java.util.Map;
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
  * @author <a href="mailto:mirceatoma@apache.org">Mircea Toma</a>
- * @version CVS $Revision: 1.7 $ $Date: 2003/02/04 22:03:43 $
+ * @version CVS $Revision: 1.8 $ $Date: 2003/02/25 16:28:36 $
  */
 public final class DefaultXMLizer extends AbstractLogEnabled
         implements XMLizer, Serviceable, Configurable, ThreadSafe, Component

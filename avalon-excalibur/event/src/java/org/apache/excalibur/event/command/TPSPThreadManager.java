@@ -50,7 +50,7 @@
 package org.apache.excalibur.event.command;
 
 import java.util.Iterator;
-import EDU.oswego.cs.dl.util.concurrent.PooledExecutor;
+
 import org.apache.commons.collections.StaticBucketMap;
 import org.apache.excalibur.event.EventHandler;
 import org.apache.excalibur.event.Source;

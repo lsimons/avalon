@@ -50,6 +50,7 @@
 package org.apache.excalibur.instrument;
 
 import java.util.ArrayList;
+
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 
 /**

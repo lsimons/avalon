@@ -8,11 +8,12 @@
 package org.apache.avalon.excalibur.pool.test;
 
 import junit.framework.TestCase;
+
 import org.apache.avalon.excalibur.pool.DefaultPool;
 import org.apache.avalon.excalibur.pool.Poolable;
 import org.apache.avalon.excalibur.pool.SingleThreadedPool;
-import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.logger.LogKitLogger;
+import org.apache.avalon.framework.logger.Logger;
 
 /**
  * This is used to profile the Pool implementation.

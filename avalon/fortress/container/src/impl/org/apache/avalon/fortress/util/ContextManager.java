@@ -53,8 +53,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
+
 import org.apache.avalon.excalibur.logger.LogKitLoggerManager;
 import org.apache.avalon.excalibur.logger.LoggerManager;
+import org.apache.avalon.fortress.RoleManager;
+import org.apache.avalon.fortress.impl.role.ConfigurableRoleManager;
+import org.apache.avalon.fortress.impl.role.FortressRoleManager;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -76,9 +80,6 @@ import org.apache.excalibur.event.Sink;
 import org.apache.excalibur.event.command.CommandManager;
 import org.apache.excalibur.event.command.TPCThreadManager;
 import org.apache.excalibur.event.command.ThreadManager;
-import org.apache.avalon.fortress.impl.role.ConfigurableRoleManager;
-import org.apache.avalon.fortress.impl.role.FortressRoleManager;
-import org.apache.avalon.fortress.RoleManager;
 import org.apache.excalibur.instrument.InstrumentManager;
 import org.apache.excalibur.instrument.manager.DefaultInstrumentManager;
 import org.apache.excalibur.mpool.DefaultPoolManager;
@@ -115,7 +116,7 @@ import org.apache.log.Priority;
  * and dispose of them properly when it itself is disposed .</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.6 $ $Date: 2003/02/25 15:23:46 $
+ * @version CVS $Revision: 1.7 $ $Date: 2003/02/25 16:28:28 $
  * @since 4.1
  */
 public class ContextManager

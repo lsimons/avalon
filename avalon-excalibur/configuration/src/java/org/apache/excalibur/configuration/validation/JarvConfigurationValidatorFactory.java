@@ -57,7 +57,6 @@ import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
-
 import org.iso_relax.verifier.VerifierConfigurationException;
 import org.iso_relax.verifier.VerifierFactory;
 import org.xml.sax.SAXParseException;

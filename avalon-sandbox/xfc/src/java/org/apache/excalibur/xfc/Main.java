@@ -50,6 +50,7 @@
 package org.apache.excalibur.xfc;
 
 import java.util.List;
+
 import org.apache.avalon.excalibur.cli.CLArgsParser;
 import org.apache.avalon.excalibur.cli.CLOption;
 import org.apache.avalon.excalibur.cli.CLOptionDescriptor;
@@ -63,7 +64,7 @@ import org.apache.avalon.framework.logger.NullLogger;
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
  * (parts also taken from the Excalibur CLI example)
- * @version CVS $Id: Main.java,v 1.4 2002/11/12 19:55:27 donaldp Exp $
+ * @version CVS $Id: Main.java,v 1.5 2003/02/25 16:28:43 bloritsch Exp $
  */
 public final class Main
 {

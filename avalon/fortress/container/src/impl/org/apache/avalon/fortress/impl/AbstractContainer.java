@@ -53,7 +53,20 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
 import org.apache.avalon.excalibur.logger.LoggerManager;
+import org.apache.avalon.fortress.Container;
+import org.apache.avalon.fortress.RoleEntry;
+import org.apache.avalon.fortress.RoleManager;
+import org.apache.avalon.fortress.impl.handler.ComponentFactory;
+import org.apache.avalon.fortress.impl.handler.ComponentHandler;
+import org.apache.avalon.fortress.impl.handler.LEAwareComponentHandler;
+import org.apache.avalon.fortress.impl.handler.PrepareHandlerCommand;
+import org.apache.avalon.fortress.impl.handler.ProxyObjectFactory;
+import org.apache.avalon.fortress.impl.lookup.FortressServiceManager;
+import org.apache.avalon.fortress.impl.lookup.FortressServiceSelector;
+import org.apache.avalon.fortress.impl.role.FortressRoleManager;
+import org.apache.avalon.fortress.util.CompositeException;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -69,18 +82,6 @@ import org.apache.avalon.framework.service.Serviceable;
 import org.apache.commons.collections.BoundedFifoBuffer;
 import org.apache.commons.collections.StaticBucketMap;
 import org.apache.excalibur.event.Queue;
-import org.apache.avalon.fortress.Container;
-import org.apache.avalon.fortress.impl.handler.PrepareHandlerCommand;
-import org.apache.avalon.fortress.impl.handler.ComponentFactory;
-import org.apache.avalon.fortress.impl.handler.ComponentHandler;
-import org.apache.avalon.fortress.impl.handler.LEAwareComponentHandler;
-import org.apache.avalon.fortress.impl.handler.ProxyObjectFactory;
-import org.apache.avalon.fortress.impl.lookup.FortressServiceManager;
-import org.apache.avalon.fortress.impl.lookup.FortressServiceSelector;
-import org.apache.avalon.fortress.impl.role.FortressRoleManager;
-import org.apache.avalon.fortress.util.CompositeException;
-import org.apache.avalon.fortress.RoleEntry;
-import org.apache.avalon.fortress.RoleManager;
 import org.apache.excalibur.instrument.InstrumentManager;
 import org.apache.excalibur.instrument.Instrumentable;
 import org.apache.excalibur.mpool.ObjectFactory;
@@ -93,7 +94,7 @@ import org.apache.excalibur.mpool.PoolManager;
  * Container's Manager can expose that to the instantiating class.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.9 $ $Date: 2003/02/07 16:08:01 $
+ * @version CVS $Revision: 1.10 $ $Date: 2003/02/25 16:28:33 $
  */
 public abstract class AbstractContainer
     extends AbstractLogEnabled

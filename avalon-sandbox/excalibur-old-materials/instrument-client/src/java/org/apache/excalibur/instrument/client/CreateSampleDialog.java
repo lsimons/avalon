@@ -9,22 +9,13 @@ package org.apache.excalibur.instrument.client;
 
 import java.awt.Component;
 import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import javax.swing.AbstractAction;
-import javax.swing.Action;
+
 import javax.swing.Box;
 import javax.swing.ButtonGroup;
-import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentDescriptor;
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentManagerClient;
@@ -32,7 +23,7 @@ import org.apache.excalibur.instrument.manager.interfaces.InstrumentManagerClien
 /**
  *
  * @author <a href="mailto:leif@silveregg.co.jp">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/08/22 16:50:38 $
+ * @version CVS $Revision: 1.3 $ $Date: 2003/02/25 16:28:20 $
  * @since 4.1
  */
 class CreateSampleDialog

@@ -49,18 +49,18 @@
 */
 package org.apache.avalon.fortress.impl;
 
+import org.apache.avalon.fortress.RoleEntry;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.service.ServiceManager;
-import org.apache.avalon.fortress.RoleEntry;
 
 /**
  * This is the default implementation of {@link org.apache.avalon.fortress.Container},
  * adding configuration markup semantics to the {@link AbstractContainer}.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.4 $ $Date: 2003/02/07 22:37:52 $
+ * @version CVS $Revision: 1.5 $ $Date: 2003/02/25 16:28:33 $
  */
 public class DefaultContainer
     extends AbstractContainer

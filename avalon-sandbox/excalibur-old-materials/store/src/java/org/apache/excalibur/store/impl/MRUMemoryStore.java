@@ -7,23 +7,23 @@
  */
 package org.apache.excalibur.store.impl;
 
-import org.apache.avalon.framework.activity.Disposable;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.framework.parameters.Parameters;
-import org.apache.avalon.framework.parameters.ParameterException;
-import org.apache.avalon.framework.parameters.Parameterizable;
-import org.apache.avalon.framework.thread.ThreadSafe;
-import org.apache.avalon.framework.service.Serviceable;
-import org.apache.avalon.framework.service.ServiceManager;
-import org.apache.avalon.framework.service.ServiceException;
-import org.apache.excalibur.store.Store;
-import org.apache.excalibur.store.StoreJanitor;
-
 import java.io.IOException;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
+
+import org.apache.avalon.framework.activity.Disposable;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.framework.parameters.ParameterException;
+import org.apache.avalon.framework.parameters.Parameterizable;
+import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.avalon.framework.service.ServiceException;
+import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.avalon.framework.service.Serviceable;
+import org.apache.avalon.framework.thread.ThreadSafe;
+import org.apache.excalibur.store.Store;
+import org.apache.excalibur.store.StoreJanitor;
 
 /**
  * This class provides a cache algorithm for the requested documents.
@@ -33,7 +33,7 @@ import java.util.NoSuchElementException;
  * @author <a href="mailto:g-froehlich@gmx.de">Gerhard Froehlich</a>
  * @author <a href="mailto:dims@yahoo.com">Davanum Srinivas</a>
  * @author <a href="mailto:vgritsenko@apache.org">Vadim Gritsenko</a>
- * @version CVS $Id: MRUMemoryStore.java,v 1.7 2002/11/07 04:58:39 donaldp Exp $
+ * @version CVS $Id: MRUMemoryStore.java,v 1.8 2003/02/25 16:28:24 bloritsch Exp $
  */
 public final class MRUMemoryStore
     extends AbstractLogEnabled

@@ -9,6 +9,7 @@
 package org.apache.excalibur.xml.sax;
 
 import java.util.Enumeration;
+
 import org.xml.sax.AttributeList;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.DocumentHandler;
@@ -22,7 +23,7 @@ import org.xml.sax.helpers.NamespaceSupport;
  * {@link ContentHandler} to receive SAX version 1.0 events.
  *
  * @author <a href="mailto:mirceatoma@apache.org">Mircea Toma</a>
- * @version CVS $Revision: 1.5 $ $Date: 2002/11/12 23:35:34 $
+ * @version CVS $Revision: 1.6 $ $Date: 2003/02/25 16:28:34 $
  */
 
 public class ContentHandlerAdapter

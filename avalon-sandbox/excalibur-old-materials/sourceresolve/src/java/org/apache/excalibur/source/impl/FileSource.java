@@ -64,13 +64,12 @@ import java.util.Map;
 
 import org.apache.excalibur.source.ModifiableSource;
 import org.apache.excalibur.source.SourceException;
-import org.apache.excalibur.source.impl.URLSource;
 
 /**
  * A {@link ModifiableSource} for 'file:/' system IDs.
  *
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @version $Id: FileSource.java,v 1.1 2003/02/07 11:21:00 cziegeler Exp $
+ * @version $Id: FileSource.java,v 1.2 2003/02/25 16:28:33 bloritsch Exp $
  */
 
 public class FileSource

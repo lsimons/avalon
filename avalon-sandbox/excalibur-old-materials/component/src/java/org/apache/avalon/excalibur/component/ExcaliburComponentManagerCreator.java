@@ -52,6 +52,7 @@ package org.apache.avalon.excalibur.component;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+
 import org.apache.avalon.excalibur.logger.LogKitLoggerManager;
 import org.apache.avalon.excalibur.logger.LoggerManager;
 import org.apache.avalon.framework.activity.Disposable;
@@ -100,7 +101,7 @@ import org.apache.log.Priority;
  *  of the ServiceManager interface.
  *
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.9 $ $Date: 2003/02/20 17:12:35 $
+ * @version CVS $Revision: 1.10 $ $Date: 2003/02/25 16:28:21 $
  * @since 4.2
  */
 public class ExcaliburComponentManagerCreator

@@ -9,6 +9,7 @@ package org.apache.avalon.excalibur.datasource;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+
 import org.apache.avalon.excalibur.pool.DefaultPoolController;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -72,7 +73,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * </ul>
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.20 $ $Date: 2002/06/13 17:24:50 $
+ * @version CVS $Revision: 1.21 $ $Date: 2003/02/25 16:28:37 $
  * @since 4.0
  */
 public class JdbcDataSource

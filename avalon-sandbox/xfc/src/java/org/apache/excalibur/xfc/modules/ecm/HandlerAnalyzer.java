@@ -51,11 +51,12 @@ package org.apache.excalibur.xfc.modules.ecm;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import org.apache.excalibur.xfc.modules.Constants;
 
 /**
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: HandlerAnalyzer.java,v 1.3 2002/11/12 19:55:28 donaldp Exp $
+ * @version CVS $Id: HandlerAnalyzer.java,v 1.4 2003/02/25 16:28:25 bloritsch Exp $
  */
 public final class HandlerAnalyzer implements Constants
 {

@@ -8,13 +8,14 @@
 package org.apache.avalon.excalibur.pool.test;
 
 import java.util.HashMap;
+
 import org.apache.avalon.excalibur.pool.ObjectFactory;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.logger.Logger;
 
 /**
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/04/04 05:09:04 $
+ * @version CVS $Revision: 1.2 $ $Date: 2003/02/25 16:28:25 $
  * @since 4.1
  */
 public class ClassInstanceObjectFactory

@@ -51,11 +51,12 @@ package org.apache.excalibur.event.impl;
 
 import org.apache.commons.collections.Buffer;
 import org.apache.commons.collections.UnboundedFifoBuffer;
-import EDU.oswego.cs.dl.util.concurrent.ReentrantLock;
 import org.apache.excalibur.event.EnqueuePredicate;
 import org.apache.excalibur.event.PreparedEnqueue;
 import org.apache.excalibur.event.SinkException;
 import org.apache.excalibur.event.SinkFullException;
+
+import EDU.oswego.cs.dl.util.concurrent.ReentrantLock;
 
 /**
  * The default queue implementation is a variable size queue.  This queue is

@@ -9,6 +9,7 @@ package org.apache.avalon.excalibur.monitor;
 
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
+
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.logger.Logger;
 
@@ -17,7 +18,7 @@ import org.apache.avalon.framework.logger.Logger;
  * creating resource sets from Avalons configuration objects.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2002/10/02 01:52:22 $
+ * @version $Revision: 1.3 $ $Date: 2003/02/25 16:28:26 $
  */
 class MonitorUtil
 {

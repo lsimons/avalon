@@ -49,11 +49,10 @@
 */
 package org.apache.excalibur.instrument.manager;
 
-import org.apache.excalibur.instrument.manager.interfaces.InstrumentSampleSnapshot;
-
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.logger.LogEnabled;
+import org.apache.excalibur.instrument.manager.interfaces.InstrumentSampleSnapshot;
 
 /**
  * InstrumentSamples are used to provide an Instrument with state.  Samples
@@ -64,7 +63,7 @@ import org.apache.avalon.framework.logger.LogEnabled;
  *  InstrumentClient.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.3 $ $Date: 2003/02/20 17:08:18 $
+ * @version CVS $Revision: 1.4 $ $Date: 2003/02/25 16:28:16 $
  * @since 4.1
  */
 interface InstrumentSample

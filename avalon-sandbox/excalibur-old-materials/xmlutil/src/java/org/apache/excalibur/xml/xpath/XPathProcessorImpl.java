@@ -8,7 +8,9 @@
 package org.apache.excalibur.xml.xpath;
 
 import java.util.HashMap;
+
 import javax.xml.transform.TransformerException;
+
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -34,7 +36,7 @@ import org.w3c.dom.NodeList;
  * </pre>
  *
  * @author <a href="mailto:dims@yahoo.com">Davanum Srinivas</a>
- * @version CVS $Revision: 1.8 $ $Date: 2003/01/22 02:18:17 $ $Author: jefft $
+ * @version CVS $Revision: 1.9 $ $Date: 2003/02/25 16:28:29 $ $Author: bloritsch $
  */
 public final class XPathProcessorImpl extends AbstractLogEnabled implements XPathProcessor, Configurable, PrefixResolver, Component, ThreadSafe
 {

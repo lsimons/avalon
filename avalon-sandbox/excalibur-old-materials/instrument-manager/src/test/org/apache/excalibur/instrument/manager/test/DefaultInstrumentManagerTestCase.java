@@ -11,20 +11,19 @@ import junit.framework.TestCase;
 
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.avalon.framework.logger.ConsoleLogger;
-
 import org.apache.excalibur.instrument.manager.DefaultInstrumentManager;
-import org.apache.excalibur.instrument.manager.interfaces.InstrumentableDescriptor;
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentDescriptor;
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentSampleDescriptor;
-import org.apache.excalibur.instrument.manager.interfaces.NoSuchInstrumentableException;
+import org.apache.excalibur.instrument.manager.interfaces.InstrumentableDescriptor;
 import org.apache.excalibur.instrument.manager.interfaces.NoSuchInstrumentException;
 import org.apache.excalibur.instrument.manager.interfaces.NoSuchInstrumentSampleException;
+import org.apache.excalibur.instrument.manager.interfaces.NoSuchInstrumentableException;
 
 /**
  * Test of the DefaultInstrumentManager.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/11/08 07:59:13 $
+ * @version CVS $Revision: 1.2 $ $Date: 2003/02/25 16:28:45 $
  */
 public class DefaultInstrumentManagerTestCase
     extends TestCase

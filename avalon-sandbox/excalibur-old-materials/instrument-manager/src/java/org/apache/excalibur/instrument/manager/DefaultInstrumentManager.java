@@ -61,17 +61,6 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import org.apache.excalibur.instrument.AbstractInstrument;
-import org.apache.excalibur.instrument.CounterInstrument;
-import org.apache.excalibur.instrument.Instrument;
-import org.apache.excalibur.instrument.Instrumentable;
-import org.apache.excalibur.instrument.InstrumentManager;
-import org.apache.excalibur.instrument.ValueInstrument;
-import org.apache.excalibur.instrument.manager.interfaces.InstrumentManagerClient;
-import org.apache.excalibur.instrument.manager.interfaces.NoSuchInstrumentableException;
-import org.apache.excalibur.instrument.manager.interfaces.NoSuchInstrumentException;
-import org.apache.excalibur.instrument.manager.interfaces.NoSuchInstrumentSampleException;
-
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.configuration.Configurable;
@@ -84,11 +73,21 @@ import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.service.ServiceException;
+import org.apache.excalibur.instrument.AbstractInstrument;
+import org.apache.excalibur.instrument.CounterInstrument;
+import org.apache.excalibur.instrument.Instrument;
+import org.apache.excalibur.instrument.InstrumentManager;
+import org.apache.excalibur.instrument.Instrumentable;
+import org.apache.excalibur.instrument.ValueInstrument;
+import org.apache.excalibur.instrument.manager.interfaces.InstrumentManagerClient;
+import org.apache.excalibur.instrument.manager.interfaces.NoSuchInstrumentException;
+import org.apache.excalibur.instrument.manager.interfaces.NoSuchInstrumentSampleException;
+import org.apache.excalibur.instrument.manager.interfaces.NoSuchInstrumentableException;
 
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.4 $ $Date: 2003/02/20 17:08:18 $
+ * @version CVS $Revision: 1.5 $ $Date: 2003/02/25 16:28:16 $
  * @since 4.1
  */
 public class DefaultInstrumentManager

@@ -49,14 +49,12 @@
 */
 package org.apache.avalon.fortress.examples.extended.extensions;
 
-import org.apache.avalon.framework.context.Context;
-import org.apache.excalibur.container.lifecycle.AbstractAccessor;
 
 /**
  * Some custom extensions for this container's components.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/01/28 21:19:18 $
+ * @version CVS $Revision: 1.2 $ $Date: 2003/02/25 16:28:42 $
  */
 public class Extensions
     extends org.apache.excalibur.container.lifecycle.AbstractAccessor

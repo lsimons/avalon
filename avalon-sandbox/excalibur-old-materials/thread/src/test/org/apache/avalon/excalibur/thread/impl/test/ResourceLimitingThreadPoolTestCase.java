@@ -7,20 +7,14 @@
  */
 package org.apache.avalon.excalibur.thread.impl.test;
 
-import com.clarkware.junitperf.ConstantTimer;
-import com.clarkware.junitperf.LoadTest;
-import com.clarkware.junitperf.TimedTest;
-import com.clarkware.junitperf.Timer;
-import junit.extensions.TestSetup;
-import junit.framework.Test;
 import junit.framework.TestCase;
-import junit.framework.TestSuite;
+
 import org.apache.avalon.excalibur.testcase.BufferedLogger;
 import org.apache.avalon.excalibur.thread.impl.ResourceLimitingThreadPool;
 
 /**
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/06/05 21:34:03 $
+ * @version CVS $Revision: 1.4 $ $Date: 2003/02/25 16:28:51 $
  * @since 4.1
  */
 public final class ResourceLimitingThreadPoolTestCase

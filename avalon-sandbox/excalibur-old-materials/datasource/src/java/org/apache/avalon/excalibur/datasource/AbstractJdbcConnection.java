@@ -15,6 +15,7 @@ import java.sql.Statement;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+
 import org.apache.avalon.excalibur.pool.Pool;
 import org.apache.avalon.excalibur.pool.Recyclable;
 import org.apache.avalon.framework.activity.Disposable;
@@ -27,7 +28,7 @@ import org.apache.avalon.framework.logger.Logger;
  * object.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.22 $ $Date: 2003/02/14 19:23:27 $
+ * @version CVS $Revision: 1.23 $ $Date: 2003/02/25 16:28:37 $
  * @since 4.1
  */
 public abstract class AbstractJdbcConnection

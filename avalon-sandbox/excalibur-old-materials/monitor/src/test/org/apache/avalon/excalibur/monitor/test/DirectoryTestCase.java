@@ -15,7 +15,9 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+
 import junit.framework.TestCase;
+
 import org.apache.avalon.excalibur.monitor.DirectoryResource;
 import org.apache.avalon.framework.logger.ConsoleLogger;
 
@@ -23,7 +25,7 @@ import org.apache.avalon.framework.logger.ConsoleLogger;
  * Junit TestCase for the directory resource.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Id: DirectoryTestCase.java,v 1.3 2002/09/13 10:55:27 donaldp Exp $
+ * @version $Id: DirectoryTestCase.java,v 1.4 2003/02/25 16:28:39 bloritsch Exp $
  */
 public class DirectoryTestCase
     extends TestCase

@@ -7,9 +7,10 @@
  */
 package org.apache.avalon.excalibur.component.test;
 
-import org.apache.avalon.framework.component.Component;
-import org.apache.avalon.excalibur.component.ComponentProxyGenerator;
 import junit.framework.TestCase;
+
+import org.apache.avalon.excalibur.component.ComponentProxyGenerator;
+import org.apache.avalon.framework.component.Component;
 
 /**
  * Create a Component proxy.  Requires JDK 1.3+

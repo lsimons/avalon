@@ -9,23 +9,19 @@
 package org.apache.avalon.fortress.test;
 
 import junit.framework.TestCase;
+
+import org.apache.avalon.fortress.ContainerManager;
+import org.apache.avalon.fortress.impl.DefaultContainer;
+import org.apache.avalon.fortress.impl.DefaultContainerManager;
+import org.apache.avalon.fortress.util.FortressConfig;
 import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.service.ServiceManager;
-import org.apache.avalon.fortress.ContainerManager;
-import org.apache.avalon.fortress.impl.DefaultContainerManager;
-import org.apache.avalon.fortress.impl.DefaultContainer;
-import org.apache.avalon.fortress.test.data.BaseRole;
-import org.apache.avalon.fortress.test.data.Role1;
-import org.apache.avalon.fortress.test.data.Role2;
-import org.apache.avalon.fortress.test.data.Role3;
-import org.apache.avalon.fortress.test.data.Role4;
-import org.apache.avalon.fortress.util.FortressConfig;
 
 /**
  * A testcase for the different handlers.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003/01/28 21:19:17 $
+ * @version $Revision: 1.3 $ $Date: 2003/02/25 16:28:37 $
  */
 public class HandlersTestCase extends TestCase
 {

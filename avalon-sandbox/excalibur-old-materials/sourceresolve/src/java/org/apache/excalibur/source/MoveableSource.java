@@ -54,8 +54,6 @@
  */
 package org.apache.excalibur.source;
 
-import org.apache.excalibur.source.Source;
-import org.apache.excalibur.source.SourceException;
 
 /**
  * This class marks a source to be able to moved and copied to
@@ -64,7 +62,7 @@ import org.apache.excalibur.source.SourceException;
  * the class SourceUtils can be used.
  *
  * @author <a href="stephan@apache.org">Stephan Michels</a>
- * @version CVS $Id: MoveableSource.java,v 1.1 2003/01/30 07:57:10 cziegeler Exp $
+ * @version CVS $Id: MoveableSource.java,v 1.2 2003/02/25 16:28:51 bloritsch Exp $
  */
 public interface MoveableSource extends Source
 {

@@ -14,7 +14,6 @@ import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
-import javax.swing.JPopupMenu;
 
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentManagerClient;
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentSampleDescriptor;

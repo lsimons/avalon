@@ -49,16 +49,16 @@
 */
 package org.apache.avalon.fortress.examples.extended;
 
-import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.fortress.ContainerManager;
 import org.apache.avalon.fortress.impl.DefaultContainerManager;
 import org.apache.avalon.fortress.util.FortressConfig;
+import org.apache.avalon.framework.container.ContainerUtil;
 
 /**
  * Fortress container example with custom extensions
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version $Id: Main.java,v 1.2 2003/01/30 18:24:38 bloritsch Exp $
+ * @version $Id: Main.java,v 1.3 2003/02/25 16:28:45 bloritsch Exp $
  */
 public final class Main
 {

@@ -54,14 +54,14 @@
  */
 package org.apache.excalibur.configuration.validation.test;
 
+import junit.framework.TestCase;
+
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.apache.excalibur.configuration.validation.ConfigurationValidator;
 import org.apache.excalibur.configuration.validation.JarvConfigurationValidatorFactory;
 import org.apache.excalibur.configuration.validation.ValidationResult;
-
-import junit.framework.TestCase;
 
 /**
  *

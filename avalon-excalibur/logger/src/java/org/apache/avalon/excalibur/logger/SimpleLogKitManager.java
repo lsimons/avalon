@@ -52,9 +52,9 @@ package org.apache.avalon.excalibur.logger;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.avalon.excalibur.logger.LoggerManager;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
