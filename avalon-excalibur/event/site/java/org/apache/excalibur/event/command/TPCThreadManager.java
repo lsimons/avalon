@@ -133,14 +133,14 @@ public final class TPCThreadManager extends AbstractThreadManager implements Par
         {
             this.m_processors = Math.max( 1 , SystemUtil.numProcessors() );
         }
-        
+
         if( isInitialized() )
         {
             throw new IllegalStateException( "ThreadManager is already initailized" );
         }
 
         m_tpool = new DefaultThreadPool( "TPCThreadManager",
-                                                  ( m_processors * m_threadsPerProcessor ) + 1 );
+                                                  ( m_processors * m_threadsPerProcessor ) + 1, (int)m_blockTimeout );
 
         if( null == getLogger() )
         {
