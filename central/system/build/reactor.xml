@@ -4,8 +4,17 @@
   <x:home/>
 
   <target name="init">
+   <!--
+     this wasn't being called.  why?
     <x:home/>
     <x:reactor target="init"/>
+   -->
+
+    <setproxy proxyhost="${project.proxy.host}"
+              proxyport="${project.proxy.port}"
+	      proxyuser="${project.proxy.user}"
+	      proxypassword="${project.proxy.password}"/>
+
   </target>
 
   <target name="clean">
