@@ -1,17 +1,45 @@
-# This file is a sample .ant.properties file used for building Avalon. It
-# allows variables defined in build.xml to be overridden according to users'
-# specific needs. As build.xml has sensible defaults, this file's use is only
-# required for those with unusual systems. However it also allows some nice
-# documentation tweaks, so is worth reviewing.
+# -----------------------------------------------------------------------------
+# ant.properties.sample
 #
-# Modify it for your own needs and copy it to .ant.properties 
+# This is an example ".ant.properties" file, used to customize building Phoenix
+# for your local environment.  It defines the location of all external
+# modules that Phoenix depends on.  Copy this file to ".ant.properties"
+# in the top-level source directory, and customize it as needed.
 #
-# <-- starts a comment
+# $Id: ant.properties.sample,v 1.4 2001/11/24 12:36:43 donaldp Exp $
+# -----------------------------------------------------------------------------
 
-# If you want to use the better than average jikes compiler, uncomment the next
-# line
-#build.compiler=jikes
+# ----- Compile Environment Flags -----
+#build.compiler=jikes #uncomment to use the jikes compiler
 
+# ----- Compile Control Flags -----
+build.debug=on
+build.deprecation=off
+build.optimize=on
+
+# ----- Default Base Path for Dependent Packages -----
+base.path=/usr/local
+
+# ----- Xerces XML Parser, version 1.4.3 or later -----
+#xerces.home=${base.path}/xerces-1_4_3
+#xerces.lib=${xerces.home}
+#xerces.jar=${xerces.lib}/xerces.jar
+
+# ----- Java Management Extensions (JMX) RI, version 1.0.1 or later -----
+jmx.home=${base.path}/jmx-ri_1.0.1/jmx
+jmx.lib=${jmx.home}/lib
+jmxri.jar=${jmx.lib}/jmxri.jar
+jmxtools.jar=${jmx.lib}/jmxtools.jar
+
+# ----- Javac tools.jar -----
+# The path to tools.jar, required for building the docs. Most people won't need
+# to set this, unless $JRE_HOME is not equal to $JAVA_HOME/jre. For example, on
+# Debian, IBM's j2sdk1.3 .deb puts the JRE in /usr/lib/j2sdk1.3, # and the JDK
+# in /usr/lib/j2re1.3, requiring the variable to be set. Note: ${java.home} is
+# the JRE home, not $JAVA_HOME.
+tools.jar=${java.home}/../j2sdk1.3/lib/tools.jar
+
+# ----- Javac tools.jar -----
 # To link to local documentation, run the "dist" target for each project and
 # uncomment and customize the following variables.
 #avalon.base=${basedir}/dist/docs
@@ -21,17 +49,3 @@
 #cornerstone.base=${basedir}/../jakarta-avalon-cornerstone/dist/docs
 #testlet.base=${basedir}/../jakarta-avalon-testlet/dist/docs
 
-# The path to tools.jar, required for building the docs. Most people won't need
-# to set this, unless $JRE_HOME is not equal to $JAVA_HOME/jre. For example, on
-# Debian, IBM's j2sdk1.3 .deb puts the JRE in /usr/lib/j2sdk1.3, # and the JDK
-# in /usr/lib/j2re1.3, requiring the variable to be set. Note: ${java.home} is
-# the JRE home, not $JAVA_HOME.
-#tools.jar=${java.home}/../j2sdk1.3/lib/tools.jar
-
-#tools.jar=../jakarta-avalon/tools
-
-# The directory containing the xerces.jar file
-#xerces.dir=${tools.dir}/lib
-
-# The xerces.jar filename
-#xerces.file=xerces.jar
