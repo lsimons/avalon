@@ -44,6 +44,12 @@ the LICENSE.txt file.
     <pathelement location="${build.testclasses}"/>
   </path>
 
+  <path id="runtime.class.path">
+    <pathelement location="${build.dir}/lib/${jar.name}"/>
+    <pathelement location="${build.dir}/lib/${demo.jar}"/>
+    <pathelement location="${build.testclasses}"/>
+  </path>
+
   <target name="main" depends="jar,jar-playground" description="Build the project"/>
   <target name="rebuild" depends="clean,main" description="Rebuild the project"/>
   <target name="all" depends="rebuild,docs" description="Rebuild the project"/>
@@ -367,6 +373,14 @@ the LICENSE.txt file.
       </fileset>
     </copy>
 
+    <copy todir="${build.playground}" flatten="true">
+      <fileset dir="${src.dir}/test/config" includes="block.xml"/>
+    </copy>
+
+    <copy todir="${build.dir}/tests">
+      <fileset dir="${basedir}" includes="kernel.xml"/>
+    </copy>
+
   </target>
 
 
@@ -380,6 +394,9 @@ the LICENSE.txt file.
       <zipfileset dir="${build.conf}" prefix="META-INF/">
          <include name="LICENSE.txt"/>
       </zipfileset>
+      <zipfileset dir="${build.playground}" prefix="BLOCK-INFO/">
+        <include name="block.xml"/>
+      </zipfileset>
     </jar>
   </target>
 
@@ -392,8 +409,12 @@ the LICENSE.txt file.
     <junit fork="true"
         haltonfailure="${junit.failonerror}"
         printsummary="yes"
-        dir="${build.tests}">
-      <classpath refid="test.class.path"/>
+        dir="${basedir}">
+      <classpath>
+        <path refid="runtime.class.path"/>
+        <pathelement location="${build.test}"/>
+      </classpath>
+      <jvmarg value="-Djava.ext.dirs=common;lib"/>
 
       <formatter type="xml"/>    <!-- xml reports for junitreport -->
       <formatter type="plain" usefile="false"/>  <!-- text reports for humans     -->
