@@ -47,17 +47,14 @@
  Apache Software Foundation, please see <http://www.apache.org/>.
 
 */
-package org.apache.excalibur.thread.impl;
+package org.apache.excalibur.event.command;
 
 import org.apache.avalon.framework.activity.Disposable;
-import org.apache.avalon.framework.activity.Executable;
-import org.apache.avalon.framework.logger.LogEnabled;
-import org.apache.avalon.framework.logger.Logger;
-import org.apache.excalibur.threadcontext.ThreadContext;
-import org.apache.excalibur.mpool.ObjectFactory;
 import org.apache.excalibur.mpool.BlockingFixedSizePool;
-import org.apache.excalibur.thread.ThreadControl;
+import org.apache.excalibur.mpool.ObjectFactory;
 import org.apache.excalibur.thread.ThreadPool;
+import org.apache.excalibur.thread.impl.AbstractThreadPool;
+import org.apache.excalibur.thread.impl.WorkerThread;
 
 /**
  * This class is the public frontend for the thread pool code.
@@ -66,57 +63,32 @@ import org.apache.excalibur.thread.ThreadPool;
  * @author <a href="mailto:stefano@apache.org">Stefano Mazzocchi</a>
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  */
-public class DefaultThreadPool
-    extends ThreadGroup
-    implements ObjectFactory, LogEnabled, Disposable, ThreadPool
+public class EventThreadPool
+    extends AbstractThreadPool
+    implements ObjectFactory, Disposable, ThreadPool
 {
     private BlockingFixedSizePool m_pool;
 
-    private int m_level;
-
-    private Logger m_logger;
-
-    private ThreadContext m_context;
-
-    public DefaultThreadPool( final int capacity )
+    public EventThreadPool( final int capacity )
         throws Exception
     {
         this( "Worker Pool", capacity );
     }
 
-    public DefaultThreadPool( final String name, final int capacity )
+    public EventThreadPool( final String name, final int capacity )
         throws Exception
     {
-        this( name, capacity, null, 1000 );
+        this( name, capacity, 1000 );
     }
 
-    public DefaultThreadPool( final String name, final int capacity, final int timeout )
-        throws Exception
-    {
-        this( name, capacity, null, timeout );
-    }
-
-    public DefaultThreadPool( final String name, final int capacity, final ThreadContext context )
-        throws Exception
-    {
-        this( name, capacity, context, 1000 );
-    }
-
-    public DefaultThreadPool( final String name,
+    public EventThreadPool( final String name,
                               final int capacity,
-                              final ThreadContext context,
-                              final int timeout)
+                              final int timeout )
         throws Exception
     {
-        super( name );
+        super( name, new ThreadGroup( name ) );
         m_pool = new BlockingFixedSizePool( this, capacity, timeout );
-        m_context = context;
         m_pool.initialize();
-    }
-
-    public void enableLogging( final Logger logger )
-    {
-        m_logger = logger;
     }
 
     public void dispose()
@@ -127,27 +99,14 @@ public class DefaultThreadPool
 
     public Object newInstance()
     {
-        final String name = getName() + " Worker #" + m_level++;
-        ThreadContext context = null;
-        if( null != m_context )
-        {
-            context = m_context.duplicate();
-        }
-
-        final WorkerThread worker =
-            new WorkerThread( this, name, m_pool, context );
-        worker.setDaemon( true );
-        worker.enableLogging( m_logger );
-        worker.start();
-
-        return worker;
+        return createWorker();
     }
 
     public void dispose( final Object object )
     {
         if( object instanceof WorkerThread )
         {
-            ((WorkerThread)object).dispose();
+            destroyWorker( (WorkerThread) object );
         }
     }
 
@@ -157,44 +116,25 @@ public class DefaultThreadPool
     }
 
     /**
-     * Run work in separate thread.
-     * Return a valid ThreadControl to control work thread.
-     *
-     * @param work the work to be executed.
-     * @return the ThreadControl
-     */
-    public ThreadControl execute( final Runnable work )
-    {
-        return execute( new ExecutableRunnable( work ) );
-    }
-
-    /**
-     * Run work in separate thread.
-     * Return a valid ThreadControl to control work thread.
-     *
-     * @param work the work to be executed.
-     * @return the ThreadControl
-     */
-    public ThreadControl execute( final Executable work )
-    {
-        final WorkerThread worker = getWorker();
-        return worker.execute( work );
-    }
-
-    /**
      * Retrieve a worker thread from pool.
      *
      * @return the worker thread retrieved from pool
      */
     protected WorkerThread getWorker()
     {
-        final WorkerThread thread = (WorkerThread)m_pool.acquire();
-
-        if ( null == thread )
+        final WorkerThread thread = (WorkerThread) m_pool.acquire();
+        if( null == thread )
         {
-            throw new IllegalStateException( "Unable to access thread pool due to timeout exceeded" );
+            final String message =
+                "Unable to access thread pool due to timeout exceeded";
+            throw new IllegalStateException( message );
         }
 
         return thread;
+    }
+
+    protected void releaseWorker( final WorkerThread worker )
+    {
+        m_pool.release( worker );
     }
 }

@@ -53,7 +53,6 @@ import org.apache.avalon.framework.logger.NullLogger;
 import org.apache.avalon.framework.parameters.ParameterException;
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
-import org.apache.excalibur.thread.impl.DefaultThreadPool;
 import org.apache.excalibur.util.SystemUtil;
 
 /**
@@ -67,7 +66,7 @@ import org.apache.excalibur.util.SystemUtil;
  */
 public final class TPCThreadManager extends AbstractThreadManager implements Parameterizable
 {
-    private DefaultThreadPool m_tpool;
+    private EventThreadPool m_tpool;
     private long m_blockTimeout = 1000L;
     private int m_processors = -1;
     private int m_threadsPerProcessor = 1;
@@ -128,15 +127,13 @@ public final class TPCThreadManager extends AbstractThreadManager implements Par
             throw new IllegalStateException( "ThreadManager is already initailized" );
         }
 
-        m_tpool = new DefaultThreadPool( "TPCThreadManager",
+        m_tpool = new EventThreadPool( "TPCThreadManager",
                                                   ( m_processors * m_threadsPerProcessor ) + 1, (int)m_blockTimeout );
 
         if( null == getLogger() )
         {
             this.enableLogging( new NullLogger() );
         }
-
-        m_tpool.enableLogging( getLogger() );
 
         setThreadPool( m_tpool );
 

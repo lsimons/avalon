@@ -47,25 +47,21 @@
  Apache Software Foundation, please see <http://www.apache.org/>.
 
 */
-package org.apache.excalibur.thread.impl.test;
+package org.apache.excalibur.event.command.test;
 
-import java.util.HashMap;
 import junit.framework.TestCase;
-import org.apache.excalibur.thread.impl.DefaultThreadPool;
-import org.apache.avalon.framework.logger.ConsoleLogger;
-import org.apache.excalibur.threadcontext.ThreadContext;
-import org.apache.excalibur.threadcontext.impl.DefaultThreadContextPolicy;
+import org.apache.excalibur.event.command.EventThreadPool;
 
 /**
- * TestCase for DefaultThreadPool.
+ * TestCase for EventThreadPool.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>
  */
-public class DefaultThreadPoolTestCase
+public class EventThreadPoolTestCase
     extends TestCase
 {
-    public DefaultThreadPoolTestCase( final String name )
+    public EventThreadPoolTestCase( final String name )
     {
         super( name );
     }
@@ -73,23 +69,14 @@ public class DefaultThreadPoolTestCase
     public void testWithThreadContext()
         throws Exception
     {
-        final DefaultThreadContextPolicy policy = new DefaultThreadContextPolicy();
-        final HashMap map = new HashMap( 1 );
-        map.put( DefaultThreadContextPolicy.CLASSLOADER, getClass().getClassLoader() );
-        final ThreadContext threadContext = new ThreadContext( policy, map );
-        final DefaultThreadPool pool = new DefaultThreadPool( "default", 10, threadContext );
-        pool.setDaemon( false );
-        pool.enableLogging( new ConsoleLogger() );
+        final EventThreadPool pool = new EventThreadPool( "default", 10 );
         pool.execute( new DummyRunnable() );
     }
 
     public void testWithoutThreadContext()
         throws Exception
     {
-        final ThreadContext threadContext = ThreadContext.getThreadContext();
-        final DefaultThreadPool pool = new DefaultThreadPool( "default", 10, threadContext );
-        pool.setDaemon( false );
-        pool.enableLogging( new ConsoleLogger() );
+        final EventThreadPool pool = new EventThreadPool( "default", 10 );
         pool.execute( new DummyRunnable() );
     }
 
