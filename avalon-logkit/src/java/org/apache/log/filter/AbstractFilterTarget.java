@@ -18,7 +18,7 @@ import org.apache.log.LogTarget;
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public abstract class AbstractFilterTarget 
-    implements FilterTarget
+    implements FilterTarget, LogTarget
 {
     //Log targets in filter chain
     private LogTarget   m_targets[];
