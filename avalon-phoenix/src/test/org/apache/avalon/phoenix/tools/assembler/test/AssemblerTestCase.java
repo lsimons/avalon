@@ -21,7 +21,7 @@ import org.apache.avalon.phoenix.components.ContainerConstants;
  *  An basic test case for the LogManager.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.7 $ $Date: 2003/03/01 01:33:54 $
+ * @version $Revision: 1.8 $ $Date: 2003/03/01 01:47:10 $
  */
 public class AssemblerTestCase
     extends AbstractContainerTestCase
@@ -71,7 +71,7 @@ public class AssemblerTestCase
 
     private boolean isProxyDisabled( final ComponentProfile block2 )
     {
-        return block2.getMetaData().getAttribute( ContainerConstants.DISABLE_PROXY_ATTR ) == null;
+        return block2.getMetaData().getAttribute( ContainerConstants.DISABLE_PROXY_ATTR ) != null;
     }
 
     public void testComplex()
