@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<project name="console" default="all" basedir=".">
+  <target name="init" >
+    <tstamp />
+    <property name="subsystem.name" value="console" />
+    <property name="base.dir" value="${basedir}" />
+    <property file="build.properties" />
+  </target>
+
+  <target name="prepare" depends="init" >
+    <ant dir="." antfile="buildSupport.xml" target="prepare" />
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Compiles the source tree                                            -->
+  <!-- =================================================================== -->
+  <target name="compile" depends="prepare">
+    <javac srcdir="${build.src}"
+           destdir="${build.dest}"
+           debug="${debug}"
+    >
+      <classpath>
+        <pathelement path="${build.lib}/log4j-1.2.7.jar" />
+      </classpath>
+    </javac>
+  </target>
+
+  <!-- ====================== -->
+  <!-- Builds the Service JAR -->
+  <!-- ====================== -->
+  <target name="jar" depends="compile">
+    <jar jarfile="${build.lib}/${subsystem.name}.jar"
+         includesfile="${includes.dir}/${subsystem.name}.inc"
+         excludesfile="${includes.dir}/${subsystem.name}.exc"
+         manifest="${build.includes}/${subsystem.name}.MF"
+         basedir="${build.dest}"/>
+  </target>
+
+  <target name="all" depends="jar" >
+  </target>
+  
+  <target name="clean" depends="init" >
+    <ant dir="." antFile="buildSupport.xml" target="clean" />
+  </target>
+</project>

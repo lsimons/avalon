@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Service-Class: com.ewarna.lz.services.console.ConsoleImpl
+Specification-Title: Bootstrap Specification
+Specification-Vendor: eWarna.com Sdn Bhd
+Implementation-Vendor: eWarna.com Sdn Bhd
+Specification-Version: @GENERATION@.@EDITION@
+Implementation-Version: @VERSION@
+Implementation-Title: Bootstrap Service Implementation
+
