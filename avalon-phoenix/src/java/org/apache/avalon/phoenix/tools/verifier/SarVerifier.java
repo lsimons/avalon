@@ -48,7 +48,7 @@ import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
  *       BlockListener interface.</li>
  * </ul>
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public class SarVerifier
     extends AbstractLogEnabled

@@ -24,8 +24,8 @@ import javax.management.MBeanOperationInfo;
  * and it's Methods translated into operations.
  *
  * @author <a href="mailto:mail@leosimons.com">Leo Simons</a>
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.4 $ $Date: 2001/09/29 01:21:34 $
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @version CVS $Revision: 1.5 $ $Date: 2001/11/19 12:21:31 $
  */
 public class JavaBeanMBean
     extends AbstractMBean

@@ -17,7 +17,7 @@ import org.apache.avalon.framework.component.Component;
  * mount servlet (ie /myapp --> /myapp/Cocoon.xml is mapping cocoon servlet to
  * /myapp context).
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public interface Deployer
     extends Component

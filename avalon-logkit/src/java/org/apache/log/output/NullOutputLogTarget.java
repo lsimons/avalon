@@ -10,7 +10,7 @@ package org.apache.log.output;
 /**
  * A output target that does nothing. Useful for profiling.
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public class NullOutputLogTarget 
     extends AbstractOutputTarget

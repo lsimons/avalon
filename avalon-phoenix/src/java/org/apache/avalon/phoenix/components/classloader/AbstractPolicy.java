@@ -30,7 +30,7 @@ import org.apache.avalon.framework.logger.Logger;
 /**
  * Abstract policy extended in avalon.
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 abstract class AbstractPolicy
     extends Policy

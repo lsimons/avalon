@@ -20,7 +20,7 @@ import org.apache.log.Priority;
  *
  * This is based on specification of MemoryHandler in Logging JSR47.
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public class MemoryTarget
     extends AbstractTarget

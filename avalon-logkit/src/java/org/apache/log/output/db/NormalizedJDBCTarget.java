@@ -22,7 +22,7 @@ import org.apache.log.LogEvent;
  * <p>Parts based on JDBC logger from prottomatter by 
  * <a href="mailto:nate@protomatter.com">Nate Sammons</a></p>
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public class NormalizedJDBCTarget
     extends DefaultJDBCTarget

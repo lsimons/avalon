@@ -31,7 +31,7 @@ import org.apache.log.Logger;
 /**
  * Manage the "frame" in which Applications operate.
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 class DefaultApplicationContext
     extends AbstractLogEnabled

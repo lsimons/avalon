@@ -16,7 +16,7 @@ import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
 /**
  * This is the structure describing each block before it is loaded.
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public class BlockEntry
 {

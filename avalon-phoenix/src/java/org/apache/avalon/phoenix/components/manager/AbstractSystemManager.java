@@ -17,7 +17,7 @@ import org.apache.avalon.phoenix.interfaces.SystemManager;
 /**
  * This is abstract implementation of SystemManager.
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public abstract class AbstractSystemManager
     extends AbstractLogEnabled

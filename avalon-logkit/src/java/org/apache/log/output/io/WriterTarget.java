@@ -15,7 +15,7 @@ import org.apache.log.output.AbstractOutputTarget;
 /**
  * This target outputs to a writer.
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public class WriterTarget
     extends AbstractOutputTarget

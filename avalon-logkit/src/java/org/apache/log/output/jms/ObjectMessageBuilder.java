@@ -16,7 +16,7 @@ import org.apache.log.LogEvent;
 /**
  * Basic message factory that stores LogEvent in Message.
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public class ObjectMessageBuilder
     implements MessageBuilder

@@ -24,7 +24,7 @@ import org.apache.avalon.phoenix.interfaces.ClassLoaderManager;
  * Other parameters are inherited from PhoenixEmbeddor.
  *
  * @author <a href="colus@isoft.co.kr">Eung-ju Park</a>
- * @author <a href="donaldp@apache.org">Peter Donald</a>
+ * @author <a href="peter@apache.org">Peter Donald</a>
  */
 public class SingleAppEmbeddor
     extends DefaultEmbeddor

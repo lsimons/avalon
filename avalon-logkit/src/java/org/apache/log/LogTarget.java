@@ -14,7 +14,7 @@ package org.apache.log;
  * Warning: If performance becomes a problem then this 
  * interface will be rewritten as a abstract class.
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public interface LogTarget
 {

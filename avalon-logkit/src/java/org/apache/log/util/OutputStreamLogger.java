@@ -23,7 +23,7 @@ import org.apache.log.Logger;
  * System.setOut( output );
  * </pre>
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  * @deprecated Use LoggerOutputStream as this class was misnamed.
  */
 public class OutputStreamLogger

@@ -25,7 +25,7 @@ import org.apache.avalon.phoenix.metadata.BlockMetaData;
  * represents an aggregation of blocks that act together to form
  * an application.
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public final class DefaultApplication
     extends AbstractLogEnabled

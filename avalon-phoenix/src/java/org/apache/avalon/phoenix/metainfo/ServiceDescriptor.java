@@ -12,7 +12,7 @@ import org.apache.avalon.framework.Version;
 /**
  * This interface describes a particular service that a component offers.
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public final class ServiceDescriptor
 {

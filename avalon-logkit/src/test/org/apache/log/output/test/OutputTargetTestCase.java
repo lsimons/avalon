@@ -31,7 +31,7 @@ import junit.framework.TestCase;
  * Test suite for the formatters.
  * TODO: Incorporate testing for ContextStack and ContextMap
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public final class OutputTargetTestCase
     extends TestCase

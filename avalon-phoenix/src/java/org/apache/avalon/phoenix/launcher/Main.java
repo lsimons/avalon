@@ -21,7 +21,7 @@ import java.util.StringTokenizer;
  * PhoenixLoader is the class that bootstraps and sets up engine ClassLoader.
  * It also sets up a default policy that gives full permissions to engine code.
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public final class Main
 {

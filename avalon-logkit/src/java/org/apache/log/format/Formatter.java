@@ -13,7 +13,7 @@ import org.apache.log.LogEvent;
  * This defines the interface for components that wish to serialize
  * LogEvents into Strings.
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public interface Formatter
 {

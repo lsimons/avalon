@@ -14,7 +14,7 @@ import org.apache.avalon.phoenix.BlockListener;
  * Manage a set of <code>BlockListener</code> objects and propogate
  * <code>BlockEvent</code> notifications to these listeners.
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 final class BlockListenerSupport
 {

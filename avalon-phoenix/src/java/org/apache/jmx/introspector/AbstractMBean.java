@@ -30,8 +30,8 @@ import javax.management.ReflectionException;
  * particular purpose.
  *
  * @author <a href="mailto:mail@leosimons.com">Leo Simons</a>
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.2 $ $Date: 2001/09/29 00:06:24 $
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @version CVS $Revision: 1.3 $ $Date: 2001/11/19 12:21:31 $
  */
 public abstract class AbstractMBean
     extends NotificationBroadcasterSupport

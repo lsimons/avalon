@@ -24,7 +24,7 @@ import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
  * objects from Configuration objects. The format for Configuration object
  * is specified in the BlockInfo specification.
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public final class BlockInfoBuilder
     extends AbstractLogEnabled

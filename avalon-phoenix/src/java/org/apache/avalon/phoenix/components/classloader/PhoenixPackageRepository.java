@@ -15,8 +15,8 @@ import org.apache.avalon.phoenix.interfaces.PackageRepository;
 /**
  * PhoenixPackageRepository
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2001/11/17 11:50:13 $
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @version $Revision: 1.2 $ $Date: 2001/11/19 12:21:29 $
  */
 public class PhoenixPackageRepository
     extends DefaultPackageRepository

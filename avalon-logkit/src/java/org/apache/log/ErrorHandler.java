@@ -11,7 +11,7 @@ package org.apache.log;
  * Handle unrecoverable errors that occur during logging.
  * Based on Log4js notion of ErrorHandlers.
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public interface ErrorHandler
 {

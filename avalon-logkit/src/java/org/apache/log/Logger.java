@@ -10,7 +10,7 @@ package org.apache.log;
 /**
  * The object interacted with by client objects to perform logging.
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public class Logger
 {

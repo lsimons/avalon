@@ -17,7 +17,7 @@ import org.apache.avalon.phoenix.interfaces.ConfigurationRepository;
 /**
  * Repository from which all configuration data is retrieved.
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public class DefaultConfigurationRepository
     implements ConfigurationRepository

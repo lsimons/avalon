@@ -15,7 +15,7 @@ import org.apache.log.Hierarchy;
 /**
  * This is the structure describing each server application before it is loaded.
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 final class SarEntry
 {

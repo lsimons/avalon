@@ -25,8 +25,8 @@ import org.apache.log.util.StackIntrospector;
  * AsyncLogTarget). They then attempt to determine appropriate
  * information dynamically.
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.2 $ $Date: 2001/08/16 20:04:29 $
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @version CVS $Revision: 1.3 $ $Date: 2001/11/19 12:18:33 $
  */
 public class ExtendedPatternFormatter
     extends PatternFormatter

@@ -19,7 +19,7 @@ import org.apache.log.output.AbstractTarget;
 /**
  * A target that writes to a JMS Topic.
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public abstract class AbstractJMSTarget
     extends AbstractTarget

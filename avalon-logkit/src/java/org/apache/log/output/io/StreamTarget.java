@@ -15,7 +15,7 @@ import org.apache.log.output.AbstractOutputTarget;
 /**
  * A basic target that writes to an OutputStream.
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public class StreamTarget
     extends AbstractOutputTarget

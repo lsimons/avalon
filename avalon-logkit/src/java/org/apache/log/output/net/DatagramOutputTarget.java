@@ -18,7 +18,7 @@ import org.apache.log.output.AbstractOutputTarget;
  * A datagram output target.
  * Useful for writing using custom protocols or writing to syslog daemons.
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public class DatagramOutputTarget
     extends AbstractOutputTarget
