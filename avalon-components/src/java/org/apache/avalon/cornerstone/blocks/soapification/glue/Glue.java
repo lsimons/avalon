@@ -20,6 +20,7 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.phoenix.Block;
 import org.apache.avalon.cornerstone.services.soapification.SOAPification;
 import org.apache.avalon.cornerstone.services.soapification.SOAPificationException;
+import org.apache.avalon.cornerstone.blocks.soapification.DynamicProxy;
 
 import java.util.Hashtable;
 
@@ -84,13 +85,11 @@ public class Glue
      * @param publicationName The name to publish it as.
      */
     public void publish( Object obj, String publicationName, Class[] interfacesToExpose ) throws SOAPificationException {
-        //TODO (PH) dynamic proxy
-        publish(obj, publicationName);
+        publish(DynamicProxy.newInstance(obj, interfacesToExpose), publicationName);
     }
 
     public void publish( Object obj, String publicationName, Class interfaceToExpose ) throws SOAPificationException {
-        //TODO (PH) dynamic proxy
-        publish(obj, publicationName);        
+        publish(DynamicProxy.newInstance(obj, new Class[] { interfaceToExpose }), publicationName);        
     }
 
     public void unpublish( String publicationName ) throws SOAPificationException {
