@@ -80,8 +80,13 @@ Legal:
   <property name="dist.name" value="${Name}-${version}"/>
   <property name="dist.base" value="distributions"/>
 
+  <property name="logkit.jar" value="${lib.dir}/logkit.jar"/>
+  <property name="xerces.jar" value="${lib.dir}/xerces.jar"/>
+
   <path id="project.class.path">
     <pathelement path="${java.class.path}" />
+    <pathelement location="${logkit.jar}"/>
+    <pathelement location="${xerces.jar}"/>
     <fileset dir="${lib.dir}">
       <include name="*.jar" />
     </fileset>
@@ -369,7 +374,7 @@ Legal:
       <include name="org/apache/avalon/**"/>
       <exclude name="**/test/*"/>
 
-      <zipfileset src="${lib.dir}/logkit.jar" includes="**/*.class"/>
+      <zipfileset src="${logkit.jar}" includes="**/*.class"/>
     </jar>
   </target>
 
@@ -420,10 +425,15 @@ Legal:
     <copy todir="${src.dist.lib}">
       <fileset dir="${lib.dir}">
         <include name="bytecode.jar" />
+<!--
         <include name="xerces.jar" />
-        <include name="logkit.jar" />
+        <include name="logkit.jar" /> 
+-->
       </fileset>
     </copy>
+
+    <copy file="${logkit.jar}" tofile="${src.dist.lib}/logkit.jar"/>
+    <copy file="${xerces.jar}" tofile="${src.dist.lib}/xerces.jar"/>
 
     <copy todir="${src.dist.src}">
       <fileset dir="${src.dir}"/>
