@@ -27,14 +27,14 @@ import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
  * Block or Listener.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2002/05/19 02:31:57 $
+ * @version $Revision: 1.5 $ $Date: 2002/05/19 03:58:30 $
  */
 class ListenerAccessor
     extends AbstractLogEnabled
     implements ResourceAccessor
 {
     private static final Resources REZ =
-        ResourceManager.getPackageResources( AppLifecycleHelper.class );
+        ResourceManager.getPackageResources( ListenerAccessor.class );
 
     /**
      * Context in which Blocks/Listeners operate.

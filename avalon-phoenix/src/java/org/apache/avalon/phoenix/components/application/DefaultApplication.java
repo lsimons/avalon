@@ -13,6 +13,7 @@ import java.util.List;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.activity.Startable;
 import org.apache.avalon.framework.activity.Disposable;
@@ -23,6 +24,9 @@ import org.apache.avalon.phoenix.interfaces.ApplicationMBean;
 import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
 import org.apache.avalon.phoenix.metadata.BlockMetaData;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
+import org.apache.avalon.phoenix.components.lifecycle.LifecycleHelper;
+import org.apache.avalon.phoenix.ApplicationListener;
+import org.apache.avalon.phoenix.BlockListener;
 import org.apache.excalibur.threadcontext.ThreadContext;
 
 /**
@@ -46,23 +50,41 @@ public final class DefaultApplication
     private boolean m_running = false;
 
     private ApplicationContext m_context;
-    private AppLifecycleHelper m_lifecycle;
     private HashMap m_entrys = new HashMap();
-    private SarMetaData m_sarMetaData;
+
+    /**
+     * ResourceAccessor for blocks.
+     */
+    private BlockAccessor m_blockAccessor;
+
+    /**
+     * ResourceAccessor for listeners.
+     */
+    private ListenerAccessor m_listenerAccessor;
 
     /**
      * Object to support notification of ApplicationListeners.
      */
     private ListenerSupport m_listenerSupport = new ListenerSupport();
 
-    public DefaultApplication( final SarMetaData sarMetaData )
-    {
-        m_sarMetaData = sarMetaData;
-    }
+    /**
+     * Object to support running objects through lifecycle phases.
+     */
+    private final LifecycleHelper m_lifecycleHelper = new LifecycleHelper();
+
+    /**
+     * Object to help exporting object.
+     */
+    private final ExportHelper m_exportHelper = new ExportHelper();
 
     ///////////////////////
     // LifeCycle Methods //
     ///////////////////////
+    public void enableLogging( Logger logger )
+    {
+        super.enableLogging( logger );
+        setupLogger( m_lifecycleHelper );
+    }
 
     public void initialize()
         throws Exception
@@ -179,8 +201,10 @@ public final class DefaultApplication
     public void setApplicationContext( final ApplicationContext context )
     {
         m_context = context;
-        m_lifecycle = new AppLifecycleHelper( this, m_context, m_listenerSupport );
-        setupLogger( m_lifecycle, "lifecycle" );
+        m_blockAccessor = new BlockAccessor( context, this );
+        setupLogger( m_blockAccessor, "lifecycle" );
+        m_listenerAccessor = new ListenerAccessor( context );
+        setupLogger( m_listenerAccessor, "lifecycle" );
     }
 
     public String[] getBlockNames()
@@ -202,7 +226,7 @@ public final class DefaultApplication
      */
     public String getName()
     {
-        return m_sarMetaData.getName();
+        return getMetaData().getName();
     }
 
     /**
@@ -212,7 +236,7 @@ public final class DefaultApplication
      */
     public String getDisplayName()
     {
-        return m_sarMetaData.getName();
+        return getMetaData().getName();
     }
 
     /**
@@ -222,7 +246,7 @@ public final class DefaultApplication
      */
     public String getDescription()
     {
-        return "The " + m_sarMetaData.getName() + " application.";
+        return "The " + getDisplayName() + " application.";
     }
 
     /**
@@ -232,7 +256,7 @@ public final class DefaultApplication
      */
     public String getHomeDirectory()
     {
-        return m_sarMetaData.getHomeDirectory().getPath();
+        return getMetaData().getHomeDirectory().getPath();
     }
 
     /**
@@ -244,6 +268,11 @@ public final class DefaultApplication
     public boolean isRunning()
     {
         return m_running;
+    }
+
+    protected final SarMetaData getMetaData()
+    {
+        return m_context.getMetaData();
     }
 
     /////////////////////////////
@@ -279,7 +308,7 @@ public final class DefaultApplication
         {
             try
             {
-                m_lifecycle.startupListener( listeners[ i ] );
+                startupListener( listeners[ i ] );
             }
             catch( final Exception e )
             {
@@ -347,7 +376,7 @@ public final class DefaultApplication
         if( PHASE_STARTUP == name )
         {
             //... for startup, so indicate to applicable listeners
-            m_listenerSupport.fireApplicationStartingEvent( m_sarMetaData );
+            m_listenerSupport.fireApplicationStartingEvent( getMetaData() );
         }
         else
         {
@@ -373,11 +402,11 @@ public final class DefaultApplication
                 final BlockEntry entry = (BlockEntry)m_entrys.get( block );
                 if( PHASE_STARTUP == name )
                 {
-                    m_lifecycle.startup( entry );
+                    startup( entry );
                 }
                 else
                 {
-                    m_lifecycle.shutdown( entry );
+                    shutdown( entry );
                 }
             }
             catch( final Exception e )
@@ -407,6 +436,119 @@ public final class DefaultApplication
         {
             //... for shutdown, so indicate to applicable listeners
             m_listenerSupport.applicationStopped();
+        }
+    }
+
+
+    /**
+     * Method to run a <code>Block</code> through it's startup phase.
+     * This will involve notification of <code>BlockListener</code>
+     * objects, creation of the Block/Block Proxy object, calling the startup
+     * Avalon Lifecycle methods and updating State property of BlockEntry.
+     * Errors that occur during shutdown will be logged appropriately and
+     * cause exceptions with useful messages to be raised.
+     *
+     * @param entry the entry containing Block
+     * @throws Exception if an error occurs when block passes
+     *            through a specific lifecycle stage
+     */
+    public void startup( final BlockEntry entry )
+        throws Exception
+    {
+        State state = State.FAILED;
+        try
+        {
+            entry.setState( State.CREATING );
+
+            final Object block =
+                m_lifecycleHelper.startup( entry.getName(),
+                                           entry,
+                                           m_blockAccessor );
+
+            m_exportHelper.exportBlock( m_context,
+                                        entry.getMetaData(),
+                                        block );
+
+            state = State.CREATED;
+            entry.setObject( block );
+
+            m_listenerSupport.fireBlockAddedEvent( entry );
+        }
+        finally
+        {
+            entry.setState( state );
+        }
+    }
+
+    /**
+     * Method to run a <code>Block</code> through it's shutdown phase.
+     * This will involve notification of <code>BlockListener</code>
+     * objects, invalidating the proxy object, calling the shutdown
+     * Avalon Lifecycle methods and updating State property of BlockEntry.
+     * Errors that occur during shutdown will be logged appropraitely.
+     *
+     * @param entry the entry containing Block
+     */
+    public void shutdown( final BlockEntry entry )
+    {
+        entry.setState( State.DESTROYING );
+
+        m_listenerSupport.fireBlockRemovedEvent( entry );
+
+        final Object object = entry.getObject();
+        try
+        {
+            //Remove block from Management system
+            m_exportHelper.unexportBlock( m_context,
+                                          entry.getMetaData(),
+                                          object );
+            entry.invalidate();
+
+            m_lifecycleHelper.shutdown( entry.getName(),
+                                        object );
+        }
+        finally
+        {
+            entry.setObject( null );
+            entry.setState( State.DESTROYED );
+        }
+    }
+
+    /**
+     * Method to run a <code>BlockListener</code> through it's startup phase.
+     * This will involve creation of BlockListener object and configuration of
+     * object if appropriate.
+     *
+     * @param metaData the BlockListenerMetaData
+     * @throws Exception if an error occurs when listener passes
+     *            through a specific lifecycle stage
+     */
+    public void startupListener( final BlockListenerMetaData metaData )
+        throws Exception
+    {
+        final String name = metaData.getName();
+        final Object listener =
+            m_lifecycleHelper.startup( name,
+                                       metaData,
+                                       m_listenerAccessor );
+
+        // However onky ApplicationListners can avail of block events.
+        if( listener instanceof ApplicationListener )
+        {
+            m_listenerSupport.addApplicationListener( (ApplicationListener)listener );
+        }
+        else
+        {
+            // As ApplicationListners are BlockListeners then
+            //this is applicable for all
+            m_listenerSupport.addBlockListener( (BlockListener)listener );
+
+            final String message =
+                REZ.getString( "helper.isa-blocklistener.error",
+                               name,
+                               metaData.getClassname() );
+            getLogger().error( message );
+            System.err.println( message );
         }
     }
 }

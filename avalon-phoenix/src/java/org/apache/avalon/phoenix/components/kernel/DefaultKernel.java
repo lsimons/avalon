@@ -124,9 +124,7 @@ public class DefaultKernel
         {
             try
             {
-                final DefaultApplication newApp =
-                    new DefaultApplication( entry.getMetaData() );
-
+                final Application newApp = new DefaultApplication();
                 final Logger childLogger = getLogger().getChildLogger( name );
                 ContainerUtil.enableLogging( newApp, childLogger );
 
