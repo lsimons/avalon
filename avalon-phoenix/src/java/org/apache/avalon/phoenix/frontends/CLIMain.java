@@ -8,7 +8,7 @@
 package org.apache.avalon.phoenix.frontends;
 
 import java.io.File;
-import java.util.Hashtable;
+import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
@@ -68,7 +68,7 @@ public final class CLIMain
      * @param args the command line arguments
      */
     public int main( final String[] args,
-                     final Hashtable data,
+                     final Map data,
                      final boolean blocking )
     {
         try
@@ -115,7 +115,7 @@ public final class CLIMain
      * @throws Exception if an error occurs
      */
     private void execute( final Parameters parameters,
-                          final Hashtable data,
+                          final Map data,
                           final boolean blocking )
         throws Exception
     {
@@ -175,7 +175,7 @@ public final class CLIMain
      * Startup the embeddor.
      */
     private synchronized boolean startup( final Parameters parameters,
-                                          final Hashtable data )
+                                          final Map data )
     {
         try
         {
