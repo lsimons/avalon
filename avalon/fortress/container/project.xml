@@ -41,12 +41,12 @@ easy embedding into various environments like servlet engines.
         <dependency>
             <id>excalibur-instrument-manager</id>
             <version>1.0</version>
-            <groupId>excalibur-instrument</groupId>
+            <groupId>excalibur-instrument-manager</groupId>
         </dependency>
         <dependency>
             <id>excalibur-instrument-manager-interfaces</id>
             <version>1.0</version>
-            <groupId>excalibur-instrument</groupId>
+            <groupId>excalibur-instrument-manager</groupId>
         </dependency>
         <dependency>
             <id>excalibur-event</id>
