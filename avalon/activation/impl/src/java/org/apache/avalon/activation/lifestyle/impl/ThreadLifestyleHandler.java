@@ -57,7 +57,7 @@ import org.apache.avalon.framework.activity.Disposable;
 
 /**
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2003/10/19 06:12:58 $
+ * @version $Revision: 1.5 $ $Date: 2003/12/14 14:09:59 $
  */
 public class ThreadLifestyleHandler extends AbstractLifestyleHandler implements Disposable
 {
@@ -74,9 +74,9 @@ public class ThreadLifestyleHandler extends AbstractLifestyleHandler implements 
         }
 
         //
-        // TODO: the current implementation is hard coded to CONSERVATIVE
+        // TODO: the current implementation is hard coded to HARD
         // collection policy - we need to update the ThreadLocalHolder so 
-        // it regenerates the value relative to DEMOCRAT or LIBERAL policies
+        // it regenerates the value relative to SOFT or WEAK policies
         // (but I just need to check docs on thread local state access
         // semantics)
         //
