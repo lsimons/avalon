@@ -263,7 +263,7 @@ class DefaultPolicy
 
         while( tokenizer.hasMoreTokens() )
         {
-            final String alias = ((String)tokenizer.nextToken()).trim();
+            final String alias = tokenizer.nextToken().trim();
             Certificate certificate = null;
 
             try
