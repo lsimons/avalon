@@ -144,6 +144,12 @@
           <include>**/*.xservice</include>
         </includes>
       </resource>
+      <resource>
+        <directory>${basedir}/../merlin-smp/src/etc</directory>
+        <includes>
+          <include>LICENSE.txt</include>
+        </includes>
+      </resource>
     </resources>
     
     <jars></jars>
