@@ -231,6 +231,7 @@ Legal:
       <src path="${build.src}" />
       <exclude name="${constants.file}" />
       <exclude name="org/apache/avalon/phoenix/frontends/PhoenixServlet.java" unless="servlet.present"/>
+      <exclude name="org/apache/avalon/phoenix/frontends/ComposableServlet.java" unless="servlet.present"/>
       <exclude name="org/apache/jmx/**" unless="jmx.present"/>
       <exclude name="**/*MBean.java" unless="jmx.present"/>
       <exclude name="org/apache/avalon/phoenix/components/manager/DefaultManager.java" 
