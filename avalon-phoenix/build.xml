@@ -515,6 +515,9 @@ Legal:
         <copy todir="${bin.dist.ext}">
             <fileset dir="${lib.dir}/deploy/ext"/>
         </copy>
+        <copy todir="${bin.dist.lib}">
+            <fileset dir="${lib.dir}/deploy/lib"/>
+        </copy>
 
 	<delete dir="mx4j-tools-temp"/>
 	<unzip src="${mx4j-tools.jar}" dest="mx4j-tools-temp"/>
