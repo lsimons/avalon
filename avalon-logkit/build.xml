@@ -223,7 +223,7 @@ Legal:
     <echo>*  parent directory.</echo>
     <echo>*</echo>
     <echo>*  In order to not let the build fail completely, I'll</echo>
-    <echo>*  created a directory ${avalon-site.dir}/lib.</echo>
+    <echo>*  create a directory ${avalon-site.dir}/lib.</echo>
     <echo>*</echo>
     <echo>******************************************************</echo>
     <echo/>
