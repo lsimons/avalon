@@ -85,7 +85,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * 
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
  * @author $Author: mcconnell $
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  */
 public class DefaultBuilder extends AbstractBuilder implements Builder
 {
@@ -105,7 +105,7 @@ public class DefaultBuilder extends AbstractBuilder implements Builder
     * @param key a property key containing an artifact specification
     * @return the artifact reference
     */
-    protected static Artifact createImplementationArtifact( 
+    public static Artifact createImplementationArtifact( 
       ClassLoader classloader, File base, String resource, String key ) throws Exception
     {
         String spec = 
@@ -182,29 +182,6 @@ public class DefaultBuilder extends AbstractBuilder implements Builder
     //-----------------------------------------------------------
     // constructors
     //-----------------------------------------------------------
-
-   /**
-    * Creates a DefaultBuilder for a specific target application.
-    * 
-    * @param context the initial repository context
-    * @param classloader the parent classloader
-    * @param resource the filename of a property file normall located in
-    *   the inital working directory or user home directory
-    * @param key a property key containing the implemention artifact specification
-    * @exception Exception if a builder creation error occurs
-    */
-    public DefaultBuilder( InitialContext context, ClassLoader classloader, String resource, String key )
-        throws Exception
-    {
-        this( 
-          context, 
-          classloader,
-          createImplementationArtifact( 
-            classloader,
-            context.getInitialWorkingDirectory(), 
-            resource, 
-            key ) );
-    }
 
    /**
     * Creates a DefaultBuilder for a specific target application.
