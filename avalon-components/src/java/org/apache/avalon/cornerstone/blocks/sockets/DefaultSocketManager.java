@@ -12,11 +12,10 @@ import org.apache.avalon.cornerstone.services.sockets.ServerSocketFactory;
 import org.apache.avalon.cornerstone.services.sockets.SocketFactory;
 import org.apache.avalon.cornerstone.services.sockets.SocketManager;
 import org.apache.avalon.framework.activity.Initializable;
-import org.apache.avalon.framework.component.Component;
-import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
@@ -94,10 +93,10 @@ public class DefaultSocketManager
 
         if( !( object instanceof ServerSocketFactory ) )
         {
-            throw new ComponentException( "Error creating factory " + name +
-                                          " with class " + className + " as " +
-                                          "it does not implement the correct " +
-                                          "interface (ServerSocketFactory)" );
+            throw new Exception( "Error creating factory " + name +
+                                 " with class " + className + " as " +
+                                 "it does not implement the correct " +
+                                 "interface (ServerSocketFactory)" );
         }
 
         m_serverSockets.put( name, object );
@@ -112,50 +111,38 @@ public class DefaultSocketManager
 
         if( !( object instanceof SocketFactory ) )
         {
-            throw new ComponentException( "Error creating factory " + name +
-                                          " with class " + className + " as " +
-                                          "it does not implement the correct " +
-                                          "interface (SocketFactory)" );
+            throw new Exception( "Error creating factory " + name +
+                                 " with class " + className + " as " +
+                                 "it does not implement the correct " +
+                                 "interface (SocketFactory)" );
         }
 
         m_sockets.put( name, object );
     }
 
-    protected Component createFactory( final String name,
-                                       final String className,
-                                       final Configuration configuration )
+    protected Object createFactory( final String name,
+                                    final String className,
+                                    final Configuration configuration )
         throws Exception
     {
-        Component factory = null;
+        Object factory = null;
 
         try
         {
             final ClassLoader classLoader =
                 (ClassLoader)Thread.currentThread().getContextClassLoader();
-            factory = (Component)classLoader.loadClass( className ).newInstance();
+            factory = classLoader.loadClass( className ).newInstance();
         }
         catch( final Exception e )
         {
-            throw new ComponentException( "Error creating factory with class " +
-                                          className, e );
+            throw new Exception( "Error creating factory with class " +
+                                 className, e );
         }
 
-        setupLogger( factory );
-
-        if( factory instanceof Contextualizable )
-        {
-            ( (Contextualizable)factory ).contextualize( m_context );
-        }
-
-        if( factory instanceof Configurable )
-        {
-            ( (Configurable)factory ).configure( configuration );
-        }
-
-        if( factory instanceof Initializable )
-        {
-            ( (Initializable)factory ).initialize();
-        }
+        ContainerUtil.enableLogging( factory, getLogger() );
+        ContainerUtil.contextualize( factory, m_context );
+        ContainerUtil.configure( factory, configuration );
+        ContainerUtil.initialize( factory );
 
         return factory;
     }
@@ -165,10 +152,10 @@ public class DefaultSocketManager
      *
      * @param name the name of server socket factory
      * @return the ServerSocketFactory
-     * @exception ComponentException if server socket factory is not available
+     * @exception Exception if server socket factory is not available
      */
     public ServerSocketFactory getServerSocketFactory( String name )
-        throws ComponentException
+        throws Exception
     {
         final ServerSocketFactory factory = (ServerSocketFactory)m_serverSockets.get( name );
 
@@ -178,8 +165,8 @@ public class DefaultSocketManager
         }
         else
         {
-            throw new ComponentException( "Unable to locate server socket factory " +
-                                          "named " + name );
+            throw new Exception( "Unable to locate server socket factory " +
+                                 "named " + name );
         }
     }
 
@@ -188,10 +175,10 @@ public class DefaultSocketManager
      *
      * @param name the name of client socket factory
      * @return the SocketFactory
-     * @exception ComponentException if socket factory is not available
+     * @exception Exception if socket factory is not available
      */
     public SocketFactory getSocketFactory( final String name )
-        throws ComponentException
+        throws Exception
     {
         final SocketFactory factory = (SocketFactory)m_sockets.get( name );
 
@@ -201,8 +188,8 @@ public class DefaultSocketManager
         }
         else
         {
-            throw new ComponentException( "Unable to locate client socket factory " +
-                                          "named " + name );
+            throw new Exception( "Unable to locate client socket factory " +
+                                 "named " + name );
         }
     }
 }
