@@ -7,8 +7,9 @@
 
         <item name="Apache" href="http://www.apache.org"/>
         <item name="Avalon Home" href="http://jakarta.apache.org/avalon"/>
+        <item name="Avalon Sandbox" href="http://jakarta.apache.org/avalon/sandbox"/>
 
-        <menu name="Avalon Sandbox">
+        <menu name="Sandbox">
             <item name="Overview" href="index.html"/>
             <item name="Warning" href="warnings.html"/>
         </menu>

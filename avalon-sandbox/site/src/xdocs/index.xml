@@ -14,7 +14,7 @@
     <s1 title="The Avalon Sandbox Project">
 
 <p>
-The Avalon Sandbox Project is the homoe to a number of new and emerging component-based technologies.  Much of the content is under continuing development and should only be used by developers ready to handle the inconvinience of changing APIs.  On the otherhand, resource contained in this project represent the cutting-edge of COP and SOP.  A summary of the respective packages is included below.  Enjoy!
+The Avalon Sandbox Project is the home to a number of new and emerging component-based technologies.  Much of the content is under continuing development and should only be used by developers ready to handle the inconvenience of changing APIs.  On the other hand, resource contained in this project represent the cutting-edge of COP and SOP.  A summary of the respective packages is included below.  Enjoy!
 </p>
 
     <s2 title="Contents">
@@ -23,7 +23,7 @@ The Avalon Sandbox Project is the homoe to a number of new and emerging componen
 
 <tr>
 <td><a href="http://jakarta.apache.org/avalon/assembly">Assembly</a></td>
-<td>A containement toolbox.  The Avalon Assembly project is a API dealing with container-side resources.  It includes facilities supporting the management of component types, services, deployment profiles, and a component activation unit referred to as an appliance.</td>
+<td>A containment toolbox.  The Avalon Assembly project is a API dealing with container-side resources.  It includes facilities supporting the management of component types, services, deployment profiles, and a component activation unit referred to as an appliance.</td>
 </tr>
 
 <tr>
@@ -42,7 +42,7 @@ The Avalon Sandbox Project is the homoe to a number of new and emerging componen
 The meta model encompasses all information about a component that is not
 specified by its work interface and/or lifecycle interfaces.
 Specifically, the Meta Model allows for specification of
-lifecycle-related constraints/requirments, ie Context, Configuration,
+lifecycle-related constraints/requirements, ie Context, Configuration,
 Parameter, and Dependency constraints/requirments.</td>
 </tr>
 
@@ -55,7 +55,7 @@ Parameter, and Dependency constraints/requirments.</td>
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2002/12/01 06:43:23 $
+      $Revision: 1.2 $ $Date: 2002/12/02 06:50:20 $
     </legal>
   </footer>
 
