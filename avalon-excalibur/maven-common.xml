@@ -2,7 +2,7 @@
 
 <!-- maven buildfile customization. -->
 
-<project default="java:jar">
+<project default="jar:jar">
 
     <!-- ==========================================================
           Warning
@@ -38,8 +38,7 @@
 
          ========================================================== -->
 
-    <postGoal name="xdoc"
-        description="since our xdocs are in forrest format, we override the maven-generated docs with forrest ones">
+    <postGoal name="xdoc">
         <attainGoal name="forrest:generate"/>
     </postGoal>
 
