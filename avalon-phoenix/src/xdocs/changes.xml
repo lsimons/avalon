@@ -8,7 +8,13 @@
     <person name="Berin Loritsch" email="bloritsch@apache.org" id="BL"/>
     <person name="Peter Donald" email="donaldp@apache.org" id="PD"/>
   </devs>
-
+<release version="4.0a1" date="September 25, 2001">
+  <action dev="BL" type="change">
+    Too many things to enumerate here.  This is the first public release,
+    and the code is still considered alpha.  In future releases, we will
+    be much more careful to record the changes to Phoenix.
+  </action>
+</release>
 <release version="3.1a2" date="Unreleased">
     <action dev="BL" type="add">
       Added stylesheet to convert Stylebook markup to DocBook markup.
