@@ -47,6 +47,16 @@ public class PeriodicTimeTrigger
         }
     }
 
+    public long getOffset()
+    {
+        return m_offset;
+    }
+
+    public long getPeriod()
+    {
+        return m_period;
+    }
+
     /**
      * Reset the original TimeTrigger.
      * This will recalculate the activation time for this trigger.
