@@ -29,7 +29,7 @@ import org.apache.avalon.logging.data.CategoryDirective;
 
 import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.model.ContainmentModel;
-import org.apache.avalon.composition.model.impl.StandardModelFactory;
+import org.apache.avalon.composition.model.impl.DefaultModelFactory;
 import org.apache.avalon.composition.provider.ModelFactory;
 import org.apache.avalon.composition.provider.SystemContext;
 import org.apache.avalon.composition.provider.SystemException;
@@ -54,7 +54,7 @@ import org.apache.avalon.excalibur.i18n.Resources;
  * Implementation of a system context that exposes a system wide set of parameters.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.20 $ $Date: 2004/02/25 18:55:40 $
+ * @version $Revision: 1.21 $ $Date: 2004/02/25 20:31:01 $
  */
 public class DefaultSystemContext extends DefaultContext 
   implements SystemContext
@@ -235,7 +235,7 @@ public class DefaultSystemContext extends DefaultContext
         m_logger = m_logging.getLoggerForCategory( category );
         m_system = SystemContext.class.getClassLoader();
         m_common = DeploymentModel.class.getClassLoader();
-        m_factory = new StandardModelFactory( this );
+        m_factory = new DefaultModelFactory( this );
 
         //
         // use avalon-repository to load the runtime

@@ -58,9 +58,9 @@ import org.apache.avalon.meta.info.Type;
  * A factory enabling the establishment of new composition model instances.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2004/02/25 18:55:40 $
+ * @version $Revision: 1.9 $ $Date: 2004/02/25 20:31:01 $
  */
-public class StandardModelFactory 
+public class DefaultModelFactory 
   implements ModelFactory
 {
     //-------------------------------------------------------------------
@@ -74,7 +74,7 @@ public class StandardModelFactory
       new ContainmentProfileBuilder();
 
     private static final Resources REZ =
-      ResourceManager.getPackageResources( StandardModelFactory.class );
+      ResourceManager.getPackageResources( DefaultModelFactory.class );
 
     //-------------------------------------------------------------------
     // immutable state
@@ -88,7 +88,7 @@ public class StandardModelFactory
     // constructor
     //-------------------------------------------------------------------
 
-    public StandardModelFactory( final SystemContext system )
+    public DefaultModelFactory( final SystemContext system )
     {
         if( system == null )
         {
