@@ -128,7 +128,7 @@ public class HttpContextImpl
      * @avalon.dependency type="org.apache.avalon.http.HttpService"
      *                    key="server"
      * @avalon.dependency type="org.apache.avalon.http.MimeTypes"
-     *                    key="mimetypes"
+     *                    key="mimetypes" optional="true"
      * @avalon.dependency type="org.mortbay.http.Authenticator"
      *                    key="authenticator" optional="true"
      * @avalon.dependency type="org.mortbay.http.UserRealm"
