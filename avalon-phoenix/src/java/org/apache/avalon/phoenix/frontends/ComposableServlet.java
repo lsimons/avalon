@@ -18,6 +18,7 @@ import org.apache.avalon.phoenix.components.embeddor.SingleAppEmbeddor;
 import org.apache.avalon.phoenix.interfaces.Embeddor;
 
 /**
+ * WARNING: DO NOT USE THIS SERVLET FOR REAL SERVICE. THIS IS EXPERIMENTAL.
  * Composable servlet for easy life with <code>PhoenixServlet</code>.
  *
  * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>
