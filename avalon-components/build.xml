@@ -743,15 +743,24 @@
                    Targets in other build.xml files (apps)
        ===================================================================
   -->
-  <target name="apps-jars" depends="jars, ftpserver"/>
+  <target name="apps-jars" depends="jars, ftpserver, jesktop"/>
+  <target name="apps-deploy" depends="jars, ftpserver-deploy, jesktop-deploy"/>
+  
+  <!-- FtpServer targets -->
+  <!-- ================= -->
   
   <target name="ftpserver" depends="compile, dist-dirs">
     <ant antfile="build.xml" dir="apps/ftpserver" target="jars"/>
   </target>  
-
-  <target name="ftpserver-deploy">
+  <target name="ftpserver-clean">
+    <ant antfile="build.xml" dir="apps/ftpserver" target="clean"/>
+  </target>   
+  <target name="ftpserver-deploy" depends="compile, dist-dirs">
     <ant antfile="build.xml" dir="apps/ftpserver" target="deploy"/>
   </target>    
+  
+  <!-- Jesktop targets -->
+  <!-- =============== -->
   
   <target name="jesktop" depends="compile, dist-dirs">
     <ant antfile="build.xml" dir="apps/jesktop" target="jars"/>
@@ -759,11 +768,8 @@
   <target name="jesktop-clean">
     <ant antfile="build.xml" dir="apps/jesktop" target="clean"/>
   </target>   
-  <target name="jesktop-deploy">
-    <ant antfile="build.xml" dir="compile, apps/jesktop" target="deploy"/>
+  <target name="jesktop-deploy" depends="compile, dist-dirs">
+    <ant antfile="build.xml" dir="apps/jesktop" target="deploy"/>
   </target>   
-  <target name="jesktop-xdocs">
-    <ant antfile="build.xml" dir="apps/jesktop" target="xdocs"/>
-  </target>    
 
 </project>
