@@ -11,6 +11,7 @@ import org.apache.excalibur.containerkit.lifecycle.LifecycleHelper;
 import org.apache.excalibur.containerkit.lifecycle.LifecycleException;
 import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.service.DefaultServiceManager;
 import junit.framework.TestCase;
 import java.util.ArrayList;
 
@@ -18,12 +19,13 @@ import java.util.ArrayList;
  * PUnitTestCase
  * @author Paul Hammant
  */
-public abstract class PUnitTestCase extends TestCase
+public abstract class PUnitTestCase
+    extends TestCase
 {
     private LifecycleHelper m_lifecycleHelper;
     private ArrayList m_blocks;
-    private PUnitServiceManager m_pUnitServiceManager;
-    private PUnitLogger m_pUnitLogger = new PUnitLogger();
+    private DefaultServiceManager m_serviceManager;
+    private PUnitLogger m_logger = new PUnitLogger();
 
     /**
      * PUnitTestCase
@@ -39,9 +41,9 @@ public abstract class PUnitTestCase extends TestCase
      * @param startsWith For an expression that starts with this
      * @return The logged entry.
      */
-    public final String lookupInLog(String startsWith)
+    public final String lookupInLog( String startsWith )
     {
-        return m_pUnitLogger.get(startsWith);
+        return m_logger.get( startsWith );
     }
 
     /**
@@ -49,11 +51,10 @@ public abstract class PUnitTestCase extends TestCase
      * @param startsWith For an expression that starts with this
      * @return true or not
      */
-    public final boolean logHasEntry(String startsWith)
+    public final boolean logHasEntry( String startsWith )
     {
-        return m_pUnitLogger.contains(startsWith);
+        return m_logger.contains( startsWith );
     }
-
 
     /**
      * Setup as per Junit
@@ -63,7 +64,7 @@ public abstract class PUnitTestCase extends TestCase
     {
         m_lifecycleHelper = new LifecycleHelper();
         m_lifecycleHelper.enableLogging( new ConsoleLogger() );
-        m_pUnitServiceManager = new PUnitServiceManager();
+        m_serviceManager = new DefaultServiceManager();
         m_blocks = new ArrayList();
     }
 
@@ -74,15 +75,18 @@ public abstract class PUnitTestCase extends TestCase
      * @param serviceName The service name (for lookup)
      * @param configuration The configuration
      */
-    protected void addBlock( String blockName, String serviceName,
-                             Object block , Configuration configuration )
+    protected void addBlock( final String blockName,
+                             final String serviceName,
+                             final Object block,
+                             final Configuration configuration )
     {
-        PUnitBlock pBlock = new PUnitBlock( blockName, block,
-                new PUnitResourceProvider(m_pUnitServiceManager, configuration, m_pUnitLogger) );
+        final PUnitResourceProvider resourceProvider =
+            new PUnitResourceProvider( m_serviceManager, configuration, m_logger );
+        final PUnitBlockEntry pBlock = new PUnitBlockEntry( blockName, block, resourceProvider );
         m_blocks.add( pBlock );
-        if (serviceName != null)
+        if( serviceName != null )
         {
-            m_pUnitServiceManager.addService(serviceName, block);
+            m_serviceManager.put( serviceName, block );
         }
     }
 
@@ -95,7 +99,7 @@ public abstract class PUnitTestCase extends TestCase
 
         for( int i = 0; i < m_blocks.size(); i++ )
         {
-            final PUnitBlock block = (PUnitBlock) m_blocks.get( i );
+            final PUnitBlockEntry block = (PUnitBlockEntry)m_blocks.get( i );
             m_lifecycleHelper.startup( block.getBlockName(),
                                        block.getBlock(),
                                        block.getResourceProvider() );
@@ -108,9 +112,10 @@ public abstract class PUnitTestCase extends TestCase
      */
     protected final void shutdown() throws LifecycleException
     {
-        for( int i = 0; i < m_blocks.size(); i++ )
+        final int size = m_blocks.size();
+        for( int i = 0; i < size; i++ )
         {
-            PUnitBlock block = (PUnitBlock) m_blocks.get( i );
+            final PUnitBlockEntry block = (PUnitBlockEntry)m_blocks.get( i );
             m_lifecycleHelper.shutdown( block.getBlockName(), block.getBlock() );
         }
     }

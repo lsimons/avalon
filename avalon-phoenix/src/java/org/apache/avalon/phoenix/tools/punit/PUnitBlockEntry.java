@@ -10,26 +10,30 @@ package org.apache.avalon.phoenix.tools.punit;
 import org.apache.excalibur.containerkit.lifecycle.ResourceProvider;
 
 /**
- * PUnitBlock
+ * PUnitBlockEntry contains the runtime state of a block.
+ *
  * @author Paul Hammant
  */
-public class PUnitBlock
+public class PUnitBlockEntry
 {
     private String m_blockName;
     private Object m_block;
     private ResourceProvider m_resourceProvider;
 
     /**
-     * Construct a PUnitBlock
+     * Construct a PUnitBlockEntry
+     *
      * @param blockName The block name
      * @param block The block
      * @param resourceProvider The resource provider for the block
      */
-    public PUnitBlock( String blockName, Object block, ResourceProvider resourceProvider )
+    public PUnitBlockEntry( final String blockName,
+                       final Object block,
+                       final ResourceProvider resourceProvider )
     {
-        this.m_blockName = blockName;
-        this.m_block = block;
-        this.m_resourceProvider = resourceProvider;
+        m_blockName = blockName;
+        m_block = block;
+        m_resourceProvider = resourceProvider;
     }
 
     /**

@@ -13,26 +13,28 @@ import java.util.ArrayList;
 
 /**
  * PunitLogger
+ *
  * @author Paul Hammant
  */
-public class PUnitLogger implements Logger
+public class PUnitLogger
+    implements Logger
 {
-
-    private ArrayList m_log = new ArrayList();
+    private ArrayList m_messages = new ArrayList();
 
     /**
      * Get a logged entry.
      * @param startsWith This term
      * @return The full term
      */
-    public String get(String startsWith)
+    public String get( String startsWith )
     {
-        for (int i = 0; i < m_log.size(); i++)
+        final int size = m_messages.size();
+        for( int i = 0; i < size; i++ )
         {
-            String s = (String) m_log.get(i);
-            if (s.startsWith(startsWith))
+            final String message = (String)m_messages.get( i );
+            if( message.startsWith( startsWith ) )
             {
-                return s;
+                return message;
             }
         }
         return null;
@@ -40,31 +42,34 @@ public class PUnitLogger implements Logger
 
     /**
      * Contains a logged entry
-     * @param s The term
+     *
+     * @param message The term
      * @return true or not.
      */
-    public boolean contains(String s)
+    public boolean contains( final String message )
     {
-        return get(s) != null;
+        return get( message ) != null;
     }
 
     /**
      * Debug an entry as per Loggable
-     * @param s the term
+     * @param message the term
      */
-    public void debug(String s)
+    public void debug( final String message )
     {
-        m_log.add("D:" + s);
+        m_messages.add( "D:" + message );
     }
 
     /**
      * Debug an entry as per Loggable
-     * @param s the term
+     *
+     * @param message the term
      * @param throwable An exception
      */
-    public void debug(String s, Throwable throwable)
+    public void debug( final String message,
+                       final Throwable throwable )
     {
-        m_log.add("D:" + s + ":" + throwable != null ? throwable.getMessage() : "");
+        m_messages.add( "D:" + message + ":" + throwable != null ? throwable.getMessage() : "" );
     }
 
     public boolean isDebugEnabled()
@@ -74,21 +79,21 @@ public class PUnitLogger implements Logger
 
     /**
      * Info an entry as per Loggable
-     * @param s the term
+     * @param message the term
      */
-    public void info(String s)
+    public void info( final String message )
     {
-        m_log.add("I:" + s);
+        m_messages.add( "I:" + message );
     }
 
     /**
      * Info an entry as per Loggable
-     * @param s the term
+     * @param message the term
      * @param throwable An exception
      */
-    public void info(String s, Throwable throwable)
+    public void info( final String message, final Throwable throwable )
     {
-        m_log.add("I:" + s + ":" + throwable != null ? throwable.getMessage() : "");
+        m_messages.add( "I:" + message + ":" + throwable != null ? throwable.getMessage() : "" );
     }
 
     /**
@@ -102,21 +107,22 @@ public class PUnitLogger implements Logger
 
     /**
      * Warn an entry as per Loggable
-     * @param s the term
+     *
+     * @param message the term
      */
-    public void warn(String s)
+    public void warn( final String message )
     {
-        m_log.add("W:" + s);
+        m_messages.add( "W:" + message );
     }
 
     /**
      * Warn an entry as per Loggable
-     * @param s the term
+     * @param message the term
      * @param throwable An exception
      */
-    public void warn(String s, Throwable throwable)
+    public void warn( final String message, final Throwable throwable )
     {
-        m_log.add("W:" + s + ":" + throwable != null ? throwable.getMessage() : "");
+        m_messages.add( "W:" + message + ":" + throwable != null ? throwable.getMessage() : "" );
     }
 
     /**
@@ -130,21 +136,22 @@ public class PUnitLogger implements Logger
 
     /**
      * Error an entry as per Loggable
-     * @param s the term
+     *
+     * @param message the term
      */
-    public void error(String s)
+    public void error( final String message )
     {
-        m_log.add("E:" + s);
+        m_messages.add( "E:" + message );
     }
 
     /**
      * Error an entry as per Loggable
-     * @param s the term
+     * @param message the term
      * @param throwable An exception
      */
-    public void error(String s, Throwable throwable)
+    public void error( final String message, final Throwable throwable )
     {
-        m_log.add("E:" + s + ":" + throwable != null ? throwable.getMessage() : "");
+        m_messages.add( "E:" + message + ":" + throwable != null ? throwable.getMessage() : "" );
     }
 
     /**
@@ -158,21 +165,21 @@ public class PUnitLogger implements Logger
 
     /**
      * Log a fatal error as per Loggable
-     * @param s the term
+     * @param message the term
      */
-    public void fatalError(String s)
+    public void fatalError( final String message )
     {
-        m_log.add("F:" + s);
+        m_messages.add( "F:" + message );
     }
 
     /**
      * Log a fatal error entry as per Loggable
-     * @param s the term
+     * @param message the term
      * @param throwable An exception
      */
-    public void fatalError(String s, Throwable throwable)
+    public void fatalError( final String message, final Throwable throwable )
     {
-        m_log.add("F:" + s + ":" + throwable != null ? throwable.getMessage() : "");
+        m_messages.add( "F:" + message + ":" + throwable != null ? throwable.getMessage() : "" );
     }
 
     /**
@@ -186,10 +193,11 @@ public class PUnitLogger implements Logger
 
     /**
      * Gtet the child logger
-     * @param s The hint to use (ignored)
+     *
+     * @param name The hint to use (ignored)
      * @return The child logger.
      */
-    public Logger getChildLogger(String s)
+    public Logger getChildLogger( final String name )
     {
         return this;
     }
