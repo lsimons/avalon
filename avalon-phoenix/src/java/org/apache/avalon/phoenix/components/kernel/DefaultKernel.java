@@ -74,8 +74,7 @@ public class DefaultKernel
             try
             {
                 final SarEntry entry = (SarEntry)getEntry( names[ i ] );
-                stopEntry( entry );
-                disposeEntry( entry );
+                shutdown( entry );
             }
             catch( final Exception e )
             {
@@ -94,7 +93,7 @@ public class DefaultKernel
      */
     protected void postAdd( final String name, final Entry entry )
     {
-        try { startEntry( (SarEntry)entry ); }
+        try { startup( (SarEntry)entry ); }
         catch( final Exception e )
         {
             final String message = REZ.getString( "kernel.error.entry.start", name );
@@ -109,7 +108,7 @@ public class DefaultKernel
      * @param entry the entry for application
      * @exception ContainerException if an error occurs
      */
-    private void initializeEntry( final SarEntry entry )
+    private void startup( final SarEntry entry )
         throws ContainerException
     {
         Application application = entry.getApplication();
@@ -128,6 +127,7 @@ public class DefaultKernel
                 prepareApplication( entry );
 
                 application.initialize();
+                application.start();
             }
             catch( final Throwable t )
             {
@@ -142,44 +142,21 @@ public class DefaultKernel
         }
     }
 
-    private void startEntry( final SarEntry entry )
-        throws Exception
-    {
-        Application application = entry.getApplication();
-        if( null == application )
-        {
-            initializeEntry( entry );
-            application = entry.getApplication();
-        }
-
-        application.start();
-    }
-
-    private void stopEntry( final SarEntry entry )
+    private void shutdown( final SarEntry entry )
         throws Exception
     {
         final Application application = entry.getApplication();
         if( null != application )
         {
+            entry.setApplication( null );
             application.stop();
+            application.dispose();
         }
         else
         {
             final String message = 
                 REZ.getString( "kernel.error.entry.nostop", entry.getMetaData().getName() );
             getLogger().warn( message );
-        }
-    }
-
-    private void disposeEntry( final SarEntry entry )
-        throws ContainerException
-    {
-        final Application application = entry.getApplication();
-
-        if( null != application )
-        {
-            entry.setApplication( null );
-            application.dispose();
         }
     }
 
