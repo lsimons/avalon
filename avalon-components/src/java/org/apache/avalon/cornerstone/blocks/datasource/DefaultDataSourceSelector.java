@@ -101,6 +101,11 @@ public class DefaultDataSourceSelector
         }
     }
 
+    public boolean hasComponent( final Object hint )
+    {
+        return ( null != m_dataSources.get( hint ) );
+    }
+
     public Component select( final Object hint )
         throws ComponentException
     {
