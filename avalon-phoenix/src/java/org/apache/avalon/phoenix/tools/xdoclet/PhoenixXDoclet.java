@@ -11,15 +11,14 @@ import java.util.List;
 import xdoclet.DocletTask;
 
 /**
- *
  * @author <a href="mailto:vinay_chandran@users.sourceforge.net">Vinay Chandrasekharan</a>
- * @version $Revision: 1.6 $ $Date: 2002/07/26 09:49:23 $
+ * @version $Revision: 1.7 $ $Date: 2002/07/30 12:17:21 $
  */
 public class PhoenixXDoclet
     extends DocletTask
 {
     private BlockInfoSubTask m_blockInfoSubTask;
-
+    private MxInfoSubTask m_mxinfoSubTask;
     private ManifestSubTask m_manifestSubTask;
 
     public BlockInfoSubTask createBlockinfo()
@@ -34,11 +33,18 @@ public class PhoenixXDoclet
         return m_manifestSubTask;
     }
 
+    public MxInfoSubTask createMxInfo()
+    {
+        m_mxinfoSubTask = new MxInfoSubTask();
+        return m_mxinfoSubTask;
+    }
+
     protected List getSubTasks()
     {
         final List subtasks = super.getSubTasks();
         subtasks.add( m_blockInfoSubTask );
         subtasks.add( m_manifestSubTask );
+        subtasks.add( m_mxinfoSubTask );
         return subtasks;
     }
 }
