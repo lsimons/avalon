@@ -13,13 +13,14 @@ import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.excalibur.instrument.InstrumentManager;
 
 /**
  * The interface via which resources required for a component
  * are aquired.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003/02/22 04:03:28 $
+ * @version $Revision: 1.3 $ $Date: 2003/03/17 03:41:18 $
  */
 public interface ResourceProvider
 {
@@ -94,5 +95,25 @@ public interface ResourceProvider
      * @throws Exception if unable to create resource
      */
     Parameters createParameters( Object entry )
+        throws Exception;
+
+    /**
+     * Create a new InstrumentMaanger object for component.
+     *
+     * @param entry the entry
+     * @return a new InstrumentManager object for component
+     * @throws Exception if unable to create resource
+     */
+    InstrumentManager createInstrumentManager( Object entry )
+        throws Exception;
+
+    /**
+     * Create a name for this components instrumentables.
+     *
+     * @param entry the entry
+     * @return the String to use as the instrumentable name
+     * @throws Exception if unable to create resource
+     */
+    String createInstrumentableName( Object entry )
         throws Exception;
 }
