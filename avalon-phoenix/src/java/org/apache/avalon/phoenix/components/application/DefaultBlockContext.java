@@ -14,9 +14,9 @@ import org.apache.avalon.excalibur.thread.ThreadPool;
 import org.apache.avalon.framework.CascadingRuntimeException;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
-import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.Loggable;
 import org.apache.avalon.phoenix.BlockContext;
+import org.apache.avalon.phoenix.metadata.SarMetaData;
 import org.apache.avalon.phoenix.interfaces.ApplicationContext;
 import org.apache.log.Logger;
 
@@ -26,29 +26,38 @@ import org.apache.log.Logger;
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 final class DefaultBlockContext
-    extends DefaultContext
     implements BlockContext, Loggable
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( DefaultBlockContext.class );
 
+    private String              m_name;
     private ApplicationContext  m_frame;
     private Logger              m_logger;
     private boolean             m_warningEmitted;
 
     protected DefaultBlockContext( final String name, final ApplicationContext frame )
     {
-        super( (Context)null );
+        m_name = name;
         m_frame = frame;
-
-        put( BlockContext.APP_NAME, frame.getMetaData().getName() );
-        put( BlockContext.APP_HOME_DIR, frame.getMetaData().getHomeDirectory() );
-        put( BlockContext.NAME, name );
     }
 
     public void setLogger( final Logger logger )
     {
         m_logger = logger;
+    }
+
+    public Object get( Object key )
+        throws ContextException
+    {
+        final SarMetaData metaData = m_frame.getMetaData();
+        if( BlockContext.APP_NAME.equals( key ) ) return metaData.getName();
+        else if( BlockContext.APP_HOME_DIR.equals( key ) ) return metaData.getHomeDirectory();
+        else if( BlockContext.NAME.equals( key ) ) return m_name;
+        else
+        {
+            throw new ContextException( "Unknown key: " + key );
+        }
     }
 
     /**
@@ -58,15 +67,7 @@ final class DefaultBlockContext
      */
     public File getBaseDirectory()
     {
-        try
-        {
-            return (File)get( APP_HOME_DIR );
-        }
-        catch( final ContextException ce )
-        {
-            //Should never happen
-            throw new IllegalStateException();
-        }
+        return m_frame.getMetaData().getHomeDirectory();
     }
 
     /**
@@ -76,15 +77,7 @@ final class DefaultBlockContext
      */
     public String getName()
     {
-        try
-        {
-            return (String)get( NAME );
-        }
-        catch( final ContextException ce )
-        {
-            //Should never happen
-            throw new IllegalStateException();
-        }
+        return m_name;
     }
 
     /**
