@@ -20,7 +20,7 @@ import org.apache.excalibur.source.SourceFactory;
  * A factory for the Resource protocol
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version $Id: ResourceSourceFactory.java,v 1.6 2002/07/06 03:55:06 donaldp Exp $
+ * @version $Id: ResourceSourceFactory.java,v 1.7 2002/11/07 04:59:07 donaldp Exp $
  */
 public class ResourceSourceFactory
     extends AbstractLogEnabled
@@ -40,5 +40,4 @@ public class ResourceSourceFactory
         }
         return new ResourceSource( location );
     }
-
 }
