@@ -1,0 +1,15 @@
+# This file is a sample .ant.properties file used for building ant.
+# Modify it for your own needs and copy it to .ant.properties 
+#
+# <-- starts a comment
+
+# If you want to use the better than average jikes compiler, uncomment the next line
+#build.compiler=jikes
+
+# To link to local documentation, run the "dist" target for each project and
+# uncomment and customize the following variables.
+#avalon.base=${basedir}/dist/docs
+#phoenix.base=${basedir}/../jakarta-avalon-phoenix/dist/docs
+#logkit.base=${basedir}/../jakarta-avalon-logkit/dist/docs
+#cornerstone.base=${basedir}/../jakarta-avalon-cornerstone/dist/docs
+#testlet.base=${basedir}/../jakarta-avalon-testlet/dist/docs
