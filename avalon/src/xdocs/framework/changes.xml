@@ -8,7 +8,14 @@
     <person name="Berin Loritsch" email="bloritsch@apache.org" id="BL"/>
     <person name="Peter Donald" email="donaldp@apache.org" id="PD"/>
   </devs>
-<release version="4.0b2" date="unreleased">
+<release version="4.0b2" date="June 4, 2001">
+  <action dev="BL" type="update">
+    Release 4.0b2
+  </action>
+  <action dev="PD" type="add">
+    Add makeReadOnly() method to default implementations to prevent
+    alteration after they are set up.
+  </action>
   <action dev="BL" type="update">
     Removed the "throws Exception" from Disposable interface.  That was
     inadverdantly left in the previous release.

@@ -7,7 +7,14 @@
     <person name="Berin Loritsch" email="bloritsch@apache.org" id="BL"/>
     <person name="Leo Simons" email="mail@leosimons.com" id="LS"/>
   </devs>
-<release version="4.0b2" date="unreleased">
+<release version="4.0b2" date="June 4, 2001">
+  <action dev="BL" type="update">
+    Release 4.0b2
+  </action>
+  <action dev="BL" type="update">
+    Updated Component Package to be Initializable, so that all components
+    can be initialized once it is ready.
+  </action>
   <action dev="BL" type="add">
     Added initial documentation for Excalibur.
   </action>
