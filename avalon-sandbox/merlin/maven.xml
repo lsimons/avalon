@@ -55,8 +55,8 @@
     <!-- build the subprojects -->
     <maven:reactor basedir="${basedir}"
       includes="**/project.xml"
-      excludes="target/**,merlin-platform/**,kernel/plugin/**,project.xml,kernel/bootstrap/*,merlin-extensions/**"
-      goals="jar:install-snapshot"
+      excludes="target/**,merlin-platform/**,kernel/plugin/**,project.xml,merlin-extensions/**"
+      goals="jar:install"
       banner="Installing:"
       ignoreFailures="false" />
 
@@ -306,8 +306,8 @@
     <maven:reactor
       basedir="${basedir}"
       includes="**/project.xml"
-      excludes="merlin-platform/**,project.xml,kernel/plugin/**/*,merlin-extensions/**"
-      goals="clean"
+      excludes="project.xml,kernel/plugin/**/*,merlin-extensions/**"
+      goals="clean:clean"
       banner="Cleaning subproject:"
       ignoreFailures="false"/>
   </goal>
