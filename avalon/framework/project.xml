@@ -1,4 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE project [
+  <!ENTITY % index SYSTEM "file:index.ent"> %index;
+]>
+
 <!-- 
 Copyright 2004 The Apache Software Foundation
 Licensed  under the  Apache License,  Version 2.0  (the "License");
@@ -18,9 +22,9 @@ limitations under the License.
 <project>
 
   <name>Avalon Framework</name>
-  <groupId>avalon-framework</groupId>
-  <id>avalon-framework</id>
-  <currentVersion>4.1.5</currentVersion>
+  <groupId>&avalon-framework-id;</groupId>
+  <id>&avalon-framework-id;</id>
+  <currentVersion>&avalon-framework-version;</currentVersion>
   <inceptionYear>2000</inceptionYear>
 
   <organization>
