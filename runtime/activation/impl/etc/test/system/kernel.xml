@@ -9,7 +9,7 @@ populatation of registered artifacts with the initial context.
     <artifact spec="@AVALON-LOGGING-LOGKIT-SPEC@"/>
   </system>
 
-  <logging path="conf/system/logging.xml"/>
+  <logging path="system/logging.xml"/>
 
   <security>
     <profile name="default">
