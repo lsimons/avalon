@@ -16,11 +16,10 @@ import java.io.IOException;
 
 /**
  * A Xinfo Factory
-  * @author Paul Hammant
+ * @author Paul Hammant
  */
 public class XinfoFactory
 {
-
     private JavaClass m_javaClass;
     private File m_destDir;
 
@@ -29,7 +28,7 @@ public class XinfoFactory
      * @param destDir
      * @param javaClass
      */
-    public XinfoFactory(File destDir, JavaClass javaClass)
+    public XinfoFactory( File destDir, JavaClass javaClass )
     {
         m_javaClass = javaClass;
         m_destDir = destDir;
@@ -41,24 +40,24 @@ public class XinfoFactory
      */
     public void generate() throws IOException
     {
-        File file = new File(m_destDir,
-                m_javaClass.getFullyQualifiedName().replace('.',File.separatorChar) + ".xinfo");
+        File file = new File( m_destDir,
+                              m_javaClass.getFullyQualifiedName().replace( '.', File.separatorChar ) + ".xinfo" );
         file.getParentFile().mkdirs();
-        XinfoHelper xinfo = new XinfoHelper(file);
+        XinfoHelper xinfo = new XinfoHelper( file );
 
         xinfo.writeHeader();
 
         // services
 
-        processServiceInterfaces(xinfo);
+        processServiceInterfaces( xinfo );
 
         xinfo.writeEndOfServicesSection();
 
-        processManagementInterfaces(xinfo);
+        processManagementInterfaces( xinfo );
 
         xinfo.writeEndOfManagementSection();
 
-        processServiceMethod(xinfo);
+        processServiceMethod( xinfo );
         xinfo.writeFooter();
         xinfo.close();
 
@@ -69,13 +68,13 @@ public class XinfoFactory
      * @param xinfo the xinfo helper
      * @throws IOException If a problem
      */
-    private void processServiceInterfaces(XinfoHelper xinfo) throws IOException
+    private void processServiceInterfaces( XinfoHelper xinfo ) throws IOException
     {
-        DocletTag[] services = m_javaClass.getTagsByName("phoenix:service");
-        for (int i = 0; i < services.length; i++)
+        DocletTag[] services = m_javaClass.getTagsByName( "phoenix:service" );
+        for( int i = 0; i < services.length; i++ )
         {
-            DocletTag service = services[i];
-            xinfo.writeServiceLines(service.getNamedParameter("name"));
+            DocletTag service = services[ i ];
+            xinfo.writeServiceLines( service.getNamedParameter( "name" ) );
         }
     }
 
@@ -84,12 +83,12 @@ public class XinfoFactory
      * @param xinfo the xinfo helper
      * @throws IOException If a problem
      */
-    private void processManagementInterfaces(XinfoHelper xinfo) throws IOException
+    private void processManagementInterfaces( XinfoHelper xinfo ) throws IOException
     {
-        DocletTag[] managementInterfaces = m_javaClass.getTagsByName("phoenix:mx");
-        for (int i = 0; i < managementInterfaces.length; i++)
+        DocletTag[] managementInterfaces = m_javaClass.getTagsByName( "phoenix:mx" );
+        for( int i = 0; i < managementInterfaces.length; i++ )
         {
-            xinfo.writeManagementLine(managementInterfaces[i].getNamedParameter("name"));
+            xinfo.writeManagementLine( managementInterfaces[ i ].getNamedParameter( "name" ) );
         }
     }
 
@@ -98,29 +97,27 @@ public class XinfoFactory
      * @param xinfo The xinfo helper
      * @throws IOException If a problem
      */
-    private void processServiceMethod(XinfoHelper xinfo) throws IOException
+    private void processServiceMethod( XinfoHelper xinfo ) throws IOException
     {
         JavaMethod[] methods = m_javaClass.getMethods();
-        for (int j = 0; j < methods.length; j++)
+        for( int j = 0; j < methods.length; j++ )
         {
             // dependencies
 
-            JavaMethod method = methods[j];
-            if (method.getName().equals("service")
-                    && method.getReturns().equals(new Type("void",0))
-                    && method.getParameters().length == 1
-                    && method.getParameters()[0].getType().getValue().equals(
-                            "org.apache.avalon.framework.service.ServiceManager"))
+            JavaMethod method = methods[ j ];
+            if( method.getName().equals( "service" )
+                && method.getReturns().equals( new Type( "void", 0 ) )
+                && method.getParameters().length == 1
+                && method.getParameters()[ 0 ].getType().getValue().equals(
+                    "org.apache.avalon.framework.service.ServiceManager" ) )
             {
-                DocletTag[] dependencies = method.getTagsByName("phoenix:dependency");
-                for (int i = 0; i < dependencies.length; i++)
+                DocletTag[] dependencies = method.getTagsByName( "phoenix:dependency" );
+                for( int i = 0; i < dependencies.length; i++ )
                 {
-                    DocletTag dependency = dependencies[i];
-                    xinfo.writeDependencyLines(dependency.getNamedParameter("name"));
+                    DocletTag dependency = dependencies[ i ];
+                    xinfo.writeDependencyLines( dependency.getNamedParameter( "name" ) );
                 }
             }
         }
     }
-
-
 }
