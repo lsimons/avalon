@@ -369,6 +369,8 @@ Legal:
         <copy todir="${bin.dist.lib}">
             <fileset dir="${lib.dir}">
                 <include name="excalibur*.jar"/>
+                <include name="commons-collections-*"/>
+                <include name="util.concurrent-*"/>
             </fileset>
             <fileset dir="${lib.dir}/jing">
                 <include name="*.jar"/>
