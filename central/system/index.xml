@@ -2,21 +2,6 @@
 
 <system>
 
-  <!-- 
-  Declaration of the working repository for artifacts 
-  used and created by this build system.
-  -->
-
-  <repository>
-    <cache dir=".cache"/>
-    <proxy/>
-    <hosts>
-      <host>http://www.dpml.net/</host>
-      <host>http://www.apache.org/dist/java-repository/</host>
-      <host>http://www.ibiblio.org/maven/</host>
-    </hosts>
-  </repository>
-
   <!--
   Declaration of the binary resources available through
   the repository used by local projects.
