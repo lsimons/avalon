@@ -38,11 +38,11 @@ public class TableIdGeneratorMultithreadedJdbcTestCase
 
     private ComponentSelector m_idGeneratorSelector;
 
-    private Object m_semaphore = new Object();
-    private IdGenerator m_idGenerator;
-    private int m_perThreadGets;
-    private HashMap m_ids;
-    private Throwable m_throwable;
+    protected Object m_semaphore = new Object();
+    protected IdGenerator m_idGenerator;
+    protected int m_perThreadGets;
+    protected HashMap m_ids;
+    protected Throwable m_throwable;
 
     /*---------------------------------------------------------------
      * Constructors
@@ -396,7 +396,7 @@ public class TableIdGeneratorMultithreadedJdbcTestCase
                                                        "WHERE table_name = '" + tableName + "'" );
                 if( rs.next() )
                 {
-                    BigDecimal id = rs.getBigDecimal( 1 );
+                    rs.getBigDecimal( 1 );
                 }
                 else
                 {
