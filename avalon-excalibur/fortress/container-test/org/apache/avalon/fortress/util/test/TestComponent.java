@@ -47,37 +47,60 @@
  Apache Software Foundation, please see <http://www.apache.org/>.
 
 */
-package org.apache.avalon.fortress;
+package org.apache.avalon.fortress.util.test;
 
-import org.apache.avalon.framework.service.ServiceManager;
+import junit.framework.Assert;
 
 /**
- * Provides constants used to access the Context object for impl
- * managers. A impl manager can assume that all these elements are
- * present in the initial context.
+ * TestComponent does XYZ
  *
- * @author <a href="mailto:leo.sutic@inspireinfrastructure.com">Leo Sutic</a>
- * @version CVS $Revision: 1.5 $ $Date: 2003/04/22 12:37:07 $
+ * @author <a href="bloritsch.at.apache.org">Berin Loritsch</a>
+ * @version CVS $ Revision: 1.1 $
  */
-public interface ContainerManagerConstants extends ContainerConstants
+public class TestComponent extends Assert
 {
-    /**
-     * Class: The class of the impl.
-     */
-    String CONTAINER_CLASS = "impl.class";
+    private boolean m_isCreated;
+    private boolean m_isDestroyed;
+    private boolean m_isAccessed;
+    private boolean m_isReleased;
 
-    /**
-     * ComponentLocator: The component manager to give to the impl.
-     */
-    String SERVICE_MANAGER = ServiceManager.class.getName();
+    public void create()
+    {
+        assertTrue( !m_isCreated);
+        assertTrue( !m_isAccessed );
+        assertTrue( !m_isReleased );
+        assertTrue( !m_isDestroyed );
+        m_isCreated = true;
+        assertTrue(m_isCreated);
+    }
 
-    /**
-     * Configuration: The configuration to give to the impl.
-     */
-    String CONFIGURATION = "impl.configuration";
+    public void access()
+    {
+        assertTrue( m_isCreated );
+        assertTrue( !m_isAccessed );
+        assertTrue( !m_isReleased );
+        assertTrue( !m_isDestroyed );
+        m_isAccessed = true;
+        assertTrue( m_isAccessed );
+    }
 
-    /**
-     * Parameters: The Parameters object to give to the impl.
-     */
-    String PARAMETERS = "impl.parameters";
+    public void release()
+    {
+        assertTrue( m_isCreated );
+        assertTrue( m_isAccessed );
+        assertTrue( !m_isReleased );
+        assertTrue( !m_isDestroyed );
+        m_isReleased = true;
+        assertTrue( m_isReleased );
+    }
+
+    public void destroy()
+    {
+        assertTrue( m_isCreated );
+        assertTrue( m_isAccessed );
+        assertTrue( m_isReleased );
+        assertTrue( !m_isDestroyed );
+        m_isDestroyed = true;
+        assertTrue(m_isDestroyed);
+    }
 }

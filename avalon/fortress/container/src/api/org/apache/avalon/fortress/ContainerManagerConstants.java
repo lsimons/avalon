@@ -57,7 +57,7 @@ import org.apache.avalon.framework.service.ServiceManager;
  * present in the initial context.
  *
  * @author <a href="mailto:leo.sutic@inspireinfrastructure.com">Leo Sutic</a>
- * @version CVS $Revision: 1.4 $ $Date: 2003/03/22 12:46:32 $
+ * @version CVS $Revision: 1.5 $ $Date: 2003/04/22 12:37:07 $
  */
 public interface ContainerManagerConstants extends ContainerConstants
 {
@@ -75,11 +75,6 @@ public interface ContainerManagerConstants extends ContainerConstants
      * Configuration: The configuration to give to the impl.
      */
     String CONFIGURATION = "impl.configuration";
-
-    /**
-     * Assembly Configuration: The assembly info to give to the impl.
-     */
-    String ASSEMBLY_CONFIGURATION = "impl.assembly.config";
 
     /**
      * Parameters: The Parameters object to give to the impl.

@@ -49,106 +49,28 @@
 */
 package org.apache.avalon.fortress.impl.extensions.test;
 
-import junit.framework.TestCase;
 import junit.framework.Assert;
-import org.apache.avalon.fortress.impl.extensions.InstrumentableCreator;
-import org.apache.avalon.framework.context.DefaultContext;
-import org.apache.avalon.lifecycle.Creator;
-import org.apache.excalibur.instrument.Instrument;
-import org.apache.excalibur.instrument.InstrumentManageable;
 import org.apache.excalibur.instrument.InstrumentManager;
 import org.apache.excalibur.instrument.Instrumentable;
 
 /**
- * InstrumentableCreatorTestCase does XYZ
+ * TestInstrumentManager does XYZ
  *
  * @author <a href="bloritsch.at.apache.org">Berin Loritsch</a>
  * @version CVS $ Revision: 1.1 $
  */
-public class InstrumentableCreatorTestCase extends TestCase
+public class TestInstrumentManager extends Assert implements InstrumentManager
 {
-    private Instrumentable m_instrumentable;
-    private DefaultContext m_context;
-    private InstrumentManager m_instrumentManager;
-    private boolean m_isActive = false;
-
-    public InstrumentableCreatorTestCase( String name )
+    public void registerInstrumentable( Instrumentable instrumentable, String instrumentableName ) throws Exception
     {
-        super( name );
-    }
+        String name = instrumentable.getInstrumentableName();
+        assertNotNull( name );
 
-    public void setUp()
-    {
-        m_instrumentable = new TestInstrumentable();
-        m_instrumentManager = new TestInstrumentManager();
-        m_context = new DefaultContext();
-        m_context.put( "component.name", "component1" );
-        m_context.makeReadOnly();
-    }
+        name = "registered:" + instrumentableName;
+        instrumentable.setInstrumentableName( name );
+        assertEquals( name, instrumentable.getInstrumentableName() );
 
-    public void testNoInstrumentManager() throws Exception
-    {
-        Creator creator = new InstrumentableCreator( null );
-
-        creator.create( m_instrumentable, m_context );
-        creator.destroy( m_instrumentable, m_context );
-    }
-
-    public void testInstrumentManager() throws Exception
-    {
-        Creator creator = new InstrumentableCreator( m_instrumentManager );
-        m_isActive = true;
-
-        creator.create( m_instrumentable, m_context );
-        creator.destroy( m_instrumentable, m_context );
-    }
-
-    class TestInstrumentable implements Instrumentable, InstrumentManageable
-    {
-        private static final String DEFAULT_NAME = "test";
-        private String m_name = DEFAULT_NAME;
-        private String m_assigned;
-
-        public void setInstrumentableName( String name )
-        {
-            assertTrue( m_isActive );
-            assertNotNull( name );
-            m_name = name;
-            m_assigned = m_name;
-        }
-
-        public String getInstrumentableName()
-        {
-            assertTrue( m_isActive );
-            assertNotNull( m_name );
-
-            if ( null == m_assigned )
-            {
-                assertEquals( DEFAULT_NAME, m_name );
-            }
-            else
-            {
-                assertEquals( m_assigned, m_name );
-            }
-
-            return m_name;
-        }
-
-        public Instrument[] getInstruments()
-        {
-            assertTrue( m_isActive );
-            return new Instrument[0];
-        }
-
-        public Instrumentable[] getChildInstrumentables()
-        {
-            assertTrue( m_isActive );
-            return new Instrumentable[0];
-        }
-
-        public void setInstrumentManager( InstrumentManager instrumentManager )
-        {
-            assertTrue( m_isActive );
-        }
+        assertNotNull( instrumentable.getChildInstrumentables() );
+        assertNotNull( instrumentable.getInstruments() );
     }
 }

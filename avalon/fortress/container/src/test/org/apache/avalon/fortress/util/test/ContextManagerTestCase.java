@@ -47,37 +47,45 @@
  Apache Software Foundation, please see <http://www.apache.org/>.
 
 */
-package org.apache.avalon.fortress;
+package org.apache.avalon.fortress.util.test;
 
-import org.apache.avalon.framework.service.ServiceManager;
+import junit.framework.TestCase;
+import org.apache.avalon.fortress.util.ContextManager;
+import org.apache.avalon.fortress.util.FortressConfig;
+import org.apache.avalon.framework.logger.NullLogger;
 
 /**
- * Provides constants used to access the Context object for impl
- * managers. A impl manager can assume that all these elements are
- * present in the initial context.
+ * ContextManagerTestCase does XYZ
  *
- * @author <a href="mailto:leo.sutic@inspireinfrastructure.com">Leo Sutic</a>
- * @version CVS $Revision: 1.5 $ $Date: 2003/04/22 12:37:07 $
+ * @author <a href="bloritsch.at.apache.org">Berin Loritsch</a>
+ * @version CVS $ Revision: 1.1 $
  */
-public interface ContainerManagerConstants extends ContainerConstants
+public class ContextManagerTestCase extends TestCase
 {
-    /**
-     * Class: The class of the impl.
-     */
-    String CONTAINER_CLASS = "impl.class";
+    private ContextManager m_manager;
 
-    /**
-     * ComponentLocator: The component manager to give to the impl.
-     */
-    String SERVICE_MANAGER = ServiceManager.class.getName();
+    public ContextManagerTestCase( String name )
+    {
+        super( name );
+    }
 
-    /**
-     * Configuration: The configuration to give to the impl.
-     */
-    String CONFIGURATION = "impl.configuration";
+    public void setUp() throws Exception
+    {
+        FortressConfig config = new FortressConfig( FortressConfig.createDefaultConfig() );
+        config.setContainerConfiguration( "resource://org/apache/avalon/fortress/test/data/test1.xconf" );
+        config.setLoggerManagerConfiguration( "resource://org/apache/avalon/fortress/test/data/test1.xlog" );
+        m_manager = new ContextManager( config.getContext(), new NullLogger() );
+        m_manager.initialize();
+    }
 
-    /**
-     * Parameters: The Parameters object to give to the impl.
-     */
-    String PARAMETERS = "impl.parameters";
+    public void testContextManager()
+    {
+        assertNotNull( m_manager.getChildContext() );
+        assertNotNull( m_manager.getContainerManagerContext() );
+    }
+
+    public void tearDown()
+    {
+        m_manager.dispose();
+    }
 }

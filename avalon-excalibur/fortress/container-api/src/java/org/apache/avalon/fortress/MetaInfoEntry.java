@@ -55,8 +55,6 @@ import org.apache.avalon.fortress.impl.handler.PoolableComponentHandler;
 import org.apache.avalon.fortress.impl.handler.ThreadSafeComponentHandler;
 
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Keeps track of the relationship of all the associated meta data for a
@@ -65,7 +63,7 @@ import java.util.regex.Pattern;
  * to enable "self-healing" configuration files.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2003/04/21 17:40:17 $
+ * @version $Revision: 1.3 $ $Date: 2003/04/22 12:37:08 $
  */
 public final class MetaInfoEntry
 {
@@ -77,8 +75,6 @@ public final class MetaInfoEntry
 
     /** Translate from lifestyle to component handler. */
     private static final Map m_lifecycleMap;
-    /** Used to split words in class names. */
-    private static final Pattern upperCase = Pattern.compile( "([A-Z]+)" );
 
     // Initialize the scope map
     static
@@ -244,22 +240,30 @@ public final class MetaInfoEntry
      */
     public static final String createShortName( final String className )
     {
-        final Matcher matcher = upperCase.matcher( className.substring( className.lastIndexOf( '.' ) + 1 ) );
         final StringBuffer shortName = new StringBuffer();
 
-        while ( matcher.find() )
+        final char[] name = className.substring(
+            className.lastIndexOf( '.' ) + 1 ).toCharArray();
+        char last = '\0';
+
+        for (int i = 0; i < name.length; i++)
         {
-            if ( shortName.length() == 0 )
+            if (Character.isUpperCase(name[i]))
             {
-                matcher.appendReplacement( shortName, "$1" );
+                if ( Character.isLowerCase( last ) )
+                {
+                    shortName.append('-');
+                }
+
+                shortName.append(Character.toLowerCase(name[i]));
             }
             else
             {
-                matcher.appendReplacement( shortName, "-$1" );
+                shortName.append(name[i]);
             }
-        }
 
-        matcher.appendTail( shortName );
+            last = name[i];
+        }
 
         return shortName.toString().toLowerCase();
     }

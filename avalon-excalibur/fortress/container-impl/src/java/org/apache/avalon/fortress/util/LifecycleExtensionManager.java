@@ -78,7 +78,7 @@ import java.util.List;
  * </p>
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Revision: 1.7 $ $Date: 2003/04/18 20:02:30 $
+ * @version CVS $Revision: 1.8 $ $Date: 2003/04/22 12:37:09 $
  */
 public final class LifecycleExtensionManager
     extends AbstractLogEnabled
@@ -200,7 +200,7 @@ public final class LifecycleExtensionManager
      */
     public void insertCreatorExtension( final int position, final Creator extension )
     {
-        m_accessorExtensions.insert( position, extension );
+        m_creatorExtensions.insert( position, extension );
     }
 
     /**

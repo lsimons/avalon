@@ -120,7 +120,7 @@ import java.util.Iterator;
  * and dispose of them properly when it itself is disposed .</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.22 $ $Date: 2003/04/21 20:29:15 $
+ * @version CVS $Revision: 1.23 $ $Date: 2003/04/22 12:37:08 $
  * @since 4.1
  */
 public final class ContextManager
@@ -864,46 +864,6 @@ public final class ContextManager
             assumeOwnership( instrumentManager );
 
             m_childContext.put( InstrumentManager.ROLE, instrumentManager );
-        }
-    }
-
-    /**
-     * Will set up a Assembly Descriptor if none is supplied.
-     *
-     * <p>The postcondition is that
-     * <code>childContext.get( LoggerManager.ROLE )</code> should
-     * return a valid logger manager.</p>
-     */
-    protected void initializeAssemblyConfig()
-    {
-        try
-        {
-            m_containerManagerContext.put( ASSEMBLY_CONFIGURATION, m_rootContext.get( ASSEMBLY_CONFIGURATION ) );
-        }
-        catch ( ContextException ce )
-        {
-            final Configuration containerConfig = getConfiguration( ASSEMBLY_CONFIGURATION, ASSEMBLY_CONFIGURATION_URI );
-            if ( containerConfig == null )
-            {
-                // No config.
-                // Does the parent supply a logger manager?
-                try
-                {
-                    m_containerManagerContext.get( ASSEMBLY_CONFIGURATION );
-
-                    // OK, done.
-                    return;
-                }
-                catch ( ContextException cex )
-                {
-                    // Guess there is none.
-                    return;
-                }
-            }
-            else
-            {
-                m_containerManagerContext.put( ASSEMBLY_CONFIGURATION, containerConfig );
-            }
         }
     }
 

@@ -47,37 +47,51 @@
  Apache Software Foundation, please see <http://www.apache.org/>.
 
 */
-package org.apache.avalon.fortress;
+package org.apache.avalon.fortress.util.test;
 
-import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.avalon.lifecycle.Creator;
+import org.apache.avalon.framework.context.Context;
+import junit.framework.Assert;
 
 /**
- * Provides constants used to access the Context object for impl
- * managers. A impl manager can assume that all these elements are
- * present in the initial context.
+ * TestCreator does XYZ
  *
- * @author <a href="mailto:leo.sutic@inspireinfrastructure.com">Leo Sutic</a>
- * @version CVS $Revision: 1.5 $ $Date: 2003/04/22 12:37:07 $
+ * @author <a href="bloritsch.at.apache.org">Berin Loritsch</a>
+ * @version CVS $ Revision: 1.1 $
  */
-public interface ContainerManagerConstants extends ContainerConstants
+public class TestCreator extends Assert implements Creator
 {
-    /**
-     * Class: The class of the impl.
-     */
-    String CONTAINER_CLASS = "impl.class";
+    public final int m_id;
+
+    public TestCreator(int id)
+    {
+        m_id = id;
+    }
 
     /**
-     * ComponentLocator: The component manager to give to the impl.
+     * Create stage handler.
+     *
+     * @param object the object that is being created
+     * @param context the context instance required by the create handler
+     *    implementation
+     * @exception Exception if an error occurs
      */
-    String SERVICE_MANAGER = ServiceManager.class.getName();
+    public void create( Object object, Context context ) throws Exception
+    {
+        assertNotNull(object);
+        assertNotNull(context);
+    }
 
     /**
-     * Configuration: The configuration to give to the impl.
+     * Destroy stage handler.
+     *
+     * @param object the object that is being destroyed
+     * @param context the context instance required by the handler
+     *    implementation
      */
-    String CONFIGURATION = "impl.configuration";
-
-    /**
-     * Parameters: The Parameters object to give to the impl.
-     */
-    String PARAMETERS = "impl.parameters";
+    public void destroy( Object object, Context context )
+    {
+        assertNotNull( object );
+        assertNotNull( context );
+    }
 }

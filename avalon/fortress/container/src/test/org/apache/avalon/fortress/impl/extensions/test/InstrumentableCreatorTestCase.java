@@ -50,6 +50,7 @@
 package org.apache.avalon.fortress.impl.extensions.test;
 
 import junit.framework.TestCase;
+import junit.framework.Assert;
 import org.apache.avalon.fortress.impl.extensions.InstrumentableCreator;
 import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.lifecycle.Creator;
@@ -100,22 +101,6 @@ public class InstrumentableCreatorTestCase extends TestCase
 
         creator.create( m_instrumentable, m_context );
         creator.destroy( m_instrumentable, m_context );
-    }
-
-    class TestInstrumentManager implements InstrumentManager
-    {
-        public void registerInstrumentable( Instrumentable instrumentable, String instrumentableName ) throws Exception
-        {
-            String name = instrumentable.getInstrumentableName();
-            assertNotNull( name );
-
-            name = "registered:" + instrumentableName;
-            instrumentable.setInstrumentableName( name );
-            assertEquals( name, instrumentable.getInstrumentableName() );
-
-            assertNotNull( instrumentable.getChildInstrumentables() );
-            assertNotNull( instrumentable.getInstruments() );
-        }
     }
 
     class TestInstrumentable implements Instrumentable, InstrumentManageable

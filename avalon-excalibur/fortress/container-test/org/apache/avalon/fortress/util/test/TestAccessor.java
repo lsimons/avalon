@@ -47,37 +47,36 @@
  Apache Software Foundation, please see <http://www.apache.org/>.
 
 */
-package org.apache.avalon.fortress;
+package org.apache.avalon.fortress.util.test;
 
-import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.avalon.lifecycle.Accessor;
+import org.apache.avalon.framework.context.Context;
+import junit.framework.Assert;
 
 /**
- * Provides constants used to access the Context object for impl
- * managers. A impl manager can assume that all these elements are
- * present in the initial context.
+ * TestAccessor does XYZ
  *
- * @author <a href="mailto:leo.sutic@inspireinfrastructure.com">Leo Sutic</a>
- * @version CVS $Revision: 1.5 $ $Date: 2003/04/22 12:37:07 $
+ * @author <a href="bloritsch.at.apache.org">Berin Loritsch</a>
+ * @version CVS $ Revision: 1.1 $
  */
-public interface ContainerManagerConstants extends ContainerConstants
+public class TestAccessor extends Assert implements Accessor
 {
-    /**
-     * Class: The class of the impl.
-     */
-    String CONTAINER_CLASS = "impl.class";
+    public final int m_id;
 
-    /**
-     * ComponentLocator: The component manager to give to the impl.
-     */
-    String SERVICE_MANAGER = ServiceManager.class.getName();
+    public TestAccessor( int id )
+    {
+        m_id = id;
+    }
 
-    /**
-     * Configuration: The configuration to give to the impl.
-     */
-    String CONFIGURATION = "impl.configuration";
+    public void access( Object object, Context context ) throws Exception
+    {
+        assertNotNull( object );
+        assertNotNull( context );
+    }
 
-    /**
-     * Parameters: The Parameters object to give to the impl.
-     */
-    String PARAMETERS = "impl.parameters";
+    public void release( Object object, Context context )
+    {
+        assertNotNull( object );
+        assertNotNull( context );
+    }
 }
