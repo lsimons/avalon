@@ -63,7 +63,7 @@ class InstrumentManagerTreeModel
      */
     public void opened( InstrumentManagerConnection connection )
     {
-        System.out.println("InstrumentManagerTreeModel.opened(" + connection + ")");
+        //System.out.println("InstrumentManagerTreeModel.opened(" + connection + ")");
         refreshModel();
     }
     
@@ -75,7 +75,7 @@ class InstrumentManagerTreeModel
      */
     public void closed( InstrumentManagerConnection connection )
     {
-        System.out.println("InstrumentManagerTreeModel.closed(" + connection + ")");
+        //System.out.println("InstrumentManagerTreeModel.closed(" + connection + ")");
         refreshModel();
     }
     
@@ -86,7 +86,7 @@ class InstrumentManagerTreeModel
      */
     public void deleted( InstrumentManagerConnection connection )
     {
-        System.out.println("InstrumentManagerTreeModel.deleted(" + connection + ")");
+        //System.out.println("InstrumentManagerTreeModel.deleted(" + connection + ")");
         refreshModel();
     }
     
@@ -191,8 +191,8 @@ class InstrumentManagerTreeModel
      */
     public void valueForPathChanged( TreePath path, Object newValue )
     {
-        System.out.println( "InstrumentManagerTreeModel.valueForPathChanged(" + path +
-            ", " + newValue + ")" );
+        //System.out.println( "InstrumentManagerTreeModel.valueForPathChanged(" + path +
+        //	", " + newValue + ")" );
     }
     
     /**
@@ -569,12 +569,12 @@ class InstrumentManagerTreeModel
         // The latest Instrumentables will be in the correct order.
         InstrumentableDescriptor[] descriptors =
             instrumentableDescriptor.getChildInstrumentableDescriptors();
-        System.out.println("Model.updateInstumentable() " + instrumentableDescriptor.getName() + " " + descriptors.length);
+        //System.out.println("Model.updateInstumentable() " + instrumentableDescriptor.getName() + " " + descriptors.length);
         int i;
         for ( i = 0; i < descriptors.length; i++ )
         {
             InstrumentableDescriptor descriptor = descriptors[i];
-            System.out.println("  " + descriptor.getName() );
+            //System.out.println("  " + descriptor.getName() );
             DefaultMutableTreeNode newChild = null;
             int childCount = instrumentableTreeNode.getChildCount();
             if ( i < childCount )
@@ -680,7 +680,7 @@ class InstrumentManagerTreeModel
         for ( i = descriptors.length; i < instrumentDescriptors.length + descriptors.length; i++ )
         {
             InstrumentDescriptor descriptor = instrumentDescriptors[i - descriptors.length];
-            System.out.println("  " + descriptor.getName() );
+            //System.out.println("  " + descriptor.getName() );
             DefaultMutableTreeNode newChild = null;
             int childCount = instrumentableTreeNode.getChildCount();
             if ( i < childCount )
@@ -799,12 +799,12 @@ class InstrumentManagerTreeModel
         // The latest Instrument Samples will be in the correct order.
         InstrumentSampleDescriptor[] descriptors =
             instrumentDescriptor.getInstrumentSampleDescriptors();
-        System.out.println("Model.updateInstument() " + instrumentDescriptor.getName() + " " + descriptors.length);
+        //System.out.println("Model.updateInstument() " + instrumentDescriptor.getName() + " " + descriptors.length);
         int i;
         for ( i = 0; i < descriptors.length; i++ )
         {
             InstrumentSampleDescriptor descriptor = descriptors[i];
-            System.out.println("  " + descriptor.getName() );
+            //System.out.println("  " + descriptor.getName() );
             DefaultMutableTreeNode newChild = null;
             int childCount = instrumentTreeNode.getChildCount();
             if ( i < childCount )

@@ -49,7 +49,7 @@ import org.apache.avalon.framework.logger.Logger;
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/08/22 16:50:38 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/08/23 10:03:48 $
  * @since 4.1
  */
 class InstrumentClientFrame
@@ -161,8 +161,7 @@ class InstrumentClientFrame
             catch( Throwable t )
             {
                 // Should not get here, but we want to make sure that this never happens.
-                System.out.println( "Unexpected error caught in ProfilerFrame runner:" );
-                t.printStackTrace();
+                getLogger().error( "Unexpected error caught in ProfilerFrame runner:", t );
             }
         }
     }
@@ -626,11 +625,11 @@ class InstrumentClientFrame
         {
             public void run()
             {
-                System.out.println( "InstrumentClientFrame.shutdownHook start");
+                getLogger().debug( "InstrumentClientFrame.shutdownHook start");
                 
                 shutdown();
                 
-                System.out.println( "InstrumentClientFrame.shutdownHook end");
+                getLogger().debug( "InstrumentClientFrame.shutdownHook end");
             }
         };
         Runtime.getRuntime().addShutdownHook( m_hook );
@@ -677,7 +676,6 @@ class InstrumentClientFrame
     
     private void updateTitle()
     {
-        System.out.println("InstrumentClientFrame.updateTitle()");
         if( m_desktopFile == null )
         {
             setTitle( m_title );
@@ -858,7 +856,7 @@ class InstrumentClientFrame
      */
     private void shutdown()
     {
-        System.out.println( "InstrumentClientFrame.shutdown()" );
+        getLogger().debug( "InstrumentClientFrame.shutdown()" );
         boolean fallThrough = false;
         if ( m_hook != null )
         {
