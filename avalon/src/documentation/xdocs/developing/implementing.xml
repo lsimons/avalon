@@ -174,7 +174,7 @@ implements DocumentRepository , Configurable, Composable, Initializable,
     {
         this.disposed = true;
         this.manager = null;
-        this.dbresource = null;
+        this.dbResource = null;
     }
 
     public final Document getDocument(Principal requestor, int refId)
@@ -476,7 +476,7 @@ class ContainerComponent implements Component, Initializable, Disposable
        class="org.apache.avalon.excalibur.datasource.JdbcDataSource">
          <pool-controller min="5" max="10"/>
          <auto-commit>false</auto-commit>
-         <driver>org.mysql.MySqlDriver</driver>
+         <driver>org.gjt.mm.mysql.Driver</driver>
          <dburl>jdbc:mysql:localhost/mydb</dburl>
          <user>test</user>
          <password>test</password>
@@ -485,7 +485,7 @@ class ContainerComponent implements Component, Initializable, Disposable
         class="org.apache.avalon.excalibur.datasource.JdbcDataSource">
          <pool-controller min="5" max="10"/>
          <auto-commit>false</auto-commit>
-         <driver>org.mysql.MySqlDriver</driver>
+         <driver>org.gjt.mm.mysql.Driver</driver>
          <dburl>jdbc:mysql:localhost/myotherdb</dburl>
          <user>test</user>
          <password>test</password>
@@ -673,16 +673,18 @@ this.manager.initialize();
 <![CDATA[
 <my-system>
   <datasources>
-     <jdbc hint="documents">
+     <jdbc name="documents">
          <pool-controller min="5" max="10"/>
          <auto-commit>false</auto-commit>
+         <driver>org.gjt.mm.mysql.Driver</driver>
          <dburl>jdbc:mysql:localhost/mydb</dburl>
          <user>test</user>
          <password>test</password>
       </jdbc>
-      <jdbc hint="security">
+      <jdbc name="security">
          <pool-controller min="5" max="10"/>
          <auto-commit>false</auto-commit>
+         <driver>org.gjt.mm.mysql.Driver</driver>
          <dburl>jdbc:mysql:localhost/myotherdb</dburl>
          <user>test</user>
          <password>test</password>
