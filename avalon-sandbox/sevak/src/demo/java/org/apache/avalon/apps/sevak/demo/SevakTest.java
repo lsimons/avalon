@@ -69,8 +69,9 @@ public class SevakTest
             String ctxPath = contexts[ i ].getAttribute( "path" );
             ctxPath = ctxPath.replace( '/', File.separatorChar );
             ctxPath = ctxPath.replace( '\\', File.separatorChar );
-            String ctxFullPath = m_context.getBaseDirectory().getAbsolutePath() + File.separatorChar + ctxPath;
-            //System.out.println("Ctx = " + ctx + ", path = " + ctxFullPath);
+            String ctxFullPath = m_context.getBaseDirectory().getAbsolutePath()
+                    + File.separatorChar + ctxPath;
+            //System.out.println("Deploying " + ctx + " " + ctxFullPath);
             m_sevak.deploy( ctx, new File( ctxFullPath ) );
         }
 
