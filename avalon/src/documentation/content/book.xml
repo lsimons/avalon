@@ -9,7 +9,7 @@
         <menu label="About">
           <menu-item label="Introduction" href="index.html"/>
           <menu-item label="Getting Started" href="getting-started.html"/>
-          <menu-item label="Features" href="getting-started.html"/>
+          <menu-item label="Features" href="features.html"/>
           <menu-item label="License" href="license.html"/>
           <menu-item label="Mail" href="mail.html"/>
           <menu-item label="Code Standards" href="code-standards.html"/>
