@@ -35,7 +35,7 @@ import org.apache.avalon.meta.info.builder.tags.TypeTag;
 import org.apache.avalon.meta.info.builder.tags.ServiceTag;
 
 import org.apache.tools.ant.BuildException;
-
+import org.apache.tools.ant.types.FileSet;
 
 import com.thoughtworks.qdox.ant.AbstractQdoxTask;
 import com.thoughtworks.qdox.model.JavaClass;
@@ -152,6 +152,11 @@ public class MetaTask
               + "Recognized values include 'xinfo' and 'xtype'.";
             throw new BuildException( error );
         }
+    }
+
+    public void addConfigured( FileSet fileset )
+    {
+        super.addFileset( fileset );
     }
 
     /**
