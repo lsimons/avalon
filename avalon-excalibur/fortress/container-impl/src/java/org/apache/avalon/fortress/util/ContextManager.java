@@ -119,7 +119,7 @@ import java.util.Iterator;
  * and dispose of them properly when it itself is disposed .</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.43 $ $Date: 2003/06/11 10:48:15 $
+ * @version CVS $Revision: 1.44 $ $Date: 2003/06/11 14:18:06 $
  * @since 4.1
  */
 public class ContextManager
@@ -761,7 +761,7 @@ public class ContextManager
                 configBuilder = new DefaultConfigurationBuilder();
             }
 
-            return configBuilder.build( src.getInputStream() );
+            return configBuilder.build( src.getInputStream(), src.getURI() );
         }
         catch ( Exception e )
         {
