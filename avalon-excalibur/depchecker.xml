@@ -3,7 +3,7 @@
 <!--
 ============================================================
                 Dependency updater
-                   Version $Revision: 1.46 $
+                   Version $Revision: 1.47 $
            Jeff Turner <jefft@apache.org>
 
 This Ant script provides "functions" to check if
@@ -340,12 +340,15 @@ To use it, type 'ant -f depchecker.xml'
             <property name="proj.home" value="${basedir}/../i18n"/>
         </ant>
     </target>
-    <target name="checkCli">
-        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
-            <property name="proj.jar.name" value="excalibur-cli-1.0.jar"/>
-            <property name="path" value="${excalibur-cli.jar}"/>
-            <property name="proj.home" value="${basedir}/../cli"/>
-        </ant>
+
+    <target name="checkCli" depends="checkCompatibility"/>
+
+    <target name="checkCompatibility">
+      <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
+        <property name="proj.jar.name" value="excalibur-compatibility-1.0.jar"/>
+	<property name="path" value="${excalibur-compatibility.jar}"/>
+	<property name="proj.home" value="${basedir}/../compatibility"/>
+      </ant>
     </target>
     <target name="checkInstrument">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
@@ -368,20 +371,7 @@ To use it, type 'ant -f depchecker.xml'
             <property name="proj.home" value="${basedir}/../instrument-manager"/>
         </ant>
     </target>
-    <target name="checkCollections">
-        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
-            <property name="proj.jar.name" value="excalibur-collections.jar"/>
-            <property name="path" value="${excalibur-collections.jar}"/>
-            <property name="proj.home" value="${basedir}/../collections"/>
-        </ant>
-    </target>
-    <target name="checkUtil">
-        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
-            <property name="proj.jar.name" value="excalibur-util.jar"/>
-            <property name="path" value="${excalibur-util.jar}"/>
-            <property name="proj.home" value="${basedir}/../util"/>
-        </ant>
-    </target>
+    <target name="checkCollections" depends="checkCompatibility"/>
     <target name="checkCache">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
             <property name="proj.jar.name" value="excalibur-cache.jar"/>
@@ -396,13 +386,7 @@ To use it, type 'ant -f depchecker.xml'
             <property name="proj.home" value="${basedir}/../component"/>
         </ant>
     </target>
-    <target name="checkConcurrent">
-        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
-            <property name="proj.jar.name" value="excalibur-concurrent.jar"/>
-            <property name="path" value="${excalibur-concurrent.jar}"/>
-            <property name="proj.home" value="${basedir}/../concurrent"/>
-        </ant>
-    </target>
+    <target name="checkConcurrent" depends="checkCompatibility"/>
     <target name="checkConfiguration">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
             <property name="proj.jar.name" value="excalibur-configuration.jar"/>
@@ -410,11 +394,12 @@ To use it, type 'ant -f depchecker.xml'
             <property name="proj.home" value="${basedir}/../configuration"/>
         </ant>
     </target>
-    <target name="checkContainer">
+    <target name="checkContainer" depends="checkLifecycle"/>
+    <target name="checkLifecycle">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
-            <property name="proj.jar.name" value="excalibur-container.jar"/>
-            <property name="path" value="${excalibur-container.jar}"/>
-            <property name="proj.home" value="${basedir}/../container"/>
+            <property name="proj.jar.name" value="excalibur-lifecycle.jar"/>
+	    <property name="path" value="${excalibur-lifecycle.jar}"/>
+            <property name="proj.home" value="${basedir}/../lifecycle"/>
         </ant>
     </target>
     <target name="checkMeta">
@@ -431,13 +416,7 @@ To use it, type 'ant -f depchecker.xml'
             <property name="proj.home" value="${basedir}/../pool"/>
         </ant>
     </target>
-    <target name="checkIO">
-        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
-            <property name="proj.jar.name" value="excalibur-io.jar"/>
-            <property name="path" value="${excalibur-io.jar}"/>
-            <property name="proj.home" value="${basedir}/../io"/>
-        </ant>
-    </target>
+    <target name="checkIO" depends="checkCompatibility"/>
     <target name="checkStore">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
             <property name="proj.jar.name" value="excalibur-store.jar"/>

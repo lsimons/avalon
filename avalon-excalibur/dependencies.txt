@@ -6,15 +6,12 @@ Current at: Thu Jun  27 13:22:23 EST 2002
 
 * bzip2 -> .
 * cache -> framework
-* cli -> .
-* collections -> .
-* concurrent -> .
+* compatibility -> .
 * configuration -> framework
 * context -> framework
 * extension -> .
 * i18n -> .
 * instrument -> framework, altrmi-*
-* io -> .
 * threadcontext -> .
 * naming -> .
 * store -> framework
