@@ -8,3 +8,8 @@ extensions
 distributions
 common
 working
+velocity.log
+project.xml
+project.properties
+maven.log
+target
