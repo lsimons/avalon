@@ -9,8 +9,10 @@ package org.apache.avalon.phoenix.components.embeddor;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import org.apache.avalon.excalibur.packagemanager.ExtensionManager;
 import org.apache.avalon.phoenix.interfaces.ConfigurationRepository;
+import org.apache.avalon.phoenix.interfaces.ConfigurationRepositoryMBean;
 import org.apache.avalon.phoenix.interfaces.ConfigurationValidator;
 import org.apache.avalon.phoenix.interfaces.ConfigurationValidatorMBean;
 import org.apache.avalon.phoenix.interfaces.Deployer;
@@ -52,7 +54,7 @@ final class ManagementRegistration
     public static final ManagementRegistration CONFIGURATION_REPOSITORY =
         new ManagementRegistration( ConfigurationRepository.ROLE,
                                     "ConfigurationManager",
-                                    new Class[]{ConfigurationRepository.class} );
+                                    new Class[]{ConfigurationRepositoryMBean.class} );
 
     public static final ManagementRegistration CONFIGURATION_VALIDATOR =
         new ManagementRegistration( ConfigurationValidator.ROLE,
@@ -92,6 +94,6 @@ final class ManagementRegistration
 
     public static ManagementRegistration getManagementInfoForRole( final String role )
     {
-        return (ManagementRegistration)c_map.get( role );
+        return ( ManagementRegistration ) c_map.get( role );
     }
 }
