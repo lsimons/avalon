@@ -14,6 +14,7 @@ import java.util.Iterator;
 import java.util.List;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
+import org.apache.avalon.excalibur.lang.ThreadContext;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.component.ComponentException;
@@ -24,9 +25,6 @@ import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
-import org.apache.avalon.framework.context.Context;
-import org.apache.avalon.framework.context.ContextException;
-import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.AbstractLoggable;
 import org.apache.avalon.phoenix.Block;
 import org.apache.avalon.phoenix.BlockListener;
@@ -46,38 +44,33 @@ import org.apache.avalon.phoenix.metadata.SarMetaData;
  */
 public final class DefaultServerApplication
     extends AbstractLoggable
-    implements Application, Contextualizable, Composable, Configurable
+    implements Application, Composable, Configurable
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( DefaultServerApplication.class );
 
+    private static final String  PHASE_STARTUP  = "startup";
+    private static final String  PHASE_SHUTDOWN = "shutdown";
+
     //the following are used for setting up facilities
-    private Context                  m_context;
-    private Configuration            m_configuration;
-    private DefaultComponentManager  m_componentManager;
+    private Configuration     m_configuration;
+    private ComponentManager  m_componentManager;
 
     //these are the facilities (internal components) of ServerApplication
-    private ApplicationFrame         m_frame;
+    private ApplicationFrame  m_frame;
 
-    private BlockVisitor             m_startupVisitor;
-    private BlockVisitor             m_shutdownVisitor;
+    private StartupPhase      m_startup;
+    private ShutdownPhase     m_shutdown;
 
-    private SarMetaData              m_metaData;
-    private ClassLoader              m_classLoader;
+    private SarMetaData       m_metaData;
+    private ClassLoader       m_classLoader;
 
-    private HashMap                 m_entrys = new HashMap();
-
-    public void contextualize( final Context context )
-        throws ContextException
-    {
-        //save it to contextualize facilities
-        m_context = context;
-    }
+    private HashMap           m_entrys = new HashMap();
 
     public void compose( final ComponentManager componentManager )
         throws ComponentException
     {
-        m_componentManager = new DefaultComponentManager( componentManager );
+        m_componentManager = componentManager;
     }
 
     public void setup( final SarMetaData metaData, final ClassLoader classLoader )
@@ -114,18 +107,13 @@ public final class DefaultServerApplication
         throws Exception
     {
         m_frame = new DefaultApplicationFrame( m_classLoader, m_metaData );
-        m_startupVisitor = new StartupPhase();
-        m_shutdownVisitor = new ShutdownPhase();
-
-        //Setup component manager with new components added
-        //by application
-        m_componentManager.put( ApplicationFrame.ROLE, m_frame );
-        m_componentManager.put( Application.ROLE, this );
-        m_componentManager.makeReadOnly();
-
         setupComponent( m_frame, "frame" );
-        setupComponent( m_startupVisitor, "startup" );
-        setupComponent( m_shutdownVisitor, "shutdown" );
+
+        m_startup = new StartupPhase( this, m_frame );
+        setupLogger( m_startup, "lifecycle" );
+
+        m_shutdown = new ShutdownPhase( m_frame );
+        setupLogger( m_shutdown, "lifecycle" );
     }
 
     /**
@@ -137,11 +125,6 @@ public final class DefaultServerApplication
         throws Exception
     {
         final BlockMetaData[] blocks = m_metaData.getBlocks();
-
-        final String message = REZ.getString( "app.notice.block.loading-count",
-                                              new Integer( blocks.length ) );
-        getLogger().info( message );
-
         for( int i = 0; i < blocks.length; i++ )
         {
             final String blockName = blocks[ i ].getName();
@@ -153,7 +136,7 @@ public final class DefaultServerApplication
         loadBlockListeners();
 
         // load blocks
-        runPhase( "startup", m_startupVisitor, true  );
+        runPhase( PHASE_STARTUP );
     }
 
     /**
@@ -165,11 +148,7 @@ public final class DefaultServerApplication
     public void stop()
         throws Exception
     {
-        final String message = REZ.getString( "app.notice.block.unloading-count",
-                                              new Integer( m_metaData.getBlocks().length ) );
-        getLogger().info( message );
-
-        runPhase( "shutdown", m_shutdownVisitor, false  );
+        runPhase( PHASE_SHUTDOWN );
     }
 
     public void dispose()
@@ -215,7 +194,7 @@ public final class DefaultServerApplication
             }
             catch( final ConfigurationException ce )
             {
-                final String message = REZ.getString( "app.error.listener.noconfiguration", name );
+                final String message = REZ.getString( "missing-listener-configuration", name );
                 throw new ConfigurationException( message, ce );
             }
 
@@ -236,11 +215,6 @@ public final class DefaultServerApplication
         throws Exception
     {
         setupLogger( component, logName );
-
-        if( component instanceof Contextualizable )
-        {
-            ((Contextualizable)component).contextualize( m_context );
-        }
 
         if( component instanceof Composable )
         {
@@ -267,35 +241,58 @@ public final class DefaultServerApplication
      * @param name the name of phase (for logging purposes)
      * @exception Exception if an error occurs
      */
-    protected final void runPhase( final String name,
-                                   final BlockVisitor visitor,
-                                   final boolean forward )
+    protected final void runPhase( final String name )
         throws Exception
     {
         final BlockMetaData[] blocks = m_metaData.getBlocks();
-        final String[] path = DependencyGraph.walkGraph( forward, blocks );
+        final String[] order = DependencyGraph.walkGraph( PHASE_STARTUP == name, blocks );
 
+        //Log message describing the number of blocks
+        //the phase in and the order in which they will be 
+        //processed
         if( getLogger().isInfoEnabled() )
         {
-            final List pathList = Arrays.asList( path );
-            final String message = REZ.getString( "app.notice.dependency-path", name, pathList );
+            final Integer count = new Integer( blocks.length );
+            final List pathList = Arrays.asList( order );
+            final String message = 
+                REZ.getString( "blocks-processing", count, name, pathList );
             getLogger().info( message );
             System.out.println( message );
         }
 
-        for( int i = 0; i < path.length; i++ )
+        //Setup thread context for calling visitors
+        ThreadContext.setThreadContext( m_frame.getThreadContext() );
+
+        for( int i = 0; i < order.length; i++ )
         {
+            final String block = order[ i ];
+
+            //Log message saying we are processing block
+            if( getLogger().isDebugEnabled() )
+            {
+                final String message = REZ.getString( "process-block", block, name );
+                getLogger().debug( message );
+            }
+
             try
             {
-                final BlockEntry entry = (BlockEntry)m_entrys.get( path[ i ] );
-                visitor.visitBlock( entry );
+                final BlockEntry entry = (BlockEntry)m_entrys.get( block );
+                if( PHASE_STARTUP == name ) m_startup.visitBlock( entry );
+                else m_shutdown.visitBlock( entry );
             }
             catch( final Exception e )
             {
                 final String message =
-                    REZ.getString( "app.error.run-phase", name, path[ i ], e.getMessage() );
+                    REZ.getString( "app.error.run-phase", name, block, e.getMessage() );
                 getLogger().error( message, e );
                 throw e;
+            }
+
+            //Log message saying we have processed block
+            if( getLogger().isDebugEnabled() )
+            {
+                final String message = REZ.getString( "processed-block", block, name );
+                getLogger().debug( message );
             }
         }
     }
