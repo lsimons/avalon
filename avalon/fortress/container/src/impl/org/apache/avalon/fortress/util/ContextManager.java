@@ -115,7 +115,7 @@ import org.apache.log.Priority;
  * and dispose of them properly when it itself is disposed .</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.4 $ $Date: 2003/02/10 14:48:10 $
+ * @version CVS $Revision: 1.5 $ $Date: 2003/02/10 14:52:27 $
  * @since 4.1
  */
 public class ContextManager
@@ -268,7 +268,7 @@ public class ContextManager
                 }
                 catch( ContextException cex )
                 {
-                    m_logger.debug("Could not initialize the Configuration", ce);
+                    getLogger().debug("Could not initialize the Configuration", ce);
                     // Guess there is none.
                     return;
                 }
@@ -295,7 +295,7 @@ public class ContextManager
         }
         catch( ContextException ce )
         {
-            m_logger.debug("Could not copy the parameters for the Context, ignoring the exception.", ce);
+            getLogger().debug("Could not copy the parameters for the Context, ignoring the exception.", ce);
         }
     }
 
@@ -542,7 +542,7 @@ public class ContextManager
         }
         catch( ContextException ce )
         {
-            m_logger.debug( "Could not copy context entry: " + RoleManager.ROLE +
+            getLogger().debug( "Could not copy context entry: " + RoleManager.ROLE +
                  ".  Ignoring exception.", ce );
         }
 
@@ -561,7 +561,7 @@ public class ContextManager
             }
             catch( ContextException ce )
             {
-                m_logger.debug("Could not initialize the RoleManager", ce);
+                getLogger().debug("Could not initialize the RoleManager", ce);
                 // No RoleManager available anywhere.
                 roleConfig = EMPTY_CONFIG;
             }
@@ -578,12 +578,12 @@ public class ContextManager
         ClassLoader classLoader = (ClassLoader)m_containerManagerContext.get( ClassLoader.class.getName() );
 
         // Create a parent role m_manager with all the default roles
-        org.apache.avalon.fortress.impl.role.FortressRoleManager erm = new org.apache.avalon.fortress.impl.role.FortressRoleManager( null, classLoader );
+        FortressRoleManager erm = new FortressRoleManager( null, classLoader );
         erm.enableLogging( rmLogger.getChildLogger( "defaults" ) );
         erm.initialize();
 
         // Create a role m_manager with the configured roles
-        org.apache.avalon.fortress.impl.role.ConfigurableRoleManager rm = new org.apache.avalon.fortress.impl.role.ConfigurableRoleManager( erm, classLoader );
+        ConfigurableRoleManager rm = new ConfigurableRoleManager( erm, classLoader );
         rm.enableLogging( rmLogger );
         rm.configure( roleConfig );
 
@@ -638,6 +638,7 @@ public class ContextManager
         }
         catch( ContextException ce )
         {
+            getLogger().debug("There is no Configuration already loaded", ce);
         }
 
         String configUri = null;
@@ -647,6 +648,7 @@ public class ContextManager
         }
         catch( ContextException ce )
         {
+            getLogger().debug("There isn't any configuration URI already specified either.", ce);
             return null;
         }
 
@@ -665,10 +667,8 @@ public class ContextManager
         }
         catch( Exception e )
         {
-            if( getLogger().isWarnEnabled() )
-            {
-                getLogger().warn( "Could not read configuration file: " + configUri, e );
-            }
+            getLogger().warn( "Could not read configuration file: " + configUri, e );
+
             return null;
         }
         finally
