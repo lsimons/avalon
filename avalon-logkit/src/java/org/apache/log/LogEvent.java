@@ -34,7 +34,7 @@ public final class LogEvent
     ///The priority of LogEvent. (Must not be null)
     private Priority                 m_priority;
 
-    ///The context stack associated with LogEvent.
+    ///The context stack associated with LogEvent. (May be null)
     private ContextStack             m_contextStack;
 
     /**
