@@ -7,6 +7,7 @@
  */
 package org.apache.avalon.phoenix.components.application;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -19,15 +20,17 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.phoenix.ApplicationListener;
 import org.apache.avalon.phoenix.BlockListener;
+import org.apache.avalon.phoenix.components.ContainerConstants;
+import org.apache.avalon.phoenix.components.util.ComponentMetaDataConverter;
 import org.apache.avalon.phoenix.interfaces.Application;
 import org.apache.avalon.phoenix.interfaces.ApplicationContext;
 import org.apache.avalon.phoenix.interfaces.ApplicationException;
 import org.apache.avalon.phoenix.interfaces.ApplicationMBean;
-import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
-import org.apache.avalon.phoenix.metadata.BlockMetaData;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
 import org.apache.excalibur.containerkit.lifecycle.LifecycleException;
 import org.apache.excalibur.containerkit.lifecycle.LifecycleHelper;
+import org.apache.excalibur.containerkit.registry.ComponentProfile;
+import org.apache.excalibur.containerkit.registry.PartitionProfile;
 import org.apache.excalibur.threadcontext.ThreadContext;
 
 /**
@@ -127,10 +130,12 @@ public final class DefaultApplication
         {
             try
             {
-                final BlockMetaData[] blocks = m_context.getMetaData().getBlocks();
+                final PartitionProfile partition =
+                    m_context.getPartitionProfile().getPartition( ContainerConstants.BLOCK_PARTITION );
+                final ComponentProfile[] blocks = partition.getComponents();
                 for( int i = 0; i < blocks.length; i++ )
                 {
-                    final String blockName = blocks[ i ].getName();
+                    final String blockName = blocks[ i ].getMetaData().getName();
                     final BlockEntry blockEntry = new BlockEntry( blocks[ i ] );
                     m_entries.put( blockName, blockEntry );
                 }
@@ -250,7 +255,7 @@ public final class DefaultApplication
      */
     public String getName()
     {
-        return getMetaData().getName();
+        return m_context.getPartitionProfile().getMetaData().getName();
     }
 
     /**
@@ -260,7 +265,7 @@ public final class DefaultApplication
      */
     public String getDisplayName()
     {
-        return getMetaData().getName();
+        return m_context.getPartitionProfile().getMetaData().getName();
     }
 
     /**
@@ -280,7 +285,7 @@ public final class DefaultApplication
      */
     public String getHomeDirectory()
     {
-        return getMetaData().getHomeDirectory().getPath();
+        return m_context.getHomeDirectory().getPath();
     }
 
     /**
@@ -292,11 +297,6 @@ public final class DefaultApplication
     public boolean isRunning()
     {
         return m_running;
-    }
-
-    protected final SarMetaData getMetaData()
-    {
-        return m_context.getMetaData();
     }
 
     /////////////////////////////
@@ -327,7 +327,8 @@ public final class DefaultApplication
     private void doLoadBlockListeners()
         throws Exception
     {
-        final BlockListenerMetaData[] listeners = m_context.getMetaData().getListeners();
+        final ComponentProfile[] listeners =
+            getComponentsInPartition( ContainerConstants.LISTENER_PARTITION );
         for( int i = 0; i < listeners.length; i++ )
         {
             try
@@ -336,13 +337,20 @@ public final class DefaultApplication
             }
             catch( final Exception e )
             {
-                final String name = listeners[ i ].getName();
+                final String name = listeners[ i ].getMetaData().getName();
                 final String message =
                     REZ.getString( "bad-listener", "startup", name, e.getMessage() );
                 getLogger().error( message, e );
                 throw e;
             }
         }
+    }
+
+    private ComponentProfile[] getComponentsInPartition( final String key )
+    {
+        final PartitionProfile partition =
+            m_context.getPartitionProfile().getPartition( key );
+        return partition.getComponents();
     }
 
     /**
@@ -381,7 +389,8 @@ public final class DefaultApplication
     private final void doRunPhase( final String name )
         throws Exception
     {
-        final BlockMetaData[] blocks = m_context.getMetaData().getBlocks();
+        final ComponentProfile[] blocks =
+            getComponentsInPartition( ContainerConstants.BLOCK_PARTITION );
         final String[] order = DependencyGraph.walkGraph( PHASE_STARTUP == name, blocks );
 
         //Log message describing the number of blocks
@@ -400,7 +409,11 @@ public final class DefaultApplication
         if( PHASE_STARTUP == name )
         {
             //... for startup, so indicate to applicable listeners
-            m_listenerSupport.fireApplicationStartingEvent( getMetaData() );
+            final PartitionProfile partition = m_context.getPartitionProfile();
+            final File homeDirectory = m_context.getHomeDirectory();
+            final SarMetaData sarMetaData =
+                ComponentMetaDataConverter.toSarMetaData( partition, homeDirectory );
+            m_listenerSupport.fireApplicationStartingEvent( sarMetaData );
         }
         else
         {
@@ -484,7 +497,7 @@ public final class DefaultApplication
                                        m_blockAccessor );
 
         m_exportHelper.exportBlock( m_context,
-                                    entry.getMetaData(),
+                                    entry.getProfile(),
                                     block );
 
         entry.setObject( block );
@@ -511,7 +524,7 @@ public final class DefaultApplication
         {
             //Remove block from Management system
             m_exportHelper.unexportBlock( m_context,
-                                          entry.getMetaData(),
+                                          entry.getProfile(),
                                           object );
             entry.invalidate();
 
@@ -529,17 +542,17 @@ public final class DefaultApplication
      * This will involve creation of BlockListener object and configuration of
      * object if appropriate.
      *
-     * @param metaData the BlockListenerMetaData
+     * @param profile the BlockListenerMetaData
      * @throws Exception if an error occurs when listener passes
      *            through a specific lifecycle stage
      */
-    public void startupListener( final BlockListenerMetaData metaData )
+    public void startupListener( final ComponentProfile profile )
         throws Exception
     {
-        final String name = metaData.getName();
+        final String name = profile.getMetaData().getName();
         final Object listener =
             m_lifecycleHelper.startup( name,
-                                       metaData,
+                                       profile,
                                        m_listenerAccessor );
 
         // However onky ApplicationListners can avail of block events.
@@ -556,7 +569,7 @@ public final class DefaultApplication
             final String message =
                 REZ.getString( "helper.isa-blocklistener.error",
                                name,
-                               metaData.getClassname() );
+                               profile.getMetaData().getImplementationKey() );
             getLogger().error( message );
             System.err.println( message );
         }

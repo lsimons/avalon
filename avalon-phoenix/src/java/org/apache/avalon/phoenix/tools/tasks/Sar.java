@@ -42,12 +42,16 @@ public class Sar
 
         if( !m_config.exists() )
         {
-            throw new BuildException( "Config descriptor: " + m_config + " does not exist." );
+            final String message =
+                "Config descriptor: " + m_config + " does not exist.";
+            throw new BuildException( message, getLocation() );
         }
 
         if( !m_config.isFile() )
         {
-            throw new BuildException( "Config descriptor: " + m_config + " is not a file." );
+            final String message =
+                "Config descriptor: " + m_config + " is not a file.";
+            throw new BuildException( message, getLocation() );
         }
     }
 
@@ -57,12 +61,16 @@ public class Sar
 
         if( !m_assembly.exists() )
         {
-            throw new BuildException( "Assembly descriptor: " + m_assembly + " does not exist." );
+            final String message =
+                "Assembly descriptor: " + m_assembly + " does not exist.";
+            throw new BuildException( message, getLocation() );
         }
 
         if( !m_assembly.isFile() )
         {
-            throw new BuildException( "Assembly descriptor: " + m_assembly + " is not a file." );
+            final String message =
+                "Assembly descriptor: " + m_assembly + " is not a file.";
+            throw new BuildException( message, getLocation() );
         }
     }
 
@@ -78,16 +86,16 @@ public class Sar
 
         if( !m_environment.exists() )
         {
-            final String message = "Environment descriptor: "
-                + m_environment + " does not exist.";
-            throw new BuildException( message );
+            final String message = "Environment descriptor: " +
+                m_environment + " does not exist.";
+            throw new BuildException( message, getLocation() );
         }
 
         if( !m_environment.isFile() )
         {
-            final String message = "Environment descriptor: "
-                + m_environment + " is not a file.";
-            throw new BuildException( message );
+            final String message = "Environment descriptor: " +
+                m_environment + " is not a file.";
+            throw new BuildException( message, getLocation() );
         }
     }
 
@@ -108,15 +116,18 @@ public class Sar
     {
         if( null == m_config )
         {
-            throw new BuildException( "config attribute is required", location );
+            final String message = "config attribute is required";
+            throw new BuildException( message, getLocation() );
         }
         if( null == m_assembly )
         {
-            throw new BuildException( "assembly attribute is required", location );
+            final String message = "assembly attribute is required";
+            throw new BuildException( message, getLocation() );
         }
         if( null == m_environment )
         {
-            throw new BuildException( "environment attribute is required", location );
+            final String message = "environment attribute is required";
+            throw new BuildException( message, getLocation() );
         }
 
         pushFile( "SAR-INF/config.xml", m_config );

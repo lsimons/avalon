@@ -16,7 +16,7 @@ import java.io.File;
  * jars in Classpath, config files and installation directory.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2002/11/01 01:15:40 $
+ * @version $Revision: 1.2.2.1 $ $Date: 2002/12/03 08:14:23 $
  */
 public final class Installation
 {
@@ -24,7 +24,7 @@ public final class Installation
     private final File m_source;
 
     ///Directory in which application is installed
-    private final File m_directory;
+    private final File m_homeDirectory;
 
     ///Directory in which application temporary/work data is stored
     private final File m_workDirectory;
@@ -46,7 +46,7 @@ public final class Installation
                          final String environment )
     {
         m_source = source;
-        m_directory = directory;
+        m_homeDirectory = directory;
         m_workDirectory = workDirectory;
         m_config = config;
         m_assembly = assembly;
@@ -69,9 +69,9 @@ public final class Installation
      *
      * @return the applications base directory
      */
-    public File getDirectory()
+    public File getHomeDirectory()
     {
-        return m_directory;
+        return m_homeDirectory;
     }
 
     /**

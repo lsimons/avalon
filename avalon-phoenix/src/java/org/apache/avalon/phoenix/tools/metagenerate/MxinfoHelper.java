@@ -18,11 +18,8 @@ import java.util.List;
  * A Xinfo Helper.
  * @author Paul Hammant
  */
-public class MxinfoHelper extends AbstractHelper
+public class MxinfoHelper
 {
-
-    private FileWriter m_output;
-
     private static final String HEADER[] = new String[]{
         "<?xml version=\"1.0\"?>",
         "<!DOCTYPE mxinfo PUBLIC \"-//PHOENIX/Mx Info DTD Version 1.0//EN\"",
@@ -48,23 +45,23 @@ public class MxinfoHelper extends AbstractHelper
     private static final String OPERATIONS_HEADER[] = new String[]{
         "",
         "      <!-- operations -->",
-        "" };
+        ""};
 
     private static final String OPERATION_HEADER[] = new String[]{
         "      <operation",
         "        name=\"@NAME@\"",
         "        description=\"@DESCRIPTION@\"",
-        "        type=\"@RETURN@\">" };
+        "        type=\"@RETURN@\">"};
 
     private static final String PARAMETER[] = new String[]{
         "        <param",
         "           name=\"@NAME@\"",
         "           description=\"@DESCRIPTION@\"",
         "           type=\"@TYPE@\"",
-        "        />" };
+        "        />"};
 
     private static final String OPERATION_FOOTER[] = new String[]{
-        "      </operation>" };
+        "      </operation>"};
 
     private static final String FOOTER[] = new String[]{
         "",
@@ -72,14 +69,16 @@ public class MxinfoHelper extends AbstractHelper
         "",
         "</mxinfo>"};
 
+    private FileWriter m_output;
+
     /**
      * Construct
      * @param file The File to create
      * @throws IOException If a problem writing output
      */
-    public MxinfoHelper(File file) throws IOException
+    public MxinfoHelper( final File file ) throws IOException
     {
-        m_output = new FileWriter(file);
+        m_output = new FileWriter( file );
     }
 
     /**
@@ -87,23 +86,23 @@ public class MxinfoHelper extends AbstractHelper
      * @param topic The topic
      * @throws IOException If a problem writing output
      */
-    public void writeHeader(String topic) throws IOException
+    public void writeHeader( String topic ) throws IOException
     {
-        for (int i = 0; i < HEADER.length; i++)
+        for( int i = 0; i < HEADER.length; i++ )
         {
-            m_output.write(HEADER[i] + "\n");
+            m_output.write( HEADER[ i ] + "\n" );
         }
 
-        for (int i = 0; i < TOPIC.length; i++)
+        for( int i = 0; i < TOPIC.length; i++ )
         {
-            String line = TOPIC[i];
-            line = replaceString(line, "\"@TOPIC@\"", topic);
-            m_output.write(line + "\n");
+            String line = TOPIC[ i ];
+            line = replaceString( line, "\"@TOPIC@\"", topic );
+            m_output.write( line + "\n" );
         }
 
-        for (int i = 0; i < ATTR_HEADER.length; i++)
+        for( int i = 0; i < ATTR_HEADER.length; i++ )
         {
-            m_output.write(ATTR_HEADER[i] + "\n");
+            m_output.write( ATTR_HEADER[ i ] + "\n" );
         }
 
     }
@@ -115,19 +114,19 @@ public class MxinfoHelper extends AbstractHelper
      * @param type The type
      * @throws IOException If a problem writing output
      */
-    public NamedXmlSnippet makeAttrLines(String attrName, String description, String type)
-            throws IOException
+    public NamedXmlSnippet makeAttrLines( String attrName, String description, String type )
+        throws IOException
     {
         String xml = "";
-        for (int i = 0; i < ATTRIBUTE.length; i++)
+        for( int i = 0; i < ATTRIBUTE.length; i++ )
         {
-            String line = ATTRIBUTE[i];
-            line = replaceString(line, "@NAME@", attrName);
-            line = replaceString(line, "\"@DESCRIPTION@\"", description);
-            line = replaceString(line, "@RETURN@", type);
+            String line = ATTRIBUTE[ i ];
+            line = replaceString( line, "@NAME@", attrName );
+            line = replaceString( line, "\"@DESCRIPTION@\"", description );
+            line = replaceString( line, "@RETURN@", type );
             xml = xml + line + "\n";
         }
-        return new NamedXmlSnippet(attrName, xml);
+        return new NamedXmlSnippet( attrName, xml );
     }
 
     /**
@@ -135,16 +134,15 @@ public class MxinfoHelper extends AbstractHelper
      * @param attributes A list of attributes
      * @throws IOException If a problem writing output
      */
-    public void writeAttributes(List attributes) throws IOException
+    public void writeAttributes( List attributes ) throws IOException
     {
-        Collections.sort(attributes);
-        for (Iterator iterator = attributes.iterator(); iterator.hasNext();)
+        Collections.sort( attributes );
+        for( Iterator iterator = attributes.iterator(); iterator.hasNext(); )
         {
-            NamedXmlSnippet attribute = (NamedXmlSnippet) iterator.next();
-            m_output.write(attribute.getXml());
+            NamedXmlSnippet attribute = (NamedXmlSnippet)iterator.next();
+            m_output.write( attribute.getXml() );
         }
     }
-
 
     /**
      * Write the operations headers
@@ -152,9 +150,9 @@ public class MxinfoHelper extends AbstractHelper
      */
     public void writeOperationsHeader() throws IOException
     {
-        for (int i = 0; i < OPERATIONS_HEADER.length; i++)
+        for( int i = 0; i < OPERATIONS_HEADER.length; i++ )
         {
-            m_output.write(OPERATIONS_HEADER[i] + "\n");
+            m_output.write( OPERATIONS_HEADER[ i ] + "\n" );
         }
     }
 
@@ -165,16 +163,16 @@ public class MxinfoHelper extends AbstractHelper
      * @param type The type
      * @throws IOException If a problem writing output
      */
-    public String makeOperationHeader(String operName, String description, String type)
-            throws IOException
+    public String makeOperationHeader( String operName, String description, String type )
+        throws IOException
     {
         String xml = "";
-        for (int i = 0; i < OPERATION_HEADER.length; i++)
+        for( int i = 0; i < OPERATION_HEADER.length; i++ )
         {
-            String line = OPERATION_HEADER[i];
-            line = replaceString(line, "@NAME@", operName);
-            line = replaceString(line, "@DESCRIPTION@", description);
-            line = replaceString(line, "@RETURN@", type);
+            String line = OPERATION_HEADER[ i ];
+            line = replaceString( line, "@NAME@", operName );
+            line = replaceString( line, "@DESCRIPTION@", description );
+            line = replaceString( line, "@RETURN@", type );
             xml = xml + line + "\n";
         }
         return xml;
@@ -187,9 +185,9 @@ public class MxinfoHelper extends AbstractHelper
     public String makeOperationFooter() throws IOException
     {
         String xml = "";
-        for (int i = 0; i < OPERATION_FOOTER.length; i++)
+        for( int i = 0; i < OPERATION_FOOTER.length; i++ )
         {
-            xml = xml + OPERATION_FOOTER[i] + "\n";
+            xml = xml + OPERATION_FOOTER[ i ] + "\n";
         }
         return xml;
     }
@@ -201,16 +199,16 @@ public class MxinfoHelper extends AbstractHelper
      * @param type The type
      * @throws IOException If a problem writing output
      */
-    public String makeOperationParameter(String paramName, String description, String type)
-            throws IOException
+    public String makeOperationParameter( String paramName, String description, String type )
+        throws IOException
     {
         String xml = "";
-        for (int i = 0; i < PARAMETER.length; i++)
+        for( int i = 0; i < PARAMETER.length; i++ )
         {
-            String line = PARAMETER[i];
-            line = replaceString(line, "@NAME@", paramName);
-            line = replaceString(line, "@DESCRIPTION@", description);
-            line = replaceString(line, "@TYPE@", type);
+            String line = PARAMETER[ i ];
+            line = replaceString( line, "@NAME@", paramName );
+            line = replaceString( line, "@DESCRIPTION@", description );
+            line = replaceString( line, "@TYPE@", type );
             xml = xml + line + "\n";
         }
         return xml;
@@ -221,16 +219,15 @@ public class MxinfoHelper extends AbstractHelper
      * @param operations A list of operations
      * @throws IOException If a problem writing output
      */
-    public void writeOperations(List operations) throws IOException
+    public void writeOperations( List operations ) throws IOException
     {
-        Collections.sort(operations);
-        for (Iterator iterator = operations.iterator(); iterator.hasNext();)
+        Collections.sort( operations );
+        for( Iterator iterator = operations.iterator(); iterator.hasNext(); )
         {
-            NamedXmlSnippet operation = (NamedXmlSnippet) iterator.next();
-            m_output.write(operation.getXml());
+            NamedXmlSnippet operation = (NamedXmlSnippet)iterator.next();
+            m_output.write( operation.getXml() );
         }
     }
-
 
     /**
      * Write footer
@@ -238,9 +235,9 @@ public class MxinfoHelper extends AbstractHelper
      */
     public void writeFooter() throws IOException
     {
-        for (int i = 0; i < FOOTER.length; i++)
+        for( int i = 0; i < FOOTER.length; i++ )
         {
-            m_output.write(FOOTER[i] + "\n");
+            m_output.write( FOOTER[ i ] + "\n" );
         }
     }
 
@@ -253,5 +250,24 @@ public class MxinfoHelper extends AbstractHelper
         m_output.close();
     }
 
-
+    /**
+     * Replace a test with another in a string
+     * @param source The string to be changed.
+     * @param term The term to replace.
+     * @param replacement To replace with.
+     * @return The resulting string.
+     */
+    protected String replaceString( final String source, String term, String replacement )
+    {
+        String retval = source;
+        int ix = retval.indexOf( term );
+        if( ix != -1 )
+        {
+            retval =
+                retval.substring( 0, ix )
+                + replacement
+                + retval.substring( ix + term.length(), retval.length() );
+        }
+        return retval;
+    }
 }

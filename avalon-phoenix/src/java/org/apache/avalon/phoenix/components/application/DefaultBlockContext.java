@@ -13,7 +13,6 @@ import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.phoenix.BlockContext;
 import org.apache.avalon.phoenix.interfaces.ApplicationContext;
-import org.apache.avalon.phoenix.metadata.SarMetaData;
 
 /**
  * Context via which Blocks communicate with container.
@@ -36,14 +35,13 @@ final class DefaultBlockContext
     public Object get( Object key )
         throws ContextException
     {
-        final SarMetaData metaData = m_applicationContext.getMetaData();
         if( BlockContext.APP_NAME.equals( key ) )
         {
-            return metaData.getName();
+            return m_applicationContext.getPartitionProfile().getMetaData().getName();
         }
         else if( BlockContext.APP_HOME_DIR.equals( key ) )
         {
-            return metaData.getHomeDirectory();
+            return m_applicationContext.getHomeDirectory();
         }
         else if( BlockContext.NAME.equals( key ) )
         {
@@ -62,7 +60,7 @@ final class DefaultBlockContext
      */
     public File getBaseDirectory()
     {
-        return m_applicationContext.getMetaData().getHomeDirectory();
+        return m_applicationContext.getHomeDirectory();
     }
 
     /**

@@ -11,7 +11,7 @@ import java.io.File;
 import java.util.Map;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.phoenix.interfaces.Application;
-import org.apache.avalon.phoenix.metadata.SarMetaData;
+import org.apache.excalibur.containerkit.registry.PartitionProfile;
 
 /**
  * This is the structure describing each server application before it is loaded.
@@ -20,22 +20,24 @@ import org.apache.avalon.phoenix.metadata.SarMetaData;
  */
 final class SarEntry
 {
-    private final SarMetaData m_metaData;
+    private final PartitionProfile m_profile;
     private final ClassLoader m_classLoader;
     private final Logger m_logger;
+    private final File m_homeDirectory;
     private final File m_workDirectory;
     private final Map m_classLoaders;
     private Application m_application;
 
-    protected SarEntry( final SarMetaData metaData,
+    protected SarEntry( final PartitionProfile profile,
+                        final File homeDirectory,
                         final File workDirectory,
                         final ClassLoader classLoader,
                         final Logger logger,
                         final Map classLoaders )
     {
-        if( null == metaData )
+        if( null == profile )
         {
-            throw new NullPointerException( "metaData" );
+            throw new NullPointerException( "profile" );
         }
         if( null == classLoader )
         {
@@ -49,16 +51,26 @@ final class SarEntry
         {
             throw new NullPointerException( "workDirectory" );
         }
+        if( null == homeDirectory )
+        {
+            throw new NullPointerException( "homeDirectory" );
+        }
         if( null == classLoaders )
         {
             throw new NullPointerException( "classLoaders" );
         }
 
-        m_metaData = metaData;
+        m_profile = profile;
         m_classLoader = classLoader;
         m_logger = logger;
+        m_homeDirectory = homeDirectory;
         m_workDirectory = workDirectory;
         m_classLoaders = classLoaders;
+    }
+
+    public File getHomeDirectory()
+    {
+        return m_homeDirectory;
     }
 
     public File getWorkDirectory()
@@ -76,9 +88,9 @@ final class SarEntry
         m_application = application;
     }
 
-    public SarMetaData getMetaData()
+    public PartitionProfile getProfile()
     {
-        return m_metaData;
+        return m_profile;
     }
 
     public Logger getLogger()

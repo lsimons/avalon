@@ -20,7 +20,7 @@ import org.apache.excalibur.threadcontext.impl.DefaultThreadContextPolicy;
 /**
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2002/11/01 08:23:31 $
+ * @version $Revision: 1.3.2.1 $ $Date: 2002/12/03 08:14:24 $
  */
 class MockApplicationContext
     implements ApplicationContext
@@ -36,7 +36,7 @@ class MockApplicationContext
         m_logger = logger;
     }
 
-    public SarMetaData getMetaData()
+    public SarMetaData getPartitionProfile()
     {
         return m_sarMetaData;
     }

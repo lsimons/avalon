@@ -7,20 +7,22 @@
  */
 package org.apache.avalon.phoenix.test;
 
-import java.io.File;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import junit.framework.TestCase;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.logger.ConsoleLogger;
+import org.apache.avalon.phoenix.components.ContainerConstants;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
-import org.apache.avalon.phoenix.tools.assembler.Assembler;
+import org.apache.avalon.phoenix.components.assembler.Assembler;
 import org.apache.avalon.phoenix.tools.configuration.ConfigurationBuilder;
 
 /**
  * Abstract class which TestCases can extend.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2002/10/02 11:25:56 $
+ * @version $Revision: 1.2.6.1 $ $Date: 2002/12/03 08:14:24 $
  */
 public class AbstractContainerTestCase
     extends TestCase
@@ -35,10 +37,11 @@ public class AbstractContainerTestCase
     {
         final Assembler assembler = new Assembler();
         assembler.enableLogging( new ConsoleLogger() );
-        final ClassLoader classLoader = getClass().getClassLoader();
         final Configuration assembly = loadConfig( config );
-        return assembler.assembleSar( "test", assembly,
-                                      new File( "." ), classLoader );
+        final Map parameters = new HashMap();
+        parameters.put( ContainerConstants.ASSEMBLY_NAME, "test" );
+        parameters.put( ContainerConstants.ASSEMBLY_CONFIG, assembly );
+        return assembler.buildAssembly( parameters );
     }
 
     protected Configuration loadConfig( final String config )
