@@ -59,6 +59,7 @@ import java.lang.reflect.Method;
 import org.apache.avalon.apps.sevak.MultihostSevak;
 import org.apache.avalon.apps.sevak.Sevak;
 import org.apache.avalon.apps.sevak.SevakException;
+import org.apache.avalon.apps.sevak.SevakContext;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.activity.Startable;
 import org.apache.avalon.framework.configuration.Configurable;
@@ -233,6 +234,12 @@ public class CatalinaSevakBootstrap
     {
         getLogger().debug( "CatalinaSevakBootstrap.stop()" );
         m_sevak.getClass().getMethod( "stop", null ).invoke( m_sevak, null );
+    }
+
+    public void deploy( String context, File pathToWebAppFolder, SevakContext sevakContext )
+        throws SevakException
+    {
+        throw new SevakException( "Method not implemented" );
     }
 
     public void deploy( String context, File pathToWebAppFolder ) throws SevakException
