@@ -22,7 +22,7 @@ import org.w3c.dom.Node;
  * using specified configuration.
  *
  * @author <a href="mailto:Ole.Bulbuk at ebp.de">Ole Bulbuk</a>
- * @version $Revision: 1.1 $ $Date: 2002/10/28 00:36:03 $
+ * @version $Revision: 1.2 $ $Date: 2002/10/28 01:17:34 $
  */
 public class Log4jConfLoggerManager
     extends Log4JLoggerManager
@@ -39,7 +39,8 @@ public class Log4jConfLoggerManager
         for( int i = 0; i < length; i++ )
         {
             final Node node = childNodes.item( i );
-            newElement.appendChild( node.cloneNode( true ) );
+            final Node newNode = node.cloneNode( true );
+            newElement.appendChild( newNode );
         }
 
         document.appendChild( newElement );
