@@ -32,10 +32,11 @@ import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.avalon.meta.info.ReferenceDescriptor;
 
 /**
- * A demonstration of a facility that invoces the runtime creation
+ * A demonstration of a facility that involves runtime creation
  * and deployment of other components.
  *
  * @avalon.component name="hello" lifestyle="singleton"
+ * @avalon.attribute key="urn:composition:deployment.timeout" value="6000"
  */
 public class HelloFacility 
   implements Executable
@@ -72,7 +73,7 @@ public class HelloFacility
    *    type="org.apache.avalon.composition.model.ContainmentModel" 
    * @exception ContextException if a contextualization error occurs
    */
-   public HelloFacility( Logger logger, Context context ) 
+   public HelloFacility( Logger logger, Context context )
      throws ContextException
    {
        m_logger = logger;
