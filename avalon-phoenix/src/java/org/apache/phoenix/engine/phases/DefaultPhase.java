@@ -123,6 +123,7 @@ public class DefaultPhase
         {
             try
             {
+                getLogger().info( "Running with classloader " + m_classLoader );
                 m_threadManager.getDefaultThreadPool().executeAndWait( runner );
                 exception = runner.getException();
             }
