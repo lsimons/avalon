@@ -19,29 +19,30 @@ package org.apache.excalibur.instrument.manager.http.server;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.PrintStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.util.Map;
 
 /**
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.4 $ $Date: 2004/02/28 11:47:29 $
+ * @version CVS $Revision: 1.1 $ $Date: 2004/03/06 14:01:28 $
  * @since 4.1
  */
-public abstract class AbstractHTTPURLPrintStreamHandler
+public abstract class AbstractHTTPURLPrintWriterHandler
     extends AbstractHTTPURLHandler
 {
     /*---------------------------------------------------------------
      * Constructors
      *-------------------------------------------------------------*/
     /**
-     * Creates a new AbstractHTTPURLPrintStreamHandler.
+     * Creates a new AbstractHTTPURLPrintWriterHandler.
      *
      * @param path The path handled by this handler.
      * @param contentType The content type.
      * @param encoding The encoding to use when writing servlet results.
      */
-    public AbstractHTTPURLPrintStreamHandler( String path, String contentType, String encoding )
+    public AbstractHTTPURLPrintWriterHandler( String path, String contentType, String encoding )
     {
         super( path, contentType + "; charset=" + encoding, encoding );
     }
@@ -59,8 +60,9 @@ public abstract class AbstractHTTPURLPrintStreamHandler
     public final void doGet( String path, Map parameters, OutputStream os )
         throws IOException
     {
-        PrintStream out = new PrintStream( os, false, getEncoding() );
+        PrintWriter out = new PrintWriter( new OutputStreamWriter( os, getEncoding() ) );
         doGet( path, parameters, out );
+        out.flush();
     }
             
     /*---------------------------------------------------------------
@@ -71,9 +73,9 @@ public abstract class AbstractHTTPURLPrintStreamHandler
      *
      * @param The full path being handled.
      * @param parameters A Map of the parameters in the request.
-     * @param os The PrintStream to write the result to.
+     * @param os The PrintWriter to write the result to.
      */
-    public abstract void doGet( String path, Map parameters, PrintStream out )
+    public abstract void doGet( String path, Map parameters, PrintWriter out )
         throws IOException;
 }
 

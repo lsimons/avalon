@@ -43,6 +43,11 @@
             <id>excalibur-instrument</id>
             <version>1.2</version>
         </dependency>
+        
+        <dependency>
+            <id>xml-apis</id>
+            <version>2.0.2</version>
+        </dependency>
     </dependencies>
 
 </project>

@@ -18,11 +18,11 @@
 package org.apache.excalibur.instrument.manager.http;
 
 import java.io.IOException;
-import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.Date;
 
+import org.apache.excalibur.instrument.manager.http.server.URLCoder;
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentableDescriptor;
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentDescriptor;
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentManagerClient;
@@ -31,7 +31,7 @@ import org.apache.excalibur.instrument.manager.interfaces.InstrumentSampleDescri
 /**
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.5 $ $Date: 2004/03/02 15:33:48 $
+ * @version CVS $Revision: 1.6 $ $Date: 2004/03/06 14:01:28 $
  * @since 4.1
  */
 public abstract class AbstractHTMLHandler
@@ -58,16 +58,18 @@ public abstract class AbstractHTMLHandler
     {
         try
         {
-            return URLEncoder.encode( str, getEncoding() );
+            // Starting with Java 1.4, encode takes an encoding, but this needs to
+            //  work with 1.3.   Use our own version.
+            return URLCoder.encode( str, InstrumentManagerHTTPConnector.ENCODING );
         }
         catch ( UnsupportedEncodingException e )
         {
-            // Should never happen as the encoding is controlled.
-            throw new IllegalStateException( e.getMessage() );
+            // Should never happen because we control the encoding.
+            throw new IllegalStateException( "Unknown encoding: " + e.toString() );
         }
     }
     
-    protected void breadCrumbs( PrintStream out, boolean link )
+    protected void breadCrumbs( PrintWriter out, boolean link )
     {
         if ( link )
         {
@@ -80,7 +82,7 @@ public abstract class AbstractHTMLHandler
         }
     }
     
-    protected void breadCrumbs( PrintStream out, InstrumentableDescriptor desc, boolean link )
+    protected void breadCrumbs( PrintWriter out, InstrumentableDescriptor desc, boolean link )
     {
         InstrumentableDescriptor parent = desc.getParentInstrumentableDescriptor();
         if ( parent == null )
@@ -103,7 +105,7 @@ public abstract class AbstractHTMLHandler
         }
     }
     
-    protected void breadCrumbs( PrintStream out, InstrumentDescriptor desc, boolean link )
+    protected void breadCrumbs( PrintWriter out, InstrumentDescriptor desc, boolean link )
     {
         breadCrumbs( out, desc.getInstrumentableDescriptor(), true );
         out.print( " <b>&gt;</b> " );
@@ -118,7 +120,7 @@ public abstract class AbstractHTMLHandler
         }
     }
     
-    protected void breadCrumbs( PrintStream out, InstrumentSampleDescriptor desc, boolean link )
+    protected void breadCrumbs( PrintWriter out, InstrumentSampleDescriptor desc, boolean link )
     {
         breadCrumbs( out, desc.getInstrumentDescriptor(), true );
         out.print( " <b>&gt;</b> " );
@@ -133,36 +135,36 @@ public abstract class AbstractHTMLHandler
         }
     }
     
-    protected void startTable( PrintStream out )
+    protected void startTable( PrintWriter out )
         throws IOException
     {
         out.println( "<table cellpadding='1' cellspacing='0'><tr><td bgcolor='#bbbbbb'><table cellpadding='2' cellspacing='1'>" );
     }
-    protected void endTable( PrintStream out )
+    protected void endTable( PrintWriter out )
         throws IOException
     {
         out.println( "</table></td></tr></table>" );
     }
     
-    protected void startTableHeaderRow( PrintStream out )
+    protected void startTableHeaderRow( PrintWriter out )
         throws IOException
     {
         out.println( "<tr>" );
     }
     
-    protected void endTableHeaderRow( PrintStream out )
+    protected void endTableHeaderRow( PrintWriter out )
         throws IOException
     {
         out.println( "</tr>" );
     }
     
-    protected void tableHeaderCell( PrintStream out, String value )
+    protected void tableHeaderCell( PrintWriter out, String value )
         throws IOException
     {
         out.print( "<td bgcolor='#dddddd' nowrap><b>" + value + "</b></td>" );
     }
     
-    protected void startTableRow( PrintStream out, int row )
+    protected void startTableRow( PrintWriter out, int row )
         throws IOException
     {
         String color;
@@ -177,25 +179,25 @@ public abstract class AbstractHTMLHandler
         out.println( "<tr bgcolor='" + color + "'>" );
     }
     
-    protected void endTableRow( PrintStream out )
+    protected void endTableRow( PrintWriter out )
         throws IOException
     {
         out.println( "</tr>" );
     }
     
-    protected void tableCell( PrintStream out, String value )
+    protected void tableCell( PrintWriter out, String value )
         throws IOException
     {
         out.print( "<td nowrap>" + value + "</td>" );
     }
     
-    protected void tableCellRight( PrintStream out, String value )
+    protected void tableCellRight( PrintWriter out, String value )
         throws IOException
     {
         out.print( "<td align='right' nowrap>" + value + "</td>" );
     }
     
-    protected void tableRow( PrintStream out, int row, String label, String value )
+    protected void tableRow( PrintWriter out, int row, String label, String value )
         throws IOException
     {
         startTableRow( out, row );
@@ -204,7 +206,7 @@ public abstract class AbstractHTMLHandler
         endTableRow( out );
     }
     
-    protected void footer( PrintStream out )
+    protected void footer( PrintWriter out )
     {
         out.println( "<br>" );
         out.print( "<font size='-1' color='#888888'>" );
@@ -217,7 +219,7 @@ public abstract class AbstractHTMLHandler
         out.println( "</font>" );
     }
     
-    protected void outputInstrumentables( PrintStream out, InstrumentableDescriptor[] descs )
+    protected void outputInstrumentables( PrintWriter out, InstrumentableDescriptor[] descs )
         throws IOException
     {
         startTable( out );
@@ -239,7 +241,7 @@ public abstract class AbstractHTMLHandler
         endTable( out );
     }
     
-    protected void outputInstruments( PrintStream out, InstrumentDescriptor[] descs )
+    protected void outputInstruments( PrintWriter out, InstrumentDescriptor[] descs )
         throws IOException
     {
         startTable( out );
@@ -260,7 +262,7 @@ public abstract class AbstractHTMLHandler
         endTable( out );
     }
     
-    protected void outputInstrumentSamples( PrintStream out, InstrumentSampleDescriptor[] descs )
+    protected void outputInstrumentSamples( PrintWriter out, InstrumentSampleDescriptor[] descs )
         throws IOException
     {
         startTable( out );

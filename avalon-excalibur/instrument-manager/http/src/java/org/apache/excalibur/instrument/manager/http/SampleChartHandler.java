@@ -27,11 +27,11 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.Map;
 
 import org.apache.excalibur.instrument.manager.http.server.AbstractHTTPURLHandler;
 import org.apache.excalibur.instrument.manager.http.server.HTTPRedirect;
+import org.apache.excalibur.instrument.manager.http.server.URLCoder;
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentManagerClient;
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentSampleDescriptor;
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentSampleSnapshot;
@@ -40,7 +40,7 @@ import org.apache.excalibur.instrument.manager.interfaces.NoSuchInstrumentSample
 /**
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.8 $ $Date: 2004/02/29 18:11:04 $
+ * @version CVS $Revision: 1.9 $ $Date: 2004/03/06 14:01:28 $
  * @since 4.1
  */
 public class SampleChartHandler
@@ -91,17 +91,10 @@ public class SampleChartHandler
             int pos = name.lastIndexOf( '.' );
             if ( pos >= 0 )
             {
-                String iName;
-                try
-                {
-                    iName = URLEncoder.encode( name.substring( 0,  pos ), InstrumentManagerHTTPConnector.ENCODING );
-                }
-                catch ( UnsupportedEncodingException e2 )
-                {
-                    // Should not happen
-                    getLogger().error( "Bad encoding", e2 );
-                    iName = name;
-                }
+                // Starting with Java 1.4, encode takes an encoding, but this needs to
+                //  work with 1.3.   Use our own version.
+                String iName = URLCoder.encode( name.substring( 0,  pos ),
+                    InstrumentManagerHTTPConnector.ENCODING );
                 
                 throw new HTTPRedirect( "instrument.html?name=" + iName );
             }

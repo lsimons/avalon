@@ -18,7 +18,7 @@
 package org.apache.excalibur.instrument.manager.http;
 
 import java.io.IOException;
-import java.io.PrintStream;
+import java.io.PrintWriter;
 
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentableDescriptor;
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentDescriptor;
@@ -29,7 +29,7 @@ import org.apache.excalibur.instrument.manager.interfaces.InstrumentSampleSnapsh
 /**
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.5 $ $Date: 2004/02/29 18:11:04 $
+ * @version CVS $Revision: 1.6 $ $Date: 2004/03/06 14:01:28 $
  * @since 4.1
  */
 public abstract class AbstractXMLHandler
@@ -60,7 +60,7 @@ public abstract class AbstractXMLHandler
         return attribute;
     }
     
-    protected void outputLine( PrintStream out, String indent, boolean packed, String line )
+    protected void outputLine( PrintWriter out, String indent, boolean packed, String line )
     {
         if ( !packed )
         {
@@ -73,7 +73,7 @@ public abstract class AbstractXMLHandler
         }
     }
     
-    protected void outputInstrumentManager( PrintStream out,
+    protected void outputInstrumentManager( PrintWriter out,
                                             InstrumentManagerClient manager,
                                             String indent,
                                             boolean recurse,
@@ -104,7 +104,7 @@ public abstract class AbstractXMLHandler
         outputLine( out, indent, packed, "</instrument-manager>" );
     }
     
-    protected void outputInstrumentableBrief( PrintStream out,
+    protected void outputInstrumentableBrief( PrintWriter out,
                                               InstrumentableDescriptor instrumentable,
                                               String indent,
                                               boolean packed )
@@ -115,7 +115,7 @@ public abstract class AbstractXMLHandler
             + "state-version=\"" + instrumentable.getStateVersion() + "\"/>" );
     }
     
-    protected void outputInstrumentable( PrintStream out,
+    protected void outputInstrumentable( PrintWriter out,
                                          InstrumentableDescriptor instrumentable,
                                          String indent,
                                          boolean recurse,
@@ -177,7 +177,7 @@ public abstract class AbstractXMLHandler
         }
     }
     
-    protected void outputInstrumentBrief( PrintStream out,
+    protected void outputInstrumentBrief( PrintWriter out,
                                           InstrumentDescriptor instrument,
                                           String indent,
                                           boolean packed )
@@ -188,7 +188,7 @@ public abstract class AbstractXMLHandler
             + "state-version=\"" + instrument.getStateVersion() + "\"/>" );
     }
     
-    protected void outputInstrument( PrintStream out,
+    protected void outputInstrument( PrintWriter out,
                                      InstrumentDescriptor instrument,
                                      String indent,
                                      boolean recurse,
@@ -236,7 +236,7 @@ public abstract class AbstractXMLHandler
         }
     }
     
-    protected void outputSampleBrief( PrintStream out,
+    protected void outputSampleBrief( PrintWriter out,
                                       InstrumentSampleDescriptor sample,
                                       String indent,
                                       boolean packed )
@@ -247,7 +247,7 @@ public abstract class AbstractXMLHandler
             + "state-version=\"" + sample.getStateVersion() + "\"/>" );
     }
     
-    protected void outputSample( PrintStream out,
+    protected void outputSample( PrintWriter out,
                                  InstrumentSampleDescriptor sample,
                                  String indent,
                                  boolean packed )
@@ -266,7 +266,7 @@ public abstract class AbstractXMLHandler
             + "configured=\"" + sample.isConfigured() + "\"/>" );
     }
     
-    protected void outputSampleHistory( PrintStream out,
+    protected void outputSampleHistory( PrintWriter out,
                                         InstrumentSampleDescriptor sample,
                                         String indent,
                                         long baseTime,
