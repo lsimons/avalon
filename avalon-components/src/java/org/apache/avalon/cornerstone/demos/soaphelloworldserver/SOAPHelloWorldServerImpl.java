@@ -39,7 +39,8 @@ public class SOAPHelloWorldServerImpl
     protected String publicationName;
 
     public void initialize() throws Exception {
-        mSOAPification.publish(mHelloWorldServer, publicationName, HelloWorldServer.class);        
+        mSOAPification.publish(mHelloWorldServer, publicationName, HelloWorldServer.class);
+        getLogger().info("HelloWorldServer published as " + publicationName);
     }
     
     public void contextualize( final Context context )
