@@ -163,10 +163,10 @@
         <version>1.0-dev</version>
       </info>
       <dependencies>
-        <resources>
-          <resourceref key="avalon-framework-api"/>
-          <resourceref key="avalon-framework-impl"/>
-        </resources>
+        <projects>
+          <projectref key="avalon-framework-api"/>
+          <projectref key="avalon-framework-impl"/>
+        </projects>
       </dependencies>
     </project>
 
@@ -306,7 +306,6 @@
           <projectref key="avalon-meta-impl"/>
         </projects>
         <resources>
-          <resourceref key="ant"/>
           <resourceref key="qdox"/>
         </resources>
       </dependencies>
@@ -431,6 +430,16 @@
         <group>avalon/test</group>
         <name>avalon-test-includes</name>
       </info>
+      <dependencies>
+        <projects>
+          <projectref key="avalon-test-playground" build="false" runtime="false"/>
+          <projectref key="avalon-test-testa" build="false" runtime="false"/>
+          <projectref key="avalon-test-testb" build="false" runtime="false"/>
+          <projectref key="avalon-test-testc" build="false" runtime="false"/>
+          <projectref key="avalon-test-testd" build="false" runtime="false"/>
+          <projectref key="avalon-test-teste" build="false" runtime="false"/>
+        </projects>
+      </dependencies>
     </project>
 
     <!--
@@ -679,6 +688,7 @@
           <projectref key="avalon-repository-main"/>
           <projectref key="avalon-logging-impl"/>
           <projectref key="avalon-framework-impl"/>
+          <projectref key="avalon-repository-test" build="false" test="false" runtime="false"/>
         </projects>
       </dependencies>
     </project>
@@ -731,7 +741,9 @@
           <projectref key="avalon-util-extension-impl"/>
           <projectref key="avalon-util-lifecycle"/>
           <projectref key="avalon-logging-impl" build="false" test="true"/>
-          <projectref key="avalon-test-dynamics" build="false" test="true"/>
+          <projectref key="avalon-test-dynamics" build="false" test="true" runtime="false"/>
+          <projectref key="avalon-test-includes" build="false" test="true" runtime="false"/>
+          <projectref key="avalon-logging-test" build="false" test="false" runtime="false"/>
         </projects>
       </dependencies>
     </project>
