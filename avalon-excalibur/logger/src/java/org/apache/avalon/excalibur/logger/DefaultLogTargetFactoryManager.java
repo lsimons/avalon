@@ -12,18 +12,18 @@ import java.util.Map;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.framework.logger.LogEnabled;
 
 /**
  * Default LogTargetFactoryManager implementation.  It populates the LogTargetFactoryManager
  * from a configuration file.
  *
  * @author <a href="mailto:giacomo@apache.org">Giacomo Pati</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/04/04 02:34:14 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/05/21 10:05:35 $
  * @since 4.0
  */
 public class DefaultLogTargetFactoryManager
@@ -37,6 +37,11 @@ public class DefaultLogTargetFactoryManager
     private Context m_context;
 
     /**
+     * The classloader to use to load target factorys.
+     */
+    private ClassLoader m_classLoader;
+
+    /**
      * Retrieves a LogTargetFactory from a name. Usually
      * the factory name refers to a element name. If
      * this LogTargetFactoryManager does not have the match a null
@@ -47,8 +52,7 @@ public class DefaultLogTargetFactoryManager
      */
     public final LogTargetFactory getLogTargetFactory( final String factoryName )
     {
-        final LogTargetFactory factory = (LogTargetFactory)m_factories.get( factoryName );
-        return factory;
+        return (LogTargetFactory)m_factories.get( factoryName );
     }
 
     /**
@@ -61,6 +65,13 @@ public class DefaultLogTargetFactoryManager
         throws ContextException
     {
         m_context = context;
+        try
+        {
+            m_classLoader = (ClassLoader)m_context.get( "classloader" );
+        }
+        catch( ContextException ce )
+        {
+        }
     }
 
     /**
@@ -85,9 +96,21 @@ public class DefaultLogTargetFactoryManager
             {
                 Class clazz = null;
 
-                //First lets try the context ClassLoader
+                //First lets try the supplied ClassLoader
+                if( null != m_classLoader )
+                {
+                    try
+                    {
+                        clazz = m_classLoader.loadClass( factoryClass );
+                    }
+                    catch( final ClassNotFoundException cnfe )
+                    {
+                    }
+                }
+
+                //Next lets try the context ClassLoader
                 final ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-                if( null != classLoader )
+                if( null == clazz && null != classLoader )
                 {
                     try
                     {
@@ -119,27 +142,16 @@ public class DefaultLogTargetFactoryManager
                 throw new ConfigurationException( "cannot access LogTargetFactory class " + factoryClass, iae );
             }
 
-            if( logTargetFactory instanceof LogEnabled )
+            ContainerUtil.enableLogging( logTargetFactory, getLogger() );
+            try
             {
-                ( (LogEnabled)logTargetFactory ).enableLogging( getLogger() );
+                ContainerUtil.contextualize( logTargetFactory, m_context );
             }
-
-            if( logTargetFactory instanceof Contextualizable )
+            catch( final ContextException ce )
             {
-                try
-                {
-                    ( (Contextualizable)logTargetFactory ).contextualize( m_context );
-                }
-                catch( final ContextException ce )
-                {
-                    throw new ConfigurationException( "cannot contextualize LogTargetFactory " + factoryClass, ce );
-                }
+                throw new ConfigurationException( "cannot contextualize LogTargetFactory " + factoryClass, ce );
             }
-
-            if( logTargetFactory instanceof Configurable )
-            {
-                ( (Configurable)logTargetFactory ).configure( confs[ i ] );
-            }
+            ContainerUtil.configure( logTargetFactory, confs[ i ] );
 
             if( logTargetFactory instanceof LogTargetFactoryManageable )
             {
