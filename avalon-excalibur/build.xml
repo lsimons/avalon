@@ -254,7 +254,9 @@
         <ant dir="testcase" target="jar"/>           <!-- logger, component -->
         <ant dir="event" target="jar"/>              <!-- collections, concurrent, lang, pool, thread, util, event -->
 
+        <!-- Baxter requires JMX.jar to build and is causing the build to fail.
         <ant dir="baxter" target="jar"/>
+        -->
         <ant dir="bzip2" target="jar"/>
         <ant dir="cache" target="jar"/>
         <ant dir="cli" target="jar"/>
