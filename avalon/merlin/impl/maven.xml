@@ -8,7 +8,7 @@
   <ant:property name="pom.specificationVersion" value="&merlin-spec;"/>
 
   <postGoal name="java:prepare-filesystem">
-    <attainGoal name="avalon:artifact-install"/>
+    <attainGoal name="artifact:install"/>
   </postGoal>
 
   <!--

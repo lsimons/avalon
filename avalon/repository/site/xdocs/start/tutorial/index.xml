@@ -68,7 +68,7 @@ Artifact artifact =
           </source>
           <p>
    The content of the meta file is automatically generated using the
-   avalon-plugin avalon:artifact goal. Two examples of factory meta 
+   avalon-plugin artifact:install goal. Two examples of factory meta 
    are provides, one concerning the <a href="logkit.meta">logkit</a>
    factory and a second describing the <a href="merlin.meta">merlin</a>
    factory.

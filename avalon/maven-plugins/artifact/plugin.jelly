@@ -4,16 +4,15 @@
   xmlns:define="jelly:define"
   xmlns:util="jelly:util"
   xmlns:maven="jelly:maven"
-  xmlns:ant="jelly:ant"
-  xmlns:avalon="avalon-artifact">
+  xmlns:ant="jelly:ant" >
 
-  <goal name="avalon:artifact-install" prereqs="avalon:artifact">
+  <define:taglib uri="avalon:artifact"/>
+
+  <goal name="artifact:install" prereqs="artifact:create">
     <ant:copy toDir="${maven.repo.local}/${pom.groupId}/jars" 
        file="${maven.build.dir}/${pom.artifactId}-${pom.currentVersion}.jar.meta" 
        verbose="yes"/>
   </goal>
-
-  <define:taglib uri="avalon-artifact"/>
 
   <!--
   #
@@ -22,7 +21,7 @@
   # and classification following by dependency information.
   #
   -->
-  <goal name="avalon:artifact">
+  <goal name="artifact:create">
 
       <maven:snapshot project="${pom}"/>
 
