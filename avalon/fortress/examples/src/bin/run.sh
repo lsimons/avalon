@@ -37,5 +37,5 @@ CP=${CP}:${EXAMPLE_HOME}/build/classes
 echo $CP
 
 # Run the example application
-$JAVACMD -classpath $CP org.apache.excalibur.fortress.examples.swing.swing $@
+$JAVACMD -classpath $CP org.apache.excalibur.fortress.examples.swing.Main $@
 
