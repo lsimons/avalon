@@ -8,15 +8,10 @@
 package org.apache.avalon.framework.configuration;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
-import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
 
@@ -28,9 +23,9 @@ import org.xml.sax.helpers.XMLReaderFactory;
  */
 public class DefaultConfigurationBuilder
 {
-    protected final static String                 DEFAULT_PARSER =
+    protected static final String                 DEFAULT_PARSER =
         "org.apache.xerces.parsers.SAXParser";
-    protected final static String                 PARSER =
+    protected static final String                 PARSER =
         System.getProperty("org.xml.sax.parser", DEFAULT_PARSER );
 
     protected SAXConfigurationHandler             m_handler;
@@ -63,32 +58,44 @@ public class DefaultConfigurationBuilder
         return new SAXConfigurationHandler();
     }
 
-    public synchronized Configuration buildFromFile( final String filename )
+    public Configuration buildFromFile( final String filename )
         throws SAXException, IOException, ConfigurationException
     {
-        return buildFromFile( new File( filename ) );
+        synchronized(this)
+        {
+            return buildFromFile( new File( filename ) );
+        }
     }
 
-    public synchronized Configuration buildFromFile( final File file )
+    public Configuration buildFromFile( final File file )
         throws SAXException, IOException, ConfigurationException
     {
-        m_handler.clear();
-        m_parser.parse( file.toURL().toString() );
-        return m_handler.getConfiguration();
+        synchronized(this)
+        {
+	        m_handler.clear();
+	        m_parser.parse( file.toURL().toString() );
+	        return m_handler.getConfiguration();
+        }
     }
 
-    public synchronized Configuration build( final InputStream inputStream )
+    public Configuration build( final InputStream inputStream )
         throws SAXException, IOException, ConfigurationException
     {
-        final InputSource inputSource = new InputSource( inputStream );
-        return build( inputSource );
+        synchronized(this)
+        {
+	        final InputSource inputSource = new InputSource( inputStream );
+	        return build( inputSource );
+        }
     }
 
-    public synchronized Configuration build( final InputSource input )
+    public Configuration build( final InputSource input )
         throws SAXException, IOException, ConfigurationException
     {
-        m_handler.clear();
-        m_parser.parse( input );
-        return m_handler.getConfiguration();
+        synchronized(this)
+        {
+	        m_handler.clear();
+	        m_parser.parse( input );
+	        return m_handler.getConfiguration();
+        }
     }
 }

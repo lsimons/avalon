@@ -7,8 +7,6 @@
  */
 package org.apache.avalon.framework.configuration;
 
-import java.util.Iterator;
-
 /**
  * This is an abstract <code>Configuration</code> implementation that deals
  * with methods that can be abstracted away from underlying implementations.
@@ -17,7 +15,7 @@ import java.util.Iterator;
  * @author <a href="mailto:stefano@apache.org">Stefano Mazzocchi</a>
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  * @author <a href="mailto:fumagalli@exoffice.com">Pierpaolo Fumagalli</a>
- * @version CVS $Revision: 1.2 $ $Date: 2001/05/13 06:37:23 $
+ * @version CVS $Revision: 1.3 $ $Date: 2001/06/01 21:09:32 $
  */
 public abstract class AbstractConfiguration
     implements Configuration
@@ -110,7 +108,10 @@ public abstract class AbstractConfiguration
             {
                 return Long.parseLong( value.substring( 2 ), 2 );
             }
-            else return Integer.parseInt(value);
+            else
+            {
+                return Integer.parseInt(value);
+            }
         }
         catch( final Exception nfe )
         {
@@ -191,8 +192,14 @@ public abstract class AbstractConfiguration
         throws ConfigurationException
     {
         final String value = getValue();
-        if( value.equals( "true" ) ) return true;
-        else if( value.equals( "false" ) ) return false;
+        if( value.equals( "true" ) )
+        {
+            return true;
+        }
+        else if( value.equals( "false" ) )
+        {
+            return false;
+        }
         else
         {
             throw new ConfigurationException( "Cannot parse the value of the " +
@@ -425,8 +432,14 @@ public abstract class AbstractConfiguration
     {
         final String value = getAttribute( name );
 
-        if( value.equals( "true" ) ) return true;
-        else if( value.equals( "false" ) ) return false;
+        if( value.equals( "true" ) )
+        {
+            return true;
+        }
+        else if( value.equals( "false" ) )
+        {
+            return false;
+        }
         else
         {
             throw new ConfigurationException( "Cannot parse the value of the attribute \"" +

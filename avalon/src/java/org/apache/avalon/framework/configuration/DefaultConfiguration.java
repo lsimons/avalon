@@ -9,7 +9,6 @@ package org.apache.avalon.framework.configuration;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 
 /**
  * This is the default <code>Configuration</code> implementation.
@@ -22,7 +21,7 @@ import java.util.Iterator;
 public class DefaultConfiguration
     extends AbstractConfiguration
 {
-    protected final static Configuration[]   EMPTY_ARRAY = new Configuration[ 0 ];
+    protected static final Configuration[]   EMPTY_ARRAY = new Configuration[ 0 ];
 
     protected final String                   m_name;
     protected final String                   m_location;
@@ -62,7 +61,10 @@ public class DefaultConfiguration
      */
     public String getValue() throws ConfigurationException
     {
-        if( null != m_value ) return m_value;
+        if( null != m_value )
+        {
+            return m_value;
+        }
         else
         {
             throw new ConfigurationException( "No value is associated with the "+
@@ -75,8 +77,14 @@ public class DefaultConfiguration
      */
     public String[] getAttributeNames()
     {
-        if( null == m_attributes ) return new String[ 0 ];
-        else return (String[])m_attributes.keySet().toArray( new String[ 0 ] );
+        if( null == m_attributes )
+        {
+            return new String[ 0 ];
+        }
+        else
+        {
+            return (String[])m_attributes.keySet().toArray( new String[ 0 ] );
+        }
     }
 
     /**
@@ -87,8 +95,14 @@ public class DefaultConfiguration
      */
     public Configuration[] getChildren()
     {
-        if( null == m_children ) return new Configuration[ 0 ];
-        else return (Configuration[])m_children.toArray( new Configuration[ 0 ] );
+        if( null == m_children )
+        {
+            return new Configuration[ 0 ];
+        }
+        else
+        {
+            return (Configuration[])m_children.toArray( new Configuration[ 0 ] );
+        }
     }
 
     /**
@@ -103,7 +117,10 @@ public class DefaultConfiguration
         final String value =
             (null != m_attributes) ? (String)m_attributes.get( name ) : null;
 
-        if( null != value ) return value;
+        if( null != value )
+        {
+            return value;
+        }
         else
         {
             throw new ConfigurationException( "No attribute named \"" + name + "\" is " +
@@ -151,7 +168,10 @@ public class DefaultConfiguration
      */
     public Configuration[] getChildren( final String name )
     {
-        if( null == m_children ) return new Configuration[ 0 ];
+        if( null == m_children )
+        {
+            return new Configuration[ 0 ];
+        }
         else
         {
             final ArrayList children = new ArrayList();
@@ -181,7 +201,7 @@ public class DefaultConfiguration
         }
         else
         {
-            m_value = m_value + value;
+            m_value += value;
         }
     }
 
@@ -192,7 +212,10 @@ public class DefaultConfiguration
 
     public void setAttribute( final String name, final String value )
     {
-        if( null == m_attributes ) m_attributes = new HashMap();
+        if( null == m_attributes )
+        {
+            m_attributes = new HashMap();
+        }
         m_attributes.put( name, value );
     }
 
@@ -202,7 +225,10 @@ public class DefaultConfiguration
      */
     public String addAttribute( final String name, String value )
     {
-        if( null == m_attributes ) m_attributes = new HashMap();
+        if( null == m_attributes )
+        {
+            m_attributes = new HashMap();
+        }
 
         return (String) m_attributes.put( name, value );
     }
@@ -225,7 +251,10 @@ public class DefaultConfiguration
      */
     public void removeChild( final Configuration configuration )
     {
-        if( null == m_children ) return;
+        if( null == m_children )
+        {
+            return;
+        }
         m_children.remove( configuration );
     }
 

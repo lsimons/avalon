@@ -40,15 +40,19 @@ public final class ExceptionUtil
         return printStackTrace( throwable, 0, printCascading );
     }
 
-    public static String printStackTrace( final Throwable throwable, int depth )
+    public static String printStackTrace( final Throwable throwable, final int depth )
     {
+        int dp = depth;
         final String[] lines = captureStackTrace( throwable );
 
-        if( 0 == depth || depth > lines.length ) depth = lines.length;
+        if( 0 == dp || dp > lines.length )
+        {
+            dp = lines.length;
+        }
 
         final StringBuffer sb = new StringBuffer();
 
-        for( int i = 0; i < depth; i++ )
+        for( int i = 0; i < dp; i++ )
         {
             sb.append( lines[ i ] );
             sb.append( '\n' );
@@ -57,7 +61,7 @@ public final class ExceptionUtil
         return sb.toString();
     }
 
-    public static String printStackTrace( Throwable throwable,
+    public static String printStackTrace( final Throwable throwable,
                                           final int depth,
                                           final boolean printCascading )
     {
@@ -72,20 +76,20 @@ public final class ExceptionUtil
             final StringBuffer sb = new StringBuffer();
             sb.append( result );
 
-            throwable = ((CascadingThrowable)throwable).getCause();
+            Throwable cause = ((CascadingThrowable)throwable).getCause();
 
-            while( null != throwable )
+            while( null != cause )
             {
                 sb.append( "rethrown from\n" );
-                sb.append( printStackTrace( throwable, depth ) );
+                sb.append( printStackTrace( cause, depth ) );
 
-                if( throwable instanceof CascadingThrowable )
+                if( cause instanceof CascadingThrowable )
                 {
-                    throwable = ((CascadingThrowable)throwable).getCause();
+                    cause = ((CascadingThrowable)throwable).getCause();
                 }
                 else
                 {
-                    throwable = null;
+                    cause = null;
                 }
             }
 
