@@ -1,4 +1,4 @@
-// Copyright 2004 The Apache Software Foundation
+ // Copyright 2004 The Apache Software Foundation
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,21 +20,21 @@ namespace Apache.Avalon.Castle.MicroKernel.Handler.Default
 	using Apache.Avalon.Castle.MicroKernel.Factory.Default;
 
 	/// <summary>
-	/// Summary description for SimpleHandler.
+	/// Provides a fully functional component handler.
 	/// </summary>
-	public class SimpleHandler : AbstractHandler
+	public class BaseHandler : AbstractHandler
 	{
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="model"></param>
-		public SimpleHandler( IComponentModel model ) : base( model )
+		public BaseHandler(IComponentModel model) : base(model)
 		{
 		}
 
 		#region IHandler Members
 
-		public override void Init( IKernel kernel )
+		public override void Init(IKernel kernel)
 		{
 			base.Init(kernel);
 
@@ -50,30 +50,30 @@ namespace Apache.Avalon.Castle.MicroKernel.Handler.Default
 
 		protected virtual void EnsureDependenciesCanBeSatisfied()
 		{
-			foreach(IDependencyModel dependency in ComponentModel.Dependencies )
+			foreach(IDependencyModel dependency in ComponentModel.Dependencies)
 			{
-				AddDependency( dependency.Service );
+				AddDependency(dependency.Service);
 			}
 		}
 
-		protected virtual void AddDependency( Type service )
+		protected virtual void AddDependency(Type service)
 		{
-			if (Kernel.HasService( service ))
+			if (Kernel.HasService(service))
 			{
-				m_serv2handler[ service ] = Kernel.GetHandlerForService( service );
+				m_serv2handler[ service ] = Kernel.GetHandlerForService(service);
 			}
 			else
 			{
 				// This handler is considered invalid
 				// until dependencies are satisfied
-				SetNewState( State.WaitingDependency );
-				Dependencies.Add( service );
-						
+				SetNewState(State.WaitingDependency);
+				Dependencies.Add(service);
+
 				// Register ourself in the kernel
 				// to be notified if the dependency is satified
-				Kernel.AddDependencyListener( 
-					service, 
-					new DependencyListenerDelegate(DependencySatisfied) );
+				Kernel.AddDependencyListener(
+					service,
+					new DependencyListenerDelegate(DependencySatisfied));
 			}
 		}
 
@@ -84,11 +84,11 @@ namespace Apache.Avalon.Castle.MicroKernel.Handler.Default
 		/// </summary>
 		/// <param name="service"></param>
 		/// <param name="handler"></param>
-		private void DependencySatisfied( Type service, IHandler handler )
+		private void DependencySatisfied(Type service, IHandler handler)
 		{
 			m_serv2handler[ service ] = handler;
 
-			Dependencies.Remove( service );
+			Dependencies.Remove(service);
 
 			if (Dependencies.Count == 0)
 			{
@@ -98,11 +98,11 @@ namespace Apache.Avalon.Castle.MicroKernel.Handler.Default
 
 		protected virtual void CreateComponentFactoryAndLifestyleManager()
 		{
-			IComponentFactory factory = new SimpleComponentFactory( 
+			IComponentFactory factory = new BaseComponentFactory(
 				Kernel, this, ComponentModel, m_serv2handler);
 
-			m_lifestyleManager = Kernel.LifestyleManagerFactory.Create( 
-				factory, ComponentModel );
+			m_lifestyleManager = Kernel.LifestyleManagerFactory.Create(
+				factory, ComponentModel);
 		}
 	}
 }

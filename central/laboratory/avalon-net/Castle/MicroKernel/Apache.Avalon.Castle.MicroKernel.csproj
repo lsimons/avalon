@@ -249,17 +249,17 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Factory\Default\BaseComponentFactory.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Factory\Default\ComponentInstanceBurden.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
                     RelPath = "Factory\Default\ConcernChainComponentFactory.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Factory\Default\SimpleComponentFactory.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -309,22 +309,22 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Handler\Default\BaseHandler.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Handler\Default\BaseHandlerFactory.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Handler\Default\DefaultHandler.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
                     RelPath = "Handler\Default\DefaultHandlerFactory.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Handler\Default\SimpleHandler.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Handler\Default\SimpleHandlerFactory.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

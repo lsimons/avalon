@@ -31,12 +31,8 @@ namespace Apache.Avalon.Castle.MicroKernel.Assemble
 	/// <summary>
 	/// Summary description for Assembler.
 	/// </summary>
-	public class Assembler
+	public abstract class Assembler
 	{
-		private Assembler()
-		{
-		}
-
 		/// <summary>
 		/// 
 		/// </summary>

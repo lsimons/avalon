@@ -16,13 +16,12 @@ namespace Apache.Avalon.Castle.MicroKernel.Handler.Default
 {
 	using System;
 
-	using Apache.Avalon.Framework;
 	using Apache.Avalon.Castle.MicroKernel.Model;
 
 	/// <summary>
 	/// Summary description for DefaultHandlerFactory.
 	/// </summary>
-	public class DefaultHandlerFactory : IHandlerFactory
+	public class DefaultHandlerFactory : BaseHandlerFactory
 	{
 		public DefaultHandlerFactory()
 		{
@@ -30,15 +29,10 @@ namespace Apache.Avalon.Castle.MicroKernel.Handler.Default
 
 		#region IHandlerFactory Members
 
-		public virtual IHandler CreateHandler( IComponentModel model )
+		public override IHandler CreateHandler( IComponentModel model )
 		{
 			return new DefaultHandler( model );
 		}
-
-        public virtual void ReleaseHandler( IHandler handler )
-        {
-        	handler.Dispose();
-        }
 
 		#endregion
 	}

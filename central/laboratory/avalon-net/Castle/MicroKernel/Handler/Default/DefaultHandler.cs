@@ -21,7 +21,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Handler.Default
 	/// <summary>
 	/// Summary description for DefaultHandler.
 	/// </summary>
-	public class DefaultHandler : SimpleHandler
+	public class DefaultHandler : BaseHandler
 	{
 		public DefaultHandler( IComponentModel model ) : base( model )
 		{
@@ -29,12 +29,12 @@ namespace Apache.Avalon.Castle.MicroKernel.Handler.Default
 
 		protected override void CreateComponentFactoryAndLifestyleManager()
 		{
-			IComponentFactory innerFactory = new SimpleComponentFactory( 
+			IComponentFactory delegateFactory = new BaseComponentFactory( 
 				Kernel, this, ComponentModel, m_serv2handler );
 
 			if (Kernel is IAvalonKernel)
 			{
-				IAvalonKernel kernel = (IAvalonKernel) Kernel;
+				IAvalonKernel kernel = Kernel as IAvalonKernel;
 
 				IConcern commissionChain = kernel.Concerns.GetCommissionChain( kernel );
 				IConcern decommissionChain = kernel.Concerns.GetDecommissionChain( kernel );
@@ -42,14 +42,14 @@ namespace Apache.Avalon.Castle.MicroKernel.Handler.Default
 				ConcernChainComponentFactory factory = 
 					new ConcernChainComponentFactory( 
 						commissionChain, decommissionChain, 
-						ComponentModel, innerFactory );
+						ComponentModel, delegateFactory );
 
-				innerFactory = factory;
+				delegateFactory = factory;
 			}
 
 			m_lifestyleManager = 
 				Kernel.LifestyleManagerFactory.Create( 
-					innerFactory, ComponentModel );
+					delegateFactory, ComponentModel );
 		}
 	}
 }

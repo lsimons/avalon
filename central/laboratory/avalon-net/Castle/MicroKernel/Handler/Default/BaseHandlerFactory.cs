@@ -19,11 +19,11 @@ namespace Apache.Avalon.Castle.MicroKernel.Handler.Default
 	using Apache.Avalon.Castle.MicroKernel.Model;
 
 	/// <summary>
-	/// Summary description for SimpleHandlerFactory.
+	/// Summary description for BaseHandlerFactory.
 	/// </summary>
-	public class SimpleHandlerFactory : IHandlerFactory
+	public class BaseHandlerFactory : IHandlerFactory
 	{
-		public SimpleHandlerFactory()
+		public BaseHandlerFactory()
 		{
 		}
 
@@ -31,7 +31,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Handler.Default
 
 		public virtual IHandler CreateHandler( IComponentModel model )
 		{
-			return new SimpleHandler( model );
+			return new BaseHandler( model );
 		}
 
         public virtual void ReleaseHandler( IHandler handler )

@@ -20,28 +20,36 @@ namespace Apache.Avalon.Castle.MicroKernel.Factory.Default
 	using Apache.Avalon.Castle.MicroKernel.Concerns;
 
 	/// <summary>
-	/// Summary description for ConcernChainComponentFactory.
+	/// Sits on the place of a standard <see cref="IComponentFactory"/>
+	/// but makes the process of construction and destruction pass through 
+	/// a Concern Chain. 
+	/// <para>The actual construction should happen when the CreationConcern
+	/// invokes the delegate factory. The same for the destruction phase.</para>
 	/// </summary>
+	/// <remarks>
+	/// It is important to invoke the delegate factory for creation and destruction 
+	/// of a component instance as it will fire the proper events in the correct order.
+	/// </remarks>
 	public class ConcernChainComponentFactory : IComponentFactory
 	{
 		private IConcern m_commissionChain;
 		private IConcern m_decomissionChain;
 		private IComponentModel m_model;
-		private IComponentFactory m_innerFactory;
+		private IComponentFactory m_delegateFactory;
 
 		public ConcernChainComponentFactory(
 			IConcern commissionChain, IConcern decomissionChain, 
-			IComponentModel model, IComponentFactory innerFactory)
+			IComponentModel model, IComponentFactory delegateFactory)
 		{
 			AssertUtil.ArgumentNotNull( commissionChain, "commissionChain" );
 			AssertUtil.ArgumentNotNull( decomissionChain, "decomissionChain" );
 			AssertUtil.ArgumentNotNull( model, "model" );
-			AssertUtil.ArgumentNotNull( innerFactory, "innerFactory" );
+			AssertUtil.ArgumentNotNull( delegateFactory, "delegateFactory" );
 
 			m_commissionChain = commissionChain;
 			m_decomissionChain = decomissionChain;
 			m_model = model;
-			m_innerFactory = innerFactory;
+			m_delegateFactory = delegateFactory;
 		}
 
 		#region IComponentFactory Members
@@ -50,7 +58,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Factory.Default
 		{
 			ICreationConcern creationConcern = (ICreationConcern) m_commissionChain;
 
-			object instance = creationConcern.Apply( m_model, m_innerFactory );
+			object instance = creationConcern.Apply( m_model, m_delegateFactory );
 
 			creationConcern.Apply( m_model, instance );
 
@@ -67,7 +75,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Factory.Default
 			{
 				if (concern is IDestructionConcern)
 				{
-					(concern as IDestructionConcern).Apply( m_model, m_innerFactory, instance );
+					(concern as IDestructionConcern).Apply( m_model, m_delegateFactory, instance );
 					break;
 				}
 				
