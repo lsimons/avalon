@@ -55,10 +55,11 @@
 package org.apache.avalon.framework.logger;
 
 /**
- * Utility class to allow construction of easy components that will perform logging.
+ * Utility class to allow easy construction of components that will perform 
+ * logging.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/09/12 17:32:42 $
+ * @version CVS $Revision: 1.2 $ $Date: 2004/01/08 13:47:21 $
  */
 public abstract class AbstractLogEnabled
     implements LogEnabled
