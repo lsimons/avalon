@@ -161,7 +161,6 @@ public final class Vertex implements Comparable
      * Recursively searches for cycles by travelling down the dependency lists
      *  of this vertex, looking for the start vertex.
      *
-     * @param start Vertex which will indicate a cylic graph.
      * @param path The path to the Vertex.  It is worth the load as it makes a
      *             descriptive error message possible.
      *
