@@ -181,10 +181,8 @@
 
     <!-- Generate all docs -->
     <target name="docs" description="Generate all the docs">	    
-        <!--<ant dir="instrument" target="docs"/>  -->
-        <!--<ant dir="all" target="docs"/> -->               <!-- depends on instrument -->
-        <!--<ant dir="extension" target="docs"/> -->
         <!--<ant dir="fortress" target="docs"/> -->
+        <!--<ant dir="instrument" target="docs"/>  -->
         <!--<ant dir="instrument-client" target="docs"/-->  <!-- depends on instrument-manager -->
         <!--<ant dir="instrument-manager" target="docs"/>  --> <!-- depends on instrument, all -->
         <ant dir="altrmi" target="docs"/> 
@@ -196,19 +194,27 @@
         <ant dir="command" target="docs"/>  
         <ant dir="component" target="docs"/>  
         <ant dir="concurrent" target="docs"/>  
+        <ant dir="container" target="docs"/>
+        <ant dir="datasource" target="docs"/>
         <ant dir="event" target="docs"/>  
         <ant dir="extension" target="docs"/>
+        <ant dir="extension" target="docs"/> 
         <ant dir="i18n" target="docs"/> 
         <ant dir="io" target="docs"/> 
         <ant dir="lang" target="docs"/>
         <ant dir="logger" target="docs"/>
+        <ant dir="monitor" target="docs"/>
         <ant dir="naming" target="docs"/>
+        <ant dir="pipeline" target="docs"/>
         <ant dir="pool" target="docs"/>
+        <ant dir="property" target="docs"/>
         <ant dir="proxy" target="docs"/>
+        <ant dir="sourceresolve" target="docs"/>
         <ant dir="tar" target="docs"/>
         <ant dir="testcase" target="docs"/>
         <ant dir="thread" target="docs"/>
         <ant dir="util" target="docs"/>
+        <ant dir="xmlbundle" target="docs"/>
         <ant dir="zip" target="docs"/>
 
     </target>
@@ -216,12 +222,10 @@
     <!-- Generate all docs -->
     <target name="site" description="Generate all the docs for site">
     
-       <ant dir="site" target="site"/>
-    
-     <!--   <ant dir="instrument" target="site"/>  -->
-        <!--<ant dir="all" target="site"/> -->               <!-- depends on instrument -->
-        <!--<ant dir="extension" target="site"/> -->
+        <ant dir="site" target="site"/>
+            
         <!--<ant dir="fortress" target="site"/> -->
+        <!--<ant dir="instrument" target="site"/>  -->
         <!--<ant dir="instrument-client" target="site"/-->  <!-- depends on instrument-manager -->
         <!--<ant dir="instrument-manager" target="site"/>  --> <!-- depends on instrument, all -->
         <ant dir="altrmi" target="site"/> 
@@ -233,20 +237,28 @@
         <ant dir="command" target="site"/>  
         <ant dir="component" target="site"/>
         <ant dir="concurrent" target="site"/>  
+        <ant dir="container" target="site"/>
+        <ant dir="datasource" target="site"/>
         <ant dir="event" target="site"/>  
         <ant dir="extension" target="site"/>
+        <ant dir="extension" target="site"/> 
         <ant dir="i18n" target="site"/> 
         <ant dir="io" target="site"/> 
         <ant dir="lang" target="site"/>
         <ant dir="logger" target="site"/>
+        <ant dir="monitor" target="site"/>
         <ant dir="naming" target="site"/> 
+        <ant dir="pipeline" target="site"/>
         <ant dir="pool" target="site"/>
+        <ant dir="property" target="site"/>
         <ant dir="proxy" target="site"/>
+        <ant dir="sourceresolve" target="site"/>
         <ant dir="tar" target="site"/>
         <ant dir="testcase" target="site"/>
         <ant dir="thread" target="site"/>
         <ant dir="util" target="site"/>
-        <ant dir="zip" target="site"/> 
+        <ant dir="xmlbundle" target="site"/>
+        <ant dir="zip" target="site"/>               
 
     </target>
 
