@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE assembly PUBLIC "-//PHOENIX/Assembly DTD Version 1.0//EN" 
+                  "http://jakarta.apache.org/avalon/dtds/phoenix/assembly_1_0.dtd">
+
+<assembly>
+
+  <!-- 
+  
+     This is an alternative to the other LifecycleDemo1 implementation
+     
+  <block class="org.apache.avalon.apps.demos.lifecycledemo.AlternativeLifecycleDemo1Impl" 
+         name="lifecycle-demo1" />
+  -->
+ 
+  <block class="org.apache.avalon.apps.demos.lifecycledemo.LifecycleDemo1Impl" 
+         name="lifecycle-demo1" />
+ 
+  <block class="org.apache.avalon.apps.demos.lifecycledemo.LifecycleDemo2Impl" 
+         name="lifecycle-demo2" >
+    <provide name="lifecycle-demo1" role="org.apache.avalon.apps.demos.lifecycledemo.LifecycleDemo1"/>
+  </block>
+
+</assembly>
