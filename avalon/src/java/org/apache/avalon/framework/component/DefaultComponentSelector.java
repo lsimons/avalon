@@ -8,6 +8,7 @@
 package org.apache.avalon.framework.component;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This is the default implementation of the ComponentSelector
@@ -17,11 +18,16 @@ import java.util.HashMap;
 public class DefaultComponentSelector
     implements ComponentSelector
 {
+    //TODO: Make these private before next release
     protected final HashMap m_components = new HashMap();
 
     /**
      * Select the desired component.  It does not cascade, neither
      * should it.
+     *
+     * @param hint the hint to retrieve Component 
+     * @return the Component
+     * @exception ComponentException if an error occurs
      */
     public Component select( Object hint )
         throws ComponentException
@@ -39,6 +45,11 @@ public class DefaultComponentSelector
         }
     }
 
+    /**
+     * Release component.
+     *
+     * @param component the component
+     */
     public void release( final Component component )
     {
         // if the ComponentManager handled pooling, it would be
@@ -51,5 +62,15 @@ public class DefaultComponentSelector
     public void put( final Object hint, final Component component )
     {
         m_components.put( hint, component );
+    }
+
+    /**
+     * Helper method for subclasses to retrieve component map.
+     *
+     * @return the component map
+     */
+    protected final Map getComponentMap()
+    {
+        return m_components;
     }
 }

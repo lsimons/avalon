@@ -16,6 +16,9 @@ package org.apache.avalon.framework.configuration;
  * instantiating entity must call the <code>configure</code>
  * method before it is valid.  The <code>configure</code> method
  * must be called after the constructor, and before any other method.
+ * <br/>
+ * 
+ * Note that this interface is incompatible with Parameterizable.
  *
  * @author <a href="mailto:fede@apache.org">Federico Barbieri</a>
  * @author <a href="mailto:pier@apache.org">Pierpaolo Fumagalli</a>

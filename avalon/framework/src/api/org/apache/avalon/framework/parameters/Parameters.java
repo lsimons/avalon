@@ -15,11 +15,17 @@ import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 
 /**
+ * The Parameters represents a set of key-value pairs.
+ * Each value stored in Parameters has a key. 
+ * This class is similar to java.util.Properties with convenience methods
+ * to access property values by type. 
  *
  * @author <a href="mailto:fumagalli@exoffice.com">Pierpaolo Fumagalli</a>
+ * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public class Parameters
 {
+    ///Underlying store of parameters
     private HashMap            m_parameters = new HashMap();
 
     /**
@@ -46,6 +52,8 @@ public class Parameters
 
     /**
      * Return an <code>Enumeration</code> view of all parameter names.
+     *
+     * @return a iterator of parameter names
      */
     public Iterator getParameterNames()
     {
@@ -53,7 +61,10 @@ public class Parameters
     }
 
     /**
-     * Check if the specified parameter can be retrieved.
+     * Test if the specified parameter can be retrieved.
+     *
+     * @param name the parameter name
+     * @return true if parameter is a name
      */
     public boolean isParameter( final String name )
     {
@@ -64,6 +75,9 @@ public class Parameters
      * Retrieve the <code>String</code> value of the specified parameter.
      * <p />
      * If the specified parameter cannot be found, <b>null</b> is returned.
+     *
+     * @param name the name of parameter
+     * @return the value of parameter
      */
     private String getParameter( final String name )
     {
@@ -80,6 +94,10 @@ public class Parameters
      * <p />
      * If the specified parameter cannot be found, <code>defaultValue</code>
      * is returned.
+     *
+     * @param name the name of parameter
+     * @param defaultValue the default value, returned if parameter does not exist
+     * @return the value of parameter
      */
     public String getParameter( final String name, final String defaultValue )
     {
@@ -100,6 +118,13 @@ public class Parameters
      * <p />
      * If the specified parameter cannot be found, <code>defaultValue</code>
      * is returned.
+     *
+     * Hexadecimal numbers begin with 0x, Octal numbers begin with 0o and binary
+     * numbers begin with 0b, all other values are assumed to be decimal.
+     *
+     * @param name the name of parameter
+     * @param defaultValue value returned if parameter does not exist or is of wrong type
+     * @return the integer parameter type
      */
     public int getParameterAsInteger( final String name, final int defaultValue )
     {
@@ -140,6 +165,13 @@ public class Parameters
      * <p />
      * If the specified parameter cannot be found, <code>defaultValue</code>
      * is returned.
+     *
+     * Hexadecimal numbers begin with 0x, Octal numbers begin with 0o and binary
+     * numbers begin with 0b, all other values are assumed to be decimal.
+     *
+     * @param name the name of parameter
+     * @param defaultValue value returned if parameter does not exist or is of wrong type
+     * @return the long parameter type
      */
     public long getParameterAsLong( final String name, final long defaultValue )
     {
@@ -180,6 +212,10 @@ public class Parameters
      * <p />
      * If the specified parameter cannot be found, <code>defaultValue</code>
      * is returned.
+     *
+     * @param name the parameter name
+     * @param defaultValue the default value if parameter does not exist or is of wrong type
+     * @return the value
      */
     public float getParameterAsFloat( final String name, final float defaultValue )
     {
@@ -205,6 +241,10 @@ public class Parameters
      * <p />
      * If the specified parameter cannot be found, <code>defaultValue</code>
      * is returned.
+     *
+     * @param name the parameter name
+     * @param defaultValue the default value if parameter does not exist or is of wrong type
+     * @return the value
      */
     public boolean getParameterAsBoolean( final String name, final boolean defaultValue )
     {
@@ -215,14 +255,14 @@ public class Parameters
             return defaultValue;
         }
 
-        if( value.equalsIgnoreCase("true") )
+        if( value.equalsIgnoreCase( "true" ) )
         {
             return true;
         }
 
-        if( value.equalsIgnoreCase("false") )
+        if( value.equalsIgnoreCase( "false" ) )
         {
-            return(false);
+            return false;
         }
 
         return defaultValue;
@@ -232,6 +272,7 @@ public class Parameters
      * Merge parameters from another <code>Parameters</code> instance
      * into this.
      *
+     * @param other the other Parameters
      * @return This <code>Parameters</code> instance.
      */
     public Parameters merge( final Parameters other )
@@ -252,6 +293,9 @@ public class Parameters
     /**
      * Create a <code>Parameters</code> object from a <code>Configuration</code>
      * object.
+     *
+     * @param configuration the Configuration
+     * @return This <code>Parameters</code> instance.
      */
     public static Parameters fromConfiguration( final Configuration configuration )
         throws ConfigurationException
@@ -285,6 +329,8 @@ public class Parameters
     /**
      * Create a <code>Parameters</code> object from a <code>Properties</code>
      * object.
+     * @param properties the Properties
+     * @return This <code>Parameters</code> instance.
      */
     public static Parameters fromProperties( final Properties properties )
     {
