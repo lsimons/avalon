@@ -23,6 +23,7 @@
     <title>Include Directive</title>
     <authors>
       <person name="Stephen McConnell" email="mcconnell@apache.org"/>
+      <person name="Timothy Bennett" email="tbennett@apache.org"/>
     </authors>
   </header>
 
@@ -31,7 +32,7 @@
     <section name="Include Declarations">
 
       <subsection name="Description">
-       <p>Declaration of a jar files to include within the scope of a fileset.</p>
+       <p>Declaration of jar files to include within the scope of a fileset.</p>
       </subsection>
 
       <subsection name="Attributes">
@@ -41,17 +42,19 @@
           <tr>
             <td>name</td><td>yes</td>
             <td>
-            The name of the file file include.
+            The name of the file to include. Ant-like wildcard patterns are
+            supported.
             </td>
           </tr>
         </table>
       </subsection>
 
       <subsection name="Sample XML">
+      This example includes all the jar files in the lib directory and in all
+      its subdirectories.
 <source>
 &lt;fileset dir="<font color="darkred">lib</font>"&gt;
-  &lt;include name="<font color="darkred">avalon-framework-impl-4.1.5.jar</font>"/&gt;
-  &lt;include name="<font color="darkred">logkit-2.0.jar</font>"/&gt;
+  &lt;include name="<font color="darkred">**/*.jar</font>"/&gt;
 &lt;/fileset&gt;
 </source>
       </subsection>

@@ -53,6 +53,8 @@
                    href="/reference/containment/directives/classloader/classpath/fileset/index.html">
                   <item name="fileset" 
                      href="/reference/containment/directives/classloader/classpath/fileset/include.html"/>
+                  <item name="fileset" 
+                     href="/reference/containment/directives/classloader/classpath/fileset/exclude.html"/>
                 </item>
               </item>
               <item name="library" href="/reference/containment/directives/classloader/extensions.html"/>
