@@ -5,7 +5,7 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE file.
  */
-package org.apache.avalon.atlantis.applications;
+package org.apache.avalon.framework.atlantis.applications;
 
 import org.apache.framework.context.Context;
 import org.apache.framework.component.ComponentManager;

@@ -5,7 +5,7 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE file.
  */
-package org.apache.avalon.atlantis.facilities;
+package org.apache.avalon.framework.atlantis.facilities;
 
 import javax.management.MBeanServer;
 
@@ -28,7 +28,7 @@ public interface Manager extends Facility, Executable, Contextualizable
      * <li>"javax.management.MBeanServer" containing a reference to an MBeanServer;</li>
      * <li>"org.apache.framework.atlantis.core.Embeddor" containing a reference to an Embeddor;</li>
      * <li>"org.apache.framework.atlantis.core.Kernel" containing a reference to a Kernel;</li>
-     * <li>"org.apache.avalon.camelot.Deployer" containing a reference to a Deployer;</li>
+     * <li>"org.apache.avalon.framework.camelot.Deployer" containing a reference to a Deployer;</li>
      * </ul>
      */
     public void contextualize( Context context ) throws ContextException;
