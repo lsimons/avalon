@@ -104,10 +104,37 @@ public class BlockTask extends DeclareTask
         }
     }
 
+    public static class Service
+    {
+        private String m_type;
+        private String m_source;
+
+        public void setType( final String type )
+        {
+            m_type = type;
+        }
+
+        public String getType()
+        {
+            return m_type;
+        }
+
+        public void setSource( final String source )
+        {
+            m_source = source;
+        }
+
+        public String getSource()
+        {
+            return m_source;
+        }
+    }
+
     private String m_target;
     private String m_container;
     private List m_content = new ArrayList();
     private boolean m_standalone = true;
+    private Service m_service;
 
     public void setName( final String name )
     {
@@ -199,6 +226,21 @@ public class BlockTask extends DeclareTask
         return include;
     }
 
+    public Service createService()
+    {
+        if( null == m_service )
+        {
+            m_service = new Service();
+            return m_service;
+        }
+        else
+        {
+            final String error = 
+              "Multiple service export not supported nor recomended.";
+            throw new BuildException( error );
+        }
+    }
+
     public void init()
     {
         super.init();
@@ -224,6 +266,12 @@ public class BlockTask extends DeclareTask
         final Info info = def.getInfo();
 
         writer.write( "\n\n<container name=\"" + getName( def ) + "\">" );
+
+        if( null != m_service )
+        {
+            writeService( writer, m_service );
+        }
+
         writer.write( "\n\n  <classloader>" );
         boolean standalone = (null == m_target);
         writeClasspath( writer, def, "    ", standalone );
@@ -273,5 +321,15 @@ public class BlockTask extends DeclareTask
           "\n  <include name=\"" 
           + include.getName() + "\" artifact=\"" 
           + include.getArtifact() + "\"/>\n" );
+    }
+
+    private void writeService( final Writer writer, final Service service )
+        throws IOException
+    {
+        writer.write( "\n  <services>" );
+        writer.write( "\n    <service type=\"" + service.getType() + "\">" );
+        writer.write( "\n      <source>" + service.getSource() + "</source>" );
+        writer.write( "\n    </service>" );
+        writer.write( "\n  </services>" );
     }
 }
