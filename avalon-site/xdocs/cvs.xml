@@ -25,13 +25,12 @@
 	<source>
 anonymous CVSROOT: :pserver:anoncvs@cvs.apache.org:/home/cvspublic
 modules:
-	avalon-sandbox          # alpha &amp; pre-alpha code
-	avalon                  # framework and documentation
-	avalon-apps             # avalon applications
-	avalon-excalibur        # component/utility/container repository
-	avalon-cornerstone      # component repository
+      avalon                  # framework, containers and documentation
+      avalon-components       # component repository
+      avalon-excalibur        # utility repository
 	avalon-logkit           # cool logging toolkit
 	avalon-phoenix          # the phoenix container and related libraries
+      avalon-sandbox          # alpha &amp; pre-alpha code
 	avalon-site             # this website
 	</source>
 </section>
@@ -63,16 +62,20 @@ rem enter anoncvs when prompted for a password, then hit enter
 rem the below command should be on one line
 $CVSUTILS\cvs.exe -z3 -d ^
       :pserver:anoncvs@cvs.apache.org:/home/cvspublic checkout ^
-      avalon-excalibur avalon-cornerstone ^
+      avalon avalon-excalibur avalon-components ^
       avalon-phoenix avalon-logkit avalon-site ^
-      avalon-sandbox jakarta-site xml-forrest ^
+      avalon-sandbox xml-forrest ^
 		</source>
 		
 		<p>This will take a while, depending on your connection. Go ahead and grab
 		yourself a coffee or ten. When done, you should have checked out all Avalon
 		sources and the most important utility libraries you need to build it (save
-		for <a href="http://ant.apache.org/">Apache Ant</a>, which you should
-		go install right now if you haven't already).</p>
+            for <a href="http://maven.apache.org/">Apache Maven</a>, which you should
+            go install right now if you haven't already). For further building instructions 
+            run:</p>
+<source>
+maven avalon:info              
+</source>
 	</subsection>
 	<subsection name="Use TortoiseCVS">
 		
