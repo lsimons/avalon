@@ -12,7 +12,7 @@ package org.apache.avalon.excalibur.instrument.manager.interfaces;
  *  Instrument.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/04/03 13:18:30 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/04/28 17:05:42 $
  * @since 4.1
  */
 public interface InstrumentDescriptor
@@ -100,15 +100,43 @@ public interface InstrumentDescriptor
     /**
      * Returns a InstrumentSampleDescriptor based on its name.
      *
-     * @param InstrumentSampleName Name of the InstrumentSample being requested.
+     * @param instrumentSampleName Name of the InstrumentSample being requested.
      *
      * @return A Descriptor of the requested InstrumentSample.
      *
      * @throws NoSuchInstrumentSampleException If the specified InstrumentSample
      *                                      does not exist.
      */
-    InstrumentSampleDescriptor getInstrumentSampleDescriptor( String InstrumentSampleName )
+    InstrumentSampleDescriptor getInstrumentSampleDescriptor( String instrumentSampleName )
         throws NoSuchInstrumentSampleException;
+    
+    /**
+     * Returns a InstrumentSampleDescriptor based on its name.  If the requested
+     *  sample is invalid in any way, then an expired Descriptor will be
+     *  returned.
+     *
+     * @param sampleDescription Description to assign to the new Sample.
+     * @param sampleInterval Sample interval to use in the new Sample.
+     * @param sampleLease Requested lease time for the new Sample in
+     *                    milliseconds.  The InstrumentManager may grant a
+     *                    lease which is shorter or longer than the requested
+     *                    period.
+     * @param sampleType Type of sample to request.  Must be one of the
+     *                   following:  InstrumentManagerClient.INSTRUMENT_SAMPLE_TYPE_COUNTER,
+     *                   InstrumentManagerClient.INSTRUMENT_SAMPLE_TYPE_MINIMUM,
+     *                   InstrumentManagerClient.INSTRUMENT_SAMPLE_TYPE_MAXIMUM,
+     *                   InstrumentManagerClient.INSTRUMENT_SAMPLE_TYPE_MEAN.
+     *
+     * @return A Descriptor of the requested InstrumentSample.
+     *
+     * @throws NoSuchInstrumentSampleException If the specified InstrumentSample
+     *                                      does not exist.
+     */
+    InstrumentSampleDescriptor createInstrumentSample( String sampleDescription,
+                                                       long sampleInterval,
+                                                       int sampleSize,
+                                                       long sampleLease,
+                                                       int sampleType );
     
     /**
      * Returns an array of Descriptors for the InstrumentSamples configured for this

@@ -25,7 +25,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  *  InstrumentSamples.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/04/03 13:18:29 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/04/28 17:05:41 $
  * @since 4.1
  */
 abstract class AbstractInstrumentSample
@@ -56,6 +56,9 @@ abstract class AbstractInstrumentSample
     /** The UNIX time of the beginning of the sample. */
     protected long m_time;
     
+    /** The time that the current lease expires. */
+    private long m_leaseExpirationTime;
+    
     /** The Index into the history arrays. */
     private int m_historyIndex;
     
@@ -78,8 +81,13 @@ abstract class AbstractInstrumentSample
      * @param interval The sample interval of the new InstrumentSample.
      * @param size The number of samples to store as history.  Assumes that size is at least 1.
      * @param description The description of the new InstrumentSample.
+     * @param lease The length of the lease in milliseconds.
      */
-    protected AbstractInstrumentSample( String name, long interval, int size, String description )
+    protected AbstractInstrumentSample( String name,
+                                        long interval,
+                                        int size,
+                                        String description,
+                                        long lease )
     {
         if ( interval < 1 )
         {
@@ -94,6 +102,15 @@ abstract class AbstractInstrumentSample
         m_interval = interval;
         m_size = size;
         m_description = description;
+        if ( lease > 0 )
+        {
+            m_leaseExpirationTime = System.currentTimeMillis() + lease;
+        }
+        else
+        {
+            // Permanent lease.
+            m_leaseExpirationTime = 0;
+        }
         
         // Calculate the maxAge
         m_maxAge = m_size * m_interval;
@@ -221,6 +238,35 @@ abstract class AbstractInstrumentSample
             updateListeners( value, time );
         }
         return time;
+    }
+    
+    /**
+     * Returns the time that the current lease expires.  Permanent samples will
+     *  return a value of 0.
+     *
+     * @return The time that the current lease expires.
+     */
+    public long getLeaseExpirationTime()
+    {
+        return m_leaseExpirationTime;
+    }
+    
+    /**
+     * Extends the lease to be lease milliseconds from the current time.
+     *
+     * @param lease The length of the lease in milliseconds.
+     */
+    public void extendLease( long lease )
+    {
+        synchronized(this)
+        {
+            // Only extend the lease if it is not permanent.
+            if ( m_leaseExpirationTime > 0 )
+            {
+                long newLeaseExpirationTime = System.currentTimeMillis() + lease;
+                m_leaseExpirationTime = Math.max( m_leaseExpirationTime, newLeaseExpirationTime );
+            }
+        }
     }
     
     /**

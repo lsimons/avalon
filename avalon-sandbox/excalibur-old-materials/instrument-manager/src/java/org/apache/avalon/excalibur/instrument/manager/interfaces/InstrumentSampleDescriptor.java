@@ -12,7 +12,7 @@ package org.apache.avalon.excalibur.instrument.manager.interfaces;
  *  InstrumentSample object.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/04/03 13:18:30 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/04/28 17:05:42 $
  * @since 4.1
  */
 public interface InstrumentSampleDescriptor
@@ -79,6 +79,14 @@ public interface InstrumentSampleDescriptor
      * @return The Type of the Instrument which can use the sample.
      */
     int getInstrumentType();
+    
+    /**
+     * Returns the time that the current lease expires.  Permanent samples will
+     *  return a value of 0.
+     *
+     * @return The time that the current lease expires.
+     */
+    long getLeaseExpirationTime();
     
     /**
      * Obtains a static snapshot of the InstrumentSample.
