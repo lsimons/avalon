@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+
+<document>
+    <header>
+        <title>Excalibur Thread</title>
+        <subtitle>Thread Utilities</subtitle>
+        <authors>
+            <person name="Peter Donald" email="peter@apache.org"/>
+            <person name="Leif Mortenson" email="leif@tanukisoftware.com"/>
+        </authors>
+    </header>
+    <body>
+        <s1 title="Introduction">
+            <p>
+            This project contains thread utilities.
+            </p>
+        </s1>
+    </body>
+    <footer>
+        <legal>
+          Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
+          $Revision: 1.1 $ $Date: 2002/04/04 05:09:06 $
+        </legal>
+    </footer>
+</document>
