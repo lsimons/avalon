@@ -221,6 +221,8 @@ namespace Apache.Avalon.Castle.MicroKernel
 
 				DependencyListenerDelegate del = (DependencyListenerDelegate) m_dependencyToSatisfy[ service ];
 				del( service, handler );
+
+				m_dependencyToSatisfy.Remove( service );
 			}
 		}
 	}

@@ -124,12 +124,32 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Components\ICustomerManager.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Components\IMailMarketingService.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Components\IMailService.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
                     RelPath = "Components\ISpamService.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Components\SimpleCustomerManager.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Components\SimpleMailMarketingService.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

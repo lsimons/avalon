@@ -29,7 +29,9 @@ namespace Apache.Avalon.Castle.MicroKernel
 		{
 			if (argValue == null)
 			{
-				throw new ArgumentNullException(argName, String.Format("Argument {0} can't be null", argName) );
+				throw new ArgumentNullException(
+					argName, 
+					String.Format("Argument {0} can't be null", argName) );
 			}
 		}
 	}

@@ -21,44 +21,43 @@ namespace Apache.Avalon.Castle.MicroKernel.Handlers
 	/// <summary>
 	/// Summary description for SimpleHandler.
 	/// </summary>
-	public class SimpleHandler : IHandler
+	public class SimpleHandler : AbstractHandler
 	{
-		protected Type m_service;
-
-		protected Type m_implementation;
-
-		protected Kernel m_kernel;
-
-		private State m_state = State.Valid;
-
 		private ConstructorInfo m_constructor;
-
-		private ArrayList m_dependencies = new ArrayList();
-
-		private Hashtable m_serv2handler = new Hashtable();
-
-		private ILifestyleManager m_lifestyleManager;
+		
+		private ArrayList m_properties = new ArrayList();
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="service"></param>
 		/// <param name="implementation"></param>
-		public SimpleHandler(Type service, Type implementation)
+		public SimpleHandler(Type service, Type implementation) : base(service, implementation)
 		{
-			AssertUtil.ArgumentNotNull( service, "service" );
-			AssertUtil.ArgumentNotNull( implementation, "implementation" );
-
-			m_service = service;
-			m_implementation = implementation;
 		}
 
 		#region IHandler Members
 
-		public void Init( Kernel kernel )
+		public override void Init( Kernel kernel )
 		{
-			m_kernel = kernel;
+			base.Init(kernel);
 
+			InspectConstructors();
+			InspectSetMethods();
+
+			// Now we check with the kernel if 
+			// we have the necessary implementations 
+			// for the services requested by the constructor
+
+			EnsureHaveRequiredImplementations();
+
+			CreateComponentFactoryAndLifestyleManager();
+		}
+
+		#endregion
+
+		protected void InspectConstructors()
+		{
 			ConstructorInfo[] constructors = m_implementation.GetConstructors();
 
 			// TODO: Try to sort the array 
@@ -80,50 +79,35 @@ namespace Apache.Avalon.Castle.MicroKernel.Handlers
 				throw new HandlerException( 
 					String.Format("Handler could not find an eligible constructor for type {0}", m_implementation.FullName) );
 			}
-
-			// Now we check with the kernel if 
-			// we have the necessary implementations 
-			// for the services requested by the constructor
-
-			EnsureHaveRequiredImplementations();
-
-			CreateComponentFactoryAndLifestyleManager();
 		}
 
-		public object Resolve()
+		protected void InspectSetMethods()
 		{
-			if (m_state == State.WaitingDependency)
-			{
-				throw new HandlerException("Can't Resolve component. It has dependencies to be satisfied.");
-			}
+			PropertyInfo[] properties = m_service.GetProperties();
 
-			try
+			foreach(PropertyInfo property in properties)
 			{
-				return m_lifestyleManager.Resolve();
-			}
-			catch(Exception ex)
-			{
-				throw new HandlerException("Exception while attempting to instantiate type", ex);
+				if (IsEligible( property ))
+				{
+					AddDependency( property.PropertyType );
+
+					m_properties.Add( property );
+				}
 			}
 		}
 
-		public void Release()
+		protected bool IsEligible( PropertyInfo property )
 		{
-			m_lifestyleManager.Release();
-		}
+			// TODO: An attribute could say to use
+			// that the property is optional.
 
-		/// <summary>
-		/// 
-		/// </summary>
-		public State ActualState
-		{
-			get
+			if (!property.CanWrite || !property.PropertyType.IsInterface)
 			{
-				return m_state;
+				return false;
 			}
-		}
 
-		#endregion
+			return true;
+		}
 
 		protected bool IsEligible( ConstructorInfo constructor )
 		{
@@ -132,11 +116,10 @@ namespace Apache.Avalon.Castle.MicroKernel.Handlers
 			foreach(ParameterInfo parameter in parameters)
 			{
 				if (parameter.ParameterType == typeof(String) &&
-					!parameter.Name.Equals("contextdir")) // Just as sample
+					!parameter.Name.Equals("contextdir")) // Just a sample
 				{
 					return false;
 				}
-
 				if (!parameter.ParameterType.IsInterface)
 				{
 					return false;
@@ -154,22 +137,39 @@ namespace Apache.Avalon.Castle.MicroKernel.Handlers
 			{
 				if (parameter.ParameterType.IsInterface)
 				{
-					if (m_kernel.HasService( parameter.ParameterType ))
-					{
-						m_serv2handler[parameter.ParameterType] = 
-							m_kernel.GetHandlerForService( parameter.ParameterType );
-					}
-					else
-					{
-						m_kernel.AddDependencyListener( parameter.ParameterType, new DependencyListenerDelegate(DependencySatisfied) );
-
-						m_state = State.WaitingDependency;
-						m_dependencies.Add( parameter.ParameterType );
-					}
+					AddDependency( parameter.ParameterType );
 				}
 			}
 		}
 
+		protected void AddDependency( Type service )
+		{
+			if (m_kernel.HasService( service ))
+			{
+				m_serv2handler[ service ] = m_kernel.GetHandlerForService( service );
+			}
+			else
+			{
+				// This is handler is considered invalid
+				// until dependencies are satisfied
+				m_state = State.WaitingDependency;
+				m_dependencies.Add( service );
+						
+				// Register ourself in the kernel
+				// to be notified if the dependency is satified
+				m_kernel.AddDependencyListener( 
+					service, 
+					new DependencyListenerDelegate(DependencySatisfied) );
+			}
+		}
+
+		/// <summary>
+		/// Delegate implementation invoked by kernel
+		/// when one of registered dependencies were satisfied by 
+		/// new components registered.
+		/// </summary>
+		/// <param name="service"></param>
+		/// <param name="handler"></param>
 		private void DependencySatisfied( Type service, IHandler handler )
 		{
 			m_serv2handler[ service ] = handler;
@@ -185,6 +185,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Handlers
 		private void CreateComponentFactoryAndLifestyleManager()
 		{
 			ConstructionInfo info = new ConstructionInfo( m_constructor, m_serv2handler );
+			info.Properties = (PropertyInfo[]) m_properties.ToArray( typeof(PropertyInfo) );
 
 			IComponentFactory factory = new Factory.SimpleComponentFactory( 
 				m_service, m_implementation, 
