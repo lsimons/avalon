@@ -2,7 +2,7 @@
 <kernel>
 
    <!-- 
-   The kerenel can contain the following declarations:
+   The kernel can contain the following declarations:
    1. a system descriptor
    2. a logging descriptor
    3. a logging catagories descriptor that establishes logging priority
@@ -12,7 +12,7 @@
 
    <system host="localhost"/>
 
-   <logging target="default" priority="WARN">
+   <logging target="default" priority="INFO">
       <category name="/sys/logger" priority="WARN"/>
       <target name="kernel">
         <file location="kernel.log" />
