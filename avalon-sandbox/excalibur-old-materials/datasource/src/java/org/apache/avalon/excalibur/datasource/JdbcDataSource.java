@@ -25,7 +25,7 @@ import org.apache.avalon.excalibur.pool.DefaultPoolController;
  * <pre>
  *   &lt;jdbc&gt;
  *     &lt;pool-controller min="<i>5</i>" max="<i>10</i>" connection-class="<i>my.overrided.ConnectionClass</i>"&gt;
- *       &lt;keep-alive&gt;select 1&lt;/keep-alive&gt;
+ *       &lt;keep-alive disable="false"&gt;select 1&lt;/keep-alive&gt;
  *     &lt;/pool-controller&gt;
  *     &lt;driver&gt;<i>com.database.jdbc.JdbcDriver</i>&lt;/driver&gt;
  *     &lt;dburl&gt;<i>jdbc:driver://host/mydb</i>&lt;/dburl&gt;
@@ -35,7 +35,7 @@ import org.apache.avalon.excalibur.pool.DefaultPoolController;
  * </pre>
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.13 $ $Date: 2001/12/11 09:53:28 $
+ * @version CVS $Revision: 1.14 $ $Date: 2002/01/26 16:58:06 $
  * @since 4.0
  */
 public class JdbcDataSource
@@ -69,13 +69,15 @@ public class JdbcDataSource
             final String user = configuration.getChild( "user" ).getValue( null );
             final String passwd = configuration.getChild( "password" ).getValue( null );
             final Configuration controller = configuration.getChild( "pool-controller" );
-            String keepAlive = controller.getChild( "keep-alive" ).getValue(null);
+            String keepAlive = controller.getChild( "keep-alive" ).getValue( "SELECT 1" );
+            final boolean disableKeepAlive = controller.getChild( "keep-alive" ).getAttributeAsBoolean( "disable", false );
 
             final int min = controller.getAttributeAsInteger( "min", 1 );
             final int max = controller.getAttributeAsInteger( "max", 3 );
             final long timeout = controller.getAttributeAsLong( "timeout", -1 );
             final boolean autoCommit = configuration.getChild("auto-commit").getValueAsBoolean(true);
             final boolean oradb = controller.getAttributeAsBoolean( "oradb", false );
+            // Get the JdbcConnection class.  The factory will resolve one if null.
             final String connectionClass = controller.getAttribute( "connection-class", null );
 
             final int l_max;
@@ -102,6 +104,7 @@ public class JdbcDataSource
                 }
             }
 
+            // Validate the min and max pool size values.
             if ( min < 1 )
             {
                 if (getLogger().isWarnEnabled())
@@ -142,7 +145,16 @@ public class JdbcDataSource
                     l_max = max;
                 }
             }
+            
+            // If the keepAlive disable attribute was set, then set the keepAlive query to null, disabling it.
+            if (disableKeepAlive)
+            {
+                keepAlive = null;
+            }
 
+            // If the oradb attribute was set, then override the keepAlive query.
+            // This will override any specified keepalive value even if disabled.
+            //  (Deprecated, but keep this for backwards-compatability)
             if (oradb)
             {
                 keepAlive = "SELECT 1 FROM DUAL";
@@ -153,11 +165,8 @@ public class JdbcDataSource
                                      "keep-alive element instead.");
                 }
             }
-            else
-            {
-                keepAlive = "SELECT 1";
-            }
 
+            
             final JdbcConnectionFactory factory =
                     new JdbcConnectionFactory( dburl, user, passwd, autoCommit, keepAlive, connectionClass );
             final DefaultPoolController poolController = new DefaultPoolController(l_max / 4);
