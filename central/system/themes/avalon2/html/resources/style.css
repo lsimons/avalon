@@ -179,6 +179,7 @@ div[border="none"]
     color: black;
     font-size: 10pt;
     margin-right: 160px;
+    min-height: 400px;
 }
 
 .section
@@ -215,11 +216,13 @@ div[border="none"]
 
 .footer
 {
+    background-color: white;
+    color: black;
     border-top: 3px solid #B0B0B0;
     margin-top: 30px;
     margin-bottom: 20px;
+    margin-right: 160px;
     margin-left: 2em;
-    margin-right: 2em;
     padding-top: 2px;
     font-size: 8pt;
     font-family: Verdana, Tahoma, Helvetica, Sans-Serif;
