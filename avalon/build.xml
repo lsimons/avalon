@@ -268,13 +268,21 @@ Legal:
     <mkdir dir="${build.docs}/framework"/>
     <mkdir dir="${build.docs}/excalibur"/>
 
+    <!-- Base pointers for non-xdocs documentation. Override these in .ant.properties to link to local docs -->
+    <property name="avalon.base" value="http://jakarta.apache.org/avalon"/>
+    <property name="framework.base" value="http://jakarta.apache.org/avalon/framework"/>
+    <property name="phoenix.base" value="http://jakarta.apache.org/avalon/phoenix"/>
+    <property name="cornerstone.base" value="http://jakarta.apache.org/avalon/cornerstone"/>
+    <property name="logkit.base" value="http://jakarta.apache.org/avalon/logkit"/>
+    <property name="testlet.base" value="http://jakarta.apache.org/avalon/testlet"/>
+
     <filter token="year" value="${year}"/>
-    <filter token="AVALON_BASE" value="http://jakarta.apache.org/avalon"/>
-    <filter token="FRAMEWORK_BASE" value="http://jakarta.apache.org/avalon/framework"/>
-    <filter token="PHOENIX_BASE" value="http://jakarta.apache.org/avalon/phoenix"/>
-    <filter token="CORNERSTONE_BASE" value="http://jakarta.apache.org/avalon/cornerstone"/>
-    <filter token="LOGKIT_BASE" value="http://jakarta.apache.org/avalon/logkit"/>
-    <filter token="TESTLET_BASE" value="http://jakarta.apache.org/avalon/testlet"/>
+    <filter token="AVALON_BASE" value="${avalon.base}"/>
+    <filter token="FRAMEWORK_BASE" value="${framework.base}"/>
+    <filter token="PHOENIX_BASE" value="${phoenix.base}"/>
+    <filter token="CORNERSTONE_BASE" value="${cornerstone.base}"/>
+    <filter token="LOGKIT_BASE" value="${logkit.base}"/>
+    <filter token="TESTLET_BASE" value="${testlet.base}"/>
 
     <copy todir="${build.xdocs}" filtering="on">
       <fileset dir="${xdocs.dir}">

@@ -11,7 +11,7 @@
     <menu-item label="Overview" source="index.xml"/>
     <menu-item type="changes" label="Changes" source="changes.xml"/>
     <menu-item type="external" id="downloads" label="Download" href="http://jakarta.apache.org/builds/jakarta-avalon/release/excalibur"/>
-    <menu-item type="external" id="api-docs" label="API Docs" href="http://jakarta.apache.org/avalon/api/index.html"/>
+    <menu-item type="external" id="api-docs" label="API Docs" href="@AVALON_BASE@/api/index.html"/>
   </menu>
 
   <menu label="Released Components">
