@@ -60,7 +60,7 @@ public class PhoenixEmbeddor
         System.getProperty( "phoenix.kernel", "org.apache.avalon.phoenix.engine.PhoenixKernel" );
 
     private static final String    DEFAULT_MANAGER      =
-        System.getProperty( "phoenix.manager", "org.apache.avalon.phoenix.engine.PhoenixManager" );
+        System.getProperty( "phoenix.manager", "org.apache.avalon.framework.atlantis.NoopSystemManager" );
 
     private Parameters     m_parameters;
     private Kernel         m_kernel;
@@ -400,7 +400,7 @@ public class PhoenixEmbeddor
      *
      * @exception Exception if an error occurs
      */
-    private void deployDefaultApplications()
+    protected void deployDefaultApplications()
         throws Exception
     {
         final String defaultAppsLocation =
@@ -566,6 +566,36 @@ public class PhoenixEmbeddor
             getLogger().fatalError( "There was a fatal error; phoenix could not be started", e );
             throw e;
         }
+    }
+
+    /**
+     * Allow subclasses to get access to deployer.
+     *
+     * @return the Deployer
+     */
+    protected final Deployer getDeployer()
+    {
+        return m_deployer;
+    }
+
+    /**
+     * Allow subclasses to get access to kernel.
+     *
+     * @return the Kernel
+     */
+    protected final Kernel getKernel()
+    {
+        return m_kernel;
+    }
+
+    /**
+     * Allow subclasses to get access to parameters.
+     *
+     * @return the Parameters
+     */
+    protected final Parameters getParameters()
+    {
+        return m_parameters;
     }
 
     /**
