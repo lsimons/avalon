@@ -31,14 +31,11 @@ import java.io.FileWriter;
 import java.io.OutputStream;
 import java.io.Writer;
 
-import junit.framework.Assert;
-
-
 /**
  * Junit TestCase for all the monitors in Excalibur.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: MonitorTestCase.java,v 1.2 2001/09/25 19:54:57 bloritsch Exp $
+ * @version $Id: MonitorTestCase.java,v 1.3 2001/09/25 20:19:06 bloritsch Exp $
  */
 public class MonitorTestCase extends ExcaliburTestCase implements Initializable
 {
@@ -80,7 +77,7 @@ public class MonitorTestCase extends ExcaliburTestCase implements Initializable
         }
         finally
         {
-            Assert.assertTrue(  "The monitor selector could not be retrieved.", null != selector );
+            assertTrue(  "The monitor selector could not be retrieved.", null != selector );
 
             selector.release( (Component) activeMonitor );
             manager.release( selector );
@@ -111,7 +108,7 @@ public class MonitorTestCase extends ExcaliburTestCase implements Initializable
         }
         finally
         {
-            Assert.assertTrue( "The monitor selector could not be retrieved.", null != selector );
+            assertTrue( "The monitor selector could not be retrieved.", null != selector );
 
             selector.release( (Component) passiveMonitor );
             manager.release( selector );
@@ -158,7 +155,7 @@ public class MonitorTestCase extends ExcaliburTestCase implements Initializable
                     }
                 }
 
-                Assert.assertTrue( "File not changed", listener.hasBeenModified() );
+                assertTrue( "File not changed", listener.hasBeenModified() );
             }
 
             listener.reset();
@@ -192,7 +189,7 @@ public class MonitorTestCase extends ExcaliburTestCase implements Initializable
                 }
             }
 
-            Assert.assertTrue( "File not changed", listener.hasBeenModified() );
+            assertTrue( "File not changed", listener.hasBeenModified() );
             listener.reset();
 
             Writer write = resource.setResourceAsWriter();
@@ -224,7 +221,7 @@ public class MonitorTestCase extends ExcaliburTestCase implements Initializable
                 }
             }
 
-            Assert.assertTrue( "File not changed", listener.hasBeenModified() );
+            assertTrue( "File not changed", listener.hasBeenModified() );
             listener.reset();
 
             resource.removePropertyChangeListener( listener );
