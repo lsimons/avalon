@@ -7,31 +7,32 @@
  */
 package org.apache.avalon.phoenix.components.manager;
 
+import java.lang.reflect.Constructor;
+import java.util.Iterator;
+import java.util.Set;
 import javax.management.MBeanServer;
 import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
+import javax.management.modelmbean.ModelMBean;
+import javax.management.modelmbean.ModelMBeanInfo;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.avalon.phoenix.components.kernel.DefaultKernel;
-import org.apache.avalon.phoenix.components.kernel.DefaultKernelMBean;
 import org.apache.avalon.phoenix.interfaces.ManagerException;
-import org.apache.excalibur.baxter.JavaBeanMBean;
 
 /**
  * An abstract class via which JMX Managers can extend.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  * @author <a href="mailto:Huw@mmlive.com">Huw Roberts</a>
- * @version $Revision: 1.2 $ $Date: 2002/07/26 09:49:21 $
+ * @version $Revision: 1.3 $ $Date: 2002/07/30 12:31:16 $
  */
 public abstract class AbstractJMXManager
     extends AbstractSystemManager
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( AbstractJMXManager.class );
-
+    private MBeanInfoBuilder topicBuilder;
     private MBeanServer m_mBeanServer;
-
     private String m_domain = "Phoenix";
 
     public void initialize()
@@ -41,6 +42,9 @@ public abstract class AbstractJMXManager
 
         final MBeanServer mBeanServer = createMBeanServer();
         setMBeanServer( mBeanServer );
+
+        topicBuilder = new MBeanInfoBuilder();
+        setupLogger( topicBuilder );
     }
 
     public void start()
@@ -76,73 +80,15 @@ public abstract class AbstractJMXManager
     {
         try
         {
-            final Object mBean = createMBean( object, interfaces );
-            final ObjectName objectName = createObjectName( name );
-            getMBeanServer().registerMBean( mBean, objectName );
-            return mBean;
+            final Target target = createTarget( name, object, interfaces );
+            exportTarget( target );
+            return target;
         }
         catch( final Exception e )
         {
             final String message = REZ.getString( "jmxmanager.error.export.fail", name );
             getLogger().error( message, e );
             throw new ManagerException( message, e );
-        }
-    }
-
-    /**
-     * Create MBean for specified object (and interfaces if any).
-     *
-     * @param object the object
-     * @param interfaces the interfaces to export
-     * @return the MBean
-     * @throws ManagerException if unable to create MBean
-     */
-    private Object createMBean( final Object object,
-                                final Class[] interfaces )
-        throws ManagerException
-    {
-        if( null != interfaces )
-        {
-            return new JavaBeanMBean( object, interfaces );
-        }
-        else
-        {
-            return createMBean( object );
-        }
-    }
-
-    /**
-     * Create JMX name for object.
-     *
-     * @param name the name of object
-     * @return the {@link ObjectName} representing object
-     * @throws MalformedObjectNameException if malformed name
-     */
-    private ObjectName createObjectName( final String name )
-        throws MalformedObjectNameException
-    {
-        return new ObjectName( getDomain() + ":" + name );
-    }
-
-    /**
-     * Create a MBean for specified object.
-     * The following policy is used top create the MBean...
-     *
-     * @param object the object to create MBean for
-     * @return the MBean to be exported
-     * @throws ManagerException if an error occurs
-     */
-    private Object createMBean( final Object object )
-        throws ManagerException
-    {
-        //HACK: ugly Testing hack!!
-        if( object instanceof DefaultKernel )
-        {
-            return new DefaultKernelMBean( (DefaultKernel)object );
-        }
-        else
-        {
-            return new JavaBeanMBean( object );
         }
     }
 
@@ -210,4 +156,197 @@ public abstract class AbstractJMXManager
      */
     protected abstract MBeanServer createMBeanServer()
         throws Exception;
+
+    /**
+     * Creates a target that can then be exported for management. A topic is created
+     * for each interface and for topics specified in the mxinfo file, if present
+     *
+     * @param name name of the target
+     * @param object managed object
+     * @param interfaces interfaces to be exported
+     * @return  the management target
+     */
+    protected Target createTarget( final String name,
+                                   final Object object,
+                                   Class[] interfaces )
+    {
+        final Target target = new Target( name, object );
+        try
+        {
+            topicBuilder.build( target, object.getClass(), interfaces );
+        }
+        catch( final Exception e )
+        {
+            getLogger().debug( e.getMessage(), e );
+        }
+
+        return target;
+    }
+
+    /**
+     * Exports the target to the management repository.  This is done by exporting
+     * each topic in the target.
+     *
+     * @param target the management target
+     */
+    protected void exportTarget( final Target target )
+        throws Exception
+    {
+        // loop through each topic and export it
+        final Set topicNames = target.getTopicNames();
+        final Iterator i = topicNames.iterator();
+        while( i.hasNext() )
+        {
+            final String topicName = (String)i.next();
+            final ModelMBeanInfo topic = target.getTopic( topicName );
+            final String targetName = target.getName();
+            final Object managedResource = target.getManagedResource();
+            Object targetObject = managedResource;
+            if( topic.getMBeanDescriptor().getFieldValue( "proxyClassName" ) != null )
+            {
+                targetObject = createManagementProxy( topic, managedResource );
+            }
+
+            // use a proxy adapter class to manage object
+            exportTopic( topic,
+                         targetObject,
+                         targetName );
+        }
+    }
+
+    /**
+     * Exports the topic to the management repository. The name of the topic in the
+     * management repository will be the target name + the topic name
+     *
+     * @param topic the descriptor for the topic
+     * @param target to be managed
+     * @param targetName the target's name
+     */
+    protected Object exportTopic( final ModelMBeanInfo topic,
+                                  final Object target,
+                                  final String targetName )
+        throws Exception
+    {
+        final Object mBean = createMBean( topic, target );
+        final ObjectName objectName = createObjectName( targetName + ",topic=" + topic.getDescription() );
+        getMBeanServer().registerMBean( mBean, objectName );
+
+        // debugging stuff.
+        /*
+        ModelMBean modelMBean = (ModelMBean)mBean;
+        ModelMBeanInfo modelMBeanInfo = (ModelMBeanInfo)modelMBean.getMBeanInfo();
+        MBeanAttributeInfo[] attList = modelMBeanInfo.getAttributes();
+        for( int i = 0; i < attList.length; i++ )
+        {
+            ModelMBeanAttributeInfo mbai = (ModelMBeanAttributeInfo)attList[ i ];
+            Descriptor d = mbai.getDescriptor();
+            String[] fieldNames = d.getFieldNames();
+            for( int j = 0; j < fieldNames.length; j++ )
+            {
+                String fieldName = fieldNames[ j ];
+                System.out.println( "Field name = " + fieldName +
+                                    " / value = " + d.getFieldValue( fieldName ) +
+                                    "::" +mbai.getType() + " value " +
+                modelMBean.getAttribute( mbai.getName() ) + " for " + mbai.getName() );
+            }
+        }
+        */
+
+        return mBean;
+    }
+
+    /**
+     * Create a MBean for specified object.
+     * The following policy is used top create the MBean...
+     *
+     * @param target the object to create MBean for
+     * @return the MBean to be exported
+     * @throws ManagerException if an error occurs
+     */
+    private Object createMBean( final ModelMBeanInfo topic,
+                                final Object target )
+        throws ManagerException
+    {
+        final String className = topic.getClassName();
+        // Load the ModelMBean implementation class
+        Class clazz;
+        try
+        {
+            clazz = Class.forName( className );
+        }
+        catch( Exception e )
+        {
+            final String message =
+                REZ.getString( "jmxmanager.error.mbean.load.class",
+                               className );
+            getLogger().error( message, e );
+            throw new ManagerException( message, e );
+        }
+
+        // Create a new ModelMBean instance
+        ModelMBean mbean = null;
+        try
+        {
+            mbean = (ModelMBean)clazz.newInstance();
+            mbean.setModelMBeanInfo( topic );
+        }
+        catch( final Exception e )
+        {
+            final String message =
+                REZ.getString( "jmxmanager.error.mbean.instantiate",
+                               className );
+            getLogger().error( message, e );
+            throw new ManagerException( message, e );
+        }
+
+        // Set the managed resource (if any)
+        try
+        {
+            if( null != target )
+            {
+                mbean.setManagedResource( target, "ObjectReference" );
+            }
+        }
+        catch( Exception e )
+        {
+            final String message =
+                REZ.getString( "jmxmanager.error.mbean.set.resource",
+                               className );
+            getLogger().error( message, e );
+            throw new ManagerException( message, e );
+        }
+
+        return mbean;
+    }
+
+    /**
+     * Create JMX name for object.
+     *
+     * @param name the name of object
+     * @return the {@link ObjectName} representing object
+     * @throws MalformedObjectNameException if malformed name
+     */
+    private ObjectName createObjectName( final String name )
+        throws MalformedObjectNameException
+    {
+        return new ObjectName( getDomain() + ":" + name );
+    }
+
+    /**
+     * Instantiates a proxy management object for the target object
+     *
+     * this should move out of bridge and into Registry, it isn't specifically for jmx
+     */
+    private Object createManagementProxy( final ModelMBeanInfo topic,
+                                          final Object managedObject )
+        throws Exception
+    {
+        final String proxyClassname = (String)topic.getMBeanDescriptor().getFieldValue( "proxyClassName" );
+        final ClassLoader classLoader = managedObject.getClass().getClassLoader();
+        final Class proxyClass = classLoader.loadClass( proxyClassname );
+        final Class[] argTypes = new Class[]{Object.class};
+        final Object[] argValues = new Object[]{managedObject};
+        final Constructor constructor = proxyClass.getConstructor( argTypes );
+        return constructor.newInstance( argValues );
+    }
 }

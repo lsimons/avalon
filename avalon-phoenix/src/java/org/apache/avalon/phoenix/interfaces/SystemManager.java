@@ -63,6 +63,7 @@ public interface SystemManager
      * is created.
      *
      * @param name name of the object in the parent context that will own this one
+     * @param type of objects that will be managed in this context
      * @throws ManagerException if context cannot be created or retrieved
      * @return  the subcontext with the specified name
      */

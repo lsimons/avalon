@@ -25,7 +25,8 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
  * @author <a href="mailto:Huw@mmlive.com">Huw Roberts</a>
  */
 public class MX4JSystemManager
-    extends AbstractJMXManager implements Configurable
+    extends AbstractJMXManager
+    implements Configurable
 {
     private static final int DEFAULT_HTTPADAPTER_PORT =
         Integer.getInteger( "phoenix.adapter.http", 8082 ).intValue();

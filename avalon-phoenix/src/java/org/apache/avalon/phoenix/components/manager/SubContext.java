@@ -8,6 +8,8 @@
 package org.apache.avalon.phoenix.components.manager;
 
 import java.util.HashMap;
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.phoenix.interfaces.ManagerException;
 import org.apache.avalon.phoenix.interfaces.SystemManager;
 
@@ -21,14 +23,14 @@ import org.apache.avalon.phoenix.interfaces.SystemManager;
 class SubContext
     implements SystemManager
 {
+    private static final Resources REZ =
+        ResourceManager.getPackageResources( SubContext.class );
+
     private static final String EMPTY_STRING = "";
 
     private final HashMap m_subcontexts = new HashMap();
-
     private final SystemManager m_parent;
-
     private final String m_name;
-
     private final String m_type;
 
     /**
@@ -114,12 +116,14 @@ class SubContext
     {
         if( null == type || EMPTY_STRING.equals( type ) )
         {
-            final String message = "type cannot be null or empty";
+            final String message =
+                REZ.getString( "subcontext.error.no.subcontext" );
             throw new ManagerException( message );
         }
         else if( null != name && this.m_type == null )
         {
-            final String message = "cannot request a named subcontext here";
+            final String message =
+                REZ.getString( "subcontext.error.no.subcontext" );
             throw new ManagerException( message );
         }
 
