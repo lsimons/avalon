@@ -78,7 +78,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * Merlin default application factory.
  * 
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public class MerlinBean
 {
@@ -86,11 +86,9 @@ public class MerlinBean
     // static
     //----------------------------------------------------------
 
-    private static final String MERLIN = "merlin.properties";
+    private static final String MERLIN_PROPERTIES = "merlin.properties";
 
     private static final String IMPLEMENTATION_KEY = "merlin.implementation";
-
-    private static final String IMPLEMENTATION_PATH = "merlin.implementation";
 
     //----------------------------------------------------------
     // immutable state
@@ -148,21 +146,29 @@ public class MerlinBean
     */
     public void doExecute() throws Exception
     {
+        ClassLoader classloader = MerlinBean.class.getClassLoader();
+
         try
         {
-            Artifact artifact = getImplementation();
-            //  Artifact.createArtifact( 
-            //    "merlin", "merlin-impl", "3.2-dev" );
+            Artifact artifact = 
+              DefaultBuilder.createImplementationArtifact( 
+                classloader, 
+                getBaseDirectory(), 
+                MERLIN_PROPERTIES, 
+                IMPLEMENTATION_KEY );
 
             InitialContext context = 
                new DefaultInitialContext( 
                  getMavenRepositoryDirectory(),
                  m_hosts );
 
-            Builder builder = new DefaultBuilder( context, artifact );
+            Builder builder = 
+              new DefaultBuilder( context, artifact );
             Factory factory = builder.getFactory();
             Map criteria = factory.createDefaultCriteria();
+
             applyLocalProperties( criteria );
+
             factory.create( criteria );
         }
         catch( Throwable e )
@@ -177,135 +183,20 @@ public class MerlinBean
     // utilities
     //----------------------------------------------------------------------
 
-    private void applyLocalProperties( Map criteria ) throws IOException
+    private void applyLocalProperties( Map criteria )
     {
-        //
-        // setup the default context using the merlin.properties file
-        //
-
-        File base = getBaseDirectory();
-        Properties properties = 
-          getLocalProperties( base, "merlin.properties" );
-        Enumeration keys = properties.keys();
-        while( keys.hasMoreElements() )
-        {
-            final String key = (String) keys.nextElement();
-            if( key.startsWith( "merlin." ) )
-            {
-                String value = properties.getProperty( key );
-                criteria.put( key, value );
-            }
-        }
-
-        //
-        // apply directives assigned to the bean
-        //
-
         criteria.put( "merlin.server", "false" );
         criteria.put( "merlin.deployment", m_deployment );
-
         if( null != m_debug ) criteria.put( "merlin.debug", m_debug );
-        if( null != m_info ) criteria.put( "merlin.info", m_info );
- 
+        if( null != m_info ) criteria.put( "merlin.info", m_info ); 
     }
-
-    private Properties getLocalProperties( 
-      File dir, String filename ) throws IOException
-    {
-        Properties properties = new Properties();
-        if( null == dir ) return properties;
-        File file = new File( dir, filename );
-        if( !file.exists() ) return properties;
-        properties.load( new FileInputStream( file ) );
-        return properties;
-    }
-
-   /**
-    * Resolve the default implementation taking into account 
-    * command line arguments, local and hom properties, and 
-    * application defaults.
-    * @param line the command line construct
-    * @return the artifact reference
-    */
-    private Artifact getImplementation() throws Exception
-    {
-        //
-        // check in ${basedir}/merlin.properties and ${user.home}/merlin.properties
-        // for a "merlin.implementation" property and use it if decleared
-        //
-
-        File user = new File( System.getProperty( "user.home" ) );
-        String spec1 = 
-          getLocalProperties( user, MERLIN ).
-            getProperty( IMPLEMENTATION_KEY );
-        String spec = 
-          getLocalProperties( getBaseDirectory(), MERLIN ).
-            getProperty( IMPLEMENTATION_KEY, spec1 );
-        if( null != spec )
-        {
-            return Artifact.createArtifact( spec );
-        }
-
-        //
-        // otherwise go with the defaults packaged with the jar file
-        //
- 
-        Properties properties = loadProperties( MERLIN );
-        String specification = properties.getProperty( IMPLEMENTATION_KEY );
-        return Artifact.createArtifact( specification );
-
-        //final String group = 
-        //  properties.getProperty( Artifact.GROUP_KEY );
-        //final String name = 
-        //  properties.getProperty( Artifact.NAME_KEY  );
-        //final String version = 
-        //  properties.getProperty( Artifact.VERSION_KEY );
-        //return Artifact.createArtifact( group, name, version );
-    }
-
-   /**
-    * Load a properties file from a supplied resource name.
-    * @path the resource path
-    * @return the properties instance
-    */
-    private Properties loadProperties( String path )
-    {
-        try
-        {
-            Properties properties = new Properties();
-            ClassLoader classloader = MerlinBean.class.getClassLoader();
-            InputStream input = classloader.getResourceAsStream( path );
-            if( input == null ) 
-            {
-                final String error = 
-                  "Missing resource: [" + path + "]";
-                throw new Error( error );
-            }
-            properties.load( input );
-            return properties;
-        }
-        catch ( Throwable e )
-        {
-            final String error = 
-              "Internal error. " 
-              + "Unable to locate the resource: [" + IMPLEMENTATION_PATH + "].";
-            throw new IllegalArgumentException( error );
-        }
-    }
-
-
 
     private static File getMavenRepositoryDirectory()
     {
-        return new File( getMavenHomeDirectory(), "repository" );
+        return new File( getMavenHome(), "repository" );
     }
 
-    private static File getMavenHomeDirectory()
-    {
-        return new File( getMavenHome() );
-    }
-
-    private static String getMavenHome()
+    private static File getMavenHome()
     {
         try
         {
@@ -313,17 +204,13 @@ public class MerlinBean
               System.getProperty( 
                 "maven.home.local", 
                 Env.getEnvVariable( "MAVEN_HOME_LOCAL" ) );
-            if( null != local ) return local;
+            if( null != local ) 
+              return new File( local ).getCanonicalFile();
 
-            //String maven = 
-            //  System.getProperty( 
-            //    "maven.home", 
-            //    Env.getEnvVariable( "MAVEN_HOME" ) );
-            //if( null != maven ) return maven;
-
-            return System.getProperty( "user.home" ) 
-              + File.separator + ".maven";
-
+            return new File(
+              System.getProperty( "user.home" ) 
+              + File.separator 
+              + ".maven" ).getCanonicalFile();
         }
         catch( Throwable e )
         {
