@@ -54,7 +54,6 @@ import java.util.List;
 import junit.framework.TestCase;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
-import org.apache.avalon.framework.configuration.ConfigurationUtil;
 
 /**
  * Test the basic public methods of DefaultConfiguration.
@@ -108,21 +107,6 @@ public final class DefaultConfigurationTestCase extends TestCase
         final boolean b = true;
         m_configuration.setValue("TrUe");
         assertEquals( b, m_configuration.getValueAsBoolean() );
-    }
-
-    public void testBranch()
-      throws Exception
-    {
-        m_configuration.setAttribute( "test", "test" );
-        m_configuration.setValue( "test" );
-        m_configuration.addChild( new DefaultConfiguration( "test", "test" ) );
-
-        final Configuration c = ConfigurationUtil.branch( m_configuration, "branched" );
-
-        assertEquals( "branched", c.getName() );
-        assertEquals( "test", c.getAttribute( "test" ) );
-        assertEquals( "test", c.getValue() );
-        assertTrue( c.getChild( "test", false ) != null );
     }
 
     public void testGetAttribute()
