@@ -15,6 +15,7 @@ import org.apache.avalon.excalibur.cli.CLUtil;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.avalon.phoenix.interfaces.SystemManager;
 
 /**
  * The class prepare parameters based on input options.
@@ -151,8 +152,8 @@ class CLISetup
                 break;
 
             case REMOTE_MANAGER_OPT:
-                m_parameters.setParameter( "org.apache.avalon.phoenix.engine.SystemManager",
-                                           "org.apache.avalon.phoenix.engine.PhoenixManager" );
+                m_parameters.setParameter( SystemManager.ROLE,
+                                           "org.apache.avalon.phoenix.components.manager.PhoenixManager" );
                 break;
 
             case DISABLE_HOOK_OPT:
