@@ -24,6 +24,10 @@
         <component role="org.apache.avalon.phoenix.interfaces.SystemManager"
             class="org.apache.avalon.phoenix.components.manager.DefaultManager"
             logger="manager" >
+          <manager-adaptor-port>8082</manager-adaptor-port>
+          <manager-admin-name>admin</manager-admin-name>
+          <manager-admin-password>test</manager-admin-password>
+          <manager-registry-port>1111</manager-registry-port>
         </component>
         -->
 
