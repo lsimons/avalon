@@ -157,7 +157,7 @@
         <p>        
           See <link href="http://sourceforge.net/projects/jradius/">http://sourceforge.net/projects/jradius/</link> 
           for a Java implementation.  Unfortunately, it's license is unsuitable for compilation against Apache 
-          foundation classes.
+          foundation classes. The RFCs for RADIUS are <link href="http://www.ietf.org/rfc/rfc2865.txt?number=2865">2865</link> and <link href="http://www.ietf.org/rfc/rfc2868.txt?number=2868">2868</link>.
         </p>          
       </s2> 
       <s2 title="Finger">
@@ -166,7 +166,7 @@
         </p>
         <p>        
           An essential read <link href="http://www-cse.ucsd.edu/users/bsy/coke.history.txt">
-          http://www-cse.ucsd.edu/users/bsy/coke.history.txt</link>.  About a prototype Internet application.
+          http://www-cse.ucsd.edu/users/bsy/coke.history.txt</link>.  About a prototype Internet application.  The RFC for finger is <link href="http://www.ietf.org/rfc/rfc1288.txt?number=1288">1288</link>.
         </p>          
       </s2>  
       <s2 title="Internet Relay Chat">
