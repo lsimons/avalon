@@ -4,7 +4,7 @@
 
   <ant:property name="merlin.bootstrap.jar" value="merlin-bootstrap-1.0.jar"/>
   <ant:property name="merlin.plugin.jar" value="merlin-plugin-1.1-SNAPSHOT.jar"/>
-  <ant:property name="meta.plugin.jar" value="avalon-meta-plugin-1.2-SNAPSHOT.jar"/>
+  <ant:property name="meta.plugin.jar" value="avalon-meta-plugin-1.2.jar"/>
 
   <ant:property file="project.properties"/>
   <ant:property name="maven.docs.src" value="${basedir}/platform/xdocs"/>
@@ -258,11 +258,19 @@
   -->
   <goal name="ximport">
     <j:forEach var="dep" items="${pom.dependencies}">
+
       <j:if test="${dep.getId() != 'junit:junit'}">
         <mkdir dir="${maven.build.dir}/${merlin.build.inst}/system/${dep.artifactDirectory}/${dep.type}s"/>
         <copy 
           todir="${maven.build.dir}/${merlin.build.inst}/system/${dep.artifactDirectory}/${dep.type}s/"
           file="${maven.repo.local}/${dep.artifactDirectory}/${dep.type}s/${dep.artifact}"/>
+
+        <util:available file="${maven.repo.local}/${dep.artifactDirectory}/${dep.type}s/${dep.artifact}.meta">
+          <copy failonerror="false"
+            todir="${maven.build.dir}/${merlin.build.inst}/system/${dep.artifactDirectory}/${dep.type}s/"
+            file="${maven.repo.local}/${dep.artifactDirectory}/${dep.type}s/${dep.artifact}.meta"/>
+        </util:available>
+
       </j:if>
     </j:forEach>
   </goal>
@@ -390,45 +398,7 @@
   Write a build signature for each package.
   -->
   <preGoal name="java:compile">
-    <ant:property name="filename" value="${maven.build.dir}/classes/${pom.artifactId}.artifact"/>
-    <j:set var="offset" value="${pom.artifactId.length()}"/>
-    <j:set var="scrap" value="${snapshotSignature.substring(offset,snapshotSignature.length())}"/>
-    <j:set var="signature" value="${scrap.substring(1,scrap.length())}"/>
-    <ant:echo message="Building ${pom.artifactId} ${signature}"/>
-    <ant:echo file="${filename}">
-#
-# Artifact descriptor.
-# 
-
-avalon.artifact.group = ${pom.groupId}
-avalon.artifact.name = ${pom.artifactId}
-avalon.artifact.version = ${pom.currentVersion}
-avalon.artifact.signature = ${signature}
-
-#
-# Implementation dependencies.
-#
-</ant:echo>
-    <j:set var="index" value="0"/>
-    <j:forEach var="dep" items="${pom.dependencies}">
-      <j:set var="key" value="${dep.groupId}:${dep.artifactId};${dep.version}"/>
-      <ant:echo file="${filename}" append="true">
-avalon.dependency.${index} = ${key}</ant:echo>
-      <j:set var="j" value="0"/>
-      <j:forEach var="p" items="${dep.properties}">
-        <j:set var="v" value="${p.substring(9,p.length())}"/>
-        <j:set var="pos" value="${v.indexOf(':')}"/>
-        <j:set var="len" value="${v.length()}"/>
-        <j:set var="key" value="${v.substring(0,pos)}"/>
-        <j:set var="value" value="${v.substring(pos,len)}"/>
-        <ant:echo file="${filename}" append="true">
-avalon.dependency.${index}.${key} = ${value.substring( 1, value.length() )}</ant:echo>
-        <j:set var="j" value="${j+1}"/>
-      </j:forEach>
-      <j:set var="index" value="${index+1}"/>
-    </j:forEach>
-    <ant:echo file="${filename}" append="true">
-</ant:echo>
+    <attainGoal name="avalon:artifact"/>
   </preGoal>
 
 </project>

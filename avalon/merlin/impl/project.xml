@@ -38,6 +38,9 @@ Merlin service management platform.
       <groupId>merlin</groupId>
       <artifactId>merlin-kernel-spi</artifactId>
       <version>3.2-dev</version>
+      <properties>
+        <avalon.classloader>api</avalon.classloader>
+      </properties>
     </dependency>
 
     <!-- avalon dependecies -->
@@ -46,11 +49,17 @@ Merlin service management platform.
       <groupId>avalon-activation</groupId>
       <artifactId>avalon-activation-api</artifactId>
       <version>1.2-dev</version>
+      <properties>
+        <avalon.classloader>api</avalon.classloader>
+      </properties>
     </dependency>
     <dependency>
       <groupId>avalon-activation</groupId>
       <artifactId>avalon-activation-spi</artifactId>
       <version>1.2.1-dev</version>
+      <properties>
+        <avalon.classloader>spi</avalon.classloader>
+      </properties>
     </dependency>
     <dependency>
       <groupId>avalon-activation</groupId>
@@ -62,6 +71,9 @@ Merlin service management platform.
       <groupId>avalon-repository</groupId>
       <artifactId>avalon-repository-spi</artifactId>
       <version>1.1-dev</version>
+      <properties>
+        <avalon.classloader>spi</avalon.classloader>
+      </properties>
     </dependency>
     <dependency>
       <groupId>avalon-repository</groupId>
@@ -73,27 +85,39 @@ Merlin service management platform.
       <groupId>avalon-composition</groupId>
       <artifactId>avalon-composition-api</artifactId>
       <version>1.2-dev</version>
+      <properties>
+        <avalon.classloader>api</avalon.classloader>
+      </properties>
     </dependency>
     <dependency>
       <groupId>avalon-composition</groupId>
       <artifactId>avalon-composition-spi</artifactId>
       <version>1.2-dev</version>
+      <properties>
+        <avalon.classloader>spi</avalon.classloader>
+      </properties>
     </dependency>
     <dependency>
       <groupId>avalon-composition</groupId>
       <artifactId>avalon-composition-impl</artifactId>
-      <version>1.2-dev</version>
+      <version>1.2.1-dev</version>
     </dependency>
 
     <dependency>
       <groupId>avalon-meta</groupId>
       <artifactId>avalon-meta-api</artifactId>
       <version>1.2.1-dev</version>
+      <properties>
+        <avalon.classloader>api</avalon.classloader>
+      </properties>
     </dependency>
     <dependency>
       <groupId>avalon-meta</groupId>
       <artifactId>avalon-meta-spi</artifactId>
       <version>1.2.1-dev</version>
+      <properties>
+        <avalon.classloader>spi</avalon.classloader>
+      </properties>
     </dependency>
     <dependency>
       <groupId>avalon-meta</groupId>
@@ -105,6 +129,9 @@ Merlin service management platform.
       <groupId>avalon-extension</groupId>
       <artifactId>avalon-extension-spi</artifactId>
       <version>1.0</version>
+      <properties>
+        <avalon.classloader>api</avalon.classloader>
+      </properties>
     </dependency>
     <dependency>
       <groupId>avalon-extension</groupId>
@@ -116,6 +143,9 @@ Merlin service management platform.
       <groupId>avalon-framework</groupId>
       <artifactId>avalon-framework-api</artifactId>
       <version>4.1.5</version>
+      <properties>
+        <avalon.classloader>api</avalon.classloader>
+      </properties>
     </dependency>
     <dependency>
       <groupId>avalon-framework</groupId>
@@ -143,6 +173,9 @@ Merlin service management platform.
       <groupId>excalibur-lifecycle</groupId>
       <artifactId>excalibur-lifecycle-api</artifactId>
       <version>1.0</version>
+      <properties>
+        <avalon.classloader>api</avalon.classloader>
+      </properties>
     </dependency>
     <dependency>
       <id>excalibur-i18n</id>
@@ -166,6 +199,8 @@ Merlin service management platform.
 
     <!-- commons dependencies -->
 
+    <!--
+    -->
     <dependency>
       <id>commons-cli</id>
       <version>1.0</version>
@@ -181,11 +216,17 @@ Merlin service management platform.
     <dependency>
       <id>xml-apis</id>
       <version>2.0.2</version>
+      <properties>
+        <avalon.classloader>api</avalon.classloader>
+      </properties>
     </dependency>
     <dependency>
       <groupId>xml-apis</groupId>
       <artifactId>xmlParserAPIs</artifactId>
       <version>2.0.2</version>
+      <properties>
+        <avalon.classloader>api</avalon.classloader>
+      </properties>
     </dependency>
     <dependency>
       <id>xerces</id>

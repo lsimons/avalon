@@ -70,6 +70,7 @@ import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.composition.data.ContextDirective;
 import org.apache.avalon.composition.data.Mode;
@@ -85,7 +86,7 @@ import org.apache.excalibur.configuration.CascadingConfiguration;
  * Deployment model defintion.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.6 $ $Date: 2003/11/03 06:11:30 $
+ * @version $Revision: 1.7 $ $Date: 2003/11/22 12:52:55 $
  */
 public class DefaultDeploymentModel extends DefaultModel implements DeploymentModel
 {
@@ -437,7 +438,7 @@ public class DefaultDeploymentModel extends DefaultModel implements DeploymentMo
     */
     public boolean isParameterizable()
     {
-        return Parameters.class.isAssignableFrom( getDeploymentClass() );
+        return Parameterizable.class.isAssignableFrom( getDeploymentClass() );
     }
 
    /**
