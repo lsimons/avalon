@@ -317,11 +317,7 @@ Legal:
     <mkdir dir="${build.lib}"/>
 
     <jar jarfile="${build.lib}/phoenix-client.jar" basedir="${build.classes}">
-
       <include name="org/apache/phoenix/*"/>
-    
-      <!-- remove next line after support for old interfaces is dropped -->
-      <include name="org/apache/avalon/**"/>
     </jar>
 
     <jar jarfile="${build.lib}/phoenix-loader.jar"
