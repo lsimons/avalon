@@ -5,7 +5,7 @@
 
   <property file="build.properties"/>
 
-  <import file="${project.home}/build/standard.xml"/>
+  <import file="${project.home}/system/build/standard.xml"/>
 
   <target name="init" depends="standard.init">
     <x:filter key="avalon-merlin-impl" feature="version" 
@@ -15,7 +15,7 @@
   </target>
 
   <target name="javadoc" depends="prepare">
-    <x:javadoc title="Merlin Runtime" id="avalon-runtime" staged="true">
+    <x:javadoc title="Avalon Runtime" id="avalon-runtime" staged="true">
       <x:link href="http://java.sun.com/j2se/1.4/docs/api" />
     </x:javadoc>
     <x:javadoc title="Avalon Magic" id="avalon-tools-magic">

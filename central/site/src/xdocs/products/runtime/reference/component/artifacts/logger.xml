@@ -31,11 +31,11 @@
       <subsection name="Overview">
 
         <p>
-The <a href="/api/org/apache/avalon/framework/logger/Logger.html">Logger</a> 
+The <a href="../../../../../avalon/runtime/@RUNTIME-VERSION@/api/org/apache/avalon/framework/logger/Logger.html">Logger</a> 
 defines a implementation independent logging channel.  The logging channel 
 supplied to a component represents the root loggging channel for the component. 
 A component may aquire additional subsidiary channels using the 
-<a href="/api/org/apache/avalon/framework/logger/Logger.html#getChildLogger(java.lang.String)">getChildLogger()</a> 
+<a href="../../../../../avalon/runtime/@RUNTIME-VERSION@/api/org/apache/avalon/framework/logger/Logger.html#getChildLogger(java.lang.String)">getChildLogger()</a> 
 operation.  The Logger interface exposes a set of operations to check if a 
 particular logging priority is enabled, thus enabling optimization of typically 
 expensive string manipulation operations related to log message construction. 
@@ -45,7 +45,7 @@ expensive string manipulation operations related to log message construction.
       <subsection name="Delivery Strategies">
         <p>
 A logging channel may be supplied via constructor or under an implementation of 
-the <a href="/api/org/apache/avalon/framework/logger/LogEnabled.html">LogEnabled</a> 
+the <a href="../../../../../avalon/runtime/@RUNTIME-VERSION@/api/org/apache/avalon/framework/logger/LogEnabled.html">LogEnabled</a> 
 lifecycle stage interface.
         </p>
       </subsection>

@@ -2,20 +2,20 @@
 
 <index>
 
-  <import index="../../tools/index.xml"
+  <import index="../tools/index.xml"
      href="http://svn.apache.org/repos/asf/avalon/trunk/tools/index.xml"/>
 
-  <import index="../../runtime/index.xml"
+  <import index="../runtime/index.xml"
      href="http://svn.apache.org/repos/asf/avalon/trunk/runtime/index.xml"/>
 
-  <import index="../../planet/index.xml"
+  <import index="../planet/index.xml"
      href="http://svn.apache.org/repos/asf/avalon/trunk/planet/index.xml"/>
 
   <!--
   Avalon Central.
   -->
 
-  <project basedir="../site">
+  <project basedir="site">
     <info>
       <group>avalon</group>
       <name>site</name>

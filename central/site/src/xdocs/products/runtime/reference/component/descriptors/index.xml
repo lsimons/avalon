@@ -163,7 +163,7 @@ object that contains a component classname, attributes, context dependencies,
 deployment dependencies, runtime service dependencies, service and extension 
 publication, and associating logging channel assumptions. The full specification
 of the 
-<a href="/api/org/apache/avalon/meta/info/Type.html">Type</a>
+<a href="../../../../../avalon/runtime/@RUNTIME-VERSION@/spi/org/apache/avalon/meta/info/Type.html">Type</a>
 class is provided in the package javadoc.  Type establishment is typically 
 automated by the container by scanner jar file for xinfo descriptors (or 
 possibly through dynamic type creation).
