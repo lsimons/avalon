@@ -57,6 +57,7 @@ Legal:
   <property name="build.lib" value="${build.dir}/lib"/>
   <property name="build.src" value="${build.dir}/src"/>
   <property name="build.classes" value="${build.dir}/classes"/>
+  <property name="build.scratchpad" value="${build.dir}/scratchpad"/>
   <property name="build.javadocs" value="${build.dir}/javadocs"/>
   <property name="build.docs" value="${build.dir}/docs"/>
   <property name="build.xdocs" value="${build.dir}/xdocs"/>
@@ -69,6 +70,7 @@ Legal:
   <property name="src.dir" value="src"/>
   <property name="java.dir" value="${src.dir}/java"/>
   <property name="test.dir" value="${src.dir}/test"/>
+  <property name="scratchpad.dir" value="${src.dir}/scratchpad"/>
   <property name="compat.dir" value="${src.dir}/compat"/>
   <property name="proposal.dir" value="proposal/4.0/src/java"/>
   <property name="lib.dir" value="lib"/>
@@ -209,6 +211,7 @@ Legal:
   <target name="compile" depends="prepare">
 
     <mkdir dir="${build.classes}"/>
+    <mkdir dir="${build.scratchpad}"/>
 
 <!--
     <depend closure="yes"
@@ -226,6 +229,14 @@ Legal:
       <src path="${test.dir}"/>
       <exclude name="org/apache/excalibur/datasource/J2eeDataSource.java"
                unless="j2ee.present"/>
+    </javac>
+
+    <javac srcdir="${scratchpad.dir}"
+           destdir="${build.scratchpad}"
+           debug="${debug}"
+           optimize="${optimize}"
+           deprecation="${deprecation}">
+      <classpath refid="project.class.path" />
     </javac>
 
   </target>
@@ -412,6 +423,7 @@ Legal:
     <jar jarfile="${build.lib}/${testlets.name}.jar" basedir="${build.classes}">
       <include name="**/test/*"/>
     </jar>
+    <jar jarfile="${build.lib}/${scratchpad.name}.jar" basedir="${build.scratchpad}"/>
   </target>
 
   <target name="install" depends="jar,install-check-cjan">
@@ -438,6 +450,7 @@ Legal:
     <copy file="${build.lib}/${framework.name}.jar" tofile="${dist.dir}/${framework.name}-${version}.jar"/>
     <copy file="${build.lib}/${excalibur.name}.jar" tofile="${dist.dir}/${excalibur.name}-${version}.jar"/>
     <copy file="${build.lib}/${testlets.name}.jar" tofile="${dist.dir}/${testlets.name}-${version}.jar"/>
+    <copy file="${build.lib}/${scratchpad.name}.jar" tofile="${dist.dir}/${scratchpad.name}-${version}.jar"/>
 
     <mkdir dir="${dist.docs}"/>
     <mkdir dir="${dist.javadocs}"/>
