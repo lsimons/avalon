@@ -50,7 +50,7 @@
         <dependency>
             <!-- testing only -->
             <id>excalibur-testcase</id>
-            <version>1.1</version>
+            <version>1.2</version>
             <groupId>excalibur-component</groupId>
         </dependency>
         <dependency>
