@@ -30,6 +30,7 @@ import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
+import org.apache.avalon.framework.service.WrapperServiceManager;
 import org.apache.avalon.framework.thread.ThreadSafe;
 import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.excalibur.container.legacy.ComponentProxyGenerator;
@@ -44,7 +45,7 @@ import org.apache.excalibur.instrument.Instrumentable;
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.12 $ $Date: 2002/11/07 07:15:13 $
+ * @version CVS $Revision: 1.13 $ $Date: 2002/11/07 12:45:23 $
  * @since 4.0
  */
 public class DefaultComponentFactory
@@ -249,7 +250,7 @@ public class DefaultComponentFactory
 
         if( component instanceof Serviceable )
         {
-            // wrap the real CM with a proxy, see below for more info
+            // Wrap the real CM with a proxy, see below for more info
             final ServiceManagerProxy manager =
                 new ServiceManagerProxy( m_componentManager );
             ContainerUtil.service( component, manager );
@@ -290,8 +291,10 @@ public class DefaultComponentFactory
 
         m_components.put( component, proxy );
 
+        // If the component is not an instance of Component then wrap it in a proxy.
+        //  This makes it possible to use components which are not real Components
+        //  with the ECM.
         Component returnableComponent;
-
         if( !( component instanceof Component ) )
         {
             returnableComponent = m_proxyGenerator.getProxy( m_role, component );
@@ -384,7 +387,7 @@ public class DefaultComponentFactory
      * Methods
      *-------------------------------------------------------------*/
     /**
-     * Proxy <code>ComponentLocator</code> class to maintain references to
+     * Proxy <code>ComponentManager</code> class to maintain references to
      * components looked up within a <code>Composable</code> instance created
      * by this factory.
      *
@@ -435,7 +438,7 @@ public class DefaultComponentFactory
 
         /**
          * Releases all components that have been looked up through this
-         * <code>ComponentLocator</code>, that have not yet been released
+         * <code>ComponentManager</code>, that have not yet been released
          * via user code.
          */
         private void releaseAll()
@@ -455,50 +458,42 @@ public class DefaultComponentFactory
         }
     }
 
+    /**
+     * Proxy <code>ServiceManager</code> class to maintain references to
+     * components looked up within a <code>Serviceable</code> instance created
+     * by this factory.
+     * <p>
+     * Extends the WrapperServiceManager class to avoid duplicating
+     * code and decrease the chance of making errors.
+     *
+     * This class acts a safety net to ensure that all components looked
+     * up within a <code>Serviceable</code> instance created by this factory are
+     * released when the instance itself is released.
+     */
     private static class ServiceManagerProxy
-        implements ServiceManager
+        extends WrapperServiceManager
     {
         private final ComponentManager m_realManager;
         private final Collection m_unreleased = new ArrayList();
 
         ServiceManagerProxy( final ComponentManager manager )
         {
+            super( manager );
             m_realManager = manager;
         }
 
         public Object lookup( final String role )
             throws ServiceException
         {
-            try
-            {
-                final Object component = m_realManager.lookup( role );
-                addUnreleased( component );
-                return component;
-            }
-            catch( ClassCastException e )
-            {
-                throw new ServiceException( role,
-                                            "Casting exception (does your Serviceable implement Component)",
-                                            e );
-            }
-            catch( ComponentException e )
-            {
-                throw new ServiceException( e.getRole(),
-                                            e.getMessage(),
-                                            e );
-            }
-        }
-
-        public boolean hasService( final String role )
-        {
-            return m_realManager.hasComponent( role );
+            final Object component = super.lookup( role );
+            addUnreleased( component );
+            return component;
         }
 
         public void release( final Object component )
         {
             removeUnreleased( component );
-
-            m_realManager.release( (Component)component );
+            super.release( component );
         }
 
         private synchronized void addUnreleased( final Object component )
@@ -513,16 +508,16 @@ public class DefaultComponentFactory
 
         /**
          * Releases all components that have been looked up through this
-         * <code>ComponentLocator</code>, that have not yet been released
+         * <code>ServiceManager</code>, that have not yet been released
          * via user code.
          */
         private void releaseAll()
         {
-            Component[] unreleased;
+            Object[] unreleased;
 
             synchronized( this )
             {
-                unreleased = new Component[ m_unreleased.size() ];
+                unreleased = new Object[ m_unreleased.size() ];
                 m_unreleased.toArray( unreleased );
             }
 
