@@ -316,13 +316,6 @@
         <include name="LICENSE.txt"/>
       </fileset>
     </ant:copy>
-    <ant:chmod file="${merlin.build.inst.dir}/bin/merlin" perm="u=rwx,go=rx"/>
-    <ant:chmod file="${merlin.build.inst.dir}/bin/merlinx" perm="u=rwx,go=rx"/>
-    <ant:chmod file="${merlin.build.inst.dir}/bin/internal-cygwin.sh" perm="u=rwx,go=rx"/>
-    <ant:chmod file="${merlin.build.inst.dir}/bin/internal-unix.sh" perm="u=rwx,go=rx"/>
-    <ant:chmod file="${merlin.build.inst.dir}/bin/merlin.sh" perm="u=rwx,go=rx"/>
-    <ant:chmod file="${merlin.build.inst.dir}/bin/merlinx.sh" perm="u=rwx,go=rx"/>
-    <ant:chmod file="${merlin.build.inst.dir}/bin/merlin-server.sh" perm="u=rwx,go=rx"/>
     <ant:fixcrlf eol="crlf" srcdir="${merlin.build.inst.dir}/bin">
        <include name="README.TXT"/>
     </ant:fixcrlf>
@@ -342,10 +335,15 @@
       <include name="wrapper.conf"/>
     </ant:fixcrlf>
     <ant:fixcrlf eol="lf" srcdir="${merlin.build.inst.dir}/bin">
-      <include name="merlin.sh"/>
-      <include name="merlinx.sh"/>
-      <include name="merlin-server.sh"/>
+      <include name="*.sh"/>
     </ant:fixcrlf>
+    <ant:chmod file="${merlin.build.inst.dir}/bin/merlin" perm="ugo+rx"/>
+    <ant:chmod file="${merlin.build.inst.dir}/bin/merlinx" perm="ugo+rx"/>
+    <ant:chmod file="${merlin.build.inst.dir}/bin/internal-cygwin.sh" perm="ugo+rx"/>
+    <ant:chmod file="${merlin.build.inst.dir}/bin/internal-unix.sh" perm="ugo+rx"/>
+    <ant:chmod file="${merlin.build.inst.dir}/bin/merlin.sh" perm="ugo+rx"/>
+    <ant:chmod file="${merlin.build.inst.dir}/bin/merlinx.sh" perm="ugo+rx"/>
+    <ant:chmod file="${merlin.build.inst.dir}/bin/merlin-server.sh" perm="ugo+rx"/>
   </goal>
 
   <!--
