@@ -23,11 +23,11 @@ import java.util.HashMap;
  * This is the default <code>Configuration</code> implementation.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.40 $ $Date: 2004/01/29 16:27:12 $
+ * @version CVS $Revision: 1.41 $ $Date: 2004/01/30 10:43:09 $
  */
 public class DefaultConfiguration
     extends AbstractConfiguration
-    implements MutableConfiguration, Serializable
+    implements Serializable
 {
     /**
      * An empty (length zero) array of configuration objects.
@@ -595,9 +595,9 @@ public class DefaultConfiguration
     }
     
     /**
-     * Check if this configuration is writeable.
+     * heck if this configuration is writeable.
      *
-     * @throws IllegalStateException if this configuration is read-only
+     * @throws IllegalStateException if this configuration s read-only
      */
     protected final void checkWriteable()
         throws IllegalStateException
@@ -606,122 +606,6 @@ public class DefaultConfiguration
         {
             throw new IllegalStateException
                 ( "Configuration is read only and can not be modified" );
-        }
-    }
-    
-    /**
-     * Returns true iff this DefaultConfiguration has been made read-only.
-     */
-    protected final boolean isReadOnly()
-    {
-        return m_readOnly;
-    }
-    
-    /**
-     * Convenience function to convert a child to a mutable configuration.
-     * If the child is-a MutableConfiguration, and it isn't a read-only DefaultConfiguration 
-     * (which isn't really mutable), the child is cast to MutableConfiguration and returned.
-     * If not, the child is replaced in the m_children array with a new writable DefaultConfiguration
-     * that is a shallow copy of the child, and the new child is returned.
-     */
-    private MutableConfiguration toMutable( Configuration child ) throws ConfigurationException
-    {
-        if (child instanceof MutableConfiguration &&
-            !( child instanceof DefaultConfiguration && ((DefaultConfiguration) child).isReadOnly() )) 
-        {
-            // Child is already mutable - return it.
-            return (MutableConfiguration) child;
-        }
-        
-        // Child isn't mutable. (This is a mutating operation, so let's check
-        // if we're writable.)
-        checkWriteable();
-        
-        DefaultConfiguration config = new DefaultConfiguration( child );
-        
-        // Replace the old child.
-        for( int i = 0; i < m_children.size(); i++)
-        {
-            if( m_children.get(i) == child )
-            {
-                m_children.set( i, config );
-                break;
-            }
-        }        
-        
-        return config;
-    }
-    
-    public MutableConfiguration getMutableChild( final String name ) throws ConfigurationException
-    {
-        return getMutableChild( name, true );
-    }
-    
-    public MutableConfiguration getMutableChild( final String name, boolean autoCreate ) throws ConfigurationException
-    {
-        Configuration child = getChild( name, false );
-        if( child == null ) 
-        {
-            // No child. Create?
-            
-            if( autoCreate )
-            {
-                DefaultConfiguration config = new DefaultConfiguration( name, "-" );
-                addChild( config );
-                return config;
-            }
-            else
-            {
-                return null;
-            }
-        }
-        
-        // Child exists
-        return toMutable( child );
-    }
-    
-    public MutableConfiguration[] getMutableChildren() throws ConfigurationException
-    {
-        if( null == m_children )
-        {
-            return new MutableConfiguration[ 0 ];
-        }
-        else
-        {
-            final ArrayList children = new ArrayList();
-            final int size = m_children.size();
-            
-            for( int i = 0; i < size; i++ )
-            {
-                final Configuration configuration = (Configuration)m_children.get( i );
-                children.add( toMutable( configuration ) );
-            }
-            
-            return (MutableConfiguration[])children.toArray( new MutableConfiguration[ 0 ] );
-        }
-    }
-    
-    public MutableConfiguration[] getMutableChildren( final String name ) throws ConfigurationException
-    {
-        if( null == m_children )
-        {
-            return new MutableConfiguration[ 0 ];
-        }
-        else
-        {
-            final ArrayList children = new ArrayList();
-            final int size = m_children.size();
-            
-            for( int i = 0; i < size; i++ )
-            {
-                final Configuration configuration = (Configuration)m_children.get( i );
-                if( name.equals( configuration.getName() ) )
-                {
-                    children.add( toMutable( configuration ) );
-                }
-            }
-            
-            return (MutableConfiguration[])children.toArray( new MutableConfiguration[ 0 ] );
         }
     }
     
