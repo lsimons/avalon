@@ -7,7 +7,7 @@
  */
 package org.apache.avalon.phoenix.components.application;
 
-import org.apache.avalon.phoenix.components.lifecycle.ComponentEntry;
+import org.apache.avalon.phoenix.components.lifecycle.State;
 import org.apache.avalon.phoenix.metadata.BlockMetaData;
 import org.apache.avalon.phoenix.metainfo.BlockInfo;
 import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
@@ -18,20 +18,42 @@ import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public class BlockEntry
-    extends ComponentEntry
 {
+    private Object m_object;
+    private State m_state;
+
     private BlockMetaData m_blockMetaData;
     private BlockInvocationHandler m_invocationHandler;
 
     public BlockEntry( final BlockMetaData blockMetaData )
     {
-        super( blockMetaData.getName() );
+        setState( State.VOID );
         m_blockMetaData = blockMetaData;
+    }
+
+    public String getName()
+    {
+        return getMetaData().getName();
     }
 
     public BlockMetaData getMetaData()
     {
         return m_blockMetaData;
+    }
+
+    public final synchronized State getState()
+    {
+        return m_state;
+    }
+
+    public final synchronized void setState( final State state )
+    {
+        m_state = state;
+    }
+
+    public synchronized Object getObject()
+    {
+        return m_object;
     }
 
     public synchronized void setObject( final Object object )
@@ -44,7 +66,7 @@ public class BlockEntry
             final Class[] interfaces = getServiceClasses( object, blockInfo.getServices() );
             m_invocationHandler = new BlockInvocationHandler( object, interfaces );
         }
-        super.setObject( object );
+        m_object = object;
     }
 
     public synchronized Object getProxy()
@@ -66,7 +88,8 @@ public class BlockEntry
             m_invocationHandler.invalidate();
             m_invocationHandler = null;
         }
-        super.invalidate();
+        m_state = State.VOID;
+        m_object = null;
     }
 
     private Class[] getServiceClasses( final Object block, final ServiceDescriptor[] services )
