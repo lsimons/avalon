@@ -49,7 +49,7 @@ import org.apache.avalon.meta.info.EntryDescriptor;
  * a fully qualifed context can be established.</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.11 $ $Date: 2004/02/22 16:22:17 $
+ * @version $Revision: 1.12 $ $Date: 2004/02/22 17:28:30 $
  */
 public class DefaultContextModel extends DefaultDependent implements ContextModel
 {
@@ -254,6 +254,20 @@ public class DefaultContextModel extends DefaultDependent implements ContextMode
     public void setEntryModel( String key, EntryModel model )
     {
         m_map.put( key, model ); 
+    }
+
+   /**
+    * Set the entry to a suplied value.
+    * 
+    * @param key the entry key
+    * @param value the entry value
+    */
+    public void setEntry( String key, Object value )
+    {
+        EntryDescriptor descriptor = m_descriptor.getEntry( key );
+        OverrideEntryModel model = 
+          new OverrideEntryModel( descriptor, value );
+        setEntryModel( key, model );
     }
 
    /**

@@ -1,9 +1,11 @@
 package tutorial;
 
+import java.io.File;
+
 import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.framework.configuration.Configurable;
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.context.Contextualizable;
+import org.apache.avalon.framework.context.Context;
+import org.apache.avalon.framework.context.ContextException;
 
 /**
  * A component that implements the Gizmo service.
@@ -11,7 +13,7 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
  * @avalon.component name="gizmo" lifestyle="singleton"
  * @avalon.service type="tutorial.Gizmo"
  */
-public class DefaultGizmo implements Gizmo, Configurable
+public class DefaultGizmo implements Gizmo, Contextualizable
 {
    //---------------------------------------------------------
    // immutable state
@@ -37,16 +39,17 @@ public class DefaultGizmo implements Gizmo, Configurable
    }
 
    //---------------------------------------------------------
-   // configurable
+   // Contextualizable
    //---------------------------------------------------------
 
    /**
-    * Configuration of the gizmo by the container.
-    * @param config the supplied configuration
+    * Contextualization of the gizmo by the container.
+    * @param context the supplied runtime context
+    * @avalon.entry key="urn:avalon:home"
     */
-    public void configure( Configuration config ) throws ConfigurationException
+    public void contextualize( Context context ) throws ContextException
     {
-        final String message = config.getChild( "message" ).getValue( "" );
-        m_logger.info( "I've been configured with the message: [" + message + "]" );
+        File home = (File) context.get( "urn:avalon:home" );
+        m_logger.info( "home: " + home );
     }
 }
