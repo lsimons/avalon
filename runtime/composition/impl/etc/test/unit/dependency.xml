@@ -4,6 +4,10 @@
 
    <classloader>
      <classpath>
+       <artifact>artifact:jar:avalon/test/avalon-test-testa</artifact>
+       <artifact>artifact:jar:avalon/test/avalon-test-testb</artifact>
+       <artifact>artifact:jar:avalon/test/avalon-test-testc</artifact>
+       <!--
        <fileset dir="ext">
          <include>test-a.jar</include>
          <include>test-b.jar</include>
@@ -11,11 +15,12 @@
        <fileset dir="lib">
          <include>test-c.jar</include>
        </fileset>
+       -->
      </classpath>
    </classloader>
 
-   <component name="test-a" class="org.apache.avalon.composition.model.testa.TestA">
-     <context class="org.apache.avalon.composition.model.testa.DefaultFacade">
+   <component name="test-a" class="org.apache.avalon.test.testa.TestA">
+     <context class="org.apache.avalon.test.testa.DefaultFacade">
        <entry key="home">
          <constructor class="java.io.File">
            <param class="java.io.File">${urn:avalon:home}</param>
@@ -33,9 +38,9 @@
 
    <container name="fred">
 
-     <component name="test-b" class="org.apache.avalon.composition.model.testb.TestB"/>
+     <component name="test-b" class="org.apache.avalon.test.testb.TestB"/>
 
-     <component name="test-c" class="org.apache.avalon.composition.model.testc.TestC">
+     <component name="test-c" class="org.apache.avalon.test.testc.TestC">
        <dependencies>
          <dependency key="a" source="../test-a"/>
          <dependency key="a2" source="/test-a"/>

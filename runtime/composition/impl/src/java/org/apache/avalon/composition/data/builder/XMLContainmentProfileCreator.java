@@ -235,7 +235,14 @@ public class XMLContainmentProfileCreator extends XMLProfileCreator
        throws ConfigurationException
     {
         String spec = config.getValue();
-        return Artifact.createArtifact( "artifact:" + spec.trim() );
+        String uri = getURI( spec );
+        return Artifact.createArtifact( uri );
+    }
+
+    private String getURI( String path )
+    {
+        if( path.startsWith( "artifact:" ) ) return path;
+        return "artifact:" + path;
     }
 
     private Artifact[] createResourceDirectives( Configuration config )
