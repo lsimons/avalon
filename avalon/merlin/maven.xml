@@ -308,7 +308,8 @@
        <include name="INSTALL.TXT"/>
     </ant:fixcrlf>
     <ant:fixcrlf eol="crlf" srcdir="${merlin.build.inst.dir}/bin">
-      <include name="merlin"/>s
+      <include name="merlin"/>
+      <include name="merlinx"/>
       <include name="merlin.bat"/>
       <include name="merlinx.bat"/>
       <include name="README.TXT"/>
