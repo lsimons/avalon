@@ -95,6 +95,36 @@ public final class Version
     }
 
     /**
+     * Retrieve major part of version.
+     *
+     * @return the major part of version
+     */
+    public int getMajor()
+    {
+        return m_major;
+    }
+
+    /**
+     * Retrieve minor part of version.
+     *
+     * @return the minor part of version
+     */
+    public int getMinor()
+    {
+        return m_minor;
+    }
+
+    /**
+     * Retrieve revision part of version.
+     *
+     * @return the revision
+     */
+    public int getRevision()
+    {
+        return m_revision;
+    }
+
+    /**
      * Check this <code>Version</code> against another for equality.
      * <p />
      * If this <code>Version</code> is compatible with the specified one, then
