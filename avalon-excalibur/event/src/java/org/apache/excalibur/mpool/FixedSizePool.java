@@ -49,6 +49,7 @@
 */
 package org.apache.excalibur.mpool;
 
+import org.apache.avalon.excalibur.concurrent.Mutex;
 import org.apache.avalon.excalibur.collections.Buffer;
 import org.apache.avalon.excalibur.collections.FixedSizeBuffer;
 import org.apache.avalon.framework.activity.Disposable;
@@ -58,7 +59,7 @@ import org.apache.avalon.framework.activity.Disposable;
  * Please note that this pool offers no resource limiting whatsoever.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/08/07 22:44:25 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/08/08 00:57:25 $
  * @since 4.1
  */
 public final class FixedSizePool
@@ -67,10 +68,18 @@ public final class FixedSizePool
     private boolean m_disposed = false;
     private final Buffer m_buffer;
     private final ObjectFactory m_factory;
+    private final long m_timeout;
 
     public FixedSizePool( ObjectFactory factory, int size )
         throws Exception
     {
+        this( factory, size, 1000L );
+    }
+
+    public FixedSizePool( ObjectFactory factory, int size, long timeout )
+        throws Exception
+    {
+        m_timeout = (timeout < 1) ? 1 : timeout;
         m_buffer = new FixedSizeBuffer( size );
         m_factory = factory;
 
@@ -89,9 +98,23 @@ public final class FixedSizePool
 
         Object object = null;
 
-        synchronized( m_buffer )
+        long end = System.currentTimeMillis() + m_timeout;
+
+        while ( null == object && System.currentTimeMillis() < end)
         {
-            object = m_buffer.remove();
+            synchronized( m_buffer )
+            {
+                if ( m_buffer.isEmpty() )
+                {
+                    try
+                    {
+                        m_buffer.wait( m_timeout );
+                    }
+                    catch (Exception e) {}
+                }
+
+                object = m_buffer.remove();
+            }
         }
 
         return object;
@@ -115,6 +138,7 @@ public final class FixedSizePool
             synchronized( m_buffer )
             {
                 m_buffer.add( object );
+                m_buffer.notify();
             }
         }
     }
