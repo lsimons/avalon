@@ -27,8 +27,14 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
+
 import java.io.File;
 import java.io.FileFilter;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
+
+import java.util.Calendar;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -77,7 +83,14 @@ public class XdocTask extends SystemTask
 
     private String m_theme;
     private File m_BaseToDir;    
-    private File m_BaseSrcDir;    
+    private File m_BaseSrcDir; 
+
+    public String getTheme()
+    {
+        if( m_theme != null ) 
+            return m_theme;
+        return getProject().getProperty( XDOC_THEME_KEY );
+    }
 
     public void setTheme( final String theme )
     {
@@ -115,12 +128,6 @@ public class XdocTask extends SystemTask
     private String getOutputFormat()
     {
         return getProject().getProperty( XDOC_FORMAT_KEY );
-    }
-
-    private String getTheme()
-    {
-        if( m_theme != null ) return m_theme;
-        return getProject().getProperty( XDOC_THEME_KEY );
     }
 
     public void execute()
@@ -299,17 +306,18 @@ public class XdocTask extends SystemTask
             {
                 final String svnRoot = getProject().getProperty( XDOC_ANCHOR_URL_KEY );
                 final String svnSource = svnRoot + getRelSrcPath( srcDir ) + "/" + base;
-                
+
                 final int pos = base.lastIndexOf( '.' );
                 if( pos > 0 )
                     base = base.substring( 0, pos );
                 base = base + extension;
-                
+
                 final File newDest = new File( toDir, base );
                 final StreamSource xml = new StreamSource( content[i] );
                 final StreamResult out = new StreamResult( newDest );
-                transformer.clearParameters();
                 
+                transformer.clearParameters();
+
                 transformer.setParameter( "directory", getRelToPath( toDir ) );
                 transformer.setParameter( "fullpath", getRelToPath( newDest ) );
                 transformer.setParameter( "file", base );
@@ -317,27 +325,26 @@ public class XdocTask extends SystemTask
 
                 transformer.setParameter( "copyright", copyright );
                 transformer.setParameter( 
-                  "logoright_file", 
-                  getProject().getProperty( XDOC_LOGO_RIGHT_FILE_KEY ).trim() );
+                    "logoright_file", 
+                    getProject().getProperty( XDOC_LOGO_RIGHT_FILE_KEY ).trim() );
                 transformer.setParameter( 
-                  "logoright_url", 
-                  getProject().getProperty( XDOC_LOGO_RIGHT_URL_KEY).trim() );
+                    "logoright_url", 
+                    getProject().getProperty( XDOC_LOGO_RIGHT_URL_KEY).trim() );
                 transformer.setParameter( 
-                  "logoleft_file", 
-                  getProject().getProperty( XDOC_LOGO_LEFT_FILE_KEY ).trim() );
+                    "logoleft_file", 
+                    getProject().getProperty( XDOC_LOGO_LEFT_FILE_KEY ).trim() );
                 transformer.setParameter( 
-                  "logoleft_url", 
-                  getProject().getProperty( XDOC_LOGO_LEFT_URL_KEY ).trim() );
+                    "logoleft_url", 
+                    getProject().getProperty( XDOC_LOGO_LEFT_URL_KEY ).trim() );
                 transformer.setParameter( 
-                  "logomiddle_file", 
-                  getProject().getProperty( XDOC_LOGO_MIDDLE_FILE_KEY ).trim() );
+                    "logomiddle_file", 
+                    getProject().getProperty( XDOC_LOGO_MIDDLE_FILE_KEY ).trim() );
                 transformer.setParameter( 
-                  "logomiddle_url", 
-                  getProject().getProperty( XDOC_LOGO_MIDDLE_URL_KEY ).trim() );
+                    "logomiddle_url", 
+                    getProject().getProperty( XDOC_LOGO_MIDDLE_URL_KEY ).trim() );
                 transformer.setParameter( 
-                  "brand_name", 
-                  getProject().getProperty( XDOC_BRAND_NAME_KEY ).trim() );
-
+                    "brand_name", 
+                    getProject().getProperty( XDOC_BRAND_NAME_KEY ).trim() );
                 try
                 {
                     transformer.transform( xml, out );
@@ -412,7 +419,8 @@ public class XdocTask extends SystemTask
         }
         else
         {
-            return "2004"; // 6 months to fix this
+            Calendar cal = Calendar.getInstance();
+            return Integer.toString( cal.get( Calendar.YEAR ) );
         }
     }
 

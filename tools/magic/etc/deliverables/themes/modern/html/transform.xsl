@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="ISO-8859-1" ?>
 <xsl:stylesheet 
     version="1.0" 
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -7,7 +7,10 @@
 >
   <xsl:output doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN" 
               doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"
-              method="xml" />
+              method="xml" 
+              encoding="UTF-8"
+              
+  />
 
   <xsl:param name="directory" />
   <xsl:param name="file" />
@@ -38,6 +41,7 @@
       <link rel="stylesheet" type="text/css">
         <xsl:attribute name="href"><xsl:value-of select="$relativepath[position() = last()]" />styles/style.css</xsl:attribute>
       </link>
+      <meta http-equiv="Content-type" content="text/html; charset=UTF-8" />
     </head>
       <xsl:apply-templates select="body" />
     </html>    
