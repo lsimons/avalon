@@ -33,53 +33,47 @@ import org.apache.avalon.apps.sevak.Sevak;
  */
 public class SevakTest
         extends AbstractLogEnabled
-        implements Contextualizable, Serviceable, Configurable, Initializable
-{
+        implements Contextualizable, Serviceable, Configurable, Initializable {
     private BlockContext m_context;
-	private Configuration m_configuration;
-	private Sevak m_sevak;
-    
-    public void contextualize(final Context context)
-    {
-        getLogger().info("SevakTest.contextualize()");
+    private Configuration m_configuration;
+    private Sevak m_sevak;
+
+    public void contextualize( final Context context ) {
+        getLogger().info( "SevakTest.contextualize()" );
         m_context = (BlockContext) context;
     }
 
-    public void configure(final Configuration configuration)
-            throws ConfigurationException
-    {
-		
-		m_configuration=configuration;	
-		
+    public void configure( final Configuration configuration )
+            throws ConfigurationException {
+
+        m_configuration = configuration;
+
     }
 
     /**
      * @see org.apache.avalon.framework.service.Serviceable
      * @phoenix:dependency name="org.apache.avalon.apps.sevak.Sevak"
      */
-    public void service(final ServiceManager serviceManager)
-            throws ServiceException
-    {
-        getLogger().info("SevakTest.service()");
-		m_sevak=(Sevak)serviceManager.lookup(Sevak.class.getName());
+    public void service( final ServiceManager serviceManager )
+            throws ServiceException {
+        getLogger().info( "SevakTest.service()" );
+        m_sevak = (Sevak) serviceManager.lookup( Sevak.class.getName() );
     }
 
     public void initialize()
-            throws Exception
-    {
-        getLogger().info("SevakTest.initialize()");
-        Configuration[] contexts=m_configuration.getChildren("Context");
-        for(int i=0;i<contexts.length;i++)
-        {
-            String ctx = contexts[i].getAttribute("docBase");
-            String ctxPath = contexts[i].getAttribute("path");
-            ctxPath = ctxPath.replace('/',File.separatorChar);
-            ctxPath = ctxPath.replace('\\',File.separatorChar);
+            throws Exception {
+        getLogger().info( "SevakTest.initialize()" );
+        Configuration[] contexts = m_configuration.getChildren( "Context" );
+        for( int i = 0; i < contexts.length; i++ ) {
+            String ctx = contexts[ i ].getAttribute( "docBase" );
+            String ctxPath = contexts[ i ].getAttribute( "path" );
+            ctxPath = ctxPath.replace( '/', File.separatorChar );
+            ctxPath = ctxPath.replace( '\\', File.separatorChar );
             String ctxFullPath = m_context.getBaseDirectory().getAbsolutePath() + File.separatorChar + ctxPath;
             //System.out.println("Ctx = " + ctx + ", path = " + ctxFullPath);
-   	     	m_sevak.deploy(ctx,new File(ctxFullPath));
+            m_sevak.deploy( ctx, new File( ctxFullPath ) );
         }
-		
+
     }
 
 

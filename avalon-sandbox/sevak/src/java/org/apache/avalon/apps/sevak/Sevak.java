@@ -20,12 +20,6 @@ public interface Sevak
     String ROLE = Sevak.class.getName();
 
     /**
-     * A constant for localhost
-     */
-    String LOCALHOST = "localhost";
-
-
-    /**
      * Deploy the given Web Application
      * @param context Context for the the webapp
      * @param pathToWebAppFolder path can be a war-archive or exploded directory
@@ -34,7 +28,7 @@ public interface Sevak
     void deploy(String context, File pathToWebAppFolder) throws SevakException;
 
     /**
-     * Undeploy the given WebApp 
+     * Undeploy the given WebApp
      * @param context Context for the the webapp
      * @throws SevakException Thrown if context does NOT exist
      */

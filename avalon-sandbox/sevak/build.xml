@@ -275,6 +275,62 @@
 
 
   </target>
+  
+  <target name="compile-demo" depends="compile" description="Compiles the Demo Block">
+    <delete dir="${build.demoClasses}"/>
+    <delete dir="${build.demoXdoclet}"/>
+
+
+    <mkdir dir="${build.demoClasses}"/>
+    <javac srcdir="${java.demo.dir}"
+            destdir="${build.demoClasses}"
+            debug="${build.debug}"
+            optimize="${build.optimize}"
+            deprecation="${build.deprecation}">
+       <classpath refid="test.class.path" />
+       <include name="**"/>
+    </javac>
+  </target>
+
+  <target name="phoenix-demo-xdoclet" depends="compile-demo" >
+    <mkdir dir="${build.demoXdoclet}"/>
+
+    <taskdef name="phoenix-blocks"
+             classname="org.apache.avalon.phoenix.tools.xdoclet.PhoenixXDoclet"
+             classpathref="test.class.path"/>
+
+    <phoenix-blocks
+        destdir="${build.demoXdoclet}"
+        classpathref="test.class.path">
+      <fileset dir="${java.demo.dir}">
+        <include name="**/*.java" />
+      </fileset>
+      <blockinfo/>
+      <manifest manifestFile="manifest.mf" />
+    </phoenix-blocks>
+
+  </target>
+
+  <target name="demo-jar" depends="phoenix-demo-xdoclet" description="Makes a jar file out of the Demo classes">
+    <mkdir dir="${build.lib}"/>
+    <war destfile="${build.lib}/sevak-demo.war" webxml="${src.dir}/demo/webapps/sevak-test/WEB-INF/web.xml" >
+      <fileset dir="${src.dir}/demo/webapps/sevak-test">
+          <excludesfile name="${src.dir}/demo/webapps/sevak-test/WEB-INF/web.xml"/>
+      </fileset>
+    </war>
+
+
+    <jar jarfile="${build.lib}/sevak-demo.jar"
+         manifest="${build.demoXdoclet}/manifest.mf">
+      <fileset dir="${build.demoClasses}">
+        <include name="org/apache/avalon/apps/sevak/**"/>
+      </fileset>
+     <fileset dir="${build.demoXdoclet}">
+        <include name="org/apache/avalon/apps/sevak/**/*.xinfo"/>
+      </fileset>
+    </jar>
+
+  </target>
 
   <!-- Jars project for Merlin -->
   <target name="merlin" depends="compile" >

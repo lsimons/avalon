@@ -7,12 +7,11 @@
 -->
 <config>
 
-    <catalina>
-        <use-naming>true</use-naming>
+    <sevak>
         <config-file>conf/server-noexamples.xml.config</config-file>
-    </catalina>
+    </sevak>
     <multihost-sevak-test>
-      <Context docBase="/multihost-sevak" path="/local/test.war"/>
+      <Context docBase="/multihost-sevak" path="sevak-demo.war"/>
     </multihost-sevak-test>
 
 </config>

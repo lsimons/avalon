@@ -10,7 +10,7 @@
 # It is overridden by ../ant.properties and ~/build.properties
 # It overrides all default.properties files and ~/.ant.properties
 #
-# $Id: ant.properties.sample,v 1.1 2002/09/29 11:38:42 hammant Exp $
+# $Id: ant.properties.sample,v 1.2 2002/09/30 22:03:11 hammant Exp $
 # -----------------------------------------------------------------------------
 
 # ----- Compile Control Flags -----
@@ -30,4 +30,10 @@ checkstyle.home=../../checkstyle-2.3
 checkstyle.lib=${checkstyle.home}
 checkstyle.jar=${checkstyle.lib}/checkstyle-all-2.3.jar
 
+# -----------------------------------------------------------------------------
+#                 CATALINA SEVAK PROPERTIES
+#  Uncomment catalina-zip-suffix to build using JDK 1.4 LE
+#  (lightweight binary distribution of Tomcat 4, designed to be run on JDK 1.4.)
+# -----------------------------------------------------------------------------
+#catalina-zip-suffix=-LE-jdk14
 
