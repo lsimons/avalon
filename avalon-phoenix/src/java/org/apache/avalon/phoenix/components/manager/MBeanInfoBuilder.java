@@ -21,6 +21,7 @@ import javax.management.modelmbean.ModelMBeanConstructorInfo;
 import javax.management.modelmbean.ModelMBeanInfoSupport;
 import javax.management.modelmbean.ModelMBeanNotificationInfo;
 import javax.management.modelmbean.ModelMBeanOperationInfo;
+import javax.management.modelmbean.RequiredModelMBean;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -30,20 +31,22 @@ import org.apache.avalon.phoenix.tools.configuration.ConfigurationBuilder;
 import org.xml.sax.InputSource;
 
 /**
- * An MBeanInfoBuilder is responsible for building <code>ManagementTopic</code>
+ * An MBeanInfoBuilder is responsible for building Management Topic
  * objects from Configuration objects. The format for Configuration object
  * is specified in the MxInfo specification.  The information is loaded into
  * the Target structure.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  * @author <a href="mailto:huw@mmlive.com">Huw Roberts</a>
- * @version $Revision: 1.3 $ $Date: 2002/08/06 11:57:40 $
+ * @version $Revision: 1.4 $ $Date: 2002/09/06 11:35:10 $
  */
-public final class MBeanInfoBuilder extends AbstractLogEnabled
+public final class MBeanInfoBuilder
+    extends AbstractLogEnabled
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( MBeanInfoBuilder.class );
-    private static final String REQ_MODEL_MBEAN = "javax.management.modelmbean.RequiredModelMBean";
+    private static final String REQ_MODEL_MBEAN =
+        RequiredModelMBean.class.getName();
 
     public void build( final Target target,
                        final Class managedClass,
@@ -60,7 +63,8 @@ public final class MBeanInfoBuilder extends AbstractLogEnabled
         if( null != config )
         {
             final String message =
-                REZ.getString( "mxinfo.debug.found.mxinfo", managedClass.getName() );
+                REZ.getString( "mxinfo.debug.found.mxinfo",
+                               managedClass.getName() );
             getLogger().debug( message );
             buildFromMxInfo( target, managedClass, config );
         }
@@ -92,7 +96,7 @@ public final class MBeanInfoBuilder extends AbstractLogEnabled
     }
 
     /**
-     * Create a <code>ModelMBeanInfoSupport</code> object for specified classname from
+     * Create a {@link ModelMBeanInfoSupport} object for specified classname from
      * specified configuration data.
      */
     private void buildFromMxInfo( final Target target,
@@ -204,7 +208,7 @@ public final class MBeanInfoBuilder extends AbstractLogEnabled
     }
 
     /**
-     * A utility method to build a <code>ModelMBeanInfoSupport</code>
+     * A utility method to build a {@link ModelMBeanInfoSupport}
      * object from specified configuration and BeanInfo.
      *
      * @return the created ModelMBeanInfoSupport

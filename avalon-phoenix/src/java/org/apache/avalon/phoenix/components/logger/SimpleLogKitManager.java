@@ -29,7 +29,7 @@ import org.apache.log.Priority;
 import org.apache.log.output.io.FileTarget;
 
 /**
- * A <code>LogKitManager</code> that supports the old &lt;logs version="1.0"/&gt;
+ * A {@link LoggerManager} that supports the old &lt;logs version="1.0"/&gt;
  * style logging configuration.
  *
  * @author <a href="mailto:colus@isoft.co.kr">Eung-ju Park</a>
