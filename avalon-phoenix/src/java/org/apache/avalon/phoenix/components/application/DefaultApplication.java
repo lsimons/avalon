@@ -26,12 +26,12 @@ import org.apache.avalon.phoenix.metadata.BlockMetaData;
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
-public final class DefaultServerApplication
+public final class DefaultApplication
     extends AbstractLoggable
     implements Application
 {
     private static final Resources REZ =
-        ResourceManager.getPackageResources( DefaultServerApplication.class );
+        ResourceManager.getPackageResources( DefaultApplication.class );
 
     private static final String  PHASE_STARTUP  = "startup";
     private static final String  PHASE_SHUTDOWN = "shutdown";
