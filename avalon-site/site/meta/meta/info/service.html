@@ -129,7 +129,7 @@
                   
                   
                   <a href="http://avalon.apache.org/">
-                    <img border="0" alt="Apache Software Foundation" src="http://avalon.apache.org/images/apache-avalon-logo.png" align="left"></img>
+                    <img border="0" alt="The Apache Software Foundation" src="http://avalon.apache.org/images/apache-avalon-logo.png" align="left"></img>
                   </a>
                 
               </td>
@@ -228,21 +228,7 @@
       <small>
       	
       	
-      		<a href="../../meta/index.html">Meta Model</a>
-      	
-      </small>
-	  
-        
-    
-    
-    
-    
-
-    <div>
-      <small>
-      	
-      	
-      		<a href="../../meta/info/index.html">Descriptors</a>
+      		<a href="../../meta/index.html">Type Model</a>
       	
       </small>
 	  
@@ -291,26 +277,6 @@
       	
       	
       		<a href="../../meta/info/attributes/index.html">Attributes</a>
-      	
-      </small>
-	  
-        
-      
-    </div>
-  
-      
-    </div>
-  
-    
-    
-    
-    
-
-    <div>
-      <small>
-      	
-      	
-      		<a href="../../meta/data/index.html">Directives</a>
       	
       </small>
 	  
@@ -449,11 +415,19 @@
       
     <p>
       
-The org.apache.avalon.meta.info.ServiceDefinition class describes a type of service. It suppliments the classic Java interface with a version identifier and attributes.  A ServiceDefintion may be referenced by multiple components that will typically suppliment the defintion in terms of additional  attributes.  References to a ServiceDefintion concern a component type declaration of depedencies, service access points, lifestyle extension ability, and lifestyle extension depedencies.
+The org.apache.avalon.meta.info.ServiceDefinition class describes a type of 
+service. It supplements the classic Java interface with a version identifier 
+and attributes.  A ServiceDefinition may be referenced by multiple components 
+that will typically supplement the definition in terms of additional attributes. 
+References to a ServiceDefinition concern a component type declaration of 
+dependencies, service access points, lifestyle extension ability, and lifestyle 
+extension dependencies.
     </p>
    
     <p>
-      An instance of ServiceDescriptor is created using a ServiceBuilder.  The following code fragment shows the creation of new ServiceBuilder and the creation of a ServiceDefinition using the builder.
+      An instance of ServiceDescriptor is created using a ServiceBuilder.  The 
+following code fragment shows the creation of new ServiceBuilder and the 
+creation of a ServiceDefinition using the builder.
     </p>
    
     <div id="source">
@@ -463,13 +437,13 @@ The org.apache.avalon.meta.info.ServiceDefinition class describes a type of serv
   //
 
   ServiceBuilder builder = new ServiceBuilder();
-  builder.enableLogging( m_loger );
+  builder.enableLogging( m_logger );
 
   //
-  // create the service defintion
+  // create the service definition
   //
 
-  ServiceDefinition defintion = builder.build( this.class() );
+  ServiceDefinition definition = builder.build( this.class() );
 </pre>
     </div>
   
@@ -485,13 +459,13 @@ The org.apache.avalon.meta.info.ServiceDefinition class describes a type of serv
       <pre>
 
   &lt;!--
-  Example of a service defintion.
+  Example of a service definition.
   --&gt;
 
   &lt;service&gt;
 
     &lt;!--
-    Declaration of a service version.
+    Declaration of service version.
     --&gt;
 
     &lt;version&gt;3.2&lt;/version&gt;
@@ -499,7 +473,7 @@ The org.apache.avalon.meta.info.ServiceDefinition class describes a type of serv
     &lt;attributes&gt;
 
       &lt;!--
-      Attribute declarations included in a service defintion
+      Attribute declarations included in a service definition
       are independent of a particular service implementation.
       --&gt;
 
@@ -535,7 +509,7 @@ The org.apache.avalon.meta.info.ServiceDefinition class describes a type of serv
                   
                     
                     
-                      © 2000-2004, Apache Software Foundation
+                      © 2000-2004, The Apache Software Foundation
                     
                   
                   
