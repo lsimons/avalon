@@ -49,6 +49,7 @@ public class AsyncLogTarget
         m_logTarget = logTarget;
         m_list = new LinkedList();
         m_queueSize = queueSize;
+        open();
     }
 
     /**
@@ -145,8 +146,16 @@ public class AsyncLogTarget
                 }
             }
 
-            //actually process an event
-            m_logTarget.processEvent( event );
+
+            try 
+            { 
+                //actually process an event
+                m_logTarget.processEvent( event );
+            }
+            catch( final Throwable throwable )
+            {
+                getErrorHandler().error( "Unknown error writing event.", throwable, event );
+            }
         }
     }
 }
