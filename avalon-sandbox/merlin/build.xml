@@ -19,6 +19,12 @@ the LICENSE.txt file.
   <property file="${basedir}/default.properties"/>
 
   <!-- Classpath for product -->
+  <path id="bootstrap.class.path">
+    <pathelement location="${commons-cli.jar}"/>
+    <pathelement location="${excalibur-i18n.jar}"/>
+  </path>
+
+  <!-- Classpath for product -->
   <path id="project.class.path">
     <pathelement location="${logkit.jar}"/>
     <pathelement location="${avalon-framework.jar}"/>
@@ -97,8 +103,9 @@ the LICENSE.txt file.
   <target name="context-bootstrap">
     <mkdir dir="${lib.dir}"/>
     <uptodate property="uptodate-bootstrap" targetfile="${build.lib}/${bootstrap.jar}">
-      <srcfiles dir="${src.dir}">
+      <srcfiles dir="${java.dir}">
         <include name="**/bootstrap/**/*.*"/>
+        <include name="*.*"/>
       </srcfiles>
       <srcfiles dir="${lib.dir}">
         <include name="**/*.*"/>
@@ -123,8 +130,10 @@ the LICENSE.txt file.
        target="1.2">
       <src path="${java.dir}" />
       <classpath refid="project.class.path" />
+      <exclude name="Merlin.java"/>
+      <exclude name="BootstrapRuntimeException.java"/>
+      <exclude name="Resources.properties"/>
       <exclude name="**/playground/**/*.java"/>
-      <exclude name="**/bootstrap/**/*.java"/>
       <include name="**/*.java"/>
     </javac>
 
@@ -153,7 +162,10 @@ the LICENSE.txt file.
        deprecation="${build.deprecation}"
        target="1.2">
       <src path="${java.dir}" />
-      <include name="**/bootstrap/**/*.java"/>
+      <include name="Merlin.java"/>
+      <include name="BootstrapRuntimeException.java"/>
+      <include name="Resources.properties"/>
+      <classpath refid="bootstrap.class.path" />
     </javac>
 
   </target>
@@ -193,13 +205,40 @@ the LICENSE.txt file.
 
   </target>
 
-  <target name="bootstrap.jar" depends="compile-bootstrap" description="Generates the jar files" unless="uptodate-bootstrap">
+
+  <!--
+  Creation of the bootstrap jar file.  This contains the Excalibut i18n classes and the 
+  commons CLI classes together with a Merlin bootstrap and related i18n resource class.
+  -->
+
+  <target name="bootstrap.jar" depends="compile-bootstrap" 
+      description="Generates the jar files" unless="uptodate-bootstrap">
+
     <mkdir dir="${build.lib}"/>
+
+    <unzip src="${excalibur-i18n.jar}" dest="${build.bootstrap}"/>
+    <unzip src="${commons-cli.jar}" dest="${build.bootstrap}"/>
+
+    <copy todir="${build.bootstrap}">
+      <fileset dir="${java.dir}">
+        <exclude name="*.java"/>
+      </fileset>
+    </copy>
+
     <jar jarfile="${build.lib}/${bootstrap.jar}"
        basedir="${build.bootstrap}"
        compress="${build.compress}" >
+
+      <exclude name="META-INF/**/*.*"/>
+
+      <manifest>
+        <attribute name="Main-Class" value="Merlin"/>
+      </manifest>
+
     </jar>
+
   </target>
+
 
   <target name="deploy" depends="jar">
 
@@ -239,11 +278,11 @@ the LICENSE.txt file.
   <target name="javadocs" depends="compile" 
           description="Generates the javadocs" unless="skip.javadocs">
     <mkdir dir="${build.javadocs}"/>
-    <javadoc packagenames="org.apache.avalon.merlin.*"
-       sourcepath="${java.dir}"
-       destdir="${build.javadocs}">
-      <classpath refid="project.class.path" />
+    <javadoc sourcepath="${java.dir}" packagenames="*,*.*"
+       destdir="${build.javadocs}" overview="${java.dir}/package.html">
+     <classpath refid="project.class.path" />
       <group title="Kernel">
+        <package name=""/>
         <package name="org.apache.avalon.merlin"/>
         <package name="org.apache.avalon.merlin.kernel"/>
         <package name="org.apache.avalon.merlin.kernel.*"/>
@@ -343,7 +382,12 @@ the LICENSE.txt file.
   </target>
 
   <target name="docs" depends="xdocs, javadocs" 
-     description="generates all the Avalon documentation"/>
+     description="generates all the Avalon documentation">
+    <copy todir="${dist.docs}">
+      <fileset dir="${build.docs}/docs">
+      </fileset>
+    </copy>
+  </target>
 
   <target name="xdocs" description="generates the xdocs-based documentation">
     <ant antfile="${basedir}/../cocoonbuild.xml"/>
@@ -354,7 +398,7 @@ the LICENSE.txt file.
     <mkdir dir="../site/dist/docs/${dir-name}"/>
     <copy todir="../site/dist/docs/${dir-name}">
       <fileset dir="${build.docs}">
-        <include name="**"/>
+        <exclude name="api/**"/>
       </fileset>
     </copy>
   </target>

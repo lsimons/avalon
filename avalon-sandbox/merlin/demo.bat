@@ -1,1 +1,0 @@
-java -classpath build\lib\avalon-merlin-bootstrap-2.1.jar org.apache.avalon.merlin.bootstrap.Merlin merlin.properties
