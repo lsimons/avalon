@@ -64,11 +64,11 @@
         a domain specific context interface.
         </p>
         <p>
-        Resource supporting this tutorial are contained in the 
-        turorials/context_casting package.
+        Resources supporting this tutorial are contained in the 
+        tutorials/casting package.
         </p>
       </subsection>
-      <subsection name="Requirments">
+      <subsection name="Requirements">
         <p>
         While the context interface provides the mechanisms to 
         access any object type, it is sometimes convinient to 
@@ -263,10 +263,10 @@ public class DemoContextProvider extends DefaultContext implements DemoContext
 </type>
 ]]></source>
         <p>
-          Secondly, we need to provide corresoponding meta-data to Merlin
+          Secondly, we need to provide corresponding meta-data to Merlin
           describing the implementation class that it can use to construct
           the context instance.  The following changes to the block.xml
-          description include the "class" attribute on the coontext directive.
+          description include the "class" attribute on the context directive.
           The class attribute tells Merlin to use the named class as the 
           context implementation.
         </p>
