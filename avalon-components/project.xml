@@ -15,7 +15,7 @@
   </organization>
   <inceptionYear>1997</inceptionYear>
 
-  <package>org.apache.avalon.cornerstone</package>
+  <package>org.apache.avalon</package>
   <gumpRepositoryId>avalon-components</gumpRepositoryId>
   
   <url>http://avalon.apache.org/components/</url>
