@@ -1,30 +1,19 @@
 <?xml version="1.0"?>
 
-<!DOCTYPE document SYSTEM "dtd/document-v10.dtd">
-
 <document>
-  <header>
-    <title>Excalibur Internationalization - Overview</title>
-    <authors>
-      <person name="Berin Loritsch" email="bloritsch@apache.org"/>
-      <person name="Leo Simons" email="mail@leosimons.com"/>
-    </authors>
-  </header>
-  <body>
-    <s1 title="Introduction">
-      <p>
-        Excalibur's Internationalization package is found in
-        <code>org.apache.avalon.excalibur.i18n</code>.  Avalon
-        Excalibur includes a method of managing resources, and
-        an interface for specifying the resource.  Support for
-        XML resource bundles are still under development.
-      </p>
-    </s1>
-  </body>
-  <footer>
-    <legal>
-      Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.2 $ $Date: 2002/04/05 08:21:04 $
-    </legal>
-  </footer>
+    <properties>
+        <title>Excalibur Internationalization - Overview</title>
+        <author email="peter@apache.org">Peter Donald</author>
+    </properties>
+    <body>
+        <section name="Introduction">
+            <p>
+              Excalibur's Internationalization package is found in
+              <code>org.apache.avalon.excalibur.i18n</code>.  Avalon
+              Excalibur includes a method of managing resources, and
+              an interface for specifying the resource.  Support for
+              XML resource bundles are still under development.
+            </p>
+        </section>
+    </body>
 </document>

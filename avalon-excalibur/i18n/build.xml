@@ -21,6 +21,7 @@
         <pathelement location="${tools.jar}"/>
         <fileset dir="${tools.dir}/lib"/>
         <fileset dir="${tools.dir}/ext"/>
+        <fileset dir="${jakarta-site.dir}/lib"/>
     </path>
 
     <path id="test.class.path">
@@ -259,7 +260,7 @@
 
     <!-- Creates the distribution -->
     <target name="dist"
-        depends="dist-jar, test-reports, checkstyle-report, javadocs"
+        depends="dist-jar, test-reports, checkstyle-report, javadocs, docs"
         description="Generates a distribution (jar + javadocs + unit tests + checkstyle reports)">
 
 
@@ -267,16 +268,20 @@
         <copy file="../KEYS" todir="${dist.dir}"/>
         <copy file="README.txt" todir="${dist.dir}"/>
 
+        <zip zipfile="${dist.dir}/src.zip" compress="false">
+            <zipfileset dir="src/java"/>
+        </zip>
+
         <mkdir dir="${dist.base}"/>
 
-        <zip zipfile="${dist.base}/${dist.name}-bin.zip" compress="true">
+        <zip zipfile="${dist.base}/${dist.name}.zip" compress="true">
             <zipfileset dir="${dist.dir}" prefix="${dist.name}"/>
         </zip>
 
         <!--
           Not supported by released ant but when it is we should enable this across
           all of the products
-        <tar longfile="gnu" tarfile="${dist.base}/${dist.name}-bin.tar">
+        <tar longfile="gnu" tarfile="${dist.base}/${dist.name}.tar">
           <tarfileset dir="${dist.dir}"
                       prefix="${dist.name}"
                       username="avalon"
@@ -305,8 +310,8 @@
             <fileset dir="${build.lib}">
                 <include name="*.jar"/>
             </fileset>
-        </copy> 
-    </target>   
+        </copy>
+    </target>
 
     <!-- Creates a minimal distribution -->
     <target name="dist.lite"
@@ -319,95 +324,59 @@
 
     </target>
 
-    <!-- Setup the filters -->
-    <target name="setup-filters">
-      <filter token="Name" value="Avalon ${Name}"/>
-      <filter token="name" value="${dir-name}"/>
-      <filter token="version" value="${version}"/>
-      <filter token="year" value="${year}"/>
-      <filter token="status" value="${status}"/>
-      <filter token="release" value="${release}"/>
-      <filter token="short-version" value="${short.version}"/>
-
-      <property name="avalon.base" value="http://jakarta.apache.org/avalon"/>
-      <property name="framework.base" value="http://jakarta.apache.org/avalon/framework"/>
-      <property name="phoenix.base" value="http://jakarta.apache.org/avalon/phoenix"/>
-      <property name="cornerstone.base" value="http://jakarta.apache.org/avalon/cornerstone"/>
-      <property name="logkit.base" value="http://jakarta.apache.org/avalon/logkit"/>
-      <property name="testlet.base" value="http://jakarta.apache.org/avalon/testlet"/>
-
-      <filter token="year" value="${year}"/>
-      <filter token="AVALON_BASE" value="${avalon.base}"/>
-      <filter token="FRAMEWORK_BASE" value="${framework.base}"/>
-      <filter token="PHOENIX_BASE" value="${phoenix.base}"/>
-      <filter token="CORNERSTONE_BASE" value="${cornerstone.base}"/>
-      <filter token="LOGKIT_BASE" value="${logkit.base}"/>
-      <filter token="TESTLET_BASE" value="${testlet.base}"/>
+    <target name="anakia-avail">
+        <available classname="org.apache.velocity.anakia.AnakiaTask"
+            property="AnakiaTask.present">
+            <classpath refid="tools.class.path"/>
+        </available>
     </target>
-    
-    
-    <!-- Prepares the documentation directory -->
-    <target name="docs" depends="setup-filters"> <!-- depends="javadocs" description="Generates the Docs" -->
-      <mkdir dir="${docs.dir}"/>
 
-      <mkdir dir="${build.context}"/>
-      <mkdir dir="${build.xdocs}"/>
-      <mkdir dir="${build.docs}"/>
-      <mkdir dir="${build.dir}/work"/>
-  
-      <!-- Base pointers for non-xdocs documentation. Override these in .ant.properties to link to local docs -->
-      <copy todir="${build.context}" filtering="on">
-        <fileset dir="${context.dir}">
-          <exclude name="diagrams/**"/>
-          <exclude name="resources/**"/>
-          <exclude name="xdocs"/>
-        </fileset>
-      </copy>
-  
-      <copy todir="${build.context}/xdocs" filtering="on" overwrite="yes">
-        <fileset dir="${xdocs.dir}"/>
-      </copy>
-
-      <copy todir="${build.context}/resources" filtering="off" overwrite="yes">
-        <fileset dir="${context.dir}/resources"/>
-        <fileset dir="${xdocs.dir}">
-          <include name="**/images/**"/>
-        </fileset>
-      </copy>
-
-      <java classname="org.apache.cocoon.Main" fork="true">
-        <arg value="-c${build.context}/"/>
-        <arg value="-d${build.docs}"/>
-        <arg value="-w${build.dir}/work"/>
-        <arg value="-l${build.dir}/work/cocoon.log"/>
-        <arg value="-uINFO"/>
-        <arg value="-f${xdocs.dir}/${dir-name}.uris"/>
-        <classpath>
-          <path refid="tools.class.path"/>
-          <fileset dir="${tools.dir}/ext"/>
-        </classpath>
-      </java>
-
-      <copy todir="${docs.dir}">
-        <fileset dir="${build.docs}">
-          <include name="**"/>
-        </fileset>
-      </copy>    
-
-      <!-- hack for stupid transport on api link -->
-      <replace file="${docs.dir}/index.html" token="index.html.xml" value="index.html"/>
-     
+    <target name="anakia-check" depends="anakia-avail" unless="AnakiaTask.present">
+        <echo>
+            AnakiaTask is not present! Please check to make sure that
+            velocity.jar is in your classpath. The easiest way to build
+            the documentation is to checkout jakarta-site CVS and specify
+            jakarta-site.dir property.
+        </echo>
     </target>
-    
-    <target name="site" depends="javadocs, docs" description=" Places Docs ready for hosting on website">  
-  
-      <mkdir dir="../site/dist/docs/${dir-name}"/>     
+
+    <target name="docs" depends="anakia-check" description="Generate documentation and website">
+        <taskdef name="anakia"
+            classname="org.apache.velocity.anakia.AnakiaTask">
+            <classpath refid="tools.class.path"/>
+        </taskdef>
+
+        <anakia basedir="${xdocs.dir}"
+            destdir="${docs.dir}"
+            style="docs.vsl"
+            projectfile="stylesheets/project.xml"
+            includes="**/*.xml"
+            excludes="stylesheets/**"
+            velocitypropertiesfile="../site/src/stylesheets/velocity.properties"
+            />
+
+     <copy todir="${docs.dir}" filtering="off">
+      <fileset dir="../site/src" includes="css/*.css" />
+      <fileset dir="${xdocs.dir}">
+        <include name="**/images/**"/>
+        <include name="**/*.gif"/>
+        <include name="**/*.jpg"/>
+        <include name="**/*.png"/>
+        <include name="**/*.css"/>
+        <include name="**/*.js"/>
+      </fileset>
+    </copy>
+    </target>
+
+    <target name="site" depends="javadocs, docs" description=" Places Docs ready for hosting on website">
+
+      <mkdir dir="../site/dist/docs/${dir-name}"/>
       <copy todir="../site/dist/docs/${dir-name}">
         <fileset dir="${docs.dir}">
           <include name="**"/>
         </fileset>
-      </copy>        
-  
+      </copy>
+
     </target>
 
     <!-- Cleans up build and distribution directories -->
