@@ -93,5 +93,10 @@
             class="org.apache.avalon.excalibur.packagemanager.impl.NoopPackageRepository"
             logger="packages"/>
 -->
+        <component
+            class="org.apache.avalon.phoenix.components.monitor.DefaultDeploymentMonitor"
+            logger="monitor"/>
+
+
     </embeddor>
 </phoenix>
