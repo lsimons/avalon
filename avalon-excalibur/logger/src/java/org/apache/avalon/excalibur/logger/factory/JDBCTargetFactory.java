@@ -70,7 +70,6 @@ import org.apache.log.output.db.NormalizedJDBCTarget;
  *      &lt;datasource&gt;java:/LogTargetDataSource&lt;/datasource&gt;
  *      &lt;normalized&gt;true&lt;/normalized&gt;
  *      &lt;table name="LOG"&gt;
- *         &lt;sequence&gt;ID&lt;/sequence&gt;
  *          &lt;category&gt;CATEGORY&lt;/category&gt;
  *          &lt;priority&gt;PRIORITY&lt;/priority&gt;
  *          &lt;message&gt;MESSAGE&lt;/message&gt;
@@ -87,7 +86,7 @@ import org.apache.log.output.db.NormalizedJDBCTarget;
  * </pre>
  *
  * @author <a href="mailto:mirceatoma@home.com">Mircea Toma</a>;
- * @version CVS $Revision: 1.2 $ $Date: 2002/08/07 13:37:00 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/11/22 00:49:48 $
  */
 public class JDBCTargetFactory implements LogTargetFactory
 {
