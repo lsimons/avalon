@@ -164,9 +164,14 @@ public class Resource
             if( ! visited.contains( ref ) )
             {
                 final Resource resource = getResource( project, ref );
-                final File file = resource.getArtifact( project, resolve );
-                path.createPathElement().setLocation( file );
-                visited.add( ref );
+                Info info = resource.getInfo();
+                String type = info.getType();
+                if( "jar".equals( type ) )
+                {
+                    final File file = resource.getArtifact( project, resolve );
+                    path.createPathElement().setLocation( file );
+                    visited.add( ref );
+                }
             }
         }
         
