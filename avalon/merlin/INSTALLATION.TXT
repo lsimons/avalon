@@ -17,8 +17,8 @@ resources.
     README.TXT
     LICENSE.TXT
   /plugins
-    avalon-plugin-1.1.jar
-    merlin-plugin-1.0.jar
+    avalon-meta-plugin-1.2-SNAPSHOT.jar
+    merlin-plugin-1.2.jar
 
 
 Installing Merlin.
@@ -60,13 +60,17 @@ provided with the installation supporting merlin development under the
 Maven platform.  These plugins should be placed in the Maven plugin 
 directory (%MAVEN_HOME%\plugins).
 
-  %MAVEN_HOME%\plugins\avalon-plugin-1.1.jar
-  %MAVEN_HOME%\plugins\merlin-plugin-1.0.jar
+  %MAVEN_HOME%\plugins\avalon-meta-plugin-1.2-SNAPSHOT.jar
+  %MAVEN_HOME%\plugins\merlin-plugin-1.1-SNAPSHOT.jar
 
 Please note that if you are upgrading an existing installation you must
-delete the %MAVEN_HOME%\plugins\merlin-plugin-1.0 directory, replace the
-existing plugin jar file, and delete all *.cache files in the Maven 
-plugin directory.
+delete the following two directories:
+
+  %MAVEN_HOME%\plugins\merlin-plugin-* 
+  %MAVEN_HOME%\plugins\avalon-meta-plugin-*
+
+Replace the existing avalon-mweta and merlin plugin jar files with the supplied
+versions.  Finally, delete all *.cache files in the Maven plugin directory.
 
 You now have everything in place to start using the Merlin Tutorial or 
 building you own components.  If you have any problems, please subscribe
