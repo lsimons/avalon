@@ -11,7 +11,18 @@
     </classpath>
   </classloader>
  
-  <include name="mx4j" id="avalon-jmx:avalon-jmx-mx4j" version="1.0.dev-0"/>
+  <include name="mx4j" id="avalon-jmx:avalon-jmx-mx4j" version="1.0.dev-0">
+    <target path="registry">
+      <configuration>
+        <enable-rmi-adaptor>
+          true
+        </enable-rmi-adaptor>
+        <rmi-naming-factory>
+          com.sun.jndi.rmi.registry.RegistryContextFactory
+        </rmi-naming-factory>
+      </configuration>
+    </target>
+  </include>
  
   <component name="test"  class="org.apache.avalon.playground.jmxtest.JMXTestComponent"/>
  
