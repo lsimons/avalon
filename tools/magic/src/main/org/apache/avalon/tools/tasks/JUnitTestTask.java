@@ -290,12 +290,12 @@ public class JUnitTestTask extends SystemTask
         junit.setErrorProperty( ERROR_KEY );
         junit.setFailureProperty( FAILURE_KEY );
         junit.setTaskName( getTaskName() );
-	  if( getForkProperty() )
+        if( getForkProperty() )
         {
             junit.setFork( true );
             junit.setDir( project.getBaseDir() );
             JUnitTask.ForkMode mode = getForkMode();
-            if( null != mode )
+            if( null == mode )
             {
                 log( "Executing forked test." );
             }
