@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 
-<book software="Excalibur" title="Excalibur" copyright="@year@ The Apache Software Foundation" xmlns:xlink="http://www.w3.org/1999/xlink">  
-  
+<book software="Excalibur" title="Excalibur" copyright="@year@ The Apache Software Foundation" xmlns:xlink="http://www.w3.org/1999/xlink">
 
   <menu label="About">
     <menu-item label="Overview" href="index.html"/>
@@ -12,8 +11,6 @@
   <menu label="Containers">
     <menu-item label="Component" href="http://avalon.apache.org/excalibur/component/index.html"/>
     <menu-item label="Fortress" href="http://avalon.apache.org/excalibur/fortress/index.html"/>
-    <!--<menu-item label="Merlin" href="http://avalon.apache.org/excalibur/merlin/index.html"/>
-    <menu-item label="Tweety" href="http://avalon.apache.org/excalibur/tweety/index.html"/>-->
   </menu>
 
   <menu label="Components">
@@ -33,10 +30,8 @@
     <menu-item label="Instrumentation" href="http://avalon.apache.org/excalibur/instrument/index.html"/>
     <menu-item label="Component Testing Harness" href="http://avalon.apache.org/excalibur/testcase/index.html"/>
   </menu>
-  
+
   <menu label="Utilities">
-    <menu-item label="AltRMI" href="http://avalon.apache.org/excalibur/altrmi/index.html"/>
-    <menu-item label="Baxter" href="http://avalon.apache.org/excalibur/baxter/index.html"/>
     <menu-item label="CLI" href="http://avalon.apache.org/excalibur/cli/index.html"/>
     <menu-item label="Collections" href="http://avalon.apache.org/excalibur/collections/index.html"/>
     <menu-item label="Configuration" href="http://avalon.apache.org/excalibur/configuration/index.html"/>
@@ -47,11 +42,9 @@
     <menu-item label="Internationalization" href="http://avalon.apache.org/excalibur/i18n/index.html"/>
     <menu-item label="Logger" href="http://avalon.apache.org/excalibur/logger/index.html"/>
     <menu-item label="Naming" href="http://avalon.apache.org/excalibur/naming/index.html"/>
-    <menu-item label="Meta" href="http://avalon.apache.org/excalibur/meta/index.html"/>
     <menu-item label="Pool" href="http://avalon.apache.org/excalibur/pool/index.html"/>
     <menu-item label="Source Resolver" href="http://avalon.apache.org/excalibur/sourceresolve/index.html"/>
     <menu-item label="Thread" href="http://avalon.apache.org/excalibur/thread/index.html"/>
-    <menu-item label="Util" href="http://avalon.apache.org/excalibur/util/index.html"/>
   </menu>
-  
+
 </book>
