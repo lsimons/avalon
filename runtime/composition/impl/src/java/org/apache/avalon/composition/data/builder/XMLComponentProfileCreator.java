@@ -287,7 +287,7 @@ public class XMLComponentProfileCreator extends XMLProfileCreator
         throws ConfigurationException
     {
         final String key = conf.getAttribute( "key" );
-        final String classname = conf.getAttribute( "class", "java.lang.String" );
+        final String classname = conf.getAttribute( "class", null );
         if( ( null != classname ) || ( null != conf.getValue( null ) ) )
         {
             String value = conf.getValue( null );
@@ -326,18 +326,18 @@ public class XMLComponentProfileCreator extends XMLProfileCreator
             }
             else if( name.equals( "constructor" ) )
             {
-                final String classname2 = 
+                final String constructorClassname = 
                   child.getAttribute( "class", "java.lang.String" );
                 Configuration[] paramsConf = child.getChildren( "param" );
                 if( paramsConf.length > 0 )
                 {
                     Parameter[] params = getParameters( paramsConf );
-                    return new ConstructorDirective( key, classname2, params );
+                    return new ConstructorDirective( key, constructorClassname, params );
                 }
                 else
                 {
                     return new ConstructorDirective( 
-                      key, classname2, (String) child.getValue( null ) );
+                      key, constructorClassname, (String) child.getValue( null ) );
                 }
             }
             else
