@@ -348,6 +348,10 @@
   <target name="dist" description="Generates the distribution">
 
     <mkdir dir="${dist.base}"/>
+    <antcall target="bin-dist" inheritall="false">
+      <param name="bin.dist.dir" value="${dist.name}" />
+    </antcall>
+
     <zip file="${dist.base}/${dist.name}-bin.zip"
          basedir="${dist.name}/.."
          includes="${dist.name}/**"/>
