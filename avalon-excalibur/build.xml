@@ -293,7 +293,7 @@
 
     <!-- Generate all docs -->
     <target name="docs" description="Generate all the docs">
-        <!--<ant dir="fortress" target="docs"/> -->
+        <ant dir="fortress" target="docs"/>
         <!--<ant dir="instrument" target="docs"/>  -->
         <!--<ant dir="instrument-client" target="docs"/-->  <!-- depends on instrument-manager -->
         <!--<ant dir="instrument-manager" target="docs"/>  --> <!-- depends on instrument, all -->

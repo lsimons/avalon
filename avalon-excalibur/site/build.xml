@@ -8,6 +8,7 @@
   -->
   <property file=".ant.properties"/>
   <property file="${user.home}/.ant.properties"/>
+  <property file="${default.properties}"/>
 
   <property name="name" value="excalibur"/>
   <property name="Name" value="Excalibur"/>
@@ -36,6 +37,8 @@
 
   <property name="dist.base" value="distributions"/>
 
+  <property file="${basedir}/../cocoon.properties"/>
+  
   <path id="tools.class.path">
     <pathelement location="${junit.jar}"/>
     <pathelement location="${tools.jar}"/>
@@ -84,16 +87,57 @@
   
   <!-- Prepares the documentation directory -->
   <target name="docs" depends="setup-filters" description="Generates the Docs">
-    <mkdir dir="${docs.dir}"/>
+    <copy todir="${cocoon.build.xdocs}/altrmi"><fileset dir="${basedir}/../altrmi/src/xdocs"/></copy>
+    <copy todir="${cocoon.build.xdocs}/assembly"><fileset dir="${basedir}/../assembly/src/xdocs"/></copy>
+    <copy todir="${cocoon.build.xdocs}/baxter"><fileset dir="${basedir}/../baxter/src/xdocs"/></copy>
+    <copy todir="${cocoon.build.xdocs}/bzip2"><fileset dir="${basedir}/../bzip2/src/xdocs"/></copy>
+    <copy todir="${cocoon.build.xdocs}/cache"><fileset dir="${basedir}/../cache/src/xdocs"/></copy>
+    <copy todir="${cocoon.build.xdocs}/cli"><fileset dir="${basedir}/../cli/src/xdocs"/></copy>
+    <copy todir="${cocoon.build.xdocs}/collections"><fileset dir="${basedir}/../collections/src/xdocs"/></copy>
+    <copy todir="${cocoon.build.xdocs}/component"><fileset dir="${basedir}/../component/src/xdocs"/></copy>
+    <copy todir="${cocoon.build.xdocs}/concurrent"><fileset dir="${basedir}/../concurrent/src/xdocs"/></copy>
+    <copy todir="${cocoon.build.xdocs}/configuration"><fileset dir="${basedir}/../configuration/src/xdocs"/></copy>
+    <copy todir="${cocoon.build.xdocs}/containerkit"><fileset dir="${basedir}/../containerkit/src/xdocs"/></copy>
+    <copy todir="${cocoon.build.xdocs}/converter"><fileset dir="${basedir}/../converter/src/xdocs"/></copy>
+    <copy todir="${cocoon.build.xdocs}/datasource"><fileset dir="${basedir}/../datasource/src/xdocs"/></copy>
+    <copy todir="${cocoon.build.xdocs}/event"><fileset dir="${basedir}/../event/src/xdocs"/></copy>
+    <copy todir="${cocoon.build.xdocs}/extension"><fileset dir="${basedir}/../extension/src/xdocs"/></copy>
+    <copy todir="${cocoon.build.xdocs}/fortress"><fileset dir="${basedir}/../fortress/src/xdocs"/></copy>
+    <copy todir="${cocoon.build.xdocs}/i18n"><fileset dir="${basedir}/../i18n/src/xdocs"/></copy>
+    <copy todir="${cocoon.build.xdocs}/instrument"><fileset dir="${basedir}/../instrument/src/xdocs"/></copy>
+    <copy todir="${cocoon.build.xdocs}/instrument-client"><fileset dir="${basedir}/../instrument-client/src/xdocs"/></copy>
+    <copy todir="${cocoon.build.xdocs}/instrument-manager"><fileset dir="${basedir}/../instrument-manager/src/xdocs"/></copy>
+    <copy todir="${cocoon.build.xdocs}/io"><fileset dir="${basedir}/../io/src/xdocs"/></copy>
+    <copy todir="${cocoon.build.xdocs}/jprocess"><fileset dir="${basedir}/../jprocess/src/xdocs"/></copy>
+    <copy todir="${cocoon.build.xdocs}/logger"><fileset dir="${basedir}/../logger/src/xdocs"/></copy>
+    <copy todir="${cocoon.build.xdocs}/merlin"><fileset dir="${basedir}/../merlin/src/xdocs"/></copy>
+    <copy todir="${cocoon.build.xdocs}/microcontainer"><fileset dir="${basedir}/../microcontainer/src/xdocs"/></copy>
+    <copy todir="${cocoon.build.xdocs}/monitor"><fileset dir="${basedir}/../monitor/src/xdocs"/></copy>
+    <copy todir="${cocoon.build.xdocs}/naming"><fileset dir="${basedir}/../naming/src/xdocs"/></copy>
+    <copy todir="${cocoon.build.xdocs}/pool"><fileset dir="${basedir}/../pool/src/xdocs"/></copy>
+    <copy todir="${cocoon.build.xdocs}/sourceresolve"><fileset dir="${basedir}/../sourceresolve/src/xdocs"/></copy>
+    <copy todir="${cocoon.build.xdocs}/store"><fileset dir="${basedir}/../store/src/xdocs"/></copy>
+    <copy todir="${cocoon.build.xdocs}/tar"><fileset dir="${basedir}/../tar/src/xdocs"/></copy>
+    <copy todir="${cocoon.build.xdocs}/testcase"><fileset dir="${basedir}/../testcase/src/xdocs"/></copy>
+    <copy todir="${cocoon.build.xdocs}/thread"><fileset dir="${basedir}/../thread/src/xdocs"/></copy>
+    <copy todir="${cocoon.build.xdocs}/threadcontext"><fileset dir="${basedir}/../threadcontext/src/xdocs"/></copy>
+    <copy todir="${cocoon.build.xdocs}/tweety"><fileset dir="${basedir}/../tweety/src/xdocs"/></copy>
+    <copy todir="${cocoon.build.xdocs}/util"><fileset dir="${basedir}/../util/src/xdocs"/></copy>
+    <copy todir="${cocoon.build.xdocs}/xmlbundle"><fileset dir="${basedir}/../xmlbundle/src/xdocs"/></copy>
+    <copy todir="${cocoon.build.xdocs}/xmlutil"><fileset dir="${basedir}/../xmlutil/src/xdocs"/></copy>
+    <copy todir="${cocoon.build.xdocs}/zip"><fileset dir="${basedir}/../zip/src/xdocs"/></copy>
+
+    <ant antfile="${basedir}/../cocoonbuild.xml"/>
+    <!--    <mkdir dir="${docs.dir}"/>
 
     <mkdir dir="${build.context}"/>
     <mkdir dir="${build.xdocs}"/>
     <mkdir dir="${build.docs}"/>
     <mkdir dir="${build.docs}/apps"/>  
     <mkdir dir="${build.dir}/work"/>
-
+    -->
     <!-- Base pointers for non-xdocs documentation. Override these in .ant.properties to link to local docs -->
-    <copy todir="${build.context}" filtering="on">
+    <!--    <copy todir="${build.context}" filtering="on">
       <fileset dir="${context.dir}">
         <exclude name="diagrams/**"/>
         <exclude name="resources/**"/>
@@ -130,7 +174,7 @@
         <include name="**"/>
       </fileset>
     </copy>    
-    
+    -->
   </target>
   
   <target name="site" depends="docs" description="Places Docs ready for hosting on website">    
