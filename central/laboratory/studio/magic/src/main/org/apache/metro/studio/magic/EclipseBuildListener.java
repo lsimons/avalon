@@ -45,12 +45,14 @@ public class EclipseBuildListener
 
     private final String m_uri;
 
-    private boolean m_executed;
+    private boolean m_PluginXmlExecuted;
+    private boolean m_PluginJarExecuted;
 
     public EclipseBuildListener( String uri )
     {
         m_uri = uri;
-        m_executed = false;
+        m_PluginXmlExecuted = false;
+        m_PluginJarExecuted = false;
     }
 
     /**
@@ -126,14 +128,22 @@ public class EclipseBuildListener
      */
     public void taskFinished( BuildEvent event )
     {
-        if( m_executed ) 
-            return;
-
         String type = event.getTask().getTaskType();
         if( PREPARE_TASK_KEY.equals( type ) )
         {
+            if( m_PluginXmlExecuted ) 
+                return;
+
             Project project = event.getProject();
             generatePluginXML( project );
+            m_executed = true;
+        }
+        if( INSTALL_TASK_KEY.equals( type ) )
+        {
+            if( m_PluginJarExecuted ) 
+                return;
+            Project project = event.getProject();
+            generatePluginJar( project );
             m_executed = true;
         }
     }
@@ -171,6 +181,11 @@ public class EclipseBuildListener
         }
     }
 
+    private void generatePluginJar( Project project )
+    {
+        File basedir = project.getBaseDir();
+    }
+    
     /**
      * Signals a message logging event.
      *

@@ -17,10 +17,11 @@
 -->
 
 <project name="metro-reflector-blocks-standard" default="install" basedir="." 
-    xmlns:x="antlib:org.apache.avalon.tools">
-
+    xmlns:x="antlib:org.apache.avalon.tools"
+>
   <property file="build.properties"/>
-  <import file="${project.system}/build/standard.xml"/>
+  <x:home/>
+  <import file="${magic.templates}/standard.xml"/>
 
   <target name="build" depends="standard.build">
   

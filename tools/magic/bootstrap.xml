@@ -1,6 +1,6 @@
 <project name="avalon-tools-magic" default="install" basedir="."> 
 
-  <property file="build.properties"/>
+  <property file="bootstrap.properties"/>
   <property name="project.name" value="avalon-tools-magic"/>
 
   <property name="src" value="src"/>

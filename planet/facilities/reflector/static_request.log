@@ -1,6 +1,0 @@
-127.0.0.1 - - [16/Aug/2004:03:36:02 +0800] "GET /demo/ HTTP/1.1" 200 1027 "http://localhost:8080/" "Mozilla/5.0 (compatible; Konqueror/3.1; Linux)"
-127.0.0.1 - - [16/Aug/2004:03:37:02 +0800] "GET /demo/inspect HTTP/1.1" 404 1253 "-" "Mozilla/5.0 (compatible; Konqueror/3.1; Linux)"
-127.0.0.1 - - [16/Aug/2004:03:37:05 +0800] "GET /demo/inspect/ HTTP/1.1" 404 1256 "-" "Mozilla/5.0 (compatible; Konqueror/3.1; Linux)"
-127.0.0.1 - - [16/Aug/2004:03:38:27 +0800] "GET /demo/inspect/ HTTP/1.1" 404 1256 "-" "Mozilla/5.0 (compatible; Konqueror/3.1; Linux)"
-127.0.0.1 - - [16/Aug/2004:03:38:32 +0800] "GET /demo/ HTTP/1.1" 200 1029 "-" "Mozilla/5.0 (compatible; Konqueror/3.1; Linux)"
-127.0.0.1 - - [18/Aug/2004:00:00:34 +0800] "GET /model HTTP/1.1" 404 1232 "http://localhost:8080/inspect" "Mozilla/5.0 (compatible; Konqueror/3.1; Linux 2.4.20-8; X11; i686)"

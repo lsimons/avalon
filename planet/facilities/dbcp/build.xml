@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<project name="dbcp" default="default" basedir=".">
+<project name="dbcp" default="default" basedir="."
+    xmlns:x="antlib:org.apache.avalon.tools">
 
   <property file="build.properties"/>
-  <import file="${project.system}/build/reactor.xml"/>
+  <x:home />
+  <import file="${magic.templates}/reactor.xml"/>
 
 </project>

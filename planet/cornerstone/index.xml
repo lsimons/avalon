@@ -95,71 +95,6 @@
   Avalon Components - Cornerstone Collection
   -->
 
-  <project basedir="threads/api">
-    <info>
-      <group>avalon/cornerstone</group>
-      <name>cornerstone-threads-api</name>
-      <version>2.0.0</version>
-    </info>
-    <dependencies>
-      <include key="excalibur-thread-api"/>
-    </dependencies>
-  </project>
-
-  <project basedir="threads/impl">
-    <info>
-      <group>avalon/cornerstone</group>
-      <name>cornerstone-threads-impl</name>
-      <version>2.0.1</version>
-      <status>SNAPSHOT</status> 
-    </info>
-    <dependencies>
-      <include key="cornerstone-threads-api"/>
-      <include key="excalibur-thread-impl"/>
-    </dependencies>
-    <plugins>
-      <include key="avalon-meta-tools"/>
-    </plugins>
-  </project>
-
-  <project basedir="threads/tutorial">
-    <info>
-      <group>avalon/cornerstone</group>
-      <name>cornerstone-threads-tutorial</name>
-    </info>
-    <dependencies>
-      <include key="cornerstone-threads-api"/>
-      <include key="cornerstone-threads-impl" runtime="false"/>
-    </dependencies>
-    <plugins>
-      <include key="avalon-meta-tools"/>
-    </plugins>
-  </project>
-
-  <project basedir="sockets/api">
-    <info>
-      <group>avalon/cornerstone</group>
-      <name>cornerstone-sockets-api</name>
-      <version>1.0.0</version>
-    </info>
-  </project>
-
-  <project basedir="sockets/impl">
-    <info>
-      <group>avalon/cornerstone</group>
-      <name>cornerstone-sockets-impl</name>
-      <version>1.1.1</version>
-      <status>SNAPSHOT</status> 
-    </info>
-    <dependencies>
-      <include key="cornerstone-sockets-api"/>
-      <include key="avalon-framework-impl"/>
-    </dependencies>
-    <plugins>
-      <include key="avalon-meta-tools"/>
-    </plugins>
-  </project>
-
   <project basedir="connection/api">
     <info>
       <group>avalon/cornerstone</group>
@@ -246,6 +181,30 @@
     </plugins>
   </project>
 
+  <project basedir="sockets/api">
+    <info>
+      <group>avalon/cornerstone</group>
+      <name>cornerstone-sockets-api</name>
+      <version>1.0.0</version>
+    </info>
+  </project>
+
+  <project basedir="sockets/impl">
+    <info>
+      <group>avalon/cornerstone</group>
+      <name>cornerstone-sockets-impl</name>
+      <version>1.1.1</version>
+      <status>SNAPSHOT</status> 
+    </info>
+    <dependencies>
+      <include key="cornerstone-sockets-api"/>
+      <include key="avalon-framework-impl"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
   <project basedir="store/api">
     <info>
       <group>avalon/cornerstone</group>
@@ -267,6 +226,47 @@
     <dependencies>
       <include key="cornerstone-store-api"/>
       <include key="avalon-framework-impl"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+  <project basedir="threads/api">
+    <info>
+      <group>avalon/cornerstone</group>
+      <name>cornerstone-threads-api</name>
+      <version>2.0.0</version>
+    </info>
+    <dependencies>
+      <include key="excalibur-thread-api"/>
+    </dependencies>
+  </project>
+
+  <project basedir="threads/impl">
+    <info>
+      <group>avalon/cornerstone</group>
+      <name>cornerstone-threads-impl</name>
+      <version>2.0.1</version>
+      <status>SNAPSHOT</status> 
+    </info>
+    <dependencies>
+      <include key="cornerstone-threads-api"/>
+      <include key="excalibur-thread-impl"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+  <project basedir="threads/tutorial">
+    <info>
+      <group>avalon/cornerstone</group>
+      <name>cornerstone-threads-tutorial</name>
+    </info>
+    <dependencies>
+      <include key="cornerstone-threads-api"/>
+      <include key="cornerstone-threads-impl" runtime="false"/>
     </dependencies>
     <plugins>
       <include key="avalon-meta-tools"/>

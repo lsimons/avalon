@@ -30,7 +30,6 @@
   </target>
 
   <target name="install" depends="test">
-    <x:install/>
   </target>
 
   <target name="javadoc" depends="prepare">
@@ -41,9 +40,12 @@
     <x:xdoc theme="modern"/>
   </target>
 
+  <target name="package" depends="install" >
+
+  </target>
+  
   <target name="site" depends="javadoc,xdoc"/>
 
-  <target name="dist" depends="install,site"/>
+  <target name="dist" depends="install,site,package"/>
   
 </project>
-
