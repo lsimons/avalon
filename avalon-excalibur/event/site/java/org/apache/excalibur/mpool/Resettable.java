@@ -49,63 +49,36 @@
 */
 package org.apache.excalibur.mpool;
 
-import java.lang.reflect.Method;
-
 
 /**
- * The PoolUtil class performs the reflection magic that is necessary to work
- * with the legacy Recyclable interface in the
- * <a href="http://jakarta.apache.org/avalon/excalibur/pool">Pool</a> package.
- * It also works with the new Resettable interface in MPool.
+ * This interface standardizes the behaviour of a resettable object.
+ * A resettable object is defined as an object that can be used to
+ * encapsulate another object without being altered by its content.
+ * Therefore, a resettable object may be reset and reused many times.
  *
- * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/09/26 00:34:17 $
+ * This is helpful in cases where resettable objects are continously
+ * created and destroyed, causing a much greater amount of garbage to
+ * be collected by the JVM garbage collector. By making it resettable,
+ * it is possible to reduce the GC execution time, thus incrementing the
+ * overall performance of a process and decrementing the chance of
+ * memory overflow.
+ *
+ * Every implementation must provide their own method to allow this
+ * recyclable object to be reused by setting its content.
+ *
+ * @author <a href="mailto:bloritach@apache.org">Berin Loritsch</a>
+ * @author <a href="mailto:stefano@apache.org">Stefano Mazzocchi</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @version CVS $Revision: 1.1 $ $Date: 2002/09/26 00:34:17 $
+ * @since 4.0
  */
-public final class PoolUtil
+public interface Resettable
 {
-    private final static Object[] EMPTY = new Object[] {};
-    private final static Class[] EMPTY_ARGS = new Class[] {};
-
-    private PoolUtil() {}
-
     /**
-     * This method will either call "reset" on Resettable objects,
-     * or it will call "recycle" on Recyclable objects.
-     *
-     * @param obj  The object you want recycled.
-     * @return the same object
+     * This method should be implemented to remove all costly resources
+     * in object. These resources can be object references, database connections,
+     * threads, etc. What is categorised as "costly" resources is determined on
+     * a case by case analysis.
      */
-    public static Object recycle( final Object obj )
-    {
-        if ( obj instanceof Resettable )
-        {
-            ( (Resettable) obj).reset();
-        }
-        else
-        {
-            try
-            {
-                Class klass = obj.getClass();
-                Class recyclable = klass.getClassLoader().loadClass( "org.apache.avalon.excalibur.pool.Recyclable" );
-
-                if ( recyclable.isAssignableFrom( klass ) )
-                {
-                    recycleLegacy( obj );
-                }
-            }
-            catch (Exception e)
-            {
-                // No recyclable interface
-            }
-        }
-
-        return obj;
-    }
-
-    private static void recycleLegacy( final Object obj ) throws Exception
-    {
-        Class klass = obj.getClass();
-        Method recycle = klass.getMethod( "recycle", EMPTY_ARGS );
-        recycle.invoke( obj, EMPTY );
-    }
+    void reset();
 }
