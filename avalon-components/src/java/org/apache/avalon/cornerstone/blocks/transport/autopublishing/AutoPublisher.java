@@ -10,39 +10,38 @@ package org.apache.avalon.cornerstone.blocks.transport.autopublishing;
 
 
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.avalon.framework.CascadingRuntimeException;
 import org.apache.avalon.framework.configuration.Configurable;
-import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.phoenix.Block;
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.CascadingRuntimeException;
+import org.apache.avalon.phoenix.ApplicationListener;
 import org.apache.avalon.phoenix.BlockEvent;
-import org.apache.avalon.phoenix.BlockListener;
+import org.apache.avalon.phoenix.Block;
+import org.apache.avalon.phoenix.ApplicationEvent;
 import org.apache.commons.altrmi.server.AltrmiPublisher;
 import org.apache.commons.altrmi.server.PublicationException;
+
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Vector;
 
 
 /**
  * Class AutoPublisher
  *
- * This is inprogress.  The order of block being added is not guaranteed.
+ * Publishes so configured services automatically after block start().
  *
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
-public class AutoPublisher implements Configurable, BlockListener
+public class AutoPublisher implements Configurable, ApplicationListener
 {
 
     private String m_publisherName;
     private AltrmiPublisher m_altrmiPublisher;
     private Map m_publications;
-    private List m_queue;
+    private Vector m_events = new Vector();
 
     /**
      * Method configure
@@ -70,8 +69,6 @@ public class AutoPublisher implements Configurable, BlockListener
 
             m_publications.put(blockName, new PublicationInfo(publishAsName, interfaceToPublish));
         }
-
-        m_queue = new ArrayList();
     }
 
     /**
@@ -84,8 +81,6 @@ public class AutoPublisher implements Configurable, BlockListener
     public void blockAdded(final BlockEvent event)
     {
 
-        System.out.println("Block " + event.getName() + " added");
-
         if (m_publisherName.equals(event.getName()))
         {
             m_altrmiPublisher = (AltrmiPublisher) event.getBlock();
@@ -93,6 +88,45 @@ public class AutoPublisher implements Configurable, BlockListener
 
         if (m_publications.containsKey(event.getName()))
         {
+            m_events.add(event);
+        }
+    }
+
+    /**
+     * Method blockRemoved
+     *
+     *
+     * @param event
+     *
+     */
+    public void blockRemoved(final BlockEvent event)
+    {
+    }
+
+    /**
+     * Method applicationStarting
+     *
+     *
+     * @param event
+     *
+     * @throws Exception
+     *
+     */
+    public void applicationStarting(ApplicationEvent event) throws Exception
+    {
+    }
+
+    /**
+     * Method applicationStarted
+     *
+     *
+     */
+    public void applicationStarted()
+    {
+
+        for (int i = 0; i < m_events.size(); i++)
+        {
+            final BlockEvent event = (BlockEvent) m_events.elementAt(i);
             final Block block = event.getBlock();
             final String blockName = event.getName();
             PublicationInfo pi = (PublicationInfo) m_publications.get(event.getName());
@@ -109,38 +143,59 @@ public class AutoPublisher implements Configurable, BlockListener
             catch (ClassNotFoundException e)
             {
                 throw new CascadingRuntimeException(
-                    "Interface specifies in config.xml ('interfaceToPublish' attribte) not found",
+                    "Interface specified in config.xml ('interfaceToPublish' attribte) not found",
                     e);
             }
         }
     }
 
     /**
-     * Method blockRemoved
+     * Method applicationStopping
      *
-     *
-     * @param event
      *
      */
-    public void blockRemoved(final BlockEvent event)
+    public void applicationStopping()
     {
 
-        System.out.println("Block " + event.getName() + " removed");
-
-        if (m_publications.containsKey(event.getName()))
+        for (int i = 0; i < m_events.size(); i++)
         {
-            final Block block = event.getBlock();
-            final String blockName = event.getName();
-            PublicationInfo pi = (PublicationInfo) m_publications.get(event.getName());
+            BlockEvent event = (BlockEvent) m_events.elementAt(i);
 
-            try
+            if (m_publications.containsKey(event.getName()))
             {
-                m_altrmiPublisher.unPublish(block, pi.getPublishAsName());
-            }
-            catch (PublicationException e)
-            {
-                throw new CascadingRuntimeException("Some problem un-auto-publishing", e);
+                final Block block = event.getBlock();
+                final String blockName = event.getName();
+                PublicationInfo pi = (PublicationInfo) m_publications.get(event.getName());
+
+                try
+                {
+                    m_altrmiPublisher.unPublish(block, pi.getPublishAsName());
+                }
+                catch (PublicationException e)
+                {
+                    throw new CascadingRuntimeException("Some problem un-auto-publishing", e);
+                }
             }
         }
+    }
+
+    /**
+     * Method applicationStopped
+     *
+     *
+     */
+    public void applicationStopped()
+    {
+    }
+
+    /**
+     * Method applicationFailure
+     *
+     *
+     * @param e
+     *
+     */
+    public void applicationFailure(Exception e)
+    {
     }
 }
