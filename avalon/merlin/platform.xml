@@ -27,13 +27,13 @@
 
     <dependency>
       <groupId>merlin</groupId>
-      <artifactId>merlin-kernel-spi</artifactId>
-      <version>3.2.1-dev</version>
+      <artifactId>merlin-api</artifactId>
+      <version>3.2-dev</version>
     </dependency>
     <dependency>
       <groupId>merlin</groupId>
-      <artifactId>merlin-kernel-impl</artifactId>
-      <version>3.2.2-dev</version>
+      <artifactId>merlin-impl</artifactId>
+      <version>3.2-dev</version>
     </dependency>
 
     <!-- avalon dependecies -->
@@ -55,12 +55,7 @@
     </dependency>
     <dependency>
       <groupId>avalon-util</groupId>
-      <artifactId>avalon-util-factory-api</artifactId>
-      <version>1.0-dev</version>
-    </dependency>
-    <dependency>
-      <groupId>avalon-util</groupId>
-      <artifactId>avalon-util-factory-impl</artifactId>
+      <artifactId>avalon-util-criteria</artifactId>
       <version>1.0-dev</version>
     </dependency>
 
@@ -82,6 +77,11 @@
     <dependency>
       <groupId>avalon-repository</groupId>
       <artifactId>avalon-repository-util</artifactId>
+      <version>1.2-dev</version>
+    </dependency>
+    <dependency>
+      <groupId>avalon-repository</groupId>
+      <artifactId>avalon-repository-main</artifactId>
       <version>1.2-dev</version>
     </dependency>
 

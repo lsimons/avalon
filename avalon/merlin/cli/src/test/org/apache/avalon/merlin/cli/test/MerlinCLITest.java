@@ -48,7 +48,7 @@
 
 */
 
-package org.apache.avalon.merlin.tools;
+package org.apache.avalon.merlin.cli.test;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -58,101 +58,56 @@ import java.util.Properties;
 import java.util.Enumeration;
 import java.lang.reflect.Method;
 import java.lang.reflect.InvocationTargetException;
-import java.util.StringTokenizer;
-import java.util.ArrayList;
 
-import org.apache.avalon.repository.Artifact;
-import org.apache.avalon.repository.provider.Builder;
-import org.apache.avalon.repository.provider.InitialContext;
-import org.apache.avalon.repository.provider.Factory;
-import org.apache.avalon.repository.RepositoryException;
-import org.apache.avalon.repository.main.DefaultInitialContext;
-import org.apache.avalon.repository.main.DefaultBuilder;
+import junit.framework.TestCase;
 
 import org.apache.avalon.util.env.Env;
 import org.apache.avalon.util.exception.ExceptionHelper;
 
+import org.apache.avalon.merlin.cli.Main;
+
 /**
- * Test case that usages the repository builder to deploy the 
- * Merlin default application factory.
+ * Test case for the Merlin CLI handler.
  * 
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.1 $
  */
-public class MerlinBean
+public class MerlinCLITest extends TestCase
 {
     //----------------------------------------------------------
-    // immutable state
+    // constructor
     //----------------------------------------------------------
 
-    private String m_deployment;
-
-    private String[] m_hosts;
-
-    private String m_debug;
-
-    private String m_info;
+    /**
+     * Constructor for MerlinEmbeddedTest.
+     * @param name the name of the testcase
+     */
+    public MerlinCLITest( String name )
+    {
+        super( name );
+    }
 
     //----------------------------------------------------------
-    // setters
+    // testcase
     //----------------------------------------------------------
 
-   /**
-    * Set the deployment path.
-    */
-    public void setDeployment( String path )
+    public void testMain() throws Exception
     {
-        m_deployment = path;
-    }
-
-   /**
-    * Set the deployment path.
-    */
-    public void setHosts( String path )
-    {
-        if( null != path )
-        {
-            m_hosts = expandHosts( path );
-        }
-    }
-
-   /**
-    * Set the debug policy.
-    */
-    public void setDebug( String policy )
-    {
-        m_debug = policy;
-    }
-
-   /**
-    * Set the info policy.
-    */
-    public void setInfo( String policy )
-    {
-        m_info = policy;
-    }
-
-   /**
-    * Establish the merlin kernel.
-    */
-    public void doExecute() throws Exception
-    {
+        String system = 
+          getMavenRepositoryDirectory().toString();
+          
         try
         {
-            Artifact artifact = 
-              Artifact.createArtifact( 
-                "merlin", "merlin-impl", "3.2-dev" );
-
-            InitialContext context = 
-               new DefaultInitialContext( 
-                 getMavenRepositoryDirectory(),
-                 m_hosts );
-
-            Builder builder = new DefaultBuilder( context, artifact );
-            Factory factory = builder.getFactory();
-            Map criteria = factory.createDefaultCriteria();
-            applyLocalProperties( criteria );
-            factory.create( criteria );
+            String[] args = 
+              new String[]
+              {
+                "-info", 
+                "-execute",
+                "conf/hello.block",
+                "-system",
+                system
+              };
+            Main.main( args );
         }
         catch( Throwable e )
         {
@@ -161,54 +116,6 @@ public class MerlinBean
             throw new Exception( error );
         }
     }
-
-    //----------------------------------------------------------------------
-    // utilities
-    //----------------------------------------------------------------------
-
-    private void applyLocalProperties( Map criteria ) throws IOException
-    {
-        //
-        // setup the default context using the merlin.properties file
-        //
-
-        File base = getBaseDirectory();
-        Properties properties = 
-          getLocalProperties( base, "merlin.properties" );
-        Enumeration keys = properties.keys();
-        while( keys.hasMoreElements() )
-        {
-            final String key = (String) keys.nextElement();
-            if( key.startsWith( "merlin." ) )
-            {
-                String value = properties.getProperty( key );
-                criteria.put( key, value );
-            }
-        }
-
-        //
-        // apply directives assigned to the bean
-        //
-
-        criteria.put( "merlin.server", "false" );
-        criteria.put( "merlin.deployment", m_deployment );
-
-        if( null != m_debug ) criteria.put( "merlin.debug", m_debug );
-        if( null != m_info ) criteria.put( "merlin.info", m_info );
- 
-    }
-
-    private Properties getLocalProperties( 
-      File dir, String filename ) throws IOException
-    {
-        Properties properties = new Properties();
-        if( null == dir ) return properties;
-        File file = new File( dir, filename );
-        if( !file.exists() ) return properties;
-        properties.load( new FileInputStream( file ) );
-        return properties;
-    }
-
 
     private static File getMavenRepositoryDirectory()
     {
@@ -248,26 +155,4 @@ public class MerlinBean
             throw new RuntimeException( message );
         }
     }
-
-    private File getBaseDirectory()
-    {
-        final String base = System.getProperty( "basedir" );
-        if( null != base )
-        {
-            return new File( base );
-        }
-        return new File( System.getProperty( "user.dir" ) );
-    }
-
-    private static String[] expandHosts( String arg )
-    {
-        ArrayList list = new ArrayList();
-        StringTokenizer tokenizer = new StringTokenizer( arg, "," );
-        while( tokenizer.hasMoreTokens() )
-        {
-            list.add( tokenizer.nextToken() );
-        }
-        return (String[]) list.toArray( new String[0] );
-    }
 }
-
