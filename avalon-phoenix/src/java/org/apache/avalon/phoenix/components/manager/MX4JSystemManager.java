@@ -44,7 +44,7 @@ public class MX4JSystemManager
         ResourceManager.getPackageResources( MX4JSystemManager.class );
 
     private static final String DEFAULT_NAMING_FACTORY =
-        "com.sun.jndi.rmi.registry.RegistryContextFactory";
+        "com.sun.jndi.rmi.profile.RegistryContextFactory";
     private static final String DEFAULT_HTTPADAPTER_HOST = "localhost";
     private static final int DEFAULT_HTTPADAPTER_PORT =
         Integer.getInteger( "phoenix.adapter.http", 8082 ).intValue();

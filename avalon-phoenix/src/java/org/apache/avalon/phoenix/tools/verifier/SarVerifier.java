@@ -14,8 +14,8 @@ import org.apache.avalon.phoenix.framework.tools.verifier.InfoVerifier;
 import org.apache.avalon.phoenix.framework.tools.verifier.VerifyException;
 import org.apache.avalon.phoenix.components.ContainerConstants;
 import org.apache.avalon.phoenix.containerkit.metadata.ComponentMetaData;
-import org.apache.avalon.phoenix.containerkit.registry.ComponentProfile;
-import org.apache.avalon.phoenix.containerkit.registry.PartitionProfile;
+import org.apache.avalon.phoenix.containerkit.profile.ComponentProfile;
+import org.apache.avalon.phoenix.containerkit.profile.PartitionProfile;
 import org.apache.avalon.phoenix.containerkit.verifier.AssemblyVerifier;
 
 /**
@@ -44,7 +44,7 @@ import org.apache.avalon.phoenix.containerkit.verifier.AssemblyVerifier;
  * </ul>
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.32 $ $Date: 2003/03/01 03:39:48 $
+ * @version $Revision: 1.33 $ $Date: 2003/03/01 08:39:15 $
  */
 public class SarVerifier
     extends AssemblyVerifier

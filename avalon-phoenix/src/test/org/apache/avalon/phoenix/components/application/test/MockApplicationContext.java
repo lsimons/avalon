@@ -13,7 +13,7 @@ import java.util.HashMap;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.phoenix.containerkit.registry.PartitionProfile;
+import org.apache.avalon.phoenix.containerkit.profile.PartitionProfile;
 import org.apache.avalon.phoenix.interfaces.ApplicationContext;
 import org.apache.excalibur.threadcontext.ThreadContext;
 import org.apache.excalibur.threadcontext.impl.DefaultThreadContextPolicy;
@@ -21,7 +21,7 @@ import org.apache.excalibur.threadcontext.impl.DefaultThreadContextPolicy;
 /**
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2003/02/28 23:47:46 $
+ * @version $Revision: 1.6 $ $Date: 2003/03/01 08:39:15 $
  */
 class MockApplicationContext
     implements ApplicationContext

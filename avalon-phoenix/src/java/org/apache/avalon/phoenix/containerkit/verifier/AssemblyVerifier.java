@@ -17,7 +17,7 @@ import org.apache.avalon.phoenix.framework.info.ServiceDescriptor;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.phoenix.framework.tools.verifier.VerifyException;
 import org.apache.avalon.phoenix.containerkit.metadata.DependencyMetaData;
-import org.apache.avalon.phoenix.containerkit.registry.ComponentProfile;
+import org.apache.avalon.phoenix.containerkit.profile.ComponentProfile;
 
 /**
  * This Class verifies that Sars are valid. It performs a number
@@ -44,7 +44,7 @@ import org.apache.avalon.phoenix.containerkit.registry.ComponentProfile;
  * </ul>
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003/03/01 03:39:46 $
+ * @version $Revision: 1.5 $ $Date: 2003/03/01 08:39:15 $
  */
 public class AssemblyVerifier
     extends AbstractLogEnabled

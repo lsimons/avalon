@@ -7,14 +7,14 @@
  */
 package org.apache.avalon.phoenix.containerkit.kernel;
 
-import org.apache.avalon.phoenix.containerkit.registry.ComponentProfile;
+import org.apache.avalon.phoenix.containerkit.profile.ComponentProfile;
 
 /**
  * This is the structure that components are contained within when
  * loaded into a container.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003/01/18 16:43:43 $
+ * @version $Revision: 1.2 $ $Date: 2003/03/01 08:39:15 $
  */
 public class ComponentEntry
 {

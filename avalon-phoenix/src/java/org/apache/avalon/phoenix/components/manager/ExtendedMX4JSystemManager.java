@@ -35,7 +35,7 @@ public class ExtendedMX4JSystemManager
         ResourceManager.getPackageResources( ExtendedMX4JSystemManager.class );
 
     private static final String DEFAULT_NAMING_FACTORY =
-        "com.sun.jndi.rmi.registry.RegistryContextFactory";
+        "com.sun.jndi.rmi.profile.RegistryContextFactory";
 
     private Configuration m_configuration;
     private Map m_mBeanScripters;
