@@ -25,9 +25,7 @@ import org.apache.avalon.camelot.AbstractContainer;
 import org.apache.avalon.camelot.ContainerException;
 import org.apache.avalon.camelot.Entry;
 import org.apache.avalon.camelot.Factory;
-import org.apache.phoenix.engine.facilities.ComponentManagerBuilder;
 import org.apache.phoenix.engine.facilities.ConfigurationRepository;
-import org.apache.phoenix.engine.facilities.LoggerBuilder;
 import org.apache.avalon.configuration.Configurable;
 import org.apache.avalon.configuration.Configuration;
 import org.apache.avalon.configuration.ConfigurationException;
@@ -35,10 +33,8 @@ import org.apache.avalon.util.thread.ThreadManager;
 import org.apache.phoenix.engine.blocks.BlockDAG;
 import org.apache.phoenix.engine.blocks.BlockEntry;
 import org.apache.phoenix.engine.blocks.RoleEntry;
-import org.apache.phoenix.engine.facilities.DefaultComponentManagerBuilder;
 import org.apache.phoenix.engine.facilities.DefaultConfigurationRepository;
 import org.apache.phoenix.engine.facilities.DefaultLogManager;
-import org.apache.phoenix.engine.facilities.DefaultLoggerBuilder;
 import org.apache.phoenix.engine.facilities.security.DefaultPolicy;
 import org.apache.phoenix.engine.facilities.DefaultThreadManager;
 import org.apache.phoenix.engine.facilities.classmanager.SarClassLoader;
@@ -79,8 +75,6 @@ public class DefaultServerApplication
     protected SarClassLoader           m_classLoader;
 
     //these are the facilities (internal components) of ServerApplication
-    protected LoggerBuilder            m_loggerBuilder;
-    protected ComponentManagerBuilder  m_componentManagerBuilder;
     protected ConfigurationRepository  m_configurationRepository;
 
     public DefaultServerApplication()
@@ -187,9 +181,7 @@ public class DefaultServerApplication
         // possibly including setting up rolling etc
         m_logManager = new DefaultLogManager();
 
-        m_componentManagerBuilder = new DefaultComponentManagerBuilder();
         m_configurationRepository = new DefaultConfigurationRepository();
-        m_loggerBuilder = new DefaultLoggerBuilder();
 
         m_classLoader = new SarClassLoader();
         m_threadManager = new DefaultThreadManager();
@@ -217,8 +209,6 @@ public class DefaultServerApplication
 
         setupComponent( m_classLoader );
 
-        setupComponent( m_loggerBuilder );
-        setupComponent( m_componentManagerBuilder );
         setupComponent( m_configurationRepository );
 
         setupComponent( m_dag, "<core>.dag", null );
@@ -339,9 +329,6 @@ public class DefaultServerApplication
         componentManager.put( "java.lang.ClassLoader", m_classLoader );
         componentManager.put( "NOT_DONE_YET", m_logManager );
         componentManager.put( "org.apache.avalon.util.thread.ThreadManager", m_threadManager );
-        componentManager.put( "org.apache.phoenix.engine.facilities.LoggerBuilder", m_loggerBuilder );
-        componentManager.put( "org.apache.phoenix.engine.facilities.ComponentManagerBuilder",
-                              m_componentManagerBuilder );
         componentManager.put( "org.apache.phoenix.engine.facilities.ConfigurationRepository",
                               m_configurationRepository );
 
