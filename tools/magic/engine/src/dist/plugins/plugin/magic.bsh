@@ -133,7 +133,7 @@ public class PluginPlugin extends AbstractPlugin
             srcPE.setLocation( destDir );
             javac.init();
             javac.execute(); 
-
+            
             notifyPostMethod( "validate" );
         } catch( Exception e )
         {
