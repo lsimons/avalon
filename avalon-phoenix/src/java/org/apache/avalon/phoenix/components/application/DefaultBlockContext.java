@@ -47,7 +47,6 @@
  Apache Software Foundation, please see <http://www.apache.org/>.
 
 */
-
 package org.apache.avalon.phoenix.components.application;
 
 import java.io.File;
@@ -128,7 +127,16 @@ final class DefaultBlockContext
 
     public Logger getLogger( final String name )
     {
-        return m_applicationContext.getLogger( getName() ).getChildLogger( name );
+        try
+        {
+            return m_applicationContext.getLogger( getName() ).getChildLogger( name );
+        }
+        catch( Exception e )
+        {
+            final String message =
+                "Unable to aquire logger " + name + " due to " + e;
+            throw new IllegalStateException( message );
+        }
     }
 
     public ClassLoader getClassLoader( final String name )

@@ -50,9 +50,10 @@
 
 package org.apache.avalon.phoenix.interfaces;
 
+import java.io.File;
+import java.util.Map;
 import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.context.Context;
-import org.apache.avalon.framework.logger.Logger;
+import org.realityforge.loggerstore.LoggerStore;
 
 /**
  * Interface that is used to manage Log objects for a Sar.
@@ -71,6 +72,9 @@ public interface LogManager
      * @return the configured Logger hierarchy
      * @throws Exception if an error occurs
      */
-    Logger createHierarchy( Configuration logs, Context context )
+    LoggerStore createHierarchy( Configuration logs,
+                                 File homeDirectory,
+                                 File workDirectory,
+                                 Map context )
         throws Exception;
 }

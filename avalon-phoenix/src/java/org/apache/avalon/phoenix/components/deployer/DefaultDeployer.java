@@ -64,9 +64,7 @@ import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
-import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
@@ -88,6 +86,7 @@ import org.apache.avalon.phoenix.interfaces.Kernel;
 import org.apache.avalon.phoenix.interfaces.LogManager;
 import org.apache.avalon.phoenix.tools.configuration.ConfigurationBuilder;
 import org.apache.avalon.phoenix.tools.verifier.SarVerifier;
+import org.realityforge.loggerstore.LoggerStore;
 import org.xml.sax.InputSource;
 
 /**
@@ -321,17 +320,13 @@ public class DefaultDeployer
             data.put( BlockContext.APP_NAME, name );
             data.put( BlockContext.APP_HOME_DIR, homeDirectory );
 
-            final DefaultContext context = new DefaultContext();
-            context.put( BlockContext.APP_NAME, name );
-            context.put( BlockContext.APP_HOME_DIR, homeDirectory );
-
-            final Configuration logs = environment.getChild( "logs" );
+            final Configuration logs = environment.getChild( "logs", false );
             //Load hierarchy before classloader placed in context as
             //that way the logFactory will not try to use the application
             //specific classloader to load the targets which will cause
             //CastClassExceptions
-            final Logger logger =
-                m_logManager.createHierarchy( logs, context );
+            final LoggerStore store =
+                m_logManager.createHierarchy( logs, homeDirectory, workDirectory, data );
 
             final ClassLoaderSet classLoaderSet =
                 m_classLoaderManager.createClassLoaderSet( environment,
@@ -339,8 +334,6 @@ public class DefaultDeployer
                                                            homeDirectory,
                                                            workDirectory );
             final ClassLoader classLoader = classLoaderSet.getDefaultClassLoader();
-
-            context.put( "classloader", classLoader );
 
             final Configuration newConfig = processConfiguration( name, config );
 
@@ -365,7 +358,7 @@ public class DefaultDeployer
                                      homeDirectory,
                                      workDirectory,
                                      classLoader,
-                                     logger,
+                                     store,
                                      classLoaderSet.getClassLoaders() );
 
             m_installations.put( name, installation );

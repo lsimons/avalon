@@ -52,10 +52,10 @@ package org.apache.avalon.phoenix.components.kernel.beanshell;
 
 import java.io.File;
 import java.util.Map;
-import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.phoenix.containerkit.profile.PartitionProfile;
 import org.apache.avalon.phoenix.interfaces.Application;
 import org.apache.avalon.phoenix.interfaces.Kernel;
+import org.realityforge.loggerstore.LoggerStore;
 
 /**
  * @author Paul Hammant
@@ -77,7 +77,7 @@ public class BeanShellKernelProxy
     public void addApplication( final PartitionProfile profile,
                                 final File homeDirectory, final File workDirectory,
                                 final ClassLoader classLoader,
-                                final Logger logger,
+                                final LoggerStore store,
                                 final Map classloaders )
         throws Exception
     {

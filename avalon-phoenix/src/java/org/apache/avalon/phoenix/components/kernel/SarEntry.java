@@ -52,9 +52,9 @@ package org.apache.avalon.phoenix.components.kernel;
 
 import java.io.File;
 import java.util.Map;
-import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.phoenix.containerkit.profile.PartitionProfile;
 import org.apache.avalon.phoenix.interfaces.Application;
+import org.realityforge.loggerstore.LoggerStore;
 
 /**
  * This is the structure describing each server application before it is loaded.
@@ -65,7 +65,7 @@ final class SarEntry
 {
     private final PartitionProfile m_profile;
     private final ClassLoader m_classLoader;
-    private final Logger m_logger;
+    private final LoggerStore m_store;
     private final File m_homeDirectory;
     private final File m_workDirectory;
     private final Map m_classLoaders;
@@ -75,7 +75,7 @@ final class SarEntry
                         final File homeDirectory,
                         final File workDirectory,
                         final ClassLoader classLoader,
-                        final Logger logger,
+                        final LoggerStore store,
                         final Map classLoaders )
     {
         if( null == profile )
@@ -86,9 +86,9 @@ final class SarEntry
         {
             throw new NullPointerException( "classLoader" );
         }
-        if( null == logger )
+        if( null == store )
         {
-            throw new NullPointerException( "logger" );
+            throw new NullPointerException( "store" );
         }
         if( null == workDirectory )
         {
@@ -105,7 +105,7 @@ final class SarEntry
 
         m_profile = profile;
         m_classLoader = classLoader;
-        m_logger = logger;
+        m_store = store;
         m_homeDirectory = homeDirectory;
         m_workDirectory = workDirectory;
         m_classLoaders = classLoaders;
@@ -136,9 +136,9 @@ final class SarEntry
         return m_profile;
     }
 
-    public Logger getLogger()
+    public LoggerStore getLoggerStore()
     {
-        return m_logger;
+        return m_store;
     }
 
     public ClassLoader getClassLoader()

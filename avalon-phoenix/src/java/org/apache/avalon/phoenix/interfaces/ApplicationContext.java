@@ -125,7 +125,8 @@ public interface ApplicationContext
      * @param name the name of logger
      * @return the Logger
      */
-    Logger getLogger( String name );
+    Logger getLogger( String name )
+        throws Exception;
 
     /**
      * Get the instrument manager to use for this application

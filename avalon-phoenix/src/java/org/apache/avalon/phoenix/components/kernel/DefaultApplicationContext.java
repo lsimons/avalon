@@ -71,6 +71,7 @@ import org.apache.avalon.phoenix.interfaces.Kernel;
 import org.apache.avalon.phoenix.interfaces.ManagerException;
 import org.apache.avalon.phoenix.interfaces.SystemManager;
 import org.apache.excalibur.instrument.InstrumentManager;
+import org.realityforge.loggerstore.LoggerStore;
 
 /**
  * Manage the "frame" in which Applications operate.
@@ -86,7 +87,7 @@ class DefaultApplicationContext
         ResourceManager.getPackageResources( DefaultApplicationContext.class );
 
     //Log Hierarchy for application
-    private final Logger m_hierarchy;
+    private final LoggerStore m_store;
 
     ///ClassLoader for application
     private final ClassLoader m_classLoader;
@@ -117,7 +118,7 @@ class DefaultApplicationContext
                                          final File homeDirectory,
                                          final File workDirectory,
                                          final ClassLoader classLoader,
-                                         final Logger hierarchy,
+                                         final LoggerStore store,
                                          final Map loaders )
     {
         if( null == profile )
@@ -128,9 +129,9 @@ class DefaultApplicationContext
         {
             throw new NullPointerException( "classLoader" );
         }
-        if( null == hierarchy )
+        if( null == store )
         {
-            throw new NullPointerException( "hierarchy" );
+            throw new NullPointerException( "store" );
         }
         if( null == workDirectory )
         {
@@ -142,7 +143,7 @@ class DefaultApplicationContext
         }
         m_profile = profile;
         m_classLoader = classLoader;
-        m_hierarchy = hierarchy;
+        m_store = store;
         m_workDirectory = workDirectory;
         m_homeDirectory = homeDirectory;
         m_loaders = loaders;
@@ -247,8 +248,9 @@ class DefaultApplicationContext
      * @return the Logger
      */
     public Logger getLogger( final String category )
+        throws Exception
     {
-        return m_hierarchy.getChildLogger( category );
+        return m_store.getLogger( category );
     }
 
     /**

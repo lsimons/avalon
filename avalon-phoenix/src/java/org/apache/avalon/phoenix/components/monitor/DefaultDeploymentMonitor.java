@@ -81,7 +81,7 @@ import org.apache.avalon.phoenix.interfaces.Deployer;
  * application as necessary.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.7 $ $Date: 2003/04/30 10:16:49 $
+ * @version $Revision: 1.8 $ $Date: 2003/05/31 00:19:09 $
  */
 public class DefaultDeploymentMonitor
     extends AbstractLogEnabled
@@ -97,7 +97,7 @@ public class DefaultDeploymentMonitor
 
     /**
      * requires parameter "phoenix.apps.dir" to be set to directory
-     * that the component is to monitor.
+     * that the component is to scanner.
      */
     public void parameterize( final Parameters parameters )
         throws ParameterException
@@ -108,7 +108,7 @@ public class DefaultDeploymentMonitor
     public void configure( Configuration configuration )
         throws ConfigurationException
     {
-        m_frequency = configuration.getChild( "monitor-frequency" ).getValueAsLong( 1000L );
+        m_frequency = configuration.getChild( "scanner-frequency" ).getValueAsLong( 1000L );
     }
 
     /**
@@ -121,7 +121,7 @@ public class DefaultDeploymentMonitor
     }
 
     /**
-     * Start the monitor.
+     * Start the scanner.
      */
     public void start()
         throws Exception
@@ -136,7 +136,7 @@ public class DefaultDeploymentMonitor
     }
 
     /**
-     * Stop the monitor.
+     * Stop the scanner.
      */
     public void stop()
         throws Exception
@@ -145,7 +145,7 @@ public class DefaultDeploymentMonitor
     }
 
     /**
-     * This method is called when the monitor detects that the contents
+     * This method is called when the scanner detects that the contents
      * of deployment directory has changed.
      */
     public void propertyChange( final PropertyChangeEvent event )
@@ -193,7 +193,7 @@ public class DefaultDeploymentMonitor
         try
         {
             final String message =
-                REZ.getString( "monitor.deploy.notice",
+                REZ.getString( "scanner.deploy.notice",
                                name,
                                file );
             getLogger().info( message );
@@ -203,7 +203,7 @@ public class DefaultDeploymentMonitor
         catch( final Exception e )
         {
             final String message =
-                REZ.getString( "monitor.no-deploy.error", file, e );
+                REZ.getString( "scanner.no-deploy.error", file, e );
             getLogger().warn( message, e );
         }
     }
@@ -220,7 +220,7 @@ public class DefaultDeploymentMonitor
         try
         {
             final String message =
-                REZ.getString( "monitor.undeploy.notice",
+                REZ.getString( "scanner.undeploy.notice",
                                name );
             getLogger().info( message );
             m_deployer.undeploy( name );
@@ -228,7 +228,7 @@ public class DefaultDeploymentMonitor
         catch( final Exception e )
         {
             final String message =
-                REZ.getString( "monitor.no-undeploy.error", file, e );
+                REZ.getString( "scanner.no-undeploy.error", file, e );
             getLogger().warn( message, e );
         }
     }
@@ -245,7 +245,7 @@ public class DefaultDeploymentMonitor
         try
         {
             final String message =
-                REZ.getString( "monitor.redeploy.notice",
+                REZ.getString( "scanner.redeploy.notice",
                                name,
                                file );
             getLogger().info( message );
@@ -254,7 +254,7 @@ public class DefaultDeploymentMonitor
         catch( final Exception e )
         {
             final String message =
-                REZ.getString( "monitor.no-redeploy.error", file, e );
+                REZ.getString( "scanner.no-redeploy.error", file, e );
             getLogger().warn( message, e );
         }
     }
@@ -276,7 +276,7 @@ public class DefaultDeploymentMonitor
             else
             {
                 final String message =
-                    REZ.getString( "monitor.skipping-file.notice", file );
+                    REZ.getString( "scanner.skipping-file.notice", file );
                 getLogger().info( message );
             }
         }
