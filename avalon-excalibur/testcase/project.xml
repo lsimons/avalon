@@ -16,10 +16,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <project>
-    <extend>${basedir}/../project.xml</extend>
+    <extend>${basedir}/../buildsystem/project-common.xml</extend>
 
     <name>Excalibur Testcase</name>
-    <artifactId>excalibur-testcase</artifactId>
+    <id>excalibur-testcase</id>
     <groupId>excalibur-component</groupId>
     <currentVersion>1.3</currentVersion>
     <inceptionYear>2004</inceptionYear>

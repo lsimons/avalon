@@ -16,7 +16,7 @@
  limitations under the License.
 -->
 <project>
-    <extend>${basedir}/../project.xml</extend>
+    <extend>${basedir}/../buildsystem/project-common.xml</extend>
 
     <name>Excalibur Instrument</name>
     <id>excalibur-instrument</id>

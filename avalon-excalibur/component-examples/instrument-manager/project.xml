@@ -16,7 +16,7 @@
  limitations under the License.
 -->
 <project>
-    <extend>../../project.xml</extend>
+    <extend>${basedir}/../../buildsystem/project-common.xml</extend>
 
     <name>ECM Instrumentation Example</name>
     <id>excalibur-component-examples</id>
@@ -24,11 +24,6 @@
     <inceptionYear>2003</inceptionYear>
     <shortDescription>Excalibur's Excalibur-Component-Manager-Examples component</shortDescription>
     <description>
-This project doesn't have a description yet. Edit the file
-
-        component/examples/instrument-manager/project.xml
-
-to add one.
     </description>
 
     <dependencies>

@@ -20,24 +20,6 @@ limitations under the License.
     xmlns:j="jelly:core"
     xmlns:ant="jelly:ant">
 
-    <!-- include the excalibur-wide custom project properties -->
-    <property file="${basedir}/project.properties"/>
-
-    <!-- copy additional test resources -->
-    <postGoal name="test:prepare-filesystem">
-        <echo>
-            copy additional unit test resources
-            from ${pom.build.unitTestSourceDirectory}
-            to ${maven.test.dest}
-        </echo>
-        <copy todir="${maven.build.dir}/test-classes">
-            <fileset dir="${pom.build.unitTestSourceDirectory}">
-                <exclude name="**/*.java"/>
-                <exclude name="**/package.html"/>
-            </fileset>
-        </copy>
-    </postGoal>
-
     <!-- ===================================================================== -->
     <!-- Generate fortress meta descriptors                                    -->
     <!-- ===================================================================== -->
@@ -66,38 +48,4 @@ limitations under the License.
         <!--<attainGoal name="save-fortress-meta"/>-->
     </goal>
 
-    <!-- TODO: remove this, its probably not needed! -->
-
-    <!-- ===================================================================== -->
-    <!-- Because the copy operation is very destructive - we first erase all   -->
-    <!-- existing fortress meta info, we want to make sure that the info has   -->
-    <!-- really been generated.                                                -->
-    <!-- This is what save-fortress-meta does. It is intended to be invoked    -->
-    <!-- directly from the command line directly, via                          -->
-    <!-- ant -f fortress-meta.xml save-fotress-meta.                           -->
-    <!-- ===================================================================== -->
-    <goal
-        name="save-fortress-meta"
-        description="Copy generated fortress meta back under ./src">
-
-    <!-- ===================================================================== -->
-    <!-- Do copy the generated meta to ${fortress-static-meta.dir} without any -->
-    <!-- checks. Invoked from conditionally-save-fortress-meta and from        -->
-    <!-- provide-fortress-meta-dynamic.                                        -->
-
-        <!--delete stale meta info-->
-        <delete dir="${fortress-static-meta.dir}"/>
-
-        <mkdir dir="${fortress-static-meta.dir}"/>
-
-        <copy todir="${fortress-static-meta.dir}">
-            <fileset dir="${build.classes}">
-                <include name="services.list"/>
-                <include name="META-INF/services/*"/>
-                <include name="**/*.meta"/>
-                <include name="**/*.dep"/>
-            </fileset>
-        </copy>
-
-    </goal>
 </project>

@@ -16,12 +16,12 @@
  limitations under the License.
 -->
 <project>
-  <extend>${basedir}/../project.xml</extend>
+    <extend>${basedir}/../buildsystem/project-common.xml</extend>
 
-  <name>Avalon Excalibur Site</name>
-  <id>avalon-excalibur-docs</id>
+    <name>Avalon Excalibur Site</name>
+    <id>avalon-excalibur-docs</id>
 
-  <shortDescription>Avalon Excalibur Site</shortDescription>
-  <description>Avalon Excalibur Site</description>
+    <shortDescription>Avalon Excalibur Site</shortDescription>
+    <description>Avalon Excalibur Site</description>
 
 </project>

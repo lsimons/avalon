@@ -16,7 +16,7 @@
  limitations under the License.
 -->
 <project>
-  <extend>${basedir}/../project.xml</extend>
+  <extend>${basedir}/../buildsystem/project-common.xml</extend>
 
   <id>excalibur-i18n</id>
   <name>Excalibur I18N</name>
@@ -27,18 +27,5 @@
   <shortDescription>
     Internationalization utility for Avalon.
   </shortDescription>
-
-  <siteDirectory>${root.site.directory}/excalibur/i18n</siteDirectory>
-
-  <repository>
-    <connection>scm:cvs:pserver:anoncvs@cvs.apache.org:/home/cvspublic:avalon-excalibur/i18n</connection>
-    <url>http://cvs.apache.org/viewcvs/avalon-excalibur/i18n/</url>
-  </repository>
-
-  <reports>
-    <report>maven-changelog-plugin</report>
-    <report>maven-file-activity-plugin</report>
-    <report>maven-developer-activity-plugin</report>
-  </reports>
 
 </project>

@@ -40,10 +40,5 @@
             </classpath>
             <exclude name="**/test/**"/>
         </rmic>
-
-        <!-- after this, other maven functionality should
-             mostly work as normal... -->
     </goal>
-
-
 </project>

@@ -15,8 +15,7 @@
    limitations under the License.
 -->
 <project>
-    
-    <extend>${basedir}/../project.xml</extend>
+    <extend>${basedir}/../project-common.xml</extend>
     
     <name>Excalibur Event Implementation</name>
     <id>excalibur-event-impl</id>

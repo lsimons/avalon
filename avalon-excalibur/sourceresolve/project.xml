@@ -16,7 +16,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <project>
-    <extend>${basedir}/../project.xml</extend>
+    <extend>${basedir}/../buildsystem/project-common.xml</extend>
 
     <name>Excalibur Sourceresolve</name>
     <id>excalibur-sourceresolve</id>
