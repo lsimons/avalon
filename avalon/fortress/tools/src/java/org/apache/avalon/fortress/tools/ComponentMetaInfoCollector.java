@@ -56,7 +56,6 @@ package org.apache.avalon.fortress.tools;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -65,10 +64,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Enumeration;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Properties;
-import java.util.Set;
+import java.util.Map;
 
 import org.apache.avalon.fortress.impl.handler.FactoryComponentHandler;
 import org.apache.avalon.fortress.impl.handler.PerThreadComponentHandler;
@@ -96,12 +94,7 @@ public class ComponentMetaInfoCollector extends AbstractQdoxTask
     /**
      * The services to write the meta info for.
      */
-    private Set m_services = new HashSet();
-    
-    /**
-     * The components to write the meta info for.
-     */
-    private Set m_components = new HashSet();
+    private Map m_services = new HashMap();
     
     /**
      * The destination directory for metadata files.
@@ -132,35 +125,56 @@ public class ComponentMetaInfoCollector extends AbstractQdoxTask
 
         try
         {
-            writeInfoMetaData();
-            ClassLoader loader = getClassLoader();
+            ClassLoader loader = Thread.currentThread().getContextClassLoader();
+            Thread.currentThread().setContextClassLoader(getClassLoader());
+
+            collectInfoMetaData();
+            writeComponents();
             
-            PrintWriter writer = new PrintWriter( new FileWriter( m_serviceFile ) );
-            int numServices = 0;
-            
-            Iterator it = m_services.iterator();
-            while (it.hasNext())
-            {
-                writer.println(it.next());
-                numServices++;
-            }
-            
-            writer.close();
-            
-            if (numServices == 0)
-            {
-                m_serviceFile.delete();
-            }
+            writeServiceList(m_services.values().iterator());
 
             log( "Collecting service information." );
             collectClassLoaderServices( loader );
-            collectServices( loader );
+            writeServices();
+            
+            Thread.currentThread().setContextClassLoader(loader);
         }
         catch( final Exception e )
         {
             throw new BuildException( e.toString(), e );
         }
     }
+
+	/**
+	 * 
+	 */
+	private void writeComponents() throws IOException
+    {
+		Iterator it = Component.m_repository.iterator();
+        while(it.hasNext())
+        {
+            Component comp = (Component)it.next();
+            comp.serialize(m_destDir);
+        }
+	}
+
+	public void writeServiceList(Iterator it) throws IOException {
+		PrintWriter writer = new PrintWriter( new FileWriter( m_serviceFile, true ) );
+		int numServices = 0;
+		
+		while (it.hasNext())
+		{
+		    writer.println(((Service)it.next()).getType());
+		    numServices++;
+		}
+		
+		writer.close();
+		
+		if (numServices == 0)
+		{
+		    m_serviceFile.delete();
+		}
+	}
 
 	/**
      * Validate that the parameters are valid.
@@ -196,7 +210,7 @@ public class ComponentMetaInfoCollector extends AbstractQdoxTask
      *
      * @throws IOException If a problem writing output
      */
-    private void writeInfoMetaData() throws IOException
+    private void collectInfoMetaData() throws IOException, ClassNotFoundException
     {
         final Iterator it = allClasses.iterator();
         while( it.hasNext() )
@@ -205,116 +219,108 @@ public class ComponentMetaInfoCollector extends AbstractQdoxTask
             DocletTag tag = javaClass.getTagByName( "x-avalon.role" );
             if( null != tag )
             {
-                m_services.add(javaClass.getFullyQualifiedName());
+                Service service = new Service(javaClass.getFullyQualifiedName(), true);
+                m_services.put(service.getType(), service);
             }
-            else
-            {
-                tag = javaClass.getTagByName( "avalon.service" );
-                if( null != tag )
-                {
-                    String className = tag.getNamedParameter("type").trim();
-                    if (className != null || className.length() > 0)
-                    {
-                        if ( className.indexOf('.') < 0)
-                        {
-                            int classLen = className.length();
-                            Type[] types = javaClass.getImplements();
-                            for (int t = 0; t < types.length; t++)
-                            {
-                                String type = types[t].getValue();
-                                int typeLen = type.length();
-                                if (type.substring(typeLen - classLen).equals(className))
-                                {
-                                    className = type;
-                                }
-                            }
-                        }
 
-                        m_services.add( className );
+            tag = javaClass.getTagByName( "avalon.component" );
+            if( null != tag )
+            {
+                Component comp = new Component(javaClass.getFullyQualifiedName());
+
+                DocletTag[] tags = javaClass.getTagsByName( "avalon.service" );
+                for (int t = 0; t < tags.length; t++)
+                {
+                    String serviceName = resolveClassName(javaClass, tags[t].getNamedParameter("type"));
+                    Service service = getService(serviceName);
+                    service.addComponent(comp);
+                }
+                
+                DocletTag avalonLifecycle = javaClass.getTagByName("x-avalon.lifecycle");
+                DocletTag fortressHandler = javaClass.getTagByName("fortress.handler");
+                String lifecycle = null;
+                String handler = null;
+        
+                if ( avalonLifecycle == null && fortressHandler == null )
+                {
+                    Type[] interfaces = javaClass.getImplements();
+                    for (int i = 0; i < interfaces.length && handler != null; i++)
+                    {
+                        if(interfaces[i].getClass().equals(ThreadSafe.class))
+                        {
+                            handler = ThreadSafeComponentHandler.class.getName();
+                        }
+                        else if (interfaces[i].getClass().getName().equals("org.apache.avalon.excalibur.pool.Poolable") ||
+                                 interfaces[i].getClass().getName().equals("org.apache.avalon.excalibur.pool.Recyclable"))
+                        {
+                            handler = PoolableComponentHandler.class.getName();
+                        }
+                        else if (interfaces[i].getClass().equals(SingleThreaded.class))
+                        {
+                            handler = FactoryComponentHandler.class.getName();
+                        }
                     }
                 }
-
-                tag = javaClass.getTagByName( "avalon.component" );
-                if( null != tag )
+        
+                if (null != avalonLifecycle)
                 {
-                    m_components.add(javaClass.getFullyQualifiedName());
-
-                    Properties meta = new Properties();
-                    prepareMetaInfo(meta, javaClass);
-                    
-                    File metaFile = getOutputFileForClass(javaClass.getFullyQualifiedName());
-                    FileOutputStream fos = new FileOutputStream(metaFile);
-                    meta.store(fos, "Meta-Information for " + javaClass.getFullyQualifiedName());
+                    lifecycle = avalonLifecycle.getNamedParameter("type");
                 }
+                else if (handler != null)
+                {
+                    handler = (null == fortressHandler) ? PerThreadComponentHandler.class.getName() : fortressHandler.getNamedParameter("type");
+                }
+        
+                if ( null != lifecycle ) comp.setAttribute("x-avalon.lifecycle", lifecycle);
+                if ( null != handler ) comp.setAttribute("fortress.handler", handler);
+        
+                DocletTag avalonConfigName = javaClass.getTagByName("x-avalon.info");
+                if ( null == avalonConfigName ) avalonConfigName = javaClass.getTagByName("fortress.name");
+
+                comp.setAttribute("x-avalon.name", (avalonConfigName == null) ? ServiceRoleManager.createShortName(javaClass.getName()) : avalonConfigName.getNamedParameter("name") );
             }
         }
     }
-
-    /**
-     * @param meta
-     * @param javaClass
-     */
-    private void prepareMetaInfo(Properties meta, JavaClass javaClass)
+    
+    private String resolveClassName(final JavaClass javaClass, final String serviceName)
     {
-        DocletTag avalonLifecycle = javaClass.getTagByName("x-avalon.lifecycle");
-        DocletTag fortressHandler = javaClass.getTagByName("fortress.handler");
-        String lifecycle = null;
-        String handler = null;
+        if (null == javaClass) throw new NullPointerException("javaClass");
+        if (null == serviceName) throw new BuildException("(" + javaClass.getFullyQualifiedName() + ") You must specify the service name with the \"type\" parameter");
         
-        if ( avalonLifecycle == null && fortressHandler == null )
+        String className = serviceName.trim();
+        if (className != null || className.length() > 0)
         {
-            Type[] interfaces = javaClass.getImplements();
-            for (int i = 0; i < interfaces.length && handler != null; i++)
+            if ( className.indexOf('.') < 0)
             {
-                if(interfaces[i].getClass().equals(ThreadSafe.class))
+                int classLen = className.length();
+                Type[] types = javaClass.getImplements();
+                for (int t = 0; t < types.length; t++)
                 {
-                    handler = ThreadSafeComponentHandler.class.getName();
-                }
-                else if (interfaces[i].getClass().getName().equals("org.apache.avalon.excalibur.pool.Poolable") ||
-                         interfaces[i].getClass().getName().equals("org.apache.avalon.excalibur.pool.Recyclable"))
-                {
-                    handler = PoolableComponentHandler.class.getName();
-                }
-                else if (interfaces[i].getClass().equals(SingleThreaded.class))
-                {
-                    handler = FactoryComponentHandler.class.getName();
+                    String type = types[t].getValue();
+                    int typeLen = type.length();
+                    
+                    if (type.substring(typeLen - classLen).equals(className))
+                    {
+                        className = type;
+                    }
                 }
             }
         }
         
-        if (null != avalonLifecycle)
-        {
-            lifecycle = avalonLifecycle.getValue();
-        }
-        else if (handler != null)
-        {
-            handler = (null == fortressHandler) ? PerThreadComponentHandler.class.getName() : fortressHandler.getValue();
-        }
-        
-        if ( null != lifecycle ) meta.setProperty("x-avalon.lifecycle", lifecycle);
-        if ( null != handler ) meta.setProperty("fortress.handler", handler);
-        
-        DocletTag avalonConfigName = javaClass.getTagByName("x-avalon.info");
-        if ( null == avalonConfigName ) avalonConfigName = javaClass.getTagByName("fortress.name");
-
-        meta.setProperty("x-avalon.name", (avalonConfigName == null) ? ServiceRoleManager.createShortName(javaClass.getName()) : avalonConfigName.getNamedParameter("name") );
+        return className;
     }
-
-    /**
-     * Determine the file for specified {@link ComponentInfo}.
-     *
-     * @param classname the fully qualified name of file to generate
-     * @return the file for info
-     * @throws IOException if unable to determine base file
-     */
-    private File getOutputFileForClass( final String classname )
-        throws IOException
+    
+    private Service getService(final String type) throws ClassNotFoundException
     {
-        String filename =
-            classname.replace( '.', File.separatorChar );
+        Service service = (Service)m_services.get(type);
         
-        filename += ".meta";
-        return new File( m_destDir, filename ).getCanonicalFile();
+        if (null == service)
+        {
+            service = new Service(type, false);
+            m_services.put(service.getType(), service);
+        }
+        
+        return service;
     }
 
     /**
@@ -330,33 +336,24 @@ public class ComponentMetaInfoCollector extends AbstractQdoxTask
     /**
      * Collect all the services and write out the implementations.
      */
-    private void collectServices( final ClassLoader loader ) throws MalformedURLException
+    private void writeServices() throws MalformedURLException
     {
         final File baseDir = new File(m_destDir, "META-INF/services/");
-        final Iterator services = m_services.iterator();
         baseDir.mkdirs();
+        
+        final Iterator services = m_services.values().iterator();
         
         while(services.hasNext())
         {
-            String service = (String)services.next();
-            log("Processing service " + service, Project.MSG_VERBOSE);
+            Service service = (Service)services.next();
+            log("Processing service " + service.getType(), Project.MSG_VERBOSE);
             try
             {
-                Class role = loader.loadClass(service);
-                    
-                if ( role.isInterface() )
-                {
-                    File serviceFile = new File(baseDir, service);
-                    collectComponents(serviceFile, role);
-                }
-                else
-                {
-                    log(service + " is not an interface", Project.MSG_WARN);
-                }
+                service.serialize(m_destDir);
             }
             catch(Exception e)
             {
-                log(service + " could not be found", Project.MSG_WARN);
+                log("Could not save information for service " + service.getType(), Project.MSG_WARN);
             }
         }
     }
@@ -379,60 +376,16 @@ public class ComponentMetaInfoCollector extends AbstractQdoxTask
             {
                 if (line.trim().length() > 0)
                 {
-                    m_services.add(line);
+                    try
+                    {
+                        m_services.put(line, new Service(line, true));
+                    }
+                    catch (ClassNotFoundException cnfe)
+                    {
+                        log("Could not collect components for service " + line, Project.MSG_WARN);
+                    }
                 }
             }
         }
 	}
-
-	/**
-     * Output all the components that implement the service.
-     * 
-     * @param serviceFile
-     * @param role
-     * @throws IOException
-     */
-    private void collectComponents(final File serviceFile, Class role)
-        throws IOException
-    {
-        final ClassLoader loader = role.getClassLoader();
-        int numComponents = 0;
-        log("Opening file: " + serviceFile.getAbsolutePath(), Project.MSG_DEBUG);
-        PrintWriter writer = new PrintWriter( new FileWriter( serviceFile ) );
-            
-        final Iterator components = m_components.iterator();
-        while( components.hasNext() )
-        {
-            String comp = (String)components.next();
-            
-            try
-            {
-                Class component = loader.loadClass(comp);
-                if ( role.isAssignableFrom(component) )
-                {
-                    log(comp + " is a(n) " + role.getName(), Project.MSG_DEBUG);
-                    writer.println(comp);
-                    numComponents++;
-                }
-                else
-                {
-                    log(comp + " is not a(n) " + role.getName(), Project.MSG_DEBUG);
-                }
-            }
-            catch (Exception e)
-            {
-                log(comp + " could not be found", Project.MSG_WARN);
-            }
-        }
-        
-        writer.close();
-        log("Closing file: " + serviceFile.getAbsolutePath(), Project.MSG_DEBUG);
-        log("Had " + numComponents + " components", Project.MSG_DEBUG);
-        
-        if ( numComponents == 0 )
-        {
-            log("No components for role " + role.getName() + ", deleting service entry.", Project.MSG_VERBOSE);
-            serviceFile.delete();
-        }
-    }
 }
