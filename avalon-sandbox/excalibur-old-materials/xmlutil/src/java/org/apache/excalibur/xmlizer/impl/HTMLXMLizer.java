@@ -10,6 +10,7 @@ package org.apache.excalibur.xmlizer.impl;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
+import java.io.StringReader;
 import java.util.Properties;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
@@ -35,7 +36,7 @@ import org.xml.sax.SAXException;
  * This class uses jtidy.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.9 $ $Date: 2002/07/10 09:34:30 $
+ * @version CVS $Revision: 1.10 $ $Date: 2002/08/04 03:20:33 $
  */
 public final class HTMLXMLizer
     extends AbstractLogEnabled
@@ -123,11 +124,12 @@ public final class HTMLXMLizer
         }
         catch( final TransformerException te )
         {
-            throw new SAXException( "Exception during transformation.", te );
+            final String message = "Exception during transformation.";
+            throw new SAXException( message, te );
         }
 
         final InputSource inputSource =
-            new InputSource( new java.io.StringReader( writer.toString() ) );
+            new InputSource( new StringReader( writer.toString() ) );
         if( null != systemID )
             inputSource.setSystemId( systemID );
 
