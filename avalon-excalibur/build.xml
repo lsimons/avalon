@@ -23,6 +23,7 @@
         <ant dir="instrument" target="dist"/>
         <ant dir="logger" target="dist"/>
         <ant dir="threadcontext" target="dist"/>
+        <ant dir="sourceresolve" target="dist"/>
         
         <!-- Sub projects with dependencies. -->
         <ant dir="pool" target="dist"/>               <!-- collections, concurrent, instrument -->
@@ -84,6 +85,8 @@
             <pathelement location="io/src/test"/>
             <pathelement location="naming/src/java"/>
             <pathelement location="naming/src/test"/>
+            <pathelement location="sourceresolve/src/java"/>
+            <pathelement location="sourceresolve/src/test"/>
             <pathelement location="tar/src/java"/>
             <pathelement location="tar/src/test"/>
             <pathelement location="zip/src/java"/>
@@ -165,6 +168,7 @@
                     <include name="testcase/build/lib/*.jar"/>
                     <include name="util/build/lib/*.jar"/>
                     <include name="instrument/build/lib/*.jar"/>
+                    <include name="sourceresolve/build/lib/*.jar"/>
                 </fileset>
             </mergefiles>
         </jlink>
@@ -184,9 +188,10 @@
         <ant dir="instrument" target="jar"/>
         <ant dir="logger" target="jar"/>
         <ant dir="threadcontext" target="jar"/>
+        <ant dir="sourceresolve" target="jar"/>
         
         <!-- Sub projects with dependencies. -->
-        <ant dir="pool" target="jar"/>               <!-- collections, concurrent, instrument -->
+        <ant dir="pool" target="jar"/>               <!-- collections, concurrent, instrument, sourceresolve -->
         <ant dir="datasource" target="jar"/>         <!-- pool -->
         <ant dir="thread" target="jar"/>             <!-- lang, instrument, threadcontext, pool -->
         <ant dir="component" target="jar"/>          <!-- collections, logger, instrument, pool -->
