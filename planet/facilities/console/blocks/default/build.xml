@@ -40,6 +40,9 @@ type help for more info."/>
                    
       <x:component name="help" 
                    class="org.apache.avalon.facilities.console.commands.HelpCmd"/>
+                   
+      <x:component name="viewmodel" 
+                   class="org.apache.avalon.facilities.console.commands.ViewModelCmd"/>
     </x:block>
   </target>
 
