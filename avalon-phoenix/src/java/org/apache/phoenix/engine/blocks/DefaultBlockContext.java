@@ -1,23 +1,23 @@
-/* 
- * Copyright (C) The Apache Software Foundation. All rights reserved. 
- * 
- * This software is published under the terms of the Apache Software License 
- * version 1.1, a copy of which has been included with this distribution in 
- * the LICENSE file. 
+/*
+ * Copyright (C) The Apache Software Foundation. All rights reserved.
+ *
+ * This software is published under the terms of the Apache Software License
+ * version 1.1, a copy of which has been included with this distribution in
+ * the LICENSE file.
  */
 package org.apache.phoenix.engine.blocks;
 
 import java.io.File;
 import org.apache.avalon.Context;
 import org.apache.avalon.DefaultContext;
-import org.apache.avalon.util.thread.ThreadManager;
 import org.apache.avalon.util.thread.ThreadPool;
 import org.apache.log.Logger;
 import org.apache.phoenix.BlockContext;
+import org.apache.phoenix.engine.facilities.ThreadManager;
 
 /**
  * Context via which Blocks communicate with container.
- * 
+ *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public class DefaultBlockContext
@@ -32,8 +32,8 @@ public class DefaultBlockContext
         this( logger, threadManager, null );
     }
 
-    public DefaultBlockContext( final Logger logger, 
-                                final ThreadManager threadManager, 
+    public DefaultBlockContext( final Logger logger,
+                                final ThreadManager threadManager,
                                 final Context context )
     {
         super( context );
@@ -63,7 +63,7 @@ public class DefaultBlockContext
 
     /**
      * Retrieve thread manager by category.
-     * ThreadManagers are given names so that you can manage different thread 
+     * ThreadManagers are given names so that you can manage different thread
      * count to different components.
      *
      * @param category the category
