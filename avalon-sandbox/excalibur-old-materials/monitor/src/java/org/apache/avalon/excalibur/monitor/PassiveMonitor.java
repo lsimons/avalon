@@ -31,9 +31,9 @@ import org.apache.avalon.framework.thread.ThreadSafe;
  * </pre>
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: PassiveMonitor.java,v 1.11 2002/09/07 12:14:01 donaldp Exp $
+ * @version $Id: PassiveMonitor.java,v 1.12 2002/09/13 10:11:41 donaldp Exp $
  */
-public final class PassiveMonitor
+public class PassiveMonitor
     extends org.apache.avalon.excalibur.monitor.impl.PassiveMonitor
     implements LogEnabled, Configurable, ThreadSafe
 {

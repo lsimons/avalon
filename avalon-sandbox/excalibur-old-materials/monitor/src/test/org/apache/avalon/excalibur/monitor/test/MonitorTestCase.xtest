@@ -39,8 +39,8 @@
     <role name="org.apache.avalon.excalibur.monitor.MonitorSelector"
           shorthand="monitors"
           default-class="org.apache.avalon.excalibur.component.ExcaliburComponentSelector">
-      <hint shorthand="active-monitor" class="org.apache.avalon.excalibur.monitor.ActiveMonitor"/>
-      <hint shorthand="passive-monitor" class="org.apache.avalon.excalibur.monitor.PassiveMonitor"/>
+      <hint shorthand="active-monitor" class="org.apache.avalon.excalibur.monitor.test.ActiveMonitorComponent"/>
+      <hint shorthand="passive-monitor" class="org.apache.avalon.excalibur.monitor.test.PassiveMonitorComponent"/>
     </role>
   </roles>
 

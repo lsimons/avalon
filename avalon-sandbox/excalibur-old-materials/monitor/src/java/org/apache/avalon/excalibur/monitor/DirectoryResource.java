@@ -21,7 +21,7 @@ import java.util.Set;
  * send an event indicating the change.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2002/09/08 02:30:48 $
+ * @version $Revision: 1.2 $ $Date: 2002/09/13 10:11:41 $
  */
 public class DirectoryResource
     extends Resource
@@ -147,6 +147,7 @@ public class DirectoryResource
                                                   modifiedFiles );
         }
 
+        existingFiles.addAll( addedFiles );
         m_files = existingFiles;
     }
 
