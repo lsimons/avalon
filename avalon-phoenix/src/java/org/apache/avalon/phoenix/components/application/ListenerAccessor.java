@@ -27,7 +27,7 @@ import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
  * Block or Listener.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2002/05/19 02:03:02 $
+ * @version $Revision: 1.3 $ $Date: 2002/05/19 02:04:00 $
  */
 public class ListenerAccessor
     extends AbstractLogEnabled
@@ -61,7 +61,7 @@ public class ListenerAccessor
     public Object createObject( final Object entry )
         throws Exception
     {
-        final BlockListenerMetaData metaData = null;
+        final BlockListenerMetaData metaData = getMetaData( entry );
         final ClassLoader classLoader = m_context.getClassLoader();
         final Class clazz =
             classLoader.loadClass( metaData.getClassname() );
