@@ -37,7 +37,7 @@ import org.apache.excalibur.store.Store;
  * using a read/write lock.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Id: AbstractReadWriteStore.java,v 1.5 2004/02/28 11:47:31 cziegeler Exp $
+ * @version CVS $Id: AbstractReadWriteStore.java,v 1.6 2004/03/11 21:38:47 unico Exp $
  */
 public abstract class AbstractReadWriteStore
 extends AbstractLogEnabled
@@ -61,7 +61,7 @@ implements Store, ThreadSafe {
     public Object get(Object key) 
     {
         Object value = null;
-        Sync sync = this.lock.writeLock();
+        Sync sync = this.lock.readLock();
         try
         {
             sync.acquire();
