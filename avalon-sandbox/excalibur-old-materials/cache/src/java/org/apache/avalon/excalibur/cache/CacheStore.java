@@ -41,7 +41,7 @@ public interface CacheStore
     boolean containsKey( Object key );
 
    /**
-     * Return the list of all key.
+     * Return the array containing all key.
      */
-    Iterator list();
+    Object[] keys();
 }
