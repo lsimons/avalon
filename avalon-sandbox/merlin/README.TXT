@@ -23,7 +23,7 @@ STRUCTURE:
     +-- meta-tools               meta info generator task
     +-- merlin-extensions        
           +- merlin-jndi         merlin JNDI connector
-    +-- merlin-smp               site and installation resources
+    +-- merlin-platform               site and installation resources
           +- src
                +- tutorial       several merlin tutorials
           +- target

@@ -134,8 +134,9 @@
       <name>David Bernard</name>
       <email>dwayne@java-fan.com</email>
       <roles>
-        <role>Documentation and tutorial review, testing and patches. Updates to lifecycle handlers.</role>
+        <role>Documentation and tutorial review, testing and patches. Updates to lifecycle handlers. Contribution to JMX related development.</role>
       </roles>
+      <organization>BNP</organization>
     </contributor>
     <contributor>
       <name>Kristian Meier</name>
@@ -143,6 +144,22 @@
       <roles>
         <role>Patches enhancing the meta-info generation sources and documentation.</role>
       </roles>
+    </contributor>
+    <contributor>
+      <name>Aaron Far</name>
+      <email>Aaron.Farr@am.sony.com</email>
+      <roles>
+        <role>Testing, bug reporting, and early access trial participation.</role>
+      </roles>
+      <organization>Sony Electronics</organization>
+    </contributor>
+    <contributor>
+      <name>Laurent Rieu</name>
+      <email>Laurent.Rieu@fr.ibm.com</email>
+      <roles>
+        <role>Testing, bug reporting, and early access trial participation.</role>
+      </roles>
+      <organization>IBM Global Services</organization>
     </contributor>
   </contributors>
 
@@ -194,7 +211,7 @@
         </includes>
       </resource>
       <resource>
-        <directory>${basedir}/../merlin-smp/src/etc</directory>
+        <directory>${basedir}/../merlin-platform/src/etc</directory>
         <includes>
           <include>LICENSE.txt</include>
         </includes>
