@@ -7,7 +7,7 @@
   </properties> 
 
   <body>
-    <section name="Plugin Management Tasks">
+    <section name="Management Tasks">
       <p>
       A set of tasks are provided that support plugin meta-data generation,
       initialization of dependendent plugin loading relative to a project
