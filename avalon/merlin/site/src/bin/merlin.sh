@@ -40,6 +40,7 @@ MERLIN_BOOTSTRAP_JAR=$MERLIN_HOME/bin/lib/merlin-cli-3.2.jar
 if $cygwin; then
   JAVA_HOME=`cygpath --windows "$JAVA_HOME"`
   MERLIN_HOME=`cygpath --windows "$MERLIN_HOME"`
+  MERLIN_BOOTSTRAP_JAR=$MERLIN_HOME'\'bin'\'lib'\'merlin-cli-3.2.jar 
   [ -n "$CLASSPATH" ] && CLASSPATH=`cygpath --path --windows "$CLASSPATH"`
 fi
 
