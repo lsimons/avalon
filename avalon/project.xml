@@ -267,6 +267,7 @@ limitations under the License.
         </resource>
         <!-- This fix makes merlin build with maven-10 again -->
         <resource>
+          <filtering>true</filtering>
           <directory>${basedir}/conf</directory>
           <includes> 
             <include>**/*.properties</include>

@@ -8,10 +8,7 @@
   <ant:property name="pom.specificationVersion" value="&merlin-spec;"/>
 
   <postGoal name="java:prepare-filesystem">
-    <attainGoal name="avalon:artifact"/>
-    <ant:copy toDir="${maven.repo.local}/${pom.groupId}/jars" 
-       file="${maven.build.dir}/${pom.artifactId}-${pom.currentVersion}.jar.meta" 
-       verbose="yes"/>
+    <attainGoal name="avalon:artifact-install"/>
   </postGoal>
 
   <!--

@@ -27,7 +27,7 @@ A set of utility goals are also provided that build projects including the build
   activation
   merlin
 
-To build a project independnet of dependent project groups is possible using any of the above targets by prepending the "x" character.  For example, to locally build the meta package just enter the following command:
+To build a project independnet of dependent project groups is possible using any of the above targets by prepending the "x" character.  For example, to locally build the meta package without triggering dependent project builds, just enter the following command:
 
   maven xmeta
 
