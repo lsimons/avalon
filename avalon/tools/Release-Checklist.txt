@@ -6,5 +6,11 @@
 - generate www pages and upload
 - bump release ID
 - send announcements to announcements@xml.apache.org, announcements@jakarta.apache.org
-- post stories on jakarta news page, theserverside.com, freshmeat.net, www.javaworld.com, 
-www.javalobby.com (and follow them up)
+- post stories on
+  *) jakarta news page
+  *) theserverside.com
+  *) freshmeat.net
+  *) www.javaworld.com
+  *) www.javalobby.com
+  *) www.jguru.com
+  (and follow them up)
