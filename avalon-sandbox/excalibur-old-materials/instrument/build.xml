@@ -226,14 +226,6 @@
             <report format="frames" todir="${build.reports}/junit"/>
         </junitreport>
 
-        <!-- Clean up the xml reports used by the junitreport task -->
-        <!--
-        <delete>
-            <fileset dir="${build.tests}" includes="TEST-*.xml"/>
-            <fileset dir="${build.tests}" includes="TESTS-*.xml"/>
-        </delete>
-        -->
-
     </target>
 
     <target name="checkstyle" if="do.checkstyle" description="Checkstyle">
@@ -291,22 +283,6 @@
             <zipfileset dir="${dist.dir}" prefix="${dist.name}"/>
         </zip>
 
-    <!--
-        <tar longfile="gnu" tarfile="${dist.base}/${dist.name}-bin.tar">
-          <tarfileset dir="${dist.dir}"
-                      prefix="${dist.name}"
-                      username="avalon"
-                      group="avalon"/>
-        </tar>
-
-        <gzip zipfile="${dist.base}/${dist.name}-bin.tar.gz"
-        src="${dist.name}-bin.tar"/>
-
-        <bzip2 zipfile="${dist.base}/${dist.name}-bin.tar.bz2"
-               src="${dist.name}-bin.tar"/>
-
-       <delete file="${dist.base}/${dist.name}-bin.tar"/>
-       -->
     </target>
 
     <target name="dist-src">
@@ -316,30 +292,6 @@
             <zipfileset dir="${src.dir}" prefix="${dist.name}/src"/>
         </zip>
 
-    <!--
-        <tar longfile="gnu" tarfile="${dist.base}/${dist.name}-src.tar">
-          <tarfileset dir="${dist.dir}"
-                      prefix="${dist.name}"
-                      username="avalon"
-                      group="avalon"/>
-          <tarfileset dir="$docs.dir}"
-          prefix="${dist.name}/docs"
-                      username="avalon"
-            group="avalon"/>
-          <tarfileset dir="${src.dir}"
-          prefix="${dist.name}/src"
-                      username="avalon"
-            group="avalon"/>
-      </tar>
-
-        <gzip zipfile="${dist.base}/${dist.name}-src.tar.gz"
-        src="${dist.name}-bin.tar"/>
-
-        <bzip2 zipfile="${dist.base}/${dist.name}-src.tar.bz2"
-        src="${dist.name}-bin.tar"/>
-
-    <delete file="${dist.base}/${dist.name}-src.tar"/>
-    -->
     </target>
 
     <target name="prepare-dist"
