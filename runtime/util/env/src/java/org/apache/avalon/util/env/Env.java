@@ -108,20 +108,8 @@ public class Env extends Properties
             Properties l_props = getUnixShellVariables() ;
             return l_props.getProperty( a_name ) ;
         }
-        else if ( -1 != l_osName.indexOf( "Windows" ) ) 
+        else if ( isWindows() ) 
         {
-              if ( null == s_shell )
-              {
-                if ( -1 != l_osName.indexOf( "98" ) || 
-                  -1 != l_osName.indexOf( "95" ) )
-                {
-                    s_shell = "command.exe" ;
-                }
-                else
-                {
-                    s_shell = "cmd.exe" ;
-                }
-              }
             return getWindowsShellVariable( a_name ) ;
         }
         
@@ -452,7 +440,7 @@ public class Env extends Properties
     /**
      * Gets the shell used by the Windows user.
      * 
-     * @return the shell: cmd.exe or command.exe.
+     * @return the shell: cmd.exe or command.com.
      */
     private static String getWindowsUserShell()
     {
@@ -461,9 +449,11 @@ public class Env extends Properties
             return s_shell ;
         }
         
-        if ( -1 != OSNAME.indexOf( "98" ) || -1 != OSNAME.indexOf( "95" ) )
+        if ( -1 != OSNAME.indexOf( "98" ) 
+          || -1 != OSNAME.indexOf( "95" ) 
+          || -1 != OSNAME.indexOf( "Me" ) )
         {
-            s_shell = "command.exe" ;
+            s_shell = "command.com" ;
             return s_shell ;
         }
 
@@ -482,17 +472,10 @@ public class Env extends Properties
         Process l_proc = null ;
         BufferedReader l_in = null ;
         Properties l_props = new Properties() ;
-        StringBuffer l_cmd = new StringBuffer() ;
 
-        // build the command based on the shell used: cmd.exe or command.exe 
-        if ( -1 != OSNAME.indexOf( "98" ) || -1 != OSNAME.indexOf( "95" ) )
-        {
-            l_cmd.append( "command.exe /C SET" ) ;
-        }
-        else
-        {
-            l_cmd.append( "cmd.exe /C SET" ) ;
-        }
+        // build the command based on the shell used: cmd.exe or command.com 
+        StringBuffer l_cmd = new StringBuffer( getWindowsUserShell() ) ;
+        l_cmd.append( " /C SET" ) ;
         
         // fire up the shell and get echo'd results on stdout
         try
