@@ -2,17 +2,28 @@
 <project href="http://jakarta.apache.org/avalon/excalibur/instrument/" name="Excalibur Instrument">
     <title>Excalibur Instrument</title>
     <body>
+        <menu name="About">
+            <item name="About Instrument" href="index.html"/>
+            <item name="Excalibur Home" href="http://jakarta.apache.org/avalon/excalibur/index.html"/>
+            <item name="Download" href="http://jakarta.apache.org/builds/jakarta-avalon-excalibur/release"/>
+            <item name="API Docs" href="api/"/>
+        </menu>
+        <menu name="Essentials">
+            <item name="Overview" href="overview.html"/>
+            <item name="Instrumentables" href="instrumentables.html"/>
+            <item name="Instruments" href="instruments.html"/>
+        </menu>
         <menu name="Related">
+            <item name="Instrument Manager" href="../instrument-manager/"/>
+            <item name="Instrument Client" href="../instrument-client/"/>
             <menu name="Containers">
                 <item href="../component/" name="Excalibur Component Manager"/>
                 <item href="../fortress/" name="Excalibur Fortress"/>
             </menu>
         </menu>
-        <menu name="About">
-            <item name="Overview" href="index.html"/>
-            <item name="Enabling Instrumentation" href="instrumentables.html"/>
-            <item name="Download" href="http://jakarta.apache.org/builds/jakarta-avalon-excalibur/release/???"/>
-            <item name="API Docs" href="api/"/>
+        <menu name="How To">
+            <item name="Implement Instrumentable" href="instrumentable-howto.html"/>
+            <item name="Extend AbstractInstrumentable" href="abstract-instrumentable-howto.html"/>
         </menu>
     </body>
 </project>

@@ -2,204 +2,60 @@
 
 <document>
     <header>
-        <title>Excalibur Instrument - Enable Instrumenting</title>
+        <title>Excalibur Instrument - Instrumentables</title>
         <authors>
-            <person name="Berin Loritsch" email="bloritsch@apache.org"/>
+            <person name="Leif Mortenson" email="leif@apache.org"/>
         </authors>
     </header>
     <body>
-        <s1 title="Coding for Instrumentation">
+        <s1 title="Instrumentables">
             <p>
-                There are different types of instrumentation we need to use, depending
-                on our purposes.  Excalibur Instrument has two basic types:
-                <code>CounterInstrument</code> and <code>ValueInstrument</code>.  The
-                <code>CounterInstrument</code> allows us to take samples that represent
-                a count of events.  The <code>ValueInstrument</code> allows you to take
-                samples that represent the current value.
+                The Instrumentable interface is required to be able to register a component with
+                an InstrumentManager.  The interface makes it possible for the InstrumentManager
+                to query the component about what Instruments and child Instrumentables is making
+                available.
             </p>
             <p>
-                Excalibur Instrument knows how to take the raw samples, and bring them
-                in line with more useable numbers.  It is not uncommon to want an average
-                value, a maximum value, or a minimum value for each sample period.  You
-                do not have to do anything in your code to explicitly do that.
+                The interface provides four methods.  The first two, setInstrumentableName and
+                getInstrumentableName are used to get and set the name of the Instrumentable.
+                This name is similar to a category name in logger frameworks.  The name is
+                required by the InstrumentManager to be able to provide clients with a way to
+                request and access instrumentation output.  The name should not include any
+                periods as they are used as separators in a hierarchy of Instrumentables and
+                their Instruments.  The name of top level Instrumentable is usually set by the
+                object which creates the component.  Usually this is a container.  If the
+                creating object is not aware of the Instrument API then it is possible that
+                setInstrumentableName will never be called.  Components should be able to
+                function properly under this condition.   In the case of child Instrumentables,
+                it is the responsibility of the parent to call setInstrumentableName.
             </p>
             <p>
-                Instrumentation has been designed from the start with performance in mind
-                you can feel comfortable instrumenting your code without worrying about
-                how it will effect performance.  When your code is running in an environment
-                where it has not been registered with an InstrumentationManager, the Instrument
-                code acts as a noop.  In cases where the your code is registered with an
-                InstrumentationManager, the Instrument is still a noop unless the instrument
-                output is actually been monitored.   This makes it possible to place
-                Instrumentation throughout your code just as would be done with debug logging
-                information.  When the Instrument data is required, it can be requested at any
-                time.  Even from a live running system.
+                The third and fourth methods, getInstruments and getChildInstrumentables, are
+                each called once by an InstrumentManager to query the Instrumentable for a list
+                of the Instruments and child Instrumentables that is making available.
             </p>
-        </s1>
-        <s1 title="Getting Started">
             <p>
-                The first thing that you will need to do to Instrument enable your class
-                is to modify your class to implement the <code>Instrumentable</code> interface.
-                There are currently three ways of acomplishing this, each of which are described
-                in detail below.  1) Extend <code>AbstractInstrumentable</code>, 2) Extend
-                <code>AbstractLogEnabledInstrumentable</code> and 3) Implement
-                <code>Instrumentable</code>.
+                Please see the <link href="instrumentable-howto.html">Instrumentable How-To</link>
+                for an example.
             </p>
-            <s2 title="Extending AbstractInstrumentable">
-                <p>
-                    The first option works well in cases where your code does not already have a
-                    super class.  You simply extend the <code>AbstractInstrumentable</code> class
-                    create and register your Instruments in your class's constructor and then
-                    use the Instruments at the appropriate locations in your code.  All of the
-                    details of telling your class how to register itself with an
-                    <code>InstrumentManager</code> are taken care of for you.
-                </p>
-                <source>
-<![CDATA[
-]]>
-                </source>
-            </s2>
-            
             <p>
-                You will need to import the relavant classes from the avalon-instrument.jar
-                file.
+                Implementing the Instrumentable interface directly requires a little bit of work,
+                but is necessary in cases where the parent class can not be controlled.  In most
+                situations, it is possible to extend one of the two helper classes provided with
+                the API, AbstractInstrumentable and AbstractLogEnabledInstrumentable.   Either
+                of these classes provide methods to add Instruments and Child Instrumentables to
+                the lists to be published.  All of the above methods are handled behind the scenes.
+                The second helper class is available for classes also wish to extend the
+                AbstractLogEnabled class provided with Framework.  (If this class is used, then
+                Instrument requires that the avalon-framework.jar file be included in the
+                classpath.)
             </p>
-            <source>
-<![CDATA[
-import org.apache.excalibur.instrument.CounterInstrument;
-import org.apache.excalibur.instrument.Instrumentable;
-import org.apache.excalibur.instrument.Instrument;
-import org.apache.excalibur.instrument.ValueInstrument;
-]]>
-            </source>
             <p>
-                Once you do that, you need to implement the <code>Instrumentable</code>
-                interface or extend one of the available utility classes:
-                <code>AbstractInstrumentable</code> or
-                <code>AbstractLogEnabledInstrumentable</code>.
+                Please see the
+                <link href="abstract-instrumentable-howto.html">AbstractInstrumentable How-To</link>
+                for an example.  An example of the AbstractLogEnabledInstrumentable helper class is
+                not included as its usage is identical to AbstractInstrumentable.
             </p>
-            
-            <p>
-                Once you do that, you need to implement the <code>Instrumentable</code>
-                interface, and set up your instrumentation points.  The InstrumentManager,
-                or the parent Instrumentable will assign the name to your Instrumentable.
-                That way we can easily determine what the heirarchy is.
-            </p>
-            <source>
-<![CDATA[
-public class DefaultExampleInstrumentable
-    implements Instrumentable
-{
-    public static final String INSTRUMENT_VALUE_NAME   = "value";
-    public static final String INSTRUMENT_COUNTER_NAME = "counter";
-
-    /** Instrumentable Name assigned to this Instrumentable */
-    private String m_instrumentableName;
-
-    /** Instrument used to profile values */
-    private ValueInstrument m_valueInstrument = new ValueInstrument( INSTRUMENT_VALUE_NAME );
-
-    /** Instrument used to profile a count of actions. */
-    private CounterInstrument m_counterInstrument = new CounterInstrument( INSTRUMENT_COUNTER_VALUE );
-
-    /*---------------------------------------------------------------
-     * Constructors
-     *-------------------------------------------------------------*/
-    public DefaultExampleInstrumentable()
-    {}
-
-    // Skip a bunch of other stuff....
-
-    /*---------------------------------------------------------------
-     * Instrumentable Methods
-     *-------------------------------------------------------------*/
-    /**
-     * Sets the name for the Instrumentable.  The Instrumentable Name is used
-     *  to uniquely identify the Instrumentable during the configuration of
-     *  the InstrumentManager and to gain access to an InstrumentableDescriptor
-     *  through the InstrumentManager.  The value should be a string which does
-     *  not contain spaces or periods.
-     * <p>
-     * This value may be set by a parent Instrumentable, or by the
-     *  InstrumentManager using the value of the 'instrumentable' attribute in
-     *  the configuration of the component.
-     *
-     * @param name The name used to identify a Instrumentable.
-     */
-    public void setInstrumentableName( String name )
-    {
-        m_instrumentableName = name;
-    }
-
-    /**
-     * Gets the name of the Instrumentable.
-     *
-     * @return The name used to identify a Instrumentable.
-     */
-    public String getInstrumentableName()
-    {
-        return m_instrumentableName;
-    }
-
-    /**
-     * Obtain a reference to all the Instruments that the Instrumentable object
-     *  wishes to expose.  All sampling is done directly through the
-     *  Instruments as opposed to the Instrumentable interface.
-     *
-     * @return An array of the Instruments available for profiling.  Should
-     *         never be null.  If there are no Instruments, then
-     *         EMPTY_INSTRUMENT_ARRAY can be returned.  This should never be
-     *         the case though unless there are child Instrumentables with
-     *         Instruments.
-     */
-    public Instrument[] getInstruments()
-    {
-        return new Instrument[]
-        {
-            m_valueInstrument,
-            m_counterInstrument
-        };
-    }
-
-    /**
-     * Any Object which implements Instrumentable can also make use of other
-     *  Instrumentable child objects.  This method is used to tell the
-     *  InstrumentManager about them.
-     *
-     * @return An array of child Instrumentables.  This method should never
-     *         return null.  If there are no child Instrumentables, then
-     *         EMPTY_INSTRUMENTABLE_ARRAY can be returned.
-     */
-    public Instrumentable[] getChildInstrumentables()
-    {
-        // This instrumentable does not have any children.
-        return Instrumentable.EMPTY_INSTRUMENTABLE_ARRAY;
-    }
-}
-]]>
-            </source>
-        </s1>
-        <s1 title="Using Instruments">
-            <p>
-                Lastly, you need to use your instrumentables.  Excalibur Instrument will
-                skip the sampling and processing of values if no Manager or Client is
-                attached to them.
-            </p>
-            <source>
-<![CDATA[
-/**
- * Method that uses the instrumentables we have set up so far
- */
-Object lookup(String name)
-{
-    // Do critical stuff
-    m_valueInstrument.setValue( m_dictionary.size() );
-    m_counterInstrument.increment();
-
-    return m_dictionary.get( name );
-}
-]]>
-            </source>
         </s1>
     </body>
 </document>
