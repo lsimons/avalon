@@ -25,7 +25,7 @@ limitations under the License.
   <groupId>&avalon-logging-id;</groupId>
   <id>&avalon-logging-id;</id>
   <name>Avalon Logging</name>
-  <currentVersion>&avalon-logging-api-version;</currentVersion>
+  <currentVersion>&avalon-logging-version;</currentVersion>
 
   <organization>
     <name>The Apache Software Foundation</name>

@@ -19,16 +19,20 @@ package org.apache.avalon.composition.data;
 
 import java.io.Serializable;
 
+import org.apache.avalon.repository.Artifact;
+
 /**
  * Description of classpath.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/01/24 23:25:23 $
+ * @version $Revision: 1.4 $ $Date: 2004/05/01 17:03:42 $
  */
 public final class ClasspathDirective implements Serializable
 {
-     private static final FilesetDirective[] EMPTY_FILESETS = new FilesetDirective[0]; 
-     private static final RepositoryDirective[] EMPTY_REPOSITORIES = new RepositoryDirective[0]; 
+     private static final FilesetDirective[] EMPTY_FILESETS = 
+       new FilesetDirective[0]; 
+     private static final Artifact[] EMPTY_ARTIFACTS = 
+       new Artifact[0]; 
 
     /**
      * The fileset directives
@@ -38,7 +42,7 @@ public final class ClasspathDirective implements Serializable
     /**
      * The resource references
      */
-    private RepositoryDirective[] m_repositories;
+    private Artifact[] m_artifacts;
 
     /**
      * Create a empty ClasspathDirective.
@@ -52,11 +56,11 @@ public final class ClasspathDirective implements Serializable
      * Create a ClasspathDirective instance.
      *
      * @param filesets the filesets to be included in a classloader
-     * @param repositories the repositories directives to be included in a classloader
+     * @param artifacts the set of artifact directives
      */
     public ClasspathDirective( 
        final FilesetDirective[] filesets, 
-       final RepositoryDirective[] repositories )
+       final Artifact[] artifacts )
     {
         if( filesets == null )
         {
@@ -66,13 +70,14 @@ public final class ClasspathDirective implements Serializable
         {
             m_filesets = filesets;
         }
-        if( repositories == null )
+
+        if( artifacts == null )
         {
-            m_repositories = EMPTY_REPOSITORIES;
+            m_artifacts = EMPTY_ARTIFACTS;
         }
         else
         {
-            m_repositories = repositories;
+            m_artifacts = artifacts;
         }
     }
 
@@ -82,18 +87,18 @@ public final class ClasspathDirective implements Serializable
     */
     public boolean isEmpty()
     {
-        final int n = m_repositories.length + m_filesets.length;
+        final int n = m_artifacts.length + m_filesets.length;
         return n == 0;
     }
 
     /**
-     * Return the set of resource directives.
+     * Return the set of artifact directives.
      *
-     * @return the resource directive set
+     * @return the artifact directive set
      */
-    public RepositoryDirective[] getRepositoryDirectives()
+    public Artifact[] getArtifacts()
     {
-        return m_repositories;
+        return m_artifacts;
     }
 
     /**
@@ -105,68 +110,4 @@ public final class ClasspathDirective implements Serializable
     {
         return m_filesets;
     }
-
-   /**
-    * Return an array of files corresponding to the expansion 
-    * of the filesets declared within the directive.
-    *
-    * @param base the base directory against which relative 
-    *   file references will be resolved
-    * @return the classpath
-    */
-    /*
-    public File[] expandFileSetDirectives( File base ) throws IOException
-    {
-        ArrayList list = new ArrayList();
-
-        //
-        // expand relative to fileset
-        //
-
-        FilesetDirective[] filesets = getFilesets();
-
-        for( int i=0; i<filesets.length; i++ )
-        {
-            FilesetDirective fileset = filesets[i];
-            File anchor = getDirectory( base, fileset.getBaseDirectory() );
-            IncludeDirective[] includes = fileset.getIncludes();
-            if( includes.length > 0 )
-            {
-                for( int j=0; j<includes.length; j++ )
-                {
-                    File file = new File( anchor, includes[j].getPath() );
-                    list.add( file );
-                }
-            }
-            else
-            {
-                list.add( anchor );
-            }
-        }
-
-        return (File[]) list.toArray( new File[0] );
-    }
-
-    private File getDirectory( File base, String path ) throws IOException
-    {
-        File file = new File( path );
-        if( file.isAbsolute() )
-        {
-            return verifyDirectory( file );
-        }
-        return verifyDirectory( new File( base, path ) );
-    }
-
-    private File verifyDirectory( File dir ) throws IOException
-    {
-        if( dir.isDirectory() )
-        {
-            return dir.getCanonicalFile();
-        }
-
-        final String error = 
-          "Path does not correspond to a directory: " + dir;
-        throw new IOException( error );
-    }
-    */
 }

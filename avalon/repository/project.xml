@@ -27,7 +27,7 @@ limitations under the License.
   <name>Avalon Repository</name>
 
   <!-- need a package version identifier -->
-  <currentVersion>&avalon-repository-api-version;</currentVersion>
+  <currentVersion>&avalon-repository-version;</currentVersion>
 
   <organization>
     <name>The Apache Software Foundation</name>

@@ -35,15 +35,18 @@ import org.apache.avalon.composition.data.IncludeDirective;
 import org.apache.avalon.composition.data.LibraryDirective;
 import org.apache.avalon.composition.data.MetaDataException;
 import org.apache.avalon.composition.data.NamedComponentProfile;
-import org.apache.avalon.composition.data.RepositoryDirective;
-import org.apache.avalon.composition.data.ResourceDirective;
 import org.apache.avalon.composition.data.ServiceDirective;
 import org.apache.avalon.composition.data.Targets;
 import org.apache.avalon.composition.data.TargetDirective;
+
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
+
 import org.apache.avalon.meta.info.ServiceDescriptor;
 import org.apache.avalon.meta.info.builder.XMLTypeCreator;
+
+import org.apache.avalon.repository.Artifact;
+
 import org.apache.excalibur.configuration.ConfigurationUtil;
 
 /**
@@ -51,7 +54,7 @@ import org.apache.excalibur.configuration.ConfigurationUtil;
  * from a Configuration object.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.14 $ $Date: 2004/04/16 20:08:12 $
+ * @version $Revision: 1.15 $ $Date: 2004/05/01 17:03:42 $
  */
 public class XMLContainmentProfileCreator extends XMLProfileCreator
 {
@@ -164,8 +167,8 @@ public class XMLContainmentProfileCreator extends XMLProfileCreator
         }
 
         FilesetDirective[] filesets = createFilesetDirectives( config );
-        RepositoryDirective[] repositories = createRepositoryDirectives( config );
-        return new ClasspathDirective( filesets, repositories );
+        Artifact[] artifacts = createArtifactDirectives( config );
+        return new ClasspathDirective( filesets, artifacts );
     }
 
     private LibraryDirective createLibraryDirective( Configuration config )
@@ -193,25 +196,49 @@ public class XMLContainmentProfileCreator extends XMLProfileCreator
         return new LibraryDirective( inc, grp );
     }
 
-    private RepositoryDirective[] createRepositoryDirectives( Configuration config )
+    private Artifact[] createArtifactDirectives( Configuration config )
        throws ConfigurationException
     {
-        if( config == null )
+        ArrayList list = new ArrayList();
+
+        //
+        // handle the legacy repository element and the contained resource
+        // elements
+        // 
+
+        Configuration[] repositories = config.getChildren( "repository" );
+        for( int i = 0; i < repositories.length; i++ )
         {
-            throw new NullPointerException( "config" );
+            Artifact[] artifacts = createResourceDirectives( repositories[i] );
+            for( int j=0; j<artifacts.length; j++ )
+            {
+                list.add( artifacts[j] );
+            }
         }
 
-        Configuration[] children = config.getChildren( "repository" );
-        RepositoryDirective[] repositories = new RepositoryDirective[ children.length ];
+        //
+        // get the artifact references
+        //
+
+        Configuration[] children = config.getChildren( "artifact" );
         for( int i = 0; i < children.length; i++ )
         {
-            ResourceDirective[] resources = createResourceDirectives( children[i] );
-            repositories[i] = new RepositoryDirective( resources );
+            Artifact artifact = 
+              createArtifactDirective( children[i] );
+            list.add( artifact );
         }
-        return repositories;
+
+        return (Artifact[]) list.toArray( new Artifact[0] );
     }
 
-    private ResourceDirective[] createResourceDirectives( Configuration config )
+    private Artifact createArtifactDirective( Configuration config )
+       throws ConfigurationException
+    {
+        String spec = config.getValue();
+        return Artifact.createArtifact( "artifact:" + spec.trim() );
+    }
+
+    private Artifact[] createResourceDirectives( Configuration config )
        throws ConfigurationException
     {
         if( config == null )
@@ -219,30 +246,29 @@ public class XMLContainmentProfileCreator extends XMLProfileCreator
             throw new NullPointerException( "config" );
         }
 
-        ArrayList res = new ArrayList();
+        ArrayList list = new ArrayList();
         Configuration[] resources = config.getChildren( "resource" );
-        for( int i = 0; i < resources.length; i++ )
+        for( int i = 0; i<resources.length; i++ )
         {
             Configuration resource = resources[i];
-            res.add( createResourceDirective( resource ) );
+            list.add( createResourceDirective( resource ) );
         }
 
-        return (ResourceDirective[]) res.toArray( new ResourceDirective[0] );
+        return (Artifact[]) list.toArray( new Artifact[0] );
     }
 
-    private ResourceDirective createResourceDirective( Configuration config )
+    private Artifact createResourceDirective( Configuration config )
        throws ConfigurationException
     {
         String id = config.getAttribute( "id" );
         String version = config.getAttribute( "version", null );
-        String type = config.getAttribute( "type", null );
-        if( type == null )
+        if( version == null )
         {
-            return ResourceDirective.createResourceDirective( id, version );
+            return Artifact.createArtifact( id );
         }
         else
         {
-            return ResourceDirective.createResourceDirective( id, version, type );
+            return Artifact.createArtifact( id + ";" + version );
         }
     }
 
@@ -493,12 +519,17 @@ public class XMLContainmentProfileCreator extends XMLProfileCreator
     private DeploymentProfile createFromInclude( Configuration config )
       throws MetaDataException, ConfigurationException
     {
+        //
+        // get the name of the block to include
+        //
+
         final String name = getBlockIncludeName( config );
+
         if( config.getAttribute( "id", null ) != null )
         {
-            ResourceDirective resource = createResourceDirective( config );
+            Artifact artifact = createResourceDirective( config );
             TargetDirective[] targets = createTargetDirectives( config );
-            return new BlockCompositionDirective( name, resource, targets );
+            return new BlockCompositionDirective( name, artifact, targets );
         }
         else
         {

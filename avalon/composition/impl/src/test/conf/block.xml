@@ -20,10 +20,8 @@
        <fileset dir="lib">
          <include>test-c.jar</include>
        </fileset>
-       <repository>
-         <resource id="avalon-framework:avalon-framework-impl" version="@FRAMEWORK_IMPL_VERSION@"/>
-         <resource id="test:test-d"/>
-       </repository>
+       <artifact>avalon-framework/avalon-framework-impl#@FRAMEWORK_IMPL_VERSION@</artifact>
+       <artifact>test/test-d</artifact>
      </classpath>
    </classloader>
 
@@ -33,9 +31,7 @@
 
      <classloader>
        <classpath>
-         <repository>
-           <resource id="test:test-e"/>
-         </repository>
+         <artifact>test/test-e</artifact>
        </classpath>
      </classloader>
 

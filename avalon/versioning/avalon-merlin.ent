@@ -21,13 +21,13 @@ limitations under the License.
 <!ENTITY avalon-composition-id "avalon-composition">
 
 <!ENTITY avalon-composition-api-id "avalon-composition-api">
-<!ENTITY avalon-composition-api-version "2.0.dev-1">
+<!ENTITY avalon-composition-api-version "2.0.0">
 
 <!ENTITY avalon-composition-impl-id "avalon-composition-impl">
-<!ENTITY avalon-composition-impl-version "2.0.dev-1">
+<!ENTITY avalon-composition-impl-version "2.0.0">
 
 <!ENTITY avalon-composition-spi-id "avalon-composition-spi">
-<!ENTITY avalon-composition-spi-version "2.0.dev-0">
+<!ENTITY avalon-composition-spi-version "2.0.0">
 
 <!-- Avalon Activation -->
 
@@ -35,10 +35,10 @@ limitations under the License.
 <!ENTITY avalon-activation-id "avalon-activation">
 
 <!ENTITY avalon-activation-api-id "avalon-activation-api">
-<!ENTITY avalon-activation-api-version "2.0.dev-0">
+<!ENTITY avalon-activation-api-version "2.0.0">
 
 <!ENTITY avalon-activation-impl-id "avalon-activation-impl">
-<!ENTITY avalon-activation-impl-version "2.0.dev-1">
+<!ENTITY avalon-activation-impl-version "2.0.0">
 
 <!ENTITY avalon-activation-artifact 
    "artifact:&avalon-activation-id;/&avalon-activation-impl-id;#&avalon-activation-impl-version;">
@@ -47,24 +47,24 @@ limitations under the License.
 
 <!ENTITY merlin-id "merlin">
 <!ENTITY merlin-spec "3.3">
-<!ENTITY merlin-product-version "3.3.dev-1">
+<!ENTITY merlin-product-version "3.3-RC1">
 
 <!ENTITY merlin-api-id "merlin-api">
-<!ENTITY merlin-api-version "3.3.dev-0">
+<!ENTITY merlin-api-version "3.3.0">
 
 <!ENTITY merlin-impl-id "merlin-impl">
-<!ENTITY merlin-impl-version "3.3.dev-1">
+<!ENTITY merlin-impl-version "3.3.0">
 <!ENTITY merlin-impl-artifact "artifact:&merlin-id;/&merlin-impl-id;#merlin-impl-version;">
 
 <!ENTITY merlin-cli-id "merlin-cli">
-<!ENTITY merlin-cli-version "3.3.dev-1">
+<!ENTITY merlin-cli-version "3.3.0">
 
 <!ENTITY merlin-plugin-id "merlin-plugin">
-<!ENTITY merlin-plugin-version "3.3.dev-1">
+<!ENTITY merlin-plugin-version "3.3.0">
 
 <!ENTITY merlin-servlet-id "merlin-servlet">
-<!ENTITY merlin-servlet-version "3.3.dev-1">
+<!ENTITY merlin-servlet-version "3.3.0">
 
 <!ENTITY merlin-unit-id "merlin-unit">
-<!ENTITY merlin-unit-version "3.3.dev-1">
+<!ENTITY merlin-unit-version "3.3.0">
 
