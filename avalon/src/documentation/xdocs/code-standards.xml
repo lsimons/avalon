@@ -82,6 +82,19 @@ In Emacs-speak, this translates to the following command:
 
 (setq-default tab-width 4 indent-tabs-mode nil)
 </p>
+
+<p>
+In vim, having the following in your .vimrc will help:
+<source><![CDATA[
+set tabstop=4
+set expandtab
+set list
+set listchars=tab:>.
+]]></source>
+
+
+</p>
+
 </li>
 
 <li>
