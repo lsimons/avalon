@@ -114,22 +114,6 @@ public class CronTimeTrigger
             if( -1 == m_minute ) next.set( Calendar.MINUTE, 0 );
         }
 
-        {
-            //This block will update day of month if it is out of bounds
-            //For instance if you ask to schedule on 30th of everymonth
-            //this section will set the day to 28th (or 29th) in febuary 
-            //as there is no 30th
-            final Calendar targetMonth = (GregorianCalendar)next.clone();
-            targetMonth.set( Calendar.DAY_OF_MONTH, 1 );
-            targetMonth.set( Calendar.MONTH, m_month );
-
-            final int maxDayCount = targetMonth.getActualMaximum( Calendar.DAY_OF_MONTH );
-            if( maxDayCount < next.get( Calendar.DAY_OF_MONTH ) ) 
-            {
-                next.set( Calendar.DAY_OF_MONTH, maxDayCount );
-            }
-        }
-
         //use zeroed constant to make if statements easier to read
         final int minute = ( -1 != m_minute ) ? m_minute : 0;
         final int rminute = relativeTo.get( Calendar.MINUTE );
@@ -164,8 +148,26 @@ public class CronTimeTrigger
             next.roll( Calendar.DAY_OF_YEAR, true );
         }
 
+        int realDayOfMonth = m_dayOfMonth;
+        {
+            //This block will update day of month if it is out of bounds
+            //For instance if you ask to schedule on 30th of everymonth
+            //this section will set the day to 28th (or 29th) in febuary 
+            //as there is no 30th
+            final Calendar targetMonth = (GregorianCalendar)next.clone();
+            targetMonth.set( Calendar.DAY_OF_MONTH, 1 );
+            targetMonth.set( Calendar.MONTH, m_month );
+            
+            final int maxDayCount = targetMonth.getActualMaximum( Calendar.DAY_OF_MONTH );
+            if( maxDayCount < realDayOfMonth ) 
+            {
+                realDayOfMonth = maxDayCount;
+                next.add( Calendar.MONTH, -1 );
+            }
+        }
+
         final int month = ( -1 != m_month ) ? m_month : 0;
-        int dayOfMonth = ( -1 != m_dayOfMonth ) ? m_dayOfMonth : 0;
+        final int dayOfMonth = ( -1 != m_dayOfMonth ) ? m_dayOfMonth : 0;
 
         //update the year if ran job for this year
         if( -1 != m_month && -1 == m_year &&
@@ -219,7 +221,9 @@ public class CronTimeTrigger
         // Schedule monthly jobs
         else if( -1 != m_dayOfMonth )
         {
-            next.set( Calendar.DAY_OF_MONTH, m_dayOfMonth );
+            //System.out.println( "Setting to maxday: " + realDayOfMonth );
+            next.set( Calendar.DAY_OF_MONTH, realDayOfMonth );
+            //next.set( Calendar.DAY_OF_MONTH, m_dayOfMonth );
 
             //if this months job has already run then schedule next week
             if ( m_month == -1 &&
