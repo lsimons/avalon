@@ -7,6 +7,7 @@
  */
 package org.apache.avalon.phoenix.components.manager;
 
+import java.io.File;
 import javax.management.Attribute;
 import javax.management.MBeanServer;
 import javax.management.MBeanServerFactory;
@@ -16,6 +17,9 @@ import mx4j.util.StandardMBeanProxy;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.context.Context;
+import org.apache.avalon.framework.context.ContextException;
+import org.apache.avalon.framework.context.Contextualizable;
 
 /**
  * This component is responsible for managing phoenix instance.
@@ -26,14 +30,14 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
  */
 public class MX4JSystemManager
     extends AbstractJMXManager
-    implements Configurable
+    implements Contextualizable, Configurable
 {
     private static final int DEFAULT_HTTPADAPTER_PORT =
         Integer.getInteger( "phoenix.adapter.http", 8082 ).intValue();
-
     private int m_port;
-
     private boolean m_rmi;
+    private File m_homeDir;
+    private String m_stylesheetDir;
 
     public void initialize()
         throws Exception
@@ -57,26 +61,19 @@ public class MX4JSystemManager
          m_mBeanServer.setAttribute(adaptorName, new Attribute("AuthenticationMethod", "basic"));
          */
 
-        ObjectName processorName = new ObjectName( "Http:name=XSLTProcessor" );
+        final ObjectName processorName = new ObjectName( "Http:name=XSLTProcessor" );
         mBeanServer.createMBean( "mx4j.adaptor.http.XSLTProcessor", processorName, null );
-        /*
-                if( path != null )
-                {
-                    m_mBeanServer.setAttribute( processorName, new Attribute( "File", path ) );
-                }
-        */
-        final Attribute useCache =
-            new Attribute( "UseCache", new Boolean( false ) );
-        mBeanServer.setAttribute( processorName, useCache );
-        /*
-                if( pathInJar != null )
-                {
-                    m_mBeanServer.setAttribute( processorName,
-                    new Attribute( "PathInJar", pathInJar ) );
-                }
-        */
-
         mBeanServer.setAttribute( adaptorName, new Attribute( "ProcessorName", processorName ) );
+
+        if( null != m_stylesheetDir )
+        {
+            final Attribute stylesheetDir = new Attribute( "File", m_stylesheetDir );
+            mBeanServer.setAttribute( processorName, stylesheetDir );
+        }
+
+        final Attribute useCache =
+            new Attribute( "UseCache", Boolean.FALSE );
+        mBeanServer.setAttribute( processorName, useCache );
 
         // starts the server
         mBeanServer.invoke( adaptorName, "start", null, null );
@@ -108,12 +105,24 @@ public class MX4JSystemManager
         mbean.start();
     }
 
+    public void contextualize( Context context )
+        throws ContextException
+    {
+        m_homeDir = (File)context.get( "phoenix.home" );
+    }
+
     public void configure( final Configuration configuration )
         throws ConfigurationException
     {
         m_port = configuration.getChild( "manager-adaptor-port" ).
             getValueAsInteger( DEFAULT_HTTPADAPTER_PORT );
         m_rmi = configuration.getChild( "enable-rmi-adaptor" ).getValueAsBoolean( false );
+        final String stylesheets =
+            configuration.getChild( "stylesheets-dir" ).getValue( null );
+        if( null != stylesheets )
+        {
+            m_stylesheetDir = new File( m_homeDir, stylesheets ).getAbsolutePath();
+        }
     }
 
     protected MBeanServer createMBeanServer()
