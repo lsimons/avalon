@@ -5,7 +5,7 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE.txt file.
  */
-package src.java.org.apache.avalon.phoenix.tools.metagenerate;
+package org.apache.avalon.phoenix.tools.metagenerate;
 
 import com.thoughtworks.qdox.ant.AbstractQdoxTask;
 import com.thoughtworks.qdox.model.DocletTag;
