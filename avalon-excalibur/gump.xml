@@ -177,4 +177,23 @@
     <jar name="build/lib/excalibur-tar-@@DATE@@.jar"/>
   </project>
 
+  <project name="excalibur-zip">
+    <package>org.apache.avalon.excalibur.zip</package>
+
+    <ant basedir="tar">
+      <depend property="junit.jar" project="junit"/>
+      <property name="version" value="@@DATE@@"/>
+      <property name="junit.failonerror" value="true"/>
+      <property name="do.checkstyle" value="true"/>
+    </ant>
+
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+    <depend project="checkstyle"/>
+    <work nested="zip/build/classes"/>
+
+    <home nested="tar"/>
+    <jar name="build/lib/excalibur-zip-@@DATE@@.jar"/>
+  </project>
+
 </module>
