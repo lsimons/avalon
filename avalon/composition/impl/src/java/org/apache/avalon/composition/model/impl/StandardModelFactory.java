@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.security.Policy;
 
 import org.apache.avalon.composition.data.ComponentProfile;
 import org.apache.avalon.composition.data.ContainmentProfile;
@@ -57,7 +58,7 @@ import org.apache.avalon.meta.info.Type;
  * A factory enabling the establishment of new composition model instances.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/02/14 21:33:56 $
+ * @version $Revision: 1.3 $ $Date: 2004/02/23 13:00:31 $
  */
 public class StandardModelFactory 
   implements ModelFactory
@@ -180,7 +181,15 @@ public class StandardModelFactory
         {
             ContainmentContext context = 
               createRootContainmentContext( profile );
-            return createContainmentModel( context );
+            ContainmentModel model = createContainmentModel( context );
+
+            if( model.isSecureExecutionEnabled() )
+            {
+                CodeSecurityPolicy policy = 
+                  new CodeSecurityPolicy( model );
+                Policy.setPolicy( policy );
+            }
+            return model;
         }
         catch( Throwable e )
         {

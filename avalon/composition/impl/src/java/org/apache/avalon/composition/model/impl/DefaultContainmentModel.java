@@ -49,7 +49,6 @@ import org.apache.avalon.composition.event.CompositionListener;
 import org.apache.avalon.composition.model.AssemblyException;
 import org.apache.avalon.composition.model.ClassLoaderModel;
 import org.apache.avalon.composition.model.ContainmentModel;
-import org.apache.avalon.composition.model.ContextModel;
 import org.apache.avalon.composition.model.DependencyModel;
 import org.apache.avalon.composition.model.DependencyGraph;
 import org.apache.avalon.composition.model.ComponentModel;
@@ -99,7 +98,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * as a part of a containment deployment model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.34 $ $Date: 2004/02/21 23:54:42 $
+ * @version $Revision: 1.35 $ $Date: 2004/02/23 13:00:31 $
  */
 public class DefaultContainmentModel extends DefaultDeploymentModel 
   implements ContainmentModel
@@ -875,7 +874,8 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
     private DeploymentModel addModel( 
       String name, DeploymentModel model )
     {
-        if( model.equals( this ) ) return model;
+        if( model.equals( this ) ) 
+            return model;
         ModelRepository repository = m_context.getModelRepository();
         synchronized( repository )
         {

@@ -23,21 +23,22 @@ import java.io.Serializable;
  * Description of classpath.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/01/24 23:25:24 $
+ * @version $Revision: 1.3 $ $Date: 2004/02/23 13:00:31 $
  */
 public final class GrantDirective implements Serializable
 {
-     private static final PermissionDirective[] EMPTY_PERMISSIONSETS = new PermissionDirective[0]; 
-
+    private static final PermissionDirective[] EMPTY_PERMISSIONSETS = new PermissionDirective[0]; 
+    private static final CertsDirective EMPTY_CERTIFICATE = new CertsDirective();
     /**
      * The permission directives
      */
     private PermissionDirective[] m_permissions;
 
+    private CertsDirective m_certificates;
 
     public GrantDirective()
     {
-        this( null );
+        this( null, null );
     }
     
     /**
@@ -45,7 +46,10 @@ public final class GrantDirective implements Serializable
      *
      * @param permissions the permissions to be included in the grant
      */
-    public GrantDirective( final PermissionDirective[] permissions )
+    public GrantDirective( 
+        final PermissionDirective[] permissions,
+        final CertsDirective certs
+     )
     {
         if( permissions == null )
         {
@@ -54,6 +58,14 @@ public final class GrantDirective implements Serializable
         else
         {
             m_permissions = permissions;
+        }
+        if( certs == null )
+        {
+            m_certificates = EMPTY_CERTIFICATE;
+        }
+        else
+        {
+            m_certificates = certs;
         }
     }
 
@@ -75,5 +87,15 @@ public final class GrantDirective implements Serializable
     public PermissionDirective[] getPermissionDirectives()
     {
         return m_permissions;
+    }
+
+    /**
+     * Return the set of permission directives.
+     *
+     * @return the permission directives
+     */
+    public CertsDirective getCertsDirective()
+    {
+        return m_certificates;
     }
 }

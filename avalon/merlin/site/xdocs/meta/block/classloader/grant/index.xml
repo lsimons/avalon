@@ -39,6 +39,14 @@
              The permission descriptor.
             </td>
           </tr>
+          <tr>
+            <td><a href="certificates.html">certificates</a></td><td>0..1</td>
+            <td>
+             The certificates descriptor. In this nested element, one can list
+             the certificates required for the code sources. Either X.509 or
+             PKCS#7 certificates.
+            </td>
+          </tr>
         </table>
       </subsection>
 

@@ -15,10 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.avalon.activation.csi.grant;
-
-import org.apache.avalon.activation.csi.SecureBlock;
-import org.apache.avalon.activation.csi.AbstractTestCase;
+package org.apache.avalon.activation.impl.test;
 
 import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.util.exception.ExceptionHelper;
