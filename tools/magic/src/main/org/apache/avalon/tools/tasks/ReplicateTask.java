@@ -43,6 +43,12 @@ public class ReplicateTask extends Task
     private Path m_path;
     private Context m_context;
     private Home m_home;
+    private boolean m_flatten = false;
+
+    public void setFlatten( boolean flag )
+    {
+        m_flatten = flag;
+    }
 
     public void init()
     {
@@ -166,6 +172,7 @@ public class ReplicateTask extends Task
         final Copy copy = (Copy) getProject().createTask( "copy" );
         copy.setTaskName( getTaskName() );
         copy.setPreserveLastModified( true );
+        copy.setFlatten( m_flatten );
         copy.setTodir( destination );
         copy.addFileset( fileset );
         copy.init();
