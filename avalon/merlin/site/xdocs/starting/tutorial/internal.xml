@@ -73,11 +73,7 @@ Merlin Kernel Environment Listing
   ${merlin.deployment} == file:/${user.dir}/target/classes/
 
 -----------------------------------------------------------
-[INFO   ] (kernel): building application model
-[INFO   ] (kernel): install phase
-[INFO   ] (kernel): installing: file:/${user.dir}/target/classes/
-[INFO   ] (tutorial.hello): instantiated
-[INFO   ] (tutorial.hello): disposal
+[INFO   ] (tutorial.hello): Hello World!
 ]]></source>
         
       </subsection>
@@ -108,12 +104,12 @@ $ merlin -execute target\classes -config conf\config.xml
 [DEBUG  ] (tutorial): commissioning component [hello]
 [DEBUG  ] (tutorial.hello.lifecycle): incarnation
 [DEBUG  ] (tutorial.hello.lifecycle): instantiating component with 1 arguments.
-[INFO   ] (tutorial.hello): instantiated
+[INFO   ] (tutorial.hello): Hello World!
 [DEBUG  ] (tutorial): commissioning of [hello] completed in 93 milliseconds
 [DEBUG  ] (tutorial): decommissioning
 [DEBUG  ] (tutorial.hello.lifecycle): etherialization
 [DEBUG  ] (tutorial.hello.lifecycle): applying disposal
-[INFO   ] (tutorial.hello): disposal
+[DEBUG  ] (tutorial.hello): disposal
 ]]></source>
 
         <p>
@@ -159,7 +155,7 @@ $ merlin -execute target\classes -config conf\config.xml
 <source><![CDATA[
 [DEBUG  ] (tutorial.hello.lifecycle): incarnation
 [DEBUG  ] (tutorial.hello.lifecycle): instantiating component with 1 arguments.
-[INFO   ] (tutorial.hello): instantiated
+[INFO   ] (tutorial.hello): Hello World!
 ]]></source>
 
         <p>
@@ -188,18 +184,6 @@ $ merlin -execute target\classes -config conf\config.xml
 <source><![CDATA[
 [DEBUG  ] (tutorial): decommissioning
 [DEBUG  ] (tutorial.hello.lifecycle): etherialization
-[DEBUG  ] (tutorial.hello.lifecycle): applying disposal
-]]></source>
-
-        <p>
-        The hello component implements the Disposable lifecycle 
-        interface and the following log entry raised by the 
-        component signals that it has completed it's own end-of-life
-        processing.
-        </p>
-
-<source><![CDATA[
-[INFO   ] (tutorial.hello): disposal
 ]]></source>
 
       </subsection>
@@ -265,7 +249,7 @@ $ merlin -execute target\classes -debug
 [DEBUG  ] (tutorial): commissioning component [hello]
 [DEBUG  ] (tutorial.hello.lifecycle): incarnation
 [DEBUG  ] (tutorial.hello.lifecycle): instantiating component with 1 arguments.
-[INFO   ] (tutorial.hello): instantiated
+[INFO   ] (tutorial.hello): Hello World
 [DEBUG  ] (tutorial): commissioning of [hello] completed in 94 milliseconds
 [DEBUG  ] (): commissioning of [tutorial] completed in 156 milliseconds
 [DEBUG  ] (kernel): state: started
@@ -275,8 +259,6 @@ $ merlin -execute target\classes -debug
 [DEBUG  ] (): decommissioning
 [DEBUG  ] (tutorial): decommissioning
 [DEBUG  ] (tutorial.hello.lifecycle): etherialization
-[DEBUG  ] (tutorial.hello.lifecycle): applying disposal
-[INFO   ] (tutorial.hello): disposal
 [DEBUG  ] (kernel): state: stopped
 [DEBUG  ] (kernel): disposal
 [DEBUG  ] (kernel): shutdown event

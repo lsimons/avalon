@@ -33,17 +33,16 @@
             <td>Instructions for building an installation from CVS.</td>
           </tr>
           <tr>
-            <td><a href="install.3.3.html">Merlin 3.3 (dev) installation procedure for the 
-             latest development snapshot release.</a></td>
-            <td>Installation instructions for Merlin 3.2.</td>
+            <td><a href="install.3.3.html">Merlin 3.3.0</a></td>
+            <td>Merlin 3.3.0 installation procedure.</td>
           </tr>
           <tr>
-            <td><a href="install.3.2.html">Merlin 3.2.5 (released) installation procedure.</a></td>
-            <td>Installation instructions for Merlin 3.2.</td>
+            <td><a href="install.3.2.html">Merlin 3.2.5</a></td>
+            <td>Merlin 3.2.5 installation procedure.</td>
           </tr>
           <tr>
-            <td><a href="install.3.0.html">Merlin 3.0 Installation</a></td>
-            <td>Installation instructions for Merlin 3.0.</td>
+            <td><a href="install.3.0.html">Merlin 3.0.0</a></td>
+            <td>Merlin 3.0 Installation</td>
           </tr>
         </table>
     </section>

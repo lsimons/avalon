@@ -257,8 +257,9 @@
       <fileset dir="${basedir}/cli/src">
         <include name="config/**/*"/>
       </fileset>
-      <fileset dir="${basedir}">
-        <include name="LICENSE.txt"/>
+      <fileset dir="${avalon.buildsystem}/site">
+        <include name="LICENSE*"/>
+        <include name="NOTICE*"/>
       </fileset>
     </ant:copy>
     <ant:fixcrlf eol="crlf" srcdir="${merlin.build.dir}">

@@ -178,14 +178,15 @@
     </dependency>
 
     <dependency>
+      <groupId>&excalibur-lifecycle-id;</groupId>
+      <artifactId>&excalibur-lifecycle-api-id;</artifactId>
+      <version>&excalibur-lifecycle-api-version;</version>
+    </dependency>
+
+    <dependency>
       <groupId>excalibur-configuration</groupId>
       <artifactId>excalibur-configuration</artifactId>
       <version>1.2</version>
-    </dependency>
-    <dependency>
-      <groupId>excalibur-lifecycle</groupId>
-      <artifactId>excalibur-lifecycle-api</artifactId>
-      <version>1.1</version>
     </dependency>
     <dependency>
       <groupId>xerces</groupId>
