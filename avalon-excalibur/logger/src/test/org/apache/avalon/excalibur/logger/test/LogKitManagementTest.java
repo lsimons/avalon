@@ -26,7 +26,7 @@ import org.apache.log.output.io.StreamTarget;
  * LogKitManagementTest.
  *
  * @author <a href="mailto:giacomo@apache,org">Giacomo Pati</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/04/04 02:34:16 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/06/13 17:24:51 $
  */
 public class LogKitManagementTest
 {
@@ -72,7 +72,7 @@ public class LogKitManagementTest
     }
 
     /**
-     * Initializes the ComponentManager
+     * Initializes the ComponentLocator
      *
      * The configuration file is determined by the class name plus .xtest appended,
      * all '.' replaced by '/' and loaded as a resource via classpath
@@ -86,7 +86,7 @@ public class LogKitManagementTest
     }
 
     /**
-     * Initializes the ComponentManager
+     * Initializes the ComponentLocator
      *
      * @param testconf The configuration file is passed as a <code>InputStream</code>     *
      * A common way to supply a InputStream is to overwrite the initialize() method
@@ -113,7 +113,7 @@ public class LogKitManagementTest
     }
 
     /**
-     * Disposes the <code>ComponentManager</code>
+     * Disposes the <code>ComponentLocator</code>
      */
     final private void dispose()
     {

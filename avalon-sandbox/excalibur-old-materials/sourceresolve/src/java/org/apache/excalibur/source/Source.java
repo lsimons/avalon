@@ -17,7 +17,7 @@ import java.util.Iterator;
  *
  * When the <code>Source</code> object is no longer needed
  * it must be released using the resolver. This is very similar like
- * looking up components from a <code>ComponentManager</code>.
+ * looking up components from a <code>ComponentLocator</code>.
  * In fact a source object can implement most lifecycle interfaces
  * like Composable, Initializable, Disposable etc.
  *
@@ -51,7 +51,7 @@ import java.util.Iterator;
  * validity object must be the same until discardValidity is called!
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.5 $ $Date: 2002/06/12 09:24:14 $
+ * @version CVS $Revision: 1.6 $ $Date: 2002/06/13 17:24:52 $
  */
 public interface Source
 {

@@ -29,7 +29,7 @@ import org.apache.avalon.framework.logger.Logger;
 
 /**
  * Instrumentables which do not implement ThreadSafe may have multiple instances
- *  created by the ComponentManager.  Each of these Instruments will share
+ *  created by the ComponentLocator.  Each of these Instruments will share
  *  a common key and are profiled as a group.  The InstrumentProxy is used
  *  make it easy for the InstrumentManager to control groups of Instruments
  *  as one.
@@ -38,7 +38,7 @@ import org.apache.avalon.framework.logger.Logger;
  *  It is resolved when the Instrumentable actually registers the Instrument.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.8 $ $Date: 2002/06/13 13:06:27 $
+ * @version CVS $Revision: 1.9 $ $Date: 2002/06/13 17:24:51 $
  * @since 4.1
  */
 public class InstrumentProxy

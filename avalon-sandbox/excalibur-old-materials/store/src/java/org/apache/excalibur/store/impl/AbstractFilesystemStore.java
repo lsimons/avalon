@@ -21,7 +21,7 @@ import java.util.Enumeration;
  *
  * @author ?
  * @author <a href="mailto:vgritsenko@apache.org">Vadim Gritsenko</a>
- * @version CVS $Id: AbstractFilesystemStore.java,v 1.2 2002/05/06 12:16:15 cziegeler Exp $
+ * @version CVS $Id: AbstractFilesystemStore.java,v 1.3 2002/06/13 17:24:52 bloritsch Exp $
  */
 public abstract class AbstractFilesystemStore
 extends AbstractLogEnabled
@@ -298,7 +298,9 @@ implements Store, ThreadSafe {
             }
             filename = out.toString();
         }
+        // In JDK 1.4 this is deprecated, the new format is below
         return java.net.URLDecoder.decode( filename );
+        // return java.net.URLDecoder.decode( filename, "UTF-8" );
     }
 
     /** A BitSet defining the characters which don't need encoding */

@@ -20,7 +20,7 @@ import org.apache.avalon.framework.thread.ThreadSafe;
 /**
  * The ActiveMonitor is used to actively check a set of resources to see if they have
  * changed.  It will be implemented as a Component, that can be retrieved from
- * the ComponentManager.  It defaults to checking every 1 minute.  The configuration
+ * the ComponentLocator.  It defaults to checking every 1 minute.  The configuration
  * looks like this:
  *
  * <pre>
@@ -35,7 +35,7 @@ import org.apache.avalon.framework.thread.ThreadSafe;
  * </pre>
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: ActiveMonitor.java,v 1.11 2002/05/13 12:17:40 donaldp Exp $
+ * @version $Id: ActiveMonitor.java,v 1.12 2002/06/13 17:24:52 bloritsch Exp $
  */
 public final class ActiveMonitor
     extends AbstractLogEnabled

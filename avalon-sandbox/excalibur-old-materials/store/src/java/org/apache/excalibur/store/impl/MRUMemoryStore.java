@@ -35,7 +35,7 @@ import java.util.NoSuchElementException;
  * @author <a href="mailto:g-froehlich@gmx.de">Gerhard Froehlich</a>
  * @author <a href="mailto:dims@yahoo.com">Davanum Srinivas</a>
  * @author <a href="mailto:vgritsenko@apache.org">Vadim Gritsenko</a>
- * @version CVS $Id: MRUMemoryStore.java,v 1.3 2002/05/07 21:42:38 froehlich Exp $
+ * @version CVS $Id: MRUMemoryStore.java,v 1.4 2002/06/13 17:24:52 bloritsch Exp $
  */
 public final class MRUMemoryStore
 extends AbstractLogEnabled
@@ -50,9 +50,9 @@ implements Store, Parameterizable, Composable, Disposable, ThreadSafe {
     private ComponentManager manager;
 
     /**
-     * Get components of the ComponentManager
+     * Get components of the ComponentLocator
      *
-     * @param manager The ComponentManager
+     * @param manager The ComponentLocator
      */
     public void compose(ComponentManager manager)
     throws ComponentException {

@@ -45,7 +45,7 @@ import org.apache.excalibur.source.SourceResolver;
  *
  * When the <code>Source</code> object is no longer needed
  * it must be released using the resolver. This is very similar like
- * looking up components from a <code>ComponentManager</code>
+ * looking up components from a <code>ComponentLocator</code>
  * and releasing them.
  *
  * It looks for the base URL in the <code>Context</code> object with
@@ -54,7 +54,7 @@ import org.apache.excalibur.source.SourceResolver;
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: SourceResolverImpl.java,v 1.8 2002/06/13 12:59:10 bloritsch Exp $
+ * @version $Id: SourceResolverImpl.java,v 1.9 2002/06/13 17:24:52 bloritsch Exp $
  */
 public class SourceResolverImpl
     extends AbstractLogEnabled
@@ -120,7 +120,7 @@ public class SourceResolverImpl
     }
 
     /**
-     * Set the current <code>ComponentManager</code> instance used by this
+     * Set the current <code>ComponentLocator</code> instance used by this
      * <code>Composable</code>.
      */
     public void compose( ComponentManager manager )

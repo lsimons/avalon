@@ -33,7 +33,7 @@ import org.apache.avalon.framework.thread.ThreadSafe;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
- * @version CVS $Revision: 1.6 $ $Date: 2002/06/04 08:02:16 $
+ * @version CVS $Revision: 1.7 $ $Date: 2002/06/13 17:24:50 $
  * @since 4.0
  */
 public class ExcaliburComponentSelector
@@ -124,7 +124,7 @@ public class ExcaliburComponentSelector
         }
     }
 
-    /** Compose the ComponentSelector so that we know what the parent ComponentManager is.
+    /** Compose the ComponentSelector so that we know what the parent ComponentLocator is.
      */
     public void compose( final ComponentManager componentManager )
         throws ComponentException
@@ -237,7 +237,7 @@ public class ExcaliburComponentSelector
         {
             if( getLogger().isWarnEnabled() )
             {
-                getLogger().warn( "Looking up component on an uninitialized ComponentManager: " + hint );
+                getLogger().warn( "Looking up component on an uninitialized ComponentLocator: " + hint );
             }
         }
 
@@ -437,7 +437,7 @@ public class ExcaliburComponentSelector
 
         // ThreadSafe components will always be using a ThreadSafeComponentHandler,
         //  they will only have a single entry in the m_componentMapping map which
-        //  should not be removed until the ComponentManager is disposed.  All
+        //  should not be removed until the ComponentLocator is disposed.  All
         //  other components have an entry for each instance which should be
         //  removed.
         if( !( handler instanceof ThreadSafeComponentHandler ) )
@@ -469,7 +469,7 @@ public class ExcaliburComponentSelector
      * @param componentClass Class of the component for which the handle is
      *                       being requested.
      * @param configuration The configuration for this component.
-     * @param componentManager The ComponentManager which will be managing
+     * @param componentManager The ComponentLocator which will be managing
      *                         the Component.
      * @param context The current context object.
      * @param roleManager The current RoleManager.

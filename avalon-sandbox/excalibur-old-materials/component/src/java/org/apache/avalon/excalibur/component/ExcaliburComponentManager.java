@@ -32,7 +32,7 @@ import org.apache.avalon.framework.context.Contextualizable;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
- * @version CVS $Revision: 1.6 $ $Date: 2002/06/02 06:03:01 $
+ * @version CVS $Revision: 1.7 $ $Date: 2002/06/13 17:24:50 $
  * @since 4.0
  */
 public class ExcaliburComponentManager
@@ -45,7 +45,7 @@ public class ExcaliburComponentManager
     RoleManageable,
     LogKitManageable
 {
-    /** The parent ComponentManager */
+    /** The parent ComponentLocator */
     private final ComponentManager m_parentManager;
 
     /** The classloader used for this system. */
@@ -72,19 +72,19 @@ public class ExcaliburComponentManager
     /** Is the Manager initialized? */
     private boolean m_initialized;
 
-    /** Create the ComponentManager */
+    /** Create the ComponentLocator */
     public ExcaliburComponentManager()
     {
         this( null, Thread.currentThread().getContextClassLoader() );
     }
 
-    /** Create the ComponentManager with a Classloader */
+    /** Create the ComponentLocator with a Classloader */
     public ExcaliburComponentManager( final ClassLoader loader )
     {
         this( null, loader );
     }
 
-    /** Create the ComponentManager with a Classloader and parent ComponentManager */
+    /** Create the ComponentLocator with a Classloader and parent ComponentLocator */
     public ExcaliburComponentManager( final ComponentManager manager, final ClassLoader loader )
     {
         if( null == loader )
@@ -99,7 +99,7 @@ public class ExcaliburComponentManager
         m_parentManager = manager;
     }
 
-    /** Create the ComponentManager with a parent ComponentManager */
+    /** Create the ComponentLocator with a parent ComponentLocator */
     public ExcaliburComponentManager( final ComponentManager manager )
     {
         this( manager, Thread.currentThread().getContextClassLoader() );
@@ -240,19 +240,19 @@ public class ExcaliburComponentManager
         {
             if( getLogger().isWarnEnabled() )
             {
-                getLogger().warn( "Looking up component on an uninitialized ComponentManager: " + role );
+                getLogger().warn( "Looking up component on an uninitialized ComponentLocator: " + role );
             }
         }
 
         if( m_disposed )
         {
-            throw new IllegalStateException( "You cannot lookup components on a disposed ComponentManager" );
+            throw new IllegalStateException( "You cannot lookup components on a disposed ComponentLocator" );
         }
 
         if( null == role )
         {
             final String message =
-                "ComponentManager Attempted to retrieve component with null role.";
+                "ComponentLocator Attempted to retrieve component with null role.";
 
             if( getLogger().isErrorEnabled() )
             {
@@ -277,7 +277,7 @@ public class ExcaliburComponentManager
                     if( getLogger().isWarnEnabled() )
                     {
                         final String message =
-                            "ComponentManager exception from parent CM during lookup.";
+                            "ComponentLocator exception from parent CM during lookup.";
                         getLogger().warn( message, e );
                     }
                     // ignore.  If the exception is thrown, we try to
@@ -327,7 +327,7 @@ public class ExcaliburComponentManager
             }
             else
             {
-                getLogger().debug( "Component requested without a RoleManager set.\nThat means this ComponentManager was not configured." );
+                getLogger().debug( "Component requested without a RoleManager set.\nThat means thisComponentDirectoryr was not configured." );
             }
         }
 
@@ -386,7 +386,7 @@ public class ExcaliburComponentManager
     }
 
     /**
-     * Configure the ComponentManager.
+     * Configure the ComponentLocator.
      */
     public void configure( final Configuration configuration )
         throws ConfigurationException
@@ -529,7 +529,7 @@ public class ExcaliburComponentManager
         {
             // ThreadSafe components will always be using a ThreadSafeComponentHandler,
             //  they will only have a single entry in the m_componentMapping map which
-            //  should not be removed until the ComponentManager is disposed.  All
+            //  should not be removed until the ComponentLocator is disposed.  All
             //  other components have an entry for each instance which should be
             //  removed.
             if( !( handler instanceof ThreadSafeComponentHandler ) )
@@ -616,7 +616,7 @@ public class ExcaliburComponentManager
     {
         if( m_initialized )
         {
-            throw new ComponentException( "Cannot add components to an initialized ComponentManager", null );
+            throw new ComponentException( "Cannot add components to an initialized ComponentLocator", null );
         }
 
         try
@@ -656,7 +656,7 @@ public class ExcaliburComponentManager
     {
         if( m_initialized )
         {
-            throw new IllegalStateException( "Cannot add components to an initialized ComponentManager" );
+            throw new IllegalStateException( "Cannot add components to an initialized ComponentLocator" );
         }
 
         try
