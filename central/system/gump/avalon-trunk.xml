@@ -2960,9 +2960,7 @@
       <depend property="gump.resource.junit" project="junit"/>
       <depend property="gump.resource.ant-junit" project="ant" id="ant-junit"/>
       <depend property="gump.resource.ant-nodeps" project="ant" id="ant-nodeps"/>
-      <depend property="gump.resource.saxon" project="saxon">
-        <noclasspath/>
-      </depend>
+      <depend property="gump.resource.saxon" project="saxon6"/>
       <!-- end for -->
     </ant>
     <depend project="magic" runtime="true" inherit="runtime"/> 
