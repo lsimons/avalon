@@ -24,9 +24,8 @@ import java.util.List;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.taskdefs.Sequential;
 
-import org.apache.avalon.tools.model.Plugin.TaskDef;
 import org.apache.avalon.tools.model.Plugin.ListenerDef;
-import org.apache.avalon.tools.util.ElementHelper;
+import org.apache.avalon.tools.model.Plugin.TaskDef;
 
 import org.w3c.dom.Element;
 

@@ -42,7 +42,7 @@ import org.apache.avalon.tools.model.Plugin;
 import org.apache.avalon.tools.model.Plugin.TaskDef;
 import org.apache.avalon.tools.model.Plugin.ListenerDef;
 import org.apache.avalon.tools.model.XMLDefinitionBuilder;
-import org.apache.avalon.tools.util.ElementHelper;
+import org.apache.avalon.tools.model.ElementHelper;
 
 import org.w3c.dom.Element;
 
