@@ -164,6 +164,8 @@ Legal:
                 unless="logkit.present"/>
             <exclude name="org/apache/avalon/framework/logger/Jdk14Logger.java"
                 unless="jdk14.present"/>
+            <exclude name="org/apache/avalon/framework/logger/CommonsLogger.java"
+                unless="commons-logging.present"/>
         </javac>
     </target>
 
