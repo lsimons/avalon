@@ -27,9 +27,9 @@ namespace Apache.Avalon.DynamicProxy
 		/// Implementation should invoke the method on the real object.
 		/// </summary>
 		/// <param name="proxy">proxy instance</param>
-		/// <param name="method"><see cref="System.Reflection.MethodBase"/> being invoked.</param>
+		/// <param name="method"><see cref="System.Reflection.MethodInfo"/> being invoked.</param>
 		/// <param name="arguments">Arguments of method - if any</param>
 		/// <returns>Should return the result of method invocation</returns>
-		object Invoke(object proxy, MethodBase method, params object[] arguments);
+		object Invoke(object proxy, MethodInfo method, params object[] arguments);
 	}
 }
