@@ -72,7 +72,7 @@ import org.apache.avalon.framework.Version;
  * name of container.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2003/10/19 08:30:28 $
+ * @version $Revision: 1.6 $ $Date: 2003/10/19 10:29:57 $
  */
 public final class InfoDescriptor extends Descriptor
 {
@@ -88,11 +88,14 @@ public final class InfoDescriptor extends Descriptor
 
     public static final String POOLED = "pooled";
 
-    public static final String LIBERAL = "liberal";
+    public static final String LIBERAL_KEY = "liberal";
+    public static final String DEMOCRAT_KEY = "democrat";
+    public static final String CONSERVATIVE_KEY = "conservative";
 
-    public static final String DEMOCRAT = "democrat";
-
-    public static final String CONSERVATIVE = "conservative";
+    public static final int UNDEFINED = -1;
+    public static final int LIBERAL = 0;
+    public static final int DEMOCRAT = 1;
+    public static final int CONSERVATIVE = 2;
 
     //-------------------------------------------------------------------
     // immutable state
@@ -135,7 +138,7 @@ public final class InfoDescriptor extends Descriptor
      * scope exists (the jvm for a "singleton" and Thread for "thread" lifestyles).  
      * The default policy is CONSERVATIVE.
      */
-    private final String m_collection;
+    private final int m_collection;
 
     //-------------------------------------------------------------------
     // constructor
@@ -219,30 +222,14 @@ public final class InfoDescriptor extends Descriptor
             m_lifestyle = lifestyle;
         }
 
-        if ( collection == null )
+        int p = getCollectionPolicy( collection );
+        if( p > UNDEFINED )
         {
-            m_collection = CONSERVATIVE;
+            m_collection = p;
         }
         else
         {
-            if( collection.equalsIgnoreCase( CONSERVATIVE ) )
-            {
-                m_collection = CONSERVATIVE;
-            }
-            else if( collection.equalsIgnoreCase( DEMOCRAT ) )
-            {
-                m_collection = DEMOCRAT;
-            }
-            else if( collection.equalsIgnoreCase( LIBERAL ) )
-            {
-                m_collection = LIBERAL;
-            }
-            else
-            {
-                final String error =
-                  "Unrecognized collection argument [" + collection + "]";
-                throw new IllegalArgumentException( error );
-            }
+            m_collection = CONSERVATIVE;
         }
 
         if ( name != null )
@@ -296,7 +283,7 @@ public final class InfoDescriptor extends Descriptor
      *
      * @return the policy
      */
-    public String getCollectionPolicy()
+    public int getCollectionPolicy()
     {
         return m_collection;
     }
@@ -308,7 +295,7 @@ public final class InfoDescriptor extends Descriptor
     */
     public boolean isLiberal()
     {
-        return m_collection.equals( LIBERAL );
+        return m_collection == LIBERAL;
     }
 
     /**
@@ -318,7 +305,7 @@ public final class InfoDescriptor extends Descriptor
      */
     public boolean isDemocrat()
     {
-        return m_collection.equals( DEMOCRAT );
+        return m_collection == DEMOCRAT;
     }
 
     /**
@@ -328,7 +315,7 @@ public final class InfoDescriptor extends Descriptor
      */
     public boolean isConservative()
     {
-        return m_collection.equals( CONSERVATIVE );
+        return m_collection == CONSERVATIVE;
     }
 
     /**
@@ -392,7 +379,7 @@ public final class InfoDescriptor extends Descriptor
         {
             InfoDescriptor info = (InfoDescriptor)other;
             isEqual = isEqual && m_classname.equals( info.m_classname );
-            isEqual = isEqual && m_collection.equals( info.m_collection );
+            isEqual = isEqual && ( m_collection == info.m_collection );
             isEqual = isEqual && m_name.equals( info.m_name );
             isEqual = isEqual && m_lifestyle.equals( info.m_lifestyle );
 
@@ -421,9 +408,6 @@ public final class InfoDescriptor extends Descriptor
         hash ^= m_classname.hashCode();
         hash >>>= 7;
 
-        hash ^= m_collection.hashCode();
-        hash >>>= 7;
-
         if ( null != m_name )
         {
             hash >>>= 7;
@@ -444,4 +428,63 @@ public final class InfoDescriptor extends Descriptor
 
         return hash;
     }
+
+    public static String getCollectionPolicyKey( int policy )
+    {
+        if ( policy == UNDEFINED )
+        {
+            return null;
+        }
+        else
+        {
+            if( policy == CONSERVATIVE )
+            {
+                return CONSERVATIVE_KEY;
+            }
+            else if( policy == DEMOCRAT )
+            {
+                return DEMOCRAT_KEY;
+            }
+            else if( policy == LIBERAL )
+            {
+                return LIBERAL_KEY;
+            }
+            else
+            {
+                final String error =
+                  "Unrecognized collection argument [" + policy + "]";
+                throw new IllegalArgumentException( error );
+            }
+        }
+    }
+
+    public static int getCollectionPolicy( String policy )
+    {
+        if ( policy == null )
+        {
+            return UNDEFINED;
+        }
+        else
+        {
+            if( policy.equalsIgnoreCase( CONSERVATIVE_KEY ) )
+            {
+                return CONSERVATIVE;
+            }
+            else if( policy.equalsIgnoreCase( DEMOCRAT_KEY ) )
+            {
+                return DEMOCRAT;
+            }
+            else if( policy.equalsIgnoreCase( LIBERAL_KEY ) )
+            {
+                return LIBERAL;
+            }
+            else
+            {
+                final String error =
+                  "Unrecognized collection argument [" + policy + "]";
+                throw new IllegalArgumentException( error );
+            }
+        }
+    }
+
 }
