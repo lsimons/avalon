@@ -8,7 +8,14 @@
 package org.apache.avalon.phoenix.components.deployer;
 
 import java.io.File;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.Enumeration;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import org.apache.avalon.excalibur.io.IOUtil;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -36,6 +43,10 @@ import org.apache.avalon.phoenix.components.configuration.ConfigurationRepositor
 import org.apache.avalon.phoenix.components.kapi.BlockEntry;
 import org.apache.avalon.phoenix.components.kapi.RoleEntry;
 import org.apache.avalon.phoenix.components.kapi.ServerApplicationEntry;
+import org.apache.avalon.phoenix.components.installer.InstallationException;
+import org.apache.avalon.phoenix.components.installer.Installation;
+import org.apache.avalon.phoenix.components.installer.Installer;
+import org.apache.avalon.phoenix.components.installer.DefaultInstaller;
 
 /**
  * Deploy .sar files into a kernel using this class.
@@ -58,7 +69,7 @@ public class DefaultSarDeployer
     private File                     m_deployDirectory;
     private Container                m_container;
     private ConfigurationRepository  m_repository;
-    private ZipExpander              m_expander         = new ZipExpander();
+    private Installer                m_installer;
 
     /**
      * Retrieve relevent services needed to deploy.
@@ -71,6 +82,9 @@ public class DefaultSarDeployer
     {
         m_container = (Container)componentManager.lookup( Container.ROLE );
         m_repository = (ConfigurationRepository)componentManager.lookup( ConfigurationRepository.ROLE );
+        //m_installer = (Installer)componentManager.lookup( Installer.ROLE );
+        m_installer = new DefaultInstaller();
+        setupLogger( m_installer );
     }
 
     /**
@@ -98,179 +112,52 @@ public class DefaultSarDeployer
     public void deploy( final String name, final URL url )
         throws DeploymentException
     {
-        final File file = getFileFor( url );
-        final String message = REZ.getString( "deploy.notice.deploying", file, name );
-        getLogger().info( message );
-
-        if( file.isDirectory() )
-        {
-            deployFromDirectory( name, file );
-        }
-        else
-        {
-            final File destination = getDestinationFor( name, file );
-            expand( file, destination );
-            deployFromDirectory( name, destination );
-        }
-    }
-
-    /**
-     * Get File object for URL.
-     * Currently it assumes that URL is a file URL but in the
-     * future it will allow downloading of remote URLs thus enabling
-     * a deploy from anywhere functionality.
-     *
-     * @param url the url of deployment
-     * @return the File for deployment
-     * @exception DeploymentException if an error occurs
-     */
-    private File getFileFor( final URL url )
-        throws DeploymentException
-    {
-        if( !url.getProtocol().equals( "file" ) )
-        {
-            final String message = REZ.getString( "deploy.error.deploy.nonlocal" );
-            throw new DeploymentException( message );
-        }
-
-        File file = new File( url.getFile() );
-        file = file.getAbsoluteFile();
-
-        if( !file.exists() )
-        {
-            final String message = REZ.getString( "deploy.error.deploy.nofile", file );
-            throw new DeploymentException( message );
-        }
-
-        return file;
-    }
-
-    /**
-     * Expand file to destination directory.
-     *
-     * @param file the archive to expand
-     * @param destination the destination to expand to
-     * @exception DeploymentException if an error occurs
-     */
-    private void expand( final File file, final File destination )
-        throws DeploymentException
-    {
         try
         {
-            final String message = REZ.getString( "deploy.notice.expanding", file, destination );
-            getLogger().info( message );
-
-            final InvertedFileFilter filter =
-                new InvertedFileFilter( new PrefixFileFilter( "META-INF" ) );
-            m_expander.expand( file, destination, filter );
+            final Installation installation = m_installer.install( name, url );
+            deployFromInstallation( name, installation );
         }
-        catch( final IOException ioe )
+        catch( final InstallationException ie )
         {
-            final String message = REZ.getString( "deploy.error.expanding", file, destination );
-            throw new DeploymentException( message, ioe );
+            throw new DeploymentException( "Error installing " + name, ie );
         }
-
-        final String message = REZ.getString( "deploy.notice.expanded", file, destination );
-        getLogger().info( message );
+        //final File file = getFileFor( url );
+        //final String message = REZ.getString( "deploy.notice.deploying", file, name );
+        //getLogger().info( message );
     }
 
     /**
-     * Get destination that .sar should be expanded to.
-     *
-     * @param name the name of server application
-     * @param file the file object representing .sar archive
-     * @return the destination to expand archive
-     */
-    private File getDestinationFor( final String name, final File file )
-    {
-        final String base =
-            FileUtil.removeExtension( FileUtil.removePath( file.getName() ) );
-
-        if( null != m_deployDirectory )
-        {
-            return (new File( m_deployDirectory, base )).getAbsoluteFile();
-        }
-        else
-        {
-            return (new File( file.getParentFile(), base )).getAbsoluteFile();
-        }
-    }
-
-    /**
-     * Deploy an application from a directory.
+     * Deploy an application from an installation.
      *
      * @param name the name of application
      * @param directory the directory to deploy from
      * @exception DeploymentException if an error occurs
      */
-    private void deployFromDirectory( final String name, final File directory )
+    private void deployFromInstallation( final String name, final Installation installation )
         throws DeploymentException
     {
         final ServerApplicationEntry entry = new ServerApplicationEntry();
-        entry.setHomeDirectory( directory );
+        entry.setHomeDirectory( installation.getDirectory() );
 
         //Loader server.xml for application
-        File file = new File( directory, SERVER_XML );
-        Configuration configuration = getConfigurationFor( file );
+        Configuration configuration = getConfigurationFor( installation.getServer() );
         entry.setConfiguration( configuration );
 
         //Setup applications classpath
-        final URL[] urls = getClassPath( directory );
-        entry.setClassPath( urls );
+        entry.setClassPath( installation.getClassPath() );
 
         //assemble all the blocks for application
-        file = new File( directory, ASSEMBLY_XML );
-        configuration = getConfigurationFor( file );
+        configuration = getConfigurationFor( installation.getAssembly() );
         final Configuration[] blocks = configuration.getChildren( "block" );
         final BlockEntry[] blockEntrys = assembleBlocks( entry, blocks );
         entry.setBlockEntrys( blockEntrys );
 
         //Setup configuration for all the applications blocks
-        file = new File( directory, CONFIG_XML );
-        configuration = getConfigurationFor( file );
+        configuration = getConfigurationFor( installation.getConfig() );
         configureBlocks( name, entry, configuration.getChildren() );
 
         //Finally add application to kernel
         addEntry( name, entry );
-    }
-
-    /**
-     * Get Classpath for application.
-     *
-     * @return the list of URLs in ClassPath
-     */
-    private URL[] getClassPath( final File directory )
-    {
-        final File blockDir = new File( directory, "blocks" );
-        final File libDir = new File( directory, "lib" );
-
-        final ArrayList urls = new ArrayList();
-        getURLs( urls, blockDir, new String[] { ".bar" } );
-        getURLs( urls, libDir, new String[] { ".jar", ".zip" } );
-        return (URL[])urls.toArray( new URL[0] );
-    }
-
-    /**
-     * Add all matching files in directory to url list.
-     *
-     * @param urls the url list
-     * @param directory the directory to scan
-     * @param extentions the list of extensions to match
-     * @exception MalformedURLException if an error occurs
-     */
-    private void getURLs( final ArrayList urls, final File directory, final String[] extensions )
-    {
-        final ExtensionFileFilter filter = new ExtensionFileFilter( extensions );
-        final File[] files = directory.listFiles( filter );
-        if( null == files ) return;
-        for( int i = 0; i < files.length; i++ )
-        {
-            try { urls.add( files[ i ].toURL() ); }
-            catch( final MalformedURLException mue )
-            {
-                //should never occur
-            }
-        }
     }
 
     /**
@@ -304,16 +191,16 @@ public class DefaultSarDeployer
      * @return the Configuration
      * @exception DeploymentException if an error occurs
      */
-    private Configuration getConfigurationFor( final File file )
+    private Configuration getConfigurationFor( final URL url )
         throws DeploymentException
     {
         try
         {
-            return m_builder.buildFromFile( file );
+            return m_builder.build( url.toString() );
         }
         catch( final Exception e )
         {
-            final String message = REZ.getString( "deploy.error.config.create", file );
+            final String message = REZ.getString( "deploy.error.config.create", url );
             throw new DeploymentException( message, e );
         }
     }
