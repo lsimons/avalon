@@ -1,8 +1,8 @@
 avalon-framework-api
-merlin-meta-api
-merlin-util-extension-api
+avalon-meta-api
+avalon-util-extension-api
 merlin-composition-api
-merlin-repository-api
-merlin-logging-api
-merlin-logging-spi
+avalon-repository-api
+avalon-logging-api
+avalon-logging-spi
  

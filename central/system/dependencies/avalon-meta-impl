@@ -1,0 +1,7 @@
+avalon-framework-api
+avalon-framework-impl
+avalon-meta-api
+avalon-meta-spi
+avalon-util-i18n
+artifact:jar:excalibur-configuration/excalibur-configuration#1.2
+ 

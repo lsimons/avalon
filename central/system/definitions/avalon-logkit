@@ -1,2 +1,4 @@
 
 artifact.version=2.0
+artifact.group=avalon-logkit
+artifact.type=jar

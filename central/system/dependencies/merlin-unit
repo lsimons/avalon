@@ -1,7 +1,7 @@
-merlin-repository-api
-merlin-repository-spi
-merlin-repository-main
-merlin-util-env
-merlin-util-exception
+avalon-repository-api
+avalon-repository-spi
+avalon-repository-main
+avalon-util-env
+avalon-util-exception
 junit
  
