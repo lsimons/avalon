@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-      <!DOCTYPE tabs PUBLIC "-//APACHE//DTD Cocoon Documentation Tab V1.0//EN" "tab-cocoon-v10.dtd">
+<!DOCTYPE tabs PUBLIC "-//APACHE//DTD Cocoon Documentation Tab V1.0//EN" "tab-cocoon-v10.dtd">
 
-      <tabs software="Excalibur event"
+<tabs software="Excalibur event"
         title="Excalibur event"
         copyright="Foo"
         xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -12,4 +12,4 @@
         <tab label="Phoenix" href="http://avalon.apache.org/phoenix/"/>
         <tab label="SECA" href="http://avalon.apache.org/seca/"/>
 
-    </tabs>
+</tabs>
