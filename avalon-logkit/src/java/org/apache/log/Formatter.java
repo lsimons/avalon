@@ -16,9 +16,9 @@ public interface Formatter
 {
     /**
      * Format log entry into string.
-   *
-   * @param entry the entry
-   * @return the formatted string
-   */
+     *
+     * @param entry the entry
+     * @return the formatted string
+     */
     String format( LogEntry entry );
 }
