@@ -9,42 +9,42 @@ package org.apache.avalon.excalibur.component.servlet;
 
 import java.io.IOException;
 import java.util.ArrayList;
+
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.apache.avalon.excalibur.logger.LoggerManager;
-import org.apache.avalon.framework.component.ComponentManager;
+
+import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.logger.Logger;
+
 import org.apache.excalibur.instrument.CounterInstrument;
 import org.apache.excalibur.instrument.Instrument;
-import org.apache.excalibur.instrument.InstrumentManager;
 import org.apache.excalibur.instrument.Instrumentable;
+import org.apache.excalibur.instrument.InstrumentManager;
 import org.apache.excalibur.instrument.ValueInstrument;
 
 /**
- * Abstract Servlet which can be used with the ExcaliburComponentManagerServlet
- *  to enable servlets to have access to a ComponentManager as well as logging
+ * Abstract Servlet which can be used with the ExcaliburServiceManagerServlet
+ *  to enable servlets to have access to a ServiceManager as well as logging
  *  and instrumentation features.
  *
- * @deprecated Use of this class has been deprecated along with the
- *             ComponentManager interface.  Please use the
- *             AbstractServiceManagerServlet.
- *
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.6 $ $Date: 2002/11/07 09:50:41 $
+ * @version CVS $Revision: 1.1 $ $Date: 2002/11/07 09:50:41 $
  * @since 4.2
  */
-public abstract class AbstractComponentManagerServlet
+public abstract class AbstractServiceManagerServlet
     extends HttpServlet
     implements Instrumentable
 {
     private String m_referenceName;
-    private ComponentManager m_componentManager;
+    private ServiceManager m_serviceManager;
     private Logger m_logger;
-
+    
     /** Instrumentable Name assigned to this Instrumentable */
     private String m_instrumentableName;
 
@@ -56,39 +56,39 @@ public abstract class AbstractComponentManagerServlet
 
     /** Flag which is to used to keep track of when the Instrumentable has been registered. */
     private boolean m_registered;
-
+    
     /** Counts the number of times the service is requested. */
     private CounterInstrument m_instrumentRequests;
-
+    
     /** Records the amount of time execute takes to be processed. */
     private ValueInstrument m_instrumentTime;
-
+    
     /*---------------------------------------------------------------
      * Constructors
      *-------------------------------------------------------------*/
     /**
-     * Create a new AbstractComponentManagerServlet.
+     * Create a new AbstractServiceManagerServlet.
      *
      * @param referenceName A name which does not include any spaces or periods
      *                      that will be used to name the logger category and
      *                      instrumentable which represents this servlet.
      */
-    public AbstractComponentManagerServlet( String referenceName )
+    public AbstractServiceManagerServlet( String referenceName )
     {
-        //System.out.println( "AbstractComponentManagerServlet( " + referenceName + " )" );
+        //System.out.println( "AbstractServiceManagerServlet( " + referenceName + " )" );
         m_referenceName = referenceName;
-
+        
         // Set up Instrumentable like AbstractInstrumentable
         m_registered = false;
         m_instrumentList = new ArrayList();
         m_childList = new ArrayList();
-
+        
         // Create the instruments
         setInstrumentableName( referenceName );
         addInstrument( m_instrumentRequests = new CounterInstrument( "requests" ) );
         addInstrument( m_instrumentTime = new ValueInstrument( "time" ) );
     }
-
+    
     /*---------------------------------------------------------------
      * HttpServlet Methods
      *-------------------------------------------------------------*/
@@ -108,81 +108,81 @@ public abstract class AbstractComponentManagerServlet
         // Initialize logging for the servlet.
         LoggerManager loggerManager =
             (LoggerManager)context.getAttribute( LoggerManager.class.getName() );
-        if( loggerManager == null )
+        if ( loggerManager == null )
         {
             throw new IllegalStateException(
                 "The ExcaliburComponentManagerServlet servlet was not correctly initialized." );
         }
         Logger logger = loggerManager.getLoggerForCategory( "servlet" );
         m_logger = logger.getChildLogger( m_referenceName );
-
-        if( getLogger().isDebugEnabled() )
+        
+        if ( getLogger().isDebugEnabled() )
         {
             getLogger().debug( "servlet.init( config )" );
         }
-
-        // Obtain a reference to the ComponentManager
-        m_componentManager =
-            (ComponentManager)context.getAttribute( ComponentManager.class.getName() );
-        if( m_componentManager == null )
+        
+        // Obtain a reference to the ServiceManager
+        m_serviceManager =
+            (ServiceManager)context.getAttribute( ServiceManager.class.getName() );
+        if ( m_serviceManager == null )
         {
             throw new IllegalStateException(
                 "The ExcaliburComponentManagerServlet servlet was not correctly initialized." );
         }
-
+        
         // Register this servlet with the InstrumentManager if it exists.
         InstrumentManager instrumentManager =
             (InstrumentManager)context.getAttribute( InstrumentManager.class.getName() );
-        if( instrumentManager != null )
+        if ( instrumentManager != null )
         {
             try
             {
                 instrumentManager.registerInstrumentable(
                     this, "servlets." + getInstrumentableName() );
             }
-            catch( Exception e )
+            catch ( Exception e )
             {
                 throw new ServletException(
                     "Unable to register the servlet with the instrument manager.", e );
             }
         }
-
+        
         // Do this last so the subclasses will be able to access these objects in their
         //  init method.
         super.init( config );
     }
-
+    
     /**
      * Called by the servlet container to indicate to a servlet that the servlet
      *  is being taken out of service.
      */
     public void destroy()
     {
-        if( getLogger().isDebugEnabled() )
+        if ( getLogger().isDebugEnabled() )
         {
             getLogger().debug( "servlet.destroy()" );
         }
-
-        // Release the ComponentManager by removing its reference.
-        m_componentManager = null;
-
+        
+        // Release the ServiceManager by removing its reference.
+        m_serviceManager = null;
+        
         super.destroy();
-
+        
         // Make sure that the component manager gets collected.
         System.gc();
-
+        
         // Give the system time for the Gc to complete.  This is necessary to make sure that
         //  the ECMServlet has time to dispose all of its managers before the Tomcat server
         //  invalidates the current class loader.
         try
         {
-            Thread.sleep( 250 );
+            Thread.sleep(250);
         }
-        catch( InterruptedException e )
+        catch ( InterruptedException e )
         {
         }
     }
-
+    
     /**
      * Receives standard HTTP requests from the public service method and dispatches
      *  them to the doXXX methods defined in this class.
@@ -194,35 +194,35 @@ public abstract class AbstractComponentManagerServlet
      *                 the servlet returns to the client.
      */
     public void service( HttpServletRequest request, HttpServletResponse response )
-        throws ServletException, IOException
+         throws ServletException, IOException
     {
-        if( getLogger().isDebugEnabled() )
+        if ( getLogger().isDebugEnabled() )
         {
             StringBuffer sb = new StringBuffer( request.getRequestURI() );
             String query = request.getQueryString();
-            if( query != null )
+            if ( query != null )
             {
                 sb.append( "?" );
                 sb.append( query );
             }
-
+            
             getLogger().debug( "Request: " + sb.toString() );
         }
-
+        
         long start = System.currentTimeMillis();
-
+        
         // Notify the Instrument Manager
         m_instrumentRequests.increment();
-
+        
         super.service( request, response );
-
+        
         // Notify the Instrument Manager how long the service took.
-        if( m_instrumentTime.isActive() )
+        if ( m_instrumentTime.isActive() )
         {
             m_instrumentTime.setValue( (int)( System.currentTimeMillis() - start ) );
         }
     }
-
+    
     /*---------------------------------------------------------------
      * Instrumentable Methods
      *-------------------------------------------------------------*/
@@ -303,7 +303,7 @@ public abstract class AbstractComponentManagerServlet
             return instruments;
         }
     }
-
+    
     /*---------------------------------------------------------------
      * Methods
      *-------------------------------------------------------------*/
@@ -343,7 +343,7 @@ public abstract class AbstractComponentManagerServlet
         }
         m_childList.add( child );
     }
-
+    
     /**
      * Obtain a reference to the servlet's logger.
      *
@@ -353,14 +353,14 @@ public abstract class AbstractComponentManagerServlet
     {
         return m_logger;
     }
-
+    
     /**
-     * Returns the current ComponentManager.
+     * Returns the current ServiceManager.
      *
-     * @return The current ComponentManager.
+     * @return The current ServiceManager.
      */
-    public ComponentManager getComponentManager()
+    public ServiceManager getServiceManager()
     {
-        return m_componentManager;
+        return m_serviceManager;
     }
 }

@@ -20,12 +20,13 @@ import org.apache.avalon.excalibur.component.ExcaliburComponentManagerCreator;
 import org.apache.avalon.excalibur.logger.LoggerManager;
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.container.ContainerUtil;
+import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.excalibur.instrument.InstrumentManager;
 
 /**
  * Makes it possible for servlets to work with Avalon components
  *  without having to do any coding to setup and manage the
- *  lifecycle of the ComponentManager.
+ *  lifecycle of the ServiceManager (ComponentManager).
  * <p>
  * To make use of the ExcaliburComponentManagerServet.  You will
  *  need to define the servlet in your web.xml file as follows:
@@ -73,7 +74,7 @@ import org.apache.excalibur.instrument.InstrumentManager;
  * Please pay particular attention to the load-on-startup element.  It is used
  * to control the order in which servlets are started by the servlet engine.
  * It must have a value which is less than any other servlets making use of
- * the ComponentManager.  This is to ensure that the ComponentManager is
+ * the ServiceManager.  This is to ensure that the ServiceManager is
  * initialized before any other servlets attempt to start using it.
  * <p>
  * All of the configuration files are located in the WEB-INF directory by
@@ -84,8 +85,8 @@ import org.apache.excalibur.instrument.InstrumentManager;
  * by this servlet, so there is no need to access the class directly.
  * <p>
  * Once the servlet has been configured, other servlets may gain access to
- * the ComponentManager, InstrumentManager and LoggerManager via the
- * ServletContext using the following code within a servlet:
+ * the ServiceManager (ComponentManager), InstrumentManager and LoggerManager
+ * via the ServletContext using the following code within a servlet:
  * <pre>
  *  // Get a reference to the ServletContext
  *  ServletContext servletContext = getServletContext();
@@ -98,7 +99,11 @@ import org.apache.excalibur.instrument.InstrumentManager;
  *  InstrumentManager instrumentManager =
  *      (InstrumentManager)m_servletContext.getAttribute( InstrumentManager.class.getName() );
  *
- *  // Acquire the ComponentManager
+ *  // Acquire the ServiceManager
+ *  ServiceManager serviceManager =
+ *      (ServiceManager)m_servletContext.getAttribute( ServiceManager.class.getName() );
+ *
+ *  // Acquire the ComponentManager ( Deprecated )
  *  ComponentManager componentManager =
  *      (ComponentManager)m_servletContext.getAttribute( ComponentManager.class.getName() );
  * </pre>
@@ -122,7 +127,7 @@ import org.apache.excalibur.instrument.InstrumentManager;
  * Note that servlets which extend the AbstractComponentManagerServlet will behave correctly.
  *
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.5 $ $Date: 2002/11/07 06:37:53 $
+ * @version CVS $Revision: 1.6 $ $Date: 2002/11/07 09:50:41 $
  * @since 4.2
  */
 public class ExcaliburComponentManagerServlet
@@ -232,6 +237,8 @@ public class ExcaliburComponentManagerServlet
         // Create the actual ReferenceProxies.
         ReferenceProxy loggerManagerProxy = m_latch.createProxy(
             loggerManager, "LoggerManager" );
+        ReferenceProxy serviceManagerProxy = m_latch.createProxy(
+            m_componentManagerCreator.getServiceManager(), "ServiceManager" );
         ReferenceProxy componentManagerProxy = m_latch.createProxy(
             m_componentManagerCreator.getComponentManager(), "ComponentManager" );
         ReferenceProxy instrumentManagerProxy = m_latch.createProxy(
@@ -239,8 +246,9 @@ public class ExcaliburComponentManagerServlet
 
         // Store references to the proxies in the ServletContext so that other servlets can gain
         //  access to them
-        servletContext.setAttribute( LoggerManager.class.getName(), loggerManagerProxy );
-        servletContext.setAttribute( ComponentManager.class.getName(), componentManagerProxy );
+        servletContext.setAttribute( LoggerManager.class.getName(),     loggerManagerProxy );
+        servletContext.setAttribute( ServiceManager.class.getName(),    serviceManagerProxy );
+        servletContext.setAttribute( ComponentManager.class.getName(),  componentManagerProxy );
         servletContext.setAttribute( InstrumentManager.class.getName(), instrumentManagerProxy );
 
         //System.out.println( "ExcaliburComponentManagerServlet.init() END" );
@@ -257,6 +265,7 @@ public class ExcaliburComponentManagerServlet
 
         // Remove the references to the managers from the servlet context.
         servletContext.removeAttribute( LoggerManager.class.getName() );
+        servletContext.removeAttribute( ServiceManager.class.getName() );
         servletContext.removeAttribute( ComponentManager.class.getName() );
         servletContext.removeAttribute( InstrumentManager.class.getName() );
 

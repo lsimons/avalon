@@ -22,6 +22,8 @@ import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.apache.avalon.framework.logger.LogKitLogger;
 import org.apache.avalon.framework.logger.Logger;
+import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.excalibur.container.legacy.ComponentManager2ServiceManager;
 import org.apache.excalibur.instrument.InstrumentManager;
 import org.apache.excalibur.instrument.manager.DefaultInstrumentManager;
 import org.apache.log.Hierarchy;
@@ -50,11 +52,13 @@ import org.apache.log.Priority;
  *     m_componentManagerCreator = null;
  * </pre>
  *
- * The ComponentManager or any of the other managers can be accessed using their
- *  getter methods.  getComponentManager() for example.
+ * The ServiceManager (ComponentManager) or any of the other managers can be accessed
+ *  using their getter methods.  getServiceManager() for example.  Note that
+ *  while the ComponentManager is still available, it has been deprecated in favor
+ *  of the ServiceManager interface.
  *
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.6 $ $Date: 2002/11/07 06:37:53 $
+ * @version CVS $Revision: 1.7 $ $Date: 2002/11/07 09:50:41 $
  * @since 4.2
  */
 public class ExcaliburComponentManagerCreator
@@ -79,6 +83,9 @@ public class ExcaliburComponentManagerCreator
 
     /** Internal component manager. */
     private ComponentManager m_componentManager;
+
+    /** Internal service manager. */
+    private ServiceManager m_serviceManager;
 
     /** Internal instrument manager. */
     private InstrumentManager m_instrumentManager;
@@ -347,12 +354,25 @@ public class ExcaliburComponentManagerCreator
      * Returns the configured ComponentManager.
      *
      * @return The configured ComponentManager.
+     *
+     * @deprecated The ComponentManager interface has been deprecated.
+     *             Please use the getServiceManager method.
      */
     public ComponentManager getComponentManager()
     {
         return m_componentManager;
     }
 
+    /**
+     * Returns the configured ServiceManager.
+     *
+     * @return The configured ServiceManager.
+     */
+    public ServiceManager getServiceManager()
+    {
+        return m_serviceManager;
+    }
+    
     /**
      * Returns the logger for internal use.
      */
@@ -468,6 +488,10 @@ public class ExcaliburComponentManagerCreator
         componentManager.configure( componentManagerConfig );
         componentManager.initialize();
         m_componentManager = componentManager;
+        
+        // Now wrap the ComponentManager so that we can provide access to it as
+        //  a ServiceManager.
+        m_serviceManager = new ComponentManager2ServiceManager( m_componentManager );
     }
 }
 
