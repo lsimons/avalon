@@ -17,18 +17,15 @@ import org.apache.avalon.phoenix.metainfo.BlockInfo;
 public class BlockMetaData
 {
     private final String m_name;
-    private final String m_classname;
     private final DependencyMetaData[] m_dependencies;
 
     private BlockInfo m_blockInfo;
 
     public BlockMetaData( final String name,
-                          final String classname,
                           final DependencyMetaData[] dependencies,
                           final BlockInfo blockInfo )
     {
         m_name = name;
-        m_classname = classname;
         m_dependencies = dependencies;
         m_blockInfo = blockInfo;
     }
@@ -40,7 +37,7 @@ public class BlockMetaData
 
     public String getClassname()
     {
-        return m_classname;
+        return getBlockInfo().getBlockDescriptor().getClassname();
     }
 
     public BlockInfo getBlockInfo()

@@ -32,7 +32,7 @@ import org.apache.excalibur.containerkit.ResourceAccessor;
  * Block or Listener.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.6 $ $Date: 2002/06/04 06:33:00 $
+ * @version $Revision: 1.7 $ $Date: 2002/06/04 06:58:11 $
  */
 class BlockAccessor
     extends AbstractLogEnabled
@@ -81,7 +81,8 @@ class BlockAccessor
     {
         final BlockMetaData metaData = getMetaDataFor( entry );
         final ClassLoader classLoader = m_context.getClassLoader();
-        final Class clazz = classLoader.loadClass( metaData.getClassname() );
+        String classname = metaData.getBlockInfo().getBlockDescriptor().getClassname();
+        final Class clazz = classLoader.loadClass( classname );
         return clazz.newInstance();
     }
 

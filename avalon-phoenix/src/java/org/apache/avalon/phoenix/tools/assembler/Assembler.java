@@ -30,7 +30,7 @@ import org.apache.avalon.phoenix.tools.infobuilder.BlockInfoBuilder;
  * and is in the format specified for <code>assembly.xml</code> files.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.16 $ $Date: 2002/05/20 11:40:50 $
+ * @version $Revision: 1.17 $ $Date: 2002/06/04 06:58:10 $
  */
 public class Assembler
     extends AbstractLogEnabled
@@ -123,7 +123,8 @@ public class Assembler
             final DependencyMetaData[] roles = buildDependencyMetaDatas( provides );
             final BlockInfo info = getBlockInfo( name, classname, classLoader );
 
-            return new BlockMetaData( name, classname, roles, info );
+
+            return new BlockMetaData( name, roles, info );
         }
         catch( final ConfigurationException ce )
         {
