@@ -11,3 +11,4 @@ todo
 .classpath
 .project
 build.xml
+build.properties
