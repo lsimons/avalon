@@ -68,7 +68,7 @@
           <item name="Behind the Scenes" href="/starting/tutorial/internal.html"/>
           <item name="Configurations" href="/starting/tutorial/config/index.html">
             <item name="Using" href="/starting/tutorial/config/configurable.html"/>
-            <item name="Declaration" href="/starting/tutorial/config/block.html"/>
+            <item name="Declaring" href="/starting/tutorial/config/block.html"/>
             <item name="Defaults" href="/starting/tutorial/config/defaults.html"/>
             <item name="Overriding" href="/starting/tutorial/config/override.html"/>
           </item>
