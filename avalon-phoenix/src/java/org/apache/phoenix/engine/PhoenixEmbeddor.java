@@ -17,6 +17,7 @@ import org.apache.avalon.DefaultComponentManager;
 import org.apache.avalon.Disposable;
 import org.apache.avalon.Initializable;
 import org.apache.avalon.atlantis.Kernel;
+import org.apache.avalon.atlantis.Embeddor;
 import org.apache.avalon.camelot.CamelotUtil;
 import org.apache.avalon.camelot.Container;
 import org.apache.avalon.camelot.Deployer;
@@ -55,11 +56,6 @@ public class PhoenixEmbeddor
      * Set parameters for this component.
      * This must be called after contextualize() and before initialize()
      *
-     * @param parameters the Parameters for embeddor
-     * @exception ConfigurationException if an error occurs
-     */
-
-  /**
      * Make sure to provide all the neccessary information through
      * these parameters. All information it needs consists of strings.
      * Neccessary are:
@@ -82,6 +78,9 @@ public class PhoenixEmbeddor
      * (in .sar format).<br />
      * When ommited, no applications are loaded.</li>
      * </ul>
+     *
+     * @param parameters the Parameters for embeddor
+     * @exception ConfigurationException if an error occurs
      */
     public void setParameters( final Parameters parameters )
         throws ConfigurationException
@@ -127,14 +126,14 @@ public class PhoenixEmbeddor
 
                 // wait() for shutdown() to take action...
                 try { synchronized( this ) { wait(); } }
-                catch (InterruptedException e) {}
+                catch( final InterruptedException e ) {}
             }
         }
-        catch ( Exception e )
+        catch( final Exception e )
         {
             // whoops!
             getLogger().fatalError( "There was a fatal error while running phoenix.", e );
-            System.exit( 1 );
+            throw e;
         }
     }
 
