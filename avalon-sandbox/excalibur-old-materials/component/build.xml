@@ -41,6 +41,7 @@
         <pathelement location="${junit.jar}"/>
         <pathelement location="${excalibur-util.jar}"/>
         <pathelement location="${excalibur-testcase.jar}"/>
+        <pathelement location="${excalibur-i18n.jar}"/>
         <pathelement location="${excalibur-instrument.jar}"/>
         <pathelement location="${excalibur-instrument-manager.jar}"/>
         <pathelement location="${excalibur-instrument-manager-interfaces.jar}"/>
