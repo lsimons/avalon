@@ -190,6 +190,11 @@
                 <param name="-link" value="http://avalon.apache.org/api/"/>
                 <param name="-bottom"
                     value="&quot;Copyright &#169; ${year} Apache Avalon Project. All Rights Reserved.&quot;"/>
+                <param name="-tag" value="avalon.component:t:Avalon Component:"/>
+                <param name="-tag" value="avalon.service:t:Avalon Service:"/>
+                <param name="-tag" value="x-avalon.info:t:Avalon Component Information:"/>
+                <param name="-tag" value="x-avalon.lifestyle:t:Avalon Component Lifestyle:"/>
+                <param name="-tag" value="avalon.dependency:m:Avalon Component Dependency:"/>
             </doclet>
         </javadoc>
     </target>
