@@ -23,6 +23,10 @@ import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.excalibur.io.FileUtil;
 import org.apache.avalon.excalibur.io.IOUtil;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.framework.activity.Initializable;
+import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.avalon.framework.parameters.ParameterException;
+import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.phoenix.interfaces.Installation;
 import org.apache.avalon.phoenix.interfaces.InstallationException;
 import org.apache.avalon.phoenix.interfaces.Installer;
@@ -32,11 +36,11 @@ import org.apache.avalon.phoenix.interfaces.Installer;
  * and installing it as appropriate.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.6 $ $Date: 2002/09/21 02:36:03 $
+ * @version $Revision: 1.7 $ $Date: 2002/09/21 02:43:51 $
  */
 public class DefaultInstaller
     extends AbstractLogEnabled
-    implements Installer
+    implements Installer, Parameterizable, Initializable
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( DefaultInstaller.class );
@@ -53,34 +57,62 @@ public class DefaultInstaller
     private static final String FS_CLASSES =
         "SAR-INF" + File.separator + "classes" + File.separator;
 
-    /**
-     * Base directory in which to install extracted application.
-     */
-    private File m_baseDirectory;
 
     /**
-     * Base directory in which to install temporary/work files.
+     * The directory which is used as the base for
+     * extracting all temporary files from archives. It is
+     * expected that the temporary files will be deleted when
+     * the .sar file is undeployed.
      */
     private File m_baseWorkDirectory;
 
     /**
-     * Set the baseDirectory in which to install applications.
-     *
-     * @param baseDirectory the baseDirectory in which to install applications.
+     * The base directory in which applications are deployed.
      */
-    public void setBaseDirectory( File baseDirectory )
-    {
-        m_baseDirectory = baseDirectory;
-    }
+    private File m_baseDirectory;
 
     /**
-     * Set the baseDirectory in which to install applications temporary Data.
+     * Retrieve parameter that specifies work directory.
      *
-     * @param baseWorkDirectory the baseDirectory in which to install applications temporary Data.
+     * @param parameters the parameters to read
+     * @throws org.apache.avalon.framework.parameters.ParameterException if invlaid work directory
      */
-    public void setBaseWorkDirectory( File baseWorkDirectory )
+    public void parameterize( final Parameters parameters )
+        throws ParameterException
     {
-        m_baseWorkDirectory = baseWorkDirectory;
+        final String phoenixHome = parameters.getParameter( "phoenix.home" );
+        final String defaultWorkDir = phoenixHome + File.separator + "work";
+        final String defaultAppsDir = phoenixHome + File.separator + "apps";
+        final String rawWorkDir =
+            parameters.getParameter( "phoenix.work.dir", defaultWorkDir );
+        final String rawAppsDir =
+            parameters.getParameter( "phoenix.apps.dir", defaultAppsDir );
+
+        final File workDir = new File( rawWorkDir );
+        try
+        {
+            m_baseWorkDirectory = workDir.getCanonicalFile();
+        }
+        catch( final IOException ioe )
+        {
+            m_baseWorkDirectory = workDir.getAbsoluteFile();
+        }
+
+        final File appsDir = new File( rawAppsDir );
+        try
+        {
+            m_baseDirectory = appsDir.getCanonicalFile();
+        }
+        catch( final IOException ioe )
+        {
+            m_baseDirectory = appsDir.getAbsoluteFile();
+        }
+    }
+
+    public void initialize()
+        throws Exception
+    {
+        initWorkDirectory();
     }
 
     /**
@@ -520,6 +552,40 @@ public class DefaultInstaller
         {
             return null;
             //should never occur
+        }
+    }
+
+
+    /**
+     * Make sure that the work directory is created and not a file.
+     *
+     * @throws Exception if work directory can not be created or is a file
+     */
+    private void initWorkDirectory()
+        throws Exception
+    {
+        if( !m_baseWorkDirectory.exists() )
+        {
+            final String message =
+                REZ.getString( "deploy.create-dir.notice",
+                               m_baseWorkDirectory );
+            getLogger().info( message );
+
+            if( !m_baseWorkDirectory.mkdirs() )
+            {
+                final String error =
+                    REZ.getString( "deploy.workdir-nocreate.error",
+                                   m_baseWorkDirectory );
+                throw new Exception( error );
+            }
+        }
+
+        if( !m_baseWorkDirectory.isDirectory() )
+        {
+            final String message =
+                REZ.getString( "deploy.workdir-notadir.error",
+                               m_baseWorkDirectory );
+            throw new Exception( message );
         }
     }
 }
