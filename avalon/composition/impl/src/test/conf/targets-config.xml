@@ -1,0 +1,16 @@
+
+<targets>
+
+  <target name="/aaa">
+    <configuration>
+      <source>External configuration target for AAA.</source>
+    </configuration>
+  </target>
+
+  <target name="/ccc/sss/xxx">
+    <configuration>
+      <source>External configuration target for XXX.</source>
+    </configuration>
+  </target>
+
+</targets>

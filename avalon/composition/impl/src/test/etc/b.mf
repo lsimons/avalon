@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Created-By: Apache Avalon Merlin
+Built-By: mcconnell
+Package: org.apache.avalon.merlin
+Build-Jdk: 1.4.1
+Extension-Name: test-b
+Specification-Version: 1.0
+Specification-Vendor: Apache Software Foundation
+Specification-Title: Assembly Model Test Case 1
+Implementation-Version: 1.0
+Implementation-Vendor: Apache Software Foundation
+Implementation-Vendor-Id: ASF
+
