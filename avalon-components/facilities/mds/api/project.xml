@@ -21,7 +21,7 @@
     <dependency>
       <groupId>commons-messenger</groupId>
       <artifactId>commons-messenger</artifactId>
-      <version>SNAPSHOT</version>
+      <version>1.0-dev-8</version>
     </dependency>
 
   </dependencies>
