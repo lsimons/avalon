@@ -62,6 +62,7 @@ import org.apache.avalon.composition.model.ComponentContext;
 import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.model.ModelRepository;
 import org.apache.avalon.composition.model.ModelException;
+import org.apache.avalon.composition.model.ModelRuntimeException;
 import org.apache.avalon.composition.model.SystemContext;
 import org.apache.avalon.composition.model.StageModel;
 import org.apache.avalon.composition.data.DependencyDirective;
@@ -93,7 +94,7 @@ import org.apache.excalibur.configuration.CascadingConfiguration;
  * Deployment model defintion.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/01/15 12:23:04 $
+ * @version $Revision: 1.4 $ $Date: 2004/01/15 12:34:33 $
  */
 public class DefaultComponentModel extends DefaultDeploymentModel 
   implements ComponentModel
@@ -856,7 +857,7 @@ public class DefaultComponentModel extends DefaultDeploymentModel
         {
             try
             {
-                return Long.paseLong( value );
+                return Long.parseLong( value );
             }
             catch( NumberFormatException nfe )
             {
@@ -866,7 +867,7 @@ public class DefaultComponentModel extends DefaultDeploymentModel
                   + "] in component type [" 
                   + m_context.getType()
                   + "].";
-                throw new IllegalStateException( error, nfe );
+                throw new ModelRuntimeException( error, nfe );
             }
         }
         else
