@@ -15,7 +15,7 @@
  */
 package org.apache.avalon.framework.parameters.test;
 
-import java.io.ByteArrayInputStream;
+import java.io.*;
 import java.util.Properties;
 
 import junit.framework.TestCase;
@@ -140,5 +140,26 @@ public class ParameterTestCase
         {
             fail( pe.getMessage() );
         }
+    }
+
+    public void testSerialization() 
+        throws Exception
+    {
+        Parameters p = Parameters.EMPTY_PARAMETERS;
+        
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        
+        ObjectOutputStream oos = new ObjectOutputStream( baos );
+        oos.writeObject( p );
+        oos.close();
+        byte[] ba = baos.toByteArray();
+        
+        ByteArrayInputStream bais = new ByteArrayInputStream( ba );
+        ObjectInputStream ois = new ObjectInputStream( bais );
+        Parameters serialized = (Parameters) ois.readObject();
+        ois.close();
+
+        assertEquals( "equality", p, serialized );
+        assertEquals( "hashcode", p.hashCode(), serialized.hashCode() );
     }
 }
