@@ -49,6 +49,7 @@ import org.apache.phoenix.engine.facilitys.DefaultContextBuilder;
 import org.apache.phoenix.engine.facilitys.DefaultLoggerBuilder;
 import org.apache.phoenix.engine.phases.DefaultPhase;
 import org.apache.phoenix.engine.phases.Phase;
+import org.apache.phoenix.engine.phases.Traversal;
 import org.apache.phoenix.metainfo.DependencyInfo;
 
 /**
