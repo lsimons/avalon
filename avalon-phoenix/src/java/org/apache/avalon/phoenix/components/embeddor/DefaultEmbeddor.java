@@ -137,8 +137,8 @@ public class DefaultEmbeddor
      * type include parameters used to setup proeprties of the embeddor.
      * The second type include the implementation names of the components
      * that the Embeddor manages. For instance if you want to replace the
-     * <code>ConfigurationRepository</code> with your own repository you
-     * would pass in a parameter such as;</p>
+     * {@link org.apache.avalon.phoenix.interfaces.ConfigurationRepository}
+     * with your own repository you would pass in a parameter such as;</p>
      * <p>org.apache.avalon.phoenix.interfaces.ConfigurationRepository =
      * com.biz.MyCustomConfigurationRepository</p>
      *
@@ -188,7 +188,7 @@ public class DefaultEmbeddor
     /**
      * Creates the core handlers - logger, deployer, Manager and
      * Kernel. Note that these are not set up properly until you have
-     * called the <code>run()</code> method.
+     * called the {@link #execute()} method.
      */
     public void initialize()
         throws Exception
@@ -213,7 +213,7 @@ public class DefaultEmbeddor
      * This is the main method of the embeddor. It sets up the core
      * components, and then deploys the <code>Facilities</code>. These
      * are registered with the Kernel and the Manager. The same
-     * happens for the <code>Applications</code>.
+     * happens for the {@link org.apache.avalon.phoenix.interfaces.Application}s.
      * Now, the Kernel is taken through its lifecycle. When it is
      * finished, as well as all the applications running in it, it
      * is shut down, after which the PhoenixEmbeddor is as well.
@@ -234,7 +234,7 @@ public class DefaultEmbeddor
         }
         else
         {
-            // loop until <code>Shutdown</code> is created.
+            // loop until Shutdown occurs.
             while( true )
             {
                 // wait() for shutdown() to take action...
@@ -630,7 +630,8 @@ public class DefaultEmbeddor
     }
 
     /**
-     * Unregister embeddor and it's components from <code>SystemManager</code>.
+     * Unregister embeddor and it's components from
+     * {@link SystemManager}.
      */
     private void unregisterComponents()
         throws Exception

@@ -15,8 +15,8 @@ import org.apache.avalon.phoenix.metadata.BlockMetaData;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
 
 /**
- * Manage a set of <code>ApplicationListener</code> objects and propogate
- * <code>ApplicationEvent</code> notifications to these listeners.  Not all
+ * Manage a set of {@link ApplicationListener} objects and propogate
+ * {@link ApplicationEvent} notifications to these listeners.  Not all
  * events pass an Applicationevent parameter.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
@@ -85,7 +85,7 @@ final class ListenerSupport
 
     /**
      * Add a ApplicationListener to those requiring notification of
-     * <code>ApplicationEvent</code>s.
+     * {@link ApplicationEvent}s.
      *
      * @param listener the ApplicationListener
      */
@@ -99,7 +99,7 @@ final class ListenerSupport
 
     /**
      * Remove a ApplicationListener from those requiring notification of
-     * <code>ApplicationEvent</code>s.
+     * {@link ApplicationEvent}s.
      *
      * @param listener the ApplicationListener
      */
@@ -127,7 +127,7 @@ final class ListenerSupport
 
     /**
      * Add a BlockListener to those requiring notification of
-     * <code>BlockEvent</code>s.
+     * {@link BlockEvent}s.
      *
      * @param listener the BlockListener
      */
@@ -141,7 +141,7 @@ final class ListenerSupport
 
     /**
      * Remove a BlockListener from those requiring notification of
-     * <code>BlockEvent</code>s.
+     * {@link BlockEvent}s.
      *
      * @param listener the BlockListener
      */
