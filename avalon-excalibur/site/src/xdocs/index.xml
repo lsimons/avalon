@@ -10,6 +10,16 @@
     </authors>
   </header>
   <body>
+    <s1 title="Refactoring!!">  
+      <warn>
+        There is a general reorganication of JAR files for Excalibur going 
+        on at the moment (early April 2002).  This will be complete in a 
+        couple of weeks.  For now, all the old docs have been migrated
+        to new locations in the website, and will be joined by new pages
+        shortly.  This is just a preview of the pages, and much will 
+        change day by day.
+      </warn>
+    </s1>  
     <s1 title="Introduction">
       <p>
         Avalon Excalibur was created in order to ease development of
@@ -44,7 +54,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.2 $ $Date: 2002/04/05 08:03:46 $
+      $Revision: 1.3 $ $Date: 2002/04/05 14:44:00 $
     </legal>
   </footer>
 </document>
