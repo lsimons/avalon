@@ -48,27 +48,27 @@
     <!-- Roles Configuration.                                                -->
     <!-- =================================================================== -->
     <roles>
-        <role name="org.apache.avalon.excalibur.component.test.PoolableTestObject_testDefaults"
+        <role name="org.apache.avalon.excalibur.component.test.PoolableTestObjectInterface/testDefaults"
             shorthand="testDefaults"
             default-class="org.apache.avalon.excalibur.component.test.PoolableTestObject"/>
             
-        <role name="org.apache.avalon.excalibur.component.test.PoolableTestObject_testMax4"
+        <role name="org.apache.avalon.excalibur.component.test.PoolableTestObjectInterface/testMax4"
             shorthand="testMax4"
             default-class="org.apache.avalon.excalibur.component.test.PoolableTestObject"/>
             
-        <role name="org.apache.avalon.excalibur.component.test.PoolableTestObject_testMax4StrictNoBlocking"
+        <role name="org.apache.avalon.excalibur.component.test.PoolableTestObjectInterface/testMax4StrictNoBlocking"
             shorthand="testMax4StrictNoBlocking"
             default-class="org.apache.avalon.excalibur.component.test.PoolableTestObject"/>
             
-        <role name="org.apache.avalon.excalibur.component.test.PoolableTestObject_testMax4StrictBlocking"
+        <role name="org.apache.avalon.excalibur.component.test.PoolableTestObjectInterface/testMax4StrictBlocking"
             shorthand="testMax4StrictBlocking"
             default-class="org.apache.avalon.excalibur.component.test.PoolableTestObject"/>
             
-        <role name="org.apache.avalon.excalibur.component.test.PoolableTestObject_testMax4StrictBlockingTimeout"
+        <role name="org.apache.avalon.excalibur.component.test.PoolableTestObjectInterface/testMax4StrictBlockingTimeout"
             shorthand="testMax4StrictBlockingTimeout"
             default-class="org.apache.avalon.excalibur.component.test.PoolableTestObject"/>
             
-        <role name="org.apache.avalon.excalibur.component.test.PoolableTestObject_testTrimming"
+        <role name="org.apache.avalon.excalibur.component.test.PoolableTestObjectInterface/testTrimming"
             shorthand="testTrimming"
             default-class="org.apache.avalon.excalibur.component.test.PoolableTestObject"/>
     </roles>
