@@ -57,7 +57,7 @@ import org.apache.avalon.excalibur.testcase.BufferedLogger;
 
 /**
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.5 $ $Date: 2003/03/22 12:46:54 $
+ * @version CVS $Revision: 1.6 $ $Date: 2003/06/16 06:25:36 $
  * @since 4.1
  */
 public final class ResourceLimitingPoolTestCase extends TestCase
@@ -225,6 +225,79 @@ public final class ResourceLimitingPoolTestCase extends TestCase
                       "DEBUG - Put a org.apache.avalon.excalibur.pool.test.PoolableTestObject back into the pool.\n" +
                       "DEBUG - ClassInstanceObjectFactory.decommission(a org.apache.avalon.excalibur.pool.test.PoolableTestObject)  id:1\n" +
                       "DEBUG - ClassInstanceObjectFactory.decommission(a org.apache.avalon.excalibur.pool.test.PoolableTestObject)  id:2\n",
+                      logger.toString()
+        );
+    }
+    
+    public void testFailingGets() throws Exception
+    {
+        BufferedLogger logger = new BufferedLogger();
+        ClassInstanceObjectFactory factory =
+            new ClassInstanceObjectFactory( FailingPoolableTestObject.class, logger );
+        ResourceLimitingPool pool = new ResourceLimitingPool( factory, 3, true, true, 5000, 0 );
+
+        pool.enableLogging( logger );
+        Poolable p1;
+        
+        assertEquals( "1) Pool Ready Size", 0, pool.getReadySize() );
+        assertEquals( "1) Pool Size", 0, pool.getSize() );
+        
+        try
+        {
+            p1 = pool.get();
+            fail( "1) call to get should have failed." );
+        }
+        catch ( IllegalStateException e )
+        {
+            // Expected
+        }
+        
+        assertEquals( "2) Pool Ready Size", 0, pool.getReadySize() );
+        assertEquals( "2) Pool Size", 0, pool.getSize() );
+        
+        try
+        {
+            p1 = pool.get();
+            fail( "2) call to get should have failed." );
+        }
+        catch ( IllegalStateException e )
+        {
+            // Expected
+        }
+        
+        assertEquals( "3) Pool Ready Size", 0, pool.getReadySize() );
+        assertEquals( "3) Pool Size", 0, pool.getSize() );
+        
+        try
+        {
+            p1 = pool.get();
+            fail( "3) call to get should have failed." );
+        }
+        catch ( IllegalStateException e )
+        {
+            // Expected
+        }
+        
+        assertEquals( "4) Pool Ready Size", 0, pool.getReadySize() );
+        assertEquals( "4) Pool Size", 0, pool.getSize() );
+        
+        try
+        {
+            p1 = pool.get();
+            fail( "4) call to get should have failed." );
+        }
+        catch ( IllegalStateException e )
+        {
+            // Expected
+        }
+        
+        logger.debug( "OK" );
+        
+        pool.dispose();
+        
+        // Make sure the logger output check out.
+        assertEquals( "Logger output",
+                      "DEBUG - OK\n",
                       logger.toString()
         );
     }

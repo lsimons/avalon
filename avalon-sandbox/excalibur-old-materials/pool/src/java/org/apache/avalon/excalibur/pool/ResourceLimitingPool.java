@@ -73,7 +73,7 @@ import org.apache.excalibur.instrument.ValueInstrument;
  *  trimmed.  See the {@link #trim()} method for details of how trimming works.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.7 $ $Date: 2003/02/25 16:28:49 $
+ * @version CVS $Revision: 1.8 $ $Date: 2003/06/16 06:25:37 $
  * @since 4.1
  */
 public class ResourceLimitingPool
@@ -397,9 +397,10 @@ public class ResourceLimitingPool
                 }
                 else
                 {
-                    // Create a new poolable
-                    m_size++;
+                    // Create a new poolable.  May throw an exception if the poolable can not be
+                    //  instantiated.
                     poolable = newPoolable();
+                    m_size++;
 
                     if( getLogger().isDebugEnabled() )
                     {
@@ -675,7 +676,8 @@ public class ResourceLimitingPool
         m_createsInstrument.increment();
         if( m_sizeInstrument.isActive() )
         {
-            m_sizeInstrument.setValue( getSize() );
+            // The size is incremented after this call in case an error is thrown.
+            m_sizeInstrument.setValue( getSize() + 1 );
         }
 
         return (Poolable)obj;
