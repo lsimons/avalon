@@ -12,7 +12,7 @@ import org.apache.avalon.excalibur.concurrent.Mutex;
 import org.apache.avalon.excalibur.thread.*;
 import org.apache.avalon.excalibur.thread.impl.ResourceLimitingThreadPool;
 
-import org.apache.avalon.excalibur.event.Sink;
+import org.apache.avalon.excalibur.event.Source;
 import org.apache.avalon.excalibur.event.EventHandler;
 
 import java.util.HashSet;
@@ -212,12 +212,12 @@ public final class TPCThreadManager implements Runnable, ThreadManager
 
         public void run()
         {
-            Sink[] sinks = m_pipeline.getSinks();
+            Source[] sources = m_pipeline.getSources();
             EventHandler handler = m_pipeline.getEventHandler();
 
-            for (int i = 0; i < sinks.length; i++)
+            for (int i = 0; i < sources.length; i++)
             {
-                handler.handleEvents( sinks[i].dequeueAll() );
+                handler.handleEvents( sources[i].dequeueAll() );
             }
         }
     }

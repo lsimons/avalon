@@ -11,7 +11,7 @@ import junit.framework.TestCase;
 import org.apache.avalon.excalibur.event.Queue;
 import org.apache.avalon.excalibur.event.PreparedEnqueue;
 import org.apache.avalon.excalibur.event.QueueElement;
-import org.apache.avalon.excalibur.event.SourceException;
+import org.apache.avalon.excalibur.event.SinkException;
 
 /**
  * The default queue implementation is a variabl size queue.
