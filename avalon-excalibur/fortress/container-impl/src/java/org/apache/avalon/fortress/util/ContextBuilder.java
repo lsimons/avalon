@@ -62,7 +62,8 @@ import org.apache.excalibur.mpool.PoolManager;
 /**
  * Helper class to create a context for the ContextManager.
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.4 $ $Date: 2003/02/25 16:28:28 $
+ * @version CVS $Revision: 1.5 $ $Date: 2003/03/19 12:48:34 $
+ * @deprecated Replaced with FortressConfig
  */
 public class ContextBuilder
     implements ContextManagerConstants
