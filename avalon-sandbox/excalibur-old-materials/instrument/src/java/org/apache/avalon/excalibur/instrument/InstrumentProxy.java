@@ -18,7 +18,7 @@ package org.apache.avalon.excalibur.instrument;
  *  as an instrument used by the instrument manager.
  *
  * @author <a href="mailto:leif@silveregg.co.jp">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/03/26 11:17:21 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/03/27 09:47:20 $
  * @since 4.1
  */
 public interface InstrumentProxy
@@ -27,11 +27,11 @@ public interface InstrumentProxy
      * Used by classes being profiles so that they can avoid unnecessary
      *  code when the data from a Instrument is not being used.
      *
-     * @returns True if listeners are registered with the Instrument.
+     * @return True if listeners are registered with the Instrument.
      */
     boolean isActive();
     
-    /*
+    /**
      * Increments the Instrument.  This method should be optimized to be extremely
      *  light weight when there are no registered CounterInstrumentListeners.
      * <p>
@@ -39,6 +39,7 @@ public interface InstrumentProxy
      *  to handle calls to increment.
      */
     void increment();
+    
     /**
      * Sets the current value of the Instrument.  This method is optimized
      *  to be extremely light weight when there are no registered
