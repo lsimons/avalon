@@ -27,7 +27,7 @@ public final class BlockInfoBuilder
     {
     }
 
-    public static BlockInfo build( final Configuration info )
+    public static BlockInfo build( final String classname, final Configuration info )
         throws Exception
     {
         Configuration configuration  = null;
@@ -38,8 +38,8 @@ public final class BlockInfoBuilder
         configuration = info.getChild( "dependencies" );
         final DependencyDescriptor dependencies[] = buildDependencies( configuration );
 
-        configuration = info.getChild( "meta" );
-        final BlockDescriptor descriptor = buildBlockDescriptor( configuration );
+        configuration = info.getChild( "block" );
+        final BlockDescriptor descriptor = buildBlockDescriptor( classname, configuration );
 
         return new BlockInfo( descriptor, services, dependencies );
     }
@@ -87,12 +87,30 @@ public final class BlockInfoBuilder
         throws ConfigurationException
     {
         final String name = service.getAttribute( "name" );
-        final Version version =  Version.getVersion( service.getAttribute( "version" ) );
+        final Version version =  buildVersion( service.getAttribute( "version" ) );
         return new ServiceDescriptor( name, version );
     }
 
-    private static BlockDescriptor buildBlockDescriptor( final Configuration meta )
+    private static BlockDescriptor buildBlockDescriptor( final String classname, 
+                                                         final Configuration block )
+        throws ConfigurationException
     {
-        return null;
+        if( 0 == block.getChildren().length )
+        {
+            System.err.println( "Warning: Unspecified <block/> section in block info for " + 
+                                classname + "." );
+            return null;
+        }
+
+        //final String classname =  block.getChild( "classname" ).getValue();
+        final Version version =  buildVersion( block.getChild("version").getValue() );
+        
+        return new BlockDescriptor( classname, version );
+    }
+
+    private static Version buildVersion( final String version )
+        throws ConfigurationException
+    {
+        return Version.getVersion( version );
     }
 }
