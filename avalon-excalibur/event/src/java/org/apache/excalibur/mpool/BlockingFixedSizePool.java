@@ -60,7 +60,7 @@ import org.apache.avalon.framework.activity.Initializable;
  * Please note that this pool offers no resource limiting whatsoever.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/09/25 15:47:57 $
+ * @version CVS $Revision: 1.5 $ $Date: 2002/09/25 15:50:26 $
  * @since 4.1
  */
 public final class BlockingFixedSizePool
@@ -195,7 +195,7 @@ public final class BlockingFixedSizePool
             {
                 if ( m_buffer.size() < m_maxSize )
                 {
-                    m_buffer.add( PoolUtil.reset( object ) );
+                    m_buffer.add( PoolUtil.recycle( object ) );
                     m_semaphore.notify();
                 }
                 else
