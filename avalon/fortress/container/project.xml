@@ -24,7 +24,7 @@ easy embedding into various environments like servlet engines.
         </dependency>
         <dependency>
             <id>logkit</id>
-            <version>1.2</version>
+            <version>1.2.2</version>
         </dependency>
         <dependency>
             <id>commons-collections</id>
