@@ -25,7 +25,7 @@
   </properties>
 
   <body>
-    <section name="JMX Extension">
+    <section name="Extension Facilities">
       <p>
       </p>
     </section>
@@ -34,7 +34,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Avalon Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2004/03/02 00:00:15 $
+      $Revision: 1.2 $ $Date: 2004/04/02 00:10:57 $
     </legal>
   </footer>
 </document>
