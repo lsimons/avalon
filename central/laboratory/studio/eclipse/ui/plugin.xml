@@ -29,6 +29,8 @@
       <import plugin="org.eclipse.core.runtime"/>
       <import plugin="org.apache.metro.studio.core"/>
       <import plugin="org.apache.metro.studio.launch"/>
+      <import plugin="org.eclipse.debug.ui"/>
+      <import plugin="org.eclipse.jdt.debug.ui"/>
    </requires>
 
 
@@ -72,7 +74,14 @@
             id="Viewer.editors.XMLEditor">
       </editor>
    </extension>
-
+   <extension
+         point="org.eclipse.debug.ui.launchConfigurationTabGroups">
+      <launchConfigurationTabGroup
+            type="org.apache.metro.studio.launch.metroLaunchConfigurationDelegate"
+            class="org.apache.metro.studio.eclipse.ui.tabgroup.MerlinServerTabGroup"
+            id="org.apache.metro.studio.metroServerTabGroup">
+      </launchConfigurationTabGroup>
+   </extension>
    <extension
          point="org.eclipse.ui.preferencePages">
       <page
