@@ -6,14 +6,12 @@
  */
 package org.apache.avalon.phoenix.components.kernel.beanshell;
 
-import org.apache.avalon.excalibur.proxy.DynamicProxy;
 import org.apache.avalon.phoenix.components.kernel.DefaultKernel;
 import org.apache.avalon.phoenix.interfaces.Kernel;
 
 public class BeanShellKernel
     extends DefaultKernel
 {
-    private Kernel m_kernel;
 
     /**
      * Overides Initialize from DefaultKernel
@@ -23,11 +21,7 @@ public class BeanShellKernel
     {
         super.initialize();
 
-        final BeanShellKernelProxy proxy = new BeanShellKernelProxy( this );
-        final Class[] interfaces = new Class[]{Kernel.class};
-        m_kernel = (Kernel)DynamicProxy.newInstance( proxy, interfaces );
-
-        final BeanShellGUI beanShell = new BeanShellGUI( m_kernel );
+        final BeanShellGUI beanShell = new BeanShellGUI( new BeanShellKernelProxy( this ) );
         beanShell.init();
     }
 }
