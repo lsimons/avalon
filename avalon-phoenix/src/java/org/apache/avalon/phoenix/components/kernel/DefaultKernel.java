@@ -84,23 +84,6 @@ public class DefaultKernel
         }
     }
 
-
-    /**
-     * After being added to container, start the entry if kernel is started.
-     *
-     * @param name the name of entry
-     * @param entry the entry
-     */
-    protected void postAdd( final String name, final Entry entry )
-    {
-        try { startup( (SarEntry)entry ); }
-        catch( final Exception e )
-        {
-            final String message = REZ.getString( "kernel.error.entry.start", name );
-            getLogger().warn( message, e );
-        }
-    }
-
     /**
      * Create and initialize the application instance if it is not already initialized.
      *
@@ -111,23 +94,30 @@ public class DefaultKernel
     private void startup( final SarEntry entry )
         throws ContainerException
     {
-        Application application = entry.getApplication();
+        final String name = entry.getMetaData().getName();
 
+        Application application = entry.getApplication();
         if( null == application )
         {
-            application = new DefaultServerApplication();
-
             try
             {
-                entry.setApplication( application );
+                application = new DefaultServerApplication();
 
-                //Give sub-class chance to prepare entry
-                //This performs process required before the application
-                //is ready to be initialized
-                prepareApplication( entry );
+                setupLogger( application, name );
+
+                if( application instanceof Composable )
+                {
+                    final ComponentManager componentManager = createComponentManager();
+                    ((Composable)application).compose( componentManager );
+                }
+                
+                final ApplicationFrame frame = createApplicationFrame( entry );
+                application.setup( frame );
 
                 application.initialize();
                 application.start();
+
+                entry.setApplication( application );
             }
             catch( final Throwable t )
             {
@@ -165,49 +155,17 @@ public class DefaultKernel
                                 final Configuration server )
         throws Exception
     {
+        final String name = metaData.getName();
         final SarEntry entry = new SarEntry( metaData, classLoader, server );
 
         //Finally add application to kernel
-        add( metaData.getName(), entry );
-    }
+        add( name, entry );
 
-    /**
-     * Prepare an application before it is initialized.
-     * Overide to provide functionality.
-     *
-     * @param entry the application entry
-     * @exception ContainerException if an error occurs
-     */
-    protected void prepareApplication( final SarEntry entry )
-        throws ContainerException
-    {
-        final String name = entry.getMetaData().getName();
-        final Application application = entry.getApplication();
-
-        setupLogger( application, name );
-        try
-        {
-            if( application instanceof Composable )
-            {
-                final DefaultComponentManager componentManager = new DefaultComponentManager();
-                componentManager.put( SystemManager.ROLE, m_systemManager );
-                componentManager.put( ConfigurationRepository.ROLE, m_repository );
-                componentManager.makeReadOnly();
-                ((Composable)application).compose( componentManager );
-            }
-
-            final ApplicationFrame frame = createApplicationFrame( entry );
-            application.setup( frame );
-
-            if( application instanceof Configurable )
-            {
-                ((Configurable)application).configure( entry.getConfiguration() );
-            }
-        }
+        try { startup( (SarEntry)entry ); }
         catch( final Exception e )
         {
-            final String message = REZ.getString( "kernel.error.entry.prepare", name );
-            throw new ContainerException( message, e );
+            final String message = REZ.getString( "kernel.error.entry.start", name );
+            getLogger().warn( message, e );
         }
     }
 
@@ -221,15 +179,21 @@ public class DefaultKernel
 
         if( frame instanceof Composable )
         {
-            final DefaultComponentManager componentManager = new DefaultComponentManager();
-            //componentManager.put( SystemManager.ROLE, m_systemManager );
-            componentManager.put( ConfigurationRepository.ROLE, m_repository );
-            componentManager.makeReadOnly();
+            final ComponentManager componentManager = createComponentManager();
             ((Composable)frame).compose( componentManager );
         }
 
         frame.configure( entry.getConfiguration() );
         frame.initialize();
         return frame;
+    }
+
+    private ComponentManager createComponentManager()
+    {
+        final DefaultComponentManager componentManager = new DefaultComponentManager();
+        //componentManager.put( SystemManager.ROLE, m_systemManager );
+        componentManager.put( ConfigurationRepository.ROLE, m_repository );
+        componentManager.makeReadOnly();
+        return componentManager;
     }
 }
