@@ -5,7 +5,7 @@
   <property file="install.properties"/>
 
   <property name="magic.install.host" value="http://www.dpml.net"/>
-  <property name="magic.bar" value="avalon-tools.bar"/>
+  <property name="magic.bar" value="avalon-tools-magic.bar"/>
   <property name="magic.group" value="avalon/tools"/>
   <property name="magic.bar.dir" value="${magic.group}/bars"/>
   <property name="magic.bar.path" value="${magic.bar.dir}/${magic.bar}"/>
