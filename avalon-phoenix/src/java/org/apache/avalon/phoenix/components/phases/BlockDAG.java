@@ -5,10 +5,11 @@
  * version 1.1, a copy of which has been included  with this distribution in
  * the LICENSE file.
  */
-package org.apache.avalon.phoenix.engine.blocks;
+package org.apache.avalon.phoenix.components.phases;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import org.apache.avalon.framework.Enum;
 import org.apache.avalon.framework.camelot.Container;
 import org.apache.avalon.framework.camelot.ContainerException;
 import org.apache.avalon.framework.component.Component;
@@ -16,10 +17,11 @@ import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.component.Composable;
 import org.apache.avalon.framework.logger.AbstractLoggable;
-import org.apache.avalon.framework.Enum;
 import org.apache.avalon.phoenix.Block;
 import org.apache.avalon.phoenix.metainfo.DependencyDescriptor;
 import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
+import org.apache.avalon.phoenix.engine.blocks.BlockEntry;
+import org.apache.avalon.phoenix.engine.blocks.RoleEntry;
 
 /**
  * This is the dependency graph for blocks.

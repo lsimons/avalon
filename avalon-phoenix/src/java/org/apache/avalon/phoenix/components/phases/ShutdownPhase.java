@@ -5,7 +5,7 @@
  * version 1.1, a copy of which has been included  with this distribution in
  * the LICENSE file.
  */
-package org.apache.avalon.phoenix.engine.phases;
+package org.apache.avalon.phoenix.components.phases;
 
 import org.apache.avalon.excalibur.thread.ThreadContext;
 import org.apache.avalon.framework.activity.Disposable;
@@ -15,9 +15,8 @@ import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.component.Composable;
 import org.apache.avalon.framework.logger.AbstractLoggable;
-import org.apache.avalon.phoenix.engine.blocks.BlockEntry;
-import org.apache.avalon.phoenix.engine.blocks.BlockVisitor;
 import org.apache.avalon.phoenix.components.frame.ApplicationFrame;
+import org.apache.avalon.phoenix.engine.blocks.BlockEntry;
 
 /**
  *

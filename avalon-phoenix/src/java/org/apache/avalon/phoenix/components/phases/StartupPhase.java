@@ -5,13 +5,14 @@
  * version 1.1, a copy of which has been included  with this distribution in
  * the LICENSE file.
  */
-package org.apache.avalon.phoenix.engine.phases;
+package org.apache.avalon.phoenix.components.phases;
 
 import java.io.File;
 import java.net.URL;
+import org.apache.avalon.excalibur.thread.ThreadContext;
 import org.apache.avalon.framework.CascadingException;
-import org.apache.avalon.framework.activity.Startable;
 import org.apache.avalon.framework.activity.Initializable;
+import org.apache.avalon.framework.activity.Startable;
 import org.apache.avalon.framework.camelot.Container;
 import org.apache.avalon.framework.camelot.ContainerException;
 import org.apache.avalon.framework.camelot.Entry;
@@ -30,15 +31,13 @@ import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.AbstractLoggable;
 import org.apache.avalon.framework.logger.Loggable;
-import org.apache.avalon.excalibur.thread.ThreadContext;
 import org.apache.avalon.phoenix.Block;
 import org.apache.avalon.phoenix.BlockContext;
-import org.apache.avalon.phoenix.engine.blocks.BlockEntry;
-import org.apache.avalon.phoenix.engine.blocks.BlockVisitor;
-import org.apache.avalon.phoenix.engine.blocks.DefaultBlockContext;
-import org.apache.avalon.phoenix.engine.blocks.RoleEntry;
 import org.apache.avalon.phoenix.components.configuration.ConfigurationRepository;
 import org.apache.avalon.phoenix.components.frame.ApplicationFrame;
+import org.apache.avalon.phoenix.engine.blocks.BlockEntry;
+import org.apache.avalon.phoenix.engine.blocks.DefaultBlockContext;
+import org.apache.avalon.phoenix.engine.blocks.RoleEntry;
 import org.apache.avalon.phoenix.metainfo.BlockInfo;
 import org.apache.avalon.phoenix.metainfo.BlockUtil;
 import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
@@ -155,7 +154,7 @@ public class StartupPhase
             if( object instanceof Configurable )
             {
                 getLogger().debug( "Pre-Configure Stage" );
-                final Configuration configuration = 
+                final Configuration configuration =
                     m_repository.getConfiguration( m_appName, name );
                 ((Configurable)object).configure( configuration );
                 getLogger().debug( "Configure successful." );

@@ -30,15 +30,15 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
+import org.apache.avalon.phoenix.components.phases.BlockDAG;
+import org.apache.avalon.phoenix.components.phases.BlockVisitor;
+import org.apache.avalon.phoenix.components.phases.ShutdownPhase;
+import org.apache.avalon.phoenix.components.phases.StartupPhase;
 import org.apache.avalon.phoenix.components.configuration.ConfigurationRepository;
 import org.apache.avalon.phoenix.components.frame.ApplicationFrame;
 import org.apache.avalon.phoenix.components.frame.DefaultApplicationFrame;
-import org.apache.avalon.phoenix.engine.blocks.BlockDAG;
 import org.apache.avalon.phoenix.engine.blocks.BlockEntry;
-import org.apache.avalon.phoenix.engine.blocks.BlockVisitor;
 import org.apache.avalon.phoenix.engine.blocks.RoleEntry;
-import org.apache.avalon.phoenix.engine.phases.ShutdownPhase;
-import org.apache.avalon.phoenix.engine.phases.StartupPhase;
 import org.apache.avalon.phoenix.metainfo.BlockInfo;
 import org.apache.avalon.phoenix.metainfo.BlockInfoBuilder;
 import org.apache.avalon.phoenix.metainfo.DependencyDescriptor;
@@ -72,11 +72,15 @@ public final class DefaultServerApplication
     //the following are used for setting up facilities
     private Context                  m_context;
     private Configuration            m_configuration;
-    private DefaultComponentManager  m_componentManager;
+    private ComponentManager         m_componentManager;
 
     //these are the facilities (internal components) of ServerApplication
     private ApplicationFrame         m_frame;
 
+    public DefaultServerApplication()
+    {
+        m_frame = createFrame();
+    }
 
     public void contextualize( final Context context )
         throws ContextException
@@ -88,7 +92,16 @@ public final class DefaultServerApplication
     public void compose( final ComponentManager componentManager )
         throws ComponentException
     {
-        m_componentManager = new DefaultComponentManager( componentManager );
+        final DefaultComponentManager newComponentManager =
+            new DefaultComponentManager( componentManager );
+
+        //Setup component manager with new components added
+        //by application
+        newComponentManager.put( ApplicationFrame.ROLE, m_frame );
+        newComponentManager.put( Container.ROLE, this );
+        newComponentManager.makeReadOnly();
+
+        m_componentManager = newComponentManager;
     }
 
     public void configure( final Configuration configuration )
@@ -100,17 +113,21 @@ public final class DefaultServerApplication
     public void initialize()
         throws Exception
     {
-        m_frame = new DefaultApplicationFrame();
-
-        //setup the component manager
-        m_componentManager.put( ApplicationFrame.ROLE, m_frame );
-        m_componentManager.put( Container.ROLE, this );
-        m_componentManager.makeReadOnly();
-
         setupComponent( m_frame, "frame" );
         setupComponent( m_dag, "dag" );
 
         setupPhases();
+    }
+
+    /**
+     * Create a frame for application.
+     * Overide this in subclasses to provide different types of frames.
+     *
+     * @return the ApplicationFrame
+     */
+    protected ApplicationFrame createFrame()
+    {
+        return new DefaultApplicationFrame();
     }
 
     /**
@@ -130,6 +147,13 @@ public final class DefaultServerApplication
         }
     }
 
+    /**
+     * Initialize and setup the phases for application.
+     * Currently there is only the Startup and Shutdown
+     * phases implemented.
+     *
+     * @exception Exception if an error occurs
+     */
     protected void setupPhases()
         throws Exception
     {
@@ -146,39 +170,53 @@ public final class DefaultServerApplication
         setupComponent( entry.m_visitor, "ShutdownPhase" );
     }
 
+    /**
+     * Startup application by running startup phase on all the blocks.
+     *
+     * @exception Exception if an error occurs
+     */
     public void start()
         throws Exception
     {
+        final String message = REZ.format( "app.notice.block.loading-count",
+                                           new Integer( getEntryCount() ) );
+        getLogger().info( message );
+
         // load block info
         loadBlockInfos();
 
         // load blocks
-        final String message = REZ.format( "app.notice.block.loading-count",
-                                           new Integer( getEntryCount() ) );
-        getLogger().info( message );
         final PhaseEntry entry = (PhaseEntry)m_phases.get( "startup" );
         runPhase( "startup", entry );
     }
 
+    /**
+     * Shutdown the application.
+     * This involves shutting down every contained block.
+     *
+     * @exception Exception if an error occurs
+     */
     public void stop()
         throws Exception
-    {
-    }
-
-    public void dispose()
     {
         final String message = REZ.format( "app.notice.block.unloading-count",
                                            new Integer( getEntryCount() ) );
         getLogger().info( message );
 
         final PhaseEntry entry = (PhaseEntry)m_phases.get( "shutdown" );
-        try { runPhase( "shutdown", entry ); }
-        catch( final Exception e )
-        {
-            //Already been logged so we can ignore exception
-        }
+        runPhase( "shutdown", entry );
     }
 
+    public void dispose()
+    {
+    }
+
+    /**
+     * Load the block infos for every block.
+     * Make sure the block infos correctly represents each block.
+     *
+     * @exception Exception if an error occurs
+     */
     private void loadBlockInfos()
         throws Exception
     {
@@ -198,6 +236,15 @@ public final class DefaultServerApplication
         }
     }
 
+    /**
+     * Get a BlockInfo for a particular block.
+     * The BlockInfo may be loaded from cache or via ClassLoader.
+     *
+     * @param name the name of entry
+     * @param entry the block entry
+     * @return the BlockInfo
+     * @exception Exception if an error occurs
+     */
     private BlockInfo getBlockInfo( final String name, final BlockEntry entry )
         throws Exception
     {
@@ -227,32 +274,49 @@ public final class DefaultServerApplication
         }
     }
 
-    protected final void setupComponent( final Component object, final String logName )
+    /**
+     * Setup a component in this application.
+     *
+     * @param object the component
+     * @param logName the name to use to setup logging
+     * @exception Exception if an error occurs
+     */
+    protected final void setupComponent( final Component component, final String logName )
         throws Exception
     {
-        setupLogger( object, logName );
+        setupLogger( component, logName );
 
-        if( object instanceof Contextualizable )
+        if( component instanceof Contextualizable )
         {
-            ((Contextualizable)object).contextualize( m_context );
+            ((Contextualizable)component).contextualize( m_context );
         }
 
-        if( object instanceof Composable )
+        if( component instanceof Composable )
         {
-            ((Composable)object).compose( m_componentManager );
+            ((Composable)component).compose( m_componentManager );
         }
 
-        if( object instanceof Configurable )
+        if( component instanceof Configurable )
         {
-            ((Configurable)object).configure( m_configuration );
+            ((Configurable)component).configure( m_configuration );
         }
 
-        if( object instanceof Initializable )
+        if( component instanceof Initializable )
         {
-            ((Initializable)object).initialize();
+            ((Initializable)component).initialize();
         }
     }
 
+    /**
+     * Run a phase for application.
+     * Each phase transitions application into new state and processes
+     * all the blocks to make sure they are in that state aswell.
+     * Exceptions leave the blocks in an indeterminate state.
+     *
+     * @param name the name of phase for logging purposes
+     * @param phase the phase
+     * @exception Exception if an error occurs
+     */
     protected final void runPhase( final String name, final PhaseEntry phase )
         throws Exception
     {
