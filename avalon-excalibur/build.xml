@@ -26,6 +26,7 @@
         
         <!-- Sub projects with dependencies. -->
         <ant dir="pool" target="dist"/>               <!-- collections, concurrent -->
+        <ant dir="proxy" target="dist"/>
         <ant dir="thread" target="dist"/>             <!-- lang, pool -->
         <ant dir="component" target="dist"/>          <!-- collections, logger, pool -->
         <ant dir="util" target="dist"/>               <!-- component -->
@@ -144,6 +145,7 @@
         
         <!-- Sub projects with dependencies. -->
         <ant dir="pool" target="jar"/>               <!-- collections, concurrent -->
+        <ant dir="proxy" target="jar"/>   
         <ant dir="thread" target="jar"/>             <!-- lang, pool -->
         <ant dir="component" target="jar"/>          <!-- collections, logger, pool -->
         <ant dir="util" target="jar"/>               <!-- component -->
@@ -202,6 +204,7 @@
         <ant dir="logger" target="docs"/>
         <ant dir="naming" target="docs"/>
         <ant dir="pool" target="docs"/>
+        <ant dir="proxy" target="docs"/>
         <ant dir="tar" target="docs"/>
         <ant dir="testcase" target="docs"/>
         <ant dir="thread" target="docs"/>
@@ -238,6 +241,7 @@
         <ant dir="logger" target="site"/>
         <ant dir="naming" target="site"/> 
         <ant dir="pool" target="site"/>
+        <ant dir="proxy" target="site"/>
         <ant dir="tar" target="site"/>
         <ant dir="testcase" target="site"/>
         <ant dir="thread" target="site"/>
@@ -257,6 +261,7 @@
         <ant dir="logger" target="real-clean"/>
         
         <ant dir="pool" target="real-clean"/>
+        <ant dir="proxy" target="real-clean"/>
         <ant dir="thread" target="real-clean"/>
         <ant dir="component" target="real-clean"/>
         <ant dir="util" target="real-clean"/>
