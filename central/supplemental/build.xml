@@ -14,7 +14,7 @@
       file="etc/deliverables/jars/${mailapi.jar}"/>
 
   <target name="package" depends="info" unless="mailet.cache.available">
-    <property name="supplemental.path" value="avalon/supplemental"/>
+    <property name="supplemental.path" value="avalonx/supplemental"/>
     <property name="supplemental.dir" value="${magic.cache}/${supplemental.path}"/>
     <mkdir dir="target"/>
     <get src="http://www.dpml.net/${supplemental.path}/bars/${supplemental.bar}" usetimestamp="true"
