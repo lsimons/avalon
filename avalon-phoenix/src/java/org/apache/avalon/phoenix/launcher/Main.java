@@ -25,9 +25,9 @@ import java.util.StringTokenizer;
  */
 public final class Main
 {
-    private final static String  MAIN_CLASS  = "org.apache.avalon.phoenix.frontends.CLIMain";
-    private final static String  MAIN_JAR    = "phoenix-engine.jar";
-    private final static String  LOADER_JAR  = "phoenix-loader.jar";
+    private final static String MAIN_CLASS = "org.apache.avalon.phoenix.frontends.CLIMain";
+    private final static String MAIN_JAR = "phoenix-engine.jar";
+    private final static String LOADER_JAR = "phoenix-loader.jar";
 
     public final static void main( final String args[] )
         throws Exception
@@ -40,18 +40,18 @@ public final class Main
             //Create engine ClassLoader
             final File mainJar = findEngineJar();
             final URL archive = mainJar.toURL();
-            final URLClassLoader classLoader = new URLClassLoader( new URL[] { archive } );
+            final URLClassLoader classLoader = new URLClassLoader( new URL[]{ archive } );
 
             //Setup context classloader
             Thread.currentThread().setContextClassLoader( classLoader );
 
             //Create main launcher
             final Class clazz = classLoader.loadClass( MAIN_CLASS );
-            final Method method = clazz.getMethod( "main", new Class[] { args.getClass() } );
+            final Method method = clazz.getMethod( "main", new Class[]{ args.getClass() } );
             final Object instance = clazz.newInstance();
 
             //kick the tires and light the fires....
-            method.invoke( instance, new Object[] { args } );
+            method.invoke( instance, new Object[]{ args } );
         }
         catch( final Exception e )
         {
@@ -68,7 +68,7 @@ public final class Main
     private final static File findEngineJar()
         throws Exception
     {
-        String phoenixHome =  System.getProperty( "phoenix.home", null );
+        String phoenixHome = System.getProperty( "phoenix.home", null );
         File loaderDir = null;
 
         if( null != phoenixHome )
@@ -103,7 +103,7 @@ public final class Main
 
             if( element.endsWith( LOADER_JAR ) )
             {
-                File file = (new File( element )).getCanonicalFile();
+                File file = ( new File( element ) ).getCanonicalFile();
                 file = file.getParentFile();
                 return file;
             }
@@ -126,6 +126,8 @@ public final class Main
             return permissions;
         }
 
-        public void refresh() {}
+        public void refresh()
+        {
+        }
     }
 }
