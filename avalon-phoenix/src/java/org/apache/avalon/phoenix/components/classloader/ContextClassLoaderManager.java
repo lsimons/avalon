@@ -14,6 +14,7 @@ public class ContextClassLoaderManager
     implements ClassLoaderManager
 {
     public ClassLoader createClassLoader( final Configuration server,
+                                          final File source,
                                           final File homeDirectory,
                                           final String[] classPath )
         throws Exception

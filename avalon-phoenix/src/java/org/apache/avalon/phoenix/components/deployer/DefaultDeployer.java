@@ -138,6 +138,7 @@ public class DefaultDeployer
 
             final ClassLoader classLoader =
                 m_classLoaderManager.createClassLoader( server,
+                                                        installation.getSource(),
                                                         directory,
                                                         installation.getClassPath() );
             //assemble all the blocks for application
