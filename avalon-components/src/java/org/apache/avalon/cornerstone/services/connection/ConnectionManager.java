@@ -9,7 +9,6 @@ package org.apache.avalon.cornerstone.services.connection;
 
 import java.net.ServerSocket;
 import org.apache.avalon.excalibur.thread.ThreadPool;
-import org.apache.avalon.phoenix.Service;
 
 /**
  * This is the service through which ConnectionManagement occurs.
