@@ -13,18 +13,18 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Map;
 import org.apache.avalon.framework.activity.Disposable;
-import org.apache.avalon.framework.component.ComponentException;
-import org.apache.avalon.framework.component.ComponentManager;
-import org.apache.avalon.framework.component.ComponentSelector;
-import org.apache.avalon.framework.component.Composable;
+import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.parameters.ParameterException;
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.avalon.framework.service.ServiceException;
+import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.avalon.framework.service.ServiceSelector;
+import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.framework.thread.ThreadSafe;
 import org.apache.excalibur.source.Recyclable;
 import org.apache.excalibur.source.Source;
@@ -54,22 +54,22 @@ import org.apache.excalibur.source.SourceResolver;
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: SourceResolverImpl.java,v 1.11 2002/08/09 05:30:02 bloritsch Exp $
+ * @version $Id: SourceResolverImpl.java,v 1.12 2002/11/07 05:00:17 donaldp Exp $
  */
 public class SourceResolverImpl
     extends AbstractLogEnabled
-    implements Composable,
+    implements Serviceable,
     Contextualizable,
     Disposable,
     Parameterizable,
     SourceResolver,
     ThreadSafe
 {
-    /** The component manager */
-    protected ComponentManager m_manager;
+    /** The component m_manager */
+    protected ServiceManager m_manager;
 
     /** The special Source factories */
-    protected ComponentSelector m_factorySelector;
+    protected ServiceSelector m_factorySelector;
 
     /** The context */
     protected Context m_context;
@@ -121,12 +121,14 @@ public class SourceResolverImpl
     /**
      * Set the current <code>ComponentLocator</code> instance used by this
      * <code>Composable</code>.
+     *
+     * @avalon.service interface="org.apache.excalibur.source.SourceFactorySelector"
      */
-    public void compose( ComponentManager manager )
-        throws ComponentException
+    public void service( final ServiceManager manager )
+        throws ServiceException
     {
         m_manager = manager;
-        m_factorySelector = (ComponentSelector)m_manager.lookup( SourceFactory.ROLE + "Selector" );
+        m_factorySelector = (ServiceSelector)m_manager.lookup( SourceFactory.ROLE + "Selector" );
     }
 
     public void dispose()
@@ -254,7 +256,7 @@ public class SourceResolverImpl
         if( protocolPos != -1 )
         {
             final String protocol = systemID.substring( 0, protocolPos );
-            if( m_factorySelector.hasComponent( protocol ) )
+            if( m_factorySelector.isSelectable( protocol ) )
             {
                 SourceFactory factory = null;
                 try
@@ -262,7 +264,7 @@ public class SourceResolverImpl
                     factory = (SourceFactory)m_factorySelector.select( protocol );
                     source = factory.getSource( systemID, parameters );
                 }
-                catch( ComponentException ce )
+                catch( final ServiceException ce )
                 {
                     throw new SourceException( "ComponentException.", ce );
                 }
@@ -320,32 +322,25 @@ public class SourceResolverImpl
                 }
             }
         }
-        if( source instanceof LogEnabled )
+        ContainerUtil.enableLogging( source, getLogger() );
+
+        try
         {
-            ( (LogEnabled)source ).enableLogging( getLogger() );
+            ContainerUtil.contextualize( source, m_context );
         }
-        if( source instanceof Contextualizable )
+        catch( ContextException ce )
         {
-            try
-            {
-                ( (Contextualizable)source ).contextualize( m_context );
-            }
-            catch( ContextException ce )
-            {
-                throw new SourceException( "ContextException occured during source resolving.", ce );
-            }
+            throw new SourceException( "ContextException occured during source resolving.", ce );
         }
 
-        if( source instanceof Composable )
+        try
         {
-            try
-            {
-                ( (Composable)source ).compose( m_manager );
-            }
-            catch( ComponentException ce )
-            {
-                throw new SourceException( "ComponentException occured during source resolving.", ce );
-            }
+            ContainerUtil.compose( source, new WrapperComponentManager( m_manager ) );
+            ContainerUtil.service( source, m_manager );
+        }
+        catch( Exception ce )
+        {
+            throw new SourceException( "ComponentException occured during source resolving.", ce );
         }
         return source;
     }
@@ -353,16 +348,13 @@ public class SourceResolverImpl
     /**
      * Releases a resolved resource
      */
-    public void release( Source source )
+    public void release( final Source source )
     {
         if( source == null ) return;
         if( source instanceof Recyclable )
         {
             ( (Recyclable)source ).recycle();
         }
-        if( source instanceof Disposable )
-        {
-            ( (Disposable)source ).dispose();
-        }
+        ContainerUtil.dispose(source );
     }
 }
