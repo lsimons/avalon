@@ -304,6 +304,8 @@
         <zip zipfile="${dist.base}/${dist.name}.zip" compress="true">
             <zipfileset dir="${dist.dir}" prefix="${dist.name}"/>
         </zip>
+       
+	<checksum file="${dist.base}/${dist.name}.zip"/>
     </target>
 
     <!-- Creates a mini jar-only distribution -->

@@ -458,6 +458,8 @@
             <zipfileset dir="${dist.dir}" prefix="${dist.name}"/>
             <zipfileset dir="${docs.dir}" prefix="${dist.name}/docs"/>
         </zip>
+
+	<checksum file="${dist.base}/${dist.name}.zip"/>
     </target>
 
     <!-- Creates a mini jar-only distribution -->
