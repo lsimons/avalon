@@ -4,7 +4,7 @@ Configuration Management
 
 This tutorial covers default configuration using the <classname>.xconfig resource.
 
-$ maven
+$ ant
 $ merlin target\classes -execute
 [INFO   ] (tutorial.hello): configuration stage
 [INFO   ] (tutorial.hello): initialization stage
