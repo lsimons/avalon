@@ -81,6 +81,18 @@
   <projects>
 
     <!--
+    Avalon Tools.
+    -->
+
+    <project basedir="../../tools/project">
+      <info>
+        <group>avalon/tools</group>
+        <name>avalon-tools-project</name>
+        <version>1.0.0</version>
+      </info>
+    </project>
+
+    <!--
     Avalon LogKit.
     -->
 
