@@ -25,7 +25,7 @@
     <menu>
       <item name="News" href="news/index.html"/>
       <item name="Community" href="community/index.html"/>
-      <item name="Downloads" href="download.html"/>
+      <item name="Downloads" href="/download.cgi"/>
       <item name="Tutorials" href="tutorials/index.html"/>
       <item name="Resources" href="developers/index.html"/>
       <item name="Laboratory" href="laboratory/index.html"/>
