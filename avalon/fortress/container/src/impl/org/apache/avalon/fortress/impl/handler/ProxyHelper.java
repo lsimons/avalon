@@ -79,10 +79,13 @@ import org.apache.avalon.framework.service.Serviceable;
 /**
  * Create a Component proxy.  Requires JDK 1.3+
  *
+ * This class is package-access on purpose so clients will not be able to get at the object
+ * that is behind the proxy
+ *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  */
-public final class ProxyHelper
+final class ProxyHelper
 {
     /**
      * The list interfaces that will not be proxied.
