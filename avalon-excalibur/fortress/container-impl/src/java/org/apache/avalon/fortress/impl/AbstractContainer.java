@@ -95,7 +95,7 @@ import org.apache.excalibur.mpool.PoolManager;
  * Container's Manager can expose that to the instantiating class.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.17 $ $Date: 2003/03/22 12:46:33 $
+ * @version CVS $Revision: 1.18 $ $Date: 2003/04/04 16:09:44 $
  */
 public abstract class AbstractContainer
     extends AbstractLogEnabled
@@ -128,7 +128,7 @@ public abstract class AbstractContainer
      * Contains entries mapping roles to hint maps, where the hint map contains
      * mappings from hints to ComponentHandlers.
      */
-    protected StaticBucketMap m_mapper = new StaticBucketMap();
+    protected Map m_mapper = new StaticBucketMap();
     /** Contains an entry for each ComponentHandler */
     protected List m_components = new ArrayList( 10 );
 
@@ -304,7 +304,7 @@ public abstract class AbstractContainer
         // ServiceSelector and put that in as SELECTOR_ENTRY.
         if( null != role && null != classname && null != handler )
         {
-            Map hintMap = (StaticBucketMap)m_mapper.get( role );
+            Map hintMap = (Map)m_mapper.get( role );
 
             // Initialize the hintMap if it doesn't exist yet.
             if( null == hintMap )
@@ -446,7 +446,7 @@ public abstract class AbstractContainer
     public Object get( final String role, final Object hint )
         throws ServiceException
     {
-        final Map hintMap = (StaticBucketMap)m_mapper.get( role );
+        final Map hintMap = (Map)m_mapper.get( role );
         Object value;
 
         if( null == hintMap )
@@ -511,7 +511,7 @@ public abstract class AbstractContainer
      */
     public boolean has( final String role, final Object hint )
     {
-        final Map hintMap = (StaticBucketMap)m_mapper.get( role );
+        final Map hintMap = (Map)m_mapper.get( role );
         boolean hasComponent = false;
 
         if( null != hintMap )
