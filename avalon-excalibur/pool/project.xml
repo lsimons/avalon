@@ -20,7 +20,7 @@
 
     <name>excalibur-pool</name>
     <id>excalibur-pool</id>
-    <currentVersion>1.1-dev</currentVersion>
+    <currentVersion>1.1</currentVersion>
     <inceptionYear>1997</inceptionYear>
     <shortDescription>Generic pool components</shortDescription>
     <description>

@@ -15,7 +15,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<project default="java:jar"
+<project default="jar:install"
     xmlns:j="jelly:core"
     xmlns:ant="jelly:ant">
 
