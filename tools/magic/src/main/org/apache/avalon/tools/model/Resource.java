@@ -158,7 +158,7 @@ public class Resource
         {
             final String error = 
               "Resource defintion " + this + " contains a unknown resource reference ["
-                 + ure.getKey() + "] referenced in the project [" + project.getName() + "].";
+                 + ure.getKey() + "].";
             throw new BuildException( error );
         }
     }
@@ -180,12 +180,26 @@ public class Resource
         return (ResourceRef[]) list.toArray( new ResourceRef[0] );
     }
 
-
     public File getArtifact( final Project project )
     {
+        return getArtifact( project, true );
+    }
+
+    public File getArtifact( final Project project, boolean resolve )
+    {
+        //
+        // use classic repository resolution
+        //
+
         final String path = getInfo().getPath();
         final File cache = getHome().getRepository().getCacheDirectory();
         final File target = new File( cache, path );
+
+        if( !resolve )
+        {
+            return target;
+        }
+
         if( target.exists() ) 
         {
             return target;
@@ -193,6 +207,19 @@ public class Resource
         else
         {
             return get( project, target, path );
+        }
+    }
+
+    private String getKeyForResource( Resource resource )
+    {
+        final String alias = resource.getGump().getAlias();
+        if( null != alias ) 
+        {
+            return alias;
+        }
+        else
+        {
+            return resource.getKey();
         }
     }
 

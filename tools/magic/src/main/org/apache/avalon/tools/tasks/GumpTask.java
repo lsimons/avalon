@@ -395,8 +395,6 @@ public class GumpTask extends SystemTask
            "\n      <!-- for magic -->" );
         writer.write( 
            "\n      <property name=\"gump.signature\" value=\"@@DATE@@\"/>" );
-        writer.write( 
-           "\n      <property name=\"gump.scrdir\" reference=\"srcdir\"/>" );
 
         boolean flag = false;
         for( int i=0; i<refs.length; i++ )
@@ -469,17 +467,19 @@ public class GumpTask extends SystemTask
 
         String name = definition.getInfo().getName();
         String type = definition.getInfo().getType();
+        String filename = definition.getInfo().getFilename();
+
         if( "jar".equals( type ) || "bar".equals( type ) )
         {
             writer.write( 
               "\n    <jar name=\"" + type + "s/" 
-              + name + "-@@DATE@@.jar\"/>" );
+              + filename + "\"/>" );
         }
         if( "plugin".equals( type ) )
         {
             writer.write( 
               "\n    <jar name=\"jars/" 
-              + name + "-@@DATE@@.jar\"/>" );
+              + filename + "\"/>" );
         }
         else if( "doc".equals( type ) )
         {

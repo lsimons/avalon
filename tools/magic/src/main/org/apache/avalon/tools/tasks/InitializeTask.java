@@ -17,11 +17,16 @@
 
 package org.apache.avalon.tools.tasks;
 
+import java.io.File;
+
 import org.apache.avalon.tools.model.Definition;
 import org.apache.avalon.tools.model.Resource;
 import org.apache.avalon.tools.model.ResourceRef;
+import org.apache.avalon.tools.model.Policy;
+
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
+import org.apache.tools.ant.taskdefs.Copy;
 
 /**
  * The initialize task loads and plugins that a project
@@ -35,6 +40,18 @@ public class InitializeTask extends SystemTask
     public void execute() throws BuildException 
     {
         final Project project = getProject();
+
+        //
+        // if the project is running under gump then we need to 
+        // check all of the project dependencies for gump.resource
+        // overriding locations and if necessary - drag them into 
+        // our local cache
+        //
+
+        if( getHome().isGump() )
+        {
+            setupGumpDependencies( project );
+        }
 
         //
         // if the project declares plugin dependencies then install
@@ -55,6 +72,58 @@ public class InitializeTask extends SystemTask
             task.setArtifact( path );
             task.init();
             task.execute();
+        }
+    }
+
+    private void setupGumpDependencies( Project project )
+    {
+        log( "Executing gump sanity check." );
+        final String key = getContext().getKey();
+        final Definition def = getHome().getDefinition( key );
+        final ResourceRef[] refs =
+          def.getResourceRefs( getProject(), Policy.ANY, ResourceRef.ANY, true );
+
+        for( int i=0; i<refs.length; i++ )
+        {
+            Resource resource = getHome().getResource( refs[i] );
+            if( !(resource instanceof Definition) )
+            {
+                String gumpKey = "gump.resource." + resource.getKey();
+                String path = project.getProperty( gumpKey );
+                if( null != path )
+                {
+                    updateCache( project, resource, path );
+                }
+                else
+                {
+                    final String warning = 
+                      "Warning - missing property [" + gumpKey + "].";
+                    project.log( warning );
+                }
+            }
+        }
+    }
+
+    private void updateCache( Project project, Resource resource, String path )
+    {
+        File source = new File( path );
+        if( !source.exists() )
+        {
+            final String error = 
+              "Gump source resource override for resource " 
+              + resource + " references the non-existant path [" + path 
+              + "].";
+            throw new BuildException( error );  
+        }
+        else
+        {
+            File destination = resource.getArtifact( project, false );
+            Copy copy = (Copy) project.createTask( "copy" );
+            copy.setFile( source );
+            copy.setTofile( destination );
+            copy.setPreserveLastModified( true );
+            copy.init();
+            copy.execute();
         }
     }
 }
