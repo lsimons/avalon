@@ -1,45 +1,58 @@
 <?xml version="1.0"?>
 
 <!--
-                               Dependency updater
-                                  Version 2.2
-                                jefft@apache.org
+============================================================
+                Dependency updater
+                   Version 2.3
+           Jeff Turner <jefft@apache.org>
 
-                     This Ant script will recursively check 
-               if all the dependencies for this project are met.
-                   To use it, type 'ant -f dependencies.xml'
--->
+This Ant script provides "functions" to check if
+dependencies are present, and take appropriate action if
+they are not. "Appropriate action" may be:
 
+- Print an error message
+- Build the project, if local
+- Retrieve the jar dependency via HTTP GET
+
+To use it, type 'ant -f depchecker.xml'
+============================================================-->
 
 <!--
-Algorithm is as follows:
-
-There are three parameters per requirement check:
+checkRequiredFile parameters:
 
 name:
     Name of the jar. Eg 'avalon-collections.jar'
 path:
     Path to named jar. Eg ${avalon-collections.jar}
-dependency:
-    Path to local project which builds the jar. Only set if the jar could be
-    local, eg another component.
+proj.home (optional):
+    Path to local project which builds the jar. Only set if
+    the jar could be local, eg another component.
+proj.target (optional):
+    Ant script target to run in local project to build the jar
+url (optional)
+    URL of the jar, to retrieve to ${path} if it doesn't already exist at
+    ${path}
 
-IF the directory ${dependency} exists THEN:
+Algorithm is as follows:
+
+IF the directory ${proj.home} exists THEN:
     // The dependency is local; if the jar doesn't exist, we can build it 
     IF file ${path} does not exist THEN:
-       call ${dependency}/build.xml's 'dist.lite' target to build that
+       call ${proj.home}/build.xml's 'dist.lite' target to build that
        project's jar, which will then build it's own dependencies if necessary
     ELSE we're fine
 ELSE
     // The dependency is remote; we can't build it,
     IF file ${path} does not exist THEN:
-        print an error saying "Can't find file ${path}"
-        // Or we could do a HTTP GET to retrieve the jar
+        IF ${url} is present THEN:
+            do a HTTP GET to retrieve the jar to ${path}
+        ELSE
+            print an error saying "Can't find file ${path}"
     ELSE we're fine
 -->
 
 <project name="dependencies" default="main" basedir=".">
-    <!-- The target to call if ${target} isn't specified -->
+    <!-- The target to call if ${proj.target} isn't specified -->
     <property name="default.target" value="dist.lite"/>
 
     <target name="main" depends="usage"/>
@@ -54,23 +67,53 @@ ELSE
 
             For example:
 
-            <ant antfile="dependencies.xml" target="checkRequiredFile">
+            <ant antfile="depchecker.xml" target="checkRequiredFile">
                 <properties name="name" value="excalibur-concurrent.jar"/>
-                <properties name="path" value="${excalibur-concurrent.jar}"/>
-                <properties name="dependency" value="../concurrent"/>
+                <properties name="path" value="$${excalibur-concurrent.jar}"/>
+                <properties name="proj.home" value="../concurrent"/>
+                <properties name="proj.target" value="dist.lite"/>
             </ant>
-            
+
+            That will check if $${excalibur-concurrent.jar} points to a jar, and
+            if it doesn't, build the $${proj.home} project in order to generate
+            the jar
+
+            or:
+
+            <ant antfile="depchecker.xml" target="checkRequiredFile">
+                <property name="name" value="commons-io.jar"/>
+                <property name="path" value="$${lib.repo}/commons-io.jar"/>
+                <property name="url" value="http://jakarta.apache.org/turbine/jars/commons-io.jar"/>
+            </ant>
+
+            That will check if $${lib.repo}/commons-io.jar exists, and if not,
+            download it from $${url}
+
+
             The properties are as follows:
 
+            For checkRequiredFile:
             name:
                 Name of the jar. Eg 'avalon-collections.jar'
             path:
-                Path to named jar. Eg ${avalon-collections.jar}
-            dependency (optional):
-                Path to local project which builds the jar. Only set if
-                the jar could be local, eg another component.
-            target (optional):
+                Path to named jar. Eg $${avalon-collections.jar}
+
+            proj.home (optional):
+                Path to local project which builds the jar. Only set if the jar
+                could be local, eg another component.
+            proj.target (optional) [dist.lite]:
                 Ant script target to run in local project to build the jar
+
+            url (optional):
+                URL to retrieve jar if not present on the local filesystem
+            
+            For checkRequiredClass:
+            name:
+                Name of jar in which the class usually resides
+            class:
+                Name of class to check for
+            classpath:
+                String classpath (; or : separated) to search for $${class} in
             =======================================================
             ]]></echo>
     </target>
@@ -90,8 +133,8 @@ ELSE
     <!-- ====================================================== -->
     <target name="checkRequiredFile" depends="checkIfLocal, checkRequiredFileLocal, checkRequiredFileRemote"/>
 
-    <target name="checkIfLocal" if="dependency">
-        <available type="dir" file="${dependency}" property="local"/>
+    <target name="checkIfLocal" if="proj.home">
+        <available type="dir" file="${proj.home}" property="local"/>
     </target>
 
     <!--
@@ -111,23 +154,34 @@ ELSE
     -->
     <target name="checkRequiredFileRemote" unless="local">
         <available type="file" file="${path}" property="requirement.satisfied"/>
+        <antcall target="get_dependency"/>
+        <available type="file" file="${path}" property="get.succeeded"/>
         <antcall target="checkRequiredFile.fail"/>
     </target>
 
-     <!-- =================================================================== -->
+    <!-- =================================================================== -->
     <!-- Script called to recursively call another depencency.xml file in    -->
     <!-- another project, and then run the 'dist.lite' target.               -->
     <!-- =================================================================== -->
     <target name="update_dependency" description="Update files for one dependency" unless="requirement.satisfied">
-        <echo message="Updating files from dependency ${dependency}"/>
+        <echo message="Updating files from dependency ${proj.home}"/>
         <!-- Set target if it wasn't previously set -->
-        <property name="target" value="${default.target}"/>
-        <ant dir="${dependency}" target="${target}" inheritAll="false">
+        <property name="proj.target" value="${default.target}"/>
+        <ant dir="${proj.home}" target="${proj.target}" inheritAll="false">
             <property name="skip.tests" value="${skip.tests}"/>
         </ant>
     </target>
 
-   <target name="checkRequiredFile.fail" unless="requirement.satisfied">
+    <target name="get_dependency" description="Retrieve a jar via HTTP" if="url" unless="requirement.satisfied">
+        <get
+            src="${url}"
+            dest="${path}"
+            verbose="true"
+            usetimestamp="true"/>
+        <echo>Retrieved ${path}</echo>
+    </target>
+
+    <target name="checkRequiredFile.fail" unless="get.succeeded">
         <echo>
             +----------------------------------------------------------------+
             | FILE NOT FOUND:                                                |
@@ -170,7 +224,7 @@ ELSE
             +-----------------------------------------------------------------+
             |                                                                 |
             | The dependency-checking system tried to build the project:      |
-            |   ${dependency}
+            |   ${proj.home}
             | which should have provided the property:                        |
             |   ${name} = ${path}
             | However, after the build, no such file exists.                  |

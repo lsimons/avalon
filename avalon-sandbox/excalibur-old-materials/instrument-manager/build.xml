@@ -35,29 +35,29 @@
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
             <property name="name" value="excalibur-collections.jar"/>
             <property name="path" value="${excalibur-collections.jar}"/>
-            <property name="dependency" value="${basedir}/../collections"/>
+            <property name="proj.home" value="${basedir}/../collections"/>
         </ant>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
             <property name="name" value="excalibur-instrument.jar"/>
             <property name="path" value="${excalibur-instrument.jar}"/>
-            <property name="dependency" value="${basedir}/../instrument"/>
+            <property name="proj.home" value="${basedir}/../instrument"/>
         </ant>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
             <property name="name" value="avalon-framework.jar"/>
             <property name="path" value="${avalon-framework.jar}"/>
-            <property name="dependency" value="${basedir}/../../jakarta-avalon"/>
+            <property name="proj.home" value="${basedir}/../../jakarta-avalon"/>
         </ant>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
             <property name="name" value="excalibur-core.jar"/>
             <property name="path" value="${excalibur-core.jar}"/>
-            <property name="dependency" value="${basedir}/../all"/>
-            <property name="target" value="all"/>
+            <property name="proj.home" value="${basedir}/../all"/>
+            <property name="proj.target" value="all"/>
         </ant>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
             <property name="name" value="logkit.jar"/>
             <property name="path" value="${logkit.jar}"/>
-            <property name="dependency" value="${basedir}/../../jakarta-avalon-logkit"/>
-            <property name="target" value="compile"/>
+            <property name="proj.home" value="${basedir}/../../jakarta-avalon-logkit"/>
+            <property name="proj.target" value="compile"/>
         </ant>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
             <property name="name" value="commons-altrmi-common.jar"/>
