@@ -26,7 +26,7 @@ public class NumberCruncher
     private final int m_primary;
     private final float m_secondary;
 
-    public NumberCruncher( Integer primary, Double secondary )
+    public NumberCruncher( Integer primary, Float secondary )
     {
         m_primary = primary.intValue();
         m_secondary = secondary.floatValue();
