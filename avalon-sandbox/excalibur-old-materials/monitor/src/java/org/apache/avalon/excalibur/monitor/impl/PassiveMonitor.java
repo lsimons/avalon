@@ -58,10 +58,15 @@ import org.apache.avalon.excalibur.monitor.Resource;
 /**
  * A passive monitor will check the reosurce each time it
  * is accessed.
+ * 
+ * @avalon.component
+ * @avalon.service type=org.apache.avalon.excalibur.monitor.Monitor
+ * @x-avalon.info name=passive-monitor
+ * @x-avalon.lifestyle type=singleton
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.6 $ $Date: 2003/03/22 12:46:50 $
+ * @version $Revision: 1.7 $ $Date: 2003/05/20 20:49:35 $
  */
 public class PassiveMonitor
     extends AbstractMonitor
