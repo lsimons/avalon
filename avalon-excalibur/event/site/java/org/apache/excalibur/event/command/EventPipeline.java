@@ -5,10 +5,10 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE.txt file.
  */
-package org.apache.avalon.excalibur.event.command;
+package org.apache.excalibur.event.command;
 
-import org.apache.avalon.excalibur.event.EventHandler;
-import org.apache.avalon.excalibur.event.Source;
+import org.apache.excalibur.event.EventHandler;
+import org.apache.excalibur.event.Source;
 
 /**
  * An EventPipeline is used by the ThreadManager to manage the event Queue and

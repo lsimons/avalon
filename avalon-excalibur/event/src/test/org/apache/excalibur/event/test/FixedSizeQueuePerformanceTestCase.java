@@ -5,9 +5,9 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE.txt file.
  */
-package org.apache.avalon.excalibur.event.test;
+package org.apache.excalibur.event.test;
 
-import org.apache.avalon.excalibur.event.FixedSizeQueue;
+import org.apache.excalibur.event.FixedSizeQueue;
 
 /**
  * The default queue implementation is a variabl size queue.

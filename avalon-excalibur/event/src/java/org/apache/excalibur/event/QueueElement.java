@@ -5,7 +5,7 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE.txt file.
  */
-package org.apache.avalon.excalibur.event;
+package org.apache.excalibur.event;
 
 /**
  * A QueueElement is a type of class that can be passed through the Queues.

@@ -1,17 +1,17 @@
 
-import org.apache.avalon.excalibur.event.DefaultQueue;
-import org.apache.avalon.excalibur.event.Queue;
-import org.apache.avalon.excalibur.event.QueueElement;
-import org.apache.avalon.excalibur.event.Sink;
-import org.apache.avalon.excalibur.event.SinkException;
-import org.apache.avalon.excalibur.event.Source;
+import org.apache.excalibur.event.DefaultQueue;
+import org.apache.excalibur.event.Queue;
+import org.apache.excalibur.event.QueueElement;
+import org.apache.excalibur.event.Sink;
+import org.apache.excalibur.event.SinkException;
+import org.apache.excalibur.event.Source;
 import org.apache.avalon.framework.CascadingRuntimeException;
 
 /**
  * Simple test to expose the thread queue bug
  *
  * @author <a href="mailto:proyal@managingpartners.com">Peter Royal</a>
- * @version VSS $Revision: 1.1 $ $Date: 2002/04/25 09:38:24 $
+ * @version VSS $Revision: 1.2 $ $Date: 2002/05/02 16:26:49 $
  */
 public class QueueTest
 {
