@@ -23,7 +23,6 @@ import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.component.Composable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.phoenix.Block;
 
 /**
@@ -203,21 +202,18 @@ public class DefaultTimeScheduler
         }
     }
 
+    /**
+     * Rune entry in a separate thread.
+     *
+     * @param entry the entry to run
+     */
     private void runEntry( final TimeScheduledEntry entry )
     {
-        final Logger logger = getLogger();
         final Runnable runnable = new Runnable()
         {
             public void run()
             {
-                try
-                {
-                    entry.getTarget().targetTriggered( entry.getName() );
-                }
-                catch( final Throwable t )
-                {
-                    logger.warn( "Error occured executing trigger " + entry.getName(), t );
-                }
+                doRunEntry( entry );
             }
         };
 
@@ -229,6 +225,24 @@ public class DefaultTimeScheduler
         catch( final Exception e )
         {
             getLogger().warn( "Error executing trigger " + entry.getName(), e );
+        }
+    }
+
+    /**
+     * Helper method delegated to to run in a separate thread.
+     *
+     * @param entry the entry to run
+     */
+    private void doRunEntry( final TimeScheduledEntry entry )
+    {
+        try
+        {
+            entry.getTarget().targetTriggered( entry.getName() );
+        }
+        catch( final Throwable t )
+        {
+            final String message = "Error occured executing trigger " + entry.getName();
+            getLogger().warn( message, t );
         }
     }
 
@@ -248,6 +262,10 @@ public class DefaultTimeScheduler
         }
     }
 
+    /**
+     * Entry point for thread that monitors entrys and triggers
+     * entrys when necessary.
+     */
     public void run()
     {
         m_running = true;
@@ -283,7 +301,6 @@ public class DefaultTimeScheduler
                 if( duration < 0 )
                 {
                     runEntry( entry );
-
                     rescheduleEntry( entry, false );
                     continue;
                 }
@@ -313,6 +330,13 @@ public class DefaultTimeScheduler
         }
     }
 
+    /**
+     * Retrieve next valid entry. It will pop off any
+     * invalid entrys until the heap is empty or a valid entry
+     * is found.
+     *
+     * @return the next valid entry or null if none
+     */
     private synchronized TimeScheduledEntry getNextEntry()
     {
         TimeScheduledEntry entry =
