@@ -19,8 +19,8 @@
 
   <extend>${basedir}/../../buildsystem/project-common.xml</extend>
 
-  <name>Excalibur Instrument Manager SPI</name>
-  <id>excalibur-instrument-spi</id>
+  <name>Excalibur Instrument Manager Implementation</name>
+  <id>excalibur-instrument-impl</id>
   <groupId>excalibur-instrument</groupId>
   <currentVersion>1.2</currentVersion>
   <inceptionYear>1997</inceptionYear>
@@ -43,8 +43,18 @@
       <version>4.1.5</version>
     </dependency>
     <dependency>
+      <groupId>avalon-framework</groupId>
+      <artifactId>avalon-framework-impl</artifactId>
+      <version>4.1.5</version>
+    </dependency>
+    <dependency>
       <groupId>excalibur-instrument</groupId>
       <artifactId>excalibur-instrument</artifactId>
+      <version>1.2</version>
+    </dependency>
+    <dependency>
+      <groupId>excalibur-instrument</groupId>
+      <artifactId>excalibur-instrument-spi</artifactId>
       <version>1.2</version>
     </dependency>
         
