@@ -5,7 +5,7 @@
  * version 1.1, a copy of which has been included  with this distribution in
  * the LICENSE.txt file.
  */
-package org.apache.avalon.excalibur.xml.xpath;
+package org.apache.excalibur.xml.xpath;
 
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -14,7 +14,7 @@ import org.w3c.dom.NodeList;
  * This is the interface of the XPath processor.
  *
  * @author <a href="mailto:dims@yahoo.com">Davanum Srinivas</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/10/02 01:47:05 $ $Author: donaldp $
+ * @version CVS $Revision: 1.5 $ $Date: 2003/01/22 02:18:17 $ $Author: jefft $
  */
 public interface XPathProcessor
 {

@@ -5,7 +5,7 @@
  * version 1.1, a copy of which has been included  with this distribution in *
  * the LICENSE.txt file.                                                         *
  *****************************************************************************/
-package org.apache.avalon.excalibur.xml.xpath;
+package org.apache.excalibur.xml.xpath;
 
 import java.util.HashMap;
 import java.util.List;
@@ -33,7 +33,7 @@ import org.w3c.dom.NodeList;
  * </pre>
  *
  * @author <a href="mailto:dims@yahoo.com">Davanum Srinivas</a>
- * @version CVS $Revision: 1.7 $ $Date: 2002/10/02 01:52:25 $ $Author: donaldp $
+ * @version CVS $Revision: 1.8 $ $Date: 2003/01/22 02:18:17 $ $Author: jefft $
  */
 public final class JaxenProcessorImpl extends AbstractLogEnabled implements XPathProcessor, Configurable, Component, ThreadSafe, NamespaceContext
 {
