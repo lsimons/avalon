@@ -9,3 +9,5 @@ distributions
 *.ipr
 docs
 todo
+.classpath
+.project
