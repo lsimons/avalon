@@ -452,7 +452,7 @@ public class DefaultEmbeddor
      *
      * @return the Parameters
      */
-    private Parameters createDefaultParameters()
+    protected Parameters createDefaultParameters()
     {
         final Parameters defaults = new Parameters();
 
