@@ -65,6 +65,7 @@ import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.excalibur.event.Queue;
 import org.apache.avalon.fortress.util.ContextManager;
 import org.apache.avalon.fortress.RoleManager;
+import org.apache.avalon.fortress.InitializationException;
 import org.apache.excalibur.instrument.InstrumentManager;
 import org.apache.excalibur.mpool.PoolManager;
 
@@ -73,7 +74,7 @@ import org.apache.excalibur.mpool.PoolManager;
  * See that interface for a description.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.3 $ $Date: 2003/02/07 22:37:52 $
+ * @version CVS $Revision: 1.4 $ $Date: 2003/02/10 14:48:10 $
  */
 public class DefaultContainerManager
     implements Initializable, Disposable, org.apache.avalon.fortress.ContainerManager, org.apache.avalon.fortress.ContainerManagerConstants
@@ -159,7 +160,7 @@ public class DefaultContainerManager
         initializeContainer();
     }
 
-    protected void initializeContainer() throws org.apache.avalon.fortress.InitializationException
+    protected void initializeContainer() throws InitializationException
     {
         if( null == m_containerInstance )
         {
@@ -168,7 +169,7 @@ public class DefaultContainerManager
     }
 
     private void createContainer()
-        throws org.apache.avalon.fortress.InitializationException
+        throws InitializationException
     {
         final Context managerContext =
             m_contextManager.getContainerManagerContext();
@@ -182,7 +183,7 @@ public class DefaultContainerManager
         {
             final String message =
                 "Cannot set up impl. Unable to create impl class";
-            throw new org.apache.avalon.fortress.InitializationException( message, e );
+            throw new InitializationException( message, e );
         }
 
         try
@@ -192,7 +193,7 @@ public class DefaultContainerManager
 
             if( instance instanceof Composable )
             {
-                throw new org.apache.avalon.fortress.InitializationException( "Composable containers are not supported" );
+                throw new InitializationException( "Composable containers are not supported" );
             }
 
             final ServiceManager serviceManager =
@@ -216,8 +217,8 @@ public class DefaultContainerManager
         catch( Exception e )
         {
             final String message =
-                "Cannot set up impl. Startup lifecycle failure";
-            throw new org.apache.avalon.fortress.InitializationException( message, e );
+                "Cannot set up Container. Startup lifecycle failure";
+            throw new InitializationException( message, e );
         }
     }
 

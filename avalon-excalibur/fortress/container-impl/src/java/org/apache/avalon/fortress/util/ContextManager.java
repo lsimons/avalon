@@ -115,7 +115,7 @@ import org.apache.log.Priority;
  * and dispose of them properly when it itself is disposed .</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.3 $ $Date: 2003/02/07 22:37:52 $
+ * @version CVS $Revision: 1.4 $ $Date: 2003/02/10 14:48:10 $
  * @since 4.1
  */
 public class ContextManager
@@ -295,7 +295,7 @@ public class ContextManager
         }
         catch( ContextException ce )
         {
-            m_logger.debug("Could not initialize the Context", ce);
+            m_logger.debug("Could not copy the parameters for the Context, ignoring the exception.", ce);
         }
     }
 
@@ -542,6 +542,8 @@ public class ContextManager
         }
         catch( ContextException ce )
         {
+            m_logger.debug( "Could not copy context entry: " + RoleManager.ROLE +
+                 ".  Ignoring exception.", ce );
         }
 
         Configuration roleConfig =
@@ -552,7 +554,7 @@ public class ContextManager
             // See if we can inherit from the parent...
             try
             {
-                m_childContext.get( org.apache.avalon.fortress.RoleManager.ROLE );
+                m_childContext.get( RoleManager.ROLE );
 
                 // OK, done.
                 return;

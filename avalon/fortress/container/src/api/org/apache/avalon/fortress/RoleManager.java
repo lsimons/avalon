@@ -57,7 +57,7 @@ package org.apache.avalon.fortress;
  * it.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.2 $ $Date: 2003/02/07 16:08:01 $
+ * @version CVS $Revision: 1.3 $ $Date: 2003/02/10 14:48:10 $
  * @since 4.1
  */
 public interface RoleManager
@@ -75,7 +75,7 @@ public interface RoleManager
      *
      * @return the proper {@link org.apache.avalon.fortress.RoleEntry}
      */
-    org.apache.avalon.fortress.RoleEntry getRoleForShortName( String shortname );
+    RoleEntry getRoleForShortName( String shortname );
 
     /**
      * Get a <code>RoleEntry</code> for a component type.  This facilitates
@@ -87,5 +87,5 @@ public interface RoleManager
      *
      * @return the proper {@link org.apache.avalon.fortress.RoleEntry}
      */
-    org.apache.avalon.fortress.RoleEntry getRoleForClassname( String classname );
+    RoleEntry getRoleForClassname( String classname );
 }
