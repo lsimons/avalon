@@ -1,0 +1,9 @@
+.ant.properties
+dist
+build
+distributions
+prj.el
+emacs-jprj.el
+docs
+todo
+*.ipr
