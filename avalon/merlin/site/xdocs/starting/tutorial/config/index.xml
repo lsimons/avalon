@@ -69,18 +69,18 @@
             </td>
           </tr>
           <tr>
+            <td><a href="block.html">Declaring</a></td>
+            <td>
+              This tutorial covers the declaration of a configuration 
+              as part of the &lt;component&gt; tag within a block directive.
+            </td>
+          </tr>
+          <tr>
             <td><a href="defaults.html">Defaults</a></td>
             <td>
               Tutorial covering the creation of a default configuration 
               and association of the default with a particular component 
               type.
-            </td>
-          </tr>
-          <tr>
-            <td><a href="block.html">Declaring</a></td>
-            <td>
-              This tutorial covers the declaration of a configuration 
-              as part of the &lt;component&gt; tag within a block directive.
             </td>
           </tr>
           <tr>
