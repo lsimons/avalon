@@ -277,9 +277,8 @@ public class SimpleLogKitManager
 
             if( name.equals( "" ) )
             {
-                //TODO: Use m_logkitLogger instead
-                m_hierarchy.setDefaultPriority( priority );
-                m_hierarchy.setDefaultLogTarget( logTarget );
+                m_logkitLogger.setPriority( priority );
+                m_logkitLogger.setLogTargets( new LogTarget[] {logTarget} );
             }
             else
             {
