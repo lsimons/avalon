@@ -17,7 +17,6 @@ import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.activity.Startable;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.phoenix.ApplicationEvent;
-import org.apache.avalon.phoenix.Block;
 import org.apache.avalon.phoenix.interfaces.Application;
 import org.apache.avalon.phoenix.interfaces.ApplicationContext;
 import org.apache.avalon.phoenix.interfaces.ApplicationException;
@@ -185,7 +184,7 @@ public final class DefaultApplication
         return (String[])m_entrys.keySet().toArray( new String[ 0 ] );
     }
 
-    public Block getBlock( final String name )
+    public Object getBlock( final String name )
     {
         final BlockEntry entry = (BlockEntry)m_entrys.get( name );
         if( null == entry ) return null;

@@ -7,8 +7,6 @@
  */
 package org.apache.avalon.phoenix.interfaces;
 
-import org.apache.avalon.phoenix.Block;
-
 /**
  * The Application is a self-contained component that performs a specific
  * function.
@@ -27,5 +25,5 @@ public interface Application
 
     String[] getBlockNames();
 
-    Block getBlock( String name );
+    Object getBlock( String name );
 }
