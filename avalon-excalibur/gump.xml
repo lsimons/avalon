@@ -18,15 +18,17 @@
 
         <depend project="jakarta-ant"/>
         <depend project="xml-xalan2"/>
-        <option project="jdbc"/>
         <depend project="jdom"/>
         <depend project="junit"/>
         <depend project="jakarta-servletapi-4"/>
         <depend project="dist-bsf"/>
         <depend project="rhino"/>
+        <depend project="junitperf"/>
+
+        <option project="jdbc"/>
         <option project="jaxen"/>
         <option project="saxpath"/>
-        <depend project="junitperf"/>
+
         <work nested="all/build/classes"/>
         <work nested="all/build/scratchpad"/>
 
