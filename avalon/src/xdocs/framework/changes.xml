@@ -8,6 +8,16 @@
     <person name="Berin Loritsch" email="bloritsch@apache.org" id="BL"/>
     <person name="Peter Donald" email="donaldp@apache.org" id="PD"/>
   </devs>
+  <release version="4.0b3" date="June 6, 2001">
+    <action dev="BL" type="update">
+      Release 4.0b3
+    </action>
+    <action dev="PD" type="fix">
+      Made DefaultComponentManager/Selector, DefaultContext, and
+      DefaultConfiguration readonly to avoid bad programming
+      practices by clients.
+    </action>
+  </release>
 <release version="4.0b2" date="June 4, 2001">
   <action dev="BL" type="update">
     Release 4.0b2
