@@ -3,7 +3,7 @@
 <project name="avalon-tutorial-publisher-api" 
     default="install" basedir="." xmlns:x="antlib:org.apache.avalon.tools">
 
-  <property file="build.properties"/>
-  <import file="${project.system}/build/standard.xml"/>
+  <property name="project.home" value="../../.."/>
+  <import file="${project.home}/standard.xml"/>
 
 </project>

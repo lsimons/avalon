@@ -2,7 +2,7 @@
 
 <project name="publisher-tutorial" default="default" basedir="." xmlns:x="antlib:org.apache.avalon.tools">
 
-  <property file="build.properties"/>
-  <import file="${project.system}/build/reactor.xml"/>
+  <property name="project.home" value="../.."/>
+  <import file="${project.home}/reactor.xml"/>
 
 </project>
