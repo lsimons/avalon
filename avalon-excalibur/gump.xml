@@ -180,7 +180,7 @@
   <project name="excalibur-zip">
     <package>org.apache.avalon.excalibur.zip</package>
 
-    <ant basedir="tar">
+    <ant basedir="zip">
       <depend property="junit.jar" project="junit"/>
       <property name="version" value="@@DATE@@"/>
       <property name="junit.failonerror" value="true"/>
@@ -189,10 +189,11 @@
 
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
+    <depend project="xml-xalan2"/>
     <depend project="checkstyle"/>
     <work nested="zip/build/classes"/>
 
-    <home nested="tar"/>
+    <home nested="zip"/>
     <jar name="build/lib/excalibur-zip-@@DATE@@.jar"/>
   </project>
 
