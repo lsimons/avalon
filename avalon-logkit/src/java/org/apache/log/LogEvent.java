@@ -8,6 +8,7 @@
 package org.apache.log;
 
 import java.io.ObjectStreamException;
+import java.io.Serializable;
 
 /**
  * This class encapsulates each individual log event.
@@ -17,7 +18,8 @@ import java.io.ObjectStreamException;
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public final class LogEvent
-{    
+    implements Serializable
+{
     //A Constant used when retrieving time relative to start of applicaiton start
     private final static long   START_TIME           = System.currentTimeMillis();
 
@@ -98,7 +100,7 @@ public final class LogEvent
 
     /**
      * Set the ContextStack for this LogEvent.
-     * Note that if this LogEvent ever changes threads, the 
+     * Note that if this LogEvent ever changes threads, the
      * ContextStack must be cloned.
      *
      * @param contextStack the context stack
@@ -118,7 +120,7 @@ public final class LogEvent
     {
         return m_category;
     }
-  
+
     /**
      * Get the message associated with event.
      *
@@ -138,7 +140,7 @@ public final class LogEvent
     {
         return m_throwable;
     }
-  
+
     /**
      * Get the absolute time of the log event.
      *
@@ -148,7 +150,7 @@ public final class LogEvent
     {
         return m_time;
     }
-  
+
     /**
      * Get the time of the log event relative to start of application.
      *
@@ -158,7 +160,7 @@ public final class LogEvent
     {
         return m_time - START_TIME;
     }
-  
+
     /**
      * Set the LogEvent category.
      *
@@ -168,7 +170,7 @@ public final class LogEvent
     {
         m_category = category;
     }
-  
+
     /**
      * Set the message for LogEvent.
      *
@@ -178,7 +180,7 @@ public final class LogEvent
     {
         m_message = message;
     }
-  
+
     /**
      * Set the throwable for LogEvent.
      *
@@ -188,7 +190,7 @@ public final class LogEvent
     {
         m_throwable = throwable;
     }
-  
+
     /**
      * Set the absolute time of LogEvent.
      *
@@ -212,8 +214,8 @@ public final class LogEvent
         if( null == m_category ) m_category = "";
         if( null == m_message ) m_message = "";
 
-        String priorityName = "";       
-        if( null != m_priority ) 
+        String priorityName = "";
+        if( null != m_priority )
         {
             priorityName = m_priority.getName();
         }
