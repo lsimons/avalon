@@ -115,7 +115,7 @@ class PolicyClassLoader
     }
 
     /**
-     * Return an enumeration of <code>URLs</code> representing all of the
+     * Return an enumeration of {@link URL}s representing all of the
      * resources with the given name. If no resources with this name are found,
      * return an empty enumeration.
      *
