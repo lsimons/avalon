@@ -286,7 +286,7 @@ public class Installer
             if( name.startsWith( CLASSES ) )
             {
                 expand = false;
-                if( false == classesAdded )
+                if( !classesAdded )
                 {
                     final String classes = 
                         "jar:" + getURLAsString( file ) + "!/" + CLASSES;
