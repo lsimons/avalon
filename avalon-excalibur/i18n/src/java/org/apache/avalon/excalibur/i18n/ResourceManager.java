@@ -17,6 +17,11 @@ import java.util.HashMap;
  */
 public class ResourceManager
 {
+    /**
+     * Permission needed to clear complete cache.
+     */
+    private static final RuntimePermission CLEAR_CACHE_PERMISSION =
+        new RuntimePermission( "i18n.clearCompleteCache" );
     private static final HashMap c_resources = new HashMap();
 
     /**
@@ -37,17 +42,42 @@ public class ResourceManager
      * @param classLoader the classLoader to load resources from
      * @return the Resources
      */
-    public static final Resources getBaseResources( final String baseName,
-                                                    final ClassLoader classLoader )
+    public synchronized static final Resources getBaseResources( final String baseName,
+                                                                 final ClassLoader classLoader )
     {
-        Resources packet = getCachedResource( baseName );
-        if( null == packet )
+        Resources resources = getCachedResource( baseName );
+        if( null == resources )
         {
-            packet = new Resources( baseName, classLoader );
-            putCachedResource( baseName, packet );
+            resources = new Resources( baseName, classLoader );
+            putCachedResource( baseName, resources );
         }
 
-        return packet;
+        return resources;
+    }
+
+    /**
+     * Clear the cache of all resources currently loaded into the
+     * system. This method is useful if you need to dump the complete
+     * cache and because part of the application is reloading and
+     * thus the resources may need to be reloaded.
+     *
+     * <p>Note that the caller must have been granted the
+     * "i18n.clearCompleteCache" {@link RuntimePermission} or
+     * else a security exception will be thrown.</p>
+     *
+     * @throws SecurityException if the caller does not have
+     *                           permission to clear cache
+     */
+    public synchronized static final void clearResourceCache()
+        throws SecurityException
+    {
+        final SecurityManager sm = System.getSecurityManager();
+        if( null != sm )
+        {
+            sm.checkPermission( CLEAR_CACHE_PERMISSION );
+        }
+
+        c_resources.clear();
     }
 
     /**
@@ -56,8 +86,8 @@ public class ResourceManager
      * @param baseName the resource key
      * @param resources the resources object
      */
-    private static final void putCachedResource( final String baseName,
-                                                 final Resources resources )
+    private synchronized static final void putCachedResource( final String baseName,
+                                                              final Resources resources )
     {
         c_resources.put( baseName,
                          new WeakReference( resources ) );
@@ -69,7 +99,7 @@ public class ResourceManager
      * @param baseName the resource key
      * @return resources the resources object
      */
-    private static final Resources getCachedResource( final String baseName )
+    private synchronized static final Resources getCachedResource( final String baseName )
     {
         final WeakReference weakReference =
             (WeakReference)c_resources.get( baseName );
