@@ -53,6 +53,7 @@
 
     <java classname="org.apache.avalon.excalibur.tweety.Main" fork="true" dir="." failonerror="true">
        <classpath refid="project.class.path" />
+       <!-- uncomment to enable debugging <arg value="-d"/>-->
     </java>
 
   </target>
