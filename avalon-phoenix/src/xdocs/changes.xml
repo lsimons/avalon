@@ -13,9 +13,13 @@
     <author name="Stephen McConnell" email="mcconnell@osm.net" id="SM"/>
     <author name="Peter Royal" email="proyal@apache.org" id="PR"/>
     <author name="Huw Roberts" email="huw@apache.org" id="HR"/>    
-    <author name="Eung-ju Park" email="colus@apache.org" id="EP"/>    
+    <author name="Eung-ju Park" email="colus@apache.org" id="EP"/>
+    <author name="David W." email="daveweit@optonline.net" id="DW"/>
   </devs>
 <release version="4.0b" date="Unreleased">
+    <action dev="DW" type="change">
+        Started creating a Administrators guide.
+    </action>
     <action dev="PD" type="change">
         Deprecated Manifest generation xdoclet task. It has never been
         used, supported or required by Phoenix and is considered a
