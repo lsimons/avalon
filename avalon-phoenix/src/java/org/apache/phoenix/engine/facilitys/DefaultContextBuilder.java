@@ -8,6 +8,7 @@
 package org.apache.phoenix.engine.facilitys;
 
 import java.io.File;
+import org.apache.avalon.AbstractLoggable;
 import org.apache.avalon.ComponentManager;
 import org.apache.avalon.ComponentManagerException;
 import org.apache.avalon.Composer;
@@ -28,6 +29,7 @@ import org.apache.phoenix.engine.blocks.DefaultBlockContext;
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public class DefaultContextBuilder
+    extends AbstractLoggable
     implements Facility, ContextBuilder, Contextualizable, Composer
 {
     //context used to setup hosted blocks
@@ -58,7 +60,7 @@ public class DefaultContextBuilder
     public Context createContext( String name, Entry entry )
     {
         final DefaultBlockContext context =
-            new DefaultBlockContext( m_threadManager, m_baseBlockContext );
+            new DefaultBlockContext( getLogger(), m_threadManager, m_baseBlockContext );
         context.put( BlockContext.NAME, name );
         return context;        
     }
