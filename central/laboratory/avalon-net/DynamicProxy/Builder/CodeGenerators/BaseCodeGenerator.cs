@@ -105,7 +105,7 @@ namespace Apache.Avalon.DynamicProxy.Builder.CodeGenerators
 		{
 			foreach(Type inter in interfaces)
 			{
-				GenerateTypeImplementation(inter);
+				GenerateTypeImplementation(inter, false);
 			}
 		}
 
@@ -113,8 +113,9 @@ namespace Apache.Avalon.DynamicProxy.Builder.CodeGenerators
 		/// Iterates over the interfaces and generate implementation 
 		/// for each method in it.
 		/// </summary>
-		/// <param name="type">Interface type</param>
-		protected void GenerateTypeImplementation(Type type)
+		/// <param name="type">Type class</param>
+		/// <param name="ignoreInterfaces">Interface type</param>
+		protected void GenerateTypeImplementation(Type type, bool ignoreInterfaces )
 		{
 			if (m_generated.Contains(type))
 			{
@@ -125,9 +126,12 @@ namespace Apache.Avalon.DynamicProxy.Builder.CodeGenerators
 				m_generated.Add( type );
 			}
 
-			Type[] baseInterfaces = type.FindInterfaces(new TypeFilter(NoFilterImpl), type);
+			if (!ignoreInterfaces)
+			{
+				Type[] baseInterfaces = type.FindInterfaces(new TypeFilter(NoFilterImpl), type);
+				GenerateInterfaceImplementation(baseInterfaces);
+			}
 
-			GenerateInterfaceImplementation(baseInterfaces);
 			PropertyBuilder[] propertiesBuilder = GenerateProperties(type);
 			GenerateMethods(type, propertiesBuilder);
 		}

@@ -54,12 +54,12 @@ namespace Apache.Avalon.DynamicProxy.Test.ClassInterfaces
 			}
 		}
 
-		public int Calc(int x, int y)
+		public virtual int Calc(int x, int y)
 		{
 			return x + y;
 		}
 
-		public int Calc(int x, int y, int z, Single k)
+		public virtual int Calc(int x, int y, int z, Single k)
 		{
 			return x + y + z + (int)k;
 		}
