@@ -119,7 +119,9 @@ public class FilterTask extends SystemTask
         }
         else if( m_feature.equals( "version" ) )
         {
-            return resource.getInfo().getVersion();
+            String version = resource.getInfo().getVersion();
+            if( null == version ) return "";
+            return version;
         }
         else if( m_feature.equals( "uri" ) )
         {
@@ -190,11 +192,11 @@ public class FilterTask extends SystemTask
     {
         if( windows )
         {
-            return "%SYSTEM_CACHE_DIRECTORY%";
+            return "%MAGIC_SCD%";
         }
         else
         {
-            return "$SYSTEM_CACHE_DIRECTORY";
+            return "$MAGIC_SCD";
         } 
     }
     
