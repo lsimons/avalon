@@ -1,3 +1,8 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE project [
+  <!ENTITY % index SYSTEM "file:index.ent"> %index;
+]>
+
 <project default="avalon:build" xmlns:maven="jelly:maven" xmlns:j="jelly:core" xmlns:util="jelly:util" xmlns:ant="jelly:ant">
 
   <!--
@@ -55,6 +60,14 @@
   ==============================================================================
   -->
 
+
+  <preGoal name="java:jar-resources">
+    <ant:filter token="AVALON-LOGGING-LOGKIT-SPEC" 
+        value="&avalon-logging-logkit-artifact-spec;"/>
+    <ant:filter token="AVALON-LOGGING-LOG4J-SPEC" 
+        value="&avalon-logging-log4j-artifact-spec;"/>
+  </preGoal>
+
   <goal name="avalon:build" description="Build the Logging system.">
 
     <maven:reactor basedir="${basedir}"
@@ -78,6 +91,8 @@
       <util:file var="jarFile" name="${maven.build.dir}/jars/${path}.jar"/>
       <j:if test="${jarFile.exists()}">
         <checksum file="${jarFile}"/>
+        <move file="${jarFile}.md5" toFile="temp"/>
+        <move file="temp" toFile="${jarFile}.md5"/>
         <j:if test="${maven_gpg_exe != null}">
           <ant:exec executable="${maven_gpg_exe}">
             <ant:arg value="-a"/>
@@ -90,6 +105,8 @@
       <util:file var="metaFile" name="${maven.build.dir}/jars/${path}.jar.meta"/>
       <j:if test="${metaFile.exists()}">
         <checksum file="${metaFile}"/>
+        <move file="${metaFile}.md5" toFile="temp"/>
+        <move file="temp" toFile="${metaFile}.md5"/>
         <j:if test="${maven_gpg_exe != null}">
           <ant:exec executable="${maven_gpg_exe}">
             <ant:arg value="-a"/>
@@ -202,6 +219,8 @@
     />
     <ant:delete file="${maven.dist.dir}/${binary.name}.tar"/>
     <checksum file="${maven.dist.dir}/${binary.name}.tar.gz"/>
+    <move file="${metaFile}.md5" toFile="temp"/>
+    <move file="temp" toFile="${metaFile}.md5"/>
     <j:if test="${maven_gpg_exe != null}">
       <ant:exec executable="${maven_gpg_exe}">
         <ant:arg value="-a"/>
@@ -215,6 +234,8 @@
       <ant:zipfileset dir="${maven.dist.bin.archive.dir}"/>
     </ant:zip>
     <checksum file="${maven.dist.dir}/${binary.name}.zip"/>
+    <move file="${maven.dist.dir}/${binary.name}.zip.md5" toFile="temp"/>
+    <move file="temp" toFile="${maven.dist.dir}/${binary.name}.zip.md5"/>
     <j:if test="${maven_gpg_exe != null}">
       <ant:exec executable="${maven_gpg_exe}">
         <ant:arg value="-a"/>
@@ -239,6 +260,8 @@
     />
     <ant:delete file="${maven.dist.dir}/${source.name}.tar"/>
     <checksum file="${maven.dist.dir}/${source.name}.tar.gz"/>
+    <move file="${maven.dist.dir}/${source.name}.tar.gz.md5" toFile="temp"/>
+    <move file="temp" toFile="${maven.dist.dir}/${source.name}.tar.gz.md5"/>
     <j:if test="${maven_gpg_exe != null}">
       <ant:exec executable="${maven_gpg_exe}">
         <ant:arg value="-a"/>
@@ -252,6 +275,8 @@
       <ant:zipfileset dir="${maven.dist.src.archive.dir}"/>
     </ant:zip>
     <checksum file="${maven.dist.dir}/${source.name}.zip"/>
+    <move file="${maven.dist.dir}/${source.name}.zip.md5" toFile="temp"/>
+    <move file="temp" toFile="${maven.dist.dir}/${source.name}.zip.md5"/>
     <j:if test="${maven_gpg_exe != null}">
       <ant:exec executable="${maven_gpg_exe}">
         <ant:arg value="-a"/>

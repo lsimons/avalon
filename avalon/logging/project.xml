@@ -138,6 +138,13 @@ limitations under the License.
             <include>**/*</include>
           </includes>
         </resource>
+        <resource>
+          <filtering>true</filtering>
+          <directory>${basedir}/conf</directory>
+          <includes>
+            <include>system.xml</include>
+          </includes>
+        </resource>
       </resources>
     </unitTest>
 

@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE project [
+  <!ENTITY % index SYSTEM "file:index.ent"> %index;
+]>
 
 <project>
 
   <extend>${basedir}/../project.xml</extend>
 
-  <groupId>avalon-logging</groupId>
-  <id>avalon-logging-api</id>
+  <groupId>&avalon-logging-id;</groupId>
+  <id>&avalon-logging-api-id;</id>
+  <currentVersion>&avalon-logging-api-version;</currentVersion>
+
   <name>Avalon Logging API</name>
   <package>org.apache.avalon.logging</package>
-  <currentVersion>1.0-SNAPSHOT</currentVersion>
-
   <inceptionYear>2002</inceptionYear>
   <shortDescription>Avalon Logging API</shortDescription>
 

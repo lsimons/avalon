@@ -39,7 +39,7 @@ import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
  * 
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class LoggingManagerHelper
 {
@@ -56,7 +56,7 @@ public class LoggingManagerHelper
     public static LoggingManager setUpLoggingManager( 
       String id, String filename ) throws Exception
     {
-        InitialContext context = setUpInitialContext( "conf/system.xml" );
+        InitialContext context = setUpInitialContext( "target/test-classes/system.xml" );
         Artifact[] candidates = 
           context.getRepository().getCandidates( LoggingManager.class );
         Artifact artifact = selectArtifact( candidates, id );
