@@ -21,8 +21,8 @@ import org.apache.excalibur.altrmi.common.AltrmiInvocationException;
 
 /**
  *
- * @author <a href="mailto:leif@silveregg.co.jp">Leif Mortenson</a>
- * @version CVS $Revision: 1.6 $ $Date: 2002/04/03 11:36:09 $
+ * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
+ * @version CVS $Revision: 1.7 $ $Date: 2002/04/03 13:48:48 $
  * @since 4.1
  */
 class InstrumentManagerConnection

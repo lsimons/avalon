@@ -22,8 +22,8 @@ import javax.swing.SwingConstants;
 
 /**
  *
- * @author <a href="mailto:leif@silveregg.co.jp">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/03/30 01:29:59 $
+ * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
+ * @version CVS $Revision: 1.3 $ $Date: 2002/04/03 13:48:48 $
  * @since 4.1
  */
 class ConnectDialog

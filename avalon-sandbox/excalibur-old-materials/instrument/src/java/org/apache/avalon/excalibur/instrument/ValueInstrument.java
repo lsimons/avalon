@@ -12,8 +12,8 @@ package org.apache.avalon.excalibur.instrument;
  *  values using a ValueInstrument.  ValueInstruments are perfect for
  *  profiling things like system memory, or the size of a pool or cache.
  *
- * @author <a href="mailto:leif@silveregg.co.jp">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/03/27 09:47:20 $
+ * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
+ * @version CVS $Revision: 1.3 $ $Date: 2002/04/03 13:48:49 $
  * @since 4.1
  */
 public class ValueInstrument

@@ -14,8 +14,8 @@ import javax.swing.JInternalFrame;
  * This class was build to make it possible to use some of the JDK1.3
  *  features work in 1.2.2. Taken from JDK1.3 source to make it work.
  *
- * @author <a href="mailto:leif@silveregg.co.jp">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/03/26 11:32:23 $
+ * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
+ * @version CVS $Revision: 1.2 $ $Date: 2002/04/03 13:48:48 $
  * @since 4.1
  */
 class DesktopPane extends JDesktopPane

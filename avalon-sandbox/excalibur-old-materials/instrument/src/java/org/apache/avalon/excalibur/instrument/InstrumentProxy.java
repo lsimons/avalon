@@ -17,8 +17,8 @@ package org.apache.avalon.excalibur.instrument;
  * The Instrument interface must by implemented by any object wishing to act
  *  as an instrument used by the instrument manager.
  *
- * @author <a href="mailto:leif@silveregg.co.jp">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/03/27 09:47:20 $
+ * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
+ * @version CVS $Revision: 1.3 $ $Date: 2002/04/03 13:48:49 $
  * @since 4.1
  */
 public interface InstrumentProxy
