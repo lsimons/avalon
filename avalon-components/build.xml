@@ -116,11 +116,13 @@
         classpathref="project.class.path" 
         property="glue.present"/>
         
-    <available classname="org.w3c.dom.DOMImplementation" 
+    <available classname="javax.xml.parsers.DocumentBuilderFactory" 
         classpathref="project.class.path" 
-        property="suitable.w3cdom.present"/>        
+        property="DocumentBuilderFactory.present"/>        
 
-
+    <available classname="javax.xml.parsers.SAXParserFactory" 
+        classpathref="project.class.path" 
+        property="SAXParserFactory.present"/>  
 
     <mkdir dir="${build.classes}"/>
 
@@ -136,7 +138,14 @@
       <exclude name="org/apache/avalon/cornerstone/blocks/soapification/glue/**.java"
                unless="glue.present" />
       <exclude name="org/apache/avalon/cornerstone/blocks/dom/**.java"
-               unless="suitable.w3cdom.present" />
+               unless="DocumentBuilderFactory.present" />
+      <exclude name="org/apache/avalon/cornerstone/services/dom/**.java"
+               unless="DocumentBuilderFactory.present" />               
+      <exclude name="org/apache/avalon/cornerstone/blocks/sax/**.java"
+               unless="SAXParserFactory.present" />
+      <exclude name="org/apache/avalon/cornerstone/services/sax/**.java"
+               unless="SAXParserFactory.present" />                            
+               
     </javac>
 
     <copy todir="${build.classes}">
