@@ -31,7 +31,7 @@ import org.apache.excalibur.containerkit.lifecycle.ResourceProvider;
  * Block or Listener.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2002/08/26 10:39:55 $
+ * @version $Revision: 1.6 $ $Date: 2002/09/06 12:01:07 $
  */
 class BlockResourceProvider
     extends AbstractLogEnabled
@@ -115,11 +115,11 @@ class BlockResourceProvider
     }
 
     /**
-     * Create a <code>ComponentManager</code> object for a
-     * specific <code>Block</code>. This requires that for
-     * each dependency a reference to providing <code>Block</code>
+     * Create a {@link ComponentManager} object for a
+     * specific Block. This requires that for
+     * each dependency a reference to providing Block
      * is aaqiured from the Application and placing it in
-     * <code>ComponentManager</code> under the correct name.
+     * {@link ComponentManager} under the correct name.
      *
      * @param entry the entry representing block
      * @return the created ComponentManager
@@ -154,11 +154,11 @@ class BlockResourceProvider
     }
 
     /**
-     * Create a <code>ServiceManager</code> object for a
-     * specific <code>Block</code>. This requires that for
-     * each dependency a reference to providing <code>Block</code>
+     * Create a {@link ServiceManager} object for a
+     * specific Block. This requires that for
+     * each dependency a reference to providing Block
      * is aaqiured from the Application and placing it in
-     * <code>ServiceManager</code> under the correct name.
+     * {@link ServiceManager} under the correct name.
      *
      * @param entry the entry representing block
      * @return the created ServiceManager

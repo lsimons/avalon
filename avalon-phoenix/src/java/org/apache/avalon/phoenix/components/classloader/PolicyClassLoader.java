@@ -138,7 +138,7 @@ class PolicyClassLoader
     }
 
     /**
-     * Find the resource in the ClassLoader. Return a <code>URL</code>
+     * Find the resource in the ClassLoader. Return a {@link URL}
      * object if found, otherwise return null if this resource cannot
      * be found.
      *

@@ -34,7 +34,7 @@ import org.apache.avalon.phoenix.interfaces.ClassLoaderManager;
 
 /**
  * Component that creates and manages the {@link ClassLoader}
- * for an application loaded out of a <code>.sar</code> deployment.
+ * for an application loaded out of a <tt>.sar</tt> deployment.
  *
  * <p>Currently it creates a policy based on the policy declaration
  * in the configuration. It then just creates a URLClassLoader and

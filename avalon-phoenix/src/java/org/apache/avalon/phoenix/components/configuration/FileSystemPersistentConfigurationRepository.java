@@ -40,13 +40,13 @@ import org.xml.sax.SAXException;
  * </p><p>
  * When a Configuration is retrieved from the repository, the configuration from disk is
  * <i>merged</i> with the configuration from the SAR. This merge is accompilished via
- * <code>ConfigurationMerger.merge</code>.
+ * {@link ConfigurationMerger#merge}.
  * </p><p>
  * When a Configuration is stored in the repository, if there is no <i>transient</i>, that is,
  * configuration from the SAR, Configuration information, the first store is that. Subsequent
  * calls to storeConfiguration will persist the difference between the <i>transient</i>
  * Configuration and the passed configuration to disk. The differences are computed via
- * <code>ConfigurationSplitter.split</code>
+ * {@link ConfigurationSplitter#split}
  * </p>
  *
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>

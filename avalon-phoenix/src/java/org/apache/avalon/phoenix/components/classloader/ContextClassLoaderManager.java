@@ -15,7 +15,7 @@ public class ContextClassLoaderManager
     implements ClassLoaderManager
 {
     /**
-     * Return current Context <code>ClassLoader</code>.
+     * Return current Context {@link ClassLoader}.
      *
      * @param environment ignored
      * @param source the source of application. (usually the name of the .sar file
