@@ -203,7 +203,8 @@ public class PluginServiceManager extends AbstractLogEnabled
         {
             projectSystemDir = new File( m_ProjectDir, "../system" );
         }
-        projectSystemDir.mkdirs();
+        if( ! projectSystemDir.exists() )
+            throw new IllegalArgumentException( "The required Project System Directory (Can be set with ${project.system}) doesn't exist : " + projectSystemDir.getAbsolutePath() );
         
         PluginContext ctx = new PluginContext( projectName, m_ProjectDir, 
             projectSystemDir.getAbsoluteFile(), props, service, pluginDir, 
