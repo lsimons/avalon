@@ -24,6 +24,7 @@ import org.apache.log.Logger;
  * Default implementation of TimeScheduler service.
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:ram.chidambaram@telus.com">Ram Chidambaram</a>
  */
 public class DefaultTimeScheduler
     extends AbstractLoggable
@@ -86,6 +87,7 @@ public class DefaultTimeScheduler
         //use the kill-o-matic against any entry with same name
          final TimeScheduledEntry entry = getEntry( name );
          entry.invalidate();
+         m_entries.remove( name );
     }
 
     /**
@@ -109,16 +111,30 @@ public class DefaultTimeScheduler
      * @param timeEntry the entry
      * @param clone true if new entry is to be created
      */
-    protected void rescheduleEntry( final TimeScheduledEntry timeEntry, final boolean clone )
+    protected void rescheduleEntry( final TimeScheduledEntry timeEntry,
+                                    final boolean clone )
     {
         TimeScheduledEntry entry = timeEntry;
 
         if( clone )
         {
-            entry = new TimeScheduledEntry( timeEntry.getName(),
-                                            timeEntry.getTimeTrigger(),
-                                            timeEntry.getTarget() );
-            timeEntry.invalidate();
+            try
+            {
+                entry = new TimeScheduledEntry( timeEntry.getName(),
+                                                timeEntry.getTimeTrigger().getClone(),  
+                                                timeEntry.getTarget() );
+                timeEntry.invalidate();
+
+                // remove old refernce to the entry..so that next time
+                // somebody calls getEntry( name ), we will get the new valid entry.
+                m_entries.remove( timeEntry.getName() );
+                m_entries.put( timeEntry.getName(), entry );
+            }
+            catch( final CloneNotSupportedException cnse )
+            {
+                //not sure what to do with this....
+                //but this should never happen as interface TimeTrigger is Cloneable.
+            }  
         }
 
         //reschedule if appropriate
@@ -191,8 +207,22 @@ public class DefaultTimeScheduler
 
             if( !m_priorityQueue.isEmpty() )
             {
-                final TimeScheduledEntry entry = 
+                TimeScheduledEntry entry = 
                     (TimeScheduledEntry)m_priorityQueue.peek();
+
+                //if job has been invalidated then remove it and continue
+                while( !entry.isValid() ) 
+                {
+                    m_priorityQueue.pop();
+
+                    if ( m_priorityQueue.isEmpty() ) break;
+                
+                    entry = (TimeScheduledEntry)m_priorityQueue.peek();
+                }
+
+                if ( m_priorityQueue.isEmpty() )
+                    continue;
+
                 duration = entry.getNextTime() - System.currentTimeMillis();
 
                 if( 0 == duration )
@@ -209,9 +239,6 @@ public class DefaultTimeScheduler
                     //and run it
                     m_priorityQueue.pop();
 
-                    //if job has been invalidated then remove it and continue
-                    if( !entry.isValid() ) continue;
-
                     runEntry( entry );
 
                     rescheduleEntry( entry, false );
@@ -224,6 +251,7 @@ public class DefaultTimeScheduler
             //top of heap
             try { synchronized( m_monitor ) { m_monitor.wait( duration ); } }
             catch( final InterruptedException ie ) { }
+
         }
     }
 }

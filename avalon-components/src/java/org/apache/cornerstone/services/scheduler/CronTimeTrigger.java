@@ -15,6 +15,7 @@ import java.util.GregorianCalendar;
  * This is the holder triggers based on standard crontabs format.
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:ram.chidambaram@telus.com">Ram Chidambaram</a>
  */
 public class CronTimeTrigger
     implements TimeTrigger
@@ -223,6 +224,17 @@ public class CronTimeTrigger
         
         //return time in millis
         return next.getTime().getTime();  
+    }
+
+    /**
+     * Get a clone of the original TimeTrigger.
+     *
+     * @return a new copy of this TimeTrigger
+     */
+    public TimeTrigger getClone()
+        throws CloneNotSupportedException
+    {
+        return (TimeTrigger) this.clone();
     }
 
     public String toString()
