@@ -16,9 +16,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.jar.Manifest;
 import org.apache.avalon.excalibur.extension.Extension;
-import org.apache.avalon.excalibur.extension.OptionalPackage;
-import org.apache.avalon.excalibur.extension.PackageManager;
-import org.apache.avalon.excalibur.extension.PackageRepository;
+import org.apache.avalon.excalibur.packagemanager.OptionalPackage;
+import org.apache.avalon.excalibur.packagemanager.PackageManager;
+import org.apache.avalon.excalibur.packagemanager.ExtensionManager;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -87,8 +87,8 @@ public class DefaultClassLoaderManager
     public void service( final ServiceManager serviceManager )
         throws ServiceException
     {
-        final PackageRepository packageRepository =
-            (PackageRepository)serviceManager.lookup( PackageRepository.ROLE );
+        final ExtensionManager packageRepository =
+            (ExtensionManager)serviceManager.lookup( ExtensionManager.ROLE );
         m_packageManager = new PackageManager( packageRepository );
     }
 
