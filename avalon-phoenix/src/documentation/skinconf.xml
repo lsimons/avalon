@@ -58,7 +58,7 @@ jefft@apache.org
        skin: forrest-site renders it at the top-left corner -->
   <group-name>Apache Jakarta</group-name>
   <group-url>http://jakarta.apache.org/</group-url>
-  <group-logo>http://jakarta.apache.org/images/jakarta-logo.gif</group-logo>
+  <group-logo>images/jakarta-logo.gif</group-logo>
 
   <!-- optional host logo (e.g. sourceforge logo)
        skin: forrest-site renders it at the bottom-left corner -->
@@ -73,9 +73,9 @@ jefft@apache.org
   want these, set the attributes to blank. The DTD purposefully requires them.
   -->
   <trail>
-    <link1 name="apache" href="http://www.apache.org/"/>
-    <link2 name="jakarta" href="http://jakarta.apache.org/"/>
-    <link3 name="avalon" href="http://jakarta.apache.org/avalon/"/>
+    <link1 name="Apache Main" href="http://www.apache.org/"/>
+    <link2 name="Avalon Main" href="http://jakarta.apache.org/avalon"/>
+    <link3 name="Up" href=".."/>
   </trail>
 
   <!-- Credits are typically rendered as a set of small clickable images in the
