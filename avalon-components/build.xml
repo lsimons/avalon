@@ -90,10 +90,6 @@
 
   <!-- Main target -->
   <target name="main" depends="jars" description="Generates the files minus documentation">
-    <ant antfile="build.xml" dir="apps/hsql" target="main"
-         inheritall="false"/>  
-    <ant antfile="build.xml" dir="apps/httpproxy" target="main"
-         inheritall="false"/>  
     <ant antfile="build.xml" dir="apps/overlord" target="main"
          inheritall="false"/>  
     <ant antfile="build.xml" dir="apps/simpleserver" target="main"
@@ -481,10 +477,6 @@
 
     <mkdir dir="${dist.base}/phoenix-apps"/>
 
-    <ant antfile="build.xml" dir="apps/hsql" target="dist"
-         inheritall="false"/>
-    <ant antfile="build.xml" dir="apps/httpproxy" target="dist"
-         inheritall="false"/>
     <ant antfile="build.xml" dir="apps/overlord" target="dist"
          inheritall="false"/>
     <ant antfile="build.xml" dir="apps/simpleserver" target="dist"
@@ -536,10 +528,6 @@
       <fileset dir="." includes="**/*~" defaultexcludes="no"/>
     </delete>
 
-    <ant antfile="build.xml" dir="apps/hsql" target="clean"
-         inheritall="false"/>
-    <ant antfile="build.xml" dir="apps/httpproxy" target="clean"
-         inheritall="false"/>
     <ant antfile="build.xml" dir="apps/overlord" target="clean"
          inheritall="false"/>
     <ant antfile="build.xml" dir="apps/simpleserver" target="clean"
@@ -553,10 +541,6 @@
     <delete dir="${docs.dir}" />
     <delete dir="${dist.base}" />
 
-    <ant antfile="build.xml" dir="apps/hsql" target="distclean"
-         inheritall="false"/>
-    <ant antfile="build.xml" dir="apps/httpproxy" target="distclean"
-         inheritall="false"/>
     <ant antfile="build.xml" dir="apps/overlord" target="distclean"
          inheritall="false"/>
     <ant antfile="build.xml" dir="apps/simpleserver" target="distclean"
@@ -567,12 +551,7 @@
   
   
   <!-- Delegated (to apps/xxxxxx) Targets -->
-  <target name="hsql" depends="compile" description="Delegates to build.xml in apps/hsql">
-    <ant antfile="build.xml" dir="apps/hsql" target="${apps-target}" inheritall="false"/>
-  </target>
-  <target name="httpproxy" depends="compile" description="Delegates to build.xml in apps/httpproxy">
-    <ant antfile="build.xml" dir="apps/httpproxy" target="${apps-target}" inheritall="false"/>
-  </target>
+
   <target name="overlord" depends="compile" description="Delegates to build.xml in apps/overlord">
     <ant antfile="build.xml" dir="apps/overlord" target="${apps-target}" inheritall="false"/>
   </target>  
