@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Includes sub targets for code management -->
+
+<project name="buildSupport" default="" >
+
+  <!-- Sets up the build environment.
+       Input
+         basedir    Set to the subsystem directory name
+  -->
+  <target name="prepare" >
+    <echo message="Building ${subsystem.name} in ${base.dir}" />
+    <!-- create directories -->
+    <mkdir dir="${base.dir}/${build.dir}"/>
+    <mkdir dir="${base.dir}/${build.src}"/>
+    <mkdir dir="${base.dir}/${build.dest}"/>
+    <mkdir dir="${base.dir}/${build.dist}"/>
+    <mkdir dir="${base.dir}/${build.lib}"/>
+    <mkdir dir="${base.dir}/${build.dist}/output"/>
+    <mkdir dir="${base.dir}/${build.install}"/>
+    <mkdir dir="${base.dir}/${build.install}/lib"/>
+    <mkdir dir="${base.dir}/${build.upload}"/>
+    <mkdir dir="${base.dir}/${build.versions}"/>
+    <mkdir dir="${base.dir}/${build.docs}"/>
+    <mkdir dir="${base.dir}/${build.apidocs}"/>
+    <mkdir dir="${base.dir}/${testsuite.cases}"/>
+    <mkdir dir="${base.dir}/${testsuite.report}"/>
+
+    <available property="production-available"
+               file="${base.dir}/${production.dir}"
+               type="dir"
+    />
+
+    <available property="includes-available"
+               file="${base.dir}/${includes.dir}"
+               type="dir"
+    />
+
+    <available property="resources-available"
+               file="${base.dir}/${resources.dir}"
+               type="dir"
+    />
+
+    <available property="src-available"
+               file="${base.dir}/${src.dir}"
+               type="dir"
+    />
+
+    <available property="lib-available"
+               file="${base.dir}/${lib.dir}"
+               type="dir"
+    />
+
+    <antcall target="copy-production" />
+    <antcall target="copy-src" />
+    <antcall target="copy-lib" />
+    <antcall target="copy-resources" />
+    <antcall target="copy-includes" >
+      <param name="generation" value="1" />
+      <param name="edition" value="0" />
+      <param name="revision" value="0" />
+      <param name="branch" value="alpha" />
+      <param name="version" value="1.0-alpha.1" />
+    </antcall>
+  </target>
+
+  <target name="copy-production" if="production-available" >
+      <!-- copy production files -->
+    <copy todir="${base.dir}/${build.install}">
+      <fileset dir="${base.dir}/${production.dir}" />
+    </copy>
+  </target>
+
+  <target name="copy-resources" if="resources-available" >
+    <!-- copy resource files -->
+    <copy todir="${base.dir}/${build.dest}">
+      <fileset dir="${base.dir}/${resources.dir}" />
+    </copy>
+  </target>
+  
+  <target name="copy-lib" if="lib-available" >
+    <!-- copy lib files -->
+    <copy todir="${base.dir}/${build.lib}">
+      <fileset dir="${base.dir}/${lib.dir}" />
+    </copy>
+  </target>
+
+  <target name="copy-includes" if="includes-available" >
+    <tstamp>
+      <format property="build.time"
+              pattern="yyyy-dd-MM HH:mm zz"
+              locale="kj"
+      />
+    </tstamp>
+
+    <filter token="GENERATION" value="${generation}" />
+    <filter token="EDITION" value="${edition}" />
+    <filter token="REVISION" value="${revision}" />
+    <filter token="BRANCH" value="${branch}" />
+    <filter token="VERSION" value="${version}" />
+    <filter token="BUILDTIME" value="${build.time}" />
+
+    <!-- copy includes files -->
+    <copy todir="${base.dir}/${build.includes}" filtering="true">
+      <fileset dir="${base.dir}/${includes.dir}" />
+    </copy>
+
+  </target>
+
+  <target name="copy-src" if="src-available" >
+    <!-- copy src files -->
+    <copy todir="${base.dir}/${build.src}" >
+      <fileset dir="${base.dir}/${src.dir}" />
+    </copy>
+  </target>
+
+  <target name="clean" >
+    <delete includeEmptyDirs="true" failonerror="false" >
+      <fileset dir="${base.dir}/${build.dir}/" >
+        <include name="**" />
+      </fileset>
+    </delete>
+  </target>
+</project>
