@@ -5,7 +5,7 @@
 <document>
 
  <header>
-  <title>Cornerstone To do list</title>
+  <title>Cornerstone - To do list</title>
   <authors>
     <person name="Avalon Documentation Team" email="avalon-dev@jakarta.apache.org"/>
   </authors>
@@ -182,7 +182,7 @@
       </s2>
       <s2 title="JDBC compliant DBMS">
         <p>
-           We have a block that launches <link href="http://www.sourceforge.net/projects/hsqldb">HypersonicSQL</link> already, but in November 2001 we started a new DBMS called AvalonDB at Apache.
+           We have a block that launches <link href="http://www.sourceforge.net/projects/hsqldb">HypersonicSQL</link> already, but in November 2001 we started a new DBMS called link href="http://jakarta.apache.org/avalon/apps/apps/db/index.html">AvalonDB</link> at Apache.
         </p>
       </s2>
   </s1>
