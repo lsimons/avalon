@@ -22,15 +22,13 @@ public class ContextClassLoaderManager
      *               or else the same as baseDirectory)
      * @param baseDirectory the base directory of application
      * @param workDirectory the work directory of application
-     * @param classPath the list of URLs in applications deployment
      * @return the ContextClassLoader created
      * @throws Exception if an error occurs
      */
     public ClassLoader createClassLoader( final Configuration environment,
                                           final File source,
                                           final File baseDirectory,
-                                          final File workDirectory,
-                                          final String[] classPath )
+                                          final File workDirectory )
         throws Exception
     {
         return Thread.currentThread().getContextClassLoader();

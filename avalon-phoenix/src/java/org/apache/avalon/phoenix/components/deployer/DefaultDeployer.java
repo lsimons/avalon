@@ -10,7 +10,6 @@ package org.apache.avalon.phoenix.components.deployer;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.Set;
@@ -252,8 +251,7 @@ public class DefaultDeployer
                 m_classLoaderManager.createClassLoader( environment,
                                                         installation.getSource(),
                                                         installation.getDirectory(),
-                                                        installation.getWorkDirectory(),
-                                                        installation.getClassPath() );
+                                                        installation.getWorkDirectory() );
             //assemble all the blocks for application
             final SarMetaData metaData =
                 m_assembler.assembleSar( name, assembly, directory, classLoader );
@@ -279,8 +277,7 @@ public class DefaultDeployer
 
             final String message =
                 REZ.getString( "deploy.notice.sar.add",
-                               metaData.getName(),
-                               Arrays.asList( installation.getClassPath() ) );
+                               metaData.getName() );
             getLogger().debug( message );
             success = true;
         }
