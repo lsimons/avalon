@@ -71,8 +71,36 @@ import org.apache.log.output.AbstractOutputTarget;
 public class DatagramOutputTarget
     extends AbstractOutputTarget
 {
+    ///Default encoding of datagram
+    private static final String DEFAULT_ENCODING = "US-ASCII";
+
     ///Socket on which to send datagrams
     private DatagramSocket m_socket;
+
+    ///The encoding to use when creating byte array from string
+    private String m_encoding;
+
+    /**
+     * Create a output target with end point specified by address and port.
+     *
+     * @param address the address endpoint
+     * @param port the address port
+     * @param formatter the message formatter
+     * @param encoding the encoding to use when encoding string
+     * @exception IOException if an error occurs
+     */
+    public DatagramOutputTarget( final InetAddress address,
+                                 final int port,
+                                 final Formatter formatter,
+                                 final String encoding )
+        throws IOException
+    {
+        super( formatter );
+        m_socket = new DatagramSocket();
+        m_socket.connect( address, port );
+        m_encoding = encoding;
+        open();
+    }
 
     /**
      * Create a output target with end point specified by address and port.
@@ -87,10 +115,7 @@ public class DatagramOutputTarget
                                  final Formatter formatter )
         throws IOException
     {
-        super( formatter );
-        m_socket = new DatagramSocket();
-        m_socket.connect( address, port );
-        open();
+        this( address, port, formatter, DEFAULT_ENCODING );
     }
 
     /**
@@ -113,10 +138,10 @@ public class DatagramOutputTarget
      */
     protected void write( final String stringData )
     {
-        final byte[] data = stringData.getBytes();
 
         try
         {
+            final byte[] data = stringData.getBytes( m_encoding );
             final DatagramPacket packet = new DatagramPacket( data, data.length );
             m_socket.send( packet );
         }
