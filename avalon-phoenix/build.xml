@@ -878,6 +878,10 @@ phoenix-punit.jar needs to be used with excalibur-containerkit-1.0.jar
        <copy todir="${build.docs}/api" filtering="off">
         <fileset dir="${build.javadocs}"/>
        </copy>
+       
+       <copy todir="../jakarta-avalon-site/docs/phoenix" filtering="off">
+        <fileset dir="${build.docs}"/>
+       </copy>       
 
     </target>
 
