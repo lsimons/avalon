@@ -15,11 +15,11 @@
     <property name="install.dir" value="${phoenix.home}/apps"/>
 
     <!-- Set the properties for intermediate directory -->
-    <property name="build.dir" value="build"/>
-    <property name="build.lib" value="${build.dir}/lib"/>
-    <property name="gen.dir" value="${build.dir}/gen"/>
-    <property name="build.src" value="${build.dir}/src"/>
-    <property name="build.classes" value="${build.dir}/classes"/>
+    <property name="target.dir" value="target"/>
+    <property name="target.lib" value="${target.dir}/lib"/>
+    <property name="gen.dir" value="${target.dir}/gen"/>
+    <property name="target.src" value="${target.dir}/src"/>
+    <property name="target.classes" value="${target.dir}/classes"/>
 
     <!-- Set the properties for source directories -->
     <property name="src.dir" value="src"/>
@@ -32,7 +32,7 @@
 
     <path id="project.class.path">
         <pathelement path="${java.class.path}"/>
-        <pathelement path="${build.classes}"/>
+        <pathelement path="${target.classes}"/>
         <fileset dir="../../dist/lib">
             <include name="**/*.jar"/>
         </fileset>
@@ -51,10 +51,10 @@
     <!-- Compiles project -->
     <target name="compile">
 
-        <mkdir dir="${build.classes}"/>
+        <mkdir dir="${target.classes}"/>
 
         <javac srcdir="${java.dir}"
-            destdir="${build.classes}"
+            destdir="${target.classes}"
             debug="${build.debug}"
             optimize="${build.optimize}"
             deprecation="${build.deprecation}">
@@ -62,7 +62,7 @@
 
         </javac>
 
-        <copy todir="${build.classes}">
+        <copy todir="${target.classes}">
             <fileset dir="${java.dir}">
                 <exclude name="**/test/**"/>
                 <exclude name="**/*.java"/>
@@ -92,11 +92,11 @@
     <!-- Jars up project -->
     <target name="jars" depends="phoenix-meta">
 
-        <mkdir dir="${build.lib}"/>
+        <mkdir dir="${target.lib}"/>
 
-        <jar jarfile="${build.lib}/testserver.jar"
+        <jar jarfile="${target.lib}/testserver.jar"
             manifest="${manifest.dir}/testserver.mf">
-            <fileset dir="${build.classes}">
+            <fileset dir="${target.classes}">
                 <include name="org/apache/avalon/testserver/**"/>
                 <exclude name="org/apache/avalon/testserver/extension1/*"/>
                 <exclude name="org/apache/avalon/testserver/cltest/*"/>
@@ -108,20 +108,20 @@
             </fileset>
         </jar>
 
-        <jar jarfile="${build.lib}/demo-test-extension1.jar"
-            basedir="${build.classes}"
+        <jar jarfile="${target.lib}/demo-test-extension1.jar"
+            basedir="${target.classes}"
             manifest="${manifest.dir}/test-extension1.mf">
             <include name="org/apache/avalon/testserver/extension1/*"/>
         </jar>
 
-        <jar jarfile="${build.lib}/demo-test-extension2.jar"
-            basedir="${build.classes}"
+        <jar jarfile="${target.lib}/demo-test-extension2.jar"
+            basedir="${target.classes}"
             manifest="${manifest.dir}/test-extension2.mf">
             <include name="org/apache/avalon/testserver/extension2/*"/>
         </jar>
 
-        <jar jarfile="${build.lib}/cltest.jar"
-            basedir="${build.classes}">
+        <jar jarfile="${target.lib}/cltest.jar"
+            basedir="${target.classes}">
             <include name="org/apache/avalon/testserver/cltest/*"/>
         </jar>
 
@@ -131,16 +131,16 @@
 
     <target name="sars" depends="jars">
 
-        <sar sarfile="${build.lib}/avalon-${name}.sar"
+        <sar sarfile="${target.lib}/avalon-${name}.sar"
             config="${conf.dir}/testserver-config.xml"
             environment="${conf.dir}/testserver-environment.xml"
             assembly="${conf.dir}/testserver-assembly.xml">
 
-            <zipfileset dir="${build.classes}" prefix="SAR-INF/classes">
+            <zipfileset dir="${target.classes}" prefix="SAR-INF/classes">
                 <include name="org/apache/avalon/testserver/classes/*"/>
             </zipfileset>
 
-            <zipfileset dir="${build.lib}/" prefix="lib">
+            <zipfileset dir="${target.lib}/" prefix="lib">
                 <include name="cltest.jar"/>
             </zipfileset>
 
@@ -148,7 +148,7 @@
                 <include name="**/WARNING.txt"/>
             </zipfileset>
 
-            <lib dir="${build.lib}/">
+            <lib dir="${target.lib}/">
                 <include name="*.jar"/>
                 <exclude name="demo-test-extension2.jar"/>
                 <exclude name="cltest.jar"/>
@@ -167,7 +167,7 @@
         <mkdir dir="dist"/>
 
         <copy todir="dist">
-            <fileset dir="${build.lib}">
+            <fileset dir="${target.lib}">
                 <include name="**"/>
             </fileset>
         </copy>
@@ -219,11 +219,11 @@
 
         <tar longfile="gnu" tarfile="${dist.base}/${dist.name}-src.tar">
             <tarfileset dir="${dist.name}/.." mode="755" username="avalon" group="avalon">
-                <include name="${dist.name}/build.sh"/>
+                <include name="${dist.name}/target.sh"/>
             </tarfileset>
             <tarfileset dir="${dist.name}/.." username="avalon" group="avalon">
                 <include name="${dist.name}/**"/>
-                <exclude name="${dist.name}/build.sh"/>
+                <exclude name="${dist.name}/target.sh"/>
             </tarfileset>
             <tarfileset dir=".." username="avalon" group="avalon">
                 <include name="common/lib/avalon-*"/>
@@ -247,7 +247,7 @@
         <property name="bin.dist.dir" value="dist"/>
         <property name="bin.dist.lib" value="${bin.dist.dir}/lib"/>
 
-        <copy file="${build.lib}/avalon-testserver.sar" tofile="${bin.dist.dir}/avalon-testserver-${version}.sar"/>
+        <copy file="${target.lib}/avalon-testserver.sar" tofile="${bin.dist.dir}/avalon-testserver-${version}.sar"/>
 
         <chmod dir="${bin.dist.dir}" perm="go-rwx"/>
     </target>
@@ -256,8 +256,8 @@
         <!-- <fail message="install.dir not specified." unless="install.dir"/> -->
         <echo message="Installing to ${install.dir}"/>
         <delete dir="${install.dir}/avalon-testserver"/>
-        <copy file="${build.lib}/avalon-testserver.sar" todir="${install.dir}"/>
-        <copy file="${build.lib}/demo-test-extension2.jar"
+        <copy file="${target.lib}/avalon-testserver.sar" todir="${install.dir}"/>
+        <copy file="${target.lib}/demo-test-extension2.jar"
             tofile="${phoenix.home}/ext/demo-test-extension2.jar"
             overwrite="true"/>
     </target>
@@ -270,7 +270,7 @@
     </target>
 
     <target name="clean" description="Cleans up artifacts from build process">
-        <delete dir="${build.dir}"/>
+        <delete dir="${target.dir}"/>
         <delete>
             <fileset dir="." includes="**/*~" defaultexcludes="no"/>
         </delete>
