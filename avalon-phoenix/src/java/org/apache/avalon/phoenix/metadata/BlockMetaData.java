@@ -20,15 +20,17 @@ public class BlockMetaData
     private final String               m_classname;
     private final DependencyMetaData[] m_dependencies;
 
-    private BlockInfo              m_blockInfo;
+    private BlockInfo                  m_blockInfo;
 
     public BlockMetaData( final String name,
                           final String classname,
-                          final DependencyMetaData[] dependencies )
+                          final DependencyMetaData[] dependencies,
+                          final BlockInfo blockInfo )
     {
         m_name = name;
         m_classname = classname;
         m_dependencies = dependencies;
+        m_blockInfo = blockInfo;
     }
 
     public String getName()
@@ -44,11 +46,6 @@ public class BlockMetaData
     public BlockInfo getBlockInfo()
     {
         return m_blockInfo;
-    }
-
-    public void setBlockInfo( final BlockInfo blockInfo )
-    {
-        m_blockInfo = blockInfo;
     }
 
     public DependencyMetaData getDependency( final String name )
