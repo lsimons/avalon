@@ -12,7 +12,7 @@
     <person name="Giacomo Pati" email="giacomo@apache.org" id="GP"/>
   </devs>
   <release version="1.1">
-    <action dev="EP" type="update">
+    <action dev="LM" type="update">
       Changed the default log format so that the log entry times are formatted
       using a human friendly format.
     </action>
