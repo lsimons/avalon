@@ -2,7 +2,7 @@
 <project name="site" default="site" basedir="." 
     xmlns:x="antlib:org.apache.avalon.tools"> 
 
-  <x:project index="../system/index.xml"/>
+  <x:home index="../system/index.xml"/>
 
   <target name="site">
     <x:prepare/>
