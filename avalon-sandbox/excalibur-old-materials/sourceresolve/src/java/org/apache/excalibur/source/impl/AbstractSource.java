@@ -58,6 +58,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collections;
 import java.util.Collection;
+import java.util.Iterator;
 
 import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceException;
@@ -67,7 +68,7 @@ import org.apache.excalibur.source.SourceValidity;
  * Abstract base class for a source implementation.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.7 $ $Date: 2003/01/08 12:09:31 $
+ * @version CVS $Revision: 1.8 $ $Date: 2003/01/08 21:33:51 $
  */
 
 public abstract class AbstractSource
