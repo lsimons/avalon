@@ -30,7 +30,7 @@ The "hello" component has been manually wired together using named components re
 Build instructions
 ------------------
 
-  $ maven
+  $ ant
 
 Runtime
 -------
