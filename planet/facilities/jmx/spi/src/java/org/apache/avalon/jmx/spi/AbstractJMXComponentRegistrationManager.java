@@ -28,8 +28,9 @@ import javax.management.modelmbean.ModelMBeanInfo;
 
 import org.apache.avalon.composition.model.ComponentModel;
 
+import org.apache.avalon.framework.logger.Logger;
+import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.activity.Disposable;
-import org.apache.avalon.framework.activity.Initializable;
 
 import org.apache.avalon.jmx.ComponentRegistrationException;
 import org.apache.avalon.jmx.util.MBeanInfoBuilder;
@@ -44,8 +45,9 @@ import org.apache.avalon.util.i18n.Resources;
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version $Revision: 1.1 $
  */
-public abstract class AbstractJMXComponentRegistrationManager extends AbstractComponentRegistrationManager 
-    implements Initializable, Disposable
+public abstract class AbstractJMXComponentRegistrationManager 
+    extends AbstractComponentRegistrationManager 
+    implements Disposable
 {
     private static final Resources REZ = ResourceManager.getPackageResources(
         AbstractJMXComponentRegistrationManager.class );
@@ -54,13 +56,19 @@ public abstract class AbstractJMXComponentRegistrationManager extends AbstractCo
     private MBeanServer m_mBeanServer;
     private String m_domain = "Merlin";
 
-    public void initialize() throws Exception
+    public AbstractJMXComponentRegistrationManager( final Logger logger )
+      throws Exception
     {
+        super( logger );
+
         final MBeanServer mBeanServer = createMBeanServer();
         setMBeanServer( mBeanServer );
-
         topicBuilder = new MBeanInfoBuilder();
-        setupLogger( topicBuilder );
+
+        if( topicBuilder instanceof LogEnabled )
+        {
+            ( (LogEnabled)topicBuilder).enableLogging( logger );
+        }
     }
 
     public void dispose()
@@ -114,15 +122,15 @@ public abstract class AbstractJMXComponentRegistrationManager extends AbstractCo
 
             while ( i.hasNext() )
             {
-                final ObjectName objectName = createObjectName( name,
-                                                                target.getTopic( ( String ) i.next() ) );
-
+                final ObjectName objectName = 
+                  createObjectName( name, target.getTopic( ( String ) i.next() ) );
                 getMBeanServer().unregisterMBean( objectName );
             }
         }
         catch ( final Exception e )
         {
-            final String message = REZ.getString( "jmxmanager.error.unexport.fail", name );
+            final String message = 
+              REZ.getString( "jmxmanager.error.unexport.fail", name );
             getLogger().error( message, e );
             throw new ComponentRegistrationException( message, e );
         }
@@ -173,8 +181,10 @@ public abstract class AbstractJMXComponentRegistrationManager extends AbstractCo
             {
                 if ( getLogger().isDebugEnabled() )
                 {
-                    final String message = REZ.getString( "jmxmanager.debug.interface",
-                                                          allInterfaces[i].getName() );
+                    final String message = 
+                      REZ.getString( 
+                        "jmxmanager.debug.interface",
+                        allInterfaces[i].getName() );
                     getLogger().debug( message );
                 }
 
@@ -326,7 +336,8 @@ public abstract class AbstractJMXComponentRegistrationManager extends AbstractCo
         }
         catch ( Exception e )
         {
-            final String message = REZ.getString( "jmxmanager.error.mbean.load.class", className );
+            final String message = 
+              REZ.getString( "jmxmanager.error.mbean.load.class", className );
             getLogger().error( message, e );
             throw new ComponentRegistrationException( message, e );
         }
@@ -340,7 +351,8 @@ public abstract class AbstractJMXComponentRegistrationManager extends AbstractCo
         }
         catch ( final Exception e )
         {
-            final String message = REZ.getString( "jmxmanager.error.mbean.instantiate", className );
+            final String message = 
+              REZ.getString( "jmxmanager.error.mbean.instantiate", className );
             getLogger().error( message, e );
             throw new ComponentRegistrationException( message, e );
         }
@@ -355,7 +367,8 @@ public abstract class AbstractJMXComponentRegistrationManager extends AbstractCo
         }
         catch ( Exception e )
         {
-            final String message = REZ.getString( "jmxmanager.error.mbean.set.resource", className );
+            final String message = 
+              REZ.getString( "jmxmanager.error.mbean.set.resource", className );
             getLogger().error( message, e );
             throw new ComponentRegistrationException( message, e );
         }
