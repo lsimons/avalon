@@ -14,7 +14,11 @@
         that allows you to streamline the development of Merlin-based
         components and applications.
       </p>
+      <p>
+        DOCUMENTATION IS CURRENTLY UNDER DEVELOPMENT.
+      </p>
     </section>
+    <!--
     <section name="Documentation Set">
       <table>
         <tr>
@@ -53,5 +57,6 @@
         </tr>
       </table>
     </section>
+    -->
   </body>
 </document>

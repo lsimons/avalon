@@ -6,12 +6,12 @@
   </properties>
 
   <body>
-    <section name="The Avalon Community">
+    <section name="Community">
       <subsection name="Index">
         <table>
           <tr><th>Topic</th><th>Description</th></tr>
           <tr>
-            <td><a href="who/index.html">Who We Are</a></td>
+            <td><a href="who/index.html">People</a></td>
             <td>
               <p>
       These pages list many of the contributors to avalon. They
@@ -37,7 +37,7 @@
             </td>
           </tr>
           <tr>
-            <td><a href="history/index.html">Historical</a></td>
+            <td><a href="history/index.html">History</a></td>
             <td><p>Background content - how Avalon came to be.<br/></p></td>
           </tr>
         </table>

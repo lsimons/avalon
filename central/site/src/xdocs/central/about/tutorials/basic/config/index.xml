@@ -20,12 +20,11 @@
 <document>
   <properties>
     <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
-    <title>Merlin Runtime</title>
+    <title>Avalon Central</title>
   </properties> 
 
   <body>
-    <section name="Using Merlin">
-      <subsection name="Configuration Management">
+    <section name="Configuration Management">
         <table>
           <tr><th>Topic</th><th>Summary</th></tr>
           <tr>
@@ -64,7 +63,6 @@
         Resource supporting this tutorial are contained in the 
         turorials/configuration package.
         </p>
-      </subsection>
     </section>
   </body>
 </document>

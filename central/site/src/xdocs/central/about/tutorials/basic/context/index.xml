@@ -20,12 +20,11 @@
 <document>
   <properties>
     <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
-    <title>Merlin Runtime</title>
+    <title>Avalon Central</title>
   </properties> 
 
   <body>
-    <section name="Using Merlin">
-      <subsection name="Context Management">
+    <section name="Context Management">
         <table>
           <tr><th>Topic</th><th>Summary</th></tr>
           <tr>
@@ -54,7 +53,6 @@
             </td>
           </tr>
         </table>
-      </subsection>
     </section>
   </body>
 </document>

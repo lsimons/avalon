@@ -20,12 +20,11 @@
 <document>
   <properties>
     <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
-    <title>Merlin Runtime</title>
+    <title>Avalon Central</title>
   </properties> 
 
   <body>
-    <section name="Using Merlin">
-      <subsection name="Behind the Scenes -info">
+    <section name="Behind the Scenes -info">
         <p>
         To get a better understanding of what is happening we can ask Merlin
         to present a summary of the source information and resources used
@@ -75,7 +74,6 @@ Merlin Kernel Environment Listing
 [INFO   ] (tutorial.hello): Hello World!
 ]]></source>
         
-      </subsection>
       <subsection name="Targetted debugging using -config">
 
         <p>

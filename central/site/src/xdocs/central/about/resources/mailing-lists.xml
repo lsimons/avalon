@@ -2,21 +2,21 @@
 <document>
   <properties>
     <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
-    <title>Apache Avalon E-Mail Lists</title>
+    <title>Avalon Central</title>
   </properties> 
 
 <body>
 
-<section name="Guidelines">
-  <p>A mailing list is an electronic discussion forum that anyone can subscribe to.
-  When someone sends an email message to the mailing list, a copy of that message is
-  broadcast to everyone who is subscribed to that mailing list. Mailing lists provide
-  a simple and effective communication mechanism. With potentially thousands of
-  subscribers, there is a
-  <a href="http://jakarta.apache.org/site/mail.html">common set of etiquette
-  guidelines</a> that you should observe.</p>
-</section>
-  <section name="The lists">
+<section name="Mailing Lists">
+
+    <p>A mailing list is an electronic discussion forum that anyone can subscribe to.
+    When someone sends an email message to the mailing list, a copy of that message is
+    broadcast to everyone who is subscribed to that mailing list. Mailing lists provide
+    a simple and effective communication mechanism. With potentially thousands of
+    subscribers, there is a
+    <a href="http://jakarta.apache.org/site/mail.html">common set of etiquette
+    guidelines</a> that you should observe.</p>
+
     <subsection name="The Avalon Users List">
       <p>
 	<em>Light Traffic</em>
@@ -56,7 +56,7 @@
         Changes to the Avalon CVSes are echoed to this list.
       </p>
     </subsection>
-</section>
+  </section>
 
 </body>
 

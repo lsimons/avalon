@@ -20,11 +20,11 @@
 <document>
   <properties>
     <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
-    <title>Merlin Runtime</title>
+    <title>Avalon Central</title>
   </properties> 
 
   <body>
-    <section name="Using Merlin">
+    <section name="Running Hello">
       <subsection name="Building the Block">
         <p>
         Using the sources included in the tutorials/hello directory 

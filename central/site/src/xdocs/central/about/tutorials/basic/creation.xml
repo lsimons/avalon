@@ -20,11 +20,11 @@
 <document>
   <properties>
     <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
-    <title>Merlin Runtime</title>
+    <title>Avalon Central</title>
   </properties> 
 
   <body>
-    <section name="Using Merlin">
+    <section name="Hello Block">
       <subsection name="Tutorial Overview">
         <p>
         This tutorial takes you though the creation of a very simple
