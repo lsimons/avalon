@@ -3,8 +3,8 @@
   <classloader>
     <classpath>
       <repository>
-        <resource id="avalon-finder:avalon-finder-api" version="0.9.0"/>
-        <resource id="avalon-finder:avalon-finder-impl" version="0.9.0"/>
+        <resource id="avalon-finder:avalon-finder-api" version="@AVALON-FINDER-API-VERSION@"/>
+        <resource id="avalon-finder:avalon-finder-impl" version="@AVALON-FINDER-IMPL-VERSION@"/>
       </repository>
       <fileset dir="target">
         <include name="classes"/>

@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE project [
+  <!ENTITY % index SYSTEM "file:index.ent"> %index;
+]>
 
 <project>
 
-  <extend>${basedir}/../common-project.xml</extend>
+  <extend>${basedir}/../../common-project.xml</extend>
 
-  <groupId>avalon-finder</groupId>
-  <id>avalon-finder-impl</id>
+  <groupId>&avalon-finder-id;</groupId>
+  <id>&avalon-finder-impl-id;</id>
+  <currentVersion>&avalon-finder-impl-version;</currentVersion>
+
   <name>Avalon Finder Implementation</name>
-
   <shortDescription>Avalon Finder Implementation</shortDescription>
   <package>org.apache.avalon.finder.impl</package>
 
@@ -16,9 +20,9 @@
     <!-- implementation dependencies -->
 
     <dependency>
-      <groupId>avalon-finder</groupId>
-      <artifactId>avalon-finder-api</artifactId>
-      <version>${pom.currentVersion}</version>
+      <groupId>&avalon-finder-id;</groupId>
+      <artifactId>&avalon-finder-api-id;</artifactId>
+      <version>&avalon-finder-api-version;</version>
     </dependency>
     
     <dependency>
@@ -28,9 +32,9 @@
     </dependency>
     
     <dependency>
-      <groupId>avalon-composition</groupId>
-      <artifactId>avalon-composition-api</artifactId>
-      <version>3.3.0</version>
+      <groupId>&avalon-composition-id;</groupId>
+      <artifactId>&avalon-composition-api-id;</artifactId>
+      <version>&avalon-composition-api-version;</version>
     </dependency>
     
     <dependency>
