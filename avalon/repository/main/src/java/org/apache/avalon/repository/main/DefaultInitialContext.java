@@ -98,7 +98,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * 
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.10 $
+ * @version $Revision: 1.11 $
  */
 public class DefaultInitialContext extends AbstractBuilder implements InitialContext
 {
@@ -154,7 +154,7 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
     //------------------------------------------------------------------
 
     private static final String AVALON_IMPL_PROPERTIES = 
-       "avalon.implementation";
+       "avalon.properties";
 
     private static final File USER_HOME = 
       new File( System.getProperty( "user.home" ) );
@@ -466,23 +466,14 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
     private static Artifact getDefaultImplementation()
     {
         Properties properties = createDefaultProperties();
-        final String group = 
-          properties.getProperty( Artifact.GROUP_KEY );
-        final String name = 
-          properties.getProperty( Artifact.NAME_KEY  );
-        final String version = 
-          properties.getProperty( Artifact.VERSION_KEY );
-
-        try
+        String spec = properties.getProperty( "avalon.repository.implementation" );
+        if( null == spec )
         {
-            return Artifact.createArtifact( group, name, version );
+            final String error =
+              "Missing avalon.properties resource.";
+            throw new IllegalStateException( error );
         }
-        catch( Throwable e )
-        {
-            final String error = 
-              "Internal error while attempting to build default implementation artifact.";
-            throw new RepositoryRuntimeException( error, e );
-        }
+        return Artifact.createArtifact( spec );
     }
 
     private File setupBaseDirectory( File base )

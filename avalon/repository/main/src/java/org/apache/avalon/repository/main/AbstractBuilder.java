@@ -73,7 +73,7 @@ import org.apache.avalon.repository.provider.InitialContext;
  * 
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public abstract class AbstractBuilder
 {
@@ -108,13 +108,13 @@ public abstract class AbstractBuilder
     }
 
    /**
-    * Create a factory delegate using a supplied class and command line arguemnts.
+    * <p>Create a factory delegate using a supplied class and command line arguemnts.
     * The implementation will conduct an ordered search for a constructor matching
-    * one of the four standard constructor patterns.
+    * one of the four standard constructor patterns.</p>
     * <ul>
-    * <li>[FactoryClass]( InitialContext context, String[] args )</li>
+    * <li>[FactoryClass]( InitialContext context, ClassLoader loader )</li>
     * <li>[FactoryClass]( InitialContext context )</li>
-    * <li>[FactoryClass]( String[] args )</li>
+    * <li>[FactoryClass]( ClassLoader loader )</li>
     * <li>[FactoryClass]( )</li>
     * </ul>
     * 
