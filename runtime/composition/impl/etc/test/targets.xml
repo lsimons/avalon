@@ -3,7 +3,7 @@
 
   <classloader>
     <classpath>
-      <artifact>artifact:jar:avalon/test/avalon-test-testa</artifact>
+      <artifact>@AVALON-TEST-A-SPEC@</artifact>
     </classpath>
   </classloader>
 
