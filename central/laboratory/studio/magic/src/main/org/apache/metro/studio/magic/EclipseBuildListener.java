@@ -40,19 +40,14 @@ public class EclipseBuildListener
     private static final String PREPARE_TASK_KEY = 
       "antlib:org.apache.avalon.tools:prepare";
 
-    private static final String INSTALL_TASK_KEY = 
-      "antlib:org.apache.avalon.tools:install";
-
     private final String m_uri;
 
-    private boolean m_PluginXmlExecuted;
-    private boolean m_PluginJarExecuted;
+    private boolean m_Executed;
 
     public EclipseBuildListener( String uri )
     {
         m_uri = uri;
-        m_PluginXmlExecuted = false;
-        m_PluginJarExecuted = false;
+        m_Executed = false;
     }
 
     /**
@@ -131,20 +126,11 @@ public class EclipseBuildListener
         String type = event.getTask().getTaskType();
         if( PREPARE_TASK_KEY.equals( type ) )
         {
-            if( m_PluginXmlExecuted ) 
+            if( m_Executed ) 
                 return;
 
             Project project = event.getProject();
             generatePluginXML( project );
-            m_PluginXmlExecuted = true;
-        }
-        if( INSTALL_TASK_KEY.equals( type ) )
-        {
-            if( m_PluginJarExecuted ) 
-                return;
-            Project project = event.getProject();
-            generatePluginJar( project );
-            m_PluginJarExecuted = true;
         }
     }
 
@@ -154,24 +140,20 @@ public class EclipseBuildListener
         File pluginSpec = new File( basedir, "target/build/etc/plugin-spec.xml" );
         if( pluginSpec.exists() )
         {
-            File dest = new File( basedir, "target/deliverables/" );
+            File dest = new File( basedir, "target/classes/lib" );
             dest.mkdirs();
             
             MagicPath path = new MagicPath( project );
             path.setMode( "RUNTIME" );
-// TODO!!!!
             
             ReplicateTask repl = new ReplicateTask();
             repl.setProject( project );
             repl.setTaskName( "replicate" );
             repl.init();
-            File f = new File( basedir, "target/deliverables/lib" );
+            File f = new File( basedir, "target/classes/lib" );
             f.mkdirs();
             repl.setTodir( f );
-            
-            repl.setRefid( "deps.path" );
-// path ---------^
-
+            repl.setReplicationPath( path );
             repl.execute();
             
             EclipseTask task = new EclipseTask();
@@ -185,11 +167,6 @@ public class EclipseBuildListener
         }
     }
 
-    private void generatePluginJar( Project project )
-    {
-        File basedir = project.getBaseDir();
-    }
-    
     /**
      * Signals a message logging event.
      *
