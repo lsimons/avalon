@@ -63,9 +63,9 @@ package org.apache.avalon.framework.activity;
 public interface Initializable
 {
     /**
-     * Initialialize the component. Initialization includes
+     * Initialize the component. Initialization includes
      * allocating any resources required throughout the
-     * components lifecycle.
+     * component's lifecycle.
      *
      * @throws Exception if an error occurs
      */
