@@ -58,8 +58,8 @@ import org.apache.excalibur.containerkit.verifier.VerifyException;
  *       BlockListener interface.</li>
  * </ul>
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.25 $ $Date: 2002/07/26 09:49:22 $
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @version $Revision: 1.26 $ $Date: 2002/08/06 11:57:42 $
  */
 public class SarVerifier
     extends AbstractLogEnabled

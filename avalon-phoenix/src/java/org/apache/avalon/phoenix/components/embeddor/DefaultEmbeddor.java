@@ -43,7 +43,7 @@ import org.apache.avalon.phoenix.interfaces.SystemManager;
  * dispose of the kernel and related resources.
  *
  * @author <a href="mail@leosimons.com">Leo Simons</a>
- * @author <a href="peter@apache.org">Peter Donald</a>
+ * @author <a href="peter at apache.org">Peter Donald</a>
  * @author <a href="bauer@denic.de">Joerg Bauer</a>
  */
 public class DefaultEmbeddor

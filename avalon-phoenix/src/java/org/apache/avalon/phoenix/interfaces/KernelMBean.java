@@ -11,7 +11,7 @@ package org.apache.avalon.phoenix.interfaces;
  * This is the interface via which you can manager
  * the root container of Applications.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  */
 public interface KernelMBean
 {

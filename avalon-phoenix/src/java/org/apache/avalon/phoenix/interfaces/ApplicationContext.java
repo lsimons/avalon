@@ -16,7 +16,7 @@ import org.apache.excalibur.threadcontext.ThreadContext;
 /**
  * Manage the "context" in which Applications operate.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  */
 public interface ApplicationContext
 {

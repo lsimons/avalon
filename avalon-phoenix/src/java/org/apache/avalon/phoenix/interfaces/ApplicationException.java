@@ -13,7 +13,7 @@ import org.apache.avalon.framework.CascadingException;
  * Exception to indicate that an Application failed to
  * startup or shutdown cleanly.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  */
 public final class ApplicationException
     extends CascadingException

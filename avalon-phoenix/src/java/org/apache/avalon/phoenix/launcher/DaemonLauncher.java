@@ -17,7 +17,7 @@ import java.util.Observer;
  * A frontend for Phoenix that starts it as a native service
  * using the Java Service Wrapper at http://wrapper.sourceforge.net
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
  */
 public class DaemonLauncher

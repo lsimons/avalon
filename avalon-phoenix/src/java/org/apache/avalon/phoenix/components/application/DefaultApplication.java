@@ -37,7 +37,7 @@ import org.apache.excalibur.threadcontext.ThreadContext;
  *
  * @phoenix:mx-topic name="Application"
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  * @author <a href="mailto:leosimons@apache.org">Leo Simons</a>
  */
 public final class DefaultApplication

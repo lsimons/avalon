@@ -17,8 +17,8 @@ import org.xml.sax.SAXException;
  * A Class to help to resolve Entitys for items such as DTDs or
  * Schemas.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.6 $ $Date: 2002/07/30 12:26:33 $
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @version $Revision: 1.7 $ $Date: 2002/08/06 11:57:42 $
  */
 public class DTDResolver
     implements EntityResolver

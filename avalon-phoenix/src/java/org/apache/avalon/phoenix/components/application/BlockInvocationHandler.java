@@ -25,9 +25,9 @@ import java.lang.reflect.Proxy;
  * <p>This proxy also allows itself to be invalidated thus making it
  * impossible to call methods on a Block after it has been shutdown.</p>
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  * @author <a href="mailto:Paul_Hammant@yahoo.com">Paul Hammant</a>
- * @version CVS $Revision: 1.7 $ $Date: 2002/07/26 09:49:20 $
+ * @version CVS $Revision: 1.8 $ $Date: 2002/08/06 11:57:39 $
  */
 final class BlockInvocationHandler
     implements InvocationHandler

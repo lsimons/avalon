@@ -14,8 +14,8 @@ import org.apache.avalon.framework.context.Resolvable;
 /**
  * This provides utility methods for properties.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/07/26 09:49:20 $
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @version CVS $Revision: 1.5 $ $Date: 2002/08/06 11:57:39 $
  * @since 4.0
  */
 final class PropertyUtil

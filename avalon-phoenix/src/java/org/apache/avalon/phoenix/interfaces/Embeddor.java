@@ -14,7 +14,7 @@ import org.apache.avalon.framework.activity.Executable;
  * dispose of the kernel and related resources.
  *
  * @author <a href="mail@leosimons.com">Leo Simons</a>
- * @author <a href="peter@apache.org">Peter Donald</a>
+ * @author <a href="peter at apache.org">Peter Donald</a>
  */
 public interface Embeddor
     extends Executable
