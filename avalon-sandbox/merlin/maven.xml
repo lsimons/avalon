@@ -29,7 +29,7 @@
     <maven:reactor
       basedir="${basedir}"
       includes="**/project.xml"
-      excludes="merlin-platform/**,merlin-plugin/**,project.xml,kernel/bootstrap/*"
+      excludes="merlin-platform/**,merlin-plugin/**,project.xml,kernel/bootstrap/*,merlin-extensions/**"
       goals="jar:install-snapshot"
       banner="Installing:"
       ignoreFailures="false" />
@@ -77,20 +77,6 @@
 
     <ant:chmod file="${merlin.build.inst.dir}/bin/merlin.sh" perm="ugo+rx"/>
 
-  </goal>
-
-  <!--
-  The following project is called against a subproject.  It results in 
-  the build of the subproject, install of the jar in the user's local 
-  repository, and copies the jar file into the merlin installation 
-  directory.
-  -->
-  <goal name="merlin-propergate" prereqs="jar:install-snapshot">
-    <ant:copy todir="${basedir}/../target/${merlin.build.inst}/lib/system">
-      <fileset dir="${maven.build.dir}">
-        <include name="${maven.final.name}.jar"/>
-      </fileset>
-    </ant:copy>
   </goal>
 
   <!--
@@ -193,21 +179,19 @@
   without disrupting current executing NT services.  I.e. just update
   the jar files in the lib subdirectories.
   -->
-  <goal name="merlin-libs" prereqs="merlin-install-plugin,merlin-dist">
+  <goal name="merlin-libs" prereqs="merlin-dist">
     <ant:property environment="env"/>
-    <ant:mkdir dir="${env.MERLIN_HOME}/lib/shared"/>
+    <ant:mkdir dir="${env.MERLIN_HOME}/repository"/>
     <ant:echo>Updating Merlin libraries: ${env.MERLIN_HOME}</ant:echo>
-    <ant:copy toDir="${env.MERLIN_HOME}/lib/shared">
-      <fileset dir="${merlin.build.inst.dir}/lib/shared">
+    <ant:copy toDir="${env.MERLIN_HOME}/repository">
+      <fileset dir="${merlin.build.inst.dir}/repository">
         <include name="**/*"/>
       </fileset>
     </ant:copy>
-    <ant:mkdir dir="${env.MERLIN_HOME}/lib/system"/>
-    <ant:copy toDir="${env.MERLIN_HOME}/lib/system">
-      <fileset dir="${merlin.build.inst.dir}/lib/system">
-        <include name="**/*"/>
-      </fileset>
-    </ant:copy>
+    <ant:copy 
+       file="${basedir}/kernel/bootstrap/target/merlin-bootstrap-1.0.jar" 
+       toDir="${env.MERLIN_HOME}/bin"/>
+
   </goal>
 
   <goal name="xjavadoc">
@@ -225,6 +209,8 @@
         <j:forEach var="packageGroup" items="${pom.packageGroups}">
           <group title="${packageGroup.title}" packages="${packageGroup.packages}"/>
         </j:forEach>
+        <sourcepath path="${basedir}/../repository/spi/src/java"/>
+        <sourcepath path="${basedir}/../repository/impl/src/java"/>
         <sourcepath path="${basedir}/../extension-spi/src/java"/>
         <sourcepath path="${basedir}/../extension/src/java"/>
         <sourcepath path="${basedir}/../composition-spi/src/java"/>
@@ -233,8 +219,6 @@
         <sourcepath path="${basedir}/../activation/src/java"/>
         <sourcepath path="${basedir}/../kernel/spi/src/java"/>
         <sourcepath path="${basedir}/../kernel/impl/src/java"/>
-        <sourcepath path="${basedir}/../repository/spi/src/java"/>
-        <sourcepath path="${basedir}/../repository/impl/src/java"/>
         <classpath>
           <path refid="maven.dependency.classpath"/>
 	  </classpath>
@@ -278,7 +262,7 @@
     <maven:reactor
       basedir="${basedir}"
       includes="**/project.xml"
-      excludes="merlin-platform/**,project.xml"
+      excludes="merlin-platform/**,project.xml,merlin-plugin/**/*,merlin-extensions/**"
       goals="clean"
       banner="Cleaning subproject:"
       ignoreFailures="false"/>
