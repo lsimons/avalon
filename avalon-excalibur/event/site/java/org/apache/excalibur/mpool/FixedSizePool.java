@@ -59,7 +59,7 @@ import org.apache.avalon.framework.activity.Disposable;
  * Please note that this pool offers no resource limiting whatsoever.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/08/08 00:57:25 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/08/09 05:32:03 $
  * @since 4.1
  */
 public final class FixedSizePool
@@ -98,7 +98,8 @@ public final class FixedSizePool
 
         Object object = null;
 
-        long end = System.currentTimeMillis() + m_timeout;
+        long start = System.currentTimeMillis();
+        long end = start + m_timeout;
 
         while ( null == object && System.currentTimeMillis() < end)
         {
@@ -110,13 +111,14 @@ public final class FixedSizePool
                     {
                         m_buffer.wait( m_timeout );
                     }
-                    catch (Exception e) {}
+                    catch (InterruptedException e) {}
                 }
-
-                object = m_buffer.remove();
+                else
+                {
+                    object = m_buffer.remove();
+                }
             }
         }
-
         return object;
     }
 
@@ -138,7 +140,7 @@ public final class FixedSizePool
             synchronized( m_buffer )
             {
                 m_buffer.add( object );
-                m_buffer.notify();
+                m_buffer.notifyAll();
             }
         }
     }
