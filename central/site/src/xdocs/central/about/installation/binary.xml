@@ -104,9 +104,9 @@ correct version numbers):
         </p>
 
 <source><![CDATA[
-$ maven -DgroupId=avalon-util -DartifactId=avalon-util-plugin -Dversion=1.0.dev-0 plugin:download
-$ maven -DgroupId=avalon-meta -DartifactId=avalon-meta-plugin -Dversion=1.4.dev-0 plugin:download
-$ maven -DgroupId=merlin -DartifactId=merlin-plugin -Dversion=3.3.dev-0 plugin:download
+$ maven -DgroupId=avalon-util -DartifactId=avalon-util-plugin -Dversion=1.0.0 plugin:download
+$ maven -DgroupId=avalon-meta -DartifactId=avalon-meta-plugin -Dversion=1.4.0 plugin:download
+$ maven -DgroupId=merlin -DartifactId=merlin-plugin -Dversion=3.3.0 plugin:download
 ]]></source>
 
       </subsection>
