@@ -49,17 +49,12 @@
 */
 package org.apache.avalon.framework.configuration.test;
 
-import java.util.List;
-import java.io.*;
+import java.io.File;
 
 import junit.framework.TestCase;
-import org.apache.avalon.framework.configuration.Configuration;
+
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.avalon.framework.configuration.DefaultConfigurationSerializer;
-import org.apache.avalon.framework.configuration.SAXConfigurationHandler;
-import org.apache.avalon.framework.configuration.NamespacedSAXConfigurationHandler;
-import org.xml.sax.Attributes;
-import org.xml.sax.helpers.AttributesImpl;
 
 /**
  * Test the basic public methods of DefaultConfigurationSerializer.
