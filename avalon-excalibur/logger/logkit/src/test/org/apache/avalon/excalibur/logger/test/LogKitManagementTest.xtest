@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+
+<logkit>
+  <factories>
+    <factory type="file" class="org.apache.avalon.excalibur.logger.factory.FileTargetFactory"/>
+    <!--
+    <factory type="property-filter" class="org.apache.avalon.excalibur.logger.factory.FilterTargetFactory"/>
+    <factory type="servlet" class="org.apache.avalon.excalibur.logger.factory.ServletTargetFactory"/>
+    -->
+  </factories>
+
+  <targets>
+    <file id="root">
+      <filename>logs/main.log</filename>
+      <format type="extended">%7.7{priority} %5.5{time}   [%8.8{category}] (%{context}): %{message}\n%{throwable}</format>
+      <append>true</append>
+    </file>
+    <file id="classloader">
+      <filename>logs/classloader.log</filename>
+      <format type="raw"/>
+    </file>
+    <file id="foo">
+      <filename>logs/foo.log</filename>
+      <format type="pattern">%7.7{priority} %5.5{time}: %{message}\n%{throwable}</format>
+    </file>
+    <!--
+    <priority-filter id="servlet" log-level="ERROR">
+      <servlet/>
+    </priority-filter>
+    -->
+  </targets>
+
+  <categories>
+    <category name="cocoon" log-level="INFO">
+      <log-target id-ref="root"/>
+      <!--
+      <log-target id-ref="servlet"/>
+      -->
+
+      <category name="classloader" log-level="DEBUG">
+        <log-target id-ref="classloader"/>
+      </category>
+    </category>
+    <category name="foo" log-level="INFO">
+      <log-target id-ref="foo"/>
+    </category>
+  </categories>
+</logkit>
