@@ -71,9 +71,6 @@ Legal:
     <property name="mx4j.jar" value="mx4j/mx4j-1.1/lib/mx4j-jmx.jar"/>
     <property name="mx4j-tools.jar" value="mx4j/mx4j-1.1/lib/mx4j-tools.jar"/>
 
-    <!-- Default Kernel implementation class -->
-    <property name="kernel.impl.class" value="org.apache.avalon.phoenix.components.kernel.DefaultKernel"/>
-
     <path id="project.class.path">
         <pathelement location="${xerces.jar}"/>
         <pathelement location="${framework.jar}"/>
