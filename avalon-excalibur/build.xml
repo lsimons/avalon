@@ -25,9 +25,9 @@
         <ant dir="logger" target="dist"/>
         
         <!-- Sub projects with dependencies. -->
-        <ant dir="pool" target="dist"/>               <!-- collections, concurrent -->
-        <ant dir="thread" target="dist"/>             <!-- lang, pool -->
-        <ant dir="component" target="dist"/>          <!-- collections, logger, pool -->
+        <ant dir="pool" target="dist"/>               <!-- collections, concurrent, instrument -->
+        <ant dir="thread" target="dist"/>             <!-- lang, instrument, pool -->
+        <ant dir="component" target="dist"/>          <!-- collections, logger, instrument, pool -->
         <ant dir="util" target="dist"/>               <!-- component -->
         <ant dir="testcase" target="dist"/>           <!-- logger, component -->
         <ant dir="event" target="dist"/>              <!-- collections, concurrent -->
@@ -174,9 +174,9 @@
         <ant dir="logger" target="jar"/>
         
         <!-- Sub projects with dependencies. -->
-        <ant dir="pool" target="jar"/>               <!-- collections, concurrent -->
-        <ant dir="thread" target="jar"/>             <!-- lang, pool -->
-        <ant dir="component" target="jar"/>          <!-- collections, logger, pool -->
+        <ant dir="pool" target="jar"/>               <!-- collections, concurrent, instrument -->
+        <ant dir="thread" target="jar"/>             <!-- lang, instrument, pool -->
+        <ant dir="component" target="jar"/>          <!-- collections, logger, instrument, pool -->
         <ant dir="util" target="jar"/>               <!-- component -->
         <ant dir="testcase" target="jar"/>           <!-- logger, component -->
         <ant dir="event" target="jar"/>              <!-- collections, concurrent -->
