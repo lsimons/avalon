@@ -94,6 +94,14 @@ DEBUG INFO
     </target>
 
     <target name="avalon:init">
+
+        <echo>
+=======================================================================
+ Build initialization using 
+ /avalon/buildsystem/maven-common-gump-build.xml
+=======================================================================
+        </echo>
+
         <antcall target="avalon:warning"/>
         <antcall target="avalon:debug"/>
 
