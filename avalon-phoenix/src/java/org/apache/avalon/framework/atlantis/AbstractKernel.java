@@ -167,18 +167,16 @@ public abstract class AbstractKernel
     private void startEntry( final String name, final Entry entry )
         throws Exception
     {
-        final Application application = (Application)entry.getInstance();
-        if( null != application )
+        Application application = (Application)entry.getInstance();
+        if( null == application )
         {
-            preStartEntry( name, entry );
-            application.start();
-            postStartEntry( name, entry );
+            initializeEntry( name, entry );
+            application = (Application)entry.getInstance();
         }
-        else
-        {
-            getLogger().warn( "Failed to start application " + name +
-                              " as it is not initialized" );
-        }
+
+        preStartEntry( name, entry );
+        application.start();
+        postStartEntry( name, entry );
     }
 
     private void stopEntry( final String name, final Entry entry )
@@ -205,14 +203,7 @@ public abstract class AbstractKernel
         {
             preDisposeEntry( name, entry );
             entry.setInstance( null );
-
-            try { application.dispose(); }
-            catch( final Exception e )
-            {
-                throw new ContainerException( "Failed to dispose application " + name,
-                                              e );
-            }
-
+            application.dispose();
             postDisposeEntry( name, entry );
         }
     }
