@@ -29,16 +29,15 @@
     <available file="../../lib/README" property="wrong-place"/>
   </target>  
   
-  <target name="warning" if="wrong-place">
+  <target name="warning" depends="test" if="wrong-place">
     <echo>This sub project is not intended to be built in situ.</echo>
     <echo>It is supposed to be self contained and part of a separate PDK distribution</echo>
     <echo>Run the make-pdk target in the Phoenix project to make the PDK</echo>
     <fail>Build aborted.</fail>
   </target>  
 
-
   <!-- Compiles project -->
-  <target name="compile" depends="test,warning">
+  <target name="compile" depends="warning">
 
     <mkdir dir="build/classes"/>
 
@@ -48,7 +47,6 @@
            optimize="${build.optimize}"
            deprecation="${build.deprecation}">
       <classpath refid="project.class.path" />
-
     </javac>
 
   </target>
@@ -57,7 +55,6 @@
   <target name="jars" depends="compile">
 
     <mkdir dir="build/lib"/>
-
 
     <!-- block for Phoenix-Demo -->
     <jar jarfile="build/lib/phoenix-demo-block.jar"
@@ -104,16 +101,12 @@
         <include name="*block.jar"/>
       </zipfileset>
 
-      <zipfileset dir="src/conf" fullpath="conf/keyStore">
-        <include name="keystore"/>
-      </zipfileset>
-
       <zipfileset dir="src/conf" fullpath="SAR-INF/assembly.xml">
         <include name="pd-assembly.xml"/>
       </zipfileset>
 
-      <zipfileset dir="src/conf" fullpath="SAR-INF/server.xml">
-        <include name="pd-server.xml"/>
+      <zipfileset dir="src/conf" fullpath="SAR-INF/environment.xml">
+        <include name="pd-environment.xml"/>
       </zipfileset>
 
       <zipfileset dir="src/conf" fullpath="SAR-INF/config.xml">
