@@ -234,9 +234,9 @@ Legal:
 
     <javac srcdir="${java.dir}"
            destdir="${build.classes}"
-           debug="${debug}"
-           optimize="${optimize}"
-           deprecation="${deprecation}">
+           debug="${build.debug}"
+           optimize="${build.optimize}"
+           deprecation="${build.deprecation}">
       <classpath refid="project.class.path" />
       <src path="${test.dir}"/>
       <src path="${build.src}"/>
@@ -256,9 +256,9 @@ Legal:
 
     <javac srcdir="${scratchpad.dir}"
            destdir="${build.scratchpad}"
-           debug="${debug}"
-           optimize="${optimize}"
-           deprecation="${deprecation}">
+           debug="${build.debug}"
+           optimize="${build.optimize}"
+           deprecation="${build.deprecation}">
       <classpath refid="project.class.path" />
       <exclude name="org/apache/avalon/excalibur/i18n/XMLResourceBundle.java"
                unless="xpath.present"/>
@@ -348,9 +348,9 @@ Legal:
 
     <javac srcdir="${java.dir}"
            destdir="${build.classes}"
-           debug="${debug}"
-           optimize="${optimize}"
-           deprecation="${deprecation}">
+           debug="${build.debug}"
+           optimize="${build.optimize}"
+           deprecation="${build.deprecation}">
       <include name="org/apache/avalon/excalibur/cli/*" />
     </javac>
   </target>
