@@ -9,8 +9,6 @@ package org.apache.avalon.phoenix.components.deployer;
 
 import java.io.File;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.ArrayList;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.activity.Initializable;
@@ -25,8 +23,8 @@ import org.apache.avalon.phoenix.interfaces.Application;
 import org.apache.avalon.phoenix.interfaces.ClassLoaderManager;
 import org.apache.avalon.phoenix.interfaces.ConfigurationRepository;
 import org.apache.avalon.phoenix.interfaces.Deployer;
-import org.apache.avalon.phoenix.interfaces.DeploymentRecorder;
 import org.apache.avalon.phoenix.interfaces.DeploymentException;
+import org.apache.avalon.phoenix.interfaces.DeploymentRecorder;
 import org.apache.avalon.phoenix.interfaces.Kernel;
 import org.apache.avalon.phoenix.interfaces.LogManager;
 import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
@@ -51,16 +49,16 @@ public class DefaultDeployer
     private static final Resources REZ =
         ResourceManager.getPackageResources( DefaultDeployer.class );
 
-    private final DefaultConfigurationBuilder  m_builder  = new DefaultConfigurationBuilder();
-    private final Assembler          m_assembler     = new Assembler();
-    private final SarVerifier        m_verifier      = new SarVerifier();
-    private final Installer          m_installer     = new Installer();
+    private final DefaultConfigurationBuilder m_builder = new DefaultConfigurationBuilder();
+    private final Assembler m_assembler = new Assembler();
+    private final SarVerifier m_verifier = new SarVerifier();
+    private final Installer m_installer = new Installer();
 
-    private LogManager               m_logManager;
-    private Kernel                   m_kernel;
-    private ConfigurationRepository  m_repository;
-    private ClassLoaderManager       m_classLoaderManager;
-    private DeploymentRecorder       m_recorder;
+    private LogManager m_logManager;
+    private Kernel m_kernel;
+    private ConfigurationRepository m_repository;
+    private ClassLoaderManager m_classLoaderManager;
+    private DeploymentRecorder m_recorder;
 
     /**
      * Retrieve relevent services needed to deploy.
@@ -96,21 +94,21 @@ public class DefaultDeployer
         throws DeploymentException
     {
         try
-        {            
+        {
             final Application application = m_kernel.getApplication( name );
             final String[] blocks = application.getBlockNames();
-            
+
             m_kernel.removeApplication( name );
-            
+
             for( int i = 0; i < blocks.length; i++ )
-            {                
+            {
                 //remove configuration from repository
-                m_repository.storeConfiguration( name, blocks[i], null );
+                m_repository.storeConfiguration( name, blocks[ i ], null );
             }
-            
+
             final Installation installation = m_recorder.fetchInstallation( name );
             m_installer.uninstall( installation );
-            
+
             //erase installation information
             m_recorder.recordInstallation( name, null );
         }
@@ -133,11 +131,11 @@ public class DefaultDeployer
         try
         {
             Installation installation = m_recorder.fetchInstallation( name );
-            
-            if ( null == installation )
+
+            if( null == installation )
             {
                 //fresh installation
-                installation = m_installer.install( location );            
+                installation = m_installer.install( location );
                 m_recorder.recordInstallation( name, installation );
             }
 
@@ -232,7 +230,10 @@ public class DefaultDeployer
                 throw new DeploymentException( message );
             }
 
-            try { m_repository.storeConfiguration( appName, name, configuration ); }
+            try
+            {
+                m_repository.storeConfiguration( appName, name, configuration );
+            }
             catch( final ConfigurationException ce )
             {
                 throw new DeploymentException( ce.getMessage(), ce );

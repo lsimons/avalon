@@ -8,13 +8,12 @@
 package org.apache.avalon.phoenix.components.application;
 
 import java.util.ArrayList;
-import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.phoenix.metadata.BlockMetaData;
 import org.apache.avalon.phoenix.metadata.DependencyMetaData;
 import org.apache.avalon.phoenix.metainfo.DependencyDescriptor;
 
 /**
- * 
+ *
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */

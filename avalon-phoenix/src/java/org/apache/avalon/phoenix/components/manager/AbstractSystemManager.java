@@ -29,16 +29,16 @@ public abstract class AbstractSystemManager
     protected final static class ManagedEntry
     {
         ///Object passed in for management
-        protected Object   m_object;
+        protected Object m_object;
 
         ///Interfaces object wants to be managed through (can be null)
-        protected Class[]  m_interfaces;
+        protected Class[] m_interfaces;
 
         ///Object representation when exported (usually a proxy)
-        protected Object   m_exportedObject;
+        protected Object m_exportedObject;
     }
 
-    private HashMap       m_entrys = new HashMap();
+    private HashMap m_entrys = new HashMap();
 
     /**
      * Register an object for management.

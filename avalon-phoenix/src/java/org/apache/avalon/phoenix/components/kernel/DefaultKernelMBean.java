@@ -11,7 +11,7 @@ import org.apache.jmx.introspector.ConstructiveMBean;
 
 /**
  * The manager for the kernel. Used to test ConstructiveMBean.
- * 
+ *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public class DefaultKernelMBean
@@ -23,14 +23,14 @@ public class DefaultKernelMBean
     }
 
     /**
-     * Utility method called to define manageable 
+     * Utility method called to define manageable
      * objects attributes and operations.
      */
     protected void defineObject()
     {
         addAttribute( "applicationNames", false );
 
-        final String[] params = new String[] { String.class.getName() };
+        final String[] params = new String[]{ String.class.getName() };
         addOperation( "getApplication", params, INFO );
     }
 }

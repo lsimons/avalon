@@ -15,7 +15,6 @@ import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.excalibur.lang.ThreadContext;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.phoenix.Block;
-import org.apache.avalon.phoenix.BlockListener;
 import org.apache.avalon.phoenix.interfaces.Application;
 import org.apache.avalon.phoenix.interfaces.ApplicationContext;
 import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
@@ -35,12 +34,12 @@ public final class DefaultApplication
     private static final Resources REZ =
         ResourceManager.getPackageResources( DefaultApplication.class );
 
-    private static final String  PHASE_STARTUP  = "startup";
-    private static final String  PHASE_SHUTDOWN = "shutdown";
+    private static final String PHASE_STARTUP = "startup";
+    private static final String PHASE_SHUTDOWN = "shutdown";
 
-    private ApplicationContext   m_context;
-    private LifecycleHelper      m_lifecycle;
-    private HashMap              m_entrys = new HashMap();
+    private ApplicationContext m_context;
+    private LifecycleHelper m_lifecycle;
+    private HashMap m_entrys = new HashMap();
 
     public void setApplicationContext( final ApplicationContext context )
     {
@@ -174,8 +173,10 @@ public final class DefaultApplication
             try
             {
                 final BlockEntry entry = (BlockEntry)m_entrys.get( block );
-                if( PHASE_STARTUP == name ) m_lifecycle.startup( entry );
-                else m_lifecycle.shutdown( entry );
+                if( PHASE_STARTUP == name )
+                    m_lifecycle.startup( entry );
+                else
+                    m_lifecycle.shutdown( entry );
             }
             catch( final Exception e )
             {

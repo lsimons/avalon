@@ -15,10 +15,7 @@ import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.component.Composable;
 import org.apache.avalon.framework.component.DefaultComponentManager;
-import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.context.Contextualizable;
-import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.phoenix.components.application.DefaultApplication;
 import org.apache.avalon.phoenix.interfaces.Application;
@@ -49,12 +46,12 @@ public class DefaultKernel
         ResourceManager.getPackageResources( DefaultKernel.class );
 
     ///SystemManager provided by Embeddor
-    private SystemManager            m_systemManager;
+    private SystemManager m_systemManager;
 
     ///Configuration Repository
-    private ConfigurationRepository  m_repository;
+    private ConfigurationRepository m_repository;
 
-    private HashMap                  m_entrys = new HashMap();
+    private HashMap m_entrys = new HashMap();
 
     public void compose( final ComponentManager componentManager )
         throws ComponentException
@@ -94,8 +91,10 @@ public class DefaultKernel
     public Application getApplication( final String name )
     {
         final SarEntry entry = (SarEntry)m_entrys.get( name );
-        if( null == entry ) return null;
-        else return entry.getApplication();
+        if( null == entry )
+            return null;
+        else
+            return entry.getApplication();
     }
 
     /**
@@ -167,7 +166,10 @@ public class DefaultKernel
         final SarEntry entry = new SarEntry( metaData, classLoader, hierarchy, server );
         m_entrys.put( name, entry );
 
-        try { startup( (SarEntry)entry ); }
+        try
+        {
+            startup( (SarEntry)entry );
+        }
         catch( final Exception e )
         {
             final String message = REZ.getString( "kernel.error.entry.start", name );
@@ -188,7 +190,7 @@ public class DefaultKernel
         if( context instanceof Composable )
         {
             final ComponentManager componentManager = createComponentManager();
-            ((Composable)context).compose( componentManager );
+            ( (Composable)context ).compose( componentManager );
         }
 
         //TODO: Remove me once we can remove the ThreadPool stuff
@@ -204,15 +206,15 @@ public class DefaultKernel
         componentManager.makeReadOnly();
         return componentManager;
     }
-    
+
     public void removeApplication( String name ) throws Exception
     {
         final SarEntry entry = (SarEntry)m_entrys.get( name );
-        if( null != entry )        
+        if( null != entry )
         {
             shutdown( entry );
             m_entrys.remove( name );
         }
     }
-    
+
 }

@@ -7,9 +7,7 @@
  */
 package org.apache.avalon.phoenix.components.logger;
 
-import java.io.File;
 import org.apache.avalon.excalibur.logger.DefaultLogKitManager;
-import org.apache.avalon.excalibur.logger.LogKitManager;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
