@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE changes SYSTEM "dtd/changes-v10.dtd">
+
+<changes title="LogKit History of Changes">
+  <devs>
+    <person name="Peter Donald" email="donaldp@apache.org" id="PD"/>
+  </devs>
+
+<release version="0.7" date="Unreleased">
+  <action dev="PD" type="add">
+  </action>
+</release>
+
+</changes>
