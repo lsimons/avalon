@@ -23,13 +23,13 @@ public interface PreparedEnqueue {
    * Note that once a <code>prepareEnqueue</code> has returned an enqueue
    * key, the queue cannot reject the entries.
    */
-  public void commit();
+  void commit();
 
   /**
    * Abort a previously prepared provisional enqueue operation (from
    * the <code>prepareEnqueue</code> method). Causes the queue to discard
    * the provisionally enqueued elements.
    */
-  public void abort();
+  void abort();
 
 }
