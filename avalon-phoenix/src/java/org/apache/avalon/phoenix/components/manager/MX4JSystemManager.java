@@ -40,9 +40,11 @@ public class MX4JSystemManager
 {
     private static final String DEFAULT_NAMING_FACTORY =
         "com.sun.jndi.rmi.registry.RegistryContextFactory";
+    private static final String DEFAULT_HTTPADAPTER_HOST = "localhost";
     private static final int DEFAULT_HTTPADAPTER_PORT =
         Integer.getInteger( "phoenix.adapter.http", 8082 ).intValue();
 
+    private String m_host;
     private int m_port;
     private boolean m_rmi;
     private File m_homeDir;
@@ -60,6 +62,9 @@ public class MX4JSystemManager
     public void configure( final Configuration configuration )
         throws ConfigurationException
     {
+        m_host = configuration.getChild( "manager-adaptor-host" ).
+            getValue( DEFAULT_HTTPADAPTER_HOST );
+        
         m_port = configuration.getChild( "manager-adaptor-port" ).
             getValueAsInteger( DEFAULT_HTTPADAPTER_PORT );
 
@@ -111,6 +116,7 @@ public class MX4JSystemManager
     {
         final ObjectName adaptorName = new ObjectName( "Http:name=HttpAdaptor" );
         mBeanServer.createMBean( "mx4j.adaptor.http.HttpAdaptor", adaptorName, null );
+        mBeanServer.setAttribute( adaptorName, new Attribute( "Host", m_host ) );
         mBeanServer.setAttribute( adaptorName, new Attribute( "Port", new Integer( m_port ) ) );
 
         if( null != m_username )
