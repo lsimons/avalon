@@ -47,6 +47,7 @@ public class PriorityFilteringTarget
     {
         m_priority = priority;
         m_closeWrapped = closeWrappedTarget;
+        open();
     }
 
     /**
@@ -54,8 +55,7 @@ public class PriorityFilteringTarget
      */
     public PriorityFilteringTarget(Priority priority)
     {
-        m_priority = priority;
-        m_closeWrapped = false;
+        this(priority, false );
     }
 
     /**
