@@ -4,8 +4,7 @@
 
 <document>
   <header>
-    <title>LogKit Developer Documentation</title>
-    <subtitle>Introduction</subtitle>
+    <title>LogKit - Introduction</title>
     <authors>
       <person name="Avalon Documentation Team" email="avalon-dev@jakarta.apache.org"/>
     </authors>
@@ -23,7 +22,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.5 $ $Date: 2002/01/31 16:07:37 $
+      $Revision: 1.6 $ $Date: 2002/04/02 11:03:32 $
     </legal>
   </footer>
 </document>
