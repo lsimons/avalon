@@ -60,7 +60,7 @@
 
   
   <!-- Jetty stuff -->
-  <property name ="jetty.rel"    value="4.2.5-pr20030108"/>
+  <property name ="jetty.rel"    value="4.2.5"/>
   
   <property name="jetty.jars.dir" value="${lib.dir}/jetty-jars"/>
 
@@ -119,19 +119,11 @@
     
     <mkdir  dir="jetty-download"/>
 
-    <!--
+
     <get src="http://unc.dl.sourceforge.net/sourceforge/jetty/Jetty-${jetty.rel}.zip"
   	dest="jetty-download/Jetty-${jetty.rel}.zip"
   	verbose="true"
   	usetimestamp="true"/>
-    -->
-
-    <!-- temporarily point to EOB site -->
-
-    <get src="http://www.enterpriseobjectbroker.org/Jetty-${jetty.rel}.zip"
-      dest="jetty-download/Jetty-${jetty.rel}.zip"
-      verbose="true"
-      usetimestamp="true"/>
 
     <unzip src="jetty-download/Jetty-${jetty.rel}.zip" dest="jetty-download/Jetty-${jetty.rel}" />
 
