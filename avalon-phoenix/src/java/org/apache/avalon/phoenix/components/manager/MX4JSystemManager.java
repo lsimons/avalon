@@ -11,6 +11,9 @@ import javax.management.Attribute;
 import javax.management.MBeanServer;
 import javax.management.MBeanServerFactory;
 import javax.management.ObjectName;
+import org.apache.avalon.framework.configuration.Configurable;
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.ConfigurationException;
 
 /**
  * This component is responsible for managing phoenix instance.
@@ -20,8 +23,14 @@ import javax.management.ObjectName;
  * @author <a href="mailto:Huw@mmlive.com">Huw Roberts</a>
  */
 public class MX4JSystemManager
-    extends AbstractJMXManager
+    extends AbstractJMXManager implements Configurable
 {
+
+    private static final int DEFAULT_HTTPADAPTER_PORT =
+        Integer.getInteger( "phoenix.adapter.http", 8082 ).intValue();
+
+    private int m_port;
+
     public void initialize()
         throws Exception
     {
@@ -31,7 +40,7 @@ public class MX4JSystemManager
 
         final ObjectName adaptorName = new ObjectName( "Http:name=HttpAdaptor" );
         mBeanServer.createMBean( "mx4j.adaptor.http.HttpAdaptor", adaptorName, null );
-        mBeanServer.setAttribute( adaptorName, new Attribute( "Port", new Integer( 8083 ) ) );
+        mBeanServer.setAttribute( adaptorName, new Attribute( "Port", new Integer(m_port) ) );
 
         /**
          // add user names
@@ -67,6 +76,13 @@ public class MX4JSystemManager
 
         // starts the server
         mBeanServer.invoke( adaptorName, "start", null, null );
+    }
+
+    public void configure( final Configuration configuration )
+        throws ConfigurationException
+    {
+        m_port = configuration.getChild( "manager-adaptor-port" ).
+                getValueAsInteger( DEFAULT_HTTPADAPTER_PORT );
     }
 
     protected MBeanServer createMBeanServer()
