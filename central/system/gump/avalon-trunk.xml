@@ -2476,6 +2476,49 @@
        from="Magic Integration &lt;dev@avalon.apache.org&gt;"/>
   </project>
 
+  <project name="avalon-meta-plugin">
+    <license name="central/system/license/LICENSE.TXT"/>
+    <ant basedir="runtime/meta/plugin">
+      <!-- for magic -->
+      <property name="build.sysclasspath" value="last"/> 
+      <property name="magic.home" reference="home" project="magic"/>
+      <property name="gump.signature" value="@@DATE@@"/>
+      <!-- external references -->
+      <depend property="gump.resource.mailapi" project="javamail">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.log4j" project="logging-log4j-12">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.servletapi" project="jakarta-servletapi-4">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.geronimo-spec-jms" project="jms">
+        <noclasspath/>
+      </depend>
+      <depend property="gump.resource.qdox" project="qdox">
+        <noclasspath/>
+      </depend>
+      <!-- end for -->
+    </ant>
+    <depend project="magic" runtime="true" inherit="runtime"/> 
+    <!-- for gump -->
+    <depend project="avalon-meta-tools"><noclasspath/></depend>
+    <depend project="avalon-meta-impl"><noclasspath/></depend>
+    <depend project="avalon-meta-spi"><noclasspath/></depend>
+    <depend project="avalon-meta-api"><noclasspath/></depend>
+    <depend project="avalon-framework-api"><noclasspath/></depend>
+    <depend project="avalon-logkit"><noclasspath/></depend>
+    <depend project="avalon-framework-impl"><noclasspath/></depend>
+    <depend project="avalon-util-i18n"><noclasspath/></depend>
+    <depend project="avalon-util-configuration"><noclasspath/></depend>
+    <!-- end for -->
+    <home nested="runtime/meta/plugin/target/deliverables"/>
+    <jar name="jars/avalon-meta-plugin-@@DATE@@.jar"/>
+    <nag to="dev@avalon.apache.org"
+       from="Magic Integration &lt;dev@avalon.apache.org&gt;"/>
+  </project>
+
   <project name="avalon-merlin-unit">
     <license name="central/system/license/LICENSE.TXT"/>
     <ant basedir="runtime/merlin/unit">
