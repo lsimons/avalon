@@ -13,10 +13,11 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 /**
- * FIXME: INPROGRESS
+ * FIXME: INPROGRESS and NOT TESTED
  * This service provides a way to publish an <code>Remote<code> object via RMI.
  *
  * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>
+ * @version $Revision: 1.2 $
  */
 public interface RMIfication
 {

@@ -26,10 +26,11 @@ import org.apache.avalon.phoenix.Block;
 import org.apache.avalon.cornerstone.services.rmification.RMIfication;
 
 /**
- * FIXME: INPROGRESS
+ * FIXME: INPROGRESS and NOT TESTED
  * Default implementation of <code>RMIfication</code>.
  *
  * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>
+ * @version $Revision: 1.2 $
  */
 public class DefaultRMIfication
     extends AbstractLogEnabled
@@ -51,6 +52,7 @@ public class DefaultRMIfication
         m_remoteObjects = new HashMap();
 
         m_registry = LocateRegistry.createRegistry( m_port );
+        getLogger().debug( "RMI registry created on port " + m_port );
     }
 
     public void dispose()
@@ -71,6 +73,8 @@ public class DefaultRMIfication
 
             m_remoteObjects.put( publicationName, remote );
         }
+
+        getLogger().debug( "Published " + publicationName );
     }
 
     public void unpublish( final String publicationName )
@@ -85,5 +89,7 @@ public class DefaultRMIfication
 
             m_remoteObjects.remove( publicationName );
         }
+
+        getLogger().debug( "Unpublished " + publicationName );
     }
 }

@@ -8,6 +8,7 @@
 package org.apache.avalon.cornerstone.services.rmification;
 
 import java.rmi.Remote;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -21,54 +22,60 @@ import org.apache.avalon.phoenix.BlockEvent;
 import org.apache.avalon.phoenix.BlockListener;
 
 /**
- * FIXME: INPROGRESS
+ * FIXME: INPROGRESS and NOT TESTED
  *
  * @author <a href="mailto:colus@isoft.co.kr">Eung-ju Park</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class RMIficationListener
-    implements org.apache.avalon.framework.configuration.Configurable, BlockListener
+    implements Configurable, BlockListener
 {
     private String m_publisherName;
     private RMIfication m_publisher;
-    private java.util.Map m_publications;
-    private java.util.List m_queue;
+    private Map m_publications;
+    private List m_queue;
 
-    public void configure( final org.apache.avalon.framework.configuration.Configuration configuration )
-        throws org.apache.avalon.framework.configuration.ConfigurationException
+    public void configure( final Configuration configuration )
+        throws ConfigurationException
     {
         m_publisherName = configuration.getChild( "publisher" ).getValue( "rmification" );
 
-        m_publications = new java.util.HashMap();
-        final org.apache.avalon.framework.configuration.Configuration[] confs = configuration.getChildren( "publish" );
+        m_publications = new HashMap();
+        final Configuration[] confs = configuration.getChildren( "publish" );
         for ( int i = 0; i < confs.length; i++ )
         {
-            final org.apache.avalon.framework.configuration.Configuration conf = confs[ i ];
+            final Configuration conf = confs[ i ];
 
-            final String blockName = conf.getAttribute( "remote" );
+            final String blockName = conf.getAttribute( "block" );
             final String name = conf.getAttribute( "name", blockName );
 
             m_publications.put( name, blockName );
         }
+
+        m_queue = new ArrayList();
     }
 
-    public void blockAdded( final org.apache.avalon.phoenix.BlockEvent event )
+    public void blockAdded( final BlockEvent event )
     {
+        System.out.println( "Block " + event.getName() + " added" );
+
         if ( m_publisherName.equals( event.getName() ) )
         {
+            System.out.println( "Found publisher" );
+
             m_publisher = (RMIfication)event.getBlock();
             for ( int i = 0; i < m_queue.size(); i++ )
             {
-                final org.apache.avalon.phoenix.BlockEvent queued = (org.apache.avalon.phoenix.BlockEvent)m_queue.get( i );
+                final BlockEvent queued = (BlockEvent)m_queue.get( i );
                 publishBlock( event );
             }
             m_queue.clear();
             m_queue = null;
         }
 
-        if ( m_publications.containsKey( event.getName() ) )
+        if ( m_publications.containsValue( event.getName() ) )
         {
-            if ( event.getBlock() instanceof java.rmi.Remote )
+            if ( event.getBlock() instanceof Remote )
             {
                 publishBlock( event );
             }
@@ -79,9 +86,11 @@ public class RMIficationListener
         }
     }
 
-    public void blockRemoved( final org.apache.avalon.phoenix.BlockEvent event )
+    public void blockRemoved( final BlockEvent event )
     {
-        if ( event.getBlock() instanceof java.rmi.Remote )
+        System.out.println( "Block " + event.getName() + " added" );
+
+        if ( event.getBlock() instanceof Remote )
         {
             unpublishBlock( event );
         }
@@ -92,45 +101,45 @@ public class RMIficationListener
         return null != m_publisher;
     }
 
-    private void publishBlock( final org.apache.avalon.phoenix.BlockEvent event )
+    private void publishBlock( final BlockEvent event )
     {
-        if ( !isPublisherReady() )
+        if ( ! isPublisherReady() )
         {
             m_queue.add( event );
             return;
         }
 
-        final org.apache.avalon.phoenix.Block block = event.getBlock();
+        final Block block = event.getBlock();
         final String blockName = event.getName();
 
-        final java.util.Iterator entries = m_publications.entrySet().iterator();
+        final Iterator entries = m_publications.entrySet().iterator();
         while ( entries.hasNext() )
         {
-            final java.util.Map.Entry entry = (java.util.Map.Entry)entries.next();
+            final Map.Entry entry = (Map.Entry)entries.next();
 
             if ( entry.getValue().equals( blockName ) )
             {
                 try
                 {
-                    m_publisher.publish( (java.rmi.Remote)block, (String)entry.getKey() );
+                    m_publisher.publish( (Remote)block, (String)entry.getKey() );
                 }
                 catch ( final Exception e )
                 {
-                    throw new org.apache.avalon.framework.CascadingRuntimeException( "", e );
+                    throw new CascadingRuntimeException( "Unable to publish " + entry.getKey(), e );
                 }
             }
         }
     }
 
-    private void unpublishBlock( final org.apache.avalon.phoenix.BlockEvent event )
+    private void unpublishBlock( final BlockEvent event )
     {
-        final org.apache.avalon.phoenix.Block block = event.getBlock();
+        final Block block = event.getBlock();
         final String blockName = event.getName();
 
-        final java.util.Iterator entries = m_publications.entrySet().iterator();
+        final Iterator entries = m_publications.entrySet().iterator();
         while ( entries.hasNext() )
         {
-            final java.util.Map.Entry entry = (java.util.Map.Entry)entries.next();
+            final Map.Entry entry = (Map.Entry)entries.next();
 
             if ( entry.getValue().equals( blockName ) )
             {
@@ -140,7 +149,7 @@ public class RMIficationListener
                 }
                 catch ( final Exception e )
                 {
-                    throw new org.apache.avalon.framework.CascadingRuntimeException( "", e );
+                    throw new CascadingRuntimeException( "Fail to unpublish " + entry.getKey(), e );
                 }
             }
         }
