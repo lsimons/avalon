@@ -75,7 +75,7 @@ import org.apache.avalon.framework.configuration.DefaultConfiguration;
  *   </li>
  * </ol>
  *
- * @see org.apache.excalibur.configuration.merged.ConfigurationSplitter
+ * @see ConfigurationSplitter
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
  */
 public class ConfigurationMerger
