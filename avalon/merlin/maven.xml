@@ -580,7 +580,7 @@
       basedir="${basedir}"
       includes="platform/tutorials/**/project.xml"
       excludes="platform/tutorials/project.xml,**/target/**"
-      goals=""
+      goals="jar:install"
       banner="Validate:"
       ignoreFailures="false" />
   </goal>

@@ -17,12 +17,14 @@
 
 package tutorial;
 
-import org.apache.avalon.activation.lifecycle.LifecycleCreateExtension;
+import org.apache.avalon.composition.model.LifecycleCreateExtension;
 import org.apache.avalon.composition.model.ComponentModel;
+
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
+
 import org.apache.avalon.meta.info.StageDescriptor;
 
 /**
