@@ -10,7 +10,14 @@
     <person name="Jeff Turner" email="jefft@apache.org" id="JT"/>
     <person name="Paul Hammant" email="hammant@apache.org" id="PH"/>
   </devs>
-  <release version="4.1" date="November 7, 2001">
+  <release version="4.1.1" date="December 21, 2001">
+    <action dev="BL" type="fix">
+      Force build process to produce JDK 1.2 compliant class files.
+      The last release had JDK 1.4 compliant class files, causing
+      some classloaders to not work with the Framework.
+    </action>
+  </release>
+  <release version="4.1" date="December 12, 2001">
     <action dev="JT" type="update">
       Improve and update the configuration javadocs to reflect the new
       namespace support.
