@@ -20,7 +20,7 @@
     <name>Avalon LogKit</name>
     <id>avalon-logkit</id>
     <groupId>avalon-logkit</groupId>
-    <currentVersion>2.0.dev-1</currentVersion>
+    <currentVersion>2.0.0</currentVersion>
     <inceptionYear>2003</inceptionYear>
     
     <shortDescription>The Avalon LogKit logging utility</shortDescription>
@@ -185,16 +185,10 @@ Avalon LogKit is the logging utility used by default in all Avalon systems.
         </includes>
       </resource>
       <resource>
-        <directory>${basedir}/../</directory>
+        <directory>${basedir}</directory>
         <includes>
           <include>LICENSE.txt</include>
-        </includes>
-      </resource>
-      <resource>
-        <directory>${maven.conf.dir}</directory>
-        <targetPath>BLOCK-INF</targetPath>
-        <includes>
-          <include>block.xml</include>
+          <include>NOTICE.TXT</include>
         </includes>
       </resource>
     </resources>
