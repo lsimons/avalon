@@ -1,15 +1,15 @@
 
 <kernel>
 
-   <logging target="default">
+   <logging target="default" priority="DEBUG">
       <category name="/sys/logger" priority="WARN"/>
       <target name="kernel">
         <file location="kernel.log" />
       </target>
    </logging>
 
-   <categories priority="DEBUG">
-     <category priority="DEBUG"  name="/sys" />
+   <categories>
+      <category name="/sys" priority="INFO"/>
    </categories>
 
    <engine>
