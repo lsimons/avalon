@@ -30,10 +30,10 @@ of Phoenix.</abstract>
         components and creating a server.
       </para>
       <para>
-        In order to see Avalon Phoenix at work, you should grab the example
-        applications or servers that are included in Avalon Cornerstone.
+        In order to see Avalon-Phoenix at work, you should grab the one of the 
+        demo applications or servers that are included in Avalon-Apps.
         <ulink uri="http://jakarta.apache.org/james/">Apache James</ulink>
-        uses Phoenix for it's mail server.
+        is a production ready mail server that sits on Phoenix.
       </para>
     </description>
     <changes version="@version@" file="changes.xml"/>
