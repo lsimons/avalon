@@ -24,6 +24,8 @@ import org.apache.log.*;
  * 'subformat' indicates a particular subformat and is currently unused.
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
+ * @version CVS $Revision: 1.10 $ $Date: 2001/07/26 15:54:41 $
  */
 public class PatternFormatter
     implements Formatter
@@ -316,55 +318,88 @@ public class PatternFormatter
     {
         final StringBuffer sb = new StringBuffer();
 
-        String str = null;
-
         for( int i = 0; i < m_formatSpecification.length; i++ )
         {
             final PatternRun run = m_formatSpecification[ i ];
 
-            switch( run.m_type )
-            {
             //treat text differently as it doesn't need min/max padding
-            case TYPE_TEXT: sb.append( run.m_data ); continue;
-
-            case TYPE_RELATIVE_TIME:
-                str = getTime( event.getRelativeTime(), run.m_format );
-                break;
-
-            case TYPE_TIME:
-                str = getTime( event.getTime(), run.m_format );
-                break;
-
-            case TYPE_THROWABLE:
-                str = getStackTrace( event.getThrowable(), run.m_format );
-                break;
-
-            case TYPE_MESSAGE:
-                str = getMessage( event.getMessage(), run.m_format );
-                break;
-
-            case TYPE_CONTEXT:
-                str = getContext( event.getContextStack(), run.m_format );
-                break;
-
-            case TYPE_CATEGORY:
-                str = getCategory( event.getCategory(), run.m_format );
-                break;
-
-            case TYPE_PRIORITY:
-                str = getPriority( event.getPriority(), run.m_format );
-                break;
-
-            default:
-                //TODO: Convert next line to use error handler
-                Hierarchy.getDefaultHierarchy().log( "Unknown Pattern specification." + run.m_type );
-                continue;
+            if( run.m_type == TYPE_TEXT )
+            {
+                sb.append( run.m_data );
             }
+            else
+            {
+                final String data = formatPatternRun( event, run );
 
-            append( sb, run.m_minSize, run.m_maxSize, run.m_rightJustify, str );
+                if( null != data )
+                {
+                    append( sb, run.m_minSize, run.m_maxSize, run.m_rightJustify, data );
+                }
+            }
         }
 
         return sb.toString();
+    }
+
+    /**
+     * Formats a single pattern run (can be extended in subclasses).
+     *
+     * @param  run the pattern run to format.
+     * @return the formatted result.
+     */
+    protected String formatPatternRun( final LogEvent event, final PatternRun run )
+    {
+        String str = null;
+
+        switch( run.m_type )
+        {
+        case TYPE_RELATIVE_TIME:
+            str = getTime( event.getRelativeTime(), run.m_format );
+            break;
+
+        case TYPE_TIME:
+            str = getTime( event.getTime(), run.m_format );
+            break;
+
+        case TYPE_THROWABLE:
+            str = getStackTrace( event.getThrowable(), run.m_format );
+            break;
+
+        case TYPE_MESSAGE:
+            str = getMessage( event.getMessage(), run.m_format );
+            break;
+
+        case TYPE_CONTEXT:
+            str = getContext( event.getContextStack(), run.m_format );
+            break;
+
+        case TYPE_CATEGORY:
+            str = getCategory( event.getCategory(), run.m_format );
+            break;
+
+        case TYPE_PRIORITY:
+            str = getPriority( event.getPriority(), run.m_format );
+            break;
+
+        default:
+            //TODO: Convert next line to use error handler
+            Hierarchy.getDefaultHierarchy().log( "Unknown Pattern specification." + run.m_type );
+        }
+
+        return str;
+    }
+
+
+    /**
+     * Utility method for extended options.
+     *
+     * @param event the log event
+     * @param format ancilliary format parameter - allowed to be null
+     * @return the formatted string
+     */
+    protected String getExtension( final LogEvent event, final String format )
+    {
+        return null;
     }
 
     /**
@@ -409,20 +444,6 @@ public class PatternFormatter
         }
 
         return stack.toString( sizeSpecification );
-/*
-        final int end = size - 1;
-        final int start = Math.max( end - sizeSpecification + 1, 0 );
-
-        for( int i = start; i < end; i++ )
-        {
-            sb.append( fix( stack.get( i ).toString() ) );
-            sb.append( '.' );
-        }
-
-        sb.append( stack.get( end ) );
-
-        return sb.toString();
-*/
     }
 
     /**
