@@ -157,7 +157,7 @@ class CLISetup
         {
             final CLOption option = (CLOption)clOptions.get( i );
 
-            switch( option.getId() )
+            switch( option.getDescriptor().getId() )
             {
                 case 0:
                     {
