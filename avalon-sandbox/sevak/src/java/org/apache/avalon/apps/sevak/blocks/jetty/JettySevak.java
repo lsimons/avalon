@@ -150,17 +150,18 @@ public class JettySevak extends AbstractLogEnabled implements Sevak, Startable, 
     /**
      * Deploy a webapp
      * @param context the contxct for the webapp
-     * @param pathToWebAppFolder the pathc to it
+     * @param pathToWebAppFolder the path to it
      * @throws SevakException if a problem
      */
     public void deploy(String context, File pathToWebAppFolder) throws SevakException
     {
 
+        String webAppURL = null;
+
         try
         {
-            String webAppURL = pathToWebAppFolder.toURL().toString();
+            webAppURL = pathToWebAppFolder.toURL().toString();
             // This still does not work.
-//            WebApplicationContext ctx = m_server.addWebApplication(m_hostName, context, webAppURL);
 
             WebApplicationContext ctx =
                 new SevakWebApplicationContext(m_serviceManager, m_sarRootDir, webAppURL);
@@ -176,7 +177,7 @@ public class JettySevak extends AbstractLogEnabled implements Sevak, Startable, 
         }
         catch (Exception e)
         {
-            throw new SevakException("Problem deploying web application in Jetty", e);
+            throw new SevakException("Problem deploying web application (" + webAppURL + ") in Jetty", e);
         }
     }
 
