@@ -25,6 +25,12 @@
         <pathelement path="${java.class.path}"/>
     </path>
 
+    <path id="src.path">
+        <pathelement path="${java.dir}"/>
+        <pathelement path="${client.dir}"/>
+        <pathelement path="${manager.dir}"/>
+    </path>
+
     <path id="tools.class.path">
         <pathelement location="${junit.jar}"/>
         <pathelement location="${tools.jar}"/>
@@ -148,9 +154,9 @@
             target="1.2">
             <classpath>
               <path refid="test.class.path" />
-              <pathelement path="${java.dir}"/>
-              <pathelement path="${client.dir}"/>
-              <pathelement path="${manager.dir}"/>
+              <pathelement path="${build.client.classes}"/>
+              <pathelement path="${build.manager.classes}"/>
+              <pathelement path="${build.classes}"/>
             </classpath>
             <include name="**/*.java"/>
         </javac>
@@ -233,9 +239,14 @@
 
         <mkdir dir="${dist.javadocs}"/>
         <javadoc packagenames="org.apache.*"
-            sourcepath="${java.dir},${client.dir},${manager.dir}"
+            sourcepathref="src.path"
             destdir="${dist.javadocs}">
-            <classpath refid="project.class.path" />
+            <classpath>
+              <path refid="test.class.path" />
+              <pathelement path="${build.client.classes}"/>
+              <pathelement path="${build.manager.classes}"/>
+              <pathelement path="${build.classes}"/>
+            </classpath>
             <doclet name="com.sun.tools.doclets.standard.Standard">
                 <param name="-author"/>
                 <param name="-version"/>
