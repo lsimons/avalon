@@ -89,6 +89,7 @@ Legal:
     <pathelement location="${logkit.jar}"/>
     <pathelement location="${xalan.jar}"/>
     <pathelement location="${xerces.jar}"/>
+    <pathelement location="${testlet.jar}"/>
     <pathelement path="${java.class.path}" />
     <fileset dir="${lib.dir}">
       <include name="*.jar" />
