@@ -52,10 +52,9 @@ package org.apache.avalon.fortress.impl.lookup.test;
 import junit.framework.TestCase;
 import org.apache.avalon.fortress.Container;
 import org.apache.avalon.fortress.impl.AbstractContainer;
-import org.apache.avalon.fortress.impl.handler.ComponentHandler;
 import org.apache.avalon.fortress.impl.lookup.FortressServiceManager;
 import org.apache.avalon.fortress.impl.lookup.FortressServiceSelector;
-import org.apache.avalon.fortress.test.data.Component1;
+import org.apache.avalon.fortress.impl.test.TestComponentHandler;
 import org.apache.avalon.fortress.test.data.Role1;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceSelector;
@@ -180,29 +179,4 @@ class TestContainer implements Container
 
         return exists;
     }
-}
-
-class TestComponentHandler implements ComponentHandler
-{
-    Object m_component = new Component1();
-
-    public Class getComponentClass()
-    {
-        return m_component.getClass();
-    }
-
-    public void prepareHandler() throws Exception
-    {
-    }
-
-    public Object get() throws Exception
-    {
-        return m_component;
-    }
-
-    public void put( Object component )
-    {
-        // do nothing
-    }
-
 }
