@@ -22,7 +22,7 @@ import org.apache.avalon.phoenix.metadata.BlockMetaData;
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  * @author <a href="mailto:Paul_Hammant@yahoo.com">Paul Hammant</a>
  */
-final class ApplicationListenerSupport
+final class ListenerSupport
 {
     //Set of block listeners. Must be accessed from synchronized code
     private BlockListener[] m_blockListeners = new BlockListener[ 0 ];

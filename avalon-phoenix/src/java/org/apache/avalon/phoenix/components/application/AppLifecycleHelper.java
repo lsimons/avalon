@@ -43,8 +43,8 @@ class AppLifecycleHelper
     /**
      * Object to support notification of ApplicationListeners.
      */
-    private ApplicationListenerSupport m_listenerSupport =
-        new ApplicationListenerSupport();
+    private ListenerSupport m_listenerSupport =
+        new ListenerSupport();
 
     private final LifecycleHelper m_lifecycleHelper = new LifecycleHelper();
     private final ExportHelper m_exportHelper = new ExportHelper();
@@ -128,7 +128,7 @@ class AppLifecycleHelper
         }
     }
 
-    ApplicationListenerSupport getAppListenerSupport()
+    ListenerSupport getAppListenerSupport()
     {
         return m_listenerSupport;
     }
