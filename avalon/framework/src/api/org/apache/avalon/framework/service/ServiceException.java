@@ -22,15 +22,41 @@ import org.apache.avalon.framework.CascadingException;
 public class ServiceException
     extends CascadingException
 {
+    final private String m_role;
+
+    /**
+     * Construct a new <code>ComponentException</code> instance.
+     *
+     * @deprecated use the String,String,Throwable version instead
+     * @param message the exception message
+     * @param throwable the throwable
+     */
+    public ServiceException( final String message, final Throwable throwable )
+    {
+        this( null, message, throwable );
+    }
+
     /**
      * Construct a new <code>ComponentException</code> instance.
      *
      * @param message the exception message
      * @param throwable the throwable
      */
-    public ServiceException( final String message, final Throwable throwable )
+    public ServiceException( final String role, final String message, final Throwable throwable )
     {
         super( message, throwable );
+        m_role = role;
+    }
+
+    /**
+     * Construct a new <code>ComponentException</code> instance.
+     *
+     * @deprecated use the String,String version instead
+     * @param message the exception message
+     */
+    public ServiceException( final String message )
+    {
+        this( null, message, null );
     }
 
     /**
@@ -38,8 +64,16 @@ public class ServiceException
      *
      * @param message the exception message
      */
-    public ServiceException( final String message )
+    public ServiceException( final String role, final String message )
     {
-        super( message, null );
+        this( role, message, null );
+    }
+    
+    /**
+     * Return the role that caused the exception
+     */
+    public String getRole()
+    {
+        return m_role;
     }
 }
