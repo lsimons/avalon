@@ -209,6 +209,20 @@
     </dependencies>
   </project>
 
+  <project basedir="docs">
+    <info>
+      <group>metro/studio/docs</group>
+      <name>metro-studio-docs</name>
+      <version>1.0.0</version>
+      <status>SNAPSHOT</status> 
+    </info>
+    <dependencies>
+      <include key="eclipse-core-runtime"/>
+      <include key="eclipse-ui-plugin-workbench"/>
+      <include key="eclipse-osgi"/>
+    </dependencies>
+  </project>
+  
   <project basedir="launch">
     <info>
       <group>metro/studio/launch</group>
@@ -225,6 +239,19 @@
     </dependencies>
   </project>
 
+  <project basedir="test">
+    <info>
+      <group>metro/studio/test</group>
+      <name>metro-studio-test</name>
+      <version>1.0.0</version>
+      <status>SNAPSHOT</status> 
+    </info>
+    <dependencies>
+      <include key="eclipse-core-resources"/>
+      <include key="metro-studio-core"/>
+    </dependencies>
+  </project>
+  
   <project basedir="ui">
     <info>
       <group>metro/studio/ui</group>
