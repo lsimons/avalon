@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.avalon.logging.provider;
+package org.apache.avalon.logging.impl;
 
 import org.apache.avalon.framework.logger.Logger;
 
@@ -23,7 +23,7 @@ import org.apache.avalon.framework.logger.Logger;
  * does not have a logger to supply.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.1 $ $Date: 2004/02/29 22:32:41 $
+ * @version CVS $Revision: 1.1 $ $Date: 2004/03/01 13:39:28 $
  */
 public final class ConsoleLogger
     implements Logger
