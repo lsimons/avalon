@@ -78,7 +78,7 @@ import org.apache.excalibur.mpool.PoolManager;
  * See that interface for a description.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.18 $ $Date: 2003/05/22 14:56:07 $
+ * @version CVS $Revision: 1.19 $ $Date: 2003/05/23 17:31:20 $
  */
 public class DefaultContainerManager
     implements Initializable, Disposable, org.apache.avalon.fortress.ContainerManager, org.apache.avalon.fortress.ContainerManagerConstants
@@ -203,11 +203,11 @@ public class DefaultContainerManager
 
         try
         {
+            final Context implContext = m_contextManager.getChildContext();
             ContainerUtil.enableLogging( instance, m_logger );
-            ContainerUtil.contextualize( instance, managerContext );
+            ContainerUtil.contextualize( instance, implContext );
 
-            final ServiceManager serviceManager =
-                createServiceManager( managerContext );
+            final ServiceManager serviceManager = createServiceManager( implContext );
 
             ContainerUtil.service( instance, serviceManager );
 
