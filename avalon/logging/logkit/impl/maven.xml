@@ -4,21 +4,6 @@
     <attainGoal name="avalon:artifact"/>
   </postGoal>
 
-  <postGoal name="java:compile">
-    <ant:echo file="${maven.build.dir}/classes/avalon.logging.properties">
-#===================================================================#
-# Default logging implementation properties                         #
-#===================================================================#
-
-#
-# No properties are defined at this time.
-#
-#
-# EOF
-#
-</ant:echo>
-  </postGoal>
-
   <postGoal name="jar:install">
     <ant:copy verbose="yes"
        toDir="${maven.repo.local}/${pom.groupId}/jars" 

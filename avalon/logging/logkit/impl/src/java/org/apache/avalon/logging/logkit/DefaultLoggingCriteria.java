@@ -53,7 +53,7 @@ import org.apache.excalibur.configuration.ConfigurationUtil;
  * for application to a LoggingManager factory.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class DefaultLoggingCriteria extends Criteria 
   implements LoggingCriteria
@@ -126,19 +126,20 @@ public class DefaultLoggingCriteria extends Criteria
             final String key = context.getApplicationKey();
             final File work = context.getInitialWorkingDirectory();
             DefaultsBuilder builder = new DefaultsBuilder( key, work );
-            Properties bootstrap = 
-              Defaults.getStaticProperties( 
-                DefaultLoggingCriteria.class, DEFAULTS );
+            Properties defaults = 
+              Defaults.getStaticProperties( DefaultLoggingCriteria.class );
+
+            final String[] keys = super.getKeys();
             Properties properties = 
-              builder.getConsolidatedProperties( bootstrap, KEYS );
+              builder.getConsolidatedProperties( defaults, keys );
 
             //
             // apply any non-null properties to the criteria
             //
 
-            for( int i=0; i<KEYS.length; i++ )
+            for( int i=0; i<keys.length; i++ )
             {
-                final String propertyKey = KEYS[i];
+                final String propertyKey = keys[i];
                 final String value = properties.getProperty( propertyKey );
                 if( null != value )
                 {
@@ -149,8 +150,7 @@ public class DefaultLoggingCriteria extends Criteria
         catch ( IOException e )
         {
             throw new LoggingRuntimeException( 
-             "Failed to load implementation defaults resource: "
-             + DEFAULTS, e );
+             "Failed to load implementation default resources.", e );
         }
     }
 
