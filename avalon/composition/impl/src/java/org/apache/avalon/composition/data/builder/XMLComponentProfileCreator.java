@@ -25,10 +25,18 @@ import org.apache.avalon.logging.data.CategoryDirective;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
+
 import org.apache.avalon.composition.data.ComponentProfile;
+import org.apache.avalon.composition.data.ConstructorDirective;
+import org.apache.avalon.composition.data.ContextDirective;
 import org.apache.avalon.composition.data.DependencyDirective;
+import org.apache.avalon.composition.data.EntryDirective;
+import org.apache.avalon.composition.data.ImportDirective;
+import org.apache.avalon.composition.data.Mode;
+import org.apache.avalon.composition.data.Parameter;
 import org.apache.avalon.composition.data.SelectionDirective;
-import org.apache.avalon.composition.data.*;
+import org.apache.avalon.composition.data.StageDirective;
+
 import org.apache.avalon.meta.info.InfoDescriptor;
 
 import org.apache.excalibur.configuration.ConfigurationUtil;
@@ -36,7 +44,7 @@ import org.apache.excalibur.configuration.ConfigurationUtil;
 /**
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2004/02/22 16:12:58 $
+ * @version $Revision: 1.5 $ $Date: 2004/03/08 11:28:36 $
  */
 public class XMLComponentProfileCreator extends XMLProfileCreator
 {

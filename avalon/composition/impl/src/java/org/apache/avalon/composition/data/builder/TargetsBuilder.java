@@ -19,12 +19,15 @@ package org.apache.avalon.composition.data.builder;
 
 import java.io.InputStream;
 
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.avalon.meta.ConfigurationBuilder;
 import org.apache.avalon.composition.data.Targets;
 import org.apache.avalon.composition.data.builder.TargetsCreator;
+
+import org.apache.avalon.framework.configuration.Configuration;
+
+import org.apache.avalon.meta.ConfigurationBuilder;
+
+import org.apache.avalon.util.i18n.ResourceManager;
+import org.apache.avalon.util.i18n.Resources;
 
 import org.xml.sax.InputSource;
 
@@ -34,7 +37,7 @@ import org.xml.sax.InputSource;
  * objects from a configuration object.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2004/01/24 23:25:27 $
+ * @version $Revision: 1.5 $ $Date: 2004/03/08 11:28:36 $
  */
 public final class TargetsBuilder implements TargetsCreator
 {

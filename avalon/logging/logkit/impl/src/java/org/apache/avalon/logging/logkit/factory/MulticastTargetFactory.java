@@ -24,8 +24,14 @@ import java.net.UnknownHostException;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
+import org.apache.avalon.logging.logkit.LogTargetException;
+import org.apache.avalon.logging.logkit.LogTargetFactory;
+import org.apache.avalon.logging.logkit.LogTargetManager;
+import org.apache.avalon.logging.logkit.MissingIdException;
+import org.apache.avalon.logging.logkit.UnknownLogTargetException;
+
+import org.apache.avalon.util.i18n.ResourceManager;
+import org.apache.avalon.util.i18n.Resources;
 
 import org.apache.log.LogTarget;
 import org.apache.log.LogEvent;
@@ -35,19 +41,12 @@ import org.apache.log.format.PatternFormatter;
 import org.apache.log.format.RawFormatter;
 import org.apache.log.output.net.DatagramOutputTarget;
 
-import org.apache.avalon.logging.logkit.LogTargetException;
-import org.apache.avalon.logging.logkit.LogTargetFactory;
-import org.apache.avalon.logging.logkit.LogTargetManager;
-import org.apache.avalon.logging.logkit.MissingIdException;
-import org.apache.avalon.logging.logkit.UnknownLogTargetException;
-
-
 /**
  * A log target factory that handles creation of a new multicast log
  * target instances.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/02/24 21:55:39 $
+ * @version $Revision: 1.3 $ $Date: 2004/03/08 11:32:01 $
  */
 public class MulticastTargetFactory implements LogTargetFactory
 {

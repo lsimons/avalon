@@ -50,14 +50,14 @@ import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.parameters.Parameters;
 
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
+import org.apache.avalon.util.i18n.ResourceManager;
+import org.apache.avalon.util.i18n.Resources;
 
 /**
  * Implementation of a system context that exposes a system wide set of parameters.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.27 $ $Date: 2004/03/07 22:10:39 $
+ * @version $Revision: 1.28 $ $Date: 2004/03/08 11:28:36 $
  */
 public class DefaultSystemContext extends DefaultContext 
   implements SystemContext

@@ -24,11 +24,11 @@ import java.net.UnknownHostException;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
-
 import org.apache.avalon.logging.logkit.LogTargetFactory;
 import org.apache.avalon.logging.logkit.LogTargetException;
+
+import org.apache.avalon.util.i18n.ResourceManager;
+import org.apache.avalon.util.i18n.Resources;
 
 import org.apache.log.LogTarget;
 import org.apache.log.output.net.SocketOutputTarget;
@@ -53,7 +53,7 @@ import org.apache.log.output.net.SocketOutputTarget;
  *
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/02/24 21:55:40 $
+ * @version $Revision: 1.4 $ $Date: 2004/03/08 11:32:01 $
  */
 public class SocketTargetFactory implements LogTargetFactory
 {

@@ -53,19 +53,21 @@ import org.apache.avalon.composition.provider.ClassLoaderContext;
 
 import org.apache.avalon.composition.util.StringHelper;
 
-import org.apache.avalon.repository.Artifact;
-import org.apache.avalon.repository.Repository;
-
 import org.apache.avalon.extension.Extension;
 import org.apache.avalon.extension.manager.ExtensionManager;
 import org.apache.avalon.extension.manager.OptionalPackage;
 import org.apache.avalon.extension.manager.PackageManager;
 import org.apache.avalon.extension.manager.impl.DefaultExtensionManager;
 import org.apache.avalon.extension.manager.impl.DelegatingExtensionManager;
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
+
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
+
+import org.apache.avalon.repository.Artifact;
+import org.apache.avalon.repository.Repository;
+
+import org.apache.avalon.util.i18n.ResourceManager;
+import org.apache.avalon.util.i18n.Resources;
 
 /**
  * <p>Implementation of a classloader model within which a 
@@ -94,7 +96,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * and the extensions package.
  * </p>
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.12 $ $Date: 2004/02/29 22:25:26 $
+ * @version $Revision: 1.13 $ $Date: 2004/03/08 11:28:36 $
  */
 public class DefaultClassLoaderModel extends AbstractLogEnabled 
     implements ClassLoaderModel

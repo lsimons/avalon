@@ -38,21 +38,21 @@ import org.apache.avalon.composition.model.ModelSelector;
 import org.apache.avalon.composition.model.ProfileSelector;
 import org.apache.avalon.composition.provider.ContainmentContext;
 
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
-
 import org.apache.avalon.meta.info.Type;
 import org.apache.avalon.meta.info.DependencyDescriptor;
 import org.apache.avalon.meta.info.ServiceDescriptor;
 import org.apache.avalon.meta.info.ReferenceDescriptor;
 import org.apache.avalon.meta.info.StageDescriptor;
 
+import org.apache.avalon.util.i18n.ResourceManager;
+import org.apache.avalon.util.i18n.Resources;
+
 /**
  * A utility class that assists in the location of a model relative
  * a supplied path.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2004/03/07 22:10:39 $
+ * @version $Revision: 1.6 $ $Date: 2004/03/08 11:28:36 $
  */
 class DefaultContainmentModelAssemblyHelper
 {

@@ -33,18 +33,18 @@ import org.apache.avalon.composition.provider.SecurityModel;
 import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.Logger;
 
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
-
 import org.apache.avalon.meta.info.DependencyDescriptor;
 import org.apache.avalon.meta.info.StageDescriptor;
+
+import org.apache.avalon.util.i18n.ResourceManager;
+import org.apache.avalon.util.i18n.Resources;
 
 
 /**
  * Implementation of a containment supplied to a containment model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.6 $ $Date: 2004/02/29 22:25:26 $
+ * @version $Revision: 1.7 $ $Date: 2004/03/08 11:28:36 $
  */
 public class DefaultContainmentContext extends DefaultDeploymentContext 
   implements ContainmentContext

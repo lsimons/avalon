@@ -25,8 +25,8 @@ import org.apache.avalon.composition.model.EntryModel;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
 
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
+import org.apache.avalon.util.i18n.ResourceManager;
+import org.apache.avalon.util.i18n.Resources;
 
 /**
  * <p>Default implementation of a context object.  The implementation
@@ -35,7 +35,7 @@ import org.apache.avalon.excalibur.i18n.Resources;
  * the request to an assigned model.</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.7 $ $Date: 2004/02/25 22:54:09 $
+ * @version $Revision: 1.8 $ $Date: 2004/03/08 11:28:36 $
  */
 public final class DefaultContext implements Context
 {

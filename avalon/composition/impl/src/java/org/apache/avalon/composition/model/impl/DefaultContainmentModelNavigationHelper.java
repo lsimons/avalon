@@ -21,15 +21,15 @@ import org.apache.avalon.composition.model.ContainmentModel;
 import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.provider.ContainmentContext;
 
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
+import org.apache.avalon.util.i18n.ResourceManager;
+import org.apache.avalon.util.i18n.Resources;
 
 /**
  * A utility class that assists in the location of a model relative
  * a supplied path.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/02/10 16:23:33 $
+ * @version $Revision: 1.3 $ $Date: 2004/03/08 11:28:36 $
  */
 class DefaultContainmentModelNavigationHelper
 {

@@ -24,20 +24,20 @@ import org.apache.avalon.composition.model.ModelException;
 import org.apache.avalon.composition.data.DependencyDirective;
 import org.apache.avalon.composition.data.SelectionDirective;
 
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
-
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.Logger;
 
 import org.apache.avalon.meta.info.DependencyDescriptor;
 import org.apache.avalon.meta.info.ServiceDescriptor;
 
+import org.apache.avalon.util.i18n.ResourceManager;
+import org.apache.avalon.util.i18n.Resources;
+
 /**
  * Default implementation of the deplendency model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.7 $ $Date: 2004/02/10 16:23:33 $
+ * @version $Revision: 1.8 $ $Date: 2004/03/08 11:28:36 $
  */
 public class DefaultDependencyModel extends DefaultDependent implements DependencyModel
 {

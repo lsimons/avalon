@@ -57,9 +57,6 @@ import org.apache.avalon.logging.data.CategoriesDirective;
 
 import org.apache.avalon.repository.Repository;
 
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
-
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
@@ -67,11 +64,14 @@ import org.apache.avalon.framework.logger.Logger;
 
 import org.apache.avalon.meta.info.Type;
 
+import org.apache.avalon.util.i18n.ResourceManager;
+import org.apache.avalon.util.i18n.Resources;
+
 /**
  * A factory enabling the establishment of new composition model instances.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.12 $ $Date: 2004/03/07 03:02:42 $
+ * @version $Revision: 1.13 $ $Date: 2004/03/08 11:28:36 $
  */
 public class DefaultModelFactory
   implements ModelFactory

@@ -30,12 +30,12 @@ import org.apache.avalon.composition.model.Resolver;
 import org.apache.avalon.composition.model.TransientServiceException;
 import org.apache.avalon.composition.model.FatalServiceException;
 
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
-
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
+
+import org.apache.avalon.util.i18n.ResourceManager;
+import org.apache.avalon.util.i18n.Resources;
 
 /**
  * Default implementation of the framework {@link ServiceManager} interface.

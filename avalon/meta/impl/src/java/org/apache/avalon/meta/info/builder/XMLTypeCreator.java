@@ -20,11 +20,11 @@ package org.apache.avalon.meta.info.builder;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Properties;
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
+
 import org.apache.avalon.framework.Version;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
+
 import org.apache.avalon.meta.ConfigurationBuilder;
 import org.apache.avalon.meta.info.InfoDescriptor;
 import org.apache.avalon.meta.info.ContextDescriptor;
@@ -38,6 +38,10 @@ import org.apache.avalon.meta.info.StageDescriptor;
 import org.apache.avalon.meta.info.SecurityDescriptor;
 import org.apache.avalon.meta.info.PermissionDescriptor;
 import org.apache.avalon.meta.info.Type;
+
+import org.apache.avalon.util.i18n.ResourceManager;
+import org.apache.avalon.util.i18n.Resources;
+
 import org.apache.excalibur.configuration.ConfigurationUtil;
 import org.xml.sax.InputSource;
 
@@ -47,7 +51,7 @@ import org.xml.sax.InputSource;
  * is specified in the <a href="package-summary.html#external">package summary</a>.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.10 $ $Date: 2004/02/24 22:32:46 $
+ * @version $Revision: 1.11 $ $Date: 2004/03/08 11:24:52 $
  */
 public class XMLTypeCreator
     extends XMLServiceCreator implements TypeFactory

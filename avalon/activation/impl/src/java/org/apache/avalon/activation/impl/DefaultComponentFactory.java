@@ -46,9 +46,6 @@ import org.apache.avalon.composition.provider.SystemContext;
 
 import org.apache.avalon.meta.info.StageDescriptor;
 
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
-
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.activity.Executable;
@@ -69,12 +66,15 @@ import org.apache.avalon.lifecycle.Creator;
 
 import org.apache.avalon.repository.Artifact;
 
+import org.apache.avalon.util.i18n.ResourceManager;
+import org.apache.avalon.util.i18n.Resources;
+
 
 /**
  * A factory enabling the establishment of component instances.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2004/03/07 03:02:42 $
+ * @version $Revision: 1.6 $ $Date: 2004/03/08 11:28:35 $
  */
 public class DefaultComponentFactory implements ComponentFactory
 {

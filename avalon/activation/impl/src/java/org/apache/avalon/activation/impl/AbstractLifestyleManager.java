@@ -25,28 +25,27 @@ import java.lang.ref.ReferenceQueue;
 import org.apache.avalon.activation.LifecycleException;
 import org.apache.avalon.activation.ComponentFactory;
 
-
 import org.apache.avalon.composition.model.ComponentModel;
 import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.model.StageModel;
 import org.apache.avalon.composition.provider.LifestyleManager;
 
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
+import org.apache.avalon.framework.logger.Logger;
+import org.apache.avalon.framework.context.Context;
 
 import org.apache.avalon.lifecycle.Accessor;
 
 import org.apache.avalon.meta.info.InfoDescriptor;
 import org.apache.avalon.meta.info.StageDescriptor;
 
-import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.framework.context.Context;
+import org.apache.avalon.util.i18n.ResourceManager;
+import org.apache.avalon.util.i18n.Resources;
 
 /**
  * Abstract implentation class for a lifestyle handler.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2004/03/04 03:42:30 $
+ * @version $Revision: 1.5 $ $Date: 2004/03/08 11:28:35 $
  */
 public abstract class AbstractLifestyleManager implements LifestyleManager
 {

@@ -43,14 +43,14 @@ import org.apache.avalon.repository.provider.InitialContext;
 import org.apache.avalon.repository.provider.Factory;
 import org.apache.avalon.repository.util.RepositoryUtils;
 
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
+import org.apache.avalon.util.i18n.ResourceManager;
+import org.apache.avalon.util.i18n.Resources;
 
 /**
  * The default repository factory implementation.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  */
 public class DefaultFactory implements Factory
 {

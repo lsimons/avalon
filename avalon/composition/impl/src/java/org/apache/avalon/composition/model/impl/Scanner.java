@@ -33,9 +33,6 @@ import org.apache.avalon.composition.model.ModelException;
 import org.apache.avalon.composition.data.builder.ProfilePackageBuilder;
 import org.apache.avalon.composition.util.StringHelper;
 
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
-
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 
@@ -47,13 +44,15 @@ import org.apache.avalon.meta.info.builder.TypeBuilder;
 import org.apache.avalon.meta.info.builder.ServiceBuilder;
 import org.apache.avalon.meta.info.verifier.TypeVerifier;
 
+import org.apache.avalon.util.i18n.ResourceManager;
+import org.apache.avalon.util.i18n.Resources;
 import org.apache.avalon.util.exception.ExceptionHelper;
 
 /**
  * A repository for services, types and profiles.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.7 $ $Date: 2004/02/25 18:55:40 $
+ * @version $Revision: 1.8 $ $Date: 2004/03/08 11:28:36 $
  */
 class Scanner extends AbstractLogEnabled
 {

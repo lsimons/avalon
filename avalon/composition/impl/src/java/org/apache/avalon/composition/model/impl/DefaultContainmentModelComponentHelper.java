@@ -44,9 +44,6 @@ import org.apache.avalon.logging.data.CategoriesDirective;
 
 import org.apache.avalon.repository.Repository;
 
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
-
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
@@ -54,11 +51,14 @@ import org.apache.avalon.framework.logger.Logger;
 
 import org.apache.avalon.meta.info.Type;
 
+import org.apache.avalon.util.i18n.ResourceManager;
+import org.apache.avalon.util.i18n.Resources;
+
 /**
  * A utility class that handles creation of a component model context.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/02/29 22:25:26 $
+ * @version $Revision: 1.4 $ $Date: 2004/03/08 11:28:36 $
  */
 class DefaultContainmentModelComponentHelper
 {
