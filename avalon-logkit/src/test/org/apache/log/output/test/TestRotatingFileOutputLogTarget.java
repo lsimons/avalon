@@ -5,7 +5,7 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE file.
  */
-package org.apache.log.output.io.rotate;
+package org.apache.log.output.test;
 
 import java.io.File;
 import junit.framework.TestCase;
@@ -14,6 +14,12 @@ import org.apache.log.LogTarget;
 import org.apache.log.Logger;
 import org.apache.log.format.RawFormatter;
 import org.apache.log.output.io.rotate.RotatingFileTarget;
+import org.apache.log.output.io.rotate.FileStrategy;
+import org.apache.log.output.io.rotate.RevolvingFileStrategy;
+import org.apache.log.output.io.rotate.UniqueFileStrategy;
+import org.apache.log.output.io.rotate.RotateStrategy;
+import org.apache.log.output.io.rotate.RotateStrategyByTime;
+import org.apache.log.output.io.rotate.RotateStrategyBySize;
 
 /** 
  * 
