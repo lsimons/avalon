@@ -83,7 +83,7 @@ public class ArtifactURLConnection extends AbstractURLConnection
      */
      public Object getContent() throws IOException
      {
-         return super.getContent( "jar" );
+         return getContent( "jar" );
      }
 
     /**
