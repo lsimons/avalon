@@ -11,7 +11,7 @@
 
   <!-- services that are offered by this block -->
   <services>
-    <service name="org.apache.commons.altrmi.server.AltrmiAuthenticator" version="1.0" />
+    <service name="org.apache.excalibur.altrmi.server.AltrmiAuthenticator" version="1.0" />
   </services>
 
   <!-- services that are required by this block -->

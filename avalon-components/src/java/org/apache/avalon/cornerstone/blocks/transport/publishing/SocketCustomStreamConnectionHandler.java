@@ -13,14 +13,14 @@ import java.net.Socket;
 import org.apache.avalon.cornerstone.services.connection.ConnectionHandler;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.commons.altrmi.server.impl.socket.PartialSocketCustomStreamServer;
+import org.apache.excalibur.altrmi.server.impl.socket.PartialSocketCustomStreamServer;
 
 /**
  * Class SocketCustomStreamConnectionHandler
  *
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class SocketCustomStreamConnectionHandler extends AbstractLogEnabled
     implements Component, ConnectionHandler

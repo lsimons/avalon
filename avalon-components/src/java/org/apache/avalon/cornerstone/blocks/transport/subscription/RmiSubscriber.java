@@ -9,14 +9,14 @@ package org.apache.avalon.cornerstone.blocks.transport.subscription;
 
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.commons.altrmi.client.impl.rmi.RmiHostContext;
+import org.apache.excalibur.altrmi.client.impl.rmi.RmiHostContext;
 
 /**
  * Class RmiSubscriber
  *
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class RmiSubscriber extends AbstractSubscriber
 {

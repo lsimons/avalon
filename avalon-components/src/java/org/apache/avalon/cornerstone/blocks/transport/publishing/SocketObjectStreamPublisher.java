@@ -8,14 +8,14 @@
 package org.apache.avalon.cornerstone.blocks.transport.publishing;
 
 import org.apache.avalon.cornerstone.services.connection.ConnectionHandler;
-import org.apache.commons.altrmi.server.impl.socket.PartialSocketObjectStreamServer;
+import org.apache.excalibur.altrmi.server.impl.socket.PartialSocketObjectStreamServer;
 
 /**
  * Class SocketObjectStreamPublisher
  *
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class SocketObjectStreamPublisher extends AbstractStreamPublisher
 {

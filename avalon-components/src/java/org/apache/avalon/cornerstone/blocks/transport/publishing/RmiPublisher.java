@@ -9,14 +9,14 @@ package org.apache.avalon.cornerstone.blocks.transport.publishing;
 
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.commons.altrmi.server.impl.rmi.RmiServer;
+import org.apache.excalibur.altrmi.server.impl.rmi.RmiServer;
 
 /**
  * Class RmiPublisher
  *
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public class RmiPublisher extends AbstractPublisher
 {
