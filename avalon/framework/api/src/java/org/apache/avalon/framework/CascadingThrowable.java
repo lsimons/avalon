@@ -12,8 +12,14 @@ package org.apache.avalon.framework;
  * Allows recording of nested exceptions.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @version 1.0
  */
 public interface CascadingThrowable
 {
+    /**
+     * Returns the root cause of this <code>Throwable</code>.
+     *
+     * @return a <code>Throwable</code>
+     */
     Throwable getCause();
 }

@@ -19,6 +19,7 @@ import java.util.Map;
  * @author <a href="mailto:fede@apache.org">Federico Barbieri</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
+ * @version 1.0
  */
 public class DefaultServiceManager
     implements ServiceManager
@@ -72,7 +73,14 @@ public class DefaultServiceManager
         }
     }
 
-    public boolean hasService( final String role ) {
+    /**
+     * Check to see if a <code>Object</code> exists for a role.
+     *
+     * @param role  a string identifying the role to check.
+     * @return True if the object exists, False if it does not.
+     */
+    public boolean hasService( final String role ) 
+    {
         boolean objectExists = false;
 
         try
@@ -91,7 +99,7 @@ public class DefaultServiceManager
      * Place Object into ComponentManager.
      *
      * @param role the components role
-     * @param component the component
+     * @param object an <code>Object</code> value
      */
     public void put( final String role, final Object object )
     {
@@ -140,17 +148,27 @@ public class DefaultServiceManager
         return m_objects;
     }
 
+    /**
+     * Makes this service manager read-only.
+     *
+     */
     public void makeReadOnly()
     {
         m_readOnly = true;
     }
 
+    /**
+     * Checks if this service manager is writeable.
+     *
+     * @exception IllegalStateException if this service manager is read-only
+     */
     protected final void checkWriteable()
         throws IllegalStateException
     {
         if( m_readOnly )
         {
-            throw new IllegalStateException( "ServiceManager is read only and can not be modified" );
+            throw new IllegalStateException
+                ( "ServiceManager is read only and can not be modified" );
         }
     }
 

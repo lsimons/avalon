@@ -18,6 +18,7 @@ import java.util.Map;
  *
  * @author <a href="mailto:fede@apache.org">Federico Barbieri</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @version 1.0
  */
 public class DefaultComponentManager
     implements ComponentManager
@@ -71,7 +72,15 @@ public class DefaultComponentManager
         }
     }
 
-    public boolean hasComponent( final String role ) {
+    /**
+     * Returns <code>true</code> if the component manager is managing a component
+     * with the specified role, <code>false</code> otherwise.
+     *
+     * @param role role of the component you are lokking for
+     * @return <code>true</code> if the component manager has a component with that role
+     */
+    public boolean hasComponent( final String role ) 
+    {
         boolean componentExists = false;
 
         try
@@ -151,17 +160,26 @@ public class DefaultComponentManager
         return m_components;
     }
 
+    /**
+     * Make this component manager read only.
+     */
     public void makeReadOnly()
     {
         m_readOnly = true;
     }
 
+    /**
+     * Check if this component manager is writeable.
+     *
+     * @exception IllegalStateException if this component manager is read-only
+     */
     protected final void checkWriteable()
         throws IllegalStateException
     {
         if( m_readOnly )
         {
-            throw new IllegalStateException( "ComponentManager is read only and can not be modified" );
+            throw new IllegalStateException
+                ( "ComponentManager is read only and can not be modified" );
         }
     }
 }

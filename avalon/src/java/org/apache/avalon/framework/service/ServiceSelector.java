@@ -12,11 +12,12 @@ package org.apache.avalon.framework.service;
  * supplied policy.  The contract is that all the <code>Object</code>s implement the
  * same role.
  *
+ * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
+ * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
+ * @version 1.0
  * @see org.apache.avalon.framework.service.Serviceable
  * @see org.apache.avalon.framework.service.ServiceManager
  *
- * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
  */
 public interface ServiceSelector
 {
@@ -40,7 +41,8 @@ public interface ServiceSelector
      *
      * @param policy A criteria against which a <code>Object</code> is selected.
      *
-     * @exception ServiceSelector If the requested <code>Object</code> cannot be supplied
+     * @return an <code>Object</code> value
+     * @exception ServiceException If the requested <code>Object</code> cannot be supplied
      */
     Object select( Object policy )
         throws ServiceException;

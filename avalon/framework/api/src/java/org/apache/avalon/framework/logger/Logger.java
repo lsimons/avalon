@@ -129,10 +129,10 @@ public interface Logger
     /**
      * Create a new child logger.
      * The name of the child logger is [current-loggers-name].[passed-in-name]
+     * Throws <code>IllegalArgumentException</code> if name has an empty element name
      *
      * @param name the subname of this logger
      * @return the new logger
-     * @exception IllegalArgumentException if name has an empty element name
      */
     Logger getChildLogger( String name );
 }

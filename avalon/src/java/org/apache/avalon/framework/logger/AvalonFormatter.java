@@ -58,7 +58,8 @@ public class AvalonFormatter
      * @param printCascading true enables printing of nested exceptions,
      *   false only prints out the outermost exception
      */
-    public AvalonFormatter( final String pattern, final int stackDepth, final boolean printCascading )
+    public AvalonFormatter( final String pattern, final int stackDepth, 
+                            final boolean printCascading )
     {
         super( pattern );
         m_stackDepth = stackDepth;
@@ -74,7 +75,10 @@ public class AvalonFormatter
      */
     protected String getStackTrace( final Throwable throwable, final String format )
     {
-        if( null == throwable ) return "";
+        if( null == throwable ) 
+        {
+            return "";
+        }
         return ExceptionUtil.printStackTrace( throwable, m_stackDepth, m_printCascading );
     }
 }

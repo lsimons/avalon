@@ -14,6 +14,7 @@ import java.util.Map;
  * This is the default implementation of the ComponentSelector
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
+ * @version 1.0
  */
 public class DefaultComponentSelector
     implements ComponentSelector
@@ -47,8 +48,11 @@ public class DefaultComponentSelector
 
     /**
      * Returns whether a Component exists or not
+     * @param hint the hint to retrieve Component
+     * @return <code>true</code> if the Component exists
      */
-    public boolean hasComponent( final Object hint ) {
+    public boolean hasComponent( final Object hint ) 
+    {
         boolean componentExists = false;
 
         try
@@ -77,6 +81,8 @@ public class DefaultComponentSelector
 
     /**
      * Populate the ComponentSelector.
+     * @param hint the hint to retrieve Component
+     * @param component the component to add
      */
     public void put( final Object hint, final Component component )
     {
@@ -94,17 +100,26 @@ public class DefaultComponentSelector
         return m_components;
     }
 
+    /**
+     * Make this component selector read-only.
+     */
     public void makeReadOnly()
     {
         m_readOnly = true;
     }
 
+    /**
+     * Check if this component manager is writeable.
+     *
+     * @exception IllegalStateException if this component manager is read-only
+     */
     protected final void checkWriteable()
         throws IllegalStateException
     {
         if( m_readOnly )
         {
-            throw new IllegalStateException( "ComponentManager is read only and can not be modified" );
+            throw new IllegalStateException
+                ( "ComponentManager is read only and can not be modified" );
         }
     }
 }

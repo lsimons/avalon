@@ -62,18 +62,42 @@ package org.apache.avalon.framework.configuration;
  * </p>
  * <table border="1">
  * <tr align="center"><th>Code</th><th>No namespaces</th><th>With namespaces</th></tr>
- * <tr align="center"><td align="left"><code>conf.{@link #getName getName}()</code></td><td colspan="2">my-system</td></tr>
- * <tr align="center"><td align="left"><code>conf.{@link #getAttributeNames getAttributeNames}().length</code></td><td>2</td><td>1</td></tr>
- * <tr align="center"><td align="left"><code>conf.{@link #getChildren getChildren}().length</code></td><td colspan="2">2</td></tr>
- * <tr align="center"><td align="left"><code>conf.{@link #getAttributeAsFloat getAttributeAsFloat}("version")</code></td><td colspan="2">1.3</td></tr>
- * <tr align="center"><td align="left"><code>conf.{@link #getChild getChild}("widget").{@link #getAttribute getAttribute}("name")</code></td><td colspan="2">fooWidget</td></tr>
- * <tr align="center"><td align="left"><code>conf.{@link #getChild getChild}("widget").{@link #getAttributeAsBoolean getAttributeAsBoolean}("threadsafe")</code></td><td colspan="2"><code>true</code></td></tr>
- * <tr align="center"><td align="left"><code>conf.{@link #getChild getChild}("widget").{@link #getLocation getLocation}()</code></td><td colspan="2">file:///home/jeff/tmp/java/avalon/src/java/new.xconf:4:60</td></tr>
- * <tr align="center"><td align="left"><code>conf.{@link #getChild getChild}("desc").{@link #getName getName}()</code></td><td>desc (see {@link #getChild(String)})</td><td>desc</td></tr>
- * <tr align="center"><td align="left"><code>conf.{@link #getChild getChild}("doc:desc").{@link #getName getName}()</code></td><td>doc:desc</td><td>doc:desc (see {@link #getChild(String)})</td></tr>
- * <tr align="center"><td align="left"><code>conf.{@link #getChild getChild}("desc").{@link #getValue getValue}()</code></td><td>{@link ConfigurationException}</td><td>This is a highly fictitious config file</td></tr>
- * <tr align="center"><td align="left"><code>conf.{@link #getChild getChild}("doc:desc").{@link #getValue getValue}()</code></td><td>This is a highly fictitious config file</td><td>{@link ConfigurationException}</td></tr>
- * <tr align="center"><td align="left"><code>conf.{@link #getChild getChild}("desc").{@link #getNamespace getNamespace}()</code></td><td>&nbsp;</td><td>http://myco.com/documentation"</td></tr>
+ * <tr align="center"><td align="left">
+ * <code>conf.{@link #getName getName}()</code></td><td colspan="2">my-system</td></tr>
+ * <tr align="center"><td align="left">
+ * <code>conf.{@link #getAttributeNames getAttributeNames}().length</code>
+ * </td><td>2</td><td>1</td></tr>
+ * <tr align="center"><td align="left">
+ * <code>conf.{@link #getChildren getChildren}().length</code>
+ * </td><td colspan="2">2</td></tr>
+ * <tr align="center"><td align="left">
+ * <code>conf.{@link #getAttributeAsFloat getAttributeAsFloat}("version")</code>
+ * </td><td colspan="2">1.3</td></tr>
+ * <tr align="center"><td align="left">
+ * <code>conf.{@link #getChild getChild}("widget").{@link #getAttribute getAttribute}("name")</code>
+ * </td><td colspan="2">fooWidget</td></tr>
+ * <tr align="center"><td align="left">
+ * <code>conf.{@link #getChild getChild}("widget")
+ * .{@link #getAttributeAsBoolean getAttributeAsBoolean}("threadsafe")</code></td><td colspan="2">
+ * <code>true</code></td></tr>
+ * <tr align="center"><td align="left">
+ * <code>conf.{@link #getChild getChild}("widget").{@link #getLocation getLocation}()</code>
+ * </td><td colspan="2">file:///home/jeff/tmp/java/avalon/src/java/new.xconf:4:60</td></tr>
+ * <tr align="center"><td align="left">
+ * <code>conf.{@link #getChild getChild}("desc").{@link #getName getName}()</code>
+ * </td><td>desc (see {@link #getChild(String)})</td><td>desc</td></tr>
+ * <tr align="center"><td align="left">
+ * <code>conf.{@link #getChild getChild}("doc:desc").{@link #getName getName}()</code>
+ * </td><td>doc:desc</td><td>doc:desc (see {@link #getChild(String)})</td></tr>
+ * <tr align="center"><td align="left">
+ * <code>conf.{@link #getChild getChild}("desc").{@link #getValue getValue}()</code>
+ * </td><td>{@link ConfigurationException}</td><td>This is a highly fictitious config file</td></tr>
+ * <tr align="center"><td align="left">
+ * <code>conf.{@link #getChild getChild}("doc:desc").{@link #getValue getValue}()</code>
+ * </td><td>This is a highly fictitious config file</td><td>{@link ConfigurationException}</td></tr>
+ * <tr align="center"><td align="left">
+ * <code>conf.{@link #getChild getChild}("desc").{@link #getNamespace getNamespace}()</code>
+ * </td><td>&nbsp;</td><td>http://myco.com/documentation"</td></tr>
  * </table>
  * </p>
  * <p>
@@ -105,15 +129,16 @@ package org.apache.avalon.framework.configuration;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  * @author <a href="mailto:jefft@apache.org">Jeff Turner</a>
+ * @version 1.0
  */
 public interface Configuration
 {
     /**
      * Return the name of the node.
      *
+     * @return name of the <code>Configuration</code> node.
      * @post getName() != null
      *
-     * @return name of the <code>Configuration</code> node.
      */
     String getName();
 
@@ -145,8 +170,9 @@ public interface Configuration
      * <p>The namespace of <code>foo</code> will be "", and the namespace of
      * <code>bar</code> will be "http://blah.com".</p>
      *
-     * @since 4.1
      * @return a String identifying the namespace of this Configuration.
+     * @exception ConfigurationException if an error occurs
+     * @since 4.1
      */
     String getNamespace() throws ConfigurationException;
 
@@ -164,11 +190,11 @@ public interface Configuration
      * use {@link #getChild(String, boolean) getChild("foo", <b>false</b>)}.
      * </p>
      *
+     * @param child The name of the child node.
+     * @return Configuration
      * @pre child != null
      * @post getConfiguration() != null
      *
-     * @param child The name of the child node.
-     * @return Configuration
      */
     Configuration getChild( String child );
 
@@ -176,15 +202,15 @@ public interface Configuration
      * Return a <code>Configuration</code> instance encapsulating the specified
      * child node.
      *
-     * @pre child != null
-     * @post getConfiguration() != null
-     *
      * @param child The name of the child node.
      * @param createNew If <code>true</code>, a new <code>Configuration</code>
      * will be created and returned if the specified child does not exist. If
      * <code>false</code>, <code>null</code> will be returned when the specified
      * child doesn't exist.
      * @return Configuration
+     * @pre child != null
+     * @post getConfiguration() != null
+     *
      */
     Configuration getChild( String child, boolean createNew );
 
@@ -202,11 +228,11 @@ public interface Configuration
      * elements containing all node children with the specified name. The array
      * order will reflect the order in the source config file.
      *
+     * @param name The name of the children to get.
+     * @return The child nodes with name <code>name</code>
      * @pre name != null
      * @post getConfigurations() != null
      *
-     * @param name The name of the children to get.
-     * @return The child nodes with name <code>name</code>
      */
     Configuration[] getChildren( String name );
 
@@ -219,18 +245,19 @@ public interface Configuration
      * <tt>conf.getAttributeNames()[0]</tt>, then it is liable to break if a
      * different XML parser is used.
      * </p>
+     * @return a <code>String[]</code> value
      */
     String[] getAttributeNames();
 
     /**
      * Return the value of specified attribute.
      *
-     * @pre paramName != null
-     * @post getAttribute != null
-     *
      * @param paramName The name of the parameter you ask the value of.
      * @return String value of attribute.
      * @exception ConfigurationException If no attribute with that name exists.
+     * @pre paramName != null
+     * @post getAttribute != null
+     *
      */
     String getAttribute( String paramName ) throws ConfigurationException;
 
@@ -238,13 +265,13 @@ public interface Configuration
      * Return the <code>int</code> value of the specified attribute contained
      * in this node.
      *
-     * @pre paramName != null
-     * @post getAttributeAsInteger() != null
-     *
      * @param paramName The name of the parameter you ask the value of.
      * @return int value of attribute
      * @exception ConfigurationException If no parameter with that name exists.
      *                                   or if conversion to <code>int</code> fails.
+     * @pre paramName != null
+     * @post getAttributeAsInteger() != null
+     *
      */
     int getAttributeAsInteger( String paramName ) throws ConfigurationException;
 
@@ -252,13 +279,20 @@ public interface Configuration
      * Returns the value of the attribute specified by its name as a
      * <code>long</code>.
      *
-     * @pre paramName != null
-     * @post getAttributeAsLong() != null
-     *
      * @param name The name of the parameter you ask the value of.
      * @return long value of attribute
      * @exception ConfigurationException If no parameter with that name exists.
      *                                   or if conversion to <code>long</code> fails.
+     * @pre paramName != null
+     * @post getAttributeAsLong() != null
+     *
+<<<<<<< Configuration.java
+=======
+     * @param name The name of the parameter you ask the value of.
+     * @return long value of attribute
+     * @exception ConfigurationException If no parameter with that name exists.
+     *                                   or if conversion to <code>long</code> fails.
+>>>>>>> 1.14
      */
     long getAttributeAsLong( String name ) throws ConfigurationException;
 
@@ -266,13 +300,13 @@ public interface Configuration
      * Return the <code>float</code> value of the specified parameter contained
      * in this node.
      *
-     * @pre paramName != null
-     * @post getAttributeAsFloat() != null
-     *
      * @param paramName The name of the parameter you ask the value of.
      * @return float value of attribute
      * @exception ConfigurationException If no parameter with that name exists.
      *                                   or if conversion to <code>float</code> fails.
+     * @pre paramName != null
+     * @post getAttributeAsFloat() != null
+     *
      */
     float getAttributeAsFloat( String paramName ) throws ConfigurationException;
 
@@ -280,63 +314,64 @@ public interface Configuration
      * Return the <code>boolean</code> value of the specified parameter contained
      * in this node.
      *
-     * @pre paramName != null
-     * @post getAttributeAsBoolean() != null
-     *
      * @param paramName The name of the parameter you ask the value of.
      * @return boolean value of attribute
      * @exception ConfigurationException If no parameter with that name exists.
      *                                   or if conversion to <code>boolean</code> fails.
+     * @pre paramName != null
+     * @post getAttributeAsBoolean() != null
+     *
      */
     boolean getAttributeAsBoolean( String paramName ) throws ConfigurationException;
 
     /**
      * Return the <code>String</code> value of the node.
      *
+     * @return the value of the node.
+     * @exception ConfigurationException if an error occurs
      * @post getValue() != null
      *
-     * @return the value of the node.
      */
     String getValue() throws ConfigurationException;
 
     /**
      * Return the <code>int</code> value of the node.
      *
-     * @post getValueAsInteger() != null
-     *
      * @return the value of the node.
      *
      * @exception ConfigurationException If conversion to <code>int</code> fails.
+     * @post getValueAsInteger() != null
+     *
      */
     int getValueAsInteger() throws ConfigurationException;
 
     /**
      * Return the <code>float</code> value of the node.
      *
-     * @post getValueAsFloat() != null
-     *
      * @return the value of the node.
      * @exception ConfigurationException If conversion to <code>float</code> fails.
+     * @post getValueAsFloat() != null
+     *
      */
     float getValueAsFloat() throws ConfigurationException;
 
     /**
      * Return the <code>boolean</code> value of the node.
      *
-     * @post getValueAsBoolean() != null
-     *
      * @return the value of the node.
      * @exception ConfigurationException If conversion to <code>boolean</code> fails.
+     * @post getValueAsBoolean() != null
+     *
      */
     boolean getValueAsBoolean() throws ConfigurationException;
 
     /**
      * Return the <code>long</code> value of the node.
      *
-     * @post getValueAsLong() != null
-     *
      * @return the value of the node.
      * @exception ConfigurationException If conversion to <code>long</code> fails.
+     * @post getValueAsLong() != null
+     *
      */
     long getValueAsLong() throws ConfigurationException;
 
@@ -345,12 +380,12 @@ public interface Configuration
      * If the configuration value is not set, the default value will be
      * used.
      *
-     * @pre defaultValue != null
-     * @post getValue(defaultValue) != null
-     *
      * @param defaultValue The default value desired.
      * @return String value of the <code>Configuration</code>, or default
      *          if none specified.
+     * @pre defaultValue != null
+     * @post getValue(defaultValue) != null
+     *
      */
     String getValue( String defaultValue );
 
@@ -359,12 +394,12 @@ public interface Configuration
      * If the configuration value is not set, the default value will be
      * used.
      *
-     * @pre defaultValue != null
-     * @post getValueAsInteger(defaultValue) != null
-     *
      * @param defaultValue The default value desired.
      * @return int value of the <code>Configuration</code>, or default
      *          if none specified.
+     * @pre defaultValue != null
+     * @post getValueAsInteger(defaultValue) != null
+     *
      */
     int getValueAsInteger( int defaultValue );
 
@@ -373,12 +408,12 @@ public interface Configuration
      * If the configuration value is not set, the default value will be
      * used.
      *
-     * @pre defaultValue != null
-     * @post getValueAsLong(defaultValue) != null
-     *
      * @param defaultValue The default value desired.
      * @return long value of the <code>Configuration</code>, or default
      *          if none specified.
+     * @pre defaultValue != null
+     * @post getValueAsLong(defaultValue) != null
+     *
      */
     long getValueAsLong( long defaultValue );
 
@@ -387,12 +422,12 @@ public interface Configuration
      * If the configuration value is not set, the default value will be
      * used.
      *
-     * @pre defaultValue != null
-     * @post getValueAsFloat(defaultValue) != null
-     *
      * @param defaultValue The default value desired.
      * @return float value of the <code>Configuration</code>, or default
      *          if none specified.
+     * @pre defaultValue != null
+     * @post getValueAsFloat(defaultValue) != null
+     *
      */
     float getValueAsFloat( float defaultValue );
 
@@ -401,12 +436,12 @@ public interface Configuration
      * If the configuration value is not set, the default value will be
      * used.
      *
-     * @pre defaultValue != null
-     * @post getValueAsBoolean(defaultValue) != null
-     *
      * @param defaultValue The default value desired.
      * @return boolean value of the <code>Configuration</code>, or default
      *          if none specified.
+     * @pre defaultValue != null
+     * @post getValueAsBoolean(defaultValue) != null
+     *
      */
     boolean getValueAsBoolean( boolean defaultValue );
 
@@ -415,15 +450,17 @@ public interface Configuration
      * <code>String</code>, or the default value if no attribute by
      * that name exists or is empty.
      *
-     * @pre name != null
-     * @pre defaultValue != null
-     * @post getAttribute(name, defaultValue) != null
-     *
      * @param name The name of the attribute you ask the value of.
      * @param defaultValue The default value desired.
      * @return String value of attribute. It will return the default
      *         value if the named attribute does not exist, or if
      *         the value is not set.
+     * @pre name != null
+     * @pre defaultValue != null
+     * @pre name != null
+     * @pre defaultValue != null
+     * @post getAttribute(name, defaultValue) != null
+     *
      */
     String getAttribute( String name, String defaultValue );
 
@@ -432,15 +469,17 @@ public interface Configuration
      * <code>int</code>, or the default value if no attribute by
      * that name exists or is empty.
      *
-     * @pre name != null
-     * @pre defaultValue != null
-     * @post getAttributeAsInteger(name, defaultValue) != null
-     *
      * @param name The name of the attribute you ask the value of.
      * @param defaultValue The default value desired.
      * @return int value of attribute. It will return the default
      *         value if the named attribute does not exist, or if
      *         the value is not set.
+     * @pre name != null
+     * @pre defaultValue != null
+     * @pre name != null
+     * @pre defaultValue != null
+     * @post getAttributeAsInteger(name, defaultValue) != null
+     *
      */
     int getAttributeAsInteger( String name, int defaultValue );
 
@@ -449,15 +488,17 @@ public interface Configuration
      * <code>long</code>, or the default value if no attribute by
      * that name exists or is empty.
      *
-     * @pre name != null
-     * @pre defaultValue != null
-     * @post getAttributeAsLong(name, defaultValue) != null
-     *
      * @param name The name of the attribute you ask the value of.
      * @param defaultValue The default value desired.
      * @return long value of attribute. It will return the default
      *          value if the named attribute does not exist, or if
      *          the value is not set.
+     * @pre name != null
+     * @pre defaultValue != null
+     * @pre name != null
+     * @pre defaultValue != null
+     * @post getAttributeAsLong(name, defaultValue) != null
+     *
      */
     long getAttributeAsLong( String name, long defaultValue );
 
@@ -466,15 +507,17 @@ public interface Configuration
      * <code>float</code>, or the default value if no attribute by
      * that name exists or is empty.
      *
-     * @pre name != null
-     * @pre defaultValue != null
-     * @post getAttributeAsFloat(name, defaultValue) != null
-     *
      * @param name The name of the attribute you ask the value of.
      * @param defaultValue The default value desired.
      * @return float value of attribute. It will return the default
      *          value if the named attribute does not exist, or if
      *          the value is not set.
+     * @pre name != null
+     * @pre defaultValue != null
+     * @pre name != null
+     * @pre defaultValue != null
+     * @post getAttributeAsFloat(name, defaultValue) != null
+     *
      */
     float getAttributeAsFloat( String name, float defaultValue );
 
@@ -483,15 +526,17 @@ public interface Configuration
      * <code>boolean</code>, or the default value if no attribute by
      * that name exists or is empty.
      *
-     * @pre name != null
-     * @pre defaultValue != null
-     * @post getAttributeAsBoolean(name, defaultValue) != null
-     *
      * @param name The name of the attribute you ask the value of.
      * @param defaultValue The default value desired.
      * @return boolean value of attribute. It will return the default
      *         value if the named attribute does not exist, or if
      *         the value is not set.
+     * @pre name != null
+     * @pre defaultValue != null
+     * @pre name != null
+     * @pre defaultValue != null
+     * @post getAttributeAsBoolean(name, defaultValue) != null
+     *
      */
     boolean getAttributeAsBoolean( String name, boolean defaultValue );
 }

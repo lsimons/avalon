@@ -10,11 +10,9 @@ package org.apache.avalon.framework.configuration;
 import java.util.ArrayList;
 import java.util.Iterator;
 import org.xml.sax.Attributes;
-import org.xml.sax.ErrorHandler;
 import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
-import org.xml.sax.helpers.DefaultHandler;
 import org.xml.sax.helpers.NamespaceSupport;
 import org.xml.sax.helpers.AttributesImpl;
 
@@ -24,6 +22,7 @@ import org.xml.sax.helpers.AttributesImpl;
  *
  * @author <a href="mailto:fede@apache.org">Federico Barbieri</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @version 1.0
  */
 public class NamespacedSAXConfigurationHandler
     extends SAXConfigurationHandler
@@ -34,11 +33,19 @@ public class NamespacedSAXConfigurationHandler
     private Locator                      m_locator;
     private NamespaceSupport             m_namespaceSupport = new NamespaceSupport();
 
+    /**
+     * Get the configuration object that was built.
+     *
+     * @return a <code>Configuration</code> object
+     */
     public Configuration getConfiguration()
     {
         return m_configuration;
     }
 
+    /**
+     * Clears all data from this configuration handler.
+     */
     public void clear()
     {
         m_elements.clear();
@@ -51,11 +58,21 @@ public class NamespacedSAXConfigurationHandler
         m_locator = null;
     }
 
+    /**
+     * Set the document <code>Locator</code> to use.
+     *
+     * @param locator a <code>Locator</code> value
+     */
     public void setDocumentLocator( final Locator locator )
     {
         m_locator = locator;
     }
 
+    /**
+     * Handling hook for starting the document parsing.
+     *
+     * @exception SAXException if an error occurs
+     */
     public void startDocument()
         throws SAXException
     {
@@ -63,6 +80,11 @@ public class NamespacedSAXConfigurationHandler
         super.startDocument();
     }
 
+    /**
+     * Handling hook for ending the document parsing.
+     *
+     * @exception SAXException if an error occurs
+     */
     public void endDocument()
         throws SAXException
     {
@@ -70,6 +92,14 @@ public class NamespacedSAXConfigurationHandler
         m_namespaceSupport.reset();
     }
 
+    /**
+     * Handling hook for character data.
+     *
+     * @param ch a <code>char[]</code> of data
+     * @param start offset in the character array from which to start reading
+     * @param end length of character data
+     * @exception SAXException if an error occurs
+     */
     public void characters( final char[] ch, int start, int end )
         throws SAXException
     {
@@ -94,6 +124,14 @@ public class NamespacedSAXConfigurationHandler
         configuration.setValue( value );
     }
 
+    /**
+     * Handling hook for finishing parsing of an element.
+     *
+     * @param namespaceURI a <code>String</code> value
+     * @param localName a <code>String</code> value
+     * @param rawName a <code>String</code> value
+     * @exception SAXException if an error occurs
+     */
     public void endElement( final String namespaceURI,
                             final String localName,
                             final String rawName )
@@ -118,15 +156,36 @@ public class NamespacedSAXConfigurationHandler
         m_namespaceSupport.popContext();
     }
 
+    /**
+     * Create a new <code>DefaultConfiguration</code> with the specified
+     * local name, namespace, and location.
+     *
+     * @param localName a <code>String</code> value
+     * @param namespaceURI a <code>String</code> value
+     * @param location a <code>String</code> value
+     * @return a <code>DefaultConfiguration</code> value
+     */
     protected DefaultConfiguration createConfiguration( final String localName,
                                                         final String namespaceURI,
                                                         final String location )
     {
         String prefix = m_namespaceSupport.getPrefix( namespaceURI );
-        if (prefix == null) prefix = "";
+        if (prefix == null) 
+        {
+            prefix = "";
+        }
         return new DefaultConfiguration( localName, location, namespaceURI, prefix );
     }
 
+    /**
+     * Handling hook for starting parsing of an element.
+     *
+     * @param namespaceURI a <code>String</code> value
+     * @param localName a <code>String</code> value
+     * @param rawName a <code>String</code> value
+     * @param attributes an <code>Attributes</code> value
+     * @exception SAXException if an error occurs
+     */
     public void startElement( final String namespaceURI,
                               final String localName,
                               final String rawName,
@@ -189,6 +248,8 @@ public class NamespacedSAXConfigurationHandler
 
     /**
      * This just throws an exception on a parse error.
+     * @param exception the parse error
+     * @exception SAXException if an error occurs
      */
     public void error( final SAXParseException exception )
         throws SAXException
@@ -198,6 +259,8 @@ public class NamespacedSAXConfigurationHandler
 
     /**
      * This just throws an exception on a parse error.
+     * @param exception the parse error
+     * @exception SAXException if an error occurs
      */
     public void warning( final SAXParseException exception )
         throws SAXException
@@ -207,6 +270,8 @@ public class NamespacedSAXConfigurationHandler
 
     /**
      * This just throws an exception on a parse error.
+     * @param exception the parse error
+     * @exception SAXException if an error occurs
      */
     public void fatalError( final SAXParseException exception )
         throws SAXException
@@ -214,6 +279,11 @@ public class NamespacedSAXConfigurationHandler
         throw exception;
     }
 
+    /**
+     * Returns a string showing the current system ID, line number and column number.
+     *
+     * @return a <code>String</code> value
+     */
     protected String getLocationString()
     {
         if( null == m_locator )
@@ -229,6 +299,13 @@ public class NamespacedSAXConfigurationHandler
         }
     }
 
+    /**
+     * Handling hook for starting prefix mapping.
+     *
+     * @param prefix a <code>String</code> value
+     * @param uri a <code>String</code> value
+     * @exception SAXException if an error occurs
+     */
     public void startPrefixMapping(String prefix, String uri)
         throws SAXException
     {

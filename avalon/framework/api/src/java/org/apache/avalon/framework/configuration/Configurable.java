@@ -25,6 +25,7 @@ package org.apache.avalon.framework.configuration;
  * @author <a href="mailto:stefano@apache.org">Stefano Mazzocchi</a>
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @version 1.0
  */
 public interface Configurable
 {
@@ -34,6 +35,7 @@ public interface Configurable
      * and before any other method.
      *
      * @param configuration the class configurations.
+     * @exception ConfigurationException if an error occurs
      */
     void configure( Configuration configuration )
         throws ConfigurationException;

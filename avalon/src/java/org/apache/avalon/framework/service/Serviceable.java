@@ -20,13 +20,14 @@ package org.apache.avalon.framework.service;
  * the <code>compose</code> method before the <code>Serviceable</code> 
  * can be considered valid. 
  *
- * @see org.apache.avalon.framework.service.ServiceManager
- *
  * @author <a href="mailto:fede@apache.org">Federico Barbieri</a>
  * @author <a href="mailto:pier@apache.org">Pierpaolo Fumagalli</a>
  * @author <a href="mailto:stefano@apache.org">Stefano Mazzocchi</a>
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
+ * @version 1.0
+ * @see org.apache.avalon.framework.service.ServiceManager
+ *
  */
 public interface Serviceable
 {
@@ -38,6 +39,7 @@ public interface Serviceable
      *
      * @param manager The <code>ServiceManager</code> which this
      *                <code>Serviceable</code> uses.
+     * @exception ServiceException if an error occurs
      */
     void service( ServiceManager manager )
         throws ServiceException;

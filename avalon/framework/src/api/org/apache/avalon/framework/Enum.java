@@ -60,6 +60,7 @@ import java.util.Map;
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  * @author <a href="mailto:jefft@apache.org">Jeff Turner</a>
+ * @version 1.0
  */
 public abstract class Enum
 {
@@ -101,6 +102,7 @@ public abstract class Enum
 
     /**
      * Retrieve the name of this Enum item, set in the constructor.
+     * @return the name <code>String</code> of this Enum item
      */
     public final String getName()
     {
