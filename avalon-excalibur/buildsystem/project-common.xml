@@ -195,6 +195,13 @@
 
     <resources>
       <resource>
+        <directory>${avalon.buildsystem}/site</directory>
+        <includes>
+          <include>LICENSE*</include>
+          <include>NOTICE*</include>
+        </includes>
+      </resource>
+      <resource>
         <directory>${basedir}/src/java</directory>
         <includes>
           <include>**/*.jpg</include>
