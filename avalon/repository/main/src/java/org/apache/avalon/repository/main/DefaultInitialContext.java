@@ -98,7 +98,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * 
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class DefaultInitialContext extends AbstractBuilder implements InitialContext
 {
@@ -214,7 +214,23 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
       Artifact artifact, File cache, String[] hosts ) 
       throws RepositoryException
     {
+        this( 
+          DefaultInitialContext.class.getClassLoader(), 
+          artifact, cache, hosts );
+    }
 
+    /**
+     * Creates an initial repository context.
+     *
+     * @param artifact an artifact referencing the default implementation
+     * @param cache the cache directory
+     * @param hosts a set of initial remote repository addresses 
+     * @throws RepositoryException if an error occurs during establishment
+     */
+    public DefaultInitialContext( 
+      ClassLoader parent, Artifact artifact, File cache, String[] hosts ) 
+      throws RepositoryException
+    {
         Properties avalonHome = getLocalProperties( USER_HOME, AVALON );
         Properties avalonWork = getLocalProperties( USER_DIR, AVALON );
         
@@ -269,12 +285,8 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
         // create the classloader
         //
         
-        ClassLoader classloader = 
-          new URLClassLoader( 
-            urls, 
-            Thread.currentThread().getContextClassLoader() );
-
-        Class clazz = super.loadFactoryClass( classloader, factory );
+        ClassLoader classloader = new URLClassLoader( urls, parent );
+        Class clazz = loadFactoryClass( classloader, factory );
 
         //
         // load the actual repository implementation 
@@ -282,7 +294,7 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
 
         try
         {
-            m_delegate = createDelegate( clazz, this, new String[0] );
+            m_delegate = createDelegate( classloader, factory, this );
         }
         catch( Throwable e )
         {
@@ -298,7 +310,7 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
             throw new RepositoryException( buffer.toString(), e );
         }
     }
-
+  
     // ------------------------------------------------------------------------
     // InitialContext
     // ------------------------------------------------------------------------
