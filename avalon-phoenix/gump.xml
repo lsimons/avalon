@@ -38,6 +38,7 @@
     <depend project="jmx" runtime="true"/>
     <depend project="dist-bsf"/>
     <depend project="rhino"/>
+    <depend project="mx4j"/>
     <!-- depend project="xdoclet" inherit="jars"/ -->
     <depend project="xdoclet-ant15" runtime="true" inherit="runtime"/>
     <depend project="jarv" runtime="true"/>
