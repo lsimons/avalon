@@ -7,7 +7,7 @@
     <!-- note the lack of property file inclusion. You should
          do that from the script which calls this file. -->
 
-    <target name="avalon:warning" depends="avalon:debug" unless="do.not.warn">
+    <target name="avalon:warning" unless="do.not.warn">
         <echo>
 =======================================================================
                           WARNING!
@@ -99,7 +99,7 @@ DEBUG INFO
 
         <antcall target="avalon:api-jar"/>
         <antcall target="avalon:impl-jar"/>
-        <antcall target="avalon:jar"/>
+        <antcall target="avalon:regular-jar"/>
     </target>
 
     <target name="avalon:java-compile" if="java.src.present"
@@ -261,7 +261,7 @@ DEBUG INFO
         </junit>
     </target>
 
-    <target name="avalon:jar" if="classes.present"
+    <target name="avalon:regular-jar" if="classes.present"
             depends="avalon:init,avalon:api-compile,avalon:impl-compile,avalon:java-compile">
         <echo>
 =======================================================================
