@@ -38,7 +38,12 @@ public class XMLFormatter
     private boolean m_printRelativeTime = false;
     private boolean m_printPriority = true;
     private boolean m_printCategory = true;
-    private boolean m_printContext = true;
+    
+    // This can't be changed to 'true' until the Testcases have been fixed
+    // 
+    private boolean m_printContext = false;
+    
+    
     private boolean m_printMessage = true;
     private boolean m_printException = true;
 
