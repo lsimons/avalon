@@ -25,7 +25,7 @@ block	     the specifc details about this block
 services     the services offered by this block
 dependencies the services that this block require to operate
 -->
-<!ELEMENT blockinfo (block, services?, dependencies?)>
+<!ELEMENT blockinfo (block, services?, management-access-points?, dependencies?)>
 <!ATTLIST blockinfo id ID #IMPLIED
           xmlns CDATA #FIXED "http://jakarta.apache.org/phoenix/blockinfo_1_0.dtd" >
 
@@ -75,6 +75,13 @@ The services element contains a list of services that this Block supports.
 It contains service elements.
 -->
 <!ELEMENT services    (service*)>
+
+<!--
+The services element contains a list of services that this
+Block exports to the Management system. It contains service
+elements.
+-->
+<!ELEMENT management-access-points    (service*)>
 
 <!--
 The dependencies element contains a list of services that this Block requires.
