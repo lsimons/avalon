@@ -1,4 +1,4 @@
-- Add subsystem to handle AOP/Interceptors
+- Add facility to handle AOP/Interceptors
 
 - Add support to AvalonConfigurationAttribute
 - Add support to AvalonStageAttribute
