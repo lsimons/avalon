@@ -456,7 +456,7 @@ public class Logger
         {
             for( int i = 0; i < m_children.length; i++ )
             {
-                if( m_children[ i ].getCategory().equals( category ) )
+                if( m_children[ i ].m_category.equals( category ) )
                 {
                     if( null == remainder )
                     {
