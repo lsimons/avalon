@@ -54,6 +54,24 @@
 
   <resource>
     <info>
+      <group>ant</group>
+      <name>ant-nodeps</name>
+      <version>1.6.1</version>
+      <type>jar</type>
+    </info>
+  </resource>
+
+  <resource>
+    <info>
+      <group>ant</group>
+      <name>ant-junit</name>
+      <version>1.6.1</version>
+      <type>jar</type>
+    </info>
+  </resource>
+
+  <resource>
+    <info>
       <group>qdox</group>
       <name>qdox</name>
       <version>1.3</version>
@@ -70,6 +88,15 @@
     </info>
   </resource>
 
+  <resource>
+    <info>
+      <group>junit</group>
+      <name>junit</name>
+      <version>3.8.1</version>
+      <type>jar</type>
+    </info>
+  </resource>
+
   <!--
   Avalon Tools.
   -->
@@ -79,6 +106,12 @@
       <group>avalon/tools</group>
       <name>avalon-tools-magic</name>
     </info>
+    <dependencies>
+      <include key="ant" runtime="true" build="false" test="false"/>
+      <include key="junit" runtime="true" build="false" test="false"/>
+      <include key="ant-junit" runtime="true" build="false" test="false"/>
+      <include key="ant-nodeps" runtime="true" build="false" test="false"/>
+    </dependencies>
   </project>
 
   <!--
