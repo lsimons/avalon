@@ -66,7 +66,7 @@ import org.apache.avalon.framework.component.ComponentSelector;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/11/07 08:29:04 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/11/07 09:06:13 $
  */
 public class WrapperServiceSelector
     implements ServiceSelector
@@ -79,27 +79,27 @@ public class WrapperServiceSelector
     /**
      * The role that this selector was aquired via.
      */
-    private final String m_role;
+    private final String m_key;
 
     /**
      * This constructor is a constructor for a ComponentServiceManager
      *
-     * @param role the role used to aquire this selector
+     * @param key the key used to aquire this selector
      * @param selector the selector to wrap
      */
-    public WrapperServiceSelector( final String role,
+    public WrapperServiceSelector( final String key,
                                    final ComponentSelector selector )
     {
-        if( null == role )
+        if( null == key )
         {
-            throw new NullPointerException( "role" );
+            throw new NullPointerException( "key" );
         }
         if( null == selector )
         {
             throw new NullPointerException( "selector" );
         }
 
-        m_role = role + "/";
+        m_key = key + "/";
         m_selector = selector;
     }
 
@@ -119,8 +119,7 @@ public class WrapperServiceSelector
         }
         catch( final ComponentException ce )
         {
-            final String message = "Could not return a reference to the Component";
-            throw new ServiceException( m_role + policy, message, ce );
+            throw new ServiceException( m_key + policy, ce.getMessage(), ce );
         }
     }
 
