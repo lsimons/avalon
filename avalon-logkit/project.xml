@@ -19,9 +19,9 @@
     <extend>${avalon.buildsystem}/project-common.xml</extend>
 
     <name>Avalon-LogKit</name>
-    <id>logkit</id>
-    <groupId>logkit</groupId>
-    <currentVersion>1.3</currentVersion>
+    <id>avalon-logkit</id>
+    <groupId>avalon-logkit</groupId>
+    <currentVersion>2.0</currentVersion>
     <inceptionYear>2003</inceptionYear>
     <shortDescription>The Avalon-LogKit logging utility</shortDescription>
     <description>
