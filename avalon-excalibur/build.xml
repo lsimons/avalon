@@ -361,6 +361,7 @@
                     <include name="util/dist/*.jar"/>
                     <include name="store/dist/*.jar"/>
                     <include name="xmlbundle/dist/*.jar"/>
+                    <include name="xmlutil/dist/*.jar"/>
                     <include name="cli/dist/*.jar"/>
                     <include name="naming/dist/*.jar"/>
                     <include name="monitor/dist/*.jar"/>
