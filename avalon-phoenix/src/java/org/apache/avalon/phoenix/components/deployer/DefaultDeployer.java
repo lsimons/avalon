@@ -47,7 +47,6 @@ import org.apache.avalon.phoenix.tools.assembler.AssemblyException;
 import org.apache.avalon.phoenix.tools.configuration.ConfigurationBuilder;
 import org.apache.avalon.phoenix.tools.verifier.SarVerifier;
 import org.apache.excalibur.containerkit.verifier.VerifyException;
-import org.apache.avalon.phoenix.metainfo.BlockInfo;
 import org.apache.avalon.phoenix.metainfo.BlockDescriptor;
 import org.apache.log.Hierarchy;
 
@@ -360,7 +359,7 @@ public class DefaultDeployer
      * Store the configuration schemas for this application
      *
      * @param metaData the application metaData
-     * @throws VerifyException upon invalid schema
+     * @throws DeploymentException upon invalid schema
      */
     private void storeConfigurationSchemas( final SarMetaData metaData, ClassLoader classLoader )
       throws DeploymentException
