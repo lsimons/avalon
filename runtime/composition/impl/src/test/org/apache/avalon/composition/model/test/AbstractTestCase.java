@@ -149,9 +149,9 @@ public abstract class AbstractTestCase extends TestCase
         // execution
         //
 
-        Repository repository = 
-          createTestRepository( context, new File( BASEDIR, "repository" ) );
-        factory.setRepository( repository );
+        //Repository repository = 
+        //  createTestRepository( context, new File( BASEDIR, "repository" ) );
+        //factory.setRepository( repository );
 
         //
         // and create the system context and grab the model factory

@@ -30,7 +30,7 @@ import org.apache.avalon.framework.context.ContextException;
 public class ContextTestCase extends AbstractTestCase
 {
    private static final String FACADE_CLASSNAME =
-     "org.apache.avalon.composition.model.testa.DefaultFacade";
+     "org.apache.avalon.test.testa.DefaultFacade";
       
    private Context context;
 

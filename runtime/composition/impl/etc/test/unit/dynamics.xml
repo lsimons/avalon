@@ -2,7 +2,7 @@
 <container name="test">
    <classloader>
      <classpath>
-       <fileset dir="../classes"/>
+       <artifact>artifact:jar:avalon/test/avalon-test-dynamics</artifact>
      </classpath>
    </classloader>
 </container>

@@ -23,8 +23,8 @@ import org.apache.avalon.meta.info.ReferenceDescriptor;
 
 import org.apache.avalon.util.exception.ExceptionHelper;
 
-import org.apache.avalon.composition.model.test.dynamics.Widget;
-import org.apache.avalon.composition.model.test.dynamics.Gizmo;
+import org.apache.avalon.test.dynamics.Widget;
+import org.apache.avalon.test.dynamics.Gizmo;
 
 public class DynamicsTestCase extends AbstractTestCase
 {      

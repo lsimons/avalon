@@ -3,24 +3,22 @@
 
   <classloader>
     <classpath>
-      <fileset dir="ext">
-        <include>test-a.jar</include>
-      </fileset>
+      <artifact>artifact:jar:avalon/test/avalon-test-testa</artifact>
     </classpath>
   </classloader>
 
   <component 
-    class="org.apache.avalon.composition.model.testa.ConfigurableComponent" 
+    class="org.apache.avalon.test.testa.ConfigurableComponent" 
     name="aaa"/>
 
   <component 
-    class="org.apache.avalon.composition.model.testa.ConfigurableComponent" 
+    class="org.apache.avalon.test.testa.ConfigurableComponent" 
     name="bbb"/>
 
   <container name="ccc">
     <container name="sss">
       <component 
-        class="org.apache.avalon.composition.model.testa.ConfigurableComponent" 
+        class="org.apache.avalon.test.testa.ConfigurableComponent" 
         name="xxx"/>
     </container>
   </container>
