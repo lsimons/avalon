@@ -92,7 +92,7 @@ import org.apache.commons.cli.Options;
  * Merlin command line handler.
  * 
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class Main 
 {
@@ -213,6 +213,74 @@ public class Main
     }
 
     private static Main MAIN = null;
+
+   /**
+    * Main command line enty point.
+    * @param args the command line arguments
+    */
+    public static void main( String[] args )
+    {
+        try
+        {
+            //
+            // parse the commandline
+            //
+
+            CommandLineParser parser = new BasicParser();
+            CommandLine line = parser.parse( CL_OPTIONS, args );
+
+            File dir = getWorkingDirectory( line );
+            Artifact artifact = getDefaultImplementation( dir, line );
+            File system = getMerlinSystemRepository( line );
+
+            if( line.hasOption( "version" ) )
+            {
+                Main.printVersionInfo( system, artifact );
+                return;     
+            }
+            else if( line.hasOption( "help" ) )
+            {
+                if( line.hasOption( "lang" ) )
+                {
+                    ResourceManager.clearResourceCache();
+                    String language = line.getOptionValue( "lang" );
+                    Locale locale = new Locale( language, "" );
+                    Locale.setDefault( locale );
+                    REZ = ResourceManager.getPackageResources( Main.class );
+                }
+                Main.printHelpInfo();
+                return;
+            }
+            else
+            {
+                //
+                // setup the initial context
+                //
+
+                ClassLoader parent = Main.class.getClassLoader();
+                Artifact impl = null; // default
+                String[] bootstrap = null; // default
+                
+                InitialContext context = 
+                   new DefaultInitialContext( 
+                     dir, parent, impl, system, bootstrap );
+
+                //
+                // process the commandline and do the real work
+                //
+
+                MAIN = new Main( context, artifact, line );
+
+            }
+        }
+        catch( Throwable e )
+        {
+            String msg = 
+              ExceptionHelper.packException( e, true );
+            System.err.println( msg );
+            System.exit( -1 );
+        }
+    }
 
     //----------------------------------------------------------
     // immutable state
@@ -358,74 +426,6 @@ public class Main
     }
 
    /**
-    * Main command line enty point.
-    * @param args the command line arguments
-    */
-    public static void main( String[] args )
-    {
-        try
-        {
-            //
-            // parse the commandline
-            //
-
-            CommandLineParser parser = new BasicParser();
-            CommandLine line = parser.parse( CL_OPTIONS, args );
-
-            File dir = getWorkingDirectory( line );
-            Artifact artifact = getDefaultImplementation( dir, line );
-            File system = getMerlinSystemRepository( line );
-
-            if( line.hasOption( "version" ) )
-            {
-                Main.printVersionInfo( system, artifact );
-                return;     
-            }
-            else if( line.hasOption( "help" ) )
-            {
-                if( line.hasOption( "lang" ) )
-                {
-                    ResourceManager.clearResourceCache();
-                    String language = line.getOptionValue( "lang" );
-                    Locale locale = new Locale( language, "" );
-                    Locale.setDefault( locale );
-                    REZ = ResourceManager.getPackageResources( Main.class );
-                }
-                Main.printHelpInfo();
-                return;
-            }
-            else
-            {
-                //
-                // setup the initial context
-                //
-
-                ClassLoader parent = Main.class.getClassLoader();
-                Artifact impl = null; // default
-                String[] bootstrap = null; // default
-                
-                InitialContext context = 
-                   new DefaultInitialContext( 
-                     dir, parent, impl, system, bootstrap );
-
-                //
-                // process the commandline and do the real work
-                //
-
-                MAIN = new Main( context, artifact, line );
-
-            }
-        }
-        catch( Throwable e )
-        {
-            String msg = 
-              ExceptionHelper.packException( e, true );
-            System.err.println( msg );
-            System.exit( -1 );
-        }
-    }
-
-   /**
     * Resolve the merlin.dir value.
     * @param line the command line construct
     * @return the working directory
@@ -435,7 +435,7 @@ public class Main
         if( line.hasOption( "home" ) )
         {
             String dir = line.getOptionValue( "home" );
-            return new File( dir );
+            return new File( dir ).getCanonicalFile();
         }
         else
         {
