@@ -1,20 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<project name="avalon-finder-impl" default="install" basedir="." 
+<project name="avalon-finder-test" default="install" basedir="." 
     xmlns:x="antlib:org.apache.avalon.tools">
 
   <property file="build.properties"/>
   <import file="${project.system}/build/standard.xml"/>
 
   <target name="build" depends="standard.build">
-    <x:block name="finder">
-      <x:component name="finder" 
-         class="org.apache.avalon.finder.impl.DefaultFinder"/>
-    </x:block>
-    <x:block name="finder" embed="MAIN">
+    <x:block name="test" embed="MAIN">
       <x:component name="finder" 
          class="org.apache.avalon.finder.impl.DefaultFinder"/>
     </x:block>
   </target>
 
 </project>
+

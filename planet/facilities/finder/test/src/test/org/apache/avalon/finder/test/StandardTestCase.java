@@ -53,16 +53,13 @@ public class StandardTestCase extends AbstractMerlinTestCase
         try
         {
             Widget widget = (Widget) finder.find( Widget.class );
+            System.out.println( "located widget: " + widget );
         }
         catch( Throwable notOk )
         {
             fail( "Unexpected error: " + notOk );
         }
-    }
 
-    public void testJunkResolution() throws Exception
-    {
-        Finder finder = (Finder) resolve( "/test/finder" );
         try
         {
             Object object = finder.find( StandardTestCase.class );
@@ -76,5 +73,4 @@ public class StandardTestCase extends AbstractMerlinTestCase
             fail( "Unexpected error: " + e );
         }
     }
-
 }
