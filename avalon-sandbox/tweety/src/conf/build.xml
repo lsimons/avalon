@@ -6,7 +6,7 @@
 	<property file="${user.home}/.ant.properties"/>
 
 	<property name="avalon-framework.jar" value="avalon-framework.jar"/>
-	<property name="tweety.jar" value="excalibur-tweety-1.0.1-alpha.jar"/>
+	<property name="tweety.jar" value="excalibur-tweety-1.0-beta.jar"/>
 	<property name="classes.dir" value="classes"/>
 	<property name="lib.dir" value="lib"/>
 
