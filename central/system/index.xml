@@ -788,15 +788,48 @@
       </info>
       <dependencies>
         <projects>
-          <projectref key="avalon-composition-spi"/>
-          <projectref key="avalon-activation-api"/>
-          <projectref key="avalon-repository-spi"/>
           <projectref key="avalon-util-lifecycle"/>
           <projectref key="avalon-util-i18n"/>
           <projectref key="avalon-util-defaults"/>
-          <projectref key="avalon-test-components" build="false" test="true" runtime="false"/>
+          <projectref key="avalon-repository-spi"/>
+          <projectref key="avalon-composition-spi"/>
           <projectref key="avalon-composition-impl" build="false" test="true" runtime="false"/>
+          <projectref key="avalon-activation-api"/>
+          <projectref key="avalon-test-components" build="false" test="true" runtime="false"/>
           <projectref key="avalon-test-playground" build="false" test="true" runtime="false"/>
+        </projects>
+      </dependencies>
+    </project>
+
+    <!--
+    Avalon Merlin.
+    -->
+
+    <project basedir="../../runtime/merlin/api">
+      <info>
+        <group>avalon/merlin</group>
+        <name>avalon-merlin-api</name>
+        <version>3.3.0</version>
+      </info>
+      <dependencies>
+        <projects>
+          <projectref key="avalon-composition-api"/>
+        </projects>
+      </dependencies>
+    </project>
+
+    <project basedir="../../runtime/merlin/impl">
+      <info>
+        <group>avalon/merlin</group>
+        <name>avalon-merlin-impl</name>
+        <version>3.3.0</version>
+      </info>
+      <dependencies>
+        <projects>
+          <projectref key="avalon-merlin-api"/>
+          <projectref key="avalon-composition-impl"/>
+          <projectref key="avalon-repository-main"/>
+          <projectref key="avalon-util-configuration"/>
         </projects>
       </dependencies>
     </project>
