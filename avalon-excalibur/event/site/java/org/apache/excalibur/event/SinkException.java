@@ -18,7 +18,7 @@ public class SinkException
     /**
      * The Throwable that caused this exception to be thrown.
      */
-    private final Throwable         m_throwable;
+    private final Throwable m_throwable;
 
     /**
      * Construct a new <code>SinkException</code> instance.

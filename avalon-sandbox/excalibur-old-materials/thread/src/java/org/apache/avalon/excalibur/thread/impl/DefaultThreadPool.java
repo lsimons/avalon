@@ -7,7 +7,6 @@
  */
 package org.apache.avalon.excalibur.thread.impl;
 
-import org.apache.excalibur.threadcontext.ThreadContext;
 import org.apache.avalon.excalibur.pool.ObjectFactory;
 import org.apache.avalon.excalibur.pool.SoftResourceLimitingPool;
 import org.apache.avalon.excalibur.thread.ThreadControl;
@@ -18,6 +17,7 @@ import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.logger.LogKitLogger;
 import org.apache.avalon.framework.logger.Loggable;
 import org.apache.avalon.framework.logger.Logger;
+import org.apache.excalibur.threadcontext.ThreadContext;
 
 /**
  * This class is the public frontend for the thread pool code.
@@ -86,7 +86,7 @@ public class DefaultThreadPool
         }
 
         final WorkerThread worker =
-	    new WorkerThread( this, name, m_pool, context );
+            new WorkerThread( this, name, m_pool, context );
         worker.setDaemon( true );
         worker.enableLogging( m_logger );
         worker.start();

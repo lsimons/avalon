@@ -13,7 +13,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Map;
 import org.apache.avalon.excalibur.pool.Recyclable;
-
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.component.ComponentManager;
@@ -25,10 +24,14 @@ import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.parameters.ParameterException;
-import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.parameters.Parameterizable;
+import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.thread.ThreadSafe;
-import org.apache.excalibur.source.*;
+import org.apache.excalibur.source.Source;
+import org.apache.excalibur.source.SourceException;
+import org.apache.excalibur.source.SourceFactory;
+import org.apache.excalibur.source.SourceNotFoundException;
+import org.apache.excalibur.source.SourceResolver;
 
 /**
  * Base interface for resolving a source by system identifiers.
@@ -51,7 +54,7 @@ import org.apache.excalibur.source.*;
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: SourceResolverImpl.java,v 1.6 2002/05/10 07:54:09 cziegeler Exp $
+ * @version $Id: SourceResolverImpl.java,v 1.7 2002/05/13 12:17:40 donaldp Exp $
  */
 public class SourceResolverImpl
     extends AbstractLogEnabled
@@ -142,11 +145,11 @@ public class SourceResolverImpl
     /**
      * Configure
      */
-    public void parameterize(Parameters pars)
-    throws ParameterException
+    public void parameterize( Parameters pars )
+        throws ParameterException
     {
-        final String urlSourceClassName = pars.getParameter("url-source",
-                         "org.apache.excalibur.source.impl.URLSource");
+        final String urlSourceClassName = pars.getParameter( "url-source",
+                                                             "org.apache.excalibur.source.impl.URLSource" );
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
         if( loader == null )
         {
@@ -156,10 +159,10 @@ public class SourceResolverImpl
         {
             this.m_urlSourceClass = loader.loadClass( urlSourceClassName );
         }
-        catch (ClassNotFoundException cnfe)
+        catch( ClassNotFoundException cnfe )
         {
-            this.getLogger().error("Class not found: " + urlSourceClassName, cnfe);
-            throw new ParameterException("Class not found: " + urlSourceClassName, cnfe);
+            this.getLogger().error( "Class not found: " + urlSourceClassName, cnfe );
+            throw new ParameterException( "Class not found: " + urlSourceClassName, cnfe );
         }
     }
 
@@ -267,9 +270,9 @@ public class SourceResolverImpl
                     factory = (SourceFactory)m_factorySelector.select( protocol );
                     source = factory.getSource( systemID, parameters );
                 }
-                catch (ComponentException ce)
+                catch( ComponentException ce )
                 {
-                    throw new SourceException("ComponentException.", ce);
+                    throw new SourceException( "ComponentException.", ce );
                 }
                 finally
                 {
@@ -290,7 +293,7 @@ public class SourceResolverImpl
                 try
                 {
                     final URLSource urlSource =
-                             (URLSource)this.m_urlSourceClass.newInstance();
+                        (URLSource)this.m_urlSourceClass.newInstance();
                     urlSource.init( new URL( systemID ), parameters );
                     source = urlSource;
                 }
@@ -298,10 +301,10 @@ public class SourceResolverImpl
                 {
                     throw mue;
                 }
-                catch (Exception ie)
+                catch( Exception ie )
                 {
-                    throw new SourceException("Unable to create new instance of " +
-                                                 this.m_urlSourceClass, ie);
+                    throw new SourceException( "Unable to create new instance of " +
+                                               this.m_urlSourceClass, ie );
                 }
             }
             catch( MalformedURLException mue )
@@ -314,14 +317,14 @@ public class SourceResolverImpl
                 try
                 {
                     final URLSource urlSource =
-                             (URLSource)this.m_urlSourceClass.newInstance();
+                        (URLSource)this.m_urlSourceClass.newInstance();
                     urlSource.init( ( new File( systemID ) ).toURL(), parameters );
                     source = urlSource;
                 }
-                catch (Exception ie)
+                catch( Exception ie )
                 {
-                    throw new SourceException("Unable to create new instance of " +
-                                                 this.m_urlSourceClass, ie);
+                    throw new SourceException( "Unable to create new instance of " +
+                                               this.m_urlSourceClass, ie );
                 }
             }
         }

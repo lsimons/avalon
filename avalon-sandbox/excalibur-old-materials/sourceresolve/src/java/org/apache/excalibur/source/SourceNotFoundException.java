@@ -12,10 +12,11 @@ package org.apache.excalibur.source;
  * This Exception should be thrown if the source could not be found.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/05/10 07:54:09 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/05/13 12:17:40 $
  */
 public class SourceNotFoundException
-    extends SourceException {
+    extends SourceException
+{
 
     /**
      * Construct a new <code>SourceNotFoundException</code> instance.

@@ -7,8 +7,8 @@
  */
 package org.apache.excalibur.event.command;
 
-import org.apache.excalibur.event.Signal;
 import org.apache.avalon.framework.activity.Executable;
+import org.apache.excalibur.event.Signal;
 
 /**
  * A Command is a specific type of Signal that denotes an asynchronous execution

@@ -50,9 +50,10 @@ import java.io.InputStream;
  * validity object must be the same until discardValidity is called!
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/04/24 12:35:37 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/05/13 12:17:40 $
  */
-public interface Source {
+public interface Source
+{
 
     /**
      * Return an <code>InputStream</code> object to read from the source.
@@ -87,5 +88,5 @@ public interface Source {
      * If the source is not able to determine the mime-type by itself
      * this can be null.
      */
-     String getMimeType();
+    String getMimeType();
 }

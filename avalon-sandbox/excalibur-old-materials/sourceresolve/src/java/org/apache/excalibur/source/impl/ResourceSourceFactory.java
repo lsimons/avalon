@@ -12,13 +12,15 @@ import java.net.MalformedURLException;
 import java.util.Map;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.thread.ThreadSafe;
-import org.apache.excalibur.source.*;
+import org.apache.excalibur.source.Source;
+import org.apache.excalibur.source.SourceException;
+import org.apache.excalibur.source.SourceFactory;
 
 /**
  * A factory for the Resource protocol
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version $Id: ResourceSourceFactory.java,v 1.3 2002/05/01 09:11:47 donaldp Exp $
+ * @version $Id: ResourceSourceFactory.java,v 1.4 2002/05/13 12:17:40 donaldp Exp $
  */
 public class ResourceSourceFactory
     extends AbstractLogEnabled

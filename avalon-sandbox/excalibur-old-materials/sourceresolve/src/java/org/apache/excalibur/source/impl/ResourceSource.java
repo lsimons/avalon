@@ -9,7 +9,8 @@ package org.apache.excalibur.source.impl;
 
 import java.io.IOException;
 import java.io.InputStream;
-import org.apache.excalibur.source.*;
+import org.apache.excalibur.source.Source;
+import org.apache.excalibur.source.SourceValidity;
 import org.apache.excalibur.source.impl.validity.NOPValidity;
 
 /**
@@ -17,7 +18,7 @@ import org.apache.excalibur.source.impl.validity.NOPValidity;
  * which gets a resource from the classloader.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/04/19 09:05:37 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/05/13 12:17:40 $
  */
 
 public final class ResourceSource

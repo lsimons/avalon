@@ -14,10 +14,10 @@ import org.apache.avalon.framework.component.Component;
 
 /**
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version $Id: SourceFactory.java,v 1.2 2002/04/24 12:35:37 cziegeler Exp $
+ * @version $Id: SourceFactory.java,v 1.3 2002/05/13 12:17:40 donaldp Exp $
  */
 public interface SourceFactory
-   extends Component
+    extends Component
 {
 
     String ROLE = SourceFactory.class.getName();

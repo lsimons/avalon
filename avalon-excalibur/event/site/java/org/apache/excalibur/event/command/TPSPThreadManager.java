@@ -10,11 +10,11 @@ package org.apache.excalibur.event.command;
 import java.util.HashMap;
 import java.util.Iterator;
 import org.apache.avalon.excalibur.concurrent.Mutex;
-import org.apache.excalibur.event.EventHandler;
-import org.apache.excalibur.event.Source;
 import org.apache.avalon.excalibur.thread.ThreadControl;
 import org.apache.avalon.excalibur.thread.ThreadPool;
 import org.apache.avalon.excalibur.thread.impl.ResourceLimitingThreadPool;
+import org.apache.excalibur.event.EventHandler;
+import org.apache.excalibur.event.Source;
 
 /**
  * This is a ThreadManager which provides a threadpool per Sink per EventPipeline.
