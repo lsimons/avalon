@@ -7,7 +7,7 @@
  */
 package org.apache.avalon.phoenix.engine.facilities;
 
-import org.apache.avalon.framework.atlantis.Facility;
+import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.excalibur.thread.ThreadPool;
 import org.apache.log.Logger;
 
@@ -17,7 +17,7 @@ import org.apache.log.Logger;
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public interface ApplicationFrame
-    extends Facility
+    extends Component
 {
     String ROLE = "org.apache.avalon.phoenix.engine.facilities.ApplicationFrame";
 
