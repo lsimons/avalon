@@ -71,11 +71,7 @@ public class Main
         throws Exception
     {
         final PhoenixEmbeddor embeddor = new PhoenixEmbeddor();
-        //final SingleAppEmbeddor embeddor = new SingleAppEmbeddor();
-        //parameters.setParameter( "application-name", "griffin" );
-        //parameters.setParameter( "application-location", "../apps/avalon-demo.sar" );
         embeddor.parameterize( parameters );
-
         embeddor.initialize();
         embeddor.start();
 

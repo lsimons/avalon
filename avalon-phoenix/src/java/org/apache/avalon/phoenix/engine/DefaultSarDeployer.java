@@ -406,7 +406,6 @@ public class DefaultSarDeployer
             {
                 throw new DeploymentException( ce.getMessage(), ce );
             }
-            //entry.setConfiguration( configuration );
 
             final String message = REZ.format( "deploy.notice.block.config", name );
             getLogger().debug( message );
