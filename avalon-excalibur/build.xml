@@ -373,7 +373,7 @@ Legal:
 
           <!-- **** Excalibur tests **** -->
           <!-- Jdbc based tests -->
-          <exclude name="org/apache/avalon/excalibur/datasource/test/DataSourceTestCase.class" unless="test.jdbc"/>
+          <exclude name="**/*JdbcTestCase.class" unless="test.jdbc"/>
 
           <!-- Slow tests only run when test.all property set -->
           <exclude name="org/apache/avalon/excalibur/naming/rmi/test/RMIContextTestCase.class" unless="test.all"/>

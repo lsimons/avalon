@@ -30,14 +30,14 @@ import org.apache.avalon.excalibur.concurrent.ThreadBarrier;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  */
-public class DataSourceTestCase
+public class DataSourceJdbcTestCase
     extends ExcaliburTestCase
 {
     protected boolean isSuccessful;
     protected ThreadBarrier barrier;
     protected int connectionCount;
 
-    public DataSourceTestCase(String name)
+    public DataSourceJdbcTestCase(String name)
     {
         super(name);
     }
@@ -148,9 +148,9 @@ public class DataSourceTestCase
         implements Runnable
     {
         protected DataSourceComponent datasource;
-        protected DataSourceTestCase testcase;
+        protected DataSourceJdbcTestCase testcase;
 
-        ConnectionThread( DataSourceTestCase testcase,
+        ConnectionThread( DataSourceJdbcTestCase testcase,
                           final DataSourceComponent datasource )
         {
             this.datasource = datasource;
