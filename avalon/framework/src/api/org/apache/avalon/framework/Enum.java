@@ -126,6 +126,16 @@ public abstract class Enum
     }
 
     /**
+     * Returns a hash code value for the object.
+     *
+     * @return a hash code value for this object
+     */
+    public int hashCode()
+    {
+	return m_name.hashCode();
+    }
+
+    /**
      * Retrieve the name of this Enum item, set in the constructor.
      * @return the name <code>String</code> of this Enum item
      */
