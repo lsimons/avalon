@@ -85,8 +85,7 @@ Legal:
 
   <property name="servlet.jar" value="${lib.dir}/servlet.jar"/>
   <property name="mail.jar" value="${lib.dir}/mail.jar"/>
-  <property name="jakarta-site.dir" value="../jakarta-site"/>
-  <property name="framework.jar" value="../jakarta-avalon/build/lib/avalon-framework.jar"/>
+  <property name="jakarta-site.dir" value="../jakarta-avalon-site"/>
 
   <path id="project.class.path">
     <pathelement path="${java.class.path}" />
@@ -169,24 +168,11 @@ Legal:
         
   </target>
 
-  <target name="import-framework-jar" if="avalon-framework-jar.relatively-present" depends="optional-tests" description="Imports the Avalon Framework jar if required">
-
-    <copy file="${framework.jar}" todir="${lib.dir}"/>
-
-  </target>
-
 
   <target name="optional-tests" description="Tests for classes missing to the environment">
 
     <available property="servlet.present"
                classname="javax.servlet.ServletContext"
-               classpathref="project.class.path" />
-
-    <available property="avalon-framework-jar.relatively-present"
-               file="${framework.jar}"/>
-
-    <available property="avalon-framework.present"
-               classname="org.apache.avalon.framework.CascadingThrowable"
                classpathref="project.class.path" />
 
     <available property="javax.sql.present"
@@ -260,20 +246,7 @@ Legal:
     </antcall>
   </target>
 
-  <target name="framework-warn" unless="avalon-framework.present">
-    <echo>**********************************************</echo>
-    <echo>*</echo>
-    <echo>*  Optional classes from Avalon's framework subproject</echo>
-    <echo>*  are missing.  Logkit should build without them.</echo>
-    <echo>*</echo>
-    <echo>*  Run the build target import-framework-jar and it will</echo>
-    <echo>*  get the framework jar from a relative directory if there.</echo>
-    <echo>*</echo>
-    <echo>***********************************************</echo>
-    <echo/>
-  </target>
-
-  <target name="optional-warnings" depends="jms-warn,framework-warn,sql-warn,servlet-warn,mail-warn,log4j-warn">
+  <target name="optional-warnings" depends="jms-warn,sql-warn,servlet-warn,mail-warn,log4j-warn">
   </target>
 
   <!-- Prepares the build directory -->
@@ -298,8 +271,6 @@ Legal:
                unless="servlet.present"/>
       <exclude name="org/apache/log/output/net/SMTPOutputLogTarget.java"
                unless="javax.mail.present"/>
-      <exclude name="org/apache/log/format/AvalonFormatter.java"
-               unless="avalon-framework.present"/>
       <exclude name="org/apache/log/output/db/**"
                unless="javax.sql.present"/>
       <exclude name="org/apache/log/output/jms/**"
@@ -405,8 +376,6 @@ Legal:
                  unless="servlet.present"/>
         <exclude name="org/apache/log/output/net/SMTPOutputLogTarget.java"
                  unless="javax.mail.present"/>
-        <exclude name="org/apache/log/format/AvalonFormatter.java"
-                 unless="avalon-framework.present"/>
         <exclude name="org/apache/log/output/db/**"
                  unless="javax.sql.present"/>
         <exclude name="org/apache/log/output/jms/**"
