@@ -57,8 +57,17 @@ package org.apache.log.output.io.rotate;
 import java.io.File;
 
 /**
- * Rotation stragety based on size written to log file.
+ * Rotation strategy based on size written to log file.
+ * The strategy will signal that a rotation is needed if the
+ * size goes above a set limit. Due to performance reasons
+ * the limit is not strictly enforced, however, the strategy has
+ * at most an error of the longest single data message written to the
+ * logging system. The error will occur immediately after a rotation,
+ * when the strategy is reset and the data that triggered the
+ * rotation is written. The strategy's internal counter will then
+ * be off with data.length() bytes.
  *
+ * @author <a href="mailto:leo.sutic@inspireinfrastructure.com">Leo Sutic</a>
  * @author <a href="mailto:bh22351@i-one.at">Bernhard Huber</a>
  */
 public class RotateStrategyBySize
@@ -88,7 +97,7 @@ public class RotateStrategyBySize
     }
 
     /**
-     * reset log size written so far.
+     * Reset log size written so far.
      */
     public void reset()
     {
@@ -98,22 +107,15 @@ public class RotateStrategyBySize
     /**
      *  Check if now a log rotation is neccessary.
      *
-     *  @param data the last message written to the log system
+     *  @param data the message about to be written to the log system
      *  @return boolean return true if log rotation is neccessary, else false
      *  @param file not used
      */
     public boolean isRotationNeeded( final String data, final File file )
     {
-        if( m_currentSize >= m_maxSize )
-        {
-            m_currentSize = data.length();
-            return true;
-        }
-        else
-        {
         m_currentSize += data.length();
-            return false;
-        }
+        
+        return m_currentSize >= m_maxSize;
     }
 }
 
