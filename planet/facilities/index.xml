@@ -8,6 +8,60 @@
   <import index="http/blocks/index.xml"
      href="http://svn.apache.org/repos/asf/avalon/trunk/planet/facilities/http/blocks/index.xml"/>
      
+  <resource>
+    <info>
+      <group>jetty</group>
+      <name>org.mortbay.jetty</name>
+      <version>SNAPSHOT</version>
+      <type>jar</type>
+    </info>
+  </resource>
+
+  <resource>
+    <info>
+      <group>jetty</group>
+      <name>org.mortbay.jaas</name>
+      <version>5.0.RC0</version>
+      <type>jar</type>
+    </info>
+  </resource>
+
+  <resource>
+    <info>
+      <group>tomcat</group>
+      <name>jasper-compiler</name>
+      <version>5.0.25</version>
+      <type>jar</type>
+    </info>
+  </resource>
+
+  <resource>
+    <info>
+      <group>tomcat</group>
+      <name>jasper-runtime</name>
+      <version>5.0.25</version>
+      <type>jar</type>
+    </info>
+  </resource>
+
+  <resource>
+    <info>
+      <group>tomcat</group>
+      <name>jsp-api</name>
+      <version>5.0.18</version>
+      <type>jar</type>
+    </info>
+  </resource>
+
+  <resource>
+    <info>
+      <group>commons-logging</group>
+      <name>commons-logging</name>
+      <version>SNAPSHOT</version>
+      <type>jar</type>
+    </info>
+  </resource>
+  
   <!--
   Avalon Facilities - Finder
   -->
@@ -145,6 +199,9 @@
       <include key="org.mortbay.jetty"/>
       <include key="org.mortbay.jaas"/>
       <include key="commons-logging" build="false" runtime="true"/>
+      <include key="jsp-api" runtime="true" build="false" />
+      <include key="jasper-runtime" runtime="true" build="false" />
+      <include key="jasper-compiler" runtime="true" build="false" />
     </dependencies>
     <plugins>
       <include key="avalon-meta-tools"/>
