@@ -10,6 +10,8 @@
   <target name="init" depends="standard.init">
     <x:filter key="avalon-merlin-impl" feature="version" 
        token="RUNTIME-VERSION"/>
+    <x:filter key="avalon-merlin-impl" feature="uri" 
+       token="MERLIN-URI"/>
   </target>
 
   <target name="javadoc" depends="prepare">
