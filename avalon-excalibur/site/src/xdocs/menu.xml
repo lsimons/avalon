@@ -47,6 +47,7 @@
     <item name="Extension" href="extension/index.html"/>
     <item name="I/O" href="io/index.html"/>
     <item name="Internationalization" href="i18n/index.html"/>
+    <item name="Logger" href="logger/index.html"/>
     <item name="Naming" href="naming/index.html"/>
     <item name="Pool" href="pool/index.html"/>
     <item name="Source Resolver" href="sourceresolve/index.html"/>
