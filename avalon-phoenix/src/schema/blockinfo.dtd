@@ -37,10 +37,13 @@ name	        the human readable name of block type. Must be a string
              with a letter.
 version	     the version of the block in (in the format #.#.#, #.# or # where
              # is a integer
+schema-type  string representing the type of schema information available
+             to validate block configuration
 -->
 <!ELEMENT block          (name?,version)>
   <!ELEMENT name         (#PCDATA) >
   <!ELEMENT version      (#PCDATA) >
+  <!ELEMENT schema-type  (#PCDATA) >
 
 <!--
 The service element describes a service that the block
@@ -88,3 +91,14 @@ The dependencies element contains a list of services that this Block requires.
 It contains dependency elements.
 -->
 <!ELEMENT dependencies    (dependency*)>
+
+<!--
+The configuration scheme element contains the XML structure that describes the configuration that this
+block expects.
+
+The type attribute specifies the schema type.
+-->
+<!ELEMENT configuration-schema (#PCDATA)>
+  <!ATTLIST configuration-schema
+       type CDATA #IMPLIED
+  >
