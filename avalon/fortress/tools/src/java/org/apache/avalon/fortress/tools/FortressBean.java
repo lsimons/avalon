@@ -31,13 +31,12 @@ import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
-import org.apache.commons.logging.impl.AvalonLogger;
 
 /**
  * Bean for making it easier to run Fortress, for example as Ant task.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.3 $ $Date: 2004/02/21 13:27:02 $
+ * @version CVS $Revision: 1.4 $ $Date: 2004/02/26 22:42:03 $
  */
 public class FortressBean implements Initializable, LogEnabled, Serviceable, Disposable {
 
@@ -82,9 +81,6 @@ public class FortressBean implements Initializable, LogEnabled, Serviceable, Dis
             // Get the root container initialized
             this.cm = new DefaultContainerManager(config.getContext());
             ContainerUtil.initialize(cm);
-            // set the static logger for commons logging 
-            AvalonLogger.setDefaultLogger(cm.getLogger());
-            System.setProperty("org.apache.commons.logging.Log", "org.apache.commons.logging.impl.AvalonLogger");
 
             this.container = (DefaultContainer) cm.getContainer();
             this.sm = container.getServiceManager();
@@ -127,7 +123,7 @@ public class FortressBean implements Initializable, LogEnabled, Serviceable, Dis
     public void dispose() {
         // Properly clean up when we are done
         org.apache.avalon.framework.container.ContainerUtil.dispose( cm );
-        System.getProperties().remove("org.apache.commons.logging.Log");
+        
         //system exit, in case we were running some GUI and some thread is still active
         if (this.systemExitOnDispose) {
             Thread.yield();
