@@ -30,9 +30,8 @@
       </p>
 
 <source><![CDATA[
-  <property name="project.home" value=".."/>
-
-  <x:home/>
+<property name="project.home" value=".."/>
+<x:home/>
 ]]></source>
 
 <pre>
@@ -112,7 +111,7 @@
       </p>
 
 <source><![CDATA[
-  <x:home index="../../released-packages.xml"/>
+<x:home index="../../released-packages.xml"/>
 ]]></source>
 
       <p>
@@ -121,9 +120,8 @@
       </p>
 
 <source><![CDATA[
-  <property name="project.home" value=".."/>
-
-  <x:home/>
+<property name="project.home" value=".."/>
+<x:home/>
 ]]></source>
 
       <p>

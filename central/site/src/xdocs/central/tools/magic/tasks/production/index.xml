@@ -9,6 +9,9 @@
   <body>
     <section name="Production Tasks">
       <p>
+      The production tasks provide support for plugin auto-loading, 
+      java source compilation, jar and bar file creation, junit testing,
+      and deliverable installation into the artifact repository.
       </p>
     </section>
   </body>
