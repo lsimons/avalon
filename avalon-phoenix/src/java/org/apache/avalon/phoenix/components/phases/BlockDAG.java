@@ -8,17 +8,10 @@
 package org.apache.avalon.phoenix.components.phases;
 
 import java.util.ArrayList;
-import org.apache.avalon.excalibur.container.Container;
-import org.apache.avalon.excalibur.container.ContainerException;
 import org.apache.avalon.framework.component.Component;
-import org.apache.avalon.framework.component.ComponentException;
-import org.apache.avalon.framework.component.ComponentManager;
-import org.apache.avalon.framework.component.Composable;
-import org.apache.avalon.phoenix.components.kapi.BlockEntry;
 import org.apache.avalon.phoenix.metadata.DependencyMetaData;
 import org.apache.avalon.phoenix.metadata.BlockMetaData;
 import org.apache.avalon.phoenix.metainfo.DependencyDescriptor;
-import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
 
 /**
  * This is the dependency graph for blocks.
@@ -26,18 +19,9 @@ import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public class BlockDAG
-    implements Component, Composable
+    implements Component
 {
-    private Container       m_container;
-
-    public void compose( final ComponentManager componentManager )
-        throws ComponentException
-    {
-        m_container = (Container)componentManager.lookup( Container.ROLE );
-    }
-
-    public String[] walkGraph( final Traversal traversal )
-        throws Exception
+    public String[] walkGraph( final Traversal traversal, final BlockMetaData[] blocks )
     {
         final ArrayList result = new ArrayList();
 
@@ -45,21 +29,35 @@ public class BlockDAG
         //that are already traversed
         final ArrayList done = new ArrayList();
 
-        final String[] entries = m_container.list();
-        for( int i = 0; i < entries.length; i++ )
+        for( int i = 0; i < blocks.length; i++ )
         {
-            final String name = entries[ i ];
-            final BlockMetaData block = getBlock( name );
-            visitBlock( name, block, traversal, done, result );
+            visitBlock( blocks[ i ], blocks, traversal, done, result );
         }
 
         return (String[])result.toArray( new String[ 0 ] );
     }
 
-    private BlockMetaData getBlock( final String name )
-        throws Exception
+    private void visitBlock( final BlockMetaData block, 
+                             final BlockMetaData[] blocks,
+                             final Traversal traversal,
+                             final ArrayList done,
+                             final ArrayList order )
     {
-        return ((BlockEntry)m_container.getEntry( name )).getMetaData();
+        //If already visited this block then bug out early
+        final String name = block.getName();
+        if( done.contains( name ) ) return;
+        done.add( name );
+
+        if( Traversal.FORWARD == traversal )
+        {
+            visitDependencies( block, blocks, done, order );
+        }
+        else if( Traversal.REVERSE == traversal )
+        {
+            visitReverseDependencies( block, blocks, done, order );
+        }
+
+        order.add( name );
     }
 
     /**
@@ -68,21 +66,17 @@ public class BlockDAG
      * @param name name of BlockMetaData
      * @param block the BlockMetaData
      */
-    private void visitDependencies( final String name,
-                                    final BlockMetaData block,
+    private void visitDependencies( final BlockMetaData block, 
+                                    final BlockMetaData[] blocks,
                                     final ArrayList done,
                                     final ArrayList order )
-        throws Exception
     {
         final DependencyDescriptor[] descriptors = block.getBlockInfo().getDependencies();
         for( int i = 0; i < descriptors.length; i++ )
         {
-            final ServiceDescriptor serviceDescriptor = descriptors[ i ].getService();
-            final String role = descriptors[ i ].getRole();
-            final DependencyMetaData dependencyMetaData = block.getDependency( role );
-            final String dependencyName = dependencyMetaData.getName();
-            final BlockMetaData dependency = getBlock( dependencyName );
-            visitBlock( dependencyName, dependency, Traversal.FORWARD, done, order );
+            final DependencyMetaData dependency = block.getDependency( descriptors[ i ].getRole() );
+            final BlockMetaData other = getBlock( dependency.getName(), blocks );
+            visitBlock( other, blocks, Traversal.FORWARD, done, order );
         }
     }
 
@@ -93,49 +87,40 @@ public class BlockDAG
      * @param name name of BlockMetaData
      * @param block the BlockMetaData
      */
-    private void visitReverseDependencies( final String name,
+    private void visitReverseDependencies( final BlockMetaData block,
+                                           final BlockMetaData[] blocks,
                                            final ArrayList done,
                                            final ArrayList order )
-        throws Exception
     {
-        final String[] names = m_container.list();
-        for( int i = 0; i < names.length; i++ )
+        final String name = block.getName();
+
+        for( int i = 0; i < blocks.length; i++ )
         {
-            final String blockName = names[ i ];
-            final BlockMetaData block = getBlock( blockName );
-            final DependencyMetaData[] roles = block.getDependencies();
+            final BlockMetaData other = blocks[ i ];
+            final DependencyMetaData[] roles = other.getDependencies();
 
             for( int j = 0; j < roles.length; j++ )
             {
                 final String depends = roles[ j ].getName();
                 if( depends.equals( name ) )
                 {
-                    visitBlock( blockName, block, Traversal.REVERSE, done, order );
+                    visitBlock( other, blocks, Traversal.REVERSE, done, order );
                 }
             }
         }
     }
 
-    private void visitBlock( final String name,
-                             final BlockMetaData block,
-                             final Traversal traversal,
-                             final ArrayList done,
-                             final ArrayList order )
-        throws Exception
+    private BlockMetaData getBlock( final String name, final BlockMetaData[] blocks )
     {
-        //If already visited this block then bug out early
-        if( done.contains( name ) ) return;
-        done.add( name );
-
-        if( Traversal.FORWARD == traversal )
+        for( int i = 0; i < blocks.length; i++ )
         {
-            visitDependencies( name, block, done, order );
-        }
-        else if( Traversal.REVERSE == traversal )
-        {
-            visitReverseDependencies( name, done, order );
+            if( blocks[ i ].getName().equals( name ) )
+            {
+                return blocks[ i ];
+            }
         }
 
-        order.add( name );
+        //Should never happen if Verifier passed checks
+        throw new IllegalStateException();
     }
 }

@@ -313,7 +313,7 @@ public final class DefaultServerApplication
                                    final Traversal traversal )
         throws Exception
     {
-        final String[] path = m_dag.walkGraph( traversal );
+        final String[] path = m_dag.walkGraph( traversal, m_blocks );
         
         if( getLogger().isInfoEnabled() )
         {
