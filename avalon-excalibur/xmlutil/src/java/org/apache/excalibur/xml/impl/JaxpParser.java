@@ -84,7 +84,7 @@ import org.xml.sax.ext.LexicalHandler;
  * </ul>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.4 $ $Date: 2004/02/25 10:33:20 $
+ * @version CVS $Revision: 1.5 $ $Date: 2004/02/25 23:12:54 $
  * @avalon.component
  */
 public final class JaxpParser
@@ -334,6 +334,9 @@ public final class JaxpParser
                 final String message = "Cannot produce a valid parser";
                 throw new SAXException( message, pce );
             }
+            
+            m_reader.setFeature( "http://xml.org/sax/features/namespaces", true );
+            
             if( m_nsPrefixes )
             {
                 try
