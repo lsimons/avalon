@@ -13,6 +13,8 @@
 Avalon LogKit is the logging utility used by default in all Avalon systems.
     </description>
 
+    <package>org.apache.log</package>
+
     <dependencies>
       <dependency>
         <id>avalon-framework</id>
