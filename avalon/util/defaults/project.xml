@@ -1,25 +1,27 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE project [
+  <!ENTITY % index SYSTEM "file:index.ent"> %index;
+]>
 
 <project>
 
   <extend>${basedir}/../project.xml</extend>
 
-  <groupId>avalon-util</groupId>
-  <id>avalon-util-defaults</id>
+  <groupId>&avalon-util-id;</groupId>
+  <id>&avalon-util-defaults-id;</id>
+  <currentVersion>&avalon-util-defaults-version;</currentVersion>
+
   <name>Avalon Property Defaults</name>
-  <currentVersion>1.2-SNAPSHOT</currentVersion>
-
   <package>org.apache.avalon.util.defaults</package>
-
   <inceptionYear>2003</inceptionYear>
   <shortDescription>Avalon default property management.</shortDescription>
 
   <dependencies>
 
     <dependency>
-      <groupId>avalon-util</groupId>
-      <artifactId>avalon-util-env</artifactId>
-      <version>1.1-SNAPSHOT</version>
+      <groupId>&avalon-util-id;</groupId>
+      <artifactId>&avalon-util-env-id;</artifactId>
+      <version>&avalon-util-env-version;</version>
     </dependency>
 
   </dependencies>
