@@ -15,6 +15,7 @@ package org.apache.avalon.framework.configuration;
  * This is a "read only" interface preventing applications from modifying their
  * own configurations. Once it is created, the information never changes.
  * </p>
+ * <h3>Data Model</h3>
  * <p>
  * The data model is a subset of XML's; a single-rooted hierarchical tree where each
  * node can contain multiple <em>attributes</em>, and leaf nodes can also
@@ -23,6 +24,7 @@ package org.apache.avalon.framework.configuration;
  * class, or directly by a SAX parser using a {@link SAXConfigurationHandler} or
  * {@link NamespacedSAXConfigurationHandler} event handler.
  * </p>
+ * <h4>Namespace support</h4>
  * <p>
  * Since version 4.1, each <code>Configuration</code> node has a namespace
  * associated with it, in the form of a string, accessible through {@link
@@ -30,6 +32,7 @@ package org.apache.avalon.framework.configuration;
  * return blank (""). See {@link DefaultConfigurationBuilder} for details on how
  * XML namespaces are mapped to <code>Configuration</code> namespaces.
  * </p>
+ * <h3>Example</h3>
  * <p>
  * As an example, consider two <code>Configuration</code>s (with and without
  * namespaces) built from this XML:
@@ -72,7 +75,13 @@ package org.apache.avalon.framework.configuration;
  * <tr align="center"><td align="left"><code>conf.{@link #getChild getChild}("doc:desc").{@link #getValue getValue}()</code></td><td>This is a highly fictitious config file</td><td>{@link ConfigurationException}</td></tr>
  * <tr align="center"><td align="left"><code>conf.{@link #getChild getChild}("desc").{@link #getNamespace getNamespace}()</code></td><td>&nbsp;</td><td>http://myco.com/documentation"</td></tr>
  * </table>
- *
+ * </p>
+ * <p>
+ * Type-safe utility methods are provided for retrieving attribute and element
+ * values as <code>String</code>, <code>int</code>, <code>long</code>,
+ * <code>float</code> and <code>boolean</code>.
+ * </p>
+ * <h3>Miscellanea</h3>
  * <p>
  * Currently, the configuration tree can only be traversed one node at a time,
  * eg., through {@link #getChild getChild("foo")} or {@link #getChildren}. In
@@ -80,11 +89,16 @@ package org.apache.avalon.framework.configuration;
  * syntax.
  * </p>
  * <p>
- * Type-safe utility methods are provided for retrieving attribute and element
- * values as <code>String</code>, <code>int</code>, <code>long</code>,
- * <code>float</code> and <code>boolean</code>.
+ * Checking for the existence of an attribute can be done as follows:
  * </p>
- *
+ * <pre>
+ *String value = conf.getAttribute( "myAttribute", null );
+ * if ( null == value )
+ * {
+ *   // Do the processing applicable if the attribute isn't present.
+ * }
+ * </pre>
+ * 
  * @author <a href="mailto:fede@apache.org">Federico Barbieri</a>
  * @author <a href="mailto:pier@apache.org">Pierpaolo Fumagalli</a>
  * @author <a href="mailto:stefano@apache.org">Stefano Mazzocchi</a>
