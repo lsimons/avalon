@@ -57,7 +57,7 @@
     <mkdir dir="build/lib"/>
 
     <!-- block for Phoenix-Demo -->
-    <jar jarfile="build/lib/phoenix-demo-block.jar"
+    <jar jarfile="build/lib/${name}-block.jar"
          manifest="src/manifest/block-archive.mf">
       <fileset dir="build/classes">
         <include name="**"/>
@@ -69,7 +69,7 @@
     </jar>
 
     <!-- Standalone Phoenix-Demo server -->
-    <jar jarfile="build/lib/phoenix-demo-server.jar"
+    <jar jarfile="build/lib/${name}-server.jar"
          manifest="src/manifest/server.mf">
       <fileset dir="build/classes">
         <include name="**"/>
@@ -79,7 +79,7 @@
     </jar>
 
     <!-- Phoenix-Demo client -->
-    <jar jarfile="build/lib/phoenix-demo-client.jar"
+    <jar jarfile="build/lib/${name}-client.jar"
          manifest="src/manifest/client.mf">
       <fileset dir="build/classes">
         <include name="**"/>
@@ -95,7 +95,7 @@
 
   <target name="sars" depends="jars">
 
-    <jar jarfile="build/lib/phoenix-demo.sar">
+    <jar jarfile="build/lib/${name}.sar">
 
       <zipfileset dir="build/lib" prefix="SAR-INF/lib">
         <include name="*block.jar"/>
