@@ -129,8 +129,12 @@ the LICENSE.txt file.
         <filter token="year" value="${year}"/>
       </filterset>
     </copy>
+    <copy todir="${build.conf}" flatten="true">
+      <fileset dir="${src.dir}/etc" includes="kernel.xml"/>
+    </copy>
 
     <mkdir dir="${build.lib}"/>
+
     <jar jarfile="${build.lib}/${jar.name}"
        basedir="${build.classes}"
        compress="${build.compress}"
@@ -140,11 +144,8 @@ the LICENSE.txt file.
       <zipfileset dir="${build.conf}" prefix="META-INF/">
         <include name="LICENSE.txt"/>
       </zipfileset>
-      <zipfileset dir="${lib.dir}" prefix="BLOCK-INFO/lib">
-        <include name="*.jar"/>
-      </zipfileset>
-      <zipfileset dir="${common.dir}" prefix="BLOCK-INFO/common">
-        <include name="*.jar"/>
+      <zipfileset dir="${build.conf}" prefix="BLOCK-INFO/">
+        <include name="kernel.xml"/>
       </zipfileset>
     </jar>
   </target>
