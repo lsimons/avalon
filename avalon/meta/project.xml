@@ -5,7 +5,7 @@
   <name>Avalon Meta</name>
   <groupId>avalon-meta</groupId>
   <id>avalon-meta</id>
-  <currentVersion>1.3-RC3</currentVersion>
+  <currentVersion>1.3-RC5</currentVersion>
   <inceptionYear>2000</inceptionYear>
 
   <organization>
@@ -41,6 +41,13 @@
       <archive>http://nagoya.apache.org/eyebrowse/SummarizeList?listName=users@avalon.apache.org</archive>
     </mailingList>
   </mailingLists>
+
+  <releases>
+    <release>
+      <version>1.3-RC5</version>
+      <tag>SNAPSHOT_20031225</tag>
+    </release>
+  </releases>
 
   <developers>
     <developer>
