@@ -47,6 +47,7 @@ class LifecycleHelper
     private static final Resources REZ =
         ResourceManager.getPackageResources( LifecycleHelper.class );
 
+    //Constants to designate stages
     private final static int STAGE_CREATE   = 0;
     private final static int STAGE_LOGGER   = 1;
     private final static int STAGE_CONTEXT  = 2;
@@ -57,6 +58,10 @@ class LifecycleHelper
     private final static int STAGE_STOP     = 7;
     private final static int STAGE_DISPOSE  = 8;
     private final static int STAGE_DESTROY  = 9;
+
+    //Constants to designate type of component
+    private final static int TYPE_BLOCK     = 0;
+    private final static int TYPE_LISTENER  = 1;
 
     ///Frame in which block executes
     private ApplicationFrame     m_frame;
@@ -106,7 +111,7 @@ class LifecycleHelper
 
         if( listener instanceof Configurable )
         {
-            final Configuration configuration = getConfiguration( name, 1 );
+            final Configuration configuration = getConfiguration( name, TYPE_LISTENER );
             ((Configurable)listener).configure( configuration );
         }
 
@@ -173,7 +178,7 @@ class LifecycleHelper
             if( block instanceof Configurable )
             {
                 notice( name, stage );
-                final Configuration configuration = getConfiguration( name, 0 );
+                final Configuration configuration = getConfiguration( name, TYPE_BLOCK );
                 ((Configurable)block).configure( configuration );
             }
 
