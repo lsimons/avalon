@@ -13,15 +13,16 @@ import org.apache.avalon.cornerstone.services.threads.ThreadManager;
 
 /**
  * ThreadConsumer is a example of a component that uses the ThreadManager
- * servicde to aquired a thread pool.
+ * service to aquired a thread pool.
  *
+ * @avalon.component name="consumer" lifestyle="singleton" version="1.0"
  * @author Stephen McConnell
  */
 public class ThreadConsumer extends AbstractLogEnabled implements
 Serviceable, Initializable, Disposable
 {
    /**
-    * The service manager fro which serrvices are aquired and released.
+    * The service manager from which serrvices are aquired and released.
     */
     private ServiceManager m_manager;
 
@@ -48,13 +49,14 @@ Serviceable, Initializable, Disposable
     * @param manager the thread manager
     * @exception ServiceException if the thread manager service is 
     *   unresolvable
+    * @avalon.dependency key="threads" 
+    *   type="org.apache.avalon.cornerstone.services.threads.ThreadManager"
     */
     public void service( ServiceManager manager ) throws ServiceException
     {
         m_manager = manager;
         getLogger().info( "aquiring cornerstone threads service" );
         m_threads = (ThreadManager) m_manager.lookup( "threads" );
-        getLogger().info( "thread manager aquired: " + m_threads );
     }
 
    /**
@@ -94,7 +96,7 @@ Serviceable, Initializable, Disposable
     {
         getLogger().info( "disposal" );
 
-        if( !m_control.isFinished() )
+        if( ( m_control != null ) && !m_control.isFinished() )
         {
             //
             // interrupt the child 
@@ -126,7 +128,7 @@ Serviceable, Initializable, Disposable
         // check for errors
         //
 
-        if( m_control.getThrowable() != null )
+        if( ( m_control != null ) && ( m_control.getThrowable() != null ) )
         {
             getLogger().warn( 
               "thread terminated with exception condition", 

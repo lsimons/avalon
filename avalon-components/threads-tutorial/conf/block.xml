@@ -9,17 +9,22 @@ Thread Tutorial.
        <classpath>
          <repository>
            <resource id="avalon-framework:avalon-framework-impl" version="4.1.5"/>
-           <resource id="cornerstone-threads:cornerstone-threads-api" version="1.0"/>
+           <resource id="commons-collections:commons-collections" version="2.1"/>
+           <resource id="excalibur-pool:excalibur-pool" version="1.2"/>
            <resource id="excalibur-thread:excalibur-thread" version="1.1.1"/>
            <resource id="excalibur-event:excalibur-event" version="1.0.3"/>
+           <resource id="cornerstone-threads:cornerstone-threads-api" version="1.0"/>
          </repository>
        </classpath>
      </classloader>
 
+     <categories>
+       <category name="threads/classloader/scanner" priority="ERROR"/>
+     </categories>
+
      <include name="threads" id="cornerstone-threads:cornerstone-threads-impl" version="1.0"/>
 
      <component name="test" 
-        class="org.apache.avalon.cornerstone.threads.tutorial.ThreadConsumer" 
-        activation="true"/>
+        class="org.apache.avalon.cornerstone.threads.tutorial.ThreadConsumer" />
 
 </container>
