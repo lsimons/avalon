@@ -16,4 +16,12 @@
     <service name="org.apache.avalon.cornerstone.services.scheduler.TimeScheduler" version="1.0" /> 
   </services> 
  
+  <!-- services that are required by this block -->
+  <dependencies>
+    <dependency>
+      <role>org.apache.avalon.cornerstone.services.threads.ThreadManager</role>
+      <service name="org.apache.avalon.cornerstone.services.threads.ThreadManager" version="1.0"/>
+    </dependency>
+ </dependencies>
+
 </blockinfo> 

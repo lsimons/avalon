@@ -7,11 +7,16 @@
  */
 package org.apache.avalon.cornerstone.blocks.threads;
 
+import java.util.HashMap;
 import org.apache.avalon.cornerstone.services.threads.ThreadManager;
 import org.apache.avalon.excalibur.lang.ThreadContext;
 import org.apache.avalon.excalibur.thread.ThreadPool;
 import org.apache.avalon.excalibur.thread.impl.DefaultThreadPool;
-import org.apache.avalon.phoenix.Service;
+import org.apache.avalon.framework.configuration.Configurable;
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.logger.AbstractLoggable;
+import org.apache.avalon.phoenix.Block;
 
 /**
  * Default implementation of ThreadManager.
@@ -19,7 +24,8 @@ import org.apache.avalon.phoenix.Service;
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public class DefaultThreadManager
-    implements ThreadManager
+    extends AbstractLoggable
+    implements Block, ThreadManager, Configurable
 {
     ///Map of thread pools for application
     private HashMap      m_threadPools     = new HashMap();
