@@ -548,8 +548,6 @@
       <fileset dir="." includes="**/*~" defaultexcludes="no"/>
     </delete>
 
-    <ant antfile="build.xml" dir="apps/bay" target="clean"
-         inheritall="false"/>
     <ant antfile="build.xml" dir="apps/db" target="clean"
          inheritall="false"/>
     <ant antfile="build.xml" dir="apps/demo" target="clean"
@@ -573,8 +571,6 @@
     <delete dir="${docs.dir}" />
     <delete dir="${dist.base}" />
 
-    <ant antfile="build.xml" dir="apps/bay" target="distclean"
-         inheritall="false"/>
     <ant antfile="build.xml" dir="apps/db" target="distclean"
          inheritall="false"/>
     <ant antfile="build.xml" dir="apps/demo" target="distclean"
@@ -603,9 +599,6 @@
   </target>
   <target name="ftpserver" depends="compile" description="Delegates to build.xml in apps/ftpserver">
     <ant antfile="build.xml" dir="apps/ftpserver" target="${apps-target}" inheritall="false"/>
-  </target>
-  <target name="bay" depends="compile" description="Delegates to build.xml in apps/bay">
-    <ant antfile="build.xml" dir="apps/bay" target="${apps-target}" inheritall="false"/>
   </target>
   <target name="hsql" depends="compile" description="Delegates to build.xml in apps/hsql">
     <ant antfile="build.xml" dir="apps/hsql" target="${apps-target}" inheritall="false"/>
