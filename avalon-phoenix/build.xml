@@ -88,7 +88,6 @@ Legal:
     <!-- Invoke 'ant get-mx4j' to get these -->
     <property name="mx4j.jar" value="${repo.dir}/mx4j-1.1.1/lib/mx4j-jmx.jar"/>
     <property name="mx4j-tools.jar" value="${repo.dir}/mx4j-1.1.1/lib/mx4j-tools.jar"/>
-    <property name="converter.jar" value="${repo.dir}/converter-0.9.1/converter-0.9.1.jar"/>
 
     <path id="project.class.path">
         <pathelement location="${xerces.jar}"/>
@@ -96,7 +95,6 @@ Legal:
         <pathelement location="${logkit.jar}"/>
         <pathelement location="${sandbox-info.jar}"/>
         <pathelement location="${wrapper.jar}"/>
-        <pathelement path="${converter.jar}"/>
         <pathelement path="${mx4j.jar}"/>
         <pathelement path="${mx4j-tools.jar}"/>
         <pathelement path="${java.class.path}"/>
@@ -149,26 +147,8 @@ Legal:
         <fail message="MX4J needed. See above."/>
     </target>
 
-    <target name="check-converter">
-        <available property="converter.present" classname="org.realityforge.converter.Converter">
-            <classpath refid="project.class.path"/>
-        </available>
-        <antcall target="check-converter2"/>
-    </target>
-    <target name="check-converter2" unless="converter.present">
-        <echo>**************************</echo>
-        <echo>* Please execute target  *</echo>
-        <echo>* 'get-converter' in the *</echo>
-        <echo>* main target.xml build  *</echo>
-        <echo>* file to download one   *</echo>
-        <echo>* and a half Mb of       *</echo>
-        <echo>* converter              *</echo>
-        <echo>**************************</echo>
-        <fail message="Converter needed. See above."/>
-    </target>
-
     <!-- Check requirements of environment -->
-    <target name="check-environment" depends="check-mx4j, check-converter">
+    <target name="check-environment" depends="check-mx4j">
         <available property="xerces.present" type="file" file="${xerces.jar}"/>
         <available property="servlet.present" classname="javax.servlet.Servlet">
             <classpath refid="project.class.path"/>
@@ -191,15 +171,6 @@ Legal:
             usetimestamp="true"/>
         <gunzip src="${repo.dir}/mx4j.tar.gz" dest="${repo.dir}"/>
         <untar src="${repo.dir}/mx4j.tar" dest="${repo.dir}"/>
-    </target>
-
-    <target name="get-converter">
-        <mkdir dir="${repo.dir}"/>
-        <get src="http://unc.dl.sourceforge.net/sourceforge/spice/converter-0.9.1.zip"
-            dest="${repo.dir}/converter.zip"
-            verbose="true"
-            usetimestamp="true"/>
-        <unzip src="${repo.dir}/converter.zip" dest="${repo.dir}"/>
     </target>
 
     <!-- Prepares the build directory -->
@@ -485,7 +456,6 @@ Legal:
         <copy file="${target.lib}/phoenix-tools.jar" todir="${bin.dist.lib}/"/>
         <copy file="${target.lib}/phoenix-loader.jar" todir="${bin.dist.bin}/"/>
         <copy file="${target.lib}/phoenix-engine.jar" todir="${bin.dist.container.lib}"/>
-        <copy file="${converter.jar}" todir="${bin.dist.container.lib}"/>
 
         <copy file="${logkit.jar}" todir="${bin.dist.lib}"/>
         <copy file="${framework.jar}" todir="${bin.dist.lib}"/>
