@@ -7,20 +7,18 @@
  */
 package org.apache.avalon.cornerstone.blocks.soapification.glue;
 
-import electric.net.http.WebServer;
 import electric.registry.Registry;
 import electric.registry.RegistryException;
 import electric.server.http.HTTP;
 import java.io.IOException;
 import org.apache.avalon.cornerstone.services.soapification.SOAPification;
 import org.apache.avalon.cornerstone.services.soapification.SOAPificationException;
-import org.apache.avalon.framework.activity.Disposable;
-import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.activity.Startable;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.framework.CascadingRuntimeException;
 
 /**
  * Default implementation of SOAPification service.
@@ -50,7 +48,7 @@ public class Glue
     protected Configuration mConfiguration;
     protected int mPort;
     protected String mBindingAddress;
-    protected WebServer mWebServer;
+    protected electric.webserver.WebServer mWebServer;
     protected String mBaseName;
 
     public void configure( final Configuration configuration )
@@ -62,18 +60,27 @@ public class Glue
         mBaseName = configuration.getChild( "base-name" ).getValue( "soap" );
     }
 
-    public void start() throws IOException
+    /**
+     * Start as per
+     */
+    public void start()
     {
         String svr = "http://" + mBindingAddress + ":" + mPort + "/" + mBaseName;
         //mWebServer = WebServer.startWebServer( svr );
         //mWebServer.startup();
-        HTTP.startup( svr );
+        try
+        {
+            HTTP.startup( svr );
+        }
+        catch (IOException e)
+        {
+            throw new CascadingRuntimeException("HTTP server for Glue cannot start", e);
+        }
         getLogger().info( "WebServer started as " + svr );
     }
 
-    public void stop() throws IOException
+    public void stop()
     {
-        //mWebServer.shutdown();
         HTTP.shutdown();
     }
 
@@ -118,6 +125,12 @@ public class Glue
         publish( obj, publicationName, new Class[]{interfaceToExpose} );
     }
 
+    /**
+     *
+     *
+     * @param publicationName
+     * @throws SOAPificationException
+     */
     public void unpublish( String publicationName ) throws SOAPificationException
     {
         try

@@ -18,11 +18,20 @@ public class SOAPificationException
     private Throwable mContained;
     private String mReason;
 
+    /**
+     * Create a Soapification exception
+     * @param reason the reason
+     */
     public SOAPificationException( String reason )
     {
         this( reason, null );
     }
 
+    /**
+     * Create a soapification exception
+     * @param reason the reason
+     * @param contained the causing exception
+     */
     public SOAPificationException( String reason, Throwable contained )
     {
         mContained = contained;
