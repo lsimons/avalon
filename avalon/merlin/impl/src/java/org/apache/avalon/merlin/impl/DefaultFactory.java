@@ -664,7 +664,7 @@ public class DefaultFactory implements Factory
             {
                 final String host = 
                   proxyConfig.getChild( "host" ).getValue( null );
-                criteria.put( "avalon.repository.proxy.host", hosts );
+                criteria.put( "avalon.repository.proxy.host", host );
 
                 final int port = 
                   proxyConfig.getChild( "port" ).getValueAsInteger( 0 );
