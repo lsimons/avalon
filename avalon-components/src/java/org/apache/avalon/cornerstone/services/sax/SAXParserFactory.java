@@ -7,14 +7,13 @@
  */
 package org.apache.avalon.cornerstone.services.sax;
 
-import org.xml.sax.SAXNotSupportedException;
-import org.xml.sax.SAXNotRecognizedException;
-
 import javax.xml.parsers.ParserConfigurationException;
+import org.xml.sax.SAXNotRecognizedException;
+import org.xml.sax.SAXNotSupportedException;
 
-
-public interface SAXParserFactory {
-
+public interface SAXParserFactory
+{
+    String ROLE = "org.apache.avalon.cornerstone.services.sax.SAXParserFactory";
 
     /**
      * Specifies that the parser produced by this code will
@@ -25,7 +24,7 @@ public interface SAXParserFactory {
      *                  provide support for XML namespaces; false otherwise.
      */
 
-    void setNamespaceAware(boolean awareness);
+    void setNamespaceAware( boolean awareness );
 
     /**
      * Specifies that the parser produced by this code will
@@ -35,8 +34,8 @@ public interface SAXParserFactory {
      * @param validating true if the parser produced by this code will
      *                   validate documents as they are parsed; false otherwise.
      */
-    
-    void setValidating(boolean validating);
+
+    void setValidating( boolean validating );
 
     /**
      * Indicates whether or not the factory is configured to produce
@@ -45,7 +44,7 @@ public interface SAXParserFactory {
      * @return true if the factory is configured to produce
      *         parsers which are namespace aware; false otherwise.
      */
-    
+
     boolean isNamespaceAware();
 
     /**
@@ -55,7 +54,7 @@ public interface SAXParserFactory {
      * @return true if the factory is configured to produce parsers which validate
      *         the XML content during parse; false otherwise.
      */
-    
+
     boolean isValidating();
 
     /**
@@ -76,9 +75,9 @@ public interface SAXParserFactory {
      *
      * @see org.xml.sax.XMLReader#setFeature
      */
-    void setFeature(String name, boolean value)
+    void setFeature( String name, boolean value )
         throws ParserConfigurationException, SAXNotRecognizedException,
-                SAXNotSupportedException;
+               SAXNotSupportedException;
 
     /**
      *
@@ -97,7 +96,7 @@ public interface SAXParserFactory {
      *
      * @see org.xml.sax.XMLReader#getProperty
      */
-    boolean getFeature(String name)
+    boolean getFeature( String name )
         throws ParserConfigurationException, SAXNotRecognizedException,
-                SAXNotSupportedException;
+               SAXNotSupportedException;
 }
