@@ -160,7 +160,7 @@ public class XMLFormatter
             sb.append( EOL );
         }
 
-        if( m_printContext )
+        if( m_printContext && null != event.getContextStack() )
         {
             sb.append( "  <context-stack>" );
             sb.append( event.getContextStack() );
