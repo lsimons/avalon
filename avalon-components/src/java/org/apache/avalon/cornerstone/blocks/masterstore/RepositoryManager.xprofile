@@ -15,7 +15,7 @@ the LICENSE.txt file.
      <component name="store" 
           class="org.apache.avalon.cornerstone.blocks.masterstore.RepositoryManager">
 
-        <context class="org.apache.excalibur.merlin.toolkit.GenericBlockContext">
+        <context class="org.apache.avalon.phoenix.tools.export.GenericBlockContext">
           <import key="app.home" name="avalon:home"/>
           <entry key="block.name" value="repository"/>
         </context>
