@@ -45,7 +45,7 @@
     </roles>
     <components>
         <parser logger="test">
-            <parameter name="namespace-prefixes" value="false"/>
+            <parameter name="namespace-prefixes" value="true"/>
         </parser>
         <domhandler-factory logger="test"/>
     </components>

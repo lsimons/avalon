@@ -16,82 +16,14 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <project>
+    <extend>${basedir}/../project.xml</extend>
 
-  <organization>
-    <name>The Apache Software Foundation</name>
-    <url>http://avalon.apache.org/</url>
-    <logo>http://avalon.apache.org/images/apache-avalon-logo.png</logo>
-  </organization>
+  <name>Excalibur Fortress Site Documentation</name>
+  <id>excalibur-fortress-site</id>
 
-  <groupId>avalon-fortress</groupId>
-  <id>avalon-fortress-doc</id>
-  <name>Avalon-Fortress-Docs</name>
-
-  <currentVersion>1.1</currentVersion>
-  <inceptionYear>2003</inceptionYear>
-  <shortDescription>Avalon-Fortress-Doc</shortDescription>
+  <shortDescription>Excalibur Fortress Site Documentation</shortDescription>
   <description>
-Contains the sources to, and the means to generate, the
-Avalon-Fortress website.
+Contains the sources to, and the means to generate, the Avalon Fortress website.
   </description>
-
-    <dependencies>
-        <dependency>
-            <id>avalon-framework</id>
-            <version>4.1.5</version>
-            <groupId>avalon-framework</groupId>
-        </dependency>
-        <dependency>
-            <id>logkit</id>
-            <version>1.2.2</version>
-        </dependency>
-        <dependency>
-            <id>commons-collections</id>
-            <version>2.1</version>
-        </dependency>
-        <dependency>
-            <id>concurrent</id>
-            <version>1.3.1</version>
-        </dependency>
-        <dependency>
-            <id>excalibur-instrument</id>
-            <version>1.0</version>
-        </dependency>
-        <dependency>
-            <id>excalibur-instrument-manager</id>
-            <version>1.0</version>
-            <groupId>excalibur-instrument-manager</groupId>
-        </dependency>
-        <dependency>
-            <id>excalibur-instrument-manager-interfaces</id>
-            <version>1.0</version>
-            <groupId>excalibur-instrument-manager</groupId>
-        </dependency>
-        <dependency>
-            <id>excalibur-event</id>
-            <version>20030616</version>
-        </dependency>
-        <dependency>
-            <id>bcel</id>
-            <version>5.1</version>
-        </dependency>
-        <dependency>
-            <id>excalibur-logger</id>
-            <version>20030616</version>
-        </dependency>
-        <dependency>
-            <id>excalibur-sourceresolve</id>
-            <version>1.0.1</version>
-        </dependency>
-        <dependency>
-            <id>excalibur-lifecycle</id>
-            <version>1.0</version>
-        </dependency>
-        <dependency>
-            <id>xml-apis</id>
-            <version>2.0.2</version>
-        </dependency>
-    </dependencies>
-
 
 </project>

@@ -16,13 +16,12 @@
  limitations under the License.
 -->
 <project>
-
   <extend>${basedir}/../project.xml</extend>
 
   <id>excalibur-i18n</id>
   <name>Excalibur I18N</name>
   <package>org.apache.avalon.excalibur.i18n</package>
-  <currentVersion>1.1</currentVersion>
+  <currentVersion>1.2</currentVersion>
 
   <inceptionYear>2002</inceptionYear>
   <shortDescription>

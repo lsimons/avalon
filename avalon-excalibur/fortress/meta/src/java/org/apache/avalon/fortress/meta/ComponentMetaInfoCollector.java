@@ -20,8 +20,10 @@ package org.apache.avalon.fortress.tools;
 import com.thoughtworks.qdox.ant.AbstractQdoxTask;
 import com.thoughtworks.qdox.model.DocletTag;
 import com.thoughtworks.qdox.model.JavaClass;
+
 import org.apache.avalon.fortress.util.dag.CyclicDependencyException;
 import org.apache.avalon.fortress.util.dag.DirectedAcyclicGraphVerifier;
+
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 
@@ -29,13 +31,18 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 /**
  * ANT task to collect all the meta information for the components.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.27 $ $Date: 2004/02/28 15:16:27 $
+ * @version CVS $Revision: 1.28 $ $Date: 2004/03/28 18:56:42 $
  */
 public final class ComponentMetaInfoCollector extends AbstractQdoxTask
 {

@@ -1,81 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright 2003-2004 The Apache Software Foundation
+Licensed  under the  Apache License,  Version 2.0  (the "License");
+you may not use  this file  except in  compliance with the License.
+You may obtain a copy of the License at 
 
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed  under the  License is distributed on an "AS IS" BASIS,
+WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+implied.
+
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
 <project>
+    <extend>${basedir}/../project.xml</extend>
 
-    <pomVersion>3</pomVersion>
-
-    <name>Avalon-Fortress-Examples</name>
-    <id>avalon-fortress-examples</id>
-    <groupId>avalon-fortress</groupId>
-    <currentVersion>1.1</currentVersion>
-    <inceptionYear>2003</inceptionYear>
-    <shortDescription>Avalon-Fortress-Examples component</shortDescription>
+    <name>Excalibur Fortress Examples</name>
+    <id>excalibur-fortress-examples</id>
+    
+    <shortDescription>Excalibur Fortress Examples component</shortDescription>
     <description>
-     Provides some simple examples showing basic Avalon-Fortress
+     Provides some simple examples showing basic Excalibur Fortress
      usage.
     </description>
 
-    <organization>
-        <name>The Apache Software Foundation</name>
-        <url>http://www.apache.org/</url>
-    </organization>
-    <inceptionYear>1997</inceptionYear>
     <shortDescription>Apache Server Framework</shortDescription>
     <description>
         The Avalon project is an effort to create, design, develop and
         maintain a common framework and set of components for
         applications written using the Java language.
     </description>
-
-    <package>org.apache.avalon</package>
-    <gumpRepositoryId>avalon</gumpRepositoryId>
-
-    <url>http://avalon.apache.org/</url>
-    <issueTrackingUrl>http://issues.apache.org/jira</issueTrackingUrl>
-
-    <repository>
-        <connection>scm:cvs:pserver:anoncvs@cvs.apache.org:/home/cvspublic:avalon</connection>
-        <url>http://cvs.apache.org/viewcvs/avalon/</url>
-    </repository>
-
-    <mailingLists>
-        <mailingList>
-            <name>Avalon User List</name>
-            <subscribe>
-                users-subscribe@avalon.apache.org
-            </subscribe>
-            <unsubscribe>
-                users-unsubscribe@avalon.apache.org
-            </unsubscribe>
-            <archive>
-                http://marc.theaimsgroup.com/?l=avalon-users
-            </archive>
-        </mailingList>
-        <mailingList>
-            <name>Avalon Development List</name>
-            <subscribe>
-                dev-subscribe@avalon.apache.org
-            </subscribe>
-            <unsubscribe>
-                dev-unsubscribe@avalon.apache.org
-            </unsubscribe>
-            <archive>
-                http://marc.theaimsgroup.com/?l=avalon-dev
-            </archive>
-        </mailingList>
-        <mailingList>
-            <name>Avalon CVS List</name>
-            <subscribe>
-                cvs-subscribe@avalon.apache.org
-            </subscribe>
-            <unsubscribe>
-                cvs-unsubscribe@avalon.apache.org
-            </unsubscribe>
-            <archive>
-                http://nagoya.apache.org/eyebrowse/SummarizeList?listId=8
-            </archive>
-        </mailingList>
-    </mailingLists>
 
     <dependencies>
         <dependency>
@@ -89,8 +46,9 @@
             <version>4.1.5</version>
         </dependency>
         <dependency>
-            <id>logkit</id>
-            <version>1.2</version>
+            <groupId>avalon-logkit</groupId>
+            <artifactId>avalon-logkit</artifactId>
+            <version>2.0</version>
         </dependency>
         <dependency>
             <id>commons-collections</id>
@@ -101,18 +59,40 @@
             <version>1.3.1</version>
         </dependency>
 
-	<!-- fortress dependencies -->
+        <!-- fortress dependencies -->
         <dependency>
-            <id>avalon-fortress-tools</id>
-	    <version>1.1</version>
-            <groupId>avalon-fortress</groupId>
+            <groupId>excalibur-fortress</groupId>
+            <artifactId>excalibur-fortress-container-api</artifactId>
+            <version>1.2</version>
         </dependency>
         <dependency>
-            <id>avalon-fortress-container</id>
-	    <version>complete-1.1</version>
-            <groupId>avalon-fortress</groupId>
+            <groupId>excalibur-fortress</groupId>
+            <artifactId>excalibur-fortress-container-impl</artifactId>
+            <version>1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>excalibur-fortress</groupId>
+            <artifactId>excalibur-fortress-meta</artifactId>
+            <version>1.2</version>
         </dependency>
 
+        <dependency>
+            <groupId>excalibur-instrument</groupId>
+            <artifactId>excalibur-instrument</artifactId>
+            <version>1.2</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>excalibur-lifecycle</groupId>
+            <artifactId>excalibur-lifecycle-api</artifactId>
+            <version>1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>excalibur-lifecycle</groupId>
+            <artifactId>excalibur-lifecycle-impl</artifactId>
+            <version>1.1</version>
+        </dependency>
+        
         <!-- dependencies for tools -->
         <dependency>
             <id>qdox</id>
@@ -123,34 +103,5 @@
             <version>1.5.1</version>
         </dependency>
     </dependencies>
-
-    <build>
-        <nagEmailAddress>dev@avalon.apache.org</nagEmailAddress>
-        <sourceDirectory>src/java</sourceDirectory>
-        <unitTestSourceDirectory>src/test</unitTestSourceDirectory>
-
-        <!-- Unit test cases -->
-        <unitTest>
-            <includes>
-                <include>**/*TestCase.java</include>
-            </includes>
-            <excludes>
-                <exclude>**/Abstract*</exclude>
-            </excludes>
-        </unitTest>
-
-        <!-- Resources that are packaged up inside the JAR file -->
-        <resources>
-          <resource>
-          <directory>${basedir}/src/java</directory>
-            <includes>
-              <include>**/*.xconf</include>
-              <include>**/*.xlog</include>
-	      <include>**/*.instruments</include>
-            </includes>
-          </resource>
-        </resources>
-
-    </build>
 
 </project>

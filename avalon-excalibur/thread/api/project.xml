@@ -7,7 +7,7 @@
   <groupId>excalibur-thread</groupId>
   <id>excalibur-thread-api</id>
   <name>Excalibur Thread API</name>
-  <currentVersion>SNAPSHOT</currentVersion>
+  <currentVersion>2.0</currentVersion>
   <package>org.apache.avalon.excalibur.thread</package>
   <inceptionYear>2001</inceptionYear>
   <shortDescription>Excalibur Threads API</shortDescription>

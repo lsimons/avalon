@@ -15,7 +15,6 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-
 <project>
     <extend>${basedir}/../project.xml</extend>
 
@@ -26,7 +25,7 @@
     <shortDescription>Container utility for implementing LogEnabled/Loggable support.</shortDescription>
     <description>
         Excalibur-Logger integrates neatly into Avalon-ECM
-        and Avalon-Fortress. The main goal is to be able to
+        and Excalibur Fortress. The main goal is to be able to
         define the log categories on a component basis by
         specifying a 'logger' attribute which denotes the log
         category to use for a particular component (given the
@@ -54,7 +53,8 @@
         </dependency>
         
         <dependency>
-            <id>logkit</id>
+            <groupId>avalon-logkit</groupId>
+            <artifactId>avalon-logkit</artifactId>
             <version>2.0</version>
         </dependency>
 
@@ -66,7 +66,7 @@
         <dependency>
             <groupId>excalibur-i18n</groupId>
             <artifactId>excalibur-i18n</artifactId>
-            <version>1.1</version>
+            <version>1.2</version>
         </dependency>
         
         <dependency>
