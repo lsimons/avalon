@@ -229,6 +229,8 @@ Legal:
       <exclude name="org/apache/avalon/excalibur/datasource/Jdbc3Connection.java"/>
     </javac>
 
+    <delete file="${java.dir}/org/apache/avalon/excalibur/datasource/JdbcConnection.java"/>
+
     <javac srcdir="${scratchpad.dir}"
            destdir="${build.scratchpad}"
            debug="${debug}"
