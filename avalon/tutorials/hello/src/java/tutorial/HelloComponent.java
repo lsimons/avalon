@@ -63,10 +63,10 @@ import org.apache.avalon.framework.activity.Initializable;
  * the component.  The lifecycle stages demonstrated here include
  * LogEnabled (association of a logging channel), Initializable
  * (initialization of the component), Executable (component
- * execution), and Disposable (componet disposal).  PLease note 
+ * execution), and Disposable (componet disposal).  Please note 
  * that all lifecycle stages are optional.
  *
- * @avalon.component version="1.0" name="hello"
+ * @avalon.component version="1.0" name="hello" lifestyle="singleton"
  */
 public class HelloComponent 
   implements LogEnabled, Initializable, Executable, Disposable
