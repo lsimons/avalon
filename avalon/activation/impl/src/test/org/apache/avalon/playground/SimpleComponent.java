@@ -83,7 +83,7 @@ public class SimpleComponent extends AbstractLogEnabled
      */
     public void incarnate()
     {
-        getLogger().info( "incarnation stage" );
+        getLogger().info( "exploitation (create)" );
     }
 
     /**
@@ -91,7 +91,7 @@ public class SimpleComponent extends AbstractLogEnabled
      */
     public void etherialize()
     {
-        getLogger().info( "etherialize stage" );
+        getLogger().info( "exploitation (destroy)" );
     }
 
 
