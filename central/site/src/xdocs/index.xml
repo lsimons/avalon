@@ -12,6 +12,8 @@
       Apache Avalon provides a complete development platform for
       component and container programming utilizing key design patterns
       such as Inversion of Control and Separation of Concerns.
+      Read more on <a href="why-avalon.html">why</a> you should 
+      consider Avalon for your next application.
      </p>
      <p>
       If you're new to Avalon, start out with our
