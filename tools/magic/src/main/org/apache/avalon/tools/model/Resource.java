@@ -140,6 +140,15 @@ public class Resource
     */
     public Path getPath( final Project project, final int mode )
     {
+        return getPath( project, mode, true );
+    }
+
+   /**
+    * Returns a path of artifact filenames relative to the supplied scope.
+    * The mode may be one of ANY, BUILD, TEST or RUNTIME.
+    */
+    public Path getPath( final Project project, final int mode, boolean resolve )
+    {
         if( null == project )
         {
             throw new NullPointerException( "project" );
@@ -147,14 +156,14 @@ public class Resource
 
         final ArrayList visited = new ArrayList();
         final Path path = new Path( project );
-        final ResourceRef[] refs = getResourceRefs( project, mode, ResourceRef.ANY, true );
+        final ResourceRef[] refs = getResourceRefs( project, mode, ResourceRef.ANY, resolve );
         for( int i=0; i<refs.length; i++ )
         {
             final ResourceRef ref = refs[i];
             if( !visited.contains( ref ) )
             {
                 final Resource resource = getResource( project, ref );
-                final File file = resource.getArtifact( project );
+                final File file = resource.getArtifact( project, resolve );
                 path.createPathElement().setLocation( file );
                 visited.add( ref );
             }
