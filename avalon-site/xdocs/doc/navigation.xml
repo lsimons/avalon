@@ -19,10 +19,12 @@
       <item name="Latest News" href="/news.html"/>
       <item name="Community" href="/community/index.html"/>
       <item name="Products" href="/product/index.html"/>
-      <item name="Documentation" href="/doc/index.html">
+      <item name="Documentation" href="/doc/index.html"/>
+      <!--
         <item name="Apache Wiki" href="/doc/wiki.html"/>
         <item name="Articles" href="/doc/articles.html"/>
       </item>
+      -->
     </menu>
 
     <menu name="Resources">
