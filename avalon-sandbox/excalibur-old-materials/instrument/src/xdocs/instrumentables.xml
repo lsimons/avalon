@@ -1,49 +1,91 @@
 <?xml version="1.0"?>
 
 <document>
-  <header>
-    <title>Excalibur Instrument - Enable Instrumenting</title>
-    <authors>
-      <person name="Berin Loritsch" email="bloritsch@apache.org"/>
-    </authors>
-  </header>
-  <body>
-    <s1 title="Coding for Instrumentation">
-      <p>
-        There are different types of instrumentation we need to use, depending
-        on our purposes.  Excalibur Instrument has two basic types:
-        <code>CounterInstrument</code> and <code>ValueInstrument</code>.  The
-        <code>CounterInstrument</code> allows us to take samples that represent
-        a count of events.  The <code>ValueInstrument</code> allows you to take
-        samples that represent the current value.
-      </p>
-      <p>
-        Excalibur Instrument knows how to take the raw samples, and bring them
-        in line with more useable numbers.  It is not uncommon to want an average
-        value, a maximum value, or a minimum value for each sample period.  You
-        do not have to do anything in your code to explicitly do that.
-      </p>
-    </s1>
-    <s1 title="Getting Started">
-      <p>
-        You will need to import the relavant classes from the avalon-instrument.jar
-        file.
-      </p>
-      <source>
+    <header>
+        <title>Excalibur Instrument - Enable Instrumenting</title>
+        <authors>
+            <person name="Berin Loritsch" email="bloritsch@apache.org"/>
+        </authors>
+    </header>
+    <body>
+        <s1 title="Coding for Instrumentation">
+            <p>
+                There are different types of instrumentation we need to use, depending
+                on our purposes.  Excalibur Instrument has two basic types:
+                <code>CounterInstrument</code> and <code>ValueInstrument</code>.  The
+                <code>CounterInstrument</code> allows us to take samples that represent
+                a count of events.  The <code>ValueInstrument</code> allows you to take
+                samples that represent the current value.
+            </p>
+            <p>
+                Excalibur Instrument knows how to take the raw samples, and bring them
+                in line with more useable numbers.  It is not uncommon to want an average
+                value, a maximum value, or a minimum value for each sample period.  You
+                do not have to do anything in your code to explicitly do that.
+            </p>
+            <p>
+                Instrumentation has been designed from the start with performance in mind
+                you can feel comfortable instrumenting your code without worrying about
+                how it will effect performance.  When your code is running in an environment
+                where it has not been registered with an InstrumentationManager, the Instrument
+                code acts as a noop.  In cases where the your code is registered with an
+                InstrumentationManager, the Instrument is still a noop unless the instrument
+                output is actually been monitored.   This makes it possible to place
+                Instrumentation throughout your code just as would be done with debug logging
+                information.  When the Instrument data is required, it can be requested at any
+                time.  Even from a live running system.
+            </p>
+        </s1>
+        <s1 title="Getting Started">
+            <p>
+                The first thing that you will need to do to Instrument enable your class
+                is to modify your class to implement the <code>Instrumentable</code> interface.
+                There are currently three ways of acomplishing this, each of which are described
+                in detail below.  1) Extend <code>AbstractInstrumentable</code>, 2) Extend
+                <code>AbstractLogEnabledInstrumentable</code> and 3) Implement
+                <code>Instrumentable</code>.
+            </p>
+            <s2 title="Extending AbstractInstrumentable">
+                <p>
+                    The first option works well in cases where your code does not already have a
+                    super class.  You simply extend the <code>AbstractInstrumentable</code> class
+                    create and register your Instruments in your class's constructor and then
+                    use the Instruments at the appropriate locations in your code.  All of the
+                    details of telling your class how to register itself with an
+                    <code>InstrumentManager</code> are taken care of for you.
+                </p>
+                <source>
+<![CDATA[
+]]>
+                </source>
+            </s2>
+            
+            <p>
+                You will need to import the relavant classes from the avalon-instrument.jar
+                file.
+            </p>
+            <source>
 <![CDATA[
 import org.apache.excalibur.instrument.CounterInstrument;
 import org.apache.excalibur.instrument.Instrumentable;
 import org.apache.excalibur.instrument.Instrument;
 import org.apache.excalibur.instrument.ValueInstrument;
 ]]>
-      </source>
-      <p>
-        Once you do that, you need to implement the <code>Instrumentable</code>
-        interface, and set up your instrumentation points.  The InstrumentManager,
-        or the parent Instrumentable will assign the name to your Instrumentable.
-        That way we can easily determine what the heirarchy is.
-      </p>
-      <source>
+            </source>
+            <p>
+                Once you do that, you need to implement the <code>Instrumentable</code>
+                interface or extend one of the available utility classes:
+                <code>AbstractInstrumentable</code> or
+                <code>AbstractLogEnabledInstrumentable</code>.
+            </p>
+            
+            <p>
+                Once you do that, you need to implement the <code>Instrumentable</code>
+                interface, and set up your instrumentation points.  The InstrumentManager,
+                or the parent Instrumentable will assign the name to your Instrumentable.
+                That way we can easily determine what the heirarchy is.
+            </p>
+            <source>
 <![CDATA[
 public class DefaultExampleInstrumentable
     implements Instrumentable
@@ -135,15 +177,15 @@ public class DefaultExampleInstrumentable
     }
 }
 ]]>
-      </source>
-    </s1>
-    <s1 title="Using Instruments">
-      <p>
-        Lastly, you need to use your instrumentables.  Excalibur Instrument will
-        skip the sampling and processing of values if no Manager or Client is
-        attached to them.
-      </p>
-      <source>
+            </source>
+        </s1>
+        <s1 title="Using Instruments">
+            <p>
+                Lastly, you need to use your instrumentables.  Excalibur Instrument will
+                skip the sampling and processing of values if no Manager or Client is
+                attached to them.
+            </p>
+            <source>
 <![CDATA[
 /**
  * Method that uses the instrumentables we have set up so far
@@ -157,7 +199,7 @@ Object lookup(String name)
     return m_dictionary.get( name );
 }
 ]]>
-      </source>
-    </s1>
-  </body>
+            </source>
+        </s1>
+    </body>
 </document>
