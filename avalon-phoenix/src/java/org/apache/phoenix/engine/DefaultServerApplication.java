@@ -32,13 +32,14 @@ import org.apache.phoenix.engine.blocks.BlockVisitor;
 import org.apache.phoenix.engine.blocks.RoleEntry;
 import org.apache.phoenix.engine.facilities.ClassLoaderManager;
 import org.apache.phoenix.engine.facilities.ConfigurationRepository;
-import org.apache.phoenix.engine.facilities.DefaultConfigurationRepository;
-import org.apache.phoenix.engine.facilities.DefaultLogManager;
-import org.apache.phoenix.engine.facilities.DefaultThreadManager;
+import org.apache.phoenix.engine.facilities.LogManager;
 import org.apache.phoenix.engine.facilities.PolicyManager;
 import org.apache.phoenix.engine.facilities.ThreadManager;
 import org.apache.phoenix.engine.facilities.classloader.DefaultClassLoaderManager;
+import org.apache.phoenix.engine.facilities.configuration.DefaultConfigurationRepository;
+import org.apache.phoenix.engine.facilities.log.DefaultLogManager;
 import org.apache.phoenix.engine.facilities.policy.DefaultPolicyManager;
+import org.apache.phoenix.engine.facilities.thread.DefaultThreadManager;
 import org.apache.phoenix.engine.phases.ShutdownPhase;
 import org.apache.phoenix.engine.phases.StartupPhase;
 import org.apache.phoenix.metainfo.DependencyDescriptor;
@@ -69,7 +70,7 @@ public final class DefaultServerApplication
     protected Configuration            m_configuration;
     protected ComponentManager         m_componentManager;
 
-    protected DefaultLogManager        m_logManager;
+    protected LogManager               m_logManager;
     protected PolicyManager            m_policyManager;
     protected ThreadManager            m_threadManager;
     protected ClassLoaderManager       m_classLoaderManager;
@@ -329,11 +330,13 @@ public final class DefaultServerApplication
                               m_policyManager );
         componentManager.put( "org.apache.phoenix.engine.facilities.ClassLoaderManager",
                               m_classLoaderManager );
-        componentManager.put( "NOT_DONE_YET", m_logManager );
         componentManager.put( "org.apache.phoenix.engine.facilities.ThreadManager",
                               m_threadManager );
         componentManager.put( "org.apache.phoenix.engine.facilities.ConfigurationRepository",
                               m_configurationRepository );
+
+        ///This isn't needed as far as I know .. should it be in CM ????
+        //componentManager.put( "org.apache.phoenix.engine.facilities.LogManager", m_logManager );
 
         return componentManager;
     }
