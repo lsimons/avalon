@@ -96,7 +96,7 @@ import java.util.*;
  * Container's Manager can expose that to the instantiating class.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.37 $ $Date: 2003/06/17 16:34:02 $
+ * @version CVS $Revision: 1.38 $ $Date: 2003/06/23 12:51:20 $
  */
 public abstract class AbstractContainer
         extends AbstractLogEnabled
@@ -386,6 +386,7 @@ public abstract class AbstractContainer
                     (ComponentHandler) metaEntry.getHandlerClass().newInstance();
 
             // do the handler lifecycle
+            ContainerUtil.enableLogging( targetHandler, getLogger() );
             ContainerUtil.contextualize( targetHandler, m_context );
             final DefaultServiceManager serviceManager =
                     new DefaultServiceManager( getServiceManager() );
