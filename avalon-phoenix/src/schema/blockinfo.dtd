@@ -27,7 +27,7 @@ dependencies the services that this block require to operate
 -->
 <!ELEMENT blockinfo (block, services?, management-access-points?, dependencies?)>
 <!ATTLIST blockinfo id ID #IMPLIED
-          xmlns CDATA #FIXED "http://jakarta.apache.org/phoenix/blockinfo_1_0.dtd" >
+          xmlns CDATA #FIXED "http://jakarta.apache.org/avalon/dtds/phoenix/blockinfo_1_0.dtd" >
 
 <!--
 The block element describes the block, it defines:
