@@ -61,6 +61,8 @@ import java.net.URL;
 import java.util.Map;
 
 import org.apache.avalon.framework.activity.Disposable;
+import org.apache.avalon.framework.component.ComponentSelector;
+import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
@@ -70,7 +72,6 @@ import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
-import org.apache.avalon.framework.service.ServiceSelector;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.framework.thread.ThreadSafe;
 import org.apache.excalibur.source.Source;
@@ -99,7 +100,7 @@ import org.apache.excalibur.source.SourceResolver;
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: SourceResolverImpl.java,v 1.19 2003/01/09 08:45:50 cziegeler Exp $
+ * @version $Id: SourceResolverImpl.java,v 1.20 2003/01/09 09:37:20 cziegeler Exp $
  */
 public class SourceResolverImpl
     extends AbstractLogEnabled
@@ -114,7 +115,7 @@ public class SourceResolverImpl
     protected ServiceManager m_manager;
 
     /** The special Source factories */
-    protected ServiceSelector m_factorySelector;
+    protected ComponentSelector m_factorySelector;
 
     /** The context */
     protected Context m_context;
@@ -173,7 +174,7 @@ public class SourceResolverImpl
         throws ServiceException
     {
         m_manager = manager;
-        m_factorySelector = (ServiceSelector)m_manager.lookup( SourceFactory.ROLE + "Selector" );
+        m_factorySelector = (ComponentSelector)m_manager.lookup( SourceFactory.ROLE + "Selector" );
     }
 
     public void dispose()
@@ -307,7 +308,7 @@ public class SourceResolverImpl
                 factory = (SourceFactory)m_factorySelector.select( protocol );
                 source = factory.getSource( systemID, parameters );
             }
-            catch( final ServiceException ce )
+            catch( final ComponentException ce )
             {
             	// no selector available, use fallback
                 //throw new SourceException( "Unable to select source factory for protocol " + protocol, ce );
@@ -384,7 +385,7 @@ public class SourceResolverImpl
             factory = (SourceFactory)m_factorySelector.select( protocol );
             factory.release( source );
         }
-        catch( final ServiceException ce )
+        catch( ComponentException ce )
         {
         	//no factory available, so use fallback
             //throw new CascadingRuntimeException( "Unable to select source factory for protocol " + protocol, ce );
