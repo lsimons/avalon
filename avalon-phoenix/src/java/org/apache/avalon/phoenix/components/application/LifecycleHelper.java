@@ -36,7 +36,7 @@ import org.apache.avalon.phoenix.Block;
 import org.apache.avalon.phoenix.BlockContext;
 import org.apache.avalon.phoenix.BlockEvent;
 import org.apache.avalon.phoenix.BlockListener;
-import org.apache.avalon.phoenix.components.ComponentUtil;
+import org.apache.avalon.phoenix.components.ContainerUtil;
 import org.apache.avalon.phoenix.interfaces.Application;
 import org.apache.avalon.phoenix.interfaces.ApplicationContext;
 import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
@@ -130,13 +130,13 @@ class LifecycleHelper
         if( listener instanceof LogEnabled )
         {
             final Logger logger = new LogKitLogger( m_context.getLogger( name ) );
-            ComponentUtil.logEnable( listener, logger );
+            ContainerUtil.logEnable( listener, logger );
         }
 
         if( listener instanceof Configurable )
         {
             final Configuration configuration = getConfiguration( name, TYPE_LISTENER );
-            ComponentUtil.configure( listener, configuration );
+            ContainerUtil.configure( listener, configuration );
         }
 
         // As ApplicationListners are BlockListeners then this is applicable for all
@@ -214,7 +214,7 @@ class LifecycleHelper
             {
                 notice( name, stage );
                 final BlockContext context = createBlockContext( name );
-                ComponentUtil.contextualize( block, context );
+                ContainerUtil.contextualize( block, context );
             }
 
             //Composition stage
@@ -223,13 +223,13 @@ class LifecycleHelper
             {
                 notice( name, stage );
                 final ComponentManager componentManager = createComponentManager( metaData );
-                ComponentUtil.compose( block, componentManager );
+                ContainerUtil.compose( block, componentManager );
             }
             else if( block instanceof Serviceable )
             {
                 notice( name, stage );
                 final ServiceManager manager = createServiceManager( metaData );
-                ComponentUtil.service( block, manager );
+                ContainerUtil.service( block, manager );
             }
 
             //Configuring stage
@@ -238,7 +238,7 @@ class LifecycleHelper
             {
                 notice( name, stage );
                 final Configuration configuration = getConfiguration( name, TYPE_BLOCK );
-                ComponentUtil.configure( block, configuration );
+                ContainerUtil.configure( block, configuration );
             }
 
             //Parameterizing stage
@@ -249,7 +249,7 @@ class LifecycleHelper
                 final Parameters parameters =
                     Parameters.fromConfiguration( getConfiguration( name, TYPE_BLOCK ) );
                 parameters.makeReadOnly();
-                ComponentUtil.parameterize( block, parameters );
+                ContainerUtil.parameterize( block, parameters );
             }
 
             //Initialize stage
@@ -257,7 +257,7 @@ class LifecycleHelper
             if( block instanceof Initializable )
             {
                 notice( name, stage );
-                ComponentUtil.initialize( block );
+                ContainerUtil.initialize( block );
             }
 
             //Start stage
@@ -265,7 +265,7 @@ class LifecycleHelper
             if( block instanceof Startable )
             {
                 notice( name, stage );
-                ComponentUtil.start( block );
+                ContainerUtil.start( block );
             }
 
             entry.setState( State.STARTED );
@@ -291,13 +291,13 @@ class LifecycleHelper
         if( block instanceof Loggable )
         {
             notice( name, stage );
-            ComponentUtil.setupLoggable( block, m_context.getLogger( name ) );
+            ContainerUtil.setupLoggable( block, m_context.getLogger( name ) );
         }
         else if( block instanceof LogEnabled )
         {
             notice( name, stage );
             final Logger logger = new LogKitLogger( m_context.getLogger( name ) );
-            ComponentUtil.logEnable( block, logger );
+            ContainerUtil.logEnable( block, logger );
         }
     }
 
@@ -336,7 +336,7 @@ class LifecycleHelper
             try
             {
                 entry.setState( State.STOPPING );
-                ComponentUtil.stop( block );
+                ContainerUtil.stop( block );
                 entry.setState( State.STOPPED );
             }
             catch( final Throwable t )
@@ -353,7 +353,7 @@ class LifecycleHelper
             try
             {
                 entry.setState( State.DESTROYING );
-                ComponentUtil.dispose( block );
+                ContainerUtil.dispose( block );
             }
             catch( final Throwable t )
             {

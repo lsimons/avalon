@@ -20,7 +20,7 @@ import org.apache.avalon.framework.service.DefaultServiceManager;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
-import org.apache.avalon.phoenix.components.ComponentUtil;
+import org.apache.avalon.phoenix.components.ContainerUtil;
 import org.apache.avalon.phoenix.components.application.DefaultApplication;
 import org.apache.avalon.phoenix.interfaces.Application;
 import org.apache.avalon.phoenix.interfaces.ApplicationContext;
@@ -128,13 +128,13 @@ public class DefaultKernel
                     new DefaultApplication( entry.getMetaData() );
 
                 final Logger childLogger = getLogger().getChildLogger( name );
-                ComponentUtil.logEnable( newApp, childLogger );
+                ContainerUtil.logEnable( newApp, childLogger );
 
                 final ApplicationContext context = createApplicationContext( entry );
                 newApp.setApplicationContext( context );
 
-                ComponentUtil.initialize( newApp );
-                ComponentUtil.start( newApp );
+                ContainerUtil.initialize( newApp );
+                ContainerUtil.start( newApp );
 
                 entry.setApplication( newApp );
                 application = newApp;
@@ -175,7 +175,7 @@ public class DefaultKernel
         if( null != application )
         {
             entry.setApplication( null );
-            ComponentUtil.shutdown( application );
+            ContainerUtil.shutdown( application );
         }
         else
         {
@@ -219,9 +219,9 @@ public class DefaultKernel
                                            entry.getClassLoader(),
                                            entry.getHierarchy() );
 
-        ComponentUtil.logEnable( context, createContextLogger( name ) );
-        ComponentUtil.service( context, createServiceManager() );
-        ComponentUtil.configure( context, entry.getConfiguration() );
+        ContainerUtil.logEnable( context, createContextLogger( name ) );
+        ContainerUtil.service( context, createServiceManager() );
+        ContainerUtil.configure( context, entry.getConfiguration() );
         return context;
     }
 
