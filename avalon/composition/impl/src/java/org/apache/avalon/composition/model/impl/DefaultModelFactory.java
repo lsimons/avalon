@@ -22,17 +22,27 @@ import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.security.Policy;
+import java.security.CodeSource;
+import java.security.Permissions;
+import java.security.PermissionCollection;
+import java.security.ProtectionDomain;
+import java.util.Map;
+import java.util.Hashtable;
 
+import org.apache.avalon.composition.data.SecurityProfile;
 import org.apache.avalon.composition.data.ComponentProfile;
 import org.apache.avalon.composition.data.ContainmentProfile;
 import org.apache.avalon.composition.data.ClassLoaderDirective;
+import org.apache.avalon.composition.data.TargetDirective;
 import org.apache.avalon.composition.data.builder.ContainmentProfileBuilder;
 import org.apache.avalon.composition.data.builder.XMLContainmentProfileCreator;
 import org.apache.avalon.composition.model.ClassLoaderModel;
 import org.apache.avalon.composition.model.ContainmentModel;
+import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.model.ComponentModel;
 import org.apache.avalon.composition.model.ModelException;
 import org.apache.avalon.composition.model.DependencyGraph;
+import org.apache.avalon.composition.provider.SecurityModel;
 import org.apache.avalon.composition.provider.SystemContext;
 import org.apache.avalon.composition.provider.ModelFactory;
 import org.apache.avalon.composition.provider.ContainmentContext;
@@ -58,9 +68,9 @@ import org.apache.avalon.meta.info.Type;
  * A factory enabling the establishment of new composition model instances.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.9 $ $Date: 2004/02/25 20:31:01 $
+ * @version $Revision: 1.10 $ $Date: 2004/02/29 22:25:26 $
  */
-public class DefaultModelFactory 
+public class DefaultModelFactory
   implements ModelFactory
 {
     //-------------------------------------------------------------------
@@ -76,6 +86,9 @@ public class DefaultModelFactory
     private static final Resources REZ =
       ResourceManager.getPackageResources( DefaultModelFactory.class );
 
+    private static final SecurityModel NULL_SECURITY = 
+      new DefaultSecurityModel();
+
     //-------------------------------------------------------------------
     // immutable state
     //-------------------------------------------------------------------
@@ -84,18 +97,84 @@ public class DefaultModelFactory
 
     private final Logger m_logger;
 
+   /**
+    * A map of security models keyed by profile name.
+    */
+    private final Map m_security = new Hashtable();
+
+    //-------------------------------------------------------------------
+    // mutable state
+    //-------------------------------------------------------------------
+
+   /**
+    * The root containment model against which refresh actions are 
+    * resolved.
+    */
+    private ContainmentModel m_root;
+
+   /**
+    * A table of permissions instances keyed by code source.
+    */
+    private Map m_permissions = new Hashtable();
+
+   /**
+    * A table of protection domain instances keyed by code source.
+    */
+    private Map m_domains = new Hashtable();
+
     //-------------------------------------------------------------------
     // constructor
     //-------------------------------------------------------------------
 
-    public DefaultModelFactory( final SystemContext system )
+   /**
+    * Creation of a new model factory.  
+    * @param system the system context
+    * @param profiles the set of initial security profiles
+    * @param targets the set of initial override targets
+    */
+    DefaultModelFactory( 
+      final SystemContext system, SecurityProfile[] profiles, TargetDirective[] targets )
     {
         if( system == null )
         {
             throw new NullPointerException( "system" );
         }
+        if( profiles == null )
+        {
+            throw new NullPointerException( "profiles" );
+        }
+
         m_system = system;
         m_logger = system.getLogger();
+
+        //
+        // register the set of security profiles
+        //
+
+        for( int i=0; i<profiles.length; i++ )
+        {
+            SecurityProfile profile = profiles[i];
+            final String name = profile.getName();
+            SecurityModel model = new DefaultSecurityModel( profile );
+            m_security.put( profile.getName(), model );
+            if( m_logger.isDebugEnabled() )
+            {
+                m_logger.debug( "added security profile [" + name + "]." );
+            }
+        }
+
+        //
+        // check that we have a default security profile
+        //
+
+        if( null == m_security.get( "default" ) )
+        {
+            if( m_logger.isDebugEnabled() )
+            {
+                m_logger.debug( "code security disabled" );
+            }
+            m_security.put( "default", NULL_SECURITY );
+        }
     }
 
     //-------------------------------------------------------------------
@@ -181,15 +260,8 @@ public class DefaultModelFactory
         {
             ContainmentContext context = 
               createRootContainmentContext( profile );
-            ContainmentModel model = createContainmentModel( context );
-
-            if( m_system.getSecurityModel().isCodeSecurityEnabled() )
-            {
-                CodeSecurityPolicy policy = 
-                  new CodeSecurityPolicy( model );
-                Policy.setPolicy( policy );
-            }
-            return model;
+            m_root = createContainmentModel( context );
+            return m_root;
         }
         catch( Throwable e )
         {
@@ -212,22 +284,29 @@ public class DefaultModelFactory
     public ComponentModel createComponentModel( ComponentContext context )
       throws ModelException
     {
-        return new DefaultComponentModel( context );
+        //
+        // TODO: update to check for a named profile assignment
+        //
+        SecurityModel security = getDefaultSecurityModel();
+        return new DefaultComponentModel( context, security );
     }
 
    /**
     * Creation of a new nested containment model.  This method is called
-    * by a container implementation when constructing model instances.  The 
-    * factory is identified by its implementation classname.
+    * by a container implementation when constructing model instances.
     *
     * @param context a potentially foreign containment context
     * @return the containment model
     */
-    public ContainmentModel createContainmentModel( 
-      ContainmentContext context )
+    public ContainmentModel createContainmentModel( ContainmentContext context )
       throws ModelException
     {
-        return new DefaultContainmentModel( context );
+        //
+        // TODO: update to check for a named profile assignment
+        //
+
+        SecurityModel security = getDefaultSecurityModel();
+        return new DefaultContainmentModel( context, security );
     }
 
     //-------------------------------------------------------------------
@@ -288,4 +367,41 @@ public class DefaultModelFactory
     {
         return m_logger;
     }
+
+   /**
+    * WARNING: Lots of updates needed here.  We need to be suppied
+    * with mapping of container paths to security profiles names. For 
+    * the moment just return a default security model.
+    * 
+    * @param path the container path
+    * @return the assigned security model
+    */
+    private SecurityModel getAssignedSecurityModel( final String path )
+    {
+        return getDefaultSecurityModel();
+    }
+
+   /**
+    * Return a named security profile.
+    * 
+    * @param name the profile name
+    * @return the security model
+    */
+    private SecurityModel getNamedSecurityModel( final String name )
+    {
+        SecurityModel model = (SecurityModel) m_security.get( name );
+        if( null != model ) return model;
+        return getDefaultSecurityModel();
+    }
+
+   /**
+    * Return the default security model.
+    * 
+    * @return the default security model
+    */
+    private SecurityModel getDefaultSecurityModel()
+    {
+        return (SecurityModel) m_security.get( "default" );
+    }
+
 }

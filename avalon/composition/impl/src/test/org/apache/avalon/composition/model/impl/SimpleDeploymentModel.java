@@ -19,6 +19,8 @@ package org.apache.avalon.composition.model.impl;
 
 import java.util.List;
 
+import java.security.AccessControlContext;
+
 import org.apache.avalon.composition.data.Mode;
 import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.model.AssemblyException;
@@ -108,6 +110,10 @@ public class SimpleDeploymentModel
     {
     }
 
+    public AccessControlContext getAccessControlContext()
+    {
+        return null;
+    }
 
     //-----------------------------------------------------------
     // service production

@@ -23,6 +23,11 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException ;
 import java.lang.reflect.Method ;
 
+import java.security.AccessControlContext;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
+import java.security.PrivilegedExceptionAction;
+
 import org.apache.avalon.activation.ComponentFactory;
 import org.apache.avalon.activation.RuntimeFactory;
 import org.apache.avalon.activation.LifecycleException;
@@ -44,14 +49,20 @@ import org.apache.avalon.meta.info.StageDescriptor;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 
+import org.apache.avalon.framework.activity.Initializable;
+import org.apache.avalon.framework.activity.Executable;
+import org.apache.avalon.framework.activity.Startable;
 import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.logger.Logger;
+import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.context.Context;
+import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.Configurable;
+import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.framework.service.ServiceManager;
-import org.apache.avalon.framework.activity.Startable;
-import org.apache.avalon.framework.activity.Executable;
 
 import org.apache.avalon.lifecycle.Creator;
 
@@ -59,10 +70,10 @@ import org.apache.avalon.repository.Artifact;
 
 
 /**
- * A factory enabling the establishment of runtime handlers.
+ * A factory enabling the establishment of component instances.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/02/22 11:04:45 $
+ * @version $Revision: 1.4 $ $Date: 2004/02/29 22:25:25 $
  */
 public class DefaultComponentFactory implements ComponentFactory
 {
@@ -82,7 +93,9 @@ public class DefaultComponentFactory implements ComponentFactory
 
     private final ComponentModel m_model;
 
-    private Logger m_logger;
+    private final Logger m_logger;
+
+    private final boolean m_secure;
 
     //-------------------------------------------------------------------
     // constructor
@@ -97,7 +110,8 @@ public class DefaultComponentFactory implements ComponentFactory
     {
         m_system = system;
         m_model = model;
-   
+
+        m_secure = system.isCodeSecurityEnabled();
         m_logger = model.getLogger().getChildLogger( "lifecycle" );
     }
 
@@ -180,21 +194,104 @@ public class DefaultComponentFactory implements ComponentFactory
     private Object doIncarnation() throws LifecycleException
     {
         Class clazz = m_model.getDeploymentClass();
-        Logger logger = m_model.getLogger();
-        Configuration config = m_model.getConfiguration();
-        Parameters params = m_model.getParameters();
-        ServiceManager manager = new DefaultServiceManager( m_model );
-        Context context = getTargetContext();
+        final Logger logger = m_model.getLogger();
+        final Configuration config = m_model.getConfiguration();
+        final Parameters params = m_model.getParameters();
+        final ServiceManager manager = new DefaultServiceManager( m_model );
+        final Context context = getTargetContext();
 
-        Object instance = instantiate( clazz, logger, config, params, context, manager );
+        final Object instance = 
+          instantiate( clazz, logger, config, params, context, manager );
 
         try
         {
-            ContainerUtil.enableLogging( instance, logger );
+            if( instance instanceof LogEnabled )
+            {
+                if( m_secure ) 
+                { 
+                    AccessController.doPrivileged( 
+                      new PrivilegedAction()
+                      {
+                          public Object run()
+                          {
+                             ((LogEnabled)instance).enableLogging( logger );
+                             return null;
+                          }
+                      }, 
+                      m_model.getAccessControlContext() );
+                }
+                else
+                {
+                    ContainerUtil.enableLogging( instance, logger );
+                }
+            }
+
+
             applyContext( instance, context );
-            ContainerUtil.service( instance, manager );
-            ContainerUtil.configure( instance, config );
-            ContainerUtil.parameterize( instance, params );
+
+            if( instance instanceof Serviceable )
+            {
+                if( m_secure )
+                {
+                    AccessController.doPrivileged( 
+                      new PrivilegedExceptionAction()
+                      {
+                          public Object run() throws Exception
+                          {
+                             ((Serviceable)instance).service( manager );
+                             return null;
+                          }
+                      }, 
+                      m_model.getAccessControlContext() );
+                }
+                else
+                {
+                    ContainerUtil.service( instance, manager );
+                }
+            }
+
+            if( instance instanceof Configurable )
+            {
+                if( m_secure )
+                {
+                    AccessController.doPrivileged( 
+                      new PrivilegedExceptionAction()
+                      {
+                          public Object run() throws Exception
+                          {
+                             ((Configurable)instance).configure( config );
+                             return null;
+                          }
+                      }, 
+                      m_model.getAccessControlContext() );
+                }
+                else
+                {
+                    ContainerUtil.configure( instance, config );
+                }
+            }
+
+
+            if( instance instanceof Parameterizable )
+            {
+                if( m_secure )
+                {
+                    AccessController.doPrivileged( 
+                      new PrivilegedExceptionAction()
+                      {
+                          public Object run() throws Exception
+                          {
+                             ((Parameterizable)instance).parameterize( params );
+                             return null;
+                          }
+                      }, 
+                      m_model.getAccessControlContext() );
+                }
+                else
+                {
+                    ContainerUtil.parameterize( instance, params );
+                }
+            }
 
             //
             // handle lifecycle extensions
@@ -206,14 +303,66 @@ public class DefaultComponentFactory implements ComponentFactory
             // complete intialization
             //
 
-            ContainerUtil.initialize( instance );
+            if( instance instanceof Initializable )
+            {
+                if( m_secure )
+                {
+                    AccessController.doPrivileged( 
+                      new PrivilegedExceptionAction()
+                      {
+                          public Object run() throws Exception
+                          {
+                             ((Initializable)instance).initialize();
+                             return null;
+                          }
+                      }, 
+                      m_model.getAccessControlContext() );
+                }
+                else
+                {
+                    ContainerUtil.initialize( instance );
+                }
+            }
+
             if( Startable.class.isAssignableFrom( clazz ) )
             {
-                ContainerUtil.start( instance );
+                if( m_secure )
+                {
+                    AccessController.doPrivileged( 
+                      new PrivilegedExceptionAction()
+                      {
+                          public Object run() throws Exception
+                          {
+                             ((Startable)instance).start();
+                             return null;
+                          }
+                      }, 
+                      m_model.getAccessControlContext() );
+                }
+                else
+                {
+                    ContainerUtil.start( instance );
+                }
             }
             else if( Executable.class.isAssignableFrom( clazz ) )
             {
-                ContainerUtil.execute( instance );
+                if( m_secure )
+                {
+                    AccessController.doPrivileged( 
+                      new PrivilegedExceptionAction()
+                      {
+                          public Object run() throws Exception
+                          {
+                             ((Executable)instance).execute();
+                             return null;
+                          }
+                      }, 
+                      m_model.getAccessControlContext() );
+                }
+                else
+                {
+                    ContainerUtil.execute( instance );
+                }
             }
             return instance;
         }
@@ -327,12 +476,27 @@ public class DefaultComponentFactory implements ComponentFactory
     * @exception LifecycleException if an instantiation error occurs
     */
     private Object instantiateComponent( 
-      Constructor constructor, Object[] args ) 
+      final Constructor constructor, final Object[] args ) 
       throws LifecycleException
     {
         try
         {
-            return constructor.newInstance( args );
+            if( m_secure )
+            {
+                return AccessController.doPrivileged( 
+                  new PrivilegedExceptionAction()
+                  {
+                      public Object run() throws Exception
+                      {
+                         return constructor.newInstance( args );
+                      }
+                  }, 
+                  m_model.getAccessControlContext() );
+            }
+            else
+            {
+                return constructor.newInstance( args );
+            }
         }
         catch( Throwable e )
         {
@@ -537,7 +701,7 @@ public class DefaultComponentFactory implements ComponentFactory
         }
     }
 
-    private void applyContext( final Object instance, Context context ) 
+    private void applyContext( final Object instance, final Context context ) 
       throws LifecycleException
     {
         if( null == context ) return;
@@ -554,7 +718,23 @@ public class DefaultComponentFactory implements ComponentFactory
 
             try
             {
-                ContainerUtil.contextualize( instance, context );
+                if( m_secure )
+                {
+                    AccessController.doPrivileged( 
+                      new PrivilegedExceptionAction()
+                      {
+                          public Object run() throws Exception
+                          {
+                             ((Contextualizable)instance).contextualize( context );
+                             return null;
+                          }
+                      }, 
+                      m_model.getAccessControlContext() );
+                }
+                else
+                {
+                    ContainerUtil.contextualize( instance, context );
+                }
             }
             catch( Throwable e )
             {

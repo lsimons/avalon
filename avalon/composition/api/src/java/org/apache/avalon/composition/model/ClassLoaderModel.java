@@ -18,6 +18,7 @@
 package org.apache.avalon.composition.model;
 
 import java.net.URL;
+import java.security.CodeSource;
 import java.security.ProtectionDomain;
 
 import org.apache.avalon.extension.manager.OptionalPackage;
@@ -30,7 +31,7 @@ import org.apache.avalon.framework.logger.Logger;
  * a fully qualifed classpath can be established.</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.6 $ $Date: 2004/02/23 13:00:31 $
+ * @version $Revision: 1.7 $ $Date: 2004/02/29 22:25:26 $
  */
 public interface ClassLoaderModel
 {
@@ -76,9 +77,10 @@ public interface ClassLoaderModel
     * Return the fully qualified classpath including extension jar files
     * resolved relative to a classpath directives.
     *
-    * @return an array of URL representing the qualified classpath 
+    * @return an array of CodeSource instances representing the qualified 
+    *    classpath 
     */
-    URL[] getQualifiedClassPath();
+    CodeSource[] getQualifiedClassPath();
 
    /**
     * Return the classloader for a containment context.

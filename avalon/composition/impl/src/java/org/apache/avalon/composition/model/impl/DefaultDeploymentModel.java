@@ -17,12 +17,17 @@
 
 package org.apache.avalon.composition.model.impl;
 
+import java.security.Permissions;
+import java.security.AccessControlContext;
+import java.security.ProtectionDomain;
+
 import org.apache.avalon.composition.data.Mode;
 import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.model.DependencyGraph;
 import org.apache.avalon.composition.model.Commissionable;
 import org.apache.avalon.composition.provider.DeploymentContext;
 import org.apache.avalon.composition.provider.SystemContext;
+import org.apache.avalon.composition.provider.SecurityModel;
 
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.parameters.Parameters;
@@ -37,7 +42,7 @@ import org.apache.avalon.logging.data.CategoriesDirective;
  * Abstract model base class.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.17 $ $Date: 2004/02/25 22:54:09 $
+ * @version $Revision: 1.18 $ $Date: 2004/02/29 22:25:26 $
  */
 public abstract class DefaultDeploymentModel
   implements DeploymentModel
@@ -55,6 +60,10 @@ public abstract class DefaultDeploymentModel
 
     private final DeploymentContext m_context;
 
+    private final SecurityModel m_security;
+
+    private final AccessControlContext m_access;
+
     //--------------------------------------------------------------
     // muttable state
     //--------------------------------------------------------------
@@ -71,13 +80,25 @@ public abstract class DefaultDeploymentModel
     *
     * @param context the deployment context
     */
-    public DefaultDeploymentModel( DeploymentContext context )
+    public DefaultDeploymentModel( 
+      DeploymentContext context, SecurityModel security )
     { 
         if( null == context )
         {
             throw new NullPointerException( "context" );
         }
+        if( null == security )
+        {
+            throw new NullPointerException( "security" );
+        }
         m_context = context;
+        m_security = security;
+
+        Permissions permissions = security.getPermissions();
+        ProtectionDomain domain = 
+          new ProtectionDomain( null, permissions );
+        ProtectionDomain[] domains = new ProtectionDomain[]{ domain };
+        m_access = new AccessControlContext( domains );
     }
 
     //--------------------------------------------------------------
@@ -198,6 +219,25 @@ public abstract class DefaultDeploymentModel
     {
         return m_context.getLogger();
     }
+
+   /**
+    * Return the assigned permissions.
+    * @return the permissions
+    */
+    public Permissions getPermissions()
+    {
+        return m_security.getPermissions();
+    }
+
+   /**
+    * Return the access control context.
+    * @return the access control context
+    */
+    public AccessControlContext getAccessControlContext()
+    {
+        return m_access;
+    }
+
 
     //--------------------------------------------------------------
     // implementation

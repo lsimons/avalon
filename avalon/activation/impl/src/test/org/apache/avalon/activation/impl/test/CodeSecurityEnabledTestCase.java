@@ -88,6 +88,7 @@ public class CodeSecurityEnabledTestCase extends AbstractTestCase
     */
     public void testInterfaceMethods() throws Exception
     {
+        System.out.println( "## testing interface methods" );
         TestService test = getTestService();
         try
         {
@@ -127,15 +128,20 @@ public class CodeSecurityEnabledTestCase extends AbstractTestCase
             getLogger().error( message );
             throw new Exception( message );
         }
+
+        System.out.println( "## testing property read" );
         
         try
         {
             // This should succeed since there is a read permission for
             // system properties in the security policy.
+
             String ver = test.getJavaVersion();
+            System.out.println( "## property read ok" );
         }
         catch( Throwable e )
         {
+            System.out.println( "## property read failed: " + e.toString() );
             releaseTestService( test );
             final String error = "CodeSecurityTest secondary failure.";
             final String message = ExceptionHelper.packException( error, e, true );
@@ -143,14 +149,17 @@ public class CodeSecurityEnabledTestCase extends AbstractTestCase
             throw new Exception( message );
         }
     
+        System.out.println( "## testing setProperty" );
         try
         {
             test.setJavaVersion( "1.0.2" ); 
 // TODO::::            
 //            fail( "CodeSecurityTest failure: This operation should not be allowed." );
+            System.out.println( "## set version succeeded - BAD " );
         }
         catch( SecurityException e )
         {
+            System.out.println( "## set version failed - GOOD" );
             // ignore, expected
         }
         catch( Throwable e )

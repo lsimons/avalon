@@ -28,6 +28,7 @@ import org.apache.avalon.composition.model.ModelRuntimeException;
 import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.provider.SystemContext;
 import org.apache.avalon.composition.provider.ContainmentContext;
+import org.apache.avalon.composition.provider.SecurityModel;
 
 import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.Logger;
@@ -43,7 +44,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * Implementation of a containment supplied to a containment model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2004/02/10 16:23:33 $
+ * @version $Revision: 1.6 $ $Date: 2004/02/29 22:25:26 $
  */
 public class DefaultContainmentContext extends DefaultDeploymentContext 
   implements ContainmentContext

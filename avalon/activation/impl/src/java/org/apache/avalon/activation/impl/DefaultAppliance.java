@@ -36,7 +36,7 @@ import org.apache.avalon.framework.logger.Logger;
 /**
  * Abstract appliance.
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/02/12 05:59:41 $
+ * @version $Revision: 1.3 $ $Date: 2004/02/29 22:25:25 $
  */
 public class DefaultAppliance extends AbstractAppliance
 {
@@ -60,15 +60,19 @@ public class DefaultAppliance extends AbstractAppliance
 
     private long m_delay = 0;
 
+    private final boolean m_secure;
+
     //-------------------------------------------------------------------
     // constructor
     //-------------------------------------------------------------------
 
-    public DefaultAppliance( ComponentModel model, LifestyleManager lifestyle )
+    public DefaultAppliance( 
+      ComponentModel model, LifestyleManager lifestyle, boolean secure )
     {
         super( model );
         m_model = model;
         m_lifestyle = lifestyle;
+        m_secure = secure;
     }
 
     //-------------------------------------------------------------------
@@ -169,7 +173,7 @@ public class DefaultAppliance extends AbstractAppliance
             ComponentModel model = getComponentModel();
             Logger logger = model.getLogger().getChildLogger( "proxy" );
             ApplianceInvocationHandler handler = 
-              new ApplianceInvocationHandler( this, logger );
+              new ApplianceInvocationHandler( this, logger, m_secure );
 
             try
             {

@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Properties;
+import java.security.AccessControlContext;
 
 import org.apache.avalon.composition.data.DependencyDirective;
 import org.apache.avalon.composition.data.StageDirective;
@@ -37,6 +38,7 @@ import org.apache.avalon.composition.model.ModelRuntimeException;
 import org.apache.avalon.composition.model.StageModel;
 import org.apache.avalon.composition.provider.SystemContext;
 import org.apache.avalon.composition.provider.ComponentContext;
+import org.apache.avalon.composition.provider.SecurityModel;
 
 import org.apache.avalon.logging.data.CategoriesDirective;
 
@@ -64,7 +66,7 @@ import org.apache.excalibur.configuration.CascadingConfiguration;
  * Deployment model defintion.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.8 $ $Date: 2004/02/21 23:54:42 $
+ * @version $Revision: 1.9 $ $Date: 2004/02/29 22:25:26 $
  */
 public class DefaultComponentModel extends DefaultDeploymentModel 
   implements ComponentModel
@@ -122,10 +124,10 @@ public class DefaultComponentModel extends DefaultDeploymentModel
     *
     * @param context the deployment context
     */
-    public DefaultComponentModel( ComponentContext context )
+    public DefaultComponentModel( ComponentContext context, SecurityModel security )
       throws ModelException
     {
-        super( context );
+        super( context, security );
 
         m_context = context;
         m_activation = m_context.getProfile().getActivationPolicy();

@@ -21,6 +21,8 @@ package org.apache.avalon.composition.model.test;
 import java.io.File;
 
 
+import org.apache.avalon.composition.data.SecurityProfile;
+import org.apache.avalon.composition.data.builder.XMLSecurityProfileBuilder;
 import org.apache.avalon.composition.model.ComponentModel;
 import org.apache.avalon.composition.model.ContainmentModel;
 import org.apache.avalon.composition.model.DeploymentModel;
@@ -45,6 +47,8 @@ import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.avalon.util.exception.ExceptionHelper;
 import org.apache.avalon.util.env.Env;
 
+import org.apache.excalibur.configuration.ConfigurationUtil;
+
 import junit.framework.TestCase;
 
 public abstract class AbstractTestCase extends TestCase
@@ -63,6 +67,9 @@ public abstract class AbstractTestCase extends TestCase
     public static final File SYS_CONF = 
       new File( BASEDIR, "src/test/conf/system/kernel.xml" );
 
+    private static final XMLSecurityProfileBuilder SECURITY_BUILDER = 
+      new XMLSecurityProfileBuilder();
+
     //-------------------------------------------------------
     // state
     //-------------------------------------------------------
@@ -80,12 +87,19 @@ public abstract class AbstractTestCase extends TestCase
     public ContainmentModel setUp( String path ) throws Exception
     {
         //
+        // grab the platform configuration
+        //
+
+        Configuration config = getConfiguration( SYS_CONF );
+
+        //
         // create the initial context using the maven repository as the 
         // system repository
         //
 
         File test = new File( getTargetDir(), "test" );
-        InitialContext context = setUpInitialContext( test, SYS_CONF );
+        Configuration sysConfig = config.getChild( "system" );
+        InitialContext context = setUpInitialContext( test, sysConfig );
 
         //
         // create a system context and add a test repository to use during 
@@ -94,9 +108,16 @@ public abstract class AbstractTestCase extends TestCase
 
         SystemContextFactory factory = 
           new DefaultSystemContextFactory( context );
+
+        Configuration secConfig = config.getChild( "security" );
+        SecurityProfile[] profiles = 
+          SECURITY_BUILDER.createSecurityProfiles( secConfig );
+        factory.setSecurityProfiles( profiles );
+
         Repository repository = 
           createTestRepository( context, new File( test, "repository" ) );
         factory.setRepository( repository );
+
         SystemContext system = factory.createSystemContext();
 
         //
@@ -110,7 +131,8 @@ public abstract class AbstractTestCase extends TestCase
         return modelFactory.createRootContainmentModel( source.toURL() );
     }
 
-    private Repository createTestRepository( InitialContext context, File cache ) throws Exception
+    private Repository createTestRepository( InitialContext context, File cache ) 
+      throws Exception
     {
         Factory factory = context.getInitialFactory();
         RepositoryCriteria criteria = 
@@ -120,14 +142,13 @@ public abstract class AbstractTestCase extends TestCase
         return (Repository) factory.create( criteria );
     }
 
-    InitialContext setUpInitialContext( File base, File conf ) throws Exception
+    InitialContext setUpInitialContext( File base, Configuration config ) 
+      throws Exception
     {
         InitialContextFactory initial = 
           new DefaultInitialContextFactory( "test", base );
         initial.setCacheDirectory( getMavenRepositoryDirectory() );
-        Configuration config = getConfiguration( conf );
-        Configuration sysConfig = config.getChild( "system" );
-        registerSystemArtifacts( initial, sysConfig );
+        registerSystemArtifacts( initial, config );
         return initial.createInitialContext();
     }
 

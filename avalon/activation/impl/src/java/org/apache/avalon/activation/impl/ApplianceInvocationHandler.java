@@ -23,6 +23,8 @@ import java.lang.reflect.UndeclaredThrowableException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.security.PrivilegedActionException;
+import java.security.AccessController;
+import java.security.PrivilegedExceptionAction;
 
 import org.apache.avalon.activation.Appliance;
 import org.apache.avalon.activation.ApplianceException;
@@ -40,7 +42,7 @@ import org.apache.avalon.framework.logger.Logger;
  * by one, some or all of it's interfaces.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2004/02/23 13:00:31 $
+ * @version $Revision: 1.5 $ $Date: 2004/02/29 22:25:25 $
  */
 public final class ApplianceInvocationHandler implements InvocationHandler
 {
@@ -50,6 +52,8 @@ public final class ApplianceInvocationHandler implements InvocationHandler
 
     private final DefaultAppliance m_appliance;
     private final Logger m_logger;
+    private final ComponentModel m_model;
+    private final boolean m_secure;
 
     //-------------------------------------------------------------------
     // immutable state
@@ -68,10 +72,12 @@ public final class ApplianceInvocationHandler implements InvocationHandler
     * @param appliance the runtime appliance
     * @param logger the assigned logging channel 
     */
-    protected ApplianceInvocationHandler( DefaultAppliance appliance, Logger logger )
+    protected ApplianceInvocationHandler( DefaultAppliance appliance, Logger logger, boolean secure )
     {
         m_appliance = appliance;
         m_logger = logger;
+        m_secure = secure;
+        m_model = m_appliance.getComponentModel();
     }
 
     //-------------------------------------------------------------------
@@ -102,8 +108,24 @@ public final class ApplianceInvocationHandler implements InvocationHandler
 
         try
         {
-            Object instance = getInstance();
-            return method.invoke( instance, args );
+            final Object instance = getInstance();
+           
+            if( m_secure )
+            {
+                return AccessController.doPrivileged( 
+                  new PrivilegedExceptionAction()
+                  {
+                      public Object run() throws Exception
+                      {
+                         return method.invoke( instance, args );
+                      }
+                  }, 
+                  m_model.getAccessControlContext() );
+            }
+            else
+            {
+                return method.invoke( instance, args );
+            }
         }
         catch( Throwable e )
         {

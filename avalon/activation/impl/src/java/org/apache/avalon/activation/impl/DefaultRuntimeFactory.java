@@ -44,7 +44,7 @@ import org.apache.avalon.repository.Artifact;
  * A factory enabling the establishment of runtime handlers.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/02/23 13:00:31 $
+ * @version $Revision: 1.3 $ $Date: 2004/02/29 22:25:25 $
  */
 public class DefaultRuntimeFactory implements RuntimeFactory
 {
@@ -66,6 +66,8 @@ public class DefaultRuntimeFactory implements RuntimeFactory
 
     private final LifestyleFactory m_factory;
 
+    private final boolean m_secure;
+
     //-------------------------------------------------------------------
     // constructor
     //-------------------------------------------------------------------
@@ -74,6 +76,7 @@ public class DefaultRuntimeFactory implements RuntimeFactory
     {
         m_system = system;
         m_factory = new DefaultLifestyleFactory( m_system );
+        m_secure = m_system.isCodeSecurityEnabled();
     }
 
     //-------------------------------------------------------------------
@@ -139,7 +142,7 @@ public class DefaultRuntimeFactory implements RuntimeFactory
     */
     protected Appliance newComponentRuntime( ComponentModel model, LifestyleManager manager )
     {
-        return new DefaultAppliance( model, manager );
+        return new DefaultAppliance( model, manager, m_secure );
     }
 
    /**
