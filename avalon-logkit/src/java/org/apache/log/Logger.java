@@ -81,7 +81,7 @@ public class Logger
      */
     public final boolean isDebugEnabled()
     {
-        return getPriority().isLowerOrEqual( Priority.DEBUG );
+        return m_priority.isLowerOrEqual( Priority.DEBUG );
     }
 
     /**
@@ -118,7 +118,7 @@ public class Logger
      */
     public final boolean isInfoEnabled()
     {
-        return getPriority().isLowerOrEqual( Priority.INFO );
+        return m_priority.isLowerOrEqual( Priority.INFO );
     }
 
     /**
@@ -154,7 +154,7 @@ public class Logger
      */
     public final boolean isWarnEnabled()
     {
-        return getPriority().isLowerOrEqual( Priority.WARN );
+        return m_priority.isLowerOrEqual( Priority.WARN );
     }
 
     /**
@@ -191,7 +191,7 @@ public class Logger
      */
     public final boolean isErrorEnabled()
     {
-        return getPriority().isLowerOrEqual( Priority.ERROR );
+        return m_priority.isLowerOrEqual( Priority.ERROR );
     }
 
     /**
@@ -228,7 +228,7 @@ public class Logger
      */
     public final boolean isFatalErrorEnabled()
     {
-        return getPriority().isLowerOrEqual( Priority.FATAL_ERROR );
+        return m_priority.isLowerOrEqual( Priority.FATAL_ERROR );
     }
 
     /**
@@ -279,7 +279,7 @@ public class Logger
      */
     public final boolean isPriorityEnabled( final Priority priority )
     {
-        return getPriority().isLowerOrEqual( priority );
+        return m_priority.isLowerOrEqual( priority );
     }
 
     /**
@@ -293,7 +293,7 @@ public class Logger
                            final String message,
                            final Throwable throwable )
     {
-        if( getPriority().isLowerOrEqual( priority ) )
+        if( m_priority.isLowerOrEqual( priority ) )
         {
             output( priority, message, throwable );
         }
@@ -341,9 +341,13 @@ public class Logger
     public synchronized void unsetPriority( final boolean recursive )
     {
         if( null != m_parent )
-            m_priority = m_parent.getPriority();
+        {
+            m_priority = m_parent.m_priority;
+        }
         else
+        {
             m_priority = Priority.DEBUG;
+        }
 
         m_priorityForceSet = false;
         resetChildPriorities( recursive );
