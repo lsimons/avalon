@@ -23,19 +23,19 @@ fi
 
 # Main.java has hard coded config values so this script must be run from
 # altprofile/bin (any better ideas ?)
-EXAMPLE_HOME=../..
+EXAMPLE_HOME=..
 
 #
 # Build the runtime classpath
 #
-for i in ${EXAMPLE_HOME}/commonlib/*.jar ; do
+for i in ${EXAMPLE_HOME}/lib/*.jar ; do
     CP=${CP}:$i
 done
 
-CP=${CP}:../lib/container.jar
+CP=${CP}:${EXAMPLE_HOME}/build/classes
 
-#echo $CP
+echo $CP
 
 # Run the example application
-$JAVACMD -classpath $CP org.apache.avalon.examples.container.Main $@
+$JAVACMD -classpath $CP org.apache.excalibur.fortress.examples.swing.swing $@
 

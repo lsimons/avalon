@@ -1,6 +1,0 @@
-<components logger="example">
-    <!-- =============================================================== -->
-    <!-- Application components.                                         -->
-    <!-- =============================================================== -->
-    <example-profilable logger="app" profilable="example-profilable"/>
-</components>
