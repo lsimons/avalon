@@ -65,8 +65,18 @@ public class Installer
             if ( !isContext( url ) )
             {
                 installURL = new URL( "sar:" + url.toExternalForm() + "|/" );
+                extract( installURL, baseDirectory, "" );
             }
-            
+            else
+            {
+                // cannot install from remote a directory
+                if ( !"file".equals( url.getProtocol() ) )
+                {
+                    final String msg = REZ.getString( "install-nonlocal", url);
+                    throw new InstallationException( msg );
+                }
+            }
+                        
             String inf = SAR_INF;
             final ArrayList codeBase = new ArrayList();
             
@@ -116,6 +126,12 @@ public class Installer
         //throw new InstallationException( message );
     }
     
+    /**
+     * Check application's packaging format.
+     *
+     * @param url the URL to package.
+     * @return true if packaging format is deprecated.
+     */ 
     private boolean isDeprecated( final URL url ) 
         throws MalformedURLException, IOException
     {                
@@ -129,6 +145,11 @@ public class Installer
         }
 
         return true;        
+    }
+    
+    private boolean isContext( final URL url ) throws InstallationException
+    {
+        return url.getFile().endsWith( "/" );
     }
     
     private Collection getCodeBase( final URL url ) 
@@ -181,26 +202,6 @@ public class Installer
         return names;
     }
     
-    private boolean isContext( final URL url ) throws InstallationException
-    {
-        boolean isContext = false;
-        
-        if( url.getFile().endsWith( "/" ) )
-        {
-            if ( "file".equals( url.getProtocol() ) ) 
-            {
-                isContext = true;
-            }
-            else 
-            {
-                final String message = REZ.getString( "install-nonlocal", url );
-                throw new InstallationException( message );
-            }
-        }             
-        
-        return isContext;
-    }
-    
     /**
      * Download resource into specified location.
      *
@@ -227,4 +228,40 @@ public class Installer
             IOUtil.shutdownStream( output );
         }
     }                   
+    
+    /**
+     * Extract files recursively to the local filesystem. Avoids the extraction 
+     * of configuration files, blocks and libraries.
+     * 
+     * @param resource the resource from where data is copied.
+     * @param directory the directory where resource is be copied.
+     * @param context the relative identifier for a resource.
+     */
+    private void extract( final URL resource, final File directory, final String context ) 
+        throws MalformedURLException, InstallationException, IOException
+    {
+        if ( SAR_INF.equals( context ) ||
+             "blocks/".equals( context ) ||
+             "lib/".equals( context ) ||
+             "conf/".equals( context ) ) return;
+        
+        final URL url = new URL( resource, context );
+        
+        if ( isContext( url ) ) 
+        {
+            final String[] contexts = list( url );
+            
+            for (int i = 0; i < contexts.length; i++ ) 
+            {                
+                final File file = new File( directory, context );
+                file.mkdirs();
+                extract( url, file, contexts[i] );
+            }            
+        }
+        else 
+        {
+            final File file = new File( directory, context );
+            download( url, file );
+        }
+    }
 }
