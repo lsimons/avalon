@@ -54,72 +54,42 @@
  */
 package org.apache.excalibur.source.impl;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Map;
+import java.security.Provider;
+import java.security.Security;
 
-import org.apache.avalon.framework.container.ContainerUtil;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.framework.thread.ThreadSafe;
 import org.apache.avalon.framework.parameters.ParameterException;
-import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
-import org.apache.excalibur.source.Source;
-import org.apache.excalibur.source.SourceException;
+import org.apache.commons.httpclient.protocol.Protocol;
+import org.apache.commons.httpclient.protocol.SecureProtocolSocketFactory;
 import org.apache.excalibur.source.SourceFactory;
 
 /**
- * {@link HTTPClientSource} Factory class.
+ * {@link HTTPSClientSource} Factory class.
  *
  * @avalon.component
  * @avalon.service type=SourceFactory
- * @x-avalon.info name=httpclient-source
+ * @x-avalon.info name=httpsclient-source
  * @x-avalon.lifestyle type=singleton
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: HTTPClientSourceFactory.java,v 1.4 2003/07/09 09:51:29 crafterm Exp $
+ * @version CVS $Id: HTTPSClientSourceFactory.java,v 1.1 2003/07/09 09:51:29 crafterm Exp $
  */
-public class HTTPClientSourceFactory extends AbstractLogEnabled
-    implements SourceFactory, Parameterizable, ThreadSafe
+public class HTTPSClientSourceFactory extends HTTPClientSourceFactory
 {
     /**
-     * Configuration information.
+     * SSL implementation provider.
      */
-    private Parameters m_parameters;
+    public static final String SSL_PROVIDER   = "provider";
 
     /**
-     * Creates a {@link HTTPClientSource} instance.
+     * SSL socket factory.
      */
-    public Source getSource( final String uri, final Map sourceParams )
-        throws MalformedURLException, IOException
-    {
-        try
-        {
-            final HTTPClientSource source = 
-                new HTTPClientSource( uri, sourceParams );
-            ContainerUtil.enableLogging( source, getLogger() );
-            ContainerUtil.parameterize( source, m_parameters );
-            ContainerUtil.initialize( source );
-            return source;
-        }
-        catch ( final MalformedURLException e )
-        {
-            throw e;
-        }
-        catch ( final IOException e ) 
-        {
-            throw e;
-        }
-        catch ( final Exception e )
-        {
-            final StringBuffer message = new StringBuffer();
-            message.append( "Exception thrown while creating " );
-            message.append( HTTPClientSource.class.getName() );
+    public static final String SOCKET_FACTORY = "socket-factory";
 
-            throw new SourceException( message.toString(), e );
-        }
-    }
+    /**
+     * HTTPS constant.
+     */
+    public static final String HTTPS          = "https";
 
     /**
      * Parameterize this {@link SourceFactory}.
@@ -130,16 +100,77 @@ public class HTTPClientSourceFactory extends AbstractLogEnabled
     public void parameterize( final Parameters params )
         throws ParameterException
     {
-        m_parameters = params;
+        super.parameterize( params );
+
+        setProvider( params );
+        setSocketFactory( params );
     }
 
     /**
-     * Releases the given {@link Source} object.
+     * Method to set up the SSL provider for this factory
+     * instance.
      *
-     * @param source {@link Source} object to be released
+     * @param params configuration {@link Parameters}
+     * @exception ParameterException if an error occurs
      */
-    public void release( final Source source )
+    private void setProvider( final Parameters params )
+        throws ParameterException
     {
-        // empty for the moment
+        Security.addProvider(
+            (Provider) getInstance( params.getParameter( SSL_PROVIDER ) )
+        );
+    }
+
+    /**
+     * Method to set up the SSL socket factory for this
+     * source factory instance.
+     *
+     * @param params configuration {@link Parameters}
+     * @exception ParameterException if an error occurs
+     */
+    private void setSocketFactory( final Parameters params )
+        throws ParameterException
+    {
+        String factoryName = null;
+
+        try
+        {
+            factoryName = params.getParameter( SOCKET_FACTORY );
+        }
+        catch ( final ParameterException e )
+        {
+            return; // this is ok, means no custom socket factory
+        }
+
+        final Protocol protocol =
+            new Protocol(
+                HTTPS, 
+                ( SecureProtocolSocketFactory ) getInstance( factoryName ),
+                443 
+            );
+        Protocol.registerProtocol( HTTPS, protocol );
+    }
+
+    /**
+     * Helper method to create a single instance from a class name. Assumes
+     * given class name has a no-parameter constructor.
+     *
+     * @param className class name to instantiate
+     * @return instantiated class
+     * @exception Exception if an error occurs
+     */
+    private Object getInstance( final String className )
+        throws ParameterException
+    {
+        try
+        {
+            return Class.forName( className ).newInstance();
+        }
+        catch ( final Exception e )
+        {
+            throw new ParameterException(
+                "Unable to instantiate: " + className, e
+            );
+        }
     }
 }

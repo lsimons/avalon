@@ -16,6 +16,7 @@
         <pathelement location="${avalon-framework.jar}"/>
         <pathelement location="${checkstyle.jar}"/>
         <pathelement location="${commons-httpclient.jar}"/>
+        <pathelement location="${jsse.jar}"/>	
         <pathelement path="${java.class.path}"/>
     </path>
 
@@ -44,6 +45,9 @@
         </available>
         <available property="commons-logging.present" classname="org.apache.commons.logging.LogSource">
             <classpath refid="test.class.path"/>
+        </available>
+        <available property="jsse.present" classname="com.sun.net.ssl.internal.ssl.Provider">
+            <classpath refid="project.class.path"/>
         </available>
     </target>
 
@@ -74,8 +78,10 @@
             target="1.2">
             <classpath refid="project.class.path" />
             <include name="**/*.java"/>
-        <exclude name="**/HTTPClient*"
+            <exclude name="**/HTTPClient*"
                 unless="commons-httpclient.present"/>
+            <exclude name="**/HTTPSClient*"
+                unless="jsse.present"/>
         </javac>
 
         <!-- copy resources to same location as .class files -->
@@ -198,7 +204,7 @@
             <classpath refid="test.class.path"/>
 
             <formatter type="xml"/>    <!-- xml reports for junitreport -->
-            <formatter type="plain" usefile="false"/>  <!-- text reports for humans     -->
+            <formatter type="plain" usefile="true"/>  <!-- text reports for humans     -->
 
             <batchtest todir="${build.tests}">
                 <fileset dir="${build.testclasses}">
