@@ -16,7 +16,7 @@ import org.apache.avalon.framework.activity.Disposable;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:stefano@apache.org">Stefano Mazzocchi</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/04/04 05:09:04 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/10/18 02:29:30 $
  * @since 4.0
  */
 public class DefaultPool
@@ -104,7 +104,7 @@ public class DefaultPool
     {
         Poolable obj = null;
 
-        if( false == m_initialized )
+        if( !m_initialized )
         {
             throw new IllegalStateException( "You cannot get a Poolable before the pool is initialized" );
         }
@@ -114,10 +114,9 @@ public class DefaultPool
             throw new IllegalStateException( "You cannot get a Poolable after the pool is disposed" );
         }
 
+        m_mutex.acquire();
         try
         {
-            m_mutex.acquire();
-
             if( m_ready.size() == 0 )
             {
                 if( this instanceof Resizable )
@@ -130,7 +129,10 @@ public class DefaultPool
                     }
                     else
                     {
-                        throw new Exception( "Could not create enough Components to service your request." );
+                        final String message =
+                            "Could not create enough Components to service " +
+                            "your request.";
+                        throw new Exception( message );
                     }
                 }
                 else
@@ -147,7 +149,9 @@ public class DefaultPool
 
             if( getLogger().isDebugEnabled() )
             {
-                getLogger().debug( "Retrieving a " + m_factory.getCreatedClass().getName() + " from the pool" );
+                final String message = "Retrieving a " +
+                    m_factory.getCreatedClass().getName() + " from the pool";
+                getLogger().debug( message );
             }
             return obj;
         }
@@ -159,9 +163,11 @@ public class DefaultPool
 
     public void put( final Poolable obj )
     {
-        if( false == m_initialized )
+        if( !m_initialized )
         {
-            throw new IllegalStateException( "You cannot get a Poolable before the pool is initialized" );
+            final String message = "You cannot get a Poolable before " +
+                "the pool is initialized";
+            throw new IllegalStateException( message );
         }
 
         try
@@ -172,26 +178,35 @@ public class DefaultPool
             }
 
             m_mutex.acquire();
-
-            m_active.remove( m_active.indexOf( obj ) );
-
-            if( getLogger().isDebugEnabled() )
+            try
             {
-                getLogger().debug( "Returning a " + m_factory.getCreatedClass().getName() + " to the pool" );
-            }
+                m_active.remove( m_active.indexOf( obj ) );
 
-            if( m_disposed == false )
-            {
-                m_ready.add( obj );
-
-                if( ( this.size() > m_max ) && ( this instanceof Resizable ) )
+                if( getLogger().isDebugEnabled() )
                 {
-                    this.internalShrink( m_controller.shrink() );
+                    final String message =
+                        "Returning a " + m_factory.getCreatedClass().getName() +
+                        " to the pool";
+                    getLogger().debug( message );
+                }
+
+                if( m_disposed == false )
+                {
+                    m_ready.add( obj );
+
+                    if( ( this.size() > m_max ) && ( this instanceof Resizable ) )
+                    {
+                        this.internalShrink( m_controller.shrink() );
+                    }
+                }
+                else
+                {
+                    this.removePoolable( obj );
                 }
             }
-            else
+            finally
             {
-                this.removePoolable( obj );
+                m_mutex.release();
             }
         }
         catch( Exception e )
@@ -201,10 +216,6 @@ public class DefaultPool
                 getLogger().warn( "Pool interrupted while waiting for lock.", e );
             }
         }
-        finally
-        {
-            m_mutex.release();
-        }
     }
 
     public final void dispose()
@@ -212,10 +223,16 @@ public class DefaultPool
         try
         {
             m_mutex.acquire();
-
-            while( m_ready.size() > 0 )
+            try
             {
-                this.removePoolable( (Poolable)m_ready.remove() );
+                while( m_ready.size() > 0 )
+                {
+                    this.removePoolable( (Poolable)m_ready.remove() );
+                }
+            }
+            finally
+            {
+                m_mutex.release();
             }
         }
         catch( Exception e )
@@ -224,10 +241,6 @@ public class DefaultPool
             {
                 getLogger().warn( "Caught an exception disposing of pool", e );
             }
-        }
-        finally
-        {
-            m_mutex.release();
         }
 
         this.m_disposed = true;
