@@ -71,7 +71,7 @@ import org.apache.excalibur.mpool.ObjectFactory;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
- * @version CVS $Revision: 1.13 $ $Date: 2003/03/19 12:55:46 $
+ * @version CVS $Revision: 1.14 $ $Date: 2003/03/19 16:41:52 $
  * @since 4.0
  */
 public class ComponentFactory
@@ -171,13 +171,6 @@ public class ComponentFactory
 
         if( component instanceof Loggable )
         {
-            final String message = "WARNING: " + m_componentClass.getName() +
-                " implements the Loggable lifecycle stage. This is " +
-                " a deprecated feature that will be removed in the future. " +
-                " Please upgrade to using LogEnabled.";
-            getLogger().warn( message );
-            System.out.println( message );
-
             final org.apache.log.Logger logkitLogger =
                 LogKit2AvalonLoggerAdapter.createLogger( m_componentLogger );
             ( (Loggable)component ).setLogger( logkitLogger );
@@ -186,13 +179,6 @@ public class ComponentFactory
         ContainerUtil.contextualize( component, m_context );
         if( component instanceof Composable )
         {
-            final String message = "WARNING: " + m_componentClass.getName() +
-                " implements the Composable lifecycle stage. This is " +
-                " a deprecated feature that will be removed in the future. " +
-                " Please upgrade to using Serviceable.";
-            getLogger().warn( message );
-            System.out.println( message );
-
             ContainerUtil.compose( component, new WrapperComponentManager( m_serviceManager ) );
         }
         ContainerUtil.service( component, m_serviceManager );
