@@ -13,6 +13,7 @@ import org.apache.avalon.framework.CascadingException;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.activity.Startable;
+import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.component.Composable;
 import org.apache.avalon.framework.component.DefaultComponentManager;
@@ -32,7 +33,6 @@ import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.phoenix.ApplicationEvent;
 import org.apache.avalon.phoenix.ApplicationListener;
-import org.apache.avalon.phoenix.Block;
 import org.apache.avalon.phoenix.BlockContext;
 import org.apache.avalon.phoenix.BlockEvent;
 import org.apache.avalon.phoenix.BlockListener;
@@ -211,7 +211,7 @@ class LifecycleHelper
             //Creation stage
             stage = STAGE_CREATE;
             notice( name, stage );
-            final Block block = createBlock( metaData );
+            final Object block = createBlock( metaData );
 
             //LogEnabled stage
             stage = STAGE_LOGGER;
@@ -278,11 +278,11 @@ class LifecycleHelper
             }
 
             entry.setState( State.STARTED );
-            entry.setBlock( block );
+            entry.setObject( block );
 
             exportBlock( metaData, block );
 
-            final Block proxy = entry.getProxy();
+            final Object proxy = entry.getProxy();
             final BlockEvent event =
                 new BlockEvent( name, proxy, metaData.getBlockInfo() );
             m_blockListenerSupport.blockAdded( event );
@@ -294,7 +294,9 @@ class LifecycleHelper
         }
     }
 
-    private void setupLogging( final String name, final Block block, int stage )
+    private void setupLogging( final String name,
+                               final Object block,
+                               int stage )
         throws Exception
     {
         if( block instanceof Loggable )
@@ -328,7 +330,7 @@ class LifecycleHelper
             new BlockEvent( name, entry.getProxy(), metaData.getBlockInfo() );
         m_blockListenerSupport.blockRemoved( event );
 
-        final Block block = entry.getBlock();
+        final Object block = entry.getObject();
 
         //Remove block from Management system
         unexportBlock( metaData, block );
@@ -380,7 +382,7 @@ class LifecycleHelper
      * services, into management system.
      */
     private void exportBlock( final BlockMetaData metaData,
-                              final Block block )
+                              final Object block )
         throws CascadingException
     {
         final ServiceDescriptor[] services = metaData.getBlockInfo().getManagementAccessPoints();
@@ -411,7 +413,7 @@ class LifecycleHelper
      * services, into management system.
      */
     private void unexportBlock( final BlockMetaData metaData,
-                                final Block block )
+                                final Object block )
     {
         final ServiceDescriptor[] services = metaData.getBlockInfo().getManagementAccessPoints();
         final String name = metaData.getName();
@@ -443,12 +445,12 @@ class LifecycleHelper
      * @return the newly created Block object
      * @throws Exception if an error occurs
      */
-    private Block createBlock( final BlockMetaData metaData )
+    private Object createBlock( final BlockMetaData metaData )
         throws Exception
     {
         final ClassLoader classLoader = m_context.getClassLoader();
         final Class clazz = classLoader.loadClass( metaData.getClassname() );
-        return (Block)clazz.newInstance();
+        return clazz.newInstance();
     }
 
     /**
@@ -501,6 +503,7 @@ class LifecycleHelper
      * @return the created ComponentManager
      */
     private ComponentManager createComponentManager( final BlockMetaData metaData )
+        throws Exception
     {
         final DefaultComponentManager componentManager = new DefaultComponentManager();
         final DependencyMetaData[] roles = metaData.getDependencies();
@@ -508,8 +511,20 @@ class LifecycleHelper
         for( int i = 0; i < roles.length; i++ )
         {
             final DependencyMetaData role = roles[ i ];
-            final Block dependency = m_application.getBlock( role.getName() );
-            componentManager.put( role.getRole(), dependency );
+            final Object dependency = m_application.getBlock( role.getName() );
+            if( dependency instanceof Component )
+            {
+                componentManager.put( role.getRole(), (Component)dependency );
+            }
+            else
+            {
+                final String message =
+                    REZ.getString( "lifecycle.nota-component.error",
+                                   metaData.getName(),
+                                   role.getRole(),
+                                   role.getName() );
+                throw new Exception( message );
+            }
         }
 
         return componentManager;
@@ -523,7 +538,7 @@ class LifecycleHelper
         for( int i = 0; i < roles.length; i++ )
         {
             final DependencyMetaData role = roles[ i ];
-            final Block dependency = m_application.getBlock( role.getName() );
+            final Object dependency = m_application.getBlock( role.getName() );
             manager.put( role.getRole(), dependency );
         }
 
