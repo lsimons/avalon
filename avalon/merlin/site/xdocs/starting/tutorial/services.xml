@@ -61,7 +61,7 @@
         <p>
         One of the most important aspects of a component management 
         platform is the ability to provide component assembly.  Assembly
-        is achieved by wiring together the services provides by one component
+        is achieved by wiring together the services provided by one component
         with the service dependencies declared by a consumer component. 
         </p>
         <p>
@@ -70,8 +70,8 @@
         tutorial dealing with dependencies. 
         </p>
         <p>
-        Resource supporting this tutorial are contained in the 
-        turorials/dependencies/ package.
+        Resources supporting this tutorial are contained in the 
+        tutorials/dependencies/ package.
         </p>
       </subsection>
       <subsection name="Service Interface">
@@ -100,8 +100,8 @@ public interface RandomGenerator
       </subsection>
       <subsection name="Component Implementation">
         <p>
-        The following source contain the component implementation for the 
-        above service. 
+        The following source contains the component implementation for the 
+        service above. 
         </p>
         <p><i>RandomGeneratorProvider.java</i></p>
 <source>
@@ -151,7 +151,7 @@ public class RandomGeneratorProvider extends AbstractLogEnabled
           In addition to the component implementation, we need to generate an xinfo
           resource in which we declare the publication of the service by 
           the component.  In this example the component type is declaring 
-          one service although multiple service declaration are supported. This 
+          one service although multiple service declarations are supported. This 
           is generated automatically based on the following tag:
         </p>
 <source><![CDATA[
