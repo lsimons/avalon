@@ -47,7 +47,7 @@
             <targets>
               <file id="root">
                 <filename>lolo/${current-dir}/lala/${foo}/logs/main.log</filename>
-                <format type="exteded">
+                <format type="extended">
                   %7.7{priority} %5.5{time}   [%8.8{category}] (%{context}): %{message}\n%{throwable}
                 </format>
                 <append>true</append>
@@ -251,7 +251,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.4 $ $Date: 2002/04/05 08:21:05 $
+      $Revision: 1.5 $ $Date: 2002/07/09 11:18:39 $
     </legal>
   </footer>
 </document>
