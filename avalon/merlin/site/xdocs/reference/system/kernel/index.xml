@@ -66,8 +66,8 @@
 
    <repository>
      <hosts>
-       <host>http://dpml.net</host>
-       <host>http://ibiblio.org/maven/</host>
+       <host>http://www.dpml.net</host>
+       <host>http://www.ibiblio.org/maven/</host>
      </hosts>
    </repository>
 
