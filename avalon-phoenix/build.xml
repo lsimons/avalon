@@ -36,17 +36,17 @@ Legal:
     <property name="build.deprecation" value="off"/>
 
     <!-- Set the properties for intermediate directory -->
-    <property name="build.dir" value="build"/>
-    <property name="build.lib" value="${build.dir}/lib"/>
-    <property name="build.src" value="${build.dir}/src"/>
-    <property name="build.classes" value="${build.dir}/classes"/>
-    <property name="build.javadocs" value="${build.dir}/javadocs"/>
-    <property name="build.docs" value="${build.dir}/site"/>
-    <property name="build.tests" value="${build.dir}/tests"/>
-    <property name="build.testclasses" value="${build.dir}/testclasses"/>
-    <property name="build.reports" value="${build.dir}/reports"/>
-    <property name="build.metagenerate" value="${build.dir}/metagenerate"/>
-    <property name="build.test-metagenerate" value="${build.dir}/test-metagenerate"/>
+    <property name="target.dir" value="target"/>
+    <property name="target.lib" value="${target.dir}/lib"/>
+    <property name="target.src" value="${target.dir}/src"/>
+    <property name="target.classes" value="${target.dir}/classes"/>
+    <property name="target.javadocs" value="${target.dir}/javadocs"/>
+    <property name="target.docs" value="${target.dir}/site"/>
+    <property name="target.tests" value="${target.dir}/tests"/>
+    <property name="target.testclasses" value="${target.dir}/testclasses"/>
+    <property name="target.reports" value="${target.dir}/reports"/>
+    <property name="target.metagenerate" value="${target.dir}/metagenerate"/>
+    <property name="target.test-metagenerate" value="${target.dir}/test-metagenerate"/>
 
     <!-- Set the properties for source directories -->
     <property name="src.dir" value="src"/>
@@ -100,11 +100,11 @@ Legal:
         <fileset dir="${lib.dir}">
             <include name="**/*.jar" />
         </fileset>
-        <pathelement path="${build.classes}" />
+        <pathelement path="${target.classes}" />
     </path>
 
     <path id="test.class.path">
-        <pathelement location="${build.testclasses}"/>
+        <pathelement location="${target.testclasses}"/>
         <pathelement location="${junit.jar}"/>
         <path refid="project.class.path"/>
     </path>
@@ -137,7 +137,7 @@ Legal:
         <echo>**************************</echo>
         <echo>* Please execute target  *</echo>
         <echo>* 'get-mx4j' in the main *</echo>
-        <echo>* build.xml build file   *</echo>
+        <echo>* target.xml build file   *</echo>
         <echo>* to download one and    *</echo>
         <echo>* a half Mb of MX4J      *</echo>
         <echo>**************************</echo>
@@ -175,7 +175,7 @@ Legal:
         <taskdef name="pretty"
             classname="org.acm.seguin.ant.Pretty"
             classpath="${jrefactory.jar}" />
-        <pretty settingsDir="tools/etc" cvs="true" compileDir="${build.classes}">
+        <pretty settingsDir="tools/etc" cvs="true" compileDir="${target.classes}">
             <fileset dir="${src.dir}">
                 <include name="**/*.java" />
                 <!--<exclude name="org/**/*.java" />-->
@@ -201,8 +201,8 @@ Legal:
     <!-- Prepares the build directory -->
     <target name="prepare" depends="check-environment">
 
-        <mkdir dir="${build.src}"/>
-        <copy todir="${build.src}">
+        <mkdir dir="${target.src}"/>
+        <copy todir="${target.src}">
             <fileset dir="${compat.dir}">
                 <include name="${constants.file}" />
             </fileset>
@@ -212,12 +212,12 @@ Legal:
         </copy>
 
         <tstamp/>
-        <replace file="${build.src}/${container.constants.file}" token="@@VERSION@@" value="${version}"/>
-        <replace file="${build.src}/${container.constants.file}" token="@@NAME@@" value="${Name}"/>
-        <replace file="${build.src}/${container.constants.file}" token="@@DATE@@" value="${TODAY}"/>
-        <replace file="${build.src}/${constants.file}" token="@@VERSION@@" value="${version}"/>
-        <replace file="${build.src}/${constants.file}" token="@@NAME@@" value="${Name}"/>
-        <replace file="${build.src}/${constants.file}" token="@@DATE@@" value="${TODAY}"/>
+        <replace file="${target.src}/${container.constants.file}" token="@@VERSION@@" value="${version}"/>
+        <replace file="${target.src}/${container.constants.file}" token="@@NAME@@" value="${Name}"/>
+        <replace file="${target.src}/${container.constants.file}" token="@@DATE@@" value="${TODAY}"/>
+        <replace file="${target.src}/${constants.file}" token="@@VERSION@@" value="${version}"/>
+        <replace file="${target.src}/${constants.file}" token="@@NAME@@" value="${Name}"/>
+        <replace file="${target.src}/${constants.file}" token="@@DATE@@" value="${TODAY}"/>
 
     </target>
 
@@ -225,15 +225,15 @@ Legal:
     <!-- Compiles the source code -->
     <target name="compile" depends="prepare,checkstyle" description="compiles the source code">
 
-        <mkdir dir="${build.classes}"/>
+        <mkdir dir="${target.classes}"/>
 
         <javac srcdir="${java.dir}"
-            destdir="${build.classes}"
+            destdir="${target.classes}"
             debug="${build.debug}"
             optimize="${build.optimize}"
             deprecation="${build.deprecation}">
             <classpath refid="project.class.path" />
-            <src path="${build.src}" />
+            <src path="${target.src}" />
             <src path="${compat.dir}" />
             <src path="${api.dir}"/>
             <exclude name="${constants.file}" />
@@ -246,14 +246,14 @@ Legal:
                 unless="beanshell.present"/>
         </javac>
 
-        <copy todir="${build.classes}">
+        <copy todir="${target.classes}">
             <fileset dir="${java.dir}">
                 <include name="**/*.properties" />
                 <include name="**/*.xdt" />
             </fileset>
         </copy>
 
-        <copy todir="${build.classes}/org/apache/avalon/phoenix/tools/">
+        <copy todir="${target.classes}/org/apache/avalon/phoenix/tools/">
             <fileset dir="${src.dir}/schema">
                 <include name="**/*.dtd" />
             </fileset>
@@ -267,9 +267,9 @@ Legal:
           <classpath refid="test.class.path" />
       </taskdef>
 
-      <mkdir dir="${build.test-metagenerate}"/>
+      <mkdir dir="${target.test-metagenerate}"/>
 
-      <generatemeta dest="${build.test-metagenerate}">
+      <generatemeta dest="${target.test-metagenerate}">
         <fileset dir="src/test">
           <include name="**/*.java"/>
         </fileset>
@@ -280,10 +280,10 @@ Legal:
     <!-- Runs the tests -->
     <target name="test" depends="compile, test-generate" description="compiles and runs unit tests">
 
-        <mkdir dir="${build.testclasses}"/>
+        <mkdir dir="${target.testclasses}"/>
 
-        <copy todir="${build.tests}">
-            <fileset dir="${build.test-metagenerate}">
+        <copy todir="${target.tests}">
+            <fileset dir="${target.test-metagenerate}">
                 <include name="**/*.xinfo"/>
                 <include name="**/*.mxinfo"/>
                 <include name="**/*.mf"/>
@@ -291,33 +291,33 @@ Legal:
         </copy>
 
         <javac srcdir="${test.dir}"
-            destdir="${build.testclasses}"
-            debug="${build.debug}"
-            optimize="${build.optimize}"
-            deprecation="${build.deprecation}">
+            destdir="${target.testclasses}"
+            debug="${target.debug}"
+            optimize="${target.optimize}"
+            deprecation="${target.deprecation}">
             <classpath refid="test.class.path" />
             <src path="${test.dir}" />
         </javac>
 
-        <copy todir="${build.testclasses}">
+        <copy todir="${target.testclasses}">
             <fileset dir="${test.dir}">
                 <exclude name="**/*.java" />
             </fileset>
         </copy>
 
-        <mkdir dir="${build.tests}"/>
+        <mkdir dir="${target.tests}"/>
 
         <junit fork="true"
             haltonfailure="${junit.failonerror}"
             printsummary="yes"
-            dir="${build.tests}">
+            dir="${target.tests}">
             <classpath refid="test.class.path"/>
 
             <formatter type="xml"/>    <!-- xml reports for junitreport -->
             <formatter type="plain" usefile="true"/>  <!-- text reports for humans     -->
 
-            <batchtest todir="${build.tests}">
-                <fileset dir="${build.testclasses}">
+            <batchtest todir="${target.tests}">
+                <fileset dir="${target.testclasses}">
                     <include name="**/test/*TestCase.class"/>
                     <include name="**/metagenerate/*TestCase.class"/>
                     <exclude name="**/Abstract*"/>
@@ -330,13 +330,13 @@ Legal:
     <!-- Make .xinfo, .mxinfo and manifest automatically for blocks -->
     <target name="phoenix-metagenerate" depends="compile">
 
-        <mkdir dir="${build.metagenerate}"/>
+        <mkdir dir="${target.metagenerate}"/>
 
         <taskdef name="generatemeta" classname="org.apache.avalon.phoenix.tools.metagenerate.MetaGenerateTask">
           <classpath refid="project.class.path" />
         </taskdef>
 
-        <generatemeta dest="${build.metagenerate}">
+        <generatemeta dest="${target.metagenerate}">
           <fileset dir="${java.dir}">
             <include name="**/*.java"/>
           </fileset>
@@ -348,9 +348,9 @@ Legal:
     <!-- Creates all the .jar files -->
     <target name="jars" depends="phoenix-metagenerate">
 
-        <mkdir dir="${build.lib}"/>
+        <mkdir dir="${target.lib}"/>
 
-        <jar jarfile="${build.lib}/phoenix-client.jar" basedir="${build.classes}">
+        <jar jarfile="${target.lib}/phoenix-client.jar" basedir="${target.classes}">
             <include name="org/apache/avalon/phoenix/*"/>
             <include name="org/apache/avalon/phoenix/metainfo/**"/>
             <include name="org/apache/avalon/phoenix/metadata/**"/>
@@ -359,8 +359,8 @@ Legal:
             <exclude name="org/apache/avalon/phoenix/tools/punit/**"/>
         </jar>
 
-        <jar jarfile="${build.lib}/phoenix-loader.jar"
-            basedir="${build.classes}">
+        <jar jarfile="${target.lib}/phoenix-loader.jar"
+            basedir="${target.classes}">
             <manifest>
                 <attribute name="Main-Class" value="org.apache.avalon.phoenix.launcher.Main"/>
             </manifest>
@@ -371,15 +371,15 @@ Legal:
             </zipfileset>
         </jar>
 
-        <jar jarfile="${build.lib}/phoenix-engine.jar">
-            <fileset dir="${build.classes}" >
+        <jar jarfile="${target.lib}/phoenix-engine.jar">
+            <fileset dir="${target.classes}" >
                 <include name="org/apache/avalon/phoenix/engine/**"/>
                 <include name="org/apache/avalon/phoenix/frontends/**"/>
                 <include name="org/apache/avalon/phoenix/components/**"/>
                 <include name="org/apache/avalon/phoenix/interfaces/**"/>
                 <exclude name="org/apache/avalon/phoenix/launcher/**"/>
             </fileset>
-            <fileset dir="${build.metagenerate}" >
+            <fileset dir="${target.metagenerate}" >
                 <include name="org/apache/avalon/phoenix/engine/**"/>
                 <include name="org/apache/avalon/phoenix/frontends/**"/>
                 <include name="org/apache/avalon/phoenix/components/**"/>
@@ -388,21 +388,21 @@ Legal:
             </fileset>
         </jar>
 
-        <jar jarfile="${build.lib}/phoenix-bsh-commands.jar">
+        <jar jarfile="${target.lib}/phoenix-bsh-commands.jar">
             <zipfileset dir="src/bsh" prefix="bsh/commands/">
                 <include name="**"/>
             </zipfileset>
         </jar>
 
-        <jar jarfile="${build.lib}/phoenix-metagenerate.jar" basedir="${build.classes}">
+        <jar jarfile="${target.lib}/phoenix-metagenerate.jar" basedir="${target.classes}">
             <include name="org/apache/avalon/phoenix/tools/metagenerate/**"/>
         </jar>
 
-        <jar jarfile="${build.lib}/phoenix-punit.jar" basedir="${build.classes}">
+        <jar jarfile="${target.lib}/phoenix-punit.jar" basedir="${target.classes}">
             <include name="org/apache/avalon/phoenix/tools/punit/**"/>
         </jar>
 
-        <jar jarfile="${build.lib}/phoenix-containerkit.jar" basedir="${build.classes}">
+        <jar jarfile="${target.lib}/phoenix-containerkit.jar" basedir="${target.classes}">
             <include name="org/apache/avalon/phoenix/containerkit/**"/>
         </jar>
 
@@ -444,13 +444,13 @@ Legal:
                 <include name="**/*.java"/>
             </fileset>
             <formatter type="plain"/>
-            <formatter type="xml" toFile="${build.dir}/checkstyle-results.xml"/>
+            <formatter type="xml" toFile="${target.dir}/checkstyle-results.xml"/>
         </checkstyle>
     </target>
 
     <!-- Copy BeanShell jars -->
     <target name="dist-beanshell" description="Copies Beanshell jars" if="beanshell.jars">
-        <copy file="${build.lib}/phoenix-bsh-commands.jar" todir="${bin.dist.container.lib}"/>
+        <copy file="${target.lib}/phoenix-bsh-commands.jar" todir="${bin.dist.container.lib}"/>
         <copy todir="${bin.dist.container.lib}/">
             <fileset dir="${lib.dir}">
                 <include name="bsh-*"/>
@@ -475,9 +475,9 @@ Legal:
         <mkdir dir="${bin.dist.lib}"/>
         <mkdir dir="${bin.dist.conf}"/>
 
-        <copy file="${build.lib}/phoenix-client.jar" todir="${bin.dist.lib}/"/>
-        <copy file="${build.lib}/phoenix-loader.jar" todir="${bin.dist.bin}/"/>
-        <copy file="${build.lib}/phoenix-engine.jar" todir="${bin.dist.container.lib}"/>
+        <copy file="${target.lib}/phoenix-client.jar" todir="${bin.dist.lib}/"/>
+        <copy file="${target.lib}/phoenix-loader.jar" todir="${bin.dist.bin}/"/>
+        <copy file="${target.lib}/phoenix-engine.jar" todir="${bin.dist.container.lib}"/>
 
         <copy file="${logkit.jar}" todir="${bin.dist.lib}"/>
         <copy file="${framework.jar}" todir="${bin.dist.lib}"/>
@@ -486,7 +486,7 @@ Legal:
                 <include name="excalibur*.jar"/>
                 <include name="sandbox-info-*.jar"/>
             </fileset>
-            <fileset dir="${build.lib}">
+            <fileset dir="${target.lib}">
                 <include name="phoenix-containerkit.jar"/>
             </fileset>
         </copy>
@@ -534,10 +534,10 @@ Legal:
 	<replace file="mx4j-tools-temp/mx4j/adaptor/http/xsl/stylesheet.css" token="183,187,184" value="white"/>
         <copy file="src/logos/phoenix.gif" todir="mx4j-tools-temp/mx4j/adaptor/http/xsl"/>
 
-	<zip destfile="${build.lib}/mx4j-tools.jar" basedir="mx4j-tools-temp"/>
+	<zip destfile="${target.lib}/mx4j-tools.jar" basedir="mx4j-tools-temp"/>
 
         <copy file="${mx4j.jar}" todir="${bin.dist.bin}/lib"/>
-        <copy file="${build.lib}/mx4j-tools.jar" todir="${bin.dist.bin}/lib"/>
+        <copy file="${target.lib}/mx4j-tools.jar" todir="${bin.dist.bin}/lib"/>
 
         <antcall target="dist-beanshell"/>
 
@@ -602,15 +602,15 @@ Legal:
         <mkdir dir="${bin.dist.javadocs}"/>
 
         <copy todir="${bin.dist.docs}">
-            <fileset dir="${build.docs}"/>
+            <fileset dir="${target.docs}"/>
         </copy>
 
         <copy todir="${bin.dist.javadocs}">
-            <fileset dir="${build.javadocs}"/>
+            <fileset dir="${target.javadocs}"/>
         </copy>
 
         <copy todir="${bin.dist.tools}">
-            <fileset dir="${build.dir}/lib">
+            <fileset dir="${target.dir}/lib">
                 <include name="phoenix-metagenerate.jar"/>
                 <include name="phoenix-punit.jar"/>
             </fileset>
@@ -621,7 +621,7 @@ These are tools useful for build-time only.
 You can delete the tools/ dir for a runtime install of Phoenix.
 
 phoenix-metagenerate.jar needs to be used with qdox-1.0.jar
-  See http://cvs.apache.org/viewcvs/avalon-apps/demo/build.xml for usage
+  See http://cvs.apache.org/viewcvs/avalon-apps/demo/target.xml for usage
   See http://jakarta.apache.org/avalon/phoenix/mx/index.html for documentation
 
 phoenix-punit.jar needs to be used with phoenix-containerkit-1.0.jar
@@ -687,11 +687,11 @@ phoenix-punit.jar needs to be used with phoenix-containerkit-1.0.jar
         </copy>
 
         <copy todir="${src.dist.docs}">
-            <fileset dir="${build.docs}"/>
+            <fileset dir="${target.docs}"/>
         </copy>
 
         <copy todir="${src.dist.javadocs}">
-            <fileset dir="${build.javadocs}"/>
+            <fileset dir="${target.javadocs}"/>
         </copy>
 
         <filter token="version" value="${version}"/>
@@ -699,9 +699,9 @@ phoenix-punit.jar needs to be used with phoenix-containerkit-1.0.jar
         <copy todir="${src.dist.dir}" filtering="on">
             <fileset dir=".">
                 <include name="ant.properties.sample"/>
-                <include name="build.bat"/>
-                <include name="build.sh"/>
-                <include name="build.xml"/>
+                <include name="target.bat"/>
+                <include name="target.sh"/>
+                <include name="target.xml"/>
                 <include name="BUILDING.txt"/>
                 <include name="status.xml"/>
                 <include name="forrest.properties"/>
@@ -807,7 +807,7 @@ phoenix-punit.jar needs to be used with phoenix-containerkit-1.0.jar
 
     <!-- Cleans up build and distribution directories -->
     <target name="clean" description="cleans up the created directories">
-        <delete dir="${build.dir}" />
+        <delete dir="${target.dir}" />
         <delete dir="${bin.dist.dir}" />
         <delete>
             <fileset dir="." includes="**/*~" defaultexcludes="no"/>
@@ -828,12 +828,12 @@ phoenix-punit.jar needs to be used with phoenix-containerkit-1.0.jar
   <!-- Create the API documentation -->
   <target name="javadocs">
 
-    <delete dir="${build.javadocs}"/>
-    <mkdir dir="${build.javadocs}"/>
+    <delete dir="${target.javadocs}"/>
+    <mkdir dir="${target.javadocs}"/>
 
     <javadoc packagenames="org.apache.*"
              sourcepath="${java.dir}:${compat.dir}:${api.dir}"
-             destdir="${build.javadocs}">
+             destdir="${target.javadocs}">
       <classpath refid="project.class.path" />
       <doclet name="com.sun.tools.doclets.standard.Standard">
         <param name="-author"/>
@@ -863,10 +863,10 @@ phoenix-punit.jar needs to be used with phoenix-containerkit-1.0.jar
         <filter token="release" value="${release}"/>
         <filter token="short-version" value="${short.version}"/>
 
-        <mkdir dir="${build.dir}" />
+        <mkdir dir="${target.dir}" />
         <mkdir dir="${dist.base}" />
 
-        <copy todir="${build.dir}" filtering="on">
+        <copy todir="${target.dir}" filtering="on">
           <mapper type="flatten"/>
           <fileset dir=".">
             <include name="${phoenix.tools.dir}/announcement.xml"/>
@@ -874,15 +874,15 @@ phoenix-punit.jar needs to be used with phoenix-containerkit-1.0.jar
           </fileset>
         </copy>
 
-        <style style="${status2changes}"  in="${build.dir}/status.xml"
-                                          out="${build.dir}/changes.xml"/>
-        <style style="${announce2txt}"    in="${build.dir}/announcement.xml"
+        <style style="${status2changes}"  in="${target.dir}/status.xml"
+                                          out="${target.dir}/changes.xml"/>
+        <style style="${announce2txt}"    in="${target.dir}/announcement.xml"
                                           out="Announcement.txt"/>
-        <style style="${announce2header}" in="${build.dir}/announcement.xml"
+        <style style="${announce2header}" in="${target.dir}/announcement.xml"
                                           out="${dist.base}/HEADER.html"/>
-        <style style="${announce2readme}" in="${build.dir}/announcement.xml"
+        <style style="${announce2readme}" in="${target.dir}/announcement.xml"
                                           out="${dist.base}/README.html"/>
-        <style style="${announce2site}"   in="${build.dir}/announcement.xml"
+        <style style="${announce2site}"   in="${target.dir}/announcement.xml"
                                           out="jakarta-news.xml"/>
 
       </target>
@@ -892,12 +892,12 @@ phoenix-punit.jar needs to be used with phoenix-containerkit-1.0.jar
             depends="site,javadocs"
 	    description="Update site directory">
 
-       <copy todir="${build.docs}/api" filtering="off">
-        <fileset dir="${build.javadocs}"/>
+       <copy todir="${target.docs}/api" filtering="off">
+        <fileset dir="${target.javadocs}"/>
        </copy>
 
        <copy todir="../avalon-site/docs/phoenix" filtering="off">
-        <fileset dir="${build.docs}"/>
+        <fileset dir="${target.docs}"/>
        </copy>
 
     </target>
