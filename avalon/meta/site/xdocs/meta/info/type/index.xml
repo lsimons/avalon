@@ -42,6 +42,12 @@
             </td>
           </tr>
           <tr>
+            <td><a href="security/index.html">security</a></td><td>0..1</td>
+            <td>
+             Declaration of security related aspects.
+            </td>
+          </tr>
+          <tr>
             <td><a href="services/index.html">services</a></td><td>0..1</td>
             <td>
              Declaration of the set of service that the component type provides.
@@ -243,7 +249,7 @@ The structure of a Type XML document is described below:</p>
   <footer>
     <legal>
       Copyright (c) @year@ The Avalon Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2003/09/24 08:15:57 $
+      $Revision: 1.2 $ $Date: 2004/02/25 13:33:10 $
     </legal>
   </footer>
 
