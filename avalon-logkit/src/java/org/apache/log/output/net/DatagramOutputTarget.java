@@ -73,7 +73,7 @@ public class DatagramOutputTarget
         }
         catch( final IOException ioe )
         {
-            error( "Error sending datagram.", ioe );
+            getErrorHandler().error( "Error sending datagram.", ioe, null );
         }
     }
 

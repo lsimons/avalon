@@ -7,12 +7,11 @@
  */
 package org.apache.log.output.db;
 
-import java.sql.SQLException;
 import java.sql.Connection;
+import java.sql.SQLException;
 import javax.sql.DataSource;
-import org.apache.log.Hierarchy;
 import org.apache.log.LogEvent;
-import org.apache.log.LogTarget;
+import org.apache.log.output.AbstractTarget;
 
 /**
  * Abstract JDBC target.
@@ -20,11 +19,8 @@ import org.apache.log.LogTarget;
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public abstract class AbstractJDBCTarget
-    implements LogTarget
+    extends AbstractTarget
 {
-    ///Flag indicating that log session is finished (aka target has been closed)
-    private boolean        m_isOpen;
-
     ///Datasource to extract connections from
     private DataSource     m_dataSource;
 
@@ -37,40 +33,18 @@ public abstract class AbstractJDBCTarget
     }
 
     /**
-     * Check if database connection is open.
-     *
-     * @return true if open, false otherwise
-     */
-    protected boolean isOpen()
-    {
-        return m_isOpen;
-    }
-
-    /**
      * Process a log event, via formatting and outputting it.
      *
      * @param event the log event
      */
-    public void processEvent( final LogEvent event )
+    protected void doProcessEvent( final LogEvent event )
+        throws Exception
     {
-        if( !isOpen() )
-        {
-            error( "Writing event to closed stream.", null );
-            return;
-        }
+        checkConnection();
 
-        try
+        if( isOpen() )
         {
-            checkConnection();
-
-            if( isOpen() )
-            {
-                output( event );
-            }
-        }
-        catch( final Throwable throwable )
-        {
-            error( "Unknown error writing event.", throwable );
+            output( event );
         }
     }
 
@@ -90,7 +64,7 @@ public abstract class AbstractJDBCTarget
     {
         if( !isOpen() )
         {
-            m_isOpen = true;
+            super.open();
             openConnection();
         }
     }
@@ -107,7 +81,7 @@ public abstract class AbstractJDBCTarget
         }
         catch( final Throwable throwable )
         {
-            error( "Unable to open connection", throwable );
+            getErrorHandler().error( "Unable to open connection", throwable, null );
         }
     }
 
@@ -153,7 +127,7 @@ public abstract class AbstractJDBCTarget
 
         return false;
     }
-    
+
     /**
      * Shutdown target.
      * Attempting to write to target after close() will cause errors to be logged.
@@ -164,7 +138,7 @@ public abstract class AbstractJDBCTarget
         if( isOpen() )
         {
             closeConnection();
-            m_isOpen = false;
+            super.close();
         }
     }
 
@@ -177,12 +151,12 @@ public abstract class AbstractJDBCTarget
         if( null != m_connection )
         {
             try
-            { 
-                m_connection.close(); 
+            {
+                m_connection.close();
             }
             catch( final SQLException se )
             {
-                error( "Error shutting down JDBC connection", se );
+                getErrorHandler().error( "Error shutting down JDBC connection", se, null );
             }
 
             m_connection = null;
@@ -190,16 +164,13 @@ public abstract class AbstractJDBCTarget
     }
 
     /**
-     * Helper method to write error messages to error handler.
+     * Helper method to retrieve tail for log session.
+     * TODO: Extract from formatter
      *
-     * @param message the error message
-     * @param throwable the exception if any
+     * @return the head string
      */
-    protected final void error( final String message, final Throwable throwable )
+    private String getTail()
     {
-        Hierarchy.getDefaultHierarchy().log( message, throwable );
-        //TODO:
-        //Can no longer route to global error handler - somehow need to pass down error
-        //handler from engine...
+        return null;
     }
 }

@@ -14,7 +14,7 @@ import javax.jms.Session;
 import javax.jms.Message;
 import org.apache.log.LogEvent;
 import org.apache.log.LogTarget;
-import org.apache.log.Hierarchy;
+import org.apache.log.output.AbstractTarget;
 
 /**
  * A target that writes to a JMS Topic.
@@ -22,22 +22,14 @@ import org.apache.log.Hierarchy;
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public abstract class AbstractJMSTarget
-    implements LogTarget
+    extends AbstractTarget
 {
     ///Appropriate MessageBuilder
     private MessageBuilder   m_builder;
 
-    ///Flag indicating that log session is finished (aka target has been closed)
-    private boolean        m_isOpen;
-
     public AbstractJMSTarget( final MessageBuilder builder )
     {
         m_builder = builder;
-    }
-
-    protected boolean isOpen()
-    {
-        return m_isOpen;
     }
 
     protected abstract void send( Message message );
@@ -48,24 +40,12 @@ public abstract class AbstractJMSTarget
      *
      * @param event the log event
      */
-    public void processEvent( final LogEvent event )
+    protected void doProcessEvent( final LogEvent event )
+        throws Exception
     {
-        if( !isOpen() )
-        {
-            error( "Writing event to closed stream.", null );
-            return;
-        }
-
-        try
-        {
-            final Message message =
-                m_builder.buildMessage( getSession(), event );
-            send( message );
-        }
-        catch( final Throwable throwable )
-        {
-            error( "Unknown error writing event.", throwable );
-        }
+        final Message message =
+            m_builder.buildMessage( getSession(), event );
+        send( message );
     }
 
     /**
@@ -76,7 +56,7 @@ public abstract class AbstractJMSTarget
     {
         if( !isOpen() )
         {
-            m_isOpen = true;
+            super.open();
             openConnection();
         }
     }
@@ -91,23 +71,10 @@ public abstract class AbstractJMSTarget
         if( isOpen() )
         {
             closeConnection();
+            super.close();
         }
     }
 
     protected abstract void openConnection();
     protected abstract void closeConnection();
-
-    /**
-     * Helper method to write error messages to error handler.
-     *
-     * @param message the error message
-     * @param throwable the exception if any
-     */
-    protected final void error( final String message, final Throwable throwable )
-    {
-        Hierarchy.getDefaultHierarchy().log( message, throwable );
-        //TODO:
-        //Can no longer route to global error handler - somehow need to pass down error
-        //handler from engine...
-    }
 }

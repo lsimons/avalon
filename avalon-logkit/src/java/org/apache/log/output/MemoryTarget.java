@@ -7,7 +7,6 @@
  */
 package org.apache.log.output;
 
-import org.apache.log.Hierarchy;
 import org.apache.log.LogEvent;
 import org.apache.log.LogTarget;
 import org.apache.log.Priority;
@@ -24,7 +23,7 @@ import org.apache.log.Priority;
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public class MemoryTarget
-    implements LogTarget
+    extends AbstractTarget
 {
     ///Buffer for all the LogEvents
     private final LogEvent[]  m_buffer;
@@ -51,6 +50,7 @@ public class MemoryTarget
         m_target = target;
         m_buffer = new LogEvent[ size ];
         m_threshold = threshold;
+        open();
     }
 
     /**
@@ -68,7 +68,7 @@ public class MemoryTarget
      *
      * @param event the log event
      */
-    public synchronized void processEvent( final LogEvent event )
+    protected synchronized void doProcessEvent( final LogEvent event )
     {
         //Check if it is full
         if( isFull() )
@@ -76,7 +76,7 @@ public class MemoryTarget
             if( m_overwrite ) m_used--;
             else
             {
-                error( "Memory buffer is full", null );
+                getErrorHandler().error( "Memory buffer is full", null, event );
                 return;
             }
         }
@@ -125,7 +125,7 @@ public class MemoryTarget
     {
         if( null == m_target )
         {
-            error( "Can not push events to a null target", null );
+            getErrorHandler().error( "Can not push events to a null target", null, null );
             return;
         }
 
@@ -149,21 +149,7 @@ public class MemoryTarget
         }
         catch( final Throwable throwable )
         {
-            error( "Unknown error pushing events.", throwable );
+            getErrorHandler().error( "Unknown error pushing events.", throwable, null );
         }
-    }
-
-    /**
-     * Helper method to write error messages to error handler.
-     *
-     * @param message the error message
-     * @param throwable the exception if any
-     */
-    protected final void error( final String message, final Throwable throwable )
-    {
-        Hierarchy.getDefaultHierarchy().log( message, throwable );
-        //TODO:
-        //Can no longer route to global error handler - somehow need to pass down error
-        //handler from engine...
     }
 }

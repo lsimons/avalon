@@ -10,6 +10,7 @@ package org.apache.log;
 import java.util.Hashtable;
 import org.apache.log.format.PatternFormatter;
 import org.apache.log.output.io.StreamTarget;
+import org.apache.log.util.DefaultErrorHandler;
 
 /**
  * This class encapsulates a basic independent log hierarchy.
@@ -18,6 +19,7 @@ import org.apache.log.output.io.StreamTarget;
  *  @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public class Hierarchy
+    implements ErrorHandler
 {
     ///Format of default formatter
     private static final String  FORMAT =
@@ -25,6 +27,9 @@ public class Hierarchy
 
     ///The instance of default hierarchy
     private static final Hierarchy  c_hierarchy      = new Hierarchy();
+
+    ///Error Handler associated with hierarchy
+    private ErrorHandler            m_errorHandler;
 
     ///The root logger which contains all Loggers in this hierarchy
     private Logger                  m_rootLogger;
@@ -51,7 +56,8 @@ public class Hierarchy
      */
     public Hierarchy()
     {
-        m_rootLogger = new Logger( this, "", null, null );
+        m_errorHandler = new DefaultErrorHandler();
+        m_rootLogger = new Logger( m_errorHandler, "", null, null );
 
         //Setup default output target to print to console
         final PatternFormatter formatter = new PatternFormatter( FORMAT );
@@ -94,6 +100,21 @@ public class Hierarchy
     }
 
     /**
+     * Set the ErrorHandler associated with hierarchy.
+     *
+     * @param errorHandler the ErrorHandler
+     */
+    public void setErrorHandler( final ErrorHandler errorHandler )
+    {
+        if( null == errorHandler )
+        {
+            throw new IllegalArgumentException( "Can not set default Hierarchy ErrorHandler to null" );
+        }
+
+        m_errorHandler = errorHandler;
+    }
+
+    /**
      * Retrieve a logger for named category.
      *
      * @param category the context
@@ -110,15 +131,11 @@ public class Hierarchy
      *
      * @param message a message to log
      * @param t a Throwable to log
+     * @deprecated Logging components should use ErrorHandler rather than Hierarchy.log()
      */
     public void log( final String message, final Throwable throwable )
     {
-        //TODO: replace this with an error handler
-        System.err.println( "Error: " + message );
-        if( null != throwable )
-        {
-            throwable.printStackTrace();
-        }
+        error( message, throwable, null );
     }
 
     /**
@@ -126,10 +143,25 @@ public class Hierarchy
      * Default Error Handler is stderr.
      *
      * @param message a message to log
+     * @deprecated Logging components should use ErrorHandler rather than Hierarchy.log()
      */
     public void log( final String message )
     {
         log( message, null );
+    }
+
+    /**
+     * Log an unrecoverable error.
+     *
+     * @param message the error message
+     * @param throwable the exception associated with error (may be null)
+     * @param event the LogEvent that caused error, if any (may be null)
+     */
+    public void error( final String message, 
+                       final Throwable throwable, 
+                       final LogEvent event )
+    {
+        m_errorHandler.error( message, throwable, event );
     }
 
     /**

@@ -73,10 +73,9 @@ public class WriterTarget
         }
         catch( final IOException ioe )
         {
-            error( "Caught an IOException", ioe );
+            getErrorHandler().error( "Caught an IOException", ioe, null );
         }
     }
-
 
     /**
      * Shutdown target.
@@ -105,7 +104,7 @@ public class WriterTarget
         }
         catch( final IOException ioe )
         {
-            error( "Error closing Writer", ioe );
+            getErrorHandler().error( "Error closing Writer", ioe, null );
         }
     }
 }
