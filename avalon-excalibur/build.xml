@@ -62,7 +62,7 @@ Legal:
   <property name="build.javadocs" value="${build.dir}/javadocs"/>
   <property name="build.docs" value="${build.dir}/docs"/>
   <property name="build.context" value="${build.dir}/documentation"/>
-<!--  <property name="build.xdocs" value="${build.context}/xdocs"/> -->
+  <property name="build.xdocs" value="${build.context}/xdocs"/>
 
   <!-- Set the properties for source directories -->
   <property name="src.dir" value="src"/>
@@ -391,15 +391,17 @@ Legal:
       </fileset>
     </copy>
 
-<!--
     <copy todir="${build.xdocs}" filtering="on">
-      <fileset dir="${xdocs.dir}"/>
+      <fileset dir="${xdocs.dir}">
+        <include name="announcement.xml" />
+        <include name="changes.xml" />
+        <include name="dtd/*" />
+      </fileset>
     </copy>
--->
 
-    <style style="${announce2txt}" in="${build.context}/xdocs/excalibur/announcement.xml" 
+    <style style="${announce2txt}" in="${build.context}/xdocs/announcement.xml" 
            out="Announcement.txt"/>
-    <style style="${announce2header}" in="${build.context}/xdocs/excalibur/announcement.xml" 
+    <style style="${announce2header}" in="${build.context}/xdocs/announcement.xml" 
            out="${dist.base}/HEADER.html"/>
 
   </target>
@@ -657,6 +659,7 @@ Legal:
     <delete dir="${docs.dir}" />
     <delete dir="${dist.base}" />
     <delete dir="${src.dist.dir}" />
+    <delete file="Announcement.txt" />
   </target>
 
 </project>
