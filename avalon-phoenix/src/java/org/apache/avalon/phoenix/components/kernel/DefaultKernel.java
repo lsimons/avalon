@@ -112,7 +112,7 @@ public class DefaultKernel
         {
             try
             {
-                application = new DefaultApplication();
+                application = new DefaultApplication(entry.getMetaData());
                 setupLogger( application, name );
 
                 final ApplicationContext context = createApplicationContext( entry );

@@ -10,6 +10,8 @@ package org.apache.avalon.phoenix.tools.assembler;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Vector;
+
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -71,8 +73,31 @@ public class Assembler
         final Configuration[] blockConfig = assembly.getChildren( "block" );
         final BlockMetaData[] blocks = buildBlocks( blockConfig, classLoader );
 
-        final Configuration[] listenerConfig = assembly.getChildren( "block-listener" );
-        final BlockListenerMetaData[] listeners = buildBlockListeners( listenerConfig );
+        final Configuration[] listenerConfig = assembly.getChildren( "listener" );
+        BlockListenerMetaData[] listeners = buildBlockListeners( listenerConfig );
+
+        // to be phased out - support for the old block-listener descriptor
+        final Configuration[] legacyListenerConfig = assembly.getChildren( "block-listener" );
+        final BlockListenerMetaData[] legacyListeners = buildBlockListeners( legacyListenerConfig );
+        for (int i = 0; i < legacyListeners.length; i++) {
+            BlockListenerMetaData data = legacyListeners[i];
+            boolean matched = false;
+            for (int j = 0; j < listeners.length; j++) {
+                BlockListenerMetaData data2 = listeners[j];
+                if (data.getClassname().equals(data2.getClassname())) {
+                    matched = true;
+                }
+            }
+            if (!matched) {
+                getLogger().warn("Listener with old style element name 'block-listener' encounted.  Please change " +
+                       "this to 'listener' before compatability is imminently removed from Phoenix");
+                final BlockListenerMetaData[] newListeners = new BlockListenerMetaData[ 1 + listeners.length ];
+                System.arraycopy( listeners, 0, listeners, 0, listeners.length );
+                newListeners[ listeners.length ] = data;
+                listeners = newListeners;
+            }
+        }
+
 
         return new SarMetaData( name, directory, blocks, listeners );
     }
@@ -175,7 +200,7 @@ public class Assembler
 
     /**
      * Create an array of <code>BlockListenerMetaData</code> objects to represent
-     * the &lt;block-listener .../&gt; sections in <code>assembly.xml</code>.
+     * the &lt;listener .../&gt; sections in <code>assembly.xml</code>.
      *
      * @param listeners the list of Configuration objects for listeners
      * @return the BlockListenerMetaData array
@@ -196,7 +221,7 @@ public class Assembler
 
     /**
      * Create a <code>BlockListenerMetaData</code> object to represent
-     * the specified &lt;block-listener .../&gt; section.
+     * the specified &lt;listener .../&gt; section.
      *
      * @param listener the Configuration object for listener
      * @return the BlockListenerMetaData object

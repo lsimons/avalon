@@ -33,6 +33,8 @@ import org.apache.avalon.phoenix.Block;
 import org.apache.avalon.phoenix.BlockContext;
 import org.apache.avalon.phoenix.BlockEvent;
 import org.apache.avalon.phoenix.BlockListener;
+import org.apache.avalon.phoenix.ApplicationListener;
+import org.apache.avalon.phoenix.ApplicationEvent;
 import org.apache.avalon.phoenix.interfaces.Application;
 import org.apache.avalon.phoenix.interfaces.ApplicationContext;
 import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
@@ -83,7 +85,12 @@ class LifecycleHelper
     /**
      * Object to support notification of BlockListeners.
      */
-    private BlockListenerSupport m_listenerSupport = new BlockListenerSupport();
+    private BlockListenerSupport m_blockListenerSupport = new BlockListenerSupport();
+
+    /**
+     * Object to support notification of ApplicationListeners.
+     */
+    private ApplicationListenerSupport m_applicationListenerSupport = new ApplicationListenerSupport();
 
     /**
      * Construct helper object for specified application,
@@ -129,7 +136,42 @@ class LifecycleHelper
             ( (Configurable)listener ).configure( configuration );
         }
 
-        m_listenerSupport.addBlockListener( listener );
+        // As ApplicationListners are BlockListeners then this is applicable for all
+        m_blockListenerSupport.addBlockListener( listener );
+
+        // However onky ApplicationListners can avail of block events.
+        if (listener instanceof ApplicationListener)
+        {
+            m_applicationListenerSupport.addApplicationListener( (ApplicationListener) listener );
+        }
+
+
+
+    }
+
+    public void applicationStarting(ApplicationEvent appEvent) throws Exception
+    {
+        m_applicationListenerSupport.applicationStarting(appEvent);
+    }
+
+    public void applicationStarted()
+    {
+        m_applicationListenerSupport.applicationStarted();
+    }
+
+    public void applicationStopping()
+    {
+        m_applicationListenerSupport.applicationStopping();
+    }
+
+    public void applicationStopped()
+    {
+        m_applicationListenerSupport.applicationStopped();
+    }
+
+    public void applicationFailure(Exception causeOfFailure)
+    {
+        m_applicationListenerSupport.applicationFailure(causeOfFailure);
     }
 
     /**
@@ -237,7 +279,7 @@ class LifecycleHelper
             final Block proxy = entry.getProxy();
             final BlockEvent event =
                 new BlockEvent( name, proxy, metaData.getBlockInfo() );
-            m_listenerSupport.blockAdded( event );
+            m_blockListenerSupport.blockAdded( event );
         }
         catch( final Throwable t )
         {
@@ -262,7 +304,7 @@ class LifecycleHelper
 
         final BlockEvent event =
             new BlockEvent( name, entry.getProxy(), metaData.getBlockInfo() );
-        m_listenerSupport.blockRemoved( event );
+        m_blockListenerSupport.blockRemoved( event );
 
         final Block block = entry.getBlock();
 
