@@ -24,13 +24,14 @@ import org.apache.excalibur.source.SourceNotFoundException;
 import org.apache.excalibur.source.SourceParameters;
 import org.apache.excalibur.source.SourceUtil;
 import org.apache.excalibur.source.SourceValidity;
+import org.apache.excalibur.source.impl.validity.FileTimeStampValidity;
 import org.apache.excalibur.source.impl.validity.TimeStampValidity;
 
 /**
  * Description of a source which is described by an URL.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.10 $ $Date: 2002/05/24 09:09:29 $
+ * @version CVS $Revision: 1.11 $ $Date: 2002/06/03 12:11:10 $
  */
 
 public class URLSource
@@ -62,8 +63,8 @@ public class URLSource
     /** The connection for a real URL */
     protected URLConnection connection;
 
-    /** Is this a file or a "real" URL */
-    protected boolean isFile;
+    /** The file, if URL is a file */
+    protected File file;
 
     /** Are we initialized? */
     protected boolean gotInfos;
@@ -73,6 +74,12 @@ public class URLSource
 
     /** Is this a post? */
     protected boolean isPost = false;
+
+
+    /** the prev returned SourceValidity */
+    protected SourceValidity cachedValidity;
+
+    protected long cachedLastModificationDate;
 
     /**
      * Constructor
@@ -90,7 +97,14 @@ public class URLSource
         throws IOException
     {
         this.systemId = url.toExternalForm();
-        this.isFile = systemId.startsWith( FILE );
+        if (systemId.startsWith( FILE ))
+        {
+            this.file = new File( this.systemId.substring( FILE.length() ) );
+        }
+        else
+        {
+            this.file = null;
+        }
         this.url = url;
         this.gotInfos = false;
         this.isPost = false;
@@ -101,7 +115,7 @@ public class URLSource
             if( "POST".equalsIgnoreCase( method ) )
                 this.isPost = true;
         }
-        if( !isFile
+        if( null == this.file
             && null != this.parameters
             && this.parameters.hasParameters()
             && !this.isPost )
@@ -140,10 +154,9 @@ public class URLSource
     {
         if( !this.gotInfos )
         {
-            if( this.isFile )
+            if( null != this.file )
             {
-                File file = new File( this.systemId.substring( FILE.length() ) );
-                this.lastModificationDate = file.lastModified();
+                this.lastModificationDate = this.file.lastModified();
             }
             else
             {
@@ -201,9 +214,9 @@ public class URLSource
         {
             getInfos();
             InputStream input = null;
-            if( this.isFile == true )
+            if( null != this.file )
             {
-                input = new FileInputStream( this.systemId.substring( FILE.length() ) );
+                input = new FileInputStream( this.file );
             }
             else
             {
@@ -337,14 +350,23 @@ public class URLSource
     public SourceValidity getValidity()
     {
         final long lm = this.getLastModified();
-        if( lm == -1 )
+        if( lm > 0 )
         {
-            return null;
+            if (lm == this.cachedLastModificationDate)
+                return this.cachedValidity;
+
+            this.cachedLastModificationDate = lm;
+            if (file != null)
+            {
+                this.cachedValidity = new FileTimeStampValidity(file, lm);
+            }
+            else
+            {
+                this.cachedValidity = new TimeStampValidity( lm );
+            }
+            return this.cachedValidity;
         }
-        else
-        {
-            return new TimeStampValidity( lm );
-        }
+        return null;
     }
 
     /**
