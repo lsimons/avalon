@@ -83,9 +83,10 @@ import org.apache.excalibur.xfc.modules.Constants;
  * </p>
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: ECM.java,v 1.2 2002/11/12 19:55:28 donaldp Exp $
+ * @version CVS $Id: ECM.java,v 1.3 2002/11/12 20:07:50 donaldp Exp $
  */
-public class ECM extends AbstractLogEnabled
+public class ECM
+    extends AbstractLogEnabled
     implements Module
 {
     private final ECMGenerator m_generator = new ECMGenerator();

@@ -54,9 +54,10 @@ package org.apache.excalibur.xfc.model.instance;
  * that uses role manager and has more than one provider of the role it defines.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: MultiRoleInstance.java,v 1.3 2002/11/12 19:55:27 donaldp Exp $
+ * @version CVS $Id: MultiRoleInstance.java,v 1.4 2002/11/12 20:07:50 donaldp Exp $
  */
-public class MultiRoleInstance extends Instance
+public class MultiRoleInstance
+    extends Instance
 {
     // instance configuration
     private final String m_shorthand;
@@ -68,10 +69,8 @@ public class MultiRoleInstance extends Instance
      * @param shorthand a <code>String</code> value
      * @param subinstances an <code>Instance[]</code> value
      */
-    public MultiRoleInstance(
-        final String shorthand,
-        final SelectorHintInstance[] subinstances
-        )
+    public MultiRoleInstance( final String shorthand,
+                              final SelectorHintInstance[] subinstances )
     {
         super( null, null, null );
 

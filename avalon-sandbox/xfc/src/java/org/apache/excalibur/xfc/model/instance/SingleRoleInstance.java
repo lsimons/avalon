@@ -56,7 +56,7 @@ import org.apache.avalon.framework.configuration.Configuration;
  * that represents a role managed component with a single implementation.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: SingleRoleInstance.java,v 1.2 2002/11/12 19:55:27 donaldp Exp $
+ * @version CVS $Id: SingleRoleInstance.java,v 1.3 2002/11/12 20:07:50 donaldp Exp $
  */
 public class SingleRoleInstance extends Instance
 {
@@ -71,12 +71,10 @@ public class SingleRoleInstance extends Instance
      * @param config instance <code>Configuration</code> as an array, if any
      * @param handler handler name
      */
-    public SingleRoleInstance(
-        final String shorthand,
+    public SingleRoleInstance( final String shorthand,
         final String clazz,
         final Configuration[] config,
-        final String handler
-        )
+        final String handler )
     {
         super( clazz, config, handler );
         m_shorthand = shorthand;

@@ -71,9 +71,10 @@ import org.apache.excalibur.xfc.modules.Constants;
  * of the <code>generate</code> method defined in {@link ECM}.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: ECMGenerator.java,v 1.5 2002/11/12 19:55:28 donaldp Exp $
+ * @version CVS $Id: ECMGenerator.java,v 1.6 2002/11/12 20:07:50 donaldp Exp $
  */
-public class ECMGenerator extends AbstractLogEnabled
+public class ECMGenerator
+    extends AbstractLogEnabled
     implements Constants
 {
     protected final DefaultConfigurationBuilder m_builder =
@@ -125,7 +126,9 @@ public class ECMGenerator extends AbstractLogEnabled
 
         if( getLogger().isDebugEnabled() )
         {
-            getLogger().debug( "Identified total of " + roles.length + " roles" );
+            final String message = 
+                "Identified total of " + roles.length + " roles";
+            getLogger().debug( message );
         }
 
         // for each role create a type object
@@ -151,9 +154,9 @@ public class ECMGenerator extends AbstractLogEnabled
 
         if( getLogger().isDebugEnabled() )
         {
-            getLogger().debug(
-                "Identified total of " + instances.length + " component instances"
-            );
+            final String message = 
+                "Identified total of " + instances.length + " component instances";
+            getLogger().debug( message );
         }
 
         for( int i = 0; i < instances.length; ++i )

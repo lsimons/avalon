@@ -57,9 +57,10 @@ import org.apache.avalon.framework.configuration.Configuration;
  * implementation.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: SingleNonRoleInstance.java,v 1.2 2002/11/12 19:55:27 donaldp Exp $
+ * @version CVS $Id: SingleNonRoleInstance.java,v 1.3 2002/11/12 20:07:50 donaldp Exp $
  */
-public class SingleNonRoleInstance extends Instance
+public class SingleNonRoleInstance
+    extends Instance
 {
     // instance configuration
     private final String m_role;
@@ -72,12 +73,10 @@ public class SingleNonRoleInstance extends Instance
      * @param config instance <code>Configuration</code> as an array, if any
      * @param handler component handler name
      */
-    public SingleNonRoleInstance(
-        final String role,
+    public SingleNonRoleInstance( final String role,
         final String clazz,
         final Configuration[] config,
-        final String handler
-        )
+        final String handler )
     {
         super( clazz, config, handler );
         m_role = role;

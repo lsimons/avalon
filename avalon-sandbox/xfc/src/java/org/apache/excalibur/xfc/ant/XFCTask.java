@@ -68,9 +68,10 @@ import org.apache.tools.ant.Task;
  * </p>
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: XFCTask.java,v 1.3 2002/11/12 19:55:27 donaldp Exp $
+ * @version CVS $Id: XFCTask.java,v 1.4 2002/11/12 20:07:50 donaldp Exp $
  */
-public final class XFCTask extends Task
+public final class XFCTask
+    extends Task
 {
     private Logger m_logger = new ConsoleLogger( ConsoleLogger.LEVEL_WARN );
     private ModuleDefinition m_input;
@@ -125,9 +126,9 @@ public final class XFCTask extends Task
         }
         catch( Exception e )
         {
-            throw new BuildException(
-                "Error occured during XFC task conversion", e
-            );
+            final String message =
+                "Error occured during XFC task conversion";
+            throw new BuildException( message, e );
         }
     }
 
@@ -146,16 +147,19 @@ public final class XFCTask extends Task
             m_input.getContext() == null
         )
         {
-            throw new BuildException( "XFC input task missing input criteria" );
+            final String message =
+                "XFC input task missing input criteria";
+            throw new BuildException( message );
         }
 
         // check the output task
         if( m_output == null ||
             m_output.getModule() == null ||
-            m_output.getContext() == null
-        )
+            m_output.getContext() == null )
         {
-            throw new BuildException( "XFC output task missing output criteria" );
+            final String message =
+                "XFC output task missing output criteria";
+            throw new BuildException( message );
         }
     }
 
