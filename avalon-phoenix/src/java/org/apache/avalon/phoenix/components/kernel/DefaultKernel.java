@@ -20,7 +20,9 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.phoenix.components.application.DefaultApplication;
 import org.apache.avalon.phoenix.interfaces.Application;
 import org.apache.avalon.phoenix.interfaces.ApplicationContext;
+import org.apache.avalon.phoenix.interfaces.ApplicationMBean;
 import org.apache.avalon.phoenix.interfaces.ConfigurationRepository;
+import org.apache.avalon.phoenix.interfaces.ManagerException;
 import org.apache.avalon.phoenix.interfaces.Kernel;
 import org.apache.avalon.phoenix.interfaces.KernelMBean;
 import org.apache.avalon.phoenix.interfaces.SystemManager;
@@ -132,6 +134,18 @@ public class DefaultKernel
 
                 final String message =
                     REZ.getString( "kernel.error.entry.initialize", entry.getMetaData().getName() );
+                throw new CascadingException( message, t );
+            }
+                
+            // manage application
+            try
+            {
+              	m_systemManager.register( name+" (Application)", application );
+          	}
+            catch( final Throwable t )
+            {
+                final String message =
+                    REZ.getString( "kernel.error.entry.manage", entry.getMetaData().getName() );
                 throw new CascadingException( message, t );
             }
         }
