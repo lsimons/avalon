@@ -29,7 +29,7 @@ import org.apache.avalon.logging.data.CategoryDirective;
  * configuration is to be applied to.</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2004/02/29 22:25:26 $
+ * @version $Revision: 1.6 $ $Date: 2004/03/11 01:30:38 $
  */
 public class Targets
 {
@@ -99,12 +99,12 @@ public class Targets
         return null;
     }
 
-    /**
-     * Return a set of targets relative to the supplied path.
-     *
-     * @param path the base path to match against
-     * @return the set of relative targets
-     */
+   /**
+    * Return a set of targets relative to the supplied path.
+    *
+    * @param path the base path to match against
+    * @return the set of relative targets
+    */
     public Targets getTargets( String path )
     {
         final String key = getKey( path );

@@ -35,7 +35,7 @@ import org.apache.excalibur.configuration.ConfigurationUtil;
 /**
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2004/03/10 10:52:18 $
+ * @version $Revision: 1.6 $ $Date: 2004/03/11 01:30:38 $
  */
 public abstract class XMLProfileCreator
 {
@@ -57,7 +57,7 @@ public abstract class XMLProfileCreator
         }
         else
         {
-            return base + "-" + name; 
+            return base + "-" + name;
         }
     }
 
@@ -104,31 +104,28 @@ public abstract class XMLProfileCreator
         }
     }
 
-    public CategoriesDirective getCategoriesDirective( 
-      Configuration config, String name )
+   /**
+    * Creation of a single categories directive instance from a supplied
+    * configuration fragment.
+    * @param config the configuration fragment
+    * @return the categories directive
+    */
+    public CategoriesDirective getCategoriesDirective( Configuration config )
       throws ConfigurationException
     {
-        if( config != null )
+        if( null == config )
         {
-            String priority = config.getAttribute( "priority", null );
-            String target = target = config.getAttribute( "target", null );
-            CategoryDirective[] categories = 
-              getCategoryDirectives( config.getChildren( "category" ) );
-            return new CategoriesDirective( name, priority, target, categories );
+            return null;
         }
-        return null;
-    }
 
-    private CategoryDirective[] getCategoryDirectives( Configuration[] children )
-      throws ConfigurationException
-    {
-        ArrayList list = new ArrayList();
-        for( int i = 0; i < children.length; i++ )
-        {
-            CategoryDirective category = getCategoryDirective( children[ i ] );
-            list.add( category );
-        }
-        return (CategoryDirective[]) list.toArray( new CategoryDirective[0] );
+        final String name = config.getAttribute( "name", "." );
+        final String priority = config.getAttribute( "priority", null );
+        final String target = config.getAttribute( "target", null );
+        final Configuration[] children = config.getChildren();
+        final CategoryDirective[] categories = 
+          getCategoryDirectives( children );
+
+        return new CategoriesDirective( name, priority, target, categories );
     }
 
     public CategoryDirective getCategoryDirective( Configuration config )
@@ -150,4 +147,30 @@ public abstract class XMLProfileCreator
         }
     }
 
+    private CategoryDirective[] getCategoryDirectives( Configuration[] children )
+      throws ConfigurationException
+    {
+        final CategoryDirective[] categories = 
+          new CategoryDirective[ children.length ];
+        for( int i = 0; i<children.length; i++ )
+        {
+            Configuration config = children[i];
+            final String name = config.getName();
+            if( name.equals( "category" ) )
+            {
+                categories[i] = getCategoryDirective( config );
+            }
+            else if( name.equals( "categories" ) )
+            {
+                categories[i] = getCategoriesDirective( config );
+            }
+            else
+            {
+                final String error = 
+                  "Nested element [" + name + "] not recognized.";
+                throw new ConfigurationException( error );
+            }
+        }
+        return categories;
+    }
 }

@@ -30,7 +30,7 @@ import org.apache.avalon.logging.data.CategoryDirective;
  * the a container.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.8 $ $Date: 2004/03/10 10:52:17 $
+ * @version $Revision: 1.9 $ $Date: 2004/03/11 01:30:38 $
  */
 public class ContainmentProfile extends DeploymentProfile
 {
@@ -48,9 +48,6 @@ public class ContainmentProfile extends DeploymentProfile
 
     private static final DeploymentProfile[] EMPTY_PROFILES = 
       new DeploymentProfile[0];
-
-    private static final CategoriesDirective EMPTY_CATEGORIES = 
-      new CategoriesDirective();
 
     private static final ClassLoaderDirective EMPTY_CLASSLOADER =
       new ClassLoaderDirective( 
@@ -76,11 +73,6 @@ public class ContainmentProfile extends DeploymentProfile
      * The profiles described within the scope of the containment profile.
      */
     private final DeploymentProfile[] m_profiles;
-
-    /**
-     * The assigned logging categories.
-     */
-    private CategoriesDirective m_categories;
 
     //--------------------------------------------------------------------------
     // constructor
@@ -111,9 +103,8 @@ public class ContainmentProfile extends DeploymentProfile
       final CategoriesDirective categories, 
       DeploymentProfile[] profiles )
     {
-        super( name, DeploymentProfile.ENABLED, Mode.EXPLICIT );
+        super( name, DeploymentProfile.ENABLED, Mode.EXPLICIT, categories );
 
-        m_categories = categories;
         m_classloader = classloader;
         m_profiles = profiles;
         m_export = exports;
@@ -122,17 +113,6 @@ public class ContainmentProfile extends DeploymentProfile
     //--------------------------------------------------------------------------
     // implementation
     //--------------------------------------------------------------------------
-
-    /**
-     * Return the logging categories for the profile.
-     *
-     * @return the categories
-     */
-    public CategoriesDirective getCategories()
-    {
-        if( m_categories == null ) return EMPTY_CATEGORIES;
-        return m_categories;
-    }
 
     /**
      * Return the classloader directive that describes the creation

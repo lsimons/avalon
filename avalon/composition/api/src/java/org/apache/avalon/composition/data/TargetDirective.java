@@ -30,7 +30,7 @@ import org.apache.avalon.logging.data.CategoryDirective;
  * configuration is to be applied to.</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.6 $ $Date: 2004/02/29 22:25:26 $
+ * @version $Revision: 1.7 $ $Date: 2004/03/11 01:30:38 $
  */
 public class TargetDirective implements Serializable
 {
@@ -118,7 +118,7 @@ public class TargetDirective implements Serializable
     /**
      * Return the logging categories directive.
      *
-     * @return the logging categories (possibly null)
+     * @return the logging categories directive
      */
     public CategoriesDirective getCategoriesDirective()
     {

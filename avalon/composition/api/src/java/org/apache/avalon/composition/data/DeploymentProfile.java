@@ -19,17 +19,26 @@ package org.apache.avalon.composition.data;
 
 import java.io.Serializable;
 
+import org.apache.avalon.logging.data.CategoriesDirective;
+
 /**
  * Abstract base class for ComponentProfile and ContainmentProfile.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.10 $ $Date: 2004/03/10 10:52:17 $
+ * @version $Revision: 1.11 $ $Date: 2004/03/11 01:30:38 $
  */
 public abstract class DeploymentProfile implements Serializable
 {
+    //--------------------------------------------------------------------------
+    // static
+    //--------------------------------------------------------------------------
+
     public static final int DEFAULT = -1;
     public static final int ENABLED = 1;
     public static final int DISABLED = 0;
+
+    private static final CategoriesDirective EMPTY_CATEGORIES = 
+      new CategoriesDirective();
 
     //--------------------------------------------------------------------------
     // state
@@ -51,14 +60,18 @@ public abstract class DeploymentProfile implements Serializable
     */
     private final Mode m_mode;
 
+    private final CategoriesDirective m_categories;
+
     //--------------------------------------------------------------------------
     // constructor
     //--------------------------------------------------------------------------
 
     public DeploymentProfile( 
-      final String name, int activation, Mode mode ) 
+      final String name, int activation, Mode mode, CategoriesDirective categories ) 
     {
         m_activation = activation;
+        m_categories = categories;
+
         if( mode != null )
         {
             m_mode = Mode.IMPLICIT;
@@ -90,6 +103,17 @@ public abstract class DeploymentProfile implements Serializable
     public String getName()
     {
         return m_name;
+    }
+
+    /**
+     * Return the logging categories for the profile.
+     *
+     * @return the categories
+     */
+    public CategoriesDirective getCategories()
+    {
+        if( m_categories == null ) return EMPTY_CATEGORIES;
+        return m_categories;
     }
 
    /**

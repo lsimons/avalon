@@ -21,7 +21,7 @@ package org.apache.avalon.composition.data;
  * A named deployment profile.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2004/03/10 10:52:17 $
+ * @version $Revision: 1.5 $ $Date: 2004/03/11 01:30:38 $
  */
 public class NamedComponentProfile extends DeploymentProfile
 {
@@ -46,7 +46,7 @@ public class NamedComponentProfile extends DeploymentProfile
            final String key,
            final int activation )
     {
-        super( name, activation, Mode.EXPLICIT );
+        super( name, activation, Mode.EXPLICIT, null );
         m_classname = classname;
         m_key = key;
     }

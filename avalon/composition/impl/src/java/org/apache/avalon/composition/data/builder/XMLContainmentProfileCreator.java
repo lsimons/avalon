@@ -57,7 +57,7 @@ import org.apache.excalibur.configuration.ConfigurationUtil;
  * from a Configuration object.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.10 $ $Date: 2004/03/10 10:52:18 $
+ * @version $Revision: 1.11 $ $Date: 2004/03/11 01:30:38 $
  */
 public class XMLContainmentProfileCreator extends XMLProfileCreator
 {
@@ -131,7 +131,7 @@ public class XMLContainmentProfileCreator extends XMLProfileCreator
         // 
 
         final CategoriesDirective categories = 
-          getCategoriesDirective( implementation.getChild( "categories", false ), name );
+          getCategoriesDirective( implementation.getChild( "categories", false ) );
 
         //
         // build nested profiles

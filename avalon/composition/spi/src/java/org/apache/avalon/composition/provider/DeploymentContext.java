@@ -22,12 +22,13 @@ import org.apache.avalon.composition.model.DependencyGraph;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.composition.data.Mode;
+import org.apache.avalon.composition.data.DeploymentProfile;
 
 /**
  * Deployment context that is supplied to a deployment model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2004/02/10 16:23:35 $
+ * @version $Revision: 1.2 $ $Date: 2004/03/11 01:30:38 $
  */
 public interface DeploymentContext extends Context 
 {
@@ -77,4 +78,11 @@ public interface DeploymentContext extends Context
     * @return the dependency graph
     */
     DependencyGraph getDependencyGraph();
+
+   /**
+    * Return the deployment profile.
+    *
+    * @return the profile
+    */
+    DeploymentProfile getProfile();
 }

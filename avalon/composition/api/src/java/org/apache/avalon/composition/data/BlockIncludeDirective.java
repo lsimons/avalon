@@ -21,7 +21,7 @@ package org.apache.avalon.composition.data;
  * A block include directive that references a source file describing a block.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2004/03/10 10:52:17 $
+ * @version $Revision: 1.6 $ $Date: 2004/03/11 01:30:38 $
  */
 public class BlockIncludeDirective extends DeploymentProfile
 {
@@ -37,7 +37,7 @@ public class BlockIncludeDirective extends DeploymentProfile
      */
     public BlockIncludeDirective( final String name, final String path )
     {
-        super( name, DeploymentProfile.ENABLED, Mode.EXPLICIT );
+        super( name, DeploymentProfile.ENABLED, Mode.EXPLICIT, null );
         if( path == null )
         {
             throw new NullPointerException( "path" );

@@ -20,6 +20,7 @@ package org.apache.avalon.composition.model.impl;
 import org.apache.avalon.composition.model.DependencyGraph;
 import org.apache.avalon.composition.provider.SystemContext;
 import org.apache.avalon.composition.provider.DeploymentContext;
+import org.apache.avalon.composition.data.DeploymentProfile;
 
 import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.Logger;
@@ -29,7 +30,7 @@ import org.apache.avalon.composition.data.Mode;
  * Default implementation of a deployment context.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.6 $ $Date: 2004/02/10 16:23:33 $
+ * @version $Revision: 1.7 $ $Date: 2004/03/11 01:30:38 $
  */
 public class DefaultDeploymentContext extends DefaultContext 
   implements DeploymentContext
@@ -44,6 +45,7 @@ public class DefaultDeploymentContext extends DefaultContext
     private final Mode m_mode;
     private final DependencyGraph m_graph;
     private final SystemContext m_system;
+    private final DeploymentProfile m_profile;
 
     //---------------------------------------------------------
     // constructor
@@ -60,7 +62,7 @@ public class DefaultDeploymentContext extends DefaultContext
     */
     public DefaultDeploymentContext( 
       Logger logger, SystemContext system, String partition, String name, 
-      Mode mode, DependencyGraph graph )
+      Mode mode, DeploymentProfile profile, DependencyGraph graph )
     {
         if( logger == null )
         {
@@ -70,15 +72,20 @@ public class DefaultDeploymentContext extends DefaultContext
         {
             throw new NullPointerException( "name" );
         }
-        if( mode == null )
+        if( profile == null )
         {
             throw new NullPointerException( "mode" );
+        }
+        if( profile == null )
+        {
+            throw new NullPointerException( "profile" );
         }
         if( system == null )
         {
             throw new NullPointerException( "system" );
         }
 
+        m_profile = profile;
         m_graph = new DependencyGraph( graph );
         if( graph != null )
         {
@@ -90,7 +97,6 @@ public class DefaultDeploymentContext extends DefaultContext
         m_partition = partition;
         m_name = name;
         m_mode = mode;
-
     }
 
     //---------------------------------------------------------
@@ -149,6 +155,16 @@ public class DefaultDeploymentContext extends DefaultContext
     public Mode getMode()
     {
         return m_mode;
+    }
+
+   /**
+    * Return the deployment profile.
+    *
+    * @return the profile
+    */
+    public DeploymentProfile getProfile()
+    {
+        return m_profile;
     }
 
    /**

@@ -39,7 +39,7 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
  * instance from a Configuration object.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.7 $ $Date: 2004/02/29 22:25:26 $
+ * @version $Revision: 1.8 $ $Date: 2004/03/11 01:30:38 $
  */
 public class XMLTargetsCreator extends XMLComponentProfileCreator 
 {
@@ -92,7 +92,7 @@ public class XMLTargetsCreator extends XMLComponentProfileCreator
 
         CategoriesDirective categories = 
           getCategoriesDirective( 
-            config.getChild( "categories", false ), name );
+            config.getChild( "categories", false ) );
 
         //
         // get the overriding configuration

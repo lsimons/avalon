@@ -98,7 +98,7 @@ import org.apache.avalon.util.i18n.Resources;
  * as a part of a containment deployment model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.40 $ $Date: 2004/03/08 11:28:36 $
+ * @version $Revision: 1.41 $ $Date: 2004/03/11 01:30:38 $
  */
 public class DefaultContainmentModel extends DefaultDeploymentModel 
   implements ContainmentModel
@@ -558,26 +558,6 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
     }
 
    /**
-    * Return the logging categories. 
-    * @return the logging categories
-    */
-    public CategoriesDirective getCategories()
-    {
-        if( m_categories == null ) 
-          return m_context.getContainmentProfile().getCategories();
-        return m_categories;
-    }
-
-   /**
-    * Set categories. 
-    * @param categories the logging categories
-    */
-    public void setCategories( CategoriesDirective categories )
-    {
-        m_categories = categories; // TODO: merge with existing categories
-    }
-
-   /**
     * Add a model referenced by a url to this model.
     * @param url the url of the model to include
     * @return the model 
@@ -815,9 +795,16 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
         {
             TargetDirective target = targets[i];
             final String path = target.getPath();
-            Object model = getModel( path );
+            DeploymentModel model = getModel( path );
             if( model != null )
             {
+                getLogger().debug( "customizing target " + model );
+                if( target.getCategoriesDirective() != null )
+                {
+                    model.setCategories( 
+                      target.getCategoriesDirective() );
+                }
+
                 if( model instanceof ComponentModel )
                 {
                     ComponentModel deployment = (ComponentModel) model;
@@ -825,20 +812,6 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
                     {
                         deployment.setConfiguration( 
                           target.getConfiguration() );
-                    }
-                    if( target.getCategoriesDirective() != null )
-                    {
-                        deployment.setCategories( 
-                          target.getCategoriesDirective() );
-                    }
-                }
-                else if( model instanceof ContainmentModel )
-                {
-                    ContainmentModel containment = (ContainmentModel) model;
-                    if( target.getCategoriesDirective() != null )
-                    {
-                        containment.setCategories( 
-                          target.getCategoriesDirective() );
                     }
                 }
             }
