@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<project name="Avalon Cornerstone" default="main" basedir=".">
+<project name="Avalon Components" default="main" basedir=".">
 
   <!--
     Give user a chance to override without editing this file
@@ -386,6 +386,15 @@
     <delete dir="${docs.dir}" />
     <delete dir="${dist.base}" />
     <delete dir="${gen.dir}" />
+  </target>
+
+  <target name="patch">
+    <replace dir="." summary="true"
+       token="Avalon Components"
+       value="Avalon Components" >
+     <include name="**/**/*.*"/>
+     <exclude name="**/target/*.*"/>
+    </replace>
   </target>
 
 </project>

@@ -22,7 +22,7 @@
     Alternately, this  acknowledgment may  appear in the software itself,  if
     and wherever such third-party acknowledgments normally appear.
 
- 4. The names "Jakarta", "Apache Avalon", "Avalon Cornerstone", "Avalon
+ 4. The names "Jakarta", "Apache Avalon", "Avalon Components", "Avalon
     Framework" and "Apache Software Foundation"  must not be used to endorse
     or promote products derived  from this  software without  prior written
     permission. For written permission, please contact apache@apache.org.
@@ -58,7 +58,7 @@ import java.util.NoSuchElementException;
  * defined in the PriorityQueue interface.
  *
  * @author <a href="mailto:ram.chidambaram@telus.com">Ram Chidambaram</a>
- * @version CVS $Revision: 1.5 $ $Date: 2003/04/08 11:21:14 $
+ * @version CVS $Revision: 1.6 $ $Date: 2003/06/19 20:31:34 $
  * @since 4.0
  */
 final class SynchronizedPriorityQueue

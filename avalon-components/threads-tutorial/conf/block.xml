@@ -14,14 +14,16 @@ Thread Tutorial.
      <engine>
        <classpath>
          <repository>
-           <resource id="cornerstone:cornerstone-threads-api" version="1.0"/>
-           <resource id="excalibur:excalibur-thread" version="1.1.1"/>
-           <resource id="excalibur:excalibur-event" version="2.0"/>
+           <resource id="cornerstone-threads:cornerstone-threads-api" version="1.0"/>
+           <resource id="excalibur-thread:excalibur-thread" version="1.1.1"/>
+           <resource id="excalibur-event:excalibur-event" version="1.0.3"/>
          </repository>
        </classpath>
      </engine>
 
-     <include id="cornerstone:cornerstone-threads-impl" version="1.0"/>
+     <include name="threads">
+       <resource id="cornerstone-threads:cornerstone-threads-impl" version="1.0"/>
+     </include>
 
      <component name="test" 
         class="org.apache.avalon.cornerstone.threads.tutorial.ThreadConsumer" 

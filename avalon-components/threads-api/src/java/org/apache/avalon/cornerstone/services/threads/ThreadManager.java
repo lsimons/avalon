@@ -22,7 +22,7 @@
     Alternately, this  acknowledgment may  appear in the software itself,  if
     and wherever such third-party acknowledgments normally appear.
 
- 4. The names "Jakarta", "Apache Avalon", "Avalon Cornerstone", "Avalon
+ 4. The names "Jakarta", "Apache Avalon", "Avalon Components", "Avalon
     Framework" and "Apache Software Foundation"  must not be used to endorse
     or promote products derived  from this  software without  prior written
     permission. For written permission, please contact apache@apache.org.
@@ -57,7 +57,7 @@ import org.apache.avalon.excalibur.thread.ThreadPool;
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/06/19 17:03:06 $
+ * @version $Revision: 1.2 $ $Date: 2003/06/19 20:31:42 $
  */
 public interface ThreadManager
 {
