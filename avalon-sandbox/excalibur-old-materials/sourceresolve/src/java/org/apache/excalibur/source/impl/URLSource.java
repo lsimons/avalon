@@ -56,7 +56,6 @@ package org.apache.excalibur.source.impl;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Method;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
@@ -75,7 +74,7 @@ import org.apache.excalibur.source.impl.validity.TimeStampValidity;
  * Description of a source which is described by an URL.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.24 $ $Date: 2003/04/04 16:36:51 $
+ * @version CVS $Revision: 1.25 $ $Date: 2003/07/03 15:23:34 $
  */
 public class URLSource extends AbstractSource implements Source
 {
@@ -180,7 +179,7 @@ public class URLSource extends AbstractSource implements Source
                 if (null == m_connection)
                 {
                     m_connection = m_url.openConnection();
-                    String userInfo = getUserInfo();
+                    String userInfo = m_url.getUserInfo();
                     if (m_url.getProtocol().startsWith("http") && userInfo != null)
                     {
                         m_connection.setRequestProperty("Authorization", "Basic " + SourceUtil.encodeBASE64(userInfo));
@@ -226,8 +225,8 @@ public class URLSource extends AbstractSource implements Source
         if (m_connection == null)
         {
             m_connection = m_url.openConnection();
-            /* The following requires a jdk 1.3 */
-            String userInfo = getUserInfo();
+
+            String userInfo = m_url.getUserInfo();
             if (m_url.getProtocol().startsWith("http") && userInfo != null)
             {
                 m_connection.setRequestProperty("Authorization", "Basic " + SourceUtil.encodeBASE64(userInfo));
@@ -281,53 +280,6 @@ public class URLSource extends AbstractSource implements Source
         input = m_connection.getInputStream();
         m_connection = null; // make sure a new m_connection is created next time
         return input;
-    }
-
-    private static boolean checkedURLClass = false;
-    private static boolean urlSupportsGetUserInfo = false;
-    private static Method urlGetUserInfo = null;
-    private static Object[] emptyParams = new Object[0];
-
-    /**
-     * Check if the <code>URL</code> class supports the getUserInfo()
-     * method which is introduced in jdk 1.3
-     */
-    protected String getUserInfo()
-    {
-        if (URLSource.checkedURLClass == true)
-        {
-            if (URLSource.urlSupportsGetUserInfo == true)
-            {
-                try
-                {
-                    return (String) URLSource.urlGetUserInfo.invoke(m_url, URLSource.emptyParams);
-                }
-                catch (Exception e)
-                {
-                    // ignore this anyway
-                }
-            }
-            return null;
-        }
-        else
-        {
-            // test if the m_url class supports the getUserInfo method
-            try
-            {
-                URLSource.urlGetUserInfo = URL.class.getMethod("getUserInfo", null);
-                String ui = (String) URLSource.urlGetUserInfo.invoke(m_url, URLSource.emptyParams);
-                URLSource.checkedURLClass = true;
-                URLSource.urlSupportsGetUserInfo = true;
-                return ui;
-            }
-            catch (Exception e)
-            {
-            }
-            URLSource.checkedURLClass = true;
-            URLSource.urlSupportsGetUserInfo = false;
-            URLSource.urlGetUserInfo = null;
-            return null;
-        }
     }
 
     /**
