@@ -5,26 +5,26 @@
  * version 1.1, a copy of which has been included  with this distribution in
  * the LICENSE.txt file.
  */
-package org.apache.avalon.excalibur.cache.test;
+package org.apache.avalon.excalibur.cache.store.test;
 
-import org.apache.avalon.excalibur.cache.FlipSpacesCacheStore;
+import org.apache.avalon.excalibur.cache.store.FlipSpacesStore;
 import junit.framework.TestCase;
 
 /**
- * TestCase for FlipSpacesCacheStore.
+ * TestCase for FlipSpacesStore.
  *
  * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>
  */
-public class FlipSpacesCacheStoreTestCase
+public class FlipSpacesStoreTestCase
     extends AbstractCacheStoreTestCase
 {
-    public FlipSpacesCacheStoreTestCase( final String name )
+    public FlipSpacesStoreTestCase( final String name )
     {
         super( name );
     }
 
     protected void setUp()
     {
-        m_store = new FlipSpacesCacheStore( 10 );
+        m_store = new FlipSpacesStore( 10 );
     }
 }

@@ -5,19 +5,17 @@
  * version 1.1, a copy of which has been included  with this distribution in
  * the LICENSE.txt file.
  */
-package org.apache.avalon.excalibur.cache;
-
-import java.util.LinkedList;
+package org.apache.avalon.excalibur.cache.policy;
 
 /**
  * FIFO(First In First Out) replacement policy.
  *
  * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>
  */
-public class FIFOCachePolicy
-    extends ListCachePolicy
+public class FIFOPolicy
+    extends ListBasedPolicy
 {
-    public FIFOCachePolicy()
+    public FIFOPolicy()
     {
         super();
     }

@@ -5,7 +5,7 @@
  * version 1.1, a copy of which has been included  with this distribution in
  * the LICENSE.txt file.
  */
-package org.apache.avalon.excalibur.cache;
+package org.apache.avalon.excalibur.cache.store;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,7 +15,7 @@ import java.util.Set;
 /**
  * @author <a href="mailto:lawrence_mccay-iii@hp.com">Larry McCay</a>
  */
-public class FlipSpacesCacheStore
+public class FlipSpacesStore
     extends AbstractCacheStore
 {
     /**
@@ -39,7 +39,7 @@ public class FlipSpacesCacheStore
      *
      * @param capacity - the size at which the cache is deemed full
      */
-    public FlipSpacesCacheStore( final int capacity )
+    public FlipSpacesStore( final int capacity )
     {
         if ( capacity < 1 ) throw new IllegalArgumentException( "Specified capacity must be at least 1" );
 

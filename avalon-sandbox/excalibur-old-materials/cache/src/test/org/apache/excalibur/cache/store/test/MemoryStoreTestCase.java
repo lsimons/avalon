@@ -5,26 +5,26 @@
  * version 1.1, a copy of which has been included  with this distribution in
  * the LICENSE.txt file.
  */
-package org.apache.avalon.excalibur.cache.test;
+package org.apache.avalon.excalibur.cache.store.test;
 
-import org.apache.avalon.excalibur.cache.MemoryCacheStore;
+import org.apache.avalon.excalibur.cache.store.MemoryStore;
 import junit.framework.TestCase;
 
 /**
- * TestCase for MemoryCacheStore.
+ * TestCase for MemoryStore.
  *
  * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>
  */
-public class MemoryCacheStoreTestCase
+public class MemoryStoreTestCase
     extends AbstractCacheStoreTestCase
 {
-    public MemoryCacheStoreTestCase( final String name )
+    public MemoryStoreTestCase( final String name )
     {
         super( name );
     }
 
     protected void setUp()
     {
-        m_store = new MemoryCacheStore( 10 );
+        m_store = new MemoryStore( 10 );
     }
 }

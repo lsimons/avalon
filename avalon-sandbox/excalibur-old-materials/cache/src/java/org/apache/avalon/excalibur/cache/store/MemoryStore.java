@@ -5,22 +5,20 @@
  * version 1.1, a copy of which has been included  with this distribution in
  * the LICENSE.txt file.
  */
-package org.apache.avalon.excalibur.cache;
+package org.apache.avalon.excalibur.cache.store;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 
 /**
  * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>
  */
-public class MemoryCacheStore
+public class MemoryStore
     extends AbstractCacheStore
 {
     private HashMap m_entries;
     private int m_capacity;
 
-    public MemoryCacheStore( final int capacity )
+    public MemoryStore( final int capacity )
     {
         if ( capacity < 1 ) throw new IllegalArgumentException( "Specified capacity must be at least 1" );
 
