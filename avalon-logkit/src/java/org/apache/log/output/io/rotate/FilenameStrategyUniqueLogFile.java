@@ -18,15 +18,22 @@ import java.io.IOException;
 public class FilenameStrategyUniqueLogFile 
     implements FilenameStrategy
 {
+    private File    m_baseFile;
+
+    public FilenameStrategyUniqueLogFile( final File baseFile )
+    {
+        m_baseFile = baseFile;
+    }
+
     /**
      * Calculate the real file name from the base filename.
      *
      * @return File the calculated file name
      */
-    public File getLogFileName( final File baseFileName ) 
+    public File nextFile() 
     {
         final StringBuffer sb = new StringBuffer();
-        sb.append( baseFileName );
+        sb.append( m_baseFile );
         sb.append( System.currentTimeMillis() );
         return new File( sb.toString() );
     }

@@ -22,7 +22,7 @@ import org.apache.log.output.io.rotate.RotatingFileTarget;
 public class TestRotatingFileOutputLogTarget 
     extends TestCase
 {
-    private RawFormatter formatter = new RawFormatter();
+    private RawFormatter m_formatter = new RawFormatter();
 
     public TestRotatingFileOutputLogTarget() 
     {
@@ -39,10 +39,10 @@ public class TestRotatingFileOutputLogTarget
     public void testSizeRotationUniqueFilename() 
         throws Exception
     {
-        final String name = "test/size-unique.log";
-        final FilenameStrategy filenameStrategy = new FilenameStrategyUniqueLogFile();
+        final File file = new File( "test/size-unique.log" );
+        final FilenameStrategy filenameStrategy = new FilenameStrategyUniqueLogFile( file );
         final RotateStrategy rotateStrategy = new RotateStrategyBySize( 128 * 1024 );
-        final Logger logger = getLogger( name, filenameStrategy, rotateStrategy );
+        final Logger logger = getLogger( filenameStrategy, rotateStrategy );
         
         doTest( logger );
     }
@@ -52,10 +52,10 @@ public class TestRotatingFileOutputLogTarget
     public void testSizeRotationRevolingFilename() 
         throws Exception
     {
-        final String name = "test/size-revolve.log";
-        final FilenameStrategy filenameStrategy = new FilenameStrategyRevolvingLogFile();
+        final File file = new File( "test/size-revolve.log" );
+        final FilenameStrategy filenameStrategy = new FilenameStrategyRevolvingLogFile( file );
         final RotateStrategy rotateStrategy = new RotateStrategyBySize( 128 * 1024 );
-        final Logger logger = getLogger( name, filenameStrategy, rotateStrategy );
+        final Logger logger = getLogger( filenameStrategy, rotateStrategy );
         
         doTest( logger );
     }
@@ -65,10 +65,10 @@ public class TestRotatingFileOutputLogTarget
     public void testTimeRotationUniqueFilename() 
         throws Exception
     {
-        final String name = "test/time-unique.log";
-        final FilenameStrategy filenameStrategy = new FilenameStrategyUniqueLogFile();
+        final File file = new File( "test/time-unique.log" );
+        final FilenameStrategy filenameStrategy = new FilenameStrategyUniqueLogFile( file );
         final RotateStrategy rotateStrategy = new RotateStrategyByTime( 3 * 1000 );
-        final Logger logger = getLogger( name, filenameStrategy, rotateStrategy );
+        final Logger logger = getLogger( filenameStrategy, rotateStrategy );
         
         doTest( logger );
     }
@@ -78,10 +78,10 @@ public class TestRotatingFileOutputLogTarget
     public void testTimeRotationRevolvingFilename() 
         throws Exception
     {
-        final String name = "test/time-revolve.log";
-        final FilenameStrategy filenameStrategy = new FilenameStrategyRevolvingLogFile();
+        final File file = new File( "test/time-revolve.log" );
+        final FilenameStrategy filenameStrategy = new FilenameStrategyRevolvingLogFile( file );
         final RotateStrategy rotateStrategy = new RotateStrategyByTime( 3 * 1000 );
-        final Logger logger = getLogger( name, filenameStrategy, rotateStrategy );
+        final Logger logger = getLogger( filenameStrategy, rotateStrategy );
         
         doTest( logger );
     }
@@ -119,14 +119,12 @@ public class TestRotatingFileOutputLogTarget
         return message.length();
     }
 
-    private Logger getLogger( final String name, 
-                              final FilenameStrategy filenameStrategy, 
+    private Logger getLogger( final FilenameStrategy filenameStrategy, 
                               final RotateStrategy rotateStrategy )
         throws Exception
     {
-        final File file = new File( name );
         final RotatingFileTarget target = 
-            new RotatingFileTarget( file, formatter, rotateStrategy, filenameStrategy );
+            new RotatingFileTarget( m_formatter, rotateStrategy, filenameStrategy );
         final Hierarchy hierarchy = new Hierarchy();
         final Logger logger = hierarchy.getLoggerFor( "myCat" );
 
