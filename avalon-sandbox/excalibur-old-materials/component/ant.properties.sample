@@ -9,7 +9,7 @@
 # The ant.properties values in this directory apply only to this component, and
 # override the defaults in ../ant.properties.
 #
-# $Id: ant.properties.sample,v 1.1 2002/04/04 05:09:02 leif Exp $
+# $Id: ant.properties.sample,v 1.2 2002/04/04 08:09:17 hammant Exp $
 # -----------------------------------------------------------------------------
 
 # --------------------------------------------------
@@ -36,6 +36,14 @@ logkit.jar=${logkit.home}/logkit.jar
 # ----- Avalon Framework -----
 avalon-framework.home=../../jakarta-avalon/build/lib
 avalon-framework.jar=${avalon-framework.home}/avalon-framework.jar
+
+# ----- Excalibur Logger -----
+excalibur-logger.home=../logger/build/lib
+excalibur-logger.jar=${excalibur-logger.home}/excalibur-logger-1.0.jar
+
+# ----- Excalibur Pool -----
+excalibur-pool.home=../pool/build/lib
+excalibur-pool.jar=${excalibur-pool.home}/excalibur-pool-1.0.jar
 
 # ----- JUnit Unit Test Suite, version 3.7 or later -----
 junit.home=${base.path}/junit3.7
