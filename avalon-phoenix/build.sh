@@ -4,14 +4,11 @@ echo
 echo "Phoenix Build System"
 echo "--------------------"
 
-export CP=$CLASSPATH
-export CLASSPATH=lib/xerces_1_2_3.jar
+if [ "$AVALON_TOOLS" = "" ] ; then
+    AVALON_TOOLS=../jakarta-avalon/tools
+fi
 
-chmod u+x ./tools/bin/antRun
-chmod u+x ./tools/bin/ant
+chmod u+x $AVALON_TOOLS/bin/antRun
+chmod u+x $AVALON_TOOLS/bin/ant
 
-unset ANT_HOME
-
-$PWD/tools/bin/ant -logger org.apache.tools.ant.NoBannerLogger -emacs $@ 
-
-export CLASSPATH=$CP
+$AVALON_TOOLS/bin/ant -logger org.apache.tools.ant.NoBannerLogger -emacs -Dtools.dir=$AVALON_TOOLS $@ 

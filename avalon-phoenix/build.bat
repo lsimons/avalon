@@ -4,11 +4,9 @@ echo --------------------
 echo Phoenix Build System
 echo --------------------
 
-set ANT_HOME=tools
+if not "%AVALON_TOOLS%"=="" goto runAnt
+set AVALON_TOOLS=..\jakarta-avalon\tools
 
-set CP=%CLASSPATH%
-set CLASSPATH=lib\xerces_1_2_3.jar
+:runAnt
+%AVALON_TOOLS%/bin/ant -logger org.apache.tools.ant.NoBannerLogger -emacs -Dtools.dir=%AVALON_TOOLS% %1 %2 %3 %4 %5 %6 %7 %8
 
-%ANT_HOME%\bin\ant.bat -logger org.apache.tools.ant.NoBannerLogger -emacs %1 %2 %3 %4 %5 %6 %7 %8
-
-set CLASSPATH=%CP%

@@ -60,7 +60,7 @@ Legal:
   <property name="script.dir" value="${src.dir}/script"/>
   <property name="manifest.dir" value="${src.dir}/manifest"/>
   <property name="lib.dir" value="lib"/>
-  <property name="tools.dir" value="tools"/>
+  <property name="tools.dir" value="../jakarta-avalon/tools"/>
   <property name="docs.dir" value="docs"/>
   <property name="www.dir" value="www"/>
   <property name="avalon.skin" value="${tools.dir}/lib/jakarta-style.jar"/>
@@ -71,7 +71,7 @@ Legal:
   <property name="dist.base" value="distributions"/>
 
   <property name="constants.file" value="org/apache/avalon/phoenix/engine/Constants.java"/>
-  <property name="xerces.jar" value="${lib.dir}/xerces_1_2_3.jar"/>
+  <property name="xerces.jar" value="${tools.dir}/lib/xerces.jar"/>
   <property name="framework.jar" value="${lib.dir}/avalon-framework.jar"/>
   <property name="excalibur.jar" value="${lib.dir}/avalon-excalibur.jar"/>
   <property name="scratchpad.jar" value="${lib.dir}/avalon-scratchpad.jar"/>
@@ -86,7 +86,6 @@ Legal:
     <pathelement path="${java.class.path}" />
     <fileset dir="${lib.dir}">
       <include name="*.jar" />
-      <exclude name="xerces.jar"/>
       <exclude name="avalon-*"/>
       <exclude name="logkit.jar"/>
     </fileset>
