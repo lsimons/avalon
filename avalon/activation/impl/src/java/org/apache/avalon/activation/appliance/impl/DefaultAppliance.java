@@ -41,7 +41,8 @@ import org.apache.avalon.activation.lifecycle.ContextualizationHandler;
 import org.apache.avalon.activation.lifecycle.Factory;
 import org.apache.avalon.activation.lifecycle.LifecycleCreateExtension;
 import org.apache.avalon.activation.lifecycle.LifecycleDestroyExtension;
-import org.apache.avalon.activation.lifecycle.LifecycleException;
+import org.apache.avalon.activation.lifecycle.CreationException;
+import org.apache.avalon.activation.lifecycle.DestructionException;
 import org.apache.avalon.activation.lifestyle.LifestyleHandler;
 import org.apache.avalon.activation.lifestyle.impl.SingletonLifestyleHandler;
 import org.apache.avalon.activation.lifestyle.impl.ThreadLifestyleHandler;
@@ -78,7 +79,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * appliance instance.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.26 $ $Date: 2004/01/24 23:25:21 $
+ * @version $Revision: 1.26.2.1 $ $Date: 2004/02/22 15:50:07 $
  */
 public class DefaultAppliance extends AbstractAppliance implements Appliance
 {
@@ -509,7 +510,7 @@ public class DefaultAppliance extends AbstractAppliance implements Appliance
     //-------------------------------------------------------------------
 
     private Object createNewInstance( Class clazz )
-      throws LifecycleException
+      throws CreationException
     {
         try
         {
@@ -520,7 +521,7 @@ public class DefaultAppliance extends AbstractAppliance implements Appliance
             final String error = 
               REZ.getString( 
                 "lifecycle.instantiation.error", clazz.getName() );
-            throw new LifecycleException( error, e );
+            throw new CreationException( error, e );
         }
     }
 
@@ -593,7 +594,7 @@ public class DefaultAppliance extends AbstractAppliance implements Appliance
                   REZ.getString( 
                     "lifecycle.contextualization.custom.error", 
                     m_model.getQualifiedName() );
-                throw new LifecycleException( error, e );
+                throw new CreationException( error, e );
             }
         }
         else if( instance instanceof Contextualizable )
@@ -628,7 +629,7 @@ public class DefaultAppliance extends AbstractAppliance implements Appliance
                   REZ.getString( 
                     "lifecycle.contextualization.component.error", 
                     m_model.getQualifiedName() );
-                throw new LifecycleException( error, e );
+                throw new CreationException( error, e );
             }
         }
     }
@@ -774,11 +775,11 @@ public class DefaultAppliance extends AbstractAppliance implements Appliance
                         "lifecycle.stage.creator.error", stage.getKey() );
                     if( flag )
                     {
-                        throw new LifecycleException( error, e );
+                        throw new CreationException( error, e );
                     }
                     else
                     {
-                        getLogger().warn( error, e );
+                        throw new DestructionException( error, e );
                     }
                 }
                 finally
@@ -798,7 +799,7 @@ public class DefaultAppliance extends AbstractAppliance implements Appliance
                         int id = System.identityHashCode( instance );
                         getLogger().debug( "applying model create stage to: " + id );
                     }
-                    handler.create( m_model, stage, instance );
+                    handler.create( m_model, m_engine, stage, instance );
                 }
                 finally
                 {
@@ -817,7 +818,7 @@ public class DefaultAppliance extends AbstractAppliance implements Appliance
                         int id = System.identityHashCode( instance );
                         getLogger().debug( "applying model destroy stage to: " + id );
                     }
-                    handler.destroy( m_model, stage, instance );
+                    handler.destroy( m_model, m_engine, stage, instance );
                 }
                 catch( Throwable e )
                 {
@@ -884,11 +885,11 @@ public class DefaultAppliance extends AbstractAppliance implements Appliance
                         stage.getKey() );
                     if( flag )
                     {
-                        throw new LifecycleException( error, e );
+                        throw new CreationException( error, e );
                     }
                     else
                     {
-                        getLogger().warn( error, e );
+                        throw new DestructionException( error, e );
                     }
                 }
                 finally
@@ -901,7 +902,7 @@ public class DefaultAppliance extends AbstractAppliance implements Appliance
     }
 
     private void applyInitialization( final Object instance ) 
-      throws LifecycleException
+      throws CreationException
     {
         if( instance instanceof Initializable )
         {
@@ -932,13 +933,13 @@ public class DefaultAppliance extends AbstractAppliance implements Appliance
             {
                 final String error = 
                   REZ.getString( "lifecycle.initialize.component.error" );
-                throw new LifecycleException( error, e );
+                throw new CreationException( error, e );
             }
         }
     }
 
     private void applyStart( final Object instance ) 
-      throws LifecycleException
+      throws CreationException
     {
         if( instance instanceof Startable )
         {
@@ -969,7 +970,7 @@ public class DefaultAppliance extends AbstractAppliance implements Appliance
             {
                 final String error = 
                   REZ.getString( "lifecycle.start.component.error" );
-                throw new LifecycleException( error, e );
+                throw new CreationException( error, e );
             }
         }
         else if( instance instanceof Executable )
@@ -1001,7 +1002,7 @@ public class DefaultAppliance extends AbstractAppliance implements Appliance
             {
                 final String error = 
                   REZ.getString( "lifecycle.execute.component.error" );
-                throw new LifecycleException( error, e );
+                throw new CreationException( error, e );
             }
         }
     }
@@ -1113,7 +1114,7 @@ public class DefaultAppliance extends AbstractAppliance implements Appliance
               REZ.getString( 
                 "deployment.contextualization.custom-resolve.error", 
                 appliance.getModel().getQualifiedName() );
-            throw new LifecycleException( error, e );
+            throw new CreationException( error, e );
         }
     }
 
@@ -1351,7 +1352,6 @@ public class DefaultAppliance extends AbstractAppliance implements Appliance
        /**
         * Return the component deployment model. 
         *
-        * @exception LifecycleException
         */
         public ComponentModel getComponentModel()
         {
@@ -1363,7 +1363,7 @@ public class DefaultAppliance extends AbstractAppliance implements Appliance
         *
         * @exception LifecycleException
         */
-        public Object newInstance() throws LifecycleException
+        public Object newInstance() throws CreationException
         {
             Class clazz = m_model.getDeploymentClass();
             Object instance = null;
@@ -1395,7 +1395,7 @@ public class DefaultAppliance extends AbstractAppliance implements Appliance
             {
                 final String error = 
                   REZ.getString( "lifestyle.new.error", m_model.getQualifiedName() );
-                throw new LifecycleException( error, e );
+                throw new CreationException( error, e );
             }
 
             try
@@ -1407,7 +1407,7 @@ public class DefaultAppliance extends AbstractAppliance implements Appliance
                 getLogger().error( e.getMessage() );
                 final String error = 
                   "Provider publication failure.";
-                throw new LifecycleException( error, e );
+                throw new CreationException( error, e );
             }
         }
 
