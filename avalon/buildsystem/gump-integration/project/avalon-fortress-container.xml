@@ -50,6 +50,7 @@
     <jar name="target/avalon-fortress-container-@@DATE@@-api.jar" id="api"></jar>
     <jar name="target/avalon-fortress-container-@@DATE@@-impl.jar" id="impl"></jar>
     <javadoc nested="fortress/container/target/docs/apidocs"></javadoc>
+    <junitreport nested="fortress/container/target/docs/junitreports"></junitreport>
 
     <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"></nag>
 </project>
