@@ -50,6 +50,7 @@
 package org.apache.avalon.excalibur.component;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -83,7 +84,7 @@ import org.apache.excalibur.instrument.Instrumentable;
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2004/01/21 08:34:24 $
+ * @version CVS $Revision: 1.3 $ $Date: 2004/01/22 14:08:16 $
  * @since 4.0
  */
 public class ExcaliburComponentManager
@@ -113,10 +114,10 @@ public class ExcaliburComponentManager
     private Context m_context;
 
     /** Static component mapping handlers. */
-    private final Map m_componentMapping = new HashMap();
+    private final Map m_componentMapping = Collections.synchronizedMap(new HashMap());
 
     /** Used to map roles to ComponentHandlers. */
-    private final Map m_componentHandlers = new HashMap();
+    private final Map m_componentHandlers = Collections.synchronizedMap(new HashMap());
 
     /** added component handlers before initialization to maintain
      *  the order of initialization
