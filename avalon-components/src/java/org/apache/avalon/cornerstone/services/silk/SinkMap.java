@@ -7,26 +7,26 @@
  */
 package org.apache.avalon.cornerstone.services.silk;
 
-import org.apache.avalon.excalibur.event.Source;
+import org.apache.avalon.excalibur.event.Sink;
 
 /**
- * The SourceMap is an abstraction to allow the container to centrally manage all
+ * The SinkMap is an abstraction to allow the container to centrally manage all
  * connections within its scope.  This allows the system to remain using Inversion
  * of Control, while allowing a system to be reassigned at any time.
  *
  * @author <a href="bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/02/01 20:06:24 $
+ * @version CVS $Revision: 1.1 $ $Date: 2002/02/04 18:04:30 $
  */
 
-public interface SourceMap {
+public interface SinkMap {
 
     /**
-     * This gets the main Source for the SourceMap.  A SourceMap must have at
+     * This gets the main Sink for the SinkMap.  A SinkMap must have at
      * least one Source.
      *
-     * @return the main <code>Source</code> for the SourceMap.
+     * @return the main <code>Sink</code> for the SourceMap.
      */
-    Source getMainSource();
+    Sink getMainSink();
 
     /**
      * Get the named Source.  If the SourceMap does not contain a match for the
@@ -34,18 +34,18 @@ public interface SourceMap {
      *
      * @param  name  The name of the desired source
      *
-     * @return Source the source associated with the name
-     * @throws NoSuchSourceException if no source is associated with the name
+     * @return Sink the source associated with the name
+     * @throws NoSuchSinkException if no source is associated with the name
      */
-    Source getSource( String name )
-        throws NoSuchSourceException;
+    Sink getSource( String name )
+        throws NoSuchSinkException;
 
     /**
      * The SourceArray allows the Stage to get an array of all Sources attached
      * to the stage.
      *
-     * @return an array of <code>Source</code> objects.  There is at least one
-     *         Source in the array.
+     * @return an array of <code>Sink</code> objects.  There is at least one
+     *         Sink in the array.
      */
-    Source[] getSourceArray();
+    Sink[] getSinkArray();
 }

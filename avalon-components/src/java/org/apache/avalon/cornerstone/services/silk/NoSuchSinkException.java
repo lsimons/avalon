@@ -7,25 +7,23 @@
  */
 package org.apache.avalon.cornerstone.services.silk;
 
-import org.apache.avalon.framework.CascadingException;
-
 /**
- * The NoSuchSourceException is used by the SourceMap when a Source that is
+ * The NoSuchSinkException is used by the SinkMap when a Sink that is
  * supposed to be associated with a name is not found.
  *
  * @author <a href="bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/02/01 20:06:24 $
+ * @version CVS $Revision: 1.1 $ $Date: 2002/02/04 18:04:30 $
  */
 
-public class NoSuchSourceException extends CascadingException {
+public class NoSuchSinkException extends Exception {
 
-    public NoSuchSourceException( String message )
+    public NoSuchSinkException()
     {
-        super( message );
+        super();
     }
 
-    public NoSuchSourceException( String message, Throwable source )
+    public NoSuchSinkException( String message )
     {
-        super( message, source );
+        super( message );
     }
 }
