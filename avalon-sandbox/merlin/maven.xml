@@ -18,6 +18,10 @@
     <attainGoal name="merlin:dist"/>
     <attainGoal name="merlin:site"/>
     <attainGoal name="merlin:package"/>
+    <attainGoal name="merlin:replicate"/>
+  </goal>
+
+  <goal name="merlin:replicate">
     <copy toDir="${merlin.home}">
       <fileset dir="${merlin.build.inst.dir}"/>
     </copy>
