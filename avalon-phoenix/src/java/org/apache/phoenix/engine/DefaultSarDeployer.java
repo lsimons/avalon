@@ -184,19 +184,14 @@ public class DefaultSarDeployer
     }
 
     private void buildEntry( final String name,
-                               final ServerApplicationEntry entry,
-                               final File archive,
-                               final File directory )
+                             final ServerApplicationEntry entry,
+                             final File archive,
+                             final File directory )
         throws DeploymentException
     {
         //final File file = new File( directory, "SAR-INF" + File.separator + "sar-inf.xml" );
 
-        //setup the ServerApplications context
-        final DefaultContext context = new DefaultContext();
-        context.put( SarContextResources.APP_ARCHIVE, archive );
-        context.put( SarContextResources.APP_HOME_DIR, directory );
-        context.put( SarContextResources.APP_NAME, name );
-        entry.setContext( context );
+        entry.setHomeDirectory( directory );
 
         //setup the ServerApplications configuration manager
         final File file = new File( directory, "conf" + File.separator + "server.xml" );

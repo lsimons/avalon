@@ -7,6 +7,7 @@
  */
 package org.apache.phoenix.engine;
 
+import java.io.File;
 import org.apache.avalon.camelot.Entry;
 import org.apache.avalon.configuration.Configuration;
 import org.apache.avalon.context.Context;
@@ -21,8 +22,18 @@ public class ServerApplicationEntry
     extends Entry
 {
     private Logger            m_logger;
-    private Context           m_context;
+    private File              m_homeDirectory;
     private Configuration     m_configuration;
+
+    public File getHomeDirectory()
+    {
+        return m_homeDirectory;
+    }
+
+    public void setHomeDirectory( final File homeDirectory )
+    {
+        m_homeDirectory = homeDirectory;
+    }
 
     public Logger getLogger()
     {
@@ -32,16 +43,6 @@ public class ServerApplicationEntry
     public void setLogger( final Logger logger )
     {
         m_logger = logger;
-    }
-
-    public Context getContext()
-    {
-        return m_context;
-    }
-
-    public void setContext( final Context context )
-    {
-        m_context = context;;
     }
 
     public Configuration getConfiguration()
