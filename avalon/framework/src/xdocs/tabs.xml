@@ -5,10 +5,11 @@
          title="Avalon-Fortress-Documentation"
          copyright="Copyright (C) 2003 Apache Software Foundation">
 
-<tab href="http://avalon.apache.org/" label="Avalon Home"/>
-<tab href="http://avalon.apache.org/framework/" label="Framework"></tab>
-<tab href="http://avalon.apache.org/components/" label="Components"></tab>
-<tab href="http://avalon.apache.org/phoenix/" label="Phoenix"></tab>
-<tab href="http://avalon.apache.org/fortress/" label="Fortress"></tab>
+    <tab label="Home" href="http://avalon.apache.org/"/>
+    <tab label="Framework" href="http://avalon.apache.org/framework/"/>
+    <tab label="Components" href="http://avalon.apache.org/components/"/>
+    <tab label="Containers" href="http://avalon.apache.org/containers/"/>
+    <tab label="Apps" href="http://avalon.apache.org/apps/"/>
+    <tab label="Sandbox" href="http://avalon.apache.org/sandbox/"/>
 
 </tabs>
