@@ -13,16 +13,30 @@ import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.ServiceException;
 
+/**
+ * PUnitComponentManager
+ * @author Paul Hammant
+ */
 public class PUnitComponentManager
     implements ComponentManager
 {
     private ServiceManager m_serviceManager;
 
+    /**
+     * PUnitComponentManager
+     * @param serviceManager The service manager to delegate to
+     */
     public PUnitComponentManager(ServiceManager serviceManager)
     {
         this.m_serviceManager = serviceManager;
     }
 
+    /**
+     * Lookup a comp
+     * @param key The key
+     * @return The comp
+     * @throws ComponentException If a problem
+     */
     public Component lookup( String key )
         throws ComponentException
     {
@@ -36,13 +50,22 @@ public class PUnitComponentManager
         }
     }
 
+    /**
+     * Has Component
+     * @param key The key
+     * @return true/false
+     */
     public boolean hasComponent( String key )
     {
         return m_serviceManager.hasService(key);
     }
 
+    /**
+     * Release the component
+     * @param component
+     */
     public void release( Component component )
     {
-
+       m_serviceManager.release(component);
     }
 }

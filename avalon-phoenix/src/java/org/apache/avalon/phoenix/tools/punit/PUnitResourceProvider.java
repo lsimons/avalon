@@ -11,61 +11,112 @@ import org.apache.excalibur.containerkit.lifecycle.ResourceProvider;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.apache.avalon.framework.context.Context;
-import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.parameters.Parameters;
 
+/**
+ * PUnitResourceProvider
+ * @author Paul Hammant
+ */
 public class PUnitResourceProvider
     implements ResourceProvider
 {
 
-    private PUnitServiceManager m_pUnitServiceManager;
-    private PUnitComponentManager m_pUnitComponentManager;
+    private ServiceManager m_serviceManager;
+    private ComponentManager m_componentManager;
     private Configuration m_configuration;
 
-    public PUnitResourceProvider( PUnitServiceManager pUnitServiceManager,
+    /**
+     * PUnitResourceProvider
+     * @param serviceManager The service manager
+     * @param configuration The configuration
+     */
+    public PUnitResourceProvider( ServiceManager serviceManager,
                                   Configuration configuration )
     {
-        m_pUnitServiceManager = pUnitServiceManager;
-        m_pUnitComponentManager = new PUnitComponentManager(pUnitServiceManager);
+        m_serviceManager = serviceManager;
+        m_componentManager = new PUnitComponentManager(serviceManager);
         m_configuration = configuration;
     }
 
-    public Object createObject(Object o) throws Exception
+    /**
+     * Create an object
+     * @param object The object
+     * @return The returned object
+     * @throws Exception If a problm
+     */
+    public Object createObject(Object object) throws Exception
     {
-        return o;
+        return object;
     }
 
-    public Logger createLogger(Object o) throws Exception
+    /**
+     * Create a Logger
+     * @param object The object to make a logger for
+     * @return The Logger
+     * @throws Exception If a problem
+     */
+    public Logger createLogger(Object object) throws Exception
     {
         // should be queryable mock logger ?
         return new ConsoleLogger();
     }
 
-    public Context createContext(Object o) throws Exception
+    /**
+     * Create some Context
+     * @param object For this object
+     * @return the context
+     * @throws Exception If a problem
+     */
+    public Context createContext(Object object) throws Exception
     {
-        return new DefaultContext();
+        return new PUnitBlockContext();
     }
 
-    public ComponentManager createComponentManager(Object o) throws Exception
+    /**
+     * Create a Comp Mgr
+     * @param object For this object
+     * @return The comp mgr
+     * @throws Exception If a problem
+     */
+    public ComponentManager createComponentManager(Object object) throws Exception
     {
-        return m_pUnitComponentManager;
+        return m_componentManager;
     }
 
-    public ServiceManager createServiceManager(Object o) throws Exception
+    /**
+     * Create a Service Manager
+     * @param object For this object
+     * @return The service manager
+     * @throws Exception If a problem
+     */
+    public ServiceManager createServiceManager(Object object) throws Exception
     {
-        return m_pUnitServiceManager;
+        return m_serviceManager;
     }
 
-    public Configuration createConfiguration(Object o) throws Exception
+    /**
+     * Create some Configuration
+     * @param object For this object
+     * @return The configuration
+     * @throws Exception If a problem
+     */
+    public Configuration createConfiguration(Object object) throws Exception
     {
         return m_configuration;
     }
 
-    public Parameters createParameters(Object o) throws Exception
+    /**
+     * Create Some parameters
+     * @param object For this object
+     * @return The parameters
+     * @throws Exception If a problem
+     */
+    public Parameters createParameters(Object object) throws Exception
     {
-        return null;
+        //TODO
+        throw new UnsupportedOperationException();
     }
 }
