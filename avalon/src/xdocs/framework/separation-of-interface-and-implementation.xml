@@ -84,7 +84,7 @@ public class RemoteHelloWorld implements HelloWorld {
           this too could be confusing as the aforementioned SAX is not quite a
           pure set of interfaces. It has a static factory that thunks in an
           implementation that all subsequent calls to the factory method will be
-          forced to use. See Anto-patterns below.
+          forced to use. See Anti-patterns below.
         </p>
         <p>
           Better might be 'separation of implementation and the interface/contract' as
@@ -136,8 +136,8 @@ public class RemoteHelloWorld implements HelloWorld {
         <p>
           The central message of this is that it you have interface/impl separated your
           tool, and are doing tricky things with more classloaders in the implementation,
-          please make sure ytou do not assume that the parent classloader of any classloader
-          is the system classoader.  If your reusable tool has been taken by another team
+          please make sure you do not assume that the parent classloader of any classloader
+          is the system classloader.  If your reusable tool has been taken by another team
           and at some non root place in a classloader tree, then the tools will fail if
           you have made such assumptions.
         </p>
@@ -148,7 +148,7 @@ public class RemoteHelloWorld implements HelloWorld {
           where the design can go wrong.  The Factory is static (that in itself is an
           anti-pattern to IoC).  Despite giving the appearance of having the ability
           to generate a parser based on the implementation's class name, only the first 
-          caller of that method will regsiter a parser for the whole environment to use.
+          caller of that method will register a parser for the whole environment to use.
         </p>
         <p>
           Given that the SAX API is now in the JDK, the environment we allude to above
@@ -162,7 +162,7 @@ public class RemoteHelloWorld implements HelloWorld {
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.3 $ $Date: 2002/04/06 08:36:59 $
+      $Revision: 1.4 $ $Date: 2002/04/07 07:27:47 $
     </legal>
   </footer>
 </document>
