@@ -25,6 +25,7 @@
         <depend project="excalibur-event" runtime="true"/>
         <depend project="excalibur-logger" runtime="true"/>
         <depend project="excalibur-instrument" runtime="true"/>
+        <depend project="excalibur-testcase"/>
         <depend project="xml-xalan2"/>
         <depend project="jdom"/>
         <depend project="junit"/>
@@ -414,31 +415,7 @@
         <nag from="Peter Donald &lt;peter@apache.org&gt;"
             to="avalon-dev@jakarta.apache.org"/>
     </project>
-<!--
-    <project name="excalibur-collections">
-        <package>org.apache.avalon.excalibur.collections</package>
 
-        <ant basedir="collections">
-            <depend property="junit.jar" project="junit"/>
-            <property name="version" value="@@DATE@@"/>
-            <property name="junit.failonerror" value="true"/>
-            <property name="do.checkstyle" value="true"/>
-            <property name="skip.dependencies" value="true"/>
-        </ant>
-
-        <depend project="jakarta-ant"/>
-        <depend project="xml-xerces"/>
-        <depend project="xml-xalan2"/>
-        <depend project="checkstyle"/>
-        <work nested="collections/build/classes"/>
-
-        <home nested="collections"/>
-        <jar name="build/lib/excalibur-collections-@@DATE@@.jar"/>
-
-        <nag from="Peter Donald &lt;peter@apache.org&gt;"
-            to="avalon-dev@jakarta.apache.org"/>
-    </project>
--->
     <project name="excalibur-concurrent">
         <package>org.apache.avalon.excalibur.concurrent</package>
 
