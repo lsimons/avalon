@@ -72,17 +72,17 @@ import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.phoenix.interfaces.ClassLoaderManager;
 import org.apache.avalon.phoenix.interfaces.ClassLoaderSet;
-import org.apache.excalibur.loader.builder.LoaderBuilder;
-import org.apache.excalibur.loader.builder.LoaderResolver;
-import org.apache.excalibur.loader.metadata.ClassLoaderMetaData;
-import org.apache.excalibur.loader.metadata.ClassLoaderSetMetaData;
-import org.apache.excalibur.loader.metadata.FileSetMetaData;
-import org.apache.excalibur.loader.metadata.JoinMetaData;
-import org.apache.excalibur.loader.reader.ClassLoaderSetReader;
-import org.apache.excalibur.loader.verifier.ClassLoaderVerifier;
 import org.apache.excalibur.policy.builder.PolicyBuilder;
 import org.apache.excalibur.policy.metadata.PolicyMetaData;
 import org.apache.excalibur.policy.reader.PolicyReader;
+import org.realityforge.classman.builder.LoaderBuilder;
+import org.realityforge.classman.builder.LoaderResolver;
+import org.realityforge.classman.metadata.ClassLoaderMetaData;
+import org.realityforge.classman.metadata.ClassLoaderSetMetaData;
+import org.realityforge.classman.metadata.FileSetMetaData;
+import org.realityforge.classman.metadata.JoinMetaData;
+import org.realityforge.classman.reader.ClassLoaderSetReader;
+import org.realityforge.classman.verifier.ClassLoaderVerifier;
 import org.w3c.dom.Element;
 
 /**
@@ -163,7 +163,7 @@ public class DefaultClassLoaderManager
     }
 
     /**
-     * @avalon.dependency interface="ExtensionManager"
+     * @phoenix.dependency interface="ExtensionManager"
      */
     public void service( final ServiceManager serviceManager )
         throws ServiceException

@@ -109,6 +109,10 @@ Legal:
     <property name="configkit.jar" value="${repo.dir}/spice-configkit/spice-configkit-1.1.1/spice-configkit-1.1.1.jar"/>
     <fileset id="configkit.fileset" dir="${repo.dir}/spice-configkit/spice-configkit-1.1.1/lib"/>
 
+    <!-- Invoke ant get-classman' to get these -->
+    <property name="classman.jar" value="${repo.dir}/spice-classman/spice-classman-1.0/spice-classman-1.0.jar"/>
+    <fileset id="classman.fileset" dir="${repo.dir}" includes="spice-classman/spice-classman-1.0/lib/*.jar"/>
+
     <path id="project.class.path">
         <pathelement location="${xerces.jar}"/>
         <pathelement location="${framework.jar}"/>
@@ -117,6 +121,7 @@ Legal:
         <pathelement path="${log4j.jar}"/>
         <pathelement path="${cli.jar}"/>
         <pathelement path="${configkit.jar}"/>
+        <pathelement path="${classman.jar}"/>
         <pathelement path="${mx4j.jar}"/>
         <pathelement path="${mx4j-tools.jar}"/>
         <pathelement path="${beanshell.jar}"/>
@@ -132,6 +137,7 @@ Legal:
             <include name="*.jar"/>
         </fileset>
         <pathelement path="${target.classes}"/>
+        <fileset refid="classman.fileset"/>
     </path>
 
     <path id="test.class.path">
@@ -464,6 +470,37 @@ Legal:
         <untar src="${repo.dir}/spice-configkit/spice-configkit.tar" dest="${repo.dir}/spice-configkit"/>
     </target>
 
+    <!-- =================================================================== -->
+    <!-- ClassMan Tasks.                                                     -->
+    <!-- =================================================================== -->
+    <target name="check-classman-init" depends="init">
+        <available property="classman.present" classname="org.realityforge.classman.metadata.ClassLoaderMetaData">
+            <classpath refid="project.class.path"/>
+        </available>
+    </target>
+
+    <target name="check-classman" depends="check-classman-init" unless="classman.present">
+        <echo>********************************</echo>
+        <echo>* Please execute target        *</echo>
+        <echo>* 'get-classman' in the main   *</echo>
+        <echo>* build.xml build file         *</echo>
+        <echo>* to download one and          *</echo>
+        <echo>* a half Mb of Spice ClassMan  *</echo>
+        <echo>********************************</echo>
+        <fail message="Spice ClassMan needed. See above."/>
+    </target>
+
+    <!-- Get the jars from the configkit project. -->
+    <target name="get-classman" description="Get the Spice ClassMan distribution from SourceForge.">
+        <mkdir dir="${repo.dir}/spice-classman"/>
+        <get src="http://osdn.dl.sourceforge.net/sourceforge/spice/spice-classman-1.0.tar.gz"
+            dest="${repo.dir}/spice-classman/spice-classman.tar.gz"
+            verbose="true"
+            usetimestamp="true"/>
+        <gunzip src="${repo.dir}/spice-classman/spice-classman.tar.gz" dest="${repo.dir}/spice-classman"/>
+        <untar src="${repo.dir}/spice-classman/spice-classman.tar" dest="${repo.dir}/spice-classman"/>
+    </target>
+
     <!-- Main target -->
     <target name="main" depends="dist-lite"
         description="generates the Phoenix distribution without the javadocs"/>
@@ -484,7 +521,7 @@ Legal:
 
 
     <!-- Check requirements of environment -->
-    <target name="check-environment" depends="check-mx4j, check-log4j, check-cli, check-configkit, check-wrapper">
+    <target name="check-environment" depends="check-mx4j, check-log4j, check-cli, check-configkit, check-classman, check-wrapper">
         <available property="xerces.present" type="file" file="${xerces.jar}"/>
         <available property="servlet.present" classname="javax.servlet.Servlet">
             <classpath refid="project.class.path"/>
@@ -787,6 +824,11 @@ Legal:
         <copy file="${target.lib}/phoenix-tools.jar" todir="${bin.dist.tools.lib}/"/>
         <copy file="${target.lib}/phoenix-loader.jar" todir="${bin.dist.bin}/"/>
         <copy file="${target.lib}/phoenix-engine.jar" todir="${bin.dist.container.lib}"/>
+
+        <copy file="${classman.jar}" todir="${bin.dist.container.lib}"/>
+        <copy todir="${bin.dist.container.lib}">
+            <fileset refid="classman.fileset"/>
+        </copy>
 
         <copy file="${logkit.jar}" todir="${bin.dist.lib}"/>
         <copy file="${log4j.jar}" todir="${bin.dist.lib}"/>
