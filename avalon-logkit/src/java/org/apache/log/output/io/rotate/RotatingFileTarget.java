@@ -26,26 +26,23 @@ public class RotatingFileTarget
     ///The rotation strategy to be used.
     private RotateStrategy      m_rotateStrategy;
 
-    ///The filename strategy to be used.
-    private FilenameStrategy    m_filenameStrategy;
+    ///The file strategy to be used.
+    private FileStrategy        m_fileStrategy;
 
     /**
-     * construct RotatingFileTarget object.
-     * By default a time rotating strategy 24 hours, and a file name strategy
-     * by append current time in milliseconds is established.
+     * Construct RotatingFileTarget object.
      *
-     * @param file the base filename
      * @param formatter Formatter to be used
      */
     public RotatingFileTarget( final Formatter formatter,
                                final RotateStrategy rotateStrategy, 
-                               final FilenameStrategy filenameStrategy )
+                               final FileStrategy fileStrategy )
         throws IOException
     {
         super( null, false, formatter );
 
         m_rotateStrategy = rotateStrategy;
-        m_filenameStrategy = filenameStrategy;
+        m_fileStrategy = fileStrategy;
 
         rotate();
     }
@@ -55,7 +52,7 @@ public class RotatingFileTarget
     {
         close();
 
-        final File file = m_filenameStrategy.nextFile();
+        final File file = m_fileStrategy.nextFile();
         setFile( file, false );
         openFile();
     }
