@@ -30,6 +30,7 @@
     <option project="excalibur-altrmi" inherit="runtime"/>
     <option project="jakarta-bcel"/>
     <option project="jsse"/>
+    <depend project="jakarta-avalon-phoenix"/>    
 
     <work nested="build/classes"/>
 
