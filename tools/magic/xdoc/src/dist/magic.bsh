@@ -93,7 +93,7 @@ public class XDocPlugin extends AbstractPlugin
             copyResources( dir );
             
             dir = new File( m_Context.getProperty( "xdoc.resources.dir" ) );
-            copyResources( themeDir );
+            copyResources( dir );
         } 
         catch( RuntimeException e )
         {
