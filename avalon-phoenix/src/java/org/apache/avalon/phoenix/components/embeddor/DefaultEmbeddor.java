@@ -483,7 +483,7 @@ public class DefaultEmbeddor
         defaults.setParameter( ClassLoaderManager.ROLE,
                                PREFIX + "classloader.DefaultClassLoaderManager" );
         defaults.setParameter( PackageRepository.ROLE, 
-                               PREFIX + "packages.PhoenixPackageRepository" );
+                               PREFIX + "extensions.PhoenixPackageRepository" );
         return defaults;
     }
 
