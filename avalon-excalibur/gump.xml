@@ -226,7 +226,14 @@
         <ant basedir="component">
             <depend property="excalibur-pool.jar" project="excalibur-pool"/>
             <depend property="excalibur-logger.jar" project="excalibur-logger"/>
+            <depend property="excalibur-event.jar" project="excalibur-event"/>
             <depend property="excalibur-collections.jar" project="excalibur-collections"/>
+            <depend property="excalibur-instrument.jar" project="excalibur-instrument"/>
+            <depend property="excalibur-instrument-manager.jar" project="excalibur-instrument"/>
+            <depend property="excalibur-instrument-manager-interfaces.jar" project="excalibur-instrument"/>
+            <depend property="excalibur-altrmi-common.jar" project="excalibur-altrmi"/>
+            <depend property="excalibur-altrmi-server-impl.jar" project="excalibur-altrmi"/>
+            <depend property="excalibur-altrmi-server-interfaces.jar" project="excalibur-altrmi"/>
             <depend property="logkit.jar" project="jakarta-avalon-logkit"/>
             <property name="version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
@@ -461,8 +468,8 @@
     <project name="excalibur-instrument">
         <package>org.apache.avalon.excalibur.instrument</package>
 
-	<mkdir dir="instrument/build/classes"/>
-	<mkdir dir="instrument/build/managerclasses"/>
+        <mkdir dir="instrument/build/classes"/>
+        <mkdir dir="instrument/build/managerclasses"/>
 
         <ant basedir="instrument">
             <property name="version" value="@@DATE@@"/>
@@ -471,15 +478,15 @@
             <property name="skip.dependencies" value="true"/>
         </ant>
 
-	<depend project="jakarta-ant" inherit="runtime"/>
+        <depend project="jakarta-ant" inherit="runtime"/>
         <depend project="jakarta-avalon" runtime="true"/>
         <depend project="excalibur-altrmi" runtime="true"/>
         <depend project="checkstyle"/>
         <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
-	<work nested="instrument/build/classes"/>
-	<work nested="instrument/build/managerclasses"/>
+        <work nested="instrument/build/classes"/>
+        <work nested="instrument/build/managerclasses"/>
 
         <home nested="instrument"/>
         <jar name="build/lib/excalibur-instrument-@@DATE@@.jar"/>
