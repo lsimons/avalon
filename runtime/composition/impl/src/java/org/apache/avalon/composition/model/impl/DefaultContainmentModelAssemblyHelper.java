@@ -207,7 +207,7 @@ class DefaultContainmentModelAssemblyHelper
         //
 
         DependencyModel[] dependencies = model.getDependencyModels();
-        for( int i=0; i<dependencies.length; i++ )
+        for( int i=0; i < dependencies.length; i++ )
         {
             DependencyModel dependency = dependencies[i];
             if( null == dependency.getProvider() )
@@ -221,10 +221,13 @@ class DefaultContainmentModelAssemblyHelper
                 }
                 catch( Throwable e )
                 {
-                    final String error = 
-                      "Unable to assemble component: " + model 
-                      + " due to a service provider establishment failure.";
-                    throw new AssemblyException( error, e );
+                    if( dependency.getDependency().isRequired() )
+                    {
+                        final String error = 
+                          "Unable to assemble component: " + model 
+                          + " due to a service provider establishment failure.";
+                        throw new AssemblyException( error, e );
+                    }
                 }
                 finally
                 {
