@@ -15,3 +15,6 @@ Avalon-Block: true
 
 Name: org/apache/cornerstone/blocks/packet/DefaultPacketManager.class
 Avalon-Block: true
+
+Name: org/apache/cornerstone/blocks/datasource/DefaultDataSourceSelector.class
+Avalon-Block: true
