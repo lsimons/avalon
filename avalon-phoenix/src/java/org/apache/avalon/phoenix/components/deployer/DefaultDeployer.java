@@ -49,7 +49,7 @@ import org.apache.avalon.phoenix.tools.assembler.Assembler;
 import org.apache.avalon.phoenix.tools.assembler.AssemblyException;
 import org.apache.avalon.phoenix.tools.configuration.ConfigurationBuilder;
 import org.apache.avalon.phoenix.tools.verifier.SarVerifier;
-import org.apache.excalibur.containerkit.verifier.VerifyException;
+import org.apache.avalon.phoenix.tools.verifier.VerifyException;
 
 /**
  * Deploy .sar files into a kernel using this class.
