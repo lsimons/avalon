@@ -245,6 +245,181 @@
 	come back together to identify common Components so that you can
 	reuse as much code as possible.
       </para>
+      <figure>
+        <title>UML Diagram for the Business Server</title>
+	<graphic srccredit="Berin Loritsch, 2001" fileref="figures/deployment.gif" format="GIF"/>
+      </figure>
+    </section>
+  </section>
+  <section>
+    <title>Finding Components</title>
+    <para>
+      We will use the Document Repository Service mentioned already for the
+      process of identifying the proper Components.  For the sake of our
+      conversation, we will now state the requirements of the Document
+      Repository Service.  The repository will use a database for persistent
+      storage, identify and authorize clients, and cache documents in memory.
+    </para>
+    <section>
+      <title>Practical Definition of Components</title>
+      <para>
+        When we talk about components, you have to think in terms of "What
+	facilities does my service need to operate?"  Avalon was conceived
+	with the concept of <emphasis>casting</emphasis> your system.  The
+	developer of the system	would come up with a list of responsibilities
+	for the Component known	as its <emphasis>role</emphasis>.
+      </para>
+      <section>
+        <title>What is a Role?</title>
+	<para>
+	  The concept of roles comes from the theater.  A play, musical, or
+	  movie will have a certain number of roles that actors play.  Although
+	  there never seems to be a shortage of actors, there are a finite
+	  number of roles.  Its <emphasis>script</emphasis> defines the
+	  function or action of a role.  Just like the theatrical version, the
+	  script determines how you interact with the Component.  Think of the
+	  different roles in your system, and you will have your
+	  <emphasis>cast</emphasis> of Components so to speak. 
+	</para>
+	<para>
+	  A role is the contract for a type of component.  For example, our
+	  Document Repository Service needs to interact with a database.
+	  Avalon Excalibur defines a Component that satisfies the role "Data
+	  Source".  Excalibur includes two different Components that satisfy
+	  that role, depending on the setting our Service will be living in;
+	  however, they both satisfy the same contracts.  The majority of
+	  Avalon based systems will only use one active Component for each
+	  role.  The script is the work interface: the interface with which
+	  other components interact.
+	</para>
+	<para>
+	  There are specific contracts that you must define and keep in mind
+	  when you specify interfaces for your Components.  The contracts
+	  specify what users of the Component must provide, and what the
+	  Component produces.  Sometimes you must include usage semantics in
+	  the contract.  An example is the difference between a temporary
+	  storage Component and a permanent storage Component.  When the
+	  interface and contract are defined, you can work on your
+	  implementation.
+	</para>
+      </section>
+    </section>
+    <section>
+      <title>What is a good candidate for a Component?</title>
+      <para>
+        We have already identified four possibilities for Components within
+	our Document Repository Service: DataSourceComponent (from Excalibur),
+	Cache, Repository, and Guardian.  You should look for roles with a high
+	likelihood of multiple implementations that need to inter-operate
+	seamlessly.
+      </para>
+      <para>
+        Using that example, you will discover several instances where you need
+	replaceable facilities.  Most of the time, you will only be using one
+	implementation of the facility, but you need the ability to upgrade it
+	independently of the rest of the system.  Other times, you will need
+	alternate implementations due to environmental issues.  For example,
+	the "Data Source" that Excalibur defined will usually handle all the
+	JDBC Connection pooling itself-but sometimes you want to take advantage
+	of that facility built into a Java 2 Enterprise Edition (J2EE) server.
+	Excalibur solves this by having a "Data Source" that directly pools and
+	manages the JDBC connections, and one that uses Java's Naming and
+	Directory Interface (JNDI) to get the specified connection.
+      </para>
+    </section>
+    <section>
+      <title>What is not a good Component?</title>
+      <para>
+        People who are used to JavaBeans tend to implement everything as a
+	JavaBean.  This means everything from data modeling to transaction
+	processing.  If you used this approach with Components, you might end
+	up with an overly complex system.  Think of Components as modeling a
+	service or facility, and not data.  You could have a Component that
+	pulls data from another resource, but the data should remain distinct
+	as data.  An example of this philosophy in Avalon Excalibur is the
+	fact that the Connection is not a Component.
+      </para>
+      <para>
+        Another example could be the Guardian Component we specified earlier.
+	It could be argued that the logic involved in the Guardian is so
+	specific to the Document Repository Service that it could not be used
+	again for a completely different service.  While there are ways of
+	managing the complexity, and ways of making it flexible-sometimes the
+	extra work is not worth it.  You have to way your decisions in such
+	cases carefully.  If the logic performed in a potential Component is
+	going to be applied consistently then it might make sense to keep it a
+	Component.  There is room to have multiple instances of a Component in
+	a system, and they would be selected at run time.  If the logic for a
+	potential Component is specific to only one other Component, it might
+	be worth it to absorb the logic into the other Component.  Using the
+	example of the Guardian Component and the Repository Component, we
+	could argue that our Guardian is so specific to the Repository, that it
+	is not implemented as a Component.
+      </para>
+    </section>
+    <section>
+      <title>Decomposing the Document Repository Service</title>
+      <para>
+        We will list the Components that we are going to implement with a
+	description of their roles, the rational, and their origination (if
+	the component already exists).
+      </para>
+      <section>
+        <title>DocumentRepository</title>
+	<para>
+	  The DocumentRepository is the parent Component of the whole service.
+	  In Avalon, services are implemented as Blocks, which are a specific
+	  kind of Component.  The Block must have a work interface that extends
+	  the Service marker interface.  The Block interface also extends
+	  Avalon's Component interface.  Please note that Block and Service are
+	  interfaces that are part of Avalon Phoenix.  In the end, a Service is
+	  still technically just a specific type of Component.
+	</para>
+	<para>
+	  The DocumentRepository is our method of getting Document objects from
+	  persistent storage.  It interacts with the other Components in the
+	  service to provide security, functionality, and speed.  This
+	  particular DocumentRepository will connect to a database and employ
+	  the logic to build the Document objects internally.
+	</para>
+      </section>
+      <section>
+        <title>DataSourceComponent</title>
+	<para>
+	  The DataSourceComponent is supplied by Avalon Excalibur.  It is our
+	  method of retrieving valid JDBC Connection objects for our use.
+	</para>
+      </section>
+      <section>
+        <title>Cache</title>
+	<para>
+	  The Cache is a short-term memory-based storage facility.  The
+	  DocumentRepository will use it to store Document objects referenced
+	  by a hash algorithm.  In order to promote the reusability of the
+	  Cache Component, the stored object must only implement a Cacheable
+	  interface.
+	</para>
+      </section>
+      <section>
+        <title>Guardian</title>
+	<para>
+	  The Guardian Component is used to manage permissions based on the
+	  Principal.  The Guardian will load its permission sets from a
+	  database.  The Guardian will use the standard Java security model to
+	  enforce access to the specific Document objects.
+	</para>
+      </section>
+    </section>
+    <section>
+      <title>Summary</title>
+      <para>
+        At this point, you should have an idea of what makes a good Component.
+	The examples describe all the Components that will be in the Document
+	Repository Service, with a brief summary of what they will do.  A quick
+	glance through the list supports the approach of only implementing
+	facilities as Components-not data.  At this point, you should be able
+	to determine what components your services need to operate.
+      </para>
     </section>
   </section>
 </chapter>
