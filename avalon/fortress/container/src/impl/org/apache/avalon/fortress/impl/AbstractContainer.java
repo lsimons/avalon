@@ -95,7 +95,7 @@ import java.util.*;
  * Container's Manager can expose that to the instantiating class.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.26 $ $Date: 2003/05/15 20:13:32 $
+ * @version CVS $Revision: 1.27 $ $Date: 2003/05/20 13:05:41 $
  */
 public abstract class AbstractContainer
     extends AbstractLogEnabled
@@ -347,16 +347,12 @@ public abstract class AbstractContainer
                 {
                     hintMap = createHintMap();
                     hintMap.put( DEFAULT_ENTRY, handler );
+                    hintMap.put( SELECTOR_ENTRY,
+                                 new FortressServiceSelector( this, role ) );
                     m_mapper.put( role, hintMap );
                 }
 
                 hintMap.put( metaData.getName(), handler );
-
-                if ( ( !hintMap.containsKey( SELECTOR_ENTRY ) ) && ( hintMap.size() > 1 ) )
-                {
-                    hintMap.put( SELECTOR_ENTRY,
-                        new FortressServiceSelector( this, role ) );
-                }
 
                 if ( metaData.getConfiguration().getAttributeAsBoolean( "default", false ) )
                 {

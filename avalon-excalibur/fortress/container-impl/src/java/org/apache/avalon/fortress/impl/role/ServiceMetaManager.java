@@ -108,7 +108,7 @@ import java.util.*;
  * </pre>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.6 $
+ * @version CVS $Revision: 1.7 $
  */
 public final class ServiceMetaManager extends AbstractMetaInfoManager implements Initializable
 {
@@ -203,12 +203,12 @@ public final class ServiceMetaManager extends AbstractMetaInfoManager implements
             getLogger().debug( "Reading meta info for " + impl );
             if ( ! isAlreadyAdded( impl ) )
             {
-				readMeta( role, impl );
+                readMeta( role, impl );
             }
             else
             {
-            	// Mini-optimization: read meta info only once
-            	addComponent( role, impl, null, null );
+                // Mini-optimization: read meta info only once
+                addComponent( role, impl, null, null );
             }
         }
     }
@@ -238,13 +238,26 @@ public final class ServiceMetaManager extends AbstractMetaInfoManager implements
         try
         {
             HashSet set = new HashSet();
-            readEntries( set, getLoader().getResource( getDepFile( implementation ) ) );
+            URL depURL = getLoader().getResource( getDepFile( implementation ) );
+
+            if ( depURL == null )
+            {
+                if (getLogger().isDebugEnabled())
+                {
+                    getLogger().debug( "No dependencies for " + implementation + "." );
+                }
+            }
+            else
+            {
+                readEntries( set, depURL );
+                deps.addAll( set );
+            }
             deps.addAll( set );
         }
         catch ( Exception ioe )
         {
-            getLogger().debug( "No dependencies for " +
-                implementation + ", skipping this class.", ioe );
+            getLogger().debug( "Could not load dependencies for " +
+                implementation + ".", ioe );
         }
 
         addComponent( role, implementation, meta, deps );

@@ -63,7 +63,7 @@ import java.util.List;
  * Provides the foundation for MetaInfoManagers.
  *
  * @author <a href="bloritsch.at.apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.3 $
+ * @version CVS $Revision: 1.4 $
  */
 public abstract class AbstractMetaInfoManager extends AbstractLogEnabled implements MetaInfoManager
 {
@@ -261,6 +261,6 @@ public abstract class AbstractMetaInfoManager extends AbstractLogEnabled impleme
      */
     protected boolean isAlreadyAdded( String className )
     {
-    	return m_classnames.containsKey( className );
+        return m_classnames.containsKey( className );
     }
 }
