@@ -3,7 +3,7 @@
   <target name="main" depends="mega-jar"/>
 
   <target name="dist" description="Create binary distributions of all the products">
-
+    
     <ant dir="all"/>
     <ant dir="cli"/>
     <ant dir="extension"/>
