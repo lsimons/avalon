@@ -10,7 +10,7 @@ package org.apache.jmx.adaptor;
 import java.io.ObjectInputStream;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
+import java.rmi.server.RemoteServer;
 import java.util.Set;
 import javax.management.*;
 
@@ -22,7 +22,7 @@ import javax.management.*;
  * @author <a href="mailto:mail@leosimons.com">Leo Simons</a>
  */
 public class RMIAdaptorImpl 
-    extends UnicastRemoteObject 
+    extends RemoteServer 
     implements RMIAdaptor
 {
     private MBeanServer m_server;
