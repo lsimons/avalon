@@ -61,10 +61,12 @@ import org.apache.avalon.composition.data.SelectionDirective;
 import org.apache.avalon.composition.data.*;
 import org.apache.avalon.meta.info.InfoDescriptor;
 
+import org.apache.excalibur.configuration.ConfigurationUtil;
+
 /**
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2003/10/28 20:21:00 $
+ * @version $Revision: 1.6 $ $Date: 2004/01/01 13:07:37 $
  */
 public class XMLDeploymentProfileCreator extends XMLProfileCreator
 {
@@ -78,6 +80,13 @@ public class XMLDeploymentProfileCreator extends XMLProfileCreator
       throws Exception
     {
         String classname = config.getAttribute( "class", null );
+        if( null == classname )
+        {
+            String c = ConfigurationUtil.list( config );
+            String error = 
+              "Missing 'class' attribute in component declaration:\n" + c;
+            throw new ConfigurationException( error );
+        }
         return createDeploymentProfile( null, classname, config );
     }
 
