@@ -15,7 +15,23 @@
    </logging>
 
    <categories>
-      <category name="/sys" priority="INFO"/>
+      <category name="/sys" priority="DEBUG"/>
    </categories>
+
+   <!--
+   Definition of the root engine classloader.
+   -->
+   <!--
+   <engine>
+     <library dir=".">
+       <include name="some-additional-extension-dir"/>
+     </library>
+     <classpath>
+       <fileset dir="some-directory">
+         <include name="something.jar"/>
+       </fileset>
+     </classpath>
+   </engine>
+   -->
 
 </kernel>
