@@ -478,7 +478,7 @@ Legal:
   </target>
 
   <!-- Create the distribution -->
-  <target name="dist" depends="jar,javadocs">
+  <target name="dist" depends="jar,javadocs,test">
 
     <mkdir dir="${dist.dir}"/>
     <copy file="${build.lib}/avalon-excalibur.jar" tofile="${dist.dir}/avalon-excalibur-${version}.jar"/>
