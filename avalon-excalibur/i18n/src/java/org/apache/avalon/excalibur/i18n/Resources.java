@@ -15,9 +15,11 @@ import java.util.ResourceBundle;
 
 /**
  * A class to simplify extracting localized strings, icons 
- * and other common resource from a ResourceBundle.
+ * and other common resources from a ResourceBundle.
  *
  * Reworked to mirror behaviour of StringManager from Tomcat (format() to getString()).
+ *
+ * TODO: Add extraction of Dates/Time/DateTimes
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
@@ -54,6 +56,11 @@ public class Resources
     {
         m_baseName = baseName;
         m_locale = locale;
+
+        if( null == locale )
+        {
+            throw new NullPointerException( "locale property is null" );
+        }
     }
 
     /**
