@@ -172,7 +172,7 @@ import org.apache.excalibur.instrument.Instrumentable;
  * </ul>
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.4 $ $Date: 2003/02/27 15:20:55 $
+ * @version CVS $Revision: 1.5 $ $Date: 2003/03/31 18:32:55 $
  * @since 4.1
  */
 public class ResourceLimitingJdbcDataSource
@@ -211,10 +211,14 @@ public class ResourceLimitingJdbcDataSource
         if( !m_configured ) throw new IllegalStateException( "Not Configured" );
         if( m_disposed ) throw new IllegalStateException( "Already Disposed" );
 
-        Connection connection;
+        Object connection;
         try
         {
-            connection = (Connection)m_pool.get();
+            connection = m_pool.get();
+            if (null == connection)
+            {
+                throw new SQLException("Could not return Connection");
+            }
         }
         catch( SQLException e )
         {
@@ -235,7 +239,7 @@ public class ResourceLimitingJdbcDataSource
             throw new NoAvailableConnectionException( e.getMessage() );
         }
 
-        return connection;
+        return (Connection)connection;
     }
 
     /*---------------------------------------------------------------
