@@ -62,7 +62,7 @@ public abstract class AbstractSystemManager
 
         final ManagedEntry entry =
             new ManagedEntry( object, interfaces );
-        entry.setExportedObject( export( name, entry.m_object, interfaces ) );
+        entry.setExportedObject( export( name, entry.getObject(), interfaces ) );
 
         m_entrys.put( name, entry );
     }
@@ -84,7 +84,7 @@ public abstract class AbstractSystemManager
 
         final ManagedEntry entry =
             new ManagedEntry( object, null );
-        entry.setExportedObject( export( name, entry.m_object, null ) );
+        entry.setExportedObject( export( name, entry.getObject(), null ) );
         m_entrys.put( name, entry );
     }
 
