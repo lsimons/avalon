@@ -10,7 +10,7 @@ package org.apache.avalon.excalibur.event;
 import org.apache.avalon.excalibur.concurrent.Mutex;
 
 /**
- * The default queue implementation is a variabl size queue.  This queue is
+ * The default queue implementation is a variable size queue.  This queue is
  * ThreadSafe, however the overhead in synchronization costs a few extra millis.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
