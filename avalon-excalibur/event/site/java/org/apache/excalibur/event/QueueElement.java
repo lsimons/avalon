@@ -8,35 +8,11 @@
 package org.apache.avalon.excalibur.event;
 
 /**
- * A Source implements the side of an event queue where QueueElements are
- * dequeued operations only.
+ * A QueueElement is a type of class that can be passed through the Queues.
+ * The specific meaning is attached to the class being passed.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  */
 public interface QueueElement
 {
-    /**
-     * Get the type id of the QueueElement.  This allows simplified processing
-     * without alot of explicit casting.  In order to manage the types allowed
-     * for a subsystem, each subsystem should declare an interface that lists
-     * all the types available with constant names.  Another rule of thumb is
-     * to map all the signals into a type of address space.  For instance, the
-     * code snippet below will help:
-     *
-     * <pre>
-     *   public interface AsyncFileTypes
-     *   {
-     *       long FILE_OPEN = TypeUtil.makeId(AsyncFileOpen.getClass().getName());
-     *       long FILE_CLOSE = TypeUtil.makeId(AsyncFileClose.getClass().getName());
-     *   }
-     * </pre>
-     *
-     * <p>
-     *   <strong>Important:</strong> The ID has to be unique for each class.
-     *   That means that if the fully qualified class name is different, then
-     *   the id's need to be different.  It also means that you must not use
-     *   multiple id's for the same class.
-     * </p>
-     */
-    long getType();
 }
