@@ -28,7 +28,6 @@
                                       instrument-manager/http
                                       instrument-client
                                       datasource
-                                      datasource/examples/
                                       sourceresolve
                                       store
                                       xmlutil
