@@ -4,7 +4,7 @@
 
   <extend>${basedir}/../../../project.xml</extend>
 
-  <id>locator-api</id>
+  <id>secure-locator-api</id>
   <name>Composition Locator API Tutorial</name>
   <currentVersion>1.0</currentVersion>
 

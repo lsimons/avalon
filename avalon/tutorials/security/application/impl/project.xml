@@ -21,22 +21,22 @@
     </dependency>
     <dependency>
       <groupId>merlin-tutorial</groupId>
-      <artifactId>locator-api</artifactId>
+      <artifactId>secure-locator-api</artifactId>
       <version>1.0</version>
     </dependency>
     <dependency>
       <groupId>merlin-tutorial</groupId>
-      <artifactId>locator-impl</artifactId>
+      <artifactId>secure-locator-impl</artifactId>
       <version>1.0</version>
     </dependency>
     <dependency>
       <groupId>merlin-tutorial</groupId>
-      <artifactId>publisher-api</artifactId>
+      <artifactId>secure-publisher-api</artifactId>
       <version>1.0</version>
     </dependency>
     <dependency>
       <groupId>merlin-tutorial</groupId>
-      <artifactId>publisher-impl</artifactId>
+      <artifactId>secure-publisher-impl</artifactId>
       <version>1.0</version>
     </dependency>
   </dependencies>

@@ -4,7 +4,7 @@
 
   <extend>${basedir}/../../../project.xml</extend>
 
-  <id>publisher-impl</id>
+  <id>secure-publisher-impl</id>
   <name>Composition Publisher Impl Tutorial</name>
   <currentVersion>1.0</currentVersion>
 
@@ -21,7 +21,7 @@
     </dependency>
     <dependency>
       <groupId>merlin-tutorial</groupId>
-      <artifactId>publisher-api</artifactId>
+      <artifactId>secure-publisher-api</artifactId>
       <version>1.0</version>
     </dependency>
   </dependencies>
