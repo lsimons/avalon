@@ -7,34 +7,15 @@
  */
 package org.apache.jmx.introspector;
 
-import java.beans.BeanDescriptor;
 import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.beans.MethodDescriptor;
 import java.beans.PropertyDescriptor;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import javax.management.Attribute;
 import javax.management.AttributeList;
-import javax.management.AttributeList;
-import javax.management.AttributeNotFoundException;
-import javax.management.DynamicMBean;
 import javax.management.IntrospectionException;
-import javax.management.InvalidAttributeValueException;
-import javax.management.MBeanAttributeInfo;
-import javax.management.MBeanConstructorInfo;
-import javax.management.MBeanException;
-import javax.management.MBeanInfo;
-import javax.management.MBeanNotificationInfo;
 import javax.management.MBeanOperationInfo;
-import javax.management.MBeanParameterInfo;
-import javax.management.NotCompliantMBeanException;
-import javax.management.NotificationBroadcaster;
-import javax.management.ReflectionException;
 
 /**
  * TODO: the equals() methods do not work for the MBeanXXXInfo classes; these
@@ -47,7 +28,7 @@ import javax.management.ReflectionException;
  * MBeans if you wish to do so.
  *
  * @author <a href="mailto:mail@leosimons.com">Leo Simons</a>
- * @version CVS $Revision: 1.1 $ $Date: 2001/09/28 23:48:09 $
+ * @version CVS $Revision: 1.2 $ $Date: 2001/09/28 23:57:57 $
  */
 public class JavaBeanMBean
     extends AbstractMBean
