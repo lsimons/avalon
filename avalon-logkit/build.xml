@@ -27,7 +27,7 @@ Legal:
   <property name="Name" value="LogKit"/>
   <property name="version" value="1.0b3"/>
   <property name="year" value="1999-2001"/>
-  <property name="status" value="Beta"/>
+  <property name="status" value="beta"/>
 
   <!--
     these are here only for those who use jikes compiler. For other
