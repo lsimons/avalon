@@ -4,6 +4,7 @@
   <properties>
     <author email="hammant@apache.org">Paul Hammant</author>
     <author email="bloritsch@apache.org">Berin Loritsch</author>
+    <author email="niclas@apache.org">Niclas Hedhman</author>
     <title>Developing With Apache Avalon</title>
   </properties>
 
@@ -13,7 +14,7 @@
       <strong>Developing With Apache Avalon</strong>: Developer's Guide for the Avalon Framework
     </p>
     <p>
-      Published 2001.  Copyright 2001-2003 Apache Software Foundation.
+      Published 2001, 2004.  Copyright 2001-2004 Apache Software Foundation.
     </p>
   <subsection name="Dedicatation">
     <p>
