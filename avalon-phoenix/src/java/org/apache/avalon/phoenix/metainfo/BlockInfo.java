@@ -19,11 +19,8 @@ package org.apache.avalon.phoenix.metainfo;
 public class BlockInfo
 {
     private final BlockDescriptor m_descriptor;
-
     private final ServiceDescriptor[] m_services;
-
     private final ServiceDescriptor[] m_managementAccessPoints;
-
     private final DependencyDescriptor[] m_dependencies;
 
     /**
