@@ -54,7 +54,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.util.HashMap;
 import java.util.Map;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
@@ -72,8 +71,6 @@ import org.apache.avalon.phoenix.interfaces.Kernel;
 import org.apache.avalon.phoenix.interfaces.ManagerException;
 import org.apache.avalon.phoenix.interfaces.SystemManager;
 import org.apache.excalibur.instrument.InstrumentManager;
-import org.apache.excalibur.threadcontext.ThreadContext;
-import org.apache.excalibur.threadcontext.impl.DefaultThreadContextPolicy;
 
 /**
  * Manage the "frame" in which Applications operate.
@@ -93,9 +90,6 @@ class DefaultApplicationContext
 
     ///ClassLoader for application
     private final ClassLoader m_classLoader;
-
-    ///ThreadContext for application
-    private final ThreadContext m_threadContext;
 
     //InstrumentManager to register instruments with
     private InstrumentManager m_instrumentManager;
@@ -152,11 +146,6 @@ class DefaultApplicationContext
         m_workDirectory = workDirectory;
         m_homeDirectory = homeDirectory;
         m_loaders = loaders;
-
-        final DefaultThreadContextPolicy policy = new DefaultThreadContextPolicy();
-        final HashMap map = new HashMap( 1 );
-        map.put( DefaultThreadContextPolicy.CLASSLOADER, m_classLoader );
-        m_threadContext = new ThreadContext( policy, map );
     }
 
     public void service( final ServiceManager serviceManager )
@@ -201,11 +190,6 @@ class DefaultApplicationContext
     public PartitionProfile getPartitionProfile()
     {
         return m_profile;
-    }
-
-    public ThreadContext getThreadContext()
-    {
-        return m_threadContext;
     }
 
     public void requestShutdown()

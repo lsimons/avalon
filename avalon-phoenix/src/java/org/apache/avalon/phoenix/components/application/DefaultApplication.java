@@ -73,7 +73,6 @@ import org.apache.avalon.phoenix.interfaces.ApplicationException;
 import org.apache.avalon.phoenix.interfaces.ApplicationMBean;
 import org.apache.avalon.phoenix.interfaces.ContainerConstants;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
-import org.apache.excalibur.threadcontext.ThreadContext;
 
 /**
  * This is the basic container of blocks. A server application
@@ -342,6 +341,7 @@ public final class DefaultApplication
         throws Exception
     {
         //Setup thread context for calling visitors
+        final ClassLoader loader = Thread.currentThread().getContextClassLoader();
         Thread.currentThread().setContextClassLoader( m_context.getClassLoader() );
 
         try
@@ -350,13 +350,13 @@ public final class DefaultApplication
         }
         finally
         {
-            ThreadContext.setThreadContext( null );
+            Thread.currentThread().setContextClassLoader( loader );
         }
     }
 
     /**
      * Actually perform loading of each individual Listener.
-     * Note that by this stage it is assumed that the ThreadContext
+     * Note that by this stage it is assumed that the Thread Context
      * has already been setup correctly.
      */
     private void doLoadBlockListeners()
@@ -401,6 +401,7 @@ public final class DefaultApplication
         throws Exception
     {
         //Setup thread context for calling visitors
+        final ClassLoader loader = Thread.currentThread().getContextClassLoader();
         Thread.currentThread().setContextClassLoader( m_context.getClassLoader() );
 
         try
@@ -409,13 +410,13 @@ public final class DefaultApplication
         }
         finally
         {
-            ThreadContext.setThreadContext( null );
+            Thread.currentThread().setContextClassLoader( loader );
         }
     }
 
     /**
      * Actually run applications phas.
-     * By this methods calling it is assumed that ThreadContext
+     * By this methods calling it is assumed that Thread Context
      * has already been setup.
      *
      * @param name the name of phase (for logging purposes)
