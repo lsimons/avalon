@@ -338,6 +338,10 @@ Legal:
     <jar jarfile="${build.lib}/phoenix-engine.jar"
          basedir="${build.classes}"
          manifest="${manifest.dir}/engine-Manifest.mf" >
+
+      <!-- temporary hack until camelot stabilizes -->
+      <include name="org/apache/avalon/**"/>
+
       <include name="org/apache/phoenix/metainfo/**"/>
       <include name="org/apache/phoenix/engine/**"/>
       <exclude name="org/apache/phoenix/engine/loader/**"/>
