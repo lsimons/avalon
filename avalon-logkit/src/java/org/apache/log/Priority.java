@@ -188,6 +188,7 @@ public final class Priority
      * Test whether this priority is greater than other priority.
      *
      * @param other the other Priority
+     * @return TRUE if the priority is greater else FALSE
      */
     public boolean isGreater( final Priority other )
     {
@@ -198,6 +199,7 @@ public final class Priority
      * Test whether this priority is lower than other priority.
      *
      * @param other the other Priority
+     * @return TRUE if the priority is lower else FALSE
      */
     public boolean isLower( final Priority other )
     {
@@ -208,6 +210,7 @@ public final class Priority
      * Test whether this priority is lower or equal to other priority.
      *
      * @param other the other Priority
+     * @return TRUE if the priority is lower or equal else FALSE
      */
     public boolean isLowerOrEqual( final Priority other )
     {

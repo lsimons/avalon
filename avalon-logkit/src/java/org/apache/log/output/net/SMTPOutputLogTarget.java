@@ -60,7 +60,6 @@ import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import org.apache.log.format.Formatter;
 import org.apache.log.output.AbstractOutputTarget;
@@ -68,8 +67,9 @@ import org.apache.log.output.AbstractOutputTarget;
 /**
  * Logkit output target that logs data via SMTP (ie. email, email gateways).
  *
+ * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: SMTPOutputLogTarget.java,v 1.3 2003/02/03 17:40:16 bloritsch Exp $
+ * @version CVS $Id: SMTPOutputLogTarget.java,v 1.4 2003/02/05 06:26:52 mcconnell Exp $
  * @since 1.1.0
  */
 public class SMTPOutputLogTarget extends AbstractOutputTarget
@@ -115,8 +115,7 @@ public class SMTPOutputLogTarget extends AbstractOutputTarget
         final Address fromAddress,
         final String subject,
         final int maxMsgSize,
-        final Formatter formatter
-    )
+        final Formatter formatter )
     {
         super( formatter );
 
@@ -162,7 +161,9 @@ public class SMTPOutputLogTarget extends AbstractOutputTarget
 
             // send mail if message size has reached it's size limit
             if ( m_msgSize >= m_maxMsgSize )
+            {
                 send();
+            }
         }
         catch ( MessagingException e )
         {
