@@ -15,6 +15,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apache.Avalon.Meta.Test", "
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apache.Avalon.Container", "..\..\cscontainer\AvalonContainer\Apache.Avalon.Container.csproj", "{0638D63A-8CE2-435B-89B8-E67A3D1904F7}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apache.Avalon.Container.Test", "..\..\cscontainer\AvalonContainerTest\Apache.Avalon.Container.Test.csproj", "{DE388F53-A538-424E-B289-DB5D05BC0169}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		Debug = Debug
@@ -37,6 +45,14 @@ Global
 		{71F72AE0-E10D-4FA8-88B5-C6D9026E9A3A}.Debug.Build.0 = Debug|.NET
 		{71F72AE0-E10D-4FA8-88B5-C6D9026E9A3A}.Release.ActiveCfg = Release|.NET
 		{71F72AE0-E10D-4FA8-88B5-C6D9026E9A3A}.Release.Build.0 = Release|.NET
+		{0638D63A-8CE2-435B-89B8-E67A3D1904F7}.Debug.ActiveCfg = Debug|.NET
+		{0638D63A-8CE2-435B-89B8-E67A3D1904F7}.Debug.Build.0 = Debug|.NET
+		{0638D63A-8CE2-435B-89B8-E67A3D1904F7}.Release.ActiveCfg = Release|.NET
+		{0638D63A-8CE2-435B-89B8-E67A3D1904F7}.Release.Build.0 = Release|.NET
+		{DE388F53-A538-424E-B289-DB5D05BC0169}.Debug.ActiveCfg = Debug|.NET
+		{DE388F53-A538-424E-B289-DB5D05BC0169}.Debug.Build.0 = Debug|.NET
+		{DE388F53-A538-424E-B289-DB5D05BC0169}.Release.ActiveCfg = Release|.NET
+		{DE388F53-A538-424E-B289-DB5D05BC0169}.Release.Build.0 = Release|.NET
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection
