@@ -1,3 +1,0 @@
-<!ENTITY % repository-entities SYSTEM "file:../../versioning/avalon-repository.ent"> %repository-entities;
-<!ENTITY % util-entities SYSTEM "file:../../versioning/avalon-util.ent"> %util-entities;
-<!ENTITY % framework-entities SYSTEM "file:../../versioning/avalon-framework.ent"> %framework-entities;
