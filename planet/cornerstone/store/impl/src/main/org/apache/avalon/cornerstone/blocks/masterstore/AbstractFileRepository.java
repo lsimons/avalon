@@ -17,6 +17,8 @@
 
 package org.apache.avalon.cornerstone.blocks.masterstore;
 
+import org.apache.avalon.cornerstone.services.store.Repository;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -26,18 +28,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
-import org.apache.avalon.cornerstone.services.store.Repository;
-import org.apache.avalon.framework.activity.Initializable;
-import org.apache.avalon.framework.configuration.Configurable;
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.context.Context;
-import org.apache.avalon.framework.context.ContextException;
-import org.apache.avalon.framework.context.Contextualizable;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.framework.service.ServiceException;
-import org.apache.avalon.framework.service.ServiceManager;
-import org.apache.avalon.framework.service.Serviceable;
 
 /**
  * This an abstract class implementing functionality for creating a file-store.
@@ -45,8 +35,7 @@ import org.apache.avalon.framework.service.Serviceable;
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public abstract class AbstractFileRepository
-    extends AbstractLogEnabled
-    implements Repository, Contextualizable, Serviceable, Configurable, Initializable
+    implements Repository
 {
     protected static final boolean DEBUG = false;
 
@@ -63,83 +52,17 @@ public abstract class AbstractFileRepository
     protected String m_name;
     protected FilenameFilter m_filter;
     protected File m_baseDirectory;
-
-    protected ServiceManager m_serviceManager;
+    protected FileRepositoryMonitor monitor;
 
     protected abstract String getExtensionDecorator();
 
-   /**
-    * Contextualization of the component by the container during 
-    * which the working home directory will be provided.
-    *
-    * @param context the supplied context object
-    * @avalon.entry key="urn:avalon:home" type="java.io.File"
-    */
-    public void contextualize( final Context context ) throws ContextException
-    {
-        try
-        {
-            m_baseDirectory = (File)context.get( "urn:avalon:home" );
-        }
-        catch( ContextException e )
-        {
-            m_baseDirectory = (File)context.get( "app.home" );
-        }
-    }
-
-   /**
-    * Serviceing of the component by the container.  This implementation
-    * is somewhat suspect in that it does not declare any servicable 
-    * dependencies.
-    *
-    * @param serviceManager a service manager
-    */
-    public void service( final ServiceManager serviceManager )
-        throws ServiceException
-    {
-        m_serviceManager = serviceManager;
-    }
-
-   /**
-    * Configuration of the component by the container.
-    * @param configuration the configuration
-    * @exception ConfigurationException if a configuration error occurs
-    */
-    public void configure( final Configuration configuration )
-        throws ConfigurationException
-    {
-        if( null == m_destination )
-        {
-            final String destination = configuration.getAttribute( "destinationURL" );
-            setDestination( destination );
-        }
-    }
-
-   /**
-    * Initialization of the component by the container.
-    * @exception Exception if a initialization stage error occurs
-    */
-    public void initialize()
-        throws Exception
-    {
-        getLogger().info( "Init " + getClass().getName() + " Store" );
-
-        m_name = RepositoryManager.getName();
-        m_extension = "." + m_name + getExtensionDecorator();
-        m_filter = new ExtensionFileFilter( m_extension );
-
-        final File directory = new File( m_path );
-        directory.mkdirs();
-
-        getLogger().info( getClass().getName() + " opened in " + m_path );
-    }
 
     protected void setDestination( final String destination )
-        throws ConfigurationException
+        throws IOException
     {
         if( !destination.startsWith( HANDLED_URL ) )
         {
-            throw new ConfigurationException( "cannot handle destination " + destination );
+            throw new IOException( "cannot handle destination " + destination );
         }
 
         m_path = destination.substring( HANDLED_URL.length() );
@@ -162,7 +85,7 @@ public abstract class AbstractFileRepository
         }
         catch( final IOException ioe )
         {
-            throw new ConfigurationException( "Unable to form canonical representation of " +
+            throw new IOException( "Unable to form canonical representation of " +
                                               directory );
         }
 
@@ -193,30 +116,19 @@ public abstract class AbstractFileRepository
 
         try
         {
-            child.service( m_serviceManager );
-        }
-        catch( final ServiceException cme )
-        {
-            throw new RuntimeException( "Cannot service child " +
-                                        "repository " + childName +
-                                        " : " + cme );
-        }
-
-        try
-        {
             child.setDestination( m_destination + File.pathSeparatorChar +
                                   childName + File.pathSeparator );
         }
-        catch( final ConfigurationException ce )
+        catch( final IOException ioe )
         {
             throw new RuntimeException( "Cannot set destination for child child " +
                                         "repository " + childName +
-                                        " : " + ce );
+                                        " : " + ioe );
         }
 
         try
         {
-            child.initialize();
+            initializeChild(child);
         }
         catch( final Exception e )
         {
@@ -227,13 +139,13 @@ public abstract class AbstractFileRepository
 
         if( DEBUG )
         {
-            getLogger().debug( "Child repository of " + m_name + " created in " +
-                               m_destination + File.pathSeparatorChar +
-                               childName + File.pathSeparator );
+            monitor.repositoryCreated(AbstractFileRepository.class, m_name, m_destination, childName);
         }
 
         return child;
     }
+
+    protected abstract void initializeChild(AbstractFileRepository child) throws Exception;
 
     protected File getFile( final String key )
         throws IOException
@@ -262,7 +174,8 @@ public abstract class AbstractFileRepository
         {
             final File file = getFile( key );
             file.delete();
-            if( DEBUG ) getLogger().debug( "removed key " + key );
+            if( DEBUG )
+              monitor.keyRemoved(AbstractFileRepository.class, key);
         }
         catch( final Exception e )
         {
@@ -279,7 +192,7 @@ public abstract class AbstractFileRepository
         try
         {
             final File file = getFile( key );
-            if( DEBUG ) getLogger().debug( "checking key " + key );
+            if( DEBUG ) monitor.checkingKey(AbstractFileRepository.class, key);
             return file.exists();
         }
         catch( final Exception e )

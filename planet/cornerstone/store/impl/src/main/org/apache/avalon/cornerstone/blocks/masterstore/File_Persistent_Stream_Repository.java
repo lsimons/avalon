@@ -17,13 +17,19 @@
 
 package org.apache.avalon.cornerstone.blocks.masterstore;
 
-import java.io.BufferedOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
 import org.apache.avalon.cornerstone.services.store.StreamRepository;
+import org.apache.avalon.framework.activity.Initializable;
+import org.apache.avalon.framework.configuration.Configurable;
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.context.Context;
+import org.apache.avalon.framework.context.ContextException;
+import org.apache.avalon.framework.context.Contextualizable;
+import org.apache.avalon.framework.logger.LogEnabled;
+import org.apache.avalon.framework.logger.Logger;
+
+import java.io.File;
+import java.io.IOException;
 
 /**
  * Implementation of a StreamRepository to a File.
@@ -33,133 +39,80 @@ import org.apache.avalon.cornerstone.services.store.StreamRepository;
  * @author  Federico Barbieri <fede@apache.org>
  */
 public class File_Persistent_Stream_Repository
-    extends AbstractFileRepository
-    implements StreamRepository
+    extends AbstractFilePersistentStreamRepository
+    implements StreamRepository, Contextualizable, Initializable, Configurable, LogEnabled
 {
-    protected final HashMap m_inputs = new HashMap();
-    protected final HashMap m_outputs = new HashMap();
 
     protected String getExtensionDecorator()
     {
         return ".FileStreamStore";
     }
 
-    /**
-     * Get the object associated to the given unique key.
-     */
-    public synchronized InputStream get( final String key )
-    {
-        try
-        {
-            final ResettableFileInputStream stream =
-                new ResettableFileInputStream( getFile( key ) );
+    public void enableLogging(Logger logger) {
+        AvalonFileRepositoryMonitor avMonitor = new AvalonFileRepositoryMonitor();
+        avMonitor.enableLogging(logger);
+    }
 
-            final Object o = m_inputs.get( key );
-            if( null == o )
-            {
-                m_inputs.put( key, stream );
-            }
-            else if( o instanceof ArrayList )
-            {
-                ( (ArrayList)o ).add( stream );
-            }
-            else
-            {
-                final ArrayList list = new ArrayList();
-                list.add( o );
-                list.add( stream );
-                m_inputs.put( key, stream );
-            }
-
-            return stream;
-        }
-        catch( final IOException ioe )
-        {
-            final String message = "Exception caught while retrieving a stream ";
-            getLogger().warn( message, ioe );
-            throw new RuntimeException( message + ": " + ioe );
-        }
+    protected void initializeChild(AbstractFileRepository child) throws Exception {
+        ((Initializable) child).initialize();
     }
 
     /**
-     * Store the given object and associates it to the given key
+     * Contextualization of the component by the container during
+     * which the working home directory will be provided.
+     *
+     * @param context the supplied context object
+     * @avalon.entry key="urn:avalon:home" type="java.io.File"
      */
-    public synchronized OutputStream put( final String key )
-    {
-        try
-        {
-            final OutputStream outputStream = getOutputStream( key );
-            final BufferedOutputStream stream = new BufferedOutputStream( outputStream );
+     public void contextualize( final Context context ) throws ContextException
+     {
+         try
+         {
+             m_baseDirectory = (File)context.get( "urn:avalon:home" );
+         }
+         catch( ContextException e )
+         {
+             m_baseDirectory = (File)context.get( "app.home" );
+         }
+     }
 
-            final Object o = m_outputs.get( key );
-            if( null == o )
-            {
-                m_outputs.put( key, stream );
-            }
-            else if( o instanceof ArrayList )
-            {
-                ( (ArrayList)o ).add( stream );
-            }
-            else
-            {
-                final ArrayList list = new ArrayList();
-                list.add( o );
-                list.add( stream );
-                m_outputs.put( key, stream );
-            }
+    /**
+     * Initialization of the component by the container.
+     * @exception Exception if a initialization stage error occurs
+     */
+     public void initialize()
+         throws Exception
+     {
+        monitor.initialized(File_Persistent_Stream_Repository.class);
 
-            return stream;
-        }
-        catch( final IOException ioe )
-        {
-            final String message = "Exception caught while storing a stream ";
-            getLogger().warn( message, ioe );
-            throw new RuntimeException( message + ": " + ioe );
-        }
-    }
+         m_name = RepositoryManager.getName();
+         m_extension = "." + m_name + getExtensionDecorator();
+         m_filter = new ExtensionFileFilter( m_extension );
 
-    public void remove( final String key )
-    {
-        Object o = m_inputs.remove( key );
-        if( null != o )
-        {
-            if( o instanceof InputStream )
-            {
-                IOUtil.shutdownStream( (InputStream)o );
-            }
-            else
-            {
-                final ArrayList list = (ArrayList)o;
-                final int size = list.size();
+         final File directory = new File( m_path );
+         directory.mkdirs();
+        monitor.pathOpened(File_Persistent_Stream_Repository.class, m_path);
 
-                for( int i = 0; i < size; i++ )
-                {
-                    IOUtil.shutdownStream( (InputStream)list.get( i ) );
-                }
-            }
-        }
+     }
 
-        o = m_outputs.remove( key );
-        if( null != o )
-        {
-            if( o instanceof OutputStream )
-            {
-                IOUtil.shutdownStream( (OutputStream)o );
-            }
-            else
-            {
-                final ArrayList list = (ArrayList)o;
-                final int size = list.size();
-
-                for( int i = 0; i < size; i++ )
-                {
-                    IOUtil.shutdownStream( (OutputStream)list.get( 0 ) );
-                }
-            }
-        }
-
-        super.remove( key );
-    }
+    /**
+     * Configuration of the component by the container.
+     * @param configuration the configuration
+     * @exception org.apache.avalon.framework.configuration.ConfigurationException if a configuration error occurs
+     */
+     public void configure( final Configuration configuration )
+         throws ConfigurationException
+     {
+         if( null == m_destination )
+         {
+             final String destination = configuration.getAttribute( "destinationURL" );
+             try {
+                 setDestination( destination );
+             } catch (IOException ioe) {
+                 throw new ConfigurationException("Unexpected IOException " + ioe.getMessage(), ioe);
+             }
+         }
+     }
 }
 
 
