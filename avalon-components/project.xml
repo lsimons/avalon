@@ -33,14 +33,14 @@
   <mailingLists>
     <mailingList>
       <name>Avalon Developer List</name>
-      <subscribe>avalon-dev-subscribe@avalon.apache.org</subscribe>
-      <unsubscribe>avalon-dev-unsubscribe@avalon.apache.org</unsubscribe>
+      <subscribe>dev-subscribe@avalon.apache.org</subscribe>
+      <unsubscribe>dev-unsubscribe@avalon.apache.org</unsubscribe>
       <archive>http://nagoya.apache.org/eyebrowse/SummarizeList?listName=dev@avalon.apache.org</archive>
     </mailingList>
     <mailingList>
-      <name>Avalon User List</name>
-      <subscribe>avalon-users-subscribe@avalon.apache.org</subscribe>
-      <unsubscribe>avalon-users-unsubscribe@avalon.apache.org</unsubscribe>
+      <name>Avalon List</name>
+      <subscribe>users-subscribe@avalon.apache.org</subscribe>
+      <unsubscribe>users-unsubscribe@avalon.apache.org</unsubscribe>
       <archive>http://nagoya.apache.org/eyebrowse/SummarizeList?listName=users@avalon.apache.org</archive>
     </mailingList>
   </mailingLists>
