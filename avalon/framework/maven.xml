@@ -1,4 +1,4 @@
-<project default="build"  xmlns:maven="jelly:maven" xmlns:j="jelly:core" xmlns:util="jelly:util" xmlns:ant="jelly:ant">
+<project default="avalon:build"  xmlns:maven="jelly:maven" xmlns:j="jelly:core" xmlns:util="jelly:util" xmlns:ant="jelly:ant">
 
   <ant:property name="maven.ui.banner.background" value="#fff"/>
   <ant:property name="maven.ui.banner.foreground" value="#000"/>
@@ -51,7 +51,7 @@
       ignoreFailures="false"/>
   </goal>
 
-  <goal name="avalon:dist">
+  <goal name="avalon:dist" prereqs="avalon:site">
     <maven:reactor
       basedir="${basedir}"
       includes="*/project.xml"
@@ -59,16 +59,6 @@
       goals="xdist"
       banner="Building distribution:"
       ignoreFailures="false"/>
-    <maven:reactor
-      basedir="${basedir}"
-      includes="site/project.xml"
-      goals="site"
-      banner="Building site:"
-      ignoreFailures="false"/>
-    <attainGoal name="ximport"/>
-  </goal>
-
-  <goal name="ximport">
     <ant:mkdir dir="${maven.build.dir}"/>
     <ant:copy toDir="${maven.build.dir}">
       <fileset dir="${basedir}/api/target/distributions">
@@ -80,15 +70,25 @@
         <include name="*.*"/>
       </fileset>
     </ant:copy>
+  </goal>
+
+  <goal name="avalon:site" prereqs="avalon:build">
+    <ant:mkdir dir="${maven.build.dir}"/>
+    <maven:reactor
+      basedir="${basedir}"
+      includes="site/project.xml"
+      goals="site"
+      banner="Building site:"
+      ignoreFailures="false"/>
     <j:set var="docs.name" value="${maven.final.name}-docs"/>
-    <ant:echo>Building doc kit: ${docs.name}.zip</ant:echo>
+    <ant:echo>Building doc package: ${docs.name}.zip</ant:echo>
     <ant:zip zipfile="${maven.build.dir}/${docs.name}.zip">
       <zipfileset dir="${basedir}/site/target/docs" prefix="docs"/>
     </ant:zip>
   </goal>
 
   <goal
-    name="xdist:prepare-bin-filesystem" prereqs="jar:jar"
+    name="xdist:prepare-bin-filesystem" 
     description="Builds the jar files.">
 
     <ant:delete dir="${maven.dist.bin.assembly.dir}"/>
