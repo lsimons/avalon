@@ -119,7 +119,7 @@ public class RotatingFileTarget
     }
 
    /**
-    * Rote the file - ?? explination needed.
+    * Rotates the file.
     * @exception IOException if a file related error occurs
     * @exception IOException if a file access or write related error occurs
     */
