@@ -13,7 +13,7 @@ Authors:
  Peter Donald <peter at apache.org>
  Leo Simons <mail at leosimons.com>
  Nicola Ken Barozzi <nicolaken at apache.org>
- 
+
 Legal:
   Copyright (c) 1999-2002 The Apache Software Foundation. All Rights Reserved.
 
@@ -40,8 +40,8 @@ Legal:
     <property name="build.lib" value="${build.dir}/lib"/>
     <property name="build.src" value="${build.dir}/src"/>
     <property name="build.classes" value="${build.dir}/classes"/>
-    <property name="build.javadocs" value="${build.dir}/javadocs"/>    
-    <property name="build.docs" value="${build.dir}/site"/>    
+    <property name="build.javadocs" value="${build.dir}/javadocs"/>
+    <property name="build.docs" value="${build.dir}/site"/>
     <property name="build.tests" value="${build.dir}/tests"/>
     <property name="build.testclasses" value="${build.dir}/testclasses"/>
     <property name="build.reports" value="${build.dir}/reports"/>
@@ -50,7 +50,7 @@ Legal:
 
     <!-- Set the properties for source directories -->
     <property name="src.dir" value="src"/>
-    <property name="java.dir" value="${src.dir}/java"/>   
+    <property name="java.dir" value="${src.dir}/java"/>
     <property name="documentation.dir" value="${src.dir}/documentation"/>
     <property name="test.dir" value="${src.dir}/test"/>
     <property name="compat.dir" value="${src.dir}/compat"/>
@@ -59,7 +59,7 @@ Legal:
     <property name="lib.dir" value="lib"/>
     <property name="tools.dir" value="../jakarta-avalon/tools"/>
     <property name="phoenix.tools.dir" value="tools"/>
-    
+
     <property name="dist.name" value="${name}-${version}"/>
     <property name="dist.base" value="distributions"/>
     <property name="bin.dist.dir" value="dist"/>
@@ -67,19 +67,20 @@ Legal:
     <property name="checkstyle.failOnError" value="false"/>
 
     <property name="constants.file" value="org/apache/avalon/phoenix/Constants.java"/>
+    <property name="container.constants.file" value="org/apache/avalon/phoenix/components/ContainerConstants.java"/>
     <property name="xml-api.jar" value="${lib.dir}/xml-apis.jar"/>
     <property name="xerces.jar" value="${lib.dir}/xercesImpl-2.0.2.jar"/>
     <property name="xalan.jar" value="${lib.dir}/xalan-2.3.1.jar"/>
     <property name="framework.jar" value="${lib.dir}/avalon-framework.jar"/>
     <property name="logkit.jar" value="${lib.dir}/logkit-1.1.1.jar"/>
     <property name="tools.jar" value="${java.home}/../lib/tools.jar"/>
-    
+
     <property name="announce2txt" value="${phoenix.tools.dir}/announcement2txt.xsl"/>
-    <property name="announce2header" value="${phoenix.tools.dir}/announcement2header.xsl"/>    
-    <property name="announce2readme" value="${phoenix.tools.dir}/announcement2readme.xsl"/>    
-    <property name="announce2site" value="${phoenix.tools.dir}/announcement2site.xsl"/>    
-    <property name="status2changes" value="${phoenix.tools.dir}/status2changes.xsl"/>  
-    
+    <property name="announce2header" value="${phoenix.tools.dir}/announcement2header.xsl"/>
+    <property name="announce2readme" value="${phoenix.tools.dir}/announcement2readme.xsl"/>
+    <property name="announce2site" value="${phoenix.tools.dir}/announcement2site.xsl"/>
+    <property name="status2changes" value="${phoenix.tools.dir}/status2changes.xsl"/>
+
     <!-- Invoke 'ant get-mx4j' to get these -->
     <property name="mx4j.jar" value="mx4j/mx4j-1.1.1/lib/mx4j-jmx.jar"/>
     <property name="mx4j-tools.jar" value="mx4j/mx4j-1.1.1/lib/mx4j-tools.jar"/>
@@ -202,9 +203,15 @@ Legal:
             <fileset dir="${compat.dir}">
                 <include name="${constants.file}" />
             </fileset>
+            <fileset dir="${java.dir}">
+                <include name="${container.constants.file}"/>
+            </fileset>
         </copy>
 
         <tstamp/>
+        <replace file="${build.src}/${container.constants.file}" token="@@VERSION@@" value="${version}"/>
+        <replace file="${build.src}/${container.constants.file}" token="@@NAME@@" value="${Name}"/>
+        <replace file="${build.src}/${container.constants.file}" token="@@DATE@@" value="${TODAY}"/>
         <replace file="${build.src}/${constants.file}" token="@@VERSION@@" value="${version}"/>
         <replace file="${build.src}/${constants.file}" token="@@NAME@@" value="${Name}"/>
         <replace file="${build.src}/${constants.file}" token="@@DATE@@" value="${TODAY}"/>
@@ -226,6 +233,7 @@ Legal:
             <src path="${build.src}" />
             <src path="${compat.dir}" />
             <exclude name="${constants.file}" />
+            <exclude name="${container.constants.file}"/>
             <exclude name="org/apache/avalon/phoenix/frontends/PhoenixServlet.java" unless="servlet.present"/>
             <exclude name="org/apache/avalon/phoenix/frontends/ComposableServlet.java" unless="servlet.present"/>
             <exclude name="org/apache/avalon/phoenix/launcher/DaemonLauncher.java"
@@ -383,11 +391,11 @@ Legal:
         <jar jarfile="${build.lib}/phoenix-metagenerate.jar" basedir="${build.classes}">
             <include name="org/apache/avalon/phoenix/tools/metagenerate/**"/>
         </jar>
-        
+
         <jar jarfile="${build.lib}/phoenix-punit.jar" basedir="${build.classes}">
             <include name="org/apache/avalon/phoenix/tools/punit/**"/>
         </jar>
-        
+
 
     </target>
 
@@ -577,11 +585,11 @@ Legal:
         <mkdir dir="${bin.dist.javadocs}"/>
 
         <copy todir="${bin.dist.docs}">
-            <fileset dir="${build.dir}/docs"/>
+            <fileset dir="${build.docs}"/>
         </copy>
 
         <copy todir="${bin.dist.javadocs}">
-            <fileset dir="${build.dir}/javadocs"/>
+            <fileset dir="${build.javadocs}"/>
         </copy>
 
         <copy todir="${bin.dist.tools}">
@@ -592,19 +600,19 @@ Legal:
         </copy>
 
         <echo file="${bin.dist.tools}/readme.txt" append="false">
-These are tools useful for build-time only. 
+These are tools useful for build-time only.
 You can delete the tools/ dir for a runtime install of Phoenix.
 
 phoenix-metagenerate.jar needs to be used with qdox-1.0.jar
   See http://cvs.apache.org/viewcvs/jakarta-avalon-apps/demo/build.xml for usage
   See http://jakarta.apache.org/avalon/phoenix/mx/index.html for documentation
-  
+
 phoenix-punit.jar needs to be used with excalibur-containerkit-1.0.jar
-  See http://cvs.apache.org/viewcvs/jakarta-avalon-phoenix/src/test/org/apache/avalon/phoenix/tools/punit/test/ 
+  See http://cvs.apache.org/viewcvs/jakarta-avalon-phoenix/src/test/org/apache/avalon/phoenix/tools/punit/test/
   for usage.
   See http://jakarta.apache.org/avalon/phoenix/punit/index.html for documentation
         </echo>
-        
+
         <filter token="version" value="${version}"/>
         <filter token="dist.name" value="${dist.name}"/>
         <copy todir="${bin.dist.dir}" filtering="on">
@@ -662,11 +670,11 @@ phoenix-punit.jar needs to be used with excalibur-containerkit-1.0.jar
         </copy>
 
         <copy todir="${src.dist.docs}">
-            <fileset dir="${build.dir}/docs"/>
+            <fileset dir="${build.docs}"/>
         </copy>
 
         <copy todir="${src.dist.javadocs}">
-            <fileset dir="${build.dir}/javadocs"/>
+            <fileset dir="${build.javadocs}"/>
         </copy>
 
         <filter token="version" value="${version}"/>
@@ -702,13 +710,13 @@ phoenix-punit.jar needs to be used with excalibur-containerkit-1.0.jar
         </antcall>
 
         <!-- Two readme files to ensure directories are untarred -->
-        <echo file="${dist.name}/apps/readme.txt" append="false">
+        <echo file="${dist.name}/apps/README.txt" append="false">
             Place SAR files in here for Phoenix to launch.
         </echo>
-        <echo file="${dist.name}/ext/readme.txt" append="false">
+        <echo file="${dist.name}/ext/README.txt" append="false">
             Place extension jars here.
         </echo>
-        <echo file="${dist.name}/logs/readme.txt" append="false">
+        <echo file="${dist.name}/logs/README.txt" append="false">
             The Phoenix Kernel Logs will be placed here.
         </echo>
 
@@ -734,8 +742,6 @@ phoenix-punit.jar needs to be used with excalibur-containerkit-1.0.jar
             src="${dist.base}/${dist.name}-bin.tar"/>
 
         <delete file="${dist.base}/${dist.name}-bin.tar"/>
-
-
 
         <delete dir="${dist.name}" />
 
@@ -795,8 +801,12 @@ phoenix-punit.jar needs to be used with excalibur-containerkit-1.0.jar
     <!-- Cleans absolutely everything up -->
     <target name="distclean" depends="clean" description="cleans up all generated files and directories">
         <delete dir="${dist.base}" />
+        <delete>
+            <fileset dir="." includes="jakarta-news.xml"/>
+            <fileset dir="." includes="Announcement.txt"/>
+        </delete>
     </target>
-    
+
 
   <!-- Create the API documentation -->
   <target name="javadocs">
@@ -847,11 +857,11 @@ phoenix-punit.jar needs to be used with excalibur-containerkit-1.0.jar
           </fileset>
         </copy>
 
-        <style style="${status2changes}"  in="${build.dir}/status.xml" 
+        <style style="${status2changes}"  in="${build.dir}/status.xml"
                                           out="${build.dir}/changes.xml"/>
-        <style style="${announce2txt}"    in="${build.dir}/announcement.xml" 
+        <style style="${announce2txt}"    in="${build.dir}/announcement.xml"
                                           out="Announcement.txt"/>
-        <style style="${announce2header}" in="${build.dir}/announcement.xml"          
+        <style style="${announce2header}" in="${build.dir}/announcement.xml"
                                           out="${dist.base}/HEADER.html"/>
         <style style="${announce2readme}" in="${build.dir}/announcement.xml"
                                           out="${dist.base}/README.html"/>
