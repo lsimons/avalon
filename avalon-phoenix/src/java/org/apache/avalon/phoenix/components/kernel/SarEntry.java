@@ -21,7 +21,6 @@ import org.apache.avalon.phoenix.metadata.SarMetaData;
 final class SarEntry
 {
     private SarMetaData m_metaData;
-    private Configuration m_configuration;
     private ClassLoader m_classLoader;
     private Application m_application;
     private Logger m_logger;
@@ -31,8 +30,8 @@ final class SarEntry
     protected SarEntry( final SarMetaData metaData,
                         final File workDirectory,
                         final ClassLoader classLoader,
-                        final Logger logger,
-                        final Configuration configuration )
+                        final Logger logger
+                        )
     {
         if( null == metaData )
         {
@@ -54,7 +53,6 @@ final class SarEntry
         m_metaData = metaData;
         m_classLoader = classLoader;
         m_logger = logger;
-        m_configuration = configuration;
         m_workDirectory = workDirectory;
     }
 
@@ -86,10 +84,5 @@ final class SarEntry
     public ClassLoader getClassLoader()
     {
         return m_classLoader;
-    }
-
-    public Configuration getConfiguration()
-    {
-        return m_configuration;
     }
 }

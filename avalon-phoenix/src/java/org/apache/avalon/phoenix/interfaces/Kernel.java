@@ -25,8 +25,7 @@ public interface Kernel
     void addApplication( SarMetaData metaData,
                          File workDirectory,
                          ClassLoader classLoader,
-                         Logger hierarchy,
-                         Configuration server )
+                         Logger logger )
         throws Exception;
 
     /**

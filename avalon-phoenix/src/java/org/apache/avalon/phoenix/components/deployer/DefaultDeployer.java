@@ -273,8 +273,7 @@ public class DefaultDeployer
             m_kernel.addApplication( metaData,
                                      installation.getWorkDirectory(),
                                      classLoader,
-                                     logger,
-                                     environment );
+                                     logger );
 
             m_installations.put( metaData.getName(), installation );
 
