@@ -19,6 +19,7 @@ package org.apache.avalon.tools.model;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.BuildListener;
+import org.apache.tools.ant.Task;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Property;
 import org.apache.tools.ant.taskdefs.optional.net.SetProxy;
@@ -142,11 +143,9 @@ public class Magic extends DataType
             project.log( "  host: " + hosts[i], Project.MSG_VERBOSE ); 
         }
         project.log( 
-          "main cache: " + m_main.getCacheDirectory(), 
-          Project.MSG_VERBOSE );
+          "cache: " + m_main.getCacheDirectory(), Project.MSG_VERBOSE );
         project.log( 
-          "docs cache: " + m_docs.getCacheDirectory(), 
-          Project.MSG_VERBOSE );
+          "docs: " + m_docs.getCacheDirectory(), Project.MSG_VERBOSE );
     }
 
     //-------------------------------------------------------------

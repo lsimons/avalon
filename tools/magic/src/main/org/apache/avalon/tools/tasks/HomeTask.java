@@ -51,7 +51,7 @@ public class HomeTask extends ContextualTask
 
         if( null != getProject().getReference( Home.KEY ) ) return;
 
-        Magic system = Magic.getSystem( project );
+        Magic system = Magic.getSystem( project );        
         Home home = system.getHome( project, m_path );
         File root = getHomeDirectory( home );
 
