@@ -34,7 +34,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * and installing it as appropriate.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.6 $ $Date: 2002/05/15 12:27:38 $
+ * @version $Revision: 1.7 $ $Date: 2002/05/15 12:48:59 $
  */
 public class Installer
     extends AbstractLogEnabled
@@ -170,10 +170,8 @@ public class Installer
             if( file.isDirectory() )
             {
                 final String message =
-                    REZ.getString( "deprecated-sar-format", url );
-                System.err.println( message );
-                getLogger().warn( message );
-                return installDeprecated( file );
+                    REZ.getString( "install.sar-isa-dir.error", name, url );
+                throw new InstallationException( message );
             }
 
             //Get Zipfile representing .sar file
@@ -607,26 +605,6 @@ public class Installer
         return new Installation( file, directory, directory,
                                  config, assembly, server,
                                  classPath, fileDigests, timestamp );
-    }
-
-    /**
-     * Create an Installation from a Sar in deprecated format.
-     *
-     * @param directory the directory containing extracted .sar
-     * @return the Installaiton
-     */
-    private Installation installDeprecated( final File directory )
-        throws InstallationException
-    {
-        final String[] classPath = getClassPathForDirectory( directory );
-        final String config = getURLAsString( new File( directory, OLD_CONFIG_XML ) );
-        final String assembly = getURLAsString( new File( directory, OLD_ASSEMBLY_XML ) );
-        final String server = getURLAsString( new File( directory, OLD_SERVER_XML ) );
-        final long timestamp = System.currentTimeMillis();
-
-        return new Installation( directory, directory, directory,
-                                 config, assembly, server,
-                                 classPath, null, timestamp );
     }
 
     /**
