@@ -65,10 +65,7 @@
     <menu name="About Repository">
       <item name="Overview" href="/about/index.html"/>
       <item name="Getting Started" href="/start/index.html">
-        <item name="Installation" href="/start/install/index.html">
-          <item name="Binary" href="/start/install/binary.html"/>
-          <item name="CVS" href="/start/install/cvs.html"/>   
-        </item>     
+        <item name="Installation" href="/start/install/index.html"/>
         <item name="Tutorials" href="/start/tutorial/index.html"/>
       </item>
       <item name="Tools" href="/tools/index.html"/>

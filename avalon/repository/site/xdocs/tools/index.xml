@@ -61,12 +61,12 @@
 
           <p>
           There is a repository plugin than is built as part of the 
-          CVS build.  Its also available on DPML. The plugin generates 
-          meta data descriptors that are used by the repository package
-          to construct classloaders on demand.  Complete details of the 
-          plugin (goals, properties, etc.) will be provided in the near
-          future.
+          avalon-util build. The plugin generates meta data descriptors 
+          that are used by the repository package
+          to construct classloaders on demand.  
           </p>
+          <p><a href="http://avalon.apache.org/util/plugin/index.html">
+           Avalon Util Plugin</a></p>
 
         </section>
 

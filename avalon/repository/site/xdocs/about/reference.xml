@@ -65,6 +65,48 @@
           for a chain of local and remote repositories using local file 
           replication and/or HTTP artifact replication (with proxy support).
           </p>
+          <p>
+          A reference implementation profile is established relative to the  
+          following environment variables and properties:
+          </p>
+          <table>
+            <tr><th>Location</th></tr>
+            <tr>
+              <td>${user.dir}/avalon.properties</td>
+            </tr>
+            <tr>
+              <td>${user.home}/avalon.properties</td>
+            </tr>
+          </table>
+        </subsection>
+        <subsection name="RI Properties">
+          <p>
+          The following properties suppliment the 
+          <a href="bootstrap.html">bootstrap properties</a>.
+          </p>
+        <table>
+          <tr><th>Property</th><th>Default Value</th><th>Description</th></tr>
+          <tr>
+            <td>${avalon.repository.proxy.host}</td>
+            <td></td>
+            <td>The proxy host name.</td>
+          </tr>
+          <tr>
+            <td>${avalon.repository.proxy.port}</td>
+            <td></td>
+            <td>The proxy port.</td>
+          </tr>
+          <tr>
+            <td>${avalon.repository.proxy.username}</td>
+            <td></td>
+            <td>The proxy username.</td>
+          </tr>
+          <tr>
+            <td>${avalon.repository.proxy.password}</td>
+            <td></td>
+            <td>The proxy password.</td>
+          </tr>
+        </table>
         </subsection>
       </section>
 
