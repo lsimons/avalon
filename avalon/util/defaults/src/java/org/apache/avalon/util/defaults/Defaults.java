@@ -63,7 +63,7 @@ import java.util.Enumeration ;
  * 
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
  * @author $Author: mcconnell $
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class Defaults extends Properties
 {
@@ -404,7 +404,6 @@ public class Defaults extends Properties
         bootstrap.load( input );
         return bootstrap;
     }
-
 }
 
 
