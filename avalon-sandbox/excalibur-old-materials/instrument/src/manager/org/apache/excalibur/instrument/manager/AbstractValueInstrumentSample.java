@@ -18,7 +18,7 @@ import org.apache.avalon.framework.configuration.DefaultConfiguration;
  *  to all InstrumentSamples which represent a fixed value.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/08/03 15:00:37 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/08/05 11:16:53 $
  * @since 4.1
  */
 abstract class AbstractValueInstrumentSample
@@ -145,7 +145,8 @@ abstract class AbstractValueInstrumentSample
      */
     public void setValue( String instrumentName, int value, long time )
     {
-        //System.out.println("AbstractValueInstrumentSample.setValue(" + instrumentName + ", " + value + ", " + time + ") : " + getName());
+        //System.out.println("AbstractValueInstrumentSample.setValue(" + instrumentName + ", "
+        //    + value + ", " + time + ") : " + getName());
         setValueInner( value, time );
     }
     
