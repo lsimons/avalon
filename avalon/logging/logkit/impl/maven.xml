@@ -1,7 +1,7 @@
-<project default="jar:install" xmlns:maven="jelly:maven" xmlns:j="jelly:core" xmlns:util="jelly:util" xmlns:ant="jelly:ant">
+<project default="jar:install" xmlns:maven="jelly:maven" xmlns:j="jelly:core" xmlns:util="jelly:util" xmlns:ant="jelly:ant" xmlns:artifact="avalon:artifact">
 
   <postGoal name="java:prepare-filesystem">
-    <attainGoal name="avalon:artifact-install"/>
+    <attainGoal name="artifact:install"/>
   </postGoal>
 
 

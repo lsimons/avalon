@@ -31,7 +31,7 @@
         of classloader metadata associated with a jar file.</p>
         <p>The generation of metyada is triggered using the following goal:</p>
         <source>
-avalon:artifact
+artifact:install
 </source>
         <p>The goal generates a file with the same name as the 
         jar artifact + ".meta".</p>

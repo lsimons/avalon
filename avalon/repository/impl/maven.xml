@@ -4,7 +4,7 @@
     value="org/apache/avalon/repository/impl/DefaultRepositoryCriteria"/>
 
   <postGoal name="test:test">
-    <attainGoal name="avalon:artifact-install"/>
+    <attainGoal name="artifact:install"/>
   </postGoal>
 
 </project>
