@@ -77,8 +77,9 @@ package org.apache.avalon.fortress;
  *    config.setContainerConfiguration( "resource://org.apache.avalon.fortress/test/ContainerProfile.xconf" );
  *    config.setLoggerManagerConfiguration( "resource://org.apache.avalon.fortress/test/ContainerProfile.xlog" );
  *
- *    ContainerManager cm = new DefaultContainerManager( config.getContext() );
- *    ContainerUtil.initialize( cm );
+ *    ContextManager contextManager = config.getContext();
+ *    ContainerManager containerManager = new DefaultContainerManager( contextManager );
+ *    ContainerUtil.initialize( containerManager );
  * </code>
  * </pre>
  *
@@ -86,7 +87,7 @@ package org.apache.avalon.fortress;
  *
  * <pre>
  * <code>
- *    TestContainer impl = (TestContainer) cm.getContainer();
+ *    TestContainer impl = (TestContainer) containerManager.getContainer();
  *    impl.handleRequest( ... );
  * </code>
  * </pre>
@@ -101,7 +102,7 @@ package org.apache.avalon.fortress;
  * </pre>
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.6 $ $Date: 2003/04/18 20:02:29 $
+ * @version CVS $Revision: 1.7 $ $Date: 2003/10/29 18:35:27 $
  * @see ContainerManagerConstants for the contract surrounding the ContainerManager context
  */
 public interface ContainerManager
