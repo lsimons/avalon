@@ -64,11 +64,13 @@ namespace Apache.Avalon.Container.Handler
 		private ILogger        m_logger;
 		private IConfiguration m_configuration;
 		private ILookupManager m_lookupManager;
+		private IContext       m_context;
 		private Type           m_componentType;
 
-		public InternalComponentHandler(ILogger logger, IConfiguration configuration, Type componentType)
+		public InternalComponentHandler(ILogger logger, IContext context, IConfiguration configuration, Type componentType)
 		{
 			m_logger        = logger;
+			m_context       = context;
 			m_configuration = configuration;
 			m_componentType = componentType;
 		}
@@ -92,6 +94,7 @@ namespace Apache.Avalon.Container.Handler
 			object instance = Activator.CreateInstance(m_componentType);
 
 			ContainerUtil.EnableLogging(instance, m_logger);
+			ContainerUtil.Contextualize(instance, m_context);
 			ContainerUtil.Configure(instance, m_configuration);
 
 			if (LookupManager != null)
