@@ -80,7 +80,7 @@ import org.apache.log.filter.PriorityFilter;
  * </p>
  *
  * @author <a href="mailto:giacomo@apache.org">Giacomo Pati</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/08/07 13:37:00 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/08/21 18:47:02 $
  * @since 4.0
  */
 public final class PriorityFilterTargetFactory
@@ -104,6 +104,13 @@ public final class PriorityFilterTargetFactory
         for( int i = 0; i < configs.length; i++ )
         {
             final LogTargetFactory factory = m_logTargetFactoryManager.getLogTargetFactory( configs[ i ].getName() );
+
+            if( null == factory )
+            {
+                throw new ConfigurationException( "Unknown target type '" + configs[ i ].getName()
+                                                  + "' at " + configs[i].getLocation() );
+            }
+
             getLogger().debug( "creating target " + configs[ i ].getName() + ": " + configs[ i ].toString() );
             final LogTarget logtarget = factory.createTarget( configs[ i ] );
             filter.addTarget( logtarget );
