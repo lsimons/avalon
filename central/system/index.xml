@@ -780,6 +780,26 @@
       </dependencies>
     </project>
 
+    <project basedir="../../runtime/activation/impl">
+      <info>
+        <group>avalon/activation</group>
+        <name>avalon-activation-impl</name>
+        <version>2.0.0</version>
+      </info>
+      <dependencies>
+        <projects>
+          <projectref key="avalon-composition-spi"/>
+          <projectref key="avalon-activation-api"/>
+          <projectref key="avalon-repository-spi"/>
+          <projectref key="avalon-util-lifecycle"/>
+          <projectref key="avalon-util-i18n"/>
+          <projectref key="avalon-util-defaults"/>
+          <projectref key="avalon-test-components" build="false" test="true" runtime="false"/>
+          <projectref key="avalon-composition-impl" build="false" test="true" runtime="false"/>
+          <projectref key="avalon-test-playground" build="false" test="true" runtime="false"/>
+        </projects>
+      </dependencies>
+    </project>
 
   </projects>
 
