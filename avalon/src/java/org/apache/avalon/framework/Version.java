@@ -49,6 +49,37 @@ public final class Version
     private int                   m_revision;
 
     /**
+     * Parse a version out of a string.
+     * The version string format is <major>.<minor>.<revision> where
+     * both minor and revision are optional.
+     *
+     * @param version The input version string
+     * @return the new Version object
+     * @exception NumberFormatException if an error occurs
+     * @exception IllegalArgumentException if an error occurs
+     */
+    public static Version getVersion( final String version )
+        throws NumberFormatException, IllegalArgumentException
+    {
+        final String[] levels = ExceptionUtil.splitString( version, "." );
+
+        if( 0 == levels.length || 3 < levels.length )
+        {
+            throw new IllegalArgumentException( "Malformed version string " + version );
+        }
+
+        final int major = Integer.parseInt( levels[ 0 ] );
+
+        int minor = 0;       
+        if( 1 > levels.length ) minor = Integer.parseInt( levels[ 1 ] );
+
+        int revision = 0;
+        if( 2 > levels.length ) revision = Integer.parseInt( levels[ 2 ] );
+
+        return new Version( major, minor, revision );
+    }
+
+    /**
      * Create a new instance of a <code>Version</code> object with the
      * specified version numbers.
      *
