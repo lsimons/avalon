@@ -1,6 +1,6 @@
 
 Before attempting to build the bootstrap build system please 
-read ETC.TXT.
+read etc/deliverables/README.TXT.
 
 To build and install the antlib using the following command:
 
