@@ -8,24 +8,51 @@
 package org.apache.phoenix.engine;
 
 import org.apache.avalon.Composer;
+import org.apache.avalon.atlantis.Kernel;
 import org.apache.avalon.atlantis.AbstractKernel;
 import org.apache.avalon.atlantis.Application;
 import org.apache.avalon.camelot.Entry;
 import org.apache.log.LogKit;
 
 /**
- * This is the base abstract ServerKernel which other implementations should extend.
+ * The ServerKernel is the core of the Phoenix system.
+ * The kernel is responsible for orchestrating low level services 
+ * such as loading, configuring and destroying blocks. It also 
+ * gives access to basic facilities such as scheduling sub-systems,
+ * protected execution contexts, naming and directory services etc.
+ *
+ * Note that no facilities are available until after the Kernel has been 
+ * configured and initialized.
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
-public abstract class AbstractServerKernel 
+public class PhoenixKernel 
     extends AbstractKernel
-    implements ServerKernel
+    implements Kernel
 {
-    public AbstractServerKernel()
+    private final static String BANNER = Constants.SOFTWARE + " " + Constants.VERSION;
+
+    public PhoenixKernel()
     {
         m_entryClass = ServerApplicationEntry.class;
         m_applicationClass = ServerApplication.class;
+    }
+
+    public void init() 
+        throws Exception 
+    {
+        System.out.println();
+        System.out.println( BANNER );
+
+        super.init();
+    }
+
+    protected Application newApplication( final String name, final Entry entry )
+        throws Exception
+    {
+        //It is here where you could return new EASServerApplication()
+        //if you wanted to host multiple different types of apps
+        return new DefaultServerApplication();
     }
 
     /**
