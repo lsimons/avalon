@@ -22,8 +22,8 @@ package org.apache.avalon.excalibur.component.servlet;
  *  references to the contained components remaining.
  *
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/08/21 06:03:16 $
- * @since 4.0
+ * @version CVS $Revision: 1.2 $ $Date: 2002/08/21 12:45:11 $
+ * @since 4.2
  */
 interface ReferenceProxy
 {

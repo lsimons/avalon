@@ -58,8 +58,8 @@ import org.apache.log.Priority;
  *  getter methods.  getComponentManager() for example.
  *
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/08/20 10:33:13 $
- * @since 4.1
+ * @version CVS $Revision: 1.4 $ $Date: 2002/08/21 12:45:11 $
+ * @since 4.2
  */
 public class ExcaliburComponentManagerCreator
     implements Disposable
