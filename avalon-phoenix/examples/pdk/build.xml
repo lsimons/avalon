@@ -46,7 +46,7 @@
   <!-- Jars up project -->
   <target name="jars" depends="compile">
 
-    <mkdir dir="build/lib"/>
+    <mkdir dir="target/lib"/>
 
     <!-- block for Phoenix-Demo -->
     <jar jarfile="target/lib/${name}-block.jar">
