@@ -97,7 +97,7 @@
             <fo:block font-family="serif"
                       font-size="24pt"
                       border-top-style="solid"
-                      border-top-width="1pt"
+                      border-top-width=".5pt"
                       space-before="12pt"
                       text-align="end">
               <xsl:value-of select="subtitle"/>
@@ -120,7 +120,7 @@
                   font-family="serif"
                   font-size="10pt"
                   border-after-style="solid"
-                  border-after-size="1pt">
+                  border-after-width=".5pt">
           <xsl:value-of select="/book/title"/>
         </fo:block>
       </fo:static-content>
@@ -128,7 +128,7 @@
         <fo:block text-align="start"
                   line-height="12pt"
                   border-before-style="solid"
-                  border-before-size="1pt"
+                  border-before-width=".5pt"
                   font-family="serif"
                   font-size="10pt"><fo:page-number/></fo:block>
       </fo:static-content>
@@ -139,7 +139,7 @@
                   font-family="serif"
                   font-size="10pt"
                   border-after-style="solid"
-                  border-after-size="1pt">
+                  border-after-width=".5pt">
           <xsl:value-of select="title"/>
         </fo:block>
       </fo:static-content>
@@ -147,7 +147,7 @@
         <fo:block text-align="end"
                   line-height="12pt"
                   border-before-style="solid"
-                  border-before-size="1pt"
+                  border-before-width=".5pt"
                   font-family="serif"
                   font-size="10pt"><fo:page-number/></fo:block>
       </fo:static-content>
@@ -155,7 +155,7 @@
         <fo:block text-align="end"
                   line-height="12pt"
                   border-before-style="solid"
-                  border-before-size="1pt"
+                  border-before-width=".5pt"
                   font-family="serif"
                   font-size="10pt"><fo:page-number/></fo:block>
       </fo:static-content>
@@ -205,7 +205,7 @@
                   font-family="serif"
                   font-size="10pt"
                   border-after-style="solid"
-                  border-after-size="1pt">
+                  border-after-width=".5pt">
           <xsl:value-of select="/book/title"/>
         </fo:block>
       </fo:static-content>
@@ -213,7 +213,7 @@
         <fo:block text-align="start"
                   line-height="12pt"
                   border-before-style="solid"
-                  border-before-size="1pt"
+                  border-before-width=".5pt"
                   font-family="serif"
                   font-size="10pt"><fo:page-number/></fo:block>
       </fo:static-content>
@@ -224,7 +224,7 @@
                   font-family="serif"
                   font-size="10pt"
                   border-after-style="solid"
-                  border-after-size="1pt">
+                  border-after-width=".5pt">
           <xsl:value-of select="title"/>
         </fo:block>
       </fo:static-content>
@@ -232,7 +232,7 @@
         <fo:block text-align="end"
                   line-height="12pt"
                   border-before-style="solid"
-                  border-before-size="1pt"
+                  border-before-width=".5pt"
                   font-family="serif"
                   font-size="10pt"><fo:page-number/></fo:block>
       </fo:static-content>
@@ -240,7 +240,7 @@
         <fo:block text-align="end"
                   line-height="12pt"
                   border-before-style="solid"
-                  border-before-size="1pt"
+                  border-before-width=".5pt"
                   font-family="serif"
                   font-size="10pt"><fo:page-number/></fo:block>
       </fo:static-content>
@@ -361,7 +361,7 @@
                   font-family="serif"
                   font-size="10pt"
                   border-after-style="solid"
-                  border-after-size="1pt">
+                  border-after-width=".5pt">
           <xsl:value-of select="/book/title"/>
         </fo:block>
       </fo:static-content>
@@ -369,7 +369,7 @@
         <fo:block text-align="start"
                   line-height="12pt"
                   border-before-style="solid"
-                  border-before-size="1pt"
+                  border-before-width=".5pt"
                   font-family="serif"
                   font-size="10pt"><fo:page-number/></fo:block>
       </fo:static-content>
@@ -380,7 +380,7 @@
                   font-family="serif"
                   font-size="10pt"
                   border-after-style="solid"
-                  border-after-size="1pt">
+                  border-after-width=".5pt">
           About the Authors
         </fo:block>
       </fo:static-content>
@@ -388,7 +388,7 @@
         <fo:block text-align="end"
                   line-height="12pt"
                   border-before-style="solid"
-                  border-before-size="1pt"
+                  border-before-width=".5pt"
                   font-family="serif"
                   font-size="10pt"><fo:page-number/></fo:block>
       </fo:static-content>
@@ -396,7 +396,7 @@
         <fo:block text-align="end"
                   line-height="12pt"
                   border-before-style="solid"
-                  border-before-size="1pt"
+                  border-before-width=".5pt"
                   font-family="serif"
                   font-size="10pt"><fo:page-number/></fo:block>
       </fo:static-content>
@@ -608,7 +608,7 @@
   </xsl:template>
 
   <xsl:template match="ulink">
-    <fo:simple-link external-destination="{@uri}"><xsl:apply-templates/></fo:simple-link>
+    <fo:basic-link external-destination="{@uri}"><xsl:apply-templates/></fo:basic-link>
   </xsl:template>
 
   <xsl:template match="footnote">
