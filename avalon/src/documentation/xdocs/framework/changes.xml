@@ -8,7 +8,17 @@
     <person name="Berin Loritsch" email="bloritsch@apache.org" id="BL"/>
     <person name="Peter Donald" email="donaldp@apache.org" id="PD"/>
   </devs>
-  <release version="4.0b3" date="Unreleased">
+  <release version="4.0b4" date="Unreleased">
+    <action dev="BL" type="add">
+      Added stylesheet to convert Stylebook markup to DocBook markup.
+    </action>
+    <action dev="BL" type="change">
+      Changed the documentation build process to use Cocoon to build
+      the site.
+    </action>
+    <action dev="BL" type="add">
+      Added new "Developing with Avalon" book in DocBook format.
+    </action>
     <action dev="PD" type="add">
       Added Executable interface to activity package.
     </action>

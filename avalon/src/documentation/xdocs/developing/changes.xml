@@ -6,6 +6,15 @@
 <revhistory>
   <revision revisionflag="changed">
     <revnumber>1.1</revnumber>
+    <date>21 Jul 2001</date>
+    <authorinitials>BL</authorinitials>
+    <revremark>
+      Applied documentation patches for incorrect code, spelling
+      mistakes, etc.
+    </revremark>
+  </revision>
+  <revision revisionflag="changed">
+    <revnumber>1.1</revnumber>
     <date>20 Jul 2001</date>
     <authorinitials>BL</authorinitials>
     <revremark>
