@@ -23,7 +23,6 @@ import junit.framework.TestSuite;
 
 import org.apache.avalon.excalibur.pool.Poolable;
 import org.apache.avalon.excalibur.pool.ResourceLimitingPool;
-import org.apache.avalon.excalibur.testcase.BufferedLogger;
 
 import com.clarkware.junitperf.ConstantTimer;
 import com.clarkware.junitperf.LoadTest;
@@ -32,7 +31,7 @@ import com.clarkware.junitperf.Timer;
 
 /**
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.6 $ $Date: 2004/03/16 09:53:39 $
+ * @version CVS $Revision: 1.7 $ $Date: 2004/03/17 12:12:37 $
  * @since 4.1
  */
 public final class ResourceLimitingPoolMultithreadTestCase

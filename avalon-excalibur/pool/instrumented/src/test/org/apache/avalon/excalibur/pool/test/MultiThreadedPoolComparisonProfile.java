@@ -18,8 +18,6 @@ package org.apache.avalon.excalibur.pool.test;
 
 import org.apache.avalon.excalibur.pool.Pool;
 import org.apache.avalon.excalibur.pool.Poolable;
-import org.apache.avalon.excalibur.testcase.CascadingAssertionFailedError;
-import org.apache.avalon.excalibur.testcase.LatchedThreadGroup;
 import org.apache.avalon.framework.activity.Disposable;
 
 /**
@@ -27,7 +25,7 @@ import org.apache.avalon.framework.activity.Disposable;
  *  given a single access thread.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Id: MultiThreadedPoolComparisonProfile.java,v 1.4 2004/02/28 11:47:22 cziegeler Exp $
+ * @version $Id: MultiThreadedPoolComparisonProfile.java,v 1.5 2004/03/17 12:12:37 mcconnell Exp $
  */
 public class MultiThreadedPoolComparisonProfile
     extends PoolComparisonProfileAbstract
