@@ -25,7 +25,7 @@ import java.io.Serializable;
  * of an allowable parameter within a crieria instance.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class Parameter implements Serializable
 {
@@ -160,8 +160,10 @@ public class Parameter implements Serializable
     */
     protected Object resolve( Class type, Object value ) throws CriteriaException
     {
-        if( value == null ) return null;
-        if( type == null ) throw new NullPointerException( "type" );
+        if( value == null ) 
+            return null;
+        if( type == null ) 
+            throw new NullPointerException( "type" );
         if( type.isInstance( value ) )
         {
             return value;
