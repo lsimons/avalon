@@ -16,8 +16,8 @@ import java.util.Map;
 import java.util.Set;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.activity.Disposable;
+import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
@@ -27,6 +27,9 @@ import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
+import org.apache.avalon.phoenix.components.deployer.installer.Installation;
+import org.apache.avalon.phoenix.components.deployer.installer.Installer;
+import org.apache.avalon.phoenix.components.deployer.installer.InstallationException;
 import org.apache.avalon.phoenix.interfaces.Application;
 import org.apache.avalon.phoenix.interfaces.ClassLoaderManager;
 import org.apache.avalon.phoenix.interfaces.ConfigurationRepository;
@@ -41,8 +44,6 @@ import org.apache.avalon.phoenix.metadata.SarMetaData;
 import org.apache.avalon.phoenix.tools.assembler.Assembler;
 import org.apache.avalon.phoenix.tools.assembler.AssemblyException;
 import org.apache.avalon.phoenix.tools.configuration.ConfigurationBuilder;
-import org.apache.avalon.phoenix.components.deployer.installer.Installation;
-import org.apache.avalon.phoenix.components.deployer.installer.Installer;
 import org.apache.avalon.phoenix.tools.verifier.SarVerifier;
 import org.apache.log.Hierarchy;
 
@@ -156,7 +157,7 @@ public class DefaultDeployer
     {
         final Set set = m_installations.keySet();
         final String[] applications =
-            (String[])set.toArray( new String[set.size() ] );
+            (String[])set.toArray( new String[ set.size() ] );
         for( int i = 0; i < applications.length; i++ )
         {
             final String name = applications[ i ];
@@ -168,8 +169,8 @@ public class DefaultDeployer
             {
                 final String message =
                     REZ.getString( "deploy.undeploy-indispose.error",
-                    name,
-                    de.getMessage() );
+                                   name,
+                                   de.getMessage() );
                 getLogger().error( message, de );
             }
         }
@@ -258,11 +259,13 @@ public class DefaultDeployer
                                name );
             throw new DeploymentException( message );
         }
+
+        Installation installation = null;
+        boolean success = false;
         try
         {
             //m_baseWorkDirectory
-            final Installation installation =
-                m_installer.install( name, location );
+            installation = m_installer.install( name, location );
 
             final Configuration config = getConfigurationFor( installation.getConfig() );
             final Configuration environment = getConfigurationFor( installation.getEnvironment() );
@@ -299,6 +302,7 @@ public class DefaultDeployer
                                metaData.getName(),
                                installation.getClassPath() );
             getLogger().debug( message );
+            success = true;
         }
         catch( final DeploymentException de )
         {
@@ -312,6 +316,20 @@ public class DefaultDeployer
         {
             //From classloaderManager/kernel
             throw new DeploymentException( e.getMessage(), e );
+        }
+        finally
+        {
+            if( !success && null != installation )
+            {
+                try
+                {
+                    m_installer.uninstall( installation );
+                }
+                catch( final InstallationException ie )
+                {
+                    getLogger().error( ie.getMessage(), ie );
+                }
+            }
         }
     }
 
