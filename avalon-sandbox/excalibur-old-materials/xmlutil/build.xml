@@ -111,9 +111,9 @@
             target="1.2">
             <classpath refid="project.class.path" />
             <exclude name="**/test/**"/>
-            <exclude name="org/apache/avalon/excalibur/xml/xpath/XPathProcessorImpl.java"
+            <exclude name="org/apache/excalibur/xml/xpath/XPathProcessorImpl.java"
                 unless="xpath.present"/>
-            <exclude name="org/apache/avalon/excalibur/xml/xpath/JaxenProcessorImpl.java"
+            <exclude name="org/apache/excalibur/xml/xpath/JaxenProcessorImpl.java"
                 unless="jaxen.present"/>
             <exclude name="org/apache/excalibur/xmlizer/impl/HTMLXMLizer.java"
                 unless="jtidy.present"/>
