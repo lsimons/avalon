@@ -107,7 +107,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * appliance instance.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.6 $ $Date: 2003/10/19 10:31:00 $
+ * @version $Revision: 1.7 $ $Date: 2003/10/19 10:45:53 $
  */
 public class DefaultAppliance extends AbstractAppliance
   implements Composite, DefaultApplianceMBean
@@ -625,7 +625,7 @@ public class DefaultAppliance extends AbstractAppliance
     private void destroyInstance( Object instance )
     {
         final int id = System.identityHashCode( instance );
-        getLogger().debug( "component disposal: " + id );
+        getLogger().debug( "destroy: " + id );
         try
         {
             applyStop( instance );
@@ -1171,7 +1171,7 @@ public class DefaultAppliance extends AbstractAppliance
         implements InvocationHandler
     {
         private final Object m_instance;
-        private boolean m_disposed = false;
+        private boolean m_destroyed = false;
 
        /**
         * Create a proxy invocation handler.
@@ -1200,7 +1200,7 @@ public class DefaultAppliance extends AbstractAppliance
         {
             if( proxy == null ) throw new NullPointerException( "proxy" );
             if( method == null ) throw new NullPointerException( "method" );
-            if( m_disposed ) throw new IllegalStateException( "disposed" );
+            if( m_destroyed ) throw new IllegalStateException( "destroyed" );
 
             try
             {
@@ -1225,7 +1225,7 @@ public class DefaultAppliance extends AbstractAppliance
 
         protected void finalize() throws Throwable
         {
-            if( !m_disposed )
+            if( !m_destroyed )
             {
                 final String message = 
                   "Releasing component [" 
@@ -1243,6 +1243,11 @@ public class DefaultAppliance extends AbstractAppliance
         Object getInstance()
         {
             return m_instance;
+        }
+
+        void notifyDestroyed()
+        {
+            m_destroyed = true;
         }
     }
 
@@ -1319,6 +1324,12 @@ public class DefaultAppliance extends AbstractAppliance
         public void destroy( Object instance )
         {
             if( instance == null ) throw new NullPointerException( "instance" );
+            if( Proxy.isProxyClass( instance.getClass() ) )
+            {
+                ApplianceInvocationHandler handler = 
+                  (ApplianceInvocationHandler) Proxy.getInvocationHandler( instance );
+                handler.notifyDestroyed();
+            }
             destroyInstance( getProviderInstance( instance ) );
         }
     }
