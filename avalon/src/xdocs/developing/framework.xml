@@ -716,6 +716,32 @@ public interface DocumentRepository {
 	  </para>
 	</section>
       </section>
+      <section>
+        <title>Miscellany</title>
+	<para>
+	  The classes and interfaces in the root package for Avalon Framework
+	  incorporates Cascading Exceptions, and a couple of generic utilities.
+	  However, one class deserves mention beyond the others.
+	</para>
+	<section>
+	  <title>Version</title>
+	  <para>
+	    <trademark>Java</trademark> versioning techniques are entries in
+	    the manifest file in a jar.  The problem is, when the jar is
+	    unpacked you lose the versioning information, and the versioning
+	    is in an easily modified text file.  When you couple this with a
+	    higher learning curve, detecting Component or Interface versions
+	    is difficult.
+	  </para>
+	  <para>
+            The Avalon team came up with the Version object to allow you to
+	    have easily determined versions, and to compare versions.  You may
+	    implement the <classname>Version</classname> object in your
+	    Components and your tests for the proper Component or minimum
+	    version level will be much easier.
+	  </para>
+	</section>
+      </section>
     </section>
   </section>
 </chapter>
