@@ -23,4 +23,9 @@ public interface Embeddor
     extends Component, Initializable, Executable, Disposable
 {
     String ROLE = "org.apache.avalon.phoenix.interfaces.Embeddor";
+
+    /**
+     * Request the Embeddor shutsdown.
+     */
+    void shutdown();
 }
