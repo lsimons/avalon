@@ -20,10 +20,10 @@
 <project>
 
   <pomVersion>3</pomVersion>
-  <id>plugin-parent</id>
+  
   <name>Avalon Maven Plugins</name>
   <groupId>avalon-maven-plugins</groupId>
-  <currentVersion>1.0</currentVersion>
+  
   <organization>
     <name>Apache Software Foundation</name>
     <url>http://www.apache.org/</url>
