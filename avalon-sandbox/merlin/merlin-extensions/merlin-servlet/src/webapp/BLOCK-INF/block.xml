@@ -1,12 +1,8 @@
 
-<block>
-
-  <info>
-    <name>merlin</name>
-  </info>
+<container name="merlin">
 
   <implementation>
      <!-- include components and subcontainers here -->
   </implementation>
 
-</block>
+</container>
