@@ -52,6 +52,7 @@ package org.apache.avalon.composition.model;
 
 import java.net.URL;
 import java.security.Permission;
+import java.security.cert.Certificate;
 
 import org.apache.avalon.extension.manager.OptionalPackage;
 import org.apache.avalon.extension.manager.ExtensionManager;
@@ -63,7 +64,7 @@ import org.apache.avalon.framework.logger.Logger;
  * a fully qualifed classpath can be established.</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/01/19 01:26:19 $
+ * @version $Revision: 1.3 $ $Date: 2004/01/19 21:45:36 $
  */
 public interface ClassLoaderModel
 {
@@ -126,6 +127,12 @@ public interface ClassLoaderModel
     */
     ClassLoader getClassLoader();
 
+   /** 
+    * Returns the Certificates associated with the classes that
+    * can be loaded by the classloader.
+    **/ 
+    Certificate[] getCertificates();
+    
    /**
     * Creation of a classloader context using this model as the 
     * relative parent.

@@ -79,7 +79,7 @@ import org.apache.avalon.excalibur.i18n.Resources;
  * Implementation of a system context that exposes a system wide set of parameters.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.8 $ $Date: 2004/01/19 17:37:31 $
+ * @version $Revision: 1.9 $ $Date: 2004/01/19 21:46:10 $
  */
 public class DefaultSystemContext extends DefaultContext 
   implements SystemContext
@@ -91,6 +91,12 @@ public class DefaultSystemContext extends DefaultContext
     private static final Resources REZ =
             ResourceManager.getPackageResources( DefaultSystemContext.class );
 
+    public static SystemContext createSystemContext( 
+      File base, File root, int priority ) throws Exception
+    {
+        return createSystemContext( base, root, priority, false );
+    }
+    
    /**
     * Convinience function to create a new system context. This function
     * is intended for test purposes only.
@@ -102,7 +108,7 @@ public class DefaultSystemContext extends DefaultContext
     * @return a system context
     */
     public static SystemContext createSystemContext( 
-      File base, File root, int priority ) throws Exception
+      File base, File root, int priority, boolean secure ) throws Exception
     {
         LoggingManager logging = createLoggingManager( base, priority );
         Logger logger = logging.getLoggerForCategory( "" );
@@ -112,11 +118,17 @@ public class DefaultSystemContext extends DefaultContext
         //final File home = new File( working, "home" );
         //final File temp = new File( working, "temp" );
 
+        Parameters parameters = null;
+        if( secure )
+        {
+            parameters = new Parameters();
+            parameters.setParameter( "urn:composition:security.enabled", "true" );
+        }
         final File home = new File( base, "home" );
         final File temp = new File( base, "temp" );
 
         return new DefaultSystemContext( 
-          logging, base, home, temp, repository, "system", false, null );
+          logging, base, home, temp, repository, "system", false, parameters );
     }
 
     private static CacheManager createCacheManager( File root ) 

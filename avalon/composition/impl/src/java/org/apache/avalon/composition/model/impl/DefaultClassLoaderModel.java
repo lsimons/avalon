@@ -59,6 +59,7 @@ import java.net.JarURLConnection;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.security.Permission;
+import java.security.cert.Certificate;
 
 import org.apache.avalon.composition.data.ContainmentProfile;
 import org.apache.avalon.composition.data.ClassLoaderDirective;
@@ -114,7 +115,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * and the extensions package.
  * </p>
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.6 $ $Date: 2004/01/19 13:35:10 $
+ * @version $Revision: 1.7 $ $Date: 2004/01/19 21:46:10 $
  */
 public class DefaultClassLoaderModel extends AbstractLogEnabled 
     implements ClassLoaderModel
@@ -375,6 +376,16 @@ public class DefaultClassLoaderModel extends AbstractLogEnabled
         return m_classLoader;
     }
 
+   /** 
+    * Returns the Certificates associated with the classes that
+    * can be loaded by the classloader.
+    **/ 
+    public Certificate[] getCertificates()
+    {
+        // TODO: We currently don't support Certificates.
+        return null;
+    }
+    
    /** 
     * Return the security Permissions defined for this ClassLoaderModel.
     * 

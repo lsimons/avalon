@@ -67,7 +67,7 @@ import org.apache.avalon.excalibur.i18n.Resources;
  * Abstract model base class.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.11 $ $Date: 2004/01/15 12:23:04 $
+ * @version $Revision: 1.12 $ $Date: 2004/01/19 21:46:10 $
  */
 public abstract class DefaultDeploymentModel
   implements DeploymentModel
@@ -228,8 +228,8 @@ public abstract class DefaultDeploymentModel
         Parameters params = sc.getSystemParameters();
         return params.getParameterAsLong( 
           DEPLOYMENT_TIMEOUT_KEY, 
-          params.getParameterAsLong( 
-            "deployment-timeout", // legacy 
-            1000 ) );
+          1000
+        );
     }
+
 }

@@ -66,10 +66,12 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * context.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.11 $ $Date: 2004/01/13 11:41:24 $
+ * @version $Revision: 1.12 $ $Date: 2004/01/19 21:45:36 $
  */
 public interface ContainmentModel extends DeploymentModel
 {
+    String SECURE_EXECUTION_KEY = "urn:composition:security.enabled";
+    
     /**
      * Get the startup sequence for the model.
      */
@@ -106,11 +108,25 @@ public interface ContainmentModel extends DeploymentModel
     */
     ClassLoaderModel getClassLoaderModel();
     
-   /** Returns the timel imit of how long the deployment may take.
+   /**
+    * Returns true if Secure Execution mode has been enabled in the kernel.
+    * 
+    * Secure Execution mode enables the deployer to restrict the exection
+    * environment, and this flag allows for developers to quickly switch
+    * between the secure and non-secure execution modes.
+    * 
+    * @return true if Secure Execution mode has been enabled in the kernel.
+    **/ 
+    boolean isSecureExecutionEnabled();
+    
+   /** 
+    * Return the default deployment timeout value declared in the 
+    * kernel configuration.  The implementation looks for a value
+    * assigned under the property key "urn:composition:deployment.timeout"
+    * and defaults to 1000 msec if undefined.
     *
-    * @return the maximum time expressed in millisecond of how 
-    * long a deployment may take.
-    **/
+    * @return the default deployment timeout value
+    */
    long getDeploymentTimeout();
 
    /**
@@ -144,7 +160,7 @@ public interface ContainmentModel extends DeploymentModel
     * @return the model created using the derived profile and configuration
     * @exception ModelException if an error occurs during model establishment
     */
-    public ContainmentModel addContainmentModel( URL block, URL config ) 
+    ContainmentModel addContainmentModel( URL block, URL config ) 
       throws ModelException;
 
    /**
