@@ -2,7 +2,7 @@
 
 <project default="warning" name="Gump Build Support - DO NOT HAND-EDIT!!!" basedir=".">
 
-    <property file="${basedir}/project.properties/>
+    <property file="${basedir}/project.properties"/>
     <property file="${basedir}/../project.properties"/>
 
     <target name="need-for-common-build" unless="avalon.buildsystem.available">
@@ -11,7 +11,7 @@
 BUILD SYSTEM FAILURE!
 ===================================================================
 
-a required file, ../avalon-buildsystem/avalon-buildsystem/maven-common-gump-build.xml,
+a required file, ../maven-common-gump-build.xml,
 cannot be found. Try setting the avalon.buildsystem property in
 project.properties to the correct location.
 </fail>
@@ -20,14 +20,14 @@ project.properties to the correct location.
 
     <target name="delegate">
         <available
-                file="${avalon.buildsystem}/maven-common-gump-build.xml"
+                file="../maven-common-gump-build.xml"
                 property="avalon.buildsystem.available"/>
         <antcall target="need-for-common-build"/>
 
         <ant
                 inheritRefs="true"
                 target="avalon:${target}"
-                antfile="${avalon.buildsystem}/maven-common-gump-build.xml"
+                antfile="../maven-common-gump-build.xml"
                 inheritAll="true"/>
     </target>
 
