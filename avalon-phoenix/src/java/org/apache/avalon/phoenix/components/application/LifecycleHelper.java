@@ -47,6 +47,17 @@ class LifecycleHelper
     private static final Resources REZ =
         ResourceManager.getPackageResources( LifecycleHelper.class );
 
+    private final static int STAGE_CREATE   = 0;
+    private final static int STAGE_LOGGER   = 1;
+    private final static int STAGE_CONTEXT  = 2;
+    private final static int STAGE_COMPOSE  = 3;
+    private final static int STAGE_CONFIG   = 4;
+    private final static int STAGE_INIT     = 5;
+    private final static int STAGE_START    = 6;
+    private final static int STAGE_STOP     = 7;
+    private final static int STAGE_DISPOSE  = 8;
+    private final static int STAGE_DESTROY  = 9;
+
     ///Frame in which block executes
     private ApplicationFrame     m_frame;
 
@@ -124,12 +135,12 @@ class LifecycleHelper
         try
         {
             //Creation stage
-            stage = 0;
+            stage = STAGE_CREATE;
             notice( name, stage );
             final Block block = createBlock( metaData );
 
             //Loggable stage
-            stage = 1;
+            stage = STAGE_LOGGER;
             if( block instanceof Loggable )
             {
                 notice( name, stage );
@@ -137,7 +148,7 @@ class LifecycleHelper
             }
 
             //Contextualize stage
-            stage = 2;
+            stage = STAGE_CONTEXT;
             if( block instanceof Contextualizable )
             {
                 notice( name, stage );
@@ -146,7 +157,7 @@ class LifecycleHelper
             }
 
             //Composition stage
-            stage = 3;
+            stage = STAGE_COMPOSE;
             if( block instanceof Composable )
             {
                 notice( name, stage );
@@ -155,7 +166,7 @@ class LifecycleHelper
             }
 
             //Configuring stage
-            stage = 4;
+            stage = STAGE_CONFIG;
             if( block instanceof Configurable )
             {
                 notice( name, stage );
@@ -164,7 +175,7 @@ class LifecycleHelper
             }
 
             //Initialize stage
-            stage = 5;
+            stage = STAGE_INIT;
             if( block instanceof Initializable )
             {
                 notice( name, stage );
@@ -172,7 +183,7 @@ class LifecycleHelper
             }
 
             //Start stage
-            stage = 6;
+            stage = STAGE_START;
             if( block instanceof Startable )
             {
                 notice( name, stage );
@@ -221,7 +232,7 @@ class LifecycleHelper
         //Stoppable stage
         if( block instanceof Startable )
         {
-            notice( name, 7 );
+            notice( name, STAGE_STOP );
             try
             {
                 entry.setState( State.STOPPING );
@@ -231,14 +242,14 @@ class LifecycleHelper
             catch( final Throwable t )
             {
                 entry.setState( State.FAILED );
-                safeFail( name, 7, t );
+                safeFail( name, STAGE_STOP, t );
             }
         }
 
         //Disposable stage
         if( block instanceof Disposable )
         {
-            notice( name, 8 );
+            notice( name, STAGE_DISPOSE );
             try
             {
                 entry.setState( State.DESTROYING );
@@ -247,11 +258,11 @@ class LifecycleHelper
             catch( final Throwable t )
             {
                 entry.setState( State.FAILED );
-                safeFail( name, 8, t );
+                safeFail( name, STAGE_DISPOSE, t );
             }
         }
 
-        notice( name, 9 );
+        notice( name, STAGE_DESTROY );
         entry.setState( State.DESTROYED );
     }
 
