@@ -36,6 +36,15 @@
         <font face="arial,helvetica,sanserif" color="#525D76"><i><xsl:value-of select="subtitle"/></i></font><br/>
       </xsl:if>
 
+      <font color="#000000" face="arial,helvetica,sanserif">
+        <xsl:apply-templates select="para"/>
+      </font><br/>
+
+      <xsl:apply-templates select="section">
+        <xsl:with-param name="level" select="1"/>
+      </xsl:apply-templates>
+
+      <div align="right">
       <font color="#000000" face="arial,helvetica,sanserif" size="-2">
         <p>
           <xsl:for-each select="//authorgroup/author">
@@ -51,15 +60,7 @@
           </xsl:for-each>          
         </p>
       </font>
-
-      <font color="#000000" face="arial,helvetica,sanserif">
-        <xsl:apply-templates select="para"/>
-      </font><br/>
-
-      <xsl:apply-templates select="section">
-        <xsl:with-param name="level" select="1"/>
-      </xsl:apply-templates>
-
+      </div>
       <xsl:apply-templates select="//footnote" mode="base"/>
     </body>
   </xsl:template>
