@@ -70,22 +70,6 @@ public class DefaultKernel
     }
 
     /**
-     * Create a new application for kernel.
-     *
-     * @param name the name of application
-     * @param entry the entry corresponding to application
-     * @return the new Application
-     * @exception ContainerException if an error occurs
-     */
-    protected Application createApplicationFor( final String name, final Entry entry )
-        throws ContainerException
-    {
-        //It is here where you could return new EASServerApplication()
-        //if you wanted to host multiple different types of apps
-        return new DefaultServerApplication();
-    }
-
-    /**
      * Prepare an application before it is initialized.
      * Overide to provide functionality.
      * Usually used to setLogger(), contextualize, compose, configure.

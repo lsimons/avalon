@@ -24,13 +24,10 @@ import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.AbstractLoggable;
 import org.apache.avalon.phoenix.components.application.Application;
+import org.apache.avalon.phoenix.components.application.DefaultServerApplication;
 
 /**
  * This is the basic Kernel that supports functionality most kernels need.
- * It builds a DAG of blocks, can load/unload/reload blocks, can
- * configure/reconfigure blocks, can start/stop/initialize blocks, provide
- * contexts for blocks etc.
- *
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
@@ -49,7 +46,7 @@ public abstract class AbstractKernel
         final String[] names = list();
         for( int i = 0; i < names.length; i++ )
         {
-            final Entry entry = getEntry( names[ i ] );
+            final SarEntry entry = (SarEntry)getEntry( names[ i ] );
             initializeEntry( names[ i ], entry );
         }
     }
@@ -61,7 +58,7 @@ public abstract class AbstractKernel
         final String[] names = list();
         for( int i = 0; i < names.length; i++ )
         {
-            final Entry entry = getEntry( names[ i ] );
+            final SarEntry entry = (SarEntry)getEntry( names[ i ] );
             startEntry( names[ i ], entry );
         }
     }
@@ -73,7 +70,7 @@ public abstract class AbstractKernel
         final String[] names = list();
         for( int i = 0; i < names.length; i++ )
         {
-            final Entry entry = getEntry( names[ i ] );
+            final SarEntry entry = (SarEntry)getEntry( names[ i ] );
             stopEntry( names[ i ], entry );
         }
     }
@@ -85,7 +82,7 @@ public abstract class AbstractKernel
         {
             try
             {
-                final Entry entry = getEntry( names[ i ] );
+                final SarEntry entry = (SarEntry)getEntry( names[ i ] );
                 disposeEntry( names[ i ], entry );
             }
             catch( final ContainerException ce )
@@ -107,7 +104,7 @@ public abstract class AbstractKernel
     {
         if( m_autoStart )
         {
-            try { startEntry( name, entry ); }
+            try { startEntry( name, (SarEntry)entry ); }
             catch( final Exception e )
             {
                 final String message = REZ.getString( "kernel.error.entry.start", name );
@@ -123,22 +120,18 @@ public abstract class AbstractKernel
      * @param entry the entry for application
      * @exception ContainerException if an error occurs
      */
-    private void initializeEntry( final String name, final Entry entry )
+    private void initializeEntry( final String name, final SarEntry entry )
         throws ContainerException
     {
-        Application application = (Application)entry.getInstance();
+        Application application = entry.getApplication();
 
         if( null == application )
         {
-            //Give sub-class chance to do some validation
-            //by overiding preInitialize
-            preInitializeEntry( name, entry );
-
-            application = createApplicationFor( name, entry );
+            application = new DefaultServerApplication();
 
             try
             {
-                entry.setInstance( application );
+                entry.setApplication( application );
 
                 //Give sub-class chance to prepare entry
                 //This performs process required before the application
@@ -151,37 +144,31 @@ public abstract class AbstractKernel
             {
                 //Initialization failed so clean entry
                 //so invalid instance is not used
-                entry.setInstance( null );
+                entry.setApplication( null );
 
                 final String message = REZ.getString( "kernel.error.entry.initialize", name );
                 throw new ContainerException( message, t );
             }
-
-            //Give sub-class chance to do something post
-            //initialisation
-            postInitializeEntry( name, entry );
         }
     }
 
-    private void startEntry( final String name, final Entry entry )
+    private void startEntry( final String name, final SarEntry entry )
         throws Exception
     {
-        Application application = (Application)entry.getInstance();
+        Application application = entry.getApplication();
         if( null == application )
         {
             initializeEntry( name, entry );
-            application = (Application)entry.getInstance();
+            application = entry.getApplication();
         }
 
-        preStartEntry( name, entry );
         application.start();
-        postStartEntry( name, entry );
     }
 
-    private void stopEntry( final String name, final Entry entry )
+    private void stopEntry( final String name, final SarEntry entry )
         throws Exception
     {
-        final Application application = (Application)entry.getInstance();
+        final Application application = entry.getApplication();
         if( null != application )
         {
             application.stop();
@@ -193,90 +180,16 @@ public abstract class AbstractKernel
         }
     }
 
-    private void disposeEntry( final String name, final Entry entry )
+    private void disposeEntry( final String name, final SarEntry entry )
         throws ContainerException
     {
-        final Application application = (Application)entry.getInstance();
+        final Application application = entry.getApplication();
 
         if( null != application )
         {
-            preDisposeEntry( name, entry );
-            entry.setInstance( null );
+            entry.setApplication( null );
             application.dispose();
-            postDisposeEntry( name, entry );
         }
-    }
-
-    /**
-     * This method is called before an entry is initialized.
-     * Overide to do something.
-     *
-     * @param name the name of the entry
-     * @param entry the entry
-     * @exception ContainerException if an error occurs
-     */
-    protected void preInitializeEntry( final String name, final Entry entry )
-        throws ContainerException
-    {
-    }
-
-    /**
-     * This method is called after an entry is initialized.
-     * Overide to do something.
-     *
-     * @param name the name of the entry
-     * @param entry the entry
-     */
-    protected void postInitializeEntry( final String name, final Entry entry )
-    {
-    }
-
-    /**
-     * This method is called before an entry is initialized.
-     * Overide to do something.
-     *
-     * @param name the name of the entry
-     * @param entry the entry
-     * @exception ContainerException if an error occurs
-     */
-    protected void preStartEntry( final String name, final Entry entry )
-        throws ContainerException
-    {
-    }
-
-    /**
-     * This method is called after an entry is startd.
-     * Overide to do something.
-     *
-     * @param name the name of the entry
-     * @param entry the entry
-     */
-    protected void postStartEntry( final String name, final Entry entry )
-    {
-    }
-
-    /**
-     * This method is called before an entry is disposed.
-     * Overide to do something.
-     *
-     * @param name the name of the entry
-     * @param entry the entry
-     * @exception ContainerException if an error occurs
-     */
-    protected void preDisposeEntry( final String name, final Entry entry )
-        throws ContainerException
-    {
-    }
-
-    /**
-     * This method is called after an entry is disposed.
-     * Overide to do something.
-     *
-     * @param name the name of the entry
-     * @param entry the entry
-     */
-    protected void postDisposeEntry( final String name, final Entry entry )
-    {
     }
 
     /**
@@ -292,15 +205,4 @@ public abstract class AbstractKernel
         throws ContainerException
     {
     }
-
-    /**
-     * Create a new application for kernel.
-     *
-     * @param name the name of application
-     * @param entry the entry corresponding to application
-     * @return the new Application
-     * @exception ContainerException if an error occurs
-     */
-    protected abstract Application createApplicationFor( String name, Entry entry )
-        throws ContainerException;
 }
