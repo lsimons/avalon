@@ -487,12 +487,12 @@ directory yourself using a command such as
 
     cd ${maven.build.dir}/distributions
     for i in *.zip;
-      gpg --output ${maven.final.name}.zip.asc \
-        --detach-sig --armor ${maven.final.name}.zip
+      gpg --output $$i.asc \
+        --detach-sig --armor $$i
     done
     for i in *.gz;
-      gpg --output ${maven.final.name}.zip.asc \
-        --detach-sig --armor ${maven.final.name}.zip
+      gpg --output $$i.asc \
+        --detach-sig --armor $$i
     done
 
     cd ${maven.build.dir}
