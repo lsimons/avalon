@@ -21,8 +21,6 @@ limitations under the License.
 <project>
 
   <pomVersion>3</pomVersion>
-  <groupId>avalon</groupId>
-  <name>Avalon POM</name>
 
   <organization>
     <name>The Apache Software Foundation</name>

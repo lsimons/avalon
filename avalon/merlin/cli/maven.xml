@@ -6,6 +6,8 @@
 
 <project default="jar:install" xmlns:ant="jelly:ant" >
 
+  <ant:property file="${avalon.buildsystem}/project.properties}" />
+  
   <ant:filter token="AVALON-LOGGING-LOGKIT-SPEC" 
       value="&avalon-logging-logkit-artifact-spec;"/>
   <ant:filter token="MERLIN_IMPLEMENTATION" 

@@ -1,5 +1,6 @@
 <project default="plugin:install" xmlns:ant="jelly:ant">
-
+  <ant:property file="${avalon.buildsystem}/project.properties" />
+  
   <preGoal name="jar:jar">
     <echo message="starting"/>
     <mkdir dir="${maven.build.dir}/classes"/>

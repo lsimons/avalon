@@ -3,23 +3,25 @@
   <!ENTITY % index SYSTEM "file:index.ent"> %index;
 ]>
 <project default="test:test" xmlns:ant="jelly:ant">
-    <ant:filter token="AVALON-LOGGING-LOG4J-SPEC" 
-        value="&avalon-logging-log4j-artifact-spec;"/>
-    <ant:filter token="AVALON-LOGGING-LOGKIT-SPEC" 
-        value="&avalon-logging-logkit-artifact-spec;"/>
-    <ant:filter token="AVALON-LOGGING-LOGKIT-DATAGRAM-SPEC" 
-        value="&avalon-logging-logkit-datagram-artifact-spec;"/>
-    <ant:filter token="AVALON-LOGGING-LOGKIT-SYSLOG-SPEC" 
-        value="&avalon-logging-logkit-syslog-artifact-spec;"/>
-    <ant:filter token="AVALON-LOGGING-LOGKIT-SOCKET-SPEC" 
-        value="&avalon-logging-logkit-socket-artifact-spec;"/>
-    <ant:filter token="MERLIN_IMPLEMENTATION" 
-        value="artifact:merlin/merlin-impl#&merlin-impl-version;"/>
-    <ant:filter token="LOGGING_IMPLEMENTATION" 
-        value="&avalon-logging-logkit-artifact;"/>
-    <ant:filter token="STANDARD_RUNTIME" 
-        value="&avalon-activation-artifact;"/>
-    <ant:filter token="REPOSITORY_MAIN" 
-        value="&avalon-repository-artifact;"/>
+  <ant:property file="${avalon.buildsystem}" />
+  
+  <ant:filter token="AVALON-LOGGING-LOG4J-SPEC" 
+      value="&avalon-logging-log4j-artifact-spec;"/>
+  <ant:filter token="AVALON-LOGGING-LOGKIT-SPEC" 
+      value="&avalon-logging-logkit-artifact-spec;"/>
+  <ant:filter token="AVALON-LOGGING-LOGKIT-DATAGRAM-SPEC" 
+      value="&avalon-logging-logkit-datagram-artifact-spec;"/>
+  <ant:filter token="AVALON-LOGGING-LOGKIT-SYSLOG-SPEC" 
+      value="&avalon-logging-logkit-syslog-artifact-spec;"/>
+  <ant:filter token="AVALON-LOGGING-LOGKIT-SOCKET-SPEC" 
+      value="&avalon-logging-logkit-socket-artifact-spec;"/>
+  <ant:filter token="MERLIN_IMPLEMENTATION" 
+      value="artifact:merlin/merlin-impl#&merlin-impl-version;"/>
+  <ant:filter token="LOGGING_IMPLEMENTATION" 
+      value="&avalon-logging-logkit-artifact;"/>
+  <ant:filter token="STANDARD_RUNTIME" 
+      value="&avalon-activation-artifact;"/>
+  <ant:filter token="REPOSITORY_MAIN" 
+      value="&avalon-repository-artifact;"/>
 
 </project>

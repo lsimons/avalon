@@ -15,6 +15,9 @@
 <!ENTITY avalon-repository-spi-id "avalon-repository-spi">
 <!ENTITY avalon-repository-spi-version "2.0.dev-0">
 
+<!ENTITY avalon-repository-site-id "avalon-repository-site">
+<!ENTITY avalon-repository-site-version "2.0.dev-0">
+
 <!ENTITY avalon-repository-test-id "avalon-repository-test">
 <!ENTITY avalon-repository-test-version "2.0.dev-0">
 

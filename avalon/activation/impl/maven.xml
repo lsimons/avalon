@@ -10,6 +10,8 @@
   xmlns:util="jelly:util" 
   xmlns:ant="jelly:ant"
   xmlns:avalon="avalon-meta" >
+  
+  <ant:property file="${avalon.buildsystem}/project.properties" />
 
   <ant:property name="pom.specificationVersion" value="&avalon-activation-spec;"/>
 

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE project [
+  <!ENTITY % index SYSTEM "file:index.ent"> %index;
+]>
+
+<project>
+
+  <extend>${avalon.buildsystem}/project-common.xml</extend>
+
+  <groupId>&avalon-meta-id;</groupId>
+  <id>&avalon-meta-site-id;</id>
+  <currentVersion>&avalon-meta-site-version;</currentVersion>
+
+  <id>avalon-meta-site</id>
+  <name>Avalon Meta Site Documentation</name>
+  
+  <inceptionYear>2002</inceptionYear>
+  <shortDescription>Meta Model API</shortDescription>
+  
+</project>
