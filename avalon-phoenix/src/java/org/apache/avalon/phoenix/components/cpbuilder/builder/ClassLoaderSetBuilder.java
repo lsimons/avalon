@@ -22,7 +22,7 @@ import org.apache.avalon.phoenix.components.cpbuilder.metadata.JoinDef;
  * specified configuration.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2002/09/01 04:11:27 $
+ * @version $Revision: 1.2 $ $Date: 2002/09/01 04:17:46 $
  */
 public class ClassLoaderSetBuilder
 {
@@ -79,15 +79,53 @@ public class ClassLoaderSetBuilder
 
         final EntryDef[] entrys =
             buildEntrys( config.getChildren( "entry" ) );
-        final Extension[] extensions = null;
-            //buildExtensions( config.getChildren( "extension" ) );
+        final Extension[] extensions =
+            buildExtensions( config.getChildren( "extension" ) );
         final FileSetDef[] fileSets =
             buildFileSets( config.getChildren( "fileset" ) );
         return new ClassLoaderDef( name, parent, entrys,
                                    extensions, fileSets );
     }
 
-    private FileSetDef[] buildFileSets( Configuration[] configs )
+    private Extension[] buildExtensions( final Configuration[] configs )
+        throws ConfigurationException
+    {
+        final ArrayList extensions = new ArrayList();
+
+        for( int i = 0; i < configs.length; i++ )
+        {
+            final Extension extension =
+                buildExtension( configs[ i ] );
+            extensions.add( extension );
+        }
+
+        return (Extension[])extensions.toArray( new Extension[ extensions.size() ] );
+    }
+
+    private Extension buildExtension( final Configuration config )
+        throws ConfigurationException
+    {
+        final String name =
+            config.getChild( "name" ).getValue();
+        final String specVersion =
+            config.getChild( "specification-version" ).getValue( null );
+        final String specVendor =
+            config.getChild( "specification-vendor" ).getValue( null );
+        final String implVersion =
+            config.getChild( "implementation-version" ).getValue( null );
+        final String implVendor =
+            config.getChild( "implementation-vendor" ).getValue( null );
+        final String implVendorID =
+            config.getChild( "implementation-vendor-id" ).getValue( null );
+        final String implURL =
+            config.getChild( "implementation-url" ).getValue( null );
+
+        return new Extension( name, specVersion, specVendor,
+                              implVersion, implVendor, implVendorID,
+                              implURL );
+    }
+
+    private FileSetDef[] buildFileSets( final Configuration[] configs )
         throws ConfigurationException
     {
         final ArrayList fileSets = new ArrayList();
