@@ -34,6 +34,7 @@
             logger="manager" >
           <manager-adaptor-port>8082</manager-adaptor-port>
           <enable-rmi-adaptor>false</enable-rmi-adaptor>
+          <stylesheets-dir>conf/xsl</stylesheets-dir>
         </component>
         -->
 
