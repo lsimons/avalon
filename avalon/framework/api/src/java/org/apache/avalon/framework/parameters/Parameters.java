@@ -90,7 +90,7 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
  * </p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.38 $ $Date: 2003/02/11 16:25:49 $
+ * @version CVS $Revision: 1.39 $ $Date: 2003/09/25 18:11:03 $
  */
 public class Parameters
     implements Serializable
@@ -659,7 +659,7 @@ public class Parameters
 
         while( names.hasMoreElements() )
         {
-            final String key = (String)names.nextElement().toString();
+            final String key = names.nextElement().toString();
             final String value = properties.getProperty( key );
             parameters.setParameter( key, value );
         }
