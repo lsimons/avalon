@@ -36,7 +36,6 @@
   <menu name="For Developers">
     <item name="Changes" href="for-developers-changes.html"/>
     <item name="Coding standards" href="@AVALON_BASE@/code-standards.html"/>
-    <item name="Project Structure" href="for-developers-project-structure.html"/>
     <item name="CVS" href="http://jakarta.apache.org/site/cvsindex.html"/>
     <item name="Mailing Lists" href="http://jakarta.apache.org/site/mail.html"/>
   </menu>
