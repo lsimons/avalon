@@ -30,7 +30,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Test
 	[TestFixture]
 	public class AssemblerTestCase : Assertion
 	{
-		private AvalonKernel m_kernel = new DefaultKernel();
+		private IAvalonKernel m_kernel = new DefaultAvalonKernel();
 
 		private DefaultComponentModelBuilder m_builder;
 

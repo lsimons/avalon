@@ -1,4 +1,4 @@
-// Copyright 2004 The Apache Software Foundation
+ // Copyright 2004 The Apache Software Foundation
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,23 +18,24 @@ namespace Apache.Avalon.Castle.MicroKernel.Model
 	using System.Reflection;
 
 	/// <summary>
-	/// Summary description for IConstructionModel.
+	/// Holds the information to allow the container to
+	/// correctly instantiate the component implementation.
 	/// </summary>
 	public interface IConstructionModel
 	{
-		Type Implementation
-		{
-			get;
-		}
+		/// <summary>
+		/// Implementation type
+		/// </summary>
+		Type Implementation { get; }
 
-		ConstructorInfo SelectedConstructor
-		{
-			get;
-		}
+		/// <summary>
+		/// The best constructor selected.
+		/// </summary>
+		ConstructorInfo SelectedConstructor { get; }
 
-		PropertyInfo[] SelectedProperties
-		{
-			get;
-		}
+		/// <summary>
+		/// Properties that will be used to satisfy dependencies.
+		/// </summary>
+		PropertyInfo[] SelectedProperties { get; }
 	}
 }

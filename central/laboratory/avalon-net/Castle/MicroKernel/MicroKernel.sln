@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apache.Avalon.Castle.MicroK
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apache.Avalon.Castle.Facilities.Aspects", "..\Facilities\Aspects\Apache.Avalon.Castle.Facilities.Aspects.csproj", "{17546A9D-FAE9-42D1-BF36-740187216D34}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		Debug = Debug
@@ -21,6 +25,10 @@ Global
 		{50442F0D-987F-4A8D-B38C-DFA855B9249E}.Debug.Build.0 = Debug|.NET
 		{50442F0D-987F-4A8D-B38C-DFA855B9249E}.Release.ActiveCfg = Release|.NET
 		{50442F0D-987F-4A8D-B38C-DFA855B9249E}.Release.Build.0 = Release|.NET
+		{17546A9D-FAE9-42D1-BF36-740187216D34}.Debug.ActiveCfg = Debug|.NET
+		{17546A9D-FAE9-42D1-BF36-740187216D34}.Debug.Build.0 = Debug|.NET
+		{17546A9D-FAE9-42D1-BF36-740187216D34}.Release.ActiveCfg = Release|.NET
+		{17546A9D-FAE9-42D1-BF36-740187216D34}.Release.Build.0 = Release|.NET
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection

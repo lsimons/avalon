@@ -94,7 +94,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Concerns
 			}
 		}
 
-		public IConcern GetCommissionChain( Kernel kernel )
+		public IConcern GetCommissionChain( IKernel kernel )
 		{
 			ArrayList concerns = new ArrayList( m_commissionConcerns );
 			concerns.Insert( 0, m_creationConcern );
@@ -112,7 +112,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Concerns
 			return next;
 		}
 
-		public IConcern GetDecommissionChain( Kernel kernel )
+		public IConcern GetDecommissionChain( IKernel kernel )
 		{
 			ArrayList concerns = new ArrayList( m_decommissionConcerns );
 			concerns.Add( m_destructionConcern );

@@ -1,4 +1,4 @@
-// Copyright 2004 The Apache Software Foundation
+ // Copyright 2004 The Apache Software Foundation
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,50 +19,54 @@ namespace Apache.Avalon.Castle.MicroKernel.Model
 	using Apache.Avalon.Framework;
 
 	/// <summary>
-	/// Summary description for IComponentModel.
+	/// Holds information necessary for the lifetime of the component.
 	/// </summary>
 	public interface IComponentModel
 	{
-		String Name
-		{
-			get;
-		}
+		/// <summary>
+		/// Component name
+		/// </summary>
+		String Name { get; }
 
-		Lifestyle SupportedLifestyle
-		{
-			get;
-		}
+		/// <summary>
+		/// Desired lifecycle
+		/// </summary>
+		Lifestyle SupportedLifestyle { get; }
 
-		Type Service
-		{
-			get;
-		}
+		/// <summary>
+		/// Desired activation policy
+		/// </summary>
+		Activation ActivationPolicy { get; }
 
-		ILogger Logger
-		{
-			get;
-			set;
-		}
+		/// <summary>
+		/// Service being exposed by the component
+		/// </summary>
+		Type Service { get; }
 
-		IConfiguration Configuration
-		{
-			get;
-			set;
-		}
+		/// <summary>
+		/// ILogger implementation
+		/// </summary>
+		ILogger Logger { get; set; }
 
-		IContext Context
-		{
-			get;
-		}
+		/// <summary>
+		/// Configuration node for the component
+		/// </summary>
+		IConfiguration Configuration { get; set; }
 
-		IDependencyModel[] Dependencies
-		{
-			get;
-		}
+		/// <summary>
+		/// Context for the component
+		/// </summary>
+		IContext Context { get; }
 
-		IConstructionModel ConstructionModel
-		{
-			get;
-		}
+		/// <summary>
+		/// List of dependencies declared by the component
+		/// </summary>
+		IDependencyModel[] Dependencies { get; }
+
+		/// <summary>
+		/// Information to allow the correct construction 
+		/// of the component
+		/// </summary>
+		IConstructionModel ConstructionModel { get; }
 	}
 }

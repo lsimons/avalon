@@ -25,7 +25,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Handler
 	/// </summary>
 	public abstract class AbstractHandler : IHandler
 	{
-		protected Kernel m_kernel;
+		protected IKernel m_kernel;
 
 		protected IComponentModel m_componentModel;
 
@@ -53,7 +53,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Handler
 
 		#region IHandler Members
 
-		public virtual void Init( Kernel kernel )
+		public virtual void Init( IKernel kernel )
 		{
 			m_kernel = kernel;
 		}

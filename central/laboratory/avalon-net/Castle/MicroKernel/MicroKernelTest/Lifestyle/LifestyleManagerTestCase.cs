@@ -28,14 +28,14 @@ namespace Apache.Avalon.Castle.MicroKernel.Test.Lifestyle
 	[TestFixture]
 	public class LifestyleManagerTestCase : Assertion
 	{
-		private AvalonKernel m_kernel;
+		private IAvalonKernel m_kernel;
 
 		private IComponent m_instance3;
 
 		[SetUp]
 		public void CreateContainer()
 		{
-			m_kernel = new DefaultKernel();
+			m_kernel = new DefaultAvalonKernel();
 		}
 
 		[Test]

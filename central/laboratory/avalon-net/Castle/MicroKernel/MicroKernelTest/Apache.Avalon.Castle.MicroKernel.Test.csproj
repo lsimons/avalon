@@ -124,17 +124,17 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "DefaultAvalonKernelTestCase.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "DefaultComponentModelBuilderTestCase.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
                     RelPath = "DefaultConfigurationManagerTestCase.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "DefaultKernelTestCase.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

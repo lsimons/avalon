@@ -36,7 +36,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Handler.Default
 
 		#region IHandler Members
 
-		public override void Init( Kernel kernel )
+		public override void Init( IKernel kernel )
 		{
 			base.Init(kernel);
 
@@ -101,8 +101,8 @@ namespace Apache.Avalon.Castle.MicroKernel.Handler.Default
 		protected virtual void CreateComponentFactoryAndLifestyleManager()
 		{
 			IComponentFactory factory = new Factory.Default.SimpleComponentFactory( 
-				m_kernel.GetAspects(AspectPointCutFlags.Before), 
-				m_kernel.GetAspects(AspectPointCutFlags.After), 
+				// m_kernel.GetAspects(AspectPointCutFlags.Before), 
+				// m_kernel.GetAspects(AspectPointCutFlags.After), 
 				m_componentModel, m_serv2handler);
 
 			m_lifestyleManager = m_kernel.LifestyleManagerFactory.Create( 

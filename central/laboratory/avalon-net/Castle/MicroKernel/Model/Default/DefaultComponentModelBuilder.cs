@@ -22,16 +22,15 @@ namespace Apache.Avalon.Castle.MicroKernel.Model.Default
 
 	using Apache.Avalon.Castle.MicroKernel.Subsystems.Configuration;
 	using Apache.Avalon.Castle.MicroKernel.Subsystems.Logger;
-	using Apache.Avalon.Castle.MicroKernel.Subsystems.Context;
 
 	/// <summary>
 	/// Summary description for DefaultComponentModelBuilder.
 	/// </summary>
 	public class DefaultComponentModelBuilder : IComponentModelBuilder
 	{
-		private Kernel m_kernel;
+		private IKernel m_kernel;
 
-		public DefaultComponentModelBuilder(Kernel kernel)
+		public DefaultComponentModelBuilder( IKernel kernel )
 		{
 			m_kernel = kernel;
 		}
@@ -54,13 +53,9 @@ namespace Apache.Avalon.Castle.MicroKernel.Model.Default
 				new DefaultConstructionModel( implementation, data.Constructor, data.PropertiesInfo );
 
 			ILogger logger = CreateLogger( data );
-			IContext context = CreateContext();
 			IConfiguration config = CreateConfiguration( data );
 
-			return new DefaultComponentModel( 
-				data.Name, service, data.SupportedLifestyle, 
-				logger, config, new DefaultContext(), 
-				data.DependencyModel, constructionModel );
+			return new DefaultComponentModel( data, service, logger, config, constructionModel );
 		}
 
 		#endregion
@@ -94,13 +89,6 @@ namespace Apache.Avalon.Castle.MicroKernel.Model.Default
 			{
 				return new DefaultConfiguration();
 			}
-		}
-
-		protected virtual IContext CreateContext()
-		{
-			// IContext context = 
-			// 	m_kernel.ContextManager.CreateContext( data.AvalonContext, data.ContextEntries );
-			return new DefaultContext();
 		}
 
 		protected void InspectAvalonAttributes( ComponentData componentData )

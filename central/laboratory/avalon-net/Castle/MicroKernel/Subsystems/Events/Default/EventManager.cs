@@ -95,7 +95,6 @@ namespace Apache.Avalon.Castle.MicroKernel.Subsystems.Events.Default
 		public void OnComponentDestroyed( EventManagerData data )
 		{
 			RaiseEvent( ComponentDestroyedEvent, data );
-
 		}
 
 		#endregion

@@ -16,18 +16,16 @@ namespace Apache.Avalon.Castle.MicroKernel
 {
 	using System;
 	using System.Collections;
-	using System.Collections.Specialized;
 
-	using Apache.Avalon.DynamicProxy;
 	using Apache.Avalon.Castle.MicroKernel.Model;
 	using Apache.Avalon.Castle.MicroKernel.Subsystems.Lookup.Default;
 	using Apache.Avalon.Castle.MicroKernel.Subsystems.Events;
 	using Apache.Avalon.Castle.MicroKernel.Subsystems.Events.Default;
 
 	/// <summary>
-	/// Summary description for BaseKernel.
+	/// Base implementation of <see cref="IKernel"/>
 	/// </summary>
-	public class BaseKernel : Kernel
+	public class BaseKernel : IKernel
 	{
 		protected Hashtable m_components;
 
@@ -39,9 +37,9 @@ namespace Apache.Avalon.Castle.MicroKernel
 
 		protected IHandlerFactory m_handlerFactory;
 
-		protected ILifestyleManagerFactory m_lifestyleManagerFactory;
-
 		protected IComponentModelBuilder m_componentModelBuilder;
+
+		protected ILifestyleManagerFactory m_lifestyleManagerFactory;
 
 		/// <summary>
 		/// 
@@ -56,18 +54,17 @@ namespace Apache.Avalon.Castle.MicroKernel
 			m_componentModelBuilder = new Model.Default.DefaultComponentModelBuilder( this );
 			m_lifestyleManagerFactory = new Lifestyle.Default.SimpleLifestyleManagerFactory();
 
-			AddSubsystem( KernelConstants.LOOKUP, new LookupCriteriaMatcher() );
-			AddSubsystem( KernelConstants.EVENTS, new EventManager() );
+			InitializeSubsystems();
 		}
 
 		#region Kernel Members
 
 		/// <summary>
-		/// 
+		/// Adds a component to kernel.
 		/// </summary>
-		/// <param name="key"></param>
-		/// <param name="service"></param>
-		/// <param name="implementation"></param>
+		/// <param name="key">The unique key that identifies the component</param>
+		/// <param name="service">The service exposed by this component</param>
+		/// <param name="implementation">The actual implementation</param>
 		public void AddComponent( String key, Type service, Type implementation )
 		{
 			AssertUtil.ArgumentNotNull( key, "key" );
@@ -95,33 +92,6 @@ namespace Apache.Avalon.Castle.MicroKernel
 			m_components[ key ] = handler;
 
 			OnNewHandler( key, service, implementation, handler );
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="flags"></param>
-		/// <param name="aspect"></param>
-		public void AddAspect( AspectPointCutFlags flags, IAspect aspect )
-		{
-			AssertUtil.ArgumentNotNull( aspect, "aspect" );
-
-			/*
-			if ((AspectPointCutFlags.Before & flags) != 0)
-			{
-				lock(m_aspectBefore)
-				{
-					m_aspectBefore.Add( aspect );
-				}
-			}
-			if ((AspectPointCutFlags.After & flags) != 0)
-			{
-				lock(m_aspectAfter)
-				{
-					m_aspectAfter.Add( aspect );
-				}
-			}
-			*/
 		}
 
 		/// <summary>
@@ -198,20 +168,6 @@ namespace Apache.Avalon.Castle.MicroKernel
 			}
 		}
 
-		public IAspect[] GetAspects( AspectPointCutFlags pointcut )
-		{
-			if (pointcut == AspectPointCutFlags.Before)
-			{
-				return (IAspect[]) m_aspectBefore.ToArray( typeof(IAspect) );
-			}
-			else if (pointcut == AspectPointCutFlags.After)
-			{
-				return (IAspect[]) m_aspectAfter.ToArray( typeof(IAspect) );
-			}
-
-			return new IAspect[0];
-		}
-
 		/// <summary>
 		/// 
 		/// </summary>
@@ -266,6 +222,15 @@ namespace Apache.Avalon.Castle.MicroKernel
 		}
 
 		#endregion
+
+		/// <summary>
+		/// 
+		/// </summary>
+		protected virtual void InitializeSubsystems()
+		{
+			AddSubsystem( KernelConstants.LOOKUP, new LookupCriteriaMatcher() );
+			AddSubsystem( KernelConstants.EVENTS, new EventManager() );
+		}
 
 		private void OnNewHandler( String key, Type service, Type implementation, IHandler handler )
 		{

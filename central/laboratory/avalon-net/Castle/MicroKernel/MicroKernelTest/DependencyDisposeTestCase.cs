@@ -31,7 +31,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Test
 		[Test]
 		public void SingletonDependencyDisposal()
 		{
-			AvalonKernel container = new DefaultKernel();
+			IAvalonKernel container = new DefaultAvalonKernel();
 			container.AddComponent( "a", typeof(IMailService), typeof(AvalonMailService) );
 			container.AddComponent( "b", typeof(ISpamService2), typeof(AvalonSpamService3) );
 
@@ -52,7 +52,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Test
 		[Test]
 		public void TransientDependencyDisposal()
 		{
-			AvalonKernel container = new DefaultKernel();
+			IAvalonKernel container = new DefaultAvalonKernel();
 			container.AddComponent( "a", typeof(IMailService), typeof(AvalonMailService2) );
 			container.AddComponent( "b", typeof(ISpamService2), typeof(AvalonSpamService3) );
 
@@ -69,6 +69,5 @@ namespace Apache.Avalon.Castle.MicroKernel.Test
 
 			Assert( "A transient component should have been disposed", mailService.disposed );
 		}
-
 	}
 }

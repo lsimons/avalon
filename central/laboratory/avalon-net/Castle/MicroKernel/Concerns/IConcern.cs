@@ -23,7 +23,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Concerns
 	/// </summary>
 	public interface IConcern
 	{
-		void Init( Kernel kernel );
+		void Init( IKernel kernel );
 
 		void Apply( IComponentModel model, object component );
 

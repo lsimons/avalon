@@ -24,7 +24,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Concerns.Default
 	public abstract class AbstractConcern : IConcern
 	{
 		protected IConcern m_next;
-		protected Kernel m_kernel;
+		protected IKernel m_kernel;
 
 		public AbstractConcern(IConcern next)
 		{
@@ -33,12 +33,12 @@ namespace Apache.Avalon.Castle.MicroKernel.Concerns.Default
 
 		#region IConcern Members
 
-		public virtual void Init(Kernel kernel)
+		public virtual void Init( IKernel kernel )
 		{
 			m_kernel = kernel;
 		}
 
-		public virtual void Apply(IComponentModel model, object component)
+		public virtual void Apply( IComponentModel model, object component )
 		{
 			if (Next != null)
 			{

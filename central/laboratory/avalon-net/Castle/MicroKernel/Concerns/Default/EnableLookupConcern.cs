@@ -68,10 +68,10 @@ namespace Apache.Avalon.Castle.MicroKernel.Concerns.Default
 		/// </summary>
 		public class LookupManager : ILookupManager
 		{
-			Kernel m_kernel;
+			IKernel m_kernel;
 			HybridDictionary m_key2handler = new HybridDictionary();
 
-			public LookupManager( Kernel kernel, IDependencyModel[] dependencies )
+			public LookupManager( IKernel kernel, IDependencyModel[] dependencies )
 			{
 				m_kernel = kernel;
 				
