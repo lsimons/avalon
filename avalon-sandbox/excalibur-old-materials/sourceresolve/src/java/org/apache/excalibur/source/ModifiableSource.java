@@ -73,9 +73,25 @@ public interface ModifiableSource
 	OutputStream getOutputStream();
 	
 	/**
-	 * Delete the source
+	 * Delete the source 
 	 * @return true if the source could be deleted
 	 */
 	boolean delete();
+
+    /**
+     * Can the data sent to an <code>OutputStream</code> returned by
+     * {@link #getOutputStream()} be cancelled ?
+     *
+     * @return true if the stream can be cancelled
+     */
+    boolean canCancel(OutputStream stream);
+
+    /**
+     * Cancel the data sent to an <code>OutputStream</code> returned by
+     * {@link #getOutputStream()}.
+     * <p>
+     * After cancel, the stream should no more be used.
+     */
+    void cancel(OutputStream stream) throws SourceException;
 	
 }
