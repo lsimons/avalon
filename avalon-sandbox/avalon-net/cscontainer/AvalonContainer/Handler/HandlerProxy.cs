@@ -52,6 +52,7 @@ namespace Apache.Avalon.Container.Handler
 	using System.Runtime.Remoting.Messaging;
 	using System.Runtime.Remoting.Proxies;
 
+	using Apache.Avalon.Framework;
 	using Apache.Avalon.Container.Services;
 
 	/// <summary>
@@ -78,9 +79,13 @@ namespace Apache.Avalon.Container.Handler
 				m_manager.BeforeGetInstance(m_handler);
 
 				returnMessage = RemotingServices.ExecuteMessage(m_handler, call);
+
 				object instance = returnMessage.ReturnValue;
 
-				m_manager.AfterGetInstance(m_handler, instance);
+				if (instance != null)
+				{
+					m_manager.AfterGetInstance(m_handler, instance);
+				}
 			}
 			else if (IsPutInstanceCall(call))
 			{

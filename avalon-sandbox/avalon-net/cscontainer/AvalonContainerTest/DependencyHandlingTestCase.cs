@@ -61,7 +61,7 @@ namespace Apache.Avalon.Container.Test
 		[Test]
 		public void ShutDownOrderCheck()
 		{
-			Assertion.AssertEquals(9, m_container.ShutDownOrder.Length);
+			Assertion.AssertEquals(10, m_container.ShutDownOrder.Length);
 
 			Assertion.AssertEquals(typeof(IEntityLocator).FullName, m_container.ShutDownOrder[0].Name);
 			Assertion.AssertEquals(typeof(IBus).FullName, m_container.ShutDownOrder[1].Name);

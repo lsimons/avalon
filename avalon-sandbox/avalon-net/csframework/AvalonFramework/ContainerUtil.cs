@@ -52,7 +52,7 @@ namespace Apache.Avalon.Framework
 {
 	/// <summary>
 	///	Utility class that makes it easier to transfer
-	/// a component throught it's lifecycle stages.
+	/// a component through it's lifecycle stages.
 	/// </summary>
 	public class ContainerUtil
 	{

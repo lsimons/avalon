@@ -86,7 +86,6 @@ namespace Apache.Avalon.Container
 		private ArrayList                m_loadedModules;
 		private WeakMap                  m_knowReferences;
 
-
 		public LifecycleManager()
 		{
 			m_loadedModules  = new ArrayList();
