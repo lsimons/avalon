@@ -561,7 +561,7 @@ Legal:
       </tarfileset>
     </tar>
 
-    <gzip tofile="${dist.base}/${dist.name}-bin.tar.gz"
+    <gzip zipfile="${dist.base}/${dist.name}-bin.tar.gz"
           src="${dist.base}/${dist.name}-bin.tar"/>
 
     <delete file="${dist.base}/${dist.name}-bin.tar"/>
@@ -589,7 +589,7 @@ Legal:
       </tarfileset>
     </tar>
 
-    <gzip tofile="${dist.base}/${dist.name}-src.tar.gz"
+    <gzip zipfile="${dist.base}/${dist.name}-src.tar.gz"
           src="${dist.base}/${dist.name}-src.tar"/>
 
     <delete file="${dist.base}/${dist.name}-src.tar"/>
