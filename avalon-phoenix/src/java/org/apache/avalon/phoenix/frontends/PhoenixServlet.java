@@ -55,10 +55,12 @@ public class PhoenixServlet
 
         //TODO: configuring with more parameters.
         final ServletContext context = getServletContext();
-        final String logDestination = context.getRealPath( getInitParameter( "log-destination", "/WEB-INF/logs/phoenix.log" ) );
+        final String logDestination = 
+            context.getRealPath( getInitParameter( "log-destination", "/WEB-INF/logs/phoenix.log" ) );
         final String logPriority = getInitParameter( "log-priority", "INFO" );
         final String appName = getInitParameter( "application-name", "default" );
-        final String appLoc = context.getRealPath( getInitParameter( "application-location", "/WEB-INF/" + appName ) );
+        final String appLoc = 
+            context.getRealPath( getInitParameter( "application-location", "/WEB-INF/" + appName ) );
 
         m_parameters = new Parameters();
         m_parameters.setParameter( "log-destination", logDestination );
@@ -75,7 +77,8 @@ public class PhoenixServlet
             }
             m_embeddor.initialize();
 
-            new Thread( this ).start();
+            final Thread thread = new Thread( this, "Phoenix" );
+            thread.start();
         }
         catch( final Throwable throwable )
         {
