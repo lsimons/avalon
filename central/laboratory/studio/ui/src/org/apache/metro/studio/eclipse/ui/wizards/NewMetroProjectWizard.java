@@ -1,19 +1,18 @@
 /*
-   
-      Copyright 2004. The Apache Software Foundation.
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License. 
-   
+ *     Copyright 2004. The Apache Software Foundation.
+ *
+ *   Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License. 
+ *  
  */
 package org.apache.metro.studio.eclipse.ui.wizards;
 
@@ -30,6 +29,8 @@ import org.apache.metro.studio.eclipse.ui.controller.NewMetroProjectWizardContro
 
 import org.eclipse.jface.operation.IRunnableWithProgress;
 
+import org.eclipse.jface.resource.ImageDescriptor;
+
 import org.eclipse.jface.viewers.IStructuredSelection;
 
 import org.eclipse.jface.wizard.IWizardPage;
@@ -45,7 +46,8 @@ import org.eclipse.ui.dialogs.WizardNewProjectCreationPage;
 /**
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>*
  */
-public class NewMetroProjectWizard extends Wizard implements INewWizard
+public class NewMetroProjectWizard extends Wizard 
+    implements INewWizard
 {
     
     private WizardNewProjectCreationPage projectPage;
@@ -59,9 +61,9 @@ public class NewMetroProjectWizard extends Wizard implements INewWizard
     public boolean canFinish()
     {
         IWizardPage page = getContainer().getCurrentPage();
-        if (page == getProjectPage())
+        if( page == getProjectPage() )
             return false;
-        if (page == getSelectionPage())
+        if( page == getSelectionPage() )
             return true;
         return false;
     }
@@ -70,17 +72,22 @@ public class NewMetroProjectWizard extends Wizard implements INewWizard
     {
         try
         {
-                channel.putValue(NEW_PROJECT_NAME, getProjectPage().getProjectName());
-                // run project creation in background
-                CreateBlockProjectOperation operation =
-                    new CreateBlockProjectOperation(channel);
-                IRunnableWithProgress op = new WorkspaceModifyDelegatingOperation(operation);
-                    getContainer().run(false, true, op);
-        } catch (InvocationTargetException e)
+            String projName = getProjectPage().getProjectName();
+            channel.putValue( NEW_PROJECT_NAME, projName );
+            
+            // run project creation in background
+            
+            CreateBlockProjectOperation cbpo = new CreateBlockProjectOperation( channel );
+            
+            IRunnableWithProgress op = new WorkspaceModifyDelegatingOperation( cbpo );
+            
+            getContainer().run( false, true, op );
+            
+        } catch( InvocationTargetException e )
         {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        } catch (InterruptedException e)
+        } catch( InterruptedException e )
         {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -88,43 +95,44 @@ public class NewMetroProjectWizard extends Wizard implements INewWizard
         return true;
     }
 
-    public void init(IWorkbench workbench, IStructuredSelection selection)
+    public void init( IWorkbench workbench, IStructuredSelection selection )
     {
-        setWindowTitle(MetroStudioUI.getResourceString("new.blockDevelopment.window.title")); //$NON-NLS-1$
-        setDefaultPageImageDescriptor(MetroStudioUI.getImageDescriptor("icons/full/wizban/newjprj_wiz.gif")); //$NON-NLS-1$
-        
+        String title = MetroStudioUI.getResourceString("new.blockDevelopment.window.title"); //$NON-NLS-1$
+        setWindowTitle( title ); 
+        ImageDescriptor imgDescr = MetroStudioUI.getImageDescriptor("icons/full/wizban/newjprj_wiz.gif"); //$NON-NLS-1$
+        setDefaultPageImageDescriptor( imgDescr ); 
     }
 
     public void addPages()
-        {
-        	channel = new ModelChannel("newBlockWizard");
-            new NewMetroProjectWizardController().initialize();
-        	
-            projectPage = new WizardNewProjectCreationPage("mainPage"); //$NON-NLS-1$
-            projectPage.setTitle(MetroStudioUI.getResourceString("new.blockDevelopment.mainPage.title")); //$NON-NLS-1$
-            projectPage.setDescription(MetroStudioUI.getResourceString("new.blockDevelopment.mainPage.description")); //$NON-NLS-1$
-            addPage(projectPage);
-    
-            selectionPage = new NewMetroProjectSelectionPage("selectionPage", channel);
-            selectionPage.setTitle(MetroStudioUI.getResourceString("new.blockDevelopment.selectionPage.title")); //$NON-NLS-1$
-            selectionPage.setDescription(MetroStudioUI.getResourceString("new.blockDevelopment.mainPage.description")); //$NON-NLS-1$
-            addPage(selectionPage);
-        }
+    {
+        channel = new ModelChannel( "newBlockWizard" );
+        new NewMetroProjectWizardController().initialize();
 
-    /**
-     * @return
-     */
+        projectPage = new WizardNewProjectCreationPage( "mainPage" ); //$NON-NLS-1$
+        String title = MetroStudioUI.getResourceString( "new.blockDevelopment.mainPage.title" ); //$NON-NLS-1$
+        projectPage.setTitle( title ); 
+        
+        String descr = MetroStudioUI.getResourceString( "new.blockDevelopment.mainPage.description" ); //$NON-NLS-1$
+        projectPage.setDescription( descr ); 
+        
+        addPage( projectPage );
+
+        selectionPage = new NewMetroProjectSelectionPage( "selectionPage", channel );
+        title = MetroStudioUI.getResourceString( "new.blockDevelopment.selectionPage.title" ); //$NON-NLS-1$
+        selectionPage.setTitle( title ); 
+        
+        descr = MetroStudioUI.getResourceString( "new.blockDevelopment.mainPage.description" ); //$NON-NLS-1$
+        selectionPage.setDescription( descr ); 
+        addPage( selectionPage );
+    }
+
     public WizardNewProjectCreationPage getProjectPage()
     {
         return projectPage;
     }
 
-    /**
-     * @return
-     */
     public NewMetroProjectSelectionPage getSelectionPage()
     {
         return selectionPage;
     }
-
 }
