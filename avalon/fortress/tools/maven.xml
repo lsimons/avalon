@@ -15,9 +15,7 @@
         <!-- friendly error in case file is not available -->
         <ant:available file="${avalon.buildsystem}/maven-common.xml"
                 property="buildsystem.available"/>
-        <j:set var="avalon.buildsystem.available" value="${buildsystem.available}"/>
-        <j:if test="${empty(avalon.buildsystem.available)}">
-            <ant:fail>
+            <ant:fail unless="buildsystem.available">
             ===================================================================
             BUILD SYSTEM FAILURE!
             ===================================================================
@@ -26,7 +24,6 @@
             found. Try setting the avalon.buildsystem property in
             project.properties to the correct location.
             </ant:fail>
-        </j:if>
     </goal>
 
     <preGoal name="java:compile">
