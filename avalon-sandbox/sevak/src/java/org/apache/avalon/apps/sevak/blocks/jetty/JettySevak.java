@@ -8,6 +8,7 @@
 package org.apache.avalon.apps.sevak.blocks.jetty;
 
 import org.apache.avalon.framework.activity.Startable;
+import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
@@ -25,6 +26,7 @@ import java.util.HashMap;
 import org.mortbay.jetty.Server;
 import org.mortbay.jetty.servlet.WebApplicationContext;
 import org.mortbay.util.MultiException;
+import org.mortbay.util.InetAddrPort;
 
 
 /**
@@ -40,12 +42,13 @@ import org.mortbay.util.MultiException;
  * @version 1.0
  */
 public class JettySevak extends AbstractLogEnabled implements Sevak, Startable, Contextualizable,
-        Configurable
+        Configurable, Initializable
 {
 
     private Server m_server;
     private String m_hostName;
     private HashMap m_webapps = new HashMap();
+    private int m_port;
 
 
     public JettySevak()
@@ -61,6 +64,12 @@ public class JettySevak extends AbstractLogEnabled implements Sevak, Startable, 
     public void configure(final Configuration configuration) throws ConfigurationException
     {
         m_hostName = configuration.getChild("hostname").getValue("localhost");
+        m_port = configuration.getChild("port").getValueAsInteger(8080);
+    }
+
+    public void initialize() throws Exception
+    {
+        m_server.addListener(new InetAddrPort(m_hostName, m_port));
     }
 
     public final void start()
@@ -91,15 +100,16 @@ public class JettySevak extends AbstractLogEnabled implements Sevak, Startable, 
     {
         try
         {
+            // This does not work.
             WebApplicationContext ctx = m_server.addWebApplication(m_hostName, context,
                     pathToWebAppFolder.getAbsolutePath());
+            System.out.println("deploying " + context + " " + pathToWebAppFolder.getAbsolutePath());
             m_webapps.put(context,ctx);
         }
         catch (IOException ioe)
         {
             throw new SevakException("Problem deploying web application in Jetty",ioe);
         }
-
     }
 
     public void undeploy(String context) throws SevakException
