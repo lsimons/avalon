@@ -9,6 +9,7 @@ package org.apache.avalon.phoenix.components.application;
 
 import org.apache.avalon.phoenix.ApplicationEvent;
 import org.apache.avalon.phoenix.ApplicationListener;
+import org.apache.avalon.phoenix.metadata.SarMetaData;
 
 /**
  * Manage a set of <code>ApplicationListener</code> objects and propogate
@@ -59,6 +60,13 @@ final class ApplicationListenerSupport
             final int length = m_listeners.length - index - 1;
             System.arraycopy( m_listeners, index + 1, listeners, index, length );
         }
+    }
+
+    void fireApplicationStartingEvent( final SarMetaData metaData )
+    {
+        final ApplicationEvent event =
+            new ApplicationEvent( metaData.getName(), metaData );
+        applicationStarting( event );
     }
 
     /**
