@@ -58,7 +58,7 @@ public class Main
         // order to execute.
         //
 
-        String spec = "artifact:merlin/merlin-impl#3.3-SNAPSHOT";
+        String spec = "@MERLIN-IMPL-SPEC@";
         Artifact artifact = Artifact.createArtifact( spec );
         Builder builder = context.newBuilder( artifact );
 
@@ -74,6 +74,14 @@ public class Main
 
         Factory factory = builder.getFactory();
         Map criteria = factory.createDefaultCriteria();
-        factory.create( criteria );
+        criteria.put( "merlin.server", "false" );
+        try
+        {
+            Object kernel = factory.create( criteria );
+        }
+        catch( Throwable e )
+        {
+            e.printStackTrace();
+        }
     }
 }
