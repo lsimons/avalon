@@ -7,7 +7,6 @@
  */
 package org.apache.avalon.phoenix.components.phases;
 
-import org.apache.avalon.excalibur.thread.ThreadContext;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Startable;
 import org.apache.avalon.excalibur.container.Container;
@@ -20,6 +19,7 @@ import org.apache.avalon.phoenix.components.frame.ApplicationFrame;
 import org.apache.avalon.phoenix.components.kapi.BlockEntry;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
+import org.apache.avalon.excalibur.lang.ThreadContext;
 
 /**
  *
@@ -68,10 +68,7 @@ public class ShutdownPhase
             getLogger().debug( message );
         }
 
-        //HACK: Hack-o-mania here - Fix when each Application is
-        //run in a separate thread group
-        Thread.currentThread().setContextClassLoader( m_frame.getClassLoader() );
-        ThreadContext.setCurrentThreadPool( m_frame.getDefaultThreadPool() );
+        ThreadContext.setThreadContext( m_frame.getThreadContext() );
 
         final Object object = entry.getInstance();
 

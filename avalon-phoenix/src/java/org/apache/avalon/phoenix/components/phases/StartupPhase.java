@@ -9,7 +9,6 @@ package org.apache.avalon.phoenix.components.phases;
 
 import java.io.File;
 import java.net.URL;
-import org.apache.avalon.excalibur.thread.ThreadContext;
 import org.apache.avalon.framework.CascadingException;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.activity.Startable;
@@ -42,6 +41,7 @@ import org.apache.avalon.phoenix.metainfo.BlockUtil;
 import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
+import org.apache.avalon.excalibur.lang.ThreadContext;
 
 /**
  *
@@ -109,10 +109,7 @@ public class StartupPhase
             getLogger().debug( message );
         }
 
-        //HACK: Hack-o-mania here - Fix when each Application is
-        //run in a separate thread group
-        Thread.currentThread().setContextClassLoader( m_frame.getClassLoader() );
-        ThreadContext.setCurrentThreadPool( m_frame.getDefaultThreadPool() );
+        ThreadContext.setThreadContext( m_frame.getThreadContext() );
 
         try
         {
