@@ -23,8 +23,9 @@
 
  <body>
     <menu>
-      <item name="Glossary" href="glossary.html"/>
-      <item name="Object Model" href="model/index.html"/>
+      <item name="Disclosure" href="disclosure.html"/>
+      <item name="Selection" href="selection.html"/>
+      <item name="Federation" href="federation.html"/>
     </menu>
   </body>
 
