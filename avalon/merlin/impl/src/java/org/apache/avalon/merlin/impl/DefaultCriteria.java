@@ -85,7 +85,7 @@ import org.apache.avalon.util.criteria.PackedParameter;
  * for application to a factory.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class DefaultCriteria extends Criteria implements KernelCriteria
 {
@@ -555,9 +555,6 @@ public class DefaultCriteria extends Criteria implements KernelCriteria
             setProperty( 
               properties, "merlin.home", 
               Env.getEnvVariable( "MERLIN_HOME" ) );
-            setProperty( 
-              properties, "maven.home", 
-              Env.getEnvVariable( "MAVEN_HOME" ) );
             setProperty( 
               properties, "maven.home.local", 
               Env.getEnvVariable( "MAVEN_HOME_LOCAL" ) );

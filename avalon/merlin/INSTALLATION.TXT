@@ -18,7 +18,7 @@ resources.
     INSTALLATION.TXT
   /plugins
     avalon-meta-plugin-1.2.jar
-    merlin-plugin-3.2-dev.jar
+    merlin-plugin-3.2.1-dev.jar
 
 
 Installing Merlin.
@@ -67,16 +67,16 @@ Under Lunix:
 The installation of Merlin is now complete, however, two plugins are
 provided with the installation supporting merlin development under the 
 Maven platform.  These plugins should be placed in the Maven plugin 
-directory (%MAVEN_HOME%\plugins).
+directory (${maven.home.local}\plugins).
 
-  %MAVEN_HOME%\plugins\avalon-meta-plugin-1.2.jar
-  %MAVEN_HOME%\plugins\merlin-plugin-3.2-dev.jar
+  [YOUR-MAVEN-HOME]\plugins\avalon-meta-plugin-1.2.jar
+  [YOUR-MAVEN-HOME]\plugins\merlin-plugin-3.2.1-dev.jar
 
 Please note that if you are upgrading an existing installation you must
 delete the following two directories:
 
-  %MAVEN_HOME%\plugins\merlin-plugin-* 
-  %MAVEN_HOME%\plugins\avalon-meta-plugin-*
+  [YOUR-MAVEN-HOME]\plugins\avalon-meta-plugin-*
+  [YOUR-MAVEN-HOME]\plugins\merlin-plugin-* 
 
 Replace the existing avalon-meta and merlin plugin jar files with the supplied
 versions.  Finally, delete all *.cache files in the Maven plugin directory.
