@@ -43,7 +43,7 @@ import org.apache.avalon.framework.logger.Logger;
  *
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2004/01/24 23:25:21 $
+ * @version $Revision: 1.5 $ $Date: 2004/02/07 22:46:42 $
  */
 public abstract class AbstractAppliance extends AbstractLogEnabled implements Appliance, Disposable
 {
@@ -61,6 +61,10 @@ public abstract class AbstractAppliance extends AbstractLogEnabled implements Ap
 
     public AbstractAppliance( DeploymentModel model )
     {
+        if( null == m_model ) 
+        {
+            throw new NullPointerException( "model" );
+        }
         enableLogging( model.getLogger() );
         m_model = model;
         m_model.setHandler( this );
@@ -76,10 +80,6 @@ public abstract class AbstractAppliance extends AbstractLogEnabled implements Ap
      */
     public DeploymentModel getModel()
     {
-        if( null == m_model ) 
-        {
-            throw new NullPointerException( "model" );
-        }
         return m_model;
     }
 

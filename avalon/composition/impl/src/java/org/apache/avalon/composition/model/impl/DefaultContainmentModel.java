@@ -94,7 +94,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * as a part of a containment deployment model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.29 $ $Date: 2004/02/07 20:21:03 $
+ * @version $Revision: 1.30 $ $Date: 2004/02/07 22:46:42 $
  */
 public class DefaultContainmentModel extends DefaultDeploymentModel 
   implements ContainmentModel
@@ -705,11 +705,9 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
             }
             catch( Throwable e )
             {
-                final String message = 
-                  "A composition listener raised an exception";
                 final String error = 
-                  ExceptionHelper.packException( message, e, true );
-                getLogger().warn( error );
+                  "A composition listener raised an exception";
+                getLogger().warn( error, e );
             }
         }
     }
@@ -727,11 +725,9 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
             }
             catch( Throwable e )
             {
-                final String message = 
-                  "A composition listener raised an exception";
                 final String error = 
-                  ExceptionHelper.packException( message, e, true );
-                getLogger().warn( error );
+                  "A composition listener raised an exception";
+                getLogger().warn( error, e );
             }
         }
     }

@@ -19,6 +19,8 @@ package org.apache.avalon.composition.model;
 
 import java.io.File;
 
+import org.apache.avalon.composition.runtime.RuntimeFactory;
+
 import org.apache.avalon.logging.provider.LoggingManager;
 
 import org.apache.avalon.repository.Repository;
@@ -31,7 +33,7 @@ import org.apache.avalon.framework.parameters.Parameters;
  * Defintion of a system context that exposes a system wide set of parameters.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.6 $ $Date: 2004/02/07 14:03:42 $
+ * @version $Revision: 1.7 $ $Date: 2004/02/07 22:46:42 $
  */
 public interface SystemContext extends Context
 {

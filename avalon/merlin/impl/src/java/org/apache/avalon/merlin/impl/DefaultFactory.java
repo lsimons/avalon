@@ -248,40 +248,7 @@ public class DefaultFactory implements Factory
           createApplicationModel( systemContext, appConfig );
 
         //
-        // Create the containment model describing all of the 
-        // system facilities. These facilities may include model 
-        // listeners and dependent components that facilitate the
-        // customization of the runtime merlin system.  The 
-        // facilities model receives a privaliged system context
-        // that contains a reference to the root application model
-        // enabling listeners to register themselves for model 
-        // changes.
-        // 
-
-        //getLogger().info( "facilities deployment" );
-        //Configuration facilitiesConfig = 
-        //  config.getChild( "facilities" );
-        //Logger facilitiesLogger = getLogger();
-
-        //DelegatingSystemContext system = 
-        //  new DelegatingSystemContext( systemContext );
-        //system.put( "urn:composition:dir", criteria.getWorkingDirectory() );
-        //system.put( "urn:composition:anchor", criteria.getAnchorDirectory() );
-        //system.put( "urn:composition:application", application );
-        //system.makeReadOnly();
-
-        //ContainmentModel facilities = 
-        //  createFacilitiesModel( 
-        //    system, facilitiesLogger, facilitiesConfig );
-
-        //
-        // Assembly of the system containment model. Note .. its not sure
-        // if this function should be a part of the kernel initialization
-        // or if this belongs here in the factory.  The current view is
-        // the factory does the work of constructing the artifacts for
-        // the kernel and the kernel implements the kernel 
-        // startup/shutdown behaviour and the embeddor handles any post
-        // kernel management logic.
+        // create the kernel
         //
 
         KernelContext kernelContext = 
