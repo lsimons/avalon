@@ -17,25 +17,11 @@
       <p>The orginal post was written by Stephen McConnell from OSM.</p>
     </section>
     <section name="The example">
-      <p>First we start with a manifest file in a jar the contains
-      a block.  The manifest contains the declaration of the path
-      to the block implementation.  This path is also used to
-      resolve the .xinfo file.  In this case the <code>.xinfo</code>
-      description will be located under
-      <code>org/apache/acme/hub/gateway/pki/PKIProcessServer.xinfo</code></p>
-      <source><![CDATA[
-
-Manifest-Version: 1.0
-Created-By: ACME Corporation
-
-Name: org/apache/acme/hub/gateway/pki/PKIProcessServer.class
-Avalon-Block: true
-
-      ]]>
-      </source>
-      <p>The <code>.xinfo</code> file contains a description of a
-      reasonably simple block that serves as a factory for business
-      processes that handle PKI certification requests:</p>
+      <p>Each Block has an associated xinfo file and the xinfo file
+      is stored alongside the block in a jar file. The <code>.xinfo</code>
+      file contains a description of a reasonably simple block that serves
+      as a factory for business processes that handle PKI certification
+      requests:</p>
       <source><![CDATA[
 <?xml version="1.0"?>
 

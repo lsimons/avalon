@@ -17,6 +17,11 @@
   </devs>
 <release version="4.0b" date="Unreleased">
     <action dev="PD" type="change">
+        Deprecated Manifest generation xdoclet task. It has never been
+        used, supported or required by Phoenix and is considered a
+        deprecated practice.
+    </action>
+    <action dev="PD" type="change">
         Moved the default location of DTDs to be based in directory
         http://jakarta.apache.org/avalon/dtds/phoenix/* rather than
         http://jakarta.apache.org/phoenix/*. Old style DTD URIs are
