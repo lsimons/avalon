@@ -114,8 +114,8 @@ import org.apache.log.Priority;
  * component m_manager, a pool m_manager, etc. It will manage these components
  * and dispose of them properly when it itself is disposed .</p>
  *
- * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/01/27 16:55:42 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.2 $ $Date: 2003/02/07 16:08:12 $
  * @since 4.1
  */
 public class ContextManager

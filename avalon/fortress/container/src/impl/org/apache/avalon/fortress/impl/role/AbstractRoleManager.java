@@ -58,8 +58,8 @@ import org.apache.avalon.fortress.impl.handler.PerThreadComponentHandler;
  * The Excalibur Role Manager is used for Excalibur Role Mappings.  All of
  * the information is hard-coded.
  *
- * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/01/27 16:55:42 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.2 $ $Date: 2003/02/07 16:08:12 $
  * @since 4.1
  */
 public abstract class AbstractRoleManager

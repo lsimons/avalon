@@ -55,8 +55,8 @@ import org.apache.avalon.framework.activity.Initializable;
  * The Excalibur Role Manager is used for Excalibur Role Mappings.  All of
  * the information is hard-coded.
  *
- * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.2 $ $Date: 2003/02/05 19:44:59 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.3 $ $Date: 2003/02/07 16:08:12 $
  */
 public class FortressRoleManager
     extends org.apache.avalon.fortress.impl.role.AbstractRoleManager

@@ -58,8 +58,8 @@ import org.apache.avalon.framework.service.ServiceException;
  * All communication from the ContainerManager to the Container is through the
  * Context object.
  *
- * @author <a href="mailto:avalon-dev@jakarta.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/01/27 16:55:40 $
+ * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
+ * @version CVS $Revision: 1.2 $ $Date: 2003/02/07 16:08:01 $
  * @see ContainerConstants for the contract surrounding the Container context
  * @see <a href="http://jakarta.apache.org/avalon/framework/guide-cop-in-avalon.html">COP In Avalon</a>
  */

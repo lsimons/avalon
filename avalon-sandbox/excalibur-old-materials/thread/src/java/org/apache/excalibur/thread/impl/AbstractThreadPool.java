@@ -59,7 +59,7 @@ import org.apache.excalibur.thread.ThreadPool;
  * Sub-classes should implement the abstract methods to
  * retrieve and return Threads to the pool.
  *
- * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  */
 public abstract class AbstractThreadPool

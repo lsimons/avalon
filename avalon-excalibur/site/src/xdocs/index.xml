@@ -4,7 +4,7 @@
   <header>
     <title>Excalibur - Overview</title>
     <authors>
-      <person name="Avalon Documentation Team" email="avalon-dev@jakarta.apache.org"/>
+      <person name="Avalon Documentation Team" email="dev@avalon.apache.org"/>
     </authors>
   </header>
   <body>
@@ -36,7 +36,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.7 $ $Date: 2003/02/06 13:38:34 $
+      $Revision: 1.8 $ $Date: 2003/02/07 16:08:55 $
     </legal>
   </footer>
 </document>

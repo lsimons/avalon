@@ -71,8 +71,8 @@ import org.apache.excalibur.mpool.PoolManager;
  * This is the default implementation of the {@link org.apache.avalon.fortress.ContainerManager} interface.
  * See that interface for a description.
  *
- * @author <a href="mailto:avalon-dev@jakarta.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/01/27 16:55:41 $
+ * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
+ * @version CVS $Revision: 1.2 $ $Date: 2003/02/07 16:08:11 $
  */
 public class DefaultContainerManager
     implements Initializable, Disposable, org.apache.avalon.fortress.ContainerManager, org.apache.avalon.fortress.ContainerManagerConstants

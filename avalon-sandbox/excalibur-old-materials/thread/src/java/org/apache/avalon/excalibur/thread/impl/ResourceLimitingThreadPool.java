@@ -69,9 +69,9 @@ import org.apache.excalibur.threadcontext.ThreadContext;
  *  resources.  The pool can be configured to block for a new thread or throw an exception.
  *  The maximum block time can also be set.
  *
- * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.11 $ $Date: 2003/01/20 21:18:23 $
+ * @version CVS $Revision: 1.12 $ $Date: 2003/02/07 16:08:55 $
  * @since 4.1
  */
 public class ResourceLimitingThreadPool

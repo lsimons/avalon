@@ -61,8 +61,8 @@ import org.apache.excalibur.mpool.PoolManager;
 
 /**
  * Helper class to create a context for the ContextManager.
- * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/01/27 16:55:42 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.2 $ $Date: 2003/02/07 16:08:12 $
  */
 public class ContextBuilder
     implements ContextManagerConstants

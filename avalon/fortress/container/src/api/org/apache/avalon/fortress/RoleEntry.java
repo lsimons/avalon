@@ -13,8 +13,8 @@ package org.apache.avalon.fortress;
  * the handler class used to manage it.  The short name is included strictly
  * to enable "self-healing" configuration files.
  *
- * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/01/27 16:55:40 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Revision: 1.2 $ $Date: 2003/02/07 16:08:01 $
  */
 public class RoleEntry
 {

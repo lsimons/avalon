@@ -56,7 +56,7 @@ import org.apache.excalibur.thread.Executable;
  * Class to adapt a {@link org.apache.avalon.framework.activity.Executable} object in
  * an {@link Executable} object.
  *
- * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  * @deprecated Only Used by deprecated code and will be removed in future
  */

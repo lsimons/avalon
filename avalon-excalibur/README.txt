@@ -113,7 +113,7 @@
   ---------
 
   If you have problems, questions or feedback about Excalibur, don't hesitate
-  to contact the dev team at avalon-dev@jakarta.apache.org. Feedback is always
+  to contact the dev team at dev@avalon.apache.org. Feedback is always
   welcome!
 
 

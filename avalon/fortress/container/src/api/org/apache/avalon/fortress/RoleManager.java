@@ -56,8 +56,8 @@ package org.apache.avalon.fortress;
  * classes to roles.  Any one role can have multiple classes associated with
  * it.
  *
- * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/01/27 16:55:40 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.2 $ $Date: 2003/02/07 16:08:01 $
  * @since 4.1
  */
 public interface RoleManager
