@@ -24,7 +24,6 @@ import com.sun.image.codec.jpeg.JPEGImageEncoder;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
@@ -41,7 +40,7 @@ import org.apache.excalibur.instrument.manager.interfaces.NoSuchInstrumentSample
 /**
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.7 $ $Date: 2004/02/28 11:47:21 $
+ * @version CVS $Revision: 1.8 $ $Date: 2004/02/29 18:11:04 $
  * @since 4.1
  */
 public class SampleChartHandler
