@@ -32,7 +32,7 @@ public final class ContextMap
     ///Thread local for holding instance of map associated with current thread
     private static final ThreadLocal c_context   = new InheritableThreadLocal();
 
-    private ContextMap m_parent;
+    private final ContextMap m_parent;
 
     ///Container to hold map of elements
     private Hashtable  m_map       = new Hashtable();
@@ -90,6 +90,7 @@ public final class ContextMap
      */
     public ContextMap()
     {
+        this( null );
     }
 
     /**
@@ -113,11 +114,23 @@ public final class ContextMap
     }
 
     /**
+     * Determine if context is read-only.
+     *
+     * @return true if Context is read only, false otherwise
+     */
+    public boolean isReadOnly()
+    {
+        return m_readOnly;
+    }
+
+    /**
      * Empty the context map.
      *
      */
     public void clear()
     {
+        checkReadable();
+
         m_map.clear();
     }
 
@@ -162,10 +175,7 @@ public final class ContextMap
      */
     public void set( final String key, final Object value )
     {
-        if( m_readOnly )
-        {
-            throw new IllegalStateException( "ContextMap is read only and can not be modified" );
-        }
+        checkReadable();
 
         if( value == null )
         {
@@ -197,5 +207,16 @@ public final class ContextMap
     public int getSize()
     {
         return m_map.size();
+    }
+
+    /**
+     * Utility method to verify that Context is read-only.
+     */
+    private void checkReadable()
+    {
+        if( isReadOnly() )
+        {
+            throw new IllegalStateException( "ContextMap is read only and can not be modified" );
+        }
     }
 }
