@@ -20,7 +20,7 @@ import org.apache.avalon.framework.logger.AbstractLoggable;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.excalibur.pool.Recyclable;
 import org.apache.avalon.excalibur.pool.Pool;
-import org.apache.log.Logger;
+import org.apache.avalon.framework.logger.Logger;
 
 /**
  * The Connection object used in conjunction with the JdbcDataSource
@@ -31,7 +31,7 @@ import org.apache.log.Logger;
  * total number of Connection objects that are created.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.5 $ $Date: 2001/08/14 16:26:09 $
+ * @version CVS $Revision: 1.6 $ $Date: 2001/10/31 21:40:59 $
  * @since 4.0
  */
 public class JdbcConnection
