@@ -58,10 +58,15 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.URL;
+import java.util.Map;
 
 import org.apache.excalibur.source.ModifiableSource;
 import org.apache.excalibur.source.SourceException;
 import org.apache.excalibur.source.SourceNotFoundException;
+import org.apache.excalibur.source.SourceParameters;
+import org.apache.excalibur.source.SourceResolver;
+import org.apache.excalibur.source.SourceUtil;
 
 import sun.net.ftp.FtpClient;
 
@@ -72,10 +77,36 @@ import sun.net.ftp.FtpClient;
  */
 public class FTPSource extends URLSource implements ModifiableSource
 {   
-    
+    private boolean m_isAscii;
+	
     public FTPSource()
     {
         super();
+    }
+
+    /**
+     * Initialize a new object from a <code>URL</code>.
+     * @param parameters This is optional
+     */
+    public void init(final URL url, final Map parameters) throws IOException
+    {
+        final String systemId = url.toExternalForm();
+        setSystemId(systemId);
+        setScheme(SourceUtil.getScheme(systemId));
+
+        m_url = url;
+        m_isAscii = false;
+
+        if (parameters != null)
+        {
+            m_parameters = (SourceParameters) parameters.get(SourceResolver.URI_PARAMETERS);
+            final String method = (String) parameters.get(SourceResolver.METHOD);
+
+            if ("ASCII".equalsIgnoreCase(method))
+            {
+                m_isAscii = true;
+            }
+        }
     }
 
     /**
@@ -161,6 +192,36 @@ public class FTPSource extends URLSource implements ModifiableSource
                 }
                 catch ( IOException e ) {}
             }
+        }
+    }
+
+    /**
+     * Get the last modification date and content length of the source.
+     * Any exceptions are ignored.
+     */
+    protected void getInfos()
+    {
+        // exists will be set below depending on the m_url type
+        m_exists = false;
+        try
+        {
+            if (null == m_connection)
+            {
+                m_connection = m_url.openConnection();
+                String userInfo = m_url.getUserInfo();
+            }
+            setLastModified(m_connection.getLastModified());
+            setContentLength(m_connection.getContentLength());
+            // getting the content type here seems to screw up=20
+            // the InputStream on the URLConnection.
+//            m_mimeType = m_connection.getContentType();
+            m_mimeType = null;
+            m_exists = true;
+        }
+        catch (IOException ignore)
+        {
+            setContentLength(-1);
+            setLastModified(0);
         }
     }
 
@@ -310,11 +371,11 @@ public class FTPSource extends URLSource implements ModifiableSource
                 try
                 {
                     ftpClient = m_source.getFtpClient();
-                    // NOTE:
-                    // we don't have a way to determine whether we are
-                    // dealing with an ascii file or not. Therefore transfer mode
-                    // will be binary by default as this will cause the least problems.
-                    // The worse that can happen now is that linebreaks get messed up.
+                    if (m_source.m_isAscii) {
+                        ftpClient.ascii();
+                    } else {
+                        ftpClient.binary();
+                    }
                     String parentPath = null;
                     String fileName = null;
                     final String relativePath = m_source.m_url.getPath().substring( 1 );
