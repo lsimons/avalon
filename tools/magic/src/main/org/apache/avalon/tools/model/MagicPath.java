@@ -17,13 +17,19 @@
 
 package org.apache.avalon.tools.model;
 
+import java.io.File;
+
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.types.Path;
 
 /**
  * An ant datatype that represent a typical ant path created using 
- * transitive magic dependencies.
+ * transitive magic dependencies.  If the path datatype declaration includes
+ * the 'key' attribute the result path will include the artifact identified
+ * by the key if the resource type is a jar together with all dependent 
+ * artifacts.  If the key attribute is not declared the path returned will 
+ * be composed of the dependent artifacts.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
@@ -34,27 +40,28 @@ public class MagicPath extends Path
     private Home m_home;
     private String m_key;
     private int m_mode = Policy.RUNTIME;
+    private boolean m_initialized = false;
 
    /**
     * Creation of a new path relative to a supplied project.
+    *
     * @param project the current ant project
     */ 
     public MagicPath( Project project )
     {
         super( project );
-        setup();
     }
 
    /**
     * Set the key identifying the magic resource that will be 
-    * used for path construction.  If not declared the kley defaults 
+    * used for path construction.  If not declared the key defaults 
     * to the key of the current project.
+    *
     * @param key the resource key
     */
     public void setKey( final String key )
     {
         m_key = key;
-        setup();
     }
 
    /**
@@ -65,6 +72,7 @@ public class MagicPath extends Path
     */
     public void setMode( final String mode )
     {
+        System.out.println( "#MODE:" + mode );
         if( "ANY".equalsIgnoreCase( mode ) )
         {
             m_mode = Policy.ANY;
@@ -88,36 +96,48 @@ public class MagicPath extends Path
               + "] - use ANY, BUILD, TEST or RUNTIME.";
             throw new BuildException( error );
         }
-        setup();
     }
 
     //------------------------------------------------------------
     // private
     //------------------------------------------------------------
 
+
+    public String[] list()
+    {
+        setup();
+        return super.list();
+    }
+
     private int getMode()
     {
         return m_mode;
     }
 
-    private Definition getReferenceDefinition()
+    private Resource getResource()
     {
         if( null != m_key )
         {
-            return getHome().getDefinition( m_key );
+            return getHome().getResource( m_key );
         }
         else
         {
-            return getHome().getDefinition( getKey() );
+            return getHome().getResource( getKey() );
         }
     }
 
     private void setup()
     {
+        if( m_initialized )
+        {
+            return;
+        }
+
         if( null == m_context )
         {
             m_context = Context.getContext( getProject() );
         }
+
         if( null == m_home ) 
         {
             Home home = (Home) getProject().getReference( Home.KEY );
@@ -133,9 +153,17 @@ public class MagicPath extends Path
             }
         }
 
-        Definition def = getReferenceDefinition();
+        Resource def = getResource();
         Path path = def.getPath( getProject(), getMode() );
+
+        if( null != m_key && "jar".equals( def.getInfo().getType() ) )
+        {
+            final File file = def.getArtifact( getProject() );
+            path.createPathElement().setLocation( file );
+        }
+
         super.add( path );
+        m_initialized = true;
     }
 
     private Context getContext()
