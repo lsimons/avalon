@@ -1,5 +1,5 @@
 APACHE AVALON PROJECT STATUS:                          -*-indented-text-*-
-Last modified at [$Date: 2003/01/21 16:11:01 $]
+Last modified at [$Date: 2003/01/22 05:53:52 $]
 
 Background:
 
@@ -92,7 +92,7 @@ Pending issues:
       updated by the original item proposal? 
       
       [20020119]
-      +1: nicolaken, leosimons, mcconnell
+      +1: nicolaken, leosimons, mcconnell, jefft
       +0:
       -0: leosutic
       -1:      
