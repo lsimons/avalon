@@ -745,10 +745,10 @@
       </info>
       <dependencies>
         <include key="avalon-framework-api" tag="api"/>
-        <include key="avalon-util-extension-api" tag="api"/>
-        <include key="avalon-merlin-api" tag="api"/>
-        <include key="avalon-repository-api" tag="api"/>
         <include key="avalon-util-lifecycle" tag="api"/>
+        <include key="avalon-util-extension-api" tag="spi"/>
+        <include key="avalon-merlin-api" tag="spi"/>
+        <include key="avalon-repository-api" tag="spi"/>
         <include key="avalon-meta-spi" tag="spi"/>
         <include key="avalon-repository-spi" tag="spi"/>
         <include key="avalon-logging-spi" tag="spi"/>
@@ -772,6 +772,34 @@
         <include key="commons-cli"/>
       </dependencies>
     </project>
+
+    <project basedir="../../planet/tutorials/hello" key="avalon-tutorial-hello">
+      <info>
+        <group>avalon/tutorial</group>
+        <name>hello</name>
+      </info>
+      <dependencies>
+        <include key="avalon-framework-api"/>
+      </dependencies>
+      <plugins>
+        <include key="avalon-meta-tools"/>
+      </plugins>
+    </project>
+
+    <project basedir="../../planet/tutorials/dynamics" key="avalon-tutorial-dynamics">
+      <info>
+        <group>avalon/tutorial</group>
+        <name>dynamics</name>
+      </info>
+      <dependencies>
+        <include key="avalon-framework-api"/>
+        <include key="avalon-composition-api"/>
+      </dependencies>
+      <plugins>
+        <include key="avalon-meta-tools"/>
+      </plugins>
+    </project>
+
 
     <!--
     <project basedir="../../runtime/merlin/unit">
