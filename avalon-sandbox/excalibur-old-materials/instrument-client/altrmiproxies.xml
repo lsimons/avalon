@@ -4,7 +4,6 @@
 
     <!-- Classpath for product -->
     <path id="project.class.path">
-        <pathelement path="${java.class.path}"/>
         <pathelement location="${build.classes}"/>
         <pathelement location="${avalon-framework.jar}"/>
         <pathelement location="${excalibur-altrmi-client-impl.jar}"/>
