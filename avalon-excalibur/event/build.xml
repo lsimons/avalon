@@ -22,9 +22,6 @@
         <pathelement location="${avalon-framework.jar}"/>
         <pathelement location="${checkstyle.jar}"/>
         <pathelement path="${java.class.path}"/>
-        <fileset dir="${lib.dir}">
-            <include name="*.jar" />
-        </fileset>
     </path>
 
     <path id="tools.class.path">
@@ -59,7 +56,7 @@
     <target name="dependencies-test" depends="dist-jar, dependencies"
         description="Check unit test dependencies" unless="skip.dependencies">
         <!-- Need the jar to prevent recursive deps. -->
-        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkTestcase"/>
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkComponent"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkLogkit"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkInstrument"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkPool"/>
@@ -316,11 +313,8 @@
             </fileset>
         </copy>
         <mkdir dir="${dist.dir}/lib"/>
-        <copy todir="${dist.dir}/lib">
-            <fileset dir="lib">
-                <include name="*.jar"/>
-            </fileset>
-        </copy>
+        <copy todir="${dist.dir}/lib" file="${commons-collections.jar}"/>
+        <copy todir="${dist.dir}/lib" file="${util.concurrent.jar}"/>
     </target>
 
     <!-- Creates a minimal distribution -->
