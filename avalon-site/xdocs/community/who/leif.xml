@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Apache Avalon: Contributors</title>
+  </properties>
+  <body>
+    <section name="Leif Mortenson">
+      <p>(leif at apache dot org)</p>
+      <p>
+            Leif initially began using Avalon for a large commercial server that
+            he was working.  He became a committer after making several
+            contributions.
+      </p>
+      <p>
+            Leif has contributed to the
+            <a href="http://avalon.apache.org/excalibur/component/index.html">Excalibur Component Manager</a>,
+            <a href="http://avalon.apache.org/excalibur/pool/index.html">Pooling</a>,
+            <a href="http://avalon.apache.org/excalibur/datasource/index.html">DataSource</a>, and
+            <a href="http://avalon.apache.org/excalibur/thread/index.html">ThreadPooling</a> projects.
+            Leif was also responsible for the Instrumentation projects:
+            <a href="http://avalon.apache.org/excalibur/instrument/index.html">Instrument</a>,
+            <a href="http://avalon.apache.org/excalibur/instrument-manager/index.html">Instrument Manager</a>, and
+            <a href="http://avalon.apache.org/excalibur/instrument-client/index.html">Instrument Remote Client</a> projects.
+      </p>
+      <p>
+            Outside of ASF, Leif also manages the <a href="http://wrapper.tanukisoftware.org">Java Service Wrapper</a> project.
+      </p>
+      <p>
+            Leif has lived and worked in Tokyo, Japan since 1996 and enjoys
+            backpacking, swimming and water skiing.
+      </p>
+      <p>
+            His academic background includes an E.E. Degree specializing in
+            Control Systems.  Work background includes software testing, plant
+            automation and data analysis, scalable recommendation server design
+            and implementation.  More recently, Leif has been doing consulting
+            based development for companies in Japan.
+      </p>
+    </section>
+  </body>
+</document>
+
