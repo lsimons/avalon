@@ -141,6 +141,8 @@
         <!-- As we know the order here is correct, we don't need to do
         dependency checking -->
         <property name="skip.dependencies" value="true"/>
+        
+        <ant dir="altrmi" target="dist-jar"/>
         <ant dir="collections" target="dist-jar"/>
         <ant dir="instrument" target="dist-jar"/>
         <ant dir="concurrent" target="dist-jar"/>
@@ -160,8 +162,17 @@
         <ant dir="cli" target="dist-jar"/>
         <ant dir="naming" target="dist-jar"/>
         <ant dir="monitor" target="dist-jar"/>
-        <ant dir="altrmi" target="dist-jar"/>
+        <ant dir="threadcontext" target="dist-jar"/>
+        <ant dir="thread" target="dist-jar"/>
+        <ant dir="event" target="dist-jar"/>
+        <ant dir="fortress" target="dist-jar"/>
 
+        <!--
+          To work around circular dependencies, we need to call this build a second time.
+          Otherwise the optional classes will not be built.
+        -->
+        <ant dir="instrument" target="dist-jar"/>
+        
         <!-- Jump through hoops to avoid jlink size bug.  -->
 
         <property name="tmpjarA" value="avalon-excalibur-tmpA.jar"/>
