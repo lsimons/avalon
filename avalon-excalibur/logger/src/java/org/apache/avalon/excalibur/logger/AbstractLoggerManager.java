@@ -49,13 +49,13 @@
 */
 package org.apache.avalon.excalibur.logger;
 
-import java.util.Map;
 import java.util.HashMap;
-import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.framework.logger.LogEnabled;
-import org.apache.avalon.framework.activity.Startable;
+import java.util.Map;
+
 import org.apache.avalon.excalibur.logger.util.LoggerSwitch;
 import org.apache.avalon.excalibur.logger.util.LoggerUtil;
+import org.apache.avalon.framework.logger.LogEnabled;
+import org.apache.avalon.framework.logger.Logger;
 
 /**
  *
@@ -78,7 +78,7 @@ import org.apache.avalon.excalibur.logger.util.LoggerUtil;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
  * @author <a href="http://cvs.apache.org/~atagunov">Anton Tagunov</a>
- * @version CVS $Revision: 1.2 $ $Date: 2003/06/11 10:52:10 $
+ * @version CVS $Revision: 1.3 $ $Date: 2003/06/12 18:57:45 $
  * @since 4.0
  */
 public abstract class AbstractLoggerManager
