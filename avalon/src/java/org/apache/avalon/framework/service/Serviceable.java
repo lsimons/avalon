@@ -13,11 +13,11 @@ package org.apache.avalon.framework.service;
  * but on behavioral interfaces.
  * <br />
  *
- * The contract surrounding a <code>Composable</code> is that it is a user.
- * The <code>Composable</code> is able to use <code>Object</code>s managed
+ * The contract surrounding a <code>Serviceable</code> is that it is a user.
+ * The <code>Serviceable</code> is able to use <code>Object</code>s managed
  * by the <code>ServiceManager</code> it was initialized with.  As part
  * of the contract with the system, the instantiating entity must call
- * the <code>compose</code> method before the <code>Composable</code>
+ * the <code>service</code> method before the <code>Serviceable</code>
  * can be considered valid.
  *
  * @author <a href="mailto:fede@apache.org">Federico Barbieri</a>
@@ -26,20 +26,20 @@ package org.apache.avalon.framework.service;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
  * @version 1.0
- * @see org.apache.avalon.framework.service.ComponentLocator
+ * @see org.apache.avalon.framework.service.ServiceManager
  *
  */
 public interface Serviceable
 {
     /**
-     * Pass the <code>ComponentManager</code> to the <code>Composable</code>.
-     * The <code>Composable</code> implementation should use the specified
-     * <code>ComponentManager</code> to acquire the components it needs for
+     * Pass the <code>ServiceManager</code> to the <code>Serviceable</code>.
+     * The <code>Serviceable</code> implementation should use the specified
+     * <code>ServiceManager</code> to acquire the components it needs for
      * execution.
      *
      * @param manager The <code>ServiceManager</code> which this
-     *                <code>Composable</code> uses.
-     * @throws ComponentException if an error occurs
+     *                <code>Serviceable</code> uses.
+     * @throws ServiceException if an error occurs
      */
     void service( ServiceManager manager )
         throws ServiceException;

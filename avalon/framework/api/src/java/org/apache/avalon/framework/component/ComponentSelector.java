@@ -76,10 +76,10 @@ public interface ComponentSelector
 
     /**
      * Return the <code>Component</code> when you are finished with it.  This
-     * allows the <code>ComponentManager</code> to handle the End-Of-Life Lifecycle
+     * allows the <code>ComponentSelector</code> to handle the End-Of-Life Lifecycle
      * events associated with the Component.  Please note, that no Exceptions
      * should be thrown at this point.  This is to allow easy use of the
-     * ComponentLocator system without having to trap Exceptions on a release.
+     * ComponentSelector system without having to trap Exceptions on a release.
      *
      * @param component The Component we are releasing.
      */

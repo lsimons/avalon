@@ -33,7 +33,7 @@ import org.apache.avalon.framework.service.Serviceable;
  * a component throught it's lifecycle stages.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2002/06/14 01:55:52 $
+ * @version $Revision: 1.3 $ $Date: 2002/06/14 13:04:03 $
  */
 public final class ContainerUtil
 {
@@ -118,7 +118,7 @@ public final class ContainerUtil
      *        implement Composable.
      * @throws ComponentException if there is a problem servicing object
      * @throws IllegalArgumentException if the object is Servicable but
-     *         ComponentLocator is null
+     *         ServiceManager is null
      */
     public static void service( final Object object,
                                 final ServiceManager serviceManager )
@@ -128,7 +128,7 @@ public final class ContainerUtil
         {
             if( null == serviceManager )
             {
-                final String message = "serviceManager is null";
+                final String message = "ServiceManager is null";
                 throw new IllegalArgumentException( message );
             }
             ( (Serviceable)object ).service( serviceManager );
@@ -140,7 +140,7 @@ public final class ContainerUtil
      * {@link Composable} interface.
      *
      * @param object the object to compose
-     * @param componentManager the ComponentLocator object to use for object.
+     * @param componentManager the ComponentManager object to use for object.
      *        May be null in which case the specified object must not
      *        implement Composable.
      * @throws ComponentException if there is a problem composing object
@@ -148,7 +148,7 @@ public final class ContainerUtil
      *             which components will be supplied with Components. Please
      *             Use service() from Composable instead.
      * @throws IllegalArgumentException if the object is Composable but
-     *         ComponentLocator is null
+     *         ComponentManager is null
      */
     public static void compose( final Object object,
                                 final ComponentManager componentManager )
