@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+    <extend>${avalon.buildsystem}/project-common.xml</extend>
+
+    <name>Avalon-Fortress-Platform</name>
+    <id>avalon-fortress-platform</id>
+    <groupId>avalon-fortress</groupId>
+    <currentVersion>1.0-dev</currentVersion>
+    <inceptionYear>2003</inceptionYear>
+    <shortDescription>the Avalon-Fortress-Platform</shortDescription>
+    <description>
+A generic, modular kernel that can run multiple instances of
+Avalon-Fortress-Container-based containers.
+    </description>
+
+    <dependencies>
+
+    </dependencies>
+
+</project>

@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+
+<project default="check"
+    xmlns:j="jelly:core"
+    xmlns:ant="jelly:ant"
+    xmlns:deploy="deploy">
+
+    <!-- include the avalon-wide custom project properties -->
+    <property file="${basedir}/project.properties"/>
+    <property file="${basedir}/../project.properties"/>
+    <property file="${basedir}/../../project.properties"/>
+    <property file="${basedir}/../../../project.properties"/>
+    <property file="${basedir}/../../../../project.properties"/>
+
+    <goal name="check">
+        <!-- friendly error in case file is not available -->
+        <ant:available file="${avalon.buildsystem}/maven-common.xml"
+                property="buildsystem.available"/>
+        <j:set var="avalon.buildsystem.available" value="${buildsystem.available}"/>
+        <j:if test="${empty(avalon.buildsystem.available)}">
+            <ant:fail>
+            ===================================================================
+            BUILD SYSTEM FAILURE!
+            ===================================================================
+
+            a required file, ${avalon.buildsystem}/maven-common.xml, cannot be
+            found. Try setting the avalon.buildsystem property in
+            project.properties to the correct location.
+            </ant:fail>
+        </j:if>
+    </goal>
+
+    <!-- include the avalon-wide custom goal decorators from maven-common.xml -->
+    <j:import file="${avalon.buildsystem}/maven-common.xml" inherit="true"/>
+
+    <postGoal name="test:compile">
+        <attainGoal name="avalon:copy-sources"/>
+        <attainGoal name="avalon:init"/>
+
+        <ant:taskdef name="collect-meta"
+            classname="org.apache.avalon.fortress.tools.ComponentMetaInfoCollector">
+
+            <ant:classpath>
+                <ant:path refid="maven.dependency.classpath"/>
+                <ant:pathelement path="${api.build.dir}"/>
+                <ant:pathelement path="${impl.build.dir}"/>
+                <ant:pathelement path="${test.build.dir}"/>
+            </ant:classpath>
+        </ant:taskdef>
+
+        <collect-meta destdir="${test.build.dir}">
+            <fileset dir="${test.src.dir}"/>
+        </collect-meta>
+
+        <ant:copy todir="${test.build.dir}">
+            <ant:fileset dir="${test.src.dir}">
+                <ant:exclude name="**/*.java"/>
+                <ant:exclude name="**/package.html"/>
+            </ant:fileset>
+        </ant:copy>
+    </postGoal>
+
+    <postGoal name="java:jar">
+        <!-- build big jar -->
+        <ant:mkdir dir="${maven.build.dir}/libs"/>
+        <deploy:copy-deps
+                todir="${maven.build.dir}/libs"
+                excludes="junit,avalon-fortress-tools,ant,qdox,xalan"/>
+
+        <ant:jar destfile="${maven.build.dir}/${pom.artifactId}-complete-${pom.currentVersion}.jar" duplicate="preserve">
+            <ant:manifest>
+                <ant:attribute name="Extension-Name" value="${pom.aritfactId}-complete"/>
+                <ant:attribute name="Specification-Vendor" value="Apache Software Foundation"/>
+                <ant:attribute name="Specification-Version" value="${pom.currentVersion}"/>
+                <ant:attribute name="Implementation-Vendor" value="Apache Software Foundation"/>
+                <ant:attribute name="Implementation-Version" value="${pom.currentVersion}"/>
+            </ant:manifest>
+
+            <ant:zipfileset src="${maven.build.dir}/${maven.final.name}.jar"/>
+            <ant:zipgroupfileset dir="${maven.build.dir}/libs" includes="*.zip"/>
+        </ant:jar>
+    </postGoal>
+
+    <postGoal name="avalon:deploy-upload">
+        <!-- upload big jar -->
+        <ant:exec dir="." executable="${maven.scp.executable}">
+            <arg line="${scpopts} target/${pom.artifactId}-complete-${pom.currentVersion}.jar ${repo}/${pom.groupId}/jars/"/>
+        </ant:exec>
+    </postGoal>
+
+    <postGoal name="clean">
+        <delete dir="${maven.src.dir}/java"/>
+    </postGoal>
+</project>
