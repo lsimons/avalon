@@ -82,7 +82,7 @@
       </fileset>
     </ant:delete>
 
-    <j:set var="tutorial.name" value="${maven.final.name}"/>
+    <j:set var="tutorial.name" value="merlin-${pom.currentVersion}-tutorial"/>
     <ant:echo>Building tutorial kit: ${tutorial.name}</ant:echo>
 
     <ant:zip zipfile="${maven.build.dir}/${tutorial.name}.zip">
