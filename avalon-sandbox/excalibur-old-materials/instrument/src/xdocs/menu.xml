@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+	href="http://jakarta.apache.org/avalon/excalibur/instrument/"
+    name="Excalibur Instrument">
+
+    <title>Excalibur Instrument</title>
+    <body>
+        <item href="/../index.html" name="Back to Excalibur"/>
+        <menu name="About">
+            <item name="Overview" href="index.html"/>
+            <item name="Excalibur Home" href="http://jakarta.apache.org/avalon/excalibur/index.html"/>
+            <item name="Download" href="http://jakarta.apache.org/builds/jakarta-avalon-excalibur/release/???"/>
+            <item name="API Docs" href="api/"/>
+        </menu>
+    </body>
+</project>
