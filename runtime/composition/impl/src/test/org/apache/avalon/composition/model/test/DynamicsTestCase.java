@@ -59,7 +59,6 @@ public class DynamicsTestCase extends AbstractTestCase
     {
         try
         {
-            m_model.assemble();
             String spec = Widget.class.getName();
             ReferenceDescriptor ref = new ReferenceDescriptor( spec );
             ComponentModel widget = (ComponentModel) m_model.getModel( ref );
