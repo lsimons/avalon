@@ -50,29 +50,57 @@
 
 package org.apache.avalon.activation.appliance;
 
+import org.apache.avalon.composition.model.StageModel;
+import org.apache.avalon.composition.model.DependencyModel;
+import org.apache.avalon.meta.info.DependencyDescriptor;
+import org.apache.avalon.meta.info.StageDescriptor;
+
 /**
- * The Deployable interface defines the contract for an object 
- * that can be deployed.  Deployment at this level of abstract 
- * concerns the handling of actions proceeding component 
- * resolution for a particula appliance instance.  
- * Deployment is equivalent to the notion of initialization.
+ * The Engine interface defines the contract for service that provide
+ * appliance resolution.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:30:59 $
+ * @version $Revision: 1.1 $ $Date: 2003/10/12 15:34:49 $
  */
-public interface Deployable
+public interface Engine
 {
    /**
-    * Commission the appliance. 
-    *
-    * @exception Exception if a deployment error occurs
+    * Return an appliance relative to a supplied dependency model.
+    * @param dependency the dependency model
+    * @return the appliance
     */
-    void deploy() throws Exception;
+    Appliance resolveAppliance( DependencyModel dependency )
+      throws Exception;
 
    /**
-    * Invokes the decommissioning phase.  Once a appliance is 
-    * decommissioned it may be re-commissioned.
+    * Return an appliance relative to a supplied dependency descriptor.
+    * @param dependency the dependency descriptor
+    * @return the appliance
     */
-    void decommission();
+    Appliance resolveAppliance( DependencyDescriptor dependency )
+      throws Exception;
 
+   /**
+    * Return an appliance relative to a supplied stage model.
+    * @param stage the stage model
+    * @return the appliance
+    */
+    Appliance resolveAppliance( StageModel stage )
+      throws Exception;
+
+   /**
+    * Return an appliance relative to a supplied stage descriptor.
+    * @param stage the stage descriptor
+    * @return the appliance
+    */
+    Appliance resolveAppliance( StageDescriptor stage )
+      throws Exception;
+
+   /**
+    * Return an appliance relative to a supplied path.
+    * @param path the appliance path
+    * @return the appliance
+    */
+    Appliance resolveAppliance( String path )
+      throws Exception;
 }

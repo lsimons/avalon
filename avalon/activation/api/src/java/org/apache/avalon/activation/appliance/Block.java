@@ -56,7 +56,7 @@ package org.apache.avalon.activation.appliance;
  * appliance instances.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2003/10/07 17:42:55 $
+ * @version $Revision: 1.1 $ $Date: 2003/10/12 15:34:49 $
  */
 public interface Block extends Appliance, Engine
 {
