@@ -240,13 +240,14 @@ public class PluginTask extends SystemTask
             m_listeners = XMLDefinitionBuilder.getListenerDefs( listenerElement );
 
             Element classpathElement = ElementHelper.getChild( root, "classpath" );
-            Element[] children = ElementHelper.getChildren( classpathElement );
+            Element[] children = ElementHelper.getChildren( classpathElement, "artifact" );
             for( int i=0; i<children.length; i++ )
             {
                 Element child = children[i];
-                String type = child.getTagName();
                 String value = ElementHelper.getValue( child );
-                Info info = Info.create( type, value );
+                String type = getArtifactType( value );
+                String uri = getArtifactURI( value );
+                Info info = Info.create( type, uri );
                 Resource resource = new Resource( home, info );
                 File jar = resource.getArtifact( project );
                 m_path.createPathElement().setLocation( jar );
@@ -271,6 +272,20 @@ public class PluginTask extends SystemTask
         public Path getPath()
         {
             return m_path;
+        }
+
+        private String getArtifactType( String value )
+        {
+            int i = value.indexOf( ":" );
+            if( i > 0 ) return value.substring( 0, i );
+            return "jar";
+        }
+
+        private String getArtifactURI( String value )
+        {
+            int i = value.indexOf( ":" );
+            if( i > 0 ) return value.substring( i+1 );
+            return value;
         }
     }
 }
