@@ -33,11 +33,15 @@
           <tr><th>Topic</th><th>Summary</th></tr>
           <tr>
             <td><a href="properties.html">System Properties</a></td>
-            <td>IN PREP</td>
+            <td>
+The Merlin kernel is established using the <a href="http://avalon.apache.org/repository">Avalon Repository</a> resource management system under the application key <strong>"merlin"</strong>.  The complete specification of system properties (description and default values) together with supported property file locations are defined here.
+            </td>
           </tr>
           <tr>
             <td><a href="kernel/index.html">System Configuration</a></td>
-            <td>IN PREP</td>
+            <td>
+Additional parameters may be defined at the level of the merlin kernel.  These parameters concern security profiles, root container and classloader, and the application repository.
+            </td>
           </tr>
         </table>
       </subsection>
