@@ -9,6 +9,9 @@ package org.apache.avalon.phoenix.launcher;
 
 import com.silveregg.wrapper.WrapperListener;
 import com.silveregg.wrapper.WrapperManager;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Hashtable;
 
 /**
  * A frontend for Phoenix that starts it as a native service
@@ -17,7 +20,7 @@ import com.silveregg.wrapper.WrapperManager;
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public class DaemonLauncher
-    implements WrapperListener, Runnable
+    implements WrapperListener, Runnable, ActionListener
 {
     private String[] m_args;
 
@@ -36,10 +39,13 @@ public class DaemonLauncher
 
         return null;
     }
-    
+
     public void run()
     {
-        try { Main.main( m_args ); }
+        final Hashtable data = new Hashtable();
+        data.put( ActionListener.class.getName(), this );
+
+        try { Main.startup( m_args, data ); }
         catch( final Exception e )
         {
             e.printStackTrace();
@@ -62,6 +68,30 @@ public class DaemonLauncher
         else
         {
             WrapperManager.stop( 0 );
+        }
+    }
+
+    /**
+     * We use an ActionListener rather than operating on some more meaningful
+     * event system as ActionListener and friends can be loaded from system
+     * ClassLoader and thus the Embeddor does not have to share a common
+     * classloader ancestor with invoker
+     */
+    public void actionPerformed( final ActionEvent action )
+    {
+        final String command = action.getActionCommand();
+        if( command.equals( "restart" ) )
+        {
+            System.out.println( "Pre-restart()" );
+            System.out.flush();
+            WrapperManager.restart();
+            System.out.println( "Post-restart()" );
+            System.out.flush();
+
+        }
+        else
+        {
+            throw new IllegalArgumentException( "Unknown action " + command );
         }
     }
 

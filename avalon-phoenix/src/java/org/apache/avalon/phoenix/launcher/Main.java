@@ -15,6 +15,7 @@ import java.security.CodeSource;
 import java.security.PermissionCollection;
 import java.security.Permissions;
 import java.security.Policy;
+import java.util.Hashtable;
 import java.util.StringTokenizer;
 
 /**
@@ -31,7 +32,32 @@ public final class Main
 
     private static Object c_frontend;
 
-    public final static void main( final String args[] )
+    ///The code to return to system using exit code
+    private static int c_exitCode;
+
+    /**
+     * Main entry point for Phoenix.
+     *
+     * @param args the command line arguments
+     * @exception Exception if an error occurs
+     */
+    public final static void main( final String[] args )
+        throws Exception
+    {
+        startup( args, new Hashtable() );
+        System.exit( c_exitCode );
+    }
+
+    /**
+     * Method to call to startup Phoenix from an 
+     * external (calling) application. Protected to allow
+     * access from DaemonLauncher.
+     *
+     * @param args the command line arg array
+     * @param data a set of extra parameters to pass to embeddor
+     * @exception Exception if an error occurs
+     */
+    protected final static void startup( final String[] args, final Hashtable data )
         throws Exception
     {
         try
@@ -49,11 +75,14 @@ public final class Main
 
             //Create main launcher
             final Class clazz = classLoader.loadClass( MAIN_CLASS );
-            final Method method = clazz.getMethod( "main", new Class[]{ args.getClass() } );
+            final Class[] paramTypes = new Class[] { args.getClass(), Hashtable.class };
+            final Method method = clazz.getMethod( "main", paramTypes );
             c_frontend = clazz.newInstance();
             
             //kick the tires and light the fires....
-            method.invoke( c_frontend, new Object[]{ args } );
+            final Integer integer = 
+                (Integer)method.invoke( c_frontend, new Object[] { args, data } );
+            c_exitCode = integer.intValue();
         }
         catch( final Exception e )
         {
@@ -61,6 +90,11 @@ public final class Main
         }
     }
 
+    /**
+     * Method to call to shutdown Phoenix from an 
+     * external (calling) application. Protected to allow
+     * access from DaemonLauncher.
+     */
     protected final static void shutdown()
     {
         if( null == c_frontend ) return;
