@@ -434,6 +434,58 @@ public class DefaultConfiguration
     }
 
     /**
+     * Add all the attributes, children and value
+     * from specified configuration element to current
+     * configuration element.
+     *
+     * @param other the {@link Configuration} element
+     */
+    public void addAll( final Configuration other )
+    {
+        checkWriteable();
+
+        setValue( other.getValue( null ) );
+        addAllAttributes( other );
+        addAllChildren( other );
+    }
+
+    /**
+     * Add all attributes from specified configuration
+     * element to current configuration element.
+     *
+     * @param other the {@link Configuration} element
+     */
+    public void addAllAttributes( final Configuration other )
+    {
+        checkWriteable();
+
+        final String[] attributes = other.getAttributeNames();
+        for( int i = 0; i < attributes.length; i++ )
+        {
+            final String name = attributes[ i ];
+            final String value = other.getAttribute( name );
+            setAttribute( name, value );
+        }
+    }
+
+    /**
+     * Add all child <code>Configuration</code> objects from specified
+     * configuration element to current configuration element.
+     *
+     * @param other the other {@link Configuration} value
+     */
+    public void addAllChildren( final Configuration other )
+    {
+        checkWriteable();
+
+        final Configuration[] children = other.getChildren();
+        for( int i = 0; i < children.length; i++ )
+        {
+            addChild( children[ i ] );
+        }
+    }
+
+    /**
      * Remove a child <code>Configuration</code> to this configuration element.
      * @param configuration a <code>Configuration</code> value
      */
