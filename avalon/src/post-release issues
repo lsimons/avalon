@@ -1,0 +1,30 @@
+               Avalon 4.0 Post Release Issues
+               ------------------------------
+
+    The purpose for this file is to document potential issues
+that we need to discuss after the Avalon 4.0 Final Release,
+and before any maintenance releases (i.e. 4.1, 4.0.1, etc.).
+Since I don't want to clutter the mailing list and cause alarm
+unnecessarily, I am placing the issues in this list.
+
+    Please use this file to relay any issues that we need to
+address after release.
+
+Issues:
+-------
+
+* Should we consider using JUnit for the unit tests instead of
+  Testlet?  It would mean less code for us to maintain and
+  document.  JUnit has a critical mass surrounding it, and
+  documentation--whereas I don't understand Testlet, and the
+  only way to do so is to go through the source code.
+
+* What kind of release schedule do we want?  Should be make
+  regular releases every 3 months with what we have (i.e.
+  bug fixes or new features)?  Or Should we be milestone
+  driven?  For Framework/Excalibur I would lean toward the
+  regular release approach.
+
+* How do components in Scratchpad be promoted to Excalibur?
+  In other words, what are the exit criteria?
+
