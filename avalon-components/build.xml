@@ -602,9 +602,6 @@
     <mkdir dir="${dist.base}/phoenix-apps"/>
 
     <!--<parallel>-->
-      <antcall target="dist">
-        <param name="dist.dir" value="${dist.name}" />
-      </antcall>
       <ant antfile="build.xml" dir="apps/demo" target="check">
         <property name="dist.dir" value="${dist.name}" />
       </ant>
