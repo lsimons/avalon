@@ -71,21 +71,11 @@ public class DefaultVerifier
         final BlockMetaData[] blocks = sar.getBlocks();
         final BlockListenerMetaData[] listeners = sar.getListeners();
 
-        //Move this down after hack is removed
-        verifySarName( sar.getName() );
-
-        hackVerifySar( blocks, listeners, classLoader );
-    }
-
-    public void hackVerifySar( final BlockMetaData[] blocks, 
-                               final BlockListenerMetaData[] listeners, 
-                               final ClassLoader classLoader )
-        throws VerifyException
-    {
         String message = null;
 
         message = REZ.getString( "verify-valid-names" );
         getLogger().info( message );
+        verifySarName( sar.getName() );
         verifyValidNames( blocks );
         verifyValidNames( listeners );
 
