@@ -45,7 +45,10 @@ public final class CLIMain
     private static final Resources REZ =
         ResourceManager.getPackageResources( CLIMain.class );
 
-    private static final String DEFAULT_LOG_FILE = "/logs/phoenix.log";
+    private static final String DEFAULT_LOG_FILE = 
+        File.separator + "logs" + File.separator + "phoenix.log";
+    private static final String DEFAULT_CONF_FILE = 
+        File.separator + "conf" + File.separator + "kernel.xml";
 
     private final static String DEFAULT_FORMAT =
         "%7.7{priority} %23.23{time:yyyy-MM-dd' 'HH:mm:ss.SSS} [%8.8{category}] (%{context}): " +
@@ -85,6 +88,13 @@ public final class CLIMain
             final Parameters parameters = setup.getParameters();
             final String phoenixHome = System.getProperty( "phoenix.home", ".." );
             parameters.setParameter( "phoenix.home", phoenixHome );
+            if( !parameters.isParameter( "phoenix.configfile" ) )
+            {
+                final File configFile = new File( phoenixHome + DEFAULT_CONF_FILE );
+                parameters.setParameter( "phoenix.configfile", 
+                                         configFile.getCanonicalFile().toString() );  // setting default
+            }
+
             execute( parameters, data, blocking );
         }
         catch( final Throwable throwable )
