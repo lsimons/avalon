@@ -62,7 +62,7 @@
 	       <tr>
 	         <td><img src="images/magic1.png"/></td>
 		 <td><strong>
-		     <a href="central/tools/magic.html">Avalon Magic</a>
+		     <a href="products/tools/magic.html">Avalon Magic</a>
 		     </strong> is a build system based on Apache Ant. It provides 
                        a project model abstraction layer enabling centralized 
                        version and dependency management (similar to Maven), 
