@@ -272,6 +272,7 @@
         <depend project="checkstyle"/>
         <depend project="jakarta-avalon"/>
         <depend project="excalibur-collections"/>
+        <depend project="excalibur-pool"/>
         <depend project="excalibur-concurrent"/>
         <depend project="excalibur-threadcontext"/>
         <depend project="excalibur-thread"/>
