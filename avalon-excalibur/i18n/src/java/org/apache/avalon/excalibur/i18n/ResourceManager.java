@@ -7,7 +7,6 @@
  */
 package org.apache.avalon.excalibur.i18n;
 
-import java.util.Locale;
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
 
@@ -46,24 +45,10 @@ public class ResourceManager
     public synchronized static final Resources getBaseResources( final String baseName,
                                                                  final ClassLoader classLoader )
     {
-        return getBaseResources( baseName, Locale.getDefault(), classLoader );
-    }
-
-    /**
-     * Retrieve resource with specified basename.
-     *
-     * @param baseName the basename
-     * @param classLoader the classLoader to load resources from
-     * @return the Resources
-     */
-    public synchronized static final Resources getBaseResources( final String baseName,
-                                                                 final Locale locale,
-                                                                 final ClassLoader classLoader )
-    {
         Resources resources = getCachedResource( baseName );
         if( null == resources )
         {
-            resources = new Resources( baseName, locale, classLoader );
+            resources = new Resources( baseName, classLoader );
             putCachedResource( baseName, resources );
         }
 
@@ -152,19 +137,6 @@ public class ResourceManager
     {
         return getBaseResources( getPackageResourcesBaseName( clazz ), clazz.getClassLoader() );
     }
-
-    /**
-     * Retrieve resource for package relative to the specified class and locale.
-     *
-     * @param clazz the Class
-     * @param locale the locale
-     * @return the Resources
-     */
-    public static final Resources getPackageResources( final Class clazz, Locale locale )
-    {
-        return getBaseResources( getPackageResourcesBaseName( clazz ), locale, clazz.getClassLoader() );
-    }
-
 
     /**
      * Retrieve resource for specified Class.
