@@ -267,16 +267,19 @@ The complete set of target include:
       property="metaPluginPresent"/>
     <j:if test="${metaPluginPresent != 'true'}">
       <ant:echo>
-#####################################################################
-#                                                                   #
-#   WARNING:                                                        #
-#   You do not have the required version of the avalon-meta         #
-#   plugin installed on your system.                                #
-#   Please invoke the following command                             #
-#                                                                   #
-#     $ maven avalon:setup                                          #
-#                                                                   #
-#####################################################################</ant:echo>
+#######################################################################
+#                                                                     #
+#   WARNING:                                                          #
+#   You do not have the required version of the avalon-meta           #
+#   plugin installed on your system.                                  #
+#   The following command is automatically invoked                    #
+#                                                                     #
+#     $ maven avalon:setup                                            #
+#                                                                     #
+#   If you are not online, or have problem downloading the required   #
+#   plugin, please invoke the command above when you have resolved    #
+#   any network issues.                                               #
+#######################################################################</ant:echo>
       <attainGoal name="avalon:setup"/>
     </j:if>
   </postGoal>
