@@ -82,7 +82,7 @@ import org.xml.sax.SAXException;
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
  * @author <a href="mailto:mirceatoma@apache.org">Mircea Toma</a>
- * @version CVS $Revision: 1.9 $ $Date: 2003/02/27 09:24:48 $
+ * @version CVS $Revision: 1.10 $ $Date: 2003/10/13 11:09:39 $
  */
 public final class DefaultXMLizer extends AbstractLogEnabled
         implements XMLizer, Serviceable, Configurable, ThreadSafe, Component
@@ -152,19 +152,22 @@ public final class DefaultXMLizer extends AbstractLogEnabled
             parserRole = SAXParser.ROLE;
         }
 
+        SAXParser parser = null;
         try
         {
-            final SAXParser parser = (SAXParser) m_serviceManager.lookup( parserRole );
+            parser = (SAXParser) m_serviceManager.lookup( parserRole );
 
             final InputSource inputSource = new InputSource( stream );
             inputSource.setSystemId( systemID );
             parser.parse( inputSource, handler, null );
-
-            m_serviceManager.release(parser);
         }
         catch ( ServiceException e )
         {
             throw new SAXException( "Cannot parse content of type " + mimeType, e );
+        }
+        finally 
+        {
+            m_serviceManager.release(parser);        
         }
     }
 }
