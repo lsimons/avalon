@@ -104,7 +104,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * appliance instance.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.15 $ $Date: 2003/12/22 21:28:09 $
+ * @version $Revision: 1.15.4.1 $ $Date: 2004/01/09 15:07:58 $
  */
 public class DefaultAppliance extends AbstractAppliance
   implements Composite, DefaultApplianceMBean
@@ -1164,6 +1164,12 @@ public class DefaultAppliance extends AbstractAppliance
 
     private Object createProvider( Object instance ) throws ApplianceException
     {
+        if( m_model.getType().getInfo().
+            getAttribute( "urn:activation:proxy", "true" ).equals( "false" ) )
+        {
+            return instance;
+        }
+
         Class[] classes = m_model.getInterfaces();
         try
         {
