@@ -7,11 +7,13 @@
  */
 package org.apache.avalon.excalibur.component;
 
+import org.apache.avalon.excalibur.logger.LogKitManager;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.context.Context;
+import org.apache.log.Logger;
 
 /**
  * The DefaultComponentHandler to make sure components are initialized
@@ -20,7 +22,7 @@ import org.apache.avalon.framework.context.Context;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/06/02 06:03:01 $
+ * @version CVS $Revision: 1.1 $ $Date: 2002/04/04 05:09:02 $
  * @since 4.0
  */
 public class DefaultComponentHandler
@@ -30,10 +32,10 @@ public class DefaultComponentHandler
     private final DefaultComponentFactory m_factory;
 
     /** State management boolean stating whether the Handler is initialized or not */
-    private boolean m_initialized;
+    private boolean m_initialized = false;
 
     /** State management boolean stating whether the Handler is disposed or not */
-    private boolean m_disposed;
+    private boolean m_disposed = false;
 
     /**
      * Create a ComponentHandler that takes care of hiding the details of
@@ -45,7 +47,7 @@ public class DefaultComponentHandler
                                        final ComponentManager manager,
                                        final Context context,
                                        final RoleManager roles,
-                                       final LogkitLoggerManager logkit )
+                                       final LogKitManager logkit )
         throws Exception
     {
         this(
@@ -69,6 +71,16 @@ public class DefaultComponentHandler
     }
 
     /**
+     * Sets the logger that the ComponentHandler will use.
+     */
+    public void setLogger( final Logger logger )
+    {
+        m_factory.setLogger( logger );
+
+        super.setLogger( logger );
+    }
+
+    /**
      * Initialize the ComponentHandler.
      */
     public void initialize()
@@ -77,12 +89,10 @@ public class DefaultComponentHandler
         {
             return;
         }
-        m_factory.setLogger( getLogkitLogger() );
-        m_factory.enableLogging( getLogger() );
 
         if( getLogger().isDebugEnabled() )
         {
-            getLogger().debug( "ComponentHandler initialized for: " + m_factory.getCreatedClass().getName() );
+            getLogger().debug( "ComponentHandler initialized for: " + this.m_factory.getCreatedClass().getName() );
         }
         m_initialized = true;
     }

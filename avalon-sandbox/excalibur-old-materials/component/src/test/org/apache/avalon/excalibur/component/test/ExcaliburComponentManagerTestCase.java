@@ -12,7 +12,7 @@ import junit.framework.TestSuite;
 import org.apache.avalon.excalibur.component.DefaultComponentPool;
 import org.apache.avalon.excalibur.component.ExcaliburComponentManager;
 import org.apache.avalon.excalibur.pool.Poolable;
-import org.apache.excalibur.util.ComponentStateValidator;
+import org.apache.avalon.excalibur.util.ComponentStateValidator;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.component.ComponentException;
@@ -37,7 +37,7 @@ import org.apache.log.output.io.StreamTarget;
  * it is correctly handling component lifestyle management.
  *
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.1 $
  */
 public class ExcaliburComponentManagerTestCase extends TestCase
 {
@@ -47,7 +47,7 @@ public class ExcaliburComponentManagerTestCase extends TestCase
      * involved: Mom, Dad, and Kid. Each of the three Roles can be
      * implemented by a SingleThreaded, ThreadSafe, or Poolable component.
      * The Mom and Dad components both are Composable, and they use the
-     * ComponentLocator that they are provided with to obtain references
+     * ComponentManager that they are provided with to obtain references
      * to a Kid component. The Mom and Dad components may be "Good" (they
      * properly release their Kid) or "Bad" (they don't release their Kid).
      *
@@ -433,7 +433,7 @@ public class ExcaliburComponentManagerTestCase extends TestCase
             {new StreamTarget( System.out, new PatternFormatter( pattern ) )} );
         logger.setPriority( Priority.INFO );
 
-        m_manager.enableLogging( new LogKitLogger( logger ) );
+        m_manager.setLogger( logger );
         m_manager.contextualize( new DefaultContext() );
         m_manager.configure( new DefaultConfiguration( "", "" ) );
 
