@@ -210,6 +210,7 @@ public class JUnitTestTask extends SystemTask
     private void test( final File src, final Path classpath, File working )
     {
         final Project project = getProject();
+        project.log( "MAGIC TEST CLASSPATH: " + classpath, Project.MSG_VERBOSE );
 
         final FileSet fileset = new FileSet();
         fileset.setDir( src );
