@@ -71,7 +71,7 @@ import org.apache.log.Priority;
  * Note, this code ignores exceptions to keep the code simple.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.7 $ $Date: 2003/03/22 12:46:26 $
+ * @version CVS $Revision: 1.8 $ $Date: 2003/04/06 04:06:31 $
  * @since 4.1
  */
 public class Main
@@ -114,6 +114,7 @@ public class Main
         lmLogger.setPriority(
             Priority.getPriorityForName( logKitConfig.getAttribute( "log-level", "INFO" ) ) );
         logManager.setLogger( lmLogger );
+        logManager.contextualize( context );
         logManager.configure( logKitConfig );
 
         // Setup the RoleManager
