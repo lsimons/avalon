@@ -13,8 +13,6 @@ import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.realityforge.converter.Converter;
-import org.realityforge.converter.lib.SimpleMasterConverter;
 
 /**
  * Support JMX MBean lifecycle.
@@ -23,9 +21,6 @@ import org.realityforge.converter.lib.SimpleMasterConverter;
  */
 public class MBeanScripter
 {
-    private final static Converter c_valueConverter =
-        new SimpleMasterConverter();
-
     private final MBeanServer m_mBeanServer;
     private final Configuration m_configuration;
     private final ObjectName m_objectName;
@@ -88,16 +83,17 @@ public class MBeanScripter
     {
         final String name = attribute.getAttribute( "name" );
         final String type = attribute.getAttribute( "type" );
-        Object value = attribute.getValue( null );
-        if( null != value )
+        final String rawValue = attribute.getValue( null );
+        Object value = null;
+        if( null != rawValue )
         {
             final Class valueClass = Class.forName( type );
-            value = c_valueConverter.convert( valueClass, value, null );
+            value = convertToObject( valueClass, rawValue );
         }
         m_mBeanServer.setAttribute( getObjectName(),
                                     new Attribute( name, value ) );
     }
-
+    
     private void setUses()
         throws Exception
     {
@@ -153,15 +149,62 @@ public class MBeanScripter
         for( int i = 0; i < paramConfs.length; i++ )
         {
             final String type = paramConfs[ i ].getAttribute( "type" );
-            Object value = paramConfs[ i ].getValue( null );
-            if( null != value )
+            final String rawValue = paramConfs[ i ].getValue( null );
+            Object value = null;
+            if( null != rawValue )
             {
                 final Class valueClass = Class.forName( type );
-                value = c_valueConverter.convert( valueClass, value, null );
+                value = convertToObject( valueClass, rawValue );
             }
             types[ i ] = type;
             values[ i ] = value;
         }
         m_mBeanServer.invoke( getObjectName(), operationName, values, types );
+    }
+    
+    private Object convertToObject( final Class valueClass, final String s )
+    {
+        Object value = null;
+        if ( valueClass.equals( String.class ) )
+        {
+            value = s;
+        }
+        else if ( valueClass.equals( Byte.class ) )
+        {
+            value = new Byte( Byte.parseByte( s ) );
+        }
+        else if ( valueClass.equals( Short.class ) )
+        {
+            value = new Short( Short.parseShort( s ) );
+        }
+        else if ( valueClass.equals( Integer.class ) )
+        {
+            value = new Integer( Integer.parseInt( s ) );
+        }
+        else if ( valueClass.equals( Long.class ) )
+        {
+            value = new Long( Long.parseLong( s ) );
+        }
+        else if ( valueClass.equals( Float.class ) )
+        {
+            value = new Float( Float.parseFloat( s ) );
+        }
+        else if ( valueClass.equals( Double.class ) )
+        {
+            value = new Double( Double.parseDouble( s ) );
+        }
+        else if ( valueClass.equals( Character.class ) )
+        {
+            value = new Character( s.charAt( 0 ) );
+        }
+        else if ( valueClass.equals( Boolean.class ) )
+        {
+            value = new Boolean( s );
+        }
+        else
+        {
+            throw new UnsupportedOperationException ( "can't yet convert " + valueClass );
+        }
+        return value;
     }
 }
