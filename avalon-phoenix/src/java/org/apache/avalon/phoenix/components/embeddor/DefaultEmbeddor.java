@@ -12,7 +12,7 @@ import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.excalibur.io.ExtensionFileFilter;
 import org.apache.avalon.framework.activity.Initializable;
-import org.apache.avalon.framework.container.Container;
+import org.apache.avalon.excalibur.container.Container;
 import org.apache.avalon.framework.component.Composable;
 import org.apache.avalon.framework.component.DefaultComponentManager;
 import org.apache.avalon.framework.configuration.Configurable;

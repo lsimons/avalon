@@ -9,7 +9,7 @@ package org.apache.avalon.phoenix.components.kapi;
 
 import java.io.File;
 import java.net.URL;
-import org.apache.avalon.framework.container.Entry;
+import org.apache.avalon.excalibur.container.Entry;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.log.Logger;
 

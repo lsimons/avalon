@@ -10,7 +10,7 @@ package org.apache.avalon.phoenix.components.application;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.activity.Startable;
-import org.apache.avalon.framework.container.Container;
+import org.apache.avalon.excalibur.container.Container;
 
 /**
  * The Application is a self-contained component that performs a specific
