@@ -59,7 +59,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * Model desribing a deployment scenario.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.7.2.3 $ $Date: 2004/01/04 21:28:59 $
+ * @version $Revision: 1.7.2.4 $ $Date: 2004/01/07 12:45:41 $
  */
 public interface DeploymentModel
 {
@@ -88,6 +88,18 @@ public interface DeploymentModel
     * @return the mode
     */
     Mode getMode();
+
+   /**
+    * Set the runtime handler for the model.
+    * @param handler the runtime handler
+    */
+    void setHandler( Object handler );
+
+   /**
+    * Get the assigned runtime handler for the model.
+    * @return the runtime handler
+    */
+    Object getHandler();
 
     //-----------------------------------------------------------
     // service production
