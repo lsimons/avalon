@@ -63,7 +63,6 @@ Legal:
   <property name="src.dir" value="src"/>
   <property name="lib.dir" value="lib"/>
   <property name="java.dir" value="${src.dir}/java"/>
-  <property name="compat.dir" value="${src.dir}/compat"/>
   <property name="test.dir" value="${src.dir}/test"/>
   <property name="tools.dir" value="../avalon/tools"/>
   <property name="docs.dir" value="${build.dir}/docs"/>
@@ -255,7 +254,6 @@ Legal:
         <path refid="tools.class.path"/>
       </classpath>
       <src path="${test.dir}"/>
-      <src path="${compat.dir}"/>
       <exclude name="org/apache/log/output/ServletOutputLogTarget.java"
                unless="javax.servlet.present"/>
       <exclude name="org/apache/log/output/net/SMTPOutputLogTarget.java"
@@ -390,9 +388,6 @@ Legal:
                  unless="javax.jms.present"/>
         <exclude name="org/apache/log/output/test/DBTargetTestCase.java"
                  unless="javax.sql.present"/>
-      </fileset>
-      <fileset dir="${compat.dir}">
-        <include name="**/*.java"/>
       </fileset>
     </copy>
 
