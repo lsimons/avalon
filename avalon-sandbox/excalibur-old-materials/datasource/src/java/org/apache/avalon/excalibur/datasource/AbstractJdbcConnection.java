@@ -30,7 +30,7 @@ import org.apache.avalon.framework.logger.Logger;
  * total number of Connection objects that are created.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.19 $ $Date: 2002/11/06 08:22:26 $
+ * @version CVS $Revision: 1.20 $ $Date: 2002/11/07 04:50:15 $
  * @since 4.1
  */
 public abstract class AbstractJdbcConnection
@@ -116,15 +116,18 @@ public abstract class AbstractJdbcConnection
         {
             m_connection.clearWarnings();
 
-            Iterator it = m_statements.keySet().iterator();
-            while (it.hasNext())
+            if ( m_statements != null )
             {
-                Object key = it.next();
-                Statement statement = (Statement)m_statements.get( key );
-
-                try { statement.close(); } catch ( SQLException se ) {}
-
-                m_statements.remove( key );
+                Iterator it = m_statements.keySet().iterator();
+                while (it.hasNext())
+                {
+                    Object key = it.next();
+                    Statement statement = (Statement)m_statements.get( key );
+    
+                    try { statement.close(); } catch ( SQLException se ) {}
+    
+                    m_statements.remove( key );
+                }
             }
         }
         catch( SQLException se )
