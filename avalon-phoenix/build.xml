@@ -404,7 +404,7 @@ Legal:
 	<replace file="${strings_en.xml}" token="common.phoenix.gif" value="common.logo.gif"/>
 	<replace file="${strings_en.xml}" token="100" value=""/>
 	<replace file="${strings_en.xml}" token="50" value=""/>
-	<replace file="${strings_en.xml}" token="mx4j.sourceforge.net" value="jakarta.apache.org/avalon/phoenix"/>
+	<replace file="${strings_en.xml}" token="mx4j.sourceforge.net" value="avalon.apache.org/phoenix"/>
 	<replace file="mx4j-tools-temp/mx4j/adaptor/http/xsl/stylesheet.css" token="183,187,184" value="white"/>
         <copy file="src/logos/phoenix.gif" todir="mx4j-tools-temp/mx4j/adaptor/http/xsl"/>
 

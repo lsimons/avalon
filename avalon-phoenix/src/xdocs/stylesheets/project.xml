@@ -1,18 +1,18 @@
 <project name="Avalon Phoenix"
-    href="http://jakarta.apache.org/avalon/phoenix">
+    href="http://avalon.apache.org/phoenix">
 
     <title>Avalon Phoenix</title>
     <logo href="images/header.gif">Avalon Phoenix</logo>
 
     <body>
         <item name="Jakarta main" href="http://jakarta.apache.org/"/>
-        <item name="Avalon main" href="http://jakarta.apache.org/avalon"/>
+        <item name="Avalon main" href="http://avalon.apache.org/"/>
 
         <menu name="Essentials">
             <item name="Overview" href="/index.html"/>
             <item name="Features" href="/features.html"/>
             <item name="Getting started" href="/getting-started.html"/>
-            <item name="Download" href="http://jakarta.apache.org/builds/jakarta-avalon-phoenix"/>
+            <item name="Download" href="http://avalon.apache.org/bindownload.cgi"/>
             <item name="Install" href="/install.html"/>
         </menu>
 
@@ -38,7 +38,7 @@
         <menu name="For Developers">
             <!-- <item name="Get Involved" href="/getinvolved.html"/> -->
             <item name="Changes" href="/changes.html"/>
-            <item name="Coding standards" href="http://jakarta.apache.org/avalon/code-standards.html"/>
+            <item name="Coding standards" href="http://avalon.apache.org/code-standards.html"/>
             <item name="Project Structure" href="/for-developers-project-structure.html"/>
             <item name="CVS Repositories" href="http://jakarta.apache.org/site/cvsindex.html"/>
             <item name="Mailing Lists" href="http://jakarta.apache.org/site/mail.html"/>

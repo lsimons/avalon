@@ -17,7 +17,7 @@ of Phoenix.</abstract>
     </description>
   </project>
 
-  <project site="http://jakarta.apache.org/avalon/phoenix">
+  <project site="http://avalon.apache.org/phoenix">
     <title>Phoenix @version@</title>
     <description>
       <para>

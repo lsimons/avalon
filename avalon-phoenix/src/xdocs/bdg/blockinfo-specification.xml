@@ -77,7 +77,7 @@
         <p>The services section documents the services that this block requires to operate.
         Required services are placed in the Blocks ServiceManager under the name
         specified by the <code>role</code> element of dependency. As is documented in the
-        <a href="http://jakarta.apache.org/avalon/framework/guide-cop-in-avalon.html">components</a> section, the
+        <a href="http://avalon.apache.org/framework/guide-cop-in-avalon.html">components</a> section, the
         concept of Role is more than just a behavioural contract. A <code>Service</code> is
         a behavioural contract and thus the necessity to support the role element. In most
         cases however the role element and the name attribute of the service will be
