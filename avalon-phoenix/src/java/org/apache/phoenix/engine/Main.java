@@ -22,7 +22,6 @@ import org.apache.avalon.Loggable;
 import org.apache.avalon.camelot.CamelotUtil;
 import org.apache.avalon.camelot.Deployer;
 import org.apache.avalon.configuration.ConfigurationException;
-import org.apache.avalon.util.ObjectUtil;
 import org.apache.avalon.util.StringUtil;
 import org.apache.avalon.util.cli.AbstractMain;
 import org.apache.avalon.util.cli.CLArgsParser;
@@ -217,7 +216,7 @@ public class Main
         try
         {
             Thread.currentThread().setContextClassLoader( getClass().getClassLoader() );
-            kernel = (ServerKernel)ObjectUtil.createObject( m_kernelClass );
+            kernel = (ServerKernel)Class.forName( m_kernelClass ).newInstance();
         }
         catch( final Exception e )
         {
