@@ -67,8 +67,8 @@
         file.
         </p>
         <p>
-        Resources supporting this turorial are contained in the 
-        tutorial/configuration/override directory.
+        Resources supporting this tutorial are contained in the 
+        tutorials/configuration/override directory.
         </p>
       </subsection>
       <subsection name="Target Override Format">

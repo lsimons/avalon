@@ -64,8 +64,8 @@
         within the block.xml deployment directive.
         </p>
         <p>
-        Resources supporting this turorial are contained in the 
-        tutorial/configuration/block directory.
+        Resources supporting this tutorial are contained in the 
+        tutorials/configuration/block directory.
         </p>
 <source><![CDATA[
 <container name="hello">

@@ -63,7 +63,7 @@
         <p>
          Merlin provides support for the pluggable introduction
          of contextualization stage handlers that are completely
-         indepedent of the Avalon component model.
+         independent of the Avalon component model.
         </p>
         <p>
          Establishing a custom contextualizer involves:
@@ -75,7 +75,7 @@
         </ul>
         <p>
          Resources supporting this tutorial are included in the 
-         src/tutorial/contextualization package.
+         src/tutorials/context/strategy package.
         </p>
       </subsection>
       <subsection name="Contextualization stage defintion">
