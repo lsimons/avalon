@@ -95,6 +95,29 @@ public class DeployCmd
     public void execute( CommandInterpreter intp, BufferedReader input, BufferedWriter output, String[] arguments )
         throws Exception
     {
+        if( arguments.length == 0 )
+            throw new CommandException( "block must be specified." );
+        
+        String block = arguments[0];
+        ContainmentModel current = intp.getCurrentContainer();
+        String target = current.getQualifiedName();
+        if( arguments.length > 0 )
+            target = arguments[1];
+        DeploymentModel model = current.getModel( target );
+        if( model == null )
+            throw new CommandException( "target not found:" + target );
+
+        if( model instanceof ContainmentModel )
+        {
+            URL blockUrl = UrlUtils.resolveURL( m_WorkingDir, block );
+            ContainmentModel container = (ContainmentModel) model;
+            ContainmentModel newContainer = container.addContainmentModel( blockUrl );
+            newContainer.commission();
+            intp.setCurrentContainer( newContainer );
+        }
+        else
+            throw new CommandException( "Can only deploy into a container." );
+        
         output.newLine();
         output.flush();
     }
