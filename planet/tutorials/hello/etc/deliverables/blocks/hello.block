@@ -1,0 +1,12 @@
+
+<container name="tutorial">
+
+   <classloader>
+     <classpath>
+       <artifact>jar:avalon/tutorial/hello</artifact>
+     </classpath>
+   </classloader>
+
+   <component name="hello" class="tutorial.HelloComponent"/>
+
+</container>

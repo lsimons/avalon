@@ -1,0 +1,13 @@
+
+<container name="tutorial">
+
+   <classloader>
+     <classpath>
+       <artifact>@FRAMEWORK-IMPL-SPEC@</artifact>
+       <artifact>@DYNAMICS-SPEC@</artifact>
+     </classpath>
+   </classloader>
+
+   <component name="facility" class="tutorial.HelloFacility"/>
+
+</container>
