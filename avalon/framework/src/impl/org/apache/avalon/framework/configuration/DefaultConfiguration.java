@@ -45,7 +45,10 @@ public class DefaultConfiguration
     /**
      * Create a new <code>DefaultConfiguration</code> instance.
      */
-    public DefaultConfiguration( final String name, final String location, final String ns, final String prefix )
+    public DefaultConfiguration( final String name, 
+                                 final String location, 
+                                 final String ns, 
+                                 final String prefix )
     {
         m_name = name;
         m_location = location;

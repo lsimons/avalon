@@ -122,7 +122,7 @@ public class SAXConfigurationHandler
                                                         final String namespaceURI,
                                                         final String location )
     {
-        final String    prefix    = m_namespaceSupport.getPrefix( namespaceURI );
+        final String prefix = m_namespaceSupport.getPrefix( namespaceURI );
         return new DefaultConfiguration( localName, location, namespaceURI, prefix );
     }
 
