@@ -66,6 +66,7 @@ import org.apache.avalon.activation.appliance.Block;
 import org.apache.avalon.composition.model.ContainmentModel;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.merlin.Kernel;
+import org.apache.avalon.merlin.KernelCriteria;
 import org.apache.avalon.repository.Artifact;
 import org.apache.avalon.repository.provider.Builder;
 import org.apache.avalon.repository.provider.InitialContext;
@@ -98,6 +99,8 @@ public class MerlinServlet extends HttpServlet
     //----------------------------------------------------------
     // state
     //----------------------------------------------------------
+
+    private KernelCriteria m_criteria;
 
     private Block m_block;
 
@@ -138,11 +141,11 @@ public class MerlinServlet extends HttpServlet
             Builder builder = 
               new DefaultBuilder( context, artifact );
             Factory factory = builder.getFactory();
-            Map criteria = factory.createDefaultCriteria();
+            m_criteria = (KernelCriteria) factory.createDefaultCriteria();
 
-            criteria.put( "merlin.server", "true" );
-            criteria.put( "merlin.info", "true" ); 
-            criteria.put( "merlin.debug", "true" ); 
+            m_criteria.put( "merlin.server", "true" );
+            m_criteria.put( "merlin.info", "true" );
+            m_criteria.put( "merlin.debug", "true" );
 
             //
             // this is where we customize content based on web.xml
@@ -150,7 +153,7 @@ public class MerlinServlet extends HttpServlet
             // with merlin.properties first of all)
             //
 
-            m_kernel = (Kernel) factory.create( criteria );
+            m_kernel = (Kernel) factory.create( m_criteria );
             
             System.out.println("kernel established");
 
@@ -210,21 +213,49 @@ public class MerlinServlet extends HttpServlet
         response.setContentType("text/html");
         PrintWriter writer = response.getWriter();
 
-        writer.println("<html>");
-        writer.println("<head>");
-        writer.println("<title>Merlin Test Servlet Page</title>");
-        writer.println("</head>");
-        writer.println("<body bgcolor=white>");
+        String context = request.getContextPath();
 
-        writer.println("<table border=\"0\">");
-        writer.println("<tr>");
-        writer.println("<td>");
-        writer.println("<h1>Merlin Servlet Info</h1>");
+        writer.println("<html>");
+
+        writer.println("<head>");
+        writer.println(
+          "<link rel=\"stylesheet\" type=\"text/css\" href=\"" + context + "/css/merlin.css\">" );
+        writer.println("<title>Merlin Servlet Info</title>" );
+        writer.println("</head>");
+        writer.println("<body background=\"" + context + "/images/Paper.gif\">" );
+
+        writer.println("<table border=\"1\" width=\"100%\" cellpadding=\"1\">");
+        writer.println("<tr bgcolor=\"7171A5\">");
+        writer.println("<td align=\"left\" colspan=\"2\">");
+        writer.println("<div class=\"page-title-text\">Merlin Servlet Info</div>");
         writer.println("</td>");
         writer.println("</tr>");
+
+        writer.println("<tr class=\"table-header-row\" bgcolor=\"EEEEFF\">" );
+        writer.println("<td width=\"20%\">Criteria</td>");
+        writer.println("<td>Value</td>");
+        writer.println("</tr>");
+
+        row( writer, "${merlin.anchor}", m_criteria.getAnchorDirectory() );
+        row( writer, "${merlin.config}", m_criteria.getConfigDirectory() );
+        row( writer, "${merlin.context}", m_criteria.getContextDirectory() );
+        row( writer, "${merlin.home}", m_criteria.getHomeDirectory() );
+        row( writer, "${merlin.kernel}", m_criteria.getKernelURL() );
+        row( writer, "${merlin.lang}", m_criteria.getLanguageCode() );
+        row( writer, "${merlin.override}", m_criteria.getOverridePath() );
+        row( writer, "${merlin.repository}", m_criteria.getRepositoryDirectory() );
+        row( writer, "${merlin.system}", m_criteria.getSystemDirectory() );
+        row( writer, "${merlin.temp}", m_criteria.getTempDirectory() );
+        row( writer, "${merlin.dir}", m_criteria.getWorkingDirectory() );
+        row( writer, "${merlin.autostart}", m_criteria.isAutostartEnabled() );
+        row( writer, "${merlin.debug}", m_criteria.isDebugEnabled() );
+        row( writer, "${merlin.info}", m_criteria.isInfoEnabled() );
+        row( writer, "${merlin.server}", m_criteria.isServerEnabled() );
+
         writer.println("</table>");
 
-        writer.println("<hr/>");
+        writer.println("</body>");
+        writer.println("</html>");
     }
 
    /**
@@ -271,5 +302,36 @@ public class MerlinServlet extends HttpServlet
               ExceptionHelper.packException( error, e, true );
             throw new RuntimeException( message );
         }
+    }
+
+    private void row( PrintWriter writer, String item, boolean val )
+    {
+        if( val )
+        {
+            row( writer, item, "true" );
+        }
+        else
+        {
+            row( writer, item, "false" );
+        }
+    }
+
+    private void row( PrintWriter writer, String item, Object val )
+    {
+        writer.println("<tr class=\"table-row\">");
+        writer.println("<td>");
+        writer.println( item );
+        writer.println("</td>");
+        writer.println("<td>");
+        if( null != val )
+        {
+            writer.println( val.toString() );
+        }
+        else
+        {
+            writer.println( "&nbsp;" );
+        }
+        writer.println("</td>");
+        writer.println("</tr>");
     }
 }

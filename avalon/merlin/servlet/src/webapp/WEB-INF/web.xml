@@ -18,7 +18,7 @@
 
   <servlet-mapping>
     <servlet-name>merlin</servlet-name>
-    <url-pattern>/*</url-pattern>
+    <url-pattern>/info</url-pattern>
   </servlet-mapping>
 
 </web-app>
