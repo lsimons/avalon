@@ -50,17 +50,26 @@
       <name>Stephen McConnell</name>
       <id>mcconnell</id>
       <email>mcconnell@apache.org</email>
-      <organization>OSM SARL</organization>
+      <organization>OSM</organization>
+      <roles>
+        <role>Architecture and development.</role>
+      </roles>
     </developer>
     <developer>
       <name>Leo Simons</name>
       <id>leosimons</id>
       <email>leosimons@apache.org</email>
+      <roles>
+        <role>System review, code cleanup.</role>
+      </roles>
     </developer>
     <developer>
       <name>Berin Loritsch</name>
       <id>bloritsch</id>
       <email>bloritsch@apache.org</email>
+      <roles>
+        <role>Code enhancements.</role>
+      </roles>
     </developer>
   </developers>
 
@@ -69,31 +78,56 @@
       <name>Gary Shea</name>
       <email>shea@gtsdesign.com</email>
       <organization>GTS Design</organization>
+      <roles>
+        <role>Test and evaluation in a desktop environment.</role>
+      </roles>
     </contributor>
     <contributor>
       <name>Marcus Crafter</name>
       <id>crafterm</id>
       <email>crafterm@apache.org</email>
+      <roles>
+        <role>Architecture review and Fortress/ECM/Cocoon liason.</role>
+      </roles>
     </contributor>
     <contributor>
       <name>Richard Wallace</name>
       <email>rwallace@a--i--m.com</email>
       <organization>A-I-M</organization>
+      <roles>
+        <role>Web services related trials and feedback.</role>
+      </roles>
     </contributor>
     <contributor>
       <name>Peter Royal</name>
       <id>proyal</id>
       <email>proyal@apache.org</email>
+      <roles>
+        <role>Test and evaluation.</role>
+      </roles>
     </contributor>
     <contributor>
       <name>Jörg Schaible</name>
       <email>Joerg.Schaible@gft.com</email>
       <organization>GFT</organization>
+      <roles>
+        <role>Test, evaluation and contribution of German language i18n resources.</role>
+      </roles>
     </contributor>
     <contributor>
       <name>Leif Mortenson</name>
       <email>leif@apache.org</email>
       <id>leif</id>
+      <roles>
+        <role>Support on setup of NT service scripts and resources.</role>
+      </roles>
+    </contributor>
+    <contributor>
+      <name>David Bernard</name>
+      <email>dwayne@java-fan.com</email>
+      <roles>
+        <role>Documentation and tutorial review.</role>
+      </roles>
     </contributor>
   </contributors>
 
