@@ -31,6 +31,7 @@
     <menu-item label="Cornerstone" href="@CORNERSTONE_BASE@/index.html"/>
     <menu-item label="Testlet" href="@TESTLET_BASE@/index.html"/>
     <menu-item label="LogKit" href="@LOGKIT_BASE@/index.html"/>
+    <menu-item label="Applications" href="@APPS_BASE@/index.html"/>    
   </menu>
 
 </book>
