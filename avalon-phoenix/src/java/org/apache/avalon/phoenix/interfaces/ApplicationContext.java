@@ -64,6 +64,13 @@ public interface ApplicationContext
         throws ConfigurationException;
 
     /**
+     * Validate the configuration for a specified component.
+     *
+     * @param component the component
+     */
+    void validateConfiguration( String component ) throws ConfigurationException;
+
+    /**
      * Get logger with category for application.
      * Note that this name may not be the absolute category.
      *
