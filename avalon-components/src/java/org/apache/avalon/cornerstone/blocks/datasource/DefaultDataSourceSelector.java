@@ -50,7 +50,7 @@ public class DefaultDataSourceSelector
             final Configuration dataSourceConf = dataSourceConfs[ i ];
 
             final String name = dataSourceConf.getAttribute( "name" );
-            final String clazz = dataSourceConf.getAttribute( "type" );
+            final String clazz = dataSourceConf.getAttribute( "class" );
             final String driver = dataSourceConf.getChild( "driver", true ).getValue("");
 
             final ClassLoader classLoader = 
@@ -99,12 +99,6 @@ public class DefaultDataSourceSelector
                 ((Disposable)dsc).dispose();
             }
         }
-    }
-
-    public DataSourceComponent selectDataSource( final Object hint )
-        throws ComponentException
-    {
-        return (DataSourceComponent)select( hint );
     }
 
     public Component select( final Object hint )
