@@ -17,28 +17,25 @@
 
 package org.apache.avalon.tools.tasks;
 
-import java.io.File;
+import org.apache.avalon.tools.model.Definition;
+import org.apache.avalon.tools.model.ResourceRef;
+import org.apache.avalon.tools.model.Info;
+import org.apache.avalon.tools.model.Resource;
+import org.apache.tools.ant.BuildException;
+import org.apache.avalon.tools.model.Plugin.ListenerDef;
+import org.apache.avalon.tools.model.Plugin.TaskDef;
+import org.apache.avalon.tools.model.Plugin;
+import org.apache.avalon.tools.model.Policy;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.FileOutputStream;
+import java.io.File;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 
-import org.apache.tools.ant.Task;
-import org.apache.tools.ant.Project;
-import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.taskdefs.Mkdir;
 
-import org.apache.avalon.tools.model.Home;
-import org.apache.avalon.tools.model.Context;
-import org.apache.avalon.tools.model.Definition;
-import org.apache.avalon.tools.model.Resource;
-import org.apache.avalon.tools.model.ResourceRef;
-import org.apache.avalon.tools.model.Info;
-import org.apache.avalon.tools.model.Policy;
-import org.apache.avalon.tools.model.Plugin;
-import org.apache.avalon.tools.model.Plugin.TaskDef;
-import org.apache.avalon.tools.model.Plugin.ListenerDef;
+
 
 /**
  * Load a plugin.
@@ -78,19 +75,19 @@ public class DeclareTask extends SystemTask
 
     private File getPluginFile()
     {
-        File dir = getContext().getDeliverablesDirectory();
-        File ants = new File( dir, TYPE + "s" );
+        final File dir = getContext().getDeliverablesDirectory();
+        final File ants = new File( dir, TYPE + "s" );
         mkDir( ants );
 
-        Definition def = getHome().getDefinition( getKey() );
-        Info info = def.getInfo();
-        String filename = getFilename( info );
+        final Definition def = getHome().getDefinition( getKey() );
+        final Info info = def.getInfo();
+        final String filename = getFilename( info );
         return new File( ants, filename );
     }
 
-    private String getFilename( Info info )
+    private String getFilename( final Info info )
     {
-        String version = info.getVersion();
+        final String version = info.getVersion();
         if( null == version )
         {
             return info.getName() + "." + TYPE;
@@ -130,7 +127,7 @@ public class DeclareTask extends SystemTask
         writeInfo( writer, info );
         if( def instanceof Plugin )
         {
-            Plugin plugin = (Plugin) def;
+            final Plugin plugin = (Plugin) def;
             writeTaskDefs( writer, plugin );
             writeListenerDefs( writer, plugin );
         }
@@ -143,10 +140,10 @@ public class DeclareTask extends SystemTask
     {
         writer.write( "\n  " );
         writer.write( "<tasks>" );
-        TaskDef[] defs = plugin.getTaskDefs();
+        final TaskDef[] defs = plugin.getTaskDefs();
         for( int i=0; i<defs.length; i++ )
         {
-            TaskDef def = defs[i];
+            final TaskDef def = defs[i];
             writer.write( 
               "\n    <taskdef name=\"" 
               + def.getName() 
@@ -162,10 +159,10 @@ public class DeclareTask extends SystemTask
     {
         writer.write( "\n  " );
         writer.write( "<listeners>" );
-        ListenerDef[] defs = plugin.getListenerDefs();
+        final ListenerDef[] defs = plugin.getListenerDefs();
         for( int i=0; i<defs.length; i++ )
         {
-            ListenerDef def = defs[i];
+            final ListenerDef def = defs[i];
             writer.write( 
               "\n    <listener class=\""
               + def.getClassname() 
@@ -180,7 +177,6 @@ public class DeclareTask extends SystemTask
         final String name = info.getName();
         final String group = info.getGroup();
         final String version = info.getVersion();
-        final String type = info.getType();
 
         writer.write( "\n  <info>" );
         writer.write( "\n    <name>" + name + "</name>" );
@@ -198,7 +194,7 @@ public class DeclareTask extends SystemTask
     {
         writer.write( "\n  <classpath>" );
         final String pad = "    ";
-        ResourceRef[] resources = 
+        final ResourceRef[] resources =
           def.getResourceRefs( Policy.RUNTIME, ResourceRef.ANY, true );
         writeResourceRefs( writer, pad, resources );
         writeResource( writer, pad, def );
@@ -206,30 +202,30 @@ public class DeclareTask extends SystemTask
     }
 
     private void writeResourceRefs( 
-      final Writer writer, String pad, final ResourceRef[] resources )
+      final Writer writer, final String pad, final ResourceRef[] resources )
       throws IOException
     {
         for( int i=0; i<resources.length; i++ )
         {
-            ResourceRef ref = resources[i];
-            Policy policy = ref.getPolicy();
+            final ResourceRef ref = resources[i];
+            final Policy policy = ref.getPolicy();
             if( policy.isRuntimeEnabled() )
             {
-                Resource resource = getHome().getResource( ref );
+                final Resource resource = getHome().getResource( ref );
                 writeResource( writer, pad, resource );
             }
         }
     }
 
     private void writeResource( 
-      final Writer writer, String pad, final Resource resource )
+      final Writer writer, final String pad, final Resource resource )
       throws IOException
     {
-        Info info = resource.getInfo();
-        String name = info.getName();
-        String group = info.getGroup();
-        String version = info.getVersion();
-        String type = info.getType();
+        final Info info = resource.getInfo();
+        final String name = info.getName();
+        final String group = info.getGroup();
+        final String version = info.getVersion();
+        final String type = info.getType();
 
         writer.write( "\n" );
         writer.write( pad );

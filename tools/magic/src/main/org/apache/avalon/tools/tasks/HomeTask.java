@@ -17,22 +17,13 @@
 
 package org.apache.avalon.tools.tasks;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.FileNotFoundException;
-
-import org.apache.tools.ant.Task;
-import org.apache.tools.ant.Project;
-import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.taskdefs.Copy;
-import org.apache.tools.ant.taskdefs.Property;
-import org.apache.tools.ant.taskdefs.Jar;
-import org.apache.tools.ant.types.FileSet;
-import org.apache.tools.ant.types.Path;
-
-import org.apache.avalon.tools.model.Home;
 import org.apache.avalon.tools.model.Context;
-import org.apache.avalon.tools.model.Definition;
+import org.apache.avalon.tools.model.Home;
+import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.Project;
+
+import java.io.File;
+import java.io.FileNotFoundException;
 
 /**
  * Load a goal. 
@@ -53,7 +44,7 @@ public class HomeTask extends ContextualTask
 
     private boolean m_executed = false;
 
-    public void setIndex( String path )
+    public void setIndex( final String path )
     {
         if( null != HOME )
         {
@@ -71,9 +62,9 @@ public class HomeTask extends ContextualTask
     {
         if( !m_executed )
         {
-            Project project = getProject();
-            File index = getIndexFile();
-            File system = getSystemHome( project, index );
+            final Project project = getProject();
+            final File index = getIndexFile();
+            final File system = getSystemHome( project, index );
             setupProperties( project, system );
             if( null == HOME )
             {
@@ -91,24 +82,24 @@ public class HomeTask extends ContextualTask
         }
     }
 
-    private File getSystemHome( Project project, File index )
+    private File getSystemHome( final Project project, final File index )
     {
-        String system = project.getProperty( SYSTEM_KEY );
+        final String system = project.getProperty( SYSTEM_KEY );
         if(( null == system ) || "".equals( system ))
         {
-            File systemHome = index.getParentFile();
+            final File systemHome = index.getParentFile();
             return systemHome;
         }
         else
         {
-            File anchor = project.getBaseDir();
+            final File anchor = project.getBaseDir();
             return Context.getFile( anchor, system );
         }
     }
 
-    private void setupSystemProperties( Project project, File dir )
+    private void setupSystemProperties( final Project project, final File dir )
     {
-        File build = Context.getFile( dir, INDEX_PROPERTIES );
+        final File build = Context.getFile( dir, INDEX_PROPERTIES );
         loadProperties( project, build );
     }
 
@@ -116,7 +107,7 @@ public class HomeTask extends ContextualTask
     {
         if( null != m_path )
         {
-            File index = Context.getFile( project.getBaseDir(), m_path );
+            final File index = Context.getFile( project.getBaseDir(), m_path );
             return resolve( index );
         }
         else
@@ -126,10 +117,10 @@ public class HomeTask extends ContextualTask
             // try to resolve using ${project.home}
             //
 
-            String path = getProject().getProperty( Home.KEY );
+            final String path = getProject().getProperty( Home.KEY );
             if( null != path )
             {
-                File root = Context.getFile( project.getBaseDir(), path );
+                final File root = Context.getFile( project.getBaseDir(), path );
                 return resolve( root );
             }
             else
@@ -141,7 +132,7 @@ public class HomeTask extends ContextualTask
         }
     }
 
-    private File resolve( File index )
+    private File resolve( final File index )
     {
         if( index.exists() )
         {
@@ -156,7 +147,7 @@ public class HomeTask extends ContextualTask
         }
         else
         {
-            FileNotFoundException e =
+            final FileNotFoundException e =
               new FileNotFoundException( index.toString() );
             throw new BuildException( e );
         }

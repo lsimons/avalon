@@ -31,9 +31,9 @@ public class Plugin extends Definition
     private final ListenerDef[] m_listeners;
 
     public Plugin(
-      Home home, String key, File basedir, Info info, 
-      ResourceRef[] resources, ResourceRef[] plugins, 
-      TaskDef[] tasks, ListenerDef[] listeners )
+      final Home home, final String key, final File basedir, final Info info,
+      final ResourceRef[] resources, final ResourceRef[] plugins,
+      final TaskDef[] tasks, final ListenerDef[] listeners )
     {
         super( home, key, basedir, info, resources, plugins );
         m_tasks = tasks;
@@ -50,7 +50,7 @@ public class Plugin extends Definition
         return m_listeners;
     }
 
-    public boolean equals( Object other )
+    public boolean equals( final Object other )
     {
         if( super.equals( other ) && ( other instanceof Plugin ))
         {
@@ -63,7 +63,7 @@ public class Plugin extends Definition
     {
         private String m_classname;
         
-        public AbstractDef( String classname )
+        public AbstractDef( final String classname )
         {
             m_classname = classname;
         }
@@ -79,7 +79,7 @@ public class Plugin extends Definition
     {
         private String m_name;
         
-        public TaskDef( String name, String classname )
+        public TaskDef( final String name, final String classname )
         {
             super( classname );
             m_name = name;
@@ -93,7 +93,7 @@ public class Plugin extends Definition
 
     public static class ListenerDef extends AbstractDef
     {
-        public ListenerDef( String classname )
+        public ListenerDef( final String classname )
         {
             super( classname );
         }

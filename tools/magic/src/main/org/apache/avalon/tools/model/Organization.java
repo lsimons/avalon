@@ -32,7 +32,7 @@ public class Organization
 
     private final int m_inception;
 
-    public Organization( String key, String name, int year )
+    public Organization( final String key, final String name, final int year )
     {
         m_inception = year;
         m_key = getKey( key );
@@ -54,7 +54,7 @@ public class Organization
         return m_inception;
     }
 
-    private String getKey( String key )
+    private String getKey( final String key )
     {
         if( null == key )
         {
@@ -63,7 +63,7 @@ public class Organization
         return key;
     }
 
-    private String getName( String name )
+    private String getName( final String name )
     {
         if( null == name )
         {

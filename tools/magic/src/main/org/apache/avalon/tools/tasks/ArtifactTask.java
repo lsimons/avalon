@@ -17,30 +17,22 @@
 
 package org.apache.avalon.tools.tasks;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.SimpleTimeZone;
-import java.util.TimeZone;
-import java.util.List;
-
-import org.apache.tools.ant.Task;
-import org.apache.tools.ant.Project;
-import org.apache.tools.ant.BuildException;
-
-import org.apache.avalon.tools.model.Home;
-import org.apache.avalon.tools.model.Context;
-import org.apache.avalon.tools.model.Info;
 import org.apache.avalon.tools.model.Definition;
 import org.apache.avalon.tools.model.ResourceRef;
+import org.apache.avalon.tools.model.Info;
+import org.apache.avalon.tools.model.Context;
 import org.apache.avalon.tools.model.Resource;
-import org.apache.avalon.tools.model.Policy;
+import org.apache.tools.ant.BuildException;
+
+import java.io.File;
+import java.io.OutputStreamWriter;
+import java.io.IOException;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.io.Writer;
+
+import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Create a repository plugin meta data descriptor in the form of a 
@@ -60,10 +52,10 @@ public class ArtifactTask extends SystemTask
 
     public void execute() throws BuildException 
     {
-        String key = getContext().getKey();
-        ResourceRef ref = new ResourceRef( key );
-        Definition def = getHome().getDefinition( ref );
-        File artifact = getArtifactFile( def );
+        final String key = getContext().getKey();
+        final ResourceRef ref = new ResourceRef( key );
+        final Definition def = getHome().getDefinition( ref );
+        final File artifact = getArtifactFile( def );
 
         m_factory = getProject().getProperty( FACTORY_KEY );
         if( null == m_factory ) 
@@ -75,9 +67,9 @@ public class ArtifactTask extends SystemTask
         writeMetaFile( def, artifact );
     }
 
-    private void writeMetaFile( Definition def, File artifact )
+    private void writeMetaFile( final Definition def, final File artifact )
     {
-        String path = artifact.toString();
+        final String path = artifact.toString();
         final File file = new File( path + "." + SUFFIX );
 
         if( file.exists() )
@@ -115,27 +107,21 @@ public class ArtifactTask extends SystemTask
         }
     }
 
-    private File getMetaFile( Definition def )
+    private File getArtifactFile( final Definition def )
     {
-        String artifact = getArtifactFile( def ).toString();
-        return new File( artifact + "." + SUFFIX );
-    }
+        final Info info = def.getInfo();
+        final String type = info.getType();
 
-    private File getArtifactFile( Definition def )
-    {
-        Info info = def.getInfo();
-        String type = info.getType();
+        final File dir = getContext().getDeliverablesDirectory();
+        final File types = new File( dir, type + "s" );
 
-        File dir = getContext().getDeliverablesDirectory();
-        File types = new File( dir, type + "s" );
-
-        String filename = getFilename( info );
+        final String filename = getFilename( info );
         return new File( types, filename );
     }
 
-    private String getFilename( Info info )
+    private String getFilename( final Info info )
     {
-        String version = info.getVersion();
+        final String version = info.getVersion();
         if( null == version )
         {
             return info.getName() + "." + info.getType() ;
@@ -146,7 +132,7 @@ public class ArtifactTask extends SystemTask
         }
     }
 
-    public void writeMetaDescriptor( final OutputStream output, final Definition def, File artifact )
+    public void writeMetaDescriptor( final OutputStream output, final Definition def, final File artifact )
         throws IOException
     {
         final Writer writer = new OutputStreamWriter( output );
@@ -179,10 +165,10 @@ public class ArtifactTask extends SystemTask
     * @throws IOException if unable to write xml
     */
     private void writeDescriptor( 
-       final Writer writer, final Definition def, File artifact )
+       final Writer writer, final Definition def, final File artifact )
        throws IOException
     {
-        Info info = def.getInfo();
+        final Info info = def.getInfo();
 
         writer.write( "\n" );
         writer.write( "\n#" );
@@ -194,7 +180,7 @@ public class ArtifactTask extends SystemTask
         writer.write( "\navalon.artifact.signature = " + getSignature( artifact ) );
     }
 
-    private String getSignature( File file )
+    private String getSignature( final File file )
     {
         if( !file.exists() )
         {
@@ -203,55 +189,55 @@ public class ArtifactTask extends SystemTask
               + file;
             throw new BuildException( error );
         }
-        Date created = new Date( file.lastModified() );
+        final Date created = new Date( file.lastModified() );
         return Context.getSignature( created );
     }
 
     private void writeClasspath( final Writer writer, final Definition def )
         throws IOException
     {
-        ArrayList visited = new ArrayList();
-        ResourceRef[] apis = def.getQualifiedRefs( visited, ResourceRef.API );
+        final ArrayList visited = new ArrayList();
+        final ResourceRef[] apis = def.getQualifiedRefs( visited, ResourceRef.API );
         if( apis.length > 0 )
         {
             writer.write( "\n" );
             writer.write( "\n#" );
             writer.write( "\n# API dependencies." );
             writer.write( "\n#" );
-            String lead = "avalon.artifact.dependency.api";
+            final String lead = "avalon.artifact.dependency.api";
             writeRefs( writer, apis, lead );
         }
-        ResourceRef[] spis = def.getQualifiedRefs( visited, ResourceRef.SPI );
+        final ResourceRef[] spis = def.getQualifiedRefs( visited, ResourceRef.SPI );
         if( spis.length > 0 )
         {
             writer.write( "\n" );
             writer.write( "\n#" );
             writer.write( "\n# SPI dependencies." );
             writer.write( "\n#" );
-            String lead = "avalon.artifact.dependency.spi";
+            final String lead = "avalon.artifact.dependency.spi";
             writeRefs( writer, spis, lead );
         }
 
-        ResourceRef[] impl = def.getQualifiedRefs( visited, ResourceRef.IMPL );
+        final ResourceRef[] impl = def.getQualifiedRefs( visited, ResourceRef.IMPL );
         if( impl.length > 0 )
         {
             writer.write( "\n" );
             writer.write( "\n#" );
             writer.write( "\n# Implementation dependencies." );
             writer.write( "\n#" );
-            String lead = "avalon.artifact.dependency";
+            final String lead = "avalon.artifact.dependency";
             writeRefs( writer, impl, lead );
         }
     }
 
     private void writeRefs( 
-      final Writer writer, final ResourceRef[] refs, String lead )
+      final Writer writer, final ResourceRef[] refs, final String lead )
       throws IOException
     {
         for( int i=0; i<refs.length; i++ )
         {
-            ResourceRef ref = refs[i];
-            Resource resource = getHome().getResource( ref );
+            final ResourceRef ref = refs[i];
+            final Resource resource = getHome().getResource( ref );
             writer.write( "\n" );
             writer.write( lead );
             writer.write( "." + i );
@@ -274,7 +260,7 @@ public class ArtifactTask extends SystemTask
         writer.write( "\n#" );
         writer.write( "\n" + FACTORY_KEY + " = " + m_factory);
 
-        String export = getProject().getProperty( EXPORT_KEY );
+        final String export = getProject().getProperty( EXPORT_KEY );
         if( null == export ) 
         {
             return;

@@ -17,37 +17,17 @@
 
 package org.apache.avalon.tools.model;
 
+import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.BuildListener;
+import org.apache.tools.ant.Project;
+import org.apache.tools.ant.taskdefs.Property;
+import org.apache.tools.ant.types.DataType;
+import org.w3c.dom.Element;
+
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.FileInputStream;
-import java.util.List;
-import java.util.Hashtable;
 import java.util.ArrayList;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.apache.tools.ant.Task;
-import org.apache.tools.ant.BuildEvent;
-import org.apache.tools.ant.BuildListener;
-import org.apache.tools.ant.ProjectComponent;
-import org.apache.tools.ant.taskdefs.Ant;
-import org.apache.tools.ant.taskdefs.Ant.Reference;
-import org.apache.tools.ant.Project;
-import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.types.Path;
-import org.apache.tools.ant.types.DataType;
-import org.apache.tools.ant.util.FileUtils;
-import org.apache.tools.ant.taskdefs.Sequential;
-import org.apache.tools.ant.taskdefs.Property;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Text;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
+import java.util.Hashtable;
 
 /**
  *
@@ -86,7 +66,7 @@ public class Home extends DataType
     // constructor
     //-------------------------------------------------------------
 
-    public Home( Project project, File system, File index )
+    public Home( final Project project, final File system, final File index )
     {
         setProject( project );
         m_index = index;
@@ -95,11 +75,11 @@ public class Home extends DataType
 
         try
         {
-            String path = getCachePath( project );
-            String hostsPath = project.getProperty( HOSTS_KEY );
+            final String path = getCachePath( project );
+            final String hostsPath = project.getProperty( HOSTS_KEY );
             m_main = new Repository( project, m_system, path, hostsPath, this );
 
-            String docs = getDocsCachePath( project );
+            final String docs = getDocsCachePath( project );
             m_docs = new Repository( project, m_system, docs, hostsPath, this );
 
             //
@@ -116,7 +96,7 @@ public class Home extends DataType
         }
 
         log( "cache: " + m_main.getCacheDirectory(), Project.MSG_VERBOSE );
-        String[] hosts = m_main.getHosts();
+        final String[] hosts = m_main.getHosts();
         log( "Hosts: " + hosts.length, Project.MSG_VERBOSE );
         for( int i=0; i<hosts.length; i++ )
         {
@@ -124,21 +104,21 @@ public class Home extends DataType
         }
     }
 
-    private String getCachePath( Project project ) throws IOException
+    private String getCachePath( final Project project ) throws IOException
     {
-        String path = project.getProperty( MAIN_CACHE_KEY );
+        final String path = project.getProperty( MAIN_CACHE_KEY );
         if( null != path ) return path;
 
-        Property property = (Property) project.createTask( "property" );
+        final Property property = (Property) project.createTask( "property" );
         property.setEnvironment( "env" );
         property.init();
         property.execute();
 
-        String avalonHomePath = project.getProperty( "env.AVALON_HOME" );
+        final String avalonHomePath = project.getProperty( "env.AVALON_HOME" );
         if( null != avalonHomePath )
         {
-            File avalonHomeDirectory = new File( avalonHomePath );
-            File cache = new File( avalonHomeDirectory, "repository" );
+            final File avalonHomeDirectory = new File( avalonHomePath );
+            final File cache = new File( avalonHomeDirectory, "repository" );
             return cache.getCanonicalPath();
         }
         else
@@ -147,9 +127,9 @@ public class Home extends DataType
         }
     }
 
-    private String getDocsCachePath( Project project ) throws IOException
+    private String getDocsCachePath( final Project project )
     {
-        String path = project.getProperty( DOCS_CACHE_KEY );
+        final String path = project.getProperty( DOCS_CACHE_KEY );
         if( null != path ) return path;
         return ".docs";
     }
@@ -183,7 +163,7 @@ public class Home extends DataType
         return (Resource[]) m_resources.values().toArray( new Resource[0] );
     }
 
-    public boolean isaDefinition( ResourceRef ref )
+    public boolean isaDefinition( final ResourceRef ref )
     {
         return ( getResource( ref ) instanceof Definition );
     }
@@ -191,11 +171,11 @@ public class Home extends DataType
     public Definition[] getDefinitions()
       throws BuildException
     {
-        ArrayList list = new ArrayList();
-        Resource[] resources = getResources();
+        final ArrayList list = new ArrayList();
+        final Resource[] resources = getResources();
         for( int i=0; i<resources.length; i++ )
         {
-            Resource resource = resources[i];
+            final Resource resource = resources[i];
             if( resource instanceof Definition )
             {
                 list.add( resource );
@@ -204,18 +184,18 @@ public class Home extends DataType
         return (Definition[]) list.toArray( new Definition[0] );
     }
 
-    public Resource getResource( String key )
+    public Resource getResource( final String key )
       throws BuildException
     {
-        ResourceRef ref = new ResourceRef( key );
+        final ResourceRef ref = new ResourceRef( key );
         return getResource( ref );
     }
 
-    public Resource getResource( ResourceRef ref )
+    public Resource getResource( final ResourceRef ref )
       throws BuildException
     {
         final String key = ref.getKey();
-        Resource resource = (Resource) m_resources.get( key );
+        final Resource resource = (Resource) m_resources.get( key );
         if( null == resource )
         {
             final String error = 
@@ -225,17 +205,17 @@ public class Home extends DataType
         return resource;
     }
 
-    public Definition getDefinition( String key )
+    public Definition getDefinition( final String key )
       throws BuildException
     {
-        ResourceRef ref = new ResourceRef( key );
+        final ResourceRef ref = new ResourceRef( key );
         return getDefinition( ref );
     }
 
-    public Definition getDefinition( ResourceRef ref )
+    public Definition getDefinition( final ResourceRef ref )
       throws BuildException
     {
-        Resource resource = getResource( ref );
+        final Resource resource = getResource( ref );
         if( resource instanceof Definition )
         {
             return (Definition) resource;
@@ -248,10 +228,10 @@ public class Home extends DataType
         }
     }
 
-    public Plugin getPlugin( ResourceRef ref )
+    public Plugin getPlugin( final ResourceRef ref )
       throws BuildException
     {
-        Resource resource = getResource( ref );
+        final Resource resource = getResource( ref );
         if( resource instanceof Plugin )
         {
             return (Plugin) resource;
@@ -268,27 +248,27 @@ public class Home extends DataType
     // internal
     //-------------------------------------------------------------
 
-    private void buildList( File index, boolean remote )
+    private void buildList( final File index, final boolean remote )
     {
-        Element root = ElementHelper.getRootElement( index );
+        final Element root = ElementHelper.getRootElement( index );
         final Element[] elements = ElementHelper.getChildren( root );
-        File system = index.getParentFile();
+        final File system = index.getParentFile();
         buildList( system, elements, remote );
     }
 
-    private void buildList( File system, Element[] children, boolean remote )
+    private void buildList( final File system, final Element[] children, final boolean remote )
     {
         if( null == children ) return;
 
         log( "entry: " + children.length, Project.MSG_VERBOSE );
         for( int i=0; i<children.length; i++ )
         {
-            Element element = children[i];
+            final Element element = children[i];
             final String tag = element.getTagName();
             if( isaResource( tag ) )
             {
-                Resource resource = createResource( element, system, remote );
-                String key = resource.getKey();
+                final Resource resource = createResource( element, system, remote );
+                final String key = resource.getKey();
                 m_resources.put( key, resource );
                 log( 
                   "resource: " + resource 
@@ -296,8 +276,8 @@ public class Home extends DataType
             }
             else if( "import".equals( element.getTagName() ) )
             { 
-                String path = element.getAttribute( "index" );
-                File index = Context.getFile( system, path );
+                final String path = element.getAttribute( "index" );
+                final File index = Context.getFile( system, path );
                 buildList( index, true );
             }
             else
@@ -309,7 +289,7 @@ public class Home extends DataType
         }
     }
 
-    private Resource createResource( Element element, File system, boolean remote )
+    private Resource createResource( final Element element, final File system, final boolean remote )
     {
         if( remote )
         {
@@ -321,7 +301,7 @@ public class Home extends DataType
         }
     }
 
-    private boolean isaResource( String tag )
+    private boolean isaResource( final String tag )
     {
         return ( 
           "resource".equals( tag ) 
@@ -333,10 +313,10 @@ public class Home extends DataType
     {
         if( null != m_index ) return m_index;
 
-        String path = project.getProperty( KEY );
+        final String path = project.getProperty( KEY );
         if( null != path )
         {
-            File index = Context.getFile( project.getBaseDir(), path );
+            final File index = Context.getFile( project.getBaseDir(), path );
             if( index.exists() )
             {
                 if( index.isDirectory() )

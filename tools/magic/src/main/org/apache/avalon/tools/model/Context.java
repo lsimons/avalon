@@ -17,22 +17,21 @@
 
 package org.apache.avalon.tools.model;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Hashtable;
-import java.util.Map;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.SimpleTimeZone;
-import java.util.TimeZone;
-
 import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.Task;
 import org.apache.tools.ant.Project;
+import org.apache.tools.ant.Task;
 import org.apache.tools.ant.taskdefs.Property;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Hashtable;
+import java.util.Map;
+import java.util.TimeZone;
+
 /**
- * Organization descriptor.
+ * Build context.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
@@ -66,7 +65,7 @@ public class Context extends Task
     public static final String ETC_KEY = "project.etc";
     public static final String ETC_VALUE = "etc";
 
-    public static Context getContext( Project project )
+    public static Context getContext( final Project project )
     {
         if( null == project )
         {
@@ -86,7 +85,6 @@ public class Context extends Task
     }
 
     private final Map m_map = new Hashtable();
-    private final Map m_resources = new Hashtable();
 
     private String m_key;
     private File m_file;
@@ -101,19 +99,19 @@ public class Context extends Task
     private File m_docs;
     private File m_test;
     
-    public void setKey( String key )
+    public void setKey( final String key )
     {
         m_key = key;
     }
 
-    public void setFile( File file )
+    public void setFile( final File file )
     {
         m_file = file;
     }
 
     public void execute()
     {
-        Project project = getProject();
+        final Project project = getProject();
         setupProperties( project );
 
         project.setNewProperty( SRC_KEY, SRC_VALUE );
@@ -123,9 +121,9 @@ public class Context extends Task
 
         project.setNewProperty( ETC_KEY, ETC_VALUE );
 
-        File basedir = project.getBaseDir();
-        String src = project.getProperty( SRC_KEY );
-        String etc = project.getProperty( ETC_KEY );
+        final File basedir = project.getBaseDir();
+        final String src = project.getProperty( SRC_KEY );
+        final String etc = project.getProperty( ETC_KEY );
 
         m_src = setupSrc( basedir, src );
         m_etc = setupEtc( basedir, etc );
@@ -148,7 +146,7 @@ public class Context extends Task
         }
         else
         {
-            String name = getProject().getProperty( "project.name" );
+            final String name = getProject().getProperty( "project.name" );
             if( null != name )
             {
                 return name;            
@@ -200,12 +198,12 @@ public class Context extends Task
         return m_docs;
     }
 
-    public File setBuildPath( String path )
+    public File setBuildPath( final String path )
     {
         return setBuildPath( path, path );
     }
 
-    public File setBuildPath( String key, String path )
+    public File setBuildPath( final String key, final String path )
     {
         if( null == key )
         {
@@ -222,17 +220,17 @@ public class Context extends Task
               + key + "'.";
             throw new BuildException( error );
         }
-        File build = getFile( m_target, path );
+        final File build = getFile( m_target, path );
         m_map.put( key, build );
         return build;
     }
 
-    public File getBuildPath( String key )
+    public File getBuildPath( final String key )
     {
         return getBuildPath( key, true );
     }
 
-    public File getBuildPath( String key, boolean fail )
+    public File getBuildPath( final String key, final boolean fail )
     {
         if( m_map.containsKey( key ) )
         {
@@ -251,41 +249,41 @@ public class Context extends Task
         }
     }
 
-    public File getTargetDirectory( String path )
+    public File getTargetDirectory( final String path )
     {
         return new File( m_target, path );
     }
 
-    private File setupSrc( File basedir, String path )
+    private static File setupSrc( final File basedir, final String path )
     {
         if( null == path ) return new File( basedir, SRC_VALUE );
         return new File( basedir, path );
     }
 
-    private File setupEtc( File basedir, String path )
+    private static File setupEtc( final File basedir, final String path )
     {
         if( null == path ) return new File( basedir, ETC_VALUE );
         return new File( basedir, path );
     }
 
-    private void setupProperties( Project project )
+    private void setupProperties( final Project project )
     {
-        File basedir = project.getBaseDir();
+        final File basedir = project.getBaseDir();
         setupUserProperties( project, basedir );
         setupBuildProperties( project, basedir );
     }
 
-    private void setupUserProperties( Project project, File basedir )
+    private void setupUserProperties( final Project project, final File basedir )
     {
-        File user = Context.getFile( basedir, USER_PROPERTIES );
+        final File user = Context.getFile( basedir, USER_PROPERTIES );
         readProperties( project, user );
     }
 
-    private void setupBuildProperties( Project project, File basedir )
+    private void setupBuildProperties( final Project project, final File basedir )
     {
         if( null == m_file )
         {  
-            File build = Context.getFile( basedir, BUILD_PROPERTIES );
+            final File build = Context.getFile( basedir, BUILD_PROPERTIES );
             readProperties( project, build );
         }
         else
@@ -294,21 +292,21 @@ public class Context extends Task
         }
     }
 
-    private void readProperties( Project project, File file ) throws BuildException 
+    private void readProperties( final Project project, final File file ) throws BuildException
     {
-        Property props = (Property) project.createTask( "property" );
+        final Property props = (Property) project.createTask( "property" );
         props.setFile( file );
         props.init();
         props.execute();
     }
 
-    public static File getFile( File root, String path )
+    public static File getFile( final File root, final String path )
     {
         if( null == path )
         {
             throw new NullPointerException( "path" );
         }
-        File file = new File( path );
+        final File file = new File( path );
         if( file.isAbsolute() ) return getCanonicalFile( file );
         if( null == root )
         {
@@ -317,7 +315,7 @@ public class Context extends Task
         return getCanonicalFile( new File( root, path ) );
     }
 
-    public static File getCanonicalFile( File file ) throws BuildException
+    public static File getCanonicalFile( final File file ) throws BuildException
     {
         try
         {
@@ -335,9 +333,9 @@ public class Context extends Task
         return getSignature( new Date() );
     }
 
-    public static String getSignature( Date date )
+    public static String getSignature( final Date date )
     {
-        SimpleDateFormat sdf = new SimpleDateFormat( "yyyyMMdd.HHmmss" );
+        final SimpleDateFormat sdf = new SimpleDateFormat( "yyyyMMdd.HHmmss" );
         sdf.setTimeZone( TimeZone.getTimeZone( "UTC" ) );
         return sdf.format( date );
     }

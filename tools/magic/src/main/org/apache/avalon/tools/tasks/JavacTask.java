@@ -17,23 +17,18 @@
 
 package org.apache.avalon.tools.tasks;
 
-import java.io.File;
-import java.io.IOException;
-
-import org.apache.tools.ant.Task;
-import org.apache.tools.ant.Project;
-import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.taskdefs.Copy;
-import org.apache.tools.ant.taskdefs.Javac;
-import org.apache.tools.ant.taskdefs.Mkdir;
-import org.apache.tools.ant.types.FileSet;
-import org.apache.tools.ant.types.Path;
-
 import org.apache.avalon.tools.model.Context;
-import org.apache.avalon.tools.model.Home;
 import org.apache.avalon.tools.model.Definition;
 import org.apache.avalon.tools.model.Policy;
 import org.apache.avalon.tools.model.ResourceRef;
+import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.Project;
+import org.apache.tools.ant.taskdefs.Copy;
+import org.apache.tools.ant.taskdefs.Javac;
+import org.apache.tools.ant.types.FileSet;
+import org.apache.tools.ant.types.Path;
+
+import java.io.File;
 
 /**
  * Compile sources.
@@ -57,7 +52,7 @@ public class JavacTask extends SystemTask
         if( !isInitialized() )
         {
             super.init();
-            Project project = getProject();
+            final Project project = getProject();
             project.setNewProperty( DEBUG_KEY, "" + DEBUG_VALUE );
             project.setNewProperty( FORK_KEY, "" + FORK_VALUE );
             getContext().setBuildPath( 
@@ -68,26 +63,26 @@ public class JavacTask extends SystemTask
 
     public void execute() throws BuildException 
     {
-        Project project = getProject();
-        File build = getContext().getBuildDirectory();
-        File main = new File( build, Context.SRC_MAIN );
+        final Project project = getProject();
+        final File build = getContext().getBuildDirectory();
+        final File main = new File( build, Context.SRC_MAIN );
 
         if( main.exists() )
         {
-            File classes = getContext().getBuildPath( BUILD_CLASSES_KEY );
+            final File classes = getContext().getBuildPath( BUILD_CLASSES_KEY );
             mkDir( classes );
 
-            ResourceRef ref = new ResourceRef( getKey() );
-            Definition definition = getHome().getDefinition( ref );
-            Path classpath = definition.getPath( project, Policy.BUILD );
+            final ResourceRef ref = new ResourceRef( getKey() );
+            final Definition definition = getHome().getDefinition( ref );
+            final Path classpath = definition.getPath( project, Policy.BUILD );
 
             compile( main, classes, classpath );
 
-            Copy copy = (Copy) getProject().createTask( "copy" );
+            final Copy copy = (Copy) getProject().createTask( "copy" );
             copy.setPreserveLastModified( true );
             copy.setTodir( classes );
 
-            FileSet fileset = new FileSet();
+            final FileSet fileset = new FileSet();
             fileset.setDir( main );
             fileset.setIncludes( "**/**" );
             fileset.setExcludes( "**/*.java,**/package.html" );
@@ -103,19 +98,19 @@ public class JavacTask extends SystemTask
         }
     }
 
-    private void copyMainResource( File dest )
+    private void copyMainResource( final File dest )
     {
-        File build = getContext().getBuildDirectory();
-        File etc = new File( build, "etc" );
-        File src = new File( etc, "main" );
+        final File build = getContext().getBuildDirectory();
+        final File etc = new File( build, "etc" );
+        final File src = new File( etc, "main" );
         if( src.exists() )
         {
             mkDir( dest );
-            Copy copy = (Copy) getProject().createTask( "copy" );
+            final Copy copy = (Copy) getProject().createTask( "copy" );
             copy.setPreserveLastModified( true );
             copy.setTodir( dest );
 
-            FileSet fileset = new FileSet();
+            final FileSet fileset = new FileSet();
             fileset.setDir( src );
             copy.addFileset( fileset );
             copy.init();
@@ -123,12 +118,11 @@ public class JavacTask extends SystemTask
         }
     }
 
-    private void compile( File sources, File classes, Path classpath )
-    {        
-        File basedir = getProject().getBaseDir();
-        Javac javac = (Javac) getProject().createTask( "javac" );
-        Path src = javac.createSrc();
-        Path.PathElement element = src.createPathElement();
+    private void compile( final File sources, final File classes, final Path classpath )
+    {
+        final Javac javac = (Javac) getProject().createTask( "javac" );
+        final Path src = javac.createSrc();
+        final Path.PathElement element = src.createPathElement();
         element.setLocation( sources );
         javac.setDestdir( classes );
         javac.setDebug( getDebugProperty() );
@@ -148,16 +142,16 @@ public class JavacTask extends SystemTask
         return getBooleanProperty( FORK_KEY, FORK_VALUE );
     }
 
-    private boolean getBooleanProperty( String key, boolean fallback )
+    private boolean getBooleanProperty( final String key, final boolean fallback )
     {
-        String value = getProject().getProperty( key );
+        final String value = getProject().getProperty( key );
         if( null == value )
         {
             return fallback;
         }
         else
         {
-            return getProject().toBoolean( value );
+            return Project.toBoolean( value );
         }
     }
 }

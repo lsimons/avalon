@@ -17,36 +17,32 @@
 
 package org.apache.avalon.tools.tasks;
 
-import java.io.File;
-
-import org.apache.tools.ant.Project;
-import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.types.FileSet;
-import org.apache.tools.ant.taskdefs.Copy;
-
 import org.apache.avalon.tools.model.Context;
-import org.apache.avalon.tools.model.Home;
 import org.apache.avalon.tools.model.Definition;
+import org.apache.tools.ant.taskdefs.Copy;
+import org.apache.tools.ant.types.FileSet;
+
+import java.io.File;
 
 public class PublishTask extends SystemTask
 {
     private String m_path;
 
-    public void setPath( String path )
+    public void setPath( final String path )
     {
         m_path = path;
     }
 
     public void execute()
     {
-        File basedir = getProject().getBaseDir();
-        File target = new File( basedir, Context.TARGET );
-        File source = new File( target, Context.DOCS );
+        final File basedir = getProject().getBaseDir();
+        final File target = new File( basedir, Context.TARGET );
+        final File source = new File( target, Context.DOCS );
 
         if( source.exists() )
         {
-            File destination = getPath();
-            FileSet fileset = new FileSet();
+            final File destination = getPath();
+            final FileSet fileset = new FileSet();
             fileset.setDir( source );
             fileset.createInclude().setName( "**/*" );
 
@@ -62,14 +58,14 @@ public class PublishTask extends SystemTask
     */
     private File getPath()
     {
-        String key = getKey();
-        Definition definition = getHome().getDefinition( key );
-        File cache = getHome().getDocsRepository().getCacheDirectory();
+        final String key = getKey();
+        final Definition definition = getHome().getDefinition( key );
+        final File cache = getHome().getDocsRepository().getCacheDirectory();
         if( null == m_path )
         {
-            String group = definition.getInfo().getGroup();
-            String name = definition.getInfo().getName();
-            File parent = new File( cache, group );
+            final String group = definition.getInfo().getGroup();
+            final String name = definition.getInfo().getName();
+            final File parent = new File( cache, group );
             return new File( parent, name );
         }
         else
@@ -78,10 +74,10 @@ public class PublishTask extends SystemTask
         }
     }
 
-    private void copy( File destination, FileSet fileset )
+    private void copy( final File destination, final FileSet fileset )
     {
         mkDir( destination );
-        Copy copy = (Copy) getProject().createTask( "copy" );
+        final Copy copy = (Copy) getProject().createTask( "copy" );
         copy.setPreserveLastModified( true );
         copy.setTodir( destination );
         copy.addFileset( fileset );

@@ -17,17 +17,12 @@
 
 package org.apache.avalon.tools.model;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
-
-import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.taskdefs.Sequential;
-
 import org.apache.avalon.tools.model.Plugin.ListenerDef;
 import org.apache.avalon.tools.model.Plugin.TaskDef;
-
+import org.apache.tools.ant.BuildException;
 import org.w3c.dom.Element;
+
+import java.io.File;
 
 /**
  * Definition of a project. 
@@ -37,7 +32,7 @@ import org.w3c.dom.Element;
  */
 public class XMLDefinitionBuilder 
 {
-    public static Resource createResource( Home home, Element element, File anchor )
+    public static Resource createResource( final Home home, final Element element, final File anchor )
     {
         final String tag = element.getTagName();
 
@@ -48,17 +43,17 @@ public class XMLDefinitionBuilder
         // otherwise its a project or plugin defintion
         // 
 
-        Info info = 
+        final Info info =
           createInfo( ElementHelper.getChild( element, "info" ) );
-        String key = getDefinitionKey( element, info );
+        final String key = getDefinitionKey( element, info );
 
-        File basedir = getBasedir( anchor, element );
+        final File basedir = getBasedir( anchor, element );
        
-        ResourceRef[] resources = 
+        final ResourceRef[] resources =
           createResourceRefs( 
             ElementHelper.getChild( element, "dependencies" ) );
         
-        ResourceRef[] plugins = 
+        final ResourceRef[] plugins =
           createPluginRefs( 
             ElementHelper.getChild( element, "plugins" ) );
 
@@ -69,9 +64,9 @@ public class XMLDefinitionBuilder
         }
         else if( tag.equals( "plugin" ) )
         {
-            TaskDef[] tasks = 
+            final TaskDef[] tasks =
               getTaskDefs( ElementHelper.getChild( element, "tasks" ) );
-            ListenerDef[] listeners = 
+            final ListenerDef[] listeners =
               getListenerDefs( 
                 ElementHelper.getChild( element, "listeners" ) );
             return new Plugin( 
@@ -86,27 +81,27 @@ public class XMLDefinitionBuilder
         }
     }
 
-    public static Resource createResource( Home home, Element element )
+    public static Resource createResource( final Home home, final Element element )
     {
-        Info info = 
+        final Info info =
           createInfo( ElementHelper.getChild( element, "info" ) );
-        String key = getDefinitionKey( element, info );
+        final String key = getDefinitionKey( element, info );
         return new Resource( home, key, info );
     }
 
-    public static Definition createDefinition( Home home, Element element, File anchor )
+    public static Definition createDefinition( final Home home, final Element element, final File anchor )
     {
-        Info info = 
+        final Info info =
           createInfo( ElementHelper.getChild( element, "info" ) );
-        String key = getDefinitionKey( element, info );
+        final String key = getDefinitionKey( element, info );
 
-        File basedir = getBasedir( anchor, element );
+        final File basedir = getBasedir( anchor, element );
        
-        ResourceRef[] resources = 
+        final ResourceRef[] resources =
           createResourceRefs( 
             ElementHelper.getChild( element, "dependencies" ) );
         
-        ResourceRef[] plugins = 
+        final ResourceRef[] plugins =
           createPluginRefs( 
             ElementHelper.getChild( element, "plugins" ) );
 
@@ -118,9 +113,9 @@ public class XMLDefinitionBuilder
         }
         else if( tag.equals( "plugin" ) )
         {
-            TaskDef[] tasks = 
+            final TaskDef[] tasks =
               getTaskDefs( ElementHelper.getChild( element, "tasks" ) );
-            ListenerDef[] listeners = 
+            final ListenerDef[] listeners =
               getListenerDefs( ElementHelper.getChild( element, "listeners" ) );
             return new Plugin( 
               home, key, basedir, info, resources, plugins, tasks, listeners );
@@ -133,36 +128,36 @@ public class XMLDefinitionBuilder
         }
     }
 
-    public static ListenerDef[] getListenerDefs( Element element )
+    public static ListenerDef[] getListenerDefs( final Element element )
     {
-        Element[] children = ElementHelper.getChildren( element, "listener" );
-        ListenerDef[] listeners = new ListenerDef[ children.length ];
+        final Element[] children = ElementHelper.getChildren( element, "listener" );
+        final ListenerDef[] listeners = new ListenerDef[ children.length ];
         for( int i=0; i<children.length; i++ )
         {
-            Element child = children[i];
-            ListenerDef listener = new ListenerDef( child.getAttribute( "class" ) );
+            final Element child = children[i];
+            final ListenerDef listener = new ListenerDef( child.getAttribute( "class" ) );
             listeners[i] = listener;
         }
         return listeners;
     }
 
-    public static TaskDef[] getTaskDefs( Element element )
+    public static TaskDef[] getTaskDefs( final Element element )
     {
-        Element[] children = ElementHelper.getChildren( element, "taskdef" );
-        TaskDef[] refs = new TaskDef[ children.length ];
+        final Element[] children = ElementHelper.getChildren( element, "taskdef" );
+        final TaskDef[] refs = new TaskDef[ children.length ];
         for( int i=0; i<children.length; i++ )
         {
-            Element child = children[i];
-            String name = child.getAttribute( "name" );
-            String classname = child.getAttribute( "class" );
+            final Element child = children[i];
+            final String name = child.getAttribute( "name" );
+            final String classname = child.getAttribute( "class" );
             refs[i] = new TaskDef( name, classname );
         }
         return refs;
     }
 
-    private static File getBasedir( File anchor, Element element )
+    private static File getBasedir( final File anchor, final Element element )
     {
-        String path = element.getAttribute( "basedir" );
+        final String path = element.getAttribute( "basedir" );
         if( null == path )
         {
             final String error = 
@@ -170,7 +165,7 @@ public class XMLDefinitionBuilder
             throw new BuildException( error );
         }
 
-        File basedir = new File( anchor, path );
+        final File basedir = new File( anchor, path );
         if( !basedir.exists() )
         {
             final String error = 
@@ -186,9 +181,9 @@ public class XMLDefinitionBuilder
         return basedir;
     }
 
-    private static String getDefinitionKey( Element element, Info info )
+    private static String getDefinitionKey( final Element element, final Info info )
     {
-        String key = element.getAttribute( "key" );
+        final String key = element.getAttribute( "key" );
         if( null == key ) 
         {
             return info.getName();
@@ -200,69 +195,69 @@ public class XMLDefinitionBuilder
         return key;
     }
 
-    public static Info createInfo( Element info )
+    public static Info createInfo( final Element info )
     {
-        String group = 
+        final String group =
           ElementHelper.getValue( 
             ElementHelper.getChild( info, "group" ) );
-        String name = 
+        final String name =
           ElementHelper.getValue( 
             ElementHelper.getChild( info, "name" ) );
-        String version = 
+        final String version =
           ElementHelper.getValue( 
             ElementHelper.getChild( info, "version" ) );
-        String type = 
+        final String type =
           ElementHelper.getValue( 
             ElementHelper.getChild( info, "type" ) );
 
         return new Info( group, name, version, type );
     }
 
-    private static ResourceRef[] createResourceRefs( Element element )
+    private static ResourceRef[] createResourceRefs( final Element element )
       throws BuildException
     {
-        Element[] children = ElementHelper.getChildren( element, "include" );
-        ResourceRef[] refs = new ResourceRef[ children.length ];
+        final Element[] children = ElementHelper.getChildren( element, "include" );
+        final ResourceRef[] refs = new ResourceRef[ children.length ];
         for( int i=0; i<children.length; i++ )
         {
-            Element child = children[i];
-            String key = child.getAttribute( "key" );
-            int tag = ResourceRef.getCategory( child.getAttribute( "tag" ) );
-            Policy policy = createPolicy( child );
+            final Element child = children[i];
+            final String key = child.getAttribute( "key" );
+            final int tag = ResourceRef.getCategory( child.getAttribute( "tag" ) );
+            final Policy policy = createPolicy( child );
             refs[i] = new ResourceRef( key, policy, tag );
         }
         return refs;
     }
 
-    private static ResourceRef[] createPluginRefs( Element element )
+    private static ResourceRef[] createPluginRefs( final Element element )
       throws BuildException
     {
-        Element[] children = ElementHelper.getChildren( element, "include" );
-        ResourceRef[] refs = new ResourceRef[ children.length ];
+        final Element[] children = ElementHelper.getChildren( element, "include" );
+        final ResourceRef[] refs = new ResourceRef[ children.length ];
         for( int i=0; i<children.length; i++ )
         {
-            Element child = children[i];
-            String key = child.getAttribute( "key" );
-            int tag = ResourceRef.getCategory( child.getAttribute( "tag" ) );
-            Policy policy = createPolicy( child, false, false, false );
+            final Element child = children[i];
+            final String key = child.getAttribute( "key" );
+            final int tag = ResourceRef.getCategory( child.getAttribute( "tag" ) );
+            final Policy policy = createPolicy( child, false, false, false );
             refs[i] = new ResourceRef( key, policy, tag );
         }
         return refs;
     }
 
-    private static Policy createPolicy( Element element )
+    private static Policy createPolicy( final Element element )
     {
         return createPolicy( element, true, true, true );
     }
 
     private static Policy createPolicy( 
-      Element element, boolean defBuild, boolean defTest, boolean defRuntime )
+      final Element element, final boolean defBuild, final boolean defTest, final boolean defRuntime )
     {
-        boolean build = 
+        final boolean build =
           ElementHelper.getBooleanAttribute( element, "build", defBuild );
-        boolean test = 
+        final boolean test =
           ElementHelper.getBooleanAttribute( element, "test", defTest );
-        boolean runtime = 
+        final boolean runtime =
           ElementHelper.getBooleanAttribute( element, "runtime", defRuntime );
         return new Policy( build, test, runtime );
     }

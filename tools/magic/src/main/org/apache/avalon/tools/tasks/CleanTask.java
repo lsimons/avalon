@@ -17,14 +17,11 @@
 
 package org.apache.avalon.tools.tasks;
 
-import java.io.File;
-
-import org.apache.tools.ant.Task;
-import org.apache.tools.ant.Project;
 import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Delete;
 
-import org.apache.avalon.tools.model.Context;
+import java.io.File;
 
 /**
  * Clean the project by removing the target directory.
@@ -36,12 +33,12 @@ public class CleanTask extends ContextualTask
 {
     public void execute() throws BuildException 
     {
-        File target = getContext().getTargetDirectory();
+        final File target = getContext().getTargetDirectory();
         if( target.exists() )
         {
             log( "removing target directory" );
-            Project project = getProject();
-            Delete delete = (Delete) project.createTask( "delete" );
+            final Project project = getProject();
+            final Delete delete = (Delete) project.createTask( "delete" );
             delete.setDir( target );
             delete.init();
             delete.execute();

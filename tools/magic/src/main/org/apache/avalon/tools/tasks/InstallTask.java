@@ -17,20 +17,14 @@
 
 package org.apache.avalon.tools.tasks;
 
-import java.io.File;
-import java.io.IOException;
-
-import org.apache.tools.ant.Task;
-import org.apache.tools.ant.Project;
-import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.taskdefs.Copy;
-import org.apache.tools.ant.taskdefs.Jar;
-import org.apache.tools.ant.types.FileSet;
-import org.apache.tools.ant.types.Path;
-
-import org.apache.avalon.tools.model.Home;
 import org.apache.avalon.tools.model.Context;
 import org.apache.avalon.tools.model.Definition;
+import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.Project;
+import org.apache.tools.ant.taskdefs.Copy;
+import org.apache.tools.ant.types.FileSet;
+
+import java.io.File;
 
 /**
  * Install the ${basedir}/target/deliverables content into the local 
@@ -43,14 +37,14 @@ public class InstallTask extends SystemTask
 {
     private String m_id;
 
-    public void setId( String id )
+    public void setId( final String id )
     {
         m_id = id;
     }
 
     public void execute() throws BuildException 
     {
-        Definition definition = getReferenceDefinition();
+        final Definition definition = getReferenceDefinition();
         installDeliverables( definition );
     }
 
@@ -66,28 +60,28 @@ public class InstallTask extends SystemTask
         }
     }
 
-    private void installDeliverables( Definition definition )
+    private void installDeliverables( final Definition definition )
     {
-        File basedir = definition.getBasedir();
-        File target = new File( basedir, Context.TARGET );
-        File deliverables = new File( target, Context.DELIVERABLES );
+        final File basedir = definition.getBasedir();
+        final File target = new File( basedir, Context.TARGET );
+        final File deliverables = new File( target, Context.DELIVERABLES );
         if( deliverables.exists() )
         {
             log( "Installing deliverables", Project.MSG_VERBOSE );
-            File cache = getHome().getRepository().getCacheDirectory();
-            FileSet fileset = new FileSet();
+            final File cache = getHome().getRepository().getCacheDirectory();
+            final FileSet fileset = new FileSet();
             fileset.setDir( deliverables );
             fileset.createInclude().setName( "**/*" );
-            String group = getHome().getDefinition( getKey() ).getInfo().getGroup();
-            File destination = new File( cache, group );
+            final String group = getHome().getDefinition( getKey() ).getInfo().getGroup();
+            final File destination = new File( cache, group );
             copy( destination, fileset );
         }
     }
 
-    private void copy( File destination, FileSet fileset )
+    private void copy( final File destination, final FileSet fileset )
     {
         mkDir( destination );
-        Copy copy = (Copy) getProject().createTask( "copy" );
+        final Copy copy = (Copy) getProject().createTask( "copy" );
         copy.setPreserveLastModified( true );
         copy.setTodir( destination );
         copy.addFileset( fileset );

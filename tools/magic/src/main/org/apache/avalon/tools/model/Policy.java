@@ -43,7 +43,7 @@ public class Policy
         this( true, true, true );
     }
 
-    public Policy( boolean build, boolean test, boolean runtime )
+    public Policy( final boolean build, final boolean test, final boolean runtime )
     {
         m_build = build;
         m_test = test;
@@ -65,7 +65,7 @@ public class Policy
         return m_runtime;
     }
 
-    public boolean matches( int mode )
+    public boolean matches( final int mode )
     {
         if( mode == BUILD )
         {
@@ -85,11 +85,11 @@ public class Policy
         }
     }
 
-    public boolean equals( Object other )
+    public boolean equals( final Object other )
     {
         if( other instanceof Policy )
         {
-            Policy policy = (Policy) other;
+            final Policy policy = (Policy) other;
             if( m_build != policy.m_build ) return false;
             if( m_test != policy.m_test ) return false;
             if( m_runtime != policy.m_runtime ) return false;

@@ -17,10 +17,8 @@
 
 package org.apache.avalon.tools.tasks;
 
-import java.io.File;
-
-import org.apache.tools.ant.Project;
 import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.Project;
 
 
 /**
@@ -36,8 +34,8 @@ public class AnnounceTask extends ContextualTask
 
     public void execute() throws BuildException 
     {
-        Project project = getProject();
-        String name = project.getProperty( "project.name" );
+        final Project project = getProject();
+        final String name = project.getProperty( "project.name" );
         project.log( BANNER );
         project.log( "name: " + name );
         project.log( BANNER );

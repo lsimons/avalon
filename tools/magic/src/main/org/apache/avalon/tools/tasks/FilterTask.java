@@ -17,25 +17,12 @@
 
 package org.apache.avalon.tools.tasks;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.FileInputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
-
-import org.apache.tools.ant.Task;
-import org.apache.tools.ant.Project;
+import org.apache.avalon.tools.model.Definition;
+import org.apache.avalon.tools.model.Policy;
+import org.apache.avalon.tools.model.Resource;
+import org.apache.avalon.tools.model.ResourceRef;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.taskdefs.Filter;
-
-import org.apache.avalon.tools.model.Context;
-import org.apache.avalon.tools.model.Home;
-import org.apache.avalon.tools.model.Resource;
-import org.apache.avalon.tools.model.Definition;
-import org.apache.avalon.tools.model.ResourceRef;
-import org.apache.avalon.tools.model.Policy;
 
 /**
  * Build a set of projects taking into account dependencies within the 
@@ -58,17 +45,17 @@ public class FilterTask extends SystemTask
         }
     }
 
-    public void setKey( String key )
+    public void setKey( final String key )
     {
         m_key = key;
     }
 
-    public void setFeature( String feature )
+    public void setFeature( final String feature )
     {
         m_feature = feature;
     }
 
-    public void setToken( String token )
+    public void setToken( final String token )
     {
         m_token = token;
     }
@@ -90,10 +77,10 @@ public class FilterTask extends SystemTask
             return;
         }
 
-        String value = getFeature();
+        final String value = getFeature();
         if( null != value )
         {
-            Filter filter = (Filter) getProject().createTask( "filter" );
+            final Filter filter = (Filter) getProject().createTask( "filter" );
             filter.init();
             filter.setToken( m_token );
             filter.setValue( value );
@@ -107,8 +94,8 @@ public class FilterTask extends SystemTask
 
     private String getFeature()
     {
-        ResourceRef ref = new ResourceRef( m_key );
-        Resource resource = getHome().getResource( ref );
+        final ResourceRef ref = new ResourceRef( m_key );
+        final Resource resource = getHome().getResource( ref );
         if( m_feature.equals( "name" ) )
         {
             return resource.getInfo().getName();
@@ -119,7 +106,7 @@ public class FilterTask extends SystemTask
         }
         else if( m_feature.equals( "version" ) )
         {
-            String version = resource.getInfo().getVersion();
+            final String version = resource.getInfo().getVersion();
             if( null == version ) return "";
             return version;
         }
@@ -129,7 +116,7 @@ public class FilterTask extends SystemTask
         }
         else if( resource instanceof Definition )
         {
-            Definition def = (Definition) resource;
+            final Definition def = (Definition) resource;
             if( m_feature.equals( "system-classpath-for-windows" ) )
             {
                 return getPath( def, true );
@@ -142,11 +129,10 @@ public class FilterTask extends SystemTask
         return null;
     }
 
-    private String getPath( Definition def, boolean windows )
+    private String getPath( final Definition def, final boolean windows )
     {
-        StringBuffer buffer = new StringBuffer();
-        String symbol = getPlatformCacheSymbol( windows );
-        ResourceRef[] refs = 
+        final StringBuffer buffer = new StringBuffer();
+        final ResourceRef[] refs =
           def.getResourceRefs( Policy.RUNTIME, ResourceRef.ANY, true );
         for( int i=0; i<refs.length; i++ )
         {
@@ -155,9 +141,9 @@ public class FilterTask extends SystemTask
                 buffer.append( ";" );
             }
 
-            ResourceRef ref = refs[i];
-            Resource resource = getHome().getResource( ref );
-            String path = getNativePath( windows, resource );
+            final ResourceRef ref = refs[i];
+            final Resource resource = getHome().getResource( ref );
+            final String path = getNativePath( windows, resource );
             buffer.append( path );
         }
 
@@ -170,11 +156,11 @@ public class FilterTask extends SystemTask
         return buffer.toString();
     }
 
-    private String getNativePath( boolean windows, Resource resource )
+    private String getNativePath( final boolean windows, final Resource resource )
     {
-        String symbol = getPlatformCacheSymbol( windows );
-        StringBuffer buffer = new StringBuffer( symbol );
-        String path = resource.getInfo().getPath();
+        final String symbol = getPlatformCacheSymbol( windows );
+        final StringBuffer buffer = new StringBuffer( symbol );
+        final String path = resource.getInfo().getPath();
         if( windows )
         {
             buffer.append( "\\" );
@@ -188,7 +174,7 @@ public class FilterTask extends SystemTask
         return buffer.toString();
     }
 
-    private String getPlatformCacheSymbol( boolean windows )
+    private String getPlatformCacheSymbol( final boolean windows )
     {
         if( windows )
         {
@@ -215,12 +201,12 @@ public class FilterTask extends SystemTask
             m_value = value;
         }
 
-        public void setName( String name )
+        public void setName( final String name )
         {
             m_name = name;
         }
 
-        public void setValue( String value )
+        public void setValue( final String value )
         {
             m_value = value;
         }

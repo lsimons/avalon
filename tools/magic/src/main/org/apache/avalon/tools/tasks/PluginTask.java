@@ -17,34 +17,25 @@
 
 package org.apache.avalon.tools.tasks;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
-import java.lang.reflect.Constructor;
-
-import org.apache.tools.ant.AntClassLoader;
-import org.apache.tools.ant.Task;
-import org.apache.tools.ant.Project;
-import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.types.Path;
-import org.apache.tools.ant.ComponentHelper;
-import org.apache.tools.ant.taskdefs.Antlib;
-import org.apache.tools.ant.helper.ProjectHelper2;
-import org.apache.tools.ant.UnknownElement;
-import org.apache.tools.ant.BuildListener;
-
-import org.apache.avalon.tools.model.Home;
-import org.apache.avalon.tools.model.Context;
-import org.apache.avalon.tools.model.Definition;
 import org.apache.avalon.tools.model.Info;
 import org.apache.avalon.tools.model.Resource;
-import org.apache.avalon.tools.model.Plugin;
-import org.apache.avalon.tools.model.Plugin.TaskDef;
-import org.apache.avalon.tools.model.Plugin.ListenerDef;
+import org.apache.avalon.tools.model.Home;
 import org.apache.avalon.tools.model.XMLDefinitionBuilder;
 import org.apache.avalon.tools.model.ElementHelper;
+import org.apache.avalon.tools.model.Plugin.ListenerDef;
+import org.apache.avalon.tools.model.Plugin.TaskDef;
+
+import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.ComponentHelper;
+import org.apache.tools.ant.BuildListener;
+import org.apache.tools.ant.types.Path;
+import org.apache.tools.ant.Project;
+import org.apache.tools.ant.AntClassLoader;
 
 import org.w3c.dom.Element;
+
+import java.io.File;
+import java.lang.reflect.Constructor;
 
 /**
  * Load a plugin. 
@@ -56,7 +47,7 @@ public class PluginTask extends SystemTask
 {
     private String m_id;
 
-    public void setArtifact( String id )
+    public void setArtifact( final String id )
     {
         m_id = id;
     }
@@ -83,36 +74,36 @@ public class PluginTask extends SystemTask
             // get the xml definition of the plugin
             //
 
-            String id = getArtifactSpec();
+            final String id = getArtifactSpec();
 
-            Info info = Info.create( id );
-            Project project = getProject();
-            Resource resource = new Resource( getHome(), info );
-            File file = resource.getArtifact( project );
+            final Info info = Info.create( id );
+            final Project project = getProject();
+            final Resource resource = new Resource( getHome(), info );
+            final File file = resource.getArtifact( project );
 
             //
             // create a utility data object from the defintion
             //
 
-            AntLibData data = new AntLibData( getHome(), getProject(), file );
+            final AntLibData data = new AntLibData( getHome(), getProject(), file );
 
-            AntClassLoader classloader = project.createClassLoader( data.getPath() );
-            String spec = data.getInfo().getSpec();
-            String uri = "plugin:" + spec.substring( 0, spec.indexOf( "#" ) );
+            final AntClassLoader classloader = project.createClassLoader( data.getPath() );
+            final String spec = data.getInfo().getSpec();
+            final String uri = "plugin:" + spec.substring( 0, spec.indexOf( "#" ) );
             log( "Install \"" + uri + "\"" );
 
             //
             // install the ant task defintions
             //
 
-            ComponentHelper helper =
+            final ComponentHelper helper =
               ComponentHelper.getComponentHelper( project );
-            TaskDef[] defs = data.getTaskDefs();
+            final TaskDef[] defs = data.getTaskDefs();
             for( int i=0; i<defs.length; i++ )
             {
-                TaskDef def = defs[i];
-                Class taskClass = classloader.loadClass( def.getClassname() );
-                String name = uri + ":" + def.getName();
+                final TaskDef def = defs[i];
+                final Class taskClass = classloader.loadClass( def.getClassname() );
+                final String name = uri + ":" + def.getName();
                 helper.addTaskDefinition( name, taskClass );
                 log( "Task \"" + name + "\"" );
             }
@@ -121,12 +112,12 @@ public class PluginTask extends SystemTask
             // register plugins that declare themselves as build listeners
             //
 
-            ListenerDef[] listeners = data.getListenerDefs();
+            final ListenerDef[] listeners = data.getListenerDefs();
             for( int i=0; i<listeners.length; i++ )
             {
-                ListenerDef def = listeners[i];
-                Class listenerClass = classloader.loadClass( def.getClassname() );
-                BuildListener listener = createBuildListener( listenerClass, data, uri );
+                final ListenerDef def = listeners[i];
+                final Class listenerClass = classloader.loadClass( def.getClassname() );
+                final BuildListener listener = createBuildListener( listenerClass, data, uri );
                 getProject().addBuildListener( listener );
             }
         }
@@ -148,7 +139,7 @@ public class PluginTask extends SystemTask
     *    method cannot resolve, or if a unexpected instantiation error 
     *    ooccurs
     */ 
-    public BuildListener createBuildListener( Class clazz, AntLibData data, String uri ) 
+    public BuildListener createBuildListener( final Class clazz, final AntLibData data, final String uri )
       throws BuildException
     {
         if( !BuildListener.class.isAssignableFrom( clazz ) )
@@ -161,7 +152,7 @@ public class PluginTask extends SystemTask
             throw new BuildException( error );
         }
 
-        Constructor[] constructors = clazz.getConstructors();
+        final Constructor[] constructors = clazz.getConstructors();
         if( constructors.length < 1 ) 
         {
             final String error = 
@@ -169,12 +160,12 @@ public class PluginTask extends SystemTask
             throw new BuildException( error );
         }
 
-        Constructor constructor = constructors[0];
-        Class[] classes = constructor.getParameterTypes();
-        Object[] args = new Object[ classes.length ];
+        final Constructor constructor = constructors[0];
+        final Class[] classes = constructor.getParameterTypes();
+        final Object[] args = new Object[ classes.length ];
         for( int i=0; i<classes.length; i++ )
         {
-            Class c = classes[i];
+            final Class c = classes[i];
             if( AntLibData.class.isAssignableFrom( c ) )
             {
                 args[i] = data;
@@ -208,10 +199,9 @@ public class PluginTask extends SystemTask
     * @exception BuildException if an instantiation error occurs
     */
     private BuildListener instantiateBuildListener( 
-      Constructor constructor, Object[] args ) 
+      final Constructor constructor, final Object[] args )
       throws BuildException
     {
-        Class clazz = constructor.getDeclaringClass();
         try
         {
             return (BuildListener) constructor.newInstance( args );
@@ -224,32 +214,33 @@ public class PluginTask extends SystemTask
 
     private class AntLibData 
     {
+        final Project project = getProject();
         private final Info m_info;
         private final Path m_path = new Path( project );
         private final TaskDef[] m_tasks;
         private final ListenerDef[] m_listeners;
 
-        public AntLibData( Home home, Project project, File file ) throws Exception
+        public AntLibData( final Home home, final Project project, final File file )
         {
-            Element root = ElementHelper.getRootElement( file );
-            Element infoElement = ElementHelper.getChild( root, "info" );
+            final Element root = ElementHelper.getRootElement( file );
+            final Element infoElement = ElementHelper.getChild( root, "info" );
             m_info = XMLDefinitionBuilder.createInfo( infoElement );
-            Element tasksElement = ElementHelper.getChild( root, "tasks" );
+            final Element tasksElement = ElementHelper.getChild( root, "tasks" );
             m_tasks = XMLDefinitionBuilder.getTaskDefs( tasksElement );
-            Element listenerElement = ElementHelper.getChild( root, "listeners" );
+            final Element listenerElement = ElementHelper.getChild( root, "listeners" );
             m_listeners = XMLDefinitionBuilder.getListenerDefs( listenerElement );
 
-            Element classpathElement = ElementHelper.getChild( root, "classpath" );
-            Element[] children = ElementHelper.getChildren( classpathElement, "artifact" );
+            final Element classpathElement = ElementHelper.getChild( root, "classpath" );
+            final Element[] children = ElementHelper.getChildren( classpathElement, "artifact" );
             for( int i=0; i<children.length; i++ )
             {
-                Element child = children[i];
-                String value = ElementHelper.getValue( child );
-                String type = getArtifactType( value );
-                String uri = getArtifactURI( value );
-                Info info = Info.create( type, uri );
-                Resource resource = new Resource( home, info );
-                File jar = resource.getArtifact( project );
+                final Element child = children[i];
+                final String value = ElementHelper.getValue( child );
+                final String type = getArtifactType( value );
+                final String uri = getArtifactURI( value );
+                final Info info = Info.create( type, uri );
+                final Resource resource = new Resource( home, info );
+                final File jar = resource.getArtifact( project );
                 m_path.createPathElement().setLocation( jar );
             }
         }
@@ -274,16 +265,16 @@ public class PluginTask extends SystemTask
             return m_path;
         }
 
-        private String getArtifactType( String value )
+        private String getArtifactType( final String value )
         {
-            int i = value.indexOf( ":" );
+            final int i = value.indexOf( ":" );
             if( i > 0 ) return value.substring( 0, i );
             return "jar";
         }
 
-        private String getArtifactURI( String value )
+        private String getArtifactURI( final String value )
         {
-            int i = value.indexOf( ":" );
+            final int i = value.indexOf( ":" );
             if( i > 0 ) return value.substring( i+1 );
             return value;
         }
