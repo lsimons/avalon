@@ -77,6 +77,8 @@ Legal:
   <property name="excalibur.jar" value="${lib.dir}/avalon-excalibur-20011120.jar"/>
   <property name="scratchpad.jar" value="${lib.dir}/avalon-scratchpad-20011122.jar"/>
   <property name="logkit.jar" value="${lib.dir}/logkit-1.0.jar"/>
+  <property name="jmxri.jar" value="${lib.dir}/jmxri.jar"/>
+  <property name="jmxtools.jar" value="${lib.dir}/jmxtools.jar"/>
   <property name="tools.jar" value="${java.home}/../lib/tools.jar"/>
 
   <property name="announce2txt" value="${tools.dir}/announcement2txt.xsl"/>
@@ -90,6 +92,8 @@ Legal:
     <pathelement location="${excalibur.jar}"/>
     <pathelement location="${scratchpad.jar}"/>
     <pathelement location="${logkit.jar}"/>
+    <pathelement location="${jmxri.jar}"/>
+    <pathelement location="${jmxtools.jar}"/>
     <pathelement path="${java.class.path}" />
     <fileset dir="${lib.dir}">
       <include name="*.jar" />
@@ -433,6 +437,8 @@ Legal:
     <copy file="${build.lib}/phoenix-client.jar" todir="${bin.dist.lib}"/>
     <copy file="${build.lib}/avalon-jmx.jar" todir="${bin.dist.lib}"/>
     <copy file="${logkit.jar}" todir="${bin.dist.lib}"/>
+    <copy file="${jmxri.jar}" todir="${bin.dist.lib}"/>
+    <copy file="${jmxtools.jar}" todir="${bin.dist.lib}"/>
     <copy file="${framework.jar}" todir="${bin.dist.lib}"/>
     <copy file="${excalibur.jar}" todir="${bin.dist.lib}"/>
     <copy file="${scratchpad.jar}" todir="${bin.dist.lib}"/>
