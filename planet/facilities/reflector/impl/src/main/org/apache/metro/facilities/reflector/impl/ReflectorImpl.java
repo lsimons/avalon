@@ -19,6 +19,8 @@
  */
 package org.apache.metro.facilities.reflector.impl;
 
+import java.lang.reflect.Proxy;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -328,6 +330,13 @@ public final class ReflectorImpl
     
     private TypeHandler getTypeHandler( Object obj )
     {
+        Class clazz = obj.getClass();
+        if( Proxy.isProxyClass( clazz ) )
+        {
+            TypeHandler th = (TypeHandler) m_TypeHandlerMap.get( Proxy.class );
+            if( th != null )
+                return th;
+        }
         Iterator list = m_TypeHandlerMap.entrySet().iterator();
         while( list.hasNext() )
         {
