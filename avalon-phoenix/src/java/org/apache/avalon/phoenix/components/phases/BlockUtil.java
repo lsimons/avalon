@@ -5,7 +5,7 @@
  * version 1.1, a copy of which has been included  with this distribution in
  * the LICENSE file.
  */
-package org.apache.avalon.phoenix.metainfo;
+package org.apache.avalon.phoenix.components.phases;
 
 import org.apache.avalon.phoenix.Block;
 
@@ -27,17 +27,17 @@ public final class BlockUtil
     {
         try
         {
-            final Class clazz = 
+            final Class clazz =
                 block.getClass().getClassLoader().loadClass( service.getName() );
 
             return clazz.isAssignableFrom( block.getClass() );
         }
         catch( final Throwable throwable ) {}
-        
+
         return false;
     }
 
-    public static boolean hasMatchingService( final ServiceDescriptor[] candidates, 
+    public static boolean hasMatchingService( final ServiceDescriptor[] candidates,
                                               final ServiceDescriptor service )
     {
         for( int i = 0; i < candidates.length; i++ )
@@ -47,7 +47,7 @@ public final class BlockUtil
                 return true;
             }
         }
-        
+
         return false;
     }
 }
