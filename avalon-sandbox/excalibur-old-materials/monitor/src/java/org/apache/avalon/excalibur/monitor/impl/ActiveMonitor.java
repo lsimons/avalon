@@ -53,10 +53,15 @@ package org.apache.avalon.excalibur.monitor.impl;
  * The ActiveMonitor is used to actively check a set of resources to see if they have
  * changed. It will poll the resources with a frequency as specified or if
  * unspecified with the default (60 seconds).
+ * 
+ * @avalon.component
+ * @avalon.service type=org.apache.avalon.excalibur.monitor.Monitor
+ * @x-avalon.info name=active-monitor
+ * @x-avalon.lifestyle type=singleton
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Id: ActiveMonitor.java,v 1.7 2003/03/22 12:46:50 leosimons Exp $
+ * @version $Id: ActiveMonitor.java,v 1.8 2003/05/20 20:49:35 bloritsch Exp $
  */
 public class ActiveMonitor
     extends AbstractMonitor
