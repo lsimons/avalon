@@ -70,7 +70,7 @@ public class Hierarchy
 {
     ///Format of default formatter
     private static final String FORMAT =
-        "%7.7{priority} %23.23{time:yyyy-MM-dd' 'HH:mm:ss.SSS} [%8.8{category}] (%{context}): " 
+        "%7.7{priority} %23.23{time:yyyy-MM-dd' 'HH:mm:ss.SSS} [%8.8{category}] (%{context}): "
         + "%{message}\n%{throwable}";
 
     ///The instance of default hierarchy
@@ -205,6 +205,8 @@ public class Hierarchy
      */
     public synchronized void addLoggerListener( final LoggerListener loggerListener )
     {
+        if ( null == loggerListener ) throw new NullPointerException( "loggerListener" );
+
         if ( null == m_loggerListener )
         {
             m_loggerListener = loggerListener;
@@ -212,6 +214,38 @@ public class Hierarchy
         else
         {
             throw new UnsupportedOperationException( "LoggerListener already set on a unicast event notifier" );
+        }
+    }
+
+    public synchronized LoggerListener[] getLoggerListeners()
+    {
+        LoggerListener[] listeners = null;
+
+        if ( null == m_loggerListener )
+        {
+            listeners = new LoggerListener[] {};
+        }
+        else
+        {
+            listeners = new LoggerListener[] {m_loggerListener};
+        }
+
+        return listeners;
+    }
+
+    /**
+     * Remove the LoggerListener associated with hierarchy.  Perform this
+     * step before adding a new one if you want to change it.
+     *
+     * @param loggerListener the LoggerListener
+     */
+    public synchronized void removeLoggerListener( final LoggerListener loggerListener )
+    {
+        if ( null == loggerListener ) throw new NullPointerException( "loggerListener" );
+
+        if ( null != m_loggerListener && m_loggerListener.equals( loggerListener ) );
+        {
+            m_loggerListener = null;
         }
     }
 
