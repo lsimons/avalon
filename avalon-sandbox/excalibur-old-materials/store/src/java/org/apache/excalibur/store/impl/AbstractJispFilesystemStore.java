@@ -73,7 +73,7 @@ import org.apache.excalibur.store.Store;
  *
  * @author <a href="mailto:g-froehlich@gmx.de">Gerhard Froehlich</a>
  * @author <a href="mailto:vgritsenko@apache.org">Vadim Gritsenko</a>
- * @version CVS $Id: AbstractJispFilesystemStore.java,v 1.15 2003/07/31 02:51:32 vgritsenko Exp $
+ * @version CVS $Id: AbstractJispFilesystemStore.java,v 1.16 2003/07/31 03:13:47 vgritsenko Exp $
  */
 public abstract class AbstractJispFilesystemStore
 extends AbstractLogEnabled
@@ -352,7 +352,7 @@ implements Store, ThreadSafe {
         return new JispKey().makeNullKey();
     }
     
-    class BTreeObjectEnumeration implements Enumeration 
+    class BTreeObjectEnumeration implements Enumeration
     {
         private Object m_Next;
         private BTreeIterator m_Iterator;
