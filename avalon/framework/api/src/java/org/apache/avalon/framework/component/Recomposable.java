@@ -59,7 +59,9 @@ package org.apache.avalon.framework.component;
  *
  * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
  * @version 1.0
- * @deprecated Use {@link org.apache.avalon.framework.service.Serviceable} instead.
+ * @deprecated Deprecated with no replacement.  The Reconfigurable interface is a legacy
+ *    interface with no concrete contracts.  Rather than copy the design mistake
+ *    to the "service" package, we no longer support this class.
  */
 public interface Recomposable
     extends Composable

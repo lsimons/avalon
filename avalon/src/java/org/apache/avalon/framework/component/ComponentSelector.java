@@ -59,29 +59,40 @@ package org.apache.avalon.framework.component;
  * hint.  The contract is that all the <code>Component</code>s implement the
  * same role.
  *
+ * <p>
  * A role is better understood by the analogy of a play.  There are many
  * different roles in a script.  Any actor or actress can play any given part
  * and you get the same results (phrases said, movements made, etc.).  The exact
  * nuances of the performance is different.
+ * </p>
  *
+ * <p>
  * Below is a list of things that might be considered the same role:
+ * </p>
  *
  * <ul>
  *   <li> XMLInputAdapter and PropertyInputAdapter</li>
  *   <li> FileGenerator   and SQLGenerator</li>
  * </ul>
  *
+ * <p>
  * The <code>ComponentSelector</code> does not specify the methodology of
  * getting the <code>Component</code>, merely the interface used to get it.
  * Therefore the <code>ComponentSelector</code> can be implemented with a
  * factory pattern, an object pool, or a simple Hashtable.
+ * </p>
+ *
+ * <p>
+ *  <span style="color: red">Deprecated: </span><i>
+ *    Use {@link org.apache.avalon.framework.service.ServiceSelector} instead.
+ *  </i>
+ * </p>
  *
  * @see org.apache.avalon.framework.component.Component
  * @see org.apache.avalon.framework.component.Composable
  * @see org.apache.avalon.framework.component.ComponentManager
  *
  * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
- * @deprecated Use {@link org.apache.avalon.framework.service.ServiceSelector} instead.
  */
 public interface ComponentSelector
     extends Component

@@ -63,9 +63,14 @@ import java.util.Map;
  * and extension so you can generate a tree of ComponentManager each defining
  * Component scope.
  *
+ * <p>
+ *  <span style="color: red">Deprecated: </span><i>
+ *    Use {@link org.apache.avalon.framework.service.DefaultServiceManager} instead.
+ *  </i>
+ * </p>
+ *
  * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
  * @version 1.0
- * @deprecated Use {@link org.apache.avalon.framework.service.DefaultServiceManager} instead.
  */
 public class DefaultComponentManager
     implements ComponentManager

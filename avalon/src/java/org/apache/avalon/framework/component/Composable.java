@@ -58,17 +58,23 @@ package org.apache.avalon.framework.component;
  * A <code>Composable</code> class is one that needs to connect to software
  * components using a "role" abstraction, thus not depending on particular
  * implementations but on behavioral interfaces.
- * <br />
  *
+ * <p>
  * The contract surrounding a <code>Composable</code> is that it is a user.
  * The <code>Composable</code> is able to use <code>Components</code> managed
  * by the <code>ComponentManager</code> it was initialized with.  As part
  * of the contract with the system, the instantiating entity must call
  * the <code>compose</code> method before the <code>Composable</code>
  * can be considered valid.
+ * </p>
+ *
+ * <p>
+ *  <span style="color: red">Deprecated: </span><i>
+ *    Use {@link org.apache.avalon.framework.service.Serviceable} instead.
+ *  </i>
+ * </p>
  *
  * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
- * @deprecated Use {@link org.apache.avalon.framework.service.Serviceable} instead.
  */
 public interface Composable
 {
