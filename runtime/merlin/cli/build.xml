@@ -24,7 +24,9 @@
        token="UNIX-CLI-MAIN-PATH"/>
   </target>
 
-  <target name="package" depends="standard.package">
+  <target name="package" depends="binary"/>
+
+  <target name="package-system" depends="standard.package">
     <x:path id="build.path" mode="BUILD"/>
     <x:replicate refid="build.path" todir="target/system"/>
     <copy todir="target/system/${project.group}/jars">
@@ -34,8 +36,8 @@
     </copy>
   </target>
 
-  <target name="package" depends="standard.package">
-    <property name="merlin.zip" value="${project.short}.zip"/>
+  <target name="binary" depends="package-system">
+    <property name="merlin.zip" value="${project.short-filename}.zip"/>
     <mkdir dir="target/deliverables/dist"/>
     <zip zipfile="target/deliverables/dist/${merlin.zip}">
       <zipfileset dir="target/deliverables" prefix="merlin" filemode="755" >
