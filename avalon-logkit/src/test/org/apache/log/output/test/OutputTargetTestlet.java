@@ -15,11 +15,13 @@ import java.io.FileInputStream;
 import org.apache.log.Hierarchy;
 import org.apache.log.LogTarget;
 import org.apache.log.Logger;
+import org.apache.log.Priority;
 import org.apache.log.format.RawFormatter;
 import org.apache.log.output.AbstractOutputTarget;
 import org.apache.log.output.StreamTarget;
 import org.apache.log.output.WriterTarget;
 import org.apache.log.output.FileTarget;
+import org.apache.log.output.MemoryTarget;
 import org.apache.log.output.SafeFileTarget;
 import org.apache.testlet.AbstractTestlet;
 
@@ -123,6 +125,76 @@ public final class OutputTargetTestlet
         assert( "Write after close()", !m_logFile.exists() );
     }
 
+    /**
+     * Test that MemoryTarget triggers on buffer size hit.
+     *
+     * @exception Exception if an error occurs
+     */
+    public void testMemoryTarget1()
+        throws Exception
+    {
+        final ByteArrayOutputStream output = new ByteArrayOutputStream();
+        final StreamTarget other = new StreamTarget( output, FORMATTER );
+        final MemoryTarget target = new MemoryTarget( other, 1, Priority.FATAL_ERROR );
+        doStreamOutputTest( output, target );
+    }
+
+    /**
+     * Test that MemoryTarget triggers on priority correctly.
+     *
+     * @exception Exception if an error occurs
+     */
+    public void testMemoryTarget2()
+        throws Exception
+    {
+        final ByteArrayOutputStream output = new ByteArrayOutputStream();
+        final StreamTarget other = new StreamTarget( output, FORMATTER );
+        final MemoryTarget target = new MemoryTarget( other, 10, Priority.DEBUG );
+        doStreamOutputTest( output, target );
+    }
+
+    /**
+     * Test that MemoryTarget triggers on priority correctly.
+     *
+     * @exception Exception if an error occurs
+     */
+    public void testMemoryTarget3()
+        throws Exception
+    {
+        final ByteArrayOutputStream output = new ByteArrayOutputStream();
+        final StreamTarget other = new StreamTarget( output, FORMATTER );
+        final MemoryTarget target = new MemoryTarget( other, 10, Priority.FATAL_ERROR );
+
+        final Logger logger = getNewLogger( target );
+
+        //Head output should not be pushed yet
+        final String head = getResult( output );
+        assertEquality( "Targets Head output", "", head );
+
+        //Not pushed yet
+        logger.debug( M1 );
+        final String result1 = getResult( output );
+        assertEquality( "Targets R1 debug output", "", result1 );
+
+        target.push();
+        final String resultPP = getResult( output );
+        assertEquality( "Targets HEAD+R1 debug output", HEAD+R1, resultPP );
+
+        logger.debug( M2 );
+        final String result2 = getResult( output );
+
+        logger.debug( M3 );
+        final String result3 = getResult( output );
+
+        //fatal error triggers a push
+        logger.fatalError( M3 );
+        final String result4 = getResult( output );
+
+        assertEquality( "Targets R2 debug output", "", result2 );
+        assertEquality( "Targets R3 debug output", "", result3 );
+        assertEquality( "Targets R3 debug output", R2+R3+R3, result4 );
+    }
+
     private Logger getNewLogger( final LogTarget target )
     {
         final Hierarchy hierarchy = new Hierarchy();
@@ -149,8 +221,8 @@ public final class OutputTargetTestlet
         return sb.toString();
     }
 
-    private void doStreamTest( final ByteArrayOutputStream output,
-                               final AbstractOutputTarget target )
+    private Logger doStreamOutputTest( final ByteArrayOutputStream output,
+                                       final LogTarget target )
     {
         final Logger logger = getNewLogger( target );
 
@@ -165,14 +237,22 @@ public final class OutputTargetTestlet
         logger.debug( M3 );
         final String result3 = getResult( output );
 
-        target.close();
-        final String tail = getResult( output );
-
         assertEquality( "Targets Head output", HEAD, head );
-        assertEquality( "Targets Tail output", TAIL, tail );
         assertEquality( "Targets R1 debug output", R1, result1 );
         assertEquality( "Targets R2 debug output", R2, result2 );
         assertEquality( "Targets R3 debug output", R3, result3 );
+
+        return logger;
+    }
+
+    private void doStreamTest( final ByteArrayOutputStream output,
+                               final AbstractOutputTarget target )
+    {
+        final Logger logger = doStreamOutputTest( output, target );
+
+        target.close();
+        final String tail = getResult( output );
+        assertEquality( "Targets Tail output", TAIL, tail );
 
         logger.debug( M1 );
         final String noresult = getResult( output );
