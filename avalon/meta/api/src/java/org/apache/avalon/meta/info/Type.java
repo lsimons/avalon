@@ -39,7 +39,7 @@ import org.apache.avalon.framework.configuration.Configuration;
  * <p><image src="doc-files/Type.gif" border="0"/></p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2004/04/07 03:46:44 $
+ * @version $Revision: 1.6 $ $Date: 2004/04/08 05:43:31 $
  */
 public class Type implements Serializable
 {
@@ -414,8 +414,9 @@ public class Type implements Serializable
     */
     public boolean equals(Object other)
     {
-        if( ! (other instanceof Type )
+        if( ! (other instanceof Type ) )
             return false;
+
         Type t = (Type) other;
         
         if( ! m_descriptor.equals( t.m_descriptor ) )
