@@ -44,9 +44,11 @@ public interface BlockContext
     /**
      * Retrieve logger coresponding to named category.
      *
-     * TODO: Determine if this is really necessary ?
-     *
      * @return the logger
+     * @deprecated This allows block writers to "break-out" of their logging
+     *             hierarchy which is considered bad form. Replace by
+     *             Logger.getChildLogger(String) where original logger is aquired
+     *             via AbstractLogEnabled.
      */
     Logger getLogger( String name );
 
