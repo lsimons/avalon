@@ -1,0 +1,20 @@
+#
+# Meta classifier.
+# ================
+
+meta.domain = avalon
+meta.classifier = target
+meta.version = 1.0
+
+#
+# Implementation target description.
+# ----------------------------------
+# The following properties describe the implementation artifact
+# that will be used to establish the principal classloader chain.
+#
+
+avalon.target.group = avalon-repository
+avalon.target.name = avalon-repository-impl
+avalon.target.version = 1.2-dev
+avalon.target.factory = org.apache.avalon.repository.impl.DefaultFactory
+
