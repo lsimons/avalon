@@ -107,7 +107,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * appliance instance.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2003/10/18 00:34:19 $
+ * @version $Revision: 1.5 $ $Date: 2003/10/19 06:12:58 $
  */
 public class DefaultAppliance extends AbstractAppliance
   implements Composite, DefaultApplianceMBean
@@ -572,10 +572,21 @@ public class DefaultAppliance extends AbstractAppliance
      */
     public void release( Object instance )
     {
+        release( instance, false );
+    }
+
+    /**
+     * Release an object.
+     *
+     * @param finalized the finalized state of the object
+     * @param instance the object to be released
+     */
+    private void release( Object instance, boolean finalized )
+    {
         if( instance == null ) return;
         if( !m_deployment.isEnabled() ) return;
         releaseInstance( getProviderInstance( instance ) );
-        m_lifestyle.release( instance );
+        m_lifestyle.release( instance, finalized );
     }
 
     private void accessInstance( Object instance ) throws Exception
@@ -596,7 +607,6 @@ public class DefaultAppliance extends AbstractAppliance
             getLogger().warn( error, e );
         }
     }
-
 
     private Object getProviderInstance( Object instance )
     {
@@ -1218,7 +1228,10 @@ public class DefaultAppliance extends AbstractAppliance
         {
             if( !m_disposed )
             {
-                release( m_instance );
+                final String message = 
+                  "Releasing finalized component in [" + m_model.getQualifiedName() + "].";
+                getLogger().debug( message );
+                release( m_instance, true );
             }
         }
 

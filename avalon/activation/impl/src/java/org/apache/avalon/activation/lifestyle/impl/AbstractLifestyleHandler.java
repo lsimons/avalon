@@ -65,14 +65,12 @@ import org.apache.avalon.framework.logger.Logger;
  * Abstract implentation class for a lifestyle handler.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2003/10/17 06:44:49 $
+ * @version $Revision: 1.4 $ $Date: 2003/10/19 06:12:58 $
  */
 public abstract class AbstractLifestyleHandler extends AbstractLogEnabled
   implements LifestyleHandler
 {
     private final Factory m_factory;
-
-    private final InfoDescriptor m_info;
 
     private final ReferenceQueue m_liberals = new ReferenceQueue();
 
@@ -85,22 +83,27 @@ public abstract class AbstractLifestyleHandler extends AbstractLogEnabled
     public AbstractLifestyleHandler( Logger logger, Factory factory  )
     {
         enableLogging( logger );
-        m_info = factory.getDeploymentModel().getType().getInfo();
         m_factory = factory;
     }
 
-    Factory getFactory()
-    { 
-        return m_factory;
+    /**
+     * Release an object. 
+     *
+     * @param instance the object to be reclaimed
+     */
+    public void release( Object instance )
+    {
+        release( instance, false );
     }
 
     Reference getReference( Object instance )
     {
-        if( m_info.isLiberal() )
+        final String policy = getFactory().getDeploymentModel().getCollectionPolicy();
+        if( policy.equals( InfoDescriptor.LIBERAL ) )
         {
              return new WeakReference( instance, m_liberals );
         }
-        else if( m_info.isDemocrat() )
+        else if( policy.equals( InfoDescriptor.DEMOCRAT )  )
         {
              return new SoftReference( instance );
         }
@@ -142,4 +145,8 @@ public abstract class AbstractLifestyleHandler extends AbstractLogEnabled
         return m_factory.newInstance();
     }
     
+    Factory getFactory()
+    { 
+        return m_factory;
+    }
 }

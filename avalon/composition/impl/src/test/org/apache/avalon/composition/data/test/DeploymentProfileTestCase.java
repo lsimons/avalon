@@ -81,6 +81,7 @@ public class DeploymentProfileTestCase extends TestCase
     private StageDirective[] m_stages;
     private String m_name;
     private String m_classname;
+    private String m_collection;
 
     public DeploymentProfileTestCase( String name )
     {
@@ -100,16 +101,18 @@ public class DeploymentProfileTestCase extends TestCase
         m_activation = true;
         m_mode = Mode.IMPLICIT;
         m_categories = new CategoriesDirective( new CategoryDirective[0] );
+        m_collection = InfoDescriptor.CONSERVATIVE;
     }
 
     public void testProfile() throws ContextException
     {
         DeploymentProfile profile = new DeploymentProfile(
-          m_name, m_activation, m_classname, m_categories, 
+          m_name, m_activation, m_collection, m_classname, m_categories, 
           m_context, m_dependencies, m_stages, m_parameters, 
           m_configuration, m_mode );
 
         assertEquals( "name", m_name, profile.getName() );
+        assertEquals( "collection", m_collection, profile.getCollectionPolicy() );
         assertEquals( "classname", m_classname, profile.getClassname() );
         assertEquals( "categories", m_categories, profile.getCategories() );
         assertEquals( "mode", m_mode, profile.getMode() );

@@ -50,13 +50,14 @@
 
 package org.apache.avalon.activation.lifestyle.impl;
 
+import org.apache.avalon.activation.lifecycle.LifecycleRuntimeException;
 import org.apache.avalon.activation.lifecycle.Factory;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.activity.Disposable;
 
 /**
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2003/10/17 06:44:49 $
+ * @version $Revision: 1.4 $ $Date: 2003/10/19 06:12:58 $
  */
 public class ThreadLifestyleHandler extends AbstractLifestyleHandler implements Disposable
 {
@@ -88,12 +89,9 @@ public class ThreadLifestyleHandler extends AbstractLifestyleHandler implements 
             }
             catch( Exception e )
             {
-                //
-                // TODO: Should be throwing some sort of runtime 
-                // exception in this case or at least logging a warning.
-                //
-
-                return null;
+                final String error = 
+                  "Unable to establish thread local variable.";
+                throw new LifecycleRuntimeException( error );
             }
         }
     }
@@ -129,9 +127,18 @@ public class ThreadLifestyleHandler extends AbstractLifestyleHandler implements 
      *
      * @param instance the object to be reclaimed
      */
-    public void release( Object instance )
+    public void release( Object instance, boolean finalized )
     {
-        // don't release
+        if( finalized )
+        {
+            final String error =
+              "Not possible because the thread local varliable is holding a hard reference.";
+            throw new IllegalStateException( error );
+        }
+        else
+        {
+            // don't release because this is a sharable reference
+        }
     }
 
    /**
