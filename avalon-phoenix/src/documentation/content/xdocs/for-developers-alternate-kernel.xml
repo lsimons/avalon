@@ -26,13 +26,20 @@
         interacting with the block's methods from its service.
       </p>
       <p>
-        To create a beanshell capable kernel, place the bsh-1.2b6.jar from
+        To create a beanshell capable kernel, place the bsh-1.2b7.jar from
         <link href="http://www.beanshell.org/download.html">here</link> in the 
         lib directory of phoenix before building it.  You will need to edit the 
         'beanshell.jars' and 'kernel.impl.class' parts of the ant.properties file.
         You may also want to add your own convenience bsh scripts to the 
         src/bsh/ directory.
+      </p>
+      <p>
+        Alternatively, with a binary distribution of Phoenix, it is sufficient 
+        to just place the beanshell jar in the lib directiory of an unzipped
+        Phoenix.  To enable it, edit conf/kernel.conf and change the kernel line
+        to use the BeanShellKernel.
       </p>            
+      
     </section>
     <section><title>Beanshell enabled, remotely accessible kernel</title>
       <p>

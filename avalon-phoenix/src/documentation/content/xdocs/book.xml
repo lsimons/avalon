@@ -17,6 +17,7 @@
 <menu-item href="bdg/index.html" label="for Block Developers"/>
 <menu-item href="mx/index.html" label="Management Guide"/>
 <menu-item href="guide-example-configuration.html" label="Example configuration"/>
+<menu-item href="guide-punit.html" label="PUnit unit testing"/>
 </menu>
 <menu label="Reference">
 <menu-item href="api/index.html" label="API Docs"/>
