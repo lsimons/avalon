@@ -57,6 +57,7 @@ public class MX4JSystemManager
     private String m_namingFactory;
     private String m_password;
     private String m_username;
+    private boolean m_http;
 
     public void contextualize( final Context context )
         throws ContextException
@@ -81,6 +82,7 @@ public class MX4JSystemManager
         getLogger().debug( "MX4J HTTP listener port: " + m_port );
 
         m_rmi = configuration.getChild( "enable-rmi-adaptor" ).getValueAsBoolean( false );
+        m_http = configuration.getChild( "enable-http-adaptor" ).getValueAsBoolean( true );
 
         m_namingFactory =
             configuration.getChild( "rmi-naming-factory" ).getValue( DEFAULT_NAMING_FACTORY );
@@ -108,7 +110,10 @@ public class MX4JSystemManager
 
         final MBeanServer mBeanServer = getMBeanServer();
 
-        startHttpAdaptor( mBeanServer );
+        if( m_http )
+        {
+            startHttpAdaptor( mBeanServer );
+        }
 
         if( m_rmi )
         {
@@ -120,8 +125,10 @@ public class MX4JSystemManager
     {
         final MBeanServer mBeanServer = getMBeanServer();
 
-        stopHttpAdaptor( mBeanServer );
-
+        if( m_http )
+        {
+            stopHttpAdaptor( mBeanServer );
+        }
         if( m_rmi )
         {
             stopRMIAdaptor( mBeanServer );
