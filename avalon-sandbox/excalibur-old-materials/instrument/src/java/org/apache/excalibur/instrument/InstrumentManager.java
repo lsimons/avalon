@@ -10,11 +10,13 @@ package org.apache.excalibur.instrument;
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/08/05 11:52:25 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/11/10 03:34:08 $
  * @since 4.1
  */
 public interface InstrumentManager
 {
+    String ROLE = InstrumentManager.class.getName();
+
     /**
      * Instrumentable to be registered with the instrument manager.  Should be
      *  called whenever an Instrumentable is created.  The '.' character is
