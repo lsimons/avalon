@@ -60,26 +60,51 @@ namespace Apache.Avalon.Container.Util
 		{
 		}
 
-		public static Pair[] FindTypesUsingAttribute(Assembly assembly, Type attributeType)
+		public static Pair[] FindTypesUsingAttribute(Assembly assembly, Type attributeType, bool onlyPublicTypes)
 		{
 			ArrayList typesFound = new ArrayList();
 
-			Type[] types = assembly.GetTypes();
-
-			foreach(Type type in types)
+			try
 			{
-				if (!type.IsClass || type.IsAbstract)
+				AssemblyName[] names = assembly.GetReferencedAssemblies();
+
+				for(int i=0; i < names.Length; i++)
 				{
-					continue;
+					String dependsOn = names[i].FullName;
+					// TODO: Handle assemblies dependencies gracefully
 				}
 
-				object[] attrs = type.GetCustomAttributes(
-					attributeType, false);
-
-				if (attrs != null && attrs.Length == 1)
+				Type[] types = null;
+				
+				if (onlyPublicTypes)
 				{
-					typesFound.Add(new Pair(type, attrs[0]));
+					types = assembly.GetExportedTypes();
 				}
+				else
+				{
+					types = assembly.GetTypes();
+				}
+
+				foreach(Type type in types)
+				{
+					if (!type.IsClass || type.IsAbstract)
+					{
+						continue;
+					}
+
+					object[] attrs = type.GetCustomAttributes(
+						attributeType, false);
+
+					if (attrs != null && attrs.Length == 1)
+					{
+						typesFound.Add(new Pair(type, attrs[0]));
+					}
+				}
+
+			}
+			catch(Exception e)
+			{
+				throw e;
 			}
 
 			Pair[] pairs = new Pair[typesFound.Count];
