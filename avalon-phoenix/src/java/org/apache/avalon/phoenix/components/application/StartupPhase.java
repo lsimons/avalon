@@ -5,7 +5,7 @@
  * version 1.1, a copy of which has been included  with this distribution in
  * the LICENSE file.
  */
-package org.apache.avalon.phoenix.components.phases;
+package org.apache.avalon.phoenix.components.application;
 
 import java.io.File;
 import java.net.URL;
@@ -34,8 +34,8 @@ import org.apache.avalon.phoenix.BlockContext;
 import org.apache.avalon.phoenix.BlockEvent;
 import org.apache.avalon.phoenix.BlockListener;
 import org.apache.avalon.phoenix.components.application.Application;
-import org.apache.avalon.phoenix.components.frame.ApplicationFrame;
 import org.apache.avalon.phoenix.components.application.BlockEntry;
+import org.apache.avalon.phoenix.components.frame.ApplicationFrame;
 import org.apache.avalon.phoenix.components.listeners.BlockListenerManager;
 import org.apache.avalon.phoenix.metadata.BlockMetaData;
 import org.apache.avalon.phoenix.metadata.DependencyMetaData;
@@ -182,7 +182,7 @@ public class StartupPhase
             entry.setState( State.STARTED );
             entry.setBlock( block );
 
-            final BlockEvent event = 
+            final BlockEvent event =
                 new BlockEvent( name, entry.getProxy(), metaData.getBlockInfo() );
             m_listener.blockAdded( event );
         }
