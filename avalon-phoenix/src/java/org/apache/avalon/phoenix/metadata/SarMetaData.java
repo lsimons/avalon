@@ -10,7 +10,7 @@ package org.apache.avalon.phoenix.metadata;
 import java.io.File;
 
 /**
- * This describes each server application.
+ * MetaData for the application. 
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
