@@ -30,7 +30,7 @@ import org.apache.excalibur.instrument.ValueInstrument;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.5 $ $Date: 2002/08/18 14:40:22 $
+ * @version CVS $Revision: 1.6 $ $Date: 2002/08/20 10:32:10 $
  * @since 4.0
  */
 public abstract class ComponentHandler
@@ -135,7 +135,9 @@ public abstract class ComponentHandler
 
         if( numInterfaces > 1 )
         {
-            throw new Exception( "[CONFLICT] lifestyle interfaces: " + componentClass.getName() );
+            throw new Exception( "[CONFLICT] More than one lifecycle interface in "
+                + componentClass.getName() + "  May implement no more than one of "
+                + "SingleThreaded, ThreadSafe, or Poolable" );
         }
 
         // Create the factory to use to create the instances of the Component.
