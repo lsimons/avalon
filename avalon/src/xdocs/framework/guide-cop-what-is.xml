@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE document SYSTEM "dtd/document-v10.dtd">
+
+<document>
+  <header>
+    <title>Avalon Framework - Guide - What is COP?</title>
+    <version>1.0</version>
+    <authors>
+      <person name="Leo Simons" email="leosimons@apache.org"/>
+    </authors>
+  </header>
+  <body>
+    <s1 title="Introduction"> 
+      <p>
+        Component Oriented Programming, or COP for short, takes Object Oriented
+        Programming one step further. Regular OOP organizes data object into
+        entities that take care of themselves. There are many advantages to this
+        approach. I'll assume that you, being a java programmer, are familiar
+        with those.
+      </p>
+      <p>
+        It also has a big limitation: that of object co-dependency. To remove that
+        limitation, a more rigid idea had to be formalized: the Component. The key
+        difference between a regular object and a component is that a component is
+        completely replaceable.
+      </p>
+    </s1>
+    <s1 title="COP is not just a buzzword">
+      <p>
+        There is a lot of buzz in the industry touting Component Based Design
+	(CBD).  You will find, that the definition of a Component in Avalon
+	is more formal than most companies' definition of a Component.  Any
+	system developed with the principles of Avalon can claim CBD.  In
+	fact the Avalon Framework formalizes CBD more rigidly than the marketing
+	definition.  Do not be fooled though, CBD and COP aren't necessarily
+	the same thing.  Component Based Design refers to how a system is
+	designed and not how it is implemented.  Component Oriented Programming,
+	on the other hand, refers to how a system is implemented and not how
+	it is designed.  In practice, you can't implement COP without first
+	designing with Components in mind.
+      </p>
+    </s1>
+  </body>
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
+      $Revision: 1.1 $ $Date: 2002/05/03 10:19:53 $
+    </legal>
+  </footer>
+</document>
+

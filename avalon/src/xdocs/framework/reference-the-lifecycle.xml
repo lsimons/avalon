@@ -1,0 +1,220 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE document SYSTEM "dtd/document-v10.dtd">
+
+<document>
+  <header>
+    <title>Avalon Framework - The Component Lifecycle</title>
+    <authors>
+      <person id="BL" name="Berin Loritsch" email="bloritsch@apache.org"/>
+      <person id="PD" name="Peter Donald" email="peter@apache.org"/>
+      <person id="LS" name="Leo Simons" email="mail@leosimons.com"/>
+    </authors>
+  </header>
+  <body>
+    <s1 title="Introduction">
+      <p>
+        A Component lives within something called a container. Avalon provides an
+        application that functions as a container for Applications (which are
+        Components) called <link href="@PHOENIX_BASE@/index.html">Phoenix</link>.
+        You can also create your own Components that function as a container.
+      </p>
+      <p>
+        The contract between a container and a contained Component is simple: the
+        container is required to take a Component through what is called its
+        <strong>lifecycle</strong>.
+      </p>
+    </s1>
+    <s1 title="The Lifecycle">
+      <p>
+        The lifecycle of a Component specifies the methods that can be called on it,
+        and the order in which this may happen. Some methods can be called only once
+        in a specific <code>Phase</code> of a Component its lifecycle, others may
+        be called multiple times. These methods are called the lifecycle methods.
+      </p>
+      <p>
+        It is up to each container to indicate which lifecycle methods it will honor.
+        This should be clearly documented together with the description of the
+        container. Phoenix supports all of the lifecycle methods defined in the
+        Avalon Framework API.
+      </p>
+    </s1>
+    <s1 title="The Lifecycle interfaces">
+      <p>
+        A Component exposes its lifecycle methods by implementing the lifecycle
+        interfaces. Each of these defines one or more methods that represent a
+        specific Phase in a Component's lifecycle. The defined interfaces are:
+      </p>
+      <ol>
+        <li>LogEnabled</li>
+        <li>Contextualizable</li>
+        <li>Composable</li>
+        <li>Configurable</li>
+        <li>Parameterizable</li>
+        <li>Initializable</li>
+        <li>Startable</li>
+        <li>Suspendable</li>
+        <li>Recontextualizable</li>
+        <li>Recomposable</li>
+        <li>Reconfigurable</li>
+        <li>Reparameterizable</li>
+        <li>Stoppable</li>
+        <li>Disposable</li>
+      </ol>
+      <note>
+        <strong>Note:</strong>java.lang.Runnable has also been in use as a lifecycle
+        interface. This is not recommended and is not supported by Avalon. Instead,
+        the run() method is the responsibility of the Component itself. If you wish
+        to use it, call it from within start() or another method.
+      </note>
+    </s1>
+    <s1 title="Phase order">
+      <p>
+        The order in which the various lifecycle methods are called is very specific.
+        While none are required (it is possible to have a Component implementing
+        none of the lifecycle methods, although the use of that would be limited),
+        some can only be used when others are as well. This is best explained using
+        a few examples.
+      </p>
+      <s2 title="simple examples">
+        <p>The lifecycle of a <code>Component</code> implementing only Configurable for
+        example will be:</p>
+        <ol>
+          <li>constructor</li>
+          <li>configure</li>
+          <li>finalize</li>
+        </ol>
+        <p>The lifecycle of a <code>Component</code> implementing only Composable will be:</p>
+        <ol>
+          <li>constructor</li>
+          <li>compose</li>
+          <li>finalize</li>
+        </ol>
+      </s2>
+      <s2 title="complete">
+        <p>
+          If a <code>Component</code> implements more than one interface the order of
+          the events (compose, configure etc.) follow a specific order. A Component
+          implementing all above interfaces (including Runnable) will follow this
+          specific path:
+        </p>
+        <ol>
+          <li>constructor</li>
+          <li>contextualize</li>
+          <li>compose</li>
+          <li>configure</li>
+          <li>parameterize</li>
+          <li>initialize</li>
+          <li>start</li>
+          <li>
+            <ol>
+              <li>suspend</li>
+              <li>recontextualize</li>
+              <li>recompose</li>
+              <li>reconfigure</li>
+              <li>reparameterize</li>
+              <li>resume</li>
+            </ol>
+          </li>
+          <li>stop</li>
+          <li>dispose</li>
+          <li>finalize</li>
+        </ol>
+      </s2>
+      <s2 title="Phases executed once">
+        <p>
+          These lifecycle methods are only called once in the entire life of a
+          Component:
+        </p>
+        <ul>
+          <li>contextualize</li>
+          <li>compose</li>
+          <li>configure</li>
+          <li>parameterize</li>
+          <li>initialize</li>
+          <li>dispose</li>
+        </ul>
+      </s2>
+      <s2 title="Phases executed once or more">
+        <p>
+          These lifecycle methods are called at least once and possibly more, depending
+          on the container:
+        </p>
+        <ul>
+          <li>start</li>
+          <li>stop</li>
+        </ul>
+      </s2>
+      <s2 title="The Suspendable Interface">
+        <p>
+          The methods suspend() and resume() are not guaranteed to be called at all,
+          even when implemented. They can be called more than once, but only after
+          one another and between start() and stop(). The reason they exist is so 
+          the container can notify the Component it needs to come to temporary stop 
+          any operations. The container may need to perform some synchronized operation 
+          on one of the Components used by this Component, or it may wish to call any 
+          of the following methods, which can also be called zero or more times, and 
+          only between a suspend() and a resume().
+        </p>
+        <ul>
+          <li>recontextualize()</li>
+          <li>recompose()</li>
+          <li>reconfigure()</li>
+          <li>reparameterize()</li>
+        </ul>
+      </s2>
+<!--
+      <s2 title="The Command Pattern">
+        <p>
+          The most advanced, most complicated and most flexible option is to use
+          the Command pattern by having your Component implement the Commandable
+          interface. This is experimental; you'll find the Commandable and its
+          related classes in the excalibur package.
+        </p>
+        <p>
+          It is recommended that if your Component implements Commandable, it should
+          not implement Executable or Interruptable. When you do choose to combine the
+          two, the order in which the different steps must happen is very specific:
+          <code>
+// inside container...<br />
+// ...<br />
+myComponent.initialize();<br />
+myComponent.start();<br />
+Iterator commands = myComponent.getCommands();<br />
+runAll(commands);<br />
+myComponent.suspend();<br />
+myComponent.resume();<br />
+myComponent.suspend();<br />
+myComponent.resume();<br />
+myComponent.stop();<br />
+myComponent.dispose();<br />
+// ...<br />
+// on shutdown...<br />
+stopAll(commands);<br />
+commands = null;<br />
+myComponent = null;<br />
+System.gc(); // finalize() is called on myComponent, which allows it to perform some<br />
+             // final operation on its Commands.<br />
+          </code>
+        </p>
+        <p>
+          The advantage of using Commands is that you can have multiple processes running
+          outside your Component that can manipulate it. These will run until completion
+          even if you Component has already been disposed of.
+        </p>
+        <p>
+          You should note that the Command interface we use extends Runnable, which means
+          Commands can be (and usually are) run() using standard pooling utilities for
+          threads.
+        </p>
+      </s2>
+-->
+    </s1>
+  </body>
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
+      $Revision: 1.1 $ $Date: 2002/05/03 10:19:53 $
+    </legal>
+  </footer>
+</document>

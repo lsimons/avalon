@@ -4,7 +4,7 @@
 
 <document>
   <header>
-    <title>Avalon Framework - Separation of Interface and Implementation</title>
+    <title>Avalon Framework - Guide - Separation of Interface and Implementation</title>
     <authors>
       <person name="Paul Hammant" email="Paul_Hammant@yahoo.com"/>
       <person name="Peter Donald" email="peter@apache.org"/>
@@ -162,7 +162,7 @@ public class RemoteHelloWorld implements HelloWorld {
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.4 $ $Date: 2002/04/07 07:27:47 $
+      $Revision: 1.1 $ $Date: 2002/05/03 10:19:53 $
     </legal>
   </footer>
 </document>

@@ -5,33 +5,41 @@
       copyright="@year@ The Apache Software Foundation"
       xmlns:xlink="http://www.w3.org/1999/xlink">
 
-  <project label="Jakarta main" href="/" />
-  <project label="Avalon main" href="../index.html" />
+  <project label="Jakarta main" href="http://jakarta.apache.org/" />
+  <project label="Avalon main" href="@AVALON_BASE@" />
 
-  <menu label="About">
+  <menu label="Essentials">
     <menu-item label="Overview" href="index.html"/>
-    <menu-item type="changes" label="Changes" href="changes.html"/>
+    <menu-item label="Features" href="features.html"/>
+    <menu-item label="Getting started" href="getting-started.html"/>
     <menu-item type="external" id="downloads" label="Download" href="http://jakarta.apache.org/builds/jakarta-avalon/release/framework"/>
+  </menu>
+
+  <menu label="Guide">
+    <menu-item label="OOP best practices" href="guide-oop-best-practices.html"/>
+    <menu-item label="What are patterns?" href="guide-patterns-what-are.html"/>
+    <menu-item label="Patterns in Avalon" href="guide-patterns-in-avalon.html"/>
+        <menu-item type="hidden" href="guide-patterns-soii.html"/>
+        <menu-item type="hidden" href="guide-patterns-soc.html"/>
+        <menu-item type="hidden" href="guide-patterns-ioc.html"/>
+        <menu-item type="hidden" href="guide-patterns-ioc-security.html"/>
+    <menu-item label="What is COP?" href="guide-cop-what-is.html"/>
+    <menu-item label="COP in Avalon" href="guide-cop-in-avalon.html"/>
+    <menu-item label="Where to go from here" href="guide-where-to-go-from-here.html"/>
+  </menu>
+
+  <menu label="Reference">
     <menu-item type="external" id="api-docs" label="API Docs" href="@AVALON_BASE@/api/index.html"/>
     <menu-item type="external" id="diagrams" label="Diagrams Docs" href="diagrams/index.html"/>
+    <menu-item label="The Lifecycle" href="reference-the-lifecycle.html"/>
   </menu>
 
-  <menu label="Patterns and Design">
-    <menu-item label="Patterns" href="patterns.html"/>
-    <menu-item label="Reuse Standards" href="reuse-standards.html"/>
-    <menu-item label="Inversion of Control" href="inversion-of-control.html"/>
-    <menu-item label="Separation of Concerns" href="separation-of-concerns.html"/>
-    <menu-item label="Separation of interface &amp; impl" href="separation-of-interface-and-implementation.html"/>    
-    <menu-item label="Security" href="security.html"/>
-  </menu>
-
-  <menu label="The API">
-    <menu-item label="What is a Component?" href="what-is-a-component.html"/>
-    <menu-item label="What is a Composer?" href="what-is-a-composer.html"/>
-    <menu-item label="The Component Lifecycle" href="lifecycle.html"/>
-    <menu-item label="Designing a Component" href="designing-a-component.html"/>
-<!--    <menu-item label="Understanding the Composer" href="composer.html"/>
-    <menu-item label="The components Life-Cycle" href="life-cycle.html"/>-->
+  <menu label="For Developers">
+    <menu-item type="changes" label="Changes" href="for-developers-changes.html"/>
+    <menu-item type="external" id="coding-standards" label="Coding standards" href="@AVALON_BASE@/code-standards.html"/>
+    <menu-item label="Project Structure" href="for-developers-project-structure.html"/>
+    <menu-item type="external" id="cvs" label="CVS" href="http://jakarta.apache.org/site/cvsindex.html"/>
+    <menu-item type="external" id="mailing-lists" label="Mailing Lists" href="http://jakarta.apache.org/site/mail.html"/>
   </menu>
 
 </book>
