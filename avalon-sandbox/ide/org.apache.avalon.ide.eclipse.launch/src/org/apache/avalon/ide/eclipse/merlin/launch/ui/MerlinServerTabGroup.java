@@ -49,7 +49,6 @@ import org.eclipse.debug.ui.ILaunchConfigurationTab;
 import org.eclipse.jdt.debug.ui.launchConfigurations.JavaArgumentsTab;
 import org.eclipse.jdt.debug.ui.launchConfigurations.JavaClasspathTab;
 import org.eclipse.jdt.debug.ui.launchConfigurations.JavaJRETab;
-import org.eclipse.jdt.debug.ui.launchConfigurations.JavaMainTab;
 import org.eclipse.jdt.debug.ui.launchConfigurations.JavaSourceLookupTab;
 
 /**
@@ -64,7 +63,7 @@ public class MerlinServerTabGroup extends AbstractLaunchConfigurationTabGroup
     {
         ILaunchConfigurationTab[] tabs =
             new ILaunchConfigurationTab[] {
-                new JavaMainTab(),
+                //new JavaMainTab(),
                 new JavaArgumentsTab(),
                 new JavaJRETab(),
                 new JavaClasspathTab(),

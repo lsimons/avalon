@@ -154,7 +154,7 @@ public class MerlinLaunchShortcut implements ILaunchShortcut
         List candidateConfigs = Collections.EMPTY_LIST;
         try
         {
-            ILaunchConfiguration[] configs =
+            ILaunchConfiguration[] configs = 
                 DebugPlugin.getDefault().getLaunchManager().getLaunchConfigurations(configType);
             candidateConfigs = new ArrayList(configs.length);
             for (int i = 0; i < configs.length; i++)
@@ -162,7 +162,8 @@ public class MerlinLaunchShortcut implements ILaunchShortcut
                 ILaunchConfiguration config = configs[i];
                 if (config
                     .getAttribute(MerlinDeveloperLaunch.ATTR_MERLIN_CONTAINER_ID, "")
-                    .equals(MerlinExternalContainer.getServerLabel()))
+                    .equals(MerlinExternalContainer.getServerLabel())
+                    && (config.getName().equals(project.getProject().getName())))
                 { //$NON-NLS-1$
                     candidateConfigs.add(config);
                 }

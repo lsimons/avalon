@@ -129,18 +129,20 @@ public class MerlinExternalContainer extends AvalonContainer
     protected String getProgramArguments()
     {
 
-        String param = "";
+        StringBuffer param = new StringBuffer();
         try
         {
             IProject project =
                 MerlinDeveloperLaunch.getWorkspace().getRoot().getProject(projectName);
             IJavaProject proj = JavaCore.create(project);
-            param = project.getLocation().append(proj.getOutputLocation().lastSegment()).toString();
+            param.append('"');
+            param.append(project.getLocation().append(proj.getOutputLocation().lastSegment()).toString());
+            param.append('"');
         } catch (JavaModelException e)
         {
             e.printStackTrace();
         }
-        return param + " -execute -debug";
+        return param.toString() + " -execute -debug";
     }
 
     /*
