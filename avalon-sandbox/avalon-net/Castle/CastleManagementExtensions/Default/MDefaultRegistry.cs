@@ -165,13 +165,7 @@ namespace Apache.Avalon.Castle.ManagementExtensions.Default
 				throw new ArgumentNullException("name");
 			}
 
-			String domainName = name.Domain;
-			
-			Domain domain = FindDomain(domainName);
-
-			Object instance = domain[name];
-
-			return new ManagedInstance(instance.GetType().FullName, name);
+			return new ManagedInstance(GetEntry(name).Instance.GetType().FullName, name);
 		}
 
 		/// <summary>
