@@ -118,6 +118,6 @@ public final class Jdk14Logger implements Logger
 
     public final Logger getChildLogger( final String name )
     {
-        return new Log4JLogger( Logger.getLogger( m_logger.getName() + "." + name ) );
+        return new Jdk14Logger( Logger.getLogger( m_logger.getName() + "." + name ) );
     }
 }
