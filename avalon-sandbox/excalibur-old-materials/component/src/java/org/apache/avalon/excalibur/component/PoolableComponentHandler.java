@@ -7,7 +7,6 @@
  */
 package org.apache.avalon.excalibur.component;
 
-import org.apache.avalon.excalibur.logger.LogKitManager;
 import org.apache.avalon.excalibur.pool.Poolable;
 import org.apache.avalon.excalibur.pool.ResourceLimitingPool;
 import org.apache.avalon.framework.activity.Disposable;
@@ -15,8 +14,6 @@ import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.context.Context;
-import org.apache.avalon.framework.logger.LogKitLogger;
-import org.apache.log.Logger;
 
 /**
  * The PoolableComponentHandler to make sure that poolable components are initialized
@@ -82,10 +79,11 @@ import org.apache.log.Logger;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/05/13 12:17:41 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/06/02 06:03:01 $
  * @since 4.0
  */
-public class PoolableComponentHandler extends ComponentHandler
+public class PoolableComponentHandler
+    extends ComponentHandler
 {
     /** The default max size of the pool */
     public static final int DEFAULT_MAX_POOL_SIZE = 8;
@@ -112,7 +110,7 @@ public class PoolableComponentHandler extends ComponentHandler
                                         final ComponentManager manager,
                                         final Context context,
                                         final RoleManager roles,
-                                        final LogKitManager logkit )
+                                        final LogkitLoggerManager logkit )
         throws Exception
     {
         this(
@@ -145,17 +143,6 @@ public class PoolableComponentHandler extends ComponentHandler
     }
 
     /**
-     * Sets the logger that the ComponentHandler will use.
-     */
-    public void setLogger( final Logger logger )
-    {
-        m_factory.setLogger( logger );
-        m_pool.enableLogging( new LogKitLogger( logger ) );
-
-        super.setLogger( logger );
-    }
-
-    /**
      * Initialize the ComponentHandler.
      */
     public void initialize()
@@ -164,6 +151,10 @@ public class PoolableComponentHandler extends ComponentHandler
         {
             return;
         }
+
+        m_factory.setLogger( getLogkitLogger() );
+        m_factory.enableLogging( getLogger() );
+        m_pool.enableLogging( getLogger() );
 
         if( getLogger().isDebugEnabled() )
         {

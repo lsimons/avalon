@@ -37,7 +37,7 @@ import org.apache.log.output.io.StreamTarget;
  * it is correctly handling component lifestyle management.
  *
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class ExcaliburComponentManagerTestCase extends TestCase
 {
@@ -433,7 +433,7 @@ public class ExcaliburComponentManagerTestCase extends TestCase
             {new StreamTarget( System.out, new PatternFormatter( pattern ) )} );
         logger.setPriority( Priority.INFO );
 
-        m_manager.setLogger( logger );
+        m_manager.enableLogging( new LogKitLogger( logger ) );
         m_manager.contextualize( new DefaultContext() );
         m_manager.configure( new DefaultConfiguration( "", "" ) );
 

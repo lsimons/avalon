@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import org.apache.avalon.excalibur.collections.BucketMap;
 import org.apache.avalon.excalibur.logger.LogKitManageable;
-import org.apache.avalon.excalibur.logger.LogKitManager;
 import org.apache.avalon.excalibur.pool.ObjectFactory;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
@@ -24,9 +23,7 @@ import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.Contextualizable;
-import org.apache.avalon.framework.logger.AbstractLoggable;
 import org.apache.avalon.framework.logger.LogEnabled;
-import org.apache.avalon.framework.logger.LogKitLogger;
 import org.apache.avalon.framework.logger.Loggable;
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
@@ -38,11 +35,11 @@ import org.apache.avalon.framework.thread.ThreadSafe;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/05/12 23:38:30 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/06/02 06:03:01 $
  * @since 4.0
  */
 public class DefaultComponentFactory
-    extends AbstractLoggable
+    extends AbstractDualLogEnabled
     implements ObjectFactory, Disposable, ThreadSafe
 {
     /** The class which this <code>ComponentFactory</code>
@@ -66,13 +63,9 @@ public class DefaultComponentFactory
      */
     private RoleManager m_roles;
 
-    /** The LogKitManager for child ComponentSelectors
+    /** The LogkitLoggerManager for child ComponentSelectors
      */
-    private LogKitManager m_logkit;
-
-    /** The org.apache.avalon.framework.logger.Logger instance.
-     */
-    private org.apache.avalon.framework.logger.Logger m_logEnabledLogger;
+    private LogkitLoggerManager m_logkit;
 
     /** Components created by this factory, and their associated ComponentManager
      *  proxies, if they are Composables.
@@ -93,7 +86,7 @@ public class DefaultComponentFactory
                                     final ComponentManager componentManager,
                                     final Context context,
                                     final RoleManager roles,
-                                    final LogKitManager logkit )
+                                    final LogkitLoggerManager logkit )
     {
         m_componentClass = componentClass;
         m_configuration = configuration;
@@ -118,7 +111,7 @@ public class DefaultComponentFactory
         {
             if( null == m_logkit || null == m_configuration )
             {
-                ( (LogEnabled)component ).enableLogging( getLogEnabledLogger() );
+                ( (LogEnabled)component ).enableLogging( getLogger() );
             }
             else
             {
@@ -126,12 +119,12 @@ public class DefaultComponentFactory
                 if( null == logger )
                 {
                     getLogger().debug( "no logger attribute available, using standard logger" );
-                    ( (LogEnabled)component ).enableLogging( getLogEnabledLogger() );
+                    ( (LogEnabled)component ).enableLogging( getLogger() );
                 }
                 else
                 {
                     getLogger().debug( "logger attribute is " + logger );
-                    ( (LogEnabled)component ).enableLogging( new LogKitLogger( m_logkit.getLogger( logger ) ) );
+                    ( (LogEnabled)component ).enableLogging( m_logkit.getLoggerForCategory( logger ) );
                 }
             }
         }
@@ -140,7 +133,7 @@ public class DefaultComponentFactory
         {
             if( null == m_logkit || null == m_configuration )
             {
-                ( (Loggable)component ).setLogger( getLogger() );
+                ( (Loggable)component ).setLogger( getLogkitLogger() );
             }
             else
             {
@@ -148,12 +141,12 @@ public class DefaultComponentFactory
                 if( null == logger )
                 {
                     getLogger().debug( "no logger attribute available, using standard logger" );
-                    ( (Loggable)component ).setLogger( getLogger() );
+                    ( (Loggable)component ).setLogger( getLogkitLogger() );
                 }
                 else
                 {
                     getLogger().debug( "logger attribute is " + logger );
-                    ( (Loggable)component ).setLogger( m_logkit.getLogger( logger ) );
+                    ( (Loggable)component ).setLogger( m_logkit.getLogKitLoggerForCategory( logger ) );
                 }
             }
         }
@@ -184,7 +177,7 @@ public class DefaultComponentFactory
 
         if( component instanceof LogKitManageable )
         {
-            ( (LogKitManageable)component ).setLogKitManager( m_logkit );
+            ( (LogKitManageable)component ).setLogKitManager( m_logkit.getLogKitManager() );
         }
 
         if( component instanceof Configurable )
@@ -297,23 +290,13 @@ public class DefaultComponentFactory
         m_components.remove( component );
     }
 
-    protected org.apache.avalon.framework.logger.Logger getLogEnabledLogger()
-    {
-        if( null == m_logEnabledLogger )
-        {
-            m_logEnabledLogger = new LogKitLogger( getLogger() );
-        }
-
-        return m_logEnabledLogger;
-    }
-
     /**
      * Proxy <code>ComponentManager</code> class to maintain references to
      * components looked up within a <code>Composable</code> instance created
      * by this factory.
      *
      * This class acts a safety net to ensure that all components looked
-     * up within a <code>Composable</code> instance created by this factory are 
+     * up within a <code>Composable</code> instance created by this factory are
      * released when the instance itself is released.
      */
     private static class ComponentManagerProxy implements ComponentManager
@@ -358,7 +341,7 @@ public class DefaultComponentFactory
         }
 
         /**
-         * Releases all components that have been looked up through this 
+         * Releases all components that have been looked up through this
          * <code>ComponentManager</code>, that have not yet been released
          * via user code.
          */

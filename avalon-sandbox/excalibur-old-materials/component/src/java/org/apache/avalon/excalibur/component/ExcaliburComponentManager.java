@@ -13,6 +13,7 @@ import java.util.List;
 import org.apache.avalon.excalibur.collections.BucketMap;
 import org.apache.avalon.excalibur.logger.LogKitManageable;
 import org.apache.avalon.excalibur.logger.LogKitManager;
+import org.apache.avalon.excalibur.logger.LoggerManager;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.component.Component;
@@ -24,7 +25,6 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.Contextualizable;
-import org.apache.avalon.framework.logger.AbstractLoggable;
 
 /**
  * Default component manager for Avalon's components.
@@ -32,11 +32,11 @@ import org.apache.avalon.framework.logger.AbstractLoggable;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
- * @version CVS $Revision: 1.5 $ $Date: 2002/05/13 12:17:41 $
+ * @version CVS $Revision: 1.6 $ $Date: 2002/06/02 06:03:01 $
  * @since 4.0
  */
 public class ExcaliburComponentManager
-    extends AbstractLoggable
+    extends AbstractDualLogEnabled
     implements ComponentManager,
     Configurable,
     Contextualizable,
@@ -64,7 +64,7 @@ public class ExcaliburComponentManager
     private RoleManager m_roles;
 
     /** LogKitManager. */
-    private LogKitManager m_logkit;
+    private LogkitLoggerManager m_logkit;
 
     /** Is the Manager disposed or not? */
     private boolean m_disposed;
@@ -308,7 +308,8 @@ public class ExcaliburComponentManager
                                                        m_roles,
                                                        m_logkit );
 
-                        handler.setLogger( getLogger() );
+                        handler.setLogger( getLogkitLogger() );
+                        handler.enableLogging( getLogger() );
                         handler.initialize();
                     }
                     catch( final Exception e )
@@ -392,10 +393,10 @@ public class ExcaliburComponentManager
     {
         if( null == m_roles )
         {
-            DefaultRoleManager role_info = new DefaultRoleManager();
-            role_info.setLogger( getLogger() );
-            role_info.configure( configuration );
-            m_roles = role_info;
+            final DefaultRoleManager roleInfo = new DefaultRoleManager();
+            roleInfo.enableLogging( getLogger() );
+            roleInfo.configure( configuration );
+            m_roles = roleInfo;
             getLogger().debug( "No RoleManager given, deriving one from configuration" );
         }
 
@@ -490,7 +491,18 @@ public class ExcaliburComponentManager
     {
         if( null == m_logkit )
         {
-            m_logkit = logkit;
+            m_logkit = new LogkitLoggerManager( null, logkit );
+        }
+    }
+
+    /**
+     * Configure the LoggerManager.
+     */
+    public void setLoggerManager( final LoggerManager logkit )
+    {
+        if( null == m_logkit )
+        {
+            m_logkit = new LogkitLoggerManager( logkit, null );
         }
     }
 
@@ -569,7 +581,7 @@ public class ExcaliburComponentManager
                                                     final Configuration configuration,
                                                     final Context context,
                                                     final RoleManager roleManager,
-                                                    final LogKitManager logkitManager )
+                                                    final LogkitLoggerManager logkitManager )
         throws Exception
     {
         return ComponentHandler.getComponentHandler( componentClass,
@@ -625,7 +637,8 @@ public class ExcaliburComponentManager
                 getLogger().debug( "Handler type = " + handler.getClass().getName() );
             }
 
-            handler.setLogger( getLogger() );
+            handler.setLogger( getLogkitLogger() );
+            handler.enableLogging( getLogger() );
             m_componentHandlers.put( role, handler );
         }
         catch( final Exception e )
@@ -650,7 +663,8 @@ public class ExcaliburComponentManager
         {
             ComponentHandler handler =
                 ComponentHandler.getComponentHandler( instance );
-            handler.setLogger( getLogger() );
+            handler.setLogger( getLogkitLogger() );
+            handler.enableLogging( getLogger() );
             m_componentHandlers.put( role, handler );
         }
         catch( final Exception e )

@@ -13,6 +13,7 @@ import java.util.List;
 import org.apache.avalon.excalibur.collections.BucketMap;
 import org.apache.avalon.excalibur.logger.LogKitManageable;
 import org.apache.avalon.excalibur.logger.LogKitManager;
+import org.apache.avalon.excalibur.logger.LoggerManager;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.component.Component;
@@ -25,7 +26,6 @@ import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.Contextualizable;
-import org.apache.avalon.framework.logger.AbstractLoggable;
 import org.apache.avalon.framework.thread.ThreadSafe;
 
 /**
@@ -33,11 +33,11 @@ import org.apache.avalon.framework.thread.ThreadSafe;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/05/13 12:17:41 $
+ * @version CVS $Revision: 1.5 $ $Date: 2002/06/02 06:03:01 $
  * @since 4.0
  */
 public class ExcaliburComponentSelector
-    extends AbstractLoggable
+    extends AbstractDualLogEnabled
     implements Contextualizable,
     ComponentSelector,
     Composable,
@@ -93,7 +93,7 @@ public class ExcaliburComponentSelector
 
     /** The RoleManager to get hint shortcuts
      */
-    private LogKitManager m_logkit;
+    private LogkitLoggerManager m_logkit;
 
     /** Create the ComponentSelector */
     public ExcaliburComponentSelector()
@@ -177,7 +177,19 @@ public class ExcaliburComponentSelector
         if( !m_initialized ) return false;
         if( m_disposed ) return false;
 
-        return m_componentHandlers.containsKey( hint );
+        boolean exists = false;
+
+        try
+        {
+            this.release( this.select( hint ) );
+            exists = true;
+        }
+        catch( Throwable t )
+        {
+            // We can safely ignore all exceptions
+        }
+
+        return exists;
     }
 
     /**
@@ -379,6 +391,7 @@ public class ExcaliburComponentSelector
         }
     }
 
+
     /**
      * Configure the LogKitManager
      */
@@ -386,7 +399,18 @@ public class ExcaliburComponentSelector
     {
         if( null == m_logkit )
         {
-            m_logkit = logkit;
+            m_logkit = new LogkitLoggerManager( null, logkit );
+        }
+    }
+
+    /**
+     * Configure the LoggerManager.
+     */
+    public void setLoggerManager( final LoggerManager logkit )
+    {
+        if( null == m_logkit )
+        {
+            m_logkit = new LogkitLoggerManager( logkit, null );
         }
     }
 
@@ -458,7 +482,7 @@ public class ExcaliburComponentSelector
                                                     final ComponentManager componentManager,
                                                     final Context context,
                                                     final RoleManager roleManager,
-                                                    final LogKitManager logkitManager )
+                                                    final LogkitLoggerManager logkitManager )
         throws Exception
     {
         return ComponentHandler.getComponentHandler( componentClass,
@@ -482,7 +506,7 @@ public class ExcaliburComponentSelector
     /** Add a new component to the manager.
      * @param hint the hint name for the new component.
      * @param component the class of this component.
-     * @param Configuration the configuration for this component.
+     * @param configuration the configuration for this component.
      */
     public void addComponent( final Object hint,
                               final Class component,
@@ -503,7 +527,8 @@ public class ExcaliburComponentSelector
                                                                   m_roles,
                                                                   m_logkit );
 
-            handler.setLogger( getLogger() );
+            handler.setLogger( getLogkitLogger() );
+            handler.enableLogging( getLogger() );
             handler.initialize();
             m_componentHandlers.put( hint, handler );
 
@@ -540,7 +565,8 @@ public class ExcaliburComponentSelector
         {
             final ComponentHandler handler =
                 ComponentHandler.getComponentHandler( instance );
-            handler.setLogger( getLogger() );
+            handler.setLogger( getLogkitLogger() );
+            handler.enableLogging( getLogger() );
             handler.initialize();
             m_componentHandlers.put( hint, handler );
 
