@@ -141,25 +141,27 @@ The RandomGeneratorProvider.xprofile contains the definition of multiple tagged 
         Build and run the tutorial.
         </p>
         <source>
-$ ant
-$ merlin build\classes
+$ maven jar
+$ merlin -execute target\classes
         </source>
         <p>
 In the logging output we see that Merlin has automatically locating the RandomGeneratorProvider using the packaged profile.
         </p>
 <source>
-[INFO   ] (tutorial.hello.random-provider#randomizer): configuration stage
-[INFO   ] (tutorial.hello.random-provider#randomizer): seed: 1024
-[INFO   ] (tutorial.hello): random: 6608684
-</source>
+[INFO   ] (kernel): installing: file:/${user.dir}/target/classes/
+[INFO   ] (tutorial.random-provider-randomizer): configuration stage
+[INFO   ] (tutorial.random-provider-randomizer): seed: 1024
+[INFO   ] (tutorial.hello): resolved random: 26314317
+[INFO   ] (kernel): dissassembly phase
+[INFO   ] (kernel): disposal phase</source>
         <p>
-Note: When constructing an name for the component based on a packaged profile, Merlin will append the component type name to the profile name, seperated by the # character resulting in the component name 'random-provider#randomizer'.
+Note: When constructing a name for the component based on a packaged profile, Merlin will append the component type name to the profile name, seperated by the - character resulting in the component name 'random-provider-randomizer'.
         </p>
 
       </subsection>
       <subsection name="Profile selection">
         <p>
-The <a href="selectors.html">next tutorial</a> describes the mechanisms used to influence profile selection within Merlin. 
+The <a href="selection.html">next tutorial</a> describes how you can package multiple profiles with a component and how you can control profile selection. 
         </p>
       </subsection>
 
