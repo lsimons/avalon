@@ -41,7 +41,7 @@ import org.apache.excalibur.instrument.InstrumentManager;
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.15 $ $Date: 2002/08/22 22:56:10 $
+ * @version CVS $Revision: 1.16 $ $Date: 2002/08/23 02:45:50 $
  * @since 4.0
  */
 public class ExcaliburComponentManager
@@ -247,10 +247,10 @@ public class ExcaliburComponentManager
 
         if( null == handler )
         {
-            final String message = "Could not find component for role [" + role + "]";
+            final String message = "Could not find component";
             if( getLogger().isDebugEnabled() )
             {
-                getLogger().debug( message );
+                getLogger().debug( message + " for role: " + role );
             }
             throw new ComponentException( role, message );
         }
