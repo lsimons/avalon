@@ -22,20 +22,20 @@ public class SarEntry
 {
     private SarMetaData     m_metaData;
     private Configuration   m_configuration;
-    private URL[]           m_classPath;
+    private ClassLoader     m_classLoader;
 
     public SarEntry( final SarMetaData metaData, 
-                     final URL[] classPath,
+                     final ClassLoader classLoader,
                      final Configuration configuration )
     {
         m_metaData = metaData;
-        m_classPath = classPath;
+        m_classLoader = classLoader;
         m_configuration = configuration;
     }
 
-    public URL[] getClassPath()
+    public ClassLoader getClassLoader()
     {
-        return m_classPath;
+        return m_classLoader;
     }
 
     public SarMetaData getMetaData()
