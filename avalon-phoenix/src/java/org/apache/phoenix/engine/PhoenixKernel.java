@@ -12,6 +12,7 @@ import org.apache.avalon.Contextualizable;
 import org.apache.avalon.atlantis.AbstractKernel;
 import org.apache.avalon.atlantis.Application;
 import org.apache.avalon.atlantis.Kernel;
+import org.apache.avalon.camelot.ContainerException;
 import org.apache.avalon.camelot.Entry;
 import org.apache.avalon.configuration.Configurable;
 import org.apache.log.LogKit;
@@ -37,7 +38,6 @@ public class PhoenixKernel
     public PhoenixKernel()
     {
         m_entryClass = ServerApplicationEntry.class;
-        m_applicationClass = Application.class;
     }
 
     public void init()
@@ -49,8 +49,16 @@ public class PhoenixKernel
         super.init();
     }
 
-    protected Application newApplication( final String name, final Entry entry )
-        throws Exception
+    /**
+     * Create a new application for kernel.
+     *
+     * @param name the name of application
+     * @param entry the entry corresponding to application
+     * @return the new Application
+     * @exception ContainerException if an error occurs
+     */
+    protected Application createApplicationFor( String name, Entry entry )
+        throws ContainerException
     {
         //It is here where you could return new EASServerApplication()
         //if you wanted to host multiple different types of apps
@@ -65,30 +73,36 @@ public class PhoenixKernel
      * @param name the name of application
      * @param entry the application entry
      * @param application the application instance
-     * @exception Exception if an error occurs
+     * @exception ContainerException if an error occurs
      */
-    protected void prepareApplication( final String name,
-                                       final Entry entry,
-                                       final Application application )
-        throws Exception
+    protected void prepareApplication( final String name, final Entry entry )
+        throws ContainerException
     {
+        final Application application = (Application)entry.getInstance();
         final ServerApplicationEntry saEntry = (ServerApplicationEntry)entry;
 
         setupLogger( application, LogKit.getLoggerFor( name ) );
 
-        if( application instanceof Contextualizable )
+        try
         {
-            ((Contextualizable)application).contextualize( saEntry.getContext() );
-        }
+            if( application instanceof Contextualizable )
+            {
+                ((Contextualizable)application).contextualize( saEntry.getContext() );
+            }
+            
+            if( application instanceof Composer )
+            {
+                ((Composer)application).compose( saEntry.getComponentManager() );
+            }
 
-        if( application instanceof Composer )
-        {
-            ((Composer)application).compose( saEntry.getComponentManager() );
+            if( application instanceof Configurable )
+            {
+                ((Configurable)application).configure( saEntry.getConfiguration() );
+            }
         }
-
-        if( application instanceof Configurable )
+        catch( final Exception e )
         {
-            ((Configurable)application).configure( saEntry.getConfiguration() );
+            throw new ContainerException( "Error preparing Application", e );
         }
     }
 
