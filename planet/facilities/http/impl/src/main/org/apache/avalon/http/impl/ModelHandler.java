@@ -23,6 +23,8 @@ import org.apache.avalon.composition.model.ContainmentModel;
 import org.apache.avalon.composition.model.ComponentModel;
 import org.apache.avalon.composition.model.DeploymentModel;
 
+import org.apache.avalon.framework.activity.Startable;
+
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
@@ -53,7 +55,7 @@ import org.mortbay.http.HttpResponse;
  */
 public class ModelHandler
     implements Serviceable, Configurable, Contextualizable, LogEnabled,
-               HttpHandler, CompositionListener
+               HttpHandler, CompositionListener, Startable
 {
     private Logger              m_Logger;
     private ContainmentModel    m_Model;
@@ -150,14 +152,18 @@ public class ModelHandler
     
     public void start()
     {
+        if( m_Logger.isDebugEnabled() )
+            m_Logger.debug( "Starting ModelHandler: " + this );
         m_Context.addHandler( this );
         m_Started = true;
     }
     
     public void stop()
     {
-        m_Context.removeHandler( this );
         m_Started = false;
+        if( m_Logger.isDebugEnabled() )
+            m_Logger.debug( "Stopping ModelHandler: " + this );
+        m_Context.removeHandler( this );
     }
    
    /* CompositionListener interface  */
