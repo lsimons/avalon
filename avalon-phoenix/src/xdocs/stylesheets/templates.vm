@@ -72,7 +72,7 @@
   </div>
 #end
 
-#macro ( section $section)
+#macro (section $section)
   <div class="h3">
     #if ( $section.getAttributeValue("anchor") )
       #set ($anchor = $section.getAttributeValue("anchor"))

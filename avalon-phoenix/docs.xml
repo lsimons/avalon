@@ -6,23 +6,23 @@
     Give user a chance to override without editing this file
     (and without typing -D each time he compiles it)
     -->
-        
+
     <property file="ant.properties"/>
     <property file="${user.home}/.ant.properties"/>
 
     <property file="project.properties"/>
     <property file="${user.home}/.project.properties"/>
 
-    <property name="build.dir" value="build"/>    
+    <property name="build.dir" value="build"/>
     <property name="docs.dir" value="${build.dir}/docs"/>
     <property name="site.dir" value="../jakarta-avalon-site/docs/phoenix"/>
-    <property name="build.xdocs" value="${build.dir}/xdocs"/>    
-    <property name="build.javadocs" value="${build.dir}/javadocs"/>    
-    <property name="src.dir" value="src"/>    
-    <property name="java.dir" value="${src.dir}/java"/>    
+    <property name="build.xdocs" value="${build.dir}/xdocs"/>
+    <property name="build.javadocs" value="${build.dir}/javadocs"/>
+    <property name="src.dir" value="src"/>
+    <property name="java.dir" value="${src.dir}/java"/>
     <property name="xdocs.dir" value="src/xdocs"/>
     <property name="jakarta-site.dir" value="../jakarta-site"/>
-    <property name="dist.base" value="distributions"/>    
+    <property name="dist.base" value="distributions"/>
 
     <property name="announce2txt" value="tools/announcement2txt.xsl"/>
     <property name="announce2header" value="tools/announcement2header.xsl"/>
@@ -30,9 +30,7 @@
     <property name="announce2site" value="tools/announcement2site.xsl"/>
 
     <path id="project.class.path">
-                <fileset dir="${jakarta-site.dir}/lib">
-                    <include name="*.jar"/>
-                </fileset>
+                <fileset dir="${jakarta-site.dir}/lib"/>
     </path>
 
     <!-- Main target -->
@@ -114,10 +112,10 @@
 
   </target>
 
-    
+
     <!-- Create the announcements and HEADER.html -->
     <target name="announcement">
-    
+
         <filter token="Name" value="${Near}"/>
         <filter token="name" value="${near}"/>
         <filter token="version" value="${version}"/>
@@ -125,17 +123,17 @@
         <filter token="status" value="${status}"/>
         <filter token="release" value="${release}"/>
         <filter token="short-version" value="${short.version}"/>
-            
+
         <mkdir dir="${build.dir}" />
         <mkdir dir="${dist.base}" />
-    
+
         <copy todir="${build.dir}" filtering="on">
           <fileset dir="${xdocs.dir}">
             <include name="announcement.xml"/>
             <include name="changes.xml"/>
           </fileset>
         </copy>
-    
+
         <style style="${announce2txt}" in="${build.dir}/announcement.xml" out="Announcement.txt"/>
         <style style="${announce2header}" in="${build.dir}/announcement.xml"
                out="${dist.base}/HEADER.html"/>
@@ -143,11 +141,11 @@
                out="${dist.base}/README.html"/>
         <style style="${announce2site}" in="${build.dir}/announcement.xml"
                out="jakarta-news.xml"/>
-    
+
       </target>
 
 
-    <target name="site" 
+    <target name="site"
             depends="docs,javadocs"
 	    description="Update site directory">
 
