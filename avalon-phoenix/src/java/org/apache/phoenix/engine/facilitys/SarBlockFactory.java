@@ -5,7 +5,7 @@
  * version 1.1, a copy of which has been included with this distribution in 
  * the LICENSE file. 
  */
-package org.apache.phoenix.engine;
+package org.apache.phoenix.engine.facilitys;
 
 import java.net.URL;
 import org.apache.avalon.ComponentManager;
@@ -17,11 +17,11 @@ import org.apache.avalon.camelot.DefaultLoader;
 import org.apache.avalon.camelot.Loader;
 
 /**
- * This component creates blocks and blockInfos.
+ * This component used to create blocks.
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
-public class SarBlockFactory
+class SarBlockFactory
     extends DefaultFactory
     implements Composer, Initializable
 {
