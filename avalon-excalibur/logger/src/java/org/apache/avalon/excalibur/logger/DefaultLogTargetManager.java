@@ -20,7 +20,7 @@ import org.apache.log.LogTarget;
  * from a configuration file.
  *
  * @author <a href="mailto:giacomo@apache.org">Giacomo Pati</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/05/21 10:04:18 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/08/06 02:01:49 $
  * @since 4.0
  */
 public class DefaultLogTargetManager
@@ -72,6 +72,11 @@ public class DefaultLogTargetManager
         {
             final String targetName = confs[ i ].getName();
             final LogTargetFactory logTargetFactory = m_factoryManager.getLogTargetFactory( targetName );
+            if ( logTargetFactory == null )
+            {
+                throw new ConfigurationException( "Factory definition for '" + targetName
+                    + "' missing from logger configuration." );
+            }
             final LogTarget logTarget = logTargetFactory.createTarget( confs[ i ] );
             final String targetId = confs[ i ].getAttribute( "id" );
             if( getLogger().isDebugEnabled() )
