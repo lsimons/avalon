@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE project [
+  <!ENTITY % index SYSTEM "file:index.ent"> %index;
+]>
 
 <project>
 
-  <extend>${basedir}/../common-project.xml</extend>
+  <extend>${basedir}/../../common-project.xml</extend>
 
-  <groupId>avalon-finder</groupId>
+  <groupId>&avalon-finder-id;</groupId>
   <id>avalon-finder-test</id>
   <name>Avalon Finder Test</name>
 
@@ -16,9 +19,9 @@
     <!-- implementation dependencies -->
 
     <dependency>
-      <groupId>avalon-finder</groupId>
-      <artifactId>avalon-finder-api</artifactId>
-      <version>${pom.currentVersion}</version>
+      <groupId>&avalon-finder-id;</groupId>
+      <artifactId>&avalon-finder-api-id;</artifactId>
+      <version>&avalon-finder-api-version;</version>
     </dependency>
 
     <dependency>
@@ -37,9 +40,9 @@
     <!-- test dependencies -->
 
     <dependency>
-      <groupId>merlin</groupId>
-      <artifactId>merlin-unit</artifactId>
-      <version>3.3.0</version>
+      <groupId>&merlin-id;</groupId>
+      <artifactId>&merlin-unit-id;</artifactId>
+      <version>&merlin-unit-version;</version>
     </dependency>
 
   </dependencies>

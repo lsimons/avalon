@@ -1,7 +1,18 @@
-<project default="test:test">
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE project [
+  <!ENTITY % index SYSTEM "file:index.ent"> %index;
+]>
+
+<project default="test:test" xmlns:ant="jelly:ant">
 
   <preGoal name="java:compile">
     <attainGoal name="avalon:meta"/>
+  </preGoal>
+
+  <preGoal name="java:jar-resources">
+    <echo>HELLO FROM TEST</echo>
+    <ant:filter token="AVALON-FINDER-API-VERSION" value="&avalon-finder-api-version;"/>
+    <ant:filter token="AVALON-FINDER-IMPL-VERSION" value="&avalon-finder-impl-version;"/>
   </preGoal>
 
 </project>

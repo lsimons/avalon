@@ -110,6 +110,7 @@
         </includes>
       </resource>
       <resource>
+        <filtering>true</filtering>
         <directory>${basedir}/conf</directory>
         <targetPath>BLOCK-INF</targetPath>
         <includes>
