@@ -446,12 +446,9 @@ public class GumpTask extends SystemTask
         writer.write( 
            "\n      <!-- for magic -->" );
         writer.write( 
-           "\n      <depend name=\"magic.home\" reference=\"home\"" );
-        writer.write( 
-           "\n          project=\"avalon-tools-magic-bootstrap\"/>" );
+           "\n      <depend name=\"magic.home\" reference=\"home\" project=\"magic\"/>" );
         writer.write( 
            "\n      <property name=\"gump.signature\" value=\"@@DATE@@\"/>" );
-
 
         final Resource[] resources = getContributingResources( definition );
 
