@@ -13,3 +13,21 @@
 #logkit.base=${basedir}/../jakarta-avalon-logkit/dist/docs
 #cornerstone.base=${basedir}/../jakarta-avalon-cornerstone/dist/docs
 #testlet.base=${basedir}/../jakarta-avalon-testlet/dist/docs
+
+# To enable your system to run extended JUnit Tests, enable the following:
+# Enable Performance tests.
+#test.profile=true
+
+# Enable JDBC tests.  Configure for your database.
+# WARNING - Tests may modify and/or destroy tables and data in the specified database.
+#test.jdbc=true
+# The driver used to connect to the test database.  Must be in test classpath.
+# Place jar containing drivers into the jakarta-avalon/tools/lib directory
+test.jdbc.driver=org.postgresql.Driver
+# JDBC URL used to connect to the test database.
+#  All data in this database could be deleted by tests.
+test.jdbc.url=jdbc:postgresql://localhost:5432/test
+# Username and password to use when connecting to the test database
+test.jdbc.user=test
+test.jdbc.password=test
+
