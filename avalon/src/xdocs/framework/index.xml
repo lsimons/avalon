@@ -38,7 +38,7 @@
         <p>
           This is more a theoretical introduction than a hands-on guide. If you
           prefer looking at code while learning, try our
-          <link href="@AVALON_BASE@/developing">Developing with Avalon</link> paper.
+          <link href="../developing">Developing with Avalon</link> paper.
         </p>
         <s2 title="Target Audience">
           <p>
