@@ -99,8 +99,7 @@ import EDU.oswego.cs.dl.util.concurrent.ReentrantLock;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  */
 public class CommandManager extends AbstractLogEnabled
-    implements EventPipeline, Disposable, EnqueuePredicate
-{
+        implements EventPipeline, Disposable, EnqueuePredicate {
     private final Queue m_queue;
     private final HashMap m_signalHandlers;
     private final ReentrantLock m_mutex;
@@ -112,19 +111,18 @@ public class CommandManager extends AbstractLogEnabled
     /**
      * Create the CommandManager
      */
-    public CommandManager()
-    {
+    public CommandManager() {
         m_queue = new DefaultQueue();
         m_signalHandlers = new HashMap();
         m_mutex = new ReentrantLock();
-        m_eventHandler = new CommandEventHandler( Collections.unmodifiableMap( m_signalHandlers ) );
+        m_eventHandler = new CommandEventHandler(Collections.unmodifiableMap(m_signalHandlers));
         m_sources = new Source[]{m_queue};
         m_failureHandler = NullCommandFailureHandler.SHARED_INSTANCE;
         m_queue.setEnqueuePredicate(this);
         m_isAccepting = true;
 
         // if no logger is set ensure a valid one is there.
-        enableLogging( new NullLogger() );
+        enableLogging(new NullLogger());
     }
 
     /**
@@ -134,8 +132,7 @@ public class CommandManager extends AbstractLogEnabled
      * @param handler  the new Handler
      * @throws NullPointerException if "handler" is null.
      */
-    public void setCommandFailureHandler(final CommandFailureHandler handler)
-    {
+    public void setCommandFailureHandler(final CommandFailureHandler handler) {
         if (null == handler) throw new NullPointerException("handler");
         m_failureHandler = handler;
     }
@@ -145,8 +142,7 @@ public class CommandManager extends AbstractLogEnabled
      *
      * @return the failure handler.
      */
-    protected CommandFailureHandler getCommandFailureHandler()
-    {
+    protected CommandFailureHandler getCommandFailureHandler() {
         return m_failureHandler;
     }
 
@@ -155,8 +151,7 @@ public class CommandManager extends AbstractLogEnabled
      *
      * @return the Sink that feeds the CommandManager
      */
-    public final Sink getCommandSink()
-    {
+    public final Sink getCommandSink() {
         return m_queue;
     }
 
@@ -169,31 +164,23 @@ public class CommandManager extends AbstractLogEnabled
      * @param signal   The signal we are listening for.
      * @param handler  The handler that wants to be notified
      */
-    public final void registerSignalHandler( Signal signal, EventHandler handler )
-    {
-        try
-        {
+    public final void registerSignalHandler(Signal signal, EventHandler handler) {
+        try {
             m_mutex.acquire();
-            ArrayList handlers = (ArrayList)m_signalHandlers.get( signal.getClass() );
+            ArrayList handlers = (ArrayList) m_signalHandlers.get(signal.getClass());
 
-            if( null == handlers )
-            {
+            if (null == handlers) {
                 handlers = new ArrayList();
             }
 
-            if( !handlers.contains( handler ) )
-            {
-                handlers.add( handler );
+            if (!handlers.contains(handler)) {
+                handlers.add(handler);
 
-                m_signalHandlers.put( signal.getClass(), handlers );
+                m_signalHandlers.put(signal.getClass(), handlers);
             }
-        }
-        catch( InterruptedException ie )
-        {
+        } catch (InterruptedException ie) {
             // ignore for now
-        }
-        finally
-        {
+        } finally {
             m_mutex.release();
         }
     }
@@ -205,32 +192,23 @@ public class CommandManager extends AbstractLogEnabled
      * @param signal   The signal we are listening for.
      * @param handler  The handler that wants to be notified
      */
-    public final void deregisterSignalHandler( Signal signal, EventHandler handler )
-    {
-        try
-        {
+    public final void deregisterSignalHandler(Signal signal, EventHandler handler) {
+        try {
             m_mutex.acquire();
-            ArrayList handlers = (ArrayList)m_signalHandlers.get( signal.getClass() );
+            ArrayList handlers = (ArrayList) m_signalHandlers.get(signal.getClass());
 
-            if( null != handlers )
-            {
-                if( handlers.remove( handler ) )
-                {
-                    m_signalHandlers.put( signal.getClass(), handlers );
+            if (null != handlers) {
+                if (handlers.remove(handler)) {
+                    m_signalHandlers.put(signal.getClass(), handlers);
                 }
 
-                if( 0 == handlers.size() )
-                {
-                    m_signalHandlers.remove( signal.getClass() );
+                if (0 == handlers.size()) {
+                    m_signalHandlers.remove(signal.getClass());
                 }
             }
-        }
-        catch( InterruptedException ie )
-        {
+        } catch (InterruptedException ie) {
             // ignore for now
-        }
-        finally
-        {
+        } finally {
             m_mutex.release();
         }
     }
@@ -239,13 +217,11 @@ public class CommandManager extends AbstractLogEnabled
      * When you are done with CommandManager, call this and it will
      * clean up all its resources.
      */
-    public void dispose()
-    {
+    public void dispose() {
         m_isAccepting = false;
         Object[] remainingElements = m_queue.dequeueAll();
-        for( int i = 0; i < remainingElements.length; i++ )
-        {
-            getEventHandler().handleEvent( remainingElements[ i ] );
+        for (int i = 0; i < remainingElements.length; i++) {
+            getEventHandler().handleEvent(remainingElements[i]);
         }
     }
 
@@ -255,8 +231,7 @@ public class CommandManager extends AbstractLogEnabled
      *
      * @return the Array of one Source
      */
-    public final Source[] getSources()
-    {
+    public final Source[] getSources() {
         return m_sources;
     }
 
@@ -266,122 +241,97 @@ public class CommandManager extends AbstractLogEnabled
      *
      * @return the EventHandler
      */
-    public final EventHandler getEventHandler()
-    {
+    public final EventHandler getEventHandler() {
         return m_eventHandler;
     }
 
-    private final class CommandEventHandler implements EventHandler
-    {
+    private final class CommandEventHandler implements EventHandler {
         private final Map m_signalHandlers;
         private final Buffer m_delayedCommands = new UnboundedFifoBuffer();
 
-        protected CommandEventHandler( Map signalHandlers )
-        {
+        protected CommandEventHandler(Map signalHandlers) {
             m_signalHandlers = signalHandlers;
         }
 
-        public final void handleEvents( Object[] elements )
-        {
-            for( int i = 0; i < elements.length; i++ )
-            {
-                handleEvent( elements[ i ] );
+        public final void handleEvents(Object[] elements) {
+            for (int i = 0; i < elements.length; i++) {
+                handleEvent(elements[i]);
             }
 
             int size = m_delayedCommands.size();
-            for( int i = 0; i < size; i++ )
-            {
-                DelayedCommandInfo command = (DelayedCommandInfo)m_delayedCommands.remove();
+            for (int i = 0; i < size; i++) {
+                DelayedCommandInfo command = (DelayedCommandInfo) m_delayedCommands.remove();
 
-                if( System.currentTimeMillis() >= command.m_nextRunTime )
-                {
-                    try
-                    {
+                if (System.currentTimeMillis() >= command.m_nextRunTime) {
+                    try {
                         command.m_command.execute();
-                    }
-                    catch( Exception e )
-                    {
-                        if ( getLogger().isWarnEnabled() )
-                        {
-                            getLogger().warn( "Exception during Command.execute()", e );
+                    } catch (Exception e) {
+                        if (getLogger().isWarnEnabled()) {
+                            getLogger().warn("Exception during Command.execute()", e);
                         }
                     }
 
                     command.m_numExecutions++;
 
-                    if( command.m_repeatable )
-                    {
-                        RepeatedCommand cmd = (RepeatedCommand)command.m_command;
+                    if (command.m_repeatable) {
+                        RepeatedCommand cmd = (RepeatedCommand) command.m_command;
                         int numRepeats = cmd.getNumberOfRepeats();
 
-                        if( numRepeats < 1 || numRepeats < command.m_numExecutions )
-                        {
+                        if ((numRepeats < 1) || (command.m_numExecutions < numRepeats)) {
                             command.m_nextRunTime = System.currentTimeMillis() +
-                                cmd.getRepeatInterval();
-                            m_delayedCommands.add( command );
+                                    cmd.getRepeatInterval();
+                            m_delayedCommands.add(command);
                         }
                     }
-                }
-                else
-                {
+                } else {
                     // not yet executed, wait some more
-                    m_delayedCommands.add( command );
+                    m_delayedCommands.add(command);
                 }
             }
         }
 
-        public final void handleEvent( Object element )
-        {
-            if( !( element instanceof Signal ) )
-            {
+        public final void handleEvent(Object element) {
+            if (!(element instanceof Signal)) {
                 return;
             }
 
-            if( !( element instanceof Command ) )
-            {
-                ArrayList handlers = (ArrayList)m_signalHandlers.get( element.getClass() );
+            if (!(element instanceof Command)) {
+                ArrayList handlers = (ArrayList) m_signalHandlers.get(element.getClass());
 
-                if( null != handlers )
-                {
+                if (null != handlers) {
                     Iterator i = handlers.iterator();
 
-                    while( i.hasNext() )
-                    {
-                        EventHandler handler = (EventHandler)i.next();
-                        handler.handleEvent( element );
+                    while (i.hasNext()) {
+                        EventHandler handler = (EventHandler) i.next();
+                        handler.handleEvent(element);
                     }
                 }
 
                 return;
             }
 
-            if( element instanceof DelayedCommand )
-            {
+            if (element instanceof DelayedCommand) {
                 DelayedCommandInfo commandInfo = new DelayedCommandInfo();
-                commandInfo.m_command = (DelayedCommand)element;
+                commandInfo.m_command = (DelayedCommand) element;
                 commandInfo.m_nextRunTime = System.currentTimeMillis() +
-                    commandInfo.m_command.getDelayInterval();
+                        commandInfo.m_command.getDelayInterval();
                 commandInfo.m_numExecutions = 0;
                 commandInfo.m_repeatable = element instanceof RepeatedCommand;
 
-                m_delayedCommands.add( commandInfo );
+                m_delayedCommands.add(commandInfo);
                 return;
             }
 
-            try
-            {
-                ( (Command)element ).execute();
-            }
-            catch( Exception e )
-            {
+            try {
+                ((Command) element).execute();
+            } catch (Exception e) {
                 boolean stopProcessing =
-                        getCommandFailureHandler().handleCommandFailure((Command)element, e);
+                        getCommandFailureHandler().handleCommandFailure((Command) element, e);
 
                 /* If we are no longer processing, then we clear out the Queue and refuse to accept
                  * any more commands.  Essentially the CommandManager is closed.
                  */
-                if ( stopProcessing )
-                {
+                if (stopProcessing) {
                     m_isAccepting = false;
                     m_queue.dequeueAll();
                 }
@@ -389,8 +339,7 @@ public class CommandManager extends AbstractLogEnabled
         }
     }
 
-    private static final class DelayedCommandInfo
-    {
+    private static final class DelayedCommandInfo {
         protected DelayedCommand m_command;
         protected long m_nextRunTime;
         protected int m_numExecutions;
@@ -407,8 +356,7 @@ public class CommandManager extends AbstractLogEnabled
      *  <code>true</code> if the sink accepts the element;
      *  <code>false</code> otherwise.
      */
-    public boolean accept( Object element, Sink modifyingSink )
-    {
+    public boolean accept(Object element, Sink modifyingSink) {
         return m_isAccepting;
     }
 
@@ -422,8 +370,7 @@ public class CommandManager extends AbstractLogEnabled
      *  <code>true</code> if the sink accepts all the elements;
      *  <code>false</code> otherwise.
      */
-    public boolean accept( Object elements[], Sink modifyingSink )
-    {
+    public boolean accept(Object elements[], Sink modifyingSink) {
         return m_isAccepting;
     }
 }
