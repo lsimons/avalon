@@ -101,6 +101,8 @@ echo "Using PHOENIX_HOME:   $PHOENIX_HOME"
 echo "Using PHOENIX_TMPDIR: $PHOENIX_TMPDIR"
 echo "Using JAVA_HOME:      $JAVA_HOME"
 
+# Uncomment to get enable remote debugging
+# DEBUG="-Xdebug -Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=y"
 #
 # Command to overide JVM ext dir
 #
@@ -118,6 +120,7 @@ fi
 # Get the run cmd
 RUN_CMD="$JAVA_HOME/bin/java $JVM_OPTS \
     $JVM_OPTS \
+    $DEBUG \
     -Djava.security.policy=jar:file:$PHOENIX_HOME/bin/phoenix-loader.jar!/META-INF/java.policy \
     $PHOENIX_JVM_OPTS \
     -Dphoenix.home="$PHOENIX_HOME" \
