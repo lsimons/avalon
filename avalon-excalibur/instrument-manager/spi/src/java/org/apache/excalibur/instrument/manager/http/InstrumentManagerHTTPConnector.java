@@ -24,8 +24,6 @@ import org.apache.avalon.framework.activity.Startable;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.container.ContainerUtil;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
 
 import org.apache.excalibur.instrument.AbstractLogEnabledInstrumentable;
 
@@ -44,7 +42,7 @@ import org.apache.excalibur.instrument.manager.InstrumentManagerClientLocalImpl;
  *  alternative to this connector is to make use of the InstrumentManagerServlet.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.4 $ $Date: 2004/02/28 11:47:21 $
+ * @version CVS $Revision: 1.5 $ $Date: 2004/02/29 18:11:04 $
  * @since 4.1
  */
 public class InstrumentManagerHTTPConnector

@@ -17,18 +17,11 @@
 
 package org.apache.excalibur.instrument.manager.http.server;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
-import java.io.InputStreamReader;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.net.Socket;
-import java.net.URLDecoder;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.StringTokenizer;
 
 import org.apache.excalibur.instrument.AbstractLogEnabledInstrumentable;
 import org.apache.excalibur.instrument.CounterInstrument;
@@ -37,7 +30,7 @@ import org.apache.excalibur.instrument.ValueInstrument;
 /**
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.4 $ $Date: 2004/02/28 11:47:29 $
+ * @version CVS $Revision: 1.5 $ $Date: 2004/02/29 18:11:04 $
  * @since 4.1
  */
 public abstract class AbstractHTTPURLHandler

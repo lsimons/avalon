@@ -46,7 +46,6 @@ import org.apache.altrmi.client.HostContext;
 import org.apache.altrmi.client.Factory;
 import org.apache.altrmi.client.impl.socket.SocketCustomStreamHostContext;
 import org.apache.altrmi.client.impl.ClientSideClassFactory;
-import org.apache.altrmi.client.impl.DefaultClientMonitor;
 import org.apache.altrmi.common.ConnectionException;
 import org.apache.altrmi.client.InvocationException;
 import org.apache.altrmi.client.ConnectionRefusedException;
@@ -60,7 +59,7 @@ import org.apache.excalibur.instrument.manager.interfaces.InstrumentSampleUtils;
 /**
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.4 $ $Date: 2004/02/28 11:47:23 $
+ * @version CVS $Revision: 1.5 $ $Date: 2004/02/29 18:11:04 $
  * @since 4.1
  */
 class InstrumentManagerConnection
