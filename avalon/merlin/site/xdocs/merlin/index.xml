@@ -39,14 +39,14 @@
             </td>
           </tr>
           <tr>
-            <td><a href="system/index.html">Subsystems</a></td>
+            <td><a href="systems/index.html">Subsystems</a></td>
             <td>
               Introduction to the respective substems and relationships with
               the Merlin system.
             </td>
           </tr>
           <tr>
-            <td><a href="deployment/index.html">Embedded</a></td>
+            <td><a href="embedded/index.html">Embedded</a></td>
             <td>
               Introduction to a set of available applications solutions
               the include an embedded Merlin Kernel.
