@@ -1,4 +1,4 @@
-//* 
+/* 
  * Copyright 2002-2004 Apache Software Foundation
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -52,7 +52,7 @@ package org.apache.avalon.excalibur.pool;
  * </p>
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.3 $ $Date: 2004/02/21 15:38:46 $
+ * @version CVS $Revision: 1.4 $ $Date: 2004/02/22 10:51:45 $
  * @since 4.0
  */
 public interface Poolable
