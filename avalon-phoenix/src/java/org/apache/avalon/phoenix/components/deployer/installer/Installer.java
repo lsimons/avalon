@@ -34,7 +34,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * and installing it as appropriate.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2002/05/15 09:34:36 $
+ * @version $Revision: 1.4 $ $Date: 2002/05/15 10:54:49 $
  */
 public class Installer
     extends AbstractLogEnabled
@@ -158,7 +158,7 @@ public class Installer
      * @param url the url of instalation
      * @throws InstallationException if an error occurs
      */
-    public Installation install( final URL url )
+    public Installation install( final String name, final URL url )
         throws InstallationException
     {
         lock();
@@ -189,7 +189,7 @@ public class Installer
             }
             else
             {
-                return install( url, file, zipFile, m_baseWorkDirectory );
+                return install( name, url, file, zipFile );
             }
         }
         catch( final IOException ioe )
@@ -301,17 +301,16 @@ public class Installer
      * @param url the url designator of sar
      * @param file the file of sar
      * @param zipFile the ZipFile representing sar
-     * @param baseWorkDir the base directory in which to extract jars,
-     *        libraries and other temporary files.
      * @return the Installation object
      */
-    private Installation install( final URL url,
+    private Installation install( final String name,
+                                  final URL url,
                                   final File file,
-                                  final ZipFile zipFile,
-                                  final File baseWorkDir )
+                                  final ZipFile zipFile )
         throws InstallationException
     {
-        final File directory = getDestinationFor( file );
+        final File directory =
+            new File( m_baseDirectory, name ).getAbsoluteFile();
 
         //Question: Should we be making sure that
         //this directory is created?
@@ -321,7 +320,7 @@ public class Installer
         final ArrayList jars = new ArrayList();
 
         final File workDir =
-            getRelativeWorkDir( baseWorkDir, file );
+            getRelativeWorkDir( m_baseWorkDirectory, file );
 
         expandZipFile( zipFile, directory, workDir, jars, digests, url );
 
