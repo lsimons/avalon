@@ -94,6 +94,17 @@ public final class DefaultApplication
     public void initialize()
         throws Exception
     {
+        try
+        {
+            // load block listeners
+            loadBlockListeners();
+        }
+        catch( final Throwable t )
+        {
+            getLogger().info( "exception while loading listeners:" + t.getMessage() + "\n" );
+            t.printStackTrace();
+            throw new ApplicationException( t.getMessage(), t );
+        }
     }
 
     /**
@@ -126,9 +137,6 @@ public final class DefaultApplication
                     final BlockEntry blockEntry = new BlockEntry( blocks[ i ] );
                     m_entries.put( blockName, blockEntry );
                 }
-
-                // load block listeners
-                loadBlockListeners();
 
                 // load blocks
                 runPhase( PHASE_STARTUP );
