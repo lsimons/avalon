@@ -14,6 +14,7 @@ import java.io.Writer;
 import org.apache.log.format.PatternFormatter;
 import org.apache.log.Hierarchy;
 import org.apache.log.Formatter;
+import org.apache.log.output.io.WriterTarget;
 
 /**
  * This is a basic Output log target that writes to a stream.
