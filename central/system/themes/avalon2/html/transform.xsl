@@ -29,7 +29,7 @@
       <link rel="stylesheet" href="print.css" type="text/css" media="print"></link>
       <xsl:variable name="x" select="document('navigation.xml', / )/project/body//menu/level" />
       <link rel="stylesheet" type="text/css">
-        <xsl:attribute name="href"><xsl:value-of select="$relativepath[position() = last()]" />resources/style.css</xsl:attribute>
+        <xsl:attribute name="href"><xsl:value-of select="$relativepath[position() = last()]" />/style.css</xsl:attribute>
       </link>
     </head>
       <xsl:apply-templates select="body" />
@@ -97,7 +97,7 @@
             <a  id="xmllink" class="viewlink" >
               <xsl:attribute name="href"><xsl:value-of select="$svn-location" /></xsl:attribute>
               <img>
-                <xsl:attribute name="src"><xsl:value-of select="$relativepath[position() = last()]" />resources/xml.gif</xsl:attribute>
+                <xsl:attribute name="src"><xsl:value-of select="$relativepath[position() = last()]" />images/xml.gif</xsl:attribute>
               </img>
             </a>
           </div>
@@ -115,13 +115,13 @@
       </xsl:when>
       <xsl:when test="$url = ''" >
         <img>
-          <xsl:attribute name="src"><xsl:value-of select="$relativepath[position() = last()]" />resources/<xsl:value-of select="$logo" /></xsl:attribute>
+          <xsl:attribute name="src"><xsl:value-of select="$relativepath[position() = last()]" /><xsl:value-of select="$logo" /></xsl:attribute>
         </img>
       </xsl:when>
       <xsl:otherwise>
         <a><xsl:attribute name="href"><xsl:value-of select="$url" /></xsl:attribute>
           <img>
-            <xsl:attribute name="src"><xsl:value-of select="$relativepath[position() = last()]" />resources/<xsl:value-of select="$logo" /></xsl:attribute>
+            <xsl:attribute name="src"><xsl:value-of select="$relativepath[position() = last()]" /><xsl:value-of select="$logo" /></xsl:attribute>
           </img>
         </a>
       </xsl:otherwise>
@@ -167,7 +167,7 @@
       <xsl:choose>
         <!-- Test if a root reference -->
         <xsl:when test="substring( @src, 1, 1 ) = '/'" >
-          <xsl:attribute name="src"><xsl:value-of select="$relativepath[position() = last()]" />/resources<xsl:value-of select="@src" /></xsl:attribute>
+          <xsl:attribute name="src"><xsl:value-of select="$relativepath[position() = last()]" /><xsl:value-of select="@src" /></xsl:attribute>
         </xsl:when>
         <xsl:otherwise>
           <xsl:attribute name="src"><xsl:value-of select="@src" /></xsl:attribute>
