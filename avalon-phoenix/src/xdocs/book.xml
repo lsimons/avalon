@@ -31,7 +31,7 @@
     <menu-item label="Creating a Server Application" href="creating-a-server-application.html"/>
     <menu-item label="config.xml Specification" href="config-xml-specification.html"/>
     <menu-item label="assembly.xml Specification" href="assembly-xml-specification.html"/>
-    <menu-item label="server.xml Specification" href="server-xml-specification.html"/>
+    <menu-item label="environment.xml Specification" href="environment-xml-specification.html"/>
   </menu>
 
   <menu label="Block Developers Guide">
