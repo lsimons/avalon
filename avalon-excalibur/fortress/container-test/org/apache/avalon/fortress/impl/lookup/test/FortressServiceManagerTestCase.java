@@ -58,6 +58,7 @@ import org.apache.avalon.fortress.impl.lookup.FortressServiceSelector;
 import org.apache.avalon.fortress.test.data.Component1;
 import org.apache.avalon.fortress.test.data.Role1;
 import org.apache.avalon.framework.service.ServiceException;
+import org.apache.avalon.framework.service.ServiceSelector;
 
 /**
  * FortressServiceManagerTestCase does XYZ
@@ -91,6 +92,11 @@ public class FortressServiceManagerTestCase extends TestCase
         m_container.setExpectedHint( AbstractContainer.SELECTOR_ENTRY );
         assertTrue( manager.hasService( Role1.ROLE + "Selector" ) );
         assertNotNull( manager.lookup( Role1.ROLE + "Selector" ) );
+
+        ServiceSelector selector = (ServiceSelector) manager.lookup( Role1.ROLE + "Selector" );
+        m_container.setExpectedHint( hint );
+        assertTrue( selector.isSelectable( hint ) );
+        assertNotNull( selector.select( hint ) );
     }
 
     public void testServiceSelector() throws Exception
@@ -111,6 +117,7 @@ class TestContainer implements Container
     private String m_key;
     private Object m_hint = AbstractContainer.DEFAULT_ENTRY;
     private TestComponentHandler m_component;
+    private FortressServiceSelector m_selector;
 
     public TestContainer()
     {
@@ -120,6 +127,7 @@ class TestContainer implements Container
     public void setExpectedKey( String key )
     {
         m_key = key;
+        m_selector = new FortressServiceSelector( this, m_key );
     }
 
     public void setExpectedHint( Object hint )
@@ -131,7 +139,14 @@ class TestContainer implements Container
     {
         if ( exists( key, hint ) )
         {
-            return m_component;
+            if (hint.equals(AbstractContainer.SELECTOR_ENTRY))
+            {
+                return m_selector;
+            }
+            else
+            {
+                return m_component;
+            }
         }
 
         throw new ServiceException( m_key, "Unexpected key/hint combo" );
