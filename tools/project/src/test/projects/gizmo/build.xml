@@ -2,11 +2,11 @@
 <project name="gizmo" default="" basedir="." 
     xmlns:x="antlib:org.apache.avalon.tools"> 
 
-  <x:project index="../../index.xml"/>
-
-  <x:prepare/>
-  <x:javac/>
-  <x:jar/>
-
+  <x:project index="../../index.xml">
+    <x:prepare/>
+    <x:javac/>
+    <x:jar/>
+    <x:install/>
+  </x:project>
 
 </project>
