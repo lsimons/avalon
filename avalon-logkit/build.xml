@@ -102,6 +102,7 @@ Legal:
     <pathelement path="${jdbc.jar}" />
     <pathelement path="${jms.jar}" />
     <pathelement path="${log4j.jar}" />
+    <pathelement path="${avalon-framework.jar}"/>
     <fileset dir="${lib.dir}">
       <include name="*.jar" />
     </fileset>
@@ -127,6 +128,7 @@ Legal:
                    jms-check,
                    junit-check,
                    log4j-check,
+                   framework-check,
                    servletapi-check"/>
 
   <!-- defer to check-targets.ent for downloading dependencies -->
@@ -155,13 +157,6 @@ Legal:
     <echo message=""/>
     <echo message="-------------------------------------------------------------"/>
     <echo message=""/>
-  </target>
-
-  <target name="help" depends="usage"/>
-
-  <!-- Set up dist properties -->
-  <target name="setup-properties" >
-
   </target>
 
   <target name="import-avalon-site" description="Imports the avalon-site" depends="import-log4j">
@@ -245,7 +240,7 @@ Legal:
 
   <!-- Prepares the build directory -->
   <target name="compile"
-          depends="setup-properties,setup-dependencies,prepare"
+          depends="setup-dependencies,prepare"
           description="Compile project">
 
 
@@ -639,7 +634,7 @@ Legal:
   </target>
 
   <!-- Create the announcements and HEADER.html -->
-  <target name="announcement" depends="setup-properties">
+  <target name="announcement">
 
     <filter token="Name" value="${Name}"/>
     <filter token="name" value="${name}"/>

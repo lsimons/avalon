@@ -48,9 +48,12 @@ A minimal build.xml would thus be:
   <!-- Set up properties -->
   <property file="check-targets.properties"/>
   <target name="setup-dependencies">
+    <available property="framework.present"
+               classname="org.apache.avalon.framework.logger.Logger"
+               classpathref="project.class.path" />
     <available property="bsf.present"
                classname="com.ibm.bsf.BSFEngine"
-               classpathref="project.class.path" />
+               classpathref="project.class.path"/>
     <available property="checkstyle.present"
                classname="com.puppycrawl.tools.checkstyle.Checker"
                classpathref="project.class.path" />
@@ -99,9 +102,9 @@ A minimal build.xml would thus be:
     Run the build target import-${id} and it will download
     the needed jar - you should be online for that.
     - OR -
-    Set the ${id}.jar property in the ant.properties file 
+    Set the ${id}.jar property in the ant.properties file
     to the full path of the jar.
-    
+
     If you have a fast connection you can also just run the build target
     import-all-auto-dependencies, which will download all external jars this
     buildfile knows about.
@@ -125,7 +128,7 @@ A minimal build.xml would thus be:
     ${dist.url}
     and place it in ${lib.dir}.
     - OR -
-    Set the ${id}.jar property in the ant.properties file 
+    Set the ${id}.jar property in the ant.properties file
     to the full path of the jar.
 
     Please note that ${id} is licensed under the ${license}
@@ -168,11 +171,32 @@ A minimal build.xml would thus be:
   </target>
 
   <target name="check-all-dependencies"
-          depends="bsf-check,checkstyle-check,javamail-check,jdbc-check,jms-check,junit-check,log4j-check,logkit-check,servletapi-check,commons-logging-check"
+          depends="bsf-check,checkstyle-check,javamail-check,jdbc-check,jms-check,junit-check,log4j-check,logkit-check,servletapi-check,framework-check,commons-logging-check"
       description="checks for all dependencies we know about. This is usually more than the minimum needed to build this project; actual use is not recommended."/>
   <target name="import-all-auto-dependencies"
           depends="import-bsf,import-checkstyle,import-junit,import-log4j,import-logkit,import-commons-logging"
       description="checks for all dependencies we know about. This is usually more than the minimum needed to build this project; actual use is not recommended."/>
+
+<!-- BSF -->
+  <target name="framework-check" unless="framework.present" depends="setup-dependencies">
+    <antcall target="missing-dependency">
+        <param name="id" value="${framework.id}"/>
+        <param name="jar.id" value="${framework.id}"/>
+        <param name="version" value="${framework.version}"/>
+        <param name="license" value="${framework.license}"/>
+        <param name="license.url" value="${framework.license.url}"/>
+    </antcall>
+  </target>
+
+  <target name="import-framework" depends="setup-dependencies">
+    <antcall target="import-dependency">
+        <param name="id" value="${framework.id}"/>
+        <param name="jar.id" value="${framework.id}"/>
+        <param name="version" value="${framework.version}"/>
+        <param name="license" value="${framework.license}"/>
+        <param name="license.url" value="${framework.license.url}"/>
+    </antcall>
+  </target>
 
   <!-- BSF -->
   <target name="bsf-check" unless="bsf.present" depends="setup-dependencies">
