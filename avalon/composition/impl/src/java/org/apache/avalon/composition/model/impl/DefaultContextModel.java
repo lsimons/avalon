@@ -49,7 +49,7 @@ import org.apache.avalon.meta.info.EntryDescriptor;
  * a fully qualifed context can be established.</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.10 $ $Date: 2004/02/22 16:12:58 $
+ * @version $Revision: 1.11 $ $Date: 2004/02/22 16:22:17 $
  */
 public class DefaultContextModel extends DefaultDependent implements ContextModel
 {
@@ -147,7 +147,7 @@ public class DefaultContextModel extends DefaultDependent implements ContextMode
             {
                  DefaultImportModel model = 
                    new DefaultImportModel( entry, key, m_context );
-                 m_map.put( alias, model );
+                 setEntryModel( alias, model );
             }
             else
             {
@@ -188,7 +188,7 @@ public class DefaultContextModel extends DefaultDependent implements ContextMode
                         String ref = importDirective.getImportKey();
                         DefaultImportModel model = 
                           new DefaultImportModel( entry, ref, m_context );
-                        m_map.put( alias, model );
+                        setEntryModel( alias, model );
                     }
                     else if( entryDirective instanceof ConstructorDirective )
                     {
@@ -200,7 +200,7 @@ public class DefaultContextModel extends DefaultDependent implements ContextMode
                             constructor, 
                             context, 
                             m_map );
-                        m_map.put( alias, model );
+                        setEntryModel( alias, model );
                     }
                     else
                     {
@@ -217,7 +217,7 @@ public class DefaultContextModel extends DefaultDependent implements ContextMode
         }
 
         m_componentContext = 
-          createComponentContext( m_context, descriptor, directive, m_map );
+          createComponentContext( classLoader, descriptor, directive, m_map );
     }
 
     
@@ -253,7 +253,7 @@ public class DefaultContextModel extends DefaultDependent implements ContextMode
     */
     public void setEntryModel( String key, EntryModel model )
     {
-        return m_map.put( key, model ); 
+        m_map.put( key, model ); 
     }
 
    /**
@@ -353,7 +353,7 @@ public class DefaultContextModel extends DefaultDependent implements ContextMode
    /**
     * Creates a component context instance.
     * 
-    * @param context the deployment context
+    * @param classloader the deployment context classloader
     * @param descriptor the context descriptor
     * @param directive the context directive
     * @return the context object compliant with the context casting
@@ -362,13 +362,13 @@ public class DefaultContextModel extends DefaultDependent implements ContextMode
     *   construct the context instance
     */
     private Context createComponentContext( 
-      ComponentContext context, ContextDescriptor descriptor, 
+      ClassLoader classloader, 
+      ContextDescriptor descriptor, 
       ContextDirective directive, Map map )
       throws ModelException
     {
-        ClassLoader classLoader = context.getClassLoader();
-        Class clazz = loadContextClass( directive, classLoader );
-        validateCastingConstraint( descriptor, classLoader, clazz );
+        Class clazz = loadContextClass( directive, classloader );
+        validateCastingConstraint( descriptor, classloader, clazz );
         Context base = new DefaultContext( map );
 
         if( clazz.equals( DefaultContext.class ) ) return base; 
