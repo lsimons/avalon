@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0"?>
 
 <!--
  ============================================================================
@@ -48,41 +48,76 @@
  Apache Software Foundation, please see http://www.apache.org/.
 -->
 
-<project>
+<document>
 
- <title>Merlin</title>
+  <header>
+    <title>Categories Directive</title>
+    <authors>
+      <person name="Stephen McConnell" email="mcconnell@apache.org"/>
+    </authors>
+  </header>
 
- <body>
+  <body>
+    <section name="Categories Directive">
 
-     <links>
-       <item name="Home" href="http://avalon.apache.org/"/>
-       <item name="Framework" href="http://avalon.apache.org/framework/"/>
-       <item name="Components" href="http://avalon.apache.org/components"/>
-       <item name="Containers" href="http://avalon.apache.org/containers/"/>
-       <item name="Sandbox" href="http://avalon.apache.org/sandbox/"/>
-     </links>
+      <subsection name="Attributes">
 
-    <menu name="About Merlin">
-      <item name="Overview" href="/about/index.html"/>
-      <item name="Getting Started" href="/starting/index.html"/>
-      <item name="Merlin System" href="/merlin/index.html"/>
-      <item name="Meta Model" href="/meta/index.html">
-        <item name="kernel.xml" href="/meta/kernel/index.html"/>
-        <item name="block.xml" href="/meta/block/index.html"/>
-        <item name="config.xml" href="/meta/config/index.html">
-          <item name="targets" href="/meta/config/target/index.html"/>
-        </item>
-      </item>
-      <item name="Tools" href="/tools/index.html"/>
-    </menu>
+        <table>
+          <tr><th>Attribute</th><th>Required</th><th>Description</th></tr>
+          <tr>
+            <td>priority</td><td>no</td>
+            <td>
+                The default logging priority (one of INFO, WARN, ERROR, FATAL, DEBUG)
+                to assign to the component.
+            </td>
+          </tr>
+          <tr>
+            <td>target</td><td>no</td>
+            <td>
+                Named default logging target.
+            </td>
+          </tr>
+        </table>
 
-    <menu name="Resources">
-      <item name="Javadoc" href="/api/index.html"/>
-      <item name="Download" href="/resources/download.html"/>
-      <item name="Roadmap" href="/resources/roadmap/index.html"/>
-      <item name="DPML" href="/dpml/index.html"/>
-    </menu>
+      </subsection>
 
- </body>
+      <subsection name="Nested Elements">
 
-</project>
+        <table>
+          <tr><th>Element</th><th>Cardinality</th><th>Description</th></tr>
+          <tr>
+            <td><a href="category.html">category</a></td><td>0..n</td>
+            <td>Logging sub-category directive.</td>
+          </tr>
+        </table>
+
+      </subsection>
+
+      <subsection name="Description">
+<p>The logging channels used by a component may be parameterized using a categories directive.  Each category with a categories directive enables customization of the priority and targets of logging channels used by the component.</p>
+     </subsection>
+
+      <subsection name="Sample XML">
+<source><![CDATA[
+
+<!--
+Create a component with a logging channel priority of INFO.
+Set the subsidiary channel for tutorial.data to a priority
+of DEBUG and the tutorial.data.model channel to a ERROR 
+priority.
+-->
+<target name="/tutorial">
+  <categories priority="INFO">
+    <category name="/data" priority="DEBUG"/>
+    <category name="/data/model" priority="ERROR"/>
+  </categories>
+</target>
+]]></source>
+     </subsection>
+
+    </section>
+  </body>
+
+</document>
+
+

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0"?>
 
 <!--
  ============================================================================
@@ -48,41 +48,38 @@
  Apache Software Foundation, please see http://www.apache.org/.
 -->
 
-<project>
+<document>
 
- <title>Merlin</title>
+  <header>
+    <title>Configuration Directive</title>
+    <authors>
+      <person name="Stephen McConnell" email="mcconnell@apache.org"/>
+    </authors>
+  </header>
 
- <body>
+  <body>
+    <section name="Configuration Directive">
 
-     <links>
-       <item name="Home" href="http://avalon.apache.org/"/>
-       <item name="Framework" href="http://avalon.apache.org/framework/"/>
-       <item name="Components" href="http://avalon.apache.org/components"/>
-       <item name="Containers" href="http://avalon.apache.org/containers/"/>
-       <item name="Sandbox" href="http://avalon.apache.org/sandbox/"/>
-     </links>
+      <subsection name="Description">
+<p>
+A configuratio directive contains arbitary content that is used by the container to construct a master configuration backed by profile and/or static confiugration information, used to create a configuration instance that will be supplied to a component type manger declared under the containing target directive.
+</p>
+      </subsection>
 
-    <menu name="About Merlin">
-      <item name="Overview" href="/about/index.html"/>
-      <item name="Getting Started" href="/starting/index.html"/>
-      <item name="Merlin System" href="/merlin/index.html"/>
-      <item name="Meta Model" href="/meta/index.html">
-        <item name="kernel.xml" href="/meta/kernel/index.html"/>
-        <item name="block.xml" href="/meta/block/index.html"/>
-        <item name="config.xml" href="/meta/config/index.html">
-          <item name="targets" href="/meta/config/target/index.html"/>
-        </item>
-      </item>
-      <item name="Tools" href="/tools/index.html"/>
-    </menu>
+      <subsection name="Sample XML">
+<source><![CDATA[
 
-    <menu name="Resources">
-      <item name="Javadoc" href="/api/index.html"/>
-      <item name="Download" href="/resources/download.html"/>
-      <item name="Roadmap" href="/resources/roadmap/index.html"/>
-      <item name="DPML" href="/dpml/index.html"/>
-    </menu>
+<configuration>
+  <frequency>100</frequency>
+  <!-- or anything else you care to include -->
+</configuration>
 
- </body>
+]]></source>
+     </subsection>
+    </section>
+  </body>
 
-</project>
+</document>
+
+
+
