@@ -111,19 +111,23 @@ public class PhoenixLogSink extends AbstractLogEnabled implements LogSink
     {
         if( type.equals( Log.DEBUG ) )
         {
-            getLogger().info( "time=" + time + " message=" + message + " frame=" + frame );
+            if( getLogger().isDebugEnabled() )
+                getLogger().debug( "time=" + time + " message=" + message + " frame=" + frame );
         }
         else if( type.equals( Log.FAIL ) )
         {
-            getLogger().error( "time=" + time + " message=" + message + " frame=" + frame );
+            if( getLogger().isErrorEnabled() )
+                getLogger().error( "time=" + time + " message=" + message + " frame=" + frame );
         }
         else if( type.equals( Log.WARN ) )
         {
-            getLogger().warn( "time=" + time + " message=" + message + " frame=" + frame );
+            if( getLogger().isWarnEnabled() )
+                getLogger().warn( "time=" + time + " message=" + message + " frame=" + frame );
         }
         else if( type.equals( Log.ASSERT ) )
         {
-            getLogger().info( "ASSERT time=" + time + " message=" + message + " frame=" + frame );
+            if( getLogger().isInfoEnabled() )
+                getLogger().info( "ASSERT time=" + time + " message=" + message + " frame=" + frame );
         }
         else
         {
