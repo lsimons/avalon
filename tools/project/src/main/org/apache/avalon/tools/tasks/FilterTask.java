@@ -150,22 +150,38 @@ public class FilterTask extends SystemTask
         {
             if( i>0 )
             {
-                buffer.append( File.pathSeparator );
+                buffer.append( ";" );
             }
 
             ResourceRef ref = refs[i];
             Resource resource = getHome().getResource( ref );
-            buffer.append( symbol );
-            if( windows )
-            {
-                buffer.append( "\\" );
-                buffer.append( resource.getInfo().getPath().replace( '/', '\\' ) );
-            }
-            else
-            {
-                buffer.append( "/" );
-                String path = resource.getInfo().getPath();
-            }
+            String path = getNativePath( windows, resource );
+            buffer.append( path );
+        }
+
+        if( refs.length > 0 )
+        {
+            buffer.append( ";" );
+        }
+
+        buffer.append( getNativePath( windows, def ) ); 
+        return buffer.toString();
+    }
+
+    private String getNativePath( boolean windows, Resource resource )
+    {
+        String symbol = getPlatformCacheSymbol( windows );
+        StringBuffer buffer = new StringBuffer( symbol );
+        String path = resource.getInfo().getPath();
+        if( windows )
+        {
+            buffer.append( "\\" );
+            buffer.append( path.replace( '/', '\\' ) );
+        }
+        else
+        {
+            buffer.append( "/" );
+            buffer.append( path );
         }
         return buffer.toString();
     }
