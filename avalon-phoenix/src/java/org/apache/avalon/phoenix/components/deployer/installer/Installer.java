@@ -29,7 +29,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * and installing it as appropriate.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.16 $ $Date: 2002/09/15 02:41:47 $
+ * @version $Revision: 1.17 $ $Date: 2002/09/15 10:42:42 $
  */
 public class Installer
     extends AbstractLogEnabled
@@ -147,7 +147,7 @@ public class Installer
 
             //Get Zipfile representing .sar file
             final ZipFile zipFile = new ZipFile( file );
-            return install( name, url, file, zipFile );
+            return installArchive( name, url, file, zipFile );
         }
         catch( final IOException ioe )
         {
@@ -184,10 +184,10 @@ public class Installer
      * @param zipFile the ZipFile representing sar
      * @return the Installation object
      */
-    private Installation install( final String name,
-                                  final URL url,
-                                  final File file,
-                                  final ZipFile zipFile )
+    private Installation installArchive( final String name,
+                                         final URL url,
+                                         final File file,
+                                         final ZipFile zipFile )
         throws InstallationException
     {
         final File directory =
@@ -199,8 +199,7 @@ public class Installer
 
         final ArrayList jars = new ArrayList();
 
-        final File workDir =
-            getRelativeWorkDir( m_baseWorkDirectory, name );
+        final File workDir = getRelativeWorkDir( name );
         boolean success = false;
         try
         {
@@ -407,16 +406,14 @@ public class Installer
      * Create working directory inside baseWorkDir
      * for specified application.
      *
-     * @param baseWorkDir the base workDir for all apps
      * @param name the name of the application
      * @return the working directory for app
      */
-    private File getRelativeWorkDir( final File baseWorkDir,
-                                     final String name )
+    private File getRelativeWorkDir( final String name )
     {
         final String filename =
             name + "-" + System.currentTimeMillis();
-        return new File( baseWorkDir, filename );
+        return new File( m_baseWorkDirectory, filename );
     }
 
     /**
