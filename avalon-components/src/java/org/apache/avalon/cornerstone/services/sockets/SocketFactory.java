@@ -14,7 +14,7 @@ import java.net.Socket;
 /**
  * The interface used to create client sockets.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  */
 public interface SocketFactory
 {

@@ -17,7 +17,7 @@ import java.security.Principal;
  *
  * Warning: This is experimental and will most likely change in the future.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  */
 public interface AuthorizationManager
 {

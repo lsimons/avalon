@@ -10,7 +10,7 @@ package org.apache.avalon.cornerstone.services.sockets;
 /**
  * Service to manager the socket factories.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  */
 public interface SocketManager
 {

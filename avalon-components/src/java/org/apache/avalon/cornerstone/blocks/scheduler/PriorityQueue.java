@@ -13,8 +13,8 @@ import java.util.NoSuchElementException;
  * Iterface for priority queues.
  * This interface does not dictate whether it is min or max heap.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/07/12 00:06:37 $
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @version CVS $Revision: 1.2 $ $Date: 2002/08/05 14:12:13 $
  * @since 4.0
  */
 interface PriorityQueue

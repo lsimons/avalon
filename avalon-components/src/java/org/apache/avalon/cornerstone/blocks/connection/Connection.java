@@ -24,7 +24,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * Support class for the DefaultConnectionManager.
  * This manages an individual ServerSocket.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  */
 class Connection
     extends AbstractLogEnabled

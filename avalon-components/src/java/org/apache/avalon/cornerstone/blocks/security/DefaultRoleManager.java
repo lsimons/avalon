@@ -19,7 +19,7 @@ import org.apache.avalon.cornerstone.services.security.RoleManager;
  * aspect and
  *
  * @phoenix:block
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  */
 public class DefaultRoleManager
     implements RoleManager

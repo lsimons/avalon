@@ -14,7 +14,7 @@ import java.util.GregorianCalendar;
 /**
  * This is the holder triggers based on standard crontabs format.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  * @author <a href="mailto:ram.chidambaram@telus.com">Ram Chidambaram</a>
  */
 public class CronTimeTrigger

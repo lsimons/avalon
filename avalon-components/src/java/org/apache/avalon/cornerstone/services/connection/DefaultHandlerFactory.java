@@ -10,7 +10,7 @@ package org.apache.avalon.cornerstone.services.connection;
 /**
  * Default Hnalder factory that creates instances via reflection.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  */
 public class DefaultHandlerFactory
     extends AbstractHandlerFactory

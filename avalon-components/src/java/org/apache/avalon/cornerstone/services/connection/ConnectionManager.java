@@ -13,7 +13,7 @@ import org.apache.avalon.excalibur.thread.ThreadPool;
 /**
  * This is the service through which ConnectionManagement occurs.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  */
 public interface ConnectionManager
 {
