@@ -31,8 +31,8 @@ The block element declares a block exists in the application.
 The element defines:
 
 name            the name of a block
-class           the class of block instance.
-                cannot be used with none-default factory
+class           This is a synonym for impl. Kept for backwards
+                compatability.
 factory         the name of the block factory.
                 optional, default factory will be used if not specified
 impl            factory specific description of the implementation of the block.
