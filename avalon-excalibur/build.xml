@@ -192,6 +192,9 @@ Legal:
     <available property="jdbc3.present" classname="java.sql.Savepoint">
       <classpath refid="project.class.path"/>
     </available>
+    <available property="informix.present" classname="com.informix.jdbc.IfxDriver">
+      <classpath refid="project.class.path"/>
+    </available>
   </target>
 
   <target name="check-datasource" depends="check-environment" if="datasource.present">
@@ -238,6 +241,8 @@ Legal:
       <src path="${build.src}"/>
       <exclude name="org/apache/avalon/excalibur/datasource/J2eeDataSource.java"
                unless="j2ee.present"/>
+      <exclude name="org/apache/avalon/excalibur/datasource/InformixDataSource.java"
+               unless="informix.present"/>
       <exclude name="org/apache/avalon/excalibur/datasource/Jdbc2Connection.java"/>
       <exclude name="org/apache/avalon/excalibur/datasource/Jdbc3Connection.java"/>
     </javac>
@@ -442,12 +447,14 @@ Legal:
       <exclude name="**/test/*"/>
     </jar>
 
-    <jar jarfile="${build.lib}/${testlets.name}.jar" basedir="${build.classes}">
-      <include name="**/test/*"/>
+    <jar jarfile="${build.lib}/${scratchpad.name}.jar" basedir="${build.scratchpad}">
+      <include name="org/apache/avalon/excalibur/**"/>
+      <exclude name="**/test/*"/>
     </jar>
-
-    <jar jarfile="${build.lib}/${scratchpad.name}.jar" basedir="${build.scratchpad}"/>
-    <jar jarfile="${build.lib}/${cadastre.name}.jar" basedir="${build.cadastre}"/>
+    <jar jarfile="${build.lib}/${cadastre.name}.jar" basedir="${build.cadastre}">
+      <include name="org/apache/avalon/cadastre/**"/>
+      <exclude name="**/test/*"/>
+    </jar>
 
   </target>
 
