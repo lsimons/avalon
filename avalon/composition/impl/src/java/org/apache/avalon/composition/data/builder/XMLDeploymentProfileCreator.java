@@ -66,7 +66,7 @@ import org.apache.excalibur.configuration.ConfigurationUtil;
 /**
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.6 $ $Date: 2004/01/01 13:07:37 $
+ * @version $Revision: 1.7 $ $Date: 2004/01/01 23:34:45 $
  */
 public class XMLDeploymentProfileCreator extends XMLProfileCreator
 {
@@ -260,7 +260,7 @@ public class XMLDeploymentProfileCreator extends XMLProfileCreator
     {
         if( config == null )
         {
-            return null;
+            return new ContextDirective( null );
         }
 
         if( config.getChildren( "import" ).length > 0 )

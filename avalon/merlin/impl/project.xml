@@ -9,7 +9,7 @@
   <name>Merlin Implementation</name>
   <package>org.apache.avalon.merlin</package>
 
-  <currentVersion>3.2.1</currentVersion>
+  <currentVersion>3.2.2</currentVersion>
   <inceptionYear>2002</inceptionYear>
   <shortDescription>Merlin Implementation.</shortDescription>
 
@@ -90,7 +90,7 @@ Merlin service management platform.
     <dependency>
       <groupId>avalon-composition</groupId>
       <artifactId>avalon-composition-impl</artifactId>
-      <version>1.2.3</version>
+      <version>1.2.4</version>
     </dependency>
 
     <dependency>
@@ -112,7 +112,7 @@ Merlin service management platform.
     <dependency>
       <groupId>avalon-meta</groupId>
       <artifactId>avalon-meta-impl</artifactId>
-      <version>1.3</version>
+      <version>1.3.1</version>
     </dependency>
 
     <dependency>

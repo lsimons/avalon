@@ -109,7 +109,7 @@
     <dependency>
       <groupId>avalon-meta</groupId>
       <artifactId>avalon-meta-impl</artifactId>
-      <version>1.3</version>
+      <version>1.3.1</version>
     </dependency>
     <dependency>
       <groupId>avalon-meta</groupId>
@@ -119,7 +119,7 @@
     <dependency>
       <groupId>avalon-meta</groupId>
       <artifactId>avalon-meta-plugin</artifactId>
-      <version>1.3</version>
+      <version>1.3.1</version>
     </dependency>
 
     <dependency>
@@ -151,7 +151,7 @@
     <dependency>
       <groupId>avalon-composition</groupId>
       <artifactId>avalon-composition-impl</artifactId>
-      <version>1.2.3</version>
+      <version>1.2.4</version>
     </dependency>
 
     <dependency>
