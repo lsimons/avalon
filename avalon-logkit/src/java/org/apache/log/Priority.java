@@ -8,6 +8,7 @@
 package org.apache.log;
 
 import java.io.Serializable;
+import java.io.ObjectStreamException;
 
 /**
  * Class representing and holding constants for priority.
@@ -130,8 +131,20 @@ public final class Priority
      *
      * @param other the other Priority
      */
-    public boolean isLowerOrEqual( final Priority other ) 
+    public boolean isLowerOrEqual( final Priority other )
     {
         return m_priority <= other.getValue();
-    }        
+    }
+
+    /**
+     * Helper method that replaces deserialized object with correct singleton.
+     *
+     * @return the singleton version of object
+     * @exception ObjectStreamException if an error occurs
+     */
+    private Object readResolve()
+        throws ObjectStreamException
+    {
+        return getPriorityForName( m_name );
+    }
 }
