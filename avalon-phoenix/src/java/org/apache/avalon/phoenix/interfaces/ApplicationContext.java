@@ -27,6 +27,12 @@ public interface ApplicationContext
     ThreadContext getThreadContext();
 
     /**
+     * A application can request that it be be shutdown. In most cases
+     * the kernel will schedule the shutdown to occur in another thread.
+     */
+    void requestShutdown();
+
+    /**
      * Export specified object into management system.
      * The object is exported using specifed interface
      * and using the specified name.

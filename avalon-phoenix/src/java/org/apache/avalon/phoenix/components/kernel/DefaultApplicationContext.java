@@ -21,6 +21,7 @@ import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.phoenix.interfaces.ApplicationContext;
 import org.apache.avalon.phoenix.interfaces.ConfigurationRepository;
 import org.apache.avalon.phoenix.interfaces.ConfigurationValidator;
+import org.apache.avalon.phoenix.interfaces.Kernel;
 import org.apache.avalon.phoenix.interfaces.ManagerException;
 import org.apache.avalon.phoenix.interfaces.SystemManager;
 import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
@@ -63,6 +64,11 @@ class DefaultApplicationContext
 
     private final SarMetaData m_metaData;
 
+    /**
+     * The kernel associate with context
+     */
+    private Kernel m_kernel;
+
     protected DefaultApplicationContext( final SarMetaData metaData,
                                          final ClassLoader classLoader,
                                          final Logger hierarchy )
@@ -86,6 +92,7 @@ class DefaultApplicationContext
             lookup( SystemManager.ROLE );
         m_validator = (ConfigurationValidator)serviceManager.
             lookup( ConfigurationValidator.ROLE );
+        m_kernel = (Kernel)serviceManager.lookup( Kernel.ROLE );
     }
 
     public void initialize()
@@ -102,6 +109,38 @@ class DefaultApplicationContext
     public ThreadContext getThreadContext()
     {
         return m_threadContext;
+    }
+
+    public void requestShutdown()
+    {
+        final Thread thread = new Thread( "AppShutdown" )
+        {
+            public void run()
+            {
+                schedulShutdown();
+            }
+        };
+        thread.start();
+    }
+
+    private void schedulShutdown()
+    {
+        try
+        {
+            //Sleep for a little bit so that the
+            //thread that requested this method can
+            //return and do whatever it needs to be
+            //done
+            Thread.sleep( 2 );
+            m_kernel.removeApplication( m_metaData.getName() );
+        }
+        catch( Exception e )
+        {
+            final String message =
+                REZ.getString( "applicationcontext.error.noremove",
+                               m_metaData.getName() );
+            getLogger().error( message, e );
+        }
     }
 
     /**

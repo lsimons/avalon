@@ -23,10 +23,10 @@ final class DefaultBlockContext
     implements BlockContext
 {
     private String m_name;
-
     private ApplicationContext m_applicationContext;
 
-    protected DefaultBlockContext( final String name, final ApplicationContext frame )
+    protected DefaultBlockContext( final String name,
+                                   final ApplicationContext frame )
     {
         m_name = name;
         m_applicationContext = frame;
@@ -72,6 +72,11 @@ final class DefaultBlockContext
     public String getName()
     {
         return m_name;
+    }
+
+    public void requestShutdown()
+    {
+        m_applicationContext.requestShutdown();
     }
 
     /**
