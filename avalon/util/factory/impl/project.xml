@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project>
+
+  <extend>${basedir}/../../../project.xml</extend>
+
+  <groupId>avalon-util</groupId>
+  <id>avalon-util-factory-impl</id>
+  <name>Avalon Util Factory Implementation</name>
+  <package>org.apache.avalon.util.factory.impl</package>
+  <currentVersion>1.0-dev</currentVersion>
+
+  <inceptionYear>2002</inceptionYear>
+  <shortDescription>Generic factory implementation.</shortDescription>
+
+  <dependencies>
+    <dependency>
+      <groupId>avalon-util</groupId>
+      <artifactId>avalon-util-factory-api</artifactId>
+      <version>1.0-dev</version>
+    </dependency>
+  </dependencies>
+
+</project>
