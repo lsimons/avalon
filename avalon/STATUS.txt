@@ -1,5 +1,5 @@
 APACHE AVALON PROJECT STATUS:                          -*-indented-text-*-
-Last modified at [$Date: 2003/02/01 10:15:33 $]
+Last modified at [$Date: 2003/02/01 10:20:00 $]
 
 Background:
 
@@ -85,7 +85,34 @@ Resolved Issues:
 
       
 Pending issues:
-      
+
+    o nicolaken: Deprecation policy
+      Removing deprecated classes between major versions is a safe bet.
+      Between point versions it's a possibility.
+      Between fixes it's an error.
+      I'd suggest the following as a guideline:
+       - deprecating classes results in @deprecated being added
+       - in the next minor point release, they are moved to a
+         deprecated source tree for the component that is compiled
+         *after* the main ones, so that we are sure that /we/ do not
+         rely on those.
+       - in the major releases the classes can be removed with a vote.
+
+    o nicolaken: Previously, I had asked that the maven descriptor in 
+      the avalon CVS not be in the main dir, not to confuse our users.
+      But it's also possible that we just don't include it in the
+      releases.
+      Given that there is much discussion on things that developers 
+      don't even know what is about, I think it's in the best 
+      interest of all Avalon that build tools alternative to Ant 
+      are included in the correct places in our projects so that 
+      all developers can evaluate them and decide on merit rather 
+      than feeling.
+      This of course also means that we accept the POMs from Jason,
+      and can commit any other build system too for comparative 
+      evaluation.
+      What do you guys think, is this reasonable?
+
     o [VOTE] Do you want that we discuntinue Excalibur CLI in favor of 
       Jakarta Commons CLI?
 
