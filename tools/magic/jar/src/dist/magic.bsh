@@ -115,11 +115,11 @@ public class JarPlugin extends AbstractPlugin
     private File prepareManifest()
     {
         String manifestName = m_Context.getProperty( "jar.manifest" );
-        File srcManifest = new File( manifestName ); 
+        File srcManifest = new File( m_Context.getProjectDir(), manifestName ); 
         if( srcManifest.exists() )
         {
             String destDirName = m_Context.getProperty( "jar.manifest.build.dir" );
-            File toDir = new File( destDirName ); 
+            File toDir = new File( m_Context.getProjectDir(), destDirName ); 
             toDir.mkdirs();
 
             getLogger().info( "Copying " + srcManifest + " to " + toDir );
@@ -141,11 +141,11 @@ public class JarPlugin extends AbstractPlugin
         throws IOException
     {
         String dest = m_Context.getProperty( "jar.build.dest.dir" );
-        File destDir = new File( dest );
-        m_JarFile = new File( dest, m_CurrentArtifact.getFilename() );
+        File destDir = new File( m_Context.getProjectDir(), dest );
+        m_JarFile = new File( destDir, m_CurrentArtifact.getFilename() );
         destDir.mkdirs();
         
-        File fromDir = new File( m_Context.getProperty( "jar.build.src.dir" ) );
+        File fromDir = new File( m_Context.getProjectDir(), m_Context.getProperty( "jar.build.src.dir" ) );
 
         Jar jar = (Jar) m_Project.createTask( "jar" );
         /* Set the destination */

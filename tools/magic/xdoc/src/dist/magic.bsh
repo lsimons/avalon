@@ -71,13 +71,13 @@ public class XDocPlugin extends AbstractPlugin
         
         getLogger().info( "Start XDoc generation." );
         
-        File srcDir = new File( m_Context.getProperty( "xdoc.src.dir" ) );
+        File srcDir = new File( m_Context.getProjectDir(), m_Context.getProperty( "xdoc.src.dir" ) );
         if( ! srcDir.exists() )
         {
             getLogger().warn( "Xdocs source directory does not exist:" + srcDir );
             return;
         }
-        File destDir = new File( m_Context.getProperty( "xdoc.build.src.dir" ) );
+        File destDir = new File( m_Context.getProjectDir(), m_Context.getProperty( "xdoc.build.src.dir" ) );
 
         String theme = m_Context.getProperty( "xdoc.theme.name" );
         String output = m_Context.getProperty( "xdoc.output.format" );
@@ -98,7 +98,7 @@ public class XDocPlugin extends AbstractPlugin
             File dir = new File( themeDir, "resources" );
             copyResources( dir );
             
-            dir = new File( m_Context.getProperty( "xdoc.resources.dir" ) );
+            dir = new File( m_Context.getProjectDir(), m_Context.getProperty( "xdoc.resources.dir" ) );
             copyResources( dir );
         } 
         catch( RuntimeException e )
@@ -114,8 +114,8 @@ public class XDocPlugin extends AbstractPlugin
         getLogger().debug( "Converting Navigation." );
         File xslFile = new File( themeDir,  "nav-aggregate.xsl" );
         String srcDir = m_Context.getProperty( "xdoc.src.dir" );
-        File fromDir = new File( srcDir );
-        File toDir = new File( m_Context.getProperty( "xdoc.build.src.dir" ) );
+        File fromDir = new File( m_Context.getProjectDir(), srcDir );
+        File toDir = new File( m_Context.getProjectDir(), m_Context.getProperty( "xdoc.build.src.dir" ) );
         String sep = File.separatorChar == '\\' ? "\\\\" : File.separator;
         transformTrax( fromDir, toDir, xslFile, "^.*" + sep + "navigation.xml$", "", ".xml", "xml" );
     }
@@ -126,8 +126,8 @@ public class XDocPlugin extends AbstractPlugin
         getLogger().debug( "Converting XML documents." );
         File xslFile = new File( themeDir,  "transform.xsl" );
         String srcDir = m_Context.getProperty( "xdoc.build.src.dir" );
-        File fromDir = new File( srcDir );
-        File toDir = new File( m_Context.getProperty( "xdoc.dest.dir" ) );
+        File fromDir = new File( m_Context.getProjectDir(), srcDir );
+        File toDir = new File( m_Context.getProjectDir(), m_Context.getProperty( "xdoc.dest.dir" ) );
         String output = m_Context.getProperty( "xdoc.output.format" );
         String sep = File.separatorChar == '\\' ? "\\\\" : File.separator;
         transformTrax( fromDir, toDir, xslFile, "^.*\\.xml$", "^.*" + sep + "navigation.xml$", "." + output, "html" );
@@ -135,7 +135,7 @@ public class XDocPlugin extends AbstractPlugin
     
     private void copyResources( File fromDir )
     {
-        File destDir = new File( m_Context.getProperty( "xdoc.dest.dir" ) );
+        File destDir = new File( m_Context.getProjectDir(), m_Context.getProperty( "xdoc.dest.dir" ) );
         PreparePlugin prepare = (PreparePlugin) m_PreparePlugin;
         
         prepare.copy( fromDir, destDir, "**/*", "", false );

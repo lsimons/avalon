@@ -56,7 +56,7 @@ public class ArtifactPlugin extends AbstractPlugin
         Path result = new Path( m_Project );
         for( int i=0 ; i < artifacts.length ; i++ )
         {
-            File localFile = artifacts[i].toLocalFile();
+            File localFile = artifacts[i].getContentFile();
             Path.PathElement pe = result.createPathElement();
             pe.setLocation( localFile );
         }
@@ -83,6 +83,25 @@ public class ArtifactPlugin extends AbstractPlugin
     public void upload( Artifact artifact )
         throws IOException
     {
+        String destDir =    m_Context.getProperty( "artifact.remote.dir" );
+        String host =       m_Context.getProperty( "artifact.remote.host" );
+        String username =   m_Context.getProperty( "artifact.remote.username" );
+
+        String fullDest = username + "@" + host + ":" + destDir + "/" + 
+            artifact.getGroupId() + "/" + artifact.getType() + "s/";
+            
+        String source = artifact.toLocalFile().getAbsolutePath();
+        upload( source, fullDest );
+        
+        // TODO:  Optimize so both files are uploaded in the same SSH session,
+        //        which probably happens with Ant filesets.
+        source = source + ".md5";
+        upload( source, fullDest );
+    }
+    
+    private void upload( String source, String dest )
+        throws IOException
+    {
         int port = -1;
         try
         {
@@ -91,39 +110,24 @@ public class ArtifactPlugin extends AbstractPlugin
         {} // ignore
 
         boolean trust = "true".equals( m_Context.getProperty( "artifact.remote.trust" ) );
-        boolean failOnError = "true".equals( m_Context.getProperty( "artifact.remote.fail.on.error" ) );
         String host =       m_Context.getProperty( "artifact.remote.host" );
-        String destDir =    m_Context.getProperty( "artifact.remote.dir" );
         String keyfile =    m_Context.getProperty( "artifact.remote.keys.file" );
         String knownhosts = m_Context.getProperty( "artifact.remote.knownhosts.file" );
         String passphrase = m_Context.getProperty( "artifact.remote.passphrase" );
         String password =   m_Context.getProperty( "artifact.remote.password" );
         String username =   m_Context.getProperty( "artifact.remote.username" );
 
-        System.out.println( "    Host:" + host );
-        System.out.println( "    User:" + username );
-        System.out.println( "     Dir:" + destDir );
-        System.out.println( " KeyFile:" + keyfile );
-        System.out.println( "   Known:" + knownhosts );
-        System.out.println( "  Phrase:" + passphrase );
-        System.out.println( "Password:" + password );
+        if( getLogger().isDebugEnabled() )
+        {
+            getLogger().debug( "    Host:" + host );
+            getLogger().debug( "    User:" + username );
+            getLogger().debug( "     Dir:" + dest );
+            getLogger().debug( " KeyFile:" + keyfile );
+            getLogger().debug( "   Known:" + knownhosts );
+            getLogger().debug( "  Phrase:" + passphrase );
+            getLogger().debug( "Password:" + password );
+        }
 
-        String fullDest = username + "@" + host + ":" + destDir + "/" + 
-            artifact.getGroupId() + "/" + artifact.getType() + "s/";
-            
-        String source = artifact.toLocalFile().getAbsolutePath();
-        upload( source, host, fullDest, keyfile, passphrase, password );
-        
-        // TODO:  Optimize so both files are uploaded in the same SSH session,
-        //        which probably happens with Ant filesets.
-        source = source + ".md5";
-        upload( source, host, fullDest, keyfile, passphrase, password );
-    }
-    
-    private void upload( String source, String host, String dest, 
-        String keyfile, String passphrase, String password )
-        throws IOException
-    {
         try
         {
             m_Project.addTaskDefinition( "scp", Scp.class );
@@ -151,7 +155,7 @@ public class ArtifactPlugin extends AbstractPlugin
 
             if( ! "".equals( username ) )
                 scp.setUsername( username );
-            scp.setTodir( fullDest );
+            scp.setTodir( dest );
             
             scp.execute();
         } catch( Exception e )
