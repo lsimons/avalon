@@ -14,10 +14,17 @@ package org.apache.avalon.framework.configuration;
  * @author <a href="mailto:pier@apache.org">Pierpaolo Fumagalli</a>
  * @author <a href="mailto:stefano@apache.org">Stefano Mazzocchi</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @version 1.0
  */
 public interface Reconfigurable
     extends Configurable
 {
+    /**
+     * Describe <code>reconfigure</code> method here.
+     *
+     * @param configuration a <code>Configuration</code> value
+     * @exception ConfigurationException if an error occurs
+     */
     void reconfigure( Configuration configuration ) 
         throws ConfigurationException;
 }

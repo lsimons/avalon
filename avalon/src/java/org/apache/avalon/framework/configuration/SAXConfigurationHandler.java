@@ -29,22 +29,43 @@ public class SAXConfigurationHandler
     private Configuration                m_configuration;
     private Locator                      m_locator;
 
+    /**
+     * Get the configuration object that was built.
+     *
+     * @return a <code>Configuration</code> object
+     */
     public Configuration getConfiguration()
     {
         return m_configuration;
     }
 
+    /**
+     * Clears all data from this configuration handler.
+     */
     public void clear()
     {
         m_elements.clear();
         m_locator = null;
     }
 
+    /**
+     * Set the document <code>Locator</code> to use.
+     *
+     * @param locator a <code>Locator</code> value
+     */
     public void setDocumentLocator( final Locator locator )
     {
         m_locator = locator;
     }
 
+    /**
+     * Handling hook for character data.
+     *
+     * @param ch a <code>char[]</code> of data
+     * @param start offset in the character array from which to start reading
+     * @param end length of character data
+     * @exception SAXException if an error occurs
+     */
     public void characters( final char[] ch, int start, int end )
         throws SAXException
     {
@@ -69,6 +90,14 @@ public class SAXConfigurationHandler
         configuration.setValue( value );
     }
 
+    /**
+     * Handling hook for finishing parsing of an element.
+     *
+     * @param namespaceURI a <code>String</code> value
+     * @param localName a <code>String</code> value
+     * @param rawName a <code>String</code> value
+     * @exception SAXException if an error occurs
+     */
     public void endElement( final String namespaceURI,
                             final String localName,
                             final String rawName )
@@ -83,12 +112,29 @@ public class SAXConfigurationHandler
         }
     }
 
+    /**
+     * Create a new <code>DefaultConfiguration</code> with the specified
+     * local name and location.
+     *
+     * @param localName a <code>String</code> value
+     * @param location a <code>String</code> value
+     * @return a <code>DefaultConfiguration</code> value
+     */
     protected DefaultConfiguration createConfiguration( final String localName,
                                                         final String location )
     {
         return new DefaultConfiguration( localName, location );
     }
 
+    /**
+     * Handling hook for starting parsing of an element.
+     *
+     * @param namespaceURI a <code>String</code> value
+     * @param localName a <code>String</code> value
+     * @param rawName a <code>String</code> value
+     * @param attributes an <code>Attributes</code> value
+     * @exception SAXException if an error occurs
+     */
     public void startElement( final String namespaceURI,
                               final String localName,
                               final String rawName,
@@ -128,6 +174,8 @@ public class SAXConfigurationHandler
 
     /**
      * This just throws an exception on a parse error.
+     * @param exception the parse error
+     * @exception SAXException if an error occurs
      */
     public void error( final SAXParseException exception )
         throws SAXException
@@ -137,6 +185,8 @@ public class SAXConfigurationHandler
 
     /**
      * This just throws an exception on a parse error.
+     * @param exception the parse error
+     * @exception SAXException if an error occurs
      */
     public void warning( final SAXParseException exception )
         throws SAXException
@@ -146,6 +196,8 @@ public class SAXConfigurationHandler
 
     /**
      * This just throws an exception on a parse error.
+     * @param exception the parse error
+     * @exception SAXException if an error occurs
      */
     public void fatalError( final SAXParseException exception )
         throws SAXException
@@ -153,6 +205,11 @@ public class SAXConfigurationHandler
         throw exception;
     }
 
+    /**
+     * Returns a string showing the current system ID, line number and column number.
+     *
+     * @return a <code>String</code> value
+     */
     protected String getLocationString()
     {
         if( null == m_locator )

@@ -71,10 +71,16 @@ public final class Version
         final int major = Integer.parseInt( levels[ 0 ] );
 
         int minor = 0;       
-        if( 1 < levels.length ) minor = Integer.parseInt( levels[ 1 ] );
+        if( 1 < levels.length ) 
+        { 
+            minor = Integer.parseInt( levels[ 1 ] ); 
+        }
 
         int micro = 0;
-        if( 2 < levels.length ) micro = Integer.parseInt( levels[ 2 ] );
+        if( 2 < levels.length ) 
+        { 
+            micro = Integer.parseInt( levels[ 2 ] ); 
+        }
 
         return new Version( major, minor, micro );
     }
@@ -85,7 +91,7 @@ public final class Version
      *
      * @param major This <code>Version</code> major number.
      * @param minor This <code>Version</code> minor number.
-     * @param rev This <code>Version</code> micro number.
+     * @param micro This <code>Version</code> micro number.
      */
     public Version( final int major, final int minor, final int micro )
     {
@@ -132,6 +138,7 @@ public final class Version
      *
      * @param other The other <code>Version</code> object to be compared with this
      *          for equality.
+     * @return <b>true</b> if this <code>Version</code> is compatible with the specified one
      */
     public boolean equals( final Version other )
     {
@@ -153,6 +160,14 @@ public final class Version
         }
     }
 
+    /**
+     * Indicates whether some other object is "equal to" this <code>Version</code>.
+     * Returns <b>true</b> if the other object is an instance of <code>Version</code>
+     * and has the same major, minor, and micro components.
+     *
+     * @param other an <code>Object</code> value
+     * @return <b>true</b> if the other object is equal to this <code>Version</code>
+     */
     public boolean equals( final Object other )
     {
         if ( other instanceof Version )
@@ -192,6 +207,7 @@ public final class Version
      *
      * @param other The other <code>Version</code> object to be compared with this
      *              for compliancy (compatibility).
+     * @return <b>true</b> if this <code>Version</code> is compatible with the specified one
      */
     public boolean complies( final Version other )
     {

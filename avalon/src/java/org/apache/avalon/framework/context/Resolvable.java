@@ -12,6 +12,7 @@ package org.apache.avalon.framework.context;
  * resolved in some particular context.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @version 1.0
  */
 public interface Resolvable
 {
@@ -20,6 +21,7 @@ public interface Resolvable
      *
      * @param context the contextwith respect which to resolve
      * @return the resolved object
+     * @exception ContextException if an error occurs
      */
     Object resolve( Context context )
         throws ContextException;

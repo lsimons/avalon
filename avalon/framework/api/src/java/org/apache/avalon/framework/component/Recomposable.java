@@ -11,6 +11,7 @@ package org.apache.avalon.framework.component;
  * Extends composer to allow recomposing.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @version 1.0
  */
 public interface Recomposable
     extends Composable
@@ -22,8 +23,9 @@ public interface Recomposable
      * execution. It should also drop references to any components it 
      * retrieved from old ComponentManager.
      *
-     * @param manager The <code>ComponentManager</code> which this
+     * @param componentManager The <code>ComponentManager</code> which this
      *                <code>Composable</code> uses.
+     * @exception ComponentException if an error occurs
      */
     void recompose( ComponentManager componentManager )
         throws ComponentException;

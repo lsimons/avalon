@@ -44,6 +44,7 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
  *
  * @author <a href="mailto:fumagalli@exoffice.com">Pierpaolo Fumagalli</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @version 1.0
  */
 public class Parameters
     implements Serializable
@@ -68,6 +69,8 @@ public class Parameters
      * <p />
      * If the specified value is <b>null</b> the parameter is removed.
      *
+     * @param name a <code>String</code> value
+     * @param value a <code>String</code> value
      * @return The previous value of the parameter or <b>null</b>.
      * @exception IllegalStateException if the Parameters object is read-only
      */
@@ -91,6 +94,7 @@ public class Parameters
 
     /**
      * Remove a parameter from the parameters object
+     * @param name a <code>String</code> value
      */
     public void removeParameter( final String name )
     {
@@ -136,7 +140,7 @@ public class Parameters
      *
      * @param name the name of parameter
      * @return the value of parameter
-     * @throws ParameterException
+     * @throws ParameterException if the specified parameter cannot be found
      */
     public String getParameter( final String name )
         throws ParameterException
@@ -189,7 +193,7 @@ public class Parameters
      *
      * @param name the name of parameter
      * @return the integer parameter type
-     * @throws ParameterException
+     * @throws ParameterException if the specified parameter cannot be found
      */
     public int getParameterAsInteger( final String name )
         throws ParameterException
@@ -256,7 +260,7 @@ public class Parameters
      *
      * @param name the name of parameter
      * @return the long parameter type
-     * @throws ParameterException
+     * @throws ParameterException  if the specified parameter cannot be found
      */
     public long getParameterAsLong( final String name )
         throws ParameterException
@@ -320,7 +324,7 @@ public class Parameters
      *
      * @param name the parameter name
      * @return the value
-     * @throws ParameterException
+     * @throws ParameterException if the specified parameter cannot be found
      */
     public float getParameterAsFloat( final String name )
         throws ParameterException
@@ -364,7 +368,8 @@ public class Parameters
      *
      * @param name the parameter name
      * @return the value
-     * @throws ParemterException
+     * @exception ParameterException if an error occurs
+     * @exception ParemterException
      */
     public boolean getParameterAsBoolean( final String name )
         throws ParameterException
@@ -449,6 +454,11 @@ public class Parameters
         m_readOnly = true;
     }
 
+    /**
+     * Checks is this <code>Parameters</code> object is writeable.
+     *
+     * @exception IllegalStateException if this <code>Parameters</code> object is read-only
+     */
     protected final void checkWriteable()
         throws IllegalStateException
     {
@@ -467,6 +477,7 @@ public class Parameters
      *
      * @param configuration the Configuration
      * @return This <code>Parameters</code> instance.
+     * @exception ConfigurationException if an error occurs
      */
     public static Parameters fromConfiguration( final Configuration configuration )
         throws ConfigurationException
@@ -481,6 +492,7 @@ public class Parameters
      * @param configuration the Configuration
      * @param elementName   the element name for the parameters
      * @return This <code>Parameters</code> instance.
+     * @exception ConfigurationException if an error occurs
      */
     public static Parameters fromConfiguration( final Configuration configuration,
                                                 final String elementName )

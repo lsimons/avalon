@@ -18,11 +18,15 @@ import java.util.HashMap;
  * @author <a href="mailto:stefano@apache.org">Stefano Mazzocchi</a>
  * @author <a href="mailto:fumagalli@exoffice.com">Pierpaolo Fumagalli</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @version 1.0
  */
 public class DefaultConfiguration
     extends AbstractConfiguration
     implements Serializable
 {
+    /**
+     * An empty (length zero) array of configuration objects.
+     */
     protected static final Configuration[]   EMPTY_ARRAY = new Configuration[ 0 ];
 
     private final String                     m_name;
@@ -36,6 +40,8 @@ public class DefaultConfiguration
 
     /**
      * Create a new <code>DefaultConfiguration</code> instance.
+     * @param name a <code>String</code> value
+     * @param location a <code>String</code> value
      */
     public DefaultConfiguration( final String name, final String location )
     {
@@ -65,6 +71,7 @@ public class DefaultConfiguration
 
     /**
      * Returns the name of this configuration element.
+     * @return a <code>String</code> value
      */
     public String getName()
     {
@@ -73,6 +80,8 @@ public class DefaultConfiguration
 
     /**
      * Returns the namespace of this configuration element
+     * @return a <code>String</code> value
+     * @exception ConfigurationException if an error occurs
      */
     public String getNamespace() throws ConfigurationException
     {
@@ -82,7 +91,8 @@ public class DefaultConfiguration
         }
         else
         {
-            throw new ConfigurationException( "No namespace (not even default \"\") is associated with the "+
+            throw new ConfigurationException
+                ( "No namespace (not even default \"\") is associated with the "+
                                               "configuration element \"" + getName() +
                                               "\" at " + getLocation() );
         }
@@ -90,7 +100,8 @@ public class DefaultConfiguration
 
     /**
      * Returns the prefix of the namespace
-     * @throws ConfigurationException if prefix is not present (<code>null</code>).
+     * @return a <code>String</code> value
+     * @exception ConfigurationException if prefix is not present (<code>null</code>).
      */
     protected String getPrefix() throws ConfigurationException
     {
@@ -100,7 +111,8 @@ public class DefaultConfiguration
         }
         else
         {
-            throw new ConfigurationException( "No prefix (not even default \"\") is associated with the "+
+            throw new ConfigurationException
+                ( "No prefix (not even default \"\") is associated with the "+
                                               "configuration element \"" + getName() +
                                               "\" at " + getLocation() );
         }
@@ -109,6 +121,7 @@ public class DefaultConfiguration
 
     /**
      * Returns a description of location of element.
+     * @return a <code>String</code> value
      */
     public String getLocation()
     {
@@ -118,6 +131,7 @@ public class DefaultConfiguration
     /**
      * Returns the value of the configuration element as a <code>String</code>.
      *
+     * @return a <code>String</code> value
      * @exception ConfigurationException If the value is not present.
      */
     public String getValue() throws ConfigurationException
@@ -136,6 +150,7 @@ public class DefaultConfiguration
 
     /**
      * Return an array of all attribute names.
+     * @return a <code>String[]</code> value
      */
     public String[] getAttributeNames()
     {
@@ -171,6 +186,8 @@ public class DefaultConfiguration
      * Returns the value of the attribute specified by its name as a
      * <code>String</code>.
      *
+     * @param name a <code>String</code> value
+     * @return a <code>String</code> value
      * @exception ConfigurationException If the attribute is not present.
      */
     public String getAttribute( final String name )
@@ -194,6 +211,9 @@ public class DefaultConfiguration
     /**
      * Return the first <code>Configuration</code> object child of this
      * associated with the given name.
+     * @param name a <code>String</code> value
+     * @param createNew a <code>boolean</code> value
+     * @return a <code>Configuration</code> value
      */
     public Configuration getChild( final String name, final boolean createNew )
     {
@@ -227,6 +247,7 @@ public class DefaultConfiguration
      * The returned <code>Enumeration</code> may be empty.
      *
      * @param name The name of the required children <code>Configuration</code>.
+     * @return a <code>Configuration[]</code> value
      */
     public Configuration[] getChildren( final String name )
     {
@@ -255,6 +276,7 @@ public class DefaultConfiguration
     /**
      * Append data to the value of this configuration element.
      *
+     * @param value a <code>String</code> value
      * @deprecated Use setValue() instead
      */
     public void appendValueData( final String value )
@@ -271,6 +293,11 @@ public class DefaultConfiguration
         }
     }
 
+    /**
+     * Set the value of this <code>Configuration</code> object to the specified string.
+     *
+     * @param value a <code>String</code> value
+     */
     public void setValue( final String value )
     {
         checkWriteable();
@@ -278,6 +305,12 @@ public class DefaultConfiguration
         m_value = value;
     }
 
+    /**
+     * Set the value of the specified attribute to the specified string.
+     *
+     * @param name name of the attribute to set
+     * @param value a <code>String</code> value
+     */
     public void setAttribute( final String name, final String value )
     {
         checkWriteable();
@@ -293,6 +326,9 @@ public class DefaultConfiguration
      * Add an attribute to this configuration element, returning its old
      * value or <b>null</b>.
      *
+     * @param name a <code>String</code> value
+     * @param value a <code>String</code> value
+     * @return a <code>String</code> value
      * @deprecated Use setAttribute() instead
      */
     public String addAttribute( final String name, String value )
@@ -309,6 +345,7 @@ public class DefaultConfiguration
 
     /**
      * Add a child <code>Configuration</code> to this configuration element.
+     * @param configuration a <code>Configuration</code> value
      */
     public void addChild( final Configuration configuration )
     {
@@ -324,6 +361,7 @@ public class DefaultConfiguration
 
     /**
      * Remove a child <code>Configuration</code> to this configuration element.
+     * @param configuration a <code>Configuration</code> value
      */
     public void removeChild( final Configuration configuration )
     {
@@ -338,6 +376,7 @@ public class DefaultConfiguration
 
     /**
      * Return count of children.
+     * @return an <code>int</code> value
      */
     public int getChildCount()
     {
@@ -349,17 +388,27 @@ public class DefaultConfiguration
         return m_children.size();
     }
 
+    /**
+     * Make this configuration read-only.
+     *
+     */
     public void makeReadOnly()
     {
         m_readOnly = true;
     }
 
+    /**
+     * heck if this configuration is writeable.
+     *
+     * @exception IllegalStateException if this configuration s read-only
+     */
     protected final void checkWriteable()
         throws IllegalStateException
     {
         if( m_readOnly )
         {
-            throw new IllegalStateException( "Configuration is read only and can not be modified" );
+            throw new IllegalStateException
+                ( "Configuration is read only and can not be modified" );
         }
     }
 }

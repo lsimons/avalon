@@ -32,14 +32,15 @@ package org.apache.avalon.framework.service;
  * Therefore the <code>ServiceManager</code> can be implemented with a
  * factory pattern, an object pool, or a simple Hashtable.
  *
- * @see org.apache.avalon.framework.service.Serviceable
- * @see org.apache.avalon.framework.service.ServiceSelector
- *
  * @author <a href="mailto:scoobie@betaversion.org">Federico Barbieri</a>
  * @author <a href="mailto:stefano@apache.org">Stefano Mazzocchi</a>
  * @author <a href="mailto:fumagalli@exoffice.com">Pierpaolo Fumagalli</a>
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
+ * @version 1.0
+ * @see org.apache.avalon.framework.service.Serviceable
+ * @see org.apache.avalon.framework.service.ServiceSelector
+ *
  */
 public interface ServiceManager
 {
@@ -60,7 +61,8 @@ public interface ServiceManager
      * }
      * </pre>
      *
-     * @param name The role name of the <code>Object</code> to retrieve.
+     * @param role The role name of the <code>Object</code> to retrieve.
+     * @return an <code>Object</code> value
      * @exception ServiceException if an error occurs
      */
     Object lookup( String role )

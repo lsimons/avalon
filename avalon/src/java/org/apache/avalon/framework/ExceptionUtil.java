@@ -9,7 +9,6 @@ package org.apache.avalon.framework;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.StringTokenizer;
 
@@ -20,6 +19,7 @@ import java.util.StringTokenizer;
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  * @author <a href="mailto:Rafal.Krzewski@e-point.pl">Rafal Krzewski</a>
+ * @version 1.0
  */
 public final class ExceptionUtil
 {
@@ -37,6 +37,8 @@ public final class ExceptionUtil
     /**
      * Generate string for specified exception and the cause of
      * this exception (if any).
+     * @param throwable a <code>Throwable</code>
+     * @return the stack trace as a <code>String</code>
      */
     public static String printStackTrace( final Throwable throwable )
     {
@@ -46,6 +48,9 @@ public final class ExceptionUtil
     /**
      * Generate string for specified exception and if printCascading
      * is true will print all cascading exceptions.
+     * @param throwable a <code>Throwable</code>
+     * @param printCascading if <code>true</code> will print all cascading exceptions
+     * @return the stack trace as a <code>String</code>
      */
     public static String printStackTrace( final Throwable throwable,
                                           final boolean printCascading )
@@ -58,6 +63,9 @@ public final class ExceptionUtil
      * Restrict the number of frames printed out to the specified depth.
      * If the depth specified is <code>0</code> then all the frames are
      * converted into a string.
+     * @param throwable a <code>Throwable</code>
+     * @param depth number of stack trace frames to show
+     * @return the stack trace as a <code>String</code>
      */
     public static String printStackTrace( final Throwable throwable, final int depth )
     {
@@ -83,6 +91,10 @@ public final class ExceptionUtil
     /**
      * Generate exception string for specified exception to specified depth
      * and all Cascading exceptions if printCascading is true.
+     * @param throwable a <code>Throwable</code>
+     * @param depth number of stack trace frames to show
+     * @param printCascading if <code>true</code> will print all cascading exceptions
+     * @return the stack trace as a <code>String</code>
      */
     public static String printStackTrace( final Throwable throwable,
                                           final int depth,
@@ -97,6 +109,12 @@ public final class ExceptionUtil
      * is true then the method will also attempt to use reflection to find a
      * method with signature <code>Throwable getCause()</code>. This makes
      * it compatible with JDK1.4 mechanisms for nesting exceptions.
+     * @param throwable a <code>Throwable</code>
+     * @param depth number of stack trace frames to show
+     * @param printCascading if <code>true</code> will print all cascading exceptions
+     * @param useReflection if <code>true</code> will use reflection to handle JDK1.4 
+     *                      nested exceptions
+     * @return the stack trace as a <code>String</code>
      */
     public static String printStackTrace( final Throwable throwable,
                                           final int depth,
@@ -131,6 +149,10 @@ public final class ExceptionUtil
 
     /**
      * Utility method to get cause of exception.
+     * @param throwable a <code>Throwable</code>
+     * @param useReflection if <code>true</code> will use reflection to handle JDK1.4 
+     *                      nested exceptions
+     * @return cause of specified exception
      */
     public static Throwable getCause( final Throwable throwable,
                                       final boolean useReflection )
@@ -162,6 +184,7 @@ public final class ExceptionUtil
     /**
      * Captures the stack trace associated with this exception.
      *
+     * @param throwable a <code>Throwable</code>
      * @return an array of Strings describing stack frames.
      */
     public static String[] captureStackTrace( final Throwable throwable )
@@ -174,8 +197,8 @@ public final class ExceptionUtil
     /**
      * Splits the string on every token into an array of stack frames.
      *
-     * @param string the string
-     * @param onToken the token
+     * @param string the string to split
+     * @param onToken the token to split on
      * @return the resultant array
      * @deprecated This is an internal utility method that should not be used
      */

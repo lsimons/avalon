@@ -33,8 +33,9 @@ public interface Composable
      * <code>ComponentManager</code> to acquire the components it needs for
      * execution.
      *
-     * @param manager The <code>ComponentManager</code> which this
+     * @param componentManager The <code>ComponentManager</code> which this
      *                <code>Composable</code> uses.
+     * @exception ComponentException if an error occurs
      */
     void compose( ComponentManager componentManager )
         throws ComponentException;

@@ -11,7 +11,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.OutputStream;
 import java.net.URL;
 import java.util.Properties;
 import javax.xml.transform.OutputKeys;
@@ -20,7 +19,6 @@ import javax.xml.transform.sax.SAXTransformerFactory;
 import javax.xml.transform.sax.TransformerHandler;
 import javax.xml.transform.stream.StreamResult;
 import org.xml.sax.SAXException;
-import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.AttributesImpl;
 import org.xml.sax.helpers.NamespaceSupport;
 
@@ -28,6 +26,7 @@ import org.xml.sax.helpers.NamespaceSupport;
  * A ConfigurationSerializer serializes configurations via SAX2 compliant parser.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
+ * @version 1.0
  */
 public class DefaultConfigurationSerializer
 {
@@ -48,6 +47,7 @@ public class DefaultConfigurationSerializer
     /**
      * Sets the Serializer's use of indentation.  This will cause linefeeds to be added
      *  after each element, but it does not add any indentation via spaces.
+     * @param indent a <code>boolean</code> value
      */
     public void setIndent( boolean indent )
     {
@@ -63,6 +63,7 @@ public class DefaultConfigurationSerializer
 
     /**
      * Internally set the output strream we will be using.
+     * @param out an <code>OutputStream</code> value
      */
     protected void setOutputStream( final OutputStream out )
     {
@@ -83,6 +84,7 @@ public class DefaultConfigurationSerializer
     /**
      * Get the SAXTransformerFactory so we can get a serializer without being
      * tied to one vendor.
+     * @return a <code>SAXTransformerFactory</code> value
      */
     protected SAXTransformerFactory getTransformerFactory()
     {
@@ -97,6 +99,9 @@ public class DefaultConfigurationSerializer
     /**
      * Start the serialization process.  The output stream <strong>must</strong>
      * be set before calling this method.
+     * @param source a <code>Configuration</code> value
+     * @exception SAXException if an error occurs
+     * @exception ConfigurationException if an error occurs
      */
     protected void serialize( final Configuration source )
         throws SAXException, ConfigurationException
@@ -109,6 +114,9 @@ public class DefaultConfigurationSerializer
 
     /**
      * Serialize each Configuration element.  This method is called recursively.
+     * @param element a <code>Configuration</code> value
+     * @exception SAXException if an error occurs
+     * @exception ConfigurationException if an error occurs
      */
     protected void serializeElement( final Configuration element )
         throws SAXException, ConfigurationException
@@ -208,6 +216,11 @@ public class DefaultConfigurationSerializer
 
     /**
      * Serialize the configuration object to a file using a filename.
+     * @param filename a <code>String</code> value
+     * @param source a <code>Configuration</code> value
+     * @exception SAXException if an error occurs
+     * @exception IOException if an error occurs
+     * @exception ConfigurationException if an error occurs
      */
     public void serializeToFile( final String filename, final Configuration source )
         throws SAXException, IOException, ConfigurationException
@@ -217,6 +230,11 @@ public class DefaultConfigurationSerializer
 
     /**
      * Serialize the configuration object to a file using a File object.
+     * @param file a <code>File</code> value
+     * @param source a <code>Configuration</code> value
+     * @exception SAXException if an error occurs
+     * @exception IOException if an error occurs
+     * @exception ConfigurationException if an error occurs
      */
     public void serializeToFile( final File file, final Configuration source )
         throws SAXException, IOException, ConfigurationException
@@ -226,6 +244,11 @@ public class DefaultConfigurationSerializer
 
     /**
      * Serialize the configuration object to an output stream.
+     * @param outputStream an <code>OutputStream</code> value
+     * @param source a <code>Configuration</code> value
+     * @exception SAXException if an error occurs
+     * @exception IOException if an error occurs
+     * @exception ConfigurationException if an error occurs
      */
     public void serialize( final OutputStream outputStream, final Configuration source )
         throws SAXException, IOException, ConfigurationException
@@ -240,6 +263,11 @@ public class DefaultConfigurationSerializer
     /**
      * Serialize the configuration object to an output stream derived from an
      * URI.  The URI must be resolveable by the <code>java.net.URL</code> object.
+     * @param uri a <code>String</code> value
+     * @param source a <code>Configuration</code> value
+     * @exception SAXException if an error occurs
+     * @exception IOException if an error occurs
+     * @exception ConfigurationException if an error occurs
      */
     public void serialize( final String uri, final Configuration source )
         throws SAXException, IOException, ConfigurationException

@@ -15,6 +15,7 @@ import java.util.Map;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
+ * @version 1.0
  */
 public class DefaultServiceSelector
     implements ServiceSelector
@@ -47,8 +48,11 @@ public class DefaultServiceSelector
 
     /**
      * Returns whether a Object exists or not
+     * @param hint the hint to retrieve Object
+     * @return <code>true</code> if the Object exists
      */
-    public boolean isSelectable( final Object hint ) {
+    public boolean isSelectable( final Object hint ) 
+    {
         boolean objectExists = false;
 
         try
@@ -67,7 +71,7 @@ public class DefaultServiceSelector
     /**
      * Release object.
      *
-     * @param <code>Object</code> the object to release
+     * @param object the <code>Object</code> to release
      */
     public void release( final Object object )
     {
@@ -77,6 +81,8 @@ public class DefaultServiceSelector
 
     /**
      * Populate the ServiceSelector.
+     * @param hint the hint to be used to retrieve the Object later
+     * @param object the Object to hold
      */
     public void put( final Object hint, final Object object )
     {
@@ -94,16 +100,26 @@ public class DefaultServiceSelector
         return m_objects;
     }
 
+    /**
+     * Makes this service selector read-only.
+     *
+     */
     public void makeReadOnly()
     {
         m_readOnly = true;
     }
 
+    /**
+     * Checks if this service selector is writeable.
+     *
+     * @exception IllegalStateException if this service selector is read-only
+     */
     protected final void checkWriteable()
         throws IllegalStateException
     {
         if( m_readOnly )
         {
-            throw new IllegalStateException( "ServiceSelector is read only and can not be modified" );       }
+            throw new IllegalStateException
+                ( "ServiceSelector is read only and can not be modified" );       }
     }
 }
