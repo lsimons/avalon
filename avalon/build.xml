@@ -32,6 +32,8 @@ Legal:
   <property name="scratchpad.name" value="${name}-scratchpad"/>
   <property name="Name" value="Avalon"/>
   <property name="version" value="4.0b3"/>
+  <property name="release" value="3rd"/>
+  <property name="short.version" value="4.0"/>
   <property name="year" value="1999-2001"/>
 
   <!--
@@ -91,6 +93,12 @@ Legal:
   <property name="xalan.jar" value="${tools.dir}/lib/xalan-2.1.0.jar"/>
   <property name="bsf.jar" value="${tools.dir}/lib/bsf.jar"/>
   <property name="testlet.jar" value="${tools.dir}/lib/testlet.jar"/>
+
+  <property name="xalan.main" value="org.apache.xalan.xslt.Process"/>
+  <property name="announce.xml" value="announcement.xml"/>
+  <property name="build.announce" value="${build.dir}/announcement.xml"/>
+  <property name="announce2txt" value="${src.dir}/skins/announcement2txt.xsl"/>
+  <property name="announce2site" value="${src.dir}/skins/announcement2site.xsl"/>
 
   <path id="project.class.path">
     <pathelement location="${logkit.jar}"/>
@@ -406,6 +414,28 @@ Legal:
     <copy todir="${www.dir}">
       <fileset dir="${docs.dir}" />
     </copy>
+
+  </target>
+
+  <!--
+       ===================================================================
+       Create the announcements
+       ===================================================================
+  -->
+  <target name="announcement" depends="setup-properties">
+
+    <filter token="name" value="${Name}"/>
+    <filter token="version" value="${version}"/>
+    <filter token="year" value="${year}"/>
+    <filter token="release" value="${release}"/>
+    <filter token="short-version" value="${short.version}"/>
+
+    <copy file="${announce.xml}" tofile="${build.announce}" filtering="yes"/>
+
+    <java classname="${xalan.main}" fork="true">
+      <arg line="-IN ${build.announce} -XSL ${announce2txt} -OUT Announcement.txt"/>
+      <classpath refid="tools.class.path" />
+    </java>
 
   </target>
 
