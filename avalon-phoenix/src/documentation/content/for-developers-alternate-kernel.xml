@@ -15,7 +15,7 @@
     </section>
     <section><title>Beanshell enabled kernel</title>
       <p>
-        This allows pretty much any anything to be done to applications 
+        This allows pretty much anything to be done to applications 
         and blocks once started.  As such it is not suitable for live 
         deployment as it could be considered a bit of a hackers tool.
       </p>

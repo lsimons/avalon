@@ -10,7 +10,7 @@
       <p>
       Quite often reusable components are made elsewhere.  Apache has a number
       of places where this activity is going on.  While we get it right most of
-      the time, some components developer elsewhere are harder to use in Phoenix
+      the time, some components developed elsewhere are harder to use in Phoenix.
       </p>
     </section>
     <section><title>Things to remember</title>
@@ -36,18 +36,18 @@
          <p>The IoC pattern is described <link href="http://jakarta.apache.org/avalon/framework/inversion-of-control.html">
          here</link>.  This means for Phoenix avoiding static concepts including loggers.</p>
       </section>
-      <section><title>Sepearation of interface and implementation</title>
+      <section><title>Separation of interface and implementation</title>
         <p>
-         The separation of interface/impl pattern is described <link href="http://jakarta.apache.org/avalon/framework/separation-of-interface-and-implementation.html">here</link>.
-         For Phoenix is means we can (if done completely) mount the implementation jar in place where hosted client compoennts (beans, servlets etc) can use the API, bit not see the implementation.  We can also reimplement or wrap
+         The separation of interface/implementation pattern is described <link href="http://jakarta.apache.org/avalon/framework/separation-of-interface-and-implementation.html">here</link>.
+         For Phoenix this means we can (if done completely) mount the implementation jar in place where hosted client components (beans, servlets etc) can use the API, but not see the implementation.  We can also reimplement or wrap
          bits of the implementation.  For example we could write a pluggable implementation that could, for a certain API
-         journal some methods, but still delegate to the real impl.  Which pluggable impl is used by Phoenix when it
+         journal some methods, but still delegate to the real implementation.  Which pluggable implementation is used by Phoenix when it
          boots is determined in assembly.xml of course.
         </p>
       </section>
       <section><title>Opening up the API</title>
         <p>
-         Given that you have divided into interface and impl, there are probably plenty of methods you
+         Given that you have divided into interface and implementation, there are probably plenty of methods you
          can put method in the interface you never though might be used.  For example if you are making JDBC
          compliant relational database, and it is a bean, you could easily think that the only use would be
          clients via JDBC over sockets.  Well, given that Phoenix can now mount the RDBMS block, it might want
@@ -61,9 +61,9 @@
         </p>
       </section>
     </section>
-    <section><title>Example compatible comp</title>
+    <section><title>Example compatible component</title>
     <p>
-      Below are an interface and implemmentation that are suitably separated, are beanlike and is in accordance
+      Below are an interface and implementation that are suitably separated, are beanlike and is in accordance
       with the IoC pattern...</p>
 <source>
 package examplecomp;
@@ -111,7 +111,7 @@ public class WebServerMain {
     }
 }
 </source>
-      <p>When we are trying to run this in phoeinix we might have this wrapper:</p>
+      <p>When we are trying to run this in phoenix we might have this wrapper:</p>
 <source>
 package examplecomp.block;
 public class WebServerBlock
@@ -152,8 +152,8 @@ public class WebServerBlock
     }
 }
 </source>
-      <p>This basically shows the impl wrapped and taking its configuration from the config.xml
-      that phonix prefers from configuration.  The the developer wanted they could ignore
+      <p>This basically shows the implementation wrapped and taking its configuration from the config.xml
+      that phoenix prefers from configuration.  If the developer wanted they could ignore
       that place of configuration and use their own config files.  If the WebServer block were
       being reused by another Phoenix block (say an EJB server), it might be like so:</p>
 <source>

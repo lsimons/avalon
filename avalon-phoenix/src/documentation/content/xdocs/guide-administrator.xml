@@ -193,7 +193,7 @@ public class WebServerBlock
                 documentation</link>.  Phoenix uses the JRMP RMI Adaptor.
               </p>
               <p>
-                Ensure that the MX4J RMI Adaptor is enabled in kernal.xml
+                Ensure that the MX4J RMI Adaptor is enabled in kernel.xml
               </p>
 <source>
         &lt;component role="org.apache.avalon.phoenix.interfaces.SystemManager"

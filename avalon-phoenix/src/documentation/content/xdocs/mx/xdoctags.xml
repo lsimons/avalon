@@ -108,14 +108,14 @@
           Example:
         </p>
         <source>
-    /**
-     * Gets the list of applications running in the container
-     *
-     * @phoenix:mx-attribute
-     *
-     * @return applicationNames The array of application names
-     */
-    String[] getApplicationNames();
+/**
+ * Gets the list of applications running in the container
+ *
+ * @phoenix:mx-attribute
+ *
+ * @return applicationNames The array of application names
+ */
+String[] getApplicationNames();
         </source>
       </section>
       <section><title>phoenix:mx-operation</title>
@@ -150,14 +150,14 @@
           Example:
         </p>
         <source>
-    /**
-     * Removes the application from the container
-     *
-     * @phoenix:mx-operation
-     *
-     * @param name the name of application to remove
-     */
-    void removeApplication( String name )
+/**
+ * Removes the application from the container
+ *
+ * @phoenix:mx-operation
+ *
+ * @param name the name of application to remove
+ */
+void removeApplication( String name )
         </source>
       </section>
       <section><title>phoenix:mx-description</title>
@@ -193,16 +193,16 @@
           Example:
         </p>
         <source>
-    /**
-     * Retrieve a string identifying version of server.
-     * Usually looks like "v4.0.1a".
-     *
-     * @phoenix:mx-attribute
-     * @phoenix:mx-description Retrieve a string identifying version of server.
-     *
-     * @return version string of server.
-     */
-    String getVersion();
+/**
+ * Retrieve a string identifying version of server.
+ * Usually looks like "v4.0.1a".
+ *
+ * @phoenix:mx-attribute
+ * @phoenix:mx-description Retrieve a string identifying version of server.
+ *
+ * @return version string of server.
+ */
+String getVersion();
         </source>
       </section>
       <section><title>phoenix:mx-proxy</title>
@@ -218,7 +218,7 @@
             <td>
               The proxy tag is used to indicate that a proxy class should be used
               to manage some aspect(s) of this object.  At runtime, the management
-              system will instantiate in instance of the proxy class passing in
+              system will instantiate an instance of the proxy class passing in
               a reference to the managed object in the constructor.  Management
               calls are then made on the proxy instead of the managed object.
             </td>
