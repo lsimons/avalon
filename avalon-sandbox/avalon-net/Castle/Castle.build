@@ -8,7 +8,7 @@
     <property name="castle.test.src"       value="${castle.basedir}/CastleManagementExtensionsTest" readonly="false" />
     <property name="castle.assembly"       value="Apache.Avalon.Castle.ManagementExtensions.dll" readonly="true" />
     <property name="castle.test.assembly"  value="Apache.Avalon.Castle.ManagementExtensions.Test.dll" readonly="true" />
-    <property name="castle.key"            value="AvalonCastle.key" readonly="true" />
+    <property name="castle.key"            value="../ApacheAvalon.snk" readonly="true" />
     <property name="project.build.config"  value="debug" readonly="false" />
     <property name="project.build.package" value="false" readonly="false" />
 
