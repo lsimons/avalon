@@ -19,14 +19,11 @@
 
 <project>
 
- <title>Apache Avalon History</title>
+ <title>Apache Avalon Products</title>
 
  <body>
     <menu>
-      <item name="Avalon's Story" href="story.html"/>
-      <item name="Call To Vote" href="call-to-vote.html"/>
-      <item name="Need For Avalon" href="need-for-avalon.html"/>
-      <item name="What is a Server?" href="what-is-a-server.html"/>
+
     </menu>
  </body>
 
