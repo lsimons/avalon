@@ -8,15 +8,17 @@
 package org.apache.phoenix.engine;
 
 import org.apache.avalon.atlantis.AbstractKernel;
+import org.apache.avalon.atlantis.SystemManager;
 import org.apache.avalon.atlantis.Application;
-import org.apache.avalon.atlantis.Kernel;
 import org.apache.avalon.camelot.ContainerException;
 import org.apache.avalon.camelot.Entry;
 import org.apache.avalon.component.ComponentException;
 import org.apache.avalon.component.ComponentManager;
 import org.apache.avalon.component.Composable;
+import org.apache.avalon.component.DefaultComponentManager;
 import org.apache.avalon.configuration.Configurable;
 import org.apache.avalon.context.Contextualizable;
+import org.apache.avalon.context.DefaultContext;
 import org.apache.log.LogKit;
 
 /**
@@ -33,9 +35,10 @@ import org.apache.log.LogKit;
  */
 public class PhoenixKernel
     extends AbstractKernel
-    implements Kernel, Composable
+    implements Composable
 {
-    private ComponentManager       m_componentManager;
+    ///SystemManager provided by Embeddor
+    private SystemManager          m_systemManager;
 
     public PhoenixKernel()
     {
@@ -45,7 +48,8 @@ public class PhoenixKernel
     public void compose( final ComponentManager componentManager )
         throws ComponentException
     {
-        m_componentManager = componentManager;
+        m_systemManager = (SystemManager)componentManager.
+            lookup( "org.apache.avalon.atlantis.SystemManager" );
     }
 
     /**
@@ -86,13 +90,17 @@ public class PhoenixKernel
         {
             if( application instanceof Contextualizable )
             {
-                ((Contextualizable)application).contextualize( saEntry.getContext() );
+                final DefaultContext context = new DefaultContext();
+                context.put( SarContextResources.APP_NAME, name );
+                context.put( SarContextResources.APP_HOME_DIR, saEntry.getHomeDirectory() );
+                ((Contextualizable)application).contextualize( context );
             }
 
             if( application instanceof Composable )
             {
-                //CM contains reference to SystemManager
-                ((Composable)application).compose( m_componentManager );
+                final DefaultComponentManager componentManager = new DefaultComponentManager();
+                componentManager.put( "org.apache.avalon.atlantis.SystemManager", m_systemManager );
+                ((Composable)application).compose( componentManager );
             }
 
             if( application instanceof Configurable )
