@@ -26,6 +26,7 @@
   <property name="xdocs.dir" value="${src.dir}/xdocs"/>
   <property name="javadocs.dir" value="${docs.dir}/api"/>
   <property name="context.dir" value="../jakarta-avalon/src/documentation"/>
+  <property name="tools.dir" value="../jakarta-avalon/tools"/>
 
   <property name="announce2txt" value="${tools.dir}/announcement2txt.xsl"/>
   <property name="announce2header" value="${tools.dir}/announcement2header.xsl"/>
