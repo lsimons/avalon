@@ -40,11 +40,11 @@ import org.apache.tools.ant.types.FileList;
 import org.apache.tools.ant.types.DirSet;
 import org.apache.tools.ant.types.Path;
 
-import org.apache.avalon.tools.home.Context;
-import org.apache.avalon.tools.home.Home;
-import org.apache.avalon.tools.project.Plugin;
-import org.apache.avalon.tools.project.Definition;
-import org.apache.avalon.tools.project.ResourceRef;
+import org.apache.avalon.tools.model.Context;
+import org.apache.avalon.tools.model.Home;
+import org.apache.avalon.tools.model.Plugin;
+import org.apache.avalon.tools.model.Definition;
+import org.apache.avalon.tools.model.ResourceRef;
 
 /**
  * Build a set of projects taking into account dependencies within the 

@@ -34,10 +34,10 @@ import org.apache.tools.ant.types.Environment;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.Path;
 
-import org.apache.avalon.tools.home.Home;
-import org.apache.avalon.tools.project.Definition;
-import org.apache.avalon.tools.project.Policy;
-import org.apache.avalon.tools.home.Context;
+import org.apache.avalon.tools.model.Home;
+import org.apache.avalon.tools.model.Definition;
+import org.apache.avalon.tools.model.Policy;
+import org.apache.avalon.tools.model.Context;
 
 /**
  * Load a goal. 

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.avalon.tools.home;
+package org.apache.avalon.tools.model;
 
 import java.io.File;
 import java.io.IOException;
@@ -49,11 +49,11 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import org.apache.avalon.tools.project.Definition;
-import org.apache.avalon.tools.project.ResourceRef;
-import org.apache.avalon.tools.project.Resource;
-import org.apache.avalon.tools.project.Plugin;
-import org.apache.avalon.tools.project.XMLDefinitionBuilder;
+import org.apache.avalon.tools.model.Definition;
+import org.apache.avalon.tools.model.ResourceRef;
+import org.apache.avalon.tools.model.Resource;
+import org.apache.avalon.tools.model.Plugin;
+import org.apache.avalon.tools.model.XMLDefinitionBuilder;
 import org.apache.avalon.tools.util.ElementHelper;
 
 /**

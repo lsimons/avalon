@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.avalon.tools.project;
+package org.apache.avalon.tools.model;
 
 import java.io.File;
 import java.util.List;
@@ -24,8 +24,6 @@ import java.util.ArrayList;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.types.Path;
 import org.apache.tools.ant.types.FileSet;
-
-import org.apache.avalon.tools.home.Home;
 
 /**
  * Defintion of a project. 

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.avalon.tools.home;
+package org.apache.avalon.tools.model;
 
 
 /**

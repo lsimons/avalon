@@ -29,16 +29,16 @@ import org.apache.tools.ant.Project;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.taskdefs.Mkdir;
 
-import org.apache.avalon.tools.home.Home;
-import org.apache.avalon.tools.home.Context;
-import org.apache.avalon.tools.project.Definition;
-import org.apache.avalon.tools.project.Resource;
-import org.apache.avalon.tools.project.ResourceRef;
-import org.apache.avalon.tools.project.Info;
-import org.apache.avalon.tools.project.Policy;
-import org.apache.avalon.tools.project.Plugin;
-import org.apache.avalon.tools.project.Plugin.TaskDef;
-import org.apache.avalon.tools.project.Plugin.ListenerDef;
+import org.apache.avalon.tools.model.Home;
+import org.apache.avalon.tools.model.Context;
+import org.apache.avalon.tools.model.Definition;
+import org.apache.avalon.tools.model.Resource;
+import org.apache.avalon.tools.model.ResourceRef;
+import org.apache.avalon.tools.model.Info;
+import org.apache.avalon.tools.model.Policy;
+import org.apache.avalon.tools.model.Plugin;
+import org.apache.avalon.tools.model.Plugin.TaskDef;
+import org.apache.avalon.tools.model.Plugin.ListenerDef;
 
 /**
  * Load a plugin.
