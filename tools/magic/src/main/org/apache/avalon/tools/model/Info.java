@@ -97,7 +97,21 @@ public class Info
     */
     public String getVersion()
     {
-        return m_version;
+        if( isaSnapshot() )
+        {
+            if( null == m_version )
+            {
+                return "DEV";
+            }
+            else
+            {
+                return m_version + "-DEV";
+            }
+        }
+        else
+        {
+            return m_version;
+        }
     }
 
    /**
