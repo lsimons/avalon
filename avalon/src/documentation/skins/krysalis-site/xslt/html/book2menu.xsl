@@ -5,49 +5,36 @@
 
   <xsl:param name="resource"/>
 
-  <xsl:template match="book">
+  <xsl:template match="project">
     <menu>
       <xsl:apply-templates/>
     </menu>
   </xsl:template>
 
-  <xsl:template match="project">
-  </xsl:template>
-<!--
-  <xsl:template match="menu[position()=1]">
+  <xsl:template match="body">
     <xsl:apply-templates/>
   </xsl:template>
--->
+  
   <xsl:template match="menu">
     <div id="submenu">
-      <h4><xsl:value-of select="@label"/></h4>
+      <h4><xsl:value-of select="@name"/></h4>
        <ul>      
         <xsl:apply-templates/>
       </ul>     
     </div>     
   </xsl:template>
 
-  <xsl:template match="menu-item">
-   <xsl:if test="not(@type) or @type!='hidden'">
+  <xsl:template match="item">
     <li> 
        <xsl:choose>
          <xsl:when test="@href=$resource">
-          <xsl:value-of select="@label"/>
+          <xsl:value-of select="@name"/>
          </xsl:when>
          <xsl:otherwise>
-          <a href="{@href}"><xsl:value-of select="@label"/></a>
+          <a href="{@href}"><xsl:value-of select="@name"/></a>
         </xsl:otherwise>
        </xsl:choose>
      </li>  
-   </xsl:if>
-  </xsl:template>
-
-  <xsl:template match="external">
-    <xsl:if test="not(@type) or @type!='hidden'">
-     <li>
-      <a href="{@href}"><xsl:value-of select="@label"/></a>
-     </li> 
-    </xsl:if>
   </xsl:template>
 
   <xsl:template match="node()|@*" priority="-1"/>
