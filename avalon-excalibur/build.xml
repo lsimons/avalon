@@ -451,7 +451,7 @@ Legal:
 
   <target name="jar-clutil" depends="compile-clutil">
     <mkdir dir="${build.lib}"/>
-    <jar jarfile="${build.lib}/clutil.jar" basedir="${build.classes}" compress="${compress.jars}">
+    <jar jarfile="${build.lib}/excalibur-cli.jar" basedir="${build.classes}" compress="${compress.jars}">
       <include name="org/apache/avalon/excalibur/cli/*" />
       <exclude name="org/apache/avalon/excalibur/cli/test/*" />
     </jar>
