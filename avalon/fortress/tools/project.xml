@@ -28,8 +28,14 @@ Tools for working with Avalon-Fortress.
             <version>1.1</version>
         </dependency>
         <dependency>
-            <id>excalibur-event</id>
-            <version>1.0.3</version>
+            <groupId>excalibur-event</groupId>
+            <artifactId>excalibur-event-api</artifactId>
+            <version>1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>excalibur-event</groupId>
+            <artifactId>excalibur-event-impl</artifactId>
+            <version>1.1</version>
         </dependency>
         <dependency>
             <id>excalibur-lifecycle</id>
@@ -55,6 +61,18 @@ Tools for working with Avalon-Fortress.
         <dependency>
             <id>excalibur-i18n</id>
             <version>1.1</version>
+        </dependency>
+        <dependency>
+            <id>excalibur-xmlutil</id>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <id>excalibur-pool</id>
+            <version>1.2</version>
+        </dependency>
+        <dependency>
+            <id>excalibur-monitor</id>
+            <version>1.0</version>
         </dependency>
         <dependency>
             <id>commons-collections</id>
