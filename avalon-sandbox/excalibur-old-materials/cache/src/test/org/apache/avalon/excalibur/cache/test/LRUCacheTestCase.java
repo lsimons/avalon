@@ -7,7 +7,6 @@
  */
 package org.apache.avalon.excalibur.cache.test;
 
-import junit.framework.TestCase;
 import org.apache.avalon.excalibur.cache.Cache;
 import org.apache.avalon.excalibur.cache.LRUCache;
 
@@ -17,11 +16,16 @@ import org.apache.avalon.excalibur.cache.LRUCache;
  * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>
  */
 public class LRUCacheTestCase
-    extends TestCase
+    extends AbstractCacheTestCase
 {
     public LRUCacheTestCase( final String name )
     {
         super( name );
+    }
+
+    protected void setUp()
+    {
+        m_cache = new LRUCache( 10 );
     }
 
     private static final String KEY1 = "key 1";
