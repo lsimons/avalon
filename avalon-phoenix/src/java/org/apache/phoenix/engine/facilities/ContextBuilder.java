@@ -7,22 +7,17 @@
  */
 package org.apache.phoenix.engine.facilities;
 
-import org.apache.avalon.AbstractLoggable;
-import org.apache.avalon.atlantis.Facility;
+import org.apache.avalon.Component;
+import org.apache.avalon.Context;
 import org.apache.avalon.camelot.Entry;
-import org.apache.log.Logger;
 
 /**
- * Component responsible for building logger for entry.
+ * Component responsible for building context information for entry.
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
-public class DefaultLoggerBuilder
-    extends AbstractLoggable
-    implements LoggerBuilder, Facility
+public interface ContextBuilder
+    extends Component
 {
-    public Logger createLogger( final String name, final Entry entry )
-    {
-        return  getLogger().getChildLogger( name );
-    }
+    Context createContext( String name, Entry entry );
 }

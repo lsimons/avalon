@@ -25,14 +25,11 @@ import org.apache.avalon.camelot.AbstractContainer;
 import org.apache.avalon.camelot.ContainerException;
 import org.apache.avalon.camelot.Entry;
 import org.apache.avalon.camelot.Factory;
-import org.apache.avalon.camelot.pipeline.AvalonState;
-import org.apache.avalon.camelot.pipeline.ComponentBuilder;
-import org.apache.avalon.camelot.pipeline.ComponentManagerBuilder;
-import org.apache.avalon.camelot.pipeline.ConfigurationRepository;
-import org.apache.avalon.camelot.pipeline.ContextBuilder;
-import org.apache.avalon.camelot.pipeline.LoggerBuilder;
-import org.apache.avalon.camelot.pipeline.ShutdownPipeline;
-import org.apache.avalon.camelot.pipeline.StartupPipeline;
+import org.apache.phoenix.engine.facilities.ComponentBuilder;
+import org.apache.phoenix.engine.facilities.ComponentManagerBuilder;
+import org.apache.phoenix.engine.facilities.ConfigurationRepository;
+import org.apache.phoenix.engine.facilities.ContextBuilder;
+import org.apache.phoenix.engine.facilities.LoggerBuilder;
 import org.apache.avalon.configuration.Configurable;
 import org.apache.avalon.configuration.Configuration;
 import org.apache.avalon.configuration.ConfigurationException;
@@ -49,9 +46,9 @@ import org.apache.phoenix.engine.facilities.DefaultLoggerBuilder;
 import org.apache.phoenix.engine.facilities.security.DefaultPolicy;
 import org.apache.phoenix.engine.facilities.DefaultThreadManager;
 import org.apache.phoenix.engine.facilities.classmanager.SarClassLoader;
-import org.apache.phoenix.engine.phases.DefaultPhase;
+import org.apache.phoenix.engine.phases.ShutdownPhase;
+import org.apache.phoenix.engine.phases.StartupPhase;
 import org.apache.phoenix.engine.phases.Phase;
-import org.apache.phoenix.engine.phases.Traversal;
 import org.apache.phoenix.metainfo.DependencyDescriptor;
 
 /**
@@ -123,19 +120,8 @@ public class DefaultServerApplication
     protected void initPhases()
         throws ApplicationException
     {
-        Phase phase = null;
-
-        phase = new DefaultPhase( Phase.FORWARD,
-                                  new StartupPipeline(),
-                                  AvalonState.BASE,
-                                  AvalonState.RUNNING );
-        m_phases.put( "startup", phase );
-
-        phase = new DefaultPhase( Phase.REVERSE,
-                                  new ShutdownPipeline(),
-                                  AvalonState.RUNNING,
-                                  AvalonState.DISPOSED );
-        m_phases.put( "shutdown", phase );
+        m_phases.put( "startup", new StartupPhase() );
+        m_phases.put( "shutdown", new ShutdownPhase() );
     }
 
     protected void setupPhases()
@@ -375,18 +361,18 @@ public class DefaultServerApplication
     protected ComponentManager createComponentManager()
     {
         final DefaultComponentManager componentManager = new DefaultComponentManager();
-        componentManager.put( "org.apache.phoenix.engine.ServerApplication", this );
+        componentManager.put( "org.apache.avalon.camelot.Container", this );
         componentManager.put( "java.security.Policy", m_policy );
         componentManager.put( "java.lang.ClassLoader", m_classLoader );
         componentManager.put( "NOT_DONE_YET", m_logManager );
         componentManager.put( "org.apache.avalon.util.thread.ThreadManager", m_threadManager );
-        componentManager.put( "org.apache.avalon.camelot.pipeline.ContextBuilder", m_contextBuilder );
-        componentManager.put( "org.apache.avalon.camelot.pipeline.LoggerBuilder", m_loggerBuilder );
-        componentManager.put( "org.apache.avalon.camelot.pipeline.ComponentBuilder",
+        componentManager.put( "org.apache.phoenix.engine.facilities.ContextBuilder", m_contextBuilder );
+        componentManager.put( "org.apache.phoenix.engine.facilities.LoggerBuilder", m_loggerBuilder );
+        componentManager.put( "org.apache.phoenix.engine.facilities.ComponentBuilder",
                               m_componentBuilder );
-        componentManager.put( "org.apache.avalon.camelot.pipeline.ComponentManagerBuilder",
+        componentManager.put( "org.apache.phoenix.engine.facilities.ComponentManagerBuilder",
                               m_componentManagerBuilder );
-        componentManager.put( "org.apache.avalon.camelot.pipeline.ConfigurationRepository",
+        componentManager.put( "org.apache.phoenix.engine.facilities.ConfigurationRepository",
                               m_configurationRepository );
 
         return componentManager;

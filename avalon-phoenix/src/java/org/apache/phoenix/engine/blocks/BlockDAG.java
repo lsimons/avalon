@@ -12,7 +12,7 @@ import org.apache.avalon.AbstractLoggable;
 import org.apache.avalon.ComponentManager;
 import org.apache.avalon.ComponentManagerException;
 import org.apache.avalon.Composer;
-import org.apache.avalon.atlantis.Application;
+import org.apache.avalon.camelot.Container;
 import org.apache.avalon.camelot.ContainerException;
 import org.apache.phoenix.Block;
 import org.apache.phoenix.metainfo.DependencyDescriptor;
@@ -27,13 +27,12 @@ public class BlockDAG
     extends AbstractLoggable
     implements Composer
 {
-    protected Application       m_application;
+    protected Container       m_container;
 
     public void compose( final ComponentManager componentManager )
         throws ComponentManagerException
     {
-        m_application = (Application)componentManager.
-            lookup( "org.apache.phoenix.engine.ServerApplication" );
+        m_container = (Container)componentManager.lookup( "org.apache.avalon.camelot.Container" );
     }
 
     public void walkGraph( final String root, final BlockVisitor visitor )
@@ -51,7 +50,7 @@ public class BlockDAG
     protected BlockEntry getBlockEntry( final String name )
         throws Exception
     {
-        return (BlockEntry)m_application.getEntry( name );
+        return (BlockEntry)m_container.getEntry( name );
         //catch( final ContainerException ce )
     }
 
@@ -98,7 +97,7 @@ public class BlockDAG
     {
         getLogger().debug( "Traversing reverse dependencies for " + name );
 
-        final Iterator entries = m_application.list();
+        final Iterator entries = m_container.list();
         while( entries.hasNext() )
         {
             final String blockName = (String)entries.next();

@@ -11,11 +11,10 @@ import org.apache.avalon.ComponentManager;
 import org.apache.avalon.ComponentManagerException;
 import org.apache.avalon.Composer;
 import org.apache.avalon.DefaultComponentManager;
-import org.apache.avalon.atlantis.Application;
+import org.apache.avalon.camelot.Container;
 import org.apache.avalon.atlantis.Facility;
 import org.apache.avalon.camelot.ContainerException;
 import org.apache.avalon.camelot.Entry;
-import org.apache.avalon.camelot.pipeline.ComponentManagerBuilder;
 import org.apache.avalon.component.ComponentException;
 import org.apache.phoenix.engine.blocks.BlockEntry;
 import org.apache.phoenix.engine.blocks.RoleEntry;
@@ -32,13 +31,12 @@ public class DefaultComponentManagerBuilder
     implements Facility, ComponentManagerBuilder, Composer
 {
     //container to get dependencies from
-    protected Application        m_application;
+    protected Container        m_container;
 
     public void compose( final ComponentManager componentManager )
         throws ComponentManagerException
     {
-        m_application = (Application)componentManager.
-            lookup( "org.apache.phoenix.engine.ServerApplication" );
+        m_container = (Container)componentManager.lookup( "org.apache.avalon.camelot.Container" );
     }
 
     /**
@@ -67,7 +65,7 @@ public class DefaultComponentManagerBuilder
                 //dependency should NEVER be null here as it
                 //is validated at entry time
                 final BlockEntry dependency =
-                    (BlockEntry)m_application.getEntry( dependencyName );
+                    (BlockEntry)m_container.getEntry( dependencyName );
 
                 //make sure that the block offers service it supposed to be providing
                 final ServiceDescriptor[] services = dependency.getBlockInfo().getServices();

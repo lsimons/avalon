@@ -7,8 +7,7 @@
  */
 package org.apache.phoenix.engine.facilities;
 
-import org.apache.avalon.AbstractLoggable;
-import org.apache.avalon.atlantis.Facility;
+import org.apache.avalon.Component;
 import org.apache.avalon.camelot.Entry;
 import org.apache.log.Logger;
 
@@ -17,12 +16,8 @@ import org.apache.log.Logger;
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
-public class DefaultLoggerBuilder
-    extends AbstractLoggable
-    implements LoggerBuilder, Facility
+public interface LoggerBuilder
+    extends Component
 {
-    public Logger createLogger( final String name, final Entry entry )
-    {
-        return  getLogger().getChildLogger( name );
-    }
+    Logger createLogger( String name, Entry entry );
 }
