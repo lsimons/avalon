@@ -428,7 +428,7 @@ Legal:
   </target>
 
   <!-- Makes the Phoneix Development Kit -->
-  <target name="make-pdk" depends="jars" description="Generates thd PDK distribution">
+  <target name="make-pdk" depends="jars" description="Generates the PDK distribution">
 
     <mkdir dir="${dist.base}"/>
     <zip file="${dist.base}/phoenix-developers-kit.zip">
