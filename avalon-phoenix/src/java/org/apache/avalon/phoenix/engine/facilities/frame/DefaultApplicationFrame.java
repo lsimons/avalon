@@ -9,12 +9,10 @@ package org.apache.avalon.phoenix.engine.facilities.frame;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.Policy;
 import java.util.ArrayList;
 import java.util.HashMap;
-import org.apache.avalon.excalibur.io.ExtensionFileFilter;
 import org.apache.avalon.excalibur.thread.DefaultThreadPool;
 import org.apache.avalon.excalibur.thread.ThreadPool;
 import org.apache.avalon.excalibur.thread.ThreadPool;
@@ -65,11 +63,15 @@ public class DefaultApplicationFrame
     ///ClassLoader for application
     private ClassLoader  m_classLoader;
 
+    ///Classpath for application
+    private URL[]        m_classPath;
+
     public void contextualize( final Context context )
         throws ContextException
     {
         m_name = (String)context.get( "app.name" );
         m_baseDirectory = (File)context.get( "app.home" );
+        m_classPath = (URL[])context.get( "app.class.path" );
     }
 
     /**
@@ -106,9 +108,8 @@ public class DefaultApplicationFrame
     public void initialize()
         throws Exception
     {
-        final URL[] classPath = getClassPath();
         final ClassLoader parentClassLoader = Thread.currentThread().getContextClassLoader();
-        m_classLoader = new PolicyClassLoader( classPath, parentClassLoader, m_policy );
+        m_classLoader = new PolicyClassLoader( m_classPath, parentClassLoader, m_policy );
     }
 
     /**
@@ -304,46 +305,6 @@ public class DefaultApplicationFrame
             {
                 logger.setPriority( priority );
                 logger.setLogTargets( new LogTarget[] { logTarget } );
-            }
-        }
-    }
-
-    /**
-     * Get Classpath for application.
-     *
-     * @return the list of URLs in ClassPath
-     */
-    private URL[] getClassPath()
-    {
-        final File blockDir = new File( m_baseDirectory, "blocks" );
-        final File libDir = new File( m_baseDirectory, "lib" );
-
-        final ArrayList urls = new ArrayList();
-        getURLs( urls, blockDir, new String[] { ".bar" } );
-        getURLs( urls, libDir, new String[] { ".jar", ".zip" } );
-
-        return (URL[])urls.toArray( new URL[0] );
-    }
-
-    /**
-     * Add all matching files in directory to url list.
-     *
-     * @param urls the url list
-     * @param directory the directory to scan
-     * @param extentions the list of extensions to match
-     * @exception MalformedURLException if an error occurs
-     */
-    private void getURLs( final ArrayList urls, final File directory, final String[] extensions )
-    {
-        final ExtensionFileFilter filter = new ExtensionFileFilter( extensions );
-        final File[] files = directory.listFiles( filter );
-        if( null == files ) return;
-        for( int i = 0; i < files.length; i++ )
-        {
-            try { urls.add( files[ i ].toURL() ); }
-            catch( final MalformedURLException mue )
-            {
-                //should never occur
             }
         }
     }

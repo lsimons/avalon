@@ -9,10 +9,12 @@ package org.apache.avalon.phoenix.engine;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
+import org.apache.avalon.excalibur.io.ExtensionFileFilter;
 import org.apache.avalon.excalibur.io.FileUtil;
 import org.apache.avalon.excalibur.io.InvertedFileFilter;
 import org.apache.avalon.excalibur.io.PrefixFileFilter;
@@ -33,9 +35,10 @@ import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.avalon.framework.logger.AbstractLoggable;
 import org.apache.avalon.phoenix.engine.blocks.BlockEntry;
 import org.apache.avalon.phoenix.engine.blocks.RoleEntry;
+import org.apache.avalon.phoenix.engine.facilities.ConfigurationRepository;
 
 /**
- * This class deploys a .sar file.
+ * Deploy .sar files into a kernel using this class.
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
@@ -52,9 +55,10 @@ public class DefaultSarDeployer
 
     private final DefaultConfigurationBuilder  m_builder  = new DefaultConfigurationBuilder();
 
-    private File            m_deployDirectory;
-    private Container       m_container;
-    private ZipExpander     m_expander         = new ZipExpander();
+    private File                     m_deployDirectory;
+    private Container                m_container;
+    private ConfigurationRepository  m_repository;
+    private ZipExpander              m_expander         = new ZipExpander();
 
     /**
      * Retrieve relevent services needed to deploy.
@@ -66,34 +70,60 @@ public class DefaultSarDeployer
         throws ComponentException
     {
         m_container = (Container)componentManager.lookup( Container.ROLE );
+        m_repository = (ConfigurationRepository)componentManager.lookup( ConfigurationRepository.ROLE );
     }
 
-    public void undeploy( final String location )
+    /**
+     * undeploy an application.
+     * Currently not implemented.
+     *
+     * @param name the name of deployment
+     * @exception DeploymentException if an error occurs
+     */
+    public void undeploy( final String name )
         throws DeploymentException
     {
         final String message = REZ.getString( "deploy.error.undeploy.unsupported" );
         throw new DeploymentException( message );
     }
 
-    public void deploy( final String location, final URL url )
+    /**
+     * Deploy a named application from a url.
+     * The URL represents location of deployment archive.
+     *
+     * @param name the  name of application
+     * @param url the URL of deployment
+     * @exception DeploymentException if an error occurs
+     */
+    public void deploy( final String name, final URL url )
         throws DeploymentException
     {
         final File file = getFileFor( url );
-        final String message = REZ.format( "deploy.notice.deploying", file, location );
+        final String message = REZ.format( "deploy.notice.deploying", file, name );
         getLogger().info( message );
 
         if( file.isDirectory() )
         {
-            deployFromDirectory( location, file );
+            deployFromDirectory( name, file );
         }
         else
         {
-            final File destination = getDestinationFor( location, file );
+            final File destination = getDestinationFor( name, file );
             expand( file, destination );
-            deployFromDirectory( location, destination );
+            deployFromDirectory( name, destination );
         }
     }
 
+    /**
+     * Get File object for URL.
+     * Currently it assumes that URL is a file URL but in the 
+     * future it will allow downloading of remote URLs thus enabling
+     * a deploy from anywhere functionality.
+     *
+     * @param url the url of deployment
+     * @return the File for deployment
+     * @exception DeploymentException if an error occurs
+     */
     private File getFileFor( final URL url )
         throws DeploymentException
     {
@@ -115,6 +145,13 @@ public class DefaultSarDeployer
         return file;
     }
 
+    /**
+     * Expand file to destination directory.
+     *
+     * @param file the archive to expand
+     * @param destination the destination to expand to
+     * @exception DeploymentException if an error occurs
+     */
     private void expand( final File file, final File destination )
         throws DeploymentException
     {
@@ -122,7 +159,7 @@ public class DefaultSarDeployer
         {
             final String message = REZ.format( "deploy.notice.expanding", file, destination );
             getLogger().info( message );
-            
+
             final InvertedFileFilter filter =
                 new InvertedFileFilter( new PrefixFileFilter( "META-INF" ) );
             m_expander.expand( file, destination, filter );
@@ -132,69 +169,117 @@ public class DefaultSarDeployer
             final String message = REZ.format( "deploy.error.expanding", file, destination );
             throw new DeploymentException( message, ioe );
         }
-        
+
         final String message = REZ.format( "deploy.notice.expanded", file, destination );
-        getLogger().info( message );        
+        getLogger().info( message );
     }
 
-    private File getDestinationFor( final String location, final File file )
+    /**
+     * Get destination that .sar should be expanded to.
+     *
+     * @param name the name of server application
+     * @param file the file object representing .sar archive
+     * @return the destination to expand archive
+     */
+    private File getDestinationFor( final String name, final File file )
     {
-        final String name =
+        final String base =
             FileUtil.removeExtension( FileUtil.removePath( file.getName() ) );
 
         if( null != m_deployDirectory )
         {
-            return (new File( m_deployDirectory, name )).getAbsoluteFile();
+            return (new File( m_deployDirectory, base )).getAbsoluteFile();
         }
         else
         {
-            return (new File( file.getParentFile(), name )).getAbsoluteFile();
+            return (new File( file.getParentFile(), base )).getAbsoluteFile();
         }
     }
 
-    private void buildEntry( final String name,
-                             final ServerApplicationEntry entry,
-                             final File directory )
-        throws DeploymentException
-    {
-        entry.setHomeDirectory( directory );
-
-        //setup the ServerApplications configuration manager
-        final File file = new File( directory, SERVER_XML );
-        final Configuration configuration = getConfigurationFor( file );
-        entry.setConfiguration( configuration );
-    }
-
+    /**
+     * Deploy an application from a directory.
+     *
+     * @param name the name of application
+     * @param directory the directory to deploy from
+     * @exception DeploymentException if an error occurs
+     */
     private void deployFromDirectory( final String name, final File directory )
         throws DeploymentException
     {
         final ServerApplicationEntry entry = new ServerApplicationEntry();
-        buildEntry( name, entry, directory );
-        addEntry( name, entry );
+        entry.setHomeDirectory( directory );
 
-        Application application = null;
-        try { application = ((Kernel)m_container).getApplication( name ); }
-        catch( final ContainerException ce )
-        {
-            throw new DeploymentException( ce.getMessage(), ce );
-        }
-
-        final File blocksDirectory = new File( directory, "blocks" );
-
-        File file = new File( directory, ASSEMBLY_XML );
-
+        //Loader server.xml for application
+        File file = new File( directory, SERVER_XML );
         Configuration configuration = getConfigurationFor( file );
-        final Configuration[] blocks = configuration.getChildren( "block" );
-        final BlockEntry[] blockEntrys = assembleBlocks( application, entry, blocks );
+        entry.setConfiguration( configuration );
 
+        //Setup applications classpath
+        final URL[] urls = getClassPath( directory );
+        entry.setClassPath( urls );
+
+        //assemble all the blocks for application
+        file = new File( directory, ASSEMBLY_XML );
+        configuration = getConfigurationFor( file );
+        final Configuration[] blocks = configuration.getChildren( "block" );
+        final BlockEntry[] blockEntrys = assembleBlocks( entry, blocks );
         entry.setBlockEntrys( blockEntrys );
 
+        //Setup configuration for all the applications blocks
         file = new File( directory, CONFIG_XML );
-
         configuration = getConfigurationFor( file );
-        configureBlocks( entry, configuration.getChildren() );
+        configureBlocks( name, entry, configuration.getChildren() );
+
+        //Finally add application to kernel
+        addEntry( name, entry );
     }
 
+    /**
+     * Get Classpath for application.
+     *
+     * @return the list of URLs in ClassPath
+     */
+    private URL[] getClassPath( final File directory )
+    {
+        final File blockDir = new File( directory, "blocks" );
+        final File libDir = new File( directory, "lib" );
+
+        final ArrayList urls = new ArrayList();
+        getURLs( urls, blockDir, new String[] { ".bar" } );
+        getURLs( urls, libDir, new String[] { ".jar", ".zip" } );
+        return (URL[])urls.toArray( new URL[0] );
+    }
+
+    /**
+     * Add all matching files in directory to url list.
+     *
+     * @param urls the url list
+     * @param directory the directory to scan
+     * @param extentions the list of extensions to match
+     * @exception MalformedURLException if an error occurs
+     */
+    private void getURLs( final ArrayList urls, final File directory, final String[] extensions )
+    {
+        final ExtensionFileFilter filter = new ExtensionFileFilter( extensions );
+        final File[] files = directory.listFiles( filter );
+        if( null == files ) return;
+        for( int i = 0; i < files.length; i++ )
+        {
+            try { urls.add( files[ i ].toURL() ); }
+            catch( final MalformedURLException mue )
+            {
+                //should never occur
+            }
+        }
+    }
+
+    /**
+     * Add server application entry to kernel.
+     *
+     * @param name the name of application
+     * @param entry the entry
+     * @exception DeploymentException if an error occurs
+     */
     private void addEntry( final String name, final ServerApplicationEntry entry )
         throws DeploymentException
     {
@@ -212,6 +297,13 @@ public class DefaultSarDeployer
         getLogger().debug( message );
     }
 
+    /**
+     * Helper method to load configuration data.
+     *
+     * @param file the source of configuration data
+     * @return the Configuration
+     * @exception DeploymentException if an error occurs
+     */
     private Configuration getConfigurationFor( final File file )
         throws DeploymentException
     {
@@ -226,8 +318,15 @@ public class DefaultSarDeployer
         }
     }
 
-    private BlockEntry[] assembleBlocks( final Application application,
-                                         final ServerApplicationEntry saEntry,
+    /**
+     * Process assembly.xml and create a list of BlockEntrys.
+     *
+     * @param saEntry the ServerApplication Entry
+     * @param blocks the assembly data for blocks
+     * @return the  created BlockEntrys
+     * @exception DeploymentException if an error occurs
+     */
+    private BlockEntry[] assembleBlocks( final ServerApplicationEntry saEntry,
                                          final Configuration[] blocks )
         throws DeploymentException
     {
@@ -260,6 +359,13 @@ public class DefaultSarDeployer
         return (BlockEntry[])blockEntrys.toArray( new BlockEntry[ 0 ] );
     }
 
+    /**
+     * Helper method to build an array of RoleEntrys from input config data.
+     *
+     * @param provides the set of provides elements for block
+     * @return the created RoleEntry array
+     * @exception ConfigurationException if config data is malformed
+     */
     private RoleEntry[] buildRoleEntrys( final Configuration[] provides )
         throws ConfigurationException
     {
@@ -276,7 +382,16 @@ public class DefaultSarDeployer
         return (RoleEntry[])roleList.toArray( new RoleEntry[ 0 ] );
     }
 
-    private void configureBlocks( final ServerApplicationEntry saEntry,
+    /**
+     * Setup Configuration for all the BlockEntrys in ServerApplication.
+     *
+     * @param appName the name of Application.
+     * @param saEntry the ServerApplication Entry.
+     * @param configurations the block configurations.
+     * @exception DeploymentException if an error occurs
+     */
+    private void configureBlocks( final String appName,
+                                  final ServerApplicationEntry saEntry,
                                   final Configuration[] configurations )
         throws DeploymentException
     {
@@ -286,13 +401,26 @@ public class DefaultSarDeployer
             final String name = configuration.getName();
             final BlockEntry entry = getBlockEntry( name, saEntry.getBlockEntrys() );
 
-            entry.setConfiguration( configuration );
+            try { m_repository.storeConfiguration( appName, name, configuration ); }
+            catch( final ConfigurationException ce )
+            {
+                throw new DeploymentException( ce.getMessage(), ce );
+            }
+            //entry.setConfiguration( configuration );
 
             final String message = REZ.format( "deploy.notice.block.config", name );
             getLogger().debug( message );
         }
     }
 
+    /**
+     * Helper method to get BlockEntry with specified name from an array of BlockEntrys.
+     *
+     * @param name the block entrys name
+     * @param blockEntrys the set of BlockEntry objects to search
+     * @return the BlockEntry
+     * @exception DeploymentException if BlockEntry not found
+     */
     private BlockEntry getBlockEntry( final String name,
                                       final BlockEntry[] blockEntrys )
         throws DeploymentException
