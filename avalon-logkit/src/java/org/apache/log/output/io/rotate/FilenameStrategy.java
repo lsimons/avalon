@@ -10,7 +10,7 @@ package org.apache.log.output.io.rotate;
 import java.io.File;
 
 /**
- * strategy for naming log files.
+ * Strategy for naming log files.
  * For a given base file name an implementation calculates
  * the real file name.
  *
