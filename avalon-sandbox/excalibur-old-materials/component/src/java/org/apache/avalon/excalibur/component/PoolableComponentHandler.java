@@ -81,10 +81,10 @@ import org.apache.avalon.framework.context.Context;
  * Configuration Attributes:
  * <ul>
  * <li>The <code>pool-max</code> attribute is used to set the maximum number of components which
- *  will be pooled.  See the <code>pool-max-scrict</code> and <code>pool-blocking</code>
+ *  will be pooled.  See the <code>pool-max-strict</code> and <code>pool-blocking</code>
  *  attributes.  (Defaults to "8")</li>
  *
- * <li>The <code>pool-max-scrict</code> attribute is used to configure whether the Component
+ * <li>The <code>pool-max-strict</code> attribute is used to configure whether the Component
  *  Manager should allow more than <code>pool-max</code> Poolables to be looked up at the same
  *  time.  Setting this to true will throw an exception if the <code>pool-blocking</code> attribute
  *  is false.  A value of false will allow additional instances of the Component to be created
@@ -94,7 +94,7 @@ import org.apache.avalon.framework.context.Context;
  *  should block or throw an Exception when more than <code>pool-max</code> Poolables are looked
  *  up at the same time.  Setting this to true will cause requests to block until another thread
  *  releases a Poolable back to the Component Manager.  False will cause an exception to be thrown.
- *  This attribute is ignored if <code>pool-max-scrict</code> is false.  (Defaults to "true")</li>
+ *  This attribute is ignored if <code>pool-max-strict</code> is false.  (Defaults to "true")</li>
  *
  * <li>The <code>pool-timeout</code> attribute is used to specify the maximum amount of time in
  *  milliseconds that a lookup will block for if Poolables are unavailable.  If the timeout expires
@@ -123,7 +123,7 @@ import org.apache.avalon.framework.context.Context;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
- * @version CVS $Revision: 1.8 $ $Date: 2003/07/07 16:27:54 $
+ * @version CVS $Revision: 1.9 $ $Date: 2003/07/29 12:43:47 $
  * @since 4.0
  */
 public class PoolableComponentHandler
