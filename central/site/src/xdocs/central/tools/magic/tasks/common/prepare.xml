@@ -9,7 +9,38 @@
   <body>
     <section name="Prepare Task">
       <p>
+      The prepare task converts source input typically under directories 
+      such as ${basedir}/src and ${basedir}/etc into a immutable magic
+      target build structure.  The target build structure is ALWAYS the 
+      same, enabling other projects to access build artifacts is a completely
+      consistent manner without having to parse any local properties.  This
+      has a direct impact on the simplification of tasks and plugins that 
+      work on content in the ${basedir}/target directory.
       </p>
+
+<source><![CDATA[
+    <x:prepare/>
+]]></source>
+
+      <p><i>Outline of the directory structure inputs and outputs
+      assumed by the prepare task (input directories can be modified 
+      by project properties).</i></p> 
+<source>
+${basedir}
+  /etc
+    /main ---- resource to be copied to target/build/main
+    /test ---- resource to be copied to target/build/test
+  /src
+    /main ---- the main java sources
+    /test ---- unit test sources
+
+  /target ---- created by prepare
+    /build --- build src directory
+      /main -- filter sources with etc/main
+      /test -- filter sources with etc/test
+      /etc  -- other etc filtered content
+</source>
+
     </section>
   </body>
 
