@@ -63,18 +63,18 @@ import java.util.Collection;
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @version CVS $Revision: 1.4 $ $Date: 2003/04/04 16:36:51 $
+ * @version CVS $Revision: 1.5 $ $Date: 2003/05/20 20:56:43 $
  */
 public interface TraversableSource extends Source {
 
-	/**
-	 * Is this source a collection, i.e. it possibly has children ?
-	 * For a filesystem-based implementation, this would typically mean that
-	 * this source represents a directory and not a file.
+    /**
+     * Is this source a collection, i.e. it possibly has children ?
+     * For a filesystem-based implementation, this would typically mean that
+     * this source represents a directory and not a file.
      * 
      * @return true if the source exists and is traversable.
-	 */
-	boolean isCollection();
+     */
+    boolean isCollection();
     
     /**
      * Get the children of this source if this source is traversable.
@@ -102,8 +102,8 @@ public interface TraversableSource extends Source {
     
     /**
      * Return the name of this source relative to its parent.
-	 *
-	 * @return the name
+     *
+     * @return the name
      */
     String getName();
     

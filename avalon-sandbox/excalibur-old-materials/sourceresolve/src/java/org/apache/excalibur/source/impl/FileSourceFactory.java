@@ -65,8 +65,13 @@ import org.apache.excalibur.source.SourceFactory;
 /**
  * A factory for filesystem-based sources (see {@link FileSource}).
  * 
+ * @avalon.component
+ * @avalon.service type=SourceFactory
+ * @x-avalon.info name=file-source
+ * @x-avalon.lifestyle type=singleton
+ * 
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @version $Id: FileSourceFactory.java,v 1.1 2003/04/04 16:36:51 sylvain Exp $
+ * @version $Id: FileSourceFactory.java,v 1.2 2003/05/20 20:56:43 bloritsch Exp $
  */
 public class FileSourceFactory implements SourceFactory, ThreadSafe
 {

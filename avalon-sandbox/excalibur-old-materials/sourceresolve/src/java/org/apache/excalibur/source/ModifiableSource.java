@@ -75,16 +75,16 @@ import java.io.OutputStream;
 public interface ModifiableSource
     extends Source
 {
-	/**
-	 * Return an {@link OutputStream} to write to.
-	 */
-	OutputStream getOutputStream() throws IOException;
-	
-	/**
-	 * Delete the source 
-	 * @return true if the source could be deleted
-	 */
-	void delete() throws SourceException;
+    /**
+     * Return an {@link OutputStream} to write to.
+     */
+    OutputStream getOutputStream() throws IOException;
+    
+    /**
+     * Delete the source 
+     * @return true if the source could be deleted
+     */
+    void delete() throws SourceException;
 
     /**
      * Can the data sent to an <code>OutputStream</code> returned by
@@ -101,5 +101,5 @@ public interface ModifiableSource
      * After cancel, the stream should no more be used.
      */
     void cancel(OutputStream stream) throws IOException;
-	
+    
 }

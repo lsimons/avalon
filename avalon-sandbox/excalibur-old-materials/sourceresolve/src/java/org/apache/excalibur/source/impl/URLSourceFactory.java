@@ -66,10 +66,15 @@ import org.apache.excalibur.source.SourceFactory;
 
 /**
  * A factory for a {@link URL} wrapper
+ * 
+ * @avalon.component
+ * @avalon.service type=SourceFactory
+ * @x-avalon.info name=url-source
+ * @x-avalon.lifestyle type=singleton
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @version $Id: URLSourceFactory.java,v 1.4 2003/04/04 16:36:52 sylvain Exp $
+ * @version $Id: URLSourceFactory.java,v 1.5 2003/05/20 20:56:43 bloritsch Exp $
  */
 public class URLSourceFactory extends AbstractLogEnabled implements SourceFactory, ThreadSafe
 {

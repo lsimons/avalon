@@ -89,10 +89,15 @@ import org.apache.excalibur.source.SourceUtil;
  * as the base URI instead.
  *
  * @see org.apache.excalibur.source.SourceResolver
+ * 
+ * @avalon.component
+ * @avalon.service type=SourceResolver
+ * @x-avalon.info name=resolver
+ * @x-avalon.lifestyle type=singleton
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: SourceResolverImpl.java,v 1.30 2003/04/04 16:36:51 sylvain Exp $
+ * @version $Id: SourceResolverImpl.java,v 1.31 2003/05/20 20:56:43 bloritsch Exp $
  */
 public class SourceResolverImpl
     extends AbstractLogEnabled
