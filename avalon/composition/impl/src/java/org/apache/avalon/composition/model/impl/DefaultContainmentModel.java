@@ -48,6 +48,7 @@ import org.apache.avalon.composition.model.AssemblyException;
 import org.apache.avalon.composition.model.ClassLoaderContext;
 import org.apache.avalon.composition.model.ClassLoaderModel;
 import org.apache.avalon.composition.model.ContainmentModel;
+import org.apache.avalon.composition.model.ComponentContext;
 import org.apache.avalon.composition.model.ContainmentContext;
 import org.apache.avalon.composition.model.ContextModel;
 import org.apache.avalon.composition.model.DependencyModel;
@@ -55,6 +56,7 @@ import org.apache.avalon.composition.model.DependencyGraph;
 import org.apache.avalon.composition.model.ComponentModel;
 import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.model.ModelException;
+import org.apache.avalon.composition.model.ModelFactory;
 import org.apache.avalon.composition.model.ModelRuntimeException;
 import org.apache.avalon.composition.model.ModelRepository;
 import org.apache.avalon.composition.model.ModelSelector;
@@ -91,7 +93,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * as a part of a containment deployment model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.26 $ $Date: 2004/02/07 17:41:28 $
+ * @version $Revision: 1.27 $ $Date: 2004/02/07 17:46:24 $
  */
 public class DefaultContainmentModel extends DefaultDeploymentModel 
   implements ContainmentModel
