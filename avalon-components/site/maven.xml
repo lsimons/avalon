@@ -20,8 +20,8 @@
         <j:forEach var="packageGroup" items="${pom.packageGroups}">
       	  <group title="${packageGroup.title}" packages="${packageGroup.packages}"/>
         </j:forEach>
-        <sourcepath path="${basedir}/../threads/threads-api/src/java"/>
-        <sourcepath path="${basedir}/../threads/threads-impl/src/java"/>
+        <sourcepath path="${basedir}/../threads/api/src/java"/>
+        <sourcepath path="${basedir}/../threads/impl/src/java"/>
         <classpath>
           <path refid="maven.dependency.classpath"/>
 	  </classpath>
