@@ -21,7 +21,10 @@ import java.util.Stack;
  */
 public class ContextStack 
 {
+    ///Thread local for holding instance of stack associated with current thread
     private static final ThreadLocal c_context   = new ThreadLocal();
+
+    ///Container to hold stack of elements
     private Stack                    m_stack     = new Stack();
 
     /**
@@ -110,5 +113,53 @@ public class ContextStack
     public int getSize()
     {
         return m_stack.size();
+    }
+
+    /**
+     * Format context stack into a string.
+     * Each element in stack is printed out, separated by a '.' character.
+     *
+     * @return the string describing context stack
+     */
+    public String toString()
+    {
+        return toString( getSize() );
+    }
+
+    /**
+     * Format context stack into a string.
+     * Only write a maximum of count elements, separated by '.' separator.
+     * Note that elements in stack will have toString() called and every occurence
+     * of spearator character '.' replaced with '_'.
+     *
+     * @return the string describing context stack
+     */
+    public String toString( final int count )
+    {
+        final StringBuffer sb = new StringBuffer();
+
+        final int end = getSize() - 1;
+        final int start = Math.max( end - count + 1, 0 );
+
+        for( int i = start; i < end; i++ )
+        {
+            sb.append( fix( get( i ).toString() ) );
+            sb.append( '.' );
+        }
+
+        sb.append( fix( get( end ).toString() ) );
+
+        return sb.toString();
+    }
+
+    /**
+     * Correct a context string by replacing separators '.' with a '_'.
+     *
+     * @param context the un-fixed context
+     * @return the fixed context
+     */
+    private String fix( final String context )
+    {
+        return context.replace( '.', '_' );
     }
 }
