@@ -136,6 +136,17 @@ public class CodeSecurityDisabledTestCase extends AbstractTestCase
             throw new Exception( message );
         }
 
+        try
+        {
+            test.setJavaVersion( "1.0.2" ); 
+        }
+        catch( Throwable e )
+        {
+            final String error = "CodeSecurityTest primary failure.";
+            final String message = ExceptionHelper.packException( error, e, true );
+            getLogger().error( message );
+            throw new Exception( message );
+        }
     }
 
     private TestService setupTestService() throws Exception

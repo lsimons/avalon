@@ -85,4 +85,9 @@ public interface TestService
     * Returns the version of the Java Virtual Machine.
     **/
     String getJavaVersion();
+
+    /** 
+    * Sets the version of the Java Virtual Machine.
+    **/
+    void setJavaVersion( String newVer );
 }
