@@ -209,6 +209,8 @@
             <include name="**/*.java"/>
             <exclude name="**/Log4J*"
                      unless="log4j.present"/>
+            <exclude name="**/LF5TargetFactory.java*"
+                     unless="log4j.present"/>
             <exclude name="org/apache/avalon/excalibur/logger/factory/ServletTargetFactory.java"
                      unless="servlet.present"/>
             <exclude name="org/apache/avalon/excalibur/logger/factory/JMSTargetFactory.java"
@@ -254,6 +256,8 @@
                      unless="log4j.present"/>
             <exclude name="org/apache/avalon/excalibur/logger/factory/ServletTargetFactory.java"
                      unless="servlet.present"/>
+            <exclude name="org/apache/avalon/excalibur/logger/factory/LF5TargetFactory.java"
+                     unless="log4j.present"/>
             <exclude name="org/apache/avalon/excalibur/logger/factory/JMSTargetFactory.java"
                      unless="jms.present"/>
             <exclude name="org/apache/avalon/excalibur/logger/factory/JDBCTargetFactory.java"
