@@ -265,35 +265,42 @@
     <target name="clean">
         <delete dir="${build.dir}" />
 
+        <ant dir="all" target="distclean"/>        
         <ant dir="altrmi" target="real-clean"/>
-        <ant dir="collections" target="real-clean"/>
-        <ant dir="concurrent" target="real-clean"/>
-        <ant dir="instrument" target="real-clean"/>
-        <ant dir="lang" target="real-clean"/>
-        <ant dir="logger" target="real-clean"/>
-        
-        <ant dir="pool" target="real-clean"/>
-        <ant dir="proxy" target="real-clean"/>
-        <ant dir="thread" target="real-clean"/>
-        <ant dir="component" target="real-clean"/>
-        <ant dir="util" target="real-clean"/>
-        <ant dir="testcase" target="real-clean"/>
-        <ant dir="event" target="real-clean"/>
-        <ant dir="command" target="real-clean"/>
-        <ant dir="instrument-manager" target="real-clean"/>
-        <ant dir="instrument-client" target="real-clean"/>
-        <ant dir="all" target="distclean"/>
-        
         <ant dir="baxter" target="real-clean"/>
         <ant dir="bzip2" target="real-clean"/>
         <ant dir="cache" target="real-clean"/>
         <ant dir="cli" target="real-clean"/>
+        <ant dir="collections" target="real-clean"/>
+        <ant dir="command" target="real-clean"/>
+        <ant dir="component" target="real-clean"/>
+        <ant dir="concurrent" target="real-clean"/>
+        <ant dir="container" target="real-clean"/>
+        <ant dir="datasource" target="real-clean"/>
+        <ant dir="event" target="real-clean"/>  
         <ant dir="extension" target="real-clean"/>
         <ant dir="i18n" target="real-clean"/>
+        <ant dir="instrument" target="real-clean"/>
+        <ant dir="instrument-client" target="real-clean"/>
+        <ant dir="instrument-manager" target="real-clean"/>
         <ant dir="io" target="real-clean"/>
+        <ant dir="lang" target="real-clean"/>
+        <ant dir="lang" target="real-clean"/>
+        <ant dir="logger" target="real-clean"/>        
+        <ant dir="monitor" target="real-clean"/>
         <ant dir="naming" target="real-clean"/>
+        <ant dir="pipeline" target="real-clean"/>
+        <ant dir="pool" target="real-clean"/>
+        <ant dir="property" target="real-clean"/>
+        <ant dir="proxy" target="real-clean"/>
+        <ant dir="site" target="clean"/>
+        <ant dir="sourceresolve" target="real-clean"/>
         <ant dir="tar" target="real-clean"/>
-        <ant dir="zip" target="real-clean"/>
+        <ant dir="testcase" target="real-clean"/>
+        <ant dir="thread" target="real-clean"/>
+        <ant dir="util" target="real-clean"/>
+        <ant dir="xmlbundle" target="real-clean"/>
+        <ant dir="zip" target="real-clean"/>   
 
     </target>
 
