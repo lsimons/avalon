@@ -430,7 +430,6 @@
     <copy todir="${dist.base}/phoenix-apps" flatten="true">
       <fileset dir="apps">
         <include name="*/dist/*.sar"/>
-        <exclude name="ftpserver/dist/ftp-server.sar"/>
       </fileset>
     </copy>    
   </target>
