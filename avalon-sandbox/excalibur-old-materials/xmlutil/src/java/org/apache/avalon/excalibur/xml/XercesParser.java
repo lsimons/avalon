@@ -25,9 +25,9 @@ import org.xml.sax.ext.LexicalHandler;
 /**
  * @author <a href="mailto:fumagalli@exoffice.com">Pierpaolo Fumagalli</a>
  *         (Apache Software Foundation, Exoffice Technologies)
- * @version CVS $Revision: 1.5 $ $Date: 2002/07/10 08:38:48 $
+ * @version CVS $Revision: 1.6 $ $Date: 2002/07/10 08:53:17 $
  */
-public class XercesParser
+public final class XercesParser
     extends AbstractLogEnabled
     implements Parser, ErrorHandler, ThreadSafe, Initializable
 {

@@ -25,9 +25,9 @@ import org.xml.sax.SAXException;
  * to SAX events.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/07/07 07:11:45 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/07/10 08:53:17 $
  */
-public class TextXMLizer
+public final class TextXMLizer
     extends AbstractLogEnabled
     implements XMLizer, ThreadSafe, Composable
 {

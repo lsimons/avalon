@@ -22,17 +22,17 @@ import org.xml.sax.ext.LexicalHandler;
  *
  * @author <a href="mailto:dims@yahoo.com">Davanum Srinivas</a>
  *         (Apache Software Foundation, Computer Associates)
- * @version CVS $Revision: 1.2 $ $Date: 2002/07/07 07:19:49 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/07/10 08:53:17 $
  */
-public class ContentHandlerWrapper
+public final class ContentHandlerWrapper
     extends AbstractXMLConsumer
     implements Recyclable
 {
-    /** The current <code>ContentHandler</code>. */
-    protected ContentHandler contentHandler;
+    /** The current {@link ContentHandler}. */
+    private ContentHandler m_contentHandler;
 
-    /** The optional <code>LexicalHandler</code> */
-    protected LexicalHandler lexicalHandler;
+    /** The optional {@link LexicalHandler} */
+    private LexicalHandler m_lexicalHandler;
 
     /**
      * Create a new <code>ContentHandlerWrapper</code> instance.
@@ -60,41 +60,41 @@ public class ContentHandlerWrapper
     }
 
     /**
-     * Set the <code>ContentHandler</code> that will receive XML data.
+     * Set the {@link ContentHandler} that will receive XML data.
      *
-     * @exception IllegalStateException If the <code>ContentHandler</code>
+     * @exception IllegalStateException If the {@link ContentHandler}
      *                                  was already set.
      */
     public void setContentHandler( final ContentHandler contentHandler )
         throws IllegalStateException
     {
-        if( null != this.contentHandler )
+        if( null != m_contentHandler )
         {
             throw new IllegalStateException();
         }
-        this.contentHandler = contentHandler;
+        m_contentHandler = contentHandler;
     }
 
     /**
-     * Set the <code>LexicalHandler</code> that will receive XML data.
+     * Set the {@link LexicalHandler} that will receive XML data.
      *
-     * @exception IllegalStateException If the <code>LexicalHandler</code>
+     * @exception IllegalStateException If the {@link LexicalHandler}
      *                                  was already set.
      */
     public void setLexicalHandler( final LexicalHandler lexicalHandler )
         throws IllegalStateException
     {
-        if( null != this.lexicalHandler )
+        if( null != m_lexicalHandler )
         {
             throw new IllegalStateException();
         }
-        this.lexicalHandler = lexicalHandler;
+        m_lexicalHandler = lexicalHandler;
     }
 
     public void recycle()
     {
-        contentHandler = null;
-        lexicalHandler = null;
+        m_contentHandler = null;
+        m_lexicalHandler = null;
     }
 
     /**
@@ -102,13 +102,13 @@ public class ContentHandlerWrapper
      */
     public void setDocumentLocator( final Locator locator )
     {
-        if( null == contentHandler )
+        if( null == m_contentHandler )
         {
             return;
         }
         else
         {
-            contentHandler.setDocumentLocator( locator );
+            m_contentHandler.setDocumentLocator( locator );
         }
     }
 
@@ -118,12 +118,12 @@ public class ContentHandlerWrapper
     public void startDocument()
         throws SAXException
     {
-        if( null == contentHandler )
+        if( null == m_contentHandler )
         {
             final String message = "ContentHandler not set";
             throw new SAXException( message );
         }
-        contentHandler.startDocument();
+        m_contentHandler.startDocument();
     }
 
     /**
@@ -132,7 +132,7 @@ public class ContentHandlerWrapper
     public void endDocument()
         throws SAXException
     {
-        contentHandler.endDocument();
+        m_contentHandler.endDocument();
     }
 
     /**
@@ -142,12 +142,12 @@ public class ContentHandlerWrapper
                                     final String uri )
         throws SAXException
     {
-        if( null == contentHandler )
+        if( null == m_contentHandler )
         {
             final String message = "ContentHandler not set";
             throw new SAXException( message );
         }
-        contentHandler.startPrefixMapping( prefix, uri );
+        m_contentHandler.startPrefixMapping( prefix, uri );
     }
 
     /**
@@ -156,7 +156,7 @@ public class ContentHandlerWrapper
     public void endPrefixMapping( final String prefix )
         throws SAXException
     {
-        contentHandler.endPrefixMapping( prefix );
+        m_contentHandler.endPrefixMapping( prefix );
     }
 
     /**
@@ -168,7 +168,7 @@ public class ContentHandlerWrapper
                               final Attributes a )
         throws SAXException
     {
-        contentHandler.startElement( uri, loc, raw, a );
+        m_contentHandler.startElement( uri, loc, raw, a );
     }
 
     /**
@@ -179,7 +179,7 @@ public class ContentHandlerWrapper
                             final String raw )
         throws SAXException
     {
-        contentHandler.endElement( uri, loc, raw );
+        m_contentHandler.endElement( uri, loc, raw );
     }
 
     /**
@@ -190,7 +190,7 @@ public class ContentHandlerWrapper
                             final int len )
         throws SAXException
     {
-        contentHandler.characters( ch, start, len );
+        m_contentHandler.characters( ch, start, len );
     }
 
     /**
@@ -201,7 +201,7 @@ public class ContentHandlerWrapper
                                      final int len )
         throws SAXException
     {
-        contentHandler.ignorableWhitespace( ch, start, len );
+        m_contentHandler.ignorableWhitespace( ch, start, len );
     }
 
     /**
@@ -211,7 +211,7 @@ public class ContentHandlerWrapper
                                        final String data )
         throws SAXException
     {
-        contentHandler.processingInstruction( target, data );
+        m_contentHandler.processingInstruction( target, data );
     }
 
     /**
@@ -223,7 +223,7 @@ public class ContentHandlerWrapper
     public void skippedEntity( final String name )
         throws SAXException
     {
-        contentHandler.skippedEntity( name );
+        m_contentHandler.skippedEntity( name );
     }
 
     /**
@@ -240,9 +240,9 @@ public class ContentHandlerWrapper
                           final String systemId )
         throws SAXException
     {
-        if( null != lexicalHandler )
+        if( null != m_lexicalHandler )
         {
-            lexicalHandler.startDTD( name, publicId, systemId );
+            m_lexicalHandler.startDTD( name, publicId, systemId );
         }
     }
 
@@ -252,9 +252,9 @@ public class ContentHandlerWrapper
     public void endDTD()
         throws SAXException
     {
-        if( null != lexicalHandler )
+        if( null != m_lexicalHandler )
         {
-            lexicalHandler.endDTD();
+            m_lexicalHandler.endDTD();
         }
     }
 
@@ -267,9 +267,9 @@ public class ContentHandlerWrapper
     public void startEntity( final String name )
         throws SAXException
     {
-        if( null != lexicalHandler )
+        if( null != m_lexicalHandler )
         {
-            lexicalHandler.startEntity( name );
+            m_lexicalHandler.startEntity( name );
         }
     }
 
@@ -281,9 +281,9 @@ public class ContentHandlerWrapper
     public void endEntity( final String name )
         throws SAXException
     {
-        if( null != lexicalHandler )
+        if( null != m_lexicalHandler )
         {
-            lexicalHandler.endEntity( name );
+            m_lexicalHandler.endEntity( name );
         }
     }
 
@@ -293,9 +293,9 @@ public class ContentHandlerWrapper
     public void startCDATA()
         throws SAXException
     {
-        if( null != lexicalHandler )
+        if( null != m_lexicalHandler )
         {
-            lexicalHandler.startCDATA();
+            m_lexicalHandler.startCDATA();
         }
     }
 
@@ -305,9 +305,9 @@ public class ContentHandlerWrapper
     public void endCDATA()
         throws SAXException
     {
-        if( null != lexicalHandler )
+        if( null != m_lexicalHandler )
         {
-            lexicalHandler.endCDATA();
+            m_lexicalHandler.endCDATA();
         }
     }
 
@@ -323,10 +323,9 @@ public class ContentHandlerWrapper
                          final int len )
         throws SAXException
     {
-        if( null != lexicalHandler )
+        if( null != m_lexicalHandler )
         {
-            lexicalHandler.comment( ch, start, len );
+            m_lexicalHandler.comment( ch, start, len );
         }
     }
-
 }

@@ -69,57 +69,53 @@ import org.xml.sax.ext.LexicalHandler;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/07/07 07:20:33 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/07/10 08:53:17 $
  */
-public class JaxpParser
+public final class JaxpParser
     extends AbstractLogEnabled
     implements Parser, ErrorHandler, Composable, Parameterizable, Poolable
 {
     /** the SAX Parser factory */
-    protected SAXParserFactory factory;
+    private SAXParserFactory m_factory;
 
     /** the Document Builder factory */
-    protected DocumentBuilderFactory docFactory;
+    private DocumentBuilderFactory m_docFactory;
 
     /** The SAX reader. It is created lazily by {@link #setupXMLReader()}
      and cleared if a parsing error occurs. */
-    protected XMLReader reader;
+    private XMLReader m_reader;
 
     /** The DOM builder. It is created lazily by {@link #setupDocumentBuilder()}
      and cleared if a parsing error occurs. */
-    protected DocumentBuilder docBuilder;
-
-    /** the component manager */
-    protected ComponentManager manager;
+    private DocumentBuilder m_docBuilder;
 
     /** the Entity Resolver */
-    protected EntityResolver resolver;
+    private EntityResolver m_resolver;
 
     /** do we want namespaces also as attributes ? */
-    protected boolean nsPrefixes;
+    private boolean m_nsPrefixes;
 
     /** do we want to reuse parsers ? */
-    protected boolean reuseParsers;
+    private boolean m_reuseParsers;
 
     /** do we stop on warnings ? */
-    protected boolean stopOnWarning;
+    private boolean m_stopOnWarning;
 
     /** do we stop on recoverable errors ? */
-    protected boolean stopOnRecoverableError;
+    private boolean m_stopOnRecoverableError;
 
     /**
      * Get the Entity Resolver from the component manager
      */
-    public void compose( ComponentManager manager )
+    public void compose( final ComponentManager manager )
         throws ComponentException
     {
-        this.manager = manager;
         if( manager.hasComponent( EntityResolver.ROLE ) )
         {
-            resolver = (EntityResolver)manager.lookup( EntityResolver.ROLE );
+            m_resolver = (EntityResolver)manager.lookup( EntityResolver.ROLE );
             if( getLogger().isDebugEnabled() )
             {
-                getLogger().debug( "JaxpParser: Using EntityResolver: " + resolver );
+                getLogger().debug( "JaxpParser: Using EntityResolver: " + m_resolver );
             }
         }
     }
@@ -129,62 +125,62 @@ public class JaxpParser
     {
         // Validation and namespace prefixes parameters
         boolean validate = params.getParameterAsBoolean( "validate", false );
-        this.nsPrefixes = params.getParameterAsBoolean( "namespace-prefixes", false );
-        this.reuseParsers = params.getParameterAsBoolean( "reuse-parsers", true );
-        this.stopOnWarning = params.getParameterAsBoolean( "stop-on-warning", true );
-        this.stopOnRecoverableError = params.getParameterAsBoolean( "stop-on-recoverable-error", true );
+        m_nsPrefixes = params.getParameterAsBoolean( "namespace-prefixes", false );
+        m_reuseParsers = params.getParameterAsBoolean( "reuse-parsers", true );
+        m_stopOnWarning = params.getParameterAsBoolean( "stop-on-warning", true );
+        m_stopOnRecoverableError = params.getParameterAsBoolean( "stop-on-recoverable-error", true );
 
         // Get the SAXFactory
         final String saxParserFactoryName = params.getParameter( "sax-parser-factory",
                                                                  "javax.xml.parsers.SAXParserFactory" );
         if( "javax.xml.parsers.SAXParserFactory".equals( saxParserFactoryName ) )
         {
-            this.factory = SAXParserFactory.newInstance();
+            m_factory = SAXParserFactory.newInstance();
         }
         else
         {
             try
             {
-                final Class factoryClass = this.loadClass( saxParserFactoryName );
-                this.factory = (SAXParserFactory)factoryClass.newInstance();
+                final Class factoryClass = loadClass( saxParserFactoryName );
+                m_factory = (SAXParserFactory)factoryClass.newInstance();
             }
             catch( Exception e )
             {
                 throw new ParameterException( "Cannot load SAXParserFactory class " + saxParserFactoryName, e );
             }
         }
-        this.factory.setNamespaceAware( true );
-        this.factory.setValidating( validate );
+        m_factory.setNamespaceAware( true );
+        m_factory.setValidating( validate );
 
         // Get the DocumentFactory
         final String documentBuilderFactoryName = params.getParameter( "document-builder-factory",
                                                                        "javax.xml.parsers.DocumentBuilderFactory" );
         if( "javax.xml.parsers.DocumentBuilderFactory".equals( documentBuilderFactoryName ) )
         {
-            this.docFactory = DocumentBuilderFactory.newInstance();
+            m_docFactory = DocumentBuilderFactory.newInstance();
         }
         else
         {
             try
             {
-                final Class factoryClass = this.loadClass( documentBuilderFactoryName );
-                this.docFactory = (DocumentBuilderFactory)factoryClass.newInstance();
+                final Class factoryClass = loadClass( documentBuilderFactoryName );
+                m_docFactory = (DocumentBuilderFactory)factoryClass.newInstance();
             }
             catch( Exception e )
             {
                 throw new ParameterException( "Cannot load DocumentBuilderFactory class " + documentBuilderFactoryName, e );
             }
         }
-        this.docFactory.setNamespaceAware( true );
-        this.docFactory.setValidating( validate );
+        m_docFactory.setNamespaceAware( true );
+        m_docFactory.setValidating( validate );
 
-        if( this.getLogger().isDebugEnabled() )
+        if( getLogger().isDebugEnabled() )
         {
-            this.getLogger().debug( "JaxpParser: validating: " + validate +
-                                    ", namespace-prefixes: " + this.nsPrefixes +
-                                    ", reuse parser: " + this.reuseParsers +
-                                    ", stop on warning: " + this.stopOnWarning +
-                                    ", stop on recoverable-error: " + this.stopOnRecoverableError +
+            getLogger().debug( "JaxpParser: validating: " + validate +
+                                    ", namespace-prefixes: " + m_nsPrefixes +
+                                    ", reuse parser: " + m_reuseParsers +
+                                    ", stop on warning: " + m_stopOnWarning +
+                                    ", stop on recoverable-error: " + m_stopOnRecoverableError +
                                     ", saxParserFactory: " + saxParserFactoryName +
                                     ", documentBuilderFactory: " + documentBuilderFactoryName );
         }
@@ -193,21 +189,21 @@ public class JaxpParser
     /**
      * Load a class
      */
-    protected Class loadClass( String name ) throws Exception
+    private Class loadClass( String name ) throws Exception
     {
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
         if( loader == null )
         {
-            loader = this.getClass().getClassLoader();
+            loader = getClass().getClassLoader();
         }
         return loader.loadClass( name );
     }
 
     /**
-     * Parse the <code>InputSource</code> and send
+     * Parse the {@link InputSource} and send
      * SAX events to the consumer.
      * Attention: the consumer can either be an XMLConsumer
-     * or implement the <code>LexicalHandler</code> as well.
+     * or implement the {@link LexicalHandler} as well.
      * The parse should take care of this.
      */
     public void parse( final InputSource in,
@@ -239,8 +235,8 @@ public class JaxpParser
         setupXMLReader();
 
         // Ensure we will use a fresh new parser at next parse in case of failure
-        XMLReader tmpReader = this.reader;
-        this.reader = null;
+        XMLReader tmpReader = m_reader;
+        m_reader = null;
 
         try
         {
@@ -260,16 +256,18 @@ public class JaxpParser
 
         tmpReader.setErrorHandler( this );
         tmpReader.setContentHandler( contentHandler );
-        if( null != resolver )
+        if( null != m_resolver )
         {
-            tmpReader.setEntityResolver( resolver );
+            tmpReader.setEntityResolver( m_resolver );
         }
 
         tmpReader.parse( in );
 
-        // Here, parsing was successful : restore this.reader
-        if( this.reuseParsers )
-            this.reader = tmpReader;
+        // Here, parsing was successful : restore reader
+        if( m_reuseParsers )
+        {
+            m_reader = tmpReader;
+        }
     }
 
     /**
@@ -281,72 +279,72 @@ public class JaxpParser
         setupDocumentBuilder();
 
         // Ensure we will use a fresh new parser at next parse in case of failure
-        DocumentBuilder tmpBuilder = this.docBuilder;
-        this.docBuilder = null;
+        DocumentBuilder tmpBuilder = m_docBuilder;
+        m_docBuilder = null;
 
-        if( null != resolver )
+        if( null != m_resolver )
         {
-            tmpBuilder.setEntityResolver( resolver );
+            tmpBuilder.setEntityResolver( m_resolver );
         }
 
         Document result = tmpBuilder.parse( input );
 
-        // Here, parsing was successful : restore this.builder
-        if( reuseParsers )
+        // Here, parsing was successful : restore builder
+        if( m_reuseParsers )
         {
-            this.docBuilder = tmpBuilder;
+            m_docBuilder = tmpBuilder;
         }
 
         return result;
     }
 
     /**
-     * Creates a new <code>XMLReader</code> if needed.
+     * Creates a new {@link XMLReader} if needed.
      */
-    protected void setupXMLReader()
+    private void setupXMLReader()
         throws SAXException
     {
-        if( null == reader )
+        if( null == m_reader )
         {
             // Create the XMLReader
             try
             {
-                reader = factory.newSAXParser().getXMLReader();
+                m_reader = m_factory.newSAXParser().getXMLReader();
             }
             catch( final ParserConfigurationException pce )
             {
                 final String message = "Cannot produce a valid parser";
                 throw new SAXException( message, pce );
             }
-            if( nsPrefixes )
+            if( m_nsPrefixes )
             {
                 try
                 {
-                    reader.setFeature( "http://xml.org/sax/features/namespace-prefixes",
-                                       nsPrefixes );
+                    m_reader.setFeature( "http://xml.org/sax/features/namespace-prefixes",
+                                       m_nsPrefixes );
                 }
                 catch( final SAXException se )
                 {
                     final String message =
                         "SAX2 XMLReader does not support setting feature: " +
                         "'http://xml.org/sax/features/namespace-prefixes'";
-                    this.getLogger().warn( message );
+                    getLogger().warn( message );
                 }
             }
         }
     }
 
     /**
-     * Creates a new <code>DocumentBuilder</code> if needed.
+     * Creates a new {@link DocumentBuilder} if needed.
      */
-    protected void setupDocumentBuilder()
+    private void setupDocumentBuilder()
         throws SAXException
     {
-        if( null == docBuilder )
+        if( null == m_docBuilder )
         {
             try
             {
-                docBuilder = docFactory.newDocumentBuilder();
+                m_docBuilder = m_docFactory.newDocumentBuilder();
             }
             catch( final ParserConfigurationException pce )
             {
@@ -357,13 +355,13 @@ public class JaxpParser
     }
 
     /**
-     * Return a new <code>Document</code>.
+     * Return a new {@link Document}.
      */
     public Document createDocument()
         throws SAXException
     {
         setupDocumentBuilder();
-        return docBuilder.newDocument();
+        return m_docBuilder.newDocument();
     }
 
     /**
@@ -376,7 +374,7 @@ public class JaxpParser
             "Error parsing " + spe.getSystemId() + " (line " +
             spe.getLineNumber() + " col. " + spe.getColumnNumber() +
             "): " + spe.getMessage();
-        if( stopOnRecoverableError )
+        if( m_stopOnRecoverableError )
         {
             throw new SAXException( message, spe );
         }
@@ -407,7 +405,7 @@ public class JaxpParser
             spe.getLineNumber() + " col. " + spe.getColumnNumber() +
             "): " + spe.getMessage();
 
-        if( stopOnWarning )
+        if( m_stopOnWarning )
         {
             throw new SAXException( message, spe );
         }

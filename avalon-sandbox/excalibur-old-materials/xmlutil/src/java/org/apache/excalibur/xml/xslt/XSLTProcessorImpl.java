@@ -62,11 +62,11 @@ import org.xml.sax.XMLFilter;
  *
  * @author <a href="mailto:ovidiu@cup.hp.com">Ovidiu Predescu</a>
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
- * @version CVS $Id: XSLTProcessorImpl.java,v 1.9 2002/07/07 07:15:01 donaldp Exp $
+ * @version CVS $Id: XSLTProcessorImpl.java,v 1.10 2002/07/10 08:53:17 donaldp Exp $
  * @version 1.0
  * @since   July 11, 2001
  */
-public class XSLTProcessorImpl
+public final class XSLTProcessorImpl
     extends AbstractLogEnabled
     implements XSLTProcessor,
     Composable,
@@ -74,32 +74,28 @@ public class XSLTProcessorImpl
     Parameterizable,
     URIResolver
 {
-
-    protected ComponentManager manager;
+    private ComponentManager m_manager;
 
     /** The store service instance */
-    protected Store store;
-
-    /** The trax TransformerFactory lookup table*/
-    protected HashMap factories;
+    private Store m_store;
 
     /** The trax TransformerFactory this component uses */
-    protected SAXTransformerFactory factory;
+    private SAXTransformerFactory m_factory;
 
     /** Is the store turned on? (default is off) */
-    protected boolean useStore = false;
+    private boolean m_useStore;
 
     /** Is incremental processing turned on? (default for Xalan: no) */
-    protected boolean incrementalProcessing;
+    private boolean m_incrementalProcessing;
 
     /** Resolver used to resolve XSLT document() calls, imports and includes */
-    protected SourceResolver resolver;
+    private SourceResolver m_resolver;
 
     /** The error handler for the transformer */
-    protected TraxErrorHandler errorHandler;
+    private TraxErrorHandler m_errorHandler;
 
     /** Map of pairs of System ID's / validities of the included stylesheets */
-    protected Map includesMap = new HashMap();
+    private Map m_includesMap = new HashMap();
 
     /**
      * Compose. Try to get the store
@@ -107,9 +103,9 @@ public class XSLTProcessorImpl
     public void compose( final ComponentManager manager )
         throws ComponentException
     {
-        this.manager = manager;
-        errorHandler = new TraxErrorHandler( getLogger() );
-        resolver = (SourceResolver)manager.lookup( SourceResolver.ROLE );
+        m_manager = manager;
+        m_errorHandler = new TraxErrorHandler( getLogger() );
+        m_resolver = (SourceResolver)manager.lookup( SourceResolver.ROLE );
     }
 
     /**
@@ -117,15 +113,15 @@ public class XSLTProcessorImpl
      */
     public void dispose()
     {
-        if( null != manager )
+        if( null != m_manager )
         {
-            manager.release( store );
-            store = null;
-            manager.release( resolver );
-            resolver = null;
+            m_manager.release( m_store );
+            m_store = null;
+            m_manager.release( m_resolver );
+            m_resolver = null;
         }
-        errorHandler = null;
-        manager = null;
+        m_errorHandler = null;
+        m_manager = null;
     }
 
     /**
@@ -134,14 +130,14 @@ public class XSLTProcessorImpl
     public void parameterize( final Parameters params )
         throws ParameterException
     {
-        useStore = params.getParameterAsBoolean( "use-store", this.useStore );
-        incrementalProcessing = params.getParameterAsBoolean( "incremental-processing", this.incrementalProcessing );
-        factory = getTransformerFactory( params.getParameter( "transformer-factory", null ) );
-        if( useStore )
+        m_useStore = params.getParameterAsBoolean( "use-store", this.m_useStore );
+        m_incrementalProcessing = params.getParameterAsBoolean( "incremental-processing", this.m_incrementalProcessing );
+        m_factory = getTransformerFactory( params.getParameter( "transformer-factory", null ) );
+        if( m_useStore )
         {
             try
             {
-                store = (Store)manager.lookup( Store.TRANSIENT_STORE );
+                m_store = (Store)m_manager.lookup( Store.TRANSIENT_STORE );
             }
             catch( final ComponentException ce )
             {
@@ -158,7 +154,7 @@ public class XSLTProcessorImpl
      */
     public void setTransformerFactory( final String classname )
     {
-        factory = getTransformerFactory( classname );
+        m_factory = getTransformerFactory( classname );
     }
 
     public TransformerHandler getTransformerHandler( final Source stylesheet )
@@ -197,7 +193,7 @@ public class XSLTProcessorImpl
 
                 // Create a Templates ContentHandler to handle parsing of the
                 // stylesheet.
-                TemplatesHandler templatesHandler = this.factory.newTemplatesHandler();
+                TemplatesHandler templatesHandler = m_factory.newTemplatesHandler();
 
                 // Set the system ID for the template handler since some
                 // TrAX implementations (XSLTC) rely on this in order to obtain
@@ -218,7 +214,7 @@ public class XSLTProcessorImpl
                 final SourceValidity validity = stylesheet.getValidity();
                 if( validity != null )
                 {
-                    includesMap.put( id, new ArrayList() );
+                    m_includesMap.put( id, new ArrayList() );
                 }
 
                 try
@@ -233,14 +229,14 @@ public class XSLTProcessorImpl
                     putTemplates( template, stylesheet, id );
 
                     // Create transformer handler
-                    final TransformerHandler handler = this.factory.newTransformerHandler( template );
-                    handler.getTransformer().setErrorListener( this.errorHandler );
+                    final TransformerHandler handler = m_factory.newTransformerHandler( template );
+                    handler.getTransformer().setErrorListener( m_errorHandler );
 
                     // Create aggregated validity
                     AggregatedValidity aggregated = null;
                     if( validity != null )
                     {
-                        List includes = (List)includesMap.get( id );
+                        List includes = (List)m_includesMap.get( id );
                         if( includes != null )
                         {
                             aggregated = new AggregatedValidity();
@@ -257,7 +253,7 @@ public class XSLTProcessorImpl
                 }
                 finally
                 {
-                    includesMap.remove( id );
+                    m_includesMap.remove( id );
                 }
             }
             else
@@ -297,7 +293,7 @@ public class XSLTProcessorImpl
         }
         else
         {
-            final XMLizer xmlizer = (XMLizer)manager.lookup( XMLizer.ROLE );
+            final XMLizer xmlizer = (XMLizer)m_manager.lookup( XMLizer.ROLE );
             try
             {
                 final InputStream inputStream = source.getInputStream();
@@ -307,7 +303,7 @@ public class XSLTProcessorImpl
             }
             finally
             {
-                manager.release( xmlizer );
+                m_manager.release( xmlizer );
             }
         }
     }
@@ -387,7 +383,7 @@ public class XSLTProcessorImpl
                 ClassLoader loader = Thread.currentThread().getContextClassLoader();
                 if( loader == null )
                 {
-                    loader = this.getClass().getClassLoader();
+                    loader = getClass().getClassLoader();
                 }
                 _factory = (SAXTransformerFactory)loader.loadClass( factoryName ).newInstance();
             }
@@ -395,29 +391,29 @@ public class XSLTProcessorImpl
             {
                 getLogger().error( "Cannot find the requested TrAX factory '" + factoryName
                                    + "'. Using default TrAX Transformer Factory instead." );
-                if( this.factory != null )
-                    return this.factory;
+                if( m_factory != null )
+                    return m_factory;
                 _factory = (SAXTransformerFactory)TransformerFactory.newInstance();
             }
             catch( ClassCastException cce )
             {
                 getLogger().error( "The indicated class '" + factoryName
                                    + "' is not a TrAX Transformer Factory. Using default TrAX Transformer Factory instead." );
-                if( this.factory != null )
-                    return this.factory;
+                if( m_factory != null )
+                    return m_factory;
                 _factory = (SAXTransformerFactory)TransformerFactory.newInstance();
             }
             catch( Exception e )
             {
                 getLogger().error( "Error found loading the requested TrAX Transformer Factory '"
                                    + factoryName + "'. Using default TrAX Transformer Factory instead." );
-                if( this.factory != null )
-                    return this.factory;
+                if( m_factory != null )
+                    return m_factory;
                 _factory = (SAXTransformerFactory)TransformerFactory.newInstance();
             }
         }
 
-        _factory.setErrorListener( this.errorHandler );
+        _factory.setErrorListener( m_errorHandler );
         _factory.setURIResolver( this );
 
         // FIXME (SM): implementation-specific parameter passing should be
@@ -425,7 +421,7 @@ public class XSLTProcessorImpl
         if( _factory.getClass().getName().equals( "org.apache.xalan.processor.TransformerFactoryImpl" ) )
         {
             _factory.setAttribute( "http://xml.apache.org/xalan/features/incremental",
-                                   new Boolean( incrementalProcessing ) );
+                                   new Boolean( m_incrementalProcessing ) );
         }
 
         return _factory;
@@ -434,7 +430,7 @@ public class XSLTProcessorImpl
     private TransformerHandlerAndValidity getTemplates( Source stylesheet, String id )
         throws IOException, SourceException, TransformerException
     {
-        if( !useStore )
+        if( !m_useStore )
         {
             return null;
         }
@@ -442,7 +438,7 @@ public class XSLTProcessorImpl
         // we must augment the template ID with the factory classname since one
         // transformer implementation cannot handle the instances of a
         // template created by another one.
-        String key = id + this.factory.getClass().getName();
+        String key = id + m_factory.getClass().getName();
 
         if( getLogger().isDebugEnabled() )
         {
@@ -455,12 +451,12 @@ public class XSLTProcessorImpl
         if( newValidity == null )
         {
             // Remove an old template
-            store.remove( key );
+            m_store.remove( key );
             return null;
         }
 
         // Stored is an array of the templates and the caching time and list of includes
-        Object[] templateAndValidityAndIncludes = (Object[])store.get( key );
+        Object[] templateAndValidityAndIncludes = (Object[])m_store.get( key );
         if( templateAndValidityAndIncludes == null )
         {
             // Templates not found in cache
@@ -481,7 +477,7 @@ public class XSLTProcessorImpl
         }
         if( !isValid )
         {
-            store.remove( key );
+            m_store.remove( key );
             return null;
         }
 
@@ -504,7 +500,7 @@ public class XSLTProcessorImpl
                 isValid = false;
                 if( valid == 0 )
                 {
-                    SourceValidity included = resolver.resolveURI( (String)pair[ 0 ] ).getValidity();
+                    SourceValidity included = m_resolver.resolveURI( (String)pair[ 0 ] ).getValidity();
                     if( included != null )
                     {
                         isValid = storedValidity.isValid( included );
@@ -516,28 +512,28 @@ public class XSLTProcessorImpl
                 }
                 if( !isValid )
                 {
-                    store.remove( key );
+                    m_store.remove( key );
                     return null;
                 }
             }
         }
 
-        TransformerHandler handler = factory.newTransformerHandler(
+        TransformerHandler handler = m_factory.newTransformerHandler(
             (Templates)templateAndValidityAndIncludes[ 0 ] );
-        handler.getTransformer().setErrorListener( this.errorHandler );
+        handler.getTransformer().setErrorListener( m_errorHandler );
         return new TransformerHandlerAndValidity( handler, aggregated );
     }
 
     private void putTemplates( Templates templates, Source stylesheet, String id )
         throws IOException
     {
-        if( !useStore )
+        if( !m_useStore )
             return;
 
         // we must augment the template ID with the factory classname since one
         // transformer implementation cannot handle the instances of a
         // template created by another one.
-        String key = id + factory.getClass().getName();
+        String key = id + m_factory.getClass().getName();
 
         // only stylesheets with a last modification date are stored
         SourceValidity validity = stylesheet.getValidity();
@@ -547,8 +543,8 @@ public class XSLTProcessorImpl
             Object[] templateAndValidityAndIncludes = new Object[ 3 ];
             templateAndValidityAndIncludes[ 0 ] = templates;
             templateAndValidityAndIncludes[ 1 ] = validity;
-            templateAndValidityAndIncludes[ 2 ] = includesMap.get( id );
-            store.store( key, templateAndValidityAndIncludes );
+            templateAndValidityAndIncludes[ 2 ] = m_includesMap.get( id );
+            m_store.store( key, templateAndValidityAndIncludes );
         }
     }
 
@@ -572,7 +568,7 @@ public class XSLTProcessorImpl
         if( getLogger().isDebugEnabled() )
         {
             getLogger().debug( "resolve(href = " + href +
-                               ", base = " + base + "); resolver = " + this.resolver );
+                               ", base = " + base + "); resolver = " + m_resolver );
         }
 
         Source xslSource = null;
@@ -581,12 +577,12 @@ public class XSLTProcessorImpl
             if( base == null || href.indexOf( ":" ) > 1 )
             {
                 // Null base - href must be an absolute URL
-                xslSource = this.resolver.resolveURI( href );
+                xslSource = m_resolver.resolveURI( href );
             }
             else if( href.length() == 0 )
             {
                 // Empty href resolves to base
-                xslSource = this.resolver.resolveURI( base );
+                xslSource = m_resolver.resolveURI( base );
             }
             else
             {
@@ -602,7 +598,7 @@ public class XSLTProcessorImpl
                     }
                     else
                     {
-                        xslSource = this.resolver.resolveURI( base.substring( 0, lastPathElementPos )
+                        xslSource = m_resolver.resolveURI( base.substring( 0, lastPathElementPos )
                                                               + "/" + href );
                     }
                 }
@@ -610,7 +606,7 @@ public class XSLTProcessorImpl
                 {
                     File parent = new File( base.substring( 5 ) );
                     File parent2 = new File( parent.getParentFile(), href );
-                    xslSource = this.resolver.resolveURI( parent2.toURL().toExternalForm() );
+                    xslSource = m_resolver.resolveURI( parent2.toURL().toExternalForm() );
                 }
             }
 
@@ -622,7 +618,7 @@ public class XSLTProcessorImpl
             }
 
             // Populate included validities
-            List includes = (List)includesMap.get( base );
+            List includes = (List)m_includesMap.get( base );
             if( includes != null )
             {
                 SourceValidity included = xslSource.getValidity();
@@ -633,7 +629,7 @@ public class XSLTProcessorImpl
                 else
                 {
                     // One of the included stylesheets is not cacheable
-                    includesMap.remove( base );
+                    m_includesMap.remove( base );
                 }
             }
 
@@ -673,7 +669,7 @@ public class XSLTProcessorImpl
         }
         finally
         {
-            this.resolver.release( xslSource );
+            m_resolver.release( xslSource );
         }
     }
 
