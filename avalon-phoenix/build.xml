@@ -45,6 +45,7 @@ Legal:
     <property name="java.dir" value="${src.dir}/java"/>
     <property name="conf.dir" value="${src.dir}/conf"/>
     <property name="script.dir" value="${src.dir}/script"/>
+    <property name="static.dir" value="${src.dir}/static"/>
     <property name="lib.dir" value="lib"/>
     <property name="tools.dir" value="../jakarta-avalon/tools"/>
 
@@ -408,6 +409,14 @@ Legal:
             <fileset dir="${conf.dir}">
                 <include name="kernel.xml"/>
             </fileset>
+        </copy>
+
+        <!--
+          These files added so that the /apps and /ext directories would not be empty.  If empty, they are not created
+          when a binary disribution is unpacked, causing a runtime error.
+        -->
+        <copy todir="${bin.dist.dir}">
+            <fileset dir="${static.dir}"/>
         </copy>
 
         <antcall target="dist-mx4j"/>
