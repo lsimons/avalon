@@ -42,7 +42,7 @@ import com.sun.jdmk.comm.HtmlAdaptorServer;
  * @author <a href="mail@leosimons.com">Leo Simons</a>
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
-public class PhoenixManager
+public class DefaultManager
     extends AbstractSystemManager
     implements Parameterizable, Composable
 {

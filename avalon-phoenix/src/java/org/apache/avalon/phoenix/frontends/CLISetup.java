@@ -153,7 +153,7 @@ class CLISetup
 
             case REMOTE_MANAGER_OPT:
                 m_parameters.setParameter( SystemManager.ROLE,
-                                           "org.apache.avalon.phoenix.components.manager.PhoenixManager" );
+                                           "org.apache.avalon.phoenix.components.manager.DefaultManager" );
                 break;
 
             case DISABLE_HOOK_OPT:
