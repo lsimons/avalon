@@ -233,6 +233,13 @@ public class HttpContextImpl
         m_HttpContext.addHandler( handler );
     }
     
+    public void addHandler( int index, HttpHandler handler )
+    {
+        if( m_Logger.isDebugEnabled() )
+            m_Logger.debug( "Adding handler: " + handler );
+        m_HttpContext.addHandler( handler );
+    }
+    
     public void removeHandler( HttpHandler handler )
     {
         if( m_Logger.isDebugEnabled() )

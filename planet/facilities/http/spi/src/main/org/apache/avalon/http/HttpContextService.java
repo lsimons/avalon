@@ -28,6 +28,8 @@ public interface HttpContextService
     
     void addHandler( HttpHandler handler );
     
+    void addHandler( int index, HttpHandler handler );
+    
     void removeHandler( HttpHandler handler );
     
     HttpContext getHttpContext();

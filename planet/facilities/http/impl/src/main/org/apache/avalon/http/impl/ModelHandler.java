@@ -25,16 +25,16 @@ import org.apache.avalon.composition.model.DeploymentModel;
 
 import org.apache.avalon.framework.activity.Startable;
 
-import org.apache.avalon.framework.configuration.Configurable;
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
-
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
 
 import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.logger.Logger;
+
+import org.apache.avalon.framework.parameters.ParameterException;
+import org.apache.avalon.framework.parameters.Parameterizable;
+import org.apache.avalon.framework.parameters.Parameters;
 
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.framework.service.ServiceException;
@@ -54,7 +54,7 @@ import org.mortbay.http.HttpResponse;
  * @avalon.service type="org.mortbay.http.HttpHandler"
  */
 public class ModelHandler
-    implements Serviceable, Configurable, Contextualizable, LogEnabled,
+    implements Serviceable, Parameterizable, Contextualizable, LogEnabled,
                HttpHandler, CompositionListener, Startable
 {
     private Logger              m_Logger;
@@ -62,7 +62,8 @@ public class ModelHandler
     private HttpContextService  m_Context;
     private String              m_Name;
     private boolean             m_Started;
-    
+    private int                 m_Index;
+        
     public ModelHandler()
     {
         m_Started = false;
@@ -115,11 +116,12 @@ public class ModelHandler
         m_Context = (HttpContextService) man.lookup( "httpcontext" );
     }
     
-    public void configure( Configuration conf )
-        throws ConfigurationException
+    public void parameterize( Parameters params )
+        throws ParameterException
     {
+        m_Index = params.getParameterAsInteger( "handler-index", -1 );
     }
-
+    
     /* HttpHandler interface */
    
     public HttpContext getHttpContext()
@@ -154,7 +156,10 @@ public class ModelHandler
     {
         if( m_Logger.isDebugEnabled() )
             m_Logger.debug( "Starting ModelHandler: " + this );
-        m_Context.addHandler( this );
+        if( m_Index >= 0 )
+            m_Context.addHandler( m_Index, this );
+        else
+            m_Context.addHandler( this );
         m_Started = true;
     }
     
