@@ -28,7 +28,7 @@ Legal:
 
   <property name="name" value="phoenix"/>
   <property name="Name" value="Phoenix"/>
-  <property name="version" value="3.1a1-dev"/>
+  <property name="version" value="4.0a1-dev"/>
   <property name="year" value="1999-2001"/>
 
   <property name="build.debug" value="off"/>
