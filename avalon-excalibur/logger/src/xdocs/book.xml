@@ -8,7 +8,7 @@
     <menu-item href="index.html" label="Overview"/>
     <menu-item href="http://avalon.apache.org/excalibur/index.html" label="Excalibur Home"/>
     <menu-item href="http://avalon.apache.org/bindownload.cgi" label="Download"/>
-    <menu-item label="API Docs" href="http://avalon.apache.org/api/"/>
+    <menu-item label="API Docs" href="http://avalon.apache.org/excalibur/logger/api/"/>
 
   </menu>
 
