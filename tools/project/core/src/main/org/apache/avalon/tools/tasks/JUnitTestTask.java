@@ -130,7 +130,6 @@ public class JUnitTestTask extends SystemTask
             test( src, classpath, temp );
         }
 
-        /*
         System.out.println( 
            "error: [" 
            + project.getProperty( ERROR_KEY ) 
@@ -139,7 +138,6 @@ public class JUnitTestTask extends SystemTask
            "failure: [" 
            + project.getProperty( FAILURE_KEY ) 
            + "]" );
-        */ 
     }
 
     private void copyUnitTestResource( File dest )
@@ -209,14 +207,13 @@ public class JUnitTestTask extends SystemTask
         fileset.createExclude().setName( "**/Abstract*.java" );
 
         JUnitTask junit = (JUnitTask) getProject().createTask( "junit" );
-        junit.setFork( getForkProperty() );
         junit.setErrorProperty( ERROR_KEY );
         junit.setFailureProperty( FAILURE_KEY );
 
         JUnitTask.SummaryAttribute summary = new JUnitTask.SummaryAttribute();
         summary.setValue( "on" );
         junit.setPrintsummary( summary );
-        if( FORK_VALUE )
+        if( getForkProperty() )
         {
             junit.setFork( true );
             junit.setDir( base );
