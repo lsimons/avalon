@@ -53,8 +53,8 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import org.realityforge.classman.util.PathMatcher;
 import org.apache.avalon.phoenix.components.extensions.pkgmgr.PackageManager;
+import org.realityforge.classman.util.PathMatcher;
 
 /**
  * This resolver has all the same properties as the
@@ -63,7 +63,7 @@ import org.apache.avalon.phoenix.components.extensions.pkgmgr.PackageManager;
  * {@link #m_baseDirectory} value.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003/04/30 10:15:18 $
+ * @version $Revision: 1.2 $ $Date: 2003/04/30 10:16:48 $
  * @deprecated Convert to ClassMan SimpleLoaderResolver when it updates
  *             dependecy to latest Excalibur-Extension
  */

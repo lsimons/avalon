@@ -62,6 +62,9 @@ import org.apache.avalon.excalibur.io.FileUtil;
 import org.apache.avalon.excalibur.monitor.DirectoryResource;
 import org.apache.avalon.excalibur.monitor.impl.ActiveMonitor;
 import org.apache.avalon.framework.activity.Startable;
+import org.apache.avalon.framework.configuration.Configurable;
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.parameters.ParameterException;
@@ -70,9 +73,6 @@ import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
-import org.apache.avalon.framework.configuration.Configurable;
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.phoenix.interfaces.Deployer;
 
 /**
@@ -81,7 +81,7 @@ import org.apache.avalon.phoenix.interfaces.Deployer;
  * application as necessary.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.6 $ $Date: 2003/04/17 02:11:47 $
+ * @version $Revision: 1.7 $ $Date: 2003/04/30 10:16:49 $
  */
 public class DefaultDeploymentMonitor
     extends AbstractLogEnabled
