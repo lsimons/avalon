@@ -11,6 +11,8 @@ import java.util.HashMap;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.phoenix.components.configuration.ConfigurationRepository;
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
 
 /**
  * Repository from which all configuration data is retrieved.
@@ -20,6 +22,9 @@ import org.apache.avalon.phoenix.components.configuration.ConfigurationRepositor
 public class DefaultConfigurationRepository
     implements ConfigurationRepository
 {
+    private static final Resources REZ =
+        ResourceManager.getPackageResources( DefaultConfigurationRepository.class );
+
     private final HashMap m_configurations = new HashMap();
 
     public synchronized void storeConfiguration( final String application,
@@ -47,8 +52,8 @@ public class DefaultConfigurationRepository
 
         if( null == configuration )
         {
-            throw new ConfigurationException( "Unable to locate configuration for Block '" +
-                                              block + "' in application '" + application + "'" );
+            final String message = REZ.format( "config.error.noconfig", block, application );
+            throw new ConfigurationException( message );
         }
 
         return configuration;

@@ -66,7 +66,10 @@ public abstract class AbstractPolicy
     {
         codeSource = normalize( codeSource );
 
-        getLogger().debug( "getPermissions(" + codeSource.getLocation() + ");" );
+        if( getLogger().isDebugEnabled() )
+        {
+            getLogger().debug( "getPermissions(" + codeSource.getLocation() + ");" );
+        }
 
         final Permissions permissions = new Permissions();
         final int size = m_entries.size();
