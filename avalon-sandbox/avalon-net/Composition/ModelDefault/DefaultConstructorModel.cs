@@ -27,7 +27,7 @@ namespace Apache.Avalon.Composition.Model.Default
 	/// </summary>
 	/// <author>  <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
 	/// </author>
-	/// <version>  $Revision: 1.1 $ $Date: 2004/02/28 22:15:42 $
+	/// <version>  $Revision: 1.2 $ $Date: 2004/02/29 18:07:17 $
 	/// </version>
 	public class DefaultConstructorModel : DefaultEntryModel
 	{
@@ -117,7 +117,7 @@ namespace Apache.Avalon.Composition.Model.Default
 			}
 			catch (System.Exception)
 			{
-				String error = "todo: error message"; //"constructor.descriptor.unknown.error", key, descriptorClass);
+				String error = "constructor.descriptor.unknown.error " + key + " " + descriptorClass;
 				throw new ModelException(error);
 			}
 			
@@ -128,13 +128,13 @@ namespace Apache.Avalon.Composition.Model.Default
 			}
 			catch (System.Exception)
 			{
-				String error = "todo: error message"; //"constructor.directive.unknown.error", key, directiveClass);
+				String error = "constructor.directive.unknown.error" + " " + key + " " + directiveClass;
 				throw new ModelException(error);
 			}
 			
 			if (!target.IsAssignableFrom(source))
 			{
-				String error = "todo: error message"; //"constructor.invalid-model.error", key, descriptorClass, directiveClass);
+				String error = "constructor.invalid-model.error" + " " + key + " " + descriptorClass + " " + directiveClass;
 				throw new ModelException(error);
 			}
 		}

@@ -29,7 +29,7 @@ namespace Apache.Avalon.Composition.Model.Default
 	/// </summary>
 	/// <author>  <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
 	/// </author>
-	/// <version>  $Revision: 1.1 $ $Date: 2004/02/28 22:15:42 $
+	/// <version>  $Revision: 1.2 $ $Date: 2004/02/29 18:07:17 $
 	/// </version>
 	class DefaultContainmentModelComponentHelper
 	{
@@ -113,11 +113,9 @@ namespace Apache.Avalon.Composition.Model.Default
 				return new DefaultComponentContext(logger, name, system, 
 					graph, m_model, profile, type, base_Renamed, home, temp, partition);
 			}
-			//UPGRADE_NOTE: Exception 'java.lang.Throwable' was converted to 'System.Exception' which has different behavior. 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="jlca1100"'
 			catch (System.Exception e)
 			{
-				//UPGRADE_NOTE: Final was removed from the declaration of 'error '. 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="jlca1003"'
-				String error = "todo: error message"; //"containment.deployment.create.error", m_model.Path, name);
+				String error = "containment.deployment.create.error" + " " + m_model.Path + " " + name;
 				throw new ModelException(error, e);
 			}
 		}

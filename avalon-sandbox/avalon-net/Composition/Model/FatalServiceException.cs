@@ -26,9 +26,10 @@ namespace Apache.Avalon.Composition.Model
 	/// </summary>
 	/// <author>  <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
 	/// </author>
-	/// <version>  $Revision: 1.1 $ $Date: 2004/02/28 22:15:43 $
+	/// <version>  $Revision: 1.2 $ $Date: 2004/02/29 18:07:17 $
 	/// </version>
-	public class FatalServiceException:ServiceException
+	[Serializable]
+	public class FatalServiceException : ServiceException
 	{
 		/// <summary> Construct a new <code>FatalServiceException</code> instance.
 		/// 
@@ -40,6 +41,11 @@ namespace Apache.Avalon.Composition.Model
 		/// <param name="cause">expected service availability delay in milliseconds 
 		/// </param>
 		public FatalServiceException(System.String key, System.String message, System.Exception cause):base(key, message, cause)
+		{
+		}
+
+		public FatalServiceException(System.Runtime.Serialization.SerializationInfo info, 
+			System.Runtime.Serialization.StreamingContext context) : base(info, context)
 		{
 		}
 	}

@@ -33,7 +33,7 @@ namespace Apache.Avalon.Composition.Model.Default
 	/// <author>  
 	/// <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
 	/// </author>
-	/// <version>  $Revision: 1.1 $ $Date: 2004/02/28 22:15:42 $
+	/// <version>  $Revision: 1.2 $ $Date: 2004/02/29 18:07:17 $
 	/// </version>
 	public class DefaultContainmentModel : DefaultDeploymentModel, IContainmentModel
 	{
@@ -176,7 +176,6 @@ namespace Apache.Avalon.Composition.Model.Default
 				
 				IDeploymentModel[] startup = StartupGraph;
 				
-				/*
 				Commissioner commissioner = new Commissioner(Logger, true);
 				
 				try
@@ -184,15 +183,13 @@ namespace Apache.Avalon.Composition.Model.Default
 					for (int i = 0; i < startup.Length; i++)
 					{
 						IDeploymentModel child = startup[i];
-						commissioner.Commission(child);
+						commissioner.commission(child);
 					}
 				}
 				finally
 				{
-					commissioner.Dispose();
+					commissioner.dispose();
 				}
-				*/
-
 
 				//
 				// all subsidary model and runtime structures are not
@@ -666,7 +663,7 @@ namespace Apache.Avalon.Composition.Model.Default
 				//
 				
 				//UPGRADE_NOTE: Final was removed from the declaration of 'error '. 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="jlca1003"'
-				String error = "todo: error message"; //"containment.unknown-profile-class.error", Path, profile.GetType().FullName);
+				String error = "containment.unknown-profile-class.error" + " " + Path + " " + profile.GetType().FullName;
 				throw new ModelException(error);
 			}
 			return model;
@@ -791,7 +788,7 @@ namespace Apache.Avalon.Composition.Model.Default
 				}
 				else
 				{
-					String warning = "todo: error message"; //"target.ignore", path, ToString());
+					String warning = "target.ignore" + " " + path;
 					Logger.Warn(warning);
 				}
 			}
@@ -930,7 +927,7 @@ namespace Apache.Avalon.Composition.Model.Default
 			
 			if (Logger.IsDebugEnabled)
 			{
-				String message = "todo: error message"; //"containment.add", name));
+				String message = "containment.add" + " " + name;
 				Logger.Debug(message);
 			}
 			
@@ -967,7 +964,7 @@ namespace Apache.Avalon.Composition.Model.Default
 			}
 			catch (System.Exception e)
 			{
-				String error = "todo: error message"; //"containment.container.create.error", Path, profile.Name);
+				String error = "containment.container.create.error" + " " + Path + " " + profile.Name;
 				throw new ModelException(error, e);
 			}
 		}
@@ -1255,7 +1252,7 @@ namespace Apache.Avalon.Composition.Model.Default
 			}
 			catch (System.Exception e)
 			{
-				String error = "todo: error message"; //"containment.model.create.deployment.error", profile.Key, Path, profile.Classname);
+				String error = "containment.model.create.deployment.error" + " " + profile.Key + " " + Path + " " + profile.Classname;
 				throw new ModelException(error, e);
 			}
 		}

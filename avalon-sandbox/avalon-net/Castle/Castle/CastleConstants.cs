@@ -27,5 +27,10 @@ namespace Apache.Avalon.Castle
 		/// Pending.
 		/// </summary>
 		public static readonly ManagedObjectName REPOSITORY_NAME = new ManagedObjectName("apache.avalon.castle:name=Repository");
+
+		/// <summary>
+		/// Pending.
+		/// </summary>
+		public static readonly ManagedObjectName ORCHESTRATOR_NAME = new ManagedObjectName("apache.avalon.castle:name=Orchestrator");
 	}
 }

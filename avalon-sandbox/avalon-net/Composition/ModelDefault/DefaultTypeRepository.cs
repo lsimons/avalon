@@ -30,7 +30,7 @@ namespace Apache.Avalon.Composition.Model.Default
 	/// </summary>
 	/// <author>  <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
 	/// </author>
-	/// <version>  $Revision: 1.1 $ $Date: 2004/02/28 22:15:42 $
+	/// <version>  $Revision: 1.2 $ $Date: 2004/02/29 18:07:17 $
 	/// </version>
 	class DefaultTypeRepository : ITypeRepository
 	{
@@ -106,7 +106,7 @@ namespace Apache.Avalon.Composition.Model.Default
 			
 			if (Logger.IsDebugEnabled)
 			{
-				String message = "todo: error message"; //"type.repository.count", types.Count);
+				String message = "type.repository.count" + " " + types.Count;
 				Logger.Debug(message);
 			}
 			
@@ -126,7 +126,7 @@ namespace Apache.Avalon.Composition.Model.Default
 
 				if (Logger.IsDebugEnabled)
 				{
-					String message = "todo: error message"; //"type.repository.addition", typename, n.ToString());
+					String message = "type.repository.addition" + " " + typename;
 					Logger.Debug(message);
 				}
 			}
@@ -139,7 +139,7 @@ namespace Apache.Avalon.Composition.Model.Default
 		/// <summary> Return the logging channel assigned to the component.</summary>
 		/// <returns> the assigned logging channel
 		/// </returns>
-		protected virtual internal ILogger Logger
+		protected internal virtual ILogger Logger
 		{
 			get
 			{
@@ -237,7 +237,7 @@ namespace Apache.Avalon.Composition.Model.Default
 			TypeDescriptor type = (TypeDescriptor) m_types[typename];
 			if (type == null)
 			{
-				String error = "todo: error message"; //"type.repository.unknown-type", typename);
+				String error = "type.repository.unknown-type" + " " + typename;
 				throw new TypeUnknownException(error);
 			}
 			
@@ -377,7 +377,7 @@ namespace Apache.Avalon.Composition.Model.Default
 				}
 				else
 				{
-					String error = "todo: error message"; //"type.repository.unknown-type", typename);
+					String error = "type.repository.unknown-type" + " " + typeTarget.FullName;
 					throw new TypeUnknownException(error);
 				}
 			}

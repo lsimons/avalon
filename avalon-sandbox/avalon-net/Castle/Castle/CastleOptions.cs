@@ -66,7 +66,7 @@ namespace Apache.Avalon.Castle
 		/// <summary>
 		/// 
 		/// </summary>
-		private long timeout;
+		private long timeout = 10000;
 
 		/// <summary>
 		/// 

@@ -367,6 +367,8 @@ namespace Apache.Avalon.Composition.Data.Builder
 		private ComponentProfile CreateFromInclude( IConfiguration config )
 		{
 			String name = GetBlockIncludeName( config );
+			return null;
+			/*
 			if( config.GetAttribute( "id", null ) != null )
 			{
 				ResourceDirective resource = CreateResourceDirective( config );
@@ -377,7 +379,7 @@ namespace Apache.Avalon.Composition.Data.Builder
 			{
 				String path = GetBlockIncludePath( config );
 				return new BlockIncludeDirective( name, path );
-			}
+			}*/
 		}
 
 		private TargetDirective[] CreateTargetDirectives( IConfiguration config )

@@ -28,7 +28,7 @@
                     BaseAddress = "285212672"
                     CheckForOverflowUnderflow = "false"
                     ConfigurationOverrideFile = ""
-                    DefineConstants = "DEBUG;TRACE;STRONG"
+                    DefineConstants = "DEBUG;TRACE"
                     DocumentationFile = ""
                     DebugSymbols = "true"
                     FileAlignment = "4096"
@@ -39,7 +39,7 @@
                     OutputPath = "..\bin\"
                     RegisterForComInterop = "false"
                     RemoveIntegerChecks = "false"
-                    TreatWarningsAsErrors = "false"
+                    TreatWarningsAsErrors = "true"
                     WarningLevel = "4"
                 />
                 <Config
@@ -82,12 +82,12 @@
                 <Reference
                     Name = "Apache.Avalon.Framework"
                     AssemblyName = "Apache.Avalon.Framework"
-                    HintPath = "..\..\bin\Apache.Avalon.Framework.dll"
+                    HintPath = "..\..\Castle\bin\Apache.Avalon.Framework.dll"
                 />
                 <Reference
                     Name = "Apache.Avalon.Meta"
                     AssemblyName = "Apache.Avalon.Meta"
-                    HintPath = "..\..\bin\Apache.Avalon.Meta.dll"
+                    HintPath = "..\..\Castle\bin\Apache.Avalon.Meta.dll"
                 />
             </References>
         </Build>

@@ -30,7 +30,7 @@ namespace Apache.Avalon.Castle.Default.Deployment
 	[ManagedComponent]
 	public class BlockDeployment : DeployerBase
 	{
-		protected static readonly String BLOCK = "block.xml";
+		protected static readonly String BLOCK_NAME = "block.xml";
 
 		protected String config;
 		
@@ -57,7 +57,7 @@ namespace Apache.Avalon.Castle.Default.Deployment
 		[ManagedOperation]
 		public override bool Accepts( System.IO.FileInfo file )
 		{
-			bool accepts = String.Compare( file.Name, BLOCK, true ) == 0;
+			bool accepts = String.Compare( file.Name, BLOCK_NAME, true ) == 0;
 
 			if (accepts)
 			{

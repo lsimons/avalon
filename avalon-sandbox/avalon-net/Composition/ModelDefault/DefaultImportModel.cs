@@ -28,7 +28,7 @@ namespace Apache.Avalon.Composition.Model.Default
 	/// </summary>
 	/// <author>  <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
 	/// </author>
-	/// <version>  $Revision: 1.1 $ $Date: 2004/02/28 22:15:42 $
+	/// <version>  $Revision: 1.2 $ $Date: 2004/02/29 18:07:17 $
 	/// </version>
 	public class DefaultImportModel : DefaultEntryModel
 	{
@@ -115,12 +115,10 @@ namespace Apache.Avalon.Composition.Model.Default
 				}
 				catch (ContextException )
 				{
-					//UPGRADE_TODO: Method 'java.util.Map.get' was converted to 'System.Collections.IDictionary.Item' which has a different behavior. 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="jlca1073_javautilMapget_javalangObject"'
 					object_Renamed = m_map[key];
 					if (object_Renamed == null)
 					{
-						//UPGRADE_NOTE: Final was removed from the declaration of 'error '. 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="jlca1003"'
-						String error = "todo: error message"; //"import.missing-entry.error", key, target);
+						String error = "import.missing-entry.error" + " " + key + " " + target;
 						throw new ModelException(error);
 					}
 				}
@@ -134,8 +132,7 @@ namespace Apache.Avalon.Composition.Model.Default
 			
 				if (!(type.IsAssignableFrom(object_Renamed.GetType())))
 				{
-					//UPGRADE_NOTE: Final was removed from the declaration of 'error '. 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="jlca1003"'
-					String error = "todo: error message"; //"import.type-conflict.error", key, typename, target);
+					String error = "import.type-conflict.error" + " " + key + " " + type.FullName + " " + target;
 					throw new ModelException(error);
 				}
 			

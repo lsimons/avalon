@@ -51,7 +51,7 @@ namespace Apache.Avalon.Composition.Model.Default
 	/// </summary>
 	/// <author>  <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
 	/// </author>
-	/// <version>  $Revision: 1.1 $ $Date: 2004/02/28 22:15:42 $
+	/// <version>  $Revision: 1.2 $ $Date: 2004/02/29 18:07:17 $
 	/// </version>
 	public class DefaultTypeLoaderModel : AbstractLogEnabled, ITypeLoaderModel
 	{
@@ -128,7 +128,6 @@ namespace Apache.Avalon.Composition.Model.Default
 				
 				// m_packages = buildOptionalPackages(m_classpath, context.getOptionalPackages());
 				m_urls = buildQualifiedClassPath();
-				//UPGRADE_ISSUE: Constructor 'java.net.URLClassLoader.URLClassLoader' was not converted. 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="jlca1000"'
 				// m_classLoader = new URLClassLoader(m_urls, context.getClassLoader());
 				
 				//
@@ -139,8 +138,8 @@ namespace Apache.Avalon.Composition.Model.Default
 				System.Collections.ArrayList types = new System.Collections.ArrayList();
 				System.Collections.ArrayList services = new System.Collections.ArrayList();
 				ILogger scannerLogger = LocalLogger.CreateChildLogger("scanner");
-				// // Scanner scanner = new Scanner(scannerLogger);
-				// // scanner.Scan(m_urls, types, services);
+				Scanner scanner = new Scanner(scannerLogger);
+				scanner.Scan(m_urls, types, services);
 				
 				//
 				// create the repository supporting type and service lookup
@@ -307,8 +306,11 @@ namespace Apache.Avalon.Composition.Model.Default
 					classpath.Add(implicit_Renamed[i].ToString());
 				}
 			}
+
+			System.IO.FileInfo[] files = directive.Library.getOptionalExtensionDirectories(base_Renamed);
+			addToClassPath(classpath, files);
 			
-			System.IO.FileInfo[] files = expandFileSetDirectives(base_Renamed, directive.ClasspathDirective.Filesets);
+			files = expandFileSetDirectives(base_Renamed, directive.ClasspathDirective.Filesets);
 			addToClassPath(classpath, files);
 			
 			if (files.Length > 0)
@@ -367,7 +369,7 @@ namespace Apache.Avalon.Composition.Model.Default
 		{
 			// System.IO.FileInfo canonical = file.FullName();
 			// String uri = canonical.toURL().ToString();
-			list.Add(file);
+			list.Add( file.FullName );
 		}
 		
 		/// <summary> Return an array of files corresponding to the expansion 

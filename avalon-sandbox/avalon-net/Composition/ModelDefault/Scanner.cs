@@ -30,7 +30,7 @@ namespace Apache.Avalon.Composition.Model.Default
 	/// </summary>
 	/// <author>  <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
 	/// </author>
-	/// <version>  $Revision: 1.1 $ $Date: 2004/02/28 22:15:42 $
+	/// <version>  $Revision: 1.2 $ $Date: 2004/02/29 18:07:17 $
 	/// </version>
 	public class Scanner : AbstractLogEnabled
 	{
@@ -43,11 +43,6 @@ namespace Apache.Avalon.Composition.Model.Default
 		/// The service builder. NOTE: Not being used by now.
 		/// </summary>
 		ServiceBuilder m_serviceBuilder = new ServiceBuilder();
-
-		/// <summary>
-		/// Assemblies array to be scanned.
-		/// </summary>
-		Assembly[] m_assemblies;
 		
 		//===================================================================
 		// constructor
@@ -61,14 +56,9 @@ namespace Apache.Avalon.Composition.Model.Default
 		/// </param>
 		/// <param name="classloader">the classloader
 		/// </param>
-		public Scanner(ILogger logger, Assembly[] assemblies)
+		public Scanner(ILogger logger)
 		{
-			if (assemblies == null)
-			{
-				throw new ArgumentNullException("assemblies");
-			}
 			EnableLogging(logger);
-			m_assemblies = assemblies;
 		}
 		
 		/// <summary> Scan the supplied url for Service and Type defintions.</summary>
@@ -79,18 +69,18 @@ namespace Apache.Avalon.Composition.Model.Default
 		/// </param>
 		/// <param name="services">a list to be populated with service descriptors
 		/// </param>
-		public virtual void Scan(IList types, IList services)
+		public virtual void Scan( Uri[] uris, IList types, IList services)
 		{
-			foreach(Assembly item in m_assemblies)
+			foreach(Uri item in uris)
 			{
-				ScanAssembly(item, types, services);
+				ScanUri(item, types, services);
 			}
 		}
 		
 		/// <summary> Add a URL to the classpath.</summary>
 		/// <param name="url">the URL to add to the repository
 		/// </param>
-		private void ScanAssembly(Assembly item, IList types, IList services)
+		private void ScanUri(Uri uri, IList types, IList services)
 		{
 			if (Logger.IsDebugEnabled)
 			{
@@ -98,7 +88,20 @@ namespace Apache.Avalon.Composition.Model.Default
 				Logger.Debug(message);
 			}
 			
-			foreach(Type type in item.GetExportedTypes())
+			Assembly assembly = Assembly.LoadFrom( uri.LocalPath );
+
+			ScanAssembly( assembly, types, services );
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="assembly"></param>
+		/// <param name="types"></param>
+		/// <param name="services"></param>
+		private void ScanAssembly( Assembly assembly, IList types, IList services )
+		{
+			foreach(Type type in assembly.GetExportedTypes())
 			{
 				ScanType( type, types, services );
 			}

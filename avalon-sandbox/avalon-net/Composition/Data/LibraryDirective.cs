@@ -31,7 +31,7 @@ namespace Apache.Avalon.Composition.Data
 	/// </summary>
 	/// <author>  <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
 	/// </author>
-	/// <version>  $Revision: 1.2 $ $Date: 2004/02/28 22:15:36 $
+	/// <version>  $Revision: 1.3 $ $Date: 2004/02/29 18:07:17 $
 	/// </version>
 	[Serializable]
 	public class LibraryDirective
@@ -100,7 +100,7 @@ namespace Apache.Avalon.Composition.Data
 				System.String path = includes[i];
 				list.Add(getDirectory(baseObj, path));
 			}
-			return (System.IO.FileInfo[]) list.ToArray( typeof(System.IO.FileInfo[]) );
+			return (System.IO.FileInfo[]) list.ToArray( typeof(System.IO.FileInfo) );
 		}
 		
 		/// <summary> Return the empty status of this directive.</summary>

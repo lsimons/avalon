@@ -19,6 +19,7 @@ namespace Apache.Avalon.Castle.Default.Deployment
 
 	using Apache.Avalon.Castle.ManagementExtensions;
 	using Apache.Avalon.Castle.Logger;
+	using Apache.Avalon.Castle.Util;
 	using Apache.Avalon.Composition.Data;
 	using Apache.Avalon.Composition.Model;
 	using Apache.Avalon.Composition.Model.Default;
@@ -66,7 +67,7 @@ namespace Apache.Avalon.Castle.Default.Deployment
 		/// <param name="profile"></param>
 		protected void DeployContainmentProfile( ContainmentProfile profile )
 		{
-			// TODO: Enviar profile para Orchestrator
+			MXUtil.InvokeOn( server, CastleConstants.ORCHESTRATOR_NAME, "DeployContainmentProfile", profile );
 		}
 	}
 }

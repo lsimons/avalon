@@ -84,6 +84,37 @@ namespace Apache.Avalon.Castle.ManagementExtensions.Default.Strategy
 			}
 		}
 
+		public static bool Match(ParameterInfo[] parameters, Type[] signature)
+		{
+			if (parameters.Length == 0 && signature.Length == 0)
+			{
+				return true;
+			}
+
+			// TODO: Check for argument of type 'params'
+
+			for(int i=0; i < parameters.Length; i++)
+			{
+				ParameterInfo info = parameters[i];
+
+				int pos = info.Position;
+
+				if (pos < signature.Length)
+				{
+					if ( !info.ParameterType.IsAssignableFrom( signature[pos] ) )
+					{
+						return false;
+					}
+				}
+				else
+				{
+					return false;
+				}
+			}
+
+			return true;
+		}
+
 		public static String BuildOperationName(String name, ParameterInfo[] args)
 		{
 			String result = String.Format("{0}[{1}]", name, GetArraySig(args));
