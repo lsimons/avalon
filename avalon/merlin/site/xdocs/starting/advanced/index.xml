@@ -76,12 +76,6 @@
             <td>Demonstration of the selection of a packaged profile by name.</td>
           </tr>
           <tr>
-            <td><a href="includes.html">Block Includes</a></td>
-            <td>Example of block composition via include statements with emphasis 
-                on managing multiple external configurations.  This tutorial also
-                includes usage of the application repository.</td>
-          </tr>
-          <tr>
             <td><a href="composite.html">Block Composition</a></td>
             <td>Example of the use of imported blocks that can publish services and declare 
                 dependencies.  The tutorial demonstrates the use of block level service 

@@ -73,12 +73,10 @@
             <item name="Interfaces" href="/starting/advanced/lifecycle/interfaces.html"/>
             <item name="Example" href="/starting/advanced/lifecycle/example.html"/>
           </item>
-          <item name="Contextulization" href="/starting/advanced/context.html"/>
+          <item name="Contextualization" href="/starting/advanced/context.html"/>
           <item name="Deployment Templates" href="/starting/advanced/profiles.html"/>
-          <item name="Profile Selectors" href="/starting/advanced/selectors.html"/>
-          <item name="Block Includes" href="/starting/advanced/includes.html"/>
-          <item name="Block Composition" href="/starting/advanced/composite.html"/>
-          <item name="Custom Containers" href="/starting/advanced/containers.html"/>
+          <item name="Profile Selection" href="/starting/advanced/selection.html"/>
+          <item name="Composition" href="/starting/advanced/composite.html"/>
         </item>
       </item>
       <item name="Merlin System" href="/merlin/index.html"/>
