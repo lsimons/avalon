@@ -7,17 +7,17 @@
  */
 package org.apache.avalon.phoenix.framework.tools.verifier;
 
-import org.apache.avalon.framework.CascadingException;
-
 /**
  * Exception to indicate error verifying a Block or application.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003/03/01 03:39:48 $
+ * @version $Revision: 1.2 $ $Date: 2003/03/01 04:04:25 $
  */
 public final class VerifyException
-    extends CascadingException
+    extends Exception
 {
+    private final Throwable m_throwable;
+
     /**
      * Construct a new <code>VerifyException</code> instance.
      *
@@ -36,6 +36,18 @@ public final class VerifyException
      */
     public VerifyException( final String message, final Throwable throwable )
     {
-        super( message, throwable );
+        super( message );
+        m_throwable = throwable;
     }
+
+    /**
+     * Retrieve cause of exception.
+     *
+     * @return the exception that caused this exception.
+     */
+    public Throwable getCause()
+    {
+        return m_throwable;
+    }
+
 }
