@@ -1,4 +1,5 @@
-<project name="Avalon Phoenix" href="http://jakarta.apache.org/avalon/phoenix">
+<project name="Avalon Phoenix"
+    href="http://jakarta.apache.org/avalon/phoenix">
 
     <title>Avalon Phoenix</title>
     <logo href="images/header.gif">Avalon Phoenix</logo>
@@ -34,13 +35,15 @@
         </menu>
 
         <menu name="For Developers">
+            <!-- <item name="Get Involved" href="/getinvolved.html"/> -->
             <item name="Changes" href="/for-developers-changes.html"/>
-            <item name="Todo" href="/for-developers-todo.html"/>
             <item name="Coding standards" href="@AVALON_BASE@/code-standards.html"/>
             <item name="Project Structure" href="/for-developers-project-structure.html"/>
-            <item name="CVS" href="http://jakarta.apache.org/site/cvsindex.html"/>
+            <item name="CVS Repositories" href="http://jakarta.apache.org/site/cvsindex.html"/>
             <item name="Mailing Lists" href="http://jakarta.apache.org/site/mail.html"/>
-            <item name="A Future" href="/for-developers-a-future.html"/>
+            <item name="TODO"  href="http://nagoya.apache.org/bugzilla/buglist.cgi?bug_status=UNCONFIRMED&bug_status=NEW&bug_status=ASSIGNED&bug_status=REOPENED&bug_status=RESOLVED&product=Avalon&component=Phoenix"/>
+            <item name="Bug Database"  href="http://nagoya.apache.org/bugzilla/enter_bug.cgi?product=Avalon&amp;component=Phoenix"/>
+            <item name="Enhancement Requests"  href="http://nagoya.apache.org/bugzilla/enter_bug.cgi?product=Avalon&amp;component=Phoenix&amp;bug_severity=Enhancement"/>
         </menu>
 
     </body>
