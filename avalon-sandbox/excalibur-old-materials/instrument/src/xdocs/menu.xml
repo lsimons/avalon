@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project
-    href="http://jakarta.apache.org/avalon/excalibur/instrument/"
-    name="Excalibur Instrument">
-
+<project href="http://jakarta.apache.org/avalon/excalibur/instrument/" name="Excalibur Instrument">
     <title>Excalibur Instrument</title>
     <body>
         <menu name="Related">
-          <item href="../fortress/" name="Excalibur Fortress"/>
+            <menu name="Containers">
+                <item href="../component/" name="Excalibur Component Manager"/>
+                <item href="../fortress/" name="Excalibur Fortress"/>
+            </menu>
         </menu>
         <menu name="About">
             <item name="Overview" href="index.html"/>
