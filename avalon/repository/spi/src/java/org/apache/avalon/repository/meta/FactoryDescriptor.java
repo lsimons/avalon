@@ -32,7 +32,7 @@ import org.apache.avalon.repository.RepositoryRuntimeException;
  * artifacts.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class FactoryDescriptor extends ArtifactDescriptor
 {
@@ -52,6 +52,8 @@ public class FactoryDescriptor extends ArtifactDescriptor
     public static final String FACTORY_KEY = 
       "avalon.artifact.factory";
 
+    public static final String EXPORT_KEY = 
+      "avalon.artifact.export";
 
     //-----------------------------------------------------------
     // immutable state
@@ -64,6 +66,8 @@ public class FactoryDescriptor extends ArtifactDescriptor
     private final Artifact[] c_imp;
     
     private final String m_factory;
+
+    private final String m_interface;
 
     //-----------------------------------------------------------
     // constructor
@@ -84,6 +88,7 @@ public class FactoryDescriptor extends ArtifactDescriptor
         c_imp = buildDependents( attributes, IMP_KEY );
 
         m_factory = getFactory( attributes );
+        m_interface = getInterface( attributes );
     }
 
     //-----------------------------------------------------------
@@ -98,6 +103,15 @@ public class FactoryDescriptor extends ArtifactDescriptor
     public String getFactory()
     {
         return m_factory;
+    }
+
+   /**
+    * Return the factory interface.
+    * @return the interface classname
+    */
+    public String getInterface()
+    {
+        return m_interface;
     }
 
    /**
@@ -195,4 +209,15 @@ public class FactoryDescriptor extends ArtifactDescriptor
         }
     }
 
+    private String getInterface( Attributes attributes )
+    {
+        try
+        {
+            return getValue( attributes, EXPORT_KEY ); 
+        }
+        catch( Throwable e )
+        {
+            return null;
+        }
+    }
 }

@@ -1,0 +1,9 @@
+<!--
+Configuration used by the DefaultInitialContextFactoryTest to validate the 
+populatation of registered artifacts with the initial context.
+-->
+
+<system>
+  <artifact spec="avalon-logging/avalon-logkit-impl#1.0-SNAPSHOT"/>
+  <artifact spec="avalon-logging/avalon-log4j-impl#1.0-SNAPSHOT"/>
+</system>

@@ -31,7 +31,12 @@ public class DependencyTestCase extends AbstractTestCase
 
     public DependencyTestCase()
     {
-        super( "dependency.xml" );
+        super();
+    }
+
+    public void setUp() throws Exception
+    {
+        m_model = super.setUp( "dependency.xml" );
     }
 
    //-------------------------------------------------------

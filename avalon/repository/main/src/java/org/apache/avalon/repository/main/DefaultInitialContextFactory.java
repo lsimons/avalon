@@ -33,6 +33,8 @@ import java.net.MalformedURLException;
 import java.net.JarURLConnection;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
+import java.util.Hashtable;
 import java.util.Map;
 import java.util.Properties;
 import java.text.ParseException;
@@ -49,6 +51,7 @@ import org.apache.avalon.repository.Artifact;
 import org.apache.avalon.repository.Repository;
 import org.apache.avalon.repository.RepositoryException;
 import org.apache.avalon.repository.RepositoryRuntimeException;
+import org.apache.avalon.repository.data.FactoryDirective;
 import org.apache.avalon.repository.meta.FactoryDescriptor;
 import org.apache.avalon.repository.provider.Factory;
 import org.apache.avalon.repository.provider.InitialContext;
@@ -78,7 +81,7 @@ import org.apache.avalon.util.defaults.Defaults;
  * </pre>
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public class DefaultInitialContextFactory implements InitialContextFactory
 {
@@ -104,6 +107,8 @@ public class DefaultInitialContextFactory implements InitialContextFactory
     private final DefaultsBuilder m_defaults;
 
     private final Properties m_properties;
+
+    private final List m_registry = new ArrayList();
 
     //------------------------------------------------------------------
     // mutable state 
@@ -182,7 +187,7 @@ public class DefaultInitialContextFactory implements InitialContextFactory
      * @param key the application key
      * @param work the working directory
      * @throws IOException if an error occurs during establishment
-     * @exception NullPointerException if tyhe supplied key or work 
+     * @exception NullPointerException if the supplied key or work 
      *    arguments are null
      */
     public DefaultInitialContextFactory( String key, File work ) 
@@ -233,6 +238,15 @@ public class DefaultInitialContextFactory implements InitialContextFactory
     // ------------------------------------------------------------------------
     // InitialContextFactory
     // ------------------------------------------------------------------------
+
+   /**
+    * Register a factory artifict.
+    * @param artifact the artifact reference
+    */
+    public void addFactoryArtifact( Artifact artifact )
+    {
+        m_registry.add( artifact );
+    }
 
    /**
     * Set the online mode of the repository. The default policy is to 
@@ -354,6 +368,7 @@ public class DefaultInitialContextFactory implements InitialContextFactory
               getApplicationKey(),
               getParentClassLoader(),
               getImplementation(),
+              getRegisteredArtifacts(),
               getWorkingDirectory(),
               getCacheDirectory(),
               getProxyHost(),
@@ -369,6 +384,14 @@ public class DefaultInitialContextFactory implements InitialContextFactory
               "Could not create initial context.";
             throw new RepositoryRuntimeException( error, e );
         }
+    }
+
+   /**
+    * Return the registory.
+    */
+    public Artifact[] getRegisteredArtifacts()
+    {
+        return (Artifact[]) m_registry.toArray( new Artifact[0] );
     }
 
    /**

@@ -29,7 +29,7 @@ import org.apache.avalon.repository.Artifact;
  * An abstract descriptor holds attributes about an artifact.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class ArtifactDescriptor implements Serializable
 {
@@ -54,6 +54,7 @@ public class ArtifactDescriptor implements Serializable
     private final String m_version;
     private final String m_build;
 
+    private final Artifact m_artifact;
 
     //-----------------------------------------------------------
     // constructor
@@ -96,6 +97,8 @@ public class ArtifactDescriptor implements Serializable
             m_version = getAttribute( attributes, Artifact.VERSION_KEY, "" );
             m_build = getAttribute( attributes, BUILD_KEY, "" );
 
+            m_artifact = Artifact.createArtifact( m_group, m_name, m_version );
+
         }
         catch( NamingException e )
         {
@@ -114,6 +117,15 @@ public class ArtifactDescriptor implements Serializable
     //-----------------------------------------------------------
     // public
     //-----------------------------------------------------------
+
+   /**
+    * Return the artifact reference.
+    * @return the artifact
+    */
+    public Artifact getArtifact()
+    {
+        return m_artifact;
+    }
 
    /**
     * Return the meta data domain value.

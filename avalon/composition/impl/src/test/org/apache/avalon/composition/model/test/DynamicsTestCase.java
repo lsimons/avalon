@@ -37,7 +37,12 @@ public class DynamicsTestCase extends AbstractTestCase
 
     public DynamicsTestCase()
     {
-        super( "dynamics.xml" );
+        super();
+    }
+
+    public void setUp() throws Exception
+    {
+        m_model = super.setUp( "dynamics.xml" );
     }
 
    //-------------------------------------------------------

@@ -16,22 +16,30 @@
 
 package org.apache.avalon.repository.main;
 
+import java.util.Map;
 import java.util.Properties;
 import java.io.File;
 import java.io.IOException;
 
 import junit.framework.TestCase ;
 
+import org.apache.avalon.repository.Artifact;
+import org.apache.avalon.repository.Repository;
+import org.apache.avalon.repository.provider.Factory;
+import org.apache.avalon.repository.provider.Builder;
 import org.apache.avalon.repository.provider.InitialContext;
 import org.apache.avalon.repository.provider.InitialContextFactory;
 import org.apache.avalon.util.exception.ExceptionHelper;
 import org.apache.avalon.util.env.Env;
 
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
+
 /**
- * DefaultsBuilderTestCase
+ * DefaultInitialContextFactoryTestCase
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class DefaultInitialContextFactoryTestCase extends TestCase
 {
@@ -75,13 +83,28 @@ public class DefaultInitialContextFactoryTestCase extends TestCase
         // Normally the default values should be ok and you should 
         // not need to modify anything, however, you have available
         // serveral set methods on the InitialContextFactory interface
-        // that allow customization of the factory.  In this example
+        // that allow customization of the factory. 
+
+        // In this example
         // we will override the system cach with the local maven 
         // repository.
         //
 
         File repo = getMavenRepositoryDirectory();
         factory.setCacheDirectory( repo );
+
+        //
+        // These actions declare factory artifacts to the initial context
+        // so that other applications don't have to go hunting.
+        //
+
+        Artifact[] artifacts = 
+          getArtifactsToRegister( "src/test/conf/system.xml" );
+        for( int i=0; i<artifacts.length; i++ )
+        {
+            Artifact artifact = artifacts[i];
+            factory.addFactoryArtifact( artifact );
+        }
 
         // Once customized we can proceed with the instantiation
         // of the initial context. The following method invocation
@@ -112,8 +135,54 @@ public class DefaultInitialContextFactoryTestCase extends TestCase
 
         //
         // With the establishment of an initial context we can load any 
-        // factory based system (e.g. logging, merlin, etc.).
+        // factory based system (e.g. logging, merlin, etc.).  The following code
+        // requests an artifact for the repository implementation:
         //
+
+        System.out.println( "Usage Example" );
+        System.out.println( "-------------" );
+        String key = Repository.class.getName();
+        System.out.println( "  key: " + key );
+        Artifact[] candidates = 
+          context.getRegistry().getCandidates( Repository.class );
+        for( int i=0; i<candidates.length; i++ )
+        {
+            System.out.println( "  artifact: " + candidates[i] );
+        }
+
+        //
+        // We can use the initial context to construct a plugin using a 
+        // builder.  The following example demonstrates the creation of a 
+        // a repository plugin (the same process applies for merlin, logging
+        // plugins, runtime plugins, etc.).
+        //
+
+        if( candidates.length > 0 )
+        {
+            Builder builder = context.newBuilder( candidates[0] );
+            Factory exampleFactory = builder.getFactory();
+            Map criteria = exampleFactory.createDefaultCriteria();
+            Repository exampleRepository = (Repository) exampleFactory.create( criteria );
+            System.out.println( "  instance: " + exampleRepository );
+            System.out.println( "" );
+        }
+    }
+
+    private Artifact[] getArtifactsToRegister( String path ) throws Exception
+    {
+        Configuration config = 
+          getConfiguration( new File( BASEDIR, path ) );
+        Configuration[] children = 
+          config.getChildren( "artifact" );
+        Artifact[] artifacts = new Artifact[ children.length ];
+        for( int i=0; i<children.length; i++ )
+        {
+            Configuration child = children[i];
+            String spec = child.getAttribute( "spec" );
+            Artifact artifact = Artifact.createArtifact( "artifact:" + spec );
+            artifacts[i] = artifact;
+        }
+        return artifacts;
     }
 
     private static File getMavenRepositoryDirectory()
@@ -149,4 +218,10 @@ public class DefaultInitialContextFactoryTestCase extends TestCase
         }
     }
 
+    Configuration getConfiguration( File file ) throws Exception
+    {
+        DefaultConfigurationBuilder builder = 
+          new DefaultConfigurationBuilder();
+        return builder.buildFromFile( file );  
+    }
 }

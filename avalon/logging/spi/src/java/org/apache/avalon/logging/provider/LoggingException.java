@@ -17,35 +17,35 @@
 
 package org.apache.avalon.logging.provider;
 
-import org.apache.avalon.framework.CascadingRuntimeException;
+import org.apache.avalon.framework.CascadingException;
 
 /**
  * Exception to indicate that there was a logging management related error.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/02/24 21:55:37 $
+ * @version $Revision: 1.1 $ $Date: 2004/02/27 22:39:35 $
  */
-public class LoggingRuntimeException
-        extends CascadingRuntimeException
+public class LoggingException
+        extends CascadingException
 {
 
     /**
-     * Construct a new <code>LoggingRuntimeException</code> instance.
+     * Construct a new <code>LoggingException</code> instance.
      *
      * @param message The detail message for this exception.
      */
-    public LoggingRuntimeException( final String message )
+    public LoggingException( final String message )
     {
         this( message, null );
     }
 
     /**
-     * Construct a new <code>LoggingRuntimeException</code> instance.
+     * Construct a new <code>LoggingException</code> instance.
      *
      * @param message The detail message for this exception.
      * @param throwable the root cause of the exception
      */
-    public LoggingRuntimeException( final String message, final Throwable throwable )
+    public LoggingException( final String message, final Throwable throwable )
     {
         super( message, throwable );
     }

@@ -42,7 +42,7 @@ import org.apache.avalon.logging.data.CategoriesDirective;
  * <p>Implementation of the default security model.</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/02/25 22:54:09 $
+ * @version $Revision: 1.4 $ $Date: 2004/02/27 22:39:36 $
  */
 public final class DefaultSecurityModel implements SecurityModel
 {
@@ -76,6 +76,7 @@ public final class DefaultSecurityModel implements SecurityModel
     public static SecurityModel createSecurityModel( Configuration config )
       throws Exception
     {
+        if( null == config ) return new DefaultSecurityModel();
         Configuration certs = config.getChild( CERTIFICATES_ELEMENT );
         Certificate[] certificates = createCertificates( certs );
         Configuration grant = config.getChild( PERMISSIONS_ELEMENT );

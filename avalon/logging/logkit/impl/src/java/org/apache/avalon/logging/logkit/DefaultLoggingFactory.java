@@ -34,6 +34,7 @@ import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 
 import org.apache.avalon.logging.provider.LoggingCriteria;
+import org.apache.avalon.logging.provider.LoggingFactory;
 import org.apache.avalon.logging.provider.LoggingException;
 import org.apache.avalon.logging.provider.LoggingManager;
 import org.apache.avalon.logging.data.CategoriesDirective;
@@ -58,7 +59,7 @@ import org.apache.log.format.Formatter;
  * The DefaultLoggingFactory provides support for the establishment of a 
  * new logging system using LogKit as the implementation.
  */
-public class DefaultLoggingFactory implements Factory
+public class DefaultLoggingFactory implements LoggingFactory
 {
     //--------------------------------------------------------------------------
     // static
@@ -103,6 +104,41 @@ public class DefaultLoggingFactory implements Factory
     }
 
     //--------------------------------------------------------------------------
+    // LoggingFactory
+    //--------------------------------------------------------------------------
+
+   /**
+    * Return of map containing the default parameters.
+    *
+    * @return the default parameters 
+    */
+    public LoggingCriteria createDefaultLoggingCriteria()
+    {
+        return new DefaultLoggingCriteria( m_context );
+    }
+
+   /**
+    * Create a new LoggingManager using the supplied logging criteria.
+    *
+    * @param criteria the logging system factory criteria
+    * @exception LoggingException is a logging system creation error occurs
+    */
+    public LoggingManager createLoggingManager( LoggingCriteria criteria ) 
+      throws LoggingException
+    {
+        try
+        {
+            return (LoggingManager) create( criteria );
+        }
+        catch( Throwable e )
+        {
+            final String error = 
+              "Cannot build logging manager.";
+            throw new LoggingException( error, e );
+        }
+    }
+
+    //--------------------------------------------------------------------------
     // Factory
     //--------------------------------------------------------------------------
 
@@ -113,7 +149,7 @@ public class DefaultLoggingFactory implements Factory
     */
     public Map createDefaultCriteria()
     {
-        return new DefaultLoggingCriteria( m_context );
+        return createDefaultLoggingCriteria();
     }
 
    /**

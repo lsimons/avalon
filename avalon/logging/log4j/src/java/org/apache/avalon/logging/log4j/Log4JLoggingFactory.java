@@ -32,6 +32,9 @@ import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.configuration.Configuration;
 
 import org.apache.avalon.logging.provider.LoggingCriteria;
+import org.apache.avalon.logging.provider.LoggingFactory;
+import org.apache.avalon.logging.provider.LoggingManager;
+import org.apache.avalon.logging.provider.LoggingException;
 
 import org.apache.avalon.repository.provider.InitialContext;
 import org.apache.avalon.repository.provider.Factory;
@@ -43,10 +46,10 @@ import org.apache.log4j.xml.DOMConfigurator;
  * A Log4J factory.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class Log4JLoggingFactory
-    implements Factory
+    implements LoggingFactory
 {
     private static final Resources REZ =
       ResourceManager.getPackageResources( DefaultLoggingCriteria.class );
@@ -65,14 +68,53 @@ public class Log4JLoggingFactory
         m_Context = context;
         m_Classloader = classloader;
     }
-   
+
+    //--------------------------------------------------------------------------
+    // LoggingFactory
+    //--------------------------------------------------------------------------
+
+   /**
+    * Return of map containing the default parameters.
+    *
+    * @return the default parameters 
+    */
+    public LoggingCriteria createDefaultLoggingCriteria()
+    {
+        return new DefaultLoggingCriteria( m_Context );
+    }
+
+   /**
+    * Create a new LoggingManager using the supplied logging criteria.
+    *
+    * @param criteria the logging system factory criteria
+    * @exception LoggingException is a logging system creation error occurs
+    */
+    public LoggingManager createLoggingManager( LoggingCriteria criteria ) 
+      throws LoggingException
+    {
+        try
+        {
+            return (LoggingManager) create( criteria );
+        }
+        catch( Throwable e )
+        {
+            final String error = 
+              "Cannot build logging manager.";
+            throw new LoggingException( error, e );
+        }
+    }
+
+    //--------------------------------------------------------------------------
+    // Factory
+    //--------------------------------------------------------------------------
+
    /**
     * Return a new instance of default criteria for the factory.
     * @return a new criteria instance
     */
     public Map createDefaultCriteria()
     {
-        return new DefaultLoggingCriteria( m_Context );
+        return createDefaultLoggingCriteria();
     }
 
    /**
