@@ -148,7 +148,7 @@ public class CronTimeTrigger
         )
         {
             //for jobs scheduled everyday and job is done this day
-            next.roll( Calendar.DAY_OF_YEAR, true );
+            next.add( Calendar.DAY_OF_YEAR, 1 );
         }
 
         int realDayOfMonth = m_dayOfMonth;
