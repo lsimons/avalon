@@ -10,8 +10,12 @@
     <person name="Eung-ju Park" email="colus@apache.org" id="EP"/>
     <person name="Leif Mortenson" email="leif@apache.org" id="LM"/>
     <person name="Giacomo Pati" email="giacomo@apache.org" id="GP"/>
+    <person name="Marcus Crafter" email="crafterm@apache.org" id="MC"/>
   </devs>
   <release version="1.1">
+    <action dev="MC" type="add">
+      Added SMTPOutputLogTarget to enable logging to email addresses.
+    </action>
     <action dev="LM" type="update">
       Changed the default log format so that the log entry times are formatted
       using a human friendly format.
