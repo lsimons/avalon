@@ -89,10 +89,11 @@
     <subsection name="Simplified Analysis and Design">
       <p>
         Developing on Avalon helps the developer to get into a mindset.
-        That mindset focuses the efforts on how to discover Components and
-        Services.  Since many of the details regarding the life of the
-        Components and Services in the system are already analyzed and
-        designed, the developer only has to choose which ones they need.
+        That mindset focuses the efforts on how to identify Services, followed
+        by an implementation of such service, a component.  Since many of the
+        details regarding the life of the components and Services in the 
+        system are already analyzed and designed, the developer only has to
+        choose which ones they need.
       </p>
       <p>
         It is important to state that Avalon development does not replace
@@ -104,9 +105,9 @@
   </section>
   <section name="Avalon is Ready">
     <p>
-      Avalon Framework, Avalon Excalibur, Avalon Phoenix and Avalon LogKit
+      Avalon Framework, Avalon Merlin, Avalon Repository and Avalon Logging
       are ready for you to use now.  They are mature, powerful products and
-      they are only getting better!
+      they are only getting better, by the day!
     </p>
   </section>
  </body>
