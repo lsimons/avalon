@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="metro-logging-log4j-test" default="install" basedir="." 
+    xmlns:x="antlib:org.apache.avalon.tools">
+
+  <x:home/>
+  <import file="${magic.templates}/standard.xml"/>
+  <target name="init" depends="standard.init">
+    <x:filter key="metro-logging-log4j" feature="uri" 
+       token="LOGGING_PLUGIN_SPEC"/>
+  </target>
+
+</project>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="metro-transit-test" default="install" basedir="." 
+    xmlns:x="antlib:org.apache.avalon.tools">
+
+  <x:home/>
+  <import file="${magic.templates}/standard.xml"/>
+
+  <target name="init" depends="standard.init">
+    <x:filter key="metro-transit-plugin" feature="uri" token="CACHE_PLUGIN_URI"/>
+    <x:filter key="metro-transit-plugin" feature="uri" token="CONTROL_PLUGIN"/>
+    <x:filter key="metro-transit-main" feature="uri" token="CACHE_MAIN_URI"/>
+    <x:filter feature="path" platform="windows" token="WINDOWS-CLI-MAIN-PATH"/>
+    <x:filter feature="classpath" platform="windows" prefix="%METRO_SYSTEM%"
+       token="WINDOWS-CLI-CLASSPATH"/>
+  </target>
+
+</project>
