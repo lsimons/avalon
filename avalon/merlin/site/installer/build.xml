@@ -1,0 +1,50 @@
+<?xml version="1.0" ?>
+
+<project name="merlin-installer" default="all" basedir="." >
+
+  <target name="prepare" >
+    <property file="build.properties" />
+    <available property="izpack-available" file="${user.home}/IzPack/lib/compiler.jar" />
+  </target>
+  
+  <target name="installer" depends="prepare" if="izpack-available" >
+    <!-- Allows us to use the IzPack Ant task -->
+    <taskdef name="izpack" classpath="${user.home}/IzPack/lib/compiler.jar"
+         classname="com.izforge.izpack.ant.IzPackTask"/>
+    
+    <!-- Read the build properties  -->
+    <property file="build.properties" />
+    
+    <filter token="VERSION" value="${version}" />
+    <copy 
+        tofile="temp-installer.xml" 
+        file="izpack.xml" 
+        filtering="yes" 
+    />
+    
+   
+    <izpack input="${basedir}/temp-installer.xml"
+            output="${basedir}/../../target/merlin-inst-${version}.jar"
+            installerType="standard"
+            basedir="../../target/merlin/"
+            izPackDir="${user.home}/IzPack/"
+    />
+    <delete file="temp-installer.xml" />
+  </target>
+  
+  <target name="no-installer" depends="prepare" unless="izpack-available" >
+      <echo>
+************************************************************
+*
+*   WARNING!!!
+*
+*  You don't have IzPack installed in ${user.home}/IzPack
+*  which is required to build the GUI Installer.
+*
+*  Please download and install to the directory above,
+*  from http://www.izforge.com/izpack/
+*
+************************************************************
+      </echo>
+  </target>
+</project> 
