@@ -33,6 +33,9 @@ public class DefaultResolver
     
     public String resolve( PluginProperties props, String value )
     {
+        if( value == null )
+            return null;
+            
         // optimization for common case.
         int pos1 = value.indexOf( "${" );
         if( pos1 < 0 )

@@ -86,6 +86,9 @@ public class PreparePlugin extends AbstractPlugin
     
     public void copy( File fromDir, File toDir, String includes, String excludes, boolean filtering )
     {
+        if( ! fromDir.exists() )
+            return;
+            
         FileSet from = new FileSet();
         from.setDir( fromDir );
         from.setIncludes( includes );
@@ -110,6 +113,8 @@ public class PreparePlugin extends AbstractPlugin
 
     public void copyFile( File fromFile, File toFile )
     {
+        if( ! fromFile.exists() )
+            return;
         Copy copy = (Copy) m_Project.createTask( "copy" );
         copy.setTofile( toFile );
         copy.setFile( fromFile );

@@ -100,11 +100,17 @@ public class PluginContextTestCase extends TestCase
         assertEquals( "Plugin ClassName failed.", "TestCasePlugin", m_Context.getPluginClassname());
     }
 
+    public void testGetNullProperty()
+    {
+        String p1 = null;
+        String value = m_Context.resolve( p1 );
+        assertNull( "Null lookup failed.", value );
+    }
+    
     public void testGetProperty1()
     {
         String p1 = "niclas${abc.def}hedhman";
         String value = m_Context.resolve( p1 );
-        System.out.println( "1:" + value );
         assertEquals( "Unresolvable failed.", p1, value );
     }
 
@@ -112,7 +118,6 @@ public class PluginContextTestCase extends TestCase
     {
         String p1 = "niclas ${a.property } hedhman";
         String value = m_Context.resolve( p1 );
-        System.out.println( "2:" + value );
         assertEquals( "Single Level resolution failed.", "niclas has the surname of hedhman", value );
     }
 
@@ -120,7 +125,6 @@ public class PluginContextTestCase extends TestCase
     {
         String p1 = "${a2.this}";
         String value = m_Context.resolve( p1 );
-        System.out.println( "3:" + value );
         assertEquals( "Property resolution failed.", "this is", value );
     }
 
@@ -128,7 +132,6 @@ public class PluginContextTestCase extends TestCase
     {
         String p1 = "Hey, ${a2.${a1}} ${a2.${a4}} ${a3}";
         String value = m_Context.resolve( p1 );
-        System.out.println( "4:" + value );
         assertEquals( "Nested resolution failed.", "Hey, this is this is not this is funky", value );
     }
 
@@ -136,7 +139,6 @@ public class PluginContextTestCase extends TestCase
     {
         String p1 = "${${${${${${b1}}}}}}";
         String value = m_Context.resolve( p1 );
-        System.out.println( "5:" + value );
         assertEquals( "Nested resolution failed.", "YEAH!!!!", value );
     }
 
