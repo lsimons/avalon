@@ -30,8 +30,8 @@ import org.apache.excalibur.threadcontext.ThreadContext;
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
  * @author <a href="mailto:stefano@apache.org">Stefano Mazzocchi</a>
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.5 $ $Date: 2002/07/30 14:12:35 $
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @version CVS $Revision: 1.6 $ $Date: 2002/08/05 14:21:06 $
  * @since 4.1
  */
 public class ResourceLimitingThreadPool

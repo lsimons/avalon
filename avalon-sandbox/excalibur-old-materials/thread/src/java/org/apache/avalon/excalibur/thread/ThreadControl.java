@@ -10,7 +10,7 @@ package org.apache.avalon.excalibur.thread;
 /**
  * This interface defines the method through which Threads can be controller.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  */
 public interface ThreadControl
 {
