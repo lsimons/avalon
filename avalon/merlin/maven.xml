@@ -87,7 +87,7 @@
   -->
 
   <goal name="avalon:build" description="Build Merlin."
-    prereqs="avalon:build-logging,avalon:build-main,avalon:build-kernel,avalon:build-plugin"/>
+    prereqs="avalon:build-logging,avalon:build-main,avalon:build-kernel,avalon:build-plugin,avalon:build-facilities"/>
 
   <goal name="avalon:build-logging" description="Build Logging.">
 
