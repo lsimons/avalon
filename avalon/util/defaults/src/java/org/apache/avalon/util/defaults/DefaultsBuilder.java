@@ -38,7 +38,7 @@ import org.apache.avalon.util.env.EnvAccessException;
  * of a set of installation properties.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class DefaultsBuilder
 {
@@ -47,7 +47,7 @@ public class DefaultsBuilder
     //--------------------------------------------------------------
 
    /**
-    * Return a directory taking into account a supplied env symbol, 
+    * Return a home directory taking into account a supplied env symbol, 
     * a property key and a fallback directory.
     *
     * If the supplied key references a known system property
@@ -57,13 +57,12 @@ public class DefaultsBuilder
     * will be returned.
     *
     * @param key an application key such as 'merlin'
-    * @param symbol an environment variable name such a MERLIN_HOME
     * @return the derived directory
     */
-    public static File getHomeDirectory( 
-      String key, String symbol ) throws IOException
+    public static File getHomeDirectory( String key ) throws IOException
     {
         final String homeKey = key + ".home";
+        final String symbol = key.toUpperCase() + "_HOME";
         final String home = 
           System.getProperty( 
             homeKey, 
@@ -162,5 +161,91 @@ public class DefaultsBuilder
               new FileInputStream( file ) );
         }   
         return properties;
+    }
+
+    public static Properties getProperties( 
+      ClassLoader classloader, String path ) throws IOException
+    {
+        Properties properties = new Properties();
+        InputStream input = 
+          classloader.getResourceAsStream( path );
+        if( input != null ) 
+        {
+            properties.load( input );
+        }
+        return properties;
+    }
+
+    //--------------------------------------------------------------
+    // state
+    //--------------------------------------------------------------
+
+    private final String m_key;
+
+    private final File m_work;
+
+    private final File m_root;
+
+    private final Properties m_home;
+
+    private final Properties m_user;
+
+    private final Properties m_dir;
+
+    //--------------------------------------------------------------
+    // constructor
+    //--------------------------------------------------------------
+
+    public DefaultsBuilder( final String key, File work ) throws IOException
+    {
+        m_key = key;
+        m_work = work;
+        m_root = getHomeDirectory( m_key );
+        m_home = getHomeProperties( m_root, m_key, true );
+        m_user = getUserProperties( m_key );
+        m_dir = getProperties( m_work, m_key );
+    }
+
+    //--------------------------------------------------------------
+    // implementation
+    //--------------------------------------------------------------
+
+    public File getHomeDirectory()
+    {
+        return m_root;
+    }
+
+    public Properties getHomeProperties()
+    {
+        return m_home;
+    }
+
+    public Properties getUserProperties()
+    {
+        return m_user;
+    }
+
+    public Properties getDirProperties()
+    {
+        return m_dir;
+    }
+
+    public Properties getConsolidatedProperties( 
+      final Properties defaults, final String[] keys ) throws IOException
+    {
+        final Properties[] parameters = 
+          new Properties[] { 
+            defaults,
+            m_home,
+            m_user,
+            m_dir };
+        final DefaultsFinder[] finders = 
+          new DefaultsFinder[]{
+            new SimpleDefaultsFinder( 
+              parameters, 
+              false ), 
+            new SystemDefaultsFinder() 
+          };
+        return new Defaults( keys, new String[0], finders );
     }
 }

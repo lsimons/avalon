@@ -42,6 +42,8 @@
           <directory>${basedir}/src/test</directory>
           <includes>
             <include>**/*.x*</include>
+            <include>**/*.properties</include>
+            <include>**/*.keys</include>
           </includes>
         </resource>
       </resources>
