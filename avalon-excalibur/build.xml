@@ -149,29 +149,33 @@
         dependency checking -->
         <property name="skip.dependencies" value="true"/>
         
-        <ant dir="altrmi" target="dist-jar"/>
-        <ant dir="collections" target="dist-jar"/>
+        <!-- Sub projects which do not depend on any other excalibur sub projects. -->
         <ant dir="instrument" target="dist-jar"/>
+        <ant dir="collections" target="dist-jar"/>
         <ant dir="concurrent" target="dist-jar"/>
+        <ant dir="logger" target="dist-jar"/>
+        <ant dir="threadcontext" target="dist-jar"/>
+        <ant dir="sourceresolve" target="dist-jar"/>
+        <ant dir="monitor" target="dist-jar"/>
+        <ant dir="store" target="dist-jar"/>
+        
+        <!-- Sub projects with dependencies. -->
+        <ant dir="pool" target="dist-jar"/>               <!-- collections, instrument -->
+        <ant dir="altrmi" target="dist-jar"/>             <!-- pool -->
+        <ant dir="instrument" target="dist-manager-jar"/> <!-- altrmi -->
+        <ant dir="datasource" target="dist-jar"/>         <!-- pool -->
+        <ant dir="thread" target="dist-jar"/>             <!-- lang, instrument, threadcontext, pool -->
+        <ant dir="component" target="dist-jar"/>          <!-- collections, logger, instrument, pool -->
+        <ant dir="xmlbundle" target="dist-jar"/>          <!-- instrument, component, store -->
+        <ant dir="util" target="dist-jar"/>               <!-- component -->
+        <ant dir="testcase" target="dist-jar"/>           <!-- logger, component -->
+        <ant dir="event" target="dist-jar"/>              <!-- collections, concurrent, util, threadcontext -->
+        
+        <ant dir="cli" target="dist-jar"/>
         <ant dir="i18n" target="dist-jar"/>
         <ant dir="io" target="dist-jar"/>
-        <ant dir="pool" target="dist-jar"/>
-        <ant dir="logger" target="dist-jar"/>
-        <ant dir="component" target="dist-jar"/>
-        <ant dir="sourceresolve" target="dist-jar"/>
-        <ant dir="store" target="dist-jar"/>
-        <ant dir="testcase" target="dist-jar"/>
-        <ant dir="datasource" target="dist-jar"/>
-        <ant dir="util" target="dist-jar"/>
-        <ant dir="store" target="dist-jar"/>
         <ant dir="xmlutil" target="dist-jar"/>
-        <ant dir="xmlbundle" target="dist-jar"/>
-        <ant dir="cli" target="dist-jar"/>
         <ant dir="naming" target="dist-jar"/>
-        <ant dir="monitor" target="dist-jar"/>
-        <ant dir="threadcontext" target="dist-jar"/>
-        <ant dir="thread" target="dist-jar"/>
-        <ant dir="event" target="dist-jar"/>
         <ant dir="fortress" target="dist-jar"/>
 
         <!-- Jump through hoops to avoid jlink size bug.  -->
@@ -235,7 +239,7 @@
     <!-- Generate one mega jar-ball -->
     <target name="mega-jar" description="Generate one large jar for all the products">
         <!-- Sub projects which do not depend on any other excalibur sub projects. -->
-        <ant dir="altrmi" target="jar"/>
+        <ant dir="instrument" target="jar"/>
         <ant dir="collections" target="jar"/>
         <ant dir="concurrent" target="jar"/>
         <ant dir="logger" target="jar"/>
@@ -245,15 +249,16 @@
         <ant dir="store" target="jar"/>
 
         <!-- Sub projects with dependencies. -->
-        <ant dir="instrument" target="jar"/>         <!-- altrmi -->
-        <ant dir="pool" target="jar"/>               <!-- collections, concurrent, instrument, sourceresolve -->
+        <ant dir="pool" target="jar"/>               <!-- collections, instrument -->
+        <ant dir="altrmi" target="jar"/>             <!-- pool -->
+        <ant dir="instrument" target="manager-jar"/> <!-- altrmi -->
         <ant dir="datasource" target="jar"/>         <!-- pool -->
         <ant dir="thread" target="jar"/>             <!-- lang, instrument, threadcontext, pool -->
         <ant dir="component" target="jar"/>          <!-- collections, logger, instrument, pool -->
         <ant dir="xmlbundle" target="jar"/>          <!-- instrument, component, store -->
         <ant dir="util" target="jar"/>               <!-- component -->
         <ant dir="testcase" target="jar"/>           <!-- logger, component -->
-        <ant dir="event" target="jar"/>              <!-- collections, concurrent, lang, pool, thread, util, event -->
+        <ant dir="event" target="jar"/>              <!-- collections, concurrent, util, threadcontext -->
 
         <!-- Baxter requires JMX.jar to build and is causing the build to fail.
         <ant dir="baxter" target="jar"/>
