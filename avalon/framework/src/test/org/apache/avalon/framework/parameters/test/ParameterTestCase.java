@@ -72,6 +72,33 @@ public class ParameterTestCase
         assertEquals( "value2", parameters.getParameter( "key2", "value2" ) );
     }
 
+    public void testFromConfiguration()
+    {
+        final ByteArrayInputStream confInput = new ByteArrayInputStream( "<?xml version=\"1.0\"?><test><parameter name=\"key1\" value=\"value1\"/><parameter name=\"key2\" value=\"value2\"/><parameter name=\"key3\" value=\"value3\"/></test>".getBytes() );
+
+        try
+        {
+            final DefaultConfigurationBuilder builder =
+                new DefaultConfigurationBuilder();
+            final Configuration configuration = builder.build( confInput );
+
+            final Parameters parameters =
+                Parameters.fromConfiguration( configuration );
+
+            assertEquals( "value1", parameters.getParameter( "key1" ) );
+            assertEquals( "value2", parameters.getParameter( "key2" ) );
+            assertEquals( "value3", parameters.getParameter( "key3" ) );
+        }
+        catch ( final ConfigurationException ce )
+        {
+            fail( "Converting failed: " + ce.getMessage() );
+        }
+        catch ( final Exception e )
+        {
+            fail( e.getMessage() );
+        }
+    }
+
     public void testFromProperties()
     {
         final Properties properties = new Properties();
