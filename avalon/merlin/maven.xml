@@ -83,7 +83,7 @@
 
   <goal name="avalon:build-main" description="Build Merlin.">
     <maven:reactor basedir="${basedir}"
-      includes="extension/**/project.xml,activation/**/project.xml,composition/**/project.xml,kernel/api/project.xml,kernel/impl/project.xml"
+      includes="extension/**/project.xml,composition/**/project.xml,activation/**/project.xml,kernel/api/project.xml,kernel/impl/project.xml,facilities/**/project.xml"
       banner="Installing:"
       goals="jar:install"
       ignoreFailures="false" 
@@ -152,6 +152,37 @@
        toDir="${maven.build.dir}/merlin/plugins"/>
   </goal>
 
+  <goal name="avalon:build-facilities" description="Build Facilities.">
+    <maven:reactor basedir="${basedir}"
+      includes="facilities/**/project.xml"
+      excludes="facilities/*/project.xml"
+      banner="Installing:"
+      goals=""
+      ignoreFailures="false" 
+      postProcessing="true" />
+
+    <j:forEach var="child" items="${reactorProjects}">
+        <ant:copy todir="${maven.build.dir}/merlin/system/${child.groupId}/${child.type}s" 
+             preserveLastModified="true">
+          <ant:fileset dir="${child.file.parentFile}/target">
+            <ant:include 
+              name="${child.artifactId}-${child.currentVersion}.${child.type}"/>
+            <ant:include 
+              name="${child.artifactId}-${child.currentVersion}.${child.type}.meta"/>
+          </ant:fileset>
+        </ant:copy>
+        <j:set var="deps" value="${child.dependencies}"/>
+        <j:forEach var="dep" items="${deps}">
+          <ant:copy todir="${maven.build.dir}/merlin/system"
+              preserveLastModified="true">
+            <ant:fileset dir="${maven.repo.local}">
+              <ant:include name="${dep.getArtifactDirectory()}/${dep.getType()}s/${dep.getArtifact()}"/>
+            </ant:fileset>
+          </ant:copy>
+        </j:forEach>
+    </j:forEach>
+  </goal>
+
 
   <!--
   ==============================================================================
@@ -164,32 +195,6 @@
 
   <goal name="avalon:xinstall">
 
-    <!-- prepare structure -->
-
-    <!-- import bootstrap jar -->
-    <!--
-    <ant:mkdir dir="${merlin.build.inst.dir}"/>
-    <ant:mkdir dir="${merlin.build.inst.dir}/bin/lib"/>
-    <ant:copy 
-       file="${basedir}/kernel/cli/target/${merlin.cli.jar}" 
-       toDir="${merlin.build.inst.dir}/bin/lib"/>
-    -->
-    <!-- import subproject jar files -->
-    <!--<maven:reactor
-      basedir="${basedir}"
-      includes="platform.xml"
-      goals="ximport"
-      banner="Resolving dependencies:"
-      ignoreFailures="false"/>-->
-
-    <!--
-    <ant:copy toDir="${maven.build.dir}/merlin/plugins">
-      <fileset dir="${basedir}/kernel/plugin/target">
-        <include name="${merlin.plugin.jar}"/>
-      </fileset>
-    </ant:copy>
-    -->
-
     <!-- add supporting resources -->
     <ant:copy toDir="${merlin.build.inst.dir}">
       <fileset dir="${basedir}">
@@ -201,8 +206,6 @@
         <filter token="VERSION" value="${pom.currentVersion}"/>
       </filterset>
     </ant:copy>
-
-    <!-- add supporting resources -->
     <ant:copy toDir="${merlin.build.inst.dir}">
       <fileset dir="${basedir}/platform/src">
         <include name="bin/**/*"/>
@@ -219,7 +222,6 @@
         <filter token="MERLIN_CLI_VERSION" value="${merlin.cli.version}"/>
       </filterset>
     </ant:copy>
-
     <ant:copy toDir="${merlin.build.inst.dir}">
       <fileset dir="${basedir}/platform/src">
         <include name="config/**/*"/>
@@ -232,7 +234,6 @@
         <include name="LICENSE.txt"/>
       </fileset>
     </ant:copy>
-
     <ant:chmod file="${merlin.build.inst.dir}/bin/merlin" perm="u=rwx,go=rx"/>
     <ant:chmod file="${merlin.build.inst.dir}/bin/merlinx" perm="u=rwx,go=rx"/>
     <ant:chmod file="${merlin.build.inst.dir}/bin/internal-cygwin.sh" perm="u=rwx,go=rx"/>
@@ -263,7 +264,6 @@
       <include name="merlinx.sh"/>
       <include name="merlin-server.sh"/>
     </ant:fixcrlf>
-
   </goal>
 
   <!--
@@ -334,13 +334,8 @@
   -->
 
   <goal name="avalon:site" 
-      description="Build the Merlin site" prereqs="license,xjavadoc,site">
-    <!--<maven:reactor basedir="${basedir}"
-      includes="platform.xml"
-      goals="site"
-      banner="Building site:"
-      ignoreFailures="false"/>-->
-  </goal>
+      description="Build the Merlin site" 
+      prereqs="license,xjavadoc,site"/>
 
   <!--
   ==============================================================================
@@ -379,7 +374,7 @@
   <goal name="xjavadoc">
 
     <maven:reactor basedir="${basedir}"
-      includes="activation/**/project.xml,composition/**/project.xml,extension/**/project.xml,kernel/**/project.xml"
+      includes="activation/**/project.xml,composition/**/project.xml,extension/**/project.xml,kernel/**/project.xml,facilities/**/project.xml"
       excludes="**/target/**"
       banner="Site Prep:"
       ignoreFailures="false"
@@ -509,7 +504,7 @@
     <maven:reactor
       basedir="${basedir}"
       includes="**/project.xml"
-      excludes="project.xml,merlin-extensions/**,**/target/project.xml,platform/**"
+      excludes="project.xml,**/target/project.xml,platform/**"
       goals="clean:clean"
       banner="Cleaning subproject:"
       ignoreFailures="true"/>
