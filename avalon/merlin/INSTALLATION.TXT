@@ -1,5 +1,5 @@
 
-PROJECT: Merlin 3.0
+PROJECT: Merlin 3.2-dev
 ====================================================================
 
 DESCRIPTION: 
@@ -12,13 +12,12 @@ resources.
     /bin
     /config
     /ext
-    /repository
     /system
     README.TXT
     LICENSE.TXT
   /plugins
-    avalon-meta-plugin-1.2-SNAPSHOT.jar
-    merlin-plugin-1.2.jar
+    avalon-meta-plugin-1.2.jar
+    merlin-plugin-3.2-dev.jar
 
 
 Installing Merlin.
@@ -43,7 +42,16 @@ Under Lunix you can do this as follows:
 Under Windows you can set environment variables by selecting the 
 Environment Tab from the System Control Panel.
 
-To confirm that you %MERLIN_HOME% variable is correct, you
+Versions of Merlin prior to the 3.2-dev 20031210 build maintained 
+a local repository of jar files under the %MERLIN_HOME%/repository
+directory.  As of the 20031210 build the repository is maintained 
+under AVALON_HOME which defaults to ${user.home}/.avalon.  To 
+override this behaviour you can either define a AVALON_HOME 
+environment variable or you can add a merlin.properties file to 
+${user.home} containing the "merlin.repository" property key and 
+a value point to you preferred repository location.
+
+To confirm that your environment variables are correct, you
 should open a new command window and invoke the Merlin
 CLI application.
 
@@ -60,8 +68,8 @@ provided with the installation supporting merlin development under the
 Maven platform.  These plugins should be placed in the Maven plugin 
 directory (%MAVEN_HOME%\plugins).
 
-  %MAVEN_HOME%\plugins\avalon-meta-plugin-1.2-SNAPSHOT.jar
-  %MAVEN_HOME%\plugins\merlin-plugin-1.1-SNAPSHOT.jar
+  %MAVEN_HOME%\plugins\avalon-meta-plugin-1.2.jar
+  %MAVEN_HOME%\plugins\merlin-plugin-3.2-dev.jar
 
 Please note that if you are upgrading an existing installation you must
 delete the following two directories:
@@ -69,7 +77,7 @@ delete the following two directories:
   %MAVEN_HOME%\plugins\merlin-plugin-* 
   %MAVEN_HOME%\plugins\avalon-meta-plugin-*
 
-Replace the existing avalon-mweta and merlin plugin jar files with the supplied
+Replace the existing avalon-meta and merlin plugin jar files with the supplied
 versions.  Finally, delete all *.cache files in the Maven plugin directory.
 
 You now have everything in place to start using the Merlin Tutorial or 

@@ -69,12 +69,7 @@ public class StandardTestCase extends AbstractMerlinTestCase
     */
     public StandardTestCase( String name )
     {
-        super( 
-          MAVEN_TARGET_CLASSES_DIR, 
-          MERLIN_DEFAULT_CONFIG_FILE, 
-          MERLIN_INFO_OFF, 
-          MERLIN_DEBUG_OFF, 
-          name );
+        super( name );
     }
 
     //--------------------------------------------------------
@@ -84,8 +79,7 @@ public class StandardTestCase extends AbstractMerlinTestCase
     public void testServiceResolution() throws Exception
     {
         Object hello = resolve( "hello" );
-        assertTrue( hello != null );
-        getLogger().info( "Hello established." );
+        assertNotNull( "hello", hello );
     }
 }
 
