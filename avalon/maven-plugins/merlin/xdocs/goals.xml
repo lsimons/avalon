@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<!-- 
+
+ Copyright 2001-2004 The Apache Software Foundation.
+ 
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+      http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+ -->
+
+<document>
+
+  <properties>
+    <title>Avalon Versioning Maven Plug-in Goals</title>
+    <author email="niclas@apache.org">Niclas Hedhman</author>
+  </properties>
+
+  <body>
+    <goals>
+      <goal>
+        <name>merlin</name>
+        <description>
+          This is the default goal of the plugin and simply...
+        </description>
+      </goal>
+      <goal>
+        <name>merlin:deploy</name>
+        <description>
+        </description>
+      </goal>
+      <goal>
+        <name>merlin:execute</name>
+        <description>
+        </description>
+      </goal>
+      <goal>
+        <name>merlin:simulate</name>
+        <description>
+        </description>
+      </goal>
+      <goal>
+        <name>merlin:test</name>
+        <description>
+        </description>
+      </goal>
+    </goals>
+ </body>
+</document>

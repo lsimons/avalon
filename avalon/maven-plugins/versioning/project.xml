@@ -20,7 +20,7 @@
 
 <project>
   <extend>../project-common.xml</extend>
-  <groupId>avalon-versioning-plugin</groupdId>
+  <groupId>avalon-versioning-plugin</groupId>
   <id>avalon-versioning-plugin</id>
   <name>Avalon Versioning Maven Plugin</name>
   <currentVersion>1.0.dev-6</currentVersion>
