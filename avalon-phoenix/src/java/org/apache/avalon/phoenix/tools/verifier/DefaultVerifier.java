@@ -43,6 +43,9 @@ public class DefaultVerifier
         final BlockMetaData[] blocks = sar.getBlocks();
         final BlockListenerMetaData[] listeners = sar.getListeners();
 
+        //Move this down after hack is removed
+        verifySarName( sar.getName() );
+
         hackVerifySar( blocks, listeners, classLoader );
     }
 
@@ -52,6 +55,11 @@ public class DefaultVerifier
         throws VerifyException
     {
         String message = null;
+
+        message = REZ.getString( "verify-valid-names" );
+        getLogger().info( message );
+        verifyValidNames( blocks );
+        verifyValidNames( listeners );
 
         message = REZ.getString( "verify-unique-names" );
         getLogger().info( message );
@@ -309,6 +317,85 @@ public class DefaultVerifier
                                                   listener.getClassname() );
             throw new VerifyException( message );
         }
+    }
+
+    /**
+     * Verify that the Sat name specified is valid.
+     *
+     * @param name the sar name
+     * @exception VerifyException if an error occurs
+     */
+    private void verifySarName( final String name )
+        throws VerifyException
+    {
+        if( !isValidName( name ) )
+        {
+            final String message = REZ.getString( "invalid-sar-name", name );
+            throw new VerifyException( message );
+        }
+    }
+
+    /**
+     * Verify that the names of the specified blocks are valid.
+     *
+     * @param blocks the Blocks
+     * @exception VerifyException if an error occurs
+     */
+    private void verifyValidNames( final BlockMetaData[] blocks )
+        throws VerifyException
+    {
+        for( int i = 0; i < blocks.length; i++ )
+        {
+            final String name = blocks[ i ].getName();
+            if( !isValidName( name ) )
+            {
+                final String message = REZ.getString( "invalid-block-name", name );
+                throw new VerifyException( message );
+            }
+        }
+    }
+
+    /**
+     * Verify that the names of the specified listeners are valid.
+     *
+     * @param listeners the listeners
+     * @exception VerifyException if an error occurs
+     */
+    private void verifyValidNames( final BlockListenerMetaData[] listeners )
+        throws VerifyException
+    {
+        for( int i = 0; i < listeners.length; i++ )
+        {
+            final String name = listeners[ i ].getName();
+            if( !isValidName( name ) )
+            {
+                final String message = REZ.getString( "invalid-listener-name", name );
+                throw new VerifyException( message );
+            }
+        }
+    }
+
+    /**
+     * Return true if specified name is valid. 
+     * Valid names consist of letters, digits or the '_' character.
+     *
+     * @param name the name to check
+     * @return true if valid, false otherwise
+     */
+    private boolean isValidName( final String name )
+    {
+        final int size = name.length();
+        for( int i = 0; i < size; i++ )
+        {
+            final char ch = name.charAt( i );
+            
+            if( !Character.isLetterOrDigit( ch ) && '-' != ch )
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
