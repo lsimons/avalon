@@ -410,14 +410,15 @@ public class DefaultFactory implements Factory
         // add the security profiles
         //
 
-        Configuration secConfig = config.getChild( "security" );
-        if( context.isCodeSecurityEnabled() )
+        boolean secure = criteria.isSecurityEnabled();
+        factory.setSecurityEnabled( secure );
+        if( secure )
         {
+            Configuration secConfig = config.getChild( "security" );
             SecurityProfile[] profiles = 
               SECURITY_CREATOR.createSecurityProfiles( secConfig );
             factory.setSecurityProfiles( profiles );
         }
-        factory.
 
         //
         // create the application repository
@@ -466,31 +467,7 @@ public class DefaultFactory implements Factory
         // create the system context
         //
 
-        SystemContext system = factory.createSystemContext();
-        return system;
-
-        /*
-        File anchor = criteria.getAnchorDirectory();
-
-        DefaultSystemContext system = 
-          new DefaultSystemContext( 
-            context, 
-            runtime, 
-            logging,
-            anchor,
-            criteria.getContextDirectory(),
-            criteria.getTempDirectory(),
-            repository,
-            name,
-            criteria.isDebugEnabled(),
-            criteria.getDeploymentTimeout(),
-            security );
-
-        system.put( "urn:composition:dir", criteria.getWorkingDirectory() );
-        system.put( "urn:composition:anchor", criteria.getAnchorDirectory() );
-
-        return system;
-        */
+        return factory.createSystemContext();
     }
 
     private ContainmentModel createApplicationModel( 
@@ -501,46 +478,9 @@ public class DefaultFactory implements Factory
         final Logger logger = logging.getLoggerForCategory("");
         ClassLoader api = system.getAPIClassLoader();
         ContainmentProfile profile = getContainmentProfile( config );
-
         return system.getModelFactory().createRootContainmentModel( profile );
-        //ContainmentContext context = 
-        //  createContainmentContext( system, logger, api, profile );
-        //return new DefaultContainmentModel( context );
     }
 
-   /**
-    * Creation of a new root containment context.
-    *
-    * @param profile a containment profile 
-    * @return the containment context
-    */
-    private ContainmentContext createContainmentContext( 
-      SystemContext context, Logger logger, ClassLoader parent, 
-      ContainmentProfile profile ) 
-      throws Exception
-    {
-        LoggingManager logging = context.getLoggingManager();
-        logging.addCategories( profile.getCategories() );
-
-        ClassLoaderContext classLoaderContext =
-          new DefaultClassLoaderContext( 
-            logger, 
-            context.getRepository(),
-            context.getBaseDirectory(),
-            parent,
-            profile.getClassLoaderDirective() );
-
-        ClassLoaderModel classLoaderModel =
-          new DefaultClassLoaderModel( classLoaderContext );
-
-        return new DefaultContainmentContext( 
-          logger, 
-          context, 
-          classLoaderModel,
-          null,
-          null,
-          profile );
-    }
 
     private ContainmentProfile getContainmentProfile( Configuration config )
       throws KernelException
@@ -859,7 +799,7 @@ public class DefaultFactory implements Factory
 
         buffer.append( 
           "\n  ${merlin.code.security.enabled} == " 
-          + criteria.isCodeSecurityEnabled() );
+          + criteria.isSecurityEnabled() );
 
         buffer.append( 
           "\n  ${merlin.deployment.timeout} == " 

@@ -26,7 +26,7 @@ import org.apache.avalon.repository.Artifact;
 /**
  * A service that provides access to versioned resources.
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.10 $ $Date: 2004/03/01 16:31:41 $
+ * @version $Revision: 1.11 $ $Date: 2004/03/01 16:46:03 $
  */
 public interface KernelCriteria extends Map
 {
@@ -324,6 +324,6 @@ public interface KernelCriteria extends Map
     *
     * @return TRUE if code security is enabled
     */
-    boolean isCodeSecurityEnabled();
+    boolean isSecurityEnabled();
 
 }
