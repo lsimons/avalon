@@ -48,7 +48,20 @@
 
 */
 
-package org.apache.avalon.merlin;
+package org.apache.avalon.merlin ;
+
+
+import java.io.File ;
+import java.io.IOException ;
+import java.io.InputStream ;
+import java.io.FileInputStream ;
+
+import java.util.ArrayList ;
+import java.util.Properties ;
+import java.util.Enumeration ;
+
+import org.apache.avalon.merlin.env.Env ;
+import org.apache.avalon.merlin.env.EnvAccessException ;
 
 
 /**
@@ -58,168 +71,355 @@ package org.apache.avalon.merlin;
  * system properties.  Basically the policy of finding the values to these
  * kernel parameters are maintained here.
  * 
+ * @todo document the property keys and make sure they reflect those defined by
+ * Steve in his emails
+ * 
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
  * @author $Author: mcconnell $
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class KernelDefaults
 {
+    private static final String [] s_keys =
+    {
+        "merlin.kernel.isserver",
+        "merlin.kernel.isinfo",
+        "merlin.kernel.isdebug",
+        "merlin.kernel.remoterepo",
+        "merlin.kernel.userrepo",
+        "merlin.kernel.systemrepo",
+        "merlin.kernel.homepath",
+        "merlin.kernel.configurl",
+        "merlin.kernel.kernelurl",
+        "java.io.tmpdir",
+        "merlin.kernel.librarypath"
+    } ;
+    
+    
     public static final String IS_SERVER_KEY = 
-        "merlin.kernel.isserver" ;
+        s_keys[0] ;
     public static final String IS_INFO_KEY =
-        "merlin.kernel.isinfo" ;
+        s_keys[1] ;
     public static final String IS_DEBUG_KEY =
-        "merlin.kernel.isdebug" ;
+        s_keys[2] ;
     
     public static final String REMOTE_REPO_KEY =
-        "merlin.kernel.remoterepo" ;
+        s_keys[3] ;
     public static final String USER_REPO_KEY =
-        "merlin.kernel.userrepo" ;
+        s_keys[4] ;
     public static final String SYSTEM_REPO_KEY =
-        "merlin.kernel.systemrepo" ;
+        s_keys[5] ;
     public static final String HOME_PATH_KEY =
-        "merlin.kernel.homepath" ;
+        s_keys[6] ;
     public static final String CONFIG_URL_KEY =
-        "merlin.kernel.configurl" ;
+        s_keys[7] ;
     public static final String KERNEL_URL_KEY =
-        "merlin.kernel.kernelurl" ;
-    public static final String TARGET_URLS_KEY =
-        "merlin.kernel.targeturls" ;
+        s_keys[8] ;
     public static final String TEMP_PATH_KEY =
-        "merlin.kernel.temppath" ;
+        s_keys[9] ;
     public static final String LIBRARY_PATH_KEY =
-        "merlin.kernel.librarypath" ;
+        s_keys[10] ;
     
-
+    public static final String TARGET_URLS_BASE =
+        "merlin.kernel.targeturls" ;
+    public static final String MERLIN_FILE_BASE =
+        "merlin.properties" ;
+    
+    /** Overlay of default properties discovered */
+    private static final Properties s_defaults = new Properties() ;
+    
+    
+    static 
+    {
+        loadDefaults() ;
+    }
+    
+    
     /**
-     * Gets a default value for the server flag.
+     * Loads the defaults for the kernel configuration.  Not fail fast meaning
+     * if it fails at one stage it continues to gather defaults rather than
+     * bombing out. 
+     */
+    private static void loadDefaults()
+    {
+        /*
+         * Stage I - load the default properties bundled with this jar  
+         */
+        
+        InputStream l_in = 
+            KernelDefaults.class.getResourceAsStream( MERLIN_FILE_BASE ) ;
+        
+        try
+        {
+            s_defaults.load( l_in ) ;
+        }
+        catch ( IOException e )
+        {
+            e.printStackTrace( System.err ) ;
+        }
+        
+        /*
+         * Stage II - get some properties from the shell environment 
+         */
+        File l_merlinHome = null ;
+        try 
+        {
+            l_merlinHome = new File( Env.getVariable( "MERLIN_HOME" ) ) ;
+        }
+        catch( EnvAccessException e )
+        {
+            e.printStackTrace( System.err ) ;
+        }
+        
+        if ( null != l_merlinHome && l_merlinHome.exists() )
+        {    
+            File l_sysRepo = new File( l_merlinHome, "system" ) ;
+            if ( l_sysRepo.exists() )
+            {    
+                s_defaults.setProperty( SYSTEM_REPO_KEY, 
+                    l_sysRepo.getAbsolutePath() ) ;
+            }
+            
+            File l_userRepo = new File( l_merlinHome, "repository" ) ;
+            if ( l_userRepo.exists() )
+            {
+                s_defaults.setProperty( USER_REPO_KEY, 
+                    l_userRepo.getAbsolutePath() ) ;
+            }
+        }
+        
+        /*
+         * Stage III - check for overriding values of .merlin.properties within
+         * the user's home directory.
+         */
+        String l_userHome = System.getProperty( "user.home" ) ;
+        File l_userProps = new File( l_userHome, "." + MERLIN_FILE_BASE ) ;
+        if ( l_userProps.exists() )
+        {
+            try 
+            {
+                s_defaults.load( new FileInputStream( l_userProps ) ) ;
+            }
+            catch ( IOException e )
+            {
+                e.printStackTrace( System.err ) ;
+            }
+        }
+        
+        /*
+         * Stage IV - Check for overriding values within the System properties
+         */
+        for( int ii = 0; ii < s_keys.length; ii++ )
+        {
+            /*
+             * If s_defaults has the property use it as default in case property
+             * does not exist in the system properties.
+             */
+            String l_default = System.getProperty( s_keys[ii], 
+                    s_defaults.getProperty( s_keys[ii] ) ) ;
+            if ( null != l_default )
+            {    
+                s_defaults.setProperty( s_keys[ii], l_default ) ;
+            }
+        }
+
+        // Now we overlay all the targets properties defined
+        Enumeration l_list = System.getProperties().keys() ;
+        while ( l_list.hasMoreElements() )
+        {
+            String l_key = ( String ) l_list.nextElement() ;
+            if ( l_key.startsWith( TARGET_URLS_BASE ) )
+            {
+                String l_default = System.getProperty( l_key,
+                        s_defaults.getProperty( l_key ) ) ;
+                
+                if ( null != l_default )
+                {
+                    s_defaults.setProperty( l_key, l_default ) ;
+                }
+            }
+        }
+    }
+
+    
+    /**
+     * Gets a default value for the server flag property for the KernelConfig.
      * 
-     * @see org.apache.avalon.merlin.kernel.KernelParameters#isServer()
+     * @return true if the IS_SERVER_KEY property value is set to 1, true, yes 
+     * or on, and false otherwise. 
+     * @see org.apache.avalon.merlin.kernel.KernelConfig#isServer()
      */
     public static boolean isServer()
     {
-        throw new UnsupportedOperationException( 
-                "N O T   I M P L E M E N T E D   Y E T !" ) ;
+        return getBoolean( IS_SERVER_KEY ) ;
     }
     
 
     /**
      * Gets a default value for the debug flag.
      * 
-     * @see org.apache.avalon.merlin.kernel.KernelParameters#isDebugEnabled()
+     * @see org.apache.avalon.merlin.kernel.KernelConfig#isDebugEnabled()
      */
     public static boolean isDebugEnabled()
     {
-        throw new UnsupportedOperationException( 
-                "N O T   I M P L E M E N T E D   Y E T !" ) ;
+        return getBoolean( IS_DEBUG_KEY ) ;
     }
 
     
     /**
      * Gets a default value for the info flag.
      * 
-     * @see org.apache.avalon.merlin.kernel.KernelParameters#isInfoEnabled()
+     * @see org.apache.avalon.merlin.kernel.KernelConfig#isInfoEnabled()
      */
     public static boolean isInfoEnabled()
     {
-        throw new UnsupportedOperationException( 
-                "N O T   I M P L E M E N T E D   Y E T !" ) ;
+        return getBoolean( IS_INFO_KEY ) ;
     }
 
     
     /**
      * Gets a default value for the remote repo.
      * 
-     * @see org.apache.avalon.merlin.kernel.KernelParameters#
+     * @see org.apache.avalon.merlin.kernel.KernelConfig#
      * getRemoteRepositoryUrl()
      */
     public static String getRemoteRepositoryUrl()
     {
-        throw new UnsupportedOperationException( 
-                "N O T   I M P L E M E N T E D   Y E T !" ) ;
+        return s_defaults.getProperty( REMOTE_REPO_KEY ) ;
     }
 
     
     /**
-     * 
-     * @see org.apache.avalon.merlin.kernel.KernelParameters#
+     * Gets the default value for the user repository path.
+     *  
+     * @see org.apache.avalon.merlin.kernel.KernelConfig#
      * getUserRepositoryPath()
      */
     public static String getUserRepositoryPath()
     {
-        throw new UnsupportedOperationException( 
-                "N O T   I M P L E M E N T E D   Y E T !" ) ;
+        return s_defaults.getProperty( USER_REPO_KEY ) ;
     }
 
     
     /**
-     * @see org.apache.avalon.merlin.kernel.KernelParameters#
+     * Gets the default value for the system repository path.
+     * 
+     * @see org.apache.avalon.merlin.kernel.KernelConfig#
      * getSystemRepositoryPath()
      */
     public static String getSystemRepositoryPath()
     {
-        throw new UnsupportedOperationException( 
-                "N O T   I M P L E M E N T E D   Y E T !" ) ;
+        return s_defaults.getProperty( SYSTEM_REPO_KEY ) ;
     }
 
     
     /**
-     * @see org.apache.avalon.merlin.kernel.KernelParameters#getLibraryPath()
+     * Gets the default path to optional extention librarys.
+     * 
+     * @see org.apache.avalon.merlin.kernel.KernelConfig#getLibraryPath()
      */
     public static String getLibraryPath()
     {
-        throw new UnsupportedOperationException( 
-                "N O T   I M P L E M E N T E D   Y E T !" ) ;
+        return s_defaults.getProperty( LIBRARY_PATH_KEY ) ;
     }
 
 
     /**
-     * @see org.apache.avalon.merlin.kernel.KernelParameters#getHomePath()
+     * Gets the path to the instance home or working directory.
+     * 
+     * @see org.apache.avalon.merlin.kernel.KernelConfig#getHomePath()
      */
     public static String getHomePath()
     {
-        throw new UnsupportedOperationException( 
-                "N O T   I M P L E M E N T E D   Y E T !" ) ;
+        return s_defaults.getProperty( HOME_PATH_KEY ) ;
     }
 
 
     /**
-     * @see org.apache.avalon.merlin.kernel.KernelParameters#getTempPath()
+     * Gets the path to a temporary directory.
+     * 
+     * @see org.apache.avalon.merlin.kernel.KernelConfig#getTempPath()
      */
     public static String getTempPath()
     {
-        throw new UnsupportedOperationException( 
-                "N O T   I M P L E M E N T E D   Y E T !" ) ;
+        return s_defaults.getProperty( TEMP_PATH_KEY ) ;
     }
 
 
     /**
-     * @see org.apache.avalon.merlin.kernel.KernelParameters#getConfigUrl()
+     * Gets the path to the server configuration file or config.xml.
+     * 
+     * @see org.apache.avalon.merlin.kernel.KernelConfig#getConfigUrl()
      */
     public static String getConfigUrl()
     {
-        throw new UnsupportedOperationException( 
-                "N O T   I M P L E M E N T E D   Y E T !" ) ;
+        return s_defaults.getProperty( CONFIG_URL_KEY ) ;
     }
 
 
     /**
-     * @see org.apache.avalon.merlin.kernel.KernelParameters#getTargetUrls()
+     * Gets the set of block.xml file urls for components that are setup by the 
+     * kernel.  Note that properties are enumerated off of the base key using 
+     * dot number notation like base.1, base.2, ... , base.n.
+     * 
+     * @see org.apache.avalon.merlin.kernel.KernelConfig#getTargetUrls()
      */
     public static String[] getTargetUrls()
     {
-        throw new UnsupportedOperationException( 
-                "N O T   I M P L E M E N T E D   Y E T !" ) ;
+        String [] l_urls = null ;
+        ArrayList l_urlArray = new ArrayList() ;
+        Enumeration l_list = s_defaults.keys() ;
+
+        while ( l_list.hasMoreElements() )
+        {
+            String l_key = ( String ) l_list.nextElement() ;
+            if ( l_key.startsWith( TARGET_URLS_BASE ) )
+            {
+                l_urlArray.add( s_defaults.getProperty( l_key ) ) ;
+            }
+        }
+
+        return ( String [] ) l_urlArray.toArray( new String [0] ) ;
     }
 
 
     /**
-     * @see org.apache.avalon.merlin.kernel.KernelParameters#getKernelUrl()
+     * Gets the url to the kernel configuration xml file.
+     * 
+     * @see org.apache.avalon.merlin.kernel.KernelConfig#getKernelUrl()
      */
     public static String getKernelUrl()
     {
-        throw new UnsupportedOperationException( 
-                "N O T   I M P L E M E N T E D   Y E T !" ) ;
+        return s_defaults.getProperty( KERNEL_URL_KEY ) ;
+    }
+
+    
+    // ------------------------------------------------------------------------
+    // Private Utility Methods
+    // ------------------------------------------------------------------------
+
+    
+    /**
+     * Utility method that gets a key's value and returns a boolean value to 
+     * represent it.
+     * 
+     * @param a_key the boolean property key
+     * @return true if the property is 1, true, yes or on, and false otherwise 
+     */
+    private static boolean getBoolean( String a_key )
+    {
+        String l_value = s_defaults.getProperty( a_key ) ;
+        l_value = l_value.trim().toLowerCase() ;
+        
+        if ( l_value.equals( "1" )       ||
+             l_value.equals( "on" )      ||
+             l_value.equals( "yes" )     ||
+             l_value.equals( "true" ) )
+        {
+            return true ;
+        }
+        
+        return false ;
     }
 }
 
