@@ -25,7 +25,7 @@ import org.apache.avalon.framework.logger.AbstractLoggable;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.2 $ $Date: 2001/07/16 13:06:49 $
+ * @version CVS $Revision: 1.3 $ $Date: 2001/09/20 10:45:14 $
  */
 public abstract class AbstractBlock
     extends AbstractLoggable
@@ -62,6 +62,12 @@ public abstract class AbstractBlock
         return m_componentManager;
     }
 
+    /**
+     * Retrieve cached configuration values.
+     *
+     * @return the configuration
+     * @deprecated No Block should be relying on AbstractBlock to implement Configurable
+     */
     protected final Configuration getConfiguration()
     {
         return m_configuration;
