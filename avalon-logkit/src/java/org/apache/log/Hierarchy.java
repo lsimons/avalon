@@ -22,7 +22,7 @@ public class Hierarchy
     private Logger                  m_rootLogger;
 
     /**
-     * Retrieve the default log engine.
+     * Retrieve the default hierarchy.
      *
      * @return the default Hierarchy
      */
@@ -31,13 +31,24 @@ public class Hierarchy
         return c_hierarchy;
     }
 
+    /**
+     * Create a hierarchy object.
+     * The default LogTarget writes to stdout.
+     *
+     */
     public Hierarchy()
     {
         m_rootLogger = new Logger( this, "", null, null );
         setDefaultLogTarget( new DefaultOutputLogTarget() );
     }
 
-    public synchronized void setDefaultLogTarget( final LogTarget target )
+    /**
+     * Set the default log target for hierarchy.
+     * This is the target inherited by loggers if no other target is specified.
+     *
+     * @param target the default target
+     */
+    public void setDefaultLogTarget( final LogTarget target )
     {
         if( null == target )
         {
@@ -54,30 +65,45 @@ public class Hierarchy
      * @param category the context
      * @return the Logger
      */
-    public synchronized Logger getLoggerFor( final String category )
+    public Logger getLoggerFor( final String category )
     {
         return getRootLogger().getChildLogger( category );
     }
 
     /**
-     * Log an error message and exception to stderr.
-     * TODO: replace this with an error handler
+     * Logs an error message to error handler.
+     * Default Error Handler is stderr.
+     *
+     * @param message a message to log
+     * @param t a Throwable to log
      */
     public void log( final String message, final Throwable t )
     {
+        //TODO: replace this with an error handler
         System.err.println( "Error: " + message );
         t.printStackTrace();
     }
 
     /**
-     * Logs an error message to stderr.
-     * TODO: replace this with an error handler
+     * Logs an error message to error handler.
+     * Default Error Handler is stderr.
+     *
+     * @param message a message to log
      */
     public void log( final String message )
     {
+        //TODO: replace this with an error handler
         System.err.println( "Error: " + message );
     }
 
+    /**
+     * Utility method to retrieve logger for hierarchy.
+     * This method is intended for use by sub-classes
+     * which can take responsibility for manipulating
+     * Logger directly.
+     *
+     * @return the Logger
+     */
     protected final Logger getRootLogger()
     {
         return m_rootLogger;
