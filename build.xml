@@ -3,8 +3,11 @@
 <project name="avalon" default="install" basedir="." 
   xmlns:x="antlib:org.apache.avalon.tools">
 
-  <available property="magic.available" classname="org.apache.avalon.tools.model.Home"/>
-
+  <available property="magic.available" classname="org.apache.avalon.tools.model.Home" >
+    <classpath >
+      <pathelement location="${user.home}/.ant/lib/avalon-tools-magic.jar"/>
+    </classpath>
+  </available>
   <property environment="ENV"/>
   <property name="magic.dir" value="${basedir}/tools/magic"/>
   <property file="${basedir}/user.properties"/>

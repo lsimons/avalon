@@ -11,8 +11,8 @@
 
 =======================================================================
 summary:   Apache Avalon provides a complete platform for component
-	   programming including a core framework, utilities, tools,
-	   components, and a container written in the Java language.
+           programming including a core framework, utilities, tools,
+           components, and a container written in the Java language.
 publisher: Apache Software Foundation
 website:   http://avalon.apache.org/
 license:   Please see the LICENSE.txt file
@@ -40,7 +40,7 @@ build from source, download an install Ant 1.6.1 or later, then
 run:
 
    ant setup               <-- only needed once to bootstrap magic
-   ant clean		   <-- deletes any 'dirty' content
+   ant clean               <-- deletes any 'dirty' content
    ant                     <-- builds entire Avalon platform
 
 Magic uses an environmental variable "MAGIC_HOME" which defaults
@@ -93,8 +93,8 @@ There's been quite a bit of reorganization and somethings have been
 moved, deprecated, or archived.
 
     excalibur/ecm   -->  http://excalibur.apache.org
-    fortress	    -->  http://excalibur.apache.org
-    phoenix	    -->  http://loom.codehaus.org
+    fortress        -->  http://excalibur.apache.org
+    phoenix         -->  http://loom.codehaus.org
 
 A CVS snapshot can be found in SVN at:
 
