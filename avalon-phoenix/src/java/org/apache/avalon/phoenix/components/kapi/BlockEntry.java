@@ -12,6 +12,7 @@ import org.apache.avalon.excalibur.container.Locator;
 import org.apache.avalon.excalibur.container.State;
 import org.apache.avalon.phoenix.Block;
 import org.apache.avalon.phoenix.metainfo.BlockInfo;
+import org.apache.avalon.phoenix.metadata.RoleMetaData;
 
 /**
  * This is the structure describing each block before it is loaded.
@@ -21,14 +22,14 @@ import org.apache.avalon.phoenix.metainfo.BlockInfo;
 public class BlockEntry
     extends Entry
 {
-    private final RoleEntry[]   m_roleEntrys;
+    private final RoleMetaData[]   m_roleEntrys;
 
     private final String        m_name;
 
     private BlockProxy          m_proxy;
 
     public BlockEntry( final String name,
-                       final RoleEntry[] roleEntrys,
+                       final RoleMetaData[] roleEntrys,
                        final Locator locator )
     {
         m_name = name;
@@ -62,13 +63,7 @@ public class BlockEntry
         setInfo(  blockInfo );
     }
 
-    /**
-     * Get a RoleEntry from entry with a particular role.
-     *
-     * @param role the role of RoleEntry to look for
-     * @return the matching deendency else null
-     */
-    public RoleEntry getRoleEntry( final String role )
+    public RoleMetaData getRole( final String role )
     {
         for( int i = 0; i < m_roleEntrys.length; i++ )
         {
@@ -81,7 +76,7 @@ public class BlockEntry
         return null;
     }
 
-    public RoleEntry[] getRoleEntrys()
+    public RoleMetaData[] getRoles()
     {
         return m_roleEntrys;
     }

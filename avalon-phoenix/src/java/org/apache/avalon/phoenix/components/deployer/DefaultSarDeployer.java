@@ -27,9 +27,12 @@ import org.apache.avalon.phoenix.components.application.Application;
 import org.apache.avalon.phoenix.components.configuration.ConfigurationRepository;
 import org.apache.avalon.phoenix.components.kapi.BlockEntry;
 import org.apache.avalon.phoenix.components.kapi.BlockListenerEntry;
-import org.apache.avalon.phoenix.components.kapi.RoleEntry;
 import org.apache.avalon.phoenix.components.kapi.ServerApplicationEntry;
 import org.apache.avalon.phoenix.components.installer.Installation;
+import org.apache.avalon.phoenix.metadata.BlockMetaData;
+import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
+import org.apache.avalon.phoenix.metadata.RoleMetaData;
+import org.apache.avalon.phoenix.metadata.SarMetaData;
 
 /**
  * Deploy .sar files into a kernel using this class.
@@ -238,7 +241,7 @@ public class DefaultSarDeployer
                 final String className = block.getAttribute( "class" );
                 final Configuration[] provides = block.getChildren( "provide" );
 
-                final RoleEntry[] roles = buildRoleEntrys( provides );
+                final RoleMetaData[] roles = buildRoleMetaDatas( provides );
                 final Locator locator = new Locator( className, null );
                 final BlockEntry entry = new BlockEntry( name, roles, locator );
                 blockEntrys.add( entry );
@@ -296,13 +299,13 @@ public class DefaultSarDeployer
     }
 
     /**
-     * Helper method to build an array of RoleEntrys from input config data.
+     * Helper method to build an array of RoleMetaDatas from input config data.
      *
      * @param provides the set of provides elements for block
-     * @return the created RoleEntry array
+     * @return the created RoleMetaData array
      * @exception ConfigurationException if config data is malformed
      */
-    private RoleEntry[] buildRoleEntrys( final Configuration[] provides )
+    private RoleMetaData[] buildRoleMetaDatas( final Configuration[] provides )
         throws ConfigurationException
     {
         final ArrayList roleList = new ArrayList();
@@ -312,10 +315,10 @@ public class DefaultSarDeployer
             final String requiredName = provide.getAttribute( "name" );
             final String role = provide.getAttribute( "role" );
 
-            roleList.add( new RoleEntry( requiredName, role ) );
+            roleList.add( new RoleMetaData( requiredName, role ) );
         }
 
-        return (RoleEntry[])roleList.toArray( new RoleEntry[ 0 ] );
+        return (RoleMetaData[])roleList.toArray( new RoleMetaData[ 0 ] );
     }
 
     /**
