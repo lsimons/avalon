@@ -61,11 +61,17 @@
           <tr><th>Topic</th><th>Summary</th></tr>
           <tr>
             <td><a href="cvs.html">CVS Build Instructions</a></td>
-            <td>Instructions for building Merlin from CVS.</td>
+            <td>Instructions for building Merlin from CVS. This section 
+                includes details of the relevant CVS repositories used 
+                in the Merlin system (util, repository, meta, and merlin)
+                and the procudures for building the respective subprojects.</td>
           </tr>
           <tr>
             <td><a href="binary.html">Install Instructions</a></td>
-            <td>Setting up and validating your Merlin installation.</td>
+            <td>Setting up and validating your Merlin installation.
+                This section includes details about environment variables
+                used by Merlin, setting you PATH variable, and validating 
+                your installation.</td>
           </tr>
         </table>
     </section>
