@@ -65,7 +65,7 @@ import org.xml.sax.XMLFilter;
  *
  * @author <a href="mailto:ovidiu@cup.hp.com">Ovidiu Predescu</a>
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
- * @version CVS $Id: XSLTProcessorImpl.java,v 1.15 2002/08/04 04:29:23 donaldp Exp $
+ * @version CVS $Id: XSLTProcessorImpl.java,v 1.16 2002/08/15 15:54:19 proyal Exp $
  * @version 1.0
  * @since   July 11, 2001
  */
@@ -222,6 +222,14 @@ public final class XSLTProcessorImpl
                     // Get the Templates object (generated during the parsing of
                     // the stylesheet) from the TemplatesHandler.
                     final Templates template = templatesHandler.getTemplates();
+
+                    if( null == template )
+                    {
+                        throw new XSLTProcessorException(
+                            "Unable to create templates for stylesheet: "
+                            + stylesheet.getSystemId() );
+                    }
+
                     putTemplates( template, stylesheet, id );
 
                     // Create transformer handler
