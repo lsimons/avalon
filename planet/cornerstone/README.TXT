@@ -17,19 +17,8 @@ Components subprojects include:
    threads
 
 The default target will build, jar and install the complete component 
-suite into your local maven repository.
+suite into your local repository.
 
-  $ cd avalon-components/cornerstone
-  $ maven
+  $ cd planet/cornerstone
+  $ ant
 
-Site documetation generated hy the avalon:site goal will be placed in 
-the avalon-components/cornerstone/target/docs directory.
-
-Each project can be build indepedendently using classic Maven 
-goals.  For example:
-
-  $ cd avalon-components/cornerstone/threads/api
-  $ maven jar:install
-
-For more information please consult the project documentation
-included under the avalon-components/cornerstone/site directory.

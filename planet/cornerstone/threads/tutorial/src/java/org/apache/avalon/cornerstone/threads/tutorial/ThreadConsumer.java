@@ -112,6 +112,7 @@ Serviceable, Initializable, Disposable
     */
     public void dispose()
     {
+
         getLogger().info( "disposal" );
 
         if( ( m_control != null ) && !m_control.isFinished() )
@@ -167,8 +168,6 @@ Serviceable, Initializable, Disposable
         m_control = null;
         m_threads = null;
         m_manager = null;
-
-        getLogger().info( "disposed" );
     }
 }
 
