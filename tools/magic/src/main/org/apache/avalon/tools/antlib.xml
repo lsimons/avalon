@@ -18,5 +18,6 @@
   <taskdef name="info" classname="org.apache.avalon.tools.tasks.AnnounceTask"/> 
   <taskdef name="artifact" classname="org.apache.avalon.tools.tasks.ArtifactTask"/> 
   <taskdef name="bar" classname="org.apache.avalon.tools.tasks.BarTask"/> 
+  <taskdef name="javadoc" classname="org.apache.avalon.tools.tasks.JavadocTask"/> 
 
 </antlib>

@@ -114,6 +114,23 @@ public class Definition extends Resource
         return path;
     }
 
+    public ResourceRef[] getQualifiedRefs( final List visited, int category )
+    {
+        ArrayList list = new ArrayList();
+        ResourceRef[] refs = 
+          getResourceRefs( Policy.RUNTIME, category, true );
+        for( int i=0; i<refs.length; i++ )
+        {
+            ResourceRef ref = refs[i];
+            if( !visited.contains(  ref ) )
+            {
+                list.add( ref );
+                visited.add( ref );
+            }
+        }
+        return (ResourceRef[]) list.toArray( new ResourceRef[0] );
+    }
+
     public String toString()
     {
         return "[" + getInfo().getGroup() + "/" + getInfo().getName() + "]";

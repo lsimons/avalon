@@ -141,7 +141,7 @@
       </info>
       <dependencies>
         <include key="avalon-framework-api"/>
-        <include key="avalon-framework-legacy"/>
+        <include key="avalon-framework-legacy" runtime="false" />
       </dependencies>
     </project>
 

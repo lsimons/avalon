@@ -45,12 +45,9 @@ import org.apache.avalon.tools.project.ResourceRef;
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class JarTask extends SystemTask
+public class JarTask extends AbstractDeliverableTask
 {
-    public static final String MD5_EXT = "md5";
     public static final String JAR_EXT = "jar";
-    public static final String ASC_EXT = "asc";
-    public static final String GPG_EXE_KEY = "project.gpg.exe";
     public static final String JAR_MAIN_KEY = "project.jar.main.class";
     public static final String JAR_CLASSPATH_KEY = "project.jar.classpath";
     
@@ -173,45 +170,5 @@ public class JarTask extends SystemTask
     {
         Manifest.Attribute attribute = new Manifest.Attribute( name, value );
         section.addConfiguredAttribute( attribute );
-    }
-
-    private void checksum( File jar )
-    {
-        log( "Creating md5 checksum" );
-
-        File md5 = new File( jar.toString() + "." + MD5_EXT );
-
-        Delete delete = (Delete) getProject().createTask( "delete" );
-        delete.setFile( md5 );
-        delete.init();
-        delete.execute();
-
-        Checksum checksum = (Checksum) getProject().createTask( "checksum" );
-        checksum.setFile( jar );
-        checksum.setFileext( "." + MD5_EXT );
-        checksum.init();
-        checksum.execute();
-    }
-
-    private void asc( File jar ) throws IOException
-    {
-        File asc = new File( jar.toString() + "." + ASC_EXT );
-
-        Delete delete = (Delete) getProject().createTask( "delete" );
-        delete.init();
-        delete.setFile( asc );
-        delete.execute();
-
-        String gpg = getProject().getProperty( GPG_EXE_KEY );
-        if( null != gpg )
-        {
-            log( "Creating asc signature" );
-            Execute execute = new Execute();
-            execute.setCommandline( 
-              new String[]{ gpg, "-a", "-b", jar.toString() } );
-            execute.setWorkingDirectory( getProject().getBaseDir() );
-            execute.setSpawn( true );
-            execute.execute();
-        }
     }
 }
