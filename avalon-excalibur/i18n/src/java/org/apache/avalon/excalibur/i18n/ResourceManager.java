@@ -70,7 +70,7 @@ public class ResourceManager
         }
         else
         {
-            resource = pkg.getName();
+            resource = pkg.getName() + ".Resources";
         }
 
         return getBaseResources( resource );
