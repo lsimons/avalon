@@ -13,7 +13,6 @@
       </library>
    </runtime>
    <requires>
-      org.eclipse.core.runtime.compatibility
       <import plugin="org.eclipse.ui.ide"/>
       <import plugin="org.eclipse.ui.views"/>
       <import plugin="org.eclipse.jface.text"/>
@@ -24,6 +23,7 @@
       <import plugin="org.apache.avalon.ide.eclipse.repository"/>
       <import plugin="org.eclipse.core.runtime"/>
       <import plugin="org.eclipse.osgi"/>
+      <import plugin="org.eclipse.osgi.util"/>
    </requires>
 
 
@@ -31,8 +31,8 @@
          point="org.apache.avalon.ide.eclipse.repository.agent">
       <scheme
             name="Test Repository Agent"
-            prefix="testrepo"
-            class="org.apache.avalon.ide.repository.testrepo.TestRepoRepositoryAgentFactory">
+            class="org.apache.avalon.ide.repository.testrepo.TestRepoRepositoryAgentFactory"
+            prefix="testrepo">
          <description>
             This Repository Agent only exists to aid in the creation of the Repository View Plug-In and should not be used beyond that.
          </description>
