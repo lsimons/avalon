@@ -12,7 +12,7 @@ import java.util.LinkedList;
 /**
  * FIXME: Remove or determine good name.
  *
- * @author <a href="mailto:colus@isoft.co.kr">Eung-ju Park</a>
+ * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>
  */
 public abstract class ListCachePolicy
     implements ReplacementPolicy

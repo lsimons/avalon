@@ -14,7 +14,7 @@ import org.apache.avalon.excalibur.cache.LRUCache;
 /**
  * JUnit TestCase for LRUCache.
  *
- * @author <a href="mailto:colus@isoft.co.kr">Eung-ju Park</a>
+ * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>
  */
 public class LRUCacheTestCase
     extends TestCase

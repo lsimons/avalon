@@ -8,7 +8,9 @@
 package org.apache.avalon.excalibur.cache;
 
 /**
- * @author <a href="mailto:colus@isoft.co.kr">Eung-ju Park</a>
+ * Default <code>Cache</code> implementation.
+ *
+ * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>
  */
 public class DefaultCache
     extends AbstractCache
