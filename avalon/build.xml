@@ -79,7 +79,7 @@ Legal:
     <property name="xalan.jar" value="${tools.dir}/lib/xalan-2.3.1.jar"/>
     <property name="bsf.jar" value="${tools.dir}/lib/bsf.jar"/>
     <property name="junit.jar" value="${tools.dir}/lib/junit-3.7.jar"/>
-    <property name="log4j.jar" value="${tools.dir}/lib/log4j-1.1.3.jar"/>
+    <property name="log4j.jar" value="${tools.dir}/lib/log4j-1.2.7.jar"/>
 
     <property name="announce2txt" value="${tools.dir}/announcement2txt.xsl"/>
     <property name="announce2header" value="${tools.dir}/announcement2header.xsl"/>
@@ -129,7 +129,7 @@ Legal:
 
     <!-- Set up dist properties -->
     <target name="setup-properties" >
-        <available property="log4j.present" classname="org.apache.log4j.Category">
+        <available property="log4j.present" classname="org.apache.log4j.Logger">
             <classpath refid="project.class.path"/>
         </available>
         <available property="jdk14.present" classname="java.util.logging.Logger">
