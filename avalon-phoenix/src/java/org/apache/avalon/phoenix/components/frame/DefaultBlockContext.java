@@ -33,21 +33,16 @@ public class DefaultBlockContext
 
     private ApplicationFrame  m_frame;
     private Logger            m_logger;
-    private Logger            m_baseLogger;
     private boolean           m_warningEmitted;
 
-    public DefaultBlockContext( final Logger logger, final ApplicationFrame applicationFrame )
+    public DefaultBlockContext( final String name, final ApplicationFrame frame )
     {
-        this( logger, applicationFrame, null );
-    }
-
-    public DefaultBlockContext( final Logger logger,
-                                final ApplicationFrame frame,
-                                final Context context )
-    {
-        super( context );
-        m_baseLogger = logger;
+        super( (Context)null );
         m_frame = frame;
+
+        put( BlockContext.APP_NAME, frame.getMetaData().getName() );
+        put( BlockContext.APP_HOME_DIR, frame.getMetaData().getHomeDirectory() );
+        put( BlockContext.NAME, name );
     }
 
     public void setLogger( final Logger logger )
@@ -129,7 +124,7 @@ public class DefaultBlockContext
      */
     public Logger getLogger( final String name )
     {
-        return m_baseLogger.getChildLogger( name );
+        return m_frame.getLogger( getName() ).getChildLogger( name );
     }
 
     /**
@@ -140,6 +135,6 @@ public class DefaultBlockContext
      */
     public Logger getBaseLogger()
     {
-        return m_baseLogger;
+        return m_frame.getLogger( getName() );
     }
 }
