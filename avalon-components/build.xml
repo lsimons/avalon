@@ -624,6 +624,14 @@
       <fileset dir="${src.dir}"/>
     </copy>
 
+    <copy todir="${src.dist.dir}/apps">
+      <fileset dir=".">
+        <include name="apps/*/src/**"/>
+        <include name="apps/*/build.xml"/>
+        <include name="apps/*/lib/**"/>
+      </fileset>
+    </copy>
+
     <copy todir="${src.dist.docs}">
       <fileset dir="${build.docs}"/>
     </copy>
