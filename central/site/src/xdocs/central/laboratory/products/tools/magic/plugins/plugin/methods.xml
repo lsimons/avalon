@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+
+<!--
+ * 
+ * Copyright 2004 Apache Software Foundation
+ * Licensed  under the  Apache License,  Version 2.0  (the "License");
+ * you may not use  this file  except in  compliance with the License.
+ * You may obtain a copy of the License at 
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed  under the  License is distributed on an "AS IS" BASIS,
+ * WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ * implied.
+ * 
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+-->
+
+<document>
+
+  <properties>
+    <author email="niclas@apache.org">Niclas Hedhman</author>
+    <title>Magic Plugin Plugin</title>
+  </properties>
+
+  <body>
+
+    <section name="Magic Plugin Plugin - Methods">
+      <p>
+        The following methods has been defined in the Plugin Plugin.
+      </p>
+      <table>
+        <tr>
+          <th>
+            Method
+          </th>
+          <th>
+            Intermediary
+          </th>
+          <th>
+            Description
+          </th>
+        </tr>
+        <tr>
+          <td>
+            validate
+          </td>
+          <td>
+           -
+          </td>
+          <td>
+            Copies the script file to a temporary directory, and then 
+            invokes the JDK javac compiler, to ensure that the plugin
+            is syntactically correct. The output class is cached in the
+            Magic system directory, for later compilation of other
+            plugins, that has dependencies.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            install
+          </td>
+          <td>
+           -
+          </td>
+          <td>
+            It first calls the validate method and then installs the current
+            project as a plugin into the Magic system plugins/ directory.
+          </td>
+        </tr>
+      </table>
+    </section>
+  </body>
+</document>
+
+
+
