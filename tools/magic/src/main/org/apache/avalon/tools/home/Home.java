@@ -102,7 +102,7 @@ public class Home extends DataType
             m_system = m_index.getParentFile();
             String path = getCachePath( project );
             String hostsPath = project.getProperty( "avalon.hosts" );
-            m_repository = new Repository( m_system, path, hostsPath, this );
+            m_repository = new Repository( project, m_system, path, hostsPath, this );
 
             Element root = ElementHelper.getRootElement( m_index );
             final Element resources = ElementHelper.getChild( root, "resources" );
