@@ -57,7 +57,6 @@ package org.apache.avalon.fortress.tools;
 import com.thoughtworks.qdox.model.*;
 import org.apache.avalon.fortress.MetaInfoEntry;
 import org.apache.avalon.fortress.util.dag.Vertex;
-import org.apache.avalon.fortress.util.Service;
 import org.apache.tools.ant.BuildException;
 
 import java.io.File;
@@ -69,7 +68,7 @@ import java.util.*;
  * Represents a component, and output the meta information.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.14 $ $Date: 2003/06/17 20:50:26 $
+ * @version CVS $Revision: 1.15 $ $Date: 2003/06/17 20:56:38 $
  */
 final class Component
 {
@@ -206,7 +205,14 @@ final class Component
         DocletTag avalonConfigName = m_javaClass.getTagByName( TAG_INFO );
         if ( null == avalonConfigName ) avalonConfigName = m_javaClass.getTagByName( TAG_NAME );
 
-        setAttribute( META_NAME, ( avalonConfigName == null ) ? Service.createShortName( m_javaClass.getName() ) : avalonConfigName.getNamedParameter( ATTR_NAME ) );
+        String name = org.apache.avalon.fortress.util.Service.createShortName(m_javaClass.getName());
+
+        if ( avalonConfigName != null )
+        {
+            name = avalonConfigName.getNamedParameter( ATTR_NAME );
+        }
+
+        setAttribute( META_NAME, name );
     }
 
     private void discoverLifecycleType()
