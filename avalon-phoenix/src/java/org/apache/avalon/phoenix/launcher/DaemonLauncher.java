@@ -20,36 +20,26 @@ import java.util.Hashtable;
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public class DaemonLauncher
-    implements WrapperListener, Runnable, ActionListener
+    implements WrapperListener, ActionListener
 {
-    private String[] m_args;
-
     public Integer start( final String[] args )
     {
         // This startup could take a while, so tell the wrapper to be patient.
         WrapperManager.signalStarting( 45000 );
 
-        m_args = args;
+        final Hashtable data = new Hashtable();
+        data.put( ActionListener.class.getName(), this );
 
-        final Thread thread = new Thread( this );
-        thread.start();
+        try { Main.startup( args, data ); }
+        catch( final Exception e )
+        {
+            e.printStackTrace();
+        }
 
         // We are almost up now, so reset the wait time
         WrapperManager.signalStarting( 2000 );
 
         return null;
-    }
-
-    public void run()
-    {
-        final Hashtable data = new Hashtable();
-        data.put( ActionListener.class.getName(), this );
-
-        try { Main.startup( m_args, data ); }
-        catch( final Exception e )
-        {
-            e.printStackTrace();
-        }
     }
 
     public int stop( final int exitCode )
@@ -62,12 +52,25 @@ public class DaemonLauncher
     {
         if( WrapperManager.isControlledByNativeWrapper() )
         {
+            if ( WrapperManager.isDebugEnabled() )
+            {
+                System.out.println( "DaemonLauncher: controlEvent(" + event + ") - Ignored." );
+            }
+            
             // This application ignores all incoming control events.
             //  It relies on the wrapper code to handle them.
         }
         else
         {
+            if ( WrapperManager.isDebugEnabled() )
+            {
+                System.out.println( "DaemonLauncher: controlEvent(" + event + ") - Stopping." );
+            }
+            
+            // Not being run under a wrapper, so this isn't an NT service and should always exit.
+            //  Handle the event here.
             WrapperManager.stop( 0 );
+            // Will not get here.
         }
     }
 
@@ -82,12 +85,20 @@ public class DaemonLauncher
         final String command = action.getActionCommand();
         if( command.equals( "restart" ) )
         {
-            System.out.println( "Pre-restart()" );
-            System.out.flush();
-            WrapperManager.restart();
-            System.out.println( "Post-restart()" );
-            System.out.flush();
+            if ( WrapperManager.isDebugEnabled() )
+            {
+                System.out.println( "DaemonLauncher: restart requested." );
+                System.out.flush();
+            }
 
+            WrapperManager.restart();
+
+            if ( WrapperManager.isDebugEnabled() )
+            {
+                //Should never get here???
+                System.out.println( "DaemonLauncher: restart completed." );
+                System.out.flush();
+            }
         }
         else
         {
