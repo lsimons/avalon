@@ -5,7 +5,8 @@
 - tag CVS
 - generate www pages and upload
 - bump release ID
-- send announcements to announcements@xml.apache.org, announcements@jakarta.apache.org
+- send announcements to announcement@apache.org, announcements@xml.apache.org, announcements@jakarta.apache.org
+- news to newsgroups: comp.lang.java.softwaretools
 - post stories on
   *) jakarta news page
   *) theserverside.com
