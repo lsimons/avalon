@@ -65,7 +65,7 @@ import java.util.*;
  * Represents a component, and output the meta information.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.5 $ $Date: 2003/05/15 18:56:28 $
+ * @version CVS $Revision: 1.6 $ $Date: 2003/05/23 17:04:30 $
  */
 final class Component
 {
@@ -88,7 +88,7 @@ final class Component
 
         m_type = type;
         m_attributes = new Properties();
-        m_dependencies = new ArrayList(10);
+        m_dependencies = new ArrayList( 10 );
         m_vertex = new Vertex( this );
 
         m_repository.add( this );
@@ -109,22 +109,31 @@ final class Component
      *
      * @param service  The name of the service that depends on this.
      */
-    public void addDependency(Service service)
+    public void addDependency( Service service )
     {
-        if ( ! m_dependencies.contains(service) )
+        if ( !m_dependencies.contains( service ) )
         {
-            m_dependencies.add(service);
-
-            Iterator cit = service.getComponents();
-            while ( cit.hasNext() )
-            {
-                m_vertex.addDependency( ( (Component) cit.next() ).getVertex() );
-            }
+            m_dependencies.add( service );
         }
     }
 
     public Vertex getVertex()
     {
+        if ( m_vertex.getDependencies().size() != m_dependencies.size() )
+        {
+            Iterator it = m_dependencies.iterator();
+            while ( it.hasNext() )
+            {
+                Service service = (Service) it.next();
+
+                Iterator cit = service.getComponents();
+                while ( cit.hasNext() )
+                {
+                    Component component = (Component)cit.next();
+                    m_vertex.addDependency( component.getVertex() );
+                }
+            }
+        }
         return m_vertex;
     }
 
@@ -160,14 +169,14 @@ final class Component
             if ( m_dependencies.size() > 0 )
             {
                 writer.close();
-                output = new File(rootDir, depsName);
+                output = new File( rootDir, depsName );
                 writer = new FileOutputStream( output );
 
                 Iterator it = m_dependencies.iterator();
-                while(it.hasNext())
+                while ( it.hasNext() )
                 {
-                    Service service = (Service)it.next();
-                    writer.write(service.getType().getBytes());
+                    Service service = (Service) it.next();
+                    writer.write( service.getType().getBytes() );
                 }
             }
         }
