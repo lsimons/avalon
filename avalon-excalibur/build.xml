@@ -38,7 +38,6 @@
         <ant dir="instrument-manager" target="dist"/> <!-- altrmi, collections, instrument, logger, pool, component -->
         <ant dir="instrument-client" target="dist"/>  <!-- instrument-manager -->
         
-        <ant dir="all"/>                <!-- collections, concurrent, event, instrument -->
 
         <ant dir="baxter" target="dist"/>
         <ant dir="bzip2" target="dist"/>
@@ -65,9 +64,6 @@
             <pathelement location="concurrent/src/test"/>
             <pathelement location="collections/src/java"/>
             <pathelement location="collections/src/test"/>
-            <pathelement location="all/src/java"/>
-            <pathelement location="all/src/scratchpad"/>
-            <pathelement location="all/src/test"/>
             <pathelement location="instrument-manager/src/java"/>
             <pathelement location="instrument-manager/src/test"/>
             <pathelement location="instrument-client/src/java"/>
@@ -257,8 +253,6 @@
         <ant dir="instrument-manager" target="jar"/> <!-- altrmi, collections, instrument, logger, pool, component -->
         <ant dir="instrument-client" target="jar"/>  <!-- instrument-manager -->
         
-        <ant dir="all" target="all"/>                <!-- collections, concurrent, event, instrument, datasource -->
-        
         <ant dir="baxter" target="jar"/>
         <ant dir="bzip2" target="jar"/>
         <ant dir="cache" target="jar"/>
@@ -383,7 +377,6 @@
     <target name="clean">
         <delete dir="${build.dir}" />
 
-        <ant dir="all" target="distclean"/>        
         <ant dir="altrmi" target="real-clean"/>
         <ant dir="baxter" target="real-clean"/>
         <ant dir="bzip2" target="real-clean"/>
