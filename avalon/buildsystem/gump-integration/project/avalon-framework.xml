@@ -14,15 +14,15 @@
     <depend runtime="true" project="jakarta-log4j"/>
     <depend runtime="true" project="avalon-logkit"/>
 
-    <work nested="framework/target/classes"/>
-    <work nested="framework/target/api-classes"/>
-    <work nested="framework/target/impl-classes"/>
-    <work nested="framework/target/test-classes"/>
+    <work nested="framework/api/target/classes"/>
+    <work nested="framework/impl/target/classes"/>
+    <!--<work nested="framework/api/target/test-classes"/>-->
+    <work nested="framework/impl/target/test-classes"/>
 
     <home nested="framework"/>
     <jar name="target/avalon-framework-@@DATE@@.jar" id="combined"/>
-    <jar name="target/avalon-framework-@@DATE@@-api.jar" id="api"/>
-    <jar name="target/avalon-framework-@@DATE@@-impl.jar" id="impl"/>
+    <jar name="target/avalon-framework-api-@@DATE@@.jar" id="api"/>
+    <jar name="target/avalon-framework-impl-@@DATE@@.jar" id="impl"/>
     <javadoc nested="framework/target/docs/apidocs"/>
     <junitreport nested="framework/target/docs/junitreports"/>
 
