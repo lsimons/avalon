@@ -7,7 +7,7 @@ Example block deployment descriptor.
 
   <classloader>
     <classpath>
-      <artifact>artifact:jar:avalon/test/avalon-test-components</artifact>
+      <artifact>@TEST-COMPONENTS-SPEC@</artifact>
     </classpath>
     <grant>
       <permission class="java.util.PropertyPermission" name="java.*" >
