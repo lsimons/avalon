@@ -8,11 +8,7 @@
 package org.apache.log.output;
 
 import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.io.Writer;
-import org.apache.log.format.PatternFormatter;
-import org.apache.log.Hierarchy;
 import org.apache.log.Formatter;
 
 /**
@@ -38,7 +34,29 @@ public class WriterTarget
     public WriterTarget( final Writer writer, final Formatter formatter )
     {
         super( formatter );
-        m_output = writer;
+        setWriter( writer );
+    }
+
+    /**
+     * Set the writer.
+     * Close down writer and write tail if appropriate.
+     *
+     * @param writer the new writer
+     */
+    protected synchronized void setWriter( final Writer writer )
+    {
+       if( null == writer )
+       {
+           throw new NullPointerException( "writer property must not be null" );
+       }
+       
+       if( null != m_output )
+       {
+           close();
+       }
+       
+       m_output = writer;
+       open();
     }
 
     /**
@@ -56,6 +74,31 @@ public class WriterTarget
         catch( final IOException ioe )
         {
             error( "Caught an IOException", ioe );
+        }
+    }
+
+
+    /**
+     * Shutdown target.
+     * Attempting to write to target after close() will cause errors to be logged.
+     */
+    public synchronized void close()
+    {
+        super.close();
+
+        final Writer writer = m_output;
+        m_output = null;
+
+        try
+        {
+            if( null != writer )
+            {
+                writer.close();
+            }
+        }
+        catch( final IOException ioe )
+        {
+            error( "Error closing Writer", ioe );
         }
     }
 }
