@@ -8,7 +8,8 @@
   xmlns:maven="jelly:maven" 
   xmlns:j="jelly:core" 
   xmlns:util="jelly:util" 
-  xmlns:ant="jelly:ant">
+  xmlns:ant="jelly:ant"
+  xmlns:avalon="avalon">
 
   <ant:property name="pom.specificationVersion" value="&avalon-composition-spec;"/>
 

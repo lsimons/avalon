@@ -12,15 +12,8 @@
 
   <ant:property name="pom.specificationVersion" value="&avalon-activation-spec;"/>
 
-  <postGoal name="java:prepare-filesystem">
-    <attainGoal name="artifact:install"/>
+  <preGoal name="java:compile">
     <attainGoal name="avalon:meta"/>
-  </postGoal>
-
-  <postGoal name="jar:install">
-    <ant:copy verbose="yes"
-       file="${maven.build.dir}/${pom.artifactId}-${pom.currentVersion}.jar.meta" 
-       toDir="${maven.repo.local}/${pom.groupId}/jars" />
-  </postGoal>
+  </preGoal>
 
 </project>

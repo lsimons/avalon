@@ -5,7 +5,7 @@
 
 <project>
 
-  <extend>${basedir}/../project.xml</extend>
+  <extend>${basedir}/../../project-common.xml</extend>
 
   <groupId>&avalon-util-id;</groupId>
   <id>&avalon-util-i18n-id;</id>

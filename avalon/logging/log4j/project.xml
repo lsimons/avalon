@@ -5,7 +5,7 @@
 
 <project>
 
-  <extend>${basedir}/../project.xml</extend>
+  <extend>${basedir}/../../project-common.xml</extend>
 
   <groupId>&avalon-logging-id;</groupId>
   <id>&avalon-logging-log4j-id;</id>
@@ -69,6 +69,14 @@
       <version>1.2.8</version>
     </dependency>
 
+    <!-- Building Dependencies -->
+    <dependency>
+      <groupId>&avalon-util-id;</groupId>
+      <artifactId>&avalon-util-plugin-id;</artifactId>
+      <version>&avalon-util-plugin-version;</version>
+      <type>plugin</type>
+    </dependency>
+    
     <!-- pre JDK 1.4 dependencies -->
 
     <dependency>

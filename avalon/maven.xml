@@ -2,149 +2,7 @@
 <!DOCTYPE project [
   <!ENTITY % index SYSTEM "file:index.ent"> %index;
 ]>
-<project default="avalon:help" xmlns:maven="jelly:maven" xmlns:j="jelly:core" xmlns:util="jelly:util" xmlns:ant="jelly:ant">
-
-  <ant:property name="avalonTarget" value="avalon:build"/>
-
-  <goal name="avalon:help">
-    <echo>
-To build the avalon platform you need to invoke the following three goals:
-
-  $ maven plugins  --- builds the core plugins
-  $ maven meta     --- builds framework, utilities, meta and the meta api
-  $ maven merlin   --- builds repository, logging, composition, activation and merlin
-
-Subsequent builds can be updated using:
-
-  $ maven merlin
-
-A set of utility goals are also provided that build projects including the building all dependent projects.  These include:
-
-  util
-  framework
-  meta
-  repository
-  logging
-  composition
-  activation
-  merlin
-
-To build a project independnet of dependent project groups is possible using any of the above targets by prepending the "x" character.  For example, to locally build the meta package without triggering dependent project builds, just enter the following command:
-
-  $ maven xmeta
-
-      </echo>
-  </goal>
-
-  <!-- phase 1 targets -->
-  <goal name="plugins" prereqs="xplugins"/>
-
-  <!-- phase 2 targets -->
-  <goal name="framework" prereqs="xframework"/>
-  <goal name="meta" prereqs="framework,xutil,xmeta"/>
-
-  <!-- phase 3 targets -->
-  <goal name="util" prereqs="xutil"/>
-  <goal name="repository" prereqs="xrepository"/>
-  <goal name="logging" prereqs="repository,xlogging"/>
-  <goal name="composition" prereqs="repository,logging,xcomposition"/>
-  <goal name="activation" prereqs="composition,xactivation"/>
-  <goal name="merlin" prereqs="activation,xmerlin"/>
-
-  <!-- phase 4 targets -->
-  <goal name="tutorials" prereqs="xtutorials"/>
-
-  <!-- local goals -->
-
-  <goal name="xframework">
-    <maven:reactor basedir="${basedir}"
-      includes="framework/project.xml"
-      banner="Building:"
-      goals="${avalonTarget}"
-      ignoreFailures="false" 
-      postProcessing="false" />
-  </goal>
-
-  <goal name="xutil">
-    <maven:reactor basedir="${basedir}"
-      includes="util/project.xml"
-      banner="Building:"
-      goals="${avalonTarget}"
-      ignoreFailures="false" 
-      postProcessing="false" />
-  </goal>
-
-  <goal name="xmeta">
-    <maven:reactor basedir="${basedir}"
-      includes="meta/project.xml"
-      banner="Building:"
-      goals="${avalonTarget}"
-      ignoreFailures="false" 
-      postProcessing="false" />
-  </goal>
-
-  <goal name="xrepository">
-    <maven:reactor basedir="${basedir}"
-      includes="repository/project.xml"
-      banner="Building:"
-      goals="${avalonTarget}"
-      ignoreFailures="false" 
-      postProcessing="false" />
-  </goal>
-
-  <goal name="xlogging">
-    <maven:reactor basedir="${basedir}"
-      includes="logging/project.xml"
-      banner="Building:"
-      goals="${avalonTarget}"
-      ignoreFailures="false" 
-      postProcessing="false" />
-  </goal>
-
-  <goal name="xcomposition">
-    <maven:reactor basedir="${basedir}"
-      includes="composition/project.xml"
-      banner="Building:"
-      goals="${avalonTarget}"
-      ignoreFailures="false" 
-      postProcessing="false" />
-  </goal>
-
-  <goal name="xactivation">
-    <maven:reactor basedir="${basedir}"
-      includes="activation/project.xml"
-      banner="Building:"
-      goals="${avalonTarget}"
-      ignoreFailures="false" 
-      postProcessing="false" />
-  </goal>
-
-  <goal name="xmerlin">
-    <maven:reactor basedir="${basedir}"
-      includes="merlin/project.xml"
-      banner="Building:"
-      goals="${avalonTarget}"
-      ignoreFailures="false" 
-      postProcessing="false" />
-  </goal>
-
-  <goal name="xplugins">
-    <maven:reactor basedir="${basedir}"
-      includes="maven-plugins/project.xml"
-      banner="Building:"
-      goals="${avalonTarget}"
-      ignoreFailures="false" 
-      postProcessing="false" />
-  </goal>
-
-  <goal name="xtutorials">
-    <maven:reactor basedir="${basedir}"
-      includes="tutorials/project.xml"
-      banner="Building:"
-      goals="${avalonTarget}"
-      ignoreFailures="false" 
-      postProcessing="false" />
-  </goal>
+<project default="multiproject:install" xmlns:maven="jelly:maven" xmlns:j="jelly:core" xmlns:util="jelly:util" xmlns:ant="jelly:ant">
 
   <!--
   ==============================================================================
@@ -161,6 +19,8 @@ To build a project independnet of dependent project groups is possible using any
         value="&avalon-logging-logkit-artifact;"/>
     <ant:filter token="STANDARD_RUNTIME" 
         value="&avalon-activation-artifact;"/>
+    <ant:filter token="REPOSITORY_MAIN" 
+        value="&avalon-repository-artifact;"/>
   </preGoal>
 
   <postGoal name="java:compile">

@@ -5,7 +5,7 @@
 
 <project>
 
-  <extend>${basedir}/../../project.xml</extend>
+  <extend>${basedir}/../../project-common.xml</extend>
 
   <groupId>&merlin-id;</groupId>
   <id>&merlin-cli-id;</id>
@@ -35,6 +35,13 @@
       <version>1.0</version>
     </dependency>
 
+    <!-- Building Dependencies -->
+    <dependency>
+      <groupId>&avalon-util-id;</groupId>
+      <artifactId>&avalon-util-plugin-id;</artifactId>
+      <version>&avalon-util-plugin-version;</version>
+      <type>plugin</type>
+    </dependency>
   </dependencies>
 
 </project>

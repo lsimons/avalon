@@ -6,3 +6,7 @@
 <!ENTITY xerces-id "xerces">
 <!ENTITY xerces-group "xerces">
 <!ENTITY xerces-version "2.4.0">
+
+<!ENTITY xalan-id "xerces">
+<!ENTITY xalan-group "xerces">
+<!ENTITY xalan-version "2.5.1">

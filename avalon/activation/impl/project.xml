@@ -5,7 +5,7 @@
 
 <project>
 
-  <extend>${basedir}/../../project.xml</extend>
+  <extend>${basedir}/../../project-common.xml</extend>
 
   <groupId>&avalon-activation-id;</groupId>
   <id>&avalon-activation-impl-id;</id>
@@ -57,6 +57,12 @@
       <artifactId>&avalon-util-i18n-id;</artifactId>
       <version>&avalon-util-i18n-version;</version>
     </dependency>
+    <dependency>
+      <groupId>&avalon-util-id;</groupId>
+      <artifactId>&avalon-util-plugin-id;</artifactId>
+      <version>&avalon-util-plugin-version;</version>
+      <type>plugin</type>
+    </dependency>
 
     <dependency>
       <groupId>&avalon-framework-id;</groupId>
@@ -83,6 +89,12 @@
       <groupId>&avalon-meta-id;</groupId>
       <artifactId>&avalon-meta-impl-id;</artifactId>
       <version>&avalon-meta-impl-version;</version>
+    </dependency>
+    <dependency>
+      <groupId>&avalon-meta-id;</groupId>
+      <artifactId>&avalon-meta-plugin-id;</artifactId>
+      <version>&avalon-meta-plugin-version;</version>
+      <type>plugin</type>
     </dependency>
 
     <dependency>

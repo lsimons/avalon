@@ -5,7 +5,7 @@
 
 <project>
 
-  <extend>${basedir}/../project.xml</extend>
+  <extend>${basedir}/../../project-common.xml</extend>
 
   <groupId>&avalon-logging-id;</groupId>
   <id>&avalon-logging-impl-id;</id>
@@ -67,6 +67,13 @@ Service provider API.
       <version>1.2</version>
     </dependency>
 
+    <!-- Building Dependencies -->
+    <dependency>
+      <groupId>&avalon-util-id;</groupId>
+      <artifactId>&avalon-util-plugin-id;</artifactId>
+      <version>&avalon-util-plugin-version;</version>
+      <type>plugin</type>
+    </dependency>
   </dependencies>
 
 </project>

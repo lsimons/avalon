@@ -4,14 +4,31 @@
   xmlns:define="jelly:define"
   xmlns:util="jelly:util"
   xmlns:maven="jelly:maven"
-  xmlns:ant="jelly:ant" >
+  xmlns:ant="jelly:ant" 
+  xmlns:artifact="avalon-artifact" >
 
-  <define:taglib uri="avalon:artifact"/>
+  <define:taglib uri="avalon-artifact"/>
+
+  <postGoal name="java:prepare-filesystem">
+    <attainGoal name="artifact:install" />
+  </postGoal>
+  
+  <postGoal name="jar:install">
+    <util:file var="metaFile" name="${maven.build.dir}/${pom.artifactId}-${pom.currentVersion}.jar.meta" />
+    <j:if test="${metaFile.exists()}" >
+      <ant:copy verbose="yes"
+         file="${maven.build.dir}/${pom.artifactId}-${pom.currentVersion}.jar.meta" 
+         toDir="${maven.repo.local}/${pom.groupId}/jars" />
+    </j:if>
+  </postGoal>
 
   <goal name="artifact:install" prereqs="artifact:create">
-    <ant:copy toDir="${maven.repo.local}/${pom.groupId}/jars" 
-       file="${maven.build.dir}/${pom.artifactId}-${pom.currentVersion}.jar.meta" 
-       verbose="yes"/>
+    <util:file var="metaFile" name="${maven.build.dir}/${pom.artifactId}-${pom.currentVersion}.jar.meta" />
+    <j:if test="${metaFile.exists()}" >
+      <ant:copy toDir="${maven.repo.local}/${pom.groupId}/jars" 
+         file="${maven.build.dir}/${pom.artifactId}-${pom.currentVersion}.jar.meta" 
+         verbose="yes"/>
+    </j:if>
   </goal>
 
   <!--
@@ -22,7 +39,6 @@
   #
   -->
   <goal name="artifact:create">
-
       <maven:snapshot project="${pom}"/>
 
       <ant:property name="filename" 
@@ -137,15 +153,14 @@ avalon.artifact.export = ${context.getVariable('avalon.artifact.export')}
 #
 </ant:echo>
 
-    <ant:property name="avalonArtifactDestination" 
-       value="${maven.repo.local}/${pom.artifactDirectory}/jars"/>
-    <ant:mkdir dir="${avalonArtifactDestination}"/>    
-    <ant:copy 
-      file="${filename}"
-      todir="${avalonArtifactDestination}"
-      overwrite="true"
-    />
-
+      <ant:property name="avalonArtifactDestination" 
+         value="${maven.repo.local}/${pom.artifactDirectory}/jars"/>
+      <ant:mkdir dir="${avalonArtifactDestination}"/>    
+      <ant:copy 
+        file="${filename}"
+        todir="${avalonArtifactDestination}"
+        overwrite="true"
+      />
   </goal>
 
 </project>
