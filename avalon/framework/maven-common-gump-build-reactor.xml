@@ -129,6 +129,9 @@ DEBUG INFO
 
         <mkdir dir="${maven.build.dir}/docs/junitreports"/>
 
+        <mkdir dir="api/target/test-reports"/><!-- make sure fileset works -->
+        <mkdir dir="impl/target/test-reports"/><!-- make sure fileset works -->
+
         <junitreport todir="${maven.build.dir}/docs/junitreports">
             <fileset dir="api/target/test-reports">
                 <include name="TEST-*.xml"/>
