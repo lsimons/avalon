@@ -79,9 +79,11 @@ public class MX4JSystemManager
         m_embeddor = (Embeddor)serviceManager.lookup( Embeddor.ROLE );
         m_kernel = (Kernel)serviceManager.lookup( Kernel.ROLE );
         m_deployer = (Deployer)serviceManager.lookup( Deployer.ROLE );
-        m_repository = (ConfigurationRepository)serviceManager.lookup( ConfigurationRepository.ROLE );
+        m_repository = (ConfigurationRepository)serviceManager.
+            lookup( ConfigurationRepository.ROLE );
         m_logManager = (LogManager)serviceManager.lookup( LogManager.ROLE );
-        m_extensionManager = (PackageRepository)serviceManager.lookup( PackageRepository.ROLE );
+        m_extensionManager = (PackageRepository)serviceManager.
+            lookup( PackageRepository.ROLE );
     }
 
     public void initialize()
@@ -95,7 +97,10 @@ public class MX4JSystemManager
 
         /**
          // add user names
-         m_mBeanServer.invoke(adaptorName, "addAuthorization", new Object[] {"mx4j", "mx4j"}, new String[] {"java.lang.String", "java.lang.String"});
+         m_mBeanServer.invoke(adaptorName,
+         "addAuthorization",
+         new Object[] {"mx4j", "mx4j"},
+         new String[] {"java.lang.String", "java.lang.String"});
 
          // use basic authentication
          m_mBeanServer.setAttribute(adaptorName, new Attribute("AuthenticationMethod", "basic"));
@@ -109,11 +114,14 @@ public class MX4JSystemManager
                     m_mBeanServer.setAttribute( processorName, new Attribute( "File", path ) );
                 }
         */
-        m_mBeanServer.setAttribute( processorName, new Attribute( "UseCache", new Boolean( false ) ) );
+        final Attribute useCache =
+            new Attribute( "UseCache", new Boolean( false ) );
+        m_mBeanServer.setAttribute( processorName, useCache );
         /*
                 if( pathInJar != null )
                 {
-                    m_mBeanServer.setAttribute( processorName, new Attribute( "PathInJar", pathInJar ) );
+                    m_mBeanServer.setAttribute( processorName,
+                    new Attribute( "PathInJar", pathInJar ) );
                 }
         */
 
@@ -125,7 +133,9 @@ public class MX4JSystemManager
         //TODO: SystemManager itself aswell???
         //FIXME: All this stuff should be done by embeddor and read out of a config file
         register( "Kernel", m_kernel, new Class[]{KernelMBean.class} );
-        register( "ExtensionManager", m_extensionManager, new Class[]{ExtensionManagerMBean.class} );
+        register( "ExtensionManager",
+                  m_extensionManager,
+                  new Class[]{ExtensionManagerMBean.class} );
         register( "Embeddor", m_embeddor, new Class[]{EmbeddorMBean.class} );
         register( "Deployer", m_deployer, new Class[]{DeployerMBean.class} );
         register( "LogManager", m_logManager );

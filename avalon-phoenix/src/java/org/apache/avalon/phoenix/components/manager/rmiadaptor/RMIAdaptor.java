@@ -37,7 +37,7 @@ import javax.management.ReflectionException;
  * to remote operations.
  *
  * @author <a href="mailto:mail@leosimons.com">Leo Simons</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/05/10 02:43:04 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/05/20 12:00:33 $
  */
 public interface RMIAdaptor
     extends Remote
@@ -133,7 +133,10 @@ public interface RMIAdaptor
      *      registered in the MBean server.
      * @throws RemoteException RMI Exception
      */
-    Object instantiate( String className, ObjectName loaderName, Object params[], String signature[] )
+    Object instantiate( String className,
+                        ObjectName loaderName,
+                        Object params[],
+                        String signature[] )
         throws ReflectionException, MBeanException, InstanceNotFoundException, RemoteException;
 
     /**
@@ -237,7 +240,10 @@ public interface RMIAdaptor
      * @throws javax.management.NotCompliantMBeanException If the mBean is invalid form
      * @throws RemoteException RMI Exception
      */
-    ObjectInstance createMBean( String className, ObjectName name, Object params[], String signature[] )
+    ObjectInstance createMBean( String className,
+                                ObjectName name,
+                                Object params[],
+                                String signature[] )
         throws ReflectionException, InstanceAlreadyExistsException, MBeanRegistrationException,
         MBeanException, NotCompliantMBeanException, RemoteException;
 
@@ -466,8 +472,9 @@ public interface RMIAdaptor
      * @throws RemoteException DOC: Insert Description of Exception
      */
     void setAttribute( ObjectName name, Attribute attribute )
-        throws InstanceNotFoundException, AttributeNotFoundException, InvalidAttributeValueException,
-        MBeanException, ReflectionException, RemoteException;
+        throws InstanceNotFoundException, AttributeNotFoundException,
+        InvalidAttributeValueException, MBeanException, ReflectionException,
+        RemoteException;
 
     /**
      * Sets the values of several attributes of a named MBean. The MBean is
@@ -612,7 +619,8 @@ public interface RMIAdaptor
      * @throws RemoteException DOC: Insert Description of Exception
      */
     MBeanInfo getMBeanInfo( ObjectName name )
-        throws InstanceNotFoundException, IntrospectionException, ReflectionException, RemoteException;
+        throws InstanceNotFoundException, IntrospectionException,
+        ReflectionException, RemoteException;
 
     /**
      * Returns true if the MBean specified is an instance of the specified

@@ -99,9 +99,11 @@ public class DefaultManager
         m_embeddor = (Embeddor)serviceManager.lookup( Embeddor.ROLE );
         m_kernel = (Kernel)serviceManager.lookup( Kernel.ROLE );
         m_deployer = (Deployer)serviceManager.lookup( Deployer.ROLE );
-        m_repository = (ConfigurationRepository)serviceManager.lookup( ConfigurationRepository.ROLE );
+        m_repository = (ConfigurationRepository)serviceManager.
+            lookup( ConfigurationRepository.ROLE );
         m_logManager = (LogManager)serviceManager.lookup( LogManager.ROLE );
-        m_extensionManager = (PackageRepository)serviceManager.lookup( PackageRepository.ROLE );
+        m_extensionManager = (PackageRepository)serviceManager.
+            lookup( PackageRepository.ROLE );
     }
 
     public void initialize()
@@ -120,7 +122,9 @@ public class DefaultManager
                 html.addUserAuthenticationInfo( auth );
             }
 
-            final ObjectName name = new ObjectName( "Adaptor:name=html,port=" + DEFAULT_HTTPADAPTER_PORT );
+            final String stringName =
+                "Adaptor:name=html,port=" + DEFAULT_HTTPADAPTER_PORT;
+            final ObjectName name = new ObjectName( stringName );
             System.out.println( "Created HTML Adaptor " + name );
             m_mBeanServer.registerMBean( html, name );
             html.start();
@@ -135,7 +139,9 @@ public class DefaultManager
         //TODO: SystemManager itself aswell???
         //FIXME: All this stuff should be done by embeddor and read out of a config file
         register( "Kernel", m_kernel, new Class[]{KernelMBean.class} );
-        register( "ExtensionManager", m_extensionManager, new Class[]{ExtensionManagerMBean.class} );
+        register( "ExtensionManager",
+                  m_extensionManager,
+                  new Class[]{ExtensionManagerMBean.class} );
         register( "Embeddor", m_embeddor, new Class[]{EmbeddorMBean.class} );
         register( "Deployer", m_deployer, new Class[]{DeployerMBean.class} );
         register( "LogManager", m_logManager );
@@ -297,7 +303,9 @@ public class DefaultManager
         }
         catch( final Exception e )
         {
-            final String message = REZ.getString( "jmxmanager.error.mbeanserver.create", className );
+            final String message =
+                REZ.getString( "jmxmanager.error.mbeanserver.create",
+                               className );
             throw new ParameterException( message, e );
         }
     }
