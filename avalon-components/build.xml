@@ -164,7 +164,7 @@
     <mkdir dir="${build.reports}"/>
 
     <echo message="Performing Unit Tests" />
-    <junit fork="false" printsummary="withOutAndErr">
+    <junit fork="true" printsummary="yes" dir="${build.reports}">
       <formatter type="plain"/>
       <classpath>
         <path refid="test.class.path"/>
