@@ -53,21 +53,21 @@ import java.io.Serializable;
 
 /**
  * A Filter allows subscribers to specify which events
- * they should be informed of.  
- * It is Serializable to allow events to be published and received 
+ * they should be informed of.
+ * It is Serializable to allow events to be published and received
  * in a distributed architecture.
  *
  * @author Mauro Talevi
  */
 public interface Filter extends Serializable
 {
-     /**
-      * Filters event, discarding those not of interest to the subscriber.
-      * 
-      * @param event the <tt>Event</tt>
-      * @return boolean <code>true</code> if Event passes filter
-      */
-     boolean filter( Event event );
+    /**
+     * Filters event, discarding those not of interest to the subscriber.
+     *
+     * @param event the <tt>Event</tt>
+     * @return boolean <code>true</code> if Event passes filter
+     */
+    boolean filter( Event event );
 }
 
 

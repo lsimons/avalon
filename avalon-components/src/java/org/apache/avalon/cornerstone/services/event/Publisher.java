@@ -53,7 +53,7 @@ package org.apache.avalon.cornerstone.services.event;
  * <tt>Publisher</tt> produces or publishes events that are brokered by <tt>EventManager</tt>
  * and of which the appropriate subscribers are informed of.
  *
- * @author Mauro Talevi  
+ * @author Mauro Talevi
  */
 public interface Publisher
 {

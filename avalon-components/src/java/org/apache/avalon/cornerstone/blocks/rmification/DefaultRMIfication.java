@@ -77,7 +77,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  *
  * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>
  * @author Mauro Talevi
- * @version $Revision: 1.14 $
+ * @version $Revision: 1.15 $
  */
 public class DefaultRMIfication
     extends AbstractLogEnabled
@@ -102,7 +102,8 @@ public class DefaultRMIfication
     {
         m_remotes = new HashMap();
         // check if SecurityManager is set
-        if ( System.getSecurityManager() == null ) {
+        if( System.getSecurityManager() == null )
+        {
             System.setSecurityManager( new RMISecurityManager() );
             if( getLogger().isInfoEnabled() )
             {
@@ -151,7 +152,7 @@ public class DefaultRMIfication
         }
     }
 
-    public void unexport( final Remote remote  )
+    public void unexport( final Remote remote )
         throws RemoteException
     {
         UnicastRemoteObject.unexportObject( remote, true );
@@ -186,7 +187,7 @@ public class DefaultRMIfication
     {
         synchronized( m_remotes )
         {
-            final Remote remote = (Remote) m_remotes.get( publicationName );
+            final Remote remote = (Remote)m_remotes.get( publicationName );
 
             m_registry.unbind( publicationName );
             unexport( remote );

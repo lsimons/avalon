@@ -50,16 +50,16 @@
 package org.apache.avalon.cornerstone.services.event;
 
 /**
- * <p>Service to manage event notification. The designed has been inspired by the paper by 
+ * <p>Service to manage event notification. The designed has been inspired by the paper by
  * Gupta, S., J. M. Hartkopf, and S. Ramaswamy, in Java Report, Vol. 3, No. 7, July 1998, 19-36,
- * "Event Notifier: A Pattern for Event Notification".</p>  
- * 
+ * "Event Notifier: A Pattern for Event Notification".</p>
+ *
  * <p>EventManager brokers events between a <tt>Publisher</tt>, which produces events,
  * and a <tt>Subscriber</tt>, which handles the notification of events.
  * A <tt>Filter</tt> discards events not of interest to a subscriber.
- * All Events have a common ancestor type <tt>Event</tt> and the event types are 
+ * All Events have a common ancestor type <tt>Event</tt> and the event types are
  * identified by a <tt>Class</tt>.</p>
- * 
+ *
  * @author Mauro Talevi
  */
 public interface EventManager
@@ -67,18 +67,18 @@ public interface EventManager
     /**
      * Represents Role of the service
      */
-     String ROLE = EventManager.class.getName(); 
-    
-     /**
-      *  Returns the Publisher with which events can be published.
-      */
-     Publisher getPublisher();
-    
-     /**
-      *  Returns the Register with which subscribers can 
-      *  subscribe and unsubscribe interest to given Events.
-      */
-     Register getRegister();
+    String ROLE = EventManager.class.getName();
+
+    /**
+     *  Returns the Publisher with which events can be published.
+     */
+    Publisher getPublisher();
+
+    /**
+     *  Returns the Register with which subscribers can
+     *  subscribe and unsubscribe interest to given Events.
+     */
+    Register getRegister();
 }
 
 

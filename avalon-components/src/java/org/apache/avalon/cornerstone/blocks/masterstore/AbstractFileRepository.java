@@ -107,11 +107,11 @@ public abstract class AbstractFileRepository
     {
         try
         {
-            m_baseDirectory = (File) context.get("urn:avalon:home");
+            m_baseDirectory = (File)context.get( "urn:avalon:home" );
         }
         catch( ContextException e )
         {
-            m_baseDirectory = (File) context.get("app.home");
+            m_baseDirectory = (File)context.get( "app.home" );
         }
     }
 
@@ -186,7 +186,7 @@ public abstract class AbstractFileRepository
     protected AbstractFileRepository createChildRepository()
         throws Exception
     {
-        return (AbstractFileRepository) getClass().newInstance();
+        return (AbstractFileRepository)getClass().newInstance();
     }
 
     public Repository getChildRepository( final String childName )

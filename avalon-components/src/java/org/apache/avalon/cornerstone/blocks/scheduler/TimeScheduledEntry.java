@@ -155,7 +155,7 @@ final class TimeScheduledEntry
 
     public String toString()
     {
-        return "TimeEntry[ name=" + m_name + " valid=" + m_isValid + " time=" + DATEFORMAT.format(new Date(m_time)) + " ]";
+        return "TimeEntry[ name=" + m_name + " valid=" + m_isValid + " time=" + DATEFORMAT.format( new Date( m_time ) ) + " ]";
     }
 }
 

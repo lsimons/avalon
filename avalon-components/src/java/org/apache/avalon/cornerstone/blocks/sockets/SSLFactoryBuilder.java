@@ -128,7 +128,7 @@ public class SSLFactoryBuilder extends AbstractLogEnabled
      */
     public void contextualize( final Context context ) throws ContextException
     {
-        m_baseDirectory = (File) context.get("app.home");
+        m_baseDirectory = (File)context.get( "app.home" );
     }
 
     public void configure( final Configuration configuration )
@@ -137,9 +137,9 @@ public class SSLFactoryBuilder extends AbstractLogEnabled
         final Configuration storeConfig = configuration.getChild( "keystore" );
         final String fileName = storeConfig.getChild( "file" ).getValue( "conf/keystore" );
         final File configuredFile = new File( fileName );
-        if ( ! configuredFile.isAbsolute() )
+        if( !configuredFile.isAbsolute() )
         {
-            m_keystoreFile = new File ( m_baseDirectory, fileName );
+            m_keystoreFile = new File( m_baseDirectory, fileName );
         }
         else
         {
@@ -181,8 +181,8 @@ public class SSLFactoryBuilder extends AbstractLogEnabled
         try
         {
             m_ctx = makeContext( keyStream, m_keystorePassword,
-                               m_keyPassword, m_protocol,
-                               m_provider, m_keystoreFormat );
+                                 m_keyPassword, m_protocol,
+                                 m_provider, m_keystoreFormat );
         }
         finally
         {
@@ -190,7 +190,7 @@ public class SSLFactoryBuilder extends AbstractLogEnabled
             {
                 keyStream.close();
             }
-            catch ( IOException e )
+            catch( IOException e )
             {
                 // avoids hiding exceptions from makeContext
                 // by catching this IOException
@@ -225,7 +225,7 @@ public class SSLFactoryBuilder extends AbstractLogEnabled
      * @throws GeneralSecurityException is something goes wrong inside
      *                                  cryptography framework
      */
-    private static SSLContext makeContext (InputStream keyStream,
+    private static SSLContext makeContext( InputStream keyStream,
                                            String keystorePassword,
                                            String keyPassword,
                                            String protocol,
@@ -239,15 +239,15 @@ public class SSLFactoryBuilder extends AbstractLogEnabled
         final KeyManagerFactory kmf = KeyManagerFactory.getInstance( provider );
         // even though undocumented Sun's implementation doesn't allow
         // null passphrases, but zero sized arrays are OK
-        final char [] passChars = ( keyPassword != null ) ?
-            keyPassword.toCharArray() : new char [0];
+        final char[] passChars = ( keyPassword != null ) ?
+            keyPassword.toCharArray() : new char[ 0 ];
         try
         {
             kmf.init( keystore, passChars );
         }
         finally
         {
-            Arrays.fill( passChars, (char) 0 );
+            Arrays.fill( passChars, (char)0 );
         }
 
         final TrustManagerFactory tmf =
@@ -279,16 +279,16 @@ public class SSLFactoryBuilder extends AbstractLogEnabled
     {
         final KeyStore ks = KeyStore.getInstance( keystoreFormat );
 
-        if ( passphrase != null )
+        if( passphrase != null )
         {
-            final char [] passChars = passphrase.toCharArray();
+            final char[] passChars = passphrase.toCharArray();
             try
             {
                 ks.load( keyStream, passChars );
             }
             finally
             {
-                Arrays.fill( passChars, (char) 0 );
+                Arrays.fill( passChars, (char)0 );
             }
         }
         else

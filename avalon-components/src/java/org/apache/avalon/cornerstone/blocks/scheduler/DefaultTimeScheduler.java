@@ -288,18 +288,18 @@ public class DefaultTimeScheduler
         {
             entry.getTarget().targetTriggered( entry.getName() );
         }
-        catch( final Error e)
+        catch( final Error e )
         {
             final String message = "Error occured executing trigger " + entry.getName();
             getLogger().error( message, e );
-            notifyFailedTriggers(e);
+            notifyFailedTriggers( e );
 
         }
         catch( final Exception e )
         {
             final String message = "Exception occured executing trigger " + entry.getName();
             getLogger().warn( message, e );
-            notifyFailedTriggers(e);
+            notifyFailedTriggers( e );
         }
     }
 
@@ -419,44 +419,45 @@ public class DefaultTimeScheduler
      * Add a trigger failure listener
      * @param listener The listener
      */
-    public void addTriggerFailureListener(TriggerFailureListener listener)
+    public void addTriggerFailureListener( TriggerFailureListener listener )
     {
-        m_triggerFailureListeners.add(listener);
+        m_triggerFailureListeners.add( listener );
     }
 
     /**
      * Remove a trigger failure listener
      * @param listener The listener
      */
-    public void removeTriggerFailureListener(TriggerFailureListener listener)
+    public void removeTriggerFailureListener( TriggerFailureListener listener )
     {
-        m_triggerFailureListeners.remove(listener);
+        m_triggerFailureListeners.remove( listener );
     }
 
-    private void notifyFailedTriggers(Throwable t) {
-        for (int i = 0; i < m_triggerFailureListeners.size(); i++)
+    private void notifyFailedTriggers( Throwable t )
+    {
+        for( int i = 0; i < m_triggerFailureListeners.size(); i++ )
         {
-            TriggerFailureListener triggerFailureListener = (TriggerFailureListener) m_triggerFailureListeners.get(i);
-            triggerFailureListener.triggerFailure(t);
+            TriggerFailureListener triggerFailureListener = (TriggerFailureListener)m_triggerFailureListeners.get( i );
+            triggerFailureListener.triggerFailure( t );
         }
 
     }
-
 
     /**
      * Return a collection of the triggerable names.
      * @return
      */
-    public synchronized Collection getEntries() {
+    public synchronized Collection getEntries()
+    {
         Collection coll = m_entries.keySet();
         Vector retval = new Vector();
-        for (Iterator iterator = coll.iterator(); iterator.hasNext();) {
-            TimeScheduledEntry tse = (TimeScheduledEntry) m_entries.get((String) iterator.next());
-            retval.add(tse.toString());
+        for( Iterator iterator = coll.iterator(); iterator.hasNext(); )
+        {
+            TimeScheduledEntry tse = (TimeScheduledEntry)m_entries.get( (String)iterator.next() );
+            retval.add( tse.toString() );
         }
         return retval;
     }
-
 
 }
 

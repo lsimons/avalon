@@ -92,7 +92,7 @@ public class DefaultEventManager extends AbstractLogEnabled implements EventMana
 
             for( Enumeration e = m_subscribers.elements(); e.hasMoreElements(); )
             {
-                Subscriber subscriber = ( Subscriber ) e.nextElement();
+                Subscriber subscriber = (Subscriber)e.nextElement();
 
                 if( subscriber.getEventType().isAssignableFrom( event.getClass() )
                     && ( subscriber.getFilter() == null || subscriber.getFilter().filter( event ) ) )
