@@ -5,7 +5,7 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE.txt file.
  */
-package org.apache.avalon.excalibur.pool.test;
+package org.apache.avalon.excalibur.thread.impl.test;
 
 import com.clarkware.junitperf.ConstantTimer;
 import com.clarkware.junitperf.LoadTest;
@@ -20,7 +20,7 @@ import org.apache.avalon.excalibur.thread.impl.ResourceLimitingThreadPool;
 
 /**
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/05/13 12:17:38 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/06/05 21:34:03 $
  * @since 4.1
  */
 public final class ResourceLimitingThreadPoolTestCase
