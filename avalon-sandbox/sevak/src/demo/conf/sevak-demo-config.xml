@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!--
+                                README!
+
+    MODIFY the catalina.home parameter to point to the webapps folder 
+
+-->
+<config>
+
+  <sevak>
+      <port>8080</port>
+      <bind>127.0.0.1</bind>
+  </sevak>
+  <sevakTest>
+	  <!-- 
+	   * The Web Application's within the src/conf/webapps 
+	   * is added into the Sevak Demo Block SAR file under
+	   * webapps/ folder  within it.
+	   * -->
+	  <Context docBase="/" path="webapps/ROOT"/>
+	  <Context docBase="/demo" path="webapps/demo.war"/>
+  </sevakTest>
+
+</config>
