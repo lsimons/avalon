@@ -64,7 +64,7 @@ import org.apache.avalon.framework.service.ServiceSelector;
  * interface to a {@link ComponentManager} interface.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.13 $ $Date: 2003/02/11 15:58:38 $
+ * @version CVS $Revision: 1.14 $ $Date: 2003/02/14 15:13:12 $
  */
 public class WrapperComponentManager
     implements ComponentManager
@@ -75,8 +75,14 @@ public class WrapperComponentManager
     private final ServiceManager m_manager;
 
    /**
-    * Creation of a new wrapper component amanger using a supplied
-    * service manager as a source backing the wrapped.
+    * Creation of a new wrapper component manger using a supplied
+    * service manager as a source backing the wrapped.  This implementation
+    * redirects lookup requests to the supplied service manager provided under
+    * this constructor. No attempt is made to proxy object supplied by the 
+    * primary manager as Component instances - as such, it is the responsibility  
+    * of the application establishing the wrapper to ensure that objects 
+    * accessed via the primary manager implement the Component interface.
+    *
     * @param manager the service manager backing the wrapper.
     */
     public WrapperComponentManager( final ServiceManager manager )
