@@ -8,6 +8,7 @@
 package org.apache.avalon.excalibur.command;
 
 import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.avalon.framework.logger.NullLogger;
 import org.apache.avalon.excalibur.concurrent.Mutex;
 import org.apache.avalon.excalibur.thread.*;
 import org.apache.avalon.excalibur.thread.impl.ResourceLimitingThreadPool;
@@ -82,8 +83,10 @@ public final class TPCThreadManager implements Runnable, ThreadManager
         int processors = Math.max( numProcessors, 1 );
         int threads = Math.max( threadsPerProcessor, 1 );
 
-        m_threadPool = new ResourceLimitingThreadPool( "TPCThreadManager",
+        ResourceLimitingThreadPool tpool = new ResourceLimitingThreadPool( "TPCThreadManager",
                 ( processors * threads ) + 1, true, true, 1000L, 10L * 1000L );
+        tpool.enableLogging( new NullLogger() );
+        m_threadPool = tpool;
 
         m_sleepTime = sleepTime;
         m_threadControl = m_threadPool.execute( this );
