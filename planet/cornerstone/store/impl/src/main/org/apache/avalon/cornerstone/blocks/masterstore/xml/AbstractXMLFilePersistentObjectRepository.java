@@ -101,4 +101,9 @@ public abstract class AbstractXMLFilePersistentObjectRepository extends Abstract
             throw new RuntimeException( "Exception caught while storing an object: " + e );
         }
     }
+
+    protected String getExtensionDecorator()
+    {
+        return ".FileObjectStore";
+    }
 }

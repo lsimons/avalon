@@ -132,4 +132,9 @@ public abstract class AbstractFilePersistentStreamRepository extends AbstractFil
 
         super.remove( key );
     }
+
+    protected String getExtensionDecorator()
+    {
+        return ".FileStreamStore";
+    }
 }

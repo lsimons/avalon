@@ -43,11 +43,6 @@ public class File_Persistent_Stream_Repository
     implements StreamRepository, Contextualizable, Initializable, Configurable, LogEnabled
 {
 
-    protected String getExtensionDecorator()
-    {
-        return ".FileStreamStore";
-    }
-
     public void enableLogging(Logger logger) {
         AvalonFileRepositoryMonitor avMonitor = new AvalonFileRepositoryMonitor();
         avMonitor.enableLogging(logger);
