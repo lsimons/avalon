@@ -55,14 +55,16 @@ namespace Apache.Avalon.Framework.Test
 	[TestFixture]
 	public class ConfigurationExceptionTest
 	{
-		[Test] public void Constructor()
+		[Test] 
+		public void Constructor()
 		{
 			Assertion.AssertNotNull( new ConfigurationException() );
 			Assertion.AssertNotNull( new ConfigurationException( "message" ) );
 			Assertion.AssertNotNull( new ConfigurationException( "message", new Exception() ) );
 		}
 
-		[Test] public void Message()
+		[Test] 
+		public void Message()
 		{
 			ConfigurationException ce = new ConfigurationException("message");
 			Assertion.AssertEquals( "message", ce.Message );
