@@ -8,7 +8,10 @@
 package org.apache.log.output.test;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.File;
 import java.io.OutputStreamWriter;
+import java.io.FileInputStream;
 import org.apache.log.Hierarchy;
 import org.apache.log.LogTarget;
 import org.apache.log.Logger;
@@ -16,6 +19,8 @@ import org.apache.log.format.RawFormatter;
 import org.apache.log.output.AbstractOutputTarget;
 import org.apache.log.output.StreamTarget;
 import org.apache.log.output.WriterTarget;
+import org.apache.log.output.FileTarget;
+import org.apache.log.output.SafeFileTarget;
 import org.apache.testlet.AbstractTestlet;
 
 /**
@@ -38,7 +43,17 @@ public final class OutputTargetTestlet
     private static String R2 = M2;
     private static String R3 = M3;
 
+    private static String OUTPUT = HEAD + R1 + R2 + R3 + TAIL;
+
     private static RawFormatter FORMATTER = new RawFormatter();
+
+    private final File     m_logFile;
+
+    public OutputTargetTestlet()
+        throws IOException
+    {
+        m_logFile = (new File( "test/log/logfile.txt" )).getCanonicalFile();
+    }
 
     private String getResult( final ByteArrayOutputStream output )
     {
@@ -53,7 +68,7 @@ public final class OutputTargetTestlet
     {
         final ByteArrayOutputStream output = new ByteArrayOutputStream();
         final StreamTarget target = new StreamTarget( output, FORMATTER );
-        doTest( output, target );
+        doStreamTest( output, target );
     }
 
     public void testWriterTarget()
@@ -62,15 +77,82 @@ public final class OutputTargetTestlet
         final ByteArrayOutputStream output = new ByteArrayOutputStream();
         final OutputStreamWriter writer = new OutputStreamWriter( output );
         final WriterTarget target = new WriterTarget( writer, FORMATTER );
-        doTest( output, target );
+        doStreamTest( output, target );
     }
 
-    private void doTest( final ByteArrayOutputStream output,
-                         final AbstractOutputTarget target )
+    public void testFileTarget()
+        throws Exception
+    {
+        final FileTarget target = new FileTarget( m_logFile, false, FORMATTER );
+
+        final Logger logger = getNewLogger( target );
+        logger.debug( M1 );
+        logger.debug( M2 );
+        logger.debug( M3 );
+        target.close();     
+
+        final String data = getFileContents( m_logFile );
+        assertEquality( "Targets file output", OUTPUT, data );
+        assert( "Deleting logfile", m_logFile.delete() );
+
+        logger.debug( M1 );
+        assert( "Write after close()", !m_logFile.exists() );
+    }
+
+    public void testSafeFileTarget()
+        throws Exception
+    {
+        final SafeFileTarget target = new SafeFileTarget( m_logFile, false, FORMATTER );
+
+        final Logger logger = getNewLogger( target );
+        logger.debug( M1 );
+
+        final String data1 = getFileContents( m_logFile );
+        assertEquality( "Targets file output", HEAD + R1, data1 );
+        assert( "Deleting logfile", m_logFile.delete() );
+
+        logger.debug( M2 );
+        logger.debug( M3 );
+        target.close();     
+
+        final String data2 = getFileContents( m_logFile );
+        assertEquality( "Targets file output", R2 + R3 + TAIL, data2 );
+        assert( "Deleting logfile", m_logFile.delete() );
+
+        logger.debug( M1 );
+        assert( "Write after close()", !m_logFile.exists() );
+    }
+
+    private Logger getNewLogger( final LogTarget target )
     {
         final Hierarchy hierarchy = new Hierarchy();
         final Logger logger = hierarchy.getLoggerFor( "myCategory" );
         logger.setLogTargets( new LogTarget[] { target } );
+        return logger;
+    }
+
+    private String getFileContents( final File file )
+        throws IOException
+    {
+        final FileInputStream input = new FileInputStream( file );
+        final StringBuffer sb = new StringBuffer();
+
+        int ch = input.read();
+        while( -1 != ch )
+        {
+            sb.append( (char)ch );
+            ch = input.read();
+        }
+
+        input.close();
+
+        return sb.toString();
+    }
+
+    private void doStreamTest( final ByteArrayOutputStream output,
+                               final AbstractOutputTarget target )
+    {
+        final Logger logger = getNewLogger( target );
 
         final String head = getResult( output );
 
