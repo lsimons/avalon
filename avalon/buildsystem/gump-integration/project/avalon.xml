@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<module name="avalon">
+    <url href="http://avalon.apache.org/"></url>
+    <description>
+      Avalon's main repository.
+    </description>
+    <cvs repository="avalon"></cvs>
+
+
+    <project href="./avalon-framework.xml"></project>
+
+    <project href="./avalon-fortress-container.xml"></project>
+
+    <project href="./avalon-fortress-tools.xml"></project>
+
+    <project href="./avalon-fortress-examples.xml"></project>
+
+
+</module>
