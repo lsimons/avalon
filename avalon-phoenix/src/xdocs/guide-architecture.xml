@@ -34,7 +34,7 @@
         </section>
         <section name="Packaging of a Server Application">
             <p>
-              Phoenix application are distriuted in a single archive.
+              Phoenix application are distributed in a single archive.
             </p>
             <subsection name="Packaging in terms of blocks">
                 <p>
