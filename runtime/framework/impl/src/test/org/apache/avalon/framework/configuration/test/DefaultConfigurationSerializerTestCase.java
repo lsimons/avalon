@@ -43,8 +43,13 @@ public final class DefaultConfigurationSerializerTestCase extends TestCase
     }
     
     public void setUp() {
-        testDirectory = (new File("test/framework/io")).getAbsoluteFile();
-        testDirectory2 = (new File("test/framework/DefaultConfigurationSerializerTestCase")).getAbsoluteFile();
+        File basedir = new File( System.getProperty( "basedir" ) );
+        testDirectory = (new File( basedir, "io" ) ).getAbsoluteFile();
+        testDirectory2 = 
+          new File( 
+            basedir,  
+            "DefaultConfigurationSerializerTestCase" ).getAbsoluteFile();
+
         if( !testDirectory.exists() )
         {
             testDirectory.mkdirs();
