@@ -64,6 +64,7 @@ Legal:
   -->
   <property name="src.dir" value="src"/>
   <property name="java.dir" value="${src.dir}/java"/>
+  <property name="proposal.dir" value="${src.dir}/proposal-4.0"/>
   <property name="lib.dir" value="lib"/>
   <property name="tools.dir" value="tools"/>
   <property name="docs.dir" value="docs"/>
@@ -464,7 +465,7 @@ Legal:
   -->
   <target name="proposal">
     <antcall target="main">
-      <param name="java.dir" value="${src.dir}/proposal"/>
+      <param name="java.dir" value="${proposal.dir}"/>
     </antcall>
   </target>
 
