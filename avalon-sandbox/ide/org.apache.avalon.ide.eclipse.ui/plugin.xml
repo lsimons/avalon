@@ -61,5 +61,13 @@
             id="Viewer.editors.XMLEditor">
       </editor>
    </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            name="Merlin Container"
+            class="org.apache.avalon.ide.eclipse.merlin.preferences.MerlinMainPreferencePage"
+            id="org.apache.avalon.MerlinMainPreferencePage">
+      </page>
+   </extension>
       
 </plugin>
