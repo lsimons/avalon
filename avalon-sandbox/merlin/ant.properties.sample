@@ -85,3 +85,8 @@
 #avalon-logkit.lib=${avalon-logkit.home}/build/lib
 #avalon-logkit.jar=${avalon-logkit.lib}/logkit.jar
 
+# ----- Merlin Bootstrap -----
+merlin-bootstrap.home=${avalon-sandbox.home}/merlin-bootstrap
+merlin-bootstrap.lib=${merlin-bootstrap.home}/build/lib
+merlin-bootstrap.jar=${merlin-bootstrap.lib}/merlin-bootstrap-1.0.jar
+
