@@ -24,6 +24,9 @@ import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.LogEnabled;
+import org.apache.avalon.framework.parameters.ParameterException;
+import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.thread.ThreadSafe;
 import org.apache.excalibur.source.*;
 
@@ -48,13 +51,14 @@ import org.apache.excalibur.source.*;
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: SourceResolverImpl.java,v 1.1 2002/04/19 09:05:37 cziegeler Exp $
+ * @version $Id: SourceResolverImpl.java,v 1.2 2002/04/24 08:25:42 cziegeler Exp $
  */
 public class SourceResolverImpl
     extends AbstractLogEnabled
     implements Composable,
     Contextualizable,
     Disposable,
+    Parameterizable,
     SourceResolver,
     ThreadSafe
 {
@@ -72,6 +76,9 @@ public class SourceResolverImpl
      * The base URL
      */
     protected URL m_baseURL;
+
+    /** The URLSource class used */
+    protected Class m_urlSourceClass;
 
     /**
      * Get the context
@@ -129,6 +136,30 @@ public class SourceResolverImpl
         {
             m_manager.release( m_factorySelector );
             m_factorySelector = null;
+        }
+    }
+
+    /**
+     * Configure
+     */
+    public void parameterize(Parameters pars)
+    throws ParameterException
+    {
+        final String urlSourceClassName = pars.getParameter("url-source",
+                         "org.apache.excalibur.source.impl.URLSource");
+        ClassLoader loader = Thread.currentThread().getContextClassLoader();
+        if( loader == null )
+        {
+            loader = this.getClass().getClassLoader();
+        }
+        try
+        {
+            this.m_urlSourceClass = loader.loadClass( urlSourceClassName );
+        }
+        catch (ClassNotFoundException cnfe)
+        {
+            this.getLogger().error("Class not found: " + urlSourceClassName, cnfe);
+            throw new ParameterException("Class not found: " + urlSourceClassName, cnfe);
         }
     }
 
@@ -248,18 +279,44 @@ public class SourceResolverImpl
             {
                 if( this.getLogger().isDebugEnabled() == true )
                 {
-                    getLogger().debug( "Making URL from " + systemID );
+                    this.getLogger().debug( "Making URL from " + systemID );
                 }
-                source = new URLSource( new URL( systemID ), parameters );
+                try
+                {
+                    final URLSource urlSource =
+                             (URLSource)this.m_urlSourceClass.newInstance();
+                    urlSource.init( new URL( systemID ), parameters );
+                    source = urlSource;
+                }
+                catch( MalformedURLException mue )
+                {
+                    throw mue;
+                }
+                catch (Exception ie)
+                {
+                    throw new ComponentException("Unable to create new instance of " +
+                                                 this.m_urlSourceClass, ie);
+                }
             }
             catch( MalformedURLException mue )
             {
                 if( this.getLogger().isDebugEnabled() )
                 {
-                    getLogger().debug( "Making URL - MalformedURLException in getURL:", mue );
-                    getLogger().debug( "Making URL a File (assuming that it is full path):" + systemID );
+                    this.getLogger().debug( "Making URL - MalformedURLException in getURL:", mue );
+                    this.getLogger().debug( "Making URL a File (assuming that it is full path):" + systemID );
                 }
-                source = new URLSource( ( new File( systemID ) ).toURL(), parameters );
+                try
+                {
+                    final URLSource urlSource =
+                             (URLSource)this.m_urlSourceClass.newInstance();
+                    urlSource.init( ( new File( systemID ) ).toURL(), parameters );
+                    source = urlSource;
+                }
+                catch (Exception ie)
+                {
+                    throw new ComponentException("Unable to create new instance of " +
+                                                 this.m_urlSourceClass, ie);
+                }
             }
         }
         if( source instanceof LogEnabled )

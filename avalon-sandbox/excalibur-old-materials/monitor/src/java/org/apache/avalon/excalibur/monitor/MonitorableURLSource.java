@@ -16,7 +16,7 @@ import org.apache.excalibur.source.impl.URLSource;
  * This adds the <code>Monitorable</code> interface to the URLSource.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/04/23 15:35:27 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/04/24 08:25:42 $
  */
 
 public class MonitorableURLSource
@@ -25,15 +25,10 @@ public class MonitorableURLSource
 {
 
     /**
-     * Construct a new object from a <code>URL</code>.
-     * @param parameters This is optional
+     * Constructor
      */
-    public MonitorableURLSource( URL url,
-         Map parameters )
-        throws IOException
-    {
-        super( url, parameters );
-    }
+    public MonitorableURLSource() {}
+
     /**
      *  Get the corresponding Resource object for monitoring.
      */
