@@ -2,4 +2,5 @@ org.apache.avalon.repository
 org.apache.avalon.repository.impl
 org.apache.avalon.repository.main
 org.apache.avalon.repository.meta
+org.apache.avalon.repository.provider
 org.apache.avalon.repository.util
