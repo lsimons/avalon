@@ -11,7 +11,7 @@ will list normal targets. If combined with '-verbose', all targets are printed.
 Authors:
  Federico Barbieri <scoobie@apache.org>
  Berin Loritsch <bloritsch@apache.org>
- Peter Donald <peter@apache.org>
+ Peter Donald <peter at apache.org>
  Nicola Ken Barozzi <nicolaken@apache.org>
 
 Legal:

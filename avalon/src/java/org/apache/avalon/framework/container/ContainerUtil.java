@@ -32,8 +32,8 @@ import org.apache.avalon.framework.service.Serviceable;
  * Utility class that makes it easier to transfer
  * a component throught it's lifecycle stages.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.6 $ $Date: 2002/07/12 07:18:50 $
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @version $Revision: 1.7 $ $Date: 2002/08/05 13:23:57 $
  */
 public final class ContainerUtil
 {

@@ -15,7 +15,7 @@ package org.apache.avalon.framework.activity;
  * <p>The work done may be short lived (ie a simple task) or it could
  * be a long running.</p>
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  */
 public interface Executable
 {

@@ -10,7 +10,7 @@ package org.apache.avalon.framework.component;
 /**
  * Extends composer to allow recomposing.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  * @version 1.0
  * @deprecated Use {@link org.apache.avalon.framework.service.Serviceable} instead.
  */

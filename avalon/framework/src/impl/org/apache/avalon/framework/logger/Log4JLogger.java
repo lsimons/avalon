@@ -14,7 +14,7 @@ import org.apache.log4j.Priority;
  * The default Log4J wrapper class for Logger.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  */
 public final class Log4JLogger
     implements Logger

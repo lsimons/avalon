@@ -11,7 +11,7 @@ package org.apache.avalon.framework.context;
  * This interface is used to indicate objects that need to be
  * resolved in some particular context.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  * @version 1.0
  */
 public interface Resolvable
