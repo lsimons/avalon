@@ -459,11 +459,11 @@
 
     <mkdir dir="${dist.base}/phoenix-apps"/>
 
-    <ant antfile="build.xml" dir="apps/db" target="dist" inheritall="false"/>
+    <ant antfile="build.xml" dir="apps/db" target="check" inheritall="false"/>
     <ant antfile="build.xml" dir="apps/demo" target="dist" inheritall="false"/>
     <ant antfile="build.xml" dir="apps/ftpserver" target="check" inheritall="false"/>
     <ant antfile="build.xml" dir="apps/jesktop" target="check" inheritall="false"/>
-    <ant antfile="build.xml" dir="apps/hsql" target="check" inheritall="false"/>    
+    <ant antfile="build.xml" dir="apps/hsql" target="dist" inheritall="false"/>
 
     <copy todir="${dist.base}/phoenix-apps" flatten="true">
       <fileset dir="apps">
