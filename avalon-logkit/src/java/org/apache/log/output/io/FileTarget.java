@@ -83,6 +83,10 @@ public class FileTarget
 
         final File file = getFile().getCanonicalFile();
 
+ *   <p> The initial rotation
+ *   can be set to -1 in which case the system will first create the maximum
+ *   number of file rotations by selecting the next available rotation and thereafter
+ *   will overwrite the oldest log file.
         final File parent = file.getParentFile();
         if( null != parent && !parent.exists() )
         {
