@@ -5,7 +5,7 @@
 
     <name>excalibur-instrument-client</name>
     <id>excalibur-instrument-client</id>
-    <currentVersion>1.1-dev</currentVersion>
+    <currentVersion>1.2</currentVersion>
     <inceptionYear>1997</inceptionYear>
     <shortDescription>Excalibur Instrument client</shortDescription>
     <description>
@@ -46,11 +46,11 @@
         </dependency>
         <dependency>
             <id>excalibur-instrument</id>
-            <version>SNAPSHOT</version>
+            <version>1.2</version>
         </dependency>
         <dependency>
             <id>excalibur-instrument-manager</id>
-            <version>SNAPSHOT</version>
+            <version>1.2</version>
         </dependency>
 
         <dependency>
