@@ -1,4 +1,0 @@
-#! /bin/sh
-find . -name dependencies.list ! -path '*target*' | \
-  xargs cat | sed -r "s/^excalibur.*//g" >> all-dependencies.list
-cp all-dependencies.list target/base/dependencies.list
