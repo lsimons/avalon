@@ -11,10 +11,10 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.Set;
-import java.util.Arrays;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.activity.Disposable;
@@ -261,18 +261,10 @@ public class DefaultDeployer
     {
         try
         {
-            try
-            {
-                deploy( name, new URL( sarURL ) );
-            }
-            catch( DeploymentException e )
-            {
-                e.printStackTrace();
-            }
+            deploy( name, new URL( sarURL ) );
         }
         catch( MalformedURLException mue )
         {
-            mue.printStackTrace();
             throw new DeploymentException( mue.getMessage(), mue );
         }
     }
