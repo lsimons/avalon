@@ -25,6 +25,6 @@
         <dependency type="org.apache.avalon.cornerstone.services.threads.ThreadManager"/>
     </dependencies>
 
-    <configuration-schema type="http://relaxng.org/ns/structure/1.0"/>
+    <configuration-schema location="component2-schema.xml" type="http://relaxng.org/ns/structure/1.0"/>
 
 </component-info>
