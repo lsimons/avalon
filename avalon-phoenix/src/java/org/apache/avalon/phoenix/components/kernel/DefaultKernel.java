@@ -24,7 +24,6 @@ import org.apache.avalon.phoenix.components.application.Application;
 import org.apache.avalon.phoenix.components.application.DefaultServerApplication;
 import org.apache.avalon.phoenix.components.configuration.ConfigurationRepository;
 import org.apache.avalon.phoenix.components.frame.ApplicationContext;
-import org.apache.avalon.phoenix.components.frame.DefaultApplicationContext;
 import org.apache.avalon.phoenix.components.manager.SystemManager;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
 import org.apache.log.Hierarchy;
