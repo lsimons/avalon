@@ -51,11 +51,12 @@ package org.apache.avalon.fortress.test.data;
 
 /**
  * @avalon.component
+ * @avalon.service type=Role1
  * @x-avalon.lifecycle singleton
- * @x-avalon.name component1
+ * @x-avalon.info name=component1
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2003/04/07 21:38:27 $
+ * @version $Revision: 1.6 $ $Date: 2003/04/10 16:53:21 $
  */
 public class Component1
     implements Role1
