@@ -219,6 +219,18 @@ Legal:
     <mkdir dir="${build.classes}"/>
     <mkdir dir="${build.scratchpad}"/>
 
+    <copy todir="${build.classes}">
+      <fileset dir="${test.dir}">
+        <include name="**/test/*.xtest"/>
+      </fileset>
+    </copy>
+
+    <copy todir="${build.scratchpad}">
+      <fileset dir="${scratchpad.dir}">
+        <include name="**/test/*.xtest"/>
+      </fileset>
+    </copy>
+
 <!--
     <depend closure="yes"
             cache="${dep}"
@@ -267,7 +279,11 @@ Legal:
     <echo message="Performing Unit Tests" />
     <junit fork="true" printsummary="yes" dir="${build.reports}">
       <formatter type="xml"/>
-      <classpath refid="test.class.path"/>
+      <classpath>
+        <path refid="test.class.path"/>
+        <pathelement location="${build.classes}"/>
+        <pathelement location="${build.scratchpad}"/>
+      </classpath>
       <batchtest todir="${build.reports}">
         <fileset dir="${build.classes}">
           <exclude name="**/test/Abstract*TestCase.class"/>
