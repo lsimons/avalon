@@ -176,6 +176,7 @@ Legal:
     <test showSuccess="true" showBanner="false" showTrace="true" forceShowTrace="true" > 
        <classpath refid="project.class.path" />
        <testlet>org.apache.log.format.test.FormatterTestlet</testlet>
+       <testlet>org.apache.log.output.test.OutputTargetTestlet</testlet>
     </test>
   </target>
 
