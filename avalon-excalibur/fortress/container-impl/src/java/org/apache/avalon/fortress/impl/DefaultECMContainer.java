@@ -16,15 +16,10 @@
 package org.apache.avalon.fortress.impl;
 
 import org.apache.avalon.fortress.MetaInfoEntry;
-import org.apache.avalon.fortress.RoleManager;
 import org.apache.avalon.fortress.impl.ComponentHandlerMetaData;
 import org.apache.avalon.fortress.impl.DefaultContainer;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.context.Context;
-import org.apache.avalon.framework.context.ContextException;
-import org.apache.avalon.framework.service.ServiceException;
-import org.apache.avalon.framework.service.ServiceManager;
 
 /**
  * Customize the Fortress container to handle ECM compatibility
@@ -33,8 +28,6 @@ import org.apache.avalon.framework.service.ServiceManager;
  * @version CVS $ Revision: 1.1 $
  */
 public class DefaultECMContainer extends DefaultContainer {
-    
-    protected RoleManager m_roleManager;
     
     /**
      * Retrieve the classname for component configuration.
@@ -67,7 +60,7 @@ public class DefaultECMContainer extends DefaultContainer {
 
         return className;
     }
-
+    
     /**
      * Provide some validation for the core Cocoon components
      *
@@ -87,10 +80,12 @@ public class DefaultECMContainer extends DefaultContainer {
                 // Fortress requires a hint, so we just give it one :)
                 hint = element.getLocation();
             }
-            final String classname = getClassname( element );
+            //final String role = getRole( element );
+            final String className = getClassname( element );
+            
             final int activation = ComponentHandlerMetaData.ACTIVATION_BACKGROUND;
             final ComponentHandlerMetaData metaData =
-                new ComponentHandlerMetaData( hint, classname, element, activation );
+                new ComponentHandlerMetaData( hint, className, element, activation );
 
             try {
                 addComponent( metaData );
@@ -99,5 +94,5 @@ public class DefaultECMContainer extends DefaultContainer {
             }
         }
     }
-    
+
 }
