@@ -55,7 +55,7 @@ public class ShutdownPhase
     public void visitBlock( final String name, final BlockEntry entry )
         throws ApplicationException
     {
-        if( entry.getState() != Phases.STARTEDUP ) return;
+        if( entry.getState() != BlockEntry.STARTEDUP ) return;
 
         getLogger().info( "Processing Block: " + name );
         getLogger().debug( "Processing with classloader " + m_classLoader );
@@ -102,7 +102,7 @@ public class ShutdownPhase
         //Destruction stage
         getLogger().debug( "Pre-Destruction Stage" );
         entry.setInstance( null );
-        entry.setState( Phases.SHUTDOWN );
+        entry.setState( BlockEntry.SHUTDOWN );
         getLogger().debug( "Destruction successful." );
 
         try
