@@ -44,6 +44,9 @@ public class SimpleLogKitManager
     private final static String  DEFAULT_FORMAT =
         "%{time} [%7.7{priority}] (%{category}): %{message}\\n%{throwable}";
 
+    //Base name of logger categories
+    private String       m_name;
+
     ///Base directory of applications working directory
     private File         m_baseDirectory;
 
@@ -53,6 +56,7 @@ public class SimpleLogKitManager
     public void contextualize( final Context context )
         throws ContextException
     {
+        m_name = (String)context.get( "app.name" );
         m_baseDirectory = (File)context.get( "app.home" );
     }
 
@@ -64,6 +68,11 @@ public class SimpleLogKitManager
         final Configuration[] categories = configuration.getChildren( "category" );
         configureCategories( categories, targetSet );
     }
+
+    public Hierarchy getHierarchy()
+    {
+        return m_logHierarchy;
+    } 
 
     /**
      * Configure a set of logtargets based on config data.
@@ -123,10 +132,12 @@ public class SimpleLogKitManager
     private void configureCategories( final Configuration[] categories, final HashMap targets )
         throws ConfigurationException
     {
+        final String prefix = m_name + ".";
+
         for( int i = 0; i < categories.length; i++ )
         {
             final Configuration category = categories[ i ];
-            final String name = category.getAttribute( "name", "" );
+            final String name = prefix + category.getAttribute( "name", "" );
             final String target = category.getAttribute( "target" );
             final String priorityName = category.getAttribute( "priority" );
 
@@ -146,7 +157,7 @@ public class SimpleLogKitManager
                 throw new ConfigurationException( message );
             }
 
-            if( name.equals( "" ) )
+            if( name.equals( prefix ) )
             {
                 m_logHierarchy.setDefaultPriority( priority );
                 m_logHierarchy.setDefaultLogTarget( logTarget );
