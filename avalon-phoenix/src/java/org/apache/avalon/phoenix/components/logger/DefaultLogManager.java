@@ -93,8 +93,7 @@ public class DefaultLogManager
     /**
      * Constant used to define LogManager class to use log4j log format and system.
      */
-    private static final String VERSION_LOG4J =
-        "org.apache.avalon.phoenix.components.logger.ExtendedLog4jLoggerManager";
+    private static final String VERSION_LOG4J = ExtendedLog4jLoggerManager.class.getName();
 
     /**
      * Hold the value of phoenix.home
