@@ -71,8 +71,9 @@ public class Home extends DataType
     public static final String KEY = "project.home";
     public static final String HOME_KEY = "project.home";
 
-    public static final String AVALON_HOME_KEY = "avalon.home";
-    public static final String AVALON_REPOSITORY_KEY = "avalon.repository";
+    public static final String HOSTS_KEY = "project.hosts";
+    public static final String MAIN_CACHE_KEY = "project.main.cache";
+    public static final String DOCS_CACHE_KEY = "project.docs.cache";
 
     //-------------------------------------------------------------
     // mutable state
@@ -81,7 +82,8 @@ public class Home extends DataType
     private boolean m_init = false;
 
     private Home m_home;
-    private Repository m_repository;
+    private Repository m_main;
+    private Repository m_docs;
     private File m_system;
     private File m_index;
 
@@ -101,8 +103,11 @@ public class Home extends DataType
         {
             m_system = m_index.getParentFile();
             String path = getCachePath( project );
-            String hostsPath = project.getProperty( "avalon.hosts" );
-            m_repository = new Repository( project, m_system, path, hostsPath, this );
+            String hostsPath = project.getProperty( HOSTS_KEY );
+            m_main = new Repository( project, m_system, path, hostsPath, this );
+
+            String docs = getDocsCachePath( project );
+            m_docs = new Repository( project, m_system, docs, hostsPath, this );
 
             Element root = ElementHelper.getRootElement( m_index );
             final Element resources = ElementHelper.getChild( root, "resources" );
@@ -122,8 +127,8 @@ public class Home extends DataType
             throw new BuildException( e );
         }
 
-        log( "cache: " + m_repository.getCacheDirectory(), Project.MSG_VERBOSE );
-        String[] hosts = m_repository.getHosts();
+        log( "cache: " + m_main.getCacheDirectory(), Project.MSG_VERBOSE );
+        String[] hosts = m_main.getHosts();
         log( "Hosts: " + hosts.length, Project.MSG_VERBOSE );
         for( int i=0; i<hosts.length; i++ )
         {
@@ -133,7 +138,7 @@ public class Home extends DataType
 
     private String getCachePath( Project project ) throws IOException
     {
-        String path = project.getProperty( "avalon.cache" );
+        String path = project.getProperty( MAIN_CACHE_KEY );
         if( null != path ) return path;
 
         Property property = (Property) project.createTask( "property" );
@@ -154,6 +159,13 @@ public class Home extends DataType
         }
     }
 
+    private String getDocsCachePath( Project project ) throws IOException
+    {
+        String path = project.getProperty( DOCS_CACHE_KEY );
+        if( null != path ) return path;
+        return ".docs";
+    }
+
     //-------------------------------------------------------------
     // implementation
     //-------------------------------------------------------------
@@ -170,7 +182,12 @@ public class Home extends DataType
 
     public Repository getRepository()
     {
-        return m_repository;
+        return m_main;
+    }
+
+    public Repository getDocsRepository()
+    {
+        return m_docs;
     }
 
     public Resource[] getResources()
