@@ -152,6 +152,7 @@ public class ReplicateTask extends Task
                 String relativeFilename = trans.substring( root.length() + 1 );
                 log( relativeFilename, Project.MSG_VERBOSE );
                 fileset.createInclude().setName( relativeFilename );
+                fileset.createInclude().setName( relativeFilename + ".*" );
             }
         }
         return fileset;
