@@ -129,7 +129,7 @@ public class InitializeTask extends SystemTask
             Copy copy = (Copy) project.createTask( "copy" );
             copy.setTaskName( getTaskName() );
             copy.setFile( source );
-            copy.setTofile( destination );
+            copy.setTofile( local );
             copy.setPreserveLastModified( true );
             copy.init();
             copy.execute();
