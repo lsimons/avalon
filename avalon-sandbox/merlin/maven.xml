@@ -175,6 +175,24 @@
     </copy>
   </goal>
 
+  <goal name="merlin-libs" prereqs="merlin-install-plugin,merlin-dist">
+    <property environment="env"/>
+    <mkdir dir="${env.MERLIN_HOME}/lib/shared"/>
+    <echo>Updating Merlin libraries: ${env.MERLIN_HOME}</echo>
+    <copy toDir="${env.MERLIN_HOME}/lib/shared">
+      <fileset dir="${merlin.build.inst.dir}/lib/shared">
+        <include name="**/*"/>
+      </fileset>
+    </copy>
+    <mkdir dir="${env.MERLIN_HOME}/lib/system"/>
+    <copy toDir="${env.MERLIN_HOME}/lib/system">
+      <fileset dir="${merlin.build.inst.dir}/lib/system">
+        <include name="**/*"/>
+      </fileset>
+    </copy>
+  </goal>
+
+
   <!--
   Install the merlin plugin into the Maven plugin suite.
   -->
