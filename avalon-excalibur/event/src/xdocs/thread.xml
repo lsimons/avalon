@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+
+<document>
+  <header>
+    <title>Excalibur Event - Thread</title>
+    <authors>
+      <person name="Berin Loritsch" email="bloritsch@apache.org"/>
+    </authors>
+  </header>
+  <body>
+    <s1 title="Why Thread Was Created">
+      <p>
+        Thread is a temporary fork of the official Excalibur Thread package.
+        The main difference is that we use MPool to back the Thread Pool.
+        This portion will go away when we can have an official Excalibur
+        Thread project without any dependencies on the Pool package.
+      </p>
+    </s1>
+    <s1 title="When To Use Thread">
+      <p>
+        The short answer at this time is not to use this version of Thread
+        for your own development.  It is a <em>temporary</em> fork to get
+        the Command Manager in <link href="command.html">Command</link>
+        working without an artificial dependency on a separate pooling
+        package when we already have one.
+      </p>
+    </s1>
+    <s1 title="Core Concepts">
+      <p>
+        Thread has two main peices that you use: Thread Pool and Thread
+        Control.  The Thread Pool is what you use to execute some work.
+        It pools a thread from a pool of threads, and returns a Thread
+        Control.  The Thread Control will allow you to "control" the
+        pooled thread.
+      </p>
+      <s2 title="Thread Pool">
+        <p>
+          The Thread Pool interface is how the Thread Manager in Command
+          will execute the Commands.  Most implementations of the Thread
+          Pool will block if there are no more threads available.  When
+          one of the threads in use are finished, the pool will then execute
+          the Command.
+        </p>
+      </s2>
+      <s2 title="Thread Control">
+        <p>
+          The Thread Control allows you to perform normal Thread manipulations
+          without the Thread Pool losing real control over its collection
+          of Threads.  The commands that can be used are join(), interrupt(),
+          isFinished(), and getThrowable().
+        </p>
+      </s2>
+    </s1>
+  </body>
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
+      $Revision: 1.1 $ $Date: 2002/09/26 00:46:04 $
+    </legal>
+  </footer>
+</document>
