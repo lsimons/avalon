@@ -78,11 +78,11 @@
         </p>
         <source>
 class MyComponent 
-    implements Component, Loggable
+    implements Component, LogEnabled
 {
     Logger logger;
 
-    setLogger(Logger newLogger)
+    public enableLogging(Logger newLogger)
     {
         this.logger = newLogger;
     }
@@ -109,7 +109,7 @@ class MyComponent
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2001/07/18 14:35:44 $
+      $Revision: 1.2 $ $Date: 2001/11/17 16:27:01 $
     </legal>
   </footer>
 </document>
