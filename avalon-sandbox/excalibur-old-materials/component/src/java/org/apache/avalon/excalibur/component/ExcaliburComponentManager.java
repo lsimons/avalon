@@ -37,7 +37,7 @@ import org.apache.excalibur.instrument.Instrumentable;
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.18 $ $Date: 2002/11/07 05:11:34 $
+ * @version CVS $Revision: 1.19 $ $Date: 2002/11/07 06:37:53 $
  * @since 4.0
  */
 public class ExcaliburComponentManager
@@ -55,8 +55,8 @@ public class ExcaliburComponentManager
     /** Instrumentable name used to represent the component-manager.
      *  Handlers reference this name to register themselves at the correct
      *  location under the ECM. */
-    public static final String INSTRUMENTABLE_NAME = "component-manager"; 
-        
+    public static final String INSTRUMENTABLE_NAME = "component-manager";
+
     /** The parent ComponentLocator */
     private final ComponentManager m_parentManager;
 
@@ -300,7 +300,7 @@ public class ExcaliburComponentManager
 
         return component;
     }
-    
+
     /**
      * Tests for existence of a component.  Please note that this test is for
      * <strong>existing</strong> components, and a component will not be created
@@ -470,7 +470,7 @@ public class ExcaliburComponentManager
             }
         }
     }
-    
+
     /*---------------------------------------------------------------
      * Contextual
     /*---------------------------------------------------------------
@@ -648,7 +648,7 @@ public class ExcaliburComponentManager
             m_logkit = new LogkitLoggerManager( null, logkit );
         }
     }
--------------------------------------------------------------*/
+/*-------------------------------------------------------------*/
     /**
      * Sets the InstrumentManager for child components.  Can be for special
      * purpose components, however it is used mostly internally.
@@ -721,7 +721,7 @@ public class ExcaliburComponentManager
         // Child instrumentables register themselves as they are discovered.
         return EMPTY_INSTRUMENTABLE_ARRAY;
     }
-    
+
     /*---------------------------------------------------------------
      * Methods
      *-------------------------------------------------------------*/
@@ -774,7 +774,7 @@ public class ExcaliburComponentManager
         //  element is used.
         String instrumentableName =
             configuration.getAttribute( "instrumentable", configuration.getName() );
-        
+
         return ComponentHandler.getComponentHandler( role,
                                                      componentClass,
                                                      configuration,

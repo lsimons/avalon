@@ -30,7 +30,7 @@ import org.apache.excalibur.instrument.ValueInstrument;
  *  and instrumentation features.
  *
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/11/07 05:11:35 $
+ * @version CVS $Revision: 1.5 $ $Date: 2002/11/07 06:37:53 $
  * @since 4.2
  */
 public abstract class AbstractComponentManagerServlet
@@ -40,7 +40,7 @@ public abstract class AbstractComponentManagerServlet
     private String m_referenceName;
     private ComponentManager m_componentManager;
     private Logger m_logger;
-    
+
     /** Instrumentable Name assigned to this Instrumentable */
     private String m_instrumentableName;
 
@@ -52,12 +52,13 @@ public abstract class AbstractComponentManagerServlet
 
     /** Flag which is to used to keep track of when the Instrumentable has been registered. */
     private boolean m_registered;
-    
+
     /** Counts the number of times the service is requested. */
     private CounterInstrument m_instrumentRequests;
-    
+
     /** Records the amount of time execute takes to be processed. */
-    private ValueInstrument m_inst
+    private ValueInstrument m_instrumentTime;
+
     /*---------------------------------------------------------------
      * Constructors
      *-------------------------------------------------------------*/
@@ -299,11 +300,7 @@ public abstract class AbstractComponentManagerServlet
             return instruments;
         }
     }
-rray( instruments );
-            return instruments;
-        }
-    }
-    
+
     /*---------------------------------------------------------------
      * Methods
      *-------------------------------------------------------------*/
@@ -343,7 +340,7 @@ rray( instruments );
         }
         m_childList.add( child );
     }
-    
+
     /**
      * Obtain a reference to the servlet's logger.
      *
@@ -353,7 +350,7 @@ rray( instruments );
     {
         return m_logger;
     }
-    
+
     /**
      * Returns the current ComponentManager.
      *
