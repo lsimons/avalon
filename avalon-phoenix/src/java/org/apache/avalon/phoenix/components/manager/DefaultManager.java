@@ -8,6 +8,7 @@
 package org.apache.avalon.phoenix.components.manager;
 
 import com.sun.jdmk.comm.HtmlAdaptorServer;
+import com.sun.jdmk.comm.AuthInfo;
 import java.rmi.Remote;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -53,6 +54,12 @@ public class DefaultManager
 
     private static final int DEFAULT_REGISTRY_PORT =
         Integer.getInteger( "phoenix.port", 1111 ).intValue();
+    private static final int DEFAULT_HTTPADAPTER_PORT =
+        Integer.getInteger( "phoenix.adapter.http", 8082 ).intValue();
+    private static final String DEFAULT_ADMIN_USER =
+        System.getProperty( "phoenix.admin.user","admin");
+    private static final String DEFAULT_ADMIN_PASSWD =
+        System.getProperty( "phoenix.admin.passwd");
 
     private Parameters m_parameters;
     private MBeanServer m_mBeanServer;
@@ -102,8 +109,15 @@ public class DefaultManager
 
         try
         {
-            final HtmlAdaptorServer html = new HtmlAdaptorServer();
-            final ObjectName name = new ObjectName( "Adaptor:name=html,port=8082" );
+            final HtmlAdaptorServer html = 
+                new HtmlAdaptorServer( DEFAULT_HTTPADAPTER_PORT );
+            if( null != DEFAULT_ADMIN_PASSWD ) 
+            {
+                final AuthInfo auth = new AuthInfo( DEFAULT_ADMIN_USER, DEFAULT_ADMIN_PASSWD );
+                html.addUserAuthenticationInfo( auth );
+            }
+
+            final ObjectName name = new ObjectName( "Adaptor:name=html,port="+DEFAULT_HTTPADAPTER_PORT );
             System.out.println( "Created HTML Adaptor " + name );
             m_mBeanServer.registerMBean( html, name );
             html.start();
