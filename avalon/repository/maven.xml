@@ -45,7 +45,7 @@
       excludes="project.xml"
       goals="clean:clean"
       banner="Cleaning subproject:"
-      ignoreFailures="false"/>
+      ignoreFailures="true"/>
   </goal>
 
   <goal name="avalon:site">

@@ -29,20 +29,12 @@
 
     <j:set var="impl" value="${pom.getDependency('avalon-repository:avalon-repository-impl')}"/>
 
-    <ant:echo file="${maven.build.dir}/classes/avalon.implementation">
+    <ant:echo file="${maven.build.dir}/classes/avalon.properties">
 #===================================================================#
 # Default repository implementation artifact identifier.            #
 #===================================================================#
 
-meta.domain = avalon
-meta.version = 1.0
-avalon.artifact.group = ${impl.groupId}
-avalon.artifact.name = ${impl.artifactId}
-avalon.artifact.version = ${impl.version}
-
-#
-# EOF
-#
+avalon.repository.implementation = ${impl.groupId}:${impl.artifactId};${impl.version}
 </ant:echo>
   </postGoal>
 
