@@ -7,8 +7,8 @@
  */
 package org.apache.phoenix;
 
-import org.apache.avalon.Disposable;
-import org.apache.avalon.Initializable;
+import org.apache.avalon.activity.Disposable;
+import org.apache.avalon.activity.Initializable;
 import org.apache.avalon.component.ComponentException;
 import org.apache.avalon.component.ComponentManager;
 import org.apache.avalon.component.Composable;
@@ -25,7 +25,7 @@ import org.apache.avalon.logger.AbstractLoggable;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.2 $ $Date: 2001/04/19 02:16:00 $
+ * @version CVS $Revision: 1.3 $ $Date: 2001/04/25 14:40:14 $
  */
 public abstract class AbstractBlock
     extends AbstractLoggable

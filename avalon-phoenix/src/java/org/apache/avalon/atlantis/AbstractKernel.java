@@ -42,7 +42,7 @@ public abstract class AbstractKernel
 {
     protected boolean             m_initialised;
 
-    public void init()
+    public void initialize()
         throws Exception
     {
         final Iterator names = list();
@@ -140,7 +140,7 @@ public abstract class AbstractKernel
                 //is ready to be initialized
                 prepareApplication( name, entry );
 
-                application.init();
+                application.initialize();
             }
             catch( final Throwable t )
             {

@@ -8,8 +8,8 @@
 package org.apache.phoenix.engine.phases;
 
 import java.io.File;
-import org.apache.avalon.Initializable;
 import org.apache.avalon.Startable;
+import org.apache.avalon.activity.Initializable;
 import org.apache.avalon.atlantis.ApplicationException;
 import org.apache.avalon.camelot.Container;
 import org.apache.avalon.camelot.ContainerException;
@@ -175,7 +175,7 @@ public class StartupPhase
             if( object instanceof Initializable )
             {
                 getLogger().debug( "Pre-Initializable Stage" );
-                ((Initializable)object).init();
+                ((Initializable)object).initialize();
                 getLogger().debug( "Initializable successful." );
             }
 

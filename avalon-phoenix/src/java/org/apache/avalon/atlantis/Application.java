@@ -7,15 +7,15 @@
  */
 package org.apache.avalon.atlantis;
 
-import org.apache.avalon.Disposable;
-import org.apache.avalon.Initializable;
 import org.apache.avalon.Startable;
 import org.apache.avalon.Stoppable;
+import org.apache.avalon.activity.Disposable;
+import org.apache.avalon.activity.Initializable;
 import org.apache.avalon.camelot.Container;
 
 /**
  * The Application is a self-contained component that performs a specific
- * function. 
+ * function.
  *
  * Example ServerApplications may be a Mail Server, File Server, Directory Server etc.
  * Example JesktopApplications may be a Spreadsheet program, browser, mail client
@@ -23,7 +23,7 @@ import org.apache.avalon.camelot.Container;
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
-public interface Application 
+public interface Application
     extends Container, Initializable, Startable, Stoppable, Disposable
 {
 }

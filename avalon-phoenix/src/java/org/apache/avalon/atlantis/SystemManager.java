@@ -7,10 +7,10 @@
  */
 package org.apache.avalon.atlantis;
 
-import org.apache.avalon.Disposable;
-import org.apache.avalon.Initializable;
 import org.apache.avalon.Startable;
 import org.apache.avalon.Stoppable;
+import org.apache.avalon.activity.Disposable;
+import org.apache.avalon.activity.Initializable;
 import org.apache.avalon.component.Component;
 
 /**
@@ -32,8 +32,8 @@ public interface SystemManager
      * @param name the name to register object under
      * @param object the object
      * @param interfaces the interfaces to register the component under
-     * @exception ManagerException if an error occurs. An error could occur if the object doesn't 
-     *            implement the interfaces, the interfaces parameter contain non-instance 
+     * @exception ManagerException if an error occurs. An error could occur if the object doesn't
+     *            implement the interfaces, the interfaces parameter contain non-instance
      *            classes, the name is already registered etc.
      * @exception IllegalArgumentException if object or interfaces is null
      */

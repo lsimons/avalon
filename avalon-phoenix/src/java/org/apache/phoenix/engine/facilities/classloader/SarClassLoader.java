@@ -11,7 +11,7 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.Policy;
-import org.apache.avalon.Initializable;
+import org.apache.avalon.activity.Initializable;
 import org.apache.avalon.atlantis.Facility;
 import org.apache.avalon.component.ComponentException;
 import org.apache.avalon.component.ComponentManager;
@@ -54,7 +54,7 @@ public class SarClassLoader
         m_policy = policyManager.getPolicy();
     }
 
-    public void init()
+    public void initialize()
         throws Exception
     {
         final File blockDir =

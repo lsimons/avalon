@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.net.DatagramSocket;
 import java.util.HashMap;
 import java.util.Iterator;
-import org.apache.avalon.Disposable;
+import org.apache.avalon.activity.Disposable;
 import org.apache.avalon.context.Context;
 import org.apache.avalon.context.Contextualizable;
 import org.apache.avalon.logger.AbstractLoggable;

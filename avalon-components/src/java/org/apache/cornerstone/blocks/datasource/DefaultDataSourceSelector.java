@@ -10,8 +10,8 @@ package org.apache.cornerstone.blocks.datasource;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import org.apache.avalon.Disposable;
-import org.apache.avalon.Initializable;
+import org.apache.avalon.activity.Disposable;
+import org.apache.avalon.activity.Initializable;
 import org.apache.avalon.component.Component;
 import org.apache.avalon.component.ComponentException;
 import org.apache.avalon.configuration.Configurable;
@@ -37,7 +37,7 @@ public class DefaultDataSourceSelector
         m_configuration = configuration;
     }
 
-    public void init()
+    public void initialize()
         throws Exception
     {
         m_dataSources = new HashMap();

@@ -17,7 +17,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
-import org.apache.avalon.Initializable;
+import org.apache.avalon.activity.Initializable;
 import org.apache.avalon.component.ComponentException;
 import org.apache.avalon.component.ComponentException;
 import org.apache.avalon.component.ComponentManager;
@@ -86,7 +86,7 @@ public abstract class AbstractFileRepository
         }
     }
 
-    public void init()
+    public void initialize()
         throws Exception
     {
         getLogger().info( "Init " + getClass().getName() + " Store" );
@@ -162,7 +162,7 @@ public abstract class AbstractFileRepository
                                         " : " + ce );
         }
 
-        try { child.init(); }
+        try { child.initialize(); }
         catch( final Exception e )
         {
             throw new RuntimeException( "Cannot initialize child " +

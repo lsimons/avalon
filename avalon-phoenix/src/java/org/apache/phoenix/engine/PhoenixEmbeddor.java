@@ -10,8 +10,8 @@ package org.apache.phoenix.engine;
 import java.io.File;
 import java.lang.UnsupportedOperationException;
 import org.apache.avalon.CascadingException;
-import org.apache.avalon.Disposable;
-import org.apache.avalon.Initializable;
+import org.apache.avalon.activity.Disposable;
+import org.apache.avalon.activity.Initializable;
 import org.apache.avalon.atlantis.Embeddor;
 import org.apache.avalon.atlantis.Kernel;
 import org.apache.avalon.atlantis.SystemManager;
@@ -95,7 +95,7 @@ public class PhoenixEmbeddor
      * Kernel. Note that these are not set up properly until you have
      * called the <code>run()</code> method.
      */
-    public void init()
+    public void initialize()
         throws Exception
     {
         createComponents();
@@ -118,7 +118,7 @@ public class PhoenixEmbeddor
             deployDefaultApplications();
 
             m_systemManager.start();
-            
+
             m_kernel.start();
 
             //Uncomment next bit to try registering...
@@ -445,7 +445,7 @@ public class PhoenixEmbeddor
 
         try
         {
-            m_systemManager.init();
+            m_systemManager.initialize();
         }
         catch( final Exception e )
         {
@@ -517,7 +517,7 @@ public class PhoenixEmbeddor
 
         try
         {
-            m_kernel.init();
+            m_kernel.initialize();
         }
         catch( final Exception e )
         {

@@ -7,8 +7,8 @@
  */
 package org.apache.phoenix.engine.phases;
 
-import org.apache.avalon.Disposable;
 import org.apache.avalon.Stoppable;
+import org.apache.avalon.activity.Disposable;
 import org.apache.avalon.atlantis.ApplicationException;
 import org.apache.avalon.component.ComponentException;
 import org.apache.avalon.component.ComponentManager;

@@ -9,10 +9,10 @@ package org.apache.cornerstone.blocks.scheduler;
 
 import java.util.Hashtable;
 import java.util.NoSuchElementException;
-import org.apache.avalon.Disposable;
-import org.apache.avalon.Initializable;
 import org.apache.avalon.Startable;
 import org.apache.avalon.Stoppable;
+import org.apache.avalon.activity.Disposable;
+import org.apache.avalon.activity.Initializable;
 import org.apache.avalon.logger.AbstractLoggable;
 import org.apache.cornerstone.services.scheduler.Target;
 import org.apache.cornerstone.services.scheduler.TimeScheduler;
@@ -40,7 +40,7 @@ public class DefaultTimeScheduler
     protected Hashtable                  m_entries;
     protected PriorityQueue              m_priorityQueue;
 
-    public void init()
+    public void initialize()
     {
         m_entries = new Hashtable();
         m_priorityQueue = new SynchronizedPriorityQueue( new BinaryHeap() );

@@ -25,7 +25,7 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.PropertyPermission;
 import java.util.StringTokenizer;
-import org.apache.avalon.Initializable;
+import org.apache.avalon.activity.Initializable;
 import org.apache.avalon.atlantis.Facility;
 import org.apache.avalon.configuration.Configurable;
 import org.apache.avalon.configuration.Configuration;
@@ -62,7 +62,7 @@ public class DefaultPolicy
         configureGrants( grants, keyStores );
     }
 
-    public void init()
+    public void initialize()
         throws Exception
     {
         //these properties straight out ot ${java.home}/lib/security/java.policy

@@ -10,7 +10,7 @@ package org.apache.cornerstone.demos.httpproxy;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.UnknownHostException;
-import org.apache.avalon.Initializable;
+import org.apache.avalon.activity.Initializable;
 import org.apache.avalon.component.ComponentException;
 import org.apache.avalon.component.ComponentManager;
 import org.apache.avalon.component.Composable;
@@ -88,7 +88,7 @@ public abstract class AbstractHttpProxyServer
             lookup( "org.apache.cornerstone.services.connection.ConnectionManager" );
     }
 
-    public void init()
+    public void initialize()
         throws Exception
     {
         final ServerSocketFactory factory =
