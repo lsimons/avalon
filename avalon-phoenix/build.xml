@@ -469,7 +469,6 @@ Legal:
         <copy todir="${bin.dist.dir}" filtering="on">
             <fileset dir=".">
                 <include name="README.txt"/>
-                <include name="WARNING.txt"/>
                 <include name="LICENSE.txt"/>
             </fileset>
         </copy>
