@@ -14,9 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.avalon.merlin.jmx.mx4j;
+package org.apache.avalon.jmx.mx4j;
 
 import java.io.File;
+
 import javax.management.Attribute;
 import javax.management.AttributeNotFoundException;
 import javax.management.InstanceNotFoundException;
@@ -33,7 +34,8 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
-import org.apache.avalon.merlin.jmx.spi.AbstractJMXComponentRegistrationManager;
+
+import org.apache.avalon.jmx.spi.AbstractJMXComponentRegistrationManager;
 
 import org.apache.avalon.util.i18n.ResourceManager;
 import org.apache.avalon.util.i18n.Resources;

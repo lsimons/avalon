@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.avalon.merlin.jmx.spi;
+package org.apache.avalon.jmx.spi;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -24,8 +24,8 @@ import org.apache.avalon.composition.model.ComponentModel;
 
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 
-import org.apache.avalon.merlin.jmx.ComponentRegistrationManager;
-import org.apache.avalon.merlin.jmx.ComponentRegistrationException;
+import org.apache.avalon.jmx.ComponentRegistrationManager;
+import org.apache.avalon.jmx.ComponentRegistrationException;
 
 import org.apache.avalon.util.i18n.ResourceManager;
 import org.apache.avalon.util.i18n.Resources;

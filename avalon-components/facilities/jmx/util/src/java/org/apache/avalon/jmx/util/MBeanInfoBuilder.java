@@ -14,17 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.avalon.merlin.jmx.util;
+package org.apache.avalon.jmx.util;
 
 import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.beans.MethodDescriptor;
 import java.beans.PropertyDescriptor;
+
 import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+
 import javax.management.Descriptor;
 import javax.management.MBeanParameterInfo;
+
 import javax.management.modelmbean.ModelMBeanAttributeInfo;
 import javax.management.modelmbean.ModelMBeanConstructorInfo;
 import javax.management.modelmbean.ModelMBeanInfoSupport;
@@ -34,9 +37,11 @@ import javax.management.modelmbean.RequiredModelMBean;
 
 import org.apache.avalon.util.i18n.ResourceManager;
 import org.apache.avalon.util.i18n.Resources;
+
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
+
 import org.xml.sax.InputSource;
 
 /**
