@@ -60,6 +60,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
+import org.apache.avalon.framework.component.WrapperComponentManager;
 
 /**
  * Helper class to extend to create handler factorys.
@@ -104,7 +105,7 @@ public abstract class AbstractHandlerFactory
         ContainerUtil.enableLogging( handler, getLogger() );
         ContainerUtil.contextualize( handler, m_context );
         ContainerUtil.service( handler, m_serviceManager );
-        ContainerUtil.compose( handler, new AdaptingComponentManager( m_serviceManager ) );
+        ContainerUtil.compose( handler, new WrapperComponentManager( m_serviceManager ) );
         ContainerUtil.configure( handler, m_configuration );
         ContainerUtil.initialize( handler );
 

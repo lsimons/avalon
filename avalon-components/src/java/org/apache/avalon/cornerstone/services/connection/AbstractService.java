@@ -60,6 +60,7 @@ import org.apache.avalon.excalibur.thread.ThreadPool;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.component.ComponentException;
+import org.apache.avalon.framework.component.WrapperComponentManager;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
@@ -132,7 +133,7 @@ public abstract class AbstractService
         ContainerUtil.service( m_factory, serviceManager );
         try
         {
-            ContainerUtil.compose( m_factory, new AdaptingComponentManager( serviceManager ) );
+            ContainerUtil.compose( m_factory, new WrapperComponentManager( serviceManager ) );
         }
         catch( final ComponentException ce )
         {
