@@ -21,17 +21,17 @@ import org.apache.log.output.DefaultOutputLogTarget;
  */
 public final class LogEngine
 {
-    protected final Hashtable       c_loggers                = new Hashtable();
-    protected final Hashtable       c_categories             = new Hashtable();
-    protected final Hashtable       c_logTargets;
-    protected Priority.Enum         c_priority               = Priority.DEBUG;
-    protected LogTarget             c_defaultLogTarget;
+    protected final Hashtable       m_loggers                = new Hashtable();
+    protected final Hashtable       m_categories             = new Hashtable();
+    protected final Hashtable       m_logTargets;
+    protected Priority.Enum         m_priority               = Priority.DEBUG;
+    protected LogTarget             m_defaultLogTarget;
 
     public LogEngine()
     {
-        c_logTargets = new Hashtable();
-        c_defaultLogTarget = new DefaultOutputLogTarget();
-        c_logTargets.put( "default", c_defaultLogTarget );
+        m_logTargets = new Hashtable();
+        m_defaultLogTarget = new DefaultOutputLogTarget();
+        m_logTargets.put( "default", m_defaultLogTarget );
     }
 
     /**
@@ -42,8 +42,8 @@ public final class LogEngine
      */
     public void addLogTarget( final String name, final LogTarget target )
     {
-        if( name.equals("default") ) c_defaultLogTarget = target;
-        c_logTargets.put( name, target );
+        if( name.equals("default") ) m_defaultLogTarget = target;
+        m_logTargets.put( name, target );
     }
 
     /**
@@ -54,7 +54,7 @@ public final class LogEngine
      */
     public LogTarget getLogTarget( final String name )
     {
-        return (LogTarget)c_logTargets.get( name );
+        return (LogTarget)m_logTargets.get( name );
     }
 
     /**
@@ -66,12 +66,12 @@ public final class LogEngine
      */
     public Category createCategory( final String categoryName, final Priority.Enum priority )
     {
-        Category category = (Category)c_categories.get( categoryName );
+        Category category = (Category)m_categories.get( categoryName );
 
         if( null == category )
         {
             category = new Category( categoryName );
-            c_categories.put( categoryName, category );
+            m_categories.put( categoryName, category );
         }
 
         category.setPriority( priority );
@@ -100,7 +100,7 @@ public final class LogEngine
     public Logger createLogger( final Category category, final LogTarget logTargets[] )
     {
         final String categoryName = category.getName();
-        Logger logger = (Logger)c_loggers.get( categoryName );
+        Logger logger = (Logger)m_loggers.get( categoryName );
 
         if( null == logger )
         {
@@ -115,7 +115,7 @@ public final class LogEngine
             }
 
             logger = new Logger( this, category, logTargets, parent );
-            c_loggers.put( categoryName, logger );
+            m_loggers.put( categoryName, logger );
         }
         else
         {
@@ -135,7 +135,7 @@ public final class LogEngine
      */
     public LogTarget getDefaultLogTarget()
     {
-        return c_defaultLogTarget;
+        return m_defaultLogTarget;
     }
 
     /**
@@ -145,7 +145,7 @@ public final class LogEngine
      */
     public Priority.Enum getGlobalPriority()
     {
-        return c_priority;
+        return m_priority;
     }
 
     /**
@@ -156,9 +156,9 @@ public final class LogEngine
      */
     public Logger getLoggerFor( final String category )
     {
-        synchronized( c_loggers )
+        synchronized( m_loggers )
         {
-            Logger logger = (Logger)c_loggers.get( category );
+            Logger logger = (Logger)m_loggers.get( category );
             if( null == logger )
             {
                 logger = createLogger( createCategory( category, Priority.DEBUG ) );
@@ -192,7 +192,7 @@ public final class LogEngine
     public void setDefaultLogTarget( final LogTarget defaultLogTarget )
     {
         addLogTarget( "default", defaultLogTarget );
-        c_defaultLogTarget = defaultLogTarget;
+        m_defaultLogTarget = defaultLogTarget;
     }
 
     /**
@@ -201,6 +201,6 @@ public final class LogEngine
      */
     public void setGlobalPriority( final Priority.Enum priority )
     {
-        c_priority = priority;
+        m_priority = priority;
     }
 }
