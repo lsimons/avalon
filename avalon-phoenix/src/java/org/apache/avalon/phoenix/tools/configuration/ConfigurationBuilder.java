@@ -59,66 +59,37 @@ import org.apache.avalon.framework.configuration.SAXConfigurationHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
+import org.xml.sax.EntityResolver;
+import org.realityforge.configkit.ResolverFactory;
 
 /**
  * Utility class used to load Configuration trees from XML files.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.14 $ $Date: 2003/03/22 12:07:15 $
+ * @version $Revision: 1.15 $ $Date: 2003/04/05 04:11:18 $
  */
 public class ConfigurationBuilder
 {
-    private static final DTDInfo[] c_dtdInfo = new DTDInfo[]
-    {
-        new DTDInfo( "-//PHOENIX/Assembly DTD Version 1.0//EN",
-                     "http://jakarta.apache.org/phoenix/assembly_1_0.dtd",
-                     "org/apache/avalon/phoenix/tools/assembly.dtd" ),
-        new DTDInfo( "-//PHOENIX/Mx Info DTD Version 1.0//EN",
-                     "http://jakarta.apache.org/phoenix/mxinfo_1_0.dtd",
-                     "org/apache/avalon/phoenix/tools/mxinfo.dtd" ),
-        new DTDInfo( "-//PHOENIX/Assembly DTD Version 1.0//EN",
-                     "http://jakarta.apache.org/avalon/dtds/phoenix/assembly_1_0.dtd",
-                     "org/apache/avalon/phoenix/tools/assembly.dtd" ),
-        new DTDInfo( "-//PHOENIX/Mx Info DTD Version 1.0//EN",
-                     "http://jakarta.apache.org/avalon/dtds/phoenix/mxinfo_1_0.dtd",
-                     "org/apache/avalon/phoenix/tools/mxinfo.dtd" ),
-        new DTDInfo( "-//PHOENIX/Assembly DTD Version 1.0//EN",
-                     "http://jakarta.apache.org/phoenix/assembly_1.0.dtd",
-                     "org/apache/avalon/phoenix/tools/assembly.dtd" ),
-        new DTDInfo( "-//PHOENIX/Mx Info DTD Version 1.0//EN",
-                     "http://jakarta.apache.org/phoenix/mxinfo_1.0.dtd",
-                     "org/apache/avalon/phoenix/tools/mxinfo.dtd" ),
-        new DTDInfo( "-//PHOENIX/Assembly DTD Version 1.0//EN",
-                     "http://jakarta.apache.org/avalon/dtds/phoenix/assembly_1.0.dtd",
-                     "org/apache/avalon/phoenix/tools/assembly.dtd" ),
-        new DTDInfo( "-//PHOENIX/Mx Info DTD Version 1.0//EN",
-                     "http://jakarta.apache.org/avalon/dtds/phoenix/mxinfo_1.0.dtd",
-                     "org/apache/avalon/phoenix/tools/mxinfo.dtd" ),
-        new DTDInfo( "-//PHOENIX/Assembly DTD Version 1.1//EN",
-                     "http://jakarta.apache.org/phoenix/assembly_1.1.dtd",
-                     "org/apache/avalon/phoenix/tools/assembly.dtd" )
-    };
-
-    private static final DTDResolver c_resolver =
-        new DTDResolver( c_dtdInfo, ConfigurationBuilder.class.getClassLoader() );
+    /**
+     * The resolver that builder uses.
+     */
+    private static EntityResolver c_resolver;
 
     /**
-     * Private constructor to block instantiation.
+     * Build a configuration object using an XML InputSource object, and
+     * optionally validate the xml against the DTD.
      */
-    private ConfigurationBuilder()
-    {
-    }
-
-    /**
-     * Utility method to create a new XML reader.
-     */
-    private static XMLReader createXMLReader()
-        throws SAXException, ParserConfigurationException
+    public static Configuration build( final InputSource input, final boolean validate )
+        throws SAXException, ParserConfigurationException, IOException
     {
         final SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
         saxParserFactory.setNamespaceAware( false );
         final SAXParser saxParser = saxParserFactory.newSAXParser();
-        return saxParser.getXMLReader();
+        final XMLReader reader = saxParser.getXMLReader();
+        final SAXConfigurationHandler handler = new SAXConfigurationHandler();
+        setupXMLReader( reader, handler, validate );
+        reader.parse( input );
+        return handler.getConfiguration();
     }
 
     /**
@@ -127,8 +98,13 @@ public class ConfigurationBuilder
     private static void setupXMLReader( final XMLReader reader,
                                         final SAXConfigurationHandler handler,
                                         final boolean validate )
-        throws SAXException
+        throws SAXException, IOException, ParserConfigurationException
     {
+        if( null == c_resolver )
+        {
+            c_resolver =
+                ResolverFactory.createResolver( ConfigurationBuilder.class.getClassLoader() );
+        }
         reader.setEntityResolver( c_resolver );
         reader.setContentHandler( handler );
         reader.setErrorHandler( handler );
@@ -138,47 +114,5 @@ public class ConfigurationBuilder
             // Request validation
             reader.setFeature( "http://xml.org/sax/features/validation", true );
         }
-    }
-
-    /**
-     * Build a configuration object using an URI
-     */
-    public static Configuration build( final String uri )
-        throws SAXException, ParserConfigurationException, IOException
-    {
-        return build( new InputSource( uri ) );
-    }
-
-    /**
-     * Build a configuration object using an URI, and
-     * optionally validate the xml against the DTD.
-     */
-    public static Configuration build( final String uri, final boolean validate )
-        throws SAXException, ParserConfigurationException, IOException
-    {
-        return build( new InputSource( uri ), validate );
-    }
-
-    /**
-     * Build a configuration object using an XML InputSource object
-     */
-    public static Configuration build( final InputSource input )
-        throws SAXException, ParserConfigurationException, IOException
-    {
-        return build( input, false );
-    }
-
-    /**
-     * Build a configuration object using an XML InputSource object, and
-     * optionally validate the xml against the DTD.
-     */
-    public static Configuration build( final InputSource input, final boolean validate )
-        throws SAXException, ParserConfigurationException, IOException
-    {
-        final XMLReader reader = createXMLReader();
-        final SAXConfigurationHandler handler = new SAXConfigurationHandler();
-        setupXMLReader( reader, handler, validate );
-        reader.parse( input );
-        return handler.getConfiguration();
     }
 }
