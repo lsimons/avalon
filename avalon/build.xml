@@ -617,7 +617,8 @@ Legal:
     <!-- Cleans up build and distribution directories -->
     <target name="clean" depends="setup-properties" description="cleans up the created directories">
         <delete dir="${target.dir}" />
-        <delete dir="${dist.dir}" />
+	<delete dir="${dist.dir}" />
+	<delete dir="build.dir" />
         <delete>
             <fileset dir="." includes="**/*~" defaultexcludes="no"/>
         </delete>
