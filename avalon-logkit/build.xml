@@ -485,7 +485,7 @@ Legal:
   </target>
 
   <!-- Create the binary distribution -->
-  <target name="bin-dist" depends="jar">
+  <target name="bin-dist" depends="jar, docs, javadocs">
 
     <property name="dist.lib" value="${dist.dir}/lib"/>
     <property name="dist.docs" value="${dist.dir}/docs"/>
