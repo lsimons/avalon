@@ -52,10 +52,7 @@ public class BlockEntry
 
     public synchronized void setBlock( final Block block )
     {
-        if( null != m_block )
-        {
-            invalidate();
-        }
+        invalidate();
 
         if( null != block )
         {
