@@ -9,7 +9,7 @@
       <person id="FB" name="Federico Barbieri" email="fede@apache.org"/>
       <person id="BL" name="Berin Loritsch" email="bloritsch@apache.org"/>
       <person id="LS" name="Leo Simons" email="mail@leosimons.com"/>
-      <person id="PD" name="Peter Donald" email="donaldp@apache.org"/>
+      <person id="PD" name="Peter Donald" email="peter@apache.org"/>
     </authors>
   </header>
   <body>
@@ -113,7 +113,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.4 $ $Date: 2001/11/18 07:51:46 $
+      $Revision: 1.5 $ $Date: 2001/11/19 12:00:49 $
     </legal>
   </footer>
 </document>
