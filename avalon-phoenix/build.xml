@@ -448,8 +448,8 @@ Legal:
 
     <!-- Copy BeanShell jars -->
     <target name="dist-beanshell" description="Copies Beanshell jars" if="beanshell.jars">
-        <copy file="${build.lib}/phoenix-bsh-commands.jar" todir="${bin.dist.lib}"/>
-        <copy todir="${bin.dist.lib}/">
+        <copy file="${build.lib}/phoenix-bsh-commands.jar" todir="${bin.dist.container.lib}"/>
+        <copy todir="${bin.dist.container.lib}/">
             <fileset dir="${lib.dir}">
                 <include name="bsh-*"/>
             </fileset>
