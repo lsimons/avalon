@@ -10,7 +10,7 @@
   <menu label="About">
     <menu-item label="Overview" href="index.html"/>
     <menu-item type="external" label="API Docs" href="http://hack.hack"/>   
-    <menu-item type="external" id="downloads" label="Download" href="http://cvs.apache.org/~hammant/"/>
+    <menu-item type="external" id="downloads" label="Download" href="http://jakarta.apache.org/builds/jakarta-avalon-apps/"/>
   </menu>
 
 </book>
