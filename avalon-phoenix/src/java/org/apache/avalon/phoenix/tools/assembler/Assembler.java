@@ -25,10 +25,10 @@ import org.apache.avalon.phoenix.metadata.SarMetaData;
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
-public class DefaultAssembler
+public class Assembler
 {
     private static final Resources REZ =
-        ResourceManager.getPackageResources( DefaultAssembler.class );
+        ResourceManager.getPackageResources( Assembler.class );
 
     /**
      * Create a <code>SarMetaData</code> object based on specified 
