@@ -69,8 +69,8 @@ public class Home extends DataType
     public static final String KEY = "project.home";
     public static final String HOME_KEY = "project.home";
 
-    private static final String USER_PROPERTIES = "user.properties";
-    private static final String BUILD_PROPERTIES = "build.properties";
+    public static final String AVALON_HOME_KEY = "avalon.home";
+    public static final String AVALON_REPOSITORY_KEY = "avalon.repository";
 
     //-------------------------------------------------------------
     // mutable state
@@ -78,12 +78,10 @@ public class Home extends DataType
 
     private boolean m_init = false;
 
-    private String m_id;
-
     private Home m_home;
     private Repository m_repository;
     private File m_system;
-    private File m_file;
+    private File m_index;
 
     private final Hashtable m_resources = new Hashtable();
     private BuildListener m_listener;
@@ -92,38 +90,33 @@ public class Home extends DataType
     // constructor
     //-------------------------------------------------------------
 
-    public Home( Project project, String id )
+    public Home( Project project, File index )
     {
         setProject( project );
-        m_id = id;
-        setupHome();
-    }
+        m_index = index;
+        log( "Building system definition." );
+        try
+        {
+            m_system = m_index.getParentFile();
 
-    //-------------------------------------------------------------
-    // Task
-    //-------------------------------------------------------------
+            Element root = ElementHelper.getRootElement( m_index );
+            final Element repo = ElementHelper.getChild( root, "repository" );
+            final Element resources = ElementHelper.getChild( root, "resources" );
+            final Element projects = ElementHelper.getChild( root, "projects" );
 
-    private String getHomeID()
-    {
-        if( null == m_id )
-        {
-            return KEY;
-        }
-        else
-        {
-            return m_id;
-        }
-    }
+            //
+            // construct the repository, build the definition of the available 
+            // resources and projects used within the system and associate a build
+            // listener
+            //
 
-    private Home getHome()
-    {
-        if( m_home != null )
-        {
-            return m_home;
+            m_repository = createRepository( repo );
+            buildResourceList( resources );
+            buildProjectList( projects );
         }
-        else
+        catch( Throwable e )
         {
-            return this;
+            throw new BuildException( e );
         }
     }
 
@@ -281,40 +274,9 @@ public class Home extends DataType
         return repository;
     }
 
-    private void setupHome()
-    {
-        Project project = getProject();
-        log( "Building system definition." );
-        try
-        {
-            File index = getIndexFile();
-            m_system = index.getParentFile();
-            setupProperties( project, m_system );
-            Element root = ElementHelper.getRootElement( index );
-            final Element repo = ElementHelper.getChild( root, "repository" );
-            final Element resources = ElementHelper.getChild( root, "resources" );
-            final Element projects = ElementHelper.getChild( root, "projects" );
-
-            //
-            // construct the repository, build the definition of the available 
-            // resources and projects used within the system and associate a build
-            // listener
-            //
-
-            m_repository = createRepository( repo );
-            buildResourceList( resources );
-            buildProjectList( projects );
-
-        }
-        catch( Throwable e )
-        {
-            throw new BuildException( e );
-        }
-    }
-
     private File getIndexFile()
     {
-        if( null != m_file ) return m_file;
+        if( null != m_index ) return m_index;
 
         String path = project.getProperty( KEY );
         if( null != path )
@@ -347,31 +309,6 @@ public class Home extends DataType
         }
     }
 
-    private void setupProperties( Project project, File dir )
-    {
-        setupUserProperties( project, dir );
-        setupBuildProperties( project, dir );
-    }
-
-    private void setupUserProperties( Project project, File basedir )
-    {
-        File user = Context.getFile( basedir, USER_PROPERTIES );
-        readProperties( project, user );
-    }
-
-    private void setupBuildProperties( Project project, File basedir )
-    {
-        File build = Context.getFile( basedir, BUILD_PROPERTIES );
-        readProperties( project, build );
-    }
-
-    private void readProperties( Project project, File file ) throws BuildException 
-    {
-        Property props = (Property) project.createTask( "property" );
-        props.setFile( file );
-        props.init();
-        props.execute();
-    }
 
    /*
     public void build( Definition definition )

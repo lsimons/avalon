@@ -24,6 +24,7 @@ import org.apache.tools.ant.Task;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.taskdefs.Copy;
+import org.apache.tools.ant.taskdefs.Property;
 import org.apache.tools.ant.taskdefs.Jar;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.Path;
@@ -41,71 +42,88 @@ import org.apache.avalon.tools.project.Definition;
 public class HomeTask extends ContextualTask
 {
     private static final String CACHE_DIR_KEY = "project.home.cache.dir";
+    private static final String USER_PROPERTIES = "user.properties";
+    private static final String BUILD_PROPERTIES = "build.properties";
 
     private static Home HOME;
-
-    private String m_id;
-
-   /**
-    * Set the home ref id to the system home.  If not supplied the 
-    * default system home 'project.home' id will apply.
-    *
-    * @param id a home id
-    */
-    public void setRefid( String id )
-    {
-        m_id = id;
-    }
 
     public void init() 
     {
         if( !isInitialized() )
         {
             super.init();
+            Project project = getProject();
+            File index = getIndexFile();
+            setupProperties( project, index.getParentFile() );
             if( null == HOME )
             {
-                HOME = new Home( getProject(), Home.KEY );
+                HOME = new Home( project, index );
             }
-            getProject().addReference( Home.KEY, HOME );
+            project.addReference( Home.KEY, HOME );
+            
             getProject().setNewProperty( 
               CACHE_DIR_KEY, 
               HOME.getRepository().getCacheDirectory().toString() );
         }
     }
 
-    private String getHomeID()
+    private void setupProperties( Project project, File dir )
     {
-        if( null == m_id )
-        {
-            return Home.KEY;
-        }
-        else
-        {
-            return m_id;
-        }
+        setupUserProperties( project, dir );
+        setupBuildProperties( project, dir );
     }
 
-    private Home getHomeFromReference( String id )
+    private void setupUserProperties( Project project, File dir )
     {
-        Object object = getProject().getReference( id );
-        if( null == object )
+        File user = Context.getFile( dir, USER_PROPERTIES );
+        readProperties( project, user );
+    }
+
+    private void setupBuildProperties( Project project, File dir )
+    {
+        File build = Context.getFile( dir, BUILD_PROPERTIES );
+        readProperties( project, build );
+    }
+
+    private void readProperties( Project project, File file ) throws BuildException 
+    {
+        Property props = (Property) project.createTask( "property" );
+        props.init();
+        props.setFile( file );
+        props.execute();
+    }
+
+    private File getIndexFile()
+    {
+        String path = getProject().getProperty( Home.KEY );
+        if( null != path )
         {
-            return null;
-        }
-        if( object instanceof Home )
-        {
-            return (Home) object;
+            File index = Context.getFile( project.getBaseDir(), path );
+            if( index.exists() )
+            {
+                if( index.isDirectory() )
+                {
+                    return new File( index, "index.xml" );
+                }
+                else
+                {
+                    return index;
+                }
+            }
+            else
+            {
+                final String error = 
+                  "Property value 'project.home' references a non-existant file: "
+                  + index;
+                throw new BuildException( error );
+            }
         }
         else
         {
             final String error = 
-              "System home ref id '" + id 
-              + "' declared or implied in task [" 
-              + getTaskName() 
-              + "] in the project ["
-              + getProject().getName() 
-              + "] references a object that is not a system home.";
+              "Cannot continue due to unresolved 'project.home' property.";
             throw new BuildException( error );
         }
     }
+
 }
