@@ -146,8 +146,9 @@ Legal:
             <exclude name="${constants.file}" />
             <exclude name="org/apache/avalon/phoenix/frontends/PhoenixServlet.java" unless="servlet.present"/>
             <exclude name="org/apache/avalon/phoenix/frontends/ComposableServlet.java" unless="servlet.present"/>
-            <exclude name="org/apache/jmx/**" unless="jmx.present"/>
             <exclude name="**/*MBean.java" unless="jmx.present"/>
+            <exclude name="org/apache/avalon/phoenix/components/manager/rmiadaptor/*.java"
+                unless="jmx.present"/>
             <exclude name="org/apache/avalon/phoenix/components/manager/DefaultManager.java"
                 unless="jmx.present"/>
             <exclude name="org/apache/avalon/phoenix/launcher/DaemonLauncher.java"
@@ -168,7 +169,7 @@ Legal:
         description="runs rmic on JMX Adaptor">
 
         <rmic base="${build.classes}"
-            classname="org.apache.jmx.adaptor.RMIAdaptorImpl"
+            classname="org.apache.avalon.phoenix.components.manager.rmiadaptor.RMIAdaptorImpl"
             stubVersion="1.2">
             <classpath refid="project.class.path" />
         </rmic>
