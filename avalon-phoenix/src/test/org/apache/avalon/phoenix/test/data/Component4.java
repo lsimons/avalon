@@ -59,7 +59,7 @@ import org.apache.avalon.framework.service.Serviceable;
  * A test component.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.7 $ $Date: 2003/03/22 12:07:17 $
+ * @version $Revision: 1.8 $ $Date: 2003/04/04 22:26:57 $
  */
 public class Component4
     implements Serviceable
@@ -115,7 +115,7 @@ public class Component4
         {
             final String message =
                 "Expected to get service " + name;
-            throw new ServiceException( message );
+            throw new ServiceException( name, message );
         }
         else if( !( service1 instanceof Service2 ) )
         {
