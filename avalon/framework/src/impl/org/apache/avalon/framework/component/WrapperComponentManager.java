@@ -21,7 +21,7 @@ import org.apache.avalon.framework.service.WrapperServiceSelector;
  * interface to a {@link ComponentManager} interface.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2002/11/07 15:51:26 $
+ * @version $Revision: 1.4 $ $Date: 2002/11/07 15:52:11 $
  */
 public class WrapperComponentManager
     implements ComponentManager
@@ -98,7 +98,7 @@ public class WrapperComponentManager
         if( component instanceof WrapperServiceSelector )
         {
             m_manager.
-                release( ( (WrapperComponentSelector)component ).getWrappedServiceSelector() );
+                release( ( (WrapperComponentSelector)component ).getWrappedSelector() );
         }
         else
         {

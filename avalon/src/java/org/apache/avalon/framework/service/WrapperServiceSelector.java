@@ -69,7 +69,7 @@ import org.apache.avalon.framework.component.ComponentSelector;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/11/07 12:43:19 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/11/07 15:52:11 $
  */
 public class WrapperServiceSelector
     implements ServiceSelector
@@ -150,7 +150,7 @@ public class WrapperServiceSelector
     {
         m_selector.release( (Component)object );
     }
-    
+
     /**
      * The {@link WrapperServiceManager} wraps ComponentSelectors in
      *  WrapperServiceSelectors when they are looked up.  This method
@@ -158,7 +158,7 @@ public class WrapperServiceSelector
      *
      * @return The {@link ComponentSelector} being wrapped.
      */
-    ComponentSelector getWrappedComponentSelector()
+    ComponentSelector getWrappedSelector()
     {
         return m_selector;
     }
