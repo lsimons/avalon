@@ -38,6 +38,9 @@
   <!-- property to specify name of zip/jar files -->
   <property name="dist.name" value="excalibur-${name}-${version}"/>
 
+  <!-- property indicating directory where all distribution archives are placed -->
+  <property name="dist.base" value="distributions"/>
+
   <!-- Classpath for product -->
   <path id="project.class.path">
     <pathelement location="${build.home}/classes"/>
@@ -147,7 +150,9 @@
     <copy file="../LICENSE.txt" todir="${dist.dir}"/>
     <copy file="../KEYS" todir="${dist.dir}"/>
 
-    <zip zipfile="${dist.name}-bin.zip" compress="true">
+    <mkdir dir="${dist.base}"/>
+
+    <zip zipfile="${dist.base}/${dist.name}-bin.zip" compress="true">
       <zipfileset dir="${dist.dir}" prefix="${dist.name}"/>
     </zip>
   </target>
@@ -161,5 +166,9 @@
       <fileset dir="." includes="**/*~" defaultexcludes="no"/>
     </delete>
   </target>
+
+  <target name="real-clean" depends="clean" description="Cleans up the project, including distributions">
+    <delete dir="${dist.base}" />
+  </target>  
 
 </project>
