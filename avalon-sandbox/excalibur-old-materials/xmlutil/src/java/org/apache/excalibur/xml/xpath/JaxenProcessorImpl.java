@@ -27,9 +27,9 @@ import org.w3c.dom.NodeList;
  * </pre>
  *
  * @author <a href="mailto:dims@yahoo.com">Davanum Srinivas</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/07/07 06:24:16 $ $Author: donaldp $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/07/10 08:53:17 $ $Author: donaldp $
  */
-public class JaxenProcessorImpl
+public final class JaxenProcessorImpl
     extends AbstractLoggable
     implements XPathProcessor, ThreadSafe
 {

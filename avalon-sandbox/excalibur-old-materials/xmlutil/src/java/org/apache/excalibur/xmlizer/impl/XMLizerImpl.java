@@ -24,9 +24,9 @@ import org.xml.sax.SAXException;
  * the transformation to the registered on.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/07/07 06:16:34 $
+ * @version CVS $Revision: 1.5 $ $Date: 2002/07/10 08:53:17 $
  */
-public class XMLizerImpl
+public final class XMLizerImpl
     extends DefaultComponentSelector
     implements XMLizer, ThreadSafe
 {

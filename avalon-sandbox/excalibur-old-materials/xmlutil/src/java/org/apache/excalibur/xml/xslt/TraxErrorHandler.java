@@ -18,15 +18,19 @@ import org.apache.avalon.framework.logger.Logger;
  * Warnings and errors are ignored.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Id: TraxErrorHandler.java,v 1.3 2002/07/07 07:15:01 donaldp Exp $
+ * @version CVS $Id: TraxErrorHandler.java,v 1.4 2002/07/10 08:53:17 donaldp Exp $
  */
-public class TraxErrorHandler
+class TraxErrorHandler
     implements ErrorListener
 {
     private Logger m_logger;
 
-    public TraxErrorHandler( final Logger logger )
+    TraxErrorHandler( final Logger logger )
     {
+        if( null == logger )
+        {
+            throw new NullPointerException( "logger" );
+        }
         m_logger = logger;
     }
 

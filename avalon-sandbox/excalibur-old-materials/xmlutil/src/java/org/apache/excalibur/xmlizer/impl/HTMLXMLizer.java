@@ -35,9 +35,9 @@ import org.xml.sax.SAXException;
  * This class uses jtidy.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.6 $ $Date: 2002/07/07 07:22:30 $
+ * @version CVS $Revision: 1.7 $ $Date: 2002/07/10 08:53:17 $
  */
-public class HTMLXMLizer
+public final class HTMLXMLizer
     extends AbstractLogEnabled
     implements XMLizer, ThreadSafe, Composable
 {

@@ -15,9 +15,9 @@ import java.util.List;
  * Simple node list wrapper around a List object.
  *
  * @author <a href="mailto:dims@yahoo.com">Davanum Srinivas</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/07/07 06:24:16 $ $Author: donaldp $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/07/10 08:53:17 $ $Author: donaldp $
  */
-class SimpleNodeList
+final class SimpleNodeList
     implements NodeList
 {
     private final List m_list;
