@@ -48,7 +48,7 @@
 
 */
 
-package org.apache.avalon.phoenix.components.configuration.validator;
+package org.apache.avalon.phoenix.components.validator;
 
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.phoenix.containerkit.profile.ComponentProfile;

@@ -26,11 +26,11 @@
             See http://mx4j.sourceforge.net/ -
 
               org.apache.avalon.phoenix.components.manager.MX4JSystemManager
-              
+
             There is an impl of system manager that does nothing and it is....
-            
+
               org.apache.avalon.phoenix.components.manager.NoopSystemManager
-            
+
             Alternatively, you could comment the whole SystemManager section out.
         -->
 
@@ -103,15 +103,15 @@
             -->
 
         <component role="org.apache.avalon.phoenix.interfaces.ConfigurationValidator"
-            class="org.apache.avalon.phoenix.components.configuration.validator.NoopConfigurationValidator"
+            class="org.apache.avalon.phoenix.components.validator.NoopConfigurationValidator"
             logger="validator"/>
 
 <!--
         <component role="org.apache.avalon.phoenix.interfaces.ConfigurationValidator"
-            class="org.apache.avalon.phoenix.components.configuration.validator.DelegatingConfigurationValidator"
+            class="org.apache.avalon.phoenix.components.validator.DelegatingConfigurationValidator"
             logger="validator">
             <delegate schema-type="relax-ng"
-                class="org.apache.avalon.phoenix.components.configuration.validator.JarvConfigurationValidator">
+                class="org.apache.avalon.phoenix.components.validator.JarvConfigurationValidator">
                 <schema-language>http://relaxng.org/ns/structure/1.0</schema-language>
             </delegate>
         </component>
