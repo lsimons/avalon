@@ -17,7 +17,7 @@
   <ant:property name="merlin.home" value="${env.MERLIN_HOME}"/>
 
   <goal name="merlin:update">
-    <attainGoal name="merlin:clean"/>
+    <!--<attainGoal name="merlin:clean"/>-->
     <attainGoal name="merlin:install"/>
     <attainGoal name="merlin:site"/>
     <attainGoal name="merlin:tutorials"/>
