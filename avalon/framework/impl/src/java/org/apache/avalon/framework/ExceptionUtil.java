@@ -9,8 +9,9 @@ package org.apache.avalon.framework;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.ArrayList;
 import java.util.StringTokenizer;
+import java.lang.reflect.Method;
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * This class provides basic facilities for manipulating exceptions.
@@ -22,6 +23,10 @@ import java.util.StringTokenizer;
  */
 public final class ExceptionUtil
 {
+    private static final String LINE_SEPARATOR = "\n";
+    private static final String GET_CAUSE_NAME = "getCause";
+    private static final Class[] GET_CAUSE_PARAMTYPES = new Class[ 0 ];
+
     /**
      * Private constructor to prevent instantiation.
      */
@@ -29,17 +34,31 @@ public final class ExceptionUtil
     {
     }
 
+    /**
+     * Generate string for specified exception and the cause of
+     * this exception (if any).
+     */
     public static String printStackTrace( final Throwable throwable )
     {
         return printStackTrace( throwable, 0, true );
     }
 
+    /**
+     * Generate string for specified exception and if printCascading
+     * is true will print all cascading exceptions.
+     */
     public static String printStackTrace( final Throwable throwable,
                                           final boolean printCascading )
     {
         return printStackTrace( throwable, 0, printCascading );
     }
 
+    /**
+     * Serialize the specified <code>Throwable</code> to a string.
+     * Restrict the number of frames printed out to the specified depth.
+     * If the depth specified is <code>0</code> then all the frames are
+     * converted into a string.
+     */
     public static String printStackTrace( final Throwable throwable, final int depth )
     {
         int dp = depth;
@@ -55,19 +74,38 @@ public final class ExceptionUtil
         for( int i = 0; i < dp; i++ )
         {
             sb.append( lines[ i ] );
-            sb.append( '\n' );
+            sb.append( LINE_SEPARATOR );
         }
 
         return sb.toString();
     }
 
+    /**
+     * Generate exception string for specified exception to specified depth
+     * and all Cascading exceptions if printCascading is true.
+     */
     public static String printStackTrace( final Throwable throwable,
                                           final int depth,
                                           final boolean printCascading )
     {
+        return printStackTrace( throwable, depth, printCascading, false );
+    }
+
+    /**
+     * Generate exception string for specified exception to specified depth
+     * and all Cascading exceptions if printCascading is true. If useReflection
+     * is true then the method will also attempt to use reflection to find a
+     * method with signature <code>Throwable getCause()</code>. This makes
+     * it compatible with JDK1.4 mechanisms for nesting exceptions.
+     */
+    public static String printStackTrace( final Throwable throwable,
+                                          final int depth,
+                                          final boolean printCascading,
+                                          final boolean useReflection )
+    {
         final String result = printStackTrace( throwable, depth );
 
-        if( !printCascading || !(throwable instanceof CascadingThrowable) )
+        if( !printCascading )
         {
             return result;
         }
@@ -76,24 +114,48 @@ public final class ExceptionUtil
             final StringBuffer sb = new StringBuffer();
             sb.append( result );
 
-            Throwable cause = ((CascadingThrowable)throwable).getCause();
+            Throwable cause = getCause( throwable, useReflection );
 
             while( null != cause )
             {
-                sb.append( "rethrown from\n" );
+                sb.append( "rethrown from" );
+                sb.append( LINE_SEPARATOR );
                 sb.append( printStackTrace( cause, depth ) );
 
-                if( cause instanceof CascadingThrowable )
-                {
-                    cause = ((CascadingThrowable)cause).getCause();
-                }
-                else
-                {
-                    cause = null;
-                }
+                cause = getCause( cause, useReflection );
             }
 
             return sb.toString();
+        }
+    }
+
+    /**
+     * Utility method to get cause of exception.
+     */
+    private static Throwable getCause( final Throwable throwable,
+                                       final boolean useReflection )
+    {
+        if( throwable instanceof CascadingThrowable )
+        {
+            return ( (CascadingThrowable)throwable ).getCause();
+        }
+        else if( useReflection )
+        {
+            try
+            {
+                final Class clazz = throwable.getClass();
+                final Method method =
+                    clazz.getMethod( GET_CAUSE_NAME, GET_CAUSE_PARAMTYPES );
+                return (Throwable)method.invoke( throwable, null );
+            }
+            catch( final Throwable t )
+            {
+                return null;
+            }
+        }
+        else
+        {
+            return null;
         }
     }
 
@@ -106,7 +168,7 @@ public final class ExceptionUtil
     {
         final StringWriter sw = new StringWriter();
         throwable.printStackTrace( new PrintWriter( sw, true ) );
-        return splitString( sw.toString(), "\n" );
+        return splitString( sw.toString(), LINE_SEPARATOR );
     }
 
     /**
