@@ -100,7 +100,7 @@ import org.xml.sax.InputSource;
  * Default implementation of a kernel context.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:33:17 $
+ * @version $Revision: 1.2 $ $Date: 2003/10/07 17:44:10 $
  */
 public class DefaultKernelContext extends AbstractLogEnabled 
   implements KernelContext
@@ -569,6 +569,16 @@ public class DefaultKernelContext extends AbstractLogEnabled
     //--------------------------------------------------------------
     // KernelContext
     //--------------------------------------------------------------
+
+   /**
+    * Return the Logger for the specified category.
+    * @param category the category path
+    * @return the logging channel
+    */
+    public Logger getLoggerForCategory( final String category )
+    {
+        return m_logging.getLoggerForCategory( category );
+    }
 
    /**
     * Return the kernel logging channel.

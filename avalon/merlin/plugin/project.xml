@@ -30,16 +30,13 @@
     <dependency>
       <groupId>merlin</groupId>
       <artifactId>merlin-kernel-spi</artifactId>
-      <version>3.0b1</version>
+      <version>3.1b1</version>
     </dependency>
-
     <dependency>
       <groupId>merlin</groupId>
       <artifactId>merlin-kernel-impl</artifactId>
-      <version>3.0b1</version>
+      <version>3.1b1</version>
     </dependency>
-
-    <!-- avalon -->
 
     <dependency>
       <groupId>avalon-activation</groupId>
@@ -54,7 +51,7 @@
     <dependency>
       <groupId>avalon-activation</groupId>
       <artifactId>avalon-activation-impl</artifactId>
-      <version>1.0b1</version>
+      <version>1.0b2</version>
     </dependency>
 
     <dependency>

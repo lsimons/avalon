@@ -98,4 +98,11 @@ public interface KernelContext
     */
     TargetDirective[] getTargetDirectives();
 
+   /**
+    * Return the Logger for the specified category.
+    * @param category the category path
+    * @return the logging channel
+    */
+    Logger getLoggerForCategory( final String category );
+
 }

@@ -56,9 +56,9 @@ import org.apache.avalon.framework.CascadingException;
  * Exception to indicate that there was an error relating to kernel execution.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:33:22 $
+ * @version $Revision: 1.2 $ $Date: 2003/10/07 17:44:10 $
  */
-public final class KernelException
+public class KernelException
     extends CascadingException
 {
 

@@ -9,7 +9,7 @@
   <name>Merlin Kernel SPI</name>
   <package>org.apache.avalon.merlin</package>
 
-  <currentVersion>3.0b1</currentVersion>
+  <currentVersion>3.1b1</currentVersion>
   <inceptionYear>2002</inceptionYear>
   <shortDescription>Merlin Kernel SPI</shortDescription>
   <description>
