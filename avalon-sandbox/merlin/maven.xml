@@ -1,0 +1,197 @@
+<project default="java:jar" xmlns:maven="jelly:maven" xmlns:j="jelly:core" xmlns:util="jelly:util">
+
+  <property name="merlin.build.inst" value="inst"/>
+  <property name="merlin.build.inst.dir" value="${maven.build.dir}/${merlin.build.inst}"/>
+
+  <property name="ibiblio.rep.remote" 
+    value="http://www.ibiblio.org/maven"/>
+  <property name="avalon.rep.remote" 
+    value="http://www.osm.net/repository"/>
+  <property name="maven.repo.remote" 
+    value="${avalon.rep.remote},${ibiblio.rep.remote}"/>
+
+  <property name="maven.checkstyle.format" value="avalon"/>
+  <property name="maven.jar.manifest" value="${basedir}/src/etc/project.mf"/>
+  <property name="pom.organization.identifier" value="ASF"/>
+  <property name="pom.specificationVersion" value="1.0"/>
+
+  <goal name="merlin:install" 
+    description="Build the Merlin installation." >
+
+    <mkdir dir="${merlin.build.inst.dir}"/>
+    <mkdir dir="${merlin.build.inst.dir}/ext"/>
+    <mkdir dir="${merlin.build.inst.dir}/lib/system"/>
+    <mkdir dir="${merlin.build.inst.dir}/lib/shared"/>
+    <copy toDir="${merlin.build.inst.dir}/lib">
+      <fileset dir="${basedir}/merlin-smp/lib"/>
+    </copy>
+
+    <!--
+    Install the sub-project jars (meta, assembly, merlin, etc.)
+    into the user's local repository and put a copy in the 
+    build target install directory.
+    -->
+
+    <maven:reactor
+      basedir="${basedir}"
+      includes="*/project.xml"
+      excludes="merlin-smp/*"
+      goals="merlin:propergate"
+      banner="Installing:"
+      ignoreFailures="false" />
+
+    <!--
+    Import the dependent jar files referenced by the SMP 
+    subproject into the install directory.
+    -->
+
+    <maven:reactor
+      basedir="${basedir}"
+      includes="merlin-smp/project.xml"
+      goals="merlin:import-external-jars"
+      banner="Resolving dependencies:"
+      ignoreFailures="false"/>
+
+    <!--
+    Move spi and framework jar files into the shared library.
+    -->
+
+    <move toDir="${merlin.build.inst.dir}/lib/shared">
+      <fileset dir="${merlin.build.inst.dir}/lib/system">
+        <include name="avalon-framework-*.jar"/>
+        <include name="*-spi-*.jar"/>
+      </fileset>
+    </move>
+
+    <!--
+    Add the supporting resources.
+    -->
+
+    <copy toDir="${merlin.build.inst.dir}">
+      <fileset dir="${basedir}/merlin-smp/src">
+        <include name="bin/**/*"/>
+        <include name="config/**/*"/>
+        <include name="repository/**/*"/>
+      </fileset>
+    </copy>
+
+    <!--
+    TODO - build the demonstrations to include the the repository
+    directory (which is also linked to completing the documentation 
+    ongetting started and tyhe finalization of the bloc service access
+    and the finalization of repositrory semanitcs).
+    -->
+
+  </goal>
+
+
+  <!--
+  The following project is called against a subproject.  It results in 
+  the build of the subproject, install of the jar in the user's local 
+  repository, and copies the jar file into the merlin installation 
+  directory.
+  -->
+  <goal name="merlin:propergate" prereqs="jar:install">
+    <copy todir="${basedir}/../target/${merlin.build.inst}/lib/system">
+      <fileset dir="${maven.build.dir}">
+        <include name="${maven.final.name}.jar"/>
+      </fileset>
+    </copy>
+  </goal>
+
+  <!--
+  Import the jar files declared as dependecies of the smp project.  This
+  includes all of the external jar files needed to run merlin.  Dependent 
+  jar files are copied from the user's local repository to the merlin 
+  install system library.
+  -->
+  <goal name="merlin:import-external-jars">
+    <!-- Copy each of the external jars to the installation -->
+    <j:forEach var="dep" items="${pom.dependencies}">
+      <copy 
+        todir="${basedir}/../target/${merlin.build.inst}/lib/system"
+        file="${maven.repo.local}/${dep.artifactDirectory}/jars/${dep.artifact}"/>
+    </j:forEach>
+  </goal>
+
+  <!--
+  The site goal is called by the merlin:install goal and handles the generation
+  of the documetation for the entire Merlin project including the related sub-
+  projects.
+  -->
+  <goal name="merlin:site"
+    description="Build the Merlin site.">
+    <maven:reactor
+      basedir="${basedir}"
+      includes="merlin-smp/project.xml"
+      goals="site"
+      banner="Building site."
+      ignoreFailures="false"/>
+  </goal>
+
+  <!--
+  ==============================================================================
+  utilities
+  ==============================================================================
+  -->
+
+  <goal name="merlin:clean" prereqs="clean">
+    <maven:reactor
+      basedir="${basedir}"
+      includes="*/project.xml"
+      goals="clean"
+      banner="Cleaning subproject:"
+      ignoreFailures="false"/>
+  </goal>
+
+  <goal name="merlin:jar" >
+    <maven:reactor
+      basedir="${basedir}"
+      includes="*/project.xml"
+      excludes="merlin-smp/*"
+      goals="jar"
+      banner="Building jar:"
+      ignoreFailures="false"/>
+  </goal>
+
+  <goal name="merlin:snapshot" >
+    <maven:reactor
+      basedir="${basedir}"
+      includes="*/project.xml"
+      excludes="merlin-smp/*"
+      goals="jar:snapshot"
+      banner="Building shapshot:"
+      ignoreFailures="false"/>
+  </goal>
+
+  <goal name="merlin:install-snapshot" >
+    <maven:reactor
+      basedir="${basedir}"
+      includes="*/project.xml"
+      excludes="merlin-smp/*"
+      goals="jar:install-snapshot"
+      banner="Installing snapshot:"
+      ignoreFailures="false"/>
+  </goal>
+
+  <goal name="merlin:jar-install" >
+    <maven:reactor
+      basedir="${basedir}"
+      includes="*/project.xml"
+      excludes="merlin-smp/*"
+      goals="clean,jar:install"
+      banner="Installing jar:"
+      ignoreFailures="false"/>
+  </goal>
+
+  <goal name="merlin:site"
+    description="Build the Merlin site.">
+    <maven:reactor
+      basedir="${basedir}"
+      includes="merlin-smp/project.xml"
+      goals="site"
+      banner="Building site."
+      ignoreFailures="false"/>
+  </goal>
+
+</project>
