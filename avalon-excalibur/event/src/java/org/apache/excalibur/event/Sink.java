@@ -67,7 +67,7 @@ public interface Sink
      * @throws SinkClosedException Indicates that the sink is
      *         no longer being serviced.
      */
-    void enqueue( QueueElement element )
+    void enqueue( Object element )
         throws SinkException;
 
     /**
@@ -84,7 +84,7 @@ public interface Sink
      *   no longer being serviced.
      *
      */
-    void enqueue( QueueElement[] elements )
+    void enqueue( Object[] elements )
         throws SinkException;
 
     /**
@@ -94,7 +94,7 @@ public interface Sink
      * @param element The element to attempt to enqueue
      * @return <code>true</code> if successful, <code>false</code> if not.
      */
-    boolean tryEnqueue( QueueElement element );
+    boolean tryEnqueue( Object element );
 
     /**
      * Support for transactional enqueue.
@@ -137,7 +137,7 @@ public interface Sink
      *
      * @see PreparedEnqueue
      */
-    PreparedEnqueue prepareEnqueue( QueueElement[] elements )
+    PreparedEnqueue prepareEnqueue( Object[] elements )
         throws SinkException;
 
     /**

@@ -52,7 +52,6 @@ package org.apache.excalibur.event.test;
 import junit.framework.TestCase;
 import org.apache.excalibur.event.PreparedEnqueue;
 import org.apache.excalibur.event.Queue;
-import org.apache.excalibur.event.QueueElement;
 
 /**
  * The default queue implementation is a variabl size queue.
@@ -61,10 +60,10 @@ import org.apache.excalibur.event.QueueElement;
  */
 public abstract class AbstractQueueTestCase extends TestCase
 {
-    QueueElement element = new TestQueueElement();
-    QueueElement[] elements = new TestQueueElement[ 10 ];
+    Object element = new TestQueueElement();
+    Object[] elements = new TestQueueElement[ 10 ];
 
-    private static final class TestQueueElement implements QueueElement
+    private static final class TestQueueElement
     {
     }
 
@@ -125,7 +124,7 @@ public abstract class AbstractQueueTestCase extends TestCase
                 queue.enqueue( elements );
                 assertEquals( 10, queue.size() );
 
-                QueueElement[] results = queue.dequeueAll();
+                Object[] results = queue.dequeueAll();
                 assertEquals( 10, results.length );
                 assertEquals( 0, queue.size() );
             }
@@ -140,7 +139,7 @@ public abstract class AbstractQueueTestCase extends TestCase
                     assertEquals( "Queue Size: " + queue.size(), 10 * ( j + 1 ), queue.size() );
                 }
 
-                QueueElement[] results = queue.dequeueAll();
+                Object[] results = queue.dequeueAll();
                 assertEquals( "Queue Size: " + queue.size(), 10 * 1000, results.length );
                 assertEquals( "Queue Size: " + queue.size(), 0, queue.size() );
             }
@@ -161,7 +160,7 @@ public abstract class AbstractQueueTestCase extends TestCase
         queue.enqueue( elements );
         assertEquals( 10, queue.size() );
 
-        QueueElement[] results = queue.dequeue( 3 );
+        Object[] results = queue.dequeue( 3 );
         assertEquals( 3, results.length );
         assertEquals( 7, queue.size() );
 

@@ -51,7 +51,6 @@
 import org.apache.avalon.framework.CascadingRuntimeException;
 import org.apache.excalibur.event.DefaultQueue;
 import org.apache.excalibur.event.Queue;
-import org.apache.excalibur.event.QueueElement;
 import org.apache.excalibur.event.Sink;
 import org.apache.excalibur.event.SinkException;
 import org.apache.excalibur.event.Source;
@@ -60,7 +59,7 @@ import org.apache.excalibur.event.Source;
  * Simple test to expose the thread queue bug
  *
  * @author <a href="mailto:proyal@managingpartners.com">Peter Royal</a>
- * @version VSS $Revision: 1.6 $ $Date: 2002/08/13 08:15:21 $
+ * @version VSS $Revision: 1.7 $ $Date: 2002/09/03 17:10:56 $
  */
 public class QueueTest
 {
@@ -126,7 +125,7 @@ public class QueueTest
         System.out.println( "Dequeue: " + this.end.getCount() );
     }
 
-    private class QueueInteger implements QueueElement
+    private class QueueInteger
     {
         private int integer;
 
@@ -207,7 +206,7 @@ public class QueueTest
         {
             while( true )
             {
-                QueueElement qe = this.source.dequeue();
+                Object qe = this.source.dequeue();
 
                 if( qe == null )
                 {

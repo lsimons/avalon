@@ -126,7 +126,7 @@ public final class DefaultQueue extends AbstractQueue
         return m_maxSize;
     }
 
-    public PreparedEnqueue prepareEnqueue( final QueueElement[] elements )
+    public PreparedEnqueue prepareEnqueue( final Object[] elements )
         throws SinkException
     {
         PreparedEnqueue enqueue = null;
@@ -156,7 +156,7 @@ public final class DefaultQueue extends AbstractQueue
         return enqueue;
     }
 
-    public boolean tryEnqueue( final QueueElement element )
+    public boolean tryEnqueue( final Object element )
     {
         boolean success = false;
 
@@ -186,7 +186,7 @@ public final class DefaultQueue extends AbstractQueue
         return success;
     }
 
-    public void enqueue( final QueueElement[] elements )
+    public void enqueue( final Object[] elements )
         throws SinkException
     {
         final int len = elements.length;
@@ -216,7 +216,7 @@ public final class DefaultQueue extends AbstractQueue
         }
     }
 
-    public void enqueue( final QueueElement element )
+    public void enqueue( final Object element )
         throws SinkException
     {
         try
@@ -241,9 +241,9 @@ public final class DefaultQueue extends AbstractQueue
         }
     }
 
-    public QueueElement[] dequeue( final int numElements )
+    public Object[] dequeue( final int numElements )
     {
-        QueueElement[] elements = EMPTY_ARRAY;
+        Object[] elements = EMPTY_ARRAY;
 
         try
         {
@@ -268,9 +268,9 @@ public final class DefaultQueue extends AbstractQueue
         return elements;
     }
 
-    public QueueElement[] dequeueAll()
+    public Object[] dequeueAll()
     {
-        QueueElement[] elements = EMPTY_ARRAY;
+        Object[] elements = EMPTY_ARRAY;
 
         try
         {
@@ -296,7 +296,7 @@ public final class DefaultQueue extends AbstractQueue
     /**
      * Removes the given number of elements from the given <code>buf</code>
      * and returns them in an array. Trusts the caller to pass in a buffer
-     * full of <code>QueueElement</code>s and with at least
+     * full of <code>Object</code>s and with at least
      * <code>count</code> elements available.
      * <p>
      * @param buf to remove elements from, the caller is responsible
@@ -304,21 +304,21 @@ public final class DefaultQueue extends AbstractQueue
      * @param count number of elements to remove/return
      * @return requested number of elements
      */
-    private static QueueElement[] retrieveElements( Buffer buf, int count )
+    private static Object[] retrieveElements( Buffer buf, int count )
     {
-        QueueElement[] elements = new QueueElement[ count ];
+        Object[] elements = new Object[ count ];
 
         for( int i = 0; i < count; i++ )
         {
-            elements[ i ] = (QueueElement) buf.remove();
+            elements[ i ] = (Object) buf.remove();
         }
 
         return elements;
     }
 
-    public QueueElement dequeue()
+    public Object dequeue()
     {
-        QueueElement element = null;
+        Object element = null;
 
         try
         {
@@ -328,7 +328,7 @@ public final class DefaultQueue extends AbstractQueue
                 {
                     if( size() > 0 )
                     {
-                        element = (QueueElement)m_elements.remove();
+                        element = (Object)m_elements.remove();
                     }
                 }
                 finally
@@ -347,9 +347,9 @@ public final class DefaultQueue extends AbstractQueue
     private static final class DefaultPreparedEnqueue implements PreparedEnqueue
     {
         private final DefaultQueue m_parent;
-        private QueueElement[] m_elements;
+        private Object[] m_elements;
 
-        private DefaultPreparedEnqueue( DefaultQueue parent, QueueElement[] elements )
+        private DefaultPreparedEnqueue( DefaultQueue parent, Object[] elements )
         {
             m_parent = parent;
             m_elements = elements;
