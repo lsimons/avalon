@@ -171,11 +171,6 @@
         <ant dir="threadcontext" target="${subproject-target}"/>
     </target>
 
-    <!-- Util -->
-    <target name="prj-util">
-        <ant dir="util" target="${subproject-target}"/>
-    </target>
-
     <!-- XMLUtil -->
     <target name="prj-xmlutil" depends="prj-collections, prj-component, prj-instrument, prj-logger, prj-pool, prj-sourceresolve, prj-store, prj-testcase">
         <ant dir="xmlutil" target="${subproject-target}"/>
@@ -194,7 +189,7 @@
                 prj-container, prj-cache, prj-configuration, prj-event,
                 prj-thread, prj-monitor, prj-fortress, prj-datasource,
                 prj-instrument, prj-store, prj-logger, prj-policy,
-                prj-pool, prj-util, prj-xmlutil,
+                prj-pool, prj-xmlutil,
                 prj-sourceresolve, prj-instrument-client,
                 prj-instrument-manager, prj-component,
                 prj-testcase "/>
@@ -327,7 +322,6 @@
                 <fileset dir=".">
                     <include name="testcase/dist/*.jar"/>
                     <include name="datasource/dist/*.jar"/>
-                    <include name="util/dist/*.jar"/>
                     <include name="store/dist/*.jar"/>
                     <include name="xmlutil/dist/*.jar"/>
                     <include name="cli/dist/*.jar"/>
