@@ -58,8 +58,8 @@ import org.apache.log.ErrorAware;
 import org.apache.log.ErrorHandler;
 import org.apache.log.LogEvent;
 import org.apache.log.LogTarget;
-import org.apache.log.util.DefaultErrorHandler;
 import org.apache.log.util.Closeable;
+import org.apache.log.util.DefaultErrorHandler;
 
 /**
  * Abstract target.

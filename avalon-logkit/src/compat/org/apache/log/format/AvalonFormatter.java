@@ -55,9 +55,6 @@
 package org.apache.log.format;
 
 import org.apache.log.LogEvent;
-import org.apache.log.format.ExtendedPatternFormatter;
-import org.apache.log.format.PatternFormatter;
-import org.apache.log.util.StackIntrospector;
 
 /**
  * This formatter extends ExtendedPatternFormatter so that
@@ -81,7 +78,6 @@ public class AvalonFormatter
     private static final int TYPE_CLASS = MAX_TYPE + 1;
 
     private static final String TYPE_CLASS_STR = "class";
-    private static final String TYPE_CLASS_SHORT_STR = "short";
 
     /**
      * The constant defining the default stack depth when
@@ -168,7 +164,7 @@ public class AvalonFormatter
         switch( run.m_type )
         {
             case TYPE_CLASS:
-                return getClass( run.m_format );
+                return getClassname();
             default:
                 return super.formatPatternRun( event, run );
         }
@@ -177,7 +173,7 @@ public class AvalonFormatter
     /**
      * Finds the class that has called Logger.
      */
-    private String getClass( String format )
+    private String getClassname()
     {
         return "Unknown-class";
     }
