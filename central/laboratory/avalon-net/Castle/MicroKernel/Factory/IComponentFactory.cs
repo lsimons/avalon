@@ -14,15 +14,12 @@
 
 namespace Apache.Avalon.Castle.MicroKernel
 {
-	using System;
-	using System.Reflection;
-
 	/// <summary>
 	/// Summary description for IComponentFactory.
 	/// </summary>
 	public interface IComponentFactory
 	{
-		Object Incarnate( );
+		object Incarnate( );
 
 		void Etherialize( object instance );
 	}

@@ -1,4 +1,4 @@
-// Copyright 2004 The Apache Software Foundation
+ // Copyright 2004 The Apache Software Foundation
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,169 +14,169 @@
 
 namespace Apache.Avalon.Castle.MicroKernel.Handler
 {
-	using System;
-	using System.Collections;
+    using System;
+    using System.Collections;
 
-	using Apache.Avalon.Castle.MicroKernel.Model;
+    using Apache.Avalon.Castle.MicroKernel.Model;
 
-	/// <summary>
-	/// Summary description for AbstractHandler.
-	/// </summary>
-	public abstract class AbstractHandler : IHandler
-	{
-		protected IKernel m_kernel;
+    /// <summary>
+    /// Summary description for AbstractHandler.
+    /// </summary>
+    public abstract class AbstractHandler : IHandler
+    {
+        protected IKernel m_kernel;
 
-		protected IComponentModel m_componentModel;
+        protected IComponentModel m_componentModel;
 
-		protected State m_state = State.Valid;
+        protected State m_state = State.Valid;
 
-		protected ArrayList m_dependencies = new ArrayList();
+        protected IList m_dependencies = new ArrayList();
 
-		protected Hashtable m_serv2handler = new Hashtable();
+        protected Hashtable m_serv2handler = new Hashtable();
 
-		protected ILifestyleManager m_lifestyleManager;
+        protected ILifestyleManager m_lifestyleManager;
 
-		private ArrayList m_instances = new ArrayList();
+        private IList m_instances = new ArrayList();
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="model"></param>
-		public AbstractHandler( IComponentModel model )
-		{
-			AssertUtil.ArgumentNotNull( model, "model" );
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="model"></param>
+        public AbstractHandler(IComponentModel model)
+        {
+            AssertUtil.ArgumentNotNull(model, "model");
 
-			m_componentModel = model;
-		}
-
-		#region IHandler Members
-
-		public virtual void Init( IKernel kernel )
-		{
-			m_kernel = kernel;
-		}
-
-		public virtual object Resolve()
-		{
-			if (ActualState == State.WaitingDependency)
-			{
-				throw new HandlerException("Can't Resolve component. It has dependencies to be satisfied.");
-			}
-
-			try
-			{
-				object instance = m_lifestyleManager.Resolve();
-
-                // TODO: Proxy
-                // instance = RaiseInterceptorEvent( instance );
-
-                RegisterInstance( instance );
-
-				return instance;
-			}
-			catch(Exception ex)
-			{
-				throw new HandlerException("Exception while attempting to instantiate type", ex);
-			}
-		}
-
-		public virtual void Release( object instance )
-		{
-			if ( IsOwner(instance) )
-			{
-				UnregisterInstance( instance );
-				m_lifestyleManager.Release( instance );
-			}
-		}
-
-		public virtual bool IsOwner( object instance )
-		{
-			return HasInstance( instance, false );
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		public virtual State ActualState
-		{
-			get
-			{
-				return m_state;
-			}
-		}
-
-		#endregion
-
-		protected virtual void RegisterInstance( object instance )
-		{
-			RaiseComponentCreatedEvent( instance );
-
-			if (!HasInstance( instance, false ))
-			{
-				// WeakReference reference = new WeakReference( instance );
-				// m_instances.Add( reference );
-				m_instances.Add( instance );
-			}
-		}
-
-		protected virtual void UnregisterInstance( object instance )
-		{
-            RaiseComponentDestroyedEvent( instance );
-
-            if (m_instances.Count == 0)
-			{
-				return;
-			}
-
-			HasInstance( instance, true );
-		}
-
-		protected virtual bool HasInstance( object instance, bool removeIfFound )
-		{
-			// foreach( WeakReference reference in m_instances )
-			foreach( object storedInstance in m_instances )
-			{
-				// if (reference.Target == null)
-				// {
-				//	m_instances.Remove( reference );
-				// }
-
-				if ( Object.ReferenceEquals( instance, storedInstance /*reference.Target*/ ) )
-				{
-					if (removeIfFound)
-					{
-						m_instances.Remove( instance );
-					}
-
-					return true;
-				}
-			}
-
-			return false;
-		}
-
-		protected virtual void RaiseComponentCreatedEvent( object instance )
-		{
-            ComponentInstanceDelegate createdEvent = m_kernel.ComponentCreated;
-            
-            if (createdEvent == null)
-            {
-                return;
-            }
-
-            createdEvent( m_componentModel, this, instance );
+            m_componentModel = model;
         }
 
-        protected virtual void RaiseComponentDestroyedEvent(object instance)
-        {
-            ComponentInstanceDelegate destroyedEvent = m_kernel.ComponentDestroyed;
+        #region IHandler Members
 
-            if (destroyedEvent == null)
+        public virtual void Init(IKernel kernel)
+        {
+            m_kernel = kernel;
+        }
+
+        public virtual IComponentModel ComponentModel
+        {
+            get { return m_componentModel; }
+        }
+
+        public virtual object Resolve()
+        {
+            if (ActualState == State.WaitingDependency)
+            {
+                throw new HandlerException(
+                    "Can't Resolve component. " +
+                        "It has dependencies which still to be satisfied.");
+            }
+
+            try
+            {
+                object instance = m_lifestyleManager.Resolve();
+
+                instance = RaiseWrapEvent(instance);
+
+                RegisterInstance(instance);
+
+                return instance;
+            }
+            catch(Exception ex)
+            {
+                throw new HandlerException("Exception while attempting to instantiate type", ex);
+            }
+        }
+
+        public virtual void Release(object instance)
+        {
+            if (IsOwner(instance))
+            {
+                instance = RaiseUnWrapEvent(instance);
+                UnregisterInstance(instance);
+                m_lifestyleManager.Release(instance);
+            }
+        }
+
+        public virtual bool IsOwner(object instance)
+        {
+            return HasInstance(instance, false);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public virtual State ActualState
+        {
+            get { return m_state; }
+        }
+
+        #endregion
+
+        protected virtual void RegisterInstance(object instance)
+        {
+            if (!HasInstance(instance, false))
+            {
+                // WeakReference reference = new WeakReference( instance );
+                // m_instances.Add( reference );
+                m_instances.Add(instance);
+            }
+
+            RaiseComponentReadyEvent(instance);
+        }
+
+        protected virtual void UnregisterInstance(object instance)
+        {
+            RaiseComponentReleasedEvent(instance);
+
+            if (m_instances.Count == 0)
             {
                 return;
             }
 
-            destroyedEvent(m_componentModel, this, instance);
+            HasInstance(instance, true);
+        }
+
+        protected virtual bool HasInstance(object instance, bool removeIfFound)
+        {
+            // foreach( WeakReference reference in m_instances )
+            foreach(object storedInstance in m_instances)
+            {
+                // if (reference.Target == null)
+                // {
+                //	m_instances.Remove( reference );
+                // }
+
+                if (Object.ReferenceEquals(instance, storedInstance /*reference.Target*/))
+                {
+                    if (removeIfFound)
+                    {
+                        m_instances.Remove(instance);
+                    }
+
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        protected virtual object RaiseWrapEvent(object instance)
+        {
+            return m_kernel.RaiseWrapEvent(this, instance);
+        }
+
+        protected virtual object RaiseUnWrapEvent(object instance)
+        {
+            return m_kernel.RaiseUnWrapEvent(this, instance);
+        }
+
+        protected virtual void RaiseComponentReadyEvent(object instance)
+        {
+            m_kernel.RaiseComponentReadyEvent(this, instance);
+        }
+
+        protected virtual void RaiseComponentReleasedEvent(object instance)
+        {
+            m_kernel.RaiseComponentReleasedEvent(this, instance);
         }
     }
 }

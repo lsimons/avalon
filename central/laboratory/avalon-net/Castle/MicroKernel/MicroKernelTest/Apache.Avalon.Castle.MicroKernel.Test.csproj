@@ -144,6 +144,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "KernelEventsTestCase.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "LoggerManagerTestCase.cs"
                     SubType = "Code"
                     BuildAction = "Compile"

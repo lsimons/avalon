@@ -17,6 +17,7 @@ namespace Apache.Avalon.Castle.MicroKernel
 	using System;
 
 	using Apache.Avalon.Castle.MicroKernel.Model;
+    using Apache.Avalon.Castle.MicroKernel.Interceptor;
 
 	public delegate void DependencyListenerDelegate( Type service, IHandler handler );
 
@@ -32,6 +33,12 @@ namespace Apache.Avalon.Castle.MicroKernel
 		/// <param name="service">The service exposed by this component</param>
 		/// <param name="implementation">The actual implementation</param>
 		void AddComponent(String key, Type service, Type implementation);
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="key"></param>
+		void RemoveComponent(String key);
 
         /// <summary>
 		/// IComponentModel instance builder.
@@ -99,5 +106,10 @@ namespace Apache.Avalon.Castle.MicroKernel
 		/// <param name="key">Key used when registered subsystem</param>
 		/// <returns>Subsystem implementation</returns>
 		IKernelSubsystem GetSubsystem(String key);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        IInterceptedComponentBuilder InterceptedComponentBuilder  { get; set; }
 	}
 }

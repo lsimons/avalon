@@ -15,8 +15,6 @@
 namespace Apache.Avalon.Castle.MicroKernel.Handler.Default
 {
 	using System;
-	using System.Collections;
-	using System.Reflection;
 
 	using Apache.Avalon.Castle.MicroKernel.Model;
 
@@ -28,8 +26,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Handler.Default
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="service"></param>
-		/// <param name="implementation"></param>
+		/// <param name="model"></param>
 		public SimpleHandler( IComponentModel model ) : base( model )
 		{
 		}
@@ -101,8 +98,6 @@ namespace Apache.Avalon.Castle.MicroKernel.Handler.Default
 		protected virtual void CreateComponentFactoryAndLifestyleManager()
 		{
 			IComponentFactory factory = new Factory.Default.SimpleComponentFactory( 
-				// m_kernel.GetAspects(AspectPointCutFlags.Before), 
-				// m_kernel.GetAspects(AspectPointCutFlags.After), 
 				m_componentModel, m_serv2handler);
 
 			m_lifestyleManager = m_kernel.LifestyleManagerFactory.Create( 
