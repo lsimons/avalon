@@ -145,7 +145,6 @@
         <ant dir="datasource" target="jar"/>
         <ant dir="sourceresolve" target="jar"/>
         <ant dir="monitor" target="jar"/>
-        <ant dir="all" target="all"/>
         <ant dir="cli" target="jar"/>
         <ant dir="component" target="jar"/>
         <ant dir="xmlbundle" target="jar"/>
@@ -172,7 +171,6 @@
             <mergefiles>
                 <fileset dir=".">
                     <include name="datasource/build/lib/*.jar"/>
-                    <include name="all/build/lib/excalibur-core.jar"/>
                     <include name="cli/build/lib/*.jar"/>
                     <include name="component/build/lib/*.jar"/>
                     <include name="collections/build/lib/*.jar"/>
