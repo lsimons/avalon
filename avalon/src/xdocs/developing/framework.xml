@@ -564,7 +564,8 @@ public interface DocumentRepository {
 	  <para>
             The contract surrounding this interface is that the
 	    <function>contextualize</function> method is called once during the
-	    life of a Component, before any other initialization method.
+	    life of a Component, after <classname>Loggable</classname> but
+	    before any other initialization method.
 	  </para>
 	</section>
 	<section>
@@ -590,6 +591,29 @@ public interface DocumentRepository {
 	    <classname>Context</classname>.  The <function>resolve</function>
 	    method is called by the <classname>Context</classname> before the
 	    object is returned.
+	  </para>
+	</section>
+      </section>
+      <section>
+        <title>Logger</title>
+	<para>
+	  Every system needs the ability to log events.  Avalon uses its
+	  LogKit project internally.  While LogKit does have ways of accessing
+	  a Logger instance statically, the Framework wishes to use the
+	  Inversion of Control pattern.
+	</para>
+	<section>
+	  <title>Loggable</title>
+	  <para>
+	    Every Component that needs a Logger instance implements this
+	    interface.  The interface has one method named
+	    <function>setLogger</function> and passes Avalon LogKit's
+	    <classname>Logger</classname> instance to the Component.
+	  </para>
+	  <para>
+            The contract surrounding this method is that it is called only
+	    once during the Component's lifecycle before any other
+	    initialization step.
 	  </para>
 	</section>
       </section>
