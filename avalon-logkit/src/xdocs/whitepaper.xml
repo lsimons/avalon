@@ -4,8 +4,7 @@
 
 <document>
   <header>
-    <title>LogKit Developer Documentation</title>
-    <subtitle>Whitepaper</subtitle>
+    <title>LogKit - Whitepaper</title>
     <authors>
       <person name="Peter Donald" email="peter@apache.org"/>
     </authors>
@@ -448,7 +447,7 @@ myLogger.setPriority( priority );
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.6 $ $Date: 2001/12/13 10:09:04 $
+      $Revision: 1.7 $ $Date: 2002/04/02 11:03:32 $
     </legal>
   </footer>
 </document>
