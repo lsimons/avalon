@@ -12,17 +12,28 @@
   -->
 
   <property file="index.properties"/>
-  <property name="cache.dir" value="${basedir}/${avalon.cache}"/>
-  <property name="cache.tools.dir" value="${cache.dir}/avalon/tools"/>
-  <property name="cache.tools.bars.dir" value="${cache.tools.dir}/bars"/>
-  <property name="tools.bar" value="${cache.tools.bars.dir}/avalon-tools.bar"/>
-  <property name="ant.lib" value="${user.home}/.ant/lib"/>
+
+  <condition property="avalon.cache.declared" value="false">
+    <isset property="avalon.cache"/>
+  </condition>
+
+  <condition property="project.proxy.declared" value="false">
+    <isset property="project.proxy.host"/>
+  </condition>
 
   <target name="setup" depends="setup-repository,setup-antlib">
     <echo message="Setup complete."/>
   </target>
 
-  <target name="setup-repository">
+  <target name="setup-cache-properties" depends="setup-avalon-cache,test-cache">
+    <property name="cache.dir" value="${avalon.cache}"/>
+    <property name="cache.tools.dir" value="${cache.dir}/avalon/tools"/>
+    <property name="cache.tools.bars.dir" value="${cache.tools.dir}/bars"/>
+    <property name="ant.lib" value="${user.home}/.ant/lib"/>
+  </target>
+
+  <target name="setup-repository" depends="setup-cache-properties,setup-proxy">
+    <property name="tools.bar" value="${cache.tools.bars.dir}/avalon-tools.bar"/>
     <echo message="Preparing central system repository..."/>
     <mkdir dir="${cache.tools.bars.dir}"/>
     <get src="${avalon.tools.bar.url}" usetimestamp="true"
@@ -45,5 +56,26 @@
       </fileset>
     </copy>
   </target>
+
+  <target name="setup-avalon-cache" unless="avalon.cache.declared">
+    <property environment="ENV"/>
+    <property name="avalon.cache" value="${ENV.AVALON_HOME}"/>
+    <condition property="avalon.home.undeclared" value="true">
+      <contains string="${avalon.cache}" substring="{" />
+    </condition>
+  </target>
+
+  <target name="test-cache" if="avalon.home.undeclared">
+    <fail message="Cache Undeclared."/>
+  </target>
+
+  <target name="setup-proxy" if="project.proxy.declared">
+     <setproxy 
+         proxyhost="${project.proxy.host}"
+         proxyport="${project.proxy.port}"
+	   proxyuser="${project.proxy.user}"
+	   proxypassword="${project.proxy.password}"/>
+  </target>
+
 
 </project>
