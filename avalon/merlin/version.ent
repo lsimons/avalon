@@ -1,11 +1,29 @@
 
-<!ENTITY merlin-id "merlin">
+<!ENTITY activation-id "activation">
+<!ENTITY activation-api-id "activation-api">
+<!ENTITY activation-api-version "2.0.0">
+<!ENTITY activation-impl-id "activation-impl">
+<!ENTITY activation-impl-version "2.0.0">
 
+<!ENTITY composition-id "composition">
+<!ENTITY composition-api-id "composition-api">
+<!ENTITY composition-api-version "2.0.0">
+<!ENTITY composition-spi-id "activation-spi">
+<!ENTITY composition-spi-version "2.0.0">
+<!ENTITY composition-impl-id "activation-impl">
+<!ENTITY composition-impl-version "2.0.0">
+
+<!ENTITY merlin-id "merlin">
 <!ENTITY merlin-api-id "merlin-api">
 <!ENTITY merlin-api-version "3.3.0">
-
 <!ENTITY merlin-impl-id "merlin-impl">
 <!ENTITY merlin-impl-version "3.3.0">
-
+<!ENTITY merlin-cli-id "merlin-cli">
+<!ENTITY merlin-cli-version "3.3.0">
+<!ENTITY merlin-plugin-id "merlin-plugin">
+<!ENTITY merlin-plugin-version "3.3.0">
+<!ENTITY merlin-plugin-id "merlin-servlet">
+<!ENTITY merlin-plugin-version "3.3.0">
 <!ENTITY merlin-unit-id "merlin-unit">
 <!ENTITY merlin-unit-version "3.3.0">
+
