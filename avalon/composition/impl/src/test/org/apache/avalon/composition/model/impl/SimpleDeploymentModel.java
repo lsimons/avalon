@@ -17,6 +17,7 @@
 
 package org.apache.avalon.composition.model.impl;
 
+import java.util.List;
 
 import org.apache.avalon.composition.data.Mode;
 import org.apache.avalon.composition.model.DeploymentModel;
@@ -137,7 +138,7 @@ public class SimpleDeploymentModel
      * Assemble the model.
      * @exception Exception if an error occurs during model assembly
      */
-    public void assemble() throws AssemblyException
+    public void assemble( List subjects ) throws AssemblyException
     {
     }
 

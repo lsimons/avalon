@@ -17,6 +17,7 @@
 
 package org.apache.avalon.composition.model.impl;
 
+import java.util.List;
 import java.util.ArrayList;
 
 import org.apache.avalon.composition.data.DeploymentProfile;
@@ -49,7 +50,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * a supplied path.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/02/10 16:23:33 $
+ * @version $Revision: 1.3 $ $Date: 2004/02/12 05:59:41 $
  */
 class DefaultContainmentModelAssemblyHelper
 {
@@ -66,14 +67,14 @@ class DefaultContainmentModelAssemblyHelper
     //-------------------------------------------------------------------
 
     private final ContainmentContext m_context;
-    private final ContainmentModel m_model;
+    private final DefaultContainmentModel m_model;
 
     //-------------------------------------------------------------------
     // constructor
     //-------------------------------------------------------------------
 
     public DefaultContainmentModelAssemblyHelper( 
-      ContainmentContext context, ContainmentModel model )
+      ContainmentContext context, DefaultContainmentModel model )
     {
         m_context = context;
         m_model = model;
@@ -83,32 +84,44 @@ class DefaultContainmentModelAssemblyHelper
     // implementation
     //-------------------------------------------------------------------
 
-    public void assembleModel( DeploymentModel model ) 
+   /**
+    * Assemble a target model during which all deployment and runtime 
+    * dependencies are assigned a provider model.
+    *
+    * @param model the target model to be assembled
+    * @param subject the model requesting the assembly
+    */
+    public void assembleModel( DeploymentModel model, List subjects ) 
       throws AssemblyException
     {
          if( null == model )
          {
              throw new NullPointerException( "model" );
          }
-
+         if( null == subjects )
+         {
+             throw new NullPointerException( "subjects" );
+         }
+         if( subjects.contains( model ) )
+         {
+             return;
+         }
          if( model.isAssembled() ) 
          {
              return;
          }
+
+         if( model instanceof ComponentModel )
+         {
+             assembleComponent( (ComponentModel) model, subjects );
+         }
          else
          {
-             if( model instanceof ComponentModel )
-             {
-                 assembleComponent( (ComponentModel) model );
-             }
-             else
-             {
-                 model.assemble();
-             }
-        }
+             model.assemble( subjects );
+         }
     }
 
-    private void assembleComponent( ComponentModel model ) throws AssemblyException
+    private void assembleComponent( ComponentModel model, List subjects ) throws AssemblyException
     {
         ModelRepository repository = m_context.getModelRepository();
 
@@ -127,10 +140,11 @@ class DefaultContainmentModelAssemblyHelper
                 {
                     try
                     {
+                        subjects.add( model );
                         StageDescriptor stage = 
                           new StageDescriptor( clazz.getName() );
                         DeploymentModel provider = 
-                          findExtensionProvider( repository, stage );
+                          findExtensionProvider( repository, stage, subjects );
                         context.setProvider( provider );
                     }
                     catch( Throwable e )
@@ -140,6 +154,10 @@ class DefaultContainmentModelAssemblyHelper
                           + model 
                          + " due to a component context phase handler establishment failure.";
                         throw new AssemblyException( error, e );
+                    }
+                    finally
+                    {
+                        subjects.remove( model );
                     }
                 }
             }
@@ -157,8 +175,9 @@ class DefaultContainmentModelAssemblyHelper
             {
                 try
                 {
+                    subjects.add( model );
                     DeploymentModel provider =
-                      findExtensionProvider( repository, stage );
+                      findExtensionProvider( repository, stage, subjects );
                     stage.setProvider( provider );
                 }
                 catch( Throwable e )
@@ -168,6 +187,10 @@ class DefaultContainmentModelAssemblyHelper
                       + model 
                       + " due to a component extension handler establishment failure.";
                     throw new AssemblyException( error, e );
+                }
+                finally
+                {
+                    subjects.remove( model );
                 }
             }
         }
@@ -184,8 +207,9 @@ class DefaultContainmentModelAssemblyHelper
             {
                 try
                 {
+                    subjects.add( model );
                     DeploymentModel provider =
-                      findDependencyProvider( repository, dependency );
+                      findDependencyProvider( repository, dependency, subjects );
                     dependency.setProvider( provider );
                 }
                 catch( Throwable e )
@@ -195,12 +219,16 @@ class DefaultContainmentModelAssemblyHelper
                       + " due to a service provider establishment failure.";
                     throw new AssemblyException( error, e );
                 }
+                finally
+                {
+                    subjects.remove( model );
+                }
             }
         }
     }
 
     private DeploymentModel findDependencyProvider( 
-      ModelRepository repository, DependencyModel dependency )
+      ModelRepository repository, DependencyModel dependency, List subjects )
       throws AssemblyException
     {
         String path = dependency.getPath();
@@ -214,18 +242,18 @@ class DefaultContainmentModelAssemblyHelper
                   + path + "] in " + this + ".";
                 throw new AssemblyException( error );
             }
-            assembleModel( model );
+            assembleModel( model, subjects );
             return model;
         }
         else
         {
             return findDependencyProvider( 
-              repository, dependency.getDependency() );
+              repository, dependency.getDependency(), subjects );
         }
     }
 
     private DeploymentModel findDependencyProvider( 
-      ModelRepository repository, DependencyDescriptor dependency )
+      ModelRepository repository, DependencyDescriptor dependency, List subjects )
       throws AssemblyException
     {
         DeploymentModel[] candidates = 
@@ -234,7 +262,7 @@ class DefaultContainmentModelAssemblyHelper
         DeploymentModel model = selector.select( candidates, dependency );
         if( model != null )
         {
-            assembleModel( model );
+            assembleModel( model, subjects );
             return model;
         }
 
@@ -250,8 +278,9 @@ class DefaultContainmentModelAssemblyHelper
         {
             try
             {
-                DeploymentModel solution = m_model.addModel( profile );
-                assembleModel( solution );
+                DeploymentModel solution = m_model.createDeploymentModel( profile );
+                assembleModel( solution, subjects );
+                m_model.addModel( solution );
                 return solution;
             }
             catch( AssemblyException ae )
@@ -281,7 +310,7 @@ class DefaultContainmentModelAssemblyHelper
     }
 
     private DeploymentModel findExtensionProvider( 
-      ModelRepository repository, StageModel stage )
+      ModelRepository repository, StageModel stage, List subjects )
       throws AssemblyException
     {
         String path = stage.getPath();
@@ -295,17 +324,17 @@ class DefaultContainmentModelAssemblyHelper
                   + path + "] in " + this + ".";
                 throw new AssemblyException( error );
             }
-            assembleModel( model );
+            assembleModel( model, subjects );
             return model;
         }
         else
         {
-            return findExtensionProvider( repository, stage.getStage() );
+            return findExtensionProvider( repository, stage.getStage(), subjects );
         }
     }
 
     private DeploymentModel findExtensionProvider( 
-      ModelRepository repository, StageDescriptor stage )
+      ModelRepository repository, StageDescriptor stage, List subjects )
       throws AssemblyException
     {
         DeploymentModel[] candidates = 
@@ -314,7 +343,7 @@ class DefaultContainmentModelAssemblyHelper
         DeploymentModel model = selector.select( candidates, stage );
         if( model != null )
         {
-            assembleModel( model );
+            assembleModel( model, subjects );
             return model;
         }
 
@@ -330,8 +359,9 @@ class DefaultContainmentModelAssemblyHelper
         {
             try
             {
-                DeploymentModel solution = m_model.addModel( profile );
-                assembleModel( solution );
+                DeploymentModel solution = m_model.createDeploymentModel( profile );
+                assembleModel( solution, subjects );
+                m_model.addModel( solution );
                 return solution;
             }
             catch( AssemblyException ae )
@@ -409,5 +439,4 @@ class DefaultContainmentModelAssemblyHelper
         }
         return (DeploymentProfile[]) list.toArray( new DeploymentProfile[0] );
     }
-
 }

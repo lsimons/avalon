@@ -27,8 +27,10 @@ import java.security.PrivilegedActionException;
 import org.apache.avalon.activation.Appliance;
 import org.apache.avalon.activation.ApplianceException;
 import org.apache.avalon.activation.LifestyleManager;
+import org.apache.avalon.activation.TransientApplianceException;
 
 import org.apache.avalon.composition.model.ComponentModel;
+import org.apache.avalon.composition.model.TransientRuntimeException;
 
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.logger.Logger;
@@ -38,7 +40,7 @@ import org.apache.avalon.framework.logger.Logger;
  * by one, some or all of it's interfaces.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2004/02/10 16:14:14 $
+ * @version $Revision: 1.2 $ $Date: 2004/02/12 05:59:41 $
  */
 public final class SecureInvocationHandler implements InvocationHandler
 {
@@ -46,7 +48,7 @@ public final class SecureInvocationHandler implements InvocationHandler
     // immutable state
     //-------------------------------------------------------------------
 
-    private final Appliance m_appliance;
+    private final SecureAppliance m_appliance;
     private final Logger m_logger;
 
     //-------------------------------------------------------------------
@@ -65,11 +67,10 @@ public final class SecureInvocationHandler implements InvocationHandler
     *
     * @param instance the underlying provider 
     */
-    protected SecureInvocationHandler( Appliance appliance, Logger logger, Object instance )
+    protected SecureInvocationHandler( SecureAppliance appliance, Logger logger )
     {
         m_appliance = appliance;
         m_logger = logger;
-        m_instance = instance;
     }
 
     //-------------------------------------------------------------------
@@ -100,7 +101,7 @@ public final class SecureInvocationHandler implements InvocationHandler
 
         try
         {
-            return secureInvocation( method, m_instance, args );
+            return secureInvocation( method, args );
         }
         catch( Throwable e )
         {
@@ -144,16 +145,20 @@ public final class SecureInvocationHandler implements InvocationHandler
 
     private Object getInstance() throws Exception
     {
+        if( m_instance == null )
+          m_instance = m_appliance.resolve( false );
         return m_instance;
     }
 
     private Object secureInvocation( 
-      final Method method, final Object object, final Object[] args )
+      final Method method, final Object[] args )
       throws Exception
     {
+        Object instance = getInstance();
+
         //if( ! m_secured )
         //{
-            return method.invoke( object, args );
+            return method.invoke( instance, args );
         //}
         //else
         //{
@@ -162,7 +167,7 @@ public final class SecureInvocationHandler implements InvocationHandler
         //    {
         //        public Object run() throws Exception
         //        {
-        //            return method.invoke( object, args );
+        //            return method.invoke( instance, args );
         //        }
         //    }, m_accessControlContext );
         //    return result;
@@ -176,7 +181,14 @@ public final class SecureInvocationHandler implements InvocationHandler
           + m_appliance.toString();
         while( true )
         {
-            if( e instanceof UndeclaredThrowableException )
+            if( e instanceof TransientApplianceException )
+            {
+                TransientApplianceException t = 
+                  (TransientApplianceException) e;
+                return new TransientRuntimeException( 
+                  t.getMessage(), t.getDelay() );
+            }
+            else if( e instanceof UndeclaredThrowableException )
             {
                 Throwable cause = 
                   ((UndeclaredThrowableException) e).getUndeclaredThrowable();

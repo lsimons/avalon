@@ -20,9 +20,11 @@ package org.apache.avalon.activation.impl;
 import java.lang.reflect.Proxy;
 
 import org.apache.avalon.activation.ApplianceException;
+import org.apache.avalon.activation.TransientApplianceException;
 import org.apache.avalon.activation.LifestyleManager;
 
 import org.apache.avalon.composition.model.ComponentModel;
+import org.apache.avalon.composition.model.TransientRuntimeException;
 import org.apache.avalon.composition.util.DefaultState;
 
 import org.apache.avalon.excalibur.i18n.ResourceManager;
@@ -34,7 +36,7 @@ import org.apache.avalon.framework.logger.Logger;
 /**
  * Abstract appliance.
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2004/02/10 16:19:15 $
+ * @version $Revision: 1.2 $ $Date: 2004/02/12 05:59:41 $
  */
 public class DefaultAppliance extends AbstractAppliance
 {
@@ -55,6 +57,8 @@ public class DefaultAppliance extends AbstractAppliance
     private final LifestyleManager m_lifestyle;
 
     private final DefaultState m_commissioned = new DefaultState();
+
+    private long m_delay = 0;
 
     //-------------------------------------------------------------------
     // constructor
@@ -81,8 +85,18 @@ public class DefaultAppliance extends AbstractAppliance
         synchronized( m_commissioned )
         {
             if( m_commissioned.isEnabled() ) return;
-            m_lifestyle.commission();
-            m_commissioned.setEnabled( true );
+
+            try
+            {
+                m_delay = m_model.getDeploymentTimeout();
+                m_lifestyle.commission();
+                m_delay = 0;
+                m_commissioned.setEnabled( true );
+            }
+            finally
+            {
+                m_delay = 0;
+            }
         }
     }
 
@@ -104,6 +118,7 @@ public class DefaultAppliance extends AbstractAppliance
     // Resolver
     //-------------------------------------------------------------------
 
+
     /**
      * Resolve a object to a value.
      *
@@ -112,26 +127,49 @@ public class DefaultAppliance extends AbstractAppliance
      */
     public Object resolve() throws Exception
     {
-        if( !m_commissioned.isEnabled() )
-        {
-            final String error = 
-              REZ.getString( 
-                "appliance.error.resolve.non-commission-state", 
-                this.toString() );
-            throw new IllegalStateException( error );
-        }
-
         if( getComponentModel().getType().getInfo().
               getAttribute( "urn:activation:proxy", "true" ).equals( "false" ) )
         {
-            return m_lifestyle.resolve();
+            return resolve( false );
         }
         else        
+        {
+            return resolve( true );
+        }
+    }
+
+    public Object resolve( boolean proxy ) throws Exception
+    {
+        if( !proxy )
+        {
+            if( m_delay > 0 )
+            {
+                final String error = 
+                  REZ.getString( 
+                    "appliance.error.resolve.transient", 
+                    this.toString(),
+                    "" + m_delay );
+                 throw new TransientRuntimeException( error, m_delay );
+            }
+            else if( !m_commissioned.isEnabled() )
+            {
+                final String error = 
+                  REZ.getString( 
+                    "appliance.error.resolve.non-commission-state", 
+                    this.toString() );
+                throw new IllegalStateException( error );
+            }
+            else
+            {
+                return m_lifestyle.resolve();
+            }
+        }
+        else
         {
             ComponentModel model = getComponentModel();
             Logger logger = model.getLogger().getChildLogger( "proxy" );
             ApplianceInvocationHandler handler = 
-              new ApplianceInvocationHandler( this, logger, m_lifestyle.resolve() );
+              new ApplianceInvocationHandler( this, logger );
 
             try
             {

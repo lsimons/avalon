@@ -26,6 +26,7 @@ import org.apache.avalon.activation.LifestyleManager;
 import org.apache.avalon.activation.ComponentFactory;
 
 import org.apache.avalon.composition.model.ComponentModel;
+
 import org.apache.avalon.meta.info.InfoDescriptor;
 
 import org.apache.avalon.framework.logger.Logger;
@@ -34,7 +35,7 @@ import org.apache.avalon.framework.logger.Logger;
  * Abstract implentation class for a lifestyle handler.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2004/02/10 16:19:15 $
+ * @version $Revision: 1.2 $ $Date: 2004/02/12 05:59:41 $
  */
 public abstract class AbstractLifestyleManager implements LifestyleManager
 {
@@ -62,7 +63,6 @@ public abstract class AbstractLifestyleManager implements LifestyleManager
     {
         m_factory = factory;
         m_model = model;
-
         m_logger = model.getLogger();
     }
 

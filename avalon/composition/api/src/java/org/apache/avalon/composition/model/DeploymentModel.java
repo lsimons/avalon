@@ -17,6 +17,8 @@
 
 package org.apache.avalon.composition.model;
 
+import java.util.List;
+
 import org.apache.avalon.composition.data.Mode;
 import org.apache.avalon.composition.model.Commissionable;
 import org.apache.avalon.composition.model.Resolver;
@@ -31,7 +33,7 @@ import org.apache.avalon.framework.logger.Logger;
  * Model desribing a deployment scenario.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.13 $ $Date: 2004/02/10 16:23:33 $
+ * @version $Revision: 1.14 $ $Date: 2004/02/12 05:59:41 $
  */
 public interface DeploymentModel extends Commissionable, Resolver
 {
@@ -105,9 +107,10 @@ public interface DeploymentModel extends Commissionable, Resolver
 
     /**
      * Assemble the model.
+     * @param subjects a list of deployment models that make up the assembly chain
      * @exception Exception if an error occurs during model assembly
      */
-    void assemble() throws AssemblyException;
+    void assemble( List subjects ) throws AssemblyException;
 
    /**
     * Return the set of models consuming this model.

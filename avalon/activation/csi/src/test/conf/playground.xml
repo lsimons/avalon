@@ -5,7 +5,7 @@ Example block deployment descriptor.
 
 <container name="playground">
 
-   <categories priority="INFO"/>
+   <categories priority="DEBUG"/>
 
    <classloader>
      <classpath>
@@ -21,7 +21,7 @@ Example block deployment descriptor.
 
      <component name="complex"
        class="org.apache.avalon.playground.ComplexComponent">
-       <categories priority="INFO"/>
+       <!--<categories priority="INFO"/>-->
      </component>
      
      <container name="test">
