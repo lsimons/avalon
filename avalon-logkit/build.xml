@@ -59,6 +59,7 @@ Legal:
   <property name="src.dir" value="src"/>
   <property name="lib.dir" value="lib"/>
   <property name="java.dir" value="${src.dir}/java"/>
+  <property name="compat.dir" value="${src.dir}/compat"/>
   <property name="test.dir" value="${src.dir}/test"/>
   <property name="tools.dir" value="../jakarta-avalon/tools"/>
   <property name="docs.dir" value="docs"/>
@@ -159,6 +160,7 @@ Legal:
            deprecation="${deprecation}">
       <classpath refid="project.class.path" />
       <src path="${test.dir}"/>
+      <src path="${compat.dir}"/>
       <exclude name="org/apache/log/output/ServletOutputLogTarget.java"
                unless="servlet.present"/>
       <exclude name="org/apache/log/format/AvalonFormatter.java"
