@@ -95,9 +95,13 @@ public class DefaultKernel
     {
         final SarEntry entry = (SarEntry)m_entrys.get( name );
         if( null == entry )
+	{
             return null;
+	}
         else
+	{
             return entry.getApplication();
+	}
     }
 
     /**
