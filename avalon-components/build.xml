@@ -44,7 +44,7 @@
   <property name="docs.dir" value="docs"/>
   <property name="www.dir" value="../avalon-site/docs/cornerstone"/>
   <property name="xdocs.dir" value="${src.dir}/xdocs"/>
-  <property name="jakarta-site.dir" value="../jakarta-site"/>
+  <property name="avalon-site.dir" value="../avalon-site"/>
 
 
   <property name="dist.name" value="${Name}-${version}"/>
@@ -69,9 +69,7 @@
   <path id="tools.class.path">
     <pathelement location="${junit.jar}"/>
     <pathelement location="${tools.jar}"/>
-    <fileset dir="${tools.dir}/lib"/>
-    <fileset dir="${tools.dir}/ext"/>
-    <fileset dir="${jakarta-site.dir}/lib"/>
+    <fileset dir="${avalon-site.dir}/lib"/>
   </path>
 
   <path id="test.class.path">
@@ -272,8 +270,8 @@
         <echo>
             AnakiaTask is not present! Please check to make sure that
             velocity.jar is in your classpath. The easiest way to build
-            the documentation is to checkout jakarta-site CVS and specify
-            jakarta-site.dir property.
+            the documentation is to checkout avalon-site CVS and specify
+            avalon-site.dir property.
         </echo>
     </target>
 
