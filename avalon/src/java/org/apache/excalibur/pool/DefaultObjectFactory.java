@@ -8,8 +8,6 @@
 package org.apache.excalibur.pool;
 
 import java.lang.reflect.Constructor;
-import org.apache.avalon.Poolable;
-import org.apache.avalon.Recyclable;
 
 /**
  * This is the default for factory that is used to create objects for Pool.

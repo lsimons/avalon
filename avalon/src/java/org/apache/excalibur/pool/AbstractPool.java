@@ -9,11 +9,9 @@ package org.apache.excalibur.pool;
 
 import java.util.Stack;
 import java.util.Vector;
-import org.apache.avalon.AbstractLoggable;
+import org.apache.avalon.logger.AbstractLoggable;
 import org.apache.avalon.Initializable;
-import org.apache.avalon.Poolable;
-import org.apache.avalon.Recyclable;
-import org.apache.avalon.ThreadSafe;
+import org.apache.avalon.thread.ThreadSafe;
 
 /**
  * This is an <code>Pool</code> that caches Poolable objects for reuse.
