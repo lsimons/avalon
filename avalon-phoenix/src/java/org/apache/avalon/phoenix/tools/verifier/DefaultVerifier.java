@@ -8,7 +8,9 @@
 package org.apache.avalon.phoenix.tools.verifier;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Stack;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -77,7 +79,9 @@ public class DefaultVerifier
         getLogger().info( message );
         verifyDependencyReferences( blocks );
 
-        //TODO: Verify that there are no circular dependencies!
+        message = REZ.getString( "verify-nocircular-dependencies" );
+        getLogger().info( message );
+        verifyNoCircularDependencies( blocks );
 
         message = REZ.getString( "verify-block-type" );
         getLogger().info( message );
@@ -127,6 +131,106 @@ public class DefaultVerifier
     }
 
     /**
+     * Verfiy that there are no circular references between Blocks.
+     *
+     * @param blocks the BlockMetaData objects for the blocks
+     * @exception VerifyException if an error occurs
+     */
+    private void verifyNoCircularDependencies( final BlockMetaData[] blocks )
+        throws VerifyException
+    {
+        for( int i = 0; i < blocks.length; i++ )
+        {
+            final BlockMetaData block = blocks[ i ];
+
+            final Stack stack = new Stack();
+            stack.push( block );
+            verifyNoCircularDependencies( block, blocks, stack );
+            stack.pop();
+        }
+    }
+
+    /**
+     * Verfiy that there are no circular references between Blocks.
+     *
+     * @param blocks the BlockMetaData objects for the blocks
+     * @exception VerifyException if an error occurs
+     */
+    private void verifyNoCircularDependencies( final BlockMetaData block, 
+                                               final BlockMetaData[] blocks, 
+                                               final Stack stack )
+        throws VerifyException
+    {
+        final BlockMetaData[] dependencies = getDependencies( block, blocks );
+
+        for( int i = 0; i < dependencies.length; i++ )
+        {
+            final BlockMetaData dependency = dependencies[ i ];
+            if( stack.contains( dependency ) )
+            {
+                final String trace = getDependencyTrace( dependency, stack );
+                final String message = 
+                    REZ.getString( "dependency-circular", block.getName(), trace );
+                throw new VerifyException( message );                
+            }
+
+            stack.push( dependency );
+            verifyNoCircularDependencies( dependency, blocks, stack );
+            stack.pop();
+        }
+    }
+
+    /**
+     * Get a string defining path from top of stack till it reaches specified block.
+     *
+     * @param block the block
+     * @param stack the Stack
+     * @return the path of dependency
+     */
+    private String getDependencyTrace( final BlockMetaData block, 
+                                       final Stack stack )
+    {
+        final StringBuffer sb = new StringBuffer();
+        sb.append( "[ " );
+
+        final String name = block.getName();
+        final int size = stack.size();
+        final int top = size - 1;
+        for( int i = top; i >= 0; i-- )
+        {
+            final BlockMetaData other = (BlockMetaData)stack.get( i );
+            
+            if( top != i ) sb.append( ", " );
+            sb.append( other.getName() );
+
+            if( other.getName().equals( name ) ) break;
+        }
+
+        sb.append( ", " );
+        sb.append( name );
+
+        sb.append( " ]" );
+        return sb.toString();
+    }
+
+    private BlockMetaData[] getDependencies( final BlockMetaData block, 
+                                             final BlockMetaData[] blocks )
+        throws VerifyException
+    {
+        final ArrayList dependencies = new ArrayList();
+        final DependencyMetaData[] deps = block.getDependencies();
+
+        for( int i = 0; i < deps.length; i++ )
+        {
+            final String name = deps[ i ].getName();
+            final BlockMetaData other = getBlock( name, blocks );
+            dependencies.add( other );
+        }
+
+        return (BlockMetaData[])dependencies.toArray( new BlockMetaData[ 0 ] );
+    }
+
+    /**
      * Verfiy that the inter-Block dependencies are valid.
      *
      * @param blocks the BlockMetaData objects for the blocks
@@ -161,14 +265,6 @@ public class DefaultVerifier
             final String roleName = roles[ i ].getRole();
             final ServiceDescriptor service =
                 info.getDependency( roleName ).getService();
-
-            //Make sure block does not depend on itself
-            if( blockName.equals( block.getName() ) )
-            {
-                final String message = 
-                    REZ.getString( "dependency-circular", blockName, service );
-                throw new VerifyException( message );
-            }
 
             //Get the other block that is providing service
             final BlockMetaData other = getBlock( blockName, others );
@@ -604,7 +700,7 @@ public class DefaultVerifier
                 throw new VerifyException( message );
             }
             
-            //TODO: Verify that Service extends Service interface????
+            //TODO: Verify that Service extends Service interface? or not?
         }
 
         classes[ services.length ] = Block.class;
