@@ -49,6 +49,30 @@
             to="avalon-dev@jakarta.apache.org"/>
     </project>
 
+    <project name="excalibur-altrmi">
+        <package>org.apache.excalibur.altrmi</package>
+
+        <ant basedir="altrmi">
+            <depend property="junit.jar" project="junit"/>
+            <depend property="framework.jar" project="jakarta-avalon"/>
+            <property name="version" value="@@DATE@@"/>
+            <property name="junit.failonerror" value="true"/>
+            <property name="do.checkstyle" value="true"/>
+        </ant>
+
+        <depend project="jakarta-ant"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
+        <depend project="checkstyle"/>
+        <depend project="jmx" runtime="true"/>
+        <work nested="altrmi/build/classes"/>
+
+        <home nested="altrmi"/>
+        <jar name="build/lib/excalibur-altrmi-@@DATE@@.jar"/>
+        <nag from="Peter Donald &lt;peter@apache.org&gt;"
+            to="avalon-dev@jakarta.apache.org"/>
+    </project>
+
     <project name="excalibur-baxter">
         <package>org.apache.avalon.excalibur.baxter</package>
 
@@ -259,6 +283,30 @@
             to="avalon-dev@jakarta.apache.org"/>
     </project>
 
+    <project name="excalibur-instrument">
+        <package>org.apache.avalon.excalibur.instrument</package>
+
+        <ant basedir="instrument">
+            <depend property="junit.jar" project="junit"/>
+            <property name="version" value="@@DATE@@"/>
+            <property name="junit.failonerror" value="true"/>
+            <property name="do.checkstyle" value="true"/>
+        </ant>
+
+        <depend project="jakarta-ant"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
+        <depend project="checkstyle"/>
+        <work nested="instrument/build/classes"/>
+
+        <home nested="instrument"/>
+        <jar name="build/lib/excalibur-instrument-@@DATE@@.jar"/>
+
+        <nag from="Peter Donald &lt;peter@apache.org&gt;"
+            to="avalon-dev@jakarta.apache.org"/>
+    </project>
+
+
     <project name="excalibur-io">
         <package>org.apache.avalon.excalibur.io</package>
 
@@ -328,6 +376,29 @@
             to="avalon-dev@jakarta.apache.org"/>
     </project>
 
+    <project name="excalibur-lang">
+        <package>org.apache.avalon.excalibur.lang</package>
+
+        <ant basedir="lang">
+            <depend property="junit.jar" project="junit"/>
+            <property name="version" value="@@DATE@@"/>
+            <property name="junit.failonerror" value="true"/>
+            <property name="do.checkstyle" value="true"/>
+        </ant>
+
+        <depend project="jakarta-ant"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
+        <depend project="checkstyle"/>
+        <work nested="lang/build/classes"/>
+
+        <home nested="lang"/>
+        <jar name="build/lib/excalibur-lang-@@DATE@@.jar"/>
+
+        <nag from="Peter Donald &lt;peter@apache.org&gt;"
+            to="avalon-dev@jakarta.apache.org"/>
+    </project>
+
     <project name="excalibur-naming">
         <package>org.apache.avalon.excalibur.naming</package>
 
@@ -370,6 +441,30 @@
         <home nested="tar"/>
         <jar name="build/lib/excalibur-tar-@@DATE@@.jar"/>
 
+        <nag from="Peter Donald &lt;peter@apache.org&gt;"
+            to="avalon-dev@jakarta.apache.org"/>
+	</project>
+
+    <project name="excalibur-util">
+        <package>org.apache.avalon.excalibur.util</package>
+
+        <ant basedir="util">
+            <depend property="junit.jar" project="junit"/>
+            <depend property="framework.jar" project="jakarta-avalon"/>
+            <property name="version" value="@@DATE@@"/>
+            <property name="junit.failonerror" value="true"/>
+            <property name="do.checkstyle" value="true"/>
+        </ant>
+
+        <depend project="jakarta-ant"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
+        <depend project="checkstyle"/>
+        <depend project="jmx" runtime="true"/>
+        <work nested="util/build/classes"/>
+
+        <home nested="util"/>
+        <jar name="build/lib/excalibur-util-@@DATE@@.jar"/>
         <nag from="Peter Donald &lt;peter@apache.org&gt;"
             to="avalon-dev@jakarta.apache.org"/>
     </project>
