@@ -30,10 +30,20 @@ public class DaemonLauncher
         final Hashtable data = new Hashtable();
         data.put( ActionListener.class.getName(), this );
 
+        if ( WrapperManager.isDebugEnabled() )
+        {
+            System.out.println( "DaemonLauncher: Starting up Phoenix" );
+        }
+
         try { Main.startup( args, data ); }
         catch( final Exception e )
         {
             e.printStackTrace();
+        }
+
+        if ( WrapperManager.isDebugEnabled() )
+        {
+            System.out.println( "DaemonLauncher: Phoenix startup completed" );
         }
 
         // We are almost up now, so reset the wait time
