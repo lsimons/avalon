@@ -183,8 +183,6 @@ public class MX4JSystemManager
     private void startRMIAdaptor( final MBeanServer server )
         throws Exception
     {
-        System.setProperty( "java.naming.factory.initial", m_namingFactory );
-
         // Create and start the naming service
         final ObjectName naming = new ObjectName( "Naming:type=rmiregistry" );
         server.createMBean( "mx4j.tools.naming.NamingService", naming, null );
