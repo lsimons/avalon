@@ -56,7 +56,6 @@ import com.coyotegulch.jisp.BTreeIndex;
 import com.coyotegulch.jisp.IndexedObjectDatabase;
 import com.coyotegulch.jisp.KeyNotFound;
 
-import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.parameters.ParameterException;
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
@@ -69,26 +68,19 @@ import org.apache.avalon.framework.thread.ThreadSafe;
  *
  * @author <a href="mailto:g-froehlich@gmx.de">Gerhard Froehlich</a>
  * @author <a href="mailto:vgritsenko@apache.org">Vadim Gritsenko</a>
- * @version CVS $Id: JispFilesystemStore.java,v 1.1 2003/07/14 18:17:23 cziegeler Exp $
+ * @version CVS $Id: JispFilesystemStore.java,v 1.2 2003/07/14 19:06:08 cziegeler Exp $
  */
 public class JispFilesystemStore extends AbstractJispFilesystemStore
     implements org.apache.excalibur.store.Store,
                ThreadSafe,
-               Initializable,
                Parameterizable {
-
-    /** The database file */
-    protected File m_databaseFile;
-    /** The index file */
-    protected File m_indexFile;
-    /** The page size of the B-Tree */
-    protected int m_Order;
 
     /**
      *  Configure the Component.<br>
      *  A few options can be used
      *  <UL>
-     *    <LI> The directory to store the two files belowe</LI>
+     *    <LI> directory - The directory to store the two files belowe
+     *    </LI>
      *    <LI> data-file = the name of the data file (Default: store.dat)
      *    </LI>
      *    <LI> index-file = the name of the index file (Default: store.idx)
@@ -101,7 +93,7 @@ public class JispFilesystemStore extends AbstractJispFilesystemStore
      */
      public void parameterize(Parameters params) throws ParameterException
      {
-
+        // get the directory to use
         try 
         {
             final String dir = params.getParameter("directory");
@@ -114,38 +106,32 @@ public class JispFilesystemStore extends AbstractJispFilesystemStore
 
         final String databaseName = params.getParameter("data-file", "store.dat");
         final String indexName = params.getParameter("index-file", "store.idx");
-        m_Order = params.getParameterAsInteger("order", 301);
+        final int order = params.getParameterAsInteger("order", 301);
         if (getLogger().isDebugEnabled()) 
         {
             getLogger().debug("Database file name = " + databaseName);
             getLogger().debug("Index file name = " + indexName);
-            getLogger().debug("Order=" + m_Order);
+            getLogger().debug("Order=" + order);
         }
 
-        this.m_databaseFile = new File(m_directoryFile, databaseName);
-        m_indexFile = new File(m_directoryFile, indexName);
-    }
+        final File databaseFile = new File(m_directoryFile, databaseName);
+        final File indexFile = new File(m_directoryFile, indexName);
 
-    /**
-     * Initialize the Component
-     */
-    public void initialize() 
-    {
         if (getLogger().isDebugEnabled()) 
         {
-            getLogger().debug("initialize() JispFilesystemStore");
+            getLogger().debug("Initializing JispFilesystemStore");
         }
 
         try {
-            JispKey nullKey = (JispKey)new JispKey("").makeNullKey();
-            m_Index = new BTreeIndex(m_indexFile.toString(),
-                                    m_Order, nullKey, false);
-            final boolean isOld = m_databaseFile.exists();
+            final boolean isOld = databaseFile.exists();
             if (getLogger().isDebugEnabled()) 
             {
                 getLogger().debug("initialize(): Datafile exists: " + isOld);
             }
-            m_Database = new IndexedObjectDatabase(m_databaseFile.toString(), !isOld);
+
+            m_Index = new BTreeIndex(indexFile.toString(),
+                                      order, super.getNullKey(), false);
+            m_Database = new IndexedObjectDatabase(databaseFile.toString(), !isOld);
             m_Database.attachIndex(m_Index);
 
         } 
@@ -157,4 +143,5 @@ public class JispFilesystemStore extends AbstractJispFilesystemStore
             getLogger().error("initialize(..) Exception", e);
         }
     }
+
 }
