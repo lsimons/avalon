@@ -99,15 +99,22 @@ import org.apache.excalibur.event.impl.DefaultQueue;
  */
 public class CommandManager implements EventPipeline, Disposable
 {
-    private final Queue m_queue = new DefaultQueue();
-    private final HashMap m_signalHandlers = new HashMap();
-    private final Mutex m_mutex = new Mutex();
-    private final EventHandler m_eventHandler = new CommandEventHandler(
-        Collections.unmodifiableMap( m_signalHandlers ) );
-    private final Source[] m_sources = new Source[]{m_queue};
+    private final Queue m_queue;
+    private final HashMap m_signalHandlers;
+    private final Mutex m_mutex;
+    private final EventHandler m_eventHandler;
+    private final Source[] m_sources;
 
+    /**
+     * Create the CommandManager
+     */
     public CommandManager()
     {
+        m_queue = new DefaultQueue();
+        m_signalHandlers = new HashMap();
+        m_mutex = new Mutex();
+        m_eventHandler = new CommandEventHandler( Collections.unmodifiableMap( m_signalHandlers ) );
+        m_sources = new Source[]{m_queue};
     }
 
     /**

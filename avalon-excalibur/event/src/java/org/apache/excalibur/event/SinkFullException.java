@@ -64,11 +64,23 @@ package org.apache.excalibur.event;
  */
 public class SinkFullException extends SinkException
 {
+    /**
+     * Create a <code>SinkFullException</code> with an associated message.
+     *
+     * @param message  The string message to print in the stack trace
+     */
     public SinkFullException( String message )
     {
         super( message );
     }
 
+    /**
+     * Create a <code>SinkClosedException</code> with an associated message
+     * and the original exception that caused the problem.
+     *
+     * @param message  The string message to print in the stack trace
+     * @param e        The exception that caused this one.
+     */
     public SinkFullException( String message, Throwable e )
     {
         super( message, e );

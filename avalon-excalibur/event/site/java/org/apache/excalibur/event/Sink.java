@@ -51,7 +51,7 @@ package org.apache.excalibur.event;
 
 /**
  * A Sink implements the end of a finite-length event queue where
- * <code>QueueElement</code>s are enqueued. These operations can throw a
+ * elements are enqueued. These operations can throw a
  * <code>SinkException</code> if the sink is closed or becomes full, allowing
  * event queues to support thresholding and backpressure.
  *
@@ -69,7 +69,7 @@ public interface Sink
     /**
      * Enqueues the given element onto the queue.
      *
-     * @param element  The <code>QueueElement</code> to enqueue
+     * @param element  The elements to enqueue
      * @throws SinkFullException Indicates that the sink is temporarily full.
      * @throws SinkClosedException Indicates that the sink is
      *         no longer being serviced.
@@ -148,11 +148,6 @@ public interface Sink
         throws SinkException;
 
     /**
-     * Returns the number of elements waiting in this queue.
-     */
-    int size();
-
-    /**
      * Returns the length threshold of the sink. This is for informational
      * purposes only; an implementation may allow more (or fewer) new
      * entries to be enqueued than maxSize() - size(). This may be the
@@ -169,13 +164,17 @@ public interface Sink
      * false does not guarantee that future enqueue operations will succeed.
      * Clearly, isFull() returning true does not guarantee that they will
      * fail, since the queue may be serviced in the meantime.
+     *
+     * @return true if the Sink is full
      */
     boolean isFull();
 
     /**
-     * Returns the number of QueueElements it can currently accept.  This is
+     * Returns the number of elements it can currently accept.  This is
      * typically the difference between <code>size()</code> and
-     * <code>maxSize()</code>.  It will return -1 if the queue is unbounded.
+     * <code>maxSize()</code>.  It will return -1 if the sink is unbounded.
+     *
+     * @return the number of elements the Sink can accept
      */
     int canAccept();
 }

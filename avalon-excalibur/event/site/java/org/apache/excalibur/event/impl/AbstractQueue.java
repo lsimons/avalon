@@ -59,12 +59,15 @@ import org.apache.excalibur.event.Queue;
  */
 public abstract class AbstractQueue implements Queue
 {
-    // this object is immutable, so it can be safely shared
+    /** An empty array used as a return value when the Queue is empty */
     protected final static Object[] EMPTY_ARRAY = new Object[ 0 ];
+    /** The number of milliseconds to wait */
     protected long m_timeout = 0;
 
     /**
      * Default for canAccept()
+     *
+     * @return how many elements we can enqueue
      */
     public int canAccept()
     {
@@ -73,6 +76,8 @@ public abstract class AbstractQueue implements Queue
 
     /**
      * Default maxSize to -1 which is unbounded
+     *
+     * @return the maximum number of elements
      */
     public int maxSize()
     {
@@ -83,6 +88,8 @@ public abstract class AbstractQueue implements Queue
      * Check to see if the <code>Queue</code> is full. The method uses the
      * <code>maxSize</code> and <code>size</code> methods to determine
      * whether the queue is full.
+     *
+     * @return true if there is no room in the Queue
      */
     public boolean isFull()
     {
@@ -93,6 +100,8 @@ public abstract class AbstractQueue implements Queue
     /**
      * Set the timeout for the <code>Queue</code> in milliseconds.  The
      * default timeout is 0, which means that we don't wait at all.
+     *
+     * @param millis  The number of milliseconds to block waiting for events to be enqueued
      */
     public void setTimeout( final long millis )
     {
@@ -109,6 +118,8 @@ public abstract class AbstractQueue implements Queue
     /**
      * Encapsulates the logic to block the <code>Queue</code> for the amount
      * of time specified by the timeout.
+     *
+     * @param lock  The object used as the mutex.
      */
     protected void block( Object lock )
     {

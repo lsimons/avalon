@@ -61,6 +61,8 @@ public interface DelayedCommand extends Command
     /**
      * Sets the initial delay for the Command.  This defaults to 0
      * milliseconds.  The value must be positive.
+     *
+     * @return the number of milliseconds to delay
      */
     long getDelayInterval();
 }

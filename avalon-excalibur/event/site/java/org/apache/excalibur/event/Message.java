@@ -67,11 +67,15 @@ public interface Message
     /**
      * Get the attachment associated with this Message.  If there is no
      * attachment, this method will return null.
+     *
+     * @return Object the attached Object
      */
     Object getAttachment();
 
     /**
      * Attach an Object to the message.
+     *
+     * @param attachment  Any arbitrary Object you wish to attach to the Message
      */
     void attach( Object attachment );
 

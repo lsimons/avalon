@@ -73,6 +73,8 @@ public final class FixedSizeQueue
     /**
      * Create a <code>FixedSizedQueue</code> with the specified maximum size.
      * The maximum size must be 1 or more.
+     *
+     * @param size  The maximum number of events the Queue can handle
      */
     public FixedSizeQueue( int size )
     {

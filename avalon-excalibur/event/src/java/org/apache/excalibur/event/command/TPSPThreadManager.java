@@ -78,6 +78,8 @@ public final class TPSPThreadManager implements Runnable, ThreadManager
      * The default constructor assumes there is a system property named "os.arch.cpus"
      * that has a default for the number of CPUs on a system.  Otherwise, the value
      * is 1.
+     *
+     * @throws Exception if there is any problems creating the ThreadManager
      */
     public TPSPThreadManager()
     throws Exception
@@ -88,6 +90,12 @@ public final class TPSPThreadManager implements Runnable, ThreadManager
     /**
      * Constructor provides a specified number of threads per processor.  If
      * either value is less then one, then the value is rewritten as one.
+     *
+     * @param numProcessors        The number of processors in the machine
+     * @param threadsPerProcessor  The number of threads to allocate for each processor
+     * @param sleepTime            The number of milliseconds to wait between cycles
+     *
+     * @throws Exception when there is a problem creating the ThreadManager
      */
     public TPSPThreadManager( int numProcessors, int threadsPerProcessor, long sleepTime )
     throws Exception
@@ -96,6 +104,17 @@ public final class TPSPThreadManager implements Runnable, ThreadManager
     }
 
 
+    /**
+     * Constructor provides a specified number of threads per processor.  If
+     * either value is less then one, then the value is rewritten as one.
+     *
+     * @param numProcessors        The number of processors in the machine
+     * @param threadsPerProcessor  The number of threads to allocate for each processor
+     * @param sleepTime            The number of milliseconds to wait between cycles
+     * @param timeOut              The number of milliseconds to use as a "timeout" parameter
+     *
+     * @throws Exception when there is a problem creating the ThreadManager
+     */
     public TPSPThreadManager(  int numProcessors, int threadsPerProcessor, long sleepTime, long timeOut )
     throws Exception
     {
@@ -111,6 +130,8 @@ public final class TPSPThreadManager implements Runnable, ThreadManager
 
     /**
      * Register an EventPipeline with the ThreadManager.
+     *
+     * @param pipeline  The pipeline we are registering
      */
     public void register( EventPipeline pipeline )
     {
@@ -137,6 +158,8 @@ public final class TPSPThreadManager implements Runnable, ThreadManager
 
     /**
      * Deregister an EventPipeline with the ThreadManager
+     *
+     * @param pipeline  The pipeline to unregister
      */
     public void deregister( EventPipeline pipeline )
     {
@@ -221,10 +244,18 @@ public final class TPSPThreadManager implements Runnable, ThreadManager
         }
     }
 
+    /**
+     * The PipelineRunner will run the pipelines
+     */
     public static final class PipelineRunner implements Runnable
     {
         private final EventPipeline m_pipeline;
 
+        /**
+         * Create a PipelineRunner
+         *
+         * @param pipeline  The pipeline we are wrapping
+         */
         protected PipelineRunner( EventPipeline pipeline )
         {
             m_pipeline = pipeline;
