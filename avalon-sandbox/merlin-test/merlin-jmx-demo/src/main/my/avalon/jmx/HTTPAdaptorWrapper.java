@@ -19,7 +19,7 @@ import javax.management.ObjectName;
 /**
  * Wrapper of the mx4j HttpAdaptor to use it in the Avalon Framework.
  *
- * @avalon.type version="1.0" name="jmx-http" lifestyle="singleton"
+ * @avalon.component version="1.0" name="jmx-http" lifestyle="singleton"
  */
 public class HTTPAdaptorWrapper extends AbstractLogEnabled implements Serviceable, Configurable, Startable {
     private HttpAdaptor wrapped_;

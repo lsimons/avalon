@@ -66,7 +66,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * but return null as getName(), so MBeanableHandler used "urn:avalon:name".
  *
  * @jmx.mbean
- * @avalon.type version="1.0" name="jmx-hello2"
+ * @avalon.component version="1.0" name="jmx-hello2"
  * @avalon.stage type="my.avalon.jmx.MBeanable"
  */
 public class HelloSample4 extends AbstractLogEnabled 
