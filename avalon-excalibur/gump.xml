@@ -483,6 +483,7 @@
         <ant basedir="pool">
             <depend property="framework.jar" project="jakarta-avalon"/>
             <depend property="excalibur-collections.jar" project="excalibur-collections"/>
+            <depend property="excalibur-instrument.jar" project="excalibur-instrument"/>
             <depend property="junit.jar" project="junit"/>
             <property name="version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
