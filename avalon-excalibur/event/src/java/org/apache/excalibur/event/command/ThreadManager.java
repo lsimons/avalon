@@ -58,6 +58,8 @@ package org.apache.excalibur.event.command;
  */
 public interface ThreadManager
 {
+    String ROLE = ThreadManager.class.getName();
+
     /**
      * Register an EventPipeline with the ThreadManager.
      *
