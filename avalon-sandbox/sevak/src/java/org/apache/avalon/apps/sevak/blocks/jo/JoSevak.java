@@ -15,6 +15,7 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.phoenix.BlockContext;
 import org.apache.avalon.apps.sevak.Sevak;
 import org.apache.avalon.apps.sevak.SevakException;
@@ -210,6 +211,11 @@ public class JoSevak extends AbstractLogEnabled implements Sevak, Startable, Con
             m_log.log(mufe, C_Log.ERROR);
             throw new SevakException("Jo could not build deployment : " + mufe.getMessage());
         }
+    }
+
+    public void deploy(String context, File pathToWebAppFolder, ServiceManager serviceManager) throws SevakException
+    {
+        throw new UnsupportedOperationException();
     }
 
     /**

@@ -155,7 +155,18 @@ public class JettySevak extends AbstractLogEnabled implements Sevak, Startable, 
      */
     public void deploy(String context, File pathToWebAppFolder) throws SevakException
     {
+        deploy(context, pathToWebAppFolder, m_serviceManager);
+    }
 
+    /**
+     * Deploy a webapp
+     * @param context the contxct for the webapp
+     * @param pathToWebAppFolder the path to it
+     * @param serviceManager The service manager to use for (optional) Serviceable servlets.
+     * @throws SevakException if a problem
+     */
+    public void deploy(String context, File pathToWebAppFolder, ServiceManager serviceManager) throws SevakException
+    {
         String webAppURL = null;
 
         try
@@ -164,13 +175,13 @@ public class JettySevak extends AbstractLogEnabled implements Sevak, Startable, 
             // This still does not work.
 
             WebApplicationContext ctx =
-                new SevakWebApplicationContext(m_serviceManager, m_sarRootDir, webAppURL);
+                new SevakWebApplicationContext(serviceManager, m_sarRootDir, webAppURL);
             ctx.setContextPath(context);
             m_server.addContext(m_hostName,ctx);
 
             System.out.println("deploying context=" + context + ", webapp=" + webAppURL
                 + " to host=" + ( m_hostName == null ? "(All Hosts)" : m_hostName ) );
-                
+
             ctx.setExtractWAR(true);
             m_webapps.put(context, ctx);
             ctx.start();
