@@ -60,7 +60,7 @@ Legal:
   <property name="test.dir" value="${src.dir}/test"/>
   <property name="tools.dir" value="../jakarta-avalon/tools"/>
   <property name="docs.dir" value="docs"/>
-  <property name="www.dir" value="../jakarta-avalon/www/${name}"/>
+  <property name="www.dir" value="../jakarta-avalon-site/docs/${name}"/>
   <property name="xdocs.dir" value="${src.dir}/xdocs"/>
   <property name="context.dir" value="../jakarta-avalon/src/documentation"/>
   <property name="javadocs.dir" value="${docs.dir}/api"/>

@@ -73,7 +73,7 @@
   <property name="conf.dir" value="${src.dir}/conf"/>
   <property name="tools.dir" value="../jakarta-avalon/tools"/>
   <property name="docs.dir" value="docs"/>
-  <property name="www.dir" value="../jakarta-avalon/www/cornerstone"/>
+  <property name="www.dir" value="../jakarta-avalon-site/docs/cornerstone"/>
   <property name="avalon.skin" value="${tools.dir}/lib/jakarta-style.jar"/>
   <property name="xdocs.dir" value="${src.dir}/xdocs"/>
   <property name="javadocs.dir" value="${docs.dir}/api"/>
