@@ -76,7 +76,7 @@
       <id>vinayc</id>
       <email>vinayc@apache.org</email>
       <roles>
-        <role>Testing and bug reporting.</role>
+        <role>Testing and bug reporting, migration of tutorials from ant to maven.</role>
       </roles>
     </developer>
     <developer>
