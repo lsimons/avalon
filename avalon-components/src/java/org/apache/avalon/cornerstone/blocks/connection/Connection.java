@@ -127,6 +127,8 @@ class ConnectionRunner
     private Thread m_thread;
     private List m_runners;
     private ConnectionHandlerFactory m_handlerFactory;
+    private boolean m_finished;
+
 
     ConnectionRunner( final Socket socket,
                       final List runners,
@@ -142,6 +144,7 @@ class ConnectionRunner
     {
         synchronized( this )
         {
+            m_finished = true;
             if( null != m_thread )
             {
                 m_thread.interrupt();
@@ -157,12 +160,24 @@ class ConnectionRunner
 
     public void run()
     {
+        //Synchronized section to guard against
+        //dispose() being called before thread is
+        //run and reaches next section
+        synchronized( this )
+        {
+            if( m_finished )
+            {
+                shutdownSocket();
+                return;
+            }
+            m_thread = Thread.currentThread();
+            m_runners.add( this );
+        }
+
+
         ConnectionHandler handler = null;
         try
         {
-            m_thread = Thread.currentThread();
-            m_runners.add( this );
-
             debugBanner( true );
 
             handler = m_handlerFactory.createConnectionHandler();
@@ -183,6 +198,8 @@ class ConnectionRunner
 
         shutdownSocket();
 
+        //Synchronized section to make sure that thread
+        //in dispose() will not hang due to race conditions
         synchronized( this )
         {
             m_thread = null;
