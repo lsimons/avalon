@@ -12,8 +12,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.configuration.Configurable;
@@ -22,6 +20,9 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.phoenix.interfaces.ConfigurationValidator;
+import org.apache.avalon.phoenix.interfaces.ConfigurationValidatorMBean;
+import org.apache.avalon.excalibur.i18n.Resources;
+import org.apache.avalon.excalibur.i18n.ResourceManager;
 
 /**
  * Default ConfigurationValidator implementation that allows schemas to be plugged-in
@@ -29,7 +30,8 @@ import org.apache.avalon.phoenix.interfaces.ConfigurationValidator;
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
  */
 public class DelegatingConfigurationValidator extends AbstractLogEnabled
-    implements Configurable, Initializable, Disposable, ConfigurationValidator
+    implements Configurable, Initializable, Disposable,
+    ConfigurationValidator, ConfigurationValidatorMBean
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( DelegatingConfigurationValidator.class );
@@ -126,15 +128,13 @@ public class DelegatingConfigurationValidator extends AbstractLogEnabled
 
     public void removeSchema( String application, String block )
     {
-        try
+        final String type = ( String ) m_blockTypeMap.get( createKey( application, block ) );
+
+        if( null != type )
         {
-            getDelegate( application, block ).removeSchema( application, block );
-        }
-        catch( ConfigurationException e )
-        {
-            getLogger().warn( "Unable to remove schema [app: " + application
-                              + ", block: " + block + "]",
-                              e );
+            final DelegateEntry entry = ( DelegateEntry ) m_delegates.get( type );
+
+            entry.getValidator().removeSchema( application, block );
         }
     }
 
@@ -156,5 +156,30 @@ public class DelegatingConfigurationValidator extends AbstractLogEnabled
     private String createKey( String application, String block )
     {
         return application + "." + block;
+    }
+
+    public String getSchema( String application, String block )
+    {
+        final String type = ( String ) m_blockTypeMap.get( createKey( application, block ) );
+
+        if( null != type )
+        {
+            final DelegateEntry entry = ( DelegateEntry ) m_delegates.get( type );
+            final ConfigurationValidator validator = entry.getValidator();
+
+            if( validator instanceof ConfigurationValidatorMBean )
+            {
+                return ( ( ConfigurationValidatorMBean ) validator ).getSchema( application,
+                                                                                block );
+
+            }
+        }
+
+        return null;
+    }
+
+    public String getSchemaType( String application, String block )
+    {
+        return ( String ) this.m_blockTypeMap.get( createKey( application, block ) );
     }
 }

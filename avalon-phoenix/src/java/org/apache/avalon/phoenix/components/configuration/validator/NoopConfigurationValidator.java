@@ -8,6 +8,7 @@
 package org.apache.avalon.phoenix.components.configuration.validator;
 
 import org.apache.avalon.phoenix.interfaces.ConfigurationValidator;
+import org.apache.avalon.phoenix.interfaces.ConfigurationValidatorMBean;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 
@@ -16,7 +17,8 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
  *
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
  */
-public class NoopConfigurationValidator implements ConfigurationValidator
+public class NoopConfigurationValidator
+    implements ConfigurationValidator, ConfigurationValidatorMBean
 {
     public void addSchema( String application, String block, String schemaType, String url )
       throws ConfigurationException
@@ -35,6 +37,22 @@ public class NoopConfigurationValidator implements ConfigurationValidator
 
     public boolean isFeasiblyValid( String application, String block, Configuration configuration )
       throws ConfigurationException
+    {
+        return true;
+    }
+
+    public String getSchema( String application, String block )
+    {
+        return null;
+    }
+
+    public String getSchemaType( String application, String block )
+    {
+        return null;
+    }
+
+    public boolean isValid( String application, String block, String configurationXml )
+        throws ConfigurationException
     {
         return true;
     }

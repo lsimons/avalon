@@ -8,6 +8,8 @@
 package org.apache.avalon.phoenix.components.configuration.validator;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,6 +21,7 @@ import org.xml.sax.SAXParseException;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.excalibur.io.FileUtil;
+import org.apache.avalon.excalibur.io.IOUtil;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -26,6 +29,7 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfigurationSerializer;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.phoenix.interfaces.ConfigurationValidator;
+import org.apache.avalon.phoenix.interfaces.ConfigurationValidatorMBean;
 import org.apache.excalibur.configuration.ConfigurationUtil;
 
 import org.iso_relax.verifier.Schema;
@@ -41,7 +45,7 @@ import org.iso_relax.verifier.VerifierHandler;
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
  */
 public class JarvConfigurationValidator extends AbstractLogEnabled
-    implements Configurable, Initializable, ConfigurationValidator
+    implements Configurable, Initializable, ConfigurationValidator, ConfigurationValidatorMBean
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( JarvConfigurationValidator.class );
@@ -54,6 +58,7 @@ public class JarvConfigurationValidator extends AbstractLogEnabled
     private final DefaultConfigurationSerializer m_serializer =
         new DefaultConfigurationSerializer();
 
+    private final Map m_schemaURLs = Collections.synchronizedMap( new HashMap() );
     private final Map m_schemas = Collections.synchronizedMap( new HashMap() );
     private VerifierFactory m_verifierFactory;
 
@@ -122,8 +127,10 @@ public class JarvConfigurationValidator extends AbstractLogEnabled
 
         try
         {
-            this.m_schemas.put( createKey( application, block ),
-                                this.m_verifierFactory.compileSchema( url ) );
+            final String key = createKey( application, block );
+
+            this.m_schemas.put( key, this.m_verifierFactory.compileSchema( url ) );
+            this.m_schemaURLs.put( key, url );
         }
         catch( VerifierConfigurationException e )
         {
@@ -263,8 +270,36 @@ public class JarvConfigurationValidator extends AbstractLogEnabled
 
     public void removeSchema( String application, String block )
     {
+        this.m_schemaURLs.remove( createKey( application, block ) );
+
         if( null != this.m_schemas.remove( createKey( application, block ) )
             && getLogger().isDebugEnabled() )
             getLogger().debug( "Removed schema [app: " + application + ", block: " + block + "]" );
+    }
+
+    public String getSchemaType( String application, String block )
+    {
+        return this.m_schemaType;
+    }
+
+    public String getSchema( String application, String block )
+    {
+        final String key = createKey( application, block );
+        final String url = ( String ) this.m_schemaURLs.get( key );
+
+        if( null != url )
+        {
+            try
+            {
+                return IOUtil.toString( new URL( url ).openStream() );
+            }
+            catch( IOException e )
+            {
+                getLogger().error( "Unable to read schema [app: " + application
+                                   + ", block: " + block + ", url: " + url + "]", e );
+            }
+        }
+
+        return null;
     }
 }
