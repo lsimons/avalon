@@ -224,7 +224,8 @@ public class Info
     }
 
    /**
-    * Return the path to the artifact in the form [group]/[type]s/[filename].
+    * Return the path to the artifact.  The path is returned in the 
+    * form [group]/[type]s/[filename].
     * @return the artifact relative path
     */
     public String getPath()
@@ -239,7 +240,7 @@ public class Info
     }
 
    /**
-    * Return the artifact uri in the form "artifact:[type]:[spec].
+    * Return the artifact uri. The path is returned in the form "artifact:[type]:[spec].
     * @return the artifact uri
     */
     public String getURI()
@@ -253,7 +254,8 @@ public class Info
     }
 
    /**
-    * Return the artifact specification in the form [group]/[name]#[version].
+    * Return the artifact specification. The path is retured in the form 
+    * [group]/[name]#[version].
     * @return the artifact spec
     */
     public String getSpec()
