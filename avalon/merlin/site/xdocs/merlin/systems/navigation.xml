@@ -36,7 +36,7 @@
       <item name="Getting Started" href="/starting/index.html"/>
       <item name="Merlin System" href="/merlin/index.html">
         <item name="Object Model" href="/merlin/uml.html"/>
-        <item name="Subsystems">
+        <item name="Subsystems" href="/merlin/systems/index.html">
           <item name="Meta" href="/merlin/systems/meta.html"/>
           <item name="Repository" href="/merlin/systems/repository.html"/>
           <item name="Composition" href="/merlin/systems/composition.html"/>
@@ -44,7 +44,7 @@
           <item name="Logging" href="/merlin/systems/logging.html"/>
           <item name="Kernel" href="/merlin/systems/kernel.html"/>
         </item>
-        <item name="Embedding"/>
+        <item name="Embedding" href="/merlin/embedded/index.html"/>
       </item>
       <item name="Tools" href="/tools/index.html"/>
       <item name="Extensions" href="/extensions/index.html" />
