@@ -1,0 +1,5 @@
+<project default="jar:install">
+  <postGoal name="java:prepare-filesystem">
+    <attainGoal name="avalon:artifact"/>
+  </postGoal>
+</project>
