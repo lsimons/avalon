@@ -23,7 +23,7 @@ import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.apache.avalon.framework.logger.LogKitLogger;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.service.ServiceManager;
-import org.apache.excalibur.container.legacy.ComponentManager2ServiceManager;
+import org.apache.avalon.framework.service.WrapperServiceManager;
 import org.apache.excalibur.instrument.InstrumentManager;
 import org.apache.excalibur.instrument.manager.DefaultInstrumentManager;
 import org.apache.log.Hierarchy;
@@ -58,7 +58,7 @@ import org.apache.log.Priority;
  *  of the ServiceManager interface.
  *
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.7 $ $Date: 2002/11/07 09:50:41 $
+ * @version CVS $Revision: 1.8 $ $Date: 2002/11/07 12:44:33 $
  * @since 4.2
  */
 public class ExcaliburComponentManagerCreator
@@ -491,7 +491,7 @@ public class ExcaliburComponentManagerCreator
         
         // Now wrap the ComponentManager so that we can provide access to it as
         //  a ServiceManager.
-        m_serviceManager = new ComponentManager2ServiceManager( m_componentManager );
+        m_serviceManager = new WrapperServiceManager( m_componentManager );
     }
 }
 
