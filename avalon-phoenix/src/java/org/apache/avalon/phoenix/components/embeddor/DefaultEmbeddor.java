@@ -78,7 +78,7 @@ public class DefaultEmbeddor
                             "org.apache.avalon.phoenix.components.configuration.DefaultConfigurationRepository" );
 
     private final static String  DEFAULT_FORMAT =
-        "%{time} [%7.7{priority}] <<%{category}>> (%{context}): %{message}\\n%{throwable}";
+        "%{time} [%7.7{priority}] (%{category}): %{message}\\n%{throwable}";
 
     private Parameters     m_parameters;
 
