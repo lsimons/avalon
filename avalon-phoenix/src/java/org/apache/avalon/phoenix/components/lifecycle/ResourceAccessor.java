@@ -7,40 +7,40 @@
  */
 package org.apache.avalon.phoenix.components.lifecycle;
 
-import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.component.ComponentManager;
-import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.context.Context;
+import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.parameters.Parameters;
-import org.apache.avalon.phoenix.components.lifecycle.ComponentEntry;
+import org.apache.avalon.framework.service.ServiceManager;
 
 /**
- *
+ * The interface via which resources required for a component
+ * are aquired.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2002/05/15 12:30:02 $
+ * @version $Revision: 1.2 $ $Date: 2002/05/19 01:58:28 $
  */
 public interface ResourceAccessor
 {
-    Object createObject( ComponentEntry entry )
+    Object createObject( Object entry )
         throws Exception;
 
-    Logger createLogger( ComponentEntry entry )
+    Logger createLogger( Object entry )
         throws Exception;
 
-    Context createContext( ComponentEntry entry )
+    Context createContext( Object entry )
         throws Exception;
 
-    ComponentManager createComponentManager( ComponentEntry entry )
+    ComponentManager createComponentManager( Object entry )
         throws Exception;
 
-    ServiceManager createServiceManager( ComponentEntry entry )
+    ServiceManager createServiceManager( Object entry )
         throws Exception;
 
-    Configuration createConfiguration( ComponentEntry entry )
+    Configuration createConfiguration( Object entry )
         throws Exception;
 
-    Parameters createParameters( ComponentEntry entry )
+    Parameters createParameters( Object entry )
         throws Exception;
 }
