@@ -41,25 +41,19 @@
 
   <target name="clean" depends="verify">
     <x:home />
-    <property name="reactor.xml" 
-      value="${magic.templates}/reactor.xml"/>
-    <ant dir="." antfile="${reactor.xml}" target="clean"/>
+    <ant dir="." antfile="runtime/build.xml" target="clean"/>
   </target>
 
   <target name="info" depends="verify">
     <x:home />
-    <property name="reactor.xml" 
-      value="${magic.templates}/reactor.xml"/>
-    <ant dir="." antfile="${reactor.xml}" target="info"/>
+    <ant dir="." antfile="runtime/build.xml" target="info"/>
   </target>
 
   <target name="install" depends="default, gump"/>
 
   <target name="default" depends="verify">
     <x:home />
-    <property name="reactor.xml" 
-      value="${magic.templates}/reactor.xml"/>
-    <ant dir="." antfile="${reactor.xml}" target="default"/>
+    <ant dir="." antfile="runtime/build.xml" target="default"/>
   </target>
 
   <target name="verify" unless="magic.available">
@@ -79,8 +73,6 @@
 
   <target name="gump">
     <x:home/>
-    <property name="reactor.xml" 
-      value="${magic.templates}/reactor.xml"/>
     <x:gump description="Avalon SVN" 
          public="true" filename="central/system/gump/avalon-trunk.xml">
       <x:url href="http://avalon.apache.org/"/>
