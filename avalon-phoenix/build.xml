@@ -80,12 +80,14 @@ Legal:
 
   <property name="constants.file" value="org/apache/avalon/phoenix/engine/Constants.java"/>
   <property name="xerces.jar" value="${lib.dir}/xerces_1_2_3.jar"/>
-  <property name="avalonapi.jar" value="${lib.dir}/avalonapi.jar"/>
+  <property name="framework.jar" value="${lib.dir}/avalon-framework.jar"/>
+  <property name="excalibur.jar" value="${lib.dir}/avalon-excalibur.jar"/>
   <property name="logkit.jar" value="${lib.dir}/logkit.jar"/>
 
   <path id="project.class.path">
     <pathelement location="${xerces.jar}"/>
-    <pathelement location="${avalonapi.jar}"/>
+    <pathelement location="${framework.jar}"/>
+    <pathelement location="${excalibur.jar}"/>
     <pathelement location="${logkit.jar}"/>
     <pathelement path="${java.class.path}" />
     <fileset dir="${lib.dir}">
@@ -379,7 +381,8 @@ Legal:
     <copy file="${build.lib}/phoenix-client.jar" todir="${dist.lib}"/>
     <copy file="${build.lib}/avalon-jmx.jar" todir="${dist.lib}"/>
     <copy file="${logkit.jar}" todir="${dist.lib}"/>
-    <copy file="${avalonapi.jar}" todir="${dist.lib}"/>
+    <copy file="${framework.jar}" todir="${dist.lib}"/>
+    <copy file="${excalibur.jar}" todir="${dist.lib}"/>
     <copy file="${xerces.jar}" tofile="${dist.lib}/xerces.jar"/>
     <copy file="${lib.dir}/jmxtools.jar" todir="${dist.lib}"/>
     <copy file="${lib.dir}/jmxri.jar" todir="${dist.lib}"/>
