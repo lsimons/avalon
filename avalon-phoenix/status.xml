@@ -43,7 +43,13 @@
 <release version="4.1alpha" date="unreleased">
     <action dev="NKB" type="update">
        Move to Forrest http://xml.apache.org/forrest/ for document generation.
-   </action>       
+    </action>       
+    <action dev="PH" type="add">
+       PUnit added. See http://jakarta.apache.org/avalon/phoenix/guide-punit.html
+    </action>   
+    <action dev="PH" type="add">
+       Move to metagenerate (QDox using) instead of xdoclet for generating .xinfo and .mxinfo files.
+    </action>   
 </release>
 <release version="4.0.2" date="October 28, 2002">
     <action dev="PH" type="change">
