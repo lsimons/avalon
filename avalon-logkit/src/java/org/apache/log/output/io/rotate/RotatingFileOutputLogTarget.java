@@ -7,7 +7,6 @@
  */
 package org.apache.log.output.io.rotate;
 
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -24,15 +23,11 @@ import org.apache.log.output.io.FileTarget;
 public class RotatingFileOutputLogTarget
     extends FileTarget
 {
-    /**
-     * The rotation strategy to be used.
-     */
-    RotateStrategy rotateStrategy;
+    ///The rotation strategy to be used.
+    private RotateStrategy      m_rotateStrategy;
 
-    /**
-     * The filename strategy to be used.
-     */
-    FilenameStrategy filenameStrategy;
+    ///The filename strategy to be used.
+    private FilenameStrategy    m_filenameStrategy;
 
     /**
      * construct RotatingFileOutputLogTarget object.
@@ -47,8 +42,8 @@ public class RotatingFileOutputLogTarget
     {
         super( null, false, formatter );
 
-        rotateStrategy = new RotateStrategyByTime( 1000 * 60 * 60 * 24 );
-        filenameStrategy = new FilenameStrategyUniqueLogFile();
+        m_rotateStrategy = new RotateStrategyByTime( 1000 * 60 * 60 * 24 );
+        m_filenameStrategy = new FilenameStrategyUniqueLogFile();
 
         if( null != file )
         {
@@ -57,37 +52,39 @@ public class RotatingFileOutputLogTarget
     }
 
     /**
-     * set rotation strategy by time
-     * @param time_interval rotate ever timer-interval seconds
+     * Set rotation strategy by time.
+     *
+     * @param timeInterval rotate ever timer-interval seconds
      */
-    public void setRotateStrategyByTimeSeconds( long timeInterval )
+    public void setRotateStrategyByTimeSeconds( final long timeInterval )
     {
-        rotateStrategy = new RotateStrategyByTime( timeInterval * 1000 );
+        m_rotateStrategy = new RotateStrategyByTime( timeInterval * 1000 );
     }
 
     /**
-     *  set rotation strategy by size
-     *  @param max_size rotate if log file has more than max-size KB
+     *  Set rotation strategy by size.
+     *
+     *  @param maxSize rotate if log file has more than max-size KB
      */
     public void setRotateStrategyBySizeKB( final long maxSize )
     {
-        rotateStrategy = new RotateStrategyBySize( maxSize * 1024 );
+        m_rotateStrategy = new RotateStrategyBySize( maxSize * 1024 );
     }
 
     /**
-     * set log filename strategy using revolving filename suffix.
+     * Set log filename strategy using revolving filename suffix.
      */
     public void setFilenameStrategyRevolvingLogFile()
     {
-        filenameStrategy = new FilenameStrategyRevolvingLogFile( filenameStrategy );
+        m_filenameStrategy = new FilenameStrategyRevolvingLogFile( m_filenameStrategy );
     }
 
     /**
-     * set log filename strategy using time filename suffix.
+     * Set log filename strategy using time filename suffix.
      */
     public void setFilenameStrategyUniqueLogFile()
     {
-        filenameStrategy = new FilenameStrategyUniqueLogFile( filenameStrategy );
+        m_filenameStrategy = new FilenameStrategyUniqueLogFile( m_filenameStrategy );
     }
 
     /**
@@ -101,34 +98,41 @@ public class RotatingFileOutputLogTarget
     protected void setFile( final File filename )
         throws IOException
     {
-        filenameStrategy.setBaseFileName( filename );
-        openFile( filenameStrategy.getLogFileName() );
+        m_filenameStrategy.setBaseFileName( filename );
+        openFile( m_filenameStrategy.getLogFileName() );
     }
 
     /**
      * open 'calculated' file name.
      *
-     * @param log_file_name the name calculated by FilenameStrategy object
+     * @param file the name calculated by FilenameStrategy object
      */
-    protected void openFile( final File log_file_name ) {
-        try {
-            setFile( log_file_name, false );
+    protected void openFile( final File file ) 
+    {
+        try
+        {
+            setFile( file, false );
             openFile();
-        } catch (IOException ioe) {
-            // fix me what do do now?
+        }
+        catch( final IOException ioe )
+        {
+            error( "Error opening file " + file, ioe );
         }
     }
 
     /**
-     * output the log message, and check if rotation is needed.
+     * Output the log message, and check if rotation is needed.
      */
-    protected void write( final String data ) {
+    protected void write( final String data ) 
+    {
         // write the log message
         super.write( data );
-        // if rotation is needed, close old FileWriter, create new FileWriter
-        if (rotateStrategy.isRotationNeeded( data )) {
+
+        // if rotation is needed, close old File, create new File
+        if( m_rotateStrategy.isRotationNeeded( data ) ) 
+        {
             close();
-            openFile( filenameStrategy.getLogFileName() );
+            openFile( m_filenameStrategy.getLogFileName() );
         }
     }
 }

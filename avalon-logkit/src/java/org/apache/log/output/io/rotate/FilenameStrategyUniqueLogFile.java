@@ -15,46 +15,63 @@ import java.io.IOException;
  *
  * @author <a href="mailto:bh22351@i-one.at">Bernhard Huber</a>
  */
-public class FilenameStrategyUniqueLogFile implements FilenameStrategy {
-    /**
-     * the base file name.
-     */
-    File baseFileName;
+public class FilenameStrategyUniqueLogFile 
+    implements FilenameStrategy
+{
+    ///the base file name.
+    private File m_baseFileName;
 
-    FilenameStrategyUniqueLogFile() {
+    public FilenameStrategyUniqueLogFile() 
+    {
         setBaseFileName( new File(FilenameStrategy.BASE_FILE_NAME_DEFAULT) );
     }
-    FilenameStrategyUniqueLogFile( FilenameStrategy fs ) {
+
+    public FilenameStrategyUniqueLogFile( final FilenameStrategy fs ) 
+    {
         this();
-        if (fs != null) {
-            File bfn = fs.getBaseFileName();
-            if (bfn != null) {
+
+        if( null != fs )
+        {
+            final File bfn = fs.getBaseFileName();
+            if( null != bfn )
+            {
                 setBaseFileName( bfn );
             }
         }
     }
-    FilenameStrategyUniqueLogFile( File base_file_name ) {
-        baseFileName = base_file_name;
+
+    public FilenameStrategyUniqueLogFile( final File baseFileName ) 
+    {
+        m_baseFileName = baseFileName;
     }
-    public File getBaseFileName() {
-        return baseFileName;
+
+    public File getBaseFileName() 
+    {
+        return m_baseFileName;
     }
-    public void setBaseFileName( File base_file_name ) {
-        baseFileName = base_file_name;
+
+    public void setBaseFileName( final File baseFileName ) 
+    {
+        m_baseFileName = baseFileName;
     }
+
     /**
-     * calculate the real file name from the base filename.
+     * Calculate the real file name from the base filename.
+     *
      * @return File the calculated file name
      */
-    public File getLogFileName() {
-        StringBuffer sb = new StringBuffer();
-        sb.append( baseFileName );
+    public File getLogFileName() 
+    {
+        final StringBuffer sb = new StringBuffer();
+        sb.append( m_baseFileName );
         sb.append( getCurrentValue() );
         return new File( sb.toString() );
     }
-    protected String getCurrentValue() {
-        long current_value = System.currentTimeMillis();
-        return String.valueOf( current_value );
+
+    private String getCurrentValue() 
+    {
+        final long time = System.currentTimeMillis();
+        return String.valueOf( time );
     }
 }
 

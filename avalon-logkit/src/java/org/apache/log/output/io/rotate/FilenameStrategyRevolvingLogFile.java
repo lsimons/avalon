@@ -20,83 +20,79 @@ import java.text.NumberFormat;
 public class FilenameStrategyRevolvingLogFile
     implements FilenameStrategy
 {
-    /**
-     * current revolving suffix
-     */
-    long rotationValue = 1;
+    ///revolving suffix formatting pattern. ie. "'.'000000"
+    private final static String      PATTERN = "'.'000000";
 
-    /**
-     * the base file name.
-     */
-    File baseFileName;
+    ///current revolving suffix
+    private long           m_rotation = 1;
 
-    /**
-     * starting revolving value. ie. 1
-     */
-    long rotationMinValue = 1;
+    ///the base file name.
+    private File           m_baseFileName;
 
-    /**
-     * max revolving value. ie 1000
-     */
-    long rotationMaxValue = 1000;
+    ///starting revolving value. ie. 1
+    private long           m_rotationMinValue = 1;
 
-    /**
-     * revolving suffix formatting pattern. ie. "'.'000000"
-     */
-    String rotationFormatPattern = "'.'000000";
+    ///max revolving value. ie 1000
+    private long           m_maxRotations = 1000;
 
-    /**
-     * a revolving suffix formatter
-     */
-    DecimalFormat df;
+    ///a revolving suffix formatter
+    private DecimalFormat  m_decimalFormat;
 
-    FilenameStrategyRevolvingLogFile() 
+    public FilenameStrategyRevolvingLogFile() 
     {
-        rotationValue = rotationMinValue;
-        df = new DecimalFormat( rotationFormatPattern );
+        m_rotation = m_rotationMinValue;
+        m_decimalFormat = new DecimalFormat( PATTERN );
         setBaseFileName( new File(FilenameStrategy.BASE_FILE_NAME_DEFAULT) );
     }
 
-    FilenameStrategyRevolvingLogFile( FilenameStrategy fs ) {
+    public FilenameStrategyRevolvingLogFile( FilenameStrategy fs ) 
+    {
         this();
-        if (fs != null) {
-            File bfn = fs.getBaseFileName();
-            if (bfn != null) {
+        if( null != fs )
+        {
+            final File bfn = fs.getBaseFileName();
+            if( null != bfn )
+            {
                 setBaseFileName( bfn );
             }
         }
     }
 
-    FilenameStrategyRevolvingLogFile( File base_file_name ) 
+    public FilenameStrategyRevolvingLogFile( final File baseFileName ) 
     {
-        setBaseFileName( base_file_name );
+        setBaseFileName( baseFileName );
     }
 
     public File getBaseFileName() 
     {
-        return baseFileName;
+        return m_baseFileName;
     }
 
-    public void setBaseFileName( File base_file_name ) 
+    public void setBaseFileName( final File baseFileName ) 
     {
-        baseFileName = base_file_name;
+        m_baseFileName = baseFileName;
     }
 
     /**
-     * calculate the real file name from the base filename.
+     * Calculate the real file name from the base filename.
+     *
      * @return File the calculated file name
      */
     public File getLogFileName() 
     {
-        StringBuffer sb = new StringBuffer();
-        FieldPosition fp = new FieldPosition( NumberFormat.INTEGER_FIELD );
-        sb.append( baseFileName );
-        sb = df.format( rotationValue, sb, fp );
-        rotationValue += 1;
-        if (rotationValue >= rotationMaxValue) {
-            rotationValue = rotationMinValue;
+        final StringBuffer sb = new StringBuffer();
+        final FieldPosition fp = new FieldPosition( NumberFormat.INTEGER_FIELD );
+        sb.append( m_baseFileName );
+
+        final StringBuffer result = m_decimalFormat.format( m_rotation, sb, fp );
+        m_rotation += 1;
+
+        if( m_rotation >= m_maxRotations ) 
+        {
+            m_rotation = m_rotationMinValue;
         }
-        return new File( sb.toString() );
+
+        return new File( result.toString() );
     }
 }
 
