@@ -4,11 +4,11 @@
       title="Framework Documentation" 
       copyright="@year@ The Apache Software Foundation">
 
-  <project label="Back to Avalon" href="../index.html" />
+  <project label="Jakarta main" href="/" />
+  <project label="Avalon main" href="../index.html" />
 
   <menu label="About">
     <menu-item label="Overview" source="index.xml"/>
-    <menu-item label="Features" source="features.xml"/>
     <menu-item type="changes" label="Changes" source="changes.xml"/>
     <menu-item type="external" id="api-docs" label="API Docs" href="api/index.html"/>
   </menu>
@@ -21,10 +21,13 @@
     <menu-item label="Security" source="security.xml"/>
   </menu>
 
-  <menu label="Patterns and Design">
-    <menu-item label="Designing a Component" source="components.xml"/>
-    <menu-item label="Understanding the Composer" source="composer.xml"/>
-    <menu-item label="The components Life-Cycle" source="life-cycle.xml"/>
+  <menu label="The API">
+    <menu-item label="What is a Component?" source="what-is-a-component.xml"/>
+    <menu-item label="What is a Composer?" source="what-is-a-composer.xml"/>
+    <menu-item label="The Component Lifecycle" source="lifecycle.xml"/>
+    <menu-item label="Designing a Component" source="designing-a-component.xml"/>
+<!--    <menu-item label="Understanding the Composer" source="composer.xml"/>
+    <menu-item label="The components Life-Cycle" source="life-cycle.xml"/>-->
   </menu>
 
 </book>

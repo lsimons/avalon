@@ -8,6 +8,7 @@
     <authors>
       <person id="FB" name="Federico Barbieri" email="fede@apache.org"/>
       <person id="BL" name="Berin Loritsch" email="bloritsch@apache.org"/>
+      <person id="LS" name="Leo Simons" email="mail@leosimons.com"/>
     </authors>
     <notice>
       Avalon documentation is under construction.  Everything you
@@ -18,47 +19,59 @@
     <s1 title="What is it?">
       <p>
        The Avalon project is an effort to create, design, develop and maintain
-       a common framework and set of components for server applications written 
-       using the Java language. This framework will not be a standalone product, 
-       but will allow existing and yet to be created server applications to fit 
+       a common framework and set of components for (server) applications written 
+       using the Java language. This framework is not a standalone product, 
+       but allows existing and yet to be created server applications to fit 
        into a common platform and to share code, design and human resources.
       </p>
     </s1>
     <s1 title="Project Goals">
       <p>
-        As many people points out, software engineering is a very uncommon procedure
+        As many people point out, software engineering is a very uncommon procedure
         in software development and even more uncommon in auto-organized open
-        source projects. The main goal of the framework project is to design a way for
+        source projects. The main goal of this project is to design a way for
         different projects to share resources avoiding as much as possible efforts
         duplication. 
       </p>
       <p>
-        The framework will not be a product or an API set or a set of interfaces: will be
+        The framework is not a product or an API set or a set of interfaces: it is
         a collection of code design patterns, rules, guidelines and suggestions on how to
-        write server software that "plugs" into the framework. The framework will not
-        impose restrictions on the server that deploy it, but rather precious guidelines to
-        help the developers reuse as much work they can from other server solutions. 
+        write (server) software that "plugs" into the framework. The framework does not
+        impose restrictions on the application that uses it, but rather precious guidelines to
+        help the developers reuse as much work they can from other solutions. 
       </p>
     </s1>
-<!--
-    <s1 title="Features">
-      <p>
-      </p>
-      <ul>
-        <li>Prebuilt components combined with established design patterns will help 
-        reduce your development cycle time and cost. This in turn decreases time to market.</li>
-        <li>Avalon supplies the infrastructure, you focus on competitive differentiation
-        in the market place.</li>
-        <li>Being both Free Software and Opensource, Avalon is accessible to your developers
-        and they can adapt it to suit your own needs. No more vendor lock-in or control.</li>
-      </ul>
-    </s1>
--->
+	<s1 title="Sub-Projects">
+	  <p>
+	    There are several distinct sub-projects that together form the Avalon project:
+	  </p>
+		<ul>
+		<li>First up is the <link href="framework/index.html">Server Framework</link>.
+		This provides a specification of design patterns and rules in the form of
+		interfaces. Also provided are default implementations of those interfaces.</li>
+		<li>Secondly, there is <link href="excalibur/index.html">Excalibur</link>, a
+		collection of often-needed reusable components. It includes tools for threading,
+		pooling, datasources, proxies and more.</li>
+		<li>Then there is <link href="@PHOENIX_BASE@/index.html">Phoenix</link>, a
+		(server-oriented) Kernel within which applications that conform to the framework
+		rules can be executed. It supports standard java security, custom classloaders,
+		and more. It also provides a JMX-based management facility.</li>
+		<li><link href="@CORNERSTONE_BASE@/index.html">Cornerstone</link> is a repository
+		for what we call <link href="@PHOENIX_BASE@/what-is-a-block.html">blocks</link>,
+		which provide services vital to server applications, like scheduling and socket
+		utilities. It also has some demo applications that demonstrate the proper use
+		of the avalon framework and can be used as a starting point for your own servers.</li>
+		<li>the <link href="@TESTLET_BASE@/index.html">Testlet</link> code still needs a
+		lot of work; it is a unit testing framework used by the other sub-projects.</li>
+		<li>finally, <link href="@LOGKIT_BASE@/index.html">LogKit</link> is the lightweight
+		logging engine used by Phoenix.</li> 
+		</ul>
+	</s1>
   </body>
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.2 $ $Date: 2001/03/22 23:11:28 $
+      $Revision: 1.3 $ $Date: 2001/04/26 19:38:25 $
     </legal>
   </footer>
 </document>

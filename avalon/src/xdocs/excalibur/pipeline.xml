@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE document SYSTEM "dtd/document-v10.dtd">
+
+<document>
+  <header>
+    <title>Avalon Excalibur</title>
+    <subtitle>Pipeline tools</subtitle>
+    <authors>
+      <person name="Leo Simons" email="mail@leosimons.com"/>
+    </authors>
+  </header>
+  <body>
+    <s1 title="Step through an application easily">
+    </s1>
+  </body>
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
+      $Revision: 1.1 $ $Date: 2001/04/26 19:38:35 $
+    </legal>
+  </footer>
+</document>

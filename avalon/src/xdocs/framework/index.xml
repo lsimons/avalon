@@ -13,11 +13,25 @@
   </header>
   <body>
     <s1 title="Introduction">
-      <p>
+<!--      <p>
         Avalon is among other things a repository of established patterns and 
         design standards. Developers will appreciate the thought put into the 
         framework, because it eases development. This documentation covers the 
         overall principles behind Avalon, and the patterns involved. 
+      </p>-->
+      <p>
+        The Avalon framework consists of interfaces
+        that define relationships between commonly used application components,
+        best-of-practice pattern enforcements, and several
+        lightweight convenience implementations of the generic components.
+      </p>
+      <p>
+        What that means is that we define the central interface <code>Component</code>
+        as well as sub-interfaces like <code>Application</code>s. We also define
+        the relationship (contract) a component has with peers, ancestors and
+        children.<br />
+        This documentation introduces you to those patterns, interfaces and
+        relationships.
       </p>
       <s2 title="Target Audience">
         <p>
@@ -45,13 +59,16 @@
       <s2 title="Concrete Descriptions of the Avalon Component model">
         <p>
           This section describes concrete examples of how the theoretical ideas 
-          are applied within the context of Avalon. It describes the lifecycle of
-          a component and how the interfaces contribute to defining the lifecycle.
+          are applied within the context of Avalon.
         </p>
         <ol>
-          <li><link href="components.html">Designing a Component</link></li>
+          <li><link href="what-is-a-component.html">What is a Component?</link></li>
+          <li><link href="what-is-a-composer.html">What is a Composer?</link></li>
+          <li><link href="lifecycle.html">The Component Lifecycle</link></li>
+          <li><link href="designing-a-component.html">Designing a Component</link></li>
+<!--          <li><link href="components.html">Designing a Component</link></li>
           <li><link href="composer.html">Understanding the Composer</link></li>
-          <li><link href="life-cycle.html">The components life-cycle</link></li>
+          <li><link href="life-cycle.html">The components life-cycle</link></li>-->
         </ol>
       </s2>
     </s1>
@@ -59,7 +76,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.2 $ $Date: 2001/03/02 01:53:49 $
+      $Revision: 1.3 $ $Date: 2001/04/26 19:38:43 $
     </legal>
   </footer>
 </document>

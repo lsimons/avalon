@@ -5,7 +5,7 @@
 <document>
   <header>
     <title>Avalon Design Documentation</title>
-    <subtitle>Understanding the Composer</subtitle>
+    <subtitle>What is a Composer?</subtitle>
     <version>3.0</version>
     <authors>
       <person id="BL" name="Berin Loritsch" email="bloritsch@apache.org"/>
@@ -155,7 +155,7 @@ final Formatter formatter = (Formatter)selector.select( myURL );
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.3 $ $Date: 2001/03/02 03:14:04 $
+      $Revision: 1.1 $ $Date: 2001/04/26 19:40:57 $
     </legal>
   </footer>
 </document>

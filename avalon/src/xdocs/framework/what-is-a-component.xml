@@ -5,10 +5,10 @@
 <document>
   <header>
     <title>Avalon Design Documentation</title>
-    <subtitle>Designing a Component</subtitle>
-    <version>3.0</version>
+    <subtitle>What is a component?</subtitle>
+    <version>1.0</version>
     <authors>
-      <person id="BL" name="Berin Loritsch" email="bloritsch@apache.org"/>
+      <person id="LS" name="Leo Simons" email="mail@leosimons.com"/>
     </authors>
     <notice>
       Avalon documentation is under construction. Everything you can find
@@ -16,8 +16,64 @@
     </notice> 
   </header>
   <body>
-    <s1 title="Introduction"> 
+    <s1 title="Introduction to COP"> 
       <p>
+        Component Oriented Programming, or COP for short, takes Object Oriented
+        Programming one step further. Regular OOP organizes data object into
+        entities that take care of themselves. There are many advantages to this
+        approach. I'll assume that you, being a java programmer, are familiar
+        with those.<br />
+        It also has a big limition: that of object codependency. To remove that
+        limitation, a more rigid idea had to be formalized: the Component. The key
+        difference between a regular object and a component is that a component is
+        completely replaceable.
+      </p>
+    </s1>
+    <s1 title="Components in Avalon">
+      <p>
+        At the core of the Avalon framework is the Component. We define it as "a
+        passive entity that performs a specific role". This is important to grasp
+        because it requires a specific way of thinking.
+      </p>
+      <s2 title="A passive API">
+        <p>
+          A passive entity must employ a passive API. A passive API is one that is
+          acted upon, versus one that acts itself. See the
+          <link href="inversion-of-control.html">Inversion of Control</link> pattern
+          for an explanation.
+        </p>
+      </s2>
+      <s2 title="A specific Role">
+        <p>
+          The concept of roles come from the theater.  A play, musical,
+          or movie will have a certain number of roles that actors play.
+          Although there never seems to be a shortage of actors, there
+          are a finite number of roles.  I am not going to make reference
+          to different types of roles at this point, but simply bring
+          the concept to light.  The function or action of a role is
+          defined by it's script.
+        </p>
+        <p>
+          We are introducing this concept now because you need to have it
+          in mind when you are designing your system architecture.  Think
+          of the different roles in your system, and you will have your
+          "cast" of components so to speak.
+        </p>
+        <p>
+          For each role, you need to specify it's script, or interface to
+          the rest of the system.  To be honest the interface is not enough.
+          There are specific contracts that you must define and keep in mind
+          when you specify your interfaces.  In other words, what users
+          of the Component must provide, and what the Component produces.
+          When the interface and contract are defined, you can work on your
+          implementation.
+        </p>
+      </s2>
+    </s1>
+<!--
+    <s1 title="">
+    
+    
         In Avalon, a Component is defined as a passive entity that performs
         a specific role.  This is an important concept to grasp because
         it forces you to think in a specific manner when designing a system
@@ -75,7 +131,7 @@
         John Milton wrote, "No man is an island." to communicate that we
         are all interdependent.  The same is true for the Component.  That
         is why there are different concerns regarding the Component.  In
-        the section on roles we specified one of the concerns--the role.
+        the section on roles we specified one of the concerns-the role.
         The concerns directly supported by Avalon are: configuration,
         external component use, management, and execution.
       </p>
@@ -95,6 +151,7 @@
         </li>
         <li>
           <strong>Initializable:</strong> marks an object that can be initialized
+
           and destroyed.
         </li>
         <li>
@@ -180,12 +237,12 @@
           </note>
         </s3>
       </s2>
-    </s1>
+    </s1>-->
   </body>
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.2 $ $Date: 2001/03/02 01:53:48 $
+      $Revision: 1.1 $ $Date: 2001/04/26 19:40:57 $
     </legal>
   </footer>
 </document>
