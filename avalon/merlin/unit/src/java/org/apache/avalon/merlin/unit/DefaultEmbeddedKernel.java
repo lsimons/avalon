@@ -56,11 +56,9 @@ import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 import java.util.Properties;
-import java.util.Hashtable;
 import java.util.Map;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
-import java.lang.reflect.InvocationTargetException;
 
 import org.apache.avalon.activation.appliance.Block;
 import org.apache.avalon.composition.model.ContainmentModel;
@@ -218,7 +216,7 @@ public class DefaultEmbeddedKernel implements Runnable, Kernel
             {
                 try
                 {
-                    Thread.currentThread().sleep( 100 );
+                    Thread.sleep( 100 );
                 }
                 catch( Throwable e )
                 {
@@ -291,7 +289,7 @@ public class DefaultEmbeddedKernel implements Runnable, Kernel
             {
                 try
                 {
-                    Thread.currentThread().sleep( 100 );
+                    Thread.sleep( 100 );
                 }
                 catch( Throwable e )
                 {
@@ -321,7 +319,7 @@ public class DefaultEmbeddedKernel implements Runnable, Kernel
             {
                 try
                 {
-                    Thread.currentThread().sleep( 100 );
+                    Thread.sleep( 100 );
                 }
                 catch( Throwable e )
                 {

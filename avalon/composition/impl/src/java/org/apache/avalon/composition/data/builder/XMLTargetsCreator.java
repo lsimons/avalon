@@ -55,25 +55,17 @@
 
 package org.apache.avalon.composition.data.builder;
 
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-
 import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.avalon.composition.data.CategoriesDirective;
 import org.apache.avalon.composition.data.TargetDirective;
 import org.apache.avalon.composition.data.Targets;
-import org.apache.avalon.composition.data.builder.TargetsCreator;
 
 /**
  * Handles internalization of an XML based description of a {@link Targets}
  * instance from a Configuration object.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:31:43 $
+ * @version $Revision: 1.2 $ $Date: 2003/10/28 20:21:00 $
  */
 public class XMLTargetsCreator extends XMLDeploymentProfileCreator 
 {

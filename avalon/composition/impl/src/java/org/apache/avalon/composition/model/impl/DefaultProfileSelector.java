@@ -55,8 +55,6 @@
 
 package org.apache.avalon.composition.model.impl;
 
-import java.util.ArrayList;
-
 import org.apache.avalon.composition.model.ProfileSelector;
 import org.apache.avalon.meta.info.DependencyDescriptor;
 import org.apache.avalon.meta.info.StageDescriptor;
@@ -70,7 +68,7 @@ import org.apache.avalon.composition.data.Profile;
  * the first profile matching the category is returned.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:32:12 $
+ * @version $Revision: 1.2 $ $Date: 2003/10/28 20:21:00 $
  */
 class DefaultProfileSelector implements ProfileSelector
 {

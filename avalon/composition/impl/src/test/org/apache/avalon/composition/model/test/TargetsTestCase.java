@@ -3,14 +3,9 @@
 package org.apache.avalon.composition.model.test;
 
 import java.io.File;
-import java.io.IOException;
-import java.net.URL;
-import java.util.Date;
 
 import org.apache.avalon.composition.model.Model;
-import org.apache.avalon.composition.model.ContainmentModel;
 import org.apache.avalon.composition.model.DeploymentModel;
-import org.apache.avalon.composition.model.DependencyModel;
 import org.apache.avalon.composition.model.AbstractTestCase;
 import org.apache.avalon.composition.data.Targets;
 import org.apache.avalon.composition.data.TargetDirective;
@@ -19,7 +14,6 @@ import org.apache.avalon.composition.data.builder.XMLTargetsCreator;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.excalibur.configuration.ConfigurationUtil;
-import org.apache.avalon.meta.info.DependencyDescriptor;
 
 public class TargetsTestCase extends AbstractTestCase
 {      

@@ -50,37 +50,28 @@
 
 package org.apache.avalon.composition.model.impl;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Properties;
-import java.util.Hashtable;
-import java.util.Map;
 
 import org.apache.avalon.composition.model.ContextModel;
 import org.apache.avalon.composition.model.DependencyModel;
 import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.model.DeploymentContext;
-import org.apache.avalon.composition.model.ClassLoaderModel;
 import org.apache.avalon.composition.model.ModelException;
 import org.apache.avalon.composition.model.SystemContext;
 import org.apache.avalon.composition.model.StageModel;
 import org.apache.avalon.composition.data.DependencyDirective;
 import org.apache.avalon.composition.data.StageDirective;
 import org.apache.avalon.composition.data.CategoriesDirective;
-import org.apache.avalon.repository.Repository;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.avalon.framework.activity.Startable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.avalon.framework.configuration.Configurable;
-import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.parameters.Parameters;
-import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.composition.data.ContextDirective;
-import org.apache.avalon.composition.data.DeploymentProfile;
 import org.apache.avalon.composition.data.Mode;
 import org.apache.avalon.meta.info.ContextDescriptor;
 import org.apache.avalon.meta.info.DependencyDescriptor;
@@ -88,14 +79,13 @@ import org.apache.avalon.meta.info.InfoDescriptor;
 import org.apache.avalon.meta.info.ServiceDescriptor;
 import org.apache.avalon.meta.info.StageDescriptor;
 import org.apache.avalon.meta.info.Type;
-import org.apache.avalon.meta.info.builder.TypeBuilder;
 import org.apache.excalibur.configuration.CascadingConfiguration;
 
 /**
  * Deployment model defintion.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2003/10/19 10:31:01 $
+ * @version $Revision: 1.5 $ $Date: 2003/10/28 20:21:00 $
  */
 public class DefaultDeploymentModel extends DefaultModel implements DeploymentModel
 {

@@ -50,16 +50,9 @@
 
 package org.apache.avalon.composition.model.impl;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.Properties;
-import java.util.Hashtable;
-import java.util.Map;
 
-import org.apache.avalon.composition.model.DeploymentContext;
 import org.apache.avalon.composition.model.StageModel;
-import org.apache.avalon.composition.model.Model;
 import org.apache.avalon.composition.model.ModelException;
 import org.apache.avalon.composition.data.StageDirective;
 import org.apache.avalon.composition.data.SelectionDirective;
@@ -74,7 +67,7 @@ import org.apache.avalon.meta.info.ExtensionDescriptor;
  * Default implementation of the stage model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:32:13 $
+ * @version $Revision: 1.2 $ $Date: 2003/10/28 20:21:00 $
  */
 public class DefaultStageModel extends AbstractLogEnabled implements StageModel
 {

@@ -53,12 +53,9 @@ package org.apache.avalon.composition.data.builder;
 import java.io.InputStream;
 
 import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.meta.ConfigurationBuilder;
 import org.apache.avalon.composition.data.ProfilePackage;
 import org.apache.avalon.composition.data.DeploymentProfile;
-import org.apache.avalon.composition.data.MetaDataException;
 
 import org.xml.sax.InputSource;
 
@@ -68,7 +65,7 @@ import org.xml.sax.InputSource;
  * object from a source.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:31:25 $
+ * @version $Revision: 1.2 $ $Date: 2003/10/28 20:21:00 $
  */
 public final class ProfilePackageBuilder implements ProfilePackageCreator
 {

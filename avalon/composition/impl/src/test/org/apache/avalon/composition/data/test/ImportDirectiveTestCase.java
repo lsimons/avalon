@@ -52,9 +52,6 @@ package org.apache.avalon.composition.data.test;
 import junit.framework.TestCase;
 import org.apache.avalon.composition.data.MetaDataException;
 import org.apache.avalon.composition.data.ImportDirective;
-import org.apache.avalon.composition.data.EntryDirective;
-
-import java.util.HashMap;
 
 /**
  * ImportDirectiveTestCase does XYZ

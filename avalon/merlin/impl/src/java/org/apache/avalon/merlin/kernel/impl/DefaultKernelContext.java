@@ -51,17 +51,13 @@
 package org.apache.avalon.merlin.kernel.impl;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.Properties;
 
-import org.apache.avalon.composition.data.CategoryDirective;
 import org.apache.avalon.composition.data.CategoriesDirective;
 import org.apache.avalon.composition.data.ContainmentProfile;
-import org.apache.avalon.composition.data.Targets;
 import org.apache.avalon.composition.data.TargetDirective;
 import org.apache.avalon.composition.data.builder.XMLTargetsCreator;
 import org.apache.avalon.composition.data.builder.XMLDeploymentProfileCreator;
@@ -74,7 +70,6 @@ import org.apache.avalon.composition.logging.impl.DefaultLoggingManager;
 import org.apache.avalon.composition.logging.impl.FileTargetProvider;
 import org.apache.avalon.composition.model.ModelFactory;
 import org.apache.avalon.composition.model.ContainmentContext;
-import org.apache.avalon.composition.model.impl.DefaultContainmentContext;
 import org.apache.avalon.composition.model.impl.DefaultSystemContext;
 import org.apache.avalon.composition.model.impl.DefaultModelFactory;
 import org.apache.avalon.composition.util.StringHelper;
@@ -100,7 +95,7 @@ import org.xml.sax.InputSource;
  * Default implementation of a kernel context.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2003/10/12 17:12:45 $
+ * @version $Revision: 1.4 $ $Date: 2003/10/28 20:21:01 $
  */
 public class DefaultKernelContext extends AbstractLogEnabled 
   implements KernelContext

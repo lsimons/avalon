@@ -50,26 +50,22 @@
 
 package org.apache.avalon.composition.model.impl;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.avalon.composition.model.ServiceDuplicateException;
-import org.apache.avalon.composition.model.ServiceException;
 import org.apache.avalon.composition.model.ServiceUnknownException;
 import org.apache.avalon.composition.model.ServiceRepository;
 import org.apache.avalon.framework.Version;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.meta.info.ReferenceDescriptor;
 import org.apache.avalon.meta.info.Service;
-import org.apache.avalon.meta.info.builder.ServiceBuilder;
 
 /**
  * A service repository provides support for the retrival
  * of service defintions.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:32:12 $
+ * @version $Revision: 1.2 $ $Date: 2003/10/28 20:21:00 $
  */
 public class DefaultServiceRepository implements ServiceRepository
 {

@@ -56,7 +56,6 @@
 package org.apache.avalon.composition.model.impl;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.JarURLConnection;
 import java.net.MalformedURLException;
@@ -64,7 +63,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
-import java.util.Map;
 import java.util.jar.JarFile;
 import java.util.jar.JarInputStream;
 import java.util.zip.ZipEntry;
@@ -75,13 +73,10 @@ import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.composition.data.Profile;
-import org.apache.avalon.composition.data.ProfilePackage;
 import org.apache.avalon.composition.data.builder.ProfilePackageBuilder;
 import org.apache.avalon.composition.util.StringHelper;
 import org.apache.avalon.meta.info.Service;
 import org.apache.avalon.meta.info.ServiceDescriptor;
-import org.apache.avalon.meta.info.ExtensionDescriptor;
 import org.apache.avalon.meta.info.Type;
 import org.apache.avalon.meta.info.builder.TypeBuilder;
 import org.apache.avalon.meta.info.builder.ServiceBuilder;
@@ -91,7 +86,7 @@ import org.apache.avalon.meta.info.verifier.TypeVerifier;
  * A repository for services, types and profiles.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2003/10/19 14:05:11 $
+ * @version $Revision: 1.3 $ $Date: 2003/10/28 20:21:00 $
  */
 class Scanner extends AbstractLogEnabled
 {

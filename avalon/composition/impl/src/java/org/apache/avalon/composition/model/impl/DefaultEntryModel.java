@@ -50,7 +50,6 @@
 
 package org.apache.avalon.composition.model.impl;
 
-import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.composition.model.EntryModel;
 import org.apache.avalon.composition.model.ModelException;
 import org.apache.avalon.meta.info.EntryDescriptor;
@@ -59,7 +58,7 @@ import org.apache.avalon.meta.info.EntryDescriptor;
  * Abstract implementation of a the context entry model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:32:09 $
+ * @version $Revision: 1.2 $ $Date: 2003/10/28 20:21:00 $
  */
 public abstract class DefaultEntryModel implements EntryModel
 {

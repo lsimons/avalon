@@ -58,7 +58,6 @@ import org.apache.avalon.activation.appliance.Appliance;
 import org.apache.avalon.activation.appliance.Block;
 import org.apache.avalon.composition.model.ContainmentModel;
 import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.merlin.kernel.Kernel;
 import org.apache.avalon.merlin.unit.DefaultEmbeddedKernel;
 
 import junit.framework.TestCase;
@@ -210,7 +209,7 @@ public class AbstractMerlinTestCase extends TestCase
         {
             try
             {
-                Thread.currentThread().sleep( 100 );
+                Thread.sleep( 100 );
             }
             catch( Throwable e )
             {

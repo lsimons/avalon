@@ -55,9 +55,6 @@
 
 package org.apache.avalon.composition.data.builder;
 
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 
 import org.apache.avalon.composition.data.BlockCompositionDirective;
@@ -66,13 +63,10 @@ import org.apache.avalon.composition.data.ClassLoaderDirective;
 import org.apache.avalon.composition.data.CategoriesDirective;
 import org.apache.avalon.composition.data.ClasspathDirective;
 import org.apache.avalon.composition.data.ContainmentProfile;
-import org.apache.avalon.composition.data.DeploymentProfile;
 import org.apache.avalon.composition.data.FilesetDirective;
 import org.apache.avalon.composition.data.IncludeDirective;
 import org.apache.avalon.composition.data.LibraryDirective;
-import org.apache.avalon.composition.data.Mode;
 import org.apache.avalon.composition.data.MetaDataException;
-import org.apache.avalon.composition.data.MetaDataRuntimeException;
 import org.apache.avalon.composition.data.NamedDeploymentProfile;
 import org.apache.avalon.composition.data.Profile;
 import org.apache.avalon.composition.data.RepositoryDirective;
@@ -82,10 +76,6 @@ import org.apache.avalon.composition.data.Targets;
 import org.apache.avalon.composition.data.TargetDirective;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
-import org.apache.avalon.framework.context.DefaultContext;
-import org.apache.avalon.framework.parameters.Parameters;
-import org.apache.avalon.meta.info.DependencyDescriptor;
 import org.apache.avalon.meta.info.ServiceDescriptor;
 import org.apache.avalon.meta.info.builder.XMLTypeCreator;
 import org.apache.excalibur.configuration.ConfigurationUtil;
@@ -95,7 +85,7 @@ import org.apache.excalibur.configuration.ConfigurationUtil;
  * from a Configuration object.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2003/10/04 11:53:04 $
+ * @version $Revision: 1.3 $ $Date: 2003/10/28 20:21:00 $
  */
 public class XMLContainmentProfileCreator extends XMLProfileCreator
 {

@@ -50,15 +50,11 @@
 package org.apache.avalon.composition.data.writer;
 
 import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.io.Writer;
 
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.parameters.ParameterException;
-import org.apache.avalon.composition.data.Profile;
-import org.apache.avalon.composition.data.ContainmentProfile;
 import org.apache.avalon.composition.data.DeploymentProfile;
 import org.apache.avalon.composition.data.ContextDirective;
 import org.apache.avalon.composition.data.DependencyDirective;
@@ -77,7 +73,7 @@ import org.apache.excalibur.configuration.ConfigurationUtil;
  * Write a {@link DeploymentProfile} to a stream as xml documents.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2003/10/19 10:31:01 $
+ * @version $Revision: 1.4 $ $Date: 2003/10/28 20:21:00 $
  */
 public class XMLDeploymentProfileWriter
 {

@@ -50,21 +50,13 @@
 package org.apache.avalon.merlin.tools;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
 
 import org.apache.avalon.repository.Repository;
 import org.apache.avalon.repository.impl.DefaultFileRepository;
 import org.apache.avalon.composition.util.ExceptionHelper;
 import org.apache.avalon.merlin.kernel.Kernel;
 import org.apache.avalon.merlin.kernel.KernelException;
-import org.apache.avalon.merlin.kernel.KernelContext;
 import org.apache.avalon.merlin.kernel.impl.DefaultKernel;
 import org.apache.avalon.merlin.kernel.impl.DefaultKernelContext;
 

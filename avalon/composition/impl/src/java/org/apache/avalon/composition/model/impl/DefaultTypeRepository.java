@@ -51,15 +51,11 @@
 package org.apache.avalon.composition.model.impl;
 
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 
 import org.apache.avalon.composition.model.TypeRepository;
-import org.apache.avalon.composition.model.TypeException;
-import org.apache.avalon.composition.model.TypeRuntimeException;
-import org.apache.avalon.composition.model.TypeDuplicateException;
 import org.apache.avalon.composition.model.TypeUnknownException;
 import org.apache.avalon.composition.model.ProfileUnknownException;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
@@ -71,8 +67,6 @@ import org.apache.avalon.composition.data.DeploymentProfile;
 import org.apache.avalon.composition.data.builder.ProfilePackageBuilder;
 import org.apache.avalon.meta.info.DependencyDescriptor;
 import org.apache.avalon.meta.info.ReferenceDescriptor;
-import org.apache.avalon.meta.info.ServiceDescriptor;
-import org.apache.avalon.meta.info.ExtensionDescriptor;
 import org.apache.avalon.meta.info.StageDescriptor;
 import org.apache.avalon.meta.info.Type;
 
@@ -81,7 +75,7 @@ import org.apache.avalon.meta.info.Type;
  * storage and retrival of component types.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2003/10/04 11:53:04 $
+ * @version $Revision: 1.3 $ $Date: 2003/10/28 20:21:00 $
  */
 class DefaultTypeRepository implements TypeRepository
 {

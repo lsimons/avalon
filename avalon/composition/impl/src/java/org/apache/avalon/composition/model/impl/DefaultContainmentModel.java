@@ -55,10 +55,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLClassLoader;
 import java.net.URLConnection;
 import java.util.Hashtable;
-import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -82,7 +80,6 @@ import org.apache.avalon.composition.model.ContainmentContext;
 import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.model.Model;
 import org.apache.avalon.composition.model.ModelException;
-import org.apache.avalon.composition.model.SystemContext;
 import org.apache.avalon.composition.model.ModelSelector;
 import org.apache.avalon.composition.model.ProfileSelector;
 import org.apache.avalon.composition.model.TypeRepository;
@@ -99,7 +96,6 @@ import org.apache.avalon.meta.info.DependencyDescriptor;
 import org.apache.avalon.meta.info.ServiceDescriptor;
 import org.apache.avalon.meta.info.StageDescriptor;
 import org.apache.avalon.meta.info.Type;
-import org.apache.excalibur.configuration.ConfigurationUtil;
 
 
 /**
@@ -107,7 +103,7 @@ import org.apache.excalibur.configuration.ConfigurationUtil;
  * as a part of a containment deployment model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2003/10/12 17:12:45 $
+ * @version $Revision: 1.5 $ $Date: 2003/10/28 20:21:00 $
  */
 public class DefaultContainmentModel extends DefaultModel 
   implements ContainmentModel

@@ -58,7 +58,6 @@ import org.apache.avalon.composition.model.SystemContext;
 import org.apache.avalon.composition.model.EntryModel;
 import org.apache.avalon.composition.model.ContainmentContext;
 import org.apache.avalon.composition.model.DeploymentContext;
-import org.apache.avalon.composition.model.ModelException;
 import org.apache.avalon.composition.model.ModelRuntimeException;
 import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.context.ContextException;
@@ -74,7 +73,7 @@ import org.apache.avalon.meta.info.EntryDescriptor;
  * Default implementation of a deployment context.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:32:03 $
+ * @version $Revision: 1.2 $ $Date: 2003/10/28 20:21:00 $
  */
 public class DefaultDeploymentContext extends DefaultContext 
   implements DeploymentContext
