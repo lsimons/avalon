@@ -87,7 +87,7 @@
     <fileset dir="../common/lib">
       <include name="**/*.jar" />
     </fileset>
-    <pathelement path="${build.lib}/sevak-interfaces.jar"/>
+    <pathelement path="${build.lib}/sevak-api.jar"/>
   </path>
   
   <taskdef name="sar" classname="org.apache.avalon.phoenix.tools.tasks.Sar">
@@ -160,7 +160,7 @@
       <lib dir="${build.lib}/">
         <include name="sevak-jo.jar"/>
         <include name="sevak-demo.jar"/>
-        <include name="sevak-interfaces.jar"/>
+        <include name="sevak-api.jar"/>
       </lib>
 
       <lib dir="../../jakarta-avalon-apps/common/lib">
