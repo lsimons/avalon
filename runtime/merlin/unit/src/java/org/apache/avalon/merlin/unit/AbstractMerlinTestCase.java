@@ -55,7 +55,7 @@ public abstract class AbstractMerlinTestCase extends TestCase
     private static final String DEPLOYMENT_MODEL_CLASSNAME = 
       "org.apache.avalon.composition.model.DeploymentModel";
 
-    private static File getWorkDirectory()
+    public static File getWorkDirectory()
     {
         String path = System.getProperty( "project.dir" );
         if( null != path )
@@ -68,7 +68,7 @@ public abstract class AbstractMerlinTestCase extends TestCase
         }
     }
 
-    private static File getBaseDirectory()
+    public static File getBaseDirectory()
     {
         String path = System.getProperty( "basedir" );
         if( null != path )
@@ -81,17 +81,28 @@ public abstract class AbstractMerlinTestCase extends TestCase
         }
     }
 
+    public static File getTargetDirectory()
+    {
+        return new File( getBaseDirectory(), "target" );
+    }
+
+    public static File getClassesDirectory()
+    {
+        return new File( getTargetDirectory(), "classes" );
+    }
+
+    private static File getTestClassesDirectory()
+    {
+        return new File( getTargetDirectory(), "test-classes" );
+    }
 
     //----------------------------------------------------------
     // immutable state
     //----------------------------------------------------------
 
     private Object m_kernel;
-
     private ClassLoader m_classloader;
-
     private Object m_root;
-
     private Method m_locate;
     private Method m_runtime;
     private Method m_resolve;
@@ -280,19 +291,20 @@ public abstract class AbstractMerlinTestCase extends TestCase
     private String buildDefaultTestPath()
     {
         File base = getBaseDirectory();
-        File classes = new File( base, "target/classes/BLOCK-INF/block.xml" );
-        File tests = new File( base, "target/test-classes/BLOCK-INF/block.xml" );
+        File classes = new File( getClassesDirectory(), "BLOCK-INF/block.xml" );
+        File tests = new File( getTestClassesDirectory(), "BLOCK-INF/block.xml" );
         if( classes.exists() && tests.exists() )
         {
-            return "target/classes,target/test-classes";
+            return getClassesDirectory().toString() 
+               + "," + getTestClassesDirectory().toString();
         }
         else if( classes.exists() )
         {
-            return "target/classes";
+            return getClassesDirectory().toString();
         }
         else if( tests.exists() )
         {
-            return "target/test-classes";
+            return getTestClassesDirectory().toString();
         }
         else
         {
