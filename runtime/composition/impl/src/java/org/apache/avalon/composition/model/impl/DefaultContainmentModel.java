@@ -431,7 +431,7 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
                 return;
             }
 
-            getLogger().debug( "dissassembly phase" );
+            getLogger().debug( "disassembly phase" );
             DeploymentModel[] models = m_context.getModelRepository().getModels();
             for( int i=0; i<models.length; i++ )
             {
