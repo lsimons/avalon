@@ -59,6 +59,7 @@ import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.excalibur.instrument.AbstractInstrumentable;
 import org.apache.excalibur.instrument.Instrumentable;
+import org.apache.excalibur.instrument.CounterInstrument;
 import org.apache.excalibur.mpool.ObjectFactory;
 
 /**
@@ -66,13 +67,16 @@ import org.apache.excalibur.mpool.ObjectFactory;
  * and destroyed correctly.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.2 $ $Date: 2003/02/07 16:08:11 $
+ * @version CVS $Revision: 1.3 $ $Date: 2003/02/10 15:35:47 $
  * @since 4.0
  */
 public abstract class AbstractComponentHandler
     extends AbstractInstrumentable
     implements Serviceable, Initializable, Disposable, ComponentHandler
 {
+    private CounterInstrument m_request = new CounterInstrument("requests");
+    private CounterInstrument m_release = new CounterInstrument("releases");
+
     /**
      * The instance of the ComponentFactory that creates and disposes of the
      * Component
@@ -131,6 +135,9 @@ public abstract class AbstractComponentHandler
         {
             addChildInstrumentable( (Instrumentable)m_factory );
         }
+
+        addInstrument( m_request );
+        addInstrument( m_release );
 
         setInstrumentableName( name );
     }
@@ -201,6 +208,11 @@ public abstract class AbstractComponentHandler
             throw new IllegalStateException( message );
         }
 
+        if ( m_request.isActive() )
+        {
+            m_request.increment();
+        }
+
         return doGet();
     }
 
@@ -227,6 +239,11 @@ public abstract class AbstractComponentHandler
             throw new IllegalStateException( message );
         }
 
+        if ( m_release.isActive() )
+        {
+            m_release.increment();
+        }
+
         doPut( component );
     }
 
@@ -235,9 +252,7 @@ public abstract class AbstractComponentHandler
      *
      * @param component the component
      */
-    protected void doPut( final Object component )
-    {
-    }
+    protected void doPut( final Object component ) {}
 
     /**
      * Create a new component for handler.
