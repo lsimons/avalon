@@ -128,7 +128,7 @@ class CommissionRequest
         {
             while( !m_completed )
             {
-                wait( 1000 );
+                wait( 60 );
             }
         }
     }
