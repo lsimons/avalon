@@ -25,6 +25,8 @@ import java.io.File;
 import java.io.IOException;
 
 /**
+ * An ant datatype that represent a typical ant path created using 
+ * transitive magic dependencies.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
@@ -36,17 +38,33 @@ public class MagicPath extends Path
     private String m_key;
     private int m_mode = Policy.RUNTIME;
 
+   /**
+    * Creation of a new path relative to a supplied project.
+    * @param project the current ant project
+    */ 
     public MagicPath( Project project )
     {
         super( project );
         setup();
     }
 
+   /**
+    * Set the key identifying the magic resource that will be 
+    * used for path construction.  If not declared the kley defaults 
+    * to the key of the current project.
+    * @param key the resource key
+    */
     public void setKey( final String key )
     {
         m_key = key;
     }
 
+   /**
+    * Set the path creation mode. A mode value may be one of 
+    * ANY, BUILD, TEST or RUNTIME.
+    *
+    * @param key the resource key
+    */
     public void setMode( final String mode )
     {
         if( "ANY".equalsIgnoreCase( mode ) )
@@ -74,6 +92,10 @@ public class MagicPath extends Path
         }
         setup();
     }
+
+    //------------------------------------------------------------
+    // private
+    //------------------------------------------------------------
 
     private int getMode()
     {

@@ -35,6 +35,7 @@ import java.util.Map;
 import java.util.StringTokenizer;
 
 /**
+ * The Magic class is the application root of the magic system.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
@@ -45,23 +46,66 @@ public class Magic extends DataType
     // static
     //-------------------------------------------------------------
 
+   /**
+    * Immutable key to the magic home.
+    */
     public static final String KEY = "magic.home";
-    public static final String GUMP_SRCDIR_KEY = "gump.srcdir";
+
+   /**
+    * Immutable key to the gump signature identifier used when magic
+    * is executed under control of the gump integration plartform. 
+    */
     public static final String GUMP_SIGNATURE_KEY = "gump.signature";
 
+   /**
+    * Immutable key to a property declaring a set of repository hosts. 
+    */
     public static final String HOSTS_KEY = "magic.hosts";
+
+   /**
+    * Immutable key to the magic main cache directory. 
+    */
     public static final String CACHE_KEY = "magic.cache";
+
+   /**
+    * Immutable key to the magic docs cache directory. 
+    */
     public static final String DOCS_KEY = "magic.docs";
+
+   /**
+    * Immutable key to the magic template directory. 
+    */
     public static final String TEMPLATES_KEY = "magic.templates";
 
+   /**
+    * Immutable key to the magic proxy hostname value. 
+    */
     public static final String PROXY_HOST_KEY = "magic.proxy.host";
+
+   /**
+    * Immutable key to the magic proxy port value. 
+    */
     public static final String PROXY_PORT_KEY = "magic.proxy.port";
+
+   /**
+    * Immutable key to the magic proxy username value. 
+    */
     public static final String PROXY_USERNAME_KEY = "magic.proxy.username";
+
+   /**
+    * Immutable key to the magic proxy password value. 
+    */
     public static final String PROXY_PASSWORD_KEY = "magic.proxy.password";
 
     private static Magic SYSTEM;
     private static Home HOME;
 
+
+   /**
+    * Utility operation to return the magic system assigned to the project.
+    * @param project the ant project
+    * @return the assigned magic system 
+    */
     public static Magic getSystem( Project project )
     {
         if( null == SYSTEM )
@@ -87,26 +131,15 @@ public class Magic extends DataType
         return SYSTEM;
     }
 
-    private static String getTemplatePath( File system )
-    {
-        File templates = new File( system, "templates" );
-        return Context.getCanonicalPath( templates ); 
-    }
-
     //-------------------------------------------------------------
     // immutable state
     //-------------------------------------------------------------
 
     private final String m_signature;
     private final File m_system;
-
-    //-------------------------------------------------------------
-    // mutable state
-    //-------------------------------------------------------------
-
-    private Repository m_main;
-    private Repository m_docs;
-    private Map m_homes = new Hashtable();
+    private final Repository m_main;
+    private final Repository m_docs;
+    private final Map m_homes = new Hashtable();
 
     //-------------------------------------------------------------
     // constructor
@@ -158,26 +191,52 @@ public class Magic extends DataType
     // public
     //-------------------------------------------------------------
 
+   /**
+    * Return the magic system directory.
+    * @return the system directory
+    */
     public File getSystemDirectory()
     {
         return m_system;
     }
 
+   /**
+    * Return the magic artifact repository cache directory.
+    * @return the main cache directory
+    */
     public Repository getRepository()
     {
         return m_main;
     }
 
+   /**
+    * Return the magic doc repository cache directory.
+    * @return the docs cache directory
+    */
     public Repository getDocsRepository()
     {
         return m_docs;
     }
 
+   /**
+    * Return the gump signature.  If not null magic we assume that 
+    * magic is running under gump.
+    *
+    * @return the gump signature
+    */
     public String getGumpSignature()
     {
         return m_signature;
     }
 
+   /**
+    * Return the magic home.  Current implementation is restricted to a 
+    * a single stqtic home.  Future implementations may relax this restriction.
+    *
+    * @param project the current project
+    * @param value a value used to resolve the home index if needed
+    * @return the home instance
+    */
     public Home getHome( Project project, String value )
     {
         if( null == HOME )
@@ -213,6 +272,10 @@ public class Magic extends DataType
         return home;
         */
     }
+
+    //-------------------------------------------------------------
+    // implementation
+    //-------------------------------------------------------------
 
     private File getIndexFile( Project project, String value )
     {
@@ -256,9 +319,12 @@ public class Magic extends DataType
         }
     }
 
-    //-------------------------------------------------------------
-    // implementation
-    //-------------------------------------------------------------
+    private static String getTemplatePath( File system )
+    {
+        File templates = new File( system, "templates" );
+        return Context.getCanonicalPath( templates ); 
+    }
+
 
     private String[] getHostsSequence( final String path )
     {
@@ -338,6 +404,11 @@ public class Magic extends DataType
         }
     }
 
+   /**
+    * Utility method to load properties form a file.
+    * @param project the project into which properties shall be loaded
+    * @param file the file from which properties will be loaded
+    */
     protected void loadProperties( 
       final Project project, final File file ) throws BuildException
     {
