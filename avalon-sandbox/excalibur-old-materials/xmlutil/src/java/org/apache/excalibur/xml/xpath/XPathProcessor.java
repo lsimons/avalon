@@ -1,10 +1,10 @@
-/*****************************************************************************
- * Copyright (C) The Apache Software Foundation. All rights reserved.        *
- * ------------------------------------------------------------------------- *
- * This software is published under the terms of the Apache Software License *
- * version 1.1, a copy of which has been included  with this distribution in *
- * the LICENSE.txt file.                                                         *
- *****************************************************************************/
+/*
+ * Copyright (C) The Apache Software Foundation. All rights reserved.
+ *
+ * This software is published under the terms of the Apache Software License
+ * version 1.1, a copy of which has been included  with this distribution in
+ * the LICENSE.txt file.
+ */
 package org.apache.avalon.excalibur.xml.xpath;
 
 import org.apache.avalon.framework.component.Component;
@@ -15,9 +15,10 @@ import org.w3c.dom.NodeList;
  * This is the interface of the XPath processor.
  *
  * @author <a href="mailto:dims@yahoo.com">Davanum Srinivas</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/04/22 10:06:05 $ $Author: cziegeler $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/07/07 06:17:24 $ $Author: donaldp $
  */
-public interface XPathProcessor extends Component
+public interface XPathProcessor
+    extends Component
 {
     /**
      * The role implemented by an <code>XSLTProcessor</code>.
