@@ -223,6 +223,14 @@ Merlin service management platform.
         <avalon.classloader>api</avalon.classloader>
       </properties>
     </dependency>
+    <dependency>
+      <groupId>avalon-http</groupId>
+      <artifactId>avalon-http-api</artifactId>
+      <version>1.0-SNAPSHOT</version>
+      <properties>
+        <avalon.classloader>api</avalon.classloader>
+      </properties>
+    </dependency>
 
   </dependencies>
   
