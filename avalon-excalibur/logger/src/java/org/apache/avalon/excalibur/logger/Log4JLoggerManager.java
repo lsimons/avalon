@@ -63,7 +63,7 @@ import org.apache.log4j.Hierarchy;
  * leaves that as an excercise for Log4J's construction.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/08/22 01:20:07 $
+ * @version CVS $Revision: 1.5 $ $Date: 2002/10/02 01:47:02 $
  * @since 4.1
  */
 public class Log4JLoggerManager
@@ -124,7 +124,7 @@ public class Log4JLoggerManager
      * specified logger name as root logger.
      */
     public Log4JLoggerManager( final String prefix, final Hierarchy hierarchy,
-        final Logger defaultLogger )
+                               final Logger defaultLogger )
     {
         this( prefix, hierarchy, defaultLogger, defaultLogger );
     }
@@ -134,7 +134,7 @@ public class Log4JLoggerManager
      * specified logger name as root logger.
      */
     public Log4JLoggerManager( final String prefix, final Hierarchy hierarchy,
-        final Logger defaultLogger, final Logger logger )
+                               final Logger defaultLogger, final Logger logger )
     {
         m_prefix = prefix;
         m_hierarchy = hierarchy;
@@ -177,7 +177,7 @@ public class Log4JLoggerManager
         if( m_logger.isDebugEnabled() )
         {
             m_logger.debug( "Logger for category " + categoryName
-                                   + " not defined in configuration. New Logger created and returned" );
+                            + " not defined in configuration. New Logger created and returned" );
         }
 
         logger = new Log4JLogger( m_hierarchy.getInstance( categoryName ) );

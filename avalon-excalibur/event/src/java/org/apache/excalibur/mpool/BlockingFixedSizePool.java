@@ -60,7 +60,7 @@ import org.apache.avalon.framework.activity.Initializable;
  * Please note that this pool offers no resource limiting whatsoever.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.5 $ $Date: 2002/09/25 15:50:26 $
+ * @version CVS $Revision: 1.6 $ $Date: 2002/10/02 01:46:58 $
  * @since 4.1
  */
 public final class BlockingFixedSizePool
@@ -84,7 +84,7 @@ public final class BlockingFixedSizePool
     public BlockingFixedSizePool( ObjectFactory factory, int size, long timeout )
         throws Exception
     {
-        m_timeout = (timeout < 1) ? 0 : timeout;
+        m_timeout = ( timeout < 1 ) ? 0 : timeout;
         m_buffer = new FixedSizeBuffer( size );
         m_maxSize = size;
         m_factory = factory;
@@ -110,11 +110,11 @@ public final class BlockingFixedSizePool
 
         synchronized( m_semaphore )
         {
-            if ( m_buffer.isEmpty() )
+            if( m_buffer.isEmpty() )
             {
                 long blockStart = System.currentTimeMillis();
 
-                if ( m_timeout > 0 )
+                if( m_timeout > 0 )
                 {
                     long blockWait = m_timeout;
 
@@ -124,20 +124,21 @@ public final class BlockingFixedSizePool
                         {
                             m_semaphore.wait( blockWait );
                         }
-                        catch ( InterruptedException ie )
-                        {}
+                        catch( InterruptedException ie )
+                        {
+                        }
 
-                        if ( m_disposed )
+                        if( m_disposed )
                         {
                             throw new IllegalStateException( "Pool disposed of while waiting for resources to free up" );
                         }
 
-                        if ( m_buffer.isEmpty() )
+                        if( m_buffer.isEmpty() )
                         {
                             blockWait = m_timeout -
                                 ( System.currentTimeMillis() - blockStart );
                         }
-                    } while ( m_buffer.isEmpty() && blockWait > 0 );
+                    } while( m_buffer.isEmpty() && blockWait > 0 );
                 }
                 else
                 {
@@ -147,14 +148,15 @@ public final class BlockingFixedSizePool
                         {
                             m_semaphore.wait();
                         }
-                        catch (InterruptedException ie)
-                        {}
+                        catch( InterruptedException ie )
+                        {
+                        }
 
-                        if ( m_disposed )
+                        if( m_disposed )
                         {
                             throw new IllegalStateException( "Pool disposed of while waiting for resources to free up" );
                         }
-                    } while ( m_buffer.isEmpty() );
+                    } while( m_buffer.isEmpty() );
                 }
             }
 
@@ -162,15 +164,15 @@ public final class BlockingFixedSizePool
             {
                 object = m_buffer.remove();
             }
-            catch (BufferUnderflowException bufe)
+            catch( BufferUnderflowException bufe )
             {
                 // ignore exception and leave object as null
             }
         }
 
-        if ( object == null )
+        if( object == null )
         {
-            throw new IllegalStateException("Timeout exceeded without acquiring resource.");
+            throw new IllegalStateException( "Timeout exceeded without acquiring resource." );
         }
 
         return object;
@@ -180,7 +182,7 @@ public final class BlockingFixedSizePool
     {
         synchronized( m_semaphore )
         {
-            if ( m_disposed )
+            if( m_disposed )
             {
                 try
                 {
@@ -193,7 +195,7 @@ public final class BlockingFixedSizePool
             }
             else
             {
-                if ( m_buffer.size() < m_maxSize )
+                if( m_buffer.size() < m_maxSize )
                 {
                     m_buffer.add( PoolUtil.recycle( object ) );
                     m_semaphore.notify();
@@ -225,7 +227,7 @@ public final class BlockingFixedSizePool
 
         synchronized( m_semaphore )
         {
-            while( ! m_buffer.isEmpty() )
+            while( !m_buffer.isEmpty() )
             {
                 try
                 {

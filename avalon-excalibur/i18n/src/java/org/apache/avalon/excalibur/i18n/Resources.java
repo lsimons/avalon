@@ -720,7 +720,6 @@ public class Resources
         return format( key, args );
     }
 
-
     /**
      * Retrieve a string from resource bundle and format it with specified args.
      *

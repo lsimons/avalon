@@ -82,8 +82,8 @@ public class EventThreadPool
     }
 
     public EventThreadPool( final String name,
-                              final int capacity,
-                              final int timeout )
+                            final int capacity,
+                            final int timeout )
         throws Exception
     {
         super( name, new ThreadGroup( name ) );
@@ -106,7 +106,7 @@ public class EventThreadPool
     {
         if( object instanceof WorkerThread )
         {
-            destroyWorker( (WorkerThread) object );
+            destroyWorker( (WorkerThread)object );
         }
     }
 
@@ -122,7 +122,7 @@ public class EventThreadPool
      */
     protected WorkerThread getWorker()
     {
-        final WorkerThread thread = (WorkerThread) m_pool.acquire();
+        final WorkerThread thread = (WorkerThread)m_pool.acquire();
         if( null == thread )
         {
             final String message =

@@ -20,7 +20,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.jaxen.NamespaceContext;
 
-
 /**
  * This class defines the implementation of the {@link XPathProcessor}
  * component.
@@ -34,24 +33,24 @@ import org.jaxen.NamespaceContext;
  * </pre>
  *
  * @author <a href="mailto:dims@yahoo.com">Davanum Srinivas</a>
- * @version CVS $Revision: 1.5 $ $Date: 2002/08/01 21:35:39 $ $Author: mirceatoma $
+ * @version CVS $Revision: 1.6 $ $Date: 2002/10/02 01:47:05 $ $Author: donaldp $
  */
 public final class JaxenProcessorImpl extends AbstractLogEnabled implements XPathProcessor, Configurable, Component, ThreadSafe, NamespaceContext
 {
     private final HashMap m_mappings = new HashMap();
-        
-    public void configure(Configuration configuration) throws ConfigurationException 
+
+    public void configure( Configuration configuration ) throws ConfigurationException
     {
-        final Configuration namespaceMappings = configuration.getChild( "namespace-mappings", true );        
+        final Configuration namespaceMappings = configuration.getChild( "namespace-mappings", true );
         final Configuration[] namespaces = namespaceMappings.getChildren( "namespace" );
-        for ( int i = 0; i < namespaces.length; i++ ) 
+        for( int i = 0; i < namespaces.length; i++ )
         {
-            final String prefix = namespaces[i].getAttribute( "prefix" );
-            final String uri = namespaces[i].getAttribute( "uri" );
+            final String prefix = namespaces[ i ].getAttribute( "prefix" );
+            final String uri = namespaces[ i ].getAttribute( "uri" );
             m_mappings.put( prefix, uri );
         }
     }
-    
+
     /**
      * Use an XPath string to select a single node. XPath namespace
      * prefixes are resolved from the context node, which may not
@@ -101,14 +100,15 @@ public final class JaxenProcessorImpl extends AbstractLogEnabled implements XPat
             return new EmptyNodeList();
         }
     }
-    
+
     /** Evaluate XPath expression within a context.
      *
      * @param contextNode The context node.
      * @param str A valid XPath string.
      * @return expression result as boolean.
      */
-    public boolean evaluateAsBoolean(Node contextNode, String str) {
+    public boolean evaluateAsBoolean( Node contextNode, String str )
+    {
         try
         {
             final DOMXPath path = new DOMXPath( str );
@@ -120,14 +120,14 @@ public final class JaxenProcessorImpl extends AbstractLogEnabled implements XPat
             return false;
         }
     }
-    
+
     /** Evaluate XPath expression within a context.
      *
      * @param contextNode The context node.
      * @param str A valid XPath string.
      * @return expression result as number.
      */
-    public Number evaluateAsNumber( Node contextNode, String str ) 
+    public Number evaluateAsNumber( Node contextNode, String str )
     {
         try
         {
@@ -140,14 +140,14 @@ public final class JaxenProcessorImpl extends AbstractLogEnabled implements XPat
             return null;
         }
     }
-        
+
     /** Evaluate XPath expression within a context.
      *
      * @param contextNode The context node.
      * @param str A valid XPath string.
      * @return expression result as string.
      */
-    public String evaluateAsString(Node contextNode, String str) 
+    public String evaluateAsString( Node contextNode, String str )
     {
         try
         {
@@ -159,10 +159,10 @@ public final class JaxenProcessorImpl extends AbstractLogEnabled implements XPat
         {
             return null;
         }
-    }    
-    
-    public String translateNamespacePrefixToUri( String prefix ) 
+    }
+
+    public String translateNamespacePrefixToUri( String prefix )
     {
         return (String)m_mappings.get( prefix );
-    }    
+    }
 }

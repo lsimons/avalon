@@ -58,9 +58,9 @@ class BasicThreadPool
      * @throws Exception if unable to create pool
      */
     public BasicThreadPool( final ThreadGroup threadGroup,
-                                     final String name,
-                                     final Pool pool,
-                                     final ThreadContext context )
+                            final String name,
+                            final Pool pool,
+                            final ThreadContext context )
         throws Exception
     {
         super( name, threadGroup );
@@ -127,7 +127,7 @@ class BasicThreadPool
     {
         if( object instanceof WorkerThread )
         {
-            destroyWorker( (WorkerThread) object );
+            destroyWorker( (WorkerThread)object );
         }
     }
 
@@ -162,7 +162,7 @@ class BasicThreadPool
     {
         try
         {
-            return (WorkerThread) m_pool.get();
+            return (WorkerThread)m_pool.get();
         }
         catch( final Exception e )
         {
@@ -179,6 +179,6 @@ class BasicThreadPool
      */
     protected void releaseWorker( final WorkerThread worker )
     {
-        m_pool.put( (SimpleWorkerThread) worker );
+        m_pool.put( (SimpleWorkerThread)worker );
     }
 }

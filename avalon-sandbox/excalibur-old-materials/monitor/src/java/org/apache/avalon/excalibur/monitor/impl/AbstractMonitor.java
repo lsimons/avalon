@@ -20,7 +20,7 @@ import org.apache.avalon.excalibur.monitor.Resource;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Id: AbstractMonitor.java,v 1.4 2002/09/08 00:02:45 donaldp Exp $
+ * @version $Id: AbstractMonitor.java,v 1.5 2002/10/02 01:47:04 donaldp Exp $
  */
 public abstract class AbstractMonitor
     implements Monitor
@@ -39,7 +39,7 @@ public abstract class AbstractMonitor
     {
         for( int i = 0; i < resources.length; i++ )
         {
-            addResource(resources[ i ] );
+            addResource( resources[ i ] );
         }
     }
 

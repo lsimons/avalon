@@ -14,7 +14,7 @@ import org.w3c.dom.Document;
  * behaviour is setup by the factory.
  *
  * @author <a href="mailto:mirceatoma@apache.org">Mircea Toma</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/09/03 20:29:53 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/10/02 01:47:05 $
  */
 public interface DOMHandlerFactory
 {
@@ -22,5 +22,5 @@ public interface DOMHandlerFactory
 
     DOMHandler createDOMHandler() throws Exception;
 
-    DOMHandler createDOMHandler(Document document) throws Exception;
+    DOMHandler createDOMHandler( Document document ) throws Exception;
 }

@@ -19,8 +19,8 @@ import org.apache.avalon.framework.logger.Logger;
 /**
  * ContextFactory is a utility class that provides support for the creation
  * context instances based on a XML context desciption.
- * 
- * @version $Id: ContextFactory.java,v 1.3 2002/07/13 18:31:55 proyal Exp $
+ *
+ * @version $Id: ContextFactory.java,v 1.4 2002/10/02 01:46:57 donaldp Exp $
  * @author Stephen McConnell <mcconnell@osm.net>
  */
 public class ContextFactory
@@ -70,9 +70,9 @@ public class ContextFactory
     {
 
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
-        String contextClassName = config.getAttribute( 
-          "class",
-          "org.apache.avalon.framework.context.DefaultContext" );
+        String contextClassName = config.getAttribute(
+            "class",
+            "org.apache.avalon.framework.context.DefaultContext" );
 
         Class contextClass = null;
 

@@ -82,7 +82,7 @@ public final class TPSPThreadManager implements Runnable, ThreadManager
      * @throws Exception if there is any problems creating the ThreadManager
      */
     public TPSPThreadManager()
-    throws Exception
+        throws Exception
     {
         this( 1, 1, 1000 );
     }
@@ -98,11 +98,10 @@ public final class TPSPThreadManager implements Runnable, ThreadManager
      * @throws Exception when there is a problem creating the ThreadManager
      */
     public TPSPThreadManager( int numProcessors, int threadsPerProcessor, long sleepTime )
-    throws Exception
+        throws Exception
     {
         this( numProcessors, threadsPerProcessor, sleepTime, 1000L );
     }
-
 
     /**
      * Constructor provides a specified number of threads per processor.  If
@@ -115,14 +114,14 @@ public final class TPSPThreadManager implements Runnable, ThreadManager
      *
      * @throws Exception when there is a problem creating the ThreadManager
      */
-    public TPSPThreadManager(  int numProcessors, int threadsPerProcessor, long sleepTime, long timeOut )
-    throws Exception
+    public TPSPThreadManager( int numProcessors, int threadsPerProcessor, long sleepTime, long timeOut )
+        throws Exception
     {
         int processors = Math.max( numProcessors, 1 );
         int threads = Math.max( threadsPerProcessor, 1 );
 
         m_threadPool = new EventThreadPool( "TPCThreadManager",
-                                                       ( processors * threads ) + 1, (int) timeOut );
+                                            ( processors * threads ) + 1, (int)timeOut );
 
         m_sleepTime = sleepTime;
         m_threadControl = m_threadPool.execute( this );

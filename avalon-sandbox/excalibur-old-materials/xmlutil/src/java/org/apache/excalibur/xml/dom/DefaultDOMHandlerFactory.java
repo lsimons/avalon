@@ -22,7 +22,7 @@ import org.w3c.dom.Document;
 
 /**
  * @author <a href="mailto:mirceatoma@apache.org">Mircea Toma</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/09/03 20:29:53 $
+ * @version CVS $Revision: 1.5 $ $Date: 2002/10/02 01:47:05 $
  */
 public class DefaultDOMHandlerFactory
     extends AbstractLogEnabled
@@ -40,11 +40,12 @@ public class DefaultDOMHandlerFactory
     public DOMHandler createDOMHandler() throws Exception
     {
         final Document document = m_documentBuilder.newDocument();
-        return createDOMHandler(document);
+        return createDOMHandler( document );
     }
-    
-    public DOMHandler createDOMHandler(Document document) throws Exception {
+
+    public DOMHandler createDOMHandler( Document document ) throws Exception
+    {
         final TransformerHandler transformerHandler = m_transformerFactory.newTransformerHandler();
         return new DefaultDOMHandler( transformerHandler, document );
-    }    
+    }
 }

@@ -128,9 +128,9 @@ public class TPCThreadManagerTestCase extends TestCase
         int numberCalls = result.length();
 
         String msg =
-          "Number of calls to handler (" + numberCalls +
-          ") is less than the expected number of calls (" +
-          MINIMAL_NUMBER_INVOCATIONS + ")";
+            "Number of calls to handler (" + numberCalls +
+            ") is less than the expected number of calls (" +
+            MINIMAL_NUMBER_INVOCATIONS + ")";
 
         assertTrue( msg, numberCalls >= MINIMAL_NUMBER_INVOCATIONS );
 
@@ -151,7 +151,7 @@ public class TPCThreadManagerTestCase extends TestCase
         private final PrintWriter m_errorOut;
 
         Pipeline( StringBuffer resultAccumulator, PrintWriter errorOut )
-          throws SinkException
+            throws SinkException
         {
             m_result = resultAccumulator;
             m_errorOut = errorOut;

@@ -10,15 +10,15 @@ package org.apache.avalon.cornerstone.services.connection;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.component.ComponentManager;
-import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.ServiceException;
+import org.apache.avalon.framework.service.ServiceManager;
 
 /**
  * A simple component manager that adapts from a {@link ServiceManager}
  * to a {@link ComponentManager}.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2002/08/16 04:14:32 $
+ * @version $Revision: 1.4 $ $Date: 2002/10/02 01:52:16 $
  */
 class AdaptingComponentManager
     implements ComponentManager

@@ -74,25 +74,25 @@ import org.apache.excalibur.event.impl.DefaultQueue;
  * <p><strong>Source Example</strong></p>
  * <pre>
 
-      //
-      // Set up the ThreadManager that the CommandManager will use
-      //
+ //
+ // Set up the ThreadManager that the CommandManager will use
+ //
 
-      ThreadManager threadManager = new TPCThreadManager();
-      threadManager.enableLogging( getLogger().getChildLogger("threadmanager") );
-      Parameters params = new Parameters();
-      params.setParameter( "threads-per-processor", "2" );
-      params.setParameter( "sleep-time", "1000" );
-      params.setParameter( "block-timeout", "250" );
-      threadManager.parameterize( params );
-      threadManager.initialize();
+ ThreadManager threadManager = new TPCThreadManager();
+ threadManager.enableLogging( getLogger().getChildLogger("threadmanager") );
+ Parameters params = new Parameters();
+ params.setParameter( "threads-per-processor", "2" );
+ params.setParameter( "sleep-time", "1000" );
+ params.setParameter( "block-timeout", "250" );
+ threadManager.parameterize( params );
+ threadManager.initialize();
 
-      //
-      // Set up the CommandManager
-      //
+ //
+ // Set up the CommandManager
+ //
 
-      CommandManager commandManager = new CommandManager();
-      threadManager.register( commandManager );
+ CommandManager commandManager = new CommandManager();
+ threadManager.register( commandManager );
  * </pre>
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
@@ -206,12 +206,12 @@ public class CommandManager implements EventPipeline, Disposable
      * When you are done with CommandManager, call this and it will
      * clean up all its resources.
      */
-    public void dispose ()
+    public void dispose()
     {
         Object[] remainingElements = m_queue.dequeueAll();
         for( int i = 0; i < remainingElements.length; i++ )
         {
-            getEventHandler().handleEvent( remainingElements[i] );
+            getEventHandler().handleEvent( remainingElements[ i ] );
         }
     }
 

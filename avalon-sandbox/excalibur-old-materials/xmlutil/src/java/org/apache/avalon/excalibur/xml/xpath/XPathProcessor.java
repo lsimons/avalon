@@ -14,7 +14,7 @@ import org.w3c.dom.NodeList;
  * This is the interface of the XPath processor.
  *
  * @author <a href="mailto:dims@yahoo.com">Davanum Srinivas</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/08/01 21:34:16 $ $Author: mirceatoma $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/10/02 01:47:05 $ $Author: donaldp $
  */
 public interface XPathProcessor
 {
@@ -24,25 +24,25 @@ public interface XPathProcessor
     String ROLE = XPathProcessor.class.getName();
 
     /**
-     * Evaluate XPath expression within a context. 
+     * Evaluate XPath expression within a context.
      *
      * @param contextNode The context node.
      * @param str A valid XPath string.
      * @return expression result as boolean.
      */
     boolean evaluateAsBoolean( Node contextNode, String str );
-        
+
     /**
-     * Evaluate XPath expression within a context. 
+     * Evaluate XPath expression within a context.
      *
      * @param contextNode The context node.
      * @param str A valid XPath string.
      * @return expression result as number.
      */
     Number evaluateAsNumber( Node contextNode, String str );
-    
+
     /**
-     * Evaluate XPath expression within a context. 
+     * Evaluate XPath expression within a context.
      *
      * @param contextNode The context node.
      * @param str A valid XPath string.

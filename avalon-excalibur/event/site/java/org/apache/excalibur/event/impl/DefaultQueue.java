@@ -313,7 +313,7 @@ public final class DefaultQueue extends AbstractQueue
 
         for( int i = 0; i < count; i++ )
         {
-            elements[ i ] = (Object) buf.remove();
+            elements[ i ] = (Object)buf.remove();
         }
 
         return elements;

@@ -15,21 +15,21 @@ import org.apache.avalon.excalibur.xml.ContentHandlerWrapper;
 
 /**
  * @author <a href="mailto:mirceatoma@apache.org">Mircea Toma</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/09/03 20:29:53 $
+ * @version CVS $Revision: 1.5 $ $Date: 2002/10/02 01:47:05 $
  */
-public class DefaultDOMHandler 
+public class DefaultDOMHandler
     extends ContentHandlerWrapper
     implements DOMHandler
-{    
+{
     private final Document m_document;
-    
+
     public DefaultDOMHandler( TransformerHandler handler, Document document )
     {
         super( handler, handler );
-        m_document = document;        
+        m_document = document;
         handler.setResult( new DOMResult( m_document ) );
     }
-    
+
     public Document getDocument()
     {
         return m_document;

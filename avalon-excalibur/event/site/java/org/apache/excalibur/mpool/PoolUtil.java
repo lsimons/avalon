@@ -51,7 +51,6 @@ package org.apache.excalibur.mpool;
 
 import java.lang.reflect.Method;
 
-
 /**
  * The PoolUtil class performs the reflection magic that is necessary to work
  * with the legacy Recyclable interface in the
@@ -59,14 +58,16 @@ import java.lang.reflect.Method;
  * It also works with the new Resettable interface in MPool.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/09/26 00:34:17 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/10/02 01:46:58 $
  */
 public final class PoolUtil
 {
-    private final static Object[] EMPTY = new Object[] {};
-    private final static Class[] EMPTY_ARGS = new Class[] {};
+    private final static Object[] EMPTY = new Object[]{};
+    private final static Class[] EMPTY_ARGS = new Class[]{};
 
-    private PoolUtil() {}
+    private PoolUtil()
+    {
+    }
 
     /**
      * This method will either call "reset" on Resettable objects,
@@ -77,9 +78,9 @@ public final class PoolUtil
      */
     public static Object recycle( final Object obj )
     {
-        if ( obj instanceof Resettable )
+        if( obj instanceof Resettable )
         {
-            ( (Resettable) obj).reset();
+            ( (Resettable)obj ).reset();
         }
         else
         {
@@ -88,12 +89,12 @@ public final class PoolUtil
                 Class klass = obj.getClass();
                 Class recyclable = klass.getClassLoader().loadClass( "org.apache.avalon.excalibur.pool.Recyclable" );
 
-                if ( recyclable.isAssignableFrom( klass ) )
+                if( recyclable.isAssignableFrom( klass ) )
                 {
                     recycleLegacy( obj );
                 }
             }
-            catch (Exception e)
+            catch( Exception e )
             {
                 // No recyclable interface
             }
