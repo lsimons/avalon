@@ -1,1 +1,2 @@
-. jar.install
+
+. build jar.install
