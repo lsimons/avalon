@@ -14,7 +14,7 @@
    version 1.1, a copy of which has been included  with this distribution in
    the LICENSE.txt file.
 
-  -->
+-->
 
 <!--
 The assembly is the document root, it defines:
@@ -22,7 +22,7 @@ The assembly is the document root, it defines:
 block           a block that exists in the application
 block-listener  a listener that exists in the application
 -->
-<!ELEMENT assembly (block|block-listener)*>
+<!ELEMENT assembly (block|block-listener|listener)*>
 <!ATTLIST assembly id ID #IMPLIED
           xmlns CDATA #FIXED "http://jakarta.apache.org/phoenix/assembly_1_0.dtd" >
 
@@ -52,6 +52,19 @@ name    the name of the block that will provide service
   <!ATTLIST provide name CDATA #REQUIRED>
 
 <!--
+The block element declares a listener exists in the application.
+The element defines:
+
+name            the name of the listener
+class           the class of the listener instance
+-->
+<!ELEMENT listener EMPTY>
+  <!ATTLIST listener name CDATA #REQUIRED>
+  <!ATTLIST listener class CDATA #REQUIRED>
+
+<!--
+NOTE: This form is DEPRECATED.
+
 The block element declares a block listener exists in the application.
 The element defines:
 
