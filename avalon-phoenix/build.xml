@@ -55,6 +55,7 @@ Legal:
   <property name="build.classes" value="${build.dir}/classes"/>
   <property name="build.javadocs" value="${build.dir}/javadocs"/>
   <property name="build.docs" value="${build.dir}/docs"/>
+  <property name="build.xdocs" value="${build.dir}/xdocs"/>
 
   <!--
        ===================================================================
@@ -69,6 +70,8 @@ Legal:
   <property name="tools.dir" value="tools"/>
   <property name="docs.dir" value="docs"/>
   <property name="www.dir" value="www"/>
+  <property name="avalon.skin" value="${tools.dir}/lib/jakarta-style.jar"/>
+  <property name="xdocs.dir" value="${src.dir}/xdocs"/>
   <property name="javadocs.dir" value="${docs.dir}/api"/>
 
   <property name="dist.name" value="${name}-${version}"/>
@@ -248,8 +251,38 @@ Legal:
 
   </target>
 
-  <target name="docs">
+  <!--
+       ===================================================================
+                     Prepares the documentation directory
+       ===================================================================
+  -->
+  <target name="xdocs">
+     
+    <mkdir dir="${build.xdocs}"/>
     <mkdir dir="${build.docs}"/>
+
+    <filter token="year" value="${year}"/>
+    <filter token="AVALON_BASE" value="http://jakarta.apache.org/avalon"/>
+
+    <copy todir="${build.xdocs}" filtering="on">
+      <fileset dir="${xdocs.dir}">
+        <exclude name="**/images/**"/>
+      </fileset>
+    </copy>
+
+    <copy todir="${build.docs}" filtering="off">
+      <fileset dir="${xdocs.dir}">
+        <include name="**/images/**"/>
+        <include name="**/resources/**"/>
+      </fileset>
+    </copy>
+
+    <stylebook targetdirectory="${build.docs}"
+               book="${build.xdocs}/book.xml"
+               skindirectory="${avalon.skin}">
+      <classpath refid="project.class.path" />
+    </stylebook>
+
   </target>
 
   <!--
@@ -321,7 +354,7 @@ Legal:
                             Create the distribution
        ===================================================================
   -->
-  <target name="dist" depends="dist-lite,javadocs,docs">
+  <target name="dist" depends="dist-lite,javadocs,xdocs">
 
     <mkdir dir="${dist.docs}"/>
     <mkdir dir="${dist.javadocs}"/>
@@ -350,7 +383,7 @@ Legal:
                             Create the source distribution
        ===================================================================
   -->
-  <target name="src-dist" depends="javadocs,docs,setup-properties">
+  <target name="src-dist" depends="javadocs,xdocs,setup-properties">
 
     <mkdir dir="${src.dist.dir}" />
     <mkdir dir="${src.dist.docs}"/>
