@@ -43,14 +43,14 @@ and do the following:
   "${ant.home}/bin" in its list.  This makes the "ant" command line script
   available, which will be used to actually perform the build.
 
-(2) Download and Install the Java Service Wrapper 2.2.8 Implementation
+(2) Download and Install the Java Service Wrapper 3.0.0 Implementation
 
 NOTE:  This step is only required if you wish to allow the Phoenix server
 to be accessible as a win32 Service or a unix daemon.
 
-* Download the Java Service Wrapper (version 2.2.8 or later) from
+* Download the Java Service Wrapper (version 3.0.0 or later) from
 
-    http://wrapper.sourceforge.net/
+    http://wrapper.tanukisoftware.org/
 
 * Unpack the product into a convenient location so that it resides in
   its own subdirectory.

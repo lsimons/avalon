@@ -7,15 +7,15 @@
  */
 package org.apache.avalon.phoenix.launcher;
 
-import com.silveregg.wrapper.WrapperListener;
-import com.silveregg.wrapper.WrapperManager;
+import org.tanukisoftware.wrapper.WrapperListener;
+import org.tanukisoftware.wrapper.WrapperManager;
 import java.util.Hashtable;
 import java.util.Observable;
 import java.util.Observer;
 
 /**
  * A frontend for Phoenix that starts it as a native service
- * using the Java Service Wrapper at http://wrapper.sourceforge.net
+ * using the Java Service Wrapper at http://wrapper.tanukisoftware.org
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
@@ -32,6 +32,21 @@ public class DaemonLauncher
      */
     private boolean m_ignoreUpdates = false;
 
+    /*---------------------------------------------------------------
+     * WrapperListener Methods
+     *-------------------------------------------------------------*/
+    /**
+     * The start method is called when the WrapperManager is signaled by the 
+     *	native wrapper code that it can start its application.  This
+     *	method call is expected to return, so a new thread should be launched
+     *	if necessary.
+     *
+     * @param args List of arguments used to initialize the application.
+     *
+     * @return Any error code if the application should exit on completion
+     *         of the start method.  If there were no problems then this
+     *         method should return null.
+     */
     public Integer start( final String[] args )
     {
         Integer exitCodeInteger = null;
@@ -72,6 +87,22 @@ public class DaemonLauncher
         return exitCodeInteger;
     }
 
+    /**
+     * Called when the application is shutting down.  The Wrapper assumes that
+     *  this method will return fairly quickly.  If the shutdown code code
+     *  could potentially take a long time, then WrapperManager.stopping()
+     *  should be called to extend the timeout period.  If for some reason,
+     *  the stop method can not return, then it must call
+     *  WrapperManager.stopped() to avoid warning messages from the Wrapper.
+     *
+     * @param exitCode The suggested exit code that will be returned to the OS
+     *                 when the JVM exits.
+     *
+     * @return The exit code to actually return to the OS.  In most cases, this
+     *         should just be the value of exitCode, however the user code has
+     *         the option of changing the exit code if there are any problems
+     *         during shutdown.
+     */
     public int stop( final int exitCode )
     {
         // To avoid recursive calls, start ignoring updates.
@@ -81,6 +112,15 @@ public class DaemonLauncher
         return exitCode;
     }
 
+    /**
+     * Called whenever the native wrapper code traps a system control signal
+     *  against the Java process.  It is up to the callback to take any actions
+     *  necessary.  Possible values are: WrapperManager.WRAPPER_CTRL_C_EVENT, 
+     *    WRAPPER_CTRL_CLOSE_EVENT, WRAPPER_CTRL_LOGOFF_EVENT, or 
+     *    WRAPPER_CTRL_SHUTDOWN_EVENT
+     *
+     * @param event The system control signal.
+     */
     public void controlEvent( final int event )
     {
         if( WrapperManager.isControlledByNativeWrapper() )
@@ -107,6 +147,9 @@ public class DaemonLauncher
         }
     }
 
+    /*---------------------------------------------------------------
+     * Methods
+     *-------------------------------------------------------------*/
     /**
      * We use an Observer rather than operating on some more meaningful
      * event system as Observer and friends can be loaded from system
@@ -169,8 +212,15 @@ public class DaemonLauncher
         }
     }
 
+    /*---------------------------------------------------------------
+     * Main Method
+     *-------------------------------------------------------------*/
     public static void main( final String[] args )
     {
+        // Start the application.  If the JVM was launched from the native
+        //  Wrapper then the application will wait for the native Wrapper to
+        //  call the application's start method.  Otherwise the start method
+        //  will be called immediately.
         WrapperManager.start( new DaemonLauncher(), args );
     }
 }
