@@ -12,10 +12,9 @@
       <item name="Central" href="central/index.html"/>
     </links>
 
-    <menu name="About Avalon">
-      <item name="Introduction" href="overview.html"/>
+    <menu>
+      <item name="Introduction" href="index.html"/>
       <item name="Latest News" href="news/index.html"/>
-      <item name="Community" href="community/index.html"/>
       <item name="Products" href="product/index.html" />
       <item name="Planet" href="planet/index.html"/>
     </menu>
