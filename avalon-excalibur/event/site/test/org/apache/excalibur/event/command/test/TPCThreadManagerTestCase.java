@@ -178,7 +178,6 @@ public class TPCThreadManagerTestCase extends TestCase
 
         public void handleEvents( QueueElement[] elements )
         {
-System.out.println("handled event");
             // records the fact that the handler was called
             m_result.append( 'a' );
             try
@@ -189,7 +188,6 @@ System.out.println("handled event");
                 m_queue.enqueue( new QueueElement()
                 {
                 } );
-                System.out.println("added element");
             }
             catch( Exception e )
             {
