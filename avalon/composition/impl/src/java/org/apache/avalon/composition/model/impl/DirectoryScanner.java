@@ -29,6 +29,7 @@ import java.util.Vector;
 
 import org.apache.avalon.composition.model.FileSelector;
 import org.apache.avalon.composition.util.FileUtils;
+import org.apache.avalon.composition.util.ScannerUtils;
 import org.apache.avalon.util.env.Env;
 
 /**
@@ -36,7 +37,7 @@ import org.apache.avalon.util.env.Env;
  * 
  * @author Apache Ant Development Team (Kuiper, Umasankar, Atherton, and Levy-Lambert)
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/04/19 18:05:34 $
+ * @version $Revision: 1.3 $ $Date: 2004/04/19 18:13:09 $
  */
 public class DirectoryScanner {
 
