@@ -11,6 +11,7 @@
       <person id="LS" name="Leo Simons" email="mail@leosimons.com"/>
       <person id="PD" name="Peter Donald" email="peter@apache.org"/>
       <person id="PH" name="Paul Hammant" email="Paul_Hammant@yahoo.com"/>
+      <person id="NKB" name="Nicola Ken Barozzi" email="nicolaken@apache.org"/>      
     </authors>
   </header>
   <body>
@@ -29,7 +30,7 @@
       </p>
       <p>
       The scope of usage for Avalon is quite broad. You may only want to create custom, application
-      specific componets that can be managed in a well defined manner, or you may want to use the many
+      specific components that can be managed in a well defined manner, or you may want to use the many
       components and services available with the 
       <link href="http://jakarta.apache.org/avalon/excalibur/index.html">Excalibur</link>
       sub-project, or use complete applications, such as FTP or a web server, in a server oriented 
@@ -75,9 +76,9 @@
 
       <s2 title="Excalibur">
         <p>
-          <link href="@EXCALIBUR_BASE@/index.html">Excalibur</link> is a collection of often-needed 
-          reusable components. It includes tools for threading, pooling, datasources, 
-          proxies and more.
+          <link href="@EXCALIBUR_BASE@/index.html">Excalibur</link> is a collection of 
+          implementations and common code based on and implementing the 
+          <link href="framework/index.html">Avalon Framework</link>.
         </p>
       </s2>
 
@@ -93,7 +94,7 @@
 
       <s2 title="LogKit">
         <p>
-          <link href="@LOGKIT_BASE@/index.html">LogKit</link> is the logging toolkit 
+          <link href="@LOGKIT_BASE@/index.html">LogKit</link> is the preferred logging toolkit 
           used by the Avalon subprojects.
         </p> 
       </s2>
@@ -110,15 +111,12 @@
       <s2 title="Testlet">
         <note>
       As of August 1, 2001 the Avalon Development Team has decided to
-      discontinue development of Testlet in favor of the
+      discontinue development of <link href="@TESTLET_BASE@/index.html">Testlet</link> in favor of the
       <link href="http://www.junit.org">JUnit</link> testing framework.
       We will continue to reference this project until all tests are
       converted to JUnit TestCases.
     </note>
-        <p>
-          The <link href="@TESTLET_BASE@/index.html">Testlet</link> subproject is a unit 
-          testing framework used by the other sub-projects.
-        </p>
+
       </s2>
       <s2 title="Applications">
         <p>
@@ -134,7 +132,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.11 $ $Date: 2002/05/19 09:53:35 $
+      $Revision: 1.12 $ $Date: 2002/07/08 18:15:03 $
     </legal>
   </footer>
 </document>
