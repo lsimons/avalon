@@ -26,7 +26,7 @@ import java.util.Map;
  * total number of Connection objects that are created.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.10 $ $Date: 2002/01/23 15:49:52 $
+ * @version CVS $Revision: 1.11 $ $Date: 2002/02/02 11:26:15 $
  * @since 4.0
  */
 public class Jdbc3Connection
@@ -234,7 +234,7 @@ public class Jdbc3Connection
         m_connection.releaseSavepoint(savepoint);
     }
 
-    public final Statement createStatement(int resulSetType,
+    public final Statement createStatement(int resultSetType,
                                            int resultSetConcurrency,
                                            int resultSetHoldability)
         throws SQLException
@@ -248,7 +248,7 @@ public class Jdbc3Connection
     }
 
     public final PreparedStatement prepareStatement(String sql,
-                                        int resulSetType,
+                                        int resultSetType,
                                         int resultSetConcurrency,
                                         int resultSetHoldability)
         throws SQLException
@@ -262,7 +262,7 @@ public class Jdbc3Connection
     }
 
     public final CallableStatement prepareCall(String sql,
-                                        int resulSetType,
+                                        int resultSetType,
                                         int resultSetConcurrency,
                                         int resultSetHoldability)
         throws SQLException
