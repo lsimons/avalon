@@ -34,11 +34,13 @@ import org.apache.phoenix.engine.blocks.RoleEntry;
 import org.apache.phoenix.engine.facilities.ClassLoaderManager;
 import org.apache.phoenix.engine.facilities.ConfigurationRepository;
 import org.apache.phoenix.engine.facilities.LogManager;
+import org.apache.phoenix.engine.facilities.PhoenixManager;
 import org.apache.phoenix.engine.facilities.PolicyManager;
 import org.apache.phoenix.engine.facilities.ThreadManager;
 import org.apache.phoenix.engine.facilities.classloader.DefaultClassLoaderManager;
 import org.apache.phoenix.engine.facilities.configuration.DefaultConfigurationRepository;
 import org.apache.phoenix.engine.facilities.log.DefaultLogManager;
+import org.apache.phoenix.engine.facilities.phoenix.DefaultPhoenixManager;
 import org.apache.phoenix.engine.facilities.policy.DefaultPolicyManager;
 import org.apache.phoenix.engine.facilities.thread.DefaultThreadManager;
 import org.apache.phoenix.engine.phases.ShutdownPhase;
@@ -71,6 +73,7 @@ public final class DefaultServerApplication
     protected Configuration            m_configuration;
     protected ComponentManager         m_componentManager;
 
+    protected PhoenixManager           m_phoenixManager;
     protected LogManager               m_logManager;
     protected PolicyManager            m_policyManager;
     protected ThreadManager            m_threadManager;
@@ -135,7 +138,7 @@ public final class DefaultServerApplication
         while( phases.hasNext() )
         {
             final PhaseEntry entry = (PhaseEntry)phases.next();
-            setupComponent( entry.m_visitor );
+            setupComponent( entry.m_visitor, "<core>.phases." + entry.m_traversal.getName(), null );
         }
     }
 
@@ -185,10 +188,10 @@ public final class DefaultServerApplication
         m_logManager = new DefaultLogManager();
 
         m_configurationRepository = new DefaultConfigurationRepository();
-
         m_classLoaderManager = new DefaultClassLoaderManager();
         m_threadManager = new DefaultThreadManager();
         m_policyManager = new DefaultPolicyManager();
+        m_phoenixManager = new DefaultPhoenixManager();
     }
 
     /**
@@ -214,13 +217,9 @@ public final class DefaultServerApplication
 
         setupComponent( m_configurationRepository, "<core>.configuration-repository", null );
 
-        setupComponent( m_dag, "<core>.dag", null );
-    }
+        setupComponent( m_phoenixManager, "<core>.phoenix-manager", null );
 
-    protected void setupComponent( final Component object )
-        throws Exception
-    {
-        setupComponent( object, null, null );
+        setupComponent( m_dag, "<core>.dag", null );
     }
 
     protected void setupComponent( final Component object,
