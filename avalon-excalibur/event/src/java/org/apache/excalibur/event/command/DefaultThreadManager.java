@@ -49,7 +49,7 @@
 */
 package org.apache.excalibur.event.command;
 
-import org.apache.excalibur.thread.ThreadPool;
+import EDU.oswego.cs.dl.util.concurrent.Executor;
 
 /**
  * A ThreadManager that will use an external ThreadPool. This will be useful
@@ -68,8 +68,8 @@ public class DefaultThreadManager extends AbstractThreadManager
      *
      * @param pool  The ThreadPool we will use.
      */
-    public DefaultThreadManager( final ThreadPool pool )
+    public DefaultThreadManager( final Executor executor )
     {
-        setThreadPool( pool );
+        setExecutor( executor );
     }
 }

@@ -53,8 +53,9 @@ import org.apache.avalon.framework.logger.NullLogger;
 import org.apache.avalon.framework.parameters.ParameterException;
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
-import org.apache.excalibur.thread.ThreadControl;
 import org.apache.excalibur.util.SystemUtil;
+
+import EDU.oswego.cs.dl.util.concurrent.PooledExecutor;
 
 /**
  * This is a ThreadManager that uses a certain number of threads per
@@ -67,10 +68,11 @@ import org.apache.excalibur.util.SystemUtil;
  */
 public final class TPCThreadManager extends AbstractThreadManager implements Parameterizable
 {
-    private EventThreadPool m_tpool;
+    private PooledExecutor m_threadPool;
     private long m_blockTimeout = 1000L;
     private int m_processors = -1;
     private int m_threadsPerProcessor = 1;
+    private boolean m_hardShutdown = false;
 
     /**
      * The following parameters can be set for this class:
@@ -118,6 +120,8 @@ public final class TPCThreadManager extends AbstractThreadManager implements Par
 
         setSleepTime( parameters.getParameterAsLong( "sleep-time", 1000L ) );
         this.m_blockTimeout = parameters.getParameterAsLong( "block-timeout", 1000L );
+
+        this.m_hardShutdown = ( parameters.getParameterAsBoolean( "force-shutdown", false ) );
     }
 
     public void initialize() throws Exception
@@ -132,32 +136,40 @@ public final class TPCThreadManager extends AbstractThreadManager implements Par
             throw new IllegalStateException( "ThreadManager is already initailized" );
         }
 
-        m_tpool = new EventThreadPool( "TPCThreadManager",
-                                       ( m_processors * m_threadsPerProcessor ) + 1, ( int ) m_blockTimeout );
+        m_threadPool = new PooledExecutor(( m_processors * m_threadsPerProcessor ) + 1);
+        m_threadPool.setMinimumPoolSize( 2 ); // at least two threads
+        m_threadPool.setKeepAliveTime( getSleepTime() );
+        m_threadPool.waitWhenBlocked();
 
         if( null == getLogger() )
         {
             this.enableLogging( new NullLogger() );
         }
 
-        setThreadPool( m_tpool );
+        setExecutor( m_threadPool );
 
         super.initialize();
     }
 
     protected final void doDispose()
     {
-        // We should dispose all active threads
-        final ThreadControl[] threads = getThreadControls();
-
-        for( int i = 0; i < threads.length; i++ )
+        if ( m_hardShutdown )
         {
-            if( !threads[i].isFinished() )
-            {
-                m_tpool.dispose( threads[i] );
-            }
+            m_threadPool.shutdownNow();
+        }
+        else
+        {
+            m_threadPool.shutdownAfterProcessingCurrentlyQueuedTasks();
         }
 
-        m_tpool.dispose();
+        try
+        {
+            m_threadPool.awaitTerminationAfterShutdown( getSleepTime() );
+        }
+        catch (InterruptedException ie)
+        {
+            getLogger().warn("Thread pool took longer than " + getSleepTime() +
+                 " ms to shut down", ie);
+        }
     }
 }
