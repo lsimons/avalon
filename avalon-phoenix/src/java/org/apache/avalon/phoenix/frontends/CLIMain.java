@@ -16,13 +16,13 @@ import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.ExceptionUtil;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
+import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.AvalonFormatter;
 import org.apache.avalon.framework.logger.LogKitLogger;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.phoenix.Constants;
-import org.apache.avalon.phoenix.components.ContainerUtil;
 import org.apache.avalon.phoenix.interfaces.Embeddor;
 import org.apache.log.Hierarchy;
 import org.apache.log.LogTarget;
@@ -179,7 +179,7 @@ public final class CLIMain
             m_embeddor = (Embeddor)Class.forName( embeddorClassname ).newInstance();
 
             ContainerUtil.enableLogging( m_embeddor,
-                                     createLogger( parameters ) );
+                                         createLogger( parameters ) );
             ContainerUtil.contextualize( m_embeddor,
                                          new DefaultContext( data ) );
             ContainerUtil.parameterize( m_embeddor, parameters );

@@ -15,11 +15,12 @@ import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.excalibur.io.ExtensionFileFilter;
 import org.apache.avalon.framework.CascadingException;
-import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.activity.Disposable;
+import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
@@ -31,7 +32,6 @@ import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.DefaultServiceManager;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.phoenix.Constants;
-import org.apache.avalon.phoenix.components.ContainerUtil;
 import org.apache.avalon.phoenix.interfaces.Deployer;
 import org.apache.avalon.phoenix.interfaces.Embeddor;
 import org.apache.avalon.phoenix.interfaces.EmbeddorMBean;
@@ -164,7 +164,7 @@ public class DefaultEmbeddor
         m_phoenixHome = m_parameters.getParameter( "phoenix.home", ".." );
         m_persistent = m_parameters.getParameterAsBoolean( "persistent", false );
         m_appDir = m_parameters.getParameter( "phoenix.apps.dir",
-                                               m_phoenixHome + DEFAULT_APPS_PATH );
+                                              m_phoenixHome + DEFAULT_APPS_PATH );
     }
 
     public void configure( final Configuration configuration )
