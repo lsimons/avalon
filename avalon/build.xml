@@ -397,6 +397,7 @@ Legal:
     <!-- note that by doing an include the defaultexcludes (CVS dirs) will be kept -->
     <delete>
       <fileset dir="${www.dir}">
+        <exclude name="apps/**"/>      
         <exclude name="excalibur/**"/>
         <exclude name="logkit/**"/>
         <exclude name="cornerstone/**"/>
