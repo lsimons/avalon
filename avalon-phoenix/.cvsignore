@@ -1,7 +1,6 @@
 ant.properties
 velocity.log*
 dist
-build
 distributions
 prj.el
 emacs-jprj.el
@@ -11,3 +10,4 @@ todo
 *.iws
 .classpath
 .project
+target
