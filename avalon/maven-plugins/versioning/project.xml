@@ -22,10 +22,10 @@
   <extend>../project.xml</extend>
   <id>avalon-versioning-plugin</id>
   <name>Avalon Versioning Maven Plugin</name>
-  <currentVersion>1.0.dev-4</currentVersion>
+  <currentVersion>1.0.dev-6</currentVersion>
   <description/>
   <shortDescription>Automatic generation and updates of Versions.</shortDescription>
   
   <url>http://avalon.apache.org/plugins/versioning/</url>
-  <siteDirectory>/www/avalon.apache.org/plugins/versioning</siteDirectory>
+  <siteDirectory>/www/avalon.apache.org/maven-plugins/versioning</siteDirectory>
 </project>

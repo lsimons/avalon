@@ -51,16 +51,16 @@
       </goal>
       <goal>
         <name>increment:minor</name>
+        <description>
           This goal increments the <strong>Minor</strong> number and reset the
           positions to the right.
-        <description>
         </description>
       </goal>
       <goal>
         <name>increment:phase</name>
+        <description>
           This goal increments the <strong>Phase</strong> number and reset the
           build number to zero.
-        <description>
         </description>
       </goal>
       <goal>
