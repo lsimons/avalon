@@ -28,15 +28,18 @@
     </define:tag>
   
     <define:tag name="update-entities" >
-      <increment:read/>    
+      <increment:read/> 
       <ant:copy tofile="${maven.increment.central.entities}/${pom.artifactId}.ent" 
-                file="${plugin.resources}/entity-template.ent" 
+                file="${plugin.resources}/${avalon.versioning.type}.template" 
                 filtering="true" 
                 overwrite="true" 
       >
         <filterset>
           <filter token="PROJECT-ID" value="${pom.artifactId}"/>
-          <filter token="VERSION" value="${major}.${minor}.${phase}${number}"/>
+          <filter token="MAJOR" value="${major}"/>
+          <filter token="MINOR" value="${minor}"/>
+          <filter token="PHASE" value="${phase}"/>
+          <filter token="BUILD" value="${number}"/>
         </filterset>
       </ant:copy>
     </define:tag>
