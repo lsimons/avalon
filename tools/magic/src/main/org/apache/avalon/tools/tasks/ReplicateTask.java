@@ -68,11 +68,27 @@ public class ReplicateTask extends Task
     }
 
    /**
+    * Set the path programatically.
+    * @param path a path object
+    */
+    public void setReplicationPath( Path path )
+    {
+        m_path = path;
+    }
+
+   /**
     * The id of a repository based path.
     */
     public void setRefid( String id )
         throws BuildException
     {
+        if( null != m_path )
+        {
+            final String error = 
+              "Path already set.";
+            throw new BuildException( error );
+        }
+
         Object ref = getProject().getReference( id );
         if( null == ref )
         {
