@@ -16,19 +16,11 @@ Build instructions
 
 Build Dependencies: Maven beta10 or later.
 
-Prerequisites:
+IMPORTANT - before building avalon/repository you must
+checkout and build the avalon/util project.
 
-Some recent version of the avalon meta plugin included content 
-that has been moved to the repository plugin. To ensure that 
-you do not have any conflicts you can updated the avalon/meta 
-project from cvs and invoke avalon:setup from the avalon/meta 
-root directory to update the meta plugin.
-
-Before building the repository project you need to install the 
-avalon-repository plugin.  A convinience goal is provided:
-
-  $ cd /avalon/repository
-  $ maven avalon:setup
+The following instructions assume you are working from the 
+repository root directory.
 
 The following goal builds the repository project:
 

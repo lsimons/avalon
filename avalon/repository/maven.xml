@@ -1,11 +1,5 @@
 <project default="avalon:build" xmlns:maven="jelly:maven" xmlns:j="jelly:core" xmlns:util="jelly:util" xmlns:ant="jelly:ant">
 
-  <ant:property name="repo.plugin.groupId" value="avalon-repository"/>   
-  <ant:property name="repo.plugin.artifactId" value="avalon-repository-plugin"/>   
-  <ant:property name="repo.plugin.version" value="1.2.1-dev"/>
-  <ant:property name="repo.plugin.jar" 
-    value="${repo.plugin.artifactId}-${repo.plugin.version}.jar"/>   
-
   <ant:property name="pom.organization.identifier" value="ASF"/>
   <ant:property name="pom.specificationVersion" value="1.2"/>
   <ant:property name="maven.docs.src" value="${basedir}/site/xdocs"/>
@@ -14,91 +8,20 @@
   <goal name="avalon:build" description="Build the Repository.">
     <maven:reactor basedir="${basedir}"
       includes="**/project.xml"
-      excludes="**/target/**,project.xml"
+      excludes="project.xml"
       goals=""
       banner="Building:"
       ignoreFailures="false" />
   </goal>
 
-  <goal name="avalon:clean" prereqs="clean">
+  <goal name="avalon:clean" prereqs="clean" description="Clean all subprojects.">
     <maven:reactor
       basedir="${basedir}"
       includes="**/project.xml"
-      excludes="project.xml,**/target/**"
+      excludes="project.xml"
       goals="clean:clean"
       banner="Cleaning subproject:"
       ignoreFailures="false"/>
-  </goal>
-
-  <postGoal name="java:prepare-filesystem">
-    <ant:available file="${maven.home}/plugins/${repo.plugin.jar}"
-      property="repoPluginPresent"/>
-    <j:if test="${repoPluginPresent != 'true'}">
-      <ant:echo>
-#####################################################################
-#                                                                   #
-#   WARNING:                                                        #
-#   You do not have the required version of the avalon-repository   #
-#   plugin installed on your system.                                #
-#   Please invoke the following command                             #
-#                                                                   #
-#     $ maven avalon:setup                                          #
-#                                                                   #
-#####################################################################</ant:echo>
-      <attainGoal name="avalon:repo-plugin-install"/>
-    </j:if>
-  </postGoal>
-
-  <goal name="avalon:setup">
-    <echo>
-Initiating download and installation of the Avalon Repository Plugin.
-${repo.plugin.artifactId}-${repo.plugin.version}.jar</echo>
-    <j:set var="repoList">${maven.repo.remote}</j:set> 
-    <util:tokenize var="repos" delim=",">${repoList.trim()}</util:tokenize> 
-    <j:forEach var="repo" items="${repos}"> 
-      <echo>repository '${repo}'</echo> 
-      <util:file var="localPlugin" name="${maven.home}/plugins/${repo.plugin.artifactId}-${repo.plugin.version}.jar" /> 
-      <j:if test="${!localPlugin.exists()}"> 
-        <j:set var="remoteFile" value="${repo}/${repo.plugin.groupId}/plugins/${repo.plugin.artifactId}-${repo.plugin.version}.jar" /> 
-        <echo>trying to download ${remoteFile}</echo> 
-        <j:catch var="ex"> 
-        <j:invokeStatic var="dummy" method="getFile" className="org.apache.maven.util.HttpUtils"> 
-          <j:arg type="java.lang.String" value="${remoteFile}" /> 
-          <j:arg type="java.io.File" value="${localPlugin}"/> 
-          <j:arg type="boolean" value="false"/> 
-          <j:arg type="boolean" value="true"/> 
-          <j:arg type="java.lang.String" value="${maven.proxy.host}" /> 
-          <j:arg type="java.lang.String" value="${maven.proxy.port}" /> 
-          <j:arg type="java.lang.String" value="${maven.proxy.username}" /> 
-          <j:arg type="java.lang.String" value="${maven.proxy.password}" /> 
-          <j:arg type="boolean" value="false"/> 
-        </j:invokeStatic> 
-        </j:catch> 
-      </j:if> 
-      <j:break test="${localPlugin.exists()}"/> 
-    </j:forEach>
-    <j:set var="downloaded" value="${localPlugin.exists()}"/> 
-    <j:if test="${!downloaded}"> 
-      <ant:fail message="Unable to find plug-in" /> 
-    </j:if> 
-    <j:if test="${downloaded}">
-      <ant:move file="${localPlugin}" toFile="tmp.jar"/>
-      <echo>Plugin downloaded, removing other versions</echo> 
-      <delete verbose="false"> 
-        <fileset dir="${maven.home}/plugins">
-          <include name="${repo.plugin.artifactId}-*.jar" /> 
-          <exclude name="${repo.plugin.artifactId}-${repo.plugin.version}.jar" /> 
-        </fileset> 
-      </delete> 
-      <delete includeEmptyDirs="true" verbose="false"> 
-        <fileset dir="${maven.plugin.unpacked.dir}"> 
-          <include name="*.cache"/> 
-          <include name="**/.processed" /> 
-          <include name="${repo.plugin.artifactId}-*/**" /> 
-        </fileset>
-      </delete>
-      <ant:move file="tmp.jar" toFile="${localPlugin}"/>
-    </j:if> 
   </goal>
 
   <goal name="avalon:site">
@@ -136,5 +59,22 @@ ${repo.plugin.artifactId}-${repo.plugin.version}.jar</echo>
     </ant:javadoc>
   </goal>
 
+  <postGoal name="java:prepare-filesystem">
+    <ant:available file="${maven.home}/plugins/${repo.plugin.jar}"
+      property="repoPluginPresent"/>
+    <j:if test="${repoPluginPresent != 'true'}">
+      <ant:echo>
+#####################################################################
+#                                                                   #
+#   WARNING:                                                        #
+#   You do not have the required version of the avalon-repository   #
+#   plugin installed on your system.                                #
+#   Please invoke the following command                             #
+#                                                                   #
+#     $ maven avalon:setup                                          #
+#                                                                   #
+#####################################################################</ant:echo>
+    </j:if>
+  </postGoal>
 
 </project>

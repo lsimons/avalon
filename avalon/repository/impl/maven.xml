@@ -1,5 +1,5 @@
 <project default="jar:install" xmlns:ant="jelly:ant">
-  <postGoal name="java:prepare-filesystem">
+  <postGoal name="test:test">
     <attainGoal name="avalon:artifact"/>
   </postGoal>
   <postGoal name="jar:install">
