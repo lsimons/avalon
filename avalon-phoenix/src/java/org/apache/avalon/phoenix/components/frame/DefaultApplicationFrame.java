@@ -37,6 +37,7 @@ import org.apache.avalon.phoenix.components.configuration.ConfigurationRepositor
 import org.apache.avalon.phoenix.components.logger.DefaultLogManager;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
 import org.apache.log.Logger;
+import org.apache.log.Hierarchy;
 
 /**
  * Manage the "frame" in which Applications operate.
@@ -57,7 +58,7 @@ public class DefaultApplicationFrame
     private HashMap      m_threadPools     = new HashMap();
 
     //LogKitManager for application
-    private Logger       m_logger;
+    private Hierarchy    m_hierarchy;
 
     ///ClassLoader for application
     private ClassLoader  m_classLoader;
@@ -107,7 +108,7 @@ public class DefaultApplicationFrame
         final DefaultLogManager manager = new DefaultLogManager();
         try
         {
-            m_logger = manager.createLogger( m_metaData.getName(), m_metaData.getHomeDirectory(), logs ); 
+            m_hierarchy = manager.createHierarchy( m_metaData.getName(), m_metaData.getHomeDirectory(), logs ); 
         }
         catch( final Exception e )
         {
@@ -171,7 +172,7 @@ public class DefaultApplicationFrame
      */
     public Logger getLogger( final String category )
     {
-        return m_logger.getChildLogger( category );
+        return m_hierarchy.getLoggerFor( category );
     }
 
 
