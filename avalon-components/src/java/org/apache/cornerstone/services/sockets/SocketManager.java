@@ -7,7 +7,7 @@
  */
 package org.apache.cornerstone.services.sockets;
 
-import org.apache.avalon.ComponentNotFoundException;
+import org.apache.avalon.component.ComponentException;
 import org.apache.phoenix.Service;
 
 /**
@@ -26,7 +26,7 @@ public interface SocketManager
      * @exception ComponentNotFoundException if server socket factory is not available
      */
     ServerSocketFactory getServerSocketFactory( String name )
-        throws ComponentNotFoundException;
+        throws ComponentException;
 
     /**
      * Retrieve a client socket factory by name.
@@ -36,5 +36,5 @@ public interface SocketManager
      * @exception ComponentNotFoundException if socket factory is not available
      */
     SocketFactory getSocketFactory( String name )
-        throws ComponentNotFoundException;
+        throws ComponentException;
 }

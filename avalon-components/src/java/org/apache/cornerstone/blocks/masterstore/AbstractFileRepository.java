@@ -21,17 +21,18 @@ import org.apache.avalon.AbstractLoggable;
 import org.apache.avalon.ComponentManager;
 import org.apache.avalon.ComponentManagerException;
 import org.apache.avalon.Composer;
-import org.apache.avalon.configuration.Configurable;
-import org.apache.avalon.configuration.Configuration;
-import org.apache.avalon.configuration.ConfigurationException;
 import org.apache.avalon.Context;
 import org.apache.avalon.Contextualizable;
 import org.apache.avalon.Initializable;
-import org.apache.phoenix.Block;
-import org.apache.phoenix.BlockContext;
+import org.apache.avalon.component.ComponentException;
+import org.apache.avalon.configuration.Configurable;
+import org.apache.avalon.configuration.Configuration;
+import org.apache.avalon.configuration.ConfigurationException;
+import org.apache.avalon.util.io.ExtensionFileFilter;
 import org.apache.cornerstone.services.Store;
 import org.apache.cornerstone.services.store.Repository;
-import org.apache.avalon.util.io.ExtensionFileFilter;
+import org.apache.phoenix.Block;
+import org.apache.phoenix.BlockContext;
 
 /**
  * This an abstract class implementing functionality for creating a file-store.
@@ -39,19 +40,19 @@ import org.apache.avalon.util.io.ExtensionFileFilter;
  * @author <a href="mailto:stefano@apache.org">Stefano Mazzocchi</a>
  * @author <a href="mailto:fede@apache.org">Federico Barbieri</a>
  */
-public abstract class AbstractFileRepository 
-    extends AbstractLoggable  
+public abstract class AbstractFileRepository
+    extends AbstractLoggable
     implements Block, Repository, Contextualizable, Composer, Configurable, Initializable
 {
     protected static final boolean      DEBUG          = false;
 
     protected static final String       HANDLED_URL    = "file://";
     protected static final int          BYTE_MASK      = 0x0f;
-    protected static final char[]       HEX_DIGITS     = 
+    protected static final char[]       HEX_DIGITS     =
     {
         '0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'
     };
-    
+
     protected String                    m_path;
     protected String                    m_destination;
     protected String                    m_extension;
@@ -63,15 +64,15 @@ public abstract class AbstractFileRepository
     protected BlockContext              m_context;
 
     protected abstract String getExtensionDecorator();
-    
+
     public void contextualize( final Context context )
     {
         final BlockContext blockContext = (BlockContext)context;
-        m_baseDirectory = blockContext.getBaseDirectory();        
+        m_baseDirectory = blockContext.getBaseDirectory();
     }
 
     public void compose( final ComponentManager componentManager )
-        throws ComponentManagerException
+        throws ComponentException
     {
         m_componentManager = componentManager;
     }
@@ -86,7 +87,7 @@ public abstract class AbstractFileRepository
         }
     }
 
-    public void init() 
+    public void init()
         throws Exception
     {
         getLogger().info( "Init " + getClass().getName() + " Store" );
@@ -94,7 +95,7 @@ public abstract class AbstractFileRepository
         m_name = RepositoryManager.getName();
         m_extension = "." + m_name + getExtensionDecorator();
         m_filter = new ExtensionFileFilter( m_extension );
- 
+
         final File directory = new File( m_path );
         directory.mkdirs();
 
@@ -112,11 +113,11 @@ public abstract class AbstractFileRepository
         m_path = destination.substring( HANDLED_URL.length() );
 
         File directory = new File( m_baseDirectory, m_path );
-        
+
         try { directory = directory.getCanonicalFile(); }
         catch( final IOException ioe )
         {
-            throw new ConfigurationException( "Unable to form canonical representation of " + 
+            throw new ConfigurationException( "Unable to form canonical representation of " +
                                               directory );
         }
 
@@ -133,12 +134,12 @@ public abstract class AbstractFileRepository
 
     public Repository getChildRepository( final String childName )
     {
-        AbstractFileRepository child = null; 
-        
+        AbstractFileRepository child = null;
+
         try { child = createChildRepository(); }
         catch( final Exception e )
         {
-            throw new RuntimeException( "Cannot create child repository " + 
+            throw new RuntimeException( "Cannot create child repository " +
                                         childName + " : " + e );
         }
 
@@ -146,34 +147,34 @@ public abstract class AbstractFileRepository
         catch( final ComponentManagerException cme )
         {
             throw new RuntimeException( "Cannot compose child " +
-                                        "repository " + childName + 
+                                        "repository " + childName +
                                         " : " + cme );
         }
 
-        try 
+        try
         {
-            child.setDestination( m_destination + File.pathSeparatorChar + 
+            child.setDestination( m_destination + File.pathSeparatorChar +
                                   childName + File.pathSeparator );
         }
         catch( final ConfigurationException ce )
         {
             throw new RuntimeException( "Cannot set destination for child child " +
-                                        "repository " + childName + 
+                                        "repository " + childName +
                                         " : " + ce );
         }
-        
-        try { child.init(); } 
+
+        try { child.init(); }
         catch( final Exception e )
         {
             throw new RuntimeException( "Cannot initialize child " +
-                                        "repository " + childName + 
+                                        "repository " + childName +
                                         " : " + e );
         }
 
-        if( DEBUG ) 
+        if( DEBUG )
         {
-            getLogger().debug( "Child repository of " + m_name + " created in " + 
-                               m_destination + File.pathSeparatorChar + 
+            getLogger().debug( "Child repository of " + m_name + " created in " +
+                               m_destination + File.pathSeparatorChar +
                                childName + File.pathSeparator );
         }
 
@@ -208,14 +209,14 @@ public abstract class AbstractFileRepository
             final File file = getFile( key );
             file.delete();
             if( DEBUG ) getLogger().debug( "removed key " + key );
-        } 
+        }
         catch( final Exception e )
         {
             throw new RuntimeException( "Exception caught while removing" +
                                         " an object: " + e );
         }
     }
-    
+
     /**
      * Indicates if the given key is associated to a contained object.
      */
@@ -226,7 +227,7 @@ public abstract class AbstractFileRepository
             final File file = getFile( key );
             if( DEBUG ) getLogger().debug( "checking key " + key );
             return file.exists();
-        } 
+        }
         catch( final Exception e )
         {
             throw new RuntimeException( "Exception caught while searching " +
@@ -237,7 +238,7 @@ public abstract class AbstractFileRepository
     /**
      * Returns the list of used keys.
      */
-    public Iterator list() 
+    public Iterator list()
     {
         final File storeDir = new File( m_path );
         final String[] names = storeDir.list( m_filter );
@@ -259,7 +260,7 @@ public abstract class AbstractFileRepository
      * it may normally happen). For this reason, it's highly recommended
      * (even if not mandated) that Strings be used as keys.
      */
-    protected String encode( final String key ) 
+    protected String encode( final String key )
     {
         final byte[] bytes = key.getBytes();
         final char[] buffer = new char[ bytes.length << 1 ];
@@ -278,11 +279,11 @@ public abstract class AbstractFileRepository
         result.append( m_extension );
         return result.toString();
     }
-    
+
     /**
      * Inverse of encode exept it do not use path.
      * So decode(encode(s) - m_path) = s.
-     * In other words it returns a String that can be used as key to retive 
+     * In other words it returns a String that can be used as key to retive
      * the record contained in the 'filename' file.
      */
     protected String decode( String filename )
