@@ -65,16 +65,16 @@ public class LifecycleHelper
      * Errors that occur during shutdown will be logged appropriately and
      * cause exceptions with useful messages to be raised.
      *
+     * @param name the name o f the component
      * @param entry the entry representing object
      * @throws Exception if an error occurs when block passes
      *            through a specific lifecycle stage
      */
-    public Object startup( final ComponentEntry entry,
+    public Object startup( final String name,
+                           final ComponentEntry entry,
                            final ResourceAccessor accessor )
         throws Exception
     {
-        final String name = entry.getName();
-
         int stage = 0;
         try
         {
@@ -175,9 +175,9 @@ public class LifecycleHelper
      *
      * @param entry the entry containing Block
      */
-    public void shutdown( final ComponentEntry entry )
+    public void shutdown( final String name,
+                          final ComponentEntry entry )
     {
-        final String name = entry.getName();
         final Object object = entry.getObject();
         entry.invalidate();
 
