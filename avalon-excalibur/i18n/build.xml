@@ -110,13 +110,13 @@
   <target name="test" depends="compile" description="Perform the unit tests">
 
     <echo message="Performing Unit Tests" />
+    <mkdir dir="${build.tests}"/>
     <junit fork="true" printsummary="yes" dir="${build.tests}">
       <formatter type="xml"/>    <!-- xml reports for junitreport -->
       <formatter type="plain"/>  <!-- text reports for humans     -->
 
       <classpath>
         <path refid="project.class.path"/>
-        <pathelement location="${build.classes}"/>
       </classpath>
       <batchtest todir="${build.reports}">
         <fileset dir="${build.classes}">
