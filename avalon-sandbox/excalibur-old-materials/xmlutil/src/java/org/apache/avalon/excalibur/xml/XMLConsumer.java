@@ -17,9 +17,10 @@ import org.xml.sax.ext.LexicalHandler;
  * This interface unites the idea of SAX <code>ContentHandler</code> and
  * <code>LexicalHandler</code>.
  *
+ * @deprecated Moved to org.apache.excalibur.xml.sax package.
  * @author <a href="mailto:fumagalli@exoffice.com">Pierpaolo Fumagalli</a>
  *         (Apache Software Foundation, Exoffice Technologies)
- * @version CVS $Revision: 1.2 $ $Date: 2002/07/07 07:16:44 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/10/15 23:20:18 $
  */
 public interface XMLConsumer
     extends ContentHandler, LexicalHandler
