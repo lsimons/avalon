@@ -84,7 +84,10 @@ public class Builder
                 // plugin method
                 pluginname = methodname.substring( 0, pos );
                 plugin = sm.lookupPlugin( pluginname );
-                methodname = methodname.substring( pos + 1 );
+                if( pos + 1 >= methodname.length() )
+                    methodname = pluginname;
+                else
+                    methodname = methodname.substring( pos + 1 );
             }
             if( plugin != null )
             {
