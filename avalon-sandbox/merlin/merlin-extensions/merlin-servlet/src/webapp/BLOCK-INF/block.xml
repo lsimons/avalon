@@ -1,6 +1,6 @@
 
 <block name="merlin">
-   <container>
+   <container name="merlin">
      <!-- include components and subcontainers here -->
   </container>
 </block>
