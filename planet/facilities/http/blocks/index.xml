@@ -41,6 +41,9 @@
     </info>
     <dependencies>
       <include key="avalon-framework-api" runtime="false"/>
+      <include key="avalon-http-api" />
+      <include key="avalon-http-impl" />
+      <include key="servletapi" />
     </dependencies>
   </project>
 
