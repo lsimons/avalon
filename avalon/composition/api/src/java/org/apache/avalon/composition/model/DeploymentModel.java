@@ -62,11 +62,13 @@ import org.apache.avalon.framework.logger.Logger;
  * Model desribing a deployment scenario.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.8 $ $Date: 2004/01/13 11:41:24 $
+ * @version $Revision: 1.9 $ $Date: 2004/01/15 12:23:04 $
  */
 public interface DeploymentModel
 {
     String SEPARATOR = "/";
+
+    String DEPLOYMENT_TIMEOUT_KEY = "urn:composition:deployment.timeout";
 
    /**
     * Return the name of the model.

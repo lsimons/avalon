@@ -67,7 +67,7 @@ import org.apache.avalon.excalibur.i18n.Resources;
  * Abstract model base class.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.10 $ $Date: 2004/01/13 11:41:26 $
+ * @version $Revision: 1.11 $ $Date: 2004/01/15 12:23:04 $
  */
 public abstract class DefaultDeploymentModel
   implements DeploymentModel
@@ -215,15 +215,21 @@ public abstract class DefaultDeploymentModel
     }
 
    /** 
-    * Return the maximum allowable duration for the deployment
-    * of the component represented by this model.
+    * Return the default deployment timeout value declared in the 
+    * kernel configuration.  The implementation looks for a value
+    * assigned under the property key "urn:composition:deployment.timeout"
+    * and defaults to 1000 msec if undefined.
     *
-    * @return the maximum time expressed in millisecond
+    * @return the default deployment timeout value
     */
     public long getDeploymentTimeout()
     {
         SystemContext sc = m_context.getSystemContext();
         Parameters params = sc.getSystemParameters();
-        return params.getParameterAsLong( "deployment-timeout", 1000 );
+        return params.getParameterAsLong( 
+          DEPLOYMENT_TIMEOUT_KEY, 
+          params.getParameterAsLong( 
+            "deployment-timeout", // legacy 
+            1000 ) );
     }
 }
