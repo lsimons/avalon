@@ -21,11 +21,15 @@ import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Checksum;
 import org.apache.tools.ant.taskdefs.ExecTask;
 
+import org.apache.avalon.tools.model.Home;
+
 import java.io.File;
 import java.io.IOException;
 
+
 /**
- * Load a goal. 
+ * Abstract task that provides utilites supporting the generation of MD5 
+ * and ASC artifacts.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
@@ -34,7 +38,6 @@ public class AbstractDeliverableTask extends SystemTask
 {
     public static final String MD5_EXT = "md5";
     public static final String ASC_EXT = "asc";
-    public static final String GPG_EXE_KEY = "project.gpg.exe";
 
     public void checksum( final File file )
     {
@@ -62,8 +65,8 @@ public class AbstractDeliverableTask extends SystemTask
         {
             asc.delete();
         }
-
-        final String gpg = getProject().getProperty( GPG_EXE_KEY );
+        
+        final String gpg = getHome().getProperty( Home.GPG_EXE_KEY );
 
         if(( null != gpg ) && !"".equals( gpg ) )
         {
