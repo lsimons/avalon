@@ -33,7 +33,7 @@ import org.apache.avalon.framework.thread.ThreadSafe;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/04/10 05:38:43 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/04/25 14:40:23 $
  * @since 4.0
  */
 public class ExcaliburComponentSelector
@@ -177,19 +177,7 @@ public class ExcaliburComponentSelector
         if( !m_initialized ) return false;
         if( m_disposed ) return false;
 
-        boolean exists = false;
-
-        try
-        {
-            this.release( this.select( hint ) );
-            exists = true;
-        }
-        catch( Throwable t )
-        {
-            // We can safely ignore all exceptions
-        }
-
-        return exists;
+        return m_componentHandlers.containsKey( hint );
     }
 
     /**
@@ -422,7 +410,7 @@ public class ExcaliburComponentSelector
                 " but its handler could not be located." );
             return;
         }
-        
+
         // ThreadSafe components will always be using a ThreadSafeComponentHandler,
         //  they will only have a single entry in the m_componentMapping map which
         //  should not be removed until the ComponentManager is disposed.  All
@@ -435,7 +423,7 @@ public class ExcaliburComponentSelector
             //  remove can be called.
             m_componentMapping.remove( component );
         }
-        
+
         try
         {
             handler.put( component );
@@ -490,7 +478,7 @@ public class ExcaliburComponentSelector
     {
         return m_componentHandlers;
     }
-    
+
     /** Add a new component to the manager.
      * @param hint the hint name for the new component.
      * @param component the class of this component.
