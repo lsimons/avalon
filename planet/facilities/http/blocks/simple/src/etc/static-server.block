@@ -21,7 +21,7 @@
     </classpath>
   </classloader>
 
-  <component name="socketlistener" class="org.apache.avalon.http.impl.SocketListener" />
+  <component name="socketlistener" class="org.apache.avalon.http.impl.SocketListener" >
     <!-- Defaults 
     <parameters>
       <parameter name="port" value="8080" />
