@@ -59,7 +59,7 @@ package org.apache.avalon.framework.component;
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version 1.0
- * @deprecated Deprecated with no replacement.  The Reconfigurable interface is a legacy
+ * @deprecated Deprecated with no replacement.  The Recomposable interface is a legacy
  *    interface with no concrete contracts.  Rather than copy the design mistake
  *    to the "service" package, we no longer support this class.
  */
