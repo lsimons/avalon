@@ -722,9 +722,6 @@
         <include name="*.jar"/>
       </lib>
       
-	  <lib dir="${java.home}/../lib/">   
-         <include name="tools.jar"/>   
-      </lib>   
 
       <zipfileset dir="catalina-download/jakarta-tomcat-${catalina-version}/webapps" prefix="webapps"/>
 
