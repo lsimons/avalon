@@ -91,19 +91,7 @@ final class DefaultThreadControl
     public synchronized void join( final long milliSeconds )
         throws IllegalStateException, InterruptedException
     {
-        //final long start = System.currentTimeMillis();
-        wait( milliSeconds );
-        /*
-          if( !isFinished() )
-          {
-          final long now = System.currentTimeMillis();
-          if( start + milliSeconds > now )
-          {
-          final long remaining = milliSeconds - (now - start);
-          join( remaining );
-          }
-          }
-        */
+        m_thread.join(milliSeconds);
     }
 
     public void interupt()
