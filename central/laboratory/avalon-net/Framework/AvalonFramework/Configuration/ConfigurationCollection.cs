@@ -60,19 +60,14 @@ namespace Apache.Avalon.Framework
 		/// </exception>
 		public IConfiguration this[int index] 
 		{
-
 			get 
 			{
-
 				return (IConfiguration) List[index];
 			}
-
 			set 
 			{
-
 				List[index] = value;
 			}
-
 		}
 
 		/// <summary>
@@ -84,7 +79,6 @@ namespace Apache.Avalon.Framework
 		/// </returns>
 		public int Add(IConfiguration value) 
 		{
-
 			return List.Add(value);
 		}
 
@@ -121,7 +115,6 @@ namespace Apache.Avalon.Framework
 		/// <param name="index">The zero-based index in array at which copying begins.</param>
 		public void CopyTo(IConfiguration[] array, int index)
 		{
-
 			List.CopyTo(array, index);
 		}
 
@@ -136,7 +129,6 @@ namespace Apache.Avalon.Framework
 		/// </returns>
 		public bool Contains(IConfiguration value) 
 		{
-
 			return List.Contains(value);
 		}
 
@@ -151,7 +143,6 @@ namespace Apache.Avalon.Framework
 		/// </returns>
 		public int IndexOf(IConfiguration value) 
 		{
-
 			return List.IndexOf(value);
 		}
 
@@ -163,7 +154,6 @@ namespace Apache.Avalon.Framework
 		/// <param name="value">The <see cref="IConfiguration"/> to insert.</param>
 		public void Insert(int index, IConfiguration value) 
 		{
-
 			List.Insert(index, value);
 		}
 		
@@ -177,7 +167,6 @@ namespace Apache.Avalon.Framework
 		/// </exception>
 		public void Remove(IConfiguration value) 
 		{
-
 			List.Remove(value);
 		}
 	}

@@ -11,6 +11,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.namespace Apache.Avalon.Framework{	using System;
+
 	///<summary>
 	/// This interface should be implemented by classes that need to be	/// configured with custom parameters before initialization. The	/// contract surrounding a Configurable is that the instantiating	/// entity must call the configure method before it is valid.	///</summary>
 	public interface IConfigurable	{		/// <summary>		/// This interface should be implemented by classes that need to be		/// configured with custom parameters before initialization. The		/// contract surrounding a Configurable is that the instantiating		/// entity must call the configure method before it is valid.		/// </summary>		/// <param name="config">The configuration object to parse.</param>		/// <exception cref="ConfigurationException">

@@ -13,4 +13,5 @@
 // limitations under the License.
 
 namespace Apache.Avalon.Framework{	using System;
+
 	/// <summary>	/// Components that need to log can implement this interface	/// to be provided Loggers.	/// </summary>	public interface ILogEnabled	{		/// <summary>		/// Provide component with a logger.		/// </summary>		/// <param name="logger"> the logger. Must not be null.</param>		void EnableLogging(ILogger logger);	}}

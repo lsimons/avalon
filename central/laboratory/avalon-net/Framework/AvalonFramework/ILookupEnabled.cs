@@ -13,4 +13,5 @@
 // limitations under the License.
 
 namespace Apache.Avalon.Framework{	using System;
+
 	/// <summary>	/// A Serviceable is a class that need to connect to software components	/// or obtain other context information using a name, thus not depending	/// on particular implementations but on behavioral interfaces. The	/// contract surrounding a ILookupEnabled is that it is a user. The	/// ILookupEnabled is able to use Objects managed by the ILookupManager	/// it was initialized with. As part of the contract with the system, the	/// instantiating entity (container) must call the enableLookups method	/// before the ILookupEnabled can be considered valid.	/// </summary>	public interface ILookupEnabled	{		/// <summary>		/// Pass the ILookupManager to the ILookupEnabled. The ILookupEnabled		/// implementation should use the specified ILookupManager to acquire		/// the components it needs for execution.		/// </summary>		/// <param name="manager">The lookup manager</param>		/// <exception cref="LookupException">If a required object could not be found.</exception>		void EnableLookups( ILookupManager manager );	}}

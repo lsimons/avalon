@@ -13,4 +13,5 @@
 // limitations under the License.
 
 namespace Apache.Avalon.Framework{	using System;
+
 	/// <summary>	/// The Startable interface is used when components need to be "running" to	/// be active. It provides a method through which components can be	/// "started" and "stopped" without requiring a thread. Note that these	/// methods should start the component but return imediately.	/// </summary>	public interface IStartable	{		/// <summary>		/// Starts the component.		/// </summary>		/// <exception cref="Exception">		/// If there is a problem starting the component.		/// </exception>		void Start();		/// <summary>		/// Stops the component.		/// </summary>		/// <exception cref="Exception">		/// If there is a problem stoping the component.		/// </exception>		void Stop();	}}
