@@ -35,7 +35,7 @@ import java.util.Enumeration ;
  * need to be added and or changed.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public class Env extends Properties
 {
@@ -170,6 +170,35 @@ public class Env extends Properties
         return false ;
     }
     
+    /**
+     * Checks to see if the operating system is NetWare.
+     * 
+     * @return true of the OS is NetWare, false otherwise 
+     */
+    public static boolean isNetWare()
+    {
+        if ( -1 != OSNAME.indexOf( "netware" ) ) 
+        {
+            return true ;
+        }
+        
+        return false ;
+    }
+    
+    /**
+     * Checks to see if the operating system is OpenVMS.
+     * 
+     * @return true of the OS is a NetWare variant, false otherwise 
+     */
+    public static boolean isOpenVMS()
+    {
+        if ( -1 != OSNAME.indexOf( "openvms" ) ) 
+        {
+            return true ;
+        }
+        
+        return false ;
+    }
     
     /**
      * Gets all environment variables within a Properties instance where the 
