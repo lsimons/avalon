@@ -417,6 +417,7 @@ public class DefaultEmbeddor
      * until setupComponents() is called.
      */
     private synchronized void createComponents()
+    throws Exception
     {
         try
         {
@@ -428,11 +429,12 @@ public class DefaultEmbeddor
                 m_entries[ i ].setObject( object );
             }
         }
-        catch( Exception e )
+        catch( final Exception e )
         {
             final String message =
                 REZ.getString( "embeddor.error.createComponents.failed" );
             getLogger().fatalError( message, e );
+            throw new Exception( message, e );
         }
     }
 
@@ -636,7 +638,7 @@ public class DefaultEmbeddor
         final SystemManager systemManager =
             (SystemManager)getServiceManager().lookup( SystemManager.ROLE );
 
-        SystemManager componentManager = systemManager.getSubContext( null, "component" );
+        final SystemManager componentManager = systemManager.getSubContext( null, "component" );
 
         componentManager.unregister( ManagementRegistration.EMBEDDOR.getName() );
 

@@ -19,7 +19,7 @@ import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
  * Utility class to help with exporting Blocks to management subsystem.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2002/05/19 02:31:04 $
+ * @version $Revision: 1.2 $ $Date: 2002/07/30 12:31:16 $
  */
 class ExportHelper
     extends AbstractLogEnabled
@@ -40,23 +40,37 @@ class ExportHelper
         final String name = metaData.getName();
         final ClassLoader classLoader = block.getClass().getClassLoader();
 
+        final Class[] serviceClasses = new Class[ services.length ];
+
         for( int i = 0; i < services.length; i++ )
         {
             final ServiceDescriptor service = services[ i ];
             try
             {
-                final Class clazz = classLoader.loadClass( service.getName() );
-                context.exportObject( name, clazz, block );
+                serviceClasses[ i ] = classLoader.loadClass( service.getName() );
             }
             catch( final Exception e )
             {
                 final String reason = e.toString();
                 final String message =
-                    REZ.getString( "export.error", name, service.getName(), reason );
+                    REZ.getString( "bad-mx-service.error", name, service.getName(), reason );
                 getLogger().error( message );
                 throw new CascadingException( message, e );
             }
         }
+
+        try
+        {
+            context.exportObject( name, serviceClasses, block );
+        }
+        catch( final Exception e )
+        {
+            final String message =
+                REZ.getString( "export.error", name, e );
+            getLogger().error( message );
+            throw new CascadingException( message, e );
+        }
+
     }
 
     /**
@@ -67,25 +81,16 @@ class ExportHelper
                         final BlockMetaData metaData,
                         final Object block )
     {
-        final ServiceDescriptor[] services = metaData.getBlockInfo().getManagementAccessPoints();
         final String name = metaData.getName();
-        final ClassLoader classLoader = block.getClass().getClassLoader();
-
-        for( int i = 0; i < services.length; i++ )
+        try
         {
-            final ServiceDescriptor service = services[ i ];
-            try
-            {
-                final Class clazz = classLoader.loadClass( service.getName() );
-                context.unexportObject( name, clazz );
-            }
-            catch( final Exception e )
-            {
-                final String reason = e.toString();
-                final String message =
-                    REZ.getString( "unexport.error", name, service.getName(), reason );
-                getLogger().error( message );
-            }
+            context.unexportObject( name );
+        }
+        catch( final Exception e )
+        {
+            final String message =
+                REZ.getString( "unexport.error", name, e );
+            getLogger().error( message );
         }
     }
 }

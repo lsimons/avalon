@@ -136,11 +136,11 @@ class DefaultApplicationContext
      * @param object the actual object to export
      */
     public void exportObject( final String name,
-                              final Class service,
+                              final Class[] services,
                               final Object object )
         throws Exception
     {
-        m_blockManager.register( name, object, new Class[]{service} );
+        m_blockManager.register( name, object, services );
     }
 
     /**
@@ -149,7 +149,7 @@ class DefaultApplicationContext
      * @param name the name of object to unexport
      * @param service the interface of object with which to unexport
      */
-    public void unexportObject( final String name, final Class service )
+    public void unexportObject( final String name )
         throws Exception
     {
         m_blockManager.unregister( name );

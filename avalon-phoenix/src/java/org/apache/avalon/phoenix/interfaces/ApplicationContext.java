@@ -32,19 +32,18 @@ public interface ApplicationContext
      * and using the specified name.
      *
      * @param name the name of object to export
-     * @param interfaceClass the interface of object with which to export
+     * @param interfaceClasses the interface of object with which to export
      * @param object the actual object to export
      */
-    void exportObject( String name, Class interfaceClass, Object object )
+    void exportObject( String name, Class[] interfaceClasses, Object object )
         throws Exception;
 
     /**
      * Unexport specified object from management system.
      *
      * @param name the name of object to unexport
-     * @param interfaceClass the interface of object with which to unexport
      */
-    void unexportObject( String name, Class interfaceClass )
+    void unexportObject( String name )
         throws Exception;
 
     /**
