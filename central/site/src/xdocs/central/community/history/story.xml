@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- edited with XMLSPY v2004 rel. 2 U (http://www.xmlspy.com) by J Aaron Farr (Sony Electronics) -->
 <document>
-	<properties>
-		<author email="dev@avalon.apache.org">Avalon Documentation Team</author>
-		<title>History</title>
-	</properties>
-	<body>
-		<section name="Avalon's Story">
-			<p>
-        The following is an attempt at recording the history of
-	Avalon, both its technology and its community.  The Avalon Framework
-	traditionally had a notorious learning curve and the community
-	has seen a number of changes.  Hopefully by understanding
-	where Avalon has been, users can gain a better understanding of
-	where Avalon is now and where we are headed.
-      </p>
-		</section>
-		<section name="Once upon a time">
-			<p>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>History</title>
+  </properties>
+  <body>
+    <section name="Avalon's Story">
+      <p>
+The following is an attempt at recording the history of
+Avalon, both its technology and its community.  The Avalon Framework
+traditionally had a notorious learning curve and the community
+has seen a number of changes.  Hopefully by understanding
+where Avalon has been, users can gain a better understanding of
+where Avalon is now and where we are headed.
+subsection</p>
+
+      <subsection name="Once upon a time">
+      <p>
 Let's start off with some basic history. Avalon emerged from the Java
 Apache Server Framework before the days of Apache Jakarta. During
 development of the JServ project (which laid the foundation for
@@ -26,9 +26,9 @@ the time could be abstracted into a general application
 framework. This framework eventually became the Avalon framework we
 have today.  The framework focused a small number of core concepts 
 (design patterns) called Separation of Concerns and Inversion of
-      Control which are described elsewhere.
-     </p>
-			<p>
+subsectionControl which are described elsewhere.
+      </p>
+      <p>
 So in the beginning there was the Avalon Framework. It basically
 described the contracts or interfaces between various components (such
 as lifecycle methods) and provided some general utilities for using
@@ -36,8 +36,8 @@ these interfaces. One could easily create an application which simply
 just used the framework. However, in order to provide some more
 advanced components and utilties (which were not essential to the
 framework, but still useful) Excalibur was born.
-    </p>
-			<p>
+      </p>
+      <p>
 Excalibur held a set of basic components and utilities which made
 working with the Framework much easier. One of these components was
 the Excalibur Component Manager or ECM which did all the work of
@@ -46,15 +46,15 @@ started. It was the first container of sorts and grew out of work from
 the Cocoon project. ECM didn't have a lot of "advanced" features, but
 it was simple to work with and could be used in any number of
 environments. 
-    </p>
-			<p>
+      </p>
+      <p>
 Of course, with time, new expectations and requested features meant
 that other Avalon containers were under development.  ECM would have to
 share the spotlight with Phoenix. 
-   </p>
-		</section>
-		<section name="The Rise of the Phoenix">
-			<p>
+      </p>
+      </subsection>
+      <subsection name="The Rise of the Phoenix">
+      <p>
 Phoenix was the first really complete full fledged standalone
 container for Avalon. Phoenix was not only a container, but a
 microkernel. While it could be used for other sorts of applications,
@@ -67,23 +67,23 @@ dependencies. Blocks would be packaged up with configuration and
 assembly files into a .sar archive, similar to the .ear files for J2EE
 applications. Phoenix would then launch all the SAR blocks contained
 within a particular startup directory. 
-    </p>
-			<p>
+      </p>
+      <p>
 Thus Phoenix was a full application server of sorts. Applications
 running within Phoenix used the Avalon Framework just as ECM
 components would. In fact, if you were careful to only depend on the
 framework for development, with a little work you could get
 applications written for ECM to run in Phoenix and visa versa. 
-   </p>
-			<p>
+      </p>
+      <p>
 Cornerstone became a repository of Phoenix blocks: larger components
 which could be dropped into Avalon Phoenix and provide services and
 resources to user developed components and applications. There was
 some overlap between components developed in Cornerstone and
 Excalibur, but in general, Cornerstone components were targeted for
 server side applications running in Phoenix. 
-   </p>
-			<p>
+      </p>
+      <p>
 Phoenix's growth brought changes to the developer community as well.
 A separate CVS repository and specific mailing list were
 created to facility the Phoenix community.  This was the beginning
@@ -94,10 +94,10 @@ keeping the different containers compatible while also allowing each
 developer community to explore and enhance their software in their own
 repective ways.  One of those enhancements was the change from
 components to services.
-   </p>
-		</section>
-		<section name="How Components Became Services">
-			<p>
+      </p>
+      </subsection>
+      <subsection name="How Components Became Services">
+      <p>
 In the beginning there were only components. The components had a role
 defined by a java interface and an implementation defined by a
 concrete java class. In ECM roles and components could be described in
@@ -111,61 +111,57 @@ the basic meta-data. The xinfo files and the conf files had the
 same purpose (to hold meta-data and meta-info) but were used by 
 different containers.  Thus, from the beginning there was no common
 meta format or API.
-     </p>
-			<p>
+      </p>
+      <p>
 Also at this time, all components were children of the one
 org.apache.framework.component.Component interface. A brave developer
 scaled Mt. Doom and tossed the Component interface and all the other
 marker interfaces into the fiery pit, thus freeing all components from
 bondage of the one Component. 
-    </p>
-			<p>
+      </p>
+      <p>
 Upon return from this quest, the developer said, "All Components shall
 now be dubbed Services" and a new set of Service Managers and Service
 Selectors appeared that could converse with any Object, not just
 Components. These Service utilities performed the exact same functions
 as their deprecated Component counterparts, but didn't require
 everything be a Component. That is:
-    </p>
-			<source>
-      Component componentManager.lookup(String role); 
-    </source>
-			<p>
+      </p>
+<source>subsectionComponent componentManager.lookup(String role);</source>
+      <p>
 became
-   </p>
-			<source>
-      Object serviceManager.lookup(String role); 
-   </source>
-			<p>
+      </p>
+<source>subsectionObject serviceManager.lookup(String role);</source>
+      <p>
 So in this sense, Components ARE Services. But now the Avalon
 community had two names for the same thing and this is generally were
 confusion arises.  Since that time, a service generally refers to only
 the service interface while a component refers to the entire interface
 and implementation together.
-   </p>
-			<p>
+      </p>
+      <p>
 Stephen McConnell, primary developer of Merlin, chimed in with this
 clarification: "A 'component' is an implementation artifact that
 exposes 0..n services. A 'service' is computation contract exposed by
 a component. A component may include many other features that are not
 exposed through the services that is publishes. "
-   </p>
-			<p>
+      </p>
+      <p>
 "A 'service' is typically represented by a Java interface and possibly
 supporting meta-info (such as a version, attributes, etc.)." 
-   </p>
-			<p>
+      </p>
+      <p>
 "A 'component' is an example of a 'service-delivery-strategy'."
-   </p>
-		</section>
-		<section name="Fortress and Merlin arrive">
-			<p>
+      </p>
+      </subsection>
+      <subsection name="Fortress and Merlin arrive">
+      <p>
 Effort was made in Phoenix to support the new Service semantics, but
 instead of rewritting ECM, the decision was made to create a new
 ECM-like container which could use Components and Services alike. Thus
 was born Fortress.
-  </p>
-			<p>
+      </p>
+      <p>
 Fortress supports legacy ECM components but provides a number of
 features like basic meta-data configuration (instead of a "roles"
 file), dynamic service activation, lifecycle extensions,
@@ -176,8 +172,8 @@ no default standalone client (i.e.- there's no "main" method class in
 Fortress) and doesn't do much classloader magic, making embedding a
 little more predictable. Fortress was released in the summer of 2003
 and replaced ECM as Avalon's light weight container of choice. 
-  </p>
-			<p>
+      </p>
+      <p>
 While Fortress grew from ECM, Merlin grew from Phoenix, though it
 quickly developed beyond its roots. Merlin focused on a strict
 seperation between container concerns and component concerns. As such,
@@ -185,24 +181,24 @@ all Merlin applications are never dependent on any actual Merlin code
 (at least in order to compile). A new meta data model was developed,
 hierarchical block support added, and Merlin provided support for
 standalone or embedded environments. 
-  </p>
-			<p>
+      </p>
+      <p>
 For the sake of completeness, we should also mention Tweety which was
 a very basic container developed for the sole purpose as a teaching
 tool.  Tweety never really made it out of the sandbox much, but it
 is not forgotten by some ...
-  </p>
-		</section>
-		<section name="One container to rule them all">
-			<p>
+      </p>
+      </subsection>
+      <subsection name="One container to rule them all">
+      <p>
 If you're keeping up with our story you'll have realized by now that
 we have four containers: ECM, Phoenix, Fortress, Merlin.  At its
 height, Avalon also contained its own logging framework (LogKit), unit
 testing framework, two component libraries (Excalibur and
 Cornerstone), and a host of Avalon-based server applications including
 a web server and FTP server.  It was a lot to handle.
-   </p>
-			<p>
+      </p>
+      <p>
 Moreover, while all of these software projects and components were
 based on the same Avalon framework, they were often mutually
 incompatible.  The framework was intentionally designed to be
@@ -211,8 +207,8 @@ about how to wire components together inside a container) amongst
 other things.  This meant that each container implementation had its
 own "standards" and made writing container neutral components rather
 difficult.
-   </p>
-			<p>
+      </p>
+      <p>
 When Avalon moved out of Apache Jakarta in late 2002 and on to its own
 top level project, the developers decided to try to organize the
 situation; however, they faced a bit of an identity crisis:  What was
@@ -220,30 +216,28 @@ Avalon about?  Containers?  Frameworks?  Components?  All of the
 above?  Was Avalon to be an umbrella project with many containers
 based on a single framework or a single project with a single
 reference implementation?
-   </p>
-			<p>
+      </p>
+      <p>
 To make a long story short, the pendulum swung back and forth on that
 issue for the better part of two years.  Several projects where spun
 off or depricated and some developers left to persue other adventures.
 In the spring of 2004 there was another push to consolidate Avalon's
 software projects into a single platform:
-   </p>
-			<source>
+      </p>
+<source>
      One container to rule them all
      One container to find them
      One container to bring them all
-     And in the model bind them
-   </source>
-			<p>
+     And in the model bind them</source>
+      <p>
 After a few months of proposals and counter proposals, Avalon emerged
 as a project focused on a single container platform: Merlin.  The
 Fortress and Excalibur codebases were then transferred to the new <a href="http://excalibur.apache.org">Apache Excalibur</a> project.
-Meanwhile, Phoenix was retired in light of its fork, <a href="http://loom.codehaus.org">Loom</a>, which was developed at
-Codehaus by some early Avalon developers.
-  </p>
-		</section>
-		<section name="Peering into the Mysts of Avalon">
-			<p>
+Meanwhile, Phoenix was retired in light of its fork, <a href="http://loom.codehaus.org">Loom</a>, which was developed at Codehaus by some early Avalon developers.
+      </p>
+      </subsection>
+      <subsection name="Peering into the Mysts of Avalon">
+      <p>
 At its inception, Avalon was a rather novel software project and
 pioneered many ideas in container development.  Since that time, the
 concepts of Separation of Concerns and Inversion of Control have
@@ -253,7 +247,8 @@ technologies and remains focused on developing a complete solution for
 component and container applications.  The Avalon team invites you to
 download our software and join our community mailing lists and become
 involved in Avalon's future.
-    </p>
-		</section>
-	</body>
+      </p>
+      </subsection>
+    </section>
+  </body>
 </document>
