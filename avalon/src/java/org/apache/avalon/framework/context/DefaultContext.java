@@ -22,9 +22,9 @@ import java.util.Map;
 public class DefaultContext
     implements Context
 {
-    private final Map                       m_contextData;
-    private final Context                   m_parent;
-    private boolean                         m_readOnly;
+    private final Map m_contextData;
+    private final Context m_parent;
+    private boolean m_readOnly;
 
     /**
      * Create a Context with specified data and parent.
@@ -81,9 +81,9 @@ public class DefaultContext
 
         if( null != data )
         {
-            if ( data instanceof Resolvable )
+            if( data instanceof Resolvable )
             {
-                return ( (Resolvable) data ).resolve( this );
+                return ( (Resolvable)data ).resolve( this );
             }
 
             return data;
@@ -110,7 +110,14 @@ public class DefaultContext
         throws IllegalStateException
     {
         checkWriteable();
-        m_contextData.put( key, value );
+        if( null == value )
+        {
+            m_contextData.remove( key );
+        }
+        else
+        {
+            m_contextData.put( key, value );
+        }
     }
 
     /**
