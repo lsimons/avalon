@@ -255,6 +255,7 @@
 
     <!-- Cleans up build and distribution directories -->
     <target name="clean" description="Cleans up the project">
+        <delete file="checkstyle.cache"/>
         <delete dir="${build.dir}" />
         <delete dir="${dist.dir}" />
         <delete dir="test" /> <!-- unit testing output directory -->
