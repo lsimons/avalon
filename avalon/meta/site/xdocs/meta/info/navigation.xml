@@ -15,13 +15,10 @@
 
     <menu name="About Avalon Meta">
       <item name="Overview" href="/index.html"/>
-      <item name="Meta Model" href="/meta/index.html">
-        <item name="Descriptors" href="/meta/info/index.html">
-          <item name="Type" href="/meta/info/type/index.html"/>
-          <item name="Service" href="/meta/info/service.html"/>
-          <item name="Attributes" href="/meta/info/attributes/index.html"/>
-        </item>
-        <item name="Directives" href="/meta/data/index.html"/>
+      <item name="Type Model" href="/meta/index.html">
+        <item name="Type" href="/meta/info/type/index.html"/>
+        <item name="Service" href="/meta/info/service.html"/>
+        <item name="Attributes" href="/meta/info/attributes/index.html"/>
       </item>
       <item name="Tools" href="/tools/index.html"/>
       <item name="Javadoc" href="/api/index.html"/>

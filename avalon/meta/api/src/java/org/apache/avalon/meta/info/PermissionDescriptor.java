@@ -31,7 +31,7 @@ import java.util.ArrayList;
  * </ul>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/02/24 22:32:46 $
+ * @version $Revision: 1.4 $ $Date: 2004/03/12 08:01:59 $
  */
 public final class PermissionDescriptor
         implements Serializable
@@ -57,7 +57,7 @@ public final class PermissionDescriptor
 
     /**
      * Construct a new PermissionDescriptor
-     * @param class the permission class
+     * @param classname the permission class name
      * @param name the permission name
      * @param actions the permission actions
      */
