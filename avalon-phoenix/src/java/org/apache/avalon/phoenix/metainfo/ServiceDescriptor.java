@@ -64,8 +64,8 @@ public final class ServiceDescriptor
     public boolean matches( final ServiceDescriptor other )
     {
         return
-            other.getName().equals( m_name ) &&
-            other.getVersion().complies( m_version );
+          other.getName().equals( m_name )
+          && other.getVersion().complies( m_version );
     }
 
     /**

@@ -13,7 +13,6 @@ import org.apache.avalon.excalibur.logger.DefaultLogKitManager;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.framework.logger.LogKitLogger;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.phoenix.BlockContext;
 import org.apache.avalon.phoenix.interfaces.LogManager;

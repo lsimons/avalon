@@ -48,8 +48,8 @@ public final class CLIMain
         File.separator + "conf" + File.separator + "kernel.xml";
 
     private static final String DEFAULT_FORMAT =
-        "%7.7{priority} %23.23{time:yyyy-MM-dd' 'HH:mm:ss.SSS} [%8.8{category}] (%{context}): " +
-        "%{message}\n%{throwable}";
+      "%7.7{priority} %23.23{time:yyyy-MM-dd' 'HH:mm:ss.SSS} [%8.8{category}] (%{context}): "
+      + "%{message}\n%{throwable}";
 
     ///The embeddor attached to frontend
     private Embeddor m_embeddor;

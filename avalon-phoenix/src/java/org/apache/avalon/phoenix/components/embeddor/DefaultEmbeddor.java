@@ -237,8 +237,8 @@ public class DefaultEmbeddor
             while( true )
             {
                 // wait() for shutdown() to take action...
-                if( m_shutdown ||
-                    ( emptyKernel() && !m_persistent ) )
+                if( m_shutdown
+                    || ( emptyKernel() && !m_persistent ) )
                 {
                     // The server will shut itself down when all applications are disposed.
                     if( emptyKernel() )
@@ -281,6 +281,7 @@ public class DefaultEmbeddor
         }
         catch( final InterruptedException e )
         {
+            //NOOP
         }
     }
 
