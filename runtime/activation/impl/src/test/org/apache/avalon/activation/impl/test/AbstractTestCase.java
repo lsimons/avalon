@@ -62,11 +62,25 @@ public abstract class AbstractTestCase extends TestCase
    // static
    //-------------------------------------------------------
 
-    public static final File BASEDIR = 
-      new File( System.getProperty( "basedir" ) );
+    private static File getWorkDir()
+    {
+        String path = System.getProperty( "project.dir" );
+        if( null != path )
+        {
+            return new File( path );
+        }
+        else
+        {
+            path = System.getProperty( "basedir" );
+            File root = new File( path );
+            return new File( root, "target/test-classes" );
+        }
+    }
+
+    public static final File BASEDIR = getWorkDir();
 
     public static final File SYS_CONF = 
-      new File( BASEDIR, "target/test-classes/conf/system/kernel.xml" );
+      new File( BASEDIR, "system/kernel.xml" );
 
     private static final XMLSecurityProfileBuilder SECURITY_BUILDER = 
       new XMLSecurityProfileBuilder();
@@ -118,10 +132,8 @@ public abstract class AbstractTestCase extends TestCase
     */
     public void setUp( String filename ) throws Exception
     {
-        File base = new File( getTargetDirectory(), "test-classes" );
-        File conf = new File( getBaseDirectory(), "src/test/conf" );
-        File block = new File( conf, filename );
-        setUp( base, block );
+        File block = new File( BASEDIR, filename );
+        setUp( BASEDIR, block );
     }
 
    /**
@@ -178,9 +190,9 @@ public abstract class AbstractTestCase extends TestCase
             factory.setSecurityEnabled( true );
         }
 
-        Repository repository = 
-          createTestRepository( context, new File( base, "repository" ) );
-        factory.setRepository( repository );
+        //Repository repository = 
+        //  createTestRepository( context, new File( base, "repository" ) );
+        //factory.setRepository( repository );
 
         factory.setRuntime( DefaultRuntime.class );
         m_system = factory.createSystemContext();
@@ -201,9 +213,22 @@ public abstract class AbstractTestCase extends TestCase
     {
         InitialContextFactory initial = 
           new DefaultInitialContextFactory( "test", base );
-        initial.setCacheDirectory( getMavenRepositoryDirectory() );
+        initial.setCacheDirectory( getCacheDirectory() );
         registerSystemArtifacts( initial, config );
         return initial.createInitialContext();
+    }
+
+    private File getCacheDirectory()
+    {
+        String cache = System.getProperty( "project.repository.cache.path" );
+        if( null != cache )
+        {
+            return new File( cache );
+        }
+        else
+        {
+            return getMavenRepositoryDirectory();
+        }
     }
 
     private Repository createTestRepository( 
@@ -252,12 +277,7 @@ public abstract class AbstractTestCase extends TestCase
 
     protected static File getBaseDirectory()
     {
-        return new File( System.getProperty( "basedir" ) );
-    }
-
-    protected static File getTargetDirectory()
-    {
-        return new File( getBaseDirectory(), "target" );
+        return BASEDIR;
     }
 
     protected Logger getLogger()
