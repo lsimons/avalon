@@ -49,11 +49,9 @@
 */
 package org.apache.avalon.meta.info.test;
 
-import org.apache.avalon.framework.Version;
 import org.apache.avalon.meta.info.ContextDescriptor;
 import org.apache.avalon.meta.info.Descriptor;
 import org.apache.avalon.meta.info.EntryDescriptor;
-import org.apache.avalon.meta.info.ReferenceDescriptor;
 
 /**
  * ContextDescriptorTestCase does XYZ
