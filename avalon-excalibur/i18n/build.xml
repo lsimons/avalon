@@ -112,12 +112,11 @@
         <echo message="Performing Unit Tests" />
         <mkdir dir="${build.tests}"/>
         <junit fork="true" printsummary="yes" dir="${build.tests}">
+            <classpath refid="project.class.path"/>
+
             <formatter type="xml"/>    <!-- xml reports for junitreport -->
             <formatter type="plain"/>  <!-- text reports for humans     -->
 
-            <classpath>
-                <path refid="project.class.path"/>
-            </classpath>
             <batchtest todir="${build.reports}">
                 <fileset dir="${build.classes}">
                     <include name="**/test/*TestCase.class"/>
