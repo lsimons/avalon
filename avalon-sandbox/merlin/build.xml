@@ -192,6 +192,16 @@ the LICENSE.txt file.
        sourcepath="${java.dir}"
        destdir="${build.javadocs}">
       <classpath refid="project.class.path" />
+      <group title="Kernel">
+        <package name="org.apache.avalon.merlin"/>
+        <package name="org.apache.avalon.merlin.kernel"/>
+        <package name="org.apache.avalon.merlin.service"/>
+      </group>
+      <group title="Containment">
+        <package name="org.apache.avalon.merlin.container"/>
+        <package name="org.apache.avalon.merlin.container.builder"/>
+        <package name="org.apache.avalon.merlin.block"/>
+      </group>
       <doclet name="com.sun.tools.doclets.standard.Standard">
         <param name="-author"/>
         <param name="-version"/>
@@ -199,11 +209,11 @@ the LICENSE.txt file.
         <param name="-windowtitle" value="${Name} API"/>
         <param name="-link" value="http://java.sun.com/j2se/1.4/docs/api/"/>
         <param name="-link" value="http://java.sun.com/j2ee/sdk_1.3/techdocs/api/"/>
-        <param name="-link" value="http://jakarta.apache.org/avalon/api/"/>
-        <param name="-link" value="../../meta/api"/>
-        <param name="-link" value="../../lifecycle/api"/>
+        <param name="-link" value="../../avalon/api"/>
         <param name="-link" value="../../assembly/api"/>
-       <param name="-bottom"
+        <param name="-link" value="../../lifecycle/api"/>
+        <param name="-link" value="../../meta/api"/>
+        <param name="-bottom"
            value="&quot;Copyright &#169; ${year} Apache Avalon Project. All Rights Reserved.&quot;"/>
       </doclet>
     </javadoc>
