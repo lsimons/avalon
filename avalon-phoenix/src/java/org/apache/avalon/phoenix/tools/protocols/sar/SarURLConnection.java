@@ -24,7 +24,7 @@ import org.apache.avalon.excalibur.i18n.Resources;
  * read-only connection.
  *
  * @author <a href="mailto:mirceatoma@home.com">Mircea Toma</a>
- * @version CVS $Revision: 1.2 $ $Date: 2001/10/15 03:17:28 $
+ * @version CVS $Revision: 1.3 $ $Date: 2001/10/15 22:25:58 $
  */
 public class SarURLConnection extends URLConnection
 {    
@@ -84,16 +84,22 @@ public class SarURLConnection extends URLConnection
         m_input = new JarInputStream( m_nestedURL.openStream() );
         m_manifest = m_input.getManifest();
         
+        // check if entry is directory or file
         if ( m_entryName.endsWith( "/" ) ) 
         {
             while ( ( m_entry = m_input.getNextJarEntry() ) != null )
             {            
                 final String entryName = m_entry.getName();
-                
+                                
                 if ( entryName.startsWith( m_entryName ) )
                 {
                     String name = entryName.substring(m_entryName.length(), entryName.length());
-                    m_entryNames.add( name );
+                    
+                    // select only entries within current level
+                    if ( ( name.indexOf("/") == -1 ) && ( !name.equals("") ) ) 
+                    {
+                        m_entryNames.add( name );
+                    }
                 }            
             }
             
