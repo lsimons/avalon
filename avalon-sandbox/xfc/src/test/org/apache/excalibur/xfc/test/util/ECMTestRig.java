@@ -50,28 +50,16 @@
 package org.apache.excalibur.xfc.test.util;
 
 import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
-import org.apache.avalon.framework.logger.ConsoleLogger;
-import org.apache.avalon.framework.logger.NullLogger;
-
-import org.apache.excalibur.configuration.ConfigurationUtil;
 
 import org.apache.excalibur.xfc.modules.ECM;
-import org.apache.excalibur.xfc.model.Definition;
-import org.apache.excalibur.xfc.model.Model;
 import org.apache.excalibur.xfc.model.RoleRef;
-import org.apache.excalibur.xfc.Main;
-import org.apache.excalibur.xfc.Module;
-
-import junit.framework.TestCase;
-import junit.textui.TestRunner;
 
 /**
  * ECM Module Test Rig. This class extends ECM and provides several accessor methods to
  * internal ECM methods that are otherwise not available from the normal Module API.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: ECMTestRig.java,v 1.1 2002/10/07 17:06:21 crafterm Exp $
+ * @version CVS $Id: ECMTestRig.java,v 1.2 2002/10/08 10:39:37 crafterm Exp $
  */
 public final class ECMTestRig extends ECM
 {

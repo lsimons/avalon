@@ -65,6 +65,7 @@ import org.apache.excalibur.xfc.Main;
 import org.apache.excalibur.xfc.Module;
 
 import org.apache.excalibur.xfc.test.util.ECMTestRig;
+import org.apache.excalibur.xfc.test.util.FortressTestRig;
 
 import junit.framework.TestCase;
 import junit.textui.TestRunner;
@@ -73,14 +74,21 @@ import junit.textui.TestRunner;
  * XFC TestCase.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: xfcTestCase.java,v 1.2 2002/10/07 17:06:22 crafterm Exp $
+ * @version CVS $Id: xfcTestCase.java,v 1.3 2002/10/08 10:39:38 crafterm Exp $
  */
 public final class xfcTestCase extends TestCase
 {
+    // location of ECM roles/xconf configuration data
     private static final String ECM_ROLES =
         "../testclasses/org/apache/excalibur/xfc/test/ecm.roles";
     private static final String ECM_XCONF = "ecm.xconf";
 
+    // location of Fortress roles/xconf configuration data
+    private static final String FORTRESS_ROLES =
+        "../testclasses/org/apache/excalibur/xfc/test/fortress.roles";
+    private static final String FORTRESS_XCONF = "fortress.xconf";
+
+    // misc internals
     private DefaultConfigurationBuilder m_builder = new DefaultConfigurationBuilder();
     private Logger m_logger = new NullLogger();
 
@@ -223,9 +231,111 @@ public final class xfcTestCase extends TestCase
         // all done, good show
     }
 
-    public void testXFC_Fortress()
+    /**
+     * Method to test the XFC Fortress module, generation stage.
+     *
+     * <p>
+     *  This test case compares a generated {@link Model} instance with
+     *  the configuration file that was used to create it. If any differences
+     *  are found, assertions should occur.
+     * </p>
+     *
+     * @exception Exception if an error occurs
+     */
+    public void testXFC_Fortress_generate()
+        throws Exception
     {
-        // REVISIT
+        // create an ECM module test rig instance
+        FortressTestRig ecm = new FortressTestRig();
+        ecm.enableLogging( m_logger );
+
+        // generate model from predefined configuration
+        Model model = ecm.generate( FORTRESS_ROLES + ":" + FORTRESS_XCONF );
+
+        // load the same config and manually verify that model is correct
+        Configuration[] rolesREAL =
+            m_builder.buildFromFile( FORTRESS_ROLES ).getChildren( "role" );
+        RoleRef[] rolesMODEL = model.getDefinitions();
+
+        // check that the generated model has the right number of roles
+        assertEquals(
+            "Model contains incorrect number of roles",
+            rolesREAL.length, rolesMODEL.length
+        );
+
+        // check each role has the right values, compared against the master copy
+        for ( int i = 0; i < rolesMODEL.length; ++i )
+        {
+            String modelRoleName = rolesMODEL[i].getRole();
+            Configuration masterRoleConfig = null;
+
+            // get the real role configuration object
+            for ( int j = 0; j < rolesREAL.length; ++j )
+            {
+                if ( modelRoleName.equals( rolesREAL[j].getAttribute( "name" ) ) )
+                {
+                    masterRoleConfig = rolesREAL[j];
+                    break;
+                }
+            }
+
+            // check that we found a Configuration fragment for the role in the model
+            assertNotNull(
+                "Master Configuration for role '" + modelRoleName + "' not found",
+                masterRoleConfig
+            );
+
+            // convert our RoleRef object into a Configuration and compare with the master
+            Configuration modelRoleConfig = ecm.buildRole( rolesMODEL[i] );
+
+            assertTrue(
+                "Role configuration trees differ\n" +
+                "(master)" + ConfigurationUtil.list( masterRoleConfig ) +
+                "(model)" + ConfigurationUtil.list( modelRoleConfig ),
+                ConfigurationUtil.equals( masterRoleConfig, modelRoleConfig )
+            );
+        }
+
+        // all done, good show
+    }
+
+    /**
+     * Method to test the XFC Fortress module, serialization stage.
+     *
+     * <p>
+     *  This test case serializes a given {@link Model} instance to a
+     *  temporary file, and the resultant file is compared against the
+     *  original. If any differences are found, assertions should occur.
+     * </p>
+     *
+     * @exception Exception if an error occurs
+     */
+    public void testXFC_Fortress_serialize()
+        throws Exception
+    {
+        String FORTRESS_ROLES_GENERATED = "fortress-generated.roles";
+
+        // create an ECM module test rig instance
+        FortressTestRig ecm = new FortressTestRig();
+        ecm.enableLogging( m_logger );
+
+        // generate model from predefined configuration
+        Model model = ecm.generate( FORTRESS_ROLES + ":" + FORTRESS_XCONF );
+
+        // serialize the model out to a temporary file
+        ecm.serialize( model, FORTRESS_ROLES_GENERATED + ":" + FORTRESS_XCONF );
+
+        // compare original with generated copy, they should be equal
+        Configuration master = m_builder.buildFromFile( FORTRESS_ROLES );
+        Configuration generated = m_builder.buildFromFile( FORTRESS_ROLES_GENERATED );
+
+        assertTrue(
+            "Generated roles file differs from master " +
+            "master: " + FORTRESS_ROLES + ", generated: " + FORTRESS_ROLES_GENERATED,
+            ConfigurationUtil.equals( master, generated )
+        );
+
+        // all done, good show
     }
 
     public static final void main( String[] args )
@@ -233,5 +343,3 @@ public final class xfcTestCase extends TestCase
         TestRunner.run( xfcTestCase.class );
     }
 }
-
-
