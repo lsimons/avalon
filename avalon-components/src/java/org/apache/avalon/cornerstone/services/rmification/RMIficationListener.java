@@ -17,28 +17,36 @@ import org.apache.avalon.framework.CascadingRuntimeException;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.phoenix.Block;
 import org.apache.avalon.phoenix.BlockEvent;
 import org.apache.avalon.phoenix.BlockListener;
 
 /**
  * FIXME: INPROGRESS and NOT TESTED
+ * Publish blocks via RMI.
  *
- * @author <a href="mailto:colus@isoft.co.kr">Eung-ju Park</a>
- * @version $Revision: 1.2 $
+ * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>
+ * @version $Revision: 1.3 $
  */
 public class RMIficationListener
+    extends AbstractLogEnabled
     implements Configurable, BlockListener
 {
-    private String m_publisherName;
-    private RMIfication m_publisher;
-    private Map m_publications;
-    private List m_queue;
+    /** <code>RMIfication</code> block's name */
+    private String          m_publisherName;
+    /** <code>RMIfication</code> block */
+    private RMIfication     m_publisher;
+    /** publications */
+    private Map             m_publications;
+    /** delayed events */
+    private List            m_delayedEvents;
 
     public void configure( final Configuration configuration )
         throws ConfigurationException
     {
-        m_publisherName = configuration.getChild( "publisher" ).getValue( "rmification" );
+        m_publisherName =
+            configuration.getChild( "publisher" ).getValue( "rmification" );
 
         m_publications = new HashMap();
         final Configuration[] confs = configuration.getChildren( "publish" );
@@ -52,45 +60,29 @@ public class RMIficationListener
             m_publications.put( name, blockName );
         }
 
-        m_queue = new ArrayList();
+        m_delayedEvents = new ArrayList();
     }
 
     public void blockAdded( final BlockEvent event )
     {
-        System.out.println( "Block " + event.getName() + " added" );
-
         if ( m_publisherName.equals( event.getName() ) )
         {
-            System.out.println( "Found publisher" );
+            getLogger().debug( "Found publisher block: " + event.getName() );
 
             m_publisher = (RMIfication)event.getBlock();
-            for ( int i = 0; i < m_queue.size(); i++ )
-            {
-                final BlockEvent queued = (BlockEvent)m_queue.get( i );
-                publishBlock( event );
-            }
-            m_queue.clear();
-            m_queue = null;
+
+            processDelayedEvents();
         }
 
         if ( m_publications.containsValue( event.getName() ) )
         {
-            if ( event.getBlock() instanceof Remote )
-            {
-                publishBlock( event );
-            }
-            else
-            {
-                //FIXME: throw exception
-            }
+            publishBlock( event );
         }
     }
 
     public void blockRemoved( final BlockEvent event )
     {
-        System.out.println( "Block " + event.getName() + " added" );
-
-        if ( event.getBlock() instanceof Remote )
+        if ( m_publications.containsValue( event.getName() ) )
         {
             unpublishBlock( event );
         }
@@ -101,11 +93,22 @@ public class RMIficationListener
         return null != m_publisher;
     }
 
+    private void processDelayedEvents()
+    {
+        final Iterator delayedEvents = m_delayedEvents.iterator();
+        while ( delayedEvents.hasNext() )
+        {
+            publishBlock( (BlockEvent)delayedEvents.next() );
+        }
+        m_delayedEvents.clear();
+        m_delayedEvents = null;
+    }
+
     private void publishBlock( final BlockEvent event )
     {
         if ( ! isPublisherReady() )
         {
-            m_queue.add( event );
+            m_delayedEvents.add( event );
             return;
         }
 
@@ -116,16 +119,20 @@ public class RMIficationListener
         while ( entries.hasNext() )
         {
             final Map.Entry entry = (Map.Entry)entries.next();
+            final String publicationName = (String)entry.getKey();
 
             if ( entry.getValue().equals( blockName ) )
             {
                 try
                 {
-                    m_publisher.publish( (Remote)block, (String)entry.getKey() );
+                    m_publisher.publish( (Remote)block, publicationName );
+
                 }
                 catch ( final Exception e )
                 {
-                    throw new CascadingRuntimeException( "Unable to publish " + entry.getKey(), e );
+                    final String message =
+                        "Fail to publish " + publicationName;
+                    throw new CascadingRuntimeException( message, e );
                 }
             }
         }
@@ -140,16 +147,19 @@ public class RMIficationListener
         while ( entries.hasNext() )
         {
             final Map.Entry entry = (Map.Entry)entries.next();
+            final String publicationName = (String)entry.getKey();
 
             if ( entry.getValue().equals( blockName ) )
             {
                 try
                 {
-                    m_publisher.unpublish( (String)entry.getKey() );
+                    m_publisher.unpublish( publicationName );
                 }
                 catch ( final Exception e )
                 {
-                    throw new CascadingRuntimeException( "Fail to unpublish " + entry.getKey(), e );
+                    final String message =
+                        "Fail to unpublish " + publicationName;
+                    throw new CascadingRuntimeException( message, e );
                 }
             }
         }
