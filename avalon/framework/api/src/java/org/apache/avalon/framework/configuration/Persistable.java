@@ -27,5 +27,14 @@ package org.apache.avalon.framework.configuration;
  */
 public interface Persistable extends Configurable
 {
+    /**
+     * Get a copy of the <code>Configuration</code> object to restore this
+     * Component to the state it is currently in.  It can be used to provide
+     * "self-healing" configuration persistence or manage sub components
+     * dynamically.  "Self-healing" configuration allows you to handle a
+     * deprecated configuration schema and persist with the preferred format.
+     *
+     * @return Configuration object
+     */
     Configuration persist();
 }
