@@ -15,20 +15,20 @@
         The framework defines a standard method of piecing together server
         components and creating a server.
       </p>
-      <s2 title="Target Audience">
+      <subsection title="Target Audience">
         <p>
           This documentation will describe the care and feeding of the Avalon
           Phoenix kernel from the point of view of the administrator.
         </p>
-      </s2>
-      <s2 title="Guide non-existent, but features are there">
+      </subsection>
+      <subsection title="Guide non-existent, but features are there">
 	<p>
           We currently have no info on this whatsoever. However, this doesn't
 	  mean that Phoenix is not easy to administrate - the contrary is true,
 	  since our tight integration with JMX exposes the entire kernel at
 	  runtime.
         </p>
-      </s2>
+      </subsection>
     </section>
   </body>
 </document>

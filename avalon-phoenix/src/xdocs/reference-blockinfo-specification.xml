@@ -68,18 +68,18 @@
         three main sections; <code>block</code>, <code>services</code> and
         <code>dependencies</code>.
       </p>
-      <s2 title="BlockInfo 'block' Section">
+      <subsection title="BlockInfo 'block' Section">
         <p>The block section specifies the version of class. In the future this
         section will also specify the configuration schema if the block is
         <code>Configurable</code>.</p>
-      </s2>
-      <s2 title="BlockInfo 'services' Section">
+      </subsection>
+      <subsection title="BlockInfo 'services' Section">
         <p>The services section documents the services that this block can offer other
         Blocks. The service instances indicate an interface and a version. The interface
         MUST extend <code>org.apache.phoenix.Service</code>. This section is optional
         and a Block can choose to not offer any services.</p>
-      </s2>
-      <s2 title="BlockInfo 'dependencies' Section">
+      </subsection>
+      <subsection title="BlockInfo 'dependencies' Section">
         <p>The services section documents the services that this block requires to operate.
         Required services are placed in the Blocks ComponentManager under the name
         specified by the <code>role</code> element of dependency. As is documented in the
@@ -89,7 +89,7 @@
         cases however the role element and the name attribute of the service will be
         identical. In these cases it is sufficient to just specify service element and role
         will default to name of service.</p>
-      </s2>
+      </subsection>
     </section>
   </body>
 </document>

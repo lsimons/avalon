@@ -15,13 +15,13 @@
         and restarting Phoenix. In the future there will be more advanced methods
         of deploying and undeploying Server Applications without restarting Phoenix.
       </p>
-      <s2 title="Target Audience">
+      <subsection title="Target Audience">
         <p>
           This documentation describes the methods through which you can deploy
           Server Applications under the Phoenix kernel. It will be expanded as
           the system becomes more complete.
         </p>
-      </s2>
+      </subsection>
     </section>
   </body>
 </document>
