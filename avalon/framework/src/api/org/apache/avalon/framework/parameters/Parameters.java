@@ -44,6 +44,7 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
  *
  * @author <a href="mailto:fumagalli@exoffice.com">Pierpaolo Fumagalli</a>
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
  * @version 1.0
  */
 public class Parameters
@@ -613,5 +614,26 @@ public class Parameters
         }
 
         return parameters;
+    }
+
+    /**
+     * Creates a <code>java.util.Properties</code> object from an Avalon
+     * Parameters object.
+     *
+     * @param params a <code>Parameters</code> instance
+     * @return a <code>Properties</code> instance
+     */
+    public static Properties toProperties( final Parameters params )
+    {
+        final Properties properties = new Properties();
+        final String[] names = params.getNames();
+
+        for ( int i = 0; i < names.length; ++i )
+        {
+            // "" is the default value, since getNames() proves it will exist
+            properties.setProperty( names[i], params.getParameter( names[i], "" ) );
+        }
+
+        return properties;
     }
 }
