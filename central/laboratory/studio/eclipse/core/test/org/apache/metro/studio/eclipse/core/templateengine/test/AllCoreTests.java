@@ -34,7 +34,7 @@ public class AllCoreTests
         TestSuite suite = new TestSuite(
                 "Test for org.apache.metro.studio.eclipse.core.templateengine");
         //$JUnit-BEGIN$
-        suite.addTestSuite(ProjectManagerBasicTest.class);
+        suite.addTestSuite(BlockProjectManagerBasicTest.class);
         suite.addTestSuite(DirectoryTemplateManagerTest.class);
         suite.addTestSuite(ResourceTemplateManagerTest.class);
         //$JUnit-END$
