@@ -30,6 +30,25 @@
     <x:clean/>
   </target>
 
+  <target name="checkstyle" depends="info" unless="project.checkstyle.disable" >
+    <taskdef resource="checkstyletask.properties" >
+      <classpath>
+        <x:path key="checkstyle" resolve="true" />
+      </classpath>
+    </taskdef>
+           
+    <mkdir dir="target/checkstyle-errors/"/>
+    <mkdir dir="target/checkstyle-reports/"/>
+    <checkstyle config="${magic.templates}/checkstyle/metro-checkstyle.xml">
+      <fileset dir="${project.src}/${project.src.main}" includes="**/*.java"/>
+      <formatter type="xml" toFile="target/checkstyle/checkstyle_errors.xml"/>
+    </checkstyle>
+    <style in="target/checkstyle-errors/checkstyle_errors.xml" 
+           out="target/checkstyle-reports/checkstyle_report.html"
+           style="${magic.templates}/checkstyle/checkstyle-frames.xsl"
+    />
+  </target>
+
   <target name="prepare" depends="init">
     <x:prepare/>
   </target>
@@ -46,7 +65,7 @@
     <x:junit/>
   </target>
 
-  <target name="install" depends="test">
+  <target name="install" depends="test,checkstyle">
     <x:install/>
   </target>
 

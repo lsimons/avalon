@@ -46,6 +46,77 @@
     </gump>
   </resource>
 
+  <resource>
+    <info>
+      <group>checkstyle</group>
+      <name>checkstyle</name>
+      <version>3.4</version>
+      <type>jar</type>
+    </info>
+    <dependencies>
+      <include key="antlr" />
+      <include key="bcel" />
+      <include key="commons-beanutils-core" />
+      <include key="commons-collections" />
+      <include key="commons-logging" />
+      <include key="regexp" />
+    </dependencies>
+  </resource>
+
+  <resource>
+    <info>
+      <group>antlr</group>
+      <name>antlr</name>
+      <version>2.7.2</version>
+      <type>jar</type>
+    </info>
+  </resource>
+  
+  <resource>
+    <info>
+      <group>bcel</group>
+      <name>bcel</name>
+      <version>5.1</version>
+      <type>jar</type>
+    </info>
+  </resource>
+  
+  <resource>
+    <info>
+      <group>commons-beanutils</group>
+      <name>commons-beanutils-core</name>
+      <version>1.7.0</version>
+      <type>jar</type>
+    </info>
+  </resource>
+  
+  <resource>
+    <info>
+      <group>commons-collections</group>
+      <name>commons-collections</name>
+      <version>3.1</version>
+      <type>jar</type>
+    </info>
+  </resource>
+  
+  <resource>
+    <info>
+      <group>commons-logging</group>
+      <name>commons-logging</name>
+      <version>1.0.4</version>
+      <type>jar</type>
+    </info>
+  </resource>
+  
+  <resource>
+    <info>
+      <group>regexp</group>
+      <name>regexp</name>
+      <version>1.3</version>
+      <type>jar</type>
+    </info>
+  </resource>
+  
   <!--
   Avalon Tools.
   -->
@@ -61,6 +132,7 @@
       <include key="junit"/>
       <include key="ant-junit"/>
       <include key="ant-nodeps"/>
+      <include key="checkstyle"/>
     </dependencies>
   </project>
 
