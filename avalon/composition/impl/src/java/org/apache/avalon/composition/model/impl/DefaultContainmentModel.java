@@ -105,7 +105,7 @@ import org.apache.avalon.meta.info.Type;
  * as a part of a containment deployment model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.7 $ $Date: 2003/12/03 19:04:53 $
+ * @version $Revision: 1.8 $ $Date: 2003/12/04 00:23:21 $
  */
 public class DefaultContainmentModel extends DefaultModel 
   implements ContainmentModel
@@ -271,6 +271,12 @@ public class DefaultContainmentModel extends DefaultModel
         m_categories = categories; // TODO: merge with existing categories
     }
 
+   /**
+    * Add a model referenced by a url to this model.
+    * @param url the url of the model to include
+    * @return the model 
+    * @exception ModelException if a model related error occurs
+    */
     public Model addModel( URL url ) throws ModelException
     {
         return addContainmentModel( url, null );

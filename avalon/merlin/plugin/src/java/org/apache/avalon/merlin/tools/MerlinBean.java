@@ -53,7 +53,9 @@ import java.io.File;
 import java.net.URL;
 
 import org.apache.avalon.repository.Repository;
-import org.apache.avalon.repository.impl.DefaultFileRepository;
+import org.apache.avalon.repository.impl.DefaultRepository;
+import org.apache.avalon.repository.impl.DefaultCacheManager;
+import org.apache.avalon.repository.provider.CacheManager;
 import org.apache.avalon.composition.util.ExceptionHelper;
 import org.apache.avalon.merlin.kernel.Kernel;
 import org.apache.avalon.merlin.kernel.KernelException;
@@ -69,6 +71,13 @@ import org.apache.avalon.merlin.kernel.impl.DefaultKernelContext;
 
 public class MerlinBean
 {
+    //------------------------------------------------------------------
+    // static 
+    //------------------------------------------------------------------
+
+    private static final String[] DEFAULT_HOSTS = 
+      new String[]{ "http://dpml.net", "http://ibiblio.org/maven" };
+
     //-----------------------------------------------------
     // state
     //-----------------------------------------------------
@@ -322,9 +331,14 @@ public class MerlinBean
     {
         DefaultKernelContext context = null;
 
+        //
+        // TODO: update to use the maven remote hosts 
+        // and proxy settings
+
         try
         {
-            Repository repository = new DefaultFileRepository( m_repository );
+            CacheManager manager = new DefaultCacheManager( m_repository, null );
+            Repository repository = new DefaultRepository( manager, DEFAULT_HOSTS );
             context = 
               new DefaultKernelContext( 
                 repository, 
