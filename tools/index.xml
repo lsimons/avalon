@@ -56,7 +56,7 @@
     <dependencies>
       <include key="antlr" />
       <include key="bcel" />
-      <include key="commons-beanutils-core" />
+      <include key="commons-beanutils" />
       <include key="commons-collections" />
       <include key="commons-logging" />
       <include key="regexp" />
@@ -84,7 +84,7 @@
   <resource>
     <info>
       <group>commons-beanutils</group>
-      <name>commons-beanutils-core</name>
+      <name>commons-beanutils</name>
       <version>1.7.0</version>
       <type>jar</type>
     </info>

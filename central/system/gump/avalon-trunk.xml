@@ -1134,7 +1134,7 @@
       <depend property="gump.resource.commons-logging" project="commons-logging" id="commons-logging">
         <noclasspath/>
       </depend>
-      <depend property="gump.resource.commons-beanutils" project="commons-beanutils-core">
+      <depend property="gump.resource.commons-beanutils" project="commons-beanutils">
         <noclasspath/>
       </depend>
       <!-- end for -->
@@ -1996,7 +1996,7 @@
       <depend property="gump.resource.commons-digester" project="commons-digester">
         <noclasspath/>
       </depend>
-      <depend property="gump.resource.commons-beanutils" project="commons-beanutils-core">
+      <depend property="gump.resource.commons-beanutils" project="commons-beanutils">
         <noclasspath/>
       </depend>
       <depend property="gump.resource.mx4j-impl" project="mx4j" id="mx4j-impl">
@@ -2249,7 +2249,7 @@
       <depend property="gump.resource.commons-logging" project="commons-logging" id="commons-logging">
         <noclasspath/>
       </depend>
-      <depend property="gump.resource.commons-beanutils" project="commons-beanutils-core">
+      <depend property="gump.resource.commons-beanutils" project="commons-beanutils">
         <noclasspath/>
       </depend>
       <!-- end for -->
@@ -3189,7 +3189,7 @@
       <depend property="gump.resource.bcel" project="bcel">
         <noclasspath/>
       </depend>
-      <depend property="gump.resource.commons-beanutils-core" project="commons-beanutils-core">
+      <depend property="gump.resource.commons-beanutils" project="commons-beanutils">
         <noclasspath/>
       </depend>
       <depend property="gump.resource.commons-collections" project="commons-collections">
