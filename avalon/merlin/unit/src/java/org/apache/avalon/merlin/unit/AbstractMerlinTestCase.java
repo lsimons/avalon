@@ -59,12 +59,12 @@ import org.apache.avalon.activation.appliance.Block;
 import org.apache.avalon.composition.model.ContainmentModel;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.merlin.kernel.Kernel;
-import org.apache.avalon.merlin.unit.DefaultRunnableKernel;
+import org.apache.avalon.merlin.unit.DefaultEmbeddedKernel;
 
 import junit.framework.TestCase;
 
 /**
- * Default loader testcase.
+ * Abstract test case suitable for execution under Maven. 
  *
  * @author mcconnell@apache.org
  */
@@ -188,7 +188,7 @@ public class AbstractMerlinTestCase extends TestCase
 
         try
         {
-            m_kernel = new DefaultRunnableKernel( map );
+            m_kernel = new DefaultEmbeddedKernel( map );
             m_thread = new Thread( m_kernel );
             m_thread.start();
         }
@@ -197,12 +197,13 @@ public class AbstractMerlinTestCase extends TestCase
             final String error = 
               "Runnable kernel establishment failure.";
             final String msg = UnitHelper.packException( error, e, true );
-            throw new UnitRuntimeException( msg, e );
+            throw new UnitRuntimeException( msg, null );
         }
 
         //
         // wait for the kernel to initialize
         //
+
 
         while( !m_kernel.established() )
         {
@@ -212,22 +213,28 @@ public class AbstractMerlinTestCase extends TestCase
             }
             catch( Throwable e )
             {
-                if( m_kernel.getError() != null )
-                {
-                    final String message = 
-                      "Internal error while attempting to establish the kernel.";
-                    final String error = 
-                      UnitHelper.packException( message, m_kernel.getError(), true );
-                    throw new UnitRuntimeException( error, m_kernel.getError() );
-                }
+                // wakeup
             }
+        }
+
+        //
+        // check for kernel errors
+        //
+
+        if( m_kernel.getError() != null )
+        {
+            final String message = 
+              "Internal error while attempting to establish the kernel.";
+            final String error = 
+              UnitHelper.packException( message, m_kernel.getError(), true );
+            throw new UnitRuntimeException( error, null );
         }
 
         //
         // setup a logger for the testcase
         //
 
-        m_logger = m_kernel.getLoggerForCategory( "testase" );
+        m_logger = m_kernel.getLoggerForCategory( "testcase" );
 
         //
         // add a container holding the components that will
@@ -246,7 +253,7 @@ public class AbstractMerlinTestCase extends TestCase
             final String message = 
               "Internal error while attempting to establish the test container.";
             final String error = UnitHelper.packException( message, e, true );
-            throw new UnitRuntimeException( error, e );
+            throw new UnitRuntimeException( error, null );
         }
     }
 

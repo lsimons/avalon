@@ -73,11 +73,11 @@ import org.apache.avalon.repository.impl.DefaultFileRepository;
 import org.apache.avalon.repository.impl.DefaultAuthenticator;
 
 /**
- * Merlin kernel bootstrap.
+ * Embedded kernel implementation.
  *
  * @author mcconnell@apache.org
  */
-public class DefaultRunnableKernel implements Runnable, Kernel
+public class DefaultEmbeddedKernel implements Runnable, Kernel
 {
     //--------------------------------------------------------
     // static
@@ -107,7 +107,7 @@ public class DefaultRunnableKernel implements Runnable, Kernel
     // state
     //--------------------------------------------------------
 
-    private final ClassLoader m_classloader;
+    private final URLClassLoader m_classloader;
     private final Map m_map;
     private Repository m_repository;
     private Object m_loader;
@@ -122,9 +122,17 @@ public class DefaultRunnableKernel implements Runnable, Kernel
     //--------------------------------------------------------
 
    /**
-    * Creation of a new kernel loader.
+    * Creation of a new kernel loader using a set of supplied arguments.  
+    * The supplied arguments are used to construct an embedded kernel
+    * during thread iniitialization. The implementation established
+    * a classloader containing the full merlin implementation in preparation
+    * for execution under a seperate thread.  During thread execution the 
+    * classloader is bound as the threads context classloader.
+    * 
+    * @param map the embedded kernel loader arguments
+    * @see org.apache.avalon.merlin.kernel.impl.DefaultLoader
     */
-    public DefaultRunnableKernel( Map map )
+    public DefaultEmbeddedKernel( Map map )
     {
         m_map = map;
 
@@ -143,6 +151,12 @@ public class DefaultRunnableKernel implements Runnable, Kernel
         }
     }
 
+   /**
+    * Thread initialization during which a classloader holding the 
+    * Merlin set of classes is assigned as the context classloader.  Using
+    * this classloader a merlin kernel loader is created and the thread
+    * listens for startup and shutdown requests.
+    */
     public void run()
     {
         Thread.currentThread().setContextClassLoader( m_classloader );
@@ -165,13 +179,13 @@ public class DefaultRunnableKernel implements Runnable, Kernel
         }
         catch( Throwable e )
         {
-            final String error = 
-              "Internal error while attempting to construct the kernel loader.";
-            throw new UnitRuntimeException( error, e );
+            m_error = e;
+            m_started = true;
         }
 
         while( m_command != EXIT )
         {
+            if( m_error != null ) break;
             if( m_command == STARTUP )
             {
                 handleStartup();
@@ -194,11 +208,20 @@ public class DefaultRunnableKernel implements Runnable, Kernel
         }
     }
 
+   /**
+    * Utility method to test is the thread is fully established.
+    * @return true if the thread has completed establishment
+    */
     public boolean established()
     {
         return m_started;
     }
 
+   /**
+    * Utility method to return a throwable instance that may be established
+    * during kernel startup as a result of a invlid block definition.
+    * @return the error condition or null no error has occured
+    */
     public Throwable getError()
     {
         return m_error;
@@ -235,6 +258,9 @@ public class DefaultRunnableKernel implements Runnable, Kernel
         return m_kernel.getRootBlock();
     }
 
+   /**
+    * Initiate the establishment of the root container.
+    */
     public void startup()
     {
         synchronized( m_command )
@@ -260,6 +286,9 @@ public class DefaultRunnableKernel implements Runnable, Kernel
         }
     }
 
+   /**
+    * Initiate an orderly shutdown of the kernel.
+    */
     public void shutdown()
     {
         if( m_error != null ) return;
@@ -349,16 +378,16 @@ public class DefaultRunnableKernel implements Runnable, Kernel
    /**
     * Create the classloader holding the kernel.
     */
-    private ClassLoader createClassLoader( 
+    private URLClassLoader createClassLoader( 
        ClassLoader loader, Repository repository, Properties properties ) throws Exception
     {
         URL[] api = getURLs( repository, properties, MERLIN_API_CLASSPATH_KEY );
         URL[] spi = getURLs( repository, properties, MERLIN_SPI_CLASSPATH_KEY );
         URL[] impl = getURLs( repository, properties, MERLIN_IMPL_CLASSPATH_KEY );
 
-        ClassLoader apiLoader = new URLClassLoader( api, loader );
-        ClassLoader spiLoader = new URLClassLoader( spi, apiLoader );
-        ClassLoader implLoader = new URLClassLoader( impl, spiLoader );
+        URLClassLoader apiLoader = new URLClassLoader( api, loader );
+        URLClassLoader spiLoader = new URLClassLoader( spi, apiLoader );
+        URLClassLoader implLoader = new URLClassLoader( impl, spiLoader );
         return implLoader;
     }
 
@@ -561,5 +590,28 @@ public class DefaultRunnableKernel implements Runnable, Kernel
              throw new UnitRuntimeException( error, e );
          }
     }
+
+   /**
+    * Debug utility to dump a classloader url set to system.out.
+    * The implementation will print url from the supplied loader 
+    * following which it will print the parent recursively if the 
+    * parent is a URLClassLoader.
+    * 
+    * @param loader the classloader to dump
+    */
+    private static void printClassLoader( URLClassLoader loader )
+    {
+        URL[] urls = loader.getURLs();
+        for( int i=0; i<urls.length; i++ )
+        {
+            System.out.println( urls[i] );
+        }
+        if( loader.getParent() instanceof URLClassLoader )
+        {
+            System.out.println( "" );
+            printClassLoader( (URLClassLoader) loader.getParent() );
+        }
+    }
+
 }
 
