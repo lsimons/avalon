@@ -22,17 +22,17 @@ if [ "$JAVACMD" = "" ] ; then
 fi
 
 # Main.java has hard coded config values so this script must be run from
-# altprofile/bin (any better ideas ?)
-EXAMPLE_HOME=.
+# xfc/bin (any better ideas ?)
+XFC_HOME=..
 
 #
 # Build the runtime classpath
 #
-for i in ${EXAMPLE_HOME}/build/lib/*.jar ; do
+for i in ${XFC_HOME}/build/lib/*.jar ; do
     CP=${CP}:$i
 done
 
-CP=${CP}:${EXAMPLE_HOME}/build/classes
+CP=${CP}:${XFC_HOME}/build/classes
 
 echo $CP
 
