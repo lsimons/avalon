@@ -34,7 +34,8 @@ import tutorial.publisher.PublisherService;
  * @avalon.component version="1.0" name="test"
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
-public class Application extends AbstractLogEnabled implements Serviceable, Disposable
+public class Application extends AbstractLogEnabled 
+    implements Serviceable, Disposable
 {
 
    /**

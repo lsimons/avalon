@@ -14,7 +14,7 @@
        <entry key="cruncher">
          <constructor class="tutorial.NumberCruncher">
            <param class="java.lang.Integer">7</param>
-           <param class="java.lang.Double">1.5</param>
+           <param class="java.lang.Float">1.5</param>
          </constructor>
        </entry>
      </context>

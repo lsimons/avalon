@@ -31,7 +31,8 @@ import org.apache.avalon.framework.context.Context;
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
-public class StandardContextImp extends DefaultContext implements StandardContext
+public class StandardContextImp extends DefaultContext 
+    implements StandardContext
 {
 
     //-----------------------------------------------------------------
@@ -60,7 +61,7 @@ public class StandardContextImp extends DefaultContext implements StandardContex
     {
         try
         {
-            return (String)super.get( StandardContext.NAME_KEY );
+            return (String) super.get( StandardContext.NAME_KEY );
         }
         catch( Throwable e )
         {
@@ -77,7 +78,7 @@ public class StandardContextImp extends DefaultContext implements StandardContex
     {
         try
         {
-            return (String)super.get( StandardContext.PARTITION_KEY );
+            return (String) super.get( StandardContext.PARTITION_KEY );
         }
         catch( Throwable e )
         {
@@ -93,7 +94,7 @@ public class StandardContextImp extends DefaultContext implements StandardContex
     {
         try
         {
-            return (File)super.get( StandardContext.HOME_KEY );
+            return (File) super.get( StandardContext.HOME_KEY );
         }
         catch( Throwable e )
         {
@@ -108,7 +109,7 @@ public class StandardContextImp extends DefaultContext implements StandardContex
     {
         try
         {
-            return (File)super.get( StandardContext.WORKING_KEY );
+            return (File) super.get( StandardContext.WORKING_KEY );
         }
         catch( Throwable e )
         {

@@ -28,7 +28,7 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
  * @avalon.component version="1.0" name="simple"
  */
 public class HelloComponent extends AbstractLogEnabled 
-  implements Configurable, Initializable
+    implements Configurable, Initializable
 {
     private String m_source = "undefined";
 
@@ -40,7 +40,8 @@ public class HelloComponent extends AbstractLogEnabled
     * @param config the component configuration
     * @exception ConfigurationException if a configuration error occurs
     */
-    public void configure( Configuration config ) throws ConfigurationException
+    public void configure( Configuration config ) 
+        throws ConfigurationException
     {
         getLogger().info( "configuration stage" );
         m_source = config.getChild( "source" ).getValue( "unknown" );
@@ -50,7 +51,8 @@ public class HelloComponent extends AbstractLogEnabled
     * Initialization of the component by the container.
     * @exception Exception if an initialization error occurs
     */
-    public void initialize() throws Exception
+    public void initialize() 
+        throws Exception
     {
         getLogger().info( "initialization stage" );
         final String message = 

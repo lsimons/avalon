@@ -27,7 +27,7 @@ import org.apache.avalon.framework.context.ContextException;
  * @avalon.component name="demo" lifestyle="singleton"
  */
 public class HelloComponent extends AbstractLogEnabled 
-  implements Contextualizable
+    implements Contextualizable
 {
 
    /**

@@ -29,7 +29,8 @@ import org.apache.avalon.framework.context.ContextException;
  * A demonstration class that that we will instantiate via 
  * context directives within the component declaration.
  */
-public class DemoContextProvider extends DefaultContext implements DemoContext
+public class DemoContextProvider extends DefaultContext 
+    implements DemoContext
 {
 
    /**

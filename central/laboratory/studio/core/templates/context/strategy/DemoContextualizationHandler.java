@@ -32,7 +32,8 @@ import org.apache.avalon.framework.context.Context;
  * @avalon.extension id="tutorial.Contextualizable"
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
-public class DemoContextualizationHandler implements ContextualizationHandler
+public class DemoContextualizationHandler 
+    implements ContextualizationHandler
 {
     //=======================================================================
     // Extension
@@ -44,8 +45,7 @@ public class DemoContextualizationHandler implements ContextualizationHandler
      * @param context the component context argument
      * @exception ContextException if a contextualization error occurs
      */
-    public void contextualize(
-      Object object, Context context )
+    public void contextualize( Object object, Context context )
       throws ContextException
     {
 
