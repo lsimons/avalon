@@ -290,14 +290,6 @@
             velocitypropertiesfile="${xdocs.dir}/stylesheets/velocity.properties"
             />
 
-        <anakia basedir="${xdocs.dir}"
-            destdir="${docs.dir}"
-            style="changes.vsl"
-            projectfile="stylesheets/project.xml"
-            includes="changes.xml"
-            velocitypropertiesfile="${xdocs.dir}/stylesheets/velocity.properties"
-            />
-
      <copy todir="${docs.dir}" filtering="off">
       <fileset dir="${xdocs.dir}">
         <include name="**/images/**"/>
