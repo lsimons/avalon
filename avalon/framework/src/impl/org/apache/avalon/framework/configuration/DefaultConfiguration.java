@@ -62,7 +62,7 @@ import java.util.HashMap;
  * This is the default <code>Configuration</code> implementation.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.35 $ $Date: 2003/08/29 15:12:00 $
+ * @version CVS $Revision: 1.36 $ $Date: 2003/08/29 18:49:36 $
  */
 public class DefaultConfiguration
     extends AbstractConfiguration
@@ -307,7 +307,7 @@ public class DefaultConfiguration
 
         if( createNew )
         {
-            return new DefaultConfiguration( name, "-" );
+            return new DefaultConfiguration( name, "<generated>" + getLocation(), m_namespace, m_prefix );
         }
         else
         {
