@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0"?>
 
 <!-- 
  Copyright 2004 Apache Software Foundation
@@ -17,17 +17,25 @@
  limitations under the License.
 -->
 
-<project>
 
-  <title>Merlin</title>
+<document>
+
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Merlin Runtime</title>
+  </properties> 
+
 
   <body>
-    <menu>
-      <item name="Application" href="index.html"/>
-      <item name="CLI" href="cli.html"/>
-      <item name="Servlet" href="servlet.html"/>
-      <item name="Unit" href="unit.html"/>
-    </menu>
- </body>
+    <section name="Merlin Unit (JUnit TestCase)">
+      <subsection name="Overview">
+      <p>
+Infomation in preparation.
+      </p>
+      </subsection>
+    </section>
+  </body>
 
-</project>
+</document>
+
+

@@ -21,7 +21,7 @@
 
   <properties>
     <author email="mcconnell@apache.org">Stephen McConnell</author>
-    <title>Merlin Extensions</title>
+    <title>Merlin Runtime</title>
   </properties>
 
   <body>
@@ -46,9 +46,9 @@ and services, and an equivalent Maven plugin.
           </tr>
         </table>
       </subsection>
-      <subsection name="Related Resources">s
+      <subsection name="Related Resources">
         <table>
-          <tr><th>Topic</th><th>Summary</th></tr>ss
+          <tr><th>Topic</th><th>Summary</th></tr>
           <tr>
             <td>
 <a href="http://avalon.apache.org/meta/tools/index.html">Avalon Meta Plugin</a></td>

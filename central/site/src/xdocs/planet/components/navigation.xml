@@ -21,8 +21,8 @@
   <title>Cornerstone Threads</title>
   <body>
     <menu name="Cornerstone">
-      <item name="Overview" href="index.html"/>
       <item name="Datasource" href="datasource.html"/>
+      <item name="Conection" href="connection.html"/>
       <item name="Scheduler" href="scheduler.html"/>
       <item name="Sockets" href="sockets.html"/>
       <item name="Store" href="store.html"/>
