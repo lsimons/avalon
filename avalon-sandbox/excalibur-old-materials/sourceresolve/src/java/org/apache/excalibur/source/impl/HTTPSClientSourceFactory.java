@@ -66,12 +66,12 @@ import org.apache.commons.httpclient.protocol.SecureProtocolSocketFactory;
  * {@link HTTPSClientSource} Factory class.
  *
  * @avalon.component
- * @avalon.service type=SourceFactory
+ * @avalon.service type=org.apache.excalibur.source.SourceFactory
  * @x-avalon.info name=httpsclient-source
  * @x-avalon.lifestyle type=singleton
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: HTTPSClientSourceFactory.java,v 1.2 2003/07/14 12:41:37 cziegeler Exp $
+ * @version CVS $Id: HTTPSClientSourceFactory.java,v 1.3 2003/07/14 12:52:56 crafterm Exp $
  */
 public class HTTPSClientSourceFactory extends HTTPClientSourceFactory
 {
