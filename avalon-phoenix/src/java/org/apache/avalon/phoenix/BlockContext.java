@@ -20,9 +20,7 @@ public interface BlockContext
     extends Context
 {
     String APP_NAME = "app.name";
-
     String APP_HOME_DIR = "app.home";
-
     String NAME = "block.name";
 
     /**
@@ -42,6 +40,15 @@ public interface BlockContext
      * @return the name of block
      */
     String getName();
+
+    /**
+     * A block can request that the application it resides in be
+     * shut down. This method will schedule the blocks application
+     * for shutdown. Note that this is just a request and the kernel
+     * may or may not honour the request (by default the request will
+     * be honored).
+     */
+    void requestShutdown();
 
     /**
      * Retrieve logger coresponding to named category.
