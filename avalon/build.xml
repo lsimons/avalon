@@ -192,14 +192,12 @@ Legal:
 
   <target name="jdbc2" unless="jdbc3.present">
     <copy file="${java.dir}/org/apache/avalon/excalibur/datasource/Jdbc2Connection.java"
-          tofile="${java.dir}/org/apache/avalon/excalibur/datasource/JdbcConnection.java"
-          overwrite="yes"/>
+          tofile="${build.src}/org/apache/avalon/excalibur/datasource/JdbcConnection.java"/>
   </target>
 
   <target name="jdbc3" if="jdbc3.present">
     <copy file="${java.dir}/org/apache/avalon/excalibur/datasource/Jdbc3Connection.java"
-          tofile="${java.dir}/org/apache/avalon/excalibur/datasource/JdbcConnection.java"
-          overwrite="yes"/>
+          tofile="${build.src}/org/apache/avalon/excalibur/datasource/JdbcConnection.java" />
   </target>
 
   <!-- Prepares the build directory -->
@@ -228,13 +226,12 @@ Legal:
            deprecation="${deprecation}">
       <classpath refid="project.class.path" />
       <src path="${test.dir}"/>
+      <src path="${build.src}"/>
       <exclude name="org/apache/avalon/excalibur/datasource/J2eeDataSource.java"
                unless="j2ee.present"/>
       <exclude name="org/apache/avalon/excalibur/datasource/Jdbc2Connection.java"/>
       <exclude name="org/apache/avalon/excalibur/datasource/Jdbc3Connection.java"/>
     </javac>
-
-    <delete file="${java.dir}/org/apache/avalon/excalibur/datasource/JdbcConnection.java"/>
 
     <javac srcdir="${scratchpad.dir}"
            destdir="${build.scratchpad}"
