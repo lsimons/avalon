@@ -1,5 +1,4 @@
 
-
 /*
 Copyright 2004 The Apache Software Foundation
 Licensed  under the  Apache License,  Version 2.0  (the "License");
@@ -106,7 +105,8 @@ public class XDocPlugin extends AbstractPlugin
         String srcDir = m_Context.getProperty( "xdoc.src.dir" );
         File fromDir = new File( srcDir );
         File toDir = new File( m_Context.getProperty( "xdoc.build.src.dir" ) );
-        transformTrax( fromDir, toDir, xslFile, "^.*/navigation.xml$", "", ".xml", "xml" );
+        String sep = File.separatorChar == '\\' ? "\\\\" : File.separator;
+        transformTrax( fromDir, toDir, xslFile, "^.*" + sep + "navigation.xml$", "", ".xml", "xml" );
     }
     
     private void copySources()
@@ -121,12 +121,14 @@ public class XDocPlugin extends AbstractPlugin
     private void transformXdocs( File themeDir )
         throws BuildException
     {
+        getLogger().debug( "Converting XML documents." );
         File xslFile = new File( themeDir,  "transform.xsl" );
         String srcDir = m_Context.getProperty( "xdoc.build.src.dir" );
         File fromDir = new File( srcDir );
         File toDir = new File( m_Context.getProperty( "xdoc.dest.dir" ) );
         String output = m_Context.getProperty( "xdoc.output.format" );
-        transformTrax( fromDir, toDir, xslFile, "^.*\\.xml$", "^.*/navigation.xml$", "." + output, "html" );
+        String sep = File.separatorChar == '\\' ? "\\\\" : File.separator;
+        transformTrax( fromDir, toDir, xslFile, "^.*\\.xml$", "^.*" + sep + "navigation.xml$", "." + output, "html" );
     }
     
     private void copyResources( File themeDir )
@@ -161,7 +163,6 @@ public class XDocPlugin extends AbstractPlugin
            processed document
         */
 
-        getLogger().debug( "Converting XML documents." );
         try
         {
             TransformerFactory factory = TransformerFactory.newInstance();
@@ -212,8 +213,16 @@ public class XDocPlugin extends AbstractPlugin
                 transformer.setParameter( "directory", getRelToPath( toDir ) );
                 transformer.setParameter( "fullpath", getRelToPath( newDest ) );
                 transformer.setParameter( "file", base );
-                transformer.setParameter( "copyright", m_Context.getProperty( "xdoc.footer.copyright"  ) );
                 transformer.setParameter( "svn-location", svnSource );
+                transformer.setParameter( "copyright", m_Context.getProperty( "xdoc.footer.copyright" ).trim() );
+                transformer.setParameter( "logoright_file", m_Context.getProperty( "xdoc.logo.right.file" ).trim() );
+                transformer.setParameter( "logoright_url", m_Context.getProperty( "xdoc.logo.right.url" ).trim() );
+                transformer.setParameter( "logoleft_file", m_Context.getProperty( "xdoc.logo.left.file" ).trim() );
+                transformer.setParameter( "logoleft_url", m_Context.getProperty( "xdoc.logo.left.url" ).trim() );
+                transformer.setParameter( "logomiddle_file", m_Context.getProperty( "xdoc.logo.middle.file" ).trim() );
+                transformer.setParameter( "logomiddle_url", m_Context.getProperty( "xdoc.logo.middle.url" ).trim() );
+                transformer.setParameter( "brand_name", m_Context.getProperty( "xdoc.brand.name" ).trim() );
+  
                 
                 try
                 {
