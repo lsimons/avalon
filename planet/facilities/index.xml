@@ -239,9 +239,10 @@
       <name>avalon-jmx-test</name>
     </info>
     <dependencies>
-      <include key="avalon-jmx-mx4j" build="false"/>
-      <include key="avalon-jmx-handler" build="false"/>
       <include key="avalon-framework-api"/>
+      <include key="avalon-jmx-mx4j"/>
+      <include key="avalon-jmx-handler"/>
+      <include key="avalon-jmx-api"/>
     </dependencies>
     <plugins>
       <include key="avalon-meta-tools"/>
@@ -361,6 +362,15 @@
 
   <resource>
     <info>
+      <group>geronimo-spec</group>
+      <name>geronimo-spec-jta</name>
+      <version>DEV</version>
+      <type>jar</type>
+    </info>
+  </resource>
+
+  <resource>
+    <info>
       <group>commons-messenger</group>
       <name>commons-messenger</name>
       <version>1.0-dev-8</version>
@@ -370,9 +380,27 @@
 
   <resource>
     <info>
+      <group>commons-logging</group>
+      <name>commons-logging</name>
+      <version>1.0</version>
+      <type>jar</type>
+    </info>
+  </resource>
+
+  <resource>
+    <info>
       <group>commons-digester</group>
       <name>commons-digester</name>
       <version>1.5</version>
+      <type>jar</type>
+    </info>
+  </resource>
+
+  <resource>
+    <info>
+      <group>commons-beanutils</group>
+      <name>commons-beanutils</name>
+      <version>1.6.1</version>
       <type>jar</type>
     </info>
   </resource>
@@ -399,9 +427,13 @@
     </info>
     <dependencies>
       <include key="avalon-jms-api"/>
+      <include key="geronimo-spec-jta"/>
       <include key="avalon-composition-api"/>
       <include key="commons-digester"/>
+      <include key="commons-logging"/>
+      <include key="commons-beanutils"/>
       <include key="avalon-framework-impl"/>
+      <include key="servletapi"/>
     </dependencies>
     <plugins>
       <include key="avalon-meta-tools"/>
