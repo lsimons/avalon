@@ -34,7 +34,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * and installing it as appropriate.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.32 $ $Date: 2002/05/10 02:43:04 $
+ * @version $Revision: 1.33 $ $Date: 2002/05/10 15:07:30 $
  */
 public class Installer
     extends AbstractLogEnabled
@@ -105,32 +105,6 @@ public class Installer
     }
 
     /**
-     * Utility method to compute the checksum for a given file.
-     * @param file the computed file.
-     * @param checksum the checksum algorithm.
-     */
-    private void checksum( final File file, final Checksum checksum )
-    {
-        checksum.reset();
-
-        InputStream input = null;
-        try
-        {
-            input = new CheckedInputStream( new FileInputStream( file ), checksum );
-            IOUtil.toByteArray( input );
-        }
-        catch( final IOException ioe )
-        {
-            final String message = REZ.getString( "checksum-failure", file );
-            getLogger().warn( message );
-        }
-        finally
-        {
-            IOUtil.shutdownStream( input );
-        }
-    }
-
-    /**
      * Install the Sar designated by url.
      *
      * @param url the url of instalation
@@ -176,6 +150,32 @@ public class Installer
         finally
         {
             unlock();
+        }
+    }
+
+    /**
+     * Utility method to compute the checksum for a given file.
+     * @param file the computed file.
+     * @param checksum the checksum algorithm.
+     */
+    private void checksum( final File file, final Checksum checksum )
+    {
+        checksum.reset();
+
+        InputStream input = null;
+        try
+        {
+            input = new CheckedInputStream( new FileInputStream( file ), checksum );
+            IOUtil.toByteArray( input );
+        }
+        catch( final IOException ioe )
+        {
+            final String message = REZ.getString( "checksum-failure", file );
+            getLogger().warn( message );
+        }
+        finally
+        {
+            IOUtil.shutdownStream( input );
         }
     }
 
