@@ -380,6 +380,7 @@ Legal:
         <copy todir="${bin.dist.conf}" filtering="on">
             <fileset dir="${conf.dir}">
                 <include name="kernel.xml"/>
+                <include name="emx4j-kernel.xml"/>
             </fileset>
         </copy>
 
