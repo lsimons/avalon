@@ -25,25 +25,15 @@
  <body>
 
     <links>
-      <item name="Home" href="http://apache.org/" type="left" />
-      <item name="Central" href="http://merlin.apache.org/central/" type="right"/>
-      <item name="Products" href="http://merlin.apache.org/products/" selected="true" type="right"/>
-      <item name="Planet" href="http://merlin.apache.org/planet/" type="right"/>
+      <item name="Central" href="http://merlin.apache.org/central/" />
+      <item name="Products" href="http://merlin.apache.org/products/" />
+      <item name="Planet" href="http://merlin.apache.org/planet/" />
     </links>
 
     <menu>
       <item name="About XDoc Plugin" href="index.html"/>
       <item name="Properties" href="properties.html"/>
       <item name="Methods" href="methods.html"/>
-      <item name="dummy1" href="methods.html"/>
-      <item name="dummy2" href="methods.html"/>
-      <item name="dummy3" href="methods.html"/>
-      <item name="dummy4" href="methods.html"/>
-      <item name="dummy5" href="methods.html"/>
-      <item name="dummy6" href="methods.html"/>
-      <item name="dummy7" href="methods.html"/>
-      <item name="dummy8" href="methods.html"/>
-      <item name="dummy9" href="methods.html"/>
     </menu>
  </body>
 
