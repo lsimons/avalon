@@ -4,5 +4,6 @@ prj.el
 emacs-jprj.el
 dist
 build
+distributions
 
 
