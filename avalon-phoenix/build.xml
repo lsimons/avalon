@@ -433,11 +433,15 @@ Legal:
     <copy file="${framework.jar}" todir="${bin.dist.lib}"/>
     <copy file="${excalibur.jar}" todir="${bin.dist.lib}"/>
     <copy file="${scratchpad.jar}" todir="${bin.dist.lib}"/>
+    <copy file="${xerces.jar}" todir="${bin.dist.lib}"/>
+    <!--
+    This was not copying for relatively local ..\jakarta-avalon\tools\lib\xerces.jar - PH
     <copy todir="${bin.dist.lib}">
       <fileset dir="${xerces.dir}">
         <include name="${xerces.file}" if="xerces.present"/>
       </fileset>
     </copy>
+    -->
 
     <copy file="${script.dir}/run.bat" todir="${bin.dist.bin}"/>
     <copy file="${script.dir}/run.sh" todir="${bin.dist.bin}"/>
