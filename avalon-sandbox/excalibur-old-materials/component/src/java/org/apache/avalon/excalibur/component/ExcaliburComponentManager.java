@@ -32,7 +32,7 @@ import org.apache.avalon.framework.logger.AbstractLoggable;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/04/18 09:19:42 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/04/24 10:04:05 $
  * @since 4.0
  */
 public class ExcaliburComponentManager
@@ -274,6 +274,12 @@ public class ExcaliburComponentManager
                 }
                 catch( Exception e )
                 {
+                    if( getLogger().isWarnEnabled() )
+                    {
+                        final String message =
+                           "ComponentManager exception from parent CM during lookup.";
+                        getLogger().warn( message, e );
+                    }
                     // ignore.  If the exception is thrown, we try to
                     // create the component next
                 }
