@@ -20,7 +20,7 @@ import org.apache.log.format.PatternFormatter;
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
-public class DefaultOutputLogTarget 
+public class DefaultOutputLogTarget
     extends AbstractOutputTarget
 {
     protected Writer                  m_output;
@@ -43,8 +43,7 @@ public class DefaultOutputLogTarget
      */
     public DefaultOutputLogTarget()
     {
-        m_output = new OutputStreamWriter( System.out );
-        initPattern();
+        this( new OutputStreamWriter( System.out ) );
     }
 
     /**
@@ -54,8 +53,7 @@ public class DefaultOutputLogTarget
      */
     public DefaultOutputLogTarget( OutputStream output )
     {
-        m_output = new OutputStreamWriter( output );
-        initPattern();
+        this( new OutputStreamWriter( output) );
     }
 
     /**
@@ -76,7 +74,7 @@ public class DefaultOutputLogTarget
      */
     protected void output( final String data )
     {
-        try 
+        try
         {
             m_output.write( data );
             m_output.flush();
