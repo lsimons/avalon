@@ -193,6 +193,7 @@ public class PrepareTask extends SystemTask
         mkDir( destination );
 
         final Copy copy = (Copy) getProject().createTask( "copy" );
+        copy.setTaskName( getTaskName() );
         copy.setTodir( destination );
         copy.setFiltering( filtering );
         copy.setOverwrite( false );

@@ -78,6 +78,7 @@ public class PublishTask extends SystemTask
     {
         mkDir( destination );
         final Copy copy = (Copy) getProject().createTask( "copy" );
+        copy.setTaskName( getTaskName() );
         copy.setPreserveLastModified( true );
         copy.setTodir( destination );
         copy.addFileset( fileset );

@@ -6,27 +6,13 @@
   <property name="supplemental.bar" value="avalonx-supplemental-1.0.bar"/>
   <property name="mailapi.jar" value="mailapi-1.3.1.jar"/>
 
-  <x:home index="../index.xml"/>
+  <x:home index="index.xml"/>
   <import file="../../central/system/build/standard.xml"/>
 
-  <available property="mailet.cache.available" 
-      file="${magic.cache}/avalonx/supplemental/jars/${mailapi.jar}"/>
   <available property="mailet.etc.available" 
       file="etc/deliverables/jars/${mailapi.jar}"/>
 
-  <target name="package" depends="info" unless="mailet.cache.available">
-    <property name="supplemental.path" value="avalonx/supplemental"/>
-    <property name="supplemental.dir" value="${magic.cache}/${supplemental.path}"/>
-    <mkdir dir="target"/>
-    <get src="http://www.dpml.net/${supplemental.path}/bars/${supplemental.bar}" usetimestamp="true"
-      dest="target/${supplemental.bar}"/>
-    <unzip src="target/${supplemental.bar}" dest="${magic.cache}/${supplemental.path}">
-      <patternset>
-        <include name="**/*"/>
-        <exclude name="META-INF/**"/>
-        <exclude name="**/bars/**"/>
-      </patternset>
-    </unzip>
+  <target name="package" depends="info,verify,bar">
   </target>
 
   <target name="verify" depends="info" unless="mailet.etc.available">

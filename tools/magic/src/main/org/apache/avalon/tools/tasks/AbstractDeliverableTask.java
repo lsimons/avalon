@@ -50,6 +50,7 @@ public class AbstractDeliverableTask extends SystemTask
         }
 
         final Checksum checksum = (Checksum) getProject().createTask( "checksum" );
+        checksum.setTaskName( getTaskName() );
         checksum.setFile( file );
         checksum.setFileext( "." + MD5_EXT );
         checksum.init();

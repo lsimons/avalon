@@ -110,6 +110,7 @@ public class FilterTask extends SystemTask
         if( null != value )
         {
             final Filter filter = (Filter) getProject().createTask( "filter" );
+            filter.setTaskName( getTaskName() );
             filter.init();
             filter.setToken( m_token );
             filter.setValue( value );

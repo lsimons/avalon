@@ -444,18 +444,6 @@ public class Home extends DataType
         }
     }
 
-    private File createTempFile()
-    {
-        try
-        {
-            return File.createTempFile( "~magic", ".tmp" );
-        }
-        catch( IOException ioe )
-        {
-            throw new BuildException( ioe );
-        }
-    }
-
     private Resource createResource( 
       final Element element, final File anchor )
     {

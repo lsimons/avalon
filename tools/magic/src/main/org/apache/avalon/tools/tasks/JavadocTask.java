@@ -209,6 +209,7 @@ public class JavadocTask extends SystemTask
        final int category, final File root, final boolean flag )
     {
         final Javadoc javadoc = (Javadoc) getProject().createTask( "javadoc" );
+        javadoc.setTaskName( getTaskName() );
 
         javadoc.init();
         javadoc.setDestdir( root );

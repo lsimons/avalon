@@ -116,6 +116,7 @@ public class JavacTask extends SystemTask
     private void compile( final File sources, final File classes, final Path classpath )
     {
         final Javac javac = (Javac) getProject().createTask( "javac" );
+        javac.setTaskName( getTaskName() );
         final Path src = javac.createSrc();
         final Path.PathElement element = src.createPathElement();
         element.setLocation( sources );

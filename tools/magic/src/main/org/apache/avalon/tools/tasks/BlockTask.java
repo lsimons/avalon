@@ -17,11 +17,12 @@
 
 package org.apache.avalon.tools.tasks;
 
+import org.apache.tools.ant.BuildException;
+
 import org.apache.avalon.tools.model.Definition;
 import org.apache.avalon.tools.model.ResourceRef;
 import org.apache.avalon.tools.model.Info;
 import org.apache.avalon.tools.model.Resource;
-import org.apache.tools.ant.BuildException;
 import org.apache.avalon.tools.model.Plugin.ListenerDef;
 import org.apache.avalon.tools.model.Plugin.TaskDef;
 import org.apache.avalon.tools.model.Plugin;

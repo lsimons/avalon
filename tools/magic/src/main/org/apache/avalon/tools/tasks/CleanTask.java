@@ -39,6 +39,7 @@ public class CleanTask extends ContextualTask
             log( "removing target directory" );
             final Project project = getProject();
             final Delete delete = (Delete) project.createTask( "delete" );
+            delete.setTaskName( getTaskName() );
             delete.setDir( target );
             delete.init();
             delete.execute();
