@@ -1,9 +1,11 @@
 package org.apache.avalon.fortress.util;
 
+import org.apache.avalon.framework.CascadingException;
+
 /**
  * This is an exception made up of one or more subexceptions.
  */
-public final class CompositeException extends Exception
+public final class CompositeException extends CascadingException
 {
     private final Exception[] m_ex;
     private final String m_message;
@@ -15,6 +17,7 @@ public final class CompositeException extends Exception
 
     public CompositeException( final Exception[] ex, final String message )
     {
+        super( message, null );
         m_ex = ex;
         if ( ex == null || ex.length < 1 )
         {
