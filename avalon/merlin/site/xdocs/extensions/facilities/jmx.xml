@@ -30,7 +30,7 @@
         <strong>Status: Under Development</strong>
       </p>
       <p>
-        <strong>Since: Merlin 3.4</strong>
+        <strong>Since: Merlin 3.3</strong>
       </p>
       <p>
         The Merlin JMX Extension is an MX4J adapter and contains everything 
@@ -74,7 +74,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Avalon Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2004/04/03 05:34:14 $
+      $Revision: 1.1 $ $Date: 2004/04/03 10:46:45 $
     </legal>
   </footer>
 </document>

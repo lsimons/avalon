@@ -40,6 +40,7 @@
         <item name="Facilities" href="/extensions/facilities/index.html">
           <item name="Avalon Finder" href="/extensions/facilities/finder.html"/>
           <item name="Avalon HTTP" href="/extensions/facilities/http.html"/>
+          <item name="Avalon JMX" href="/extensions/facilities/jmx.html"/>
         </item>
       </item>
       <item name="Tools" href="/tools/index.html"/>
