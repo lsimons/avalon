@@ -91,11 +91,6 @@ public final class DefaultServerApplication
     private ClassLoaderManager       m_classLoaderManager;
     private ConfigurationRepository  m_configurationRepository;
 
-    public DefaultServerApplication()
-    {
-        m_entryClass = BlockEntry.class;
-    }
-
     public void contextualize( final Context context )
         throws ContextException
     {
@@ -130,6 +125,23 @@ public final class DefaultServerApplication
 
         initPhases();
         setupPhases();
+    }
+
+    /**
+     * Make sure Entry is of correct type.
+     *
+     * @param name the name of entry
+     * @param entry the entry
+     * @exception ContainerException to stop removal of entry
+     */
+    protected final void preAdd( final String name, final Entry entry )
+        throws ContainerException
+    {
+        if( !(entry instanceof BlockEntry) )
+        {
+            throw new ContainerException( "Only Entries of type BlockEntry " +
+                                          "may be placed in container." );  
+        }
     }
 
     protected void initPhases()
@@ -171,7 +183,7 @@ public final class DefaultServerApplication
         // load blocks
         try
         {
-            getLogger().info( "Number of blocks to load: " + m_entries.size() );
+            getLogger().info( "Number of blocks to load: " + getEntryCount() );
             final PhaseEntry entry = (PhaseEntry)m_phases.get( "startup" );
             runPhase( entry );
         }
@@ -189,7 +201,7 @@ public final class DefaultServerApplication
 
     public void dispose()
     {
-        getLogger().info( "Number of blocks to unload: " + m_entries.size() );
+        getLogger().info( "Number of blocks to unload: " + getEntryCount() );
 
         try
         {
@@ -200,8 +212,6 @@ public final class DefaultServerApplication
         {
             getLogger().error( "Error shutting down application", e );
         }
-
-        m_entries.clear();
     }
 
     private void loadBlockInfos()
