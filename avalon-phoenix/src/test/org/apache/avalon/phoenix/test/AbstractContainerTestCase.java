@@ -56,9 +56,9 @@ import java.util.Map;
 import junit.framework.TestCase;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.logger.ConsoleLogger;
-import org.apache.avalon.phoenix.interfaces.ContainerConstants;
 import org.apache.avalon.phoenix.components.deployer.PhoenixProfileBuilder;
 import org.apache.avalon.phoenix.containerkit.profile.PartitionProfile;
+import org.apache.avalon.phoenix.interfaces.ContainerConstants;
 import org.apache.avalon.phoenix.tools.configuration.ConfigurationBuilder;
 import org.xml.sax.InputSource;
 
@@ -66,7 +66,7 @@ import org.xml.sax.InputSource;
  * Abstract class which TestCases can extend.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.9 $ $Date: 2003/04/05 03:57:09 $
+ * @version $Revision: 1.10 $ $Date: 2003/04/05 04:25:45 $
  */
 public class AbstractContainerTestCase
     extends TestCase

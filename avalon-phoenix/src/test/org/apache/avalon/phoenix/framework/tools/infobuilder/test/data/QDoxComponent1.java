@@ -51,25 +51,25 @@
 package org.apache.avalon.phoenix.framework.tools.infobuilder.test.data;
 
 import java.io.Serializable;
-import org.apache.avalon.phoenix.framework.tools.infobuilder.test.data.otherpkg.Service2;
-import org.apache.avalon.phoenix.framework.tools.infobuilder.test.data.otherpkg.Service3;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.framework.service.Serviceable;
-import org.apache.avalon.framework.service.ServiceManager;
-import org.apache.avalon.framework.service.ServiceException;
-import org.apache.avalon.framework.context.Contextualizable;
-import org.apache.avalon.framework.context.Context;
-import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.context.Context;
+import org.apache.avalon.framework.context.ContextException;
+import org.apache.avalon.framework.context.Contextualizable;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.framework.logger.Logger;
+import org.apache.avalon.framework.service.ServiceException;
+import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.avalon.framework.service.Serviceable;
+import org.apache.avalon.phoenix.framework.tools.infobuilder.test.data.otherpkg.Service2;
+import org.apache.avalon.phoenix.framework.tools.infobuilder.test.data.otherpkg.Service3;
 
 /**
  * A simple avalon component to test QDox loading of info etc.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003/04/04 21:49:14 $
+ * @version $Revision: 1.5 $ $Date: 2003/04/05 04:25:45 $
  * @phoenix.component
  * @phoenix.service type="Service1"
  * @phoenix.service type="Service2"

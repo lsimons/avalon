@@ -56,8 +56,8 @@ import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.phoenix.containerkit.profile.PartitionProfile;
-import org.apache.excalibur.threadcontext.ThreadContext;
 import org.apache.excalibur.instrument.InstrumentManager;
+import org.apache.excalibur.threadcontext.ThreadContext;
 
 /**
  * Manage the "context" in which Applications operate.
@@ -154,5 +154,5 @@ public interface ApplicationContext
      * @param component the component
      * @return the name to use for Instrumentables
      */
-    String getInstrumentableName( String component);
+    String getInstrumentableName( String component );
 }

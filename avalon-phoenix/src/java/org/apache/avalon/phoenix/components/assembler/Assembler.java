@@ -57,13 +57,13 @@ import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.phoenix.framework.info.Attribute;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.phoenix.interfaces.ContainerConstants;
 import org.apache.avalon.phoenix.containerkit.metadata.ComponentMetaData;
 import org.apache.avalon.phoenix.containerkit.metadata.DependencyMetaData;
 import org.apache.avalon.phoenix.containerkit.metadata.MetaDataBuilder;
 import org.apache.avalon.phoenix.containerkit.metadata.PartitionMetaData;
+import org.apache.avalon.phoenix.framework.info.Attribute;
+import org.apache.avalon.phoenix.interfaces.ContainerConstants;
 
 /**
  * Assemble a {@link PartitionMetaData} object from a Configuration
@@ -71,7 +71,7 @@ import org.apache.avalon.phoenix.containerkit.metadata.PartitionMetaData;
  * and is in the format specified for <tt>assembly.xml</tt> files.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.8 $ $Date: 2003/03/23 00:19:48 $
+ * @version $Revision: 1.9 $ $Date: 2003/04/05 04:25:42 $
  */
 public class Assembler
     extends AbstractLogEnabled

@@ -61,9 +61,6 @@ import org.apache.avalon.framework.component.DefaultComponentManager;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.DefaultContext;
-import org.apache.avalon.phoenix.framework.info.ComponentInfo;
-import org.apache.avalon.phoenix.framework.info.ContextDescriptor;
-import org.apache.avalon.phoenix.framework.info.EntryDescriptor;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.DefaultServiceManager;
@@ -73,6 +70,9 @@ import org.apache.avalon.phoenix.containerkit.factory.ComponentFactory;
 import org.apache.avalon.phoenix.containerkit.lifecycle.ResourceProvider;
 import org.apache.avalon.phoenix.containerkit.metadata.ComponentMetaData;
 import org.apache.avalon.phoenix.containerkit.metadata.DependencyMetaData;
+import org.apache.avalon.phoenix.framework.info.ComponentInfo;
+import org.apache.avalon.phoenix.framework.info.ContextDescriptor;
+import org.apache.avalon.phoenix.framework.info.EntryDescriptor;
 
 /**
  * This is a base object via which the
@@ -87,7 +87,7 @@ import org.apache.avalon.phoenix.containerkit.metadata.DependencyMetaData;
  * {@link org.apache.avalon.phoenix.containerkit.verifier.AssemblyVerifier}</p>
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2003/03/22 12:07:12 $
+ * @version $Revision: 1.6 $ $Date: 2003/04/05 04:25:43 $
  */
 public abstract class AbstractResourceProvider
     extends AbstractLogEnabled

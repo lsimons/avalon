@@ -57,7 +57,7 @@ import org.apache.tools.ant.types.EnumeratedAttribute;
  * outputting as xml or as a serialized format.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003/03/22 12:07:13 $
+ * @version $Revision: 1.4 $ $Date: 2003/04/05 04:25:43 $
  */
 public class FormatEnum
     extends EnumeratedAttribute
@@ -65,7 +65,7 @@ public class FormatEnum
     public int getTypeCode()
     {
         final String value = super.getValue();
-        if( value.equals( "legacy") )
+        if( value.equals( "legacy" ) )
         {
             return MetaGenerateTask.LEGACY_TYPE;
         }

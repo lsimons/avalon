@@ -50,26 +50,26 @@
 
 package org.apache.avalon.phoenix.components.deployer;
 
-import org.apache.avalon.phoenix.containerkit.profile.ProfileBuilder;
-import org.apache.avalon.phoenix.containerkit.profile.PartitionProfile;
-import org.apache.avalon.phoenix.containerkit.profile.ComponentProfile;
-import org.apache.avalon.phoenix.containerkit.metadata.PartitionMetaData;
-import org.apache.avalon.phoenix.containerkit.metadata.ComponentMetaData;
-import org.apache.avalon.phoenix.containerkit.factory.ComponentFactory;
-import org.apache.avalon.phoenix.containerkit.factory.ComponentBundle;
-import org.apache.avalon.phoenix.components.assembler.Assembler;
-import org.apache.avalon.phoenix.interfaces.ContainerConstants;
+import java.util.ArrayList;
+import java.util.Map;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.Logger;
+import org.apache.avalon.phoenix.components.assembler.Assembler;
+import org.apache.avalon.phoenix.containerkit.factory.ComponentBundle;
+import org.apache.avalon.phoenix.containerkit.factory.ComponentFactory;
+import org.apache.avalon.phoenix.containerkit.metadata.ComponentMetaData;
+import org.apache.avalon.phoenix.containerkit.metadata.PartitionMetaData;
+import org.apache.avalon.phoenix.containerkit.profile.ComponentProfile;
+import org.apache.avalon.phoenix.containerkit.profile.PartitionProfile;
+import org.apache.avalon.phoenix.containerkit.profile.ProfileBuilder;
 import org.apache.avalon.phoenix.framework.info.ComponentInfo;
 import org.apache.avalon.phoenix.framework.tools.infobuilder.LegacyUtil;
-import java.util.Map;
-import java.util.ArrayList;
+import org.apache.avalon.phoenix.interfaces.ContainerConstants;
 
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.6 $ $Date: 2003/03/23 00:19:48 $
+ * @version $Revision: 1.7 $ $Date: 2003/04/05 04:25:42 $
  */
 public class PhoenixProfileBuilder
     extends AbstractLogEnabled

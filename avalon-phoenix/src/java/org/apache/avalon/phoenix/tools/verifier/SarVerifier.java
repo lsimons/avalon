@@ -53,13 +53,13 @@ package org.apache.avalon.phoenix.tools.verifier;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.phoenix.framework.tools.verifier.InfoVerifier;
-import org.apache.avalon.phoenix.framework.tools.verifier.VerifyException;
-import org.apache.avalon.phoenix.interfaces.ContainerConstants;
 import org.apache.avalon.phoenix.containerkit.metadata.ComponentMetaData;
 import org.apache.avalon.phoenix.containerkit.profile.ComponentProfile;
 import org.apache.avalon.phoenix.containerkit.profile.PartitionProfile;
 import org.apache.avalon.phoenix.containerkit.verifier.AssemblyVerifier;
+import org.apache.avalon.phoenix.framework.tools.verifier.InfoVerifier;
+import org.apache.avalon.phoenix.framework.tools.verifier.VerifyException;
+import org.apache.avalon.phoenix.interfaces.ContainerConstants;
 
 /**
  * This Class verifies that Sars are valid. It performs a number
@@ -87,7 +87,7 @@ import org.apache.avalon.phoenix.containerkit.verifier.AssemblyVerifier;
  * </ul>
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.36 $ $Date: 2003/03/23 00:19:49 $
+ * @version $Revision: 1.37 $ $Date: 2003/04/05 04:25:44 $
  */
 public class SarVerifier
     extends AssemblyVerifier

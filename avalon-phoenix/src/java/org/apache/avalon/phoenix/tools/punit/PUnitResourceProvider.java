@@ -58,8 +58,8 @@ import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.phoenix.containerkit.lifecycle.ResourceProvider;
-import org.apache.excalibur.instrument.manager.NoopInstrumentManager;
 import org.apache.excalibur.instrument.InstrumentManager;
+import org.apache.excalibur.instrument.manager.NoopInstrumentManager;
 
 /**
  * PUnitResourceProvider

@@ -54,17 +54,16 @@ import com.thoughtworks.qdox.ant.AbstractQdoxTask;
 import com.thoughtworks.qdox.model.DocletTag;
 import com.thoughtworks.qdox.model.JavaClass;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.FileOutputStream;
 import org.apache.avalon.phoenix.framework.info.ComponentInfo;
-import org.apache.avalon.phoenix.framework.tools.infobuilder.SerializedInfoWriter;
 import org.apache.avalon.phoenix.framework.tools.infobuilder.InfoWriter;
-import org.apache.avalon.phoenix.framework.tools.infobuilder.XMLInfoWriter;
 import org.apache.avalon.phoenix.framework.tools.infobuilder.LegacyBlockInfoWriter;
+import org.apache.avalon.phoenix.framework.tools.infobuilder.SerializedInfoWriter;
+import org.apache.avalon.phoenix.framework.tools.infobuilder.XMLInfoWriter;
 import org.apache.avalon.phoenix.framework.tools.qdox.DefaultInfoBuilder;
 import org.apache.avalon.phoenix.framework.tools.qdox.LegacyInfoBuilder;
-import org.apache.avalon.phoenix.framework.tools.ant.FormatEnum;
 import org.apache.tools.ant.BuildException;
 
 /**
@@ -73,7 +72,7 @@ import org.apache.tools.ant.BuildException;
  *
  * @author Paul Hammant
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003/04/04 11:01:02 $
+ * @version $Revision: 1.5 $ $Date: 2003/04/05 04:25:43 $
  */
 public class MetaGenerateTask
     extends AbstractQdoxTask
@@ -315,7 +314,7 @@ public class MetaGenerateTask
         {
             return c_xmlWriter;
         }
-        else if( SER_TYPE == m_format  )
+        else if( SER_TYPE == m_format )
         {
             return c_serWriter;
         }

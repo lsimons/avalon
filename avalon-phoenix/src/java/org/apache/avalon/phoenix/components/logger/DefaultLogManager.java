@@ -51,7 +51,6 @@
 package org.apache.avalon.phoenix.components.logger;
 
 import java.io.File;
-
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.excalibur.logger.LogKitLoggerManager;

@@ -136,7 +136,7 @@ public class MBeanScripter
         m_mBeanServer.setAttribute( getObjectName(),
                                     new Attribute( name, value ) );
     }
-    
+
     private void setUses()
         throws Exception
     {
@@ -204,49 +204,49 @@ public class MBeanScripter
         }
         m_mBeanServer.invoke( getObjectName(), operationName, values, types );
     }
-    
+
     private Object convertToObject( final Class valueClass, final String s )
     {
         Object value = null;
-        if ( valueClass.equals( String.class ) )
+        if( valueClass.equals( String.class ) )
         {
             value = s;
         }
-        else if ( valueClass.equals( Byte.class ) )
+        else if( valueClass.equals( Byte.class ) )
         {
             value = new Byte( Byte.parseByte( s ) );
         }
-        else if ( valueClass.equals( Short.class ) )
+        else if( valueClass.equals( Short.class ) )
         {
             value = new Short( Short.parseShort( s ) );
         }
-        else if ( valueClass.equals( Integer.class ) )
+        else if( valueClass.equals( Integer.class ) )
         {
             value = new Integer( Integer.parseInt( s ) );
         }
-        else if ( valueClass.equals( Long.class ) )
+        else if( valueClass.equals( Long.class ) )
         {
             value = new Long( Long.parseLong( s ) );
         }
-        else if ( valueClass.equals( Float.class ) )
+        else if( valueClass.equals( Float.class ) )
         {
             value = new Float( Float.parseFloat( s ) );
         }
-        else if ( valueClass.equals( Double.class ) )
+        else if( valueClass.equals( Double.class ) )
         {
             value = new Double( Double.parseDouble( s ) );
         }
-        else if ( valueClass.equals( Character.class ) )
+        else if( valueClass.equals( Character.class ) )
         {
             value = new Character( s.charAt( 0 ) );
         }
-        else if ( valueClass.equals( Boolean.class ) )
+        else if( valueClass.equals( Boolean.class ) )
         {
             value = new Boolean( s );
         }
         else
         {
-            throw new UnsupportedOperationException ( "can't yet convert " + valueClass );
+            throw new UnsupportedOperationException( "can't yet convert " + valueClass );
         }
         return value;
     }

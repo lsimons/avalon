@@ -50,21 +50,21 @@
 
 package org.apache.avalon.phoenix.tools.punit.test;
 
-import org.apache.avalon.framework.service.ServiceException;
-import org.apache.avalon.framework.service.ServiceManager;
-import org.apache.avalon.framework.service.Serviceable;
+import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.activity.Initializable;
-import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
+import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.logger.Logger;
+import org.apache.avalon.framework.service.ServiceException;
+import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.avalon.framework.service.Serviceable;
 
 public class TestBlock
-        implements Serviceable, Configurable, Initializable, Contextualizable, LogEnabled
+    implements Serviceable, Configurable, Initializable, Contextualizable, LogEnabled
 {
 
     public ServiceManager m_serviceManager;
@@ -75,33 +75,32 @@ public class TestBlock
 
     public void service( final ServiceManager serviceManager ) throws ServiceException
     {
-        m_logger.info("service");
+        m_logger.info( "service" );
         m_serviceManager = serviceManager;
     }
 
     public void initialize() throws Exception
     {
-        m_logger.warn("initialize");
+        m_logger.warn( "initialize" );
         m_initialized = true;
     }
 
-    public void contextualize(Context context) throws ContextException
+    public void contextualize( Context context ) throws ContextException
     {
-        m_logger.error("contextualize");
+        m_logger.error( "contextualize" );
         m_context = context;
     }
 
-    public void enableLogging(Logger logger)
+    public void enableLogging( Logger logger )
     {
         m_logger = logger;
     }
 
-    public void configure(Configuration configuration) throws ConfigurationException
+    public void configure( Configuration configuration ) throws ConfigurationException
     {
-        m_logger.fatalError("configure");
+        m_logger.fatalError( "configure" );
         m_configuration = configuration;
     }
-
 
 }
 
