@@ -59,7 +59,7 @@ public class DefaultsBuilder
         final String home = 
           System.getProperty( 
             homeKey, 
-            Env.getEnvVariable( symbol ) );
+            getEnvironmentVariable( symbol ) );
 
         if( null != home )
         {
@@ -71,6 +71,18 @@ public class DefaultsBuilder
               new File( System.getProperty( "user.home" ) );
             final String path = "." + key;
             return new File( user, path ).getCanonicalFile();
+        }
+    }
+
+    private static String getEnvironmentVariable( String symbol )
+    {
+        try
+        {
+            return Env.getEnvVariable( symbol );
+        }
+        catch( Throwable e )
+        {
+            return null;
         }
     }
 

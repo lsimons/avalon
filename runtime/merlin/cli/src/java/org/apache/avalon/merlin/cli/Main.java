@@ -198,6 +198,7 @@ public class Main
     */
     public static void main( String[] args )
     {
+        boolean debug = false;
         try
         {
             //
@@ -210,6 +211,8 @@ public class Main
             File dir = getWorkingDirectory( line );
             File cache = getMerlinSystemRepository( line );
             Artifact artifact = getDefaultImplementation( dir, line );
+
+            debug = line.hasOption( "debug" );
 
             if( line.hasOption( "version" ) )
             {
@@ -255,10 +258,17 @@ public class Main
                 MAIN = new Main( context, artifact, line );
             }
         }
-        catch( Throwable e )
+        catch( Exception exception )
         {
             String msg = 
-              ExceptionHelper.packException( e, true );
+              ExceptionHelper.packException( exception, debug );
+            System.err.println( msg );
+            System.exit( -1 );
+        }
+        catch( Throwable throwable )
+        {
+            String msg = 
+              ExceptionHelper.packException( throwable, true );
             System.err.println( msg );
             System.exit( -1 );
         }
@@ -269,6 +279,8 @@ public class Main
     //----------------------------------------------------------
 
     private final Object m_kernel;
+
+    private boolean m_debug;
 
     //----------------------------------------------------------
     // constructor

@@ -30,6 +30,7 @@ import java.net.URLConnection ;
 
 import org.apache.avalon.repository.Artifact;
 import org.apache.avalon.repository.RepositoryException;
+import org.apache.avalon.repository.RepositoryRuntimeException;
 
 
 /**
@@ -64,8 +65,6 @@ public class LoaderUtils
         String [] repositories, File root, boolean timestamping ) 
         throws RepositoryException
     {
-        Exception cause = null;
-
         File destination = new File( root, artifact.getPath() );
 
         if( !m_online )
@@ -96,22 +95,17 @@ public class LoaderUtils
             }
             catch ( Exception e )
             {
-                cause = e ;
+                // ignore
             }
         }
 
         if( destination.exists() ) return getURL( destination );
         
-        StringBuffer buffer = new StringBuffer();
-        buffer.append(
-          "Failed to download artifact to local cache file " 
-          + destination.getAbsolutePath() 
-          + " from hosts: " );
-        for( int i=0; i<repositories.length; i++ )
-        {
-            buffer.append( "\n  " + repositories[i] );
-        }
-        throw new RepositoryException( buffer.toString(), cause );
+        final String error =
+          "Unknown artifact: [" 
+          + artifact 
+          + "].";
+        throw new RepositoryException( error );
     }
 
     /**
@@ -142,8 +136,6 @@ public class LoaderUtils
 
         if( null == repositories ) 
           throw new NullPointerException( "repositories" );
-
-        Exception cause = null;
 
         File destination = 
           new File( root, artifact.getPath() + "." + mime );
@@ -177,22 +169,19 @@ public class LoaderUtils
             }
             catch ( Exception e )
             {
-                cause = e ;
+                // ignore
             }
         }
 
         if( destination.exists() ) return getURL( destination );
         
-        StringBuffer buffer = new StringBuffer();
-        buffer.append(
-          "Failed to download mime artifact to local cache file " 
-          + destination.getAbsolutePath() 
-          + " from hosts: " );
-        for( int i=0; i<repositories.length; i++ )
-        {
-            buffer.append( "\n  " + repositories[i] );
-        }
-        throw new RepositoryException( buffer.toString(), cause );
+        final String error =
+          "Unknown artifact: [" 
+          + artifact 
+          + "." 
+          + mime 
+          + "].";
+        throw new RepositoryException( error );
     }
     
     /**
@@ -206,7 +195,7 @@ public class LoaderUtils
      */
     public URL getResource( 
       String url, File destination, boolean timestamping ) 
-      throws Exception
+      throws RepositoryException, IOException
     {
 
         boolean update = destination.exists();
@@ -242,7 +231,9 @@ public class LoaderUtils
             }
             catch( Throwable e )
             {
-                e.printStackTrace();
+                final String error = 
+                  "Unexpected error while handling resource request.";
+                throw new RepositoryRuntimeException( error, e );
             }
         }
 
@@ -336,7 +327,7 @@ public class LoaderUtils
             if ( httpConnection.getResponseCode() == 
                     HttpURLConnection.HTTP_UNAUTHORIZED )
             {
-                throw new Exception( "Not authorized." ) ;
+                throw new IOException( "Not authorized." ) ;
             }
         }
 
@@ -361,7 +352,7 @@ public class LoaderUtils
         if ( in == null )
         {
             final String error = 
-              "Connection returned a null input stream: " + url ;
+              "Unknown resource: " + url ;
             throw new IOException( error ) ;
         }
 
