@@ -710,6 +710,7 @@
             <depend property="checkstyle.jar" project="checkstyle"/>
             <depend property="excalibur-pool.jar" project="excalibur-pool" runtime="true"/>
             <depend property="excalibur-threadcontext.jar" project="excalibur-threadcontext" runtime="true"/>
+            <depend property="excalibur-instrument.jar" project="excalibur-instrument" runtime="true"/>
             <depend property="avalon-framework.jar" project="jakarta-avalon" runtime="true"/>
             <depend property="logkit.jar" project="jakarta-avalon-logkit" runtime="true"/>
             <property name="version" value="@@DATE@@"/>
