@@ -13,10 +13,10 @@
     <abstract>This document explains how the MRUMemoryStore executes.</abstract>
   </header>
   <body>
-  <s1 title="Goal">
+  <section><title>Goal</title>
     <p>This document explains how the MRUMemoryStore and Swapping executes.</p>
-  </s1>
-  <s1 title="Overview">
+  </section>
+  <section><title>Overview</title>
     <p>The MRUMemoryStore was developed to provide a standard algorithm to
        store data in memory. For web-based applications the MRU (Most Recently Used) algorithm
        is very suitable, because the object most frequently accessed is always on "top".
@@ -24,9 +24,9 @@
     <p>If configured, the objects are also swapped to the filesystem if the
     MRUMemoryStore reached his configured max. object limit.
     </p>
-  </s1>
-  <s1 title="Implementation">
-    <s2 title="MRUMemoryStore">
+  </section>
+  <section><title>Implementation</title>
+    <section><title>MRUMemoryStore</title>
     <p> 
     The heart of the MRUMemoryStore ist combination of a LinkedList and a HashMap:
     </p>
@@ -41,8 +41,8 @@
     This implementation keeps the most recent used objects in the store and provides the best
     use of the machines memory.
     </p>
-    </s2>
-    <s2 title="Swapping">
+    </section>
+    <section><title>Swapping</title>
     <p>
     When the MRUMemoryStore is full or the JVM is at the heap size limit the 
     objects in the MRUMemoryStore are swapped to the Filesystem. The default 
@@ -54,11 +54,11 @@
     flavours have problems with long filenames. Use the JispFilesystemStore to
     get rid of it.
     </p>
-    </s2>
-  </s1>
-  <s1 title="Configuration of the MRUMemoryStore in the cocoon.xconf">
+    </section>
+  </section>
+  <section><title>Configuration of the MRUMemoryStore in the cocoon.xconf</title>
   <source><![CDATA[
-<store class="org.apache.cocoon.components.store.MRUMemoryStore"
+<store class="org.apache.excalibur.store.impl.MRUMemoryStore"
        logger="core.store">
   <parameter name="maxobjects" value="100"/>
   <parameter name="use-persistent-cache" value="true"/>
@@ -76,6 +76,6 @@
       memory consumption is over the heap size limit. See StoreJanitor user 
       docs for more information.</li>
     </ol>
-  </s1>
+  </section>
   </body>
 </document>
