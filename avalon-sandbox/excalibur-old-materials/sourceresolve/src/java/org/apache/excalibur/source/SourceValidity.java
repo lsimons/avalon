@@ -7,6 +7,8 @@
  */
 package org.apache.excalibur.source;
 
+import java.io.Serializable;
+
 /**
  * A Validity object contains all information to check if a Source object is
  * still valid.
@@ -21,10 +23,10 @@ package org.apache.excalibur.source;
  * is returned by the first invocation!
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/06/23 11:26:13 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/11/07 07:30:57 $
  */
 public interface SourceValidity
-    extends java.io.Serializable
+    extends Serializable
 {
     /**
      * Check if the component is still valid.

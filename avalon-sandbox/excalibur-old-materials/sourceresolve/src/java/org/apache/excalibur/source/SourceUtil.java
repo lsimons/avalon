@@ -20,12 +20,12 @@ import org.apache.avalon.framework.parameters.Parameters;
  * Utility class for source resolving.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/04/19 09:05:37 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/11/07 07:30:40 $
  */
 public final class SourceUtil
 {
-
-    private static final char[] alphabet = {
+    private static final char[] alphabet = new char[]
+    {
         'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', // 0 to 7
         'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', // 8 to 15
         'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', // 16 to 23
@@ -276,5 +276,4 @@ public final class SourceUtil
         }
         return null;
     }
-
 }
