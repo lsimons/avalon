@@ -414,7 +414,7 @@ Legal:
     <mkdir dir="${build.reports}"/>
 
     <junit fork="true" printsummary="yes" dir="${build.reports}">
-      <formatter type="plain"/>  <!-- text reports for humans     -->
+      <formatter type="plain" usefile="no"/>  <!-- text reports for humans     -->
 
       <sysproperty key="test.jdbc.driver"   value="${test.jdbc.driver}"/>
       <sysproperty key="test.jdbc.url"      value="${test.jdbc.url}"/>
