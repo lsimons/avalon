@@ -75,21 +75,21 @@ public class Installer
                 
         if( infos != null )
         {
+            final String message = REZ.getString( "skip-removal", file );
+            
             for( int i = 0; i < infos.length; i++ )
             {
                 final File file = infos[i].getFile();
                 final File parent = file.getParentFile();
-                
+                                
                 if( file.exists() )
                 {                    
-                    final String message = REZ.getString( "skip-removal", file );
-                    
-                    if( file.lastModified() != infos[i].getModified() )
+                    if( file.lastModified() <= installation.getTimestamp() )
                     {
                         getLogger().debug( message );                        
                         continue;
                     }
-
+                    
                     checksum( file, checksum );
 
                     if( checksum.getValue() != infos[i].getChecksum() )
@@ -338,8 +338,9 @@ public class Installer
         final String config = getURLAsString( new File( directory, FS_CONFIG_XML ) );
         final String server = getURLAsString( new File( directory, FS_SERVER_XML ) );
         final FileDigest[] fileDigests = (FileDigest[])digests.toArray( new FileDigest[0] );
+        final long timestamp = System.currentTimeMillis();
 
-        return new Installation( file, directory, config, assembly, server, classPath, fileDigests );
+        return new Installation( file, directory, config, assembly, server, classPath, fileDigests, timestamp );
     }
 
     /**
@@ -399,8 +400,9 @@ public class Installer
         final String assembly = getURLAsString( new File( directory, OLD_ASSEMBLY_XML ) );
         final String server = getURLAsString( new File( directory, OLD_SERVER_XML ) );
         final FileDigest[] fileDigests = (FileDigest[])digests.toArray( new FileDigest[0] );
+        final long timestamp = System.currentTimeMillis();
 
-        return new Installation( file, directory, config, assembly, server, classPath, fileDigests );
+        return new Installation( file, directory, config, assembly, server, classPath, fileDigests, timestamp );
     }
 
     /**
@@ -416,8 +418,9 @@ public class Installer
         final String config = getURLAsString( new File( directory, OLD_CONFIG_XML ) );
         final String assembly = getURLAsString( new File( directory, OLD_ASSEMBLY_XML ) );
         final String server = getURLAsString( new File( directory, OLD_SERVER_XML ) );
+        final long timestamp = System.currentTimeMillis();
 
-        return new Installation( directory, directory, config, assembly, server, classPath, null );
+        return new Installation( directory, directory, config, assembly, server, classPath, null, timestamp );
     }
    
     /**
@@ -492,7 +495,7 @@ public class Installer
         
         final long checksum = entry.getCrc();
         final long modified = file.lastModified();
-        final FileDigest info = new FileDigest( file, checksum, modified );
+        final FileDigest info = new FileDigest( file, checksum );
 
         digests.add( info );
     }
