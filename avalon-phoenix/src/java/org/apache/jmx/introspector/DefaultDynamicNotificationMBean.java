@@ -7,63 +7,61 @@
  */
 package org.apache.jmx.introspector;
 
-import javax.management.ListenerNotFoundException;
 import javax.management.MBeanInfo;
-import javax.management.MBeanNotificationInfo;
 import javax.management.NotCompliantMBeanException;
 import javax.management.NotificationBroadcaster;
-import javax.management.NotificationBroadcasterSupport;
-import javax.management.NotificationFilter;
 import javax.management.NotificationListener;
+import javax.management.NotificationFilter;
+import javax.management.ListenerNotFoundException;
+import javax.management.NotificationBroadcasterSupport;
+import javax.management.MBeanNotificationInfo;
+
 
 /**
- * This class is used by DynamicMBeanFactory to create DynamicMBeans. It extends
- * DefaultDynamicMBean, adding support for notifications.
+ * This class is used by DynamicMBeanFactory to create DynamicMBeans.
+ * It extends DefaultDynamicMBean, adding support for notifications.
  *
  * @author <a href="mailto:mail@leosimons.com">Leo Simons</a>
- * @version CVS $Revision: 1.1 $ $Date: 2001/04/24 05:00:53 $
  */
 public class DefaultDynamicNotificationMBean
-    extends DefaultDynamicMBean
-    implements NotificationBroadcaster
+    extends DefaultDynamicMBean implements NotificationBroadcaster
 {
-    public DefaultDynamicNotificationMBean( final NotificationBroadcaster object )
-        throws NotCompliantMBeanException
+    public DefaultDynamicNotificationMBean( NotificationBroadcaster obj )
+        throws IllegalArgumentException
     {
-        super( object );
+        super( obj );
 
-        m_notifications = object.getNotificationInfo();
-        createMBeanInfo();
+        m_notifications = obj.getNotificationInfo();
     }
-
-    public DefaultDynamicNotificationMBean( final NotificationBroadcaster object,
-                                            final MBeanInfo mBeanInfo )
-        throws NotCompliantMBeanException
+    public DefaultDynamicNotificationMBean( NotificationBroadcaster obj, MBeanInfo mBeanInfo )
+        throws IllegalArgumentException
     {
-        super( object, mBeanInfo );
-        m_notifications = object.getNotificationInfo();
-        createMBeanInfo();
+        super( obj, mBeanInfo );
+        m_notifications = obj.getNotificationInfo();
     }
-
-    public MBeanNotificationInfo[] getNotificationInfo()
+    public DefaultDynamicNotificationMBean( NotificationBroadcaster obj, Class[] interfaces )
+        throws IllegalArgumentException
     {
-        return m_notifications;
+        super( obj, interfaces );
+        m_notifications = obj.getNotificationInfo();
     }
 
     /////////////////////////////////////////
     /// NOTIFICATIONBROADCASTER INTERFACE ///
     /////////////////////////////////////////
-    public void addNotificationListener( final NotificationListener listener,
-                                         final NotificationFilter filter,
-                                         final Object handback )
+    public void addNotificationListener( NotificationListener listener, NotificationFilter filter, Object handback )
         throws java.lang.IllegalArgumentException
     {
-        ((NotificationBroadcaster)m_object ).addNotificationListener( listener, filter, handback );
+        ((NotificationBroadcaster)m_obj).addNotificationListener( listener, filter, handback );
     }
-
-    public void removeNotificationListener( final NotificationListener listener )
+    public void removeNotificationListener( NotificationListener listener )
         throws ListenerNotFoundException
     {
-        ((NotificationBroadcaster)m_object).removeNotificationListener( listener );
+        ((NotificationBroadcaster)m_obj).removeNotificationListener( listener );
     }
+    public MBeanNotificationInfo[] getNotificationInfo()
+    {
+        return m_notifications;
+    }
+
 }
