@@ -32,10 +32,26 @@ To use it, type 'ant -f depchecker.xml'
             This is Excalibur's dependency updater script.
             Which has been called incorrectly :)
 
-            To use it, you must call the checkRequiredFile or
-            checkRequiredClass targets from your Ant script.
+            To use it, you can call one of the predefined dependency scripts
+            from your Ant script. For example:
 
-            For example:
+            <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkJUnit"/>
+
+
+            Alternatively, you can call the checkRequiredFile or
+            checkRequiredClass targets directly from your Ant script.
+
+            Example 1:
+
+            <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
+                <property name="name" value="xalan.jar"/>
+                <property name="path" value="${xalan.jar}"/>
+            </ant>
+
+            That will check if the file pointed to by $${xalan.jar} is present,
+            and fail with a warning message if it isn't.
+  
+            Example 2: 
 
             <ant antfile="depchecker.xml" target="checkRequiredFile">
                 <property name="name" value="excalibur-concurrent.jar"/>
@@ -48,7 +64,7 @@ To use it, type 'ant -f depchecker.xml'
             if it doesn't, build the $${proj.home} project in order to generate
             the jar
 
-            or:
+            Example 3: 
 
             <ant antfile="depchecker.xml" target="checkRequiredFile">
                 <property name="name" value="commons-io.jar"/>
@@ -59,7 +75,7 @@ To use it, type 'ant -f depchecker.xml'
             That will check if $${lib.repo}/commons-io.jar exists, and if not,
             download it from $${url}
 
-            or:
+            Example 4:
 
             <property name="cp" refid="project.class.path"/>
             <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredClass">
@@ -160,6 +176,18 @@ To use it, type 'ant -f depchecker.xml'
 
         </ant>
     </target>
+    <target name="checkBSF">
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredClass">
+            <property name="name" value="bsf.jar"/>
+            <property name="class" value="com.ibm.bsf.util.BSFEngineImpl"/>
+            <property name="classpath" value="${cp}"/>
+            <property name="remedy" value="Download the BSF from ${nl}
+           | http://oss.software.ibm.com/developerworks/projects/bsf ${nl}
+           |   and copy bsf.jar to ${ant.home}/lib"/>
+        </ant>
+    </target>
+
+
     <target name="checkCore">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
             <property name="name" value="excalibur-core.jar"/>
@@ -276,13 +304,15 @@ To use it, type 'ant -f depchecker.xml'
             <property name="path" value="${excalibur-testcase.jar}"/>
             <property name="proj.home" value="${basedir}/../testcase"/>
     </ant>
-    </target><target name="checkThreadcontext">
+    </target>
+    <target name="checkThreadcontext">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
             <property name="name" value="excalibur-threadcontext.jar"/>
             <property name="path" value="${excalibur-threadcontext.jar}"/>
             <property name="proj.home" value="${basedir}/../threadcontext"/>
         </ant>
     </target>
+
     <!-- ====================================================== -->
     <!-- Call to ensure a class is present in the classpath     -->
     <!-- ====================================================== -->
