@@ -67,7 +67,7 @@ import org.apache.avalon.util.factory.FactoryRuntimeException;
  * creation of domain specific criteria.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class Criteria extends HashMap
 {
@@ -101,16 +101,45 @@ public class Criteria extends HashMap
     * Set a named parameter of the criteria to a value.
     * @param key the parameter key
     * @param value the value to assign to the key
-    * @exception ValidationException if the supplied value fails
+    * @return the original value
+    * @exception FactoryRuntimeException if the supplied value fails
     *    the validation test for its associated parameter
     */
-    public void put( final String key, final Object value ) 
+    public Object put( final Object key, final Object value ) 
     {
-        final Parameter p = getParameter( key );
+        if( !(key instanceof String ))
+        {
+            final String error = 
+              "Invalid key: " + key;
+            throw new IllegalArgumentException( error );
+        }
+
+        Object current = super.get( key );
+
+        if( null == value )
+        {
+            super.put( key, null );
+            return current;
+        }
+
+        final Parameter p = getParameter( (String) key );
+
         try
         {
             final Object v = p.resolve( value );
-            super.put( key, v );
+            if( p.getParameterClass().isInstance( v ) )
+            {
+                super.put( key, v );
+                return current;
+            }
+            else
+            {
+                final String error = 
+                  "Resolved value: " + v 
+                  + " does not implement the parameter type: "
+                  + p.getParameterClass();
+                throw new IllegalArgumentException( error );
+            }
         }
         catch( Throwable e )
         {
@@ -128,8 +157,14 @@ public class Criteria extends HashMap
     {
         Parameter param = getParameterFromObject( key );
         Object value = super.get( param.getKey() );
-        if( null != value ) return value;
-        return param.getDefault();
+        if( null != value )
+        {
+            return value;
+        }
+        else
+        {
+            return param.getDefault();
+        }
     }
 
     //--------------------------------------------------------------
