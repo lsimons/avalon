@@ -16,6 +16,8 @@
     <menu name="About Excalibur">
       <item name="Overview" href="/index.html"/>
       <item name="Download" href="http://avalon.apache.org/download.cgi"/>
+      <item name="Where's my documentation???" href="/no-docs-available.html"/>
+      <item name="Javadocs" href="http://avalon.apache.org/excalibur/api/"/>
     </menu>
 
  </body>
