@@ -12,6 +12,7 @@ import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.activity.Startable;
 import org.apache.avalon.framework.activity.Suspendable;
+import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.component.Composable;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.context.Contextualizable;
@@ -24,105 +25,95 @@ import org.apache.avalon.framework.parameters.Parameterizable;
  * within your own code.
  *
  * @author <a href="bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.3 $ $Date: 2001/11/30 17:17:27 $
+ * @version CVS $Revision: 1.1 $ $Date: 2001/11/30 21:33:13 $
  */
-public final class ComponentUtil
+public abstract class AbstractComponent implements Component
 {
-    public static final long LOG_ENABLED    = 0x00000001;
-    public static final long CONTEXTUALIZED = 0x00000002;
-    public static final long PARAMETERIZED  = 0x00000004;
-    public static final long CONFIGURED     = 0x00000008;
-    public static final long COMPOSED       = 0x00000010;
-    public static final long ACTIVE         = 0x10000000;
-    public static final long INITIALIZED    = 0x00000012;
-    public static final long STARTED        = 0x00000014;
-    public static final long SUSPENDED      = 0x01000000;
-    public static final long STOPPED        = 0x00000018;
-    public static final long DISPOSED       = 0x00000020;
-    public static final long INIT_MASK      = LOG_ENABLED | CONTEXTUALIZED | 
+    private static final String OUT_OF_ORDER = "Initialization perfomed out of order";
+
+    private static final long LOG_ENABLED    = 0x00000001;
+    private static final long CONTEXTUALIZED = 0x00000002;
+    private static final long PARAMETERIZED  = 0x00000004;
+    private static final long CONFIGURED     = 0x00000008;
+    private static final long COMPOSED       = 0x00000010;
+    private static final long ACTIVE         = 0x10000000;
+    private static final long INITIALIZED    = 0x00000012;
+    private static final long STARTED        = 0x00000014;
+    private static final long SUSPENDED      = 0x01000000;
+    private static final long STOPPED        = 0x00000018;
+    private static final long DISPOSED       = 0x00000020;
+    private static final long INIT_MASK      = LOG_ENABLED | CONTEXTUALIZED |
         PARAMETERIZED | CONFIGURED | COMPOSED | INITIALIZED | STARTED;
 
-    /**
-     * Hide the constructor
-     */
-    private ComponentUtil()
-    {
-    }
+    private final long m_mask;
+    private       long m_state;
 
     /**
-     * Create state mask from object (this can be used for more than just
-     * components).
+     * Create state mask from this component instance.
      */
-    public static final long createStateMask( final Object object )
+    public AbstractComponent()
     {
         long mask = 0;
 
-        if( object instanceof LogEnabled ||
-            object instanceof Loggable )
+        if( this instanceof LogEnabled ||
+            this instanceof Loggable )
         {
             mask |= LOG_ENABLED;
         }
 
-        if( object instanceof Contextualizable )
+        if( this instanceof Contextualizable )
         {
             mask |= CONTEXTUALIZED;
         }
 
-        if( object instanceof Parameterizable )
+        if( this instanceof Parameterizable )
         {
             mask |= PARAMETERIZED;
         }
 
-        if( object instanceof Configurable )
+        if( this instanceof Configurable )
         {
             mask |= CONFIGURED;
         }
 
-        if( object instanceof Composable )
+        if( this instanceof Composable )
         {
             mask |= COMPOSED;
         }
 
-        if( object instanceof Initializable )
+        if( this instanceof Initializable )
         {
             mask |= INITIALIZED;
         }
 
-        if( object instanceof Disposable )
+        if( this instanceof Disposable )
         {
             mask |= DISPOSED;
         }
 
-        if( object instanceof Startable )
+        if( this instanceof Startable )
         {
             mask |= STARTED | STOPPED;
         }
 
-        if( object instanceof Suspendable )
+        if( this instanceof Suspendable )
         {
             mask |= SUSPENDED;
         }
 
-        return mask & (~ACTIVE);
+        m_mask = mask &(~ACTIVE);
     }
 
     /**
-     * Throw an exception if a value is already set.
+     * Throw an exception if a value is already set on a write-once object.
      *
      * @param source  the source object to test against
-     * @param value   the value to attempt to assign
      * @param message the message to include in the thrown exception
      * @throws IllegalStateException if the source is already set.
      */
-    public static final void setWriteOnceObject( Object source, 
-                                                 final Object value, 
-                                                 final String message )
+    protected final void checkAssigned( Object source, final String message )
     {
-        if ( null == source )
-        {
-            source = value;
-        }
-        else
+        if ( null != source )
         {
             throw new IllegalStateException( message );
         }
@@ -134,24 +125,22 @@ public final class ComponentUtil
      * LogEnabled or Logger, and if the state has progressed beyond the Logger
      * stage.
      *
-     * @param state   the current state of the Component
-     * @param mask    the list of valid states for the component
      * @param message the message to include in the thrown exception
      * @throws IllegalStateException if the state is manage out of order
      */
-    public static final void checkLogEnabled( long state, final long mask, final String message )
+    public final void checkLogEnabled( final String message )
     {
-        if( ( (state & mask & LOG_ENABLED) > 0 ) || 
-            ( (mask & LOG_ENABLED) == 0 ) || 
-            ( state > LOG_ENABLED ) )
+        if( ( (m_state & m_mask & LOG_ENABLED) > 0 ) ||
+            ( (m_mask & LOG_ENABLED) == 0 ) ||
+            ( m_state > LOG_ENABLED ) )
         {
             throw new IllegalStateException( message );
         }
 
-        state |= LOG_ENABLED;
-        if ( (state & INIT_MASK) == (mask & INIT_MASK) )
+        m_state |= LOG_ENABLED;
+        if ( (m_state & INIT_MASK) == (m_mask & INIT_MASK) )
         {
-            state |= ACTIVE;
+            m_state |= ACTIVE;
         }
     }
 
@@ -160,23 +149,21 @@ public final class ComponentUtil
      * if the CONTEXTUALIZED state has already been set, if the component implements
      * Contextualizable, and if the state has progressed beyond the Context stage.
      *
-     * @param state   the current state of the Component
-     * @param mask    the list of valid states for the component
      * @param message the message to include in the thrown exception
      * @throws IllegalStateException if the state is manage out of order
      */
-    public static final void checkContextualized( long state, final long mask, final String message )
+    protected final void checkContextualized( final String message )
     {
-        if ( ( (state & mask & CONTEXTUALIZED) > 0 ) || 
-             ( (mask & CONTEXTUALIZED) == 0 ) || ( state > CONTEXTUALIZED ) )
+        if ( ( (m_state & m_mask & CONTEXTUALIZED) > 0 ) ||
+             ( (m_mask & CONTEXTUALIZED) == 0 ) || ( m_state > CONTEXTUALIZED ) )
         {
             throw new IllegalStateException( message );
         }
 
-        state |= CONTEXTUALIZED;
-        if ( (state & INIT_MASK) == (mask & INIT_MASK) )
+        m_state |= CONTEXTUALIZED;
+        if ( (m_state & INIT_MASK) == (m_mask & INIT_MASK) )
         {
-            state |= ACTIVE;
+            m_state |= ACTIVE;
         }
     }
 
@@ -185,22 +172,21 @@ public final class ComponentUtil
      * if the PARAMETERIZED state has already been set, if the component implements
      * Parameterizable, and if the state has progressed beyond the Parameters stage.
      *
-     * @param state   the current state of the Component
-     * @param mask    the list of valid states for the component
      * @param message the message to include in the thrown exception
      * @throws IllegalStateException if the state is manage out of order
      */
-    public static final void checkParameterized( long state, final long mask, final String message )
+    protected final void checkParameterized( final String message )
     {
-        if ( ( (state & mask & PARAMETERIZED) > 0 ) || ( (mask & PARAMETERIZED) == 0 ) || ( state > PARAMETERIZED ) )
+        if ( ( (m_state & m_mask & PARAMETERIZED) > 0 ) ||
+             ( (m_mask & PARAMETERIZED) == 0 ) || ( m_state > PARAMETERIZED ) )
         {
             throw new IllegalStateException( message );
         }
 
-        state |= PARAMETERIZED;
-        if ( (state & INIT_MASK) == (mask & INIT_MASK) )
+        m_state |= PARAMETERIZED;
+        if ( (m_state & INIT_MASK) == (m_mask & INIT_MASK) )
         {
-            state |= ACTIVE;
+            m_state |= ACTIVE;
         }
     }
 
@@ -209,22 +195,44 @@ public final class ComponentUtil
      * if the CONFIGURED state has already been set, if the component implements
      * Configurable, and if the state has progressed beyond the Configuration stage.
      *
-     * @param state   the current state of the Component
-     * @param mask    the list of valid states for the component
      * @param message the message to include in the thrown exception
      * @throws IllegalStateException if the state is manage out of order
      */
-    public static final void checkConfigured( long state, final long mask, final String message )
+    protected final void checkConfigured( final String message )
     {
-        if ( ( (state & mask & CONFIGURED) > 0 ) || ( (mask & CONFIGURED) == 0 ) || ( state > CONFIGURED ) )
+        if ( ( (m_state & m_mask & CONFIGURED) > 0 ) ||
+             ( (m_mask & CONFIGURED) == 0 ) || ( m_state > CONFIGURED ) )
         {
             throw new IllegalStateException( message );
         }
 
-        state |= CONFIGURED;
-        if ( (state & INIT_MASK) == (mask & INIT_MASK) )
+        m_state |= CONFIGURED;
+        if ( (m_state & INIT_MASK) == (m_mask & INIT_MASK) )
         {
-            state |= ACTIVE;
+            m_state |= ACTIVE;
+        }
+    }
+
+    /**
+     * Throw an exception if the initialization is out of order.  It tests to see
+     * if the COMPOSED state has already been set, if the component implements
+     * Composable, and if the state has progressed beyond the Compose stage.
+     *
+     * @param message the message to include in the thrown exception
+     * @throws IllegalStateException if the state is manage out of order
+     */
+    protected final void checkComposed( final String message )
+    {
+        if ( ( (m_state & m_mask & COMPOSED) > 0 ) ||
+             ( (m_mask & COMPOSED) == 0 ) || ( m_state > COMPOSED ) )
+        {
+            throw new IllegalStateException( message );
+        }
+
+        m_state |= COMPOSED;
+        if ( (m_state & INIT_MASK) == (m_mask & INIT_MASK) )
+        {
+            m_state |= ACTIVE;
         }
     }
 
@@ -233,22 +241,21 @@ public final class ComponentUtil
      * if the INITIALIZED state has already been set, if the component implements
      * Initializable, and if the state has progressed beyond the <code>initialize</code> stage.
      *
-     * @param state   the current state of the Component
-     * @param mask    the list of valid states for the component
      * @param message the message to include in the thrown exception
      * @throws IllegalStateException if the state is manage out of order
      */
-    public static final void checkInitialized( long state, final long mask, final String message )
+    protected final void checkInitialized( final String message )
     {
-        if ( ( (state & mask & INITIALIZED) > 0 ) || ( (mask & INITIALIZED) == 0 ) || ( state > INITIALIZED ) )
+        if ( ( (m_state & m_mask & INITIALIZED) > 0 ) ||
+             ( (m_mask & INITIALIZED) == 0 ) || ( m_state > INITIALIZED ) )
         {
             throw new IllegalStateException( message );
         }
 
-        state |= INITIALIZED;
-        if ( (state & INIT_MASK) == (mask & INIT_MASK) )
+        m_state |= INITIALIZED;
+        if ( (m_state & INIT_MASK) == (m_mask & INIT_MASK) )
         {
-            state |= ACTIVE;
+            m_state |= ACTIVE;
         }
     }
 
@@ -257,22 +264,21 @@ public final class ComponentUtil
      * if the STARTED state has already been set, if the component implements
      * Startable, and if the state has progressed beyond the <code>start</code> stage.
      *
-     * @param state   the current state of the Component
-     * @param mask    the list of valid states for the component
      * @param message the message to include in the thrown exception
      * @throws IllegalStateException if the state is manage out of order
      */
-    public static final void checkStarted( long state, final long mask, final String message )
+    protected final void checkStarted( final String message )
     {
-        if ( ( (state & mask & STARTED) > 0 ) || ( (mask & STARTED) == 0 ) || ( state > STARTED ) )
+        if ( ( (m_state & m_mask & STARTED) > 0 ) ||
+             ( (m_mask & STARTED) == 0 ) || ( m_state > STARTED ) )
         {
             throw new IllegalStateException( message );
         }
 
-        state |= STARTED;
-        if ( (state & INIT_MASK) == (mask & INIT_MASK) )
+        m_state |= STARTED;
+        if ( (m_state & INIT_MASK) == (m_mask & INIT_MASK) )
         {
-            state |= ACTIVE;
+            m_state |= ACTIVE;
         }
     }
 
@@ -281,20 +287,18 @@ public final class ComponentUtil
      * if the SUSPENDED state has already been set, if the component implements
      * Suspendable, and if the Component is active.
      *
-     * @param state   the current state of the Component
-     * @param mask    the list of valid states for the component
      * @param message the message to include in the thrown exception
      * @throws IllegalStateException if the state is manage out of order
      */
-    public static final void checkSuspended( long state, final long mask, final String message )
+    protected final void checkSuspended( final String message )
     {
-        ComponentUtil.checkActive( state, mask, message );
-        if ( ( (state & mask & SUSPENDED) > 0 ) || ( (mask & SUSPENDED) == 0 ) )
+        ComponentUtil.checkActive( m_state, m_mask, message );
+        if ( ( (m_state & m_mask & SUSPENDED) > 0 ) || ( (m_mask & SUSPENDED) == 0 ) )
         {
             throw new IllegalStateException( message );
         }
 
-        state |= SUSPENDED;
+        m_state |= SUSPENDED;
     }
 
     /**
@@ -302,20 +306,18 @@ public final class ComponentUtil
      * if the SUSPENDED state has not been set, if the component implements
      * Suspendable, and if the Component is active.
      *
-     * @param state   the current state of the Component
-     * @param mask    the list of valid states for the component
      * @param message the message to include in the thrown exception
      * @throws IllegalStateException if the state is manage out of order
      */
-    public static final void checkResumed( long state, final long mask, final String message )
+    protected final void checkResumed( final String message )
     {
-        ComponentUtil.checkActive( state, mask, message );
-        if ( ( (state & mask & SUSPENDED) == 0 ) || ( (mask & SUSPENDED) == 0 ) )
+        ComponentUtil.checkActive( m_state, m_mask, message );
+        if ( ( (m_state & m_mask & SUSPENDED) == 0 ) || ( (m_mask & SUSPENDED) == 0 ) )
         {
             throw new IllegalStateException( message );
         }
 
-        state &= ~SUSPENDED;
+        m_state &= ~SUSPENDED;
     }
 
     /**
@@ -323,20 +325,19 @@ public final class ComponentUtil
      * if the STOPPED state has not been set, if the component implements
      * Startable, and if the Component is active.
      *
-     * @param state   the current state of the Component
-     * @param mask    the list of valid states for the component
      * @param message the message to include in the thrown exception
      * @throws IllegalStateException if the state is manage out of order
      */
-    public static final void checkStopped( long state, final long mask, final String message )
+    protected final void checkStopped( final String message )
     {
-        if ( ( (state & mask & STOPPED) > 0 ) || ( (mask & STOPPED) == 0 ) || ( (state & mask) > STOPPED ) )
+        if ( ( (m_state & m_mask & STOPPED) > 0 ) ||
+             ( (m_mask & STOPPED) == 0 ) || ( (m_state & m_mask) > STOPPED ) )
         {
             throw new IllegalStateException( message );
         }
 
-        state &= ~ACTIVE;
-        state |= STOPPED;
+        m_state &= ~ACTIVE;
+        m_state |= STOPPED;
     }
 
     /**
@@ -344,34 +345,29 @@ public final class ComponentUtil
      * if the DISPOSED state has not been set, if the component implements
      * Disposable.
      *
-     * @param state   the current state of the Component
-     * @param mask    the list of valid states for the component
      * @param message the message to include in the thrown exception
      * @throws IllegalStateException if the state is manage out of order
      */
-    public static final void checkDisposed( long state, final long mask, final String message )
+    protected final void checkDisposed( final String message )
     {
-        if ( ( (state & mask & DISPOSED) > 0 ) || ( (mask & DISPOSED) == 0 ) )
+        if ( ( (m_state & m_mask & DISPOSED) > 0 ) || ( (m_mask & DISPOSED) == 0 ) )
         {
             throw new IllegalStateException( message );
         }
 
-        state &= ~ACTIVE;
-        state |= DISPOSED;
+        m_state &= ~ACTIVE;
+        m_state |= DISPOSED;
     }
 
     /**
      * Checks to see if the state is active.
      *
-     * @param state   the current state of the Component
-     * @param mask    the list of valid states for the component
      * @param message the message to include in the thrown exception
      * @throws IllegalStateException if the component is not active
      */
-    public static final void checkActive( final long state, final long mask, final String message )
+    protected final void checkActive( final String message )
     {
-        if( (ACTIVE & state) > 0 ) 
-        {
+        if ( (ACTIVE & m_state) > 0 ) {
             return;
         }
 
