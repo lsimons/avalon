@@ -201,6 +201,7 @@ public class DefaultDeployer
         catch( final Exception e )
         {
             final String message = REZ.getString( "deploy.error.config.create", location );
+            getLogger().error( message, e );
             throw new DeploymentException( message, e );
         }
     }
