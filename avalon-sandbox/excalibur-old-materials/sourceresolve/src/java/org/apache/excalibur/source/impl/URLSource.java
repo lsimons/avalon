@@ -29,12 +29,14 @@ import org.apache.excalibur.source.impl.validity.TimeStampValidity;
 
 /**
  * Description of a source which is described by an URL.
+ * FIXME: Get mime-type
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.11 $ $Date: 2002/06/03 12:11:10 $
+ * @version CVS $Revision: 1.12 $ $Date: 2002/06/12 09:24:14 $
  */
 
 public class URLSource
+    extends AbstractSource
     implements Source
 {
 
@@ -51,12 +53,6 @@ public class URLSource
     /** Identifier for file urls */
     protected final String FILE = "file:";
 
-    /** The last modification date or 0 */
-    protected long lastModificationDate;
-
-    /** The system id */
-    protected String systemId;
-
     /** The URL of the source */
     protected URL url;
 
@@ -65,9 +61,6 @@ public class URLSource
 
     /** The file, if URL is a file */
     protected File file;
-
-    /** Are we initialized? */
-    protected boolean gotInfos;
 
     /** The <code>SourceParameters</code> used for a post*/
     protected SourceParameters parameters;
@@ -149,55 +142,44 @@ public class URLSource
     /**
      * Get the last modification date and content length of the source.
      * Any exceptions are ignored.
+     * Override this to get the real information
      */
     protected void getInfos()
     {
-        if( !this.gotInfos )
+        if( null != this.file )
         {
-            if( null != this.file )
+            this.lastModificationDate = this.file.lastModified();
+            this.contentLength = this.file.length();
+        }
+        else
+        {
+            if( !this.isPost )
             {
-                this.lastModificationDate = this.file.lastModified();
+                try
+                {
+                    if( null == this.connection )
+                    {
+                        this.connection = this.url.openConnection();
+                        String userInfo = this.getUserInfo();
+                        if( this.url.getProtocol().startsWith( "http" ) && userInfo != null )
+                        {
+                            this.connection.setRequestProperty( "Authorization", "Basic " + SourceUtil.encodeBASE64( userInfo ) );
+                        }
+                    }
+                    this.lastModificationDate = this.connection.getLastModified();
+                    this.contentLength = this.connection.getContentLength();
+                }
+                catch( IOException ignore )
+                {
+                    super.getInfos();
+                }
             }
             else
             {
-                if( !this.isPost )
-                {
-                    try
-                    {
-                        if( null == this.connection )
-                        {
-                            this.connection = this.url.openConnection();
-                            String userInfo = this.getUserInfo();
-                            if( this.url.getProtocol().startsWith( "http" ) && userInfo != null )
-                            {
-                                this.connection.setRequestProperty( "Authorization", "Basic " + SourceUtil.encodeBASE64( userInfo ) );
-                            }
-                        }
-                        this.lastModificationDate = this.connection.getLastModified();
-                    }
-                    catch( IOException ignore )
-                    {
-                        this.lastModificationDate = 0;
-                    }
-                }
-                else
-                {
-                    // do not open connection when using post!
-                    this.lastModificationDate = 0;
-                }
+                // do not open connection when using post!
+                super.getInfos();
             }
-            this.gotInfos = true;
         }
-    }
-
-    /**
-     * Get the last modification date of the source or 0 if it
-     * is not possible to determine the date.
-     */
-    public long getLastModified()
-    {
-        getInfos();
-        return this.lastModificationDate;
     }
 
     /**
@@ -212,7 +194,7 @@ public class URLSource
     {
         try
         {
-            getInfos();
+            this.checkInfos();
             InputStream input = null;
             if( null != this.file )
             {
@@ -334,14 +316,6 @@ public class URLSource
     }
 
     /**
-     * Return the unique identifer for this source
-     */
-    public String getSystemId()
-    {
-        return this.systemId;
-    }
-
-    /**
      *  Get the Validity object. This can either wrap the last modification
      *  date or the expires information or...
      *  If it is currently not possible to calculate such an information
@@ -377,17 +351,7 @@ public class URLSource
     {
         // reset connection
         this.connection = null;
-        this.gotInfos = false;
+        super.discardValidity();
     }
 
-    /**
-     * The mime-type of the content described by this object.
-     * If the source is not able to determine the mime-type by itself
-     * this can be null.
-     */
-    public String getMimeType()
-    {
-        // FIXME
-        return null;
-    }
 }
