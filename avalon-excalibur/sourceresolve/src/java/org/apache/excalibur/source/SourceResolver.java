@@ -77,7 +77,7 @@ import org.apache.avalon.framework.component.Component;
  * like Composable, Initializable, Disposable etc.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.2 $ $Date: 2003/11/22 11:30:40 $
+ * @version CVS $Revision: 1.3 $ $Date: 2004/02/14 02:56:54 $
  */
 
 public interface SourceResolver
@@ -97,6 +97,12 @@ public interface SourceResolver
      */
     String URI_PARAMETERS = "org.apache.excalibur.source.Source.uri.parameters";
 
+    /** With this parameter you can specify the encoding to use for encoding
+     * the additional request parameters the URI. It is up to the protocol
+     * implementation ({@link SourceFactory}) to support this or not.
+     */
+    String URI_ENCODING = "org.apache.excalibur.source.Source.uri.encoding";
+	
     /**
      * Get a {@link Source} object. This is a shortcut for {@link #resolveURI
      * (String, String, Map)}.
@@ -108,6 +114,12 @@ public interface SourceResolver
     Source resolveURI( String location )
         throws MalformedURLException, IOException;
 
+    /** With this parameter you can specify the encoding to use for encoding
+     * the additional request parameters the URI. It is up to the protocol
+     * implementation ({@link SourceFactory}) to support this or not.
+     */
+    String URI_ENCODING = "org.apache.excalibur.source.Source.uri.encoding";
+	
     /**
      * Get a {@link Source} object.
      * @param location - the URI to resolve. If this is relative it is either
