@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
 <project>
-  <extend>${basedir}/../project.xml</extend>
+  <extend>${basedir}/../common-project.xml</extend>
 
   <groupId>avalon-db</groupId>
   <name>Avalon Database Master POM</name>

@@ -2,9 +2,8 @@
 
 <project>
 
-  <extend>${basedir}/../../../project.xml</extend>
+  <extend>${basedir}/../common-project.xml</extend>
 
-  <groupId>avalon-mds</groupId>
   <id>avalon-mds-impl</id>
   <name>Avalon MDS API</name>
   <package>org.apache.avalon.mds.impl</package>

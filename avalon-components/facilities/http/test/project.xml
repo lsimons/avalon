@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
 <project>
+  <extend>${basedir}/../common-project.xml</extend>
 
-  <extend>${basedir}/../../../project.xml</extend>
-
-  <groupId>avalon-http</groupId>
   <id>avalon-http-test</id>
   <name>Avalon HTTP Test</name>
 
@@ -17,21 +15,30 @@
       <artifactId>avalon-framework-api</artifactId>
       <version>4.1.5</version>
     </dependency>
+    
     <dependency>
       <groupId>avalon-http</groupId>
       <artifactId>avalon-http-api</artifactId>
       <version>${pom.currentVersion}</version>
     </dependency>
+    
     <dependency>
       <groupId>avalon-http</groupId>
       <artifactId>avalon-http-util</artifactId>
       <version>${pom.currentVersion}</version>
     </dependency>
+    
     <dependency>
       <groupId>servletapi</groupId>
       <artifactId>servletapi</artifactId>
       <version>2.3</version>
     </dependency>
+    
+    <!-- Generation of Meta info  -->
+    <dependency>
+      <groupId>avalon-meta</groupId>
+      <artifactId>avalon-meta-plugin</artifactId>
+      <version>1.4-SNAPSHOT</version>
+    </dependency>
   </dependencies>
-  
 </project>

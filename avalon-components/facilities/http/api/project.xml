@@ -2,9 +2,8 @@
 
 <project>
 
-  <extend>${basedir}/../../../project.xml</extend>
+  <extend>${basedir}/../common-project.xml</extend>
 
-  <groupId>avalon-http</groupId>
   <id>avalon-http-api</id>
   <name>Avalon HTTP API</name>
   <package>org.apache.avalon.http</package>
