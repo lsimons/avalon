@@ -103,7 +103,6 @@ public class DefaultKernel
     /**
      * Create and initialize the application instance if it is not already initialized.
      *
-     * @param name the name of application
      * @param entry the entry for application
      * @exception Exception if an error occurs
      */
@@ -203,13 +202,8 @@ public class DefaultKernel
 
         setupLogger( context, entry.getMetaData().getName() + ".frame" );
 
-        if( context instanceof Composable )
-        {
             final ComponentManager componentManager = createComponentManager();
             ( (Composable)context ).compose( componentManager );
-        }
-
-        //TODO: Remove me once we can remove the ThreadPool stuff
         context.configure( entry.getConfiguration() );
         return context;
     }
