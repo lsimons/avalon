@@ -33,6 +33,12 @@ public class ParameterTestCase
         parameters.setParameter( "key1", null );
         assertTrue( ! parameters.isParameter( "key1" ) );
         assertEquals( 0, parameters.getNames().length );
+
+        parameters.setParameter( "key1", "value1", true );
+        assertEquals( 1, parameters.getNames().length );
+        parameters.setParameter( "key1", null );
+        assertTrue( parameters.isParameter( "key1" ) );
+        assertEquals( 1, parameters.getNames().length );
     }
 
     public void testIsParameter()
@@ -74,7 +80,7 @@ public class ParameterTestCase
 
     public void testFromConfiguration()
     {
-        final ByteArrayInputStream confInput = new ByteArrayInputStream( "<?xml version=\"1.0\"?><test><parameter name=\"key1\" value=\"value1\"/><parameter name=\"key2\" value=\"value2\"/><parameter name=\"key3\" value=\"value3\"/></test>".getBytes() );
+        final ByteArrayInputStream confInput = new ByteArrayInputStream( "<?xml version=\"1.0\"?><test><parameter name=\"key1\" value=\"value1\"/><parameter name=\"key2\" value=\"value2\" locked=\"true\"/><parameter name=\"key3\" value=\"value3\"/></test>".getBytes() );
 
         try
         {
@@ -88,6 +94,14 @@ public class ParameterTestCase
             assertEquals( "value1", parameters.getParameter( "key1" ) );
             assertEquals( "value2", parameters.getParameter( "key2" ) );
             assertEquals( "value3", parameters.getParameter( "key3" ) );
+
+            parameters.setParameter( "key1", "newValue1" );
+            parameters.setParameter( "key2", "newValue2" );
+            parameters.setParameter( "key3", "newValue3" );
+
+            assertEquals( "newValue1", parameters.getParameter( "key1" ) );
+            assertEquals( "value2", parameters.getParameter( "key2" ) );
+            assertEquals( "newValue3", parameters.getParameter( "key3" ) );
         }
         catch ( final ConfigurationException ce )
         {
