@@ -24,7 +24,7 @@
     </s1>
     <s1 title="Relevant source modules">
       <p>
-        The SOAPHelloWorld demo compiles as part of the build process for cornerstone, but only if Glue's jars have been taken from the zip file downloaded from <link href="www.themindelectric.com">here</link> and placed in the lib directory of cornerstone. That's commercial software and we are not distributing it, nor granting you rights to use it.  Please refer to the terms and conditions of use at The Mind Electric.  The important modules that contribute to the demo are listed here.  All are within the src directory
+      The SOAPHelloWorld demo compiles as part of the build process for cornerstone, but only if Glue's jars have been taken from the zip file downloaded from <link href="http://www.themindelectric.com">here</link> and placed in the lib directory of cornerstone. That's commercial software and we are not distributing it, nor granting you rights to use it.  Please refer to the terms and conditions of use at The Mind Electric.  The important modules that contribute to the demo are listed here.  All are within the src directory
       </p>
       <ol>
         <li>
@@ -150,7 +150,7 @@ Avalon-Block: true
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2001/09/05 08:52:21 $
+      $Revision: 1.2 $ $Date: 2001/12/15 07:25:21 $
     </legal>
   </footer>
 </document>
