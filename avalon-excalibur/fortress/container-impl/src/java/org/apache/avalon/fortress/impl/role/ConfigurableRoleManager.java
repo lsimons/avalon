@@ -60,12 +60,12 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
  * in the org.apache.avalon.component package.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.9 $ $Date: 2003/05/20 20:26:08 $
+ * @version CVS $Revision: 1.10 $ $Date: 2003/05/22 14:36:20 $
  * @since 4.1
  */
 public class ConfigurableRoleManager
-    extends AbstractRoleManager
-    implements Configurable
+        extends AbstractRoleManager
+        implements Configurable
 {
     /**
      * Default constructor--this RoleManager has no parent.
@@ -74,18 +74,18 @@ public class ConfigurableRoleManager
     {
         super( null, null );
     }
-    
+
     /**
      * Alternate constructor--this RoleManager has the specified
      * classloader.
      *
-     * @param parent  The parent <code>RoleManager</code>.
+     * @param loader  The <code>ClassLoader</code> used to resolve class names.
      */
     public ConfigurableRoleManager( final ClassLoader loader )
     {
         super( null, loader );
     }
-    
+
     /**
      * Alternate constructor--this RoleManager has the specified
      * parent.
@@ -117,7 +117,7 @@ public class ConfigurableRoleManager
      * @throws ConfigurationException if the configuration is malformed
      */
     public final void configure( final Configuration configuration )
-        throws ConfigurationException
+            throws ConfigurationException
     {
         final Configuration[] roles = configuration.getChildren( "role" );
 
@@ -130,12 +130,20 @@ public class ConfigurableRoleManager
             {
                 final String shorthand = components[j].getAttribute( "shorthand" );
                 final String className =
-                    components[j].getAttribute( "class", null );
+                        components[j].getAttribute( "class", null );
                 final String handlerClassName =
-                    components[j].getAttribute( "handler",
-                        org.apache.avalon.fortress.impl.handler.PerThreadComponentHandler.class.getName() );
+                        components[j].getAttribute( "handler",
+                                org.apache.avalon.fortress.impl.handler.PerThreadComponentHandler.class.getName() );
 
-                addRole( shorthand, role, className, handlerClassName );
+                if ( ! addRole( shorthand, role, className, handlerClassName ) )
+                {
+                    final String message = "Skippign invalid entry:\n\tRole: " + role +
+                            "\n\tShorthand: " + shorthand +
+                            "\n\tClass Name: " + className +
+                            "\n\tHandler Class: " + handlerClassName;
+
+                    getLogger().error( message );
+                }
             }
         }
     }

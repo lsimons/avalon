@@ -66,7 +66,7 @@ public class Role2MetaInfoManagerTestCase extends AbstractMetaInfoManagerTestCas
         super( name );
     }
 
-    public void setUp()
+    public void setUp() throws Exception
     {
         FortressRoleManager roles = new FortressRoleManager( null, this.getClass().getClassLoader() );
         roles.enableLogging( new ConsoleLogger( ConsoleLogger.LEVEL_INFO ) );

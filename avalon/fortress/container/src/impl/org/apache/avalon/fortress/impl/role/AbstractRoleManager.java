@@ -62,7 +62,7 @@ import java.util.Map;
  * the information is hard-coded.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.10 $ $Date: 2003/04/18 20:02:30 $
+ * @version CVS $Revision: 1.11 $ $Date: 2003/05/22 14:36:20 $
  * @since 4.1
  */
 public abstract class AbstractRoleManager
@@ -135,19 +135,13 @@ public abstract class AbstractRoleManager
      * @param className the class name
      * @param handlerClassName the handler classname
      */
-    protected final void addRole( final String shortName,
+    protected final boolean addRole( final String shortName,
                                   final String role,
                                   final String className,
                                   final String handlerClassName )
     {
         final Class clazz;
         final Class handlerKlass;
-
-        if ( getLogger().isDebugEnabled() )
-        {
-            getLogger().debug( "addRole role: name='" + shortName + "', role='" + role + "', "
-                + "class='" + className + "', handler='" + handlerClassName + "'" );
-        }
 
         try
         {
@@ -158,8 +152,7 @@ public abstract class AbstractRoleManager
             final String message =
                 "Unable to load class " + className + ". Skipping.";
             getLogger().warn( message );
-            // Do not store reference if class does not exist.
-            return;
+            return false;
         }
 
         if ( null != handlerClassName )
@@ -173,7 +166,7 @@ public abstract class AbstractRoleManager
                 final String message = "Unable to load handler " +
                     handlerClassName + " for class " + className + ". Skipping.";
                 getLogger().warn( message );
-                return;
+                return false;
             }
         }
         else
@@ -181,9 +174,17 @@ public abstract class AbstractRoleManager
             handlerKlass = getDefaultHandler();
         }
 
+        if ( getLogger().isDebugEnabled() )
+        {
+            getLogger().debug( "addRole role: name='" + shortName + "', role='" + role + "', "
+                + "class='" + className + "', handler='" + handlerClassName + "'" );
+        }
+
         final RoleEntry entry = new RoleEntry( role, shortName, clazz, handlerKlass );
         m_shorthands.put( shortName, entry );
         m_classnames.put( className, entry );
+
+        return true;
     }
 
     /**
