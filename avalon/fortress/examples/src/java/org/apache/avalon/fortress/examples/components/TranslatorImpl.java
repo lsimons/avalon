@@ -52,7 +52,7 @@ package org.apache.avalon.fortress.examples.components;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import org.apache.avalon.framework.configuration.Configurable;
+
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.excalibur.instrument.AbstractLogEnabledInstrumentable;
@@ -77,7 +77,7 @@ import org.apache.excalibur.instrument.CounterInstrument;
  * </p>
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Revision: 1.2 $ $Date: 2003/01/30 18:24:38 $
+ * @version CVS $Revision: 1.3 $ $Date: 2003/02/25 16:28:24 $
  */
 public class TranslatorImpl extends AbstractLogEnabledInstrumentable
     implements Translator, org.apache.avalon.framework.configuration.Configurable

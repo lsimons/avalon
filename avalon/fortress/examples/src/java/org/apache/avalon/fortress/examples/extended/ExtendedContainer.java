@@ -49,9 +49,6 @@
 */
 package org.apache.avalon.fortress.examples.extended;
 
-import org.apache.avalon.fortress.impl.DefaultContainer;
-import org.apache.avalon.fortress.examples.extended.components.ExtendedComponent;
-import org.apache.avalon.fortress.examples.extended.extensions.Extensions;
 
 public final class ExtendedContainer
     extends org.apache.avalon.fortress.impl.DefaultContainer

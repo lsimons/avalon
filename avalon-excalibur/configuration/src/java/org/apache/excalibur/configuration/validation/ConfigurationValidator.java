@@ -50,8 +50,8 @@
 
 package org.apache.excalibur.configuration.validation;
 
-import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.ConfigurationException;
 
 /**
  *

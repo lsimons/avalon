@@ -9,12 +9,13 @@ package org.apache.avalon.excalibur.datasource;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import org.apache.excalibur.instrument.Instrument;
-import org.apache.excalibur.instrument.Instrumentable;
+
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.excalibur.instrument.Instrument;
+import org.apache.excalibur.instrument.Instrumentable;
 
 /**
  * The ResourceLimiting implementation for DataSources in Avalon.
@@ -129,7 +130,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * </ul>
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/07/30 14:49:27 $
+ * @version CVS $Revision: 1.3 $ $Date: 2003/02/25 16:28:37 $
  * @since 4.1
  */
 public class ResourceLimitingJdbcDataSource

@@ -51,6 +51,7 @@ package org.apache.avalon.excalibur.logger;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
@@ -74,7 +75,7 @@ import org.apache.log.Priority;
  *             supports the new framework Logger interface.
  *
  * @author <a href="mailto:giacomo@apache.org">Giacomo Pati</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/10/02 01:52:22 $
+ * @version CVS $Revision: 1.5 $ $Date: 2003/02/25 16:28:24 $
  * @since 4.0
  */
 public class DefaultLogKitManager

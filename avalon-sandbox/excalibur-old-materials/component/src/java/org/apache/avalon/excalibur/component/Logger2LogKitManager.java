@@ -51,8 +51,8 @@ package org.apache.avalon.excalibur.component;
 
 import org.apache.avalon.excalibur.logger.LogKitManager;
 import org.apache.avalon.excalibur.logger.LoggerManager;
-import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.logger.LogKit2AvalonLoggerAdapter;
+import org.apache.avalon.framework.logger.Logger;
 import org.apache.log.Hierarchy;
 import org.apache.log.LogTarget;
 
@@ -60,7 +60,7 @@ import org.apache.log.LogTarget;
  * An adapter between LogkitManager and LoggerManager.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2003/02/20 17:12:35 $
+ * @version $Revision: 1.6 $ $Date: 2003/02/25 16:28:21 $
  */
 class Logger2LogKitManager
     implements LogKitManager

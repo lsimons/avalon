@@ -7,18 +7,6 @@
  */
 package org.apache.avalon.fortress.examples.viewer;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.Iterator;
-import java.util.Set;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import org.apache.avalon.framework.activity.Startable;
-import org.apache.avalon.framework.service.ServiceException;
-import org.apache.avalon.fortress.impl.DefaultContainer;
 
 /**
  * Simple Fortress container containing a Swing based viewer for performing
@@ -36,7 +24,7 @@ import org.apache.avalon.fortress.impl.DefaultContainer;
  * </p>
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/01/28 21:19:19 $
+ * @version CVS $Revision: 1.2 $ $Date: 2003/02/25 16:28:50 $
  */
 public final class ComponentViewer
     extends org.apache.avalon.fortress.impl.DefaultContainer

@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.xml.transform.Result;
 import javax.xml.transform.Templates;
 import javax.xml.transform.Transformer;
@@ -24,7 +25,7 @@ import javax.xml.transform.sax.SAXTransformerFactory;
 import javax.xml.transform.sax.TemplatesHandler;
 import javax.xml.transform.sax.TransformerHandler;
 import javax.xml.transform.stream.StreamSource;
-import org.apache.excalibur.xml.sax.XMLizable;
+
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.component.ComponentException;
@@ -41,6 +42,7 @@ import org.apache.excalibur.source.SourceResolver;
 import org.apache.excalibur.source.SourceValidity;
 import org.apache.excalibur.source.impl.validity.AggregatedValidity;
 import org.apache.excalibur.store.Store;
+import org.apache.excalibur.xml.sax.XMLizable;
 import org.apache.excalibur.xmlizer.XMLizer;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.InputSource;
@@ -64,7 +66,7 @@ import org.xml.sax.XMLFilter;
  *
  * @author <a href="mailto:ovidiu@cup.hp.com">Ovidiu Predescu</a>
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
- * @version CVS $Id: XSLTProcessorImpl.java,v 1.24 2003/01/29 06:56:01 cziegeler Exp $
+ * @version CVS $Id: XSLTProcessorImpl.java,v 1.25 2003/02/25 16:28:27 bloritsch Exp $
  * @version 1.0
  * @since   July 11, 2001
  */

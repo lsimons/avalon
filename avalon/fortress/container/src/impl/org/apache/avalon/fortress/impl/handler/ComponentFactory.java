@@ -50,6 +50,7 @@
 package org.apache.avalon.fortress.impl.handler;
 
 import org.apache.avalon.excalibur.logger.LoggerManager;
+import org.apache.avalon.fortress.impl.LifecycleExtensionManager;
 import org.apache.avalon.framework.component.WrapperComponentManager;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.container.ContainerUtil;
@@ -63,7 +64,6 @@ import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.thread.ThreadSafe;
-import org.apache.avalon.fortress.impl.LifecycleExtensionManager;
 import org.apache.excalibur.instrument.CounterInstrument;
 import org.apache.excalibur.instrument.Instrument;
 import org.apache.excalibur.instrument.InstrumentManageable;
@@ -76,7 +76,7 @@ import org.apache.excalibur.mpool.ObjectFactory;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
- * @version CVS $Revision: 1.4 $ $Date: 2003/02/19 12:02:55 $
+ * @version CVS $Revision: 1.5 $ $Date: 2003/02/25 16:28:26 $
  * @since 4.0
  */
 public class ComponentFactory

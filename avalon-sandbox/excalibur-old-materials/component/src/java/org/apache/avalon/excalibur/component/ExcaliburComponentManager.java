@@ -52,7 +52,7 @@ package org.apache.avalon.excalibur.component;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import org.apache.commons.collections.StaticBucketMap;
+
 import org.apache.avalon.excalibur.logger.LogKitManageable;
 import org.apache.avalon.excalibur.logger.LogKitManager;
 import org.apache.avalon.excalibur.logger.LoggerManager;
@@ -67,6 +67,7 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.Contextualizable;
+import org.apache.commons.collections.StaticBucketMap;
 import org.apache.excalibur.instrument.Instrument;
 import org.apache.excalibur.instrument.InstrumentManageable;
 import org.apache.excalibur.instrument.InstrumentManager;
@@ -79,7 +80,7 @@ import org.apache.excalibur.instrument.Instrumentable;
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.26 $ $Date: 2003/02/20 17:12:35 $
+ * @version CVS $Revision: 1.27 $ $Date: 2003/02/25 16:28:21 $
  * @since 4.0
  */
 public class ExcaliburComponentManager

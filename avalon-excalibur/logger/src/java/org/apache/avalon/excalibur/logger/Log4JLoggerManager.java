@@ -51,6 +51,7 @@ package org.apache.avalon.excalibur.logger;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import org.apache.avalon.framework.logger.Log4JLogger;
 import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.logger.Logger;
@@ -63,7 +64,7 @@ import org.apache.log4j.spi.LoggerRepository;
  * leaves that as an excercise for Log4J's construction.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.9 $ $Date: 2002/11/04 09:00:21 $
+ * @version CVS $Revision: 1.10 $ $Date: 2003/02/25 16:28:24 $
  * @since 4.1
  */
 public class Log4JLoggerManager

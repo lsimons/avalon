@@ -11,6 +11,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Collections;
 import java.util.Set;
+
 import org.apache.avalon.excalibur.monitor.DirectoryResource;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 

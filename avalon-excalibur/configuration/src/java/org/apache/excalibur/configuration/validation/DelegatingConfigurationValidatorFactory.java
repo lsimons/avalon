@@ -50,11 +50,10 @@
 
 package org.apache.excalibur.configuration.validation;
 
-import java.util.Collections;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.io.InputStream;
 
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;

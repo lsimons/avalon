@@ -7,14 +7,15 @@
  */
 package org.apache.excalibur.store;
 
-import org.apache.avalon.framework.component.Component;
 import java.util.Iterator;
+
+import org.apache.avalon.framework.component.Component;
 
 /**
  * Interface for the StoreJanitors
  *
  * @author <a href="mailto:g-froehlich@gmx.de">Gerhard Froehlich</a>
- * @version CVS $Id: StoreJanitor.java,v 1.1 2002/05/02 08:55:39 cziegeler Exp $
+ * @version CVS $Id: StoreJanitor.java,v 1.2 2003/02/25 16:28:38 bloritsch Exp $
  */
 public interface StoreJanitor
     extends Component

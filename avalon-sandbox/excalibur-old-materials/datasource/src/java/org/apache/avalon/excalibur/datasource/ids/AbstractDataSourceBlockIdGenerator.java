@@ -8,6 +8,7 @@
 package org.apache.avalon.excalibur.datasource.ids;
 
 import java.math.BigDecimal;
+
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 
@@ -17,7 +18,7 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
  *  the DataSource.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/04/22 03:04:27 $
+ * @version CVS $Revision: 1.2 $ $Date: 2003/02/25 16:28:29 $
  * @since 4.1
  */
 public abstract class AbstractDataSourceBlockIdGenerator

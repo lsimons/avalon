@@ -52,18 +52,17 @@ package org.apache.excalibur.xfc.test.util;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.avalon.framework.logger.Logger;
-
+import org.apache.excalibur.xfc.model.role.RoleRef;
 import org.apache.excalibur.xfc.modules.ecm.ECM;
 import org.apache.excalibur.xfc.modules.ecm.ECMSerializer;
 import org.apache.excalibur.xfc.modules.ecm.HandlerAnalyzer;
-import org.apache.excalibur.xfc.model.role.RoleRef;
 
 /**
  * ECM Module Test Rig. This class extends ECM and provides several accessor methods to
  * internal ECM methods that are otherwise not available from the normal Module API.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: ECMTestRig.java,v 1.5 2002/10/17 14:38:18 crafterm Exp $
+ * @version CVS $Id: ECMTestRig.java,v 1.6 2003/02/25 16:28:40 bloritsch Exp $
  */
 public final class ECMTestRig extends ECM
 {

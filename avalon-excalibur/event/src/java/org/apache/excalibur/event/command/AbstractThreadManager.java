@@ -51,11 +51,10 @@ package org.apache.excalibur.event.command;
 
 import java.util.Iterator;
 
-import org.apache.commons.collections.StaticBucketMap;
-
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.commons.collections.StaticBucketMap;
 import org.apache.excalibur.event.EventHandler;
 import org.apache.excalibur.event.Source;
 

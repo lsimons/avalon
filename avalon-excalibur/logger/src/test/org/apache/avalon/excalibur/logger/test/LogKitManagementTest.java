@@ -50,6 +50,7 @@
 package org.apache.avalon.excalibur.logger.test;
 
 import java.io.InputStream;
+
 import org.apache.avalon.excalibur.logger.DefaultLogKitManager;
 import org.apache.avalon.excalibur.logger.LogKitManager;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -68,7 +69,7 @@ import org.apache.log.output.io.StreamTarget;
  * LogKitManagementTest.
  *
  * @author <a href="mailto:giacomo@apache,org">Giacomo Pati</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/08/07 13:37:00 $
+ * @version CVS $Revision: 1.4 $ $Date: 2003/02/25 16:28:22 $
  */
 public class LogKitManagementTest
 {

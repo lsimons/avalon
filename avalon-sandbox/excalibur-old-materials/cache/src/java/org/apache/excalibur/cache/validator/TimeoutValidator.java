@@ -9,6 +9,7 @@ package org.apache.excalibur.cache.validator;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import org.apache.excalibur.cache.CacheEvent;
 import org.apache.excalibur.cache.CacheListener;
 import org.apache.excalibur.cache.CacheValidator;

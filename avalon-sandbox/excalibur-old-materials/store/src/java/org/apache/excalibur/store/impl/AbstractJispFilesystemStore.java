@@ -7,6 +7,11 @@
  */
 package org.apache.excalibur.store.impl;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.Serializable;
+import java.util.Enumeration;
+
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.thread.ThreadSafe;
@@ -18,11 +23,6 @@ import com.coyotegulch.jisp.IndexedObjectDatabase;
 import com.coyotegulch.jisp.KeyNotFound;
 import com.coyotegulch.jisp.KeyObject;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.Serializable;
-import java.util.Enumeration;
-
 /**
  * This store is based on the Jisp library
  * (http://www.coyotegulch.com/jisp/index.html). This store uses B-Tree indexes
@@ -30,7 +30,7 @@ import java.util.Enumeration;
  *
  * @author <a href="mailto:g-froehlich@gmx.de">Gerhard Froehlich</a>
  * @author <a href="mailto:vgritsenko@apache.org">Vadim Gritsenko</a>
- * @version CVS $Id: AbstractJispFilesystemStore.java,v 1.2 2003/01/29 06:56:01 cziegeler Exp $
+ * @version CVS $Id: AbstractJispFilesystemStore.java,v 1.3 2003/02/25 16:28:24 bloritsch Exp $
  */
 public abstract class AbstractJispFilesystemStore
 extends AbstractLogEnabled

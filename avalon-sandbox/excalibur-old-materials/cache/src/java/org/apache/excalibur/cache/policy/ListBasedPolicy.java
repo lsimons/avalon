@@ -8,6 +8,7 @@
 package org.apache.excalibur.cache.policy;
 
 import java.util.LinkedList;
+
 import org.apache.excalibur.cache.ReplacementPolicy;
 
 /**

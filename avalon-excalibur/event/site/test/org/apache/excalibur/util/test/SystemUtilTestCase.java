@@ -8,6 +8,7 @@
 package org.apache.excalibur.util.test;
 
 import junit.framework.TestCase;
+
 import org.apache.excalibur.util.SystemUtil;
 
 /**

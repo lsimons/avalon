@@ -8,6 +8,7 @@
 package org.apache.excalibur.xml.xpath;
 
 import java.util.List;
+
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -15,7 +16,7 @@ import org.w3c.dom.NodeList;
  * Simple node list wrapper around a List object.
  *
  * @author <a href="mailto:dims@yahoo.com">Davanum Srinivas</a>
- * @version CVS $Revision: 1.4 $ $Date: 2003/01/22 02:18:17 $ $Author: jefft $
+ * @version CVS $Revision: 1.5 $ $Date: 2003/02/25 16:28:29 $ $Author: bloritsch $
  */
 final class SimpleNodeList
     implements NodeList

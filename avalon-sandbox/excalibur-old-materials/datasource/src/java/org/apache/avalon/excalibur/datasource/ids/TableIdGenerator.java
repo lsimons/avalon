@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 
@@ -67,7 +68,7 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
  * </pre>
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/09/02 12:38:29 $
+ * @version CVS $Revision: 1.3 $ $Date: 2003/02/25 16:28:29 $
  * @since 4.1
  */
 public class TableIdGenerator

@@ -64,12 +64,18 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.apache.excalibur.source.*;
+import org.apache.excalibur.source.Source;
+import org.apache.excalibur.source.SourceException;
+import org.apache.excalibur.source.SourceNotFoundException;
+import org.apache.excalibur.source.SourceParameters;
+import org.apache.excalibur.source.SourceResolver;
+import org.apache.excalibur.source.SourceUtil;
+import org.apache.excalibur.source.SourceValidity;
 import org.apache.excalibur.source.impl.validity.FileTimeStampValidity;
 import org.apache.excalibur.source.impl.validity.TimeStampValidity;
 
@@ -78,7 +84,7 @@ import org.apache.excalibur.source.impl.validity.TimeStampValidity;
  * FIXME: Get mime-type
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.20 $ $Date: 2003/01/30 11:50:40 $
+ * @version CVS $Revision: 1.21 $ $Date: 2003/02/25 16:28:33 $
  */
 public class URLSource
     extends AbstractSource

@@ -8,8 +8,7 @@
 package org.apache.excalibur.instrument.client;
 
 import java.awt.event.ActionEvent;
-import java.util.Arrays;
-import java.util.Comparator;
+
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JCheckBoxMenuItem;
@@ -20,17 +19,17 @@ import javax.swing.JMenuItem;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 
-import org.apache.excalibur.instrument.manager.interfaces.InstrumentableDescriptor;
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentDescriptor;
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentManagerClient;
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentSampleDescriptor;
+import org.apache.excalibur.instrument.manager.interfaces.InstrumentableDescriptor;
 
-import org.apache.altrmi.common.InvocationException;
+import com.sun.jdi.InvocationException;
 
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.5 $ $Date: 2003/02/17 21:25:45 $
+ * @version CVS $Revision: 1.6 $ $Date: 2003/02/25 16:28:20 $
  * @since 4.1
  */
 public class MenuBar

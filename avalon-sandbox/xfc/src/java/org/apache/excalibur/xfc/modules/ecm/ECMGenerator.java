@@ -50,6 +50,7 @@
 package org.apache.excalibur.xfc.modules.ecm;
 
 import java.io.File;
+
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
@@ -71,7 +72,7 @@ import org.apache.excalibur.xfc.modules.Constants;
  * of the <code>generate</code> method defined in {@link ECM}.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: ECMGenerator.java,v 1.6 2002/11/12 20:07:50 donaldp Exp $
+ * @version CVS $Id: ECMGenerator.java,v 1.7 2003/02/25 16:28:25 bloritsch Exp $
  */
 public class ECMGenerator
     extends AbstractLogEnabled

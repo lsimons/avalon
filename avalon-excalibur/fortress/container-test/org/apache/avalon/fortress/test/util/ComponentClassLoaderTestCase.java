@@ -8,14 +8,7 @@
 
 package org.apache.avalon.fortress.test.util;
 
-import java.net.URL;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
 import junit.framework.TestCase;
-import org.apache.excalibur.fortress.util.classloader.ComponentClassLoader;
-import org.apache.excalibur.fortress.util.classloader.JarEntries;
-import org.apache.excalibur.fortress.util.classloader.JarScanner;
 
 /**
 * A testcase for the @link{ComponentClassLoader}.

@@ -7,12 +7,25 @@
  */
 package org.apache.excalibur.store.impl;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.util.BitSet;
+import java.util.Enumeration;
+
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.thread.ThreadSafe;
 import org.apache.excalibur.store.Store;
-import java.io.*;
-import java.util.BitSet;
-import java.util.Enumeration;
 
 /**
  * Stores objects on the filesystem: String objects as text files,
@@ -21,7 +34,7 @@ import java.util.Enumeration;
  *
  * @author ?
  * @author <a href="mailto:vgritsenko@apache.org">Vadim Gritsenko</a>
- * @version CVS $Id: AbstractFilesystemStore.java,v 1.5 2002/10/12 10:36:55 froehlich Exp $
+ * @version CVS $Id: AbstractFilesystemStore.java,v 1.6 2003/02/25 16:28:24 bloritsch Exp $
  */
 public abstract class AbstractFilesystemStore
 extends AbstractLogEnabled

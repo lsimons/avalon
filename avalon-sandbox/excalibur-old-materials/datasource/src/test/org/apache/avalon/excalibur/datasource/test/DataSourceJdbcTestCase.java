@@ -12,12 +12,14 @@ import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Random;
-import EDU.oswego.cs.dl.util.concurrent.CyclicBarrier;
+
 import org.apache.avalon.excalibur.datasource.DataSourceComponent;
 import org.apache.avalon.excalibur.testcase.CascadingAssertionFailedError;
 import org.apache.avalon.excalibur.testcase.ExcaliburTestCase;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.component.ComponentException;
+
+import EDU.oswego.cs.dl.util.concurrent.CyclicBarrier;
 
 /**
  * Test the DataSource Component.  I don't know how to make this generic,

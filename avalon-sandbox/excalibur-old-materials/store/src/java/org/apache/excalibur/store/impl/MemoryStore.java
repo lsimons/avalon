@@ -7,11 +7,12 @@
  */
 package org.apache.excalibur.store.impl;
 
+import java.util.Enumeration;
+import java.util.Hashtable;
+
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.thread.ThreadSafe;
 import org.apache.excalibur.store.Store;
-import java.util.Enumeration;
-import java.util.Hashtable;
 
 /**
  *
@@ -21,7 +22,7 @@ import java.util.Hashtable;
  *         (Apache Software Foundation)
  * @author <a href="mailto:fumagalli@exoffice.com">Pierpaolo Fumagalli</a>
  *         (Apache Software Foundation, Exoffice Technologies)
- * @version CVS $Id: MemoryStore.java,v 1.2 2002/08/14 15:33:53 crafterm Exp $
+ * @version CVS $Id: MemoryStore.java,v 1.3 2003/02/25 16:28:24 bloritsch Exp $
  */
 public class MemoryStore
     extends AbstractLogEnabled

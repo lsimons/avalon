@@ -50,12 +50,11 @@
 package org.apache.avalon.fortress.examples.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import org.apache.avalon.fortress.impl.DefaultContainer;
-import org.apache.avalon.fortress.examples.components.Translator;
+
 
 /**
  * Fortress based servlet example. Presents a simple page to the user
@@ -63,7 +62,7 @@ import org.apache.avalon.fortress.examples.components.Translator;
  * written in.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/01/28 21:19:18 $
+ * @version CVS $Revision: 1.2 $ $Date: 2003/02/25 16:28:43 $
  */
 public final class ServletContainer extends org.apache.avalon.fortress.impl.DefaultContainer
 {
@@ -96,7 +95,7 @@ public final class ServletContainer extends org.apache.avalon.fortress.impl.Defa
      * @exception java.io.IOException if an IO error occurs
      */
     public void handleRequest( ServletRequest request, ServletResponse response )
-        throws ServletException, java.io.IOException
+        throws ServletException, IOException
     {
         java.io.PrintWriter out = response.getWriter();
         String selected = request.getParameter( "language" );

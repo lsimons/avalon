@@ -9,6 +9,7 @@ package org.apache.excalibur.instrument.client;
 
 import java.awt.Color;
 import java.awt.Dimension;
+
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -18,20 +19,12 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
-
-import org.apache.excalibur.instrument.manager.interfaces.InstrumentableDescriptor;
-import org.apache.excalibur.instrument.manager.interfaces.InstrumentDescriptor;
-import org.apache.excalibur.instrument.manager.interfaces.InstrumentManagerClient;
-import org.apache.excalibur.instrument.manager.interfaces.InstrumentSampleDescriptor;
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentSampleSnapshot;
-import org.apache.excalibur.instrument.manager.interfaces.NoSuchInstrumentableException;
-import org.apache.excalibur.instrument.manager.interfaces.NoSuchInstrumentException;
-import org.apache.excalibur.instrument.manager.interfaces.NoSuchInstrumentSampleException;
 
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/09/06 02:55:47 $
+ * @version CVS $Revision: 1.4 $ $Date: 2003/02/25 16:28:20 $
  * @since 4.1
  */
 class InstrumentSampleFrame

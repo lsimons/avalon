@@ -9,7 +9,9 @@ package org.apache.avalon.excalibur.logger.test;
 
 import java.io.IOException;
 import java.io.InputStream;
+
 import junit.framework.TestCase;
+
 import org.apache.avalon.excalibur.logger.Log4JConfLoggerManager;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
@@ -22,7 +24,7 @@ import org.xml.sax.SAXException;
 /**
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2002/11/01 01:34:50 $
+ * @version $Revision: 1.2 $ $Date: 2003/02/25 16:28:22 $
  */
 public class Log4JConfTestCase
     extends TestCase

@@ -50,15 +50,16 @@
 package org.apache.avalon.fortress.impl.lookup;
 
 import java.util.Map;
+
+import org.apache.avalon.fortress.Container;
+import org.apache.avalon.fortress.impl.AbstractContainer;
+import org.apache.avalon.fortress.impl.handler.ComponentHandler;
 import org.apache.avalon.framework.component.ComponentSelector;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.ServiceSelector;
 import org.apache.avalon.framework.service.WrapperServiceSelector;
 import org.apache.commons.collections.StaticBucketMap;
-import org.apache.avalon.fortress.Container;
-import org.apache.avalon.fortress.impl.handler.ComponentHandler;
-import org.apache.avalon.fortress.impl.AbstractContainer;
 
 /**
  * This is the Default ServiceManager for the Container.  It provides
@@ -66,7 +67,7 @@ import org.apache.avalon.fortress.impl.AbstractContainer;
  * the references.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.5 $ $Date: 2003/02/18 08:52:44 $
+ * @version CVS $Revision: 1.6 $ $Date: 2003/02/25 16:28:31 $
  */
 public class FortressServiceManager
     implements ServiceManager

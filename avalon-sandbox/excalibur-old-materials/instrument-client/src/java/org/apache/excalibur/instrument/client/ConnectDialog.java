@@ -8,21 +8,14 @@
 package org.apache.excalibur.instrument.client;
 
 import java.awt.Component;
-import java.awt.event.ActionEvent;
-import javax.swing.AbstractAction;
-import javax.swing.Action;
-import javax.swing.Box;
-import javax.swing.JButton;
-import javax.swing.JDialog;
+
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/08/22 16:50:38 $
+ * @version CVS $Revision: 1.3 $ $Date: 2003/02/25 16:28:20 $
  * @since 4.1
  */
 class ConnectDialog

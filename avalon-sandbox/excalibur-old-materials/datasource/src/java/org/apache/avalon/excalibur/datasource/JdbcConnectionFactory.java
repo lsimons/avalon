@@ -10,6 +10,7 @@ package org.apache.avalon.excalibur.datasource;
 import java.lang.reflect.Constructor;
 import java.sql.Connection;
 import java.sql.DriverManager;
+
 import org.apache.avalon.excalibur.pool.ObjectFactory;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 
@@ -17,7 +18,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * The Factory implementation for JdbcConnections.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.15 $ $Date: 2002/09/27 13:44:11 $
+ * @version CVS $Revision: 1.16 $ $Date: 2003/02/25 16:28:37 $
  * @since 4.0
  */
 public class JdbcConnectionFactory extends AbstractLogEnabled implements ObjectFactory

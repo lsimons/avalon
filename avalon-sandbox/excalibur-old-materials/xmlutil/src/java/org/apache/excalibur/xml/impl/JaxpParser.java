@@ -13,10 +13,8 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParserFactory;
+
 import org.apache.avalon.excalibur.pool.Poolable;
-import org.apache.excalibur.xml.EntityResolver;
-import org.apache.excalibur.xml.dom.DOMParser;
-import org.apache.excalibur.xml.sax.SAXParser;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.parameters.ParameterException;
@@ -25,6 +23,9 @@ import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
+import org.apache.excalibur.xml.EntityResolver;
+import org.apache.excalibur.xml.dom.DOMParser;
+import org.apache.excalibur.xml.sax.SAXParser;
 import org.w3c.dom.Document;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.ErrorHandler;
@@ -70,7 +71,7 @@ import org.xml.sax.ext.LexicalHandler;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @version CVS $Revision: 1.2 $ $Date: 2003/01/22 02:31:26 $
+ * @version CVS $Revision: 1.3 $ $Date: 2003/02/25 16:28:24 $
  * @avalon.component
  */
 public final class JaxpParser

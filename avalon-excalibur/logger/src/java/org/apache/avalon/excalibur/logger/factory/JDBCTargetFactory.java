@@ -53,6 +53,7 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
+
 import org.apache.avalon.excalibur.logger.LogTargetFactory;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
@@ -86,7 +87,7 @@ import org.apache.log.output.db.NormalizedJDBCTarget;
  * </pre>
  *
  * @author <a href="mailto:mirceatoma@home.com">Mircea Toma</a>;
- * @version CVS $Revision: 1.3 $ $Date: 2002/11/22 00:49:48 $
+ * @version CVS $Revision: 1.4 $ $Date: 2003/02/25 16:28:18 $
  */
 public class JDBCTargetFactory implements LogTargetFactory
 {

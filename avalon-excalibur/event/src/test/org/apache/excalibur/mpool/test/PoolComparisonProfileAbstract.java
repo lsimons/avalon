@@ -50,6 +50,7 @@
 package org.apache.excalibur.mpool.test;
 
 import junit.framework.TestCase;
+
 import org.apache.avalon.excalibur.pool.ResourceLimitingPool;
 import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.logger.LogKitLogger;
@@ -64,7 +65,7 @@ import org.apache.excalibur.mpool.VariableSizePool;
  * Used as a basis for the PoolComparisonProfile Tests
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version $Id: PoolComparisonProfileAbstract.java,v 1.5 2002/10/02 01:52:20 donaldp Exp $
+ * @version $Id: PoolComparisonProfileAbstract.java,v 1.6 2003/02/25 16:28:40 bloritsch Exp $
  */
 public abstract class PoolComparisonProfileAbstract
     extends TestCase

@@ -50,6 +50,7 @@
 package org.apache.avalon.excalibur.logger.factory;
 
 import java.io.OutputStream;
+
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.context.Context;
@@ -81,7 +82,7 @@ import org.apache.log.output.io.StreamTarget;
  * <p>The syntax of "format" is the same as in <code>FileTargetFactory</code>.</p>
  *
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/08/07 13:37:00 $
+ * @version CVS $Revision: 1.3 $ $Date: 2003/02/25 16:28:18 $
  */
 public class StreamTargetFactory
     extends AbstractTargetFactory

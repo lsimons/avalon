@@ -7,7 +7,6 @@
  */
 package org.apache.excalibur.cache.impl.test;
 
-import org.apache.excalibur.cache.Cache;
 import org.apache.excalibur.cache.impl.TimeMapLRUCache;
 
 /**

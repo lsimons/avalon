@@ -23,7 +23,6 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.tree.DefaultMutableTreeNode;
 
@@ -42,7 +41,6 @@ import org.apache.altrmi.common.ConnectionException;
 import org.apache.altrmi.common.InvocationException;
 import org.apache.altrmi.common.ConnectionRefusedException;
 
-import org.apache.excalibur.instrument.manager.interfaces.InstrumentableDescriptor;
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentDescriptor;
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentManagerClient;
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentSampleDescriptor;
@@ -52,7 +50,7 @@ import org.apache.excalibur.instrument.manager.interfaces.InstrumentSampleUtils;
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.14 $ $Date: 2003/02/17 21:25:44 $
+ * @version CVS $Revision: 1.15 $ $Date: 2003/02/25 16:28:20 $
  * @since 4.1
  */
 class InstrumentManagerConnection

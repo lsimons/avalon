@@ -10,11 +10,12 @@ package org.apache.avalon.excalibur.component.example_im;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
-import org.apache.avalon.excalibur.component.ExcaliburComponentManagerCreator;
-import EDU.oswego.cs.util.concurrent.CyclicBarrier;
-import org.apache.avalon.framework.component.ComponentManager;
 
+import org.apache.avalon.excalibur.component.ExcaliburComponentManagerCreator;
 import org.apache.avalon.framework.service.ServiceManager;
+
+import EDU.oswego.cs.dl.util.concurrent.CyclicBarrier;
+
 
 /**
  * This example application loads a component which publishes a series
@@ -25,7 +26,7 @@ import org.apache.avalon.framework.service.ServiceManager;
  * Note, this code ignores exceptions to keep the code simple.
  *
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.5 $ $Date: 2003/02/05 02:28:35 $
+ * @version CVS $Revision: 1.6 $ $Date: 2003/02/25 16:28:51 $
  * @since 4.1
  */
 public class Main
@@ -138,7 +139,7 @@ public class Main
         private final ExampleInstrumentable m_instrumentable;
         private final CyclicBarrier m_barrier;
 
-        protected ActionRunner( ExampleInstrumentable instrumentable, int numIterations, ThreadBarrier barrier )
+        protected ActionRunner( ExampleInstrumentable instrumentable, int numIterations, CyclicBarrier barrier )
         {
             m_numIterations = numIterations;
             m_instrumentable = instrumentable;

@@ -52,6 +52,7 @@ package org.apache.avalon.excalibur.component;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
@@ -63,7 +64,7 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:ricardo@apache.org">Ricardo Rocha</a>
  * @author <a href="mailto:giacomo@apache.org">Giacomo Pati</a>
- * @version CVS $Revision: 1.3 $ $Date: 2003/02/20 17:12:34 $
+ * @version CVS $Revision: 1.4 $ $Date: 2003/02/25 16:28:21 $
  * @since 4.0
  */
 public class DefaultRoleManager

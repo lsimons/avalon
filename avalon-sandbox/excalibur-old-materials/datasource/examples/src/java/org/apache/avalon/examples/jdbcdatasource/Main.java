@@ -14,11 +14,9 @@ import java.io.InputStreamReader;
 import org.apache.avalon.excalibur.component.DefaultRoleManager;
 import org.apache.avalon.excalibur.component.ExcaliburComponentManager;
 import org.apache.avalon.excalibur.logger.DefaultLogKitManager;
-
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.avalon.framework.context.DefaultContext;
-
 import org.apache.log.Hierarchy;
 import org.apache.log.Logger;
 import org.apache.log.Priority;
@@ -31,7 +29,7 @@ import org.apache.log.Priority;
  * Note, this code ignores exceptions to keep the code simple.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/11/07 05:20:09 $
+ * @version CVS $Revision: 1.4 $ $Date: 2003/02/25 16:28:29 $
  * @since 4.1
  */
 public class Main

@@ -7,21 +7,23 @@
  */
 package org.apache.avalon.excalibur.pool.test;
 
-import com.clarkware.junitperf.ConstantTimer;
-import com.clarkware.junitperf.LoadTest;
-import com.clarkware.junitperf.TimedTest;
-import com.clarkware.junitperf.Timer;
 import junit.extensions.TestSetup;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+
 import org.apache.avalon.excalibur.pool.Poolable;
 import org.apache.avalon.excalibur.pool.ResourceLimitingPool;
 import org.apache.avalon.excalibur.testcase.BufferedLogger;
 
+import com.clarkware.junitperf.ConstantTimer;
+import com.clarkware.junitperf.LoadTest;
+import com.clarkware.junitperf.TimedTest;
+import com.clarkware.junitperf.Timer;
+
 /**
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/04/04 05:09:04 $
+ * @version CVS $Revision: 1.2 $ $Date: 2003/02/25 16:28:25 $
  * @since 4.1
  */
 public final class ResourceLimitingPoolMultithreadMaxStrictBlockTestCase extends TestCase

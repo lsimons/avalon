@@ -9,18 +9,20 @@ package org.apache.excalibur.instrument.client;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+
 import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
+
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
 
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/10/25 19:07:58 $
+ * @version CVS $Revision: 1.4 $ $Date: 2003/02/25 16:28:20 $
  * @since 4.1
  */
 abstract class AbstractInternalFrame

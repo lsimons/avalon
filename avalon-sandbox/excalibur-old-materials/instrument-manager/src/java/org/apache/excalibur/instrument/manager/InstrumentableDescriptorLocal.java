@@ -50,8 +50,8 @@
 package org.apache.excalibur.instrument.manager;
 
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentableDescriptor;
-import org.apache.excalibur.instrument.manager.interfaces.NoSuchInstrumentableException;
 import org.apache.excalibur.instrument.manager.interfaces.NoSuchInstrumentException;
+import org.apache.excalibur.instrument.manager.interfaces.NoSuchInstrumentableException;
 
 /**
  * Describes a Instrumentable and acts as a Proxy to protect the original
@@ -59,7 +59,7 @@ import org.apache.excalibur.instrument.manager.interfaces.NoSuchInstrumentExcept
  *  be accessed from within the same JVM for performance reasons.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2003/02/20 17:08:18 $
+ * @version CVS $Revision: 1.3 $ $Date: 2003/02/25 16:28:16 $
  * @since 4.1
  */
 public interface InstrumentableDescriptorLocal

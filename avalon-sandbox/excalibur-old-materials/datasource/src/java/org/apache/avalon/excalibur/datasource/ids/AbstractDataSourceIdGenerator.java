@@ -9,6 +9,7 @@ package org.apache.avalon.excalibur.datasource.ids;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+
 import org.apache.avalon.excalibur.datasource.DataSourceComponent;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
@@ -23,7 +24,7 @@ import org.apache.avalon.framework.thread.ThreadSafe;
 
 /**
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.5 $ $Date: 2002/11/12 04:05:14 $
+ * @version CVS $Revision: 1.6 $ $Date: 2003/02/25 16:28:29 $
  * @since 4.1
  */
 public abstract class AbstractDataSourceIdGenerator

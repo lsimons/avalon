@@ -50,11 +50,10 @@
 */
 package org.apache.excalibur.configuration.test;
 
-import org.apache.avalon.framework.configuration.Configuration;
+import junit.framework.TestCase;
+
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.excalibur.configuration.ConfigurationUtil;
-
-import junit.framework.TestCase;
 
 /**
  * Test the ConfigurationUtil class

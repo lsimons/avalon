@@ -52,6 +52,7 @@ package org.apache.excalibur.configuration;
 import java.lang.reflect.Constructor;
 import java.util.Hashtable;
 import java.util.Map;
+
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.context.Context;
@@ -61,7 +62,7 @@ import org.apache.avalon.framework.logger.Logger;
  * ContextFactory is a utility class that provides support for the creation
  * context instances based on a XML context desciption.
  *
- * @version $Id: ContextFactory.java,v 1.6 2003/02/07 22:14:20 mcconnell Exp $
+ * @version $Id: ContextFactory.java,v 1.7 2003/02/25 16:28:35 bloritsch Exp $
  * @author Stephen McConnell <mcconnell@osm.net>
  */
 public class ContextFactory

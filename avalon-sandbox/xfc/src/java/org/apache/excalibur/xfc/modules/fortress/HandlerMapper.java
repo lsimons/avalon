@@ -51,6 +51,7 @@ package org.apache.excalibur.xfc.modules.fortress;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import org.apache.excalibur.xfc.modules.Constants;
 
 /**
@@ -58,7 +59,7 @@ import org.apache.excalibur.xfc.modules.Constants;
  * handler names.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: HandlerMapper.java,v 1.3 2002/11/12 19:55:28 donaldp Exp $
+ * @version CVS $Id: HandlerMapper.java,v 1.4 2003/02/25 16:28:41 bloritsch Exp $
  */
 public final class HandlerMapper implements Constants
 {

@@ -10,6 +10,7 @@ package org.apache.excalibur.xml.xslt;
 import javax.xml.transform.ErrorListener;
 import javax.xml.transform.SourceLocator;
 import javax.xml.transform.TransformerException;
+
 import org.apache.avalon.framework.logger.Logger;
 
 /**
@@ -18,7 +19,7 @@ import org.apache.avalon.framework.logger.Logger;
  * Warnings and errors are ignored.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Id: TraxErrorHandler.java,v 1.5 2003/01/22 02:18:17 jefft Exp $
+ * @version CVS $Id: TraxErrorHandler.java,v 1.6 2003/02/25 16:28:27 bloritsch Exp $
  */
 class TraxErrorHandler
     implements ErrorListener

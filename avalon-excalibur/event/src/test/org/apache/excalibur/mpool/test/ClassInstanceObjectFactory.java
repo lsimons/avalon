@@ -50,13 +50,14 @@
 package org.apache.excalibur.mpool.test;
 
 import java.util.HashMap;
+
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.excalibur.mpool.ObjectFactory;
 
 /**
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/08/13 08:15:21 $
+ * @version CVS $Revision: 1.3 $ $Date: 2003/02/25 16:28:40 $
  * @since 4.1
  */
 public class ClassInstanceObjectFactory

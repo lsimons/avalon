@@ -49,9 +49,9 @@
 */
 package org.apache.avalon.fortress.test.util;
 
+import org.apache.avalon.fortress.impl.role.ConfigurableRoleManager;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.avalon.framework.logger.ConsoleLogger;
-import org.apache.avalon.fortress.impl.role.ConfigurableRoleManager;
 
 /**
  * Configurable RoleManager implementation.  It populates the RoleManager
@@ -59,7 +59,7 @@ import org.apache.avalon.fortress.impl.role.ConfigurableRoleManager;
  * in the org.apache.avalon.component package.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.2 $ $Date: 2003/01/28 21:19:17 $
+ * @version CVS $Revision: 1.3 $ $Date: 2003/02/25 16:28:23 $
  * @since 4.1
  */
 public class ConfigurableRoleManagerTestCase

@@ -9,6 +9,7 @@ package org.apache.avalon.excalibur.monitor.test;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+
 import org.apache.avalon.excalibur.monitor.FileResource;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 

@@ -13,13 +13,14 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.Reader;
 import java.io.Writer;
+
 import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceException;
 import org.apache.excalibur.source.SourceValidity;
 
 /**
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version $Id: SourceResource.java,v 1.10 2003/01/29 06:56:02 cziegeler Exp $
+ * @version $Id: SourceResource.java,v 1.11 2003/02/25 16:28:26 bloritsch Exp $
  */
 public final class SourceResource
     extends StreamResource

@@ -49,19 +49,17 @@
 */
 package org.apache.excalibur.instrument.manager;
 
-import org.apache.excalibur.instrument.manager.interfaces.InstrumentableDescriptor;
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentDescriptor;
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentSampleDescriptor;
-import org.apache.excalibur.instrument.manager.interfaces.NoSuchInstrumentableException;
+import org.apache.excalibur.instrument.manager.interfaces.InstrumentableDescriptor;
 import org.apache.excalibur.instrument.manager.interfaces.NoSuchInstrumentException;
 import org.apache.excalibur.instrument.manager.interfaces.NoSuchInstrumentSampleException;
-
-import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.excalibur.instrument.manager.interfaces.NoSuchInstrumentableException;
 
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.4 $ $Date: 2003/02/20 17:08:18 $
+ * @version CVS $Revision: 1.5 $ $Date: 2003/02/25 16:28:16 $
  * @since 4.1
  */
 public class InstrumentManagerClientLocalImpl

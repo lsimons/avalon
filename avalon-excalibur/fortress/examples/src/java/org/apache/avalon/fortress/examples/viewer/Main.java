@@ -49,18 +49,14 @@
 */
 package org.apache.avalon.fortress.examples.viewer;
 
-import org.apache.avalon.framework.CascadingException;
-import org.apache.avalon.framework.container.ContainerUtil;
-import org.apache.avalon.fortress.ContainerManager;
 import org.apache.avalon.fortress.impl.DefaultContainerManager;
-import org.apache.avalon.fortress.util.FortressConfig;
 
 /**
  * Fortress container example allowing you to perform lookups on components
  * via a simple swing gui.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version $Id: Main.java,v 1.1 2003/01/28 21:19:19 leosimons Exp $
+ * @version $Id: Main.java,v 1.2 2003/02/25 16:28:50 bloritsch Exp $
  */
 public final class Main
 {

@@ -51,7 +51,9 @@ package org.apache.excalibur.event.command.test;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+
 import junit.framework.TestCase;
+
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.excalibur.event.EventHandler;
 import org.apache.excalibur.event.Queue;

@@ -51,6 +51,7 @@ package org.apache.excalibur.util.system;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+
 import org.apache.excalibur.util.CPUParser;
 
 /**
@@ -58,7 +59,7 @@ import org.apache.excalibur.util.CPUParser;
  * Windows versions, but I only have one to test.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/09/26 18:38:50 $
+ * @version CVS $Revision: 1.3 $ $Date: 2003/02/25 16:28:38 $
  */
 public final class WindowsNT implements CPUParser
 {

@@ -49,9 +49,9 @@
 */
 package org.apache.excalibur.event.impl;
 
-import org.apache.excalibur.event.Queue;
-import org.apache.excalibur.event.EnqueuePredicate;
 import org.apache.excalibur.event.DequeueInterceptor;
+import org.apache.excalibur.event.EnqueuePredicate;
+import org.apache.excalibur.event.Queue;
 
 /**
  * Provides the base functionality for the other <code>Queue</code> types.

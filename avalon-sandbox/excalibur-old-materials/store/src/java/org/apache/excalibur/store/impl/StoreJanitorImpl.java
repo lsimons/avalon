@@ -7,17 +7,17 @@
  */
 package org.apache.excalibur.store.impl;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import org.apache.avalon.framework.activity.Startable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.parameters.ParameterException;
 import org.apache.avalon.framework.parameters.Parameterizable;
+import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.thread.ThreadSafe;
 import org.apache.excalibur.store.Store;
 import org.apache.excalibur.store.StoreJanitor;
-
-import java.util.ArrayList;
-import java.util.Iterator;
 
 /**
  * This class is a implentation of a StoreJanitor. Store classes
@@ -27,7 +27,7 @@ import java.util.Iterator;
  * @author <a href="mailto:cs@ffzj0ia9.bank.dresdner.net">Christian Schmitt</a>
  * @author <a href="mailto:g-froehlich@gmx.de">Gerhard Froehlich</a>
  * @author <a href="mailto:proyal@managingpartners.com">Peter Royal</a>
- * @version CVS $Id: StoreJanitorImpl.java,v 1.2 2003/01/29 06:56:02 cziegeler Exp $
+ * @version CVS $Id: StoreJanitorImpl.java,v 1.3 2003/02/25 16:28:24 bloritsch Exp $
  */
 public class StoreJanitorImpl
 extends AbstractLogEnabled

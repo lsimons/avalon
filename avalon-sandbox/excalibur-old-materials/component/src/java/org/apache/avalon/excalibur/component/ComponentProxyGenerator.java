@@ -56,9 +56,10 @@
 package org.apache.avalon.excalibur.component;
 
 import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-import java.lang.reflect.InvocationTargetException;
+
 import org.apache.avalon.framework.component.Component;
 
 /**

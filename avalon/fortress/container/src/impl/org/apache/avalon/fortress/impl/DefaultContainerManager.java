@@ -50,6 +50,9 @@
 package org.apache.avalon.fortress.impl;
 
 import org.apache.avalon.excalibur.logger.LoggerManager;
+import org.apache.avalon.fortress.InitializationException;
+import org.apache.avalon.fortress.RoleManager;
+import org.apache.avalon.fortress.util.ContextManager;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.component.Composable;
@@ -63,9 +66,6 @@ import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.DefaultServiceManager;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.excalibur.event.Queue;
-import org.apache.avalon.fortress.util.ContextManager;
-import org.apache.avalon.fortress.RoleManager;
-import org.apache.avalon.fortress.InitializationException;
 import org.apache.excalibur.instrument.InstrumentManager;
 import org.apache.excalibur.mpool.PoolManager;
 
@@ -74,7 +74,7 @@ import org.apache.excalibur.mpool.PoolManager;
  * See that interface for a description.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.4 $ $Date: 2003/02/10 14:48:10 $
+ * @version CVS $Revision: 1.5 $ $Date: 2003/02/25 16:28:33 $
  */
 public class DefaultContainerManager
     implements Initializable, Disposable, org.apache.avalon.fortress.ContainerManager, org.apache.avalon.fortress.ContainerManagerConstants

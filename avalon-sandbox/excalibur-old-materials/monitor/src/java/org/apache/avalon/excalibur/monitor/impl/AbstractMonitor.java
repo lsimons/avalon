@@ -10,6 +10,7 @@ package org.apache.avalon.excalibur.monitor.impl;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+
 import org.apache.avalon.excalibur.monitor.Monitor;
 import org.apache.avalon.excalibur.monitor.Resource;
 
@@ -20,7 +21,7 @@ import org.apache.avalon.excalibur.monitor.Resource;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Id: AbstractMonitor.java,v 1.6 2002/10/02 01:52:22 donaldp Exp $
+ * @version $Id: AbstractMonitor.java,v 1.7 2003/02/25 16:28:41 bloritsch Exp $
  */
 public abstract class AbstractMonitor
     implements Monitor

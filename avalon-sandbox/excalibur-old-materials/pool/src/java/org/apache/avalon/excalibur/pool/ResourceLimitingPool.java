@@ -51,6 +51,7 @@ package org.apache.avalon.excalibur.pool;
 
 import java.util.Iterator;
 import java.util.LinkedList;
+
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.LogEnabled;
@@ -72,7 +73,7 @@ import org.apache.excalibur.instrument.ValueInstrument;
  *  trimmed.  See the {@link #trim()} method for details of how trimming works.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.6 $ $Date: 2003/02/20 17:09:24 $
+ * @version CVS $Revision: 1.7 $ $Date: 2003/02/25 16:28:49 $
  * @since 4.1
  */
 public class ResourceLimitingPool

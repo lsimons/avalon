@@ -49,7 +49,9 @@
 */
 package org.apache.excalibur.event.test;
 
-import org.apache.excalibur.event.impl.*;
+import org.apache.excalibur.event.impl.DefaultQueue;
+import org.apache.excalibur.event.impl.FixedSizeQueue;
+import org.apache.excalibur.event.impl.ThresholdEnqueuePredicate;
 
 /**
  * The default queue implementation is a variabl size queue.

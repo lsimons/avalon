@@ -7,12 +7,12 @@
  */
 package org.apache.avalon.excalibur.datasource;
 
-import com.informix.jdbcx.IfxConnectionPoolDataSource;
-import com.informix.jdbcx.IfxDataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
+
 import javax.naming.Context;
 import javax.naming.InitialContext;
+
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
@@ -73,7 +73,7 @@ import org.apache.avalon.framework.logger.Loggable;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Revision: 1.11 $ $Date: 2002/10/15 13:46:24 $
+ * @version CVS $Revision: 1.12 $ $Date: 2003/02/25 16:28:37 $
  * @since 4.0
  */
 public class InformixDataSource

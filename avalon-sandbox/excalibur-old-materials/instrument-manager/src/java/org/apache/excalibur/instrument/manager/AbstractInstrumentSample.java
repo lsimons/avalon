@@ -50,6 +50,7 @@
 package org.apache.excalibur.instrument.manager;
 
 import java.util.StringTokenizer;
+
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
@@ -62,7 +63,7 @@ import org.apache.excalibur.instrument.manager.interfaces.InstrumentSampleUtils;
  *  InstrumentSamples.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.4 $ $Date: 2003/02/20 17:08:18 $
+ * @version CVS $Revision: 1.5 $ $Date: 2003/02/25 16:28:16 $
  * @since 4.1
  */
 abstract class AbstractInstrumentSample

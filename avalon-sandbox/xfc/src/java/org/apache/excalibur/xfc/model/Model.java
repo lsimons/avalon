@@ -51,6 +51,7 @@ package org.apache.excalibur.xfc.model;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.apache.excalibur.xfc.model.instance.Instance;
 import org.apache.excalibur.xfc.model.role.RoleRef;
 
@@ -59,7 +60,7 @@ import org.apache.excalibur.xfc.model.role.RoleRef;
  * a particular Container configuration.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: Model.java,v 1.5 2002/11/12 19:55:27 donaldp Exp $
+ * @version CVS $Id: Model.java,v 1.6 2003/02/25 16:28:39 bloritsch Exp $
  */
 public final class Model
 {

@@ -50,6 +50,7 @@
 package org.apache.excalibur.event.test;
 
 import junit.framework.TestCase;
+
 import org.apache.excalibur.event.PreparedEnqueue;
 import org.apache.excalibur.event.Queue;
 

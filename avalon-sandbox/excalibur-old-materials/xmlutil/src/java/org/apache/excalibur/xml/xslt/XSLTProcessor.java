@@ -9,6 +9,7 @@ package org.apache.excalibur.xml.xslt;
 
 import javax.xml.transform.Result;
 import javax.xml.transform.sax.TransformerHandler;
+
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.excalibur.source.Source;
@@ -20,7 +21,7 @@ import org.xml.sax.XMLFilter;
  *
  * @author <a href="mailto:ovidiu@cup.hp.com">Ovidiu Predescu</a>
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
- * @version CVS $Id: XSLTProcessor.java,v 1.7 2003/01/22 02:18:17 jefft Exp $
+ * @version CVS $Id: XSLTProcessor.java,v 1.8 2003/02/25 16:28:27 bloritsch Exp $
  * @version 1.0
  * @since   July 11, 2001
  */

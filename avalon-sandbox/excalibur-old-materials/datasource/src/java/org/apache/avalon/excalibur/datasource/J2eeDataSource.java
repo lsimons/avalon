@@ -10,10 +10,12 @@ package org.apache.avalon.excalibur.datasource;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Hashtable;
+
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
+
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
@@ -24,7 +26,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * J2EE container pools the datasources properly.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.9 $ $Date: 2002/06/13 17:24:50 $
+ * @version CVS $Revision: 1.10 $ $Date: 2003/02/25 16:28:37 $
  * @since 4.0
  */
 public class J2eeDataSource

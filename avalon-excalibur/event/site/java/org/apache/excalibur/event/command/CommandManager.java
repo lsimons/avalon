@@ -54,16 +54,18 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+
+import org.apache.avalon.framework.activity.Disposable;
 import org.apache.commons.collections.Buffer;
 import org.apache.commons.collections.UnboundedFifoBuffer;
-import EDU.oswego.cs.dl.util.concurrent.ReentrantLock;
-import org.apache.avalon.framework.activity.Disposable;
 import org.apache.excalibur.event.EventHandler;
 import org.apache.excalibur.event.Queue;
 import org.apache.excalibur.event.Signal;
 import org.apache.excalibur.event.Sink;
 import org.apache.excalibur.event.Source;
 import org.apache.excalibur.event.impl.DefaultQueue;
+
+import EDU.oswego.cs.dl.util.concurrent.ReentrantLock;
 
 /**
  * The CommandManager handles asynchronous commands from the rest of the

@@ -52,9 +52,7 @@ package org.apache.excalibur.xfc.test.util;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.avalon.framework.logger.Logger;
-
 import org.apache.excalibur.xfc.model.role.RoleRef;
-
 import org.apache.excalibur.xfc.modules.fortress.Fortress;
 import org.apache.excalibur.xfc.modules.fortress.FortressSerializer;
 
@@ -64,7 +62,7 @@ import org.apache.excalibur.xfc.modules.fortress.FortressSerializer;
  * Module API.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: FortressTestRig.java,v 1.3 2002/10/17 14:38:18 crafterm Exp $
+ * @version CVS $Id: FortressTestRig.java,v 1.4 2003/02/25 16:28:40 bloritsch Exp $
  */
 public final class FortressTestRig extends Fortress
 {

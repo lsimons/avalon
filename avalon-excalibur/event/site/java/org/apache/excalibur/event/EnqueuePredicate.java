@@ -49,7 +49,6 @@
 */
 package org.apache.excalibur.event;
 
-import org.apache.excalibur.event.Sink;
 
 /**
  * Enqueue predicates allow users to specify a method that
@@ -61,7 +60,7 @@ import org.apache.excalibur.event.Sink;
  * runs in the context of the <b>caller of enqueue()</b>, which
  * means it must be simple and fast.
  *
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  * @author  <a href="mailto:schierma@users.sourceforge.net">schierma</a>
  */
 public interface EnqueuePredicate

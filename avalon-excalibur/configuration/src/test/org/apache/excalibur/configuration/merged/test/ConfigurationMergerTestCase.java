@@ -7,12 +7,12 @@
  */
 package org.apache.excalibur.configuration.merged.test;
 
+import junit.framework.TestCase;
+
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.excalibur.configuration.ConfigurationUtil;
 import org.apache.excalibur.configuration.merged.ConfigurationMerger;
 import org.apache.excalibur.configuration.merged.ConfigurationSplitter;
-
-import junit.framework.TestCase;
 
 /**
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>

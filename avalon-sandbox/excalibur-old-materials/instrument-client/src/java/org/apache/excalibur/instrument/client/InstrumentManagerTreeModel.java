@@ -7,27 +7,22 @@
  */
 package org.apache.excalibur.instrument.client;
 
-import java.awt.BorderLayout;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import javax.swing.JComponent;
-import javax.swing.JTree;
 import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
-import javax.swing.tree.TreeSelectionModel;
 
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
-
-import org.apache.excalibur.instrument.manager.interfaces.InstrumentableDescriptor;
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentDescriptor;
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentManagerClient;
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentSampleDescriptor;
+import org.apache.excalibur.instrument.manager.interfaces.InstrumentableDescriptor;
 
-import org.apache.altrmi.common.InvocationException;
+import com.sun.jdi.InvocationException;
 
 class InstrumentManagerTreeModel
     extends AbstractLogEnabled

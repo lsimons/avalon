@@ -54,17 +54,17 @@ import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.ConfigurationUtil;
 import org.apache.log4j.xml.DOMConfigurator;
-import org.w3c.dom.Element;
 import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  * A LoggerManager for Log4j that will configure the Log4j subsystem
  * using specified configuration.
  *
  * @author <a href="mailto:Ole.Bulbuk at ebp.de">Ole Bulbuk</a>
- * @version $Revision: 1.2 $ $Date: 2003/02/20 17:09:09 $
+ * @version $Revision: 1.3 $ $Date: 2003/02/25 16:28:24 $
  */
 public class Log4JConfLoggerManager
     extends Log4JLoggerManager

@@ -52,6 +52,7 @@ package org.apache.avalon.excalibur.logger.factory;
 import java.io.File;
 import java.io.IOException;
 import java.util.StringTokenizer;
+
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.context.ContextException;
@@ -152,7 +153,7 @@ import org.apache.log.output.io.rotate.UniqueFileStrategy;
  * </dl>
  *
  * @author <a href="mailto:giacomo@apache.org">Giacomo Pati</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/08/07 13:37:00 $
+ * @version CVS $Revision: 1.5 $ $Date: 2003/02/25 16:28:18 $
  * @since 4.0
  */
 public class FileTargetFactory

@@ -3,15 +3,16 @@
 package org.apache.excalibur.source;
 
 import java.io.File;
+
 import junit.framework.TestCase;
+
+import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.framework.context.DefaultContext;
-import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.DefaultServiceManager;
 import org.apache.avalon.framework.service.DefaultServiceSelector;
-import org.apache.excalibur.source.impl.SourceResolverImpl;
 import org.apache.excalibur.source.impl.ResourceSourceFactory;
+import org.apache.excalibur.source.impl.SourceResolverImpl;
 
 public class SourceResolverImplTestCase extends TestCase
 {

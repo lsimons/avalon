@@ -9,10 +9,10 @@ package org.apache.avalon.excalibur.component.test;
 
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+
 import org.apache.avalon.excalibur.component.DefaultComponentPool;
 import org.apache.avalon.excalibur.component.ExcaliburComponentManager;
 import org.apache.avalon.excalibur.pool.Poolable;
-import org.apache.excalibur.util.ComponentStateValidator;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.component.ComponentException;
@@ -26,6 +26,7 @@ import org.apache.avalon.framework.logger.LogKitLogger;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.thread.SingleThreaded;
 import org.apache.avalon.framework.thread.ThreadSafe;
+import org.apache.excalibur.util.ComponentStateValidator;
 import org.apache.log.Hierarchy;
 import org.apache.log.LogTarget;
 import org.apache.log.Priority;
@@ -37,7 +38,7 @@ import org.apache.log.output.io.StreamTarget;
  * it is correctly handling component lifestyle management.
  *
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class ExcaliburComponentManagerTestCase extends TestCase
 {

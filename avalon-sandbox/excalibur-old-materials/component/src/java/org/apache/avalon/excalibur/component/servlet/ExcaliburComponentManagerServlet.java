@@ -51,6 +51,7 @@ package org.apache.avalon.excalibur.component.servlet;
 
 import java.io.IOException;
 import java.io.InputStream;
+
 import javax.servlet.GenericServlet;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
@@ -58,6 +59,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.UnavailableException;
+
 import org.apache.avalon.excalibur.component.ExcaliburComponentManagerCreator;
 import org.apache.avalon.excalibur.logger.LoggerManager;
 import org.apache.avalon.framework.component.ComponentManager;
@@ -169,7 +171,7 @@ import org.apache.excalibur.instrument.InstrumentManager;
  * Note that servlets which extend the AbstractComponentManagerServlet will behave correctly.
  *
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.7 $ $Date: 2003/02/20 17:12:37 $
+ * @version CVS $Revision: 1.8 $ $Date: 2003/02/25 16:28:41 $
  * @since 4.2
  */
 public class ExcaliburComponentManagerServlet

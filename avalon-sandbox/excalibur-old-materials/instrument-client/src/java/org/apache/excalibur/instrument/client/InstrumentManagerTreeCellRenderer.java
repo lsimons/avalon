@@ -7,17 +7,11 @@
  */
 package org.apache.excalibur.instrument.client;
 
-import java.awt.BorderLayout;
 import java.awt.Component;
 
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
-
-import org.apache.excalibur.instrument.manager.interfaces.InstrumentableDescriptor;
-import org.apache.excalibur.instrument.manager.interfaces.InstrumentDescriptor;
-//import org.apache.excalibur.instrument.manager.interfaces.InstrumentManagerClient;
-import org.apache.excalibur.instrument.manager.interfaces.InstrumentSampleDescriptor;
 
 class InstrumentManagerTreeCellRenderer
     extends DefaultTreeCellRenderer

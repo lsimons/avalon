@@ -9,6 +9,7 @@ package org.apache.avalon.excalibur.datasource;
 
 import java.util.HashSet;
 import java.util.Iterator;
+
 import org.apache.avalon.excalibur.pool.DefaultPoolController;
 import org.apache.avalon.excalibur.pool.HardResourceLimitingPool;
 import org.apache.avalon.excalibur.pool.Poolable;
@@ -20,7 +21,7 @@ import org.apache.avalon.framework.activity.Initializable;
  * thread to manage the number of SQL Connections.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.17 $ $Date: 2002/04/07 06:22:10 $
+ * @version CVS $Revision: 1.18 $ $Date: 2003/02/25 16:28:37 $
  * @since 4.0
  */
 public class JdbcConnectionPool

@@ -49,8 +49,6 @@
 */
 package org.apache.avalon.fortress.examples.extended.components;
 
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.fortress.examples.extended.extensions.SecurityManageable;
 
 /**
  * <code>TestComponentImpl</code>, demonstrating the use of a custom
@@ -59,7 +57,7 @@ import org.apache.avalon.fortress.examples.extended.extensions.SecurityManageabl
  * the results accordingly.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/01/28 21:19:18 $
+ * @version CVS $Revision: 1.2 $ $Date: 2003/02/25 16:28:49 $
  */
 public class ExtendedComponentImpl
     extends org.apache.avalon.framework.logger.AbstractLogEnabled

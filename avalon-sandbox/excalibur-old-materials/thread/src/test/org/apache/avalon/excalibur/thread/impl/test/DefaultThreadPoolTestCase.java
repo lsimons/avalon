@@ -8,7 +8,9 @@
 package org.apache.avalon.excalibur.thread.impl.test;
 
 import java.util.HashMap;
+
 import junit.framework.TestCase;
+
 import org.apache.avalon.excalibur.thread.impl.DefaultThreadPool;
 import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.apache.excalibur.threadcontext.ThreadContext;

@@ -49,16 +49,6 @@
 */
 package org.apache.avalon.fortress.examples.swing;
 
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import org.apache.avalon.framework.activity.Startable;
-import org.apache.avalon.fortress.impl.DefaultContainer;
-import org.apache.avalon.fortress.examples.components.Translator;
 
 /**
  * Simple Fortress based container containing a Swing implementation of Hello World.
@@ -66,7 +56,7 @@ import org.apache.avalon.fortress.examples.components.Translator;
  * languages from the translator component.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/01/28 21:19:18 $
+ * @version CVS $Revision: 1.2 $ $Date: 2003/02/25 16:28:46 $
  */
 public final class SwingContainer extends org.apache.avalon.fortress.impl.DefaultContainer
     implements org.apache.avalon.framework.activity.Startable, java.awt.event.ActionListener, Runnable

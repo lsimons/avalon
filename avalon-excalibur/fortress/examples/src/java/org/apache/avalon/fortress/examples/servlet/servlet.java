@@ -56,16 +56,12 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServlet;
 
-import org.apache.avalon.framework.container.ContainerUtil;
-import org.apache.avalon.fortress.ContainerManager;
-import org.apache.avalon.fortress.impl.DefaultContainerManager;
-import org.apache.avalon.fortress.util.FortressConfig;
 
 /**
  * Servlet based Fortress container example.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version $Id: servlet.java,v 1.1 2003/01/28 21:19:18 leosimons Exp $
+ * @version $Id: servlet.java,v 1.2 2003/02/25 16:28:43 bloritsch Exp $
  */
 public final class servlet extends HttpServlet
 {
@@ -111,11 +107,11 @@ public final class servlet extends HttpServlet
      *
      * @param request a <code>ServletRequest</code> instance
      * @param response a <code>ServletResponse</code> instance
-     * @exception java.io.IOException if an IO error occurs
+     * @exception IOException if an IO error occurs
      * @exception ServletException if a servlet error occurs
      */
     public void service( ServletRequest request, ServletResponse response )
-        throws java.io.IOException, ServletException
+        throws IOException, ServletException
     {
         m_container.handleRequest( request, response );
     }

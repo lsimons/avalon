@@ -51,6 +51,7 @@
 package org.apache.excalibur.configuration;
 
 import java.util.ArrayList;
+
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
 
