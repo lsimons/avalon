@@ -21,13 +21,13 @@ import java.util.Map;
 import java.util.Hashtable;
 
 import org.apache.avalon.activation.appliance.Appliance;
-import org.apache.avalon.activation.appliance.Home;
+
+import org.apache.avalon.composition.runtime.Resolver;
+
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
-
-import org.apache.avalon.util.exception.ExceptionHelper;
 
 /**
  * Default implementation of the framework {@link ServiceManager} interface.
@@ -162,7 +162,7 @@ class DefaultServiceManager extends AbstractLogEnabled implements ServiceManager
             return;
         }
 
-        final Home provider = (Home) m_map.get( key );
+        final Resolver provider = (Resolver) m_map.get( key );
         if( provider == null )
         {
             final String error = 
@@ -183,9 +183,7 @@ class DefaultServiceManager extends AbstractLogEnabled implements ServiceManager
         {
             final String error = 
               "Internal error while attempting to release object from provider: " + provider;
-            final String warning = 
-              ExceptionHelper.packException( error, e, true );
-            getLogger().warn( warning );
+            getLogger().warn( error, e );
         }
         finally
         {

@@ -32,12 +32,12 @@ import org.apache.avalon.composition.model.ContainmentModel;
 import org.apache.avalon.composition.model.SystemContext;
 import org.apache.avalon.composition.model.impl.DefaultSystemContext;
 
+import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.parameters.Parameters;
-import org.apache.avalon.framework.activity.Disposable;
 
 import org.apache.avalon.repository.provider.InitialContext;
 import org.apache.avalon.repository.main.DefaultInitialContext;
@@ -188,7 +188,7 @@ public abstract class AbstractTestCase extends TestCase
         //    of lazy components
         //
 
-        block.deploy();
+        block.commission();
 
         //
         // 4-5. suspend and resume the root block (not implemented yet)

@@ -22,6 +22,7 @@ import org.apache.avalon.composition.model.DeploymentContext;
 import org.apache.avalon.composition.model.DependencyGraph;
 import org.apache.avalon.composition.model.SystemContext;
 import org.apache.avalon.composition.data.Mode;
+import org.apache.avalon.composition.runtime.Commissionable;
 
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.parameters.Parameters;
@@ -34,7 +35,7 @@ import org.apache.avalon.excalibur.i18n.Resources;
  * Abstract model base class.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.13 $ $Date: 2004/01/24 23:25:27 $
+ * @version $Revision: 1.14 $ $Date: 2004/02/06 15:27:14 $
  */
 public abstract class DefaultDeploymentModel
   implements DeploymentModel
@@ -56,7 +57,7 @@ public abstract class DefaultDeploymentModel
     // muttable state
     //--------------------------------------------------------------
 
-    private Object m_handler = null;
+    private Commissionable m_handler = null;
 
     //--------------------------------------------------------------
     // constructor
@@ -143,7 +144,7 @@ public abstract class DefaultDeploymentModel
     * Set the runtime handler for the model.
     * @param handler the runtime handler
     */
-    public void setHandler( Object handler )
+    public void setHandler( Commissionable handler )
     {
         m_handler = handler;
     }
@@ -152,7 +153,7 @@ public abstract class DefaultDeploymentModel
     * Get the assigned runtime handler for the model.
     * @return the runtime handler
     */
-    public Object getHandler()
+    public Commissionable getHandler()
     {
         return m_handler;
     }

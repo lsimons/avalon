@@ -38,12 +38,8 @@ import org.apache.avalon.activation.appliance.Block;
 import org.apache.avalon.activation.appliance.Engine;
 import org.apache.avalon.activation.appliance.NoProviderDefinitionException;
 
-import org.apache.avalon.logging.data.CategoriesDirective;
-import org.apache.avalon.logging.provider.LoggingManager;
-
 import org.apache.avalon.composition.event.CompositionEvent;
 import org.apache.avalon.composition.event.CompositionEventListener;
-
 import org.apache.avalon.composition.model.SystemContext;
 import org.apache.avalon.composition.model.ContainmentModel;
 import org.apache.avalon.composition.model.ClassLoaderModel;
@@ -51,9 +47,13 @@ import org.apache.avalon.composition.model.DependencyModel;
 import org.apache.avalon.composition.model.ComponentModel;
 import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.model.StageModel;
+import org.apache.avalon.composition.runtime.Commissionable;
 
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.logger.Logger;
+
+import org.apache.avalon.logging.data.CategoriesDirective;
+import org.apache.avalon.logging.provider.LoggingManager;
 
 import org.apache.avalon.meta.info.DependencyDescriptor;
 import org.apache.avalon.meta.info.StageDescriptor;
@@ -66,7 +66,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * context.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.18 $ $Date: 2004/01/24 23:25:21 $
+ * @version $Revision: 1.19 $ $Date: 2004/02/06 15:27:13 $
  */
 public abstract class AbstractBlock extends AbstractAppliance 
   implements Block, CompositionEventListener
@@ -284,7 +284,7 @@ public abstract class AbstractBlock extends AbstractAppliance
     }
     
     //-------------------------------------------------------------------
-    // Deployable
+    // Commissionable
     //-------------------------------------------------------------------
 
    /**
@@ -293,7 +293,7 @@ public abstract class AbstractBlock extends AbstractAppliance
     *
     * @exception Exception if a deployment error occurs
     */
-    public void deploy() throws Exception
+    public void commission() throws Exception
     {
         if( !getContainmentModel().isAssembled() )
         {
@@ -368,7 +368,7 @@ public abstract class AbstractBlock extends AbstractAppliance
             for( int i=0; i<shutdown.length; i++ )
             {
                 final DeploymentModel child = shutdown[i];
-                final Appliance appliance = getAppliance( child, false );
+                final Commissionable appliance = child.getHandler();
                 if( null != appliance )
                 {
                     appliance.decommission();
@@ -380,7 +380,7 @@ public abstract class AbstractBlock extends AbstractAppliance
     }
 
     //-------------------------------------------------------------------
-    // Home
+    // Resolver
     //-------------------------------------------------------------------
 
     /**

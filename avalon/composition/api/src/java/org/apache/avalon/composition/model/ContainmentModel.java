@@ -33,12 +33,14 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * context.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.13 $ $Date: 2004/01/24 23:25:25 $
+ * @version $Revision: 1.14 $ $Date: 2004/02/06 15:27:14 $
  */
 public interface ContainmentModel extends DeploymentModel
 {
-    String SECURE_EXECUTION_KEY = "urn:composition:security.enabled";
+    String KEY = "urn:composition:containment.model";
     
+    String SECURE_EXECUTION_KEY = "urn:composition:security.enabled";
+
     /**
      * Get the startup sequence for the model.
      */

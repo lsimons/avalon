@@ -17,13 +17,13 @@
 
 package org.apache.avalon.activation.appliance.impl;
  
-import org.apache.avalon.composition.model.DeploymentModel;
+import java.lang.reflect.InvocationTargetException;
 
-import org.apache.avalon.activation.appliance.Deployable;
 import org.apache.avalon.activation.appliance.DeploymentException;
 import org.apache.avalon.activation.appliance.FatalDeploymentException;
 
-import java.lang.reflect.InvocationTargetException;
+import org.apache.avalon.composition.model.DeploymentModel;
+import org.apache.avalon.composition.runtime.Commissionable;
 
 import junit.framework.TestCase;
 
@@ -49,7 +49,7 @@ public class DeploymentTestCase extends TestCase
     public void testNormalDeploy()
         throws Exception
     {
-        Deployable d = new DummyDeployable();
+        Commissionable d = new DummyDeployable();
         DeploymentModel model = new DummyDeploymentModel( d, 100 );
         m_deployer.deploy( model );
     }
@@ -100,7 +100,7 @@ public class DeploymentTestCase extends TestCase
     {
         try
         {
-            Deployable d = new CustomExceptionDeployable();
+            Commissionable d = new CustomExceptionDeployable();
             DeploymentModel model = new DummyDeploymentModel( d, 100 );
             m_deployer.deploy( model );
             fail( "The Deployment didn't fail with a DeploymentException." );
@@ -121,7 +121,7 @@ public class DeploymentTestCase extends TestCase
     {
         try
         {
-            Deployable d = new CustomErrorDeployable();
+            Commissionable d = new CustomErrorDeployable();
             DeploymentModel model = new DummyDeploymentModel( d, 100 );
             m_deployer.deploy( model );
             fail( "The Deployment didn't fail with a DeploymentException." );

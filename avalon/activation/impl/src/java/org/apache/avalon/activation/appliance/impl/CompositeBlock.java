@@ -17,21 +17,7 @@
 
 package org.apache.avalon.activation.appliance.impl;
 
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.util.ArrayList;
-
-import org.apache.avalon.activation.appliance.Appliance;
-import org.apache.avalon.activation.appliance.ApplianceException;
-import org.apache.avalon.activation.appliance.ApplianceRuntimeException;
-import org.apache.avalon.activation.appliance.Home;
-import org.apache.avalon.composition.data.ServiceDirective;
 import org.apache.avalon.composition.model.ContainmentModel;
-import org.apache.avalon.framework.logger.Logger;
 
 /**
  * The CompositeBlock is responsible for the management 
@@ -41,7 +27,7 @@ import org.apache.avalon.framework.logger.Logger;
  * context.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.8 $ $Date: 2004/01/24 23:25:21 $
+ * @version $Revision: 1.9 $ $Date: 2004/02/06 15:27:13 $
  */
 public class CompositeBlock extends DefaultBlock
 {

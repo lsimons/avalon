@@ -19,7 +19,7 @@ package org.apache.avalon.activation.appliance.impl;
 
 import java.lang.reflect.InvocationTargetException;
 
-import org.apache.avalon.activation.appliance.Deployable;
+import org.apache.avalon.composition.runtime.Commissionable;
 import org.apache.avalon.activation.appliance.DeploymentException;
 import org.apache.avalon.activation.appliance.FatalDeploymentException;
 import org.apache.avalon.composition.model.DeploymentModel;
@@ -27,7 +27,7 @@ import org.apache.avalon.composition.model.DeploymentModel;
 /**
  * A deployment request handler.
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.6 $ $Date: 2004/01/24 23:25:21 $
+ * @version $Revision: 1.7 $ $Date: 2004/02/06 15:27:13 $
  */
 class DeploymentRequest
 {

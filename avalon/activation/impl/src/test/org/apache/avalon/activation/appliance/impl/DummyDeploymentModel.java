@@ -17,7 +17,7 @@
 
 package org.apache.avalon.activation.appliance.impl;
 
-import org.apache.avalon.activation.appliance.Deployable;
+import org.apache.avalon.composition.runtime.Commissionable;
 
 import org.apache.avalon.composition.data.Mode;
 import org.apache.avalon.composition.model.DeploymentModel;
@@ -34,12 +34,12 @@ public class DummyDeploymentModel
     implements DeploymentModel
 {
     private long m_timeout;
-    private Deployable m_deployable;
+    private Commissionable m_commissionable;
 
-    DummyDeploymentModel( Deployable deployable, long timeout )
+    DummyDeploymentModel( Commissionable commissionable, long timeout )
     {
         m_timeout = timeout;
-        m_deployable = deployable;
+        m_commissionable = commissionable;
     }
     
    /**
@@ -82,7 +82,7 @@ public class DummyDeploymentModel
     * Set the runtime handler for the model.
     * @param handler the runtime handler
     */
-    public void setHandler( Object handler )
+    public void setHandler( Commissionable handler )
     {
     }
 
@@ -90,9 +90,9 @@ public class DummyDeploymentModel
     * Get the assigned runtime handler for the model.
     * @return the runtime handler
     */
-    public Object getHandler()
+    public Commissionable getHandler()
     {
-        return m_deployable;
+        return m_commissionable;
     }
 
    /**

@@ -22,6 +22,8 @@ import java.util.Hashtable;
 import java.lang.reflect.Constructor;
 
 import org.apache.avalon.composition.model.ContextModel;
+import org.apache.avalon.composition.model.ComponentModel;
+import org.apache.avalon.composition.model.ContainmentModel;
 import org.apache.avalon.composition.model.ModelException;
 import org.apache.avalon.composition.model.ComponentContext;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
@@ -42,7 +44,7 @@ import org.apache.avalon.composition.data.ConstructorDirective;
  * a fully qualifed context can be established.</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.6 $ $Date: 2004/01/24 23:25:27 $
+ * @version $Revision: 1.7 $ $Date: 2004/02/06 15:27:14 $
  */
 public class DefaultContextModel extends DefaultDependent implements ContextModel
 {
@@ -91,6 +93,7 @@ public class DefaultContextModel extends DefaultDependent implements ContextMode
     * @param descriptor the contextualization stage descriptor
     * @param directive the contextualization directive
     * @param context the deployment context
+    * @param componentModel the enclosing component model
     */
     public DefaultContextModel( 
       Logger logger, ContextDescriptor descriptor, 
@@ -144,6 +147,17 @@ public class DefaultContextModel extends DefaultDependent implements ContextMode
                          throw new ModelException( error );
                     }
                 }
+            }
+            else if( key.equals( ContainmentModel.KEY ) )
+            {
+                //
+                // TODO: check that the component has permission
+                // to access the containment model
+                //
+
+                m_map.put( 
+                  ContainmentModel.KEY, 
+                  context.getContainmentModel() );
             }
             else if( key.startsWith( "urn:composition:" ) )
             {

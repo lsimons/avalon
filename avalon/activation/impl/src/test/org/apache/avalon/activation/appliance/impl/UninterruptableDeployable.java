@@ -17,10 +17,10 @@
 
 package org.apache.avalon.activation.appliance.impl;
 
-import org.apache.avalon.activation.appliance.Deployable;
+import org.apache.avalon.composition.runtime.Commissionable;
 
 public class UninterruptableDeployable 
-    implements Deployable
+    implements Commissionable
 {
     private boolean m_Looping;
     
@@ -28,7 +28,7 @@ public class UninterruptableDeployable
     {
     }
     
-    public void deploy() 
+    public void commission() 
         throws Exception
     {
         m_Looping = true;
