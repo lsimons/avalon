@@ -95,6 +95,7 @@
     <ant antfile="build.xml" dir="apps/demo" target="main" inheritall="false"/>
     <ant antfile="build.xml" dir="apps/ftpserver" target="main" inheritall="false"/>
     <ant antfile="build.xml" dir="apps/jesktop" target="main" inheritall="false"/>
+    <ant antfile="build.xml" dir="apps/hsql" target="main" inheritall="false"/>    
   </target>
 
   <target name="all" depends="main,docs" description="Generates the files including documentation"/>
@@ -450,6 +451,7 @@
     <ant antfile="build.xml" dir="apps/demo" target="dist" inheritall="false"/>
     <ant antfile="build.xml" dir="apps/ftpserver" target="check" inheritall="false"/>
     <ant antfile="build.xml" dir="apps/jesktop" target="check" inheritall="false"/>
+    <ant antfile="build.xml" dir="apps/hsql" target="check" inheritall="false"/>    
 
     <copy todir="${dist.base}/phoenix-apps" flatten="true">
       <fileset dir="apps">
@@ -522,6 +524,8 @@
   <target name="bay" depends="compile" description="Delegates to build.xml in apps/bay">
     <ant antfile="build.xml" dir="apps/bay" target="${apps-target}" inheritall="false"/>
   </target>  
-  
+  <target name="hsql" depends="compile" description="Delegates to build.xml in apps/hsql">
+    <ant antfile="build.xml" dir="apps/hsql" target="${apps-target}" inheritall="false"/>
+  </target>    
   
 </project>
