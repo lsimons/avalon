@@ -43,6 +43,19 @@ avalon.target.factory = org.apache.avalon.merlin.kernel.impl.DefaultFactory
     <ant:mkdir dir="${maven.repo.local}/${pom.groupId}"/>
     <ant:copy toDir="${maven.repo.local}/${pom.groupId}" 
        file="${maven.build.dir}/${pom.artifactId}.meta" verbose="yes"/>
+
+    <ant:echo file="${maven.build.dir}/merlin.properties">
+#
+# Merlin Implementation target specification.
+#
+
+merlin.implementation = ${pom.groupId}:${pom.artifactId};${pom.currentVersion}
+
+</ant:echo>
+    <ant:mkdir dir="${maven.repo.local}/${pom.groupId}/properties"/>
+    <ant:copy toDir="${maven.repo.local}/${pom.groupId}/properties" 
+       file="${maven.build.dir}/merlin.properties" verbose="yes"/>
+
   </postGoal>
 
 </project>
