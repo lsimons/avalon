@@ -609,6 +609,7 @@ Legal:
               <exclude name="${dist.name}/lib/bsh*.jar"/>
               <exclude name="${dist.name}/bin/wrapper"/>
               <exclude name="${dist.name}/bin/libwrapper.so"/>
+              <exclude name="${dist.name}/bin/**/bsh-*"/>
           </fileset>
         </zip>
 
