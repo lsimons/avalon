@@ -20,7 +20,6 @@
         <ant dir="altrmi" target="dist"/>
         <ant dir="collections" target="dist"/>
         <ant dir="concurrent" target="dist"/>
-        <ant dir="instrument" target="dist"/>
         <ant dir="logger" target="dist"/>
         <ant dir="threadcontext" target="dist"/>
         <ant dir="sourceresolve" target="dist"/>
@@ -28,10 +27,11 @@
         <ant dir="store" target="dist"/>
 
         <!-- Sub projects with dependencies. -->
+        <ant dir="instrument" target="dist"/>         <!-- altrmi -->
         <ant dir="pool" target="dist"/>               <!-- collections, concurrent, instrument -->
         <ant dir="thread" target="dist"/>             <!-- lang, instrument, threadcontext, pool -->
         <ant dir="component" target="dist"/>          <!-- collections, logger, instrument, pool -->
-        <ant dir="xmlbundle" target="dist"/>          <!-- component, store -->
+        <ant dir="xmlbundle" target="dist"/>          <!-- instrument, component, store -->
         <ant dir="util" target="dist"/>               <!-- component -->
         <ant dir="testcase" target="dist"/>           <!-- logger, component -->
         <ant dir="event" target="dist"/>              <!-- collections, concurrent, lang, pool, thread, util, event -->
@@ -167,12 +167,6 @@
         <ant dir="event" target="dist-jar"/>
         <ant dir="fortress" target="dist-jar"/>
 
-        <!--
-          To work around circular dependencies, we need to call this build a second time.
-          Otherwise the optional classes will not be built.
-        -->
-        <ant dir="instrument" target="dist-jar"/>
-        
         <!-- Jump through hoops to avoid jlink size bug.  -->
 
         <property name="tmpjarA" value="avalon-excalibur-tmpA.jar"/>
@@ -237,7 +231,6 @@
         <ant dir="altrmi" target="jar"/>
         <ant dir="collections" target="jar"/>
         <ant dir="concurrent" target="jar"/>
-        <ant dir="instrument" target="jar"/>
         <ant dir="logger" target="jar"/>
         <ant dir="threadcontext" target="jar"/>
         <ant dir="sourceresolve" target="jar"/>
@@ -245,11 +238,12 @@
         <ant dir="store" target="jar"/>
 
         <!-- Sub projects with dependencies. -->
+        <ant dir="instrument" target="jar"/>         <!-- altrmi -->
         <ant dir="pool" target="jar"/>               <!-- collections, concurrent, instrument, sourceresolve -->
         <ant dir="datasource" target="jar"/>         <!-- pool -->
         <ant dir="thread" target="jar"/>             <!-- lang, instrument, threadcontext, pool -->
         <ant dir="component" target="jar"/>          <!-- collections, logger, instrument, pool -->
-        <ant dir="xmlbundle" target="jar"/>          <!-- component, store -->
+        <ant dir="xmlbundle" target="jar"/>          <!-- instrument, component, store -->
         <ant dir="util" target="jar"/>               <!-- component -->
         <ant dir="testcase" target="jar"/>           <!-- logger, component -->
         <ant dir="event" target="jar"/>              <!-- collections, concurrent, lang, pool, thread, util, event -->

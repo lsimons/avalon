@@ -22,10 +22,6 @@
         <pathelement location="${excalibur-altrmi-client-impl.jar}"/>
         <pathelement location="${excalibur-altrmi-client-interfaces.jar}"/>
         <pathelement location="${excalibur-altrmi-generator.jar}"/>
-        <pathelement location="${excalibur-collections.jar}"/>
-        <pathelement location="${excalibur-component.jar}"/>
-        <pathelement location="${excalibur-logger.jar}"/>
-        <pathelement location="${excalibur-pool.jar}"/>
         <pathelement path="${java.class.path}"/>
     </path>
 
@@ -66,10 +62,6 @@
     <target name="dependencies" description="Check dependencies" unless="skip.dependencies">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkCommon"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkFramework"/>
-        <!-- Want this in here, but it causes a circular dependencies.  The workaround now
-             is to call this build twice from the main build file.
-        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkComponent"/>
-        -->
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkAltrmiServer"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkAltrmiCommon"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkAltrmiClient"/>

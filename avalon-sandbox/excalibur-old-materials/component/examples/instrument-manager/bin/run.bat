@@ -57,6 +57,6 @@ goto end
 set CP=%CP%%_LIBJARS%
 
 rem Run the example application
-%EXAMPLE_JAVACMD% -Djava.compiler="NONE" -classpath "%CP%" org.apache.excalibur.instrument.example_icm.Main %1 %2 %3 %4 %5 %6 %7 %8 %9
+%EXAMPLE_JAVACMD% -Djava.compiler="NONE" -classpath "%CP%" org.apache.avalon.excalibur.component.example_im.Main %1 %2 %3 %4 %5 %6 %7 %8 %9
 
 :end

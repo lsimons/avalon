@@ -35,5 +35,5 @@ done
 #echo $CP
 
 # Run the example application
-$JAVACMD -classpath $CP org.apache.excalibur.instrument.example_icm.Main $@
+$JAVACMD -classpath $CP org.apache.avalon.excalibur.component.example_im.Main $@
 

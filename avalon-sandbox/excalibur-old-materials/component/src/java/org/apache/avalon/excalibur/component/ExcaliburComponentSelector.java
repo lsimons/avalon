@@ -8,12 +8,15 @@
 package org.apache.avalon.excalibur.component;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+
 import org.apache.avalon.excalibur.collections.BucketMap;
 import org.apache.avalon.excalibur.logger.LogKitManageable;
 import org.apache.avalon.excalibur.logger.LogKitManager;
 import org.apache.avalon.excalibur.logger.LoggerManager;
+
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.component.Component;
@@ -28,12 +31,18 @@ import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.thread.ThreadSafe;
 
+import org.apache.excalibur.instrument.Instrument;
+import org.apache.excalibur.instrument.Instrumentable;
+import org.apache.excalibur.instrument.InstrumentManageable;
+import org.apache.excalibur.instrument.InstrumentManager;
+
 /**
  * Default component selector for Avalon's components.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
- * @version CVS $Revision: 1.10 $ $Date: 2002/06/28 03:34:25 $
+ * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
+ * @version CVS $Revision: 1.11 $ $Date: 2002/08/06 16:28:38 $
  * @since 4.0
  */
 public class ExcaliburComponentSelector
@@ -46,7 +55,9 @@ public class ExcaliburComponentSelector
     ThreadSafe,
     Disposable,
     RoleManageable,
-    LogKitManageable
+    LogKitManageable,
+    InstrumentManageable,
+    Instrumentable
 {
     /** The classloader used for this system. */
     private final ClassLoader m_loader;
@@ -95,6 +106,15 @@ public class ExcaliburComponentSelector
      */
     private LogkitLoggerManager m_logkit;
 
+    /** Instrument Manager to register objects created by this selector with (May be null). */
+    private InstrumentManager m_instrumentManager;
+
+    /** Instrumentable Name assigned to this Instrumentable */
+    private String m_instrumentableName;
+
+    /*---------------------------------------------------------------
+     * Constructors
+     *-------------------------------------------------------------*/
     /** Create the ComponentSelector */
     public ExcaliburComponentSelector()
     {
@@ -114,6 +134,9 @@ public class ExcaliburComponentSelector
         }
     }
 
+    /*---------------------------------------------------------------
+     * Contextualizable Methods
+     *-------------------------------------------------------------*/
     /** Provide the application Context.
      */
     public void contextualize( final Context context )
@@ -124,108 +147,9 @@ public class ExcaliburComponentSelector
         }
     }
 
-    /** Compose the ComponentSelector so that we know what the parent ComponentLocator is.
-     */
-    public void compose( final ComponentManager componentManager )
-        throws ComponentException
-    {
-        //HACK: Is this necessary???
-        if( null == m_componentManager )
-        {
-            m_componentManager = componentManager;
-        }
-    }
-
-    /** Properly initialize of the Child handlers.
-     */
-    public void initialize()
-    {
-        synchronized( this )
-        {
-            m_initialized = true;
-
-            List keys = new ArrayList( m_componentHandlers.keySet() );
-
-            for( int i = 0; i < keys.size(); i++ )
-            {
-                final Object key = keys.get( i );
-                final ComponentHandler handler =
-                    (ComponentHandler)m_componentHandlers.get( key );
-
-                try
-                {
-                    handler.initialize();
-                }
-                catch( Exception e )
-                {
-                    if( getLogger().isDebugEnabled() )
-                    {
-                        getLogger().debug( "Caught an exception trying to initialize " +
-                                           "of the component handler.", e );
-                    }
-                }
-
-            }
-        }
-    }
-
-    /**
-     * Tests for existence of a component.
-     */
-    public boolean hasComponent( final Object hint )
-    {
-        if( !m_initialized ) return false;
-        if( m_disposed ) return false;
-
-        boolean exists = false;
-
-        try
-        {
-            ComponentHandler handler = (ComponentHandler)m_componentHandlers.get( hint );
-            exists = (handler != null);
-        }
-        catch( Throwable t )
-        {
-            // We can safely ignore all exceptions
-        }
-
-        return exists;
-    }
-
-    /**
-     * Properly dispose of all the ComponentHandlers.
-     */
-    public void dispose()
-    {
-        synchronized( this )
-        {
-            Iterator keys = m_componentHandlers.keySet().iterator();
-            List keyList = new ArrayList();
-
-            while( keys.hasNext() )
-            {
-                Object key = keys.next();
-                ComponentHandler handler =
-                    (ComponentHandler)m_componentHandlers.get( key );
-
-                handler.dispose();
-
-                keyList.add( key );
-            }
-
-            keys = keyList.iterator();
-
-            while( keys.hasNext() )
-            {
-                m_componentHandlers.remove( keys.next() );
-            }
-
-            keyList.clear();
-
-            m_disposed = true;
-        }
-    }
-
+    /*---------------------------------------------------------------
+     * ComponentSelector Methods
+     *-------------------------------------------------------------*/
     /**
      * Return an instance of a component based on a hint.  The Composable has already selected the
      * role, so the only part left it to make sure the Component is handled.
@@ -307,6 +231,94 @@ public class ExcaliburComponentSelector
     }
 
     /**
+     * Tests for existence of a component.
+     */
+    public boolean hasComponent( final Object hint )
+    {
+        if( !m_initialized ) return false;
+        if( m_disposed ) return false;
+
+        boolean exists = false;
+
+        try
+        {
+            ComponentHandler handler = (ComponentHandler)m_componentHandlers.get( hint );
+            exists = (handler != null);
+        }
+        catch( Throwable t )
+        {
+            // We can safely ignore all exceptions
+        }
+
+        return exists;
+    }
+
+    /**
+     * Release the Component to the propper ComponentHandler.
+     */
+    public void release( final Component component )
+    {
+        if( null == component )
+        {
+            getLogger().warn( "Attempted to release a null component." );
+            return;
+        }
+
+        final ComponentHandler handler =
+            (ComponentHandler)m_componentMapping.get( component );
+
+        if( null == handler )
+        {
+            getLogger().warn( "Attempted to release a " + component.getClass().getName() +
+                              " but its handler could not be located." );
+            return;
+        }
+
+        // ThreadSafe components will always be using a ThreadSafeComponentHandler,
+        //  they will only have a single entry in the m_componentMapping map which
+        //  should not be removed until the ComponentLocator is disposed.  All
+        //  other components have an entry for each instance which should be
+        //  removed.
+        if( !( handler instanceof ThreadSafeComponentHandler ) )
+        {
+            // Remove the component before calling put.  This is critical to avoid the
+            //  problem where another thread calls put on the same component before
+            //  remove can be called.
+            m_componentMapping.remove( component );
+        }
+
+        try
+        {
+            handler.put( component );
+        }
+        catch( Exception e )
+        {
+            if( getLogger().isDebugEnabled() )
+            {
+                getLogger().debug( "Error trying to release component", e );
+            }
+        }
+    }
+
+    /*---------------------------------------------------------------
+     * Composable Methods
+     *-------------------------------------------------------------*/
+    /** Compose the ComponentSelector so that we know what the parent ComponentLocator is.
+     */
+    public void compose( final ComponentManager componentManager )
+        throws ComponentException
+    {
+        //HACK: Is this necessary???
+        if( null == m_componentManager )
+        {
+            m_componentManager = componentManager;
+        }
+    }
+
+    /*---------------------------------------------------------------
+     * Configurable Methods
+     *-------------------------------------------------------------*/
+    /**
      * Default Configuration handler for ComponentSelector.
      */
     public void configure( final Configuration configuration )
@@ -385,6 +397,87 @@ public class ExcaliburComponentSelector
         }
     }
 
+    /*---------------------------------------------------------------
+     * Initializable Methods
+     *-------------------------------------------------------------*/
+    /** Properly initialize of the Child handlers.
+     */
+    public void initialize()
+    {
+        synchronized( this )
+        {
+            m_initialized = true;
+
+            List keys = new ArrayList( m_componentHandlers.keySet() );
+
+            for( int i = 0; i < keys.size(); i++ )
+            {
+                final Object key = keys.get( i );
+                final ComponentHandler handler =
+                    (ComponentHandler)m_componentHandlers.get( key );
+
+                try
+                {
+                    handler.initialize();
+                }
+                catch( Exception e )
+                {
+                    if( getLogger().isDebugEnabled() )
+                    {
+                        getLogger().debug( "Caught an exception trying to initialize " +
+                                           "of the component handler.", e );
+                    }
+                }
+
+            }
+        }
+    }
+
+    /*---------------------------------------------------------------
+     * ThreadSafe Methods
+     *-------------------------------------------------------------*/
+    // No methods
+
+    /*---------------------------------------------------------------
+     * Disposable Methods
+     *-------------------------------------------------------------*/
+    /**
+     * Properly dispose of all the ComponentHandlers.
+     */
+    public void dispose()
+    {
+        synchronized( this )
+        {
+            Iterator keys = m_componentHandlers.keySet().iterator();
+            List keyList = new ArrayList();
+
+            while( keys.hasNext() )
+            {
+                Object key = keys.next();
+                ComponentHandler handler =
+                    (ComponentHandler)m_componentHandlers.get( key );
+
+                handler.dispose();
+
+                keyList.add( key );
+            }
+
+            keys = keyList.iterator();
+
+            while( keys.hasNext() )
+            {
+                m_componentHandlers.remove( keys.next() );
+            }
+
+            keyList.clear();
+
+            m_disposed = true;
+        }
+    }
+
+    /*---------------------------------------------------------------
+     * RoleManageable Methods
+     *-------------------------------------------------------------*/
     /**
      * Configure the RoleManager
      */
@@ -396,7 +489,9 @@ public class ExcaliburComponentSelector
         }
     }
 
-
+    /*---------------------------------------------------------------
+     * LogKitManageable Methods
+     *-------------------------------------------------------------*/
     /**
      * Configure the LogKitManager
      */
@@ -408,6 +503,89 @@ public class ExcaliburComponentSelector
         }
     }
 
+    /*---------------------------------------------------------------
+     * InstrumentManageable Methods
+     *-------------------------------------------------------------*/
+    /**
+     * Sets the InstrumentManager for child components.  Can be for special
+     * purpose components, however it is used mostly internally.
+     *
+     * @param instrumentManager The InstrumentManager for the component to use.
+     */
+    public void setInstrumentManager( final InstrumentManager instrumentManager )
+    {
+        m_instrumentManager = instrumentManager;
+    }
+
+    /*---------------------------------------------------------------
+     * Instrumentable Methods
+     *-------------------------------------------------------------*/
+    /**
+     * Sets the name for the Instrumentable.  The Instrumentable Name is used
+     *  to uniquely identify the Instrumentable during the configuration of
+     *  the InstrumentManager and to gain access to an InstrumentableDescriptor
+     *  through the InstrumentManager.  The value should be a string which does
+     *  not contain spaces or periods.
+     * <p>
+     * This value may be set by a parent Instrumentable, or by the
+     *  InstrumentManager using the value of the 'instrumentable' attribute in
+     *  the configuration of the component.
+     *
+     * @param name The name used to identify a Instrumentable.
+     */
+    public void setInstrumentableName( String name )
+    {
+        m_instrumentableName = name;
+    }
+
+    /**
+     * Gets the name of the Instrumentable.
+     *
+     * @return The name used to identify a Instrumentable.
+     */
+    public String getInstrumentableName()
+    {
+        return m_instrumentableName;
+    }
+
+    /**
+     * Obtain a reference to all the Instruments that the Instrumentable object
+     *  wishes to expose.  All sampling is done directly through the
+     *  Instruments as opposed to the Instrumentable interface.
+     *
+     * @return An array of the Instruments available for profiling.  Should
+     *         never be null.  If there are no Instruments, then
+     *         EMPTY_INSTRUMENT_ARRAY can be returned.  This should never be
+     *         the case though unless there are child Instrumentables with
+     *         Instruments.
+     */
+    public Instrument[] getInstruments()
+    {
+        return Instrumentable.EMPTY_INSTRUMENT_ARRAY;
+    }
+
+    /**
+     * Any Object which implements Instrumentable can also make use of other
+     *  Instrumentable child objects.  This method is used to tell the
+     *  InstrumentManager about them.
+     *
+     * @return An array of child Instrumentables.  This method should never
+     *         return null.  If there are no child Instrumentables, then
+     *         EMPTY_INSTRUMENTABLE_ARRAY can be returned.
+     */
+    public Instrumentable[] getChildInstrumentables()
+    {
+        // Get the values. This set is created for this call and thus thread safe.
+        Collection values = getComponentHandlers().values();
+        Instrumentable[] children = new Instrumentable[ values.size() ];
+        values.toArray( children );
+
+        return children;
+    }
+
+    /*---------------------------------------------------------------
+     * Methods
+     *-------------------------------------------------------------*/
     /**
      * Configure the LoggerManager.
      */
@@ -416,53 +594,6 @@ public class ExcaliburComponentSelector
         if( null == m_logkit )
         {
             m_logkit = new LogkitLoggerManager( logkit, null );
-        }
-    }
-
-    /**
-     * Release the Component to the propper ComponentHandler.
-     */
-    public void release( final Component component )
-    {
-        if( null == component )
-        {
-            getLogger().warn( "Attempted to release a null component." );
-            return;
-        }
-
-        final ComponentHandler handler =
-            (ComponentHandler)m_componentMapping.get( component );
-
-        if( null == handler )
-        {
-            getLogger().warn( "Attempted to release a " + component.getClass().getName() +
-                              " but its handler could not be located." );
-            return;
-        }
-
-        // ThreadSafe components will always be using a ThreadSafeComponentHandler,
-        //  they will only have a single entry in the m_componentMapping map which
-        //  should not be removed until the ComponentLocator is disposed.  All
-        //  other components have an entry for each instance which should be
-        //  removed.
-        if( !( handler instanceof ThreadSafeComponentHandler ) )
-        {
-            // Remove the component before calling put.  This is critical to avoid the
-            //  problem where another thread calls put on the same component before
-            //  remove can be called.
-            m_componentMapping.remove( component );
-        }
-
-        try
-        {
-            handler.put( component );
-        }
-        catch( Exception e )
-        {
-            if( getLogger().isDebugEnabled() )
-            {
-                getLogger().debug( "Error trying to release component", e );
-            }
         }
     }
 
@@ -490,12 +621,17 @@ public class ExcaliburComponentSelector
                                                     final LogkitLoggerManager logkitManager )
         throws Exception
     {
+        String instrumentableName =
+            configuration.getAttribute( "instrumentable", configuration.getAttribute( "name" ) );
+
         return ComponentHandler.getComponentHandler( componentClass,
                                                      configuration,
                                                      componentManager,
                                                      context,
                                                      roleManager,
-                                                     logkitManager );
+                                                     logkitManager,
+                                                     m_instrumentManager,
+                                                     instrumentableName );
     }
 
     /**

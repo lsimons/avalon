@@ -2,7 +2,7 @@
     <!-- =================================================================== -->
     <!-- Application roles.                                                  -->
     <!-- =================================================================== -->
-    <role name="org.apache.excalibur.instrument.example_icm.ExampleInstrumentable"
+    <role name="org.apache.avalon.excalibur.component.example_im.ExampleInstrumentable"
           shorthand="example-instrumentable"
-          default-class="org.apache.excalibur.instrument.example_icm.DefaultExampleInstrumentable"/>
+          default-class="org.apache.avalon.excalibur.component.example_im.DefaultExampleInstrumentable"/>
 </role-list>
