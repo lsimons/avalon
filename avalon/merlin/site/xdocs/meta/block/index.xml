@@ -66,7 +66,7 @@
         <table>
           <tr><th>Element</th><th>Occurance</th><th>Description</th></tr>
           <tr>
-            <td><a href="services/index.html">services</a></td><td>0..n</td>
+            <td><a href="services/index.html">services</a></td><td>0..1</td>
             <td>
              A container can declare the export of a set of services established
              by the components contained within it.  This enables a container to 

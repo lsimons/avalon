@@ -70,7 +70,7 @@
         <item name="kernel.xml" href="/meta/kernel/index.html"/>
         <item name="block.xml" href="/meta/block/index.html">
           <item name="services" href="/meta/block/services/index.html">
-            <item name="services" href="/meta/block/services/service.html"/>
+            <item name="service" href="/meta/block/services/service.html"/>
           </item>
           <item name="classloader" href="/meta/block/classloader/index.html"/>
           <item name="component" href="/meta/block/components/index.html"/>
