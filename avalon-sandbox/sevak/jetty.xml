@@ -60,7 +60,7 @@
 
 
   <!-- Jetty stuff -->
-  <property name ="jetty.rel" value="4.2.7"/>
+  <property name ="jetty.rel" value="4.2.8"/>
 
   <property name="jetty.jars.dir" value="${lib.dir}/jetty-jars"/>
 

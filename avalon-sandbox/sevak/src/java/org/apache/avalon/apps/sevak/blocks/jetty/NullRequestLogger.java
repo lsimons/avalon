@@ -56,6 +56,9 @@ import org.mortbay.http.HttpResponse;
  * Ignores logging requests. To be used when request logging is not
  * necessary or performance is so critical that request logging is in
  * the way.
+ *
+ * @phoenix:block
+ * @phoenix:service name="org.apache.avalon.apps.sevak.blocks.jetty.RequestLogger"
  */
 public class NullRequestLogger implements RequestLogger
 {
