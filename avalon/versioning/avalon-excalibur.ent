@@ -21,7 +21,7 @@
 
 <!ENTITY excalibur-datasource-id "excalibur-datasource">
 <!ENTITY excalibur-datasource-group "excalibur-datasource">
-<!ENTITY excalibur-datasource-version "1.2">
+<!ENTITY excalibur-datasource-version "1.2.0">
 
 <!ENTITY excalibur-event-api-id "excalibur-event-api">
 <!ENTITY excalibur-event-api-group "excalibur-event">
@@ -47,13 +47,14 @@
 <!ENTITY excalibur-instrument-manager-group "excalibur-instrument">
 <!ENTITY excalibur-instrument-manager-version "1.2">
 
+<!ENTITY excalibur-lifecycle-id "excalibur-lifecycle">
 <!ENTITY excalibur-lifecycle-api-id "excalibur-lifecycle-api">
 <!ENTITY excalibur-lifecycle-api-group "excalibur-lifecycle">
-<!ENTITY excalibur-lifecycle-api-version "1.1">
+<!ENTITY excalibur-lifecycle-api-version "1.1.0">
 
 <!ENTITY excalibur-lifecycle-impl-id "excalibur-lifecycle-impl">
 <!ENTITY excalibur-lifecycle-impl-group "excalibur-lifecycle">
-<!ENTITY excalibur-lifecycle-impl-version "1.1">
+<!ENTITY excalibur-lifecycle-impl-version "1.1.0">
 
 <!ENTITY excalibur-logger-id "excalibur-logger">
 <!ENTITY excalibur-logger-group "excalibur-logger">
@@ -69,19 +70,19 @@
 
 <!ENTITY excalibur-pool-api-id "excalibur-pool-api">
 <!ENTITY excalibur-pool-api-group "excalibur-pool">
-<!ENTITY excalibur-pool-api-version "2.0">
+<!ENTITY excalibur-pool-api-version "2.0.0">
 
 <!ENTITY excalibur-pool-impl-id "excalibur-pool-impl">
 <!ENTITY excalibur-pool-impl-group "excalibur-pool">
-<!ENTITY excalibur-pool-impl-version "2.0">
+<!ENTITY excalibur-pool-impl-version "2.0.0">
 
 <!ENTITY excalibur-pool-instrumented-id "excalibur-pool-instrumented">
 <!ENTITY excalibur-pool-instrumented-group "excalibur-pool">
-<!ENTITY excalibur-pool-instrumented-version "2.0">
+<!ENTITY excalibur-pool-instrumented-version "2.0.0">
 
 <!ENTITY excalibur-sourceresolve-id "excalibur-sourceresolve">
 <!ENTITY excalibur-sourceresolve-group "excalibur-sourceresolve">
-<!ENTITY excalibur-sourceresolve-version "1.2">
+<!ENTITY excalibur-sourceresolve-version "1.2.0">
 
 <!ENTITY excalibur-store-id "excalibur-store">
 <!ENTITY excalibur-store-group "excalibur-store">
@@ -93,15 +94,15 @@
 
 <!ENTITY excalibur-thread-api-id "excalibur-thread-api">
 <!ENTITY excalibur-thread-api-group "excalibur-thread">
-<!ENTITY excalibur-thread-api-version "2.0">
+<!ENTITY excalibur-thread-api-version "2.0.0">
 
 <!ENTITY excalibur-thread-impl-id "excalibur-thread-impl">
 <!ENTITY excalibur-thread-impl-group "excalibur-thread">
-<!ENTITY excalibur-thread-impl-version "2.0">
+<!ENTITY excalibur-thread-impl-version "2.0.0">
 
 <!ENTITY excalibur-thread-instrumented-id "excalibur-thread-instrumented">
 <!ENTITY excalibur-thread-instrumented-group "excalibur-thread">
-<!ENTITY excalibur-thread-instrumented-version "2.0">
+<!ENTITY excalibur-thread-instrumented-version "2.0.0">
 
 <!ENTITY excalibur-xmlutil-id "excalibur-xmlutil">
 <!ENTITY excalibur-xmlutil-group "excalibur-xmlutil">

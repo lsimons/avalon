@@ -16,7 +16,7 @@ limitations under the License.
 -->
 
 <!ENTITY avalon-logging-id "avalon-logging">
-<!ENTITY avalon-logging-version "1.0-RC2">
+<!ENTITY avalon-logging-version "1.0.0">
 
 <!ENTITY avalon-logging-api-id "avalon-logging-api">
 <!ENTITY avalon-logging-api-version "1.0.0">

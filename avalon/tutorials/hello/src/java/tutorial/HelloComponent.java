@@ -18,7 +18,6 @@
 package tutorial;
 
 import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.framework.activity.Disposable;
 
 /**
  * A sample component.  
@@ -27,21 +26,9 @@ import org.apache.avalon.framework.activity.Disposable;
  *    version="1.0" 
  *    name="hello" 
  *    lifestyle="singleton"
- * @avalon.service type="tutorial.Hello"
  */
 public class HelloComponent 
-  implements Hello, Disposable
 {
-    //-------------------------------------------------------
-    // immutable state
-    //-------------------------------------------------------
-
-   /**
-    * Internal reference to the logging channel supplied to us 
-    * by the container. 
-    */
-    private final Logger m_logger;
-
     //-------------------------------------------------------
     // constructor
     //-------------------------------------------------------
@@ -53,46 +40,6 @@ public class HelloComponent
     */
     public HelloComponent( Logger logger )
     {
-        m_logger = logger;
-        m_logger.info( "instantiated" );
+        m_logger.info( "Hello World" );
     }
-
-    //-------------------------------------------------------
-    // Hello service implementation
-    //-------------------------------------------------------
-
-   /**
-    * The hello service implementation.
-    */
-    public void sayHello()
-    {
-        getLogger().info( "HELLO" );
-    }
-
-    //-------------------------------------------------------
-    // Disposable lifecycle interface
-    //-------------------------------------------------------
-
-   /**
-    * Component disposal trigger by the container during which
-    * the component will release consumed resources.
-    */
-    public void dispose()
-    {
-        getLogger().info( "disposal" );
-    }
-
-    //-------------------------------------------------------
-    // internal utilities
-    //-------------------------------------------------------
-
-   /**
-    * Return the logging channel assigned to us by the container.
-    * @return the logging channel
-    */
-    private Logger getLogger()
-    {
-        return m_logger;
-    }
-
 }

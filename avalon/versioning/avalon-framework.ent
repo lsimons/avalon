@@ -1,6 +1,6 @@
 
 <!ENTITY avalon-framework-id "avalon-framework">
-<!ENTITY avalon-framework-suffix "RC2">
+<!ENTITY avalon-framework-suffix "final">
 <!ENTITY avalon-framework-version "4.2.0">
 
 <!ENTITY avalon-framework-api-id "avalon-framework-api">
