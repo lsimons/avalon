@@ -76,7 +76,7 @@ import org.apache.excalibur.instrument.manager.InstrumentManagerClientLocalImpl;
  *  alternative to this connector is to make use of the InstrumentManagerServlet.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/09/08 09:00:44 $
+ * @version CVS $Revision: 1.2 $ $Date: 2003/09/08 10:19:22 $
  * @since 4.1
  */
 public class InstrumentManagerHTTPConnector
@@ -194,6 +194,8 @@ public class InstrumentManagerHTTPConnector
                 new HTMLCreateSampleHandler( client ), nameBase + "create-sample" );
             initAndRegisterHandler(
                 new SampleChartHandler( client ), "sample-chart" );
+            initAndRegisterHandler(
+                new HTMLRootHandler( client ), nameBase + "root" );
         }
         
         getLogger().debug( "Starting Instrument Manager HTTP Connector" );
