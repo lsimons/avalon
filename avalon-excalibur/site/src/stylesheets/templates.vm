@@ -58,38 +58,6 @@
   </html>
 #end
 
-#macro ( subsection $subsection)
-  <div class="h4">
-    #if ( $subsection.getAttributeValue("anchor") )
-      #set ($anchor = $subsection.getAttributeValue("anchor"))
-    #else
-      #set ($anchor = $subsection.getAttributeValue("name"))
-    #end
-    <h4><a name="$anchor">$subsection.getAttributeValue("name")</a></h4>
-    #foreach ( $items in $subsection.getChildren() )
-      #copy($items)
-    #end
-  </div>
-#end
-
-#macro ( section $section)
-  <div class="h3">
-    #if ( $section.getAttributeValue("anchor") )
-      #set ($anchor = $section.getAttributeValue("anchor"))
-    #else
-      #set ($anchor = $section.getAttributeValue("name"))
-    #end
-    <h3><a name="$anchor">$section.getAttributeValue("name")</a></h3>
-    #foreach ( $items in $section.getChildren() )
-      #if ($items.getName().equals("subsection"))
-        #subsection ($items)
-      #else
-        #copy($items)
-      #end
-    #end
-  </div>
-#end
-
 #macro ( table $table)
   #set ($rowcount = 1)
   <table cellpadding="3" cellspacing="2" border="1" width="100%">
