@@ -28,7 +28,7 @@ public class DefaultServiceSelector
      *
      * @param hint the hint to retrieve Object
      * @return the Object
-     * @throws ServiceException if an error occurs
+     * @throws ComponentException if an error occurs
      */
     public Object select( Object hint )
         throws ServiceException

@@ -28,7 +28,7 @@ package org.apache.avalon.framework.component;
 public interface Composable
 {
     /**
-     * Pass the <code>ComponentManager</code> to the <code>composer</code>.
+     * Pass the <code>ComponentLocator</code> to the <code>composer</code>.
      * The <code>Composable</code> implementation should use the specified
      * <code>ComponentManager</code> to acquire the components it needs for
      * execution.

@@ -16,7 +16,7 @@ package org.apache.avalon.framework.service;
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
  * @version 1.0
  * @see org.apache.avalon.framework.service.Serviceable
- * @see org.apache.avalon.framework.service.ServiceManager
+ * @see org.apache.avalon.framework.service.ServiceSelector
  *
  */
 public interface ServiceSelector
@@ -42,7 +42,7 @@ public interface ServiceSelector
      * @param policy A criteria against which a <code>Object</code> is selected.
      *
      * @return an <code>Object</code> value
-     * @throws ServiceException If the requested <code>Object</code> cannot be supplied
+     * @throws ComponentException If the requested <code>Object</code> cannot be supplied
      */
     Object select( Object policy )
         throws ServiceException;
