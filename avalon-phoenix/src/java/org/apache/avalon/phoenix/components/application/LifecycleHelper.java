@@ -65,7 +65,7 @@ class LifecycleHelper
     private final static int TYPE_LISTENER  = 1;
 
     ///Frame in which block executes
-    private ApplicationContext   m_frame;
+    private ApplicationContext   m_context;
 
     /**
      * The Application which this phase is associated with.
@@ -82,14 +82,14 @@ class LifecycleHelper
      * Construct helper object for specified application, 
      * in specified frame.
      *
-     * @param application the APplication that this object is helper to
-     * @param frame the frame in which this helper operates
+     * @param application the Application that this object is helper to
+     * @param context the ApplicationContext in which this helper operates
      */
     protected LifecycleHelper( final Application application,
-                               final ApplicationContext frame )
+                               final ApplicationContext context )
     {
         m_application = application;
-        m_frame = frame;
+        m_context = context;
     }
 
     /**
@@ -106,7 +106,7 @@ class LifecycleHelper
     {
         final String name = metaData.getName();
 
-        final ClassLoader classLoader = m_frame.getClassLoader();
+        final ClassLoader classLoader = m_context.getClassLoader();
         final Class clazz = classLoader.loadClass( metaData.getClassname() );
         final BlockListener listener = (BlockListener)clazz.newInstance();
 
@@ -153,7 +153,7 @@ class LifecycleHelper
             if( block instanceof Loggable )
             {
                 notice( name, stage );
-                ((Loggable)block).setLogger( m_frame.getLogger( name ) );
+                ((Loggable)block).setLogger( m_context.getLogger( name ) );
             }
 
             //Contextualize stage
@@ -286,7 +286,7 @@ class LifecycleHelper
     private Block createBlock( final BlockMetaData metaData )
         throws Exception
     {
-        final ClassLoader classLoader = m_frame.getClassLoader();
+        final ClassLoader classLoader = m_context.getClassLoader();
         final Class clazz = classLoader.loadClass( metaData.getClassname() );
         return (Block)clazz.newInstance();
     }
@@ -299,7 +299,7 @@ class LifecycleHelper
      */
     private BlockContext createBlockContext( final String name )
     {
-        final DefaultBlockContext context = new DefaultBlockContext( name, m_frame );
+        final DefaultBlockContext context = new DefaultBlockContext( name, m_context );
         setupLogger( context );
         context.makeReadOnly();
         return context;
@@ -319,7 +319,7 @@ class LifecycleHelper
     {
         try
         {
-            return m_frame.getConfiguration( name );
+            return m_context.getConfiguration( name );
         }
         catch( final ConfigurationException ce )
         {
