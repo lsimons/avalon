@@ -13,7 +13,6 @@ package org.apache.phoenix.metainfo;
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public interface Contributor
-    extends org.apache.avalon.camelot.MetaInfo
 {
     /**
      * Retrieve name of identity/person.

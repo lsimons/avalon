@@ -7,13 +7,15 @@
  */
 package org.apache.phoenix.metainfo;
 
+import org.apache.avalon.camelot.Descriptor;
+
 /**
  * This interface describes a dependency of Block.
  * 
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
-public interface DependencyInfo 
-    extends org.apache.avalon.camelot.MetaInfo
+public interface DependencyInfo
+    extends Descriptor
 {
     /**
      * Return name of dependency.

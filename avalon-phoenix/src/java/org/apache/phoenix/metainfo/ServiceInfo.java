@@ -8,6 +8,7 @@
 package org.apache.phoenix.metainfo;
 
 import org.apache.avalon.util.Version;
+import org.apache.avalon.camelot.Descriptor;
 
 /**
  * This interface describes a particular service that a component offers.
@@ -15,7 +16,7 @@ import org.apache.avalon.util.Version;
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public interface ServiceInfo
-    extends org.apache.avalon.camelot.MetaInfo
+    extends Descriptor
 {
     /**
      * Return version of interface

@@ -18,7 +18,6 @@ import java.util.zip.ZipFile;
 import org.apache.avalon.camelot.AbstractZipDeployer;
 import org.apache.avalon.camelot.DeployerUtil;
 import org.apache.avalon.camelot.DeploymentException;
-import org.apache.avalon.camelot.LocatorRegistry;
 import org.apache.avalon.camelot.Registry;
 import org.apache.avalon.camelot.RegistryException;
 import org.apache.avalon.util.io.IOUtil;

@@ -30,13 +30,11 @@ import org.apache.avalon.DefaultContext;
 import org.apache.avalon.camelot.AbstractCamelotDeployer;
 import org.apache.avalon.camelot.CamelotUtil;
 import org.apache.avalon.camelot.ContainerException;
-import org.apache.avalon.camelot.DefaultLocatorRegistry;
 import org.apache.avalon.camelot.DefaultRegistry;
 import org.apache.avalon.camelot.Deployer;
 import org.apache.avalon.camelot.DeployerUtil;
 import org.apache.avalon.camelot.DeploymentException;
 import org.apache.avalon.camelot.Locator;
-import org.apache.avalon.camelot.LocatorRegistry;
 import org.apache.avalon.camelot.Registry;
 import org.apache.avalon.camelot.RegistryException;
 import org.apache.avalon.util.io.FileUtil;
@@ -185,8 +183,8 @@ public class DefaultSarDeployer
         final DefaultComponentManager componentManager = new DefaultComponentManager();
         componentManager.put( "org.apache.avalon.camelot.Registry",
                               new DefaultRegistry( BlockInfo.class ) );
-        componentManager.put( "org.apache.avalon.camelot.LocatorRegistry",
-                              new DefaultLocatorRegistry() );
+        componentManager.put( "org.apache.avalon.camelot.Registry/Locator",
+                              new DefaultRegistry( Locator.class ) );
         entry.setComponentManager( componentManager );
 
         //setup the ServerApplications configuration manager
@@ -284,8 +282,8 @@ public class DefaultSarDeployer
         final Registry infoRegistry = 
             (Registry)componentManager.lookup( "org.apache.avalon.camelot.Registry" );
 
-        final LocatorRegistry locatorRegistry = (LocatorRegistry)componentManager.
-            lookup( "org.apache.avalon.camelot.LocatorRegistry" );
+        final Registry locatorRegistry = (Registry)componentManager.
+            lookup( "org.apache.avalon.camelot.Registry/Locator" );
 
         for( int i = 0; i < blocks.length; i++ )
         {
@@ -295,7 +293,7 @@ public class DefaultSarDeployer
 
             BlockInfo info = null;
 
-            try { info = (BlockInfo)infoRegistry.getInfo( className ); }
+            try { info = (BlockInfo)infoRegistry.getInfo( className, BlockInfo.class ); }
             catch( final RegistryException re ) 
             {
                 throw new DeploymentException( "Failed to aquire BlockInfo for " + className, 
@@ -303,7 +301,7 @@ public class DefaultSarDeployer
             }
 
             Locator locator = null;
-            try { locator = locatorRegistry.getLocator( className ); }
+            try { locator = (Locator)locatorRegistry.getInfo( className, Locator.class ); }
             catch( final RegistryException re ) 
             {
                 throw new DeploymentException( "Failed to aquire Locator for " + className, 

@@ -39,9 +39,9 @@ public final class BlockInfoBuilder
         final DependencyInfo dependencies[] = buildDependencies( configuration );
 
         configuration = info.getChild( "meta" );
-        final MetaInfo metaInfo = buildMetaInfo( configuration );
+        final BlockDescriptor descriptor = buildBlockDescriptor( configuration );
 
-        return new DefaultBlockInfo( metaInfo, services, dependencies );
+        return new DefaultBlockInfo( descriptor, services, dependencies );
     }
 
     protected DependencyInfo[] buildDependencies( final Configuration configuration )
@@ -127,7 +127,7 @@ public final class BlockInfoBuilder
         return new Version( major, minor, revision );
     }
 
-    protected MetaInfo buildMetaInfo( final Configuration meta )
+    protected BlockDescriptor buildBlockDescriptor( final Configuration meta )
     {
         if( null == meta ) return null;
 

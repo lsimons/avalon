@@ -18,8 +18,8 @@ import org.apache.avalon.util.Version;
  * 
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
-public class DefaultMetaInfo 
-    implements MetaInfo
+public class DefaultBlockDescriptor 
+    implements BlockDescriptor
 {
     protected Contributor[]   m_contributors;
     protected Version         m_version;
@@ -29,7 +29,7 @@ public class DefaultMetaInfo
     protected URL             m_licenseLocation;
     protected URL             m_updateLocation;
 
-    public DefaultMetaInfo( final Version version )
+    public DefaultBlockDescriptor( final Version version )
     {
         m_version = version;
     }

@@ -15,32 +15,31 @@ package org.apache.phoenix.metainfo;
 public class DefaultBlockInfo
     implements BlockInfo
 {
-    protected final MetaInfo                 m_meta;
-    protected final ServiceInfo              m_services[];
-    protected final DependencyInfo           m_dependencies[];
+    protected final BlockDescriptor          m_descriptor;
+    protected final ServiceInfo[]            m_services;
+    protected final DependencyInfo[]         m_dependencies;
 
     /**
      * Basic constructor that takes as parameters all parts.
      */
-    public DefaultBlockInfo( final MetaInfo meta, 
-                             final ServiceInfo services[], 
-                             final DependencyInfo dependencies[] )
+    public DefaultBlockInfo( final BlockDescriptor descriptor, 
+                             final ServiceInfo[] services, 
+                             final DependencyInfo[] dependencies )
     {
-        m_meta = meta;
+        m_descriptor = descriptor;
         m_services = services;
         m_dependencies = dependencies;
     }
-
     /**
      * Return meta information that is generallly only required by administration tools.
      *
      * It should be loaded on demand and not always present in memory.
      *
-     * @return the MetaInfo
+     * @return the BlockDescriptor
      */
-    public MetaInfo getMetaInfo()
+    public BlockDescriptor getBlockDescriptor()
     {
-        return m_meta;
+        return m_descriptor;
     }
     
     /**
