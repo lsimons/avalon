@@ -76,7 +76,7 @@ import org.apache.avalon.composition.data.ConstructorDirective;
  * a fully qualifed context can be established.</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3.2.2 $ $Date: 2004/01/04 17:23:16 $
+ * @version $Revision: 1.3.2.3 $ $Date: 2004/01/04 20:19:27 $
  */
 public class DefaultContextModel extends DefaultDependent implements ContextModel
 {
@@ -91,7 +91,8 @@ public class DefaultContextModel extends DefaultDependent implements ContextMode
      * The default context implementation class to be used if
      * no context class is defined.
      */
-    public static final Class DEFAULT_CONTEXT_CLASS = DefaultContext.class;
+    public static final Class DEFAULT_CONTEXT_CLASS = 
+      DefaultContext.class;
 
     //==============================================================
     // immutable state
@@ -132,13 +133,15 @@ public class DefaultContextModel extends DefaultDependent implements ContextMode
     {
         super( logger );
 
-        if( null == descriptor ) 
-          throw new NullPointerException( "descriptor" );
+        if( null == descriptor )
+        {
+            throw new NullPointerException( "descriptor" );
+        }
 
         if( null == context ) 
-          throw new NullPointerException( "context" );
-
-        enableLogging( logger );
+        {
+            throw new NullPointerException( "context" );
+        }
 
         m_descriptor = descriptor;
         m_directive = directive;
@@ -180,7 +183,8 @@ public class DefaultContextModel extends DefaultDependent implements ContextMode
             {
                 try
                 {
-                    Object value = m_context.getSystemContext().get( key );
+                    Object value = 
+                      m_context.getSystemContext().get( key );
                     m_map.put( key, value );
                 }
                 catch( ContextException e )
@@ -216,7 +220,6 @@ public class DefaultContextModel extends DefaultDependent implements ContextMode
                 }
                 else
                 {
-
                     //
                     // there are only two context entry models - import
                     // and constructor - identify the model to use then add
@@ -263,7 +266,8 @@ public class DefaultContextModel extends DefaultDependent implements ContextMode
             }
         }
 
-        m_componentContext = createComponentContext( m_context, descriptor, directive );
+        m_componentContext = 
+          createComponentContext( m_context, descriptor, directive );
 
         if( getLogger().isDebugEnabled() )
         {

@@ -89,7 +89,7 @@ import org.apache.excalibur.configuration.CascadingConfiguration;
  * Deployment model defintion.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1.2.1 $ $Date: 2004/01/04 17:23:16 $
+ * @version $Revision: 1.1.2.2 $ $Date: 2004/01/04 20:19:27 $
  */
 public class DefaultComponentModel extends DefaultModel implements ComponentModel
 {
@@ -149,12 +149,7 @@ public class DefaultComponentModel extends DefaultModel implements ComponentMode
     public DefaultComponentModel( ComponentContext context )
       throws ModelException
     {
-        super( 
-          context.getLogger(), 
-          context.getPartitionName(), 
-          context.getProfile().getName(), 
-          context.getProfile().getMode(),
-          context.getContainmentContext().getDependencyGraph() );
+        super( context );
 
         m_context = context;
         m_activation = m_context.getProfile().getActivationPolicy();

@@ -61,7 +61,7 @@ import org.apache.avalon.framework.logger.Logger;
  * Default dependent model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1.2.1 $ $Date: 2004/01/03 22:08:21 $
+ * @version $Revision: 1.1.2.2 $ $Date: 2004/01/04 20:19:27 $
  */
 public class DefaultDependent extends AbstractLogEnabled implements Dependent
 {
@@ -85,7 +85,10 @@ public class DefaultDependent extends AbstractLogEnabled implements Dependent
     */
     public DefaultDependent( final Logger logger )
     {
-        if( logger == null ) throw new NullPointerException( "logger" );
+        if( logger == null )
+        {
+            throw new NullPointerException( "logger" );
+        }
         enableLogging( logger );
     }
 

@@ -59,13 +59,11 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * Abstract model interface.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1.1.1.2.1 $ $Date: 2004/01/04 17:23:16 $
+ * @version $Revision: 1.1.1.1.2.2 $ $Date: 2004/01/04 20:19:27 $
  */
 public interface Model
 {
-    //-----------------------------------------------------------
-    // model features
-    //-----------------------------------------------------------
+    String SEPERATOR = "/"; // ## fix me
 
    /**
     * Return the name of the model.

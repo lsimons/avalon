@@ -60,17 +60,10 @@ import org.apache.avalon.composition.data.ContainmentProfile;
  * Defintion of a working context.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1.1.1.2.2 $ $Date: 2004/01/03 22:08:21 $
+ * @version $Revision: 1.1.1.1.2.3 $ $Date: 2004/01/04 20:19:27 $
  */
-public interface ContainmentContext extends Context
+public interface ContainmentContext extends DeploymentContext
 {
-   /**
-    * Return the logging channel.
-    *
-    * @return the logging channel
-    */
-    Logger getLogger();
-
    /**
     * Return the system context.
     *
@@ -107,21 +100,6 @@ public interface ContainmentContext extends Context
     ContainmentProfile getContainmentProfile();
 
    /**
-    * Return the name that the container has been assigned.
-    *
-    * @return the container name
-    */
-    String getName();
-
-   /**
-    * Return the partition name that the container is 
-    * established with.
-    *
-    * @return the partition name
-    */
-    String getPartitionName();
-
-   /**
     * Return the containment classloader.
     *
     * @return the classloader model
@@ -135,12 +113,4 @@ public interface ContainmentContext extends Context
     * @return the model repository
     */
     ModelRepository getModelRepository();
-
-
-   /**
-    * Return the model dependency graph.
-    *
-    * @return the dependency graph
-    */
-    DependencyGraph getDependencyGraph();
 }

@@ -114,7 +114,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * as a part of a containment deployment model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.13.2.7 $ $Date: 2004/01/04 17:23:16 $
+ * @version $Revision: 1.13.2.8 $ $Date: 2004/01/04 20:19:27 $
  */
 public class DefaultContainmentModel extends DefaultModel 
   implements ContainmentModel
@@ -157,9 +157,6 @@ public class DefaultContainmentModel extends DefaultModel
 
     private final Map m_models = new Hashtable();
 
-    /**
-     * The assigned logging categories.
-     */
     private CategoriesDirective m_categories;
 
     private final LinkedList m_compositionListeners = new LinkedList();
@@ -180,17 +177,19 @@ public class DefaultContainmentModel extends DefaultModel
     public DefaultContainmentModel( final ContainmentContext context )
       throws ModelException
     {
-        super( context.getLogger(), getPath( context ), context.getName(), 
-          context.getContainmentProfile().getMode(), context.getDependencyGraph() );
+        super( context );
 
         m_context = context;
-        if( context.getPartitionName() == null )
+
+        if( null == context.getPartitionName() )
         {
-            m_partition = SEPERATOR;
+            m_partition = Model.SEPERATOR;
         }
         else
         {
-            m_partition = getPath() + getName() + SEPERATOR;
+            m_partition = context.getPartitionName() 
+              + context.getName()
+              + Model.SEPERATOR;
         }
 
         Profile[] profiles = context.getContainmentProfile().getProfiles();
@@ -583,8 +582,10 @@ public class DefaultContainmentModel extends DefaultModel
     private ComponentModel createComponentModel( final DeploymentProfile profile ) 
       throws ModelException
     {
-        if( null == profile ) 
-          throw new NullPointerException( "profile" );
+        if( null == profile )
+        {
+            throw new NullPointerException( "profile" );
+        }
 
         final String name = profile.getName();
         final String partition = getPartition();
@@ -707,7 +708,8 @@ public class DefaultContainmentModel extends DefaultModel
             DefaultContainmentContext context = 
               new DefaultContainmentContext( 
                 logger, m_context.getSystemContext(), 
-                classLoaderModel, modelRepository, graph, home, temp, profile, partition, name );
+                classLoaderModel, modelRepository, graph, 
+                home, temp, profile, partition, name );
 
             //
             // TODO: lookup the profile for a factory declaration, then 
@@ -820,7 +822,8 @@ public class DefaultContainmentModel extends DefaultModel
     * @param directive the block include directive
     * @return the containment model established by the include
     */
-    private ContainmentModel createContainmentModel( BlockIncludeDirective directive )
+    private ContainmentModel createContainmentModel( 
+      BlockIncludeDirective directive )
       throws ModelException
     {
         final String name = directive.getName();
@@ -830,7 +833,8 @@ public class DefaultContainmentModel extends DefaultModel
         {
             if( path.indexOf( ":" ) < 0 )
             {
-                URL anchor = m_context.getSystemContext().getBaseDirectory().toURL();
+                URL anchor = 
+                  m_context.getSystemContext().getBaseDirectory().toURL();
                 URL url = new URL( anchor, path );
                 return createContainmentModel( name, url );
             }
@@ -1070,7 +1074,8 @@ public class DefaultContainmentModel extends DefaultModel
                 else
                 {
                     final String error = 
-                      "Bad path element: " + key + " in path: " + path;
+                      "Bad path element: " + key 
+                      + " in path: " + path;
                     throw new IllegalArgumentException( error );
                 } 
             }
@@ -1118,7 +1123,8 @@ public class DefaultContainmentModel extends DefaultModel
             Type[] types = repository.getTypes( dependency );
             for( int i=0; i<types.length; i++ )
             {
-                Profile[] profiles = repository.getProfiles( types[i] );
+                Profile[] profiles = 
+                  repository.getProfiles( types[i] );
                 for( int j=0; j<profiles.length; j++ )
                 {
                     list.add( profiles[j] );
@@ -1154,8 +1160,10 @@ public class DefaultContainmentModel extends DefaultModel
    /**
     * Return a model relative to a supplied stage descriptor.
     * @param stage the stage descriptor
-    * @return model of a an stage handler or null if the stage is unresolvable
-    * @exception ModelRuntimeException if an error occurs during model establishment
+    * @return model of a an stage handler or null if the 
+    *   stage is unresolvable
+    * @exception ModelRuntimeException if an error occurs 
+    *   during model establishment
     */
     public Model getModel( StageDescriptor stage ) 
       throws ModelRuntimeException
@@ -1183,7 +1191,8 @@ public class DefaultContainmentModel extends DefaultModel
             Type[] types = repository.getTypes( stage );
             for( int i=0; i<types.length; i++ )
             {
-                Profile[] profiles = repository.getProfiles( types[i] );
+                Profile[] profiles = 
+                  repository.getProfiles( types[i] );
                 for( int j=0; j<profiles.length; j++ )
                 {
                     list.add( profiles[j] );
@@ -1201,8 +1210,14 @@ public class DefaultContainmentModel extends DefaultModel
             Profile[] collection = (Profile[]) list.toArray( new Profile[0] );
             ProfileSelector selector = new DefaultProfileSelector();
             Profile profile = selector.select( collection, stage );
-            if( profile != null ) return addModel( profile );
-            return null;
+            if( profile != null ) 
+            {
+                return addModel( profile );
+            }
+            else
+            {
+                return null;
+            }
         }
         catch( Throwable e )
         {
@@ -1240,9 +1255,10 @@ public class DefaultContainmentModel extends DefaultModel
     //==============================================================
 
    /**
-    * Conver a classic url to a jar url.  TIf the supplied url protocol is not 
+    * Conver a classic url to a jar url.  If the supplied url protocol is not 
     * the "jar" protocol, a ne url is created by prepending jar: and adding the 
     * trailing "!/".
+    *
     * @param url the url to convert
     * @return the converted url
     * @exception MalformedURLException if something goes wrong
@@ -1263,23 +1279,29 @@ public class DefaultContainmentModel extends DefaultModel
     }
 
    /**
-    * Create a full deployment profile using a supplied named profile reference.
+    * Create a full deployment profile using a supplied named 
+    * profile reference.
+    *
     * @param profile the named profile reference directive
     * @return the deployment profile
-    * @exception ModelException if an error occurs during profile creation
+    * @exception ModelException if an error occurs during 
+    *    profile creation
     */
-    private DeploymentProfile createDeploymentProfile( NamedDeploymentProfile profile )
+    private DeploymentProfile createDeploymentProfile( 
+      NamedDeploymentProfile profile )
       throws ModelException
     {
         try
         {
-            NamedDeploymentProfile holder = (NamedDeploymentProfile) profile;
+            NamedDeploymentProfile holder = 
+              (NamedDeploymentProfile) profile;
             final String classname = holder.getClassname();
             final String key = holder.getKey();
             TypeRepository repository = 
               m_context.getClassLoaderModel().getTypeRepository();
             Type type = repository.getType( classname );
-            DeploymentProfile template = repository.getProfile( type, key );
+            DeploymentProfile template = 
+              repository.getProfile( type, key );
             return new DeploymentProfile( profile.getName(), template );
         }
         catch( Throwable e )
@@ -1327,11 +1349,13 @@ public class DefaultContainmentModel extends DefaultModel
                     ComponentModel deployment = (ComponentModel) model;
                     if( target.getConfiguration() != null )
                     {
-                        deployment.setConfiguration( target.getConfiguration() );
+                        deployment.setConfiguration( 
+                          target.getConfiguration() );
                     }
                     if( target.getCategoriesDirective() != null )
                     {
-                        deployment.setCategories( target.getCategoriesDirective() );
+                        deployment.setCategories( 
+                          target.getCategoriesDirective() );
                     }
                 }
                 else if( model instanceof ContainmentModel )
@@ -1339,7 +1363,8 @@ public class DefaultContainmentModel extends DefaultModel
                     ContainmentModel containment = (ContainmentModel) model;
                     if( target.getCategoriesDirective() != null )
                     {
-                        containment.setCategories( target.getCategoriesDirective() );
+                        containment.setCategories( 
+                          target.getCategoriesDirective() );
                     }
                 }
             }

@@ -70,12 +70,14 @@ import org.apache.avalon.meta.info.EntryDescriptor;
 
 
 /**
- * Default implementation of a deployment context.
+ * Default implementation of a deployment context that is used
+ * as the primary constructor argument when creating a new component
+ * model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1.2.1 $ $Date: 2004/01/04 17:23:16 $
+ * @version $Revision: 1.1.2.2 $ $Date: 2004/01/04 20:19:27 $
  */
-public class DefaultComponentContext extends DefaultContext 
+public class DefaultComponentContext extends DefaultDeploymentContext 
   implements ComponentContext
 {
     //==============================================================
@@ -89,8 +91,6 @@ public class DefaultComponentContext extends DefaultContext
     // immutable state
     //==============================================================
 
-    private final String m_name;
-
     private final ContainmentContext m_context;
 
     private final DeploymentProfile m_profile;
@@ -102,10 +102,6 @@ public class DefaultComponentContext extends DefaultContext
     private final File m_home;
 
     private final File m_temp;
-
-    private final Logger m_logger;
-
-    private final String m_partition;
 
    /**
     * Map containing context entry models 
@@ -136,13 +132,17 @@ public class DefaultComponentContext extends DefaultContext
       DeploymentProfile profile, Type type, Class clazz, 
       File home, File temp, String partition )
     {
+        super( 
+          logger, partition, name, profile.getMode(),
+          context.getDependencyGraph() );
+
+        if( partition == null )
+        {
+            throw new NullPointerException( "partition" );
+        }
         if( context == null )
         {
             throw new NullPointerException( "context" );
-        }
-        if( logger == null )
-        {
-            throw new NullPointerException( "logger" );
         }
         if( clazz == null )
         {
@@ -155,10 +155,6 @@ public class DefaultComponentContext extends DefaultContext
         if( profile == null )
         {
             throw new NullPointerException( "profile" );
-        }
-        if( partition == null )
-        {
-            throw new NullPointerException( "partition" );
         }
 
         if( home.exists() && !home.isDirectory() )
@@ -174,41 +170,17 @@ public class DefaultComponentContext extends DefaultContext
             throw new IllegalArgumentException( error );
         }
 
-        m_name = name;
         m_home = home;
         m_temp = temp;
         m_context = context;
         m_type = type;
-        m_logger = logger;
         m_profile = profile;
-        m_partition = partition;
         m_class = clazz;
-
     }
 
     //==============================================================
     // ContainmentContext
     //==============================================================
-
-   /**
-    * Return the partition name that the component will execute within.
-    *
-    * @return the partition name
-    */
-    public String getPartitionName()
-    {
-        return m_partition;
-    }
-
-   /**
-    * Return the name that the component will execute under.
-    *
-    * @return the name
-    */
-    public String getName()
-    {
-        return m_name;
-    }
 
    /**
     * Return the system context.
@@ -248,16 +220,6 @@ public class DefaultComponentContext extends DefaultContext
     public File getTempDirectory()
     {
         return m_temp;
-    }
-
-   /**
-    * Return the logging channel.
-    *
-    * @return the logging channel
-    */
-    public Logger getLogger()
-    {
-        return m_logger;
     }
 
    /**
