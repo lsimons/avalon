@@ -51,8 +51,8 @@ package org.apache.avalon.fortress.impl.handler;
 
 import org.apache.avalon.excalibur.logger.LoggerManager;
 import org.apache.avalon.fortress.util.LifecycleExtensionManager;
-import org.apache.avalon.framework.component.WrapperComponentManager;
 import org.apache.avalon.framework.component.Composable;
+import org.apache.avalon.framework.component.WrapperComponentManager;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.context.Context;
@@ -71,7 +71,7 @@ import org.apache.excalibur.mpool.ObjectFactory;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
- * @version CVS $Revision: 1.12 $ $Date: 2003/03/19 12:51:52 $
+ * @version CVS $Revision: 1.13 $ $Date: 2003/03/19 12:55:46 $
  * @since 4.0
  */
 public class ComponentFactory

@@ -50,7 +50,6 @@
 package org.apache.avalon.fortress.impl.lookup;
 
 import java.util.Map;
-
 import org.apache.avalon.fortress.Container;
 import org.apache.avalon.fortress.impl.AbstractContainer;
 import org.apache.avalon.fortress.impl.handler.ComponentHandler;
@@ -67,7 +66,7 @@ import org.apache.commons.collections.StaticBucketMap;
  * the references.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.8 $ $Date: 2003/03/19 12:48:49 $
+ * @version CVS $Revision: 1.9 $ $Date: 2003/03/19 12:55:47 $
  */
 public class FortressServiceManager
     implements ServiceManager

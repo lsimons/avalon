@@ -50,7 +50,6 @@
 package org.apache.avalon.fortress.util;
 
 import java.io.File;
-
 import org.apache.avalon.excalibur.logger.LoggerManager;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.context.Context;
@@ -62,7 +61,7 @@ import org.apache.excalibur.mpool.PoolManager;
 /**
  * Helper class to create a context for the ContextManager.
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.5 $ $Date: 2003/03/19 12:48:34 $
+ * @version CVS $Revision: 1.6 $ $Date: 2003/03/19 12:55:48 $
  * @deprecated Replaced with FortressConfig
  */
 public class ContextBuilder

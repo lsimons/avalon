@@ -55,7 +55,7 @@ import org.apache.avalon.framework.configuration.Configuration;
  * A class holding metadata about a component handler.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2003/03/05 15:02:33 $
+ * @version $Revision: 1.4 $ $Date: 2003/03/19 12:55:45 $
  */
 public class ComponentHandlerMetaData
 {
@@ -64,13 +64,13 @@ public class ComponentHandlerMetaData
     private final Configuration m_configuration;
     private final boolean m_lazyActivation;
 
-   /**
-    * Creation of a new impl handler meta data instance.
-    * @param name the handler name
-    * @param classname the handler classname
-    * @param configuration the handler configuration
-    * @param laxyActivation the activation policy
-    */
+    /**
+     * Creation of a new impl handler meta data instance.
+     * @param name the handler name
+     * @param classname the handler classname
+     * @param configuration the handler configuration
+     * @param laxyActivation the activation policy
+     */
     public ComponentHandlerMetaData( final String name,
                                      final String classname,
                                      final Configuration configuration,
@@ -95,37 +95,37 @@ public class ComponentHandlerMetaData
         m_lazyActivation = lazyActivation;
     }
 
-   /**
-    * Returns the handler name
-    * @return the handler name
-    */
+    /**
+     * Returns the handler name
+     * @return the handler name
+     */
     public String getName()
     {
         return m_name;
     }
 
-   /**
-    * Returns the handler classname
-    * @return the classname
-    */
+    /**
+     * Returns the handler classname
+     * @return the classname
+     */
     public String getClassname()
     {
         return m_classname;
     }
 
-   /**
-    * Returns the handler configuration
-    * @return the configuration
-    */
+    /**
+     * Returns the handler configuration
+     * @return the configuration
+     */
     public Configuration getConfiguration()
     {
         return m_configuration;
     }
 
-   /**
-    * Returns the handler activation policy
-    * @return the activation policy
-    */
+    /**
+     * Returns the handler activation policy
+     * @return the activation policy
+     */
     public boolean isLazyActivation()
     {
         return m_lazyActivation;

@@ -59,7 +59,7 @@ import org.apache.avalon.framework.context.Context;
  * calls relevent Lifecycle Extension handlers at the right time.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.7 $ $Date: 2003/03/07 20:21:26 $
+ * @version CVS $Revision: 1.8 $ $Date: 2003/03/19 12:55:46 $
  */
 public class LEAwareComponentHandler
     implements ComponentHandler, Disposable
@@ -68,12 +68,12 @@ public class LEAwareComponentHandler
     private final LifecycleExtensionManager m_extManager;
     private final Context m_context;
 
-   /**
-    * Creation of a new handler.
-    * @param componentHandler the handler
-    * @param extManager the extension manager
-    * @param context the context
-    */
+    /**
+     * Creation of a new handler.
+     * @param componentHandler the handler
+     * @param extManager the extension manager
+     * @param context the context
+     */
     public LEAwareComponentHandler( final ComponentHandler componentHandler,
                                     final LifecycleExtensionManager extManager,
                                     final Context context )
@@ -107,10 +107,10 @@ public class LEAwareComponentHandler
         return m_componentHandler.getComponentClass();
     }
 
-   /**
-    * Prepare the handler.
-    * @exception Exception if a handler preparation error occurs
-    */
+    /**
+     * Prepare the handler.
+     * @exception Exception if a handler preparation error occurs
+     */
     public void prepareHandler()
         throws Exception
     {
@@ -148,9 +148,9 @@ public class LEAwareComponentHandler
         m_componentHandler.put( component );
     }
 
-   /**
-    * Disposal of the handler.
-    */
+    /**
+     * Disposal of the handler.
+     */
     public void dispose()
     {
         ContainerUtil.dispose( m_componentHandler );

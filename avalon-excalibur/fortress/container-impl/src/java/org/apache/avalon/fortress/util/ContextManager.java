@@ -53,7 +53,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
-
 import org.apache.avalon.excalibur.logger.LogKitLoggerManager;
 import org.apache.avalon.excalibur.logger.LoggerManager;
 import org.apache.avalon.fortress.RoleManager;
@@ -116,7 +115,7 @@ import org.apache.log.Priority;
  * and dispose of them properly when it itself is disposed .</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.8 $ $Date: 2003/03/13 06:04:56 $
+ * @version CVS $Revision: 1.9 $ $Date: 2003/03/19 12:55:48 $
  * @since 4.1
  */
 public class ContextManager
@@ -269,7 +268,7 @@ public class ContextManager
                 }
                 catch( ContextException cex )
                 {
-                    getLogger().debug("Could not initialize the Configuration", ce);
+                    getLogger().debug( "Could not initialize the Configuration", ce );
                     // Guess there is none.
                     return;
                 }
@@ -297,7 +296,7 @@ public class ContextManager
         catch( ContextException ce )
         {
             getLogger().debug( "Could not copy Context parameters.  This may be Ok depending on "
-                + "other configured context values." );
+                               + "other configured context values." );
         }
     }
 
@@ -326,9 +325,9 @@ public class ContextManager
 
             try
             {
-                if (getLogger().isDebugEnabled()) getLogger().debug("Shutting down: " + o);
+                if( getLogger().isDebugEnabled() ) getLogger().debug( "Shutting down: " + o );
                 ContainerUtil.shutdown( o );
-                if (getLogger().isDebugEnabled()) getLogger().debug("Done.");
+                if( getLogger().isDebugEnabled() ) getLogger().debug( "Done." );
             }
             catch( Exception e )
             {
@@ -545,7 +544,7 @@ public class ContextManager
         catch( ContextException ce )
         {
             getLogger().debug( "Could not copy context entry: " + RoleManager.ROLE
-                + ".  This may be Ok depending on other configured context values." );
+                               + ".  This may be Ok depending on other configured context values." );
         }
 
         Configuration roleConfig =
@@ -563,7 +562,7 @@ public class ContextManager
             }
             catch( ContextException ce )
             {
-                getLogger().debug("Could not initialize the RoleManager", ce);
+                getLogger().debug( "Could not initialize the RoleManager", ce );
                 // No RoleManager available anywhere.
                 roleConfig = EMPTY_CONFIG;
             }
@@ -641,7 +640,7 @@ public class ContextManager
         catch( ContextException ce )
         {
             getLogger().debug( "A preloaded Configuration was not found for key: " + configKey
-                + "  This may be Ok depending on other configured context values." );
+                               + "  This may be Ok depending on other configured context values." );
         }
 
         String configUri = null;
@@ -652,7 +651,7 @@ public class ContextManager
         catch( ContextException ce )
         {
             getLogger().debug( "A configuration URI was not specified either: " + uriKey
-                + "  One or the other is required." );
+                               + "  One or the other is required." );
             return null;
         }
 
@@ -930,20 +929,20 @@ public class ContextManager
 
         public int compare( Object a, Object b )
         {
-            int typeA = typeOf(a);
-            int typeB = typeOf(b);
+            int typeA = typeOf( a );
+            int typeB = typeOf( b );
 
-            if (typeA < typeB) return -1;
-            if (typeA > typeB) return 1;
+            if( typeA < typeB ) return -1;
+            if( typeA > typeB ) return 1;
             return 0;
         }
 
-        private int typeOf(Object obj)
+        private int typeOf( Object obj )
         {
             int retVal = 1; // Doesn't matter the type
 
-            if (obj instanceof CommandManager) retVal = 0;
-            if (obj instanceof ThreadManager) retVal = 2;
+            if( obj instanceof CommandManager ) retVal = 0;
+            if( obj instanceof ThreadManager ) retVal = 2;
 
             return retVal;
         }

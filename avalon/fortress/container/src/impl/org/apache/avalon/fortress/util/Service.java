@@ -54,7 +54,6 @@
  */
 package org.apache.avalon.fortress.util;
 
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -89,7 +88,8 @@ public final class Service
      * Private constructor to keep from instantiating this class
      */
     private Service()
-    {}
+    {
+    }
 
     /**
      * Get all the providers for the specified services.
@@ -108,7 +108,7 @@ public final class Service
             loader = klass.getClassLoader();
         }
 
-        Set providerSet = ( Set )providers.get( serviceFile );
+        Set providerSet = (Set)providers.get( serviceFile );
 
         if( null == providerSet )
         {
@@ -133,11 +133,11 @@ public final class Service
                 {
                     try
                     {
-                        URL url = ( URL )enum.nextElement();
+                        URL url = (URL)enum.nextElement();
                         InputStream is = url.openStream();
                         BufferedReader reader = new BufferedReader(
                             new InputStreamReader( is,
-                            "UTF-8" ) );
+                                                   "UTF-8" ) );
 
                         String line = reader.readLine();
                         while( null != line )

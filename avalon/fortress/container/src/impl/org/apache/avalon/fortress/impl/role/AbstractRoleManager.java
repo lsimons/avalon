@@ -51,7 +51,6 @@ package org.apache.avalon.fortress.impl.role;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import org.apache.avalon.fortress.RoleManager;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 
@@ -60,16 +59,16 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * the information is hard-coded.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.5 $ $Date: 2003/03/17 20:55:37 $
+ * @version CVS $Revision: 1.6 $ $Date: 2003/03/19 12:55:48 $
  * @since 4.1
  */
 public abstract class AbstractRoleManager
     extends AbstractLogEnabled
     implements org.apache.avalon.fortress.RoleManager
 {
-   /**
-    * The classloader used to load and check roles and components.
-    */
+    /**
+     * The classloader used to load and check roles and components.
+     */
     private final ClassLoader m_loader;
 
     /**
@@ -125,13 +124,13 @@ public abstract class AbstractRoleManager
         m_parent = parent;
     }
 
-   /**
-    * Addition of a role to the role manager.
-    * @param shortName the shor name for the role
-    * @param role the role
-    * @param classname the class name
-    * @param handlerClassName the handler classname
-    */
+    /**
+     * Addition of a role to the role manager.
+     * @param shortName the shor name for the role
+     * @param role the role
+     * @param classname the class name
+     * @param handlerClassName the handler classname
+     */
     protected void addRole( final String shortName,
                             final String role,
                             final String className,
@@ -205,11 +204,11 @@ public abstract class AbstractRoleManager
         }
     }
 
-   /**
-    * Return a role name relative to a supplied short name
-    * @param shortname the short name
-    * @return the role entry
-    */
+    /**
+     * Return a role name relative to a supplied short name
+     * @param shortname the short name
+     * @return the role entry
+     */
     public org.apache.avalon.fortress.RoleEntry getRoleForShortName( final String shortname )
     {
         final org.apache.avalon.fortress.RoleEntry roleEntry = (org.apache.avalon.fortress.RoleEntry)m_shorthands.get( shortname );
@@ -226,11 +225,11 @@ public abstract class AbstractRoleManager
             return null;
         }
     }
-    
+
     /**
      * Get the classloader used for the RoleManager for any class that
      * extends this one.
-     * 
+     *
      * @return ClassLoader
      */
     protected ClassLoader getLoader()

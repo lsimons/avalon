@@ -12,10 +12,11 @@ public class CompositeException extends Exception
     {
         this( ex, null );
     }
+
     public CompositeException( Exception[] ex, String message )
     {
         m_ex = ex;
-        if( ex == null || ex.length < 1)
+        if( ex == null || ex.length < 1 )
         {
             throw new IllegalArgumentException( "you must specify a contained exception!" );
         }
@@ -24,7 +25,7 @@ public class CompositeException extends Exception
             final StringBuffer msg = new StringBuffer();
             for( int i = 0; i < ex.length; i++ )
             {
-                msg.append( ex[i].getMessage() );
+                msg.append( ex[ i ].getMessage() );
             }
             m_message = msg.toString();
         }
@@ -36,6 +37,7 @@ public class CompositeException extends Exception
     {
         return m_ex;
     }
+
     public String toString()
     {
         return m_message;

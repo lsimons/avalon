@@ -62,7 +62,7 @@ import org.apache.excalibur.mpool.PoolManager;
  * and destroyed correctly.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.3 $ $Date: 2003/03/19 12:53:56 $
+ * @version CVS $Revision: 1.4 $ $Date: 2003/03/19 12:55:46 $
  * @since 4.0
  */
 public final class PoolableComponentHandler
@@ -92,13 +92,13 @@ public final class PoolableComponentHandler
             (PoolManager)serviceManager.lookup( PoolManager.ROLE );
     }
 
-   /**
-    * Configuration of the handler under which the minimum pool size
-    * is established.
-    * @param configuration the configuration fragment
-    * @exception ConfigurationException if the supplied configuration attribute 
-    *    for 'pool-min' cannot be resolved to an integer value
-    */
+    /**
+     * Configuration of the handler under which the minimum pool size
+     * is established.
+     * @param configuration the configuration fragment
+     * @exception ConfigurationException if the supplied configuration attribute
+     *    for 'pool-min' cannot be resolved to an integer value
+     */
     public void configure( final Configuration configuration )
         throws ConfigurationException
     {

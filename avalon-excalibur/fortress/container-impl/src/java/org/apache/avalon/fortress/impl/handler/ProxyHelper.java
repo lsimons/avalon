@@ -52,7 +52,6 @@ package org.apache.avalon.fortress.impl.handler;
 import java.io.Serializable;
 import java.lang.reflect.Proxy;
 import java.util.ArrayList;
-
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.activity.Startable;

@@ -50,7 +50,6 @@
 package org.apache.avalon.fortress.impl.lookup;
 
 import java.util.Map;
-
 import org.apache.avalon.fortress.Container;
 import org.apache.avalon.fortress.impl.handler.ComponentHandler;
 import org.apache.avalon.framework.service.ServiceException;
@@ -63,7 +62,7 @@ import org.apache.commons.collections.StaticBucketMap;
  * the references.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.5 $ $Date: 2003/02/27 20:04:53 $
+ * @version CVS $Revision: 1.6 $ $Date: 2003/03/19 12:55:47 $
  */
 public class FortressServiceSelector
     implements ServiceSelector
@@ -72,11 +71,11 @@ public class FortressServiceSelector
     private final Container m_container;
     private final Map m_used;
 
-   /**
-    * Creation of  new service selector.
-    * @param container the impl
-    * @param key a key
-    */
+    /**
+     * Creation of  new service selector.
+     * @param container the impl
+     * @param key a key
+     */
     public FortressServiceSelector( final Container container,
                                     final String key )
     {
@@ -101,7 +100,7 @@ public class FortressServiceSelector
         {
             final ComponentHandler handler = getHandler( hint );
             final Object component = handler.get();
-            m_used.put( new ComponentKey(component), handler );
+            m_used.put( new ComponentKey( component ), handler );
             return component;
         }
         catch( final ServiceException ce )
@@ -124,7 +123,7 @@ public class FortressServiceSelector
     public void release( Object component )
     {
         final ComponentHandler handler =
-            (ComponentHandler)m_used.remove( new ComponentKey(component) );
+            (ComponentHandler)m_used.remove( new ComponentKey( component ) );
         if( null != handler )
         {
             handler.put( component );

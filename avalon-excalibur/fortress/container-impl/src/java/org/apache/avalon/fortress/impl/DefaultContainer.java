@@ -60,7 +60,7 @@ import org.apache.avalon.framework.service.ServiceManager;
  * adding configuration markup semantics to the {@link AbstractContainer}.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.5 $ $Date: 2003/02/25 16:28:33 $
+ * @version CVS $Revision: 1.6 $ $Date: 2003/03/19 12:55:46 $
  */
 public class DefaultContainer
     extends AbstractContainer
@@ -103,11 +103,11 @@ public class DefaultContainer
         {
             final Configuration element = elements[ i ];
             final String hint = element.getAttribute( "id", null );
-            if ( null == hint )
+            if( null == hint )
             {
                 // Only components with an id attribute are treated as components.
                 getLogger().debug( "Ignoring configuration for component, " + element.getName()
-                    + ", because the id attribute is missing." );
+                                   + ", because the id attribute is missing." );
             }
             else
             {
@@ -120,9 +120,9 @@ public class DefaultContainer
                 {
                     addComponent( metaData );
                 }
-                catch (Exception e)
+                catch( Exception e )
                 {
-                    throw new ConfigurationException("Could not add component", e);
+                    throw new ConfigurationException( "Could not add component", e );
                 }
             }
         }

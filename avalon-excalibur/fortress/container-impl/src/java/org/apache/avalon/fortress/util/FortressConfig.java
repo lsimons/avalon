@@ -50,7 +50,6 @@
 package org.apache.avalon.fortress.util;
 
 import java.io.File;
-
 import org.apache.avalon.excalibur.logger.LoggerManager;
 import org.apache.avalon.fortress.impl.DefaultContainer;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -64,7 +63,7 @@ import org.apache.excalibur.mpool.PoolManager;
 
 /**
  * Helper class to create a m_context for the ContextManager.
- * @version CVS $Revision: 1.5 $ $Date: 2003/03/07 20:21:26 $
+ * @version CVS $Revision: 1.6 $ $Date: 2003/03/19 12:55:48 $
  */
 public class FortressConfig
 {
@@ -163,7 +162,7 @@ public class FortressConfig
     {
         m_context.put( ContextManagerConstants.SERVICE_MANAGER, componentManager );
     }
-    
+
     public void setLifecycleExtensionManager( final LifecycleExtensionManager extensionManager )
     {
         m_context.put( LifecycleExtensionManager.ROLE, extensionManager );

@@ -68,21 +68,21 @@ public class InstrumentableCreator extends AbstractCreator
 {
     private final InstrumentManager m_instrumentManager;
     private final boolean m_instrumentEnabled;
-    
-    public InstrumentableCreator(InstrumentManager instrumentManager)
+
+    public InstrumentableCreator( InstrumentManager instrumentManager )
     {
         m_instrumentManager = instrumentManager;
         m_instrumentEnabled = instrumentManager != null;
     }
-    
+
     /**
      * Assign the instrumentables and InstrumentManageables
      */
-    public void create(Object object, Context context) throws Exception
+    public void create( Object object, Context context ) throws Exception
     {
         if( m_instrumentEnabled && object instanceof Instrumentable )
         {
-            String instrumentableName = (String)context.get("component.name");
+            String instrumentableName = (String)context.get( "component.name" );
             final Instrumentable instrumentable = (Instrumentable)object;
             instrumentable.setInstrumentableName( instrumentableName );
 
@@ -91,7 +91,7 @@ public class InstrumentableCreator extends AbstractCreator
                 instrumentable, instrumentable.getInstrumentableName() );
 
         }
-        
+
         if( m_instrumentEnabled && object instanceof InstrumentManageable )
         {
             ( (InstrumentManageable)object ).setInstrumentManager( m_instrumentManager );

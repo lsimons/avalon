@@ -57,25 +57,25 @@ import org.apache.avalon.framework.context.DefaultContext;
  * in a parent context.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.2 $ $Date: 2003/02/07 16:08:12 $
+ * @version CVS $Revision: 1.3 $ $Date: 2003/03/19 12:55:48 $
  */
 public final class OverridableContext
     extends DefaultContext
 {
-   /**
-    * Creation of a new overridable context.
-    * @param parent the parent context
-    */
+    /**
+     * Creation of a new overridable context.
+     * @param parent the parent context
+     */
     public OverridableContext( Context parent )
     {
         super( parent );
     }
 
-   /**
-    * Add a context entry to the context.
-    * @param key the context key
-    * @param value the context value
-    */
+    /**
+     * Add a context entry to the context.
+     * @param key the context key
+     * @param value the context value
+     */
     public void put( final Object key, final Object value )
     {
         if( null == value )

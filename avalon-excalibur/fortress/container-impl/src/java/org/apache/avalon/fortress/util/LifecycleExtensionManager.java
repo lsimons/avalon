@@ -53,7 +53,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.lifecycle.Accessor;
@@ -78,7 +77,7 @@ import org.apache.avalon.lifecycle.Creator;
  * </p>
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Revision: 1.2 $ $Date: 2003/03/11 14:09:41 $
+ * @version CVS $Revision: 1.3 $ $Date: 2003/03/19 12:55:48 $
  */
 public class LifecycleExtensionManager
     extends AbstractLogEnabled
@@ -302,6 +301,7 @@ public class LifecycleExtensionManager
     {
         m_creatorExtensions.clear();
     }
+
     // Lifecycle method constants, these are passed to executeExtensions()
     protected static final int ACCESS = 0;
     protected static final int RELEASE = 1;
