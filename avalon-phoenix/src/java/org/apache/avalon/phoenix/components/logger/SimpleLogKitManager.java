@@ -5,11 +5,14 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE file.
  */
-package org.apache.avalon.phoenix.components.frame;
+package org.apache.avalon.phoenix.components.logger;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
+import org.apache.avalon.excalibur.logger.LogKitManager;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
@@ -18,9 +21,6 @@ import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.AbstractLoggable;
 import org.apache.avalon.framework.logger.AvalonFormatter;
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.avalon.excalibur.logger.LogKitManager;
 import org.apache.log.Hierarchy;
 import org.apache.log.LogTarget;
 import org.apache.log.Logger;
@@ -28,7 +28,8 @@ import org.apache.log.Priority;
 import org.apache.log.output.io.FileTarget;
 
 /**
- * Support for old style configuration. 
+ * A <code>LogKitManager</code> that supports the old &lt;logs version="1.0"/&gt; 
+ * style logging configuration.
  *
  * @author <a href="mailto:colus@isoft.co.kr">Eung-ju Park</a>
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
@@ -55,12 +56,12 @@ public class SimpleLogKitManager
         m_baseDirectory = (File)context.get( "app.home" );
     }
 
-    public void configure( final Configuration conf )
+    public void configure( final Configuration configuration )
         throws ConfigurationException
     {
-        final Configuration[] targets = conf.getChildren( "log-target" );
+        final Configuration[] targets = configuration.getChildren( "log-target" );
         final HashMap targetSet = configureTargets( targets );
-        final Configuration[] categories = conf.getChildren( "category" );
+        final Configuration[] categories = configuration.getChildren( "category" );
         configureCategories( categories, targetSet );
     }
 
@@ -95,14 +96,14 @@ public class SimpleLogKitManager
 
             //Setup logtarget
             FileTarget logTarget = null;
-            
             try
             {
                 logTarget = new FileTarget( file.getAbsoluteFile(), false, formatter );
             }
             catch( final IOException ioe )
             {
-                final String message = REZ.getString( "frame.error.log.create", file );
+                final String message = 
+                    REZ.getString( "target.nocreate", name, file, ioe.getMessage() );
                 throw new ConfigurationException( message, ioe );
             }
 
@@ -134,14 +135,14 @@ public class SimpleLogKitManager
             final LogTarget logTarget = (LogTarget)targets.get( target );
             if( null == target )
             {
-                final String message = REZ.getString( "frame.error.target.locate", target );
+                final String message = REZ.getString( "unknown-target", target, name );
                 throw new ConfigurationException( message );
             }
 
             final Priority priority = Priority.getPriorityForName( priorityName );
             if( !priority.getName().equals( priorityName ) )
             {
-                final String message = REZ.getString( "frame.error.priority.unknown", priorityName );
+                final String message = REZ.getString( "unknown-priority", priorityName, name );
                 throw new ConfigurationException( message );
             }
 
