@@ -65,7 +65,7 @@ import org.apache.log.Hierarchy;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
  * @author <a href="http://cvs.apache.org/~atagunov">Anton Tagunov</a>
- * @version CVS $Revision: 1.3 $ $Date: 2003/06/11 12:14:45 $
+ * @version CVS $Revision: 1.1 $ $Date: 2003/06/11 10:52:11 $
  * @since 4.0
  */
 public class LogKitAdapter extends AbstractLogEnabled implements LoggerManager
@@ -87,33 +87,10 @@ public class LogKitAdapter extends AbstractLogEnabled implements LoggerManager
 
     /**
      * Return the Logger for the specified category.
-     * <p>
-     *
-     * In LogKit getRootLogger() and getLoggerFor("")
-     * unless the logger for category "" has been explicitly
-     * configured return identically configured but different
-     * loggers.
-     *
-     * <p>
-     * Our LogKitConfHelper configures getRootLogger(), not getLoggerFor("").
-     * We think this is a reasonable behavior and expect that LogKit
-     * Hierarchies configured by other means then LogKitConfHelper are
-     * configured in the same way.
-     * 
-     * <p>
-     * This justifies our decision to return getRootLogger() when given
-     * "" category name.
      */
     public Logger getLoggerForCategory( final String categoryName )
     {
-        if ( categoryName == null || categoryName.length() == 0 )
-        {
-            return getDefaultLogger();
-        }
-        else
-        {
-            return new LogKitLogger( m_hierarchy.getLoggerFor( categoryName ) );
-        }
+        return new LogKitLogger( m_hierarchy.getLoggerFor( categoryName ) );
     }
 
     /**

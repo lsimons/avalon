@@ -1,66 +1,22 @@
 /*
-
- ============================================================================
-                   The Apache Software License, Version 1.1
- ============================================================================
-
- Copyright (C) 1999-2003 The Apache Software Foundation. All rights reserved.
-
- Redistribution and use in source and binary forms, with or without modifica-
- tion, are permitted provided that the following conditions are met:
-
- 1. Redistributions of  source code must  retain the above copyright  notice,
-    this list of conditions and the following disclaimer.
-
- 2. Redistributions in binary form must reproduce the above copyright notice,
-    this list of conditions and the following disclaimer in the documentation
-    and/or other materials provided with the distribution.
-
- 3. The end-user documentation included with the redistribution, if any, must
-    include  the following  acknowledgment:  "This product includes  software
-    developed  by the  Apache Software Foundation  (http://www.apache.org/)."
-    Alternately, this  acknowledgment may  appear in the software itself,  if
-    and wherever such third-party acknowledgments normally appear.
-
- 4. The names "Jakarta", "Avalon", "Excalibur" and "Apache Software Foundation"
-    must not be used to endorse or promote products derived from this  software
-    without  prior written permission. For written permission, please contact
-    apache@apache.org.
-
- 5. Products  derived from this software may not  be called "Apache", nor may
-    "Apache" appear  in their name,  without prior written permission  of the
-    Apache Software Foundation.
-
- THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES,
- INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- FITNESS  FOR A PARTICULAR  PURPOSE ARE  DISCLAIMED.  IN NO  EVENT SHALL  THE
- APACHE SOFTWARE  FOUNDATION  OR ITS CONTRIBUTORS  BE LIABLE FOR  ANY DIRECT,
- INDIRECT, INCIDENTAL, SPECIAL,  EXEMPLARY, OR CONSEQUENTIAL  DAMAGES (INCLU-
- DING, BUT NOT LIMITED TO, PROCUREMENT  OF SUBSTITUTE GOODS OR SERVICES; LOSS
- OF USE, DATA, OR  PROFITS; OR BUSINESS  INTERRUPTION)  HOWEVER CAUSED AND ON
- ANY  THEORY OF LIABILITY,  WHETHER  IN CONTRACT,  STRICT LIABILITY,  OR TORT
- (INCLUDING  NEGLIGENCE OR  OTHERWISE) ARISING IN  ANY WAY OUT OF THE  USE OF
- THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
- This software  consists of voluntary contributions made  by many individuals
- on  behalf of the Apache Software  Foundation. For more  information on the
- Apache Software Foundation, please see <http://www.apache.org/>.
-
-*/
+ * Copyright (C) The Apache Software Foundation. All rights reserved.
+ *
+ * This software is published under the terms of the Apache Software License
+ * version 1.1, a copy of which has been included  with this distribution in
+ * the LICENSE.txt file.
+ */
 package org.apache.avalon.excalibur.logger;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
-import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.logger.LogKitLogger;
 import org.apache.avalon.framework.logger.Loggable;
 import org.apache.log.Hierarchy;
@@ -76,7 +32,7 @@ import org.apache.log.Priority;
  *             supports the new framework Logger interface.
  *
  * @author <a href="mailto:giacomo@apache.org">Giacomo Pati</a>
- * @version CVS $Revision: 1.10 $ $Date: 2003/05/27 07:30:27 $
+ * @version CVS $Revision: 1.1 $ $Date: 2002/04/04 02:34:14 $
  * @since 4.0
  */
 public class DefaultLogKitManager
@@ -190,10 +146,6 @@ public class DefaultLogKitManager
 
     /**
      * Reads a configuration object and creates the category mapping.
-     * If the <code>&lt;categories/&gt;</code> element has an attribute
-     * named <code>debug</code>, it will try to load a configuration file
-     * specified by that attribute.  The contents of that configuration
-     * file will be the same as the <code>&lt;categories/&gt;</code> element.
      *
      * @param configuration  The configuration object.
      * @throws ConfigurationException if the configuration is malformed
@@ -208,31 +160,8 @@ public class DefaultLogKitManager
         final LogTargetManager targetManager = setupTargetManager( targets, targetFactoryManager );
 
         final Configuration categories = configuration.getChild( "categories" );
-        final String debugURL = configuration.getAttribute( "debug", null );
         final Configuration[] category = categories.getChildren( "category" );
         setupLoggers( targetManager, m_prefix, category );
-
-        if( null != debugURL )
-        {
-            try
-            {
-                final File rootContext = (File)m_context.get( "context-root" );
-                DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
-                Configuration debugCategories = builder.buildFromFile( new File( rootContext, debugURL ) );
-                final Configuration[] debugCat = debugCategories.getChildren( "category" );
-                setupLoggers( targetManager, m_prefix, debugCat );
-            }
-            catch( ConfigurationException ce )
-            {
-                throw ce;
-            }
-            catch( Exception e )
-            {
-                getLogger().info( "Either there was no \"debug.xlog\" file, or there was a problem reading it." );
-                getLogger().debug( e.getMessage(), e );
-                // swallow exception because it is not critical.
-            }
-        }
     }
 
     /**
@@ -245,17 +174,24 @@ public class DefaultLogKitManager
         throws ConfigurationException
     {
         final DefaultLogTargetFactoryManager targetFactoryManager = new DefaultLogTargetFactoryManager();
-        ContainerUtil.enableLogging( targetFactoryManager, getLogger() );
-        try
+        if( targetFactoryManager instanceof LogEnabled )
         {
-            ContainerUtil.contextualize( targetFactoryManager, m_context );
+            targetFactoryManager.enableLogging( getLogger() );
         }
-        catch( final ContextException ce )
+
+        if( targetFactoryManager instanceof Contextualizable )
         {
-            final String message = "cannot contextualize default factory manager";
-            throw new ConfigurationException( message, ce );
+            try
+            {
+                targetFactoryManager.contextualize( m_context );
+            }
+            catch( final ContextException ce )
+            {
+                throw new ConfigurationException( "cannot contextualize default factory manager", ce );
+            }
         }
-        ContainerUtil.configure( targetFactoryManager, configuration );
+
+        targetFactoryManager.configure( configuration );
 
         return targetFactoryManager;
     }
@@ -272,15 +208,21 @@ public class DefaultLogKitManager
     {
         final DefaultLogTargetManager targetManager = new DefaultLogTargetManager();
 
-        ContainerUtil.enableLogging( targetManager, getLogger() );
-        try
+        if( targetManager instanceof LogEnabled )
         {
-            ContainerUtil.contextualize( targetManager, m_context );
+            targetManager.enableLogging( getLogger() );
         }
-        catch( final ContextException ce )
+
+        if( targetManager instanceof Contextualizable )
         {
-            final String message = "cannot contextualize factory manager";
-            throw new ConfigurationException( message, ce );
+            try
+            {
+                targetManager.contextualize( m_context );
+            }
+            catch( final ContextException ce )
+            {
+                throw new ConfigurationException( "cannot contextualize factory manager", ce );
+            }
         }
 
         if( targetManager instanceof LogTargetFactoryManageable )
@@ -288,7 +230,11 @@ public class DefaultLogKitManager
             targetManager.setLogTargetFactoryManager( targetFactoryManager );
         }
 
-        ContainerUtil.configure( targetManager, configuration );
+        if( targetManager instanceof Configurable )
+        {
+            targetManager.configure( configuration );
+        }
+
         return targetManager;
     }
 
@@ -332,8 +278,7 @@ public class DefaultLogKitManager
                 fullCategory = parentCategory + Logger.CATEGORY_SEPARATOR + category;
             }
 
-            final Logger logger =
-                m_hierarchy.getLoggerFor( fullCategory );
+            final Logger logger = m_hierarchy.getLoggerFor( fullCategory );
             m_loggers.put( fullCategory, logger );
             if( getLogger().isDebugEnabled() )
             {

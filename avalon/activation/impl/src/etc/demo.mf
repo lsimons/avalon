@@ -1,8 +1,0 @@
-Manifest-Version: 1.0
-Created-By: Apache Avalon
-Extension-List: assembly
-assembly-Extension-Name: avalon-assembly
-assembly-Specification-Version: 1.0
-assembly-Implementation-Vendor-Id: ASF
-assembly-Implementation-Version: 1.0
-

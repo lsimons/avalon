@@ -49,13 +49,12 @@
 */
 package org.apache.avalon.excalibur.logger;
 
-import java.util.HashMap;
 import java.util.Map;
-
-import org.apache.avalon.excalibur.logger.util.LoggerSwitch;
-import org.apache.avalon.excalibur.logger.util.LoggerUtil;
-import org.apache.avalon.framework.logger.LogEnabled;
+import java.util.HashMap;
 import org.apache.avalon.framework.logger.Logger;
+import org.apache.avalon.framework.logger.LogEnabled;
+import org.apache.avalon.framework.activity.Startable;
+import org.apache.avalon.excalibur.logger.util.LoggerSwitch;
 
 /**
  *
@@ -77,8 +76,8 @@ import org.apache.avalon.framework.logger.Logger;
  * @author <a href="mailto:giacomo@apache.org">Giacomo Pati</a>
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
- * @author <a href="http://cvs.apache.org/~atagunov">Anton Tagunov</a>
- * @version CVS $Revision: 1.3 $ $Date: 2003/06/12 18:57:45 $
+ * @author <a href="mailto:tagunov at apache.org">Anton Tagunov</a>
+ * @version CVS $Revision: 1.1 $ $Date: 2003/06/10 08:29:37 $
  * @since 4.0
  */
 public abstract class AbstractLoggerManager
@@ -186,9 +185,9 @@ public abstract class AbstractLoggerManager
         {
             if ( m_logger.isDebugEnabled() )
             {
-                final String message = "LoggerManager: switching logging to " + 
+                final String message = "LogKitLoggerManager: switching logging to " + 
                         "this.getLoggerForCategory('" +
-                        LoggerUtil.getFullCategoryName( m_prefix, m_switchTo) + "').";
+                        getFullCategoryName( m_prefix, m_switchTo) + "').";
                 m_logger.debug( message );
             }
 
@@ -203,9 +202,9 @@ public abstract class AbstractLoggerManager
 
             if ( m_logger.isDebugEnabled() )
             {
-                final String message = "LoggerManager: have switched logging to " + 
+                final String message = "LogKitLoggerManager: have switched logging to " + 
                         "this.getLoggerForCategory('" +
-                        LoggerUtil.getFullCategoryName( m_prefix, m_switchTo) + "').";
+                        getFullCategoryName( m_prefix, m_switchTo) + "').";
                 m_logger.debug( message );
             }
         }
@@ -213,7 +212,7 @@ public abstract class AbstractLoggerManager
         {
             if ( m_logger.isDebugEnabled() )
             {
-                final String message = "LoggerManager: switchTo is null, " +
+                final String message = "LogKitLoggerManager: m_switchTo is null, " +
                         "no switch of our own logging.";
                 m_logger.debug( message );
             }
@@ -223,6 +222,39 @@ public abstract class AbstractLoggerManager
 
     /** Startable.stop() empty implementation. */
     public void stop(){}
+
+    /**
+     * Generates a full category name given a prefix and category.  Either may be
+     *  null.
+     *
+     * @param prefix Prefix or parent category.
+     * @param category Child category name.
+     */
+    protected final String getFullCategoryName( String prefix, String category )
+    {
+        if( ( null == prefix ) || ( prefix.length() == 0 ) )
+        {
+            if( category == null )
+            {
+                return "";
+            }
+            else
+            {
+                return category;
+            }
+        }
+        else
+        {
+            if( ( null == category ) || ( category.length() == 0 ) )
+            {
+                return prefix;
+            }
+            else
+            {
+                return prefix + org.apache.log.Logger.CATEGORY_SEPARATOR + category;
+            }
+        }
+    }
 
     /**
      * Retruns the logger for the <code>""</code> category.
@@ -254,8 +286,7 @@ public abstract class AbstractLoggerManager
             return m_defaultLoggerOverride;
         }
 
-        final String fullCategoryName = 
-                LoggerUtil.getFullCategoryName( m_prefix, categoryName );
+        final String fullCategoryName = getFullCategoryName( m_prefix, categoryName );
 
         final Logger logger;
         final Logger newLogger;

@@ -1,61 +1,18 @@
 /*
-
- ============================================================================
-                   The Apache Software License, Version 1.1
- ============================================================================
-
- Copyright (C) 1999-2003 The Apache Software Foundation. All rights reserved.
-
- Redistribution and use in source and binary forms, with or without modifica-
- tion, are permitted provided that the following conditions are met:
-
- 1. Redistributions of  source code must  retain the above copyright  notice,
-    this list of conditions and the following disclaimer.
-
- 2. Redistributions in binary form must reproduce the above copyright notice,
-    this list of conditions and the following disclaimer in the documentation
-    and/or other materials provided with the distribution.
-
- 3. The end-user documentation included with the redistribution, if any, must
-    include  the following  acknowledgment:  "This product includes  software
-    developed  by the  Apache Software Foundation  (http://www.apache.org/)."
-    Alternately, this  acknowledgment may  appear in the software itself,  if
-    and wherever such third-party acknowledgments normally appear.
-
- 4. The names "Jakarta", "Avalon", "Excalibur" and "Apache Software Foundation"
-    must not be used to endorse or promote products derived from this  software
-    without  prior written permission. For written permission, please contact
-    apache@apache.org.
-
- 5. Products  derived from this software may not  be called "Apache", nor may
-    "Apache" appear  in their name,  without prior written permission  of the
-    Apache Software Foundation.
-
- THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES,
- INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- FITNESS  FOR A PARTICULAR  PURPOSE ARE  DISCLAIMED.  IN NO  EVENT SHALL  THE
- APACHE SOFTWARE  FOUNDATION  OR ITS CONTRIBUTORS  BE LIABLE FOR  ANY DIRECT,
- INDIRECT, INCIDENTAL, SPECIAL,  EXEMPLARY, OR CONSEQUENTIAL  DAMAGES (INCLU-
- DING, BUT NOT LIMITED TO, PROCUREMENT  OF SUBSTITUTE GOODS OR SERVICES; LOSS
- OF USE, DATA, OR  PROFITS; OR BUSINESS  INTERRUPTION)  HOWEVER CAUSED AND ON
- ANY  THEORY OF LIABILITY,  WHETHER  IN CONTRACT,  STRICT LIABILITY,  OR TORT
- (INCLUDING  NEGLIGENCE OR  OTHERWISE) ARISING IN  ANY WAY OUT OF THE  USE OF
- THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
- This software  consists of voluntary contributions made  by many individuals
- on  behalf of the Apache Software  Foundation. For more  information on the
- Apache Software Foundation, please see <http://www.apache.org/>.
-
-*/
+ * Copyright (C) The Apache Software Foundation. All rights reserved.
+ *
+ * This software is published under the terms of the Apache Software License
+ * version 1.1, a copy of which has been included with this distribution in
+ * the LICENSE.txt file.
+ */
 package org.apache.avalon.excalibur.logger;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Collection;
-import java.util.Iterator;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
+import org.apache.avalon.excalibur.logger.LoggerManager;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
@@ -65,12 +22,10 @@ import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.AvalonFormatter;
 import org.apache.avalon.framework.logger.LogKitLogger;
-import org.apache.avalon.framework.activity.Disposable;
 import org.apache.log.Hierarchy;
 import org.apache.log.LogTarget;
 import org.apache.log.Logger;
 import org.apache.log.Priority;
-import org.apache.log.util.Closeable;
 import org.apache.log.output.io.FileTarget;
 
 /**
@@ -83,7 +38,7 @@ import org.apache.log.output.io.FileTarget;
  */
 public class SimpleLogKitManager
     extends AbstractLogEnabled
-    implements LoggerManager, Contextualizable, Configurable, Disposable
+    implements LoggerManager, Contextualizable, Configurable
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( SimpleLogKitManager.class );
@@ -110,7 +65,6 @@ public class SimpleLogKitManager
      */
     private org.apache.avalon.framework.logger.Logger m_logger =
         new LogKitLogger( m_logkitLogger );
-    private Collection m_targets;
 
     /**
      * Contextualize the manager. Requires that the "app.home" entry
@@ -122,14 +76,7 @@ public class SimpleLogKitManager
     public void contextualize( final Context context )
         throws ContextException
     {
-        try
-        {
-            m_baseDirectory = (File)context.get( "app.home" );
-        }
-        catch( ContextException e )
-        {
-            m_baseDirectory = new File( "." );
-        }
+        m_baseDirectory = (File)context.get( "app.home" );
     }
 
     /**
@@ -143,25 +90,8 @@ public class SimpleLogKitManager
     {
         final Configuration[] targets = configuration.getChildren( "log-target" );
         final HashMap targetSet = configureTargets( targets );
-        m_targets = targetSet.values();
         final Configuration[] categories = configuration.getChildren( "category" );
         configureCategories( categories, targetSet );
-    }
-
-    /**
-     * Close any closable log targets opened by LoggerManager.
-     */
-    public void dispose()
-    {
-        final Iterator iterator = m_targets.iterator();
-        while( iterator.hasNext() )
-        {
-            final LogTarget logTarget = (LogTarget)iterator.next();
-            if( logTarget instanceof Closeable )
-            {
-                ( (Closeable)logTarget ).close();
-            }
-        }
     }
 
     /**
@@ -277,8 +207,9 @@ public class SimpleLogKitManager
 
             if( name.equals( "" ) )
             {
-                m_logkitLogger.setPriority( priority );
-                m_logkitLogger.setLogTargets( new LogTarget[] {logTarget} );
+                //TODO: Use m_logkitLogger instead
+                m_hierarchy.setDefaultPriority( priority );
+                m_hierarchy.setDefaultLogTarget( logTarget );
             }
             else
             {
