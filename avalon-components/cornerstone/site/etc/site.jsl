@@ -104,17 +104,7 @@
                 </j:if>
               </td>
 
-              <!-- project logo and link -->
-
-              <td>
-                <div align="right" id="login">
-                  <a href='http://apachecon.com/2003/US/index.html'>
-                    <img border='0' 
-                      src='http://www.apache.org/~ceki/ac2003/ac2003-150.gif'/>
-                  </a>
-                </div>
-              </td>
-
+              <td></td>
               <!--
               <td>
                 <div align="right" id="login">
@@ -131,6 +121,7 @@
                 </div>
               </td>
               -->
+
             </tr>
           </table>
         </div>
@@ -186,11 +177,13 @@
                 <j:if test="${includeProjectDocumentation.equals('yes')}">
                 <div>
                   <strong>Project Documentation</strong>
+                  <!--
                   <div>
                     <small>
                       <a href="${relativePath}/index.html">About ${pom.name}</a>
                     </small>
                   </div>
+                  -->
                   <div>
                     <small>
                       <a href="${relativePath}/project-info.html">Project Info</a>
@@ -291,6 +284,7 @@
                       </j:if>
                     </j:if>
                   </j:if>
+                  <!--
                   <j:set var="devProcess" value="false"/>
                   <util:available file="${maven.docs.src}/development-process.xml">
                     <j:set var="devProcess" value="true"/>
@@ -310,6 +304,7 @@
                       </small>
                     </div>
                   </j:if>
+                  -->
                 </div>
               </j:if>
               

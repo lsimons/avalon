@@ -4,7 +4,7 @@
 
   <pomVersion>3</pomVersion>
   <groupId>cornerstone</groupId>
-  <id>cornerstone-home</id>
+  <id>cornerstone</id>
   <name>Cornerstone Component Suite</name>
   <currentVersion>SNAPSHOT</currentVersion>
 
