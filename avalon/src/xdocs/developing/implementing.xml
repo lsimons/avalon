@@ -1,0 +1,25 @@
+<?xml version="1.0" standalone="no"?>
+
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.1//EN"
+                         "http://www.oasis-open.org/docbook/xml/4.0/docbookx.dtd">
+
+<chapter>
+  <title>Implementing the Dream</title>
+  <subtitle>
+    We will show how you can use Avalon Framework and Avalon Excalibur to
+    realize your services.  We will show just how easy Avalon is to use.
+  </subtitle>
+  <para>
+    After your analysis is complete, you need to create the Components and
+    Services that make up your system.  Avalon would be of little use if it
+    only described some idioms for you to use.  Even then, the use of those
+    idioms and patterns would still help in understanding the overall system.
+    Avalon Excalibur provides some useful Components and utilities that you can
+    incorporate into your own system that will make your life much easier.  For
+    our demonstration, we will go through the process of defining a Component
+    that retrieves a document instance from a repository.  If you recall our
+    discussion about the theoretical Business Server, we identified this
+    Component as a Service.  In practical situations, a Service is a Component
+    that has a larger scope.
+  </para>
+</chapter>
