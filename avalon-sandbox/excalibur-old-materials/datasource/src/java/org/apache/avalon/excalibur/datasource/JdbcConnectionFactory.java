@@ -16,7 +16,7 @@ import java.sql.DriverManager;
  * The Factory implementation for JdbcConnections.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.1 $ $Date: 2001/07/19 07:33:01 $
+ * @version CVS $Revision: 1.2 $ $Date: 2001/07/20 16:23:02 $
  */
 public class JdbcConnectionFactory extends AbstractLoggable implements ObjectFactory
 {
@@ -63,7 +63,11 @@ public class JdbcConnectionFactory extends AbstractLoggable implements ObjectFac
             connection.setAutoCommit(m_autoCommit);
         }
 
-        getLogger().debug( "JdbcConnection object created" );
+        if (getLogger().isDebugEnabled())
+        {
+            getLogger().debug( "JdbcConnection object created" );
+        }
+
         return connection;
     }
 

@@ -21,7 +21,7 @@ import org.apache.avalon.excalibur.pool.DefaultPoolController;
  * <code>java.sql.DriverManager</code>.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.1 $ $Date: 2001/07/19 07:33:01 $
+ * @version CVS $Revision: 1.2 $ $Date: 2001/07/20 16:23:02 $
  */
 public class JdbcDataSource
     extends AbstractLoggable
@@ -44,6 +44,7 @@ public class JdbcDataSource
     {
         if( null == m_pool )
         {
+            final String driver = configuration.getChild( "driver", true).getValue("");
             final String dburl = configuration.getChild( "dburl" ).getValue();
             final String user = configuration.getChild( "user" ).getValue( null );
             final String passwd = configuration.getChild( "password" ).getValue( null );
@@ -57,9 +58,29 @@ public class JdbcDataSource
             final int l_max;
             final int l_min;
 
+            // If driver is specified....
+            if (! "".equals(driver))
+            {
+                try
+                {
+                    Thread.currentThread().getContextClassLoader().loadClass(driver);
+                }
+                catch (ClassNotFoundException cnfe)
+                {
+                    if (getLogger().isWarnEnabled())
+                    {
+                        getLogger().warn( "Could not load driver: " + driver );
+                    }
+                }
+            }
+
             if ( min < 1 )
             {
-                getLogger().warn( "Minumum number of connections specified must be at least 1." );
+                if (getLogger().isWarnEnabled())
+                {
+                    getLogger().warn( "Minumum number of connections specified must be at least 1." );
+                }
+
                 l_min = 1;
             }
             else
@@ -69,15 +90,23 @@ public class JdbcDataSource
 
             if( max < 1 )
             {
-                getLogger().warn( "Maximum number of connections specified must be at least 1." );
+                if (getLogger().isWarnEnabled())
+                {
+                    getLogger().warn( "Maximum number of connections specified must be at least 1." );
+                }
+
                 l_max = 1;
             }
             else
             {
                 if ( max < min )
                 {
-                    getLogger().warn( "Maximum number of connections specified must be " +
-                                      "more than the minimum number of connections." );
+                    if (getLogger().isWarnEnabled())
+                    {
+                        getLogger().warn( "Maximum number of connections specified must be " +
+                                          "more than the minimum number of connections." );
+                    }
+
                     l_max = min + 1;
                 }
                 else
@@ -99,7 +128,11 @@ public class JdbcDataSource
             }
             catch (Exception e)
             {
-                getLogger().debug("Error on configuration", e);
+                if (getLogger().isDebugEnabled())
+                {
+                    getLogger().debug("Error on configuration", e);
+                }
+
                 throw new ConfigurationException("Error on configuration", e);
             }
         }
@@ -112,7 +145,11 @@ public class JdbcDataSource
         try { return (Connection) m_pool.get(); }
         catch( final Exception e )
         {
-            getLogger().error( "Could not return Connection", e );
+            if (getLogger().isErrorEnabled())
+            {
+                getLogger().error( "Could not return Connection", e );
+            }
+
             throw new SQLException( e.getMessage() );
         }
     }
