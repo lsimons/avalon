@@ -82,12 +82,11 @@ public class VersionTestCase
     {
         try
         {
-            Version.getVersion( "" );
-            fail( "Empty string is illegal version string" );
+            assertEquals( -1, Version.getVersion( "" ).getMajor() );
         }
         catch ( final IllegalArgumentException iae )
         {
-            //OK
+            fail( "Empty string is legal version string" );
         }
 
         try
