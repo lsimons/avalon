@@ -76,7 +76,7 @@ class DefaultServiceManager implements ServiceManager
     /**
      * Construct a new ServiceManager.
      * @param model component model of the component that is 
-     *   to be services
+     *   to be serviced.
      */
     public DefaultServiceManager( ComponentModel model )
     {
@@ -91,7 +91,7 @@ class DefaultServiceManager implements ServiceManager
 
         m_map = new Hashtable();
         DependencyModel[] dependencies = model.getDependencyModels();
-        for( int i=0; i<dependencies.length; i++ )
+        for( int i=0; i < dependencies.length; i++ )
         {
             final DependencyModel dependency = dependencies[i];
             
