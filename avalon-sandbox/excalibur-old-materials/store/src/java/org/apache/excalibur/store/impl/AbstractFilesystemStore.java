@@ -76,7 +76,7 @@ import org.apache.excalibur.store.Store;
  *
  * @author ?
  * @author <a href="mailto:vgritsenko@apache.org">Vadim Gritsenko</a>
- * @version CVS $Id: AbstractFilesystemStore.java,v 1.9 2003/03/22 12:46:55 leosimons Exp $
+ * @version CVS $Id: AbstractFilesystemStore.java,v 1.10 2003/07/29 03:58:33 vgritsenko Exp $
  */
 public abstract class AbstractFilesystemStore
 extends AbstractLogEnabled
@@ -141,7 +141,7 @@ implements Store, ThreadSafe {
         final File file = fileFromKey(key);
 
         if (file != null && file.exists()) {
-            if (this.getLogger().isDebugEnabled()) {
+            if (getLogger().isDebugEnabled()) {
                 getLogger().debug("Found file: " + key);
             }
             try {
@@ -150,7 +150,7 @@ implements Store, ThreadSafe {
                 getLogger().error("Error during deseralization.", any);
             }
         } else {
-            if (this.getLogger().isDebugEnabled()) {
+            if (getLogger().isDebugEnabled()) {
                 getLogger().debug("NOT Found file: " + key);
             }
         }
