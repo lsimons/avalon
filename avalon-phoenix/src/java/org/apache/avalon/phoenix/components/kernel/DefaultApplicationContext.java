@@ -10,7 +10,7 @@ package org.apache.avalon.phoenix.components.kernel;
 import java.util.HashMap;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.excalibur.threadcontext.DefaultThreadContextPolicy;
+import org.apache.excalibur.threadcontext.impl.DefaultThreadContextPolicy;
 import org.apache.excalibur.threadcontext.ThreadContext;
 import org.apache.excalibur.threadcontext.ThreadContextPolicy;
 import org.apache.avalon.excalibur.thread.ThreadPool;
@@ -71,7 +71,7 @@ class DefaultApplicationContext
 
         final DefaultThreadContextPolicy policy = new DefaultThreadContextPolicy();
         final HashMap map = new HashMap( 1 );
-        map.put( ThreadContextPolicy.CLASSLOADER, m_classLoader );
+        map.put( DefaultThreadContextPolicy.CLASSLOADER, m_classLoader );
         m_threadContext = new ThreadContext( policy, map );
     }
 
