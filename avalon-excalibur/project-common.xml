@@ -75,6 +75,14 @@
         </mailingList>
     </mailingLists>
 
+    <dependencies>
+        <dependency>
+            <id>junit</id>
+            <version>3.8.1</version>
+            <url>http://www.junit.org/</url>
+        </dependency>
+    </dependencies>
+
     <build>
         <nagEmailAddress>dev@avalon.apache.org</nagEmailAddress>
         <sourceDirectory>src/java</sourceDirectory>
