@@ -10,6 +10,9 @@
     <section name="Javac Task">
       <p>
       </p>
+<source><![CDATA[
+    <x:javac/>
+]]></source>
     </section>
   </body>
 

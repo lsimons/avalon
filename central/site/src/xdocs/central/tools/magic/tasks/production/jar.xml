@@ -10,6 +10,9 @@
     <section name="Jar Task">
       <p>
       </p>
+<source><![CDATA[
+    <x:jar/>
+]]></source>
     </section>
   </body>
 

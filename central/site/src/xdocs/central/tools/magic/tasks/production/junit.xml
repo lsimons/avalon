@@ -10,6 +10,9 @@
     <section name="JUnit Task">
       <p>
       </p>
+<source><![CDATA[
+    <x:junit/>
+]]></source>
     </section>
   </body>
 

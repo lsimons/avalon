@@ -10,6 +10,10 @@
     <section name="Reactor Task">
       <p>
       </p>
+<source><![CDATA[
+    <x:reactor/>
+]]></source>
+
     </section>
   </body>
 

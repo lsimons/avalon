@@ -10,6 +10,10 @@
     <section name="Artifact Task">
       <p>
       </p>
+<source><![CDATA[
+    <x:artifact/>
+]]></source>
+
     </section>
   </body>
 
