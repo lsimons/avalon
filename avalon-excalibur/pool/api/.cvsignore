@@ -6,3 +6,5 @@ dist
 excalibur-*
 *.el
 *.ipr
+target
+*.log
