@@ -71,7 +71,7 @@ import org.apache.avalon.framework.parameters.Parameters;
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
  * @author <a href="mailto:stephan@apache.org">Stephan Michels</a>
- * @version CVS $Revision: 1.6 $ $Date: 2003/04/04 16:36:51 $
+ * @version CVS $Revision: 1.7 $ $Date: 2003/05/20 20:56:43 $
  */
 public final class SourceUtil
 {
@@ -374,8 +374,8 @@ public final class SourceUtil
     {
         // absoluteURI   = scheme ":" ( hier_part | opaque_part )
         //
-		// scheme        = alpha *( alpha | digit | "+" | "-" | "." )
-		//
+        // scheme        = alpha *( alpha | digit | "+" | "-" | "." )
+        //
         // alpha         = lowalpha | upalpha
         //
         // lowalpha = "a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "i" |

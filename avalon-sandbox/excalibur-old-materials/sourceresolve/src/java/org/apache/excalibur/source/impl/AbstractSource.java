@@ -65,7 +65,7 @@ import org.apache.excalibur.source.SourceValidity;
  * Abstract base class for a source implementation.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.10 $ $Date: 2003/03/29 18:53:26 $
+ * @version CVS $Revision: 1.11 $ $Date: 2003/05/20 20:56:43 $
  */
 
 public abstract class AbstractSource
@@ -76,7 +76,7 @@ public abstract class AbstractSource
     private long m_contentLength;
     private String m_systemId;
 
-	private String m_scheme;
+    private String m_scheme;
 
     /**
      * Get the last modification date and content length of the source.
@@ -124,7 +124,7 @@ public abstract class AbstractSource
      */
     public String getScheme() 
     {
-    	return this.m_scheme;
+        return this.m_scheme;
     }
 
     /**

@@ -63,7 +63,7 @@ import org.apache.excalibur.source.SourceValidity;
  * The base class for the aggregation implementations
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/01/10 12:54:37 $
+ * @version CVS $Revision: 1.2 $ $Date: 2003/05/20 20:56:43 $
  */
 public abstract class AbstractAggregatedValidity
     implements SourceValidity

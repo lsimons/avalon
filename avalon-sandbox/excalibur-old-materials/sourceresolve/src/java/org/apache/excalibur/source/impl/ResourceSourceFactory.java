@@ -66,9 +66,14 @@ import org.apache.excalibur.source.SourceFactory;
 
 /**
  * A factory for the Resource protocol
+ * 
+ * @avalon.component
+ * @avalon.service type=SourceFactory
+ * @x-avalon.info name=resource-source
+ * @x-avalon.lifestyle type=singleton
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version $Id: ResourceSourceFactory.java,v 1.9 2003/01/29 16:46:18 cziegeler Exp $
+ * @version $Id: ResourceSourceFactory.java,v 1.10 2003/05/20 20:56:43 bloritsch Exp $
  */
 public class ResourceSourceFactory
     extends AbstractLogEnabled
@@ -105,7 +110,7 @@ public class ResourceSourceFactory
             final String message = "Releasing source object for " + source.getURI();
             getLogger().debug( message );
         }
-    	// do nothing here
+        // do nothing here
     }
     
 }

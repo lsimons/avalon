@@ -372,4 +372,15 @@
         <delete dir="${dist.base}" />
     </target>
 
+  <!-- ===================================================================== -->
+  <!-- Fix Whitespace problems in source code                                -->
+  <!-- ===================================================================== -->
+  <target name="fixCRLF">
+  <fixcrlf srcdir="."
+           includes="**/*.java,**/*.xml,*.xml,*.properties,**/*.properties"
+           eol="lf"
+           tab="remove"
+           tablength="4"
+           eof="remove"/>
+  </target>
 </project>

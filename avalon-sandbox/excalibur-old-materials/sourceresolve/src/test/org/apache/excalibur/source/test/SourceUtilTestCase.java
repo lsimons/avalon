@@ -62,7 +62,7 @@ import junit.framework.TestCase;
  * Test case for SourceUtil.
  * 
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @version $Id: SourceUtilTestCase.java,v 1.1 2003/04/04 16:36:52 sylvain Exp $
+ * @version $Id: SourceUtilTestCase.java,v 1.2 2003/05/20 20:56:43 bloritsch Exp $
  */
 public class SourceUtilTestCase extends TestCase
 {
@@ -76,44 +76,44 @@ public class SourceUtilTestCase extends TestCase
         super(name);
     }
 
-	public void testNominalScheme() throws Exception
-	{
-	    String uri = "http://foo";
-	    assertEquals(4, SourceUtil.indexOfSchemeColon(uri));
-	    assertEquals("http", SourceUtil.getScheme(uri));
-	    assertEquals("//foo", SourceUtil.getSpecificPart(uri));
-	}
-	
-	public void testDoubleColon() throws Exception
-	{
-	    assertEquals(4, SourceUtil.indexOfSchemeColon("file:foo:bar"));
-	}
-	
-	public void testSpecialScheme() throws Exception
-	{
-	    String uri = "a-+.:foo"; // Strange, but valid !
-	    assertEquals(4, SourceUtil.indexOfSchemeColon(uri));
-	    assertEquals("a-+.", SourceUtil.getScheme(uri));
-	    assertEquals("foo", SourceUtil.getSpecificPart(uri));
-	}
-	
-	public void testSpecialPart() throws Exception
-	{
-	    String uri = "bar:";
-	    assertEquals(3, SourceUtil.indexOfSchemeColon(uri));
-	    assertEquals("bar", SourceUtil.getScheme(uri));
-	    assertEquals("", SourceUtil.getSpecificPart(uri));
-	}
-	
-	public void testInvalidScheme() throws Exception
-	{
-	    String uri = "2foo:bar";
-	    assertEquals(-1, SourceUtil.indexOfSchemeColon(uri));
-	    assertEquals(null, SourceUtil.getScheme(uri));
-	    assertEquals(null, SourceUtil.getSpecificPart(uri));
-	    
-	    // Invalid character before any of the allowed ones
-	    assertEquals(-1, SourceUtil.indexOfSchemeColon("h ttp:foo"));
+    public void testNominalScheme() throws Exception
+    {
+        String uri = "http://foo";
+        assertEquals(4, SourceUtil.indexOfSchemeColon(uri));
+        assertEquals("http", SourceUtil.getScheme(uri));
+        assertEquals("//foo", SourceUtil.getSpecificPart(uri));
+    }
+    
+    public void testDoubleColon() throws Exception
+    {
+        assertEquals(4, SourceUtil.indexOfSchemeColon("file:foo:bar"));
+    }
+    
+    public void testSpecialScheme() throws Exception
+    {
+        String uri = "a-+.:foo"; // Strange, but valid !
+        assertEquals(4, SourceUtil.indexOfSchemeColon(uri));
+        assertEquals("a-+.", SourceUtil.getScheme(uri));
+        assertEquals("foo", SourceUtil.getSpecificPart(uri));
+    }
+    
+    public void testSpecialPart() throws Exception
+    {
+        String uri = "bar:";
+        assertEquals(3, SourceUtil.indexOfSchemeColon(uri));
+        assertEquals("bar", SourceUtil.getScheme(uri));
+        assertEquals("", SourceUtil.getSpecificPart(uri));
+    }
+    
+    public void testInvalidScheme() throws Exception
+    {
+        String uri = "2foo:bar";
+        assertEquals(-1, SourceUtil.indexOfSchemeColon(uri));
+        assertEquals(null, SourceUtil.getScheme(uri));
+        assertEquals(null, SourceUtil.getSpecificPart(uri));
+        
+        // Invalid character before any of the allowed ones
+        assertEquals(-1, SourceUtil.indexOfSchemeColon("h ttp:foo"));
         assertEquals(-1, SourceUtil.indexOfSchemeColon(" http:foo"));
         assertEquals(-1, SourceUtil.indexOfSchemeColon("http :foo"));
         
@@ -127,8 +127,8 @@ public class SourceUtilTestCase extends TestCase
         assertEquals(-1, SourceUtil.indexOfSchemeColon("~http:foo"));
         assertEquals(-1, SourceUtil.indexOfSchemeColon("http~:foo"));
 
-	    assertEquals(-1, SourceUtil.indexOfSchemeColon("/file/with:colon"));
-	    assertEquals(-1, SourceUtil.indexOfSchemeColon(".foo:bar"));
-	    assertEquals(-1, SourceUtil.indexOfSchemeColon("no-colon"));
-	}
+        assertEquals(-1, SourceUtil.indexOfSchemeColon("/file/with:colon"));
+        assertEquals(-1, SourceUtil.indexOfSchemeColon(".foo:bar"));
+        assertEquals(-1, SourceUtil.indexOfSchemeColon("no-colon"));
+    }
 }
