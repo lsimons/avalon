@@ -33,7 +33,7 @@ public class Sar
 
     public void setSarfile( final File file )
     {
-        setZipfile( file );
+        setFile( file );
     }
 
     public void setConfig( final File config ) 
