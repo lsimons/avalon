@@ -131,11 +131,11 @@ class Commissioner implements Runnable
                       + "]" );
                 }
             }
-
+	       
             CommissionRequest request = 
               new CommissionRequest( model, m_thread );
-            m_queue.put( request );
-            long t = request.waitForCompletion();
+           m_queue.put( request );
+          long t = request.waitForCompletion();
             if( m_logger.isDebugEnabled() )
             {
                 m_logger.debug( 
@@ -180,7 +180,7 @@ class Commissioner implements Runnable
                 DeploymentModel model = request.getDeploymentModel();
                 try
                 {
-                    if( m_flag )
+                   if( m_flag )
                     {
                         model.commission();
                     }
