@@ -55,7 +55,7 @@ import org.apache.excalibur.source.SourceResolver;
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: SourceResolverImpl.java,v 1.15 2002/11/12 04:04:53 donaldp Exp $
+ * @version $Id: SourceResolverImpl.java,v 1.16 2002/11/28 21:27:53 hammant Exp $
  */
 public class SourceResolverImpl
     extends AbstractLogEnabled
@@ -149,11 +149,11 @@ public class SourceResolverImpl
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
         if( loader == null )
         {
-            loader = this.getClass().getClassLoader();
+            loader = getClass().getClassLoader();
         }
         try
         {
-            this.m_urlSourceClass = loader.loadClass( urlSourceClassName );
+            m_urlSourceClass = loader.loadClass( urlSourceClassName );
         }
         catch( ClassNotFoundException cnfe )
         {
