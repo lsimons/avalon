@@ -80,7 +80,7 @@ import java.util.*;
  * ANT task to collect all the meta information for the components.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.18 $ $Date: 2003/05/22 12:48:14 $
+ * @version CVS $Revision: 1.19 $ $Date: 2003/05/23 16:52:53 $
  */
 public final class ComponentMetaInfoCollector extends AbstractQdoxTask
 {
@@ -98,6 +98,20 @@ public final class ComponentMetaInfoCollector extends AbstractQdoxTask
      * The service list destination.
      */
     private File m_serviceFile;
+    private static final String POOLABLE = "org.apache.avalon.excalibur.pool.Poolable";
+    private static final String RECYCLABLE = "org.apache.avalon.excalibur.pool.Recyclable";
+    private static final String SERVICE_MANAGER = "org.apache.avalon.framework.service.ServiceManager";
+    private static final String TAG_DEPENDENCY = "avalon.dependency";
+    private static final String ATTR_TYPE = "type";
+    private static final String ATTR_NAME = "name";
+    private static final String TAG_LIFESTYLE = "x-avalon.lifestyle";
+    private static final String TAG_HANDLER = "fortress.handler";
+    private static final String TAG_INFO = "x-avalon.info";
+    private static final String TAG_NAME = "fortress.name";
+    private static final String TAG_COMPONENT = "avalon.component";
+    private static final String TAG_SERVICE = "avalon.service";
+    private static final String META_NAME = "x-avalon.name";
+    private static final String METH_SERVICE = "service";
 
     /**
      * Set the destination directory for the meta information.
@@ -225,22 +239,22 @@ public final class ComponentMetaInfoCollector extends AbstractQdoxTask
         while ( it.hasNext() )
         {
             final JavaClass javaClass = (JavaClass) it.next();
-            final DocletTag tag = javaClass.getTagByName( "avalon.component" );
+            final DocletTag tag = javaClass.getTagByName( TAG_COMPONENT );
 
             if ( null != tag )
             {
                 final Component comp = new Component( javaClass.getFullyQualifiedName() );
 
-                final DocletTag[] tags = javaClass.getTagsByName( "avalon.service" );
+                final DocletTag[] tags = javaClass.getTagsByName( TAG_SERVICE );
                 for ( int t = 0; t < tags.length; t++ )
                 {
-                    final String serviceName = resolveClassName( javaClass, tags[t].getNamedParameter( "type" ) );
+                    final String serviceName = resolveClassName( javaClass, tags[t].getNamedParameter( ATTR_TYPE ) );
                     final Service service = getService( serviceName );
                     service.addComponent( comp );
                 }
 
-                final DocletTag avalonLifecycle = javaClass.getTagByName( "x-avalon.lifestyle" );
-                final DocletTag fortressHandler = javaClass.getTagByName( "fortress.handler" );
+                final DocletTag avalonLifecycle = javaClass.getTagByName( TAG_LIFESTYLE );
+                final DocletTag fortressHandler = javaClass.getTagByName( TAG_HANDLER );
                 String lifecycle = null;
                 String handler = null;
 
@@ -253,8 +267,8 @@ public final class ComponentMetaInfoCollector extends AbstractQdoxTask
                         {
                             handler = ThreadSafeComponentHandler.class.getName();
                         }
-                        else if ( interfaces[i].getClass().getName().equals( "org.apache.avalon.excalibur.pool.Poolable" ) ||
-                            interfaces[i].getClass().getName().equals( "org.apache.avalon.excalibur.pool.Recyclable" ) )
+                        else if ( interfaces[i].getClass().getName().equals( POOLABLE ) ||
+                            interfaces[i].getClass().getName().equals( RECYCLABLE ) )
                         {
                             handler = PoolableComponentHandler.class.getName();
                         }
@@ -267,34 +281,36 @@ public final class ComponentMetaInfoCollector extends AbstractQdoxTask
 
                 if ( null != avalonLifecycle )
                 {
-                    lifecycle = avalonLifecycle.getNamedParameter( "type" );
+                    lifecycle = stripQuotes(avalonLifecycle.getNamedParameter( ATTR_TYPE ));
                 }
                 else if ( handler != null )
                 {
-                    handler = ( null == fortressHandler ) ? PerThreadComponentHandler.class.getName() : fortressHandler.getNamedParameter( "type" );
+                    handler = ( null == fortressHandler ) ? PerThreadComponentHandler.class.getName() : stripQuotes(fortressHandler.getNamedParameter( ATTR_TYPE ));
                 }
 
-                if ( null != lifecycle ) comp.setAttribute( "x-avalon.lifestyle", lifecycle );
-                if ( null != handler ) comp.setAttribute( "fortress.handler", handler );
+                if ( null != lifecycle ) comp.setAttribute( TAG_LIFESTYLE, lifecycle );
+                if ( null != handler ) comp.setAttribute( TAG_HANDLER, handler );
 
-                DocletTag avalonConfigName = javaClass.getTagByName( "x-avalon.info" );
-                if ( null == avalonConfigName ) avalonConfigName = javaClass.getTagByName( "fortress.name" );
+                DocletTag avalonConfigName = javaClass.getTagByName( TAG_INFO );
+                if ( null == avalonConfigName ) avalonConfigName = javaClass.getTagByName( TAG_NAME );
 
-                comp.setAttribute( "x-avalon.name", ( avalonConfigName == null ) ? MetaInfoEntry.createShortName( javaClass.getName() ) : avalonConfigName.getNamedParameter( "name" ) );
-
+                comp.setAttribute( META_NAME, ( avalonConfigName == null ) ? MetaInfoEntry.createShortName( javaClass.getName() ) : avalonConfigName.getNamedParameter( ATTR_NAME ) );
 
                 JavaMethod[] methods = javaClass.getMethods();
                 for (int i = 0; i < methods.length; i++)
                 {
-                    if (methods[i].getName().equals("service"))
+                    if (methods[i].getName().equals(METH_SERVICE))
                     {
-                        if (methods[i].getParameters().length == 1 && methods[i].getParameters()[0].getType().getValue().equals("ServiceManager"))
+                        System.out.println(methods[i].getParameters()[0].getType().getValue());
+                        if (methods[i].getParameters().length == 1 && methods[i].getParameters()[0].getType().getValue().equals(SERVICE_MANAGER))
                         {
-                            DocletTag[] dependencies = methods[i].getTagsByName("avalon.dependency");
+                            DocletTag[] dependencies = methods[i].getTagsByName(TAG_DEPENDENCY);
                             for(int d = 0; d < dependencies.length; d++)
                             {
-                                String type = dependencies[d].getNamedParameter("type");
+                                String type = stripQuotes(dependencies[d].getNamedParameter(ATTR_TYPE));
                                 //String optional = dependencies[d].getNamedParameter("optional");
+
+                                System.out.println(type);
 
                                 Service service = getService(type);
                                 comp.addDependency(service);
@@ -304,6 +320,21 @@ public final class ComponentMetaInfoCollector extends AbstractQdoxTask
                 }
             }
         }
+    }
+
+    private String stripQuotes(final String value)
+    {
+        if ( null == value ) return null;
+        if ( value.length() < 2 ) return value;
+
+        String retVal = value.trim();
+
+        if ( retVal.startsWith("\"") && retVal.endsWith("\"") )
+        {
+            retVal = retVal.substring(1, retVal.length() - 1);
+        }
+
+        return retVal;
     }
 
     /**
@@ -318,7 +349,7 @@ public final class ComponentMetaInfoCollector extends AbstractQdoxTask
         if ( null == javaClass ) throw new NullPointerException( "javaClass" );
         if ( null == serviceName ) throw new BuildException( "(" + javaClass.getFullyQualifiedName() + ") You must specify the service name with the \"type\" parameter" );
 
-        String className = serviceName.trim();
+        String className = stripQuotes(serviceName);
         if ( className != null || className.length() > 0 )
         {
             if ( className.indexOf( '.' ) < 0 )
