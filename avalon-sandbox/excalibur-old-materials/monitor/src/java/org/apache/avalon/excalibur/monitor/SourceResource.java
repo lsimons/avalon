@@ -20,7 +20,7 @@ import org.apache.excalibur.source.SourceValidity;
 /**
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version $Id: SourceResource.java,v 1.5 2002/08/02 17:51:21 bloritsch Exp $
+ * @version $Id: SourceResource.java,v 1.6 2002/08/23 05:33:59 cziegeler Exp $
  */
 public final class SourceResource
     extends StreamResource
@@ -55,6 +55,7 @@ public final class SourceResource
         }
         else
         {
+            m_source.discardValidity();
             SourceValidity newVal = m_source.getValidity();
             if( newVal != null && m_validity.isValid( newVal ) == true )
             {
