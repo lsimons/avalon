@@ -232,13 +232,13 @@ Now starting the incredible......
     After creating this descriptor, you still need to reference it from
     the gump module descriptor at
 
-        gump-integration/project/avalon-excalibur.xml
+        gump-integration/project/avalon.xml
 
     One way to do this is to autogenerate the file based on the
     contents of the 'gump-integration/project' directory:
 
-        cd ~/cvs/avalon-excalibur/
-        maven avalon:write-gump-module.xml
+        cd ~/cvs/avalon/buildsystem
+        maven avalon:seed-gump-module
 
     Note this won't work if the file mentioned above already exists.
 
@@ -603,35 +603,35 @@ property
         </ant:echo>
     </goal>
 
-    <goal name="avalon:write-gump-module.xml"
+    <goal name="avalon:seed-gump-module"
             description="creates a gump-module.xml referencing all gump-project.xml files">
 
         <attainGoal name="avalon:header"/>
         <mkdir dir="gump-integration"/>
         <mkdir dir="gump-integration/project"/>
 
-        <!-- create avalon-excalibur.xml -->
-        <ant:available file="gump-integration/project/avalon-excalibur.xml"
+        <!-- create avalon.xml -->
+        <ant:available file="gump-integration/project/avalon.xml"
                 property="gumpmodule.exists"/>
         <j:set var="gmexists" value="${gumpmodule.exists}"/>
-        <j:if test="${gmexists}"><ant:echo>Warning: gump-integration/project/avalon-excalibur.xml already exists!</ant:echo></j:if>
+        <j:if test="${gmexists}"><ant:echo>Warning: gump-integration/project/avalon.xml already exists!</ant:echo></j:if>
         <j:if test="${not gmexists}">
 
             <ant:fileScanner var="projectfiles">
                 <ant:fileset dir="gump-integration/project/">
                     <ant:patternset>
                         <ant:include name="*.xml"/>
-                        <ant:exclude name="avalon-excalibur.xml"/>
+                        <ant:exclude name="avalon.xml"/>
                     </ant:patternset>
                 </ant:fileset>
             </ant:fileScanner>
 
-            <j:file name="gump-integration/project/avalon-excalibur.xml">
+            <j:file name="gump-integration/project/avalon.xml">
             <j:whitespace xmlns="dummy">
-<module name="avalon-excalibur">
-    <url href="http://avalon.apache.org/excalibur/"/>
+<module name="avalon">
+    <url href="http://avalon.apache.org/"/>
     <description>
-      Avalon's repository of reusable components.
+      Avalon's main repository.
     </description>
     <cvs repository="avalon"/>
 
@@ -666,7 +666,7 @@ property
 
         <attainGoal name="avalon:header"/>
         <attainGoal name="avalon:write-gump-projects"/>
-        <attainGoal name="avalon:write-gump-module.xml"/>
+        <attainGoal name="avalon:seed-gump-module"/>
     </goal>
 
 </project>
