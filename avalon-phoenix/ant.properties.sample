@@ -6,7 +6,7 @@
 # modules that Phoenix depends on.  Copy this file to ".ant.properties"
 # in the top-level source directory, and customize it as needed.
 #
-# $Id: ant.properties.sample,v 1.15 2003/02/08 15:36:19 hammant Exp $
+# $Id: ant.properties.sample,v 1.16 2003/03/02 12:33:21 hammant Exp $
 # -----------------------------------------------------------------------------
 
 # ----- Compile Environment Flags -----
@@ -61,7 +61,8 @@ phoenix.home=phoenix-home
 # ----- Kernel Type -----
 # Uncomment these two use BeanShell enhanced Kernel.
 # It overrides that from project.properties.
-# You'll also need bsh-1.2b6.jar for compilation dependancies.
+# You'll also need bsh-1.2b7.jar for compilation dependancies.
+# Run 'ant get-beanshell' to get it.
 #beanshell.jars
 #kernel.impl.class=org.apache.avalon.phoenix.components.kernel.beanshell.BeanShellKernel
 
