@@ -61,8 +61,7 @@ import org.apache.avalon.framework.component.Component;
  * your data is in the store (of course unless noone else did remove it).
  * In some cases (like for example a cache) the data needs not to be
  * persistent. Therefore with the two role TRANSIENT_STORE and
- * PERSISTENT_STORE you get a store with exactly that behaviour. (The
- * PERSISTENT_STORE is only an alias for ROLE).
+ * PERSISTENT_STORE you get a store with exactly that behaviour.
  *
  * @author <a href="mailto:scoobie@betaversion.org">Federico Barbieri</a>
  *         (Betaversion Productions)
@@ -70,7 +69,7 @@ import org.apache.avalon.framework.component.Component;
  *         (Apache Software Foundation)
  * @author <a href="mailto:fumagalli@exoffice.com">Pierpaolo Fumagalli</a>
  *         (Apache Software Foundation, Exoffice Technologies)
- * @version CVS $Id: Store.java,v 1.1 2003/11/09 12:47:17 leosimons Exp $
+ * @version CVS $Id: Store.java,v 1.2 2003/12/11 14:19:19 sylvain Exp $
  */
 public interface Store
     extends Component
@@ -80,8 +79,9 @@ public interface Store
 
     /** The role for a transient store */
     String TRANSIENT_STORE = ROLE + "/TransientStore";
-    /** The role for a persistent store (this is an alias for ROLE) */
-    String PERSISTENT_STORE = ROLE;
+    
+    /** The role for a persistent store */
+    String PERSISTENT_STORE = ROLE + "/PersistentStore";
 
     /**
      * Get the object associated to the given unique key.

@@ -23,6 +23,11 @@
             <groupId>framework</groupId>
         </dependency>
         <dependency>
+            <id>excalibur-instrument</id>
+            <version>1.0</version>
+            <groupId>excalibur-instrument</groupId>
+        </dependency>
+        <dependency>
             <id>jisp</id>
             <version>2.5.1</version>
         </dependency>
