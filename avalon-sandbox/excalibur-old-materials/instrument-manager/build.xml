@@ -6,6 +6,7 @@
     <property file="${basedir}/../ant.properties"/>
     <property file="${basedir}/ant.properties"/>
     <property file="${user.home}/.ant.properties"/>
+    <property file="${basedir}/../libraries.properties"/>
     <property file="${basedir}/../default.properties"/>
     <property file="${basedir}/default.properties"/>
 
@@ -66,9 +67,9 @@
             optimize="${build.optimize}"
             deprecation="${build.deprecation}"
             target="1.2">
-              <classpath refid="project.class.path" />            
+              <classpath refid="project.class.path" />
               <include name="**/*.java" />
-              <exclude name="org/apache/excalibur/instrument/manager/altrmi/**" unless="altrmi.present" />            
+              <exclude name="org/apache/excalibur/instrument/manager/altrmi/**" unless="altrmi.present" />
         </javac>
 
         <!-- copy resources to same location as .class files -->
@@ -148,7 +149,7 @@
                 <include name="LICENSE.txt"/>
             </zipfileset>
         </jar>
-        
+
         <jar jarfile="${build.lib}/${jar.interfaces.name}"
             basedir="${build.classes}"
             compress="${build.compress}">
@@ -299,7 +300,7 @@
             <zipfileset dir="${dist.dir}" prefix="${dist.name}"/>
             <zipfileset dir="${docs.dir}" prefix="${dist.name}/docs"/>
         </zip>
-       
+
 	    <checksum file="${dist.base}/${dist.name}.zip" fileext=".md5"/>
     </target>
 

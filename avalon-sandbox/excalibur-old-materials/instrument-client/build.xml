@@ -6,6 +6,7 @@
     <property file="${basedir}/../ant.properties"/>
     <property file="${basedir}/ant.properties"/>
     <property file="${user.home}/.ant.properties"/>
+    <property file="${basedir}/../libraries.properties"/>
     <property file="${basedir}/../default.properties"/>
     <property file="${basedir}/default.properties"/>
 
@@ -124,7 +125,7 @@
 
     <!-- Generates the AltRMI proxies used by the client. -->
     <target name="altrmiproxies" depends="compile">
-        <ant antfile="altrmiproxies.xml" target="altrmiproxies"/> 
+        <ant antfile="altrmiproxies.xml" target="altrmiproxies"/>
     </target>
 
     <!-- Creates all the .jar file -->
@@ -296,7 +297,7 @@
         <mkdir dir="${dist.bin.dir}"/>
         <mkdir dir="${dist.conf.dir}"/>
         <mkdir dir="${dist.lib.dir}"/>
-        
+
         <!-- Copy over the bin and conf files -->
         <copy todir="${dist.bin.dir}">
             <fileset dir="${bin.dir}">
@@ -308,29 +309,29 @@
                 <include name="*"/>
             </fileset>
         </copy>
-        
+
         <!-- Collect the jars required to run the client -->
         <copy todir="${dist.lib.dir}">
             <fileset dir="${build.lib}">
                 <include name="*.jar"/>
             </fileset>
         </copy>
-        
+
         <!-- Xerces -->
         <copy file="${xerces.jar}" todir="${dist.lib.dir}" preservelastmodified="yes"/>
-        
+
         <!-- XML-APIs -->
         <copy file="${xml-apis.jar}" todir="${dist.lib.dir}" preservelastmodified="yes"/>
-        
+
         <!-- Xalan -->
         <copy file="${xalan.jar}" todir="${dist.lib.dir}" preservelastmodified="yes"/>
-        
+
         <!-- Avalong Framework Jar -->
         <copy file="${avalon-framework.jar}" todir="${dist.lib.dir}" preservelastmodified="yes"/>
-        
+
         <!-- Instrument Manager Jars -->
         <copy file="${excalibur-instrument-manager-interfaces.jar}" todir="${dist.lib.dir}" preservelastmodified="yes"/>
-        
+
         <!-- AltRMI Jars -->
         <copy file="${altrmi-client-impl.jar}" todir="${dist.lib.dir}" preservelastmodified="yes"/>
         <copy file="${altrmi-client-interfaces.jar}" todir="${dist.lib.dir}" preservelastmodified="yes"/>
