@@ -68,7 +68,12 @@
           <row>
             <entry><ulink uri="stefano.html">Stefano Mazzocchi</ulink></entry>
             <entry><ulink uri="mailto:stefano@apache.org">stefano@apache.org</ulink></entry>
-          </row><row>
+          </row>
+          <row>
+            <entry><ulink uri="eungju.html">Eung-ju Park</ulink></entry>
+            <entry><ulink uri="mailto:colus@apache.org">colus@apache.org</ulink></entry>
+          </row>
+          <row>
             <entry><ulink uri="lsimons.html">Leo Simons</ulink></entry>
             <entry><ulink uri="mailto:mail@leosimons.com">mail@leosimons.com</ulink></entry>
           </row>

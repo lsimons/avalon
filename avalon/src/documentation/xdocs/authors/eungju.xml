@@ -1,0 +1,24 @@
+<?xml version="1.0" standalone="no"?>
+
+<!DOCTYPE author PUBLIC "-//OASIS//DTD DocBook XML V4.1//EN"
+                         "dtd/docbookx.dtd">
+
+<author id="eungju.html">
+  <honorific>Mr</honorific>
+  <firstname>Eung-ju</firstname>
+  <surname>Park</surname>
+  <address>
+    <email>colus@apache.org</email>
+  </address>
+  <affiliation>
+    <shortaffil>ISOFT</shortaffil>
+    <jobtitle>Programmer</jobtitle>
+    <orgname>ISOFT Inc.</orgname>
+  </affiliation>
+  <authorblurb>
+    <para>
+      His main contribution is PhoenixServlet, cache package and small bug fixes.
+      He is working for small company instead of joning army(Korean man have liabillity for military service). But will be back to university for studying computer engineering.
+    </para>
+  </authorblurb>
+</author>
