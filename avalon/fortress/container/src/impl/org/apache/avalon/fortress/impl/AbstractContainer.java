@@ -61,11 +61,11 @@ import org.apache.avalon.fortress.impl.lookup.FortressServiceSelector;
 import org.apache.avalon.fortress.impl.role.FortressRoleManager;
 import org.apache.avalon.fortress.impl.role.Role2MetaInfoManager;
 import org.apache.avalon.fortress.impl.role.ServiceMetaManager;
-import org.apache.avalon.fortress.impl.factory.ProxyObjectFactory;
 import org.apache.avalon.fortress.impl.factory.ProxyManager;
 import org.apache.avalon.fortress.impl.handler.ComponentFactory;
 import org.apache.avalon.fortress.util.CompositeException;
 import org.apache.avalon.fortress.util.LifecycleExtensionManager;
+import org.apache.avalon.fortress.util.dag.*;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -86,10 +86,7 @@ import org.apache.excalibur.instrument.Instrumentable;
 import org.apache.excalibur.mpool.ObjectFactory;
 import org.apache.excalibur.mpool.PoolManager;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * This abstract implementation provides basic functionality for building
@@ -98,7 +95,7 @@ import java.util.Map;
  * Container's Manager can expose that to the instantiating class.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.25 $ $Date: 2003/05/08 21:24:46 $
+ * @version CVS $Revision: 1.26 $ $Date: 2003/05/15 20:13:32 $
  */
 public abstract class AbstractContainer
     extends AbstractLogEnabled
@@ -134,6 +131,8 @@ public abstract class AbstractContainer
     protected Map m_mapper = new StaticBucketMap();
     /** Contains an entry for each ComponentHandler */
     protected List m_components = new ArrayList( 10 );
+
+    protected List m_shutDownOrder;
 
     private ProxyManager m_proxyManager = new ProxyManager(true);
 
@@ -328,12 +327,12 @@ public abstract class AbstractContainer
         }
 
         Iterator it = metaEntry.getRoles();
+        // create a handler for the combo of Role+MetaData
+        final ComponentHandler handler =
+            getComponentHandler( metaEntry, metaData );
+
         while ( it.hasNext() )
         {
-            // create a handler for the combo of Role+MetaData
-            final ComponentHandler handler =
-                getComponentHandler( metaEntry, metaData );
-
             final String role = (String) it.next();
 
             // put the role into our role mapper. If the role doesn't exist
@@ -615,6 +614,8 @@ public abstract class AbstractContainer
         final Iterator i = m_components.iterator();
         final BoundedFifoBuffer buffer = new BoundedFifoBuffer( Math.max( m_components.size(), 1 ) );
 
+        verifyComponents();
+
         ComponentHandlerEntry entry;
         while ( i.hasNext() )
         {
@@ -697,16 +698,52 @@ public abstract class AbstractContainer
         }
     }
 
+    private void verifyComponents() throws CyclicDependencyException
+    {
+        List verteces = new ArrayList(m_components.size());
+        Iterator it = m_components.iterator();
+
+        while(it.hasNext())
+        {
+            ComponentHandlerEntry entry = (ComponentHandlerEntry) it.next();
+            Vertex v = new Vertex(entry.getHandler());
+            MetaInfoEntry meta = m_metaManager.getMetaInfoForClassname(entry.getMetaData().getClassname());
+
+            Iterator dit = meta.getDependencies().iterator();
+            while(dit.hasNext())
+            {
+                Map deps = (Map)m_mapper.get(dit.next());
+                Iterator mdit = deps.entrySet().iterator();
+                while(mdit.hasNext())
+                {
+                    Map.Entry depEntry = (Map.Entry)mdit.next();
+
+                    if ( ! depEntry.getKey().equals(DEFAULT_ENTRY) ||
+                         ! depEntry.getKey().equals(SELECTOR_ENTRY))
+                    {
+                        v.addDependency(new Vertex(depEntry.getValue()));
+                    }
+                }
+            }
+
+            verteces.add(v);
+        }
+
+        DirectedAcyclicGraphVerifier.topologicalSort(verteces);
+        Collections.reverse(verteces);
+        m_shutDownOrder = verteces;
+    }
+
     /**
      * Disposes of all components and frees resources that they consume.
      */
     public void dispose()
     {
-        final Iterator i = m_components.iterator();
+        final Iterator i = m_shutDownOrder.iterator();
         while ( i.hasNext() )
         {
-            final ComponentHandlerEntry entry = (ComponentHandlerEntry) i.next();
-            final ComponentHandler handler = entry.getHandler();
+            final Vertex entry = (Vertex) i.next();
+            final ComponentHandler handler = (ComponentHandler)entry.getNode();
 
             if ( getLogger().isDebugEnabled() ) getLogger().debug( "Shutting down: " + handler );
             ContainerUtil.dispose( handler );
