@@ -79,6 +79,10 @@
     </info>
   </resource>
 
+  <!--
+  Avalon eXternal Supplemental.
+  -->
+
   <resource>
     <info>
       <group>avalonx/supplemental</group>
@@ -96,10 +100,6 @@
       <type>jar</type>
     </info>
   </resource>
-
-  <!--
-  Avalon eXternal Supplemental.
-  -->
 
   <project basedir="../supplemental">
     <info>
@@ -195,7 +195,7 @@
     </info>
     <dependencies>
       <include key="avalon-framework-api" tag="api"/>
-      <include key="avalon-framework-legacy" />
+      <include key="avalon-framework-legacy runtime="false" />
     </dependencies>
   </project>
 
