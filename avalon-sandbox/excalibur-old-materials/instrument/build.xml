@@ -13,22 +13,11 @@
     <path id="project.class.path">
         <pathelement location="${build.classes}"/>
         <pathelement location="${checkstyle.jar}"/>
-
+        
         <!-- Optional jars -->
         <pathelement location="${avalon-framework.jar}"/>
-        <pathelement location="${excalibur-altrmi-common.jar}"/>
-        <pathelement location="${excalibur-altrmi-server-impl.jar}"/>
-        <pathelement location="${excalibur-altrmi-server-interfaces.jar}"/>
-        <pathelement location="${excalibur-altrmi-client-impl.jar}"/>
-        <pathelement location="${excalibur-altrmi-client-interfaces.jar}"/>
-        <pathelement location="${excalibur-altrmi-generator.jar}"/>
+        
         <pathelement path="${java.class.path}"/>
-    </path>
-
-    <path id="src.path">
-        <pathelement path="${java.dir}"/>
-        <pathelement path="${client.dir}"/>
-        <pathelement path="${manager.dir}"/>
     </path>
 
     <path id="tools.class.path">
@@ -53,19 +42,21 @@
         <available property="framework.present" classname="org.apache.avalon.framework.logger.AbstractLogEnabled">
             <classpath refid="project.class.path"/>
         </available>
+    </target>
 
-        <available property="ecm.present" classname="org.apache.avalon.excalibur.component.ExcaliburComponentManager">
-            <classpath refid="project.class.path"/>
-        </available>
+    <target name="framework-warning" unless="framework.present">
+        <echo>****************************************************</echo>
+        <echo>* avalon-framework.jar not found                    </echo>
+        <echo>*                                                   </echo>
+        <echo>* Framework was not available so the jar file       </echo>
+        <echo>* created by this build will not include the class: </echo>
+        <echo>*  AbstractLogEnabledInstrumentable                 </echo>
+        <echo>****************************************************</echo>
     </target>
 
     <target name="dependencies" description="Check dependencies" unless="skip.dependencies">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkCommon"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkFramework"/>
-    </target>
-
-    <target name="manager-dependencies" unless="skip.dependencies">
-        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkAltrmi"/>
     </target>
 
     <target name="dependencies-test" depends="dist-jar, dependencies"
@@ -75,13 +66,11 @@
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkJUnit"/>
     </target>
 
-
     <!-- Compiles the source code -->
-    <target name="compile" depends="dependencies, check-environment" description="Compiles the source code">
+    <target name="compile" depends="dependencies, check-environment, framework-warning"
+        description="Compiles the source code">
 
         <mkdir dir="${build.classes}"/>
-        <mkdir dir="${build.client.classes}"/>
-        <mkdir dir="${build.manager.classes}"/>
 
         <!-- Compile all classes excluding the tests. -->
         <javac srcdir="${java.dir}"
@@ -103,42 +92,6 @@
                 <exclude name="**/package.html"/>
             </fileset>
         </copy>
-    </target>
-
-    <target name="compile-manager" depends="manager-dependencies, compile" description="Compile Manager source Code">
-        <javac srcdir="${manager.dir}"
-            destdir="${build.manager.classes}"
-            debug="${build.debug}"
-            optimize="${build.optimize}"
-            deprecation="${build.deprecation}"
-            target="1.2">
-            <classpath>
-              <path refid="project.class.path" />
-              <pathelement path="${build.classes}"/>
-            </classpath>
-            <include name="**/*.java"/>
-            <exclude name="org/apache/excalibur/instrument/component/*"
-                     unless="ecm.present"/>
-        </javac>
-
-        <javac srcdir="${client.dir}"
-            destdir="${build.client.classes}"
-            debug="${build.debug}"
-            optimize="${build.optimize}"
-            deprecation="${build.deprecation}"
-            target="1.2">
-            <classpath>
-              <path refid="project.class.path" />
-              <pathelement path="${build.manager.classes}"/>
-              <pathelement path="${build.classes}"/>
-            </classpath>
-            <include name="**/*.java"/>
-        </javac>
-    </target>
-
-    <!-- Generates the altrmi proxies used by the client. -->
-    <target name="altrmiproxies" depends="compile">
-        <ant antfile="altrmiproxies.xml" target="altrmiproxies"/>
     </target>
 
     <!-- Compiles the unit test source code -->
@@ -164,8 +117,6 @@
             target="1.2">
             <classpath>
               <path refid="test.class.path" />
-              <pathelement path="${build.client.classes}"/>
-              <pathelement path="${build.manager.classes}"/>
               <pathelement path="${build.classes}"/>
             </classpath>
             <include name="**/*.java"/>
@@ -212,69 +163,15 @@
         </jar>
     </target>
 
-    <target name="manager-jar" depends="compile-manager, jar, altrmiproxies">
-        <jar jarfile="${build.lib}/${client.jar.name}"
-            basedir="${build.client.classes}"
-            compress="${build.compress}">
-            <manifest>
-              <attribute name="Extension-Name" value="${name}"/>
-              <attribute name="Specification-Vendor" value="Apache Software Foundation"/>
-              <attribute name="Specification-Version" value="1.0"/>
-              <attribute name="Implementation-Vendor" value="Apache Software Foundation"/>
-              <attribute name="Implementation-Version" value="${package-version}"/>
-            </manifest>
-            <exclude name="**/test/**"/>
-            <zipfileset dir="${build.conf}" prefix="META-INF/">
-                <include name="LICENSE.txt"/>
-            </zipfileset>
-        </jar>
-
-        <jar jarfile="${build.lib}/${manager.jar.name}"
-            basedir="${build.manager.classes}"
-            compress="${build.compress}">
-            <manifest>
-              <attribute name="Extension-Name" value="${name}"/>
-              <attribute name="Specification-Vendor" value="Apache Software Foundation"/>
-              <attribute name="Specification-Version" value="1.0"/>
-              <attribute name="Implementation-Vendor" value="Apache Software Foundation"/>
-              <attribute name="Implementation-Version" value="${package-version}"/>
-            </manifest>
-            <exclude name="**/interfaces/**"/>
-            <exclude name="**/test/**"/>
-            <zipfileset dir="${build.conf}" prefix="META-INF/">
-                <include name="LICENSE.txt"/>
-            </zipfileset>
-        </jar>
-
-        <jar jarfile="${build.lib}/${manager-interfaces.name}.jar"
-            basedir="${build.manager.classes}"
-            compress="${build.compress}">
-            <manifest>
-              <attribute name="Extension-Name" value="${name}"/>
-              <attribute name="Specification-Vendor" value="Apache Software Foundation"/>
-              <attribute name="Specification-Version" value="1.0"/>
-              <attribute name="Implementation-Vendor" value="Apache Software Foundation"/>
-              <attribute name="Implementation-Version" value="${package-version}"/>
-            </manifest>
-            <include name="**/interfaces/**"/>
-            <exclude name="**/test/**"/>
-            <zipfileset dir=".." prefix="META-INF/">
-                <include name="LICENSE.txt"/>
-            </zipfileset>
-        </jar>
-    </target>
-
     <!-- Creates all the Javadocs -->
-    <target name="javadocs" depends="compile, compile-manager" description="Generates the javadocs" unless="skip.javadocs">
+    <target name="javadocs" depends="compile" description="Generates the javadocs" unless="skip.javadocs">
 
         <mkdir dir="${dist.javadocs}"/>
         <javadoc packagenames="org.apache.*"
-            sourcepathref="src.path"
+            sourcepath="${java.dir}"
             destdir="${dist.javadocs}">
             <classpath>
               <path refid="test.class.path" />
-              <pathelement path="${build.client.classes}"/>
-              <pathelement path="${build.manager.classes}"/>
               <pathelement path="${build.classes}"/>
             </classpath>
             <doclet name="com.sun.tools.doclets.standard.Standard">
@@ -371,12 +268,6 @@
             <fileset dir="${java.dir}">
                 <include name="**/*.java"/>
             </fileset>
-            <fileset dir="${client.dir}">
-                <include name="**/*.java"/>
-            </fileset>
-            <fileset dir="${manager.dir}">
-                <include name="**/*.java"/>
-            </fileset>
             <formatter type="plain"/>
             <formatter type="xml" toFile="${build.dir}/checkstyle-results.xml"/>
         </checkstyle>
@@ -398,7 +289,6 @@
     <target name="dist-bin">
         <zip zipfile="${dist.base}/${dist.name}-bin.zip" compress="true">
             <zipfileset dir="${dist.dir}" prefix="${dist.name}"/>
-            <zipfileset dir="${docs.dir}" prefix="${dist.name}/docs"/>
         </zip>
 
     <!--
@@ -421,10 +311,9 @@
 
     <target name="dist-src">
         <zip zipfile="${dist.base}/${dist.name}-src.zip" compress="true">
-        <zipfileset dir="${dist.dir}" prefix="${dist.name}"/>
-        <zipfileset dir="${basedir}" prefix="${dist.name}" includes="*.xml,*.properties"/>
-        <zipfileset dir="${src.dir}" prefix="${dist.name}/src"/>
-            <zipfileset dir="${docs.dir}" prefix="${dist.name}/docs"/>
+            <zipfileset dir="${dist.dir}" prefix="${dist.name}"/>
+            <zipfileset dir="${basedir}" prefix="${dist.name}" includes="*.xml,*.properties"/>
+            <zipfileset dir="${src.dir}" prefix="${dist.name}/src"/>
         </zip>
 
     <!--
@@ -479,17 +368,6 @@
         <copy todir="${dist.dir}">
             <fileset dir="${build.lib}">
                 <include name="*.jar"/>
-            </fileset>
-        </copy>
-    </target>
-
-    <target name="dist-manager-jar" depends="manager-jar">
-        <mkdir dir="${dist.dir}"/>
-        <copy todir="${dist.dir}">
-            <fileset dir="${build.lib}">
-                <include name="${manager.jar.name}"/>
-                <include name="${manager-interfaces.name}.jar"/>
-                <include name="${client.jar.name}"/>
             </fileset>
         </copy>
     </target>

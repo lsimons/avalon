@@ -3,7 +3,7 @@
 <!--
 ============================================================
                 Dependency updater
-                   Version $Revision: 1.37 $
+                   Version $Revision: 1.38 $
            Jeff Turner <jefft@apache.org>
 
 This Ant script provides "functions" to check if
@@ -340,18 +340,18 @@ To use it, type 'ant -f depchecker.xml'
             <property name="proj.home" value="${basedir}/../instrument"/>
         </ant>
     </target>
-    <target name="checkInstrumentManager">
-        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
-            <property name="proj.jar.name" value="excalibur-instrument-manager-0.3.jar"/>
-            <property name="path" value="${excalibur-instrument-manager.jar}"/>
-            <property name="proj.home" value="${basedir}/../instrument"/>
-            <property name="proj.target" value="dist-manager-jar"/>
-        </ant>
+    <target name="checkInstrumentManagerInterfaces">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
             <property name="proj.jar.name" value="excalibur-instrument-manager-interfaces-0.3.jar"/>
             <property name="path" value="${excalibur-instrument-manager-interfaces.jar}"/>
-            <property name="proj.home" value="${basedir}/../instrument"/>
-            <property name="proj.target" value="dist-manager-jar"/>
+            <property name="proj.home" value="${basedir}/../instrument-manager"/>
+        </ant>
+    </target>
+    <target name="checkInstrumentManager" depends="checkInstrumentManagerInterfaces">
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
+            <property name="proj.jar.name" value="excalibur-instrument-manager-0.3.jar"/>
+            <property name="path" value="${excalibur-instrument-manager.jar}"/>
+            <property name="proj.home" value="${basedir}/../instrument-manager"/>
         </ant>
     </target>
     <target name="checkCollections">
