@@ -254,7 +254,7 @@
         concern areas resulted in the Separation of Concerns (SOC) pattern
         <footnote>
           <para>
-            <ulink href="http://www.research.ibm.com/hyperspace/MDSOC.htm">
+            <ulink uri="http://www.research.ibm.com/hyperspace/MDSOC.htm">
               http://www.research.ibm.com/hyperspace/MDSOC.htm
             </ulink>
           </para>
@@ -271,7 +271,7 @@
         Programming (AOP)
         <footnote>
           <para>
-            <ulink href="http://www.aspectj.org">http://www.aspectj.org</ulink>
+            <ulink uri="http://www.aspectj.org">http://www.aspectj.org</ulink>
           </para>
         </footnote>.  Researchers discovered that many concerns
         couldn't be addressed at class or even method granularity.  Those

@@ -21,7 +21,7 @@
     how to identify services and Components.  After we define some
     services that are used in the system, we will take one of those
     services and define the different components needed by the
-    service.  My goal is to pass on some principles that will help
+    service.  My goal is to pass on some concepts that will help
     you define your system in manageable pieces.
   </para>
   <section>
@@ -29,8 +29,8 @@
     <para>
       While it is beyond the scope of this presentation to provide
       a full-blown methodology, I do want to provide some pointers.
-      We will start with the implementation oriented of Components
-      and Services, and then provide a practical definition.
+      We will start with the implementation oriented definition of
+      Components and Services, and then provide a practical definition.
     </para>
     <blockquote>
       <title>Component</title>
@@ -351,7 +351,7 @@
         specific to the Document Repository Service that it could not be used
         again for a completely different service.  While there are ways of
         managing the complexity, and ways of making it flexible-sometimes the
-        extra work is not worth it.  You have to way your decisions in such
+        extra work is not worth it.  You have to weigh your decisions in such
         cases carefully.  If the logic performed in a potential Component is
         going to be applied consistently then it might make sense to keep it a
         Component.  There is room to have multiple instances of a Component in
@@ -367,7 +367,7 @@
       <title>Decomposing the Document Repository Service</title>
       <para>
         We will list the Components that we are going to implement with a
-        description of their roles, the rational, and their origination (if
+        description of their roles, the rationale, and their origination (if
         the component already exists).
       </para>
       <section>
@@ -402,7 +402,7 @@
           The Cache is a short-term memory-based storage facility.  The
           DocumentRepository will use it to store Document objects referenced
           by a hash algorithm.  In order to promote the reusability of the
-          Cache Component, the stored object must only implement a Cacheable
+          Cache Component, the stored object must implement a Cacheable
           interface.
         </para>
       </section>
@@ -423,7 +423,7 @@
         The examples describe all the Components that will be in the Document
         Repository Service, with a brief summary of what they will do.  A quick
         glance through the list supports the approach of only implementing
-        facilities as Components-not data.  At this point, you should be able
+        facilities as Components&mdash;not data.  At this point, you should be able
         to determine what components your services need to operate.
       </para>
     </section>
