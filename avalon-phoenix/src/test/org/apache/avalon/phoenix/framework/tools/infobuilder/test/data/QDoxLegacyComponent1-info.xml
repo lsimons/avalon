@@ -20,6 +20,6 @@
         <dependency type="org.apache.avalon.phoenix.framework.tools.infobuilder.test.data.otherpkg.Service2"/>
     </dependencies>
 
-    <configuration-schema type="http://relaxng.org/ns/structure/1.0"/>
+    <configuration-schema type="http://relaxng.org/ns/structure/1.0" location="QDoxLegacyComponent1-schema.xml"/>
 
 </component-info>
