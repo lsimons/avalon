@@ -38,7 +38,6 @@ import org.apache.avalon.repository.Repository ;
 import org.apache.avalon.repository.RepositoryException ;
 import org.apache.avalon.repository.RepositoryRuntimeException;
 import org.apache.avalon.repository.provider.InitialContext ;
-import org.apache.avalon.repository.provider.CacheManager ;
 import org.apache.avalon.repository.provider.Factory ;
 import org.apache.avalon.repository.util.RepositoryUtils ;
 
@@ -50,7 +49,7 @@ import org.apache.avalon.excalibur.i18n.Resources;
  * 
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.4.2.1 $
  */
 public class DefaultFactory implements Factory
 {
@@ -128,12 +127,13 @@ public class DefaultFactory implements Factory
     public Object create( Map map ) throws Exception
     {
         if( null == map )
-          throw new NullPointerException( "map" );
+        {
+            throw new NullPointerException( "map" );
+        }
 
         File root = getCache( map );
         String[] hosts = getHosts( map );
-        ProxyContext proxy = createProxyContext( map );
-        return new DefaultCacheManager( root, proxy, hosts );
+        return new DefaultRepository( root, hosts );
     }
 
     private File getCache( Map map )
@@ -146,41 +146,5 @@ public class DefaultFactory implements Factory
     {
         return (String[]) map.get( 
             DefaultRepositoryCriteria.REPOSITORY_REMOTE_HOSTS );
-    }
-
-    private ProxyContext createProxyContext( Map map )
-    {
-        final String proxyHostName = 
-          (String) map.get( 
-            DefaultRepositoryCriteria.REPOSITORY_PROXY_HOST );
-
-        if( null == proxyHostName )
-        {
-            return null;
-        }
-        else
-        {    
-            final String proxyUsername = 
-              (String) map.get( 
-                DefaultRepositoryCriteria.REPOSITORY_PROXY_USERNAME );
-
-            final String proxyPassword = 
-              (String) map.get( 
-                DefaultRepositoryCriteria.REPOSITORY_PROXY_PASSWORD );
-
-            Authenticator authenticator = 
-              new DefaultAuthenticator( proxyUsername, proxyPassword );
-
-            Integer proxyPort = 
-              (Integer) map.get( 
-                DefaultRepositoryCriteria.REPOSITORY_PROXY_PORT );
-            if( null == proxyPort ) proxyPort = new Integer( 0 );
-
-            return new ProxyContext( 
-                proxyHostName, 
-                proxyPort.intValue(), 
-                authenticator );
-        }
-
     }
 }

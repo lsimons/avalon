@@ -28,6 +28,7 @@ import java.net.MalformedURLException;
 
 import org.apache.avalon.repository.RepositoryException;
 import org.apache.avalon.repository.provider.InitialContext;
+import org.apache.avalon.repository.provider.RepositoryCriteria;
 
 import org.apache.avalon.util.criteria.Criteria;
 import org.apache.avalon.util.criteria.Parameter;
@@ -44,9 +45,9 @@ import org.apache.avalon.util.defaults.DefaultsBuilder;
  * for application to a factory.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.3.2.1 $
  */
-public class DefaultRepositoryCriteria extends Criteria
+public class DefaultRepositoryCriteria extends Criteria implements RepositoryCriteria
 {
     //--------------------------------------------------------------
     // static
@@ -63,46 +64,6 @@ public class DefaultRepositoryCriteria extends Criteria
         null );
 
    /**
-    * Repository proxy host parameter descriptor.
-    */
-    public static final String REPOSITORY_PROXY_HOST = "avalon.repository.proxy.host";
-    private static final Parameter REPOSITORY_PROXY_HOST_PARAM = 
-      new Parameter( 
-        REPOSITORY_PROXY_HOST,
-        String.class,
-        null );
-
-   /**
-    * Repository proxy port parameter descriptor.
-    */
-    public static final String REPOSITORY_PROXY_PORT = "avalon.repository.proxy.port";
-    private static final Parameter REPOSITORY_PROXY_PORT_PARAM = 
-      new Parameter( 
-        REPOSITORY_PROXY_PORT,
-        Integer.class,
-        null );
-
-   /**
-    * Repository proxy username parameter descriptor.
-    */
-    public static final String REPOSITORY_PROXY_USERNAME = "avalon.repository.proxy.username";
-    private static final Parameter REPOSITORY_PROXY_USERNAME_PARAM = 
-      new Parameter( 
-        REPOSITORY_PROXY_USERNAME,
-        String.class,
-        null );
-
-   /**
-    * Repository proxy password parameter descriptor.
-    */
-    public static final String REPOSITORY_PROXY_PASSWORD = "avalon.repository.proxy.password";
-    private static final Parameter REPOSITORY_PROXY_PASSWORD_PARAM = 
-      new Parameter( 
-        REPOSITORY_PROXY_PASSWORD,
-        String.class,
-        null );
-
-   /**
     * Repository proxy password parameter descriptor.
     */
     public static final String REPOSITORY_REMOTE_HOSTS = InitialContext.HOSTS_KEY;
@@ -112,17 +73,53 @@ public class DefaultRepositoryCriteria extends Criteria
         ",",
         null );
 
+
+   /**
+    * Repository proxy host parameter descriptor.
+    */
+    //public static final String REPOSITORY_PROXY_HOST = "avalon.repository.proxy.host";
+    //private static final Parameter REPOSITORY_PROXY_HOST_PARAM = 
+    //  new Parameter( 
+    //    REPOSITORY_PROXY_HOST,
+    //    String.class,
+    //    null );
+
+   /**
+    * Repository proxy port parameter descriptor.
+    */
+    //public static final String REPOSITORY_PROXY_PORT = "avalon.repository.proxy.port";
+    //private static final Parameter REPOSITORY_PROXY_PORT_PARAM = 
+    //  new Parameter( 
+    //    REPOSITORY_PROXY_PORT,
+    //    Integer.class,
+    //    null );
+
+   /**
+    * Repository proxy username parameter descriptor.
+    */
+    //public static final String REPOSITORY_PROXY_USERNAME = "avalon.repository.proxy.username";
+    //private static final Parameter REPOSITORY_PROXY_USERNAME_PARAM = 
+    //  new Parameter( 
+    //    REPOSITORY_PROXY_USERNAME,
+    //    String.class,
+    //    null );
+
+   /**
+    * Repository proxy password parameter descriptor.
+    */
+    //public static final String REPOSITORY_PROXY_PASSWORD = "avalon.repository.proxy.password";
+    //private static final Parameter REPOSITORY_PROXY_PASSWORD_PARAM = 
+    //  new Parameter( 
+    //    REPOSITORY_PROXY_PASSWORD,
+    //    String.class,
+    //    null );
+
    /**
     * The factory parameters template.
     */
     public static final Parameter[] PARAMS = new Parameter[]{
            REPOSITORY_CACHE_DIR_PARAM,
-           REPOSITORY_REMOTE_HOSTS_PARAM,
-           REPOSITORY_PROXY_HOST_PARAM,
-           REPOSITORY_PROXY_PORT_PARAM,
-           REPOSITORY_PROXY_USERNAME_PARAM,
-           REPOSITORY_PROXY_PASSWORD_PARAM };
-
+           REPOSITORY_REMOTE_HOSTS_PARAM };
 
    /** 
     * The name of the static defaults property resource.
@@ -220,33 +217,33 @@ public class DefaultRepositoryCriteria extends Criteria
                 throw new RepositoryException( error, e );
             }
 
-            if( properties.containsKey( REPOSITORY_PROXY_HOST ) )
-            {    
-                put(
-                  REPOSITORY_PROXY_HOST, 
-                  new Integer( properties.getProperty( REPOSITORY_PROXY_HOST ) ) );
+            //if( properties.containsKey( REPOSITORY_PROXY_HOST ) )
+            //{    
+            //    put(
+            //      REPOSITORY_PROXY_HOST, 
+            //      new Integer( properties.getProperty( REPOSITORY_PROXY_HOST ) ) );
     
-                if( properties.containsKey( REPOSITORY_PROXY_PORT ) )
-                {
-                    put(
-                      REPOSITORY_PROXY_PORT, 
-                      new Integer( properties.getProperty( REPOSITORY_PROXY_PORT ) ) );
-                }
+            //    if( properties.containsKey( REPOSITORY_PROXY_PORT ) )
+            //    {
+            //        put(
+            //          REPOSITORY_PROXY_PORT, 
+            //          new Integer( properties.getProperty( REPOSITORY_PROXY_PORT ) ) );
+            //    }
     
-                if( properties.containsKey( REPOSITORY_PROXY_USERNAME ) )
-                {
-                    put(
-                      REPOSITORY_PROXY_USERNAME, 
-                      properties.getProperty( REPOSITORY_PROXY_USERNAME ) );
-                }
+            //    if( properties.containsKey( REPOSITORY_PROXY_USERNAME ) )
+            //    {
+            //        put(
+            //          REPOSITORY_PROXY_USERNAME, 
+            //          properties.getProperty( REPOSITORY_PROXY_USERNAME ) );
+            //    }
 
-                if( properties.containsKey( REPOSITORY_PROXY_PASSWORD ) )
-                {
-                    put(
-                      REPOSITORY_PROXY_PASSWORD, 
-                      properties.getProperty( REPOSITORY_PROXY_PASSWORD ) );
-                }
-            }
+            //    if( properties.containsKey( REPOSITORY_PROXY_PASSWORD ) )
+            //    {
+            //        put(
+            //          REPOSITORY_PROXY_PASSWORD, 
+            //          properties.getProperty( REPOSITORY_PROXY_PASSWORD ) );
+            //    }
+            //}
         }
         catch( IOException ioe )
         {
@@ -257,8 +254,18 @@ public class DefaultRepositoryCriteria extends Criteria
     }
 
     //--------------------------------------------------------------
-    // Criteria
+    // RepositoryCriteria
     //--------------------------------------------------------------
+
+    public void setCacheDirectory( File cache )
+    {
+        put( REPOSITORY_CACHE_DIR, cache );
+    }
+
+    public void setHosts( String[] hosts )
+    {
+        put( REPOSITORY_REMOTE_HOSTS, hosts );
+    }
 
     public String toString()
     {
