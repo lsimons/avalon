@@ -93,6 +93,12 @@ public class Sar
         super.addFileset( zipFileSet );
     }
 
+    public void addClasses( final ZipFileSet zipFileSet )
+    {
+        zipFileSet.setPrefix( "SAR-INF/classes" );
+        super.addFileset( zipFileSet );
+    }
+
     public void execute() 
         throws BuildException
     {
