@@ -103,7 +103,7 @@ public class Main
         // order to execute.
         //
 
-        String spec = "artifact:merlin/merlin-impl#3.3-SNAPSHOT";
+        String spec = "artifact:merlin/merlin-impl#3.3.0";
         Artifact artifact = Artifact.createArtifact( spec );
         Builder builder = context.newBuilder( artifact );
 
