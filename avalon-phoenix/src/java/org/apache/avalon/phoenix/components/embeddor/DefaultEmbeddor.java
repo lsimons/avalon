@@ -50,7 +50,6 @@ public class DefaultEmbeddor
     extends AbstractLogEnabled
     implements Embeddor, Contextualizable, Parameterizable, Configurable, EmbeddorMBean
 {
-
     private static final Resources REZ =
         ResourceManager.getPackageResources( DefaultEmbeddor.class );
 
@@ -70,8 +69,17 @@ public class DefaultEmbeddor
      */
     private boolean m_persistent;
 
+    /**
+     * Flag is set to true when the embeddor should  shut itself down.
+     * It is set to true as a result of a call to shutdown() method.
+     *
+     * @see Embeddor#shutdown()
+     */
     private boolean m_shutdown;
 
+    /**
+     * Time at which the embeddor was started.
+     */
     private long m_startTime;
 
     public void contextualize( final Context context )
