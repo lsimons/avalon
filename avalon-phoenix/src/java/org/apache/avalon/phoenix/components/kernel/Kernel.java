@@ -13,6 +13,7 @@ import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
 import org.apache.avalon.phoenix.components.application.Application;
+import org.apache.log.Hierarchy;
 
 /**
  *
@@ -25,6 +26,7 @@ public interface Kernel
 
     void addApplication( SarMetaData metaData,
                          ClassLoader classLoader,
+                         Hierarchy hierarchy,
                          Configuration server )
         throws Exception;
 

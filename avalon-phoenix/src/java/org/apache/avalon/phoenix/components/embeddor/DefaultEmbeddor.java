@@ -33,6 +33,7 @@ import org.apache.avalon.phoenix.components.kernel.Kernel;
 import org.apache.avalon.phoenix.components.configuration.ConfigurationRepository;
 import org.apache.avalon.phoenix.components.manager.SystemManager;
 import org.apache.avalon.phoenix.components.deployer.Deployer;
+import org.apache.avalon.phoenix.components.logger.LogManager;
 import org.apache.avalon.phoenix.components.classloader.ClassLoaderManager;
 import org.apache.log.Hierarchy;
 import org.apache.log.LogTarget;
@@ -69,6 +70,7 @@ public class DefaultEmbeddor
     private ConfigurationRepository  m_repository;
     private Kernel                   m_kernel;
     private Deployer                 m_deployer;
+    private LogManager               m_logManager;
     private SystemManager            m_systemManager;
 
     private boolean                  m_shutdown;
@@ -123,6 +125,7 @@ public class DefaultEmbeddor
             createComponents();
 
             // setup core handler components
+            setupComponent( m_logManager );
             setupComponent( m_classLoaderManager );
             setupComponent( m_repository );
             setupComponent( m_deployer );
@@ -179,6 +182,7 @@ public class DefaultEmbeddor
             shutdownComponent( m_deployer );
             shutdownComponent( m_kernel );
             shutdownComponent( m_repository );
+            shutdownComponent( m_logManager );
             shutdownComponent( m_classLoaderManager );
         }
         catch( final Exception e )
@@ -192,6 +196,7 @@ public class DefaultEmbeddor
         m_kernel = null;
         m_repository = null;
         m_classLoaderManager = null;
+        m_logManager = null;
         m_deployer = null;
 
         System.gc(); // make sure resources are released
@@ -227,6 +232,10 @@ public class DefaultEmbeddor
         component = m_parameters.getParameter( ConfigurationRepository.ROLE );
         m_repository = 
             (ConfigurationRepository)createComponent( component, ConfigurationRepository.class );
+
+        component = m_parameters.getParameter( LogManager.ROLE );
+        m_logManager = 
+            (LogManager)createComponent( component, LogManager.class );
 
         component = m_parameters.getParameter( ClassLoaderManager.ROLE );
         m_classLoaderManager = 
@@ -426,6 +435,7 @@ public class DefaultEmbeddor
     {
         final DefaultComponentManager componentManager = new DefaultComponentManager();
 
+        componentManager.put( LogManager.ROLE, m_logManager );
         componentManager.put( ClassLoaderManager.ROLE, m_classLoaderManager );
         componentManager.put( ConfigurationRepository.ROLE, m_repository );
         componentManager.put( Deployer.ROLE, m_deployer );
@@ -447,6 +457,7 @@ public class DefaultEmbeddor
 
         final String PREFIX = "org.apache.avalon.phoenix.components.";
         defaults.setParameter( Deployer.ROLE, PREFIX + "deployer.DefaultDeployer" );
+        defaults.setParameter( LogManager.ROLE, PREFIX + "logger.DefaultLogManager" );
         defaults.setParameter( Kernel.ROLE, PREFIX + "kernel.DefaultKernel" );
         defaults.setParameter( SystemManager.ROLE, PREFIX + "manager.NoopSystemManager" );
         defaults.setParameter( ConfigurationRepository.ROLE, 

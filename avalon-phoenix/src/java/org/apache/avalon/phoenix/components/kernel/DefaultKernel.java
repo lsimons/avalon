@@ -27,6 +27,7 @@ import org.apache.avalon.phoenix.components.frame.ApplicationFrame;
 import org.apache.avalon.phoenix.components.frame.DefaultApplicationFrame;
 import org.apache.avalon.phoenix.components.manager.SystemManager;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
+import org.apache.log.Hierarchy;
 
 /**
  * The ServerKernel is the core of the Phoenix system.
@@ -165,11 +166,12 @@ public class DefaultKernel
 
     public void addApplication( final SarMetaData metaData,
                                 final ClassLoader classLoader,
+                                final Hierarchy hierarchy,
                                 final Configuration server )
         throws Exception
     {
         final String name = metaData.getName();
-        final SarEntry entry = new SarEntry( metaData, classLoader, server );
+        final SarEntry entry = new SarEntry( metaData, classLoader, hierarchy, server );
         m_entrys.put( name, entry );
 
         try { startup( (SarEntry)entry ); }
@@ -184,7 +186,9 @@ public class DefaultKernel
         throws Exception
     {
         final DefaultApplicationFrame frame =
-            new DefaultApplicationFrame( entry.getClassLoader(), entry.getMetaData() );
+            new DefaultApplicationFrame( entry.getMetaData(), 
+                                         entry.getClassLoader(),
+                                         entry.getHierarchy() );
 
         setupLogger( entry.getApplication(), entry.getMetaData().getName() + ".frame" );
 

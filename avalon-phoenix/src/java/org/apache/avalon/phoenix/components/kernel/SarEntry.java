@@ -11,6 +11,7 @@ import java.net.URL;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
 import org.apache.avalon.phoenix.components.application.Application;
+import org.apache.log.Hierarchy;
 
 /**
  * This is the structure describing each server application before it is loaded.
@@ -23,13 +24,16 @@ final class SarEntry
     private Configuration   m_configuration;
     private ClassLoader     m_classLoader;
     private Application     m_application;
+    private Hierarchy       m_hierarchy;
 
     protected SarEntry( final SarMetaData metaData, 
                         final ClassLoader classLoader,
+                        final Hierarchy hierarchy,
                         final Configuration configuration )
     {
         m_metaData = metaData;
         m_classLoader = classLoader;
+        m_hierarchy = hierarchy;
         m_configuration = configuration;
     }
 
@@ -43,14 +47,19 @@ final class SarEntry
         m_application = application;
     } 
 
-    public ClassLoader getClassLoader()
-    {
-        return m_classLoader;
-    }
-
     public SarMetaData getMetaData()
     {
         return m_metaData;
+    }
+
+    public Hierarchy getHierarchy()
+    {
+        return m_hierarchy;
+    }
+
+    public ClassLoader getClassLoader()
+    {
+        return m_classLoader;
     }
 
     public Configuration getConfiguration()
