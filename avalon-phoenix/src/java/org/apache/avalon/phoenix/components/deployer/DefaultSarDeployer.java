@@ -12,7 +12,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import org.apache.avalon.excalibur.container.Container;
 import org.apache.avalon.excalibur.container.ContainerException;
-import org.apache.avalon.excalibur.container.Locator;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.activity.Initializable;
@@ -236,12 +235,12 @@ public class DefaultSarDeployer
             try
             {
                 final String name = block.getAttribute( "name" );
-                final String className = block.getAttribute( "class" );
+                final String classname = block.getAttribute( "class" );
                 final Configuration[] provides = block.getChildren( "provide" );
 
                 final RoleMetaData[] roles = buildRoleMetaDatas( provides );
-                final Locator locator = new Locator( className, null );
-                final BlockEntry entry = new BlockEntry( name, roles, locator );
+                final BlockMetaData blockMetaData = new BlockMetaData( name, classname, roles );
+                final BlockEntry entry = new BlockEntry( blockMetaData );
                 blockEntrys.add( entry );
 
                 final String message = REZ.getString( "deploy.notice.block.add", name );

@@ -8,7 +8,6 @@
 package org.apache.avalon.phoenix.components.kapi;
 
 import org.apache.avalon.excalibur.container.Entry;
-import org.apache.avalon.excalibur.container.Locator;
 import org.apache.avalon.excalibur.container.State;
 import org.apache.avalon.phoenix.Block;
 import org.apache.avalon.phoenix.metainfo.BlockInfo;
@@ -23,27 +22,23 @@ import org.apache.avalon.phoenix.metadata.BlockMetaData;
 public class BlockEntry
     extends Entry
 {
-    private final RoleMetaData[]   m_roles;
-    //private BlockMetaData    m_blockMetaData;
-
-    private final String        m_name;
-
+    private BlockMetaData    m_blockMetaData;
     private BlockProxy          m_proxy;
 
-    public BlockEntry( final String name,
-                       final RoleMetaData[] roles,
-                       final Locator locator )
+    public BlockEntry( final BlockMetaData blockMetaData )
     {
-        //m_blockMetaData = blockMetaData;
-        m_name = name;
-        m_roles = roles;
-        setLocator( locator );
+        m_blockMetaData = blockMetaData;
         setState( State.VOID );
     }
 
     public String getName()
     {
-        return m_name;
+        return m_blockMetaData.getName();
+    }
+
+    public BlockMetaData getBlockMetaData()
+    {
+        return m_blockMetaData;
     }
 
     public BlockProxy getBlockProxy()
@@ -68,19 +63,11 @@ public class BlockEntry
 
     public RoleMetaData getRole( final String role )
     {
-        for( int i = 0; i < m_roles.length; i++ )
-        {
-            if( m_roles[ i ].getRole().equals( role ) )
-            {
-                return m_roles[ i ];
-            }
-        }
-
-        return null;
+        return m_blockMetaData.getRole( role );
     }
 
     public RoleMetaData[] getRoles()
     {
-        return m_roles;
+        return m_blockMetaData.getRoles();
     }
 }
