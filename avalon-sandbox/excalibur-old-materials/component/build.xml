@@ -239,9 +239,9 @@
       <copy file="${excalibur-pool.jar}" todir="${build.dir}/tempjars"/>
       <copy file="${build.lib}/${jar.name}" todir="${build.dir}/tempjars"/>
 
-      <jar destfile="${build.lib}/${name}-complete-${version}.jar">
+      <jar destfile="${build.lib}/${name}-complete-${version}.jar" duplicate="preserve">
         <manifest>
-          <attribute name="Extension-Name" value="${name}"/>
+          <attribute name="Extension-Name" value="${name}-complete"/>
           <attribute name="Specification-Vendor" value="Apache Software Foundation"/>
           <attribute name="Specification-Version" value="1.0"/>
           <attribute name="Implementation-Vendor" value="Apache Software Foundation"/>
