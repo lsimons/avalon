@@ -59,6 +59,7 @@
         <role>Release Manager.</role>
         <role>Conception, architecture and initial implementation.</role>
       </roles>
+      <timezone>1</timezone>
     </developer>
     <developer>
       <name>Leo Simons</name>
@@ -67,6 +68,7 @@
       <roles>
         <role>System review, code cleanup.</role>
       </roles>
+      <timezone>1</timezone>
     </developer>
     <developer>
       <name>Berin Loritsch</name>
@@ -117,6 +119,7 @@
         <role>AltRMI extensions.</role>
         <role>JMS extensions.</role>
       </roles>
+      <timezone>-5</timezone>
       <organization>Sony Electronics</organization>
     </developer>
     <developer>
@@ -140,7 +143,10 @@
       <email>niclas@hedhman.org</email>
       <roles>
         <role>Patches improving build procedures, validating and enhancing cross-platform builds, resolving maven bugs, and enhancements to the repository subsystem.</role>
+        <role>Kernel improvements in deployment and security.</role>
       </roles>
+      <organization>Bali Automation Sdn Bhd</organization>
+      <timezone>8</timezone>
     </developer>
   </developers>
 
@@ -162,7 +168,7 @@
       </roles>
     </contributor>
     <contributor>
-      <name>Jörg Schaible</name>
+      <name>Jrg Schaible</name>
       <email>Joerg.Schaible@gmx.de</email>
       <organization>Elsag-Solutions AG</organization>
       <roles>
