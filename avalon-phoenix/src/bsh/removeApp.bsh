@@ -1,0 +1,23 @@
+
+bsh.help.removeApp = "usage: removeApp( appName ), remove an app";
+
+/*
+	By Paul Hammant : Specifically for Phoenix
+*/
+removeApp( String appName ) {
+
+    kernel = this.interpreter.get("phoenix-kernel");
+    kernel.removeApplication(appName);
+    print(appName + " removed");    
+    
+}
+
+removeApp( int appNo ) {
+
+    kernel = this.interpreter.get("phoenix-kernel");
+    String[] apps = kernel.getApplicationNames();
+    kernel.removeApplication(apps[appNo]);
+    print(appName + " removed");    
+    
+}
+
