@@ -51,7 +51,7 @@ public class DefaultOutputLogTarget
      *
      * @param output the output stream
      */
-    public DefaultOutputLogTarget( OutputStream output )
+    public DefaultOutputLogTarget( final OutputStream output )
     {
         this( new OutputStreamWriter( output) );
     }
@@ -61,7 +61,7 @@ public class DefaultOutputLogTarget
      *
      * @param writer the Writer
      */
-    public DefaultOutputLogTarget( Writer writer )
+    public DefaultOutputLogTarget( final Writer writer )
     {
         m_output = writer;
 
