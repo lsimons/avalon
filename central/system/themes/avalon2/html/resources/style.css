@@ -5,7 +5,7 @@
     text-align: right;
 }
 
-body
+body, td
 {
     margin: 0;
     padding: 0;
@@ -24,14 +24,22 @@ table.logobar
     width: 100%;
 }
 
-.feather
+.panelleft
 {
+    vertical-align: bottom;
+    text-align: left;
     border-right: 1px solid #9999FF;
     width: 167px;
     padding: 0;
 }
 
-.panel
+.panelmiddle
+{
+    vertical-align: bottom;
+    text-align: left;
+}
+
+.panelright,
 {
     vertical-align: bottom;
     text-align: left;
@@ -65,7 +73,6 @@ table.logobar
     border-left: 1px solid #9999FF;
     border-right: 1px solid #003399;
     border-bottom: 1px solid #003399;
-    width: 100%;
     display: block;
     height: 2em;
     font-size: 8pt;
@@ -133,7 +140,7 @@ table.logobar
     border-bottom: 1px black solid;
 }
 
-div[border=none]
+div[border="none"]
 {
     border: none;
 }
