@@ -76,7 +76,7 @@
 
     <maven:reactor basedir="${basedir}"
       includes="**/project.xml"
-      excludes="project.xml,test/project.xml,**test/project.xml"
+      excludes="project.xml,test/project.xml,**test/project.xml,target/**"
       goals=""
       banner="Building:"
       ignoreFailures="false"
