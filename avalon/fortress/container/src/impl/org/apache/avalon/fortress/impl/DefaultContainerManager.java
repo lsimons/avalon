@@ -65,7 +65,7 @@ import org.apache.avalon.framework.logger.Loggable;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.ServiceManager;
-import org.apache.avalon.framework.excalibur.logger.LoggerManager;
+import org.apache.avalon.excalibur.logger.LoggerManager;
 
 /**
  * This is the default implementation of the
@@ -73,7 +73,7 @@ import org.apache.avalon.framework.excalibur.logger.LoggerManager;
  * See that interface for a description.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.25 $ $Date: 2003/06/04 13:19:39 $
+ * @version CVS $Revision: 1.26 $ $Date: 2003/06/04 15:48:36 $
  */
 public class DefaultContainerManager
     implements Initializable, Disposable, ContainerManager, ContainerManagerConstants
