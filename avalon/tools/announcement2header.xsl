@@ -10,6 +10,18 @@
   </xsl:template>
 
   <xsl:template match="announcement">
+    <style>
+      body { background-color: #FFFFFF }
+      p { font-size: 10pt; font-family: Helvetica, Arial, sans-serif }
+      li { font-size: 10pt; font-family: Helvetica, Arial, sans-serif }
+      div { font-size: 10pt; font-family: Helvetica, Arial, sans-serif; font-style:italic }
+      h1 { font-size: 14pt; font-family: Helvetica, Arial, sans-serif; font-weight: bold }
+      h2 { font-size: 12pt; font-family: Helvetica, Arial, sans-serif; font-weight: bold }
+      h3 { font-size: 10pt; font-family: Helvetica, Arial, sans-serif; font-weight: bold }
+      A:link { color: #0000A0 }          /* unvisited link */
+      A:visited { color: #A00000 }       /* visited links */
+      A:active { color: #00A000 }        /* active links */
+    </style>
     <h1 align="center"><xsl:value-of select="title"/><xsl:text> Released</xsl:text></h1>
     <xsl:apply-templates select="abstract"/>
 
