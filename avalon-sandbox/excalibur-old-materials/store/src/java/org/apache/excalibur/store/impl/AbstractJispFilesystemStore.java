@@ -22,7 +22,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Enumeration;
-import java.util.Vector;
 
 /**
  * This store is based on the Jisp library
@@ -31,7 +30,7 @@ import java.util.Vector;
  *
  * @author <a href="mailto:g-froehlich@gmx.de">Gerhard Froehlich</a>
  * @author <a href="mailto:vgritsenko@apache.org">Vadim Gritsenko</a>
- * @version CVS $Id: AbstractJispFilesystemStore.java,v 1.1 2002/10/12 10:36:55 froehlich Exp $
+ * @version CVS $Id: AbstractJispFilesystemStore.java,v 1.2 2003/01/29 06:56:01 cziegeler Exp $
  */
 public abstract class AbstractJispFilesystemStore
 extends AbstractLogEnabled

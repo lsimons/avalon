@@ -54,61 +54,24 @@
  */
 package org.apache.excalibur.source;
 
-import java.io.Serializable;
-
 /**
- * A <code>SourceValidity</code> object contains all information to check if a Source
- * object is still valid.
- * <p>
- * There are two possibilities:
- * <ul>
- * <li>The validity object has all information to check by itself if it is valid
- *     (e.g. given an expires date).</li>
- * <li>The validity object possibility needs another (newer) validity object to compare
- *     against (e.g. to test a last modification date).</li>
- * </ul>
- * To avoid testing what the actual implementation of the validity object supports,
- * the invocation order is to first call {@link #isValid()} and only if this result
- * is <code>0</code> (i.e. "don't know"), then to call {@link #isValid(SourceValidity)}.
- * <p>
- * Remember to call {@link #isValid(SourceValidity)} when {@link #isValid()} returned
- * <code>0</code> !
- *
- * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.7 $ $Date: 2003/01/29 06:56:01 $
+ * A modifiable traversable source. This adds to {@link ModifiableSource} the
+ * ability to create a directory.
+ * 
+ * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
+ * @version CVS $Revision: 1.1 $ $Date: 2003/01/29 06:56:01 $
  */
-public interface SourceValidity
-    extends Serializable
+public interface ModifiableTraversableSource extends ModifiableSource, TraversableSource
 {
-    final int VALID   = +1;
-    final int INVALID = -1;
-    final int UNKNWON = 0;
-    
     /**
-     * Check if the component is still valid. The possible results are :
-     * <ul>
-     * <li><code>-1</code>: invalid. The component isn't valid anymore.</li>
-     * <li><code>0</code>: don't know. This validity should be checked against a new
-     *     validity object using {@link #isValid(SourceValidity)}.</li>
-     * <li><code>1</code>: valid. The component is still valid.</li>
-     * </ul>
-     */
-    int isValid();
-
-    /**
-     * Check if the component is still valid. This is only true if the incoming Validity
-     * is of the same type and has the "same" values.
+     * If it doesn't already exist, create the directory corresponding to this source 
+     * (equivalent to <code>File.mkdirs()</code>)
      * <p>
-     * The invocation order is that the isValid
-     * method of the old Validity object is called with the new one as a
-     * parameter.
-     * @return -1 is returned, if the validity object is not valid anymore
-     *          +1 is returned, if the validity object is still valid
-     *          0  is returned, if the validity check could not be performed.
-     *             In this case, the new validity object is not usable. Examples
-     *             for this are: when the validity objects have different types,
-     *             or when one validity object for any reason is not able to
-     *             get the required information.
+     * If the source already exists, this method does nothing if it's already
+     * a directory, and fails otherwise.
      */
-    int isValid( SourceValidity newValidity );
+    public void makeDirectory() throws SourceException;
+
 }
+
+

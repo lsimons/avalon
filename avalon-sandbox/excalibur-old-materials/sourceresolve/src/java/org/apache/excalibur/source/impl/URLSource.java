@@ -78,7 +78,7 @@ import org.apache.excalibur.source.impl.validity.TimeStampValidity;
  * FIXME: Get mime-type
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.17 $ $Date: 2003/01/08 21:33:50 $
+ * @version CVS $Revision: 1.18 $ $Date: 2003/01/29 06:56:01 $
  */
 public class URLSource
     extends AbstractSource
@@ -111,6 +111,9 @@ public class URLSource
 
     /** Is this a post? */
     protected boolean isPost = false;
+    
+    /** Does this source exist ? */
+    protected boolean exists = false;
 
 
     /** the prev returned SourceValidity */
@@ -135,7 +138,7 @@ public class URLSource
     {
         this.systemId = url.toExternalForm();
         int pos = systemId.indexOf(':');
-        this.protocol = systemId.substring(0, pos);
+        this.scheme = systemId.substring(0, pos);
         if (systemId.startsWith( FILE ))
         {
             this.file = new File( this.systemId.substring( FILE.length() ) );
@@ -192,10 +195,14 @@ public class URLSource
      */
     protected void getInfos()
     {
+        // exists will be set below depending on the url type
+        this.exists = false;
+        
         if( null != this.file )
         {
             this.lastModificationDate = this.file.lastModified();
             this.contentLength = this.file.length();
+            this.exists = this.file.exists();
         }
         else
         {
@@ -214,6 +221,7 @@ public class URLSource
                     }
                     this.lastModificationDate = this.connection.getLastModified();
                     this.contentLength = this.connection.getContentLength();
+                    this.exists = true;
                 }
                 catch( IOException ignore )
                 {
@@ -226,6 +234,15 @@ public class URLSource
                 super.getInfos();
             }
         }
+    }
+
+    /**
+     * Does this source exist ?
+     */
+    public boolean exists()
+    {
+        this.checkInfos();
+        return this.exists;
     }
 
     /**
@@ -393,11 +410,11 @@ public class URLSource
      * Refresh this object and update the last modified date
      * and content length.
      */
-    public void discardValidity()
+    public void refresh()
     {
         // reset connection
         this.connection = null;
-        super.discardValidity();
+        super.refresh();
     }
 
     /**

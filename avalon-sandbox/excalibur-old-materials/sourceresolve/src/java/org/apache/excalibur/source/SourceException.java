@@ -54,36 +54,55 @@
  */
 package org.apache.excalibur.source;
 
-import org.apache.avalon.framework.CascadingException;
+import java.io.IOException;
+
+import org.apache.avalon.framework.CascadingThrowable;
 
 /**
  * This Exception is thrown every time there is a problem in processing
- * the source.
+ * a source.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.6 $ $Date: 2003/01/09 08:33:34 $
+ * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
+ * @version CVS $Revision: 1.7 $ $Date: 2003/01/29 06:56:01 $
  */
 public class SourceException
-    extends CascadingException
+    extends IOException implements CascadingThrowable
 {
+    /**
+     * The Throwable that caused this exception to be thrown.
+     */
+    private final Throwable m_throwable;
+
     /**
      * Construct a new <code>SourceException</code> instance.
      *
-     * @param message The detail message for this exception.
+     * @param message the detail message for this exception.
      */
     public SourceException( final String message )
     {
-        super( message, null );
+        this( message, null );
     }
 
     /**
      * Construct a new <code>SourceException</code> instance.
      *
-     * @param message The detail message for this exception.
-     * @param throwable the root cause of the exception
+     * @param message the detail message for this exception.
+     * @param throwable the root cause of the exception.
      */
     public SourceException( final String message, final Throwable throwable )
     {
-        super( message, throwable );
+        super( message  );
+        m_throwable = throwable;
+    }
+    
+    /**
+     * Retrieve the cause of the exception.
+     *
+     * @return the cause.
+     */
+    public final Throwable getCause()
+    {
+        return m_throwable;
     }
 }

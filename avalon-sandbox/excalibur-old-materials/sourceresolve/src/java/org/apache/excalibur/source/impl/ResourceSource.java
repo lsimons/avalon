@@ -69,7 +69,7 @@ import org.apache.excalibur.source.impl.validity.NOPValidity;
  * FIXME: Get mime-type, content-length, lastModified
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.7 $ $Date: 2003/01/27 10:38:44 $
+ * @version CVS $Revision: 1.8 $ $Date: 2003/01/29 06:56:01 $
  */
 public final class ResourceSource
     extends AbstractSource
@@ -83,7 +83,12 @@ public final class ResourceSource
         this.systemId = systemId;
         final int pos = systemId.indexOf( "://" );
         m_location = systemId.substring( pos + 3 );
-        this.protocol = systemId.substring(0, pos);
+        this.scheme = systemId.substring(0, pos);
+    }
+    
+    public boolean exists()
+    {
+        return getClassLoader().getResource( m_location ) != null;
     }
 
     /**
@@ -92,27 +97,30 @@ public final class ResourceSource
     public InputStream getInputStream()
         throws IOException, SourceException
     {
-        ClassLoader loader = Thread.currentThread().getContextClassLoader();
-        if( loader == null )
-        {
-            loader = getClass().getClassLoader();
-        }
 
-        InputStream in = loader.getResourceAsStream( m_location );
+        InputStream in = getClassLoader().getResourceAsStream( m_location );
         if ( in == null )
           throw new SourceNotFoundException( "Source '"+m_location+"' was not found" );
         return in;
     }
 
     /**
-     *  Get the Validity object. This can either wrap the last modification
-     *  date or the expires information or...
-     *  If it is currently not possible to calculate such an information
-     *  <code>null</code> is returned.
+     * Returns {@link NOPValidity#SHARED_INSTANCE} since a resource doesn't change.
+     * 
      */
     public SourceValidity getValidity()
     {
         // we are always valid
         return NOPValidity.SHARED_INSTANCE;
+    }
+    
+    private ClassLoader getClassLoader() {
+        ClassLoader loader = Thread.currentThread().getContextClassLoader();
+        if( loader == null )
+        {
+            loader = getClass().getClassLoader();
+        }
+        
+        return loader;
     }
 }

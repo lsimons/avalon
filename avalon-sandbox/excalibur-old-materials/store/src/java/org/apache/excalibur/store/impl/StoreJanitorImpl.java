@@ -27,7 +27,7 @@ import java.util.Iterator;
  * @author <a href="mailto:cs@ffzj0ia9.bank.dresdner.net">Christian Schmitt</a>
  * @author <a href="mailto:g-froehlich@gmx.de">Gerhard Froehlich</a>
  * @author <a href="mailto:proyal@managingpartners.com">Peter Royal</a>
- * @version CVS $Id: StoreJanitorImpl.java,v 1.1 2002/05/02 08:55:39 cziegeler Exp $
+ * @version CVS $Id: StoreJanitorImpl.java,v 1.2 2003/01/29 06:56:02 cziegeler Exp $
  */
 public class StoreJanitorImpl
 extends AbstractLogEnabled
@@ -138,7 +138,7 @@ implements StoreJanitor,
                }
             }
             try {
-                Thread.currentThread().sleep(this.cleanupthreadinterval * 1000);
+                Thread.sleep(this.cleanupthreadinterval * 1000);
             } catch (InterruptedException ignore) {}
         }
     }

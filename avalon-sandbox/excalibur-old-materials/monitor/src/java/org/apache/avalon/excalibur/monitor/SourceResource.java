@@ -19,7 +19,7 @@ import org.apache.excalibur.source.SourceValidity;
 
 /**
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version $Id: SourceResource.java,v 1.9 2003/01/14 07:45:10 cziegeler Exp $
+ * @version $Id: SourceResource.java,v 1.10 2003/01/29 06:56:02 cziegeler Exp $
  */
 public final class SourceResource
     extends StreamResource
@@ -36,7 +36,7 @@ public final class SourceResource
     public SourceResource( final Source source )
         throws Exception
     {
-        super( source.getSystemId() );
+        super( source.getURI() );
 
         m_source = source;
         setPreviousModified( System.currentTimeMillis() );
@@ -58,7 +58,7 @@ public final class SourceResource
             boolean isValid = false;
             SourceValidity newVal = null;
             if ( valid == 0 ) {
-                m_source.discardValidity();
+                m_source.refresh();
                 newVal = m_source.getValidity();
                 if( newVal != null)
                 {
@@ -72,7 +72,7 @@ public final class SourceResource
                 return getPreviousModified();
             } else {
                 if ( null == newVal ) {
-                    m_source.discardValidity();
+                    m_source.refresh();
                     m_validity = m_source.getValidity();
                 }
                 return System.currentTimeMillis();

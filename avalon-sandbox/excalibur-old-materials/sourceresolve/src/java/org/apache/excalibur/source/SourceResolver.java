@@ -77,7 +77,7 @@ import org.apache.avalon.framework.component.Component;
  * like Composable, Initializable, Disposable etc.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.6 $ $Date: 2002/12/15 11:56:48 $
+ * @version CVS $Revision: 1.7 $ $Date: 2003/01/29 06:56:01 $
  */
 
 public interface SourceResolver
@@ -88,10 +88,13 @@ public interface SourceResolver
     /**
      * Get a <code>Source</code> object.
      * This is a shortcut for <code>resolve(location, null, null)</code>
-     * @throws SourceNotFoundException if the source cannot be found
+     * 
+     * @return the resolved source object.
+     * @throws MalformetURLException if <code>location</code> is malformed.
+     * @throws IOException if the source couldn't be created for some other reason.
      */
     Source resolveURI( String location )
-        throws MalformedURLException, IOException, SourceException;
+        throws MalformedURLException, IOException;
 
     /**
      * Get a <code>Source</code> object.
@@ -102,16 +105,20 @@ public interface SourceResolver
      * @param base - a base URI for resolving relative locations. This
      *               is optional and can be <code>null</code>.
      * @param parameters - Additional parameters for the URI. The parameters
-     *                     are specific to the used protocol.
-     * @throws SourceNotFoundException if the source cannot be found
+     *                     are specific to the used scheme.
+     * @return the resolved source object.
+     * @throws MalformetURLException if <code>location</code> is malformed.
+     * @throws IOException if the source couldn't be created for some other reason.
      */
     Source resolveURI( String location,
                        String base,
                        Map parameters )
-        throws MalformedURLException, IOException, SourceException;
+        throws MalformedURLException, IOException;
 
     /**
-     * Releases a resolved resource
+     * Releases a resolved resource.
+     * 
+     * @param source the source to release.
      */
     void release( Source source );
 }
