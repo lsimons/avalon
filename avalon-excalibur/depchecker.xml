@@ -3,7 +3,7 @@
 <!--
 ============================================================
                 Dependency updater
-                   Version $Revision: 1.43 $
+                   Version $Revision: 1.44 $
            Jeff Turner <jefft@apache.org>
 
 This Ant script provides "functions" to check if
@@ -505,14 +505,6 @@ To use it, type 'ant -f depchecker.xml'
             <property name="proj.jar.name" value="excalibur-threadcontext.jar"/>
             <property name="path" value="${excalibur-threadcontext.jar}"/>
             <property name="proj.home" value="${basedir}/../threadcontext"/>
-        </ant>
-    </target>
-
-    <target name="checkXMLBundle">
-        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
-            <property name="proj.jar.name" value="excalibur-xmlbundle.jar"/>
-            <property name="path" value="${excalibur-xmlbundle.jar}"/>
-            <property name="proj.home" value="${basedir}/../xmlbundle"/>
         </ant>
     </target>
 
