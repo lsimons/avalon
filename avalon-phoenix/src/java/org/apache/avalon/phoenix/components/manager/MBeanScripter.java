@@ -49,6 +49,9 @@ public class MBeanScripter
         return m_objectName;
     }
 
+    /**
+     * Create MBean and invoke startup operations.
+     */
     public void startup()
         throws Exception
     {
@@ -60,6 +63,9 @@ public class MBeanScripter
         invokeStartupOperations();
     }
 
+    /**
+     * Invoke shutdown operations.
+     */
     public void shutdown()
         throws Exception
     {
@@ -69,7 +75,8 @@ public class MBeanScripter
     private void setAttributes()
         throws Exception
     {
-        final Configuration[] attributes = m_configuration.getChildren( "attribute" );
+        final Configuration[] attributes =
+            m_configuration.getChildren( "attribute" );
         for ( int i = 0; i < attributes.length; i++ )
         {
             setAttribute( attributes[ i ] );
@@ -87,7 +94,8 @@ public class MBeanScripter
             final Class valueClass = Class.forName( type );
             value = c_valueConverter.convert( valueClass, value, null );
         }
-        m_mBeanServer.setAttribute( getObjectName(), new Attribute( name, value ) );
+        m_mBeanServer.setAttribute( getObjectName(),
+                                    new Attribute( name, value ) );
     }
 
     private void setUses()
@@ -105,20 +113,23 @@ public class MBeanScripter
     {
         final String name = use.getAttribute( "name" );
         final String value = use.getValue();
-        m_mBeanServer.setAttribute( getObjectName(), new Attribute( name, new ObjectName( value ) ) );
+        final Attribute ref = new Attribute( name, new ObjectName( value ) );
+        m_mBeanServer.setAttribute( getObjectName(), ref );
     }
 
     private void invokeStartupOperations()
         throws Exception
     {
-        final Configuration[] invokes = m_configuration.getChild( "startup", true ).getChildren( "invoke" );
+        final Configuration[] invokes =
+            m_configuration.getChild( "startup", true ).getChildren( "invoke" );
         invokeOperations( invokes );
     }
 
     private void invokeShutdownOperations()
         throws Exception
     {
-        final Configuration[] invokes = m_configuration.getChild( "startup", true ).getChildren( "invoke" );
+        final Configuration[] invokes =
+            m_configuration.getChild( "startup", true ).getChildren( "invoke" );
         invokeOperations( invokes );
     }
 
