@@ -24,6 +24,7 @@
         <depend project="dist-bsf"/>
         <depend project="rhino"/>
         <depend project="junitperf"/>
+        <depend project="excalibur-pool"/>
 
         <option project="jdbc"/>
         <option project="jaxen"/>
@@ -97,7 +98,7 @@
     </project>
 
     <project name="excalibur-bzip2">
-        <package>org.apache.avalon.excalibur.bzip2</package>
+        <package>org.apache.excalibur.bzip2</package>
 
         <ant basedir="bzip2">
             <depend property="junit.jar" project="junit"/>
@@ -238,7 +239,7 @@
     </project>
 
     <project name="excalibur-extension">
-        <package>org.apache.avalon.excalibur.extension</package>
+        <package>org.apache.excalibur.extension</package>
 
         <ant basedir="extension">
             <depend property="junit.jar"   project="junit"/>
@@ -399,6 +400,33 @@
             to="avalon-dev@jakarta.apache.org"/>
     </project>
 
+    <project name="excalibur-pool">
+        <package>org.apache.avalon.excalibur.pool</package>
+
+        <ant basedir="lang">
+            <depend property="framework.jar" project="jakarta-avalon"/>
+            <depend property="excalibur-collections.jar" project="excalibur-collections"/>
+            <depend property="excalibur-concurrent.jar" project="excalibur-concurrent"/>
+            <depend property="junit.jar" project="junit"/>
+            <property name="version" value="@@DATE@@"/>
+            <property name="junit.failonerror" value="true"/>
+            <property name="do.checkstyle" value="true"/>
+        </ant>
+
+        <depend project="jakarta-ant"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
+        <depend project="checkstyle"/>
+        <depend project="jakarta-ant"/>
+        <work nested="lang/build/classes"/>
+
+        <home nested="lang"/>
+        <jar name="build/lib/excalibur-lang-@@DATE@@.jar"/>
+
+        <nag from="Peter Donald &lt;peter@apache.org&gt;"
+            to="avalon-dev@jakarta.apache.org"/>
+    </project>
+
     <project name="excalibur-naming">
         <package>org.apache.avalon.excalibur.naming</package>
 
@@ -423,7 +451,7 @@
     </project>
 
     <project name="excalibur-tar">
-        <package>org.apache.avalon.excalibur.tar</package>
+        <package>org.apache.excalibur.tar</package>
 
         <ant basedir="tar">
             <depend property="junit.jar" project="junit"/>
@@ -470,7 +498,7 @@
     </project>
 
     <project name="excalibur-zip">
-        <package>org.apache.avalon.excalibur.zip</package>
+        <package>org.apache.excalibur.zip</package>
 
         <ant basedir="zip">
             <depend property="junit.jar" project="junit"/>
