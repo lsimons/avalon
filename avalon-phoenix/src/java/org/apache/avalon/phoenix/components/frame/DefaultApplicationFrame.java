@@ -178,6 +178,7 @@ public class DefaultApplicationFrame
     {
         final DefaultBlockContext context =
             new DefaultBlockContext( getLogger(), this, m_context );
+        context.setLogger( getLogger() );
         context.put( BlockContext.NAME, name );
         context.makeReadOnly();
         return context;

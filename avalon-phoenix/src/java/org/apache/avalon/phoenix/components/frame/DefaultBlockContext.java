@@ -8,15 +8,16 @@
 package org.apache.avalon.phoenix.components.frame;
 
 import java.io.File;
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.excalibur.thread.ThreadPool;
 import org.apache.avalon.framework.CascadingRuntimeException;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.DefaultContext;
+import org.apache.avalon.framework.logger.Loggable;
 import org.apache.avalon.phoenix.BlockContext;
 import org.apache.log.Logger;
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
 
 /**
  * Context via which Blocks communicate with container.
@@ -25,12 +26,13 @@ import org.apache.avalon.excalibur.i18n.Resources;
  */
 public class DefaultBlockContext
     extends DefaultContext
-    implements BlockContext
+    implements BlockContext, Loggable
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( DefaultBlockContext.class );
 
     private ApplicationFrame  m_frame;
+    private Logger            m_logger;
     private Logger            m_baseLogger;
     private boolean           m_warningEmitted;
 
@@ -46,6 +48,11 @@ public class DefaultBlockContext
         super( context );
         m_baseLogger = logger;
         m_frame = frame;
+    }
+
+    public void setLogger( final Logger logger )
+    {
+        m_logger = logger;
     }
 
     /**
@@ -97,6 +104,7 @@ public class DefaultBlockContext
         if( !m_warningEmitted )
         {
             final String message = REZ.getString( "context.warn.threadpool", getName() );
+            m_logger.warn( message );
             System.err.println( message );
             m_warningEmitted = true;
         }
