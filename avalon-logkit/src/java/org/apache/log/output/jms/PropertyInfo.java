@@ -13,20 +13,36 @@ package org.apache.log.output.jms;
  * @author <a href="mailto:mirceatoma@home.com">Mircea Toma</a>
  */
 public class PropertyInfo 
-    extends ContentInfo
 {
     ///Name of property
     private final String   m_name;
 
+    ///Type/Source of property
+    private final int      m_type;
+
+    ///Auxilliary parameters (ie constant or sub-format)
+    private final String   m_aux; //may be null
+
     public PropertyInfo( final String name, final int type, final String aux )
     {
-        super( type, aux );
+        m_type = type;
+        m_aux = aux;
         m_name = name;
     }
 
     public String getName()
     {
         return m_name;
+    }
+
+    public int getType()
+    {
+        return m_type;
+    }
+
+    public String getAux()
+    {
+        return m_aux;
     }
 }
 

@@ -16,6 +16,7 @@ import javax.jms.TextMessage;
 import org.apache.log.ContextMap;
 import org.apache.log.Hierarchy;
 import org.apache.log.LogEvent;
+import org.apache.log.format.Formatter;
 
 /**
  * Basic message factory that stores LogEvent in Message.
@@ -26,13 +27,19 @@ public class TextMessageBuilder
     implements MessageBuilder
 {
     private final PropertyInfo[]  m_properties;
-    private final ContentInfo     m_content;
+    private final Formatter m_formatter;
     
+    public TextMessageBuilder( final Formatter formatter )
+    {
+        m_properties = new PropertyInfo[0];
+        m_formatter = formatter;
+    }
+
     public TextMessageBuilder( final PropertyInfo[] properties, 
-                               final ContentInfo content )
+                               final Formatter formatter )
     {
         m_properties = properties;
-        m_content = content;
+        m_formatter = formatter;
     }
     
     public Message buildMessage( final Session session, final LogEvent event )
@@ -103,40 +110,19 @@ public class TextMessageBuilder
 
     private String getText( final LogEvent event )
     {
-        switch( m_content.getType() )
+        if ( null == m_formatter )
         {
-        case PropertyType.MESSAGE:
             return event.getMessage();
-
-        case PropertyType.RELATIVE_TIME:
-            return String.valueOf( event.getRelativeTime() );
-
-        case PropertyType.TIME:
-            return String.valueOf( event.getTime() );
-
-        case PropertyType.CATEGORY:
-            return event.getCategory();
-
-        case PropertyType.PRIORITY:
-            return event.getPriority().getName();
-
-        case PropertyType.CONTEXT:
-            return getContextMap( event.getContextMap(), m_content.getAux() );
-
-        case PropertyType.STATIC:
-            return m_content.getAux();
-
-        case PropertyType.THROWABLE:
-            return getStackTrace( event.getThrowable() );
-
-        default:
-            throw new IllegalStateException( "Unknown PropertyType: " + m_content.getType() );
+        }
+        else 
+        {
+            return m_formatter.format( event );
         }
     }
 
     private String getStackTrace( final Throwable throwable )
     {
-        if ( null != throwable ) return "";
+        if ( null == throwable ) return "";
 
         final StringWriter stringWriter = new StringWriter();
         final PrintWriter printWriter = new PrintWriter( stringWriter );
