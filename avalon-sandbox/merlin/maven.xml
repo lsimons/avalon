@@ -15,8 +15,8 @@
   <property name="pom.organization.identifier" value="ASF"/>
   <property name="pom.specificationVersion" value="1.0"/>
 
-  <goal name="merlin:install" 
-    description="Build the Merlin installation." >
+  <goal name="merlin-dist" 
+    description="Build the Merlin distribution." >
 
     <mkdir dir="${merlin.build.inst.dir}"/>
     <mkdir dir="${merlin.build.inst.dir}/ext"/>
@@ -36,7 +36,7 @@
       basedir="${basedir}"
       includes="*/project.xml"
       excludes="merlin-smp/*"
-      goals="merlin:propergate"
+      goals="merlin-propergate"
       banner="Installing:"
       ignoreFailures="false" />
 
@@ -48,7 +48,7 @@
     <maven:reactor
       basedir="${basedir}"
       includes="merlin-smp/project.xml"
-      goals="merlin:import-external-jars"
+      goals="merlin-import-external-jars"
       banner="Resolving dependencies:"
       ignoreFailures="false"/>
 
@@ -73,6 +73,9 @@
         <include name="config/**/*"/>
         <include name="repository/**/*"/>
       </fileset>
+      <fileset dir="${basedir}/merlin-smp/src/etc">
+        <include name="LICENSE.txt"/>
+      </fileset>
     </copy>
 
     <!--
@@ -84,6 +87,13 @@
 
   </goal>
 
+  <goal name="testing">
+    <copy toDir="${merlin.build.inst.dir}" flatten="true">
+      <fileset dir="${basedir}/merlin-smp/src/etc">
+        <include name="LICENSE.txt"/>
+      </fileset>
+    </copy>
+  </goal>
 
   <!--
   The following project is called against a subproject.  It results in 
@@ -91,7 +101,7 @@
   repository, and copies the jar file into the merlin installation 
   directory.
   -->
-  <goal name="merlin:propergate" prereqs="jar:install">
+  <goal name="merlin-propergate" prereqs="jar:install">
     <copy todir="${basedir}/../target/${merlin.build.inst}/lib/system">
       <fileset dir="${maven.build.dir}">
         <include name="${maven.final.name}.jar"/>
@@ -105,8 +115,7 @@
   jar files are copied from the user's local repository to the merlin 
   install system library.
   -->
-  <goal name="merlin:import-external-jars">
-    <!-- Copy each of the external jars to the installation -->
+  <goal name="merlin-import-external-jars">
     <j:forEach var="dep" items="${pom.dependencies}">
       <copy 
         todir="${basedir}/../target/${merlin.build.inst}/lib/system"
@@ -115,11 +124,11 @@
   </goal>
 
   <!--
-  The site goal is called by the merlin:install goal and handles the generation
+  The site goal is called by the merlin-install goal and handles the generation
   of the documetation for the entire Merlin project including the related sub-
   projects.
   -->
-  <goal name="merlin:site"
+  <goal name="merlin-site"
     description="Build the Merlin site.">
     <maven:reactor
       basedir="${basedir}"
@@ -130,12 +139,29 @@
   </goal>
 
   <!--
+  Copy the distribution into the local merlin installation.  This target
+  is very preliminary and presumes that you have a MERLIN_HOME environment 
+  variable already defined.  No checking or validation is currently in 
+  place.  It is useful if you want to update an existing installation.
+  -->
+  <goal name="merlin-install" prereqs="merlin-dist">
+    <property environment="env"/>
+    <mkdir dir="${env.MERLIN_HOME}"/>
+    <echo>Installing Merlin into home directory: ${env.MERLIN_HOME}</echo>
+    <copy toDir="${env.MERLIN_HOME}">
+      <fileset dir="${merlin.build.inst.dir}">
+        <include name="**/*"/>
+      </fileset>
+    </copy>
+  </goal>
+
+  <!--
   ==============================================================================
   utilities
   ==============================================================================
   -->
 
-  <goal name="merlin:clean" prereqs="clean">
+  <goal name="merlin-clean" prereqs="clean">
     <maven:reactor
       basedir="${basedir}"
       includes="*/project.xml"
@@ -144,7 +170,7 @@
       ignoreFailures="false"/>
   </goal>
 
-  <goal name="merlin:jar" >
+  <goal name="merlin-jar" >
     <maven:reactor
       basedir="${basedir}"
       includes="*/project.xml"
@@ -154,7 +180,7 @@
       ignoreFailures="false"/>
   </goal>
 
-  <goal name="merlin:snapshot" >
+  <goal name="merlin-snapshot" >
     <maven:reactor
       basedir="${basedir}"
       includes="*/project.xml"
@@ -164,7 +190,7 @@
       ignoreFailures="false"/>
   </goal>
 
-  <goal name="merlin:install-snapshot" >
+  <goal name="merlin-install-snapshot" >
     <maven:reactor
       basedir="${basedir}"
       includes="*/project.xml"
@@ -174,23 +200,13 @@
       ignoreFailures="false"/>
   </goal>
 
-  <goal name="merlin:jar-install" >
+  <goal name="merlin-jar-install" >
     <maven:reactor
       basedir="${basedir}"
       includes="*/project.xml"
       excludes="merlin-smp/*"
       goals="clean,jar:install"
       banner="Installing jar:"
-      ignoreFailures="false"/>
-  </goal>
-
-  <goal name="merlin:site"
-    description="Build the Merlin site.">
-    <maven:reactor
-      basedir="${basedir}"
-      includes="merlin-smp/project.xml"
-      goals="site"
-      banner="Building site."
       ignoreFailures="false"/>
   </goal>
 
