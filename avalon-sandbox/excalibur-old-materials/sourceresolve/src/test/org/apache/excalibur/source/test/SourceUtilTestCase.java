@@ -62,7 +62,7 @@ import junit.framework.TestCase;
  * Test case for SourceUtil.
  *
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @version $Id: SourceUtilTestCase.java,v 1.3 2003/06/07 20:59:40 bruno Exp $
+ * @version $Id: SourceUtilTestCase.java,v 1.4 2003/06/10 14:40:28 bloritsch Exp $
  */
 public class SourceUtilTestCase extends TestCase
 {
@@ -205,5 +205,10 @@ public class SourceUtilTestCase extends TestCase
         assertEquals("cocoon:/a/b/c", SourceUtil.absolutize("cocoon:/a/b/", "c", true));
         assertEquals("cocoon://c", SourceUtil.absolutize("cocoon://a", "c", true));
         assertEquals("cocoon://c", SourceUtil.absolutize("cocoon://a/b/", "../../c", true));
+
+        // Test relative File URI
+        assertEquals("file://C:/projects/avalon-excalibur/build/docs/framework/api/index.html%3Ffoo=bar",
+                SourceUtil.absolutize("file://C:/projects/avalon-excalibur/build/docs/framework/", "api/index.html%3Ffoo=bar"));
+        assertEquals( "file://C:/foo/api/", SourceUtil.absolutize( "file://C:/foo/", "api/" ) );
     }
 }
