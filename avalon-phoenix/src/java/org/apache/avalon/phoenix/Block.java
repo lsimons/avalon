@@ -10,7 +10,7 @@ package org.apache.avalon.phoenix;
 import org.apache.avalon.framework.component.Component;
 
 /**
- * The main interface to implement for building servers using Avalon patterns.
+ * The main interface to implement for Applications hosted in Phoenix.
  *
  * @author <a href="mailto:fede@apache.org">Federico Barbieri</a>
  */
