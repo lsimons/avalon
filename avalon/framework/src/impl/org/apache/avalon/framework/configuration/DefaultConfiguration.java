@@ -62,7 +62,7 @@ import java.util.HashMap;
  * This is the default <code>Configuration</code> implementation.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.33 $ $Date: 2003/07/12 08:56:26 $
+ * @version CVS $Revision: 1.34 $ $Date: 2003/07/12 12:40:49 $
  */
 public class DefaultConfiguration
     extends AbstractConfiguration
@@ -544,5 +544,24 @@ public class DefaultConfiguration
         if( other == null ) return false;
         if( !( other instanceof Configuration ) ) return false;
         return ConfigurationUtil.equals( this, (Configuration) other );
+    }
+
+    public int hashCode()
+    {
+        int hash = m_prefix.hashCode();
+        if( m_name != null ) hash ^= m_name.hashCode();
+        hash >>>= 7;
+        if( m_location != null ) hash ^= m_location.hashCode();
+        hash >>>= 7;
+        if( m_namespace != null ) hash ^= m_namespace.hashCode();
+        hash >>>= 7;
+        if( m_attributes != null ) hash ^= m_attributes.hashCode();
+        hash >>>= 7;
+        if( m_children != null ) hash ^= m_children.hashCode();
+        hash >>>= 7;
+        if( m_value != null ) hash ^= m_value.hashCode();
+        hash >>>= 7;
+        hash ^= ( m_readOnly ) ? 1 : 3;
+        return hash;
     }
 }
