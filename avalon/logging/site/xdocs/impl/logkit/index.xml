@@ -122,9 +122,7 @@
     <target id="syslog"
         artifact="avalon-logging/avalon-logkit-syslog#1.0-SNAPSHOT">
       <address hostname="localhost" port="514" facility="USER"/>
-      <format type="extended">
-        %7.7{priority} %23.23{time:yyyy-MM-dd HH:mm:ss:SSS}   [%25.25{category}] : %{message}\n%{throwable}
-      </format>
+      <format type="avalon"/>
     </target>
 ]]></source>
                 </td>
