@@ -77,6 +77,7 @@
     </dependency>
 
     <!-- xdoclet -->
+    <!--
     <dependency>
         <id>commons-collections</id>
         <version>2.1</version>
@@ -105,7 +106,7 @@
         <id>xdoclet+jmx-module</id>
         <version>1.2b2</version>
     </dependency>
-
+    -->
   </dependencies>
   
   <build>
