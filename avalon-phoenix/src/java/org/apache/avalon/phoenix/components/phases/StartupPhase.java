@@ -13,10 +13,10 @@ import org.apache.avalon.excalibur.thread.ThreadContext;
 import org.apache.avalon.framework.CascadingException;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.activity.Startable;
-import org.apache.avalon.framework.camelot.State;
-import org.apache.avalon.framework.camelot.Container;
-import org.apache.avalon.framework.camelot.ContainerException;
-import org.apache.avalon.framework.camelot.Entry;
+import org.apache.avalon.framework.container.State;
+import org.apache.avalon.framework.container.Container;
+import org.apache.avalon.framework.container.ContainerException;
+import org.apache.avalon.framework.container.Entry;
 import org.apache.avalon.framework.camelot.Factory;
 import org.apache.avalon.framework.camelot.SimpleFactory;
 import org.apache.avalon.framework.component.ComponentException;
@@ -100,7 +100,7 @@ public class StartupPhase
     public void visitBlock( final String name, final BlockEntry entry )
         throws Exception
     {
-        if( entry.getState() != State.BASE &&
+        if( State.BASE != entry.getState() &&
             null != entry.getState() ) return;
 
         if( getLogger().isInfoEnabled() )

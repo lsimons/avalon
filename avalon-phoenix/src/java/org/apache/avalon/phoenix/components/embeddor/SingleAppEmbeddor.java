@@ -10,7 +10,7 @@ package org.apache.avalon.phoenix.components.embeddor;
 import java.io.File;
 import java.util.Iterator;
 import org.apache.avalon.phoenix.components.application.Application;
-import org.apache.avalon.framework.camelot.ContainerException;
+import org.apache.avalon.framework.container.ContainerException;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.component.ComponentManager;
@@ -74,7 +74,7 @@ public class SingleAppEmbeddor
         {
             component = (Component)m_application.getEntry( role ).getInstance();
         }
-        catch ( final ContainerException ce )
+        catch( final ContainerException ce )
         {
             throw new ComponentException( ce.getMessage(), ce );
         }
@@ -89,7 +89,7 @@ public class SingleAppEmbeddor
             m_application.getEntry( role );
             return true;
         }
-        catch ( final ContainerException ce )
+        catch( final ContainerException ce )
         {
             return false;
         }

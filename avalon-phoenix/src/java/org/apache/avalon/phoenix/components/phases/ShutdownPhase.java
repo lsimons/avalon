@@ -10,8 +10,8 @@ package org.apache.avalon.phoenix.components.phases;
 import org.apache.avalon.excalibur.thread.ThreadContext;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Startable;
-import org.apache.avalon.framework.camelot.Container;
-import org.apache.avalon.framework.camelot.State;
+import org.apache.avalon.framework.container.Container;
+import org.apache.avalon.framework.container.State;
 import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.component.Composable;
@@ -52,7 +52,7 @@ public class ShutdownPhase
     public void visitBlock( final String name, final BlockEntry entry )
         throws Exception
     {
-        if( entry.getState() != State.STARTEDUP ) return;
+        if( State.STARTEDUP != entry.getState() ) return;
 
         if( getLogger().isInfoEnabled() )
         {
