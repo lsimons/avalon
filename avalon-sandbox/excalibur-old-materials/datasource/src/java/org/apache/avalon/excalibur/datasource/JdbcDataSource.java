@@ -21,7 +21,7 @@ import org.apache.avalon.excalibur.pool.DefaultPoolController;
  * <code>java.sql.DriverManager</code>.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.4 $ $Date: 2001/08/01 21:27:33 $
+ * @version CVS $Revision: 1.5 $ $Date: 2001/08/02 18:53:54 $
  */
 public class JdbcDataSource
     extends AbstractLoggable
@@ -69,7 +69,7 @@ public class JdbcDataSource
 
                 try
                 {
-                    Thread.currentThread().getContextClassLoader().loadClass( driver );
+                    Class.forName( driver, true, Thread.currentThread().getContextClassLoader() );
                 }
                 catch (ClassNotFoundException cnfe)
                 {

@@ -34,11 +34,6 @@ public class DataSourceTestCase
     static final String LOCATION = "Testlet Framework";
     static final Logger logger;
 
-    public DataSourceTestCase()
-    {
-        this("Excalibur DataSource Test Case");
-    }
-
     public DataSourceTestCase(String name)
     {
         super(name);
@@ -49,29 +44,33 @@ public class DataSourceTestCase
         DefaultConfiguration dc = new DefaultConfiguration( "", LOCATION );
         DefaultConfiguration pool = new DefaultConfiguration( "pool-controller", LOCATION );
         DefaultConfiguration dburl = new DefaultConfiguration( "dburl", LOCATION );
+        DefaultConfiguration driver = new DefaultConfiguration( "driver", LOCATION );
         DefaultConfiguration user = new DefaultConfiguration( "user", LOCATION );
         DefaultConfiguration password = new DefaultConfiguration( "password", LOCATION );
         pool.addAttribute( "min", "5" );
         pool.addAttribute( "max", "10" );
         dc.addChild( pool );
-        dburl.appendValueData( "jdbc:odbc://test" );
+        dburl.setValue( "jdbc:odbc:test" );
         dc.addChild( dburl );
-        user.appendValueData( "test" );
+        user.setValue( "test" );
         dc.addChild( user );
-        password.appendValueData( "test" );
+        password.setValue( "test" );
         dc.addChild( password );
+        driver.setValue( "sun.jdbc.odbc.JdbcOdbcDriver" );
+        dc.addChild(driver);
         conf = dc;
 
         logger = Hierarchy.getDefaultHierarchy().getLoggerFor( "test" );
-        logger.setPriority( Priority.INFO );
+        logger.setPriority( Priority.DEBUG );
 
         try
         {
-            Class.forName( "Your Driver Class Here" );
+            logger.setLogTargets( new org.apache.log.LogTarget[]
+                                  { new org.apache.log.output.FileOutputLogTarget("test.log") } );
         }
-        catch( final Exception e )
+        catch (Exception e)
         {
-            logger.error( e.getMessage(), e );
+            // ignore
         }
     }
 
@@ -87,7 +86,7 @@ public class DataSourceTestCase
         }
         catch( final ConfigurationException ce )
         {
-            assertTrue( "Over Allocation Test", false );
+            assertTrue( "Over Allocation Test: Could not configure", false );
         }
 
         try
@@ -102,6 +101,8 @@ public class DataSourceTestCase
             result = true;
             logger.info( "The test was successful" );
         }
+
+        ds.dispose();
 
         assertTrue( "Over Allocation Test", result );
     }
@@ -119,16 +120,32 @@ public class DataSourceTestCase
         catch( final ConfigurationException ce )
         {
             logger.error( ce.getMessage(), ce );
-            assertTrue( "Over Allocation Test", false );
+            assertTrue( "Over Allocation Test: could not configure", false );
         }
 
         Thread one = new Thread( new ConnectionThread( this, ds ) );
         Thread two = new Thread( new ConnectionThread( this, ds ) );
+        Thread three = new Thread( new ConnectionThread( this, ds ) );
+        Thread four = new Thread( new ConnectionThread( this, ds ) );
+        Thread five = new Thread( new ConnectionThread( this, ds ) );
+        Thread six = new Thread( new ConnectionThread( this, ds ) );
+        Thread seven = new Thread( new ConnectionThread( this, ds ) );
+        Thread eight = new Thread( new ConnectionThread( this, ds ) );
+        Thread nine = new Thread( new ConnectionThread( this, ds ) );
 
         one.start();
         two.start();
+        three.start();
+        four.start();
+        five.start();
+        six.start();
+        seven.start();
+        eight.start();
+        nine.start();
 
-        while( one.isAlive() || two.isAlive() )
+        while( one.isAlive() || two.isAlive() || three.isAlive() || four.isAlive() ||
+               five.isAlive() || six.isAlive() || seven.isAlive() || eight.isAlive() ||
+               nine.isAlive() )
         {
             try
             {
@@ -173,18 +190,18 @@ public class DataSourceTestCase
         implements Runnable
     {
         protected DataSourceComponent datasource;
-        protected DataSourceTestCase testlet;
+        protected DataSourceTestCase testcase;
 
-        ConnectionThread( final DataSourceTestCase testlet,
+        ConnectionThread( final DataSourceTestCase testcase,
                           final DataSourceComponent datasource )
         {
             this.datasource = datasource;
-            this.testlet = testlet;
+            this.testcase = testcase;
         }
 
         public void run()
         {
-            testlet.runDBTest( datasource );
+            testcase.runDBTest( datasource );
         }
     }
 }
