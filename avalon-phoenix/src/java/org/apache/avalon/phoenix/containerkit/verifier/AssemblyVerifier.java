@@ -44,7 +44,7 @@ import org.apache.avalon.phoenix.containerkit.registry.ComponentProfile;
  * </ul>
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003/02/22 04:03:29 $
+ * @version $Revision: 1.3 $ $Date: 2003/03/01 01:54:33 $
  */
 public class AssemblyVerifier
     extends AbstractLogEnabled
@@ -58,7 +58,7 @@ public class AssemblyVerifier
      * regulations of assembly.
      *
      * @param components the Components that make up assembly
-     * @throws org.apache.avalon.framework.tools.verifier.VerifyException if an error occurs
+     * @throws VerifyException if an error occurs
      */
     public void verifyAssembly( final ComponentProfile[] components )
         throws VerifyException
@@ -90,7 +90,7 @@ public class AssemblyVerifier
      * Verfiy that all Components have the needed dependencies specified correctly.
      *
      * @param components the ComponentEntry objects for the components
-     * @throws org.apache.avalon.framework.tools.verifier.VerifyException if an error occurs
+     * @throws VerifyException if an error occurs
      */
     public void verifyValidDependencies( final ComponentProfile[] components )
         throws VerifyException
@@ -105,7 +105,7 @@ public class AssemblyVerifier
      * Verfiy that there are no circular references between Components.
      *
      * @param components the ComponentEntry objects for the components
-     * @throws org.apache.avalon.framework.tools.verifier.VerifyException if an circular dependency error occurs
+     * @throws VerifyException if an circular dependency error occurs
      */
     protected void verifyNoCircularDependencies( final ComponentProfile[] components )
         throws VerifyException
@@ -127,7 +127,7 @@ public class AssemblyVerifier
      * @param component ???
      * @param components the ComponentEntry objects for the components
      * @param stack the ???
-     * @throws org.apache.avalon.framework.tools.verifier.VerifyException if an error occurs
+     * @throws VerifyException if an error occurs
      */
     protected void verifyNoCircularDependencies( final ComponentProfile component,
                                                  final ComponentProfile[] components,
@@ -222,7 +222,7 @@ public class AssemblyVerifier
      * Verfiy that the inter-Component dependencies are valid.
      *
      * @param components the ComponentProfile objects for the components
-     * @throws org.apache.avalon.framework.tools.verifier.VerifyException if an error occurs
+     * @throws VerifyException if an error occurs
      */
     protected void verifyDependencyReferences( final ComponentProfile[] components )
         throws VerifyException
@@ -238,7 +238,7 @@ public class AssemblyVerifier
      *
      * @param component the ComponentProfile object for the component
      * @param others the ComponentProfile objects for the other components
-     * @throws org.apache.avalon.framework.tools.verifier.VerifyException if an error occurs
+     * @throws VerifyException if an error occurs
      */
     protected void verifyDependencyReferences( final ComponentProfile component,
                                                final ComponentProfile[] others )
@@ -252,7 +252,7 @@ public class AssemblyVerifier
             final DependencyMetaData dependency = dependencies[ i ];
             final String providerName = dependency.getProviderName();
             final String key = dependency.getKey();
-            final String type = info.getDependency( key ).getType();
+            final String type = info.getDependency( key ).getComponentType();
 
             //Get the other component that is providing service
             final ComponentProfile provider = getComponentProfile( providerName, others );
@@ -308,7 +308,7 @@ public class AssemblyVerifier
      * Verify that the names of the specified Components are valid.
      *
      * @param components the Components Profile
-     * @throws org.apache.avalon.framework.tools.verifier.VerifyException if an error occurs
+     * @throws VerifyException if an error occurs
      */
     protected void verifyValidNames( final ComponentProfile[] components )
         throws VerifyException
@@ -354,7 +354,7 @@ public class AssemblyVerifier
      * It is not valid for the same name to be used in multiple components.
      *
      * @param components the Components
-     * @throws org.apache.avalon.framework.tools.verifier.VerifyException if an error occurs
+     * @throws VerifyException if an error occurs
      */
     protected void checkNamesUnique( final ComponentProfile[] components )
         throws VerifyException
@@ -373,7 +373,7 @@ public class AssemblyVerifier
      * @param components the array of components to check
      * @param name the name of component
      * @param index the index of component in array (so we can skip it)
-     * @throws org.apache.avalon.framework.tools.verifier.VerifyException if names are not unique
+     * @throws VerifyException if names are not unique
      */
     private void verifyUniqueName( final ComponentProfile[] components,
                                    final String name,
@@ -400,7 +400,7 @@ public class AssemblyVerifier
      * in ComponentInfo.
      *
      * @param component the ComponentProfile describing the component
-     * @throws org.apache.avalon.framework.tools.verifier.VerifyException if an error occurs
+     * @throws VerifyException if an error occurs
      */
     protected void verifyDependenciesMap( final ComponentProfile component )
         throws VerifyException
