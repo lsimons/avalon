@@ -319,6 +319,14 @@ public class DefaultECMContainer extends DefaultContainer {
     protected void processSelector(String role, Configuration config)
         throws ConfigurationException
     {
+        final String selectorRole = role + "Selector";
+        FortressServiceSelector fss = new FortressServiceSelector(this, selectorRole);
+        Map hintMap = createHintMap();
+        hintMap.put( DEFAULT_ENTRY, fss );
+        hintMap.put( SELECTOR_ENTRY,
+                    new FortressServiceSelector( this, selectorRole ) );
+        m_mapper.put( selectorRole, hintMap );
+        
         final Configuration[] children = config.getChildren();
         if ( children != null ) 
         {
