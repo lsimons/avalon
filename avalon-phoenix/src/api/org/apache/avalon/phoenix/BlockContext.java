@@ -169,6 +169,23 @@ public interface BlockContext
     //Object getProxy( Object other, Class[] interfaces );
 
     /**
+     * Method via which Blocks export their children to management
+     * subsystem.
+     *
+     * @param name the name under which child is registered ('.' separated)
+     * @param child the child object
+     * @param interfaces the interfaces to export
+     */
+    //void export( String name, Object child, Class[] interfaces );
+
+    /**
+     * Method to unexport child object from management subsystem.
+     *
+     * @param name the name of child
+     */
+    //void unexport( String name );
+
+    /**
      * Retrieve the MBeanServer for this application.
      *
      * NOTE: Unsure if this will ever be implemented
