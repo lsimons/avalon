@@ -62,7 +62,7 @@ import EDU.oswego.cs.dl.util.concurrent.PooledExecutor;
 /**
  * This is a <code>ThreadManager</code> which provides a threadpool per
  * <code>Sink</code> per <code>EventPipeline</code>. ::NOTE:: This is not
- * implemented yet!
+ * tested yet!
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  */
@@ -169,12 +169,21 @@ public final class TPSPThreadManager implements ThreadManager
         }
     }
 
+    /**
+     * The SourceRunner is used to dequeue events one at a time.
+     */
     protected static final class SourceRunner implements Runnable
     {
         private final Source m_source;
         private final EventHandler m_handler;
         private volatile boolean m_keepProcessing;
 
+        /**
+         * Create a new SourceRunner.
+         *
+         * @param source   The source to pull events from.
+         * @param handler  The handler to send events to.
+         */
         protected SourceRunner( final Source source, final EventHandler handler )
         {
             if ( source == null ) throw new NullPointerException("source");
@@ -184,6 +193,9 @@ public final class TPSPThreadManager implements ThreadManager
             m_keepProcessing = true;
         }
 
+        /**
+         * Called by the PooledExecutor to ensure all components are working.
+         */
         public void run()
         {
             while (m_keepProcessing)
@@ -214,17 +226,28 @@ public final class TPSPThreadManager implements ThreadManager
             }
         }
 
+        /**
+         * Stop the runner nicely.
+         */
         public void stop()
         {
             m_keepProcessing = false;
         }
 
+        /**
+         * Get a reference to the Source.
+         *
+         * @return the <code>Source</code>
+         */
         public Source getSource()
         {
             return m_source;
         }
     }
 
+    /**
+     * This is used to plug into Queues so that we can intercept calls to the dequeue operation.
+     */
     protected static final class SourceDequeueInterceptor implements DequeueInterceptor
     {
         private final Source m_source;
@@ -236,6 +259,16 @@ public final class TPSPThreadManager implements ThreadManager
         private final EventHandler m_handler;
         private final SourceRunner m_initRunner;
 
+        /**
+         * Create a new SourceDequeueInterceptor.  The parameters are used to ensure a working
+         * environment.
+         *
+         * @param runner      The initial SourceRunner.
+         * @param handler     The EventHandler to send events to.
+         * @param threadPool  The PooledExecutor for the set of threads.
+         * @param threshold   The threshold of events before a new thread is executed.
+         * @param margin      The margin of error allowed for the events.
+         */
         public SourceDequeueInterceptor( SourceRunner runner, EventHandler handler, PooledExecutor threadPool, int threshold, int margin )
         {
             if (runner == null) throw new NullPointerException("runner");
@@ -332,6 +365,9 @@ public final class TPSPThreadManager implements ThreadManager
             }
         }
 
+        /**
+         * Ensure all event runners are stopped for this partial pipeline.
+         */
         public void stop()
         {
             Iterator it = m_runners.iterator();
