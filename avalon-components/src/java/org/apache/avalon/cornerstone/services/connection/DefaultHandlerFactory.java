@@ -33,4 +33,11 @@ public class DefaultHandlerFactory
     {
         return (ConnectionHandler)m_handlerClass.newInstance();
     }
+
+    /**
+     * Release a previously created ConnectionHandler e.g. for spooling.
+     */
+    public void releaseConnectionHandler(ConnectionHandler connectionHandler)
+    {
+    }
 }

@@ -22,5 +22,11 @@ public interface ConnectionHandlerFactory
      */
     ConnectionHandler createConnectionHandler()
         throws Exception;
+
+    /**
+     * Release a previously created ConnectionHandler e.g. for spooling.
+     */
+    void releaseConnectionHandler( ConnectionHandler connectionHandler );
+
 }
 

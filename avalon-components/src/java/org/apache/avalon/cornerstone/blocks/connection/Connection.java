@@ -59,7 +59,7 @@ class Connection
                 m_thread = null;
                 thread.interrupt();
 
-                //Can not join as threads are part of pool 
+                //Can not join as threads are part of pool
                 //and will never finish
                 //m_thread.join();
                 
@@ -93,7 +93,7 @@ class Connection
                 final Socket socket = m_serverSocket.accept();
                 final ConnectionHandler handler = m_handlerFactory.createConnectionHandler();
                 final ConnectionRunner runner =
-                    new ConnectionRunner( socket, m_runners, handler );
+                    new ConnectionRunner( socket, m_runners, handler, m_handlerFactory );
                 setupLogger( runner );
                 m_threadPool.execute( runner );
             }
@@ -123,18 +123,21 @@ class ConnectionRunner
     extends AbstractLogEnabled
     implements Runnable, Component
 {
-    private Socket             m_socket;
-    private Thread             m_thread;
-    private List               m_runners;
-    private ConnectionHandler  m_handler;
+    private Socket                    m_socket;
+    private Thread                    m_thread;
+    private List                      m_runners;
+    private ConnectionHandler         m_handler;
+    private ConnectionHandlerFactory  m_handlerFactory;
 
     ConnectionRunner( final Socket socket,
                       final List runners,
-                      final ConnectionHandler handler )
+                      final ConnectionHandler handler,
+                      final ConnectionHandlerFactory handlerFactory )
     {
         m_socket = socket;
         m_runners = runners;
         m_handler = handler;
+        m_handlerFactory = handlerFactory;
     }
 
     public void dispose()
@@ -144,12 +147,13 @@ class ConnectionRunner
         {
             m_thread.interrupt();
             m_thread = null;
-            //Can not join as threads are part of pool 
+            //Can not join as threads are part of pool
             //and will never finish
             //m_thread.join();
 
             synchronized( this ) { wait( /*1000*/ ); }
         }
+        m_handlerFactory = null;
     }
 
     public void run()
@@ -162,6 +166,7 @@ class ConnectionRunner
             getLogger().debug( "Starting connection on " + m_socket );
             m_handler.handleConnection( m_socket );
             getLogger().debug( "Ending connection on " + m_socket );
+            m_handlerFactory.releaseConnectionHandler(m_handler);
         }
         catch( final Exception e )
         {
