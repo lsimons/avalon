@@ -101,11 +101,11 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
  * 
  * @avalon.component
  * @avalon.service type=org.apache.avalon.excalibur.datasource.ids.IDGenerator
- * @x-avalon.info name=id-generator
+ * @x-avalon.info name=sequence-id-generator
  * @x-avalon.lifestyle type=singleton
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.5 $ $Date: 2003/05/20 20:44:43 $
+ * @version CVS $Revision: 1.6 $ $Date: 2003/05/28 03:06:48 $
  * @since 4.1
  */
 public class SequenceIdGenerator
