@@ -161,6 +161,14 @@
       </roles>
       <organization>IBM Global Services</organization>
     </contributor>
+    <contributor>
+      <name>Kristian Meier</name>
+      <email>kristian.meier@jentro.com</email>
+      <roles>
+        <role>Pooled lifestyle handler patches.</role>
+      </roles>
+      <organization>Jentro</organization>
+    </contributor>
   </contributors>
 
   <build>
