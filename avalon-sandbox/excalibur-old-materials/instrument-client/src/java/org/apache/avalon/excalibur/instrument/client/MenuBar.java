@@ -30,7 +30,7 @@ import org.apache.commons.altrmi.common.AltrmiInvocationException;
 /**
  *
  * @author <a href="mailto:leif@silveregg.co.jp">Leif Mortenson</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/03/28 04:06:18 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/03/30 01:30:49 $
  * @since 4.1
  */
 public class MenuBar
@@ -71,7 +71,8 @@ public class MenuBar
     {
         m_menuFile = new JMenu( "File" );
         m_menuFile.setMnemonic( 'F' );
-
+        
+        
         // Clear
         Action newAction = new AbstractAction( "New" )
         {
@@ -83,7 +84,8 @@ public class MenuBar
         JMenuItem newItem = new JMenuItem( newAction );
         newItem.setMnemonic( 'N' );
         m_menuFile.add( newItem );
-
+        
+        
         // Open
         Action openAction = new AbstractAction( "Open ..." )
         {
@@ -95,7 +97,12 @@ public class MenuBar
         JMenuItem open = new JMenuItem( openAction );
         open.setMnemonic( 'O' );
         m_menuFile.add( open );
-
+        
+        
+        // Seperator
+        m_menuFile.addSeparator();
+        
+        
         // Save
         Action saveAction = new AbstractAction( "Save" )
         {
@@ -107,7 +114,8 @@ public class MenuBar
         JMenuItem save = new JMenuItem( saveAction );
         save.setMnemonic( 'S' );
         m_menuFile.add( save );
-
+        
+        
         // Save As
         Action saveAsAction = new AbstractAction( "Save As ..." )
         {
@@ -119,7 +127,24 @@ public class MenuBar
         JMenuItem saveAs = new JMenuItem( saveAsAction );
         saveAs.setMnemonic( 'A' );
         m_menuFile.add( saveAs );
+        
+        
+        // Seperator
+        m_menuFile.addSeparator();
 
+        
+        // Exit
+        Action exitAction = new AbstractAction( "Exit" )
+        {
+            public void actionPerformed( ActionEvent event )
+            {
+                m_frame.fileExit();
+            }
+        };
+        JMenuItem exit = new JMenuItem( exitAction );
+        exit.setMnemonic( 'X' );
+        m_menuFile.add( exit );
+        
         return m_menuFile;
     }
 
@@ -219,6 +244,7 @@ public class MenuBar
         
         boolean showAll = m_menuItemShowUnconfigured.getState();
         
+        // Details
         Action detailAction = new AbstractAction( "Details..." )
         {
             public void actionPerformed( ActionEvent event )
@@ -236,6 +262,29 @@ public class MenuBar
         detailItem.setMnemonic( 'D' );
         managerMenu.add( detailItem );
         
+        
+        // Delete
+        Action deleteAction = new AbstractAction( "Delete" )
+        {
+            public void actionPerformed( ActionEvent event )
+            {
+                JMenuItem item = (JMenuItem)event.getSource();
+                Action action = item.getAction();
+                
+                InstrumentManagerConnection connection =
+                    (InstrumentManagerConnection)action.getValue( "connection" );
+                
+                connection.delete();
+            }
+        };
+        deleteAction.putValue( "connection", connection );
+        
+        JMenuItem deleteItem = new JMenuItem( deleteAction );
+        deleteItem.setMnemonic( 'I' );
+        managerMenu.add( deleteItem );
+        
+        
+        // Instrument menu items
         try
         {
             InstrumentManagerClient manager = connection.getInstrumentManagerClient();

@@ -26,12 +26,12 @@ import org.apache.avalon.excalibur.instrument.manager.interfaces.InstrumentSampl
 /**
  *
  * @author <a href="mailto:leif@silveregg.co.jp">Leif Mortenson</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/03/28 04:06:18 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/03/30 01:30:49 $
  * @since 4.1
  */
 class InstrumentClientFrame
     extends JFrame
-    implements Runnable
+    implements Runnable, InstrumentManagerConnectionListener
 {
     private String m_title;
     
@@ -81,6 +81,10 @@ class InstrumentClientFrame
                 }
                 catch( InterruptedException e )
                 {
+                    if ( m_runner == null )
+                    {
+                        return;
+                    }
                 }
                 
                 // Check on the status of all of the connections (Avoid synchronization)
@@ -123,6 +127,45 @@ class InstrumentClientFrame
                 System.out.println( "Unexpected error caught in ProfilerFrame runner:" );
                 t.printStackTrace();
             }
+        }
+    }
+    
+    /*---------------------------------------------------------------
+     * InstrumentManagerConnectionListener Methods
+     *-------------------------------------------------------------*/
+    /**
+     * Called when the connection is opened.  May be called more than once if 
+     *  the connection to the InstrumentManager is reopened.
+     *
+     * @param connection Connection which was opened.
+     */
+    public void opened( InstrumentManagerConnection connection )
+    {
+    }
+    
+    /**
+     * Called when the connection is closed.  May be called more than once if 
+     *  the connection to the InstrumentManager is reopened.
+     *
+     * @param connection Connection which was closed.
+     */
+    public void closed( InstrumentManagerConnection connection )
+    {
+    }
+    
+    /**
+     * Called when the connection is deleted.  All references should be removed.
+     *
+     * @param connection Connection which was deleted.
+     */
+    public void deleted( InstrumentManagerConnection connection )
+    {
+        connection.removeInstrumentManagerConnectionListener( this );
+        String key = connection.getHost() + ":" + connection.getPort();
+        synchronized (m_connections)
+        {
+            m_connections.remove( key );
+            m_connectionArray = null;
         }
     }
     
@@ -228,28 +271,37 @@ class InstrumentClientFrame
         } );
     }
     
-    void openInstrumentManagerConnection( String host, int port )
+    void openInstrumentManagerConnection( final String host, final int port )
     {
-        String key = host + ":" + port;
-        synchronized (m_connections)
+        SwingUtilities.invokeLater( new Runnable()
         {
-            InstrumentManagerConnection connection =
-                (InstrumentManagerConnection)m_connections.get( key );
-            if ( connection == null )
+            public void run()
             {
-                connection = new InstrumentManagerConnection( host, port );
-                m_connections.put( key, connection );
-                m_connectionArray = null;
+                String key = host + ":" + port;
+                synchronized (m_connections)
+                {
+                    InstrumentManagerConnection connection =
+                        (InstrumentManagerConnection)m_connections.get( key );
+                    if ( connection == null )
+                    {
+                        connection = new InstrumentManagerConnection( host, port );
+                        m_connections.put( key, connection );
+                        m_connectionArray = null;
+                        
+                        connection.addInstrumentManagerConnectionListener(
+                            InstrumentClientFrame.this );
+                        
+                        openInstrumentManagerConnectionFrame( connection );
+                        
+                        return;
+                    }
+                }
                 
-                openInstrumentManagerConnectionFrame( connection );
-                
-                return;
+                // If we get here show an error that the connection alreay exists.
+                //  Must be done outside the synchronization block.
+                showErrorDialog( "A connection to " + key + " already exists." );
             }
-        }
-        
-        // If we get here show an error that the connection alreay exists.
-        //  Must be done outside the synchronization block.
-        showErrorDialog( "A connection to " + key + " already exists." );
+        } );
     }
     
     void openInstrumentManagerConnectionFrame( final InstrumentManagerConnection connection )
@@ -302,5 +354,47 @@ class InstrumentClientFrame
                                        t.getMessage() + "</font></body></html>",
                                        m_title + " Error", JOptionPane.ERROR_MESSAGE );
     }
+
+
+    /**
+     * Shutdown the InstrumentClient.
+     */
+    private void shutdown()
+    {
+        // Stop the runner.
+        m_runner.interrupt();
+        m_runner = null;
+        
+        // Close all connections cleanly.
+        InstrumentManagerConnection[] connections = getInstrumentManagerConnections();
+        for ( int i = 0; i < connections.length; i++ )
+        {
+            connections[i].delete();
+        }
+        
+        // Kill the JVM.
+        System.exit( 1 );
+    }
+    
+    /*---------------------------------------------------------------
+     * Menu Callback Methods
+     *-------------------------------------------------------------*/
+    /**
+     * File-Exit callback.
+     */
+    void fileExit()
+    {
+        SwingUtilities.invokeLater( new Runnable()
+        {
+            public void run()
+            {
+                shutdown();
+            }
+        } );
+    }
+    
+    /**
+     * File-Exit callback.
+     */
 }
 
