@@ -45,7 +45,7 @@ import org.apache.excalibur.configuration.ConfigurationUtil;
 /**
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.6 $ $Date: 2004/03/10 10:52:18 $
+ * @version $Revision: 1.7 $ $Date: 2004/03/11 01:30:38 $
  */
 public class XMLComponentProfileCreator extends XMLProfileCreator
 {
@@ -100,7 +100,7 @@ public class XMLComponentProfileCreator extends XMLProfileCreator
         final int collection = getCollectionPolicy( config );
 
         final CategoriesDirective categories = 
-          getCategoriesDirective( config.getChild( "categories", false ), name );
+          getCategoriesDirective( config.getChild( "categories", false ) );
         final ContextDirective context = 
           getContextDirective( config.getChild( "context", false ) );
         final DependencyDirective[] dependencies = 

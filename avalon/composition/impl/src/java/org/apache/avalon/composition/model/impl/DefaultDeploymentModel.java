@@ -36,13 +36,14 @@ import org.apache.avalon.util.i18n.ResourceManager;
 import org.apache.avalon.util.i18n.Resources;
 
 import org.apache.avalon.logging.data.CategoriesDirective;
+import org.apache.avalon.logging.provider.LoggingManager;
 
 
 /**
  * Abstract model base class.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.19 $ $Date: 2004/03/08 11:28:36 $
+ * @version $Revision: 1.20 $ $Date: 2004/03/11 01:30:38 $
  */
 public abstract class DefaultDeploymentModel
   implements DeploymentModel
@@ -70,6 +71,10 @@ public abstract class DefaultDeploymentModel
 
     private Commissionable m_handler = null;
 
+    private CategoriesDirective m_categories;
+
+    private Logger m_logger;
+
     //--------------------------------------------------------------
     // constructor
     //--------------------------------------------------------------
@@ -91,8 +96,12 @@ public abstract class DefaultDeploymentModel
         {
             throw new NullPointerException( "security" );
         }
+
         m_context = context;
         m_security = security;
+
+        m_logger = m_context.getLogger();
+        m_categories = m_context.getProfile().getCategories();
 
         Permissions permissions = security.getPermissions();
         ProtectionDomain domain = 
@@ -217,7 +226,7 @@ public abstract class DefaultDeploymentModel
     */
     public Logger getLogger()
     {
-        return m_context.getLogger();
+        return m_logger;
     }
 
    /**
@@ -272,12 +281,25 @@ public abstract class DefaultDeploymentModel
     * Return the logging categories. 
     * @return the logging categories
     */
-    public abstract CategoriesDirective getCategories();
+    public CategoriesDirective getCategories()
+    {
+        if( m_categories == null ) 
+          return m_context.getProfile().getCategories();
+        return m_categories;
+    }
 
    /**
     * Set categories. 
     * @param categories the logging categories
     */
-    public abstract void setCategories( CategoriesDirective categories );
-
+    public void setCategories( CategoriesDirective categories )
+    {
+        m_categories = categories;
+        
+        LoggingManager logging = 
+          m_context.getSystemContext().getLoggingManager();
+        final String path = getQualifiedName();
+        logging.addCategories( path, categories );
+        m_logger = logging.getLoggerForCategory( path );
+    }
 }

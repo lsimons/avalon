@@ -44,7 +44,7 @@ import org.apache.avalon.util.i18n.Resources;
  * Implementation of a containment supplied to a containment model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.7 $ $Date: 2004/03/08 11:28:36 $
+ * @version $Revision: 1.8 $ $Date: 2004/03/11 01:30:38 $
  */
 public class DefaultContainmentContext extends DefaultDeploymentContext 
   implements ContainmentContext
@@ -117,7 +117,7 @@ public class DefaultContainmentContext extends DefaultDeploymentContext
       File home, File temp, ContainmentModel parent, 
       ContainmentProfile profile, String partition, String name )
     {
-        super( logger, system, partition, name, profile.getMode(), graph );
+        super( logger, system, partition, name, profile.getMode(), profile, graph );
 
         if( system == null )
         {

@@ -67,7 +67,7 @@ import org.apache.excalibur.configuration.CascadingConfiguration;
  * Deployment model defintion.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.12 $ $Date: 2004/03/10 10:52:18 $
+ * @version $Revision: 1.13 $ $Date: 2004/03/11 01:30:38 $
  */
 public class DefaultComponentModel extends DefaultDeploymentModel 
   implements ComponentModel
@@ -106,8 +106,6 @@ public class DefaultComponentModel extends DefaultDeploymentModel
     // mutable state
     //--------------------------------------------------------------
 
-    private CategoriesDirective m_categories;
-
     private Configuration m_config;
 
     private Parameters m_parameters;
@@ -134,9 +132,7 @@ public class DefaultComponentModel extends DefaultDeploymentModel
 
         m_activation = getDefaultActivationPolicy();
 
-        m_categories = m_context.getProfile().getCategories();
-
-        setCollectionPolicy( m_context.getProfile().getCollectionPolicy() );
+        setCollectionPolicy( m_context.getComponentProfile().getCollectionPolicy() );
 
         ClassLoader classLoader = m_context.getClassLoader();
 
@@ -145,7 +141,7 @@ public class DefaultComponentModel extends DefaultDeploymentModel
             final Configuration defaults = 
               m_context.getType().getConfiguration();
             final Configuration explicit = 
-              m_context.getProfile().getConfiguration();
+              m_context.getComponentProfile().getConfiguration();
             final Configuration consolidated = 
               consolidateConfigurations( explicit, defaults );
             if( consolidated != null )
@@ -161,7 +157,7 @@ public class DefaultComponentModel extends DefaultDeploymentModel
         if( isParameterizable() )
         {
             final Parameters parameters = 
-              m_context.getProfile().getParameters();
+              m_context.getComponentProfile().getParameters();
             if( parameters != null )
             {
                 m_parameters = parameters;
@@ -179,7 +175,7 @@ public class DefaultComponentModel extends DefaultDeploymentModel
             final ContextDescriptor contextDescriptor = 
               m_context.getType().getContext();
             final ContextDirective contextDirective = 
-              m_context.getProfile().getContext();
+              m_context.getComponentProfile().getContext();
             final Logger log = getLogger().getChildLogger( "context" );
             m_contextModel = new DefaultContextModel( 
               log, contextDescriptor, contextDirective, context );
@@ -202,7 +198,7 @@ public class DefaultComponentModel extends DefaultDeploymentModel
         {
             DependencyDescriptor descriptor = dependencies[i];
             DependencyDirective directive = 
-              context.getProfile().getDependencyDirective( descriptor.getKey() );
+              context.getComponentProfile().getDependencyDirective( descriptor.getKey() );
             m_dependencies[i] = 
               new DefaultDependencyModel( 
                 context.getLogger().getChildLogger( "deps" ), 
@@ -225,7 +221,7 @@ public class DefaultComponentModel extends DefaultDeploymentModel
         {
             StageDescriptor descriptor = stages[i];
             StageDirective directive = 
-              context.getProfile().getStageDirective( descriptor.getKey() );
+              context.getComponentProfile().getStageDirective( descriptor.getKey() );
             m_stages[i] = 
               new DefaultStageModel( 
                 context.getLogger().getChildLogger( "stages" ), 
@@ -239,7 +235,7 @@ public class DefaultComponentModel extends DefaultDeploymentModel
     public boolean getDefaultActivationPolicy()
     {
         final int activation = 
-          m_context.getProfile().getActivationDirective();
+          m_context.getComponentProfile().getActivationDirective();
 
         if( activation != DeploymentProfile.DEFAULT )
         {
@@ -419,18 +415,9 @@ public class DefaultComponentModel extends DefaultDeploymentModel
         return m_context.getType().getService( reference ) != null;
     }
 
-    //==============================================================
+    //--------------------------------------------------------------
     // ComponentModel
-    //==============================================================
-
-   /**
-    * Return the logging categories. 
-    * @return the logging categories
-    */
-    public CategoriesDirective getCategories()
-    {
-        return m_categories;
-    }
+    //--------------------------------------------------------------
 
    /**
     * Return the collection policy for the model. If a profile
@@ -493,20 +480,6 @@ public class DefaultComponentModel extends DefaultDeploymentModel
         return m_context.getType().getInfo().getCollectionPolicy();
     }
     
-
-   /**
-    * Set categories. 
-    * @param categories the categories directive
-    */
-    public void setCategories( CategoriesDirective categories )
-    {
-        //
-        // TODO: merge categories with profile categories
-        //
-
-        m_categories = categories;
-    }
-
    /**
     * Return the activation policy for the model. 
     * @return the activaltion policy

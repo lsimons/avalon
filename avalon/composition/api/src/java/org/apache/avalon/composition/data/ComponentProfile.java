@@ -98,7 +98,7 @@ import org.apache.avalon.logging.data.CategoryDirective;
  *
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2004/03/10 10:52:17 $
+ * @version $Revision: 1.5 $ $Date: 2004/03/11 01:30:38 $
  */
 public class ComponentProfile extends DeploymentProfile
 {
@@ -201,7 +201,7 @@ public class ComponentProfile extends DeploymentProfile
            final Configuration config,
            final Mode mode )
     {
-        super( name, activation, mode );
+        super( name, activation, mode, categories );
 
         if( null == classname )
         {
@@ -257,16 +257,6 @@ public class ComponentProfile extends DeploymentProfile
     public int getCollectionPolicy()
     {
         return m_collection;
-    }
-
-    /**
-     * Return the logging categories for the profile.
-     *
-     * @return the logger
-     */
-    public CategoriesDirective getCategories()
-    {
-        return m_categories;
     }
 
     /**
