@@ -87,7 +87,7 @@ import org.apache.excalibur.instrument.manager.interfaces.NoSuchInstrumentableEx
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.6 $ $Date: 2003/04/05 19:39:36 $
+ * @version CVS $Revision: 1.7 $ $Date: 2003/05/17 20:16:59 $
  * @since 4.1
  */
 public class DefaultInstrumentManager
@@ -226,6 +226,8 @@ public class DefaultInstrumentManager
                 // Handle aliases
                 if ( className.equals( "altrmi" ) )
                 {
+                    // Don't use InstrumentManagerAltrmiConnector.class.getName() because
+                    //  the class is optional for the build.
                     className = "org.apache.excalibur.instrument.manager.altrmi."
                         + "InstrumentManagerAltrmiConnector";
                 }
@@ -247,8 +249,17 @@ public class DefaultInstrumentManager
                 }
                 catch ( Exception e )
                 {
-                    throw new ConfigurationException( "Unable to create connector because: "
-                        + e );
+                    String msg = "Unable to create connector because: " + e;
+                    
+                    // Was the optional flag set?
+                    if ( connectorConf.getAttributeAsBoolean( "optional", true ) )
+                    {
+                        getLogger().warn( msg );
+                    }
+                    else
+                    {
+                        throw new ConfigurationException( msg );
+                    }
                 }
             }
             
