@@ -55,7 +55,7 @@ import org.mortbay.http.HttpResponse;
 /** Handler for requests targetted at the composition model.
  *
  * @avalon.component name="http-model-handler" lifestyle="singleton"
- * @avalon.service type="org.mortbay.http.HttpHandler"
+ * @avalon.service   type="org.mortbay.http.HttpHandler"
  */
 public class ModelHandler
     implements Serviceable, Parameterizable, Contextualizable, LogEnabled,

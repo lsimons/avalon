@@ -42,7 +42,7 @@ import org.apache.avalon.http.HttpContextService;
 
 /**
  * @avalon.component name="http-ipaccess-handler" lifestyle="singleton"
- * @avalon.server    type="org.mortbay.http.HttpHandler"
+ * @avalon.service   type="org.mortbay.http.HttpHandler"
  */
 public class IPAccessHandler 
     extends org.mortbay.http.handler.IPAccessHandler 
