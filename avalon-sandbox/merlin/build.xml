@@ -260,7 +260,7 @@ the LICENSE.txt file.
 
   <target name="check-bootstrap" depends="flags" unless="bootstrap.present">
       <mkdir dir="${local.repository}"/>
-	<get src="${remote.repository}/${merlin-bootstrap.id}/jars/${merlin-bootstrap.name}"
+	<get src="${merlin-bootstrap.path}"
 		dest="${local.repository}/${merlin-bootstrap.name}"
 		verbose="true"
 		usetimestamp="true"/>
