@@ -18,7 +18,7 @@ import org.apache.avalon.phoenix.interfaces.SystemManager;
  * it can register its managed object.  The naming scheme that results is
  * meant to be compatible with jmx.
  *
- * @author <a href="mailto:Huw@mmlive.com">Huw Roberts</a>
+ * @author <a href="mailto:huw@apache.org">Huw Roberts</a>
  */
 class SubContext
     implements SystemManager
