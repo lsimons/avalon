@@ -158,9 +158,7 @@ public class Home extends DataType
         final Resource resource = (Resource) m_resources.get( key );
         if( null == resource )
         {
-            final String error = 
-              "Unknown resource [" + key + "]";
-            throw new BuildException( error );
+            throw new UnknownResourceException( key );
         }
         return resource;
     }

@@ -188,7 +188,7 @@ public class DeclareTask extends SystemTask
         writer.write( "\n" + padding + "<classpath>" );
         final String pad = padding + "  ";
         final ResourceRef[] resources =
-          def.getResourceRefs( Policy.RUNTIME, ResourceRef.ANY, true );
+          def.getResourceRefs( getProject(), Policy.RUNTIME, ResourceRef.ANY, true );
         writeResourceRefs( writer, pad, resources );
         if( flag )
         {

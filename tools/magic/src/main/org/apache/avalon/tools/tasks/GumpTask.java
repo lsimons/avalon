@@ -27,6 +27,7 @@ import org.apache.avalon.tools.model.Plugin;
 import org.apache.avalon.tools.model.Policy;
 import org.apache.avalon.tools.model.Home;
 import org.apache.avalon.tools.model.Context;
+import org.apache.avalon.tools.model.UnknownResourceException;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
@@ -231,13 +232,15 @@ public class GumpTask extends SystemTask
             final File file = getFile();
             file.getParentFile().mkdirs();
             file.createNewFile();
+            log( "output: " + file );
             final OutputStream output = new FileOutputStream( file );
             final Writer writer = new OutputStreamWriter( output );
 
             try
             {
                 writeHeader( writer );
-                writeModule( writer );
+                int count = writeModule( writer );
+                log( "project: " + count );
                 writer.flush();
             }
             finally
@@ -263,13 +266,14 @@ public class GumpTask extends SystemTask
         }
     }
 
-    protected void writeModule( final Writer writer )
+    protected int writeModule( final Writer writer )
         throws IOException
     {
         Home home = getHome();
         Project project = getProject();
         String name = getName();
 
+        log( "module: " + name );
         writer.write( "\n\n<module name=\"" + name + "\">" );
         writer.write( "\n\n  <url href=\"" + m_url.getHref() + "\"/>" );
 
@@ -293,10 +297,21 @@ public class GumpTask extends SystemTask
         for( int i=0; i<definitions.length; i++ )
         {
             Definition def = definitions[i];
-            writeProject( writer, def );
+            try
+            {
+                writeProject( writer, def );
+            }
+            catch( UnknownResourceException ure )
+            {
+                final String error = 
+                  "Project defintion [" + def + "] contains a unknown resource reference ["
+                  + ure.getKey() + "].";
+                throw new BuildException( error );
+            }
         }
 
         writer.write( "\n\n</module>\n" );
+        return definitions.length;
     }
 
    /**
@@ -340,7 +355,7 @@ public class GumpTask extends SystemTask
     * @throws IOException if unable to write xml
     */
     private void writeProject( final Writer writer, Definition definition )
-        throws IOException
+        throws IOException, UnknownResourceException
     {
         String path = definition.getBaseDir().getCanonicalPath();
         int j = getProject().getBaseDir().toString().length();
@@ -357,7 +372,7 @@ public class GumpTask extends SystemTask
         }
 
         final ResourceRef[] refs =
-          definition.getResourceRefs( Policy.ANY, ResourceRef.ANY, true );
+          definition.getResourceRefs( getProject(), Policy.ANY, ResourceRef.ANY, true );
 
         String template = m_template.getFile();
         String target = m_template.getTarget();
@@ -380,6 +395,8 @@ public class GumpTask extends SystemTask
            "\n      <!-- for magic -->" );
         writer.write( 
            "\n      <property name=\"gump.signature\" value=\"@@DATE@@\"/>" );
+        writer.write( 
+           "\n      <property name=\"gump.scrdir\" reference=\"srcdir\"/>" );
 
         boolean flag = false;
         for( int i=0; i<refs.length; i++ )
@@ -394,30 +411,37 @@ public class GumpTask extends SystemTask
                       "\n      <!-- external references -->" );
                 }
                 String key = resource.getKey();
+                String alias = getKeyForResource( resource );
+                writer.write( 
+                   "\n      <depend property=\"gump.resource." + key 
+                   + "\" project=\"" + alias + "\"" );
                 String id = resource.getGump().getId();
-                if( null == id )
+                if( null != id )
                 {
-                    String alias = getKeyForResource( resource );
-                    writer.write( 
-                      "\n      <depend property=\"gump.resource." + key 
-                      + "\" project=\"" + alias 
-                      + "\"/>" );
+                    writer.write( " id=\"" + id + "\"" );
                 }
-                else
-                {
-                    String alias = getKeyForResource( resource );
-                    writer.write( 
-                      "\n      <depend property=\"gump.resource." + key 
-                      + "\" project=\"" + alias 
-                      + "\" id=\"" + id + "\"/>" );
-                }
+                writer.write( ">" );
+                writer.write( "\n        <noclasspath/>" );
+                writer.write( "\n      </depend>" );
             }
         }
 
         writer.write( "\n      <!-- end for -->" );
+        writer.write( "\n    </ant>" );       
+
+        //
+        // add the magic bootstrap dependency
+        //
+
+        writer.write( "\n    <!-- magic -->" );
+        writer.write( 
+          "\n    <depend project=\"avalon-tools-magic\" inherit=\"true\" runtime=\"true\"/>" );
+
+        //
+        // add dependencies for gump to do its sequencing correctly
+        //
 
         flag = false;
-        writer.write( "\n    </ant>" );       
         for( int i=0; i<refs.length; i++ )
         {
             Resource resource = getHome().getResource( refs[i] );
@@ -430,7 +454,7 @@ public class GumpTask extends SystemTask
                 }
                 String key = resource.getKey();
                 writer.write( 
-                  "\n    <depend project=\"" + key + "\"/>" );
+                  "\n    <depend project=\"" + key + "\"><noclasspath/></depend>" );
             }
         }
 

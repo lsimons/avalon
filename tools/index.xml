@@ -2,6 +2,9 @@
 
 <index>
 
+  <import index="common.xml"
+     href="http://svn.apache.org/repos/asf/avalon/trunk/tools/common.xml"/>
+
   <resource>
     <info>
       <group>ant</group>
@@ -39,15 +42,6 @@
       <alias>ant</alias>
       <id>junit</id>
     </gump>
-  </resource>
-
-  <resource>
-    <info>
-      <group>junit</group>
-      <name>junit</name>
-      <version>3.8.1</version>
-      <type>jar</type>
-    </info>
   </resource>
 
   <!--

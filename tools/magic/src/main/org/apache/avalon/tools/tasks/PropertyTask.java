@@ -137,7 +137,7 @@ public class PropertyTask extends SystemTask
     {
         final StringBuffer buffer = new StringBuffer();
         final ResourceRef[] refs =
-          def.getResourceRefs( Policy.RUNTIME, ResourceRef.ANY, true );
+          def.getResourceRefs( getProject(), Policy.RUNTIME, ResourceRef.ANY, true );
         for( int i=0; i<refs.length; i++ )
         {
             if( i>0 )
