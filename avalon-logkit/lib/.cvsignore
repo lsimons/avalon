@@ -1,2 +1,14 @@
 servlet*.jar
 avalon-framework*.jar
+bsf.LICENSE.html
+checkstyle.LICENSE.html
+commons-logging.LICENSE.html
+junit.LICENSE.html
+log4j.LICENSE.html
+logkit.LICENSE.html
+logkit-*.jar
+bsf-*.jar
+checkstyle-*.jar
+commons-logging-*.jar
+junit-*.jar
+log4j-*.jar
