@@ -41,9 +41,10 @@ public class MagicPlugin extends AbstractLogEnabled
             String line;
             while( (line = br.readLine() ) != null )
             {
-                result.add( line );
+                line = line.trim();
+                if( ! line.equals( "" ) )
+                    result.add( line );
             }
-            System.out.println( "RETURNING!!!!" );
         } finally
         {
             if( reader != null )
