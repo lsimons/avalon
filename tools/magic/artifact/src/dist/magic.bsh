@@ -90,33 +90,46 @@ public class ArtifactPlugin extends AbstractPlugin
         } catch( NumberFormatException e )
         {} // ignore
 
+        boolean trust = "true".equals( m_Context.getProperty( "artifact.remote.trust" ) );
+        boolean failOnError = "true".equals( m_Context.getProperty( "artifact.remote.fail.on.error" ) );
+        String host =       m_Context.getProperty( "artifact.remote.host" );
+        String destDir =    m_Context.getProperty( "artifact.remote.dir" );
+        String keyfile =    m_Context.getProperty( "artifact.remote.keys.file" );
+        String knownhosts = m_Context.getProperty( "artifact.remote.knownhosts.file" );
+        String passphrase = m_Context.getProperty( "artifact.remote.passphrase" );
+        String password =   m_Context.getProperty( "artifact.remote.password" );
+        String username =   m_Context.getProperty( "artifact.remote.username" );
+
+        System.out.println( "    Host:" + host );
+        System.out.println( "    User:" + username );
+        System.out.println( "     Dir:" + destDir );
+        System.out.println( " KeyFile:" + keyfile );
+        System.out.println( "   Known:" + knownhosts );
+        System.out.println( "  Phrase:" + passphrase );
+        System.out.println( "Password:" + password );
+
+        String fullDest = username + "@" + host + ":" + destDir + "/" + 
+            artifact.getGroupId() + "/" + artifact.getType() + "s/";
+            
+        String source = artifact.toLocalFile().getAbsolutePath();
+        upload( source, host, fullDest, keyfile, passphrase, password );
+        
+        // TODO:  Optimize so both files are uploaded in the same SSH session,
+        //        which probably happens with Ant filesets.
+        source = source + ".md5";
+        upload( source, host, fullDest, keyfile, passphrase, password );
+    }
+    
+    private void upload( String source, String host, String dest, 
+        String keyfile, String passphrase, String password )
+        throws IOException
+    {
         try
         {
-            boolean trust = "true".equals( m_Context.getProperty( "artifact.remote.trust" ) );
-            boolean failOnError = "true".equals( m_Context.getProperty( "artifact.remote.fail.on.error" ) );
-            String host =       m_Context.getProperty( "artifact.remote.host" );
-            String destDir =    m_Context.getProperty( "artifact.remote.dir" );
-            String keyfile =    m_Context.getProperty( "artifact.remote.keys.file" );
-            String knownhosts = m_Context.getProperty( "artifact.remote.knownhosts.file" );
-            String passphrase = m_Context.getProperty( "artifact.remote.passphrase" );
-            String password =   m_Context.getProperty( "artifact.remote.password" );
-            String username =   m_Context.getProperty( "artifact.remote.username" );
-
-            System.out.println( "    Host:" + host );
-            System.out.println( "    User:" + username );
-            System.out.println( "     Dir:" + destDir );
-            System.out.println( " KeyFile:" + keyfile );
-            System.out.println( "   Known:" + knownhosts );
-            System.out.println( "  Phrase:" + passphrase );
-            System.out.println( "Password:" + password );
-                        
-            String fullDest = username + "@" + host + ":" + destDir + "/";
-            
             m_Project.addTaskDefinition( "scp", Scp.class );
             Scp scp = (Scp) m_Project.createTask( "scp" );
             scp.init();
-            scp.setFile( artifact.toLocalFile().getAbsolutePath() );
-            scp.setFailonerror( failOnError );
+            scp.setFile( source );
             scp.setHost( host );
 
             if( ! "".equals( keyfile ) )
@@ -144,7 +157,7 @@ public class ArtifactPlugin extends AbstractPlugin
         } catch( Exception e )
         {
             e.printStackTrace();
-            throw new IOException( "Can't upload " + artifact );
+            throw new IOException( "Can't upload " + source + " to " + dest );
         }
     }
 }
