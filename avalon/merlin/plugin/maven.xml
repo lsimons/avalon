@@ -1,33 +1,12 @@
 <project default="plugin:install" xmlns:maven="jelly:maven" xmlns:j="jelly:core" xmlns:util="jelly:util" xmlns:ant="jelly:ant">
 
+
   <!--
-  ###################################################################
-  # Create the merlin.implementation property file.                 #
-  # This contains the information used to identify the              #
-  # the implementation artifact classpath, factory, etc.            #
-  ###################################################################
+  Add the merlin.properties file.
   -->
   <postGoal name="java:compile">
-  <!--
-    <ant:echo file="${maven.build.dir}/classes/merlin.implementation">
-#===================================================================#
-# Default merlin implementation artifact identifier.                #
-#===================================================================#
-
-meta.domain = avalon
-meta.version = 1.0
-avalon.artifact.group = ${merlin.implementation.group}
-avalon.artifact.name = ${merlin.implementation.name}
-avalon.artifact.version = ${merlin.implementation.version}
-
-#
-# EOF
-#
-</ant:echo>
-  -->
     <ant:copy file="${maven.repo.local}/${pom.groupId}/properties/merlin.properties" 
        toDir="${maven.build.dir}/classes" verbose="yes"/>
-
   </postGoal>
 
 
