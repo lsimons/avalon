@@ -133,7 +133,7 @@
   <!-- Check Presense Of Tomcat 4.0 jars -->
   <target name="checkCatalinaJars">
     <condition property="catalina.present">
-      <available file="${tomcat.jars.dir}/catalina.jar"/>
+      <available file="catalina-download/catalina-${catalina-version}.zip"/>
     </condition>
 
   </target>
@@ -173,7 +173,7 @@
     <mkdir dir="${tomcat.jars.dir}"/>
 
     <get src="http://jakarta.apache.org/builds/jakarta-tomcat-4.0/release/v${catalina-version}${catalina-dir-suffix}/bin/jakarta-tomcat-${catalina-version}.zip" 
-    dest="catalina-download/jakarta-tomcat.zip" 
+    dest="catalina-download/catalina-${catalina-version}.zip" 
     verbose="true"
     usetimestamp="true"/>
     
@@ -204,10 +204,10 @@
     />
 
 
-    <unzip src="catalina-download/jakarta-tomcat.zip" dest="catalina-download" />
+    <unzip src="catalina-download/catalina-${catalina-version}.zip" dest="catalina-download" />
     
     <copy todir="${tomcat.jars.dir}" flatten="true">
-      <fileset dir="catalina-download">
+      <fileset dir="catalina-download/jakarta-tomcat-${catalina-version}">
         <include  name="**/bin/*.jar"/>
         <include  name="**/lib/*.jar"/>
       </fileset>
