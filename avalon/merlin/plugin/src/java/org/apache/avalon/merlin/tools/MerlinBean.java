@@ -4,7 +4,7 @@
                    The Apache Software License, Version 1.1
  ============================================================================
 
- Copyright (C) 2002-2003 The Apache Software Foundation. All rights reserved.
+ Copyright (C) 1999-2002 The Apache Software Foundation. All rights reserved.
 
  Redistribution and use in source and binary forms, with or without modifica-
  tion, are permitted provided that the following conditions are met:
@@ -45,283 +45,91 @@
  This software  consists of voluntary contributions made  by many individuals
  on  behalf of the Apache Software  Foundation. For more  information on the
  Apache Software Foundation, please see <http://www.apache.org/>.
+
 */
 
 package org.apache.avalon.merlin.tools;
 
 import java.io.File;
-import java.net.URL;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Enumeration;
+import java.lang.reflect.Method;
+import java.lang.reflect.InvocationTargetException;
+import java.util.StringTokenizer;
+import java.util.ArrayList;
 
-import org.apache.avalon.repository.Repository;
-import org.apache.avalon.repository.impl.DefaultRepository;
-import org.apache.avalon.repository.impl.DefaultCacheManager;
-import org.apache.avalon.repository.provider.CacheManager;
-import org.apache.avalon.composition.util.ExceptionHelper;
-import org.apache.avalon.merlin.kernel.Kernel;
-import org.apache.avalon.merlin.kernel.KernelException;
-import org.apache.avalon.merlin.kernel.impl.DefaultKernel;
-import org.apache.avalon.merlin.kernel.impl.DefaultKernelContext;
+import org.apache.avalon.repository.Artifact;
+import org.apache.avalon.repository.provider.Builder;
+import org.apache.avalon.repository.provider.InitialContext;
+import org.apache.avalon.repository.provider.Factory;
+import org.apache.avalon.repository.RepositoryException;
+import org.apache.avalon.repository.main.DefaultInitialContext;
+import org.apache.avalon.repository.main.DefaultBuilder;
 
+import org.apache.avalon.util.env.Env;
+import org.apache.avalon.util.exception.ExceptionHelper;
 
 /**
- * Deploy a set of components using Merlin.
- *
- * @author mcconnell@apache.org
+ * Test case that usages the repository builder to deploy the 
+ * Merlin default application factory.
+ * 
+ * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
+ * @version $Revision: 1.4 $
  */
-
 public class MerlinBean
 {
-    //------------------------------------------------------------------
-    // static 
-    //------------------------------------------------------------------
+    //----------------------------------------------------------
+    // immutable state
+    //----------------------------------------------------------
 
-    private static final String[] DEFAULT_HOSTS = 
-      new String[]{ "http://dpml.net", "http://ibiblio.org/maven" };
+    private String m_deployment;
 
-    //-----------------------------------------------------
-    // state
-    //-----------------------------------------------------
+    private String[] m_hosts;
 
-   /**
-    * The merlin system directory.
-    */
-    private File m_system;
-
-   /**
-    * The target jar file, simulated deployment directory or 
-    * block file to be deployed.
-    */
-    private File m_target;
-
-   /**
-    * The local repository directory from which the resource
-    * repository will be created.  Typically this will refer to 
-    * Maven local repository.
-    */
-    private File m_repository;
-
-   /**
-    * The configuration targets file to be used.
-    */
-    private File m_conf;
-
-   /**
-    * The kernel configuration file.
-    */
-    private File m_kernel;
-
-   /**
-    * The directory against which extension directories are resolved
-    * if extension direcctories are declared in the classloader.
-    */
-    private File m_anchor;
-
-   /**
-    * The local working directory.  Typically corresponds to the 
-    * Maven ${badedir} variable.
-    */
-    private File m_home;
-
-   /**
-    * The debug flag.
-    */
     private String m_debug;
 
-   /**
-    * Execution model flag.
-    */
-    private boolean m_execute = true;
+    private String m_info;
+
+    //----------------------------------------------------------
+    // setters
+    //----------------------------------------------------------
 
    /**
-    * Info flag.
+    * Set the deployment path.
     */
-    private boolean m_info = false;
-
-   /**
-    * Shutdown pause.
-    */
-    private int m_wait = 0; // not used
-
-    //-----------------------------------------------------
-    // bean pattern setters
-    //-----------------------------------------------------
-
-   /**
-    * Set the repository.
-    * @param repository the repository directory
-    */
-    public void setRepository( File repository ) 
+    public void setDeployment( String path )
     {
-        m_repository = repository;
+        m_deployment = path;
     }
 
    /**
-    * Set the pause between deployment and decommissioning when 
-    * executing in non-server model.
+    * Set the deployment path.
     */
-    public void setWait( int value ) // not used
+    public void setHosts( String path )
     {
-        m_wait = value;
-    }
-
-    public void setConfig( File conf ) 
-    {
-        m_conf = conf;
-    }
-
-    public void setKernel( File kernel ) 
-    {
-        m_kernel = kernel;
-    }
-
-   /**
-    * Set the target jar file.
-    * @param target the target jar file to execute
-    */
-    public void setTarget( File target ) 
-    {
-        m_target = target;
-    }
-
-   /**
-    * Set the working directory.
-    */
-    public void setHome( File home ) 
-    {
-        m_home = home;
-    }
-
-   /**
-    * Set the debug flag.
-    */
-    public void setDebug( String priority ) 
-    {
-        m_debug = priority;
-    }
-
-   /**
-    * Set the option jar file extensions directory anchor.
-    */
-    public void setAnchor( File anchor ) 
-    {
-        m_anchor = anchor;
-    }
-
-   /**
-    * Set the deployment policy.
-    */
-    public void setDeploy( boolean value ) 
-    {
-        m_execute = value;
-    }
-
-   /**
-    * Set the deployment policy.
-    */
-    public void setInfo( boolean value ) 
-    {
-        m_info = value;
-    }
-
-    //-----------------------------------------------------
-    // implementation
-    //-----------------------------------------------------
-
-   /**
-    * Get the target jar file as a URL
-    * @return the target url
-    */
-    private URL getTarget() throws Exception
-    {
-        return m_target.toURL();
-    }
-
-   /**
-    * Get the repository directory file.
-    * @return the repository directory
-    */
-    private File getRepositoryDirectory()
-    {
-        return m_repository;
-    }
-
-   /**
-    * Get the configuration source as a URL
-    * @return the config url
-    */
-    private URL getConfigurationURL() throws Exception
-    {
-        if( m_conf != null )
+        if( null != path )
         {
-            if( m_conf.exists() ) return m_conf.toURL();
+            m_hosts = expandHosts( path );
         }
-        return null;
     }
 
    /**
-    * The intival of time to wait before shutting down the kernel.  
+    * Set the debug policy.
     */
-    public int getWait() // not used
+    public void setDebug( String policy )
     {
-        return m_wait;
+        m_debug = policy;
     }
 
    /**
-    * Get the kernel source as a URL or null if not declared.
-    * @return the kernel url
+    * Set the info policy.
     */
-    private URL getKernelURL() throws Exception
+    public void setInfo( String policy )
     {
-        if( m_kernel != null )
-        {
-            if( m_kernel.exists() ) return m_kernel.toURL();
-        }
-        return null;
-    }
-
-   /**
-    * Get the base directory.
-    * @return the base directory
-    */
-    private File getHomeDirectory()
-    {
-        return m_home;
-    }
-
-   /**
-    * Return the execute mode flag.
-    * @return the flag
-    */
-    public boolean getExecuteFlag( ) 
-    {
-        return m_execute;
-    }
-
-   /**
-    * Return the optional extensions anchor directory.
-    * @return the flag
-    */
-    public File getAnchorDirectory() 
-    {
-        return m_anchor;
-    }
-
-   /**
-    * Return the debug flag.
-    * @return the flag
-    */
-    public boolean getInfoFlag()
-    {
-        return m_info;
-    }
-
-   /**
-    * Return the debug flag.
-    * @return the flag
-    */
-    public boolean getDebugFlag()
-    {
-        return m_debug.equalsIgnoreCase( "true" );
+        m_info = policy;
     }
 
    /**
@@ -329,95 +137,137 @@ public class MerlinBean
     */
     public void doExecute() throws Exception
     {
-        DefaultKernelContext context = null;
-
-        //
-        // TODO: update to use the maven remote hosts 
-        // and proxy settings
-
         try
         {
-            CacheManager manager = new DefaultCacheManager( m_repository, null );
-            Repository repository = new DefaultRepository( manager, DEFAULT_HOSTS );
-            context = 
-              new DefaultKernelContext( 
-                repository, 
-                getRepositoryDirectory(), 
-                getAnchorDirectory(), 
-                getHomeDirectory(), 
-                getKernelURL(), 
-                new URL[]{ getTarget() },
-                getConfigurationURL(), 
-                getExecuteFlag(), 
-                getInfoFlag(),
-                getDebugFlag() 
-              );
+            Artifact artifact = 
+              Artifact.createArtifact( 
+                "merlin", "merlin-impl", "3.2-dev" );
+
+            InitialContext context = 
+               new DefaultInitialContext( 
+                 getMavenRepositoryDirectory(),
+                 m_hosts );
+
+            Builder builder = new DefaultBuilder( context, artifact );
+            Factory factory = builder.getFactory();
+            Map criteria = factory.createDefaultCriteria();
+            applyLocalProperties( criteria );
+            factory.create( criteria );
         }
         catch( Throwable e )
         {
-            final String error = 
-              "Could not establish the kernel context.";
-            String message = ExceptionHelper.packException( error, e );
-            System.err.println( message );
-            throw new KernelException( message, e );
-        }
-
-        Kernel kernel = null;
-        try
-        {
-            kernel = new DefaultKernel( context );
-            setShutdownHook( kernel );
-        }
-        catch( Throwable e )
-        {
-            final String error = 
-              "Could not establish the kernel.";
-            String message = ExceptionHelper.packException( error, e );
-            System.err.println( message );
-            throw new KernelException( message, e );
-        }
-
-        try
-        {
-            kernel.startup();
-        }
-        catch( Throwable e )
-        {
-            final String error = 
-              "Kernel startup failure.";
-            String message = ExceptionHelper.packException( error, e );
-            System.err.println( message );
-            throw new KernelException( message, e );
+            final String error = ExceptionHelper.packException( e, true );
+            System.out.println( error );
+            throw new Exception( error );
         }
     }
 
-   /**
-    * Create a shutdown hook that will trigger shutdown of the supplied kernel.
-    * @param kernel the kernel to be shutdown
-    */
-    private void setShutdownHook( final Kernel kernel )
+    //----------------------------------------------------------------------
+    // utilities
+    //----------------------------------------------------------------------
+
+    private void applyLocalProperties( Map criteria ) throws IOException
     {
         //
-        // Create a shutdown hook to trigger clean disposal of the
-        // Merlin kernel
+        // setup the default context using the merlin.properties file
         //
 
-        Runtime.getRuntime().addShutdownHook(
-          new Thread()
-          {
-              public void run()
-              {
-                  try
-                  {
-                      kernel.shutdown();
-                  }
-                  catch( Throwable e )
-                  {
-                      // ignore it
-                  }
-              }
-          }
-        );
+        File base = getBaseDirectory();
+        Properties properties = 
+          getLocalProperties( base, "merlin.properties" );
+        Enumeration keys = properties.keys();
+        while( keys.hasMoreElements() )
+        {
+            final String key = (String) keys.nextElement();
+            if( key.startsWith( "merlin." ) )
+            {
+                String value = properties.getProperty( key );
+                criteria.put( key, value );
+            }
+        }
+
+        //
+        // apply directives assigned to the bean
+        //
+
+        criteria.put( "merlin.server", "false" );
+        criteria.put( "merlin.deployment", m_deployment );
+
+        if( null != m_debug ) criteria.put( "merlin.debug", m_debug );
+        if( null != m_info ) criteria.put( "merlin.info", m_info );
+ 
+    }
+
+    private Properties getLocalProperties( 
+      File dir, String filename ) throws IOException
+    {
+        Properties properties = new Properties();
+        if( null == dir ) return properties;
+        File file = new File( dir, filename );
+        if( !file.exists() ) return properties;
+        properties.load( new FileInputStream( file ) );
+        return properties;
+    }
+
+
+    private static File getMavenRepositoryDirectory()
+    {
+        return new File( getMavenHomeDirectory(), "repository" );
+    }
+
+    private static File getMavenHomeDirectory()
+    {
+        return new File( getMavenHome() );
+    }
+
+    private static String getMavenHome()
+    {
+        try
+        {
+            String local = 
+              System.getProperty( 
+                "maven.home.local", 
+                Env.getEnvVariable( "MAVEN_HOME_LOCAL" ) );
+            if( null != local ) return local;
+
+            String maven = 
+              System.getProperty( 
+                "maven.home", 
+                Env.getEnvVariable( "MAVEN_HOME" ) );
+            if( null != maven ) return maven;
+
+            return System.getProperty( "user.home" ) + File.separator + ".maven";
+
+        }
+        catch( Throwable e )
+        {
+            final String error = 
+              "Internal error while attempting to access environment.";
+            final String message = 
+              ExceptionHelper.packException( error, e, true );
+            throw new RuntimeException( message );
+        }
+    }
+
+    private File getBaseDirectory()
+    {
+        final String base = System.getProperty( "basedir" );
+        if( null != base )
+        {
+            return new File( base );
+        }
+        return new File( System.getProperty( "user.dir" ) );
+    }
+
+    private static String[] expandHosts( String arg )
+    {
+        ArrayList list = new ArrayList();
+        StringTokenizer tokenizer = new StringTokenizer( arg, "," );
+        while( tokenizer.hasMoreTokens() )
+        {
+            list.add( tokenizer.nextToken() );
+        }
+        return (String[]) list.toArray( new String[0] );
     }
 }
 

@@ -1,0 +1,48 @@
+<project default="jar:install" xmlns:maven="jelly:maven" xmlns:j="jelly:core" xmlns:util="jelly:util" xmlns:ant="jelly:ant">
+
+  <postGoal name="java:prepare-filesystem">
+    <attainGoal name="avalon:artifact"/>
+  </postGoal>
+
+  <!--
+  ###########################################################################
+  # Create the target .meta metadata.                                       #
+  # This contains the information used by the factory to identify the       #
+  # the implementation artifact classpath, factory, and whatever else       #
+  # we need to include this jar as the implementation strategy.             #
+  ###########################################################################
+  -->
+
+  <postGoal name="java:compile">
+
+    <ant:echo file="${maven.build.dir}/${pom.artifactId}.meta">
+#
+# Metadata identification.
+# This file if generated under the Avalon Repository Main build process.  
+# It contains a target artifact reference and factory parameters using 
+# during the bootstrapping of the repository implementation.
+#
+
+meta.domain = avalon
+meta.classifier = target
+meta.version = 1.0
+
+#
+# Merlin Implementation target description.
+# 
+
+avalon.target.group = ${pom.groupId}
+avalon.target.name = ${pom.artifactId}
+avalon.target.version = ${pom.currentVersion}
+avalon.target.factory = org.apache.avalon.merlin.kernel.impl.DefaultFactory
+
+#
+# EOF
+#
+</ant:echo>
+    <ant:mkdir dir="${maven.repo.local}/${pom.groupId}"/>
+    <ant:copy toDir="${maven.repo.local}/${pom.groupId}" 
+       file="${maven.build.dir}/${pom.artifactId}.meta" verbose="yes"/>
+  </postGoal>
+
+</project>

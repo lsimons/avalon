@@ -4,7 +4,7 @@
                    The Apache Software License, Version 1.1
  ============================================================================
 
- Copyright (C) 2002-2003 The Apache Software Foundation. All rights reserved.
+ Copyright (C) 1999-2002 The Apache Software Foundation. All rights reserved.
 
  Redistribution and use in source and binary forms, with or without modifica-
  tion, are permitted provided that the following conditions are met:
@@ -45,435 +45,319 @@
  This software  consists of voluntary contributions made  by many individuals
  on  behalf of the Apache Software  Foundation. For more  information on the
  Apache Software Foundation, please see <http://www.apache.org/>.
+
 */
 
 package org.apache.avalon.merlin.unit;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Map;
-import java.util.Hashtable;
-import java.net.URL;
-
-import org.apache.avalon.activation.appliance.Appliance;
-import org.apache.avalon.activation.appliance.Block;
-import org.apache.avalon.composition.model.ContainmentModel;
-import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.merlin.unit.DefaultEmbeddedKernel;
+import java.util.Properties;
+import java.util.Enumeration;
+import java.lang.reflect.Method;
+import java.lang.reflect.InvocationTargetException;
 
 import junit.framework.TestCase;
 
+import org.apache.avalon.repository.Artifact;
+import org.apache.avalon.repository.provider.Builder;
+import org.apache.avalon.repository.provider.InitialContext;
+import org.apache.avalon.repository.provider.Factory;
+import org.apache.avalon.repository.RepositoryException;
+import org.apache.avalon.repository.main.DefaultInitialContext;
+import org.apache.avalon.repository.main.DefaultBuilder;
+
+import org.apache.avalon.util.env.Env;
+import org.apache.avalon.util.exception.ExceptionHelper;
+
 /**
- * Abstract test case suitable for execution under Maven. 
- *
- * @author mcconnell@apache.org
+ * Test case that usages the repository builder to deploy the 
+ * Merlin default application factory.
+ * 
+ * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
+ * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
+ * @version $Revision: 1.17 $
  */
-public class AbstractMerlinTestCase extends TestCase
+public abstract class AbstractMerlinTestCase extends TestCase
 {
-    //-------------------------------------------------------------------
+    //----------------------------------------------------------
     // static
-    //-------------------------------------------------------------------
+    //----------------------------------------------------------
 
-    public static boolean MERLIN_DEBUG_OFF = false;
-    public static boolean MERLIN_DEBUG_ON = true;
-    public static boolean MERLIN_INFO_OFF = false;
-    public static boolean MERLIN_INFO_ON = true;
+    private static final String APPLICANCE_CLASSNAME = 
+      "org.apache.avalon.activation.appliance.Appliance";
 
-    public static final File MAVEN_TARGET_CLASSES_DIR = 
-      getProjectFile( "target/classes" );
+    //----------------------------------------------------------
+    // immutable state
+    //----------------------------------------------------------
 
-    public static final File MAVEN_TARGET_TEST_CLASSES_DIR = 
-      getProjectFile( "target/test-classes" );
+    private Object m_kernel;
 
-    public static final File MERLIN_DEFAULT_CONFIG_FILE = 
-      getProjectFile( "conf/config.xml" );
+    private ClassLoader m_classloader;
 
+    private Object m_root;
 
-    //-------------------------------------------------------------------
-    // state
-    //-------------------------------------------------------------------
+    private Method m_locate;
+    private Method m_resolve;
+    private Method m_shutdown;
 
-    private final DefaultEmbeddedKernel m_kernel;
+    //----------------------------------------------------------
+    // constructor
+    //----------------------------------------------------------
 
-    private final ContainmentModel m_test;
-
-    private final Thread m_thread;
-
-    private Logger m_logger;
-
-    private Block m_block;
-
-    //-------------------------------------------------------------------
-    // constructors
-    //-------------------------------------------------------------------
-
-   /**
-    * Creation of a new test case instance using the default info and debug
-    * policies and a test container path of ${basedir}/target/classes
-    */
-    public AbstractMerlinTestCase()
-    {
-        this( "testcase" );
-    }
-
-   /**
-    * Creation of a new test case instance using the default info and debug
-    * policies and a test container path of ${basedir}/target/classes
-    *
-    * @param name the name of the test case
-    */
+    /**
+     * Constructor for MerlinEmbeddedTest.
+     * @param name the name of the testcase
+     */
     public AbstractMerlinTestCase( String name )
     {
-        this( MAVEN_TARGET_CLASSES_DIR, null, MERLIN_INFO_OFF, MERLIN_DEBUG_OFF, name );
-    }
-
-   /**
-    * Creation of a new test case instance using the test container 
-    * path of ${basedir}/target/classes
-    *
-    * @param info information summary display policy
-    * @param debug internal container debug policy
-    * @param name the name of the test case
-    */
-    public AbstractMerlinTestCase( boolean info, boolean debug, String name )
-    {
-        this( MAVEN_TARGET_CLASSES_DIR, null, info, debug, name );
-    }
-
-   /**
-    * Creation of a new test case instance using a supplied test container 
-    * path, info and debug policies and unit test name.
-    *
-    * @param block the test container deployment path
-    * @param targets the test container deployment path
-    * @param info information summary display policy
-    * @param debug internal container debug policy
-    * @param name the name of the test case
-    */
-    public AbstractMerlinTestCase(
-      File block, File targets, boolean info, boolean debug, String name )
-    {
         super( name );
+    }
 
-        //
-        // validate arguments
-        //
-
-        if( block == null )
-        {
-            throw new NullPointerException( "block" );
-        }
-
-        if( !block.exists() )
-        {
-            final String error = 
-              "Containment block [" + block + "] does not exist.";
-            throw new IllegalStateException( error );
-        }
-
-        if( ( targets != null ) && !targets.exists() )
-        {
-            final String error = 
-              "Configuration targets [" + targets + "] does not exist.";
-            throw new IllegalStateException( error );
-        }
-
-        //
-        // build the kernel
-        //
-
-        Map map = new Hashtable();
-        map.put( "merlin.policy.info", new Boolean( info ) );
-        map.put( "merlin.policy.debug", new Boolean( debug ) );
-        map.put( "merlin.repository.dir", getMavenRepositoryDirectory() );
-        map.put( "merlin.base.dir", getBaseDirectory() );
-
+    public void setUp() throws Exception
+    {
         try
         {
-            m_kernel = new DefaultEmbeddedKernel( map );
-            m_thread = new Thread( m_kernel );
-            m_thread.start();
-        }
-        catch( Throwable e )
-        {
-            final String error = 
-              "Runnable kernel establishment failure.";
-            final String msg = UnitHelper.packException( error, e, true );
-            throw new UnitRuntimeException( msg, null );
-        }
+            Artifact artifact = 
+              Artifact.createArtifact( 
+                "merlin", "merlin-impl", "3.2-dev" );
 
-        //
-        // wait for the kernel to initialize
-        //
+            InitialContext context = 
+               new DefaultInitialContext( 
+                 getMavenRepositoryDirectory() );
 
+            Builder builder = new DefaultBuilder( context, artifact );
+            m_classloader = builder.getClassLoader();
+            Factory factory = builder.getFactory();
+            Map criteria = factory.createDefaultCriteria();
 
-        while( !m_kernel.established() )
-        {
-            try
-            {
-                Thread.sleep( 100 );
-            }
-            catch( Throwable e )
-            {
-                // wakeup
-            }
-        }
-
-        //
-        // check for kernel errors
-        //
-
-        if( m_kernel.getError() != null )
-        {
-            final String message = 
-              "Internal error while attempting to establish the kernel.";
-            final String error = 
-              UnitHelper.packException( message, m_kernel.getError(), true );
-            throw new UnitRuntimeException( error, null );
-        }
-
-        //
-        // setup a logger for the testcase
-        //
-
-        m_logger = m_kernel.getLoggerForCategory( "testcase" );
-
-        //
-        // add a container holding the components that will
-        // be used as services in the testcase
-        //
-
-        try
-        {
-            URL url = convertToURL( block );
-            URL conf = convertToURL( targets );
-            ContainmentModel root = m_kernel.getContainmentModel();
-            m_test = root.addContainmentModel( url, conf );
-        }
-        catch( Throwable e )
-        {
-            final String message = 
-              "Internal error while attempting to establish the test container.";
-            final String error = UnitHelper.packException( message, e, true );
-            throw new UnitRuntimeException( error, null );
-        }
-    }
-
-    //--------------------------------------------------------
-    // TestCase
-    //--------------------------------------------------------
-
-   /**
-    * Startup the kernel based on the meta model established 
-    * under the constructor.  The implementation will locate 
-    * the test container and establish it as the reference for 
-    * relative service lookups.
-    */
-    protected void setUp() throws Exception
-    {
-        m_kernel.startup();
-
-        try
-        {
-            m_block = m_kernel.getBlock( m_test );
-        }
-        catch( Throwable e )
-        {
-            final String message = 
-              "Internal error while attempting to resolve test block: " 
-              + m_test;
-            final String error = UnitHelper.packException( message, e, true );
-            getLogger().error( error );
-            throw new UnitException( error );
-        }
-    }
-
-   /**
-    * Shutdown the Merlin Kernel.
-    */
-    public void tearDown()
-    {
-        m_kernel.shutdown();
-    }
-
-    //--------------------------------------------------------
-    // utilities
-    //--------------------------------------------------------
-
-   /**
-    * Return the assigned logging channel for the test case.
-    * @return the logging channel
-    */
-    protected Logger getLogger()
-    {
-        return m_logger;
-    }
-
-   /**
-    * Resolve a service relative to the test container.  The supplied
-    * path may be relative or absolute.  Relative paths will be resolved
-    * relative to the test container wheras absolute paths will be resolved 
-    * relative to the root container.
-    *
-    * @param path the absolute or relative path to a component type
-    * @return the object resolved from an appliance defined by the supplied path
-    * @exception UnitException if a resolution error occurs
-    */
-    protected Object resolve( String path ) throws Exception
-    {
-        if( path == null ) throw new NullPointerException( "path" );
-
-        try
-        {
-            Appliance appliance = m_block.locate( path );
-            if( appliance == null )
-            {
-                final String problem = 
-                  "Unknown appliance: " + path;
-                throw new IllegalArgumentException( problem );
-            }
-            return appliance.resolve();
-        }
-        catch( Throwable e )
-        {
-            final String error = 
-              "Service resolution error from path: " + path;
-            final String msg = UnitHelper.packException( error, e, false );
-            throw new UnitException( msg, e );
-        }
-    }
-
-    //--------------------------------------------------------
-    // implementation
-    //--------------------------------------------------------
-
-   /**
-    * Convert a supplied file to a url.  If the file argument is
-    * null return null else return file.toURL().  
-    * @param file the file to convert
-    * @return the equivalent url
-    */
-    private URL convertToURL( File file )
-    {
-        if( file == null ) return null;
-        try
-        {
-            return file.toURL();
-        }
-        catch( Throwable e )
-        {
-            final String error = 
-              "Unable to convert file [" + file + "] to a url.";
-            throw new UnitRuntimeException( error, e );
-        }
-    }
-
-   /**
-    * Convinience method to get the ${basedir}/[path] directory.
-    * @return the deployment url
-    */
-    public static File getProjectFile( String path )
-    {
-        File base = getBaseDirectory();
-        return new File( base, path );
-    }
-
-    private static File getBaseDirectory()
-    {
-        String basedir = System.getProperty( "basedir" );
-        if( basedir != null ) return new File( basedir );
-        return new File( "." );
-    }
-
-   /**
-    * Return the maven system repository directory.
-    * @return the system repository directory
-    */
-    private File getMavenRepositoryDirectory()
-    {
-        //
-        // get ${maven.home.local} or ${maven.home} system property - this may 
-        // be null in which case to fallback to ${user.home}/.maven
-        //
-
-        final String maven = System.getProperty( "maven.home" );
-        final String local = System.getProperty( "maven.home.local" );
-        if( local != null )
-        {
-            try
-            {
-                File sys = getDirectory( new File( local ) );
-                return getDirectory( new File( sys, "repository" ) );
-            }
-            catch( Throwable e )
-            {
-                final String error = 
-                  "Unable to resolve repository from ${maven.home.local}.";
-                throw new UnitRuntimeException( error, e );
-            }
-        }
-        else if( maven != null )
-        {
-            try
-            {
-                File sys = getDirectory( new File( maven ) );
-                return getDirectory( new File( sys, "repository" ) );
-            }
-            catch( Throwable e )
-            {
-                final String error = 
-                  "Unable to resolve repository from ${maven.home}.";
-                throw new UnitRuntimeException( error, e );
-            }
-        }
-        else
-        {
             //
-            // try to establish the repository relative to 
-            // ${user.home}/.maven/repository
+            // set the defaults
             //
 
-            final String userHome = System.getProperty( "user.home" );
-            if( userHome != null )
+            criteria.put( "merlin.repository", getMavenRepositoryDirectory() );
+            criteria.put( "merlin.context", new File( getBaseDirectory(), "target" ) );
+
+            //
+            // read in any properties declared under the path 
+            // ${basedir}/merlin.properties
+            //
+
+            applyLocalProperties( criteria );
+
+            //
+            // if the deployment path is undefined then the best we 
+            // can do is to assume ${basedir}/target/classes and/or
+            // ${basedir}/target/test-classes contains a BLOCK-INF/block.xml
+            // and from this, derive a merlin.deployment value
+            //
+
+            String[] deployment = (String[]) criteria.get( "merlin.deployment" );
+            if( deployment.length == 0 )
             {
-                try
+                String path = buildDefaultTestPath();
+                if( null != path )
                 {
-                    File home = getDirectory( new File( userHome ) );
-                    File xmaven = getDirectory( new File( home, ".maven" ) );
-                    return getDirectory( new File( xmaven, "repository" ) );
+                    criteria.put( "merlin.deployment", path );
                 }
-                catch( Throwable e )
+                else
                 {
                     final String error = 
-                      "Unable to resolve the maven repository relative to ${user.home}.";
-                    throw new UnitRuntimeException( error, e );
+                      "Cannot locate a deployment objective.";
+                    throw new IllegalStateException( error );
                 }
             }
-            else
-            {
-                //
-                // should never happen
-                //
 
-                final String error = 
-                  "Unable to resolve maven repository.";
-                throw new IllegalStateException( error );
+            //
+            // if the ${merlin.override} value is undefined, check for 
+            // the existance of an override file in ${basedir}/conf/config.xml
+            // and if it exists assign it as the override parameter
+            //
+
+            if( null == criteria.get( "merlin.override" ) )
+            {  
+                String override = buildDefaultOverridePath();
+                if( null != override )
+                {
+                    criteria.put( "merlin.override", override );
+                }
+            }
+
+            //
+            // go ahead with the deployment of the kernel
+            //
+
+            m_kernel = factory.create( criteria );
+            m_shutdown = m_kernel.getClass().getMethod( "shutdown", new Class[0] );
+            Method method = m_kernel.getClass().getMethod( "getBlock", new Class[0] );
+            m_root = method.invoke( m_kernel, new Object[0] );
+            m_locate = m_root.getClass().getMethod( "locate", new Class[]{ String.class } );
+            Class applianceClass = m_classloader.loadClass( APPLICANCE_CLASSNAME );
+            m_resolve = applianceClass.getMethod( "resolve", new Class[0] );
+        }
+        catch( Throwable e )
+        {
+            final String error = ExceptionHelper.packException( e, true );
+            System.out.println( error );
+            throw new Exception( error );
+        }
+    }
+
+    public void tearDown()
+    {
+        m_classloader = null;
+        m_root = null;
+        m_locate = null;
+        m_resolve = null;
+
+        try
+        {
+            m_shutdown.invoke( m_kernel, new Object[0] );
+        }
+        catch( Throwable e )
+        {
+            // ignore
+        }
+
+        m_shutdown = null;
+    }
+
+    //----------------------------------------------------------------------
+    // protected
+    //----------------------------------------------------------------------
+
+    protected Object resolve( String path ) throws Exception
+    {
+        if( null == m_kernel ) 
+          throw new IllegalStateException( "kernel does not exist" );
+
+        try
+        {
+            Object appliance =  m_locate.invoke( m_root, new Object[]{ path } );
+            return m_resolve.invoke( appliance, new Object[0] );
+        }
+        catch( InvocationTargetException ite )
+        {
+            Throwable cause = ite.getTargetException();
+            final String error = ExceptionHelper.packException( cause, true );
+            throw new Exception( error );
+        }
+        catch( Throwable e )
+        {
+            final String error = ExceptionHelper.packException( e, true );
+            throw new Exception( error );
+        }
+    }
+
+    //----------------------------------------------------------------------
+    // utilities
+    //----------------------------------------------------------------------
+
+    private String buildDefaultOverridePath()
+    {
+        File base = getBaseDirectory();
+        File config = new File( base, "conf/config.xml" );
+        if( config.exists() ) return "conf/config.xml";
+        return null;
+    }
+
+    private String buildDefaultTestPath()
+    {
+        File base = getBaseDirectory();
+        File classes = new File( base, "target/classes/BLOCK-INF/block.xml" );
+        File tests = new File( base, "target/test-classes/BLOCK-INF/block.xml" );
+        if( classes.exists() && tests.exists() )
+        {
+            return "target/classes,target/test-classes";
+        }
+        else if( classes.exists() )
+        {
+            return "target/classes";
+        }
+        else if( tests.exists() )
+        {
+            return "target/test-classes";
+        }
+        return null;
+    }
+
+    private void applyLocalProperties( Map criteria ) throws IOException
+    {
+        File base = getBaseDirectory();
+        Properties properties = 
+          getLocalProperties( base, "merlin.properties" );
+        Enumeration keys = properties.keys();
+        while( keys.hasMoreElements() )
+        {
+            final String key = (String) keys.nextElement();
+            if( key.startsWith( "merlin." ) )
+            {
+                String value = properties.getProperty( key );
+                criteria.put( key, value );
             }
         }
     }
 
-    private File getDirectory( File file )
+    private Properties getLocalProperties( 
+      File dir, String filename ) throws IOException
     {
-        if( file == null ) throw new NullPointerException( "file" );
-        if( file.exists() )
+        Properties properties = new Properties();
+        if( null == dir ) return properties;
+        File file = new File( dir, filename );
+        if( !file.exists() ) return properties;
+        properties.load( new FileInputStream( file ) );
+        return properties;
+    }
+
+
+    private static File getMavenRepositoryDirectory()
+    {
+        return new File( getMavenHomeDirectory(), "repository" );
+    }
+
+    private static File getMavenHomeDirectory()
+    {
+        return new File( getMavenHome() );
+    }
+
+    private static String getMavenHome()
+    {
+        try
         {
-            return file;
+            String local = 
+              System.getProperty( 
+                "maven.home.local", 
+                Env.getEnvVariable( "MAVEN_HOME_LOCAL" ) );
+            if( null != local ) return local;
+
+            String maven = 
+              System.getProperty( 
+                "maven.home", 
+                Env.getEnvVariable( "MAVEN_HOME" ) );
+            if( null != maven ) return maven;
+
+            return System.getProperty( "user.home" ) + File.separator + ".maven";
+
         }
-        else
+        catch( Throwable e )
         {
-            final String error =
-              "Directory [" + file + "] does not exist.";
-            throw new IllegalArgumentException( error );
+            final String error = 
+              "Internal error while attempting to access environment.";
+            final String message = 
+              ExceptionHelper.packException( error, e, true );
+            throw new RuntimeException( message );
         }
     }
-}
 
+    private File getBaseDirectory()
+    {
+        final String base = System.getProperty( "basedir" );
+        if( null != base )
+        {
+            return new File( base );
+        }
+        return new File( System.getProperty( "user.dir" ) );
+    }
+}

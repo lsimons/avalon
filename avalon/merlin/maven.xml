@@ -2,11 +2,10 @@
 
   <maven:snapshot project="${pom}"/>
 
-  <ant:property name="merlin.bootstrap.jar" value="merlin-bootstrap-1.1.jar"/>
-  <ant:property name="merlin.plugin.jar" value="merlin-plugin-1.1-SNAPSHOT.jar"/>
+  <ant:property name="merlin.cli.jar" value="merlin-cli-3.2-dev.jar"/>
+  <ant:property name="avalon.plugin.jar" value="avalon-plugin-1.0-dev.jar"/>
   <ant:property name="meta.plugin.jar" value="avalon-meta-plugin-1.2.jar"/>
-  <ant:property name="repository.plugin.jar" 
-    value="avalon-repository-plugin-1.2.1-dev.jar"/>
+  <ant:property name="merlin.plugin.jar" value="merlin-plugin-3.2-dev.jar"/>
 
   <ant:property file="project.properties"/>
   <ant:property name="maven.docs.src" value="${basedir}/platform/xdocs"/>
@@ -91,7 +90,7 @@
 
     <!-- import bootstrap jar -->
     <ant:copy 
-       file="${basedir}/kernel/bootstrap/target/${merlin.bootstrap.jar}" 
+       file="${basedir}/kernel/cli/target/${merlin.cli.jar}" 
        toDir="${merlin.build.inst.dir}/bin/lib"/>
 
     <!-- import subproject jar files -->
@@ -351,7 +350,7 @@
         <sourcepath path="${basedir}/activation/api/src/java"/>
         <sourcepath path="${basedir}/activation/spi/src/java"/>
         <sourcepath path="${basedir}/activation/impl/src/java"/>
-        <sourcepath path="${basedir}/kernel/spi/src/java"/>
+        <sourcepath path="${basedir}/kernel/api/src/java"/>
         <sourcepath path="${basedir}/kernel/impl/src/java"/>
         <sourcepath path="${basedir}/kernel/unit/src/java"/>
         <classpath>
@@ -366,10 +365,6 @@
 	  <link href="${avalon.logkit.link}" />
 	  <link href="${avalon.lifecycle.link}" />
 	  <link href="${excalibur.configuration.link}" />
-        <!-- comment out the following until the respective project docs are in place -->
-	  <!--<link href="${excalibur.pool.link}" />-->
-	  <!--<link href="${excalibur.thread.link}" />-->
-	  <!--<link href="${excalibur.event.link}" />-->
     </ant:javadoc>
   </goal>
 
@@ -398,7 +393,7 @@
   Write a build signature for each package.
   -->
   <preGoal name="java:compile">
-    <ant:available file="${maven.home}/plugins/${repository.plugin.jar}"
+    <ant:available file="${maven.home}/plugins/${avalon.plugin.jar}"
       property="pluginPresent"/>
     <j:if test="${pluginPresent == 'true'}">
       <attainGoal name="avalon:artifact"/>

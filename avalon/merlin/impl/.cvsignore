@@ -1,7 +1,6 @@
-maven.log
-velocity.log
+*.log
 build.properties
-target
 repository
 .classpath
 .project
+target

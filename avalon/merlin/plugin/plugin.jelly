@@ -17,18 +17,17 @@
 
   <goal name="merlin:deploy" prereqs="jar:jar"
       description="Deployment from ${maven.build.dir}/${maven.final.name}.jar">
-    <j:set var="merlin.target" value="${merlin.target}"/>
-    <j:set var="merlin.target" value="${maven.build.dir}/${maven.final.name}.jar"/>
-    <util:file var="target" name="${merlin.target}"/>
+    <j:set var="merlin.deployment" value="${maven.build.dir}/${maven.final.name}.jar"/>
+    <util:file var="target" name="${merlin.deployment}"/>
     <j:if test="${target.exists()}">
        <attainGoal name="merlin:execute"/>
     </j:if>
   </goal>
 
-  <goal name="merlin:simulate" prereqs="test:test"
+  <goal name="merlin:simulate" prereqs="java:compile"
       description="Simulated deployment from ${maven.build.dir}/classes">
-    <j:set var="merlin.target" value="${maven.build.dir}/classes"/>
-    <util:file var="target" name="${merlin.target}"/>
+    <j:set var="merlin.deployment" value="${maven.build.dir}/classes"/>
+    <util:file var="target" name="${merlin.deployment}"/>
     <j:if test="${target.exists()}">
        <attainGoal name="merlin:execute"/>
     </j:if>
@@ -36,13 +35,24 @@
 
   <goal name="merlin:test" prereqs="test:test"
       description="Simulated deployment from ${maven.build.dir}/test-classes">
-    <j:set var="merlin.target" value="${maven.build.dir}/test-classes"/>
-    <util:file var="target" name="${merlin.target}"/>
+    <j:set var="merlin.deployment" value="${maven.build.dir}/test-classes"/>
+    <util:file var="target" name="${merlin.deployment}"/>
     <j:if test="${target.exists()}">
        <attainGoal name="merlin:execute"/>
     </j:if>
   </goal>
 
+  <goal name="merlin:execute">
+    <echo>Target: ${merlin.deployment}</echo>
+    <merlin:kernel 
+      hosts="${maven.repo.remote}"
+      deployment="${merlin.deployment}"
+      info="${merlin.info}"
+      debug="${merlin.debug}"
+    />
+  </goal>
+
+  <!--
   <goal name="merlin:execute" prereqs="merlin:prepare-context">
     <merlin:kernel 
       repository="${merlin.repository.local}" 
@@ -55,6 +65,7 @@
       info="${merlin.info}" 
       wait="${wait}"/>
   </goal>
+  -->
 
   <goal name="merlin:prepare-context">
 
