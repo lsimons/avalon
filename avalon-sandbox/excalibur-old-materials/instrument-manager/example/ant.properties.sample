@@ -9,7 +9,7 @@
 # The ant.properties values in this directory apply only to this component, and
 # override the defaults in ../ant.properties.
 #
-# $Id: ant.properties.sample,v 1.4 2002/04/24 08:47:56 leif Exp $
+# $Id: ant.properties.sample,v 1.5 2002/05/24 17:50:42 crafterm Exp $
 # -----------------------------------------------------------------------------
 
 # --------------------------------------------------
@@ -74,7 +74,7 @@ excalibur-instrument.home=../../instrument/build/lib
 excalibur-instrument.jar=${excalibur-instrument.home}/excalibur-instrument-0.1.jar
 
 # ----- Altrmi -----
-excalibur-altrmi.home=../altrmi/build/lib
+excalibur-altrmi.home=../../altrmi/build/lib
 excalibur-altrmi-common.jar=${excalibur-altrmi.home}/excalibur-altrmi-common.jar
 excalibur-altrmi-server-impl.jar=${excalibur-altrmi.home}/excalibur-altrmi-server-impl.jar
 excalibur-altrmi-server-interfaces.jar=${excalibur-altrmi.home}/excalibur-altrmi-server-interfaces.jar
