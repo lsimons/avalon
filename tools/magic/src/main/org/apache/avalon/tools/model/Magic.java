@@ -376,6 +376,13 @@ public class Magic extends DataType
         if( null != path )
         {
             File system = new File( path );
+            if( system.exists() && system.isFile() )
+            {
+                final String error = 
+                  "Supplied 'magic.home' value is not directory ["
+                  + system;
+                throw new BuildException( error );
+            }
             return Context.getCanonicalFile( system );
         }
 
