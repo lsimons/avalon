@@ -127,11 +127,11 @@ Components. These Service utilities performed the exact same functions
 as their deprecated Component counterparts, but didn't require
 everything be a Component. That is:
       </p>
-<source>subsectionComponent componentManager.lookup(String role);</source>
+<source>Component componentManager.lookup(String role);</source>
       <p>
 became
       </p>
-<source>subsectionObject serviceManager.lookup(String role);</source>
+<source>Object serviceManager.lookup(String role);</source>
       <p>
 So in this sense, Components ARE Services. But now the Avalon
 community had two names for the same thing and this is generally were
