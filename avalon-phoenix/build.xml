@@ -85,6 +85,12 @@ Legal:
     <!-- Main target -->
     <target name="main" depends="dist-lite-wrapper"
         description="generates the Phoenix distribution without the javadocs"/>
+
+    <target name="rebuild" description="Rebuilds Phoenix">
+        <antcall target="clean"/>
+        <antcall target="main"/>
+    </target>
+
     <target name="all" depends="dist-lite" description="generates the Phoenix distribution">
         <ant target="docs" antfile="docs.xml" inheritall="false" />
     </target>
