@@ -5,6 +5,8 @@
   <ant:property name="merlin.bootstrap.jar" value="merlin-bootstrap-1.0.jar"/>
   <ant:property name="merlin.plugin.jar" value="merlin-plugin-1.1-SNAPSHOT.jar"/>
   <ant:property name="meta.plugin.jar" value="avalon-meta-plugin-1.2.jar"/>
+  <ant:property name="repository.plugin.jar" 
+    value="avalon-repository-plugin-1.2.1-dev.jar"/>
 
   <ant:property file="project.properties"/>
   <ant:property name="maven.docs.src" value="${basedir}/platform/xdocs"/>
@@ -398,7 +400,11 @@
   Write a build signature for each package.
   -->
   <preGoal name="java:compile">
-    <attainGoal name="avalon:artifact"/>
+    <ant:available file="${maven.home}/plugins/${repository.plugin.jar}"
+      property="pluginPresent"/>
+    <j:if test="${pluginPresent == 'true'}">
+      <attainGoal name="avalon:artifact"/>
+    </j:if>
   </preGoal>
 
 </project>
