@@ -44,9 +44,6 @@ Issues:
 
 * Should we support download of resources via JNLP/CJAN/JJAN
 
-* Should we continue to have separate copies of binaries 
-  (ie ant/xerces/stylebook etc) distributed throughout different CVSes.
-
 * Should we even store the avalon generated jars (testlet/
   logkit/avalon-*/phoenix-* in CVS or should we suck them between projects
   automagically).
