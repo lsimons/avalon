@@ -22,7 +22,7 @@ import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
  * Convert a {@link ComponentInfo} into a {@link BlockInfo}.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.7 $ $Date: 2002/11/16 14:47:25 $
+ * @version $Revision: 1.8 $ $Date: 2002/12/09 17:09:59 $
  */
 public class ComponentInfoConverter
 {
@@ -101,7 +101,7 @@ public class ComponentInfoConverter
         final org.apache.avalon.framework.info.ServiceDescriptor service )
     {
         final Version version = toVersion( service );
-        final String classname = service.getImplementationKey();
+        final String classname = service.getType();
         return new ServiceDescriptor( classname, version );
     }
 
@@ -148,7 +148,8 @@ public class ComponentInfoConverter
         final ComponentDescriptor descriptor = component.getDescriptor();
         final Version version = toVersion( descriptor );
 
-        String schemaType = component.getSchema().getType();
+        //FIXME: Assuming that getSchema is replaced with getConfigurationSchema. /LS
+        String schemaType = component.getConfigurationSchema().getType();
         if( "".equals( schemaType ) )
         {
             schemaType = null;
