@@ -398,6 +398,10 @@ Legal:
             <include name="org/apache/avalon/phoenix/tools/punit/**"/>
         </jar>
 
+        <jar jarfile="${build.lib}/phoenix-containerkit.jar" basedir="${build.classes}">
+            <include name="org/apache/avalon/phoenix/containerkit/**"/>
+        </jar>
+
 
     </target>
 
@@ -485,6 +489,9 @@ Legal:
             <fileset dir="${lib.dir}/container">
                 <include name="*.jar"/>
             </fileset>
+            <fileset dir="${build.lib}">
+                <include name="phoenix-containerkit.jar"/>
+            </fileset>            
         </copy>
 
         <copy file="${xerces.jar}" todir="${bin.dist.lib}"/>
@@ -609,7 +616,7 @@ phoenix-metagenerate.jar needs to be used with qdox-1.0.jar
   See http://cvs.apache.org/viewcvs/jakarta-avalon-apps/demo/build.xml for usage
   See http://jakarta.apache.org/avalon/phoenix/mx/index.html for documentation
 
-phoenix-punit.jar needs to be used with excalibur-containerkit-1.0.jar
+phoenix-punit.jar needs to be used with phoenix-containerkit-1.0.jar
   See http://cvs.apache.org/viewcvs/jakarta-avalon-phoenix/src/test/org/apache/avalon/phoenix/tools/punit/test/
   for usage.
   See http://jakarta.apache.org/avalon/phoenix/punit/index.html for documentation
