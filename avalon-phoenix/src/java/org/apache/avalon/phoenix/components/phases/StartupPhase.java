@@ -193,8 +193,7 @@ public class StartupPhase
 
             final Block block = (Block)object;
             final BlockInfo blockInfo = entry.getMetaData().getBlockInfo();
-            final Class[] interfaces = 
-                BlockUtil.getServiceClasses( block, blockInfo.getServices() );
+            final Class[] interfaces = getServiceClasses( block, blockInfo.getServices() );
 
             final BlockInvocationHandler invocationHandler = 
                 new BlockInvocationHandler( block, interfaces );
@@ -218,37 +217,7 @@ public class StartupPhase
         final Block block = (Block)clazz.newInstance(); 
         getLogger().debug( REZ.getString( "startup.notice.block.created" ) );
 
-        verifyBlockServices( name, entry, block );
-        getLogger().debug( REZ.getString( "startup.notice.block.verify" ) );
-
         return block;
-    }
-
-    /**
-     * Verify that all the services that a block
-     * declares it provides are actually provided.
-     *
-     * @param name the name of block
-     * @param blockEntry the blockEntry
-     * @param block the Block
-     * @exception Exception if verification fails
-     */
-    private void verifyBlockServices( final String name,
-                                      final BlockEntry entry,
-                                      final Block block )
-        throws Exception
-    {
-        final ServiceDescriptor[] services = entry.getMetaData().getBlockInfo().getServices();
-        for( int i = 0; i < services.length; i++ )
-        {
-            if( false == BlockUtil.implementsService( block, services[ i ] ) )
-            {
-                final String message = 
-                    REZ.getString( "startup.error.block.noimplement", name, services[ i ] );
-                getLogger().warn( message );
-                throw new Exception( message );
-            }
-        }
     }
 
     /**
@@ -274,5 +243,23 @@ public class StartupPhase
         }
 
         return componentManager;
+    }
+
+    private Class[] getServiceClasses( final Block block, final ServiceDescriptor[] services )
+    {
+        final Class[] classes = new Class[ services.length + 1 ];
+        final ClassLoader classLoader = block.getClass().getClassLoader();
+
+        for( int i = 0; i < services.length; i++ )
+        {
+            try
+            {
+                classes[ i ] = classLoader.loadClass( services[ i ].getName() );
+            }
+            catch( final Throwable throwable ) {}
+        }
+
+        classes[ services.length ] = Block.class;
+        return classes;
     }
 }
