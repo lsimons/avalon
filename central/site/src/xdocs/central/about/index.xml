@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Avalon Central</title>
+  </properties> 
+
+  <body>
+    <section name="Welcome to Avalon Central">
+      <p>
+      Avalon Central is the place you can find 
+      <a href="download.cgi">downloads</a>, information 
+      about the <a href="../community/people/index.html">people</a> 
+      who make up this community,
+      together with the latest <a href="../news/index.html">news</a> and
+      events. 
+      </p>
+    </section>
+  </body>
+</document>
+
