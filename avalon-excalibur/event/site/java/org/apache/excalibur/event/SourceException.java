@@ -16,4 +16,13 @@ import org.apache.avalon.framework.CascadingException;
  */
 public class SourceException extends CascadingException
 {
+     public SourceException( String message )
+     {
+         super( message );
+     }
+
+     public SourceException( String message, Throwable e )
+     {
+         super( message, e );
+     }
 }

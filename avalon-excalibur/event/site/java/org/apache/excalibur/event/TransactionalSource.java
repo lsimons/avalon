@@ -20,11 +20,11 @@ public interface TransactionalSource extends Source {
   /**
    * Support for transactional enqueue.
    *
-   * <p>This method allows a client to provisionally enqueue a number 
+   * <p>This method allows a client to provisionally enqueue a number
    * of elements onto the queue, and then later commit the enqueue (with
-   * a <pre>commitEnqueue</code> call), or abort (with an 
-   * <code>abortEnqueue</code> call). This mechanism can be used to 
-   * perform "split-phase" enqueues, where a client first enqueues a 
+   * a <pre>commitEnqueue</code> call), or abort (with an
+   * <code>abortEnqueue</code> call). This mechanism can be used to
+   * perform "split-phase" enqueues, where a client first enqueues a
    * set of elements on the queue and then performs some work to "fill in"
    * those elements before performing a commit. This can also be used
    * to perform multi-queue transactional enqueue operations, with an
@@ -52,12 +52,12 @@ public interface TransactionalSource extends Source {
    * @exception SourceFullException Indicates that the sink is temporarily full
    *            and that the requested elements could not be provisionally
    *            enqueued.
-   * @exception SourceClosedException Indicates that the sink is 
+   * @exception SourceClosedException Indicates that the sink is
    *            no longer being serviced.
    *
    * @see PreparedEnqueue
    */
-  public PreparedEnqueue prepareEnqueue(QueueElementIF[] elements)
+  public PreparedEnqueue prepareEnqueue(QueueElement[] elements)
       throws SourceException;
 
 }
