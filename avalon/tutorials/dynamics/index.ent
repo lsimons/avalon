@@ -1,1 +1,2 @@
 <!ENTITY % merlin-entities SYSTEM "file:../../../../versioning/avalon-merlin.ent"> %merlin-entities;
+<!ENTITY % meta-entities SYSTEM "file:../../../../versioning/avalon-meta.ent"> %meta-entities;

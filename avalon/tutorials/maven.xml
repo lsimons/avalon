@@ -1,14 +1,39 @@
-<project default="jar:jar" xmlns:maven="jelly:maven" xmlns:j="jelly:core" xmlns:util="jelly:util">
+<project default="jar:jar" xmlns:maven="jelly:maven" xmlns:j="jelly:core" xmlns:util="jelly:util" xmlns:ant="jelly:ant">
 
   <preGoal name="java:compile">
     <attainGoal name="avalon:meta"/>
   </preGoal>
 
-  <goal name="demo">
+  <goal name="demo" prereqs="jar:install">
     <j:set var="demo.target" value="${maven.build.dir}/classes/BLOCK-INF/block.xml"/>
     <util:file var="target" name="${demo.target}"/>
     <j:if test="${target.exists()}">
       <attainGoal name="merlin:simulate"/>
+    </j:if>
+  </goal>
+
+  <!-- utility goal used by the merlin distribution stuff -->
+  <goal name="xgen" prereqs="jar:install">
+    <ant:mkdir dir="${maven.build.dir}/package"/>
+    <ant:copy toDir="${maven.build.dir}/package">
+      <fileset dir="${pom.file.parentFile}">
+        <exclude name="target/**"/>
+        <exclude name="*.log"/>
+        <exclude name=".*"/>
+        <exclude name="*.ent"/>
+        <exclude name="*.xsl"/>
+      </fileset>
+    </ant:copy>
+    <util:file var="xslFile" name="${basedir}/copy-all.xsl"/>
+    <j:if test="${xslFile.exists()}">
+      <ant:delete file="${maven.build.dir}/package/project.xml"/>
+      <ant:xslt in="${pom.file}" 
+          out="${maven.build.dir}/package/project.xml"
+          style="${xslFile}">
+        <outputproperty name="method" value="xml" />
+        <outputproperty name="standalone" value="yes"/>
+        <outputproperty name="indent" value="yes"/>
+      </ant:xslt>
     </j:if>
   </goal>
 
