@@ -58,6 +58,7 @@
             target="1.2">
             <classpath refid="project.class.path" />
             <include name="**/*.java"/>
+            <exclude name="**/util/*AvalonLogger*" unless="framework.present"/>
         </javac>
 
         <rmic base="${build.classes}"
