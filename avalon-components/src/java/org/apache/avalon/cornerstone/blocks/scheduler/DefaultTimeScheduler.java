@@ -89,7 +89,7 @@ public class DefaultTimeScheduler
         }
         catch( final NoSuchElementException nse )
         {
-            getLogger().warn( "Unexpected exception when peek() on priority queue for " + 
+            getLogger().warn( "Unexpected exception when peek() on priority queue for " +
                               entry.getName(), nse );
         }
     }
@@ -203,7 +203,7 @@ public class DefaultTimeScheduler
                     try { entry.getTarget().targetTriggered( entry.getName() ); }
                     catch( final Throwable t )
                     {
-                        logger.warn( "Error occured executin trigger " + entry.getName(), t );
+                        logger.warn( "Error occured executing trigger " + entry.getName(), t );
                     }
                 }
             };
@@ -256,7 +256,7 @@ public class DefaultTimeScheduler
                         //and run it
                         m_priorityQueue.pop();
 
-                        //Note that we need the pop to occur in a 
+                        //Note that we need the pop to occur in a
                         //synchronized section while the runEntry
                         //does not need to be synchronized
                         //hence why there is to if statements
@@ -267,10 +267,10 @@ public class DefaultTimeScheduler
                 if( duration < 0 )
                 {
                     runEntry( entry );
-                    
+
                     rescheduleEntry( entry, false );
                     continue;
-                }                 
+                }
                 else if( 0 == duration )
                 {
                     //give a short duration that will sleep
@@ -293,17 +293,17 @@ public class DefaultTimeScheduler
     {
         TimeScheduledEntry entry =
             (TimeScheduledEntry)m_priorityQueue.peek();
-        
+
         //if job has been invalidated then remove it and continue
         while( !entry.isValid() )
         {
             m_priorityQueue.pop();
-            
-            if ( m_priorityQueue.isEmpty() ) 
+
+            if ( m_priorityQueue.isEmpty() )
             {
                 return null;
             }
-            
+
             entry = (TimeScheduledEntry)m_priorityQueue.peek();
         }
 
