@@ -8,20 +8,19 @@
 package org.apache.avalon.phoenix.tools.punit;
 
 import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.excalibur.containerkit.lifecycle.ResourceProvider;
 
 public class PUnitBlock
 {
     private String m_blockName;
     private Object m_block;
-    private Configuration m_configuration;
+    private ResourceProvider m_resourceProvider;
 
-    public PUnitBlock( String blockName, Object block, Configuration configuration )
+    public PUnitBlock( String blockName, Object block, ResourceProvider resourceProvider )
     {
         this.m_blockName = blockName;
         this.m_block = block;
-        this.m_configuration = configuration;
-        // logger ?
-        // context ?
+        this.m_resourceProvider = resourceProvider;
     }
 
     public String getBlockName()
@@ -34,8 +33,8 @@ public class PUnitBlock
         return m_block;
     }
 
-    public Configuration getConfiguration()
+    public ResourceProvider getResourceProvider()
     {
-        return m_configuration;
+        return m_resourceProvider;
     }
 }
