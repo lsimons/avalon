@@ -60,9 +60,9 @@ import junit.framework.TestCase;
 
 /**
  * Test case for SourceUtil.
- * 
+ *
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @version $Id: SourceUtilTestCase.java,v 1.2 2003/05/20 20:56:43 bloritsch Exp $
+ * @version $Id: SourceUtilTestCase.java,v 1.3 2003/06/07 20:59:40 bruno Exp $
  */
 public class SourceUtilTestCase extends TestCase
 {
@@ -83,12 +83,12 @@ public class SourceUtilTestCase extends TestCase
         assertEquals("http", SourceUtil.getScheme(uri));
         assertEquals("//foo", SourceUtil.getSpecificPart(uri));
     }
-    
+
     public void testDoubleColon() throws Exception
     {
         assertEquals(4, SourceUtil.indexOfSchemeColon("file:foo:bar"));
     }
-    
+
     public void testSpecialScheme() throws Exception
     {
         String uri = "a-+.:foo"; // Strange, but valid !
@@ -96,7 +96,7 @@ public class SourceUtilTestCase extends TestCase
         assertEquals("a-+.", SourceUtil.getScheme(uri));
         assertEquals("foo", SourceUtil.getSpecificPart(uri));
     }
-    
+
     public void testSpecialPart() throws Exception
     {
         String uri = "bar:";
@@ -104,31 +104,106 @@ public class SourceUtilTestCase extends TestCase
         assertEquals("bar", SourceUtil.getScheme(uri));
         assertEquals("", SourceUtil.getSpecificPart(uri));
     }
-    
+
     public void testInvalidScheme() throws Exception
     {
         String uri = "2foo:bar";
         assertEquals(-1, SourceUtil.indexOfSchemeColon(uri));
         assertEquals(null, SourceUtil.getScheme(uri));
         assertEquals(null, SourceUtil.getSpecificPart(uri));
-        
+
         // Invalid character before any of the allowed ones
         assertEquals(-1, SourceUtil.indexOfSchemeColon("h ttp:foo"));
         assertEquals(-1, SourceUtil.indexOfSchemeColon(" http:foo"));
         assertEquals(-1, SourceUtil.indexOfSchemeColon("http :foo"));
-        
+
        // Invalid character between allowed ranges
         assertEquals(-1, SourceUtil.indexOfSchemeColon("h_ttp:foo"));
         assertEquals(-1, SourceUtil.indexOfSchemeColon("_http:foo"));
         assertEquals(-1, SourceUtil.indexOfSchemeColon("http_:foo"));
-        
+
         // Invalid character after any of the allowed ones
         assertEquals(-1, SourceUtil.indexOfSchemeColon("h~ttp:foo"));
         assertEquals(-1, SourceUtil.indexOfSchemeColon("~http:foo"));
         assertEquals(-1, SourceUtil.indexOfSchemeColon("http~:foo"));
+	}
 
-        assertEquals(-1, SourceUtil.indexOfSchemeColon("/file/with:colon"));
-        assertEquals(-1, SourceUtil.indexOfSchemeColon(".foo:bar"));
-        assertEquals(-1, SourceUtil.indexOfSchemeColon("no-colon"));
+    public void testAbsolutize()
+    {
+        String base = "http://a/b/c/d;p?q";
+
+        //
+        // Test examples from RFC 2396
+        //
+
+        // normal cases
+        assertEquals("g:h", SourceUtil.absolutize(base, "g:h"));
+        assertEquals("http://a/b/c/g", SourceUtil.absolutize(base, "g"));
+        assertEquals("http://a/b/c/g", SourceUtil.absolutize(base, "./g"));
+        assertEquals("http://a/b/c/g/", SourceUtil.absolutize(base, "g/"));
+        assertEquals("http://a/g", SourceUtil.absolutize(base, "/g"));
+        assertEquals("http://g", SourceUtil.absolutize(base, "//g"));
+        assertEquals("http://a/b/c/?y", SourceUtil.absolutize(base, "?y"));
+        assertEquals("http://a/b/c/g?y", SourceUtil.absolutize(base, "g?y"));
+        assertEquals("http://a/b/c/d;p?q#s", SourceUtil.absolutize(base, "#s"));
+        assertEquals("http://a/b/c/g#s", SourceUtil.absolutize(base, "g#s"));
+        assertEquals("http://a/b/c/g?y#s", SourceUtil.absolutize(base, "g?y#s"));
+        assertEquals("http://a/b/c/;x", SourceUtil.absolutize(base, ";x"));
+        assertEquals("http://a/b/c/g;x", SourceUtil.absolutize(base, "g;x"));
+        assertEquals("http://a/b/c/g;x?y#s", SourceUtil.absolutize(base, "g;x?y#s"));
+        assertEquals("http://a/b/c/", SourceUtil.absolutize(base, "."));
+        assertEquals("http://a/b/c/", SourceUtil.absolutize(base, "./"));
+        assertEquals("http://a/b/", SourceUtil.absolutize(base, ".."));
+        assertEquals("http://a/b/", SourceUtil.absolutize(base, "../"));
+        assertEquals("http://a/b/g", SourceUtil.absolutize(base, "../g"));
+        assertEquals("http://a/", SourceUtil.absolutize(base, "../.."));
+        assertEquals("http://a/", SourceUtil.absolutize(base, "../../"));
+        assertEquals("http://a/g", SourceUtil.absolutize(base, "../../g"));
+
+        // abnormal cases
+        assertEquals("http://a/../g", SourceUtil.absolutize(base, "../../../g"));
+        assertEquals("http://a/../../g", SourceUtil.absolutize(base, "../../../../g"));
+
+        assertEquals("http://a/./g", SourceUtil.absolutize(base, "/./g"));
+        assertEquals("http://a/../g", SourceUtil.absolutize(base, "/../g"));
+        assertEquals("http://a/b/c/g.", SourceUtil.absolutize(base, "g."));
+        assertEquals("http://a/b/c/.g", SourceUtil.absolutize(base, ".g"));
+        assertEquals("http://a/b/c/g..", SourceUtil.absolutize(base, "g.."));
+        assertEquals("http://a/b/c/..g", SourceUtil.absolutize(base, "..g"));
+
+        assertEquals("http://a/b/g", SourceUtil.absolutize(base, "./../g"));
+        assertEquals("http://a/b/c/g/", SourceUtil.absolutize(base, "./g/."));
+        assertEquals("http://a/b/c/g/h", SourceUtil.absolutize(base, "g/./h"));
+        assertEquals("http://a/b/c/h", SourceUtil.absolutize(base, "g/../h"));
+        assertEquals("http://a/b/c/g;x=1/y", SourceUtil.absolutize(base, "g;x=1/./y"));
+        assertEquals("http://a/b/c/y", SourceUtil.absolutize(base, "g;x=1/../y"));
+
+        assertEquals("http://a/b/c/g?y/./x", SourceUtil.absolutize(base, "g?y/./x"));
+        assertEquals("http://a/b/c/g?y/../x", SourceUtil.absolutize(base, "g?y/../x"));
+        assertEquals("http://a/b/c/g#s/./x", SourceUtil.absolutize(base, "g#s/./x"));
+        assertEquals("http://a/b/c/g#s/../x", SourceUtil.absolutize(base, "g#s/../x"));
+
+        //
+        // other tests
+        //
+
+        // if there's a scheme, url is absolute
+        assertEquals("http://a", SourceUtil.absolutize("", "http://a"));
+        assertEquals("cocoon:/a", SourceUtil.absolutize("", "cocoon:/a", true));
+
+        // handle null base
+        assertEquals("a", SourceUtil.absolutize(null, "a"));
+
+        // handle network reference
+        assertEquals("http://a/b", SourceUtil.absolutize("http://myhost", "//a/b"));
+
+        // handle empty authority
+        assertEquals("http:///a/b", SourceUtil.absolutize("http:///a/", "b"));
+
+        // cocoon and context protocols
+        assertEquals("cocoon://a/b/c", SourceUtil.absolutize("cocoon://a/b/", "c", true));
+        assertEquals("cocoon:/a/b/c", SourceUtil.absolutize("cocoon:/a/b/", "c", true));
+        assertEquals("cocoon://c", SourceUtil.absolutize("cocoon://a", "c", true));
+        assertEquals("cocoon://c", SourceUtil.absolutize("cocoon://a/b/", "../../c", true));
     }
 }

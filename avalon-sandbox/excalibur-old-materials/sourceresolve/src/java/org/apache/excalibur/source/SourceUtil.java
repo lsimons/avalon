@@ -59,6 +59,11 @@ import java.util.BitSet;
 import java.util.Iterator;
 
 import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.avalon.framework.CascadingRuntimeException;
+import org.apache.regexp.REProgram;
+import org.apache.regexp.RECompiler;
+import org.apache.regexp.RESyntaxException;
+import org.apache.regexp.RE;
 
 /**
  *
@@ -66,7 +71,7 @@ import org.apache.avalon.framework.parameters.Parameters;
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
  * @author <a href="mailto:stephan@apache.org">Stephan Michels</a>
- * @version CVS $Revision: 1.8 $ $Date: 2003/06/07 18:28:36 $
+ * @version CVS $Revision: 1.9 $ $Date: 2003/06/07 20:59:40 $
  */
 public final class SourceUtil
 {
@@ -322,7 +327,7 @@ public final class SourceUtil
         }
         return null;
     }
-    
+
     /**
      * Move the source to a specified destination.
      *
@@ -333,25 +338,25 @@ public final class SourceUtil
      *                         the move.
      */
     static public void move(Source source,
-                              Source destination) 
-    throws SourceException 
+                              Source destination)
+    throws SourceException
     {
         if (source instanceof MoveableSource
             && source.getClass().equals(destination.getClass()))
         {
             ((MoveableSource)source).moveTo(destination);
-        } 
-        else if (source instanceof ModifiableSource) 
+        }
+        else if (source instanceof ModifiableSource)
         {
             copy(source, destination);
             ((ModifiableSource) source).delete();
-        } 
-        else 
+        }
+        else
         {
             throw new SourceException("Source '"+source.getURI()+ "' is not writeable");
         }
     }
-    
+
     /**
      * Get the position of the scheme-delimiting colon in an absolute URI, as specified
      * by <a href="http://www.ietf.org/rfc/rfc2396.txt">RFC 2396</a>, appendix A. This method is
@@ -361,7 +366,7 @@ public final class SourceUtil
      * Use this method when you need both the scheme and the scheme-specific part of an URI,
      * as calling successively {@link #getScheme(String)} and {@link #getSpecificPart(String)}
      * will call this method twice, and as such won't be efficient.
-     * 
+     *
      * @param uri the URI
      * @return int the scheme-delimiting colon, or <code>-1</code> if not found.
      */
@@ -389,7 +394,7 @@ public final class SourceUtil
         {
             return -1;
         }
-        
+
         // Check that first character is alpha
         // (lowercase first since it's the most common case)
         char ch = uri.charAt(0);
@@ -399,7 +404,7 @@ public final class SourceUtil
             // Invalid first character
             return -1;
         }
-        
+
         int pos = uri.indexOf(':');
         if (pos != -1)
         {
@@ -417,13 +422,13 @@ public final class SourceUtil
                 }
             }
         }
-        
+
         return pos;
     }
-    
+
     /**
      * Get the scheme of an absolute URI.
-     * 
+     *
      * @param uri the absolute URI
      * @return the URI scheme
      */
@@ -432,12 +437,12 @@ public final class SourceUtil
         int pos = indexOfSchemeColon(uri);
         return (pos == -1) ? null : uri.substring(0, pos);
     }
-    
+
     /**
      * Get the scheme-specific part of an absolute URI. Note that this includes everything
      * after the separating colon, including the fragment, if any (RFC 2396 separates it
      * from the scheme-specific part).
-     * 
+     *
      * @param uri the absolute URI
      * @return the scheme-specific part of the URI
      */
@@ -457,14 +462,14 @@ public final class SourceUtil
      *                         the copy.
      */
     static public void copy(Source source,
-                            Source destination) 
+                            Source destination)
     throws SourceException {
-        if (source instanceof MoveableSource 
-            && source.getClass().equals(destination.getClass())) 
+        if (source instanceof MoveableSource
+            && source.getClass().equals(destination.getClass()))
         {
             ((MoveableSource) source).copyTo(destination);
-        } 
-        else 
+        }
+        else
         {
             if ( !(destination instanceof ModifiableSource)) {
                 throw new SourceException("Source '"+
@@ -475,7 +480,7 @@ public final class SourceUtil
             try {
                 OutputStream out = ((ModifiableSource) destination).getOutputStream();
                 InputStream in = source.getInputStream();
-                
+
                 copy(in, out);
             } catch (IOException ioe) {
                 throw new SourceException("Could not copy source '"+
@@ -485,10 +490,10 @@ public final class SourceUtil
             }
         }
     }
-    
+
     /**
      * Copy the contents of an <code>InputStream</code> to an <code>OutputStream</code>.
-     * 
+     *
      * @param in
      * @param out
      * @throws IOException
@@ -504,6 +509,219 @@ public final class SourceUtil
         in.close();
         out.flush();
         out.close();
+    }
+
+    private static final String urlregexp = "^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\\?([^#]*))?(#(.*))?";
+    private static final REProgram urlREProgram;
+    static
+    {
+        RECompiler compiler = new RECompiler();
+        try
+        {
+            urlREProgram = compiler.compile(urlregexp);
+        }
+        catch (RESyntaxException e)
+        {
+            throw new CascadingRuntimeException("SourceUtil: could not compile urlregexp pattern", e);
+        }
+    }
+
+    public static final int SCHEME = 2;
+    private static final int AUTHORITY_WITH_PRECEDING_SLASHES = 3;
+    public static final int AUTHORITY = 4;
+    public static final int PATH = 5;
+    public static final int QUERY = 7;
+    public static final int FRAGMENT = 9;
+
+    /**
+     * Calls absolutize(url1, url2, false).
+     */
+    public static String absolutize(String url1, String url2)
+    {
+        return absolutize(url1, url2, false);
+    }
+
+    /**
+     * Applies a location to a baseURI. This is done as described in RFC 2396 section 5.2.
+     *
+     * @param url1 the baseURI
+     * @param url2 the location
+     * @param treatAuthorityAsBelongingToPath considers the authority to belong to the path. These
+     * special kind of URIs are used in the Apache Cocoon project.
+     */
+    public static String absolutize(String url1, String url2, boolean treatAuthorityAsBelongingToPath)
+    {
+        if (url1 == null)
+            return url2;
+
+        // parse the urls into parts
+        // if the second url contains a scheme, it is not relative so return it right away (part 3 of the algorithm)
+        String[] url2Parts = parseUrl(url2);
+        if (url2Parts[SCHEME] != null)
+            return url2;
+        String[] url1Parts = parseUrl(url1);
+
+        if (treatAuthorityAsBelongingToPath)
+            return absolutizeWithoutAuthority(url1Parts, url2Parts);
+
+        // check if it is a reference to the current document (part 2 of the algorithm)
+        if (url2Parts[PATH].equals("") && url2Parts[QUERY] == null && url2Parts[AUTHORITY] == null)
+            return makeUrl(url1Parts[SCHEME], url1Parts[AUTHORITY], url1Parts[PATH], url1Parts[QUERY], url2Parts[FRAGMENT]);
+
+        // it is a network reference (part 4 of the algorithm)
+        if (url2Parts[AUTHORITY] != null)
+            return makeUrl(url1Parts[SCHEME], url2Parts[AUTHORITY], url2Parts[PATH], url2Parts[QUERY], url2Parts[QUERY]);
+
+        String url1Path = url1Parts[PATH];
+        String url2Path = url2Parts[PATH];
+
+        // if the path starts with a slash (part 5 of the algorithm)
+        if (url2Path != null && url2Path.length() > 0 && url2Path.charAt(0) == '/')
+            return makeUrl(url1Parts[SCHEME], url1Parts[AUTHORITY], url2Parts[PATH], url2Parts[QUERY], url2Parts[QUERY]);
+
+        // combine the 2 paths
+        String path = stripLastSegment(url1Path);
+        path = path + (path.endsWith("/") ? "" : "/") + url2Path;
+        path = normalize(path);
+
+        return makeUrl(url1Parts[SCHEME], url1Parts[AUTHORITY], path, url2Parts[QUERY], url2Parts[FRAGMENT]);
+    }
+
+    /**
+     * Absolutizes URIs whereby the authority part is considered to be a part of the path.
+     * This special kind of URIs is used in the Apache Cocoon project for the cocoon and context protocols.
+     * This method is internally used by {@link #absolutize}.
+     */
+    private static String absolutizeWithoutAuthority(String[] url1Parts, String[] url2Parts)
+    {
+        String authority1 = url1Parts[AUTHORITY_WITH_PRECEDING_SLASHES];
+        String authority2 = url2Parts[AUTHORITY_WITH_PRECEDING_SLASHES];
+
+        String path1 = url1Parts[PATH];
+        String path2 = url2Parts[PATH];
+
+        if (authority1 != null)
+            path1 = authority1 + path1;
+        if (authority2 != null)
+            path2 = authority2 + path2;
+
+        String path = stripLastSegment(path1);
+        path = path + (path.endsWith("/") ? "" : "/") + path2;
+        path = normalize(path);
+
+        String scheme = url1Parts[SCHEME];
+        return scheme + ":" + path;
+    }
+
+    private static String stripLastSegment(String path)
+    {
+        int i = path.lastIndexOf('/');
+        if(i > -1)
+            return path.substring(0, i + 1);
+        return path;
+    }
+
+    /**
+     * Removes things like &lt;segment&gt;/../ or ./, as described in RFC 2396 in
+     * step 6 of section 5.2.
+     */
+    private static String normalize(String path)
+    {
+        // replace all /./ with /
+        int i = path.indexOf("/./");
+        while (i > -1)
+        {
+            path = path.substring(0, i + 1) + path.substring(i + 3);
+            i = path.indexOf("/./");
+        }
+
+        if (path.endsWith("/."))
+            path = path.substring(0, path.length() - 1);
+
+        int f = path.indexOf("/../");
+        while (f > 0)
+        {
+            int sb = path.lastIndexOf("/", f - 1);
+            if (sb > - 1)
+                path = path.substring(0, sb + 1) + (path.length() >= f + 4 ? path.substring(f + 4) : "");
+            f = path.indexOf("/../");
+        }
+
+        if (path.length() > 3 && path.endsWith("/.."))
+        {
+            int sb = path.lastIndexOf("/", path.length() - 4);
+            String segment = path.substring(sb, path.length() - 3);
+            if (!segment.equals(".."))
+            {
+                path = path.substring(0, sb + 1);
+            }
+        }
+
+        return path;
+    }
+
+    /**
+     * Assembles an URL from the given URL parts, each of these parts can be null.
+     * Used internally by {@link #absolutize}.
+     */
+    private static String makeUrl(String scheme, String authority, String path, String query, String fragment)
+    {
+        StringBuffer url = new StringBuffer();
+        if (scheme != null)
+            url.append(scheme).append(':');
+
+        if (authority != null)
+            url.append("//").append(authority);
+
+        if (path != null)
+            url.append(path);
+
+        if (query != null)
+            url.append('?').append(query);
+
+        if (fragment != null)
+            url.append('#').append(fragment);
+
+        return url.toString();
+    }
+
+    /**
+     * Parses an URL into its individual parts.
+     *
+     * <p>This is achieved using the following regular expression, which is copied
+     * literally from RFC 2396:
+     * <pre>
+     * ^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?
+     *  12            3  4          5       6  7        8 9
+     * </pre>
+     *
+     * The result is an array containing 10 elements. The element 0 contains the entire matched url.
+     * The most interesting parts are:
+     * <pre>
+     * scheme    = 2
+     * authority = 4
+     * path      = 5
+     * query     = 7
+     * fragment  = 9
+     * </pre>
+     *
+     * To access these, you can use the predefined constants SCHEME, AUTHORITY, PATH, QUERY and FRAGMENT.
+     *
+     * <p>If a part is missing, its corresponding array entry will be null. The path-part will never be
+     * null, but rather an empty string. An empty authority (as in scheme:///a) will give an empty string
+     * for the authority.
+     *
+     * @param url the url to parse. Any part from this URL may be missing (i.e. it is not obligatory that
+     * the URL contains scheme, authority, path, query and fragment parts)
+     *
+     */
+    public static String[] parseUrl(String url) {
+        RE re = new RE(urlREProgram);
+        re.match(url);
+        String[] parts = new String[10];
+        for (int i = 0; i < 10; i++)
+            parts[i] = re.getParen(i);
+        return parts;
     }
 
     /**
