@@ -7,6 +7,8 @@
   <import file="${project.home}/build/standard.xml"/>
 
   <target name="init" depends="standard.init">
+    <x:filter key="avalon-merlin-cli" feature="version" 
+       token="VERSION"/>
     <x:filter key="avalon-logging-logkit-impl" feature="uri" 
        token="LOGGING_IMPLEMENTATION"/>
     <x:filter key="avalon-merlin-impl" feature="uri" 
@@ -20,6 +22,25 @@
   </target>
 
   <target name="package" depends="standard.package">
+
+    <mkdir dir="target/merlin"/>
+    <copy todir="target/merlin">
+      <fileset dir="target/build/etc" includes="bin/**"/>
+    </copy>
+    <mkdir dir="target/merlin/lib"/>
+    <mkdir dir="target/merlin/system"/>
+    <copy todir="target/merlin/system">
+      <fileset dir="${magic.cache}">
+        <include name="avalon/**"/>
+        <include name="commons-cli/jars/commons-cli-1.0.jar"/>
+        <include name="servletapi/jars/servletapi-2.3.jar"/>
+        <exclude name="avalon/test/**"/>
+        <exclude name="avalon/tools/**"/>
+      </fileset>
+    </copy>
+    <copy todir="target/merlin" file="target/build/etc/merlin.properties.template"/>
+    <mkdir dir="target/merlin/config"/>
+    <copy todir="target/merlin/config" file="target/build/etc/kernel.xml"/>
   </target>
 
 </project>
