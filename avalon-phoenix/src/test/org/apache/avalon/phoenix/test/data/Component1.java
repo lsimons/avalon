@@ -5,7 +5,7 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE.txt file.
  */
-package org.apache.avalon.phoenix.tools.assembler.test.data;
+package org.apache.avalon.phoenix.test.data;
 
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.framework.service.ServiceManager;
@@ -15,10 +15,10 @@ import org.apache.avalon.framework.service.ServiceException;
  * A test component.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2002/09/30 23:00:43 $
+ * @version $Revision: 1.1 $ $Date: 2002/09/30 23:51:30 $
  */
-public class Component3
-    implements Serviceable
+public class Component1
+    implements Serviceable, Service1
 {
     public void service( final ServiceManager manager )
         throws ServiceException
