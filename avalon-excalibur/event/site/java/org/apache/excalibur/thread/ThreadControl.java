@@ -50,7 +50,7 @@
 package org.apache.excalibur.thread;
 
 /**
- * This interface defines the method through which Threads can be controller.
+ * This interface defines the method through which Threads can be controlled.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
