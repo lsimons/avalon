@@ -40,6 +40,6 @@ public class HelloComponent
     */
     public HelloComponent( Logger logger )
     {
-        m_logger.info( "Hello World" );
+        logger.info( "Hello World" );
     }
 }
