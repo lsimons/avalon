@@ -17,7 +17,7 @@ import org.apache.log.LogTarget;
  * An adaptor between LogkitManager and LoggerManager.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.1.2.2 $ $Date: 2002/05/18 06:25:34 $
+ * @version $Revision: 1.1.2.3 $ $Date: 2002/05/22 20:08:30 $
  */
 class Logger2LogKitManager
     implements LogKitManager
@@ -28,7 +28,6 @@ class Logger2LogKitManager
     public Logger2LogKitManager( final LoggerManager loggerManager )
     {
         m_loggerManager = loggerManager;
-        m_hierarchy = new Hierarchy();
         final LogKit2LoggerTarget target =
             new LogKit2LoggerTarget( loggerManager.getDefaultLogger() );
         m_hierarchy.setDefaultLogTarget( target );
