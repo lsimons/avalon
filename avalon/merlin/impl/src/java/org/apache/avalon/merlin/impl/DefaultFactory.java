@@ -101,6 +101,8 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 
+import org.apache.avalon.framework.parameters.Parameters;
+
 import org.apache.avalon.merlin.Kernel;
 import org.apache.avalon.merlin.KernelException;
 import org.apache.avalon.merlin.KernelRuntimeException;
@@ -371,6 +373,11 @@ public class DefaultFactory implements Factory
         getLogger().debug( 
           "repository established: " + repository );
 
+        // create the <parameters>
+        Configuration paramsConfig = kernelConfig.getChild( "parameters" );
+        Parameters params = Parameters.fromConfiguration(
+            paramsConfig, "parameter" );
+            
         //
         // create the system context
         //
@@ -385,7 +392,8 @@ public class DefaultFactory implements Factory
             criteria.getTempDirectory(),
             repository,
             loggingDescriptor.getName(),
-            criteria.isDebugEnabled() );
+            criteria.isDebugEnabled(),
+            params );
 
         //
         // create the system model and block
