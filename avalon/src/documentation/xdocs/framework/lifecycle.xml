@@ -47,7 +47,7 @@
         specific Phase in a Component's lifecycle. The defined interfaces are:
       </p>
       <ol>
-        <li>Loggable</li>
+        <li>LogEnabled</li>
         <li>Contextualizable</li>
         <li>Composable</li>
         <li>Configurable</li>
@@ -215,7 +215,7 @@ System.gc(); // finalize() is called on myComponent, which allows it to perform 
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2001/07/18 14:35:44 $
+      $Revision: 1.2 $ $Date: 2001/11/17 16:27:01 $
     </legal>
   </footer>
 </document>
