@@ -22,7 +22,7 @@ import org.apache.avalon.framework.logger.AbstractLoggable;
  * thread to manage the number of SQL Connections.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.9 $ $Date: 2001/11/02 20:49:40 $
+ * @version CVS $Revision: 1.10 $ $Date: 2001/11/13 16:40:24 $
  * @since 4.0
  */
 public class JdbcConnectionPool
@@ -75,14 +75,14 @@ public class JdbcConnectionPool
         }
         else
         {
-            long curMillis = new Date().getTime();
+            long curMillis = System.currentTimeMillis();
             long endTime = curMillis + m_wait;
 
             while ( ( null == conn ) && ( curMillis < endTime ) )
             {
                 try
                 {
-                    curMillis = new Date().getTime();
+                    curMillis = System.currentTimeMillis();
                     m_mutex.unlock();
                     this.wait( endTime - curMillis );
                 }
