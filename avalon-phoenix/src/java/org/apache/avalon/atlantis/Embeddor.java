@@ -7,10 +7,9 @@
  */
 package org.apache.avalon.atlantis;
 
-import org.apache.avalon.Startable;
-import org.apache.avalon.Stoppable;
 import org.apache.avalon.activity.Disposable;
 import org.apache.avalon.activity.Initializable;
+import org.apache.avalon.activity.Startable;
 import org.apache.avalon.parameters.Parameterizable;
 
 /**
@@ -21,7 +20,7 @@ import org.apache.avalon.parameters.Parameterizable;
  * @author <a href="donaldp@apache.org">Peter Donald</a>
  */
 public interface Embeddor
-    extends Parameterizable, Initializable, Startable, Stoppable, Disposable
+    extends Parameterizable, Initializable, Startable, Disposable
 {
     /**
      * After the Embeddor is initialized, this method is called to actually

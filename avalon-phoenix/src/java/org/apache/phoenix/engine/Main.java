@@ -217,7 +217,7 @@ public class Main
         System.out.println( Constants.SOFTWARE + " " + Constants.VERSION );
         System.out.println();
 
-        embeddor.init();
+        embeddor.initialize();
         embeddor.start();
 
         try

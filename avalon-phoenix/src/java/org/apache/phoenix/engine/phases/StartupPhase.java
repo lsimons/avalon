@@ -8,7 +8,7 @@
 package org.apache.phoenix.engine.phases;
 
 import java.io.File;
-import org.apache.avalon.Startable;
+import org.apache.avalon.activity.Startable;
 import org.apache.avalon.activity.Initializable;
 import org.apache.avalon.atlantis.ApplicationException;
 import org.apache.avalon.camelot.Container;
