@@ -1,37 +1,44 @@
-<container name="dbcp-manager">
+<container name="avalon-dbcp">
 
+    <services>
+		<service type="org.apache.avalon.dbcp.ConnectionManager">
+			<source>dbcp-manager</source>
+		</service>
+    </services>
+    
     <classloader>
         <classpath>
             <repository>
+                <!-- Avalon Framework stuff -->
                 <resource id="avalon-framework:avalon-framework-api" version="4.1.5"/>
                 <resource id="avalon-framework:avalon-framework-impl" version="4.1.5"/>
-
+                
+                <!-- For avalon-dbcp stuff -->
 				<resource id="avalon-dbcp:avalon-dbcp-api" version="1.0.dev-0"/>
 				<resource id="commons-pool:commons-pool" version="1.1"/>
-				<resource id="commons-dbcp:commons-dbcp" version="1.1"/>
+				<resource id="commons-dbcp:commons-dbcp" version="1.2-dev"/>
+				<resource id="commons-collections:commons-collections" version="2.1"/>
+				
+				<!-- For avalon-db stuff -->
+				<resource id="avalon-db:avalon-db-api" version="1.0.dev-0"/>
+                <resource id="hsqldb:hsqldb" version="1.7.2-rc5"/>
+				
             </repository>
         </classpath>
     </classloader>
     
-	<component name="dbcp-manager" class="org.apache.avalon.sql.DbcpConnectionManager" activation="startup">
+	<include name="hsql-server" id="avalon-db:avalon-db-hsql" version="1.0.dev-0"/>
+	
+	<component name="dbcp-manager" class="org.apache.avalon.dbcp.DbcpConnectionManager" activation="startup">
 		<configuration>
-			<pool>
-				<max-active></max-active>
-				<min-idle></min-idle>
-				<max-idle></max-idle>
-				<max-wait></max-wait>
-				<min-evict-idle-time></min-evict-idle-time>
-				<time-between-evict-runs></time-between-evict-runs>
-				<test-on-borrow></test-on-borrow>
-				<test-on-return></test-on-return>
-				<test-while-idle></test-while-idle>
-			</pool>
 			<datasources>
 				<datasource name="hsql" default="true">
-					<driver></driver>
-					<db-url></db-url>
+					<driver>org.hsqldb.jdbcDriver</driver>
+					<db-url>jdbc:hsqldb:hsql://localhost</db-url>
 					<username>sa</username>
 					<password></password>
+					<read-only>false</read-only>
+					<auto-commit>true</auto-commit>
 				</datasource>
 			</datasources>
 		</configuration>

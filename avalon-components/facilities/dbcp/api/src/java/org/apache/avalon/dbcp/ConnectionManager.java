@@ -18,6 +18,7 @@
 package org.apache.avalon.dbcp;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 
 /**
  * Service definition for a JDBC SQL connection manager for obtaining
@@ -26,7 +27,7 @@ import java.sql.Connection;
  * @avalon.service version="1.0"
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2004/05/07 23:18:20 $
+ * @version $Revision: 1.2 $ $Date: 2004/05/11 21:23:02 $
  */
 public interface ConnectionManager {
 	/**
@@ -34,12 +35,12 @@ public interface ConnectionManager {
 	 * 
 	 * @return a <code>java.sql.Connection</code> to the default data source
 	 */
-	Connection getConnection();
+	Connection getConnection() throws SQLException;
 	/**
 	 * Returns a <code>java.sql.Connection</code> to the specified data source.
 	 * 
 	 * @param name the name of the data source to obtain a connection to
 	 * @return a <code>java.sql.Connection</code> to the specified data source
 	 */
-	Connection getConnection(String name);
+	Connection getConnection(String name) throws SQLException;
 }
