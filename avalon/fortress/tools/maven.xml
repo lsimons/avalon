@@ -26,22 +26,6 @@
             </ant:fail>
     </goal>
 
-    <preGoal name="java:compile">
-        <attainGoal name="avalon:init"/>
-        <ant:copy todir="${java.src.dir}">
-          <ant:fileset dir="${basedir}/../container/src/impl">
-            <ant:include name="**/role/ServiceMetaManager*"/>
-            <ant:include name="**/dag/*"/>
-            <ant:include name="**/util/Service*"/>
-          </ant:fileset>
-        </ant:copy>
-    </preGoal>
-
-    <postGoal name="java:compile">
-       <ant:delete dir="${java.src.dir}/org/apache/avalon/fortress/impl"/>
-       <ant:delete dir="${java.src.dir}/org/apache/avalon/fortress/util"/>
-    </postGoal>
-
     <!-- include the avalon-wide custom goal decorators from maven-common.xml -->
     <j:import file="${avalon.buildsystem}/maven-common.xml" inherit="true"/>
 
