@@ -155,49 +155,25 @@ public final class DefaultServerApplication
     private void loadBlockListeners()
         throws Exception
     {
-        final BlockListenerMetaData[] listeners = m_metaData.getListeners();
+        //Setup thread context for calling visitors
+        ThreadContext.setThreadContext( m_frame.getThreadContext() );
 
+        final BlockListenerMetaData[] listeners = m_metaData.getListeners();
         for( int i = 0; i < listeners.length; i++ )
         {
-            final BlockListenerMetaData listener = listeners[ i ];
             try
             {
-                loadBlockListener( listener );
+                m_lifecycle.startupListener( listeners[ i ] );
             }
             catch( final Exception e )
             {
-                final String message = REZ.getString( "app.error.bad-listener", listener.getName() );
+                final String name = listeners[ i ].getName();
+                final String message = 
+                    REZ.getString( "bad-listener", "startup", name, e.getMessage() );
                 getLogger().error( message, e );
                 throw e;
             }
         }
-    }
-
-    private void loadBlockListener( final BlockListenerMetaData entry )
-        throws Exception
-    {
-        final Class clazz = m_classLoader.loadClass( entry.getClassname() );
-        final BlockListener listener = (BlockListener)clazz.newInstance();
-
-        if( listener instanceof Configurable )
-        {
-            final String name = entry.getName();
-
-            Configuration configuration = null;
-            try
-            {
-                configuration = m_frame.getConfiguration( name );
-            }
-            catch( final ConfigurationException ce )
-            {
-                final String message = REZ.getString( "missing-listener-configuration", name );
-                throw new ConfigurationException( message, ce );
-            }
-
-            ((Configurable)listener).configure( configuration );
-        }
-
-        m_frame.addBlockListener( listener );
     }
 
     /**
