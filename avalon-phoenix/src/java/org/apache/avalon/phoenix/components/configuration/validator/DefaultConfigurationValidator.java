@@ -44,7 +44,7 @@ import java.io.InputStream;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:proyal at apache.org">Peter Royal</a>
- * @version $Revision: 1.1 $ $Date: 2003/04/06 11:23:21 $
+ * @version $Revision: 1.2 $ $Date: 2003/04/06 11:36:23 $
  * @phoenix.component
  */
 public class DefaultConfigurationValidator
@@ -100,8 +100,10 @@ public class DefaultConfigurationValidator
         {
             final String message =
                 "Schema type specified as " + schema.getType() +
-                " was translated to URI " + type + ". It is " +
-                "recomended that the components Info specify the" +
+                " was translated to URI " + type + " for component named " +
+                component.getMetaData().getName() + " of type " +
+                component.getInfo().getDescriptor().getImplementationKey() +
+                ". It is recomended that the components Info specify the " +
                 "URI rather than the type for compatability reasons.";
             System.err.println( message );
             getLogger().warn( message );
