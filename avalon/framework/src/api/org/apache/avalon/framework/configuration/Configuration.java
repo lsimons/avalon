@@ -9,14 +9,65 @@ package org.apache.avalon.framework.configuration;
 
 /**
  * <code>Configuration</code> is a interface encapsulating a configuration node
- * used to retrieve configuration values. This is a "read only" interface
- * preventing applications from modifying their own configurations.
- * <br />
+ * used to retrieve configuration values.
  *
- * The contract surrounding the <code>Configuration</code> is that once
- * it is created, information never changes.  The <code>Configuration</code>
- * is built by the <code>SAXConfigurationBuilder</code> and the
- * <code>ConfigurationImpl</code> helper classes.
+ * <p>
+ * This is a "read only" interface preventing applications from modifying their
+ * own configurations. Once it is created, the information never changes.
+ * </p>
+ * <p>
+ * The data model is a subset of XML's; a single-rooted hierarchical tree where each
+ * node can contain multiple <em>attributes</em>, and leaf nodes can also
+ * contain a <em>value</em>.  Reflecting this, <code>Configuration</code>s are
+ * usually built from an XML file by the {@link DefaultConfigurationBuilder}
+ * class, or directly by a SAX parser using a {@link SAXConfigurationHandler}
+ * event handler.
+ * </p>
+ * <p>
+ * Currently, the configuration tree can only be traversed one node at a time,
+ * eg., through {@link #getChild getChild("foo")} or {@link #getChildren}. In
+ * a future release, it may be possible to access child nodes with an XPath-like
+ * syntax.
+ * </p>
+ * <p>
+ * Type-safe utility methods are provided for retrieving attribute and element
+ * values as <code>String</code>, <code>int</code>, <code>long</code>,
+ * <code>float</code> and <code>boolean</code>. 
+ * </p>
+ * <p>
+ * As an example, consider a <code>Configuration</code> built from this XML:
+ * </p>
+ * <pre>
+ * &lt;my-system version="1.3" xmlns:doc="http://myco.com/documentation"&gt;
+ *   &lt;doc:desc&gt;This is a highly fictitious config file&lt;/doc:desc&gt;
+ *   &lt;widget name="fooWidget" initOrder="1" threadsafe="true"/&gt;
+ * &lt;/my-system&gt;
+ * </pre>
+ * <p>
+ * Assuming the <code>Configuration</code> object is named <code>conf</code>,
+ * here is how the data could be retrieved:
+ * </p>
+ * <table border="1">
+ * <tr><th>Code</th><th>Result</th></tr>
+ * <tr><td><code>conf.{@link #getName getName}()</code></td><td>my-system</td></tr>
+ * <tr><td><code>conf.{@link #getAttributeNames getAttributeNames}().length</code></td><td>1</td></tr>
+ * <tr><td><code>conf.{@link #getChildren getChildren}().length</code></td><td>2</td></tr>
+ * <tr><td><code>conf.{@link #getAttributeAsFloat getAttributeAsFloat}("version")</code></td><td>1.3</td></tr>
+ * <tr><td><code>conf.{@link #getChild getChild}("widget").{@link #getAttribute
+ * getAttribute}("name")</code></td><td>fooWidget</td></tr>
+ * <tr><td><code>conf.{@link #getChild getChild}("widget").{@link
+ * #getAttributeAsBoolean getAttributeAsBoolean}("threadsafe")</code></td><td>true</td></tr>
+ * <tr><td><code>conf.{@link #getChild getChild}("widget").{@link #getLocation
+ * getLocation}()</code></td><td>file:///home/jeff/tmp/java/avalon/src/java/new.xconf:4:60</td></tr>
+ * <tr><td><code>conf.{@link #getChild getChild}("desc").{@link #getName
+ * getName}()</code></td><td>desc</td></tr>
+ * <tr><td><code>conf.{@link #getChild getChild}("desc").{@link #getValue
+ * getValue}()</code></td><td>This is a highly fictitious config file</td></tr>
+ * <tr><td><code>conf.{@link #getChild getChild}("desc").{@link #getNamespace
+ * getNamespace}()</code></td><td>xmlns:doc="http://myco.com/documentation"</td></tr>
+ * <tr><td><code>conf.{@link #getChild getChild}("desc").{@link #getNamespace
+ * getNamespace}().{@link Namespace#getPrefix getPrefix}()</code></td><td>doc</td></tr>
+ * </table>
  *
  * @author <a href="mailto:fede@apache.org">Federico Barbieri</a>
  * @author <a href="mailto:pier@apache.org">Pierpaolo Fumagalli</a>
@@ -56,6 +107,16 @@ public interface Configuration
     /**
      * Return a new <code>Configuration</code> instance encapsulating the
      * specified child node.
+     * <p>
+     * If no such child node exists, an empty <code>Configuration</code> will be
+     * returned, allowing constructs such as
+     * <code>conf.getChild("foo").getChild("bar").getChild("baz").{@link
+     * #getValue(String) getValue}("default");</code>
+     * </p>
+     * <p>
+     * If you wish to get a <code>null</code> return when no element is present,
+     * use {@link #getChild(String, boolean) getChild("foo", <b>false</b>)}.
+     * </p>
      *
      * @pre child != null
      * @post getConfiguration() != null
