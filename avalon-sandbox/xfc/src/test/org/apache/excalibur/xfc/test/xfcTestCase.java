@@ -74,7 +74,7 @@ import junit.textui.TestRunner;
  * XFC TestCase.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: xfcTestCase.java,v 1.4 2002/10/08 12:49:22 crafterm Exp $
+ * @version CVS $Id: xfcTestCase.java,v 1.5 2002/10/08 15:02:02 crafterm Exp $
  */
 public final class xfcTestCase extends TestCase
 {
@@ -90,7 +90,7 @@ public final class xfcTestCase extends TestCase
 
     // misc internals
     private DefaultConfigurationBuilder m_builder = new DefaultConfigurationBuilder();
-    private Logger m_logger = new ConsoleLogger();
+    private Logger m_logger;
 
     public xfcTestCase()
     {
@@ -100,6 +100,8 @@ public final class xfcTestCase extends TestCase
     public xfcTestCase( String name )
     {
         super( name );
+
+        m_logger = new ConsoleLogger( ConsoleLogger.LEVEL_WARN );
     }
 
     /**
@@ -377,6 +379,76 @@ public final class xfcTestCase extends TestCase
                 handlers[i].equals( result )
             );
         }
+    }
+
+    /**
+     * Method to test the conversion of an ECM style configuration to a
+     * equivalent Fortress style one.
+     *
+     * @exception Exception if an error occurs
+     */
+    public void testXFC_ECM2Fortress()
+        throws Exception
+    {
+        // create an ECM module instance
+        ECMTestRig ecm = new ECMTestRig();
+        ecm.enableLogging( m_logger );
+
+        // create a Fortress module instance
+        FortressTestRig fortress = new FortressTestRig();
+        fortress.enableLogging( m_logger );
+
+        // generate model from predefined ECM configuration
+        Model model = ecm.generate( ECM_ROLES + ":" + ECM_XCONF );
+
+        // serialize the model out to a Fortress temporary file
+        //fortress.serialize( model, FORTRESS_ROLES_GENERATED + ":" + FORTRESS_XCONF );
+
+        // load the same config and manually verify that model is correct
+        Configuration[] rolesREAL =
+            m_builder.buildFromFile( FORTRESS_ROLES ).getChildren( "role" );
+        RoleRef[] rolesMODEL = model.getDefinitions();
+
+        // check that the generated model has the right number of roles
+        assertEquals(
+            "Model contains incorrect number of roles",
+            rolesREAL.length, rolesMODEL.length
+        );
+
+        // check each role has the right values, compared against the master copy
+        for ( int i = 0; i < rolesMODEL.length; ++i )
+        {
+            String modelRoleName = rolesMODEL[i].getRole();
+            Configuration masterRoleConfig = null;
+
+            // get the real role configuration object
+            for ( int j = 0; j < rolesREAL.length; ++j )
+            {
+                if ( modelRoleName.equals( rolesREAL[j].getAttribute( "name" ) ) )
+                {
+                    masterRoleConfig = rolesREAL[j];
+                    break;
+                }
+            }
+
+            // check that we found a Configuration fragment for the role in the model
+            assertNotNull(
+                "Master Configuration for role '" + modelRoleName + "' not found",
+                masterRoleConfig
+            );
+
+            // convert our RoleRef object into a Configuration and compare with the master
+            Configuration modelRoleConfig = fortress.buildRole( rolesMODEL[i] );
+
+            assertTrue(
+                "Role configuration trees differ\n" +
+                "(master)" + ConfigurationUtil.list( masterRoleConfig ) +
+                "(model)" + ConfigurationUtil.list( modelRoleConfig ),
+                ConfigurationUtil.equals( masterRoleConfig, modelRoleConfig )
+            );
+        }
+
+        // all done, good show
     }
 
     public static final void main( String[] args )
