@@ -1,0 +1,82 @@
+<components>
+	<component
+	    logger="foo"
+		role="org.apache.excalibur.event.seda.example1.FooService"
+		id="foo"
+		class="org.apache.excalibur.event.seda.example1.DefaultFooService"
+		handler="org.apache.excalibur.fortress.handler.ThreadSafeComponentHandler">
+	</component> 
+	<component
+	    logger="bar"
+		role="org.apache.excalibur.event.seda.example1.BarService"
+		id="bar"
+		class="org.apache.excalibur.event.seda.example1.DefaultBarService"
+		handler="org.apache.excalibur.fortress.handler.ThreadSafeComponentHandler">
+	</component> 
+	<component
+	    logger="foobar"
+		role="org.apache.excalibur.event.seda.example1.FooBarService"
+		id="bar"
+		class="org.apache.excalibur.event.seda.example1.DefaultFooBarService"
+		handler="org.apache.excalibur.fortress.handler.ThreadSafeComponentHandler">
+	</component> 
+	<component
+	    logger="timer"
+		role="org.apache.excalibur.event.seda.QueueTimer"
+		id="timer"
+		class="org.apache.excalibur.event.seda.DefaultQueueTimer"
+		handler="org.apache.excalibur.fortress.handler.ThreadSafeComponentHandler"
+		retry-delay="2000">
+	</component> 
+ 	<component
+	    logger="manager"
+		role="org.apache.excalibur.event.seda.StageManager"
+		id="manager"
+		class="org.apache.excalibur.event.seda.DefaultStageManager"
+		handler="org.apache.excalibur.fortress.handler.ThreadSafeComponentHandler"
+			
+			thread-manager="TPC" 
+			processors="1" 
+			threads="3" >
+ 
+		     <stage name="foo-stage">
+		       <handlers>
+		         <service role="org.apache.excalibur.event.seda.example1.FooService">
+		       	   <handler signature="process" type="org.apache.excalibur.event.seda.example1.FooMessage" />
+		       	   <handler signature="handle" type="org.apache.excalibur.event.seda.example1.BarException" />
+		         </service>
+		         <service role="org.apache.excalibur.event.seda.example1.FooBarService">
+		       	   <handler signature="report" type="org.apache.excalibur.event.seda.example1.FooBarMessage" />
+		         </service>
+		       </handlers>
+
+	           <queue type="VARIABLE">
+	             <predicate type="THRESHOLD" threshold="800"/>
+	           </queue>
+		       
+		       <sink-map> 
+		         <sink stage-name="foo-stage"/>
+		         <sink stage-name="bar-stage" default="true"/>
+		       </sink-map> 
+		     </stage>
+		     
+		     <stage name="bar-stage">
+		       <handlers>
+		         <service role="org.apache.excalibur.event.seda.example1.BarService">
+		       	   <handler interface="org.apache.excalibur.event.seda.example1.BarService" 
+		       	   		    exception-sink="foo-stage" />
+		         </service>
+		       </handlers>
+		       
+		       <queue type="FIXED" size="100"/>
+		       
+		       <sink-map>
+		         <!--<sink stage-name="foo-stage"/>-->
+		         <sink-set stage-name="foo-stage" delivery="ONE*">
+		           <sink stage-name="foo-stage"/>
+		         </sink-set>
+		       </sink-map>
+		     </stage>
+		   
+ 	</component>
+</components>
