@@ -47,51 +47,46 @@
  Apache Software Foundation, please see <http://www.apache.org/>.
 
 */
-package org.apache.excalibur.mpool;
+package org.apache.excalibur.thread.impl;
+
+import org.apache.avalon.framework.activity.Executable;
 
 /**
- * This interface is to define how a Pool is used.  We have determined by
- * using the previous Pool implementations that the Pool marker interface
- * is considered harmful.  When generics are introduced in JDK 1.5, this
- * interface will be a prime candidate for those improvements.
- *
- * <p>
- *  It is important to realize that some objects are cheaper to simply allow
- *  the garbage collector to take care of them.  Therefore, only pool objects
- *  that are computationally expensive to create.  Prime candidates would be
- *  Components, JDBC Connection objects, Socket connections, etc.
- * </p>
- * <p>
- *  The interface is inspired by both the Mutex acquire/release and the
- *  structure of the ThreadLocal object.  In fact, it would be trivial
- *  to implement a "ThreadLocal" pool.
- * </p>
+ * Class to adapt a <code>Runnable</code> object in an <code>Executable</code> object.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/08/08 00:36:26 $
- * @since 4.1.2
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  */
-public interface Pool
+final class ExecutableRunnable
+    implements Executable
 {
-    /**
-     * Acquire an instance of the pooled object.
-     *
-     * @return the pooled Object instance
-     */
-    Object acquire() throws Exception;
+    ///The runnable instance being wrapped
+    private Runnable m_runnable;
 
     /**
-     * Release the instance of the pooled object.
+     * Create adapter using specified runnable.
      *
-     * @param pooledObject  The pooled object to release to the pool.
+     * @param runnable the runnable to adapt to
      */
-    void release( Object pooledObject );
+    protected ExecutableRunnable( final Runnable runnable )
+    {
+        m_runnable = runnable;
+
+        ///Verify runnable is not null
+        if( null == runnable )
+        {
+            throw new NullPointerException( "runnable property is null" );
+        }
+    }
 
     /**
-     * Create a new instance of the object being pooled.
+     * Execute the underlying <code>Runnable</code> object.
      *
-     * @return the pooled Object instance
+     * @throws Exception if an error occurs
      */
-    Object newInstance() throws Exception;
+    public void execute()
+        throws Exception
+    {
+        m_runnable.run();
+    }
 }

@@ -49,7 +49,7 @@
 */
 package org.apache.excalibur.event.command;
 
-import org.apache.avalon.excalibur.thread.ThreadPool;
+import org.apache.excalibur.thread.ThreadPool;
 
 /**
  * A ThreadManager that will use an external ThreadPool. This will be useful

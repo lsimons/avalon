@@ -74,7 +74,7 @@ public final class FixedSizeQueue
     public FixedSizeQueue( int size )
     {
         if ( size < 1 )
-            throw new IllegalArgument("Cannot specify an unbounded Queue");
+            throw new IllegalArgumentException("Cannot specify an unbounded Queue");
 
         m_elements = new QueueElement[ size + 1 ];
         m_mutex = new Mutex();

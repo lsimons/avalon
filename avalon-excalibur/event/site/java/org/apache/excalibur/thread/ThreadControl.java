@@ -47,51 +47,49 @@
  Apache Software Foundation, please see <http://www.apache.org/>.
 
 */
-package org.apache.excalibur.mpool;
+package org.apache.excalibur.thread;
 
 /**
- * This interface is to define how a Pool is used.  We have determined by
- * using the previous Pool implementations that the Pool marker interface
- * is considered harmful.  When generics are introduced in JDK 1.5, this
- * interface will be a prime candidate for those improvements.
- *
- * <p>
- *  It is important to realize that some objects are cheaper to simply allow
- *  the garbage collector to take care of them.  Therefore, only pool objects
- *  that are computationally expensive to create.  Prime candidates would be
- *  Components, JDBC Connection objects, Socket connections, etc.
- * </p>
- * <p>
- *  The interface is inspired by both the Mutex acquire/release and the
- *  structure of the ThreadLocal object.  In fact, it would be trivial
- *  to implement a "ThreadLocal" pool.
- * </p>
+ * This interface defines the method through which Threads can be controller.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/08/08 00:36:26 $
- * @since 4.1.2
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  */
-public interface Pool
+public interface ThreadControl
 {
     /**
-     * Acquire an instance of the pooled object.
+     * Wait for specified time for thread to complete it's work.
      *
-     * @return the pooled Object instance
+     * @param milliSeconds the duration in milliseconds to wait until the thread has finished work
+     * @throws IllegalStateException if isValid() == false
+     * @throws InterruptedException if another thread has interrupted the current thread.
+     *            The interrupted status of the current thread is cleared when this exception
+     *            is thrown.
      */
-    Object acquire() throws Exception;
+    void join( long milliSeconds )
+        throws IllegalStateException, InterruptedException;
 
     /**
-     * Release the instance of the pooled object.
+     * Call Thread.interupt() on thread being controlled.
      *
-     * @param pooledObject  The pooled object to release to the pool.
+     * @throws IllegalStateException if isValid() == false
+     * @throws SecurityException if caller does not have permission to call interupt()
      */
-    void release( Object pooledObject );
+    void interupt()
+        throws IllegalStateException, SecurityException;
 
     /**
-     * Create a new instance of the object being pooled.
+     * Determine if thread has finished execution
      *
-     * @return the pooled Object instance
+     * @return true if thread is finished, false otherwise
      */
-    Object newInstance() throws Exception;
+    boolean isFinished();
+
+    /**
+     * Retrieve throwable that caused thread to cease execution.
+     * Only valid when true == isFinished()
+     *
+     * @return the throwable that caused thread to finish execution
+     */
+    Throwable getThrowable();
 }

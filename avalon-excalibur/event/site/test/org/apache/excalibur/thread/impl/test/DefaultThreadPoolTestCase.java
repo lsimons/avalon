@@ -47,51 +47,57 @@
  Apache Software Foundation, please see <http://www.apache.org/>.
 
 */
-package org.apache.excalibur.mpool;
+package org.apache.excalibur.thread.impl.test;
+
+import java.util.HashMap;
+import junit.framework.TestCase;
+import org.apache.excalibur.thread.impl.DefaultThreadPool;
+import org.apache.avalon.framework.logger.ConsoleLogger;
+import org.apache.excalibur.threadcontext.ThreadContext;
+import org.apache.excalibur.threadcontext.impl.DefaultThreadContextPolicy;
 
 /**
- * This interface is to define how a Pool is used.  We have determined by
- * using the previous Pool implementations that the Pool marker interface
- * is considered harmful.  When generics are introduced in JDK 1.5, this
- * interface will be a prime candidate for those improvements.
- *
- * <p>
- *  It is important to realize that some objects are cheaper to simply allow
- *  the garbage collector to take care of them.  Therefore, only pool objects
- *  that are computationally expensive to create.  Prime candidates would be
- *  Components, JDBC Connection objects, Socket connections, etc.
- * </p>
- * <p>
- *  The interface is inspired by both the Mutex acquire/release and the
- *  structure of the ThreadLocal object.  In fact, it would be trivial
- *  to implement a "ThreadLocal" pool.
- * </p>
+ * TestCase for DefaultThreadPool.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/08/08 00:36:26 $
- * @since 4.1.2
+ * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>
  */
-public interface Pool
+public class DefaultThreadPoolTestCase
+    extends TestCase
 {
-    /**
-     * Acquire an instance of the pooled object.
-     *
-     * @return the pooled Object instance
-     */
-    Object acquire() throws Exception;
+    public DefaultThreadPoolTestCase( final String name )
+    {
+        super( name );
+    }
 
-    /**
-     * Release the instance of the pooled object.
-     *
-     * @param pooledObject  The pooled object to release to the pool.
-     */
-    void release( Object pooledObject );
+    public void testWithThreadContext()
+        throws Exception
+    {
+        final DefaultThreadContextPolicy policy = new DefaultThreadContextPolicy();
+        final HashMap map = new HashMap( 1 );
+        map.put( DefaultThreadContextPolicy.CLASSLOADER, getClass().getClassLoader() );
+        final ThreadContext threadContext = new ThreadContext( policy, map );
+        final DefaultThreadPool pool = new DefaultThreadPool( "default", 10, threadContext );
+        pool.setDaemon( false );
+        pool.enableLogging( new ConsoleLogger() );
+        pool.execute( new DummyRunnable() );
+    }
 
-    /**
-     * Create a new instance of the object being pooled.
-     *
-     * @return the pooled Object instance
-     */
-    Object newInstance() throws Exception;
+    public void testWithoutThreadContext()
+        throws Exception
+    {
+        final ThreadContext threadContext = ThreadContext.getThreadContext();
+        final DefaultThreadPool pool = new DefaultThreadPool( "default", 10, threadContext );
+        pool.setDaemon( false );
+        pool.enableLogging( new ConsoleLogger() );
+        pool.execute( new DummyRunnable() );
+    }
+
+    private static class DummyRunnable
+        implements Runnable
+    {
+        public void run()
+        {
+        }
+    }
 }
