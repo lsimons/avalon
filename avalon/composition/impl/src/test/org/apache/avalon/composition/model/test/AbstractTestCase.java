@@ -13,7 +13,8 @@ import org.apache.avalon.composition.provider.SystemContext;
 import org.apache.avalon.composition.provider.ModelFactory;
 
 import org.apache.avalon.repository.provider.InitialContext;
-import org.apache.avalon.repository.main.DefaultInitialContext;
+import org.apache.avalon.repository.provider.InitialContextFactory;
+import org.apache.avalon.repository.main.DefaultInitialContextFactory;
 
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.logger.ConsoleLogger;
@@ -71,14 +72,10 @@ public abstract class AbstractTestCase extends TestCase
             File confDir = new File( base, "conf" );
             File source = new File( confDir, m_path );
 
-            //
-            // FIXME - need to read the current version for a 
-            // properties file or something
-            //
-
-            InitialContext context = 
-              new DefaultInitialContext( 
-                getMavenRepositoryDirectory() );
+            InitialContextFactory initial = 
+              new DefaultInitialContextFactory( "test", base );
+            initial.setCacheDirectory( getMavenRepositoryDirectory() );
+            InitialContext context = initial.createInitialContext();
 
             try
             {

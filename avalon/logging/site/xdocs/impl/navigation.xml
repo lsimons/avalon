@@ -45,6 +45,7 @@
     </menu>
 
     <menu name="Related Projects">
+      <item name="Merlin" href="http://avalon.apache.org/merlin"/>
       <item name="Repository" href="http://avalon.apache.org/repository"/>
       <item name="Utilities" href="http://avalon.apache.org/util"/>
     </menu>

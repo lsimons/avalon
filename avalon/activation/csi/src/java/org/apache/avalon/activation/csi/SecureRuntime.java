@@ -32,13 +32,6 @@ import org.apache.avalon.composition.provider.Runtime;
 import org.apache.avalon.logging.provider.LoggingManager;
 import org.apache.avalon.logging.data.CategoryDirective;
 
-import org.apache.avalon.repository.Artifact;
-import org.apache.avalon.repository.Repository;
-import org.apache.avalon.repository.provider.CacheManager;
-import org.apache.avalon.repository.provider.InitialContext;
-import org.apache.avalon.repository.provider.Builder;
-import org.apache.avalon.repository.provider.Factory;
-
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.apache.avalon.framework.context.DefaultContext;
@@ -51,7 +44,7 @@ import org.apache.avalon.excalibur.i18n.Resources;
  * Implementation of a system context that exposes a system wide set of parameters.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2004/02/10 16:14:15 $
+ * @version $Revision: 1.2 $ $Date: 2004/02/19 08:58:04 $
  */
 public class SecureRuntime implements Runtime
 {

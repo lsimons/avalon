@@ -33,7 +33,7 @@
 
     <menu name="About Avalon Logging">
       <item name="Overview" href="/about/index.html"/>
-      <item name="Specification" href="/api/index.html"/>
+      <item name="Specification" href="/spec/index.html"/>
       <item name="Implementations" href="/impl/index.html">
         <item name="LogKit" href="/impl/logkit/index.html"/>
       </item>
@@ -45,6 +45,7 @@
     </menu>
 
     <menu name="Related Projects">
+      <item name="Merlin" href="http://avalon.apache.org/merlin"/>
       <item name="Repository" href="http://avalon.apache.org/repository"/>
       <item name="Utilities" href="http://avalon.apache.org/util"/>
     </menu>

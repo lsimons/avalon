@@ -38,7 +38,7 @@ import org.apache.avalon.util.env.EnvAccessException;
  * of a set of installation properties.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class DefaultsBuilder
 {
@@ -210,26 +210,48 @@ public class DefaultsBuilder
     // implementation
     //--------------------------------------------------------------
 
+   /**
+    * Return the application home directory.
+    * @return the home directory
+    */
     public File getHomeDirectory()
     {
         return m_root;
     }
 
+   /**
+    * Return the application properties.  Properties returned are resolved
+    * relative to a properties file named [key].properties in the 
+    * application home directory.
+    *
+    * @return the home directory
+    */
     public Properties getHomeProperties()
     {
         return m_home;
     }
 
+   /**
+    * Return the application specific properties from the users home directory.
+    * @return the user's application properties
+    */
     public Properties getUserProperties()
     {
         return m_user;
     }
 
+   /**
+    * Return the application specific properties from the current working directory.
+    * @return the working application properties
+    */
     public Properties getDirProperties()
     {
         return m_dir;
     }
 
+   /**
+    * Return a consolidated set of properties.
+    */
     public Properties getConsolidatedProperties( 
       final Properties defaults, final String[] keys ) throws IOException
     {
