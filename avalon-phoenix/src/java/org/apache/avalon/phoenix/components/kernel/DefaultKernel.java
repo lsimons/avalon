@@ -9,7 +9,7 @@ package org.apache.avalon.phoenix.components.kernel;
 
 import org.apache.avalon.framework.atlantis.AbstractKernel;
 import org.apache.avalon.framework.atlantis.Application;
-import org.apache.avalon.framework.atlantis.SystemManager;
+import org.apache.avalon.phoenix.components.manager.SystemManager;
 import org.apache.avalon.framework.camelot.ContainerException;
 import org.apache.avalon.framework.camelot.Entry;
 import org.apache.avalon.framework.component.ComponentException;

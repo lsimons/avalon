@@ -15,8 +15,6 @@ import java.rmi.server.UnicastRemoteObject;
 import javax.management.DynamicMBean;
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
-import org.apache.avalon.framework.atlantis.AbstractSystemManager;
-import org.apache.avalon.framework.atlantis.ManagerException;
 import org.apache.avalon.framework.parameters.ParameterException;
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
