@@ -25,7 +25,7 @@ import java.io.OutputStream;
 class FileStoreObjectInputStream extends ObjectInputStream
 {
     private ClassLoader classLoader;
-    private FileStoreObjectInputStream(ClassLoader classLoader, InputStream in) throws IOException, StreamCorruptedException
+    public FileStoreObjectInputStream(ClassLoader classLoader, InputStream in) throws IOException, StreamCorruptedException
     {
         super(in);
         this.classLoader = classLoader;
