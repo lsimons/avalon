@@ -16,27 +16,29 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
+import org.apache.avalon.framework.CascadingRuntimeException;
 import org.apache.avalon.framework.ExceptionUtil;
 import org.apache.avalon.framework.parameters.ParameterException;
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.phoenix.interfaces.Embeddor;
 import org.apache.avalon.phoenix.components.embeddor.SingleAppEmbeddor;
 
 /**
  * Servlet frontends for SingleAppEmbeddor.
  *
- * @author <a href="mailto:colus@isoft.co.kr">Eung-ju Park</a>
+ * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>
  */
 public class ServiceServlet
     extends HttpServlet
+    implements Runnable
 {
     private static final Resources REZ = ResourceManager.getPackageResources( ServiceServlet.class );
 
     private Parameters m_parameters;
-    private SingleAppEmbeddor m_embeddor;
+    private Embeddor m_embeddor;
 
     private String getInitParameter( final String name, final String defaultValue )
     {
@@ -76,7 +78,8 @@ public class ServiceServlet
                 ((Parameterizable)m_embeddor).parameterize( m_parameters );
             }
             m_embeddor.initialize();
-            m_embeddor.execute();
+
+            new Thread( this ).start();
         }
         catch ( final Throwable throwable )
         {
@@ -89,6 +92,25 @@ public class ServiceServlet
         }
 
         getServletContext().setAttribute( Embeddor.ROLE, m_embeddor );
+    }
+
+    public void run()
+    {
+        try
+        {
+            m_embeddor.execute();
+        }
+        catch ( final Throwable throwable )
+        {
+            log( REZ.getString( "main.exception.header" ) );
+            log( "---------------------------------------------------------" );
+            log( ExceptionUtil.printStackTrace( throwable ) );
+            log( "---------------------------------------------------------" );
+            log( REZ.getString( "main.exception.footer" ) );
+
+            final String message = REZ.getString( "servlet.error.execute" );
+            throw new CascadingRuntimeException( message, throwable );
+        }
     }
 
     public void destroy()
@@ -109,46 +131,5 @@ public class ServiceServlet
             log( "---------------------------------------------------------" );
             log( REZ.getString( "main.exception.footer" ) );
         }
-    }
-
-    public void doGet( final HttpServletRequest request,
-                       final HttpServletResponse response )
-        throws IOException
-    {
-        doPost( request, response );
-    }
-
-    public void doPost( final HttpServletRequest request,
-                        final HttpServletResponse response )
-        throws IOException
-    {
-        final PrintWriter out = response.getWriter();
-
-        out.println( "<html>" );
-        out.println( "<body>" );
-
-        out.println( "<h1>Parameters</h1>" );
-        out.println( "<ul>" );
-        final String[] paramNames = m_parameters.getNames();
-        for ( int i = 0; i < paramNames.length; i++ )
-        {
-            final String name = paramNames[ i ];
-            final String value = (String)m_parameters.getParameter( name, "" );
-            out.println( "<li>" + name + ": " + value );
-        }
-        out.println( "</ul>" );
-
-        out.println( "<h1>Loaded Blocks</h1>" );
-        out.println( "<ul>" );
-        final String[] blockNames = m_embeddor.list();
-        for ( int i = 0; i < blockNames.length; i++ )
-        {
-            final String blockName = blockNames[ i ];
-            out.println( "<li> " + blockName );
-        }
-        out.println( "</ul>" );
-
-        out.println( "</body>" );
-        out.println( "</html>" );
     }
 }
