@@ -6,7 +6,7 @@
   <groupId>merlin</groupId>
   <id>merlin</id>
   <name>Merlin POM</name>
-  <currentVersion>1.0</currentVersion>
+  <currentVersion>3.0</currentVersion>
 
   <organization>
     <name>Apache Software Foundation</name>
