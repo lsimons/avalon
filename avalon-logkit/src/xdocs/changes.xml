@@ -14,8 +14,11 @@
     <action dev="SW" type="add">
       Add support for the LF5 GUI logging target.
     </action>
+    <action dev="BL" type="remove">
+      Remove the circular dependency on Avalon Framework.
+    </action>
     <action dev="BL" type="update">
-      Ensure all source files contain the blessed version of the liscense.
+      Ensure all source files contain the blessed version of the license.
     </action>
     <action dev="PD" type="fix">
       Makes sure target arrays contain no nulls and a few other cleanups.
