@@ -7,24 +7,16 @@
     <goal name="forrest:generate"
         description="generates the site using forrest">
 
-        <echo>
-Forrest Plugin warming up......
--------------------------------
-forrest.home: ${forrest.home}
-basedir: ${basedir}
-project.home: ${project.home}
-        </echo>
-
         <ant:java
                 classname="org.apache.tools.ant.Main"
                 fork="true">
             <ant:classpath>
                 <ant:fileset dir="${maven.repo.local}">
-                    <j:forEach var="dep" items="${plugin.dependencies}">
-                      <ant:include name="${dep.artifactDirectory}/jars/${dep.artifact}"/>
-                    </j:forEach>
-                    <ant:pathelement path="${forrest.home}/WEB-INF/classes"/>
+                  <j:forEach var="dep" items="${plugin.dependencies}">
+                    <ant:include name="${dep.artifactDirectory}/jars/${dep.artifact}"/>
+                  </j:forEach>
                 </ant:fileset>
+                <ant:pathelement path="${forrest.home}/WEB-INF/classes"/>
             </ant:classpath>
             <ant:jvmarg value="-Dforrest.home=${forrest.home}"/>
             <ant:jvmarg value="-Dbasedir=${basedir}"/>
