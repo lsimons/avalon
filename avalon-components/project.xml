@@ -47,6 +47,21 @@
 
   <developers>
     <developer>
+      <name>Peter Donald</name>
+      <email>donaldp@apache.org</email>
+      <id>donaldp</id>
+    </developer>
+    <developer>
+      <name>Paul Hammant</name>
+      <email>hammant@apache.org</email>
+      <id>hammant</id>
+    </developer>
+    <developer>
+      <name>Berin Loritsch</name>
+      <id>bloritsch</id>
+      <email>bloritsch@apache.org</email>
+    </developer>
+    <developer>
       <name>Stephen McConnell</name>
       <id>mcconnell</id>
       <email>mcconnell@apache.org</email>
@@ -57,26 +72,19 @@
       <email>leosimons@apache.org</email>
     </developer>
     <developer>
-      <name>Berin Loritsch</name>
-      <id>bloritsch</id>
-      <email>bloritsch@apache.org</email>
-    </developer>
-    <developer>
       <name>Jeff Turner</name>
       <id>jefft</id>
       <email>jefft@apache.org</email>
     </developer>
-    <developer>
-      <name>Peter Donald</name>
-      <email>donaldp@apache.org</email>
-      <id>donaldp</id>
-    </developer>
-    <developer>
-      <name>Paul Hammant</name>
-      <email>hammant@apache.org</email>
-      <id>hammant</id>
-    </developer>
   </developers>
+
+  <contributors>
+    <contributor>
+      <name>Mauro Talevi</name>
+      <email>mauro.talevi@aquilonia.org</email>
+      <role>Build process validation and input to Maven related questions.</role>
+    </contributor>
+  </contributors>
 
   <build>
 

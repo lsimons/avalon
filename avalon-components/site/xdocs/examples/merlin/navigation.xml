@@ -17,7 +17,9 @@
       <item name="Overview" href="/index.html"/>
       <item name="Components" href="/components/index.html"/>
       <item name="Examples" href="/examples/index.html">
-        <item name="Merlin" href="/examples/merlin/index.html"/>
+        <item name="Merlin" href="/examples/merlin/index.html">
+          <item name="Threads" href="/examples/merlin/threads.html"/>
+        </item>
       </item>
       <item name="Developer Info" href="/notes/index.html"/>
     </menu>
