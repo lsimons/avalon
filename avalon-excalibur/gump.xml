@@ -42,7 +42,7 @@
         <nag from="Peter Donald &lt;peter@apache.org&gt;"
             to="avalon-dev@jakarta.apache.org"
               subject="Audit Failure">
-            <regexp pattern="/Checckstyle Failure/"/>
+            <regexp pattern="/Checkstyle Failure/"/>
         </nag>
 
         <nag from="Peter Donald &lt;peter@apache.org&gt;"
