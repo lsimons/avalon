@@ -266,7 +266,16 @@ Legal:
     </target>
 
     <!-- Create the lite build -->
-    <target name="dist-lite" depends="jars"
+    <target name="dist-lite-jmx" depends="jars" if="jmx.present">
+        <property name="bin.dist.lib" value="${bin.dist.dir}/lib"/>
+        <mkdir dir="${bin.dist.lib}"/>
+
+        <copy file="${jmxri.jar}" todir="${bin.dist.lib}"/>
+        <copy file="${jmxtools.jar}" todir="${bin.dist.lib}"/>
+    </target>
+
+    <!-- Create the lite build -->
+    <target name="dist-lite" depends="dist-lite-jmx"
         description="generates the Phoenix distribution without the javadocs">
 
         <property name="bin.dist.bin" value="${bin.dist.dir}/bin"/>
@@ -281,15 +290,19 @@ Legal:
         <mkdir dir="${bin.dist.lib}"/>
         <mkdir dir="${bin.dist.conf}"/>
 
+        <copy todir="${bin.dist.lib}/">
+            <fileset dir="${build.lib}">
+                <include name="phoenix-client.jar"/>
+                <include name="avalon-jmx.jar" if="jmx.present"/>
+                <include name="phoenix-client.jar"/>
+                <include name="phoenix-client.jar"/>
+            </fileset>
+        </copy>
         <copy file="${build.lib}/phoenix-loader.jar" todir="${bin.dist.bin}/"/>
         <copy file="${build.lib}/phoenix-engine.jar" todir="${bin.dist.bin}"/>
 
-        <copy file="${build.lib}/phoenix-client.jar" todir="${bin.dist.lib}"/>
-        <copy file="${build.lib}/avalon-jmx.jar" todir="${bin.dist.lib}"/>
         <copy file="${lib.dir}/excalibur-baxter-1.0a.jar" todir="${bin.dist.lib}"/>
         <copy file="${logkit.jar}" todir="${bin.dist.lib}"/>
-        <copy file="${jmxri.jar}" todir="${bin.dist.lib}"/>
-        <copy file="${jmxtools.jar}" todir="${bin.dist.lib}"/>
         <copy file="${framework.jar}" todir="${bin.dist.lib}"/>
         <copy file="${excalibur.jar}" todir="${bin.dist.lib}"/>
         <copy file="${scratchpad.jar}" todir="${bin.dist.lib}"/>
