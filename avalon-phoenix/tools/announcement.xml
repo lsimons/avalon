@@ -22,8 +22,8 @@ of Phoenix.</abstract>
     <description>
       <para>
         Avalon Phoenix is a micro-kernel designed and implemented on top of
-        the Avalon Framework. It is both an API to program to and a reference
-        implementation. The reference implementation provides a number of
+        the Avalon Framework. It is both an API and
+        implementation. The implementation provides a number of
         facilities to manage the environment of Server Applications. Such
         facilities include log management, JMX management, classloading and 
         security. The API defines a standard method of piecing togther server 
