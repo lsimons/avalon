@@ -40,9 +40,17 @@ public class BlockMetaData
         return m_name;
     }
 
+    /**
+     * @deprecated Please use {@link #getImplementationKey} instead.
+     */
     public String getClassname()
     {
-        return getBlockInfo().getBlockDescriptor().getClassname();
+        return getImplementationKey();
+    }
+
+    public String getImplementationKey()
+    {
+        return getBlockInfo().getBlockDescriptor().getImplementationKey();
     }
 
     public BlockInfo getBlockInfo()

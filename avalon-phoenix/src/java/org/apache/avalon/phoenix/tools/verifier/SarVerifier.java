@@ -59,7 +59,7 @@ import org.apache.excalibur.containerkit.verifier.VerifyException;
  * </ul>
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.26 $ $Date: 2002/08/06 11:57:42 $
+ * @version $Revision: 1.27 $ $Date: 2002/08/26 10:39:56 $
  */
 public class SarVerifier
     extends AbstractLogEnabled
@@ -360,7 +360,7 @@ public class SarVerifier
         throws VerifyException
     {
         final String name = block.getName();
-        final String classname = block.getClassname();
+        final String classname = block.getImplementationKey();
         Class clazz = null;
         try
         {
