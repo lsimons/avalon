@@ -80,7 +80,7 @@ import org.apache.avalon.util.factory.Factory;
  * 
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
  * @author $Author: mcconnell $
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class DefaultBuilder extends AbstractBuilder implements Builder
 {
@@ -316,7 +316,7 @@ public class DefaultBuilder extends AbstractBuilder implements Builder
     private static String[] expandHosts( String arg )
     {
         ArrayList list = new ArrayList();
-        StringTokenizer tokenizer = new StringTokenizer( arg, File.pathSeparator );
+        StringTokenizer tokenizer = new StringTokenizer( arg, "," );
         while( tokenizer.hasMoreTokens() )
         {
             list.add( tokenizer.nextToken() );
