@@ -55,6 +55,7 @@
 
     <!-- Checks the environment for existing resources -->
     <target name="check-environment">
+      <available property="jaxen.present" classname="org.jaxen.dom.DOMXPath"/>
     </target>
 
     <target name="dependencies" description="Check dependencies" unless="skip.dependencies">
@@ -106,6 +107,7 @@
             deprecation="${build.deprecation}"
             target="1.2">
             <classpath refid="project.class.path" />
+            <exclude name="**/Jaxen*" unless="jaxen.present"/>
             <exclude name="**/test/**"/>
         </javac>
 
