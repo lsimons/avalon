@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+
+<document>
+
+  <header>
+    <title>New and Emerging Solutions</title>
+    <authors>
+      <person name="Avalon Development Team" email="avalon-dev@jakarta.apache.org"/>
+    </authors>
+  </header>
+
+  <body>
+
+    <s1 title="The Avalon Sandbox Project">
+
+<p>
+The Avalon Sandbox Project is the homoe to a number of new and emerging component-based technologies.  Much of the content is under continuing development and should only be used by developers ready to handle the inconvinience of changing APIs.  On the otherhand, resource contained in this project represent the cutting-edge of COP and SOP.  A summary of the respective packages is included below.  Enjoy!
+</p>
+
+    <s2 title="Contents">
+      <table>
+        <tr><td>Package</td><td>Description</td></tr>
+
+<tr>
+<td><a href="http://jakarta.apache.org/avalon/assembly">Assembly</a></td>
+<td>A containement toolbox.  The Avalon Assembly project is a API dealing with container-side resources.  It includes facilities supporting the management of component types, services, deployment profiles, and a component activation unit referred to as an appliance.</td>
+</tr>
+
+<tr>
+<td><a href="http://jakarta.apache.org/avalon/lifecycle">Lifecycle</a></td>
+<td>The Lifecycle package contains a set of interfaces and classes supporting pertable lifecycle extensions.  Lifecycle extensions come in handy when you want to go further than the classic Avalon lifecycle model or when you want to manage a totally different component model.</td>
+</tr>
+
+<tr>
+<td><a href="http://jakarta.apache.org/avalon/merlin">Merlin</a></td>
+<td>The Merlin package is an embeddable container based on the Assembly, lifecycle and meta package.  Merlin provides support for hierachical containers and automated assembly under a full service and component management framework.</td>
+</tr>
+
+<tr>
+<td><a href="http://jakarta.apache.org/avalon/meta">Meta</a></td>
+<td>The Meta Model is an object model describing a type of Avalon component.
+The meta model encompasses all information about a component that is not
+specified by its work interface and/or lifecycle interfaces.
+Specifically, the Meta Model allows for specification of
+lifecycle-related constraints/requirments, ie Context, Configuration,
+Parameter, and Dependency constraints/requirments.</td>
+</tr>
+
+      </table>
+    </s2>
+    </s1>
+
+  </body>
+
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
+      $Revision: 1.1 $ $Date: 2002/12/01 06:43:23 $
+    </legal>
+  </footer>
+
+</document>
+
+
