@@ -54,6 +54,10 @@ public class DefaultTimeScheduler
 
     public void dispose()
     {
+        if( getLogger().isDebugEnabled() )
+        {
+            getLogger().debug( "disposal" );
+        }
         m_entries.clear();
         m_priorityQueue.clear();
     }
