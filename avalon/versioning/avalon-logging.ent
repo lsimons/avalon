@@ -31,6 +31,7 @@
 <!ENTITY avalon-logging-logkit-syslog-version "1.0.0-dev">
 
 <!ENTITY avalon-logging-logkit-artifact-spec "&avalon-logging-id;/&avalon-logging-logkit-impl-id;#&avalon-logging-logkit-impl-version;">
+<!ENTITY avalon-logging-logkit-artifact "artifact:&avalon-logging-logkit-artifact-spec;">
 <!ENTITY avalon-logging-logkit-datagram-artifact-spec "&avalon-logging-id;/&avalon-logging-logkit-datagram-id;#&avalon-logging-logkit-datagram-version;">
 <!ENTITY avalon-logging-logkit-syslog-artifact-spec "&avalon-logging-id;/&avalon-logging-logkit-syslog-id;#&avalon-logging-logkit-syslog-version;">
 
