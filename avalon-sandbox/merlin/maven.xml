@@ -44,6 +44,16 @@
     </copy>
   </goal>
 
+  <goal name="merlin:validate" description="Validate that the tutorial targets are buildable." >
+    <maven:reactor
+      basedir="${basedir}"
+      includes="merlin-platform/tutorials/**/project.xml"
+      excludes="merlin-platform/tutorials/project.xml,**/target/**"
+      goals=""
+      banner="Validate:"
+      ignoreFailures="false" />
+  </goal>
+
   <goal name="merlin:demo" description="Execute the demo targets." >
     <maven:reactor
       basedir="${basedir}"
@@ -75,16 +85,6 @@
     <ant:mkdir dir="${merlin.build.inst.dir}/ext"/>
     <ant:mkdir dir="${merlin.build.inst.dir}/bin/lib"/>
 
-    <ant:mkdir dir="${maven.build.dir}/plugins"/>
-    <ant:copy toDir="${maven.build.dir}/plugins">
-      <fileset dir="${basedir}/kernel/plugin/target">
-        <include name="${merlin.plugin.jar}"/>
-      </fileset>
-      <fileset dir="${basedir}/../meta/plugin/target">
-        <include name="${meta.plugin.jar}"/>
-      </fileset>
-    </ant:copy>
-
     <!-- import bootstrap jar -->
     <ant:copy 
        file="${basedir}/kernel/bootstrap/target/${merlin.bootstrap.jar}" 
@@ -97,6 +97,18 @@
       goals="ximport"
       banner="Resolving dependencies:"
       ignoreFailures="false"/>
+
+    <!-- create a directory containing the plugins -->
+    <ant:copy 
+       file="${merlin.build.inst.dir}/repository/avalon-meta/jars/${meta.plugin.jar}" 
+       toDir="${maven.build.dir}/plugins"/>
+    <delete file="${merlin.build.inst.dir}/repository/avalon-meta/jars/${meta.plugin.jar}"/>
+    <ant:mkdir dir="${maven.build.dir}/plugins"/>
+    <ant:copy toDir="${maven.build.dir}/plugins">
+      <fileset dir="${basedir}/kernel/plugin/target">
+        <include name="${merlin.plugin.jar}"/>
+      </fileset>
+    </ant:copy>
 
     <!-- copy the xml api jar file to the merlin/ext directory -->
     <ant:copy 
@@ -237,7 +249,7 @@
 
 
   <!--
-  The the tuturials.
+  Build the tuturials distribution.
   -->
   <goal name="merlin:tutorials"
     description="Build tutorials.">
@@ -261,6 +273,8 @@
         <include name="context/**"/>
         <include name="composition/**"/>
         <include name="dependencies/**"/>
+        <include name="lifecycle/**"/>
+        <include name="meta/**"/>
         <exclude name="**/target/**"/>
         <exclude name="**/*.log"/>
       </fileset>
