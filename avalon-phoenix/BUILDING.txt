@@ -1,4 +1,4 @@
- 
+
                Building The Phoenix Application Server
                =======================================
 
@@ -6,12 +6,12 @@ This subproject contains the source code Phoenix @version@, a container
 that implements a Service API similar to the API under development in the JSR 111,
 Services Framework.  In order to build a binary distribution version of the
 container from a source distribution, you must have a Java Development Kit (JDK)
-for version 1.3 (or later) downloaded and installed (version 1.3.1 recommended),
+for version 1.3.1 (or later) downloaded and installed (version 1.4.1 recommended),
 and do the following:
 
 (0) Download and Install a Java Development Kit
 
-* Download a Java Development Kit (JDK) release (version 1.3 or later) from:
+* Download a Java Development Kit (JDK) release (version 1.3.1 or later) from:
 
     http://java.sun.com/j2se/
 
@@ -23,59 +23,39 @@ and do the following:
 
 (1) Download and Install the Ant Binary Distribution
 
-* Download a binary distribution of Ant 1.4.1 from:
+* Download a binary distribution of Ant 1.5.1 from:
 
-    http://jakarta.apache.org/builds/jakarta-ant/release/v1.4.1/bin/
+    http://jakarta.apache.org/builds/jakarta-ant/release/v1.5.1/bin/
 
   On a Windows platform, you will need:
-    jakarta-ant-1.4.1-bin.zip
-    jakarta-ant-1.4.1-optional.jar
+    jakarta-ant-1.5.1-bin.zip
 
   On a Unix platform, you will need:
-    jakarta-ant-1.4.1-bin.tar.gz
-    jakarta-ant-1.4.1-optional.jar
+    jakarta-ant-1.5.1-bin.tar.gz
 
 * Unpack the binary distribution into a convenient location so that the
   Ant release resides in its own directory (conventionally named
-  "jakarta-ant-1.4.1").  For the purposes of the remainder of this document,
+  "jakarta-ant-1.5.1").  For the purposes of the remainder of this document,
   the symbolic name "${ant.home}" is used to refer to the full pathname of
   the release directory.
-
-* Copy the file "jakarta-ant-1.4.1-optional.jar", downloaded above, into
-  the directory "${ant.home}/lib".  This makes available several Ant
-  extension commands that are commonly required when building Jakarta
-  based projects.
 
 * Modify the PATH environment variable to include directory
   "${ant.home}/bin" in its list.  This makes the "ant" command line script
   available, which will be used to actually perform the build.
 
-(2) Download and Install the JMX 1.0 Reference Implementation
-
-NOTE:  This step is only required if you wish to build the Config/Admin
-component of Phoenix.
-
-* Download the JMX Instrumentation and Agent Reference Implementation
-  (version 1.0 or later) from
-
-    http://java.sun.com/products/JavaManagement/download.html
-
-* Unpack the reference implementation into a convenient location so that
-  it resides in its own subdirectory.
-
-(3) Download and Install the Java Service Wrapper 2.2.2 Implementation
+(2) Download and Install the Java Service Wrapper 2.2.8 Implementation
 
 NOTE:  This step is only required if you wish to allow the Phoenix server
 to be accessible as a win32 Service or a unix daemon.
 
-* Download the Java Service Wrapper (version 2.2.2 or later) from
+* Download the Java Service Wrapper (version 2.2.8 or later) from
 
     http://wrapper.sourceforge.net/
 
 * Unpack the product into a convenient location so that it resides in
   its own subdirectory.
 
-(4) Download and Install Checkstyle, 2.1 or later (OPTIONAL)
+(3) Download and Install Checkstyle, 2.1 or later (OPTIONAL)
 
 NOTE: This is only required if you wish to generate reports regarding code style.
 
@@ -86,7 +66,7 @@ NOTE: This is only required if you wish to generate reports regarding code style
 * Unpack the package into a convenient location so that it resides in its
   own subdirectory.
 
-(5) Customize Build Properties For This Subproject
+(4) Customize Build Properties For This Subproject
 
 Most Jakarta subprojects allow you to customize Ant properties (with default
 values defined in the "build.xml" file.  This is done by creating a text file
@@ -109,7 +89,7 @@ NOTE:  Be *sure* that you do not check "ant.properties" in to the CVS
 repository.  This file is local to your own development environment, and
 each developer will have their own version.
 
-(6) Build A Binary Distribution
+(5) Build A Binary Distribution
 
 Open a command line shell, and issue the following commands:
 
