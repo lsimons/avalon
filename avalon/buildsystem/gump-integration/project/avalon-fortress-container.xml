@@ -2,63 +2,57 @@
 
 <project name="avalon-fortress-container">
     <package>org.apache.avalon</package>
-    <ant target="dist">
+    <ant target="dist" basedir="fortress/container">
         <property name="project.version" value="@@DATE@@"></property>
     </ant>
 
-    
+
     <depend inherit="runtime" project="ant"></depend>
     <depend project="xml-xalan2"></depend>
     <depend project="xml-xerces"></depend>
 
-    
-    
+
+
       <depend runtime="true" project="ant"></depend>
-    
-      <depend runtime="true" project="avalon-fortress"></depend>
-    
-      <depend runtime="true" project="bcel"></depend>
-    
+
+      <depend runtime="true" project="jakarta-bcel"></depend>
+
       <depend runtime="true" project="commons-collections"></depend>
-    
+
       <depend runtime="true" project="concurrent"></depend>
-    
+
       <depend runtime="true" project="excalibur-event"></depend>
-    
+
       <depend runtime="true" project="excalibur-i18n"></depend>
-    
+
       <depend runtime="true" project="excalibur-instrument"></depend>
-    
+
       <depend runtime="true" project="excalibur-instrument-manager"></depend>
-    
+
       <depend runtime="true" project="excalibur-lifecycle"></depend>
-    
+
       <depend runtime="true" project="excalibur-logger"></depend>
-    
+
       <depend runtime="true" project="excalibur-sourceresolve"></depend>
-    
-      <depend runtime="true" project="framework"></depend>
-    
+
+      <depend runtime="true" project="avalon-framework"></depend>
+
       <depend runtime="true" project="junit"></depend>
-    
-      <depend runtime="true" project="logkit"></depend>
-    
+
+      <depend runtime="true" project="avalon-logkit"></depend>
+
       <depend runtime="true" project="qdox"></depend>
-    
-      <depend runtime="true" project="xalan"></depend>
-    
 
-    <work nested="/target/classes"></work>
-    <work nested="/target/api-classes"></work>
-    <work nested="/target/impl-classes"></work>
-    <work nested="/target/test-classes"></work>
+    <work nested="fortress/container/target/classes"></work>
+    <work nested="fortress/container/target/api-classes"></work>
+    <work nested="fortress/container/target/impl-classes"></work>
+    <work nested="fortress/container/target/test-classes"></work>
 
-    <home></home>
+    <home nested="fortress/container"></home>
     <jar name="target/avalon-fortress-container-@@DATE@@.jar"></jar>
     <jar name="target/avalon-fortress-container-@@DATE@@-api.jar"></jar>
     <jar name="target/avalon-fortress-container-@@DATE@@-impl.jar"></jar>
-    <javadoc nested="/target/docs/apidocs"></javadoc>
+    <javadoc nested="fortress/container/target/docs/apidocs"></javadoc>
 
     <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"></nag>
 </project>
-            
