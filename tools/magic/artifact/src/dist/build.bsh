@@ -59,7 +59,8 @@ public class ArtifactPlugin extends AbstractPlugin
             type = "jar";
 
         Artifact artifact = new Artifact( artifactId, groupId, version, type, repository );
-        System.out.println( "Artifact: " + artifact );
+        if( getLogger().isDebugEnabled() )
+            getLogger().debug( "Artifact: " + artifact );
         return artifact;
     }
     
@@ -131,22 +132,24 @@ public class ArtifactPlugin extends AbstractPlugin
         Path result = new Path( m_Project );
         for( int i=0 ; i < artifacts.length ; i++ )
         {
-            System.out.print( artifacts[i] );
             File localFile = toLocalFile( artifacts[i] );
             if( ! localFile.exists() )
             {
-                System.out.println( "    NOT exists." );
+                if( getLogger().isDebugEnabled() )
+                    getLogger().debug( artifacts[i] + "    does NOT exists locally." );
                 localFile.getParentFile().mkdirs();
                 download( artifacts[i], localFile );
             }
             else
             {
-                System.out.println( "    exists." );
+                if( getLogger().isDebugEnabled() )
+                    getLogger().debug( artifacts[i] + "    exists locally." );
             }
             Path.PathElement pe = result.createPathElement();
             pe.setLocation( localFile );
         }
-        System.out.println( "Dep Classpath: " + result );
+        if( getLogger().isDebugEnabled() )
+            getLogger().debug( "Dep Classpath: " + result );
         return result;
     }
     
