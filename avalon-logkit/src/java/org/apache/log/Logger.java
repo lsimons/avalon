@@ -49,13 +49,11 @@ public class Logger
      * @param category the fully qualified name of category
      * @param logTargets the LogTargets associated with logger
      * @param parent the parent logger (used for inheriting from)
-     * @deprecated You should not be using this constructor directly. It will soon 
-     *             be becoming package access only.
      */
-    protected Logger( final Hierarchy hierarchy, 
-                      final String category, 
-                      final LogTarget[] logTargets, 
-                      final Logger parent )
+    Logger( final Hierarchy hierarchy, 
+            final String category, 
+            final LogTarget[] logTargets, 
+            final Logger parent )
     {
         m_hierarchy = hierarchy;
         m_category = category;
