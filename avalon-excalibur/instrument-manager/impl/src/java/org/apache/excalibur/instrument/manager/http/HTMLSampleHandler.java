@@ -31,7 +31,7 @@ import org.apache.excalibur.instrument.manager.interfaces.NoSuchInstrumentSample
 /**
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.6 $ $Date: 2004/02/29 18:11:04 $
+ * @version CVS $Revision: 1.7 $ $Date: 2004/03/02 15:33:48 $
  * @since 4.1
  */
 public class HTMLSampleHandler
@@ -164,7 +164,7 @@ public class HTMLSampleHandler
             {
                 startTableRow( out, i );
                 tableCell( out, new Date( time ).toString() );
-                tableCell( out, Integer.toString( samples[samples.length - i - 1] ) );
+                tableCellRight( out, Integer.toString( samples[samples.length - i - 1] ) );
                 endTableRow( out );
                 
                 time -= snapshot.getInterval();
