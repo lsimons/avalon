@@ -50,11 +50,11 @@
         <link href="blockinfo-specification.html">BlockInfo Specification</link> document.
       </p>
     </s1>
-    <s1 title="Create the bar package">
+    <s1 title="Create the jar package">
       <p>
         The final step is packaging up the implementation files, BlockInfos and other
-        resources into a bar file. The bar file is a jar file with extra manifest entries.
-        Specifically for every Block that is included in the archive a new manifest attribute
+        resources into a jar file. The jar file is a standard jar file with special manifest 
+        entries. For each Block that is included in the jar, a new manifest attribute
         must be added, namely &quot;Avalon-Block: true&quot;. An example manifest file is 
         displayed below.
       </p>
@@ -70,7 +70,7 @@ Avalon-Block: true
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2001/03/01 13:44:44 $
+      $Revision: 1.2 $ $Date: 2001/11/05 23:41:03 $
     </legal>
   </footer>
 </document>
