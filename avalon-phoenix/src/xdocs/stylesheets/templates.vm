@@ -149,12 +149,12 @@
     <head>
       <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
 
-      #set ($authors = $root.getChild("header").getChildren("author"))
+      #set ($authors = $root.getChild("properties").getChildren("author"))
       #foreach ( $au in $authors )
         #metaauthor ( $au.getAttributeValue("name") $au.getAttributeValue("email") )
       #end
 
-      <title>$project.getChild("title").getText() - $root.getChild("header").getChild("title").getText()</title>
+      <title>$project.getChild("title").getText() - $root.getChild("properties").getChild("title").getText()</title>
     </head>
 
     <body bgcolor="$bodybg" text="$bodyfg" link="$bodylink">
@@ -178,7 +178,7 @@
           <td align="left" valign="top">
           <table width="100%"><tr><td bgcolor="$bannerfg">
           <center><b><font face="arial,helvetica,sanserif" size="+2">
-            $project.getChild("title").getText() - $root.getChild("header").getChild("title").getText()
+            $project.getChild("title").getText() - $root.getChild("properties").getChild("title").getText()
           </font></b></center>
           </td></tr></table>
           <br />
@@ -191,7 +191,7 @@
         <tr><td colspan="2">
         <div align="right">
         <font size="-2" face="arial,helvetica,sanserif">
-            #set ($authors = $root.getChild("header").getChildren("author"))
+            #set ($authors = $root.getChild("properties").getChildren("author"))
             by
             #foreach ( $au in $authors )
                 $au.getAttributeValue("name")

@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 
 <document>
-  <header>
+  <properties>
     <title>Guide - What is a Server Application?</title>
     <author name="Peter Donald" email="peter@apache.org"/>
     <author name="Berin Loritsch" email="bloritsch@apache.org"/>
-  </header>
+  </properties>
   <body>
     <section name="Introduction">
       <p>

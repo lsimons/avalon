@@ -144,12 +144,12 @@ $escape.getText($value.getText())
 
 ## print html <title/> info
 #macro (getTitle)
-			<title>$project.getChild("title").getText() - $root.getChild("header").getChild("title").getText()</title>
+			<title>$project.getChild("title").getText() - $root.getChild("properties").getChild("title").getText()</title>
 #end
 
 ## print html <meta author=""/> info
 #macro (getAuthors)
-      #set ($authors = $root.getChild("header").getChildren("author"))
+      #set ($authors = $root.getChild("properties").getChildren("author"))
       #foreach ( $au in $authors )
         #metaAuthor ( $au.getAttributeValue("name") $au.getAttributeValue("email") )
       #end
@@ -163,7 +163,7 @@ $escape.getText($value.getText())
 
 ## print html <style/> info
 #macro (getStylesheet)
-			<link rel="stylesheet" type="text/css" href="./common.css" />
+			<link rel="stylesheet" type="text/css" href="$relativePath/common.css" />
 #end
 
 ## print html for the page header
@@ -259,7 +259,7 @@ $escape.getText($value.getText())
 
 #macro (getContents)
 <div id="contents">
-	<h1>$project.getChild("title").getText() - $root.getChild("header").getChild("title").getText()</h1>
+	<h1>$project.getChild("title").getText() - $root.getChild("properties").getChild("title").getText()</h1>
 
 	#set ($allSections = $root.getChild("body").getChildren("section"))
 	#foreach ( $section in $allSections )
@@ -271,7 +271,7 @@ $escape.getText($value.getText())
 
 #macro (getAuthorList)
 	<div id="authors">by
-	#set ($authors = $root.getChild("header").getChildren("author"))
+	#set ($authors = $root.getChild("properties").getChildren("author"))
 	#foreach ( $au in $authors )
 		<a href="$au.getAttributeValue("email")">$au.getAttributeValue("name")</a>,
 	#end

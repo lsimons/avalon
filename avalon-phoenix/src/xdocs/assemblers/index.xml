@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 
 <document>
-    <header>
+    <properties>
         <title>Guide - for Server Assemblers</title>
         <author name="Avalon Documentation Team" email="avalon-dev@jakarta.apache.org"/>
-    </header>
+    </properties>
     <body>
         <section name="Who Should Read This Book?">
             <p>

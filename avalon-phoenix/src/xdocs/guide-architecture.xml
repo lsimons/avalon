@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 
 <document>
-    <header>
+    <properties>
         <title>Guide - Architectural overview</title>
         <author name="Leo Simons" email="leosimons@apache.org"/>
-    </header>
+    </properties>
     <body>
         <section name="Introduction">
             <p>

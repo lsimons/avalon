@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 
 <document>
-  <header>
+  <properties>
     <title>Specification of environment.xml</title>
     <person name="Peter Donald" email="peter@apache.org"/>
-  </header>
+  </properties>
   <body>
     <section name="Introduction">
       <p>

@@ -1,14 +1,14 @@
 <?xml version="1.0"?>
 
 <document>
-  <header>
+  <properties>
     <title>The BlockInfo Specification</title>
     <version>3.0</version>
       <person name="Peter Donald" email="peter@apache.org"/>
     <abstract>
       Specifies the format of BlockInfo files and the reasons for particular aspects.
     </abstract>
-  </header>
+  </properties>
   <body>
     <section name="Block Metadata">
       <p>
