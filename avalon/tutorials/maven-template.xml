@@ -17,6 +17,7 @@
     <maven:reactor
       basedir="${basedir}"
       includes="**/project.xml"
+      excludes="project.xml"
       goals="demo" 
       banner="Build and execute:"
       ignoreFailures="false" />
