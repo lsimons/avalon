@@ -30,6 +30,7 @@ namespace Apache.Avalon.DynamicProxy.Test
 		protected String m_nameProperty;
 		protected String m_addressProperty;
 		protected State m_state = State.Invalid;
+		protected bool m_started;
 
 		[Test]
 		public void TestSimpleCase()
@@ -40,8 +41,10 @@ namespace Apache.Avalon.DynamicProxy.Test
 
 			IMyInterface inter = (IMyInterface) proxy;
 			inter.Calc(1, "ola");
-			inter.Nome = "opa";
-			AssertEquals( "opa", inter.Nome );
+			inter.Name = "opa";
+			AssertEquals( "opa", inter.Name );
+			inter.Started = true;
+			AssertEquals( true, inter.Started );
 			AssertEquals( 45, inter.Calc( 20, 25 ) );
 		}
 
@@ -55,8 +58,8 @@ namespace Apache.Avalon.DynamicProxy.Test
 
 			IMySecondInterface inter = (IMySecondInterface) proxy;
 			inter.Calc(1, "ola");
-			inter.Nome = "opa";
-			AssertEquals( "opa", inter.Nome );
+			inter.Name = "opa";
+			AssertEquals( "opa", inter.Name );
 			inter.Address = "pereira leite, 44";
 			AssertEquals( "pereira leite, 44", inter.Address );
 			AssertEquals( 45, inter.Calc( 20, 25 ) );
@@ -99,7 +102,7 @@ namespace Apache.Avalon.DynamicProxy.Test
 
 		#region IMyInterface Members
 
-		public String Nome
+		public String Name
 		{
 			get
 			{
@@ -108,6 +111,18 @@ namespace Apache.Avalon.DynamicProxy.Test
 			set
 			{
 				m_nameProperty = value;
+			}
+		}
+
+		public bool Started
+		{
+			get
+			{
+				return m_started;
+			}
+			set
+			{
+				m_started = value;
 			}
 		}
 
@@ -187,7 +202,13 @@ namespace Apache.Avalon.DynamicProxy.Test
 	/// </summary>
 	public interface IMyInterface
 	{
-		String Nome
+		String Name
+		{
+			get;
+			set;
+		}
+
+		bool Started
 		{
 			get;
 			set;
