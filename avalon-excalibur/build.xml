@@ -53,6 +53,7 @@
         <ant dir="naming" target="dist"/>
         <ant dir="tar" target="dist"/>
         <ant dir="zip" target="dist"/>
+        <ant dir="fortress" target="dist"/>
     </target>
 
     <target name="jdepend" if="do.jdepend" description="Generate Dependency Analysis Report">
@@ -266,6 +267,7 @@
         <ant dir="naming" target="jar"/>
         <ant dir="tar" target="jar"/>
         <ant dir="zip" target="jar"/>
+        <ant dir="fortress" target="jar"/>
 
         <jlink compress="false" outfile="excalibur-all-tmp.jar">
             <mergefiles>
