@@ -72,7 +72,6 @@ Legal:
         <pathelement location="${wrapper.jar}"/>
         <pathelement path="${mx4j.jar}"/>
         <pathelement path="${mx4j-tools.jar}"/>
-        <pathelement path="${checkstyle.jar}" />
         <pathelement path="${java.class.path}" />
 
         <fileset dir="${lib.dir}">
@@ -265,6 +264,7 @@ Legal:
 
         <!-- this invocation of checkstyle requires that checkstyle be downloaded and setup -->
         <!-- thats why you are required to define do.checkstyle property to generate the report -->
+        <!-- To setup, place checkstyle-##-all.jar in your ANT_HOME/lib directory -->
         <taskdef name="checkstyle"
             classname="com.puppycrawl.tools.checkstyle.CheckStyleTask">
             <classpath refid="project.class.path"/>

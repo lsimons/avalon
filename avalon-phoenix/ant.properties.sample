@@ -6,7 +6,7 @@
 # modules that Phoenix depends on.  Copy this file to ".ant.properties"
 # in the top-level source directory, and customize it as needed.
 #
-# $Id: ant.properties.sample,v 1.11 2002/06/30 17:46:00 hammant Exp $
+# $Id: ant.properties.sample,v 1.12 2002/07/15 15:54:19 proyal Exp $
 # -----------------------------------------------------------------------------
 
 # ----- Compile Environment Flags -----
@@ -48,11 +48,6 @@ mx4j.home=${base.path}/mx4j-1.1
 mx4j.lib=${mx4j.home}/lib
 mx4j.jar=${mx4j.lib}/mx4j-jmx.jar
 mx4j-tools.jar=${mx4j.lib}/mx4j-tools.jar
-
-# ----- Checkstyle, version 2.1 or later -----
-checkstyle.home=${base.path}/checkstyle-2.1
-checkstyle.lib=${checkstyle.home}
-checkstyle.jar=${checkstyle.lib}/checkstyle-all-2.1.jar
 
 # ----- Javac tools.jar -----
 # The path to tools.jar, required for building the docs. Most people won't need
