@@ -46,7 +46,7 @@ public class TestComponent extends AbstractLogEnabled
     //----------------------------------------------------------------------
 
    /**
-    * @avalon.context type="java.io.File" key="urn:avalon:home"
+    * @avalon.entry type="java.io.File" key="urn:avalon:home"
     */
     public void contextualize( Context context ) throws ContextException
     {
