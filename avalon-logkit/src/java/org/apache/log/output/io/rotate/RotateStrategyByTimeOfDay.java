@@ -94,7 +94,7 @@ public class RotateStrategyByTimeOfDay
         cal.set( Calendar.SECOND, 0 );
         cal.set( Calendar.MINUTE, 0 );
         cal.set( Calendar.HOUR_OF_DAY, 0 );
-        m_currentRotation = cal.getTimeInMillis() + time;
+        m_currentRotation = cal.getTime().getTime() + time;
 
         // Make sure that the current rotation time is in the past.
         if( m_currentRotation > System.currentTimeMillis() )
