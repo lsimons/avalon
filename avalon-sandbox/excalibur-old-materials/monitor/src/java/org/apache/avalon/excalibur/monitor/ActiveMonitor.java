@@ -7,6 +7,9 @@
  */
 package org.apache.avalon.excalibur.monitor;
 
+import java.lang.reflect.Constructor;
+import java.util.HashMap;
+import java.util.Map;
 import org.apache.avalon.framework.activity.Startable;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.configuration.Configurable;
@@ -14,11 +17,6 @@ import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.thread.ThreadSafe;
-
-import java.lang.reflect.Constructor;
-
-import java.util.Map;
-import java.util.HashMap;
 
 /**
  * The ActiveMonitor is used to actively check a set of resources to see if they have
@@ -38,18 +36,18 @@ import java.util.HashMap;
  * </pre>
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: ActiveMonitor.java,v 1.7 2002/02/21 05:43:16 leif Exp $
+ * @version $Id: ActiveMonitor.java,v 1.8 2002/03/16 00:05:41 donaldp Exp $
  */
 public final class ActiveMonitor extends AbstractLogEnabled
     implements Monitor, Startable, ThreadSafe, Configurable, Runnable
 {
-    private static final Class[]    m_constructorParams = new Class[] { String.class };
-    private static final Resource[] m_arrayType         =  new Resource[] {};
-    private        final Thread     m_monitorThread     = new Thread( this );
-    private              long       m_frequency;
-    private              int        m_priority;
-    private              Map        m_resources         = new HashMap();
-    private              boolean    m_keepRunning       = true;
+    private static final Class[] m_constructorParams = new Class[]{String.class};
+    private static final Resource[] m_arrayType = new Resource[]{};
+    private final Thread m_monitorThread = new Thread( this );
+    private long m_frequency;
+    private int m_priority;
+    private Map m_resources = new HashMap();
+    private boolean m_keepRunning = true;
 
     /**
      * Configure the ActiveMonitor.
@@ -57,42 +55,42 @@ public final class ActiveMonitor extends AbstractLogEnabled
     public final void configure( Configuration conf )
         throws ConfigurationException
     {
-        m_frequency = conf.getChild("thread").getAttributeAsLong("frequency", 1000L * 60L );
-        m_priority = conf.getChild("thread").getAttributeAsInteger("priority", Thread.MIN_PRIORITY);
+        m_frequency = conf.getChild( "thread" ).getAttributeAsLong( "frequency", 1000L * 60L );
+        m_priority = conf.getChild( "thread" ).getAttributeAsInteger( "priority", Thread.MIN_PRIORITY );
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
-        Configuration[] initialResources = conf.getChild("init-resources").getChildren("resource");
+        Configuration[] initialResources = conf.getChild( "init-resources" ).getChildren( "resource" );
 
-        if ( getLogger().isDebugEnabled() )
+        if( getLogger().isDebugEnabled() )
         {
-            getLogger().debug("Active monitor will sample all resources every " +
-                              m_frequency + " milliseconds with a thread priority of " +
-                              m_priority + "(Minimum = " + Thread.MIN_PRIORITY +
-                              ", Normal = " + Thread.NORM_PRIORITY +
-                              ", Maximum = " + Thread.MAX_PRIORITY + ").");
+            getLogger().debug( "Active monitor will sample all resources every " +
+                               m_frequency + " milliseconds with a thread priority of " +
+                               m_priority + "(Minimum = " + Thread.MIN_PRIORITY +
+                               ", Normal = " + Thread.NORM_PRIORITY +
+                               ", Maximum = " + Thread.MAX_PRIORITY + ")." );
         }
 
-        for ( int i = 0; i < initialResources.length; i++ )
+        for( int i = 0; i < initialResources.length; i++ )
         {
-            String key = initialResources[i].getAttribute( "key", "*** KEY NOT SPECIFIED ***" );
-            String className = initialResources[i].getAttribute( "class", "*** CLASSNAME NOT SPECIFIED ***" );
+            String key = initialResources[ i ].getAttribute( "key", "*** KEY NOT SPECIFIED ***" );
+            String className = initialResources[ i ].getAttribute( "class", "*** CLASSNAME NOT SPECIFIED ***" );
 
             try
             {
                 Class clazz = loader.loadClass( className );
                 Constructor initializer = clazz.getConstructor( ActiveMonitor.m_constructorParams );
-                this.addResource( (Resource) initializer.newInstance( new Object[] { key } ) );
+                this.addResource( (Resource)initializer.newInstance( new Object[]{key} ) );
 
-                if (getLogger().isDebugEnabled())
+                if( getLogger().isDebugEnabled() )
                 {
-                    getLogger().debug("Initial Resource: \"" + key + "\" Initialized.");
+                    getLogger().debug( "Initial Resource: \"" + key + "\" Initialized." );
                 }
             }
-            catch ( Exception e )
+            catch( Exception e )
             {
-                if ( getLogger().isWarnEnabled() )
+                if( getLogger().isWarnEnabled() )
                 {
                     getLogger().warn( "Initial Resource: \"" + key +
-                            "\" Failed (" + className + ").", e );
+                                      "\" Failed (" + className + ").", e );
                 }
             }
         }
@@ -120,11 +118,11 @@ public final class ActiveMonitor extends AbstractLogEnabled
     public final void addResource( final Resource resource )
     {
 
-        synchronized ( m_resources )
+        synchronized( m_resources )
         {
-            if ( m_resources.containsKey( resource.getResourceKey() ) )
+            if( m_resources.containsKey( resource.getResourceKey() ) )
             {
-                Resource original = (Resource) m_resources.get( resource.getResourceKey() );
+                Resource original = (Resource)m_resources.get( resource.getResourceKey() );
                 original.addPropertyChangeListenersFrom( resource );
             }
             else
@@ -139,9 +137,9 @@ public final class ActiveMonitor extends AbstractLogEnabled
      */
     public final Resource getResource( final String key )
     {
-        synchronized (m_resources)
+        synchronized( m_resources )
         {
-            return (Resource) m_resources.get( key );
+            return (Resource)m_resources.get( key );
         }
     }
 
@@ -150,9 +148,9 @@ public final class ActiveMonitor extends AbstractLogEnabled
      */
     public final void removeResource( final String key )
     {
-        synchronized (m_resources)
+        synchronized( m_resources )
         {
-            Resource resource = (Resource) m_resources.remove( key );
+            Resource resource = (Resource)m_resources.remove( key );
             resource.removeAllPropertyChangeListeners();
         }
     }
@@ -171,14 +169,14 @@ public final class ActiveMonitor extends AbstractLogEnabled
         {
             long currentTestTime = System.currentTimeMillis();
             long sleepTillTime = currentTestTime + m_frequency;
-            
-            while ( ( currentTestTime = System.currentTimeMillis() ) < sleepTillTime )
+
+            while( ( currentTestTime = System.currentTimeMillis() ) < sleepTillTime )
             {
                 try
                 {
                     Thread.sleep( sleepTillTime - currentTestTime );
                 }
-                catch ( InterruptedException e )
+                catch( InterruptedException e )
                 {
                     // ignore interrupted exception and keep sleeping until it's
                     // time to wake up
@@ -187,14 +185,14 @@ public final class ActiveMonitor extends AbstractLogEnabled
 
             Resource[] resources;
 
-            synchronized (m_resources)
+            synchronized( m_resources )
             {
-                resources = (Resource[]) m_resources.values().toArray( ActiveMonitor.m_arrayType );
+                resources = (Resource[])m_resources.values().toArray( ActiveMonitor.m_arrayType );
             }
 
-            for ( int i = 0; i < resources.length; i++ )
+            for( int i = 0; i < resources.length; i++ )
             {
-                resources[i].testModifiedAfter( currentTestTime );
+                resources[ i ].testModifiedAfter( currentTestTime );
             }
         }
     }

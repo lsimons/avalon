@@ -9,10 +9,9 @@ package org.apache.avalon.excalibur.monitor;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-
-import java.util.Set;
-import java.util.HashSet;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Managed Resource.  All resources must have a constructor that takes a String
@@ -23,15 +22,15 @@ import java.util.Collections;
  * last modified property will be enough.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: Resource.java,v 1.2 2001/12/11 09:53:30 jefft Exp $
+ * @version $Id: Resource.java,v 1.3 2002/03/16 00:05:41 donaldp Exp $
  */
 public abstract class Resource implements Modifiable
 {
-    protected final static String                MODIFIED            = "last-modified";
-    protected              PropertyChangeSupport m_eventSupport      = new PropertyChangeSupport( this );
-    private   final        String                m_resourceKey;
-    protected              long                  m_previousModified  = 0L;
-    private   final static Set                   m_propertyListeners = Collections.synchronizedSet( new HashSet() );
+    protected final static String MODIFIED = "last-modified";
+    protected PropertyChangeSupport m_eventSupport = new PropertyChangeSupport( this );
+    private final String m_resourceKey;
+    protected long m_previousModified = 0L;
+    private final static Set m_propertyListeners = Collections.synchronizedSet( new HashSet() );
 
     /**
      * Required constructor.  The <code>String</code> location is transformed by
@@ -63,7 +62,7 @@ public abstract class Resource implements Modifiable
     {
         long lastModified = this.lastModified();
 
-        if ( lastModified > time )
+        if( lastModified > time )
         {
             m_eventSupport.firePropertyChange( Resource.MODIFIED,
                                                new Long( m_previousModified ),
@@ -78,12 +77,12 @@ public abstract class Resource implements Modifiable
      */
     protected void addPropertyChangeListenersFrom( Resource other )
     {
-        PropertyChangeListener[] listeners = (PropertyChangeListener [])
-                other.m_propertyListeners.toArray( new PropertyChangeListener[] {} );
+        PropertyChangeListener[] listeners = (PropertyChangeListener[])
+            other.m_propertyListeners.toArray( new PropertyChangeListener[]{} );
 
-        for ( int i = 0; i < listeners.length; i++ )
+        for( int i = 0; i < listeners.length; i++ )
         {
-            this.addPropertyChangeListener( listeners[i] );
+            this.addPropertyChangeListener( listeners[ i ] );
         }
     }
 
@@ -140,12 +139,12 @@ public abstract class Resource implements Modifiable
      */
     protected void removeAllPropertyChangeListeners()
     {
-        PropertyChangeListener[] listeners = (PropertyChangeListener [])
-                m_propertyListeners.toArray( new PropertyChangeListener[] {} );
+        PropertyChangeListener[] listeners = (PropertyChangeListener[])
+            m_propertyListeners.toArray( new PropertyChangeListener[]{} );
 
-        for ( int i = 0; i < listeners.length; i++ )
+        for( int i = 0; i < listeners.length; i++ )
         {
-            this.removePropertyChangeListener( listeners[i] );
+            this.removePropertyChangeListener( listeners[ i ] );
         }
     }
 

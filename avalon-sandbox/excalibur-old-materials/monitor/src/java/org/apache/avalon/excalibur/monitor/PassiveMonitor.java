@@ -7,6 +7,10 @@
  */
 package org.apache.avalon.excalibur.monitor;
 
+import java.lang.reflect.Constructor;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import org.apache.avalon.framework.activity.Startable;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.configuration.Configurable;
@@ -14,12 +18,6 @@ import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.logger.AbstractLoggable;
 import org.apache.avalon.framework.thread.ThreadSafe;
-
-import java.lang.reflect.Constructor;
-
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Collections;
 
 /**
  * The PassiveMonitor is used to passively check a set of resources to see if they have
@@ -38,43 +36,43 @@ import java.util.Collections;
  * </pre>
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: PassiveMonitor.java,v 1.4 2002/02/15 16:18:15 bloritsch Exp $
+ * @version $Id: PassiveMonitor.java,v 1.5 2002/03/16 00:05:41 donaldp Exp $
  */
 public final class PassiveMonitor extends AbstractLoggable
     implements Monitor, ThreadSafe, Configurable
 {
-    private static final Class[]    m_constructorParams = new Class[] { String.class };
-    private              Map        m_resources         = new HashMap();
-    private              Map        m_lastModified      = Collections.synchronizedMap(new HashMap());
+    private static final Class[] m_constructorParams = new Class[]{String.class};
+    private Map m_resources = new HashMap();
+    private Map m_lastModified = Collections.synchronizedMap( new HashMap() );
 
     public final void configure( Configuration conf )
         throws ConfigurationException
     {
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
-        Configuration[] initialResources = conf.getChild("init-resources").getChildren("resource");
+        Configuration[] initialResources = conf.getChild( "init-resources" ).getChildren( "resource" );
 
-        for ( int i = 0; i < initialResources.length; i++ )
+        for( int i = 0; i < initialResources.length; i++ )
         {
-            String key = initialResources[i].getAttribute( "key", "*** KEY NOT SPECIFIED ***" );
-            String className = initialResources[i].getAttribute( "class", "*** CLASSNAME NOT SPECIFIED ***" );
+            String key = initialResources[ i ].getAttribute( "key", "*** KEY NOT SPECIFIED ***" );
+            String className = initialResources[ i ].getAttribute( "class", "*** CLASSNAME NOT SPECIFIED ***" );
 
             try
             {
                 Class clazz = loader.loadClass( className );
                 Constructor initializer = clazz.getConstructor( PassiveMonitor.m_constructorParams );
-                this.addResource( (Resource) initializer.newInstance( new Object[] { key } ) );
+                this.addResource( (Resource)initializer.newInstance( new Object[]{key} ) );
 
-                if (getLogger().isDebugEnabled())
+                if( getLogger().isDebugEnabled() )
                 {
-                    getLogger().debug("Initial Resource: \"" + key + "\" Initialized.");
+                    getLogger().debug( "Initial Resource: \"" + key + "\" Initialized." );
                 }
             }
-            catch ( Exception e )
+            catch( Exception e )
             {
-                if ( getLogger().isWarnEnabled() )
+                if( getLogger().isWarnEnabled() )
                 {
                     getLogger().warn( "Initial Resource: \"" + key +
-                            "\" Failed (" + className + ").", e );
+                                      "\" Failed (" + className + ").", e );
                 }
             }
         }
@@ -87,11 +85,11 @@ public final class PassiveMonitor extends AbstractLoggable
     public final void addResource( final Resource resource )
     {
 
-        synchronized ( m_resources )
+        synchronized( m_resources )
         {
-            if ( m_resources.containsKey( resource.getResourceKey() ) )
+            if( m_resources.containsKey( resource.getResourceKey() ) )
             {
-                Resource original = (Resource) m_resources.get( resource.getResourceKey() );
+                Resource original = (Resource)m_resources.get( resource.getResourceKey() );
                 original.addPropertyChangeListenersFrom( resource );
             }
             else
@@ -106,15 +104,15 @@ public final class PassiveMonitor extends AbstractLoggable
      */
     public final Resource getResource( final String key )
     {
-        synchronized (m_resources)
+        synchronized( m_resources )
         {
-            Resource resource = (Resource) m_resources.get( key );
+            Resource resource = (Resource)m_resources.get( key );
 
-            if ( resource != null )
+            if( resource != null )
             {
-                Long lastModified = (Long) m_lastModified.get( key );
+                Long lastModified = (Long)m_lastModified.get( key );
 
-                if (lastModified != null)
+                if( lastModified != null )
                 {
                     resource.testModifiedAfter( lastModified.longValue() );
                 }
@@ -131,9 +129,9 @@ public final class PassiveMonitor extends AbstractLoggable
      */
     public final void removeResource( final String key )
     {
-        synchronized (m_resources)
+        synchronized( m_resources )
         {
-            Resource resource = (Resource) m_resources.remove( key );
+            Resource resource = (Resource)m_resources.remove( key );
             resource.removeAllPropertyChangeListeners();
         }
     }

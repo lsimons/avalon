@@ -25,7 +25,7 @@ import java.util.Map;
  * total number of Connection objects that are created.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.6 $ $Date: 2002/01/26 16:57:42 $
+ * @version CVS $Revision: 1.7 $ $Date: 2002/03/16 00:05:40 $
  * @since 4.0
  */
 public class JdbcConnection
@@ -131,7 +131,7 @@ public class JdbcConnection
     public final void setTransactionIsolation( final int level )
         throws SQLException
     {
-        m_connection.setTransactionIsolation(level);
+        m_connection.setTransactionIsolation( level );
     }
 
     public final int getTransactionIsolation()
@@ -157,7 +157,7 @@ public class JdbcConnection
         throws SQLException
     {
         final Statement temp = m_connection.createStatement(
-                resultSetType, resultSetConcurrency
+            resultSetType, resultSetConcurrency
         );
 
         m_lastUsed = System.currentTimeMillis();
@@ -165,12 +165,12 @@ public class JdbcConnection
     }
 
     public final PreparedStatement prepareStatement( final String sql,
-                                               final int resultSetType,
-                                               final int resultSetConcurrency )
+                                                     final int resultSetType,
+                                                     final int resultSetConcurrency )
         throws SQLException
     {
         final PreparedStatement temp = m_connection.prepareStatement(
-                sql, resultSetType, resultSetConcurrency
+            sql, resultSetType, resultSetConcurrency
         );
 
         m_lastUsed = System.currentTimeMillis();
@@ -178,8 +178,8 @@ public class JdbcConnection
     }
 
     public final CallableStatement prepareCall( final String sql,
-                                          final int resultSetType,
-                                          final int resultSetConcurrency )
+                                                final int resultSetType,
+                                                final int resultSetConcurrency )
         throws SQLException
     {
         final CallableStatement temp = m_connection.prepareCall(
@@ -202,89 +202,89 @@ public class JdbcConnection
         m_connection.setTypeMap( map );
     }
 
-@JDBC3_START@
-    public final void setHoldability(int holdability)
+    @JDBC3_START@
+    public final void setHoldability( int holdability )
         throws SQLException
     {
-        throw new SQLException("This is not a Jdbc 3.0 Compliant Connection");
+        throw new SQLException( "This is not a Jdbc 3.0 Compliant Connection" );
     }
 
     public final int getHoldability()
         throws SQLException
     {
-        throw new SQLException("This is not a Jdbc 3.0 Compliant Connection");
+        throw new SQLException( "This is not a Jdbc 3.0 Compliant Connection" );
     }
 
     public final java.sql.Savepoint setSavepoint()
         throws SQLException
     {
-        throw new SQLException("This is not a Jdbc 3.0 Compliant Connection");
+        throw new SQLException( "This is not a Jdbc 3.0 Compliant Connection" );
     }
 
-    public final java.sql.Savepoint setSavepoint(String savepoint)
+    public final java.sql.Savepoint setSavepoint( String savepoint )
         throws SQLException
     {
-        throw new SQLException("This is not a Jdbc 3.0 Compliant Connection");
+        throw new SQLException( "This is not a Jdbc 3.0 Compliant Connection" );
     }
 
-    public final void rollback(java.sql.Savepoint savepoint)
+    public final void rollback( java.sql.Savepoint savepoint )
         throws SQLException
     {
-        throw new SQLException("This is not a Jdbc 3.0 Compliant Connection");
+        throw new SQLException( "This is not a Jdbc 3.0 Compliant Connection" );
     }
 
-    public final void releaseSavepoint(java.sql.Savepoint savepoint)
+    public final void releaseSavepoint( java.sql.Savepoint savepoint )
         throws SQLException
     {
-        throw new SQLException("This is not a Jdbc 3.0 Compliant Connection");
+        throw new SQLException( "This is not a Jdbc 3.0 Compliant Connection" );
     }
 
-    public final Statement createStatement(int resulSetType,
-                                           int resultSetConcurrency,
-                                           int resultSetHoldability)
+    public final Statement createStatement( int resulSetType,
+                                            int resultSetConcurrency,
+                                            int resultSetHoldability )
         throws SQLException
     {
-        throw new SQLException("This is not a Jdbc 3.0 Compliant Connection");
+        throw new SQLException( "This is not a Jdbc 3.0 Compliant Connection" );
     }
 
-    public final PreparedStatement prepareStatement(String sql,
-                                        int resulSetType,
-                                        int resultSetConcurrency,
-                                        int resultSetHoldability)
+    public final PreparedStatement prepareStatement( String sql,
+                                                     int resulSetType,
+                                                     int resultSetConcurrency,
+                                                     int resultSetHoldability )
         throws SQLException
     {
-        throw new SQLException("This is not a Jdbc 3.0 Compliant Connection");
+        throw new SQLException( "This is not a Jdbc 3.0 Compliant Connection" );
     }
 
-    public final CallableStatement prepareCall(String sql,
-                                        int resulSetType,
-                                        int resultSetConcurrency,
-                                        int resultSetHoldability)
+    public final CallableStatement prepareCall( String sql,
+                                                int resulSetType,
+                                                int resultSetConcurrency,
+                                                int resultSetHoldability )
         throws SQLException
     {
-        throw new SQLException("This is not a Jdbc 3.0 Compliant Connection");
+        throw new SQLException( "This is not a Jdbc 3.0 Compliant Connection" );
     }
 
-    public final PreparedStatement prepareStatement(String sql,
-                                        int autoGeneratedKeys)
+    public final PreparedStatement prepareStatement( String sql,
+                                                     int autoGeneratedKeys )
         throws SQLException
     {
-        throw new SQLException("This is not a Jdbc 3.0 Compliant Connection");
+        throw new SQLException( "This is not a Jdbc 3.0 Compliant Connection" );
     }
 
-    public final PreparedStatement prepareStatement(String sql,
-                                        int[] columnIndexes)
+    public final PreparedStatement prepareStatement( String sql,
+                                                     int[] columnIndexes )
         throws SQLException
     {
-        throw new SQLException("This is not a Jdbc 3.0 Compliant Connection");
+        throw new SQLException( "This is not a Jdbc 3.0 Compliant Connection" );
     }
 
-    public final PreparedStatement prepareStatement(String sql,
-                                        String[] columnNames)
+    public final PreparedStatement prepareStatement( String sql,
+                                                     String[] columnNames )
         throws SQLException
     {
-        throw new SQLException("This is not a Jdbc 3.0 Compliant Connection");
+        throw new SQLException( "This is not a Jdbc 3.0 Compliant Connection" );
     }
-@JDBC3_END@
+    @JDBC3_END@
 }
 

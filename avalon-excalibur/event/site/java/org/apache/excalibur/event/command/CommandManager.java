@@ -7,6 +7,11 @@
  */
 package org.apache.avalon.excalibur.command;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import org.apache.avalon.excalibur.collections.Buffer;
 import org.apache.avalon.excalibur.collections.VariableSizeBuffer;
 import org.apache.avalon.excalibur.concurrent.Mutex;
@@ -16,12 +21,6 @@ import org.apache.avalon.excalibur.event.Queue;
 import org.apache.avalon.excalibur.event.QueueElement;
 import org.apache.avalon.excalibur.event.Signal;
 import org.apache.avalon.excalibur.event.Source;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
 /**
  * The CommandManager handles asynchronous commands from the rest of the system.
@@ -33,12 +32,12 @@ import java.util.Map;
  */
 public class CommandManager implements EventPipeline
 {
-    private final Queue        m_queue          = new DefaultQueue();
-    private final HashMap      m_signalHandlers = new HashMap();
-    private final Mutex        m_mutex          = new Mutex();
-    private final EventHandler m_eventHandler   = new CommandEventHandler(
-            Collections.unmodifiableMap( m_signalHandlers ) );
-    private final Source[]     m_sources        = new Source[] { m_queue };
+    private final Queue m_queue = new DefaultQueue();
+    private final HashMap m_signalHandlers = new HashMap();
+    private final Mutex m_mutex = new Mutex();
+    private final EventHandler m_eventHandler = new CommandEventHandler(
+        Collections.unmodifiableMap( m_signalHandlers ) );
+    private final Source[] m_sources = new Source[]{m_queue};
 
     public CommandManager()
     {
@@ -54,21 +53,21 @@ public class CommandManager implements EventPipeline
         try
         {
             m_mutex.acquire();
-            ArrayList handlers = (ArrayList) m_signalHandlers.get( signal.getClass() );
+            ArrayList handlers = (ArrayList)m_signalHandlers.get( signal.getClass() );
 
-            if ( null == handlers )
+            if( null == handlers )
             {
                 handlers = new ArrayList();
             }
 
-            if ( ! handlers.contains( handler ) )
+            if( !handlers.contains( handler ) )
             {
                 handlers.add( handler );
 
                 m_signalHandlers.put( signal.getClass(), handlers );
             }
         }
-        catch (InterruptedException ie)
+        catch( InterruptedException ie )
         {
             // ignore for now
         }
@@ -83,22 +82,22 @@ public class CommandManager implements EventPipeline
         try
         {
             m_mutex.acquire();
-            ArrayList handlers = (ArrayList) m_signalHandlers.get( signal.getClass() );
+            ArrayList handlers = (ArrayList)m_signalHandlers.get( signal.getClass() );
 
-            if ( null != handlers )
+            if( null != handlers )
             {
-                if ( handlers.remove( handler ) )
+                if( handlers.remove( handler ) )
                 {
                     m_signalHandlers.put( signal.getClass(), handlers );
                 }
 
-                if ( 0 == handlers.size() )
+                if( 0 == handlers.size() )
                 {
                     m_signalHandlers.remove( signal.getClass() );
                 }
             }
         }
-        catch (InterruptedException ie)
+        catch( InterruptedException ie )
         {
             // ignore for now
         }
@@ -120,7 +119,7 @@ public class CommandManager implements EventPipeline
 
     private final static class CommandEventHandler implements EventHandler
     {
-        private final Map    m_signalHandlers;
+        private final Map m_signalHandlers;
         private final Buffer m_delayedCommands = new VariableSizeBuffer();
 
         protected CommandEventHandler( Map signalHandlers )
@@ -130,37 +129,38 @@ public class CommandManager implements EventPipeline
 
         public final void handleEvents( QueueElement[] elements )
         {
-            for (int i = 0; i < elements.length; i++)
+            for( int i = 0; i < elements.length; i++ )
             {
-                handleEvent( elements[i] );
+                handleEvent( elements[ i ] );
             }
 
             int size = m_delayedCommands.size();
-            for (int i = 0; i < size; i++)
+            for( int i = 0; i < size; i++ )
             {
-                DelayedCommandInfo command = (DelayedCommandInfo) m_delayedCommands.remove();
+                DelayedCommandInfo command = (DelayedCommandInfo)m_delayedCommands.remove();
 
-                if ( System.currentTimeMillis() >= command.m_nextRunTime )
+                if( System.currentTimeMillis() >= command.m_nextRunTime )
                 {
                     try
                     {
                         command.m_command.execute();
-                    } catch (Exception e)
+                    }
+                    catch( Exception e )
                     {
                         // ignore for now
                     }
 
                     command.m_numExecutions++;
 
-                    if ( command.m_repeatable )
+                    if( command.m_repeatable )
                     {
-                        RepeatedCommand cmd = (RepeatedCommand) command.m_command;
+                        RepeatedCommand cmd = (RepeatedCommand)command.m_command;
                         int numRepeats = cmd.getNumberOfRepeats();
 
-                        if ( numRepeats < 1 || numRepeats < command.m_numExecutions )
+                        if( numRepeats < 1 || numRepeats < command.m_numExecutions )
                         {
                             command.m_nextRunTime = System.currentTimeMillis() +
-                                    cmd.getRepeatInterval();
+                                cmd.getRepeatInterval();
                             m_delayedCommands.add( command );
                         }
                     }
@@ -170,22 +170,22 @@ public class CommandManager implements EventPipeline
 
         public final void handleEvent( QueueElement element )
         {
-            if ( ! ( element instanceof Signal ) )
+            if( !( element instanceof Signal ) )
             {
                 return;
             }
 
-            if ( ! ( element instanceof Command ) )
+            if( !( element instanceof Command ) )
             {
-                ArrayList handlers = (ArrayList) m_signalHandlers.get( element.getClass() );
+                ArrayList handlers = (ArrayList)m_signalHandlers.get( element.getClass() );
 
-                if ( null != handlers )
+                if( null != handlers )
                 {
                     Iterator i = handlers.iterator();
 
-                    while ( i.hasNext() )
+                    while( i.hasNext() )
                     {
-                        EventHandler handler = (EventHandler) i.next();
+                        EventHandler handler = (EventHandler)i.next();
                         handler.handleEvent( element );
                     }
                 }
@@ -193,12 +193,12 @@ public class CommandManager implements EventPipeline
                 return;
             }
 
-            if ( element instanceof DelayedCommand )
+            if( element instanceof DelayedCommand )
             {
                 DelayedCommandInfo commandInfo = new DelayedCommandInfo();
-                commandInfo.m_command = (DelayedCommand) element;
+                commandInfo.m_command = (DelayedCommand)element;
                 commandInfo.m_nextRunTime = System.currentTimeMillis() +
-                        commandInfo.m_command.getDelayInterval();
+                    commandInfo.m_command.getDelayInterval();
                 commandInfo.m_numExecutions = 0;
                 commandInfo.m_repeatable = element instanceof RepeatedCommand;
 
@@ -208,8 +208,9 @@ public class CommandManager implements EventPipeline
 
             try
             {
-                ((Command) element).execute();
-            } catch (Exception e)
+                ( (Command)element ).execute();
+            }
+            catch( Exception e )
             {
                 // ignore for now
             }

@@ -14,22 +14,23 @@ package org.apache.avalon.excalibur.event;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  */
-public interface PreparedEnqueue {
+public interface PreparedEnqueue
+{
 
-  /**
-   * Commit a previously prepared provisional enqueue operation (from
-   * the <code>prepareEnqueue</code> method). Causes the provisionally
-   * enqueued elements to appear on the queue for future dequeue operations.
-   * Note that once a <code>prepareEnqueue</code> has returned an enqueue
-   * key, the queue cannot reject the entries.
-   */
-  void commit();
+    /**
+     * Commit a previously prepared provisional enqueue operation (from
+     * the <code>prepareEnqueue</code> method). Causes the provisionally
+     * enqueued elements to appear on the queue for future dequeue operations.
+     * Note that once a <code>prepareEnqueue</code> has returned an enqueue
+     * key, the queue cannot reject the entries.
+     */
+    void commit();
 
-  /**
-   * Abort a previously prepared provisional enqueue operation (from
-   * the <code>prepareEnqueue</code> method). Causes the queue to discard
-   * the provisionally enqueued elements.
-   */
-  void abort();
+    /**
+     * Abort a previously prepared provisional enqueue operation (from
+     * the <code>prepareEnqueue</code> method). Causes the queue to discard
+     * the provisionally enqueued elements.
+     */
+    void abort();
 
 }

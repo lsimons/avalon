@@ -9,19 +9,18 @@ package org.apache.avalon.excalibur.datasource.test;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Random;
-import java.util.LinkedList;
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Random;
+import org.apache.avalon.excalibur.concurrent.ThreadBarrier;
+import org.apache.avalon.excalibur.datasource.DataSourceComponent;
+import org.apache.avalon.excalibur.testcase.CascadingAssertionFailedError;
+import org.apache.avalon.excalibur.testcase.ExcaliburTestCase;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
-import org.apache.avalon.excalibur.testcase.ExcaliburTestCase;
-import org.apache.avalon.excalibur.testcase.CascadingAssertionFailedError;
-import org.apache.avalon.excalibur.datasource.DataSourceComponent;
-import org.apache.avalon.excalibur.datasource.JdbcDataSource;
-import org.apache.avalon.excalibur.concurrent.ThreadBarrier;
 
 /**
  * Test the DataSource Component.  I don't know how to make this generic,
@@ -37,10 +36,10 @@ public class DataSourceJdbcTestCase
     protected ThreadBarrier barrier;
     protected int connectionCount;
 
-    public DataSourceJdbcTestCase(String name)
+    public DataSourceJdbcTestCase( String name )
     {
-        super(name);
-        
+        super( name );
+
         // Set the priority for default log output.
         m_logPriority = org.apache.log.Priority.INFO;
     }
@@ -53,7 +52,7 @@ public class DataSourceJdbcTestCase
 
         try
         {
-            ds = (DataSourceComponent) manager.lookup( DataSourceComponent.ROLE );
+            ds = (DataSourceComponent)manager.lookup( DataSourceComponent.ROLE );
 
             for( int i = 0; i < 10; i++ )
             {
@@ -62,14 +61,14 @@ public class DataSourceJdbcTestCase
             getLogger().info( "Testing overallocation of connections.  Should see a warning next." );
             connectionList.add( ds.getConnection() );
         }
-        catch ( SQLException se )
+        catch( SQLException se )
         {
             this.isSuccessful = true;
             getLogger().info( "The test was successful" );
         }
-        catch ( ComponentException ce )
+        catch( ComponentException ce )
         {
-            if ( getLogger().isDebugEnabled() )
+            if( getLogger().isDebugEnabled() )
             {
                 getLogger().debug( "There was an error in the OverAllocation test", ce );
             }
@@ -78,17 +77,17 @@ public class DataSourceJdbcTestCase
         }
         finally
         {
-            assertTrue(  "The DataSourceComponent could not be retrieved.", null != ds );
+            assertTrue( "The DataSourceComponent could not be retrieved.", null != ds );
 
             Iterator connections = connectionList.iterator();
 
-            while ( connections.hasNext() )
+            while( connections.hasNext() )
             {
                 try
                 {
-                    ( (Connection) connections.next() ).close();
+                    ( (Connection)connections.next() ).close();
                 }
-                catch ( SQLException se )
+                catch( SQLException se )
                 {
                     // ignore
                 }
@@ -96,7 +95,7 @@ public class DataSourceJdbcTestCase
 
             connectionList.clear();
 
-            manager.release( (Component) ds );
+            manager.release( (Component)ds );
         }
 
         assertTrue( "Exception was not thrown when too many datasource components were retrieved.", this.isSuccessful );
@@ -109,30 +108,30 @@ public class DataSourceJdbcTestCase
 
         try
         {
-            ds = (DataSourceComponent) manager.lookup( DataSourceComponent.ROLE );
+            ds = (DataSourceComponent)manager.lookup( DataSourceComponent.ROLE );
 
             this.connectionCount = 0;
 
-            for (int i = 0; i < 10; i++)
+            for( int i = 0; i < 10; i++ )
             {
-                (new Thread( new ConnectionThread( this, ds ) ) ).start();
+                ( new Thread( new ConnectionThread( this, ds ) ) ).start();
             }
 
-            this.barrier = new ThreadBarrier(11);
+            this.barrier = new ThreadBarrier( 11 );
             try
             {
                 this.barrier.barrierSynchronize();
             }
-            catch(InterruptedException ie)
+            catch( InterruptedException ie )
             {
                 // Ignore
             }
 
             getLogger().info( "The normal use test passed with " + this.connectionCount + " requests and 10 concurrent threads running" );
         }
-        catch ( ComponentException ce )
+        catch( ComponentException ce )
         {
-            if ( getLogger().isDebugEnabled() )
+            if( getLogger().isDebugEnabled() )
             {
                 getLogger().debug( "There was an error in the normal use test", ce );
             }
@@ -141,9 +140,9 @@ public class DataSourceJdbcTestCase
         }
         finally
         {
-            assertTrue(  "The DataSourceComponent could not be retrieved.", null != ds );
+            assertTrue( "The DataSourceComponent could not be retrieved.", null != ds );
 
-            manager.release( (Component) ds );
+            manager.release( (Component)ds );
         }
 
         assertTrue( "Normal use test failed", this.isSuccessful );
@@ -172,7 +171,7 @@ public class DataSourceJdbcTestCase
                 try
                 {
                     Connection con = this.datasource.getConnection();
-                    Thread.sleep((long) rnd.nextInt(100)); // sleep for up to 100ms
+                    Thread.sleep( (long)rnd.nextInt( 100 ) ); // sleep for up to 100ms
                     con.close();
                     this.testcase.connectionCount++;
                 }

@@ -8,8 +8,8 @@
 package org.apache.avalon.excalibur.monitor;
 
 import java.io.FilterWriter;
-import java.io.Writer;
 import java.io.IOException;
+import java.io.Writer;
 
 /**
  * Managed Writer.  This is convenient when you want to dynamically
@@ -19,7 +19,7 @@ import java.io.IOException;
  * OutputStream has been closed.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: ResourceWriter.java,v 1.3 2001/12/11 09:53:30 jefft Exp $
+ * @version $Id: ResourceWriter.java,v 1.4 2002/03/16 00:05:41 donaldp Exp $
  */
 final class ResourceWriter extends FilterWriter
 {

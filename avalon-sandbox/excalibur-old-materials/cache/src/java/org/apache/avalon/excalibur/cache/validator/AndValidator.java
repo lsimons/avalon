@@ -32,9 +32,9 @@ public class AndValidator
 
     public boolean validate( final Object key, final Object value )
     {
-        for ( int i = 0; i < m_validators.length; i++ )
+        for( int i = 0; i < m_validators.length; i++ )
         {
-            if ( ! m_validators[ i ].validate( key, value ) )
+            if( !m_validators[ i ].validate( key, value ) )
             {
                 return false;
             }

@@ -7,18 +7,17 @@
  */
 package org.apache.avalon.excalibur.datasource;
 
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.excalibur.pool.ObjectFactory;
-
 import java.lang.reflect.Constructor;
-import java.sql.DriverManager;
 import java.sql.Connection;
+import java.sql.DriverManager;
+import org.apache.avalon.excalibur.pool.ObjectFactory;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
 
 /**
  * The Factory implementation for JdbcConnections.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.11 $ $Date: 2002/02/26 07:49:56 $
+ * @version CVS $Revision: 1.12 $ $Date: 2002/03/16 00:05:40 $
  * @since 4.0
  */
 public class JdbcConnectionFactory extends AbstractLogEnabled implements ObjectFactory
@@ -28,10 +27,10 @@ public class JdbcConnectionFactory extends AbstractLogEnabled implements ObjectF
     private final String m_password;
     private final boolean m_autoCommit;
     private final String m_keepAlive;
-    private final Class  m_class;
+    private final Class m_class;
     private final static String DEFAULT_KEEPALIVE = "SELECT 1";
     private final static String ORACLE_KEEPALIVE = JdbcConnectionFactory.DEFAULT_KEEPALIVE + " FROM DUAL";
-    private       Connection m_firstConnection;
+    private Connection m_firstConnection;
 
     /**
      * @deprecated  Use the new constructor with the keepalive and connectionClass
@@ -43,7 +42,7 @@ public class JdbcConnectionFactory extends AbstractLogEnabled implements ObjectF
                                   final boolean autoCommit,
                                   final boolean oradb )
     {
-        this(url, username, password, autoCommit, oradb, null);
+        this( url, username, password, autoCommit, oradb, null );
     }
 
     /**
@@ -55,11 +54,11 @@ public class JdbcConnectionFactory extends AbstractLogEnabled implements ObjectF
                                   final String password,
                                   final boolean autoCommit,
                                   final boolean oradb,
-                                  final String connectionClass)
+                                  final String connectionClass )
     {
-        this(url, username, password, autoCommit, (oradb) ? JdbcConnectionFactory.ORACLE_KEEPALIVE : JdbcConnectionFactory.DEFAULT_KEEPALIVE, connectionClass);
+        this( url, username, password, autoCommit, ( oradb ) ? JdbcConnectionFactory.ORACLE_KEEPALIVE : JdbcConnectionFactory.DEFAULT_KEEPALIVE, connectionClass );
     }
-    
+
     /**
      * Creates and configures a new JdbcConnectionFactory.
      *
@@ -78,7 +77,7 @@ public class JdbcConnectionFactory extends AbstractLogEnabled implements ObjectF
                                   final String password,
                                   final boolean autoCommit,
                                   final String keepAlive,
-                                  final String connectionClass)
+                                  final String connectionClass )
     {
         this.m_dburl = url;
         this.m_username = username;
@@ -100,14 +99,14 @@ public class JdbcConnectionFactory extends AbstractLogEnabled implements ObjectF
             }
 
             String className = connectionClass;
-            if ( null == className )
+            if( null == className )
             {
                 try
                 {
-                    java.lang.reflect.Method meth = m_firstConnection.getClass().getMethod("getHoldability", new Class[] {});
+                    java.lang.reflect.Method meth = m_firstConnection.getClass().getMethod( "getHoldability", new Class[]{} );
                     className = "org.apache.avalon.excalibur.datasource.Jdbc3Connection";
                 }
-                catch (Exception e)
+                catch( Exception e )
                 {
                     className = "org.apache.avalon.excalibur.datasource.JdbcConnection";
                 }
@@ -115,7 +114,7 @@ public class JdbcConnectionFactory extends AbstractLogEnabled implements ObjectF
 
             clazz = Thread.currentThread().getContextClassLoader().loadClass( className );
         }
-        catch (Exception e)
+        catch( Exception e )
         {
             // ignore for now
         }
@@ -128,7 +127,7 @@ public class JdbcConnectionFactory extends AbstractLogEnabled implements ObjectF
         AbstractJdbcConnection jdbcConnection = null;
         Connection connection = m_firstConnection;
 
-        if ( null == connection )
+        if( null == connection )
         {
             if( null == m_username )
             {
@@ -144,53 +143,54 @@ public class JdbcConnectionFactory extends AbstractLogEnabled implements ObjectF
             m_firstConnection = null;
         }
 
-        if ( null != this.m_class )
+        if( null != this.m_class )
         {
             try
             {
-                Class[] paramTypes = new Class[] { Connection.class, String.class };
-                Object[] params = new Object[] { connection, this.m_keepAlive };
+                Class[] paramTypes = new Class[]{Connection.class, String.class};
+                Object[] params = new Object[]{connection, this.m_keepAlive};
 
                 Constructor constructor = m_class.getConstructor( paramTypes );
-                jdbcConnection = (AbstractJdbcConnection) constructor.newInstance( params );
+                jdbcConnection = (AbstractJdbcConnection)constructor.newInstance( params );
             }
-            catch ( Exception e )
+            catch( Exception e )
             {
                 try
                 {
                     // Support the deprecated connection constructor as well.
                     boolean oracleKeepAlive = ( m_keepAlive != null ) && m_keepAlive.equalsIgnoreCase( JdbcConnectionFactory.ORACLE_KEEPALIVE );
-                    
-                    Class[] paramTypes = new Class[] { Connection.class, boolean.class };
-                    Object[] params = new Object[] { connection, new Boolean( oracleKeepAlive ) };
+
+                    Class[] paramTypes = new Class[]{Connection.class, boolean.class};
+                    Object[] params = new Object[]{connection, new Boolean( oracleKeepAlive )};
 
                     Constructor constructor = m_class.getConstructor( paramTypes );
-                    jdbcConnection = (AbstractJdbcConnection) constructor.newInstance( params );
+                    jdbcConnection = (AbstractJdbcConnection)constructor.newInstance( params );
                 }
-                catch ( Exception ie )
+                catch( Exception ie )
                 {
-                    if ( getLogger().isDebugEnabled() )
+                    if( getLogger().isDebugEnabled() )
                     {
-                        getLogger().debug("Exception in JdbcConnectionFactory.newInstance:", ie);
+                        getLogger().debug( "Exception in JdbcConnectionFactory.newInstance:", ie );
                     }
 
-                    throw new NoValidConnectionException(ie.getMessage());
+                    throw new NoValidConnectionException( ie.getMessage() );
                 }
             }
         }
         else
         {
-            throw new NoValidConnectionException("No valid JdbcConnection class available");
+            throw new NoValidConnectionException( "No valid JdbcConnection class available" );
         }
 
-        jdbcConnection.enableLogging(getLogger());
+        jdbcConnection.enableLogging( getLogger() );
 
         // Not all drivers are friendly to explicitly setting autocommit
-        if (jdbcConnection.getAutoCommit() != m_autoCommit) {
-            jdbcConnection.setAutoCommit(m_autoCommit);
+        if( jdbcConnection.getAutoCommit() != m_autoCommit )
+        {
+            jdbcConnection.setAutoCommit( m_autoCommit );
         }
 
-        if (getLogger().isDebugEnabled())
+        if( getLogger().isDebugEnabled() )
         {
             getLogger().debug( "JdbcConnection object created" );
         }
@@ -203,10 +203,11 @@ public class JdbcConnectionFactory extends AbstractLogEnabled implements ObjectF
         return m_class;
     }
 
-    public void decommission(Object object) throws Exception
+    public void decommission( Object object ) throws Exception
     {
-        if (object instanceof AbstractJdbcConnection) {
-            ((AbstractJdbcConnection) object).dispose();
+        if( object instanceof AbstractJdbcConnection )
+        {
+            ( (AbstractJdbcConnection)object ).dispose();
         }
     }
 }

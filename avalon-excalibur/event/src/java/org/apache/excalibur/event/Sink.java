@@ -15,7 +15,7 @@ package org.apache.avalon.excalibur.event;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  */
-public interface Sink 
+public interface Sink
 {
     /**
      * Enqueues the given element onto the queue.
@@ -101,7 +101,6 @@ public interface Sink
      * Returns the number of elements waiting in this queue.
      */
     int size();
-
 
     /**
      * Returns the length threshold of the sink. This is for informational

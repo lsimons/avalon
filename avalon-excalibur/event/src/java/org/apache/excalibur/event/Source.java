@@ -13,7 +13,8 @@ package org.apache.avalon.excalibur.event;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  */
-public interface Source {
+public interface Source
+{
     /**
      * Sets the timeout on a blocking Source.  Values above <code>1</code> will
      * force all <code>dequeue</code> operations to block for up to that number
@@ -47,7 +48,7 @@ public interface Source {
      *
      * @return At most <code>num</code> <code>QueueElement</code>s on the queue
      */
-    QueueElement[] dequeue(int num);
+    QueueElement[] dequeue( int num );
 
     /**
      * Returns the number of elements waiting in this queue.

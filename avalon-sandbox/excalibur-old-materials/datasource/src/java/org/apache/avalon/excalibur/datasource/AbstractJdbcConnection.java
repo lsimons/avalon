@@ -7,18 +7,17 @@
  */
 package org.apache.avalon.excalibur.datasource;
 
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.ResultSet;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.framework.activity.Initializable;
-import org.apache.avalon.framework.activity.Disposable;
-import org.apache.avalon.excalibur.pool.Recyclable;
 import org.apache.avalon.excalibur.pool.Pool;
+import org.apache.avalon.excalibur.pool.Recyclable;
+import org.apache.avalon.framework.activity.Disposable;
+import org.apache.avalon.framework.activity.Initializable;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.Logger;
 
 /**
@@ -30,31 +29,33 @@ import org.apache.avalon.framework.logger.Logger;
  * total number of Connection objects that are created.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.13 $ $Date: 2002/02/19 20:48:03 $
+ * @version CVS $Revision: 1.14 $ $Date: 2002/03/16 00:05:40 $
  * @since 4.1
  */
 public abstract class AbstractJdbcConnection
     extends AbstractLogEnabled
     implements Connection, Recyclable, Disposable, Initializable
 {
-    protected Connection         m_connection;
-    protected Pool               m_pool;
-    protected PreparedStatement  m_testStatement;
-    protected SQLException       m_testException;
-    protected long               m_lastUsed        = System.currentTimeMillis();
+    protected Connection m_connection;
+    protected Pool m_pool;
+    protected PreparedStatement m_testStatement;
+    protected SQLException m_testException;
+    protected long m_lastUsed = System.currentTimeMillis();
 
     /**
      * Private default constructor so that it cannot be instantiated any
      * other way than we desire.
      */
-    private AbstractJdbcConnection() {}
+    private AbstractJdbcConnection()
+    {
+    }
 
     /**
      * @deprecated Use the version with keepAlive specified
      */
     public AbstractJdbcConnection( final Connection connection, final boolean oradb )
     {
-        this(connection, (oradb) ? "select 1 from dual" : "select 1");
+        this( connection, ( oradb ) ? "select 1 from dual" : "select 1" );
     }
 
     /**
@@ -70,7 +71,7 @@ public abstract class AbstractJdbcConnection
         // subclasses can override initialize()
         this.initialize();
 
-        if (null == keepAlive || "".equals(keepAlive.trim()))
+        if( null == keepAlive || "".equals( keepAlive.trim() ) )
         {
             m_testStatement = null;
             m_testException = null;
@@ -79,9 +80,9 @@ public abstract class AbstractJdbcConnection
         {
             try
             {
-                m_testStatement = prepareStatement(keepAlive);
+                m_testStatement = prepareStatement( keepAlive );
             }
-            catch ( final SQLException se )
+            catch( final SQLException se )
             {
                 m_testStatement = null;
                 m_testException = se;
@@ -89,35 +90,38 @@ public abstract class AbstractJdbcConnection
         }
     }
 
-    public void initialize() {}
+    public void initialize()
+    {
+    }
 
     public void enableLogging( final Logger log )
     {
-        super.enableLogging(log);
+        super.enableLogging( log );
 
-        if (m_testStatement == null && m_testException != null)
+        if( m_testStatement == null && m_testException != null )
         {
-            if (getLogger().isWarnEnabled())
+            if( getLogger().isWarnEnabled() )
             {
-                getLogger().warn("Could not prepare test statement, connection recycled on basis of time.", m_testException);
+                getLogger().warn( "Could not prepare test statement, connection recycled on basis of time.", m_testException );
             }
             m_testException = null;
         }
     }
 
-    protected void setPool(Pool pool)
+    protected void setPool( Pool pool )
     {
         m_pool = pool;
     }
 
-    public void recycle() {
+    public void recycle()
+    {
         //m_lastUsed = System.currentTimeMillis(); // not accurate
         m_testException = null;
         try
         {
             m_connection.clearWarnings();
         }
-        catch ( SQLException se )
+        catch( SQLException se )
         {
             // ignore
         }
@@ -126,23 +130,23 @@ public abstract class AbstractJdbcConnection
     public boolean isClosed()
         throws SQLException
     {
-        if ( m_connection.isClosed())
+        if( m_connection.isClosed() )
         {
             return true;
         }
 
         long age = System.currentTimeMillis() - m_lastUsed;
-        if ( age > 1000*60*60 ) // over an hour?
+        if( age > 1000 * 60 * 60 ) // over an hour?
         {
             this.dispose();
             return true;
         }
 
-        if (m_testStatement != null && age > (5*1000)) // over 5 seconds ago
+        if( m_testStatement != null && age > ( 5 * 1000 ) ) // over 5 seconds ago
         {
-            if (getLogger().isDebugEnabled())
+            if( getLogger().isDebugEnabled() )
             {
-                getLogger().debug("Pinging database after " + age + "ms of inactivity.");
+                getLogger().debug( "Pinging database after " + age + "ms of inactivity." );
             }
 
             try
@@ -150,7 +154,7 @@ public abstract class AbstractJdbcConnection
                 ResultSet rs = m_testStatement.executeQuery();
                 rs.close();
             }
-            catch (final SQLException se)
+            catch( final SQLException se )
             {
                 this.dispose();
                 return true;
@@ -169,18 +173,21 @@ public abstract class AbstractJdbcConnection
 
     public void dispose()
     {
-        try { m_connection.close(); }
+        try
+        {
+            m_connection.close();
+        }
         catch( final SQLException se )
         {
-            if (getLogger().isWarnEnabled())
+            if( getLogger().isWarnEnabled() )
             {
                 getLogger().warn( "Could not close connection", se );
             }
         }
     }
 
-@JDBC3_START@
-    public abstract void setHoldability(int holdability)
+    @JDBC3_START@
+    public abstract void setHoldability( int holdability )
         throws SQLException;
 
     public abstract int getHoldability()
@@ -189,42 +196,42 @@ public abstract class AbstractJdbcConnection
     public abstract java.sql.Savepoint setSavepoint()
         throws SQLException;
 
-    public abstract java.sql.Savepoint setSavepoint(String savepoint)
+    public abstract java.sql.Savepoint setSavepoint( String savepoint )
         throws SQLException;
 
-    public abstract void rollback(java.sql.Savepoint savepoint)
+    public abstract void rollback( java.sql.Savepoint savepoint )
         throws SQLException;
 
-    public abstract void releaseSavepoint(java.sql.Savepoint savepoint)
+    public abstract void releaseSavepoint( java.sql.Savepoint savepoint )
         throws SQLException;
 
-    public abstract Statement createStatement(int resulSetType,
-                                        int resultSetConcurrency,
-                                        int resultSetHoldability)
+    public abstract Statement createStatement( int resulSetType,
+                                               int resultSetConcurrency,
+                                               int resultSetHoldability )
         throws SQLException;
 
-    public abstract PreparedStatement prepareStatement(String sql,
-                                        int resulSetType,
-                                        int resultSetConcurrency,
-                                        int resultSetHoldability)
+    public abstract PreparedStatement prepareStatement( String sql,
+                                                        int resulSetType,
+                                                        int resultSetConcurrency,
+                                                        int resultSetHoldability )
         throws SQLException;
 
-    public abstract CallableStatement prepareCall(String sql,
-                                        int resulSetType,
-                                        int resultSetConcurrency,
-                                        int resultSetHoldability)
+    public abstract CallableStatement prepareCall( String sql,
+                                                   int resulSetType,
+                                                   int resultSetConcurrency,
+                                                   int resultSetHoldability )
         throws SQLException;
 
-    public abstract PreparedStatement prepareStatement(String sql,
-                                        int autoGeneratedKeys)
+    public abstract PreparedStatement prepareStatement( String sql,
+                                                        int autoGeneratedKeys )
         throws SQLException;
 
-    public abstract PreparedStatement prepareStatement(String sql,
-                                        int[] columnIndexes)
+    public abstract PreparedStatement prepareStatement( String sql,
+                                                        int[] columnIndexes )
         throws SQLException;
 
-    public abstract PreparedStatement prepareStatement(String sql,
-                                        String[] columnNames)
+    public abstract PreparedStatement prepareStatement( String sql,
+                                                        String[] columnNames )
         throws SQLException;
-@JDBC3_END@
+    @JDBC3_END@
 }

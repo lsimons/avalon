@@ -7,8 +7,6 @@
  */
 package org.apache.avalon.excalibur.cache;
 
-import java.util.Iterator;
-
 /**
  * Store cached objects.
  *
@@ -19,7 +17,7 @@ public interface CacheStore
     /**
      * Return capacity of store.
      *
-     * @return capacity of store 
+     * @return capacity of store
      */
     int capacity();
 
@@ -44,7 +42,7 @@ public interface CacheStore
 
     boolean containsKey( Object key );
 
-   /**
+    /**
      * Return the array containing all key.
      */
     Object[] keys();

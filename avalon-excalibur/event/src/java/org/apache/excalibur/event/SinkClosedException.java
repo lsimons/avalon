@@ -17,13 +17,13 @@ import org.apache.avalon.framework.CascadingException;
  */
 public class SinkClosedException extends SinkException
 {
-     public SinkClosedException( String message )
-     {
-         super( message );
-     }
+    public SinkClosedException( String message )
+    {
+        super( message );
+    }
 
-     public SinkClosedException( String message, Throwable e )
-     {
-         super( message, e );
-     }
+    public SinkClosedException( String message, Throwable e )
+    {
+        super( message, e );
+    }
 }

@@ -7,11 +7,11 @@
  */
 package org.apache.avalon.excalibur.cache.validator.test;
 
+import junit.framework.TestCase;
 import org.apache.avalon.excalibur.cache.Cache;
 import org.apache.avalon.excalibur.cache.LRUCache;
 import org.apache.avalon.excalibur.cache.ValidatingCache;
 import org.apache.avalon.excalibur.cache.validator.TimeoutValidator;
-import junit.framework.TestCase;
 
 /**
  * JUnit TestCase for TimeoutValidator.

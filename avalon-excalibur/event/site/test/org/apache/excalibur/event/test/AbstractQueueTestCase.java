@@ -8,10 +8,9 @@
 package org.apache.avalon.excalibur.event.test;
 
 import junit.framework.TestCase;
-import org.apache.avalon.excalibur.event.Queue;
 import org.apache.avalon.excalibur.event.PreparedEnqueue;
+import org.apache.avalon.excalibur.event.Queue;
 import org.apache.avalon.excalibur.event.QueueElement;
-import org.apache.avalon.excalibur.event.SinkException;
 
 /**
  * The default queue implementation is a variabl size queue.
@@ -21,7 +20,7 @@ import org.apache.avalon.excalibur.event.SinkException;
 public abstract class AbstractQueueTestCase extends TestCase
 {
     QueueElement element = new TestQueueElement();
-    QueueElement[] elements = new TestQueueElement[10];
+    QueueElement[] elements = new TestQueueElement[ 10 ];
 
     private static final class TestQueueElement implements QueueElement
     {
@@ -31,9 +30,9 @@ public abstract class AbstractQueueTestCase extends TestCase
     {
         super( name );
 
-        for ( int i = 0; i < 10; i++ )
+        for( int i = 0; i < 10; i++ )
         {
-            elements[i] = new TestQueueElement();
+            elements[ i ] = new TestQueueElement();
         }
     }
 
@@ -42,9 +41,9 @@ public abstract class AbstractQueueTestCase extends TestCase
     {
         assertEquals( 0, queue.size() );
 
-        if (queue.maxSize() > 0)
+        if( queue.maxSize() > 0 )
         {
-            for ( int j = 0; j < 1000000; j++ )
+            for( int j = 0; j < 1000000; j++ )
             {
                 queue.enqueue( element );
                 assertEquals( 1, queue.size() );
@@ -55,15 +54,15 @@ public abstract class AbstractQueueTestCase extends TestCase
         }
         else
         {
-            for ( int i = 0; i < 1000; i++ )
+            for( int i = 0; i < 1000; i++ )
             {
-                for ( int j = 0; j < 1000; j++ )
+                for( int j = 0; j < 1000; j++ )
                 {
                     queue.enqueue( element );
                     assertEquals( "Queue Size: " + queue.size(), j + 1, queue.size() );
                 }
 
-                for ( int j = 0; j < 1000; j++ )
+                for( int j = 0; j < 1000; j++ )
                 {
                     assertNotNull( "Queue Size: " + queue.size(), queue.dequeue() );
                     assertEquals( "Queue Size: " + queue.size(), 999 - j, queue.size() );
@@ -77,9 +76,9 @@ public abstract class AbstractQueueTestCase extends TestCase
     {
         assertEquals( 0, queue.size() );
 
-        if (queue.maxSize() > 0)
+        if( queue.maxSize() > 0 )
         {
-            for ( int j = 0; j < 1000000; j++ )
+            for( int j = 0; j < 1000000; j++ )
             {
                 queue.enqueue( elements );
                 assertEquals( 10, queue.size() );
@@ -91,9 +90,9 @@ public abstract class AbstractQueueTestCase extends TestCase
         }
         else
         {
-            for ( int i = 0; i < 1000; i++ )
+            for( int i = 0; i < 1000; i++ )
             {
-                for ( int j = 0; j < 1000; j++ )
+                for( int j = 0; j < 1000; j++ )
                 {
                     queue.enqueue( elements );
                     assertEquals( "Queue Size: " + queue.size(), 10 * ( j + 1 ), queue.size() );
@@ -111,7 +110,7 @@ public abstract class AbstractQueueTestCase extends TestCase
     {
         assertEquals( 0, queue.size() );
 
-        queue.enqueue( new TestQueueElement () );
+        queue.enqueue( new TestQueueElement() );
         assertEquals( 1, queue.size() );
 
         assertNotNull( queue.dequeue() );

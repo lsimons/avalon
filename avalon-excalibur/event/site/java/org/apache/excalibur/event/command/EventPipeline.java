@@ -7,8 +7,8 @@
  */
 package org.apache.avalon.excalibur.command;
 
-import org.apache.avalon.excalibur.event.Source;
 import org.apache.avalon.excalibur.event.EventHandler;
+import org.apache.avalon.excalibur.event.Source;
 
 /**
  * An EventPipeline is used by the ThreadManager to manage the event Queue and

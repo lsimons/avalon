@@ -7,8 +7,8 @@
  */
 package org.apache.avalon.excalibur.cache.validator;
 
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
 import org.apache.avalon.excalibur.cache.CacheEvent;
 import org.apache.avalon.excalibur.cache.CacheListener;
 import org.apache.avalon.excalibur.cache.CacheValidator;
@@ -21,12 +21,12 @@ import org.apache.avalon.excalibur.cache.CacheValidator;
 public class TimeoutValidator
     implements CacheValidator, CacheListener
 {
-    private long    m_timeout;
-    private Map     m_timestamps;
+    private long m_timeout;
+    private Map m_timestamps;
 
     public TimeoutValidator( final long timeout )
     {
-        if ( 0 >= timeout )
+        if( 0 >= timeout )
         {
             throw new IllegalArgumentException( "Timeout must be greatter than 0" );
         }
@@ -38,8 +38,8 @@ public class TimeoutValidator
 
     public boolean validate( final Object key, final Object value )
     {
-        final long timestamp = ((Long)m_timestamps.get( key )).longValue();
-        if ( ( System.currentTimeMillis() - timestamp ) > m_timeout )
+        final long timestamp = ( (Long)m_timestamps.get( key ) ).longValue();
+        if( ( System.currentTimeMillis() - timestamp ) > m_timeout )
         {
             return false;
         }

@@ -13,8 +13,8 @@ import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.SQLWarning;
-import java.sql.Statement;
 import java.sql.Savepoint;
+import java.sql.Statement;
 import java.util.Map;
 
 /**
@@ -26,7 +26,7 @@ import java.util.Map;
  * total number of Connection objects that are created.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.11 $ $Date: 2002/02/02 11:26:15 $
+ * @version CVS $Revision: 1.12 $ $Date: 2002/03/16 00:05:40 $
  * @since 4.0
  */
 public class Jdbc3Connection
@@ -126,7 +126,7 @@ public class Jdbc3Connection
     public final void setTransactionIsolation( final int level )
         throws SQLException
     {
-        m_connection.setTransactionIsolation(level);
+        m_connection.setTransactionIsolation( level );
     }
 
     public final int getTransactionIsolation()
@@ -152,7 +152,7 @@ public class Jdbc3Connection
         throws SQLException
     {
         final Statement temp = m_connection.createStatement(
-                resultSetType, resultSetConcurrency
+            resultSetType, resultSetConcurrency
         );
 
         m_lastUsed = System.currentTimeMillis();
@@ -160,12 +160,12 @@ public class Jdbc3Connection
     }
 
     public final PreparedStatement prepareStatement( final String sql,
-                                               final int resultSetType,
-                                               final int resultSetConcurrency )
+                                                     final int resultSetType,
+                                                     final int resultSetConcurrency )
         throws SQLException
     {
         final PreparedStatement temp = m_connection.prepareStatement(
-                sql, resultSetType, resultSetConcurrency
+            sql, resultSetType, resultSetConcurrency
         );
 
         m_lastUsed = System.currentTimeMillis();
@@ -173,8 +173,8 @@ public class Jdbc3Connection
     }
 
     public final CallableStatement prepareCall( final String sql,
-                                          final int resultSetType,
-                                          final int resultSetConcurrency )
+                                                final int resultSetType,
+                                                final int resultSetConcurrency )
         throws SQLException
     {
         final CallableStatement temp = m_connection.prepareCall(
@@ -194,13 +194,13 @@ public class Jdbc3Connection
     public final void setTypeMap( final Map map )
         throws SQLException
     {
-         m_connection.setTypeMap( map );
+        m_connection.setTypeMap( map );
     }
 
-    public final void setHoldability(int holdability)
+    public final void setHoldability( int holdability )
         throws SQLException
     {
-        m_connection.setHoldability(holdability);
+        m_connection.setHoldability( holdability );
     }
 
     public final int getHoldability()
@@ -215,42 +215,42 @@ public class Jdbc3Connection
         return m_connection.setSavepoint();
     }
 
-    public final Savepoint setSavepoint(String savepoint)
+    public final Savepoint setSavepoint( String savepoint )
         throws SQLException
     {
-        return m_connection.setSavepoint(savepoint);
+        return m_connection.setSavepoint( savepoint );
     }
 
-    public final void rollback(Savepoint savepoint)
+    public final void rollback( Savepoint savepoint )
         throws SQLException
     {
-        m_connection.rollback(savepoint);
+        m_connection.rollback( savepoint );
         m_lastUsed = System.currentTimeMillis();
     }
 
-    public final void releaseSavepoint(Savepoint savepoint)
+    public final void releaseSavepoint( Savepoint savepoint )
         throws SQLException
     {
-        m_connection.releaseSavepoint(savepoint);
+        m_connection.releaseSavepoint( savepoint );
     }
 
-    public final Statement createStatement(int resultSetType,
-                                           int resultSetConcurrency,
-                                           int resultSetHoldability)
+    public final Statement createStatement( int resultSetType,
+                                            int resultSetConcurrency,
+                                            int resultSetHoldability )
         throws SQLException
     {
         final Statement temp = m_connection.createStatement(
-                resultSetType, resultSetConcurrency, resultSetHoldability
+            resultSetType, resultSetConcurrency, resultSetHoldability
         );
 
         m_lastUsed = System.currentTimeMillis();
         return temp;
     }
 
-    public final PreparedStatement prepareStatement(String sql,
-                                        int resultSetType,
-                                        int resultSetConcurrency,
-                                        int resultSetHoldability)
+    public final PreparedStatement prepareStatement( String sql,
+                                                     int resultSetType,
+                                                     int resultSetConcurrency,
+                                                     int resultSetHoldability )
         throws SQLException
     {
         final PreparedStatement temp = m_connection.prepareStatement(
@@ -261,10 +261,10 @@ public class Jdbc3Connection
         return temp;
     }
 
-    public final CallableStatement prepareCall(String sql,
-                                        int resultSetType,
-                                        int resultSetConcurrency,
-                                        int resultSetHoldability)
+    public final CallableStatement prepareCall( String sql,
+                                                int resultSetType,
+                                                int resultSetConcurrency,
+                                                int resultSetHoldability )
         throws SQLException
     {
         final CallableStatement temp = m_connection.prepareCall(
@@ -275,36 +275,36 @@ public class Jdbc3Connection
         return temp;
     }
 
-    public final PreparedStatement prepareStatement(String sql,
-                                        int autoGeneratedKeys)
+    public final PreparedStatement prepareStatement( String sql,
+                                                     int autoGeneratedKeys )
         throws SQLException
     {
         final PreparedStatement temp = m_connection.prepareStatement(
-                sql, autoGeneratedKeys
+            sql, autoGeneratedKeys
         );
 
         m_lastUsed = System.currentTimeMillis();
         return temp;
     }
 
-    public final PreparedStatement prepareStatement(String sql,
-                                        int[] columnIndexes)
+    public final PreparedStatement prepareStatement( String sql,
+                                                     int[] columnIndexes )
         throws SQLException
     {
         final PreparedStatement temp = m_connection.prepareStatement(
-                sql, columnIndexes
+            sql, columnIndexes
         );
 
         m_lastUsed = System.currentTimeMillis();
         return temp;
     }
 
-    public final PreparedStatement prepareStatement(String sql,
-                                        String[] columnNames)
+    public final PreparedStatement prepareStatement( String sql,
+                                                     String[] columnNames )
         throws SQLException
     {
         final PreparedStatement temp = m_connection.prepareStatement(
-                sql, columnNames
+            sql, columnNames
         );
 
         m_lastUsed = System.currentTimeMillis();

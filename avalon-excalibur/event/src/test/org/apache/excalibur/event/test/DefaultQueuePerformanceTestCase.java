@@ -7,7 +7,6 @@
  */
 package org.apache.avalon.excalibur.event.test;
 
-import junit.framework.TestCase;
 import org.apache.avalon.excalibur.event.DefaultQueue;
 
 /**

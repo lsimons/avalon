@@ -19,16 +19,16 @@ import org.apache.avalon.excalibur.concurrent.Mutex;
  */
 public final class DefaultQueue extends AbstractQueue
 {
-    private final Buffer    m_elements;
-    private final Mutex     m_mutex;
-    private       int       m_reserve;
-    private final int       m_maxSize;
+    private final Buffer m_elements;
+    private final Mutex m_mutex;
+    private int m_reserve;
+    private final int m_maxSize;
 
     public DefaultQueue( int size )
     {
         int maxSize;
 
-        if ( size > 0 )
+        if( size > 0 )
         {
             m_elements = new VariableSizeBuffer( size );
             maxSize = size;
@@ -70,9 +70,9 @@ public final class DefaultQueue extends AbstractQueue
             try
             {
 
-                if ( maxSize() > 0 && elements.length + m_reserve + size() > maxSize() )
+                if( maxSize() > 0 && elements.length + m_reserve + size() > maxSize() )
                 {
-                    throw new SinkFullException("Not enough room to enqueue these elements.");
+                    throw new SinkFullException( "Not enough room to enqueue these elements." );
                 }
 
                 enqueue = new DefaultPreparedEnqueue( this, elements );
@@ -82,7 +82,7 @@ public final class DefaultQueue extends AbstractQueue
                 m_mutex.release();
             }
         }
-        catch ( InterruptedException ie )
+        catch( InterruptedException ie )
         {
         }
 
@@ -99,7 +99,7 @@ public final class DefaultQueue extends AbstractQueue
             try
             {
 
-                if (  maxSize() > 0 && 1 + m_reserve + size() > maxSize() )
+                if( maxSize() > 0 && 1 + m_reserve + size() > maxSize() )
                 {
                     return false;
                 }
@@ -112,7 +112,7 @@ public final class DefaultQueue extends AbstractQueue
                 m_mutex.release();
             }
         }
-        catch ( InterruptedException ie )
+        catch( InterruptedException ie )
         {
         }
 
@@ -129,14 +129,14 @@ public final class DefaultQueue extends AbstractQueue
             m_mutex.acquire();
             try
             {
-                if (  maxSize() > 0 && elements.length + m_reserve + size() > maxSize() )
+                if( maxSize() > 0 && elements.length + m_reserve + size() > maxSize() )
                 {
-                    throw new SinkFullException("Not enough room to enqueue these elements.");
+                    throw new SinkFullException( "Not enough room to enqueue these elements." );
                 }
 
-                for ( int i = 0; i < len; i++ )
+                for( int i = 0; i < len; i++ )
                 {
-                    m_elements.add( elements[i] );
+                    m_elements.add( elements[ i ] );
                 }
             }
             finally
@@ -144,7 +144,7 @@ public final class DefaultQueue extends AbstractQueue
                 m_mutex.release();
             }
         }
-        catch ( InterruptedException ie )
+        catch( InterruptedException ie )
         {
         }
     }
@@ -157,9 +157,9 @@ public final class DefaultQueue extends AbstractQueue
             m_mutex.acquire();
             try
             {
-                if (  maxSize() > 0 && 1 + m_reserve + size() > maxSize() )
+                if( maxSize() > 0 && 1 + m_reserve + size() > maxSize() )
                 {
-                    throw new SinkFullException("Not enough room to enqueue these elements.");
+                    throw new SinkFullException( "Not enough room to enqueue these elements." );
                 }
 
                 m_elements.add( element );
@@ -169,7 +169,7 @@ public final class DefaultQueue extends AbstractQueue
                 m_mutex.release();
             }
         }
-        catch ( InterruptedException ie )
+        catch( InterruptedException ie )
         {
         }
     }
@@ -178,7 +178,7 @@ public final class DefaultQueue extends AbstractQueue
     {
         int arraySize = numElements;
 
-        if ( size() < numElements )
+        if( size() < numElements )
         {
             arraySize = size();
         }
@@ -187,20 +187,20 @@ public final class DefaultQueue extends AbstractQueue
 
         try
         {
-            if (m_mutex.attempt( m_timeout )) 
+            if( m_mutex.attempt( m_timeout ) )
             {
                 try
                 {
-                    if ( size() < numElements )
+                    if( size() < numElements )
                     {
                         arraySize = size();
                     }
 
                     elements = new QueueElement[ arraySize ];
 
-                    for ( int i = 0; i < arraySize; i++ )
+                    for( int i = 0; i < arraySize; i++ )
                     {
-                        elements[i] = (QueueElement) m_elements.remove();
+                        elements[ i ] = (QueueElement)m_elements.remove();
                     }
                 }
                 finally
@@ -209,7 +209,7 @@ public final class DefaultQueue extends AbstractQueue
                 }
             }
         }
-        catch ( InterruptedException ie )
+        catch( InterruptedException ie )
         {
         }
 
@@ -222,15 +222,15 @@ public final class DefaultQueue extends AbstractQueue
 
         try
         {
-            if (m_mutex.attempt( m_timeout )) 
+            if( m_mutex.attempt( m_timeout ) )
             {
                 try
                 {
                     elements = new QueueElement[ size() ];
 
-                    for ( int i = 0; i < elements.length; i++ )
+                    for( int i = 0; i < elements.length; i++ )
                     {
-                        elements[i] = (QueueElement) m_elements.remove();
+                        elements[ i ] = (QueueElement)m_elements.remove();
                     }
                 }
                 finally
@@ -239,7 +239,7 @@ public final class DefaultQueue extends AbstractQueue
                 }
             }
         }
-        catch ( InterruptedException ie )
+        catch( InterruptedException ie )
         {
         }
 
@@ -252,13 +252,13 @@ public final class DefaultQueue extends AbstractQueue
 
         try
         {
-            if (m_mutex.attempt( m_timeout )) 
+            if( m_mutex.attempt( m_timeout ) )
             {
                 try
                 {
-                    if ( size() > 0 )
+                    if( size() > 0 )
                     {
-                        element = (QueueElement) m_elements.remove();
+                        element = (QueueElement)m_elements.remove();
                     }
                 }
                 finally
@@ -267,7 +267,7 @@ public final class DefaultQueue extends AbstractQueue
                 }
             }
         }
-        catch ( InterruptedException ie )
+        catch( InterruptedException ie )
         {
         }
 
@@ -277,7 +277,7 @@ public final class DefaultQueue extends AbstractQueue
     private final static class DefaultPreparedEnqueue implements PreparedEnqueue
     {
         private final DefaultQueue m_parent;
-        private       QueueElement[] m_elements;
+        private QueueElement[] m_elements;
 
         private DefaultPreparedEnqueue( DefaultQueue parent, QueueElement[] elements )
         {
@@ -285,12 +285,11 @@ public final class DefaultQueue extends AbstractQueue
             m_elements = elements;
         }
 
-
         public void commit()
         {
-            if ( null == m_elements )
+            if( null == m_elements )
             {
-                throw new IllegalStateException("This PreparedEnqueue has already been processed!");
+                throw new IllegalStateException( "This PreparedEnqueue has already been processed!" );
             }
 
             try
@@ -299,18 +298,18 @@ public final class DefaultQueue extends AbstractQueue
                 m_parent.m_reserve -= m_elements.length;
                 m_elements = null;
             }
-            catch (Exception e)
+            catch( Exception e )
             {
-                throw new IllegalStateException("Default enqueue did not happen--should be impossible");
+                throw new IllegalStateException( "Default enqueue did not happen--should be impossible" );
                 // will never happen
             }
         }
 
         public void abort()
         {
-            if ( null == m_elements )
+            if( null == m_elements )
             {
-                throw new IllegalStateException("This PreparedEnqueue has already been processed!");
+                throw new IllegalStateException( "This PreparedEnqueue has already been processed!" );
             }
 
             m_parent.m_reserve -= m_elements.length;

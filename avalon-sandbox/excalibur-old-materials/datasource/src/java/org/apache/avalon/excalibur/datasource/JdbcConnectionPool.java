@@ -9,7 +9,6 @@ package org.apache.avalon.excalibur.datasource;
 
 import java.util.HashSet;
 import java.util.Iterator;
-import org.apache.avalon.excalibur.concurrent.Lock;
 import org.apache.avalon.excalibur.pool.DefaultPoolController;
 import org.apache.avalon.excalibur.pool.HardResourceLimitingPool;
 import org.apache.avalon.excalibur.pool.Poolable;
@@ -21,23 +20,23 @@ import org.apache.avalon.framework.activity.Initializable;
  * thread to manage the number of SQL Connections.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.14 $ $Date: 2001/12/21 16:58:06 $
+ * @version CVS $Revision: 1.15 $ $Date: 2002/03/16 00:05:40 $
  * @since 4.0
  */
 public class JdbcConnectionPool
     extends HardResourceLimitingPool
     implements Runnable, Disposable, Initializable
 {
-    private Thread                 m_initThread;
-    private final boolean          m_autoCommit;
-    private boolean                m_noConnections = false;
-    private long                   m_wait = -1;
-    private HashSet                m_waitingThreads = new HashSet();
+    private Thread m_initThread;
+    private final boolean m_autoCommit;
+    private boolean m_noConnections = false;
+    private long m_wait = -1;
+    private HashSet m_waitingThreads = new HashSet();
 
-    public JdbcConnectionPool( final JdbcConnectionFactory factory, final DefaultPoolController controller, final int min, final int max, final boolean autoCommit)
+    public JdbcConnectionPool( final JdbcConnectionFactory factory, final DefaultPoolController controller, final int min, final int max, final boolean autoCommit )
         throws Exception
     {
-        super(factory, controller, max);
+        super( factory, controller, max );
         m_min = min;
 
         this.m_autoCommit = autoCommit;
@@ -51,9 +50,9 @@ public class JdbcConnectionPool
      */
     public void setTimeout( long timeout )
     {
-        if (this.m_initialized)
+        if( this.m_initialized )
         {
-            throw new IllegalStateException("You cannot change the timeout after the pool is initialized");
+            throw new IllegalStateException( "You cannot change the timeout after the pool is initialized" );
         }
 
         m_wait = timeout;
@@ -69,18 +68,18 @@ public class JdbcConnectionPool
     {
         JdbcConnection conn = null;
 
-        if ( m_wait < 1 )
+        if( m_wait < 1 )
         {
-            conn = (JdbcConnection) super.newPoolable();
+            conn = (JdbcConnection)super.newPoolable();
         }
         else
         {
             long curMillis = System.currentTimeMillis();
             long endTime = curMillis + m_wait;
-            while ( ( null == conn ) && ( curMillis < endTime ) )
+            while( ( null == conn ) && ( curMillis < endTime ) )
             {
                 Object thread = Thread.currentThread();
-                m_waitingThreads.add(thread);
+                m_waitingThreads.add( thread );
 
                 try
                 {
@@ -96,7 +95,7 @@ public class JdbcConnectionPool
 
                 try
                 {
-                    conn = (JdbcConnection) super.newPoolable();
+                    conn = (JdbcConnection)super.newPoolable();
                 }
                 finally
                 {
@@ -105,27 +104,27 @@ public class JdbcConnectionPool
             }
         }
 
-        if (null == conn )
+        if( null == conn )
         {
-            throw new NoAvailableConnectionException("All available connections are in use");
+            throw new NoAvailableConnectionException( "All available connections are in use" );
         }
 
-        conn.setPool(this);
+        conn.setPool( this );
         return conn;
     }
 
     public Poolable get()
         throws Exception
     {
-        if (! m_initialized)
+        if( !m_initialized )
         {
-            if (m_noConnections)
+            if( m_noConnections )
             {
-                throw new IllegalStateException("There are no connections in the pool, check your settings.");
+                throw new IllegalStateException( "There are no connections in the pool, check your settings." );
             }
-            else if (m_initThread == null)
+            else if( m_initThread == null )
             {
-                throw new IllegalStateException("You cannot get a Connection before the pool is initialized.");
+                throw new IllegalStateException( "You cannot get a Connection before the pool is initialized." );
             }
             else
             {
@@ -133,33 +132,34 @@ public class JdbcConnectionPool
             }
         }
 
-        JdbcConnection obj = (JdbcConnection) super.get();
+        JdbcConnection obj = (JdbcConnection)super.get();
 
-        if (obj.isClosed())
+        if( obj.isClosed() )
         {
-            if (getLogger().isDebugEnabled())
+            if( getLogger().isDebugEnabled() )
             {
-                getLogger().debug("JdbcConnection was closed, creating one to take its place");
+                getLogger().debug( "JdbcConnection was closed, creating one to take its place" );
             }
 
-            try {
+            try
+            {
                 m_mutex.acquire();
-                if (m_active.contains(obj))
+                if( m_active.contains( obj ) )
                 {
-                    m_active.remove(obj);
+                    m_active.remove( obj );
                 }
 
-                this.removePoolable(obj);
+                this.removePoolable( obj );
 
-                obj = (JdbcConnection) this.newPoolable();
+                obj = (JdbcConnection)this.newPoolable();
 
-                m_active.add(obj);
+                m_active.add( obj );
             }
-            catch (Exception e)
+            catch( Exception e )
             {
-                if (getLogger().isWarnEnabled())
+                if( getLogger().isWarnEnabled() )
                 {
-                    getLogger().warn("Could not get an open connection", e);
+                    getLogger().warn( "Could not get an open connection", e );
                 }
                 throw e;
             }
@@ -169,8 +169,9 @@ public class JdbcConnectionPool
             }
         }
 
-        if (obj.getAutoCommit() != m_autoCommit) {
-            obj.setAutoCommit(m_autoCommit);
+        if( obj.getAutoCommit() != m_autoCommit )
+        {
+            obj.setAutoCommit( m_autoCommit );
         }
 
         return obj;
@@ -180,7 +181,7 @@ public class JdbcConnectionPool
     {
         super.put( obj );
         Iterator i = m_waitingThreads.iterator();
-        while (i.hasNext())
+        while( i.hasNext() )
         {
             Object thread = i.next();
             thread.notify();
@@ -188,28 +189,33 @@ public class JdbcConnectionPool
         }
     }
 
-
     public void run()
     {
-        try {
-            this.grow(this.m_min);
+        try
+        {
+            this.grow( this.m_min );
 
-            if (this.size() > 0) {
+            if( this.size() > 0 )
+            {
                 m_initialized = true;
-            } else {
+            }
+            else
+            {
                 this.m_noConnections = true;
 
-                if (getLogger().isFatalErrorEnabled())
+                if( getLogger().isFatalErrorEnabled() )
                 {
-                    getLogger().fatalError("Excalibur could not create any connections.  " +
-                                           "Examine your settings to make sure they are correct.  " +
-                                           "Make sure you can connect with the same settings on your machine.");
+                    getLogger().fatalError( "Excalibur could not create any connections.  " +
+                                            "Examine your settings to make sure they are correct.  " +
+                                            "Make sure you can connect with the same settings on your machine." );
                 }
             }
-        } catch (Exception e) {
-            if (getLogger().isDebugEnabled())
+        }
+        catch( Exception e )
+        {
+            if( getLogger().isDebugEnabled() )
             {
-                getLogger().debug("Caught an exception during initialization", e);
+                getLogger().debug( "Caught an exception during initialization", e );
             }
         }
     }

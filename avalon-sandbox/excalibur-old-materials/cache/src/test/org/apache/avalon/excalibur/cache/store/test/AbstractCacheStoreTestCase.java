@@ -7,8 +7,8 @@
  */
 package org.apache.avalon.excalibur.cache.store.test;
 
-import org.apache.avalon.excalibur.cache.CacheStore;
 import junit.framework.TestCase;
+import org.apache.avalon.excalibur.cache.CacheStore;
 
 /**
  * TestCase for CacheStore.
