@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+
+<announcement site="http://jakarta.apache.org/avalon">
+  <project>@name@ @version@</project>
+  <abstract>
+The Avalon team is proud to announce the @release@ release
+of @name@ Framework and Excalibur @short-version@.  This release
+has been tested thoroughly, and is used in the following
+projects: <link href="http://xml.apache.org/cocoon2">Apache Cocoon 2</link>
+and <link href="http://jakarta.apache.org/james">Apache JAMES</link>.
+  </abstract>
+  <body>
+    <p>
+The Avalon project is Apache's Java Server Framework. It is
+separated into six sub projects: Framework, Excalibur, LogKit,
+Cornerstone, Phoenix, and Testlet. It's purpose is to simplify
+server side programming for Java based projects.  It
+formalizes serveral best of breed practices and patterns for
+server side programming.
+    </p>
+    <subproject site="http://jakarta.apache.org/avalon/excalibur">
+      <title>@name@ Excalibur @version@</title>
+      <abstract>
+@name@ Excalibur contains several premade Avalon Components
+and utilities to make your server side programming easier.
+There are several pool implementations, Component management
+implamentations, and database management implementations.
+      </abstract>
+      <changes version="@version@" file="changes.xml"/>
+    </subproject>
+  </body>
+</announcement>
+
