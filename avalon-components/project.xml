@@ -47,11 +47,6 @@
 
   <developers>
     <developer>
-      <name>Peter Donald</name>
-      <email>donaldp@apache.org</email>
-      <id>donaldp</id>
-    </developer>
-    <developer>
       <name>Paul Hammant</name>
       <email>hammant@apache.org</email>
       <id>hammant</id>
@@ -79,6 +74,11 @@
   </developers>
 
   <contributors>
+    <contributor>
+      <name>Peter Donald</name>
+      <email>donaldp@apache.org</email>
+      <id>donaldp</id>
+    </contributor>
     <contributor>
       <name>Mauro Talevi</name>
       <email>mauro.talevi@aquilonia.org</email>
