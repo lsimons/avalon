@@ -100,7 +100,7 @@ public final class ExceptionUtil
                                           final int depth,
                                           final boolean printCascading )
     {
-        return printStackTrace( throwable, depth, printCascading, false );
+        return printStackTrace( throwable, depth, printCascading, true );
     }
 
     /**
