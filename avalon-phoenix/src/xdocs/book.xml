@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+
+<book software="Phoenix" 
+      title="Phoenix Documentation" 
+      copyright="@year@ The Apache Software Foundation">
+
+  <project label="Back to Avalon" href="@AVALON_BASE@" />
+
+  <menu label="About">
+    <menu-item label="Overview" source="index.xml"/>
+<!--
+    <menu-item label="Features" source="features.xml"/>
+    <menu-item label="Getting Started" source="getting-started.xml"/>
+    <menu-item label="Installation" source="install.xml"/>
+    <menu-item type="changes" label="Changes" source="changes.xml"/>
+-->
+    <separator/>
+  </menu>
+
+  <menu label="Administrators Guide">
+    <menu-item label="Overview" source="administrator-guide.xml"/>
+  </menu>
+
+  <menu label="Deployers Guide">
+    <menu-item label="Overview" source="deployers-guide.xml"/>
+  </menu>
+
+  <menu label="Assemblers Guide">
+    <menu-item label="Overview" source="assemblers-guide.xml"/>
+    <menu-item label="What is a Server Application?" source="what-is-a-server-application.xml"/>
+    <menu-item label="Creating a Server Application" source="creating-a-server-application.xml"/>
+    <menu-item label="assembly.xml Specification" source="assembly-xml-specification.xml"/>
+    <menu-item label="server.xml Specification" source="server-xml-specification.xml"/>
+  </menu>
+
+  <menu label="Block Developers Guide">
+    <menu-item label="Overview" source="block-developers-guide.xml" />
+    <menu-item label="What is a Block?" source="what-is-a-block.xml" />
+    <menu-item label="BlockInfo Specification" source="blockinfo-specification.xml" />
+    <menu-item label="Creating a Block" source="creating-a-block.xml" />
+  </menu>
+
+</book>
+
+
