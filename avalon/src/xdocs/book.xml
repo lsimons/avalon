@@ -29,6 +29,7 @@
   
   <menu label="Developing with Avalon">
     <menu-item label="Prerequisites" href="developing/index.html"/>
+    <menu-item label="Tweety, Avalon Educational Channel" href="@EXCALIBUR_BASE@/tweety/index.html" />    
     <menu-item label="Framework, Excalibur and LogKit" href="developing/index.html" />
     <menu-item label="Phoenix and Cornerstone" href="@PHOENIX_BASE@/index.html" />
   </menu>
