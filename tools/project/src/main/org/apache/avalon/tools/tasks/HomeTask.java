@@ -44,19 +44,22 @@ public class HomeTask extends ContextualTask
     private static final String CACHE_DIR_KEY = "project.home.cache.dir";
     private static final String USER_PROPERTIES = "user.properties";
     private static final String BUILD_PROPERTIES = "build.properties";
+    private static final String AVALON_PROPERTIES = "avalon.properties";
 
     private static Home HOME;
 
-    public void init() 
+    public void init()
     {
         if( !isInitialized() )
         {
             super.init();
             Project project = getProject();
             File index = getIndexFile();
-            setupProperties( project, index.getParentFile() );
+            File system = index.getParentFile();
+            setupProperties( project, system );
             if( null == HOME )
             {
+                setupAvalonProperties( project, system );
                 HOME = new Home( project, index );
             }
             project.addReference( Home.KEY, HOME );
@@ -82,6 +85,12 @@ public class HomeTask extends ContextualTask
     private void setupBuildProperties( Project project, File dir )
     {
         File build = Context.getFile( dir, BUILD_PROPERTIES );
+        readProperties( project, build );
+    }
+
+    private void setupAvalonProperties( Project project, File dir )
+    {
+        File build = Context.getFile( dir, AVALON_PROPERTIES );
         readProperties( project, build );
     }
 

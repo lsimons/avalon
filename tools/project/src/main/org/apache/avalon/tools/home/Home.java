@@ -19,9 +19,12 @@ package org.apache.avalon.tools.home;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.FileInputStream;
 import java.util.List;
 import java.util.Hashtable;
 import java.util.ArrayList;
+import java.util.Properties;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -98,9 +101,11 @@ public class Home extends DataType
         try
         {
             m_system = m_index.getParentFile();
+            String path = project.getProperty( "avalon.cache" );
+            String hostsPath = project.getProperty( "avalon.hosts" );
+            m_repository = new Repository( m_system, path, hostsPath, this );
 
             Element root = ElementHelper.getRootElement( m_index );
-            final Element repo = ElementHelper.getChild( root, "repository" );
             final Element resources = ElementHelper.getChild( root, "resources" );
             final Element projects = ElementHelper.getChild( root, "projects" );
 
@@ -110,13 +115,20 @@ public class Home extends DataType
             // listener
             //
 
-            m_repository = createRepository( repo );
             buildResourceList( resources );
             buildProjectList( projects );
         }
         catch( Throwable e )
         {
             throw new BuildException( e );
+        }
+
+        log( "cache: " + m_repository.getCacheDirectory(), Project.MSG_VERBOSE );
+        String[] hosts = m_repository.getHosts();
+        log( "Hosts: " + hosts.length, Project.MSG_VERBOSE );
+        for( int i=0; i<hosts.length; i++ )
+        {
+            log( "  host: " + hosts[i], Project.MSG_VERBOSE ); 
         }
     }
 
@@ -227,7 +239,7 @@ public class Home extends DataType
         if( null == resources ) return;
 
         Element[] resourceArray = ElementHelper.getChildren( resources, "resource" );
-        log( "resources: " + resourceArray.length, Project.MSG_DEBUG );
+        log( "resources: " + resourceArray.length, Project.MSG_VERBOSE );
         for( int i=0; i<resourceArray.length; i++ )
         {
             Element child = resourceArray[i];
@@ -236,7 +248,7 @@ public class Home extends DataType
             m_resources.put( key, resource );
             log( 
               "resource: " + resource + " key=" + key, 
-              Project.MSG_DEBUG );
+              Project.MSG_VERBOSE );
         }
     }
 
@@ -247,7 +259,7 @@ public class Home extends DataType
         Element[] entries = ElementHelper.getChildren( projects );
         log( 
           "projects: " + entries.length, 
-          Project.MSG_DEBUG );
+          Project.MSG_VERBOSE );
         for( int i=0; i<entries.length; i++ )
         {
             Element element = entries[i];
@@ -257,21 +269,8 @@ public class Home extends DataType
             m_resources.put( key, definition );
             log( 
               "project: " + definition + " key=" + key, 
-              Project.MSG_DEBUG );
+              Project.MSG_VERBOSE );
         }
-    }
-
-    private Repository createRepository( Element repo )
-    {
-        Repository repository = new Repository( this, repo );
-        log( "cache: " + repository.getCacheDirectory(), Project.MSG_DEBUG );
-        String[] hosts = repository.getHosts();
-        log( "Hosts: " + hosts.length, Project.MSG_DEBUG );
-        for( int i=0; i<hosts.length; i++ )
-        {
-            log( "  host: " + hosts[i], Project.MSG_DEBUG ); 
-        }
-        return repository;
     }
 
     private File getIndexFile()
@@ -309,8 +308,8 @@ public class Home extends DataType
         }
     }
 
+    /*
 
-   /*
     public void build( Definition definition )
     {
         Ant ant = (Ant) getProject().createTask( "ant" );
@@ -335,9 +334,7 @@ public class Home extends DataType
         }
         return (Definition[]) targets.toArray( new Definition[0] );
     }
-    */
 
-    /*
     private void getBuildSequence( List visited, List targets, Definition definition )
     {
         if( visited.contains( definition ) ) return;
