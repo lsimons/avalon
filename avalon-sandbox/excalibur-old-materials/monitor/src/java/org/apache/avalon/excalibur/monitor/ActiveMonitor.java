@@ -12,7 +12,7 @@ import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.logger.AbstractLoggable;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.thread.ThreadSafe;
 
 import java.lang.reflect.Constructor;
@@ -38,9 +38,9 @@ import java.util.HashMap;
  * </pre>
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: ActiveMonitor.java,v 1.4 2001/12/11 16:14:31 bloritsch Exp $
+ * @version $Id: ActiveMonitor.java,v 1.5 2002/02/14 22:00:29 bloritsch Exp $
  */
-public final class ActiveMonitor extends AbstractLoggable
+public final class ActiveMonitor extends AbstractLogEnabled
     implements Monitor, Component, Startable, ThreadSafe, Configurable, Runnable
 {
     private static final Class[]    m_constructorParams = new Class[] { String.class };
