@@ -73,7 +73,7 @@ Legal:
     <property name="checkstyle.failOnError" value="false"/>
 
     <property name="constants.file" value="org/apache/avalon/phoenix/Constants.java"/>
-    <property name="container.constants.file" value="org/apache/avalon/phoenix/components/ContainerConstants.java"/>
+    <property name="container.constants.file" value="org/apache/avalon/phoenix/interfaces/ContainerConstants.java"/>
     <property name="xml-api.jar" value="${lib.dir}/xml-apis.jar"/>
     <property name="xerces.jar" value="${lib.dir}/xercesImpl-2.0.2.jar"/>
     <property name="xalan.jar" value="${lib.dir}/xalan-2.3.1.jar"/>
