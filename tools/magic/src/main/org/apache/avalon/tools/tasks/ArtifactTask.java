@@ -211,7 +211,7 @@ public class ArtifactTask extends SystemTask
         throws IOException
     {
         ArrayList visited = new ArrayList();
-        ResourceRef[] apis = getQualifiedRefs( def, visited, ResourceRef.API );
+        ResourceRef[] apis = def.getQualifiedRefs( visited, ResourceRef.API );
         if( apis.length > 0 )
         {
             writer.write( "\n" );
@@ -221,7 +221,7 @@ public class ArtifactTask extends SystemTask
             String lead = "avalon.artifact.dependency.api";
             writeRefs( writer, apis, lead );
         }
-        ResourceRef[] spis = getQualifiedRefs( def, visited, ResourceRef.SPI );
+        ResourceRef[] spis = def.getQualifiedRefs( visited, ResourceRef.SPI );
         if( spis.length > 0 )
         {
             writer.write( "\n" );
@@ -232,7 +232,7 @@ public class ArtifactTask extends SystemTask
             writeRefs( writer, spis, lead );
         }
 
-        ResourceRef[] impl = getQualifiedRefs( def, visited, ResourceRef.IMPL );
+        ResourceRef[] impl = def.getQualifiedRefs( visited, ResourceRef.IMPL );
         if( impl.length > 0 )
         {
             writer.write( "\n" );
@@ -242,22 +242,6 @@ public class ArtifactTask extends SystemTask
             String lead = "avalon.artifact.dependency";
             writeRefs( writer, impl, lead );
         }
-    }
-
-    private ResourceRef[] getQualifiedRefs( final Definition def, final List visited, int category )
-    {
-        ArrayList list = new ArrayList();
-        ResourceRef[] refs = def.getResourceRefs( Policy.RUNTIME, category, true );
-        for( int i=0; i<refs.length; i++ )
-        {
-            ResourceRef ref = refs[i];
-            if( !visited.contains(  ref ) )
-            {
-                list.add( ref );
-                visited.add( ref );
-            }
-        }
-        return (ResourceRef[]) list.toArray( new ResourceRef[0] );
     }
 
     private void writeRefs( 

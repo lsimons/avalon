@@ -45,12 +45,9 @@ import org.apache.avalon.tools.project.ResourceRef;
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class BarTask extends SystemTask
+public class BarTask extends AbstractDeliverableTask
 {
-    public static final String MD5_EXT = "md5";
     public static final String BAR_EXT = "bar";
-    public static final String ASC_EXT = "asc";
-    public static final String GPG_EXE_KEY = "project.gpg.exe";
 
     private String m_name;
 
@@ -141,7 +138,10 @@ public class BarTask extends SystemTask
             addAttribute( block, "Block-Name", def.getInfo().getName() );
             if( null != def.getInfo().getVersion() )
             {
-                addAttribute( block, "Block-Version", def.getInfo().getVersion() );
+                addAttribute( 
+                  block, 
+                  "Block-Version", 
+                  def.getInfo().getVersion() );
             }
 
             manifest.addConfiguredSection( block );
@@ -159,45 +159,5 @@ public class BarTask extends SystemTask
     {
         Manifest.Attribute attribute = new Manifest.Attribute( name, value );
         section.addConfiguredAttribute( attribute );
-    }
-
-    private void checksum( File file )
-    {
-        log( "Creating md5 checksum" );
-
-        File md5 = new File( file.toString() + "." + MD5_EXT );
-
-        Delete delete = (Delete) getProject().createTask( "delete" );
-        delete.setFile( md5 );
-        delete.init();
-        delete.execute();
-
-        Checksum checksum = (Checksum) getProject().createTask( "checksum" );
-        checksum.setFile( file );
-        checksum.setFileext( "." + MD5_EXT );
-        checksum.init();
-        checksum.execute();
-    }
-
-    private void asc( File file ) throws IOException
-    {
-        File asc = new File( file.toString() + "." + ASC_EXT );
-
-        Delete delete = (Delete) getProject().createTask( "delete" );
-        delete.init();
-        delete.setFile( asc );
-        delete.execute();
-
-        String gpg = getProject().getProperty( GPG_EXE_KEY );
-        if( null != gpg )
-        {
-            log( "Creating asc signature" );
-            Execute execute = new Execute();
-            execute.setCommandline( 
-              new String[]{ gpg, "-a", "-b", file.toString() } );
-            execute.setWorkingDirectory( getProject().getBaseDir() );
-            execute.setSpawn( true );
-            execute.execute();
-        }
     }
 }
