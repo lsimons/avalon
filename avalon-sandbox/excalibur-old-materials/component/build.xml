@@ -188,6 +188,7 @@
               <attribute name="Specification-Vendor" value="Apache Software Foundation"/>
               <attribute name="Specification-Version" value="1.0"/>
               <attribute name="Implementation-Vendor" value="Apache Software Foundation"/>
+              <attribute name="Implementation-Vendor-Id" value="ASF"/>
               <attribute name="Implementation-Version" value="${package-version}"/>
             </manifest>
             <include name="**/component/servlet/**"/>
@@ -211,6 +212,7 @@
               <attribute name="Specification-Vendor" value="Apache Software Foundation"/>
               <attribute name="Specification-Version" value="1.0"/>
               <attribute name="Implementation-Vendor" value="Apache Software Foundation"/>
+              <attribute name="Implementation-Vendor-Id" value="ASF"/>
               <attribute name="Implementation-Version" value="${package-version}"/>
             </manifest>
             <exclude name="**/component/servlet/**"/>
@@ -245,6 +247,7 @@
           <attribute name="Implementation-Vendor" value="Apache Software Foundation"/>
           <attribute name="Implementation-Version" value="${package-version}"/>
         </manifest>
+          <attribute name="Implementation-Vendor-Id" value="ASF"/>
         <zipgroupfileset dir="${build.dir}/tempjars">
           <include name="*.jar"/>
         </zipgroupfileset>
