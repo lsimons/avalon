@@ -215,7 +215,7 @@ public class DefaultDeployer
             for( int i = 0; i < blocks.length; i++ )
             {
                 //remove configuration and schema from repository and validator
-                m_repository.storeConfiguration( name, blocks[ i ], null );
+                m_repository.removeConfiguration( name, blocks[ i ] );
                 m_validator.removeSchema( name, blocks[ i ] );
             }
 
