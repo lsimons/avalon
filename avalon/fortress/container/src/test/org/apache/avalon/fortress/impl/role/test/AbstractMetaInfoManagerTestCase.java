@@ -50,8 +50,8 @@
 package org.apache.avalon.fortress.impl.role.test;
 
 import junit.framework.TestCase;
-import org.apache.avalon.fortress.MetaInfoManager;
 import org.apache.avalon.fortress.MetaInfoEntry;
+import org.apache.avalon.fortress.MetaInfoManager;
 
 /**
  * AbstractMetaInfoManagerTestCase does XYZ

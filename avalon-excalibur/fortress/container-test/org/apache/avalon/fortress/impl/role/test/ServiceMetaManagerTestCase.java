@@ -49,11 +49,11 @@
 */
 package org.apache.avalon.fortress.impl.role.test;
 
-import org.apache.avalon.fortress.impl.role.ServiceMetaManager;
-import org.apache.avalon.fortress.impl.handler.ThreadSafeComponentHandler;
-import org.apache.avalon.fortress.impl.handler.PoolableComponentHandler;
 import org.apache.avalon.fortress.impl.handler.FactoryComponentHandler;
 import org.apache.avalon.fortress.impl.handler.PerThreadComponentHandler;
+import org.apache.avalon.fortress.impl.handler.PoolableComponentHandler;
+import org.apache.avalon.fortress.impl.handler.ThreadSafeComponentHandler;
+import org.apache.avalon.fortress.impl.role.ServiceMetaManager;
 import org.apache.avalon.fortress.test.data.*;
 import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.logger.NullLogger;

@@ -52,8 +52,8 @@ package org.apache.avalon.fortress.test;
 import junit.framework.TestCase;
 import org.apache.avalon.fortress.RoleEntry;
 import org.apache.avalon.fortress.impl.handler.ThreadSafeComponentHandler;
-import org.apache.avalon.fortress.test.data.Role1;
 import org.apache.avalon.fortress.test.data.Component1;
+import org.apache.avalon.fortress.test.data.Role1;
 
 /**
  * RoleEntryTestCase tests the RoleEntry class.

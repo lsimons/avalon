@@ -52,13 +52,13 @@ package org.apache.avalon.fortress.test;
 import junit.framework.TestCase;
 import org.apache.avalon.fortress.MetaInfoEntry;
 import org.apache.avalon.fortress.RoleEntry;
-import org.apache.avalon.fortress.impl.handler.ThreadSafeComponentHandler;
+import org.apache.avalon.fortress.impl.handler.FactoryComponentHandler;
 import org.apache.avalon.fortress.impl.handler.PerThreadComponentHandler;
 import org.apache.avalon.fortress.impl.handler.PoolableComponentHandler;
-import org.apache.avalon.fortress.impl.handler.FactoryComponentHandler;
+import org.apache.avalon.fortress.impl.handler.ThreadSafeComponentHandler;
+import org.apache.avalon.fortress.test.data.BaseRole;
 import org.apache.avalon.fortress.test.data.Component1;
 import org.apache.avalon.fortress.test.data.Role1;
-import org.apache.avalon.fortress.test.data.BaseRole;
 import org.apache.avalon.fortress.test.data.Role2;
 
 import java.util.*;
