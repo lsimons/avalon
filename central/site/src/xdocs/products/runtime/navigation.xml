@@ -26,8 +26,9 @@
       <item name="About" href="about/index.html"/>
       <item name="Installation" href="installation/index.html"/>
       <item name="Embedding" href="embedded/index.html"/>
-      <item name="Specification" href="reference/index.html"/>
-      <item name="System" href="system/index.html"/>
+      <item name="Specification" 
+        href="reference/containment/directives/index.html"/>
+      <item name="Systems" href="system/meta/index.html"/>
       <item name="Tools" href="tools/index.html"/>
     </menu>
  </body>

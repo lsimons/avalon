@@ -24,7 +24,9 @@
   <body>
     <menu>
       <item name="Properties" href="properties.html"/>
-      <item name="kernel" href="kernel/index.html"/>
+      <item name="Targets" href="overrides/index.html"/>
+      <item name="Repository" href="repository/index.html"/>
+      <!-- <item name="security" href="/security/index.html"/> -->
     </menu>
   </body>
 

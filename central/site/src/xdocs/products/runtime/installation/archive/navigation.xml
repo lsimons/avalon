@@ -19,14 +19,14 @@
 
 <project>
 
-  <title>Merlin</title>
+  <title>Merlin Install (old versions)</title>
 
   <body>
     <menu>
-      <item name="Overview" href="index.html"/>
-      <!-- <item name="security" href="/security/index.html"/> -->
-      <item name="repository" href="repository/index.html"/>
+      <item name="3.2.5" href="install.3.2.html"/>
+      <item name="3.0.0" href="install.3.0.html"/>
     </menu>
-  </body>
+
+ </body>
 
 </project>

@@ -25,7 +25,7 @@
     <menu>
       <item name="Logger" href="logger.html"/>
       <item name="Context" href="context.html"/>
-      <item name="ServiceManager" href="artifacts/manager.html"/>
+      <item name="ServiceManager" href="manager.html"/>
       <item name="Configuration" href="configuration.html"/>
       <item name="Parameters" href="parameters.html"/>
     </menu>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0"?>
 
 <!-- 
  Copyright 2004 Apache Software Foundation
@@ -17,21 +17,18 @@
  limitations under the License.
 -->
 
-<project>
+<document>
 
-  <title>Merlin</title>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Merlin Runtime</title>
+  </properties> 
 
   <body>
+    <section name="Instalation Instructions for Earlier Versions">
+    </section>
+  </body>
 
-    <menu>
-      <item name="services" href="services/index.html"/>
-      <item name="classloader" href="classloader/index.html"/>
-      <item name="categories" href="categories/index.html"/>
-      <item name="component" href="components/index.html"/>
-      <item name="container" href="index.html"/>
-      <item name="include" href="include/index.html"/>
-    </menu>
- 
- </body>
+</document>
 
-</project>
+
