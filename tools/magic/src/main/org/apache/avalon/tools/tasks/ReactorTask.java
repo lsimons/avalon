@@ -96,9 +96,10 @@ public class ReactorTask extends Sequential
         m_defs = getDefinitions();
         final Definition[] defs = walkGraph();
 
+        log( "Candidates: " + defs.length );
+        log( "Preparing build sequence." );
         if( m_verbose )
         {
-            log( "Preparing build sequence." );
             project.log( BANNER );
             for( int i=0; i<defs.length; i++ )
             {
@@ -107,6 +108,7 @@ public class ReactorTask extends Sequential
             }
             project.log( BANNER );
         }
+
 
         if( null != m_target )
         {
