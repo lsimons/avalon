@@ -595,6 +595,7 @@ Legal:
     <delete dir="${dist.base}" />
     <delete dir="${src.dist.dir}" />
     <delete file="Announcement.txt" />
+    <delete file="jakarta-news.xml" />
   </target>
 
 </project>
