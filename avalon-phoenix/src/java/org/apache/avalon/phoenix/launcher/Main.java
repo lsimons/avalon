@@ -29,6 +29,8 @@ public final class Main
     private final static String MAIN_JAR = "phoenix-engine.jar";
     private final static String LOADER_JAR = "phoenix-loader.jar";
 
+    private static Object c_frontend;
+
     public final static void main( final String args[] )
         throws Exception
     {
@@ -48,14 +50,35 @@ public final class Main
             //Create main launcher
             final Class clazz = classLoader.loadClass( MAIN_CLASS );
             final Method method = clazz.getMethod( "main", new Class[]{ args.getClass() } );
-            final Object instance = clazz.newInstance();
-
+            c_frontend = clazz.newInstance();
+            
             //kick the tires and light the fires....
-            method.invoke( instance, new Object[]{ args } );
+            method.invoke( c_frontend, new Object[]{ args } );
         }
         catch( final Exception e )
         {
             e.printStackTrace();
+        }
+    }
+
+    protected final static void shutdown()
+    {
+        if( null == c_frontend ) return;
+        try
+        {
+            final Class clazz = c_frontend.getClass();
+            final Method method = clazz.getMethod( "shutdown", new Class[ 0 ] );
+
+            //Lets put this sucker to sleep
+            method.invoke( c_frontend, new Object[ 0 ] );
+        }
+        catch( final Exception e )
+        {
+            e.printStackTrace();
+        }
+        finally
+        {
+            c_frontend = null;
         }
     }
 
