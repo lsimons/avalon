@@ -68,10 +68,4 @@ public class DefaultConfigurationRepository
     {
         return configuration;
     }
-
-    public void removeConfiguration( final String application,
-                                     final String block )
-        throws ConfigurationException
-    {
-    }
 }
