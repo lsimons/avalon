@@ -21,15 +21,15 @@ import java.util.Enumeration;
  *
  * @author ?
  * @author <a href="mailto:vgritsenko@apache.org">Vadim Gritsenko</a>
- * @version CVS $Id: AbstractFilesystemStore.java,v 1.4 2002/08/14 15:33:53 crafterm Exp $
+ * @version CVS $Id: AbstractFilesystemStore.java,v 1.5 2002/10/12 10:36:55 froehlich Exp $
  */
 public abstract class AbstractFilesystemStore
 extends AbstractLogEnabled
 implements Store, ThreadSafe {
 
     /** The directory repository */
-    protected File directoryFile;
-    protected volatile String directoryPath;
+    protected File m_directoryFile;
+    protected volatile String m_directoryPath;
 
     /**
      * Sets the repository's location
@@ -44,30 +44,30 @@ implements Store, ThreadSafe {
      */
     public void setDirectory(final File directory)
     throws IOException {
-        this.directoryFile = directory;
+        this.m_directoryFile = directory;
 
         /* Save directory path prefix */
-        this.directoryPath = this.getFullFilename(this.directoryFile);
-        this.directoryPath += File.separator;
+        this.m_directoryPath = this.getFullFilename(this.m_directoryFile);
+        this.m_directoryPath += File.separator;
 
         /* Does directory exist? */
-        if (!this.directoryFile.exists()) {
+        if (!this.m_directoryFile.exists()) {
             /* Create it anew */
-            if (!this.directoryFile.mkdir()) {
+            if (!this.m_directoryFile.mkdir()) {
                 throw new IOException(
-                "Error creating store directory '" + this.directoryPath + "': ");
+                "Error creating store directory '" + this.m_directoryPath + "': ");
             }
         }
 
         /* Is given file actually a directory? */
-        if (!this.directoryFile.isDirectory()) {
-            throw new IOException("'" + this.directoryPath + "' is not a directory");
+        if (!this.m_directoryFile.isDirectory()) {
+            throw new IOException("'" + this.m_directoryPath + "' is not a directory");
         }
 
         /* Is directory readable and writable? */
-        if (!(this.directoryFile.canRead() && this.directoryFile.canWrite())) {
+        if (!(this.m_directoryFile.canRead() && this.m_directoryFile.canWrite())) {
             throw new IOException(
-                "Directory '" + this.directoryPath + "' is not readable/writable"
+                "Directory '" + this.m_directoryPath + "' is not readable/writable"
             );
         }
     }
@@ -76,7 +76,7 @@ implements Store, ThreadSafe {
      * Returns the repository's full pathname
      */
     public String getDirectoryPath() {
-        return this.directoryPath;
+        return this.m_directoryPath;
     }
 
     /**
@@ -190,7 +190,7 @@ implements Store, ThreadSafe {
      */
     public synchronized Enumeration keys() {
         final FSEnumeration enum = new FSEnumeration();
-        this.addKeys(enum, this.directoryFile);
+        this.addKeys(enum, this.m_directoryFile);
         return enum;
     }
 
@@ -199,11 +199,11 @@ implements Store, ThreadSafe {
      * obtained.
      */
     public synchronized int size() {
-        return countKeys(this.directoryFile);
+        return countKeys(this.m_directoryFile);
     }
 
     protected void addKeys(FSEnumeration enum, File directory) {
-        final int subStringBegin = this.directoryFile.getAbsolutePath().length() + 1;
+        final int subStringBegin = this.m_directoryFile.getAbsolutePath().length() + 1;
         final File[] files = directory.listFiles();
         for (int i=0; i<files.length; i++) {
             if (files[i].isDirectory()) {
@@ -263,7 +263,7 @@ implements Store, ThreadSafe {
 
     /* Utility Methods*/
     protected File fileFromKey(final Object key) {
-        File file = new File(this.directoryFile, this.encode(key.toString()));
+        File file = new File(this.m_directoryFile, this.encode(key.toString()));
         File parent = file.getParentFile();
         if (parent != null) parent.mkdirs();
         return file;
