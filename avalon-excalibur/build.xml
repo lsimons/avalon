@@ -315,6 +315,7 @@ Legal:
           <exclude name="**/test/Abstract*TestCase.class"/>
           <include name="**/test/*TestCase.class"/>
           <include name="**/test/*Profile.class" if="test.profile"/>
+          <exclude name="**/test/*PerformanceTestCase.class" unless="test.profile"/>
         </fileset>
       </batchtest>
     </junit>
@@ -349,6 +350,7 @@ Legal:
           <exclude name="**/test/Abstract*TestCase.class"/>
           <include name="**/test/*Profile.class" if="test.profile"/>
           <include name="**/test/*TestCase.class"/>
+          <exclude name="**/test/*PerformanceTestCase.class" unless="test.profile"/>
         </fileset>
       </batchtest>
     </junit>
