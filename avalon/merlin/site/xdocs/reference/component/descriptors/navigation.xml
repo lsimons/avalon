@@ -44,7 +44,14 @@
       <item name="Javadoc" href="/api/index.html"/>
       <item name="Specification" href="/reference/index.html">
         <item name="Component Specification" href="/reference/component/index.html">
-          <item name="Descriptors" href="/reference/component/descriptors/index.html"/>
+          <item name="Descriptors" href="/reference/component/descriptors/index.html">
+            <item name="Javadoc Tags" 
+              href="/reference/component/descriptors/index.html#Javadoc Tag Markup"/>
+            <item name="External Form" 
+              href="/reference/component/descriptors/index.html#XML External Form"/>
+            <item name="Type Model" 
+              href="/reference/component/descriptors/index.html#Type Model"/>
+          </item>
           <item name="Lifecycle Management" href="/reference/component/lifecycle/index.html"/>
           <item name="Lifecycle Artifacts" href="/reference/component/artifacts/index.html"/>
           <item name="Artifact Delivery" href="/reference/component/delivery/index.html"/>
