@@ -59,7 +59,7 @@ import org.apache.avalon.framework.activity.Disposable;
  * Please note that this pool offers no resource limiting whatsoever.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/09/25 15:50:26 $
+ * @version CVS $Revision: 1.5 $ $Date: 2002/09/30 17:55:09 $
  * @since 4.1
  */
 public final class VariableSizePool
@@ -108,16 +108,12 @@ public final class VariableSizePool
 
         Object object = null;
 
-        try
+        synchronized( m_buffer )
         {
-            synchronized( m_buffer )
+            if ( m_buffer.size() > 0 )
             {
                 object = m_buffer.remove();
             }
-        }
-        catch( BufferUnderflowException bue )
-        {
-            object = newInstance();
         }
 
         if( null == object )
