@@ -406,7 +406,6 @@
         <ant basedir="pool">
             <depend property="framework.jar" project="jakarta-avalon"/>
             <depend property="excalibur-collections.jar" project="excalibur-collections"/>
-            <depend property="excalibur-concurrent.jar" project="excalibur-concurrent"/>
             <depend property="junit.jar" project="junit"/>
             <property name="version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
@@ -418,7 +417,6 @@
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
         <depend project="checkstyle"/>
-        <depend project="jakarta-ant"/>
         <work nested="pool/build/classes"/>
 
         <home nested="pool"/>
