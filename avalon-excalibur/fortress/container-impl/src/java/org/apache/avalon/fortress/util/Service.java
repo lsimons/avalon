@@ -66,8 +66,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import javax.swing.ImageIcon;
-
 /**
  * This class handles looking up service providers on the class path.
  * It implements the system described in:
@@ -178,17 +176,5 @@ public final class Service
         }
 
         return providerSet.iterator();
-    }
-
-    /**
-     * Load an icon from the JARs
-     * 
-     * @param entry      Path to the icon
-     * @return ImageIcon The ImageIcon from the loaded icon.
-     */
-    public static ImageIcon loadLibraryIcon( String entry )
-    {
-        ClassLoader loader = Thread.currentThread().getContextClassLoader();
-        return new ImageIcon( loader.getResource( entry ) );
     }
 }
