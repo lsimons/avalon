@@ -331,12 +331,12 @@
         <ant dir="datasource" target="real-clean"/>
         <ant dir="event" target="real-clean"/>  
         <ant dir="extension" target="real-clean"/>
+        <ant dir="fortress" target="real-clean"/>
         <ant dir="i18n" target="real-clean"/>
         <ant dir="instrument" target="real-clean"/>
         <ant dir="instrument-client" target="real-clean"/>
         <ant dir="instrument-manager" target="real-clean"/>
         <ant dir="io" target="real-clean"/>
-        <ant dir="threadcontext" target="real-clean"/>
         <ant dir="logger" target="real-clean"/>        
         <ant dir="monitor" target="real-clean"/>
         <ant dir="naming" target="real-clean"/>
@@ -346,6 +346,7 @@
         <ant dir="tar" target="real-clean"/>
         <ant dir="testcase" target="real-clean"/>
         <ant dir="thread" target="real-clean"/>
+        <ant dir="threadcontext" target="real-clean"/>
         <ant dir="util" target="real-clean"/>
         <ant dir="xmlbundle" target="real-clean"/>
         <ant dir="zip" target="real-clean"/>   
