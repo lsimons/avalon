@@ -23,7 +23,7 @@
 #   PHOENIX_KILLDELAY  (Optional) When shutting the server this script sends s
 #                      SIGTERM signal then delays for a time before forcefully
 #                      shutting down the process if it is still alive. This
-#                      variable controls the delay and defaults to 2 (seconds)
+#                      variable controls the delay and defaults to 5 (seconds)
 #
 # -----------------------------------------------------------------------------
 
@@ -70,7 +70,7 @@ PHOENIX_HOME=`cd "$PRGDIR/.." ; pwd`
 
 #setup time between signals to kill phoenix 
 if [ -z "$PHOENIX_KILLDELAY" ] ; then
-  PHOENIX_KILLDELAY=2
+  PHOENIX_KILLDELAY=5
 fi
       
 
