@@ -84,14 +84,14 @@ Legal:
     <property name="logkit.jar" value=""/>
 
     <path id="project.class.path">
-        <pathelement path="${java.class.path}" />
-        <pathelement path="${junit.jar}" />
-        <pathelement path="${log4j.jar}" />
-        <pathelement path="${logkit.jar}" />
+        <pathelement path="${java.class.path}"/>
+        <pathelement path="${junit.jar}"/>
+        <pathelement path="${log4j.jar}"/>
+        <pathelement path="${logkit.jar}"/>
         <fileset dir="${lib.dir}">
-            <include name="*.jar" />
+            <include name="*.jar"/>
         </fileset>
-        <pathelement path="${target.classes}" />
+        <pathelement path="${target.classes}"/>
     </path>
 
     <path id="tools.class.path">
@@ -158,7 +158,7 @@ Legal:
             optimize="${optimize}"
             deprecation="${deprecation}"
             target="1.2">
-            <classpath refid="project.class.path" />
+            <classpath refid="project.class.path"/>
             <src path="${test.dir}"/>
             <exclude name="org/apache/avalon/framework/logger/LogKit*.java"
                 unless="logkit.present"/>
@@ -200,8 +200,8 @@ Legal:
             optimize="${optimize}"
             deprecation="${deprecation}"
             target="1.2">
-            <include name="org/apache/avalon/framework/ExceptionUtil.java" />
-            <include name="org/apache/avalon/framework/Cascading*" />
+            <include name="org/apache/avalon/framework/ExceptionUtil.java"/>
+            <include name="org/apache/avalon/framework/Cascading*"/>
         </javac>
     </target>
 
@@ -211,15 +211,15 @@ Legal:
             basedir="${target.classes}"
             compress="${compress.jars}">
             <manifest>
-              <attribute name="Extension-Name" value="avalon-exceptionutil"/>
-              <attribute name="Specification-Vendor" value="Apache Software Foundation"/>
-              <attribute name="Specification-Version" value="1.0"/>
-              <attribute name="Implementation-Vendor" value="Apache Software Foundation"/>
-              <attribute name="Implementation-Version" value="${version}"/>
-              <attribute name="Implementation-Vendor-Id" value="ASF"/>
+                <attribute name="Extension-Name" value="avalon-exceptionutil"/>
+                <attribute name="Specification-Vendor" value="Apache Software Foundation"/>
+                <attribute name="Specification-Version" value="1.0"/>
+                <attribute name="Implementation-Vendor" value="Apache Software Foundation"/>
+                <attribute name="Implementation-Version" value="${version}"/>
+                <attribute name="Implementation-Vendor-Id" value="ASF"/>
             </manifest>
-            <include name="org/apache/avalon/framework/ExceptionUtil.class" />
-            <include name="org/apache/avalon/framework/Cascading*" />
+            <include name="org/apache/avalon/framework/ExceptionUtil.class"/>
+            <include name="org/apache/avalon/framework/Cascading*"/>
             <zipfileset dir="${target.conf}" prefix="META-INF/">
                 <include name="LICENSE.txt"/>
             </zipfileset>
@@ -234,7 +234,7 @@ Legal:
 
         <mkdir dir="${target.reports}"/>
 
-        <echo message="Performing Unit Tests" />
+        <echo message="Performing Unit Tests"/>
         <junit fork="true" printsummary="yes" dir="${target.reports}">
             <formatter type="plain" usefile="false"/>
             <classpath>
@@ -254,7 +254,7 @@ Legal:
         <mkdir dir="${target.testdocs}"/>
         <mkdir dir="${target.reports}"/>
 
-        <echo message="Performing Unit Tests" />
+        <echo message="Performing Unit Tests"/>
         <junit fork="true" printsummary="yes" dir="${target.reports}">
             <formatter type="xml"/>
             <classpath>
@@ -315,9 +315,9 @@ Legal:
     </target>
 
     <!-- Prepares the documentation directory -->
-   <target name="docs" depends="html-docs, javadocs" description="generates all the Avalon documentation"/>
+    <target name="docs" depends="html-docs, javadocs" description="generates all the Avalon documentation"/>
 
-   <target name="html-docs" depends="site" description="generates the xdocs-based documentation">
+    <target name="html-docs" depends="site" description="generates the xdocs-based documentation">
         <!-- todo: remove -->
         <mkdir dir="${target.docs}/framework/diagrams"/>
     </target>
@@ -331,7 +331,7 @@ Legal:
         <javadoc packagenames="org.apache.*"
             sourcepath="${java.dir}"
             destdir="${target.javadocs}">
-            <classpath refid="project.class.path" />
+            <classpath refid="project.class.path"/>
             <doclet name="com.sun.tools.doclets.standard.Standard">
                 <param name="-author"/>
                 <param name="-version"/>
@@ -356,7 +356,7 @@ Legal:
         <mkdir dir="${docs.dir}"/>
 
         <copy todir="${docs.dir}">
-            <fileset dir="${target.docs}" />
+            <fileset dir="${target.docs}"/>
         </copy>
 
     </target>
@@ -368,7 +368,7 @@ Legal:
         <mkdir dir="${javadocs.dir}"/>
 
         <copy todir="${javadocs.dir}">
-            <fileset dir="${target.javadocs}" />
+            <fileset dir="${target.javadocs}"/>
         </copy>
 
     </target>
@@ -393,9 +393,8 @@ Legal:
             </fileset>
         </delete>
 
-
         <copy todir="${www.dir}">
-            <fileset dir="${docs.dir}" />
+            <fileset dir="${docs.dir}"/>
         </copy>
 
     </target>
@@ -409,17 +408,17 @@ Legal:
         <filter token="year" value="${year}"/>
         <filter token="status" value="${status}"/>
         <filter token="release" value="${release}"/>
-	<filter token="short-version" value="${short.version}"/>
+        <filter token="short-version" value="${short.version}"/>
 
-        <mkdir dir="${target.dir}" />
-        <mkdir dir="${dist.base}" />
+        <mkdir dir="${target.dir}"/>
+        <mkdir dir="${dist.base}"/>
 
         <copy todir="${target.docs}" overwrite="true" filtering="on">
             <fileset dir="${xdocs.dir}">
-              <include name="changes.xml"/>
+                <include name="changes.xml"/>
             </fileset>
             <fileset dir="${tools.dir}">
-              <include name="announcement.xml"/>
+                <include name="announcement.xml"/>
             </fileset>
         </copy>
 
@@ -456,12 +455,12 @@ Legal:
             basedir="${target.classes}"
             compress="${compress.jars}">
             <manifest>
-              <attribute name="Extension-Name" value="${framework.name}"/>
-              <attribute name="Specification-Vendor" value="Apache Software Foundation"/>
-              <attribute name="Specification-Version" value="1.0"/>
-              <attribute name="Implementation-Vendor" value="Apache Software Foundation"/>
-              <attribute name="Implementation-Version" value="${version}"/>
-              <attribute name="Implementation-Vendor-Id" value="ASF"/>
+                <attribute name="Extension-Name" value="${framework.name}"/>
+                <attribute name="Specification-Vendor" value="Apache Software Foundation"/>
+                <attribute name="Specification-Version" value="1.0"/>
+                <attribute name="Implementation-Vendor" value="Apache Software Foundation"/>
+                <attribute name="Implementation-Version" value="${version}"/>
+                <attribute name="Implementation-Vendor-Id" value="ASF"/>
             </manifest>
             <exclude name="**/test/*"/>
             <include name="org/apache/avalon/framework/**"/>
@@ -472,12 +471,12 @@ Legal:
     </target>
 
     <target name="install" depends="all,install-check-cjan">
-        <mkdir dir="${cjan.lib}" />
+        <mkdir dir="${cjan.lib}"/>
         <copy file="${target.lib}/${framework.name}.jar" todir="${cjan.lib}"/>
     </target>
 
     <target name="install-check-cjan" unless="cjan.lib">
-        <fail message="cjan.lib not specified." />
+        <fail message="cjan.lib not specified."/>
     </target>
 
     <target name="uninstall" depends="install-check-cjan">
@@ -489,7 +488,7 @@ Legal:
 
         <mkdir dir="${dist.dir}"/>
         <copy file="${target.lib}/${framework.name}.jar" tofile="${dist.dir}/${framework.name}-${version}.jar"/>
-	<!-- <copy file="${lib.dir}/${logkit.jar}" todir="${dist.dir}"/> -->
+        <!-- <copy file="${lib.dir}/${logkit.jar}" todir="${dist.dir}"/> -->
 
         <mkdir dir="${dist.docs}"/>
         <mkdir dir="${dist.javadocs}"/>
@@ -498,9 +497,9 @@ Legal:
             <fileset dir="${target.docs}"/>
         </copy>
 
-	<copy todir="${dist.javadocs}">
-	    <fileset dir="${target.javadocs}"/>
-	</copy>
+        <copy todir="${dist.javadocs}">
+            <fileset dir="${target.javadocs}"/>
+        </copy>
 
         <copy todir="${dist.dir}">
             <fileset dir=".">
@@ -510,32 +509,32 @@ Legal:
             </fileset>
         </copy>
 
-        <chmod dir="${dist.dir}" perm="go-rwx" />
+        <chmod dir="${dist.dir}" perm="go-rwx"/>
 
     </target>
 
     <!-- Create the source distribution -->
     <target name="src-dist" depends="setup-properties">
 
-        <mkdir dir="${src.dist.dir}" />
+        <mkdir dir="${src.dist.dir}"/>
 
         <copy todir="${src.dist.lib}">
             <fileset dir="${lib.dir}">
-                <include name="README.txt" />
+                <include name="README.txt"/>
             </fileset>
         </copy>
 
-	<!-- <copy file="${lib.dir}/${logkit.jar}" todir="${src.dist.lib}"/> -->
+        <!-- <copy file="${lib.dir}/${logkit.jar}" todir="${src.dist.lib}"/> -->
 
         <copy todir="${src.dist.src}">
-      <fileset dir="${src.dir}">
-        <exclude name="**/*.zip"/>
-        <exclude name="diagrams/**"/>
-        <!--<exclude name="./documentation/**"/>-->
-        <exclude name="logos/**"/>
-        <exclude name="maven/**"/>
-        <exclude name="proposal/**"/>
-          </fileset>
+            <fileset dir="${src.dir}">
+                <exclude name="**/*.zip"/>
+                <exclude name="diagrams/**"/>
+                <!--<exclude name="./documentation/**"/>-->
+                <exclude name="logos/**"/>
+                <exclude name="maven/**"/>
+                <exclude name="proposal/**"/>
+            </fileset>
         </copy>
 
         <copy todir="${src.dist.docs}">
@@ -574,7 +573,7 @@ Legal:
 
         <fixcrlf srcdir="${src.dist.src}/java" includes="**/*.java" eol="lf"/>
 
-        <chmod dir="${src.dist.dir}" perm="go-rwx" />
+        <chmod dir="${src.dist.dir}" perm="go-rwx"/>
 
     </target>
 
@@ -583,7 +582,7 @@ Legal:
         <mkdir dir="${dist.base}"/>
 
         <antcall target="bin-dist">
-            <param name="dist.dir" value="${dist.name}" />
+            <param name="dist.dir" value="${dist.name}"/>
         </antcall>
 
         <copy file="${target.lib}/avalon-framework.jar" tofile="${tools.dir}/ext/avalon-framework.jar"/>
@@ -602,10 +601,10 @@ Legal:
             src="${dist.base}/${dist.name}-bin.tar"/>
 
         <delete file="${dist.base}/${dist.name}-bin.tar"/>
-        <delete dir="${dist.name}" />
+        <delete dir="${dist.name}"/>
 
         <antcall target="src-dist">
-            <param name="src.dist.dir" value="${dist.name}" />
+            <param name="src.dist.dir" value="${dist.name}"/>
         </antcall>
 
         <copy todir="${dist.name}">
@@ -616,7 +615,7 @@ Legal:
             basedir="${dist.name}/.."
             includes="${dist.name}/**"/>
 
-        <tar longfile="gnu" tarfile="${dist.base}/${dist.name}-src.tar" >
+        <tar longfile="gnu" tarfile="${dist.base}/${dist.name}-src.tar">
             <tarfileset dir="${dist.name}/.." mode="755" username="avalon" group="avalon">
                 <include name="${dist.name}/target.sh"/>
             </tarfileset>
@@ -630,7 +629,7 @@ Legal:
             src="${dist.base}/${dist.name}-src.tar"/>
 
         <delete file="${dist.base}/${dist.name}-src.tar"/>
-        <delete dir="${dist.name}" />
+        <delete dir="${dist.name}"/>
         <delete dir="${src.dist.dir}"/>
 
     </target>
@@ -645,8 +644,8 @@ Legal:
 
     <!-- Cleans up build and distribution directories -->
     <target name="clean" depends="setup-properties" description="cleans up the created directories">
-      <delete dir="${target.dir}" />
-	<delete dir="${dist.dir}" />
+        <delete dir="${target.dir}"/>
+        <delete dir="${dist.dir}"/>
         <delete>
             <fileset dir="." includes="**/*~" defaultexcludes="no"/>
         </delete>
@@ -654,10 +653,10 @@ Legal:
 
     <!-- Cleans absolutely everything up -->
     <target name="distclean" depends="clean" description="cleans up all generated files and directories">
-        <delete dir="${docs.dir}" />
-        <delete dir="${dist.base}" />
-        <delete dir="${src.dist.dir}" />
-        <delete file="Announcement.txt" />
-        <delete file="jakarta-news.xml" />
+        <delete dir="${docs.dir}"/>
+        <delete dir="${dist.base}"/>
+        <delete dir="${src.dist.dir}"/>
+        <delete file="Announcement.txt"/>
+        <delete file="jakarta-news.xml"/>
     </target>
 </project>
