@@ -307,7 +307,7 @@ public class CatalinaSevak {
         digester.addRuleSet( new NamingRuleSet( "Server/Service/Engine/Host/Context/" ) );
 
         digester.addRule( "Server/Service/Engine",
-                          new SetParentClassLoaderRule( digester,
+                          new ParentClassLoaderRule( digester,
                                                         m_parentLoader ) );
         return ( digester );
     }

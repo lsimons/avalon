@@ -9,7 +9,7 @@
   <!-- set up properties -->
   <property file="${user.home}/build.properties"/>
   <property file="${user.home}/.ant.properties"/>
-  <property file="${basedir}/.ant.properties"/>
+  <property file="${basedir}/ant.properties"/>
   <property file="${basedir}/../ant.properties"/>
   <property file="${basedir}/default.properties"/>
   <property file="${basedir}/../default.properties"/>

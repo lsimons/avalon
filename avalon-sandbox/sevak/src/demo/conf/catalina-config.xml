@@ -8,7 +8,7 @@
 <config>
 
     <sevak>
-        <config-file>conf/server-noexamples.xml.config</config-file>
+        <config-file>conf/server.xml</config-file>
     </sevak>
     <multihost-sevak-test>
       <Context docBase="/multihost-sevak" path="sevak-demo.war"/>
