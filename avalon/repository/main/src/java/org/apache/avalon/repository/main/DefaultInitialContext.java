@@ -54,6 +54,7 @@ package org.apache.avalon.repository.main;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 
 import java.lang.reflect.Constructor;
@@ -63,6 +64,7 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Properties;
 import java.text.ParseException;
+import java.util.StringTokenizer;
 
 import java.net.URL;
 import java.net.URLConnection;
@@ -96,7 +98,7 @@ import org.apache.avalon.util.factory.Factory;
  * 
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class DefaultInitialContext extends AbstractBuilder implements InitialContext
 {
@@ -109,6 +111,17 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
 
     public static final String STANDARD_NAME = 
         "avalon-repository-main";
+
+    private static final String AVALON = "avalon.properties";
+
+    private static final File USER_HOME = 
+      new File( System.getProperty( "user.home" ) );
+
+    private static final File USER_DIR = getBaseDirectory();
+
+    public static final String CACHE_KEY = "avalon.repository.cache.dir";
+
+    public static final String HOSTS_KEY = "avalon.repository.hosts";
 
     //------------------------------------------------------------------
     // state 
@@ -170,11 +183,15 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
       Artifact artifact, File cache, String[] hosts ) 
       throws RepositoryException
     {
-        m_cache = setupCache( cache );
 
+        Properties avalonHome = getLocalProperties( USER_HOME, AVALON );
+        Properties avalonWork = getLocalProperties( USER_DIR, AVALON );
+        
+        m_cache = setupCache( cache, avalonHome, avalonWork );
         System.out.println( "Initial-Cache: " + m_cache );
 
-        m_hosts = setupHosts( hosts );
+        m_hosts = setupHosts( hosts, avalonHome, avalonWork );
+
         Artifact implementation = 
           setupImplementation( artifact );
 
@@ -306,16 +323,16 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
     // implementation
     // ------------------------------------------------------------------------
 
-    private File setupCache( File file )
+    private File setupCache( File file, Properties home, Properties work )
     {
         if( null != file ) return file;
-        return setupDefaultCache();
+        return setupDefaultCache( home, work );
     }
 
-    private String[] setupHosts( String[] hosts )
+    private String[] setupHosts( String[] hosts, Properties home, Properties work )
     {
         if( null != hosts ) return RepositoryUtils.getCleanPaths( hosts );
-        return new String[0];
+        return setupDefaultHosts( home, work );
     }
 
     private Artifact setupImplementation( Artifact artifact )
@@ -379,14 +396,25 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
         }
     }
 
-    private static File setupDefaultCache()
+    private String[] setupDefaultHosts( Properties home, Properties work )
+    {
+        String homeValue = home.getProperty( HOSTS_KEY );
+        String workValue = work.getProperty( HOSTS_KEY, homeValue );
+        String value = System.getProperty( CACHE_KEY , workValue );
+        if( null == value ) return new String[0];
+        return expandHosts( value );
+    }
+
+    private static File setupDefaultCache( Properties home, Properties work )
     {
         try
         {
             String env = Env.getEnvVariable( "AVALON_HOME" );
             String avalon = System.getProperty( "avalon.home", env );
-            String home = System.getProperty( "avalon.repository.cache.dir", avalon );
-            if( null != home ) return new File( home );
+            String homeValue = home.getProperty( CACHE_KEY, avalon );
+            String workValue = work.getProperty( CACHE_KEY, homeValue );
+            String value = System.getProperty( CACHE_KEY , workValue );
+            if( null != value ) return new File( value  );
         }
         catch( Throwable e )
         {
@@ -397,8 +425,48 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
             System.err.println( message );
             return null;
         }
+        return new File( USER_HOME, ".avalon" ); 
+    }
 
-        final File home = new File( System.getProperty( "user.home" ) );
-        return new File( home, ".avalon" ); 
-    }    
+    private static File getBaseDirectory()
+    {
+        String base = System.getProperty( "basedir" );
+        if( null != base )
+        {
+            return new File( base );
+        }
+        return new File( System.getProperty( "user.dir" ) );
+    }
+
+    private Properties getLocalProperties( 
+      File dir, String filename ) 
+    {
+        Properties properties = new Properties();
+        if( null == dir ) return properties;
+        File file = new File( dir, filename );
+        if( !file.exists() ) return properties;
+        try
+        {
+            properties.load( new FileInputStream( file ) );
+            return properties;
+        }
+        catch( Throwable e )
+        {
+            final String error = 
+              "Unexpected exception while attempting to read properties from: " 
+              + file;
+            throw new RepositoryRuntimeException( error, e );
+        }
+    }
+
+    private static String[] expandHosts( String arg )
+    {
+        ArrayList list = new ArrayList();
+        StringTokenizer tokenizer = new StringTokenizer( arg, "," );
+        while( tokenizer.hasMoreTokens() )
+        {
+            list.add( tokenizer.nextToken() );
+        }
+        return (String[]) list.toArray( new String[0] );
+    }
 }

@@ -75,7 +75,7 @@ import org.apache.avalon.util.factory.impl.Parameter ;
  * for application to a factory.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class RepositoryCriteria extends Criteria
 {
@@ -136,7 +136,7 @@ public class RepositoryCriteria extends Criteria
    /**
     * Repository proxy password parameter descriptor.
     */
-    public static final String REPOSITORY_REMOTE_HOSTS = "avalon.repository.remote.url";
+    public static final String REPOSITORY_REMOTE_HOSTS = "avalon.repository.host";
     public static final Parameter REPOSITORY_REMOTE_HOSTS_PARAM = 
       new Parameter( 
         REPOSITORY_REMOTE_HOSTS,
