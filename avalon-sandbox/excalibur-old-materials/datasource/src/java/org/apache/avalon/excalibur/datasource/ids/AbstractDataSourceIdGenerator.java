@@ -62,16 +62,15 @@ import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.ServiceSelector;
 import org.apache.avalon.framework.service.Serviceable;
-import org.apache.avalon.framework.thread.ThreadSafe;
 
 /**
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.8 $ $Date: 2003/04/29 03:02:03 $
+ * @version CVS $Revision: 1.9 $ $Date: 2003/04/29 03:09:01 $
  * @since 4.1
  */
 public abstract class AbstractDataSourceIdGenerator
     extends AbstractIdGenerator
-    implements IdGenerator, Serviceable, Configurable, Initializable, Disposable, ThreadSafe
+    implements Serviceable, Configurable, Initializable, Disposable
 {
     private String m_dataSourceName;
     private ServiceSelector m_dbSelector;
