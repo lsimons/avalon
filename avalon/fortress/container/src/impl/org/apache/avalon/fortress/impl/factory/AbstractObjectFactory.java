@@ -49,10 +49,7 @@
 */
 package org.apache.avalon.fortress.impl.factory;
 
-import org.apache.avalon.framework.activity.Disposable;
-import org.apache.avalon.framework.activity.Initializable;
-import org.apache.avalon.framework.activity.Startable;
-import org.apache.avalon.framework.activity.Suspendable;
+import org.apache.avalon.framework.activity.*;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.component.Composable;
 import org.apache.avalon.framework.component.Recomposable;
@@ -64,6 +61,7 @@ import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.logger.Loggable;
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Reparameterizable;
+import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.excalibur.instrument.Instrument;
 import org.apache.excalibur.instrument.Instrumentable;
@@ -199,19 +197,19 @@ public abstract class AbstractObjectFactory implements ObjectFactory, Instrument
     protected static Class[] guessWorkInterfaces( final Class clazz )
     {
         final HashSet workInterfaces = new HashSet();
-        
+
         // Get *all* interfaces
         guessWorkInterfaces( clazz, workInterfaces );
 
         // Make sure we have Component in there.
         workInterfaces.add( Component.class );
-        
+
         // Remove the invalid ones.
         for ( int j = 0; j < INVALID_INTERFACES.length; j++ )
         {
             workInterfaces.remove(INVALID_INTERFACES[j]);
         }
-        
+
         return (Class[]) workInterfaces.toArray( new Class[workInterfaces.size()] );
     }
 
@@ -227,14 +225,51 @@ public abstract class AbstractObjectFactory implements ObjectFactory, Instrument
     {
         if ( null != clazz )
         {
-            final Class[] interfaces = clazz.getInterfaces();
-
-            for ( int i = 0; i < interfaces.length; i++ )
-            {
-                workInterfaces.add( interfaces[i] );
-            }
+            addInterfaces( clazz.getInterfaces(), workInterfaces );
 
             guessWorkInterfaces( clazz.getSuperclass(), workInterfaces );
         }
+    }
+
+    /**
+     * Get a list of interfaces to proxy by scanning through
+     * all interfaces a class implements.
+     *
+     * @param interfaces      the array of interfaces
+     * @param workInterfaces  the set of current work interfaces
+     */
+    private static void addInterfaces( final Class[] interfaces,
+                                             final Set workInterfaces )
+    {
+        for ( int i = 0; i < interfaces.length; i++ )
+        {
+            workInterfaces.add( interfaces[i] );
+            addInterfaces(interfaces[i].getInterfaces(), workInterfaces);
+        }
+    }
+
+    public static void main(String[] args) throws Exception
+    {
+        BCELWrapperGenerator generator = new BCELWrapperGenerator();
+        Class klass = generator.createWrapper(Test.class);
+        Class[] ifaces = klass.getInterfaces();
+        for(int i =0; i < ifaces.length; i++)
+        {
+            System.out.println(ifaces[i].getName());
+        }
+    }
+
+    public static interface Base extends Executable,Serviceable{};
+    public static interface Extended extends Base{void extend();};
+    public static interface Complicate extends Extended{void complicate();};
+    public static abstract class SuperTest implements Complicate
+    {
+        public final void execute(){}
+    }
+    public static class Test extends SuperTest
+    {
+        public void extend(){}
+        public void complicate(){}
+        public void service(ServiceManager manager){}
     }
 }

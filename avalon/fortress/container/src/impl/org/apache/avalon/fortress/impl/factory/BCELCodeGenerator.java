@@ -50,15 +50,12 @@
 package org.apache.avalon.fortress.impl.factory;
 
 import org.apache.bcel.Constants;
-import org.apache.bcel.classfile.ExceptionTable;
 import org.apache.bcel.classfile.Field;
 import org.apache.bcel.classfile.JavaClass;
 import org.apache.bcel.classfile.Method;
 import org.apache.bcel.generic.*;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -344,11 +341,7 @@ public final class BCELCodeGenerator
      *  </code>
      * </pre>
      *
-     * @param methodName     The name of the method to create
-     * @param returnType     The return type of the method to create
-     * @param parameterTypes The array of parameter types of the method to create
-     * @param exceptionNames The array of the names of the exceptions the method
-     *                        to create might throw
+     * @param meth           The method descriptor
      *
      * @return Method         The {@link org.apache.bcel.classfile.Method Method}
      *                        object representing the created method
@@ -356,11 +349,7 @@ public final class BCELCodeGenerator
      * @throws IllegalArgumentException If any of the parameters passed in is null.
      * @throws IllegalStateException If this instance is not initialized.
      */
-    public Method createMethodWrapper(
-        final String methodName,
-        final Type returnType,
-        final Type[] parameterTypes,
-        final String[] exceptionNames )
+    public Method createMethodWrapper( MethodDesc meth )
         throws IllegalArgumentException, IllegalStateException
     {
         if ( !isInitialized() )
@@ -369,10 +358,10 @@ public final class BCELCodeGenerator
                 "BCELMethodFieldImplementationGenerator is not initialized.";
             throw new IllegalStateException( message );
         }
-        if ( methodName == null
-            || returnType == null
-            || parameterTypes == null
-            || exceptionNames == null )
+        if ( meth.name == null
+            || meth.returnType == null
+            || meth.parameterTypes == null
+            || meth.exceptionNames == null )
         {
             final String message = "None of the parameters may be <null>.";
             throw new IllegalArgumentException( message );
@@ -381,18 +370,18 @@ public final class BCELCodeGenerator
         final MethodGen mg =
             new MethodGen(
                 Constants.ACC_PUBLIC,
-                returnType,
-                parameterTypes,
+                meth.returnType,
+                meth.parameterTypes,
                 null,
-                methodName,
+                meth.name,
                 m_wrapperClassName,
                 m_instructionList,
                 m_constPoolGenerator );
 
         // Create throws clause
-        for ( int i = 0; i < exceptionNames.length; i++ )
+        for ( int i = 0; i < meth.exceptionNames.length; i++ )
         {
-            mg.addException( exceptionNames[i] );
+            mg.addException( meth.exceptionNames[i] );
         }
 
         // Loading the wrapped class instance onto the stack ...
@@ -408,30 +397,68 @@ public final class BCELCodeGenerator
         // Loading all parameters onto the stack ...
         short stackIndex = 1;
         // Stack index 0 is occupied by the wrapped class instance.
-        for ( int i = 0; i < parameterTypes.length; ++i )
+        for ( int i = 0; i < meth.parameterTypes.length; ++i )
         {
             m_instructionList.append(
-                    InstructionFactory.createLoad( parameterTypes[i], stackIndex ) );
-            stackIndex += parameterTypes[i].getSize();
+                    InstructionFactory.createLoad( meth.parameterTypes[i], stackIndex ) );
+            stackIndex += meth.parameterTypes[i].getSize();
         }
+
+        findImplementation( meth );
 
         // Invoking the specified method with the loaded parameters on
         // the wrapped class instance ...
         m_instructionList.append(
             m_instructionFactory.createInvoke(
-                m_classToWrap.getClassName(),
-                methodName,
-                returnType,
-                parameterTypes,
-                Constants.INVOKEVIRTUAL ) );
+                    meth.implementingClassName,
+                    meth.name,
+                    meth.returnType,
+                    meth.parameterTypes,
+                (meth.isFinal) ? Constants.INVOKENONVIRTUAL : Constants.INVOKEVIRTUAL ) );
 
         // Creating return statement ...
-        m_instructionList.append( InstructionFactory.createReturn( returnType ) );
+        m_instructionList.append( InstructionFactory.createReturn( meth.returnType ) );
 
         mg.setMaxStack();
         mg.setMaxLocals();
 
         return extractMethod( mg );
+    }
+
+    private void findImplementation( MethodDesc meth )
+    {
+        JavaClass currentClass = m_classToWrap;
+
+        while ( null != currentClass && null == meth.implementingClassName )
+        {
+            Method[] methList = currentClass.getMethods();
+
+            for (int i = 0; i < methList.length; i++)
+            {
+                boolean isEqual = methList[i].isPublic() && !methList[i].isAbstract();
+                isEqual = isEqual && methList[i].getName().equals(meth.name);
+                isEqual = isEqual && methList[i].getReturnType().equals(meth.returnType);
+                isEqual = isEqual && methList[i].getArgumentTypes().length == meth.parameterTypes.length;
+                Type[] parameterTypes = methList[i].getArgumentTypes();
+                for (int j = 0; isEqual && j < parameterTypes.length; j++)
+                {
+                    isEqual = isEqual && parameterTypes[j].equals(meth.parameterTypes[j]);
+                }
+
+                if (isEqual)
+                {
+                    meth.implementingClassName = currentClass.getClassName();
+                    meth.isFinal = methList[i].isFinal();
+                }
+            }
+
+            currentClass = currentClass.getSuperClass();
+        }
+
+        if (null == meth.implementingClassName)
+        {
+            throw new IllegalStateException("No concrete class for the requested method: " + meth.toString());
+        }
     }
 
     /**
@@ -462,36 +489,26 @@ public final class BCELCodeGenerator
             throw new IllegalArgumentException( message );
         }
 
-        return createMethodWrapper(
-            methodToWrap.getName(),
-            methodToWrap.getReturnType(),
-            methodToWrap.getArgumentTypes(),
-            methodToWrap.getExceptionTable().getExceptionNames() );
+        return createMethodWrapper( new MethodDesc( methodToWrap ) );
     }
 
     /**
      * Creates an implementation for the supplied {@link org.apache.bcel.classfile.JavaClass JavaClass}
      * instance representing an interface.
      *
-     * @param interfaceToImplement The interface we want to create an implementation for
+     * @param interfacesToImplement The interfaces we want to create an implementation for
      * @return Method[]            An array of {@link org.apache.bcel.classfile.Method Method}
      *                              instances representing the interface implementation.
      * @throws IllegalArgumentException If <code>interfaceToImplement</code> is <code>null</code>
      *                                   or does not represent an interface
      * @throws IllegalStateException    If this instance has not been initialized
      */
-    public Method[] createImplementation( final JavaClass interfaceToImplement )
+    public Method[] createImplementation( final JavaClass[] interfacesToImplement )
         throws Exception
     {
-        if ( interfaceToImplement == null )
+        if ( interfacesToImplement == null )
         {
             final String message = "Interface to implement must not be <null>.";
-            throw new IllegalArgumentException( message );
-        }
-        if ( !interfaceToImplement.isInterface() )
-        {
-            final String message =
-                "Supplied JavaClass parameter is not an interface.";
             throw new IllegalArgumentException( message );
         }
         if ( !isInitialized() )
@@ -500,30 +517,21 @@ public final class BCELCodeGenerator
                 "BCELInterfaceImplementationGenerator is not initialized.";
             throw new IllegalStateException( message );
         }
+        final Set gmList = new HashSet();
 
-        final Method[] interfaceMethods = extractMethods( interfaceToImplement );
-        final List gmList = new ArrayList();
+        final MethodDesc[] interfaceMethods = extractMethods( interfacesToImplement );
         for ( int i = 0; i < interfaceMethods.length; ++i )
         {
-            final Method im = interfaceMethods[i];
+            final MethodDesc im = interfaceMethods[i];
 
             // Skip <clinit> method ...
-            if ( im.getName().equals( "<clinit>" ) )
+            if ( im.name.equals( "<clinit>" ) )
             {
                 continue;
             }
 
-            // Extract exception names ...
-            final ExceptionTable exTable = im.getExceptionTable();
-            final String[] exceptionNames = ( exTable == null ? new String[]{
-            }
-                : exTable.getExceptionNames() );
             final Method generatedMethod =
-                createMethodWrapper(
-                    im.getName(),
-                    im.getReturnType(),
-                    im.getArgumentTypes(),
-                    exceptionNames );
+                createMethodWrapper( im );
 
             gmList.add( generatedMethod );
         }
@@ -564,37 +572,37 @@ public final class BCELCodeGenerator
      * declared in the supplied {@link org.apache.bcel.classfile.JavaClass JavaClass}
      * instance. This instance is supposed to represent an interface.
      *
-     * @param interfaceToImplement The {@link org.apache.bcel.classfile.JavaClass JavaClass}
-     *                              instance representing the interface we are asking for
+     * @param interfacesToImplement The {@link org.apache.bcel.classfile.JavaClass JavaClass}
+     *                              instances representing the interfaces we are asking for
      *                              its methods.
-     * @return Method[]         The array of {@link org.apache.bcel.classfile.Method Method}s
+     * @return MethodDesc[]         The array of {@link org.apache.bcel.classfile.Method Method}s
      *                              declared by the interface
      * @throws IllegalArgumentException If <code>interfaceToImplement</code> does not represent an interface
      * @throws NullPointerException if the <code>interfaceToImplement</code> is <code>null</code>
      */
-    static Method[] extractMethods( final JavaClass interfaceToImplement )
+    static MethodDesc[] extractMethods( final JavaClass interfacesToImplement[] )
         throws Exception
     {
-        if ( interfaceToImplement == null )
+        if ( interfacesToImplement == null )
         {
-            final String message = "JavaClass parameter must not be <null>.";
+            final String message = "JavaClass[] parameter must not be <null>.";
             throw new NullPointerException( message );
-        }
-        if ( !interfaceToImplement.isInterface() )
-        {
-            final String message = "JavaClass parameter must be an interface";
-            throw new IllegalArgumentException( message );
         }
 
         Set methods = new HashSet();
-        extractMethods( interfaceToImplement, methods );
-        JavaClass[] interfaces = interfaceToImplement.getInterfaces();
-        for ( int i = 0; i < interfaces.length; i++ )
+        for (int x = 0; x < interfacesToImplement.length; x++)
         {
-            extractMethods( interfaces[i], methods );
+            JavaClass iface = interfacesToImplement[x];
+            if ( !iface.isInterface() )
+            {
+                final String message = "JavaClass parameter must be an interface";
+                throw new IllegalArgumentException( message );
+            }
+
+            extractMethods( iface, methods );
         }
 
-        return (Method[]) methods.toArray( new Method[]{} );
+        return (MethodDesc[]) methods.toArray( new MethodDesc[]{} );
     }
 
     private static final void extractMethods( final JavaClass interfaceToImplement, final Set methods )
@@ -602,7 +610,79 @@ public final class BCELCodeGenerator
         Method[] meth = interfaceToImplement.getMethods();
         for ( int m = 0; m < meth.length; m++ )
         {
-            methods.add( meth[m] );
+            MethodDesc desc = new MethodDesc(meth[m]);
+            methods.add( desc );
+        }
+    }
+
+    private static final class MethodDesc
+    {
+        final String name;
+        final Type returnType;
+        final Type[] parameterTypes;
+        String[] exceptionNames;
+        boolean isFinal;
+        String implementingClassName;
+
+        MethodDesc( Method meth )
+        {
+            this(meth.getName(), meth.getReturnType(), meth.getArgumentTypes(),
+                    (null == meth.getExceptionTable() ) ? new String[0] : meth.getExceptionTable().getExceptionNames());
+        }
+
+        MethodDesc(String name, Type returnType, Type[] parameterTypes, String[] exceptionNames)
+        {
+            this.name = name;
+            this.returnType = returnType;
+            this.parameterTypes = parameterTypes;
+            this.exceptionNames = exceptionNames;
+            isFinal = false;
+        }
+
+        public boolean equals(Object o)
+        {
+            MethodDesc other = (MethodDesc)o;
+            boolean isEqual = name.equals(other.name);
+            isEqual = isEqual && returnType.equals(other.returnType);
+            isEqual = isEqual && parameterTypes.length == other.parameterTypes.length;
+
+            for (int i = 0; isEqual && i < parameterTypes.length; i++)
+            {
+                isEqual = isEqual && parameterTypes[i].equals(other.parameterTypes[i]);
+            }
+
+            return isEqual;
+        }
+
+        public int hashCode()
+        {
+            int hash = name.hashCode();
+            hash >>>= 5;
+            hash ^= returnType.hashCode();
+
+            for (int i = 0; i < parameterTypes.length; i++)
+            {
+                hash >>>= parameterTypes.length;
+                hash ^= parameterTypes[i].hashCode();
+            }
+
+            return hash;
+        }
+
+        public String toString()
+        {
+            StringBuffer str = new StringBuffer(returnType.getSignature());
+            str.append( " " ).append( name ).append( "(" );
+
+            for(int i = 0; i < parameterTypes.length; i++)
+            {
+                str.append(parameterTypes[i].toString());
+                if (i > 0) str.append(",");
+            }
+
+            str.append("),").append((isFinal) ? "f" : "v");
+
+            return str.toString();
         }
     }
 }

@@ -216,7 +216,7 @@ final class BCELWrapperGenerator
     public BCELWrapperGenerator()
     {
         m_codeGenerator = new BCELCodeGenerator();
-        ClassLoader contextClassLoader = 
+        ClassLoader contextClassLoader =
                 Thread.currentThread().getContextClassLoader();
         m_repository = new ClassLoaderRepository( contextClassLoader );
         m_bcelClassLoader =
@@ -358,15 +358,11 @@ final class BCELWrapperGenerator
             m_codeGenerator.createWrappedClassAccessor() );
 
         // Implement interfaces
-        Method[] interfaceMethods;
-        for ( int i = 0; i < interfacesToImplement.length; ++i )
+        Method[] interfaceMethods = m_codeGenerator.createImplementation( interfacesToImplement );
+
+        for ( int j = 0; j < interfaceMethods.length; ++j )
         {
-            interfaceMethods =
-                m_codeGenerator.createImplementation( interfacesToImplement[i] );
-            for ( int j = 0; j < interfaceMethods.length; ++j )
-            {
-                m_classGenerator.addMethod( interfaceMethods[j] );
-            }
+            m_classGenerator.addMethod( interfaceMethods[j] );
         }
 
         return m_classGenerator.getJavaClass().getBytes();
