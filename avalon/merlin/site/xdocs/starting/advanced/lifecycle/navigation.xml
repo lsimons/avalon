@@ -37,7 +37,7 @@
         <item name="Installation" href="/starting/installation/index.html"/>
         <item name="Using Merlin" href="/starting/tutorial/index.html"/>
         <item name="Advanced Features" href="/starting/advanced/index.html">
-          <item name="Lifecycle Extensions" href="/starting/advanced/lifecycle/index.html">
+          <item name="Lifecycle Tools" href="/starting/advanced/lifecycle/index.html">
             <item name="Overview" href="/starting/advanced/lifecycle/extension.html"/>
             <item name="Interfaces" href="/starting/advanced/lifecycle/interfaces.html"/>
             <item name="Example" href="/starting/advanced/lifecycle/example.html"/>
@@ -49,8 +49,8 @@
         </item>
       </item>
       <item name="Merlin System" href="/merlin/index.html"/>
-      <item name="Tools" href="/tools/index.html"/>
-      <item name="Extensions" href="/extensions/index.html" />
+      <item name="Extensions" href="/extensions/index.html"/>
+      <item name="Tools" href="/tools/index.html" />
     </menu>
 
     <menu name="Resources">

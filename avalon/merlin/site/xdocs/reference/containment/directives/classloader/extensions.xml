@@ -31,7 +31,7 @@
     <section name="Library Directive">
 
       <subsection name="Description">
-<p>An engine may contain a muliple extensions path declarations that specify the directories in which extension jar files may be located.  Extensions directories may be declared within any classloader.</p>
+<p>An engine may contain a muliple extensions path declarations that specify the directories in which extension jar files may be located.  Tools directories may be declared within any classloader.</p>
 
 <p>The extensions element may contain multiple directory-set declarations, each containing possible multiple relative directory paths.  Merlin will attempt to resolve any jar files declaring extension dependencies based on the jar files included in the declared extension directories and the extension directories declared in parent engine.</p>
       </subsection>
