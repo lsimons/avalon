@@ -1,0 +1,7 @@
+=======================================================================
+                          WARNING!
+
+The contents of this directory will be (or at least should be) removed
+soon. Please update all references to point somewhere inside the
+contents of avalon-site!
+=======================================================================
