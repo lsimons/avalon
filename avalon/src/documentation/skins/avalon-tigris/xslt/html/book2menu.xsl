@@ -14,20 +14,22 @@
   <xsl:template match="project">
   </xsl:template>
 
-  <xsl:template match="menu[position()=1]">
+<!--  <xsl:templaatch="menu[position()=1]">
     <xsl:apply-templates/>
-  </xsl:template>
+  </xsl:template>te match="menu[position()=1]">
+    <xsl:apply-templates/>
+  </xsl:template>-->
 
   <xsl:template match="menu">
      <div>
-      <strong><xsl:value-of select="@label"/></strong>  
+      <strong><xsl:value-of select="@label"/></strong>
        <xsl:apply-templates/>
-	 </div>     
+     </div>
   </xsl:template>
 
   <xsl:template match="menu-item">
     <xsl:if test="not(@type) or @type!='hidden'">
-     <div><small>    
+     <div><!--<small>-->
        <xsl:choose>
          <xsl:when test="@href=$resource">
           <xsl:value-of select="@label"/>
@@ -36,13 +38,13 @@
           <a href="{@href}"><xsl:value-of select="@label"/></a>
         </xsl:otherwise>
        </xsl:choose>
-       </small></div>
+       <!--</small>--></div>
      </xsl:if>
   </xsl:template>
 
   <xsl:template match="external">
      <xsl:if test="not(@type) or @type!='hidden'">
-     <div><small> 
+     <div><small>
       <a href="{@href}"><xsl:value-of select="@label"/></a>
       </small></div>
     </xsl:if>

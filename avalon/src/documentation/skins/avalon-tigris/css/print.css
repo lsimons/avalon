@@ -5,3 +5,12 @@ body.docs div.docs	{
 	margin: 0 !important;
 	border: none !important
 	}
+
+/* just to be sure */
+#navcolumn {
+ width: 0px;
+}
+
+#leftcol {
+ width: 0px;
+}

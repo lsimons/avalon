@@ -13,15 +13,15 @@
 
             <title>
             <xsl:value-of select="/site/document/title" />
-            - 
+            -
             <xsl:value-of select="/site/document/subtitle" />
             </title>
          </head>
 
          <body marginwidth="0" marginheight="0" class="composite">
+<!-- TOP IMAGE -->
             <div id="banner">
                <table border="0" cellspacing="0" cellpadding="8" width="100%">
-<!-- TOP IMAGE -->
                   <tbody>
                      <tr>
                         <td align="left">
@@ -40,7 +40,7 @@
             <div id="breadcrumbs">
               <script type="text/javascript" language="JavaScript" src="skin/breadcrumbs.js"></script>
               <!-- optimized version crumb:
-                <script type="text/javascript" language="JavaScript" src="skin/breadcrumbs-optimized.js"></script> 
+                <script type="text/javascript" language="JavaScript" src="skin/breadcrumbs-optimized.js"></script>
                -->
             </div>
 
@@ -50,7 +50,7 @@
                <tbody>
                   <tr valign="top">
 <!-- LEFT SIDE NAVIGATION -->
-                     <td id="leftcol" width="20%">
+                     <td id="leftcol">
                         <div id="navcolumn">
                            <xsl:copy-of select="/site/menu/node()|@*" />
                         </div>
@@ -76,14 +76,14 @@
 
 <!-- FOOTER -->
             <div id="footer">
-               <table border="0" cellspacing="0" cellpadding="4">
+               <table border="0" cellspacing="0" cellpadding="4" width="100%">
                   <tbody>
                      <tr>
                         <td align="left">Copyright &#x00A9; @year@ @vendor@. All Rights Reserved.</td>
                         <td></td>
-                        <td><script language="JavaScript">
-                          <![CDATA[<!--  
-                                  document.write("last modified: " + document.lastModified); 
+                        <td align="right"><script language="JavaScript">
+                          <![CDATA[<!--
+                                  document.write("last modified: " + document.lastModified);
                           //  -->]]>
 
                            </script>
