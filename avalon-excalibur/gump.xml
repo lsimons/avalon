@@ -270,9 +270,12 @@
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
         <depend project="checkstyle"/>
+        <depend project="jakarta-avalon"/>
         <depend project="excalibur-collections"/>
         <depend project="excalibur-concurrent"/>
         <depend project="excalibur-threadcontext"/>
+        <depend project="excalibur-thread"/>
+        <depend project="excalibur-util"/>
         <work nested="event/build/classes"/>
 
         <home nested="event"/>
