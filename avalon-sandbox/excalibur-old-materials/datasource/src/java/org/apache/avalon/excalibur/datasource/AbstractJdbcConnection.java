@@ -76,7 +76,7 @@ import org.apache.avalon.framework.logger.Logger;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
- * @version CVS $Revision: 1.29 $ $Date: 2003/06/11 17:40:21 $
+ * @version CVS $Revision: 1.30 $ $Date: 2003/07/18 02:39:06 $
  * @since 4.1
  */
 public class AbstractJdbcConnection
@@ -242,22 +242,30 @@ public class AbstractJdbcConnection
     public void close()
             throws SQLException
     {
-        // Always mark the time the connection was placed back in the pool
-        //  as its last used time.
-        m_lastUsed = System.currentTimeMillis();
-        
+        // IMPORTANT - never simply call dispose within this method.  The
+        //  pool will have no way of knowing that the connection was disposed
+        //  and blocking pools will eventually run out of resources thinking
+        //  that all of the connections are in use.
         try
         {
-            clearAllocatedStatements();
-            m_connection.clearWarnings();
-            m_pool.put( (Poolable)m_proxy );
+            // Always mark the time the connection was placed back in the pool
+            //  as its last used time.
+            m_lastUsed = System.currentTimeMillis();
+            
+            try
+            {
+                clearAllocatedStatements();
+                m_connection.clearWarnings();
+            }
+            catch( SQLException se )
+            {
+                // This can be ignored here.
+            }
         }
-        catch( SQLException se )
+        finally
         {
-            // gets rid of connections that throw SQLException during
-            // clean up
-            getLogger().error( "Connection could not be recycled", se );
-            this.dispose();
+            // Always put the connection back into the pool
+            m_pool.put( (Poolable)m_proxy );
         }
     }
 
