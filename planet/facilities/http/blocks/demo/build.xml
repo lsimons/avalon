@@ -10,6 +10,7 @@
     <x:block name="demo">
       <x:include name="server" artifact="block:avalon/http/avalon-http-server#SNAPSHOT"/>
       <x:include name="static-context" artifact="block:avalon/http/avalon-http-static#SNAPSHOT"/>
+      <x:component name="hello" class="org.apache.avalon.playground.HelloComponent"/>
     </x:block>
   </target>
 

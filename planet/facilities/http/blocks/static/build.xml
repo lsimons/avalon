@@ -16,6 +16,8 @@
           <x:parameter name="allow-methods" value="GET"/>
         </x:parameters>
       </x:component>
+      <x:component name="forward-handler" class="org.apache.avalon.http.impl.ForwardHandler"/>
+      <x:component name="model-handler" class="org.apache.avalon.http.impl.ModelHandler"/>
       <x:component name="notfound-handler" class="org.apache.avalon.http.impl.NotFoundHandler"/>
       <x:component name="request-log" class="org.apache.avalon.http.impl.NcsaRequestLog">
         <x:parameters>

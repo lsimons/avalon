@@ -4,9 +4,27 @@
 
   <target path="/demo/static-context/context">
     <configuration>
-      <context-path>/static</context-path>
+      <context-path>/</context-path>
       <resource-base>.</resource-base>
     </configuration>
+  </target>
+
+  <target path="/demo/static-context/forward-handler">
+    <configuration>
+      <forwards>
+         <forward>
+           <from>/hello</from>
+           <to>/demo/hello</to>
+         </forward>
+      </forwards>
+    </configuration>
+  </target>
+
+  <target path="/demo/static-context/model-handler">
+    <parameters>
+      <parameter name="context-path" value="/demo/hello"/>
+      <parameter name="target" value="/demo/hello"/>
+    </parameters>
   </target>
 
 </targets>
