@@ -59,7 +59,7 @@ import org.apache.avalon.composition.model.ProfileSelector;
 import org.apache.avalon.meta.info.DependencyDescriptor;
 import org.apache.avalon.meta.info.StageDescriptor;
 import org.apache.avalon.composition.data.Mode;
-import org.apache.avalon.composition.data.Profile;
+import org.apache.avalon.composition.data.DeploymentProfile;
 
 /**
  * Default profile selector class. The default selector selects profiles based
@@ -68,7 +68,7 @@ import org.apache.avalon.composition.data.Profile;
  * the first profile matching the category is returned.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.2 $ $Date: 2003/10/28 20:21:00 $
+ * @version $Revision: 1.3 $ $Date: 2004/01/13 11:41:26 $
  */
 class DefaultProfileSelector implements ProfileSelector
 {
@@ -85,7 +85,7 @@ class DefaultProfileSelector implements ProfileSelector
      * @return the preferred profile or null if no satisfactory profile 
      *    can be established
      */
-    public Profile select( Profile[] profiles, DependencyDescriptor dependency )
+    public DeploymentProfile select( DeploymentProfile[] profiles, DependencyDescriptor dependency )
     {
         return select( profiles );
     }
@@ -99,7 +99,7 @@ class DefaultProfileSelector implements ProfileSelector
      * @return the preferred extension provider profile or null if 
      *    no satisfactory profile can be established
      */
-    public Profile select( Profile[] profiles, StageDescriptor stage )
+    public DeploymentProfile select( DeploymentProfile[] profiles, StageDescriptor stage )
     {
         return select( profiles );
     }
@@ -118,7 +118,7 @@ class DefaultProfileSelector implements ProfileSelector
      * @return the preferred profile or null if no satisfactory 
      *   provider can be established
      */
-    private Profile select( Profile[] profiles )
+    private DeploymentProfile select( DeploymentProfile[] profiles )
     {
         if( profiles.length == 0 )
         {

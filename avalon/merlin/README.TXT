@@ -5,7 +5,7 @@
 What Is It?
 -----------
 
-   Merlin is an Avalon "Service Management Platform" (SMP):
+   Avalon Service Management Platform (SMP) Version @VERSION@
 
    Merlin is a service management platform based on an advanced
    assembly engine. Its focus is to provide support for the

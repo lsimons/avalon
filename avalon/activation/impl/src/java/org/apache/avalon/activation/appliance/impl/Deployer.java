@@ -52,6 +52,7 @@ package org.apache.avalon.activation.appliance.impl;
 
 import org.apache.avalon.activation.appliance.Deployable;
 
+import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.model.ContainmentModel;
 
 import org.apache.avalon.framework.logger.Logger;
@@ -63,7 +64,7 @@ import org.apache.avalon.framework.logger.Logger;
  * serve basis.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/01/08 09:45:14 $
+ * @version $Revision: 1.4 $ $Date: 2004/01/13 11:41:22 $
  * @see DeploymentRequest
  */
 class Deployer
@@ -80,13 +81,13 @@ class Deployer
     //------------------------------------------------------------
 
     private final Logger m_logger;
-    private final SimpleFIFO m_deploymentFIFO;
+    private final SimpleFIFO m_deploymentFIFO = new SimpleFIFO();
 
     //------------------------------------------------------------
     // mutable static
     //------------------------------------------------------------
 
-    private Thread      m_deploymentThread;
+    private Thread m_deploymentThread;
     
     //------------------------------------------------------------
     // constructor
@@ -95,10 +96,8 @@ class Deployer
     Deployer( Logger logger )
     {
         m_logger = logger;
-        m_deploymentFIFO = new SimpleFIFO();
-        
         m_deploymentThread = 
-          new Thread( this, "Deployer - " + m_ThreadCounter++ );
+          new Thread( this, "Deployer " + m_ThreadCounter++ );
         m_deploymentThread.start();
     }
 
@@ -106,32 +105,48 @@ class Deployer
     // implementation
     //------------------------------------------------------------
 
-    /** Deploys the given Deployable, and allows a maximum time
-     *  for the deployment to complete.
-     * @throws DeploymentException if the deployment hanged, but the
-     * thread interruption was successful.
-     * @throws FatalDeploymentException if the deployment hanged, and
-     * the thread interruption failed.
-     * @throws Exception any Exception or Error thrown by within the
-     * deployment of the component is forwarded to the caller.
+    /** 
+     * Deploys the given Deployable, and allows a maximum time
+     * for the deployment to complete.
+     *
+     * @param deployable the deployable model
+     * @param timeout the maximum time to allow for deployment
+     *
+     * @throws DeploymentException if the deployment was not 
+     *   completed within the timeout deadline and interuption
+     *   of the deployment was successful
+     * @throws FatalDeploymentException if the deployment was not 
+     *   completed within the timeout deadline and interuption
+     *   of the deployment was not successful
+     * @throws Exception any Exception or Error thrown within the
+     *   deployment of the component is forwarded to the caller.
      * @throws InvocationTargetException if the deployment throws a
-     * Throwable subclass that is NOT of type Exception or Error.
+     *   Throwable subclass that is NOT of type Exception or Error.
      **/
-    void deploy( Deployable deployable, long timeout )
+    void deploy( DeploymentModel deployable )
         throws Exception
     {
-        if( deployable == null )
+        if( null == deployable )
         {
             throw new NullPointerException( "deployable" );
         }
         if( m_logger.isDebugEnabled() )
         {
-            m_logger.debug( "Deployer: deploy - " + deployable );
+            m_logger.debug( "deploying: " + deployable );
         }
-        DeploymentRequest req = 
-          new DeploymentRequest( deployable, m_deploymentThread );
-        m_deploymentFIFO.put( req );
-        req.waitForCompletion( timeout );
+        if( null != m_deploymentThread )
+        {
+            DeploymentRequest req = 
+              new DeploymentRequest( deployable, m_deploymentThread );
+            m_deploymentFIFO.put( req );
+            req.waitForCompletion();
+        }
+        else
+        {
+            final String warning = 
+              "Ignoring attempt to deploy a component on a disposed deployer.";
+            m_logger.warn( warning );
+        }
     }
 
     /** 
@@ -143,32 +158,51 @@ class Deployer
     {
         if( m_logger.isDebugEnabled() )
         {
-            m_logger.debug( "Deployer: dispose deployer " );
+            m_logger.debug( "disposal" );
         }
-        m_deploymentThread.interrupt();
+        if( null != m_deploymentThread )
+        { 
+            m_deploymentThread.interrupt();
+        }
     }
     
     public void run()
     {
         if( m_logger.isDebugEnabled() )
         {
-            m_logger.debug( "Deployer: DeploymentThread started." );
+            m_logger.debug( "deployment thread started" );
         }
         try
         {
             while( true )
             {
                 DeploymentRequest req = (DeploymentRequest) m_deploymentFIFO.get();
-                Deployable deployable = req.getDeployable();
+                DeploymentModel deployable = req.getDeployable();
+                if( null == deployable.getHandler() )
+                {
+                    final String error =
+                      "No handler assigned to model: " + deployable;
+                    throw new IllegalStateException( error );
+                }
+                if( !( deployable.getHandler() instanceof Deployable ) )
+                {
+                    final String error =
+                      "Deployment handler assigned to model: " + deployable
+                      + " does not implement the deployable contract";
+                    throw new IllegalStateException( error );
+                }
+
+                Deployable target = (Deployable) deployable.getHandler();
+
                 try
                 {
-                    deployable.deploy();
+                    target.deploy();
                     req.done();
                 } 
                 catch( InterruptedException e )
                 {
                     req.interrupted();
-                } 
+                }
                 catch( Throwable e )
                 {
                     req.exception( e );

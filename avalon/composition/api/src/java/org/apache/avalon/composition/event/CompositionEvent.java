@@ -50,7 +50,7 @@
 
 package org.apache.avalon.composition.event;
 
-import org.apache.avalon.composition.model.Model;
+import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.model.ContainmentModel;
 
 
@@ -59,14 +59,14 @@ import org.apache.avalon.composition.model.ContainmentModel;
  * addition or removal of a subsidiary model.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.2 $ $Date: 2004/01/01 13:06:54 $
+ * @version $Revision: 1.3 $ $Date: 2004/01/13 11:41:24 $
  */
 public class CompositionEvent extends ContainmentEvent
 {
     /**
      * The model added or removed from the containment model.
      */
-    private final Model m_child;
+    private final DeploymentModel m_child;
 
     /**
      * Create a CompositionEvent event.
@@ -74,7 +74,7 @@ public class CompositionEvent extends ContainmentEvent
      * @param source the comtainment model raising the event
      * @param child the model that is the subject of composition
      */
-    public CompositionEvent( final ContainmentModel source, Model child )
+    public CompositionEvent( final ContainmentModel source, DeploymentModel child )
     {
         super( source );
         m_child = child;
@@ -86,7 +86,7 @@ public class CompositionEvent extends ContainmentEvent
      *
      * @return the source containment model
      */
-    public Model getChild()
+    public DeploymentModel getChild()
     {
         return m_child;
     }

@@ -50,60 +50,51 @@
 
 package org.apache.avalon.composition.model;
 
-import java.io.File;
+import org.apache.avalon.composition.model.DependencyGraph;
 
-import org.apache.avalon.meta.info.ContextDescriptor;
-import org.apache.avalon.framework.context.ContextException;
+import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.meta.info.Type;
-import org.apache.avalon.composition.data.DeploymentProfile;
+import org.apache.avalon.composition.data.Mode;
 
 /**
- * Defintion of a deployment context.
+ * Deployment context that is supplied to a deployment model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2003/10/28 12:53:48 $
+ * @version $Revision: 1.3 $ $Date: 2004/01/13 11:41:24 $
  */
-public interface DeploymentContext
+public interface DeploymentContext extends Context 
 {
-    /**
-     * The standard context entry key for the partition name.
-     */
-    static final String PARTITION_KEY = ContextDescriptor.PARTITION_KEY;
-
-    /**
-     * The standard context entry key for the partition name.
-     */
-    static final String NAME_KEY = ContextDescriptor.NAME_KEY;
-
-    /**
-     * The standard context entry key for the partition name.
-     */
-    static final String CLASSLOADER_KEY = ContextDescriptor.CLASSLOADER_KEY;
-
-    /**
-     * The standard context entry key for the partition name.
-     */
-    static final String HOME_KEY = ContextDescriptor.HOME_KEY;
-
-    /**
-     * The standard context entry key for the partition name.
-     */
-    static final String TEMP_KEY = ContextDescriptor.TEMP_KEY;
+    final String SEPARATOR = "/";
 
    /**
-    * Return the partition name that the component will execute within.
-    *
-    * @return the partition name
+    * Return the deployment target name.
+    * @return the name
+    */
+    String getName();
+
+   /**
+    * Return the deployment poartition.
+    * @return the partition
     */
     String getPartitionName();
 
    /**
-    * Return the name that the component will execute under.
-    *
-    * @return the name
+    * Return the model fully qualified name.
+    * @return the fully qualified name
     */
-    String getName();
+    String getQualifiedName();
+
+   /**
+    * Return the mode of establishment.
+    * @return the mode
+    */
+    Mode getMode();
+
+   /**
+    * Return the assigned logger.
+    * @return the logging channel
+    */
+    Logger getLogger();
 
    /**
     * Return the system context.
@@ -113,73 +104,10 @@ public interface DeploymentContext
     SystemContext getSystemContext();
 
    /**
-    * Return the containment context.
+    * Return the dependency graph used to construct 
+    * deployment and decommissioning sequences.
     *
-    * @return the containment context
+    * @return the dependency graph
     */
-    ContainmentContext getContainmentContext();
-
-   /**
-    * Return the working directory for the component.
-    *
-    * @return the working directory
-    */
-    File getHomeDirectory();
-
-   /**
-    * Return the temporary directory for the component.
-    *
-    * @return the temporary directory
-    */
-    File getTempDirectory();
-
-   /**
-    * Return the logging channel assignable to the deployment model.
-    *
-    * @return the logging channel
-    */
-    Logger getLogger();
-
-   /**
-    * Return the deployment profile.
-    *
-    * @return the profile
-    */
-    DeploymentProfile getProfile();
-
-   /**
-    * Return the component type.
-    *
-    * @return the type defintion
-    */
-    Type getType();
-
-   /**
-    * Return the component class.
-    *
-    * @return the class
-    */
-    Class getDeploymentClass();
-
-   /**
-    * Return the classloader for the component.
-    *
-    * @return the classloader
-    */
-    ClassLoader getClassLoader();
-
-   /**
-    * Add a context entry model to the deployment context.
-    * @param model the entry model
-    */
-    public void register( EntryModel model );
-
-   /**
-    * Get a context entry from the deployment context.
-    * @param alias the entry lookup key
-    * @return value the corresponding value
-    * @exception ContextException if a key corresponding to the supplied alias is unknown
-    */
-    Object resolve( String alias ) throws ContextException;
-
+    DependencyGraph getDependencyGraph();
 }

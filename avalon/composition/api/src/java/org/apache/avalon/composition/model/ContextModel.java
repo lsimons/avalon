@@ -57,9 +57,9 @@ import org.apache.avalon.framework.context.Context;
  * a fully qualifed context can be established.</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:31:16 $
+ * @version $Revision: 1.2 $ $Date: 2004/01/13 11:41:24 $
  */
-public interface ContextModel
+public interface ContextModel extends Dependent
 {
     /**
      * The default context strategy interface class.

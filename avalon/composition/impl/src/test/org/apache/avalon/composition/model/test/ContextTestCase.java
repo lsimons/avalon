@@ -5,7 +5,7 @@ package org.apache.avalon.composition.model.test;
 import java.io.File;
 import java.util.Date;
 
-import org.apache.avalon.composition.model.DeploymentModel;
+import org.apache.avalon.composition.model.ComponentModel;
 import org.apache.avalon.composition.model.ContextModel;
 import org.apache.avalon.composition.model.AbstractTestCase;
 import org.apache.avalon.framework.context.Context;
@@ -34,7 +34,7 @@ public class ContextTestCase extends AbstractTestCase
     */
     public void testStandardContextModel() throws Exception
     {
-        DeploymentModel model = (DeploymentModel) m_model.getModel( "test-a" );
+        ComponentModel model = (ComponentModel) m_model.getModel( "test-a" );
         if( model == null )
         {
             fail( "null deployment model" );

@@ -58,7 +58,7 @@ import org.apache.avalon.composition.data.ContainmentProfile;
  * A factory enabling the establishment of new containment model instances.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2003/10/28 12:53:48 $
+ * @version $Revision: 1.3 $ $Date: 2004/01/13 11:41:24 $
  */
 public interface ModelFactory 
 {
@@ -110,7 +110,7 @@ public interface ModelFactory
     * @param context a potentially foreign deployment context
     * @return the deployment model
     */
-    DeploymentModel createDeploymentModel( DeploymentContext context )
+    ComponentModel createComponentModel( ComponentContext context )
       throws ModelException;
 
 }

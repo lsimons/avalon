@@ -50,6 +50,8 @@
 
 package org.apache.avalon.activation.appliance.impl;
  
+import org.apache.avalon.composition.model.DeploymentModel;
+
 import org.apache.avalon.activation.appliance.Deployable;
 import org.apache.avalon.activation.appliance.DeploymentException;
 import org.apache.avalon.activation.appliance.FatalDeploymentException;
@@ -62,26 +64,27 @@ import org.apache.avalon.framework.logger.ConsoleLogger;
 
 public class DeploymentTestCase extends TestCase
 {
-    private Deployer m_Deployer;
+    private Deployer m_deployer;
     
     public void setUp()
     {
         ConsoleLogger logger = new ConsoleLogger( ConsoleLogger.LEVEL_INFO );
-        m_Deployer = new Deployer( logger );
+        m_deployer = new Deployer( logger );
     }
 
     public void tearDown()
         throws Exception
     {
-        m_Deployer.dispose();
-        m_Deployer = null;
+        m_deployer.dispose();
+        m_deployer = null;
     }
         
     public void testNormalDeploy()
         throws Exception
     {
-        DummyDeployable d = new DummyDeployable();
-        m_Deployer.deploy( d, 100 );
+        Deployable d = new DummyDeployable();
+        DeploymentModel model = new DummyDeploymentModel( d, 100 );
+        m_deployer.deploy( model );
     }
 
     public void testInterruptableDeploy()
@@ -90,9 +93,12 @@ public class DeploymentTestCase extends TestCase
         try
         {
             InterruptableDeployable d = new InterruptableDeployable();
-            m_Deployer.deploy( d, 100 );
+            DeploymentModel model = new DummyDeploymentModel( d, 100 );
+            m_deployer.deploy( model );
+
             fail( "The Deployment didn't fail with a DeploymentException." );
-        } catch( FatalDeploymentException e )
+        } 
+        catch( FatalDeploymentException e )
         {
             fail( "The Exception thrown was a FatalDeploymentException." );
         } catch( DeploymentException e )
@@ -105,9 +111,10 @@ public class DeploymentTestCase extends TestCase
         throws Exception
     {
         UninterruptableDeployable d = new UninterruptableDeployable();
+        DeploymentModel model = new DummyDeploymentModel( d, 100 );
         try
         {
-            m_Deployer.deploy( d, 100 );
+            m_deployer.deploy( model );
             fail( "The Deployment didn't fail with a FatalDeploymentException." );
         } catch( FatalDeploymentException e )
         {
@@ -127,7 +134,8 @@ public class DeploymentTestCase extends TestCase
         try
         {
             Deployable d = new CustomExceptionDeployable();
-            m_Deployer.deploy( d, 100 );
+            DeploymentModel model = new DummyDeploymentModel( d, 100 );
+            m_deployer.deploy( model );
             fail( "The Deployment didn't fail with a DeploymentException." );
         } catch( CustomException e )
         {
@@ -147,7 +155,8 @@ public class DeploymentTestCase extends TestCase
         try
         {
             Deployable d = new CustomErrorDeployable();
-            m_Deployer.deploy( d, 100 );
+            DeploymentModel model = new DummyDeploymentModel( d, 100 );
+            m_deployer.deploy( model );
             fail( "The Deployment didn't fail with a DeploymentException." );
         } catch( CustomError e )
         {

@@ -67,9 +67,9 @@ import org.apache.avalon.meta.info.ExtensionDescriptor;
  * Default implementation of the stage model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2003/10/28 20:21:00 $
+ * @version $Revision: 1.3 $ $Date: 2004/01/13 11:41:26 $
  */
-public class DefaultStageModel extends AbstractLogEnabled implements StageModel
+public class DefaultStageModel extends DefaultDependent implements StageModel
 {
     //==============================================================
     // static
@@ -105,10 +105,10 @@ public class DefaultStageModel extends AbstractLogEnabled implements StageModel
       final StageDescriptor descriptor, StageDirective directive )
       throws ModelException
     {
-        if( logger == null ) throw new NullPointerException( "logger" );
+        super( logger );
+
         if( descriptor == null ) throw new NullPointerException( "descriptor" );
 
-        enableLogging( logger );
         m_descriptor = descriptor;
         m_directive = directive;
 

@@ -51,7 +51,9 @@
 package org.apache.avalon.activation.appliance;
 
 import org.apache.avalon.activation.appliance.impl.AbstractBlock;
-import org.apache.avalon.composition.util.ExceptionHelper;
+
+import org.apache.avalon.util.exception.ExceptionHelper;
+
 import org.apache.avalon.framework.activity.Disposable;
 
 public class RuntimeTestCase extends AbstractTestCase
@@ -108,30 +110,28 @@ public class RuntimeTestCase extends AbstractTestCase
     {
 
         //
-        // 1. create the root block using the service context
+        // 1. assemble the model during which all dependencies
+        //    are resolved (deployment and runtime)
+        //
+
+        getLogger().debug( "model assembly" );
+        m_model.assemble();
+
+        //
+        // 2. create the root block using the service context
         //    and the root containment model
         //
 
         getLogger().debug( "creating root block" );
-        Block block = AbstractBlock.createRootBlock( m_context, m_model );
+        Block block = AbstractBlock.createRootBlock( m_model );
         getLogger().debug( "block: " + block );
-
-        //
-        // 2. assemble the block during which all dependencies
-        //    are resolved (deployment and runtime)
-        //
-
-        if( block instanceof Composite )
-        {
-            ((Composite)block).assemble();
-        }
 
         //
         // 3. deploy the block during which any 'activate on startup'
         //    components are created which in turn my cause activation
         //    of lazy components
         //
-        
+
         block.deploy();
 
         //
@@ -149,10 +149,7 @@ public class RuntimeTestCase extends AbstractTestCase
         //    appliances established at assembly time are discarded
         //
 
-        if( block instanceof Composite )
-        {
-            ((Composite)block).disassemble();
-        }
+        block.getContainmentModel().disassemble();
 
         //
         // 8. dispose of the appliance during which all subsidiary 
@@ -166,5 +163,4 @@ public class RuntimeTestCase extends AbstractTestCase
 
         assertTrue( true );
     }
-
 }

@@ -59,9 +59,9 @@ import org.apache.avalon.meta.info.ExtensionDescriptor;
  * extension qualification.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:31:22 $
+ * @version $Revision: 1.2 $ $Date: 2004/01/13 11:41:24 $
  */
-public interface StageModel
+public interface StageModel extends Dependent
 {
    /**
     * Return the stage descriptor for the model.
@@ -91,5 +91,4 @@ public interface StageModel
     * @return the accepted candidates in ranked order
     */
     ExtensionDescriptor[] filter( ExtensionDescriptor[] candidates );
-
 }

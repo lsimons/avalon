@@ -51,7 +51,7 @@
 package org.apache.avalon.activation.appliance.impl;
 
 import org.apache.avalon.activation.appliance.Appliance;
-import org.apache.avalon.composition.model.Model;
+import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.Logger;
@@ -76,7 +76,7 @@ import org.apache.avalon.framework.logger.Logger;
  *
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2003/10/18 00:34:19 $
+ * @version $Revision: 1.3 $ $Date: 2004/01/13 11:41:22 $
  */
 public abstract class AbstractAppliance extends AbstractLogEnabled implements Appliance, Disposable
 {
@@ -84,7 +84,7 @@ public abstract class AbstractAppliance extends AbstractLogEnabled implements Ap
     // immutable state
     //-------------------------------------------------------------------
 
-    private Model m_model;
+    private DeploymentModel m_model;
 
     private boolean m_enabled = true;
 
@@ -92,10 +92,11 @@ public abstract class AbstractAppliance extends AbstractLogEnabled implements Ap
     // constructor
     //-------------------------------------------------------------------
 
-    public AbstractAppliance( Logger logger, Model model )
+    public AbstractAppliance( DeploymentModel model )
     {
-        enableLogging( logger );
+        enableLogging( model.getLogger() );
         m_model = model;
+        m_model.setHandler( this );
     }
 
     //-------------------------------------------------------------------
@@ -106,22 +107,13 @@ public abstract class AbstractAppliance extends AbstractLogEnabled implements Ap
      * Return the model backing the appliance.
      * @return the type that the appliance is managing
      */
-    public Model getModel()
+    public DeploymentModel getModel()
     {
-        if( null == m_model ) throw new NullPointerException( "model" );
+        if( null == m_model ) 
+        {
+            throw new NullPointerException( "model" );
+        }
         return m_model;
-    }
-
-    /**
-     * Test is this appliance is enabled.  An appliance is enabled unless
-     * explicitly disabled by an assembly directive, or implicity disabled
-     * as a result of an assembly failure.
-     *
-     * @return TRUE if the appliance is enabled.
-     */
-    public boolean isEnabled()
-    {
-        return m_enabled;
     }
 
     //-------------------------------------------------------------------
@@ -130,6 +122,7 @@ public abstract class AbstractAppliance extends AbstractLogEnabled implements Ap
 
     public void dispose()
     {
+        m_model.setHandler( null );
         m_model = null;
         getLogger().debug( "disposal complete" );
     }

@@ -1,5 +1,5 @@
 
-PROJECT: Merlin 3.2-dev
+PROJECT: Merlin @VERSION@
 ====================================================================
 
 DESCRIPTION: 
@@ -16,8 +16,8 @@ resources.
     LICENSE.TXT
     INSTALL.TXT
   /plugins
-    avalon-meta-plugin-1.3.1.jar
-    merlin-plugin-3.2.3-dev.jar
+    @META_PLUGIN_JAR@
+    @MERLIN_PLUGIN_JAR@
 
 
 Installing Merlin.
@@ -68,8 +68,8 @@ provided with the installation supporting merlin development under the
 Maven platform.  These plugins should be placed in the Maven plugin 
 directory (${maven.home.local}\plugins).
 
-  [YOUR-MAVEN-HOME]\plugins\avalon-meta-plugin-1.3.1.jar
-  [YOUR-MAVEN-HOME]\plugins\merlin-plugin-3.2.3-dev.jar
+  [YOUR-MAVEN-HOME]\plugins\@META_PLUGIN_JAR@
+  [YOUR-MAVEN-HOME]\plugins\@MERLIN_PLUGIN_JAR@
 
 Please note that if you are upgrading an existing installation you must
 delete the following two directories:

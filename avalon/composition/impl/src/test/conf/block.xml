@@ -43,7 +43,7 @@
        <component name="test" class="org.apache.avalon.composition.model.teste.TestE">
          <context>
            <entry key="home">
-             <import key="urn:avalon:home.dir"/>
+             <import key="urn:avalon:home"/>
            </entry>
          </context>
        </component>
