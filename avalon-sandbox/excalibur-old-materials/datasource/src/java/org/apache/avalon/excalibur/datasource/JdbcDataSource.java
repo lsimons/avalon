@@ -34,7 +34,7 @@ import org.apache.avalon.excalibur.pool.DefaultPoolController;
  * </pre>
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.10 $ $Date: 2001/11/02 18:57:11 $
+ * @version CVS $Revision: 1.11 $ $Date: 2001/11/02 19:28:35 $
  * @since 4.0
  */
 public class JdbcDataSource
@@ -67,6 +67,7 @@ public class JdbcDataSource
 
             final int min = controller.getAttributeAsInteger( "min", 1 );
             final int max = controller.getAttributeAsInteger( "max", 3 );
+            final long timeout = controller.getAttributeAsLong( "timeout", -1 );
             final boolean autoCommit = configuration.getChild("auto-commit").getValueAsBoolean(true);
             final boolean oradb = controller.getAttributeAsBoolean( "oradb", false );
             final String connectionClass = controller.getAttribute( "connection-class", null );
@@ -160,7 +161,8 @@ public class JdbcDataSource
             try
             {
                 m_pool = new JdbcConnectionPool( factory, poolController, l_min, l_max, autoCommit );
-                m_pool.setLogger(getLogger());
+                m_pool.setLogger( getLogger() );
+                m_pool.setTimeout( timeout );
                 m_pool.initialize();
             }
             catch (Exception e)
@@ -179,7 +181,20 @@ public class JdbcDataSource
     public Connection getConnection()
         throws SQLException
     {
-        try { return (Connection) m_pool.get(); }
+        try
+        {
+            return (Connection) m_pool.get();
+        }
+        catch( final SQLException se )
+        {
+            if (getLogger().isWarnEnabled())
+            {
+                getLogger().warn( "Could not return Connection", se );
+            }
+
+            // Rethrow so that we keep the original stack trace
+            throw se;
+        }
         catch( final Exception e )
         {
             if (getLogger().isWarnEnabled())
