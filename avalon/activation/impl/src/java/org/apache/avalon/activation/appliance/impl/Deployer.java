@@ -56,10 +56,14 @@ import org.apache.avalon.composition.model.ContainmentModel;
 
 import org.apache.avalon.framework.logger.Logger;
 
-/**
- * Runnable deployment thread.
+ * Runnable deployment thread that handles the deployment of an 
+ * arbitary number of deployable instances.  The deployer maintains a 
+ * list of deployment requests which are queued on a first come first 
+ * serve basis.
+ *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2.2.1 $ $Date: 2004/01/07 12:57:25 $
+ * @version $Revision: 1.2.2.2 $ $Date: 2004/01/07 16:07:17 $
+ * @see DeploymentRequest
  */
 class Deployer
     implements Runnable
@@ -101,16 +105,23 @@ class Deployer
     // implementation
     //------------------------------------------------------------
 
-    /** Deploys the given Deployable, and allows a maximum time
-     *  for the deployment to complete.
-     * @throws DeploymentException if the deployment hanged, but the
-     * thread interruption was successful.
-     * @throws FatalDeploymentException if the deployment hanged, and
-     * the thread interruption failed.
-     * @throws Exception any Exception or Error thrown by within the
-     * deployment of the component is forwarded to the caller.
+    /** 
+     * Deploys the given Deployable, and allows a maximum time
+     * for the deployment to complete.
+     *
+     * @param deployable the deployable appliance
+     * @param timeout the maximum time to allow for deployment
+     *
+     * @throws DeploymentException if the deployment was not 
+     *   completed within the timeout deadline and interuption
+     *   of the deployment was successful
+     * @throws FatalDeploymentException if the deployment was not 
+     *   completed within the timeout deadline and interuption
+     *   of the deployment was not successful
+     * @throws Exception any Exception or Error thrown within the
+     *   deployment of the component is forwarded to the caller.
      * @throws InvocationTargetException if the deployment throws a
-     * Throwable subclass that is NOT of type Exception or Error.
+     *   Throwable subclass that is NOT of type Exception or Error.
      **/
     void deploy( Deployable deployable, long timeout )
         throws Exception

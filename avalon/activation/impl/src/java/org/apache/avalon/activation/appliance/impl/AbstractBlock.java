@@ -90,7 +90,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * context.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.10.2.3 $ $Date: 2004/01/07 12:57:25 $
+ * @version $Revision: 1.10.2.4 $ $Date: 2004/01/07 16:07:17 $
  */
 public abstract class AbstractBlock extends AbstractAppliance 
   implements Block, CompositionEventListener
@@ -292,6 +292,7 @@ public abstract class AbstractBlock extends AbstractAppliance
             ClassLoader oldCL = Thread.currentThread().getContextClassLoader();
             ClassLoader classloader = model.getClassLoaderModel().getClassLoader();
             Thread.currentThread().setContextClassLoader( classloader );
+
             Deployer deployer = 
               new Deployer( getLogger().getChildLogger( "deployer" ) );
 
@@ -310,6 +311,7 @@ public abstract class AbstractBlock extends AbstractAppliance
                 // restore the Old ContextClassloader.
                 Thread.currentThread().setContextClassLoader( oldCL );
             }
+
             m_deployment.setEnabled( true );
         }
     }
