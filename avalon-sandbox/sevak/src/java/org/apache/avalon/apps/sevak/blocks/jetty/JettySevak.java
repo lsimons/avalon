@@ -28,6 +28,7 @@ import org.mortbay.jetty.servlet.WebApplicationContext;
 import org.mortbay.util.MultiException;
 import org.mortbay.util.InetAddrPort;
 import org.mortbay.util.Log;
+import org.mortbay.http.SocketListener;
 
 
 /**
@@ -87,7 +88,13 @@ public class JettySevak extends AbstractLogEnabled implements Sevak, Startable, 
     public void initialize() throws Exception
     {
         m_server = new Server();
-        m_server.addListener(new InetAddrPort(m_hostName, m_port));
+        final int minThreads = 5;
+        final int maxThreads = 250;
+        SocketListener listener = new SocketListener();
+        listener.setPort(m_port);
+        listener.setMinThreads(minThreads);
+        listener.setMaxThreads(maxThreads);
+        m_server.addListener(listener);
         PhoenixLogSink phoenixLogSink = new PhoenixLogSink();
         phoenixLogSink.enableLogging(getLogger());
         Log.instance().add(phoenixLogSink);
@@ -104,7 +111,7 @@ public class JettySevak extends AbstractLogEnabled implements Sevak, Startable, 
         }
         catch (MultiException e)
         {
-            throw new CascadingRuntimeException("Some problem starting Jetty",e);
+            throw new CascadingRuntimeException("Some problem starting Jetty", e);
         }
     }
 
@@ -119,7 +126,7 @@ public class JettySevak extends AbstractLogEnabled implements Sevak, Startable, 
         }
         catch (InterruptedException e)
         {
-            throw new CascadingRuntimeException("Some problem stopping Jetty",e);
+            throw new CascadingRuntimeException("Some problem stopping Jetty", e);
         }
     }
 
@@ -136,12 +143,13 @@ public class JettySevak extends AbstractLogEnabled implements Sevak, Startable, 
             // This does not work.
             WebApplicationContext ctx = m_server.addWebApplication(m_hostName, context,
                     pathToWebAppFolder.getAbsolutePath());
-            System.out.println("deploying " + context + " " + pathToWebAppFolder.getAbsolutePath());
-            m_webapps.put(context,ctx);
+            System.out.println("deploying " + context + " " + pathToWebAppFolder.getAbsolutePath() + " to "
+                    + m_hostName);
+            m_webapps.put(context, ctx);
         }
         catch (IOException ioe)
         {
-            throw new SevakException("Problem deploying web application in Jetty",ioe);
+            throw new SevakException("Problem deploying web application in Jetty", ioe);
         }
     }
 
