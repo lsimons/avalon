@@ -146,7 +146,7 @@ public class RevolvingFileStrategy
         long time = matchingFiles[ 0 ].lastModified();
 
         //index of oldest file
-        int oldest = 0;
+        int oldest = rotations[ 0 ];
         for( int i = 0; i < matchingFiles.length; i++ )
         {
             final File file = matchingFiles[ i ];
