@@ -46,7 +46,6 @@ public class AsyncLogTarget
 {
     private final LinkedList m_list;
     private final int m_queueSize;
-    private final LogTarget m_logTarget;
 
     /**
      * Creation of a new async log target.
@@ -88,7 +87,6 @@ public class AsyncLogTarget
     public AsyncLogTarget( final LogTarget logTarget, final int queueSize, final boolean closeTarget )
     {
         super( logTarget, closeTarget );
-        m_logTarget = logTarget;
         m_list = new LinkedList();
         m_queueSize = queueSize;
         open();
@@ -103,9 +101,9 @@ public class AsyncLogTarget
     {
         super.setErrorHandler( errorHandler );
 
-        if( m_logTarget instanceof ErrorAware )
+        if( this.getLogTarget() instanceof ErrorAware )
         {
-            ( (ErrorAware)m_logTarget ).setErrorHandler( errorHandler );
+            ( (ErrorAware)this.getLogTarget() ).setErrorHandler( errorHandler );
         }
     }
 
@@ -201,7 +199,7 @@ public class AsyncLogTarget
             try
             {
                 //actually process an event
-                m_logTarget.processEvent( event );
+                this.getLogTarget().processEvent( event );
             }
             catch( final Throwable throwable )
             {
