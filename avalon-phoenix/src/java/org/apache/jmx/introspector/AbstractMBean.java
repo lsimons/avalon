@@ -31,7 +31,7 @@ import javax.management.ReflectionException;
  *
  * @author <a href="mailto:mail@leosimons.com">Leo Simons</a>
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.1 $ $Date: 2001/09/28 23:48:09 $
+ * @version CVS $Revision: 1.2 $ $Date: 2001/09/29 00:06:24 $
  */
 public abstract class AbstractMBean
     extends NotificationBroadcasterSupport
@@ -73,12 +73,10 @@ public abstract class AbstractMBean
      * Constructor that takes object managed and description of object.
      *
      * @param object the object to be managed (may be this)
-     * @param description the description of object to be managed
      */
-    protected AbstractMBean( final Object object, final String description )
+    protected AbstractMBean( final Object object )
     {
         m_object = object;
-        m_description = description;
     }
 
     /**
@@ -287,10 +285,23 @@ public abstract class AbstractMBean
      */
     protected synchronized void initialize()
     {
+        m_description = createDescription();
         m_operations = createOperations();
         m_attributes = createAttributes();
         m_notifications = createNotificationInfos();
         m_mBeanInfo = createMBeanInfo();
+    }
+
+    /**
+     * Utility method called by initialize to create description.
+     * A developer should overide this method in subclasses to provide their own 
+     * description.
+     *
+     * @return the Description
+     */
+    protected synchronized String createDescription()
+    {
+        return null;
     }
 
     /**
