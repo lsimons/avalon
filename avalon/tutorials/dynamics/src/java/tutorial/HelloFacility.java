@@ -113,7 +113,6 @@ public class HelloFacility
        getLogger().info( "commissioning the widget model" );
        model.commission();
        Widget widget = (Widget) model.resolve();
-       getLogger().info( "got a widget instance: " + widget );
 
        getLogger().info( "releasing the widget" );
        model.release( widget );
@@ -141,7 +140,6 @@ public class HelloFacility
        getLogger().info( "recommissioning the widget model" );
        model.commission();
        widget = (Widget) model.resolve();
-       getLogger().info( "got the widget instance: " + widget );
        model.release( widget );
        model.decommission();
 
@@ -166,7 +164,6 @@ public class HelloFacility
           new File( System.getProperty( "user.dir" ) ) );
        model.commission();
        Gizmo gizmo = (Gizmo) model.resolve();
-       getLogger().info( "got a gizmo: " + gizmo );
    
    }
 
