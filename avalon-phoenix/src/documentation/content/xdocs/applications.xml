@@ -80,13 +80,12 @@
             </p>
 
             <p>
-                <strong>JabaServer</strong>:
+                <strong>OpenIM</strong>:
                 <link href="http://www.javajabber.net/">http://www.javajabber.net/</link>
             </p>
             <p>
-                Alexis Agahi and Vinaysahil Chandran have migrated JabaServer (an open-source Java
-                implementation of Jabber) to be Phoenix dependant. JabberServer is under a
-                BSD license.
+                Alexis Agahi and Vinaysahil Chandran have migrated OpenIM (formerly JabaServer) to 
+                be Phoenix dependant. JabberServer is under a BSD-style license.
             </p>
 
             <p>
