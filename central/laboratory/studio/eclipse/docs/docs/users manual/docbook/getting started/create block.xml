@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section>
+  <title>Create a new block</title>
+
+  <para>In MerlinStudio a block is equivalent to an eclipse project. In order
+  to create a block you have to create an eclipse project with a special
+  project nature.</para>
+
+  <para>To create a new block you have to follow the following steps:</para>
+
+  <para>1. Select the menu item File &gt; New &gt; Project.... to open the New
+  Project wizard</para>
+
+  <para><inlinegraphic fileref="../../../resources/NewProject.gif" /></para>
+
+  <para>2. Enter the project name. This is done exactly the same way, as you
+  do it with normal Java projects</para>
+
+  <para><inlinegraphic
+  fileref="../../../resources/NewProjectPage.gif" /></para>
+
+  <para>3. In the next page you can select the type of project you would like
+  to start with.</para>
+
+  <para><inlinegraphic
+  fileref="../../../resources/NewProjectSelection.gif" /></para>
+
+  <para>With the current version of MerlinStudio there are only a few types as
+  example projects avalilable. This will changed in future versions so that
+  one has a full range of ready to use blocks / components. Note: Those
+  project types are fully customizable, so that you may create your own in
+  detail projects or adopt them to your enterprise standards. How to customize
+  the project types is described here.</para>
+
+  <para>4. If you now press "Finish" the complete Project - aligned with your
+  selected type - will be created for you. You should now see a new project
+  with the following structure:</para>
+
+  <para><inlinegraphic fileref="../../../resources/PackageView.gif" /></para>
+</section>
