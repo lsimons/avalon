@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+
+<title>Avalon Sandbox</title>
+
+<body>
+
+    <links>
+      <item name="Apache" href="http://apache.org/"/>
+      <item name="Avalon" href="http://avalon.apache.org/"/>
+      <item name="Framework" href="http://avalon.apache.org/product/framework/"/>
+      <item name="Merlin" href="http://avalon.apache.org/product/containers/"/>
+      <item name="Planet" href="http://avalon.apache.org/product/components/"/>
+    </links>
+
+    <menu name="About Avalon Meta">
+      <item name="Overview" href="/index.html"/>
+      <item name="Tag Reference" href="/tags/index.html">
+        <item name="Component" href="/tags/type.html"/>
+        <item name="Attribute" href="/tags/attribute.html"/>
+        <!--<item name="Permission" href="/tags/permission.html"/>-->
+        <item name="Service" href="/tags/service.html"/>
+        <item name="Logger" href="/tags/logger.html"/>
+        <item name="Configuration" href="/tags/configuration.html"/>
+        <item name="Context" href="/tags/context.html"/>
+        <item name="Entry" href="/tags/entry.html"/>
+        <item name="Dependency" href="/tags/dependency.html"/>
+        <item name="Stage" href="/tags/stage.html"/>
+        <item name="Extension" href="/tags/extension.html"/>
+      </item>
+      <item name="Type Model" href="/meta/info/index.html"/>
+      <item name="Tools" href="/tools/index.html"/>
+      <item name="Javadoc" href="/api/index.html"/>
+    </menu>
+
+    <menu name="Related Projects">
+      <item name="Merlin" href="http://avalon.apache.org/merlin"/>
+    </menu>
+
+ </body>
+
+</project>
