@@ -81,7 +81,7 @@ public class PhoenixEmbeddor
      * @param parameters the Parameters for embeddor
      * @exception ConfigurationException if an error occurs
      */
-    public void parametize( final Parameters parameters )
+    public void parameterize( final Parameters parameters )
         throws ParameterException
     {
         m_parameters = parameters;
