@@ -54,8 +54,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import org.apache.avalon.excalibur.collections.Buffer;
-import org.apache.avalon.excalibur.collections.VariableSizeBuffer;
+import org.apache.commons.collections.Buffer;
+import org.apache.commons.collections.UnboundedFifoBuffer;
 import org.apache.avalon.excalibur.concurrent.Mutex;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.excalibur.event.EventHandler;
@@ -240,7 +240,7 @@ public class CommandManager implements EventPipeline, Disposable
     private static final class CommandEventHandler implements EventHandler
     {
         private final Map m_signalHandlers;
-        private final Buffer m_delayedCommands = new VariableSizeBuffer();
+        private final Buffer m_delayedCommands = new UnboundedFifoBuffer();
 
         protected CommandEventHandler( Map signalHandlers )
         {

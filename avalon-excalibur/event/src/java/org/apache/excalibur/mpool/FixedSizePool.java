@@ -49,9 +49,8 @@
 */
 package org.apache.excalibur.mpool;
 
-import org.apache.avalon.excalibur.collections.Buffer;
-import org.apache.avalon.excalibur.collections.FixedSizeBuffer;
-import org.apache.avalon.excalibur.concurrent.Mutex;
+import org.apache.commons.collections.Buffer;
+import org.apache.commons.collections.BoundedFifoBuffer;
 import org.apache.avalon.framework.activity.Disposable;
 
 /**
@@ -59,7 +58,7 @@ import org.apache.avalon.framework.activity.Disposable;
  * Please note that this pool offers no resource limiting whatsoever.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.8 $ $Date: 2002/09/28 09:42:48 $
+ * @version CVS $Revision: 1.9 $ $Date: 2002/10/02 15:39:29 $
  * @since 4.1
  */
 public final class FixedSizePool
@@ -72,7 +71,7 @@ public final class FixedSizePool
     public FixedSizePool( ObjectFactory factory, int size )
         throws Exception
     {
-        m_buffer = new FixedSizeBuffer( size );
+        m_buffer = new BoundedFifoBuffer( size );
         m_factory = factory;
 
         for( int i = 0; i < size; i++ )
