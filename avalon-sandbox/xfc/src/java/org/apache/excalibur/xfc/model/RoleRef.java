@@ -61,7 +61,7 @@ import java.util.List;
  * </p>
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: RoleRef.java,v 1.1 2002/10/02 17:32:28 crafterm Exp $
+ * @version CVS $Id: RoleRef.java,v 1.2 2002/10/04 14:36:24 crafterm Exp $
  */
 public final class RoleRef
 {
@@ -73,12 +73,28 @@ public final class RoleRef
      * Creates a new <code>RoleRef</code> instance.
      *
      * @param role role name
-     * @param definition a <code>Definition</code> instance
+     * @param definition a {@link Definition} instance
      */
     public RoleRef( final String role, final Definition definition )
     {
         m_role = role;
         m_definitions.add( definition );
+    }
+
+    /**
+     * Creates a new <code>RoleRef</code> instance.
+     *
+     * @param role role name
+     * @param definitions a {@link Definition} array
+     */
+    public RoleRef( final String role, final Definition[] definitions )
+    {
+        m_role = role;
+
+        for ( int i = 0; i < definitions.length; ++i )
+        {
+            m_definitions.add( definitions[i] );
+        }
     }
 
     /**
@@ -92,20 +108,10 @@ public final class RoleRef
     }
 
     /**
-     * Add a Definition object to this ref
-     *
-     * @param definition a <code>Definition</code> instance
-     */
-    public void addDefinition( final Definition definition )
-    {
-        m_definitions.add( definition );
-    }
-
-    /**
      * Obtain a list of all Definition objects that provide the role
      * this roleref manages.
      *
-     * @return a <code>Definition[]</code> array
+     * @return a {@link Definition}[] array
      */
     public Definition[] getProviders()
     {
