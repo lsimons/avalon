@@ -13,6 +13,7 @@ import java.util.Set;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
+import org.apache.excalibur.configuration.ConfigurationUtil;
 
 /**
  * The ConfigurationMerger will take a Configuration object and layer it over another.
@@ -32,15 +33,11 @@ import org.apache.avalon.framework.configuration.DefaultConfiguration;
  *   </li>
  * </ol>
  *
+ * @see ConfigurationSplitter
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
  */
 public class ConfigurationMerger
 {
-    private static final String MERGE_METADATA_PREFIX = "excalibur-configuration:";
-
-    private static final String MERGE_ATTR = MERGE_METADATA_PREFIX + "merge";
-    private static final String KEY_ATTR = MERGE_METADATA_PREFIX + "key-attribute";
-
     /**
      * Merge two configurations.
      *
@@ -49,7 +46,7 @@ public class ConfigurationMerger
      *
      * @return Result of merge
      *
-     * @exception ConfigurationException if
+     * @exception ConfigurationException if unable to merge
      */
     public static Configuration merge( final Configuration layer, final Configuration base )
         throws ConfigurationException
@@ -81,8 +78,7 @@ public class ConfigurationMerger
 
         for( int i = 0; i < lc.length; i++ )
         {
-            final String name = lc[i].getName();
-            final Configuration mergeWith = getMergePartner( lc[i], lc, bc );
+            final Configuration mergeWith = getMergePartner( lc[i], layer, base );
 
             if( null == mergeWith )
             {
@@ -106,60 +102,39 @@ public class ConfigurationMerger
     }
 
     private static Configuration getMergePartner( final Configuration toMerge,
-                                                  final Configuration[] layerKids,
-                                                  final Configuration[] baseKids )
+                                                  final Configuration layer,
+                                                  final Configuration base )
         throws ConfigurationException
     {
-        if( toMerge.getAttributeAsBoolean( MERGE_ATTR, false ) )
+        if( toMerge.getAttributeAsBoolean( Constants.MERGE_ATTR, false ) )
         {
-            final String keyAttribute = toMerge.getAttribute( KEY_ATTR, null );
-            ConfigurationMatcher matcher;
+            final String keyAttribute = toMerge.getAttribute( Constants.KEY_ATTR, null );
+            final String keyvalue =
+                keyAttribute == null ? null : toMerge.getAttribute( keyAttribute );
 
-            if( null == keyAttribute )
+            final Configuration[] layerKids = ConfigurationUtil.match( layer,
+                                                                       toMerge.getName(),
+                                                                       keyAttribute,
+                                                                       keyvalue );
+
+            final Configuration[] baseKids = ConfigurationUtil.match( base,
+                                                                      toMerge.getName(),
+                                                                      keyAttribute,
+                                                                      keyvalue );
+
+            if( layerKids.length == 1 && baseKids.length == 1 )
             {
-                matcher = new NamedConfigurationMatcher( toMerge.getName() );
+                return baseKids[0];
             }
             else
             {
-                matcher
-                    = new KeyAttributeConfigurationMatcher( toMerge.getName(),
-                                                            keyAttribute,
-                                                            toMerge.getAttribute( keyAttribute ) );
-            }
-
-            final int layerMatch = getMatchingConfiguration( matcher, layerKids );
-            final int baseMatch = getMatchingConfiguration( matcher, baseKids );
-
-            if( layerMatch >= 0 && baseMatch >= 0 )
-            {
-                return baseKids[baseMatch];
+                throw new ConfigurationException( "Unable to merge configuration item, "
+                                                  + "multiple matches on child or base [name: "
+                                                  + toMerge.getName() + "]" );
             }
         }
 
         return null;
-    }
-
-    private static int getMatchingConfiguration( ConfigurationMatcher matcher,
-                                                 Configuration list[] )
-    {
-        int match = -1;
-
-        for( int i = 0; i < list.length; i++ )
-        {
-            if( matcher.isMatch( list[i] ) )
-            {
-                if( match >= 0 )
-                {
-                    return -1;
-                }
-                else
-                {
-                    match = i;
-                }
-            }
-        }
-
-        return match;
     }
 
     private static String getValue( final Configuration layer, final Configuration base )
@@ -182,7 +157,7 @@ public class ConfigurationMerger
 
         for( int i = 0; i < names.length; i++ )
         {
-            if( !names[i].startsWith( MERGE_METADATA_PREFIX ) )
+            if( !names[i].startsWith( Constants.MERGE_METADATA_PREFIX ) )
             {
                 dest.setAttribute( names[i], source.getAttribute( names[i] ) );
             }
