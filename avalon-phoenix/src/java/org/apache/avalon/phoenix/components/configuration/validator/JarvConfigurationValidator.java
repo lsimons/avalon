@@ -41,8 +41,10 @@ import org.xml.sax.SAXParseException;
  *
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
  */
-public class JarvConfigurationValidator extends AbstractLogEnabled
-    implements Configurable, Initializable, ConfigurationValidator, ConfigurationValidatorMBean
+public class JarvConfigurationValidator
+    extends AbstractLogEnabled
+    implements Configurable, Initializable, ConfigurationValidator,
+    ConfigurationValidatorMBean
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( JarvConfigurationValidator.class );
@@ -78,14 +80,14 @@ public class JarvConfigurationValidator extends AbstractLogEnabled
     public void configure( Configuration configuration )
         throws ConfigurationException
     {
-        this.m_debugPath = configuration.getChild( "debug-output-path" ).getValue( null );
-        this.m_schemaType = configuration.getAttribute( "schema-type" );
-        this.m_schemaLanguage = configuration.getChild( "schema-language" ).getValue( null );
-        this.m_verifierFactoryClass =
+        m_debugPath = configuration.getChild( "debug-output-path" ).getValue( null );
+        m_schemaType = configuration.getAttribute( "schema-type" );
+        m_schemaLanguage = configuration.getChild( "schema-language" ).getValue( null );
+        m_verifierFactoryClass =
             configuration.getChild( "verifier-factory-class" ).getValue( null );
 
-        if( (null == this.m_schemaLanguage && null == this.m_verifierFactoryClass)
-            || (null != this.m_schemaLanguage && null != this.m_verifierFactoryClass) )
+        if( (null == m_schemaLanguage && null == m_verifierFactoryClass)
+            || (null != m_schemaLanguage && null != m_verifierFactoryClass) )
         {
             throw new ConfigurationException( REZ.getString( "jarv.error.badconfig" ) );
         }
@@ -94,22 +96,22 @@ public class JarvConfigurationValidator extends AbstractLogEnabled
     public void initialize()
         throws Exception
     {
-        if( null != this.m_schemaLanguage )
+        if( null != m_schemaLanguage )
         {
-            this.m_verifierFactory = VerifierFactory.newInstance( this.m_schemaLanguage );
+            m_verifierFactory = VerifierFactory.newInstance( m_schemaLanguage );
         }
-        else if( null != this.m_verifierFactoryClass )
+        else if( null != m_verifierFactoryClass )
         {
-            this.m_verifierFactory =
-                (VerifierFactory)Class.forName( this.m_verifierFactoryClass ).newInstance();
+            m_verifierFactory =
+                (VerifierFactory)Class.forName( m_verifierFactoryClass ).newInstance();
         }
 
-        if( null != this.m_debugPath )
+        if( null != m_debugPath )
         {
             FileUtil.forceMkdir( new File( m_debugPath ) );
         }
 
-        this.m_serializer.setIndent( true );
+        m_serializer.setIndent( true );
     }
 
     private String createKey( String application, String block )
@@ -120,9 +122,9 @@ public class JarvConfigurationValidator extends AbstractLogEnabled
     public void addSchema( String application, String block, String schemaType, String url )
         throws ConfigurationException
     {
-        if( !this.m_schemaType.equals( schemaType ) )
+        if( !m_schemaType.equals( schemaType ) )
         {
-            final String msg = REZ.getString( "jarv.error.badtype", schemaType, this.m_schemaType );
+            final String msg = REZ.getString( "jarv.error.badtype", schemaType, m_schemaType );
 
             throw new ConfigurationException( msg );
         }
@@ -131,12 +133,13 @@ public class JarvConfigurationValidator extends AbstractLogEnabled
         {
             final String key = createKey( application, block );
 
-            this.m_schemas.put( key, this.m_verifierFactory.compileSchema( url ) );
-            this.m_schemaURLs.put( key, url );
+            m_schemas.put( key, m_verifierFactory.compileSchema( url ) );
+            m_schemaURLs.put( key, url );
         }
         catch( VerifierConfigurationException e )
         {
-            final String msg = REZ.getString( "jarv.error.schema.create", application, block, url );
+            final String msg =
+                REZ.getString( "jarv.error.schema.create", application, block, url );
 
             throw new ConfigurationException( msg, e );
         }
@@ -163,7 +166,9 @@ public class JarvConfigurationValidator extends AbstractLogEnabled
     }
 
     //JARV does not support feasability validation
-    public boolean isFeasiblyValid( String application, String block, Configuration configuration )
+    public boolean isFeasiblyValid( final String application,
+                                    final String block,
+                                    final Configuration configuration )
         throws ConfigurationException
     {
         return true;
@@ -174,17 +179,17 @@ public class JarvConfigurationValidator extends AbstractLogEnabled
                             final Configuration configuration )
         throws ConfigurationException
     {
-        final Schema schema = (Schema)this.m_schemas.get( createKey( application, block ) );
+        final Schema schema = (Schema)m_schemas.get( createKey( application, block ) );
         final Configuration branched = ConfigurationUtil.branch( configuration, "root" );
 
         if( null == schema )
         {
-            final String msg = REZ.getString( "jarv.error.noschema", application, block );
-
-            throw new ConfigurationException( msg );
+            final String message =
+                REZ.getString( "jarv.error.noschema", application, block );
+            throw new ConfigurationException( message );
         }
 
-        if( null != this.m_debugPath )
+        if( null != m_debugPath )
         {
             writeDebugConfiguration( application, block, branched );
         }
@@ -200,9 +205,11 @@ public class JarvConfigurationValidator extends AbstractLogEnabled
                     throws SAXException
                 {
                     if( getLogger().isWarnEnabled() )
+                    {
                         getLogger().warn( "Valdating configuration [app: " + application
                                           + ", block: " + block
                                           + ", msg: " + exception.getMessage() + "]" );
+                    }
                 }
 
                 public void error( SAXParseException exception )
@@ -214,38 +221,40 @@ public class JarvConfigurationValidator extends AbstractLogEnabled
                                            + ", msg: " + exception.getMessage() + "]" );
                 }
 
-                public void fatalError( SAXParseException exception )
+                public void fatalError( final SAXParseException exception )
                     throws SAXException
                 {
                     if( getLogger().isFatalErrorEnabled() )
-                        getLogger().fatalError( "Valdating configuration [app: " + application
-                                                + ", block: " + block
-                                                + ", msg: " + exception.getMessage() + "]" );
-
+                    {
+                        final String message = "Valdating configuration [app: " +
+                            application + ", block: " + block + ", msg: " +
+                            exception.getMessage() + "]";
+                        getLogger().fatalError( message );
+                    }
                 }
             } );
 
-            this.m_serializer.serialize( handler, branched );
+            m_serializer.serialize( handler, branched );
 
             return handler.isValid();
         }
-        catch( VerifierConfigurationException e )
+        catch( final VerifierConfigurationException e )
         {
-            final String msg = REZ.getString( "jarv.valid.schema", application, block );
-
-            throw new ConfigurationException( msg, e );
+            final String message =
+                REZ.getString( "jarv.valid.schema", application, block );
+            throw new ConfigurationException( message, e );
         }
-        catch( SAXException e )
+        catch( final SAXException e )
         {
-            final String msg = REZ.getString( "jarv.valid.badparse", application, block );
-
-            throw new ConfigurationException( msg, e );
+            final String message =
+                REZ.getString( "jarv.valid.badparse", application, block );
+            throw new ConfigurationException( message, e );
         }
-        catch( IllegalStateException e )
+        catch( final IllegalStateException e )
         {
-            final String msg = REZ.getString( "jarv.valid.badparse", application, block );
-
-            throw new ConfigurationException( msg, e );
+            final String message =
+                REZ.getString( "jarv.valid.badparse", application, block );
+            throw new ConfigurationException( message, e );
         }
     }
 
@@ -255,39 +264,49 @@ public class JarvConfigurationValidator extends AbstractLogEnabled
     {
         try
         {
-            final File temp = File.createTempFile( application + "-" + block + "-",
-                                                   ".xml",
-                                                   new File( this.m_debugPath ) );
+            final File temp =
+                File.createTempFile( application + "-" + block + "-",
+                                     ".xml",
+                                     new File( m_debugPath ) );
 
-            this.m_serializer.serializeToFile( temp, configuration );
+            m_serializer.serializeToFile( temp, configuration );
 
             if( getLogger().isDebugEnabled() )
-                getLogger().debug( "Configuration written at: " + temp );
+            {
+                final String message = "Configuration written at: " + temp;
+                getLogger().debug( message );
+            }
         }
-        catch( Exception e )
+        catch( final Exception e )
         {
-            getLogger().error( "Unable to write debug output", e );
+            final String message = "Unable to write debug output";
+            getLogger().error( message, e );
         }
     }
 
     public void removeSchema( String application, String block )
     {
-        this.m_schemaURLs.remove( createKey( application, block ) );
+        final String key = createKey( application, block );
+        m_schemaURLs.remove( key );
 
-        if( null != this.m_schemas.remove( createKey( application, block ) )
-            && getLogger().isDebugEnabled() )
-            getLogger().debug( "Removed schema [app: " + application + ", block: " + block + "]" );
+        if( null != m_schemas.remove( key ) &&
+            getLogger().isDebugEnabled() )
+        {
+            final String message =
+                "Removed schema [app: " + application + ", block: " + block + "]";
+            getLogger().debug( message );
+        }
     }
 
     public String getSchemaType( String application, String block )
     {
-        return this.m_schemaType;
+        return m_schemaType;
     }
 
     public String getSchema( String application, String block )
     {
         final String key = createKey( application, block );
-        final String url = (String)this.m_schemaURLs.get( key );
+        final String url = (String)m_schemaURLs.get( key );
 
         if( null != url )
         {
@@ -297,8 +316,9 @@ public class JarvConfigurationValidator extends AbstractLogEnabled
             }
             catch( IOException e )
             {
-                getLogger().error( "Unable to read schema [app: " + application
-                                   + ", block: " + block + ", url: " + url + "]", e );
+                final String message = "Unable to read schema [app: " + application +
+                    ", block: " + block + ", url: " + url + "]";
+                getLogger().error( message, e );
             }
         }
 
