@@ -25,7 +25,6 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
-import org.apache.avalon.phoenix.BlockContext;
 import org.apache.catalina.Engine;
 import org.apache.catalina.Host;
 import org.apache.catalina.Lifecycle;
@@ -52,7 +51,8 @@ public class CatalinaSevakImpl
     extends AbstractLogEnabled
     implements Contextualizable, Serviceable, Configurable, Initializable, Sevak
 {
-    private BlockContext m_context;
+    //private BlockContext m_context;
+    private Context m_context;
     private Configuration m_configuration;
     private Engine m_engine = null;
     private Embedded m_embedded = null;
@@ -68,7 +68,8 @@ public class CatalinaSevakImpl
     public void contextualize(final Context context)
     {
         getLogger().info("Sevak.contextualize()");
-        m_context = (BlockContext) context;
+        //m_context = (BlockContext) context;
+        m_context = (Context) context;
     }
 
     /**
@@ -115,9 +116,9 @@ public class CatalinaSevakImpl
             m_configuration.getChild("catalina.home").getValue(null);
         if (catalinaHome == null)
         {
-            catalinaHome=m_context.getBaseDirectory().getAbsolutePath();
-            //Creating a conf/ folder  and dumping the default web.xml 
-            File confDir=new File(m_context.getBaseDirectory(),"conf");
+            catalinaHome = ((File)m_context.get("app.home")).getAbsolutePath();
+
+            File confDir=new File( (File) m_context.get("app.home"),"conf");
             confDir.mkdir();
             getLogger().info("Created conf/ folder");
             InputStream in= CatalinaSevakImpl.class.getResourceAsStream("default-web.xml");
@@ -137,8 +138,8 @@ public class CatalinaSevakImpl
         {
             System.out.println(
                 "catalina.home property Not Found. Using : "
-                    + m_context.getBaseDirectory().getAbsolutePath());
-            catalinaHome = m_context.getBaseDirectory().getAbsolutePath();
+                    + m_context.get("app.home"));
+            catalinaHome = ((File)m_context.get("app.home")).getAbsolutePath();
         }
         */
         m_port = m_configuration.getChild("port").getValueAsInteger(8080);
@@ -176,7 +177,9 @@ public class CatalinaSevakImpl
         //START  Tomcat Instance
         try
         {
+            getLogger().debug("starting Tomcat");
             m_embedded.start();
+            getLogger().debug("Tomcat started");
         }
         catch (LifecycleException le)
         {
