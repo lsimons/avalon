@@ -617,6 +617,61 @@ public interface DocumentRepository {
 	  </para>
 	</section>
       </section>
+      <section>
+        <title>Parameters</title>
+	<para>
+	  Avalon realizes that the Configuration object hierarchy can be
+	  heavy in many circumstances.  Therefore, we came up with a
+	  <classname>Parameters</classname> object that captures the
+	  convenience of <classname>Configuration</classname> objects with a
+	  simple name and value pair.
+	</para>
+	<section>
+	  <title>Parameterizable</title>
+	  <para>
+	    Any Component that wants to use <classname>Parameters</classname>
+	    instead of <classname>Configuration</classname> objects will
+	    implement this interface.  <classname>Parameterizable</classname>
+	    has one method named <function>parameterize</function> with the
+	    parameter being the <classname>Parameters</classname> object.
+	  </para>
+	  <para>
+            The contract is that this is called once during the lifecycle of
+	    the Component.  Usually this interface is used in lieu of the
+	    <classname>Configurable</classname> interface, however if both are
+	    used, the <function>parameterize</function> method is called after
+	    the <function>configure</function> method.
+	  </para>
+	</section>
+	<section>
+	  <title>Parameters</title>
+	  <para>
+	    The <classname>Parameters</classname> object provides a mechanism
+	    to obtain a value based on a <parameter>String</parameter> name.
+	    There are convenience methods that allow you to use defaults if the
+	    value does not exist, as well as obtain the value in any of the
+	    same formats that are in the <classname>Configurable</classname>
+	    interface.
+	  </para>
+	  <para>
+            While there are similarities between the
+	    <classname>Parameters</classname> object and the
+	    <classname>java.util.Property</classname> object, there are some
+	    important semantic differences.  First,
+	    <classname>Parameters</classname> are
+	    <emphasis>read-only</emphasis>. Second,
+	    <classname>Parameters</classname> are easily derived from
+	    <classname>Configuration</classname> objects.  Lastly, the
+	    <classname>Parameters</classname> object is derived from XML
+	    fragments that look like this:
+	  </para>
+	  <programlisting>
+<![CDATA[
+<parameter name="param-name" value="param-value"/>
+]]>
+	  </programlisting>
+	</section>
+      </section>
     </section>
   </section>
 </chapter>
