@@ -11,6 +11,7 @@
    <person name="Berin Loritsch" email="bloritsch@apache.org"/>
    <person name="Peter Donald" email="donaldp@apache.org"/>
    <person name="Roberto Lo Giacco" email="rlogiacco@mail.com"/>
+   <person name="Leo Simons" email="mail@leosimons.com"/>
   </authors>
  </header>
 
@@ -193,6 +194,17 @@ lock you need. Alternatively you could use the Class object for
 the class you are in. That is, if you're in class MyClass, use 
 "MyClass.class".  That gets the object of type java.lang.Class 
 that corresponds to your class MyClass.
+</li>
+<li>
+Have the names of all class fields start with the prefix "m_".
+Example:
+<source>
+class MyClass
+{
+    String m_class = MyClass.getClass();
+	int m_users;
+}
+</source>
 </li>
 </ol>
 

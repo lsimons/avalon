@@ -255,7 +255,7 @@ COPYRIGHT:
     <!ATTLIST em %common.att;>
 
     <!-- Code (typically monospaced) -->
-    <!ELEMENT code (%text;|%markup;|%links;|%special;)*>
+    <!ELEMENT code (%text;|%markup;|%links;)*>
     <!ATTLIST code %common.att;>
 
     <!-- Superscript (typically smaller and higher) -->

@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE document SYSTEM "dtd/document-v10.dtd">
+
+<document>
+  <header>
+    <title>Avalon Excalibur</title>
+    <subtitle>Command-line Utilities</subtitle>
+    <authors>
+      <person name="Leo Simons" email="mail@leosimons.com"/>
+    </authors>
+  </header>
+  <body>
+    <s1 title="Parse the commandline in a snap">
+    </s1>
+  </body>
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
+      $Revision: 1.1 $ $Date: 2001/04/26 19:38:33 $
+    </legal>
+  </footer>
+</document>

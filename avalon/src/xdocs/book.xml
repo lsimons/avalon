@@ -4,8 +4,11 @@
       title="Avalon Documentation" 
       copyright="@year@ The Apache Software Foundation">
 
+  <project label="Jakarta main" href="/" />
+
   <menu label="About">
     <menu-item label="Overview" source="index.xml"/>
+    <menu-item label="Features" source="features.xml"/>
     <menu-item label="History" source="history/index.xml"/>
       <!-- history pages -->
       <menu-item type="hidden" source="history/call-to-vote.xml" />
@@ -23,6 +26,7 @@
 
   <menu label="Sub-Projects">
     <menu-item type="external" label="Framework" href="framework/index.html"/>
+    <menu-item type="external" label="Excalibur" href="excalibur/index.html"/>
     <menu-item type="external" label="Phoenix" href="@PHOENIX_BASE@/index.html"/>
     <menu-item type="external" label="Cornerstone" href="@CORNERSTONE_BASE@/index.html"/>
     <menu-item type="external" label="Testlet" href="@TESTLET_BASE@/index.html"/>

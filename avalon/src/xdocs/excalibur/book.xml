@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+
+<book software="Excalibur" 
+      title="Excalibur Documentation" 
+      copyright="@year@ The Apache Software Foundation">
+
+  <project label="Jakarta main" href="/" />
+  <project label="Avalon main" href="../index.html" />
+
+  <menu label="About">
+    <menu-item label="Overview" source="index.xml"/>
+    <menu-item type="changes" label="Changes" source="changes.xml"/>
+    <menu-item type="external" id="api-docs" label="API Docs" href="api/index.html"/>
+  </menu>
+
+  <menu label="Released Components">
+    <menu-item label="Command-line inspection" source="cli.xml"/>
+    <menu-item label="Collections" source="collections.xml"/>
+    <menu-item label="Component utilities" source="component.xml"/>
+    <menu-item label="Concurrent threading" source="concurrent.xml"/>
+    <menu-item label="IO utilities" source="io.xml"/>
+    <menu-item label="Pooling support" source="pool.xml"/>
+    <menu-item label="Property utilities" source="property.xml"/>
+    <menu-item label="Threading utilities" source="thread.xml"/>
+  </menu>
+
+  <menu label="Components under Development">
+    <menu-item label="i18n" source="i18n.xml"/>
+    <menu-item label="Piping support" source="pipeline.xml"/>
+    <menu-item label="Proxy implementation" source="proxy.xml"/>
+  </menu>
+</book>
+
+

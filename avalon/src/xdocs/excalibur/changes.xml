@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE changes SYSTEM "dtd/changes-v10.dtd">
+
+<changes title="Avalon Excalibur History of Changes">
+  <devs>
+    <person name="Leo Simons" email="mail@leosimons.com" id="LS"/>
+  </devs>
+
+<release version="3.9a1" date="Unreleased">
+  <action dev="LS" type="add">
+  </action>
+</release>
+
+</changes>
