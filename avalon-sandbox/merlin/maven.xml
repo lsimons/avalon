@@ -5,6 +5,7 @@
   <property file="project.properties"/>
   <property name="merlin.build.inst" value="inst"/>
   <property name="merlin.build.inst.dir" value="${maven.build.dir}/${merlin.build.inst}"/>
+  <property name="maven.jar.manifest.extensions.add" value="true"/>
 
   <property name="maven.checkstyle.format" value="avalon"/>
   <!--<property name="maven.jar.manifest" value="${basedir}/src/etc/project.mf"/>-->
@@ -132,8 +133,30 @@
       goals="xjavadoc,site"
       banner="Building site."
       ignoreFailures="false"/>
-
   </goal>
+
+  <!-- convinience docs generation within runing javadoc -->
+  <goal name="merlin-site-xdocs"
+    description="Build the Merlin site.">
+    <maven:reactor
+      basedir="${basedir}"
+      includes="merlin-smp/project.xml"
+      goals="site"
+      banner="Building site."
+      ignoreFailures="false"/>
+  </goal>
+
+  <!-- convinience javadoc generation within runing xdocs -->
+  <goal name="merlin-site-javadoc"
+    description="Build the Merlin site.">
+    <maven:reactor
+      basedir="${basedir}"
+      includes="merlin-smp/project.xml"
+      goals="xjavadoc"
+      banner="Building site."
+      ignoreFailures="false"/>
+  </goal>
+
 
   <!--
   The site goal is called by the merlin-install goal and handles the generation
