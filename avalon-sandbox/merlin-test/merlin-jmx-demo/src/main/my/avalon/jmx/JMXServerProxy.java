@@ -13,10 +13,8 @@ import javax.management.*;
 /**
  * JMXServerProxy is a proxy to a MBeanServer (adpater MBeanServer to Avalon).
  *
- * @avalon.meta.version 1.0
- * @avalon.meta.name jmx-server
- * @avalon.meta.service type="javax.management.MBeanServer"
- * @avalon.meta.lifestyle singleton
+ * @avalon.type version="1.0" name="jmx-server" lifestyle="singleton"
+ * @avalon.service type="javax.management.MBeanServer"
  */
 public class JMXServerProxy extends AbstractLogEnabled implements Initializable, MBeanServer {
     private MBeanServer server_;

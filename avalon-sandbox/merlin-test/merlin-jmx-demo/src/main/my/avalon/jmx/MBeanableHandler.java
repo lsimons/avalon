@@ -76,9 +76,8 @@ import javax.management.ObjectName;
  * To be auto-registered a MBean component need to include the stage "my.avalon.jmx.MBeanable".
  * The implementation of the interface my.avalon.jmx.MBeanable is optional (only if you want to choose your name).
  *
- * @avalon.meta.version 1.0
- * @avalon.meta.name jmx-handler
- * @avalon.meta.extension type="my.avalon.jmx.MBeanable"
+ * @avalon.type version="1.0" name="jmx-handler"
+ * @avalon.extension type="my.avalon.jmx.MBeanable"
  */
 public class MBeanableHandler extends AbstractLogEnabled implements Accessor, Serviceable {
     private MBeanServer jmxServer_;
@@ -89,7 +88,7 @@ public class MBeanableHandler extends AbstractLogEnabled implements Accessor, Se
     * can be resolved using the supplied service manager.
     *
     * @param manager the service manager
-    * @avalon.meta.dependency key="jmx-server" type="javax.management.MBeanServer" optional="true"
+    * @avalon.dependency key="jmx-server" type="javax.management.MBeanServer" optional="true"
     */
     public void service(ServiceManager manager) throws ServiceException {
         if (manager.hasService("jmx-server")) {
