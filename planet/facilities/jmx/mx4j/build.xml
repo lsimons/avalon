@@ -6,5 +6,12 @@
   <property file="build.properties"/>
   <import file="${project.system}/build/standard.xml"/>
 
+  <target name="build" depends="standard.build">
+    <x:block name="jmx" embed="MAIN">
+      <x:component name="registry" 
+         class="org.apache.avalon.jmx.mx4j.MX4JComponentRegistrationManager"/>
+    </x:block>
+  </target>
+
 </project>
 
