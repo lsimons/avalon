@@ -42,15 +42,13 @@ import org.apache.avalon.tools.project.Definition;
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class JarTask extends Task
+public class JarTask extends ContextualTask
 {
     public static final String MD5_EXT = "md5";
     public static final String JAR_EXT = "jar";
     public static final String ASC_EXT = "asc";
     public static final String GPG_EXE_KEY = "project.gpg.exe";
     
-    private boolean m_init = false;
-    private Context m_context;
     private Home m_home;
 
    /**
@@ -78,16 +76,6 @@ public class JarTask extends Task
         }
     }
 
-    public void init() throws BuildException 
-    {
-        if( !m_init )
-        {
-            Project project = getProject();
-            m_context = Context.getContext( project );
-            m_init = true;
-        }
-    }
-
     public void execute() throws BuildException 
     {
         if( null == m_home ) 
@@ -99,9 +87,9 @@ public class JarTask extends Task
         }
 
         File classes = 
-          m_context.getBuildPath( JavacTask.BUILD_CLASSES_KEY );
+          getContext().getBuildPath( JavacTask.BUILD_CLASSES_KEY );
         File deliverables = 
-          m_context.getDeliverablesDirectory();
+          getContext().getDeliverablesDirectory();
 
         File jarFile = getJarFile( deliverables );
         if( classes.exists() )
@@ -117,7 +105,7 @@ public class JarTask extends Task
                 throw new BuildException( ioe );
             }
         }
-        m_context.setBuildPath( "jar", jarFile.toString() );
+        getContext().setBuildPath( "jar", jarFile.toString() );
     }
 
     public File getJarFile( File deliverables )
@@ -146,11 +134,7 @@ public class JarTask extends Task
     private boolean jar( File classes, File jarFile )
     {
         File dir = jarFile.getParentFile();
-
-        Mkdir mkdir = (Mkdir) getProject().createTask( "mkdir" );
-        mkdir.setDir( dir );
-        mkdir.init();
-        mkdir.execute();
+        mkDir( dir );
 
         long modified = -1;
         if( jarFile.exists() )

@@ -48,13 +48,10 @@ import org.w3c.dom.Element;
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class PluginTask extends Task
+public class PluginTask extends ContextualTask
 {
     private String m_id;
     private String m_uri;
-
-    private boolean m_init = false;
-    private Context m_context;
     private Home m_home;
 
    /**
@@ -86,16 +83,6 @@ public class PluginTask extends Task
     public void setArtifact( String id )
     {
         m_id = id;
-    }
-
-    public void init() throws BuildException 
-    {
-        if( !m_init )
-        {
-            Project project = getProject();
-            m_context = Context.getContext( project );
-            m_init = true;
-        }
     }
 
     private String getArtifactSpec()

@@ -43,7 +43,7 @@ import org.apache.avalon.tools.home.Context;
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class JUnitTestTask extends Task
+public class JUnitTestTask extends ContextualTask
 {
     public static final String TEST_KEY = "project.test";
     public static final String TEST_VALUE = "test";
@@ -63,10 +63,7 @@ public class JUnitTestTask extends Task
     public static final String FORK_KEY = "test.compile.fork";
     public static final boolean FORK_VALUE = false;
 
-    private boolean m_init = false;
-    private Context m_context;
     private File m_test;
-
     private Home m_home;
 
    /**
@@ -96,18 +93,17 @@ public class JUnitTestTask extends Task
 
     public void init() throws BuildException 
     {
-        if( !m_init )
+        if( !isInitialized() )
         {
+            super.init();
             Project project = getProject();
-            m_context = Context.getContext( project );
             project.setNewProperty( DEBUG_KEY, "" + DEBUG_VALUE );
             project.setNewProperty( FORK_KEY, "" + FORK_VALUE );
             project.setNewProperty( TEST_SRC_KEY, "" + TEST_SRC_VALUE );
             project.setNewProperty( TEST_ENV_KEY, "" + TEST_ENV_VALUE );
             project.setNewProperty( TEST_TMP_KEY, "" + TEST_TMP_VALUE );
-            m_context.setBuildPath( TEST_KEY, TEST_VALUE );
-            m_test = m_context.getBuildPath( TEST_KEY );
-            m_init = true;
+            getContext().setBuildPath( TEST_KEY, TEST_VALUE );
+            m_test = getContext().getBuildPath( TEST_KEY );
         }
     }
 
@@ -122,7 +118,8 @@ public class JUnitTestTask extends Task
         }
 
         Project project = getProject();
-        File build = m_context.getBuildPath( PrepareTask.BUILD_SRC_KEY );
+        File build = getContext().getBuildDirectory();
+
         String testPath = project.getProperty( TEST_SRC_KEY );
         File src = new File( build, testPath );
 
@@ -140,7 +137,7 @@ public class JUnitTestTask extends Task
             // target/test-classes directory
             //
 
-            File jar = m_context.getBuildPath( "jar" );
+            File jar = getContext().getBuildPath( "jar" );
             classpath.createPathElement().setLocation( jar );
             compile( src, classes, classpath );
             classpath.createPathElement().setLocation( classes );
@@ -221,14 +218,6 @@ public class JUnitTestTask extends Task
 
         junit.init();
         junit.execute();
-    }
-
-    private void mkDir( File dir )
-    {
-        Mkdir mkdir = (Mkdir) getProject().createTask( "mkdir" );
-        mkdir.setDir( dir );
-        mkdir.init();
-        mkdir.execute();
     }
 
     private boolean getDebugProperty()

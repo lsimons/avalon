@@ -45,12 +45,10 @@ import org.apache.avalon.tools.project.Plugin.TaskDef;
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class DeclareTask extends Task
+public class DeclareTask extends ContextualTask
 {
     private static final String TYPE = "plugin";
 
-    private boolean m_init = false;
-    private Context m_context;
     private Home m_home;
 
    /**
@@ -75,16 +73,6 @@ public class DeclareTask extends Task
             final String error = 
               "Supplied id '" + id + "' does not refer to a Home.";
             throw new BuildException( error );
-        }
-    }
-
-    public void init() throws BuildException 
-    {
-        if( !m_init )
-        {
-            Project project = getProject();
-            m_context = Context.getContext( project );
-            m_init = true;
         }
     }
 
@@ -124,7 +112,7 @@ public class DeclareTask extends Task
 
     private File getPluginFile()
     {
-        File dir = m_context.getDeliverablesDirectory();
+        File dir = getContext().getDeliverablesDirectory();
         File ants = new File( dir, TYPE + "s" );
         mkDir( ants );
 
@@ -285,13 +273,4 @@ public class DeclareTask extends Task
             }
         }
     }
-
-    private void mkDir( File dir )
-    {
-        Mkdir mkdir = (Mkdir) getProject().createTask( "mkdir" );
-        mkdir.setDir( dir );
-        mkdir.init();
-        mkdir.execute();
-    }
-
 }

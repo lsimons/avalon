@@ -39,7 +39,7 @@ import org.apache.avalon.tools.project.Definition;
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class JavacTask extends Task
+public class JavacTask extends ContextualTask
 {
     public static final String BUILD_CLASSES_KEY = "classes";
     public static final String BUILD_CLASSES_PATH = "classes";
@@ -49,10 +49,6 @@ public class JavacTask extends Task
 
     public static final String FORK_KEY = "java.compile.fork";
     public static final boolean FORK_VALUE = false;
-
-    private boolean m_init = false;
-
-    private Context m_context;
 
     private Home m_home;
 
@@ -83,16 +79,15 @@ public class JavacTask extends Task
 
     public void init() throws BuildException 
     {
-        if( !m_init )
+        if( !isInitialized() )
         {
+            super.init();
             Project project = getProject();
-            m_context = Context.getContext( project );
             project.setNewProperty( DEBUG_KEY, "" + DEBUG_VALUE );
             project.setNewProperty( FORK_KEY, "" + FORK_VALUE );
-            m_context.setBuildPath( 
+            getContext().setBuildPath( 
               BUILD_CLASSES_KEY, 
               BUILD_CLASSES_PATH );
-            m_init = true;
         }
     }
 
@@ -106,17 +101,14 @@ public class JavacTask extends Task
         }
 
         Project project = getProject();
-        File build = m_context.getBuildPath( PrepareTask.BUILD_SRC_KEY, false );
+        File build = getContext().getBuildDirectory();
         String mainPath = project.getProperty( Context.SRC_MAIN_KEY );
         File main = new File( build, mainPath );
 
         if( main.exists() )
         {
-            File classes = m_context.getBuildPath( BUILD_CLASSES_KEY );
-            Mkdir mkdir = (Mkdir) getProject().createTask( "mkdir" );
-            mkdir.setDir( classes );
-            mkdir.init();
-            mkdir.execute();
+            File classes = getContext().getBuildPath( BUILD_CLASSES_KEY );
+            mkDir( classes );
 
             Path classpath = 
               m_home.getRepository().createPath( 

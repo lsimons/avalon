@@ -27,33 +27,24 @@ import org.apache.tools.ant.taskdefs.Delete;
 import org.apache.avalon.tools.home.Context;
 
 /**
- * Load a goal. 
+ * Clean the project by removing the target directory.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class CleanTask extends Task
+public class CleanTask extends ContextualTask
 {
-    private Context m_context;
-    private boolean m_init = false;
-
-    public void init() throws BuildException 
-    {
-        if( !m_init )
-        {
-            Project project = getProject();
-            m_context = Context.getContext( project );
-            m_init = true;
-        }
-    }
-
     public void execute() throws BuildException 
     {
-        File target = m_context.getTargetDirectory();
-        Project project = getProject();
-        Delete delete = (Delete) project.createTask( "delete" );
-        delete.setDir( target );
-        delete.init();
-        delete.execute();
+        File target = getContext().getTargetDirectory();
+        if( target.exists() )
+        {
+            log( "removing target directory" );
+            Project project = getProject();
+            Delete delete = (Delete) project.createTask( "delete" );
+            delete.setDir( target );
+            delete.init();
+            delete.execute();
+        }
     }
 }

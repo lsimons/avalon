@@ -38,10 +38,8 @@ import org.apache.avalon.tools.project.Definition;
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class InstallTask extends Task
+public class InstallTask extends ContextualTask
 {
-    private boolean m_init = false;
-    private Context m_context;
     private Home m_home;
 
    /**
@@ -69,19 +67,9 @@ public class InstallTask extends Task
         }
     }
 
-    public void init() throws BuildException 
-    {
-        if( !m_init )
-        {
-            Project project = getProject();
-            m_context = Context.getContext( project );
-            m_init = true;
-        }
-    }
-
     public void execute() throws BuildException 
     {
-        File deliverables = m_context.getDeliverablesDirectory();
+        File deliverables = getContext().getDeliverablesDirectory();
         if( deliverables.exists() )
         {
             install( deliverables );
