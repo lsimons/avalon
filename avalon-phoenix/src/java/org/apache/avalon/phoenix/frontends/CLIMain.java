@@ -44,12 +44,13 @@ public final class CLIMain
 
     private static final String DEFAULT_LOG_FILE =
         File.separator + "logs" + File.separator + "phoenix.log";
+
     private static final String DEFAULT_CONF_FILE =
         File.separator + "conf" + File.separator + "kernel.xml";
 
     private static final String DEFAULT_FORMAT =
-      "%7.7{priority} %23.23{time:yyyy-MM-dd' 'HH:mm:ss.SSS} [%8.8{category}] (%{context}): "
-      + "%{message}\n%{throwable}";
+        "%7.7{priority} %23.23{time:yyyy-MM-dd' 'HH:mm:ss.SSS} [%8.8{category}] (%{context}): "
+        + "%{message}\n%{throwable}";
 
     ///The embeddor attached to frontend
     private Embeddor m_embeddor;
@@ -58,7 +59,7 @@ public final class CLIMain
     private int m_exitCode;
 
     private ShutdownHook m_hook;
-    
+
     private boolean m_shuttingDown;
 
     /**
@@ -265,21 +266,21 @@ public final class CLIMain
         // Depending on how the shutdown process is initiated, it is possible
         //  that the shutdown() method can be recursively called from within
         //  the call to notifyObservers below.
-        if ( !m_shuttingDown )
+        if( !m_shuttingDown )
         {
             m_shuttingDown = true;
-            
+
             //Null hook so it is not tried to be removed
             //when we are shutting down. (Attempting to remove
             //hook during shutdown raises an exception).
             m_hook = null;
-    
+
             if( null != m_embeddor )
             {
                 final String message = REZ.getString( "main.exit.notice" );
                 System.out.println( message );
                 System.out.flush();
-    
+
                 try
                 {
                     ContainerUtil.shutdown( m_embeddor );
@@ -293,7 +294,7 @@ public final class CLIMain
                     m_embeddor = null;
                 }
             }
-    
+
             // Notify any observers that Phoenix is shutting down
             setChanged();
             notifyObservers( "shutdown" );

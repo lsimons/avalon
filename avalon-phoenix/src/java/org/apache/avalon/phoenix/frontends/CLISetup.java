@@ -32,13 +32,21 @@ class CLISetup
         "org.apache.avalon.phoenix.components.manager.DefaultManager";
 
     private static final int DEBUG_LOG_OPT = 'd';
+
     private static final int HELP_OPT = 'h';
+
     private static final int LOG_FILE_OPT = 'l';
+
     private static final int APPS_PATH_OPT = 'a';
+
     private static final int PERSISTENT_OPT = 'p';
+
     private static final int CONFIGFILE_OPT = 'f';
+
     private static final int REMOTE_MANAGER_OPT = 1;
+
     private static final int DISABLE_HOOK_OPT = 2;
+
     private static final int APPLICATION_OPT = 3;
 
     ///Parameters created by parsing CLI options

@@ -7,8 +7,8 @@
  */
 package org.apache.avalon.phoenix.components.configuration;
 
-import java.io.FileFilter;
 import java.io.File;
+import java.io.FileFilter;
 
 class ConfigurationDirectoryFilter implements FileFilter
 {

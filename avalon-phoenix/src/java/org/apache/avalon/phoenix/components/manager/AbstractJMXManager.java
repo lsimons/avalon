@@ -22,7 +22,7 @@ import org.apache.excalibur.baxter.JavaBeanMBean;
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  * @author <a href="mailto:Huw@mmlive.com">Huw Roberts</a>
- * @version $Revision: 1.1 $ $Date: 2002/07/13 10:15:12 $
+ * @version $Revision: 1.2 $ $Date: 2002/07/26 09:49:21 $
  */
 public abstract class AbstractJMXManager
     extends AbstractSystemManager
@@ -31,6 +31,7 @@ public abstract class AbstractJMXManager
         ResourceManager.getPackageResources( AbstractJMXManager.class );
 
     private MBeanServer m_mBeanServer;
+
     private String m_domain = "Phoenix";
 
     public void initialize()

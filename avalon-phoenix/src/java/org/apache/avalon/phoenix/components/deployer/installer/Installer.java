@@ -33,7 +33,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * and installing it as appropriate.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.11 $ $Date: 2002/07/15 16:17:23 $
+ * @version $Revision: 1.12 $ $Date: 2002/07/26 09:49:20 $
  */
 public class Installer
     extends AbstractLogEnabled
@@ -42,14 +42,20 @@ public class Installer
         ResourceManager.getPackageResources( Installer.class );
 
     private static final String META_INF = "META-INF";
+
     private static final String SAR_INF = "SAR-INF";
+
     private static final String LIB = "SAR-INF/lib";
+
     private static final String CLASSES = "SAR-INF/classes/";
 
     //The names on the native filesystem
     private static final String FS_CONFIG_XML = "SAR-INF" + File.separator + "config.xml";
+
     private static final String FS_ASSEMBLY_XML = "SAR-INF" + File.separator + "assembly.xml";
+
     private static final String FS_ENV_XML = "SAR-INF" + File.separator + "environment.xml";
+
     private static final String FS_CLASSES =
         "SAR-INF" + File.separator + "classes" + File.separator;
 

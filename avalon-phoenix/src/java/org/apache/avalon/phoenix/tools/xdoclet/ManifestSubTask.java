@@ -7,18 +7,18 @@
  */
 package org.apache.avalon.phoenix.tools.xdoclet;
 
-import xjavadoc.XClass;
 import java.io.File;
 import java.net.URL;
 import xdoclet.TemplateSubTask;
 import xdoclet.XDocletException;
+import xjavadoc.XClass;
 
 /**
  * Generates Manifest file for Blocks
  *
  * @author <a href="mailto:vinay_chandran@users.sourceforge.net">Vinay Chandrasekharan</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.6 $ $Date: 2002/07/15 16:16:31 $
+ * @version $Revision: 1.7 $ $Date: 2002/07/26 09:49:23 $
  */
 public class ManifestSubTask
     extends TemplateSubTask
@@ -26,6 +26,7 @@ public class ManifestSubTask
     public static final String SUBTASK_NAME = "manifest";
 
     private static final String GENERATED_FILE_NAME = "manifest.mf";
+
     private static final String DEFAULT_TEMPLATE_FILE =
         "/org/apache/avalon/phoenix/tools/xdoclet/manifest.j";
 
@@ -85,13 +86,13 @@ public class ManifestSubTask
         }
 
         if( null == getDestinationFile()
-          || getDestinationFile().trim().equals( "" ) )
+            || getDestinationFile().trim().equals( "" ) )
         {
             throw new XDocletException( "Error with the 'manifestFile' attribute." );
         }
 
         if( null == getClassPattern()
-          || getClassPattern().trim().equals( "" ) )
+            || getClassPattern().trim().equals( "" ) )
         {
             throw new XDocletException( "'pattern' parameter missing or empty." );
         }

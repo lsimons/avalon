@@ -23,15 +23,18 @@ import org.apache.avalon.phoenix.interfaces.Kernel;
 
 /**
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class BeanShellGUI
     extends JPanel
     implements ActionListener
 {
     private JConsole m_jConsole;
+
     private Interpreter m_interpreter;
+
     private Thread m_thread;
+
     private JFrame m_frame;
 
     /**
@@ -100,5 +103,4 @@ public class BeanShellGUI
             m_frame.dispose();
         }
     }
-
 }

@@ -43,15 +43,20 @@ public class DefaultManager
 
     private static final int DEFAULT_REGISTRY_PORT =
         Integer.getInteger( "phoenix.port", 1111 ).intValue();
+
     private static final int DEFAULT_HTTPADAPTER_PORT =
         Integer.getInteger( "phoenix.adapter.http", 8082 ).intValue();
+
     private static final String DEFAULT_ADMIN_USER =
         System.getProperty( "phoenix.admin.user", "admin" );
+
     private static final String DEFAULT_ADMIN_PASSWD =
         System.getProperty( "phoenix.admin.passwd" );
 
     private Parameters m_parameters;
+
     private RMIAdaptorImpl m_rmiAdaptor;
+
     private Registry m_rmiRegistry;
 
     ///Name Adaptor registered with

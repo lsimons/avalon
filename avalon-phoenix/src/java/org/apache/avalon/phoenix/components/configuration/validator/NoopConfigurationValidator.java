@@ -7,10 +7,10 @@
  */
 package org.apache.avalon.phoenix.components.configuration.validator;
 
-import org.apache.avalon.phoenix.interfaces.ConfigurationValidator;
-import org.apache.avalon.phoenix.interfaces.ConfigurationValidatorMBean;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.phoenix.interfaces.ConfigurationValidator;
+import org.apache.avalon.phoenix.interfaces.ConfigurationValidatorMBean;
 
 /**
  * A ConfigurationValidator that always says everything is okay
@@ -21,7 +21,7 @@ public class NoopConfigurationValidator
     implements ConfigurationValidator, ConfigurationValidatorMBean
 {
     public void addSchema( String application, String block, String schemaType, String url )
-      throws ConfigurationException
+        throws ConfigurationException
     {
     }
 
@@ -30,13 +30,13 @@ public class NoopConfigurationValidator
     }
 
     public boolean isValid( String application, String block, Configuration configuration )
-      throws ConfigurationException
+        throws ConfigurationException
     {
         return true;
     }
 
     public boolean isFeasiblyValid( String application, String block, Configuration configuration )
-      throws ConfigurationException
+        throws ConfigurationException
     {
         return true;
     }

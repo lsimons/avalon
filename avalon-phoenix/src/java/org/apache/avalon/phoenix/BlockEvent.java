@@ -21,7 +21,9 @@ public final class BlockEvent
     extends EventObject
 {
     private final String m_name;
+
     private final Object m_block;
+
     private final BlockInfo m_blockInfo;
 
     /**

@@ -11,7 +11,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.configuration.Configurable;
@@ -21,8 +22,6 @@ import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.phoenix.interfaces.ConfigurationValidator;
 import org.apache.avalon.phoenix.interfaces.ConfigurationValidatorMBean;
-import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.avalon.excalibur.i18n.ResourceManager;
 
 /**
  * Default ConfigurationValidator implementation that allows schemas to be plugged-in
@@ -37,7 +36,9 @@ public class DelegatingConfigurationValidator extends AbstractLogEnabled
         ResourceManager.getPackageResources( DelegatingConfigurationValidator.class );
 
     private Map m_blockTypeMap = Collections.synchronizedMap( new HashMap() );
+
     private Map m_delegates = new HashMap();
+
     private String m_supportedTypes;
 
     public void configure( Configuration configuration )
@@ -48,12 +49,12 @@ public class DelegatingConfigurationValidator extends AbstractLogEnabled
 
         for( int i = 0; i < delegates.length; i++ )
         {
-            final String type = delegates[i].getAttribute( "schema-type" );
+            final String type = delegates[ i ].getAttribute( "schema-type" );
 
             this.m_delegates.put( type,
                                   new DelegateEntry( type,
-                                                     delegates[i].getAttribute( "class" ),
-                                                     delegates[i] )
+                                                     delegates[ i ].getAttribute( "class" ),
+                                                     delegates[ i ] )
             );
 
             if( i > 0 )
@@ -72,9 +73,9 @@ public class DelegatingConfigurationValidator extends AbstractLogEnabled
     {
         for( Iterator i = m_delegates.values().iterator(); i.hasNext(); )
         {
-            final DelegateEntry entry = ( DelegateEntry ) i.next();
+            final DelegateEntry entry = (DelegateEntry)i.next();
             final Class clazz = Class.forName( entry.getClassName() );
-            final ConfigurationValidator validator = ( ConfigurationValidator ) clazz.newInstance();
+            final ConfigurationValidator validator = (ConfigurationValidator)clazz.newInstance();
 
             ContainerUtil.enableLogging( validator, getLogger() );
             ContainerUtil.configure( validator, entry.getConfiguration() );
@@ -88,14 +89,14 @@ public class DelegatingConfigurationValidator extends AbstractLogEnabled
     {
         for( Iterator i = m_delegates.values().iterator(); i.hasNext(); )
         {
-            ContainerUtil.dispose( ( ( DelegateEntry ) i.next() ).getValidator() );
+            ContainerUtil.dispose( ((DelegateEntry)i.next()).getValidator() );
         }
     }
 
     public void addSchema( String application, String block, String schemaType, String url )
         throws ConfigurationException
     {
-        final DelegateEntry entry = ( DelegateEntry ) this.m_delegates.get( schemaType );
+        final DelegateEntry entry = (DelegateEntry)this.m_delegates.get( schemaType );
 
         if( entry == null )
         {
@@ -128,11 +129,11 @@ public class DelegatingConfigurationValidator extends AbstractLogEnabled
 
     public void removeSchema( String application, String block )
     {
-        final String type = ( String ) m_blockTypeMap.get( createKey( application, block ) );
+        final String type = (String)m_blockTypeMap.get( createKey( application, block ) );
 
         if( null != type )
         {
-            final DelegateEntry entry = ( DelegateEntry ) m_delegates.get( type );
+            final DelegateEntry entry = (DelegateEntry)m_delegates.get( type );
 
             entry.getValidator().removeSchema( application, block );
         }
@@ -141,7 +142,7 @@ public class DelegatingConfigurationValidator extends AbstractLogEnabled
     private ConfigurationValidator getDelegate( String application, String block )
         throws ConfigurationException
     {
-        final String type = ( String ) this.m_blockTypeMap.get( createKey( application, block ) );
+        final String type = (String)this.m_blockTypeMap.get( createKey( application, block ) );
 
         if( null == type )
         {
@@ -150,7 +151,7 @@ public class DelegatingConfigurationValidator extends AbstractLogEnabled
             throw new ConfigurationException( msg );
         }
 
-        return ( ( DelegateEntry ) this.m_delegates.get( type ) ).getValidator();
+        return ((DelegateEntry)this.m_delegates.get( type )).getValidator();
     }
 
     private String createKey( String application, String block )
@@ -160,17 +161,17 @@ public class DelegatingConfigurationValidator extends AbstractLogEnabled
 
     public String getSchema( String application, String block )
     {
-        final String type = ( String ) m_blockTypeMap.get( createKey( application, block ) );
+        final String type = (String)m_blockTypeMap.get( createKey( application, block ) );
 
         if( null != type )
         {
-            final DelegateEntry entry = ( DelegateEntry ) m_delegates.get( type );
+            final DelegateEntry entry = (DelegateEntry)m_delegates.get( type );
             final ConfigurationValidator validator = entry.getValidator();
 
             if( validator instanceof ConfigurationValidatorMBean )
             {
-                return ( ( ConfigurationValidatorMBean ) validator ).getSchema( application,
-                                                                                block );
+                return ((ConfigurationValidatorMBean)validator).getSchema( application,
+                                                                           block );
 
             }
         }
@@ -180,6 +181,6 @@ public class DelegatingConfigurationValidator extends AbstractLogEnabled
 
     public String getSchemaType( String application, String block )
     {
-        return ( String ) this.m_blockTypeMap.get( createKey( application, block ) );
+        return (String)this.m_blockTypeMap.get( createKey( application, block ) );
     }
 }

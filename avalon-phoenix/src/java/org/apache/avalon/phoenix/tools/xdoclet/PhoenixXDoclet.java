@@ -13,12 +13,13 @@ import xdoclet.DocletTask;
 /**
  *
  * @author <a href="mailto:vinay_chandran@users.sourceforge.net">Vinay Chandrasekharan</a>
- * @version $Revision: 1.5 $ $Date: 2002/04/18 10:26:04 $
+ * @version $Revision: 1.6 $ $Date: 2002/07/26 09:49:23 $
  */
 public class PhoenixXDoclet
     extends DocletTask
 {
     private BlockInfoSubTask m_blockInfoSubTask;
+
     private ManifestSubTask m_manifestSubTask;
 
     public BlockInfoSubTask createBlockinfo()

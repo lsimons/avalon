@@ -52,7 +52,9 @@ public class SimpleLogKitManager
     ///Hierarchy of Application logging
 
     private final Hierarchy m_hierarchy = new Hierarchy();
+
     private final Logger m_logkitLogger = m_hierarchy.getLoggerFor( "" );
+
     private org.apache.avalon.framework.logger.Logger m_logger =
         new LogKitLogger( m_logkitLogger );
 

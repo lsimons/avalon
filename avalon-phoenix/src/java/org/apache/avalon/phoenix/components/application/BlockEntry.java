@@ -21,6 +21,7 @@ class BlockEntry
     private Object m_object;
 
     private BlockMetaData m_blockMetaData;
+
     private BlockInvocationHandler m_invocationHandler;
 
     public BlockEntry( final BlockMetaData blockMetaData )

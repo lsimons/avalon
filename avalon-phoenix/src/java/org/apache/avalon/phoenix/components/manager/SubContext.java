@@ -24,8 +24,11 @@ class SubContext
     private static final String EMPTY_STRING = "";
 
     private final HashMap m_subcontexts = new HashMap();
+
     private final SystemManager m_parent;
+
     private final String m_name;
+
     private final String m_type;
 
     /**

@@ -15,6 +15,8 @@ package org.apache.avalon.phoenix;
 public interface Constants
 {
     String SOFTWARE = "@@NAME@@";
+
     String VERSION = "@@VERSION@@";
+
     String DATE = "@@DATE@@";
 }

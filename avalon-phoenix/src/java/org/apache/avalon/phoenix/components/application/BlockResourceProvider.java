@@ -31,7 +31,7 @@ import org.apache.excalibur.containerkit.lifecycle.ResourceProvider;
  * Block or Listener.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2002/07/14 02:27:16 $
+ * @version $Revision: 1.3 $ $Date: 2002/07/26 09:49:20 $
  */
 class BlockResourceProvider
     extends AbstractLogEnabled
@@ -52,7 +52,7 @@ class BlockResourceProvider
     private final Application m_application;
 
     public BlockResourceProvider( final ApplicationContext context,
-                          final Application application )
+                                  final Application application )
     {
         if( null == context )
         {
@@ -219,6 +219,6 @@ class BlockResourceProvider
      */
     private BlockMetaData getMetaDataFor( final Object entry )
     {
-        return ( (BlockEntry)entry ).getMetaData();
+        return ((BlockEntry)entry).getMetaData();
     }
 }

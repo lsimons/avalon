@@ -21,6 +21,7 @@ public final class ApplicationEvent
     extends EventObject
 {
     private final String m_name;
+
     private final SarMetaData m_sarMetaData;
 
     /**

@@ -77,7 +77,7 @@ public class SingleAppEmbeddor
 
     public boolean hasComponent( final String role )
     {
-        return ( null != m_application.getBlock( role ) );
+        return (null != m_application.getBlock( role ));
     }
 
     /**

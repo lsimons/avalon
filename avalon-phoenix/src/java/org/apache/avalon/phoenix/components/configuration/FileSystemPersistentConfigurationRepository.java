@@ -12,9 +12,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-
-import org.xml.sax.SAXException;
-
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.excalibur.io.FileUtil;
@@ -39,6 +36,7 @@ import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.phoenix.interfaces.ConfigurationRepository;
 import org.apache.avalon.phoenix.interfaces.SystemManager;
 import org.apache.excalibur.configuration.merged.ConfigurationMerger;
+import org.xml.sax.SAXException;
 
 /**
  * Repository which persistently stores configuration information on disk
@@ -55,9 +53,11 @@ public class FileSystemPersistentConfigurationRepository extends AbstractLogEnab
         ResourceManager.getPackageResources( FileSystemPersistentConfigurationRepository.class );
 
     private final HashMap m_persistedConfigurations = new HashMap();
+
     private final HashMap m_configurations = new HashMap();
 
     private ServiceManager m_serviceManager;
+
     private String m_phoenixHome;
 
     private File m_storageDirectory;
@@ -122,7 +122,7 @@ public class FileSystemPersistentConfigurationRepository extends AbstractLogEnab
 
             if( opath instanceof String )
             {
-                return FileUtil.normalize( ( String ) opath );
+                return FileUtil.normalize( (String)opath );
             }
             else
             {
@@ -144,7 +144,7 @@ public class FileSystemPersistentConfigurationRepository extends AbstractLogEnab
     public void initialize() throws Exception
     {
         final SystemManager systemManager =
-            ( SystemManager ) this.m_serviceManager.lookup( SystemManager.ROLE );
+            (SystemManager)this.m_serviceManager.lookup( SystemManager.ROLE );
         final SystemManager context =
             systemManager.getSubContext( null, "component" ).getSubContext( "ConfigurationManager",
                                                                             "subcomponent" );
@@ -174,7 +174,7 @@ public class FileSystemPersistentConfigurationRepository extends AbstractLogEnab
 
         for( int i = 0; i < apps.length; i++ )
         {
-            loadConfigurations( apps[i] );
+            loadConfigurations( apps[ i ] );
         }
     }
 
@@ -188,10 +188,10 @@ public class FileSystemPersistentConfigurationRepository extends AbstractLogEnab
         for( int i = 0; i < blocks.length; i++ )
         {
             final String block =
-                blocks[i].getName().substring( 0, blocks[i].getName().indexOf( ".xml" ) );
+                blocks[ i ].getName().substring( 0, blocks[ i ].getName().indexOf( ".xml" ) );
 
             this.m_persistedConfigurations.put( new ConfigurationKey( app, block ),
-                                                builder.buildFromFile( blocks[i] ) );
+                                                builder.buildFromFile( blocks[ i ] ) );
 
             if( getLogger().isDebugEnabled() )
                 getLogger().debug( "Loaded persistent configuration [app: " + app
@@ -204,12 +204,12 @@ public class FileSystemPersistentConfigurationRepository extends AbstractLogEnab
     {
         for( Iterator i = this.m_persistedConfigurations.entrySet().iterator(); i.hasNext(); )
         {
-            final Map.Entry entry = ( Map.Entry ) i.next();
-            final ConfigurationKey key = ( ConfigurationKey ) entry.getKey();
+            final Map.Entry entry = (Map.Entry)i.next();
+            final ConfigurationKey key = (ConfigurationKey)entry.getKey();
 
             persistConfiguration( key.getApplication(),
                                   key.getBlock(),
-                                  ( Configuration ) entry.getValue() );
+                                  (Configuration)entry.getValue() );
         }
     }
 
@@ -260,8 +260,8 @@ public class FileSystemPersistentConfigurationRepository extends AbstractLogEnab
         throws ConfigurationException
     {
         final String name = application + "." + block;
-        final Configuration c = ( Configuration ) m_configurations.get( name );
-        final Configuration p = ( Configuration ) m_persistedConfigurations.get(
+        final Configuration c = (Configuration)m_configurations.get( name );
+        final Configuration p = (Configuration)m_persistedConfigurations.get(
             new ConfigurationKey( application, block ) );
 
         if( null == c && p == null )
@@ -286,7 +286,7 @@ public class FileSystemPersistentConfigurationRepository extends AbstractLogEnab
     public Configuration getPersistentConfiguration( String application, String block )
         throws ConfigurationException
     {
-        final Configuration configuration = ( Configuration ) m_persistedConfigurations.get(
+        final Configuration configuration = (Configuration)m_persistedConfigurations.get(
             new ConfigurationKey( application, block ) );
 
         if( null == configuration )

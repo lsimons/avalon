@@ -57,6 +57,7 @@ public class DefaultEmbeddor
     private static final String DEFAULT_APPS_PATH = "/apps";
 
     private EmbeddorObservable m_observable = new EmbeddorObservable();
+
     private Parameters m_parameters;
 
     /**
@@ -238,7 +239,7 @@ public class DefaultEmbeddor
             {
                 // wait() for shutdown() to take action...
                 if( m_shutdown
-                    || ( emptyKernel() && !m_persistent ) )
+                    || (emptyKernel() && !m_persistent) )
                 {
                     // The server will shut itself down when all applications are disposed.
                     if( emptyKernel() )
@@ -260,7 +261,7 @@ public class DefaultEmbeddor
         if( null != kernel )
         {
             final String[] names = kernel.getApplicationNames();
-            return ( 0 == names.length );
+            return (0 == names.length);
         }
         else
         {

@@ -7,8 +7,8 @@
  */
 package org.apache.avalon.phoenix.interfaces;
 
-import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.ConfigurationException;
 
 /**
  * Management interface to the Configuration Validator
@@ -52,5 +52,5 @@ public interface ConfigurationValidatorMBean
      * @see ConfigurationValidator#isValid
      */
     boolean isValid( String application, String block, Configuration configuration )
-      throws ConfigurationException;
+        throws ConfigurationException;
 }

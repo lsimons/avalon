@@ -43,12 +43,12 @@ import org.apache.avalon.phoenix.interfaces.LogManager;
 import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
 import org.apache.avalon.phoenix.metadata.BlockMetaData;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
+import org.apache.avalon.phoenix.metainfo.BlockDescriptor;
 import org.apache.avalon.phoenix.tools.assembler.Assembler;
 import org.apache.avalon.phoenix.tools.assembler.AssemblyException;
 import org.apache.avalon.phoenix.tools.configuration.ConfigurationBuilder;
 import org.apache.avalon.phoenix.tools.verifier.SarVerifier;
 import org.apache.excalibur.containerkit.verifier.VerifyException;
-import org.apache.avalon.phoenix.metainfo.BlockDescriptor;
 
 /**
  * Deploy .sar files into a kernel using this class.
@@ -63,14 +63,21 @@ public class DefaultDeployer
         ResourceManager.getPackageResources( DefaultDeployer.class );
 
     private final Assembler m_assembler = new Assembler();
+
     private final SarVerifier m_verifier = new SarVerifier();
+
     private final Installer m_installer = new Installer();
+
     private final Map m_installations = new Hashtable();
 
     private LogManager m_logManager;
+
     private Kernel m_kernel;
+
     private ConfigurationRepository m_repository;
+
     private ClassLoaderManager m_classLoaderManager;
+
     private ConfigurationValidator m_validator;
 
     /**
@@ -362,7 +369,7 @@ public class DefaultDeployer
      * @throws DeploymentException upon invalid schema
      */
     private void storeConfigurationSchemas( final SarMetaData metaData, ClassLoader classLoader )
-      throws DeploymentException
+        throws DeploymentException
     {
         final BlockMetaData[] blocks = metaData.getBlocks();
         int i = 0;
@@ -371,8 +378,8 @@ public class DefaultDeployer
         {
             for( i = 0; i < blocks.length; i++ )
             {
-                final String name = blocks[i].getName();
-                final BlockDescriptor descriptor = blocks[i].getBlockInfo().getBlockDescriptor();
+                final String name = blocks[ i ].getName();
+                final BlockDescriptor descriptor = blocks[ i ].getBlockInfo().getBlockDescriptor();
                 final String type = descriptor.getSchemaType();
 
                 if( null != type )
@@ -391,13 +398,13 @@ public class DefaultDeployer
         {
             //uh-oh, bad schema bad bad!
             final String message = REZ.getString( "deploy.error.config.schema.invalid",
-                                                  blocks[i].getName() );
+                                                  blocks[ i ].getName() );
 
             //back out any schemas that we have already stored for this app
             while( --i >= 0 )
             {
                 m_validator.removeSchema( metaData.getName(),
-                                          blocks[i].getName() );
+                                          blocks[ i ].getName() );
             }
 
             throw new DeploymentException( message, e );
@@ -407,7 +414,7 @@ public class DefaultDeployer
     private String getConfigurationSchemaURL( final String name,
                                               final String classname,
                                               final ClassLoader classLoader )
-      throws DeploymentException
+        throws DeploymentException
     {
         final String resourceName = classname.replace( '.', '/' ) + "-schema.xml";
 

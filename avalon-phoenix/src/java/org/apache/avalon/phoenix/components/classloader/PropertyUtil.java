@@ -15,7 +15,7 @@ import org.apache.avalon.framework.context.Resolvable;
  * This provides utility methods for properties.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/07/15 16:17:23 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/07/26 09:49:20 $
  * @since 4.0
  */
 final class PropertyUtil
@@ -49,7 +49,7 @@ final class PropertyUtil
 
         final int length = property.length();
 
-        if( 0 == start && end == ( length - 1 ) )
+        if( 0 == start && end == (length - 1) )
         {
             return resolveValue( property.substring( start + 2, end ),
                                  context,
@@ -110,7 +110,7 @@ final class PropertyUtil
 
         final int length = property.length();
 
-        if( 0 == start && end == ( length - 1 ) )
+        if( 0 == start && end == (length - 1) )
         {
             final String propertyName = property.substring( start + 2, end );
             final Object key = recursiveResolveProperty( propertyName, context, ignoreUndefined );
@@ -172,7 +172,7 @@ final class PropertyUtil
         final int start = currentPosition + 2;
 
         int weight = 1;
-        for( int i = start; ( weight > 0 ) && ( i < length ); i++ )
+        for( int i = start; (weight > 0) && (i < length); i++ )
         {
             final char ch = property.charAt( i );
             switch( ch )
@@ -233,7 +233,7 @@ final class PropertyUtil
         {
             while( null != value && value instanceof Resolvable )
             {
-                value = ( (Resolvable)value ).resolve( context );
+                value = ((Resolvable)value).resolve( context );
             }
         }
         catch( final ContextException ce )

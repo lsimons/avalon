@@ -28,6 +28,7 @@ import java.util.StringTokenizer;
 public final class Main
 {
     private static final String MAIN_CLASS = "org.apache.avalon.phoenix.frontends.CLIMain";
+
     private static final String LOADER_JAR = "phoenix-loader.jar";
 
     private static Object c_frontend;
@@ -192,7 +193,7 @@ public final class Main
             phoenixHome = loaderDir.getAbsoluteFile().getParentFile() + File.separator;
         }
 
-        phoenixHome = ( new File( phoenixHome ) ).getCanonicalFile().toString();
+        phoenixHome = (new File( phoenixHome )).getCanonicalFile().toString();
         System.setProperty( "phoenix.home", phoenixHome );
         return phoenixHome;
     }
@@ -213,7 +214,7 @@ public final class Main
 
             if( element.endsWith( LOADER_JAR ) )
             {
-                File file = ( new File( element ) ).getCanonicalFile();
+                File file = (new File( element )).getCanonicalFile();
                 file = file.getParentFile();
                 return file;
             }

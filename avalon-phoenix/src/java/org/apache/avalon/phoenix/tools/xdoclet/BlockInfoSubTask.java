@@ -18,7 +18,7 @@ import xjavadoc.XClass;
  *
  * @author <a href="mailto:vinay_chandran@users.sourceforge.net">Vinay Chandrasekharan</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.8 $ $Date: 2002/07/15 16:16:31 $
+ * @version $Revision: 1.9 $ $Date: 2002/07/26 09:49:23 $
  */
 public class BlockInfoSubTask
     extends TemplateSubTask
@@ -26,6 +26,7 @@ public class BlockInfoSubTask
     public static final String SUBTASK_NAME = "blockinfo";
 
     private static final String GENERATED_FILE_NAME = "{0}.xinfo";
+
     private static final String DEFAULT_TEMPLATE_FILE =
         "/org/apache/avalon/phoenix/tools/xdoclet/blockinfo.j";
 

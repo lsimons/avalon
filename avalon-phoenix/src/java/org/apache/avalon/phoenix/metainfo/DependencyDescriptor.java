@@ -15,6 +15,7 @@ package org.apache.avalon.phoenix.metainfo;
 public final class DependencyDescriptor
 {
     private final String m_role;
+
     private final ServiceDescriptor m_service;
 
     /**

@@ -21,8 +21,11 @@ public class BlockDescriptor
      * assembly tools or generators.
      */
     private final String m_name;
+
     private final String m_classname;
+
     private final Version m_version;
+
     private final String m_schemaType;
 
     public BlockDescriptor( final String name,

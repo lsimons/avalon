@@ -20,9 +20,13 @@ import org.apache.avalon.phoenix.metadata.SarMetaData;
 final class SarEntry
 {
     private SarMetaData m_metaData;
+
     private Configuration m_configuration;
+
     private ClassLoader m_classLoader;
+
     private Application m_application;
+
     private Logger m_logger;
 
     protected SarEntry( final SarMetaData metaData,

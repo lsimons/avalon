@@ -6,11 +6,12 @@ import java.io.File;
  * FileDigest holds file deployment information. Information
  * used to verify if file was modified since deployment.
  *
- * @version $Revision: 1.1 $ $Date: 2002/05/11 02:05:13 $
+ * @version $Revision: 1.2 $ $Date: 2002/07/26 09:49:20 $
  */
 public class FileDigest
 {
     private final File m_file;
+
     private final long m_checksum;
 
     /** Create a new FileDigest object.
