@@ -2,12 +2,12 @@
 <plugin
    id="org.apache.avalon.MerlinDeveloperCore"
    name="MerlinDeveloper Core"
-   version="0.0.2"
+   version="0.0.4"
    provider-name="Apache Software Foundation"
    class="org.apache.avalon.ide.eclipse.merlin.core.MerlinDeveloperCore">
 
    <runtime>
-      <library name="MerlinDeveloperCore.jar"> 
+      <library name="MerlinDeveloperCore.jar">
          <export name="*"/>
       </library>
       <library name="lib/xstream-0.2.jar"/>
@@ -26,7 +26,7 @@
       <import plugin="org.eclipse.core.boot"/>
       <import plugin="org.junit"/>
    </requires>
-  
+
 
    <extension
          point="org.eclipse.help.toc">

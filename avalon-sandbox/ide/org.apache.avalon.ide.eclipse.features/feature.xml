@@ -1,26 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="org.apache.avalon.developer3"
+      id="org.apache.avalon.developer"
       label="MerlinDeveloper Feature"
-      version="0.0.3"
+      version="0.0.4"
       provider-name="Apache Software Foundation"
-      os="win32"
-      ws="win32"
       nl="en_US"
-      arch="x86"
       primary="true"
       exclusive="true">
 
-   <copyright>
-      This is a copyright
-   </copyright>
-
-   <license>
-      This is the licence agreement
-   </license>
-
    <url>
-      <update label="MerlinDeveloper Updates" url="http://merlin.softwarefabrik.biz/MerlinDeveloper/updates/"/>
+      <update label="MerlinDeveloper Updates" url="http://www.apache.org/~oberhack/eclipse/updates/"/>
    </url>
 
    <requires>
@@ -42,18 +31,18 @@
          id="org.apache.avalon.MerlinDeveloperCore"
          download-size="0"
          install-size="0"
-         version="0.0.2"/>
+         version="0.0.4"/>
 
    <plugin
          id="org.apache.avalon.MerlinDeveloperLaunch"
          download-size="0"
          install-size="0"
-         version="0.0.3"/>
+         version="0.0.4"/>
 
    <plugin
          id="org.apache.avalon.MerlinDeveloperUI"
          download-size="0"
          install-size="0"
-         version="0.0.1"/>
+         version="0.0.4"/>
 
 </feature>

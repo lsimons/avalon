@@ -64,7 +64,10 @@ public class JavaDocResource
 
         xClass = clazz;
     }
-
+    public static void createJavaDocCache(IProject project)
+    {
+        docCache = getJavaDocResources(project);
+    }
     /**
      * Collects all java source files of a project. If it is not possible to
      * retrieve the corresponding project of 'element' throw an exception.
@@ -102,8 +105,8 @@ public class JavaDocResource
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        docCache = (JavaDocResource[]) infoList.toArray(new JavaDocResource[infoList.size()]);
-        return docCache;
+        
+        return (JavaDocResource[]) infoList.toArray(new JavaDocResource[infoList.size()]);
     }
     
     public static JavaDocResource getJavaDocResource(String qualifiedClassName)
