@@ -57,7 +57,7 @@ import org.apache.avalon.excalibur.testcase.ExcaliburTestCase;
  * LogKitManagementTest.
  *
  * @author <a href="mailto:giacomo@apache,org">Giacomo Pati</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/08/07 13:37:00 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/11/12 21:58:35 $
  */
 public class LogKitManagementTestCase
     extends ExcaliburTestCase
@@ -81,7 +81,7 @@ public class LogKitManagementTestCase
 
         try
         {
-            tc = (TestComponent)manager.lookup( TestComponent.ROLE + "/A" );
+            tc = (TestComponent)lookup( TestComponent.ROLE + "/A" );
             tc.test( getLogEnabledLogger(), "Test log entry A" );
         }
         catch( Exception e )
@@ -91,12 +91,12 @@ public class LogKitManagementTestCase
         finally
         {
             assertTrue( "The test component could not be retrieved.", null != tc );
-            manager.release( tc );
+            release( tc );
         }
 
         try
         {
-            tc = (TestComponent)manager.lookup( TestComponent.ROLE + "/B" );
+            tc = (TestComponent)lookup( TestComponent.ROLE + "/B" );
             tc.test( getLogEnabledLogger(), "Test log entry B" );
         }
         catch( Exception e )
@@ -106,12 +106,12 @@ public class LogKitManagementTestCase
         finally
         {
             assertTrue( "The test component could not be retrieved.", null != tc );
-            manager.release( tc );
+            release( tc );
         }
 
         try
         {
-            tc = (TestComponent)manager.lookup( TestComponent.ROLE + "/C" );
+            tc = (TestComponent)lookup( TestComponent.ROLE + "/C" );
             tc.test( getLogEnabledLogger(), "Test log entry C" );
         }
         catch( Exception e )
@@ -121,7 +121,7 @@ public class LogKitManagementTestCase
         finally
         {
             assertTrue( "The test component could not be retrieved.", null != tc );
-            manager.release( tc );
+            release( tc );
         }
     }
 }
