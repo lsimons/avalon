@@ -10,8 +10,6 @@ package org.apache.avalon.phoenix.tools.assembler;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Vector;
-
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -23,8 +21,8 @@ import org.apache.avalon.phoenix.metadata.BlockMetaData;
 import org.apache.avalon.phoenix.metadata.DependencyMetaData;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
 import org.apache.avalon.phoenix.metainfo.BlockInfo;
-import org.apache.avalon.phoenix.tools.infobuilder.BlockInfoBuilder;
 import org.apache.avalon.phoenix.tools.configuration.ConfigurationBuilder;
+import org.apache.avalon.phoenix.tools.infobuilder.BlockInfoBuilder;
 
 /**
  * Assemble a <code>SarMetaData</code> object from a Configuration
@@ -32,7 +30,7 @@ import org.apache.avalon.phoenix.tools.configuration.ConfigurationBuilder;
  * and is in the format specified for <code>assembly.xml</code> files.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.9 $ $Date: 2002/02/26 11:13:04 $
+ * @version $Revision: 1.10 $ $Date: 2002/03/16 00:11:56 $
  */
 public class Assembler
     extends AbstractLogEnabled
@@ -80,25 +78,28 @@ public class Assembler
         // to be phased out - support for the old block-listener descriptor
         final Configuration[] legacyListenerConfig = assembly.getChildren( "block-listener" );
         final BlockListenerMetaData[] legacyListeners = buildBlockListeners( legacyListenerConfig );
-        for (int i = 0; i < legacyListeners.length; i++) {
-            BlockListenerMetaData data = legacyListeners[i];
+        for( int i = 0; i < legacyListeners.length; i++ )
+        {
+            BlockListenerMetaData data = legacyListeners[ i ];
             boolean matched = false;
-            for (int j = 0; j < listeners.length; j++) {
-                BlockListenerMetaData data2 = listeners[j];
-                if (data.getClassname().equals(data2.getClassname())) {
+            for( int j = 0; j < listeners.length; j++ )
+            {
+                BlockListenerMetaData data2 = listeners[ j ];
+                if( data.getClassname().equals( data2.getClassname() ) )
+                {
                     matched = true;
                 }
             }
-            if (!matched) {
-                getLogger().warn("Listener with old style element name 'block-listener' encounted.  Please change " +
-                       "this to 'listener' before compatability is imminently removed from Phoenix");
+            if( !matched )
+            {
+                getLogger().warn( "Listener with old style element name 'block-listener' encounted.  Please change " +
+                                  "this to 'listener' before compatability is imminently removed from Phoenix" );
                 final BlockListenerMetaData[] newListeners = new BlockListenerMetaData[ 1 + listeners.length ];
                 System.arraycopy( listeners, 0, listeners, 0, listeners.length );
                 newListeners[ listeners.length ] = data;
                 listeners = newListeners;
             }
         }
-
 
         return new SarMetaData( name, directory, blocks, listeners );
     }

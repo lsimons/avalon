@@ -8,11 +8,29 @@
 package org.apache.jmx.adaptor;
 
 import java.io.ObjectInputStream;
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.server.RemoteServer;
 import java.util.Set;
-import javax.management.*;
+import javax.management.Attribute;
+import javax.management.AttributeList;
+import javax.management.AttributeNotFoundException;
+import javax.management.InstanceAlreadyExistsException;
+import javax.management.InstanceNotFoundException;
+import javax.management.IntrospectionException;
+import javax.management.InvalidAttributeValueException;
+import javax.management.ListenerNotFoundException;
+import javax.management.MBeanException;
+import javax.management.MBeanInfo;
+import javax.management.MBeanRegistrationException;
+import javax.management.MBeanServer;
+import javax.management.NotCompliantMBeanException;
+import javax.management.NotificationFilter;
+import javax.management.NotificationListener;
+import javax.management.ObjectInstance;
+import javax.management.ObjectName;
+import javax.management.OperationsException;
+import javax.management.QueryExp;
+import javax.management.ReflectionException;
 
 /**
  * This is the RMI connection representing an MBeanServer. It is
@@ -21,8 +39,8 @@ import javax.management.*;
  *
  * @author <a href="mailto:mail@leosimons.com">Leo Simons</a>
  */
-public class RMIAdaptorImpl 
-    extends RemoteServer 
+public class RMIAdaptorImpl
+    extends RemoteServer
     implements RMIAdaptor
 {
     private MBeanServer m_server;
@@ -48,8 +66,8 @@ public class RMIAdaptorImpl
         return m_server.instantiate( className, loaderName );
     }
 
-    public Object instantiate( final String className, 
-                               final Object[] params, 
+    public Object instantiate( final String className,
+                               final Object[] params,
                                final String[] signature )
         throws ReflectionException, MBeanException, RemoteException
     {
@@ -67,16 +85,16 @@ public class RMIAdaptorImpl
 
     public ObjectInstance createMBean( final String className, final ObjectName name )
         throws ReflectionException, InstanceAlreadyExistsException, MBeanRegistrationException,
-               MBeanException, NotCompliantMBeanException, RemoteException
+        MBeanException, NotCompliantMBeanException, RemoteException
     {
         return m_server.createMBean( className, name );
     }
 
-    public ObjectInstance createMBean( final String className, 
-                                       final ObjectName name, 
+    public ObjectInstance createMBean( final String className,
+                                       final ObjectName name,
                                        final ObjectName loaderName )
         throws ReflectionException, InstanceAlreadyExistsException, MBeanRegistrationException,
-               MBeanException, NotCompliantMBeanException, InstanceNotFoundException, RemoteException
+        MBeanException, NotCompliantMBeanException, InstanceNotFoundException, RemoteException
     {
         return m_server.createMBean( className, name, loaderName );
     }
@@ -86,7 +104,7 @@ public class RMIAdaptorImpl
                                        final Object[] params,
                                        final String[] signature )
         throws ReflectionException, InstanceAlreadyExistsException, MBeanRegistrationException,
-               MBeanException, NotCompliantMBeanException, RemoteException
+        MBeanException, NotCompliantMBeanException, RemoteException
     {
         return m_server.createMBean( className, name, params, signature );
     }
@@ -97,14 +115,14 @@ public class RMIAdaptorImpl
                                        final Object[] params,
                                        final String[] signature )
         throws ReflectionException, InstanceAlreadyExistsException, MBeanRegistrationException,
-               MBeanException, NotCompliantMBeanException, InstanceNotFoundException, RemoteException
+        MBeanException, NotCompliantMBeanException, InstanceNotFoundException, RemoteException
     {
         return m_server.createMBean( className, name, loaderName, params, signature );
     }
 
     public ObjectInstance registerMBean( final Object object, final ObjectName name )
         throws InstanceAlreadyExistsException, MBeanRegistrationException,
-               NotCompliantMBeanException, RemoteException
+        NotCompliantMBeanException, RemoteException
     {
         return m_server.registerMBean( object, name );
     }
@@ -116,7 +134,7 @@ public class RMIAdaptorImpl
     }
 
     public ObjectInstance getObjectInstance( final ObjectName name )
-        throws InstanceNotFoundException, RemoteException 
+        throws InstanceNotFoundException, RemoteException
     {
         return m_server.getObjectInstance( name );
     }
@@ -127,19 +145,19 @@ public class RMIAdaptorImpl
         return m_server.queryMBeans( name, query );
     }
 
-    public Set queryNames( final ObjectName name, final QueryExp query ) 
+    public Set queryNames( final ObjectName name, final QueryExp query )
         throws RemoteException
     {
         return m_server.queryMBeans( name, query );
     }
 
-    public boolean isRegistered( final ObjectName name ) 
+    public boolean isRegistered( final ObjectName name )
         throws RemoteException
     {
         return m_server.isRegistered( name );
     }
 
-    public Integer getMBeanCount() 
+    public Integer getMBeanCount()
         throws RemoteException
     {
         return m_server.getMBeanCount();
@@ -147,7 +165,7 @@ public class RMIAdaptorImpl
 
     public Object getAttribute( final ObjectName name, final String attribute )
         throws MBeanException, AttributeNotFoundException, InstanceNotFoundException,
-               ReflectionException, RemoteException 
+        ReflectionException, RemoteException
     {
         return m_server.getAttribute( name, attribute );
     }
@@ -160,27 +178,27 @@ public class RMIAdaptorImpl
 
     public void setAttribute( final ObjectName name, final Attribute attribute )
         throws InstanceNotFoundException, AttributeNotFoundException,
-               InvalidAttributeValueException, MBeanException, ReflectionException, RemoteException
+        InvalidAttributeValueException, MBeanException, ReflectionException, RemoteException
     {
         m_server.setAttribute( name, attribute );
     }
 
     public AttributeList setAttributes( final ObjectName name, final AttributeList attributes )
-        throws InstanceNotFoundException, ReflectionException, RemoteException 
+        throws InstanceNotFoundException, ReflectionException, RemoteException
     {
         return m_server.setAttributes( name, attributes );
     }
 
-    public Object invoke( final ObjectName name, 
-                          final String operationName, 
-                          final Object[] params, 
+    public Object invoke( final ObjectName name,
+                          final String operationName,
+                          final Object[] params,
                           final String[] signature )
         throws InstanceNotFoundException, MBeanException, ReflectionException, RemoteException
     {
         return m_server.invoke( name, operationName, params, signature );
     }
 
-    public String getDefaultDomain() 
+    public String getDefaultDomain()
         throws RemoteException
     {
         return m_server.getDefaultDomain();
@@ -199,19 +217,19 @@ public class RMIAdaptorImpl
                                          final ObjectName listener,
                                          final NotificationFilter filter,
                                          final Object handback )
-        throws InstanceNotFoundException, RemoteException 
+        throws InstanceNotFoundException, RemoteException
     {
         m_server.addNotificationListener( name, listener, filter, handback );
     }
 
     public void removeNotificationListener( final ObjectName name, final NotificationListener listener )
-        throws InstanceNotFoundException, ListenerNotFoundException, RemoteException 
+        throws InstanceNotFoundException, ListenerNotFoundException, RemoteException
     {
         m_server.removeNotificationListener( name, listener );
     }
 
     public void removeNotificationListener( final ObjectName name, final ObjectName listener )
-        throws InstanceNotFoundException, ListenerNotFoundException, RemoteException 
+        throws InstanceNotFoundException, ListenerNotFoundException, RemoteException
     {
         m_server.removeNotificationListener( name, listener );
     }
@@ -221,30 +239,30 @@ public class RMIAdaptorImpl
     {
         return m_server.getMBeanInfo( name );
     }
-    
+
     public boolean isInstanceOf( final ObjectName name, final String className )
-        throws InstanceNotFoundException, RemoteException 
+        throws InstanceNotFoundException, RemoteException
     {
         return m_server.isInstanceOf( name, className );
     }
 
     public ObjectInputStream deserialize( final ObjectName name, final byte[] data )
-        throws InstanceNotFoundException, OperationsException, RemoteException 
+        throws InstanceNotFoundException, OperationsException, RemoteException
     {
         return m_server.deserialize( name, data );
     }
 
     public ObjectInputStream deserialize( final String className, final byte[] data )
-        throws OperationsException, ReflectionException, RemoteException 
+        throws OperationsException, ReflectionException, RemoteException
     {
         return m_server.deserialize( className, data );
     }
 
-    public ObjectInputStream deserialize( final String className, 
-                                          final ObjectName loaderName, 
+    public ObjectInputStream deserialize( final String className,
+                                          final ObjectName loaderName,
                                           final byte[] data )
         throws InstanceNotFoundException, OperationsException, ReflectionException,
-               RemoteException 
+        RemoteException
     {
         return m_server.deserialize( className, loaderName, data );
     }

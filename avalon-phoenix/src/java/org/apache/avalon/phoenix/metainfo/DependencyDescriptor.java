@@ -7,8 +7,6 @@
  */
 package org.apache.avalon.phoenix.metainfo;
 
-
-
 /**
  * A descriptor that describes dependency information for Block.
  *

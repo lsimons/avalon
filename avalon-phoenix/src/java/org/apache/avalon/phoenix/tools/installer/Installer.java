@@ -34,7 +34,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * and installing it as appropriate.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.29 $ $Date: 2002/02/26 11:13:04 $
+ * @version $Revision: 1.30 $ $Date: 2002/03/16 00:11:56 $
  */
 public class Installer
     extends AbstractLogEnabled
@@ -289,7 +289,7 @@ public class Installer
                 expand = false;
                 if( !classesAdded )
                 {
-                    final String classes = 
+                    final String classes =
                         "jar:" + getURLAsString( file ) + "!/" + CLASSES;
                     jars.add( classes );
                     classesAdded = true;
@@ -550,8 +550,8 @@ public class Installer
         final File libDir = new File( directory, "lib" );
 
         final ArrayList urls = new ArrayList();
-        getURLsAsStrings( urls, blockDir, new String[]{ ".bar" } );
-        getURLsAsStrings( urls, libDir, new String[]{ ".jar", ".zip" } );
+        getURLsAsStrings( urls, blockDir, new String[]{".bar"} );
+        getURLsAsStrings( urls, libDir, new String[]{".jar", ".zip"} );
         return (String[])urls.toArray( new String[ 0 ] );
     }
 

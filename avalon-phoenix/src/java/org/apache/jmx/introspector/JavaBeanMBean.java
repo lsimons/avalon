@@ -14,7 +14,6 @@ import java.beans.ParameterDescriptor;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import javax.management.AttributeList;
 import javax.management.IntrospectionException;
 import javax.management.MBeanOperationInfo;
 
@@ -25,7 +24,7 @@ import javax.management.MBeanOperationInfo;
  *
  * @author <a href="mailto:mail@leosimons.com">Leo Simons</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.7 $ $Date: 2001/12/11 10:13:36 $
+ * @version CVS $Revision: 1.8 $ $Date: 2002/03/16 00:11:57 $
  */
 public class JavaBeanMBean
     extends AbstractMBean
@@ -70,7 +69,7 @@ public class JavaBeanMBean
         m_allowedAttributes = getAllowedAttributes( interfaces );
 
         initialize();
-        
+
         m_allowedOperations = null;
         m_allowedAttributes = null;
     }
@@ -94,7 +93,7 @@ public class JavaBeanMBean
     {
         final MethodDescriptor[] methods = m_beanInfo.getMethodDescriptors();
         final ArrayList entrys = new ArrayList();
-        
+
         for( int i = 0; i < methods.length; i++ )
         {
             final MethodDescriptor descriptor = methods[ i ];
@@ -103,7 +102,7 @@ public class JavaBeanMBean
             if( !isAllowedOperation( descriptor ) ) continue;
 
             final Method method = descriptor.getMethod();
-            final MBeanOperationInfo info = 
+            final MBeanOperationInfo info =
                 new MBeanOperationInfo( descriptor.getShortDescription(),
                                         method );
 
@@ -150,7 +149,7 @@ public class JavaBeanMBean
     }
 
     /**
-     * Retrieve a list of allowed operations. 
+     * Retrieve a list of allowed operations.
      * Allowed operations are based on interfaces passed in.
      */
     private MethodDescriptor[] getAllowedOperations( final Class[] interfaces )
@@ -165,11 +164,11 @@ public class JavaBeanMBean
             BeanInfo beanInfo = null;
             try
             {
-                beanInfo = Introspector.getBeanInfo( interfaces[i] );
+                beanInfo = Introspector.getBeanInfo( interfaces[ i ] );
             }
             catch( final Exception e )
             {
-                throw new IllegalArgumentException( "The supplied interfaces are " + 
+                throw new IllegalArgumentException( "The supplied interfaces are " +
                                                     "not all valid javabeans!" );
             }
 
@@ -177,7 +176,7 @@ public class JavaBeanMBean
             for( int j = 0; j < methods.length; j++ )
             {
                 final MethodDescriptor descriptor = methods[ j ];
-                final Method method = descriptor.getMethod();                
+                final Method method = descriptor.getMethod();
                 if( isMutator( method ) || isAccessor( method ) )
                 {
                     continue;
@@ -192,7 +191,7 @@ public class JavaBeanMBean
 
     private boolean isMutator( final Method method )
     {
-        return 
+        return
             Void.TYPE == method.getReturnType() &&
             method.getName().startsWith( "set" ) &&
             1 == method.getParameterTypes().length;
@@ -200,14 +199,14 @@ public class JavaBeanMBean
 
     private boolean isAccessor( final Method method )
     {
-        return 
+        return
             Void.TYPE != method.getReturnType() &&
             method.getName().startsWith( "get" ) &&
             0 == method.getParameterTypes().length;
     }
 
     /**
-     * Retrieve a list of allowed attributes. 
+     * Retrieve a list of allowed attributes.
      * Allowed attributes are based on interfaces passed in.
      */
     private PropertyDescriptor[] getAllowedAttributes( final Class[] interfaces )
@@ -222,11 +221,11 @@ public class JavaBeanMBean
             BeanInfo beanInfo = null;
             try
             {
-                beanInfo = Introspector.getBeanInfo( interfaces[i] );
+                beanInfo = Introspector.getBeanInfo( interfaces[ i ] );
             }
             catch( final Exception e )
             {
-                throw new IllegalArgumentException( "The supplied interfaces are " + 
+                throw new IllegalArgumentException( "The supplied interfaces are " +
                                                     "not all valid javabeans!" );
             }
 
@@ -258,8 +257,8 @@ public class JavaBeanMBean
             final MethodDescriptor other = m_allowedOperations[ i ];
             final ParameterDescriptor[] otherParams = other.getParameterDescriptors();
 
-            //If operation doesn't have same name and 
-            //same number of parameters then it is 
+            //If operation doesn't have same name and
+            //same number of parameters then it is
             //not the droids we are looking for
             if( !other.getName().equals( method.getName() ) )
             {
@@ -269,7 +268,7 @@ public class JavaBeanMBean
             {
                 return true;
             }
-            else if ( otherParams.length != params.length )
+            else if( otherParams.length != params.length )
             {
                 continue;
             }
@@ -286,8 +285,8 @@ public class JavaBeanMBean
                 }
             }
 
-            //If all the parameters have same 
-            //type then we have found a match 
+            //If all the parameters have same
+            //type then we have found a match
             //so return it
             if( found )
             {

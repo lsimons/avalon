@@ -10,18 +10,14 @@ package org.apache.avalon.phoenix.components.classloader;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.security.AccessController;
 import java.security.CodeSource;
 import java.security.Permission;
 import java.security.PermissionCollection;
 import java.security.Permissions;
 import java.security.Policy;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
 import java.security.cert.Certificate;
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.PropertyPermission;
 import org.apache.avalon.excalibur.io.FileUtil;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.logger.LogEnabled;
@@ -36,16 +32,16 @@ abstract class AbstractPolicy
     extends Policy
     implements Component, LogEnabled
 {
-    private final ArrayList        m_entries  = new ArrayList();
-    private Logger                 m_logger;
+    private final ArrayList m_entries = new ArrayList();
+    private Logger m_logger;
 
     /**
      * Internal Policy Entry holder class.
      */
     private static class PolicyEntry
     {
-        CodeSource   m_codeSource;
-        Permissions  m_permissions;
+        CodeSource m_codeSource;
+        Permissions m_permissions;
     }
 
     public void enableLogging( final Logger logger )
@@ -154,7 +150,7 @@ abstract class AbstractPolicy
         {
             final File file = new File( initialLocation.getFile() );
             location = file.getAbsoluteFile().toString().replace( File.separatorChar, '/' );
-            location =  FileUtil.normalize( location );
+            location = FileUtil.normalize( location );
         }
 
         URL finalLocation = null;

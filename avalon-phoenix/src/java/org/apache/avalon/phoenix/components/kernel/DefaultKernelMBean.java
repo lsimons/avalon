@@ -30,7 +30,7 @@ public class DefaultKernelMBean
     {
         addAttribute( "applicationNames", false );
 
-        final String[] params = new String[]{ String.class.getName() };
+        final String[] params = new String[]{String.class.getName()};
         addOperation( "getApplication", params, INFO );
     }
 }

@@ -10,10 +10,10 @@ package org.apache.avalon.phoenix.metainfo;
 import org.apache.avalon.excalibur.container.Info;
 
 /**
- * This class contains meta-information of use to administative 
+ * This class contains meta-information of use to administative
  * tools and the kernel. It describes the services offered by a type
- * of block, the dependencies of the block, the management interface of 
- * block (if any) and also contains information useful to presenting 
+ * of block, the dependencies of the block, the management interface of
+ * block (if any) and also contains information useful to presenting
  * information in administative screens (like human readable names etc).
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>

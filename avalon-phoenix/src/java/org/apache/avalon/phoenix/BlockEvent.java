@@ -12,7 +12,7 @@ import org.apache.avalon.phoenix.metainfo.BlockInfo;
 
 /**
  * This is the class that is used to deliver notifications
- * about <code>Block</code>s state changes to the 
+ * about <code>Block</code>s state changes to the
  * <code>BlockListener</code>s of a Server Application.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
@@ -20,9 +20,9 @@ import org.apache.avalon.phoenix.metainfo.BlockInfo;
 public final class BlockEvent
     extends EventObject
 {
-    private final String     m_name;
-    private final Block      m_block;
-    private final BlockInfo  m_blockInfo;
+    private final String m_name;
+    private final Block m_block;
+    private final BlockInfo m_blockInfo;
 
     /**
      * Construct the <code>BlockEvent</code>.

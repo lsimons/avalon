@@ -9,9 +9,9 @@ package org.apache.avalon.phoenix.launcher;
 
 import com.silveregg.wrapper.WrapperListener;
 import com.silveregg.wrapper.WrapperManager;
-import java.util.Observer;
-import java.util.Observable;
 import java.util.Hashtable;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * A frontend for Phoenix that starts it as a native service
@@ -26,14 +26,14 @@ public class DaemonLauncher
     public Integer start( final String[] args )
     {
         Integer exitCodeInteger = null;
-        
+
         // This startup could take a while, so tell the wrapper to be patient.
         WrapperManager.signalStarting( 45000 );
 
         final Hashtable data = new Hashtable();
         data.put( Observer.class.getName(), this );
 
-        if ( WrapperManager.isDebugEnabled() )
+        if( WrapperManager.isDebugEnabled() )
         {
             System.out.println( "DaemonLauncher: Starting up Phoenix" );
         }
@@ -41,12 +41,12 @@ public class DaemonLauncher
         try
         {
             int exitCode = Main.startup( args, data, false );
-            if ( exitCode != 0 )
+            if( exitCode != 0 )
             {
                 exitCodeInteger = new Integer( exitCode );
             }
 
-            if ( WrapperManager.isDebugEnabled() )
+            if( WrapperManager.isDebugEnabled() )
             {
                 System.out.println( "DaemonLauncher: Phoenix startup completed" );
             }
@@ -73,21 +73,21 @@ public class DaemonLauncher
     {
         if( WrapperManager.isControlledByNativeWrapper() )
         {
-            if ( WrapperManager.isDebugEnabled() )
+            if( WrapperManager.isDebugEnabled() )
             {
                 System.out.println( "DaemonLauncher: controlEvent(" + event + ") - Ignored." );
             }
-            
+
             // This application ignores all incoming control events.
             //  It relies on the wrapper code to handle them.
         }
         else
         {
-            if ( WrapperManager.isDebugEnabled() )
+            if( WrapperManager.isDebugEnabled() )
             {
                 System.out.println( "DaemonLauncher: controlEvent(" + event + ") - Stopping." );
             }
-            
+
             // Not being run under a wrapper, so this isn't an NT service and should always exit.
             //  Handle the event here.
             WrapperManager.stop( 0 );
@@ -106,7 +106,7 @@ public class DaemonLauncher
         final String command = ( null != arg ) ? arg.toString() : "";
         if( command.equals( "restart" ) )
         {
-            if ( WrapperManager.isDebugEnabled() )
+            if( WrapperManager.isDebugEnabled() )
             {
                 System.out.println( "DaemonLauncher: restart requested." );
                 System.out.flush();
@@ -114,16 +114,16 @@ public class DaemonLauncher
 
             WrapperManager.restart();
 
-            if ( WrapperManager.isDebugEnabled() )
+            if( WrapperManager.isDebugEnabled() )
             {
                 //Should never get here???
                 System.out.println( "DaemonLauncher: restart completed." );
                 System.out.flush();
             }
         }
-        else if ( command.equals( "shutdown" ) )
+        else if( command.equals( "shutdown" ) )
         {
-            if ( WrapperManager.isDebugEnabled() )
+            if( WrapperManager.isDebugEnabled() )
             {
                 System.out.println( "DaemonLauncher: shutdown requested." );
                 System.out.flush();
@@ -131,7 +131,7 @@ public class DaemonLauncher
 
             WrapperManager.stop( 0 );
 
-            if ( WrapperManager.isDebugEnabled() )
+            if( WrapperManager.isDebugEnabled() )
             {
                 //Should never get here???
                 System.out.println( "DaemonLauncher: shutdown completed." );

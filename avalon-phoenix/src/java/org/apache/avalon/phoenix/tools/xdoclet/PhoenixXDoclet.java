@@ -13,9 +13,9 @@ import xdoclet.DocletTask;
 /**
  *
  * @author <a href="mailto:vinay_chandran@users.sourceforge.net">Vinay Chandrasekharan</a>
- * @version $Revision: 1.1 $ $Date: 2002/02/26 11:15:48 $
+ * @version $Revision: 1.2 $ $Date: 2002/03/16 00:11:56 $
  */
-public class PhoenixXDoclet 
+public class PhoenixXDoclet
     extends DocletTask
 {
     private BlockInfoSubTask m_blockInfoSubTask;
@@ -33,7 +33,6 @@ public class PhoenixXDoclet
         return m_manifestSubTask;
     }
 
-      
     protected Vector getSubTasks()
     {
         final Vector subtasks = super.getSubTasks();

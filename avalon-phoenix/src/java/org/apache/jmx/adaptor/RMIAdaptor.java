@@ -11,7 +11,25 @@ import java.io.ObjectInputStream;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.Set;
-import javax.management.*;
+import javax.management.Attribute;
+import javax.management.AttributeList;
+import javax.management.AttributeNotFoundException;
+import javax.management.InstanceAlreadyExistsException;
+import javax.management.InstanceNotFoundException;
+import javax.management.IntrospectionException;
+import javax.management.InvalidAttributeValueException;
+import javax.management.ListenerNotFoundException;
+import javax.management.MBeanException;
+import javax.management.MBeanInfo;
+import javax.management.MBeanRegistrationException;
+import javax.management.NotCompliantMBeanException;
+import javax.management.NotificationFilter;
+import javax.management.NotificationListener;
+import javax.management.ObjectInstance;
+import javax.management.ObjectName;
+import javax.management.OperationsException;
+import javax.management.QueryExp;
+import javax.management.ReflectionException;
 
 /**
  * This is the RMI connection representing an MBeanServer. It is identical to
@@ -19,10 +37,10 @@ import javax.management.*;
  * to remote operations.
  *
  * @author <a href="mailto:mail@leosimons.com">Leo Simons</a>
- * @version CVS $Revision: 1.3 $ $Date: 2001/12/11 10:13:36 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/03/16 00:11:56 $
  */
 public interface RMIAdaptor
-     extends Remote
+    extends Remote
 {
     /**
      * Instantiates an object using the list of all class loaders registered in
@@ -187,7 +205,6 @@ public interface RMIAdaptor
         throws ReflectionException, InstanceAlreadyExistsException, MBeanRegistrationException,
         MBeanException, NotCompliantMBeanException, InstanceNotFoundException, RemoteException;
 
-
     /**
      * Instantiates and registers an MBean in the MBean server. The MBean server
      * will use the {@link javax.management.loading.DefaultLoaderRepository
@@ -217,7 +234,7 @@ public interface RMIAdaptor
      *      thrown an exception. The MBean will not be registered.
      * @exception MBeanException The constructor of the MBean has thrown an
      *      exception
-     * @exception NotCompliantMBeanException If the mBean is invalid form 
+     * @exception NotCompliantMBeanException If the mBean is invalid form
      * @exception RemoteException RMI Exception
      */
     ObjectInstance createMBean( String className, ObjectName name, Object params[], String signature[] )

@@ -17,9 +17,6 @@ import org.apache.avalon.framework.activity.Startable;
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.component.Composable;
 import org.apache.avalon.framework.component.DefaultComponentManager;
-import org.apache.avalon.framework.service.ServiceManager;
-import org.apache.avalon.framework.service.Serviceable;
-import org.apache.avalon.framework.service.DefaultServiceManager;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
@@ -29,15 +26,17 @@ import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.logger.LogKitLogger;
 import org.apache.avalon.framework.logger.Loggable;
 import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.parameters.Parameterizable;
-import org.apache.avalon.framework.parameters.ParameterException;
+import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.avalon.framework.service.DefaultServiceManager;
+import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.avalon.framework.service.Serviceable;
+import org.apache.avalon.phoenix.ApplicationEvent;
+import org.apache.avalon.phoenix.ApplicationListener;
 import org.apache.avalon.phoenix.Block;
 import org.apache.avalon.phoenix.BlockContext;
 import org.apache.avalon.phoenix.BlockEvent;
 import org.apache.avalon.phoenix.BlockListener;
-import org.apache.avalon.phoenix.ApplicationListener;
-import org.apache.avalon.phoenix.ApplicationEvent;
 import org.apache.avalon.phoenix.interfaces.Application;
 import org.apache.avalon.phoenix.interfaces.ApplicationContext;
 import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
@@ -143,18 +142,16 @@ class LifecycleHelper
         m_blockListenerSupport.addBlockListener( listener );
 
         // However onky ApplicationListners can avail of block events.
-        if (listener instanceof ApplicationListener)
+        if( listener instanceof ApplicationListener )
         {
-            m_applicationListenerSupport.addApplicationListener( (ApplicationListener) listener );
+            m_applicationListenerSupport.addApplicationListener( (ApplicationListener)listener );
         }
-
-
 
     }
 
-    public void applicationStarting(ApplicationEvent appEvent) throws Exception
+    public void applicationStarting( ApplicationEvent appEvent ) throws Exception
     {
-        m_applicationListenerSupport.applicationStarting(appEvent);
+        m_applicationListenerSupport.applicationStarting( appEvent );
     }
 
     public void applicationStarted()
@@ -172,9 +169,9 @@ class LifecycleHelper
         m_applicationListenerSupport.applicationStopped();
     }
 
-    public void applicationFailure(Exception causeOfFailure)
+    public void applicationFailure( Exception causeOfFailure )
     {
-        m_applicationListenerSupport.applicationFailure(causeOfFailure);
+        m_applicationListenerSupport.applicationFailure( causeOfFailure );
     }
 
     /**
@@ -258,7 +255,7 @@ class LifecycleHelper
             if( block instanceof Parameterizable )
             {
                 notice( name, stage );
-                final Parameters parameters = 
+                final Parameters parameters =
                     Parameters.fromConfiguration( getConfiguration( name, TYPE_BLOCK ) );
                 parameters.makeReadOnly();
                 ( (Parameterizable)block ).parameterize( parameters );
@@ -284,7 +281,7 @@ class LifecycleHelper
             entry.setBlock( block );
 
             exportBlock( metaData, block );
-            
+
             final Block proxy = entry.getProxy();
             final BlockEvent event =
                 new BlockEvent( name, proxy, metaData.getBlockInfo() );
@@ -363,10 +360,10 @@ class LifecycleHelper
     }
 
     /**
-     * Export the services of block, declared to be management 
+     * Export the services of block, declared to be management
      * services, into management system.
      */
-    private void exportBlock( final BlockMetaData metaData, 
+    private void exportBlock( final BlockMetaData metaData,
                               final Block block )
         throws CascadingException
     {
@@ -394,10 +391,10 @@ class LifecycleHelper
     }
 
     /**
-     * Unxport the services of block, declared to be management 
+     * Unxport the services of block, declared to be management
      * services, into management system.
      */
-    private void unexportBlock( final BlockMetaData metaData, 
+    private void unexportBlock( final BlockMetaData metaData,
                                 final Block block )
     {
         final ServiceDescriptor[] services = metaData.getBlockInfo().getManagementAccessPoints();

@@ -7,10 +7,10 @@
  */
 package org.apache.avalon.phoenix.components.embeddor;
 
-import java.util.Observable;
-import java.util.Observer;
 import java.io.File;
 import java.util.Date;
+import java.util.Observable;
+import java.util.Observer;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.excalibur.io.ExtensionFileFilter;
@@ -73,9 +73,9 @@ public class DefaultEmbeddor
     private PackageRepository m_packageRepository;
 
     /**
-     * If true, flag indicates that the Embeddor should continue running 
-     * even when there are no applications in kernel. Otherwise the 
-     * Embeddor will shutdown when it detects there is no longer any 
+     * If true, flag indicates that the Embeddor should continue running
+     * even when there are no applications in kernel. Otherwise the
+     * Embeddor will shutdown when it detects there is no longer any
      * applications running.
      */
     private boolean m_persistent;
@@ -187,12 +187,12 @@ public class DefaultEmbeddor
         throws Exception
     {
         deployDefaultApplications();
-        
+
         //  If the kernel is empty at this point, it is because the server was
         //  started without supplying any applications, display a message to
         //  give the user a clue as to why the server is shutting down
         //  immediately.
-        if ( emptyKernel() )
+        if( emptyKernel() )
         {
             final String message = REZ.getString( "embeddor.error.start.no-apps" );
             getLogger().fatalError( message );
@@ -203,11 +203,11 @@ public class DefaultEmbeddor
             while( true )
             {
                 // wait() for shutdown() to take action...
-                if( m_shutdown || 
+                if( m_shutdown ||
                     ( emptyKernel() && !m_persistent ) )
                 {
                     // The server will shut itself down when all applications are disposed.
-                    if ( emptyKernel() )
+                    if( emptyKernel() )
                     {
                         final String message = REZ.getString( "embeddor.shutdown.all-apps-disposed" );
                         getLogger().info( message );

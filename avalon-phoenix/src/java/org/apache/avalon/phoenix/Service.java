@@ -14,6 +14,6 @@ package org.apache.avalon.phoenix;
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  * @deprecated This interface has been deprecated with no replacement.
  */
-public interface Service 
+public interface Service
 {
 }

@@ -15,14 +15,11 @@ import java.net.URL;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.Permission;
-import java.security.PermissionCollection;
 import java.security.Permissions;
 import java.security.UnresolvedPermission;
 import java.security.cert.Certificate;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.PropertyPermission;
 import java.util.StringTokenizer;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
@@ -31,8 +28,6 @@ import org.apache.avalon.excalibur.property.PropertyUtil;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.context.Context;
-import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.context.DefaultContext;
 
 /**
@@ -47,7 +42,7 @@ class DefaultPolicy
     private static final Resources REZ =
         ResourceManager.getPackageResources( DefaultPolicy.class );
 
-    private DefaultContext    m_context;
+    private DefaultContext m_context;
 
     protected DefaultPolicy( final File baseDirectory )
     {
@@ -82,7 +77,10 @@ class DefaultPolicy
 
     private URL getInclusiveURL()
     {
-        try { return new URL( "file:/-" ); }
+        try
+        {
+            return new URL( "file:/-" );
+        }
         catch( final MalformedURLException mue )
         {
             //Never happens
@@ -181,13 +179,15 @@ class DefaultPolicy
 
         Permissions permissions = null;
 
-        try { permissions = createPermissionSetFor( codeBase, signers ); }
+        try
+        {
+            permissions = createPermissionSetFor( codeBase, signers );
+        }
         catch( final MalformedURLException mue )
         {
             final String message = REZ.getString( "policy.error.codebase.malformed", codeBase );
             throw new ConfigurationException( message, mue );
         }
-
 
         configurePermissions( configuration.getChildren( "permission" ),
                               permissions,
@@ -267,19 +267,19 @@ class DefaultPolicy
             }
             else if( null == actions )
             {
-                paramClasses = new Class[1];
-                paramClasses[0] = String.class;
-                params = new Object[1];
-                params[0] = target;
+                paramClasses = new Class[ 1 ];
+                paramClasses[ 0 ] = String.class;
+                params = new Object[ 1 ];
+                params[ 0 ] = target;
             }
             else
             {
-                paramClasses = new Class[2];
-                paramClasses[0] = String.class;
-                paramClasses[1] = String.class;
-                params = new Object[2];
-                params[0] = target;
-                params[1] = actions;
+                paramClasses = new Class[ 2 ];
+                paramClasses[ 0 ] = String.class;
+                paramClasses[ 1 ] = String.class;
+                params = new Object[ 2 ];
+                params[ 0 ] = target;
+                params[ 1 ] = actions;
             }
 
             final Constructor constructor = c.getConstructor( paramClasses );
@@ -344,10 +344,13 @@ class DefaultPolicy
 
         while( tokenizer.hasMoreTokens() )
         {
-            final String alias = ((String)tokenizer.nextToken()).trim();
+            final String alias = ( (String)tokenizer.nextToken() ).trim();
             Certificate certificate = null;
 
-            try { certificate = keyStore.getCertificate( alias ); }
+            try
+            {
+                certificate = keyStore.getCertificate( alias );
+            }
             catch( final KeyStoreException kse )
             {
                 final String message = REZ.getString( "policy.error.certificate.aquire", alias );

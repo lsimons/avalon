@@ -7,8 +7,8 @@
  */
 package org.apache.avalon.phoenix.components.manager;
 
-import com.sun.jdmk.comm.HtmlAdaptorServer;
 import com.sun.jdmk.comm.AuthInfo;
+import com.sun.jdmk.comm.HtmlAdaptorServer;
 import java.rmi.Remote;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -26,16 +26,16 @@ import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.phoenix.components.kernel.DefaultKernel;
 import org.apache.avalon.phoenix.components.kernel.DefaultKernelMBean;
-import org.apache.avalon.phoenix.interfaces.EmbeddorMBean;
 import org.apache.avalon.phoenix.interfaces.ConfigurationRepository;
 import org.apache.avalon.phoenix.interfaces.Deployer;
 import org.apache.avalon.phoenix.interfaces.Embeddor;
+import org.apache.avalon.phoenix.interfaces.EmbeddorMBean;
+import org.apache.avalon.phoenix.interfaces.ExtensionManagerMBean;
 import org.apache.avalon.phoenix.interfaces.Kernel;
 import org.apache.avalon.phoenix.interfaces.KernelMBean;
-import org.apache.avalon.phoenix.interfaces.PackageRepository;
-import org.apache.avalon.phoenix.interfaces.ExtensionManagerMBean;
 import org.apache.avalon.phoenix.interfaces.LogManager;
 import org.apache.avalon.phoenix.interfaces.ManagerException;
+import org.apache.avalon.phoenix.interfaces.PackageRepository;
 import org.apache.jmx.adaptor.RMIAdaptorImpl;
 import org.apache.jmx.introspector.JavaBeanMBean;
 
@@ -58,9 +58,9 @@ public class DefaultManager
     private static final int DEFAULT_HTTPADAPTER_PORT =
         Integer.getInteger( "phoenix.adapter.http", 8082 ).intValue();
     private static final String DEFAULT_ADMIN_USER =
-        System.getProperty( "phoenix.admin.user","admin");
+        System.getProperty( "phoenix.admin.user", "admin" );
     private static final String DEFAULT_ADMIN_PASSWD =
-        System.getProperty( "phoenix.admin.passwd");
+        System.getProperty( "phoenix.admin.passwd" );
 
     private Parameters m_parameters;
     private MBeanServer m_mBeanServer;
@@ -110,15 +110,15 @@ public class DefaultManager
 
         try
         {
-            final HtmlAdaptorServer html = 
+            final HtmlAdaptorServer html =
                 new HtmlAdaptorServer( DEFAULT_HTTPADAPTER_PORT );
-            if( null != DEFAULT_ADMIN_PASSWD ) 
+            if( null != DEFAULT_ADMIN_PASSWD )
             {
                 final AuthInfo auth = new AuthInfo( DEFAULT_ADMIN_USER, DEFAULT_ADMIN_PASSWD );
                 html.addUserAuthenticationInfo( auth );
             }
 
-            final ObjectName name = new ObjectName( "Adaptor:name=html,port="+DEFAULT_HTTPADAPTER_PORT );
+            final ObjectName name = new ObjectName( "Adaptor:name=html,port=" + DEFAULT_HTTPADAPTER_PORT );
             System.out.println( "Created HTML Adaptor " + name );
             m_mBeanServer.registerMBean( html, name );
             html.start();
@@ -132,10 +132,10 @@ public class DefaultManager
 
         //TODO: SystemManager itself aswell???
         //FIXME: All this stuff should be done by embeddor and read out of a config file
-        register( "Kernel", m_kernel, new Class[]{ KernelMBean.class } );
-        register( "ExtensionManager", m_extensionManager, new Class[]{ ExtensionManagerMBean.class } );
-        register( "Embeddor", m_embeddor, new Class[]{ EmbeddorMBean.class } );
-        register( "Deployer", m_deployer, new Class[]{ Deployer.class } );
+        register( "Kernel", m_kernel, new Class[]{KernelMBean.class} );
+        register( "ExtensionManager", m_extensionManager, new Class[]{ExtensionManagerMBean.class} );
+        register( "Embeddor", m_embeddor, new Class[]{EmbeddorMBean.class} );
+        register( "Deployer", m_deployer, new Class[]{Deployer.class} );
         register( "LogManager", m_logManager );
         register( "ConfigurationRepository", m_repository );
     }

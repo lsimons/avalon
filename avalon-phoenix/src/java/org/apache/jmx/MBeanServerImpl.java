@@ -7,15 +7,27 @@
  */
 package org.apache.jmx;
 
-
-import com.sun.management.jmx.*;
 import java.io.ObjectInputStream;
 import java.util.Set;
-import javax.management.*;
-import javax.management.loading.*;
-import javax.management.monitor.*;
-import javax.management.relation.*;
-import javax.management.timer.*;
+import javax.management.Attribute;
+import javax.management.AttributeList;
+import javax.management.AttributeNotFoundException;
+import javax.management.InstanceAlreadyExistsException;
+import javax.management.InstanceNotFoundException;
+import javax.management.IntrospectionException;
+import javax.management.InvalidAttributeValueException;
+import javax.management.ListenerNotFoundException;
+import javax.management.MBeanException;
+import javax.management.MBeanInfo;
+import javax.management.MBeanRegistrationException;
+import javax.management.NotCompliantMBeanException;
+import javax.management.NotificationFilter;
+import javax.management.NotificationListener;
+import javax.management.ObjectInstance;
+import javax.management.ObjectName;
+import javax.management.OperationsException;
+import javax.management.QueryExp;
+import javax.management.ReflectionException;
 
 /**
  * Will become apache's JMX implementation. Currently pointer to sun's reference
@@ -23,9 +35,9 @@ import javax.management.timer.*;
  * javax.management.MBeanServer}.
  *
  * @author <a href="mailto:mail@leosimons.com">Leo Simons</a>
- * @version CVS $Revision: 1.3 $ $Date: 2001/12/11 10:13:36 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/03/16 00:11:56 $
  */
-public class MBeanServerImpl 
+public class MBeanServerImpl
     extends com.sun.management.jmx.MBeanServerImpl
 {
     /**
@@ -81,7 +93,6 @@ public class MBeanServerImpl
         return super.isRegistered( name );
     }
 
-
     /**
      * Returns the number of MBeans registered in the MBean server.
      *
@@ -115,7 +126,6 @@ public class MBeanServerImpl
     {
         return super.getAttribute( name, attribute );
     }
-
 
     /**
      * Enables the values of several attributes of a named MBean. The MBean is
@@ -163,7 +173,7 @@ public class MBeanServerImpl
      */
     public MBeanInfo getMBeanInfo( final ObjectName name )
         throws
-            InstanceNotFoundException, IntrospectionException, ReflectionException
+        InstanceNotFoundException, IntrospectionException, ReflectionException
     {
         return super.getMBeanInfo( name );
     }
@@ -281,9 +291,9 @@ public class MBeanServerImpl
      * @exception InstanceNotFoundException The specified class loader is not
      *      registered in the MBean server.
      */
-    public Object instantiate( final String className, 
-                               final ObjectName loaderName, 
-                               final Object[] params, 
+    public Object instantiate( final String className,
+                               final ObjectName loaderName,
+                               final Object[] params,
                                final String[] signature )
         throws ReflectionException, MBeanException, InstanceNotFoundException
     {
@@ -319,8 +329,8 @@ public class MBeanServerImpl
      *      MBean
      */
     public ObjectInstance createMBean( final String className, final ObjectName name )
-        throws ReflectionException, InstanceAlreadyExistsException, MBeanRegistrationException, 
-               MBeanException, NotCompliantMBeanException
+        throws ReflectionException, InstanceAlreadyExistsException, MBeanRegistrationException,
+        MBeanException, NotCompliantMBeanException
     {
         return super.createMBean( className, name );
     }
@@ -356,15 +366,14 @@ public class MBeanServerImpl
      * @exception InstanceNotFoundException The specified class loader is not
      *      registered in the MBean server.
      */
-    public ObjectInstance createMBean( final String className, 
-                                       final ObjectName name, 
+    public ObjectInstance createMBean( final String className,
+                                       final ObjectName name,
                                        final ObjectName loaderName )
         throws ReflectionException, InstanceAlreadyExistsException, MBeanRegistrationException,
-               MBeanException, NotCompliantMBeanException, InstanceNotFoundException
+        MBeanException, NotCompliantMBeanException, InstanceNotFoundException
     {
         return super.createMBean( className, name, loaderName );
     }
-
 
     /**
      * Instantiates and registers an MBean in the MBean server. The MBean server
@@ -402,7 +411,7 @@ public class MBeanServerImpl
                                        final Object[] params,
                                        final String[] signature )
         throws ReflectionException, InstanceAlreadyExistsException, MBeanRegistrationException,
-               MBeanException, NotCompliantMBeanException
+        MBeanException, NotCompliantMBeanException
     {
         return super.createMBean( className, name, params, signature );
     }
@@ -439,15 +448,15 @@ public class MBeanServerImpl
      *      exception
      * @exception InstanceNotFoundException The specified class loader is not
      *      registered in the MBean server.
-     * @exception NotCompliantMBeanException 
+     * @exception NotCompliantMBeanException
      */
-    public ObjectInstance createMBean( final String className, 
-                                       final ObjectName name, 
-                                       final ObjectName loaderName, 
-                                       final Object[] params, 
+    public ObjectInstance createMBean( final String className,
+                                       final ObjectName name,
+                                       final ObjectName loaderName,
+                                       final Object[] params,
                                        final String[] signature )
-        throws ReflectionException, InstanceAlreadyExistsException, MBeanRegistrationException, 
-               MBeanException, NotCompliantMBeanException, InstanceNotFoundException
+        throws ReflectionException, InstanceAlreadyExistsException, MBeanRegistrationException,
+        MBeanException, NotCompliantMBeanException, InstanceNotFoundException
     {
         return super.createMBean( className, name, loaderName, params, signature );
     }
@@ -562,8 +571,8 @@ public class MBeanServerImpl
      * @exception ReflectionException Wraps a <CODE>java.lang.Exception</CODE>
      *      thrown while trying to invoke the method.
      */
-    public Object invoke( final ObjectName name, 
-                          final String operationName, 
+    public Object invoke( final ObjectName name,
+                          final String operationName,
                           final Object[] params,
                           final String[] signature )
         throws InstanceNotFoundException, MBeanException, ReflectionException
@@ -584,9 +593,9 @@ public class MBeanServerImpl
      * @exception InstanceNotFoundException The MBean name provided does not
      *      match any of the registered MBeans.
      */
-    public void addNotificationListener( final ObjectName name, 
-                                         final NotificationListener listener, 
-                                         final NotificationFilter filter, 
+    public void addNotificationListener( final ObjectName name,
+                                         final NotificationListener listener,
+                                         final NotificationFilter filter,
                                          final Object handback )
         throws InstanceNotFoundException
     {
@@ -607,15 +616,14 @@ public class MBeanServerImpl
      *      listener or of the notification broadcaster does not match any of
      *      the registered MBeans.
      */
-    public void addNotificationListener( final ObjectName name, 
-                                         final ObjectName listener, 
-                                         final NotificationFilter filter, 
+    public void addNotificationListener( final ObjectName name,
+                                         final ObjectName listener,
+                                         final NotificationFilter filter,
                                          final Object handback )
         throws InstanceNotFoundException
     {
         super.addNotificationListener( name, listener, filter, handback );
     }
-
 
     /**
      * Enables to remove a listener from a registered MBean.
@@ -710,8 +718,8 @@ public class MBeanServerImpl
      * @exception ReflectionException The specified class could not be loaded by
      *      the specified class loader.
      */
-    public ObjectInputStream deserialize( final String className, 
-                                          final ObjectName loaderName, 
+    public ObjectInputStream deserialize( final String className,
+                                          final ObjectName loaderName,
                                           final byte[] data )
         throws InstanceNotFoundException, OperationsException, ReflectionException
     {
@@ -738,8 +746,8 @@ public class MBeanServerImpl
      *      thrown when trying to invoke the setter.
      */
     public void setAttribute( final ObjectName name, final Attribute attribute )
-        throws InstanceNotFoundException, AttributeNotFoundException, InvalidAttributeValueException, 
-               MBeanException, ReflectionException
+        throws InstanceNotFoundException, AttributeNotFoundException, InvalidAttributeValueException,
+        MBeanException, ReflectionException
     {
         super.setAttribute( name, attribute );
     }

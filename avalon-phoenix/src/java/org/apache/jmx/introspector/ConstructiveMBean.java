@@ -7,27 +7,26 @@
  */
 package org.apache.jmx.introspector;
 
-import java.lang.reflect.Modifier;
 import java.beans.Introspector;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
-import javax.management.AttributeList;
 import javax.management.IntrospectionException;
-import javax.management.MBeanParameterInfo;
 import javax.management.MBeanOperationInfo;
+import javax.management.MBeanParameterInfo;
 
 /**
- * Base Class to allow MBeans to be constructed programatically via 
- * simple method calls. The attributes and operations of MBean are 
+ * Base Class to allow MBeans to be constructed programatically via
+ * simple method calls. The attributes and operations of MBean are
  * verified by reflection,
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.5 $ $Date: 2001/12/11 10:13:36 $
+ * @version CVS $Revision: 1.6 $ $Date: 2002/03/16 00:11:57 $
  */
 public abstract class ConstructiveMBean
     extends AbstractMBean
 {
-    private static final String[]  EMPTY_STR_ARRAY = new String[ 0 ];
+    private static final String[] EMPTY_STR_ARRAY = new String[ 0 ];
 
     protected final static int ACTION = MBeanOperationInfo.ACTION;
     protected final static int ACTION_INFO = MBeanOperationInfo.ACTION_INFO;
@@ -77,7 +76,7 @@ public abstract class ConstructiveMBean
     }
 
     /**
-     * Utility method called to define manageable 
+     * Utility method called to define manageable
      * objects attributes and operations.
      */
     protected abstract void defineObject();
@@ -98,7 +97,7 @@ public abstract class ConstructiveMBean
      * @param name the attribute name
      * @param isWriteable true if attribute is writeable, false otherwise
      */
-    protected final void addAttribute( final String name, 
+    protected final void addAttribute( final String name,
                                        final boolean isWriteable )
     {
         addAttribute( name, isWriteable, null );
@@ -111,13 +110,13 @@ public abstract class ConstructiveMBean
      * @param isWriteable true if attribute is writeable, false otherwise
      * @param description the description
      */
-    protected final void addAttribute( final String name, 
+    protected final void addAttribute( final String name,
                                        final boolean isWriteable,
                                        final String description )
     {
         final String property = Introspector.decapitalize( name );
-        final String methodPropertyName = 
-            property.substring( 0, 1 ).toUpperCase()+ property.substring( 1 );
+        final String methodPropertyName =
+            property.substring( 0, 1 ).toUpperCase() + property.substring( 1 );
 
         final String getAccessorName = "get" + methodPropertyName;
         final String isAccessorName = "is" + methodPropertyName;
@@ -131,7 +130,7 @@ public abstract class ConstructiveMBean
         {
             final Method method = methods[ i ];
 
-            if( 0 == (Modifier.PUBLIC & method.getModifiers()) )
+            if( 0 == ( Modifier.PUBLIC & method.getModifiers() ) )
             {
                 //If method is not public then skip it
                 continue;
@@ -151,28 +150,28 @@ public abstract class ConstructiveMBean
 
         if( null == accessor )
         {
-            throw new IllegalArgumentException( "Unable to locate accessor for property " + 
+            throw new IllegalArgumentException( "Unable to locate accessor for property " +
                                                 name );
         }
 
         Method mutator = null;
         if( isWriteable )
         {
-            final Class[] params = new Class[] { accessor.getReturnType() };
+            final Class[] params = new Class[]{accessor.getReturnType()};
             try
             {
                 mutator = clazz.getMethod( mutatorName, params );
             }
             catch( final NoSuchMethodException nsme )
             {
-                throw new IllegalArgumentException( "Unable to locate mutator for property " + 
+                throw new IllegalArgumentException( "Unable to locate mutator for property " +
                                                     name );
             }
         }
 
         try
         {
-            final AttributeEntry entry = 
+            final AttributeEntry entry =
                 new AttributeEntry( name, description, accessor, mutator );
             m_attributes.add( entry );
         }
@@ -201,31 +200,31 @@ public abstract class ConstructiveMBean
      * @param impact the operation impact
      * @param description the description of operation
      */
-    protected final void addOperation( final String name, 
-                                       final int impact, 
+    protected final void addOperation( final String name,
+                                       final int impact,
                                        final String description )
     {
         addOperation( name, EMPTY_STR_ARRAY, impact, description, EMPTY_STR_ARRAY );
     }
 
     /**
-     * Utility method to define an operation with specified 
+     * Utility method to define an operation with specified
      * name, parameter types and impact.
      *
      * @param name the operation name
      * @param params the class names of parameters
      * @param impact the operation impact
      */
-    protected final void addOperation( final String name, 
-                                       final String[] params, 
+    protected final void addOperation( final String name,
+                                       final String[] params,
                                        final int impact )
     {
-        
+
         addOperation( name, params, impact, null );
     }
 
     /**
-     * Utility method to define an operation with specified 
+     * Utility method to define an operation with specified
      * name, parameter types, impact and description.
      *
      * @param name the operation name
@@ -233,16 +232,16 @@ public abstract class ConstructiveMBean
      * @param impact the operation impact
      * @param description the description of operation
      */
-    protected final void addOperation( final String name, 
-                                       final String[] params, 
-                                       final int impact, 
+    protected final void addOperation( final String name,
+                                       final String[] params,
+                                       final int impact,
                                        final String description )
     {
         addOperation( name, params, impact, description, null );
     }
 
     /**
-     * Utility method to define an operation with specified 
+     * Utility method to define an operation with specified
      * name, parameter types, impact and description.
      *
      * @param name the operation name
@@ -251,9 +250,9 @@ public abstract class ConstructiveMBean
      * @param description the description of operation
      * @param paramNames the names of all the parameters
      */
-    protected final void addOperation( final String name, 
-                                       final String[] params, 
-                                       final int impact, 
+    protected final void addOperation( final String name,
+                                       final String[] params,
+                                       final int impact,
                                        final String description,
                                        final String[] paramNames )
     {
@@ -261,7 +260,7 @@ public abstract class ConstructiveMBean
     }
 
     /**
-     * Utility method to define an operation with specified 
+     * Utility method to define an operation with specified
      * name, parameter types, impact, description and parameter
      * descriptions.
      *
@@ -272,9 +271,9 @@ public abstract class ConstructiveMBean
      * @param paramNames the names of all the parameters
      * @param paramsDescription the description of parameters
      */
-    protected final void addOperation( final String name, 
-                                       final String[] params, 
-                                       final int impact, 
+    protected final void addOperation( final String name,
+                                       final String[] params,
+                                       final int impact,
                                        final String description,
                                        final String[] paramNames,
                                        final String[] paramsDescription )
@@ -298,11 +297,11 @@ public abstract class ConstructiveMBean
         for( int i = 0; i < params.length; i++ )
         {
             final String param = params[ i ];
-            final String paramName = 
+            final String paramName =
                 ( null != paramNames ) ? paramNames[ i ] : "param" + i;
-            final String paramDescription = 
+            final String paramDescription =
                 ( null != paramsDescription ) ? paramsDescription[ i ] : null;
-            
+
             paramInfos[ i ] = new MBeanParameterInfo( paramName, param, paramDescription );
 
             try
@@ -311,7 +310,7 @@ public abstract class ConstructiveMBean
             }
             catch( final Exception e )
             {
-                throw new IllegalArgumentException( "error loading param type (" + param + 
+                throw new IllegalArgumentException( "error loading param type (" + param +
                                                     ") due to " + e );
             }
         }
@@ -327,7 +326,7 @@ public abstract class ConstructiveMBean
         }
 
         final String type = method.getReturnType().getName();
-        final MBeanOperationInfo info = 
+        final MBeanOperationInfo info =
             new MBeanOperationInfo( name, description, paramInfos, type, impact );
         final OperationEntry entry = new OperationEntry( info, method );
         m_operations.add( entry );

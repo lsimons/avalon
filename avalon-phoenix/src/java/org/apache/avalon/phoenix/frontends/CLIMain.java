@@ -7,25 +7,24 @@
  */
 package org.apache.avalon.phoenix.frontends;
 
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.avalon.framework.context.Contextualizable;
-import org.apache.avalon.framework.context.DefaultContext;
-import org.apache.avalon.framework.parameters.Parameterizable;
-import org.apache.avalon.framework.parameters.Parameters;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.framework.logger.AvalonFormatter;
-import org.apache.avalon.framework.logger.LogKitLogger;
-import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.framework.logger.LogEnabled;
-import org.apache.avalon.framework.ExceptionUtil;
-import org.apache.avalon.phoenix.Constants;
-import org.apache.avalon.phoenix.components.embeddor.DefaultEmbeddor;
-import org.apache.avalon.phoenix.interfaces.Embeddor;
+import java.io.File;
 import java.util.Hashtable;
 import java.util.Observable;
 import java.util.Observer;
-import java.io.File;
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
+import org.apache.avalon.framework.ExceptionUtil;
+import org.apache.avalon.framework.context.Contextualizable;
+import org.apache.avalon.framework.context.DefaultContext;
+import org.apache.avalon.framework.logger.AvalonFormatter;
+import org.apache.avalon.framework.logger.LogEnabled;
+import org.apache.avalon.framework.logger.LogKitLogger;
+import org.apache.avalon.framework.logger.Logger;
+import org.apache.avalon.framework.parameters.Parameterizable;
+import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.avalon.phoenix.Constants;
+import org.apache.avalon.phoenix.components.embeddor.DefaultEmbeddor;
+import org.apache.avalon.phoenix.interfaces.Embeddor;
 import org.apache.log.Hierarchy;
 import org.apache.log.LogTarget;
 import org.apache.log.Priority;
@@ -119,7 +118,7 @@ public final class CLIMain
         // If an Observer is present in the data object, then add it as an observer for
         //  m_observable
         Observer observer = (Observer)data.get( Observer.class.getName() );
-        if ( null != observer )
+        if( null != observer )
         {
             addObserver( observer );
         }
@@ -193,7 +192,6 @@ public final class CLIMain
         return true;
     }
 
-
     /**
      * Uses <code>org.apache.log.Hierarchy</code> to create a new
      * logger using "Phoenix" as its category, DEBUG as its
@@ -218,7 +216,7 @@ public final class CLIMain
         //components can get access to logging hierarchy
         final Hierarchy hierarchy = new Hierarchy();
         final org.apache.log.Logger logger = hierarchy.getLoggerFor( "Phoenix" );
-        logger.setLogTargets( new LogTarget[]{ logTarget } );
+        logger.setLogTargets( new LogTarget[]{logTarget} );
         logger.setPriority( Priority.getPriorityForName( logPriority ) );
         logger.info( "Logger started" );
         return new LogKitLogger( logger );
