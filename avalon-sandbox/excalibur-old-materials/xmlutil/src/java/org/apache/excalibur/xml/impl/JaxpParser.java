@@ -113,12 +113,18 @@ import org.xml.sax.ext.LexicalHandler;
  *     unambiguously the JAXP implementation to be used when several of them are
  *     available in the classpath.
  * </li>
+ * <li>drop-dtd-comments : should comment() events from DTD's be dropped? Since this implementation
+ * does not support the DeclHandler interface anyway, it is quite useless to only have the comments
+ * from DTD. And the comment events from the internal DTD subset would appear in the serialized output
+ * again.
+ * </li>
  * </ul>
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @version CVS $Revision: 1.4 $ $Date: 2003/02/27 09:22:53 $
+ * @author <a href="mailto:bruno@apache.org">Bruno Dumon</a>
+ * @version CVS $Revision: 1.5 $ $Date: 2003/05/03 11:03:01 $
  * @avalon.component
  */
 public final class JaxpParser
@@ -155,6 +161,9 @@ public final class JaxpParser
      and cleared if a parsing error occurs. */
     private DocumentBuilder m_docBuilder;
 
+    /** Should comments appearing between start/endDTD events be dropped ? */
+    private boolean m_dropDtdComments;
+
     /**
      * Get the Entity Resolver from the component m_manager
      *
@@ -182,6 +191,7 @@ public final class JaxpParser
         m_reuseParsers = params.getParameterAsBoolean( "reuse-parsers", true );
         m_stopOnWarning = params.getParameterAsBoolean( "stop-on-warning", true );
         m_stopOnRecoverableError = params.getParameterAsBoolean( "stop-on-recoverable-error", true );
+        m_dropDtdComments = params.getParameterAsBoolean( "drop-dtd-comments", false );
 
         // Get the SAXFactory
         final String saxParserFactoryName = params.getParameter( "sax-parser-factory",
@@ -272,16 +282,22 @@ public final class JaxpParser
 
         try
         {
+            LexicalHandler theLexicalHandler = null;
             if ( null == lexicalHandler 
                  && contentHandler instanceof LexicalHandler)
             {
-                tmpReader.setProperty( "http://xml.org/sax/properties/lexical-handler",
-                                       (LexicalHandler)contentHandler );
+                theLexicalHandler = (LexicalHandler)contentHandler;
             }   
             if( null != lexicalHandler )
             {
+                theLexicalHandler = lexicalHandler;
+            }
+            if (theLexicalHandler != null)
+            {
+                if (m_dropDtdComments)
+                    theLexicalHandler = new DtdCommentEater(theLexicalHandler);
                 tmpReader.setProperty( "http://xml.org/sax/properties/lexical-handler",
-                                       lexicalHandler );
+                                       theLexicalHandler );
             }
         }
         catch( final SAXException e )
@@ -463,4 +479,66 @@ public final class JaxpParser
         }
         getLogger().warn( message, spe );
     }
+
+    /**
+     * A LexicalHandler implementation that strips all comment events between
+     * startDTD and endDTD. In all other cases the events are forwarded to another
+     * LexicalHandler.
+     */
+    private static class DtdCommentEater implements LexicalHandler
+    {
+        private LexicalHandler next;
+        private boolean inDTD;
+
+        public DtdCommentEater(LexicalHandler nextHandler)
+        {
+            this.next = nextHandler;
+        }
+
+        public void startDTD (String name, String publicId, String systemId)
+            throws SAXException
+        {
+            inDTD = true;
+            next.startDTD(name, publicId, systemId);
+        }
+
+        public void endDTD ()
+            throws SAXException
+        {
+            inDTD = false;
+            next.endDTD();
+        }
+
+        public void startEntity (String name)
+            throws SAXException
+        {
+            next.startEntity(name);
+        }
+
+        public void endEntity (String name)
+            throws SAXException
+        {
+            next.endEntity(name);
+        }
+
+        public void startCDATA ()
+            throws SAXException
+        {
+            next.startCDATA();
+        }
+
+        public void endCDATA ()
+            throws SAXException
+        {
+            next.endCDATA();
+        }
+
+        public void comment (char ch[], int start, int length)
+            throws SAXException
+        {
+            if (!inDTD)
+                next.comment(ch, start, length);
+        }
+    }
+
 }
