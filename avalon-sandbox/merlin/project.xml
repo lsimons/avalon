@@ -131,7 +131,7 @@
       </roles>
     </contributor>
     <contributor>
-      <name>Jörg Schaible</name>
+      <name>Jorg Schaible</name>
       <email>Joerg.Schaible@gft.com</email>
       <organization>GFT</organization>
       <roles>
@@ -161,6 +161,13 @@
         <role>Testing, bug reporting, and early access trial participation.</role>
       </roles>
       <organization>IBM Global Services</organization>
+    </contributor>
+    <contributor>
+      <name>Alexis Agahi</name>
+      <email>alexis@agahi.com</email>
+      <roles>
+        <role>Debugging, script enhancements and release testing.</role>
+      </roles>
     </contributor>
   </contributors>
 
