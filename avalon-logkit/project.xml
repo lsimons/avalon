@@ -41,5 +41,25 @@ Avalon LogKit is the logging utility used by default in all Avalon systems.
         <id>jms</id>
         <version>1.1</version>
       </dependency>
+
+      <!-- Forrest Deps -->
+        <dependency>
+            <id>xml-apis</id>
+            <version>2.0.2</version>
+        </dependency>
+        <dependency>
+            <id>xercesImpl</id>
+            <version>2.4.0</version>
+            <groupId>xerces</groupId>
+        </dependency>
+        <dependency>
+            <id>xmlParserAPIs</id>
+            <version>2.2.1</version>
+            <groupId>xerces</groupId>
+        </dependency>
+        <dependency>
+            <id>xalan</id>
+            <version>2.5.1</version>
+        </dependency>
     </dependencies>
 </project>
