@@ -21,10 +21,11 @@ import java.util.Date;
 final class TimeScheduledEntry
     implements Comparable
 {
+    private static final SimpleDateFormat DATEFORMAT = new SimpleDateFormat();
+
     protected final String m_name;
     protected final TimeTrigger m_trigger;
     protected final Target m_target;
-    private static SimpleDateFormat DATEFORMAT = new SimpleDateFormat();
 
     //cached version of time from TimeTrigger class
     protected long m_time;
