@@ -448,6 +448,15 @@ public class PhoenixEmbeddor
     {
         setupLogger( m_kernel );
 
+
+        if( m_kernel instanceof Composable )
+        {
+            final DefaultComponentManager componentManager = new DefaultComponentManager();
+            componentManager.put( "org.apache.avalon.atlantis.SystemManager", 
+                                  (SystemManager)m_systemManager );
+            ((Composable)m_kernel).compose( componentManager );
+        }
+
         if( m_kernel instanceof Configurable )
         {
             final DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
