@@ -25,7 +25,7 @@ import org.apache.avalon.logging.data.CategoriesDirective;
  * Abstract base class for ComponentProfile and ContainmentProfile.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.11 $ $Date: 2004/03/11 01:30:38 $
+ * @version $Revision: 1.12 $ $Date: 2004/03/13 11:04:23 $
  */
 public abstract class DeploymentProfile implements Serializable
 {
@@ -72,7 +72,7 @@ public abstract class DeploymentProfile implements Serializable
         m_activation = activation;
         m_categories = categories;
 
-        if( mode != null )
+        if( mode == null )
         {
             m_mode = Mode.IMPLICIT;
         }
