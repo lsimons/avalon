@@ -63,7 +63,7 @@ import java.util.Date;
  *
  * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
  * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>
- * @version $Revision: 1.7 $ $Date: 2003/02/05 10:12:40 $
+ * @version $Revision: 1.8 $ $Date: 2003/02/05 19:42:26 $
  */
 public class RotateStrategyByDate
     implements RotateStrategy
@@ -97,6 +97,7 @@ public class RotateStrategyByDate
     */
     public void reset()
     {
+        m_date.setTime( System.currentTimeMillis() );
         m_current = m_format.format( m_date );
     }
 
