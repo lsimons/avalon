@@ -1,0 +1,49 @@
+<html>
+<head><title>System Manager</title></head>
+<body bgcolor="#ffffff">
+<center>
+
+<h2>System Manager</h2>
+<br />
+<br />
+<form>
+
+<select name="server" size="1">
+<option selected="true">RMI Enabled System Manager</option>
+</select>
+
+<br />
+<br />
+
+<table cellspacing="0" cellpadding="5" width="100%" border="1">
+  <tr>
+    <td align="right">Directory to bind to</td>
+    <td align="left">
+      <input type="text" value="rmi://127.0.0.1:1234/Phoenix" size="50"></input>
+    </td>
+  </tr>
+  <tr>
+    <td align="right">Allow Non-local Access</td>
+    <td align="left">
+      <input type="checkbox" checked="false"/>
+    </td>
+  </tr>
+  <tr>
+    <td align="right">Require Authenticated SSL certificates</td>
+    <td align="left">
+      <input type="checkbox" checked="false"/>
+    </td>
+  </tr>
+</table>
+
+<br />
+
+<input type="submit" value="Update SystemManager"/>
+<input type="submit" value="Reload defaults"/>
+<input type="submit" value="Cancel"/>
+
+</form>
+</center>
+
+</body>
+</html>
