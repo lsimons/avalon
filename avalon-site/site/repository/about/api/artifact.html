@@ -528,15 +528,14 @@
     <p>
       
           The following code fragment demonstrates the creation of an 
-          artifact reference.  In this example we are creating a 
-          reference using the Maven group/name/version semantics.
+          artifact reference by suplying a "group", "name" and "version".
           
     </p>
    
     <div id="source">
       <pre>
 Artifact artifact = 
-    ClassicArtifact.createJarArtifact( 
+    Artifact.createArtifact( 
       "avalon-framework", "avalon-framework-api", "4.1.5" );</pre>
     </div>
   
