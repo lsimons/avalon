@@ -28,7 +28,7 @@
 </menu>
 <menu label="For Developers">
 <menu-item href="changes.html" label="Changes"/>
-<menu-item href="http://jakarta.apache.org/avalon/code-standards.html" label="Coding standards"/>
+<menu-item href="http://avalon.apache.org/code-standards.html" label="Coding standards"/>
 <menu-item href="for-developers-project-structure.html" label="Project Structure"/>
 <menu-item href="http://jakarta.apache.org/site/cvsindex.html" label="CVS Repositories"/>
 <menu-item href="http://jakarta.apache.org/site/mail.html" label="Mailing Lists"/>
