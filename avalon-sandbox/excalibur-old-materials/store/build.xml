@@ -15,8 +15,8 @@
         <pathelement location="${avalon-framework.jar}"/>
         <pathelement location="${excalibur-pool.jar}"/>
         <pathelement location="${checkstyle.jar}"/>
+        <pathelement location="${jisp.jar}"/>
         <pathelement path="${java.class.path}"/>
-        <pathelement path="${jisp.jar}"/>
     </path>
 
     <path id="tools.class.path">
