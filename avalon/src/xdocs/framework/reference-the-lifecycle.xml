@@ -14,15 +14,25 @@
   <body>
     <s1 title="Introduction">
       <p>
-        A Component lives within something called a container. Avalon provides an
-        application that functions as a container for Applications (which are
-        Components) called <link href="@PHOENIX_BASE@/index.html">Phoenix</link>.
-        You can also create your own Components that function as a container.
+        A Component lives within something called a container. The contract between a 
+        container and a contained Component is simple: the container is required to 
+        take a Component through what is called its <strong>lifecycle</strong>.
       </p>
       <p>
-        The contract between a container and a contained Component is simple: the
-        container is required to take a Component through what is called its
-        <strong>lifecycle</strong>.
+        The Avalon project provides an
+        application that functions as a container for componentized applications 
+        called <link href="@PHOENIX_BASE@/index.html">Phoenix</link>.  This is not 
+        exclusive, components adhering to lifecycle interfaces, can be mounted in 
+        custom containers.  Cocoon and others mounts their own containers for 
+        components and invoke relevant methods from the lifecycle interfaces.  See
+        <link href="reference-containers.html">Containers</link>.
+      </p>
+      <p>
+        The lifecyle methods from Avalon Framework sub-project are designed to be
+        used by just about any component hosted by any container.  Of course, the API
+        in question may well require additional interfaces for strongly typed 
+        functionality, but these interfaces should negate the need for any duplication
+        of effort.
       </p>
     </s1>
     <s1 title="The Lifecycle">
@@ -35,7 +45,7 @@
       <p>
         It is up to each container to indicate which lifecycle methods it will honor.
         This should be clearly documented together with the description of the
-        container. Phoenix supports all of the lifecycle methods defined in the
+        container. A sister project to Phoenix supports all of the lifecycle methods defined in the
         Avalon Framework API.
       </p>
     </s1>
@@ -65,7 +75,7 @@
         <strong>Note:</strong>java.lang.Runnable has also been in use as a lifecycle
         interface. This is not recommended and is not supported by Avalon. Instead,
         the run() method is the responsibility of the Component itself. If you wish
-        to use it, call it from within start() or another method.
+        to use it, call it from within start() or another method.  
       </note>
     </s1>
     <s1 title="Phase order">
@@ -95,30 +105,39 @@
         <p>
           If a <code>Component</code> implements more than one interface the order of
           the events (compose, configure etc.) follow a specific order. A Component
-          implementing all above interfaces (including Runnable) will follow this
-          specific path:
+          implementing all above interfaces (including Runnable) will follow these
+          specific paths.
+        </p>
+        <p>
+          Startup Phase:
         </p>
         <ol>
-          <li>constructor</li>
+          <li>constructor <strong>as a consequence of instantiation</strong></li>
           <li>contextualize</li>
           <li>compose</li>
           <li>configure</li>
           <li>parameterize</li>
           <li>initialize</li>
           <li>start</li>
-          <li>
-            <ol>
-              <li>suspend</li>
-              <li>recontextualize</li>
-              <li>recompose</li>
-              <li>reconfigure</li>
-              <li>reparameterize</li>
-              <li>resume</li>
-            </ol>
-          </li>
+        </ol>
+        <p>
+          At various or repeated times after startup:
+        </p>
+        <ol>
+          <li>suspend</li>
+          <li>recontextualize</li>
+          <li>recompose</li>
+          <li>reconfigure</li>
+          <li>reparameterize</li>
+          <li>resume</li>
+        </ol>
+        <p>
+          Shutdown Phase:
+        </p>
+        <ol>
           <li>stop</li>
           <li>dispose</li>
-          <li>finalize</li>
+          <li>finalize <strong>at some indeterminate moment by the garbage collector</strong></li>
         </ol>
       </s2>
       <s2 title="Phases executed once">
@@ -214,7 +233,7 @@ System.gc(); // finalize() is called on myComponent, which allows it to perform 
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2002/05/03 10:19:53 $
+      $Revision: 1.2 $ $Date: 2002/06/09 19:34:59 $
     </legal>
   </footer>
 </document>
