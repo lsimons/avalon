@@ -76,7 +76,7 @@ import org.xml.sax.XMLFilter;
  *
  * @author <a href="mailto:ovidiu@cup.hp.com">Ovidiu Predescu</a>
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
- * @version CVS $Id: XSLTProcessorImpl.java,v 1.2 2004/02/19 08:28:33 cziegeler Exp $
+ * @version CVS $Id: XSLTProcessorImpl.java,v 1.3 2004/02/24 11:17:12 cziegeler Exp $
  * @version 1.0
  * @since   July 11, 2001
  */
@@ -332,6 +332,10 @@ public class XSLTProcessorImpl
         }
         catch( SAXException e )
         {
+            // Unwrapping the exception will "remove" the real cause with
+            // never Xalan versions and makes the exception message unusable
+            throw new XSLTProcessorException( "Exception in creating Transform Handler", e );
+            /*
             if( e.getException() == null )
             {
                 throw new XSLTProcessorException( "Exception in creating Transform Handler", e );
@@ -340,7 +344,7 @@ public class XSLTProcessorImpl
             {
                 getLogger().debug( "Got SAXException. Rethrowing cause exception.", e );
                 throw new XSLTProcessorException( "Exception in creating Transform Handler", e.getException() );
-            }
+            }*/
         }
         catch( Exception e )
         {
@@ -400,6 +404,11 @@ public class XSLTProcessorImpl
         }
         catch( SAXException e )
         {
+            // Unwrapping the exception will "remove" the real cause with
+            // never Xalan versions and makes the exception message unusable
+            final String message = "Error in running Transformation";
+            throw new XSLTProcessorException( message, e );
+            /*
             if( e.getException() == null )
             {
                 final String message = "Error in running Transformation";
@@ -411,6 +420,7 @@ public class XSLTProcessorImpl
                 getLogger().debug( message, e );
                 throw new XSLTProcessorException( "Error in running Transformation", e.getException() );
             }
+            */
         }
         catch( Exception e )
         {
