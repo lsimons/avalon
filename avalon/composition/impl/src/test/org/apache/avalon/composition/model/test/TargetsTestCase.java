@@ -4,15 +4,18 @@ package org.apache.avalon.composition.model.test;
 
 import java.io.File;
 
-import org.apache.avalon.composition.model.Model;
 import org.apache.avalon.composition.model.DeploymentModel;
+import org.apache.avalon.composition.model.ComponentModel;
 import org.apache.avalon.composition.model.AbstractTestCase;
 import org.apache.avalon.composition.data.Targets;
 import org.apache.avalon.composition.data.TargetDirective;
-import org.apache.avalon.composition.util.ExceptionHelper;
 import org.apache.avalon.composition.data.builder.XMLTargetsCreator;
+
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
+
+import org.apache.avalon.util.exception.ExceptionHelper;
+
 import org.apache.excalibur.configuration.ConfigurationUtil;
 
 public class TargetsTestCase extends AbstractTestCase
@@ -44,10 +47,10 @@ public class TargetsTestCase extends AbstractTestCase
             {
                 TargetDirective target = targets[i];
                 final String path = target.getPath();
-                Model model = m_model.getModel( path );
-                if( model instanceof DeploymentModel )
+                DeploymentModel model = m_model.getModel( path );
+                if( model instanceof ComponentModel )
                 {
-                    DeploymentModel deployment = (DeploymentModel) model;
+                    ComponentModel deployment = (ComponentModel) model;
                     deployment.setConfiguration( target.getConfiguration() );
                     getLogger().debug( "model: " + deployment );
                     getLogger().debug( 

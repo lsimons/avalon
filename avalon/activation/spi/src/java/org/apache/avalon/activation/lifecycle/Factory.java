@@ -51,14 +51,14 @@
 package org.apache.avalon.activation.lifecycle;
 
 import org.apache.avalon.activation.lifecycle.LifecycleException;
-import org.apache.avalon.composition.model.DeploymentModel;
+import org.apache.avalon.composition.model.ComponentModel;
 
 /**
  * The Factory interface exposes an operation though which a 
  * new component instance may be accessed.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2003/10/17 06:44:49 $
+ * @version $Revision: 1.3 $ $Date: 2004/01/13 11:41:23 $
  */
 public interface Factory
 {
@@ -67,7 +67,7 @@ public interface Factory
     *
     * @exception LifecycleException
     */
-    DeploymentModel getDeploymentModel();
+    ComponentModel getComponentModel();
 
    /**
     * Create a new instance of a component. 

@@ -158,7 +158,7 @@ usage: merlin [block] [-debug] [-config <file>] [-lang
             <subsection name="Next Steps">
                 <p>
                     Now that you have installed Merlin on your system you can
-                    proceed to the <a href="./tutorial/index.html">Using Merlin</a>
+                    proceed to the <a href="../../tutorial/index.html">Using Merlin</a>
                     tutorial page.
                 </p>
             </subsection>

@@ -62,8 +62,8 @@ import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.composition.data.ProfilePackage;
-import org.apache.avalon.composition.data.Profile;
 import org.apache.avalon.composition.data.DeploymentProfile;
+import org.apache.avalon.composition.data.ComponentProfile;
 import org.apache.avalon.composition.data.builder.ProfilePackageBuilder;
 import org.apache.avalon.meta.info.DependencyDescriptor;
 import org.apache.avalon.meta.info.ReferenceDescriptor;
@@ -75,7 +75,7 @@ import org.apache.avalon.meta.info.Type;
  * storage and retrival of component types.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2003/10/28 20:21:00 $
+ * @version $Revision: 1.4 $ $Date: 2004/01/13 11:41:26 $
  */
 class DefaultTypeRepository implements TypeRepository
 {
@@ -173,7 +173,7 @@ class DefaultTypeRepository implements TypeRepository
             ProfilePackage pack = 
               PACKAGE_BUILDER.createProfilePackage( name, clazz );
             m_profiles.put( classname, pack );
-            int n = pack.getDeploymentProfiles().length;
+            int n = pack.getComponentProfiles().length;
 
             m_types.put( classname, type );
             if( getLogger().isDebugEnabled() )
@@ -306,6 +306,15 @@ class DefaultTypeRepository implements TypeRepository
             }
         }
 
+        if( m_parent != null )
+        {
+            Type[] suppliment = m_parent.getTypes( dependency );
+            for( int i=0; i<suppliment.length; i++ )
+            {
+                list.add( suppliment[i] );
+            }
+        }
+
         return (Type[]) list.toArray( new Type[0] );
     }
 
@@ -332,6 +341,16 @@ class DefaultTypeRepository implements TypeRepository
                 list.add( type );
             }
         }
+
+        if( m_parent != null )
+        {
+            Type[] suppliment = m_parent.getTypes( stage );
+            for( int i=0; i<suppliment.length; i++ )
+            {
+                list.add( suppliment[i] );
+            }
+        }
+
         return (Type[]) list.toArray( new Type[0] );
     }
 
@@ -343,14 +362,14 @@ class DefaultTypeRepository implements TypeRepository
     * @return a profile array containing at least one deployment profile
     * @exception TypeUnknownException if the supplied type is unknown
     */
-    public DeploymentProfile[] getProfiles( Type type ) 
+    public ComponentProfile[] getProfiles( Type type ) 
       throws TypeUnknownException
     {
         final String classname = type.getInfo().getClassname();
         ProfilePackage profiles = (ProfilePackage) m_profiles.get( classname );
         if( profiles != null )
         {
-            return profiles.getDeploymentProfiles();
+            return profiles.getComponentProfiles();
         }
         else
         {
@@ -375,13 +394,13 @@ class DefaultTypeRepository implements TypeRepository
     * @exception TypeUnknownException if the supplied type is unknown
     * @exception ProfileUnknownException if the supplied key is unknown
     */
-    public DeploymentProfile getProfile( Type type, String key ) 
+    public ComponentProfile getProfile( Type type, String key ) 
       throws TypeUnknownException, ProfileUnknownException
     {
-        DeploymentProfile[] profiles = getProfiles( type );
+        ComponentProfile[] profiles = getProfiles( type );
         for( int i=0; i<profiles.length; i++ )
         {
-            DeploymentProfile profile = profiles[i];
+            ComponentProfile profile = profiles[i];
             final String name = getProfileName( type, key );
             if( profile.getName().equals( name ) ) return profile;
         }
@@ -392,9 +411,9 @@ class DefaultTypeRepository implements TypeRepository
     * Return the set of local profiles.
     * @return a profile or null if a profile connot be resolve
     */
-    private Profile[] getProfiles()
+    private DeploymentProfile[] getProfiles()
     {
-        return (Profile[]) m_profiles.values().toArray( new Profile[0] );
+        return (DeploymentProfile[]) m_profiles.values().toArray( new DeploymentProfile[0] );
     }
 
    /**

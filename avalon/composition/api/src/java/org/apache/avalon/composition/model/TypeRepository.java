@@ -50,7 +50,7 @@
 
 package org.apache.avalon.composition.model;
 
-import org.apache.avalon.composition.data.DeploymentProfile;
+import org.apache.avalon.composition.data.ComponentProfile;
 import org.apache.avalon.composition.model.ProfileUnknownException;
 import org.apache.avalon.meta.info.DependencyDescriptor;
 import org.apache.avalon.meta.info.StageDescriptor;
@@ -61,7 +61,7 @@ import org.apache.avalon.meta.info.Type;
  * storage and retrival of component types.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2003/10/04 11:53:04 $
+ * @version $Revision: 1.3 $ $Date: 2004/01/13 11:41:24 $
  */
 public interface TypeRepository
 {
@@ -120,7 +120,7 @@ public interface TypeRepository
     * @return a profile array containing at least one deployment profile
     * @exception TypeUnknownException if the supplied type is unknown
     */
-    DeploymentProfile[] getProfiles( Type type ) throws TypeUnknownException;
+    ComponentProfile[] getProfiles( Type type ) throws TypeUnknownException;
 
    /**
     * Return a deployment profile for the supplied type and key.
@@ -130,7 +130,7 @@ public interface TypeRepository
     * @exception TypeUnknownException if the supplied type is unknown
     * @exception ProfileUnknownException if the supplied key is unknown
     */
-    DeploymentProfile getProfile( Type type, String key ) 
+    ComponentProfile getProfile( Type type, String key ) 
       throws TypeUnknownException, ProfileUnknownException;
 
 

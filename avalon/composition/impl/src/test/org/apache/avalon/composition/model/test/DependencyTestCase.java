@@ -3,7 +3,7 @@
 package org.apache.avalon.composition.model.test;
 
 import org.apache.avalon.composition.model.ContainmentModel;
-import org.apache.avalon.composition.model.DeploymentModel;
+import org.apache.avalon.composition.model.ComponentModel;
 import org.apache.avalon.composition.model.DependencyModel;
 import org.apache.avalon.composition.model.AbstractTestCase;
 
@@ -27,11 +27,11 @@ public class DependencyTestCase extends AbstractTestCase
     */
     public void testStandardDependencyModel() throws Exception
     {
-        DeploymentModel a = (DeploymentModel) m_model.getModel( "test-a" );
+        ComponentModel a = (ComponentModel) m_model.getModel( "test-a" );
 
         ContainmentModel fred = (ContainmentModel) m_model.getModel( "fred" );
-        DeploymentModel b = (DeploymentModel) fred.getModel( "test-b" );
-        DeploymentModel c = (DeploymentModel) fred.getModel( "test-c" );
+        ComponentModel b = (ComponentModel) fred.getModel( "test-b" );
+        ComponentModel c = (ComponentModel) fred.getModel( "test-c" );
 
         if( c == null )
         {

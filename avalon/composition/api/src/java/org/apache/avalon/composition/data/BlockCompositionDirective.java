@@ -56,9 +56,9 @@ package org.apache.avalon.composition.data;
  * a container.
  *
  * @author <a href="mailto:mcconnell@avalon.apache.org">Stephen McConnell</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:31:01 $
+ * @version $Revision: 1.2 $ $Date: 2004/01/13 11:41:23 $
  */
-public class BlockCompositionDirective extends Profile
+public class BlockCompositionDirective extends DeploymentProfile
 {
     /**
      * The version identifier.

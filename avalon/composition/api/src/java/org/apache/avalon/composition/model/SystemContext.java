@@ -61,12 +61,11 @@ import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.parameters.Parameters;
 
-
 /**
  * Defintion of a system context that exposes a system wide set of parameters.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/01/04 12:05:21 $
+ * @version $Revision: 1.3 $ $Date: 2004/01/13 11:41:24 $
  */
 public interface SystemContext extends Context
 {

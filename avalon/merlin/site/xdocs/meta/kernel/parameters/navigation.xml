@@ -68,7 +68,7 @@
       <item name="Merlin System" href="/merlin/index.html"/>
       <item name="Meta Model" href="/meta/index.html">
         <item name="kernel.xml" href="/meta/kernel/index.html">
-          <item name="logging" href="/meta/kernel/logging.html"/>
+          <item name="logging" href="/meta/kernel/logging/index.html"/>
           <item name="repository" href="/meta/kernel/repository/index.html"/>
           <item name="parameters" href="/meta/kernel/parameters/index.html">
             <item name="parameter" href="/meta/kernel/parameters/parameter.html"/>

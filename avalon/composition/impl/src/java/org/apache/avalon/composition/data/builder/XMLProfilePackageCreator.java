@@ -55,7 +55,7 @@ import java.util.ArrayList;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.composition.data.MetaDataException;
-import org.apache.avalon.composition.data.DeploymentProfile;
+import org.apache.avalon.composition.data.ComponentProfile;
 import org.apache.avalon.composition.data.ProfilePackage;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.excalibur.configuration.ConfigurationUtil;
@@ -63,15 +63,15 @@ import org.apache.excalibur.configuration.ConfigurationUtil;
 /**
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:31:42 $
+ * @version $Revision: 1.2 $ $Date: 2004/01/13 11:41:25 $
  */
 public class XMLProfilePackageCreator
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( XMLProfilePackageCreator.class );
 
-    private static final XMLDeploymentProfileCreator DEPLOYMENT_CREATOR = 
-      new XMLDeploymentProfileCreator();
+    private static final XMLComponentProfileCreator DEPLOYMENT_CREATOR = 
+      new XMLComponentProfileCreator();
 
    /**
     * Creation of a {@link ProfilePackage} from an XML configuration.
@@ -94,7 +94,7 @@ public class XMLProfilePackageCreator
                 try
                 {
                     list.add( 
-                      DEPLOYMENT_CREATOR.createDeploymentProfile( 
+                      DEPLOYMENT_CREATOR.createComponentProfile( 
                         base, classname, child ) );
                 }
                 catch( Throwable e )
@@ -115,6 +115,6 @@ public class XMLProfilePackageCreator
         }
 
         return new ProfilePackage( 
-          (DeploymentProfile[]) list.toArray( new DeploymentProfile[0] ) );
+          (ComponentProfile[]) list.toArray( new ComponentProfile[0] ) );
     }
 }

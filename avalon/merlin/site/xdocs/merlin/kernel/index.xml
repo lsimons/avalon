@@ -66,7 +66,7 @@
       <strong>Container</strong>. A kernel manages <em>resources</em> (Objects)
       whereas a container manages <em>services</em>. Merlin provides a default 
       kernel that manages a container hierarchy: <a 
-      href="../../api/org/apache/avalon/merlin/kernel/impl/DefaultKernel.html">
+      href="../../api/org/apache/avalon/merlin/impl/DefaultKernel.html">
       DefaultKernel</a>. It handles overall management, including startup, 
       shutdown, extension management, and other system-wide tasks.
     </p>

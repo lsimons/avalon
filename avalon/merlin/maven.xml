@@ -1,11 +1,36 @@
-<project default="merlin:install" xmlns:maven="jelly:maven" xmlns:j="jelly:core" xmlns:util="jelly:util" xmlns:ant="jelly:ant">
+<project default="avalon:install" xmlns:maven="jelly:maven" xmlns:j="jelly:core" xmlns:util="jelly:util" xmlns:ant="jelly:ant">
 
-  <maven:snapshot project="${pom}"/>
+  <!--
+  ==============================================================================
+  dependent properties 
+  ==============================================================================
+  -->
 
-  <ant:property name="merlin.cli.jar" value="merlin-cli-3.2.2.jar"/>
-  <ant:property name="avalon.plugin.jar" value="avalon-plugin-1.0.jar"/>
-  <ant:property name="meta.plugin.jar" value="avalon-meta-plugin-1.3.1.jar"/>
-  <ant:property name="merlin.plugin.jar" value="merlin-plugin-3.2.3.jar"/>
+  <ant:property name="avalon.plugin.version" value="1.0"/>
+  <ant:property name="meta.plugin.version" value="1.3.1"/>
+  <ant:property name="merlin.cli.version" value="3.3-SNAPSHOT"/>
+  <ant:property name="merlin.plugin.version" value="3.3-SNAPSHOT"/>
+
+  <!--
+  ==============================================================================
+  derived properties 
+  ==============================================================================
+  -->
+
+  <ant:property name="avalon.plugin.jar" 
+     value="avalon-plugin-${avalon.plugin.version}.jar"/>
+  <ant:property name="meta.plugin.jar" 
+     value="avalon-meta-plugin-${meta.plugin.version}.jar"/>
+  <ant:property name="merlin.cli.jar" 
+     value="merlin-cli-${merlin.cli.version}.jar"/>
+  <ant:property name="merlin.plugin.jar" 
+     value="merlin-plugin-${merlin.plugin.version}.jar"/>
+
+  <!--
+  ==============================================================================
+  structural properties 
+  ==============================================================================
+  -->
 
   <ant:property file="project.properties"/>
   <ant:property name="maven.docs.src" value="${basedir}/platform/xdocs"/>
@@ -19,10 +44,12 @@
   <ant:property name="maven.license.licenseFile" value="${basedir}/LICENSE.txt"/>
   <ant:property name="maven.javadoc.stylesheet" 
     value="${basedir}/platform/src/etc/stylesheet.css"/>
+  <maven:snapshot project="${pom}"/>
 
   <!--
-  Get the MERLIN_HOME environment variable.  If its not declared then
-  default to ${user.home}/.merlin as the install directory.
+  ==============================================================================
+  resolve merlin home environment variables 
+  ==============================================================================
   -->
 
   <ant:property environment="env"/>
@@ -32,104 +59,177 @@
   </j:if>
   <ant:property name="merlin.home" value="${user.home}/.merlin"/>
 
-  <goal name="merlin:update">
-    <attainGoal name="merlin:install"/>
-    <attainGoal name="merlin:replicate"/>
+  <!--
+  ==============================================================================
+  build the merlin distribution 
+  ==============================================================================
+  -->
+
+  <goal name="avalon:dist">
+    <attainGoal name="avalon:install"/>
+    <attainGoal name="avalon:site"/>
+    <attainGoal name="avalon:tutorials"/>
+    <attainGoal name="avalon:package"/>
   </goal>
 
-  <goal name="merlin:dist">
-    <attainGoal name="merlin:install"/>
-    <attainGoal name="merlin:tutorials"/>
-    <attainGoal name="merlin:site"/>
-    <attainGoal name="merlin:package"/>
-  </goal>
+  <!--
+  ==============================================================================
+  build the merlin system 
+  ==============================================================================
+  -->
 
-  <goal name="merlin:replicate">
-    <mkdir dir="${merlin.home}"/>
-    <copy toDir="${merlin.home}">
-      <fileset dir="${merlin.build.inst.dir}"/>
-    </copy>
-  </goal>
+  <goal name="avalon:build" description="Build Merlin."
+    prereqs="avalon:build-main,avalon:build-kernel,avalon:build-plugin"/>
 
-  <goal name="merlin:validate" description="Validate that the tutorial targets are buildable." >
-    <maven:reactor
-      basedir="${basedir}"
-      includes="platform/tutorials/**/project.xml"
-      excludes="platform/tutorials/project.xml,**/target/**"
-      goals=""
-      banner="Validate:"
-      ignoreFailures="false" />
-  </goal>
-
-  <goal name="merlin:demo" description="Execute the demo targets." >
-    <maven:reactor
-      basedir="${basedir}"
-      includes="platform/tutorials/**/project.xml"
-      excludes="**/target/**"
-      goals="demo"
-      banner="Demo:"
-      ignoreFailures="false" />
-  </goal>
-
-  <goal name="merlin:build" description="Build Merlin.">
+  <goal name="avalon:build-main" description="Build Merlin.">
     <maven:reactor basedir="${basedir}"
-      includes="**/project.xml"
-      excludes="target/**,platform/**,kernel/plugin/**,project.xml,merlin-extensions/**,kernel/cli/**,kernel/unit/**,kernel/servlet/**"
+      includes="extension/**/project.xml,activation/**/project.xml,composition/**/project.xml,kernel/api/project.xml,kernel/impl/project.xml"
+      banner="Installing:"
+      goals="jar:install"
+      ignoreFailures="false" 
+      postProcessing="true" />
+    <j:forEach var="child" items="${reactorProjects}">
+        <ant:copy todir="${maven.build.dir}/merlin/system/${child.groupId}/jars" 
+             preserveLastModified="true">
+          <ant:fileset dir="${child.file.parentFile}/target">
+            <ant:include 
+              name="${child.artifactId}-${child.currentVersion}.jar"/>
+            <ant:include 
+              name="${child.artifactId}-${child.currentVersion}.jar.meta"/>
+          </ant:fileset>
+        </ant:copy>
+        <j:set var="deps" value="${child.dependencies}"/>
+        <j:forEach var="dep" items="${deps}">
+          <ant:copy todir="${maven.build.dir}/merlin/system"
+              preserveLastModified="true">
+            <ant:fileset dir="${maven.repo.local}">
+              <ant:include name="${dep.getArtifactDirectory()}/${dep.getType()}s/${dep.getArtifact()}"/>
+            </ant:fileset>
+          </ant:copy>
+        </j:forEach>
+    </j:forEach>
+  </goal>
+
+  <goal name="avalon:build-kernel">
+    <maven:reactor basedir="${basedir}"
+      includes="kernel/unit/project.xml,kernel/cli/project.xml,kernel/servlet/project.xml"
       goals="jar:install"
       banner="Installing:"
-      ignoreFailures="false" />
-    <maven:reactor basedir="${basedir}"
-      includes="kernel/unit/project.xml,kernel/cli/project.xml,kernel/plugin/project.xml,kernel/servlet/project.xml"
-      goals=""
-      banner="Installing:"
-      ignoreFailures="false" />
+      ignoreFailures="false" 
+      postProcessing="true" />
+    <j:forEach var="child" items="${reactorProjects}">
+      <j:if test="${child.artifactId == 'merlin-cli'}">
+        <ant:copy todir="${maven.build.dir}/merlin/bin/lib" 
+             preserveLastModified="true">
+          <ant:fileset dir="${child.file.parentFile}/target">
+            <ant:include 
+              name="${child.artifactId}-${child.currentVersion}.jar"/>
+          </ant:fileset>
+        </ant:copy>
+      </j:if>
+    </j:forEach>
   </goal>
 
-  <goal name="merlin:install" 
-    description="Build the Merlin distribution." prereqs="merlin:build,xinstall"/>
+  <goal name="avalon:build-plugin">
+    <maven:reactor basedir="${basedir}"
+      includes="kernel/plugin/project.xml"
+      goals="plugin:install"
+      banner="Installing:"
+      ignoreFailures="false" 
+      postProcessing="true" />
+    <j:forEach var="child" items="${reactorProjects}">
+        <ant:copy todir="${maven.build.dir}/merlin/plugins/" 
+             preserveLastModified="true">
+          <ant:fileset dir="${child.file.parentFile}/target">
+            <ant:include 
+              name="${child.artifactId}-${child.currentVersion}.jar"/>
+          </ant:fileset>
+        </ant:copy>
+    </j:forEach>
+    <ant:copy file="${maven.plugin.dir}/${meta.plugin.jar}" 
+       toDir="${maven.build.dir}/merlin/plugins"/>
+    <ant:copy file="${maven.plugin.dir}/${avalon.plugin.jar}" 
+       toDir="${maven.build.dir}/merlin/plugins"/>
+  </goal>
 
-  <goal name="xinstall">
+
+  <!--
+  ==============================================================================
+  build the merlin installation 
+  ==============================================================================
+  -->
+
+  <goal name="avalon:install" 
+    description="Build the Merlin distribution." prereqs="avalon:build,avalon:xinstall"/>
+
+  <goal name="avalon:xinstall">
+
     <!-- prepare structure -->
-    <ant:mkdir dir="${merlin.build.inst.dir}"/>
-    <!--<ant:mkdir dir="${merlin.build.inst.dir}/ext"/>-->
-    <ant:mkdir dir="${merlin.build.inst.dir}/bin/lib"/>
 
     <!-- import bootstrap jar -->
+    <!--
+    <ant:mkdir dir="${merlin.build.inst.dir}"/>
+    <ant:mkdir dir="${merlin.build.inst.dir}/bin/lib"/>
     <ant:copy 
        file="${basedir}/kernel/cli/target/${merlin.cli.jar}" 
        toDir="${merlin.build.inst.dir}/bin/lib"/>
-
+    -->
     <!-- import subproject jar files -->
-    <maven:reactor
+    <!--<maven:reactor
       basedir="${basedir}"
       includes="platform.xml"
       goals="ximport"
       banner="Resolving dependencies:"
-      ignoreFailures="false"/>
+      ignoreFailures="false"/>-->
 
-    <!-- create a directory containing the plugins -->
-    <ant:copy 
-       file="${merlin.build.inst.dir}/system/avalon-meta/jars/${meta.plugin.jar}" 
-       toDir="${maven.build.dir}/plugins"/>
-    <delete file="${merlin.build.inst.dir}/system/avalon-meta/jars/${meta.plugin.jar}"/>
-    <ant:mkdir dir="${maven.build.dir}/plugins"/>
-    <ant:copy toDir="${maven.build.dir}/plugins">
+    <!--
+    <ant:copy toDir="${maven.build.dir}/merlin/plugins">
       <fileset dir="${basedir}/kernel/plugin/target">
         <include name="${merlin.plugin.jar}"/>
       </fileset>
+    </ant:copy>
+    -->
+
+    <!-- add supporting resources -->
+    <ant:copy toDir="${merlin.build.inst.dir}">
+      <fileset dir="${basedir}">
+        <include name="INSTALL.TXT"/>
+      </fileset>
+      <filterset>
+        <filter token="MERLIN_PLUGIN_JAR" value="${merlin.plugin.jar}"/>
+        <filter token="META_PLUGIN_JAR" value="${meta.plugin.jar}"/>
+        <filter token="VERSION" value="${pom.currentVersion}"/>
+      </filterset>
     </ant:copy>
 
     <!-- add supporting resources -->
     <ant:copy toDir="${merlin.build.inst.dir}">
       <fileset dir="${basedir}/platform/src">
         <include name="bin/**/*"/>
+        <exclude name="bin/**/*.jar"/>
+        <exclude name="bin/**/*.exe"/>
+        <exclude name="bin/**/*.dll"/>
+      </fileset>
+      <fileset dir="${basedir}">
+        <include name="README.TXT"/>
+      </fileset>
+      <filterset>
+        <filter token="VERSION" value="${pom.currentVersion}"/>
+        <filter token="MERLIN_CLI_JAR" value="${merlin.cli.jar}"/>
+        <filter token="MERLIN_CLI_VERSION" value="${merlin.cli.version}"/>
+      </filterset>
+    </ant:copy>
+
+    <ant:copy toDir="${merlin.build.inst.dir}">
+      <fileset dir="${basedir}/platform/src">
         <include name="config/**/*"/>
         <include name="system/**/*"/>
+        <include name="bin/**/*.jar"/>
+        <include name="bin/**/*.exe"/>
+        <include name="bin/**/*.dll"/>
       </fileset>
       <fileset dir="${basedir}">
         <include name="LICENSE.txt"/>
-        <include name="README.TXT"/>
-        <include name="INSTALL.TXT"/>
       </fileset>
     </ant:copy>
 
@@ -166,39 +266,40 @@
 
   </goal>
 
-  <goal name="merlin:plugin">
-    <maven:reactor
-      basedir="${basedir}"
-      includes="kernel/plugin/project.xml"
-      goals="plugin:install"
-      banner="Installing plugin:"
-      ignoreFailures="false"/>
-  </goal>
+  <!--
+  ==============================================================================
+  prepare the merlin installation package
+  ==============================================================================
+  -->
 
-  <goal name="merlin:package">
+  <goal name="avalon:package">
 
-    <j:set var="package.name" value="${maven.final.name}-dist"/>
     <!--
+    <j:set var="package.name" value="${maven.final.name}-dist"/>
+    -->
     <maven:snapshot project="${pom}"/>
     <j:set var="timestamp" value="${snapshotSignature.substring(7,15)}"/>
     <j:set var="package.name" value="${maven.final.name}-${timestamp}"/>
-    -->
 
     <ant:echo>Building distribution: ${package.name}</ant:echo>
     <ant:zip zipfile="${maven.build.dir}/${package.name}.zip">
       <zipfileset dir="${merlin.build.inst.dir}" prefix="merlin"/>
-      <zipfileset dir="${maven.build.dir}/plugins" prefix="plugins"/>
       <fileset dir="${basedir}">
         <include name="INSTALL.TXT"/>
+      </fileset>
+      <fileset dir="${maven.build.dir}">
+        <include name="docs/**"/>
       </fileset>
     </ant:zip>
     <checksum file="${maven.build.dir}/${package.name}.zip"/>
 
     <ant:tar tarfile="${maven.build.dir}/${package.name}.tar">
       <tarfileset dir="${merlin.build.inst.dir}" prefix="merlin"/>
-      <tarfileset dir="${maven.build.dir}/plugins" prefix="plugins"/>
       <fileset dir="${basedir}">
         <include name="INSTALL.TXT"/>
+      </fileset>
+      <fileset dir="${maven.build.dir}">
+        <include name="docs/**"/>
       </fileset>
     </ant:tar>
     <ant:gzip 
@@ -207,25 +308,8 @@
     <ant:delete file="${maven.build.dir}/${package.name}.tar"/>
     <checksum file="${maven.build.dir}/${package.name}.tar.gz"/>
 
-    <!-- <j:set var="docs.name" value="${maven.final.name}-docs-${timestamp}"/>-->
-    <j:set var="docs.name" value="${package.name}-docs"/>
-
-    <ant:echo>Building doc kit: ${docs.name}</ant:echo>
-    <ant:zip zipfile="${maven.build.dir}/${docs.name}.zip">
-      <zipfileset dir="${maven.build.dir}/docs" prefix="docs"/>
-    </ant:zip>
-    <checksum file="${maven.build.dir}/${docs.name}.zip"/>
-    <ant:tar tarfile="${maven.build.dir}/${docs.name}.tar">
-      <tarfileset dir="${maven.build.dir}/docs" prefix="docs"/>
-    </ant:tar>
-    <ant:gzip 
-      zipfile="${maven.build.dir}/${docs.name}.tar.gz"
-      src="${maven.build.dir}/${docs.name}.tar"/>
-    <ant:delete file="${maven.build.dir}/${docs.name}.tar"/>
-    <checksum file="${maven.build.dir}/${docs.name}.tar.gz"/>
-
-    <!--<j:set var="tutorial.name" value="${maven.final.name}-tutorial-${timestamp}"/>-->
-    <j:set var="tutorial.name" value="${maven.final.name}-tutorial"/>
+    <j:set var="tutorial.name" value="${maven.final.name}-tutorial-${timestamp}"/>
+    <!--<j:set var="tutorial.name" value="${maven.final.name}-tutorial"/>-->
 
     <ant:echo>Building tutorial kit: ${tutorial.name}</ant:echo>
     <ant:zip zipfile="${maven.build.dir}/${tutorial.name}.zip">
@@ -244,60 +328,27 @@
   </goal>
 
   <!--
-  Import the jar files declared as dependecies from platform.xml.  This
-  includes all of the external jar files needed to run merlin.  Dependent 
-  jar files are copied from the user's local repository to the merlin 
-  install repository.
+  ==============================================================================
+  Generation of the documentation for project 
+  ==============================================================================
   -->
-  <goal name="ximport">
-    <j:forEach var="dep" items="${pom.dependencies}">
 
-      <j:if test="${dep.getId() != 'junit:junit'}">
-        <mkdir dir="${maven.build.dir}/${merlin.build.inst}/system/${dep.artifactDirectory}/${dep.type}s"/>
-        <copy 
-          todir="${maven.build.dir}/${merlin.build.inst}/system/${dep.artifactDirectory}/${dep.type}s/"
-          file="${maven.repo.local}/${dep.artifactDirectory}/${dep.type}s/${dep.artifact}"/>
-
-        <util:available file="${maven.repo.local}/${dep.artifactDirectory}/${dep.type}s/${dep.artifact}.meta">
-          <copy failonerror="false"
-            todir="${maven.build.dir}/${merlin.build.inst}/system/${dep.artifactDirectory}/${dep.type}s/"
-            file="${maven.repo.local}/${dep.artifactDirectory}/${dep.type}s/${dep.artifact}.meta"/>
-        </util:available>
-
-      </j:if>
-    </j:forEach>
-  </goal>
-
-  <!--
-  Generation of the documentation for the entire Merlin project including the 
-  related subprojects.
-  NOTE: merlin site generation is broken due a bug in Maven RC1
-  Workaround is to download docs from 
-  http://www.apache.org/dist/avalon/merlin/binaries/
-  -->
-  <goal name="merlin:site"
-      description="Build the Merlin site" prereqs="license">
-    <maven:reactor basedir="${basedir}"
+  <goal name="avalon:site" 
+      description="Build the Merlin site" prereqs="license,xjavadoc,site">
+    <!--<maven:reactor basedir="${basedir}"
       includes="platform.xml"
-      goals="xjavadoc,site"
+      goals="site"
       banner="Building site:"
-      ignoreFailures="false"/>
+      ignoreFailures="false"/>-->
   </goal>
 
   <!--
-  Build the tuturials distribution.
+  ==============================================================================
+  replicate the tutorial sources to the distribution directory
+  ==============================================================================
   -->
-  <goal name="merlin:tutorials"
-    description="Build tutorials.">
-    <maven:reactor
-      basedir="${basedir}"
-      includes="platform.xml"
-      goals="xtutorials"
-      banner="Building tutorials:"
-      ignoreFailures="false"/>
-  </goal>
 
-  <goal name="xtutorials">
+  <goal name="avalon:tutorials">
     <ant:mkdir dir="${basedir}/target/tutorials"/>
     <ant:copy todir="${basedir}/target/tutorials">
       <fileset dir="${basedir}/platform/tutorials">
@@ -319,18 +370,49 @@
     </ant:copy>
   </goal>
 
+  <!--
+  ==============================================================================
+  build the consolidated javadoc
+  ==============================================================================
+  -->
+
   <goal name="xjavadoc">
-    <ant:mkdir dir="${maven.build.dir}/docs/api" />
+
+    <maven:reactor basedir="${basedir}"
+      includes="activation/**/project.xml,composition/**/project.xml,extension/**/project.xml,kernel/**/project.xml"
+      excludes="**/target/**"
+      banner="Site Prep:"
+      ignoreFailures="false"
+      postProcessing="true" />
+
+    <ant:path id="template.classpath">
+      <j:forEach var="child" items="${reactorProjects}">
+        <j:set var="deps" value="${child.dependencies}"/>
+        <j:forEach var="dep" items="${deps}">
+          <ant:pathelement 
+            path="${maven.repo.local}/${dep.getArtifactDirectory()}/jars/${dep.getArtifact()}"/>
+        </j:forEach>
+      </j:forEach>
+    </ant:path>
+
+    <ant:mkdir dir="${merlin.build.inst.dir}/docs/api" />
     <ant:property name="copyright"
       value="Copyright &amp;copy; ${year} ${pom.organization.name}. All Rights Reserved." />
     <ant:property name="title" value="${pom.name} ${pom.currentVersion} API"/>
-    <ant:javadoc destdir="${maven.build.dir}/docs/api" 
-	doctitle="&lt;h1&gt;Merlin Service Management API&lt;/h1&gt;" 
+
+    <ant:javadoc destdir="${merlin.build.inst.dir}/docs/api" 
+	doctitle="&lt;h1&gt;${title}&lt;/h1&gt;" 
       noindex="false" author="true" use="true"
 	windowtitle="${title}" 
       bottom="${copyright}"
       additionalparam="-breakiterator -J-Xmx128m "
       packagenames="*,org.*">
+        <classpath>
+          <path refid="template.classpath"/>
+	  </classpath>
+        <j:forEach var="child" items="${reactorProjects}">
+          <sourcepath path="${child.file.parentFile}/src/java"/>
+        </j:forEach>
         <j:forEach var="packageGroup" items="${pom.packageGroups}">
           <group title="${packageGroup.title}" packages="${packageGroup.packages}"/>
         </j:forEach>
@@ -355,18 +437,75 @@
 	  <link href="${avalon.repository.link}" />
 	  <link href="${avalon.util.link}" />
 	  <link href="${avalon.logkit.link}" />
-	  <link href="${avalon.lifecycle.link}" />
+	  <!--<link href="${avalon.lifecycle.link}" />-->
 	  <link href="${excalibur.configuration.link}" />
     </ant:javadoc>
   </goal>
 
   <!--
   ==============================================================================
-  utilities
+  veriify the the tutorials are buildable
   ==============================================================================
   -->
 
-  <goal name="merlin:clean" prereqs="clean">
+  <goal name="merlin:validate" 
+       description="Validate that the tutorial targets are buildable." >
+    <maven:reactor
+      basedir="${basedir}"
+      includes="platform/tutorials/**/project.xml"
+      excludes="platform/tutorials/project.xml,**/target/**"
+      goals=""
+      banner="Validate:"
+      ignoreFailures="false" />
+  </goal>
+
+  <!--
+  ==============================================================================
+  veriify the the tutorials are executable
+  ==============================================================================
+  -->
+
+  <goal name="merlin:demo" description="Execute the demo targets." >
+    <maven:reactor
+      basedir="${basedir}"
+      includes="platform/tutorials/**/project.xml"
+      excludes="**/target/**"
+      goals="demo"
+      banner="Demo:"
+      ignoreFailures="false" />
+  </goal>
+
+  <!--
+  ==============================================================================
+  update the runtime installation 
+  ==============================================================================
+  -->
+
+  <goal name="avalon:update">
+    <attainGoal name="avalon:install"/>
+    <attainGoal name="avalon:replicate"/>
+  </goal>
+
+  <!--
+  ==============================================================================
+  update a local merlin installation 
+  ==============================================================================
+  -->
+
+  <goal name="avalon:replicate">
+    <mkdir dir="${merlin.home}"/>
+    <copy toDir="${merlin.home}">
+      <fileset dir="${merlin.build.inst.dir}"/>
+    </copy>
+  </goal>
+
+  <!--
+  ==============================================================================
+  utility to clean the subprojects and local target
+  ==============================================================================
+  -->
+
+  <goal name="avalon:clean" prereqs="clean">
     <maven:reactor
       basedir="${basedir}"
       includes="**/project.xml"
@@ -375,16 +514,5 @@
       banner="Cleaning subproject:"
       ignoreFailures="true"/>
   </goal>
-
-  <goal name="avalon:update" prereqs="merlin:update"/>
-  <goal name="avalon:build" prereqs="merlin:install"/>
-  <goal name="avalon:dist" prereqs="merlin:dist"/>
-  <goal name="avalon:clean" prereqs="merlin:clean"/>
-  <goal name="avalon:site" prereqs="merlin:site"/>
-
-  <goal name="merlin-clean" prereqs="merlin:clean"/>
-  <goal name="merlin-dist" prereqs="avalon:dist"/>
-  <goal name="merlin-site" prereqs="merlin:site"/>
-  <goal name="merlin-libs" prereqs="merlin:update"/>
 
 </project>

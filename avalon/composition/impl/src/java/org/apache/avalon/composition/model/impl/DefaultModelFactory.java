@@ -59,8 +59,8 @@ import org.apache.avalon.composition.model.ClassLoaderModel;
 import org.apache.avalon.composition.model.ClassLoaderContext;
 import org.apache.avalon.composition.model.ContainmentModel;
 import org.apache.avalon.composition.model.ContainmentContext;
-import org.apache.avalon.composition.model.DeploymentContext;
-import org.apache.avalon.composition.model.DeploymentModel;
+import org.apache.avalon.composition.model.ComponentContext;
+import org.apache.avalon.composition.model.ComponentModel;
 import org.apache.avalon.composition.model.ModelFactory;
 import org.apache.avalon.composition.model.ModelException;
 import org.apache.avalon.composition.model.SystemContext;
@@ -80,7 +80,7 @@ import org.apache.avalon.composition.data.builder.XMLContainmentProfileCreator;
  * A factory enabling the establishment of new composition model instances.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2003/10/28 20:21:00 $
+ * @version $Revision: 1.4 $ $Date: 2004/01/13 11:41:26 $
  */
 public class DefaultModelFactory extends AbstractLogEnabled 
   implements ModelFactory
@@ -244,7 +244,7 @@ public class DefaultModelFactory extends AbstractLogEnabled
               new DefaultClassLoaderModel( classLoaderContext );
 
             return new DefaultContainmentContext( 
-                logger, m_system, classLoaderModel, profile );
+                logger, m_system, classLoaderModel, null, null, profile );
         }
         catch( Throwable e )
         {
@@ -278,9 +278,9 @@ public class DefaultModelFactory extends AbstractLogEnabled
     * @param context a potentially foreign deployment context
     * @return the deployment model
     */
-    public DeploymentModel createDeploymentModel( DeploymentContext context )
+    public ComponentModel createComponentModel( ComponentContext context )
       throws ModelException
     {
-        return new DefaultDeploymentModel( context );
+        return new DefaultComponentModel( context );
     }
 }

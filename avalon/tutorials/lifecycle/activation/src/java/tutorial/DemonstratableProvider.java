@@ -51,7 +51,7 @@
 package tutorial;
 
 import org.apache.avalon.activation.lifecycle.LifecycleCreateExtension;
-import org.apache.avalon.composition.model.DeploymentModel;
+import org.apache.avalon.composition.model.ComponentModel;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.context.Context;
@@ -81,7 +81,7 @@ public class DemonstratableProvider extends AbstractLogEnabled
      * @param object the object under deployment
      * @exception if a deployment error occurs
      */
-     public void create( DeploymentModel model, StageDescriptor stage, Object object )
+     public void create( ComponentModel model, StageDescriptor stage, Object object )
        throws Exception
      {
          getLogger().info( "invoking create on target: " + model );

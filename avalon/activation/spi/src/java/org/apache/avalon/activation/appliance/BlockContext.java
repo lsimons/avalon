@@ -52,21 +52,16 @@ package org.apache.avalon.activation.appliance;
 
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.composition.model.ContainmentModel;
+import org.apache.avalon.composition.model.SystemContext;
 
 /**
  * Context object applied to a new block.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2003/11/04 01:09:05 $
+ * @version $Revision: 1.3 $ $Date: 2004/01/13 11:41:23 $
  */
 public interface BlockContext
 {
-   /**
-    * Returns the logging channel to assign to the block.
-    * @return the logging channel
-    */
-    Logger getLogger();
-
    /**
     * Returns the containment model assigned to the block.
     * @return the containment model
@@ -74,27 +69,9 @@ public interface BlockContext
     ContainmentModel getContainmentModel();
 
    /**
-    * Returns the dependency graph assigned to the block.
-    * @return the dependency graph
-    */
-    DependencyGraph getDependencyGraph();
-
-   /**
-    * Returns the service context assigned to the block.
-    * @return the service context
-    */
-    ServiceContext getServiceContext();
-
-   /**
     * Returns the assigned engine.
     * @return the engine
     */
     Engine getEngine();
-
-   /**
-    * Returns the appliance repository assigned to the block.
-    * @return the appliance repository.
-    */
-    ApplianceRepository getApplianceRepository();
 
 }

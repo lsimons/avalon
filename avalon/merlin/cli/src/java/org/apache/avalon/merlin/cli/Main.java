@@ -92,7 +92,7 @@ import org.apache.commons.cli.Options;
  * Merlin command line handler.
  * 
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.11 $
+ * @version $Revision: 1.12 $
  */
 public class Main 
 {
@@ -305,7 +305,6 @@ public class Main
     * @param context the repository inital context
     * @param artifact the merlin implementation artifact
     * @param line the command line construct
-    * @param base the base working directory
     * @exception Exception if an error occurs
     */
     public Main( 

@@ -52,28 +52,28 @@ package org.apache.avalon.composition.event;
 
 import java.util.EventObject;
 
-import org.apache.avalon.composition.model.Model;
+import org.apache.avalon.composition.model.DeploymentModel;
 
 
 /**
  * A event object that descirbes a model related event.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.2 $ $Date: 2004/01/01 13:06:54 $
+ * @version $Revision: 1.3 $ $Date: 2004/01/13 11:41:24 $
  */
 public abstract class ModelEvent extends EventObject
 {
     /**
      * The source model.
      */
-    private final Model m_model;
+    private final DeploymentModel m_model;
 
     /**
      * Create a ModelEvent instance.
      *
      * @param model the model raising the event
      */
-    public ModelEvent( final Model model )
+    public ModelEvent( final DeploymentModel model )
     {
         super( model );
         if( null == model ) 
@@ -86,7 +86,7 @@ public abstract class ModelEvent extends EventObject
      *
      * @return the source model
      */
-    public Model getModel()
+    public DeploymentModel getModel()
     {
         return m_model;
     }

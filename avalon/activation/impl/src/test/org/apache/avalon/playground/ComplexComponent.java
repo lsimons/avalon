@@ -62,6 +62,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
+import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.playground.basic.BasicService;
 
 /**
@@ -141,8 +142,31 @@ public class ComplexComponent extends AbstractLogEnabled
         // lookup the primary service
         //
 
-        m_simple = (SimpleService) m_manager.lookup( "simple" );
-        m_basic = (BasicService) m_manager.lookup( "basic" );
+        try
+        {
+            getLogger().info( "here: " + System.identityHashCode( SimpleService.class ));
+            m_simple = (SimpleService) m_manager.lookup( "simple" );
+            getLogger().info( "there: " + System.identityHashCode( m_simple.getClass() ));
+            getLogger().info( m_simple.getClass().toString() );
+            getLogger().info( "simple: " + m_simple );
+        }
+        catch( ServiceException e )
+        {
+            System.out.println( "### " + e.toString() );
+            throw e;
+        }
+
+        try
+        {
+            m_basic = (BasicService) m_manager.lookup( "basic" );
+            getLogger().info( m_basic.getClass().toString() );
+            getLogger().info( "basic: " + m_basic );
+        }
+        catch( ServiceException e )
+        {
+            System.out.println( "### " + e.toString() );
+            throw e;
+        }
 
         Logger logger = getLogger().getChildLogger( "internal" );
         if( logger.isInfoEnabled() )

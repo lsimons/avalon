@@ -88,7 +88,7 @@
         <table>
           <tr><th>Name</th><th>Default</th><th>Description</th></tr>
           <tr>
-            <td>deployment-timeout</td>
+            <td>urn:avalon:composition.timeout</td>
             <td>5000</td>
             <td>
               The time in millisecond within which the deployment of any 
@@ -112,7 +112,7 @@
      <!-- Declaration that deployment should allow for 2500ms for 
           any component or container to start-up, before interrupting
           or failing.  -->
-     <parameter name="deployment-timeout" value="500" />
+     <parameter name="urn:avalon:composition.timeout" value="2500" />
    </parameters>
   </kernel>
 ]]></source>

@@ -50,148 +50,107 @@
 
 package org.apache.avalon.composition.model.impl;
 
-import java.io.File;
-import java.util.Map;
-import java.util.Hashtable;
-
-import org.apache.avalon.composition.model.SystemContext;
-import org.apache.avalon.composition.model.EntryModel;
-import org.apache.avalon.composition.model.ContainmentContext;
+import org.apache.avalon.composition.model.DependencyGraph;
 import org.apache.avalon.composition.model.DeploymentContext;
-import org.apache.avalon.composition.model.ModelRuntimeException;
-import org.apache.avalon.framework.context.DefaultContext;
-import org.apache.avalon.framework.context.ContextException;
-import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.avalon.composition.data.DeploymentProfile;
-import org.apache.avalon.meta.info.Type;
-import org.apache.avalon.meta.info.EntryDescriptor;
+import org.apache.avalon.composition.model.SystemContext;
 
+import org.apache.avalon.framework.context.DefaultContext;
+import org.apache.avalon.framework.logger.Logger;
+import org.apache.avalon.composition.data.Mode;
 
 /**
  * Default implementation of a deployment context.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/01/04 13:37:42 $
+ * @version $Revision: 1.4 $ $Date: 2004/01/13 11:41:26 $
  */
 public class DefaultDeploymentContext extends DefaultContext 
   implements DeploymentContext
 {
-    //==============================================================
-    // static
-    //==============================================================
-
-    private static final Resources REZ =
-            ResourceManager.getPackageResources( DefaultDeploymentContext.class );
-
-    //==============================================================
+    //---------------------------------------------------------
     // immutable state
-    //==============================================================
+    //---------------------------------------------------------
 
     private final String m_name;
-
-    private final ContainmentContext m_context;
-
-    private final DeploymentProfile m_profile;
-
-    private final Type m_type;
-
-    private final Class m_class;
-
-    private final File m_home;
-
-    private final File m_temp;
-
-    private final Logger m_logger;
-
     private final String m_partition;
+    private final Logger m_logger;
+    private final Mode m_mode;
+    private final DependencyGraph m_graph;
+    private final SystemContext m_system;
 
-   /**
-    * Map containing context entry models 
-    * keyed by entry key.
-    */
-    private final Map m_map = new Hashtable();
-
-    //==============================================================
+    //---------------------------------------------------------
     // constructor
-    //==============================================================
+    //---------------------------------------------------------
 
    /**
     * Creation of a new deployment context.
     *
     * @param logger the logging channel to assign
-    * @param name the deployment context name
-    * @param context the containment context in which this 
-    *     deployment context is scoped
-    * @param profile the deployment profile
-    * @param type the underlying component type
-    * @param clazz the compoent deployment class
-    * @param home the home working directory
-    * @param temp a temporary directory 
-    * @param partition the partition name 
+    * @param partition the assigned partition name
+    * @param name the profile name
+    * @param mode the deployment mode
+    * @param graph the parent deployment assembly graph
     */
     public DefaultDeploymentContext( 
-      Logger logger, String name, ContainmentContext context, 
-      DeploymentProfile profile, Type type, Class clazz, 
-      File home, File temp, String partition )
+      Logger logger, SystemContext system, String partition, String name, 
+      Mode mode, DependencyGraph graph )
     {
-        if( context == null )
-        {
-            throw new NullPointerException( "context" );
-        }
         if( logger == null )
         {
             throw new NullPointerException( "logger" );
         }
-        if( clazz == null )
+        if( name == null )
         {
-            throw new NullPointerException( "clazz" );
+            throw new NullPointerException( "name" );
         }
-        if( type == null )
+        if( mode == null )
         {
-            throw new NullPointerException( "type" );
+            throw new NullPointerException( "mode" );
         }
-        if( profile == null )
+        if( system == null )
         {
-            throw new NullPointerException( "profile" );
-        }
-        if( partition == null )
-        {
-            throw new NullPointerException( "partition" );
+            throw new NullPointerException( "system" );
         }
 
-        if( home.exists() && !home.isDirectory() )
+        m_graph = new DependencyGraph( graph );
+        if( graph != null )
         {
-            final String error = 
-              REZ.getString( "deployment.context.home.not-a-directory.error", home  );
-            throw new IllegalArgumentException( error );
-        }
-        if( temp.exists() && !temp.isDirectory() )
-        {
-            final String error = 
-              REZ.getString( "deployment.context.temp.not-a-directory.error", temp  );
-            throw new IllegalArgumentException( error );
+            graph.addChild( m_graph );
         }
 
-        m_name = name;
-        m_home = home;
-        m_temp = temp;
-        m_context = context;
-        m_type = type;
         m_logger = logger;
-        m_profile = profile;
+        m_system = system;
         m_partition = partition;
-        m_class = clazz;
+        m_name = name;
+        m_mode = mode;
 
     }
 
-    //==============================================================
-    // ContainmentContext
-    //==============================================================
+    //---------------------------------------------------------
+    // DeploymentContext
+    //---------------------------------------------------------
 
    /**
-    * Return the partition name that the component will execute within.
+    * Return the system context.
+    *
+    * @return the system context
+    */
+    public SystemContext getSystemContext()
+    {
+        return m_system;
+    }
+
+   /**
+    * Return the profile name.
+    * @return the name
+    */
+    public String getName()
+    {
+        return m_name;
+    }
+
+   /**
+    * Return the assigned partition name.
     *
     * @return the partition name
     */
@@ -201,58 +160,32 @@ public class DefaultDeploymentContext extends DefaultContext
     }
 
    /**
-    * Return the name that the component will execute under.
-    *
-    * @return the name
+    * Return the model fully qualified name.
+    * @return the fully qualified name
     */
-    public String getName()
+    public String getQualifiedName()
     {
-        return m_name;
+        if( null == getPartitionName() )
+        {
+            return SEPARATOR;
+        }
+        else
+        {
+            return getPartitionName() + getName();
+        }
     }
 
    /**
-    * Return the system context.
-    *
-    * @return the system context
+    * Return the mode of establishment.
+    * @return the mode
     */
-    public SystemContext getSystemContext()
+    public Mode getMode()
     {
-        return m_context.getSystemContext();
+        return m_mode;
     }
 
    /**
-    * Return the containment context.
-    *
-    * @return the containment context
-    */
-    public ContainmentContext getContainmentContext()
-    {
-        return m_context;
-    }
-
-   /**
-    * Return the working directory.
-    *
-    * @return the working directory
-    */
-    public File getHomeDirectory()
-    {
-        return m_home;
-    }
-
-   /**
-    * Return the temporary directory.
-    *
-    * @return the temporary directory
-    */
-    public File getTempDirectory()
-    {
-        return m_temp;
-    }
-
-   /**
-    * Return the logging channel.
-    *
+    * Return the assigned logger.
     * @return the logging channel
     */
     public Logger getLogger()
@@ -261,135 +194,13 @@ public class DefaultDeploymentContext extends DefaultContext
     }
 
    /**
-    * Return the deployment profile.
+    * Return the dependency graph used to construct 
+    * deployment and decommissioning sequences.
     *
-    * @return the profile
+    * @return the dependency graph
     */
-    public DeploymentProfile getProfile()
+    public DependencyGraph getDependencyGraph()
     {
-        return m_profile;
-    }
-
-   /**
-    * Return the component type.
-    *
-    * @return the type defintion
-    */
-    public Type getType()
-    {
-        return m_type;
-    }
-
-   /**
-    * Return the component class.
-    *
-    * @return the class
-    */
-    public Class getDeploymentClass()
-    {
-        return m_class;
-    }
-
-   /**
-    * Return the classloader for the component.
-    *
-    * @return the classloader
-    */
-    public ClassLoader getClassLoader()
-    {
-        return m_context.getClassLoader();
-    }
-
-   /**
-    * Add a context entry model to the deployment context.
-    * @param model the entry model
-    * @exception IllegalArgumentException if model key is unknown
-    */
-    public void register( EntryModel model )
-    {
-        final String key = model.getKey();
-        if( m_map.get( key ) == null )
-        {
-            m_map.put( key, model );
-        }
-        else
-        {
-            final String error = 
-              REZ.getString( "deployment.registration.override.error", key );
-            throw new IllegalArgumentException( error );
-        }
-    }
-
-   /**
-    * Get a context entry from the deployment context.
-    * @param alias the entry lookup key
-    * @return value the corresponding value
-    * @exception ContextException if the key is unknown
-    * @exception ModelRuntimeException if the key is unknown
-    */
-    public Object resolve( final String alias ) throws ContextException
-    {
-        if( alias == null ) throw new NullPointerException( "alias" );
-
-        String key = alias;
-        EntryDescriptor entry = 
-          getType().getContext().getEntry( alias );
-
-        if( entry != null )
-        {
-            key = entry.getKey();
-        }
-
-        if( key.startsWith( "urn:merlin:" ) )
-        {
-            return getSystemContext().get( key );
-        }
-        else if( key.equals( NAME_KEY ) )
-        {
-            return getName();
-        }
-        else if( key.equals( PARTITION_KEY ) )
-        {
-            return getPartitionName();
-        }
-        else if( key.equals( CLASSLOADER_KEY ) )
-        {
-            return getClassLoader();
-        }
-        else if( key.equals( HOME_KEY ) )
-        {
-            return getHomeDirectory();
-        }
-        else if( key.equals( TEMP_KEY ) )
-        {
-            return getTempDirectory();
-        }
-        else
-        {
-            Object object = m_map.get( key );
-            if( null != object )
-            {
-                final String classname = object.getClass().getName();
-                try
-                {
-                    return ((EntryModel)object).getValue();
-                }
-                catch( Throwable e )
-                {
-                    final String error = 
-                      REZ.getString( 
-                        "deployment.context.runtime-get", 
-                        key, classname );
-                    throw new ModelRuntimeException( error, e );
-                }
-            }
-            else
-            {
-                final String error = 
-                  REZ.getString( 
-                   "deployment.context.runtime-get", key );
-                throw new ModelRuntimeException( error );
-            }
-        }
+        return m_graph;
     }
 }

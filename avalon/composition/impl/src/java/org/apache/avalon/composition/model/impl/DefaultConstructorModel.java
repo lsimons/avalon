@@ -54,7 +54,7 @@ import java.lang.reflect.Constructor;
 import java.util.Map;
 
 import org.apache.avalon.composition.model.ModelException;
-import org.apache.avalon.composition.model.DeploymentContext;
+import org.apache.avalon.composition.model.ComponentContext;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.context.ContextException;
@@ -67,7 +67,7 @@ import org.apache.avalon.meta.info.EntryDescriptor;
  * Default implementation of a the context entry constructor model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2003/10/28 20:21:00 $
+ * @version $Revision: 1.3 $ $Date: 2004/01/13 11:41:25 $
  */
 public class DefaultConstructorModel extends DefaultEntryModel
 {
@@ -86,7 +86,7 @@ public class DefaultConstructorModel extends DefaultEntryModel
 
     private final EntryDescriptor m_descriptor;
 
-    private final DeploymentContext m_context;
+    private final ComponentContext m_context;
 
     private final Map m_map;
 
@@ -110,7 +110,7 @@ public class DefaultConstructorModel extends DefaultEntryModel
     */
     public DefaultConstructorModel( 
       EntryDescriptor descriptor, ConstructorDirective directive, 
-      DeploymentContext context, Map map ) throws ModelException
+      ComponentContext context, Map map ) throws ModelException
     {
         super( descriptor );
 

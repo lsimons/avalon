@@ -56,7 +56,7 @@ import java.lang.reflect.Constructor;
 
 import org.apache.avalon.composition.model.ContextModel;
 import org.apache.avalon.composition.model.ModelException;
-import org.apache.avalon.composition.model.DeploymentContext;
+import org.apache.avalon.composition.model.ComponentContext;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.context.Context;
@@ -75,9 +75,9 @@ import org.apache.avalon.composition.data.ConstructorDirective;
  * a fully qualifed context can be established.</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2004/01/04 13:37:42 $
+ * @version $Revision: 1.5 $ $Date: 2004/01/13 11:41:26 $
  */
-public class DefaultContextModel extends AbstractLogEnabled implements ContextModel
+public class DefaultContextModel extends DefaultDependent implements ContextModel
 {
     //==============================================================
     // static
@@ -90,7 +90,8 @@ public class DefaultContextModel extends AbstractLogEnabled implements ContextMo
      * The default context implementation class to be used if
      * no context class is defined.
      */
-    public static final Class DEFAULT_CONTEXT_CLASS = DefaultContext.class;
+    public static final Class DEFAULT_CONTEXT_CLASS = 
+      DefaultContext.class;
 
     //==============================================================
     // immutable state
@@ -100,7 +101,7 @@ public class DefaultContextModel extends AbstractLogEnabled implements ContextMo
 
     private final ContextDirective m_directive;
 
-    private final DeploymentContext m_context;
+    private final ComponentContext m_context;
 
     private final Class m_strategy;
 
@@ -126,19 +127,20 @@ public class DefaultContextModel extends AbstractLogEnabled implements ContextMo
     */
     public DefaultContextModel( 
       Logger logger, ContextDescriptor descriptor, 
-      ContextDirective directive, DeploymentContext context )
+      ContextDirective directive, ComponentContext context )
       throws ModelException
     {
-        if( null == logger ) 
-          throw new NullPointerException( "logger" );
+        super( logger );
 
-        if( null == descriptor ) 
-          throw new NullPointerException( "descriptor" );
+        if( null == descriptor )
+        {
+            throw new NullPointerException( "descriptor" );
+        }
 
         if( null == context ) 
-          throw new NullPointerException( "context" );
-
-        enableLogging( logger );
+        {
+            throw new NullPointerException( "context" );
+        }
 
         m_descriptor = descriptor;
         m_directive = directive;
@@ -176,11 +178,12 @@ public class DefaultContextModel extends AbstractLogEnabled implements ContextMo
                     }
                 }
             }
-            else if( key.startsWith( "urn:merlin:" ) )
+            else if( key.startsWith( "urn:composition:" ) )
             {
                 try
                 {
-                    Object value = m_context.getSystemContext().get( key );
+                    Object value = 
+                      m_context.getSystemContext().get( key );
                     m_map.put( key, value );
                 }
                 catch( ContextException e )
@@ -216,7 +219,6 @@ public class DefaultContextModel extends AbstractLogEnabled implements ContextMo
                 }
                 else
                 {
-
                     //
                     // there are only two context entry models - import
                     // and constructor - identify the model to use then add
@@ -263,7 +265,8 @@ public class DefaultContextModel extends AbstractLogEnabled implements ContextMo
             }
         }
 
-        m_componentContext = createComponentContext( m_context, descriptor, directive );
+        m_componentContext = 
+          createComponentContext( m_context, descriptor, directive );
 
         if( getLogger().isDebugEnabled() )
         {
@@ -286,7 +289,7 @@ public class DefaultContextModel extends AbstractLogEnabled implements ContextMo
     }
 
    /**
-    * Return the context objct established for the component.
+    * Return the context object established for the component.
     * 
     * @return the context object
     */
@@ -382,7 +385,7 @@ public class DefaultContextModel extends AbstractLogEnabled implements ContextMo
     *   construct the context instance
     */
     private Context createComponentContext( 
-      DeploymentContext context, ContextDescriptor descriptor, ContextDirective directive )
+      ComponentContext context, ContextDescriptor descriptor, ContextDirective directive )
       throws ModelException
     {
         ClassLoader classLoader = context.getClassLoader();

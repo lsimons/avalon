@@ -58,9 +58,9 @@ import org.apache.avalon.meta.info.ServiceDescriptor;
  * provider defintion or service provider selection rules.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:31:16 $
+ * @version $Revision: 1.2 $ $Date: 2004/01/13 11:41:24 $
  */
-public interface DependencyModel
+public interface DependencyModel extends Dependent
 {
    /**
     * Return the dependency descriptor for the model.
@@ -89,5 +89,4 @@ public interface DependencyModel
     * @return the accepted candidates in ranked order
     */
     ServiceDescriptor[] filter( ServiceDescriptor[] candidates );
-
 }
