@@ -221,6 +221,13 @@ public class DefaultDeployer
     public void deploy( final String name, final URL location )
         throws DeploymentException
     {
+        if( m_installations.containsKey( name ) )
+        {
+            final String message =
+                REZ.getString( "deploy.already-deployed.error",
+                               name );
+            throw new DeploymentException( message );
+        }
         try
         {
             //m_baseWorkDirectory
