@@ -8,9 +8,13 @@
 package org.apache.avalon.phoenix.components.classloader;
 
 import java.io.File;
+import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.jar.JarFile;
+import java.net.URLStreamHandler;
+import java.net.URLStreamHandlerFactory;
 import java.security.Policy;
+import java.util.ArrayList;
+import java.util.jar.JarFile;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
@@ -21,12 +25,12 @@ import org.apache.avalon.phoenix.interfaces.ClassLoaderManager;
  * Component that creates and manages the <code>ClassLoader</code>
  * for an application loaded out of a <code>.sar</code> deployment.
  *
- * <p>Currently it creates a policy based on the policy declaration 
- * in the configuration. It then just creates a URLClassLoader and 
+ * <p>Currently it creates a policy based on the policy declaration
+ * in the configuration. It then just creates a URLClassLoader and
  * populates it with the specified codebase <code>URL</code>s.</p>
  *
  * <p>In the future this class will scan the manifests for "Optional
- * Packages" formely called "Extensions" which it will add to the 
+ * Packages" formely called "Extensions" which it will add to the
  * <code>ClassLoader</code></p>
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
@@ -37,11 +41,11 @@ public class DefaultClassLoaderManager
 {
     /**
      * Create a <code>ClassLoader</code> for a specific application.
-     * See Class Javadoc for description of technique for creating 
+     * See Class Javadoc for description of technique for creating
      * <code>ClassLoader</code>.
-     * 
+     *
      * @param server the configuration "server.xml" for the application
-     * @param source the source of application. (usually the name of the .sar file 
+     * @param source the source of application. (usually the name of the .sar file
      *               or else the same as baseDirectory)
      * @param baseDirectory the base directory of application
      * @param classPath the list of URLs in applications deployment
@@ -59,19 +63,24 @@ public class DefaultClassLoaderManager
         final Policy policy = configurePolicy( policyConfig, homeDirectory );
 
         //TODO: Load Extensions from Package Repository as required
+
+
         //TODO: Determine parentClassLoader in a safer fashion
         final ClassLoader parentClassLoader = Thread.currentThread().getContextClassLoader();
 
-        //If source is not a file then there will be no need to pass in 
+        //If source is not a file then there will be no need to pass in
         //a URLStreamHandler factory anyway so we can just pass in null
         SarURLStreamHandlerFactory factory = null;
         if( source.isFile() )
         {
             final JarFile archive = new JarFile( source, true, JarFile.OPEN_READ );
             factory = new SarURLStreamHandlerFactory( archive );
+            URL.setURLStreamHandlerFactory( factory );
         }
 
-        return new PolicyClassLoader( classPath, parentClassLoader, factory, policy );
+        final URL[] urls = createURLs( classPath, factory );
+
+        return new PolicyClassLoader( urls, parentClassLoader, factory, policy );
     }
 
     /**
@@ -89,5 +98,82 @@ public class DefaultClassLoaderManager
         policy.setLogger( getLogger() );
         policy.configure( configuration );
         return policy;
+    }
+
+    /**
+     * Create an array of URL objects from strings, using specified URLHandlerFactory.
+     *
+     * @param classPath the string representation of urls
+     * @return the URL array
+     * @exception MalformedURLException if an error occurs
+     */
+    private URL[] createURLs( final String[] classPath,
+                              final URLStreamHandlerFactory factory )
+        throws MalformedURLException
+    {
+        final ArrayList urls = new ArrayList();
+
+        for( int i = 0; i < classPath.length; i++ )
+        {
+            final URL url = createURL( classPath[ i ], factory );
+            urls.add( url );
+        }
+
+        return (URL[])urls.toArray( new URL[ 0 ] );
+    }
+
+    /**
+     * Utility method to create a URL from string representation
+     * using our <code>URLStreamHandlerFactory</code> object.
+     *
+     * @param urlString the string representation of URL
+     * @exception MalformedURLException if URL is badly formed or
+     *            protocol can not be found
+     */
+    private URL createURL( final String urlString,
+                           final URLStreamHandlerFactory factory )
+        throws MalformedURLException
+    {
+        if( null == urlString )
+        {
+            throw new NullPointerException( "url" );
+        }
+
+        final int index = urlString.indexOf( ':' );
+        if( -1 == index )
+        {
+            throw new MalformedURLException( "No scheme specified for url " + urlString );
+        }
+
+        final String scheme = urlString.substring( 0, index );
+
+        URL url = null;
+        if( null != factory )
+        {
+            final URLStreamHandler handler = factory.createURLStreamHandler( scheme );
+            url = new URL( null, urlString, handler );
+        }
+        else
+        {
+            url = new URL( urlString );
+        }            
+
+        /*
+        final URL temp = new URL( "jar:" + url + "!/org/apache/avalon/cornerstone/blocks/masterstore/RepositoryManager.xinfo" );
+        System.err.println( "temp: " + temp );
+        if( null != temp )
+        {
+            try
+            {
+                System.err.println( "temp-oc: " + temp.openConnection() );
+            }
+            catch( final Exception e )
+            {
+                e.printStackTrace();
+            }
+        }
+        */
+
+        return url;
     }
 }
