@@ -25,7 +25,7 @@ import org.apache.avalon.framework.parameters.Parameterizable;
  * within your own code.
  *
  * @author <a href="bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.1 $ $Date: 2001/11/30 21:33:13 $
+ * @version CVS $Revision: 1.2 $ $Date: 2001/11/30 21:37:06 $
  */
 public abstract class AbstractComponent implements Component
 {
@@ -37,11 +37,11 @@ public abstract class AbstractComponent implements Component
     private static final long CONFIGURED     = 0x00000008;
     private static final long COMPOSED       = 0x00000010;
     private static final long ACTIVE         = 0x10000000;
-    private static final long INITIALIZED    = 0x00000012;
-    private static final long STARTED        = 0x00000014;
+    private static final long INITIALIZED    = 0x00000020;
+    private static final long STARTED        = 0x00000040;
     private static final long SUSPENDED      = 0x01000000;
-    private static final long STOPPED        = 0x00000018;
-    private static final long DISPOSED       = 0x00000020;
+    private static final long STOPPED        = 0x00000080;
+    private static final long DISPOSED       = 0x00000100;
     private static final long INIT_MASK      = LOG_ENABLED | CONTEXTUALIZED |
         PARAMETERIZED | CONFIGURED | COMPOSED | INITIALIZED | STARTED;
 
