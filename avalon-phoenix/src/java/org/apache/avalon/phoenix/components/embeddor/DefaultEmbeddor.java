@@ -417,7 +417,7 @@ public class DefaultEmbeddor
      * until setupComponents() is called.
      */
     private synchronized void createComponents()
-	throws Exception
+        throws Exception
     {
         try
         {
