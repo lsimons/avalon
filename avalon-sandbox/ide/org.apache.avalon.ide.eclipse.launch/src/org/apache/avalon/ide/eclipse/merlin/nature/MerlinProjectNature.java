@@ -18,9 +18,7 @@
 package org.apache.avalon.ide.eclipse.merlin.nature;
 
 import org.apache.avalon.ide.eclipse.merlin.launch.MerlinDeveloperLaunch;
-import org.eclipse.core.resources.ICommand;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IProjectNature;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IJavaProject;
@@ -74,7 +72,9 @@ public class MerlinProjectNature implements IProjectNature
 	 * @see org.eclipse.core.resources.IProjectNature#configure()
 	 */
     public void configure() throws CoreException
-    {}
+    {
+
+    }
 
     public void deconfigure() throws CoreException
     {
@@ -84,39 +84,6 @@ public class MerlinProjectNature implements IProjectNature
     public String getDocumentBase()
     {
         return this.getProject().getLocation().toString();
-    }
-
-    // not used yet
-    protected void addToBuildSpec(String builderID) throws CoreException
-    {
-
-        IProjectDescription description = getProject().getDescription();
-        ICommand[] commands = description.getBuildSpec();
-        boolean found = false;
-
-        for (int i = 0; i < commands.length; ++i)
-        {
-            if (commands[i].getBuilderName().equals(builderID))
-            {
-                found = true;
-                break;
-            }
-        }
-
-        if (!found)
-        {
-            //add builder to project
-            ICommand command = description.newCommand();
-            command.setBuilderName(builderID);
-            ICommand[] newCommands = new ICommand[commands.length + 1];
-
-            // Add it before other builders.
-            System.arraycopy(commands, 0, newCommands, 1, commands.length);
-            newCommands[0] = command;
-            description.setBuildSpec(newCommands);
-            getProject().setDescription(description, null);
-        }
-
     }
 
     /*

@@ -21,7 +21,6 @@ package org.apache.avalon.ide.eclipse.merlin.preferences;
 
 import org.apache.avalon.ide.eclipse.merlin.launch.container.MerlinContainerEnvironment;
 import org.apache.avalon.ide.eclipse.merlin.ui.MerlinDeveloperUI;
-import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -52,7 +51,7 @@ public class MerlinMainPreferencePage
  * Sets the default values of the preferences.
  */
 	private void initializeDefaults() {
-		IPreferenceStore store = getPreferenceStore();
+
 	}
 	
 	public Control createContents(Composite pParent){

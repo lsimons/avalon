@@ -64,13 +64,13 @@ public class AbstractGeneratorOperation implements IRunnableWithProgress
         {
             monitor.beginTask(MerlinDeveloperUI.getResourceString("NewWebAppProjectOperation.createWebAppTask.description"), 1); //$NON-NLS-1$
 
-            ProjectResourceManager prm = new ProjectResourceManager(
+            new ProjectResourceManager(
                 projectModel,
                 pParam,
                 MerlinDeveloperUI.PLUGIN_ID,
                 MerlinDeveloperLaunch.MERLIN_PROJECT_NATURE_ID);
             
-            prm.addBuilder(MerlinDeveloperLaunch.MERLIN_BUILDER_ID);
+            //prm.addBuilder(MerlinDeveloperLaunch.MERLIN_BUILDER_ID);
 
         } finally
         {

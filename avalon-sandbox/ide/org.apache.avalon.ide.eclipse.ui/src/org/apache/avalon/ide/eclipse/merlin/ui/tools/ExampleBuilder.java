@@ -49,7 +49,6 @@ public class ExampleBuilder extends IncrementalProjectBuilder
      */
     protected IProject[] build(int pKind, Map pArgs, IProgressMonitor pMonitor) throws CoreException
     {
-        Object obj = getDelta(getProject());
         System.out.println("here");
         // TODO Auto-generated method stub
         return null;
