@@ -78,7 +78,7 @@ import org.apache.excalibur.source.SourceFactory;
  * @x-avalon.lifestyle type=singleton
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: HTTPClientSourceFactory.java,v 1.2 2003/07/03 09:46:32 crafterm Exp $
+ * @version CVS $Id: HTTPClientSourceFactory.java,v 1.3 2003/07/03 14:40:48 crafterm Exp $
  */
 public final class HTTPClientSourceFactory extends AbstractLogEnabled
     implements SourceFactory, Parameterizable, ThreadSafe
@@ -140,20 +140,6 @@ public final class HTTPClientSourceFactory extends AbstractLogEnabled
      */
     public void release( final Source source )
     {
-        if ( source instanceof HTTPClientSource )
-        {
-            HTTPClientSource src = (HTTPClientSource) source;
-
-            ContainerUtil.dispose( src );
-        }
-        else
-        {
-            if ( getLogger().isDebugEnabled() )
-            {
-                getLogger().debug( 
-                    "Ignoring request to release non-HTTPClientSource object" 
-                );
-            }
-        }
+        // empty for the moment
     }
 }

@@ -56,13 +56,12 @@ package org.apache.excalibur.source.impl;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.apache.avalon.framework.CascadingRuntimeException;
 import org.apache.avalon.framework.activity.Initializable;
-import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.parameters.ParameterException;
 import org.apache.avalon.framework.parameters.Parameterizable;
@@ -75,11 +74,13 @@ import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.URIException;
 import org.apache.commons.httpclient.methods.GetMethod;
+import org.apache.commons.httpclient.methods.HeadMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceNotFoundException;
 import org.apache.excalibur.source.SourceParameters;
 import org.apache.excalibur.source.SourceResolver;
+import org.apache.excalibur.source.SourceUtil;
 import org.apache.excalibur.source.SourceValidity;
 import org.apache.excalibur.source.impl.validity.TimeStampValidity;
 
@@ -89,10 +90,10 @@ import org.apache.excalibur.source.impl.validity.TimeStampValidity;
  * project.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: HTTPClientSource.java,v 1.2 2003/07/03 09:46:32 crafterm Exp $
+ * @version CVS $Id: HTTPClientSource.java,v 1.3 2003/07/03 14:40:48 crafterm Exp $
  */
 public class HTTPClientSource extends AbstractLogEnabled 
-    implements Source, Initializable, Parameterizable, Disposable
+    implements Source, Initializable, Parameterizable
 {
     /**
      * Constant used for identifying POST requests.
@@ -145,11 +146,6 @@ public class HTTPClientSource extends AbstractLogEnabled
     private HttpClient m_client;
 
     /**
-     * The {@link HttpMethod} being performed on the {@link HttpClient}.
-     */
-    private HttpMethod m_method;
-
-    /**
      * Proxy port if set via configuration.
      */
     private int m_proxyPort;
@@ -160,10 +156,29 @@ public class HTTPClientSource extends AbstractLogEnabled
     private String m_proxyHost;
 
     /**
-     * HTTP response returned from server after the {@link HttpMethod}
-     * has been performed.
+     * Whether the data held within this instance is currently accurate.
      */
-    private int m_response;
+    private boolean m_dataValid;
+
+    /**
+     * Whether the resource exists on the server.
+     */
+    private boolean m_exists;
+
+    /**
+     * The mime type of the resource on the server.
+     */
+    private String m_mimeType;
+
+    /**
+     * The content length of the resource on the server.
+     */
+    private long m_contentLength;
+
+    /**
+     * The last modified date of the resource on the server.
+     */
+    private long m_lastModified;
 
     /**
      * Stored {@link SourceValidity} object.
@@ -227,8 +242,21 @@ public class HTTPClientSource extends AbstractLogEnabled
             m_client.getHostConfiguration().setProxy( m_proxyHost, m_proxyPort );
         }
 
-        m_method = getMethod();
-        m_response = m_client.executeMethod( m_method );
+        m_dataValid = false;
+    }
+
+    /**
+     * Method to discover what kind of request is being made from the
+     * parameters map passed in to this Source's constructor.
+     *
+     * @return the method type, or if no method type can be found, 
+     *         HTTP GET is assumed.
+     */
+    private String findMethodType()
+    {
+        final String method =
+            (String) m_parameters.get( SourceResolver.METHOD );
+        return method == null ? GET : method;
     }
 
     /**
@@ -239,31 +267,34 @@ public class HTTPClientSource extends AbstractLogEnabled
      */
     private HttpMethod getMethod()
     {
-        final SourceParameters params =
-            (SourceParameters) m_parameters.get( SourceResolver.URI_PARAMETERS );
-        final String method =
-            (String) m_parameters.get( SourceResolver.METHOD );
+        final String method = findMethodType();
 
         // create a POST method if requested
         if ( POST.equals( method ) )
         {
-            return createPostMethod( params );
+            return createPostMethod(
+                m_uri, 
+                (SourceParameters) m_parameters.get( SourceResolver.URI_PARAMETERS )
+            );
         }
 
         // default method is GET
-        return new GetMethod( m_uri );
+        return createGetMethod( m_uri );
     }
 
     /**
-     * Helper method to create a new {@link PostMethod} with the given
+     * Factory method to create a new {@link PostMethod} with the given
      * {@link SourceParameters} object.
      *
+     * @param uri URI
      * @param params {@link SourceParameters}
      * @return a {@link PostMethod} instance
      */
-    private PostMethod createPostMethod( final SourceParameters params )
+    private PostMethod createPostMethod(
+        final String uri, final SourceParameters params 
+    )
     {
-        final PostMethod post = new PostMethod( m_uri );
+        final PostMethod post = new PostMethod( uri );
 
         if ( params == null )
         {
@@ -289,6 +320,108 @@ public class HTTPClientSource extends AbstractLogEnabled
     }
 
     /**
+     * Factory method to create a {@link GetMethod} object.
+     *
+     * @param uri URI
+     * @return a {@link GetMethod} instance
+     */
+    private GetMethod createGetMethod( final String uri )
+    {
+        return new GetMethod( uri );
+    }
+
+    /**
+     * Factory method to create a {@link HeadMethod} object.
+     *
+     * @param uri URI
+     * @return a {@link HeadMethod} instance
+     */
+    private HeadMethod createHeadMethod( final String uri )
+    {
+        return new HeadMethod( uri );
+    }
+
+    /**
+     * Method to make response data available if possible without
+     * actually making an actual request (ie. via HTTP HEAD).
+     */
+    private void updateData()
+    {
+        // no request made so far, attempt to get some response data.
+        if ( !m_dataValid )
+        {
+            if ( GET.equals( findMethodType() ) )
+            {
+                try
+                {
+                    final HttpMethod head = createHeadMethod( m_uri );
+                    executeMethod( head );
+                    head.releaseConnection();
+                    return;
+                }
+                catch ( final IOException e )
+                {
+                    if ( getLogger().isDebugEnabled() )
+                    {
+                        getLogger().debug(
+                            "Unable to determine response data, using defaults", e
+                        );
+                    }
+                }
+            }
+
+            // default values when response data is not available
+            m_exists = false;
+            m_mimeType = null;
+            m_contentLength = -1;
+            m_lastModified = 0;
+            m_dataValid = true;
+        }
+    }
+
+    /**
+     * Executes a particular {@link HttpMethod} and updates internal
+     * data storage.
+     *
+     * @param method {@link HttpMethod} to execute
+     * @return response code from server
+     * @exception IOException if an error occurs
+     */
+    private int executeMethod( final HttpMethod method )
+        throws IOException
+    {
+        final int response = m_client.executeMethod( method );
+
+        updateExists( method );
+        updateMimeType( method );
+        updateContentLength( method );
+        updateLastModified( method );
+
+        // all finished, return response code to the caller.
+        return response;
+    }
+
+    /**
+     * Method to update whether a referenced resource exists, after
+     * executing a particular {@link HttpMethod}.
+     *
+     * @param method {@link HttpMethod} executed.
+     */
+    private void updateExists( final HttpMethod method )
+    {
+        final int response = method.getStatusCode();
+
+        // REVISIT(MC): should this return true if the server does 
+        // not return a 404, or a 410, or should it only return true 
+        // if the user can successfully get an InputStream from 
+        // it without getting errors.
+
+        // resource does not exist if HttpClient returns a 404 or a 410
+        m_exists = !( response == HttpStatus.SC_GONE || 
+                      response == HttpStatus.SC_NOT_FOUND );
+    }
+
+    /**
      * Method to ascertain whether the given resource actually exists.
      *
      * @return <code>true</code> if the resource pointed to by the 
@@ -297,15 +430,10 @@ public class HTTPClientSource extends AbstractLogEnabled
      */
     public boolean exists()
     {
-        // REVISIT(MC): should this return true if the server does not return
-        // a 404, or a 410, or should it only return true if the user can
-        // successfully get an InputStream from it without getting errors.
-
-        // resource does not exist if HttpClient returns a 404 or a 410
-        return !( m_response == HttpStatus.SC_GONE || 
-                  m_response == HttpStatus.SC_NOT_FOUND );
+        updateData();
+        return m_exists;
     }
-    
+
     /**
      * Method to obtain an {@link InputStream} to read the response
      * from the server.
@@ -317,21 +445,25 @@ public class HTTPClientSource extends AbstractLogEnabled
     public InputStream getInputStream()
         throws IOException, SourceNotFoundException
     {
+        final HttpMethod method = getMethod();
+        final int response = executeMethod( method );
+        m_dataValid = true;
+
         // throw SourceNotFoundException - according to Source API we
         // need to throw this if the source doesn't exist.
         if ( !exists() )
         {
             final StringBuffer error = new StringBuffer();
             error.append( "Unable to retrieve URI: " );
-            error.append( m_method.getURI() );
+            error.append( m_uri );
             error.append( " (" );
-            error.append( m_response );
+            error.append( response );
             error.append( ")" );
 
             throw new SourceNotFoundException( error.toString() );
         }
 
-        return m_method.getResponseBodyAsStream();
+        return method.getResponseBodyAsStream();
     }
 
     /**
@@ -341,14 +473,7 @@ public class HTTPClientSource extends AbstractLogEnabled
      */
     public String getURI()
     {
-        try
-        {
-            return m_method.getURI().getURI();
-        }
-        catch ( final URIException e )
-        {
-            throw new CascadingRuntimeException( "Unable to determine URI", e );
-        }
+        return m_uri;
     }
 
     /**
@@ -359,14 +484,7 @@ public class HTTPClientSource extends AbstractLogEnabled
      */
     public String getScheme()
     {
-        try
-        {
-            return m_method.getURI().getScheme();
-        }
-        catch ( final URIException e )
-        {
-            throw new CascadingRuntimeException( "Unable to determine URI Scheme", e );
-        }
+        return SourceUtil.getScheme( m_uri );
     }
     
     /**
@@ -392,6 +510,7 @@ public class HTTPClientSource extends AbstractLogEnabled
             m_cachedValidity = new TimeStampValidity( lm );
             return m_cachedValidity;
         }
+
         return null;
     }
 
@@ -400,23 +519,20 @@ public class HTTPClientSource extends AbstractLogEnabled
      */
     public void refresh()
     {
-        try
-        {
-            recycle();
-            initialize();
-        }
-        catch ( final Exception e )
-        {
-            final StringBuffer buf = new StringBuffer();
-            buf.append( "Refresh on " );
-            buf.append( m_uri );
-            buf.append( " failed" );
+        recycle();
+    }
 
-            if ( getLogger().isWarnEnabled() )
-            {
-                getLogger().warn( buf.toString(), e );
-            }
-        }
+    /**
+     * Method to update the mime type of a resource after
+     * executing a particular {@link HttpMethod}.
+     *
+     * @param method {@link HttpMethod} executed
+     */
+    private void updateMimeType( final HttpMethod method )
+    {
+        // REVISIT: should this be the mime-type, or the content-type -> URLSource
+        // returns the Content-Type, so we'll follow that for now.
+        m_mimeType = method.getResponseHeader( CONTENT_TYPE ).getValue();
     }
 
     /**
@@ -426,24 +542,24 @@ public class HTTPClientSource extends AbstractLogEnabled
      */
     public String getMimeType()
     {
-        // REVISIT: should this be the mime-type, or the content-type -> URLSource
-        // returns the Content-Type, so we'll follow that for now.
-        return m_method.getResponseHeader( CONTENT_TYPE ).getValue();
+        updateData();
+        return m_mimeType;
     }
 
     /**
-     * Obtain the content length of the referenced resource.
-     * 
-     * @return content length of the referenced resource, or 
-     *         -1 if unknown/uncalculatable
+     * Method to update the content length of a resource after
+     * executing a particular {@link HttpMethod}.
+     *
+     * @param method {@link HttpMethod} executed
      */
-    public long getContentLength()
+    private void updateContentLength( final HttpMethod method )
     {
         try
         {
             final Header length = 
-                m_method.getResponseHeader( CONTENT_LENGTH );
-            return length == null ? -1 : Long.parseLong( length.getValue() );
+                method.getResponseHeader( CONTENT_LENGTH );
+            m_contentLength = 
+                length == null ? -1 : Long.parseLong( length.getValue() );
         }
         catch ( final NumberFormatException e )
         {
@@ -454,8 +570,33 @@ public class HTTPClientSource extends AbstractLogEnabled
                 );
             }
 
-            return -1;
+            m_contentLength = -1;
         }
+    }
+
+    /**
+     * Obtain the content length of the referenced resource.
+     * 
+     * @return content length of the referenced resource, or 
+     *         -1 if unknown/uncalculatable
+     */
+    public long getContentLength()
+    {
+        updateData();
+        return m_contentLength;
+    }
+
+    /**
+     * Method to update the last modified date of a resource after
+     * executing a particular {@link HttpMethod}.
+     *
+     * @param method {@link HttpMethod} executed
+     */
+    private void updateLastModified( final HttpMethod method )
+    {
+        final Header lastModified = method.getResponseHeader( LAST_MODIFIED );
+        m_lastModified = 
+            lastModified == null ? 0 : Date.parse( lastModified.getValue() );
     }
 
     /**
@@ -466,28 +607,16 @@ public class HTTPClientSource extends AbstractLogEnabled
      */
     public long getLastModified()
     {
-        final Header lastModified = m_method.getResponseHeader( LAST_MODIFIED );
-        return lastModified == null ? 0 : Date.parse( lastModified.getValue() );
-    }
-
-    /**
-     * Disposes this {@link HTTPClientSource} instance.
-     */
-    public void dispose()
-    {
-        if ( m_method != null )
-        {
-            m_method.releaseConnection();
-        }
+        updateData();
+        return m_lastModified;
     }
 
     /**
      * Recycles this {@link HTTPClientSource} object so that it may be reused
-     * to refresh it's content. Note, after this method is called,
-     * {@link HTTPClientSource}.invoke should be invoked.
+     * to refresh it's content.
      */
     private void recycle()
     {
-        m_method.recycle();
+        m_dataValid = false;
     }
 }
