@@ -23,10 +23,10 @@ namespace Apache.Avalon.Composition.Model.Default
 	/// </summary>
 	/// <author>  <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
 	/// </author>
-	/// <version>  $Revision: 1.1 $ $Date: 2004/02/28 22:15:42 $
+	/// <version>  $Revision: 1.2 $ $Date: 2004/02/29 21:43:37 $
 	/// </version>
 	
-	class DefaultState
+	public class DefaultState
 	{
 		/// <summary> Return the enabled state of the state.</summary>
 		/// <returns> TRUE if the state has been enabled else FALSE

@@ -129,6 +129,16 @@
                     Project = "{F64EB1C1-A909-41AD-AAF8-B17B64D1BE93}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
+                <Reference
+                    Name = "Apache.Avalon.Activation"
+                    Project = "{28197CC9-90EC-4C70-905A-C07155EE5958}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                />
+                <Reference
+                    Name = "Apache.Avalon.Activation.Default"
+                    Project = "{E311F863-2E58-4466-94A2-31A68B341C87}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                />
             </References>
         </Build>
         <Files>

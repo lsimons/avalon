@@ -17,8 +17,9 @@ namespace Apache.Avalon.Castle.Default.Runtime
 	using System;
 
 	using Apache.Avalon.Castle.ManagementExtensions;
+	using Apache.Avalon.Castle.Util;
 	using Apache.Avalon.Composition.Model;
-
+	using RuntimeImpl = Apache.Avalon.Activation.Default.DefaultRuntime;
 
 	/// <summary>
 	/// Summary description for DefaultRuntime.
@@ -26,6 +27,8 @@ namespace Apache.Avalon.Castle.Default.Runtime
 	[ManagedComponent]
 	public class DefaultRuntime : ManagedService, IRuntime
 	{
+		private RuntimeImpl m_runtime;
+
 		public DefaultRuntime()
 		{
 		}
@@ -35,28 +38,38 @@ namespace Apache.Avalon.Castle.Default.Runtime
 		[ManagedOperation]
 		public void Decommission(IDeploymentModel model)
 		{
-			// TODO:  Add DefaultRuntime.Decommission implementation
+			m_runtime.Decommission( model );
 		}
 
 		[ManagedOperation]
 		public void Commission(IDeploymentModel model)
 		{
-			// TODO:  Add DefaultRuntime.Commission implementation
+			m_runtime.Commission( model );
 		}
 
 		[ManagedOperation]
 		public void Release(IDeploymentModel model, object instance)
 		{
-			// TODO:  Add DefaultRuntime.Release implementation
+			m_runtime.Release( model, instance );
 		}
 
 		[ManagedOperation]
 		public object Resolve(IDeploymentModel model)
 		{
-			// TODO:  Add DefaultRuntime.Resolve implementation
-			return null;
+			return m_runtime.Resolve( model );;
 		}
 
 		#endregion
+	
+		public override void Start()
+		{
+			base.Start();
+
+			ISystemContext context = (ISystemContext) 
+				MXUtil.GetAttribute( server, CastleConstants.ORCHESTRATOR_NAME, 
+				"SystemContext" );
+
+			m_runtime = new RuntimeImpl( context );
+		}
 	}
 }
