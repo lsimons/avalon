@@ -41,6 +41,9 @@ import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.excalibur.lang.ThreadContext;
+import org.apache.avalon.phoenix.components.listeners.BlockListenerManager;
+import org.apache.avalon.phoenix.BlockListener;
+import org.apache.avalon.phoenix.BlockEvent;
 
 /**
  *
@@ -58,6 +61,9 @@ public class StartupPhase
 
     ///Frame in which block executes
     private ApplicationFrame     m_frame;
+
+    ///Listener for when blocks are created
+    private BlockListener        m_listener;
 
     ///Name of application, phase is running in
     private String               m_appName;
@@ -80,6 +86,7 @@ public class StartupPhase
         m_container = (Container)componentManager.lookup( Container.ROLE );
         m_frame = (ApplicationFrame)componentManager.lookup( ApplicationFrame.ROLE );
         m_repository = (ConfigurationRepository)componentManager.lookup( ConfigurationRepository.ROLE );
+        m_listener = (BlockListenerManager)componentManager.lookup( BlockListenerManager.ROLE );
     }
 
     /**
@@ -182,6 +189,9 @@ public class StartupPhase
             }
 
             entry.setState( State.STARTED );
+
+            final BlockEvent event = new BlockEvent( name, (Block)object, entry.getBlockInfo() );
+            m_listener.blockAdded( event );
         }
         catch( final Exception e )
         {

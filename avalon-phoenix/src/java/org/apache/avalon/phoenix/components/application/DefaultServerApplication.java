@@ -43,6 +43,8 @@ import org.apache.avalon.phoenix.components.kapi.RoleEntry;
 import org.apache.avalon.phoenix.metainfo.BlockInfo;
 import org.apache.avalon.phoenix.metainfo.BlockInfoBuilder;
 import org.apache.avalon.phoenix.metainfo.DependencyDescriptor;
+import org.apache.avalon.phoenix.components.listeners.BlockListenerSupport;
+import org.apache.avalon.phoenix.components.listeners.BlockListenerManager;
 
 /**
  * This is the basic container of blocks. A server application
@@ -77,10 +79,12 @@ public final class DefaultServerApplication
 
     //these are the facilities (internal components) of ServerApplication
     private ApplicationFrame         m_frame;
+    private BlockListenerManager     m_listenerManager;
 
     public DefaultServerApplication()
     {
         m_frame = createFrame();
+        m_listenerManager = new BlockListenerSupport();
     }
 
     public void contextualize( final Context context )
@@ -99,6 +103,7 @@ public final class DefaultServerApplication
         //Setup component manager with new components added
         //by application
         newComponentManager.put( ApplicationFrame.ROLE, m_frame );
+        newComponentManager.put( BlockListenerManager.ROLE, m_listenerManager );
         newComponentManager.put( Container.ROLE, this );
         newComponentManager.makeReadOnly();
 

@@ -20,6 +20,10 @@ import org.apache.avalon.phoenix.components.kapi.BlockEntry;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.excalibur.lang.ThreadContext;
+import org.apache.avalon.phoenix.components.listeners.BlockListenerManager;
+import org.apache.avalon.phoenix.BlockListener;
+import org.apache.avalon.phoenix.BlockEvent;
+import org.apache.avalon.phoenix.Block;
 
 /**
  *
@@ -33,6 +37,10 @@ public class ShutdownPhase
         ResourceManager.getPackageResources( ShutdownPhase.class );
 
     private ApplicationFrame  m_frame;
+
+    ///Listener for when blocks are created
+    private BlockListener        m_listener;
+
     private Container         m_container;
 
     public void compose( final ComponentManager componentManager )
@@ -40,6 +48,7 @@ public class ShutdownPhase
     {
         m_frame = (ApplicationFrame)componentManager.lookup( ApplicationFrame.ROLE );
         m_container = (Container)componentManager.lookup( Container.ROLE );
+        m_listener = (BlockListenerManager)componentManager.lookup( BlockListenerManager.ROLE );
     }
 
     /**
@@ -60,18 +69,13 @@ public class ShutdownPhase
             getLogger().info( message );
         }
         
-        //TODO: remove this and place in deployer/application
-        if( getLogger().isDebugEnabled() )
-        {
-            final String message = 
-                REZ.getString( "shutdown.notice.processing.classloader", m_frame.getClassLoader() );
-            getLogger().debug( message );
-        }
-
         ThreadContext.setThreadContext( m_frame.getThreadContext() );
 
         final Object object = entry.getInstance();
 
+        final BlockEvent event = new BlockEvent( name, (Block)object, entry.getBlockInfo() );
+        m_listener.blockRemoved( event );
+        
         //Stoppable stage
         if( object instanceof Startable )
         {
