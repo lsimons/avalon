@@ -16,10 +16,10 @@ import org.apache.avalon.atlantis.Facility;
 import org.apache.avalon.configuration.Configurable;
 import org.apache.avalon.configuration.Configuration;
 import org.apache.avalon.configuration.ConfigurationException;
-import org.apache.avalon.util.log.AvalonLogFormatter;
 import org.apache.log.Category;
 import org.apache.log.LogKit;
 import org.apache.log.LogTarget;
+import org.apache.log.Logger;
 import org.apache.log.output.FileOutputLogTarget;
 import org.apache.phoenix.engine.facilities.LogManager;
 
@@ -60,9 +60,32 @@ public class DefaultLogManager
         */
     }
 
-    protected void configureTargets( final String baseName,
-                                     final File baseDirectory,
-                                     final Configuration[] targets )
+    /**
+     * Get logger with category for application.
+     * Note that this name may not be the absolute category.
+     *
+     * @param category the logger category
+     * @return the Logger
+     */
+    public Logger getLogger( final String category )
+    {
+        String name = null;
+
+        if( category.trim().equals( "" ) )
+        {
+            name = m_baseName;
+        }
+        else
+        {
+            name = m_baseName + '.' + category;
+        }
+
+        return LogKit.getLoggerFor( name );
+    }
+
+    private void configureTargets( final String baseName,
+                                   final File baseDirectory,
+                                   final Configuration[] targets )
         throws ConfigurationException
     {
         for( int i = 0; i < targets.length; i++ )
@@ -100,7 +123,7 @@ public class DefaultLogManager
         }
     }
 
-    protected void configureCategories( final String baseName, final Configuration[] categories )
+    private void configureCategories( final String baseName, final Configuration[] categories )
         throws ConfigurationException
     {
         for( int i = 0; i < categories.length; i++ )

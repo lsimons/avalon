@@ -8,6 +8,7 @@
 package org.apache.phoenix.engine.facilities;
 
 import org.apache.avalon.atlantis.Facility;
+import org.apache.log.Logger;
 
 /**
  * This facility manages the logs for an application instance.
@@ -17,5 +18,12 @@ import org.apache.avalon.atlantis.Facility;
 public interface LogManager
     extends Facility
 {
-    //TODO: Provide some extra functionality here
+    /**
+     * Get logger with category for application.
+     * Note that this name may not be the absolute category.
+     *
+     * @param category the logger category
+     * @return the Logger
+     */
+    Logger getLogger( String category );
 }
