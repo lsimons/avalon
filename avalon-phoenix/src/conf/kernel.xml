@@ -134,6 +134,10 @@
                     class="org.apache.avalon.excalibur.packagemanager.impl.NoopPackageRepository"
                     logger="packages"/>
         -->
+
+        <!--
+          Can disable the Hot-Deploy monitor by commenting out the next component.
+        -->
         <component
             class="org.apache.avalon.phoenix.components.monitor.DefaultDeploymentMonitor"
             logger="monitor"/>
