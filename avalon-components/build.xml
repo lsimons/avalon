@@ -161,6 +161,20 @@
       <include name="org/apache/avalon/cornerstone/blocks/**"/>
       <include name="org/apache/avalon/cornerstone/services/**"/>
     </jar>
+    
+    <jar jarfile="${build.lib}/cornerstone-api.jar"
+         basedir="${build.classes}"
+         manifest="${manifest.dir}/cornerstone.mf">
+      <include name="org/apache/avalon/cornerstone/services/**"/>
+    </jar>
+
+    <jar jarfile="${build.lib}/cornerstone-refimpl.jar"
+         basedir="${build.classes}"
+         manifest="${manifest.dir}/cornerstone.mf">
+      <include name="org/apache/avalon/cornerstone/blocks/**"/>
+    </jar>
+
+
 
   </target>
 
