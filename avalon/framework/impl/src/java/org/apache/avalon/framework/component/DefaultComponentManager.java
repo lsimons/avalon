@@ -19,6 +19,7 @@ import java.util.Map;
  * @author <a href="mailto:fede@apache.org">Federico Barbieri</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  * @version 1.0
+ * @deprecated Use {@link org.apache.avalon.framework.service.DefaultServiceManager} instead.
  */
 public class DefaultComponentManager
     implements ComponentManager

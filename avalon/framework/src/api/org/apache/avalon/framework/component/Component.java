@@ -53,6 +53,8 @@ package org.apache.avalon.framework.component;
  * @author <a href="mailto:stefano@apache.org">Stefano Mazzocchi</a>
  * @author <a href="mailto:fumagalli@exoffice.com">Pierpaolo Fumagalli</a>
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
+ * @deprecated Deprecated without replacement. Should only be used while migrating away
+ *             from a system based on Composable/ComponentManager
  */
 public interface Component
 {
