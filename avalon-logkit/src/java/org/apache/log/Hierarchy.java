@@ -68,6 +68,22 @@ public class Hierarchy
     }
 
     /**
+     * Set the default priority for hierarchy.
+     * This is the priority inherited by loggers if no other priority is specified.
+     *
+     * @param priority the default priority
+     */
+    public void setDefaultPriority( final Priority priority )
+    {
+        if( null == priority )
+        {
+            throw new IllegalArgumentException( "Can not set default Hierarchy Priority to null" );
+        }
+
+        getRootLogger().setPriority( priority );
+    }
+
+    /**
      * Retrieve a logger for named category.
      *
      * @param category the context
