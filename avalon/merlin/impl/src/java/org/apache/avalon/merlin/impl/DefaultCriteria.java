@@ -65,6 +65,8 @@ import java.util.Map;
 import org.apache.avalon.merlin.KernelCriteria;
 import org.apache.avalon.merlin.KernelRuntimeException;
 
+import org.apache.avalon.repository.provider.InitialContext;
+
 import org.apache.avalon.util.defaults.Defaults;
 import org.apache.avalon.util.defaults.DefaultsFinder;
 import org.apache.avalon.util.defaults.SimpleDefaultsFinder;
@@ -83,7 +85,7 @@ import org.apache.avalon.util.criteria.PackedParameter;
  * for application to a factory.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class DefaultCriteria extends Criteria implements KernelCriteria
 {
@@ -158,25 +160,59 @@ public class DefaultCriteria extends Criteria implements KernelCriteria
       new String[0];
 
     //--------------------------------------------------------------
+    // immutable state
+    //--------------------------------------------------------------
+
+    private final InitialContext m_context;
+
+    //--------------------------------------------------------------
     // constructor
     //--------------------------------------------------------------
 
    /**
     * Creation of a new default kernel criteria.
     */
-    public DefaultCriteria()
+    public DefaultCriteria( InitialContext context )
     {
         super( PARAMS );
+
+        m_context = context;
+
+        //
+        // static defaults are the most primative
+        //
 
         Properties avalonStatic = getStaticProperties( AVALON );
         Properties merlinStatic = getStaticProperties( MERLIN );
 
+        //
+        // then comes environment variables
+        //
+
         Properties env = getEnvinronment();
+
+        //
+        // then the system properites
+        //
+
         Properties system = System.getProperties();
+
+        //
+        // ${user.home} overrides environment
+        //
+
         Properties avalonHome = getLocalProperties( USER_HOME, AVALON );
         Properties merlinHome = getLocalProperties( USER_HOME, MERLIN );
-        Properties avalonWork = getLocalProperties( USER_DIR, AVALON );
-        Properties merlinWork = getLocalProperties( USER_DIR, MERLIN );
+
+        //
+        // and ${merlin.dir} overrides ${user.home}
+        //
+
+        File work = getWorkingDirectory();
+        Properties avalonWork = 
+          getLocalProperties( work, AVALON );
+        Properties merlinWork = 
+          getLocalProperties( work, MERLIN );
 
         //
         // Create the finder (discovery policy), construct the defaults, and
@@ -203,6 +239,12 @@ public class DefaultCriteria extends Criteria implements KernelCriteria
         
         Defaults defaults = new Defaults( SINGLE_KEYS, MULTI_VALUE_KEYS, finders );
 
+        //
+        // add ${merlin.dir} to assist in synbol expansion then expand
+        // symbols (done twice to handle nested defintions)
+        //
+
+        defaults.setProperty( "merlin.dir", work.toString() );
         Defaults.macroExpand( defaults, new Properties[]{ system, avalonStatic, env } );
         Defaults.macroExpand( defaults, new Properties[]{ system, avalonStatic, env } );
 
@@ -212,32 +254,24 @@ public class DefaultCriteria extends Criteria implements KernelCriteria
         // client
         //
 
+        put( "merlin.dir", work.toString() );
         ArrayList errors = new ArrayList();
         for( int i=0; i<PARAMS.length; i++ )
         {
             Parameter param = PARAMS[i];
             final String key = param.getKey();
-            try
+            if( !key.equals( "merlin.dir" ) )
             {
-                put( key, defaults.getProperty( key ) );
-            }
-            catch( Exception re )
-            {
-                errors.add( re );
+                try
+                {
+                    put( key, defaults.getProperty( key ) );
+                }
+                catch( Exception re )
+                {
+                    errors.add( re );
+                }
             }
         }
-
-        //
-        // deal with the special case of a ${basedir} declaration
-        // which is equivalent to the overriding of the merlin.dir
-        // property
-        //
-
-        //String basedir = System.getProperty( "basedir" );
-        //if( null != basedir ) 
-        //{
-        //    put( "merlin.dir", basedir );
-        //}
 
         //
         // check for any errors created in the process and dump a 
@@ -248,6 +282,7 @@ public class DefaultCriteria extends Criteria implements KernelCriteria
         {
             Throwable[] throwables = 
               (Throwable[]) errors.toArray( new Throwable[0] );
+            
             final String report = 
               "One or more errors occured while attempting to resolve defaults.";
             String message = 
@@ -317,6 +352,7 @@ public class DefaultCriteria extends Criteria implements KernelCriteria
     public URL[] getDeploymentURLs()
     {
         String[] blocks = (String[]) get( MERLIN_DEPLOYMENT );
+
         ArrayList list = new ArrayList();
         File base = getWorkingDirectory();
         for( int i=0; i<blocks.length; i++ )
@@ -354,7 +390,19 @@ public class DefaultCriteria extends Criteria implements KernelCriteria
     */
     public URL getKernelURL()
     {
-        return (URL) get( MERLIN_KERNEL );
+        URL url = (URL) get( MERLIN_KERNEL );
+        if( null != url ) return url;
+        File conf = getConfigDirectory();
+        if( null == conf ) return null;
+        File kernel = new File( conf, "kernel.xml" );
+        if( kernel.exists() )
+        {
+            return toURL( kernel );
+        }
+        else
+        {
+            return null;
+        }
     }
 
    /**
@@ -372,12 +420,7 @@ public class DefaultCriteria extends Criteria implements KernelCriteria
     */
     public File getWorkingDirectory()
     {
-        String basedir = System.getProperty( "basedir" );
-        if( null != basedir ) 
-        {
-            return new File( basedir );
-        }
-        return (File) get( MERLIN_DIR );
+        return m_context.getInitialWorkingDirectory();
     }
 
    /**

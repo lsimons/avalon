@@ -81,12 +81,12 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * 
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
  * @author $Author: mcconnell $
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class DefaultBuilder extends AbstractBuilder implements Builder
 {
     //-----------------------------------------------------------
-    // state
+    // immutable state
     //-----------------------------------------------------------
 
    /**
@@ -115,7 +115,11 @@ public class DefaultBuilder extends AbstractBuilder implements Builder
     * delegated.
     */
     private final Factory m_delegate;
-    
+
+    //-----------------------------------------------------------
+    // constructors
+    //-----------------------------------------------------------
+
    /**
     * Creates a DefaultBuilder for a specific target application.
     * 
@@ -131,7 +135,7 @@ public class DefaultBuilder extends AbstractBuilder implements Builder
           Thread.currentThread().getContextClassLoader(),
           artifact );
     }
-
+    
    /**
     * Creates a DefaultBuilder for a specific target application.
     * 
@@ -190,18 +194,16 @@ public class DefaultBuilder extends AbstractBuilder implements Builder
             buffer.append( "\n artifact: " + artifact );
             buffer.append( "\n build: " + descriptor.getBuild() );
             buffer.append( "\n factory: " + descriptor.getFactory() );
-            buffer.append( "\n source: " + clazz.getProtectionDomain().getCodeSource().getLocation() );
+            buffer.append( "\n source: " 
+              + clazz.getProtectionDomain().getCodeSource().getLocation() );
             buffer.append( "\n repository: " + m_repository );
             throw new RepositoryException( buffer.toString(), e );
         }
     }
 
-    private ClassLoader getClassLoader( ClassLoader classloader )
-    {
-        if( null != classloader ) return classloader;
-        return DefaultBuilder.class.getClassLoader();
-    }
-
+    //-----------------------------------------------------------
+    // Builder
+    //-----------------------------------------------------------
 
    /**
     * Return the factory established by the loader.
@@ -222,151 +224,13 @@ public class DefaultBuilder extends AbstractBuilder implements Builder
         return m_classloader;
     }
     
-    /**
-     * Main wrapper.
-     * 
-     * TODO add more properties to allow full repo specification via 
-     * system properties including a repository implementation replacement.
-     * 
-     * @param args the command line arguments
-     */
-    public static void main( String [] args )
+    //-----------------------------------------------------------
+    // internal
+    //-----------------------------------------------------------
+
+    private ClassLoader getClassLoader( ClassLoader classloader )
     {
-        String spec = getArtifactSpec( args );
-        if( null == spec )
-        {
-            final String error = 
-              "Cannot resolve an artifict target.";
-              System.out.println( error );
-            System.exit( -1 );
-        }
-
-        File cache = getCache( args );
-        String[] hosts = getHosts( args );
-        Artifact artifact = Artifact.createArtifact( spec );
-
-        try
-        {
-            InitialContext context = new DefaultInitialContext( cache, hosts );
-            System.out.println( "Building: " + artifact );
-            Builder builder = new DefaultBuilder( context, artifact );
-            Object object = builder.getFactory().create();
-            System.out.println( "OBJECT: " + object );
-        }
-        catch ( Throwable e )
-        {
-            String message = ExceptionHelper.packException( e, true );
-            System.out.println( message );
-            System.exit( -1 );
-        }
-    }
-
-    private static String getArtifactSpec( String[] args )
-    {
-        String artifact = getArgument( "-artifact", args );
-        if( null != artifact )
-        {
-            return artifact;
-        }
-        else
-        {
-            return null;
-        }
-    }
-
-    private static File getCache( String[] args )
-    {
-        String cache = getArgument( "-cache", args );
-        if( null != cache )
-        {
-            return new File( cache );
-        }
-        else
-        {
-            return null;
-        }
-    }
-
-    private static String[] getHosts( String[] args )
-    {
-        String hosts = getArgument( "-hosts", args );
-        if( null != hosts )
-        {
-            return expandHosts( hosts );
-        }
-        else
-        {
-            return null;
-        }
-    }
-
-    private static String getArgument( String key, String[] args )
-    {
-        for( int i=0; i<args.length; i++ )
-        {
-            if( args[i].equals( key ) )
-            {
-                if( args.length >= i+1 )
-                {
-                    return args[ i+1 ];
-                }
-                else
-                {
-                    final String error = 
-                      "Missing CLI value for parameter: " + key;
-                    throw new IllegalArgumentException( error );
-                }
-            }
-        }
-        return null;
-    }
-
-    private static String[] expandHosts( String arg )
-    {
-        ArrayList list = new ArrayList();
-        StringTokenizer tokenizer = new StringTokenizer( arg, "," );
-        while( tokenizer.hasMoreTokens() )
-        {
-            list.add( tokenizer.nextToken() );
-        }
-        return (String[]) list.toArray( new String[0] );
-    }
-
-    private static String getMavenRepositoryURI()
-    {
-        String home = getMavenHome();
-        return "file:///" + getMavenHomeRepository();
-    }
-
-    private static String getMavenHomeRepository()
-    {
-        return getMavenHome() + File.separator + "repository";
-    }
-
-    private static String getMavenHome()
-    {
-        try
-        {
-            String local = 
-              System.getProperty( 
-                "maven.home.local", 
-                Env.getEnvVariable( "MAVEN_HOME_LOCAL" ) );
-            if( null != local ) return local;
-
-            String maven = 
-              System.getProperty( 
-                "maven.home", 
-                Env.getEnvVariable( "MAVEN_HOME" ) );
-            if( null != maven ) return maven;
-
-            return System.getProperty( "user.home" ) + File.separator + ".maven";
-
-        }
-        catch( Throwable e )
-        {
-            final String error = 
-              "Internal error while attempting to access environment: " + e.toString();
-            throw new Error( error );
-        }
+        if( null != classloader ) return classloader;
+        return DefaultBuilder.class.getClassLoader();
     }
 }

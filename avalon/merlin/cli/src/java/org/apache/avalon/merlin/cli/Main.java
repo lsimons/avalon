@@ -92,7 +92,7 @@ import org.apache.commons.cli.Options;
  * Merlin command line handler.
  * 
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class Main 
 {
@@ -208,11 +208,13 @@ public class Main
         return options;
     }
 
+    private static Main MAIN = null;
+
     //----------------------------------------------------------
     // immutable state
     //----------------------------------------------------------
 
-    private final InitialContext m_context;
+    private final Object m_kernel;
 
     //----------------------------------------------------------
     // constructor
@@ -223,13 +225,13 @@ public class Main
     * @param context the repository inital context
     * @param artifact the merlin implementation artifact
     * @param line the command line construct
+    * @param base the base working directory
     * @exception Exception if an error occurs
     */
-    public Main( InitialContext context, Artifact artifact, CommandLine line ) throws Exception
+    public Main( 
+      InitialContext context, Artifact artifact, CommandLine line ) throws Exception
     {
-        m_context = context;
-
-        Builder builder = new DefaultBuilder( m_context, artifact );
+        Builder builder = new DefaultBuilder( context, artifact );
         ClassLoader classloader = builder.getClassLoader();
         Factory factory = builder.getFactory();
         Map criteria = factory.createDefaultCriteria();
@@ -244,7 +246,7 @@ public class Main
         // instantiate the kernel
         //
 
-        Object kernel = factory.create( criteria );
+        m_kernel = factory.create( criteria );
     }
 
     private void handleCommandLine( Map criteria, CommandLine line )
@@ -253,7 +255,6 @@ public class Main
         setInfoPolicy( criteria, line );
         setDebugPolicy( criteria, line );
         setServerPolicy( criteria, line );
-        setWorkingDirectory( criteria, line );
         setAnchorDirectory( criteria, line );
         setRepositoryDirectory( criteria, line );
         setKernelURL( criteria, line );
@@ -293,7 +294,7 @@ public class Main
         if( line.hasOption( "home" ) )
         {
             String home = line.getOptionValue( "home" );
-            criteria.put( "merlin.work", home );
+            criteria.put( "merlin.dir", home );
         }
     }
 
@@ -336,7 +337,10 @@ public class Main
     private void setDeploymentPath( Map criteria, CommandLine line )
     {
         String[] arguments = line.getArgs();
-        criteria.put( "merlin.deployment", arguments );
+        if( arguments.length > 0 )
+        {
+            criteria.put( "merlin.deployment", arguments );
+        }
     }
 
    /**
@@ -354,7 +358,8 @@ public class Main
             CommandLineParser parser = new BasicParser();
             CommandLine line = parser.parse( CL_OPTIONS, args );
 
-            Artifact artifact = getDefaultImplementation( line );
+            File dir = getWorkingDirectory( line );
+            Artifact artifact = getDefaultImplementation( dir, line );
             File system = getMerlinSystemRepository( line );
 
             if( line.hasOption( "version" ) )
@@ -362,8 +367,7 @@ public class Main
                 Main.printVersionInfo( system, artifact );
                 return;     
             }
-
-            if( line.hasOption( "help" ) )
+            else if( line.hasOption( "help" ) )
             {
                 if( line.hasOption( "lang" ) )
                 {
@@ -376,15 +380,27 @@ public class Main
                 Main.printHelpInfo();
                 return;
             }
+            else
+            {
+                //
+                // setup the initial context
+                //
 
-            //
-            // the real stuff
-            //
+                ClassLoader parent = Main.class.getClassLoader();
+                Artifact impl = null; // default
+                String[] bootstrap = null; // default
+                
+                InitialContext context = 
+                   new DefaultInitialContext( 
+                     dir, parent, impl, system, bootstrap );
 
-            InitialContext context = 
-               new DefaultInitialContext( system );
-            Main main = new Main( context, artifact, line );
+                //
+                // process the commandline and do the real work
+                //
 
+                MAIN = new Main( context, artifact, line );
+
+            }
         }
         catch( Throwable e )
         {
@@ -396,13 +412,32 @@ public class Main
     }
 
    /**
+    * Resolve the merlin.dir value.
+    * @param line the command line construct
+    * @return the working directory
+    */
+    private static File getWorkingDirectory( CommandLine line ) throws Exception
+    {
+        if( line.hasOption( "home" ) )
+        {
+            String dir = line.getOptionValue( "home" );
+            return new File( dir );
+        }
+        else
+        {
+            return getBaseDirectory();
+        }
+    }
+
+   /**
     * Resolve the default implementation taking into account 
     * command line arguments, local and hom properties, and 
     * application defaults.
     * @param line the command line construct
     * @return the artifact reference
     */
-    private static Artifact getDefaultImplementation( CommandLine line ) throws Exception
+    private static Artifact getDefaultImplementation( 
+      File base, CommandLine line ) throws Exception
     {
         if( line.hasOption( "impl" ) )
         {
@@ -417,7 +452,7 @@ public class Main
 
         final String key = "merlin.implementation";
         String home = getLocalProperties( USER_HOME, MERLIN ).getProperty( key );
-        String work = getLocalProperties( USER_DIR, MERLIN ).getProperty( key, home);
+        String work = getLocalProperties( base, MERLIN ).getProperty( key, home);
         if( null != work )
         {
             return Artifact.createArtifact( work );
