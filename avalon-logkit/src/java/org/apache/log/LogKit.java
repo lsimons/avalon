@@ -79,6 +79,12 @@ return logTarget;
 }
     */
 
+
+    /**
+     * Retrieve the default log engine which all the static methods in LogKit deferr to.
+     *
+     * @return the defaut LogEngine
+     */
     public static LogEngine getDefaultLogEngine()
     {
         return c_engine;
