@@ -256,8 +256,13 @@ limitations under the License.
             <include>**/*.xml</include>
             <include>**/*.xservice</include>
             <include>**/*.mf</include>
-            <include>**/*.jar</include>
             <include>**/*.properties</include>
+          </includes>
+        </resource>
+        <resource>
+          <directory>${basedir}/src/test</directory>
+          <includes> 
+            <include>**/*.jar</include>
           </includes>
         </resource>
         <!-- This fix makes merlin build with maven-10 again -->
