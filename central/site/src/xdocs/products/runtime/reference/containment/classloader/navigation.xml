@@ -24,7 +24,6 @@
   <body>
 
     <menu>
-      <item name="Overview" href="index.html"/>
       <item name="classpath" href="classpath/index.html"/>
       <item name="library" href="extensions.html"/>
     </menu>

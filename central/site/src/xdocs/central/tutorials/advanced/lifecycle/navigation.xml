@@ -23,7 +23,6 @@
 
   <body>
     <menu>
-      <item name="Overview" href="index.html"/>
       <item name="Overview" href="extension.html"/>
       <item name="Interfaces" href="interfaces.html"/>
       <item name="Example" href="example.html"/>

@@ -22,7 +22,6 @@
 
   <body>
     <menu>
-      <item name="Overview" href="index.html"/>
       <item name="Using" href="configurable.html"/>
       <item name="Defaults" href="defaults.html"/>
       <item name="Declaring" href="block.html"/>

@@ -24,7 +24,6 @@
   <body>
 
     <menu>
-      <item name="Overview" href="index.html"/>
       <item name="param" href="param.html"/>
     </menu>
 

@@ -24,7 +24,6 @@
   <body>
 
     <menu>
-      <item name="Overview" href="index.html"/>
       <item name="import" href="import.html"/>
       <item name="constructor" href="constructor/index.html"/>
     </menu>
