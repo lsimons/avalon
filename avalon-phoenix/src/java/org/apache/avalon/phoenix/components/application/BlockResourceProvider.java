@@ -47,7 +47,6 @@
  Apache Software Foundation, please see <http://www.apache.org/>.
 
 */
-
 package org.apache.avalon.phoenix.components.application;
 
 import java.lang.reflect.Array;
@@ -79,7 +78,7 @@ import org.apache.excalibur.instrument.InstrumentManager;
  * Block or Listener.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.22 $ $Date: 2003/04/06 11:23:21 $
+ * @version $Revision: 1.23 $ $Date: 2003/04/06 21:23:34 $
  */
 class BlockResourceProvider
     extends AbstractLogEnabled
@@ -356,6 +355,6 @@ class BlockResourceProvider
      */
     private ComponentProfile getProfileFor( final Object entry )
     {
-        return ( (BlockEntry)entry ).getProfile();
+        return (ComponentProfile)entry;
     }
 }
