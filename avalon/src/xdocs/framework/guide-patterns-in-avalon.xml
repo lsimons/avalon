@@ -32,8 +32,8 @@
 
       <s2 title="Separation of Interface and Implementation">
         <p><b>Summary:</b> The Separation of Interface and Implementation is
-        a core feature of the Java language. However, it is misused so that we
-        list it as one of the Avalon patterns, as our use of it is extensive. 
+        a core feature of the Java language. However, it is often misused so we
+        list it as one of the Avalon patterns, and our use of it is extensive. 
         </p>
         <p><link href="guide-patterns-soii.html">
           More Information...
@@ -87,7 +87,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2002/05/03 10:19:53 $
+      $Revision: 1.2 $ $Date: 2002/05/11 12:25:59 $
     </legal>
   </footer>
 </document>
