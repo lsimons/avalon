@@ -153,7 +153,6 @@ public class MemoryTarget
         }
     }
 
-
     /**
      * Helper method to write error messages to error handler.
      *
