@@ -64,9 +64,12 @@ import org.apache.avalon.excalibur.xml.EntityResolver;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/11/07 04:42:09 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/11/12 23:32:52 $
+ * @avalon.component
  */
-public final class JaxpParser extends AbstractLogEnabled implements Parser, Poolable, Component, Parameterizable, Serviceable, ErrorHandler
+public final class JaxpParser
+    extends AbstractLogEnabled
+    implements Parser, Poolable, Component, Parameterizable, Serviceable, ErrorHandler
 {
     /** the SAX Parser factory */
     private SAXParserFactory m_factory;
@@ -93,7 +96,7 @@ public final class JaxpParser extends AbstractLogEnabled implements Parser, Pool
     /**
      * Get the Entity Resolver from the component m_manager
      *
-     * @avalon.service interface="EntityResolver" optional="true"
+     * @avalon.dependency type="EntityResolver" optional="true"
      */
     public void service( final ServiceManager manager )
         throws ServiceException
