@@ -93,6 +93,11 @@ namespace Apache.Avalon.Castle.MicroKernel.Test
 			AssertNotNull( concern );
 			AssertNotNull( concern is IDecommissionConcern );
 			AssertNotNull( concern is ShutdownConcern );
+			AssertNotNull( concern.Next );
+
+			concern = concern.Next;
+			AssertNotNull( concern is IDestructionConcern );
+			AssertNotNull( concern is DestructionConcern );
 			AssertNull( concern.Next );
 		}
 	}

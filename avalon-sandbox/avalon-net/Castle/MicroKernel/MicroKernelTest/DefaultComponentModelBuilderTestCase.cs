@@ -109,6 +109,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Test
 			IComponentModel model = 
 				builder.BuildModel( "a", service, implementation );
 
+			AssertEquals( Apache.Avalon.Framework.Lifestyle.Singleton, model.SupportedLifestyle );
 			AssertNotNull( model );
 			AssertNotNull( model.Logger );
 			AssertNotNull( model.Configuration );

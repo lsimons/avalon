@@ -19,54 +19,15 @@ namespace Apache.Avalon.Castle.MicroKernel.Test.Components
 	using Apache.Avalon.Framework;
 
 	/// <summary>
-	/// Summary description for AvalonMailService.
+	/// Summary description for AvalonMailService2.
 	/// </summary>
-	[AvalonComponent("mailservice", Lifestyle.Singleton)]
+	[AvalonComponent("mailservice", Lifestyle.Transient)]
 	[AvalonService( typeof(IMailService) )]
-	public class AvalonMailService : 
-		IMailService, IInitializable, IConfigurable, IDisposable
+	public class AvalonMailService2 : 
+		AvalonMailService
 	{
-		public bool initialized;
-		public bool configured;
-		public bool disposed;
-
-		public AvalonMailService()
+		public AvalonMailService2()
 		{
 		}
-
-		#region IMailService Members
-
-		public void Send(String from, String to, String subject, String message)
-		{
-		}
-
-		#endregion
-
-		#region IInitializable Members
-
-		public void Initialize()
-		{
-			initialized = true;
-		}
-
-		#endregion
-
-		#region IConfigurable Members
-
-		public void Configure(IConfiguration config)
-		{
-			configured = true;
-		}
-
-		#endregion
-
-		#region IDisposable Members
-
-		public void Dispose()
-		{
-			disposed = true;
-		}
-
-		#endregion
 	}
 }
