@@ -28,7 +28,6 @@ import org.apache.avalon.phoenix.components.installer.Installation;
 import org.apache.avalon.phoenix.components.kapi.SarEntry;
 import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
 import org.apache.avalon.phoenix.metadata.BlockMetaData;
-import org.apache.avalon.phoenix.metadata.DependencyMetaData;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
 import org.apache.avalon.phoenix.tools.assembler.DefaultAssembler;
 import org.apache.avalon.phoenix.tools.assembler.AssemblyException;
@@ -103,7 +102,7 @@ public class DefaultSarDeployer
                 new SarEntry( metaData, installation.getClassPath(), server );
 
             //Setup configuration for all the applications blocks
-            setupConfiguration( name, entry, config.getChildren() );
+            setupConfiguration( name, metaData, config.getChildren() );
 
             //Finally add application to kernel
             m_container.add( name, entry );
@@ -143,15 +142,15 @@ public class DefaultSarDeployer
     }
 
     /**
-     * Setup Configuration for all the BlockEntrys in ServerApplication.
+     * Setup Configuration for all the Blocks/BlockListeners in Sar.
      *
      * @param appName the name of Application.
-     * @param saEntry the ServerApplication Entry.
+     * @param metaData the SarMetaData.
      * @param configurations the block configurations.
      * @exception DeploymentException if an error occurs
      */
     private void setupConfiguration( final String appName,
-                                     final SarEntry saEntry,
+                                     final SarMetaData metaData,
                                      final Configuration[] configurations )
         throws DeploymentException
     {
@@ -160,8 +159,8 @@ public class DefaultSarDeployer
             final Configuration configuration = configurations[ i ];
             final String name = configuration.getName();
             
-            if( !hasBlock( name, saEntry.getMetaData().getBlocks() ) &&
-                !hasBlockListener( name, saEntry.getMetaData().getListeners() ) )
+            if( !hasBlock( name, metaData.getBlocks() ) &&
+                !hasBlockListener( name, metaData.getListeners() ) )
             {
                 final String message = REZ.getString( "deploy.error.extra.config", name );
                 throw new DeploymentException( message );
