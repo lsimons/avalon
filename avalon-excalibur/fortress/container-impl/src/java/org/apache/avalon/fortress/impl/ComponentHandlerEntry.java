@@ -56,9 +56,9 @@ import org.apache.avalon.fortress.impl.handler.ComponentHandler;
  * ComponentHandler.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.7 $ $Date: 2003/03/22 12:46:33 $
+ * @version $Revision: 1.8 $ $Date: 2003/04/08 18:28:10 $
  */
-class ComponentHandlerEntry
+public class ComponentHandlerEntry
 {
     private final ComponentHandler m_handler;
     private final ComponentHandlerMetaData m_metaData;
