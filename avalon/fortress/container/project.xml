@@ -103,10 +103,6 @@ easy embedding into various environments like servlet engines.
             <id>ant</id>
             <version>1.5.1</version>
         </dependency>
-        <dependency>
-            <id>qdox</id>
-            <version>1.2</version>
-        </dependency>
     </dependencies>
 
 </project>
