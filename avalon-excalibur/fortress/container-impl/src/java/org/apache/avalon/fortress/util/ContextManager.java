@@ -120,7 +120,7 @@ import java.util.Iterator;
  * and dispose of them properly when it itself is disposed .</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.26 $ $Date: 2003/05/15 13:50:36 $
+ * @version CVS $Revision: 1.27 $ $Date: 2003/05/20 20:26:08 $
  * @since 4.1
  */
 public final class ContextManager
@@ -233,7 +233,6 @@ public final class ContextManager
         initializeServiceManager();
         initializeLoggerManager();
         initializeRoleManager();
-        initializeMetaInfoManager();
         initializeCommandQueue();
         initializePoolManager();
         initializeContext();
@@ -301,6 +300,27 @@ public final class ContextManager
     {
         m_containerManagerContext.put( key, m_rootContext.get( key ) );
         m_childContext.put( key, null );
+    }
+    
+    /**
+     * Checks if a specified entry in <code>rootContext</code>
+     * has been supplied by the invoker.
+     */
+    protected boolean entryPresent( final String key )
+    {
+        boolean isPresent = false;
+        
+        try
+        {
+            m_rootContext.get( key );
+            isPresent = true;
+        }
+        catch( ContextException ce )
+        {
+            // It is not present, so the value remains false
+        }
+        
+        return isPresent;
     }
 
     /**
@@ -470,31 +490,27 @@ public final class ContextManager
     }
 
     /**
-     * Set up the RoleManager for the Container.
+     * Set up a RoleManager for the Container if configuration for
+     * it has been supplied.
      *
      * @throws Exception if there is an error.
      */
     protected void initializeRoleManager() throws Exception
     {
-        try
-        {
-            m_rootContext.get( RoleManager.ROLE );
-            return;
-        }
-        catch ( ContextException ce )
-        {
-            getLogger().debug( "Could not copy context entry: " + RoleManager.ROLE
-                + ".  This may be Ok depending on other configured context values." );
-        }
+        /* we don't want an error message from getConfiguration, so
+         * check if there is job to do first
+         */
+        if ( entryPresent(RoleManager.ROLE) ) return;
+        if ( !entryPresent(  ROLE_MANAGER_CONFIGURATION     ) &&
+             !entryPresent(  ROLE_MANAGER_CONFIGURATION_URI )    ) return;
 
         Configuration roleConfig =
             getConfiguration( ROLE_MANAGER_CONFIGURATION, ROLE_MANAGER_CONFIGURATION_URI );
 
         if ( roleConfig == null )
         {
-            getLogger().debug( "Could not initialize the RoleManager, no configuration" );
-            // No RoleManager available anywhere.
-            roleConfig = EMPTY_CONFIG;
+            // Something went wrong, but the error has already been reported
+            return;
         }
 
         // Get the context Logger Manager
@@ -519,42 +535,6 @@ public final class ContextManager
 
         assumeOwnership( rm );
         m_childContext.put( RoleManager.ROLE, rm );
-    }
-
-    /**
-     * Set up the RoleManager for the Container.
-     *
-     * @throws Exception if there is an error.
-     */
-    protected void initializeMetaInfoManager() throws Exception
-    {
-        try
-        {
-            m_rootContext.get( MetaInfoManager.ROLE );
-            return;
-        }
-        catch ( ContextException ce )
-        {
-            getLogger().debug( "Could not copy context entry: " + MetaInfoManager.ROLE
-                + ".  This may be Ok depending on other configured context values." );
-        }
-
-        // Get the context Logger Manager
-        final LoggerManager loggerManager = (LoggerManager) m_childContext.get( LoggerManager.ROLE );
-
-        // Create a logger for the role manager
-        final Logger rmLogger = loggerManager.getLoggerForCategory( "system.meta" );
-
-        // Lookup the context class loader
-        final ClassLoader classLoader = (ClassLoader) m_rootContext.get( ClassLoader.class.getName() );
-
-        // Create a parent role manager with all the default roles
-        final ServiceMetaManager smm = new ServiceMetaManager( new Role2MetaInfoManager( (RoleManager) m_childContext.get( RoleManager.ROLE ) ), classLoader );
-        smm.enableLogging( rmLogger.getChildLogger( "defaults" ) );
-        smm.initialize();
-
-        assumeOwnership( smm );
-        m_childContext.put( org.apache.avalon.fortress.MetaInfoManager.ROLE, smm );
     }
 
     /**
@@ -621,8 +601,7 @@ public final class ContextManager
         }
         catch ( ContextException ce )
         {
-            getLogger().debug( "A configuration URI was not specified either: " + uriKey
-                + "  One or the other is required." );
+            getLogger().debug( "A configuration URI was not specified: " + uriKey );
             return null;
         }
 

@@ -74,6 +74,7 @@ import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.service.DefaultServiceManager;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
@@ -95,7 +96,7 @@ import java.util.*;
  * Container's Manager can expose that to the instantiating class.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.27 $ $Date: 2003/05/20 13:05:41 $
+ * @version CVS $Revision: 1.28 $ $Date: 2003/05/20 20:26:08 $
  */
 public abstract class AbstractContainer
     extends AbstractLogEnabled
@@ -239,8 +240,12 @@ public abstract class AbstractContainer
         {
             if ( serviceManager.hasService( MetaInfoManager.ROLE ) )
             {
-                m_metaManager = createMetaManager(
-                    (MetaInfoManager) serviceManager.lookup( MetaInfoManager.ROLE ) );
+                m_metaManager = (MetaInfoManager) serviceManager.lookup( MetaInfoManager.ROLE );
+
+                if ( serviceManager.hasService( RoleManager.ROLE ) )
+                {
+                    getLogger().warn( "MetaInfoManager found, ignoring RoleManager" );
+                }
             }
             else if ( serviceManager.hasService( RoleManager.ROLE ) )
             {
@@ -294,7 +299,8 @@ public abstract class AbstractContainer
     {
         final ServiceMetaManager metaManager =
             new ServiceMetaManager( root, m_classLoader );
-        ContainerUtil.enableLogging( metaManager, getLogger().getChildLogger( "roles" ) );
+        final Logger mmLogger = m_loggerManager.getLoggerForCategory( "system.meta" );
+        ContainerUtil.enableLogging( metaManager, mmLogger );
         ContainerUtil.initialize( metaManager );
         return metaManager;
     }
