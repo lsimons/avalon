@@ -430,7 +430,7 @@ http://avalon.apache.org/download.cgi
         <ant:available file="${basedir}/../gump-integration/project/${pom.artifactId}.xml"
                 property="gump.exists"/>
         <j:set var="gexists" value="${gump.exists}"/>
-        <j:if test="${gexists}"><ant:echo>Warning: ${basedir}/../gump-integration/project/${pom.artifactId}.xml already exists!</ant:echo></j:if>
+        <j:if test="${gexists}"><ant:fail>${basedir}/../gump-integration/project/${pom.artifactId}.xml already exists!</ant:fail></j:if>
         <j:if test="${not gexists}">
 
             <!-- copied from the maven gump plugin -->
@@ -444,7 +444,7 @@ http://avalon.apache.org/download.cgi
             <j:whitespace xmlns="dummy">
 <project name="${pom.artifactId}">
     <package>${pom.package}</package>
-    <ant basedir="${pom.artifactId}" target="dist">
+    <ant basedir="${component.dir}" target="dist">
         <property name="project.version" value="@@DATE@@"/>
     </ant>
 
@@ -462,7 +462,7 @@ http://avalon.apache.org/download.cgi
     <work nested="${component.dir}/target/test-classes"/>
 
     <home nested="${component.dir}"/>
-    <jar name="target/${component.id}-@@DATE@@.jar"/>
+    <jar name="target/${pom.artifactId}-@@DATE@@.jar"/>
     <javadoc nested="${component.dir}/target/docs/apidocs"/>
 
     <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
