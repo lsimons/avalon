@@ -9,6 +9,8 @@ package org.apache.avalon.phoenix.engine;
 
 import java.util.List;
 import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.excalibur.cli.CLArgsParser;
 import org.apache.avalon.excalibur.cli.CLOption;
 import org.apache.avalon.excalibur.cli.CLOptionDescriptor;
@@ -22,10 +24,14 @@ import org.apache.avalon.excalibur.cli.CLUtil;
  */
 class CLISetup
 {
-    private static final int       DEBUG_LOG_OPT        = 'd';
-    private static final int       HELP_OPT             = 'h';
-    private static final int       LOG_FILE_OPT         = 'l';
-    private static final int       APPS_PATH_OPT        = 'a';
+    private static final Resources REZ = 
+        ResourceManager.getPackageResources( CLISetup.class );
+
+    private static final int DEBUG_LOG_OPT       = 'd';
+    private static final int HELP_OPT            = 'h';
+    private static final int LOG_FILE_OPT        = 'l';
+    private static final int APPS_PATH_OPT       = 'a';
+    private static final int REMOTE_MANAGER_OPT  = 1;
 
     ///Parameters created by parsing CLI options
     private Parameters    m_parameters   = new Parameters();
@@ -44,7 +50,7 @@ class CLISetup
     private void usage( final CLOptionDescriptor[] options )
     {
         System.err.println( m_command );
-        System.err.println( "\tAvailable options:");
+        System.err.println( "\t" + REZ.getString( "cli.desc.available.header" ) );
         System.err.println( CLUtil.describeOptions( options ) );
     }
 
@@ -53,31 +59,36 @@ class CLISetup
      */
     private CLOptionDescriptor[] createCLOptions()
     {
-        //TODO: localise
-        final CLOptionDescriptor options[] = new CLOptionDescriptor[ 4 ];
+        final CLOptionDescriptor options[] = new CLOptionDescriptor[ 5 ];
         options[0] =
             new CLOptionDescriptor( "help",
                                     CLOptionDescriptor.ARGUMENT_DISALLOWED,
                                     HELP_OPT,
-                                    "display this help" );
+                                    REZ.getString( "cli.opt.help.desc" ) );
         options[1] =
             new CLOptionDescriptor( "log-file",
                                     CLOptionDescriptor.ARGUMENT_REQUIRED,
                                     LOG_FILE_OPT,
-                                    "the name of log file." );
+                                    REZ.getString( "cli.opt.log-file.desc" ) );
 
         options[2] =
             new CLOptionDescriptor( "apps-path",
                                     CLOptionDescriptor.ARGUMENT_REQUIRED,
                                     APPS_PATH_OPT,
-                                    "the path to apps/ directory that contains .sars" );
+                                    REZ.getString( "cli.opt.apps-path.desc" ) );
 
         options[3] =
             new CLOptionDescriptor( "debug-init",
                                     CLOptionDescriptor.ARGUMENT_DISALLOWED,
                                     DEBUG_LOG_OPT,
-                                    "use this option to specify enable debug " +
-                                    "initialisation logs." );
+                                    REZ.getString( "cli.opt.debug-init.desc" ) );
+
+        options[4] =
+            new CLOptionDescriptor( "remote-manager",
+                                    CLOptionDescriptor.ARGUMENT_DISALLOWED,
+                                    REMOTE_MANAGER_OPT,
+                                    REZ.getString( "cli.opt.remote-manager.desc" ) );
+
         return options;
     }
 
@@ -93,7 +104,8 @@ class CLISetup
 
         if( null != parser.getErrorString() )
         {
-            System.err.println( "Error: " + parser.getErrorString() );
+            final String message = REZ.format( "cli.error.parser", parser.getErrorString() );
+            System.err.println( message );
             return false;
         }
 
@@ -107,7 +119,11 @@ class CLISetup
             switch( option.getId() )
             {
             case 0:
-                System.err.println( "Error: Unknown argument" + option.getArgument() );
+                {
+                    final String message = 
+                        REZ.format( "cli.error.unknown.arg", option.getArgument() );
+                    System.err.println( message );
+                }
                 return false;
 
             case HELP_OPT:
@@ -124,6 +140,11 @@ class CLISetup
 
             case APPS_PATH_OPT: 
                 m_parameters.setParameter( "applications-directory", option.getArgument() );
+                break;
+
+            case REMOTE_MANAGER_OPT:
+                m_parameters.setParameter( "manager-class", 
+                                           "org.apache.avalon.phoenix.engine.PhoenixManager" );
                 break;
             }
         }
