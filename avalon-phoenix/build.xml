@@ -182,6 +182,8 @@ Legal:
             <exclude name="org/apache/avalon/phoenix/frontends/PhoenixServlet.java" unless="servlet.present"/>
             <exclude name="org/apache/avalon/phoenix/frontends/ComposableServlet.java" unless="servlet.present"/>
             <exclude name="**/*MBean.java" unless="jmx.present"/>
+            <exclude name="org/apache/avalon/phoenix/components/manager/AbstractJMXManager.java"
+                unless="jmx.present"/>
             <exclude name="org/apache/avalon/phoenix/components/manager/rmiadaptor/*.java"
                 unless="jmx.present"/>
             <exclude name="org/apache/avalon/phoenix/components/manager/MX4JSystemManager.java"
