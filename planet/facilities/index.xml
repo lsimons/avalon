@@ -96,6 +96,10 @@
       <version>1.1.1</version>
       <type>jar</type>
     </info>
+    <gump>
+      <alias>mx4j</alias>
+      <id>mx4j-jmx</id>
+    </gump>
   </resource>
 
   <resource>
@@ -108,6 +112,10 @@
     <dependencies>
       <include key="mx4j-jmx"/>
     </dependencies>
+    <gump>
+      <alias>mx4j-tools</alias>
+      <id>mx4j-tools</id>
+    </gump>
   </resource>
 
   <resource>
@@ -153,6 +161,10 @@
       <version>DEV</version>
       <type>jar</type>
     </info>
+    <gump>
+      <alias>jta</alias> <!-- cheating : this links to sun's jta jar -->
+      <id>jta</id>
+    </gump>
   </resource>
 
   <resource>
