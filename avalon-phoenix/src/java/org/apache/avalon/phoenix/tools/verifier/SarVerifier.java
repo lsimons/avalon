@@ -59,7 +59,7 @@ import org.apache.excalibur.containerkit.verifier.VerifyException;
  * </ul>
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.27 $ $Date: 2002/08/26 10:39:56 $
+ * @version $Revision: 1.28 $ $Date: 2002/09/06 11:17:45 $
  */
 public class SarVerifier
     extends AbstractLogEnabled
@@ -81,8 +81,8 @@ public class SarVerifier
     };
 
     /**
-     * Verify the specified <code>SarMetaData</code> object.
-     * The rules used to verify <code>SarMetaData</code> are specified
+     * Verify the specified {@link SarMetaData} object.
+     * The rules used to verify {@link SarMetaData} are specified
      * in the Class javadocs.
      *
      * @param sar the SarMetaDat object

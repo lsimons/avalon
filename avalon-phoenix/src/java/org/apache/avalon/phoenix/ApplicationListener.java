@@ -15,7 +15,7 @@ import java.util.EventListener;
  * The implementation <em>must</em> have a zero argument
  * constructor and is instantiated before any other component of the Server
  * Application. To receive notification events, the implementation class
- * should be specified in the <code>assembly.xml</code> descriptor.
+ * should be specified in the <tt>assembly.xml</tt> descriptor.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  */

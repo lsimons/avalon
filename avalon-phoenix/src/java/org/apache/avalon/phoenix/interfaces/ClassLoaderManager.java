@@ -12,9 +12,9 @@ import org.apache.avalon.framework.configuration.Configuration;
 
 /**
  * Interface for component that creates and manages the
- * <code>ClassLoader</code> for an Application. The specific
- * mechanism by which the <code>ClassLoader</code> is created
- * is dependent on the type of <code>Embeddor</code> and the
+ * {@link ClassLoader} for an Application. The specific
+ * mechanism by which the {@link ClassLoader} is created
+ * is dependent on the type of {@link Embeddor} and the
  * deployment format.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
@@ -24,7 +24,7 @@ public interface ClassLoaderManager
     String ROLE = ClassLoaderManager.class.getName();
 
     /**
-     * Create a <code>ClassLoader</code> for a specific application.
+     * Create a {@link ClassLoader} for a specific application.
      *
      * @param environment the configuration "environment.xml" for the application
      * @param source the source of application. (usually the name of the .sar file

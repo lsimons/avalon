@@ -25,12 +25,12 @@ import org.apache.avalon.phoenix.tools.configuration.ConfigurationBuilder;
 import org.apache.avalon.phoenix.tools.infobuilder.BlockInfoBuilder;
 
 /**
- * Assemble a <code>SarMetaData</code> object from a Configuration
+ * Assemble a {@link SarMetaData} object from a Configuration
  * object. The Configuration object represents the assembly descriptor
- * and is in the format specified for <code>assembly.xml</code> files.
+ * and is in the format specified for <tt>assembly.xml</tt> files.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.19 $ $Date: 2002/08/18 08:23:34 $
+ * @version $Revision: 1.20 $ $Date: 2002/09/06 11:20:22 $
  */
 public class Assembler
     extends AbstractLogEnabled
@@ -53,7 +53,7 @@ public class Assembler
     }
 
     /**
-     * Create a <code>SarMetaData</code> object based on specified
+     * Create a {@link SarMetaData} object based on specified
      * name and assembly configuration.
      *
      * @param name the name of Sar
@@ -80,8 +80,8 @@ public class Assembler
     }
 
     /**
-     * Create an array of <code>BlockMetaData</code> objects to represent
-     * the &lt;block .../&gt; sections in <code>assembly.xml</code>.
+     * Create an array of {@link BlockMetaData} objects to represent
+     * the &lt;block .../&gt; sections in <tt>assembly.xml</tt>.
      *
      * @param blocks the list of Configuration objects for blocks
      * @return the BlockMetaData array
@@ -103,7 +103,7 @@ public class Assembler
     }
 
     /**
-     * Create a single <code>BlockMetaData</code> object to represent
+     * Create a single {@link BlockMetaData} object to represent
      * specified &lt;block .../&gt; section.
      *
      * @param block the Configuration object for block
@@ -179,8 +179,8 @@ public class Assembler
     }
 
     /**
-     * Create an array of <code>BlockListenerMetaData</code> objects to represent
-     * the &lt;listener .../&gt; sections in <code>assembly.xml</code>.
+     * Create an array of {@link BlockListenerMetaData} objects to represent
+     * the &lt;listener .../&gt; sections in <tt>assembly.xml</tt>.
      *
      * @param listeners the list of Configuration objects for listeners
      * @return the BlockListenerMetaData array
@@ -200,7 +200,7 @@ public class Assembler
     }
 
     /**
-     * Create a <code>BlockListenerMetaData</code> object to represent
+     * Create a {@link BlockListenerMetaData} object to represent
      * the specified &lt;listener .../&gt; section.
      *
      * @param listener the Configuration object for listener

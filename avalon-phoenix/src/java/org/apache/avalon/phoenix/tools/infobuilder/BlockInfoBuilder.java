@@ -20,12 +20,12 @@ import org.apache.avalon.phoenix.metainfo.DependencyDescriptor;
 import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
 
 /**
- * A BlockInfoBuilder is responsible for building <code>BlockInfo</code>
+ * A BlockInfoBuilder is responsible for building {@link BlockInfo}
  * objects from Configuration objects. The format for Configuration object
  * is specified in the BlockInfo specification.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.23 $ $Date: 2002/08/17 02:34:44 $
+ * @version $Revision: 1.24 $ $Date: 2002/09/06 11:18:59 $
  */
 public final class BlockInfoBuilder
     extends AbstractLogEnabled
@@ -34,7 +34,7 @@ public final class BlockInfoBuilder
         ResourceManager.getPackageResources( BlockInfoBuilder.class );
 
     /**
-     * Create a <code>BlockInfo</code> object for specified classname from
+     * Create a {@link BlockInfo} object for specified classname from
      * specified configuration data.
      *
      * @param classname The classname of Block
@@ -78,7 +78,7 @@ public final class BlockInfoBuilder
     }
 
     /**
-     * A utility method to build an array of <code>DependencyDescriptor</code>
+     * A utility method to build an array of {@link DependencyDescriptor}
      * objects from specified configuraiton and classname.
      *
      * @param classname The classname of Block (used for logging purposes)
@@ -104,7 +104,7 @@ public final class BlockInfoBuilder
     }
 
     /**
-     * A utility method to build a <code>DependencyDescriptor</code>
+     * A utility method to build a {@link DependencyDescriptor}
      * object from specified configuraiton.
      *
      * @param classname The classname of Block (used for logging purposes)
@@ -139,7 +139,7 @@ public final class BlockInfoBuilder
     }
 
     /**
-     * A utility method to build an array of <code>ServiceDescriptor</code>
+     * A utility method to build an array of {@link ServiceDescriptor}
      * objects from specified configuraiton.
      *
      * @param servicesSet the services configuration
@@ -162,7 +162,7 @@ public final class BlockInfoBuilder
     }
 
     /**
-     * A utility method to build a <code>ServiceDescriptor</code>
+     * A utility method to build a {@link ServiceDescriptor}
      * object from specified configuraiton data.
      *
      * @param service the service Configuration
@@ -179,7 +179,7 @@ public final class BlockInfoBuilder
     }
 
     /**
-     * A utility method to build a <code>BlockDescriptor</code>
+     * A utility method to build a {@link BlockDescriptor}
      * object from specified configuraiton data and classname.
      *
      * <p>Note that if a &lt;block/&gt; section is not specified then a warning

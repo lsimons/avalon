@@ -12,8 +12,8 @@ import org.apache.avalon.phoenix.metainfo.BlockInfo;
 
 /**
  * This is the class that is used to deliver notifications
- * about <code>Block</code>s state changes to the
- * <code>BlockListener</code>s of a Server Application.
+ * about {@link Block}s state changes to the
+ * {@link BlockListener}s of a Server Application.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  */
@@ -27,7 +27,7 @@ public final class BlockEvent
     private final BlockInfo m_blockInfo;
 
     /**
-     * Construct the <code>BlockEvent</code>.
+     * Construct the <tt>BlockEvent</tt>.
      *
      * @param name the name of block
      * @param block the block object

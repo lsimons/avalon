@@ -79,11 +79,11 @@ public interface BlockContext
      * Each Block is referenced by other Blocks via their Proxy. When Phoenix
      * shuts down the Block, it can automatically invalidate the proxy. Thus
      * any attempt to call a method on a "dead"/shutdown object will result in
-     * an <code>IllegalStateException</code>. This is desirable as it will
+     * an {@link IllegalStateException}. This is desirable as it will
      * stop objects from using the Block when it is in an invalid state.
      *
      * <p>The proxy also allows Phoenix to associate "Context" information with
-     * the object. For instance, a <code>Block</code> may expect to run with a
+     * the object. For instance, a {@link Block} may expect to run with a
      * specific ContextClassLoader set. However if this Block were to be passed
      * to another component that processed the Block in a thread that did not
      * have the correct context information setup, then the Block could fail
@@ -96,7 +96,7 @@ public interface BlockContext
     //Object getProxy();
 
     /**
-     * This method is similar to <code>getProxy()</code> except that it operates
+     * This method is similar to {@link #getProxy()} except that it operates
      * on arbitrary objects. It will in effect proxy all interfaces that the
      * component supports.
      *
@@ -115,7 +115,7 @@ public interface BlockContext
 
     /**
      * This method gives you access to a named ClassLoader. The ClassLoaders
-     * for an application are declared in the <code>environment.xml</code>
+     * for an application are declared in the <tt>environment.xml</tt>
      * descriptor.
      */
     //ClassLoader getClassLoader( String name );
