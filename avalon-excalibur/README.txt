@@ -26,6 +26,9 @@
    cli/build/lib/excalibur-cli-1.0.jar
    collections/build/lib/excalibur-collections-1.0.jar
    concurrent/build/lib/excalibur-concurrent-1.0.jar
+   i18n/build/lib/excalibur-i18n-1.0.jar
+   io/build/lib/excalibur-io-1.0.jar
+   naming/build/lib/excalibur-naming-1.0.jar
 
    in addition, versions post-4.1 have a dependency on:
 
