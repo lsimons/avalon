@@ -127,6 +127,16 @@ avalon.dependency.${index}.${key} = ${value.substring( 1, value.length() )}</ant
       <ant:echo message="Ignoring artifact generation (no target jar file)."/>
     </j:if>
     -->
+
+    <ant:property name="avalonArtifactDestination" 
+       value="${maven.repo.local}/${pom.artifactDirectory}/jars"/>
+    <ant:mkdir dir="${avalonArtifactDestination}"/>    
+    <ant:copy 
+      file="${filename}"
+      todir="${avalonArtifactDestination}"
+      overwrite="true"
+    />
+
   </goal>
 
 </project>
