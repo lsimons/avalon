@@ -61,7 +61,7 @@ import org.apache.avalon.meta.info.Type;
  * Deployment model defintion.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2003/10/19 06:12:58 $
+ * @version $Revision: 1.4 $ $Date: 2003/10/19 10:31:01 $
  */
 public interface DeploymentModel extends Model
 {
@@ -89,7 +89,18 @@ public interface DeploymentModel extends Model
     * @see org.apache.avalon.meta.info.InfoDescriptor#DEMOCRAT
     * @see org.apache.avalon.meta.info.InfoDescriptor#CONSERVATIVE
     */
-    String getCollectionPolicy();
+    int getCollectionPolicy();
+
+   /**
+    * Set the collection policy to a supplied value.
+    *
+    * @param the collection policy
+    * @see org.apache.avalon.meta.info.InfoDescriptor#LIBERAL
+    * @see org.apache.avalon.meta.info.InfoDescriptor#DEMOCRAT
+    * @see org.apache.avalon.meta.info.InfoDescriptor#CONSERVATIVE
+    * @see org.apache.avalon.meta.info.InfoDescriptor#UNDEFINED
+    */
+    void setCollectionPolicy( int policy );
 
    /**
     * Return the logging categories. 

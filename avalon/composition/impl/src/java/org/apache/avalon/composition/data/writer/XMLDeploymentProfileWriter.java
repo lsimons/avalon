@@ -70,13 +70,14 @@ import org.apache.avalon.composition.data.EntryDirective;
 import org.apache.avalon.composition.data.ConstructorDirective;
 import org.apache.avalon.composition.data.StageDirective;
 import org.apache.avalon.composition.data.Parameter;
+import org.apache.avalon.meta.info.InfoDescriptor;
 import org.apache.excalibur.configuration.ConfigurationUtil;
 
 /**
  * Write a {@link DeploymentProfile} to a stream as xml documents.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2003/10/19 06:12:58 $
+ * @version $Revision: 1.3 $ $Date: 2003/10/19 10:31:01 $
  */
 public class XMLDeploymentProfileWriter
 {
@@ -98,18 +99,21 @@ public class XMLDeploymentProfileWriter
 
         writer.write( pad + "<component name=\"" + profile.getName() + "\"");
         writer.write( "\n" + pad + "  class=\"" + profile.getClassname() + "\"");
+
         if( !profile.getActivationPolicy() )
         {
             writer.write( 
               "\n" + pad 
               + "  activation=\"false\"" ); 
         }
-        if( profile.getCollectionPolicy() != null )
+
+        final int collection = profile.getCollectionPolicy();
+        if( collection > InfoDescriptor.UNDEFINED )
         {
             writer.write( 
               "\n" + pad 
               + "  collection=\"" 
-              + profile.getCollectionPolicy() 
+              + InfoDescriptor.getCollectionPolicyKey( collection ) 
               + "\"" ); 
         }
 

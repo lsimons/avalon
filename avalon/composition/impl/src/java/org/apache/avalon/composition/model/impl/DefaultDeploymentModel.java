@@ -95,7 +95,7 @@ import org.apache.excalibur.configuration.CascadingConfiguration;
  * Deployment model defintion.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2003/10/19 06:12:58 $
+ * @version $Revision: 1.4 $ $Date: 2003/10/19 10:31:01 $
  */
 public class DefaultDeploymentModel extends DefaultModel implements DeploymentModel
 {
@@ -139,6 +139,8 @@ public class DefaultDeploymentModel extends DefaultModel implements DeploymentMo
 
     private boolean m_activation;
 
+    private int m_collection;
+
     //==============================================================
     // constructor
     //==============================================================
@@ -160,6 +162,8 @@ public class DefaultDeploymentModel extends DefaultModel implements DeploymentMo
         m_context = context;
         m_activation = m_context.getProfile().getActivationPolicy();
         m_categories = m_context.getProfile().getCategories();
+
+        setCollectionPolicy( m_context.getProfile().getCollectionPolicy() );
 
         ClassLoader classLoader = m_context.getClassLoader();
 
@@ -312,7 +316,7 @@ public class DefaultDeploymentModel extends DefaultModel implements DeploymentMo
    /**
     * Return the collection policy for the model. If a profile
     * does not declare a collection policy, then the collection
-    * policy declareed by the underrlying component type
+    * policy declared by the underlying component type
     * will be used.
     *
     * @return the collection policy
@@ -320,55 +324,54 @@ public class DefaultDeploymentModel extends DefaultModel implements DeploymentMo
     * @see InfoDescriptor#DEMOCRAT
     * @see InfoDescriptor#CONSERVATIVE
     */
-    public String getCollectionPolicy()
+    public int getCollectionPolicy()
     {
-        final String policy = m_context.getProfile().getCollectionPolicy();
-        if( policy != null )
+        if( m_collection == InfoDescriptor.UNDEFINED )
         {
-            if( policy.equalsIgnoreCase( InfoDescriptor.LIBERAL ) )
-            {
-                return InfoDescriptor.LIBERAL;
-            }
-            else if( policy.equalsIgnoreCase( InfoDescriptor.DEMOCRAT ) )
-            {
-                return InfoDescriptor.DEMOCRAT;
-            }
-            else if( policy.equalsIgnoreCase( InfoDescriptor.CONSERVATIVE ) )
-            {
-                return InfoDescriptor.CONSERVATIVE;
-            }
-            else
-            {
-                final String warning = 
-                  "Overriding collection policy argument [" + policy + "] is not recognized. "
-                  + "Reverting to CONSERVATIVE policy.";
-                return InfoDescriptor.CONSERVATIVE;
-            }
+            return getTypeCollectionPolicy();
         }
         else
         {
-            //if( isStartable() )
-            //{
-            //    return InfoDescriptor.CONSERVATIVE;
-            //}
-            //else
-            //{
-                return m_context.getType().getInfo().getCollectionPolicy();
-            //}
+            return m_collection;
         }
     }
 
    /**
-    * Rest if the component type backing the model is 
-    * startable.
+    * Set the collection policy for the model.
     *
-    * @return TRUE if the component type is startable
-    *   otherwise FALSE
+    * @param the collection policy
+    * @see InfoDescriptor#LIBERAL
+    * @see InfoDescriptor#DEMOCRAT
+    * @see InfoDescriptor#CONSERVATIVE
     */
-    //public boolean isStartable()
-    //{
-    //    return Startable.class.isAssignableFrom( getDeploymentClass() );
-    //}
+    public void setCollectionPolicy( int policy )
+    {
+        if( policy == InfoDescriptor.UNDEFINED )
+        {
+            m_collection = InfoDescriptor.UNDEFINED;
+        }
+        else
+        {
+            int minimum = getTypeCollectionPolicy();
+            if( policy >= minimum )
+            {
+                m_collection = policy;
+            }
+            else
+            {
+                final String warning = 
+                  "Ignoring collection policy override [" + policy 
+                  + "] because the value is higher that type threshhold [" + minimum + "].";
+                getLogger().warn( warning );
+            }
+        }
+    }
+
+    private int getTypeCollectionPolicy()
+    {
+        return m_context.getType().getInfo().getCollectionPolicy();
+    }
+    
 
    /**
     * Set categories. 

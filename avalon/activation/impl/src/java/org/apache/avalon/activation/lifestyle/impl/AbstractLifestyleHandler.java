@@ -65,7 +65,7 @@ import org.apache.avalon.framework.logger.Logger;
  * Abstract implentation class for a lifestyle handler.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2003/10/19 06:12:58 $
+ * @version $Revision: 1.5 $ $Date: 2003/10/19 10:31:00 $
  */
 public abstract class AbstractLifestyleHandler extends AbstractLogEnabled
   implements LifestyleHandler
@@ -98,12 +98,12 @@ public abstract class AbstractLifestyleHandler extends AbstractLogEnabled
 
     Reference getReference( Object instance )
     {
-        final String policy = getFactory().getDeploymentModel().getCollectionPolicy();
-        if( policy.equals( InfoDescriptor.LIBERAL ) )
+        final int policy = getFactory().getDeploymentModel().getCollectionPolicy();
+        if( policy == InfoDescriptor.LIBERAL )
         {
              return new WeakReference( instance, m_liberals );
         }
-        else if( policy.equals( InfoDescriptor.DEMOCRAT )  )
+        else if( policy == InfoDescriptor.DEMOCRAT )
         {
              return new SoftReference( instance );
         }
