@@ -36,6 +36,49 @@
         <javadoc nested="build/javadocs" module="jakarta-avalon"/>
     </project>
 
+    <project name="excalibur-baxter">
+        <package>org.apache.avalon.excalibur.baxter</package>
+
+        <ant basedir="baxter">
+            <depend property="framework.jar" project="jakarta-avalon"/>
+            <depend property="junit.jar" project="junit"/>
+            <property name="version" value="@@DATE@@"/>
+            <property name="junit.failonerror" value="true"/>
+            <property name="do.checkstyle" value="true"/>
+        </ant>
+
+        <depend project="jakarta-ant"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
+        <depend project="checkstyle"/>
+        <depend project="jmx"/>
+        <work nested="baxter/build/classes"/>
+
+        <home nested="baxter"/>
+        <jar name="build/lib/excalibur-baxter-@@DATE@@.jar"/>
+    </project>
+
+    <project name="excalibur-bzip2">
+        <package>org.apache.avalon.excalibur.bzip2</package>
+
+        <ant basedir="bzip2">
+            <depend property="framework.jar" project="jakarta-avalon"/>
+            <depend property="junit.jar" project="junit"/>
+            <property name="version" value="@@DATE@@"/>
+            <property name="junit.failonerror" value="true"/>
+            <property name="do.checkstyle" value="true"/>
+        </ant>
+
+        <depend project="jakarta-ant"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
+        <depend project="checkstyle"/>
+        <work nested="bzip2/build/classes"/>
+
+        <home nested="bzip2"/>
+        <jar name="build/lib/excalibur-bzip2-@@DATE@@.jar"/>
+    </project>
+
     <project name="excalibur-cache">
         <package>org.apache.avalon.excalibur.cache</package>
 
