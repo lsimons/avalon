@@ -45,7 +45,7 @@ package org.apache.avalon.ide.eclipse.repository.preferences;
 
 import org.apache.avalon.ide.eclipse.repository.RepositoryPlugin;
 import org.apache.avalon.ide.repository.RepositoryTypeRegistry;
-import org.apache.avalon.ide.repository.URNDescriptor;
+import org.apache.avalon.ide.repository.RepositorySchemeDescriptor;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.IInputValidator;
@@ -71,7 +71,7 @@ public class AddRepositoryDialog extends Dialog
     implements SelectionListener
 {
     private String m_TextValue;
-    private URNDescriptor m_Selected;
+    private RepositorySchemeDescriptor m_Selected;
 
     private IInputValidator m_Validator;
 
@@ -122,7 +122,7 @@ public class AddRepositoryDialog extends Dialog
         group.setLayoutData(data);
 
         RepositoryTypeRegistry reg = RepositoryPlugin.getDefault().getRepositoryTypeRegistry();
-        URNDescriptor[] urns = reg.getRegisteredURNs();
+        RepositorySchemeDescriptor[] urns = reg.getRegisteredURNs();
         m_Selected = urns[0];
         for (int i = 0; i < urns.length; i++)
         {
@@ -148,11 +148,11 @@ public class AddRepositoryDialog extends Dialog
 
     public void widgetSelected( SelectionEvent event )
     {
-        m_Selected = (URNDescriptor) ((Button) event.getSource()).getData();
+        m_Selected = (RepositorySchemeDescriptor) ((Button) event.getSource()).getData();
     }
 
     public String getValue()
     {
-        return "urn:" + m_Selected.getURN() + ":" + m_TextValue;
+        return "urn:" + m_Selected.getScheme() + ":" + m_TextValue;
     }
 }

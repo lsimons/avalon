@@ -123,7 +123,7 @@ public class RepositoryPlugin extends AbstractUIPlugin
         throws CoreException
     {
         IPluginRegistry registry = Platform.getPluginRegistry();
-        IExtensionPoint point = registry.getExtensionPoint("org.eclipse.sample.sampleExtensionPoint");
+        IExtensionPoint point = registry.getExtensionPoint("org.apache.avalon.ide.eclipse.repository.agent");
         IExtension[] extensions = point.getExtensions();
         for (int i = 0; i < extensions.length; i++) 
         {
@@ -158,13 +158,13 @@ public class RepositoryPlugin extends AbstractUIPlugin
     private void createHandlers()
     {
         m_PluginHandlers = new HashMap();
-        createHandler(IPluginEvent.INSTALLED, new PluginHandlerInstalled() );
-        createHandler(IPluginEvent.RESOLVED, new PluginHandlerResolved() );
-        createHandler(IPluginEvent.STARTED, new PluginHandlerStarted() );
-        createHandler(IPluginEvent.STOPPED, new PluginHandlerStopped() );
-        createHandler(IPluginEvent.UNINSTALLED, new PluginHandlerUninstalled() );
-        createHandler(IPluginEvent.UNRESOLVED, new PluginHandlerUnresolved() );
-        createHandler(IPluginEvent.UPDATED, new PluginHandlerUpdated() );
+        createHandler(IPluginEvent.INSTALLED, new PluginHandlerInstalled(m_RepositoryTypeRegistry) );
+        createHandler(IPluginEvent.RESOLVED, new PluginHandlerResolved(m_RepositoryTypeRegistry) );
+        createHandler(IPluginEvent.STARTED, new PluginHandlerStarted(m_RepositoryTypeRegistry) );
+        createHandler(IPluginEvent.STOPPED, new PluginHandlerStopped(m_RepositoryTypeRegistry) );
+        createHandler(IPluginEvent.UNINSTALLED, new PluginHandlerUninstalled(m_RepositoryTypeRegistry) );
+        createHandler(IPluginEvent.UNRESOLVED, new PluginHandlerUnresolved(m_RepositoryTypeRegistry) );
+        createHandler(IPluginEvent.UPDATED, new PluginHandlerUpdated(m_RepositoryTypeRegistry) );
     }
     
     private void createHandler( int type, PluginHandler handler )

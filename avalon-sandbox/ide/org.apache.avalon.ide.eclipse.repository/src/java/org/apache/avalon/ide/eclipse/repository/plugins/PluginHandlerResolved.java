@@ -44,6 +44,7 @@
  */
 package org.apache.avalon.ide.eclipse.repository.plugins;
 
+import org.apache.avalon.ide.repository.RepositoryTypeRegistry;
 import org.eclipse.core.runtime.IPluginDescriptor;
 
 /**
@@ -55,7 +56,7 @@ public class PluginHandlerResolved implements PluginHandler
     /**
      * 
      */
-    public PluginHandlerResolved()
+    public PluginHandlerResolved(RepositoryTypeRegistry registry)
     {
         super();
         // TODO Auto-generated constructor stub
