@@ -142,9 +142,6 @@ class CLISetup
         final List clOptions = parser.getArguments();
         final int size = clOptions.size();
 
-        m_parameters.setParameter( "phoenix.configfile", "../conf/kernel.xml");  // setting default
-
-
         for( int i = 0; i < size; i++ )
         {
             final CLOption option = (CLOption)clOptions.get( i );
