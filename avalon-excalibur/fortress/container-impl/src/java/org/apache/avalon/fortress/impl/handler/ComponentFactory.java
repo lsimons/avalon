@@ -51,7 +51,7 @@ import org.apache.excalibur.mpool.ObjectFactory;
  * Factory for Avalon components.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.30 $ $Date: 2004/04/06 11:19:44 $
+ * @version CVS $Revision: 1.31 $ $Date: 2004/04/13 13:17:54 $
  */
 public final class ComponentFactory
     extends AbstractLogEnabledInstrumentable
@@ -95,7 +95,7 @@ public final class ComponentFactory
     private ClassInfo m_classinfo;
     
     /** Use the dynamic configuration */
-    private boolean m_useDynamicCreation = false;
+    private final boolean m_useDynamicCreation = true;
     
     /**
      * Construct a new component factory for the specified component.
