@@ -23,22 +23,9 @@
 
  <body>
     <menu>
-      <item name="Artifact" href="artifact.html"/>
-      <item name="Bar" href="bar.html"/>
-      <item name="Clean" href="clean.html"/>
-      <item name="Declare" href="declare.html"/>
-      <item name="Filter" href="filter.html"/>
-      <item name="Home" href="home.html"/>
-      <item name="Info" href="info.html"/>
-      <item name="Install" href="install.html"/>
-      <item name="Javac" href="javac.html"/>
-      <item name="Javadoc" href="javadoc.html"/>
-      <item name="Jar" href="jar.html"/>
-      <item name="Junit" href="junit.html"/>
-      <item name="Prepare" href="prepare.html"/>
-      <item name="Plugin" href="plugin.html"/>
-      <item name="Reactor" href="reactor.html"/>
-      <item name="Xdoc" href="xdoc.html"/>
+      <item name="Common Tasks" href="common/index.html"/>
+      <item name="Production Tasks" href="production/index.html"/>
+      <item name="Publication Tasks" href="publication/index.html"/>
     </menu>
  </body>
 
