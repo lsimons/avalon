@@ -11,7 +11,6 @@ resources.
   /merlin
     /bin
     /config
-    /ext
     /system
     README.TXT
     LICENSE.TXT
@@ -30,6 +29,9 @@ variable for your system and include MERLIN_HOME/bin in
 your system path.  The MERLIN_HOME environment variable
 should point to the merlin directory.
 
+Under Windows you can set environment variables by selecting the 
+Environment Tab from the System Control Panel.
+
 Under Lunix you can do this as follows:
 
   $ echo '
@@ -39,9 +41,6 @@ Under Lunix you can do this as follows:
   > export PATH=$PATH:$MERLIN_HOME/bin
   > ' >> ~/.bash_profile
   $ source ~/.bash_profile
-
-Under Windows you can set environment variables by selecting the 
-Environment Tab from the System Control Panel.
 
 Versions of Merlin prior to the 3.2-dev 20031210 build maintained 
 a local repository of jar files under the %MERLIN_HOME%/repository
@@ -84,3 +83,17 @@ versions.  Finally, delete all *.cache files in the Maven plugin directory.
 You now have everything in place to start using the Merlin Tutorial or 
 building you own components.  If you have any problems, please subscribe
 and post a message to users@avalon.apache.org.
+
+Special Note for JRE 1.3 and earlier.
+-------------------------------------
+
+Some applications assume that XML parsing classes are available withing
+the JRE.  This is not the case with JDK 1.3 and earlier.  To resolve this
+you can copy the following files to the JAVAHOME/lib/ext directory or 
+declare an alternative directory under the MERLIN_JVMARGS environment
+variable.
+
+  system/xml-apis/jars/xml-apis-2.0.2.jar
+  system/xml-apis/jars/xmlParserAPIs-2.0.2.jar
+  system/xerces/jars/xerces-2.4.0.jar
+
