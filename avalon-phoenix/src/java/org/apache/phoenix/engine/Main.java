@@ -44,11 +44,11 @@ import org.apache.log.output.FileOutputLogTarget;
 public class Main
     extends AbstractMain
 {
-    private static final String    AVALON_HOME          = 
-        System.getProperty( "avalon.home", ".." );
+    private static final String    PHOENIX_HOME         = 
+        System.getProperty( "phoenix.home", ".." );
 
-    private static final String    DEFAULT_LOG_FILE     = AVALON_HOME + "/logs/avalon.log";
-    private static final String    DEFAULT_APPS_PATH    = AVALON_HOME + "/apps";
+    private static final String    DEFAULT_LOG_FILE     = PHOENIX_HOME + "/logs/phoenix.log";
+    private static final String    DEFAULT_APPS_PATH    = PHOENIX_HOME + "/apps";
 
     private static final String    DEFAULT_KERNEL_CLASS =
         "org.apache.phoenix.engine.DefaultServerKernel";
@@ -210,7 +210,7 @@ public class Main
         logTarget.setFormatter( formatter );
         
         LogKit.addLogTarget( m_logFile, logTarget );
-        m_logger = LogKit.createLogger( LogKit.createCategory( "Avalon", Priority.DEBUG ), 
+        m_logger = LogKit.createLogger( LogKit.createCategory( "Phoenix", Priority.DEBUG ), 
                                         new LogTarget[] { logTarget } );
         m_logger.info( "Loader started" );
         

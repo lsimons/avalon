@@ -26,31 +26,31 @@ import java.util.Enumeration;
 import java.util.StringTokenizer;
 
 /**
- * AvalonLoader is the class that bootstraps and installs the security manager.
+ * PhoenixLoader is the class that bootstraps and installs the security manager.
  * It also a default policy that gives all code all permssions.
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
-public final class AvalonLoader
+public final class PhoenixLoader
 {
     protected final static boolean         ENABLE_SECURITY_MANAGER =
-        !Boolean.getBoolean("avalon.insecure");
+        !Boolean.getBoolean("phoenix.insecure");
 
     protected final static String          RESTRICTED_PACKAGES = 
-        System.getProperty( "avalon.restricted.packages", 
+        System.getProperty( "phoenix.restricted.packages", 
                             Security.getProperty("package.access") );
 
     protected final static String          MAIN_JAR =
-        System.getProperty( "avalon.mainJar", "avalon-engine.jar" );
+        System.getProperty( "phoenix.mainJar", "phoenix-engine.jar" );
 
     protected final static String          MAIN_CLASS =
-        System.getProperty( "avalon.mainClass", "org.apache.phoenix.engine.Main" );
+        System.getProperty( "phoenix.mainClass", "org.apache.phoenix.engine.Main" );
 
     public final static void main( final String args[] )
         throws Exception
     {
         //setup restricted packages
-        Security.setProperty( "package.access", RESTRICTED_PACKAGES );
+        Security.setProperty( "phoenix.access", RESTRICTED_PACKAGES );
 
         //setup new Policy manager
         Policy.setPolicy( new FreeNEasyPolicy() );
@@ -58,7 +58,7 @@ public final class AvalonLoader
         final File loaderDir = findLoaderDir();
         final String avalonHome = 
             loaderDir.getAbsoluteFile().getParentFile() + File.separator;
-        System.setProperty( "avalon.home", avalonHome );
+        System.setProperty( "phoenix.home", avalonHome );
 
         final File mainJar = new File( loaderDir, MAIN_JAR );
 
@@ -127,7 +127,7 @@ public final class AvalonLoader
         {
             final String element = tokenizer.nextToken();
             
-            if( element.endsWith( "avalon-loader.jar" ) )
+            if( element.endsWith( "phoenix-loader.jar" ) )
             {
                 File file = (new File( element )).getCanonicalFile();
                 file = file.getParentFile();
