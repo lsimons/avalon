@@ -10,7 +10,11 @@ package org.apache.avalon.phoenix.metainfo;
 import org.apache.avalon.excalibur.container.Info;
 
 /**
- * This descrbes information about the block that is used by administration tools and kernel.
+ * This class contains meta-information of use to administative 
+ * tools and the kernel. It describes the services offered by a type
+ * of block, the dependencies of the block, the management interface of 
+ * block (if any) and also contains information useful to presenting 
+ * information in administative screens (like human readable names etc).
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
@@ -19,6 +23,7 @@ public class BlockInfo
 {
     private final BlockDescriptor m_descriptor;
     private final ServiceDescriptor[] m_services;
+    private final ServiceDescriptor[] m_management;
     private final DependencyDescriptor[] m_dependencies;
 
     /**
@@ -26,10 +31,12 @@ public class BlockInfo
      */
     public BlockInfo( final BlockDescriptor descriptor,
                       final ServiceDescriptor[] services,
+                      final ServiceDescriptor[] management,
                       final DependencyDescriptor[] dependencies )
     {
         m_descriptor = descriptor;
         m_services = services;
+        m_management = management;
         m_dependencies = dependencies;
     }
 
@@ -48,7 +55,7 @@ public class BlockInfo
     /**
      * This returns a list of Services that this block exports.
      *
-     * @return an array of Services (can be null)
+     * @return an array of Services
      */
     public ServiceDescriptor[] getServices()
     {
@@ -56,9 +63,19 @@ public class BlockInfo
     }
 
     /**
+     * This returns a list of Services that this block can be Managed by.
+     *
+     * @return an array of Management Services
+     */
+    public ServiceDescriptor[] getManagement()
+    {
+        return m_management;
+    }
+
+    /**
      * Return an array of Service dependencies that this Block depends upon.
      *
-     * @return an array of Service dependencies (may be null)
+     * @return an array of Service dependencies
      */
     public DependencyDescriptor[] getDependencies()
     {

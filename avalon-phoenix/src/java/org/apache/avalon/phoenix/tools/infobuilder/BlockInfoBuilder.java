@@ -55,6 +55,9 @@ public final class BlockInfoBuilder
         configuration = info.getChild( "services" );
         final ServiceDescriptor[] services = buildServices( configuration );
 
+        configuration = info.getChild( "management" );
+        final ServiceDescriptor[] management = buildServices( configuration );
+
         configuration = info.getChild( "dependencies" );
         final DependencyDescriptor[] dependencies = buildDependencies( classname, configuration );
 
@@ -70,7 +73,7 @@ public final class BlockInfoBuilder
             getLogger().debug( message );
         }
 
-        return new BlockInfo( descriptor, services, dependencies );
+        return new BlockInfo( descriptor, services, management, dependencies );
     }
 
     /**
