@@ -51,7 +51,9 @@ class DefaultPolicy
 
     protected DefaultPolicy( final File baseDirectory )
     {
-        m_context = new DefaultContext( System.getProperties() );
+        final HashMap map = new HashMap();
+        map.putAll( System.getProperties() );
+        m_context = new DefaultContext( map );
         m_context.put( "/", File.separator );
         m_context.put( "app.home", baseDirectory );
     }
