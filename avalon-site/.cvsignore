@@ -2,3 +2,5 @@ velocity.log*
 xslt
 build
 work
+maven.log
+target

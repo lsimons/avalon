@@ -260,7 +260,7 @@
       <p>
         The Separation of Concerns pattern in turn led to Aspect Oriented
         Programming (AOP) (
-            <a href="http://www.aspectj.org">http://www.aspectj.org</a>).
+        <a href="http://eclipse.org/aspectj/">http://eclipse.org/aspectj/</a>).
         Researchers discovered that many concerns
         couldn't be addressed at class or even method granularity.  Those
         concerns are called aspects.  Examples of aspects include managing

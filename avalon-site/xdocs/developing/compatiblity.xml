@@ -20,7 +20,8 @@
   </p>
   <p>
     This advise is applicable to all
-    <a href="../framework/principals/containment.html">reference containers</a>
+    <a href="http://avalon.apache.org/framework/principals/containment.html">
+    reference containers</a>
   </p>
   </section>
   <section name="Making a Jar for a tool">
@@ -55,8 +56,8 @@
     </p>
     <p>
       It is also a good idea to understand the
-      <a href="../framework/cop/guide-patterns-soii.html">separation of interface
-      and implementation</a> when designing components.
+      <a href="http://avalon.apache.org/framework/cop/guide-patterns-soii.html">
+      separation of interface and implementation</a> when designing components.
     </p>
   </section>
   <section name="Dynamic Classloading">

@@ -6,12 +6,24 @@
   </properties> 
 
   <body>
-    <section name="Related Projects">
-      <subsection name="External Projects">
+    <section name="External Projects">
+      <subsection name="Avalon Compatible Projects">
         <table>
 	  <tr>
 	    <th width="150">Name</th>
 	    <th>Description</th>
+	  </tr>
+	  <tr>
+	    <td><p><a href="http://plexus.codehaus.org/">Plexus</a></p></td>
+	    <td><p>An Avalon container developed externally at Codehaus</p></td>
+	  </tr>
+	  <tr>
+	    <td><p><a href="http://keelframework.org/">Keel Framework</a></p></td>
+	    <td><p>
+             Keel is ready made server side infrastructure Keel incorporates 
+             multiple open source projects to provide you with a best of breed 
+             framework that works right out of the box.</p>
+            </td>
 	  </tr>
 	  <tr>
 	    <td><p><a href="http://jingdao.sourceforge.net">Jing DAO</a></p></td>
@@ -21,12 +33,13 @@
 	  <tr>
 	    <td><p><a href="http://open-im.net/">OpenIM Instant Messaging</a></p></td>
 	    <td>
-            <p>The purpose of the OpenIM project is to produce a fast, simple, and highly efficient instant messager server with high modularisation and a codebase that uses the Avalon tools and <a href="http://avalon.apache.org/merlin">Merlin Container</a> created by Apache's Avalon project.</p>
+            <p>The purpose of the OpenIM project is to produce a
+            fast, simple, and highly efficient instant messager server
+            with high modularisation and a codebase that uses the
+            Avalon tools and <a
+            href="http://avalon.apache.org/merlin">Merlin
+            Container</a> created by Apache's Avalon project.</p>
           </td>
-	  </tr>
-	  <tr>
-	    <td><p><a href="http://picocontainer.org">Picocontainer</a></p></td>
-	    <td><p>Picocontainer is a light weight IoC framework.</p></td>
 	  </tr>
 	  <tr>
 	    <td><p><a href="http://jcrontab.sf.net">Jcrontab</a></p></td>
@@ -51,6 +64,81 @@ Hibernate Wrapper</a></p></td>
             support, a business object API, ACL component, Messenging 
             component and more!</p>
           </td>
+	  </tr>
+	  <tr>
+	    <td><p><a href="http://phoenixjms.sf.net">PhoenixJMS</a></p></td>
+	    <td><p>An Avalon component wrapper for OpenJMS</p></td>
+	  </tr>
+	  <tr>
+	    <td><p><a href="http://www.enterpriseobjectbroker.org/">
+              Enterprise Object Broker</a></p></td>
+	    <td><p>a "post-J2EE" application server.</p></td>
+	  </tr>
+	  <tr>
+	    <td><p><a href="http://telnetd.sourceforge.net/">Telnetd</a></p></td>
+	    <td><p>Java telnet implementation</p></td>
+	  </tr>
+	  <tr>
+	    <td><p><a href="http://spice.sf.net">Spice</a></p></td>
+	    <td><p>Spice is a repository of Components which support
+             Component Oriented Programming (COP) paradigms - in
+             particular, the Inversion of Control (IoC) design
+             pattern.</p>
+            </td>
+	  </tr>
+	</table>
+      </subsection>
+      <subsection name="Alternative Frameworks">
+        <table>
+           <tr>
+	     <th width="150">Name</th>
+	     <th>Description</th>
+	   </tr>
+	   <tr>
+	    <td><p><a href="http://picocontainer.org">Picocontainer</a></p></td>
+	    <td><p>Picocontainer is a light weight IoC framework.</p></td>
+	  </tr>
+	  <tr>
+	    <td><p><a href="http://www.opensymphony.com:8668/space/WebWork2">WebWork 2</a></p></td>
+	    <td><p>an MVC web framework</p></td>
+	  </tr>
+	  <tr>
+	    <td><p>
+            <a href="http://www.jboss.org/index.html?module=html&amp;op=userdisplay&amp;id=developers/projects/jboss/aop">
+             JBoss AOP</a></p></td>
+	    <td><p>The JBoss Aspect Oriented Programming (AOP) framework</p></td>
+	  </tr>
+	  <tr>
+	    <td><p><a href="http://www.springframework.org/">Spring Framework</a></p></td>
+	    <td><p>A J2EE Application Framework</p></td>
+	  </tr>
+	  <tr>
+	    <td><p><a href="http://jakarta.apache.org/commons/sandbox/hivemind/">Hivemind</a></p></td>
+	    <td><p>HiveMind is a services and configuration microkernel. 
+                HiveMind allows you to create your application using a service 
+                oriented architecture.</p></td>
+	  </tr>
+	  <tr>
+	    <td><p><a href="http://fractal.objectweb.org/">ObjectWeb Fractal</a></p></td>
+	    <td><p>
+	    Fractal is a modular and extensible component model that
+             can be used with various programming languages to design,
+             implement, deploy and reconfigure various systems and
+             applications, from operating systems to middleware
+             platforms and to graphical user interfaces. </p>
+            </td>
+	  </tr>
+	  <tr>
+	    <td><p><a href="http://lsd.student.utwente.nl/jicarilla">Jicarilla</a></p></td>
+	    <td><p>
+              The Jicarilla-Framework builds upon Type-3 IoC, adding
+             an Active interface to better support multi-threaded
+             components. Besides some pretty generic utility code
+             (like a set of base classes for nested exceptions), it
+             adds basic abstractions for the building blocks of
+             lightweight event-based systems, like sources, sinks,
+             stages, multicasters, etc.</p>
+            </td>
 	  </tr>
 	</table>
       </subsection>
