@@ -12,11 +12,11 @@ package org.apache.avalon.excalibur.xml;
  * behaviour is setup by the factory.
  *
  * @author <a href="mailto:mirceatoma@apache.org">Mircea Toma</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/08/02 05:00:18 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/08/06 18:13:49 $
  */
 public interface DOMHandlerFactory {
     
     String ROLE = DOMHandlerFactory.class.getName();
     
-    DOMHandler createDOMHandler();    
+    DOMHandler createDOMHandler() throws Exception;    
 }
