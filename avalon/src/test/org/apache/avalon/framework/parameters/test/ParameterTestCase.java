@@ -63,8 +63,6 @@ import org.apache.avalon.framework.parameters.Parameters;
 
 /**
  * TestCase for Parameter.
- * FIXME: Write messages for each assertion.
- * Writing message in English is very difficult for me :-(.
  *
  * @author <a href="mailto:colus@isoft.co.kr">Eung-ju Park</a>
  */
@@ -82,9 +80,9 @@ public class ParameterTestCase
     {
         final Parameters parameters = new Parameters();
         parameters.setParameter( "key1", "value1" );
-        assertEquals( 1, parameters.getNames().length );
+        assertEquals("Should only have one parameter", 1, parameters.getNames().length );
         parameters.setParameter( "key1", null );
-        assertTrue( ! parameters.isParameter( "key1" ) );
+        assertTrue( "key1 should no longer be a parameter", ! parameters.isParameter( "key1" ) );
         assertEquals( 0, parameters.getNames().length );
     }
 
@@ -92,8 +90,8 @@ public class ParameterTestCase
     {
         final Parameters parameters = new Parameters();
         parameters.setParameter( "key1", "value1" );
-        assertTrue( parameters.isParameter( "key1" ) );
-        assertTrue( ! parameters.isParameter( "key2" ) );
+        assertTrue( "key1 should be a parameter", parameters.isParameter( "key1" ) );
+        assertTrue( "key2 should not be a parameter", ! parameters.isParameter( "key2" ) );
     }
 
     public void testGetParameter()
@@ -103,7 +101,7 @@ public class ParameterTestCase
 
         try
         {
-            assertEquals( "value1", parameters.getParameter( "key1" ) );
+            assertEquals( "key1 should equal value1", "value1", parameters.getParameter( "key1" ) );
         }
         catch ( final ParameterException pe )
         {
@@ -120,9 +118,9 @@ public class ParameterTestCase
             //OK
         }
 
-        assertEquals( "value1", parameters.getParameter( "key1", "value1-1" ) );
+        assertEquals( "key1 should use correct value1", "value1", parameters.getParameter( "key1", "value1-1" ) );
 
-        assertEquals( "value2", parameters.getParameter( "key2", "value2" ) );
+        assertEquals( "key2 should use default value2", "value2", parameters.getParameter( "key2", "value2" ) );
     }
 
     public void testFromConfiguration()
@@ -144,9 +142,9 @@ public class ParameterTestCase
             final Parameters parameters =
                 Parameters.fromConfiguration( configuration );
 
-            assertEquals( "value1", parameters.getParameter( "key1" ) );
-            assertEquals( "value2", parameters.getParameter( "key2" ) );
-            assertEquals( "value3", parameters.getParameter( "key3" ) );
+            assertEquals( "key1 should be value1", "value1", parameters.getParameter( "key1" ) );
+            assertEquals( "key2 should be value2", "value2", parameters.getParameter( "key2" ) );
+            assertEquals( "key3 should be value3", "value3", parameters.getParameter( "key3" ) );
         }
         catch ( final ConfigurationException ce )
         {
@@ -169,9 +167,9 @@ public class ParameterTestCase
 
         try
         {
-            assertEquals( "value1", parameters.getParameter( "key1" ) );
-            assertEquals( "value2", parameters.getParameter( "key2" ) );
-            assertEquals( "value3", parameters.getParameter( "key3" ) );
+            assertEquals( "key1 should be value1", "value1", parameters.getParameter( "key1" ) );
+            assertEquals( "key2 should be value2", "value2", parameters.getParameter( "key2" ) );
+            assertEquals( "key3 should be value3", "value3", parameters.getParameter( "key3" ) );
         }
         catch ( final ParameterException pe )
         {
