@@ -8,15 +8,21 @@
 package org.apache.avalon.phoenix.tools.assembler;
 
 import java.io.File;
+import java.net.URL;
 import java.util.ArrayList;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
+import org.apache.avalon.framework.logger.AbstractLoggable;
 import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
 import org.apache.avalon.phoenix.metadata.BlockMetaData;
 import org.apache.avalon.phoenix.metadata.DependencyMetaData;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
+import org.apache.avalon.phoenix.metainfo.BlockInfo;
+import org.apache.avalon.phoenix.tools.infobuilder.BlockInfoBuilder;
+import org.apache.log.Logger;
 
 /**
  * Assemble a <code>SarMetaData</code> object from a Configuration
@@ -26,13 +32,28 @@ import org.apache.avalon.phoenix.metadata.SarMetaData;
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public class Assembler
+    extends AbstractLoggable
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( Assembler.class );
 
+    private final BlockInfoBuilder m_builder = new BlockInfoBuilder();
+
     /**
-     * Create a <code>SarMetaData</code> object based on specified 
-     * name and assembly configuration. 
+     * Overidden setLogger() method to setup BlockInfoBuilder
+     * logger simultaneously.
+     *
+     * @param logger the logger to use
+     */
+    public void setLogger( final Logger logger )
+    {
+        super.setLogger( logger );
+        setupLogger( m_builder );
+    }
+
+    /**
+     * Create a <code>SarMetaData</code> object based on specified
+     * name and assembly configuration.
      *
      * @param name the name of Sar
      * @param assembly the assembly configuration object
@@ -43,11 +64,12 @@ public class Assembler
      */
     public SarMetaData assembleSar( final String name,
                                     final Configuration assembly,
-                                    final File directory )
+                                    final File directory,
+                                    final ClassLoader classLoader )
         throws AssemblyException
     {
         final Configuration[] blockConfig = assembly.getChildren( "block" );
-        final BlockMetaData[] blocks = buildBlocks( blockConfig );
+        final BlockMetaData[] blocks = buildBlocks( blockConfig, classLoader );
 
         final Configuration[] listenerConfig = assembly.getChildren( "block-listener" );
         final BlockListenerMetaData[] listeners = buildBlockListeners( listenerConfig );
@@ -63,13 +85,15 @@ public class Assembler
      * @return the BlockMetaData array
      * @exception Exception if an error occurs
      */
-    private BlockMetaData[] buildBlocks( final Configuration[] blocks )
+    private BlockMetaData[] buildBlocks( final Configuration[] blocks,
+                                         final ClassLoader classLoader )
         throws AssemblyException
     {
         final ArrayList blockSet = new ArrayList();
         for( int i = 0; i < blocks.length; i++ )
         {
-            final BlockMetaData blockMetaData = buildBlock( blocks[ i ] );
+            final BlockMetaData blockMetaData =
+                buildBlock( blocks[ i ], classLoader );
             blockSet.add( blockMetaData );
         }
 
@@ -84,7 +108,8 @@ public class Assembler
      * @return the BlockMetaData object
      * @exception AssemblyException if an error occurs
      */
-    private BlockMetaData buildBlock( final Configuration block )
+    private BlockMetaData buildBlock( final Configuration block,
+                                      final ClassLoader classLoader )
         throws AssemblyException
     {
         try
@@ -92,15 +117,59 @@ public class Assembler
             final String name = block.getAttribute( "name" );
             final String classname = block.getAttribute( "class" );
             final Configuration[] provides = block.getChildren( "provide" );
-            
+
             final DependencyMetaData[] roles = buildDependencyMetaDatas( provides );
-            return new BlockMetaData( name, classname, roles );
+            final BlockInfo info = getBlockInfo( name, classname, classLoader );
+
+            return new BlockMetaData( name, classname, roles, info );
         }
         catch( final ConfigurationException ce )
         {
             final String message =
                 REZ.getString( "block-entry-malformed", block.getLocation(), ce.getMessage() );
             throw new AssemblyException( message );
+        }
+    }
+
+    /**
+     * Get a BlockInfo for Block with specified name and classname.
+     * The BlockInfo may be loaded from the specified cache otherwise it must be
+     * loaded from specified ClassLoader.
+     *
+     * @param name the name of Block
+     * @param classname the name of Blocks class
+     * @param cache the place to cache BlockInfo objects
+     * @return the BlockInfo for specified block
+     * @exception VerifyException if an error occurs
+     */
+    private BlockInfo getBlockInfo( final String name,
+                                    final String classname,
+                                    final ClassLoader classLoader )
+        throws AssemblyException
+    {
+        final String resourceName = classname.replace( '.', '/' ) + ".xinfo";
+
+        final String notice = REZ.getString( "loading-blockinfo", resourceName );
+        getLogger().debug( notice );
+
+        final URL resource = classLoader.getResource( resourceName );
+        if( null == resource )
+        {
+            final String message = REZ.getString( "blockinfo-missing", name, resourceName );
+            throw new AssemblyException( message );
+        }
+
+        final DefaultConfigurationBuilder configBuilder = new DefaultConfigurationBuilder();
+        try
+        {
+            final Configuration info = configBuilder.build( resource.toString() );
+            return m_builder.build( classname, info );
+        }
+        catch( final Exception e )
+        {
+            final String message =
+                REZ.getString( "blockinfo-nocreate", name, resourceName, e.getMessage() );
+            throw new AssemblyException( message, e );
         }
     }
 
@@ -140,7 +209,7 @@ public class Assembler
         {
             final String name = listener.getAttribute( "name" );
             final String className = listener.getAttribute( "class" );
-            
+
             return new BlockListenerMetaData( name, className );
         }
         catch( final ConfigurationException ce )

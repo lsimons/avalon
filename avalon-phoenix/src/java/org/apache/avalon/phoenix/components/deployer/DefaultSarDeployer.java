@@ -69,6 +69,7 @@ public class DefaultSarDeployer
     public void initialize()
         throws Exception
     {
+        setupLogger( m_assembler );
         setupLogger( m_verifier );
     }
 
@@ -110,7 +111,7 @@ public class DefaultSarDeployer
                                                         installation.getClassPath() );
             //assemble all the blocks for application
             final SarMetaData metaData = 
-                m_assembler.assembleSar( name, assembly, directory );
+                m_assembler.assembleSar( name, assembly, directory, classLoader );
 
             m_verifier.verifySar( metaData, classLoader );
 
