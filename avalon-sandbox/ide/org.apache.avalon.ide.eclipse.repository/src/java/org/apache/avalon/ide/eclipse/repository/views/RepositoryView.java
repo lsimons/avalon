@@ -161,8 +161,7 @@ public class RepositoryView extends ViewPart
         {
             public void run()
             {
-                RepositoryPlugin plugin = RepositoryPlugin.getDefault();
-                ResourceManager resources = plugin.getResourceManager();
+                ResourceManager resources = RepositoryPlugin.getResourceManager();
                 String message = resources.getStringResource("USE_PREFERENCES_INSTEAD");
                 showMessage(message);
             }
@@ -177,8 +176,7 @@ public class RepositoryView extends ViewPart
         {
             public void run()
             {
-                RepositoryPlugin plugin = RepositoryPlugin.getDefault();
-                ResourceManager resources = plugin.getResourceManager();
+                ResourceManager resources = RepositoryPlugin.getResourceManager();
                 String message = resources.getStringResource("USE_PREFERENCES_INSTEAD");
                 showMessage(message);
             }
@@ -192,9 +190,9 @@ public class RepositoryView extends ViewPart
         {
             public void run()
             {
-                    // TODO Double click.
-        // Not sure what this should do!
-    showMessage("Not implemented yet!");
+                // TODO Double click.
+                // Not sure what this should do!
+                showMessage("Not implemented yet!");
             }
         };
     }
@@ -222,8 +220,7 @@ public class RepositoryView extends ViewPart
     }
     private void showMessage(String message)
     {
-        RepositoryPlugin plugin = RepositoryPlugin.getDefault();
-        ResourceManager resources = plugin.getResourceManager();
+        ResourceManager resources = RepositoryPlugin.getResourceManager();
         MessageDialog.openInformation(
             m_Viewer.getControl().getShell(),
             "Repository View Message",
