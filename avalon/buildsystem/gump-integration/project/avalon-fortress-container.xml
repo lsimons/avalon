@@ -49,9 +49,9 @@
     <work nested="fortress/container/target/test-classes"></work>
 
     <home nested="fortress/container"></home>
-    <jar name="target/avalon-fortress-container-@@DATE@@.jar"></jar>
-    <jar name="target/avalon-fortress-container-@@DATE@@-api.jar"></jar>
-    <jar name="target/avalon-fortress-container-@@DATE@@-impl.jar"></jar>
+    <jar name="target/avalon-fortress-container-@@DATE@@.jar" id="combined"></jar>
+    <jar name="target/avalon-fortress-container-@@DATE@@-api.jar" id="api"></jar>
+    <jar name="target/avalon-fortress-container-@@DATE@@-impl.jar" id="impl"></jar>
     <javadoc nested="fortress/container/target/docs/apidocs"></javadoc>
 
     <nag to="dev@avalon.apache.org" from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"></nag>
