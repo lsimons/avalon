@@ -7,10 +7,12 @@
  */
 package org.apache.avalon.excalibur.thread.impl.test;
 
+import java.util.HashMap;
 import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.apache.avalon.excalibur.thread.ThreadPool;
 import org.apache.avalon.excalibur.thread.impl.DefaultThreadPool;
 import org.apache.excalibur.threadcontext.ThreadContext;
+import org.apache.excalibur.threadcontext.impl.DefaultThreadContextPolicy;
 import junit.framework.TestCase;
 
 /**
@@ -27,6 +29,19 @@ public class DefaultThreadPoolTestCase
     }
 
     public void testWithThreadContext()
+        throws Exception
+    {
+        final DefaultThreadContextPolicy policy = new DefaultThreadContextPolicy();
+        final HashMap map = new HashMap( 1 );
+        map.put( DefaultThreadContextPolicy.CLASSLOADER, getClass().getClassLoader() );
+        final ThreadContext threadContext = new ThreadContext( policy, map );
+        final DefaultThreadPool pool = new DefaultThreadPool( "default", 10, threadContext );
+        pool.setDaemon( false );
+        pool.enableLogging( new ConsoleLogger() );
+        pool.execute( new DummyRunnable() );
+    }
+
+    public void testWithoutThreadContext()
         throws Exception
     {
         final ThreadContext threadContext = ThreadContext.getThreadContext();
