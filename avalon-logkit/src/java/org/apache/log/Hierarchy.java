@@ -196,13 +196,14 @@ public class Hierarchy
 
     /**
      * Set the LoggerListener associated with hierarchy.  This is a
-     * unicast listener, so only one LoggerListener is allowed.
+     * unicast listener, so only one LoggerListener is allowed. Note that
+     * multiple listeners are not supported so an alternative is to use
+     * setLoggerListener(null)
      *
      * @param loggerListener the LoggerListener
      *
      * @throws UnsupportedOperationException if no more LoggerListeners are
      *         permitted.
-     * @deprecated Deprecated and replaced by setLoggerListener(loggerListener)
      */
     public synchronized void addLoggerListener( final LoggerListener loggerListener )
     {
@@ -223,10 +224,11 @@ public class Hierarchy
 
     /**
      * Remove the LoggerListener associated with hierarchy.  Perform this
-     * step before adding a new one if you want to change it.
+     * step before adding a new one if you want to change it. Note that
+     * multiple listeners are not supported so an alternative is to use
+     * setLoggerListener(null)
      *
      * @param loggerListener the LoggerListener
-     * @deprecated Deprecated and replaced by setLoggerListener(null)
      */
     public synchronized void removeLoggerListener( final LoggerListener loggerListener )
     {
