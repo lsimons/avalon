@@ -202,6 +202,7 @@ public class Hierarchy
      *
      * @throws UnsupportedOperationException if no more LoggerListeners are
      *         permitted.
+     * @deprecated Deprecated and replaced by setLoggerListener(loggerListener)
      */
     public synchronized void addLoggerListener( final LoggerListener loggerListener )
     {
@@ -225,6 +226,7 @@ public class Hierarchy
      * step before adding a new one if you want to change it.
      *
      * @param loggerListener the LoggerListener
+     * @deprecated Deprecated and replaced by setLoggerListener(null)
      */
     public synchronized void removeLoggerListener( final LoggerListener loggerListener )
     {
