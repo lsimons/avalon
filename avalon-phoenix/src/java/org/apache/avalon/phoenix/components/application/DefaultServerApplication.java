@@ -41,6 +41,7 @@ import org.apache.avalon.phoenix.components.phases.StartupPhase;
 import org.apache.avalon.phoenix.components.kapi.BlockEntry;
 import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
 import org.apache.avalon.phoenix.metadata.BlockMetaData;
+import org.apache.avalon.phoenix.metadata.SarMetaData;
 import org.apache.avalon.phoenix.metainfo.DependencyDescriptor;
 import org.apache.avalon.phoenix.components.listeners.BlockListenerSupport;
 import org.apache.avalon.phoenix.components.listeners.BlockListenerManager;
@@ -84,8 +85,7 @@ public final class DefaultServerApplication
     //Repository of configuration data to access
     private ConfigurationRepository m_repository;
 
-    ///Name of application, phase is running in
-    private String               m_appName;
+    private SarMetaData             m_metaData;
 
     public DefaultServerApplication()
     {
@@ -100,8 +100,6 @@ public final class DefaultServerApplication
     {
         //save it to contextualize facilities
         m_context = context;
-
-        m_appName = (String)context.get( "app.name" );
     }
 
     public void compose( final ComponentManager componentManager )
@@ -122,14 +120,11 @@ public final class DefaultServerApplication
         m_repository = (ConfigurationRepository)componentManager.lookup( ConfigurationRepository.ROLE );
     }
 
-    public void addBlocks( final BlockMetaData[] blocks )
+    public void setup( final SarMetaData metaData )
     {
-        m_blocks = blocks;
-    }
-
-    public void addBlockListeners( final BlockListenerMetaData[] listeners )
-    {
-        m_listeners = listeners;
+        m_metaData = metaData;
+        m_blocks = metaData.getBlocks();
+        m_listeners = metaData.getListeners();
     }
 
     public void configure( final Configuration configuration )
@@ -246,7 +241,7 @@ public final class DefaultServerApplication
             Configuration configuration = null;
             try 
             {
-                configuration = m_repository.getConfiguration( m_appName, name );
+                configuration = m_repository.getConfiguration( m_metaData.getName(), name );
             } 
             catch( final ConfigurationException ce ) 
             {
