@@ -29,6 +29,7 @@ import org.apache.avalon.phoenix.interfaces.ConfigurationRepository;
 import org.apache.avalon.phoenix.interfaces.Kernel;
 import org.apache.avalon.phoenix.interfaces.KernelMBean;
 import org.apache.avalon.phoenix.interfaces.SystemManager;
+import org.apache.avalon.phoenix.interfaces.ConfigurationValidator;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
 import org.apache.log.Hierarchy;
 
@@ -58,6 +59,9 @@ public class DefaultKernel
     ///Configuration Repository
     private ConfigurationRepository m_repository;
 
+    //Configuration Validator
+    private ConfigurationValidator m_validator;
+
     private HashMap m_entries = new HashMap();
 
     public void service( final ServiceManager serviceManager )
@@ -66,6 +70,7 @@ public class DefaultKernel
         m_systemManager = (SystemManager)serviceManager.lookup( SystemManager.ROLE );
         m_repository = (ConfigurationRepository)serviceManager.
             lookup( ConfigurationRepository.ROLE );
+        m_validator = (ConfigurationValidator) serviceManager.lookup( ConfigurationValidator.ROLE );
     }
 
     public void initialize()
@@ -242,6 +247,7 @@ public class DefaultKernel
         final DefaultServiceManager componentManager = new DefaultServiceManager();
         componentManager.put( SystemManager.ROLE, m_systemManager );
         componentManager.put( ConfigurationRepository.ROLE, m_repository );
+        componentManager.put( ConfigurationValidator.ROLE, m_validator );
         componentManager.makeReadOnly();
         return componentManager;
     }
