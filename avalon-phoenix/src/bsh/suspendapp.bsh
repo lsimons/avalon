@@ -8,11 +8,19 @@ suspendapp( String appName ) {
 
     kernel = this.interpreter.get("phoenix-kernel");
     String[] blocks = kernel.getApplication(appName).getBlockNames();
+    int ct =0;
     for (int i = 0; i < blocks.length; i++) {
       if (blocks[i] instanceof org.apache.avalon.framework.activity.Suspendable) {
         blocks[i].suspend();
+        ct++;
       }
-    }
-    
+    }   
+    print(ct + " blocks stopped for '" + appName + "'");    
+}
+
+suspendapp( int appNo ) {
+    kernel = this.interpreter.get("phoenix-kernel");
+    String[] apps = kernel.getApplicationNames();
+    suspendapp(apps[appNo]);
 }
 

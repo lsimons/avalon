@@ -11,3 +11,21 @@ Object getblock( String appName, String blockName ) {
     
 }
 
+getblock( int appNo, String blockName ) {
+    kernel = this.interpreter.get("phoenix-kernel");
+    String[] apps = kernel.getApplicationNames();
+    return getblock(apps[appNo], blockName);
+}
+
+getblock( int appNo, int blockNo ) {
+    kernel = this.interpreter.get("phoenix-kernel");
+    String[] apps = kernel.getApplicationNames();
+    String[] blocks = kernel.getApplicationNames().getBlockNames();    
+    return getblock(apps[appNo], blocks[blockNo]);
+}
+
+getblock( String appName, int blockNo ) {
+    kernel = this.interpreter.get("phoenix-kernel");
+    String[] blocks = kernel.getApplication(appName).getBlockNames();    
+    return getblock(appName, blocks[blockNo]);
+}
