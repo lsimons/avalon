@@ -1,16 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
 
-<project name="site" default="site" basedir="." 
-    xmlns:x="antlib:org.apache.avalon.tools"> 
+<project name="site" default="site" basedir=".">
 
-  <x:home index="../system/index.xml"/>
-
-  <target name="site">
-    <x:prepare/>
-    <x:xdoc theme="avalon2"/>
-  </target>
-
-  <target name="clean">
-    <x:clean/>
-  </target>
+  <property file="build.properties"/>
+  <import file="${project.home}/build/standard.xml"/>
 
 </project>
+
