@@ -18,10 +18,14 @@
 package org.apache.avalon.meta.info.builder;
 
 import java.io.InputStream;
+import java.io.IOException;
+import java.util.Properties;
 
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.avalon.framework.parameters.ParameterException;
 
 import org.apache.avalon.meta.ConfigurationBuilder;
 import org.apache.avalon.meta.info.Type;
@@ -177,11 +181,38 @@ public final class TypeBuilder
             defaults = new DefaultConfiguration( "configuration", (String) null );
         }
 
+        final String xparams =
+            classname.replace( '.', '/' ) + ".xparams";
+        final InputStream paramsStream =
+            classLoader.getResourceAsStream( xparams );
+
+        Parameters params;
+        if( paramsStream != null )
+        {
+            try
+            {
+                Properties properties = new Properties();
+                properties.load( paramsStream );
+                params = Parameters.fromProperties( properties );
+            }
+            catch( IOException ioe )
+            {
+                final String error =
+                    "Unexpected exception while attempting to resolve parameters from src: "
+                        + xparams;
+                    throw new ParameterException( error );
+            }
+        }
+        else
+        {
+            params = null;
+        }
+
         //
         // build the type
         //
 
-        return xmlTypeFactory.createType( classname, xinfo, defaults );
+        return xmlTypeFactory.createType( classname, xinfo, defaults, params );
     }
 
     private Configuration resolveConfiguration( ClassLoader classloader, Configuration config )

@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 import org.apache.avalon.framework.Version;
+import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 
@@ -79,7 +80,24 @@ public class XMLTypeCreator
 
         final InputSource input = new InputSource( inputStream );
         final Configuration xinfo = ConfigurationBuilder.build( input );
-        return createType( classname, xinfo, (Configuration) null );
+        return createType( classname, xinfo, (Configuration) null, null );
+    }
+
+        /**
+     * Create an {@link Type} object for a specified classname from
+     * specified configuration data.
+     *
+     * @param classname The classname of Component
+     * @param info the Type configuration
+     * @param defaults the default configuration
+     * @return the created Type
+     * @throws BuildException if an error occurs
+     */
+    public Type createType(
+        final String classname, final Configuration info, final Configuration defaults )
+        throws BuildException
+    {
+         return createType( classname, info, defaults, null );
     }
 
     /**
@@ -89,11 +107,13 @@ public class XMLTypeCreator
      * @param classname The classname of Component
      * @param info the Type configuration
      * @param defaults the default configuration
+     * @param params the default static parameters
      * @return the created Type
-     * @throws Exception if an error occurs
+     * @throws BuildException if an error occurs
      */
     public Type createType( 
-        final String classname, final Configuration info, final Configuration defaults )
+        final String classname, final Configuration info, final Configuration defaults,
+        Parameters params )
         throws BuildException
     {
         final String topLevelName = info.getName();
@@ -149,14 +169,14 @@ public class XMLTypeCreator
 
         return new Type(
           descriptor, security, loggers, context, services, dependencies, phases, 
-          extensions, defaults );
+          extensions, defaults, params );
     }
 
     /**
      * Utility function to create a set of phase descriptor from a configuration.
      * @param config a configuration containing 0..n phase elements
      * @return an array of phase descriptors
-     * @exception Exception if a build error occurs
+     * @exception BuildException if a build error occurs
      */
     protected StageDescriptor[] buildStages( Configuration config ) 
       throws BuildException
@@ -175,7 +195,7 @@ public class XMLTypeCreator
      * Utility function to create a set of phase descriptor from a configuration.
      * @param config a configuration containing 0..n phase elements
      * @return an array of phase descriptors
-     * @exception Exception if a build error occurs
+     * @exception BuildException if a build error occurs
      */
     protected StageDescriptor buildPhase( Configuration config ) 
       throws BuildException
@@ -214,7 +234,7 @@ public class XMLTypeCreator
      *
      * @param service the service Configuration
      * @return the created ReferenceDescriptor
-     * @throws ConfigurationException if an error occurs
+     * @throws BuildException if an error occurs
      */
     protected ReferenceDescriptor buildReferenceDescriptor( final Configuration service )
         throws BuildException
@@ -229,7 +249,7 @@ public class XMLTypeCreator
      * @param service the service Configuration
      * @param classname the default type classname
      * @return the created ReferenceDescriptor
-     * @throws ConfigurationException if an error occurs
+     * @throws BuildException if an error occurs
      */
     protected ReferenceDescriptor buildReferenceDescriptor( final Configuration service, String classname )
         throws BuildException
@@ -257,7 +277,7 @@ public class XMLTypeCreator
      *
      * @param configuration the loggers configuration
      * @return the created CategoryDescriptor
-     * @throws ConfigurationException if an error occurs
+     * @throws BuildException if an error occurs
      */
     protected CategoryDescriptor[] buildLoggers( final Configuration configuration )
         throws BuildException
@@ -280,7 +300,7 @@ public class XMLTypeCreator
      *
      * @param logger the Logger configuration
      * @return the created CategoryDescriptor
-     * @throws ConfigurationException if an error occurs
+     * @throws BuildException if an error occurs
      */
     private CategoryDescriptor buildLogger( Configuration logger )
         throws BuildException
@@ -296,7 +316,7 @@ public class XMLTypeCreator
      *
      * @param configuration the dependencies configuration
      * @return the created DependencyDescriptor
-     * @throws ConfigurationException if an error occurs
+     * @throws BuildException if an error occurs
      */
     public DependencyDescriptor[] buildDependencies( final Configuration configuration )
         throws BuildException
@@ -335,8 +355,7 @@ public class XMLTypeCreator
         
         final boolean optional =
            dependency.getAttributeAsBoolean( "optional", false );
-        final int index =
-           dependency.getAttributeAsInteger( "index", -1 );
+
         final Properties attributes =
             buildAttributes( dependency.getChild( "attributes" ) );
 
@@ -358,7 +377,7 @@ public class XMLTypeCreator
      *
      * @param context the dependency configuration
      * @return the created ContextDescriptor
-     * @throws ConfigurationException if an error occurs
+     * @throws BuildException if an error occurs
      */
     protected ContextDescriptor buildContext( final Configuration context )
         throws BuildException
@@ -381,7 +400,7 @@ public class XMLTypeCreator
      *
      * @param servicesSet the services configuration
      * @return the created ServiceDescriptor
-     * @throws ConfigurationException if an error occurs
+     * @throws BuildException if an error occurs
      */
     public ServiceDescriptor[] buildServices( final Configuration servicesSet )
         throws BuildException
@@ -404,7 +423,7 @@ public class XMLTypeCreator
      *
      * @param service the service Configuration
      * @return the created ServiceDescriptor
-     * @throws ConfigurationException if an error occurs
+     * @throws BuildException if an error occurs
      */
     public ServiceDescriptor buildService( final Configuration service )
         throws BuildException
@@ -422,7 +441,7 @@ public class XMLTypeCreator
      * @param classname The classname of Component (used to create descriptor)
      * @param info the component info configuration fragment
      * @return the created InfoDescriptor
-     * @throws ConfigurationException if an error occurs
+     * @throws BuildException if an error occurs
      */
     public InfoDescriptor buildInfoDescriptor(
       final String classname, final Configuration info )
@@ -452,7 +471,7 @@ public class XMLTypeCreator
      *
      * @param config the security configuration fragment
      * @return the created SecurityDescriptor
-     * @throws ConfigurationException if an error occurs
+     * @throws BuildException if an error occurs
      */
     public SecurityDescriptor buildSecurityDescriptor( final Configuration config )
       throws BuildException
@@ -531,7 +550,7 @@ public class XMLTypeCreator
      * Utility function to create a set of phase descriptor from a configuration.
      * @param config a configuration containing 0..n phase elements
      * @return an array of phase descriptors
-     * @exception Exception if a build error occurs
+     * @exception BuildException if a build error occurs
      */
     protected ExtensionDescriptor[] buildExtensions( Configuration config ) 
       throws BuildException
@@ -549,7 +568,7 @@ public class XMLTypeCreator
      * Utility function to create an extension descriptor from a configuration.
      * @param config a configuration containing the extension definition
      * @return the extension descriptor
-     * @exception Exception if a build error occurs
+     * @exception BuildException if a build error occurs
      */
     protected ExtensionDescriptor buildExtension( Configuration config ) 
       throws BuildException

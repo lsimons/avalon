@@ -21,6 +21,7 @@ import junit.framework.TestCase;
 import org.apache.avalon.meta.info.*;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
+import org.apache.avalon.framework.parameters.Parameters;
 
 import java.util.Properties;
 import java.io.*;
@@ -42,6 +43,7 @@ public class TypeTestCase extends TestCase
     private StageDescriptor[] m_stages;
     private ExtensionDescriptor[] m_extensions;
     private Configuration m_defaults;
+    private Parameters m_parameters;
     private ReferenceDescriptor m_reference;
     private String m_key;
 
@@ -74,6 +76,7 @@ public class TypeTestCase extends TestCase
             new ExtensionDescriptor( m_key )
         };
         m_defaults = new DefaultConfiguration("default");
+        m_parameters = Parameters.EMPTY_PARAMETERS;
     }
 
     private void checkType(Type type)
@@ -82,6 +85,7 @@ public class TypeTestCase extends TestCase
         checkArray(m_loggers, type.getCategories());
         assertEquals( m_security, type.getSecurity() );
         assertEquals( m_defaults, type.getConfiguration() );
+        assertEquals( m_parameters , type.getParameters() );
         assertEquals( m_context, type.getContext());
         checkArray(m_dependencies, type.getDependencies());
         assertEquals(m_dependencies[0], type.getDependency(m_dependencies[0].getKey()));
@@ -110,7 +114,7 @@ public class TypeTestCase extends TestCase
         Type type = 
           new Type(
             m_descriptor, m_security, m_loggers, m_context, m_services, m_dependencies, 
-            m_stages, m_extensions, m_defaults);
+            m_stages, m_extensions, m_defaults, m_parameters );
         checkType(type);
     }
 
@@ -119,7 +123,7 @@ public class TypeTestCase extends TestCase
         Type type = 
           new Type( 
             m_descriptor, m_security, m_loggers, m_context, m_services, m_dependencies, 
-            m_stages, m_extensions, m_defaults );
+            m_stages, m_extensions, m_defaults, m_parameters );
 
         checkType( type );
 
@@ -142,6 +146,6 @@ public class TypeTestCase extends TestCase
 
     private static InfoDescriptor createSimpleInfo( String classname )
     {
-        return new InfoDescriptor( null, classname, null, null, null, null, null);
+        return new InfoDescriptor( null, classname, null, null, null, null, null );
     }
  }

@@ -20,6 +20,7 @@ package org.apache.avalon.meta.info;
 import java.io.Serializable;
 
 import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.parameters.Parameters;
 
 /**
  * This class contains the meta information about a particular
@@ -52,6 +53,7 @@ public class Type implements Serializable
     private final CategoryDescriptor[] m_loggers;
     private final StageDescriptor[] m_stages;
     private final ExtensionDescriptor[] m_extensions;
+    private final Parameters m_parameters;
 
     /**
      * Creation of a new Type instance using a supplied component descriptor,
@@ -156,6 +158,47 @@ public class Type implements Serializable
                  final Configuration defaults )
             throws NullPointerException
     {
+        this(
+          descriptor, security, loggers, context, services, dependencies,
+          stages, extensions, defaults, null );
+    }
+    
+        /**
+     * Creation of a new Type instance using a supplied component descriptor,
+     * logging, cotext, services, depedencies, stages and extension descriptors.
+     * @param descriptor a component descriptor that contains information about
+     *   the component type
+     * @param security a component security descriptor
+     * @param loggers a set of logger descriptors the declare the logging channels
+     *   required by the type
+     * @param context a component context descriptor that declares the context type
+     *   and context entry key and value classnames
+     * @param services a set of service descriprors that detail the service that
+     *   this component type is capable of supplying
+     * @param dependencies a set of depedency descriprors that detail the service
+     *   that this component type is depedent on
+     * @param stages a set of stage descriprors that detail the extensiuon stage
+     *   interfaces that this component requires a handler for
+     * @param extensions a set of lifecycle extension capabilities that this
+     *   componet can provide to its container during the process of stage
+     *   suppier resolution
+     * @param defaults the static configuration defaults
+     * @param params static parameter defaults
+     * @exception NullPointerException if the descriptor, loggers, context, services,
+     *   dependencies, stages, or extensions argument is null
+     */
+    public Type( final InfoDescriptor descriptor,
+                 final SecurityDescriptor security,
+                 final CategoryDescriptor[] loggers,
+                 final ContextDescriptor context,
+                 final ServiceDescriptor[] services,
+                 final DependencyDescriptor[] dependencies,
+                 final StageDescriptor[] stages,
+                 final ExtensionDescriptor[] extensions,
+                 final Configuration defaults,
+                 final Parameters params )
+            throws NullPointerException
+    {
         if ( null == descriptor )
         {
             throw new NullPointerException( "descriptor" );
@@ -198,6 +241,7 @@ public class Type implements Serializable
         m_stages = stages;
         m_extensions = extensions;
         m_configuration = defaults;
+        m_parameters = params;
     }
 
     /**
@@ -348,6 +392,17 @@ public class Type implements Serializable
     }
 
     /**
+     * Returns the default parameters supplied with the type.
+     *
+     * @return the default parameters or null if no packaged defaults
+     */
+    public Parameters getParameters()
+    {
+        return m_parameters;
+    }
+
+
+    /**
      * Return the lifecycle stages extensions required by this component type.
      *
      * @return an array of stage descriptors.
@@ -414,6 +469,9 @@ public class Type implements Serializable
     */
     public boolean equals(Object other)
     {
+        if( null == other )
+            return false;
+
         if( ! (other instanceof Type ) )
             return false;
 
@@ -425,9 +483,28 @@ public class Type implements Serializable
         if( ! m_security.equals( t.m_security ) )
             return false;
             
-        if( ! m_configuration.equals( t.m_configuration ) )
+        if( null == m_configuration )
+        {
+            if( ! ( null == t.m_configuration ) )
+                return false;
+        }
+        else
+        {
+            if( ! m_configuration.equals( t.m_configuration ) )
             return false;
-            
+        }
+
+        if( null == m_parameters )
+        {
+            if( ! ( null == t.m_parameters ) )
+                return false;
+        }
+        else
+        {
+            if( ! m_parameters.equals( t.m_parameters ) )
+            return false;
+        }
+
         if( ! m_context.equals( t.m_context ) )
             return false;
 
@@ -471,11 +548,19 @@ public class Type implements Serializable
         hash >>>= 13;
         hash ^= m_context.hashCode();
         hash >>>= 13;
+
         if( m_configuration != null )
         { 
-            hash ^= m_context.hashCode();
+            hash ^= m_configuration.hashCode();
             hash >>>= 13;
         }
+
+        if( m_parameters != null )
+        {
+            hash ^= m_parameters.hashCode();
+            hash >>>= 13;
+        }
+
         hash >>>= 13;
         for( int i=0; i<m_services.length; i++ )
         {
