@@ -71,12 +71,14 @@
 
   <property name="xerces.jar" value="${tools.dir}/lib/xerces.jar"/>
   <property name="logkit.jar" value="${lib.dir}/logkit.jar"/>
-  <property name="avalonapi.jar" value="${lib.dir}/avalonapi.jar"/>
+  <property name="framework.jar" value="${lib.dir}/avalon-framework.jar"/>
+  <property name="excalibur.jar" value="${lib.dir}/avalon-excalibur.jar"/>
   <property name="phoenix-client.jar" value="${lib.dir}/phoenix-client.jar"/>
   <property name="testlet.jar" value="${tools.dir}/lib/testlet.jar"/>
 
   <path id="project.class.path">
-    <pathelement location="${avalonapi.jar}"/>
+    <pathelement location="${framework.jar}"/>
+    <pathelement location="${excalibur.jar}"/>
     <pathelement location="${logkit.jar}"/>
     <pathelement location="${testlet.jar}"/>
     <pathelement location="${xerces.jar}"/>
@@ -85,7 +87,8 @@
     <fileset dir="${lib.dir}">
       <include name="*.jar" />
       <exclude name="phoenix-client.jar"/>
-      <exclude name="avalonapi.jar"/>
+      <exclude name="${framework.jar}"/>
+      <exclude name="${excalibur.jar}"/>
       <exclude name="logkit.jar"/>
     </fileset>
     <pathelement path="${build.classes}" />
@@ -585,7 +588,7 @@
   -->
   <target name="real-clean" depends="clean">
     <delete dir="${docs.dir}" />
-    <delete dir="${dist.base}" />
+    <delete dir="${dist.dir}" />
   </target>
 
 </project>
