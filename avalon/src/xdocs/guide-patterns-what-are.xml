@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.1//EN" "document-v11.dtd">
+<document>
+  <header>
+    <title>Avalon Framework - Guide - What are Design Patterns?</title>
+    <authors>
+      <person name="Berin Loritsch" email="bloritsch@apache.org"/>
+      <person name="Leo Simons" email="leosimons@apache.org"/>
+    </authors>
+  </header>
+  <body>
+    <section>
+<title>Getting Started with Patterns</title>
+      <p>
+        I highly recommend reading the 
+        <link href="http://www6.software.ibm.com/developerworks/education/j-patterns/index.html">
+          "Java Design Patterns 101"
+        </link> tutorial, and its follow-up
+        <link href="http://www6.software.ibm.com/developerworks/education/j-patterns201/index.html">
+          "Java Design Patterns 201"
+        </link>, if you are unfamiliar with the concept of design patterns (and
+        see below for more information). Note that you have to register at the
+        IBM DeveloperWorks site in order to read these, but that's a good idea
+        anyway.
+      </p>
+    </section>
+    <section>
+<title>Where to Learn more</title>
+      <p>
+        You can find more information about patterns from the following links:
+      </p>
+      <ol>
+        <li>Brian Foote's <link href="http://www.laputan.org/foote/papers.html">Pattern documents</link>
+</li>
+        <li>
+<link href="http://www6.software.ibm.com/developerworks/education/j-patterns/index.html">
+          "Java Design Patterns 101"
+        </link> at DeveloperWorks</li>
+		<li>
+<link href="http://www6.software.ibm.com/developerworks/education/j-patterns201/index.html">
+          "Java Design Patterns 201"
+        </link> at DeveloperWorks</li>
+		<li>
+<link href="http://cseng.aw.com/book/0,3828,0201633612,00.html">
+          "Java Design Patterns: Elements of Reusable Object-Oriented Software"
+        </link> by the GoF (printed book)</li>
+      </ol>
+    </section>
+  </body>
+</document>
