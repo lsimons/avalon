@@ -54,7 +54,7 @@ import org.apache.log.Priority;
  *  getter methods.  getComponentManager() for example.
  *
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.5 $ $Date: 2002/11/07 05:11:34 $
+ * @version CVS $Revision: 1.6 $ $Date: 2002/11/07 06:37:53 $
  * @since 4.2
  */
 public class ExcaliburComponentManagerCreator
@@ -63,25 +63,25 @@ public class ExcaliburComponentManagerCreator
     /** Internal logger set once the LoggerManager has been initialized.
      * Always call getLogger() to get the best available logger. */
     private Logger m_logger;
-    
+
     /** Simple logger which can be used until the LoggerManager has been setup.
      * Always call getLogger() to get the best available logger. */
     private final Logger m_primordialLogger;
-    
+
     /** Context to create the ComponentManager with. */
     private Context m_context;
-    
+
     /** Internal logger manager. */
     private LoggerManager m_loggerManager;
-    
+
     /** Internal role manager. */
     private RoleManager m_roleManager;
-    
+
     /** Internal component manager. */
     private ComponentManager m_componentManager;
-    
+
     /** Internal instrument manager. */
-    private InstrumentManag
+    private InstrumentManager m_instrumentManager;
     /*---------------------------------------------------------------
      * Static Methods
      *-------------------------------------------------------------*/
@@ -122,7 +122,7 @@ public class ExcaliburComponentManagerCreator
     /**
      * Creates a Configuration object from data read from an InputStream.
      *
-     * @param is InputStream from which the Configuration is created.
+     * @param file InputStream from which the Configuration is created.
      *
      * @return Configuration created from the InputStream
      *
@@ -439,8 +439,6 @@ public class ExcaliburComponentManagerCreator
             Logger imLogger = m_loggerManager.getLoggerForCategory(
                 instrumentManagerConfig.getAttribute( "logger", "system.instrument" ) );
 
-                instrumentManagerConfig.getAttribute( "logger", "system.instrument" ) );
-        
             // Set up the Instrument Manager
             DefaultInstrumentManager instrumentManager = new DefaultInstrumentManager();
             instrumentManager.enableLogging( imLogger );

@@ -18,7 +18,6 @@ import org.apache.avalon.framework.thread.SingleThreaded;
 import org.apache.avalon.framework.thread.ThreadSafe;
 import org.apache.excalibur.instrument.CounterInstrument;
 import org.apache.excalibur.instrument.InstrumentManager;
-import org.apache.excalibur.instrument.Instrumentable;
 import org.apache.excalibur.instrument.ValueInstrument;
 
 /**
@@ -28,7 +27,7 @@ import org.apache.excalibur.instrument.ValueInstrument;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.8 $ $Date: 2002/11/07 05:11:34 $
+ * @version CVS $Revision: 1.9 $ $Date: 2002/11/07 06:37:53 $
  * @since 4.0
  */
 public abstract class ComponentHandler
@@ -168,7 +167,7 @@ public abstract class ComponentHandler
         }
 
         // Set the instrumentable name of the handler.
-        ( (Instrumentable)handler ).setInstrumentableName(
+        handler.setInstrumentableName(
             ExcaliburComponentManager.INSTRUMENTABLE_NAME + "." + instrumentableName );
 
         return handler;
@@ -271,7 +270,7 @@ public abstract class ComponentHandler
         {
             m_references--;
         }
-t manager
+
         m_putsInstrument.increment();
         m_referencesInstrument.setValue( m_references );
 

@@ -26,7 +26,7 @@ import org.apache.excalibur.instrument.InstrumentManager;
  *  components before disposing them.
  *
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/11/07 05:11:35 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/11/07 06:37:53 $
  * @since 4.2
  */
 abstract class AbstractReferenceProxyLatch
@@ -34,12 +34,13 @@ abstract class AbstractReferenceProxyLatch
 {
     /** Name of the latch */
     private String m_name;
-    
+
     /** Number of registered proxies which have not yet been finalized. */
     private int m_waitingProxies;
-    
+
     /** Flag that keeps track of when the trigger is requested. */
-    private boolean m_triggerReq
+    private boolean m_triggerRequested;
+
     /*---------------------------------------------------------------
      * Constructors
      *-------------------------------------------------------------*/
@@ -155,7 +156,7 @@ abstract class AbstractReferenceProxyLatch
     /**
      * Called by a proxy when it is finalized.
      *
-     * @proxy proxy The AbstractRefernceProxy that is ready.
+     * @param proxy The AbstractRefernceProxy that is ready.
      */
     void notifyFinalized( AbstractReferenceProxy proxy )
     {
@@ -174,16 +175,14 @@ abstract class AbstractReferenceProxyLatch
                 return;
             }
         }
-}
-        }
-        
+
         // Do this outside the synchronization block.
         if ( getLogger().isDebugEnabled() )
         {
             getLogger().debug( "The proxy named '" + proxy.getName() + "' was finalized.  "
                 + "All proxies have been finalized." );
         }
-        
+
         if ( m_triggerRequested )
         {
             try
@@ -196,7 +195,7 @@ abstract class AbstractReferenceProxyLatch
             }
         }
     }
-    
+
     /**
      * Called when all of the proxies have notified that they are done.
      */

@@ -122,16 +122,17 @@ import org.apache.excalibur.instrument.InstrumentManager;
  * Note that servlets which extend the AbstractComponentManagerServlet will behave correctly.
  *
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/11/07 05:11:35 $
+ * @version CVS $Revision: 1.5 $ $Date: 2002/11/07 06:37:53 $
  * @since 4.2
  */
 public class ExcaliburComponentManagerServlet
     extends GenericServlet
 {
     private ExcaliburComponentManagerCreator m_componentManagerCreator;
-    
+
     /** Latch used to shutdown the ExcaliburComponentManagerCreator cleanly. */
-    private Latch m_lat
+    private Latch m_latch;
+
     /*---------------------------------------------------------------
      * Constructors
      *-------------------------------------------------------------*/
@@ -351,7 +352,7 @@ public class ExcaliburComponentManagerServlet
         {
             m_componentManagerCreator = componentManagerCreator;
         }
-  
+
         /*---------------------------------------------------------------
          * AbstractReferenceProxyLatch Methods
          *-------------------------------------------------------------*/

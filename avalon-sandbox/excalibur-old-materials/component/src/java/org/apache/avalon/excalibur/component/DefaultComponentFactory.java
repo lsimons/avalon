@@ -43,7 +43,7 @@ import org.apache.excalibur.instrument.Instrumentable;
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.10 $ $Date: 2002/11/07 05:11:34 $
+ * @version CVS $Revision: 1.11 $ $Date: 2002/11/07 06:37:53 $
  * @since 4.0
  */
 public class DefaultComponentFactory
@@ -122,7 +122,7 @@ public class DefaultComponentFactory
               null,
               "N/A" );
     }
-    
+
     /**
      * Construct a new component factory for the specified component.
      *
@@ -159,7 +159,7 @@ public class DefaultComponentFactory
         m_instrumentableName = instrumentableName;
         m_proxyGenerator = new ComponentProxyGenerator( m_componentClass.getClassLoader() );
     }
-    
+
     /*---------------------------------------------------------------
      * ObjectFactory Methods
      *-------------------------------------------------------------*/
@@ -216,7 +216,8 @@ public class DefaultComponentFactory
                     ( (Loggable)component ).setLogger( m_loggerManager.getLogKitLoggerForCategory( logger ) );
                 }
             }
-  
+        }
+
         // Set the name of the instrumentable before initialization.
         if( component instanceof Instrumentable )
         {
@@ -318,7 +319,9 @@ public class DefaultComponentFactory
         return m_componentClass;
     }
 
-    public final void decommission( final Object component )
+    public final void decommission
+        (
+        final Object component )
         throws Exception
     {
         Object check = m_components.get( component );
@@ -367,7 +370,8 @@ public class DefaultComponentFactory
     /*---------------------------------------------------------------
      * Disposable Methods
      *-------------------------------------------------------------*/
-    public final void dispose()
+    public final void dispose
+        ()
     {
         Component[] components = new Component[ m_components.keySet().size() ];
 
@@ -394,8 +398,7 @@ public class DefaultComponentFactory
      * ThreadSafe Methods
      *-------------------------------------------------------------*/
     // No methods
-ethods
-    
+
     /*---------------------------------------------------------------
      * Methods
      *-------------------------------------------------------------*/
