@@ -1,8 +1,8 @@
 #!/bin/sh
 
 echo
-echo "Phoenix Build System"
-echo "--------------------"
+echo "Excalibur Build System"
+echo "----------------------"
 
 LOCAL_AVALON_TOOLS=$AVALON_TOOLS
 
