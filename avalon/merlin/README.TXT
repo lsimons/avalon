@@ -27,3 +27,5 @@ Installation Instructions:
 The latest installation instructions can be found at:
   http://avalon.apache.org/merlin/starting/installation/
 
+Also make sure to take a look at the INSTALL.txt file in this
+directory as it may contain updated info.
