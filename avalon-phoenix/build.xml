@@ -53,7 +53,7 @@ Legal:
   <property name="build.javadocs" value="${build.dir}/javadocs"/>
   <property name="build.docs" value="${build.dir}/docs"/>
   <property name="build.context" value="${build.dir}/documentation"/>
-  <property name="build.xdocs" value="${build.context}/xdocs/phoenix"/>
+  <property name="build.xdocs" value="${build.context}/xdocs"/>
 
   <!-- Set the properties for source directories -->
   <property name="src.dir" value="src"/>
@@ -64,7 +64,7 @@ Legal:
   <property name="lib.dir" value="lib"/>
   <property name="tools.dir" value="../jakarta-avalon/tools"/>
   <property name="docs.dir" value="docs"/>
-  <property name="www.dir" value="www"/>
+  <property name="www.dir" value="../jakarta-avalon/www/phoenix"/>
   <property name="avalon.skin" value="${tools.dir}/lib/jakarta-style.jar"/>
   <property name="xdocs.dir" value="${src.dir}/xdocs"/>
   <property name="javadocs.dir" value="${docs.dir}/api"/>
@@ -79,7 +79,7 @@ Legal:
   <property name="excalibur.jar" value="${lib.dir}/avalon-excalibur.jar"/>
   <property name="scratchpad.jar" value="${lib.dir}/avalon-scratchpad.jar"/>
   <property name="logkit.jar" value="${lib.dir}/logkit.jar"/>
-  <property name="tools.jar" value="${tools.jar}/../lib/tools.jar"/>
+  <property name="tools.jar" value="${java.home}/../lib/tools.jar"/>
 
   <path id="project.class.path">
     <pathelement location="${xerces.jar}"/>
@@ -259,11 +259,11 @@ Legal:
     <copy todir="${build.context}" filtering="on">
       <fileset dir="${context.dir}">
         <exclude name="resources/**"/>
-	<exclude name="xdocs"/>
+        <exclude name="xdocs"/>
       </fileset>
     </copy>
 
-    <copy todir="${build.context}/xdocs/phoenix" filtering="on">
+    <copy todir="${build.context}/xdocs" filtering="on">
       <fileset dir="${xdocs.dir}"/>
     </copy>
 
@@ -308,6 +308,8 @@ Legal:
 
   <!-- Update the www directory -->
   <target name="site-docs" depends="local-docs">
+
+    <mkdir dir="${www.dir}"/>
 
     <!-- delete all old documents but keep CVS directories -->
     <!-- note that by doing an include the defaultexcludes (CVS dirs) will be kept -->
