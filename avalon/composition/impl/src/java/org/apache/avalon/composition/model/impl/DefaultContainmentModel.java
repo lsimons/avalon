@@ -123,7 +123,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * as a part of a containment deployment model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.13.2.13 $ $Date: 2004/01/09 20:29:49 $
+ * @version $Revision: 1.13.2.14 $ $Date: 2004/01/12 00:17:19 $
  */
 public class DefaultContainmentModel extends DefaultDeploymentModel 
   implements ContainmentModel
@@ -279,16 +279,10 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
     * stage dependency. The containment model implementation will 
     * allways return FALSE.
     *
-    * @return FALSE containers don't export stage handling support
+    * @return FALSE containers don't export stage handling
     */
     public boolean isaCandidate( StageDescriptor stage )
     {
-        //
-        // TODO-LATER: requires declaration of extension handling 
-        // export within the container meta-data - for now a container
-        // only exports services
-        //
-
         return false;
     }
 
@@ -949,8 +943,14 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
 
         final String name = profile.getName();
         final String partition = getPartition();
-        final Logger logger = getLogger().getChildLogger( name );
 
+        LoggingManager logging = m_context.getSystemContext().getLoggingManager();
+        CategoriesDirective categories = profile.getCategories();
+        if( null != categories )
+        {   
+            logging.addCategories( partition, profile.getCategories() );
+        }
+        Logger logger = logging.getLoggerForCategory( partition + name );
         if( getLogger().isDebugEnabled() )
         {
             final String message = 
@@ -1041,7 +1041,6 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
               StringHelper.toString( REZ.getString( "containment.add", name ) );
             getLogger().debug( message );
         }
-
 
         LoggingManager logging = m_context.getSystemContext().getLoggingManager();
         final String base = partition + name;
@@ -1556,159 +1555,6 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
     {
         return path.substring( name.length() + 1 );
     }
-
-   /**
-    * Get a local model relative to a supplied service dependency.
-    * @param dependency the service dependency descriptor
-    * @exception ModelRuntimeException if an error occurs during model establishment
-    */
-    /*
-    public DeploymentModel getModel( DependencyDescriptor dependency )
-      throws ModelRuntimeException
-    {
-        //
-        // if an existing model exists return it
-        //
-
-        DeploymentModel[] models = getModels();
-        ModelSelector modelSelector = new DefaultModelSelector();
-        DeploymentModel model = modelSelector.select( models, dependency );
-        if( model != null ) return model;
-
-        //
-        // otherwise, check for any packaged profiles that 
-        // we could use to construct the model
-        //
-
-        TypeRepository repository = 
-          m_context.getClassLoaderModel().getTypeRepository();
-        ArrayList list = new ArrayList();
-        try
-        {
-            Type[] types = repository.getTypes( dependency );
-            for( int i=0; i<types.length; i++ )
-            {
-                DeploymentProfile[] profiles = 
-                  repository.getProfiles( types[i] );
-                for( int j=0; j<profiles.length; j++ )
-                {
-                    list.add( profiles[j] );
-                }
-            }
-
-            //
-            // TODO: update this to handle meta-data directed selector
-            // creation (e.g. an extension urn) - problem is that we either
-            // declare that this method is invoked when we are auto 
-            // creating a model on demand - in effect what we need is a 
-            // DependencyDirective instead of the descriptor.
-            //
-
-            DeploymentProfile[] collection = (DeploymentProfile[]) list.toArray( new DeploymentProfile[0] );
-            ProfileSelector selector = new DefaultProfileSelector();
-            DeploymentProfile profile = selector.select( collection, dependency );
-            if( profile != null ) 
-            {
-                return addModel( profile );
-            }
-        }
-        catch( Throwable e )
-        {
-            // should not happen
-            final String error = 
-              REZ.getString( 
-                "containment.model.create.error", 
-                getPath(), 
-                dependency.toString() );
-            throw new ModelRuntimeException( error, e );
-        }
-
-        //
-        // check the parent
-        //
-
-        return m_context.getModel( dependency );
-    }
-    */
-
-   /**
-    * Return a model relative to a supplied stage descriptor.
-    * @param stage the stage descriptor
-    * @return model of a an stage handler or null if the 
-    *   stage is unresolvable
-    * @exception ModelRuntimeException if an error occurs 
-    *   during model establishment
-    */
-    /*
-    public DeploymentModel getModel( StageDescriptor stage ) 
-      throws ModelRuntimeException
-    {
-        //
-        // if an existing model exists return it
-        //
-
-        DeploymentModel[] models = getModels();
-        ModelSelector modelSelector = new DefaultModelSelector();
-        DeploymentModel model = modelSelector.select( models, stage );
-        if( model != null ) return model;
-
-        //
-        // otherwise, check for any packaged profiles that 
-        // we could use to construct the model
-        //
-
-        TypeRepository repository = 
-          m_context.getClassLoaderModel().getTypeRepository();
-
-        ArrayList list = new ArrayList();
-        try
-        {
-            Type[] types = repository.getTypes( stage );
-            for( int i=0; i<types.length; i++ )
-            {
-                DeploymentProfile[] profiles = 
-                  repository.getProfiles( types[i] );
-                for( int j=0; j<profiles.length; j++ )
-                {
-                    list.add( profiles[j] );
-                }
-            }
-
-            //
-            // TODO: update this to handle meta-data directed selector
-            // creation (e.g. an extension urn) - problem is that we either
-            // declare that this method is invoked when we are auto 
-            // creating a model on demand - in effect what we need is a 
-            // DependencyDirective instead of the descriptor.
-            //
-
-            DeploymentProfile[] collection = 
-              (DeploymentProfile[]) list.toArray( new DeploymentProfile[0] );
-            ProfileSelector selector = new DefaultProfileSelector();
-            DeploymentProfile profile = selector.select( collection, stage );
-            if( profile != null )
-            {
-                return addModel( profile );
-            }
-        }
-        catch( Throwable e )
-        {
-            // should not happen
-            final String error = 
-              REZ.getString( 
-                "containment.model.create.error", 
-                getPath(), 
-                stage.toString() );
-            throw new ModelRuntimeException( error, e );
-        }
-
-        //
-        // check the parent
-        //
-
-        return m_context.getModel( stage );
-    }
-    */
 
    /**
     * Return the set of service export mappings

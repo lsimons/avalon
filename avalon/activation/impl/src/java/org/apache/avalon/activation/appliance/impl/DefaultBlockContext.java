@@ -60,15 +60,11 @@ import org.apache.avalon.activation.appliance.BlockContext;
  * Context object applied to a new block.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3.2.2 $ $Date: 2004/01/07 20:34:42 $
+ * @version $Revision: 1.3.2.3 $ $Date: 2004/01/12 00:17:19 $
  */
 public class DefaultBlockContext implements BlockContext
 {
-    private final Logger m_logger;
-
     private final ContainmentModel m_model;
-
-    private final SystemContext m_context;
 
     private final Engine m_engine;
 
@@ -81,24 +77,12 @@ public class DefaultBlockContext implements BlockContext
     *      instances may be resolved
     */
     public DefaultBlockContext( 
-      Logger logger, ContainmentModel model, 
-      SystemContext context, Engine engine )
+      ContainmentModel model, Engine engine )
     {
-        if( context == null ) throw new NullPointerException( "context" );
+        if( model == null ) throw new NullPointerException( "model" );
 
-        m_logger = logger;
         m_model = model;
-        m_context = context;
         m_engine = engine;
-    }
-
-   /**
-    * Returns the logging channel to assign to the block.
-    * @return the logging channel
-    */
-    public Logger getLogger()
-    {
-        return m_logger;
     }
 
    /**
@@ -108,15 +92,6 @@ public class DefaultBlockContext implements BlockContext
     public ContainmentModel getContainmentModel()
     {
         return m_model;
-    }
-
-   /**
-    * Returns the system context assigned to the block.
-    * @return the system context
-    */
-    public SystemContext getSystemContext()
-    {
-        return m_context;
     }
 
    /**

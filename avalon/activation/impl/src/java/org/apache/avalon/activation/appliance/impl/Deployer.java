@@ -64,7 +64,7 @@ import org.apache.avalon.framework.logger.Logger;
  * serve basis.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2.2.4 $ $Date: 2004/01/08 12:51:16 $
+ * @version $Revision: 1.2.2.5 $ $Date: 2004/01/12 00:17:19 $
  * @see DeploymentRequest
  */
 class Deployer
@@ -81,13 +81,13 @@ class Deployer
     //------------------------------------------------------------
 
     private final Logger m_logger;
-    private final SimpleFIFO m_deploymentFIFO;
+    private final SimpleFIFO m_deploymentFIFO = new SimpleFIFO();
 
     //------------------------------------------------------------
     // mutable static
     //------------------------------------------------------------
 
-    private Thread      m_deploymentThread;
+    private Thread m_deploymentThread;
     
     //------------------------------------------------------------
     // constructor
@@ -96,8 +96,6 @@ class Deployer
     Deployer( Logger logger )
     {
         m_logger = logger;
-        m_deploymentFIFO = new SimpleFIFO();
-        
         m_deploymentThread = 
           new Thread( this, "Deployer " + m_ThreadCounter++ );
         m_deploymentThread.start();
@@ -136,10 +134,19 @@ class Deployer
         {
             m_logger.debug( "deploying: " + deployable );
         }
-        DeploymentRequest req = 
-          new DeploymentRequest( deployable, m_deploymentThread );
-        m_deploymentFIFO.put( req );
-        req.waitForCompletion();
+        if( null != m_deploymentThread )
+        {
+            DeploymentRequest req = 
+              new DeploymentRequest( deployable, m_deploymentThread );
+            m_deploymentFIFO.put( req );
+            req.waitForCompletion();
+        }
+        else
+        {
+            final String warning = 
+              "Ignoring attempt to deploy a component on a disposed deployer.";
+            m_logger.warn( warning );
+        }
     }
 
     /** 
@@ -153,7 +160,10 @@ class Deployer
         {
             m_logger.debug( "disposal" );
         }
-        m_deploymentThread.interrupt();
+        if( null != m_deploymentThread )
+        { 
+            m_deploymentThread.interrupt();
+        }
     }
     
     public void run()

@@ -58,7 +58,7 @@ import org.apache.avalon.merlin.Kernel;
  * A event raised by a kernel signaling a state change.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.1.2.1 $ $Date: 2004/01/09 20:29:49 $
+ * @version $Revision: 1.1.2.2 $ $Date: 2004/01/12 00:17:20 $
  */
 public class KernelEvent extends EventObject
 {
@@ -70,8 +70,7 @@ public class KernelEvent extends EventObject
     /**
      * Create a CompositionEvent event.
      *
-     * @param source the comtainment model raising the event
-     * @param child the model that is the subject of composition
+     * @param kernel the kernel instance raising the event
      */
     public KernelEvent( final Kernel kernel )
     {
