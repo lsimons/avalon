@@ -35,7 +35,7 @@ the LICENSE.txt file.
     <!--<pathelement location="${excalibur-logger.jar}"/>-->
     <pathelement location="${excalibur-configuration.jar}"/>
     <pathelement location="${excalibur-pool.jar}"/>
-    <!-- <pathelement location="${excalibur-thread.jar}"/> -->
+    <pathelement location="${excalibur-thread.jar}"/>
     <pathelement location="${excalibur-event.jar}"/>
     <pathelement location="${excalibur-sourceresolve.jar}"/>
     <pathelement location="${util.concurrent.jar}"/>
@@ -261,7 +261,7 @@ the LICENSE.txt file.
      <copy todir="${lib.dir}" file="${excalibur-threadcontext.jar}"/>
      <copy todir="${lib.dir}" file="${excalibur-sourceresolve.jar}"/>
      <copy todir="${lib.dir}" file="${excalibur-pool.jar}"/>
-     <!-- <copy todir="${lib.dir}" file="${excalibur-thread.jar}"/> -->
+     <copy todir="${lib.dir}" file="${excalibur-thread.jar}"/>
      <copy todir="${lib.dir}" file="${avalon-lifecycle.jar}"/>
      <copy todir="${lib.dir}" file="${avalon-assembly.jar}"/>
      <!--
