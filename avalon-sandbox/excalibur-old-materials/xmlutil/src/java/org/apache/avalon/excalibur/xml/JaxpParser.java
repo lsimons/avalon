@@ -13,13 +13,13 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParserFactory;
 import org.apache.avalon.excalibur.pool.Poolable;
-import org.apache.avalon.framework.component.ComponentException;
-import org.apache.avalon.framework.component.ComponentManager;
-import org.apache.avalon.framework.component.Composable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.parameters.ParameterException;
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.avalon.framework.service.Serviceable;
+import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.avalon.framework.service.ServiceException;
 import org.w3c.dom.Document;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.ErrorHandler;
@@ -69,11 +69,11 @@ import org.xml.sax.ext.LexicalHandler;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/07/10 08:53:17 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/08/04 04:27:40 $
  */
 public final class JaxpParser
     extends AbstractLogEnabled
-    implements Parser, ErrorHandler, Composable, Parameterizable, Poolable
+    implements Parser, ErrorHandler, Serviceable, Parameterizable, Poolable
 {
     /** the SAX Parser factory */
     private SAXParserFactory m_factory;
@@ -107,10 +107,10 @@ public final class JaxpParser
     /**
      * Get the Entity Resolver from the component manager
      */
-    public void compose( final ComponentManager manager )
-        throws ComponentException
+    public void service( final ServiceManager manager )
+        throws ServiceException
     {
-        if( manager.hasComponent( EntityResolver.ROLE ) )
+        if( manager.hasService( EntityResolver.ROLE ) )
         {
             m_resolver = (EntityResolver)manager.lookup( EntityResolver.ROLE );
             if( getLogger().isDebugEnabled() )
