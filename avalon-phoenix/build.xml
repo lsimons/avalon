@@ -106,6 +106,9 @@ Legal:
     <available property="wrapper.present" classname="com.silveregg.wrapper.WrapperManager">
       <classpath refid="project.class.path"/>
     </available>
+    <available property="commons-daemon.present" classname="org.apache.commons.daemon.Daemon">
+      <classpath refid="project.class.path"/>
+    </available>
   </target>
 
   <!-- Prepares the build directory -->
@@ -147,6 +150,8 @@ Legal:
                unless="jmx.present"/>
       <exclude name="org/apache/avalon/phoenix/launcher/DaemonLauncher.java"
                unless="wrapper.present"/>
+      <exclude name="org/apache/avalon/phoenix/launcher/CommonsDaemon.java"
+               unless="commons-daemon.present"/>
     </javac>
 
     <copy todir="${build.classes}">
