@@ -63,7 +63,7 @@ Legal:
     <property name="xml-api.jar" value="${lib.dir}/xml-apis.jar"/>
     <property name="xerces.jar" value="${lib.dir}/xercesImpl-2.0.2.jar"/>
     <property name="xalan.jar" value="${lib.dir}/xalan-2.3.1.jar"/>
-    <property name="framework.jar" value="${lib.dir}/avalon-framework-4.1.3.jar"/>
+    <property name="framework.jar" value="${lib.dir}/avalon-framework.jar"/>
     <property name="logkit.jar" value="${lib.dir}/logkit-1.1.1.jar"/>
     <property name="tools.jar" value="${java.home}/../lib/tools.jar"/>
 
@@ -237,7 +237,7 @@ Legal:
         </copy>
 
     </target>
-    
+
     <target name="test-generate">
 
       <taskdef name="generatemeta" classname="org.apache.avalon.phoenix.tools.metagenerate.MetaGenerateTask">
@@ -250,7 +250,7 @@ Legal:
         </fileset>
       </generatemeta>
 
-    </target>    
+    </target>
 
     <!-- Runs the tests -->
     <target name="test" depends="compile, test-generate" description="compiles and runs unit tests">
@@ -260,8 +260,8 @@ Legal:
         <copy todir="${build.tests}">
             <fileset dir="${build.test-metagenerate}">
                 <include name="**/*.xinfo"/>
-                <include name="**/*.mxinfo"/>                
-                <include name="**/*.mf"/>                 
+                <include name="**/*.mxinfo"/>
+                <include name="**/*.mf"/>
             </fileset>
         </copy>
 
@@ -294,7 +294,7 @@ Legal:
             <batchtest todir="${build.tests}">
                 <fileset dir="${build.testclasses}">
                     <include name="**/test/*TestCase.class"/>
-                    <include name="**/metagenerate/*TestCase.class"/>                    
+                    <include name="**/metagenerate/*TestCase.class"/>
                     <exclude name="**/Abstract*"/>
                 </fileset>
             </batchtest>
@@ -486,7 +486,7 @@ Legal:
 	<delete dir="mx4j-tools-temp"/>
 	<unzip src="${mx4j-tools.jar}" dest="mx4j-tools-temp"/>
 	<property name="strings_en.xml" value="mx4j-tools-temp/mx4j/adaptor/http/xsl/strings_en.xml"/>
-	<replace file="${strings_en.xml}" token="MX4J/Http Adaptor" value="Apache's Phoenix Server"/> 
+	<replace file="${strings_en.xml}" token="MX4J/Http Adaptor" value="Apache's Phoenix Server"/>
 	<replace file="${strings_en.xml}" token="mx4jlogo" value="phoenixlogo"/>
 	<replace file="${strings_en.xml}" token="MX4J logo" value="Phoenix Logo"/>
 	<replace file="${strings_en.xml}" token="JMX Management Console" value="Avalon-Phoenix Management Console"/>
@@ -502,7 +502,7 @@ Legal:
 
         <copy file="${mx4j.jar}" todir="${bin.dist.bin}/lib"/>
         <copy file="${build.lib}/mx4j-tools.jar" todir="${bin.dist.bin}/lib"/>
-        
+
         <antcall target="dist-beanshell"/>
 
         <copy file="${script.dir}/run.bat" todir="${bin.dist.bin}"/>
@@ -726,9 +726,9 @@ phoenix-punit.jar needs to be used with excalibur-containerkit-1.0.jar
             src="${dist.base}/${dist.name}-bin.tar"/>
 
         <delete file="${dist.base}/${dist.name}-bin.tar"/>
-        
-        
-        
+
+
+
         <delete dir="${dist.name}" />
 
         <antcall target="src-dist">
