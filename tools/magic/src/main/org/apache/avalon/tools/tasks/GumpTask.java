@@ -624,15 +624,7 @@ public class GumpTask extends SystemTask
         }
         else
         {
-            String type = resource.getInfo().getType();
-            if( "jar".equals( type ) )
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
+            return false;
         }
     }
 
