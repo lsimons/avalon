@@ -29,7 +29,6 @@
 
     <j:set var="impl" value="${pom.getDependency('avalon-repository:avalon-repository-impl')}"/>
 
-    <ant:mkdir dir="${maven.build.dir}/classes/${pom.groupId}"/>
     <ant:echo file="${maven.build.dir}/classes/implementation.properties">
 #===================================================================#
 # Default repository implementation artifact identifier.            #
