@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+  <title>Cornerstone Threads</title>
+  <body>
+    <menu name="Cornerstone">
+      <item name="Datasource" href="datasource.html"/>
+      <item name="Scheduler" href="scheduler.html"/>
+      <item name="Sockets" href="sockets.html"/>
+      <item name="Store" href="store.html"/>
+      <item name="Threads" href="threads.html"/>
+    </menu>
+  </body>
+</project>

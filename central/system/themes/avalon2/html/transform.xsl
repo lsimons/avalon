@@ -128,11 +128,13 @@
           <xsl:apply-templates select="menu" >
             <xsl:with-param name="dir" select="concat( $dir, '../')" />
           </xsl:apply-templates>
+        <!--
         <div class="menu">
           <xsl:apply-templates select="item" >
             <xsl:with-param name="dir" select="$dir" />
           </xsl:apply-templates>
         </div>
+        -->
       </xsl:when>
       <xsl:otherwise>
         <div class="menu">

@@ -23,9 +23,9 @@
 
   <body>
     <menu>
-      <item name="Avalon Finder" href="finder.html"/>
-      <item name="Avalon HTTP" href="http.html"/>
-      <item name="Avalon JMX" href="jmx.html"/>
+      <item name="Finder" href="finder.html"/>
+      <item name="HTTP" href="http.html"/>
+      <item name="JMX" href="jmx.html"/>
     </menu>
  </body>
 

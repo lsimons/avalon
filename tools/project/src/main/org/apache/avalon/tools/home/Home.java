@@ -77,9 +77,7 @@ public class Home
             }
             catch( Throwable e )
             {
-                final String error =
-                  "Error occured while loading system defintion.";
-                throw new BuildException( error, e );
+                throw new BuildException( e );
             }
         }
     }

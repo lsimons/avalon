@@ -1,0 +1,9 @@
+
+<project name="site" default="" basedir="." 
+    xmlns:x="antlib:org.apache.avalon.tools"> 
+
+  <x:project index="../system/index.xml"/>
+  <x:prepare/>
+  <x:xdoc/>
+
+</project>
