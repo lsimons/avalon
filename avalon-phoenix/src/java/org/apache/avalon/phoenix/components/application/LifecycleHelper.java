@@ -67,6 +67,9 @@ class LifecycleHelper
      */
     private Application          m_application;
 
+    /**
+     * Object to support notification of BlockListeners.
+     */
     private BlockListenerSupport m_listenerSupport = new BlockListenerSupport();
 
     /**
