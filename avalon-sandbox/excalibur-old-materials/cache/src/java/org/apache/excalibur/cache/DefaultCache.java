@@ -108,10 +108,15 @@ public class DefaultCache
         return contains;
     }
 
-    //public void clear()
-    //{
-    //    synchronized ( m_store )
-    //    {
-    //    }
-    //}
+    public void clear()
+    {
+        synchronized ( m_store )
+        {
+            final Object[] keys = m_store.keys();
+            for ( int i = 0; i < keys.length; i++ )
+            {
+                remove( keys[ i ] );
+            }
+        }
+    }
 }
