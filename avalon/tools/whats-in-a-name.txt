@@ -4,7 +4,7 @@ Heres a mail from Leo that should provide inspiration;
 Subject: excalibur package naming (RE: [VOTE] Should Command be a sub of event?)
 Date: Wed, 3 Apr 2002 23:22:45 +0200
 From: "Leo Simons" <leosimons@apache.org>
-To: "Avalon Developers List" <avalon-dev@jakarta.apache.org>
+To: "Avalon Developers List" <dev@avalon.apache.org>
 
 
  Most important *event* in medieval times:

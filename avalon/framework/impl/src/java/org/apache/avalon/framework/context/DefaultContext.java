@@ -62,7 +62,7 @@ import java.util.Map;
  * Default implementation of Context.
  * This implementation is a static hierarchial store.
  *
- * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public class DefaultContext
     implements Context

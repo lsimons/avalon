@@ -63,7 +63,7 @@ import org.apache.avalon.framework.CascadingException;
  * found. It can also be thrown manually in contextualize()
  * when Component detects a malformed context value.
  *
- * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public class ContextException
     extends CascadingException

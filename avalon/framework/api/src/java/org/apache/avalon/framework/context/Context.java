@@ -178,7 +178,7 @@ package org.apache.avalon.framework.context;
  *     </li>
  * </ol>
  *
- * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public interface Context
 {

@@ -60,7 +60,7 @@ package org.apache.avalon.framework.activity;
  * The execution may be halted so that you can reconfigure/
  * recompose/recontextualize component.
  *
- * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public interface Suspendable
 {

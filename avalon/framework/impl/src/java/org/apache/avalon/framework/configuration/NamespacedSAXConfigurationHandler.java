@@ -68,7 +68,7 @@ import org.xml.sax.helpers.NamespaceSupport;
  * A SAXConfigurationHandler helps build Configurations out of sax events,
  * including namespace information.
  *
- * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version 1.0
  */
 public class NamespacedSAXConfigurationHandler

@@ -110,7 +110,7 @@ package org.apache.avalon.framework.component;
  *  </i>
  * </p>
  *
- * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public interface Component
 {

@@ -1,5 +1,5 @@
 APACHE AVALON PROJECT STATUS:                          -*-indented-text-*-
-Last modified at [$Date: 2003/02/06 13:31:49 $]
+Last modified at [$Date: 2003/02/07 15:12:30 $]
 
 Background:
 
@@ -19,7 +19,7 @@ Release:
     o Phoenix released.
           
     o past releases available from 
-         http://jakarta.apache.org/builds/avalon/
+         http://www.apache.org/dyn/closer.cgi/avalon/
     
     o nightlies available from 
          http://cvs.apache.org/builds/avalon/nightly/
@@ -243,20 +243,19 @@ could arise also from the answers to the following and other questions:
 
 Assets:
   
-    Mailing lists:      avalon-user@jakarta.apache.org
-                        avalon-dev@jakarta.apache.org
-                        avalon-cvs@jakarta.apache.org
+    Mailing lists:      users@avalon.apache.org
+                        dev@avalon.apache.org
+                        cvs@avalon.apache.org
   
-    Web site:           http://jakarta.apache.org/avalon/
+    Web site:           http://avalon.apache.org/
     
     Repositories:       avalon             (framework)
-                        avalon-testlet     (deprecated testlet)
                         avalon-logkit      (logkit)
                         avalon-phoenix     (phoenix)
                         avalon-cornerstone (components)
                         avalon-apps        (sample phoenix applications)
                         avalon-excalibur   (everything else)
-                        avalon-sandbox             (sandbox)
+                        avalon-sandbox     (sandbox)
                         avalon-site        (the web site)
 
 

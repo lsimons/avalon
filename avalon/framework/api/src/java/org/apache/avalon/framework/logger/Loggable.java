@@ -60,7 +60,7 @@ package org.apache.avalon.framework.logger;
  *
  * @deprecated Use {@link LogEnabled} instead.
  *
- * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public interface Loggable
 {
