@@ -58,18 +58,18 @@ import org.apache.avalon.composition.data.ContainmentProfile;
  * from an input stream.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:32:29 $
+ * @version $Revision: 1.2 $ $Date: 2003/10/04 11:53:04 $
  */
 public interface ContainmentProfileCreator
 {
     /**
      * Create a {@link ContainmentProfile} from a stream.
      *
-     * @param inputStream the stream that the resource is loaded from
+     * @param stream the stream that the resource is loaded from
      * @return the containment profile
      * @exception Exception if a error occurs during profile creation
      */
-    ContainmentProfile createContainmentProfile( InputStream inputStream )
+    ContainmentProfile createContainmentProfile( InputStream stream )
         throws Exception;
 
 }

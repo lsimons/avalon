@@ -61,6 +61,7 @@ import org.apache.avalon.composition.model.TypeException;
 import org.apache.avalon.composition.model.TypeRuntimeException;
 import org.apache.avalon.composition.model.TypeDuplicateException;
 import org.apache.avalon.composition.model.TypeUnknownException;
+import org.apache.avalon.composition.model.ProfileUnknownException;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.logger.Logger;
@@ -80,7 +81,7 @@ import org.apache.avalon.meta.info.Type;
  * storage and retrival of component types.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:32:15 $
+ * @version $Revision: 1.2 $ $Date: 2003/10/04 11:53:04 $
  */
 class DefaultTypeRepository implements TypeRepository
 {
@@ -373,6 +374,27 @@ class DefaultTypeRepository implements TypeRepository
     }
 
    /**
+    * Return a deployment profile for the supplied type and key.
+    * @param type the type
+    * @param key the profile name
+    * @return a profile matching the supplied key
+    * @exception TypeUnknownException if the supplied type is unknown
+    * @exception ProfileUnknownException if the supplied key is unknown
+    */
+    public DeploymentProfile getProfile( Type type, String key ) 
+      throws TypeUnknownException, ProfileUnknownException
+    {
+        DeploymentProfile[] profiles = getProfiles( type );
+        for( int i=0; i<profiles.length; i++ )
+        {
+            DeploymentProfile profile = profiles[i];
+            final String name = getProfileName( type, key );
+            if( profile.getName().equals( name ) ) return profile;
+        }
+        throw new ProfileUnknownException( key );
+    }
+
+   /**
     * Return the set of local profiles.
     * @return a profile or null if a profile connot be resolve
     */
@@ -388,6 +410,20 @@ class DefaultTypeRepository implements TypeRepository
     protected Logger getLogger()
     {
         return m_logger;
+    }
+
+   /**
+    * Return the name of a packaged profile given the type and the 
+    * packaged profile key.  The key corresponds to the name attribute
+    * declared under the profile definition.
+    *
+    * @param type the component type
+    * @param key the profile name
+    * @return the composite name
+    */
+    private String getProfileName( Type type, String key )
+    {
+        return type.getInfo().getName() + "-" + key;
     }
 
 }

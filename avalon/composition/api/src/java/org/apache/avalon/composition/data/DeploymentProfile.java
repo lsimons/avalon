@@ -135,7 +135,7 @@ import org.apache.avalon.meta.info.ServiceDescriptor;
  *
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:31:06 $
+ * @version $Revision: 1.2 $ $Date: 2003/10/04 11:53:03 $
  */
 public class DeploymentProfile extends Profile
 {
@@ -190,6 +190,26 @@ public class DeploymentProfile extends Profile
         this( 
           name, false, classname, null, null, null, null, 
           null, null, Mode.IMPLICIT );
+    }
+
+   /**
+    * Creation of a new deployment profile using a supplied template profile.
+    * @param name the name to assign to the created profile
+    * @param template the template deployment profile
+    */
+    public DeploymentProfile( String name, DeploymentProfile template )
+    {
+        this( 
+          name, 
+          template.getActivationPolicy(),
+          template.m_classname,
+          template.m_categories,
+          template.m_context,
+          template.m_dependencies,
+          template.m_stages,
+          template.m_parameters,
+          template.m_configuration,
+          Mode.EXPLICIT );
     }
 
     public DeploymentProfile( 

@@ -64,14 +64,14 @@ import org.apache.excalibur.configuration.ConfigurationUtil;
 /**
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:31:38 $
+ * @version $Revision: 1.2 $ $Date: 2003/10/04 11:53:04 $
  */
 public class XMLDeploymentProfileCreator extends XMLProfileCreator
 {
    /**
     * Creation of a {@link DeploymentProfile} from an XML configuration.
     *
-    * @param config the configuration
+    * @param config the configuration instance describing the component deployment scenario 
     * @return the deployment profile
     */
     public DeploymentProfile createDeploymentProfile( Configuration config )
@@ -84,7 +84,8 @@ public class XMLDeploymentProfileCreator extends XMLProfileCreator
    /**
     * Creation of a {@link DeploymentProfile} from an XML configuration.
     *
-    * @param config the configuration
+    * @param base the default name
+    * @param config the configuration describing the component deployment scenario 
     * @return the deployment profile
     */
     public DeploymentProfile createDeploymentProfile( 
@@ -98,7 +99,8 @@ public class XMLDeploymentProfileCreator extends XMLProfileCreator
    /**
     * Creation of a {@link DeploymentProfile} from an XML configuration.
     *
-    * @param config the configuration
+    * @param classname the name of the class identifying the underlying component type
+    * @param config the configuration describing the component deployment scenario 
     * @return the deployment profile
     */
     public DeploymentProfile createDeploymentProfile( 
@@ -243,7 +245,7 @@ public class XMLDeploymentProfileCreator extends XMLProfileCreator
             final String error = 
               "The 'context' tag format has changed."
               + " Please check Merlin home for details "
-              + "http://avalon.apache.org/sandbox/merlin/resources";
+              + "http://avalon.apache.org/merlin";
             throw new ConfigurationException( error );
         }
 

@@ -51,6 +51,7 @@
 package org.apache.avalon.composition.model;
 
 import org.apache.avalon.composition.data.DeploymentProfile;
+import org.apache.avalon.composition.model.ProfileUnknownException;
 import org.apache.avalon.meta.info.DependencyDescriptor;
 import org.apache.avalon.meta.info.StageDescriptor;
 import org.apache.avalon.meta.info.Type;
@@ -60,7 +61,7 @@ import org.apache.avalon.meta.info.Type;
  * storage and retrival of component types.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:31:23 $
+ * @version $Revision: 1.2 $ $Date: 2003/10/04 11:53:04 $
  */
 public interface TypeRepository
 {
@@ -122,17 +123,15 @@ public interface TypeRepository
     DeploymentProfile[] getProfiles( Type type ) throws TypeUnknownException;
 
    /**
-    * Return the set of profiles matching the supplied dependency. 
-    * @param dependency the dependency descriptor
-    * @return the set of available profiles
+    * Return a deployment profile for the supplied type and key.
+    * @param type the type
+    * @param key the profile name
+    * @return a profile matching the supplied key
+    * @exception TypeUnknownException if the supplied type is unknown
+    * @exception ProfileUnknownException if the supplied key is unknown
     */
-    //Profile[] getProfiles( DependencyDescriptor dependency );
+    DeploymentProfile getProfile( Type type, String key ) 
+      throws TypeUnknownException, ProfileUnknownException;
 
-   /**
-    * Return the set of profiles matching the supplied stage. 
-    * @param stage the stage descriptor
-    * @return the set of extension profiles
-    */
-    //Profile[] getProfiles( StageDescriptor stage );
 
 }
