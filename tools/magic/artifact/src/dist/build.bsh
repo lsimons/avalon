@@ -111,6 +111,14 @@ public class ArtifactPlugin extends AbstractPlugin
     public ClassLoader getClassloader( Artifact[] artifacts )
         throws IOException
     {
+        URL[] jars = getLocalURLs( artifacts );
+        URLClassLoader classloader = new URLClassLoader( jars );
+        return classloader;        
+    }
+    
+    public URL[] getLocalURLs( Artifact[] artifacts )
+        throws IOException
+    {
         URL[] jars = new URL[ artifacts.length ];
         for( int i=0 ; i < artifacts.length ; i++ )
         {
@@ -122,8 +130,7 @@ public class ArtifactPlugin extends AbstractPlugin
             }
             jars[i] = localFile.toURL();
         }
-        URLClassLoader classloader = new URLClassLoader( jars );
-        return classloader;        
+        return jars;
     }
     
     public Path getClassPath( Artifact[] artifacts )
