@@ -56,7 +56,7 @@
                     NoStdLib = "false"
                     NoWarn = ""
                     Optimize = "true"
-                    OutputPath = "bin\Release\"
+                    OutputPath = "..\..\bin\"
                     RegisterForComInterop = "false"
                     RemoveIntegerChecks = "false"
                     TreatWarningsAsErrors = "false"
@@ -87,7 +87,8 @@
                 <Reference
                     Name = "nunit.framework"
                     AssemblyName = "nunit.framework"
-                    HintPath = "..\..\..\..\..\..\dotnet\NUnit2\bin\nunit.framework.dll"
+                    HintPath = "..\..\..\..\..\..\dotnet\NUnit22\bin\nunit.framework.dll"
+                    AssemblyFolderKey = "hklm\dn\nunit.framework"
                 />
             </References>
         </Build>
@@ -99,12 +100,27 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "CachedTypeTestCase.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "CustomProxyGeneratorTestCase.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
                     RelPath = "ProxyGeneratorTestCase.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SerializableClassTestCase.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Classes\MySerializableClass.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

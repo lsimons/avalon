@@ -21,17 +21,24 @@ namespace Apache.Avalon.DynamicProxy.Builder.CodeGenerators
 	/// </summary>
 	public class InterfaceProxyGenerator : BaseCodeGenerator
 	{
-		public InterfaceProxyGenerator() : base()
+		public InterfaceProxyGenerator(ModuleScope scope) : base(scope)
 		{
 		}
 
-		public InterfaceProxyGenerator(GeneratorContext context) : base(context)
+		public InterfaceProxyGenerator(ModuleScope scope, GeneratorContext context) : base(scope, context)
 		{
 		}
 
 		public virtual Type GenerateCode(Type[] interfaces)
 		{
 			interfaces = ScreenInterfaces(interfaces);
+
+			Type cacheType = GetFromCache(typeof(Object), interfaces);
+			
+			if (cacheType != null)
+			{
+				return cacheType;
+			}
 
 			CreateTypeBuilder( typeof(Object), interfaces );
 			GenerateInterfaceImplementation( interfaces );

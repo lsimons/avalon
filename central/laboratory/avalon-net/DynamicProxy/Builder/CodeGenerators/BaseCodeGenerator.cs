@@ -1,4 +1,5 @@
- // Copyright 2004 The Apache Software Foundation
+using System.Text;
+// Copyright 2004 The Apache Software Foundation
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -24,24 +25,29 @@ namespace Apache.Avalon.DynamicProxy.Builder.CodeGenerators
 	/// </summary>
 	public abstract class BaseCodeGenerator
 	{
-		private static readonly String FILE_NAME = "GeneratedAssembly.dll";
 
-		private Type m_baseType = typeof(Object);
-		private AssemblyBuilder m_assemblyBuilder;
+		private Type m_baseType = typeof (Object);
 		private TypeBuilder m_typeBuilder;
 		private FieldBuilder m_handlerField;
 		private ConstructorBuilder m_constBuilder;
 		private IList m_generated = new ArrayList();
 
 		private GeneratorContext m_context;
+		private ModuleScope m_moduleScope;
 
-		protected BaseCodeGenerator(GeneratorContext context)
+		protected BaseCodeGenerator(ModuleScope moduleScope) : this(moduleScope, new GeneratorContext())
 		{
+		}
+
+		protected BaseCodeGenerator(ModuleScope moduleScope, GeneratorContext context)
+		{
+			m_moduleScope = moduleScope;
 			m_context = context;
 		}
 
-		protected BaseCodeGenerator() : this(new GeneratorContext())
+		protected ModuleScope ModuleScope
 		{
+			get { return m_moduleScope; }
 		}
 
 		protected GeneratorContext Context
@@ -64,42 +70,52 @@ namespace Apache.Avalon.DynamicProxy.Builder.CodeGenerators
 			get { return m_constBuilder; }
 		}
 
-		protected virtual ModuleBuilder CreateDynamicModule()
+		protected Type GetFromCache( Type baseClass, Type[] interfaces )
 		{
-			AssemblyName assemblyName = new AssemblyName();
-			assemblyName.Name = "DynamicAssemblyProxyGen";
+			return ModuleScope[ GenerateTypeName( baseClass, interfaces ) ] as Type;
+		}
 
-			ModuleBuilder moduleBuilder = null;
-
-#if (DEBUG)
-			m_assemblyBuilder =
-				AppDomain.CurrentDomain.DefineDynamicAssembly(
-					assemblyName,
-					AssemblyBuilderAccess.RunAndSave);
-			moduleBuilder = m_assemblyBuilder.DefineDynamicModule(assemblyName.Name, FILE_NAME);
-#else
-			m_assemblyBuilder =
-				AppDomain.CurrentDomain.DefineDynamicAssembly(
-					assemblyName,
-					AssemblyBuilderAccess.Run);
-			moduleBuilder = m_assemblyBuilder.DefineDynamicModule(assemblyName.Name, true);
-#endif
-
-			return moduleBuilder;
+		protected void RegisterInCache( Type generatedType )
+		{
+			ModuleScope[ generatedType.Name ] = generatedType;
 		}
 
 		protected virtual TypeBuilder CreateTypeBuilder(Type baseType, Type[] interfaces)
 		{
-			ModuleBuilder moduleBuilder = CreateDynamicModule();
+			String typeName = GenerateTypeName(baseType, interfaces);
+
+			ModuleBuilder moduleBuilder = ModuleScope.ObtainDynamicModule();
+
+			TypeAttributes flags = TypeAttributes.Public | TypeAttributes.Class; 
+
+			if (baseType != typeof(Object))
+			{
+				if (baseType.IsSerializable)
+				{
+					flags |= TypeAttributes.Serializable;
+				}
+			}
 
 			m_baseType = baseType;
 			m_typeBuilder = moduleBuilder.DefineType(
-				"ProxyType", TypeAttributes.Public | TypeAttributes.Class, baseType, interfaces);
+				typeName, flags, baseType, interfaces);
 
 			m_handlerField = GenerateField();
 			m_constBuilder = GenerateConstructor();
 
 			return m_typeBuilder;
+		}
+
+		protected virtual String GenerateTypeName(Type type, Type[] interfaces)
+		{
+			StringBuilder sb = new StringBuilder();
+			foreach(Type inter in interfaces)
+			{
+				sb.Append('_');
+				sb.Append(inter.Name);
+			}
+			/// Naive implementation
+			return String.Format("ProxyType{0}{1}", type.Name, sb.ToString());
 		}
 
 		protected virtual void EnhanceType()
@@ -123,9 +139,9 @@ namespace Apache.Avalon.DynamicProxy.Builder.CodeGenerators
 		protected virtual Type CreateType()
 		{
 			Type newType = MainTypeBuilder.CreateType();
-#if (DEBUG)
-			m_assemblyBuilder.Save(FILE_NAME);
-#endif
+
+			RegisterInCache( newType );
+
 			return newType;
 		}
 
@@ -135,7 +151,7 @@ namespace Apache.Avalon.DynamicProxy.Builder.CodeGenerators
 		/// <returns><see cref="FieldBuilder"/> instance</returns>
 		protected FieldBuilder GenerateField()
 		{
-			return GenerateField("handler", typeof (IInvocationHandler) );
+			return GenerateField("handler", typeof (IInvocationHandler));
 		}
 
 		/// <summary>
@@ -144,10 +160,10 @@ namespace Apache.Avalon.DynamicProxy.Builder.CodeGenerators
 		/// <param name="name">Field's name</param>
 		/// <param name="type">Field's type</param>
 		/// <returns></returns>
-		protected FieldBuilder GenerateField( String name, Type type )
+		protected FieldBuilder GenerateField(String name, Type type)
 		{
 			return m_typeBuilder.DefineField(name,
-				typeof (IInvocationHandler), FieldAttributes.Public);
+			                                 typeof (IInvocationHandler), FieldAttributes.Public);
 		}
 
 		/// <summary>
@@ -181,7 +197,7 @@ namespace Apache.Avalon.DynamicProxy.Builder.CodeGenerators
 		{
 			foreach(Type inter in interfaces)
 			{
-				if (!Context.ShouldSkip( inter ))
+				if (!Context.ShouldSkip(inter))
 				{
 					GenerateTypeImplementation(inter, false);
 				}
@@ -194,7 +210,7 @@ namespace Apache.Avalon.DynamicProxy.Builder.CodeGenerators
 		/// </summary>
 		/// <param name="type">Type class</param>
 		/// <param name="ignoreInterfaces">Interface type</param>
-		protected void GenerateTypeImplementation(Type type, bool ignoreInterfaces )
+		protected void GenerateTypeImplementation(Type type, bool ignoreInterfaces)
 		{
 			if (m_generated.Contains(type))
 			{
@@ -202,7 +218,7 @@ namespace Apache.Avalon.DynamicProxy.Builder.CodeGenerators
 			}
 			else
 			{
-				m_generated.Add( type );
+				m_generated.Add(type);
 			}
 
 			if (!ignoreInterfaces)
@@ -216,7 +232,7 @@ namespace Apache.Avalon.DynamicProxy.Builder.CodeGenerators
 			GenerateMethods(type, propertiesBuilder);
 		}
 
-		protected virtual PropertyBuilder[] GenerateProperties( Type inter )
+		protected virtual PropertyBuilder[] GenerateProperties(Type inter)
 		{
 			PropertyInfo[] properties = inter.GetProperties();
 			PropertyBuilder[] propertiesBuilder = new PropertyBuilder[properties.Length];
@@ -229,7 +245,7 @@ namespace Apache.Avalon.DynamicProxy.Builder.CodeGenerators
 			return propertiesBuilder;
 		}
 
-		protected virtual void GenerateMethods( Type inter, PropertyBuilder[] propertiesBuilder )
+		protected virtual void GenerateMethods(Type inter, PropertyBuilder[] propertiesBuilder)
 		{
 			MethodInfo[] methods = inter.GetMethods();
 

@@ -1,4 +1,3 @@
-using Apache.Avalon.DynamicProxy.Builder.CodeGenerators;
 // Copyright 2004 The Apache Software Foundation
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,35 +15,43 @@ using Apache.Avalon.DynamicProxy.Builder.CodeGenerators;
 namespace Apache.Avalon.DynamicProxy.Builder
 {
 	using System;
+	using Apache.Avalon.DynamicProxy.Builder.CodeGenerators;
 
 	/// <summary>
 	/// Summary description for DefaultProxyBuilder.
 	/// </summary>
 	public class DefaultProxyBuilder : IProxyBuilder
 	{
+		ModuleScope m_scope = new ModuleScope();
+
+		public DefaultProxyBuilder()
+		{
+			
+		}
+
 		#region IProxyBuilder Members
 
 		public virtual Type CreateInterfaceProxy(Type[] interfaces)
 		{
-			InterfaceProxyGenerator generator = new InterfaceProxyGenerator();
+			InterfaceProxyGenerator generator = new InterfaceProxyGenerator(m_scope);
 			return generator.GenerateCode( interfaces );
 		}
 
 		public virtual Type CreateClassProxy(Type theClass)
 		{
-			ClassProxyGenerator generator = new ClassProxyGenerator();
+			ClassProxyGenerator generator = new ClassProxyGenerator(m_scope);
 			return generator.GenerateCode( theClass );
 		}
 
 		public virtual Type CreateCustomInterfaceProxy(Type[] interfaces, GeneratorContext context)
 		{
-			InterfaceProxyGenerator generator = new InterfaceProxyGenerator(context);
+			InterfaceProxyGenerator generator = new InterfaceProxyGenerator(m_scope, context);
 			return generator.GenerateCode( interfaces );
 		}
 
 		public virtual Type CreateCustomClassProxy(Type theClass, GeneratorContext context)
 		{
-			ClassProxyGenerator generator = new ClassProxyGenerator(context);
+			ClassProxyGenerator generator = new ClassProxyGenerator(m_scope, context);
 			return generator.GenerateCode( theClass );
 		}
 
