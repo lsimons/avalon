@@ -39,7 +39,7 @@ public class DefaultCache
 
         synchronized ( m_store )
         {
-            if ( containsKey( key ) )
+            if ( m_store.containsKey( key ) )
             {
                 oldValue = remove( key );
             }
@@ -100,12 +100,7 @@ public class DefaultCache
     {
         boolean contains;
 
-        synchronized ( m_store )
-        {
-            contains = m_store.containsKey( key );
-        }
-
-        return contains;
+        return ( null != get( key ) );
     }
 
     public void clear()
