@@ -101,7 +101,7 @@ public class DefaultClassLoaderManager
      * @param source the source of application. (usually the name of the .sar file
      *               or else the same as baseDirectory)
      * @param homeDirectory the base directory of application
-     * @param workDirectory ???? <-- fill me in
+     * @param workDirectory the work directory of application
      * @param classPath the list of URLs in applications deployment
      * @return the ClassLoader created
      * @throws Exception if an error occurs
