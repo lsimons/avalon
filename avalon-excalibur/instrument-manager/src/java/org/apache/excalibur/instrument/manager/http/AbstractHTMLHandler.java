@@ -31,7 +31,7 @@ import org.apache.excalibur.instrument.manager.interfaces.InstrumentSampleDescri
 /**
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.6 $ $Date: 2004/03/06 14:01:28 $
+ * @version CVS $Revision: 1.7 $ $Date: 2004/03/10 13:56:56 $
  * @since 4.1
  */
 public abstract class AbstractHTMLHandler
@@ -211,10 +211,10 @@ public abstract class AbstractHTMLHandler
         out.println( "<br>" );
         out.print( "<font size='-1' color='#888888'>" );
         out.print( "<center>" );
-        out.print( "<a href='http://avalon.apache.org/excalibur/instrument-manager/index.html'>" );
+        out.print( "<a href='http://avalon.apache.org/excalibur/index.html'>" );
         out.print( "Avalon Instrument Manager HTTP Client" );
         out.print( "</a><br>" );
-        out.print( "Copyright c 2002-2003 The Apache Software Foundation.. All rights reserved." );
+        out.print( "Copyright&copy; 2002-2004 The Apache Software Foundation.  All rights reserved." );
         out.print( "</center>" );
         out.println( "</font>" );
     }
