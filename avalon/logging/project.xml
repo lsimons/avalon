@@ -67,6 +67,10 @@
       <title>LogKit Plugin</title>
       <packages>org.apache.avalon.logging.logkit,org.apache.avalon.logging.logkit.*</packages>
     </packageGroup>
+    <packageGroup>
+      <title>Log4J Plugin</title>
+      <packages>org.apache.avalon.logging.log4j,org.apache.avalon.logging.log4j.*</packages>
+    </packageGroup>
   </packageGroups>
 
   <build>

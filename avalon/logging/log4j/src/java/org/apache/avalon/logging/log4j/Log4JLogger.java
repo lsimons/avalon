@@ -21,6 +21,13 @@ import org.apache.avalon.framework.logger.Logger;
 
 import org.apache.log4j.Level;
 
+/**
+ * Implementation of the Avalon Logger interface using the Log4J 
+ * implementation strategy.
+ *
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Revision: 1.2 $
+ */
 public class Log4JLogger 
     implements Logger
 {

@@ -376,6 +376,7 @@
 	  <link href="http://avalon.apache.org/logkit/api/" />
 	  <link href="http://avalon.apache.org/repository/api/" />
 	  <link href="http://avalon.apache.org/framework/api/" />
+	  <link href="http://logging.apache.org/log4j/docs/api/" />
 
     </ant:javadoc>
   </goal>

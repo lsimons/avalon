@@ -6,12 +6,12 @@
 
   <groupId>avalon-logging</groupId>
   <id>avalon-logkit-api</id>
-  <name>Avalon Logkit Logging API</name>
+  <name>Avalon Logging Logkit Plugin API</name>
   <package>org.apache.avalon.logging.logkit</package>
   <currentVersion>1.0-SNAPSHOT</currentVersion>
 
   <inceptionYear>2002</inceptionYear>
-  <shortDescription>Avalon LogKit Logging Implementation.</shortDescription>
+  <shortDescription>Avalon Logging LogKit Plugin API</shortDescription>
 
   <dependencies>
     <dependency>
