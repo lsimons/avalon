@@ -69,17 +69,20 @@
   <property name="dist.name" value="${Name}-${version}"/>
   <property name="dist.base" value="distributions"/>
 
+  <property name="logkit.jar" value="${lib.dir}/logkit.jar"/>
   <property name="avalonapi.jar" value="${lib.dir}/avalonapi.jar"/>
   <property name="phoenix-client.jar" value="${lib.dir}/phoenix-client.jar"/>
 
   <path id="project.class.path">
     <pathelement path="${java.class.path}" />
     <pathelement location="${avalonapi.jar}"/>
+    <pathelement location="${logkit.jar}"/>
     <pathelement location="${phoenix-client.jar}"/>
     <fileset dir="${lib.dir}">
       <include name="*.jar" />
       <exclude name="phoenix-client.jar"/>
       <exclude name="avalonapi.jar"/>
+      <exclude name="logkit.jar"/>
     </fileset>
     <pathelement path="${build.classes}" />
   </path>
@@ -462,6 +465,7 @@
     </copy>
 -->
 
+    <copy file="${logkit.jar}" tofile="${src.dist.lib}/logkit.jar"/>
     <copy file="${avalonapi.jar}" tofile="${src.dist.lib}/avalonapi.jar"/>
     <copy file="${phoenix-client.jar}" tofile="${src.dist.lib}/phoenix-client.jar"/>
 

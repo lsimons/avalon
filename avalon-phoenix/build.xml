@@ -80,15 +80,18 @@ Legal:
   <property name="constants.file" value="org/apache/phoenix/engine/Constants.java"/>
   <property name="xerces.jar" value="${lib.dir}/xerces_1_2_3.jar"/>
   <property name="avalonapi.jar" value="${lib.dir}/avalonapi.jar"/>
+  <property name="logkit.jar" value="${lib.dir}/logkit.jar"/>
 
   <path id="project.class.path">
     <pathelement path="${java.class.path}" />
     <pathelement location="${xerces.jar}"/>
     <pathelement location="${avalonapi.jar}"/>
+    <pathelement location="${logkit.jar}"/>
     <fileset dir="${lib.dir}">
       <include name="*.jar" />
       <exclude name="xerces.jar"/>
       <exclude name="avalonapi.jar"/>
+      <exclude name="logkit.jar"/>
     </fileset>
     <pathelement path="${build.classes}" />
   </path>
@@ -359,6 +362,7 @@ Legal:
     <copy file="${build.lib}/phoenix-engine.jar" todir="${dist.bin}"/>
 
     <copy file="${build.lib}/phoenix-client.jar" todir="${dist.lib}"/>
+    <copy file="${logkit.jar}" todir="${dist.lib}"/>
     <copy file="${avalonapi.jar}" todir="${dist.lib}"/>
     <copy file="${xerces.jar}" tofile="${dist.lib}/xerces.jar"/>
 
@@ -453,6 +457,7 @@ Legal:
 
     <copy file="${xerces.jar}" todir="${src.dist.lib}/"/>
     <copy file="${avalonapi.jar}" tofile="${src.dist.lib}/avalonapi.jar"/>
+    <copy file="${logkit.jar}" tofile="${src.dist.lib}/logkit.jar"/>
 
     <copy todir="${src.dist.src}">
       <fileset dir="${src.dir}"/>
