@@ -32,12 +32,6 @@ public final class Main
 
     private static Object c_frontend;
 
-    ///The code to return to system using exit code
-    private static int c_exitCode;
-
-    ///The code to return to system using exit code
-    private static boolean c_blocking;
-
     /**
      * Main entry point for Phoenix.
      *
@@ -47,9 +41,8 @@ public final class Main
     public final static void main( final String[] args )
         throws Exception
     {
-        c_blocking = true;
-        startup( args, new Hashtable() );
-        System.exit( c_exitCode );
+        int exitCode = startup( args, new Hashtable(), true );
+        System.exit( exitCode );
     }
 
     /**
@@ -59,11 +52,18 @@ public final class Main
      *
      * @param args the command line arg array
      * @param data a set of extra parameters to pass to embeddor
+     * @param blocking false if the current thread is expected to return.
+     *
+     * @returns the exit code which should be used to exit the JVM
+     *
      * @exception Exception if an error occurs
      */
-    protected final static void startup( final String[] args, final Hashtable data )
+    protected final static int startup( final String[] args, 
+                                        final Hashtable data, 
+                                        final boolean blocking )
         throws Exception
     {
+        int exitCode;
         try
         {
             //setup new Policy manager
@@ -85,14 +85,16 @@ public final class Main
             c_frontend = clazz.newInstance();
             
             //kick the tires and light the fires....
-            final Integer integer = 
-                (Integer)method.invoke( c_frontend, new Object[] { args, data, new Boolean( c_blocking ) } );
-            c_exitCode = integer.intValue();
+            final Integer integer = (Integer)method.invoke(
+                c_frontend, new Object[] { args, data, new Boolean( blocking ) } );
+            exitCode = integer.intValue();
         }
         catch( final Exception e )
         {
             e.printStackTrace();
+            exitCode = 1;
         }
+        return exitCode;
     }
 
     /**

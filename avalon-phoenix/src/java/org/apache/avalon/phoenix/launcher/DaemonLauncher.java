@@ -18,12 +18,15 @@ import java.util.Hashtable;
  * using the Java Service Wrapper at http://wrapper.sourceforge.net
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author <a href="mailto:leif@silveregg.co.jp">Leif Mortenson</a>
  */
 public class DaemonLauncher
     implements WrapperListener, Observer
 {
     public Integer start( final String[] args )
     {
+        Integer exitCodeInteger = null;
+        
         // This startup could take a while, so tell the wrapper to be patient.
         WrapperManager.signalStarting( 45000 );
 
@@ -35,21 +38,29 @@ public class DaemonLauncher
             System.out.println( "DaemonLauncher: Starting up Phoenix" );
         }
 
-        try { Main.startup( args, data ); }
+        try
+        {
+            int exitCode = Main.startup( args, data, false );
+            if ( exitCode != 0 )
+            {
+                exitCodeInteger = new Integer( exitCode );
+            }
+
+            if ( WrapperManager.isDebugEnabled() )
+            {
+                System.out.println( "DaemonLauncher: Phoenix startup completed" );
+            }
+        }
         catch( final Exception e )
         {
             e.printStackTrace();
-        }
-
-        if ( WrapperManager.isDebugEnabled() )
-        {
-            System.out.println( "DaemonLauncher: Phoenix startup completed" );
+            exitCodeInteger = new Integer( 1 );
         }
 
         // We are almost up now, so reset the wait time
         WrapperManager.signalStarting( 2000 );
 
-        return null;
+        return exitCodeInteger;
     }
 
     public int stop( final int exitCode )
@@ -107,6 +118,23 @@ public class DaemonLauncher
             {
                 //Should never get here???
                 System.out.println( "DaemonLauncher: restart completed." );
+                System.out.flush();
+            }
+        }
+        else if ( command.equals( "shutdown" ) )
+        {
+            if ( WrapperManager.isDebugEnabled() )
+            {
+                System.out.println( "DaemonLauncher: shutdown requested." );
+                System.out.flush();
+            }
+
+            WrapperManager.stop( 0 );
+
+            if ( WrapperManager.isDebugEnabled() )
+            {
+                //Should never get here???
+                System.out.println( "DaemonLauncher: shutdown completed." );
                 System.out.flush();
             }
         }
