@@ -63,7 +63,7 @@ import java.io.StringWriter;
  * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
  * @author <a href="mailto:stuart.roebuck@adolos.com">Stuart Roebuck</a>
- * @version CVS $Revision: 1.10 $ $Date: 2003/02/05 06:16:31 $
+ * @version CVS $Revision: 1.11 $ $Date: 2003/02/05 08:29:07 $
  */
 public final class StackIntrospector
 {
@@ -143,7 +143,8 @@ public final class StackIntrospector
      * @exception SecurityException if an existing SecurityManager disallows construction
      *            of another SecurityManager and thus blocks method results
      */
-    public static final Class getCallerClass(final Class clazz, int stackDepthOffset) {
+    public static final Class getCallerClass(final Class clazz, int stackDepthOffset) 
+    {
         final Class[] stack = getCallStack().get();
 
         // Traverse the call stack in reverse order until we find clazz
@@ -336,7 +337,10 @@ public final class StackIntrospector
                             //We are looking at the callers of Clazz
                             stack.append( method );
                             entries--;
-                            if( entries == 0 ) return stack.toString();
+                            if( entries == 0 ) 
+                            {
+                                return stack.toString();
+                            }
                             stack.append( "\n" );
                         }
 

@@ -73,7 +73,7 @@ public interface MessageBuilder
     * @param session the session against which the message will be created
     * @param event the log event
     * @return the message
-    * @exeption JMSException if a messaging error occurs
+    * @exception JMSException if a messaging error occurs
     */
     Message buildMessage( Session session, LogEvent event )
         throws JMSException;

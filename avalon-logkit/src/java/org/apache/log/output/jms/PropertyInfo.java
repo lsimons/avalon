@@ -57,6 +57,7 @@ package org.apache.log.output.jms;
 /**
  * A descriptor for each message property.
  *
+ * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
  * @author <a href="mailto:mirceatoma@home.com">Mircea Toma</a>
  */
 public class PropertyInfo
@@ -70,6 +71,12 @@ public class PropertyInfo
     ///Auxilliary parameters (ie constant or sub-format)
     private final String m_aux; //may be null
 
+   /**
+    * Creation of a new property info instance.
+    * @param name the property
+    * @param type the property type
+    * @param aux auxillary property value
+    */
     public PropertyInfo( final String name, final int type, final String aux )
     {
         m_type = type;
@@ -77,16 +84,28 @@ public class PropertyInfo
         m_name = name;
     }
 
+   /**
+    * Return the property name
+    * @return the name
+    */
     public String getName()
     {
         return m_name;
     }
 
+   /**
+    * Return the property type
+    * @return the type
+    */
     public int getType()
     {
         return m_type;
     }
 
+   /**
+    * Return the property auxilliary information
+    * @return the information
+    */
     public String getAux()
     {
         return m_aux;

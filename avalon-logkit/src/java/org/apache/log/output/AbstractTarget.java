@@ -63,6 +63,7 @@ import org.apache.log.util.DefaultErrorHandler;
 /**
  * Abstract target.
  *
+ * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public abstract class AbstractTarget
@@ -154,6 +155,7 @@ public abstract class AbstractTarget
      * This should be overidden by subclasses.
      *
      * @param event the log event
+     * @exception Exception if an event processing error occurs
      */
     protected abstract void doProcessEvent( LogEvent event )
         throws Exception;

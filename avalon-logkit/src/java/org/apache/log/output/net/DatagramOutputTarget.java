@@ -79,7 +79,7 @@ public class DatagramOutputTarget
      *
      * @param address the address endpoint
      * @param port the address port
-     * @param formatter the formatter
+     * @param formatter the message formatter
      * @exception IOException if an error occurs
      */
     public DatagramOutputTarget( final InetAddress address,
