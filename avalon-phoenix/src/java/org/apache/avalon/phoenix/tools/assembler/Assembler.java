@@ -30,7 +30,7 @@ import org.apache.avalon.phoenix.tools.infobuilder.BlockInfoBuilder;
  * and is in the format specified for <code>assembly.xml</code> files.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.14 $ $Date: 2002/05/10 13:31:15 $
+ * @version $Revision: 1.15 $ $Date: 2002/05/15 12:24:54 $
  */
 public class Assembler
     extends AbstractLogEnabled
@@ -74,33 +74,7 @@ public class Assembler
         final BlockMetaData[] blocks = buildBlocks( blockConfig, classLoader );
 
         final Configuration[] listenerConfig = assembly.getChildren( "listener" );
-        BlockListenerMetaData[] listeners = buildBlockListeners( listenerConfig );
-
-        // to be phased out - support for the old block-listener descriptor
-        final Configuration[] legacyListenerConfig = assembly.getChildren( "block-listener" );
-        final BlockListenerMetaData[] legacyListeners = buildBlockListeners( legacyListenerConfig );
-        for( int i = 0; i < legacyListeners.length; i++ )
-        {
-            BlockListenerMetaData data = legacyListeners[ i ];
-            boolean matched = false;
-            for( int j = 0; j < listeners.length; j++ )
-            {
-                BlockListenerMetaData data2 = listeners[ j ];
-                if( data.getClassname().equals( data2.getClassname() ) )
-                {
-                    matched = true;
-                }
-            }
-            if( !matched )
-            {
-                getLogger().warn( "Listener with old style element name 'block-listener' encounted.  Please change " +
-                                  "this to 'listener' before compatability is imminently removed from Phoenix" );
-                final BlockListenerMetaData[] newListeners = new BlockListenerMetaData[ 1 + listeners.length ];
-                System.arraycopy( listeners, 0, listeners, 0, listeners.length );
-                newListeners[ listeners.length ] = data;
-                listeners = newListeners;
-            }
-        }
+        final BlockListenerMetaData[] listeners = buildBlockListeners( listenerConfig );
 
         return new SarMetaData( name, directory, blocks, listeners );
     }
