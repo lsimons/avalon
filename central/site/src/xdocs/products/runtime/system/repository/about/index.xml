@@ -42,7 +42,7 @@ that provides support for the dynamic artifact loading, classloader chain
 creation, and generic application bootstrapping.
           </p>
 
-          <img src="../images/logic.gif"/>
+          <img src="/images/logic.gif"/>
 
        </section>
     </body>

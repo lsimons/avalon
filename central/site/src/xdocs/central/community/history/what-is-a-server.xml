@@ -75,7 +75,7 @@
         "service". To clarify things a little bit, maybe a picture would
         help:
       </p>
-      <img src="../../images/server-01.gif" alt="Server 1"/>
+      <img src="/images/server-01.gif" alt="Server 1"/>
     </section>
     <section name="Dividing the code">
       <p>
@@ -95,11 +95,11 @@
         The solution would be to have a sort of "in-core" modularization of our
         server.... To be continued...
       </p>
-      <img src="../../images/server-02.gif" alt="Server 2"/>
-      <img src="../../images/server-03.gif" alt="Server 3"/>
+      <img src="/images/server-02.gif" alt="Server 2"/>
+      <img src="/images/server-03.gif" alt="Server 3"/>
     </section>
     <section name="The concept of a Block">
-      <img src="../../images/server-04.gif" alt="Server 4"/>
+      <img src="/images/server-04.gif" alt="Server 4"/>
     </section>
     <section name="The Avalon Framework">
       <fixme author="PF">We need some info in here.</fixme>
