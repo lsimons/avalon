@@ -35,7 +35,7 @@ import org.apache.avalon.util.i18n.Resources;
  * extension to export management interfaces for other components.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public abstract class AbstractComponentRegistrationManager extends AbstractLogEnabled 
     implements ComponentRegistrationManager
@@ -57,7 +57,7 @@ public abstract class AbstractComponentRegistrationManager extends AbstractLogEn
             final Object component;
             try
             {
-                component = componentModel.resolve();
+                component = componentModel.resolve( false );
             }
             catch ( Exception e )
             {
