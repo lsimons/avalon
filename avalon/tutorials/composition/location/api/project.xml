@@ -2,7 +2,7 @@
 
 <project>
 
-  <extend>${basedir}/../../../project.xml</extend>
+  <extend>${basedir}/../../../master.xml</extend>
 
   <id>locator-api</id>
   <name>Composition Locator API Tutorial</name>
