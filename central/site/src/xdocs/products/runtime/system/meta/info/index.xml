@@ -2,12 +2,10 @@
 
 <document>
 
-  <header>
-    <title>Descriptors</title>
-    <authors>
-      <person name="Avalon Development Team" email="dev@avalon.apache.org"/>
-    </authors>
-  </header>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Merlin Runtime</title>
+  </properties> 
 
   <body>
 

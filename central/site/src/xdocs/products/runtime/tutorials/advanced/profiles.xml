@@ -19,12 +19,11 @@
 
 
 <document>
-  <header>
-    <title>Using Merlin</title>
-    <authors>
-      <person name="Stephen McConnell" email="mcconnell@apache.org"/>
-    </authors>
-  </header>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Merlin Runtime</title>
+  </properties> 
+
   <body>
     <section name="Advanced Features">
       <subsection name="Packaged Deployment Profiles">

@@ -18,12 +18,11 @@
 -->
 
 <document>
-  <header>
-    <title>Getting Started</title>
-    <authors>
-      <person name="Stephen McConnell" email="mcconnell@apache.org"/>
-    </authors>
-  </header>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Merlin Runtime</title>
+  </properties> 
+
   <body>
     <section name="Getting Started">
         <table>
