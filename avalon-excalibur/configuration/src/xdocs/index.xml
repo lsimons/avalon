@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE document SYSTEM "dtd/document-v10.dtd">
 
 <document>
@@ -5,6 +6,7 @@
     <title>Excalibur Configuration - Overview</title>
     <authors>
       <person name="Stephen McConnell" email="mcconnell@apache.org"/>
+      <person name="Peter Royal" email="proyal@apache.org"/>
     </authors>
   </header>
   <body>
@@ -21,17 +23,31 @@ Provides support for the creation of a base and default parent relationship
 between two configuration instances.  This is helpful when you have a default
 configuration together with a configuration that contains overriding values.
 The level of cascading of configurations is arbitary.  The CascadingConfiguration
-implementation impements the classic Configuration interface and delegates 
-invocations to the base configuration.  If the delegate operation fails, the 
-implementation will attempt to resolve the invocation against the parent 
+implementation impements the classic Configuration interface and delegates
+invocations to the base configuration.  If the delegate operation fails, the
+implementation will attempt to resolve the invocation against the parent
 configuration.  Both base and parent configuration reference can be classic or
 cascading enabling the creation of complex configuration graphs.
         </p>
       </s2>
-      <s2 title="CascadingConfiguration">
+      <s2 title="ConfigurationUtil">
         <p>
-Provides a static list operation that is helpful in debugging.  The list 
+Provides a static list operation that is helpful in debugging.  The list
 operation generates a simple string representation of a configuration.
+        </p>
+        <p>
+Also provides a branch operation to take a Configuration object and rename it but
+retain all attributes and children
+        </p>
+      </s2>
+      <s2 title="ConfigurationMerger">
+        <p>
+Similar to the CascadingConfiguration in that it takes two Configuration's and
+makes one. The ConfigurationMerger can take a "layer" and a "base" and merge
+the layer with the base. The ConfigurationMerger goes a step farther than the
+CascadingConfiguration in that it provides a consistent view of
+Configuration.getChildren() based off of meta-attributes that can exist in the
+layer.
         </p>
       </s2>
     </s1>
@@ -39,7 +55,7 @@ operation generates a simple string representation of a configuration.
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.3 $ $Date: 2002/07/13 18:29:04 $
+      $Revision: 1.4 $ $Date: 2002/07/19 18:32:47 $
     </legal>
   </footer>
 </document>
