@@ -68,7 +68,7 @@ import org.apache.excalibur.instrument.manager.interfaces.InstrumentableDescript
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/11/09 16:36:33 $
+ * @version CVS $Revision: 1.2 $ $Date: 2004/01/30 06:05:53 $
  * @since 4.1
  */
 public class InstrumentManagerAltrmiConnector
@@ -139,8 +139,8 @@ public class InstrumentManagerAltrmiConnector
         m_server.start();
         getLogger().info( "Instrument Manager Altrmi Connector listening on port: " + m_port );
         
-        getLogger().info(
-            "The AltRMI Connector is an \"experimental feature\" until AltRMI reaches 1.0." );
+        getLogger().info( "NOTICE: The AltRMI Connector is an \"experimental feature\" until "
+            + "AltRMI reaches 1.0." );
     }
 
     public void stop()
