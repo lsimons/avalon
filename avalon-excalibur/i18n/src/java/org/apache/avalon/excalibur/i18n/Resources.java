@@ -674,6 +674,57 @@ public class Resources
      * Retrieve a string from resource bundle and format it with specified args.
      *
      * @param key the key for resource
+     * @param arg1 an arg
+     * @param arg2 an arg
+     * @param arg3 an arg
+     * @param arg4 an arg
+     * @param arg5 an arg
+     * @param arg6 an arg
+     * @return the formatted string
+     */
+    public String getString( final String key,
+                             final Object arg1,
+                             final Object arg2,
+                             final Object arg3,
+                             final Object arg4,
+                             final Object arg5,
+                             final Object arg6 )
+    {
+        final Object[] args = new Object[]{arg1, arg2, arg3, arg4, arg5, arg6};
+        return format( key, args );
+    }
+
+    /**
+     * Retrieve a string from resource bundle and format it with specified args.
+     *
+     * @param key the key for resource
+     * @param arg1 an arg
+     * @param arg2 an arg
+     * @param arg3 an arg
+     * @param arg4 an arg
+     * @param arg5 an arg
+     * @param arg6 an arg
+     * @param arg7 an arg
+     * @return the formatted string
+     */
+    public String getString( final String key,
+                             final Object arg1,
+                             final Object arg2,
+                             final Object arg3,
+                             final Object arg4,
+                             final Object arg5,
+                             final Object arg6,
+                             final Object arg7 )
+    {
+        final Object[] args = new Object[]{arg1, arg2, arg3, arg4, arg5, arg6, arg7};
+        return format( key, args );
+    }
+
+
+    /**
+     * Retrieve a string from resource bundle and format it with specified args.
+     *
+     * @param key the key for resource
      * @param args an array of args
      * @return the formatted string
      */
