@@ -8,19 +8,23 @@
 package org.apache.avalon.excalibur.event;
 
 import java.util.ArrayList;
+import org.apache.avalon.excalibur.concurrent.Mutex;
 
 /**
- * The default queue implementation is a variabl size queue.
+ * The default queue implementation is a variabl size queue.  This queue is
+ * ThreadSafe, however the overhead in synchronization costs a few extra millis.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  */
-public class DefaultQueue extends AbstractQueue
+public final class DefaultQueue extends AbstractQueue
 {
     private final ArrayList m_elements;
+    private final Mutex     m_mutex;
 
     public DefaultQueue()
     {
         m_elements = new ArrayList();
+        m_mutex = new Mutex();
     }
 
     public int size()
@@ -36,8 +40,19 @@ public class DefaultQueue extends AbstractQueue
 
     public boolean tryEnqueue( final QueueElement element )
     {
-        boolean success = m_elements.add( element );
-        m_elements.notifyAll();
+        boolean success = false;
+        try
+        {
+            m_mutex.acquire();
+            success = m_elements.add( element );
+        }
+        catch ( InterruptedException ie )
+        {
+        }
+        finally
+        {
+            m_mutex.release();
+        }
 
         return success;
     }
@@ -47,24 +62,43 @@ public class DefaultQueue extends AbstractQueue
     {
         final int len = elements.length;
 
-        for ( int i = 0; i < len; i++ )
+        try
         {
-            m_elements.add( elements[i] );
-        }
+            m_mutex.acquire();
 
-        m_elements.notifyAll();
+            for ( int i = 0; i < len; i++ )
+            {
+                m_elements.add( elements[i] );
+            }
+        }
+        catch ( InterruptedException ie )
+        {
+        }
+        finally
+        {
+            m_mutex.release();
+        }
     }
 
     public void enqueue( final QueueElement element )
         throws SourceException
     {
-        m_elements.add( element );
+        try
+        {
+            m_mutex.acquire();
+            m_elements.add( element );
+        }
+        catch ( InterruptedException ie )
+        {
+        }
+        finally
+        {
+            m_mutex.release();
+        }
     }
 
     public QueueElement[] dequeue( final int numElements )
     {
-        block( m_elements );
-
         int arraySize = numElements;
 
         if ( size() < numElements )
@@ -72,11 +106,25 @@ public class DefaultQueue extends AbstractQueue
             arraySize = size();
         }
 
-        QueueElement[] elements = new QueueElement[ arraySize ];
+        QueueElement[] elements = null;
 
-        for ( int i = 0; i < arraySize; i++ )
+        try
         {
-            elements[i] = (QueueElement) m_elements.remove( 0 );
+            m_mutex.attempt( m_timeout );
+
+            elements = new QueueElement[ arraySize ];
+
+            for ( int i = 0; i < arraySize; i++ )
+            {
+                elements[i] = (QueueElement) m_elements.remove( 0 );
+            }
+        }
+        catch ( InterruptedException ie )
+        {
+        }
+        finally
+        {
+            m_mutex.release();
         }
 
         return elements;
@@ -84,24 +132,48 @@ public class DefaultQueue extends AbstractQueue
 
     public QueueElement[] dequeueAll()
     {
-        block( m_elements );
+        QueueElement[] elements = null;
 
-        QueueElement[] elements = (QueueElement[]) m_elements.toArray( new QueueElement [] {} );
-        m_elements.clear();
+        try
+        {
+            m_mutex.attempt( m_timeout );
+
+            elements = (QueueElement[]) m_elements.toArray( new QueueElement [] {} );
+            m_elements.clear();
+        }
+        catch ( InterruptedException ie )
+        {
+        }
+        finally
+        {
+            m_mutex.release();
+        }
 
         return elements;
     }
 
     public QueueElement dequeue()
     {
-        block( m_elements );
+        QueueElement element = null;
 
-        if ( size() <= 0 )
+        try
         {
-            return null;
+            m_mutex.attempt( m_timeout );
+
+            if ( size() > 0 )
+            {
+                element = (QueueElement) m_elements.remove( 0 );
+            }
+        }
+        catch ( InterruptedException ie )
+        {
+        }
+        finally
+        {
+            m_mutex.release();
         }
 
-        return (QueueElement) m_elements.remove( 0 );
+        return element;
     }
 
     private final static class DefaultPreparedEnqueue implements PreparedEnqueue
