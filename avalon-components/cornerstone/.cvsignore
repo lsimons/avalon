@@ -10,5 +10,5 @@ maven.log
 velocity.log
 target
 build
-
+build.properties
 

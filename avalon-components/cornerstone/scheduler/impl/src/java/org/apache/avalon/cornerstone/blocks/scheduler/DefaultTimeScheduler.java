@@ -310,7 +310,7 @@ public class DefaultTimeScheduler
 
     /**
      * Return a collection of the triggerable names.
-     * @return
+     * @return the collection
      */
     public synchronized Collection getEntries()
     {
