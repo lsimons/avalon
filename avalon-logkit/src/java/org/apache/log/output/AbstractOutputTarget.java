@@ -52,6 +52,13 @@ public abstract class AbstractOutputTarget
         m_formatter = formatter;
     }
 
+    /** Returns the Formatter.
+     */
+    protected Formatter getFormatter()
+    {
+        return m_formatter;
+    }
+    
     /**
      * Abstract method to write data.
      *
