@@ -16,7 +16,7 @@ import org.apache.avalon.framework.logger.Logger;
  * An adapter class to help with backwards comaptability.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2002/07/29 09:53:40 $
+ * @version $Revision: 1.4 $ $Date: 2002/09/12 15:47:53 $
  */
 public class LogkitLoggerManager
     implements LoggerManager
@@ -31,32 +31,20 @@ public class LogkitLoggerManager
         m_logKitManager = logKitManager;
     }
 
-    public org.apache.log.Logger
-        getLogKitLoggerForCategory( final String categoryName )
+    public org.apache.log.Logger getLogKitLoggerForCategory( final String categoryName )
     {
-        if( null != m_logKitManager )
-        {
-            return m_logKitManager.getLogger( categoryName );
-        }
-        else
-        {
-            final Logger logger =
-                m_loggerManager.getLoggerForCategory( categoryName );
-            return LogKit2LoggerTarget.createLogger( logger );
-        }
+        return getLogKitManager().getLogger( categoryName );
     }
 
     public Logger getLoggerForCategory( String categoryName )
     {
-        if( null != m_logKitManager )
+        if( null != m_loggerManager )
         {
-            final org.apache.log.Logger logger =
-                m_logKitManager.getLogger( categoryName );
-            return new LogKitLogger( logger );
+            return m_loggerManager.getLoggerForCategory( categoryName );
         }
         else
         {
-            return m_loggerManager.getLoggerForCategory( categoryName );
+            return new LogKitLogger( getLogKitLoggerForCategory( categoryName ) );
         }
     }
 
