@@ -32,7 +32,7 @@ public final class Installation
     private final String       m_assembly;
 
     ///URL to application configuration data
-    private final String       m_server;
+    private final String       m_environment;
 
     ///ClassPath for application
     private final String[]     m_classPath;
@@ -47,7 +47,7 @@ public final class Installation
                          final File directory,
                          final String config,
                          final String assembly,
-                         final String server,
+                         final String environment,
                          final String[] classPath,
                          final FileDigest[] digests,
                          final long timestamp )
@@ -56,7 +56,7 @@ public final class Installation
         m_directory = directory;
         m_config = config;
         m_assembly = assembly;
-        m_server = server;
+        m_environment = environment;
         m_classPath = classPath;
         m_digests = digests;
         m_timestamp = timestamp;
@@ -104,13 +104,13 @@ public final class Installation
     }
 
     /**
-     * Retrieve location of applications server.xml file.
+     * Retrieve location of applications environment.xml file.
      *
-     * @return url to server.xml file
+     * @return url to environment.xml file
      */
-    public String getServer()
+    public String getEnvironment()
     {
-        return m_server;
+        return m_environment;
     }
 
     /**
