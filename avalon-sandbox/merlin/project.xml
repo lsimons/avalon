@@ -240,6 +240,12 @@
           <include>block.xml</include>
         </includes>
       </resource>
+      <resource>
+        <directory>${maven.conf.dir}</directory>
+        <includes> 
+          <include>**/*.properties</include>
+        </includes>
+      </resource>
     </resources>
     
     <jars></jars>
