@@ -6,7 +6,7 @@
     extension-element-prefixes="my-ext"
 >
 
-  <xsl:output method="html" indent="yes"/>
+  <xsl:output method="xml" indent="yes"/>
   <!--The component and its script are in the lxslt namespace and define the 
                   implementation of the extension.-->
                 <lxslt:component prefix="my-ext" elements="timelapse" functions="getdate">
