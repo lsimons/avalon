@@ -8,7 +8,7 @@
 package org.apache.avalon.phoenix.components.phases;
 
 import org.apache.avalon.framework.component.Component;
-import org.apache.avalon.phoenix.engine.blocks.BlockEntry;
+import org.apache.avalon.phoenix.components.kapi.BlockEntry;
 
 /**
  * Visitor interface that objects implement to walk the DAG.

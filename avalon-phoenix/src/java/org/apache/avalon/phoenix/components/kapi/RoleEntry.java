@@ -5,7 +5,7 @@
  * version 1.1, a copy of which has been included  with this distribution in
  * the LICENSE file.
  */
-package org.apache.avalon.phoenix.engine.blocks;
+package org.apache.avalon.phoenix.components.kapi;
 
 /**
  * This is the structure describing the instances of roles provided to each block.
@@ -27,7 +27,7 @@ public class RoleEntry
     {
         return m_role;
     }
-    
+
     public String getName()
     {
         return m_name;
