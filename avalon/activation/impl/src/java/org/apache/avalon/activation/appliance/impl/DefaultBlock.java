@@ -76,7 +76,7 @@ import org.apache.avalon.framework.logger.Logger;
  * context.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.7.2.5 $ $Date: 2004/01/12 00:17:19 $
+ * @version $Revision: 1.7.2.6 $ $Date: 2004/01/12 02:11:24 $
  */
 public class DefaultBlock extends AbstractBlock implements Home
 {
@@ -244,8 +244,17 @@ public class DefaultBlock extends AbstractBlock implements Home
             //
 
             final ContainmentModel model = m_context.getContainmentModel();
+            Class source = method.getDeclaringClass();
             ServiceDirective service = 
-              model.getExportDirective( method.getDeclaringClass() );
+              model.getExportDirective( source );
+            if( null == service )
+            {
+                final String error = 
+                 "Unable to resolve an provider for the class ["
+                 + source.getName() 
+                 + "].";
+                throw new IllegalStateException( error );
+            }
 
             String path = service.getPath();
             Appliance provider = (Appliance) m_block.locate( path );
