@@ -124,7 +124,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * as a part of a containment deployment model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.21 $ $Date: 2004/01/19 21:46:10 $
+ * @version $Revision: 1.22 $ $Date: 2004/01/20 04:50:31 $
  */
 public class DefaultContainmentModel extends DefaultDeploymentModel 
   implements ContainmentModel
@@ -950,7 +950,7 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
         synchronized( repository )
         {
             DeploymentModel model = (DeploymentModel) repository.getModel( name );
-            if( null == name )
+            if( null == model )
             {
                 final String error = 
                   "No model named [" + name 
