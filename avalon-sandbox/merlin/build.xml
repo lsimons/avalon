@@ -32,7 +32,7 @@ the LICENSE.txt file.
     <pathelement location="${avalon-meta.jar}"/>
     <pathelement location="${avalon-lifecycle.jar}"/>
     <pathelement location="${avalon-assembly.jar}"/>
-    <pathelement location="${excalibur-logger.jar}"/>
+    <!--<pathelement location="${excalibur-logger.jar}"/>-->
     <pathelement location="${excalibur-configuration.jar}"/>
     <pathelement location="${excalibur-pool.jar}"/>
     <!-- <pathelement location="${excalibur-thread.jar}"/> -->
@@ -42,7 +42,7 @@ the LICENSE.txt file.
     <pathelement location="${commons-collections.jar}"/>
     <pathelement location="${build.classes}"/>
     <pathelement location="${checkstyle.jar}"/>
-    <pathelement location="${xml-apis.jar}"/>
+    <!--<pathelement location="${xml-apis.jar}"/>-->
     <pathelement path="${java.class.path}"/>
   </path>
 
@@ -254,7 +254,7 @@ the LICENSE.txt file.
      <copy todir="${lib.dir}" file="${build.lib}/${jar.name}"/>
      <copy todir="${lib.dir}" file="${excalibur-collections.jar}"/>
      <copy todir="${lib.dir}" file="${excalibur-extension.jar}"/>
-     <copy todir="${lib.dir}" file="${excalibur-logger.jar}"/>
+     <!--<copy todir="${lib.dir}" file="${excalibur-logger.jar}"/>-->
      <copy todir="${lib.dir}" file="${excalibur-event.jar}"/>
      <copy todir="${lib.dir}" file="${commons-collections.jar}"/>
      <copy todir="${lib.dir}" file="${util.concurrent.jar}"/>
@@ -264,6 +264,7 @@ the LICENSE.txt file.
      <!-- <copy todir="${lib.dir}" file="${excalibur-thread.jar}"/> -->
      <copy todir="${lib.dir}" file="${avalon-lifecycle.jar}"/>
      <copy todir="${lib.dir}" file="${avalon-assembly.jar}"/>
+     <!--
      <copy todir="${lib.dir}" preservelastmodified="true">
        <fileset dir="${tools.dir}/lib">
          <include name="xerces-2.0.1.jar"/>
@@ -271,7 +272,7 @@ the LICENSE.txt file.
          <include name="xalan-2.3.1.jar"/>
        </fileset>
      </copy>
-
+     -->
   </target>
 
 
@@ -330,6 +331,7 @@ the LICENSE.txt file.
     </checkstyle>
   </target>
 
+  <!-- the following task is broken folling checkes to the tool dir in the avalon package -->
   <target name="checkstyle-report" depends="checkstyle" if="do.checkstyle"
      description="Generate Checkstyle Report">
     <mkdir dir="${build.reports}"/>
