@@ -107,7 +107,7 @@ public interface RepositoryTypeRegistry
      * 
      * @return A string array filled with the URNs that has been registered.
      */
-    URNDescriptor[] getRegisteredURNs();
+    RepositorySchemeDescriptor[] getRegisteredURNs();
     
     /** Returns the URNDescriptor registered under the type name.
      * 
@@ -118,7 +118,7 @@ public interface RepositoryTypeRegistry
      * @param type The type of the urn to be looked up.
      * @return
      */
-    URNDescriptor findByType( String type );
+    RepositorySchemeDescriptor findByType( String type );
     
     /** Returns the RepositoryAgentFactory registered with the given URN.
      * 
@@ -127,7 +127,7 @@ public interface RepositoryTypeRegistry
      * @throws InvalidURNException If there is no RepositoryAgentFactory registered at that
      * URN.
      */
-    RepositoryAgentFactory getRepositoryAgentFactory( URNDescriptor urn );
+    RepositoryAgentFactory getRepositoryAgentFactory( RepositorySchemeDescriptor urn );
     
     /** Registers a RepositoryAgentFactory to a particular URN.
      * 
@@ -136,13 +136,13 @@ public interface RepositoryTypeRegistry
      * @param agentFactory The RepositoryAgentFactory to be registered.
      * 
      */
-    void registerRepositoryAgentFactory( URNDescriptor urn, RepositoryAgentFactory agentFactory );
+    void registerRepositoryAgentFactory( RepositorySchemeDescriptor urn, RepositoryAgentFactory agentFactory );
     
     /** Unregister a URN.
      * 
      * @param urn The URN to be un-registered from the RepositoryTypeRegistry.
      */
-    void unregisterRepositoryAgentFactory( URNDescriptor urn );
+    void unregisterRepositoryAgentFactory( RepositorySchemeDescriptor urn );
     
     /** Adds a RepositoryRegistryListener.
      * 

@@ -3,6 +3,7 @@
 	<name>org.apache.avalon.ide.eclipse.repository</name>
 	<comment></comment>
 	<projects>
+		<project>org.apache.avalon.ide.repository</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
