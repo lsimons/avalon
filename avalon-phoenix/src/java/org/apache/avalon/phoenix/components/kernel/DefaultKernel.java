@@ -22,6 +22,7 @@ import org.apache.avalon.phoenix.interfaces.Application;
 import org.apache.avalon.phoenix.interfaces.ApplicationContext;
 import org.apache.avalon.phoenix.interfaces.ConfigurationRepository;
 import org.apache.avalon.phoenix.interfaces.Kernel;
+import org.apache.avalon.phoenix.interfaces.KernelMBean;
 import org.apache.avalon.phoenix.interfaces.SystemManager;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
 import org.apache.log.Hierarchy;
@@ -40,7 +41,7 @@ import org.apache.log.Hierarchy;
  */
 public class DefaultKernel
     extends AbstractLogEnabled
-    implements Kernel, Composable
+    implements Kernel, KernelMBean, Composable
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( DefaultKernel.class );
@@ -206,14 +207,19 @@ public class DefaultKernel
         return componentManager;
     }
 
-    public void removeApplication( String name ) throws Exception
+    public void removeApplication( String name ) 
+        throws Exception
     {
-        final SarEntry entry = (SarEntry)m_entrys.get( name );
-        if( null != entry )
+        final SarEntry entry = (SarEntry)m_entrys.remove( name );
+        if( null == entry ) 
+        {
+            final String message =
+                REZ.getString( "kernel.error.entry.initialize", name );
+            throw new Exception( message );
+        }
+        else
         {
             shutdown( entry );
-            m_entrys.remove( name );
         }
     }
-
 }
