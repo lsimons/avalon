@@ -246,8 +246,8 @@
           <attribute name="Specification-Version" value="1.0"/>
           <attribute name="Implementation-Vendor" value="Apache Software Foundation"/>
           <attribute name="Implementation-Version" value="${package-version}"/>
-        </manifest>
           <attribute name="Implementation-Vendor-Id" value="ASF"/>
+        </manifest>
         <zipgroupfileset dir="${build.dir}/tempjars">
           <include name="*.jar"/>
         </zipgroupfileset>
