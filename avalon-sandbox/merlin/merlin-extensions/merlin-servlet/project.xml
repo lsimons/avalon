@@ -155,7 +155,8 @@ Servlet implementation that initializes an embedded Merlin Kernel.
     </dependency>
 
     <dependency>
-      <id>excalibur-lifecycle</id>
+      <groupId>excalibur-lifecycle</groupId>
+      <artifactId>excalibur-lifecycle-api</artifactId>
       <version>1.0</version>
       <properties>
         <war.bundle.jar>true</war.bundle.jar>
