@@ -29,6 +29,7 @@ import org.apache.tools.ant.taskdefs.Mkdir;
 import org.apache.tools.ant.taskdefs.optional.junit.FormatterElement;
 import org.apache.tools.ant.taskdefs.optional.junit.JUnitTask;
 import org.apache.tools.ant.taskdefs.optional.junit.BatchTest;
+import org.apache.tools.ant.taskdefs.Exit;
 import org.apache.tools.ant.types.Environment;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.Path;
@@ -130,14 +131,34 @@ public class JUnitTestTask extends SystemTask
             test( src, classpath, temp );
         }
 
-        System.out.println( 
-           "error: [" 
-           + project.getProperty( ERROR_KEY ) 
-           + "]" ); 
-        System.out.println( 
-           "failure: [" 
-           + project.getProperty( FAILURE_KEY ) 
-           + "]" );
+        String error = project.getProperty( ERROR_KEY );
+        if( null != error )
+        {
+            if( getHaltOnErrorProperty() )
+            {
+                final String message = 
+                  "One or more unit test errors occured.";
+                fail( message );
+            }
+        }
+        String failure = project.getProperty( FAILURE_KEY );
+        if( null != failure )
+        {
+            if( getHaltOnFailureProperty() )
+            {
+                final String message = 
+                  "One or more unit test failures occured.";
+                fail( message );
+            }
+        }
+    }
+
+    private void fail( String message )
+    {
+        Exit exit = (Exit) getProject().createTask( "fail" );
+        exit.setMessage( message );
+        exit.init();
+        exit.execute();
     }
 
     private void copyUnitTestResource( File dest )
@@ -262,6 +283,16 @@ public class JUnitTestTask extends SystemTask
     private boolean getDebugProperty()
     {
         return getBooleanProperty( DEBUG_KEY, DEBUG_VALUE );
+    }
+
+    private boolean getHaltOnErrorProperty()
+    {
+        return getBooleanProperty( HALT_ON_ERROR_KEY, HALT_ON_ERROR_VALUE );
+    }
+
+    private boolean getHaltOnFailureProperty()
+    {
+        return getBooleanProperty( HALT_ON_FAILURE_KEY, HALT_ON_FAILURE_VALUE );
     }
 
     private boolean getForkProperty()
