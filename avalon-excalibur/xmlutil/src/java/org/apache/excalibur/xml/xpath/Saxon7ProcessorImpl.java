@@ -53,7 +53,7 @@ import java.util.ArrayList;
  * </pre>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Id: Saxon7ProcessorImpl.java,v 1.4 2004/02/28 11:47:15 cziegeler Exp $
+ * @version CVS $Id: Saxon7ProcessorImpl.java,v 1.5 2004/03/19 15:54:16 vgritsenko Exp $
  */
 public class Saxon7ProcessorImpl
         extends AbstractProcessorImpl
@@ -77,11 +77,6 @@ public class Saxon7ProcessorImpl
             if (item == null)
             {
                 return false;
-            }
-
-            if (item.getItemType() == Type.BOOLEAN)
-            {
-                return ((BooleanValue)item).getValue();
             }
 
             return Boolean.valueOf(item.getStringValue()).booleanValue();
@@ -113,11 +108,6 @@ public class Saxon7ProcessorImpl
             if (item == null)
             {
                 return null;
-            }
-
-            if (item.getItemType() == Type.NUMBER)
-            {
-                return new Double(((DoubleValue)item).getValue());
             }
 
             return Double.valueOf(item.getStringValue());
@@ -188,9 +178,8 @@ public class Saxon7ProcessorImpl
         {
             SequenceIterator iterator = evaluate(contextNode, str, resolver);
             ArrayList nodes = new ArrayList();
-            while (iterator.hasNext())
+            for (Node node = (Node)iterator.current(); node != null; node = (Node)iterator.next())
             {
-                Node node = (Node)iterator.current();
                 nodes.add(node);
             }
 
@@ -242,7 +231,7 @@ public class Saxon7ProcessorImpl
             }
 
             Expression expression = ExpressionTool.make(
-                    str, new Saxon7Context((NodeInfo)contextNode, resolver));
+                    str, new Saxon7Context((NodeInfo)contextNode, resolver), 0, -1);
             XPathContext context = new XPathContext((NodeInfo)contextNode);
             return expression.iterate(context);
         }
