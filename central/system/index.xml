@@ -539,7 +539,7 @@
 
     <project basedir="../../runtime/logging/logkit/api">
       <info>
-        <group>avalon/logging/logkit</group>
+        <group>avalon/logging</group>
         <name>avalon-logging-logkit-api</name>
         <version>1.0.0</version>
       </info>
@@ -551,7 +551,7 @@
 
     <project basedir="../../runtime/logging/logkit/impl">
       <info>
-        <group>avalon/logging/logkit</group>
+        <group>avalon/logging</group>
         <name>avalon-logging-logkit-impl</name>
         <version>1.0.0</version>
       </info>
@@ -564,7 +564,7 @@
 
     <project basedir="../../runtime/logging/logkit/plugins/datagram">
       <info>
-        <group>avalon/logging/logkit</group>
+        <group>avalon/logging</group>
         <name>avalon-logging-logkit-datagram</name>
         <version>1.0.0</version>
       </info>
@@ -576,7 +576,7 @@
 
     <project basedir="../../runtime/logging/logkit/plugins/socket">
       <info>
-        <group>avalon/logging/logkit</group>
+        <group>avalon/logging</group>
         <name>avalon-logging-logkit-socket</name>
         <version>1.0.0</version>
       </info>
@@ -588,7 +588,7 @@
 
     <project basedir="../../runtime/logging/logkit/plugins/syslog">
       <info>
-        <group>avalon/logging/logkit</group>
+        <group>avalon/logging</group>
         <name>avalon-logging-logkit-syslog</name>
         <version>1.0.0</version>
       </info>
