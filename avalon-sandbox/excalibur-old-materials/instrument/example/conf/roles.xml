@@ -1,0 +1,8 @@
+<role-list logger="rm">
+    <!-- =================================================================== -->
+    <!-- Application roles.                                                  -->
+    <!-- =================================================================== -->
+    <role name="org.apache.excalibur.instrument.example.ExampleInstrumentable"
+          shorthand="example-instrumentable"
+          default-class="org.apache.excalibur.instrument.example.DefaultExampleInstrumentable"/>
+</role-list>
