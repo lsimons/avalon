@@ -18,9 +18,25 @@ package org.apache.avalon.playground.jmxtest;
 
 /**
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public interface JMXTestComponentMBean
 {
     int getNumberOfServiceInvokes();
+
+    int getNumberOfJmxAttributeReads();
+
+    int getNumberOfJmxMethodInvokes();
+
+    int getMutableProperty();
+
+    void setMutableProperty(int mutableProperty);
+
+    String invokeMethodWithReturn();
+
+    void invokeMethodNoReturn();
+
+    void invokeMethodWithArgs(String arg1, int arg2);
+    
+    String invokeMethodWithArgsAndReturn(String arg1, int arg2);
 }
