@@ -34,5 +34,35 @@ namespace Apache.Avalon.Castle.MicroKernel
 					String.Format("Argument {0} can't be null", argName) );
 			}
 		}
+
+		public static void ArgumentMustBeInterface( Type argValue, String argName )
+		{
+			if (argValue != null && !argValue.IsInterface)
+			{
+				throw new ArgumentNullException(
+					argName, 
+					String.Format("Argument {0} must be an interface", argName) );
+			}
+		}
+
+		public static void ArgumentMustNotBeInterface( Type argValue, String argName )
+		{
+			if (argValue != null && argValue.IsInterface)
+			{
+				throw new ArgumentNullException(
+					argName, 
+					String.Format("Argument {0} can't be an interface", argName) );
+			}
+		}
+
+		public static void ArgumentMustNotBeAbstract( Type argValue, String argName )
+		{
+			if (argValue != null && argValue.IsAbstract)
+			{
+				throw new ArgumentNullException(
+					argName, 
+					String.Format("Argument {0} can't be abstract", argName) );
+			}
+		}
 	}
 }

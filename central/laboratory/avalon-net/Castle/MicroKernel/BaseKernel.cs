@@ -26,7 +26,7 @@ namespace Apache.Avalon.Castle.MicroKernel
 	/// </summary>
 	public class BaseKernel : IKernel, IDisposable
 	{
-        private static readonly object ComponentAddedEvent = new object();
+        private static readonly object ComponentRegisteredEvent = new object();
         private static readonly object ComponentCreatedEvent = new object();
         private static readonly object ComponentDestroyedEvent = new object();
 
@@ -78,19 +78,10 @@ namespace Apache.Avalon.Castle.MicroKernel
 			AssertUtil.ArgumentNotNull( key, "key" );
 			AssertUtil.ArgumentNotNull( service, "service" );
 			AssertUtil.ArgumentNotNull( implementation, "implementation" );
+			AssertUtil.ArgumentMustBeInterface( service, "service" );
+			AssertUtil.ArgumentMustNotBeInterface( implementation, "implementation" );
+			AssertUtil.ArgumentMustNotBeAbstract( implementation, "implementation" );
 			
-			if (!service.IsInterface)
-			{
-				throw new ArgumentException("service must be an interface");
-			}
-			if (implementation.IsInterface)
-			{
-				throw new ArgumentException("implementation can't be an interface");
-			}
-            if (implementation.IsAbstract)
-            {
-                throw new ArgumentException("implementation can't be abstract");
-            }
             if (!service.IsAssignableFrom(implementation))
             {
 				throw new ArgumentException("The specified implementation does not implement the service interface");
@@ -106,10 +97,10 @@ namespace Apache.Avalon.Castle.MicroKernel
             OnNewHandler( model, key, service, implementation, handler);
         }
 
-        public event ComponentDataDelegate ComponentAdded
+        public event ComponentDataDelegate ComponentRegistered
         {
-            add { m_events.AddHandler(ComponentAddedEvent, value); }
-            remove { m_events.RemoveHandler(ComponentAddedEvent, value); }
+            add { m_events.AddHandler(ComponentRegisteredEvent, value); }
+            remove { m_events.RemoveHandler(ComponentRegisteredEvent, value); }
         }
 
         /// <summary>
@@ -264,13 +255,13 @@ namespace Apache.Avalon.Castle.MicroKernel
 			// AddSubsystem( KernelConstants.EVENTS, new EventManager() );
 		}
 
-        protected virtual void RaiseComponentAdded(IComponentModel model, String key, Type service, Type implementation, IHandler handler)
+        protected virtual void RaiseComponentAdded(IComponentModel model, String key, IHandler handler)
         {
-            ComponentDataDelegate eventDelegate = (ComponentDataDelegate) m_events[ComponentAddedEvent];
+            ComponentDataDelegate eventDelegate = (ComponentDataDelegate) m_events[ComponentRegisteredEvent];
             
             if (eventDelegate != null)
             {
-                eventDelegate(model, key, service, implementation, handler);
+                eventDelegate(model, key, handler);
             }
         }
 
@@ -278,7 +269,7 @@ namespace Apache.Avalon.Castle.MicroKernel
 		{
 			m_services[ service ] = handler;
 
-            RaiseComponentAdded( model, key, service, implementation, handler );
+            RaiseComponentAdded( model, key, handler );
 
             if (model.ActivationPolicy == Apache.Avalon.Framework.Activation.Start)
             {

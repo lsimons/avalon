@@ -17,7 +17,6 @@ namespace Apache.Avalon.Castle.MicroKernel.Subsystems.Configuration
 	using System;
 
 	using Apache.Avalon.Framework;
-	using Apache.Avalon.Castle.MicroKernel.Model;
 
 	/// <summary>
 	/// Summary description for IConfigurationManager.
@@ -28,7 +27,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Subsystems.Configuration
 		/// Implementation should return a configuration for 
 		/// the component.
 		/// </summary>
-		/// <param name="model"></param>
+		/// <param name="componentName"></param>
 		/// <returns></returns>
 		IConfiguration GetConfiguration( String componentName );
 
