@@ -2,9 +2,9 @@
 :: -----------------------------------------------------------------------------
 :: run.bat - Win32 Run Script for Apache Cocoon
 ::
-:: $Id: cocoon.bat,v 1.1 2001/07/16 20:12:41 bloritsch Exp $
+:: $Id: cocoon.bat,v 1.2 2001/07/19 09:54:39 donaldp Exp $
 :: -----------------------------------------------------------------------------
-
+ 
 :: ----- Verify and Set Required Environment Variables -------------------------
 
 if not "%JAVA_HOME%" == "" goto gotJavaHome
