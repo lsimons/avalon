@@ -108,9 +108,14 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
  *       PRIMARY KEY (table_name)
  *   );
  * </pre>
+ * 
+ * @avalon.component
+ * @avalon.service type=org.apache.avalon.excalibur.datasource.ids.IDGenerator
+ * @x-avalon.info name=table-id-generator
+ * @x-avalon.lifestyle type=singleton
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.5 $ $Date: 2003/04/29 03:02:03 $
+ * @version CVS $Revision: 1.6 $ $Date: 2003/05/20 20:44:43 $
  * @since 4.1
  */
 public class TableIdGenerator

@@ -56,7 +56,7 @@ import org.apache.avalon.excalibur.datasource.DataSourceComponent;
 
 /**
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.5 $ $Date: 2003/04/29 03:03:29 $
+ * @version CVS $Revision: 1.6 $ $Date: 2003/05/20 20:44:43 $
  * @since 4.1
  */
 public interface IndexedDataSourceCluster
@@ -65,7 +65,7 @@ public interface IndexedDataSourceCluster
     /**
      * The name of the role for convenience
      */
-    String ROLE = "com.silveregg.util.datasource.cluster.IndexedDataSourceCluster";
+    String ROLE = IndexedDataSourceCluster.class.getName();
 
     /**
      * Returns the number of DataSources in the cluster.

@@ -113,9 +113,14 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * <li>The <code>user</code> and <code>password</code> attributes are used to specify the user and
  *  password for connections to the database. (Required)</li>
  * </ul>
+ * 
+ * @avalon.component
+ * @avalon.service type=DataSourceComponent
+ * @x-avalon.info name=jdbc
+ * @x-avalon.lifestyle type=singleton
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.23 $ $Date: 2003/04/29 03:04:05 $
+ * @version CVS $Revision: 1.24 $ $Date: 2003/05/20 20:44:43 $
  * @since 4.0
  */
 public class JdbcDataSource

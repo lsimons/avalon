@@ -54,8 +54,9 @@ import java.math.BigDecimal;
 import org.apache.avalon.framework.component.Component;
 
 /**
+ * 
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.4 $ $Date: 2003/04/29 03:02:03 $
+ * @version CVS $Revision: 1.5 $ $Date: 2003/05/20 20:44:43 $
  * @since 4.1
  */
 public interface IdGenerator
@@ -64,7 +65,7 @@ public interface IdGenerator
     /**
      * The name of the role for convenience
      */
-    String ROLE = "org.apache.avalon.excalibur.datasource.ids.IdGenerator";
+    String ROLE = IdGenerator.class.getName();
 
     /**
      * Returns the next Id from the pool.
