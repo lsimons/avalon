@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.StringTokenizer;
 import org.apache.avalon.excalibur.extension.DefaultPackageRepository;
+import org.apache.avalon.excalibur.extension.PackageRepository;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.logger.LogEnabled;
@@ -19,13 +20,12 @@ import org.apache.avalon.framework.parameters.ParameterException;
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.phoenix.interfaces.ExtensionManagerMBean;
-import org.apache.avalon.phoenix.interfaces.PackageRepository;
 
 /**
  * PhoenixPackageRepository
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.6 $ $Date: 2002/03/25 09:01:30 $
+ * @version $Revision: 1.7 $ $Date: 2002/05/10 11:07:58 $
  */
 public class PhoenixPackageRepository
     extends DefaultPackageRepository
