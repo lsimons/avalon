@@ -8,6 +8,7 @@
 package org.apache.avalon.framework.camelot;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Iterator;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.logger.AbstractLoggable;
@@ -22,20 +23,19 @@ public abstract class AbstractContainer
     extends AbstractLoggable
     implements Container
 {
-    protected final HashMap          m_entries      = new HashMap();
-    protected Class                  m_entryClass;
+    private final HashMap          m_entrys      = new HashMap();
 
     /**
      * Add a component instance to container.
      *
      * @param entry the component entry
      */
-    public void add( final String name, final Entry entry )
+    public final void add( final String name, final Entry entry )
         throws ContainerException
     {
         checkEntry( name, entry );
         preAdd( name, entry );
-        m_entries.put( name, entry );
+        m_entrys.put( name, entry );
         postAdd( name, entry );
     }
 
@@ -44,10 +44,10 @@ public abstract class AbstractContainer
      *
      * @param name the name of component
      */
-    public void remove( final String name )
+    public final void remove( final String name )
         throws ContainerException
     {
-        final Entry entry = (Entry)m_entries.get( name );
+        final Entry entry = (Entry)m_entrys.get( name );
 
         if( null == entry )
         {
@@ -55,7 +55,7 @@ public abstract class AbstractContainer
         }
 
         preRemove( name, entry );
-        m_entries.remove( name );
+        m_entrys.remove( name );
         postRemove( name, entry );
     }
 
@@ -68,7 +68,7 @@ public abstract class AbstractContainer
     public Entry getEntry( final String name )
         throws ContainerException
     {
-        final Entry entry = (Entry)m_entries.get( name );
+        final Entry entry = (Entry)m_entrys.get( name );
 
         if( null == entry )
         {
@@ -85,9 +85,9 @@ public abstract class AbstractContainer
      *
      * @return the list of all entries
      */
-    public Iterator list()
+    public final Iterator list()
     {
-        return m_entries.keySet().iterator();
+        return m_entrys.keySet().iterator();
     }
 
     /**
@@ -143,48 +143,23 @@ public abstract class AbstractContainer
      *
      * @return the list of all entries
      */
-    protected Iterator listEntries()
+    protected final Iterator listEntries()
     {
-        return m_entries.values().iterator();
+        return m_entrys.values().iterator();
+    }
+
+    protected final int getEntryCount()
+    {
+        return m_entrys.size();
     }
 
     protected void checkEntry( final String name, final Entry entry )
         throws ContainerException
     {
-        if( null != m_entries.get( name ) )
+        if( null != m_entrys.get( name ) )
         {
             throw new ContainerException( "Can not add component to container because " +
                                           "entry already exists with name " + name );
         }
-
-        if( !isValidName( name ) )
-        {
-            throw new ContainerException( "Can not add component to container because " +
-                                          "invalid name " + name );
-        }
-
-        if( !isValidEntry( entry ) )
-        {
-            throw new ContainerException( "Can not add component to container because " +
-                                          "invalid entry for " + name );
-        }
-
-        if( !m_entryClass.isAssignableFrom( entry.getClass() ) )
-        {
-            throw new ContainerException( "Only Entries of type " + m_entryClass.getName() +
-                                          " may be placed in container." );
-        }
-    }
-
-    protected boolean isValidName( final String name )
-        throws ContainerException
-    {
-        return true;
-    }
-
-    protected boolean isValidEntry( final Entry entry )
-        throws ContainerException
-    {
-        return true;
     }
 }

@@ -45,7 +45,7 @@ public class PhoenixKernel
 
     public PhoenixKernel()
     {
-        m_entryClass = ServerApplicationEntry.class;
+        //m_entryClass = ServerApplicationEntry.class;
     }
 
     public void compose( final ComponentManager componentManager )
@@ -120,6 +120,23 @@ public class PhoenixKernel
         catch( final Exception e )
         {
             throw new ContainerException( "Error preparing Application", e );
+        }
+    }
+
+    /**
+     * Make sure Entry is of correct type.
+     *
+     * @param name the name of entry
+     * @param entry the entry
+     * @exception ContainerException to stop removal of entry
+     */
+    protected final void preAdd( final String name, final Entry entry )
+        throws ContainerException
+    {
+        if( !(entry instanceof ServerApplicationEntry) )
+        {
+            throw new ContainerException( "Only Entries of type ServerApplicationEntry " +
+                                          "may be placed in container." );  
         }
     }
 

@@ -7,14 +7,15 @@
  */
 package org.apache.avalon.phoenix.engine.phases;
 
-import org.apache.avalon.framework.activity.Startable;
+import org.apache.avalon.excalibur.thread.ThreadContext;
 import org.apache.avalon.framework.activity.Disposable;
+import org.apache.avalon.framework.activity.Startable;
 import org.apache.avalon.framework.atlantis.ApplicationException;
+import org.apache.avalon.framework.camelot.Container;
 import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.component.Composable;
 import org.apache.avalon.framework.logger.AbstractLoggable;
-import org.apache.avalon.excalibur.thread.ThreadContext;
 import org.apache.avalon.phoenix.engine.blocks.BlockEntry;
 import org.apache.avalon.phoenix.engine.blocks.BlockVisitor;
 import org.apache.avalon.phoenix.engine.facilities.ClassLoaderManager;
@@ -30,16 +31,18 @@ public class ShutdownPhase
 {
     private ClassLoader                 m_classLoader;
     private ThreadManager               m_threadManager;
+    private Container                   m_container;
 
     public void compose( final ComponentManager componentManager )
         throws ComponentException
     {
-        final ClassLoaderManager classLoaderManager = 
+        final ClassLoaderManager classLoaderManager =
             (ClassLoaderManager)componentManager.lookup( ClassLoaderManager.ROLE );
 
         m_classLoader = classLoaderManager.getClassLoader();
 
         m_threadManager = (ThreadManager)componentManager.lookup( ThreadManager.ROLE );
+        m_container = (Container)componentManager.lookup( Container.ROLE );
     }
 
     /**
@@ -90,9 +93,9 @@ public class ShutdownPhase
                 ((Disposable)object).dispose();
                 getLogger().debug( "Disposable successful." );
             }
-            catch( final Exception e )
+            catch( final Throwable t )
             {
-                getLogger().warn( "Unable to dispose block " + name, e );
+                getLogger().warn( "Unable to dispose block " + name, t );
             }
         }
 
@@ -101,6 +104,16 @@ public class ShutdownPhase
         entry.setInstance( null );
         entry.setState( Phases.SHUTDOWN );
         getLogger().debug( "Destruction successful." );
+
+        try
+        {
+            m_container.remove( name );
+            getLogger().debug( "Removed entry from container." );
+        }
+        catch( final Throwable t )
+        {
+            getLogger().warn( "Unable to remove entry from container " + name, t );
+        }
 
         getLogger().info( "Ran Shutdown Phase for " + name );
     }
