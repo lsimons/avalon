@@ -73,6 +73,8 @@ public class HttpContextImpl
     private ClassLoader m_ClassLoader;
     private RequestLog  m_RequestLog;
     private MimeTypes   m_MimeTypes;
+    private UserRealm   m_UserRealm;
+    private Authenticator m_Authenticator;
     
     public HttpContextImpl()
     {
@@ -142,17 +144,10 @@ public class HttpContextImpl
         m_HttpServer = (HttpService) man.lookup( "server" );
         
         if( man.hasService( "authenticator" ) )
-        {
-            Authenticator auth = (Authenticator) man.lookup( "authenticator" );
-            m_HttpContext.setAuthenticator( auth );
-        }
+            m_Authenticator = (Authenticator) man.lookup( "authenticator" );
         
         if( man.hasService( "realm" ) )
-        {
-            UserRealm realm = (UserRealm) man.lookup( "realm" );
-            m_HttpContext.setRealm( realm );
-            m_HttpContext.setRealmName( realm.getName() ); // Is this necessary?
-        } 
+            m_UserRealm = (UserRealm) man.lookup( "realm" );
         
         m_RequestLog = (RequestLog) man.lookup( "request-log" );
         
@@ -240,6 +235,10 @@ public class HttpContextImpl
         m_HttpContext.setTempDirectory( m_TemporaryDir );
         m_HttpContext.setRequestLog( m_RequestLog );
         m_HttpContext.setResourceBase( m_ResourceBase.getAbsolutePath() );
+        m_HttpContext.setAuthenticator( m_Authenticator );
+        m_HttpContext.setRealm( m_UserRealm );
+        m_HttpContext.setRealmName( m_UserRealm.getName() ); // Is this necessary?
+        
         if( m_MaxCacheSize > 0 )
             m_HttpContext.setMaxCacheSize( m_MaxCacheSize );        
         if( m_MaxCachedFilesize > 0 )

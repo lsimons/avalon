@@ -8,6 +8,7 @@
       <artifact>jar:avalon/http/avalon-http-api#SNAPSHOT</artifact>
       <artifact>jar:servletapi/servletapi#2.3</artifact>
       <artifact>jar:jetty/org.mortbay.jetty#SNAPSHOT</artifact>
+      <artifact>jar:jetty/org.mortbay.jaas#5.0.RC0</artifact>
       <artifact>jar:avalon/http/avalon-http-util#SNAPSHOT</artifact>
       <artifact>jar:avalon/util/avalon-util-configuration#1.0.0</artifact>
       <artifact>jar:avalon/framework/avalon-framework-api#SNAPSHOT</artifact>
