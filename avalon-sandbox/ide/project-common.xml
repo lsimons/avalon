@@ -18,8 +18,8 @@ limitations under the License.
 <project>
 
   <pomVersion>3</pomVersion>
-  <groupId>avalon-merlin-developer</groupId>
-  <name>Avalon Merlin Developer</name>
+  <groupId>merlin-developer</groupId>
+  <name>Merlin Developer</name>
 
   <organization>
     <name>The Apache Software Foundation</name>
@@ -36,6 +36,7 @@ limitations under the License.
   
   <siteAddress>www.apache.org</siteAddress>
   <siteDirectory>/www/avalon.apache.org/merlin/developer/</siteDirectory>
+  <distributionSite>www.apache.org</distributionSite>
   <distributionDirectory></distributionDirectory>
 
   <repository>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 
 <!-- 
 Copyright 2004 The Apache Software Foundation
@@ -16,16 +16,14 @@ implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
+
 <project>
   <extend>${basedir}/../project-common.xml</extend>
-  <pomVersion>3</pomVersion>
-  <artifactId>avalon-merlin-developer-core</artifactId>
-  <name>Avalon Merlin Developer Core</name>
-  
-  <siteAddress>www.apache.org</siteAddress>
+  <artifactId>merlin-developer-core</artifactId>
+  <name>Merlin Developer Core</name>
+  <currentVersion>0.1</currentVersion>
   <siteDirectory>/www/avalon.apache.org/merlin/developer/core/</siteDirectory>
   <distributionDirectory>/www/www.apache.org/dist/java-repository/</distributionDirectory>
-
   <dependencies>
     <dependency>
       <id>org.eclipse.core.resources</id>
