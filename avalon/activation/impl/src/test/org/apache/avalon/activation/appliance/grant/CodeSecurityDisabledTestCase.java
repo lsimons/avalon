@@ -102,7 +102,7 @@ public class CodeSecurityDisabledTestCase extends AbstractTestCase
 
         try
         {
-            test.doPrimary(); // test something in component
+            test.createDirectory(); 
         }
         catch( Throwable e )
         {
@@ -114,7 +114,19 @@ public class CodeSecurityDisabledTestCase extends AbstractTestCase
 
         try
         {
-            test.doSecondary(); // test something in component
+            test.deleteDirectory(); 
+        }
+        catch( Throwable e )
+        {
+            final String error = "CodeSecurityTest secondary failure.";
+            final String message = ExceptionHelper.packException( error, e, true );
+            getLogger().error( message );
+            throw new Exception( message );
+        }
+
+        try
+        {
+            String ver = test.getJavaVersion();
         }
         catch( Throwable e )
         {

@@ -101,22 +101,50 @@ public class CodeSecurityEnabledTestCase extends AbstractTestCase
         TestService test = setupTestService();
         try
         {
-            test.doPrimary(); // test something in component
+            test.createDirectory(); 
             fail( "CodeSecurityTest primary failure: This operation should not be allowed." );
         }
-        catch( Exception e )
+        catch( SecurityException e )
         {
             // ignore, expected
+        }
+        catch( Throwable e )
+        {
+            final String error = "CodeSecurityTest primary failure.";
+            final String message = ExceptionHelper.packException( error, e, true );
+            getLogger().error( message );
+            throw new Exception( message );
         }
 
         try
         {
-            test.doSecondary(); // test something in component
+            test.deleteDirectory(); 
             fail( "CodeSecurityTest secondary failure: This operation should not be allowed." );
         }
-        catch( Exception e )
+        catch( SecurityException e )
         {
             // ignore, expected
+        }
+        catch( Throwable e )
+        {
+            final String error = "CodeSecurityTest primary failure.";
+            final String message = ExceptionHelper.packException( error, e, true );
+            getLogger().error( message );
+            throw new Exception( message );
+        }
+        
+        try
+        {
+            // This should succeed since there is a read permission for
+            // system properties in the security policy.
+            String ver = test.getJavaVersion();
+        }
+        catch( Throwable e )
+        {
+            final String error = "CodeSecurityTest secondary failure.";
+            final String message = ExceptionHelper.packException( error, e, true );
+            getLogger().error( message );
+            throw new Exception( message );
         }
     }
 

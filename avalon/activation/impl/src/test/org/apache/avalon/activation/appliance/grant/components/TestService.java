@@ -72,12 +72,17 @@ import org.apache.avalon.framework.context.Context;
 public interface TestService
 {
     /**
-     * Does something trivial.
+     * Create a test directory
      */
-    public void doPrimary();
+    void createDirectory();
 
     /**
-     * Does something trivial.
+     * Delete a test directory
      */
-    public void doSecondary();
+    void deleteDirectory();
+    
+    /** 
+    * Returns the version of the Java Virtual Machine.
+    **/
+    String getJavaVersion();
 }

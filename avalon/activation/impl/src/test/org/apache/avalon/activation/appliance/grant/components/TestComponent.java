@@ -98,7 +98,7 @@ public class TestComponent extends AbstractLogEnabled
     /**
      * Does something trivial.
      */
-    public void doPrimary()
+    public void createDirectory()
     {
         m_home.mkdirs();
     }
@@ -106,8 +106,13 @@ public class TestComponent extends AbstractLogEnabled
     /**
      * Does something trivial.
      */
-    public void doSecondary()
+    public void deleteDirectory()
     {
         m_home.delete();
+    }
+    
+    public String getJavaVersion()
+    {
+        return System.getProperty( "java.version" );
     }
 }
