@@ -35,10 +35,7 @@ import javax.management.remote.JMXServiceURL;
 
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.parameters.Parameters;
-import org.apache.avalon.framework.parameters.ParameterException;
 import org.apache.avalon.framework.context.Context;
-import org.apache.avalon.framework.context.ContextException;
-import org.apache.avalon.framework.context.Contextualizable;
 
 import org.apache.avalon.jmx.spi.AbstractJMXComponentRegistrationManager;
 

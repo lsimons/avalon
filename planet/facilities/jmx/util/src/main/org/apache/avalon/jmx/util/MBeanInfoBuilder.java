@@ -21,29 +21,27 @@ import java.beans.Introspector;
 import java.beans.MethodDescriptor;
 import java.beans.ParameterDescriptor;
 import java.beans.PropertyDescriptor;
-
 import java.io.InputStream;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.management.Descriptor;
+import javax.management.DynamicMBean;
 import javax.management.MBeanParameterInfo;
-
+import javax.management.StandardMBean;
+import javax.management.modelmbean.ModelMBean;
 import javax.management.modelmbean.ModelMBeanAttributeInfo;
 import javax.management.modelmbean.ModelMBeanConstructorInfo;
+import javax.management.modelmbean.ModelMBeanInfo;
 import javax.management.modelmbean.ModelMBeanInfoSupport;
 import javax.management.modelmbean.ModelMBeanNotificationInfo;
 import javax.management.modelmbean.ModelMBeanOperationInfo;
 import javax.management.modelmbean.RequiredModelMBean;
 
-import org.apache.avalon.util.i18n.ResourceManager;
-import org.apache.avalon.util.i18n.Resources;
-
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
-
+import org.apache.avalon.framework.logger.Logger;
+import org.apache.avalon.util.i18n.ResourceManager;
+import org.apache.avalon.util.i18n.Resources;
 import org.xml.sax.InputSource;
 
 /**
@@ -58,10 +56,22 @@ import org.xml.sax.InputSource;
  * TODO: update JavaDoc
  */
 
-public class MBeanInfoBuilder extends AbstractLogEnabled
+public class MBeanInfoBuilder
 {
     private static final Resources REZ = ResourceManager.getPackageResources( MBeanInfoBuilder.class );
     private static final String REQ_MODEL_MBEAN = RequiredModelMBean.class.getName();
+
+    private Logger m_logger;
+    
+    public MBeanInfoBuilder( Logger logger )
+    {
+    	m_logger = logger;
+    }
+    
+    protected Logger getLogger()
+    {
+    	return m_logger;
+    }
 
     /**
      * Builds MBeans for the management interfaces of a class.
@@ -139,19 +149,97 @@ public class MBeanInfoBuilder extends AbstractLogEnabled
         final Configuration[] topicsConfig = config.getChildren( "topic" );
         for ( int i = 0; i < topicsConfig.length; i++ )
         {
-            final ModelMBeanInfoSupport topic = buildTopic( topicsConfig[i], beanInfo );
-            target.addTopic( topic );
+            final ModelMBeanInfo topic = buildTopic( topicsConfig[i], beanInfo );
+            try
+			{
+	            final DynamicMBean mbean = createMBean( topic, target.getManagedResource() );
+	            target.addTopic( topicsConfig[i].getAttribute( "name" ), mbean );
+			}
+            catch ( final Exception e)
+			{
+            	final String message = REZ.getString( "mxinfo.error.mbean", topic.getDescription() );
+            	throw new ConfigurationException( message, e );
+			}
         }
 
         // load each proxy
         final Configuration[] proxysConfig = config.getChildren( "proxy" );
         for ( int i = 0; i < proxysConfig.length; i++ )
         {
-            final ModelMBeanInfoSupport topic = buildProxyTopic( proxysConfig[i], managedClass );
-            target.addTopic( topic );
+            final ModelMBeanInfo topic = buildProxyTopic( proxysConfig[i], managedClass );
+            try
+			{
+	            final DynamicMBean mbean = createMBean( topic, target.getManagedResource() );
+	            target.addTopic( proxysConfig[i].getAttribute( "name" ), mbean );
+			}
+            catch ( final Exception e)
+			{
+            	final String message = REZ.getString( "mxinfo.error.mbean", topic.getDescription() );
+            	throw new ConfigurationException( message, e );
+			}
         }
 
     }
+
+    private DynamicMBean createMBean( final ModelMBeanInfo topic, final Object target ) throws Exception
+    {
+	    final String className = topic.getClassName();
+	    // Load the ModelMBean implementation class
+	    final ClassLoader cl = Thread.currentThread().getContextClassLoader();
+	    
+	    final Class clazz;
+	    try
+	    {
+	    	if ( null == cl )
+	    	{
+	    		clazz = Class.forName( className );
+	    	}
+	    	else
+	    	{
+	    		clazz = cl.loadClass( className );
+	    	}
+	    }
+	    catch ( Exception e )
+	    {
+	        final String message = 
+	          REZ.getString( "jmxmanager.error.mbean.load.class", className );
+	        getLogger().error( message, e );
+	        throw new Exception( message, e );
+	    }
+	
+	    // Create a new ModelMBean instance
+	    ModelMBean mbean = null;
+	    try
+	    {
+	        mbean = ( ModelMBean ) clazz.newInstance();
+	        mbean.setModelMBeanInfo( topic );
+	    }
+	    catch ( final Exception e )
+	    {
+	        final String message = 
+	          REZ.getString( "jmxmanager.error.mbean.instantiate", className );
+	        getLogger().error( message, e );
+	        throw new Exception( message, e );
+	    }
+	
+	    // Set the managed resource (if any)
+	    try
+	    {
+	        if ( null != target )
+	        {
+	            mbean.setManagedResource( target, "ObjectReference" );
+	        }
+	    }
+	    catch ( Exception e )
+	    {
+	        final String message = 
+	          REZ.getString( "jmxmanager.error.mbean.set.resource", className );
+	        getLogger().error( message, e );
+	        throw new Exception( message, e );
+	    }
+	
+	    return mbean;
+	}
 
     /**
      * Builds a topic based on introspection of the interface.
@@ -165,56 +253,10 @@ public class MBeanInfoBuilder extends AbstractLogEnabled
     {
         try
         {
-            final BeanInfo beanInfo = Introspector.getBeanInfo( interfaceClass );
-
-            // do the methods
-            final MethodDescriptor[] methods = beanInfo.getMethodDescriptors();
-            final List operations = new ArrayList();
-
-            for ( int j = 0; j < methods.length; j++ )
-            {
-                // skip getters and setters
-                final String name = methods[j].getName();
-                if ( !( name.startsWith( "get" ) || name.startsWith( "set" )
-                        || name.startsWith( "is" ) ) )
-                {
-                    operations.add( buildOperationInfo( methods[j], null ) );
-                }
-            }
-
-            final ModelMBeanOperationInfo[] operationList = ( ModelMBeanOperationInfo[] )
-                                                            operations.toArray( new
-                ModelMBeanOperationInfo[0] );
-
-            // do the attributes
-            final PropertyDescriptor[] propertys = beanInfo.getPropertyDescriptors();
-            final List attributesList = new ArrayList();
-
-            for ( int j = 0; j < propertys.length; j++ )
-            {        
-                    final ModelMBeanAttributeInfo attribute = buildAttributeInfo( propertys[j], null );
-                //could be null for indexed properties
-                if (null != attribute)
-                {
-                        attributesList.add( attribute );
-                }
-            }
-            final ModelMBeanAttributeInfo[] attributes =
-                    (ModelMBeanAttributeInfo[]) attributesList.toArray( new ModelMBeanAttributeInfo[0] );
-
-            final ModelMBeanConstructorInfo[] constructors = new ModelMBeanConstructorInfo[0];
-
-            final ModelMBeanNotificationInfo[] notifications = new ModelMBeanNotificationInfo[0];
-
-            final String shortName = getShortName( interfaceClass.getName() );
-            final ModelMBeanInfoSupport topic = new ModelMBeanInfoSupport( REQ_MODEL_MBEAN,
-                shortName, attributes, constructors, operationList, notifications );
-
-            // add it to target
-            final String message = REZ.getString( "mxinfo.debug.adding.topic", topic.getDescription() );
-            getLogger().debug( message );
-
-            target.addTopic( topic );
+        	StandardMBean mbean = new StandardMBean( target.getManagedResource(), interfaceClass );
+        	String name = interfaceClass.getName();
+        	name = name.substring(name.lastIndexOf('.') + 1);
+            target.addTopic( name, mbean );
         }
         catch ( final Exception e )
         {
@@ -232,7 +274,7 @@ public class MBeanInfoBuilder extends AbstractLogEnabled
      * @return the created ModelMBeanInfoSupport
      * @throws ConfigurationException if an error occurs
      */
-    private ModelMBeanInfoSupport buildTopic( final Configuration config, final BeanInfo beanInfo ) throws
+    private ModelMBeanInfo buildTopic( final Configuration config, final BeanInfo beanInfo ) throws
         ConfigurationException
     {
         final ModelMBeanAttributeInfo[] attributes = buildAttributeInfos( config, beanInfo );
@@ -258,8 +300,8 @@ public class MBeanInfoBuilder extends AbstractLogEnabled
      * @return the created ModelMBeanInfoSupport
      * @throws ConfigurationException if there is a problem generating the Proxy
      */
-    private ModelMBeanInfoSupport buildProxyTopic( final Configuration proxyTagConfig,
-                                                   final Class managedClass ) throws
+    private ModelMBeanInfo buildProxyTopic( final Configuration proxyTagConfig,
+                                            final Class managedClass ) throws
         ConfigurationException
     {
         try
@@ -272,7 +314,7 @@ public class MBeanInfoBuilder extends AbstractLogEnabled
             final Configuration classConfig = loadMxInfo( proxyClass );
             final Configuration topicConfig = classConfig.getChild( "topic" );
             final BeanInfo info = Introspector.getBeanInfo( proxyClass );
-            final ModelMBeanInfoSupport topic = buildTopic( topicConfig, info );
+            final ModelMBeanInfo topic = buildTopic( topicConfig, info );
             final Descriptor mBeanDescriptor = topic.getMBeanDescriptor();
             mBeanDescriptor.setField( "proxyClassName", proxyName );
             topic.setMBeanDescriptor( mBeanDescriptor );
