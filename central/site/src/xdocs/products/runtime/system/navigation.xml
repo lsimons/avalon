@@ -22,7 +22,6 @@
 
   <body>
     <menu>
-      <item name="Overview" href="index.html"/>
       <item name="Meta" href="meta/index.html"/>
       <item name="Framework" href="af4/index.html"/>
       <item name="Composition" href="composition.html"/>

@@ -23,7 +23,6 @@
 
  <body>
     <menu>
-      <item name="Overview" href="index.html"/>
       <item name="January" href="january/index.html"/>
       <item name="February" href="february/index.html"/>
       <item name="March" href="march/index.html"/>

@@ -23,10 +23,9 @@
 
  <body>
     <menu>
-      <item name="Overview" href="index.html"/>
-      <item name="Runtime" href="runtime/about/index.html"/>
-      <item name="Studio" href="studio/index.html"/>
-      <item name="Discovery" href="discovery/index.html"/>
+      <item name="Merlin Runtime" href="runtime/about/index.html"/>
+      <item name="Merlin Studio" href="studio/index.html"/>
+      <item name="Merlin Discovery" href="discovery/index.html"/>
     </menu>
  </body>
 

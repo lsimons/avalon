@@ -26,14 +26,10 @@
 
   <body>
 
-    <section name="Merlin Service Management">
+    <section name="Merlin Runtime">
 
     <p>
-<strong>Welcome to Merlin!</strong>
-    </p>
-
-    <p>
-The Merlin project deals with the general area of service and component management.  The Merlin system is a container that provides comprehensive support for the management of complex component based systems. Merlin uses a component meta-model to facilitate the automated assembly and deployment of components.
+The Merlin project deals with the general area of service and component management.  The Merlin system is a container that provides comprehensive support for the management of complex component based systems based on an underlying meta-model that facilitates automated assembly and deployment of components.
     </p>
 
     <p>

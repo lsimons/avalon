@@ -24,9 +24,9 @@
  <body>
 
     <links>
-      <item name="Planet" href="planet/index.html"/>
-      <item name="Products" href="products/index.html"/>
-      <item name="Central" href="central/index.html"/>
+      <item name="Planet" href="planet/components/index.html"/>
+      <item name="Products" href="products/runtime/about/index.html"/>
+      <item name="Central" href="central/news/index.html"/>
     </links>
 
     <menu>

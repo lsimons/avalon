@@ -23,8 +23,7 @@
 
   <body>
     <menu>
-      <item name="Overview" href="index.html"/>
-      <item name="Merlin Plugin for Maven" href="/tools/maven/index.html"/>
+      <item name="Maven Plugin" href="maven/index.html"/>
     </menu>
   </body>
 

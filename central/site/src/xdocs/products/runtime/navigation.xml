@@ -19,16 +19,14 @@
 
 <project>
 
- <title>Merlin Runtime Platform</title>
+ <title>Merlin Runtime</title>
 
  <body>
     <menu>
-      <item name="About Merlin" href="about/index.html"/>
+      <item name="About" href="about/index.html"/>
       <item name="Installation" href="installation/index.html"/>
-      <item name="Tutorials" href="tutorials/index.html"/>
+      <item name="Embedding" href="embedded/index.html"/>
       <item name="Specification" href="reference/index.html"/>
-      <item name="Platform" href="platform/index.html"/>
-      <item name="Embedded" href="embedded/index.html"/>
       <item name="System" href="system/index.html"/>
       <item name="Tools" href="tools/index.html"/>
     </menu>

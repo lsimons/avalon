@@ -23,7 +23,6 @@
 
   <body>
     <menu>
-      <item name="Overview" href="index.html"/>
       <item name="Component" href="component/index.html"/>
       <item name="Container" href="containment/index.html"/>
       <item name="Deployment" href="deployment/index.html"/>

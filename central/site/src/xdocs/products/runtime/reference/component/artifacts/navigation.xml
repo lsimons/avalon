@@ -23,7 +23,6 @@
 
   <body>
     <menu>
-      <item name="Overview" href="index.html"/>
       <item name="Logger" href="logger.html"/>
       <item name="Context" href="context.html"/>
       <item name="ServiceManager" href="artifacts/manager.html"/>

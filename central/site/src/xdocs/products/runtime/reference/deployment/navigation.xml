@@ -24,7 +24,6 @@
   <body>
 
     <menu>
-      <item name="Overview" href="index.html"/>
       <item name="Block Management" href="block.html"/>
       <item name="Assembly" href="assembly.html"/>
       <item name="Deployment" href="deployment.html"/>
