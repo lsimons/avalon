@@ -101,7 +101,7 @@ import org.apache.excalibur.mpool.PoolManager;
  * Implementation of the default Merlin Kernel.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2003/10/12 17:12:45 $
+ * @version $Revision: 1.4 $ $Date: 2003/10/13 01:28:26 $
  */
 public class DefaultKernel extends NotificationBroadcasterSupport 
   implements Kernel, DefaultKernelMBean
@@ -421,6 +421,16 @@ public class DefaultKernel extends NotificationBroadcasterSupport
     {
         if( m_block == null ) throw new IllegalStateException( "not-started" );
         return m_block;
+    }
+
+   /**
+    * Return the Logger for the specified category.
+    * @param category the category path
+    * @return the logging channel
+    */
+    public Logger getLoggerForCategory( final String category )
+    {
+        return m_context.getLoggerForCategory( category );
     }
 
     //--------------------------------------------------------------

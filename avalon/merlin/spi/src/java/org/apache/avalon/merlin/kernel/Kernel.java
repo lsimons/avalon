@@ -52,6 +52,7 @@ package org.apache.avalon.merlin.kernel;
 
 import org.apache.avalon.activation.appliance.Block;
 import org.apache.avalon.composition.model.ContainmentModel;
+import org.apache.avalon.framework.logger.Logger;
 
 /**
  * A Kernel is the root of a containment solution. This interfaces 
@@ -59,7 +60,7 @@ import org.apache.avalon.composition.model.ContainmentModel;
  * management aspects and service resolution aspects.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2003/10/12 17:12:45 $
+ * @version $Revision: 1.4 $ $Date: 2003/10/13 01:28:26 $
  */
 public interface Kernel extends Controller
 {
@@ -81,4 +82,10 @@ public interface Kernel extends Controller
     */
     Block getRootBlock();
 
+   /**
+    * Return the Logger for the specified category.
+    * @param category the category path
+    * @return the logging channel
+    */
+    Logger getLoggerForCategory( final String category );
 }
