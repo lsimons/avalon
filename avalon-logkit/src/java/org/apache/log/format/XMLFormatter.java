@@ -14,6 +14,9 @@ import java.util.Date;
 /**
  * Basic XML formatter that writes out a basic XML-ified log event.
  *
+ * Note that this formatter assumes that the category and context
+ * values will produce strings that do not need to be escaped in XML.
+ *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public class XMLFormatter
