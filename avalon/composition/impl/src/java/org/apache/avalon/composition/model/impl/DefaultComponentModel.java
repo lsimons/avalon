@@ -23,6 +23,7 @@ import java.util.Enumeration;
 import java.util.Properties;
 import java.security.AccessControlContext;
 
+import org.apache.avalon.composition.data.DeploymentProfile;
 import org.apache.avalon.composition.data.DependencyDirective;
 import org.apache.avalon.composition.data.StageDirective;
 import org.apache.avalon.composition.data.ContextDirective;
@@ -66,7 +67,7 @@ import org.apache.excalibur.configuration.CascadingConfiguration;
  * Deployment model defintion.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.11 $ $Date: 2004/03/08 11:28:36 $
+ * @version $Revision: 1.12 $ $Date: 2004/03/10 10:52:18 $
  */
 public class DefaultComponentModel extends DefaultDeploymentModel 
   implements ComponentModel
@@ -130,7 +131,9 @@ public class DefaultComponentModel extends DefaultDeploymentModel
         super( context, security );
 
         m_context = context;
-        m_activation = m_context.getProfile().getActivationPolicy();
+
+        m_activation = getDefaultActivationPolicy();
+
         m_categories = m_context.getProfile().getCategories();
 
         setCollectionPolicy( m_context.getProfile().getCollectionPolicy() );
@@ -227,6 +230,39 @@ public class DefaultComponentModel extends DefaultDeploymentModel
               new DefaultStageModel( 
                 context.getLogger().getChildLogger( "stages" ), 
                 context.getPartitionName(), descriptor, directive );
+        }
+    }
+
+   /**
+    * Get the default activation policy for the model. 
+    */
+    public boolean getDefaultActivationPolicy()
+    {
+        final int activation = 
+          m_context.getProfile().getActivationDirective();
+
+        if( activation != DeploymentProfile.DEFAULT )
+        {
+            return (activation == DeploymentProfile.ENABLED );
+        }
+        else
+        {
+            if( m_context.getProfile().getMode() == Mode.EXPLICIT )
+            {
+                Type type = m_context.getType();
+                if( type.getInfo().getLifestyle().equals( InfoDescriptor.TRANSIENT ) )
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 
@@ -488,21 +524,6 @@ public class DefaultComponentModel extends DefaultDeploymentModel
     public void setActivationPolicy( boolean policy )
     {
         m_activation = policy;
-    }
-
-   /**
-    * Set the activation policy for the model to the default value. 
-    */
-    public void revertActivationPolicy()
-    {
-        if( m_context.getProfile().getMode() == Mode.EXPLICIT )
-        {
-            m_activation = true;
-        }
-        else
-        {
-            m_activation = false;
-        }
     }
 
    /**

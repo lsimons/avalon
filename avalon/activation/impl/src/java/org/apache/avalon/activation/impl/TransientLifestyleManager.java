@@ -31,7 +31,7 @@ import org.apache.avalon.meta.info.InfoDescriptor;
 
 /**
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/03/04 03:42:30 $
+ * @version $Revision: 1.4 $ $Date: 2004/03/10 10:52:17 $
  */
 public class TransientLifestyleManager extends AbstractLifestyleManager
 {
@@ -64,6 +64,11 @@ public class TransientLifestyleManager extends AbstractLifestyleManager
         // TODO: setup a background thread to check queues for 
         // released references and remove them from our list, otherwise we
         // have a memory leak due to accumulation of weak references
+
+        if( getComponentModel().getActivationPolicy() )
+        {
+            handleResolve();
+        }
     }
 
    /**

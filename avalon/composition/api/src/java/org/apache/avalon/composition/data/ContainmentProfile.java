@@ -30,7 +30,7 @@ import org.apache.avalon.logging.data.CategoryDirective;
  * the a container.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.7 $ $Date: 2004/02/21 13:27:03 $
+ * @version $Revision: 1.8 $ $Date: 2004/03/10 10:52:17 $
  */
 public class ContainmentProfile extends DeploymentProfile
 {
@@ -111,7 +111,7 @@ public class ContainmentProfile extends DeploymentProfile
       final CategoriesDirective categories, 
       DeploymentProfile[] profiles )
     {
-        super( name, true, Mode.EXPLICIT );
+        super( name, DeploymentProfile.ENABLED, Mode.EXPLICIT );
 
         m_categories = categories;
         m_classloader = classloader;

@@ -23,7 +23,7 @@ package org.apache.avalon.composition.data;
  * a container.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2004/02/24 22:18:21 $
+ * @version $Revision: 1.5 $ $Date: 2004/03/10 10:52:17 $
  */
 public class BlockCompositionDirective extends DeploymentProfile
 {
@@ -60,7 +60,7 @@ public class BlockCompositionDirective extends DeploymentProfile
     public BlockCompositionDirective( 
       final String name, ResourceDirective resource, TargetDirective[] targets )
     {
-        super( name, true, Mode.EXPLICIT );
+        super( name, DeploymentProfile.ENABLED, Mode.EXPLICIT );
         if( resource == null )
         {
             throw new NullPointerException( "resource" );

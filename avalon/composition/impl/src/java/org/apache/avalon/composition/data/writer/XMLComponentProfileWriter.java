@@ -23,7 +23,9 @@ import java.io.Writer;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.parameters.ParameterException;
+
 import org.apache.avalon.composition.data.ComponentProfile;
+import org.apache.avalon.composition.data.DeploymentProfile;
 import org.apache.avalon.composition.data.ContextDirective;
 import org.apache.avalon.composition.data.DependencyDirective;
 import org.apache.avalon.composition.data.SelectionDirective;
@@ -41,7 +43,7 @@ import org.apache.excalibur.configuration.ConfigurationUtil;
  * Write a {@link ComponentProfile} to a stream as xml documents.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2004/02/22 16:12:58 $
+ * @version $Revision: 1.6 $ $Date: 2004/03/10 10:52:18 $
  */
 public class XMLComponentProfileWriter
 {
@@ -64,11 +66,21 @@ public class XMLComponentProfileWriter
         writer.write( pad + "<component name=\"" + profile.getName() + "\"");
         writer.write( "\n" + pad + "  class=\"" + profile.getClassname() + "\"");
 
-        if( !profile.getActivationPolicy() )
+        int activation = profile.getActivationDirective();
+        if( activation != DeploymentProfile.DEFAULT )
         {
-            writer.write( 
-              "\n" + pad 
-              + "  activation=\"false\"" ); 
+            if( activation == DeploymentProfile.ENABLED )
+            {
+                writer.write( 
+                  "\n" + pad 
+                  + "  activation=\"false\"" );
+            }
+            else
+            {
+                writer.write( 
+                  "\n" + pad 
+                  + "  activation=\"true\"" );
+            } 
         }
 
         final int collection = profile.getCollectionPolicy();

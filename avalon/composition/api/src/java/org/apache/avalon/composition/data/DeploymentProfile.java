@@ -23,10 +23,14 @@ import java.io.Serializable;
  * Abstract base class for ComponentProfile and ContainmentProfile.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.9 $ $Date: 2004/01/24 23:25:24 $
+ * @version $Revision: 1.10 $ $Date: 2004/03/10 10:52:17 $
  */
 public abstract class DeploymentProfile implements Serializable
 {
+    public static final int DEFAULT = -1;
+    public static final int ENABLED = 1;
+    public static final int DISABLED = 0;
+
     //--------------------------------------------------------------------------
     // state
     //--------------------------------------------------------------------------
@@ -40,7 +44,7 @@ public abstract class DeploymentProfile implements Serializable
     /**
      * The activation policy.
      */
-    private final boolean m_activation;
+    private final int m_activation;
 
    /**
     * The mode under which this profile was established.
@@ -52,7 +56,7 @@ public abstract class DeploymentProfile implements Serializable
     //--------------------------------------------------------------------------
 
     public DeploymentProfile( 
-      final String name, boolean activation, Mode mode ) 
+      final String name, int activation, Mode mode ) 
     {
         m_activation = activation;
         if( mode != null )
@@ -89,9 +93,14 @@ public abstract class DeploymentProfile implements Serializable
     }
 
    /**
-    * Get the activation policy for the profile.
+    * Get the activation directive for the profile.
+    *
+    * @return the declared activation policy
+    * @see #DEFAULT
+    * @see #ENABLED
+    * @see #DISABLED 
     */
-    public boolean getActivationPolicy()
+    public int getActivationDirective()
     {
         return m_activation;
     }

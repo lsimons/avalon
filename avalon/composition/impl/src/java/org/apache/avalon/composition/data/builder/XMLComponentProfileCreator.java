@@ -26,6 +26,7 @@ import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 
+import org.apache.avalon.composition.data.DeploymentProfile;
 import org.apache.avalon.composition.data.ComponentProfile;
 import org.apache.avalon.composition.data.ConstructorDirective;
 import org.apache.avalon.composition.data.ContextDirective;
@@ -44,7 +45,7 @@ import org.apache.excalibur.configuration.ConfigurationUtil;
 /**
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2004/03/08 11:28:36 $
+ * @version $Revision: 1.6 $ $Date: 2004/03/10 10:52:18 $
  */
 public class XMLComponentProfileCreator extends XMLProfileCreator
 {
@@ -94,7 +95,8 @@ public class XMLComponentProfileCreator extends XMLProfileCreator
       String classname, Configuration config, String name )
       throws Exception
     {
-        final boolean activation = getActivationPolicy( config, true );
+        final int activation = 
+          getActivationDirective( config, DeploymentProfile.DEFAULT );
         final int collection = getCollectionPolicy( config );
 
         final CategoriesDirective categories = 
