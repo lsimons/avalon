@@ -47,7 +47,7 @@
  Apache Software Foundation, please see <http://www.apache.org/>.
 
 */
-package org.apache.excalibur.event.ext;
+package org.apache.excalibur.event.impl;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -69,10 +69,10 @@ import org.apache.excalibur.event.SinkFullException;
  * than one sink the multicast sink will try to enqueue the
  * element always to <b>only one</b> of these sinks.
  *
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  * @author  <a href="mailto:schierma@users.sourceforge.net">schierma</a>
  */
-public class MultiCastSink
+public class MultiCastSink implements Sink
 {
     /** A collection of sink arrays representing the  sinks to enqueue to. */
     private final Collection m_sinks;

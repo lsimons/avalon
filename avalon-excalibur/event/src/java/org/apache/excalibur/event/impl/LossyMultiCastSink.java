@@ -67,10 +67,10 @@ import org.apache.excalibur.event.SinkFullException;
  * It can be configured to fail when less than one sink was
  * delivered to.
  *
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  * @author  <a href="mailto:schierma@users.sourceforge.net">schierma</a>
  */
-public class LossyMultiCastSink
+public class LossyMultiCastSink implements Sink
 {
     /**
      * A collection of sink arrays representing the
