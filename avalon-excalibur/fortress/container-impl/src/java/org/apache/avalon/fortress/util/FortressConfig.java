@@ -58,13 +58,12 @@ import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.excalibur.event.Queue;
 import org.apache.avalon.fortress.impl.DefaultContainer;
-import org.apache.avalon.fortress.RoleManager;
 import org.apache.excalibur.instrument.InstrumentManager;
 import org.apache.excalibur.mpool.PoolManager;
 
 /**
  * Helper class to create a m_context for the ContextManager.
- * @version CVS $Revision: 1.1 $ $Date: 2003/01/27 16:55:43 $
+ * @version CVS $Revision: 1.2 $ $Date: 2003/02/25 15:23:46 $
  */
 public class FortressConfig
 {

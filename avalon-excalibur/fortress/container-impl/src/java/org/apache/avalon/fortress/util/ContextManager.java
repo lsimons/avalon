@@ -115,7 +115,7 @@ import org.apache.log.Priority;
  * and dispose of them properly when it itself is disposed .</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.5 $ $Date: 2003/02/10 14:52:27 $
+ * @version CVS $Revision: 1.6 $ $Date: 2003/02/25 15:23:46 $
  * @since 4.1
  */
 public class ContextManager
@@ -606,7 +606,7 @@ public class ContextManager
         resource.enableLogging( getLogger() );
         selector.put( "resource", resource );
 
-        manager.put( resource.ROLE + "Selector", selector );
+        manager.put( ResourceSourceFactory.ROLE + "Selector", selector );
 
         final SourceResolverImpl resolver = new SourceResolverImpl();
         ContainerUtil.enableLogging( resolver, getLogger() );
@@ -614,7 +614,7 @@ public class ContextManager
         ContainerUtil.service( resolver, manager );
         ContainerUtil.parameterize( resolver, new Parameters() );
 
-        manager.put( resolver.ROLE, resolver );
+        manager.put( SourceResolver.ROLE, resolver );
 
         manager.makeReadOnly();
 
