@@ -284,7 +284,7 @@ public class DefaultDeployer
             final SarMetaData metaData =
                 m_assembler.assembleSar( name, assembly, directory, classLoader );
 
-            verify( metaData, classLoader, environment, config );
+            verify( metaData, classLoader );
 
             //Setup configuration for all the applications blocks
             setupConfiguration( metaData, config.getChildren() );
