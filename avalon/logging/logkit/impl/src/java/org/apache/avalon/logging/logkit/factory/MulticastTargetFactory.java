@@ -46,8 +46,8 @@ import org.apache.avalon.logging.logkit.UnknownLogTargetException;
  * A log target factory that handles creation of a new multicast log
  * target instances.
  *
- * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.1 $ $Date: 2004/02/04 20:49:09 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Revision: 1.2 $ $Date: 2004/02/24 21:55:39 $
  */
 public class MulticastTargetFactory implements LogTargetFactory
 {

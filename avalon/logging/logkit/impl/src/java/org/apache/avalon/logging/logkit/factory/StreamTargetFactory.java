@@ -49,9 +49,8 @@ import org.apache.log.output.io.StreamTarget;
  *
  * <p>The syntax of "format" is the same as in <code>FileTargetFactory</code>.</p>
  *
- * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version CVS $Revision: 1.1 $ $Date: 2004/02/04 20:49:10 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.2 $ $Date: 2004/02/24 21:55:39 $
  */
 public class StreamTargetFactory implements LogTargetFactory
 {

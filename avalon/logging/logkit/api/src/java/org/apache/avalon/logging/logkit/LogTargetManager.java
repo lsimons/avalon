@@ -22,10 +22,8 @@ import org.apache.log.LogTarget;
 /**
  * LogTargetManager Interface.
  *
- * @author <a href="mailto:giacomo@apache.org">Giacomo Pati</a>
- * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.1 $ $Date: 2004/02/04 20:48:56 $
- * @since 4.0
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Revision: 1.2 $ $Date: 2004/02/24 21:55:39 $
  */
 public interface LogTargetManager
 {
