@@ -272,7 +272,7 @@ public class MerlinTypeBuilder implements IMerlinBuilder
                 //
 
                 final String classname = javaClass.getFullyQualifiedName();
-                final File source = javaClass.getParentSource().getFile();
+                final File source = new File(javaClass.getParentSource().getURL().getFile());
                 final File dest = getOutputFileForService(classname);
 
                 if (!m_force)
@@ -311,7 +311,7 @@ public class MerlinTypeBuilder implements IMerlinBuilder
 
                 final String classname = javaClass.getFullyQualifiedName();
                 final JavaSource src = javaClass.getParentSource();
-                final File source = src.getFile();
+                final File source = new File(src.getURL().getFile());
                 final File dest = getOutputFileForClass(classname);
 
                 if (!m_force)

@@ -61,14 +61,6 @@
       </launchConfigurationType>
    </extension>
    <extension
-         point="org.eclipse.debug.ui.launchConfigurationTabGroups">
-      <launchConfigurationTabGroup
-            type="org.apache.avalon.MerlinDeveloperLaunch.merlinLaunchConfigurationDelegate"
-            class="org.apache.avalon.ide.eclipse.merlin.launch.ui.MerlinServerTabGroup"
-            id="org.apache.avalon.MerlinDeveloper.merlinServerTabGroup">
-      </launchConfigurationTabGroup>
-   </extension>
-   <extension
          point="org.eclipse.debug.ui.launchConfigurationTypeImages">
       <launchConfigurationTypeImage
             icon="icons/merlin_light.gif"
