@@ -52,6 +52,6 @@ if $cygwin; then
   [ -n "$CLASSPATH" ] && CLASSPATH=`cygpath --path --windows "$CLASSPATH"`
 fi
 
-RUN_CMD="\"$JAVA\" \"-Djava.security.policy=$MERLIN_HOME/bin/security.policy\" \"-Davalon.repository.cache=$REPOSITORY\" \"-Djava.ext.dirs=$MERLIN_HOME/ext\" -jar \"$MERLIN_HOME/bin/lib/merlin-cli-3.2.jar\" \"$@\""
+RUN_CMD="\"$JAVA\" \"-Djava.security.policy=$MERLIN_HOME/bin/security.policy\" \"-Djava.ext.dirs=$MERLIN_HOME/ext\" -jar \"$MERLIN_HOME/bin/lib/merlin-cli-3.2.jar\" \"-system $REPOSITORY\" \"$@\""
 echo "RUN CMD IS: $RUN_CMD"
 exec $RUN_CMD
