@@ -277,7 +277,9 @@ Legal:
     <copy file="${conf.dir}/wrapper.conf" todir="${bin.dist.conf}"/>
   </target>
 
-  <target name="install" depends="dist-lite-wrapper,install-check-phoenix">
+  <target name="install"
+      depends="dist-lite-wrapper,install-check-phoenix"
+      description="Install phoenix into phoenix.home">
 
     <mkdir dir="${phoenix.home}" />
 
