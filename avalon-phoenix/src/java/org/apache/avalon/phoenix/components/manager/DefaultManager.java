@@ -16,22 +16,16 @@ import java.rmi.server.RemoteObject;
 import java.rmi.server.UnicastRemoteObject;
 import javax.management.MBeanServer;
 import javax.management.MBeanServerFactory;
-import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.parameters.ParameterException;
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
-import org.apache.avalon.framework.service.Serviceable;
-import org.apache.avalon.phoenix.components.kernel.DefaultKernel;
-import org.apache.avalon.phoenix.components.kernel.DefaultKernelMBean;
 import org.apache.avalon.phoenix.components.manager.rmiadaptor.RMIAdaptorImpl;
-import org.apache.avalon.phoenix.interfaces.ManagerException;
-import org.apache.excalibur.baxter.JavaBeanMBean;
 
 /**
  * This component is responsible for managing phoenix instance.
@@ -41,7 +35,7 @@ import org.apache.excalibur.baxter.JavaBeanMBean;
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public class DefaultManager
-    extends AbstractSystemManager
+    extends AbstractJMXManager
     implements Parameterizable, Configurable
 {
     private static final Resources REZ =
@@ -57,14 +51,11 @@ public class DefaultManager
         System.getProperty( "phoenix.admin.passwd" );
 
     private Parameters m_parameters;
-    private MBeanServer m_mBeanServer;
     private RMIAdaptorImpl m_rmiAdaptor;
     private Registry m_rmiRegistry;
 
     ///Name Adaptor registered with
     private String m_name;
-
-    private String m_domain = "Phoenix";
 
     private Configuration m_configuration;
 
@@ -83,26 +74,35 @@ public class DefaultManager
     public void initialize()
         throws Exception
     {
-        m_mBeanServer = createMBeanServer();
-        m_rmiAdaptor = new RMIAdaptorImpl( m_mBeanServer );
+        super.initialize();
+        final MBeanServer mBeanServer = getMBeanServer();
+        m_rmiAdaptor = new RMIAdaptorImpl( mBeanServer );
 
         try
         {
-            final String htmlParserClass = m_configuration.getChild( "manager-html-parser" ).getValue( null );
+            final String htmlParserClass =
+                m_configuration.getChild( "manager-html-parser" ).
+                getValue( null );
             ObjectName parserName = null;
             if( null != htmlParserClass )
             {
                 parserName = new ObjectName( "Adaptor:name=htmlParser" );
                 System.out.println( "Created HTML Parser " + parserName );
-                m_mBeanServer.createMBean( htmlParserClass, parserName );
+                mBeanServer.createMBean( htmlParserClass, parserName );
             }
 
-            final int port = m_configuration.getChild( "manager-adaptor-port" ).getValueAsInteger( DEFAULT_HTTPADAPTER_PORT );
+            final int port =
+                m_configuration.getChild( "manager-adaptor-port" ).
+                getValueAsInteger( DEFAULT_HTTPADAPTER_PORT );
             final HtmlAdaptorServer html =
                 new HtmlAdaptorServer( port );
 
-            final String adminname = m_configuration.getChild( "manager-admin-name" ).getValue( DEFAULT_ADMIN_USER );
-            final String adminpasswd = m_configuration.getChild( "manager-admin-password" ).getValue( DEFAULT_ADMIN_PASSWD );
+            final String adminname =
+                m_configuration.getChild( "manager-admin-name" ).
+                getValue( DEFAULT_ADMIN_USER );
+            final String adminpasswd =
+                m_configuration.getChild( "manager-admin-password" ).
+                getValue( DEFAULT_ADMIN_PASSWD );
             if( null != adminpasswd )
             {
                 final AuthInfo auth = new AuthInfo( adminname, adminpasswd );
@@ -113,7 +113,7 @@ public class DefaultManager
                 "Adaptor:name=html,port=" + port;
             final ObjectName name = new ObjectName( stringName );
             System.out.println( "Created HTML Adaptor " + name );
-            m_mBeanServer.registerMBean( html, name );
+            mBeanServer.registerMBean( html, name );
             if( null != htmlParserClass )
             {
                 html.setParser( parserName );
@@ -132,7 +132,8 @@ public class DefaultManager
         throws Exception
     {
         final int portp =
-            m_parameters.getParameterAsInteger( "manager-registry-port", DEFAULT_REGISTRY_PORT );
+            m_parameters.getParameterAsInteger( "manager-registry-port",
+                                                DEFAULT_REGISTRY_PORT );
         final int port =
             m_configuration.getChild( "manager-registry-port" ).getValueAsInteger( portp );
         m_name = m_parameters.getParameter( "manager-name", "Phoenix.JMXAdaptor" );
@@ -144,7 +145,8 @@ public class DefaultManager
         final Remote exported = UnicastRemoteObject.exportObject( m_rmiAdaptor );
         final Remote stub = RemoteObject.toStub( exported );
 
-        //TODO: should this do a lookup and refuse to lauch if existing server registered???
+        //TODO: should this do a lookup and refuse to lauch
+        //if existing server registered???
         m_rmiRegistry.bind( m_name, stub );
     }
 
@@ -158,120 +160,16 @@ public class DefaultManager
 
     public void dispose()
     {
+        super.dispose();
         //TODO: Unregister everything here or in embeddor???
         m_rmiAdaptor = null;
-        m_mBeanServer = null;
-    }
-
-    /**
-     * Export the object to the particular management medium using
-     * the supplied object and interfaces.
-     * This needs to be implemented by subclasses.
-     *
-     * @param name the name of object
-     * @param object the object
-     * @param interfaces the interfaces
-     * @return the exported object
-     * @throws ManagerException if an error occurs
-     */
-    protected Object export( final String name,
-                             final Object object,
-                             final Class[] interfaces )
-        throws ManagerException
-    {
-        try
-        {
-            Object mBean = null;
-            if( null != interfaces )
-            {
-                mBean = new JavaBeanMBean( object, interfaces );
-            }
-            else
-            {
-                mBean = createMBean( object );
-            }
-
-            final ObjectName objectName = createObjectName( name );
-            m_mBeanServer.registerMBean( mBean, objectName );
-            return mBean;
-        }
-        catch( final Exception e )
-        {
-            final String message = REZ.getString( "jmxmanager.error.export.fail", name );
-            getLogger().error( message, e );
-            throw new ManagerException( message, e );
-        }
-    }
-
-    private ObjectName createObjectName( final String name ) throws MalformedObjectNameException
-    {
-        return new ObjectName( m_domain + ":name=" + name );
-    }
-
-    /**
-     * Create a MBean for specified object.
-     * The following policy is used top create the MBean...
-     *
-     * @param object the object to create MBean for
-     * @return the MBean to be exported
-     * @throws ManagerException if an error occurs
-     */
-    private Object createMBean( final Object object )
-        throws ManagerException
-    {
-        //HACK: ugly Testing hack!!
-        if( object instanceof DefaultKernel )
-        {
-            return new DefaultKernelMBean( (DefaultKernel)object );
-        }
-        else
-        {
-            return new JavaBeanMBean( object );
-        }
-    }
-
-    /**
-     * Stop the exported object from being managed.
-     *
-     * @param name the name of object
-     * @param exportedObject the object return by export
-     * @throws ManagerException if an error occurs
-     */
-    protected void unexport( final String name,
-                             final Object exportedObject )
-        throws ManagerException
-    {
-        try
-        {
-            m_mBeanServer.unregisterMBean( createObjectName( name ) );
-        }
-        catch( final Exception e )
-        {
-            final String message = REZ.getString( "jmxmanager.error.unexport.fail", name );
-            getLogger().error( message, e );
-            throw new ManagerException( message, e );
-        }
-    }
-
-    /**
-     * Verify that an interface conforms to the requirements of management medium.
-     *
-     * @param clazz the interface class
-     * @throws ManagerException if verification fails
-     */
-    protected void verifyInterface( final Class clazz )
-        throws ManagerException
-    {
-        //TODO: check it extends all right things and that it
-        //has all the right return types etc. Blocks must have
-        //interfaces extending Service (or Manageable)
     }
 
     /**
      * Creates a new Manager. The mBeanServer it uses is determined from
      * the Parameters's manager-mBeanServer-class variable.
      */
-    private MBeanServer createMBeanServer()
+    protected MBeanServer createMBeanServer()
         throws Exception
     {
         try
