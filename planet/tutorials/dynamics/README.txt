@@ -23,11 +23,11 @@ Build
 
 Build the project using the following command:
 
-$ maven jar
+$ ant
 
 Runtime
 -------
 
-$ merlin target\merlin-tutorial-dynamics-1.0.jar -execute
+$ merlin target\deliverables\jars\dynamics.jar -execute
 
 
