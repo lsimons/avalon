@@ -20,15 +20,15 @@
     <goal name="excalibur:warn"
             description="Alerts the user that the maven build is in development">
         <ant:echo>
-            ================================================================
-             Avalon Excalibur Build System, the Maven Edition:
-            ================================================================
-                            !!! WARNING !!!
+================================================================
+ Avalon Excalibur Build System, the Maven Edition
+================================================================
+                !!! WARNING !!!
 
-             excalibur is built using ant; the maven build system
-             is still in development. *DO NOT USE IT* unless you're helping
-             out with setting that up or testing it.
-            ================================================================
+ excalibur is built using ant; the maven build system
+ is still in development. *DO NOT USE IT* unless you're helping
+ out with setting that up or testing it.
+================================================================
         </ant:echo>
     </goal>
 
@@ -42,7 +42,7 @@
 
     <!-- use forrest for doc generation if requested -->
     <postGoal name="xdoc">
-        <j:if test="${pom.getProperty('use-forrest')}">
+        <j:if test="${pom.getProperty('use-forrest') == 'true'}">
             <attainGoal name="forrest:generate"/>
         </j:if>
     </postGoal>
@@ -203,4 +203,12 @@ http://cvs.apache.org/viewcvs.cgi/*checkout*/avalon-excalibur/forrest.properties
             basedir="${pom.build.unitTestSourceDirectory}"/>
     </goal>
 
+    <!-- ==========================================================
+          Deployment customization
+         ========================================================== -->
+
+    <goal name="excalibur:deploy"
+            description="Deploys a release to www.apache.org/dist">
+        <echo>Not implemented!</echo>
+    </goal>
 </project>

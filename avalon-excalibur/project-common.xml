@@ -83,6 +83,10 @@
         </dependency>
     </dependencies>
 
+    <properties>
+        <use-forrest>true</use-forrest>
+    </properties>
+
     <build>
         <nagEmailAddress>dev@avalon.apache.org</nagEmailAddress>
         <sourceDirectory>src/java</sourceDirectory>
@@ -93,6 +97,9 @@
             <includes>
                 <include>**/*TestCase.java</include>
             </includes>
+            <excludes>
+                <exclude>**/Abstract*</exclude>
+            </excludes>
         </unitTest>
 
         <!-- Resources that are packaged up inside the JAR file -->
