@@ -58,7 +58,7 @@ import org.apache.avalon.meta.info.Type;
  * A factory enabling the establishment of new composition model instances.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/02/23 13:00:31 $
+ * @version $Revision: 1.4 $ $Date: 2004/02/23 15:03:22 $
  */
 public class StandardModelFactory 
   implements ModelFactory
@@ -183,7 +183,7 @@ public class StandardModelFactory
               createRootContainmentContext( profile );
             ContainmentModel model = createContainmentModel( context );
 
-            if( model.isSecureExecutionEnabled() )
+            if( m_system.isCodeSecurityEnabled() )
             {
                 CodeSecurityPolicy policy = 
                   new CodeSecurityPolicy( model );
