@@ -430,8 +430,6 @@ Legal:
   <target name="distributions">
     <mkdir dir="${dist.base}"/>
 
-    <copy file="${build.lib}/logkit.jar" tofile="${tools.dir}/lib/logkit.jar"/>
-
     <antcall target="dist">
       <param name="dist.dir" value="${dist.name}" />
     </antcall>
