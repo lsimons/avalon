@@ -46,6 +46,7 @@ A minimal build.xml would thus be:
 -->
 
     <!-- Set up properties -->
+    <property file="check-targets.properties"/>
     <target name="setup-dependencies">
         <available property="bsf.present"
                classname="com.bsf.BSFEngine"
@@ -78,64 +79,151 @@ A minimal build.xml would thus be:
 	       classname="org.apache.log.Hierarchy"
 	       classpathref="project.class.path" />
 
-	<property name="bsf.jar" value="bsf-2.2.jar"/>
-	<property name="checkstyle.jar" value="checkstyle-2.4.jar"/>
-	<property name="javamail.jar" value="javamail-1.3.jar"/>
-	<property name="jdbc.jar" value="jdbc-2.0.jar"/>
-	<property name="jms.jar" value="jms-1.0.2b.jar"/>
-	<property name="junit.jar" value="junit-3.7.jar"/>
-	<property name="log4j.jar" value="log4j-1.2.7.jar"/>
-	<property name="logkit.jar" value="logkit-1.0.1.jar"/>
-	<property name="servletapi.jar" value="servletapi-2.3.jar"/>
     </target>
 
-  <!-- called if a dependency is missing -->
-  <target name="missing-dependency-checking">
-    <echo>*************************************************************************</echo>
-    <echo>*</echo>
-    <echo>*  Classes needed for compiling ${Name} against the ${thing} API</echo>
-    <echo>*  are not available. The build may fail or some functionality may</echo>
-    <echo>*  not be available.</echo>
-    <echo>*</echo>
-    <echo>*  Recovery:</echo>
-    <echo>*  Run the build target import-${thing} and it will download</echo>
-    <echo>*  the needed jar - you should be online for that.</echo>
-    <echo>*</echo>
-    <echo>*  If you have a fast connection you can also just run</echo>
-    <echo>*  the build target import-all-dependencies, which will</echo>
-    <echo>*  download all external jars this buildfile knows about.</echo>
-    <echo>*  Note this may download unused jars as well.</echo>
-    <echo>*</echo>
-    <echo>*************************************************************************</echo>
-    <echo/>
+  <!-- called if a dependency is missing which has a BSD or ASL or
+       similar license for which autodownload is okay. -->
+  <target name="missing-dependency">
+	<echo>
+	*************************************************************************
+	Classes needed for compiling ${Name} against the ${id} API
+	are not available. The build may fail or some functionality may
+	not be available.
+	
+	Recovery:
+	Run the build target import-${id} and it will download
+	the needed jar - you should be online for that.
+	
+	If you have a fast connection you can also just run the build target
+	import-all-auto-dependencies, which will download all external jars this
+	buildfile knows about.
+	Note this may download unused jars as well.
+	*************************************************************************
+	</echo>
+	<echo/>
   </target>
 
-  <!-- warning targets. These generate dependency warnings if a depedency is not there -->
+  <!-- called if a dependency is missing which we cannot autodownload
+       due to licensing-->
+  <target name="missing-dependency-noauto">
+	<echo>
+	*************************************************************************
+	Classes needed for compiling ${Name} against the ${id} API
+	are not available. The build may fail or some functionality may
+	not be available.
+	
+	Recovery:
+	Get the ${id} jar from the ${id} distribution at
+	${dist.url}
+	and place it in ${lib.dir}.
+	
+	Please note that ${id} is licensed under the ${license}
+	and that by downloading it you are agreeing to that license. You can read
+	this license at
+	${license.url}
+	*************************************************************************
+	</echo>
+	<echo/>
+  </target>
   
+  <!-- this target fetches a file from a maven repository -->
+  <target name="import-dependency">
+	<get src="${license.url}"
+		dest="${lib.dir}/${id}.LICENSE.html"
+		usetimestamp="true"/>
+	<loadfile property="license.text" srcFile="${lib.dir}/${id}.LICENSE.html"/>
+	<echo>
+	*************************************************************************
+	You have requested to download the ${id} jar, which is licensed under
+	the ${license}. A copy of this license has been saved to
+	${lib.dir}/${id}.LICENSE.html
+	
+	Please view it now.
+	*************************************************************************
+	</echo>
+	<input message="Do you agree to the terms of this license?"
+		validargs="y,n"
+		addproperty="do.download"/>
+
+	<condition property="do.abort">
+		<equals arg1="n" arg2="${do.download}"/>
+	</condition>
+	<fail if="do.abort">Download aborted.</fail>
+	
+	<get src="${jar.repository}/${id}/jars/${id}-${version}.jar"
+		dest="${lib.dir}/${id}-${version}.jar"
+		verbose="true"
+		usetimestamp="true"/>
+  </target>
+
+  <target name="check-all-dependencies"
+          depends="bsf-check,checkstyle-check,javamail-check,jdbc-check,jms-check,junit-check,log4j-check,logkit-check,servletapi-check"
+	  description="checks for all dependencies we know about. This is usually more than the minimum needed to build this project; actual use is not recommended."/>
+  <target name="import-all-auto-dependencies"
+          depends="import-bsf,import-checkstyle,import-junit,import-log4j,import-logkit"
+	  description="checks for all dependencies we know about. This is usually more than the minimum needed to build this project; actual use is not recommended."/>
+
+  <!-- BSF -->
   <target name="bsf-check" unless="bsf.present" depends="setup-dependencies">
-    <antcall target="missing-dependency-checking">
-      <param name="thing" value="bsf"/>
+    <antcall target="missing-dependency">
+      <param name="id" value="${bsf.id}"/>
+      <param name="version" value="${bsf.version}"/>
+      <param name="license" value="${bsf.license}"/>
+      <param name="license.url" value="${bsf.license.url}"/>
     </antcall>
   </target>
 
+  <target name="import-bsf" depends="setup-dependencies">
+    <antcall target="import-dependency">
+      <param name="id" value="${bsf.id}"/>
+      <param name="version" value="${bsf.version}"/>
+      <param name="license" value="${bsf.license}"/>
+      <param name="license.url" value="${bsf.license.url}"/>
+    </antcall>
+  </target>
+
+  <!-- Checkstyle -->
   <target name="checkstyle-check" unless="checkstyle.present" depends="setup-dependencies">
-    <antcall target="missing-dependency-checking">
-      <param name="thing" value="checkstyle"/>
+    <antcall target="missing-dependency">
+      <param name="id" value="${checkstyle.id}"/>
+      <param name="version" value="${checkstyle.version}"/>
+      <param name="license" value="${checkstyle.license}"/>
+      <param name="license.url" value="${checkstyle.license.url}"/>
     </antcall>
   </target>
 
+  <target name="import-checkstyle" depends="setup-dependencies">
+    <antcall target="import-dependency">
+      <param name="id" value="${checkstyle.id}"/>
+      <param name="version" value="${checkstyle.version}"/>
+      <param name="license" value="${checkstyle.license}"/>
+      <param name="license.url" value="${checkstyle.license.url}"/>
+    </antcall>
+  </target>
+
+  <!-- JavaMail -->
   <target name="javamail-check" unless="javax.mail.present" depends="setup-dependencies">
-    <antcall target="missing-dependency-checking">
-      <param name="thing" value="javamail"/>
+    <antcall target="missing-dependency-noauto">
+      <param name="id" value="${javamail.id}"/>
+      <param name="version" value="${javamail.version}"/>
+      <param name="license" value="${javamail.license}"/>
+      <param name="license.url" value="${javamail.license.url}"/>
+      <param name="dist.url" value="${javamail.dist.url}"/>
     </antcall>
   </target>
 
+  <!-- JDBC -->
   <target name="jdbc-check" unless="javax.sql.present" depends="setup-dependencies">
-    <antcall target="missing-dependency-checking">
-      <param name="thing" value="jdbc"/>
+    <antcall target="missing-dependency-noauto">
+      <param name="id" value="${jdbc.id}"/>
+      <param name="version" value="${jl.version}"/>
+      <param name="license" value="${jdbc.license}"/>
+      <param name="license.url" value="${jdbc.license.url}"/>
+      <param name="dist.url" value="${jdbc.dist.url}"/>
     </antcall>
   </target>
 
+  <!-- JDK 1.4 -->
   <target name="jdk14-check" unless="jdk14.present" depends="setup-dependencies">
     <echo>*************************************************************************</echo>
     <echo>*</echo>
@@ -145,105 +233,81 @@ A minimal build.xml would thus be:
     <echo/>
   </target>
 
+  <!-- JMS -->
   <target name="jms-check" unless="javax.jms.present" depends="setup-dependencies">
-    <antcall target="missing-dependency-checking">
-      <param name="thing" value="jms"/>
+    <antcall target="missing-dependency-noauto">
+      <param name="id" value="${jms.id}"/>
+      <param name="version" value="${jms.version}"/>
+      <param name="license" value="${jms.license}"/>
+      <param name="license.url" value="${jms.license.url}"/>
+      <param name="dist.url" value="${jms.dist.url}"/>
     </antcall>
   </target>
 
+  <!-- JUnit -->
   <target name="junit-check" unless="junit.present" depends="setup-dependencies">
-    <antcall target="missing-dependency-checking">
-      <param name="thing" value="junit"/>
+    <antcall target="missing-dependency">
+      <param name="id" value="${junit.id}"/>
+      <param name="version" value="${junit.version}"/>
+      <param name="license" value="${junit.license}"/>
+      <param name="license.url" value="${junit.license.url}"/>
     </antcall>
-  </target>
-
-  <target name="log4j-check" unless="log4j.present" depends="setup-dependencies">
-    <antcall target="missing-dependency-checking">
-      <param name="thing" value="log4j"/>
-    </antcall>
-  </target>
-
-  <target name="logkit-check" unless="logkit.present" depends="setup-dependencies">
-    <antcall target="missing-dependency-checking">
-      <param name="thing" value="logkit"/>
-    </antcall>
-  </target>
-  
-  <target name="servletapi-check" unless="javax.servlet.present" depends="setup-dependencies">
-    <antcall target="missing-dependency-checking">
-      <param name="thing" value="servletapi"/>
-    </antcall>
-  </target>
-
-  <!-- import targets. These get needed jars from the ibiblio repository -->
-  
-  <target name="import-bsf" depends="setup-dependencies">
-    <get src="http://www.ibiblio.org/maven/bsf/jars/${bsf.jar}"
-        dest="${lib.dir}/${bsf.jar}"
-        verbose="true"
-        usetimestamp="true"/>
-  </target>
-
-  <target name="import-checkstyle" depends="setup-dependencies">
-    <get src="http://www.ibiblio.org/maven/checkstyle/jars/${checkstyle.jar}"
-        dest="${lib.dir}/${checkstyle.jar}"
-        verbose="true"
-        usetimestamp="true"/>
-  </target>
-
-  <target name="import-javamail" depends="setup-dependencies">
-    <get src="http://www.ibiblio.org/maven/javamail/jars/${javamail.jar}"
-        dest="${lib.dir}/${javamail.jar}"
-        verbose="true"
-        usetimestamp="true"/>
-  </target>
-
-  <target name="import-jdbc" depends="setup-dependencies">
-    <get src="http://www.ibiblio.org/maven/jdbc/jars/${jdbc.jar}"
-        dest="${lib.dir}/${jdbc.jar}"
-        verbose="true"
-        usetimestamp="true"/>
-  </target>
-
-  <target name="import-jms" depends="setup-dependencies">
-    <get src="http://www.ibiblio.org/maven/jms/jars/${jms.jar}"
-        dest="${lib.dir}/${jms.jar}"
-        verbose="true"
-        usetimestamp="true"/>
   </target>
 
   <target name="import-junit" depends="setup-dependencies">
-    <get src="http://www.ibiblio.org/maven/junit/jars/${junit.jar}"
-        dest="${lib.dir}/${junit.jar}"
-        verbose="true"
-        usetimestamp="true"/>
+    <antcall target="import-dependency">
+      <param name="id" value="${junit.id}"/>
+      <param name="version" value="${junit.version}"/>
+      <param name="license" value="${junit.license}"/>
+      <param name="license.url" value="${junit.license.url}"/>
+    </antcall>
+  </target>
+
+  <!-- Log4J -->
+  <target name="log4j-check" unless="log4j.present" depends="setup-dependencies">
+    <antcall target="missing-dependency">
+      <param name="id" value="${log4j.id}"/>
+      <param name="version" value="${log4j.version}"/>
+      <param name="license" value="${log4j.license}"/>
+      <param name="license.url" value="${log4j.license.url}"/>
+    </antcall>
   </target>
 
   <target name="import-log4j" depends="setup-dependencies">
-    <get src="http://www.ibiblio.org/maven/log4j/jars/${log4j.jar}"
-        dest="${lib.dir}/${log4j.jar}"
-        verbose="true"
-        usetimestamp="true"/>
+    <antcall target="import-dependency">
+      <param name="id" value="${log4j.id}"/>
+      <param name="version" value="${log4j.version}"/>
+      <param name="license" value="${log4j.license}"/>
+      <param name="license.url" value="${log4j.license.url}"/>
+    </antcall>
   </target>
 
-  <target name="import-logkit" depends="setup-dependencies">
-    <get src="http://www.ibiblio.org/maven/logkit/jars/${logkit.jar}"
-        dest="${lib.dir}/${logkit.jar}"
-        verbose="true"
-        usetimestamp="true"/>
-  </target>
-
-  <target name="import-servletapi" depends="setup-dependencies">
-    <get src="http://www.ibiblio.org/maven/servletapi/jars/${servletapi.jar}"
-        dest="${lib.dir}/${servletapi.jar}"
-        verbose="true"
-        usetimestamp="true"/>
+  <!-- Logkit -->
+  <target name="logkit-check" unless="logkit.present" depends="setup-dependencies">
+    <antcall target="missing-dependency">
+      <param name="id" value="${logkit.id}"/>
+      <param name="version" value="${logkit.version}"/>
+      <param name="license" value="${logkit.license}"/>
+      <param name="license.url" value="${logkit.license.url}"/>
+    </antcall>
   </target>
   
-  <target name="check-all-dependencies"
-          depends="bsf-check,checkstyle-check,javamail-check,jdbc-check,jms-check,junit-check,log4j-check,logkit-check,servletapi-check"
-	  description="checks for all dependencies we know about. This is usually more than the minimum needed to build this project; actual use is not recommended."/>
-  <target name="import-all-dependencies"
-          depends="import-bsf,import-checkstyle,import-javamail,import-jdbc,import-jms,import-junit,import-log4j,import-logkit,import-servletapi"
-	  description="checks for all dependencies we know about. This is usually more than the minimum needed to build this project; actual use is not recommended."/>
+  <target name="import-logkit" depends="setup-dependencies">
+    <antcall target="import-dependency">
+      <param name="id" value="${logkit.id}"/>
+      <param name="version" value="${logkit.version}"/>
+      <param name="license" value="${logkit.license}"/>
+      <param name="license.url" value="${logkit.license.url}"/>
+    </antcall>
+  </target>
 
+  <!-- Servlet API -->
+  <target name="servletapi-check" unless="javax.servlet.present" depends="setup-dependencies">
+    <antcall target="missing-dependency-noauto">
+      <param name="id" value="${servletapi.id}"/>
+      <param name="version" value="${servletapi.version}"/>
+      <param name="license" value="${servletapi.license}"/>
+      <param name="license.url" value="${servletapi.license.url}"/>
+      <param name="dist.url" value="${servletapi.dist.url}"/>
+    </antcall>
+  </target>
