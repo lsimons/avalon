@@ -37,10 +37,10 @@
     Alternately, this  acknowledgment may  appear in the software itself,  if
     and wherever such third-party acknowledgments normally appear.
  
- 4. The names "Jakarta", "Apache Avalon", "Avalon Excalibur", "Avalon
-    Framework" and "Apache Software Foundation"  must not be used to endorse
-    or promote products derived  from this  software without  prior written
-    permission. For written permission, please contact apache@apache.org.
+ 4. The names "Jakarta", "Avalon", "Excalibur", "Avalon Framework" and 
+    "Apache Software Foundation"  must not be used to endorse or promote 
+    products derived  from this  software without  prior written permission. 
+    For written permission, please contact apache@apache.org.
  
  5. Products  derived from this software may not  be called "Apache", nor may
     "Apache" appear  in their name,  without prior written permission  of the
@@ -67,7 +67,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2001/07/18 14:35:40 $
+      $Revision: 1.2 $ $Date: 2001/07/24 10:04:31 $
     </legal>
   </footer>
 </document>
