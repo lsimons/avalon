@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+
+<blockinfo>
+
+  <meta>
+
+    <contributors>
+      <author name="Charles Benett" email="charles@benett1.demon.co.uk"/>
+      <author name="Federico Barbieri" email="fede@apache.org"/>
+      <author name="Peter Donald" email="donaldp@apache.org"/>
+    </contributors>
+
+  </meta>
+
+  <!-- services that are offered by this block -->
+  <services>
+    <service name="org.apache.cornerstone.demos.simpleserver.SimpleService" version="1.0" />
+  </services>
+
+  <dependencies>
+    <dependency>
+      <role>org.apache.cornerstone.services.Store</role>
+      <service name="org.apache.cornerstone.services.Store" version="1.0"/>
+    </dependency>
+    <dependency>
+      <role>org.apache.cornerstone.services.connection.ConnectionManager</role>
+      <service name="org.apache.cornerstone.services.connection.ConnectionManager" 
+               version="1.0"/>
+    </dependency>
+    <dependency>
+      <role>org.apache.cornerstone.services.sockets.SocketManager</role>
+      <service name="org.apache.cornerstone.services.sockets.SocketManager" version="1.0"/>
+    </dependency>
+    <dependency>
+      <role>org.apache.cornerstone.services.scheduler.TimeScheduler</role>
+      <service name="org.apache.cornerstone.services.scheduler.TimeScheduler" version="1.0"/>
+    </dependency>
+  </dependencies>
+</blockinfo>
