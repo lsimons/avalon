@@ -2,6 +2,14 @@
 
   <!--
   ==============================================================================
+  properties 
+  ==============================================================================
+  -->
+
+  <ant:property file="project.properties"/>
+
+  <!--
+  ==============================================================================
   switches 
   ==============================================================================
   -->
@@ -41,18 +49,6 @@
     value="${maven.dist.assembly.dir}/src/${pom.artifactId}"/>
   <ant:property name="maven.dist.dir"
     value="${maven.build.dir}/distributions"/>
-
-  <!--
-  ==============================================================================
-  structural properties 
-  ==============================================================================
-  -->
-
-  <ant:property file="project.properties"/>
-  <ant:property name="pom.specificationVersion" value="1.2"/>
-  <ant:property name="pom.organization.identifier" value="ASF"/>
-  <ant:property name="maven.docs.src" value="${basedir}/site/xdocs"/>
-  <ant:property file="project.properties"/>
 
   <!--
   ==============================================================================
