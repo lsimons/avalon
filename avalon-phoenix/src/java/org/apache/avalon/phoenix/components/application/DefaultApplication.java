@@ -10,10 +10,9 @@ package org.apache.avalon.phoenix.components.application;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.excalibur.threadcontext.ThreadContext;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.phoenix.ApplicationEvent;
 import org.apache.avalon.phoenix.Block;
 import org.apache.avalon.phoenix.interfaces.Application;
@@ -23,6 +22,7 @@ import org.apache.avalon.phoenix.interfaces.ApplicationMBean;
 import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
 import org.apache.avalon.phoenix.metadata.BlockMetaData;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
+import org.apache.excalibur.threadcontext.ThreadContext;
 
 /**
  * This is the basic container of blocks. A server application
@@ -76,7 +76,7 @@ public final class DefaultApplication
     public void start()
         throws IllegalStateException, ApplicationException
     {
-        if ( isRunning() )
+        if( isRunning() )
         {
             throw new IllegalStateException();
         }
@@ -85,7 +85,7 @@ public final class DefaultApplication
             try
             {
                 final BlockMetaData[] blocks = m_context.getMetaData().getBlocks();
-                for ( int i = 0; i < blocks.length; i++ )
+                for( int i = 0; i < blocks.length; i++ )
                 {
                     final String blockName = blocks[ i ].getName();
                     final BlockEntry blockEntry = new BlockEntry( blocks[ i ] );
@@ -98,7 +98,7 @@ public final class DefaultApplication
                 // load blocks
                 runPhase( PHASE_STARTUP );
             }
-            catch ( final Throwable t )
+            catch( final Throwable t )
             {
                 getLogger().info( "exception while starting:" + t.getMessage() + "\n" );
                 t.printStackTrace();
@@ -141,7 +141,7 @@ public final class DefaultApplication
     public void stop()
         throws IllegalStateException, ApplicationException
     {
-        if ( !isRunning() )
+        if( !isRunning() )
         {
             throw new IllegalStateException();
         }
@@ -151,7 +151,7 @@ public final class DefaultApplication
             {
                 runPhase( PHASE_SHUTDOWN );
             }
-            catch ( final Throwable t )
+            catch( final Throwable t )
             {
                 getLogger().info( "exception while stopping:" + t.getMessage() + "\n" );
                 t.printStackTrace();
@@ -185,7 +185,7 @@ public final class DefaultApplication
     public Block getBlock( final String name )
     {
         final BlockEntry entry = (BlockEntry)m_entrys.get( name );
-        if ( null == entry ) return null;
+        if( null == entry ) return null;
         return entry.getProxy();
     }
 
@@ -269,13 +269,13 @@ public final class DefaultApplication
         throws Exception
     {
         final BlockListenerMetaData[] listeners = m_context.getMetaData().getListeners();
-        for ( int i = 0; i < listeners.length; i++ )
+        for( int i = 0; i < listeners.length; i++ )
         {
             try
             {
                 m_lifecycle.startupListener( listeners[ i ] );
             }
-            catch ( final Exception e )
+            catch( final Exception e )
             {
                 final String name = listeners[ i ].getName();
                 final String message =
@@ -328,7 +328,7 @@ public final class DefaultApplication
         //Log message describing the number of blocks
         //the phase in and the order in which they will be
         //processed
-        if ( getLogger().isInfoEnabled() )
+        if( getLogger().isInfoEnabled() )
         {
             final Integer count = new Integer( blocks.length );
             final List pathList = Arrays.asList( order );
@@ -338,7 +338,7 @@ public final class DefaultApplication
         }
 
         //All blocks about to be processed ...
-        if ( PHASE_STARTUP == name )
+        if( PHASE_STARTUP == name )
         {
             //... for startup, so indicate to applicable listeners
             final ApplicationEvent event =
@@ -353,12 +353,12 @@ public final class DefaultApplication
 
         //Process blocks, one by one.
 
-        for ( int i = 0; i < order.length; i++ )
+        for( int i = 0; i < order.length; i++ )
         {
             final String block = order[ i ];
 
             //Log message saying we are processing block
-            if ( getLogger().isDebugEnabled() )
+            if( getLogger().isDebugEnabled() )
             {
                 final String message = REZ.getString( "process-block", block, name );
                 getLogger().debug( message );
@@ -367,12 +367,16 @@ public final class DefaultApplication
             try
             {
                 final BlockEntry entry = (BlockEntry)m_entrys.get( block );
-                if ( PHASE_STARTUP == name )
+                if( PHASE_STARTUP == name )
+                {
                     m_lifecycle.startup( entry );
+                }
                 else
+                {
                     m_lifecycle.shutdown( entry );
+                }
             }
-            catch ( final Exception e )
+            catch( final Exception e )
             {
                 final String message =
                     REZ.getString( "app.error.run-phase", name, block, e.getMessage() );
@@ -382,7 +386,7 @@ public final class DefaultApplication
             }
 
             //Log message saying we have processed block
-            if ( getLogger().isDebugEnabled() )
+            if( getLogger().isDebugEnabled() )
             {
                 final String message = REZ.getString( "processed-block", block, name );
                 getLogger().debug( message );
@@ -390,7 +394,7 @@ public final class DefaultApplication
         }
 
         //All blocks processed ...
-        if ( PHASE_STARTUP == name )
+        if( PHASE_STARTUP == name )
         {
             //... for startup, so indicate to applicable listeners
             m_lifecycle.applicationStarted();
