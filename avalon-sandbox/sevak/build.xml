@@ -60,7 +60,12 @@
   <property name="conf.demo.dir" value="${demo.dir}/conf"/>  
   
   <!-- Tomcat Jars -->
+  <!-- <property name="catalina-version" value="4.0.3"/> -->
+  <property name="catalina-version" value="4.1.3"/>
+  <property name="catalina-dir-suffix" value="-beta"/>
+  
   <property name="tomcat.jars.dir" value="${lib.dir}/tomcat-jars"/>
+  
 
 
   <path id="project.class.path">
@@ -121,7 +126,8 @@
     <filter token="PHOENIX_BASE" value="${phoenix.base}"/>
     <filter token="CORNERSTONE_BASE" value="${cornerstone.base}"/>
     <filter token="LOGKIT_BASE" value="${logkit.base}"/>
-    <filter token="TESTLET_BASE" value="${testlet.base}"/>
+    <filter token="TESTLET_BASE" value="${testlet.base}"/>      
+    
   </target>
 
   <!-- Check Presense Of Tomcat 4.0 jars -->
@@ -166,7 +172,7 @@
     <mkdir dir="${lib.dir}"/>
     <mkdir dir="${tomcat.jars.dir}"/>
 
-    <get src="http://jakarta.apache.org/builds/jakarta-tomcat-4.0/release/v4.0.3/bin/jakarta-tomcat-4.0.3.zip" 
+    <get src="http://jakarta.apache.org/builds/jakarta-tomcat-4.0/release/v${catalina-version}${catalina-dir-suffix}/bin/jakarta-tomcat-${catalina-version}.zip" 
     dest="catalina-download/jakarta-tomcat.zip" 
     verbose="true"
     usetimestamp="true"/>
@@ -716,7 +722,7 @@
         <include name="*.jar"/>
       </lib>
     
-      <zipfileset dir="catalina-download/jakarta-tomcat-4.0.3/webapps" prefix="webapps"/>
+      <zipfileset dir="catalina-download/jakarta-tomcat-${catalina-version}/webapps" prefix="webapps"/>
 
     </sar>
 
