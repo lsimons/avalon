@@ -18,6 +18,8 @@ import org.apache.avalon.phoenix.Service;
 public interface Store
     extends Service, ComponentSelector
 {
+    String ROLE = "org.apache.avalon.cornerstone.services.store.Store";
+
     /**
      * This method accept a Configuration object as hint and return the
      * corresponding Repository.

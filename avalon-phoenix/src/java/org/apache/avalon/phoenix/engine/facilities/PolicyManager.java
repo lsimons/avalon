@@ -18,6 +18,8 @@ import org.apache.avalon.framework.atlantis.Facility;
 public interface PolicyManager
     extends Facility
 {
+    String ROLE = "org.apache.avalon.phoenix.engine.facilities.PolicyManager";
+
     /**
      * Get policy for the current application.
      *

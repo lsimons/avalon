@@ -372,7 +372,7 @@ public class PhoenixEmbeddor
         if( m_deployer instanceof Composable )
         {
             final DefaultComponentManager componentManager = new DefaultComponentManager();
-            componentManager.put( "org.apache.avalon.framework.camelot.Container", (Container)m_kernel );
+            componentManager.put( Container.ROLE, (Container)m_kernel );
             ((Composable)m_deployer).compose( componentManager );
         }
     }
@@ -495,7 +495,7 @@ public class PhoenixEmbeddor
         if( m_kernel instanceof Composable )
         {
             final DefaultComponentManager componentManager = new DefaultComponentManager();
-            componentManager.put( "org.apache.avalon.framework.atlantis.SystemManager", m_systemManager );
+            componentManager.put( SystemManager.ROLE, m_systemManager );
             ((Composable)m_kernel).compose( componentManager );
         }
 

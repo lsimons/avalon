@@ -16,5 +16,7 @@ import org.apache.avalon.phoenix.Service;
 public interface HelloWorldServer
     extends Service
 {
+    String ROLE = "org.apache.avalon.cornerstone.demos.helloworldserver.HelloWorldServer";
+
     void setGreeting( String greeting );
 }

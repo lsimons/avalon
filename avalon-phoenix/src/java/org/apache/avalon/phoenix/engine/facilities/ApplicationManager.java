@@ -20,6 +20,8 @@ import org.apache.avalon.phoenix.Block;
 public interface ApplicationManager
     extends Facility
 {
+    String ROLE = "org.apache.avalon.phoenix.engine.facilities.ApplicationManager";
+
     /**
      * Register a block for management.
      * The block is exported through some management scheme

@@ -18,6 +18,8 @@ import org.apache.avalon.phoenix.Service;
 public interface TimeScheduler
     extends Service
 {
+    String ROLE = "org.apache.avalon.cornerstone.services.scheduler.TimeScheduler";
+
     /**
      * Schedule a time based trigger.
      * Note that if a TimeTrigger already has same name then it is removed.

@@ -48,7 +48,7 @@ public class BlockDAG
     public void compose( final ComponentManager componentManager )
         throws ComponentException
     {
-        m_container = (Container)componentManager.lookup( "org.apache.avalon.framework.camelot.Container" );
+        m_container = (Container)componentManager.lookup( Container.ROLE );
     }
 
     public void walkGraph( final BlockVisitor visitor, final Traversal traversal )

@@ -19,6 +19,8 @@ import org.apache.avalon.framework.component.Component;
 public interface Container
     extends Component
 {
+    String ROLE = "org.apache.avalon.framework.camelot.Container";
+
     /**
      * Add a component instance to container.
      *

@@ -29,6 +29,8 @@ import org.apache.avalon.phoenix.Service;
 public interface Realm
     extends Service
 {
+    String ROLE = "org.apache.avalon.cornerstone.services.security.Realm";
+
     Principal getPrincipal( String name );
     Iterator getPrincipalNames();
 }

@@ -18,6 +18,8 @@ import org.apache.log.Logger;
 public interface LogManager
     extends Facility
 {
+    String ROLE = "org.apache.avalon.phoenix.engine.facilities.LogManager";
+
     /**
      * Get logger with category for application.
      * Note that this name may not be the absolute category.

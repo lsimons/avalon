@@ -17,6 +17,8 @@ import org.apache.avalon.framework.atlantis.Facility;
 public interface ClassLoaderManager
     extends Facility
 {
+    String ROLE = "org.apache.avalon.phoenix.engine.facilities.ClassLoaderManager";
+
     /**
      * Get ClassLoader for the current application.
      *

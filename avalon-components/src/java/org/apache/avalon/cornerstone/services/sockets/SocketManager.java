@@ -18,6 +18,8 @@ import org.apache.avalon.phoenix.Service;
 public interface SocketManager
     extends Service
 {
+    String ROLE = "org.apache.avalon.cornerstone.services.sockets.SocketManager";
+
     /**
      * Retrieve a server socket factory by name.
      *

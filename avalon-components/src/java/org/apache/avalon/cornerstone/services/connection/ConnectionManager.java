@@ -19,6 +19,8 @@ import org.apache.avalon.phoenix.Service;
 public interface ConnectionManager
     extends Service
 {
+    String ROLE = "org.apache.avalon.cornerstone.services.connection.ConnectionManager";
+
     /**
      * Start managing a connection.
      * Management involves accepting connections and farming them out to threads
