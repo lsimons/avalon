@@ -1,5 +1,7 @@
 <?xml version="1.0"?>
 
+<!DOCTYPE document SYSTEM "dtd/document-v10.dtd">
+
 <document>
 
  <header>
@@ -38,8 +40,8 @@
 </p>    
 
 <p>
-    Executing this script will create a <filename>dist</filename> directory within the Avalon
-    distribution directory. The <filename>dist</filename> directory will contain the 
+    Executing this script will create a <em>dist</em> directory within the Avalon
+    distribution directory. The <em>dist</em> directory will contain the 
     compiled class files packaged into jars.
 </p>
 

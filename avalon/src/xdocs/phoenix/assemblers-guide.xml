@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<!DOCTYPE document SYSTEM "dtd/document-v10.dtd">
+<!DOCTYPE document SYSTEM "../dtd/document-v10.dtd">
 
 <document>
   <header>
@@ -41,15 +41,19 @@
             How do I create a Server Application?
           </link>
         </li>
-        <li><link href="assembly-xml-specification.html">assembly.xml specification</link></li>
-        <li><link href="server-xml-specification.html">server.xml specification</link></li>
+        <li>
+          <link href="assembly-xml-specification.html">assembly.xml specification</link>
+        </li>
+        <li>
+          <link href="server-xml-specification.html">server.xml specification</link>
+        </li>
        </ol>
 	 </s1>
   </body>
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2001/02/23 10:47:47 $
+      $Revision: 1.1 $ $Date: 2001/02/27 08:03:04 $
     </legal>
   </footer>
 </document>

@@ -5,59 +5,58 @@
       copyright="@year@ The Apache Software Foundation">
 
   <section label="About">
-    <page id="index" label="Overview" source="index.xml"/>
-    <page id="history" label="History" source="history.xml"/>
-    <page id="features" label="Features" source="features.xml"/>
-    <page id="geting-started" label="Getting Started" source="getting-started.xml"/>
-    <page id="install" label="Installation" source="install.xml"/>
-    <page id="license" label="License" source="license.xml"/>
+    <page label="Overview" source="index.xml"/>
+    <page label="History" source="history/index.xml"/>
+    <page label="Features" source="features.xml"/>
+    <page label="Getting Started" source="getting-started.xml"/>
+    <page label="Installation" source="install.xml"/>
+    <page label="License" source="license.xml"/>
     
     <separator/>
 
-    <page id="mail" label="Mail Archive" source="mail.xml"/>
-    <page id="contributors" label="Contributors" source="contributors.xml"/>
-    <changes id="changes" label="Changes" source="changes.xml"/>
+    <page label="Mail Archive" source="mail.xml"/>
+    <page label="Contributors" source="contributors.xml"/>
+    <changes label="Changes" source="changes.xml"/>
   </section>
 
   <section label="Framework">
-    <page id="design" label="Patterns and Design" source="design.xml"/>
-    <page id="code-standards" label="Coding Standards" source="code-standards.xml"/>
-    <page id="todo" label="Todo" source="todo.xml"/>
+    <page label="Patterns and Design" source="framework/index.xml"/>
+    <page label="Coding Standards" source="framework/code-standards.xml"/>
+    <page label="Todo" source="todo.xml"/>
     <external id="api-docs" label="API Docs" href="api/index.html"/>
   </section>
 
   <section label="Phoenix">
-    <page id="phoenix" label="What is Phoenix?" source="phoenix.xml"/>
-    <page id="administrators" label="Administrators Guide" source="administrator-guide.xml"/>
-    <page id="deployers" label="Deployers Guide" source="deployers-guide.xml"/>
-    <page id="assemblers" label="Assemblers Guide" source="assemblers-guide.xml"/>
-    <page id="developers" label="Block Developers Guide" source="block-developers-guide.xml" />
+    <page label="What is Phoenix?" source="phoenix/index.xml"/>
+    <page label="Administrators Guide" source="phoenix/administrator-guide.xml"/>
+    <page label="Deployers Guide" source="phoenix/deployers-guide.xml"/>
+    <page label="Assemblers Guide" source="phoenix/assemblers-guide.xml"/>
+    <page label="Block Developers Guide" source="phoenix/block-developers-guide.xml" />
   </section>
 
   <!-- history pages -->
-  <hidden id="call-to-vote" source="history/call-to-vote.xml" />
-  <hidden id="what-is-a-server" source="history/what-is-a-server.xml" />
-  <hidden id="need-for-avalon" source="history/need-for-avalon.xml" />
+  <hidden source="history/call-to-vote.xml" />
+  <hidden source="history/what-is-a-server.xml" />
+  <hidden source="history/need-for-avalon.xml" />
 
   <!-- design pages -->
-  <hidden id="patterns" source="design/patterns.xml" />
-  <hidden id="components" source="design/components.xml" />
-  <hidden id="composer" source="design/composer.xml" />
-  <hidden id="life-cycle" source="design/life-cycle.xml" />
-  <hidden id="inversion-of-control" source="design/inversion-of-control.xml" />
-  <hidden id="reuse-standards" source="design/reuse-standards.xml" />
-  <hidden id="security" source="design/security.xml" />
-  <hidden id="separation-of-concerns" source="design/separation-of-concerns.xml" />
+  <hidden source="framework/patterns.xml" />
+  <hidden source="framework/components.xml" />
+  <hidden source="framework/composer.xml" />
+  <hidden source="framework/life-cycle.xml" />
+  <hidden source="framework/inversion-of-control.xml" />
+  <hidden source="framework/reuse-standards.xml" />
+  <hidden source="framework/security.xml" />
+  <hidden source="framework/separation-of-concerns.xml" />
 
   <!-- phoenix pages -->  
-  <hidden id="what-is-a-block" source="phoenix/what-is-a-block.xml" />
-  <hidden id="blockinfo-specification" source="phoenix/blockinfo-specification.xml" />
-  <hidden id="creating-a-block" source="phoenix/creating-a-block.xml" />
-  <hidden id="what-is-a-server-application" source="phoenix/what-is-a-server-application.xml" />
-  <hidden id="assembly-xml-specification" source="phoenix/assembly-xml-specification.xml" />
-  <hidden id="server-xml-specification" source="phoenix/server-xml-specification.xml" />
-  <hidden id="creating-a-server-application" 
-          source="phoenix/creating-a-server-application.xml" />
+  <hidden source="phoenix/what-is-a-block.xml" />
+  <hidden source="phoenix/blockinfo-specification.xml" />
+  <hidden source="phoenix/creating-a-block.xml" />
+  <hidden source="phoenix/what-is-a-server-application.xml" />
+  <hidden source="phoenix/assembly-xml-specification.xml" />
+  <hidden source="phoenix/server-xml-specification.xml" />
+  <hidden source="phoenix/creating-a-server-application.xml" />
 
 </book>
 
