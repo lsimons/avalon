@@ -32,38 +32,18 @@
     </target>
 
     <!-- Cli -->
-    <target name="prj-cli">
-        <ant dir="cli" target="${subproject-target}"/>
-    </target>
-
-    <!-- Collections -->
-    <target name="prj-collections">
-        <ant dir="collections" target="${subproject-target}"/>
+    <target name="prj-compatibility">
+      <ant dir="compatibility" target="${subproject-target}"/>
     </target>
 
     <!-- Component -->
-    <target name="prj-component" depends="prj-collections, prj-instrument, prj-instrument-manager, prj-logger, prj-pool">
+    <target name="prj-component" depends="prj-instrument, prj-instrument-manager, prj-logger, prj-pool">
         <ant dir="component" target="${subproject-target}"/>
-    </target>
-
-    <!-- Concurrent -->
-    <target name="prj-concurrent">
-        <ant dir="concurrent" target="${subproject-target}"/>
     </target>
 
     <!-- Configuration -->
     <target name="prj-configuration">
         <ant dir="configuration" target="${subproject-target}"/>
-    </target>
-
-    <!-- Container -->
-    <target name="prj-container">
-        <ant dir="container" target="${subproject-target}"/>
-    </target>
-
-    <!-- Converter -->
-    <target name="prj-converter" depends="prj-i18n">
-        <ant dir="converter" target="${subproject-target}"/>
     </target>
 
     <!-- Datasource -->
@@ -72,7 +52,7 @@
     </target>
 
     <!-- Event -->
-    <target name="prj-event" depends="prj-collections, prj-concurrent, prj-thread">
+    <target name="prj-event">
         <ant dir="event" target="${subproject-target}"/>
     </target>
 
@@ -82,7 +62,7 @@
     </target>
 
     <!-- Fortress -->
-    <target name="prj-fortress" depends="prj-collections, prj-container, prj-event, prj-instrument, prj-instrument-manager, prj-logger, prj-sourceresolve, prj-threadcontext">
+    <target name="prj-fortress" depends="prj-lifecycle, prj-event, prj-instrument, prj-instrument-manager, prj-logger, prj-sourceresolve">
         <ant dir="fortress" target="${subproject-target}"/>
     </target>
 
@@ -106,19 +86,13 @@
         <ant dir="instrument-manager" target="${subproject-target}"/>
     </target>
 
-    <!-- IO -->
-    <target name="prj-io">
-        <ant dir="io" target="${subproject-target}"/>
-    </target>
-
     <!-- Monitor -->
     <target name="prj-monitor" depends="prj-logger, prj-sourceresolve">
         <ant dir="monitor" target="${subproject-target}"/>
     </target>
 
-    <!-- JProcess -->
-    <target name="prj-jprocess" depends="prj-io, prj-threadcontext">
-        <ant dir="jprocess" target="${subproject-target}"/>
+    <target name="prj-lifecycle">
+	    <ant dir="lifecycle" target="${subproject-target}"/>
     </target>
 
     <!-- Logger -->
@@ -142,7 +116,7 @@
     </target>
 
     <!-- Pool -->
-    <target name="prj-pool" depends="prj-collections, prj-instrument">
+    <target name="prj-pool" depends="prj-instrument">
         <ant dir="pool" target="${subproject-target}"/>
     </target>
 
@@ -167,7 +141,7 @@
     </target>
 
     <!-- XMLUtil -->
-    <target name="prj-xmlutil" depends="prj-collections, prj-component, prj-instrument, prj-logger, prj-pool, prj-sourceresolve, prj-store">
+    <target name="prj-xmlutil" depends="prj-component, prj-instrument, prj-logger, prj-pool, prj-sourceresolve, prj-store">
         <ant dir="xmlutil" target="${subproject-target}"/>
     </target>
 
@@ -177,14 +151,13 @@
     <!-- This target depends on all of the projects above.  Relies on -->
     <!--  Ant to decide on the correct build order. -->
     <target name="build-all-subprojects"
-        depends="prj-cli, prj-io, prj-loader,
-                prj-naming, prj-jprocess, prj-threadcontext, 
-                prj-collections, prj-converter, prj-i18n, prj-extension,
-                prj-concurrent,
-                prj-container, prj-cache, prj-configuration, prj-event,
+        depends="prj-compatibility, prj-loader,
+                prj-naming, prj-threadcontext, 
+		prj-i18n, prj-extension,
+                prj-cache, prj-configuration, prj-event,
                 prj-thread, prj-monitor, prj-fortress, prj-datasource,
                 prj-instrument, prj-store, prj-logger, prj-policy,
-                prj-pool, prj-xmlutil,
+                prj-pool, prj-xmlutil, prj-lifecycle,
                 prj-sourceresolve, prj-instrument-client,
                 prj-instrument-manager, prj-component"/>
 
@@ -212,20 +185,16 @@
             <pathelement location="instrument/src/client"/>
             <pathelement location="instrument/src/manager"/>
             <pathelement location="instrument/src/test"/>
-            <pathelement location="concurrent/src/java"/>
-            <pathelement location="concurrent/src/test"/>
-            <pathelement location="collections/src/java"/>
-            <pathelement location="collections/src/test"/>
+	    <pathelement location="compatibility/src/java"/>
+	    <pathelement location="compatibility/src/test"/>
             <pathelement location="cache/src/java"/>
             <pathelement location="cache/src/test"/>
-            <pathelement location="cli/src/java"/>
-            <pathelement location="cli/src/test"/>
             <pathelement location="extension/src/java"/>
             <pathelement location="extension/src/test"/>
             <pathelement location="i18n/src/java"/>
             <pathelement location="i18n/src/test"/>
-            <pathelement location="io/src/java"/>
-            <pathelement location="io/src/test"/>
+	    <pathelement location="lifecycle/src/java"/>
+	    <pathelement location="lifecycle/src/test"/>
             <pathelement location="monitor/src/java"/>
             <pathelement location="monitor/src/test"/>
             <pathelement location="naming/src/java"/>
