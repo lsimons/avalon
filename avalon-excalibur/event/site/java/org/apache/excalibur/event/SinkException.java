@@ -7,22 +7,48 @@
  */
 package org.apache.avalon.excalibur.event;
 
-import org.apache.avalon.framework.CascadingException;
-
 /**
  * A SourceException is thrown when an enqueue operation fails.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  */
-public class SinkException extends CascadingException
+public class SinkException 
+    extends Exception
 {
-    public SinkException( String message )
+    /**
+     * The Throwable that caused this exception to be thrown.
+     */
+    private final Throwable         m_throwable;
+
+    /**
+     * Construct a new <code>SinkException</code> instance.
+     *
+     * @param message The detail message for this exception.
+     */
+    public SinkException( final String message )
     {
-        super( message );
+        this( message, null );
     }
 
-    public SinkException( String message, Throwable e )
+    /**
+     * Construct a new <code>SinkException</code> instance.
+     *
+     * @param message The detail message for this exception.
+     * @param throwable the root cause of the exception
+     */
+    public SinkException( final String message, final Throwable throwable )
     {
-        super( message, e );
+        super( message );
+        m_throwable = throwable;
+    }
+
+    /**
+     * Retrieve root cause of the exception.
+     *
+     * @return the root cause
+     */
+    public final Throwable getCause()
+    {
+        return m_throwable;
     }
 }
