@@ -19,7 +19,7 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 public interface ConfigurationRepository
     extends Component
 {
-    String ROLE = "org.apache.avalon.phoenix.interfaces.ConfigurationRepository";
+    String ROLE = ConfigurationRepository.class.getName();
 
     Configuration getConfiguration( String application, String block )
         throws ConfigurationException;

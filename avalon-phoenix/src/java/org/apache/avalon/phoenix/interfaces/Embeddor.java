@@ -22,7 +22,7 @@ import org.apache.avalon.framework.component.Component;
 public interface Embeddor
     extends Component, Initializable, Executable, Disposable
 {
-    String ROLE = "org.apache.avalon.phoenix.interfaces.Embeddor";
+    String ROLE = Embeddor.class.getName();
 
     /**
      * Request the Embeddor shutsdown.

@@ -23,7 +23,7 @@ import org.apache.avalon.framework.configuration.Configuration;
 public interface ClassLoaderManager
     extends Component
 {
-    String ROLE = "org.apache.avalon.phoenix.interfaces.ClassLoaderManager";
+    String ROLE = ClassLoaderManager.class.getName();
 
     /**
      * Create a <code>ClassLoader</code> for a specific application.

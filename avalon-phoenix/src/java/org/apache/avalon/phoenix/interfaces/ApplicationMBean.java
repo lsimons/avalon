@@ -8,14 +8,14 @@
 package org.apache.avalon.phoenix.interfaces;
 
 /**
- * This is the interface via which you can manager 
+ * This is the interface via which you can manager
  * the root container of Applications.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public interface ApplicationMBean
 {
-    String ROLE = "org.apache.avalon.phoenix.interfaces.ApplicationMBean";
+    String ROLE = ApplicationMBean.class.getName();
 
     /**
      * Get the name of the application.
@@ -46,7 +46,7 @@ public interface ApplicationMBean
     String getHomeDirectory();
 
     /**
-     * Return true if the application is 
+     * Return true if the application is
      * running or false otherwise.
      *
      * @return true if application is running, false otherwise
@@ -63,14 +63,14 @@ public interface ApplicationMBean
      *            the message part of exception will contain more information
      *            pertaining to why the application failed to startup
      */
-    void start() 
+    void start()
         throws IllegalStateException, ApplicationException;
 
     /**
      * Shutdown and restart the application running.
      * This is only valid when isRunning() returns true,
      * otherwise it will generate an IllegalStateException.
-     * This is equivelent to  calling start() and then stop() 
+     * This is equivelent to  calling start() and then stop()
      * in succession.
      *
      * @exception IllegalStateException if application is not already running
@@ -78,7 +78,7 @@ public interface ApplicationMBean
      *            the message part of exception will contain more information
      *            pertaining to why the application failed to startup/shutdown
      */
-    void restart() 
+    void restart()
         throws IllegalStateException, ApplicationException;
 
     /**
@@ -91,7 +91,7 @@ public interface ApplicationMBean
      *            the message part of exception will contain more information
      *            pertaining to why the application failed to shutodwn
      */
-    void stop() 
+    void stop()
         throws IllegalStateException, ApplicationException;
 
     /**
@@ -104,6 +104,6 @@ public interface ApplicationMBean
      *            the message part of exception will contain more information
      *            pertaining to why the application failed to undeploy
      */
-    void undeploy() 
+    void undeploy()
         throws IllegalStateException, ApplicationException;
 }

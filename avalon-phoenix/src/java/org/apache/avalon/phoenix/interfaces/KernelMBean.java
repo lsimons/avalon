@@ -15,14 +15,14 @@ import org.apache.avalon.phoenix.metadata.SarMetaData;
 import org.apache.log.Hierarchy;
 
 /**
- * This is the interface via which you can manager 
+ * This is the interface via which you can manager
  * the root container of Applications.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public interface KernelMBean
 {
-    String ROLE = "org.apache.avalon.phoenix.interfaces.KernelMBean";
+    String ROLE = KernelMBean.class.getName();
 
     String[] getApplicationNames();
 

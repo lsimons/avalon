@@ -10,14 +10,14 @@ package org.apache.avalon.phoenix.interfaces;
 import java.util.Date;
 
 /**
- * This is the interface via which the Management interface interacts 
+ * This is the interface via which the Management interface interacts
  * with the Embeddor.
  *
  * @author <a href="peter@apache.org">Peter Donald</a>
  */
 public interface EmbeddorMBean
 {
-    String ROLE = "org.apache.avalon.phoenix.interfaces.EmbeddorMBean";
+    String ROLE = EmbeddorMBean.class.getName();
 
     /**
      * Get name by which the server is know.
@@ -75,7 +75,7 @@ public interface EmbeddorMBean
 
     /**
      * Request the embeddor to restart.
-     * 
+     *
      * @exception UnsupportedOperationException if restart not a supported operation
      */
     void restart()

@@ -26,7 +26,7 @@ import org.apache.avalon.phoenix.Block;
 public interface Application
     extends Component, Initializable, Startable, Disposable
 {
-    String ROLE = "org.apache.avalon.phoenix.interfaces.Application";
+    String ROLE = Application.class.getName();
 
     void setApplicationContext( ApplicationContext context );
 

@@ -23,7 +23,7 @@ import org.apache.log.Logger;
 public interface ApplicationContext
     extends Component
 {
-    String ROLE = "org.apache.avalon.phoenix.interfaces.ApplicationContext";
+    String ROLE = ApplicationContext.class.getName();
 
     SarMetaData getMetaData();
 
@@ -31,7 +31,7 @@ public interface ApplicationContext
 
     /**
      * Export specified object into management system.
-     * The object is exported using specifed interface 
+     * The object is exported using specifed interface
      * and using the specified name.
      *
      * @param name the name of object to export

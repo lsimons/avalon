@@ -22,13 +22,13 @@ import org.apache.avalon.framework.component.Component;
 public interface Deployer
     extends Component
 {
-    String ROLE = "org.apache.avalon.phoenix.interfaces.Deployer";
+    String ROLE = Deployer.class.getName();
 
     /**
      * Deploy an installation.
      *
      * @param name the name of deployment
-     * @param installation the installation to deploy
+     * @param location the installation to deploy
      * @exception DeploymentException if an error occurs
      */
     void deploy( String name, URL location )
