@@ -60,6 +60,8 @@ import org.apache.excalibur.event.SinkFullException;
  * changed.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
+ *
+ * @deprecated Use the DefaultQueue as it properly supports the EnqueuePredicates
  */
 public final class FixedSizeQueue
     extends AbstractQueue
@@ -98,7 +100,7 @@ public final class FixedSizeQueue
             size = m_end - m_start;
         }
 
-        return size;
+        return size + m_reserve;
     }
 
     public int maxSize()
@@ -116,7 +118,7 @@ public final class FixedSizeQueue
             m_mutex.acquire();
             try
             {
-                if( elements.length + m_reserve + size() > maxSize() )
+                if( elements.length + size() > maxSize() )
                 {
                     throw new SinkFullException( "Not enough room to enqueue these elements." );
                 }
@@ -144,7 +146,7 @@ public final class FixedSizeQueue
             m_mutex.acquire();
             try
             {
-                if( 1 + m_reserve + size() > maxSize() )
+                if( 1 + size() > maxSize() )
                 {
                     return false;
                 }
@@ -174,7 +176,7 @@ public final class FixedSizeQueue
             m_mutex.acquire();
             try
             {
-                if( elements.length + m_reserve + size() > maxSize() )
+                if( elements.length + size() > maxSize() )
                 {
                     throw new SinkFullException( "Not enough room to enqueue these elements." );
                 }
@@ -202,7 +204,7 @@ public final class FixedSizeQueue
             m_mutex.acquire();
             try
             {
-                if( 1 + m_reserve + size() > maxSize() )
+                if( 1 + size() > maxSize() )
                 {
                     throw new SinkFullException( "Not enough room to enqueue these elements." );
                 }
@@ -361,6 +363,7 @@ public final class FixedSizeQueue
         {
             m_parent = parent;
             m_elements = elements;
+            m_parent.m_reserve += m_elements.length;
         }
 
         public void commit()

@@ -50,6 +50,8 @@
 package org.apache.excalibur.event.impl;
 
 import org.apache.excalibur.event.Queue;
+import org.apache.excalibur.event.EnqueuePredicate;
+import org.apache.excalibur.event.DequeueInterceptor;
 
 /**
  * Provides the base functionality for the other <code>Queue</code> types.
@@ -63,6 +65,8 @@ public abstract class AbstractQueue implements Queue
     protected final static Object[] EMPTY_ARRAY = new Object[ 0 ];
     /** The number of milliseconds to wait */
     protected long m_timeout = 0;
+    protected EnqueuePredicate m_predicate = new NullEnqueuePredicate();
+    protected DequeueInterceptor m_interceptor = new NullDequeueInterceptor();
 
     /**
      * Default for canAccept()
@@ -140,5 +144,51 @@ public abstract class AbstractQueue implements Queue
                 }
             }
         }
+    }
+
+    /**
+     * Set the EnqueuePredicate to limit entries into this Queue.
+     */
+    public void setEnqueuePredicate( EnqueuePredicate predicate )
+    {
+        if ( null == predicate ) throw new NullPointerException( "predicate" );
+
+        m_predicate = predicate;
+    }
+
+    /**
+     * Return the EnqueuePredicate that is already set for this Queue.
+     */
+    public EnqueuePredicate getEnqueuePredicate()
+    {
+        return m_predicate;
+    }
+
+    /**
+     * Set the dequeue executable for this sink. This mechanism
+     * allows users to define a methods that will be executed
+     * before or after dequeuing elements from a source
+     * @since Sep 23, 2002
+     *
+     * @param executable
+     *  The dequeue executable for this sink.
+     */
+    public void setDequeueInterceptor(DequeueInterceptor executable)
+    {
+        if ( null == executable ) throw new NullPointerException( "executable" );
+
+        m_interceptor = executable;
+    }
+
+    /**
+     * Return the dequeue executable for this sink.
+     * @since Sep 23, 2002
+     *
+     * @return {@link DequeueInterceptor}
+     *  The dequeue executable for this sink.
+     */
+    public DequeueInterceptor getDequeueInterceptor()
+    {
+        return m_interceptor;
     }
 }

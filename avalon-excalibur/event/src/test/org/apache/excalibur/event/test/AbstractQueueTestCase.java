@@ -169,12 +169,12 @@ public abstract class AbstractQueueTestCase extends TestCase
         assertEquals( 0, queue.size() );
 
         PreparedEnqueue prep = queue.prepareEnqueue( elements );
-        assertEquals( 0, queue.size() );
+        assertEquals( 10, queue.size() );
         prep.abort();
         assertEquals( 0, queue.size() );
 
         prep = queue.prepareEnqueue( elements );
-        assertEquals( 0, queue.size() );
+        assertEquals( 10, queue.size() );
         prep.commit();
         assertEquals( 10, queue.size() );
 
