@@ -99,7 +99,7 @@ public class MetaTask
      * will be generated only when the source file is
      * newer than the destination file.
      */
-    private boolean m_force = true;
+    private boolean m_force = false;
 
     /**
      * Set the desitation directory to generate output files to.
@@ -167,16 +167,13 @@ public class MetaTask
         throws BuildException
     {
         validate();
-
         final String message =
           "Writing descriptors using '"
           + getOutputDescription()
           + "' format.";
         log( message );
-
         super.execute();
         addInnerClasses();
-
         try
         {
             Counter counter = writeMetaData();
@@ -316,6 +313,7 @@ public class MetaTask
             }
             else
             {
+
                 Type type = new TypeTag( javaClass ).getType();
                 if( type == null )
                 {

@@ -86,6 +86,7 @@ public class DependencyTag extends AbstractTag
         int n = -1;
         final ArrayList deps = new ArrayList();
         final Set marked = new HashSet( 10 );
+
         for ( int j = 0; j < m_methods.length; j++ )
         {
             JavaMethod method = m_methods[j];
