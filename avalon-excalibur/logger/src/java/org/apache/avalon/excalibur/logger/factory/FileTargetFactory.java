@@ -78,7 +78,7 @@ import org.apache.log.output.io.rotate.UniqueFileStrategy;
  * <pre>
  * &lt;file id="foo"&gt;
  *  &lt;filename&gt;${context-key}/real-name/...&lt;/filename&gt;
- *  &lt;format type="raw|pattern|extended"&gt;pattern to be used if needed&lt;/format&gt;
+ *  &lt;format type="avalon|raw|pattern|extended"&gt;pattern to be used if needed&lt;/format&gt;
  *  &lt;append&gt;true|false&lt;/append&gt;
  *  &lt;rotation type="revolving" init="5" max="10"&gt;
  *
@@ -158,7 +158,7 @@ import org.apache.log.output.io.rotate.UniqueFileStrategy;
  * </dl>
  *
  * @author <a href="mailto:giacomo@apache.org">Giacomo Pati</a>
- * @version CVS $Revision: 1.10 $ $Date: 2003/05/27 07:30:28 $
+ * @version CVS $Revision: 1.11 $ $Date: 2003/06/04 22:15:47 $
  * @since 4.0
  */
 public class FileTargetFactory
