@@ -22,6 +22,8 @@ import org.apache.avalon.phoenix.Constants;
 import org.apache.avalon.phoenix.components.embeddor.DefaultEmbeddor;
 import org.apache.avalon.phoenix.interfaces.Embeddor;
 import java.util.Hashtable;
+import java.util.Observable;
+import java.util.Observer;
 import java.io.File;
 import org.apache.log.Hierarchy;
 import org.apache.log.LogTarget;
@@ -35,6 +37,7 @@ import org.apache.log.output.io.FileTarget;
  * @author <a href="mailto:mail@leosimons.com">Leo Simons</a>
  */
 public final class CLIMain
+    extends Observable
     implements Runnable
 {
     private static final Resources REZ =
@@ -44,8 +47,6 @@ public final class CLIMain
 
     private final static String DEFAULT_FORMAT =
         "%{time} [%7.7{priority}] (%{category}): %{message}\\n%{throwable}";
-
-
 
     ///The embeddor attached to frontend
     private Embeddor m_embeddor;
@@ -111,6 +112,14 @@ public final class CLIMain
         {
             m_hook = new ShutdownHook( this );
             Runtime.getRuntime().addShutdownHook( m_hook );
+        }
+        
+        // If an Observer is present in the data object, then add it as an observer for
+        //  m_observable
+        Observer observer = (Observer)data.get( Observer.class.getName() );
+        if ( null != observer )
+        {
+            addObserver( observer );
         }
 
         if( blocking )
@@ -265,6 +274,10 @@ public final class CLIMain
                 m_embeddor = null;
             }
         }
+        
+        // Notify any observers that Phoenix is shutting down
+        setChanged();
+        notifyObservers( "shutdown" );
     }
 
     /**
