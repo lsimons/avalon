@@ -137,11 +137,13 @@ public class RandomGeneratorProvider extends AbstractLogEnabled
              "http://avalon.apache.org/dtds/meta/type_1_1.dtd" >
 <type>
   <info>
-    <name>random-provider</name>
-    <version>1.0</version>
+    <name>random</name>
+    <version>1.0.0</version>
+    <lifestyle>singleton</lifestyle>
+    <collection>hard</collection>
   </info>
   <services>
-    <service type="tutorial.RandomGenerator"/>
+    <service type="tutorial.RandomGenerator" version="1.0.0"/>
   </services>
 </type>
 ]]></source>
