@@ -71,9 +71,9 @@ public class Main
     private void execute( final Parameters parameters )
         throws Exception
     {
-        //final PhoenixEmbeddor embeddor = new PhoenixEmbeddor();
-        final SingleAppEmbeddor embeddor = new SingleAppEmbeddor();
-        parameters.setParameter( "application-location", "../apps/avalon-demo.sar" );
+        final PhoenixEmbeddor embeddor = new PhoenixEmbeddor();
+        //final SingleAppEmbeddor embeddor = new SingleAppEmbeddor();
+        //parameters.setParameter( "application-location", "../apps/avalon-demo.sar" );
 
         if( embeddor instanceof Parameterizable )
         {
