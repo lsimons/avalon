@@ -21,7 +21,7 @@
 <!--  Add when an official Merlin image exists  
     res id="Installer.image" src="resources/merlin.gif" /
 -->
-    <res id="InfoPanel.info" src="README.TXT" parse="yes" />
+    <res id="InfoPanel.info" src="README.TXT" parse="no" />
     <res id="LicencePanel.licence" src="LICENSE.txt" />
   </resources>
   
