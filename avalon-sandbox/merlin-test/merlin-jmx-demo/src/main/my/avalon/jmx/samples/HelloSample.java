@@ -80,7 +80,7 @@ import javax.management.ObjectName;
  * </ul>
  *
  * @jmx.mbean
- * @avalon.component version="1.0" name="jmx-hello"
+ * @avalon.component version="1.0" name="jmx-hello" lifestyle="singleton"
  */
 public class HelloSample extends AbstractLogEnabled implements HelloSampleMBean, Serviceable, Configurable, Initializable, Executable, Disposable {
     private MBeanServer jmxServer_;

@@ -26,11 +26,11 @@ import javax.naming.Context;
  */
 public class JRMPAdaptorWrapper extends AbstractLogEnabled implements Serviceable, Configurable, Startable 
 {
-    private MBeanServer   jmxServer_;
-    private JRMPAdaptor   wrapped_;
-    private ObjectName    jmxName_;
-    private NamingService naming_;
-    private ObjectName    jmxNameNaming_;
+    private MBeanServer   m_server;
+    private JRMPAdaptor   m_adapter;
+    private ObjectName    m_name;
+    private NamingService m_naming;
+    private ObjectName    m_namingName;
     private int           port_;
 
     /**
@@ -42,7 +42,7 @@ public class JRMPAdaptorWrapper extends AbstractLogEnabled implements Serviceabl
      * @avalon.dependency key="jmx-server" type="javax.management.MBeanServer"
      */
     public void service(ServiceManager manager) throws ServiceException {
-        jmxServer_ = (MBeanServer) manager.lookup("jmx-server");
+        m_server = (MBeanServer) manager.lookup("jmx-server");
     }
 
     /**
@@ -59,30 +59,63 @@ public class JRMPAdaptorWrapper extends AbstractLogEnabled implements Serviceabl
 
     public void start() throws Exception {
         // Create and start the naming service
-        jmxNameNaming_     = new ObjectName("JMXServer:name=naming,type=rmiregistry");
-        naming_            = new NamingService(port_);
-        jmxServer_.registerMBean(naming_, jmxNameNaming_);
-        naming_.start();
+        m_namingName     = new ObjectName("JMXServer:name=naming,type=rmiregistry");
+        m_naming            = new NamingService(port_);
+        m_server.registerMBean(m_naming, m_namingName);
+        m_naming.start();
 
         // Create the JRMP adaptor
-        ObjectName jmxName_ = new ObjectName("JMXServer:name=adaptor,protocol=JRMP");
-        wrapped_ = new JRMPAdaptor();
-        wrapped_.setJNDIName("jrmp");
-        wrapped_.setPort(port_);
+        m_name = new ObjectName("JMXServer:name=adaptor,protocol=JRMP");
+        m_adapter = new JRMPAdaptor();
+        m_adapter.setJNDIName("jrmp");
+        m_adapter.setPort(port_);
 
         // Optionally, you can specify the JNDI properties,
         // instead of having in the classpath a jndi.properties file
-        wrapped_.putJNDIProperty(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.rmi.registry.RegistryContextFactory");
-        wrapped_.putJNDIProperty(Context.PROVIDER_URL, "rmi://localhost:" + port_);
+        m_adapter.putJNDIProperty(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.rmi.registry.RegistryContextFactory");
+        m_adapter.putJNDIProperty(Context.PROVIDER_URL, "rmi://localhost:" + port_);
 
-        jmxServer_.registerMBean(wrapped_, jmxName_);
-        wrapped_.start();
+        m_server.registerMBean(m_adapter, m_name);
+        m_adapter.start();
     }
 
-    public void stop() throws Exception {
-        wrapped_.stop();
-        jmxServer_.unregisterMBean(jmxName_);
-        naming_.stop();
-        jmxServer_.unregisterMBean(jmxNameNaming_);
+    public void stop() throws Exception 
+    {
+        try
+        {
+            m_adapter.stop();
+        }
+        catch( Throwable e )
+        {
+            getLogger().warn( "ignoring error while attempting to stop adapter", e );
+        }
+
+        try
+        {
+            m_server.unregisterMBean( m_name );
+        }
+        catch( Throwable e )
+        {
+            getLogger().warn( "ignoring error while unregister jrmp management point: " + m_name, e );
+        }
+
+        try
+        {
+            m_naming.stop();
+        }
+        catch( Throwable e )
+        {
+            getLogger().warn( "ignoring error while attempting to stop naming service", e );
+        }
+
+        try
+        {
+            m_server.unregisterMBean( m_namingName );
+        }
+        catch( Throwable e )
+        {
+            getLogger().warn( "ignoring error while unregister rmi name seerver management point" , e );
+        }
+
     }
 }

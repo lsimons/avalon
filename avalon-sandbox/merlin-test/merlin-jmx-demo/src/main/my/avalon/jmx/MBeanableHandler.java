@@ -59,7 +59,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
-import org.apache.avalon.lifecycle.Accessor;
+import org.apache.avalon.lifecycle.Creator;
 
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
@@ -73,13 +73,18 @@ import javax.management.ObjectName;
  *   <li>the value of "urn:avalon:name" store in context.</li>
  * </ul>
  *
- * To be auto-registered a MBean component need to include the stage "my.avalon.jmx.MBeanable".
- * The implementation of the interface my.avalon.jmx.MBeanable is optional (only if you want to choose your name).
+ * To be auto-registered a MBean component need to include the stage 
+ * "my.avalon.jmx.MBeanable". The implementation of the interface 
+ * my.avalon.jmx.MBeanable is optional (only if you want to choose 
+ * your name).
  *
  * @avalon.component version="1.0" name="jmx-handler"
  * @avalon.extension type="my.avalon.jmx.MBeanable"
  */
-public class MBeanableHandler extends AbstractLogEnabled implements Accessor, Serviceable {
+public class MBeanableHandler extends AbstractLogEnabled 
+    implements Creator, Serviceable 
+{
+
     private MBeanServer jmxServer_;
 
     /**
@@ -99,7 +104,7 @@ public class MBeanableHandler extends AbstractLogEnabled implements Accessor, Se
     /**
      * Register object to "jmx-server" service.
      */
-    public void access(Object object, Context context)
+    public void create(Object object, Context context)
                 throws Exception {
         try {
             if (jmxServer_ != null) {
@@ -115,15 +120,21 @@ public class MBeanableHandler extends AbstractLogEnabled implements Accessor, Se
     /**
      * Unregister object form "jmx-server" service.
      */
-    public void release(Object object, Context context) {
-        try {
-            if (jmxServer_ != null) {
-                ObjectName name = getObjectName(object, context);
+    public void destroy(Object object, Context context) 
+    {
+        ObjectName name = null;
+        try 
+        {
+            if (jmxServer_ != null) 
+            {
+                name = getObjectName(object, context);
                 jmxServer_.unregisterMBean(name);
                 getLogger().debug("unregister component : " + name);
             }
-        } catch (Exception exc) {
-            getLogger().warn("unregister", exc);
+        } 
+        catch (Exception exc) 
+        {
+            getLogger().warn( "unregister: " + name, exc );
         }
     }
 
@@ -142,7 +153,8 @@ public class MBeanableHandler extends AbstractLogEnabled implements Accessor, Se
         }
 
         if (back == null) {
-            back = (String) context.get("urn:avalon:partition");
+            back = (String) context.get("urn:avalon:partition")
+              + "/" + (String) context.get("urn:avalon:name");
         }
 
         return new ObjectName("Application:name=" + back);
