@@ -330,7 +330,17 @@ public class DefaultLoggingManager implements LoggingManager
         final String name = filter( path );
         final Logger logger;
 
-        if( m_debug ) log( "adding category: " + name + ", " + priority );
+        if( m_debug ) 
+        {
+            if( null != priority ) 
+            {
+                log( "adding category: " + name + ", " + priority );
+            }
+            else
+            {
+                log( "adding category: " + name );
+            }
+        }
 
         try
         {
