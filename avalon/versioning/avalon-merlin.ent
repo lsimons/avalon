@@ -45,8 +45,9 @@ limitations under the License.
 
 <!-- Avalon Merlin -->
 
-<!ENTITY merlin-spec "3.3">
 <!ENTITY merlin-id "merlin">
+<!ENTITY merlin-spec "3.3">
+<!ENTITY merlin-product-version "3.3.dev-1">
 
 <!ENTITY merlin-api-id "merlin-api">
 <!ENTITY merlin-api-version "3.3.dev-0">

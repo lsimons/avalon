@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE project [
+  <!ENTITY % index SYSTEM "file:index.ent"> %index;
+]>
 
 <project>
 
     <extend>${basedir}/master.xml</extend>
-    <id>avalon-tutorial</id>
+    <id>merlin-tutorial</id>
     
     <!-- a short but descriptive name for the project -->
     <name>Merlin Simple Web Server Tutorials</name>
-    <currentVersion>3.3.0-dev</currentVersion>
+  <currentVersion>&merlin-product-version;</currentVersion>
 
 </project>
