@@ -24,7 +24,7 @@ import org.xml.sax.SAXException;
  * the transformation to the registered on.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.5 $ $Date: 2002/07/10 08:53:17 $
+ * @version CVS $Revision: 1.6 $ $Date: 2002/08/04 04:20:45 $
  */
 public final class XMLizerImpl
     extends DefaultComponentSelector
@@ -62,14 +62,11 @@ public final class XMLizerImpl
     {
         if( null == stream )
         {
-            final String message = "Stream must not be null.";
-            throw new ComponentException( message );
+            throw new NullPointerException( "stream" );
         }
-
         if( null == handler )
         {
-            final String message = "Handler must not be null.";
-            throw new ComponentException( message );
+            throw new NullPointerException( "handler" );
         }
 
         String mimeType = specifiedMimeType;
