@@ -8,14 +8,14 @@
 package org.apache.avalon.cornerstone.blocks.transport.publishing;
 
 import org.apache.avalon.cornerstone.services.connection.ConnectionHandler;
-import org.apache.commons.altrmi.server.impl.socket.PartialSocketCustomStreamServer;
+import org.apache.excalibur.altrmi.server.impl.socket.PartialSocketCustomStreamServer;
 
 /**
  * Class SocketCustomStreamPublisher
  *
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class SocketCustomStreamPublisher extends AbstractStreamPublisher
 {

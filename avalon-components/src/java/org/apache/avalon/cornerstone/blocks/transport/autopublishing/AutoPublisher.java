@@ -18,8 +18,8 @@ import org.apache.avalon.phoenix.ApplicationEvent;
 import org.apache.avalon.phoenix.ApplicationListener;
 import org.apache.avalon.phoenix.Block;
 import org.apache.avalon.phoenix.BlockEvent;
-import org.apache.commons.altrmi.server.AltrmiPublisher;
-import org.apache.commons.altrmi.server.PublicationException;
+import org.apache.excalibur.altrmi.server.AltrmiPublisher;
+import org.apache.excalibur.altrmi.server.PublicationException;
 
 /**
  * Class AutoPublisher
@@ -28,7 +28,7 @@ import org.apache.commons.altrmi.server.PublicationException;
  *
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public class AutoPublisher implements Configurable, ApplicationListener
 {

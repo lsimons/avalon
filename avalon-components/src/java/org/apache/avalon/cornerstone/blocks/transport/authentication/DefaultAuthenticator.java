@@ -10,16 +10,16 @@ package org.apache.avalon.cornerstone.blocks.transport.authentication;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.phoenix.Block;
-import org.apache.commons.altrmi.common.AltrmiAuthentication;
-import org.apache.commons.altrmi.common.AltrmiAuthenticationException;
-import org.apache.commons.altrmi.server.AltrmiAuthenticator;
+import org.apache.excalibur.altrmi.common.AltrmiAuthentication;
+import org.apache.excalibur.altrmi.common.AltrmiAuthenticationException;
+import org.apache.excalibur.altrmi.server.AltrmiAuthenticator;
 
 /**
  * Class DefaultAuthenticator
  *
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class DefaultAuthenticator extends AbstractLogEnabled
     implements AltrmiAuthenticator, Initializable, Block
@@ -36,7 +36,7 @@ public class DefaultAuthenticator extends AbstractLogEnabled
      */
     public void initialize() throws Exception
     {
-        mAltrmiAuthenticator = new org.apache.commons.altrmi.server.impl.DefaultAuthenticator();
+        mAltrmiAuthenticator = new org.apache.excalibur.altrmi.server.impl.DefaultAuthenticator();
     }
 
     /**

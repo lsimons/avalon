@@ -25,23 +25,23 @@ import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.phoenix.Block;
 import org.apache.avalon.phoenix.BlockContext;
-import org.apache.commons.altrmi.common.MethodRequest;
-import org.apache.commons.altrmi.server.AltrmiAuthenticator;
-import org.apache.commons.altrmi.server.AltrmiPublisher;
-import org.apache.commons.altrmi.server.ClassRetriever;
-import org.apache.commons.altrmi.server.MethodInvocationHandler;
-import org.apache.commons.altrmi.server.PublicationDescription;
-import org.apache.commons.altrmi.server.PublicationException;
-import org.apache.commons.altrmi.server.impl.AbstractServer;
-import org.apache.commons.altrmi.server.impl.classretrievers.JarFileClassRetriever;
-import org.apache.commons.altrmi.server.impl.classretrievers.NoClassRetriever;
+import org.apache.excalibur.altrmi.common.MethodRequest;
+import org.apache.excalibur.altrmi.server.AltrmiAuthenticator;
+import org.apache.excalibur.altrmi.server.AltrmiPublisher;
+import org.apache.excalibur.altrmi.server.ClassRetriever;
+import org.apache.excalibur.altrmi.server.MethodInvocationHandler;
+import org.apache.excalibur.altrmi.server.PublicationDescription;
+import org.apache.excalibur.altrmi.server.PublicationException;
+import org.apache.excalibur.altrmi.server.impl.AbstractServer;
+import org.apache.excalibur.altrmi.server.impl.classretrievers.JarFileClassRetriever;
+import org.apache.excalibur.altrmi.server.impl.classretrievers.NoClassRetriever;
 
 /**
  * Class AbstractPublisher
  *
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.13 $
+ * @version $Revision: 1.14 $
  */
 public abstract class AbstractPublisher extends AbstractLogEnabled
     implements AltrmiPublisher, Startable, Composable, Contextualizable, Configurable,
