@@ -22,7 +22,7 @@ import javax.management.MBeanOperationInfo;
  * verified by reflection,
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.1 $ $Date: 2001/09/30 04:30:13 $
+ * @version CVS $Revision: 1.2 $ $Date: 2001/09/30 05:15:17 $
  */
 public abstract class ConstructiveMBean
     extends AbstractMBean
@@ -47,7 +47,24 @@ public abstract class ConstructiveMBean
     public ConstructiveMBean( final Object object )
         throws IllegalArgumentException
     {
+        this( object, true );
+    }
+
+    public ConstructiveMBean( final Object object, final boolean secure )
+        throws IllegalArgumentException
+    {
         super( object );
+
+        if( secure )
+        {
+            final SecurityManager sm = System.getSecurityManager();
+            if( null != sm )
+            {
+                final String className = object.getClass().getName();
+                final JMXPermission permission = new JMXPermission( "create", className );
+                sm.checkPermission( permission );
+            }
+        }
 
         defineManageableObject();
 

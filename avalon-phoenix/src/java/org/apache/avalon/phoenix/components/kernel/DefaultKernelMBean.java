@@ -19,7 +19,7 @@ public class DefaultKernelMBean
 {
     public DefaultKernelMBean( final DefaultKernel kernel )
     {
-        super( kernel );
+        super( kernel, true );
     }
 
     /**
