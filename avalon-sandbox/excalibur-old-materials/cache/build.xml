@@ -216,6 +216,7 @@
         description="Generate Checkstyle Report">
 
         <mkdir dir="${build.reports}/checkstyle"/>
+        <property name="checkstyle.pathhack" location="."/>
         <style style="../tools/etc/checkstyle-frames.xsl" in="build/checkstyle-results.xml"
             out="${build.reports}/checkstyle/delete-me.html">
             <param name="pathhack" expression="${checkstyle.pathhack}"/>
