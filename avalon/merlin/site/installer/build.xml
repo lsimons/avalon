@@ -47,4 +47,6 @@
 ************************************************************
       </echo>
   </target>
+  
+  <target name="all" depends="installer,no-installer" />
 </project> 
