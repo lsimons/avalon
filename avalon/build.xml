@@ -442,7 +442,8 @@ Legal:
     <mkdir dir="${build.context}/WEB-INF"/>
     <move file="${build.context}/web.xml" todir="${build.context}/WEB-INF"/>
     <move file="${build.context}/cocoon.xconf" todir="${build.context}/WEB-INF"/>
-        
+    <move file="${build.context}/logkit.xconf" todir="${build.context}/WEB-INF"/>
+            
     <war warfile="${build.dir}/${name}.war"
          webxml="${build.context}/WEB-INF/web.xml"
          compress="false">
