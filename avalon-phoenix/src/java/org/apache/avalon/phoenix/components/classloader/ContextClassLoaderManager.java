@@ -15,7 +15,7 @@ public class ContextClassLoaderManager
 {
     public ClassLoader createClassLoader( final Configuration server,
                                           final File homeDirectory,
-                                          final URL[] classPath )
+                                          final String[] classPath )
         throws Exception
     {
         return Thread.currentThread().getContextClassLoader();
