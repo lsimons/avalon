@@ -19,7 +19,7 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
-import org.apache.avalon.framework.logger.AbstractLoggable;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.AvalonFormatter;
 import org.apache.log.Hierarchy;
 import org.apache.log.LogTarget;
@@ -35,7 +35,7 @@ import org.apache.log.output.io.FileTarget;
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public class SimpleLogKitManager
-    extends AbstractLoggable
+    extends AbstractLogEnabled
     implements LogKitManager, Contextualizable, Configurable
 {
     private static final Resources REZ =

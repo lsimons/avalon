@@ -17,7 +17,7 @@ import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.Contextualizable;
-import org.apache.avalon.framework.logger.AbstractLoggable;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
 
 /**
  * This is an <code>AbstractBlock</code> that makes deployment a bit
@@ -25,10 +25,10 @@ import org.apache.avalon.framework.logger.AbstractLoggable;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.3 $ $Date: 2001/09/20 10:45:14 $
+ * @version CVS $Revision: 1.4 $ $Date: 2001/11/09 21:14:30 $
  */
 public abstract class AbstractBlock
-    extends AbstractLoggable
+    extends AbstractLogEnabled
     implements Block, Contextualizable, Composable, Configurable
 {
     private BlockContext           m_context;

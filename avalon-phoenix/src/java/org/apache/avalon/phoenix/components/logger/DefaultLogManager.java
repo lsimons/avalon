@@ -12,7 +12,7 @@ import org.apache.avalon.excalibur.logger.DefaultLogKitManager;
 import org.apache.avalon.excalibur.logger.LogKitManager;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.context.DefaultContext;
-import org.apache.avalon.framework.logger.AbstractLoggable;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.phoenix.BlockContext;
 import org.apache.avalon.phoenix.interfaces.LogManager;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
@@ -24,7 +24,7 @@ import org.apache.log.Hierarchy;
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public class DefaultLogManager
-    extends AbstractLoggable
+    extends AbstractLogEnabled
     implements LogManager
 {
     public Hierarchy createHierarchy( final SarMetaData metaData,

@@ -21,7 +21,7 @@ import org.apache.avalon.framework.component.Composable;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.logger.AbstractLoggable;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.phoenix.interfaces.ApplicationContext;
 import org.apache.avalon.phoenix.interfaces.ConfigurationRepository;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
@@ -34,7 +34,7 @@ import org.apache.log.Logger;
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 class DefaultApplicationContext
-    extends AbstractLoggable
+    extends AbstractLogEnabled
     implements ApplicationContext, Composable, Configurable
 {
     private static final Resources REZ =
@@ -185,7 +185,7 @@ class DefaultApplicationContext
             final DefaultThreadPool threadPool =
                 new DefaultThreadPool( name, maxThreads, m_threadContext );
             threadPool.setDaemon( isDaemon );
-            threadPool.setLogger( getLogger() );
+            threadPool.enableLogging( getLogger() );
             m_threadPools.put( name, threadPool );
         }
         catch( final Exception e )

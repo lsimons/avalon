@@ -8,7 +8,7 @@
 package org.apache.avalon.phoenix.components.deployer;
 
 import java.util.HashMap;
-import org.apache.avalon.framework.logger.AbstractLoggable;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.phoenix.interfaces.DeploymentException;
 import org.apache.avalon.phoenix.interfaces.DeploymentRecorder;
 import org.apache.avalon.phoenix.tools.installer.Installation;
@@ -19,7 +19,7 @@ import org.apache.avalon.phoenix.tools.installer.Installation;
  * @author <a href="mailto:mirceatoma@home.com">Mircea Toma</a>
  */
 public class DefaultDeploymentRecorder 
-    extends AbstractLoggable 
+    extends AbstractLogEnabled 
     implements DeploymentRecorder
 {
     private final HashMap m_installations = new HashMap();

@@ -13,7 +13,7 @@ import java.util.Stack;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.logger.AbstractLoggable;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.phoenix.Block;
 import org.apache.avalon.phoenix.BlockListener;
 import org.apache.avalon.phoenix.Service;
@@ -53,7 +53,7 @@ import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public class SarVerifier
-    extends AbstractLoggable
+    extends AbstractLogEnabled
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( SarVerifier.class );

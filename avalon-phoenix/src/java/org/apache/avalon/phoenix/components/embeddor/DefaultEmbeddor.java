@@ -24,8 +24,10 @@ import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
-import org.apache.avalon.framework.logger.AbstractLoggable;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.AvalonFormatter;
+import org.apache.avalon.framework.logger.LogKitLogger;
+import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.parameters.ParameterException;
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
@@ -40,7 +42,6 @@ import org.apache.avalon.phoenix.interfaces.LogManager;
 import org.apache.avalon.phoenix.interfaces.SystemManager;
 import org.apache.log.Hierarchy;
 import org.apache.log.LogTarget;
-import org.apache.log.Logger;
 import org.apache.log.Priority;
 import org.apache.log.output.io.FileTarget;
 
@@ -52,7 +53,7 @@ import org.apache.log.output.io.FileTarget;
  * @author <a href="donaldp@apache.org">Peter Donald</a>
  */
 public class DefaultEmbeddor
-    extends AbstractLoggable
+    extends AbstractLogEnabled
     implements Embeddor, Parameterizable
 {
     private static final Resources REZ =
@@ -225,7 +226,7 @@ public class DefaultEmbeddor
         throws Exception
     {
         final Logger logger = createLogger();
-        setLogger( logger );
+        enableLogging( logger );
 
         String component = null;
 
@@ -278,12 +279,12 @@ public class DefaultEmbeddor
         //Create an anonymous hierarchy so no other
         //components can get access to logging hierarchy
         final Hierarchy hierarchy = new Hierarchy();
-        final Logger logger = hierarchy.getLoggerFor( "Phoenix" );
+        final org.apache.log.Logger logger = hierarchy.getLoggerFor( "Phoenix" );
         logger.setLogTargets( new LogTarget[] { logTarget } );
         logger.setPriority( Priority.getPriorityForName( logPriority ) );
 
         logger.info( "Logger started" );
-        return logger;
+        return new LogKitLogger( logger );
     }
 
     /**

@@ -19,7 +19,7 @@ import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.context.DefaultContext;
-import org.apache.avalon.framework.logger.AbstractLoggable;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.phoenix.components.application.DefaultApplication;
 import org.apache.avalon.phoenix.interfaces.Application;
 import org.apache.avalon.phoenix.interfaces.ApplicationContext;
@@ -42,7 +42,7 @@ import org.apache.log.Hierarchy;
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public class DefaultKernel
-    extends AbstractLoggable
+    extends AbstractLogEnabled
     implements Kernel, Composable
 {
     private static final Resources REZ =

@@ -24,8 +24,8 @@ import java.util.Enumeration;
 import java.util.PropertyPermission;
 import org.apache.avalon.excalibur.io.FileUtil;
 import org.apache.avalon.framework.component.Component;
-import org.apache.avalon.framework.logger.Loggable;
-import org.apache.log.Logger;
+import org.apache.avalon.framework.logger.LogEnabled;
+import org.apache.avalon.framework.logger.Logger;
 
 /**
  * Abstract policy extended in avalon.
@@ -34,7 +34,7 @@ import org.apache.log.Logger;
  */
 abstract class AbstractPolicy
     extends Policy
-    implements Component, Loggable
+    implements Component, LogEnabled
 {
     private final ArrayList        m_entries  = new ArrayList();
     private Logger                 m_logger;
@@ -48,7 +48,7 @@ abstract class AbstractPolicy
         Permissions  m_permissions;
     }
 
-    public void setLogger( final Logger logger )
+    public void enableLogging( final Logger logger )
     {
         m_logger = logger;
     }

@@ -18,7 +18,7 @@ import java.util.jar.JarFile;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.logger.AbstractLoggable;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.phoenix.interfaces.ClassLoaderManager;
 
 /**
@@ -36,7 +36,7 @@ import org.apache.avalon.phoenix.interfaces.ClassLoaderManager;
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public class DefaultClassLoaderManager
-    extends AbstractLoggable
+    extends AbstractLogEnabled
     implements ClassLoaderManager
 {
     /**
@@ -95,7 +95,7 @@ public class DefaultClassLoaderManager
         throws ConfigurationException
     {
         final DefaultPolicy policy = new DefaultPolicy( baseDirectory );
-        policy.setLogger( getLogger() );
+        policy.enableLogging( getLogger() );
         policy.configure( configuration );
         return policy;
     }

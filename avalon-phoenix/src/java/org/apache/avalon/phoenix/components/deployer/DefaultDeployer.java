@@ -20,7 +20,7 @@ import org.apache.avalon.framework.component.Composable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
-import org.apache.avalon.framework.logger.AbstractLoggable;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.phoenix.interfaces.Application;
 import org.apache.avalon.phoenix.interfaces.ClassLoaderManager;
 import org.apache.avalon.phoenix.interfaces.ConfigurationRepository;
@@ -45,7 +45,7 @@ import org.apache.log.Hierarchy;
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public class DefaultDeployer
-    extends AbstractLoggable
+    extends AbstractLogEnabled
     implements Deployer, Composable, Initializable
 {
     private static final Resources REZ =
