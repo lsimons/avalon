@@ -98,7 +98,6 @@ public class DefaultKernel
                 final DefaultContext context = new DefaultContext();
                 context.put( "app.name", name );
                 context.put( "app.home", metaData.getHomeDirectory() );
-                context.put( "app.class.path", saEntry.getClassPath() );
                 context.makeReadOnly();
                 ((Contextualizable)application).contextualize( context );
             }
@@ -112,9 +111,7 @@ public class DefaultKernel
                 ((Composable)application).compose( componentManager );
             }
 
-            //application.addBlocks( metaData.getBlocks() );
-            //application.addBlockListeners( metaData.getListeners() );
-            application.setup( metaData );
+            application.setup( metaData, saEntry.getClassLoader() );
 
             if( application instanceof Configurable )
             {
