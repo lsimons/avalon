@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+
+<document>
+  <properties>
+    <title>Guide - What is a Block Listener?</title>
+      <author email="avalon-phoenix-dev@jakarta.apache.org">Phoenix Documentation Team</author>
+  </properties>
+  <body>
+    <section name="Introduction">
+      <p>
+        A Phoenix Application consists of Blocks. Blocks can depend on the
+        services of other Blocks. However there is circumstances in which
+        relationships between Blocks other than dependency relationships
+        should exist in an application.
+      </p>
+      <p>
+        For example, you may have a Block that is capable of exporting
+        other Blocks as SOAP services. The Blocks that wish to be exported
+        as SOAP services may need to export a service interface that extends
+        SOAPClient.
+      </p>
+    </section>
+    <section name="What is a Block Listener?">
+      <p>
+        A BlockListener is a component that is created before any Blocks are
+        created in an Application. It receives notification after each Block
+        is created and setup for Application. The listener also receives
+        notification when a Block is about to be shutdown.
+      </p>
+      <p>
+        The relationship discussed above (between SOAPServer and SOAPClients)
+        could be modelled as dependencies but that would mean that each application
+        would need to modify the SOAPServer so that it depended on a particular
+        number of SOAPClients that was specific to application. A better approach
+        to modelling these relationships would be to use a BlockListener to "wire"
+        together the SOAPClient services in Blocks to the SOAPServer service. As
+        soon as any Block is detected that implements a SOAPClient service it could
+        be registered with the SOAPServer.
+      </p>
+    </section>
+    <section name="How to make a block listener">
+      <p>
+        Like normal blocks, a block listener can be <em>LogEnabled</em> and take
+        configuration via <em>Configurable</em>.  The special feature is that it
+        must implement <em>BlockListener</em> and the four methods that are a
+        consequence of that.  Those methods illustrate blocks being added and
+        removed etc and come with a <em>BlockEvent</em> argument.  The following
+        section in assembly.xml causes instantiation of the block listener:
+      </p>
+      <source>
+        &lt;listener class="pkg.MyBlockListener" name="a-suitable-name" /&gt;
+      </source>
+    </section>
+     <section name="Guide Contents">
+       <ol>
+        <li><a href="what-is-a-block.html">What is a block?</a></li>
+        <li>What is a block listener?</li>
+        <li><a href="what-is-an-application-listener.html">What is an application listener?</a></li>
+        <li><a href="creating-a-block.html">How do I create a block?</a></li>
+        <li><a href="making-phoenix-compatible-comps.html">How do I make my components phoenix-compatible?</a></li>
+        <li><a href="blockinfo-specification.html">BlockInfo specification</a></li>
+       </ol>
+      </section>
+</body>
+</document>

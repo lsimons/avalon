@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+
+<announcement>
+  <title>Phoenix @version@</title>
+  <abstract>The Avalon team is proud to announce the @version@ release
+of Phoenix.</abstract>
+
+  <project site="http://jakarta.apache.org/avalon">
+    <title>Avalon</title>
+    <description>
+      The Avalon project is Apache's Java Server Framework. It is
+      separated into six sub projects: Framework, Excalibur, LogKit,
+      Cornerstone, Phoenix and Applications. Its purpose is to simplify
+      server side programming for Java based projects.  It
+      formalizes serveral best of breed practices and patterns for
+      server side programming.
+    </description>
+  </project>
+
+  <project site="http://jakarta.apache.org/avalon/phoenix">
+    <title>Phoenix @version@</title>
+    <description>
+      <para>
+        Avalon Phoenix is a micro-kernel designed and implemented on top of
+        the Avalon Framework. It is both an API to program to and a reference
+        implementation. The reference implementation provides a number of
+        facilities to manage the environment of Server Applications. Such
+        facilities include log management, JMX management, classloading and 
+        security. The API defines a standard method of piecing togther server 
+        components and creating a server.
+      </para>
+      <para>
+        In order to see Avalon-Phoenix at work, you should grab the one of the 
+        demo applications or servers that are included in Avalon-Apps.
+        <ulink uri="http://jakarta.apache.org/james/">Apache James</ulink>
+        is a production ready mail server that sits on Phoenix.
+      </para>
+    </description>
+    <changes version="@version@" file="changes.xml"/>
+    <downloads name="Avalon" base="http://jakarta.apache.org/builds/jakarta-avalon/release/phoenix"/>
+  </project>
+
+</announcement>
+
