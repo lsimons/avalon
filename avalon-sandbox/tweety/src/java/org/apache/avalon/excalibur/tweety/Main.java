@@ -65,26 +65,29 @@ import org.apache.avalon.framework.service.*;
 import org.apache.avalon.framework.container.*;
 
 /**
- * This is the tweety 'bootstrapper'. It is used to run Tweety from the
- * commandline. The single main() method calls all of Tweety's lifecycle
- * methods.
+ * This is the tweety 'bootstrapper'. It is used to run
+ * {@link org.apache.avalon.excalibur.tweety.Tweety Tweety} from the
+ * commandline. The single {@link #main(String[] args) main()} method calls all of
+ * Tweety's lifecycle methods.
  *
  *
- *@author   <a href="mailto:nicolaken@krysalis.org">Nicola Ken Barozzi</a>
- *@author   <a href="mailto:leosimons@apache.org">Leo Simons</a>
- *@created  July 4, 2002
- *@version  1.0
+ * @author   <a href="mailto:nicolaken@krysalis.org">Nicola Ken Barozzi</a>
+ * @author   <a href="mailto:leosimons@apache.org">Leo Simons</a>
+ * @created  July 4, 2002
+ * @version  1.0.1
+ * @since    1.0-alpha
+ * @see      <a href="http://jakarta.apache.org/avalon/excalibur/tweety">Online Tweety documentation</a>
  */
 public class Main {
 
-    /**
+	/**
 	 * We've marked the constructor as protected to prevent instantiation.
 	 * Main is not a real 'object' or 'component', but rather a container
 	 * for some procedural code (inside the main() method). There is no
 	 * need to create an instance of it.
 	 */
 	protected Main() {
-    }
+	}
 
 	//// COMMANDLINE ENTRY POINT ////
 	/**
@@ -167,5 +170,4 @@ public class Main {
 			System.exit(-2);
 		}
 	}
-
 }

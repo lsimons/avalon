@@ -8,18 +8,28 @@
     </authors>
   </header>
   <body>
-    <s1 title="Introduction">
-		<p>TBD</p>
-    </s1>
+	<s1 title="So you want to build your won container, huh?">
+		<p>Well, you're mostly on your own for now. We're still working
+		on the entire concept of container and on the various containers
+		that ship with avalon.</p>
 
-	<s1 title="Table of Contents">
-		<p>TBD</p>
+		<p>For now, I suggest you check out the sources for Tweety
+		(inside the <code>jakarta-avalon-excalibur</code> CVS module),
+		<a href="http://tambora.zenplex.org/cgi-bin/cvsweb.cgi/plexus/">Plexus</a>,
+		Containerkit (also inside the <code>jakarta-avalon-excalibur</code>
+		CVS module), Fortress (same CVS module) and Phoenix
+		(inside the <code>jakarta-avalon-phoenix</code> CVS module) to see
+		how it is done.</p>
+
+		<p>Finally, take a peak at the avalon-dev mail archives or ask some
+		questions on that list,</p>
 	</s1>
+
   </body>
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2002/06/27 16:57:18 $
+      $Revision: 1.2 $ $Date: 2002/07/08 17:42:16 $
     </legal>
   </footer>
 </document>
