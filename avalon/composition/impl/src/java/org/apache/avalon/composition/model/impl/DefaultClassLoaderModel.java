@@ -92,7 +92,7 @@ import org.apache.avalon.util.i18n.Resources;
  * and the extensions package.
  * </p>
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.17 $ $Date: 2004/04/20 00:03:32 $
+ * @version $Revision: 1.18 $ $Date: 2004/04/21 03:21:04 $
  */
 public class DefaultClassLoaderModel extends AbstractLogEnabled 
     implements ClassLoaderModel
@@ -656,6 +656,7 @@ public class DefaultClassLoaderModel extends AbstractLogEnabled
         for( int i=0; i<filesets.length; i++ )
         {
             FilesetDirective fileset = filesets[i];
+            getLocalLogger().debug("fileset.base=[" + fileset.getBaseDirectory() + "]");
             File anchor = getDirectory( base, fileset.getBaseDirectory() );
             getLocalLogger().debug("anchor=[" + anchor + "]");
 

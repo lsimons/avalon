@@ -31,6 +31,7 @@ import java.util.Vector;
 import org.apache.avalon.composition.model.FileSelector;
 import org.apache.avalon.composition.util.FileUtils;
 import org.apache.avalon.composition.util.ScannerUtils;
+import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.util.env.Env;
 
 /**
@@ -38,7 +39,7 @@ import org.apache.avalon.util.env.Env;
  * 
  * @author Apache Ant Development Team (Kuiper, Umasankar, Atherton, and Levy-Lambert)
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2004/04/20 00:03:32 $
+ * @version $Revision: 1.5 $ $Date: 2004/04/21 03:21:04 $
  */
 public class DirectoryScanner {
 
@@ -163,6 +164,11 @@ public class DirectoryScanner {
     /** Whether or not everything tested so far has been included. */
     protected boolean everythingIncluded = true;
 
+    /**
+     * Container-supplied logger instance.
+     */
+    private Logger m_logger;
+    
     /**
      * Sole constructor.
      */
@@ -523,7 +529,7 @@ public class DirectoryScanner {
         if (includes == null) {
             // No includes supplied, so set it to 'matches all'
             includes = new String[1];
-            includes[0] = "**//*.jar";
+            includes[0] = "*.jar";
         }
         if (excludes == null) {
             excludes = new String[0];
@@ -573,6 +579,8 @@ public class DirectoryScanner {
             String newpattern =
                 ScannerUtils.rtrimWildcardTokens(includes[icounter]);
             newroots.put(newpattern, includes[icounter]);
+            getLogger().debug("newpattern=[" + newpattern + "]; " +
+                    "includes[" + icounter + "]=[" + includes[icounter] + "]");
         }
 
         if (newroots.containsKey("")) {
@@ -585,11 +593,15 @@ public class DirectoryScanner {
 
             File canonBase = null;
             canonBase = basedir.getCanonicalFile();
+            getLogger().debug("canonBase=[" + canonBase + "]");
 
             while (enum2.hasMoreElements()) {
                 String currentelement = (String) enum2.nextElement();
+                getLogger().debug("currentelement=[" + currentelement + "]");
                 String originalpattern = (String) newroots.get(currentelement);
+                getLogger().debug("originalpattern=[" + originalpattern + "]");
                 File myfile = new File(basedir, currentelement);
+                getLogger().debug("myfile=[" + myfile.getAbsolutePath() + "]");
 
                 if (myfile.exists()) {
                     // may be on a case insensitive file system.  We want
@@ -626,8 +638,11 @@ public class DirectoryScanner {
                     }
 
                     if (myfile.isDirectory()) {
+                        getLogger().debug("file is a directory!");
                         if (isIncluded(currentelement)
                             && currentelement.length() > 0) {
+                            getLogger().debug("calling accounForIncludedDir(" +
+                                    currentelement + "," + myfile.getAbsolutePath() + ")");
                             accountForIncludedDir(currentelement, myfile, true);
                         }  else {
                             if (currentelement.length() > 0) {
@@ -638,6 +653,9 @@ public class DirectoryScanner {
                                         currentelement + File.separatorChar;
                                 }
                             }
+                            getLogger().debug("calling scandir(" +
+                                    myfile.getAbsolutePath() + "," +
+                                    currentelement + ")");
                             scandir(myfile, currentelement, true);
                         }
                     } else {
@@ -678,6 +696,8 @@ public class DirectoryScanner {
     protected void scandir(File dir, String vpath, boolean fast)
         throws IOException
     {
+        getLogger().debug("Inside scandir");
+        
         if (dir == null) {
             throw new IOException("dir must not be null.");
         } else if (!dir.exists()) {
@@ -734,10 +754,14 @@ public class DirectoryScanner {
         for (int i = 0; i < newfiles.length; i++) {
             String name = vpath + newfiles[i];
             File   file = new File(dir, newfiles[i]);
+            getLogger().debug("file=[" + file.getAbsolutePath() + "]");
             if (file.isDirectory()) {
+                getLogger().debug("this is a directory.");
                 if (isIncluded(name)) {
+                    getLogger().debug("and it will be included");
                     accountForIncludedDir(name, file, fast);
                 } else {
+                    getLogger().debug("and it will not be included");
                     everythingIncluded = false;
                     dirsNotIncluded.addElement(name);
                     if (fast && couldHoldIncluded(name)) {
@@ -748,9 +772,12 @@ public class DirectoryScanner {
                     scandir(file, name + File.separator, fast);
                 }
             } else if (file.isFile()) {
+                getLogger().debug("this is a file");
                 if (isIncluded(name)) {
+                    getLogger().debug("and it will be included");
                     accountForIncludedFile(name, file);
                 } else {
+                    getLogger().debug("and it will not be included");
                     everythingIncluded = false;
                     filesNotIncluded.addElement(name);
                 }
@@ -792,28 +819,40 @@ public class DirectoryScanner {
     private void accountForIncludedDir(String name, File file, boolean fast) 
         throws IOException
     {
+        getLogger().debug("Inside accountForIncludeDir");
+        
         if (!dirsIncluded.contains(name)
             && !dirsExcluded.contains(name)
             && !dirsDeselected.contains(name)) {
 
+            getLogger().debug("waypoint-1");
             if (!isExcluded(name)) {
+                getLogger().debug("waypoint-2a");
                 if (isSelected(name, file)) {
+                    getLogger().debug("waypoint-3a");
                     dirsIncluded.addElement(name);
                     if (fast) {
+                        getLogger().debug("calling scandir(" +
+                                file.getAbsolutePath() + "," +
+                                name + File.separator);
                         scandir(file, name + File.separator, fast);
                     }
                 } else {
+                    getLogger().debug("waypoint-3b");
                     everythingIncluded = false;
                     dirsDeselected.addElement(name);
                     if (fast && couldHoldIncluded(name)) {
+                        getLogger().debug("waypoint-4b");
                         scandir(file, name + File.separator, fast);
                     }
                 }
 
             } else {
+                getLogger().debug("waypoint-2b");
                 everythingIncluded = false;
                 dirsExcluded.addElement(name);
                 if (fast && couldHoldIncluded(name)) {
+                    getLogger().debug("waypoint-3c");
                     scandir(file, name + File.separator, fast);
                 }
             }
@@ -1131,6 +1170,14 @@ public class DirectoryScanner {
         }
         buffer.append(")}");
         return buffer.toString();
+    }
+
+    public Logger getLogger() {
+        return m_logger;
+    }
+    
+    public void setLogger(Logger logger) {
+        m_logger = logger;
     }
  
 }
