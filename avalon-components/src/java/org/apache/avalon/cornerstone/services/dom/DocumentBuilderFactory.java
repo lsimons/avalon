@@ -22,6 +22,8 @@ import javax.xml.parsers.DocumentBuilder;
  */
 public interface DocumentBuilderFactory
 {
+    String ROLE = "org.apache.avalon.cornerstone.services.dom.DocumentBuilderFactory";
+
     /**
      * Creates a new instance of a {@link javax.xml.parsers.DocumentBuilder}
      * using the currently configured parameters.
@@ -30,9 +32,8 @@ public interface DocumentBuilderFactory
      * cannot be created which satisfies the configuration requested.
      * @return A new instance of a DocumentBuilder.
      */
-
-    DocumentBuilder newDocumentBuilder() throws ParserConfigurationException;
-
+    DocumentBuilder newDocumentBuilder() 
+        throws ParserConfigurationException;
 
     /**
      * Specifies that the parser produced by this code will
@@ -42,8 +43,7 @@ public interface DocumentBuilderFactory
      * @param awareness true if the parser produced will provide support
      *                  for XML namespaces; false otherwise.
      */
-
-    void setNamespaceAware(boolean awareness);
+    void setNamespaceAware( boolean awareness );
 
     /**
      * Specifies that the parser produced by this code will
@@ -53,8 +53,7 @@ public interface DocumentBuilderFactory
      * @param validating true if the parser produced will validate documents
      *                   as they are parsed; false otherwise.
      */
-
-    void setValidating(boolean validating);
+    void setValidating( boolean validating );
 
     /**
      * Specifies that the parsers created by this  factory must eliminate
@@ -70,8 +69,7 @@ public interface DocumentBuilderFactory
      *                   in the element content when parsing XML documents;
      *                   false otherwise.
      */
-
-    void setIgnoringElementContentWhitespace(boolean whitespace);
+    void setIgnoringElementContentWhitespace( boolean whitespace );
 
     /**
      * Specifies that the parser produced by this code will
@@ -81,16 +79,14 @@ public interface DocumentBuilderFactory
      * @param expandEntityRef true if the parser produced will expand entity
      *                        reference nodes; false otherwise.
      */
-
-    void setExpandEntityReferences(boolean expandEntityRef);
+    void setExpandEntityReferences( boolean expandEntityRef );
 
     /**
      * Specifies that the parser produced by this code will
      * ignore comments. By default the value of this is set to <code>false
      * </code>
      */
-
-    void setIgnoringComments(boolean ignoreComments);
+    void setIgnoringComments( boolean ignoreComments );
 
     /**
      * Specifies that the parser produced by this code will
@@ -102,8 +98,7 @@ public interface DocumentBuilderFactory
      *                    to Text nodes and append it to the adjacent (if any)
      *                    text node; false otherwise.
      */
-
-    void setCoalescing(boolean coalescing);
+    void setCoalescing( boolean coalescing );
 
     /**
      * Indicates whether or not the factory is configured to produce
@@ -112,7 +107,6 @@ public interface DocumentBuilderFactory
      * @return  true if the factory is configured to produce parsers which
      *          are namespace aware; false otherwise.
      */
-
     boolean isNamespaceAware();
 
     /**
@@ -122,7 +116,6 @@ public interface DocumentBuilderFactory
      * @return  true if the factory is configured to produce parsers
      *          which validate the XML content during parse; false otherwise.
      */
-
     boolean isValidating();
 
     /**
@@ -133,7 +126,6 @@ public interface DocumentBuilderFactory
      *          which ignore ignorable whitespace in element content;
      *          false otherwise.
      */
-
     boolean isIgnoringElementContentWhitespace();
 
     /**
@@ -143,7 +135,6 @@ public interface DocumentBuilderFactory
      * @return  true if the factory is configured to produce parsers
      *          which expand entity reference nodes; false otherwise.
      */
-
     boolean isExpandEntityReferences();
 
     /**
@@ -153,7 +144,6 @@ public interface DocumentBuilderFactory
      * @return  true if the factory is configured to produce parsers
      *          which ignores comments; false otherwise.
      */
-
     boolean isIgnoringComments();
 
     /**
@@ -165,7 +155,6 @@ public interface DocumentBuilderFactory
      *          which converts CDATA nodes to Text nodes and appends it to
      *          the adjacent (if any) Text node; false otherwise.
      */
-
     boolean isCoalescing();
 
     /**
@@ -176,7 +165,8 @@ public interface DocumentBuilderFactory
      * @exception IllegalArgumentException thrown if the underlying
      * implementation doesn't recognize the attribute.
      */
-    void setAttribute(String name, Object value) throws IllegalArgumentException;
+    void setAttribute( String name, Object value )
+        throws IllegalArgumentException;
 
     /**
      * Allows the user to retrieve specific attributes on the underlying
@@ -186,7 +176,6 @@ public interface DocumentBuilderFactory
      * @exception IllegalArgumentException thrown if the underlying
      * implementation doesn't recognize the attribute.
      */
-    Object getAttribute(String name) throws IllegalArgumentException;
-
-
+    Object getAttribute( String name ) 
+        throws IllegalArgumentException;
 }
