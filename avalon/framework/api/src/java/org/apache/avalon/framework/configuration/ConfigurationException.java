@@ -61,6 +61,7 @@ import org.apache.avalon.framework.CascadingException;
  * properly, or if a value cannot be retrieved properly.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.11 $ $Date: 2003/02/11 15:58:38 $
  */
 public class ConfigurationException
     extends CascadingException

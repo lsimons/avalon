@@ -70,7 +70,7 @@ import java.util.Iterator;
  * with configuration objects.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.10 $ $Date: 2003/02/11 07:15:42 $
+ * @version CVS $Revision: 1.11 $ $Date: 2003/02/11 15:58:38 $
  */
 public class ConfigurationUtil
 {

@@ -68,10 +68,9 @@ package org.apache.avalon.framework.parameters;
  * <code>Composable.compose()</code> and before
  * <code>Initializable.initialize()</code>.
  * </p>
-
-
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.16 $ $Date: 2003/02/11 15:58:41 $
  */
 public interface Parameterizable
 {

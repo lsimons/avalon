@@ -111,6 +111,7 @@ package org.apache.avalon.framework.component;
  * </p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.14 $ $Date: 2003/02/11 15:58:38 $
  */
 public interface Component
 {

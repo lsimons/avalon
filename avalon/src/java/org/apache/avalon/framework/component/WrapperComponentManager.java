@@ -64,7 +64,7 @@ import org.apache.avalon.framework.service.ServiceSelector;
  * interface to a {@link ComponentManager} interface.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.12 $ $Date: 2003/02/11 07:11:52 $
+ * @version CVS $Revision: 1.13 $ $Date: 2003/02/11 15:58:38 $
  */
 public class WrapperComponentManager
     implements ComponentManager

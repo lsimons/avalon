@@ -90,7 +90,7 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
  * </p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version 1.0
+ * @version CVS $Revision: 1.36 $ $Date: 2003/02/11 15:58:41 $
  */
 public class Parameters
     implements Serializable

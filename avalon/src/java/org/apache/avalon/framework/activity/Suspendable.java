@@ -61,6 +61,7 @@ package org.apache.avalon.framework.activity;
  * recompose/recontextualize component.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.13 $ $Date: 2003/02/11 15:58:38 $
  */
 public interface Suspendable
 {

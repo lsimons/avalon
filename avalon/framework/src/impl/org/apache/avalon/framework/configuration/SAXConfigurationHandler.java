@@ -67,6 +67,7 @@ import org.xml.sax.helpers.DefaultHandler;
  * A SAXConfigurationHandler helps build Configurations out of sax events.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.29 $ $Date: 2003/02/11 15:58:39 $
  */
 public class SAXConfigurationHandler
     extends DefaultHandler

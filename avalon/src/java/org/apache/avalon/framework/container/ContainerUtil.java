@@ -80,7 +80,7 @@ import org.apache.avalon.framework.service.Serviceable;
  * a component throught it's lifecycle stages.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.12 $ $Date: 2003/02/10 07:19:16 $
+ * @version CVS $Revision: 1.13 $ $Date: 2003/02/11 15:58:40 $
  */
 public final class ContainerUtil
 {
