@@ -81,12 +81,18 @@ public class DefaultContext
 
         if( null != data )
         {
+            if ( data instanceof Resolvable )
+            {
+                return ( (Resolvable) data ).resolve( this );
+            }
+
             return data;
         }
 
-        //thus data == null
+        // If data was null, check the parent
         if( null == m_parent )
         {
+            // There was no parent, and no data
             throw new ContextException( "Unable to locate " + key );
         }
 
@@ -129,7 +135,7 @@ public class DefaultContext
 
     /**
      * Make the context read-only.
-     * Any attempt to write to the context via put() 
+     * Any attempt to write to the context via put()
      * will result in an IllegalStateException.
      */
     public void makeReadOnly()
