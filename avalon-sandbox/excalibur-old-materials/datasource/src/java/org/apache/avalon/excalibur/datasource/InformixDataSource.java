@@ -121,7 +121,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Revision: 1.16 $ $Date: 2003/05/20 20:44:43 $
+ * @version CVS $Revision: 1.17 $ $Date: 2003/08/01 10:11:30 $
  * @since 4.0
  */
 public class InformixDataSource
@@ -174,7 +174,7 @@ public class InformixDataSource
         setProperty(pooledDataSource, "IfxCPMInitPoolSize", new Integer(poolController.getAttributeAsInteger( "init", 5 ) ) );
         setProperty(pooledDataSource, "IfxCPMMinPoolSize", new Integer(poolController.getAttributeAsInteger( "min", 5 ) ) );
         setProperty(pooledDataSource, "IfxCPMMaxPoolSize", new Integer(poolController.getAttributeAsInteger( "max", 10 ) ) );
-        setProperty(pooledDataSource, "IfxCPMServiceInterval", new Integer( 100 ) );
+        setProperty(pooledDataSource, "IfxCPMServiceInterval", new Long( 100 ) );
         setProperty(pooledDataSource, "ServerName",  conf.getChild( "servername" ).getValue() );
         setProperty(pooledDataSource, "DatabaseName", conf.getChild( "dbname" ).getValue() );
         setProperty(pooledDataSource, "IfxIFXHOST", conf.getChild( "host" ).getValue() );
@@ -266,6 +266,10 @@ public class InformixDataSource
         if ( value instanceof Integer )
         {
             valueClass = Integer.TYPE;
+        }
+        else if ( value instanceof Long )
+        {
+            valueClass = Long.TYPE;
         }
         
         try
