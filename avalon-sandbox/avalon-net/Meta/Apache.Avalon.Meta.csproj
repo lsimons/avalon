@@ -28,7 +28,7 @@
                     BaseAddress = "285212672"
                     CheckForOverflowUnderflow = "false"
                     ConfigurationOverrideFile = ""
-                    DefineConstants = "DEBUG;TRACE"
+                    DefineConstants = "DEBUG;TRACE;STRONG"
                     DocumentationFile = ""
                     DebugSymbols = "true"
                     FileAlignment = "4096"
@@ -36,7 +36,7 @@
                     NoStdLib = "false"
                     NoWarn = ""
                     Optimize = "false"
-                    OutputPath = "..\Castle\bin\"
+                    OutputPath = "..\bin\"
                     RegisterForComInterop = "false"
                     RemoveIntegerChecks = "false"
                     TreatWarningsAsErrors = "false"
@@ -80,9 +80,9 @@
                     HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.XML.dll"
                 />
                 <Reference
-                    Name = "AvalonFramework"
-                    Project = "{A4DA9A13-FD5A-42A0-97C5-18CEDA5CB1A5}"
-                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                    Name = "Apache.Avalon.Framework"
+                    AssemblyName = "Apache.Avalon.Framework"
+                    HintPath = "..\bin\Apache.Avalon.Framework.dll"
                 />
             </References>
         </Build>
@@ -165,6 +165,11 @@
                 />
                 <File
                     RelPath = "Builder\BuilderException.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Builder\ServiceBuilder.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
