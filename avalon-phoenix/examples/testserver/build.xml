@@ -1,0 +1,278 @@
+<?xml version="1.0"?>
+
+<project name="TestServer" default="main" basedir=".">
+
+    <!-- set up properties -->
+    <property file="${user.home}/build.properties"/>
+    <property file="${user.home}/.ant.properties"/>
+
+    <property name="name" value="testserver"/>
+    <property name="Name" value="TestServer"/>
+    <property name="version" value="0.7"/>
+
+    <!-- Set the installation variables for Cornerstone/Phoenix -->
+    <property name="phoenix.home" value="../../dist"/>
+    <property name="install.dir" value="${phoenix.home}/apps"/>
+
+    <!-- Set the properties for intermediate directory -->
+    <property name="build.dir" value="build"/>
+    <property name="build.lib" value="${build.dir}/lib"/>
+    <property name="gen.dir" value="${build.dir}/gen"/>
+    <property name="build.src" value="${build.dir}/src"/>
+    <property name="build.classes" value="${build.dir}/classes"/>
+
+    <!-- Set the properties for source directories -->
+    <property name="src.dir" value="src"/>
+    <property name="java.dir" value="${src.dir}/java"/>
+    <property name="manifest.dir" value="${src.dir}/manifest"/>
+    <property name="conf.dir" value="${src.dir}/conf"/>
+    <property name="tools.dir" location="../../avalon/tools"/>
+
+    <property name="dist.base" value="distributions"/>
+
+    <path id="project.class.path">
+        <pathelement path="${java.class.path}"/>
+        <pathelement path="${build.classes}"/>
+        <fileset dir="../common/lib">
+            <include name="**/*.jar"/>
+        </fileset>
+    </path>
+
+    <taskdef name="sar" classname="org.apache.avalon.phoenix.tools.tasks.Sar">
+        <classpath refid="project.class.path"/>
+    </taskdef>
+
+    <!-- Compiles project -->
+    <target name="compile">
+
+        <mkdir dir="${build.classes}"/>
+
+        <javac srcdir="${java.dir}"
+            destdir="${build.classes}"
+            debug="${build.debug}"
+            optimize="${build.optimize}"
+            deprecation="${build.deprecation}">
+            <classpath refid="project.class.path"/>
+
+        </javac>
+
+        <copy todir="${build.classes}">
+            <fileset dir="${java.dir}">
+                <exclude name="**/test/**"/>
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+
+    </target>
+
+
+    <!-- Make .xinfo and manifest automatically for blocks -->
+    <target name="phoenix-meta" depends="compile">
+
+        <mkdir dir="${gen.dir}"/>
+
+        <taskdef name="generatemeta" classname="org.apache.avalon.phoenix.tools.metagenerate.MetaGenerateTask">
+            <classpath refid="project.class.path"/>
+        </taskdef>
+
+        <generatemeta dest="${gen.dir}">
+            <fileset dir="${java.dir}">
+                <include name="**/*.java"/>
+            </fileset>
+        </generatemeta>
+
+    </target>
+
+    <!-- Jars up project -->
+    <target name="jars" depends="phoenix-meta">
+
+        <mkdir dir="${build.lib}"/>
+
+        <jar jarfile="${build.lib}/testserver.jar"
+            manifest="${manifest.dir}/testserver.mf">
+            <fileset dir="${build.classes}">
+                <include name="org/apache/avalon/testserver/**"/>
+                <exclude name="org/apache/avalon/testserver/extension1/*"/>
+                <exclude name="org/apache/avalon/testserver/cltest/*"/>
+                <exclude name="org/apache/avalon/testserver/extension2/*"/>
+                <exclude name="org/apache/avalon/testserver/classes/*"/>
+            </fileset>
+            <fileset dir="${gen.dir}">
+                <include name="**/*.xinfo"/>
+            </fileset>
+        </jar>
+
+        <jar jarfile="${build.lib}/demo-test-extension1.jar"
+            basedir="${build.classes}"
+            manifest="${manifest.dir}/test-extension1.mf">
+            <include name="org/apache/avalon/testserver/extension1/*"/>
+        </jar>
+
+        <jar jarfile="${build.lib}/demo-test-extension2.jar"
+            basedir="${build.classes}"
+            manifest="${manifest.dir}/test-extension2.mf">
+            <include name="org/apache/avalon/testserver/extension2/*"/>
+        </jar>
+
+        <jar jarfile="${build.lib}/cltest.jar"
+            basedir="${build.classes}">
+            <include name="org/apache/avalon/testserver/cltest/*"/>
+        </jar>
+
+    </target>
+
+    <target name="main" depends="sars" description="Default target to generate build products"/>
+
+    <target name="sars" depends="jars">
+
+        <sar sarfile="${build.lib}/avalon-${name}.sar"
+            config="${conf.dir}/testserver-config.xml"
+            environment="${conf.dir}/testserver-environment.xml"
+            assembly="${conf.dir}/testserver-assembly.xml">
+
+            <zipfileset dir="${build.classes}" prefix="SAR-INF/classes">
+                <include name="org/apache/avalon/testserver/classes/*"/>
+            </zipfileset>
+
+            <zipfileset dir="${build.lib}/" prefix="lib">
+                <include name="cltest.jar"/>
+            </zipfileset>
+
+            <zipfileset dir="src/java" fullpath="README.txt">
+                <include name="**/WARNING.txt"/>
+            </zipfileset>
+
+            <lib dir="${build.lib}/">
+                <include name="*.jar"/>
+                <exclude name="demo-test-extension2.jar"/>
+                <exclude name="cltest.jar"/>
+            </lib>
+
+            <lib dir="../common/lib">
+                <include name="cornerstone.jar"/>
+                <include name="excalibur-thread*.jar"/>
+                <include name="excalibur-pool*.jar"/>
+                <include name="excalibur-io*.jar"/>
+                <include name="excalibur-collections*.jar"/>
+            </lib>
+
+        </sar>
+
+        <mkdir dir="dist"/>
+
+        <copy todir="dist">
+            <fileset dir="${build.lib}">
+                <include name="**"/>
+            </fileset>
+        </copy>
+
+    </target>
+
+
+    <!-- Completely build all dists -->
+    <target name="dist" description="Generates the distribution">
+
+        <property name="dist.name" value="${Name}-${version}"/>
+
+        <mkdir dir="${dist.base}"/>
+
+        <antcall target="bin-dist" inheritAll="false">
+            <param name="bin.dist.dir" value="${dist.name}"/>
+        </antcall>
+
+        <zip zipfile="${dist.base}/${dist.name}-bin.zip"
+            basedir="${dist.name}/.."
+            includes="${dist.name}/**"/>
+
+        <tar longfile="gnu" tarfile="${dist.base}/${dist.name}-bin.tar">
+            <tarfileset dir="${dist.name}/.." username="avalon" group="avalon">
+                <include name="${dist.name}/**"/>
+            </tarfileset>
+        </tar>
+
+        <gzip zipfile="${dist.base}/${dist.name}-bin.tar.gz"
+            src="${dist.base}/${dist.name}-bin.tar"/>
+
+        <delete file="${dist.base}/${dist.name}-bin.tar"/>
+        <delete dir="${dist.name}"/>
+
+        <antcall target="src-dist" inheritAll="false">
+            <param name="src.dist.dir" value="${dist.name}"/>
+        </antcall>
+
+        <zip zipfile="${dist.base}/${dist.name}-src.zip"
+            basedir="${dist.name}/.."
+            includes="${dist.name}/**">
+            <fileset dir="..">
+                <include name="common/lib/avalon-*"/>
+                <include name="common/lib/cornerstone.jar"/>
+                <include name="common/lib/phoenix-*"/>
+                <include name="common/lib/qdox-*"/>
+            </fileset>
+        </zip>
+
+        <tar longfile="gnu" tarfile="${dist.base}/${dist.name}-src.tar">
+            <tarfileset dir="${dist.name}/.." mode="755" username="avalon" group="avalon">
+                <include name="${dist.name}/build.sh"/>
+            </tarfileset>
+            <tarfileset dir="${dist.name}/.." username="avalon" group="avalon">
+                <include name="${dist.name}/**"/>
+                <exclude name="${dist.name}/build.sh"/>
+            </tarfileset>
+            <tarfileset dir=".." username="avalon" group="avalon">
+                <include name="common/lib/avalon-*"/>
+                <include name="common/lib/cornerstone.jar"/>
+                <include name="common/lib/phoenix-*"/>
+                <include name="common/lib/qdox-*"/>
+            </tarfileset>
+        </tar>
+
+        <gzip zipfile="${dist.base}/${dist.name}-src.tar.gz"
+            src="${dist.base}/${dist.name}-src.tar"/>
+        <delete file="${dist.base}/${dist.name}-src.tar"/>
+        <delete dir="${dist.name}"/>
+
+    </target>
+
+    <!-- Creates all the .sar files -->
+    <target name="bin-dist" depends="main">
+
+        <!-- bin.dist.dir usually set before this target is called -->
+        <property name="bin.dist.dir" value="dist"/>
+        <property name="bin.dist.lib" value="${bin.dist.dir}/lib"/>
+
+        <copy file="${build.lib}/avalon-testserver.sar" tofile="${bin.dist.dir}/avalon-testserver-${version}.sar"/>
+
+        <chmod dir="${bin.dist.dir}" perm="go-rwx"/>
+    </target>
+
+    <target name="install" depends="main" description="Installs into Phoenix">
+        <!-- <fail message="install.dir not specified." unless="install.dir"/> -->
+        <echo message="Installing to ${install.dir}"/>
+        <delete dir="${install.dir}/avalon-testserver"/>
+        <copy file="${build.lib}/avalon-testserver.sar" todir="${install.dir}"/>
+        <copy file="${build.lib}/demo-test-extension2.jar"
+            tofile="${phoenix.home}/ext/demo-test-extension2.jar"
+            overwrite="true"/>
+    </target>
+
+    <target name="uninstall" description="Uninstalls from Phoenix">
+
+        <!-- <fail message="install.dir not specified." unless="install.dir"/> -->
+        <delete dir="${install.dir}/avalon-testserver/"/>
+        <delete file="avalon-testserver.sar" dir="${install.dir}"/>
+    </target>
+
+    <target name="clean" description="Cleans up artifacts from build process">
+        <delete dir="${build.dir}"/>
+        <delete>
+            <fileset dir="." includes="**/*~" defaultexcludes="no"/>
+        </delete>
+    </target>
+
+    <target name="distclean" depends="clean" description="Cleans up all generated files and directories">
+        <delete dir="${bin.dist.dir}"/>
+        <delete dir="${dist.base}"/>
+    </target>
+
+</project>

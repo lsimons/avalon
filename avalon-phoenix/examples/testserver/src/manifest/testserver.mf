@@ -1,0 +1,3 @@
+Extension-List: ext1 ext2
+ext1-Extension-Name: cornerstone.test.extension
+ext2-Extension-Name: cornerstone.test.extension2
