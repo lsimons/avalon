@@ -26,11 +26,8 @@ Legal:
   <property file="${user.home}/.ant.properties"/>
 
   <property name="name" value="avalon"/>
-  <property name="framework.name" value="${name}-framework"/>
-  <property name="excalibur.name" value="${name}-excalibur"/>
-  <property name="testlets.name" value="${name}-framework-excalibur-test"/>
-  <property name="scratchpad.name" value="${name}-scratchpad"/>
   <property name="Name" value="Avalon"/>
+  <property name="framework.name" value="avalon-framework"/>
   <property name="version" value="4.0-dev"/>
   <property name="release" value="3rd"/>
   <property name="short.version" value="4.0"/>
@@ -59,7 +56,6 @@ Legal:
   <property name="build.lib" value="${build.dir}/lib"/>
   <property name="build.src" value="${build.dir}/src"/>
   <property name="build.classes" value="${build.dir}/classes"/>
-  <property name="build.scratchpad" value="${build.dir}/scratchpad"/>
   <property name="build.javadocs" value="${build.dir}/javadocs"/>
   <property name="build.docs" value="${build.dir}/docs"/>
   <property name="build.xdocs" value="${build.dir}/xdocs"/>
@@ -71,10 +67,6 @@ Legal:
   -->
   <property name="src.dir" value="src"/>
   <property name="java.dir" value="${src.dir}/java"/>
-  <property name="test.dir" value="${src.dir}/test"/>
-  <property name="scratchpad.dir" value="${src.dir}/scratchpad"/>
-  <property name="compat.dir" value="${src.dir}/compat"/>
-  <property name="proposal.dir" value="proposal/4.0/src/java"/>
   <property name="lib.dir" value="lib"/>
   <property name="tools.dir" value="tools"/>
   <property name="docs.dir" value="docs"/>
@@ -147,7 +139,6 @@ Legal:
     <echo message="   dist         -> generates the ${Name} distribution"/>
     <echo message="   clean        -> cleans up the created directories"/>
     <echo message="   real-clean   -> cleans up all genereated files and directories"/>
-    <echo message="   proposal     -> generates the ${Name} proposal distribution without the javadocs"/>
     <echo message=""/>
     <echo message="-------------------------------------------------------------"/>
     <echo message=""/>
@@ -190,7 +181,6 @@ Legal:
            optimize="${optimize}"
            deprecation="${deprecation}">
       <classpath refid="project.class.path" />
-      <src path="${test.dir}"/>
     </javac>
   </target>
 
@@ -218,7 +208,7 @@ Legal:
   </target>
 
   <!-- Prepares the documentation directory -->
-  <target name="xdocs">
+  <target name="xdocs" depends="setup-properties">
 
     <mkdir dir="${build.xdocs}"/>
     <mkdir dir="${build.docs}"/>
@@ -241,6 +231,7 @@ Legal:
     <filter token="LOGKIT_BASE" value="${logkit.base}"/>
     <filter token="TESTLET_BASE" value="${testlet.base}"/>
 
+<!--
     <copy todir="${build.xdocs}" filtering="on">
       <fileset dir="${xdocs.dir}">
         <exclude name="**/images/**"/>
@@ -274,7 +265,7 @@ Legal:
                skindirectory="${avalon.skin}">
       <classpath refid="tools.class.path" />
     </stylebook>
-
+-->
   </target>
 
   <!-- Create the API documentation -->
@@ -387,6 +378,7 @@ Legal:
 
     <mkdir dir="${dist.dir}"/>
     <copy file="${build.lib}/${framework.name}.jar" tofile="${dist.dir}/${framework.name}-${version}.jar"/>
+    <copy file="${logkit.jar}" todir="${dist.dir}"/>
 
     <mkdir dir="${dist.docs}"/>
     <mkdir dir="${dist.javadocs}"/>
@@ -412,7 +404,7 @@ Legal:
   </target>
 
   <!-- Create the source distribution -->
-  <target name="src-dist" depends="xdocs,setup-properties">
+  <target name="src-dist" depends="setup-properties,xdocs">
 
     <mkdir dir="${src.dist.dir}" />
 
@@ -445,6 +437,7 @@ Legal:
         <include name="README"/>
         <include name="LICENSE"/>
         <include name="KEYS"/>
+        <include name="ant.properties.sample"/>
         <include name="build.bat"/>
         <include name="build.sh"/>
         <include name="build.xml"/>
