@@ -23,7 +23,9 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.7 $ $Date: 2002/03/16 00:11:54 $
+ * @version CVS $Revision: 1.8 $ $Date: 2002/05/18 09:51:35 $
+ * @deprecated As Block interface is deprecated this class is also
+ *             deprecated with no replacement.
  */
 public abstract class AbstractBlock
     extends AbstractLogEnabled
