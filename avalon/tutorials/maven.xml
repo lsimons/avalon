@@ -12,7 +12,18 @@
     </j:if>
   </goal>
 
-  <!-- utility goal used by the merlin distribution stuff -->
+  <goal name="avalon:demo" 
+       description="Build and execute." >
+    <maven:reactor
+      basedir="${basedir}"
+      includes="platform/tutorials/**/project.xml"
+      excludes="platform/tutorials/project.xml,**/target/**,platform/tutorials/mixed/**,platform/tutorials/jmx/**,platform/tutorials/security/**"
+      goals="demo" 
+      banner="Build and execute:"
+      ignoreFailures="false" 
+      postProcessing="false" />
+  </goal>
+
   <goal name="xgen" prereqs="jar:install">
     <ant:mkdir dir="${maven.build.dir}/package"/>
     <ant:copy toDir="${maven.build.dir}/package">
@@ -29,12 +40,11 @@
       <ant:delete file="${maven.build.dir}/package/project.xml"/>
       <ant:xslt in="${pom.file}" 
           out="${maven.build.dir}/package/project.xml"
-          style="${xslFile}">
+         style="${xslFile}">
         <outputproperty name="method" value="xml" />
         <outputproperty name="standalone" value="yes"/>
         <outputproperty name="indent" value="yes"/>
       </ant:xslt>
     </j:if>
   </goal>
-
 </project>
