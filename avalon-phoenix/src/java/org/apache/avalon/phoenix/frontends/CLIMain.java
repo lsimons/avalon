@@ -15,9 +15,9 @@ import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.avalon.phoenix.Constants;
 import org.apache.avalon.phoenix.components.embeddor.DefaultEmbeddor;
 import org.apache.avalon.phoenix.components.embeddor.Embeddor;
-import org.apache.avalon.phoenix.Constants;
 
 /**
  * The class to load the kernel and start it running.
@@ -25,10 +25,16 @@ import org.apache.avalon.phoenix.Constants;
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  * @author <a href="mail@leosimons.com">Leo Simons</a>
  */
-public class CLIMain
+public final class CLIMain
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( CLIMain.class );
+
+    ///The embeddor attached to frontend
+    private Embeddor   m_embeddor;
+
+    ///The code to return to system using exit code
+    private int        m_exitCode;
 
     /**
      * Main entry point.
@@ -57,11 +63,7 @@ public class CLIMain
         }
         catch( final Throwable throwable )
         {
-            System.out.println( REZ.getString( "main.exception.header" ) );
-            System.out.println( "---------------------------------------------------------" );
-            throwable.printStackTrace( System.out );
-            System.out.println( "---------------------------------------------------------" );
-            System.out.println( REZ.getString( "main.exception.footer" ) );
+            handleException( throwable );
             System.exit( 1 );
         }
 
@@ -76,34 +78,127 @@ public class CLIMain
     private void execute( final Parameters parameters )
         throws Exception
     {
-        final Embeddor embeddor = new DefaultEmbeddor();
-        //final Embeddor embeddor = new SingleAppEmbeddor();
-        //parameters.setParameter( "application-location", "../apps/avalon-demo.sar" );
-
-        if( embeddor instanceof Parameterizable )
+        if( false == startup( parameters ) )
         {
-            ((Parameterizable)embeddor).parameterize( parameters );
+            return;
         }
 
-        embeddor.initialize();
-        embeddor.start();
+        final boolean disableHook = parameters.getParameterAsBoolean( "disable-hook", false );
+        if( false == disableHook )
+        {
+            final ShutdownHook hook = new ShutdownHook( this );
+            Runtime.getRuntime().addShutdownHook( hook );
+        }
 
         try
         {
-            embeddor.execute();
+            m_embeddor.execute();
         }
         catch( final Throwable throwable )
         {
-            System.out.println( REZ.getString( "main.exception.header" ) );
-            System.out.println( "---------------------------------------------------------" );
-            throwable.printStackTrace( System.out );
-            System.out.println( "---------------------------------------------------------" );
-            System.out.println( REZ.getString( "main.exception.footer" ) );
+            handleException( throwable );
         }
         finally
         {
-            embeddor.stop();
-            embeddor.dispose();
+            shutdown();
         }
+    }
+
+    /**
+     * Startup the embeddor.
+     */
+    protected synchronized boolean startup( final Parameters parameters )
+    {
+        try
+        {
+            m_embeddor = new DefaultEmbeddor();
+            //m_embeddor = new SingleAppEmbeddor();
+            //parameters.setParameter( "application-location", "../apps/avalon-demo.sar" );
+            
+            if( m_embeddor instanceof Parameterizable )
+            {
+                ((Parameterizable)m_embeddor).parameterize( parameters );
+            }
+                
+            m_embeddor.initialize();
+            m_embeddor.start();
+        }
+        catch( final Throwable throwable )
+        {
+            handleException( throwable );
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Shut the embeddor down.
+     */
+    protected synchronized void forceShutdown()
+    {
+        final String message = REZ.getString( "main.abnormal-exit.notice" );
+        System.out.println( message );
+        System.out.flush();
+        shutdown();
+    }
+
+    /**
+     * Shut the embeddor down.
+     */
+    private synchronized void shutdown()
+    {
+        if( null != m_embeddor )
+        {
+            try
+            {
+                //m_embeddor.shutdown();
+                m_embeddor.stop();
+                m_embeddor.dispose();
+            }
+            catch( final Throwable throwable )
+            {
+                handleException( throwable );
+            }
+            finally
+            {
+                m_embeddor = null;
+            }
+        }
+    }
+
+    /**
+     * Print out exception and details to standard out.
+     *
+     * @param throwable the exception that caused failure
+     */
+    private void handleException( final Throwable throwable )
+    {
+        System.out.println( REZ.getString( "main.exception.header" ) );
+        System.out.println( "---------------------------------------------------------" );
+        throwable.printStackTrace( System.out );
+        System.out.println( "---------------------------------------------------------" );
+        System.out.println( REZ.getString( "main.exception.footer" ) );
+
+        m_exitCode = 1;
+    }
+}
+
+final class ShutdownHook
+    extends Thread
+{
+    private CLIMain   m_main;
+
+    protected ShutdownHook( CLIMain main )
+    {
+        m_main = main;
+    }
+
+    /**
+     * Run the shutdown hook.
+     */
+    public void run()
+    {
+        m_main.forceShutdown();
     }
 }

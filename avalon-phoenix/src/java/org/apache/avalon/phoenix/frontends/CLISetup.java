@@ -32,6 +32,7 @@ class CLISetup
     private static final int LOG_FILE_OPT        = 'l';
     private static final int APPS_PATH_OPT       = 'a';
     private static final int REMOTE_MANAGER_OPT  = 1;
+    private static final int DISABLE_HOOK_OPT    = 2;
 
     ///Parameters created by parsing CLI options
     private Parameters    m_parameters   = new Parameters();
@@ -59,7 +60,7 @@ class CLISetup
      */
     private CLOptionDescriptor[] createCLOptions()
     {
-        final CLOptionDescriptor options[] = new CLOptionDescriptor[ 5 ];
+        final CLOptionDescriptor options[] = new CLOptionDescriptor[ 6 ];
         options[0] =
             new CLOptionDescriptor( "help",
                                     CLOptionDescriptor.ARGUMENT_DISALLOWED,
@@ -88,6 +89,13 @@ class CLISetup
                                     CLOptionDescriptor.ARGUMENT_DISALLOWED,
                                     REMOTE_MANAGER_OPT,
                                     REZ.getString( "cli.opt.remote-manager.desc" ) );
+
+
+        options[5] =
+            new CLOptionDescriptor( "disable-hook",
+                                    CLOptionDescriptor.ARGUMENT_DISALLOWED,
+                                    DISABLE_HOOK_OPT,
+                                    REZ.getString( "cli.opt.disable-hook.desc" ) );
 
         return options;
     }
@@ -145,6 +153,10 @@ class CLISetup
             case REMOTE_MANAGER_OPT:
                 m_parameters.setParameter( "manager-class",
                                            "org.apache.avalon.phoenix.engine.PhoenixManager" );
+                break;
+
+            case DISABLE_HOOK_OPT:
+                m_parameters.setParameter( "disable-hook", "true" );
                 break;
             }
         }
