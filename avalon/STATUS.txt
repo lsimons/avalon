@@ -1,5 +1,5 @@
 APACHE AVALON PROJECT STATUS:                          -*-indented-text-*-
-Last modified at [$Date: 2002/12/05 08:05:44 $]
+Last modified at [$Date: 2002/12/05 12:46:33 $]
 
 Background:
 
@@ -99,12 +99,63 @@ Pending issues:
       of one-man codebases. I propose we remove almost all of these
       withing the next month. They can be moved to jakarta-commons, 
       the incubator or to sourceforge as the developer wishes.
-      -1: leosutic
+      -1: leosutic (for the above generic proposal)
         
+      - naming/
+        -1: leosutic (It has been part of the old excalibur-all 
+                     package,and has not stirred any controversy. 
+                     Let it be.)
+
+
+      - policy/
+
+      - assembly/
+        -1: leosutic (Given that we're working on a new container 
+                      I think Merlin will merge into that. No need 
+                      to kick it out. (Not worth the fighting.))
+
+      - extension/         
+         
+      - bzip2/          
+      
+      - info/    
+        -1: leosutic (The package seemed reasonable. Could be used
+                      to get a framework-level metainfo set up.
+
+
+      - cache/
+      
+      - interceptor/  
+         
+      - tar/             
+      
+      - threadcontext/   
+      
+      - jprocess/        
+
+      - tweety/
+        
+      - containerkit/ 
+        -0: leosutic (Isn't this being used?)
+
+      - converter/      
+      
+      - xfc/         
+      
+      - csframework/
+      
+      - loader/          
+
+      - zip/            
+
+      - meta/         
+        -1: leosutic (Same reasons as info)
+
+
     o  Every committer that will propose an internal fork 
        will have to go thru the community vote to be allowed 
        to do that.       
-       +1: stefano, bloritsch, nicolaken     
+       +1: stefano, bloritsch, nicolaken, crafterm, leosutic
       
       
 Project Mission:
@@ -196,7 +247,7 @@ PMC Members, pending Board approval:
 Active Committers:
 
       bloritsch,colus,cziegeler,hammant,jefft,leif,leosimons,leosutic,
-      mirceatoma,mcconnell,nicolaken,proyal,vinayc
+      mirceatoma,mcconnell,nicolaken,proyal,vinayc,crafterm
       
 
 Inactive Committers (three months without commits):      
