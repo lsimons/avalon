@@ -34,7 +34,7 @@
     <mkdir dir="build/classes"/>
 
     <javac srcdir="src/java"
-           destdir="build/classes"
+           destdir="target/classes"
            debug="${build.debug}"
            optimize="${build.optimize}"
            deprecation="${build.deprecation}">
@@ -49,8 +49,8 @@
     <mkdir dir="build/lib"/>
 
     <!-- block for Phoenix-Demo -->
-    <jar jarfile="build/lib/${name}-block.jar">
-      <fileset dir="build/classes">
+    <jar jarfile="target/lib/${name}-block.jar">
+      <fileset dir="target/classes">
         <include name="**"/>
         <exclude name="phoenixdemo/client/**"/>
       </fileset>
@@ -60,7 +60,7 @@
     </jar>
 
     <!-- Standalone Phoenix-Demo server -->
-    <jar jarfile="build/lib/${name}-server.jar"
+    <jar jarfile="target/lib/${name}-server.jar"
          manifest="src/manifest/server.mf">
       <fileset dir="build/classes">
         <include name="**"/>
@@ -70,7 +70,7 @@
     </jar>
 
     <!-- Phoenix-Demo client -->
-    <jar jarfile="build/lib/${name}-client.jar"
+    <jar jarfile="target/lib/${name}-client.jar"
          manifest="src/manifest/client.mf">
       <fileset dir="build/classes">
         <include name="**"/>
@@ -85,9 +85,9 @@
 
   <target name="sars" depends="jars">
 
-    <jar jarfile="build/lib/${name}.sar">
+    <jar jarfile="target/lib/${name}.sar">
 
-      <zipfileset dir="build/lib" prefix="SAR-INF/lib">
+      <zipfileset dir="target/lib" prefix="SAR-INF/lib">
         <include name="*block.jar"/>
       </zipfileset>
 
@@ -108,7 +108,7 @@
   </target>
 
   <target name="clean" description="Cleans up artifacts from build process">
-    <delete dir="build" />
+    <delete dir="target" />
   </target>
 
 </project>
