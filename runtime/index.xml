@@ -33,8 +33,7 @@
       <type>jar</type>
     </info>
     <gump>
-      <alias>logging-log4j</alias>
-      <id>log4j</id>
+      <alias>logging-log4j-12</alias>
     </gump>
   </resource>
 
@@ -497,6 +496,7 @@
     <info>
       <group>avalon/repository</group>
       <name>avalon-repository-test</name>
+      <type>null</type>
     </info>
     <dependencies>
       <include key="avalon-repository-impl" test="false"/>
