@@ -1,34 +1,34 @@
 // ============================================================================
 //                   The Apache Software License, Version 1.1
 // ============================================================================
-// 
+//
 // Copyright (C) 2002-2003 The Apache Software Foundation. All rights reserved.
-// 
+//
 // Redistribution and use in source and binary forms, with or without modifica-
 // tion, are permitted provided that the following conditions are met:
-// 
+//
 // 1. Redistributions of  source code must  retain the above copyright  notice,
 //    this list of conditions and the following disclaimer.
-// 
+//
 // 2. Redistributions in binary form must reproduce the above copyright notice,
 //    this list of conditions and the following disclaimer in the documentation
 //    and/or other materials provided with the distribution.
-// 
+//
 // 3. The end-user documentation included with the redistribution, if any, must
 //    include  the following  acknowledgment:  "This product includes  software
 //    developed  by the  Apache Software Foundation  (http://www.apache.org/)."
 //    Alternately, this  acknowledgment may  appear in the software itself,  if
 //    and wherever such third-party acknowledgments normally appear.
-// 
-// 4. The names "Jakarta", "Avalon", "Excalibur" and "Apache Software Foundation"  
-//    must not be used to endorse or promote products derived from this  software 
-//    without  prior written permission. For written permission, please contact 
+//
+// 4. The names "Jakarta", "Avalon", "Excalibur" and "Apache Software Foundation"
+//    must not be used to endorse or promote products derived from this  software
+//    without  prior written permission. For written permission, please contact
 //    apache@apache.org.
-// 
+//
 // 5. Products  derived from this software may not  be called "Apache", nor may
 //    "Apache" appear  in their name,  without prior written permission  of the
 //    Apache Software Foundation.
-// 
+//
 // THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES,
 // INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
 // FITNESS  FOR A PARTICULAR  PURPOSE ARE  DISCLAIMED.  IN NO  EVENT SHALL  THE
@@ -39,66 +39,73 @@
 // ANY  THEORY OF LIABILITY,  WHETHER  IN CONTRACT,  STRICT LIABILITY,  OR TORT
 // (INCLUDING  NEGLIGENCE OR  OTHERWISE) ARISING IN  ANY WAY OUT OF THE  USE OF
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-// 
+//
 // This software  consists of voluntary contributions made  by many individuals
-// on  behalf of the Apache Software  Foundation. For more  information on the 
+// on  behalf of the Apache Software  Foundation. For more  information on the
 // Apache Software Foundation, please see <http://www.apache.org/>.
 // ============================================================================
 
-namespace Apache.Avalon.Container.Factory{	using System;	using System.Collections;	using Apache.Avalon.Framework;	using Apache.Avalon.Container.Attributes;	using Apache.Avalon.Container.Services;
-	/// <summary>	/// Summary description for AvalonComponentFactory.	/// </summary>	[LifestyleTarget( Lifestyle.Transient )]	[CustomFactoryBuilder( typeof(TransientFactoryBuilder) )]	internal class TransientComponentFactory : AbstractComponentFactory, IDisposable	{		private ArrayList m_instances;		public TransientComponentFactory()		{			m_instances = new ArrayList();		}		#region IComponentFactory Members
-		public override object Create( Type componentType )
-		{
-			object instance = base.Create( componentType );
+namespace Apache.Avalon.Container.Test.Components
+{
+	using System;
+	using NUnit.Framework;
 
-			// This should be done to reduce the probably of 
-			// leaks caused by not releasing components.
-			// If a component doesn't supports Dipose, then 
-			// we won't keep the instances.
-			if (ContainerUtil.ExpectsDispose(instance))
+	using Apache.Avalon.Framework;
+
+	/// <summary>
+	/// Definition for IAirplane service.
+	/// </summary>
+	public interface IAirplane 
+	{
+		bool hasRadio
+		{
+			get;
+		}
+
+		void LandOff();
+	}
+
+	[AvalonService( typeof(IAirplane) )]
+	[AvalonComponent( "Airplane", Lifestyle.Transient )]
+	public class Airplane : IAirplane, ILookupEnabled
+	{
+		private bool _hasRadio = true;
+
+		public Airplane()
+		{
+		}
+
+		public bool hasRadio
+		{
+			get
 			{
-				m_instances.Add(instance);
+				return _hasRadio;
 			}
-
-			return instance;
-		}		public override bool IsOwner( object componentInstance )
-		{
-			return m_instances.Contains( componentInstance );
-		}		public override void Release( object componentInstance )
-		{
-			m_instances.Remove( componentInstance );
 		}
-		#endregion
-		#region IDisposable Members
 
-		public override void Dispose()
+		public void LandOff()
 		{
-			base.Dispose();
+		}
 
-			foreach(object instance in m_instances)
+		#region ILookupEnabled Members
+
+		public void EnableLookups(ILookupManager manager)
+		{
+			// This component doesn't have
+			// dependencies and can't lookup anything
+			
+			try
 			{
-				ContainerUtil.Shutdown(instance);
+				IRadio radio = (IRadio) manager[ typeof(IRadio).FullName ];
+
+				_hasRadio = true;
 			}
-
-			m_instances.Clear();
+			catch(LookupException)
+			{
+				_hasRadio = false;
+			}
 		}
 
 		#endregion
-	}	/// <summary>
-	/// This implementation determines the behavior of one TransientComponentFactory 
-	/// for the entire application lifetime.
-	/// </summary>	internal class TransientFactoryBuilder : FactoryBuilder, IDisposable	{		private static TransientComponentFactory m_componentFactory = new TransientComponentFactory();		public TransientFactoryBuilder() : base()		{		}	
-		public override IComponentFactory GetFactory(Type componentType)
-		{
-			return m_componentFactory;
-		}
-
-		#region IDisposable Members
-
-		public void Dispose()
-		{
-			ContainerUtil.Shutdown(m_componentFactory);
-		}
-
-		#endregion
-	}}
+	}
+}

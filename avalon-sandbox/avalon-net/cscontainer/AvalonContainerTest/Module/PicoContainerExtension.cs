@@ -79,7 +79,8 @@ namespace Apache.Avalon.Container.Test.Module
 
 			if (method != null)
 			{
-				method.Invoke(instance, new object[] { e.DependencyInstance } );
+				object depInstance = e.LookupManager[ e.DependencyKey ];
+				method.Invoke(instance, new object[] { depInstance } );
 			}
 		}
 	}

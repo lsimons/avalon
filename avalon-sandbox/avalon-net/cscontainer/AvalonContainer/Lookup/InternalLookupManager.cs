@@ -54,22 +54,47 @@ namespace Apache.Avalon.Container.Lookup
 	using Apache.Avalon.Container.Services;
 
 	/// <summary>
-	/// Summary description for DefaultLookupManager.
+	/// Summary description for InternalLookupManager.
 	/// </summary>
-	public class DefaultLookupManager : ILookupManager
+	internal class InternalLookupManager : ILookupManager
 	{
-		private Hashtable m_handlers;
-		private DefaultContainer m_container;
+		private Hashtable m_instances;
 
-		public DefaultLookupManager( DefaultContainer container )
+		public InternalLookupManager()
 		{
-			m_container = container;
-			m_handlers  = new Hashtable();
+			m_instances = new Hashtable();
+		}
+
+		/// <summary>
+		/// Adds component instances to this BlindLookupManager. 
+		/// This should be called by the Container Framework in order to
+		/// expose dependencies instances to the component.
+		/// </summary>
+		/// <param name="role">Role name (Could be anything)</param>
+		/// <param name="instance">Component instance</param>
+		public void Add(String role, object instance )
+		{
+			if ( role == null || role.Length == 0 )
+			{
+				throw new ArgumentNullException( "role" );
+			}
+			if ( instance == null )
+			{
+				throw new ArgumentNullException( "instance" );
+			}
+
+			m_instances.Add( role, instance );
 		}
 
 		#region ILookupManager Members
 
-		public virtual object this[ String role ]
+		/// <summary>
+		/// Returns the component associated with the given role.
+		/// </summary>
+		/// <value>The component instance.</value>
+		/// <exception cref="ArgumentNullException">If the <c>role</c> argument is null.</exception>
+		/// <exception cref="Apache.Avalon.Framework.LookupException">If the <c>role</c> could not be resolved.</exception>
+		public object this[string role]
 		{
 			get
 			{
@@ -78,43 +103,39 @@ namespace Apache.Avalon.Container.Lookup
 					throw new ArgumentNullException("role", "You can't look up using an empty role.");
 				}
 
-				IComponentHandler handler = m_container.GetComponentHandler(role);
+				object instance = m_instances[ role ];
 
-				if ( handler == null )
+				if ( instance == null )
 				{
 					throw new LookupException( role, "Unknown component." );
 				}
 
-				object instance = handler.GetInstance();
-				m_handlers[instance] = handler;
 				return instance;
 			}
 		}
 
-		public virtual void Release(object resource)
+		/// <summary>
+		/// Releases the component associated with the given role.
+		/// </summary>
+		/// <remarks>
+		/// A InternalLookupManager should not release anything as its not 
+		/// have ownership of any component.
+		/// </remarks>
+		/// <exception cref="ArgumentNullException">If the <c>role</c> argument is null.</exception>
+		public void Release(object resource)
 		{
-			if ( resource == null )
-			{
-				throw new ArgumentNullException("resource", "You can't release a null resource.");
-			}
-
-			IComponentHandler handler = m_handlers[resource] as IComponentHandler;
-
-			if ( handler != null )
-			{
-				handler.PutInstance( resource );
-				m_handlers.Remove( resource );
-			}
+			
 		}
 
-		public virtual bool Contains( String role )
+		/// <summary>
+		/// Checks to see if a component exists for a role.
+		/// </summary>
+		/// <param name="role">A String identifying the lookup name to check.</param>
+		/// <returns>True if the resource exists; otherwise, false.</returns>
+		/// <exception cref="ArgumentNullException">If the <c>role</c> argument is null.</exception>
+		public bool Contains(string role)
 		{
-			if ( role == null )
-			{
-				throw new ArgumentNullException("role");
-			}
-
-			return m_container.Components.Contains(role);
+			return m_instances.Contains( role );
 		}
 
 		#endregion

@@ -1,34 +1,34 @@
 // ============================================================================
 //                   The Apache Software License, Version 1.1
 // ============================================================================
-// 
+//
 // Copyright (C) 2002-2003 The Apache Software Foundation. All rights reserved.
-// 
+//
 // Redistribution and use in source and binary forms, with or without modifica-
 // tion, are permitted provided that the following conditions are met:
-// 
+//
 // 1. Redistributions of  source code must  retain the above copyright  notice,
 //    this list of conditions and the following disclaimer.
-// 
+//
 // 2. Redistributions in binary form must reproduce the above copyright notice,
 //    this list of conditions and the following disclaimer in the documentation
 //    and/or other materials provided with the distribution.
-// 
+//
 // 3. The end-user documentation included with the redistribution, if any, must
 //    include  the following  acknowledgment:  "This product includes  software
 //    developed  by the  Apache Software Foundation  (http://www.apache.org/)."
 //    Alternately, this  acknowledgment may  appear in the software itself,  if
 //    and wherever such third-party acknowledgments normally appear.
-// 
-// 4. The names "Jakarta", "Avalon", "Excalibur" and "Apache Software Foundation"  
-//    must not be used to endorse or promote products derived from this  software 
-//    without  prior written permission. For written permission, please contact 
+//
+// 4. The names "Jakarta", "Avalon", "Excalibur" and "Apache Software Foundation"
+//    must not be used to endorse or promote products derived from this  software
+//    without  prior written permission. For written permission, please contact
 //    apache@apache.org.
-// 
+//
 // 5. Products  derived from this software may not  be called "Apache", nor may
 //    "Apache" appear  in their name,  without prior written permission  of the
 //    Apache Software Foundation.
-// 
+//
 // THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES,
 // INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
 // FITNESS  FOR A PARTICULAR  PURPOSE ARE  DISCLAIMED.  IN NO  EVENT SHALL  THE
@@ -39,66 +39,51 @@
 // ANY  THEORY OF LIABILITY,  WHETHER  IN CONTRACT,  STRICT LIABILITY,  OR TORT
 // (INCLUDING  NEGLIGENCE OR  OTHERWISE) ARISING IN  ANY WAY OUT OF THE  USE OF
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-// 
+//
 // This software  consists of voluntary contributions made  by many individuals
-// on  behalf of the Apache Software  Foundation. For more  information on the 
+// on  behalf of the Apache Software  Foundation. For more  information on the
 // Apache Software Foundation, please see <http://www.apache.org/>.
 // ============================================================================
 
-namespace Apache.Avalon.Container.Factory{	using System;	using System.Collections;	using Apache.Avalon.Framework;	using Apache.Avalon.Container.Attributes;	using Apache.Avalon.Container.Services;
-	/// <summary>	/// Summary description for AvalonComponentFactory.	/// </summary>	[LifestyleTarget( Lifestyle.Transient )]	[CustomFactoryBuilder( typeof(TransientFactoryBuilder) )]	internal class TransientComponentFactory : AbstractComponentFactory, IDisposable	{		private ArrayList m_instances;		public TransientComponentFactory()		{			m_instances = new ArrayList();		}		#region IComponentFactory Members
-		public override object Create( Type componentType )
+namespace Apache.Avalon.Container.Test
+{
+	using System;
+	using Apache.Avalon.Framework;
+
+	/// <summary>
+	/// Summary description for EntityLocator.
+	/// </summary>
+	public interface IEntityLocator
+	{
+		IEntity Find(object id);
+	}
+
+	/// <summary>
+	/// IEntityLocator implementation.
+	/// </summary>
+	[AvalonService( typeof(IEntityLocator) )]
+	[AvalonComponent( "EntityLocator", Lifestyle.Singleton )]
+	[AvalonDependency( typeof(IEntity), "Entity", Optional.False )]
+	public class EntityLocator : IEntityLocator, ILookupEnabled
+	{
+		private ILookupManager m_manager;
+
+		#region IEntityLocator Members
+
+		public IEntity Find(object id)
 		{
-			object instance = base.Create( componentType );
-
-			// This should be done to reduce the probably of 
-			// leaks caused by not releasing components.
-			// If a component doesn't supports Dipose, then 
-			// we won't keep the instances.
-			if (ContainerUtil.ExpectsDispose(instance))
-			{
-				m_instances.Add(instance);
-			}
-
-			return instance;
-		}		public override bool IsOwner( object componentInstance )
-		{
-			return m_instances.Contains( componentInstance );
-		}		public override void Release( object componentInstance )
-		{
-			m_instances.Remove( componentInstance );
-		}
-		#endregion
-		#region IDisposable Members
-
-		public override void Dispose()
-		{
-			base.Dispose();
-
-			foreach(object instance in m_instances)
-			{
-				ContainerUtil.Shutdown(instance);
-			}
-
-			m_instances.Clear();
+			return (IEntity) m_manager["Entity"];
 		}
 
 		#endregion
-	}	/// <summary>
-	/// This implementation determines the behavior of one TransientComponentFactory 
-	/// for the entire application lifetime.
-	/// </summary>	internal class TransientFactoryBuilder : FactoryBuilder, IDisposable	{		private static TransientComponentFactory m_componentFactory = new TransientComponentFactory();		public TransientFactoryBuilder() : base()		{		}	
-		public override IComponentFactory GetFactory(Type componentType)
-		{
-			return m_componentFactory;
-		}
 
-		#region IDisposable Members
+		#region ILookupEnabled Members
 
-		public void Dispose()
+		public void EnableLookups(ILookupManager manager)
 		{
-			ContainerUtil.Shutdown(m_componentFactory);
+			m_manager = manager;
 		}
 
 		#endregion
-	}}
+	}
+}

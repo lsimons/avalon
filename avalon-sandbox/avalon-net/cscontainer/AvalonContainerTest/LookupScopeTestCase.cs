@@ -45,78 +45,51 @@
 // Apache Software Foundation, please see <http://www.apache.org/>.
 // ============================================================================
 
-namespace Apache.Avalon.Container.Lookup
+namespace Apache.Avalon.Container.Test
 {
 	using System;
-	using System.Collections;
+	using NUnit.Framework;
 
-	using Apache.Avalon.Framework;
-	using Apache.Avalon.Container.Services;
+	using Apache.Avalon.Container.Test.Components;
 
 	/// <summary>
-	/// Summary description for DefaultLookupManager.
+	/// Assures the component can only lookups his dependencies
+	/// and the returned instances matches theirs lifestyles.
 	/// </summary>
-	public class DefaultLookupManager : ILookupManager
+	[TestFixture]
+	public class LookupScopeTestCase : ContainerTestCase
 	{
-		private Hashtable m_handlers;
-		private DefaultContainer m_container;
-
-		public DefaultLookupManager( DefaultContainer container )
+		[Test]
+		public void ErroneousComponentTest()
 		{
-			m_container = container;
-			m_handlers  = new Hashtable();
+			IAirplane airplane = (IAirplane) 
+				m_container.LookupManager[ typeof(IAirplane).FullName ];
+
+			Assertion.AssertNotNull( airplane );
+			Assertion.Assert( airplane.hasRadio == false );
 		}
 
-		#region ILookupManager Members
-
-		public virtual object this[ String role ]
+		[Test]
+		public void LifestyleCorrectness()
 		{
-			get
-			{
-				if ( role == null || role.Length == 0 )
-				{
-					throw new ArgumentNullException("role", "You can't look up using an empty role.");
-				}
+			IEntityLocator locator = (IEntityLocator) 
+				m_container.LookupManager[ typeof(IEntityLocator).FullName ];
 
-				IComponentHandler handler = m_container.GetComponentHandler(role);
+			Assertion.AssertNotNull( locator );
 
-				if ( handler == null )
-				{
-					throw new LookupException( role, "Unknown component." );
-				}
+			object[] entities = new object[3];
 
-				object instance = handler.GetInstance();
-				m_handlers[instance] = handler;
-				return instance;
-			}
+			entities[0] = locator.Find(0);
+			entities[1] = locator.Find(1);
+			entities[2] = locator.Find(2);
+
+			Assertion.AssertNotNull( entities[0] );
+			Assertion.AssertNotNull( entities[1] );
+			Assertion.AssertNotNull( entities[2] );
+
+			Assertion.Assert( !entities[0].Equals(entities[1]) );
+			Assertion.Assert( !entities[0].Equals(entities[2]) );
+			Assertion.Assert( !entities[1].Equals(entities[2]) );
 		}
-
-		public virtual void Release(object resource)
-		{
-			if ( resource == null )
-			{
-				throw new ArgumentNullException("resource", "You can't release a null resource.");
-			}
-
-			IComponentHandler handler = m_handlers[resource] as IComponentHandler;
-
-			if ( handler != null )
-			{
-				handler.PutInstance( resource );
-				m_handlers.Remove( resource );
-			}
-		}
-
-		public virtual bool Contains( String role )
-		{
-			if ( role == null )
-			{
-				throw new ArgumentNullException("role");
-			}
-
-			return m_container.Components.Contains(role);
-		}
-
-		#endregion
 	}
 }
