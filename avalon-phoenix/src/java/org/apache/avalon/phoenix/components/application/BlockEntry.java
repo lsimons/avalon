@@ -20,6 +20,8 @@ import org.apache.avalon.phoenix.containerkit.registry.ComponentProfile;
  */
 class BlockEntry
 {
+    private static final Class BLOCK_CLASS = getBlockClass();
+
     private Object m_object;
     private final ComponentProfile m_componentProfile;
     private BlockInvocationHandler m_invocationHandler;
@@ -126,8 +128,20 @@ class BlockEntry
         //extends Component. The magic is that the Block
         //interface has no methods and thus will never cause
         //any issues for Proxy class.
-        classes[ services.length ] =
-            org.apache.avalon.phoenix.Block.class;
+        classes[ services.length ] = BLOCK_CLASS;
         return classes;
     }
-}
+
+
+    private static Class getBlockClass()
+    {
+        try
+        {
+            return Class.forName( "org.apache.avalon.phoenix.Block" );
+        }
+        catch( ClassNotFoundException e )
+        {
+            throw new IllegalStateException( "Can not find block class" );
+        }
+    }
+ }
