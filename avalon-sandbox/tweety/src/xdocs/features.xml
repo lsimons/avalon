@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+
+<document>
+  <header>
+    <title>Avalon Excalibur's Tweety - Features</title>
+    <authors>
+      <person name="Leo Simons" email="leosimons@apache.org"/>
+    </authors>
+  </header>
+  <body>
+	<s1 title="Not written yet!">
+		<p>TBD</p>
+	</s1>
+  </body>
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
+      $Revision: 1.1 $ $Date: 2002/07/02 16:30:17 $
+    </legal>
+  </footer>
+</document>

@@ -8,7 +8,7 @@
     </authors>
   </header>
   <body>
-    <s1 title="Introduction">
+	<s1 title="Introduction">
 		<p>Tweety is a minimalist container explicitly designed for educational purposes, and
 		educational purposes only.</p>
 
@@ -21,19 +21,29 @@
 
 		<note>We can use a lot of help with tweety, especially in the form of simple tweetified
 		components and documentation patches. Chirp!</note>
-    </s1>
+		
+		<note>Some of these pages describe non-existent documentation, examples, or features.
+		We'll get to it!</note>
+	</s1>
 
+	<s1 title="Hello World in 2 minutes">
+		<p>Following the instructions on the <link href="install.html">Install</link> and
+		<link href="getting-started.html">Getting Started</link> pages should get you a working
+		Hello World demo in no time at all. If you haven't got Apache Ant installed yet, it'll take a
+		bit longer (around 15 minutes, I guess).</p>
+	</s1>
 	<s1 title="The available documentation">
 		<s2 title="The Tweety FAQ">
-		    <p>TBD</p>
+			<p>Tweety has a very modest FAQ (Frequently Asked Questions document). If your
+			question is not answered there or in the documentation, post a detailed message to the
+			<link href="http://jakarta.apache.org/site/mail2.html#Avalon">Avalon User list</link>.</p>
 		</s2>
-	    <s2 title="JavaDocs">
+		<s2 title="JavaDocs">
 			<p>All of the Tweety code has complete javadocs. If you're an experienced java
 			programmer, you can probably figure out everything that happens when you invoke tweety
 			just by looking at the code.</p>
 
-			<p>The javadocs aren't available online just yet, but are easily built from the sources,
-			and can also be found in the binary release (once we create one).</p>
+			<p><link href="api/">API Documentation</link></p>
 		</s2>
 
 		<s2 title="Avalon for beginners">
@@ -56,7 +66,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.2 $ $Date: 2002/06/27 16:57:18 $
+      $Revision: 1.3 $ $Date: 2002/07/02 16:30:17 $
     </legal>
   </footer>
 </document>

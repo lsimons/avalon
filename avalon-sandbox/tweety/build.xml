@@ -5,7 +5,7 @@
 ]>
 
 <project name="Avalon Excalibur's Tweety" default="main" basedir=".">
-   
+
     &cocoon-targets;
 
     <property file="${user.home}/build.properties"/>
@@ -15,11 +15,11 @@
     <property file="${basedir}/../default.properties"/>
     <property file="${basedir}/default.properties"/>
     <property file="${basedir}/../cocoon.properties"/>
-        
+
     <!-- Classpath for product -->
     <path id="project.class.path">
         <pathelement location="${build.classes}"/>
-        <pathelement location="${avalon-framework.jar}"/>        
+        <pathelement location="${avalon-framework.jar}"/>
         <pathelement location="${checkstyle.jar}"/>
         <pathelement path="${java.class.path}"/>
     </path>
@@ -129,7 +129,7 @@
         <mkdir dir="${build.conf}"/>
         <copy todir="${build.conf}" flatten="true">
             <fileset dir="../" includes="LICENSE.txt"/>
-            <fileset dir="${conf.dir}" includes="MANIFEST.MF"/> 
+            <fileset dir="${conf.dir}" includes="MANIFEST.MF"/>
             <filterset>
                 <filtersfile file="default.properties"/>
             </filterset>
@@ -156,10 +156,10 @@
     <!-- Creates all the Javadocs -->
     <target name="javadocs" depends="compile" description="Generates the javadocs" unless="skip.javadocs">
 
-        <mkdir dir="${dist.javadocs}"/>
+        <mkdir dir="${build.javadocs}"/>
         <javadoc packagenames="org.apache.*"
             sourcepath="${java.dir}"
-            destdir="${dist.javadocs}">
+            destdir="${build.javadocs}">
             <classpath refid="project.class.path" />
             <doclet name="com.sun.tools.doclets.standard.Standard">
                 <param name="-author"/>
@@ -322,7 +322,7 @@
             <fileset dir="${build.lib}">
                 <include name="*.jar"/>
             </fileset>
-        </copy> 
+        </copy>
     </target>   
 
     <!-- Creates a minimal distribution -->
