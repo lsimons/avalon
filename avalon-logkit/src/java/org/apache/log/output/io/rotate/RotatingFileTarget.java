@@ -120,7 +120,6 @@ public class RotatingFileTarget
 
    /**
     * Rotates the file.
-    * @exception IOException if a file related error occurs
     * @exception IOException if a file access or write related error occurs
     */
     protected synchronized void rotate()
