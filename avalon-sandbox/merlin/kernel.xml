@@ -14,15 +14,18 @@
 
    <engine>
 
+     <!--
      <library dir=".">
        <include name="build/lib"/>
      </library>
-
+     -->
+     <!--
      <classpath>
        <fileset dir="build/lib">
-         <!--<include name="avalon-merlin-demo-1.0.jar"/>-->
+         <include name="avalon-merlin-demo-1.0.jar"/>
        </fileset>
      </classpath>
+     -->
 
    </engine>
 
