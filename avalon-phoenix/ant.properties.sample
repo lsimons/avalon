@@ -6,7 +6,7 @@
 # modules that Phoenix depends on.  Copy this file to ".ant.properties"
 # in the top-level source directory, and customize it as needed.
 #
-# $Id: ant.properties.sample,v 1.14 2002/08/03 19:17:44 hammant Exp $
+# $Id: ant.properties.sample,v 1.14.2.1 2002/10/15 22:33:11 hammant Exp $
 # -----------------------------------------------------------------------------
 
 # ----- Compile Environment Flags -----
@@ -25,17 +25,18 @@ base.path=/opt
 #xerces.lib=${xerces.home}
 #xerces.jar=${xerces.lib}/xerces.jar
 
-# ----- Java Service Wrapper, version 2.2.3 or later -----
-#wrapper.home=${base.path}/wrapper_linux_2.2.3
-#wrapper.jar=${wrapper.home}/lib/wrapper.jar
+# ----- Java Service Wrapper, version 2.2.8 or later -----
+#wrapper.windows.home=../wrapper_win32_2.2.8
+#wrapper.unix.home=../wrapper_linux_2.2.8
+#wrapper.windows.jar=${wrapper.windows.home}/lib/wrapper.jar
 
 # Linux/Solaris
-#wrapper.exe=${wrapper.home}/bin/wrapper
-#wrapper.dll=${wrapper.home}/lib/libwrapper.so
+#wrapper.unix.exe=${wrapper.unix.home}/bin/wrapper
+#wrapper.unix.so=${wrapper.unix.home}/lib/libwrapper.so
 
 # Windows
-#wrapper.exe=${wrapper.home}/bin/Wrapper.exe
-#wrapper.dll=${wrapper.home}/lib/Wrapper.dll
+#wrapper.windows.exe=${wrapper.windows.home}/bin/Wrapper.exe
+#wrapper.windows.dll=${wrapper.windows.home}/lib/Wrapper.dll
 
 # ----- Javac tools.jar -----
 # The path to tools.jar, required for building the docs. Most people won't need

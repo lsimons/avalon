@@ -70,7 +70,7 @@ Legal:
         <pathelement location="${xerces.jar}"/>
         <pathelement location="${framework.jar}"/>
         <pathelement location="${logkit.jar}"/>
-        <pathelement location="${wrapper.jar}"/>
+        <pathelement location="${wrapper.windows.jar}"/>
         <pathelement path="${mx4j.jar}"/>
         <pathelement path="${mx4j-tools.jar}"/>
         <pathelement path="${java.class.path}" />
@@ -406,8 +406,7 @@ Legal:
         <copy file="src/logos/phoenix.gif" todir="mx4j-tools-temp/mx4j/adaptor/http/xsl"/>
 
 	<zip destfile="${build.lib}/mx4j-tools.jar" basedir="mx4j-tools-temp"/>
-	
-	
+		
         <copy file="${mx4j.jar}" todir="${bin.dist.bin}/lib"/>
         <copy file="${build.lib}/mx4j-tools.jar" todir="${bin.dist.bin}/lib"/>
 
@@ -433,9 +432,14 @@ Legal:
         <filter token="app.name" value="phoenix"/>
         <filter token="app.long.name" value="Phoenix Application Server"/>
 
-        <copy file="${wrapper.jar}" todir="${bin.dist.bin}"/>
-        <copy file="${wrapper.exe}" todir="${bin.dist.bin}"/>
-        <copy file="${wrapper.dll}" todir="${bin.dist.bin}"/>
+        <!-- Ant.properties.sample has changed folks.  You'll need both the linux and windows wrapper
+             downloads to get this working completely now.                                             -->
+
+        <copy file="${wrapper.windows.jar}" todir="${bin.dist.bin}"/>
+        <copy file="${wrapper.windows.exe}" todir="${bin.dist.bin}"/>
+        <copy file="${wrapper.windows.dll}" todir="${bin.dist.bin}"/>
+        <copy file="${wrapper.unix.exe}" todir="${bin.dist.bin}"/>
+        <copy file="${wrapper.unix.so}" todir="${bin.dist.bin}"/>        
 
         <chmod file="${bin.dist.bin}/wrapper" perm="u+x"/>
         <copy file="${conf.dir}/wrapper.conf" todir="${bin.dist.conf}"/>
@@ -600,6 +604,8 @@ Legal:
           <fileset dir="${dist.name}/..">
               <include name="${dist.name}/**"/>
               <exclude name="${dist.name}/lib/bsh*.jar"/>
+              <exclude name="${dist.name}/bin/wrapper"/>
+              <exclude name="${dist.name}/bin/libwrapper.so"/>
           </fileset>
         </zip>
 
@@ -611,6 +617,8 @@ Legal:
                 <include name="${dist.name}/**"/>
                 <exclude name="${dist.name}/bin/*.sh"/>
                 <exclude name="${dist.name}/lib/bsh*.jar"/>
+                <exclude name="${dist.name}/bin/Wrapper.exe"/>
+                <exclude name="${dist.name}/bin/Wrapper.dll"/>
             </tarfileset>
         </tar>
 
