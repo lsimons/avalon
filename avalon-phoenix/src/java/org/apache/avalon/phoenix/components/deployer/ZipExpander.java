@@ -19,18 +19,33 @@ import java.util.zip.ZipFile;
 import org.apache.avalon.excalibur.io.IOUtil;
 
 /**
- * Expands a zip file.
+ * Utility class to expands a zip file.
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public class ZipExpander
 {
+    /**
+     * Expand a zip file to directory.
+     *
+     * @param file the zip file
+     * @param directory the directory to expand to
+     * @exception IOException if an error occurs
+     */
     public void expand( final File file, final File directory )
         throws IOException
     {
         expand( file, directory, null );
     }
 
+    /**
+     * Expand matching files from a zip file to directory.
+     *
+     * @param file the zip file
+     * @param directory the directory to expand to
+     * @param filter the filter used to match files
+     * @exception IOException if an error occurs
+     */
     public void expand( final File file, final File directory, final FilenameFilter filter )
         throws IOException
     {

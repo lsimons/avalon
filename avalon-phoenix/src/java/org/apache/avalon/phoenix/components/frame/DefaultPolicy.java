@@ -26,6 +26,8 @@ import java.util.Iterator;
 import java.util.PropertyPermission;
 import java.util.StringTokenizer;
 import org.apache.avalon.excalibur.property.PropertyUtil;
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
@@ -42,6 +44,9 @@ public class DefaultPolicy
     extends AbstractPolicy
     implements Configurable
 {
+    private static final Resources REZ =
+        ResourceManager.getPackageResources( DefaultPolicy.class );
+
     private DefaultContext    m_context;
 
     protected DefaultPolicy( final File baseDirectory )
@@ -123,7 +128,8 @@ public class DefaultPolicy
             }
             catch( final Exception e )
             {
-                throw new ConfigurationException( "Error configuring keystore " + name, e );
+                final String message = REZ.format( "policy.error.keystore.config", name );
+                throw new ConfigurationException( message, e );
             }
         }
 
@@ -163,7 +169,8 @@ public class DefaultPolicy
         try { permissions = createPermissionSetFor( codeBase, signers ); }
         catch( final MalformedURLException mue )
         {
-            throw new ConfigurationException( "Malformed code-base " + codeBase, mue );
+            final String message = REZ.format( "policy.error.codebase.malformed", codeBase );
+            throw new ConfigurationException( message, mue );
         }
 
 
@@ -215,7 +222,8 @@ public class DefaultPolicy
         }
         catch( final Exception e )
         {
-            throw new ConfigurationException( "Error resolving property " + value, e );
+            final String message = REZ.format( "policy.error.property.resolve", value );
+            throw new ConfigurationException( message, e );
         }
     }
 
@@ -269,8 +277,8 @@ public class DefaultPolicy
         }
         catch( final Exception e )
         {
-            throw new ConfigurationException( "Failed to create permission " + type +
-                                              " due to " + e, e );
+            final String message = REZ.format( "policy.error.permission.create", type );
+            throw new ConfigurationException( message, e );
         }
     }
 
@@ -311,7 +319,8 @@ public class DefaultPolicy
 
         if( null == keyStore )
         {
-            throw new ConfigurationException( "Unable to aquire keyStore " + keyStoreName );
+            final String message = REZ.format( "policy.error.keystore.aquire", keyStoreName );
+            throw new ConfigurationException( message );
         }
 
         final ArrayList certificateSet = new ArrayList();
@@ -326,14 +335,14 @@ public class DefaultPolicy
             try { certificate = keyStore.getCertificate( alias ); }
             catch( final KeyStoreException kse )
             {
-                throw new ConfigurationException( "Error aquiring certificate " + alias,
-                                                  kse );
+                final String message = REZ.format( "policy.error.certificate.aquire", alias );
+                throw new ConfigurationException( message, kse );
             }
 
             if( null == certificate )
             {
-                throw new ConfigurationException( "Unable to locate alias " + alias +
-                                                  " in keystore named " + keyStoreName );
+                final String message = REZ.format( "policy.error.alias.missing", alias, keyStoreName );
+                throw new ConfigurationException( message );
             }
 
             if( !certificateSet.contains( certificate ) )

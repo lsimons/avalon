@@ -56,7 +56,7 @@ public class DefaultBlockContext
         catch( final ContextException ce )
         {
             //Should never happen
-            throw new RuntimeException( "Invalid block context" );
+            throw new IllegalStateException();
         }
     }
 
@@ -74,7 +74,7 @@ public class DefaultBlockContext
         catch( final ContextException ce )
         {
             //Should never happen
-            throw new RuntimeException( "Invalid block context" );
+            throw new IllegalStateException();
         }
     }
 

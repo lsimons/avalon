@@ -31,6 +31,8 @@ import org.apache.log.Logger;
 import org.apache.log.Priority;
 import org.apache.log.format.AvalonFormatter;
 import org.apache.log.output.FileOutputLogTarget;
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
 
 /**
  * Manage the "frame" in which Applications operate.
@@ -41,6 +43,9 @@ public class DefaultApplicationFrame
     extends AbstractLoggable
     implements ApplicationFrame, Contextualizable, Configurable, Initializable
 {
+    private static final Resources REZ =
+        ResourceManager.getPackageResources( DefaultPolicy.class );
+
     private final static String  DEFAULT_FORMAT =
         "%{time} [%7.7{priority}] <<%{category}>> (%{context}): %{message}\\n%{throwable}";
 
@@ -171,7 +176,8 @@ public class DefaultApplicationFrame
 
         if( null == threadPool )
         {
-            throw new IllegalArgumentException( "No such thread group " + name );
+            final String message = REZ.format( "frame.error.thread.missing", name );
+            throw new IllegalArgumentException( message );
         }
 
         return threadPool;
@@ -234,8 +240,8 @@ public class DefaultApplicationFrame
             }
             catch( final Exception e )
             {
-                throw new ConfigurationException( "Error creating thread pool " + name,
-                                                  e );
+                final String message = REZ.format( "frame.error.thread.create", name );
+                throw new ConfigurationException( message, e );
             }
         }
     }
@@ -279,7 +285,8 @@ public class DefaultApplicationFrame
             try { logTarget.setFilename( file.getAbsolutePath() ); }
             catch( final IOException ioe )
             {
-                throw new ConfigurationException( "Error initializing log files", ioe );
+                final String message = REZ.format( "frame.error.thread.create", file );
+                throw new ConfigurationException( message, ioe );
             }
 
             targetSet.put( name, logTarget );
@@ -310,13 +317,15 @@ public class DefaultApplicationFrame
             final LogTarget logTarget = (LogTarget)targets.get( target );
             if( null == target )
             {
-                throw new ConfigurationException( "Unable to locate target " + target );
+                final String message = REZ.format( "frame.error.target.locate", target );
+                throw new ConfigurationException( message );
             }
 
             final Priority priority = Priority.getPriorityForName( priorityName );
             if( !priority.getName().equals( priorityName ) )
             {
-                throw new ConfigurationException( "Unknown logging priority " + priorityName );
+                final String message = REZ.format( "frame.error.priority.unknown", priorityName );
+                throw new ConfigurationException( message );
             }
 
             if( name.equals( "" ) )
