@@ -5,6 +5,9 @@
   <import index="../../runtime/index.xml"
      href="http://svn.apache.org/repos/asf/avalon/trunk/runtime/index.xml"/>
 
+  <import index="http/blocks/index.xml"
+     href="http://svn.apache.org/repos/asf/avalon/trunk/planet/facilities/http/blocks/index.xml"/>
+     
   <!--
   Avalon Facilities - Finder
   -->
