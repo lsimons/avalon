@@ -5,6 +5,10 @@ Thread Tutorial.
 
 <container name="thread-tutorial">
 
+     <categories>
+       <category name="classloader/scanner" priority="ERROR"/>
+     </categories>
+
      <classloader>
        <classpath>
          <repository>
@@ -14,15 +18,24 @@ Thread Tutorial.
            <resource id="excalibur-thread:excalibur-thread" version="1.1.1"/>
            <resource id="excalibur-event:excalibur-event" version="1.0.3"/>
            <resource id="cornerstone-threads:cornerstone-threads-api" version="1.0"/>
+           <resource id="cornerstone-threads:cornerstone-threads-impl" version="1.0"/>
          </repository>
        </classpath>
      </classloader>
 
-     <categories>
-       <category name="threads/classloader/scanner" priority="ERROR"/>
-     </categories>
-
-     <include name="threads" id="cornerstone-threads:cornerstone-threads-impl" version="1.0"/>
+     <component name="threads" 
+        class="org.apache.avalon.cornerstone.blocks.threads.DefaultThreadManager">
+       <configuration>
+         <thread-group>
+           <name>default</name>
+           <priority>5</priority> 
+           <is-daemon>false</is-daemon>
+           <max-threads>100</max-threads>
+           <min-threads>20</min-threads>
+           <min-spare-threads>20</min-spare-threads>
+         </thread-group>
+       </configuration>
+     </component>
 
      <component name="test" 
         class="org.apache.avalon.cornerstone.threads.tutorial.ThreadConsumer" />
