@@ -52,9 +52,9 @@ package org.apache.excalibur.event.command;
 import java.util.HashMap;
 import java.util.Iterator;
 import org.apache.avalon.excalibur.concurrent.Mutex;
-import org.apache.avalon.excalibur.thread.ThreadControl;
-import org.apache.avalon.excalibur.thread.ThreadPool;
-import org.apache.avalon.excalibur.thread.impl.ResourceLimitingThreadPool;
+import org.apache.excalibur.thread.ThreadControl;
+import org.apache.excalibur.thread.ThreadPool;
+import org.apache.excalibur.thread.impl.DefaultThreadPool;
 import org.apache.excalibur.event.EventHandler;
 import org.apache.excalibur.event.Source;
 
@@ -81,6 +81,7 @@ public final class TPSPThreadManager implements Runnable, ThreadManager
      * is 1.
      */
     public TPSPThreadManager()
+    throws Exception
     {
         this( 1, 1, 1000 );
     }
@@ -90,12 +91,13 @@ public final class TPSPThreadManager implements Runnable, ThreadManager
      * either value is less then one, then the value is rewritten as one.
      */
     public TPSPThreadManager( int numProcessors, int threadsPerProcessor, long sleepTime )
+    throws Exception
     {
         int processors = Math.max( numProcessors, 1 );
         int threads = Math.max( threadsPerProcessor, 1 );
 
-        m_threadPool = new ResourceLimitingThreadPool( "TPCThreadManager",
-                                                       ( processors * threads ) + 1, true, true, 1000L, 10L * 1000L );
+        m_threadPool = new DefaultThreadPool( "TPCThreadManager",
+                                                       ( processors * threads ) + 1 );
 
         m_sleepTime = sleepTime;
         m_threadControl = m_threadPool.execute( this );

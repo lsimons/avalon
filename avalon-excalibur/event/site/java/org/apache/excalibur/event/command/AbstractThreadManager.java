@@ -53,8 +53,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import org.apache.avalon.excalibur.concurrent.Mutex;
-import org.apache.avalon.excalibur.thread.ThreadControl;
-import org.apache.avalon.excalibur.thread.ThreadPool;
+import org.apache.excalibur.thread.ThreadControl;
+import org.apache.excalibur.thread.ThreadPool;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;

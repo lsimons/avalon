@@ -53,9 +53,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import org.apache.avalon.excalibur.concurrent.Mutex;
-import org.apache.avalon.excalibur.thread.ThreadControl;
-import org.apache.avalon.excalibur.thread.ThreadPool;
-import org.apache.avalon.excalibur.thread.impl.ResourceLimitingThreadPool;
+import org.apache.excalibur.thread.ThreadControl;
+import org.apache.excalibur.thread.ThreadPool;
+import org.apache.excalibur.thread.impl.DefaultThreadPool;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
@@ -78,7 +78,7 @@ import org.apache.excalibur.util.SystemUtil;
  */
 public final class TPCThreadManager extends AbstractThreadManager implements Parameterizable
 {
-    private ResourceLimitingThreadPool m_tpool;
+    private DefaultThreadPool m_tpool;
     private long m_blockTimeout = 1000L;
     private int m_processors = SystemUtil.numProcessors();
     private int m_threadsPerProcessor = 1;
@@ -132,12 +132,8 @@ public final class TPCThreadManager extends AbstractThreadManager implements Par
             throw new IllegalStateException( "ThreadManager is already initailized" );
         }
 
-        m_tpool = new ResourceLimitingThreadPool( "TPCThreadManager",
-                                                  ( m_processors * m_threadsPerProcessor ) + 1,
-                                                  true,
-                                                  true,
-                                                  this.m_blockTimeout,
-                                                  10L * 1000L );
+        m_tpool = new DefaultThreadPool( "TPCThreadManager",
+                                                  ( m_processors * m_threadsPerProcessor ) + 1 );
 
         if( null == getLogger() )
         {
