@@ -204,10 +204,7 @@ public class AbstractTag
         }
         if( resolvedType == null )
         {
-            final String message = 
-              "Unable to find type " + type
-              + " in class " + getJavaClass().getFullyQualifiedName();
-            throw new RuntimeException( message );   
+            return type;
         }
         else 
         {
