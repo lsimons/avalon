@@ -77,8 +77,8 @@ Legal:
     <property name="xml-api.jar" value="${lib.dir}/xml-apis.jar"/>
     <property name="xerces.jar" value="${lib.dir}/xercesImpl-2.0.2.jar"/>
     <property name="xalan.jar" value="${lib.dir}/xalan-2.3.1.jar"/>
-    <property name="framework.jar" value="${lib.dir}/avalon-framework-4.1.4.jar"/>
-    <property name="logkit.jar" value="${lib.dir}/logkit-1.2.jar"/>
+    <property name="framework.jar" value="${lib.dir}/avalon-framework-4.1.5.jar"/>
+    <property name="logkit.jar" value="${lib.dir}/logkit-2.0.jar"/>
     <property name="excalibur-instrument.jar" value="${lib.dir}/excalibur-instrument-1.0.jar"/>
     <property name="tools.jar" value="${java.home}/../lib/tools.jar"/>
 
@@ -731,7 +731,10 @@ Legal:
 
     </target>
 
-
+    <!-- Gump support. -->
+    <target name="gump" depends="get-all-dependencies, jars">
+    </target>
+    
     <!-- Creates all the .jar files -->
     <target name="jars" depends="phoenix-metagenerate">
 
