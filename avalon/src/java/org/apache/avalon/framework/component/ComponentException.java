@@ -66,7 +66,7 @@ import org.apache.avalon.framework.CascadingException;
  *  </i>
  * </p>
  *
- * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public class ComponentException
     extends CascadingException

@@ -59,7 +59,7 @@ import org.apache.log4j.Level;
 /**
  * The default Log4J wrapper class for Logger.
  *
- * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public final class Log4JLogger
     implements Logger

@@ -58,7 +58,7 @@ package org.apache.avalon.framework.logger;
  * Components that need to log can implement this interface to
  * be provided Loggers.
  *
- * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public interface LogEnabled
 {

@@ -69,7 +69,7 @@ import java.util.Map;
  *  </i>
  * </p>
  *
- * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version 1.0
  */
 public class DefaultComponentManager

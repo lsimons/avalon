@@ -64,7 +64,7 @@ import java.util.StringTokenizer;
  *
  * Some exception handling stuff thieved from Turbine...
  *
- * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version 1.0
  */
 public final class ExceptionUtil

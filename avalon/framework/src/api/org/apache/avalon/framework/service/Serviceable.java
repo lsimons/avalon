@@ -67,7 +67,7 @@ package org.apache.avalon.framework.service;
  * the <code>service</code> method before the <code>Serviceable</code>
  * can be considered valid.
  *
- * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version 1.0
  * @see org.apache.avalon.framework.service.ServiceManager
  *

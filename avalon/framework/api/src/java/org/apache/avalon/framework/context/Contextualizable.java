@@ -59,7 +59,7 @@ package org.apache.avalon.framework.context;
  * a Context to work. Context contains runtime generated object
  * provided by the Container to this Component.
  *
- * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public interface Contextualizable
 {

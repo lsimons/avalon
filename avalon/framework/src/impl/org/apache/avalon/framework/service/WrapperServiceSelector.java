@@ -67,8 +67,8 @@ import org.apache.avalon.framework.component.ComponentSelector;
  * This class implements the {@link Component} interface because it is used in
  * environments which expect all components to implement Component.
  *
- * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.5 $ $Date: 2002/11/23 08:59:00 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.6 $ $Date: 2003/02/07 15:12:42 $
  */
 public class WrapperServiceSelector
     implements ServiceSelector

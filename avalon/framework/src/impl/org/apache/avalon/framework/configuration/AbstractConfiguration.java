@@ -58,8 +58,8 @@ package org.apache.avalon.framework.configuration;
  * This is an abstract <code>Configuration</code> implementation that deals
  * with methods that can be abstracted away from underlying implementations.
  *
- * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.23 $ $Date: 2002/11/23 08:58:58 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.24 $ $Date: 2003/02/07 15:12:32 $
  */
 public abstract class AbstractConfiguration
     implements Configuration

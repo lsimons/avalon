@@ -32,7 +32,7 @@
       <name>Avalon Dev List</name>
       <subscribe>avalon-dev-subscribe@jakarta.apache.org</subscribe>
       <unsubscribe>avalon-dev-unsubscribe@jakarta.apache.org</unsubscribe>
-      <archive>http://nagoya.apache.org/eyebrowse/SummarizeList?listName=avalon-dev@jakarta.apache.org</archive>
+      <archive>http://nagoya.apache.org/eyebrowse/SummarizeList?listName=dev@avalon.apache.org</archive>
     </mailingList>
     <mailingList>
       <name>Avalon User List</name>
@@ -43,7 +43,7 @@
   </mailingLists>
 
   <build>
-    <nagEmailAddress>avalon-dev@jakarta.apache.org</nagEmailAddress>
+    <nagEmailAddress>dev@avalon.apache.org</nagEmailAddress>
     <sourceDirectory>src/java</sourceDirectory>
     <unitTestSourceDirectory>src/test</unitTestSourceDirectory>
     <integrationUnitTestSourceDirectory/>

@@ -79,7 +79,7 @@ package org.apache.avalon.framework.service;
  * Therefore the <code>ServiceManager</code> can be implemented with a
  * factory pattern, an object pool, or a simple Hashtable.
  *
- * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version 1.0
  * @see org.apache.avalon.framework.service.Serviceable
  * @see org.apache.avalon.framework.service.ServiceSelector

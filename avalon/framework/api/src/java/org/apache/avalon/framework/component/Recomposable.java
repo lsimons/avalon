@@ -57,7 +57,7 @@ package org.apache.avalon.framework.component;
 /**
  * Extends composer to allow recomposing.
  *
- * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version 1.0
  * @deprecated Deprecated with no replacement.  The Reconfigurable interface is a legacy
  *    interface with no concrete contracts.  Rather than copy the design mistake
