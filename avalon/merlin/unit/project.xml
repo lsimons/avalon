@@ -182,10 +182,8 @@
       </excludes>
       <resources>
         <resource>
-          <directory>${basedir}/src/java</directory>
+          <directory>${basedir}/src/test</directory>
           <includes>
-            <include>**/*.dtd</include>
-            <include>**/*.properties</include>
             <include>**/*.x*</include>
           </includes>
         </resource>
