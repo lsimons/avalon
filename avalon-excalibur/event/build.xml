@@ -361,7 +361,7 @@
 
     </target>
 
-    <target name="site" depends="javadocs, docs" description=" Places Docs ready for hosting on website">
+    <target name="site" depends="docs, javadocs" description=" Places Docs ready for hosting on website">
 
       <mkdir dir="../site/dist/docs/${dir-name}"/>
       <copy todir="../site/dist/docs/${dir-name}">
