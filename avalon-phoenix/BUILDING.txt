@@ -116,7 +116,7 @@ commands:
 
 This will create a binary distribution of the project (equivalent in structure
 to the corresponding binary distribution downloadable from the Jakarta web
-site minus the docs/ directory), in the "@name@-@version@/dist" directory.  It
+site minus the docs/ directory), in the "@dist.name@/dist" directory.  It
 will have the contents described in the corresponding "README.txt" file.
 
 See the document RUNNING.txt for instructions on how to start up and shut down
