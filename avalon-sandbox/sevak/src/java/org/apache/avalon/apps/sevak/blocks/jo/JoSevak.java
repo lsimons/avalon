@@ -71,6 +71,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import org.apache.avalon.apps.sevak.Sevak;
 import org.apache.avalon.apps.sevak.SevakException;
+import org.apache.avalon.apps.sevak.SevakContext;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.activity.Startable;
 import org.apache.avalon.framework.configuration.Configurable;
@@ -98,7 +99,6 @@ public class JoSevak
     extends AbstractLogEnabled
     implements Sevak, Startable, Contextualizable, Configurable, Initializable
 {
-
     private Log m_log;
     private I_JoServletService m_joServletService;
     private I_Builder m_builder;
@@ -183,6 +183,12 @@ public class JoSevak
             m_log.log( e, C_Log.ERROR );
             getLogger().error( "Error uring stopping of Jo!", e );
         }
+    }
+
+    public void deploy( String context, File pathToWebAppFolder, SevakContext sevakContext )
+        throws SevakException
+    {
+        throw new SevakException( "Method not implemented" );
     }
 
     /**
