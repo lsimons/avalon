@@ -112,12 +112,37 @@ public class PrepareTask extends SystemTask
         File etc = getContext().getEtcDirectory();
         File build = getContext().getBuildDirectory();
         File buildEtcDir = new File( build, "etc" );
+
         if( src.exists() )
         {
+
+            String main = getSrcMain();
+            String config = getSrcConfig();
+            String test = getSrcTest();
+            
+            prepareMain( src, build, main, Context.SRC_MAIN );
+            prepareMain( src, build, config, Context.SRC_CONFIG );
+            prepareMain( src, build, test, Context.SRC_TEST );
+
+            //
+            // and any non-standard stuff
+            //
+
+            String excludes = 
+              main + "/**," + config + "/**," + test + "/**";
+
             String filters = project.getProperty( SRC_FILTERED_INCLUDES_KEY );
-            copy( src, build, true, filters, "" );
-            copy( src, build, false, "**/*.*", filters );
+            copy( src, build, true, filters, excludes );
+            if( filters.length() > 0 )
+            {
+                copy( src, build, false, "**/*.*", excludes + "," + filters );
+            }
+            else
+            {
+                copy( src, build, false, "**/*.*", excludes );
+            }
         }
+
         if( etc.exists() )
         {
             String includes = project.getProperty( ETC_FILTERED_INCLUDES_KEY );
@@ -136,6 +161,51 @@ public class PrepareTask extends SystemTask
         {
             File deliverables = getContext().getDeliverablesDirectory();
             copy( extra, deliverables, false, "**/*", "" );
+        }
+    }
+
+    private String getSrcMain()
+    {
+        String path = getProject().getProperty( Context.SRC_MAIN_KEY );
+        if( null != path ) return path;
+        return Context.SRC_MAIN;
+    }
+
+    private String getSrcConfig()
+    {
+        String path = getProject().getProperty( Context.SRC_CONFIG_KEY );
+        if( null != path ) return path;
+        return Context.SRC_CONFIG;
+    }
+
+    private String getSrcTest()
+    {
+        String path = getProject().getProperty( Context.SRC_TEST_KEY );
+        if( null != path ) return path;
+        return Context.SRC_TEST;
+    }
+
+
+    private void prepareMain( File projectSrc, File targetMain, String source, String path )
+    {
+        if( null == projectSrc ) throw new NullPointerException( "projectSrc" );
+        if( null == targetMain ) throw new NullPointerException( "targetMain" );
+        if( null == source ) throw new NullPointerException( "source" );
+        if( null == path ) throw new NullPointerException( "path" );
+
+        File src = new File( projectSrc, source );
+        if( src.exists() )
+        {
+            log( 
+              "Adding content to target/main/" 
+              + path + " from " + source, 
+              Project.MSG_VERBOSE );
+
+            File dest = new File( targetMain, path );
+            mkDir( dest );
+            String filters = getProject().getProperty( SRC_FILTERED_INCLUDES_KEY );
+            copy( src, dest, true, filters, "" );
+            copy( src, dest, false, "**/*.*", filters );
         }
     }
 

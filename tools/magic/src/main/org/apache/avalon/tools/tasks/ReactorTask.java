@@ -113,7 +113,7 @@ public class ReactorTask extends SystemTask
             final Definition def = defs[i];
             try
             {
-                build( def );
+                execute( def, m_target );
             }
             catch( Throwable e )
             {
@@ -131,15 +131,20 @@ public class ReactorTask extends SystemTask
         return m_path;
     }
 
-    public void build( final Definition definition )
+    public void execute( final Definition definition )
+    {
+        execute( definition, null );
+    }
+
+    public void execute( final Definition definition, String target )
     {
         final Ant ant = (Ant) getProject().createTask( "ant" );
         ant.setDir( definition.getBasedir() );
         ant.setInheritRefs( false );
         ant.setInheritAll( false );
-        if( null != m_target )
+        if( null != target )
         {
-            ant.setTarget( m_target );
+            ant.setTarget( target );
         }
         ant.init();
         ant.execute();
