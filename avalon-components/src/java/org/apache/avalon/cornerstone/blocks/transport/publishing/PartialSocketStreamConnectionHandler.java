@@ -13,32 +13,33 @@ import java.net.Socket;
 import org.apache.avalon.cornerstone.services.connection.ConnectionHandler;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.excalibur.altrmi.server.impl.socket.PartialSocketCustomStreamServer;
+import org.apache.excalibur.altrmi.server.impl.socket.AbstractPartialSocketStreamServer;
 
 /**
- * Class SocketCustomStreamConnectionHandler
+ * Class PartialSocketStreamConnectionHandler
  *
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.3 $
+ * @author Peter Royal.
+ * @version $Revision: 1.1 $
  */
-public class SocketCustomStreamConnectionHandler extends AbstractLogEnabled
+public class PartialSocketStreamConnectionHandler extends AbstractLogEnabled
     implements Component, ConnectionHandler
 {
 
-    private PartialSocketCustomStreamServer m_PartialSocketCustomStreamServer;
+    private AbstractPartialSocketStreamServer m_PartialSockeStreamServer;
 
     /**
-     * Constructor SocketCustomStreamConnectionHandler
+     * Constructor PartialSocketStreamConnectionHandler
      *
      *
-     * @param partialSocketCustomStreamServer
+     * @param partialSocketStreamServer
      *
      */
-    public SocketCustomStreamConnectionHandler(
-        PartialSocketCustomStreamServer partialSocketCustomStreamServer )
+    public PartialSocketStreamConnectionHandler(
+        AbstractPartialSocketStreamServer partialSocketStreamServer )
     {
-        m_PartialSocketCustomStreamServer = partialSocketCustomStreamServer;
+        m_PartialSockeStreamServer = partialSocketStreamServer;
     }
 
     /**
@@ -51,6 +52,6 @@ public class SocketCustomStreamConnectionHandler extends AbstractLogEnabled
      */
     public void handleConnection( Socket connection ) throws IOException, ProtocolException
     {
-        m_PartialSocketCustomStreamServer.handleConnection( connection );
+        m_PartialSockeStreamServer.handleConnection( connection );
     }
 }

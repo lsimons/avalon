@@ -18,12 +18,15 @@ import java.net.UnknownHostException;
 
 import org.apache.avalon.cornerstone.services.connection.ConnectionHandlerFactory;
 import org.apache.avalon.cornerstone.services.connection.ConnectionManager;
+import org.apache.avalon.cornerstone.services.connection.ConnectionHandler;
 import org.apache.avalon.cornerstone.services.sockets.ServerSocketFactory;
 import org.apache.avalon.cornerstone.services.sockets.SocketManager;
 import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.excalibur.altrmi.server.impl.socket.PartialSocketCustomStreamServer;
+import org.apache.excalibur.altrmi.server.impl.socket.AbstractPartialSocketStreamServer;
 
 
 /**
@@ -32,9 +35,10 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
  * @author Mike Miller.
- * @version $Revision: 1.4 $
+ * @author Peter Royal.
+ * @version $Revision: 1.1 $
  */
-public abstract class AbstractStreamPublisher extends AbstractPublisher
+public class SocketStreamPublisher extends AbstractPublisher
         implements ConnectionHandlerFactory
 {
 
@@ -42,6 +46,7 @@ public abstract class AbstractStreamPublisher extends AbstractPublisher
     protected ConnectionManager m_connectionManager;
     private int m_port;
     private InetAddress m_bindTo;
+    private String m_socketStreamServerClass;
     boolean m_allAddresses = false;
 
     /**
@@ -77,6 +82,8 @@ public abstract class AbstractStreamPublisher extends AbstractPublisher
         {
             throw new ConfigurationException("Malformed bind parameter", unhe);
         }
+
+        m_socketStreamServerClass = configuration.getChild("socketStreamServerClass").getValue();
     }
 
     /**
@@ -110,5 +117,47 @@ public abstract class AbstractStreamPublisher extends AbstractPublisher
         {
             return factory.createServerSocket(m_port, 5, m_bindTo);
         }
+    }
+
+    /**
+     * Construct an appropriate ConnectionHandler.
+     *
+     * @return the new ConnectionHandler
+     * @exception Exception if an error occurs
+     */
+    public ConnectionHandler createConnectionHandler() throws Exception
+    {
+
+        final PartialSocketStreamConnectionHandler handler =
+            new PartialSocketStreamConnectionHandler(
+                (AbstractPartialSocketStreamServer) m_AbstractServer );
+
+        setupLogger( handler );
+
+        return handler;
+    }
+
+    /**
+     * Release a previously created ConnectionHandler.
+     * e.g. for spooling.
+     */
+    public void releaseConnectionHandler( ConnectionHandler connectionHandler )
+    {
+    }
+
+    /**
+     * Initialialize the component. Initialization includes
+     * allocating any resources required throughout the
+     * components lifecycle.
+     *
+     * @exception Exception if an error occurs
+     */
+    public void initialize() throws Exception
+    {
+        m_AbstractServer = (AbstractPartialSocketStreamServer) Class.forName(m_socketStreamServerClass).newInstance();
+
+        setupLogger( m_AbstractServer );
+        super.initialize();
+        m_connectionManager.connect( "SocketStreamListener", makeServerSocket(), this );
     }
 }
