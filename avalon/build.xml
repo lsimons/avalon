@@ -81,6 +81,7 @@ Legal:
   <property name="announce2header" value="${tools.dir}/announcement2header.xsl"/>
   <property name="announce2readme" value="${tools.dir}/announcement2readme.xsl"/>
   <property name="announce2site" value="${tools.dir}/announcement2site.xsl"/>
+  <property name="document2docbook" value="${context.dir}/stylesheets/document2docbook.xsl"/>
 
   <path id="project.class.path">
     <pathelement location="${logkit.jar}"/>
@@ -585,6 +586,14 @@ Legal:
     <delete dir="${dist.name}" />
     <delete dir="${src.dist.dir}"/>
 
+  </target>
+  
+  <target name="sitebook2docbook" description="goes through all the xdocs and transforms them to docbook">
+    <style style="${document2docbook}"
+           basedir="${context.dir}/xdocs"
+           destdir="${build.context}/xdocs"
+           extension=".xml"
+           includes="*.xml,*/*.xml,*/*/*.xml"/>
   </target>
 
   <!-- Cleans up build and distribution directories -->

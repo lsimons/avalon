@@ -13,12 +13,6 @@
   </header>
   <body>
     <s1 title="Introduction">
-<!--      <p>
-        Avalon is among other things a repository of established patterns and 
-        design standards. Developers will appreciate the thought put into the 
-        framework, because it eases development. This documentation covers the 
-        overall principles behind Avalon, and the patterns involved. 
-      </p>-->
       <p>
         The Avalon framework consists of interfaces
         that define relationships between commonly used application components,
@@ -71,7 +65,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.2 $ $Date: 2001/11/19 12:00:49 $
+      $Revision: 1.3 $ $Date: 2001/11/21 14:50:21 $
     </legal>
   </footer>
 </document>
