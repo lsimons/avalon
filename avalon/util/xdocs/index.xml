@@ -92,6 +92,11 @@ concern.  The following table provides a brief overview of the current set.
             <td>A static class that provides support for report
                 generation from cascading exceptions.</td>
           </tr>
+          <tr>
+            <td><a href="extension/index.html">Extension</a></td>
+            <td>Utilities supporting the management of optional 
+                extensions are declared within a jar manifest.</td>
+          </tr>
         </table>
       </subsection>
     </section>
