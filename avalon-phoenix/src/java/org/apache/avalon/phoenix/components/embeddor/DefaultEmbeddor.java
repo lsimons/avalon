@@ -177,7 +177,7 @@ public class DefaultEmbeddor
         m_entries = new EmbeddorEntry[ children.length ];
         for( int i = 0; i < children.length; i++ )
         {
-            final String role = children[ i ].getAttribute( "role" );
+            final String role = children[ i ].getAttribute( "role", null );
             final String classname = children[ i ].getAttribute( "class" );
             final String logger = children[ i ].getAttribute( "logger" );
             m_entries[ i ] =
@@ -618,8 +618,13 @@ public class DefaultEmbeddor
 
         for( int i = 0; i < m_entries.length; i++ )
         {
+            final String role = m_entries[ i ].getRole();
+            if( null == role )
+            {
+                continue;
+            }
             final ManagementRegistration registration =
-                ManagementRegistration.getManagementInfoForRole( m_entries[ i ].getRole() );
+                ManagementRegistration.getManagementInfoForRole( role );
             if( null != registration )
             {
                 componentManager.register( registration.getName(),
@@ -645,8 +650,13 @@ public class DefaultEmbeddor
 
         for( int i = 0; i < m_entries.length; i++ )
         {
+            final String role = m_entries[ i ].getRole();
+            if( null == role )
+            {
+                continue;
+            }
             final ManagementRegistration registration =
-                ManagementRegistration.getManagementInfoForRole( m_entries[ i ].getRole() );
+                ManagementRegistration.getManagementInfoForRole( role );
             if( null != registration )
             {
                 componentManager.unregister( registration.getName() );
@@ -661,6 +671,10 @@ public class DefaultEmbeddor
         for( int i = 0; i < m_entries.length; i++ )
         {
             final String role = m_entries[ i ].getRole();
+            if( null == role )
+            {
+                continue;
+            }
             final Object component = getEmbeddorComponent( role );
             serviceManager.put( role, component );
         }
@@ -692,7 +706,12 @@ public class DefaultEmbeddor
         for( int i = 0; i < m_entries.length; i++ )
         {
             final EmbeddorEntry entry = m_entries[ i ];
-            if( entry.getRole().equals( role ) )
+            final String candidate = entry.getRole();
+            if( null == candidate )
+            {
+                continue;
+            }
+            if( candidate.equals( role ) )
             {
                 return m_entries[ i ].getObject();
             }
