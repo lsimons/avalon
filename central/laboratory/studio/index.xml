@@ -198,15 +198,18 @@
     <dependencies>
       <include key="metro-studio-event-api"/>
       <include key="avalon-repository-main"/>
-      <include key="eclipse-core-resources"/>
-      <include key="eclipse-core-runtime"/>
-      <include key="eclipse-ui-plugin-workbench"/>
-      <include key="eclipse-osgi"/>
-      <include key="eclipse-osgi-core"/>
-      <include key="eclipse-jdt-core"/>
-      <include key="eclipse-jdt-launching"/>
+      <include key="eclipse-core-resources" runtime="false" />
+      <include key="eclipse-core-runtime" runtime="false" />
+      <include key="eclipse-ui-plugin-workbench" runtime="false" />
+      <include key="eclipse-osgi" runtime="false" />
+      <include key="eclipse-osgi-core" runtime="false" />
+      <include key="eclipse-jdt-core" runtime="false" />
+      <include key="eclipse-jdt-launching" runtime="false" />
       <include key="xstream"/>
     </dependencies>
+    <plugins>
+      <include key="metro-studio-magic"/>
+    </plugins>
   </project>
 
   <project basedir="docs">
@@ -272,6 +275,23 @@
       <include key="eclipse-pde-ui"/>
     </dependencies>
   </project>
+
+  <plugin basedir="magic">
+    <info>
+      <group>metro/studio/magic</group>
+      <name>metro-studio-magic</name>
+      <version>1.0.0</version>
+      <status>SNAPSHOT</status>
+    </info>
+    <dependencies>
+    </dependencies>
+    <tasks>
+      <taskdef name="eclipse" class="org.apache.metro.studio.magic.EclipseTask"/>
+    </tasks>
+    <listeners>
+      <listener class="org.apache.metro.studio.magic.EclipseBuildListener"/>
+    </listeners>
+  </plugin>
 
 </index>
  
