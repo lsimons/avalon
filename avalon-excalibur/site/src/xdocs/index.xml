@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE document SYSTEM "dtd/document-v10.dtd">
+
+<document>
+  <header>
+    <title>Excalibur - Overview</title>
+    <authors>
+      <person name="Avalon Documentation Team" email="avalon-dev@jakarta.apache.org"/>
+    </authors>
+  </header>
+  <body>
+    <s1 title="Introduction">
+      <p>
+        Excalibur is blah blah
+      </p>
+    </s1>
+    <s1 title="Excalibur Sub-Projects">
+      <s2 title="AltRMI - Alternative to RMI">
+        <p>
+          This is simpler, though controvercial, alternative to RMI.  
+        </p>
+      </s2>
+    </s1>
+  </body>
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
+      $Revision: 1.1 $ $Date: 2002/04/03 14:44:36 $
+    </legal>
+  </footer>
+</document>
