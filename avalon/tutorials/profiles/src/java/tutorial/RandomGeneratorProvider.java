@@ -11,7 +11,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
 /**
  * An implementation of a random number generator.
  * 
- * @avalon.component name="random-provider" lifestyle="singleton"
+ * @avalon.component name="randomizer" lifestyle="singleton"
  * @avalon.service type="tutorial.RandomGenerator"
  */
 public class RandomGeneratorProvider extends AbstractLogEnabled 
