@@ -137,6 +137,21 @@ usage: merlin [block] [-lang <code>] [-install <url>]
 ]]></source>
 
       </subsection>
+      <subsection name="Cygwin Notes">
+        <p>
+Due to restrictions related to the handling of spaces in filename 
+and/or directory names when running under the Cygwin environment you 
+will need to quote and escape command line arguments that contain 
+references with embedded spaces. </p>
+
+<p>For example:</p>
+
+<source>
+  merlin -home '/My\ Documents/merlin/apps/abc' -execute
+</source>
+
+      </subsection>
+
       <subsection name="Next Steps">
         <p>
           Now that you have installed Merlin on your system you can
