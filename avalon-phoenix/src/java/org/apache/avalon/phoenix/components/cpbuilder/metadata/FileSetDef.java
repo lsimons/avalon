@@ -15,9 +15,9 @@ package org.apache.avalon.phoenix.components.cpbuilder.metadata;
  * are added to fileset.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2002/09/01 00:43:54 $
+ * @version $Revision: 1.1 $ $Date: 2002/09/01 04:11:46 $
  */
-public class FilesetDef
+public class FileSetDef
 {
     /**
      * The base directory from which to apply all the
@@ -35,7 +35,7 @@ public class FilesetDef
      */
     private final String[] m_excludes;
 
-    public FilesetDef( final String baseDirectory,
+    public FileSetDef( final String baseDirectory,
                        final String[] includes,
                        final String[] excludes )
     {
