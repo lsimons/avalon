@@ -116,6 +116,14 @@ Merlin 3.2 introduces a complete property configuration model as part of the uni
                the context key urn:avalon:home.</td>
           </tr>
           <tr>
+            <td>merlin.temp</td>
+            <td>${java.io.tmpdir}</td>
+            <td>The root directory used by merlin to construct the 
+               persistent temp directory supplied to a component under 
+               the context key urn:avalon:temp.  If undefined, the JVM
+               temp directory will be used.</td>
+          </tr>
+          <tr>
             <td>merlin.ext</td>
             <td>${merlin.dir}</td>
             <td>The root directory used by merlin to resolve jar 
@@ -187,31 +195,23 @@ Merlin 3.2 introduces a complete property configuration model as part of the uni
             <td>
             Artifact reference.
             Overrides the automatic selection of the underlying runtime activation
-            framework. If undeclared a default runtime wil be assigned based on the 
-            standing security policy.  Since 3.3.
+            framework.  Since 3.3.
             </td>
           </tr>
           <tr>
-            <td>merlin.runtime.standard.implementation</td>
+            <td>merlin.runtime.implementation</td>
             <td></td>
             <td>
             Artifact reference.
-            Override the standard non-secure implementation.  Since 3.3.
-            </td>
-          </tr>
-          <tr>
-            <td>merlin.runtime.csi.implementation</td>
-            <td></td>
-            <td>
-            Artifact reference.
-            Override the code-secure implementation.  Since 3.3.
+            The default merlin runtime implementation artifact reference.  
+            Since 3.3.
             </td>
           </tr>
           <tr>
             <td>merlin.code.security.enabled</td>
             <td>false</td>
             <td>
-            If true the code-secure runtime will be assigned as ${merlin.runtime}.
+            If true the component security protection model will be enabled. 
             Since 3.3.
             </td>
           </tr>
