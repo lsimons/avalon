@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-
-<project name="metro-configuration" default="install" basedir="." 
-    xmlns:x="antlib:org.apache.avalon.tools">
-
-  <x:home/>
-  <import file="${magic.templates}/reactor.xml"/>
-
-</project>
