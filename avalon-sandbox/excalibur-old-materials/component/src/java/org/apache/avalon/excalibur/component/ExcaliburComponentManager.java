@@ -41,7 +41,7 @@ import org.apache.excalibur.instrument.InstrumentManager;
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.11 $ $Date: 2002/08/06 16:28:37 $
+ * @version CVS $Revision: 1.12 $ $Date: 2002/08/18 12:06:12 $
  * @since 4.0
  */
 public class ExcaliburComponentManager
@@ -744,6 +744,9 @@ public class ExcaliburComponentManager
                                                     final LogkitLoggerManager logkitManager )
         throws Exception
     {
+        // The instrumentable name will be set by first looking for a name set using
+        //  the instrumentable attribute.  If missing, the name of the configuration
+        //  element is used.
         String instrumentableName =
             configuration.getAttribute( "instrumentable", configuration.getName() );
         
