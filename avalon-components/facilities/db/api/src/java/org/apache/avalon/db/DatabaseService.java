@@ -18,10 +18,24 @@ package org.apache.avalon.db;
 
 /**
  * Defintion of the DatabaseService service contract.
+ * 
+ * @avalon.service version="1.0"
+ * 
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Revision: 1.2 $ $Date: 2004/05/05 15:20:02 $
  */
 public interface DatabaseService {
-	// TODO What services might database service provide?
-	// Pooled JDBC connections will be provided by another service...
-	// Dynamic starting/stopping?
-	// Monitoring hooks?
+    /**
+     * Starts the database service.
+     * 
+     * @throws Exception if an error occurs while starting the service
+     */
+    void start() throws Exception;
+    
+    /**
+     * Shuts down the database service.
+     * 
+     * @throws Exception if an error occurs while shutting down the service
+     */
+    void stop() throws Exception;
 }
