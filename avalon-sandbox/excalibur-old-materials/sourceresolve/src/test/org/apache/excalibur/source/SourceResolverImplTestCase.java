@@ -68,8 +68,6 @@ public class SourceResolverImplTestCase extends TestCase
         final DefaultServiceManager manager = new DefaultServiceManager();
         manager.put( SourceFactory.ROLE + "Selector", selector );
 
-        logger.debug( "Servicing the resolver based on the fortress pattern - this will fail because the service implementation in SourceResolverImpl is attempting to narrow the selector to a ComponentSelector instead of a ServiceSelector - something needs to be changed here either in (a) the implementation or (b) this test case and in Fortrress." );
-
         resolver.service( manager );
 
 
