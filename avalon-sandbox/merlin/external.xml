@@ -8,10 +8,36 @@ attibute named "src".
 
    <implementation>
 
+     <!-- 
+     an implementation may contain a single engine declaration,
+     multiple components and multiple containers
+     -->
+     
+     <engine>
+       <classpath>
+         <fileset dir="."/>
+         <fileset dir="."/>
+       </classpath>
+     </engine>
+
      <container name="test">
+
+       <!-- a container may contain a single engine declaration -->
+
+       <engine>
+         <classpath>
+           <fileset dir="."/>
+         </classpath>
+       </engine>
+
+       <!-- a container may contain multiple appliance delcarations -->
+
        <appliance name="standard" class="org.apache.avalon.playground.StandardComponent" activation="startup">
          <context class="org.apache.avalon.playground.StandardContextImp"/>
        </appliance>
+
+       <!-- a container may contain multiple nested container delcarations -->
+
      </container>
 
    </implementation>
