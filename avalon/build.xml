@@ -32,6 +32,7 @@ Legal:
   <property name="release" value="3rd"/>
   <property name="short.version" value="4.0"/>
   <property name="year" value="1999-2001"/>
+  <property name="status" value="beta"/>
 
   <!--
     these are here only for those who use jikes compiler. For other
@@ -85,9 +86,8 @@ Legal:
   <property name="bsf.jar" value="${tools.dir}/lib/bsf.jar"/>
   <property name="testlet.jar" value="${tools.dir}/lib/testlet.jar"/>
 
-  <property name="build.announce" value="${build.dir}/Announcement.xml"/>
-  <property name="announce2txt" value="${src.dir}/skins/announcement2txt.xsl"/>
-  <property name="announce2site" value="${src.dir}/skins/announcement2site.xsl"/>
+  <property name="announce2txt" value="${tools.dir}/announcement2txt.xsl"/>
+  <property name="announce2header" value="${tools.dir}/announcement2header.xsl"/>
 
   <path id="project.class.path">
     <pathelement location="${logkit.jar}"/>
@@ -253,7 +253,7 @@ Legal:
       <arg value="-f${context.dir}/history.uris"/>
       <classpath>
         <path refid="tools.class.path"/>
-	<fileset dir="${build.lib}"/>
+        <fileset dir="${build.lib}"/>
       </classpath>
     </java>
 
@@ -330,19 +330,28 @@ Legal:
 
   </target>
 
-  <!-- Create the announcements -->
+  <!-- Create the announcements and HEADER.html -->
   <target name="announcement" depends="setup-properties">
 
-    <filter token="name" value="${Name}"/>
+    <filter token="Name" value="Avalon Framework"/>
+    <filter token="name" value="framework"/>
     <filter token="version" value="${version}"/>
     <filter token="year" value="${year}"/>
-    <filter token="release" value="${release}"/>
-    <filter token="short-version" value="${short.version}"/>
+    <filter token="status" value="${status}"/>
 
-    <copy file="announcement.xml" tofile="${build.announce}" filtering="yes"/>
+    <mkdir dir="${build.dir}" />
+    <mkdir dir="${dist.base}" />
 
-    <style basedir="${build.dir}" destdir="./" style="${announce2txt}"
-           includes="Announcement.xml" extension=".txt"/>
+    <copy todir="${build.context}" filtering="on">
+      <fileset dir="${context.dir}">
+        <exclude name="resources/**"/>
+      </fileset>
+    </copy>
+
+    <style style="${announce2txt}" in="${build.context}/xdocs/framework/announcement.xml" 
+           out="Announcement.txt"/>
+    <style style="${announce2header}" in="${build.context}/xdocs/framework/announcement.xml" 
+           out="${dist.base}/HEADER.html"/>
 
   </target>
 
