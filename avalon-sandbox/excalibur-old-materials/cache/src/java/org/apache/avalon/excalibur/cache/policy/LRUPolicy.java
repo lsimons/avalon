@@ -5,17 +5,24 @@
  * version 1.1, a copy of which has been included  with this distribution in
  * the LICENSE.txt file.
  */
-package org.apache.avalon.excalibur.cache;
+package org.apache.avalon.excalibur.cache.policy;
 
 /**
+ * LRU(Least Recently Used) replacement policy.
  *
  * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>
  */
-public abstract class AbstractCacheStore
-    implements CacheStore
+public class LRUPolicy
+    extends ListBasedPolicy
 {
-    public boolean isFull()
+    public LRUPolicy()
     {
-        return size() >= capacity();
+        super();
+    }
+
+    public void hit( final Object key )
+    {
+        m_keyList.remove( key );
+        m_keyList.addFirst( key );
     }
 }

@@ -11,7 +11,7 @@ import org.apache.avalon.excalibur.cache.Cache;
 import org.apache.avalon.excalibur.cache.LRUCache;
 
 /**
- * JUnit TestCase for LRUCache.
+ * TestCase for LRUCache.
  *
  * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>
  */
@@ -40,17 +40,17 @@ public class LRUCacheTestCase
     {
         final Cache cache = new LRUCache( 3 );
 
-        assertTrue( ! cache.containsKey( KEY1 ) );
+        assertTrue( !cache.containsKey( KEY1 ) );
         assertNull( cache.put( KEY1, VALUE1 ) );
         assertTrue( cache.containsKey( KEY1 ) );
         assertEquals( VALUE1, cache.get( KEY1 ) );
 
-        assertTrue( ! cache.containsKey( KEY2 ) );
+        assertTrue( !cache.containsKey( KEY2 ) );
         assertNull( cache.put( KEY2, VALUE2 ) );
         assertTrue( cache.containsKey( KEY2 ) );
         assertEquals( VALUE2, cache.get( KEY2 ) );
 
-        assertTrue( ! cache.containsKey( KEY3 ) );
+        assertTrue( !cache.containsKey( KEY3 ) );
         assertNull( cache.put( KEY3, VALUE3 ) );
         assertTrue( cache.containsKey( KEY3 ) );
         assertEquals( VALUE3, cache.get( KEY3 ) );
@@ -62,49 +62,49 @@ public class LRUCacheTestCase
 
         cache.clear();
         assertEquals( 0, cache.size() );
-        assertTrue( ! cache.containsKey( KEY1 ) );
-        assertTrue( ! cache.containsKey( KEY2 ) );
-        assertTrue( ! cache.containsKey( KEY3 ) );
+        assertTrue( !cache.containsKey( KEY1 ) );
+        assertTrue( !cache.containsKey( KEY2 ) );
+        assertTrue( !cache.containsKey( KEY3 ) );
     }
 
     public void testRemove()
     {
         final Cache cache = new LRUCache( 3 );
 
-        assertTrue( ! cache.containsKey( KEY1 ) );
+        assertTrue( !cache.containsKey( KEY1 ) );
         assertNull( cache.put( KEY1, VALUE1 ) );
         assertTrue( cache.containsKey( KEY1 ) );
         assertEquals( VALUE1, cache.get( KEY1 ) );
 
-        assertTrue( ! cache.containsKey( KEY2 ) );
+        assertTrue( !cache.containsKey( KEY2 ) );
         assertNull( cache.put( KEY2, VALUE2 ) );
         assertTrue( cache.containsKey( KEY2 ) );
         assertEquals( VALUE2, cache.get( KEY2 ) );
 
-        assertTrue( ! cache.containsKey( KEY3 ) );
+        assertTrue( !cache.containsKey( KEY3 ) );
         assertNull( cache.put( KEY3, VALUE3 ) );
         assertTrue( cache.containsKey( KEY3 ) );
         assertEquals( VALUE3, cache.get( KEY3 ) );
 
         assertEquals( VALUE1, cache.remove( KEY1 ) );
-        assertTrue( ! cache.containsKey( KEY1 ) );
+        assertTrue( !cache.containsKey( KEY1 ) );
         assertTrue( cache.containsKey( KEY2 ) );
         assertTrue( cache.containsKey( KEY3 ) );
 
         assertEquals( VALUE2, cache.remove( KEY2 ) );
-        assertTrue( ! cache.containsKey( KEY1 ) );
-        assertTrue( ! cache.containsKey( KEY2 ) );
+        assertTrue( !cache.containsKey( KEY1 ) );
+        assertTrue( !cache.containsKey( KEY2 ) );
         assertTrue( cache.containsKey( KEY3 ) );
 
         assertEquals( VALUE3, cache.remove( KEY3 ) );
-        assertTrue( ! cache.containsKey( KEY1 ) );
-        assertTrue( ! cache.containsKey( KEY2 ) );
-        assertTrue( ! cache.containsKey( KEY3 ) );
+        assertTrue( !cache.containsKey( KEY1 ) );
+        assertTrue( !cache.containsKey( KEY2 ) );
+        assertTrue( !cache.containsKey( KEY3 ) );
 
         cache.clear();
         assertEquals( 0, cache.size() );
-        assertTrue( ! cache.containsKey( KEY1 ) );
-        assertTrue( ! cache.containsKey( KEY2 ) );
-        assertTrue( ! cache.containsKey( KEY3 ) );
+        assertTrue( !cache.containsKey( KEY1 ) );
+        assertTrue( !cache.containsKey( KEY2 ) );
+        assertTrue( !cache.containsKey( KEY3 ) );
     }
 }

@@ -5,21 +5,22 @@
  * version 1.1, a copy of which has been included  with this distribution in
  * the LICENSE.txt file.
  */
-package org.apache.avalon.excalibur.cache;
+package org.apache.avalon.excalibur.cache.policy;
 
 import java.util.LinkedList;
+import org.apache.avalon.excalibur.cache.ReplacementPolicy;
 
 /**
  * FIXME: Remove or determine good name.
  *
  * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>
  */
-public abstract class ListCachePolicy
+public abstract class ListBasedPolicy
     implements ReplacementPolicy
 {
     protected LinkedList m_keyList;
 
-    public ListCachePolicy()
+    public ListBasedPolicy()
     {
         m_keyList = new LinkedList();
     }

@@ -55,6 +55,6 @@ public class TimeoutValidatorTestCase
 
         Thread.sleep( 2000 );
 
-        assertTrue( ! cache.containsKey( "K1" ) );
+        assertTrue( !cache.containsKey( "K1" ) );
     }
 }
