@@ -21,7 +21,6 @@ import org.apache.avalon.phoenix.Block;
 import org.apache.avalon.phoenix.BlockEvent;
 import org.apache.avalon.phoenix.BlockListener;
 import org.apache.avalon.phoenix.components.frame.ApplicationFrame;
-import org.apache.avalon.phoenix.components.listeners.BlockListenerManager;
 
 /**
  *
@@ -36,14 +35,10 @@ public class ShutdownPhase
 
     private ApplicationFrame  m_frame;
 
-    ///Listener for when blocks are created
-    private BlockListener        m_listener;
-
     public void compose( final ComponentManager componentManager )
         throws ComponentException
     {
         m_frame = (ApplicationFrame)componentManager.lookup( ApplicationFrame.ROLE );
-        m_listener = (BlockListenerManager)componentManager.lookup( BlockListenerManager.ROLE );
     }
 
     /**
@@ -53,10 +48,12 @@ public class ShutdownPhase
      * @param entry the BlockEntry
      * @exception Exception if walking is to be stopped
      */
-    public void visitBlock( final String name, final BlockEntry entry )
+    public void visitBlock( final BlockEntry entry )
         throws Exception
     {
         if( State.STARTED != entry.getState() ) return;
+
+        final String name = entry.getMetaData().getName();
 
         if( getLogger().isInfoEnabled() )
         {
@@ -66,10 +63,9 @@ public class ShutdownPhase
 
         ThreadContext.setThreadContext( m_frame.getThreadContext() );
 
-
         final BlockEvent event =
             new BlockEvent( name, entry.getProxy(), entry.getMetaData().getBlockInfo() );
-        m_listener.blockRemoved( event );
+        m_frame.blockRemoved( event );
 
         final Block block = entry.getBlock();
 
