@@ -57,6 +57,7 @@ public class Home extends DataType
     public static final String HOME_KEY = "project.home";
     public static final String INDEX_KEY = "project.index";
     public static final String HOSTS_KEY = "project.hosts";
+    public static final String GPG_EXE_KEY = "project.gpg.exe";
 
     //-------------------------------------------------------------
     // immutable state
@@ -66,6 +67,7 @@ public class Home extends DataType
     private final Hashtable m_resources = new Hashtable();
     private final ArrayList m_includes = new ArrayList();
     private final Magic m_system;
+    private final Project m_project;
 
     //-------------------------------------------------------------
     // constructor
@@ -76,6 +78,7 @@ public class Home extends DataType
         setProject( project );
         m_index = index;
         m_system = system;
+        m_project = project;
         buildList( index );
     }
 
@@ -91,6 +94,11 @@ public class Home extends DataType
     public long getIndexLastModified()
     {
         return m_index.lastModified();
+    }
+
+    public String getProperty( String key )
+    {
+        return m_project.getProperty( key );
     }
 
     public boolean isaResourceKey( String key )
