@@ -83,6 +83,30 @@ public class Hierarchy
     }
 
     /**
+     * Set the default log targets for this hierarchy.
+     * These are the targets inherited by loggers if no other targets are specified
+     *
+     * @param targets the default targets
+     */
+    public void setDefaultLogTargets( final LogTarget[] targets )
+    {
+        if ( null == targets || 0 == targets.length )
+        {
+            throw new IllegalArgumentException( "Can not set DefaultLogTargets to null" );
+        }
+        
+        for( int i = 0; i < targets.length; i++ )
+        {
+            if( null == targets[ i ] )
+            {
+                throw new IllegalArgumentException( "Can not set DefaultLogTarget element to null" );
+            }
+        }
+
+        getRootLogger().setLogTargets( targets );
+    }
+
+    /**
      * Set the default priority for hierarchy.
      * This is the priority inherited by loggers if no other priority is specified.
      *
