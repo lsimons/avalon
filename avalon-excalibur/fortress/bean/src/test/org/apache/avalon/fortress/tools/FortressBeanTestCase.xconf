@@ -17,6 +17,6 @@
    limitations under the License.
    ===================================================================
 -->
-<fortress>
+<fortress proxy-type="none">
     <test id="test" logger="test"/>
 </fortress>
