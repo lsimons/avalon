@@ -9,7 +9,6 @@ package org.apache.excalibur.io;
 
 import java.io.*;
 import java.net.URL;
-import org.apache.avalon.util.StringUtil;
 
 /**
  * This class provides basic facilities for manipulating files.
@@ -164,7 +163,7 @@ public final class FileUtil
 
     public static String normalize( String location )
     {
-        location = StringUtil.replaceSubString( location, "/./", "/" );
+        location = replaceSubString( location, "/./", "/" );
 
         final StringBuffer sb = new StringBuffer();
 
@@ -366,5 +365,37 @@ public final class FileUtil
                 }
             }
         }
+    }
+
+    /**
+     * Replace substrings of one string with another string and return altered string.
+     *
+     * @param original input string
+     * @param oldString the substring section to replace
+     * @param newString the new substring replacing old substring section
+     * @return converted string
+     */
+    private static String replaceSubString( final String original,
+                                            final String oldString,
+                                            final String newString )
+    {
+        final StringBuffer sb = new StringBuffer();
+
+        int end = original.indexOf( oldString );
+        int start = 0;
+        final int stringSize = oldString.length();
+
+        while( end != -1 )
+        {
+            sb.append( original.substring( start, end ) );
+            sb.append( newString );
+            start = end + stringSize;
+            end = original.indexOf( oldString, start );
+        }
+
+        end = original.length();
+        sb.append( original.substring( start, end ) );
+
+        return sb.toString();
     }
 }
