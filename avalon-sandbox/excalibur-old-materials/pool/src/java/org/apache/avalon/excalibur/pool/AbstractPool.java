@@ -9,8 +9,8 @@ package org.apache.avalon.excalibur.pool;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.avalon.excalibur.collections.Buffer;
-import org.apache.avalon.excalibur.collections.VariableSizeBuffer;
+import org.apache.commons.collections.Buffer; 
+import org.apache.commons.collections.UnboundedFifoBuffer; 
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.thread.ThreadSafe;
@@ -19,7 +19,7 @@ import org.apache.avalon.framework.thread.ThreadSafe;
  * This is an <code>Pool</code> that caches Poolable objects for reuse.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.5 $ $Date: 2002/08/07 16:31:38 $
+ * @version CVS $Revision: 1.6 $ $Date: 2003/01/23 22:57:12 $
  * @since 4.0
  */
 public abstract class AbstractPool
@@ -29,7 +29,7 @@ public abstract class AbstractPool
     public static final int DEFAULT_POOL_SIZE = 8;
     protected final ObjectFactory m_factory;
     protected List m_active = new ArrayList();
-    protected Buffer m_ready = new VariableSizeBuffer();
+    protected Buffer m_ready = new UnboundedFifoBuffer();
     protected Mutex m_mutex = new Mutex();
     protected boolean m_initialized = false;
     protected int m_min;
