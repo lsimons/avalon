@@ -1,1 +1,1 @@
-<!ENTITY % util-entities SYSTEM "file:../versioning/avalon-util.ent"> %util-entities;
+<!ENTITY % versions SYSTEM "../versioning/versions.ent"> %versions;
