@@ -59,7 +59,7 @@ import org.apache.log.util.LoggerListener;
 /**
  * The object interacted with by client objects to perform logging.
  *
- * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public class Logger

@@ -62,7 +62,7 @@ import org.apache.log.LogEvent;
 /**
  * Interface that classes implement to build JMS Messages.
  *
- * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public interface MessageBuilder

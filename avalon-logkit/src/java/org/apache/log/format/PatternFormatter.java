@@ -144,11 +144,11 @@ import org.apache.log.Priority;
  * and maximum size of 10, followed by the message of the log event
  * without any size restriction.
  * </p>
- * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.36 $ $Date: 2003/02/05 06:14:13 $
+ * @version CVS $Revision: 1.37 $ $Date: 2003/02/07 15:25:59 $
  */
 public class PatternFormatter
     implements Formatter, org.apache.log.Formatter

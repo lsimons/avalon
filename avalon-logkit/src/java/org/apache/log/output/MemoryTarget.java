@@ -67,7 +67,7 @@ import org.apache.log.Priority;
  *
  * This is based on specification of MemoryHandler in Logging JSR47.
  *
- * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public class MemoryTarget

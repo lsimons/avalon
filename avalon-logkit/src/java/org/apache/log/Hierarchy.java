@@ -63,7 +63,7 @@ import org.apache.log.util.LoggerListener;
  * This class encapsulates a basic independent log hierarchy.
  * The hierarchy is essentially a safe wrapper around root logger.
  *
- * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public class Hierarchy

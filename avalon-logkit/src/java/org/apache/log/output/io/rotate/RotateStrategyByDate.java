@@ -61,9 +61,9 @@ import java.util.Date;
 /**
  * Rotation stragety based on SimpleDateFormat.
  *
- * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>
- * @version $Revision: 1.8 $ $Date: 2003/02/05 19:42:26 $
+ * @version $Revision: 1.9 $ $Date: 2003/02/07 15:26:01 $
  */
 public class RotateStrategyByDate
     implements RotateStrategy

@@ -57,7 +57,7 @@ package org.apache.log.output.db;
 /**
  * A descriptor for each column stored in table.
  *
- * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public class ColumnInfo

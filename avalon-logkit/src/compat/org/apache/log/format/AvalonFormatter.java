@@ -73,7 +73,7 @@ import org.apache.log.util.StackIntrospector;
  *
  * @deprecated Use <code>org.apache.avalon.framework.logger.AvalonFormatter</code>
  *             instead of this one.
- * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public class AvalonFormatter
     extends ExtendedPatternFormatter
