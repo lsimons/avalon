@@ -1,0 +1,654 @@
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+  
+  
+      
+  
+
+      
+      
+      
+      
+      
+      
+        
+         
+      
+      
+
+      
+      
+      
+      
+
+      
+      
+      
+
+      
+
+  
+  
+
+  
+  
+
+   
+   
+
+
+    
+	
+	
+
+    
+    
+      
+	
+	
+	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+    <html>
+      <head>
+        
+        
+          <title>
+            Apache Avalon - 
+          Developing With Apache Avalon
+        
+          </title>
+        
+        
+        
+        <style type="text/css">
+          @import url("../style/tigris.css");
+          @import url("../style/maven.css");
+        </style>
+        
+        
+        
+        
+        
+        <link rel="stylesheet" href="../style/print.css" type="text/css" media="print"></link>
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"></meta>
+        
+          <meta name="author" content="Niclas Hedhman"></meta>
+          <meta name="email" content="niclas@apache.org"></meta>
+        
+        
+        
+        
+      </head>
+
+      <body class="composite">
+
+        <div id="banner">
+          <table height="103" border="0" width="100%" cellpadding="8" cellspacing="0">
+            <tr>
+              
+              <td>
+                
+                
+                  
+                  
+                  
+                    
+                  
+                  
+                  
+                  
+                  
+                    
+                  
+                  <a href="http://avalon.apache.org/">
+                    <img border="0" alt="The Apache Avalon Project" src="../images/apache-avalon-logo.png" align="left"></img>
+                  </a>
+                
+              </td>
+
+              <td></td>
+              
+
+            </tr>
+          </table>
+        </div>
+        <div id="breadcrumbs">
+          <table border="0" width="100%" cellpadding="4" cellspacing="0">
+            <tr>
+              
+                
+                <td>Last published: 04 April 2004
+                  
+                </td>
+              
+              <td>
+                <div align="right">
+                  
+                  
+                  
+                    
+    
+    
+      
+      
+      
+      <a href="http://apache.org/">Apache</a>
+      
+    
+      |
+      
+      
+      <a href="../index.html">Avalon</a>
+      
+    
+      |
+      
+      
+      <a href="../product/framework/index.html">Framework</a>
+      
+    
+      |
+      
+      
+      <a href="../product/containers/index.html">Merlin</a>
+      
+    
+      |
+      
+      
+      <a href="../product/components/index.html">Planet</a>
+      
+    
+  
+                  
+                  
+                </div>
+              </td>
+            </tr>
+          </table>
+        </div>
+        
+        <table border="0" width="100%" cellpadding="8" cellspacing="0"> 
+          <tr valign="top">
+            <td width="20%" id="leftcol">
+              <div id="navcolumn">
+                
+
+                
+                  
+    <div>
+      <strong>Developing With Avalon</strong>
+      
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      	
+      		<a href="../developing/index.html">Article Info</a>
+      	
+      </small>
+	  
+        
+      
+    </div>
+  
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      	
+      		<a href="../developing/authors.html">Authors</a>
+      	
+      </small>
+	  
+        
+      
+    </div>
+  
+    </div>
+  
+    <div>
+      <strong>Chapters</strong>
+      
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      	
+      		<a href="../introduction.html">Overview</a>
+      	
+      </small>
+	  
+        
+      
+    </div>
+  
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      	
+      		<a href="../developing/decomposing.html">Decomposition</a>
+      	
+      </small>
+	  
+        
+      
+    </div>
+  
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      	
+      		<a href="../developing/framework.html">Avalon Framework</a>
+      	
+      </small>
+	  
+        
+      
+    </div>
+  
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      		<b><a href="../developing/merlin.html">Avalon Merlin</a></b>
+      	
+      	
+      </small>
+	  
+        
+      
+    </div>
+  
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      	
+      		<a href="../developing/repository.html">Avalon Repository</a>
+      	
+      </small>
+	  
+        
+      
+    </div>
+  
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      	
+      		<a href="../developing/logging.html">Avalon Logging</a>
+      	
+      </small>
+	  
+        
+      
+    </div>
+  
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      	
+      		<a href="../developing/implementing.html">Using the framework</a>
+      	
+      </small>
+	  
+        
+      
+    </div>
+  
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      	
+      		<a href="../developing/compatiblity.html">Compatibility with Avalon</a>
+      	
+      </small>
+	  
+        
+      
+    </div>
+  
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      	
+      		<a href="../developing/strategies.html">Development Strategies</a>
+      	
+      </small>
+	  
+        
+      
+    </div>
+  
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      	
+      		<a href="../developing/conclusion.html">Conclusion</a>
+      	
+      </small>
+	  
+        
+      
+    </div>
+  
+    </div>
+  
+    <div>
+      <strong>Related</strong>
+      
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      	
+      		<a href="http://avalon.apache.org/framework">Avalon Framework</a>
+      	
+      </small>
+	  
+        
+      
+    </div>
+  
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      	
+      		<a href="http://avalon.apache.org/meta">Avalon Meta</a>
+      	
+      </small>
+	  
+        
+      
+    </div>
+  
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      	
+      		<a href="http://avalon.apache.org/util">Avalon Utilities</a>
+      	
+      </small>
+	  
+        
+      
+    </div>
+  
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      	
+      		<a href="http://avalon.apache.org/repository">Avalon Repository</a>
+      	
+      </small>
+	  
+        
+      
+    </div>
+  
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      	
+      		<a href="http://avalon.apache.org/merlin">Avalon Merlin</a>
+      	
+      </small>
+	  
+        
+      
+    </div>
+  
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      	
+      		<a href="http://avalon.apache.org/components">Avalon Planet</a>
+      	
+      </small>
+	  
+        
+      
+    </div>
+  
+    </div>
+  
+                
+                
+                
+                
+
+                
+                
+              
+                
+                
+                
+                
+              
+                
+              </div>
+            </td>
+            <td rowspan="2">
+              <div id="bodycol">
+                
+                <div class="app">
+                  
+                  
+    <div class="h3">
+      
+      
+        <h3>
+          <a name="Avalon Merlin">Avalon Merlin</a>
+        </h3>
+      
+      
+    <p>
+      
+        
+    <strong>
+      
+    <em>
+      Work in progress.
+    </em>
+   
+    </strong>
+   
+      
+    </p>
+   
+    <p>
+      
+        Avalon Merlin is the Avalon Reference container, aiming at being
+        powerful, versatile and flexible. It can be used as stand-alone
+        or embedded into a variety of other systems. Merlin has so many
+        features, that we are not going to cover them all here, just
+        reflect over the container concerns of the components.
+      
+    </p>
+   
+    <p>
+      
+      
+    </p>
+   
+    <div class="h3">
+      
+      
+        <h3>
+          <a name="block.xml">block.xml</a>
+        </h3>
+      
+      
+    </div>
+  
+    <div class="h3">
+      
+      
+        <h3>
+          <a name="Aggregated Components">Aggregated Components</a>
+        </h3>
+      
+      
+    </div>
+  
+    <div class="h3">
+      
+      
+        <h3>
+          <a name="Classloading">Classloading</a>
+        </h3>
+      
+      
+    </div>
+  
+    </div>
+  
+                  
+                  
+                  
+                  
+                  
+                </div>
+              </div>
+            </td>
+          </tr>
+        </table>
+        <div id="footer">
+          <table border="0" style="width:100%" cellpadding="4" cellspacing="0">
+            
+            <tr>
+              <td>
+                
+                  
+                    
+                    
+                      © 1997-2004, The Apache Avalon Project
+                    
+                  
+                  
+                
+
+                
+              </td>
+              
+            </tr>
+          </table>
+        </div>
+      </body>
+    </html>
+  
