@@ -134,17 +134,9 @@
                 
               </td>
 
+              <td></td>
               
 
-              <td>
-                <div id="login" align="right">
-                  <a href="http://apachecon.com/2003/US/index.html">
-                    <img border="0" src="http://www.apache.org/~ceki/ac2003/ac2003-150.gif"></img>
-                  </a>
-                </div>
-              </td>
-
-              
             </tr>
           </table>
         </div>
@@ -220,23 +212,6 @@
       	
       	
       		<a href="../../index.html">Overview</a>
-      	
-      </small>
-	  
-        
-      
-    </div>
-  
-    
-    
-    
-    
-
-    <div>
-      <small>
-      	
-      	
-      		<a href="../../tutorial/index.html">Getting Started</a>
       	
       </small>
 	  
@@ -357,11 +332,7 @@
                 
                 <div>
                   <strong>Project Documentation</strong>
-                  <div>
-                    <small>
-                      <a href="../../index.html">About Avalon Meta</a>
-                    </small>
-                  </div>
+                  
                   <div>
                     <small>
                       <a href="../../project-info.html">Project Info</a>
@@ -403,16 +374,6 @@
                     
                   </div>
                   
-                  
-                  
-                  
-                  
-                    <div>
-                      <small>
-                        
-                        <a href="http://maven.apache.org/development-process.html">Development Process</a>
-                      </small>
-                    </div>
                   
                 </div>
               
@@ -468,13 +429,13 @@ The Avalon Plugin for Maven provides support for developers in the management of
       
     
       
-        
       
+        
       
     
 
     
-    <tr class="b">
+    <tr class="a">
     <th>
       Goal
     </th>
@@ -486,13 +447,13 @@ The Avalon Plugin for Maven provides support for developers in the management of
   
     
       
-      
         
+      
       
     
 
     
-    <tr class="a">
+    <tr class="b">
     <td>
       avalon:meta
     </td>
@@ -576,11 +537,13 @@ The Avalon Plugin for Maven provides support for developers in the management of
     &lt;build&gt;
       &lt;!-- more stuff --&gt;
       &lt;resources&gt;
-        &lt;!-- include the generated meta-info descriptors into you jar file --&gt;
+        &lt;!-- include the generated meta-info 
+            descriptors into you jar file --&gt;
         &lt;resource&gt;
           &lt;directory&gt;${basedir}/target/src&lt;/directory&gt; 
           &lt;includes&gt;
-            &lt;include&gt;**/*.x*&lt;/include&gt; &lt;!-- meta info desriptors --&gt;
+            &lt;!-- meta info desriptors --&gt;
+            &lt;include&gt;**/*.x*&lt;/include&gt; 
           &lt;/includes&gt;
         &lt;/resource&gt;
       &lt;/resources&gt;
@@ -610,13 +573,13 @@ The Avalon Plugin for Maven provides support for developers in the management of
       
     
       
-        
       
+        
       
     
 
     
-    <tr class="b">
+    <tr class="a">
     <th>
       Property name
     </th>
@@ -632,13 +595,13 @@ The Avalon Plugin for Maven provides support for developers in the management of
   
     
       
-      
         
+      
       
     
 
     
-    <tr class="a">
+    <tr class="b">
     <td>
       avalon.meta.format
     </td>
@@ -678,13 +641,13 @@ avalon.meta.format="xml"
   
     
       
-        
       
+        
       
     
 
     
-    <tr class="b">
+    <tr class="a">
     <td>
       avalon.meta.force
     </td>
@@ -721,13 +684,13 @@ avalon.meta.force="false"
   
     
       
-      
         
+      
       
     
 
     
-    <tr class="a">
+    <tr class="b">
     <td>
       avalon.meta.type.postfix
     </td>
