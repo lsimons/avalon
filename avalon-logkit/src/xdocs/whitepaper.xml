@@ -164,9 +164,9 @@ if( logger.isDebugEnabled() )
 
       <p>
         The main reason for structuring logging namespace in a hierarchial manner is to
-        allow in heritance. A logger will inherit it's parent priority if it has not
+        allow inheritance. A logger will inherit it's parent priority if it has not
         been explicitly set. This allows you to set the "network" logger to have INFO 
-        priority. Unless the "network.interceptor" has had it's priority set it will 
+        priority and unless the "network.interceptor" has had it's priority set it will 
         inherit the INFO priority. 
       </p>
 
@@ -265,8 +265,10 @@ logger.setLogTargets( new LogTarget[] { asyncTarget } );
         The #.# indicates the minimum and maximum size of output, if unspecified the
         output is neither padded nor truncated. 'field' indicates the field to be 
         written and must be one of "category", "context", "message", "time", 
-        "throwable" or "priority". This parameter must be supplied and correlates to
-        fields of LogEvent. 'subformat' is currently unused. 
+        "rtime" (time relative to start of application), "throwable" or "priority". 
+        This parameter must be supplied and correlates to fields of LogEvent. 
+        'subformat' is currently unused except in the case of "context" field. This is 
+        further discussed below.
       </p>
 
       <p>
@@ -275,24 +277,108 @@ logger.setLogTargets( new LogTarget[] { asyncTarget } );
       </p>
 
 <source><![CDATA[
-format: "%7.7{priority} %5.5{time} [%8.8{category}] (%{context}): %{message}\\n%{throwable}"
-output: DEBUG   123   [network.] (main): This is a debug message
+format: "%7.7{priority} %5.5{rtime} [%8.8{category}]: %{message}\n%{throwable}"
+output: DEBUG   123   [network.]: This is a debug message
 
-format: "%7.7{priority} %5.5{time} [%{category}]: %{message}\n"
+format: "%7.7{priority} %5.5{rtime} [%{category}]: %{message}\n"
 output: DEBUG   123   [network.interceptor.connected]: This is a debug message
 output: DEBUG   123   [network]: This is another debug message
 
-format: "%7.7{priority} %5.5{time} [%10.{category}]: %{message}\n"
+format: "%7.7{priority} %5.5{rtime} [%10.{category}]: %{message}\n"
 output: DEBUG   123   [network.interceptor.connected]: This is a debug message
 output: DEBUG   123   [network   ]: This is another debug message
 ]]></source>
 
+      <p>
+        There is also ExtendedPatternFormatter that allows two extra fields, namely
+        "method" and "thread". The "method" field attempts to determine the method that 
+        called the Logger method to generate the LogEvent. The "thread" field displays 
+        the name of the current thread.
+      </p>
+
     </s1>
 
-<!--
-Todo: Should I mention context stack? Or should I describe it and describe the proper
-way of handling it? (Which is not ContextStack)
--->
+    <s1 title="Context">
+
+      <p>
+        In many systems you need to include extra information depending in logs that depends
+        on information not included in the LogEvent. For instance the Formatters section described
+        an ExtendedPatternFormatter that included information such as calling method and calling 
+        thread. Other contextual information that you may need to include in log files include
+        user executing log statement, the network interface that the client component is listening 
+        to (ie 127.0.0.1 vs 192.168.1.1), hostname (especially important on multihomed boxen) or 
+        source of LogEvent (useful when writing a centralized log server).
+      </p>
+
+      <p>
+        There are a number of strategies to deal with application specific contextual 
+        information. Some logging toolkits encourage extending the Logger, LogEvent and 
+        LogTargets while others encourage using application specific LogTargets. The way 
+        that LogKit solves this problem is by using a generic ContexMap object. 
+      </p>
+
+      <p>
+        The ContextMap allows the user to store arbitrary objects using a string key. These 
+        objects can then be extracted by the LogTargets and used as appropriate. If you were
+        using the PatternFormatter you could extract a value from ContextMap by specify the 
+        "context" field with it's subformat set to the appropriate key. Some examples are 
+        illustrated below.
+      </p>
+
+<source><![CDATA[
+format: "%7.7{priority} [%{context:hostname}]: %{message}\n"
+output: DEBUG   [helm.realityforge.org]: This is a debug message
+
+format: "%7.7{priority} [%{context:interface}]: %{message}\n"
+output: DEBUG   [127.0.0.1]: This is logging about loopback interface
+output: DEBUG   [192.168.1.1]: This is logging about internal network interface
+output: DEBUG   [203.121.1.2]: This is logging about external network interface
+
+format: "%7.7{priority} [%{context:user}]: %{message}\n"
+output: DEBUG   [Barney Rubble]: This is a debug message
+]]></source>
+
+      <p>
+        <em>Warning:</em> Older versions of LogKit also incorporated a ContextStack
+        that offered hierarchial management of context. It was discovered that this
+        design encouraged bad practices and thus use of this feature has been 
+        deprecated in favour of using ContextMap. The ContextStack is still accessible
+        if users do not specify a subformat or specify the subformat "stack". However
+        it is strongly advised that users do not use this feature as it will be 
+        removed in a future iteration.
+      </p>
+
+      <p>
+        When using a ContextMap you create the object and populate it using the 
+        set(key,value) method. After populating the ContextMap you call the method
+        makeReadOnly(). This makes it impossible for hostile code to modify context
+        in which logging occurs.
+      </p>
+
+      <p>
+        Then you need to associate the ContextMap with a thread by using 
+        ContextMap.bind( myContextMap ). The ContextMap is bound to a thread
+        using java.lang.InheritableThreadLocal and thus maps are inherited between 
+        threads as specified by InheritableThreadLocal.
+      </p>
+
+      <p>
+        Below is an example of how a user can create and bind a ContextMap.
+      </p>
+
+<source><![CDATA[
+final ContextMap context = new ContextMap();
+context.set( "user", "Fred Flinstone" );
+context.set( "interface", myInterface );
+context.set( "hostname", "helm.realityforge.org" );
+context.set( "jvmid", myJvmId );
+context.makeReadOnly();
+
+//bind new ContextMap to current thread and subthreads
+ContextMap.bind( context );
+]]></source>
+
+    </s1> 
 
     <s1 title="Examples">
 
@@ -322,9 +408,13 @@ final String path = context.getRealPath("/") + "/WEB-INF/logs/" + logName ;
 
 //Create a logger to write to a file as specified 
 //with servlet init parameters
-FileOutputLogTarget target = new FileOutputLogTarget(path);
-target.setFormat( "%7.7{priority} %5.5{time}   [%8.8{category}] " +
-                  "(%{context}): %{message}\\n%{throwable}" );
+final String pattern = "%7.7{priority} %5.5{time}   [%8.8{category}] " +
+                  "(%{context}): %{message}\\n%{throwable}";
+final PatternFormatter formatter = new PatternFormatter( pattern );
+final File file = new File( path );
+
+//open file target in append mode
+FileTarget target = new FileTarget( file, true, formatter );
 
 //Create logger
 myLogger = Hierarchy.getDefaultHierarchy().getLoggerFor("myServlet");
@@ -358,7 +448,7 @@ myLogger.setPriority( priority );
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.2 $ $Date: 2001/06/21 14:16:57 $
+      $Revision: 1.3 $ $Date: 2001/07/31 08:46:44 $
     </legal>
   </footer>
 </document>
