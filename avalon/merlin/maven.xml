@@ -349,6 +349,7 @@
         <sourcepath path="${basedir}/activation/spi/src/java"/>
         <sourcepath path="${basedir}/activation/impl/src/java"/>
         <sourcepath path="${basedir}/kernel/api/src/java"/>
+        <sourcepath path="${basedir}/kernel/main/src/java"/>
         <sourcepath path="${basedir}/kernel/impl/src/java"/>
         <sourcepath path="${basedir}/kernel/unit/src/java"/>
         <classpath>
@@ -379,7 +380,7 @@
       excludes="project.xml,merlin-extensions/**"
       goals="clean:clean"
       banner="Cleaning subproject:"
-      ignoreFailures="false"/>
+      ignoreFailures="true"/>
   </goal>
 
   <goal name="merlin-clean" prereqs="merlin:clean"/>

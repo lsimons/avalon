@@ -2,7 +2,7 @@
 
 <kernel>
    <logging name="kernel" target="default" priority="INFO">
-      <category name="" priority="WARN"/>
+      <category name="" priority="INFO"/>
    </logging>
    <repository>
      <hosts>

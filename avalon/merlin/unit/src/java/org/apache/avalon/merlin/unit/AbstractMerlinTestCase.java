@@ -51,6 +51,7 @@
 package org.apache.avalon.merlin.unit;
 
 import java.io.File;
+import java.io.InputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Map;
@@ -68,6 +69,7 @@ import org.apache.avalon.repository.provider.Factory;
 import org.apache.avalon.repository.RepositoryException;
 import org.apache.avalon.repository.main.DefaultInitialContext;
 import org.apache.avalon.repository.main.DefaultBuilder;
+import org.apache.avalon.merlin.main.DefaultMerlinBuilder;
 
 import org.apache.avalon.util.env.Env;
 import org.apache.avalon.util.exception.ExceptionHelper;
@@ -78,7 +80,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * 
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.19 $
+ * @version $Revision: 1.20 $
  */
 public abstract class AbstractMerlinTestCase extends TestCase
 {
@@ -120,15 +122,12 @@ public abstract class AbstractMerlinTestCase extends TestCase
     {
         try
         {
-            Artifact artifact = 
-              Artifact.createArtifact( 
-                "merlin", "merlin-impl", "3.2-dev" );
+            File repository = new File( getMavenHome(), "repository" );
 
             InitialContext context = 
-               new DefaultInitialContext( 
-                 getMavenRepositoryDirectory() );
+               new DefaultInitialContext( repository );
 
-            Builder builder = new DefaultBuilder( context, artifact );
+            Builder builder = new DefaultMerlinBuilder( context );
             m_classloader = builder.getClassLoader();
             Factory factory = builder.getFactory();
             Map criteria = factory.createDefaultCriteria();
@@ -137,15 +136,9 @@ public abstract class AbstractMerlinTestCase extends TestCase
             // set the defaults
             //
 
-            criteria.put( "merlin.repository", getMavenRepositoryDirectory() );
-            criteria.put( "merlin.context", new File( getBaseDirectory(), "target" ) );
-
-            //
-            // read in any properties declared under the path 
-            // ${basedir}/merlin.properties
-            //
-
-            applyLocalProperties( criteria );
+            criteria.put( "merlin.repository", repository );
+            criteria.put( "merlin.context", "target" );
+            criteria.put( "merlin.server", "true" );
 
             //
             // if the deployment path is undefined then the best we 
@@ -283,46 +276,7 @@ public abstract class AbstractMerlinTestCase extends TestCase
         return null;
     }
 
-    private void applyLocalProperties( Map criteria ) throws IOException
-    {
-        File base = getBaseDirectory();
-        Properties properties = 
-          getLocalProperties( base, "merlin.properties" );
-        Enumeration keys = properties.keys();
-        while( keys.hasMoreElements() )
-        {
-            final String key = (String) keys.nextElement();
-            if( key.startsWith( "merlin." ) )
-            {
-                String value = properties.getProperty( key );
-                criteria.put( key, value );
-            }
-        }
-    }
-
-    private Properties getLocalProperties( 
-      File dir, String filename ) throws IOException
-    {
-        Properties properties = new Properties();
-        if( null == dir ) return properties;
-        File file = new File( dir, filename );
-        if( !file.exists() ) return properties;
-        properties.load( new FileInputStream( file ) );
-        return properties;
-    }
-
-
-    private static File getMavenRepositoryDirectory()
-    {
-        return new File( getMavenHomeDirectory(), "repository" );
-    }
-
-    private static File getMavenHomeDirectory()
-    {
-        return new File( getMavenHome() );
-    }
-
-    private static String getMavenHome()
+    private static File getMavenHome()
     {
         try
         {
@@ -331,9 +285,12 @@ public abstract class AbstractMerlinTestCase extends TestCase
                 "maven.home.local", 
                 Env.getEnvVariable( "MAVEN_HOME_LOCAL" ) );
 
-            if( null != local ) return local;
+            if( null != local ) return new File( local ).getCanonicalFile();
 
-            return System.getProperty( "user.home" ) + File.separator + ".maven";
+            return new File(
+              System.getProperty( "user.home" ) 
+              + File.separator 
+              + ".maven" ).getCanonicalFile();
 
         }
         catch( Throwable e )
@@ -346,18 +303,6 @@ public abstract class AbstractMerlinTestCase extends TestCase
         }
     }
 
-    private static String getEnvValue( String key )
-    {
-        try
-        {
-            return Env.getEnvVariable( key );
-        }
-        catch( Throwable e )
-        {
-            throw new RuntimeException( e.toString() );
-        }
-    }
-
     private File getBaseDirectory()
     {
         final String base = System.getProperty( "basedir" );
@@ -367,4 +312,5 @@ public abstract class AbstractMerlinTestCase extends TestCase
         }
         return new File( System.getProperty( "user.dir" ) );
     }
+
 }

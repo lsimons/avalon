@@ -1,0 +1,22 @@
+
+<project default="jar:install" xmlns:j="jelly:core" xmlns:ant="jelly:ant">
+
+  <!--
+  Create the merlin.properties property file.                    
+  This contains the information used to identify the             
+  the default merlin implementation artifact.                    
+  -->
+
+  <postGoal name="java:compile">
+    <j:set var="impl" value="${pom.getDependency('merlin:merlin-impl')}"/>
+    <ant:echo file="${maven.build.dir}/classes/merlin.properties">
+#===================================================================#
+# Default merlin implementation artifact identifier.                #
+#===================================================================#
+
+merlin.implementation = ${impl.groupId}:${impl.artifactId};${impl.version}
+
+</ant:echo>
+  </postGoal>
+
+</project>

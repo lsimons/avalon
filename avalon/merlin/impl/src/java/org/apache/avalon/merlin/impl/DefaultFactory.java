@@ -347,19 +347,6 @@ public class DefaultFactory implements Factory
               "\n  ${merlin.autostart} == " 
               + criteria.isAutostartEnabled() );
 
-            /*
-            Iterator keys = criteria.keySet().iterator();
-            while( keys.hasNext() )
-            {
-                String key = (String) keys.next();
-                if( !key.equals( "merlin.deployment" ) )
-                {
-                    Object value = criteria.get( key );
-                    buffer.append( "\n  ${" + key + "} == " + value );
-                }
-            }
-            */
-
             buffer.append( "\n  ${merlin.deployment} == " );
             URL[] urls = criteria.getDeploymentURLs();
             for( int i=0; i<urls.length; i++ )
