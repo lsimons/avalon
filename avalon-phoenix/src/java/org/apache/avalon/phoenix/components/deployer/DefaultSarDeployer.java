@@ -5,7 +5,7 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE file.
  */
-package org.apache.avalon.phoenix.engine;
+package org.apache.avalon.phoenix.components.deployer;
 
 import java.io.File;
 import java.io.IOException;
@@ -34,7 +34,8 @@ import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.avalon.framework.logger.AbstractLoggable;
 import org.apache.avalon.phoenix.engine.blocks.BlockEntry;
 import org.apache.avalon.phoenix.engine.blocks.RoleEntry;
-import org.apache.avalon.phoenix.engine.facilities.ConfigurationRepository;
+import org.apache.avalon.phoenix.components.configuration.ConfigurationRepository;
+import org.apache.avalon.phoenix.engine.ServerApplicationEntry;
 
 /**
  * Deploy .sar files into a kernel using this class.
@@ -115,7 +116,7 @@ public class DefaultSarDeployer
 
     /**
      * Get File object for URL.
-     * Currently it assumes that URL is a file URL but in the 
+     * Currently it assumes that URL is a file URL but in the
      * future it will allow downloading of remote URLs thus enabling
      * a deploy from anywhere functionality.
      *

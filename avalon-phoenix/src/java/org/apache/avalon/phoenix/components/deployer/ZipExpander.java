@@ -5,11 +5,11 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE file.
  */
-package org.apache.avalon.phoenix.engine;
+package org.apache.avalon.phoenix.components.deployer;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.io.FileOutputStream;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -72,12 +72,4 @@ public class ZipExpander
             }
         }
     }
-
-/*
-    private boolean shouldExpandEntry( final String name )
-    {
-        if( name.startsWith( "META-INF" ) ) return false;
-        else return true;
-    }
-*/
 }

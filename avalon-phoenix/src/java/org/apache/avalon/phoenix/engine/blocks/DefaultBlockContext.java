@@ -15,7 +15,7 @@ import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.excalibur.thread.ThreadPool;
 import org.apache.log.Logger;
 import org.apache.avalon.phoenix.BlockContext;
-import org.apache.avalon.phoenix.engine.facilities.ApplicationFrame;
+import org.apache.avalon.phoenix.components.frame.ApplicationFrame;
 
 /**
  * Context via which Blocks communicate with container.

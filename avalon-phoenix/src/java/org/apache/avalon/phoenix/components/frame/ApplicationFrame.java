@@ -5,10 +5,10 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE file.
  */
-package org.apache.avalon.phoenix.engine.facilities;
+package org.apache.avalon.phoenix.components.frame;
 
-import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.excalibur.thread.ThreadPool;
+import org.apache.avalon.framework.component.Component;
 import org.apache.log.Logger;
 
 /**
@@ -19,7 +19,7 @@ import org.apache.log.Logger;
 public interface ApplicationFrame
     extends Component
 {
-    String ROLE = "org.apache.avalon.phoenix.engine.facilities.ApplicationFrame";
+    String ROLE = "org.apache.avalon.phoenix.components.frame.ApplicationFrame";
 
     /**
      * Get ClassLoader for the current application.

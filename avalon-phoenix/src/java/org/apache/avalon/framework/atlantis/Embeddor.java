@@ -11,7 +11,6 @@ import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.activity.Startable;
 import org.apache.avalon.framework.component.Component;
-import org.apache.avalon.framework.parameters.Parameterizable;
 
 /**
  * This is the object that is interacted with to create, manage and

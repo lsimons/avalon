@@ -5,14 +5,18 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE file.
  */
-package org.apache.avalon.phoenix.engine;
+package org.apache.avalon.phoenix.frontends;
 
-import org.apache.avalon.framework.parameters.Parameters;
-import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.excalibur.cli.CLArgsParser;
 import org.apache.avalon.excalibur.cli.CLOption;
 import org.apache.avalon.excalibur.cli.CLOptionDescriptor;
 import org.apache.avalon.excalibur.cli.CLUtil;
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
+import org.apache.avalon.framework.parameters.Parameterizable;
+import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.avalon.phoenix.components.embeddor.PhoenixEmbeddor;
+import org.apache.avalon.phoenix.Constants;
 
 /**
  * The class to load the kernel and start it running.
@@ -20,8 +24,11 @@ import org.apache.avalon.excalibur.cli.CLUtil;
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  * @author <a href="mail@leosimons.com">Leo Simons</a>
  */
-public class Main
+public class CLIMain
 {
+    private static final Resources REZ =
+        ResourceManager.getPackageResources( CLIMain.class );
+
     /**
      * Main entry point.
      *
@@ -29,13 +36,13 @@ public class Main
      */
     public void main( final String args[] )
     {
-        final Main main = new Main();
+        final CLIMain main = new CLIMain();
 
         try
-        { 
+        {
             final String command = "java " + getClass().getName() + " [options]";
             final CLISetup setup = new CLISetup( command );
-            
+
             if( false == setup.parseCommandLineOptions( args ) )
             {
                 return;
@@ -44,19 +51,16 @@ public class Main
             System.out.println();
             System.out.println( Constants.SOFTWARE + " " + Constants.VERSION );
             System.out.println();
-            
-            main.execute( setup.getParameters() ); 
+
+            main.execute( setup.getParameters() );
         }
         catch( final Throwable throwable )
         {
-            System.out.println( "There was an uncaught exception:" );
+            System.out.println( REZ.getString( "main.exception.header" ) );
             System.out.println( "---------------------------------------------------------" );
             throwable.printStackTrace( System.out );
             System.out.println( "---------------------------------------------------------" );
-            System.out.println( "The log file may contain further details of error." );
-            System.out.println( "Please check the configuration files and restart phoenix." );
-            System.out.println( "If the problem persists, contact the Avalon project.  See" );
-            System.out.println( "http://jakarta.apache.org/avalon for more information." );
+            System.out.println( REZ.getString( "main.exception.footer" ) );
             System.exit( 1 );
         }
 
@@ -87,10 +91,18 @@ public class Main
         {
             embeddor.execute();
         }
+        catch( final Throwable throwable )
+        {
+            System.out.println( REZ.getString( "main.exception.header" ) );
+            System.out.println( "---------------------------------------------------------" );
+            throwable.printStackTrace( System.out );
+            System.out.println( "---------------------------------------------------------" );
+            System.out.println( REZ.getString( "main.exception.footer" ) );
+        }
         finally
         {
-            //embeddor.stop();
-            //embeddor.dispose();
+            embeddor.stop();
+            embeddor.dispose();
         }
     }
 }

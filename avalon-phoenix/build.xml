@@ -71,7 +71,7 @@ Legal:
   <property name="dist.name" value="${name}-${version}"/>
   <property name="dist.base" value="distributions"/>
 
-  <property name="constants.file" value="org/apache/avalon/phoenix/engine/Constants.java"/>
+  <property name="constants.file" value="org/apache/avalon/phoenix/Constants.java"/>
   <property name="xerces.jar" value="${tools.dir}/lib/xerces.jar"/>
   <property name="framework.jar" value="${lib.dir}/avalon-framework.jar"/>
   <property name="excalibur.jar" value="${lib.dir}/avalon-excalibur.jar"/>
@@ -311,7 +311,7 @@ Legal:
     <jar jarfile="${build.lib}/phoenix-loader.jar"
          basedir="${build.classes}"
          manifest="${manifest.dir}/loader-Manifest.mf" >
-      <include name="org/apache/avalon/phoenix/engine/loader/**"/>
+      <include name="org/apache/avalon/phoenix/launcher/**"/>
 
       <zipfileset dir="${conf.dir}" prefix="META-INF/">
         <include name="java.policy"/>
@@ -331,6 +331,8 @@ Legal:
 
       <include name="org/apache/avalon/phoenix/metainfo/**"/>
       <include name="org/apache/avalon/phoenix/engine/**"/>
+      <include name="org/apache/avalon/phoenix/frontends/**"/>
+      <include name="org/apache/avalon/phoenix/components/**"/>
       <exclude name="org/apache/avalon/phoenix/engine/loader/**"/>
 
     </jar>

@@ -5,7 +5,7 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE file.
  */
-package org.apache.avalon.phoenix.engine.facilities.frame;
+package org.apache.avalon.phoenix.components.frame;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,7 +23,7 @@ import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.AbstractLoggable;
-import org.apache.avalon.phoenix.engine.facilities.ApplicationFrame;
+import org.apache.avalon.phoenix.components.frame.ApplicationFrame;
 import org.apache.log.Hierarchy;
 import org.apache.log.LogTarget;
 import org.apache.log.Logger;

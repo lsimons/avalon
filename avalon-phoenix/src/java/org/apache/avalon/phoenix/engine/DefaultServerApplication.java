@@ -32,10 +32,9 @@ import org.apache.avalon.phoenix.engine.blocks.BlockDAG;
 import org.apache.avalon.phoenix.engine.blocks.BlockEntry;
 import org.apache.avalon.phoenix.engine.blocks.BlockVisitor;
 import org.apache.avalon.phoenix.engine.blocks.RoleEntry;
-import org.apache.avalon.phoenix.engine.facilities.ApplicationFrame;
-import org.apache.avalon.phoenix.engine.facilities.ConfigurationRepository;
-import org.apache.avalon.phoenix.engine.facilities.configuration.DefaultConfigurationRepository;
-import org.apache.avalon.phoenix.engine.facilities.frame.DefaultApplicationFrame;
+import org.apache.avalon.phoenix.components.frame.ApplicationFrame;
+import org.apache.avalon.phoenix.components.configuration.ConfigurationRepository;
+import org.apache.avalon.phoenix.components.frame.DefaultApplicationFrame;
 import org.apache.avalon.phoenix.engine.phases.ShutdownPhase;
 import org.apache.avalon.phoenix.engine.phases.StartupPhase;
 import org.apache.avalon.phoenix.metainfo.BlockInfo;
@@ -68,14 +67,11 @@ public final class DefaultServerApplication
     //the following are used for setting up facilities
     private Context                  m_context;
     private Configuration            m_configuration;
-    private ComponentManager         m_componentManager;
-
-    ///SystemManager provided by kernel
-    private SystemManager            m_systemManager;
+    private DefaultComponentManager  m_componentManager;
 
     //these are the facilities (internal components) of ServerApplication
     private ApplicationFrame         m_frame;
-    private ConfigurationRepository  m_repository;
+
 
     public void contextualize( final Context context )
         throws ContextException
@@ -87,9 +83,7 @@ public final class DefaultServerApplication
     public void compose( final ComponentManager componentManager )
         throws ComponentException
     {
-        m_systemManager = (SystemManager)componentManager.lookup( SystemManager.ROLE );
-        m_repository = 
-            (ConfigurationRepository)componentManager.lookup( ConfigurationRepository.ROLE );
+        m_componentManager = new DefaultComponentManager( componentManager );
     }
 
     public void configure( final Configuration configuration )
@@ -101,12 +95,15 @@ public final class DefaultServerApplication
     public void initialize()
         throws Exception
     {
-        createComponents();
+        m_frame = new DefaultApplicationFrame();
 
         //setup the component manager
-        m_componentManager = createComponentManager();
+        m_componentManager.put( ApplicationFrame.ROLE, m_frame );
+        m_componentManager.put( Container.ROLE, this );
+        m_componentManager.makeReadOnly();
 
-        setupComponents();
+        setupComponent( m_frame, "<core>.frame", m_configuration );
+        setupComponent( m_dag, "<core>.dag", null );
 
         setupPhases();
     }
@@ -237,29 +234,6 @@ public final class DefaultServerApplication
         }
     }
 
-    /**
-     * Create all required components.
-     *
-     * @exception Exception if an error occurs
-     */
-    protected void createComponents()
-        throws Exception
-    {
-        m_frame = new DefaultApplicationFrame();
-    }
-
-    /**
-     * Setup all the components. (ir run all required lifecycle methods).
-     *
-     * @exception Exception if an error occurs
-     */
-    protected void setupComponents()
-        throws Exception
-    {
-        setupComponent( m_frame, "<core>.frame", m_configuration );
-        setupComponent( m_dag, "<core>.dag", null );
-    }
-
     protected final void setupComponent( final Component object,
                                          final String logName,
                                          final Configuration configuration )
@@ -339,20 +313,5 @@ public final class DefaultServerApplication
                 throw new Exception( message );
             }
         }
-    }
-
-    /**
-     * Create a ComponentManager containing all components in engine.
-     *
-     * @return the ComponentManager
-     */
-    private ComponentManager createComponentManager()
-    {
-        final DefaultComponentManager componentManager = new DefaultComponentManager();
-        componentManager.put( SystemManager.ROLE, m_systemManager );
-        componentManager.put( ApplicationFrame.ROLE, m_frame );
-        componentManager.put( ConfigurationRepository.ROLE, m_repository );
-        componentManager.put( Container.ROLE, this );
-        return componentManager;
     }
 }

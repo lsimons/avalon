@@ -5,15 +5,15 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE file.
  */
-package org.apache.avalon.phoenix.engine;
+package org.apache.avalon.phoenix.components.embeddor;
 
 import java.io.File;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.excalibur.io.ExtensionFileFilter;
 import org.apache.avalon.framework.activity.Initializable;
-import org.apache.avalon.framework.atlantis.Embeddor;
 import org.apache.avalon.framework.atlantis.Application;
+import org.apache.avalon.framework.atlantis.Embeddor;
 import org.apache.avalon.framework.atlantis.SystemManager;
 import org.apache.avalon.framework.camelot.Container;
 import org.apache.avalon.framework.camelot.Deployer;
@@ -27,7 +27,7 @@ import org.apache.avalon.framework.logger.AbstractLoggable;
 import org.apache.avalon.framework.parameters.ParameterException;
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
-import org.apache.avalon.phoenix.engine.facilities.ConfigurationRepository;
+import org.apache.avalon.phoenix.components.configuration.ConfigurationRepository;
 import org.apache.log.Hierarchy;
 import org.apache.log.LogTarget;
 import org.apache.log.Logger;
@@ -49,14 +49,14 @@ public class PhoenixEmbeddor
     private static final Resources REZ =
         ResourceManager.getPackageResources( PhoenixEmbeddor.class );
 
-     private static final String    PHOENIX_HOME         =
+    private static final String    PHOENIX_HOME         =
         System.getProperty( "phoenix.home", ".." );
 
     private static final String    DEFAULT_LOG_FILE     = PHOENIX_HOME + "/logs/phoenix.log";
     private static final String    DEFAULT_APPS_PATH    = PHOENIX_HOME + "/apps";
 
     private static final String    DEFAULT_DEPLOYER     =
-        System.getProperty( "phoenix.deployer", "org.apache.avalon.phoenix.engine.DefaultSarDeployer" );
+        System.getProperty( "phoenix.deployer", "org.apache.avalon.phoenix.components.deployer.DefaultSarDeployer" );
 
     private static final String    DEFAULT_KERNEL       =
         System.getProperty( "phoenix.kernel", "org.apache.avalon.phoenix.engine.PhoenixKernel" );
@@ -66,7 +66,7 @@ public class PhoenixEmbeddor
 
     private static final String    DEFAULT_REPOSITORY   =
         System.getProperty( "phoenix.repository",
-                            "org.apache.avalon.phoenix.engine.facilities.configuration.DefaultConfigurationRepository" );
+                            "org.apache.avalon.phoenix.components.configuration.DefaultConfigurationRepository" );
 
     private Parameters     m_parameters;
 
