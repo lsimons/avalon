@@ -52,9 +52,10 @@ package org.apache.excalibur.xfc.test;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.avalon.framework.logger.ConsoleLogger;
+import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.logger.NullLogger;
 
-//import org.apache.excalibur.configuration.ConfigurationUtil;
+import org.apache.excalibur.configuration.ConfigurationUtil;
 
 import org.apache.excalibur.xfc.modules.ECM;
 import org.apache.excalibur.xfc.model.Definition;
@@ -63,14 +64,16 @@ import org.apache.excalibur.xfc.model.RoleRef;
 import org.apache.excalibur.xfc.Main;
 import org.apache.excalibur.xfc.Module;
 
+import org.apache.excalibur.xfc.test.util.ECMTestRig;
+
 import junit.framework.TestCase;
 import junit.textui.TestRunner;
 
 /**
- * XFC TestCase
+ * XFC TestCase.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: xfcTestCase.java,v 1.1 2002/10/07 14:31:20 crafterm Exp $
+ * @version CVS $Id: xfcTestCase.java,v 1.2 2002/10/07 17:06:22 crafterm Exp $
  */
 public final class xfcTestCase extends TestCase
 {
@@ -79,6 +82,7 @@ public final class xfcTestCase extends TestCase
     private static final String ECM_XCONF = "ecm.xconf";
 
     private DefaultConfigurationBuilder m_builder = new DefaultConfigurationBuilder();
+    private Logger m_logger = new NullLogger();
 
     public xfcTestCase()
     {
@@ -100,7 +104,8 @@ public final class xfcTestCase extends TestCase
     {
         try
         {
-            Module ecm = getModule( ECM.class );
+            Module ecm = new ECM();
+            ecm.enableLogging( m_logger );
             Model model = ecm.generate( "just-roles-no-xconf" );
 
             fail( "Context validation failed" );
@@ -112,91 +117,115 @@ public final class xfcTestCase extends TestCase
     }
 
     /**
-     * Method to test the ECM XFC module.
+     * Method to test the XFC ECM module, generation stage.
+     *
+     * <p>
+     *  This test case compares a generated {@link Model} instance with
+     *  the configuration file that was used to create it. If any differences
+     *  are found, assertions should occur.
+     * </p>
      *
      * @exception Exception if an error occurs
      */
-    public void testXFC_ECM()
+    public void testXFC_ECM_generate()
         throws Exception
     {
-        Module ecm = getModule( ECM.class );
+        // create an ECM module test rig instance
+        ECMTestRig ecm = new ECMTestRig();
+        ecm.enableLogging( m_logger );
+
+        // generate model from predefined configuration
         Model model = ecm.generate( ECM_ROLES + ":" + ECM_XCONF );
-        Configuration[] real_roles =
+
+        // load the same config and manually verify that model is correct
+        Configuration[] rolesREAL =
             m_builder.buildFromFile( ECM_ROLES ).getChildren( "role" );
-        RoleRef[] model_roles = model.getDefinitions();
+        RoleRef[] rolesMODEL = model.getDefinitions();
 
         // check that the generated model has the right number of roles
         assertEquals(
             "Model contains incorrect number of roles",
-            real_roles.length,
-            model_roles.length
+            rolesREAL.length, rolesMODEL.length
         );
 
-        // check each role has the right values
-        for ( int i = 0; i < model_roles.length; ++i )
+        // check each role has the right values, compared against the master copy
+        for ( int i = 0; i < rolesMODEL.length; ++i )
         {
-            RoleRef r = model_roles[i];
-            String roleName = r.getRole();
-            Configuration realRole = null;
+            String modelRoleName = rolesMODEL[i].getRole();
+            Configuration masterRoleConfig = null;
 
             // get the real role configuration object
-            for ( int j = 0; j < real_roles.length; ++j )
+            for ( int j = 0; j < rolesREAL.length; ++j )
             {
-                if ( roleName.equals( real_roles[j].getAttribute( "name" ) ) )
+                if ( modelRoleName.equals( rolesREAL[j].getAttribute( "name" ) ) )
                 {
-                    realRole = real_roles[j];
+                    masterRoleConfig = rolesREAL[j];
                     break;
                 }
             }
 
-            assertNotNull( "Configuration for role " + roleName + " not found", realRole );
+            // check that we found a Configuration fragment for the role in the model
+            assertNotNull(
+                "Master Configuration for role '" + modelRoleName + "' not found",
+                masterRoleConfig
+            );
 
-            Definition[] providers = model_roles[i].getProviders();
+            // convert our RoleRef object into a Configuration and compare with the master
+            Configuration modelRoleConfig = ecm.buildRole( rolesMODEL[i] );
 
-            if ( providers.length > 1 )
-            {
-                // component selector
-                // REVISIT.
-            }
-            else
-            {
-                // single component
-
-                // check that the role name from the model is correct
-                assertEquals(
-                    "Role names not equal",
-                    model_roles[i].getRole(),
-                    realRole.getAttribute( "name" )
-                );
-
-                // check that the shorthand name from the model is correct
-                assertEquals(
-                    "Shorthand names not equal",
-                    providers[0].getShorthand(),
-                    realRole.getAttribute( "shorthand" )
-                );
-
-                // check that the default-class name from the model is correct
-                assertEquals(
-                    "Default-class names not equal",
-                    providers[0].getDefaultClass(),
-                    realRole.getAttribute( "default-class" )
-                );
-            }
+            assertTrue(
+                "Role configuration trees differ\n" +
+                "(master)" + ConfigurationUtil.list( masterRoleConfig ) +
+                "(model)" + ConfigurationUtil.list( modelRoleConfig ),
+                ConfigurationUtil.equals( masterRoleConfig, modelRoleConfig )
+            );
         }
+
+        // all done, good show
+    }
+
+    /**
+     * Method to test the XFC ECM module, serialization stage.
+     *
+     * <p>
+     *  This test case serializes a given {@link Model} instance to a
+     *  temporary file, and the resultant file is compared against the
+     *  original. If any differences are found, assertions should occur.
+     * </p>
+     *
+     * @exception Exception if an error occurs
+     */
+    public void testXFC_ECM_serialize()
+        throws Exception
+    {
+        String ECM_ROLES_GENERATED = "ecm-generated.roles";
+
+        // create an ECM module test rig instance
+        ECMTestRig ecm = new ECMTestRig();
+        ecm.enableLogging( m_logger );
+
+        // generate model from predefined configuration
+        Model model = ecm.generate( ECM_ROLES + ":" + ECM_XCONF );
+
+        // serialize the model out to a temporary file
+        ecm.serialize( model, ECM_ROLES_GENERATED + ":" + ECM_XCONF );
+
+        // compare original with generated copy, they should be equal
+        Configuration master = m_builder.buildFromFile( ECM_ROLES );
+        Configuration generated = m_builder.buildFromFile( ECM_ROLES_GENERATED );
+
+        assertTrue(
+            "Generated roles file differs from master " +
+            "master: " + ECM_ROLES + ", generated: " + ECM_ROLES_GENERATED,
+            ConfigurationUtil.equals( master, generated )
+        );
+
+        // all done, good show
     }
 
     public void testXFC_Fortress()
     {
         // REVISIT
-    }
-
-    private Module getModule( final Class clazz )
-        throws Exception
-    {
-        Module module = (Module) clazz.newInstance();
-        module.enableLogging( new NullLogger() /*ConsoleLogger()*/ );
-        return module;
     }
 
     public static final void main( String[] args )
