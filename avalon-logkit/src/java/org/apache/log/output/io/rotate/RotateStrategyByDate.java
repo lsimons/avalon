@@ -61,8 +61,9 @@ import java.util.Date;
 /**
  * Rotation stragety based on SimpleDateFormat.
  *
+ * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
  * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>
- * @version $Revision: 1.6 $ $Date: 2003/02/04 13:50:33 $
+ * @version $Revision: 1.7 $ $Date: 2003/02/05 10:12:40 $
  */
 public class RotateStrategyByDate
     implements RotateStrategy
@@ -71,11 +72,19 @@ public class RotateStrategyByDate
     private Date m_date;
     private String m_current;
 
+   /**
+    * Creation of a new rotation strategy based on a date policy.
+    */
     public RotateStrategyByDate()
     {
         this( "yyyyMMdd" );
     }
 
+   /**
+    * Creation of a new rotation strategy based on a date policy
+    * using a supplied pattern.
+    * @param pattern the message formatting pattern
+    */
     public RotateStrategyByDate( final String pattern )
     {
         m_format = new SimpleDateFormat( pattern );
@@ -83,11 +92,21 @@ public class RotateStrategyByDate
         m_current = m_format.format( m_date );
     }
 
+   /**
+    * Reset the strategy.
+    */
     public void reset()
     {
         m_current = m_format.format( m_date );
     }
 
+   /**
+    * Test is a rotation is required.  Documentation pending ??
+    *
+    * @param data not used
+    * @param file not used
+    * @return TRUE if a rotation is required else FALSE
+    */
     public boolean isRotationNeeded( final String data, final File file )
     {
         m_date.setTime( System.currentTimeMillis() );

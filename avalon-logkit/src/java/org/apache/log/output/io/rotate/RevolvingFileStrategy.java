@@ -69,6 +69,7 @@ import java.text.NumberFormat;
  * are present then it will then set the initial rotation to the next rotation after
  * the most recently created file.
  *
+ * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
  * @author <a href="mailto:bh22351@i-one.at">Bernhard Huber</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  * @author <a href="mailto:david.gray@hic.gov.au">David Gray</a>
@@ -94,7 +95,7 @@ public class RevolvingFileStrategy
    /**
     * Creation of a new instane ofthe revolving file strategy.
     * @param baseFile the base file
-    * @param maxRotation the maximum number of rotations ??
+    * @param maxRotations the maximum number of rotations ??
     */
     public RevolvingFileStrategy( final File baseFile, final int maxRotations )
     {
@@ -105,7 +106,7 @@ public class RevolvingFileStrategy
     * Creation of a new instane ofthe revolving file strategy.
     * @param baseFile the base file
     * @param initialRotation the number of initial rotations ??
-    * @param maxRotation the maximum number of rotations?? 
+    * @param maxRotations the maximum number of rotations?? 
     */
     public RevolvingFileStrategy( final File baseFile,
                                   final int initialRotation,
