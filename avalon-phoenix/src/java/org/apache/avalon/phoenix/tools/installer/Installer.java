@@ -75,8 +75,6 @@ public class Installer
                 
         if( infos != null )
         {
-            final String message = REZ.getString( "skip-removal", file );
-            
             for( int i = 0; i < infos.length; i++ )
             {
                 final File file = infos[i].getFile();
@@ -86,6 +84,8 @@ public class Installer
                 {                    
                     if( file.lastModified() <= installation.getTimestamp() )
                     {
+                        final String message = 
+                            REZ.getString( "skip-removal", file );
                         getLogger().debug( message );                        
                         continue;
                     }
@@ -94,6 +94,8 @@ public class Installer
 
                     if( checksum.getValue() != infos[i].getChecksum() )
                     {
+                        final String message = 
+                            REZ.getString( "skip-removal", file );
                         getLogger().debug( message );                        
                         continue;
                     }
