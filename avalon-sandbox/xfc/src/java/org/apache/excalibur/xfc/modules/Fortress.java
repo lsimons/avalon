@@ -81,7 +81,7 @@ import org.apache.excalibur.xfc.model.RoleRef;
  * </p>
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: Fortress.java,v 1.2 2002/10/04 14:46:35 crafterm Exp $
+ * @version CVS $Id: Fortress.java,v 1.3 2002/10/07 17:13:17 crafterm Exp $
  */
 public class Fortress extends ECM
 {
@@ -98,11 +98,21 @@ public class Fortress extends ECM
     // Map of fortress/type handlers
     private static final Map m_handlers = new HashMap();
 
-    // <role-list>
-    //  <role name="">
-    //   <component shorthand="" class="" handler="">
-    //  </role>
-    // </role-list>
+    // Normalized mappings for Fortress component handlers
+    static
+    {
+        // Fortress -> Normalized
+        m_handlers.put( FACTORY, TRANSIENT );
+        m_handlers.put( PERTHREAD, THREAD );
+        m_handlers.put( POOLABLE, POOLED );
+        m_handlers.put( THREADSAFE, SINGLETON );
+
+        // Normalized -> Fortress
+        m_handlers.put( TRANSIENT, FACTORY );
+        m_handlers.put( THREAD, PERTHREAD );
+        m_handlers.put( POOLED, POOLABLE );
+        m_handlers.put( SINGLETON, THREADSAFE );
+    }
 
     /**
      * Method to construct a {@link RoleRef} object from
@@ -122,14 +132,13 @@ public class Fortress extends ECM
         {
             definitions[i] =
                 new Definition(
-                    getRole( role ),
                     getHintClass( hints[i] ),
                     getShorthand( hints[i] ),
                     getHandler( getHintClass( hints[i] ) )
                 );
         }
 
-        return new RoleRef( getRole( role ), definitions );
+        return new RoleRef( getRole( role ), getShorthand( role ), definitions );
     }
 
     /**
@@ -200,6 +209,7 @@ public class Fortress extends ECM
     protected Configuration buildSingleComponentRole( final RoleRef ref )
         throws Exception
     {
+        // single role definitions are the same as multiple definitions
         return buildMultipleComponentRole( ref );
     }
 
@@ -230,23 +240,8 @@ public class Fortress extends ECM
         }
 
         role.setAttribute( "name", ref.getRole() );
+        role.setAttribute( "shorthand", ref.getShorthand() );
 
         return role;
-    }
-
-    // Default mappings for Fortress and Type component handlers
-    static
-    {
-        // Fortress -> Type
-        m_handlers.put( FACTORY, TRANSIENT );
-        m_handlers.put( PERTHREAD, THREAD );
-        m_handlers.put( POOLABLE, POOLED );
-        m_handlers.put( THREADSAFE, SINGLETON );
-
-        // Type -> Fortress
-        m_handlers.put( TRANSIENT, FACTORY );
-        m_handlers.put( THREAD, PERTHREAD );
-        m_handlers.put( POOLED, POOLABLE );
-        m_handlers.put( SINGLETON, THREADSAFE );
     }
 }

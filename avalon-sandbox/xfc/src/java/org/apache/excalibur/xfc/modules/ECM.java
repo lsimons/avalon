@@ -80,7 +80,7 @@ import org.apache.excalibur.xfc.model.RoleRef;
  * </p>
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: ECM.java,v 1.3 2002/10/04 21:26:38 crafterm Exp $
+ * @version CVS $Id: ECM.java,v 1.4 2002/10/07 17:13:17 crafterm Exp $
  */
 public class ECM extends AbstractModule
 {
@@ -99,6 +99,16 @@ public class ECM extends AbstractModule
         "org.apache.avalon.excalibur.component.ExcaliburComponentSelector";
 
     private static Map m_handlers = new HashMap();
+
+    // Normalized mappings for ECM lifestyles
+    static
+    {
+        // ECM -> Normalized
+        m_handlers.put( SINGLETHREADED, TRANSIENT );
+        m_handlers.put( POOLABLE, POOLED );
+        m_handlers.put( RECYCLABLE, POOLED );
+        m_handlers.put( THREADSAFE, SINGLETON );
+    }
 
     /**
      * Generates a {@link Model} based on an a given ECM style
@@ -213,13 +223,12 @@ public class ECM extends AbstractModule
     {
         Definition def =
             new Definition(
-                getRole( role ),
                 getDefaultClass( role ),
                 getShorthand( role ),
                 getHandler( getDefaultClass( role ) )
             );
 
-        return new RoleRef( getRole( role ), def );
+        return new RoleRef( getRole( role ), getShorthand( role ), def );
     }
 
     /**
@@ -240,14 +249,13 @@ public class ECM extends AbstractModule
         {
             definitions[i] =
                 new Definition(
-                    getRole( role ),
                     getHintClass( hints[i] ),
                     getShorthand( hints[i] ),
                     getHandler( getHintClass( hints[i] ) )
                 );
         }
 
-        return new RoleRef( getRole( role ), definitions );
+        return new RoleRef( getRole( role ), getShorthand( role ), definitions );
     }
 
     /**
@@ -433,10 +441,11 @@ public class ECM extends AbstractModule
             DefaultConfiguration hint = new DefaultConfiguration( "hint", "" );
             hint.setAttribute( "shorthand", defs[i].getShorthand() );
             hint.setAttribute( "class", defs[i].getDefaultClass() );
+            role.addChild( hint );
         }
 
         role.setAttribute( "name", ref.getRole() );
-        role.setAttribute( "shorthand", "REVISIT" ); // REVISIT(MC) ?
+        role.setAttribute( "shorthand", ref.getShorthand() );
         role.setAttribute( "default-class", ECS );
 
         return role;
@@ -458,7 +467,7 @@ public class ECM extends AbstractModule
 
         // there is only 1 provider, use index 0 directly
         role.setAttribute( "name", ref.getRole() );
-        role.setAttribute( "shorthand", defs[0].getShorthand() );
+        role.setAttribute( "shorthand", ref.getShorthand() );
         role.setAttribute( "default-class", defs[0].getDefaultClass() );
 
         return role;
@@ -479,15 +488,5 @@ public class ECM extends AbstractModule
                 "Module requires the role and xconf filename " +
                 "separated by a '" + CONTEXT_SEPARATOR + "' character"
             );
-    }
-
-    // Normalized mappings for ECM lifestyles
-    static
-    {
-        // ECM -> Type
-        m_handlers.put( SINGLETHREADED, TRANSIENT );
-        m_handlers.put( POOLABLE, POOLED );
-        m_handlers.put( RECYCLABLE, POOLED );
-        m_handlers.put( THREADSAFE, SINGLETON );
     }
 }

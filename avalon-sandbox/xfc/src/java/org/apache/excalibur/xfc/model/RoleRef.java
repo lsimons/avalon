@@ -61,23 +61,26 @@ import java.util.List;
  * </p>
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: RoleRef.java,v 1.2 2002/10/04 14:36:24 crafterm Exp $
+ * @version CVS $Id: RoleRef.java,v 1.3 2002/10/07 17:13:17 crafterm Exp $
  */
 public final class RoleRef
 {
     // internals
     private final List m_definitions = new ArrayList();
     private final String m_role;
+    private final String m_shorthand;
 
     /**
      * Creates a new <code>RoleRef</code> instance.
      *
      * @param role role name
+     * @param shorthand shorthand name
      * @param definition a {@link Definition} instance
      */
-    public RoleRef( final String role, final Definition definition )
+    public RoleRef( final String role, final String shorthand, final Definition definition )
     {
         m_role = role;
+        m_shorthand = shorthand;
         m_definitions.add( definition );
     }
 
@@ -85,11 +88,13 @@ public final class RoleRef
      * Creates a new <code>RoleRef</code> instance.
      *
      * @param role role name
+     * @param role shorthand name
      * @param definitions a {@link Definition} array
      */
-    public RoleRef( final String role, final Definition[] definitions )
+    public RoleRef( final String role, final String shorthand, final Definition[] definitions )
     {
         m_role = role;
+        m_shorthand = shorthand;
 
         for ( int i = 0; i < definitions.length; ++i )
         {
@@ -105,6 +110,16 @@ public final class RoleRef
     public String getRole()
     {
         return m_role;
+    }
+
+    /**
+     * Obtain the shorthand name of this role
+     *
+     * @return a <code>String</code> value
+     */
+    public String getShorthand()
+    {
+        return m_shorthand;
     }
 
     /**

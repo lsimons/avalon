@@ -53,12 +53,11 @@ package org.apache.excalibur.xfc.model;
  * Class containing information about a particular Component's definition.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: Definition.java,v 1.1 2002/10/02 17:32:28 crafterm Exp $
+ * @version CVS $Id: Definition.java,v 1.2 2002/10/07 17:13:17 crafterm Exp $
  */
 public final class Definition
 {
     // internals
-    private final String m_role;
     private final String m_clazz;
     private final String m_shorthand;
     private final String m_handler;
@@ -66,34 +65,21 @@ public final class Definition
     /**
      * Creates a new <code>Definition</code> instance.
      *
-     * @param role a <code>String</code> value
      * @param clazz a <code>String</code> value
      * @param shorthand a <code>String</code> value
      * @param handler a <code>String</code> value
      */
     public Definition(
-        final String role, 
         final String clazz,
         final String shorthand,
         final String handler
     )
     {
-        m_role = role;
         m_clazz = clazz;
         m_shorthand = shorthand;
         m_handler = handler;
     }
 
-    /**
-     * Obtain this Component role name.
-     *
-     * @return a <code>String</code> value
-     */
-    public String getRole() 
-    {
-        return m_role;
-    }
-    
     /**
      * Obtain this Component's default implementing class.
      *
