@@ -1,0 +1,105 @@
+<?xml version="1.0" standalone="no"?>
+
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.1//EN"
+                         "./dtd/docbookx.dtd">
+
+<chapter xmlns:xi="http://www.w3.org/2001/XInclude"
+         xml:base="context://content/xdocs/developing/">
+  <chapterinfo>
+    <authorgroup>
+      <xi:xinclude href="../authors/hammant.xml"/>
+    </authorgroup>
+  </chapterinfo>
+  <title>Compatibility with Avalon Project Containers</title>
+  <subtitle>
+    How to make your project compatible with an Avalon Containers.
+  </subtitle>
+  <para>
+    There are many applications, utility or tools written in Java that you 
+    wish you could use in an Avalon container.  It may be that you are 
+    writing such an app/utility/tool that you intend to additionally be 
+    usable by Avalon components in Avalon containers.  This document 
+    gives some advice on the subject.  We will refer to applications, 
+    utilities and tools as just 'tools' from her on in.  We'll assume 
+    the classes for which are in a single Jar.    
+  </para>
+  <para>  
+    This advise is applicable to all
+    <a href="../framework/reference-containers.html">reference containers</a>
+  </para>
+  <section>
+    <title>Making a Jar for a tool</title>
+    <para>
+      The tool's Jar should only contain the classes in question and 
+      directly associated resources. It should not contain the classes 
+      or resources from other projects.  For example it is a bad habit 
+      to include the org.apache.xerces.* jars in another jar.  It would 
+      be correct for the notes accompanying the tools to list xerces.jar 
+      as a dependency.
+    </para>
+    <para> 
+      It is best that packages for the tool are well defined.  Sun 
+      recommend a package structure that honors the internet domain of 
+      the hosted proejct.  For example org.apache prefixes all the packages
+      of projects hosted at Apache.  Sometimes a project thinks it is 
+      significant enough to avoid the domain name based naming, but still 
+      have a package.  JUnit is an example of this, as it uses junit as its 
+      top level package.  Tools that have no package or a package name
+      that a non unique word are not good design.
+    </para>
+  </section>    
+  <section>
+    <title>Wrapping third party tools</title>
+    <para>
+      There are many tools written in Java as beans that you wish you could 
+      use in an Avalon container as a component.  If they are not 
+      dependent on Avalon packages and classes already it is likely that 
+      some wrapper concept is appropriate.  The normal form is to have 
+      a separate package with a class that is dependent on Avalon Framework 
+      methods.  That wrapper class would be Configurable, Initializable etc, 
+      and would map its configuration to setZYZ() methods in the original bean.
+    </para>
+    <para>
+      It is also a good idea to understand the 
+      <a href="../framework/guide-patterns-soii.html">separation of interface 
+      and implementation</a> when designing components.
+    </para>
+  </section>  
+  <section>
+    <title>Dynamic Classloading</title>
+    <para>
+      Many Java tools internally use 
+      <emphasis>Class.forName(String).newInstance()</emphasis> 
+      to instantiate some part of its internal functionality.  This
+      works if the class's Jar is mounted at the top-level system 
+      classloader.  In the case of many Avalon containers, the Jar in 
+      question will actually be mounted in a classloader at some other point
+      in a tree of classloaders.  Thus <emphasis>Class.forName()</emphasis> 
+      will fail with ClassNotFoundException if running in a container.  
+    </para>
+    <para>
+      A better thing to do would be to use 
+      <emphasis>this.getClass().getClassLoader().loadClass(String)</emphasis>.
+      This means that the class will always be loaded from classloader
+      that hosts the rest of the classes for the tool.  It can run at any
+      point in a tree of classloaders without problem.
+    </para>
+  </section>
+  <section>
+    <title>Use of Static</title>
+    <para>
+      It is common amongst novice developers to use much static 
+      functionality.  This could be methods or class variables.  Given 
+      that Avalon's containers may mount multiple instances of a component
+      potentially in multiple classloaders, the use of static may lead to
+      unpredicted behavior.  If the static var or method is mounted in a 
+      classloader that is visible to multiple components, then it will 
+      behave as expected.  For this reason, static should be used with care 
+      - you cannot guarantee where someone might try to run your tool.
+    </para>
+    <para>
+      Static also makes Unit Testing quite difficult.  If you can at all 
+      avoid it, please do so.
+    </para>
+  </section>
+</chapter>
