@@ -43,10 +43,12 @@
       <depend property="junit.jar"   project="junit"/>
       <property name="version" value="@@DATE@@"/>
       <property name="junit.failonerror" value="true"/>
+      <property name="do.checkstyle" value="true"/>
     </ant>
 
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
+    <depend project="checkstyle"/>
     <work nested="extension/build/classes"/>
 
     <home nested="extension"/>
@@ -61,10 +63,12 @@
       <depend property="junit.jar" project="junit"/>
       <property name="version" value="@@DATE@@"/>
       <property name="junit.failonerror" value="true"/>
+      <property name="do.checkstyle" value="true"/>
     </ant>
 
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
+    <depend project="checkstyle"/>
     <work nested="cache/build/classes"/>
 
     <home nested="cache"/>
@@ -78,10 +82,12 @@
       <depend property="junit.jar" project="junit"/>
       <property name="version" value="@@DATE@@"/>
       <property name="junit.failonerror" value="true"/>
+      <property name="do.checkstyle" value="true"/>
     </ant>
 
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
+    <depend project="checkstyle"/>
     <work nested="cli/build/classes"/>
 
     <home nested="cli"/>
@@ -95,10 +101,12 @@
       <depend property="junit.jar" project="junit"/>
       <property name="version" value="@@DATE@@"/>
       <property name="junit.failonerror" value="true"/>
+      <property name="do.checkstyle" value="true"/>
     </ant>
 
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
+    <depend project="checkstyle"/>
     <work nested="io/build/classes"/>
 
     <home nested="io"/>
@@ -112,10 +120,12 @@
       <depend property="junit.jar" project="junit"/>
       <property name="version" value="@@DATE@@"/>
       <property name="junit.failonerror" value="true"/>
+      <property name="do.checkstyle" value="true"/>
     </ant>
 
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
+    <depend project="checkstyle"/>
     <work nested="i18n/build/classes"/>
 
     <home nested="i18n"/>
@@ -129,10 +139,12 @@
       <depend property="junit.jar" project="junit"/>
       <property name="version" value="@@DATE@@"/>
       <property name="junit.failonerror" value="true"/>
+      <property name="do.checkstyle" value="true"/>
     </ant>
 
     <depend project="jakarta-ant"/>
     <depend project="xml-xerces"/>
+    <depend project="checkstyle"/>
     <work nested="naming/build/classes"/>
 
     <home nested="naming"/>
