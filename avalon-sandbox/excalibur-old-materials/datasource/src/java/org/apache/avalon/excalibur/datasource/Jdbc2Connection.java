@@ -16,6 +16,7 @@ import java.sql.SQLWarning;
 import java.sql.Statement;
 import java.util.Map;
 import org.apache.avalon.framework.logger.AbstractLoggable;
+import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.excalibur.pool.Recyclable;
 import org.apache.avalon.excalibur.pool.Pool;
@@ -30,21 +31,24 @@ import org.apache.log.Logger;
  * total number of Connection objects that are created.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.2 $ $Date: 2001/07/20 16:23:02 $
+ * @version CVS $Revision: 1.3 $ $Date: 2001/07/31 04:35:49 $
  */
-public final class JdbcConnection
+public class JdbcConnection
     extends AbstractLoggable
-    implements Connection, Recyclable, Disposable
+    implements Connection, Recyclable, Disposable, Initializable
 {
-    private Connection         m_connection;
-    private Pool               m_pool;
-    private PreparedStatement  m_test_statement;
-    private SQLException       m_test_exception;
-    private int                m_num_uses        = 15;
+    protected Connection         m_connection;
+    protected Pool               m_pool;
+    protected PreparedStatement  m_test_statement;
+    protected SQLException       m_test_exception;
+    protected int                m_num_uses        = 15;
 
     public JdbcConnection( final Connection connection, final boolean oradb )
     {
         m_connection = connection;
+
+        // subclasses can override initialize()
+        this.initialize();
 
         try
         {
@@ -62,6 +66,13 @@ public final class JdbcConnection
             m_test_statement = null;
             m_test_exception = se;
         }
+    }
+
+    /**
+     * Extend this for connection initialization--only needed for some drivers.
+     */
+    public void initialize()
+    {
     }
 
     protected void setPool(Pool pool)

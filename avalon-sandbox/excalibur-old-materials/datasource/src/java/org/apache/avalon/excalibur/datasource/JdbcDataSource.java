@@ -21,7 +21,7 @@ import org.apache.avalon.excalibur.pool.DefaultPoolController;
  * <code>java.sql.DriverManager</code>.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.2 $ $Date: 2001/07/20 16:23:02 $
+ * @version CVS $Revision: 1.3 $ $Date: 2001/07/31 04:35:49 $
  */
 public class JdbcDataSource
     extends AbstractLoggable
@@ -54,16 +54,17 @@ public class JdbcDataSource
             final int max = controller.getAttributeAsInteger( "max", 3 );
             final boolean autoCommit = configuration.getChild("auto-commit").getValueAsBoolean(true);
             final boolean oradb = controller.getAttributeAsBoolean( "oradb", false );
+            final String connectionClass = controller.getAttribute( "connection-class", null );
 
             final int l_max;
             final int l_min;
 
             // If driver is specified....
-            if (! "".equals(driver))
+            if ( ! "".equals(driver) )
             {
                 try
                 {
-                    Thread.currentThread().getContextClassLoader().loadClass(driver);
+                    Thread.currentThread().getContextClassLoader().loadClass( driver );
                 }
                 catch (ClassNotFoundException cnfe)
                 {
@@ -115,7 +116,8 @@ public class JdbcDataSource
                 }
             }
 
-            final JdbcConnectionFactory factory = new JdbcConnectionFactory(dburl, user, passwd, autoCommit, oradb);
+            final JdbcConnectionFactory factory =
+                    new JdbcConnectionFactory( dburl, user, passwd, autoCommit, oradb, connectionClass );
             final DefaultPoolController poolController = new DefaultPoolController(l_max / 4);
 
             factory.setLogger(getLogger());

@@ -654,6 +654,7 @@ Legal:
   <target name="real-clean" depends="clean">
     <delete dir="${docs.dir}" />
     <delete dir="${dist.base}" />
+    <delete dir="${src.dist.dir}" />
   </target>
 
 </project>
