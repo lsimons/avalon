@@ -83,6 +83,10 @@ import org.apache.log.output.io.rotate.UniqueFileStrategy;
  *   maximum rotation to use on a type="revolving" attribute.
  *   The optional pattern and suffix attribute are used to form filenames on
  *   a type="unique" attribute.
+ *   <p> The initial rotation
+ *   can be set to -1 in which case the system will first create the maximum
+ *   number of file rotations by selecting the next available rotation and thereafter
+ *   will overwrite the oldest log file.
  *  </dd>
  *  <dt>&lt;or&gt;</dt>
  *  <dd>uses the OrRotateStrategy to combine the children</dd>
@@ -106,7 +110,7 @@ import org.apache.log.output.io.rotate.UniqueFileStrategy;
  * </dl>
  *
  * @author <a href="mailto:giacomo@apache.org">Giacomo Pati</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/05/10 02:51:14 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/05/16 21:11:31 $
  * @since 4.0
  */
 public class FileTargetFactory
