@@ -74,7 +74,7 @@ import org.apache.excalibur.store.StoreJanitor;
  * @author <a href="mailto:cs@ffzj0ia9.bank.dresdner.net">Christian Schmitt</a>
  * @author <a href="mailto:g-froehlich@gmx.de">Gerhard Froehlich</a>
  * @author <a href="mailto:proyal@managingpartners.com">Peter Royal</a>
- * @version CVS $Id: StoreJanitorImpl.java,v 1.7 2003/05/20 21:03:39 bloritsch Exp $
+ * @version CVS $Id: StoreJanitorImpl.java,v 1.8 2003/07/29 03:58:34 vgritsenko Exp $
  */
 public class StoreJanitorImpl
 extends AbstractLogEnabled
@@ -108,8 +108,8 @@ implements StoreJanitor,
      * @exception ConfigurationException
      */
     public void parameterize(Parameters params) throws ParameterException {
-        if (this.getLogger().isDebugEnabled()) {
-            this.getLogger().debug("Configure StoreJanitorImpl");
+        if (getLogger().isDebugEnabled()) {
+            getLogger().debug("Configure StoreJanitorImpl");
         }
         this.setJVM(Runtime.getRuntime());
 
@@ -143,8 +143,8 @@ implements StoreJanitor,
     public void start() {
         doRun = true;
         Thread checker = new Thread(this);
-        if (this.getLogger().isDebugEnabled()) {
-            this.getLogger().debug("Intializing checker thread");
+        if (getLogger().isDebugEnabled()) {
+            getLogger().debug("Intializing checker thread");
         }
         checker.setPriority(this.getPriority());
         checker.setDaemon(true);
@@ -163,18 +163,18 @@ implements StoreJanitor,
         while (doRun) {
             // amount of memory used is greater then heapsize
             if (this.memoryLow()) {
-                if (this.getLogger().isDebugEnabled()) {
-                    this.getLogger().debug("Invoking garbage collection, total memory = "
-                            + this.getJVM().totalMemory() + ", free memory = "
-                            + this.getJVM().freeMemory());
+                if (getLogger().isDebugEnabled()) {
+                    getLogger().debug("Invoking garbage collection, total memory = "
+                                      + getJVM().totalMemory() + ", free memory = "
+                                      + getJVM().freeMemory());
                 }
 
                 //this.freePhysicalMemory();
 
-                if (this.getLogger().isDebugEnabled()) {
-                    this.getLogger().debug("Garbage collection complete, total memory = "
-                        + this.getJVM().totalMemory() + ", free memory = "
-                        + this.getJVM().freeMemory());
+                if (getLogger().isDebugEnabled()) {
+                    getLogger().debug("Garbage collection complete, total memory = "
+                                      + getJVM().totalMemory() + ", free memory = "
+                                      + getJVM().freeMemory());
                 }
 
                 synchronized (this) {
@@ -196,20 +196,20 @@ implements StoreJanitor,
      * @return true if memory is low
      */
     private boolean memoryLow() {
-        if (this.getLogger().isDebugEnabled()) {
-            this.getLogger().debug("JVM total Memory: " + this.getJVM().totalMemory());
-            this.getLogger().debug("JVM free Memory: " + this.getJVM().freeMemory());
+        if (getLogger().isDebugEnabled()) {
+            getLogger().debug("JVM total Memory: " + getJVM().totalMemory());
+            getLogger().debug("JVM free Memory: " + getJVM().freeMemory());
         }
 
-        if((this.getJVM().totalMemory() > this.getHeapsize())
-            && (this.getJVM().freeMemory() < this.getFreememory())) {
-            if (this.getLogger().isDebugEnabled()) {
-                this.getLogger().debug("Memory is low = true");
+        if ((getJVM().totalMemory() > this.getHeapsize())
+            && (getJVM().freeMemory() < this.getFreememory())) {
+            if (getLogger().isDebugEnabled()) {
+                getLogger().debug("Memory is low = true");
             }
             return true;
         } else {
-            if (this.getLogger().isDebugEnabled()) {
-                this.getLogger().debug("Memory is low = false");
+            if (getLogger().isDebugEnabled()) {
+                getLogger().debug("Memory is low = false");
             }
             return false;
         }
@@ -222,10 +222,10 @@ implements StoreJanitor,
      */
     public void register(Store store) {
         this.getStoreList().add(store);
-        if (this.getLogger().isDebugEnabled()) {
-            this.getLogger().debug("Registering store instance");
-            this.getLogger().debug("Size of StoreJanitor now:"
-                                   + this.getStoreList().size());
+        if (getLogger().isDebugEnabled()) {
+            getLogger().debug("Registering store instance");
+            getLogger().debug("Size of StoreJanitor now:"
+                              + this.getStoreList().size());
         }
     }
 
@@ -236,10 +236,10 @@ implements StoreJanitor,
      */
     public void unregister(Store store) {
         this.getStoreList().remove(store);
-        if (this.getLogger().isDebugEnabled()) {
-            this.getLogger().debug("Unregister store instance");
-            this.getLogger().debug("Size of StoreJanitor now:"
-                                   + this.getStoreList().size());
+        if (getLogger().isDebugEnabled()) {
+            getLogger().debug("Unregister store instance");
+            getLogger().debug("Size of StoreJanitor now:"
+                              + this.getStoreList().size());
         }
     }
 
@@ -267,17 +267,17 @@ implements StoreJanitor,
 
         try {
             //Determine elements in Store:
-            if (this.getLogger().isDebugEnabled()) {
-                this.getLogger().debug("StoreList size=" + this.getStoreList().size());
-                this.getLogger().debug("Actual Index position: " + this.getIndex());
+            if (getLogger().isDebugEnabled()) {
+                getLogger().debug("StoreList size=" + this.getStoreList().size());
+                getLogger().debug("Actual Index position: " + this.getIndex());
             }
             if (this.getIndex() < this.getStoreList().size()) {
                 if(this.getIndex() == -1) {
                     this.setIndex(0);
                     store = (Store)this.getStoreList().get(this.getIndex());
 
-                    if (this.getLogger().isDebugEnabled()) {
-                        this.getLogger().debug("Freeing Store: " + this.getIndex());
+                    if (getLogger().isDebugEnabled()) {
+                        getLogger().debug("Freeing Store: " + this.getIndex());
                     }
 
                     //delete proportionate elements out of the cache as
@@ -289,8 +289,8 @@ implements StoreJanitor,
                 } else {
                     store = (Store)this.getStoreList().get(this.getIndex());
 
-                    if (this.getLogger().isDebugEnabled()) {
-                        this.getLogger().debug("Freeing Store: " + this.getIndex());
+                    if (getLogger().isDebugEnabled()) {
+                        getLogger().debug("Freeing Store: " + this.getIndex());
                     }
 
                     //delete proportionate elements out of the cache as
@@ -301,8 +301,8 @@ implements StoreJanitor,
                     }
                 }
             } else {
-                if (this.getLogger().isDebugEnabled()) {
-                    this.getLogger().debug("Starting from the beginning");
+                if (getLogger().isDebugEnabled()) {
+                    getLogger().debug("Starting from the beginning");
                 }
 
                 this.resetIndex();
@@ -317,7 +317,7 @@ implements StoreJanitor,
                 }
             }
         } catch(Exception e) {
-            this.getLogger().error("Error in freeMemory()",e);
+            getLogger().error("Error in freeMemory()",e);
         }
     }
 
@@ -340,8 +340,8 @@ implements StoreJanitor,
     /**
      * This method forces the garbage collector
     private void freePhysicalMemory() {
-        this.getJVM().runFinalization();
-        this.getJVM().gc();
+        getJVM().runFinalization();
+        getJVM().gc();
     }
      */
 
@@ -394,8 +394,8 @@ implements StoreJanitor,
     }
 
     private void setIndex(int _index) {
-        if (this.getLogger().isDebugEnabled()) {
-            this.getLogger().debug("Setting index=" + _index);
+        if (getLogger().isDebugEnabled()) {
+            getLogger().debug("Setting index=" + _index);
         }
         this.index = _index;
     }
@@ -405,8 +405,8 @@ implements StoreJanitor,
     }
 
     private void resetIndex() {
-        if (this.getLogger().isDebugEnabled()) {
-            this.getLogger().debug("Reseting index");
+        if (getLogger().isDebugEnabled()) {
+            getLogger().debug("Reseting index");
         }
         this.index = -1;
     }

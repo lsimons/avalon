@@ -72,7 +72,7 @@ import org.apache.excalibur.store.Store;
  *
  * @author <a href="mailto:g-froehlich@gmx.de">Gerhard Froehlich</a>
  * @author <a href="mailto:vgritsenko@apache.org">Vadim Gritsenko</a>
- * @version CVS $Id: AbstractJispFilesystemStore.java,v 1.13 2003/07/14 19:07:30 cziegeler Exp $
+ * @version CVS $Id: AbstractJispFilesystemStore.java,v 1.14 2003/07/29 03:58:34 vgritsenko Exp $
  */
 public abstract class AbstractJispFilesystemStore
 extends AbstractLogEnabled
@@ -165,10 +165,10 @@ implements Store, ThreadSafe {
 
         if (getLogger().isDebugEnabled()) 
         {
-            this.getLogger().debug("store(): Store file with key: "
-                                  + key.toString());
-            this.getLogger().debug("store(): Store file with value: "
-                                  + value.toString());
+            getLogger().debug("store(): Store file with key: "
+                              + key.toString());
+            getLogger().debug("store(): Store file with value: "
+                              + value.toString());
         }
 
         if (value instanceof Serializable) 
@@ -181,7 +181,7 @@ implements Store, ThreadSafe {
             } 
             catch (Exception e) 
             {
-                this.getLogger().error("store(..): Exception", e);
+                getLogger().error("store(..): Exception", e);
             }
         } 
         else 
@@ -219,7 +219,7 @@ implements Store, ThreadSafe {
         
         if (getLogger().isDebugEnabled()) 
         {
-            this.getLogger().debug("clear(): Clearing the database ");
+            getLogger().debug("clear(): Clearing the database ");
         }
 
         try 
@@ -233,7 +233,7 @@ implements Store, ThreadSafe {
                 {
                     if (getLogger().isDebugEnabled()) 
                     {
-                        this.getLogger().debug("clear(): Removing key: " + tmp.toString());
+                        getLogger().debug("clear(): Removing key: " + tmp.toString());
                     }
                     iter.moveNext();
                     this.remove( tmp );
@@ -256,7 +256,7 @@ implements Store, ThreadSafe {
     {
         if (getLogger().isDebugEnabled()) 
         {
-            this.getLogger().debug("remove(..) Remove item");
+            getLogger().debug("remove(..) Remove item");
         }
 
         try 
@@ -270,7 +270,7 @@ implements Store, ThreadSafe {
         } 
         catch (Exception e) 
         {
-            this.getLogger().error("remove(..): Exception", e);
+            getLogger().error("remove(..): Exception", e);
         }
     }
 
@@ -289,7 +289,7 @@ implements Store, ThreadSafe {
             res = m_Index.findKey(this.wrapKeyObject(key));
             if (getLogger().isDebugEnabled()) 
             {
-                this.getLogger().debug("containsKey(..): res=" + res);
+                getLogger().debug("containsKey(..): res=" + res);
             }
         } 
         catch (KeyNotFound ignore) 
@@ -297,7 +297,7 @@ implements Store, ThreadSafe {
         } 
         catch (Exception e)
         {
-            this.getLogger().error("containsKey(..): Exception", e);
+            getLogger().error("containsKey(..): Exception", e);
         }
 
         if (res > 0) 
