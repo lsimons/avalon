@@ -23,107 +23,227 @@ import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.taskdefs.Copy;
 import org.apache.tools.ant.taskdefs.XSLTProcess;
+import org.apache.tools.ant.taskdefs.Mkdir;
 
-public class XdocTask extends HomeTask
+import org.apache.avalon.tools.home.Context;
+import org.apache.avalon.tools.home.Home;
+
+public class XdocTask extends Task
 {
-    public static final String XDOC_TARGET_SRC_KEY = "avalon.target.src.xdoc";
-    public static final String XDOC_TARGET_SRC_VALUE = 
-       PrepareTask.TARGET_SRC + "/xdocs";
+    //public static final String BUILD_DOCS_KEY = "project.target.docs.name";
+    //public static final String BUILD_DOCS_VALUE = "docs";
 
-    public static final String XDOC_TARGET_DOCS_KEY = "avalon.target.docs";
-    public static final String XDOC_TARGET_DOCS_VALUE = 
-       PrepareTask.TARGET + "/docs";
+    public static final String XDOC_TEMP_KEY = "project.target.temp.xdocs";
+    public static final String XDOC_TEMP_VALUE = "xdocs";
 
-    public static final String XDOC_THEME_KEY = "xdoc.theme.name";
+    public static final String XDOC_SRC_KEY = "project.xdocs.src";
+    public static final String XDOC_SRC_VALUE = "xdocs";
+
+    public static final String XDOC_RESOURCES_KEY = "project.xdocs.resources";
+    public static final String XDOC_RESOURCES_VALUE = "resources";
+
+    public static final String XDOC_THEME_KEY = "project.xdoc.theme";
     public static final String XDOC_THEME_VALUE = "avalon2";
 
-    public static final String XDOC_OUTPUT_FORMAT_KEY = "xdoc.output.format";
-    public static final String XDOC_OUTPUT_FORMAT_VALUE = "html";
+    public static final String XDOC_FORMAT_KEY = "project.xdoc.output.format";
+    public static final String XDOC_FORMAT_VALUE = "html";
+
+    public static final String ORG_NAME_KEY = "project.organization.name";
+    public static final String ORG_NAME_VALUE = "The Apache Software Foundation";
+
+    public static final String XDOC_LOGO_RIGHT_FILE_KEY = "project.xdoc.logo.right.file";
+    public static final String XDOC_LOGO_RIGHT_FILE_VALUE = "";
+
+    public static final String XDOC_LOGO_RIGHT_URL_KEY = "project.xdoc.logo.right.url";
+    public static final String XDOC_LOGO_RIGHT_URL_VALUE = "";
+
+    public static final String XDOC_LOGO_LEFT_FILE_KEY = "project.xdoc.logo.left.file";
+    public static final String XDOC_LOGO_LEFT_FILE_VALUE = "";
+
+    public static final String XDOC_LOGO_LEFT_URL_KEY = "project.xdoc.logo.left.url";
+    public static final String XDOC_LOGO_LEFT_URL_VALUE = "";
+
+    public static final String XDOC_LOGO_MIDDLE_FILE_KEY = "project.xdoc.logo.middle.file";
+    public static final String XDOC_LOGO_MIDDLE_FILE_VALUE = "";
+
+    public static final String XDOC_LOGO_MIDDLE_URL_KEY = "project.xdoc.logo.middle.url";
+    public static final String XDOC_LOGO_MIDDLE_URL_VALUE = "";
+
+    public static final String XDOC_BRAND_NAME_KEY = "project.xdoc.brand.name";
+    public static final String XDOC_BRAND_NAME_VALUE = "Avalon";
+
+    public static final String XDOC_ANCHOR_URL_KEY = "project.xdoc.anchor.url";
+
+
+    private boolean m_init = false;
+    private Context m_context;
+    private Home m_home;
+    private String m_theme;
 
     private File m_BaseToDir;    
     private File m_BaseSrcDir;    
-    private String m_theme;
 
     public void setTheme( String theme )
     {
         m_theme = theme;
     }
 
-    public void init()
+   /**
+    * Set the home ref id.
+    * @param id a home id
+    */
+    public void setRefid( String id )
     {
-        super.init();
-        setProjectProperty( XDOC_TARGET_SRC_KEY, XDOC_TARGET_SRC_VALUE );
-        setProjectProperty( XDOC_TARGET_DOCS_KEY, XDOC_TARGET_DOCS_VALUE );
-        setProjectProperty( XDOC_THEME_KEY, XDOC_THEME_VALUE );
-        setProjectProperty( XDOC_OUTPUT_FORMAT_KEY, XDOC_OUTPUT_FORMAT_VALUE );
-        setProjectProperty( "xdoc.organization", "" );
-        setProjectProperty( "xdoc.logo.right.file", "" );
-        setProjectProperty( "xdoc.logo.right.url", "" );
-        setProjectProperty( "xdoc.logo.left.file", "" );
-        setProjectProperty( "xdoc.logo.left.url", "" );
-        setProjectProperty( "xdoc.logo.middle.file", "" );
-        setProjectProperty( "xdoc.logo.middle.url", "" );
-        setProjectProperty( "xdoc.brand.name", "" );
+        Object object = getProject().getReference( id );
+        if( null == object )
+        {
+            final String error = 
+              "Unknown ref id '" + id + "'.";
+            throw new BuildException( error );
+        }
+        if( object instanceof Home )
+        {
+            m_home = (Home) object;
+        }
+        else
+        {
+            final String error = 
+              "Supplied id '" + id + "' does not refer to a Home.";
+            throw new BuildException( error );
+        }
+    }
+
+    public void init() throws BuildException 
+    {
+        if( !m_init )
+        {
+            Project project = getProject();
+            m_context = Context.getContext( project );
+            project.setNewProperty( ORG_NAME_KEY, ORG_NAME_VALUE );
+            project.setNewProperty( XDOC_SRC_KEY, XDOC_SRC_VALUE );
+            project.setNewProperty( XDOC_RESOURCES_KEY, XDOC_RESOURCES_VALUE );
+            project.setNewProperty( XDOC_THEME_KEY, XDOC_THEME_VALUE );
+            project.setNewProperty( XDOC_FORMAT_KEY, XDOC_FORMAT_VALUE );
+            project.setNewProperty( XDOC_TEMP_KEY, XDOC_TEMP_VALUE );
+            project.setNewProperty( XDOC_LOGO_RIGHT_FILE_KEY, XDOC_LOGO_RIGHT_FILE_VALUE );
+            project.setNewProperty( XDOC_LOGO_RIGHT_URL_KEY, XDOC_LOGO_RIGHT_URL_VALUE );
+            project.setNewProperty( XDOC_LOGO_LEFT_FILE_KEY, XDOC_LOGO_LEFT_FILE_VALUE );
+            project.setNewProperty( XDOC_LOGO_LEFT_URL_KEY, XDOC_LOGO_LEFT_URL_VALUE );
+            project.setNewProperty( XDOC_LOGO_MIDDLE_FILE_KEY, XDOC_LOGO_MIDDLE_FILE_VALUE );
+            project.setNewProperty( XDOC_LOGO_MIDDLE_URL_KEY, XDOC_LOGO_MIDDLE_URL_VALUE );
+            project.setNewProperty( XDOC_BRAND_NAME_KEY, XDOC_BRAND_NAME_VALUE );
+
+            m_init = true;
+        }
     }
 
     private File getThemesDirectory()
     {
-        return new File( getHome().getHomeDirectory(), "themes" );
-    }
-
-    private File getTargetSrcXdocDirectory()
-    {
-        File basedir = getProject().getBaseDir();
-        return new File( basedir, getProject().getProperty( XDOC_TARGET_SRC_KEY ) );
-    }
-
-    private File getTargetDocsDirectory()
-    {
-        File basedir = getProject().getBaseDir();
-        return new File( basedir, getProject().getProperty( XDOC_TARGET_DOCS_KEY ) );
+        File home = m_home.getHomeDirectory();
+        return new File( home, "themes" );
     }
     
-    private File getTargetBuildXdocDirectory()
+    private String getOutputFormat()
     {
-        File target = PrepareTask.getTargetDirectory( getProject() );
-        return new File( target, "temp/xdoc-build" );
+        return getProject().getProperty( XDOC_FORMAT_KEY );
     }
-    
+
     private String getTheme()
     {
         if( m_theme != null ) return m_theme;
         return getProject().getProperty( XDOC_THEME_KEY );
     }
 
-    private String getOutputFormat()
-    {
-        return getProject().getProperty( XDOC_OUTPUT_FORMAT_KEY );
-    }
-
     public void execute()
     {        
+        log( "Executing" );
 
-        File srcDir = getTargetSrcXdocDirectory();
+        if( null == m_home ) 
+        {
+            final String error = 
+              "Required system home 'refid' attribute not set in the task definition ["
+              + getTaskName() + "].";
+            throw new BuildException( error );
+        }
+
+        Project project = getProject();
+        File docs = m_context.getDocsDirectory();
+        log( "Docs:" + docs );
+
+        //
+        // get the directory containing the filtered xdocs source files 
+        // (normally target/src/xdocs)
+        //
+
+        File build = m_context.getBuildPath( PrepareTask.BUILD_SRC_KEY, false );
+
+        if( null == build )
+        {
+            final String message =
+              "Src directory does not exist: "
+              + build;
+            log( message );
+            return;
+        }
+
+        String xdocsPath = project.getProperty( XDOC_SRC_KEY );
+        if( null == xdocsPath )
+        {
+            final String message =
+              "Cannot processed as xdoc src directory not defined.";
+            log( message );
+            return;
+        }
+
+        File srcDir = new File( build, xdocsPath );
         if( !srcDir.exists() ) return;
+        log( "Filtered source: " + srcDir.getAbsolutePath() );
 
-        File destDir = getTargetBuildXdocDirectory();
-        createDirectory( destDir );
+        //
+        // create the temporary directory into which we generate the 
+        // navigation structure (normally target/temp/xdocs)
+        //
+
+        File temp = m_context.getTempDirectory();
+        String tempPath = project.getProperty( XDOC_TEMP_KEY );
+        File destDir = new File( temp, tempPath );
+        mkDir( destDir );
+
+        //
+        // get the theme, output formats, etc.
+        //
+
+        log( "Destination: " + docs.getAbsolutePath() );
+        mkDir( docs );
 
         String theme = getTheme();
         String output = getOutputFormat();
         File themeRoot = getThemesDirectory();
         File themeDir = new File( themeRoot, theme + "/" + output );
         
+        String resourcesPath = project.getProperty( XDOC_RESOURCES_KEY );
+        File resources = new File( build, resourcesPath );
+
         log( "Year: " + getProject().getProperty( "magic.year" ) );
-        log( "Source: " + srcDir.getAbsolutePath() );
         log( "Theme: " + themeDir );
         
+        //
+        // initiate the transformation starting with the generation of 
+        // the navigation structure based on the src directory content
+        // into the temporary destingation directory, copy the content
+        // sources to to the temp directory, transform the content and 
+        // generated navigation in the temp dir using the selected them
+        // into the final docs directory, and copy over resources to 
+        // the final docs directory
+        //
+
         try
         {
             transformNavigation( themeDir, srcDir, destDir );
             copySources( srcDir, destDir );
-            transformXdocs( themeDir, destDir );
-            copyResources( themeDir );
+            transformXdocs( themeDir, destDir, docs );
+            copyThemeResources( themeDir, docs );
+            copySrcResources( resources, docs );
         } 
         catch( Throwable e )
         {
@@ -146,35 +266,25 @@ public class XdocTask extends HomeTask
         copy( source, dest, "**/*", "**/navigation.xml" );
     }
     
-    private void transformXdocs( File themeDir, File build )
+    private void transformXdocs( File themeDir, File build, File docs )
     {
         File xslFile = new File( themeDir,  "transform.xsl" );
         String output = getOutputFormat();
-        File docs = getTargetDocsDirectory();
         log( "Transforming content." );
         transformTrax( 
           build, docs, xslFile, 
           "^.*\\.xml$", "^.*/navigation.xml$", "." + output, "html" );
     }
     
-    private void copyResources( File themeDir )
+    private void copySrcResources( File resources, File docs )
     {
-        copyThemeResources( themeDir );
-        copySrcResources();
+        copy( resources, docs, "**/*", "" );
     }
 
-    private void copySrcResources()
+    private void copyThemeResources( File themeDir, File docs )
     {
-        File destDir = getTargetDocsDirectory();
-        File resources = PrepareTask.getTargetSrcResourcesDirectory( getProject() );
-        copy( resources, destDir, "**/*", "" );
-    }
-
-    private void copyThemeResources( File themeDir )
-    {
-        File destDir = getTargetDocsDirectory();
         File fromDir = new File( themeDir, "resources" );
-        copy( fromDir, destDir, "**/*", "" );
+        copy( fromDir, docs, "**/*", "" );
     }
     
     private void copy( File fromDir, File toDir, String includes, String excludes )
@@ -183,7 +293,8 @@ public class XdocTask extends HomeTask
         from.setDir( fromDir );
         from.setIncludes( includes );
         from.setExcludes( excludes );
-        toDir.mkdirs();  /* ensure that the directory exists. */
+
+        mkDir( toDir );
         
         Copy copy = (Copy) getProject().createTask( "copy" );
         copy.setTodir( toDir );
@@ -221,7 +332,7 @@ public class XdocTask extends HomeTask
         throws BuildException
     {
         String year = getProject().getProperty( "magic.year" );
-        String org = getProject().getProperty( "xdoc.organization" );
+        String org = getProject().getProperty( ORG_NAME_KEY );
         String copyright = 
           "Copyright " + year + ", " + org + " All rights reserved.";
 
@@ -238,7 +349,7 @@ public class XdocTask extends HomeTask
             }
             if( content[i].isFile() )
             {
-                String svnRoot = getProject().getProperty( "xdoc.svn.root.xdocs" );
+                String svnRoot = getProject().getProperty( XDOC_ANCHOR_URL_KEY );
                 String svnSource = svnRoot + getRelSrcPath( srcDir ) + "/" + base;
                 
                 int pos = base.lastIndexOf( '.' );
@@ -259,25 +370,25 @@ public class XdocTask extends HomeTask
                 transformer.setParameter( "copyright", copyright );
                 transformer.setParameter( 
                   "logoright_file", 
-                  getProject().getProperty( "xdoc.logo.right.file" ).trim() );
+                  getProject().getProperty( XDOC_LOGO_RIGHT_FILE_KEY ).trim() );
                 transformer.setParameter( 
                   "logoright_url", 
-                  getProject().getProperty( "xdoc.logo.right.url" ).trim() );
+                  getProject().getProperty( XDOC_LOGO_RIGHT_URL_KEY).trim() );
                 transformer.setParameter( 
                   "logoleft_file", 
-                  getProject().getProperty( "xdoc.logo.left.file" ).trim() );
+                  getProject().getProperty( XDOC_LOGO_LEFT_FILE_KEY ).trim() );
                 transformer.setParameter( 
                   "logoleft_url", 
-                  getProject().getProperty( "xdoc.logo.left.url" ).trim() );
+                  getProject().getProperty( XDOC_LOGO_LEFT_URL_KEY ).trim() );
                 transformer.setParameter( 
                   "logomiddle_file", 
-                  getProject().getProperty( "xdoc.logo.middle.file" ).trim() );
+                  getProject().getProperty( XDOC_LOGO_MIDDLE_FILE_KEY ).trim() );
                 transformer.setParameter( 
                   "logomiddle_url", 
-                  getProject().getProperty( "xdoc.logo.middle.url" ).trim() );
+                  getProject().getProperty( XDOC_LOGO_MIDDLE_URL_KEY ).trim() );
                 transformer.setParameter( 
                   "brand_name", 
-                  getProject().getProperty( "xdoc.brand.name" ).trim() );
+                  getProject().getProperty( XDOC_BRAND_NAME_KEY ).trim() );
 
                 try
                 {
@@ -333,7 +444,6 @@ public class XdocTask extends HomeTask
             if( file.isDirectory() )
                 return true;
 
-        
             String fullpath = file.getAbsolutePath().replace( '\\', '/' );
 
             Matcher m = m_Includes.matcher( fullpath );
@@ -344,4 +454,12 @@ public class XdocTask extends HomeTask
             return ! m.matches() ;
         }
     } 
+
+    private void mkDir( File dir )
+    {
+        Mkdir mkdir = (Mkdir) getProject().createTask( "mkdir" );
+        mkdir.setDir( dir );
+        mkdir.init();
+        mkdir.execute();
+    }
 }

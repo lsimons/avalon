@@ -64,6 +64,8 @@
     <ant dir="${target.test.dir}/projects/widget" />
     <ant dir="${target.test.dir}/projects/demo" />
     <ant dir="${target.test.dir}/projects/sample" />
+    <!--
+    -->
   </target>
 
   <target name="clean">

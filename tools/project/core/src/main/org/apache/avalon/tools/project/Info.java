@@ -27,7 +27,22 @@ import org.apache.tools.ant.BuildException;
  */
 public class Info 
 {
-    public static Info create( String id, String type )
+    public static Info create( String id )
+    {
+        int i = id.indexOf( ":" );
+        if( i<0 )
+        {
+            final String error =
+              "Missing protocol in id [" + id + "]";
+            throw new BuildException( error );
+        }
+        String protocol = id.substring( 0, i );
+        String spec = id.substring( i+1 );
+        return Info.create( protocol, spec);
+    }
+
+
+    public static Info create( String type, String id )
     {
         int n = getGroupIndex( id );
         String group = getGroupFromId( id, n );
@@ -92,14 +107,7 @@ public class Info
             buffer.append( getVersion() );
         }
         buffer.append( "." );
-        if( getType().equals( "plugin" ) )
-        {
-            buffer.append( "jar" );
-        }
-        else
-        {
-            buffer.append( getType() );
-        }
+        buffer.append( getType() );
         return buffer.toString();
     }
 

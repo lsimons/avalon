@@ -1,14 +1,32 @@
 
-<project name="my-demo" default="" basedir="." 
-    xmlns:x="antlib:org.apache.avalon.tools"> 
+<project name="my-demo" default="install" basedir="." 
+    xmlns:x="antlib:org.apache.avalon.tools">
 
-  <x:project index="../../index.xml" key="demo"/>
+  <x:home id="system" index="../../index.xml" key="demo"/>
 
-  <x:prepare/>
-  <x:javac/>
-  <x:declare/>
-  <x:jar/>
-  <x:test/>
-  <x:install/>
+  <target name="clean">
+    <x:clean/>
+  </target>
+
+  <target name="prepare" depends="">
+    <x:prepare/>
+  </target>
+
+  <target name="build" depends="prepare">
+    <x:declare refid="system"/>
+    <x:javac refid="system"/>
+  </target>
+
+  <target name="package" depends="build">
+    <x:jar refid="system"/>
+  </target>
+
+  <target name="test" depends="package">
+    <x:junit refid="system"/>
+  </target>
+
+  <target name="install" depends="test">
+    <x:install refid="system"/>
+  </target>
 
 </project>

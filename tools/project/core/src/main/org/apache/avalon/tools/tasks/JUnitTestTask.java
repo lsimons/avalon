@@ -25,14 +25,17 @@ import org.apache.tools.ant.Project;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.taskdefs.Copy;
 import org.apache.tools.ant.taskdefs.Javac;
+import org.apache.tools.ant.taskdefs.Mkdir;
 import org.apache.tools.ant.taskdefs.optional.junit.FormatterElement;
 import org.apache.tools.ant.taskdefs.optional.junit.JUnitTask;
+import org.apache.tools.ant.taskdefs.optional.junit.BatchTest;
 import org.apache.tools.ant.types.Environment;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.Path;
 
 import org.apache.avalon.tools.home.Home;
 import org.apache.avalon.tools.project.Definition;
+import org.apache.avalon.tools.home.Context;
 
 /**
  * Load a goal. 
@@ -40,79 +43,96 @@ import org.apache.avalon.tools.project.Definition;
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class TestTask extends HomeTask
+public class JUnitTestTask extends Task
 {
-    public static final String TEST_KEY = "avalon.target.test";
-    public static final String TEST_VALUE = 
-       PrepareTask.TARGET + "/test";
+    public static final String TEST_KEY = "project.test";
+    public static final String TEST_VALUE = "test";
 
-    public static final String TEST_CLASSES_KEY = "avalon.target.test.classes";
-    public static final String TEST_CLASSES_VALUE = 
-       TEST_VALUE + "/classes";
+    public static final String TEST_SRC_KEY = "project.test.src";
+    public static final String TEST_SRC_VALUE = "test";
 
-    public static final String TEST_ENV_KEY = "avalon.target.test.env";
-    public static final String TEST_ENV_VALUE = 
-       TEST_VALUE + "/env";
+    public static final String TEST_ENV_KEY = "project.test.env";
+    public static final String TEST_ENV_VALUE = "env";
 
-    public static final String TEST_TMP_KEY = "avalon.target.test.temp";
-    public static final String TEST_TMP_VALUE = 
-       TEST_VALUE + "/temp";
+    public static final String TEST_TMP_KEY = "project.test.temp";
+    public static final String TEST_TMP_VALUE = "temp";
 
     public static final String DEBUG_KEY = "test.compile.debug";
-    public static final boolean DEBUG_FLAG = true;
+    public static final boolean DEBUG_VALUE = true;
 
     public static final String FORK_KEY = "test.compile.fork";
-    public static final boolean FORK_FLAG = false;
+    public static final boolean FORK_VALUE = false;
 
-    public static File getTargetSrcTestDirectory( Project project )
-    {
-        String src = project.getProperty( PrepareTask.TARGET_SRC_TEST_KEY );
-        return new File( project.getBaseDir(), src );
-    }
+    private boolean m_init = false;
+    private Context m_context;
+    private File m_test;
 
-    public static File getTargetTestClassesDirectory( Project project )
-    {
-        String classes = project.getProperty( TEST_CLASSES_KEY );
-        return new File( project.getBaseDir(), classes );
-    }
+    private Home m_home;
 
-    public static File getTargetTestEnvDirectory( Project project )
+   /**
+    * Set the home ref id.
+    * @param id a home id
+    */
+    public void setRefid( String id )
     {
-        String env = project.getProperty( TEST_ENV_KEY );
-        return new File( project.getBaseDir(), env );
-    }
-
-    public static File getTargetTestTempDirectory( Project project )
-    {
-        String temp = project.getProperty( TEST_TMP_KEY );
-        return new File( project.getBaseDir(), temp );
+        Object object = getProject().getReference( id );
+        if( null == object )
+        {
+            final String error = 
+              "Unknown ref id '" + id + "'.";
+            throw new BuildException( error );
+        }
+        if( object instanceof Home )
+        {
+            m_home = (Home) object;
+        }
+        else
+        {
+            final String error = 
+              "Supplied id '" + id + "' does not refer to a Home.";
+            throw new BuildException( error );
+        }
     }
 
     public void init() throws BuildException 
     {
-        super.init();
-        setProjectProperty( TEST_CLASSES_KEY, TEST_CLASSES_VALUE );
-        setProjectProperty( TEST_ENV_KEY, TEST_ENV_VALUE );
-        setProjectProperty( TEST_TMP_KEY, TEST_TMP_VALUE );
-        setProjectProperty( DEBUG_KEY, "" + DEBUG_FLAG );
-        setProjectProperty( FORK_KEY, "" + FORK_FLAG );
+        if( !m_init )
+        {
+            Project project = getProject();
+            m_context = Context.getContext( project );
+            project.setNewProperty( DEBUG_KEY, "" + DEBUG_VALUE );
+            project.setNewProperty( FORK_KEY, "" + FORK_VALUE );
+            project.setNewProperty( TEST_SRC_KEY, "" + TEST_SRC_VALUE );
+            project.setNewProperty( TEST_ENV_KEY, "" + TEST_ENV_VALUE );
+            project.setNewProperty( TEST_TMP_KEY, "" + TEST_TMP_VALUE );
+            m_context.setBuildPath( TEST_KEY, TEST_VALUE );
+            m_test = m_context.getBuildPath( TEST_KEY );
+            m_init = true;
+        }
     }
 
     public void execute() throws BuildException 
     {
-        File src = getTargetSrcTestDirectory();
+        if( null == m_home ) 
+        {
+            final String error = 
+              "Required system home 'refid' attribute not set in the task definition ["
+              + getTaskName() + "].";
+            throw new BuildException( error );
+        }
+
+        Project project = getProject();
+        File build = m_context.getBuildPath( PrepareTask.BUILD_SRC_KEY );
+        String testPath = project.getProperty( TEST_SRC_KEY );
+        File src = new File( build, testPath );
+
         if( src.exists() )
         {
-            File classes = getTargetTestClassesDirectory();
-            if( !classes.exists() )
-            {
-                log( "creating target test classes directory" );
-                createDirectory( classes );
-            }
-
+            File classes = new File( m_test, "classes" );
+            mkDir( classes );
+            Definition definition = m_home.getDefinition();
             Path classpath = 
-              getHome().getRepository().createPath( 
-                getProject(), getDefinition() );
+              m_home.getRepository().createPath( project, definition );
 
             //
             // add the project jar to the classpath for the compilation
@@ -120,11 +140,11 @@ public class TestTask extends HomeTask
             // target/test-classes directory
             //
 
-            File jar = JarTask.getJarFile( getProject(), getDefinition() );
+            File jar = m_context.getBuildPath( "jar" );
             classpath.createPathElement().setLocation( jar );
             compile( src, classes, classpath );
             classpath.createPathElement().setLocation( classes );
-            test( classpath );
+            test( src, classpath );
         }
     }
 
@@ -143,15 +163,16 @@ public class TestTask extends HomeTask
         javac.execute();
     }
 
-    private void test( Path classpath )
+    private void test( File src, Path classpath )
     {
         FileSet fileset = new FileSet();
-        fileset.setDir( getTargetSrcTestDirectory() );
+        fileset.setDir( src );
         fileset.createInclude().setName( "**/*TestCase.java" );
         fileset.createExclude().setName( "**/Abstract*.java" );
 
-        File base = getTargetTestTempDirectory();
-        createDirectory( base );
+        File base = new File( m_test, "temp" );
+        mkDir( base );
+
         JUnitTask junit = (JUnitTask) getProject().createTask( "junit" );
         junit.setFork( getForkProperty() );
 
@@ -162,7 +183,7 @@ public class TestTask extends HomeTask
         junit.setHaltonerror( true );
         junit.setErrorProperty( "test-errors" );
         junit.setFailureProperty( "test-failures" );
-        if( FORK_FLAG )
+        if( FORK_VALUE )
         {
             junit.setFork( true );
             junit.setDir( base );
@@ -172,7 +193,13 @@ public class TestTask extends HomeTask
         junit.setReloading( true );
         junit.setFiltertrace( true );
         junit.createClasspath().add( classpath );
-        junit.createBatchTest().addFileSet( fileset );
+
+        File reports = new File( m_test, "reports" );
+        mkDir( reports );
+
+        BatchTest batch = (BatchTest) junit.createBatchTest();
+        batch.addFileSet( fileset );
+        batch.setTodir( reports );
 
         FormatterElement plainFormatter = new FormatterElement();
         FormatterElement.TypeAttribute plain = new FormatterElement.TypeAttribute();
@@ -188,7 +215,7 @@ public class TestTask extends HomeTask
 
         Environment.Variable basedir = new Environment.Variable();
         basedir.setKey( "basedir" );
-        basedir.setValue( getTargetTestEnvDirectory().toString() );
+        basedir.setValue( base.toString() );
 
         junit.addSysproperty( basedir );
 
@@ -196,34 +223,22 @@ public class TestTask extends HomeTask
         junit.execute();
     }
 
-    private File getTargetSrcTestDirectory()
+    private void mkDir( File dir )
     {
-        return getTargetSrcTestDirectory( getProject() );
-    }
-
-    private File getTargetTestClassesDirectory()
-    {
-        return getTargetTestClassesDirectory( getProject() );
-    }
-
-    private File getTargetTestEnvDirectory()
-    {
-        return getTargetTestEnvDirectory( getProject() );
-    }
-
-    private File getTargetTestTempDirectory()
-    {
-        return getTargetTestTempDirectory( getProject() );
+        Mkdir mkdir = (Mkdir) getProject().createTask( "mkdir" );
+        mkdir.setDir( dir );
+        mkdir.init();
+        mkdir.execute();
     }
 
     private boolean getDebugProperty()
     {
-        return getBooleanProperty( DEBUG_KEY, DEBUG_FLAG );
+        return getBooleanProperty( DEBUG_KEY, DEBUG_VALUE );
     }
 
     private boolean getForkProperty()
     {
-        return getBooleanProperty( FORK_KEY, FORK_FLAG );
+        return getBooleanProperty( FORK_KEY, FORK_VALUE );
     }
 
     private boolean getBooleanProperty( String key, boolean fallback )

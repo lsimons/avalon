@@ -48,11 +48,15 @@ public class StandardListener extends AbstractListener
     private Definition m_definition;
     private Task m_task;
 
+    public StandardListener( Home home, Definition definition )
+    {
+        this( null, home, definition );
+    }
+
     public StandardListener( Task task, Home home, Definition definition )
     {
         m_home = home;
         m_definition = definition;
-        m_task = task;
     }
 
     /**
@@ -67,8 +71,8 @@ public class StandardListener extends AbstractListener
         Project project = event.getProject();
         project.log( "" );
         project.log( BANNER );
-        getTask().log( "project: " + getDefinition() );
-        getTask().log( "basedir: " + project.getBaseDir() );
+        project.log( "project: " + getDefinition() );
+        project.log( "basedir: " + project.getBaseDir() );
         project.log( BANNER );
 
         /*

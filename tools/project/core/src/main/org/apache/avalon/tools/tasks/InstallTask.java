@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.IOException;
 
 import org.apache.tools.ant.Task;
+import org.apache.tools.ant.Project;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.taskdefs.Copy;
 import org.apache.tools.ant.taskdefs.Jar;
@@ -28,6 +29,7 @@ import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.Path;
 
 import org.apache.avalon.tools.home.Home;
+import org.apache.avalon.tools.home.Context;
 import org.apache.avalon.tools.project.Definition;
 
 /**
@@ -36,11 +38,50 @@ import org.apache.avalon.tools.project.Definition;
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class InstallTask extends DeliverableTask
+public class InstallTask extends Task
 {
+    private boolean m_init = false;
+    private Context m_context;
+    private Home m_home;
+
+   /**
+    * Set the home ref id.
+    * @param id a home id
+    */
+    public void setRefid( String id )
+    {
+        Object object = getProject().getReference( id );
+        if( null == object )
+        {
+            final String error = 
+              "Unknown ref id '" + id + "'.";
+            throw new BuildException( error );
+        }
+        if( object instanceof Home )
+        {
+            m_home = (Home) object;
+        }
+        else
+        {
+            final String error = 
+              "Supplied id '" + id + "' does not refer to a Home.";
+            throw new BuildException( error );
+        }
+    }
+
+    public void init() throws BuildException 
+    {
+        if( !m_init )
+        {
+            Project project = getProject();
+            m_context = Context.getContext( project );
+            m_init = true;
+        }
+    }
+
     public void execute() throws BuildException 
     {
-        File deliverables = getTargetDeliverablesDirectory();
+        File deliverables = m_context.getDeliverablesDirectory();
         if( deliverables.exists() )
         {
             install( deliverables );
@@ -53,8 +94,8 @@ public class InstallTask extends DeliverableTask
         fileset.setDir( deliverables );
         fileset.createInclude().setName( "**/*" );
 
-        File cache = getHome().getRepository().getCacheDirectory();
-        String group = getDefinition().getInfo().getGroup();
+        File cache = m_home.getRepository().getCacheDirectory();
+        String group = m_home.getDefinition().getInfo().getGroup();
         File target = new File( cache, group );
 
         Copy copy = (Copy) getProject().createTask( "copy" );
