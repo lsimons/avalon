@@ -236,7 +236,19 @@ public class DefaultConfigurationSerializer
     public void serializeToFile( final File file, final Configuration source )
         throws SAXException, IOException, ConfigurationException
     {
-        serialize( new FileOutputStream( file ), source );
+        OutputStream outputStream = null;
+        try 
+        {
+            outputStream = new FileOutputStream( file );
+            serialize( outputStream, source );
+        } 
+        finally 
+        {
+            if( outputStream != null )
+            {
+                outputStream.close();
+            }
+        }
     }
 
     /**
@@ -265,6 +277,18 @@ public class DefaultConfigurationSerializer
     public void serialize( final String uri, final Configuration source )
         throws SAXException, IOException, ConfigurationException
     {
-        serialize( new URL( uri ).openConnection().getOutputStream(), source );
+        OutputStream outputStream = null;
+        try 
+        {
+            outputStream = new URL( uri ).openConnection().getOutputStream();
+            serialize( outputStream, source );
+        } 
+        finally
+        {
+            if( outputStream != null )
+            {
+                outputStream.close();
+            }
+        }
     }
 }
