@@ -24,7 +24,7 @@ import org.apache.excalibur.source.impl.validity.TimeStampValidity;
  * Description of a source which is described by an URL.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.7 $ $Date: 2002/05/01 09:11:47 $
+ * @version CVS $Revision: 1.8 $ $Date: 2002/05/02 10:25:24 $
  */
 
 public class URLSource
@@ -34,12 +34,12 @@ public class URLSource
     /** With this parameter you can specify the method to use for a http request.
      *  Default is GET.
      */
-    public final String HTTP_METHOD = "org.apache.avalon.excalibur.source.Source.http.method";
+    static public final String HTTP_METHOD = "org.apache.avalon.excalibur.source.Source.http.method";
 
     /** With this parameter you can specify additional request parameters which are
      *  appended to the URI.
      */
-    public final String REQUEST_PARAMETERS = "org.apache.avalon.excalibur.source.Source.request.parameters";
+    static public final String REQUEST_PARAMETERS = "org.apache.avalon.excalibur.source.Source.request.parameters";
 
     /** Identifier for file urls */
     protected final String FILE = "file:";
