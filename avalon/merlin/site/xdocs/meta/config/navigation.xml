@@ -70,7 +70,7 @@
         <item name="kernel.xml" href="/meta/kernel/index.html"/>
         <item name="block.xml" href="/meta/block/index.html"/>
         <item name="config.xml" href="/meta/config/index.html">
-          <item name="targets" href="/meta/config/target/index.html"/>
+          <item name="target" href="/meta/config/target/index.html"/>
         </item>
       </item>
       <item name="Tools" href="/tools/index.html"/>
