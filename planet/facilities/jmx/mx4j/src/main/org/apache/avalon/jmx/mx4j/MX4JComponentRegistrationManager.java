@@ -17,6 +17,8 @@
 package org.apache.avalon.jmx.mx4j;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.management.Attribute;
 import javax.management.AttributeNotFoundException;
@@ -27,6 +29,9 @@ import javax.management.MBeanServer;
 import javax.management.MBeanServerFactory;
 import javax.management.ObjectName;
 import javax.management.ReflectionException;
+import javax.management.remote.JMXConnectorServer;
+import javax.management.remote.JMXConnectorServerFactory;
+import javax.management.remote.JMXServiceURL;
 
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.parameters.Parameters;
@@ -40,9 +45,7 @@ import org.apache.avalon.jmx.spi.AbstractJMXComponentRegistrationManager;
 import org.apache.avalon.util.i18n.ResourceManager;
 import org.apache.avalon.util.i18n.Resources;
 
-import mx4j.adaptor.rmi.jrmp.JRMPAdaptorMBean;
 import mx4j.log.Log;
-import mx4j.util.StandardMBeanProxy;
 
 /**
  * A component manager using the MX4J implementation of JMX.
@@ -72,6 +75,7 @@ public class MX4JComponentRegistrationManager extends AbstractJMXComponentRegist
     private String m_namingFactory;
     private String m_password;
     private String m_username;
+    private JMXConnectorServer m_connectorServer;
 
    /**
     * @avalon.entry key="urn:avalon:home" type="java.io.File"
@@ -104,6 +108,10 @@ public class MX4JComponentRegistrationManager extends AbstractJMXComponentRegist
         {
             startRMIAdaptor( mBeanServer );
         }
+        else
+        {
+            m_connectorServer = null;
+        }
     }
 
     public void dispose()
@@ -120,7 +128,7 @@ public class MX4JComponentRegistrationManager extends AbstractJMXComponentRegist
     private void startHttpAdaptor( final MBeanServer mBeanServer ) throws Exception
     {
         final ObjectName adaptorName = new ObjectName( "Http:name=HttpAdaptor" );
-        mBeanServer.createMBean( "mx4j.adaptor.http.HttpAdaptor", adaptorName, null );
+        mBeanServer.createMBean( "mx4j.tools.adaptor.http.HttpAdaptor", adaptorName, null );
         mBeanServer.setAttribute( adaptorName, new Attribute( "Host", m_host ) );
         mBeanServer.setAttribute( adaptorName, new Attribute( "Port", new Integer( m_port ) ) );
 
@@ -139,7 +147,7 @@ public class MX4JComponentRegistrationManager extends AbstractJMXComponentRegist
         Exception
     {
         final ObjectName processorName = new ObjectName( "Http:name=XSLTProcessor" );
-        mBeanServer.createMBean( "mx4j.adaptor.http.XSLTProcessor", processorName, null );
+        mBeanServer.createMBean( "mx4j.tools.adaptor.http.XSLTProcessor", processorName, null );
         mBeanServer.setAttribute( adaptorName, new Attribute( "ProcessorName", processorName ) );
 
         if ( null != m_stylesheetDir )
@@ -174,16 +182,13 @@ public class MX4JComponentRegistrationManager extends AbstractJMXComponentRegist
         server.createMBean( "mx4j.tools.naming.NamingService", naming, null );
         server.invoke( naming, "start", null, null );
 
-        // Create the JRMP adaptor
-        final ObjectName adaptor = new ObjectName( "Adaptor:protocol=JRMP" );
-        server.createMBean( "mx4j.adaptor.rmi.jrmp.JRMPAdaptor", adaptor, null );
-        JRMPAdaptorMBean mbean = ( JRMPAdaptorMBean ) StandardMBeanProxy.create( JRMPAdaptorMBean.class,
-            server, adaptor );
-        // Set the JNDI name with which will be registered
-        mbean.setJNDIName( "jrmp" );
-        mbean.putJNDIProperty( javax.naming.Context.INITIAL_CONTEXT_FACTORY, m_namingFactory );
-        // Register the JRMP adaptor in JNDI and start it
-        mbean.start();
+        // Create and start the JMXConnectorServer
+        JMXServiceURL address = new JMXServiceURL( "rmi", "localhost", 0, "/jndi/jrmp" );
+        Map environment = new HashMap();
+        environment.put( javax.naming.Context.INITIAL_CONTEXT_FACTORY, m_namingFactory );
+        environment.put( javax.naming.Context.PROVIDER_URL, "rmi://localhost:1099" );
+        m_connectorServer = JMXConnectorServerFactory.newJMXConnectorServer( address, environment, server);
+        m_connectorServer.start();
     }
 
     private void stopHttpAdaptor( final MBeanServer server )
@@ -193,8 +198,20 @@ public class MX4JComponentRegistrationManager extends AbstractJMXComponentRegist
 
     private void stopRMIAdaptor( final MBeanServer server )
     {
-        // stop the JRMP adaptor
-        stopJMXMBean( server, "Adaptor:protocol=JRMP" );
+        if ( m_connectorServer != null )
+        {
+            try
+            {
+                m_connectorServer.stop();
+            }
+            catch ( Exception ignored )
+            {
+                if ( getLogger().isDebugEnabled() )
+                {
+                    getLogger().debug( "JMXConnectorServer shutdown failed (ignoring)", ignored );
+                }
+            }
+        }
         // stop the naming service
         stopJMXMBean( server, "Naming:type=rmiregistry" );
     }
