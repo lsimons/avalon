@@ -3,7 +3,7 @@
 <plugin
    id="org.apache.metro.studio.tests"
    name="Metro Studio Tests"
-   version="0.1.0"
+   version="0.1.1"
    provider-name="Apache Software Foundation"
    class="org.apache.metro.studio.eclipse.tests.MetroStudioTests">
 
