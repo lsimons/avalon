@@ -130,7 +130,7 @@ namespace Apache.Avalon.Container.Factory
 			Assembly currentAssembly = Assembly.GetExecutingAssembly();
 
 			return AssemblyUtil.FindTypesUsingAttribute(
-				currentAssembly, typeof(LifestyleTargetAttribute));
+				currentAssembly, typeof(LifestyleTargetAttribute), false);
 		}
 
 		private void InitializePrototype(Pair[] pairs)

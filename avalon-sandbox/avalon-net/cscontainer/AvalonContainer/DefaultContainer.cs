@@ -297,7 +297,7 @@ namespace Apache.Avalon.Container
 			foreach(Assembly assembly in assemblies)
 			{
 				Pair[] pairs = AssemblyUtil.FindTypesUsingAttribute(
-					assembly, typeof( AvalonServiceAttribute ));
+					assembly, typeof( AvalonServiceAttribute ), true);
 
 				foreach(Pair pair in pairs)
 				{
