@@ -187,7 +187,8 @@ public final class CLIMain
             {
                 ( (Parameterizable)m_embeddor ).parameterize( parameters );
             }
-            else if( m_embeddor instanceof Configurable )
+
+            if( m_embeddor instanceof Configurable )
             {
                 ( (Configurable)m_embeddor ).configure( configuration );
             }
