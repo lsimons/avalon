@@ -8,11 +8,11 @@
 package org.apache.avalon.phoenix.components.embeddor;
 
 import java.io.File;
-import org.apache.avalon.phoenix.interfaces.Application;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.avalon.phoenix.interfaces.Application;
 import org.apache.avalon.phoenix.interfaces.ClassLoaderManager;
 
 /**
@@ -31,7 +31,7 @@ public class SingleAppEmbeddor
     implements ComponentManager
 {
     ///Sole application hosted in kernel
-    private Application    m_application;
+    private Application m_application;
 
     /**
      * Use ContextClassLoaderManager for ClassLoaderManager.
@@ -41,7 +41,6 @@ public class SingleAppEmbeddor
     protected Parameters createDefaultParameters()
     {
         final Parameters defaults = super.createDefaultParameters();
-
         final String PREFIX = "org.apache.avalon.phoenix.components.";
         defaults.setParameter( ClassLoaderManager.ROLE,
                                PREFIX + "classloader.ContextClassLoaderManager" );
@@ -58,10 +57,8 @@ public class SingleAppEmbeddor
     {
         final String applicationName = getParameters().getParameter( "application-name", "default" );
         final String applicationLocation = getParameters().getParameter( "application-location" );
-
         final File directory = new File( applicationLocation );
         deployFile( applicationName, directory );
-
         m_application = getKernel().getApplication( applicationName );
     }
 
@@ -88,7 +85,6 @@ public class SingleAppEmbeddor
         {
             throw new ComponentException( "Unable to get reference to component " + role );
         }
-
         return component;
     }
 
