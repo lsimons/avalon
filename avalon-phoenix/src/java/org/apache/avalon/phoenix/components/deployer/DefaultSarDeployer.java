@@ -24,6 +24,7 @@ import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.avalon.framework.logger.AbstractLoggable;
 import org.apache.avalon.phoenix.components.application.Application;
 import org.apache.avalon.phoenix.components.configuration.ConfigurationRepository;
+import org.apache.avalon.phoenix.components.classloader.ClassLoaderManager;
 import org.apache.avalon.phoenix.components.installer.Installation;
 import org.apache.avalon.phoenix.components.kapi.SarEntry;
 import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
@@ -31,6 +32,7 @@ import org.apache.avalon.phoenix.metadata.BlockMetaData;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
 import org.apache.avalon.phoenix.tools.assembler.Assembler;
 import org.apache.avalon.phoenix.tools.assembler.AssemblyException;
+import org.apache.avalon.phoenix.tools.verifier.DefaultVerifier;
 
 /**
  * Deploy .sar files into a kernel using this class.
@@ -39,16 +41,18 @@ import org.apache.avalon.phoenix.tools.assembler.AssemblyException;
  */
 public class DefaultSarDeployer
     extends AbstractLoggable
-    implements Deployer, Composable
+    implements Deployer, Composable, Initializable
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( DefaultSarDeployer.class );
 
     private final DefaultConfigurationBuilder  m_builder  = new DefaultConfigurationBuilder();
-    private final Assembler m_assembler = new Assembler();
+    private final Assembler        m_assembler = new Assembler();
+    private final DefaultVerifier  m_verifier = new DefaultVerifier();
 
     private Container                m_container;
     private ConfigurationRepository  m_repository;
+    private ClassLoaderManager       m_classLoaderManager;
 
     /**
      * Retrieve relevent services needed to deploy.
@@ -61,6 +65,13 @@ public class DefaultSarDeployer
     {
         m_container = (Container)componentManager.lookup( Container.ROLE );
         m_repository = (ConfigurationRepository)componentManager.lookup( ConfigurationRepository.ROLE );
+        m_classLoaderManager = (ClassLoaderManager)componentManager.lookup( ClassLoaderManager.ROLE );
+    }
+
+    public void initialize()
+        throws Exception
+    {
+        setupLogger( m_verifier );
     }
 
     /**
@@ -93,21 +104,28 @@ public class DefaultSarDeployer
 
         try
         {
-            //assemble all the blocks for application
             final File directory = installation.getDirectory();
+
+            final ClassLoader classLoader = 
+                m_classLoaderManager.createClassLoader( server, 
+                                                        directory, 
+                                                        installation.getClassPath() );
+            //assemble all the blocks for application
             final SarMetaData metaData = 
                 m_assembler.assembleSar( name, assembly, directory );
-            
-            final SarEntry entry = 
-                new SarEntry( metaData, installation.getClassPath(), server );
+
+            m_verifier.verifySar( metaData, classLoader );
 
             //Setup configuration for all the applications blocks
             setupConfiguration( name, metaData, config.getChildren() );
+            
+            final SarEntry entry = new SarEntry( metaData, classLoader, server );
 
             //Finally add application to kernel
             m_container.add( name, entry );
 
-            final String message = REZ.getString( "deploy.notice.sar.add", name );
+            final String message = 
+                REZ.getString( "deploy.notice.sar.add", name, installation.getClassPath() );
             getLogger().debug( message );
         }
         catch( final ContainerException ce )
@@ -117,6 +135,11 @@ public class DefaultSarDeployer
         catch( final AssemblyException ae )
         {
             throw new DeploymentException( ae.getMessage(), ae );
+        }
+        catch( final Exception e )
+        {
+            //From classloaderManager
+            throw new DeploymentException( e.getMessage(), e );
         }
     }
 
