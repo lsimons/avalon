@@ -1,6 +1,6 @@
 
-               Building The CLI Comonent
-               =========================
+               Building The Comonent
+               =====================
 
 In order to build a binary distribution version of the component from a 
 source  distribution,  you must have  a Java Development Kit (JDK)  for 
@@ -68,7 +68,7 @@ this component
 (3) Download and Install the JDepend 2.2, Dependency Analysis Package (OPTIONAL)
 
 NOTE: This is only required if you wish to run dependency analysis for 
-this component
+this component. 
 
 * Download the JDepend package (version 2.2 or later) from:
 
@@ -78,8 +78,7 @@ this component
   own subdirectory.
 
 * Copy the file "jdepend.jar", downloaded above, into the directory 
-  "${ant.home}/lib".  This makes available the dependency analysis tasks that 
-  are commonly required when building Jakarta based projects.
+  "${ant.home}/lib".  This makes available the dependency analysis tasks.
 
 (4) Download and Install the Xalan, XSLT engine (OPTIONAL)
 
@@ -97,7 +96,29 @@ analysis and unit testing results.
   the directory "${ant.home}/lib".  This makes available the XSLT reporting
   capabilities.
 
-(5) Build A Binary Distribution
+(5) Customize Build Properties For This Subproject
+
+Most Jakarta subprojects allow you to customize Ant properties (with default
+values defined in the "build.xml" file.  This is done by creating a text file
+named "ant.properties" in the source distribution directory (for property
+definitions local to this subproject) and/or your user home directory (for
+property definitions shared across subprojects).  You can use the included
+"ant.properties.sample" file as a starting point for this.
+
+External dependencies are satisfied by configuring appropriate values in your 
+ant.properties file.  The easiest way to satisfy these dependencies is to copy 
+the "ant.properties.sample" file (in the top-level directory) to "ant.properties", 
+and then edit it to suit your environment.  On Unix, this would be done as:
+
+  cd @dist.name@
+  cp ant.properties.sample ant.properties
+  emacs ant.properties
+
+NOTE:  Be *sure* that you do not check "ant.properties" in to the CVS
+repository.  This file is local to your own development environment, and
+each developer will have their own version.
+
+(6) Build A Binary Distribution
 
 Open a command line shell, and issue the following commands:
 
