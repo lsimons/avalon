@@ -26,7 +26,6 @@ import org.apache.avalon.framework.camelot.CamelotUtil;
 import org.apache.avalon.framework.camelot.Container;
 import org.apache.avalon.framework.camelot.ContainerException;
 import org.apache.avalon.framework.camelot.Deployer;
-import org.apache.avalon.framework.camelot.DeployerUtil;
 import org.apache.avalon.framework.camelot.DeploymentException;
 import org.apache.avalon.framework.camelot.Info;
 import org.apache.avalon.framework.camelot.Locator;
@@ -58,6 +57,8 @@ public class DefaultSarDeployer
     extends AbstractDeployer
     implements Composable
 {
+    private final DefaultConfigurationBuilder  m_builder  = new DefaultConfigurationBuilder();
+
     private File            m_deployDirectory;
     private Container       m_container;
     private ZipExpander     m_expander         = new ZipExpander();
@@ -198,12 +199,11 @@ public class DefaultSarDeployer
     {
         try
         {
-            final FileInputStream input = new FileInputStream( file );
-            return DeployerUtil.buildConfiguration( input );
+            return m_builder.buildFromFile( file );
         }
-        catch( final IOException ioe )
+        catch( final Exception e )
         {
-            throw new DeploymentException( "Error reading " + file, ioe );
+            throw new DeploymentException( "Error building configuration from " + file, e );
         }
     }
 
@@ -217,21 +217,13 @@ public class DefaultSarDeployer
         for( int i = 0; i < blocks.length; i++ )
         {
             final Configuration block = blocks[ i ];
+
             final String name = block.getAttribute("name");
             final String className = block.getAttribute("class");
 
             final Configuration[] provides = block.getChildren( "provide" );
-            final ArrayList roleList = new ArrayList();
-            for( int j = 0; j < provides.length; j++ )
-            {
-                final Configuration provide = provides[ j ];
-                final String requiredName = provide.getAttribute("name");
-                final String role = provide.getAttribute("role");
+            final RoleEntry[] roles = buildRoleEntrys( provides );
 
-                roleList.add( new RoleEntry( requiredName, role ) );
-            }
-
-            final RoleEntry[] roles = (RoleEntry[]) roleList.toArray( new RoleEntry[ 0 ] );
             final BlockEntry entry = new BlockEntry( name, roles );
 
             final Locator locator = new Locator( className, null );
@@ -244,6 +236,22 @@ public class DefaultSarDeployer
         }
 
         return (BlockEntry[])blockEntrys.toArray( new BlockEntry[ 0 ] );
+    }
+
+    private RoleEntry[] buildRoleEntrys( final Configuration[] provides )
+        throws ConfigurationException
+    {
+        final ArrayList roleList = new ArrayList();
+        for( int j = 0; j < provides.length; j++ )
+        {
+            final Configuration provide = provides[ j ];
+            final String requiredName = provide.getAttribute( "name" );
+            final String role = provide.getAttribute( "role" );
+            
+            roleList.add( new RoleEntry( requiredName, role ) );
+        }
+        
+        return (RoleEntry[])roleList.toArray( new RoleEntry[ 0 ] );
     }
 
     private void configureBlocks( final ServerApplicationEntry saEntry,
