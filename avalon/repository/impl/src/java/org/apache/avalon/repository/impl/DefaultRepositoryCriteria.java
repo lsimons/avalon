@@ -45,7 +45,7 @@ import org.apache.avalon.util.defaults.DefaultsBuilder;
  * for application to a factory.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class DefaultRepositoryCriteria extends Criteria implements RepositoryCriteria
 {
@@ -117,10 +117,10 @@ public class DefaultRepositoryCriteria extends Criteria implements RepositoryCri
 
             final String key = context.getApplicationKey();
             final File work = context.getInitialWorkingDirectory();
-            Properties bootstrap = getDefaultProperties();
+            Properties defaults = getDefaultProperties();
             DefaultsBuilder builder = new DefaultsBuilder( key, work );
             Properties properties = 
-              builder.getConsolidatedProperties( bootstrap, SINGLE_KEYS );
+              builder.getConsolidatedProperties( defaults, SINGLE_KEYS );
 
             //
             // Populate the empty repository criteria using
@@ -172,14 +172,13 @@ public class DefaultRepositoryCriteria extends Criteria implements RepositoryCri
     {
         try
         {
-            return Defaults.getStaticProperties( 
-              DefaultRepositoryCriteria.class, DEFAULTS );
+            return Defaults.getStaticProperties( DefaultRepositoryCriteria.class );
         }
         catch ( IOException e )
         {
             throw new RepositoryException( 
-             "Failed to load implementation defaults resource: "
-             + DEFAULTS, e );
+             "Failed to load implementation defaults resource for the class: "
+             + DefaultRepositoryCriteria.class.getName(), e );
         }
     }
 }

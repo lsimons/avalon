@@ -1,7 +1,12 @@
 <project default="jar:install" xmlns:ant="jelly:ant">
+
+  <ant:property name="criteriaClass"
+    value="org/apache/avalon/repository/impl/DefaultRepositoryCriteria"/>
+
   <postGoal name="test:test">
     <attainGoal name="avalon:artifact"/>
   </postGoal>
+
   <postGoal name="jar:install">
     <ant:copy toDir="${maven.repo.local}/${pom.groupId}/jars">
       <fileset dir="${maven.build.dir}">
