@@ -81,10 +81,15 @@ public class JavacPlugin extends AbstractPlugin
         File fromDir = new File( srcdirname ); 
         
         String classpath = m_Context.getProperty( "java.class.path" );
-        
+        compile( classpath, toDir, fromDir );
+    }
+    
+    public void compile( String classpath, File destDir, File srcDir )
+        throws IOException
+    {
         Javac javac = (Javac) m_Project.createTask( "javac" );
         /* Set the destination */
-        javac.setDestdir( toDir );
+        javac.setDestdir( destDir );
         javac.setDeprecation( true );
         javac.setDebug( true );
         
@@ -106,7 +111,7 @@ public class JavacPlugin extends AbstractPlugin
         /* Add the source path */
         Path src = javac.createSrc();
         Path.PathElement srcPE = src.createPathElement();
-        srcPE.setLocation( fromDir );
+        srcPE.setLocation( srcDir );
         
         javac.init();
         javac.execute(); 
