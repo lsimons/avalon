@@ -18,7 +18,7 @@ import java.sql.Connection;
  * The Factory implementation for JdbcConnections.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.6 $ $Date: 2001/11/01 14:25:57 $
+ * @version CVS $Revision: 1.7 $ $Date: 2001/11/05 13:45:27 $
  * @since 4.0
  */
 public class JdbcConnectionFactory extends AbstractLogEnabled implements ObjectFactory
@@ -28,7 +28,7 @@ public class JdbcConnectionFactory extends AbstractLogEnabled implements ObjectF
     private final String m_password;
     private final boolean m_autoCommit;
     private final String m_keepAlive;
-    private final String m_connectionClass;
+    private       String m_connectionClass;
     private final static String DEFAULT_KEEPALIVE = "SELECT 1";
     private final static String ORACLE_KEEPALIVE = JdbcConnectionFactory.DEFAULT_KEEPALIVE + " FROM DUAL";
 
@@ -90,15 +90,24 @@ public class JdbcConnectionFactory extends AbstractLogEnabled implements ObjectF
 
         if ( null == this.m_connectionClass )
         {
-            jdbcConnection = new JdbcConnection(connection, m_keepAlive);
+            try
+            {
+                java.lang.reflect.Method meth = connection.getClass().getMethod("getHoldability", new Class[] {});
+                this.m_connectionClass = "org.apache.avalon.excalibur.datasource.Jdbc3Connection";
+            }
+            catch (Exception e)
+            {
+                this.m_connectionClass = "org.apache.avalon.excalibur.datasource.JdbcConnection";
+            }
         }
-        else
+
+        if ( null != this.m_connectionClass )
         {
             try
             {
                 Class clazz = Thread.currentThread().getContextClassLoader().loadClass( this.m_connectionClass );
                 Class[] paramTypes = new Class[] { Connection.class, String.class };
-                Object[] params = new Object[] { connection, new Boolean( this.m_keepAlive ) };
+                Object[] params = new Object[] { connection, this.m_keepAlive };
 
                 Constructor constructor = clazz.getConstructor( paramTypes );
                 jdbcConnection = (JdbcConnection) constructor.newInstance( params );
@@ -120,8 +129,14 @@ public class JdbcConnectionFactory extends AbstractLogEnabled implements ObjectF
                     {
                         getLogger().debug("Exception in JdbcConnectionFactory.newInstance:", ie);
                     }
+
+                    throw new NoValidConnectionException(ie.getMessage());
                 }
             }
+        }
+        else
+        {
+            throw new NoValidConnectionException("No valid JdbcConnection class available");
         }
 
         jdbcConnection.enableLogging(getLogger());

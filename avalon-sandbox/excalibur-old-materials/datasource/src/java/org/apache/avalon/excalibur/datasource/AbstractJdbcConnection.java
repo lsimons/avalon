@@ -1,0 +1,208 @@
+/*
+ * Copyright (C) The Apache Software Foundation. All rights reserved.
+ *
+ * This software is published under the terms of the Apache Software License
+ * version 1.1, a copy of which has been included with this distribution in
+ * the LICENSE file.
+ */
+package org.apache.avalon.excalibur.datasource;
+
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.framework.activity.Initializable;
+import org.apache.avalon.framework.activity.Disposable;
+import org.apache.avalon.excalibur.pool.Recyclable;
+import org.apache.avalon.excalibur.pool.Pool;
+import org.apache.avalon.framework.logger.Logger;
+
+/**
+ * The Connection object used in conjunction with the JdbcDataSource
+ * object.
+ *
+ * TODO: Implement a configurable closed end Pool, where the Connection
+ * acts like JDBC PooledConnections work.  That means we can limit the
+ * total number of Connection objects that are created.
+ *
+ * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
+ * @version CVS $Revision: 1.1 $ $Date: 2001/11/05 13:45:27 $
+ * @since 4.1
+ */
+public abstract class AbstractJdbcConnection
+    extends AbstractLogEnabled
+    implements Connection, Recyclable, Disposable, Initializable
+{
+    protected Connection         m_connection;
+    protected Pool               m_pool;
+    protected PreparedStatement  m_test_statement;
+    protected SQLException       m_test_exception;
+    protected int                m_num_uses        = 15;
+
+    /**
+     * Private default constructor so that it cannot be instantiated any
+     * other way than we desire.
+     */
+    private AbstractJdbcConnection() {}
+
+    /**
+     * @deprecated Use the version with keepAlive specified
+     */
+    public AbstractJdbcConnection( final Connection connection, final boolean oradb )
+    {
+        this(connection, (oradb) ? "select 1 from dual" : "select 1");
+    }
+
+    public AbstractJdbcConnection( final Connection connection, final String keepAlive )
+    {
+        m_connection = connection;
+
+        // subclasses can override initialize()
+        this.initialize();
+
+        if (null != keepAlive && "".equals(keepAlive.trim()))
+        {
+            try
+            {
+                m_test_statement = prepareStatement(keepAlive);
+            }
+            catch ( final SQLException se )
+            {
+                m_test_statement = null;
+                m_test_exception = se;
+            }
+        }
+        else
+        {
+            m_test_statement = null;
+            m_test_exception = null;
+        }
+    }
+
+    public void initialize() {}
+
+    public void enableLogging( final Logger log )
+    {
+        super.enableLogging(log);
+
+        if (m_test_statement == null && m_test_exception != null)
+        {
+            if (getLogger().isWarnEnabled())
+            {
+                getLogger().warn("Could not prepare test statement", m_test_exception);
+            }
+            m_test_exception = null;
+        }
+    }
+
+    protected void setPool(Pool pool)
+    {
+        this.m_pool = pool;
+    }
+
+    public void recycle() {
+        this.m_num_uses--;
+        this.m_test_exception = null;
+    }
+
+    public boolean isClosed()
+        throws SQLException
+    {
+        if ( m_connection.isClosed())
+        {
+            return true;
+        }
+
+        if ( this.m_num_uses <= 0 )
+        {
+            this.dispose();
+            return true;
+        }
+
+        if (m_test_statement != null)
+        {
+            try
+            {
+                m_test_statement.executeQuery();
+            }
+            catch (final SQLException se)
+            {
+                this.dispose();
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public void close()
+        throws SQLException
+    {
+        clearWarnings();
+        m_pool.put( this );
+    }
+
+    public void dispose()
+    {
+        try { m_connection.close(); }
+        catch( final SQLException se )
+        {
+            if (getLogger().isWarnEnabled())
+            {
+                getLogger().warn( "Could not close connection", se );
+            }
+        }
+    }
+
+/*
+    public abstract void setHoldability(int holdability)
+        throws SQLException;
+
+    public abstract int getHoldability()
+        throws SQLException;
+
+    public abstract java.sql.Savepoint setSavepoint()
+        throws SQLException;
+
+    public abstract java.sql.Savepoint setSavepoint(String savepoint)
+        throws SQLException;
+
+    public abstract void rollback(java.sql.Savepoint savepoint)
+        throws SQLException;
+
+    public abstract void releaseSavepoint(java.sql.Savepoint savepoint)
+        throws SQLException;
+
+    public abstract Statement createStatement(int resulSetType,
+                                        int resultSetConcurrency,
+                                        int resultSetHoldability)
+        throws SQLException;
+
+    public abstract PreparedStatement prepareStatement(String sql,
+                                        int resulSetType,
+                                        int resultSetConcurrency,
+                                        int resultSetHoldability)
+        throws SQLException;
+
+    public abstract CallableStatement prepareCall(String sql,
+                                        int resulSetType,
+                                        int resultSetConcurrency,
+                                        int resultSetHoldability)
+        throws SQLException;
+
+    public abstract PreparedStatement prepareStatement(String sql,
+                                        int autoGeneratedKeys)
+        throws SQLException;
+
+    public abstract PreparedStatement prepareStatement(String sql,
+                                        int[] columnIndexes)
+        throws SQLException;
+
+    public abstract PreparedStatement prepareStatement(String sql,
+                                        String[] columnNames)
+        throws SQLException;
+*/
+}
