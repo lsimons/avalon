@@ -159,8 +159,8 @@ public class Merlin
         }
 
         String[] remote = getRemoteURLs( remotePath );
-        CacheManager cache = new DefaultCacheManager( base, null );
-        repository = new DefaultRepository( cache, remote );
+        CacheManager cache = new DefaultCacheManager( base, null, remote );
+        repository = cache.createRepository();
 
         //
         // get the set of URLs for the bootstrap classloader from the 

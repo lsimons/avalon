@@ -98,7 +98,7 @@ import org.xml.sax.InputSource;
  * Default implementation of a kernel context.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2003/12/03 19:04:53 $
+ * @version $Revision: 1.6 $ $Date: 2003/12/07 08:36:07 $
  */
 public class DefaultKernelContext extends AbstractLogEnabled 
   implements KernelContext
@@ -549,8 +549,8 @@ public class DefaultKernelContext extends AbstractLogEnabled
         }
 
         // nasty hack to - but this is going to be replaced anyway
-        m_cacheManager = new DefaultCacheManager( base, proxy );
-        return new DefaultRepository( m_cacheManager, list );
+        m_cacheManager = new DefaultCacheManager( base, proxy, list );
+        return m_cacheManager.createRepository();
     }
 
     //--------------------------------------------------------------

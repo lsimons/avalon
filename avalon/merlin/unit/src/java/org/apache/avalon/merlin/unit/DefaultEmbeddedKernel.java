@@ -445,9 +445,9 @@ public class DefaultEmbeddedKernel implements Runnable, Kernel
         {
             File repo = getSystemRepositoryDirectory();
             ProxyContext proxy = createProxyContext();
-            CacheManager manager = new DefaultCacheManager( repo, proxy );
             String[] hosts = createHostsSequence();
-            return new DefaultRepository( manager, hosts );
+            CacheManager manager = new DefaultCacheManager( repo, proxy, hosts );
+            return manager.createRepository();
         }
         catch( Throwable e )
         {
