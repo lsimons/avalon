@@ -53,6 +53,7 @@ import java.io.File;
 import java.net.URL;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Enumeration;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
@@ -117,6 +118,35 @@ public class TestServlet extends MerlinServlet
 	writer.println( getRootBlock().toString() );
 	writer.println("</td>");
 	writer.println("</tr>");
+	writer.println("</table>");
+	writer.println("<hr/>");
+
+	writer.println("<h1>Request Deconstructor</h1>");
+	writer.println("<table border=\"0\">");
+	writer.println("<tr><td>Path info:</td><td>" + request.getPathInfo() + "</td></tr>");
+	writer.println("<tr><td>Translated:</td><td>" + request.getPathTranslated() + "</td></tr>");
+	Enumeration names = request.getHeaderNames();
+	while (names.hasMoreElements()) {
+	    String name = (String) names.nextElement();
+	    writer.println("<tr>");
+	    writer.println("  <td>" + name + ":</td>");
+	    writer.println("  <td>" + request.getHeader(name) + "</td>");
+	    writer.println("</tr>");
+	}
+	writer.println("</table>");
+	writer.println("<hr/>");
+
+	writer.println("<h1>Context Deconstructor</h1>");
+	writer.println("<table border=\"0\" width=\"100%\">");
+	names = getServletContext().getAttributeNames();
+	while (names.hasMoreElements()) 
+      {
+	    String name = (String) names.nextElement();
+	    writer.println("<tr>");
+	    writer.println("  <td>" + name + ":</td>");
+	    writer.println("  <td>" + request.getHeader(name) + "</td>");
+	    writer.println("</tr>");
+	}
 	writer.println("</table>");
 
 	writer.println("</body>");

@@ -4,6 +4,7 @@ package org.apache.avalon.merlin.jsp;
 import java.util.List;
 import java.util.Iterator;
 import java.util.Enumeration;
+import java.util.Arrays;
 import java.net.URL;
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -235,6 +236,7 @@ public class TargetTag extends BodyTagSupport
 		    //
 
 		    m_adapter = invoke( m_adapter, m_keyword );
+System.out.println("## DELAGATING: " + m_keyword + ", " + m_adapter );
 	  	    if( m_adapter != null )
                 {
 		        return BodyTag.EVAL_BODY_BUFFERED;
@@ -479,7 +481,7 @@ public class TargetTag extends BodyTagSupport
 
             if( object instanceof Object[] )
             {
-                return Arrays.asList( (Object[]) object )
+                return Arrays.asList( (Object[]) object );
             }
             else
             {
