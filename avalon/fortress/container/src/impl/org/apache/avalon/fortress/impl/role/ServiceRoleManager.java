@@ -197,7 +197,6 @@ public class ServiceRoleManager extends AbstractRoleManager implements Initializ
             if( shortName.length() == 0 )
             {
                 matcher.appendReplacement( shortName, "$1" );
-                ;
             }
             else
             {
@@ -229,7 +228,14 @@ public class ServiceRoleManager extends AbstractRoleManager implements Initializ
         {
             String role = (String)it.next();
             getLogger().debug( "Adding service: " + role );
-            setupImplementations( role );
+            try
+            {
+                setupImplementations( role );
+            }
+            catch( Exception e )
+            {
+                getLogger().debug( "Specified service '" + role + "' is not available", e );
+            }
         }
     }
 

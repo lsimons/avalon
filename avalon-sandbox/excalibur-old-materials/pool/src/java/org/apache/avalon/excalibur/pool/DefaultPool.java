@@ -58,7 +58,7 @@ import org.apache.avalon.framework.activity.Disposable;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:stefano@apache.org">Stefano Mazzocchi</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.3 $ $Date: 2003/02/20 17:09:24 $
+ * @version CVS $Revision: 1.4 $ $Date: 2003/03/25 21:34:02 $
  * @since 4.0
  */
 public class DefaultPool
@@ -157,6 +157,7 @@ public class DefaultPool
         }
 
         m_mutex.acquire();
+
         try
         {
             if( m_ready.size() == 0 )
@@ -207,7 +208,7 @@ public class DefaultPool
     {
         if( !m_initialized )
         {
-            final String message = "You cannot get a Poolable before " +
+            final String message = "You cannot put a Poolable before " +
                 "the pool is initialized";
             throw new IllegalStateException( message );
         }
@@ -222,7 +223,7 @@ public class DefaultPool
             m_mutex.acquire();
             try
             {
-                m_active.remove( m_active.indexOf( obj ) );
+                m_active.remove(obj);
 
                 if( getLogger().isDebugEnabled() )
                 {
