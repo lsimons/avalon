@@ -83,6 +83,14 @@ public class DefaultEmbeddor
     private SystemManager m_systemManager;
     private PackageRepository m_packageRepository;
 
+    /**
+     * If true, flag indicates that the Embeddor should continue running 
+     * even when there are no applications in kernel. Otherwise the 
+     * Embeddor will shutdown when it detects there is no longer any 
+     * applications running.
+     */
+    private boolean m_persistent;
+
     private boolean m_shutdown;
 
     private long m_startTime;
@@ -133,6 +141,7 @@ public class DefaultEmbeddor
         m_parameters.merge( parameters );
 
         m_phoenixHome = m_parameters.getParameter( "phoenix.home" );
+        m_persistent = m_parameters.getParameterAsBoolean( "persistent" );
     }
 
     /**
@@ -185,7 +194,8 @@ public class DefaultEmbeddor
         while( true )
         {
             // wait() for shutdown() to take action...
-            if( m_shutdown || emptyKernel() )
+            if( m_shutdown || 
+                ( emptyKernel() && !m_persistent ) )
             {
                 break;
             }
@@ -598,6 +608,7 @@ public class DefaultEmbeddor
     {
         final Parameters defaults = new Parameters();
         defaults.setParameter( "phoenix.home", ".." );
+        defaults.setParameter( "persistent", "false" );
 
         final String PREFIX = "org.apache.avalon.phoenix.components.";
         defaults.setParameter( Deployer.ROLE, PREFIX + "deployer.DefaultDeployer" );
