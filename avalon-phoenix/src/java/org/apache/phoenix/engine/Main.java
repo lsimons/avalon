@@ -65,6 +65,8 @@ public class Main
         org.apache.avalon.Component.class;
     private static final Class     PARSER_DEPEND        = 
         org.xml.sax.SAXException.class;
+    private static final Class     CLIENT_DEPEND        = 
+        org.apache.phoenix.Block.class;
 
     protected String               m_kernelClass        = DEFAULT_KERNEL_CLASS;
     protected String               m_appsPath           = DEFAULT_APPS_PATH;
