@@ -22,7 +22,7 @@ import java.util.Set;
  * last modified property will be enough.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: Resource.java,v 1.13 2002/09/08 00:25:12 donaldp Exp $
+ * @version $Id: Resource.java,v 1.14 2002/09/08 00:29:43 donaldp Exp $
  */
 public abstract class Resource
     implements Modifiable
@@ -90,11 +90,21 @@ public abstract class Resource
         final long lastModified = lastModified();
         if( lastModified > getPreviousModified() || lastModified > time )
         {
-            getEventSupport().firePropertyChange( Resource.MODIFIED,
-                                                  new Long( getPreviousModified() ),
-                                                  new Long( lastModified ) );
-            setPreviousModified( lastModified );
+            fireAndSetModifiedTime( lastModified );
         }
+    }
+
+    /**
+     * Fire a modify event and set the lastModified time as appropraite.
+     *
+     * @param lastModified the time modified at
+     */
+    protected void fireAndSetModifiedTime( final long lastModified )
+    {
+        getEventSupport().firePropertyChange( Resource.MODIFIED,
+                                              new Long( getPreviousModified() ),
+                                              new Long( lastModified ) );
+        setPreviousModified( lastModified );
     }
 
     /**
