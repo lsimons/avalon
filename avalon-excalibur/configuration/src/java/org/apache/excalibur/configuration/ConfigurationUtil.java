@@ -77,7 +77,15 @@ public class ConfigurationUtil
         return buffer.toString();
     }
 
-    private static void list( StringBuffer buffer, String lead, Configuration config )
+    /**
+     * populates a string buffer with an XML representation of a supplied configuration.
+     * @param buffer the string buffer
+     * @param lead padding offset
+     * @param config a configuration
+     * @return a simplified text representation of a configuration suitable
+     *     for debugging
+     */
+    public static void list( StringBuffer buffer, String lead, Configuration config )
     {
 
         buffer.append( "\n" + lead + "<" + config.getName() );
@@ -103,11 +111,19 @@ public class ConfigurationUtil
         }
         else
         {
-            if( config.getValue( null ) != null )
+            try
             {
-                buffer.append( ">" + config.getValue( "" ) + "</" + config.getName() + ">" );
+                String value = config.getValue();
+                if( !value.equals( "" ) )
+                {
+                    buffer.append( ">" + value + "</" + config.getName() + ">" );
+                }
+                else
+                {
+                    buffer.append( "/>" );
+                }
             }
-            else
+            catch( Throwable ce )
             {
                 buffer.append( "/>" );
             }
