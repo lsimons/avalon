@@ -7,15 +7,12 @@
  */
 package org.apache.avalon.cornerstone.services.store;
 
-import org.apache.avalon.framework.component.Component;
-
 /**
  * Generic Repository interface
  *
  * @author <a href="mailto:fede@apache.org">Federico Barbieri</a>
  */
 public interface Repository
-    extends Component
 {
     Repository getChildRepository( String childName );
 }
