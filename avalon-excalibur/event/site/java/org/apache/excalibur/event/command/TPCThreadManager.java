@@ -145,10 +145,8 @@ public final class TPCThreadManager extends AbstractThreadManager implements Par
         super.initialize();
     }
 
-    public final void dispose()
+    protected final void doDispose()
     {
-        super.dispose();
-
         // We should dispose all active threads
         final ThreadControl[] threads = getThreadControls();
 

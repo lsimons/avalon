@@ -202,28 +202,32 @@ public abstract class AbstractThreadManager extends AbstractLogEnabled
         {
             m_mutex.acquire();
 
+            m_pipelines.remove( pipeline );
+
+            if( m_pipelines.isEmpty() )
+            {
+                m_done = true;
+            }
+        }
+        catch (InterruptedException ie)
+        {
+            getLogger().warn( "deregister(" + pipeline + ") threw an InterruptedException", ie );
+        }
+        finally
+        {
+            m_mutex.release();
+        }
+
+        if( m_done )
+        {
             try
-            {
-                m_pipelines.remove( pipeline );
-
-                if( m_pipelines.isEmpty() )
-                {
-                    m_done = true;
-                }
-            }
-            finally
-            {
-                m_mutex.release();
-            }
-
-            if( m_done )
             {
                 m_threadControl.join( 1000 );
             }
-        }
-        catch( InterruptedException ie )
-        {
-            // ignore for now
+            catch(InterruptedException ie)
+            {
+                getLogger().warn( "deregister(" + pipeline + ") threw an InterruptedException", ie );
+            }
         }
     }
 
@@ -242,37 +246,51 @@ public abstract class AbstractThreadManager extends AbstractLogEnabled
         {
             // Aquire mutex to clear pipelines and set the m_done flag
             m_mutex.acquire();
-            try
-            {
-                m_done = true;
-                Iterator it = m_controls.iterator();
 
-                while( it.hasNext() )
+            m_pipelines.clear();
+
+            m_done = true;
+            Iterator it = m_controls.iterator();
+
+            while( it.hasNext() )
+            {
+                ThreadControl tc = (ThreadControl) it.next();
+
+                try
                 {
-                    ThreadControl tc = (ThreadControl) it.next();
-
-                    try
-                    {
-                        tc.join( 1000 );
-                    }
-                    catch (Exception e)
-                    {
-                        tc.interrupt();
-                    }
+                    tc.join( 1000 );
                 }
-                m_pipelines.clear();
+                catch (InterruptedException e)
+                {
+                    tc.interrupt();
+                }
 
+                getLogger().debug("disposed of another ThreadControl");
             }
-            finally
+
+            if ( ! m_pipelines.isEmpty() )
             {
-                //  C.K. We must release the mutex to give the manager thread a chance to terminate.
-                m_mutex.release();
+                throw new IllegalStateException("We still have pipelines, but no runners are available!");
             }
+
+        }
+        catch (InterruptedException ie)
+        {
+            getLogger().warn( "deregisterAl() threw an InterruptedException", ie );
+        }
+        finally
+        {
+            //  C.K. We must release the mutex to give the manager thread a chance to terminate.
+            m_mutex.release();
+        }
+
+        try
+        {
             m_threadControl.join( 1000 );
         }
-        catch( InterruptedException ie )
+        catch (InterruptedException ie)
         {
-            // ignore for now
+            getLogger().warn( "deregisterAl() threw an InterruptedException", ie );
         }
     }
 
@@ -284,6 +302,8 @@ public abstract class AbstractThreadManager extends AbstractLogEnabled
     {
         deregisterAll();
 
+        doDispose();
+
         if( m_threadControl != null && !m_threadControl.isFinished() )
         {
             if( getLogger().isErrorEnabled() )
@@ -294,6 +314,8 @@ public abstract class AbstractThreadManager extends AbstractLogEnabled
 
         m_threadControl = null;
     }
+
+    protected void doDispose() {} // default impl to work with released code
 
     /**
      * Return the thread controlls of all active threads
@@ -326,10 +348,10 @@ public abstract class AbstractThreadManager extends AbstractLogEnabled
         {
             while( !m_done )
             {
-                m_mutex.acquire();
-
                 try
                 {
+                    m_mutex.acquire();
+
                     Iterator i = m_pipelines.values().iterator();
 
                     while( i.hasNext() )
@@ -357,6 +379,11 @@ public abstract class AbstractThreadManager extends AbstractLogEnabled
                                                       + "per processor", e );
                                 }
                             }
+
+                            if (getLogger().isDebugEnabled())
+                            {
+                                getLogger().debug( "Waiting on " + control );
+                            }
                         }
 
                         m_controls.add( control );
@@ -369,10 +396,10 @@ public abstract class AbstractThreadManager extends AbstractLogEnabled
 
                 Thread.sleep( m_sleepTime );
 
-                m_mutex.acquire();
-
                 try
                 {
+                    m_mutex.acquire();
+
                     Iterator it = m_controls.iterator();
 
                     while( it.hasNext() )
