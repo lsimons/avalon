@@ -468,7 +468,7 @@ Legal:
   </target>
 
   <!-- Create the source distribution -->
-  <target name="src-dist">
+  <target name="src-dist" depends="setup-properties">
 
     <mkdir dir="${src.dist.dir}" />
 
