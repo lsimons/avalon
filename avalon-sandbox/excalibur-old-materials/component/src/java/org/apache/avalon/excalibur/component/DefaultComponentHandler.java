@@ -13,7 +13,7 @@ import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.context.Context;
-import org.apache.log.Logger;
+import org.apache.avalon.framework.logger.Logger;
 
 /**
  * The DefaultComponentHandler to make sure components are initialized
@@ -22,7 +22,7 @@ import org.apache.log.Logger;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/04/04 05:09:02 $
+ * @version CVS $Revision: 1.1.2.1 $ $Date: 2002/05/18 05:13:05 $
  * @since 4.0
  */
 public class DefaultComponentHandler
@@ -32,10 +32,10 @@ public class DefaultComponentHandler
     private final DefaultComponentFactory m_factory;
 
     /** State management boolean stating whether the Handler is initialized or not */
-    private boolean m_initialized = false;
+    private boolean m_initialized;
 
     /** State management boolean stating whether the Handler is disposed or not */
-    private boolean m_disposed = false;
+    private boolean m_disposed;
 
     /**
      * Create a ComponentHandler that takes care of hiding the details of
@@ -73,11 +73,10 @@ public class DefaultComponentHandler
     /**
      * Sets the logger that the ComponentHandler will use.
      */
-    public void setLogger( final Logger logger )
+    public void enableLogging( final Logger logger )
     {
-        m_factory.setLogger( logger );
-
-        super.setLogger( logger );
+        m_factory.enableLogging( logger );
+        super.enableLogging( logger );
     }
 
     /**
@@ -92,7 +91,7 @@ public class DefaultComponentHandler
 
         if( getLogger().isDebugEnabled() )
         {
-            getLogger().debug( "ComponentHandler initialized for: " + this.m_factory.getCreatedClass().getName() );
+            getLogger().debug( "ComponentHandler initialized for: " + m_factory.getCreatedClass().getName() );
         }
         m_initialized = true;
     }

@@ -11,18 +11,29 @@ import org.apache.avalon.framework.logger.Logger;
 import org.apache.log.LogEvent;
 import org.apache.log.LogTarget;
 import org.apache.log.Priority;
+import org.apache.log.Hierarchy;
 
 /**
  * A basic LogKit target that routes from LogKit to
  * Avalon Logger.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.1.2.1 $ $Date: 2002/05/18 04:47:29 $
+ * @version $Revision: 1.1.2.2 $ $Date: 2002/05/18 05:13:06 $
  */
 class LogKit2LoggerTarget
     implements LogTarget
 {
     private final Logger m_logger;
+
+    static org.apache.log.Logger createLogger( final Logger logger )
+    {
+        final Hierarchy hierarchy = new Hierarchy();
+        final org.apache.log.Logger logKitLogger = hierarchy.getLoggerFor( "" );
+        final LogKit2LoggerTarget target =
+            new LogKit2LoggerTarget( logger );
+        logKitLogger.setLogTargets( new LogTarget[ ] { target } );
+        return logKitLogger;
+    }
 
     LogKit2LoggerTarget( final Logger logger )
     {
