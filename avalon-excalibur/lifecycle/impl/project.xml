@@ -46,18 +46,6 @@
       <version>2.5.1</version>
     </dependency>
 
-    <dependency>
-      <id>log4j</id>
-      <version>1.2.7</version>
-    </dependency>
-    <dependency>
-      <id>logkit</id>
-      <version>1.2</version>
-    </dependency>
-    <dependency>
-      <id>junit</id>
-      <version>3.7</version>
-    </dependency>
   </dependencies>
 
   <build>
@@ -66,15 +54,6 @@
     <sourceDirectory>src/java</sourceDirectory>
     <unitTestSourceDirectory>src/test</unitTestSourceDirectory>
 
-    <sourceModifications>
-      <sourceModification>
-        <className>java.util.logging.Logger</className>
-        <excludes>
-          <exclude>**/Jdk14Logger.java</exclude>
-        </excludes>
-      </sourceModification>
-    </sourceModifications>
-
     <!-- Unit test classes -->
 
     <unitTest>
@@ -82,7 +61,7 @@
         <include>**/*TestCase.*</include>
       </includes>
       <excludes>
-        <exclude>**/DefaultNSConfigurationBuilderTestCase.java</exclude>
+        <exclude>**/Abstract*.java</exclude>
       </excludes> 
       <resources> 
         <resource>
@@ -94,15 +73,6 @@
         </resource>
       </resources>
     </unitTest>
-
-    <sourceModifications>
-      <sourceModification>
-        <className>java.util.logging.Logger</className>
-        <excludes>
-          <exclude>**/Jdk14Logger.java</exclude>
-        </excludes>
-      </sourceModification>
-    </sourceModifications>
 
   </build>
 
