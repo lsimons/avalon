@@ -27,10 +27,13 @@
 
     <logs>
       <category name="" target="default" priority="DEBUG" />
-      <category name="myAuthorizer" target="myAuthorizer-target" priority="DEBUG" />
+      <category name="myAuthorizer" target="myAuthorizer-target" 
+                priority="DEBUG" />
 
-      <log-target name="default" location="/logs/default.log" />
-      <log-target name="myAuthorizer-target" location="/logs/authorizer.log" />
+      <log-target name="default" 
+                  location="/logs/default.log" />
+      <log-target name="myAuthorizer-target" 
+                  location="/logs/authorizer.log" />
     </logs>
 
     <threads>
@@ -52,7 +55,9 @@
       <grant signed-by="Bob" 
              code-base="file:${app.home}${/}blocks${/}*" 
              key-store="foo-keystore" >
-        <permission class="java.io.FilePermission" target="${/}tmp${/}*" action="read,write" />
+        <permission class="java.io.FilePermission" 
+                    target="${/}tmp${/}*" 
+                    action="read,write" />
       </grant>
     </policy>
 
@@ -86,7 +91,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2001/03/01 13:44:44 $
+      $Revision: 1.2 $ $Date: 2001/03/01 14:07:05 $
     </legal>
   </footer>
 </document>

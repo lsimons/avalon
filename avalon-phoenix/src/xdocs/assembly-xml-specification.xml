@@ -33,14 +33,17 @@
 
 <avalon>
 
-    <block name="myAuthorizer" class="com.biz.cornerstone.blocks.MyAuthorizer">
+    <block name="myAuthorizer" 
+           class="com.biz.cornerstone.blocks.MyAuthorizer">
       <configuration>
         ...configuration data here...
       </configuration>
     </block>
 
-    <block name="myBlock" class="com.biz.cornerstone.blocks.MyBlock">
-      <provide name="myAuthorizer" role="com.biz.cornerstone.services.Authorizer"/>
+    <block name="myBlock" 
+           class="com.biz.cornerstone.blocks.MyBlock">
+      <provide name="myAuthorizer" 
+               role="com.biz.cornerstone.services.Authorizer"/>
     </block>
 
 </avalon>]]>
@@ -51,7 +54,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2001/03/01 13:44:44 $
+      $Revision: 1.2 $ $Date: 2001/03/01 14:07:05 $
     </legal>
   </footer>
 </document>
