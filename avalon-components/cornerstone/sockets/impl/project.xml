@@ -7,7 +7,7 @@
   <groupId>cornerstone-sockets</groupId>
   <id>cornerstone-sockets-impl</id>
   <name>Cornerstone Socket Manager Implementation</name>
-  <currentVersion>1.1</currentVersion>
+  <currentVersion>SNAPSHOT</currentVersion> <!-- target 1.1 release -->
   <package>org.apache.avalon.cornerstone.blocks.sockets</package>
 
   <inceptionYear>2001</inceptionYear>
