@@ -19,13 +19,13 @@
 
 <project>
 
-  <title>Apache Avalon Central</title>
+ <title>Apache Avalon Central</title>
 
-  <body>
+ <body>
     <menu>
-      <item name="Subversion" href="subversion.html"/>
-      <item name="CVS" href="cvs.html"/>
+      <item name="Downloads" href="download.cgi"/>
+      <item name="Resources" href="resources/index.html"/>
     </menu>
-  </body>
+ </body>
 
 </project>
