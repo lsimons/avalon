@@ -57,7 +57,7 @@ Legal:
     <property name="xml-api.jar" value="${lib.dir}/xml-apis.jar"/>
     <property name="xerces.jar" value="${lib.dir}/xerces-2.0.1.jar"/>
     <property name="xalan.jar" value="${lib.dir}/xalan-2.3.1.jar"/>
-    <property name="framework.jar" value="${lib.dir}/avalon-framework-20022706.jar"/>
+    <property name="framework.jar" value="${lib.dir}/avalon-framework-20020713.jar"/>
     <property name="logkit.jar" value="${lib.dir}/logkit-1.1a.jar"/>
     <property name="jmxri.jar" value="${lib.dir}/jmxri.jar"/>
     <property name="jmxtools.jar" value="${lib.dir}/jmxtools.jar"/>
@@ -360,6 +360,9 @@ Legal:
         <copy todir="${bin.dist.lib}">
           <fileset dir="${lib.dir}">
             <include name="excalibur*.jar"/>
+          </fileset>
+          <fileset dir="${lib.dir}/jing">
+            <include name="*.jar"/>
           </fileset>
         </copy>
 
