@@ -62,6 +62,8 @@ Legal:
   <property name="build.scratchpad" value="${build.dir}/scratchpad"/>
   <property name="build.javadocs" value="${build.dir}/javadocs"/>
   <property name="build.docs" value="${build.dir}/docs"/>
+  <property name="build.context" value="${build.dir}/documentation"/>
+  <property name="build.xdocs" value="${build.context}/xdocs/excalibur"/>
 
   <!--
        ===================================================================
@@ -77,6 +79,8 @@ Legal:
   <property name="docs.dir" value="docs"/>
   <property name="www.dir" value="www"/>
   <property name="javadocs.dir" value="${docs.dir}/api"/>
+  <property name="xdocs.dir" value="${src.dir}/xdocs"/>
+  <property name="context.dir" value="../jakarta-avalon/src/documentation"/>
 
   <property name="dist.name" value="${Name}-${version}"/>
   <property name="dist.base" value="distributions"/>
@@ -435,6 +439,67 @@ Legal:
     </copy>
 
     <chmod dir="${dist.dir}" perm="go-rwx" />
+
+  </target>
+
+  <!-- Prepares the documentation directory -->
+  <target name="xdocs" depends="jar">
+
+    <mkdir dir="${build.context}"/>
+    <mkdir dir="${build.xdocs}"/>
+    <mkdir dir="${build.docs}"/>
+    <mkdir dir="${build.dir}/work"/>
+
+    <!-- Base pointers for non-xdocs documentation. Override these in .ant.properties to link to local docs -->
+    <property name="avalon.base" value="http://jakarta.apache.org/avalon"/>
+    <property name="framework.base" value="http://jakarta.apache.org/avalon/framework"/>
+    <property name="phoenix.base" value="http://jakarta.apache.org/avalon/phoenix"/>
+    <property name="cornerstone.base" value="http://jakarta.apache.org/avalon/cornerstone"/>
+    <property name="logkit.base" value="http://jakarta.apache.org/avalon/logkit"/>
+    <property name="testlet.base" value="http://jakarta.apache.org/avalon/testlet"/>
+
+    <filter token="year" value="${year}"/>
+    <filter token="AVALON_BASE" value="${avalon.base}"/>
+    <filter token="FRAMEWORK_BASE" value="${framework.base}"/>
+    <filter token="PHOENIX_BASE" value="${phoenix.base}"/>
+    <filter token="CORNERSTONE_BASE" value="${cornerstone.base}"/>
+    <filter token="LOGKIT_BASE" value="${logkit.base}"/>
+    <filter token="TESTLET_BASE" value="${testlet.base}"/>
+
+    <copy todir="${build.context}" filtering="on">
+      <fileset dir="${context.dir}">
+        <exclude name="resources/**"/>
+	<exclude name="xdocs/**"/>
+      </fileset>
+    </copy>
+
+    <copy todir="${build.xdocs}" filtering="on">
+      <fileset dir="${xdocs.dir}">
+        <exclude name="**/images/**"/>
+      </fileset>
+    </copy>
+
+    <copy todir="${build.docs}" filtering="off">
+      <fileset dir="${context.dir}/resources">
+        <include name="**/images/**"/>
+      </fileset>
+      <fileset dir="${xdocs.dir}">
+        <include name="**/images/**"/>
+      </fileset>
+    </copy>
+
+    <java classname="org.apache.cocoon.Main" fork="true">
+      <arg value="-c${build.context}/"/>
+      <arg value="-d${build.docs}"/>
+      <arg value="-w${build.dir}/work"/>
+      <arg value="-l${build.dir}/work/cocoon.log"/>
+      <arg value="-uINFO"/>
+      <arg line="excalibur/index.html excalibur/changes.html excalibur/cli.html excalibur/collections.html excalibur/component.html excalibur/concurrent.html excalibur/datasource.html excalibur/io.html excalibur/pool.html excalibur/property.html excalibur/i18n.html excalibur/pipeline.html excalibur/proxy.html excalibur/thread.html"/>
+      <classpath>
+        <path refid="test.class.path"/>
+	<fileset dir="${build.lib}"/>
+      </classpath>
+    </java>
 
   </target>
 
