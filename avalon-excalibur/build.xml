@@ -1,4 +1,12 @@
 <project name="Excalibur Driver Build file" default="main" basedir=".">
+
+    <!--
+      Give user a chance to override without editing this file
+      (and without typing -D each time he compiles it)
+    -->
+    <property file="ant.properties"/>
+    <property file="${user.home}/.ant.properties"/>
+
     <!-- location of intermediate products -->
     <property name="build.dir" value="build"/>
     <property name="build.reports" value="${build.dir}/reports"/>
@@ -10,6 +18,8 @@
     <target name="build-subprojects-dist">
 
         <ant dir="all"/>
+        <ant dir="baxter"/>
+        <ant dir="bzip2"/>
         <ant dir="cache"/>
         <ant dir="cli"/>
         <ant dir="extension"/>
@@ -17,6 +27,50 @@
         <ant dir="io"/>
         <ant dir="naming"/>
         <ant dir="tar"/>
+        <ant dir="zip"/>
+    </target>
+
+    <target name="jdepend" if="do.jdepend" description="Generate Dependency Analysis Report">
+
+        <path id="java.src">
+            <pathelement location="all/src/java"/>
+            <pathelement location="all/src/test"/>
+            <pathelement location="baxter/src/java"/>
+            <pathelement location="baxter/src/test"/>
+            <pathelement location="bzip2/src/java"/>
+            <pathelement location="bzip2/src/test"/>
+            <pathelement location="cache/src/java"/>
+            <pathelement location="cache/src/test"/>
+            <pathelement location="cli/src/java"/>
+            <pathelement location="cli/src/test"/>
+            <pathelement location="extension/src/java"/>
+            <pathelement location="extension/src/test"/>
+            <pathelement location="i18n/src/java"/>
+            <pathelement location="i18n/src/test"/>
+            <pathelement location="io/src/java"/>
+            <pathelement location="io/src/test"/>
+            <pathelement location="naming/src/java"/>
+            <pathelement location="naming/src/test"/>
+            <pathelement location="tar/src/java"/>
+            <pathelement location="tar/src/test"/>
+            <pathelement location="zip/src/java"/>
+            <pathelement location="zip/src/test"/>
+        </path>
+
+        <!-- this invocation of jdepend requires the CVS version of ant for the xml format -->
+        <!-- thats why you are required to define do.jdepend property to generate the report -->
+        <jdepend outputfile="${build.dir}/jdepend-results.xml" format="xml" fork="yes">
+            <classpath refid="project.class.path"/>
+            <sourcespath>
+                <pathelement location="src/java" />
+            </sourcespath>
+        </jdepend>
+
+        <mkdir dir="${build.reports}/jdepend"/>
+        <style in="${build.dir}/jdepend-results.xml"
+            processor="trax"
+            out="${build.reports}/jdepend/delete-me.txt"
+            style="${ant.home}/etc/jdepend-frames.xsl"/>
     </target>
 
     <!-- Build a summary test report from the results of the tests of all subprojects. -->
@@ -41,6 +95,8 @@
     <!-- Generate one mega jar-ball -->
     <target name="mega-jar" description="Generate one large jar for all the products">
         <ant dir="all" target="all"/>
+        <ant dir="baxter" target="all"/>
+        <ant dir="bzip2" target="all"/>
         <ant dir="cache" target="jar"/>
         <ant dir="cli" target="jar"/>
         <ant dir="extension" target="jar"/>
@@ -48,6 +104,7 @@
         <ant dir="io" target="jar"/>
         <ant dir="naming" target="jar"/>
         <ant dir="tar" target="jar"/>
+        <ant dir="zip" target="jar"/>
 
         <jlink compress="false" outfile="excalibur-all.jar">
             <mergefiles>
@@ -62,6 +119,8 @@
         <delete dir="${build.dir}" />
 
         <ant dir="all" target="distclean"/>
+        <ant dir="baxter" target="real-clean"/>
+        <ant dir="bzip2" target="real-clean"/>
         <ant dir="cache" target="real-clean"/>
         <ant dir="cli" target="real-clean"/>
         <ant dir="extension" target="real-clean"/>
@@ -69,6 +128,7 @@
         <ant dir="io" target="real-clean"/>
         <ant dir="naming" target="real-clean"/>
         <ant dir="tar" target="real-clean"/>
+        <ant dir="zip" target="real-clean"/>
 
     </target>
 
