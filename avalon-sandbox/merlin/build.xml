@@ -150,7 +150,7 @@ the LICENSE.txt file.
       <zipfileset dir="${build.conf}" prefix="META-INF/">
         <include name="LICENSE.txt"/>
       </zipfileset>
-      <zipfileset dir="${build.conf}" prefix="BLOCK-INFO/">
+      <zipfileset dir="${build.conf}" prefix="BLOCK-INF/">
         <include name="kernel.xml"/>
       </zipfileset>
     </jar>
@@ -394,7 +394,7 @@ the LICENSE.txt file.
       <zipfileset dir="${build.conf}" prefix="META-INF/">
          <include name="LICENSE.txt"/>
       </zipfileset>
-      <zipfileset dir="${build.playground}" prefix="BLOCK-INFO/">
+      <zipfileset dir="${build.playground}" prefix="BLOCK-INF/">
         <include name="block.xml"/>
       </zipfileset>
     </jar>
