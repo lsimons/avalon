@@ -21,6 +21,8 @@ import org.apache.avalon.tools.model.Definition;
 import org.apache.avalon.tools.model.Info;
 import org.apache.avalon.tools.model.Home;
 import org.apache.avalon.tools.model.Magic;
+
+import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 
 import java.io.File;
@@ -42,11 +44,13 @@ public class HomeTask extends ContextualTask
         m_path = path;
     }
 
-    public void execute()
+    public void execute() 
+        throws BuildException
     {
         final Project project = getProject();
 
-        if( null != getProject().getReference( Home.KEY ) ) return;
+        if( null != getProject().getReference( Home.KEY ) ) 
+            return;
 
         Magic system = Magic.getSystem( project );        
         Home home = system.getHome( project, m_path );
@@ -67,6 +71,7 @@ public class HomeTask extends ContextualTask
         if( home.isaResourceKey( key ) )
         {
             final Definition def = home.getDefinition( getKey() );
+            verifyBaseDir( def );
             final Info info = def.getInfo();
             final String name = info.getName();
             final String group = info.getGroup();
@@ -105,5 +110,15 @@ public class HomeTask extends ContextualTask
     private String getIndexPath( Home home )
     {
         return home.getIndex().toString();
+    }
+    
+    private void verifyBaseDir( Definition def )
+        throws BuildException
+    {
+        String defBase = def.getBaseDir().getAbsolutePath();
+        String projBase = getProject().getBaseDir().getAbsolutePath();
+        if( defBase.equals( projBase ) )
+            return;
+        throw new BuildException( "The basedir in the Magic Index file, does not correspond with the current working directory. Most probably, you have the wrong project name in the build.xml file." );
     }
 }
