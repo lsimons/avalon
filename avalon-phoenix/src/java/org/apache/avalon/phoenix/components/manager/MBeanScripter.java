@@ -13,8 +13,8 @@ import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.excalibur.converter.Converter;
-import org.apache.excalibur.converter.lib.SimpleMasterConverter;
+import org.realityforge.converter.Converter;
+import org.realityforge.converter.lib.SimpleMasterConverter;
 
 /**
  * Support JMX MBean lifecycle.
