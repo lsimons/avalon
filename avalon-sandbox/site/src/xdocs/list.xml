@@ -4,7 +4,7 @@
   <header>
     <title>Mailing List</title>
     <authors>
-      <person name="Avalon Development Team" email="avalon-dev@jakarta.apache.org"/>
+      <person name="Avalon Development Team" email="dev@avalon.apache.org"/>
     </authors>
   </header>
   <body>
@@ -19,7 +19,7 @@ The Avalon Meta Model is part of the Apache Avalon Project. The <a href="http://
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2002/12/01 06:43:23 $
+      $Revision: 1.2 $ $Date: 2003/02/07 15:39:53 $
     </legal>
   </footer>
 
