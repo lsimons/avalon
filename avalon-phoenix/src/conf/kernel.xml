@@ -12,10 +12,6 @@
             class="org.apache.avalon.phoenix.components.logger.DefaultLogManager"
             logger="logs"/>
 
-        <component role="org.apache.avalon.phoenix.interfaces.Kernel"
-            class="@KERNEL-CLASS@"
-            logger="kernel"/>
-
         <component role="org.apache.avalon.phoenix.interfaces.SystemManager"
             class="org.apache.avalon.phoenix.components.manager.NoopSystemManager"
             logger="manager"></component>
@@ -30,6 +26,10 @@
           <manager-registry-port>1111</manager-registry-port>
         </component>
         -->
+
+        <component role="org.apache.avalon.phoenix.interfaces.Kernel"
+            class="@KERNEL-CLASS@"
+            logger="kernel"/>
 
         <component role="org.apache.avalon.phoenix.interfaces.ConfigurationRepository"
             class="org.apache.avalon.phoenix.components.configuration.DefaultConfigurationRepository"
