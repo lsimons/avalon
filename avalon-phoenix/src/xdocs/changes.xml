@@ -11,9 +11,12 @@
     <author name="Paul Hammant" email="Paul_Hammant@yahoo.com" id="PH"/>
     <author name="Mircea Toma" email="mirceatoma@home.com" id="MT"/>
     <author name="Stephen McConnell" email="mcconnell@osm.net" id="SM"/>
+    <author name="Peter Royal" email="proyal@apache.org" id="PR"/>
   </devs>
 <release version="4.0a4" date="Unreleased">
-
+    <action dev="PR" type="add">
+        Added start of configuration validation framework
+    </action>
     <action dev="PD" type="add">
         Update documentation and move to Anakia for document generation.
    </action>
