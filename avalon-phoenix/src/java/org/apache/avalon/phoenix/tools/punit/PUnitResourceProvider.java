@@ -14,7 +14,7 @@ import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.ServiceManager;
-import org.apache.excalibur.containerkit.lifecycle.ResourceProvider;
+import org.apache.avalon.phoenix.containerkit.lifecycle.ResourceProvider;
 
 /**
  * PUnitResourceProvider

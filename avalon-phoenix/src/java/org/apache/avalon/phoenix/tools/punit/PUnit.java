@@ -7,7 +7,7 @@
  */
 package org.apache.avalon.phoenix.tools.punit;
 
-import org.apache.excalibur.containerkit.lifecycle.LifecycleException;
+import org.apache.avalon.phoenix.containerkit.lifecycle.LifecycleException;
 import org.apache.avalon.framework.configuration.Configuration;
 
 /**

@@ -34,14 +34,14 @@ import org.apache.avalon.phoenix.metadata.BlockMetaData;
 import org.apache.avalon.phoenix.metadata.DependencyMetaData;
 import org.apache.avalon.phoenix.metainfo.DependencyDescriptor;
 import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
-import org.apache.excalibur.containerkit.lifecycle.ResourceProvider;
+import org.apache.avalon.phoenix.containerkit.lifecycle.ResourceProvider;
 
 /**
  * The accessor used to access resources for a particular
  * Block or Listener.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.12 $ $Date: 2002/11/07 16:37:16 $
+ * @version $Revision: 1.13 $ $Date: 2003/01/18 16:43:42 $
  */
 class BlockResourceProvider
     extends AbstractLogEnabled

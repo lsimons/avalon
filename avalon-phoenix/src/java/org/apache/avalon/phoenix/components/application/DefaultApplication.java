@@ -26,8 +26,8 @@ import org.apache.avalon.phoenix.interfaces.ApplicationMBean;
 import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
 import org.apache.avalon.phoenix.metadata.BlockMetaData;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
-import org.apache.excalibur.containerkit.lifecycle.LifecycleException;
-import org.apache.excalibur.containerkit.lifecycle.LifecycleHelper;
+import org.apache.avalon.phoenix.containerkit.lifecycle.LifecycleException;
+import org.apache.avalon.phoenix.containerkit.lifecycle.LifecycleHelper;
 import org.apache.excalibur.threadcontext.ThreadContext;
 
 /**

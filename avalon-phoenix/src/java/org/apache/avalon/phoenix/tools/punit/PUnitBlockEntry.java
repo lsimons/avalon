@@ -7,7 +7,7 @@
  */
 package org.apache.avalon.phoenix.tools.punit;
 
-import org.apache.excalibur.containerkit.lifecycle.ResourceProvider;
+import org.apache.avalon.phoenix.containerkit.lifecycle.ResourceProvider;
 
 /**
  * PUnitBlockEntry contains the runtime state of a block.

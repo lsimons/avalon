@@ -7,8 +7,8 @@
  */
 package org.apache.avalon.phoenix.tools.punit;
 
-import org.apache.excalibur.containerkit.lifecycle.LifecycleHelper;
-import org.apache.excalibur.containerkit.lifecycle.LifecycleException;
+import org.apache.avalon.phoenix.containerkit.lifecycle.LifecycleHelper;
+import org.apache.avalon.phoenix.containerkit.lifecycle.LifecycleException;
 import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.service.DefaultServiceManager;
