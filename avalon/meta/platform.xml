@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
 <project>
-  <extend>${basedir}/../project.xml</extend>
+  <extend>${basedir}/project.xml</extend>
   <package>org.apache.avalon.meta</package>
 
   <dependencies>
