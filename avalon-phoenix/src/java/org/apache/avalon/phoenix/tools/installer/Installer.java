@@ -59,6 +59,7 @@ public class Installer
 
     //The names on the native filesystem
     private static final String FS_CONFIG_XML = "SAR-INF" + File.separator + "config.xml";
+    private static final String FS_ASSEMBLY_XML = "SAR-INF" + File.separator + "assembly.xml";
     private static final String FS_SERVER_XML = "SAR-INF" + File.separator + "server.xml";
     private static final String FS_ENV_XML = "SAR-INF" + File.separator + "environment.xml";
 
@@ -271,6 +272,8 @@ public class Installer
         final ArrayList digests = new ArrayList();
         final ArrayList jars = new ArrayList();
 
+        boolean classesAdded = false;
+
         final Enumeration entries = zipFile.entries();
         while( entries.hasMoreElements() )
         {
@@ -281,42 +284,36 @@ public class Installer
 
             boolean expand = true;
             boolean isJar = false;
-            boolean classesAdded = false;
+
+            if( name.startsWith( CLASSES ) )
+            {
+                expand = false;
+                if( false == classesAdded )
+                {
+                    final String classes = 
+                        "jar:" + getURLAsString( file ) + "!/" + CLASSES;
+                    jars.add( classes );
+                    classesAdded = true;
+                }
+            }
+
+            //Grab all the jar files in the
+            //directory SAR-INF/lib
+            if( name.startsWith( LIB ) &&
+                name.endsWith( ".jar" ) &&
+                LIB.length() == name.lastIndexOf( "/" ) )
+            {
+                isJar = true;
+                //HACK: expand files until ClassLoader works properly
+                //final String jar = baseURL + name;
+                //jars.add( jar );
+            }
 
             //Don't expand anything below SAR-INF directory unless they
             //are the config.xml or server.xml files which will be expanded
             //as a special case atm.
             //NOTE: We expand everything at this time now but this will change
             //in the future
-            if( name.startsWith( SAR_INF ) &&
-                !name.equals( SERVER_XML ) &&
-                !name.equals( ENV_XML ) &&
-                !name.equals( CONFIG_XML ) )
-            {
-                //expand = false;
-
-                if( false == classesAdded &&
-                    name.startsWith( CLASSES ) )
-                {
-                    final String classes = 
-                        "jar:" + getURLAsString( file ) + "!/" + CLASSES;
-                    jars.add( classes );
-                    expand = false;
-                }
-
-                //Grab all the jar files in the
-                //directory SAR-INF/lib
-                if( name.startsWith( LIB ) &&
-                    name.endsWith( ".jar" ) &&
-                    LIB.length() == name.lastIndexOf( "/" ) )
-                {
-                    isJar = true;
-                    expand = true;
-                    //HACK: expand files until ClassLoader works properly
-                    //final String jar = baseURL + name;
-                    //jars.add( jar );
-                }
-            }
 
             if( name.startsWith( META_INF ) )
             {
@@ -359,7 +356,8 @@ public class Installer
         //Prepare and create Installation
         final String[] classPath = (String[])jars.toArray( new String[ 0 ] );
 
-        final String assembly = "jar:" + getURLAsString( file ) + "!/" + ASSEMBLY_XML;
+        //final String assembly = "jar:" + getURLAsString( file ) + "!/" + ASSEMBLY_XML;
+        final String assembly = getURLAsString( new File( directory, FS_ASSEMBLY_XML ) );
         final String config = getURLAsString( new File( directory, FS_CONFIG_XML ) );
         final String environment = getURLAsString( envFile );
         final FileDigest[] fileDigests = (FileDigest[])digests.toArray( new FileDigest[ 0 ] );
