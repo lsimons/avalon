@@ -51,6 +51,9 @@
     <action dev="PD" type="update">
         Configuration Validation is now enabled by default. So if the BlockInfo specifies
         a schema type and a schema exists the configuration for each Block will be validated.
+        To disable validation the user can modify the kernel.xml so that the component in role
+        "org.apache.avalon.phoenix.interfaces.ConfigurationValidator" uses
+        the "org.apache.avalon.phoenix.components.validator.NoopConfigurationValidator" component.
     </action>
     <action dev="PD" type="update">
         The default configuration for the JMX SystemManager now does not automatically
