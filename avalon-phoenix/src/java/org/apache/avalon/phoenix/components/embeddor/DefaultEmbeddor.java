@@ -8,11 +8,10 @@
 package org.apache.avalon.phoenix.components.embeddor;
 
 import java.io.File;
-import java.net.URL;
-import org.apache.avalon.excalibur.container.Container;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.excalibur.io.ExtensionFileFilter;
+import org.apache.avalon.framework.CascadingException;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.activity.Startable;
@@ -20,9 +19,7 @@ import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.component.Composable;
 import org.apache.avalon.framework.component.DefaultComponentManager;
-import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.AvalonFormatter;
@@ -31,7 +28,6 @@ import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.parameters.ParameterException;
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
-import org.apache.avalon.phoenix.interfaces.Application;
 import org.apache.avalon.phoenix.interfaces.ClassLoaderManager;
 import org.apache.avalon.phoenix.interfaces.ConfigurationRepository;
 import org.apache.avalon.phoenix.interfaces.Deployer;
@@ -39,6 +35,7 @@ import org.apache.avalon.phoenix.interfaces.DeploymentRecorder;
 import org.apache.avalon.phoenix.interfaces.Embeddor;
 import org.apache.avalon.phoenix.interfaces.Kernel;
 import org.apache.avalon.phoenix.interfaces.LogManager;
+import org.apache.avalon.phoenix.interfaces.PackageRepository;
 import org.apache.avalon.phoenix.interfaces.SystemManager;
 import org.apache.log.Hierarchy;
 import org.apache.log.LogTarget;
@@ -59,26 +56,25 @@ public class DefaultEmbeddor
     private static final Resources REZ =
         ResourceManager.getPackageResources( DefaultEmbeddor.class );
 
-    private static final String    PHOENIX_HOME         =
-        System.getProperty( "phoenix.home", ".." );
+    private static final String DEFAULT_LOG_FILE = "/logs/phoenix.log";
+    private static final String DEFAULT_APPS_PATH = "/apps";
 
-    private static final String    DEFAULT_LOG_FILE     = PHOENIX_HOME + "/logs/phoenix.log";
-    private static final String    DEFAULT_APPS_PATH    = PHOENIX_HOME + "/apps";
-
-    private final static String  DEFAULT_FORMAT =
+    private final static String DEFAULT_FORMAT =
         "%{time} [%7.7{priority}] (%{category}): %{message}\\n%{throwable}";
 
-    private Parameters     m_parameters;
+    private Parameters m_parameters;
+    private String m_phoenixHome;
 
-    private ClassLoaderManager       m_classLoaderManager;
-    private ConfigurationRepository  m_repository;
-    private Kernel                   m_kernel;
-    private Deployer                 m_deployer;
-    private DeploymentRecorder       m_recorder;
-    private LogManager               m_logManager;
-    private SystemManager            m_systemManager;
+    private ClassLoaderManager m_classLoaderManager;
+    private ConfigurationRepository m_repository;
+    private Kernel m_kernel;
+    private Deployer m_deployer;
+    private DeploymentRecorder m_recorder;
+    private LogManager m_logManager;
+    private SystemManager m_systemManager;
+    private PackageRepository m_packageRepository;
 
-    private boolean                  m_shutdown;
+    private boolean m_shutdown;
 
     /**
      * Set parameters for this component.
@@ -86,25 +82,28 @@ public class DefaultEmbeddor
      *
      * Make sure to provide all the neccessary information through
      * these parameters. All information it needs consists of strings.
-     * Neccessary are:
+     * There are two types of strings included in parameters. The first
+     * type include parameters used to setup proeprties of the embeddor.
+     * The second type include the implementation names of the components
+     * that the Embeddor manages. For instance if you want to replace the
+     * <code>ConfigurationRepository</code> with your own repository you
+     * would pass in a parameter such as;</p>
+     * <p>org.apache.avalon.phoenix.interfaces.ConfigurationRepository =
+     * com.biz.MyCustomConfigurationRepository</p>
+     *
+     * <p>Of the other type of parameters, the following are supported by
+     * the DefaultEmbeddor implementation of Embeddor. Note that some of 
+     * the embedded components may support other parameters.</p>
      * <ul>
-     * <li><b>kernel-class</b>, the classname of the
-     * org.apache.avalon.phoenix.engine.ServerKernel to be used.</li>
-     * <li><b>deployer-class</b>, the classname of the
-     * org.apache.avalon.phoenix.components.deployer.Deployer to be used.</li>
-     * <li><b>kernel-configuration-source</b>, the location
-     * of the configuration file to be used for configuring the
-     * kernel. (If kernel is configurable)</li>
+     * <li><b>phoenix.home</b>, the home directory of phoenix. Defaults 
+     * to "..".</li>
      * <li><b>log-destination</b>, the file to save log
-     * messages in. If omitted, no logs are written.</li>
-     * <li>TODO: <b>facilities-directory</b>, the directory in
-     * which the  facilities you wish to load into the kernel
-     * are stored (in .far format).<br />
-     * When ommited, the default facilities are used.</li>
+     * messages in. If omitted, ${phoenix.home}/logs/phoenix.log is used.</li>
+     * <li><b>log-priority</b>, the priority at which log messages are filteres.
+     * If omitted, then INFO will be default level used.</li>
      * <li><b>applications-directory</b>, the directory in which
      * the defaul applications to be loaded by the kernel are stored
-     * (in .sar format).<br />
-     * When ommited, no applications are loaded.</li>
+     * (in .sar format). Defaults to ${phoenix.home}/apps</li>
      * </ul>
      *
      * @param parameters the Parameters for embeddor
@@ -115,6 +114,8 @@ public class DefaultEmbeddor
     {
         m_parameters = createDefaultParameters();
         m_parameters.merge( parameters );
+
+        m_phoenixHome = m_parameters.getParameter( "phoenix.home" );
     }
 
     /**
@@ -130,6 +131,7 @@ public class DefaultEmbeddor
             createComponents();
 
             // setup core handler components
+            setupComponent( m_packageRepository, "packages" );
             setupComponent( m_logManager, "logs" );
             setupComponent( m_classLoaderManager, "classes" );
             setupComponent( m_repository, "config" );
@@ -165,8 +167,16 @@ public class DefaultEmbeddor
         while( !m_shutdown )
         {
             // wait() for shutdown() to take action...
-            try { synchronized( this ) { wait(); } }
-            catch( final InterruptedException e ) {}
+            try
+            {
+                synchronized( this )
+                {
+                    wait();
+                }
+            }
+            catch( final InterruptedException e )
+            {
+            }
         }
     }
 
@@ -176,16 +186,16 @@ public class DefaultEmbeddor
     public synchronized void dispose()
     {
         shutdown();
-
         try
         {
-            shutdownComponent( m_systemManager );            
+            shutdownComponent( m_systemManager );
             shutdownComponent( m_recorder );
             shutdownComponent( m_deployer );
             shutdownComponent( m_kernel );
             shutdownComponent( m_repository );
             shutdownComponent( m_logManager );
             shutdownComponent( m_classLoaderManager );
+            shutdownComponent( m_packageRepository );
         }
         catch( final Exception e )
         {
@@ -194,13 +204,13 @@ public class DefaultEmbeddor
             getLogger().fatalError( message, e );
         }
 
+        m_packageRepository = null;
         m_systemManager = null;
         m_kernel = null;
         m_repository = null;
         m_classLoaderManager = null;
         m_logManager = null;
         m_deployer = null;
-
         System.gc(); // make sure resources are released
     }
 
@@ -210,7 +220,10 @@ public class DefaultEmbeddor
     public void shutdown()
     {
         m_shutdown = true;
-        synchronized( this ) { notifyAll(); }
+        synchronized( this )
+        {
+            notifyAll();
+        }
     }
 
     //////////////////////
@@ -230,17 +243,17 @@ public class DefaultEmbeddor
 
         String component = null;
 
+        component = m_parameters.getParameter( PackageRepository.ROLE );
+        m_packageRepository = (PackageRepository)createComponent( component, PackageRepository.class );
+
         component = m_parameters.getParameter( ConfigurationRepository.ROLE );
-        m_repository =
-            (ConfigurationRepository)createComponent( component, ConfigurationRepository.class );
+        m_repository = (ConfigurationRepository)createComponent( component, ConfigurationRepository.class );
 
         component = m_parameters.getParameter( LogManager.ROLE );
-        m_logManager =
-            (LogManager)createComponent( component, LogManager.class );
+        m_logManager = (LogManager)createComponent( component, LogManager.class );
 
         component = m_parameters.getParameter( ClassLoaderManager.ROLE );
-        m_classLoaderManager =
-            (ClassLoaderManager)createComponent( component, ClassLoaderManager.class );
+        m_classLoaderManager = (ClassLoaderManager)createComponent( component, ClassLoaderManager.class );
 
         component = m_parameters.getParameter( Deployer.ROLE );
         m_deployer = (Deployer)createComponent( component, Deployer.class );
@@ -267,11 +280,9 @@ public class DefaultEmbeddor
         throws Exception
     {
         final String logDestination =
-            m_parameters.getParameter( "log-destination", DEFAULT_LOG_FILE );
-
+            m_parameters.getParameter( "log-destination", m_phoenixHome + DEFAULT_LOG_FILE );
         final String logPriority =
             m_parameters.getParameter( "log-priority", "INFO" );
-
         final AvalonFormatter formatter = new AvalonFormatter( DEFAULT_FORMAT );
         final File file = new File( logDestination );
         final FileTarget logTarget = new FileTarget( file, false, formatter );
@@ -280,9 +291,8 @@ public class DefaultEmbeddor
         //components can get access to logging hierarchy
         final Hierarchy hierarchy = new Hierarchy();
         final org.apache.log.Logger logger = hierarchy.getLoggerFor( "Phoenix" );
-        logger.setLogTargets( new LogTarget[] { logTarget } );
+        logger.setLogTargets( new LogTarget[]{ logTarget } );
         logger.setPriority( Priority.getPriorityForName( logPriority ) );
-
         logger.info( "Logger started" );
         return new LogKitLogger( logger );
     }
@@ -299,20 +309,16 @@ public class DefaultEmbeddor
     {
         //Name of optional application specified on CLI
         final String application = m_parameters.getParameter( "application-location", null );
-
         if( null != application )
         {
             final File file = new File( application );
             deployFile( file );
         }
-
         final String defaultAppsLocation =
-            m_parameters.getParameter( "applications-directory", DEFAULT_APPS_PATH );
-        
+            m_parameters.getParameter( "applications-directory", m_phoenixHome + DEFAULT_APPS_PATH );
         if( null != defaultAppsLocation )
         {
             final File directory = new File( defaultAppsLocation );
-
             final ExtensionFileFilter filter = new ExtensionFileFilter( ".sar" );
             final File[] files = directory.listFiles( filter );
             if( null != files )
@@ -335,13 +341,10 @@ public class DefaultEmbeddor
         throws Exception
     {
         final String filename = file.getName();
-        
         int index = filename.lastIndexOf( '.' );
         if( -1 == index ) index = filename.length();
-        
         final String name = filename.substring( 0, index );
         final File canonicalFile = file.getCanonicalFile();
-        
         deployFile( name, canonicalFile );
     }
 
@@ -362,26 +365,22 @@ public class DefaultEmbeddor
         throws Exception
     {
         setupLogger( component, loggerName );
-
         if( component instanceof Composable )
         {
             final ComponentManager componentManager = getComponentManager();
-            ((Composable)component).compose( componentManager );
+            ( (Composable)component ).compose( componentManager );
         }
-
         if( component instanceof Parameterizable )
         {
-            ((Parameterizable)component).parameterize( m_parameters );
+            ( (Parameterizable)component ).parameterize( m_parameters );
         }
-
         if( component instanceof Initializable )
         {
-            ((Initializable)component).initialize();
+            ( (Initializable)component ).initialize();
         }
-
         if( component instanceof Startable )
         {
-            ((Startable)component).start();
+            ( (Startable)component ).start();
         }
     }
 
@@ -396,15 +395,13 @@ public class DefaultEmbeddor
         throws Exception
     {
         if( null == component ) return;
-
         if( component instanceof Startable )
         {
-            ((Startable)component).stop();
+            ( (Startable)component ).stop();
         }
-
         if( component instanceof Disposable )
         {
-            ((Disposable)component).dispose();
+            ( (Disposable)component ).dispose();
         }
     }
 
@@ -422,47 +419,44 @@ public class DefaultEmbeddor
         try
         {
             final Object object = Class.forName( component ).newInstance();
-
             if( !clazz.isInstance( object ) )
             {
                 final String message = REZ.getString( "bad-type.error", component, clazz.getName() );
                 throw new Exception( message );
             }
-
             return object;
         }
         catch( final IllegalAccessException iae )
         {
             final String message = REZ.getString( "bad-ctor.error", clazz.getName(), component );
-            throw new Exception( message );
+            throw new CascadingException( message, iae );
         }
         catch( final InstantiationException ie )
         {
             final String message =
                 REZ.getString( "no-instantiate.error", clazz.getName(), component );
-            throw new Exception( message );
+            throw new CascadingException( message, ie );
         }
         catch( final ClassNotFoundException cnfe )
         {
             final String message =
                 REZ.getString( "no-class.error", clazz.getName(), component );
-            throw new Exception( message );
+            throw new CascadingException( message, cnfe );
         }
     }
 
     private ComponentManager getComponentManager()
     {
         final DefaultComponentManager componentManager = new DefaultComponentManager();
-
         componentManager.put( Embeddor.ROLE, this );
         componentManager.put( LogManager.ROLE, m_logManager );
+        componentManager.put( PackageRepository.ROLE, m_packageRepository );
         componentManager.put( ClassLoaderManager.ROLE, m_classLoaderManager );
         componentManager.put( ConfigurationRepository.ROLE, m_repository );
         componentManager.put( Deployer.ROLE, m_deployer );
         componentManager.put( DeploymentRecorder.ROLE, m_recorder );
         componentManager.put( SystemManager.ROLE, m_systemManager );
         componentManager.put( Kernel.ROLE, m_kernel );
-
         return componentManager;
     }
 
@@ -475,6 +469,7 @@ public class DefaultEmbeddor
     protected Parameters createDefaultParameters()
     {
         final Parameters defaults = new Parameters();
+        defaults.setParameter( "phoenix.home", ".." );
 
         final String PREFIX = "org.apache.avalon.phoenix.components.";
         defaults.setParameter( Deployer.ROLE, PREFIX + "deployer.DefaultDeployer" );
@@ -487,6 +482,8 @@ public class DefaultEmbeddor
                                PREFIX + "configuration.DefaultConfigurationRepository" );
         defaults.setParameter( ClassLoaderManager.ROLE,
                                PREFIX + "classloader.DefaultClassLoaderManager" );
+        defaults.setParameter( PackageRepository.ROLE, 
+                               PREFIX + "classloader.PhoenixPackageRepository" );
         return defaults;
     }
 
