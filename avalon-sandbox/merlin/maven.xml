@@ -64,8 +64,8 @@
       ignoreFailures="false" />
   </goal>
 
-  <goal name="merlin:build" description="Build Merlin." >
 
+  <goal name="merlin:build" description="Build Merlin." >
     <!-- build the subprojects -->
     <maven:reactor basedir="${basedir}"
       includes="**/project.xml"
@@ -73,14 +73,16 @@
       goals="jar:install"
       banner="Installing:"
       ignoreFailures="false" />
-
     <attainGoal name="merlin:plugin"/>
-
   </goal>
 
-  <goal name="merlin:install" 
-    description="Build the Merlin distribution." prereqs="merlin:build">
 
+  <goal name="merlin:install" 
+    description="Build the Merlin distribution." prereqs="merlin:build,xinstall"/>
+
+
+  <goal name="xinstall">
+    <!-- prepare structure -->
     <ant:mkdir dir="${merlin.build.inst.dir}"/>
     <ant:mkdir dir="${merlin.build.inst.dir}/ext"/>
     <ant:mkdir dir="${merlin.build.inst.dir}/bin/lib"/>
@@ -139,6 +141,11 @@
     <ant:chmod file="${merlin.build.inst.dir}/bin/merlin.sh" perm="ugo+rx"/>
     <ant:chmod file="${merlin.build.inst.dir}/bin/merlinx.sh" perm="ugo+rx"/>
     <ant:chmod file="${merlin.build.inst.dir}/bin/merlin-server.sh" perm="ugo+rx"/>
+    <ant:fixcrlf eol="lf" srcdir="${merlin.build.inst.dir}/bin">
+      <include name="merlin.sh"/>
+      <include name="merlinx.sh"/>
+      <include name="merlin-server.sh"/>
+    </ant:fixcrlf>
 
     <ant:copy toDir="${maven.build.dir}">
       <fileset dir="${basedir}">
