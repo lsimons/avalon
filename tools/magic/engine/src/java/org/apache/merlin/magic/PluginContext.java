@@ -22,12 +22,19 @@ public class PluginContext extends AbstractLogEnabled
     private String m_PluginName;
     private File m_PluginDir;
     private File m_SystemDir;
+    private File m_TempDir;
    
     private Project  m_AntProject;
     
     
+    PluginContext( File scriptDir )
+    {
+        this( "fake", new File( "." ), new Properties(), "fake plugin", 
+              scriptDir, new File( "." ), new File( "." ) );
+    }
+    
     PluginContext( String projectname, File projectDir, Properties projectProps,
-                   String pluginname, File pluginDir, File systemDir )
+                   String pluginname, File pluginDir, File systemDir, File tempDir )
     {
         m_ProjectName = projectname.trim();
         m_ProjectDir = projectDir;
@@ -37,6 +44,7 @@ public class PluginContext extends AbstractLogEnabled
         m_PluginName = pluginname.trim();
         
         m_SystemDir = systemDir;
+        m_TempDir = tempDir;
         initializeAntProject();
     }
 
@@ -67,6 +75,8 @@ public class PluginContext extends AbstractLogEnabled
             return getPluginDir();
         if( "system.dir".equals( entry ) )
             return getSystemDir();
+        if( "temp.dir".equals( entry ) )
+            return getTempDir();
         return null;
     }
     
@@ -98,6 +108,11 @@ public class PluginContext extends AbstractLogEnabled
     public File getSystemDir()
     {
         return m_SystemDir;
+    }
+    
+    public File getTempDir()
+    {
+        return m_TempDir;
     }
     
     public String getPluginClassname()

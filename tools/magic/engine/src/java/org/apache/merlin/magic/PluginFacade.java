@@ -14,4 +14,8 @@ public interface PluginFacade
     /** Returns the context for the Plugin.
      */
     PluginContext getPluginContext();
+    
+    /** Return the Classname of the Plugin represented by the Facade.
+     **/
+    String getPluginClassname();
 } 

@@ -1,48 +1,122 @@
  
 import java.io.File;
 
+import org.apache.merlin.magic.AbstractPlugin;
 import org.apache.merlin.magic.Plugin;
 import org.apache.merlin.magic.PluginContext;
+import org.apache.merlin.magic.PluginFacade;
+import org.apache.merlin.magic.PluginServiceManager;
 
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.Contextualizable;
 
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.framework.service.Serviceable;
+import org.apache.avalon.framework.service.ServiceException;
+import org.apache.avalon.framework.service.ServiceManager;
 
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Copy;
+import org.apache.tools.ant.taskdefs.Delete;
+import org.apache.tools.ant.taskdefs.Javac;
 import org.apache.tools.ant.types.FileSet;
+import org.apache.tools.ant.types.Path;
 
-public class PluginPlugin extends AbstractLogEnabled
-    implements Contextualizable, Plugin
+public class PluginPlugin extends AbstractPlugin
+    implements Serviceable
 {
-    private PluginContext m_PluginContext;
+    private PluginServiceManager m_ServiceManager;
     
-    public void contextualize( Context ctx )
+    public void service( ServiceManager man )
+        throws ServiceException
     {
-        m_PluginContext = (PluginContext) ctx;
+        m_ServiceManager = (PluginServiceManager) man;
     }
     
     public void install()
     {
-        getLogger().info( "Installing plugin: " + m_PluginContext.getProjectName() );
+        getLogger().info( "Installing plugin: " + m_Context.getProjectName() );
 
-        String projectName = m_PluginContext.getProjectName();
+        String projectName = m_Context.getProjectName();
                 
-        File systemDir = m_PluginContext.getSystemDir();
+        File systemDir = m_Context.getSystemDir();
         File localpluginrepo = new File( systemDir, "plugins/" + projectName );
-        File srcDir = new File( m_PluginContext.getProjectDir(), "src/dist" );
+        File srcDir = new File( m_Context.getProjectDir(), "src/dist" );
 
-        Project project = m_PluginContext.getAntProject();
         FileSet src = new FileSet();
         src.setDir( srcDir );
         
-        Copy copy = project.createTask( "copy" );
+        Copy copy = m_Project.createTask( "copy" );
         copy.setVerbose( true );
         copy.setTodir( localpluginrepo );
         copy.addFileset( src );
         copy.execute();        
     
         getLogger().info( "Sucess!" );
+    }
+
+    /* Copies the plugin to a Java file and tries to compile it */
+    public void validate()
+        throws ServiceException
+    {
+        File srcDir = new File( m_Context.getProjectDir(), "src/dist/" );
+        File srcFile = new File( srcDir, "build.bsh" );
+        File destDir = m_Context.getTempDir();
+
+        /* Remove any existing content in the Temp dir. */
+        Delete delete = m_Project.createTask( "delete" );
+        delete.setDir( destDir );
+        delete.init();
+        delete.execute();
+        destDir.mkdirs();
+
+        PluginServiceManager sm = m_ServiceManager;
+        
+        PluginFacade pf = sm.getFacade( srcDir );
+        String classname = pf.getPluginClassname();
+        
+        File classfile = new File( destDir, classname + ".java" );
+        
+        Copy copy = m_Project.createTask( "copy" );
+        copy.setVerbose( true );
+        copy.setTofile( classfile  );
+        copy.setFile( srcFile );
+        copy.execute();
+        
+        String classpath = m_Context.getProperty( "java.class.path" );
+         
+        Javac javac = (Javac) m_Project.createTask( "javac" );
+        /* Set the destination */
+        javac.setDestdir( destDir );
+        javac.setDeprecation( true );
+        javac.setDebug( true );
+        javac.setVerbose( false );
+        
+        /* Add Class path defined in the build.properties  */
+        Path cp = javac.createClasspath();
+        Path.PathElement pe = cp.createPathElement();
+        pe.setPath( classpath );
+        /* Later; also add dependency Jars */
+        
+        /* Add the source path */
+        Path src = javac.createSrc();
+        Path.PathElement srcPE = src.createPathElement();
+        srcPE.setLocation( destDir );
+        
+        javac.init();
+        javac.execute(); 
+        
+        getLogger().info( "Compile successful." );
+    }
+    
+    public void loadAll()
+        throws ServiceException
+    {
+        File systemDir = m_Context.getSystemDir();
+        File localpluginrepo = new File( systemDir, "plugins/" + projectName );
+        String[] plugins = localpluginrepo.list();
+        for( int i=0 ; i < plugins.length ; i++ )
+        {
+            m_ServiceManager.lookup( plugins[i] );
+        }
     }
 }

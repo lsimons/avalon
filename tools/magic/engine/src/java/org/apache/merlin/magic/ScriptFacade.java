@@ -20,11 +20,16 @@ public class ScriptFacade extends AbstractLogEnabled
     
     private PluginContext m_Context;
     private String m_Script;
+    private String m_Classname;
     private Plugin m_Plugin;
     
     ScriptFacade( PluginContext context )
+        throws IOException
     {
         m_Context = context;
+        m_Script = readScript( m_Context.getPluginDir() );
+        m_Classname = findName();
+        m_Context.setPluginClassname( m_Classname );
     }
     
     String getScript()
@@ -37,6 +42,11 @@ public class ScriptFacade extends AbstractLogEnabled
         return m_Context;
     }
 
+    public String getPluginClassname()
+    {
+        return m_Classname;
+    }
+    
     /** Returns the Plugin instance of that this PluginDelegate refers to.
      */
     public Plugin resolve()
@@ -45,11 +55,6 @@ public class ScriptFacade extends AbstractLogEnabled
         if( m_Plugin != null )
             return m_Plugin;
             
-        m_Script = readScript( m_Context.getPluginDir() );
-        String classname = findName( m_Script );
-        m_Context.setPluginClassname( classname );
-        classname = classname + "Plugin";
-        
         Interpreter.DEBUG = false;
         Interpreter bsh = new Interpreter();
         
@@ -59,11 +64,11 @@ public class ScriptFacade extends AbstractLogEnabled
         
         BshClassManager classman = bsh.getClassManager();
         
-        if( ! classman.classExists( classname ) )
+        if( ! classman.classExists( m_Classname ) )
         {
             bsh.eval( m_Script );
         }
-        String expr1 = "import org.apache.merlin.magic.Plugin;  Plugin plugin = new " + classname + "();";
+        String expr1 = "import org.apache.merlin.magic.Plugin;  Plugin plugin = new " + m_Classname + "();";
         bsh.eval( expr1 );
         m_Plugin = (Plugin) bsh.get( "plugin" );
         return m_Plugin;
@@ -74,7 +79,7 @@ public class ScriptFacade extends AbstractLogEnabled
         m_Plugin = null;
     }
     
-    private String readScript( File dir )
+    String readScript( File dir )
         throws IOException
     {
         File scriptFile = new File( dir, SCRIPT_FILE_NAME );
@@ -89,6 +94,7 @@ public class ScriptFacade extends AbstractLogEnabled
             while( line != null )
             {
                 buf.append( line );
+                buf.append( "\n" );
                 line = br.readLine();
             }
             return buf.toString();
@@ -101,12 +107,12 @@ public class ScriptFacade extends AbstractLogEnabled
         }                
     }
     
-    private String findName( String script )
+    String findName()
         throws IllegalArgumentException
     {
         // TODO: Performance improvement possible by parsing a char[] instead.
         
-        StringTokenizer st = new StringTokenizer( script, " \n\r\t", false );
+        StringTokenizer st = new StringTokenizer( m_Script, " \n\r\t", false );
         while( st.hasMoreTokens() )
         {
             String token = st.nextToken();
@@ -114,12 +120,12 @@ public class ScriptFacade extends AbstractLogEnabled
             {
                 String classname = st.nextToken();
                 if( classname.endsWith( "Plugin" ) )
-                    return classname.substring( 0, classname.length() - 6);
+                    return classname;
                 else
                     throw new IllegalArgumentException( "Plugins must have 'Plugin' at the end of the name:" + classname );
             }
         }
-        throw new IllegalArgumentException( "The plugin script does not contain a class.\n" + script );
+        throw new IllegalArgumentException( "The plugin script does not contain a class.\n" + m_Script );
     }
 } 
  
