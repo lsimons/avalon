@@ -18,7 +18,7 @@ import org.apache.log.Priority;
  * Avalon Logger.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2002/11/07 05:11:34 $
+ * @version $Revision: 1.5 $ $Date: 2002/11/10 00:27:45 $
  */
 class LogKit2LoggerTarget
     implements LogTarget
@@ -46,30 +46,28 @@ class LogKit2LoggerTarget
 
     public void processEvent( LogEvent event )
     {
-        final Logger logger = m_logger;
-
         final String message = event.getMessage();
         final Throwable throwable = event.getThrowable();
         final Priority priority = event.getPriority();
         if( Priority.DEBUG == priority )
         {
-            logger.debug( message, throwable );
+            m_logger.debug( message, throwable );
         }
         else if( Priority.INFO == priority )
         {
-            logger.info( message, throwable );
+            m_logger.info( message, throwable );
         }
         else if( Priority.WARN == priority )
         {
-            logger.warn( message, throwable );
+            m_logger.warn( message, throwable );
         }
         else if( Priority.ERROR == priority )
         {
-            logger.error( message, throwable );
+            m_logger.error( message, throwable );
         }
         else
         {
-            logger.fatalError( message, throwable );
+            m_logger.fatalError( message, throwable );
         }
     }
 }
