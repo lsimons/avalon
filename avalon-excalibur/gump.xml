@@ -1,0 +1,71 @@
+<module name="jakarta-avalon-excalibur">
+
+  <url href="http://jakarta.apache.org/avalon/excalibur"/>
+  <description>
+    A repository of reusable components
+  </description>
+
+  <cvs repository="jakarta"/>
+  
+  <project name="excalibur-cli">
+    <package>org.apache.avalon.excalibur.cli</package>
+
+    <ant>
+      <depend property="junit.jar" project="junit"/>
+      <property name="version" value="@@DATE@@"/>
+    </ant>
+
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+
+    <home nested="cli"/>
+    <jar name="build/lib/excalibur-cli-@@DATE@@.sar"/>
+  </project>
+
+  <project name="excalibur-io">
+    <package>org.apache.avalon.excalibur.io</package>
+
+    <ant>
+      <depend property="junit.jar"   project="junit"/>
+      <property name="version" value="@@DATE@@"/>
+    </ant>
+
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+
+    <home nested="io"/>
+    <jar name="build/lib/excalibur-io-@@DATE@@.sar"/>
+  </project>
+
+  <project name="excalibur-i18n">
+    <package>org.apache.avalon.excalibur.i18n</package>
+
+    <ant>
+      <depend property="junit.jar"   project="junit"/>
+      <property name="version" value="@@DATE@@"/>
+    </ant>
+
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+
+    <home nested="io"/>
+    <jar name="build/lib/excalibur-i18n-@@DATE@@.sar"/>
+  </project>
+
+  <project name="excalibur-naming">
+    <package>org.apache.avalon.excalibur.naming</package>
+
+    <ant>
+      <depend property="junit.jar"   project="junit"/>
+      <property name="version" value="@@DATE@@"/>
+    </ant>
+
+    <depend project="jakarta-ant"/>
+    <depend project="xml-xerces"/>
+
+    <home nested="io"/>
+    <jar name="build/lib/excalibur-naming-@@DATE@@.sar"/>
+  </project>
+
+</module>
+
