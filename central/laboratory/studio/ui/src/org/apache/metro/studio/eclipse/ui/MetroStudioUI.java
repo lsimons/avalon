@@ -32,8 +32,8 @@ import org.eclipse.jface.resource.ImageDescriptor;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
-import org.osgi.framework.BundleContext;
 import org.osgi.framework.Bundle;
+import org.osgi.framework.BundleContext;
 
 /**
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a> 
