@@ -57,7 +57,10 @@ public final class CLIMain
             System.out.println( Constants.SOFTWARE + " " + Constants.VERSION );
             System.out.println();
 
-            main.execute( setup.getParameters() );
+            final Parameters parameters = setup.getParameters();
+            final String phoenixHome = System.getProperty( "phoenix.home", ".." );
+            parameters.setParameter( "phoenix.home", phoenixHome );
+            main.execute( parameters );
         }
         catch( final Throwable throwable )
         {
