@@ -352,6 +352,8 @@
       <name>avalon-test-testc</name>
     </info>
     <dependencies>
+      <include key="avalon-test-testa"/>
+      <include key="avalon-test-testb"/>
       <include key="avalon-framework-api"/>
     </dependencies>
     <plugins>
