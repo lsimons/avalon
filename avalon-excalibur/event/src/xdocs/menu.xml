@@ -18,9 +18,7 @@
     </menu>
 
     <menu name="How To">
-<!--
       <item href="event-howto.html" name="Use Event Queues"/>
--->
       <item href="command-howto.html" name="Use the Command Manager"/>
       <item href="mpool-howto.html" name="Use MPool"/>
       <item href="util-howto.html" name="Use System Util"/>
