@@ -77,11 +77,13 @@ import org.apache.avalon.composition.data.builder.ContainmentProfileBuilder;
 import org.apache.avalon.composition.data.builder.XMLContainmentProfileCreator;
 import org.apache.avalon.composition.event.CompositionEvent;
 import org.apache.avalon.composition.event.CompositionEventListener;
+import org.apache.avalon.composition.model.AssemblyException;
 import org.apache.avalon.composition.model.Composite;
 import org.apache.avalon.composition.model.ClassLoaderContext;
 import org.apache.avalon.composition.model.ClassLoaderModel;
 import org.apache.avalon.composition.model.ContainmentModel;
 import org.apache.avalon.composition.model.ContainmentContext;
+import org.apache.avalon.composition.model.DependencyGraph;
 import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.model.Model;
 import org.apache.avalon.composition.model.ModelException;
@@ -90,7 +92,6 @@ import org.apache.avalon.composition.model.ModelRepository;
 import org.apache.avalon.composition.model.ModelSelector;
 import org.apache.avalon.composition.model.ProfileSelector;
 import org.apache.avalon.composition.model.TypeRepository;
-import org.apache.avalon.composition.model.AssemblyException;
 import org.apache.avalon.composition.logging.LoggingManager;
 import org.apache.avalon.composition.util.StringHelper;
 import org.apache.avalon.repository.Repository;
@@ -114,7 +115,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * as a part of a containment deployment model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.13.2.3 $ $Date: 2004/01/03 16:12:19 $
+ * @version $Revision: 1.13.2.4 $ $Date: 2004/01/03 22:08:21 $
  */
 public class DefaultContainmentModel extends DefaultModel 
   implements ContainmentModel
@@ -696,10 +697,13 @@ public class DefaultContainmentModel extends DefaultModel
             ModelRepository modelRepository = 
               m_context.getModelRepository();
 
+            DependencyGraph graph = 
+              m_context.getDependencyGraph();
+
             DefaultContainmentContext context = 
               new DefaultContainmentContext( 
                 logger, m_context.getSystemContext(), 
-                classLoaderModel, modelRepository, home, temp, profile, partition, name );
+                classLoaderModel, modelRepository, graph, home, temp, profile, partition, name );
 
             //
             // TODO: lookup the profile for a factory declaration, then 
