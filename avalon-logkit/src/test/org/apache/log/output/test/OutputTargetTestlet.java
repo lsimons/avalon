@@ -17,6 +17,8 @@ import org.apache.log.LogTarget;
 import org.apache.log.Logger;
 import org.apache.log.Priority;
 import org.apache.log.format.RawFormatter;
+import org.apache.log.format.PatternFormatter;
+import org.apache.log.format.ExtendedPatternFormatter;
 import org.apache.log.output.AbstractOutputTarget;
 import org.apache.log.output.StreamTarget;
 import org.apache.log.output.WriterTarget;
@@ -70,6 +72,13 @@ public final class OutputTargetTestlet
         final ByteArrayOutputStream output = new ByteArrayOutputStream();
         final StreamTarget target = new StreamTarget( output, FORMATTER );
         doStreamTest( output, target );
+        /*
+        final ExtendedPatternFormatter formatter = 
+            new ExtendedPatternFormatter( "%{method} from %{thread}\n" );
+        final StreamTarget target2 = new StreamTarget( System.out, formatter );
+        final Logger logger = getNewLogger( target2 );
+        logger.debug( M1 );
+        */
     }
 
     public void testWriterTarget()
