@@ -18,7 +18,7 @@
         </echo>
     </target>
 
-    <target name="avalon:debug" depends="avalon:init" unless="do.not.debug">
+    <target name="avalon:debug" unless="do.not.debug">
         <echo>
 =======================================================================
 DEBUG INFO
@@ -57,8 +57,78 @@ DEBUG INFO
         </echo>
     </target>
 
+    <target name="avalon:warn-avail-api-src" unless="api.src.present">
+        <echo>
+=======================================================================
+                          NOTE!
+
+  The directory
+
+            ${maven.src.dir}/api
+
+  does not exist. This means the api jar that will be created will be
+  empty.
+=======================================================================
+        </echo>
+    </target>
+
+    <target name="avalon:warn-avail-impl-src" unless="impl.src.present">
+        <echo>
+=======================================================================
+                          NOTE!
+
+  The directory
+
+            ${maven.src.dir}/impl
+
+  does not exist. This means the impl jar that will be created will be
+  empty.
+=======================================================================
+        </echo>
+    </target>
+
+    <target name="avalon:warn-avail-test-src" unless="test.src.present">
+        <echo>
+=======================================================================
+                          NOTE!
+
+  The directory
+
+            ${maven.src.dir}/test
+
+  does not exist. This means no unit tests will be run.
+=======================================================================
+        </echo>
+    </target>
+
+    <target name="avalon:warn-avail-no-sources" if="no.sources.available">
+        <fail>
+=======================================================================
+                          ERROR!
+
+  This project does not contain any java source files in
+
+            ${maven.src.dir}/api        or
+            ${maven.src.dir}/impl       or
+            ${maven.src.dir}/java       or
+            ${maven.src.dir}/test       or
+
+  that means it is not possible to generate any classes, jars or
+  javadocs.
+=======================================================================
+        </fail>
+    </target>
+
+    <target name="avalon:warn-avail">
+        <antcall target="avalon:warn-avail-no-sources"/>
+        <antcall target="avalon:warn-avail-api-src"/>
+        <antcall target="avalon:warn-avail-impl-src"/>
+        <antcall target="avalon:warn-avail-test-src"/>
+    </target>
+
     <target name="avalon:init">
         <antcall target="avalon:warning"/>
+        <antcall target="avalon:debug"/>
 
         <!-- defaults -->
         <property name="maven.src.dir" value="${basedir}/src"/>
@@ -80,27 +150,26 @@ DEBUG INFO
             <isset property="project.name"/>
         </condition>
         <antcall target="avalon:warn-project.name"/>
-    </target>
 
-    <target name="avalon:jar" depends="avalon:init">
         <available file="${basedir}/src/api" property="api.src.present"/>
         <available file="${basedir}/src/impl" property="impl.src.present"/>
         <available file="${basedir}/src/java" property="java.src.present"/>
         <available file="${basedir}/src/test" property="test.src.present"/>
 
-        <antcall target="avalon:api-compile"/>
-        <antcall target="avalon:impl-compile"/>
-        <antcall target="avalon:java-compile"/>
-        <antcall target="avalon:test"/>
+        <condition property="no.sources.available">
+                <and>
+                    <not><isset property="api.src.present"/></not>
+                    <not><isset property="impl.src.present"/></not>
+                    <not><isset property="java.src.present"/></not>
+                    <not><isset property="test.src.present"/></not>
+                </and>
+        </condition>
 
-        <available file="${basedir}/target/classes" property="classes.present"/>
-        <available file="${basedir}/target/api-classes" property="api-classes.present"/>
-        <available file="${basedir}/target/impl-classes" property="impl-classes.present"/>
-
-        <antcall target="avalon:api-jar"/>
-        <antcall target="avalon:impl-jar"/>
-        <antcall target="avalon:regular-jar"/>
+        <antcall target="avalon:warn-avail"/>
     </target>
+
+    <target name="avalon:jar"
+        depends="avalon:init, avalon:api-compile, avalon:impl-compile, avalon:java-compile, avalon:test, avalon:api-jar, avalon:impl-jar, avalon:regular-jar"/>
 
     <target name="avalon:java-compile" if="java.src.present"
             depends="avalon:init,avalon:api-compile,avalon:impl-compile">
@@ -261,33 +330,36 @@ DEBUG INFO
         </junit>
     </target>
 
-    <target name="avalon:regular-jar" if="classes.present"
+    <target name="avalon:regular-jar"
             depends="avalon:init,avalon:api-compile,avalon:impl-compile,avalon:java-compile">
         <echo>
 =======================================================================
  Building jar
 =======================================================================
         </echo>
+        <mkdir dir="${maven.build.dir}/classes"/>
         <jar destfile="${maven.build.dir}/${project.name}-${project.version}.jar" basedir="${maven.build.dir}/classes"/>
     </target>
 
-    <target name="avalon:api-jar" if="api-classes.present"
+    <target name="avalon:api-jar"
             depends="avalon:init,avalon:api-compile">
         <echo>
 =======================================================================
  Building API jar
 =======================================================================
         </echo>
+        <mkdir dir="${maven.build.dir}/api-classes"/>
         <jar destfile="${maven.build.dir}/${project.name}-${project.version}-api.jar" basedir="${maven.build.dir}/api-classes"/>
     </target>
 
-    <target name="avalon:impl-jar" if="impl-classes.present"
+    <target name="avalon:impl-jar"
             depends="avalon:init,avalon:impl-compile">
         <echo>
 =======================================================================
  Building Implementation jar
 =======================================================================
         </echo>
+        <mkdir dir="${maven.build.dir}/impl-classes"/>
         <jar destfile="${maven.build.dir}/${project.name}-${project.version}-impl.jar" basedir="${maven.build.dir}/impl-classes"/>
     </target>
 
