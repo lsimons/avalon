@@ -3,11 +3,11 @@
 <project name="Excalibur Event" default="main" basedir=".">
 
     <property file="${user.home}/build.properties"/>
-    <property file="../ant.properties"/>
-    <property file="ant.properties"/>
+    <property file="${basedir}/../ant.properties"/>
+    <property file="${basedir}/ant.properties"/>
     <property file="${user.home}/.ant.properties"/>
-    <property file="../default.properties"/>
-    <property file="default.properties"/>
+    <property file="${basedir}/../default.properties"/>
+    <property file="${basedir}/default.properties"/>
 
     <!-- Classpath for product -->
     <path id="project.class.path">
@@ -77,6 +77,7 @@
         <copy todir="${build.classes}">
             <fileset dir="${java.dir}">
                 <exclude name="**/*.java"/>
+                <exclude name="**/package.html"/>
             </fileset>
         </copy>
 
@@ -101,6 +102,7 @@
         <copy todir="${build.classes}">
             <fileset dir="${test.dir}">
                 <exclude name="**/*.java"/>
+                <exclude name="**/package.html"/>
             </fileset>
         </copy>
 

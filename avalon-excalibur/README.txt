@@ -29,12 +29,18 @@
   following jars:
 
    all/build/lib/avalon-excalibur.jar
+   datasource/build/lib/excalibur-datasource-1.0.jar
    cli/build/lib/excalibur-cli-1.0.jar
    collections/build/lib/excalibur-collections-1.0.jar
    concurrent/build/lib/excalibur-concurrent-1.0.jar
+   component/build/lib/excalibur-component-1.0.jar
    i18n/build/lib/excalibur-i18n-1.0.jar
    io/build/lib/excalibur-io-1.0.jar
    naming/build/lib/excalibur-naming-1.0.jar
+   logger/build/lib/excalibur-logger-1.0.jar
+   pool/build/lib/excalibur-pool-1.0.jar
+   testcase/build/lib/excalibur-testcase-1.0.jar
+   util/build/lib/excalibur-util-1.0.jar
 
    in addition, versions post-4.1 have a dependency on:
 
