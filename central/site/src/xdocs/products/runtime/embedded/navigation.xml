@@ -23,7 +23,8 @@
 
   <body>
     <menu>
-      <item name="CLI" href="cli.html"/>
+      <item name="Generic Embedding" href="generic.html"/>
+      <item name="CLI Handler" href="cli.html"/>
       <item name="Servlet" href="servlet.html"/>
       <item name="Unit" href="unit.html"/>
     </menu>

@@ -41,7 +41,7 @@ class under a .xprofile resource.
       </subsection>
       <subsection name="Creating a Profile">
         <p>
-This tutorial extends the interfaces, classes and meta info declared in the <a href="../tutorial/dependencies/index.html">dependencies tutorial</a> by adding a configurable seed value to the RandomGenerator component. Without the benefit of a profile, users would be forced to declare a configuration under the block.xml directive. By providing one or more profiles, we enable Merlin to automatically select a deployment scenario candidate and use this during the assembly phase. 
+This tutorial extends the interfaces, classes and meta info declared in the <a href="../basic/dependencies/index.html">dependencies tutorial</a> by adding a configurable seed value to the RandomGenerator component. Without the benefit of a profile, users would be forced to declare a configuration under the block.xml directive. By providing one or more profiles, we enable Merlin to automatically select a deployment scenario candidate and use this during the assembly phase. 
         </p>
         <p>
 The RandomGeneratorProvider source and the corresponding profile directive are presented below.

@@ -67,7 +67,7 @@ including the Avalon Meta, Composition, and Activation packages.
             </td>
           </tr>
           <tr>
-            <td><a href="system/index.html">System Specification</a></td>
+            <td><a href="kernel/index.html">System Specification</a></td>
             <td>
               Merlin system specification including kernel configuration 
               directives and system deployment properties.
