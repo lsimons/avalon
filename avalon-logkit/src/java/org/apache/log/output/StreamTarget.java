@@ -37,6 +37,7 @@ public class StreamTarget
         if( null != outputStream )
         {
             setOutputStream( outputStream );
+            open();
         }
     }
 
@@ -52,14 +53,8 @@ public class StreamTarget
        {
            throw new NullPointerException( "outputStream property must not be null" );
        }
-       
-       if( null != m_outputStream )
-       {
-           close();
-       }
-       
+
        m_outputStream = outputStream;
-       open();
     }
 
     /**
@@ -99,7 +94,15 @@ public class StreamTarget
     public synchronized void close()
     {
         super.close();
+        shutdownStream();
+    }
 
+    /**
+     * Shutdown output stream.
+     *
+     */
+    protected synchronized void shutdownStream()
+    {
         final OutputStream outputStream = m_outputStream;
         m_outputStream = null;
 
