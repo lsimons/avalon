@@ -15,7 +15,7 @@ package org.apache.excalibur.instrument;
  *  those child components.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/07/29 16:05:19 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/09/15 10:11:58 $
  * @since 4.0
  */
 public interface InstrumentManageable
@@ -26,5 +26,5 @@ public interface InstrumentManageable
      *
      * @param instrumentManager The InstrumentManager for the component to use.
      */
-    void setInstrumentManager( final InstrumentManager instrumentManager );
+    void setInstrumentManager( InstrumentManager instrumentManager );
 }
