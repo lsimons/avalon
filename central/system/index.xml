@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<system>
+
+  <!-- 
+  Declaration of the working repository for artifacts 
+  used and created by this build system.
+  -->
+
+  <repository>
+    <cache dir=".cache"/>
+    <proxy/>
+    <hosts>
+      <host>http://www.dpml.net</host>
+    </hosts>
+  </repository>
+
+  <!--
+  Declaration of the binary resources available through
+  the repository used by local projects.
+  -->
+
+  <resources>
+
+    <resource>
+      <info>
+        <group>avalon-framework</group>
+        <name>avalon-framework-api</name>
+        <version>4.2.0</version>
+        <type>jar</type>
+      </info>
+    </resource>
+    <resource>
+      <info>
+        <group>avalon-framework</group>
+        <name>avalon-framework-impl</name>
+        <version>4.2.0</version>
+        <type>jar</type>
+      </info>
+    </resource>
+    <resource>
+      <info>
+        <group>avalon-util</group>
+        <name>avalon-util-i18n</name>
+        <version>1.0.0</version>
+        <type>jar</type>
+      </info>
+    </resource>
+
+  </resources>
+
+  <!--
+  Declaration of the local projects.
+  -->
+
+  <projects>
+
+    <project basedir="../site">
+      <info>
+        <group>avalon</group>
+        <name>site</name>
+      </info>
+    </project>
+
+  </projects>
+
+</system>

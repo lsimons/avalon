@@ -95,12 +95,12 @@ public class PrepareTask extends HomeTask
 
     private void copySrcToBuildWithFiltering( File target )
     {
-        copySrcToBuild( target, true, "**/*.java,**/*.x*,**/*.properties", "" );
+        copySrcToBuild( target, true, "**/*.java,**/*.x*,**/*.properties", "**/_svn/**" );
     }
 
     private void copySrcToBuildWithoutFiltering( File target )
     {
-        copySrcToBuild( target, false, "**/*.*", "**/*.java,**/*.x*,**/*.properties" );
+        copySrcToBuild( target, false, "**/*.*", "**/*.java,**/*.x*,**/*.properties,**/_svn/**" );
     }
 
     private void copySrcToBuild( 
