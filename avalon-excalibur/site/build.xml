@@ -125,7 +125,7 @@
       </classpath>
     </java>
 
-    <copy todir="docs">
+    <copy todir="${docs.dir}">
       <fileset dir="${build.docs}">
         <include name="**"/>
       </fileset>
@@ -135,7 +135,7 @@
   
   <target name="site" depends="docs" description="Places Docs ready for hosting on website">    
   
-  </target>   
+  </target>     
   
   <!-- Update the www directory -->
   <target name="site-docs" depends="site">
