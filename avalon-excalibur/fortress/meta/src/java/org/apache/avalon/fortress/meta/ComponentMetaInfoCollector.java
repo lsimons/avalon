@@ -208,12 +208,12 @@ public class ComponentMetaInfoCollector extends AbstractQdoxTask
      */
     private void prepareMetaInfo(Properties meta, JavaClass javaClass)
     {
-        DocletTag avalonScope = javaClass.getTagByName("avalon-ext.lifecycle");
+        DocletTag avalonLifecycle = javaClass.getTagByName("x-avalon.lifecycle");
         DocletTag fortressHandler = javaClass.getTagByName("fortress.handler");
-        String scope = null;
+        String lifecycle = null;
         String handler = null;
         
-        if ( avalonScope == null && fortressHandler == null )
+        if ( avalonLifecycle == null && fortressHandler == null )
         {
             Type[] interfaces = javaClass.getImplements();
             for (int i = 0; i < interfaces.length && handler != null; i++)
@@ -234,22 +234,22 @@ public class ComponentMetaInfoCollector extends AbstractQdoxTask
             }
         }
         
-        if (null != avalonScope)
+        if (null != avalonLifecycle)
         {
-            scope = avalonScope.getValue();
+            lifecycle = avalonLifecycle.getValue();
         }
         else if (handler != null)
         {
             handler = (null == fortressHandler) ? PerThreadComponentHandler.class.getName() : fortressHandler.getValue();
         }
         
-        if ( null != scope ) meta.setProperty("avalon-ext.lifecycle", scope);
+        if ( null != lifecycle ) meta.setProperty("x-avalon.lifecycle", lifecycle);
         if ( null != handler ) meta.setProperty("fortress.handler", handler);
         
-        DocletTag avalonConfigName = javaClass.getTagByName("avalon-ext.name");
+        DocletTag avalonConfigName = javaClass.getTagByName("x-avalon.name");
         if ( null == avalonConfigName ) avalonConfigName = javaClass.getTagByName("fortress.name");
 
-        meta.setProperty("avalon-ext.name", (avalonConfigName == null) ? ServiceRoleManager.createShortName(javaClass.getName()) : avalonConfigName.getValue() );
+        meta.setProperty("x-avalon.name", (avalonConfigName == null) ? ServiceRoleManager.createShortName(javaClass.getName()) : avalonConfigName.getValue() );
     }
 
     /**

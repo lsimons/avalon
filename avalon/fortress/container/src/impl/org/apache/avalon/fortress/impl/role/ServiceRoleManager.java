@@ -141,10 +141,10 @@ public class ServiceRoleManager extends AbstractRoleManager implements Initializ
     static
     {
         Map lifecycleMap = new HashMap();
-        lifecycleMap.put( "thread-safe", ThreadSafeComponentHandler.class.getName() );
-        lifecycleMap.put( "per-thread", PerThreadComponentHandler.class.getName() );
+        lifecycleMap.put( "singleton", ThreadSafeComponentHandler.class.getName() );
+        lifecycleMap.put( "thread", PerThreadComponentHandler.class.getName() );
         lifecycleMap.put( "pooled", PoolableComponentHandler.class.getName() );
-        lifecycleMap.put( "factory", FactoryComponentHandler.class.getName() );
+        lifecycleMap.put( "transient", FactoryComponentHandler.class.getName() );
 
         m_lifecycleMap = Collections.unmodifiableMap( lifecycleMap );
     }
@@ -273,7 +273,7 @@ public class ServiceRoleManager extends AbstractRoleManager implements Initializ
             return;
         }
 
-        String shortName = meta.getProperty( "avalon-ext.name", createShortName( implementation ) );
+        String shortName = meta.getProperty( "x-avalon.name", createShortName( implementation ) );
         String handler = getHandler( meta );
 
         addRole( shortName, role, implementation, handler );
@@ -287,7 +287,7 @@ public class ServiceRoleManager extends AbstractRoleManager implements Initializ
      */
     private String getHandler( Properties meta )
     {
-        String lifecycle = meta.getProperty( "avalon-ext.lifecycle", null );
+        String lifecycle = meta.getProperty( "x-avalon.lifecycle", null );
         String handler = null;
 
         if( null != lifecycle )
