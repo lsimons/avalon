@@ -60,7 +60,7 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
  * in the org.apache.avalon.component package.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.10 $ $Date: 2003/05/22 14:36:20 $
+ * @version CVS $Revision: 1.11 $ $Date: 2003/05/27 14:15:52 $
  * @since 4.1
  */
 public class ConfigurableRoleManager
@@ -137,7 +137,7 @@ public class ConfigurableRoleManager
 
                 if ( ! addRole( shorthand, role, className, handlerClassName ) )
                 {
-                    final String message = "Skippign invalid entry:\n\tRole: " + role +
+                    final String message = "Skipping invalid entry:\n\tRole: " + role +
                             "\n\tShorthand: " + shorthand +
                             "\n\tClass Name: " + className +
                             "\n\tHandler Class: " + handlerClassName;
