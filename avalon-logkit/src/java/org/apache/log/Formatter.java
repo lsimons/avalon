@@ -12,6 +12,7 @@ package org.apache.log;
  * LogEvents into Strings.
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @deprecated Use org.apache.log.format.Formatter instead.
  */
 public interface Formatter
     extends org.apache.log.format.Formatter
