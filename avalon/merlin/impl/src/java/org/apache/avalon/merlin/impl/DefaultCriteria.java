@@ -85,7 +85,7 @@ import org.apache.avalon.util.criteria.PackedParameter;
  * for application to a factory.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class DefaultCriteria extends Criteria implements KernelCriteria
 {
@@ -103,15 +103,54 @@ public class DefaultCriteria extends Criteria implements KernelCriteria
     private static final File TEMP_DIR = 
       new File( System.getProperty( "java.io.tmpdir" ) );
     private static final File AVALON_HOME_DIR = 
-      new File( USER_HOME, ".avalon" );
+      getAvalonHomeDirectory();
     private static final File MERLIN_HOME_DIR = 
-      new File( USER_HOME, ".merlin" );
+      getMerlinHomeDirectory();
+
+    private static File getAvalonHomeDirectory()
+    {
+        return getEnvironment( "AVALON_HOME", ".avalon" );
+    }
+
+    private static File getMerlinHomeDirectory()
+    {
+        return getEnvironment( "MERLIN_HOME", ".merlin" );
+    }
+
+    private static File getEnvironment( String symbol, String path )
+    {
+        try
+        {
+            String home = 
+              System.getProperty( 
+                "merlin.home", 
+                Env.getEnvVariable( "MERLIN_HOME" ) );
+
+            if( null != home ) return new File( home ).getCanonicalFile();
+
+            return new File(
+              System.getProperty( "user.home" ) 
+              + File.separator 
+              + ".merlin" ).getCanonicalFile();
+
+        }
+        catch( Throwable e )
+        {
+            final String error = 
+              "Internal error while attempting to access MERLIN_HOME environment variable.";
+            final String message = 
+              ExceptionHelper.packException( error, e, true );
+            throw new RuntimeException( message );
+        }
+    }
+
 
    /**
     * The factory parameters template.
     */
-    private static final Parameter[] PARAMS = 
-      new Parameter[]{
+    private static Parameter[] buildParameters( InitialContext context )
+    { 
+        return new Parameter[]{
         new Parameter( 
           MERLIN_REPOSITORY,
           File.class, AVALON_HOME_DIR ),
@@ -133,7 +172,7 @@ public class DefaultCriteria extends Criteria implements KernelCriteria
         new Parameter( 
           MERLIN_OVERRIDE, String.class, null ),
         new Parameter( 
-          MERLIN_DIR, File.class, USER_DIR ),
+          MERLIN_DIR, File.class, context.getInitialWorkingDirectory() ),
         new Parameter( 
           MERLIN_TEMP, File.class, TEMP_DIR ),
         new Parameter( 
@@ -151,12 +190,13 @@ public class DefaultCriteria extends Criteria implements KernelCriteria
         new Parameter( 
           MERLIN_LANG, String.class, null )
       };
+    }
 
-    private static final String [] SINGLE_KEYS = 
-      Parameter.getKeys( PARAMS );
+    //private static final String [] SINGLE_KEYS = 
+    //  Parameter.getKeys( PARAMS );
 
-    private static final String[] MULTI_VALUE_KEYS = 
-      new String[0];
+    //private static final String[] MULTI_VALUE_KEYS = 
+    //  new String[0];
 
     //--------------------------------------------------------------
     // immutable state
@@ -173,7 +213,7 @@ public class DefaultCriteria extends Criteria implements KernelCriteria
     */
     public DefaultCriteria( InitialContext context )
     {
-        super( PARAMS );
+        super( buildParameters( context ) );
 
         m_context = context;
 
@@ -236,7 +276,9 @@ public class DefaultCriteria extends Criteria implements KernelCriteria
             new SystemDefaultsFinder() 
           };
         
-        Defaults defaults = new Defaults( SINGLE_KEYS, MULTI_VALUE_KEYS, finders );
+        Defaults defaults = 
+          new Defaults( 
+             Parameter.getKeys( super.getParameters() ), new String[0], finders );
 
         //
         // add ${merlin.dir} to assist in synbol expansion then expand
@@ -255,9 +297,10 @@ public class DefaultCriteria extends Criteria implements KernelCriteria
 
         put( "merlin.dir", work.toString() );
         ArrayList errors = new ArrayList();
-        for( int i=0; i<PARAMS.length; i++ )
+        Parameter[] params = super.getParameters();
+        for( int i=0; i<params.length; i++ )
         {
-            Parameter param = PARAMS[i];
+            Parameter param = params[i];
             final String key = param.getKey();
             if( !key.equals( "merlin.dir" ) )
             {
@@ -300,7 +343,7 @@ public class DefaultCriteria extends Criteria implements KernelCriteria
     */
     public String toString()
     {
-        return "[merlin: " + super.toString() + "]";
+        return super.toString();
     }
 
     //--------------------------------------------------------------

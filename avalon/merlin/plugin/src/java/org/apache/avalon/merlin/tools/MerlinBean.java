@@ -51,6 +51,7 @@
 package org.apache.avalon.merlin.tools;
 
 import java.io.File;
+import java.io.InputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Map;
@@ -77,10 +78,20 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * Merlin default application factory.
  * 
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class MerlinBean
 {
+    //----------------------------------------------------------
+    // static
+    //----------------------------------------------------------
+
+    private static final String MERLIN = "merlin.properties";
+
+    private static final String IMPLEMENTATION_KEY = "merlin.implementation";
+
+    private static final String IMPLEMENTATION_PATH = "merlin.implementation";
+
     //----------------------------------------------------------
     // immutable state
     //----------------------------------------------------------
@@ -139,9 +150,9 @@ public class MerlinBean
     {
         try
         {
-            Artifact artifact = 
-              Artifact.createArtifact( 
-                "merlin", "merlin-impl", "3.2-dev" );
+            Artifact artifact = getImplementation();
+            //  Artifact.createArtifact( 
+            //    "merlin", "merlin-impl", "3.2-dev" );
 
             InitialContext context = 
                new DefaultInitialContext( 
@@ -208,6 +219,77 @@ public class MerlinBean
         properties.load( new FileInputStream( file ) );
         return properties;
     }
+
+   /**
+    * Resolve the default implementation taking into account 
+    * command line arguments, local and hom properties, and 
+    * application defaults.
+    * @param line the command line construct
+    * @return the artifact reference
+    */
+    private Artifact getImplementation() throws Exception
+    {
+        //
+        // check in ${basedir}/merlin.properties and ${user.home}/merlin.properties
+        // for a "merlin.implementation" property and use it if decleared
+        //
+
+        File user = new File( System.getProperty( "user.home" ) );
+        String spec1 = 
+          getLocalProperties( user, MERLIN ).
+            getProperty( IMPLEMENTATION_KEY );
+        String spec = 
+          getLocalProperties( getBaseDirectory(), MERLIN ).
+            getProperty( IMPLEMENTATION_KEY, spec1 );
+        if( null != spec )
+        {
+            return Artifact.createArtifact( spec );
+        }
+
+        //
+        // otherwise go with the defaults packaged with the jar file
+        //
+ 
+        Properties properties = loadProperties( IMPLEMENTATION_PATH );
+        final String group = 
+          properties.getProperty( Artifact.GROUP_KEY );
+        final String name = 
+          properties.getProperty( Artifact.NAME_KEY  );
+        final String version = 
+          properties.getProperty( Artifact.VERSION_KEY );
+        return Artifact.createArtifact( group, name, version );
+    }
+
+   /**
+    * Load a properties file from a supplied resource name.
+    * @path the resource path
+    * @return the properties instance
+    */
+    private Properties loadProperties( String path )
+    {
+        try
+        {
+            Properties properties = new Properties();
+            ClassLoader classloader = MerlinBean.class.getClassLoader();
+            InputStream input = classloader.getResourceAsStream( path );
+            if( input == null ) 
+            {
+                final String error = 
+                  "Missing resource: [" + path + "]";
+                throw new Error( error );
+            }
+            properties.load( input );
+            return properties;
+        }
+        catch ( Throwable e )
+        {
+            final String error = 
+              "Internal error. " 
+              + "Unable to locate the resource: [" + IMPLEMENTATION_PATH + "].";
+            throw new IllegalArgumentException( error );
+        }
+    }
+
 
 
     private static File getMavenRepositoryDirectory()
