@@ -47,13 +47,13 @@ suspension a container may re-apply lifecycle artifact delivery stages
 </p>
 <p><i>Suspendable Example:</i></p>
 <source>
-    /**
-     * Suspend the component.
-     */
-     public void suspend()
-     {
-         ...
-     }
+/**
+ * Suspend the component.
+ */
+ public void suspend()
+ {
+     ...
+ }
 </source>
             </td>
           </tr>
@@ -68,13 +68,13 @@ management system.
 </p>
 <p><i>Suspendable Example:</i></p>
 <source>
-    /**
-     * Resume execution.
-     */
-     public void resume()
-     {
-         ...
-     }
+/**
+ * Resume execution.
+ */
+ public void resume()
+ {
+     ...
+ }
 </source>
             </td>
           </tr>
