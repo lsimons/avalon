@@ -7,9 +7,9 @@
  <body>
 
     <links>
-      <item name="Central" href="central/"/>
-      <item name="Products" href="products/"/>
-      <item name="Planet" href="planet/"/>
+      <item name="Planet" href="planet/index.html"/>
+      <item name="Products" href="products/index.html"/>
+      <item name="Central" href="central/index.html"/>
     </links>
 
     <menu name="About Avalon">
