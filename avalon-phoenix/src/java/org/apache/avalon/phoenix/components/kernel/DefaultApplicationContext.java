@@ -8,6 +8,7 @@
 package org.apache.avalon.phoenix.components.kernel;
 
 import java.util.HashMap;
+import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
@@ -16,8 +17,9 @@ import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.phoenix.interfaces.ApplicationContext;
 import org.apache.avalon.phoenix.interfaces.ConfigurationRepository;
-import org.apache.avalon.phoenix.interfaces.SystemManager;
 import org.apache.avalon.phoenix.interfaces.ConfigurationValidator;
+import org.apache.avalon.phoenix.interfaces.ManagerException;
+import org.apache.avalon.phoenix.interfaces.SystemManager;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
 import org.apache.excalibur.threadcontext.ThreadContext;
 import org.apache.excalibur.threadcontext.impl.DefaultThreadContextPolicy;
@@ -31,7 +33,7 @@ import org.apache.log.Logger;
  */
 class DefaultApplicationContext
     extends AbstractLogEnabled
-    implements ApplicationContext, Serviceable
+    implements ApplicationContext, Serviceable, Initializable
 {
     //Log Hierarchy for application
     private final Hierarchy m_hierarchy;
@@ -50,6 +52,7 @@ class DefaultApplicationContext
 
     ///Place to expose Management beans
     private SystemManager m_systemManager;
+    private SystemManager m_blockManager;
 
     private final SarMetaData m_metaData;
 
@@ -74,8 +77,14 @@ class DefaultApplicationContext
             lookup( ConfigurationRepository.ROLE );
         m_systemManager = (SystemManager)serviceManager.
             lookup( SystemManager.ROLE );
-        m_validator = (ConfigurationValidator) serviceManager.
+        m_validator = (ConfigurationValidator)serviceManager.
             lookup( ConfigurationValidator.ROLE );
+    }
+
+    public void initialize()
+        throws Exception
+    {
+        m_blockManager = getManagementContext();
     }
 
     public SarMetaData getMetaData()
@@ -124,8 +133,7 @@ class DefaultApplicationContext
                               final Object object )
         throws Exception
     {
-        final String longName = getServiceName( name, service );
-        m_systemManager.register( longName, object, new Class[]{service} );
+        m_blockManager.register( name, object, new Class[]{service} );
     }
 
     /**
@@ -137,17 +145,7 @@ class DefaultApplicationContext
     public void unexportObject( final String name, final Class service )
         throws Exception
     {
-        final String longName = getServiceName( name, service );
-        m_systemManager.unregister( longName );
-    }
-
-    /**
-     * Utility method to get the JMX-ized name of service to export
-     */
-    private String getServiceName( final String name, final Class service )
-    {
-        return name + ",application=" + getMetaData().getName() +
-            ",role=" + service.getName();
+        m_blockManager.unregister( name );
     }
 
     /**
@@ -159,10 +157,26 @@ class DefaultApplicationContext
     public Configuration getConfiguration( final String component )
         throws ConfigurationException
     {
-        final Configuration configuration = m_repository.getConfiguration( m_metaData.getName(), component );
+        final Configuration configuration =
+            m_repository.getConfiguration( m_metaData.getName(),
+                                           component );
 
         m_validator.isValid( m_metaData.getName(), component, configuration );
 
         return configuration;
+    }
+
+    /**
+     *  Returns the local SystemManager where the blocks should be registered
+     *  for management.
+     *
+     *  TODO: context should probably be passed in by reference from the kernel
+     */
+    private SystemManager getManagementContext()
+        throws ManagerException
+    {
+        final SystemManager appContext =
+            m_systemManager.getSubContext( null, "application" );
+        return appContext.getSubContext( m_metaData.getName(), "block" );
     }
 }
