@@ -26,8 +26,8 @@
   </action>
   <action dev="PD" type="change">
     Rework the application deployment format (ie .sar format) to be more in line
-    with other specifications. See docs/deployment-format.html in distribution for 
-    details. The old format is still supported but is deprecated.
+    with other specifications. See docs/creating-a-server-application.html in distribution 
+    for current format description. The old format is deprecated but will still work.
   </action>
   <action dev="PH" type="add">
     Created the start of a Phoenix Developers Kit (PDK) that will enable 
