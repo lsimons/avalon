@@ -89,15 +89,6 @@ public class DefaultKernel
         setupLogger( application, name );
         try
         {
-            if( application instanceof Contextualizable )
-            {
-                final DefaultContext context = new DefaultContext();
-                context.put( "app.name", name );
-                context.put( "app.home", metaData.getHomeDirectory() );
-                context.makeReadOnly();
-                ((Contextualizable)application).contextualize( context );
-            }
-
             if( application instanceof Composable )
             {
                 final DefaultComponentManager componentManager = new DefaultComponentManager();
