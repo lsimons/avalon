@@ -20,6 +20,11 @@
 #   PHOENIX_JVM_OPTS   (Optional) Java runtime options used when the command is
 #                       executed.
 #
+#   PHOENIX_KILLDELAY  (Optional) When shutting the server this script sends s
+#                      SIGTERM signal then delays for a time before forcefully
+#                      shutting down the process if it is still alive. This
+#                      variable controls the delay and defaults to 2 (seconds)
+#
 # -----------------------------------------------------------------------------
 
 usage()
@@ -62,6 +67,12 @@ done
 # Get standard environment variables
 PRGDIR=`dirname "$THIS_PROG"`
 PHOENIX_HOME=`cd "$PRGDIR/.." ; pwd`
+
+#setup time between signals to kill phoenix 
+if [ -z "$PHOENIX_KILLDELAY" ] ; then
+  PHOENIX_KILLDELAY=2
+fi
+      
 
 unset THIS_PROG
 
@@ -180,7 +191,7 @@ case "$ACTION" in
         PID=`cat $PHOENIX_PID 2>/dev/null`
         echo "Shutting down Phoenix: $PID"
         kill $PID 2>/dev/null
-        sleep 2
+        sleep $PHOENIX_KILLDELAY
         kill -9 $PID 2>/dev/null
         rm -f $PHOENIX_PID
         echo "STOPPED `date`" >>$PHOENIX_CONSOLE
