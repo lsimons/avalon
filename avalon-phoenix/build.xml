@@ -439,6 +439,7 @@ Legal:
 
         <chmod file="${bin.dist.bin}/wrapper" perm="u+x"/>
         <copy file="${conf.dir}/wrapper.conf" todir="${bin.dist.conf}"/>
+        <fixcrlf srcdir="${bin.dist.conf}" includes="wrapper.conf" eol="lf" />
     </target>
 
     <target name="install"
