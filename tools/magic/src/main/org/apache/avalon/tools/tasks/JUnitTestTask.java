@@ -107,7 +107,7 @@ public class JUnitTestTask extends SystemTask
 
         if( src.exists() )
         {
-            final File classes = new File( m_test, "classes" );
+            final File classes = getContext().getTestClassesDirectory();
             mkDir( classes );
 
             final Definition definition = getHome().getDefinition( getKey() );

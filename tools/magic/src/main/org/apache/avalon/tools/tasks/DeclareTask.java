@@ -33,19 +33,25 @@ import java.io.FileOutputStream;
 import java.io.File;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-
-
-
+import java.util.List;
+import java.util.ArrayList;
 
 /**
- * Load a plugin.
+ * Create meta-data for a plugin.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
 public class DeclareTask extends SystemTask
 {
-    private static final String TYPE = "plugin";
+    private static final String PLUGIN = "plugin";
+
+    private String m_type = PLUGIN;
+
+    protected void setType( String type )
+    {
+        m_type = type;
+    }
 
     public void execute() throws BuildException 
     {
@@ -55,6 +61,7 @@ public class DeclareTask extends SystemTask
         try
         {
             final File file = getPluginFile();
+            file.getParentFile().mkdirs();
             file.createNewFile();
             final OutputStream output = new FileOutputStream( file );
 
@@ -73,32 +80,17 @@ public class DeclareTask extends SystemTask
         }
     }
 
-    private File getPluginFile()
+    protected File getPluginFile()
     {
         final File dir = getContext().getDeliverablesDirectory();
-        final File ants = new File( dir, TYPE + "s" );
-        mkDir( ants );
-
+        final File ants = new File( dir, m_type + "s" );
         final Definition def = getHome().getDefinition( getKey() );
         final Info info = def.getInfo();
-        final String filename = getFilename( info );
+        final String filename = info.getShortFilename() + "." + m_type;
         return new File( ants, filename );
     }
 
-    private String getFilename( final Info info )
-    {
-        final String version = info.getVersion();
-        if( null == version )
-        {
-            return info.getName() + "." + TYPE;
-        }
-        else
-        {
-            return info.getName() + "-" + version + "." + TYPE;
-        }
-    }
-
-    public void writePluginDef( final OutputStream output, final Definition def )
+    private void writePluginDef( final OutputStream output, final Definition def )
         throws IOException
     {
         final Writer writer = new OutputStreamWriter( output );
@@ -107,18 +99,7 @@ public class DeclareTask extends SystemTask
         writer.flush();
     }
 
-   /**
-    * Write the XML header.
-    * @param writer the writer
-    * @throws IOException if unable to write xml
-    */
-    private void writeHeader( final Writer writer )
-        throws IOException
-    {
-        writer.write( "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>" );
-    }
-
-    private void writePlugin( final Writer writer, final Definition def )
+    protected void writePlugin( final Writer writer, final Definition def )
         throws IOException
     {
         final Info info = def.getInfo();
@@ -131,8 +112,19 @@ public class DeclareTask extends SystemTask
             writeTaskDefs( writer, plugin );
             writeListenerDefs( writer, plugin );
         }
-        writeClasspath( writer, def );
+        writeClasspath( writer, def, "  ", true );
         writer.write( "\n</plugin>\n" );
+    }
+
+   /**
+    * Write the XML header.
+    * @param writer the writer
+    * @throws IOException if unable to write xml
+    */
+    private void writeHeader( final Writer writer )
+        throws IOException
+    {
+        writer.write( "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>" );
     }
 
     private void writeTaskDefs( final Writer writer, final Plugin plugin )
@@ -185,20 +177,28 @@ public class DeclareTask extends SystemTask
         {
             writer.write( "\n    <version>" + version + "</version>" );
         }
-        writer.write( "\n    <type>" + TYPE + "</type>" );
+        writer.write( "\n    <type>" + m_type + "</type>" );
         writer.write( "\n  </info>" );
     }
 
-    private void writeClasspath( final Writer writer, final Definition def )
+   /**
+    * Write the classpath.  If the fag is true, then include this defintion 
+    * in the claspath.
+    */
+    protected void writeClasspath( 
+      final Writer writer, final Definition def, String padding, boolean flag )
         throws IOException
     {
-        writer.write( "\n  <classpath>" );
-        final String pad = "    ";
+        writer.write( "\n" + padding + "<classpath>" );
+        final String pad = padding + "  ";
         final ResourceRef[] resources =
           def.getResourceRefs( Policy.RUNTIME, ResourceRef.ANY, true );
         writeResourceRefs( writer, pad, resources );
-        writeResource( writer, pad, def );
-        writer.write( "\n  </classpath>" );
+        if( flag )
+        {
+            writeResource( writer, pad, def );
+        }
+        writer.write( "\n" + padding + "</classpath>" );
     }
 
     private void writeResourceRefs( 

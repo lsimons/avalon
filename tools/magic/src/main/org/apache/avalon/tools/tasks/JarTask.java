@@ -41,7 +41,7 @@ public class JarTask extends AbstractDeliverableTask
     public void execute() throws BuildException 
     {
         final File classes =
-          getContext().getBuildPath( JavacTask.BUILD_CLASSES_KEY );
+          getContext().getClassesDirectory();
         final File deliverables =
           getContext().getDeliverablesDirectory();
 
