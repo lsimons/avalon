@@ -68,8 +68,8 @@ Legal:
     <property name="tools.jar" value="${java.home}/../lib/tools.jar"/>
 
     <!-- Invoke 'ant get-mx4j' to get these -->
-    <property name="mx4j.jar" value="mx4j/mx4j-1.1/lib/mx4j-jmx.jar"/>
-    <property name="mx4j-tools.jar" value="mx4j/mx4j-1.1/lib/mx4j-tools.jar"/>
+    <property name="mx4j.jar" value="mx4j/mx4j-1.1.1/lib/mx4j-jmx.jar"/>
+    <property name="mx4j-tools.jar" value="mx4j/mx4j-1.1.1/lib/mx4j-tools.jar"/>
 
     <path id="project.class.path">
         <pathelement location="${xerces.jar}"/>
@@ -147,7 +147,7 @@ Legal:
     <!-- For licensing reasons, we are unable to put these Jars in our CVS or source distributions. -->
     <target name="get-mx4j">
         <mkdir  dir="mx4j"/>
-        <get src="http://telia.dl.sourceforge.net/sourceforge/mx4j/mx4j-1.1.tar.gz"
+        <get src="http://telia.dl.sourceforge.net/sourceforge/mx4j/mx4j-1.1.1.tar.gz"
             dest="mx4j/mx4j.tar.gz"
             verbose="true"
             usetimestamp="true"/>
@@ -477,14 +477,26 @@ Legal:
             <fileset dir="${lib.dir}/deploy/ext"/>
         </copy>
 
-        <copy file="${mx4j.jar}" todir="${bin.dist.bin}/lib"/>
-        <copy file="${mx4j-tools.jar}" todir="${bin.dist.bin}/lib"/>
-        <jar jarfile="${bin.dist.bin}/lib/mx4j-tools.jar" update="true">
-            <zipfileset dir="src/mx4j/xsl" prefix="mx4j/adaptor/http/xsl/">
-                <include name="common.xsl"/>
-            </zipfileset>
-        </jar>
+	<delete dir="mx4j-tools-temp"/>
+	<unzip src="${mx4j-tools.jar}" dest="mx4j-tools-temp"/>
+	<property name="strings_en.xml" value="mx4j-tools-temp/mx4j/adaptor/http/xsl/strings_en.xml"/>
+	<replace file="${strings_en.xml}" token="MX4J/Http Adaptor" value="Apache's Phoenix Server"/> 
+	<replace file="${strings_en.xml}" token="mx4jlogo" value="phoenixlogo"/>
+	<replace file="${strings_en.xml}" token="MX4J logo" value="Phoenix Logo"/>
+	<replace file="${strings_en.xml}" token="JMX Management Console" value="Avalon-Phoenix Management Console"/>
+	<replace file="${strings_en.xml}" token="logo.gif" value="phoenix.gif"/>
+	<replace file="${strings_en.xml}" token="common.phoenix.gif" value="common.logo.gif"/>
+	<replace file="${strings_en.xml}" token="100" value=""/>
+	<replace file="${strings_en.xml}" token="50" value=""/>
+	<replace file="${strings_en.xml}" token="mx4j.sourceforge.net" value="jakarta.apache.org/avalon/phoenix"/>
+	<replace file="mx4j-tools-temp/mx4j/adaptor/http/xsl/stylesheet.css" token="183,187,184" value="white"/>
+        <copy file="src/logos/phoenix.gif" todir="mx4j-tools-temp/mx4j/adaptor/http/xsl"/>
 
+	<zip destfile="${build.lib}/mx4j-tools.jar" basedir="mx4j-tools-temp"/>
+
+        <copy file="${mx4j.jar}" todir="${bin.dist.bin}/lib"/>
+        <copy file="${build.lib}/mx4j-tools.jar" todir="${bin.dist.bin}/lib"/>
+        
         <antcall target="dist-beanshell"/>
 
         <copy file="${script.dir}/run.bat" todir="${bin.dist.bin}"/>
@@ -664,9 +676,12 @@ Legal:
             The Phoenix Kernel Logs will be placed here.
         </echo>
 
-        <zip zipfile="${dist.base}/${dist.name}-bin.zip"
-            basedir="${dist.name}/.."
-            includes="${dist.name}/**"/>
+        <zip zipfile="${dist.base}/${dist.name}-bin.zip">
+          <fileset dir="${dist.name}/..">
+              <include name="${dist.name}/**"/>
+              <exclude name="${dist.name}/lib/bsh*.jar"/>
+          </fileset>
+        </zip>
 
         <tar longfile="gnu" tarfile="${dist.base}/${dist.name}-bin.tar">
             <tarfileset dir="${dist.name}/.." mode="755" username="avalon" group="avalon">
@@ -675,6 +690,7 @@ Legal:
             <tarfileset dir="${dist.name}/.." username="avalon" group="avalon">
                 <include name="${dist.name}/**"/>
                 <exclude name="${dist.name}/bin/*.sh"/>
+                <exclude name="${dist.name}/lib/bsh*.jar"/>
             </tarfileset>
         </tar>
 
