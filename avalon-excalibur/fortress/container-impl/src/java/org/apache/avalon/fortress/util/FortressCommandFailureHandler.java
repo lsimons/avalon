@@ -47,65 +47,59 @@
  Apache Software Foundation, please see <http://www.apache.org/>.
 
 */
-package org.apache.avalon.fortress.impl.handler;
+package org.apache.avalon.fortress.util;
 
-import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.framework.logger.NullLogger;
+import org.apache.avalon.fortress.impl.handler.ComponentHandler;
+import org.apache.avalon.fortress.impl.handler.PrepareHandlerCommand;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
+
 import org.apache.excalibur.event.command.Command;
+import org.apache.excalibur.event.command.CommandFailureHandler;
 
 /**
- * This is the command class to initialize a ComponentHandler
+ * The default CommandFailureHandler used by Fortress to log any
+ *  failures encountered while executing commands.
  *
- * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.10 $ $Date: 2003/06/11 19:14:42 $
+ * @author <a href="leif.at.apache.org">Leif Mortenson</a>
+ * @version CVS $Revision: 1.1 $ $Date: 2003/06/11 19:14:42 $
+ * @since 4.1
  */
-public final class PrepareHandlerCommand implements Command
+public class FortressCommandFailureHandler
+    extends AbstractLogEnabled
+    implements CommandFailureHandler
 {
-    private final ComponentHandler m_handler;
-    private final Logger m_logger;
-
     /**
-     * Creation of a new prepare handler command.
-     * @param handler the compoent handler
-     * @param logger the logging channel
-     */
-    public PrepareHandlerCommand( final ComponentHandler handler,
-                                  final Logger logger )
-    {
-        m_handler = handler;
-        m_logger = ( null == logger ) ? new NullLogger() : logger;
-    }
-    
-    /**
-     * Returns a reference to the ComponentHandler being prepared.
+     * Handle a command failure.  If a command throws an exception, it has failed.  The
+     * CommandManager will call this method so that we can handle the problem effectively.
      *
-     * @return The ComponentHandler.
+     * @param command    The original Command object that failed
+     * @param throwable  The throwable that caused the failure
+     *
+     * @return <code>true</code> if the CommandManager should cease to process commands.
      */
-    public ComponentHandler getHandler()
+    public boolean handleCommandFailure( final Command command, final Throwable throwable )
     {
-        return m_handler;
-    }
-
-    /**
-     * Invoke execution of the handler
-     * @exception java.lang.Exception if a handler execution exception occurs
-     */
-    public void execute()
-        throws Exception
-    {
-        try
+        if ( command instanceof PrepareHandlerCommand )
         {
-            m_handler.prepareHandler();
-        }
-        catch ( final Exception e )
-        {
-            if ( m_logger.isErrorEnabled() )
+            PrepareHandlerCommand phc = (PrepareHandlerCommand)command;
+            ComponentHandler handler = phc.getHandler();
+            
+            if ( getLogger().isErrorEnabled() )
             {
-                //m_logger.error( "[REMOVE THIS] Could not prepare ComponentHandler for: " + m_handler.getComponentClass().getName(), e );
+                getLogger().error( "Could not prepare ComponentHandler for: "
+                    + handler.getComponentClass().getName(), throwable );
             }
-
-            throw e;
         }
+        else
+        {
+            if ( getLogger().isErrorEnabled() )
+            {
+                getLogger().error( "Command failed: " + command, throwable );
+            }
+        }
+        
+        // This handler never requests that commands cease to be processed.
+        return false;
     }
 }
 
