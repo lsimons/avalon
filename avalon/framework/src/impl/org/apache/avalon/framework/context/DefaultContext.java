@@ -22,7 +22,7 @@ import java.util.Map;
  * @author <a href="mailto:leo.sutic@inspireinfrastructure.com">Leo Sutic</a>
  */
 public class DefaultContext
-    implements Context, Serializable
+    implements Context
 {
     private final static class Hidden implements Serializable {}
     
