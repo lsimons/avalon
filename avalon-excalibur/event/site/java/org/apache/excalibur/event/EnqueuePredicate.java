@@ -60,7 +60,7 @@ package org.apache.excalibur.event;
  * runs in the context of the <b>caller of enqueue()</b>, which
  * means it must be simple and fast.
  *
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  * @author  <a href="mailto:schierma@users.sourceforge.net">schierma</a>
  */
 public interface EnqueuePredicate
@@ -70,7 +70,7 @@ public interface EnqueuePredicate
      * @since Feb 10, 2003
      *
      * @param  element  The element to enqueue
-     * @param  modifyingSing  The sink that is used for this predicate
+     * @param  modifyingSink  The sink that is used for this predicate
      * @return
      *  <code>true</code> if the sink accepts the element;
      *  <code>false</code> otherwise.
@@ -82,7 +82,7 @@ public interface EnqueuePredicate
      * @since Feb 10, 2003
      *
      * @param  elements  The array of elements to enqueue
-     * @param  modifyingSing  The sink that is used for this predicate
+     * @param  modifyingSink  The sink that is used for this predicate
      * @return
      *  <code>true</code> if the sink accepts all the elements;
      *  <code>false</code> otherwise.

@@ -58,11 +58,7 @@ import java.util.Map;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.commons.collections.Buffer;
 import org.apache.commons.collections.UnboundedFifoBuffer;
-import org.apache.excalibur.event.EventHandler;
-import org.apache.excalibur.event.Queue;
-import org.apache.excalibur.event.Signal;
-import org.apache.excalibur.event.Sink;
-import org.apache.excalibur.event.Source;
+import org.apache.excalibur.event.*;
 import org.apache.excalibur.event.impl.DefaultQueue;
 
 import EDU.oswego.cs.dl.util.concurrent.ReentrantLock;
@@ -99,13 +95,15 @@ import EDU.oswego.cs.dl.util.concurrent.ReentrantLock;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  */
-public class CommandManager implements EventPipeline, Disposable
+public class CommandManager implements EventPipeline, Disposable, EnqueuePredicate
 {
     private final Queue m_queue;
     private final HashMap m_signalHandlers;
     private final ReentrantLock m_mutex;
     private final EventHandler m_eventHandler;
     private final Source[] m_sources;
+    private CommandFailureHandler m_failureHandler;
+    private boolean m_isAccepting;
 
     /**
      * Create the CommandManager
@@ -117,6 +115,32 @@ public class CommandManager implements EventPipeline, Disposable
         m_mutex = new ReentrantLock();
         m_eventHandler = new CommandEventHandler( Collections.unmodifiableMap( m_signalHandlers ) );
         m_sources = new Source[]{m_queue};
+        m_failureHandler = new NullCommandFailureHandler();
+        m_queue.setEnqueuePredicate(this);
+        m_isAccepting = true;
+    }
+
+    /**
+     * Set the failure handler that the application can use to override what happens when a command
+     * failure happens.
+     *
+     * @param handler  the new Handler
+     * @throws NullPointerException if "handler" is null.
+     */
+    public void setCommandFailureHandler(final CommandFailureHandler handler)
+    {
+        if (null == handler) throw new NullPointerException("handler");
+        m_failureHandler = handler;
+    }
+
+    /**
+     * Get the failure handler so that CommandManager can use it when a problem happens.
+     *
+     * @return the failure handler.
+     */
+    protected CommandFailureHandler getCommandFailureHandler()
+    {
+        return m_failureHandler;
     }
 
     /**
@@ -239,7 +263,7 @@ public class CommandManager implements EventPipeline, Disposable
         return m_eventHandler;
     }
 
-    private static final class CommandEventHandler implements EventHandler
+    private final class CommandEventHandler implements EventHandler
     {
         private final Map m_signalHandlers;
         private final Buffer m_delayedCommands = new UnboundedFifoBuffer();
@@ -339,7 +363,8 @@ public class CommandManager implements EventPipeline, Disposable
             }
             catch( Exception e )
             {
-                // ignore for now
+                m_isAccepting =
+                        getCommandFailureHandler().handleCommandFailure((Command)element, e);
             }
         }
     }
@@ -350,5 +375,35 @@ public class CommandManager implements EventPipeline, Disposable
         protected long m_nextRunTime;
         protected int m_numExecutions;
         protected boolean m_repeatable;
+    }
+
+    /**
+     * Tests the given element for acceptance onto the m_sink.
+     * @since Feb 10, 2003
+     *
+     * @param  element  The element to enqueue
+     * @param  modifyingSink  The sink that is used for this predicate
+     * @return
+     *  <code>true</code> if the sink accepts the element;
+     *  <code>false</code> otherwise.
+     */
+    public boolean accept( Object element, Sink modifyingSink )
+    {
+        return m_isAccepting;
+    }
+
+    /**
+     * Tests the given element for acceptance onto the m_sink.
+     * @since Feb 10, 2003
+     *
+     * @param  elements  The array of elements to enqueue
+     * @param  modifyingSink  The sink that is used for this predicate
+     * @return
+     *  <code>true</code> if the sink accepts all the elements;
+     *  <code>false</code> otherwise.
+     */
+    public boolean accept( Object elements[], Sink modifyingSink )
+    {
+        return m_isAccepting;
     }
 }
