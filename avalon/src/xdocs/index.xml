@@ -18,9 +18,23 @@
       <p>
        The Avalon project is an effort to create, design, develop and maintain
        a common framework and set of components for applications written 
-       using the Java language. This framework is not a standalone product, 
-       but allows existing and yet to be created applications to fit 
-       into a common platform and to share code, design and human resources.
+       using the Java language.
+      </p>
+      <p>
+      Having said that, what Avalon 'is', is a framework that allows components of varying 
+      scale to be created, managed via a specific set of 
+      <link href="framework/reference-the-lifecycle.html">lifecycle</link> methods, 
+      and used in an application. While Avalon is geared towards server-side applications, 
+      it is not limited to such, and is quite flexible.
+      </p>
+      <p>
+      The scope of usage for Avalon is quite broad. You may only want to create custom, application
+      specific componets that can be managed in a well defined manner, or you may want to use the many
+      components and services available with the 
+      <link href="http://jakarta.apache.org/avalon/excalibur/index.html">Excalibur</link>
+      sub-project, or use complete applications, such as FTP or a web server, in a server oriented 
+      container such as Phoenix. What this means to you is that you can use only what you need to use, 
+      and you can scale your usage of Avalon as your application needs grow.
       </p>
     </s1>
     <s1 title="Project Goals">
@@ -120,7 +134,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.10 $ $Date: 2002/05/12 07:21:34 $
+      $Revision: 1.11 $ $Date: 2002/05/19 09:53:35 $
     </legal>
   </footer>
 </document>
