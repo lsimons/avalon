@@ -123,20 +123,23 @@ public class AddRepositoryDialog extends Dialog
 
         RepositoryTypeRegistry reg = RepositoryPlugin.getDefault().getRepositoryTypeRegistry();
         RepositorySchemeDescriptor[] urns = reg.getRegisteredURNs();
-        m_Selected = urns[0];
-        for (int i = 0; i < urns.length; i++)
-        {
-            Button b1 = new Button(group, SWT.RADIO);
-            GridData gd = new GridData();
-            gd.grabExcessHorizontalSpace = true;
-            gd.grabExcessVerticalSpace = true;
-            b1.setLayoutData(gd);
-            b1.setText(urns[i].getName());
-            b1.setData(urns[i]);
-            b1.setToolTipText(urns[i].getDescription());
-            b1.addSelectionListener( this );            
-            if (i == 0)
-                b1.setSelection(true);
+        if( urns.length > 0 )
+        {    
+            m_Selected = urns[0];
+            for (int i = 0; i < urns.length; i++)
+            {
+                Button b1 = new Button(group, SWT.RADIO);
+                GridData gd = new GridData();
+                gd.grabExcessHorizontalSpace = true;
+                gd.grabExcessVerticalSpace = true;
+                b1.setLayoutData(gd);
+                b1.setText(urns[i].getName());
+                b1.setData(urns[i]);
+                b1.setToolTipText(urns[i].getDescription());
+                b1.addSelectionListener( this );            
+                if (i == 0)
+                    b1.setSelection(true);
+            }
         }
         return panel;
     }
