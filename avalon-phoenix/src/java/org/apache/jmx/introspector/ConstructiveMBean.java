@@ -22,7 +22,7 @@ import javax.management.MBeanOperationInfo;
  * verified by reflection,
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.2 $ $Date: 2001/09/30 05:15:17 $
+ * @version CVS $Revision: 1.3 $ $Date: 2001/09/30 05:26:15 $
  */
 public abstract class ConstructiveMBean
     extends AbstractMBean
@@ -60,13 +60,13 @@ public abstract class ConstructiveMBean
             final SecurityManager sm = System.getSecurityManager();
             if( null != sm )
             {
-                final String className = object.getClass().getName();
-                final JMXPermission permission = new JMXPermission( "create", className );
+                final String classname = object.getClass().getName();
+                final JMXPermission permission = new JMXPermission( "create", classname );
                 sm.checkPermission( permission );
             }
         }
 
-        defineManageableObject();
+        defineObject();
 
         initialize();
 
@@ -80,7 +80,7 @@ public abstract class ConstructiveMBean
      * Utility method called to define manageable 
      * objects attributes and operations.
      */
-    protected abstract void defineManageableObject();
+    protected abstract void defineObject();
 
     /**
      * Utility method to define an attribute with specified name.
