@@ -11,6 +11,10 @@
   <target name="init" depends="standard.init">
     <x:filter key="avalon-logging-logkit-impl" feature="uri" 
        token="AVALON-LOGGING-LOGKIT-SPEC"/>
+    <x:filter key="avalon-test-components" feature="uri" 
+       token="TEST-COMPONENTS-SPEC"/>
+    <x:filter key="avalon-test-playground" feature="uri" 
+       token="PLAYGROUND-SPEC"/>
   </target>
 
   <target name="package" depends="standard.package">
