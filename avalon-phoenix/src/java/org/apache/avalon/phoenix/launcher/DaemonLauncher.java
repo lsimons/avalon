@@ -127,7 +127,6 @@ public class DaemonLauncher
         }
         else
         {
-            Thread.dumpStack();
             final String command = (null != arg) ? arg.toString() : "";
             if( command.equals( "restart" ) )
             {
