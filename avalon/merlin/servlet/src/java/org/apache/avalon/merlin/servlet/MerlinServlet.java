@@ -29,11 +29,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.avalon.activation.appliance.Appliance;
-import org.apache.avalon.activation.appliance.Block;
-
-import org.apache.avalon.composition.model.ContainmentModel;
-
 import org.apache.avalon.framework.logger.Logger;
 
 import org.apache.avalon.merlin.Kernel;
@@ -74,8 +69,6 @@ public class MerlinServlet extends HttpServlet
     //----------------------------------------------------------
 
     private KernelCriteria m_criteria;
-
-    private Block m_block;
 
     private Kernel m_kernel;
 

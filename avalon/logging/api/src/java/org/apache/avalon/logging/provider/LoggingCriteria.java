@@ -30,7 +30,7 @@ import org.apache.avalon.framework.logger.Logger;
  * for application to a LoggingManager factory.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public interface LoggingCriteria extends Map
 {
@@ -65,6 +65,12 @@ public interface LoggingCriteria extends Map
     String LOGGING_BASEDIR_KEY = 
       "avalon.logging.basedir";
 
+   /**
+    * Debug mode.
+    */
+    String LOGGING_DEBUG_KEY = 
+      "avalon.logging.debug";
+
     //--------------------------------------------------------------
     // operations
     //--------------------------------------------------------------
@@ -94,6 +100,12 @@ public interface LoggingCriteria extends Map
     void setConfiguration( Configuration config );
 
    /**
+    * Set the debug enabled policy
+    * @param mode TRUE to enabled debug mode else FALSE
+    */
+    void setDebugEnabled( boolean mode );
+
+   /**
     * Get the bootstrap logging channel
     * @return the boootstrap logging channel
     */
@@ -116,5 +128,13 @@ public interface LoggingCriteria extends Map
     * @return the logging implementation factory classname 
     */
     Artifact getFactoryArtifact() throws IOException;
+
+   /**
+    * Return debug policy.  If TRUE all logging channels will be 
+    * set to debug level.
+    *
+    * @return the debug policy
+    */
+    public boolean isDebugEnabled();
 
 }

@@ -41,14 +41,16 @@ import org.apache.avalon.util.criteria.Parameter;
 
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
+
 import org.apache.excalibur.configuration.ConfigurationUtil;
+
 
 /**
  * DefaultLoggingCriteria is a class holding the values supplied by a user 
  * for application to a LoggingManager factory.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class DefaultLoggingCriteria extends Criteria 
   implements LoggingCriteria
@@ -80,6 +82,10 @@ public class DefaultLoggingCriteria extends Criteria
               LOGGING_BASEDIR_KEY, 
               File.class, 
               BASEDIR ),
+            new Parameter( 
+              LOGGING_DEBUG_KEY, 
+              Boolean.class, 
+              new Boolean( false ) ),
             new LoggerParameter( 
               LOGGING_BOOTSTRAP_KEY, 
               new ConsoleLogger( ConsoleLogger.LEVEL_WARN ) ),
@@ -124,6 +130,15 @@ public class DefaultLoggingCriteria extends Criteria
     //--------------------------------------------------------------
     // LoggingCriteria
     //--------------------------------------------------------------
+
+   /**
+    * Set the debug enabled policy
+    * @param mode TRUE to enabled debug mode else FALSE
+    */
+    public void setDebugEnabled( boolean mode )
+    {
+        put( LOGGING_DEBUG_KEY, new Boolean( mode ) );
+    }
 
    /**
     * Set the bootstrap logging channel
@@ -205,6 +220,20 @@ public class DefaultLoggingCriteria extends Criteria
             return Artifact.createArtifact( value );
         }
     }
+
+   /**
+    * Return debug policy.  If TRUE all logging channels will be 
+    * set to debug level.
+    *
+    * @return the debug policy
+    */
+    public boolean isDebugEnabled()
+    {
+        Boolean value = (Boolean) get( LOGGING_DEBUG_KEY );
+        if( null != value ) return value.booleanValue();
+        return false;
+    }
+
 
     private static Artifact getDefaultImplementationArtifact( 
       InitialContext context )
