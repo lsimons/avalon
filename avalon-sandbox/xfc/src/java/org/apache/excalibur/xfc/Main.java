@@ -52,6 +52,7 @@ package org.apache.excalibur.xfc;
 import java.util.List;
 
 import org.apache.avalon.framework.logger.ConsoleLogger;
+import org.apache.avalon.framework.logger.NullLogger;
 import org.apache.avalon.framework.logger.Logger;
 
 import org.apache.avalon.excalibur.cli.CLArgsParser;
@@ -64,7 +65,7 @@ import org.apache.avalon.excalibur.cli.CLUtil;
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
  * (parts also taken from the Excalibur CLI example)
- * @version CVS $Id: Main.java,v 1.2 2002/10/16 16:21:07 crafterm Exp $
+ * @version CVS $Id: Main.java,v 1.3 2002/10/23 12:04:16 crafterm Exp $
  */
 public final class Main
 {
@@ -73,6 +74,7 @@ public final class Main
     private static final int VERSION_OPT = 'v';
     private static final int INPUT_OPT = 'i';
     private static final int OUTPUT_OPT = 'o';
+    private static final int DEBUG_OPT = 'd';
 
     // Array of understood options, for setting the input and output
     // conversion modules
@@ -94,10 +96,14 @@ public final class Main
                                 CLOptionDescriptor.ARGUMENT_REQUIRED,
                                 OUTPUT_OPT,
                                 "set the output module name and context" ),
+        new CLOptionDescriptor( "debug",
+                                CLOptionDescriptor.ARGUMENT_DISALLOWED,
+                                DEBUG_OPT,
+                                "enable debug logging" ),
     };
 
-    // Logger for output. REVISIT(MC): add debug option for debug logging
-    private static final Logger m_logger = new ConsoleLogger(ConsoleLogger.LEVEL_DEBUG);
+    // Logger for output.
+    private static Logger m_logger = new NullLogger();
 
     // Input module name
     private static String m_inputModule;
@@ -168,8 +174,8 @@ public final class Main
         final List options = parser.getArguments();
         final int size = options.size();
 
-        // Check that there are enough arguments (should be no more than 2)
-        if ( size > 2 )
+        // Check that there are enough arguments (should be no more than 3)
+        if ( size > 3 )
         {
             printUsage();
         }
@@ -183,6 +189,11 @@ public final class Main
                 case CLOption.TEXT_ARGUMENT:
                     // This occurs when a user supplies an unknown argument
                     System.err.println( "Unknown argument: " + option.getArgument() );
+                    break;
+
+                case DEBUG_OPT:
+                    // Modify the logger to print debug output to console
+                    m_logger = new ConsoleLogger( ConsoleLogger.LEVEL_DEBUG );
                     break;
 
                 case HELP_OPT:
