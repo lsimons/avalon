@@ -1,0 +1,20 @@
+
+<container name="tutorial">
+
+     <container name="root">
+       <component name="hello" class="tutorial.HelloComponent" activation="startup">
+         <context class="tutorial.DemoContextProvider">
+           <entry key="cruncher" 
+             <param class="tutorial.NumberCruncher">
+               <param class="java.lang.Integer">7</param>
+               <param class="java.lang.Double">1.5</param>
+             </param>
+           </entry>
+         </context>
+         <configuration>
+           <source>configuration from block directive</source>
+         </configuration>
+       </component>
+     </container>
+
+</container>
