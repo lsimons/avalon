@@ -114,7 +114,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * as a part of a containment deployment model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.13.2.1 $ $Date: 2004/01/03 15:38:50 $
+ * @version $Revision: 1.13.2.2 $ $Date: 2004/01/03 16:01:32 $
  */
 public class DefaultContainmentModel extends DefaultModel 
   implements ContainmentModel
@@ -313,6 +313,16 @@ public class DefaultContainmentModel extends DefaultModel
                 return;
             }
 
+            getLogger().debug( "dissassembly phase" );
+            Model[] models = m_context.getModelRepository().getModels();
+            for( int i=0; i<models.length; i++ )
+            {
+                Model model = models[i];
+                if( model instanceof Composite )
+                {
+                    ((Composite)model).disassemble();
+                }
+            }
             m_assembly.setEnabled( false );
         }
     }
