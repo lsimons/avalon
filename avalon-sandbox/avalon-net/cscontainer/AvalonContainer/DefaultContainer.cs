@@ -55,6 +55,7 @@ namespace Apache.Avalon.Container
 
 	using Apache.Avalon.Framework;
 	using Apache.Avalon.Container.Configuration;
+	using Apache.Avalon.Container.Context;
 	using Apache.Avalon.Container.Lookup;
 	using Apache.Avalon.Container.Services;
 	using Apache.Avalon.Container.Handler;
@@ -119,6 +120,7 @@ namespace Apache.Avalon.Container
 		private ComponentCollection       m_components;
 		private IComponentFactoryManager  m_factoryManager;
 		private ILookupManager            m_lookupManager;
+		private IContext                  m_context;
 		private ILogger                   m_baseLogger;
 		#endregion
 
@@ -133,12 +135,8 @@ namespace Apache.Avalon.Container
 		/// is not found, an exception is throwed.
 		/// </remarks>
 		/// <exception cref="ContainerException">If the configuration file is not found.</exception>
-		public DefaultContainer()
+		public DefaultContainer() : this( GetDefaultConfiguration() )
 		{
-			ContainerConfiguration config = (ContainerConfiguration) 
-				ConfigurationSettings.GetConfig(ContainerConfigurationSectionHandler.Section);
-
-			Setup(config);
 		}
 
 		/// <summary>
@@ -150,13 +148,38 @@ namespace Apache.Avalon.Container
 		/// <seealso cref="Apache.Avalon.Container.Configuration.ContainerConfiguration"/>
 		/// </remarks>
 		/// <param name="config"></param>
-		public DefaultContainer(ContainerConfiguration config)
+		public DefaultContainer(ContainerConfiguration config) : this( config, null )
 		{
+		}
+
+		/// <summary>
+		/// Constructs a <b>DefaultContainer</b>.
+		/// </summary>
+		/// <param name="context"></param>
+		public DefaultContainer(IContext context) : this( null, context )
+		{
+		}
+
+		/// <summary>
+		/// Constructs a <b>DefaultContainer</b>.
+		/// </summary>
+		/// <param name="config"></param>
+		/// <param name="context"></param>
+		public DefaultContainer(ContainerConfiguration config, IContext context)
+		{
+			this.m_context = ( context == null ) ? new DefaultContext() : context;
 			Setup(config);
 		}
 		#endregion
 
 		#region Methods
+		private static ContainerConfiguration GetDefaultConfiguration()
+		{
+			ContainerConfiguration config = (ContainerConfiguration) 
+					ConfigurationSettings.GetConfig(ContainerConfigurationSectionHandler.Section);
+			return config;
+		}
+
 		private void Setup(ContainerConfiguration config)
 		{
 			if (config == null)
@@ -248,7 +271,7 @@ namespace Apache.Avalon.Container
 			}
 
 			IComponentHandler handler = 
-				new InternalComponentHandler( m_baseLogger, loggerConfiguration, loggerType );
+				new InternalComponentHandler( m_baseLogger, m_context, loggerConfiguration, loggerType );
 			
 			m_loggerManager = (ILoggerManager) handler.GetInstance();
 		}
@@ -263,7 +286,7 @@ namespace Apache.Avalon.Container
 			Type factoryManagerType = typeof( ComponentFactoryManager );
 
 			InternalComponentHandler handler = 
-				new InternalComponentHandler( logger, extensionsConfiguration, factoryManagerType );
+				new InternalComponentHandler( logger, m_context, extensionsConfiguration, factoryManagerType );
 
 			m_factoryManager = (IComponentFactoryManager) handler.GetInstance();
 		}
@@ -281,7 +304,7 @@ namespace Apache.Avalon.Container
 			Type lifestyleManager = typeof( LifecycleManager );
 
 			InternalComponentHandler handler = 
-				new InternalComponentHandler( logger, extensionsConfiguration, lifestyleManager );
+				new InternalComponentHandler( logger, m_context, extensionsConfiguration, lifestyleManager );
 
 			InternalLookupManager lookUpManager = new InternalLookupManager();
 			lookUpManager.Add( typeof(IComponentFactoryManager).FullName, m_factoryManager );

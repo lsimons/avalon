@@ -45,7 +45,6 @@
 // Apache Software Foundation, please see <http://www.apache.org/>.
 // ============================================================================
 
-
 using System;
 
 namespace Apache.Avalon.Framework
@@ -91,6 +90,31 @@ namespace Apache.Avalon.Framework
 				}
 
 				((ILogEnabled) component).EnableLogging(logger);
+			}
+		}
+
+		/// <summary>
+		/// Supplies specified object with Context if it implements the
+		/// <see cref="IContextualizable"/> interface.
+		/// </summary>
+		/// <param name="component">The component instance</param>
+		/// <param name="context">The context.</param>
+		/// <exception cref="ArgumentException">
+		/// If the component is <see cref="IContextualizable"/> but <see cref="IContext"/> is null.
+		/// </exception>
+		/// <remarks>
+		/// 
+		/// </remarks>
+		public static void Contextualize(object component, IContext context)
+		{
+			if (component is IContextualizable)
+			{
+				if (context == null)
+				{
+					throw new ArgumentNullException("context");
+				}
+
+				((IContextualizable) component).Contextualize(context);
 			}
 		}
 

@@ -70,7 +70,7 @@ namespace Apache.Avalon.Container
 	/// Summary description for LifecycleManager.
 	/// </summary>
 	public sealed class LifecycleManager : 
-		ILogEnabled, IInitializable, IDisposable, IConfigurable, ILookupEnabled
+		ILogEnabled, IInitializable, IDisposable, IConfigurable, ILookupEnabled, IContextualizable
 	{
 		private static readonly object BeforeCreationEvent = new object();
 		private static readonly object AfterCreationEvent  = new object();
@@ -82,6 +82,7 @@ namespace Apache.Avalon.Container
 		private IComponentFactoryManager m_factoryManager;
 		private DefaultContainer         m_container;
 		private ILogger                  m_logger;
+		private IContext                 m_context;
 		private ILoggerManager           m_loggerManager;
 		private ArrayList                m_loadedModules;
 		private WeakMap                  m_knowReferences;
@@ -135,6 +136,11 @@ namespace Apache.Avalon.Container
 				if (instance is ILogEnabled)
 				{
 					ContainerUtil.EnableLogging(instance, m_loggerManager[entry.LoggerName]);
+				}
+
+				if (instance is IContextualizable)
+				{
+					ContainerUtil.Contextualize(instance, m_context);
 				}
 
 				BlindLookupManager lookupManager = new BlindLookupManager(m_container);
@@ -415,6 +421,15 @@ namespace Apache.Avalon.Container
 
 			m_loggerManager  = (ILoggerManager)
 				manager[ typeof(ILoggerManager).FullName ];
+		}
+
+		#endregion
+
+		#region IContextualizable Members
+
+		public void Contextualize(IContext context)
+		{
+			this.m_context = context;
 		}
 
 		#endregion

@@ -1,34 +1,34 @@
 // ============================================================================
 //                   The Apache Software License, Version 1.1
 // ============================================================================
-//
+// 
 // Copyright (C) 2002-2003 The Apache Software Foundation. All rights reserved.
-//
+// 
 // Redistribution and use in source and binary forms, with or without modifica-
 // tion, are permitted provided that the following conditions are met:
-//
+// 
 // 1. Redistributions of  source code must  retain the above copyright  notice,
 //    this list of conditions and the following disclaimer.
-//
+// 
 // 2. Redistributions in binary form must reproduce the above copyright notice,
 //    this list of conditions and the following disclaimer in the documentation
 //    and/or other materials provided with the distribution.
-//
+// 
 // 3. The end-user documentation included with the redistribution, if any, must
 //    include  the following  acknowledgment:  "This product includes  software
 //    developed  by the  Apache Software Foundation  (http://www.apache.org/)."
 //    Alternately, this  acknowledgment may  appear in the software itself,  if
 //    and wherever such third-party acknowledgments normally appear.
-//
-// 4. The names "Jakarta", "Avalon", "Excalibur" and "Apache Software Foundation"
-//    must not be used to endorse or promote products derived from this  software
-//    without  prior written permission. For written permission, please contact
+// 
+// 4. The names "Jakarta", "Avalon", "Excalibur" and "Apache Software Foundation"  
+//    must not be used to endorse or promote products derived from this  software 
+//    without  prior written permission. For written permission, please contact 
 //    apache@apache.org.
-//
+// 
 // 5. Products  derived from this software may not  be called "Apache", nor may
 //    "Apache" appear  in their name,  without prior written permission  of the
 //    Apache Software Foundation.
-//
+// 
 // THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES,
 // INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
 // FITNESS  FOR A PARTICULAR  PURPOSE ARE  DISCLAIMED.  IN NO  EVENT SHALL  THE
@@ -39,81 +39,56 @@
 // ANY  THEORY OF LIABILITY,  WHETHER  IN CONTRACT,  STRICT LIABILITY,  OR TORT
 // (INCLUDING  NEGLIGENCE OR  OTHERWISE) ARISING IN  ANY WAY OUT OF THE  USE OF
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-//
+// 
 // This software  consists of voluntary contributions made  by many individuals
-// on  behalf of the Apache Software  Foundation. For more  information on the
+// on  behalf of the Apache Software  Foundation. For more  information on the 
 // Apache Software Foundation, please see <http://www.apache.org/>.
 // ============================================================================
 
-namespace Apache.Avalon.Container.Handler
+namespace Apache.Avalon.Framework
 {
 	using System;
-
-	using Apache.Avalon.Framework;
-	using Apache.Avalon.Container.Services;
+	using System.Runtime.Serialization; 
 
 	/// <summary>
-	/// Manages internal components, not true components.
-	/// <br/>
-	/// These components can't participate in extension managers,
-	/// the logger it receives is a ConsoleLogger and they don't 
-	/// have any special Lifestyle support (singleton, transient etc)
+	/// Exception signalling a badly formed Context.
+	/// 
+	/// This can be thrown by Context object when a entry is not
+	/// found. It can also be thrown manually in Contextualize()
+	/// when Component detects a malformed context value.
 	/// </summary>
-	internal sealed class InternalComponentHandler : IComponentHandler
+	[Serializable]
+	public class ContextException : Exception
 	{
-		private ILogger        m_logger;
-		private IConfiguration m_configuration;
-		private ILookupManager m_lookupManager;
-		private IContext       m_context;
-		private Type           m_componentType;
-
-		public InternalComponentHandler(ILogger logger, IContext context, IConfiguration configuration, Type componentType)
+		/// <summary>
+		/// Constructs a new <see cref="ContextException"/> instance.
+		/// </summary>
+		public ContextException(): this( null )
 		{
-			m_logger        = logger;
-			m_context       = context;
-			m_configuration = configuration;
-			m_componentType = componentType;
 		}
 
-		public ILookupManager LookupManager
+		/// <summary>
+		/// Constructs a new <see cref="ContextException"/> instance.
+		/// </summary>
+		/// <param name="message">The Detail message of the exception.</param>
+		public ContextException(string message): this( message, null )
 		{
-			get
-			{
-				return m_lookupManager;
-			}
-			set
-			{
-				m_lookupManager = value;
-			}
 		}
 
-		#region IComponentHandler Members
-
-		public object GetInstance()
+		/// <summary>
+		/// Constructs a new <see cref="ContextException"/> instance.
+		/// </summary>
+		/// <param name="message">The Detail message of the exception.</param>
+		/// <param name="inner">The Root cause of the exception.</param>
+		public ContextException(string message, Exception inner): base( message, inner )
 		{
-			object instance = Activator.CreateInstance(m_componentType);
-
-			ContainerUtil.EnableLogging(instance, m_logger);
-			ContainerUtil.Contextualize(instance, m_context);
-			ContainerUtil.Configure(instance, m_configuration);
-
-			if (LookupManager != null)
-			{
-				ContainerUtil.Service(instance, LookupManager);
-			}
-
-			ContainerUtil.Initialize(instance);
-			ContainerUtil.Start(instance);
-
-			return instance;
 		}
 
-		public void PutInstance(object instance)
+		/// <summary>
+		/// Constructs a new <see cref="ContextException"/> instance.
+		/// </summary>
+		public ContextException(SerializationInfo info, StreamingContext context): base( info, context )
 		{
-
 		}
-
-		#endregion
 	}
 }
-
