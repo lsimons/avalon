@@ -120,7 +120,7 @@ import java.util.Iterator;
  * and dispose of them properly when it itself is disposed .</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.25 $ $Date: 2003/05/15 13:45:09 $
+ * @version CVS $Revision: 1.26 $ $Date: 2003/05/15 13:50:36 $
  * @since 4.1
  */
 public final class ContextManager
@@ -535,7 +535,7 @@ public final class ContextManager
         }
         catch ( ContextException ce )
         {
-            getLogger().debug( "Could not copy context entry: " + RoleManager.ROLE
+            getLogger().debug( "Could not copy context entry: " + MetaInfoManager.ROLE
                 + ".  This may be Ok depending on other configured context values." );
         }
 
