@@ -58,7 +58,7 @@
     Firstly you will need to get the demo-helloworld.sar file and drop it into
     the apps directory of Phoenix.  Currently it needs to be built from CVS -
     <link href="http://cvs.apache.org/viewcvs/avalon-apps/demo/">
-    http://cvs.apache.org/viewcvs/jakarta-avalon-apps/demo/</link>.
+    http://cvs.apache.org/viewcvs/avalon-apps/demo/</link>.
 </p>
 <p>
     Then fire up phoenix with the following command:
