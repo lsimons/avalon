@@ -1,5 +1,5 @@
 APACHE AVALON PROJECT STATUS:                          -*-indented-text-*-
-Last modified at [$Date: 2002/12/05 15:49:37 $]
+Last modified at [$Date: 2002/12/17 13:25:28 $]
 
 Background:
 
@@ -49,6 +49,11 @@ Resolved Issues:
       will use the same package names they will use if/when
       they are graduated in main CVS.
 
+    o Context contract has been updated to reflect
+      current usage.
+      [http://marc.theaimsgroup.com/?t=103986366100001&r=1&w=2]
+       +1: Leo Sutic, Leo Simons, Paul Hammant, Stephen McConnell,
+           Nicola Ken Barozzi
       
 Pending issues:
 
@@ -163,7 +168,13 @@ Pending issues:
        [http://marc.theaimsgroup.com/?t=103908800800002&r=1&w=2]
        +1: stefano, bloritsch, nicolaken, crafterm, leosutic
       
-      
+    o  Come up with a Meta-Info model for Context.
+
+    o  Define standard Context entries.
+
+    o  Last-minute changes to the Context javadocs.
+
+
 Project Mission:
 
 What is the project's mission?  Our statement of goals/mission/vision
