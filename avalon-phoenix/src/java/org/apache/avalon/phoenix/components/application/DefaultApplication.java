@@ -342,13 +342,13 @@ public final class DefaultApplication
         if( PHASE_STARTUP == name )
         {
             //... for startup, so indicate to applicable listeners
-            m_lifecycle.getAppListenerSupport().
+            m_lifecycle.getListenerSupport().
                 fireApplicationStartingEvent( m_sarMetaData );
         }
         else
         {
             //... for shutdown, so indicate to applicable listeners
-            m_lifecycle.getAppListenerSupport().applicationStopping();
+            m_lifecycle.getListenerSupport().applicationStopping();
         }
 
         //Process blocks, one by one.
@@ -381,7 +381,7 @@ public final class DefaultApplication
                 final String message =
                     REZ.getString( "app.error.run-phase", name, block, e.getMessage() );
                 getLogger().error( message, e );
-                m_lifecycle.getAppListenerSupport().applicationFailure( e );
+                m_lifecycle.getListenerSupport().applicationFailure( e );
                 throw e;
             }
 
@@ -397,12 +397,12 @@ public final class DefaultApplication
         if( PHASE_STARTUP == name )
         {
             //... for startup, so indicate to applicable listeners
-            m_lifecycle.getAppListenerSupport().applicationStarted();
+            m_lifecycle.getListenerSupport().applicationStarted();
         }
         else
         {
             //... for shutdown, so indicate to applicable listeners
-            m_lifecycle.getAppListenerSupport().applicationStopped();
+            m_lifecycle.getListenerSupport().applicationStopped();
         }
     }
 }
