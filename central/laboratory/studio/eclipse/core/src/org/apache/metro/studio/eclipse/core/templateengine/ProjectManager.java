@@ -22,6 +22,7 @@ import java.util.List;
 import org.apache.metro.studio.eclipse.core.MetroStudioCore;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
+import org.eclipse.core.resources.IProjectNature;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.JavaCore;
@@ -33,13 +34,13 @@ import org.eclipse.jdt.core.JavaCore;
  */
 public class ProjectManager
 {
-    final static String BASE = "org.apache.metro.studio.core";
+    final public static String BASE = "org.apache.metro.studio.core";
 
-    final static String BLOCK_NATURE_ID = BASE + ".blockNature";
+    final public static String BLOCK_NATURE_ID = BASE + ".blockNature";
 
-    final static String FACILITY_NATURE_ID = BASE + ".facilityNature";
+    final public static String FACILITY_NATURE_ID = BASE + ".facilityNature";
 
-    final static String KERNEL_NATURE_ID = BASE + ".kernelNature";
+    final public static String KERNEL_NATURE_ID = BASE + ".kernelNature";
 
     /**
      *  
@@ -148,5 +149,28 @@ public class ProjectManager
         {
             MetroStudioCore.log(e, "can't delete project");
         }
+    }
+
+    /**
+     * @param project
+     * @return
+     */
+    public static IProjectNature getNature(IProject project)
+    {
+        IProjectNature nature = null;
+        try
+        {
+            nature = project.getNature(ProjectManager.BLOCK_NATURE_ID);
+            // TODO: check for other valid Metro natures
+            
+        } catch (CoreException e)
+        {
+            MetroStudioCore.log(e, "Core Exception while searching a nature");
+        }
+        if(nature == null)
+        {
+            MetroStudioCore.log(null, "no valid Metro Nature found");
+        }
+        return nature;
     }
 }
