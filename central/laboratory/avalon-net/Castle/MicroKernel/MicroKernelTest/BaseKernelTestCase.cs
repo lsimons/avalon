@@ -14,10 +14,6 @@
 
 namespace Apache.Avalon.Castle.MicroKernel.Test
 {
-	using System;
-	using System.Reflection;
-	using System.Collections;
-
 	using NUnit.Framework;
 
 	using Apache.Avalon.Castle.MicroKernel;
@@ -49,6 +45,24 @@ namespace Apache.Avalon.Castle.MicroKernel.Test
 
 			handler.Release( service );
 		}
+
+        [Test]
+        public void AddAndRemove()
+        {
+            BaseKernel container = new BaseKernel();
+            container.AddComponent( "a", typeof(IMailService), typeof(SimpleMailService) );
+
+            AssertNotNull( container.GetHandlerForService( typeof(IMailService) ) );
+            AssertNotNull( container[ "a" ] );
+
+            AssertNull( container.GetHandlerForService( typeof(IMailMarketingService) ) );
+            AssertNull( container[ "b" ] );
+
+            container.RemoveComponent( "a" );
+
+            AssertNull( container.GetHandlerForService( typeof(IMailService) ) );
+            AssertNull( container[ "a" ] );
+        }
 
 		[Test]
 		public void ComponentDependingOnLogger()

@@ -34,6 +34,10 @@ namespace Apache.Avalon.Castle.MicroKernel.Handler.Default
 			return new DefaultHandler( model );
 		}
 
+        public virtual void ReleaseHandler( IHandler handler )
+        {
+        }
+
 		#endregion
 	}
 }

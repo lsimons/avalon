@@ -21,9 +21,13 @@ namespace Apache.Avalon.Castle.MicroKernel
 
     public delegate void ComponentDataDelegate( IComponentModel model, String key, IHandler handler );
 
-	public delegate void InterceptionDelegate( IComponentModel model, IHandler handler, IInterceptedComponent interceptedComponent );
+	public delegate void WrapDelegate( IComponentModel model, String key, IHandler handler, IInterceptedComponent interceptedComponent );
 
-	public delegate void ComponentInstanceDelegate( IComponentModel model, IHandler handler, object instance );
+    public delegate object UnWrapDelegate( IComponentModel model, String key, IHandler handler, object instance );
+
+	public delegate void ComponentInstanceDelegate( IComponentModel model, String key, IHandler handler, object instance );
+
+	public delegate void ComponentModelDelegate( IComponentModel model, String key );
 
     /// <summary>
     /// 
@@ -35,19 +39,64 @@ namespace Apache.Avalon.Castle.MicroKernel
         /// </summary>
         event ComponentDataDelegate ComponentRegistered;
 
+		/// <summary>
+		/// 
+		/// </summary>
+		event ComponentDataDelegate ComponentUnregistered;
+
+		/// <summary>
+		/// 
+		/// </summary>
+		event WrapDelegate ComponentWrap;
+
+		/// <summary>
+		/// 
+		/// </summary>
+		event UnWrapDelegate ComponentUnWrap;
+
+		/// <summary>
+		/// 
+		/// </summary>
+		event ComponentInstanceDelegate ComponentReady;
+
+		/// <summary>
+		/// 
+		/// </summary>
+		event ComponentInstanceDelegate ComponentReleased;
+
+		/// <summary>
+		/// 
+		/// </summary>
+		event ComponentModelDelegate ComponentModelConstructed;
+
         /// <summary>
         /// 
         /// </summary>
-        event InterceptionDelegate ComponentInterception;
+        /// <param name="instance"></param>
+        /// <param name="handler"></param>
+        /// <returns></returns>
+        object RaiseWrapEvent( IHandler handler, object instance );
 
         /// <summary>
-		/// 
-		/// </summary>
-        event ComponentInstanceDelegate ComponentCreated;
+        /// 
+        /// </summary>
+        /// <param name="instance"></param>
+        /// <param name="handler"></param>
+        /// <returns></returns>
+        object RaiseUnWrapEvent( IHandler handler, object instance );
 
         /// <summary>
-		/// 
-		/// </summary>
-		event ComponentInstanceDelegate ComponentDestroyed;
-	}
+        /// 
+        /// </summary>
+        /// <param name="instance"></param>
+        /// <param name="handler"></param>
+        void RaiseComponentReadyEvent( IHandler handler, object instance );
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="instance"></param>
+        /// <param name="handler"></param>
+        void RaiseComponentReleasedEvent( IHandler handler, object instance );
+    }
 }

@@ -94,7 +94,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Test
 			public override object Resolve()
 			{
 				object instance = new object();
-				base.RegisterInstance( ref instance );
+				base.RegisterInstance( instance );
 				return instance;
 			}
 		
@@ -139,7 +139,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Test
 
 			public override object Resolve()
 			{
-				base.RegisterInstance( ref instance );
+				base.RegisterInstance( instance );
 				return instance;
 			}
 		

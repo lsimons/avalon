@@ -14,8 +14,6 @@
 
 namespace Apache.Avalon.Castle.MicroKernel.Handler.Default
 {
-	using System;
-
 	using Apache.Avalon.Castle.MicroKernel.Model;
 	using Apache.Avalon.Castle.MicroKernel.Concerns;
 	using Apache.Avalon.Castle.MicroKernel.Factory.Default;

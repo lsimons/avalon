@@ -14,88 +14,119 @@
 
 namespace Apache.Avalon.Castle.MicroKernel
 {
-	using System;
-	using System.Collections;
+    using System;
+    using System.Collections;
     using System.ComponentModel;
 
-	using Apache.Avalon.Castle.MicroKernel.Model;
-	using Apache.Avalon.Castle.MicroKernel.Subsystems.Lookup.Default;
+    using Apache.Avalon.Framework;
+    using Apache.Avalon.Castle.MicroKernel.Model;
+    using Apache.Avalon.Castle.MicroKernel.Handler.Default;
+    using Apache.Avalon.Castle.MicroKernel.Lifestyle.Default;
+    using Apache.Avalon.Castle.MicroKernel.Model.Default;
+    using Apache.Avalon.Castle.MicroKernel.Interceptor;
+    using Apache.Avalon.Castle.MicroKernel.Interceptor.Default;
 
-	/// <summary>
-	/// Base implementation of <see cref="IKernel"/>
-	/// </summary>
-	public class BaseKernel : IKernel, IDisposable
-	{
+    /// <summary>
+    /// Base implementation of <see cref="IKernel"/>
+    /// </summary>
+    public class BaseKernel : IKernel, IDisposable
+    {
         private static readonly object ComponentRegisteredEvent = new object();
-        private static readonly object ComponentInterceptionEvent = new object();
-        private static readonly object ComponentCreatedEvent = new object();
-        private static readonly object ComponentDestroyedEvent = new object();
+        private static readonly object ComponentUnregisteredEvent = new object();
+        private static readonly object ComponentWrapEvent = new object();
+        private static readonly object ComponentUnWrapEvent = new object();
+        private static readonly object ComponentReadyEvent = new object();
+        private static readonly object ComponentReleasedEvent = new object();
+        private static readonly object ComponentModelConstructedEvent = new object();
 
         protected EventHandlerList m_events;
 
         protected IList m_componentsInstances = new ArrayList();
 
-        protected Hashtable m_components;
+        protected Hashtable m_key2Handler;
 
-		protected Hashtable m_services;
+        protected Hashtable m_service2Key;
 
-		protected Hashtable m_subsystems;
+        protected Hashtable m_subsystems;
 
-		protected Hashtable m_dependencyToSatisfy;
+        protected Hashtable m_dependencyToSatisfy;
 
-		protected IHandlerFactory m_handlerFactory;
+        protected IHandlerFactory m_handlerFactory;
 
-		protected IComponentModelBuilder m_componentModelBuilder;
+        protected IComponentModelBuilder m_componentModelBuilder;
 
-		protected ILifestyleManagerFactory m_lifestyleManagerFactory;
+        protected ILifestyleManagerFactory m_lifestyleManagerFactory;
 
-		/// <summary>
-		/// 
-		/// </summary>
-		public BaseKernel()
-		{
+        protected IInterceptedComponentBuilder m_interceptedComponentBuilder;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public BaseKernel()
+        {
             m_events = new EventHandlerList();
-            m_services = new Hashtable();
-			m_components = new Hashtable(CaseInsensitiveHashCodeProvider.Default, CaseInsensitiveComparer.Default);
-			m_subsystems = new Hashtable();
-			m_handlerFactory = new Handler.Default.SimpleHandlerFactory();
-			m_dependencyToSatisfy = new Hashtable();
-			m_componentModelBuilder = new Model.Default.DefaultComponentModelBuilder( this );
-			m_lifestyleManagerFactory = new Lifestyle.Default.SimpleLifestyleManagerFactory();
+            m_key2Handler = new Hashtable(CaseInsensitiveHashCodeProvider.Default, CaseInsensitiveComparer.Default);
+            m_service2Key = new Hashtable();
+            m_subsystems = new Hashtable();
+            m_handlerFactory = new SimpleHandlerFactory();
+            m_dependencyToSatisfy = new Hashtable();
+            m_componentModelBuilder = new DefaultComponentModelBuilder(this);
+            m_lifestyleManagerFactory = new SimpleLifestyleManagerFactory();
+            m_interceptedComponentBuilder = new DefaultInterceptedComponentBuilder();
 
-			InitializeSubsystems();
-		}
+            InitializeSubsystems();
+        }
 
-		#region IKernel Members
+        #region IKernel Members
 
-		/// <summary>
-		/// Adds a component to kernel.
-		/// </summary>
-		/// <param name="key">The unique key that identifies the component</param>
-		/// <param name="service">The service exposed by this component</param>
-		/// <param name="implementation">The actual implementation</param>
-		public void AddComponent( String key, Type service, Type implementation )
-		{
-			AssertUtil.ArgumentNotNull( key, "key" );
-			AssertUtil.ArgumentNotNull( service, "service" );
-			AssertUtil.ArgumentNotNull( implementation, "implementation" );
-			AssertUtil.ArgumentMustBeInterface( service, "service" );
-			AssertUtil.ArgumentMustNotBeInterface( implementation, "implementation" );
-			AssertUtil.ArgumentMustNotBeAbstract( implementation, "implementation" );
-			
+        /// <summary>
+        /// Adds a component to kernel.
+        /// </summary>
+        /// <param name="key">The unique key that identifies the component</param>
+        /// <param name="service">The service exposed by this component</param>
+        /// <param name="implementation">The actual implementation</param>
+        public void AddComponent(String key, Type service, Type implementation)
+        {
+            AssertUtil.ArgumentNotNull(key, "key");
+            AssertUtil.ArgumentNotNull(service, "service");
+            AssertUtil.ArgumentNotNull(implementation, "implementation");
+            AssertUtil.ArgumentMustBeInterface(service, "service");
+            AssertUtil.ArgumentMustNotBeInterface(implementation, "implementation");
+            AssertUtil.ArgumentMustNotBeAbstract(implementation, "implementation");
+
             if (!service.IsAssignableFrom(implementation))
             {
-				throw new ArgumentException("The specified implementation does not implement the service interface");
-			}
+                throw new ArgumentException("The specified implementation does not implement the service interface");
+            }
 
-			IComponentModel model = ModelBuilder.BuildModel( key, service, implementation );
+            IComponentModel model = ModelBuilder.BuildModel(key, service, implementation);
+            OnModelConstructed( model, key );
 
-			IHandler handler = HandlerFactory.CreateHandler( model );
-			handler.Init ( this );
+            IHandler handler = HandlerFactory.CreateHandler(model);
+            handler.Init(this);
 
-			m_components[ key ] = handler;
+            m_key2Handler[ key ] = handler;
+            OnComponentRegistered(model, key, handler);
+        }
 
-            OnNewHandler( model, key, service, implementation, handler);
+        /// <summary>
+        /// Pending.
+        /// </summary>
+        /// <param name="key"></param>
+        public void RemoveComponent(String key)
+        {
+            AssertUtil.ArgumentNotNull(key, "key");
+
+            IHandler handler = this[key];
+
+            if ( handler != null )
+            {
+                OnComponentUnregistered(handler.ComponentModel, key, handler);
+
+                m_key2Handler.Remove( key );
+
+                HandlerFactory.ReleaseHandler( handler );
+            }
         }
 
         /// <summary>
@@ -112,166 +143,201 @@ namespace Apache.Avalon.Castle.MicroKernel
         /// Pending
         /// </summary>
         /// <value></value>
-        public event InterceptionDelegate ComponentInterception
+        public event ComponentDataDelegate ComponentUnregistered
         {
-            add { m_events.AddHandler(ComponentInterceptionEvent, value); }
-            remove { m_events.RemoveHandler(ComponentInterceptionEvent, value); }
+            add { m_events.AddHandler(ComponentUnregisteredEvent, value); }
+            remove { m_events.RemoveHandler(ComponentUnregisteredEvent, value); }
         }
 
         /// <summary>
         /// Pending
         /// </summary>
         /// <value></value>
-        public event ComponentInstanceDelegate ComponentCreated
+        public event WrapDelegate ComponentWrap
         {
-            add { m_events.AddHandler(ComponentCreatedEvent, value); }
-            remove { m_events.RemoveHandler(ComponentCreatedEvent, value); }
+            add { m_events.AddHandler(ComponentWrapEvent, value); }
+            remove { m_events.RemoveHandler(ComponentWrapEvent, value); }
         }
 
         /// <summary>
         /// Pending
         /// </summary>
         /// <value></value>
-        public event ComponentInstanceDelegate ComponentDestroyed
+        public event UnWrapDelegate ComponentUnWrap
         {
-            add { m_events.AddHandler(ComponentDestroyedEvent, value); }
-            remove { m_events.RemoveHandler(ComponentDestroyedEvent, value); }
+            add { m_events.AddHandler(ComponentUnWrapEvent, value); }
+            remove { m_events.RemoveHandler(ComponentUnWrapEvent, value); }
         }
 
         /// <summary>
-		/// Adds a subsystem.
-		/// </summary>
-		/// <param name="key">Name of this subsystem</param>
-		/// <param name="system">Subsystem implementation</param>
-		public void AddSubsystem( String key, IKernelSubsystem system )
-		{
-			AssertUtil.ArgumentNotNull( key, "key" );
-			AssertUtil.ArgumentNotNull( system, "system" );
+        /// Pending
+        /// </summary>
+        /// <value></value>
+        public event ComponentInstanceDelegate ComponentReady
+        {
+            add { m_events.AddHandler(ComponentReadyEvent, value); }
+            remove { m_events.RemoveHandler(ComponentReadyEvent, value); }
+        }
 
-			system.Init( this );
+        /// <summary>
+        /// Pending
+        /// </summary>
+        /// <value></value>
+        public event ComponentInstanceDelegate ComponentReleased
+        {
+            add { m_events.AddHandler(ComponentReleasedEvent, value); }
+            remove { m_events.RemoveHandler(ComponentReleasedEvent, value); }
+        }
 
-			m_subsystems[ key ] = system;
-		}
+        /// <summary>
+        /// Pending
+        /// </summary>
+        /// <value></value>
+        public event ComponentModelDelegate ComponentModelConstructed
+        {
+            add { m_events.AddHandler(ComponentModelConstructedEvent, value); }
+            remove { m_events.RemoveHandler(ComponentModelConstructedEvent, value); }
+        }
 
-		/// <summary>
-		/// 
-		/// </summary>
-		public IHandler this [ String key ]
-		{
-			get
-			{
-				return (IHandler) m_components[ key ];
-			}
-		}
+        /// <summary>
+        /// Adds a subsystem.
+        /// </summary>
+        /// <param name="key">Name of this subsystem</param>
+        /// <param name="system">Subsystem implementation</param>
+        public void AddSubsystem(String key, IKernelSubsystem system)
+        {
+            AssertUtil.ArgumentNotNull(key, "key");
+            AssertUtil.ArgumentNotNull(system, "system");
 
-		public IHandler GetHandler( String key, object criteria )
-		{
-			// TODO: IHandler GetHandler( String key, object criteria )
-			return null;
-		}
+            system.Init(this);
 
-		public IHandlerFactory HandlerFactory
-		{
-			get
-			{
-				return m_handlerFactory;
-			}
-			set
-			{
-				AssertUtil.ArgumentNotNull( value, "value" );
-				m_handlerFactory = value;
-			}
-		}
+            m_subsystems[ key ] = system;
+        }
 
-		/// <summary>
-		/// 
-		/// </summary>
-		public ILifestyleManagerFactory LifestyleManagerFactory
-		{
-			get
-			{
-				return m_lifestyleManagerFactory;
-			}
-			set
-			{
-				AssertUtil.ArgumentNotNull( value, "value" );
-				m_lifestyleManagerFactory = value;
-			}
-		}
+        /// <summary>
+        /// 
+        /// </summary>
+        public IHandler this[String key]
+        {
+            get { return (IHandler) m_key2Handler[ key ]; }
+        }
 
-		public IComponentModelBuilder ModelBuilder
-		{
-			get
-			{
-				return m_componentModelBuilder;
-			}
-			set
-			{
-				AssertUtil.ArgumentNotNull( value, "value" );
-				m_componentModelBuilder = value;
-			}
-		}
+        public IHandler GetHandler(String key, object criteria)
+        {
+            // TODO: IHandler GetHandler( String key, object criteria )
+            return null;
+        }
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="service"></param>
-		/// <returns></returns>
-		public bool HasService( Type service )
-		{
-			return m_services.Contains( service );
-		}
+        public IHandlerFactory HandlerFactory
+        {
+            get { return m_handlerFactory; }
+            set
+            {
+                AssertUtil.ArgumentNotNull(value, "value");
+                m_handlerFactory = value;
+            }
+        }
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="service"></param>
-		/// <param name="depDelegate"></param>
-		public void AddDependencyListener( Type service, DependencyListenerDelegate depDelegate )
-		{
-			lock(m_dependencyToSatisfy)
-			{
-				Delegate del = m_dependencyToSatisfy[ service ] as Delegate;
+        /// <summary>
+        /// 
+        /// </summary>
+        public ILifestyleManagerFactory LifestyleManagerFactory
+        {
+            get { return m_lifestyleManagerFactory; }
+            set
+            {
+                AssertUtil.ArgumentNotNull(value, "value");
+                m_lifestyleManagerFactory = value;
+            }
+        }
 
-				if (del == null)
-				{
-					m_dependencyToSatisfy[ service ] = depDelegate;
-				}
-				else
-				{
-					del = Delegate.Combine( del, depDelegate );
-					m_dependencyToSatisfy[ service ] = del;
-				}
-			}
-		}
+        /// <summary>
+        /// 
+        /// </summary>
+        public IInterceptedComponentBuilder InterceptedComponentBuilder
+        {
+            get { return m_interceptedComponentBuilder; }
+            set
+            {
+                AssertUtil.ArgumentNotNull(value, "value");
+                m_interceptedComponentBuilder = value;
+            }
+        }
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="service"></param>
-		/// <returns></returns>
-		public IHandler GetHandlerForService( Type service )
-		{
-			return (IHandler) m_services[ service ];
-		}
+        /// <summary>
+        /// 
+        /// </summary>
+        public IComponentModelBuilder ModelBuilder
+        {
+            get { return m_componentModelBuilder; }
+            set
+            {
+                AssertUtil.ArgumentNotNull(value, "value");
+                m_componentModelBuilder = value;
+            }
+        }
 
-		/// <summary>
-		/// Returns a registered subsystem;
-		/// </summary>
-		/// <param name="key">Key used when registered subsystem</param>
-		/// <returns>Subsystem implementation</returns>
-		public IKernelSubsystem GetSubsystem( String key )
-		{
-			return (IKernelSubsystem) m_subsystems[ key ];
-		}
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="service"></param>
+        /// <returns></returns>
+        public bool HasService(Type service)
+        {
+            return m_service2Key.Contains(service);
+        }
 
-		#endregion
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="service"></param>
+        /// <param name="depDelegate"></param>
+        public void AddDependencyListener(Type service, DependencyListenerDelegate depDelegate)
+        {
+            lock (m_dependencyToSatisfy)
+            {
+                Delegate del = m_dependencyToSatisfy[ service ] as Delegate;
+
+                if (del == null)
+                {
+                    m_dependencyToSatisfy[ service ] = depDelegate;
+                }
+                else
+                {
+                    del = Delegate.Combine(del, depDelegate);
+                    m_dependencyToSatisfy[ service ] = del;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="service"></param>
+        /// <returns></returns>
+        public IHandler GetHandlerForService(Type service)
+        {
+            String key = (String) m_service2Key[ service ];
+            return key == null ? null : (IHandler) m_key2Handler[ key ];
+        }
+
+        /// <summary>
+        /// Returns a registered subsystem;
+        /// </summary>
+        /// <param name="key">Key used when registered subsystem</param>
+        /// <returns>Subsystem implementation</returns>
+        public IKernelSubsystem GetSubsystem(String key)
+        {
+            return (IKernelSubsystem) m_subsystems[ key ];
+        }
+
+        #endregion
 
         #region IDisposable Members
 
         public void Dispose()
         {
-            foreach (PairHandlerComponent pair in m_componentsInstances)
+            foreach(PairHandlerComponent pair in m_componentsInstances)
             {
                 pair.Handler.Release(pair.Instance);
             }
@@ -282,45 +348,180 @@ namespace Apache.Avalon.Castle.MicroKernel
 
         /// <summary>
         /// 
-		/// </summary>
-		protected virtual void InitializeSubsystems()
-		{
+        /// </summary>
+        protected virtual void InitializeSubsystems()
+        {
             // Examples:
-			// AddSubsystem( KernelConstants.LOOKUP, new LookupCriteriaMatcher() );
-			// AddSubsystem( KernelConstants.EVENTS, new EventManager() );
-		}
+            // AddSubsystem( KernelConstants.LOOKUP, new LookupCriteriaMatcher() );
+            // AddSubsystem( KernelConstants.EVENTS, new EventManager() );
+        }
 
-        protected virtual void RaiseComponentAdded(IComponentModel model, String key, IHandler handler)
+        #region RaiseEvents 
+
+        protected virtual void RaiseComponentRegistered(IComponentModel model, String key, IHandler handler)
         {
             ComponentDataDelegate eventDelegate = (ComponentDataDelegate) m_events[ComponentRegisteredEvent];
-            
+
             if (eventDelegate != null)
             {
                 eventDelegate(model, key, handler);
             }
         }
 
-        private void OnNewHandler( IComponentModel model, String key, Type service, Type implementation, IHandler handler )
-		{
-			m_services[ service ] = handler;
+        protected virtual void RaiseComponentUnregistered(IComponentModel model, String key, IHandler handler)
+        {
+            ComponentDataDelegate eventDelegate = (ComponentDataDelegate) m_events[ComponentUnregisteredEvent];
 
-            RaiseComponentAdded( model, key, handler );
-
-            if (model.ActivationPolicy == Apache.Avalon.Framework.Activation.Start)
+            if (eventDelegate != null)
             {
-                object instance = handler.Resolve();
-                
-                m_componentsInstances.Add( new PairHandlerComponent(handler, instance) );
+                eventDelegate(model, key, handler);
             }
         }
-	}
 
+        protected virtual void RaiseModelConstructed(IComponentModel model, String key)
+        {
+            ComponentModelDelegate eventDelegate = (ComponentModelDelegate) m_events[ComponentModelConstructedEvent];
+
+            if (eventDelegate != null)
+            {
+                eventDelegate(model, key);
+            }
+        }
+
+        public virtual void RaiseComponentReadyEvent( IHandler handler, object instance )
+        {
+            ComponentInstanceDelegate eventDelegate = (ComponentInstanceDelegate) m_events[ComponentReadyEvent];
+
+            if (eventDelegate != null)
+            {
+                IComponentModel model = handler.ComponentModel;
+                String key = (String) m_service2Key[ model.Service ];
+
+                eventDelegate(model, key, handler, instance);
+            }
+        }
+
+        public virtual void RaiseComponentReleasedEvent( IHandler handler, object instance )
+        {
+            ComponentInstanceDelegate eventDelegate = (ComponentInstanceDelegate) m_events[ComponentReleasedEvent];
+
+            if (eventDelegate != null)
+            {
+                IComponentModel model = handler.ComponentModel;
+                String key = (String) m_service2Key[ model.Service ];
+
+                eventDelegate(model, key, handler, instance);
+            }
+        }
+
+        public virtual object RaiseWrapEvent( IHandler handler, object instance )
+        {
+            WrapDelegate eventDelegate = (WrapDelegate) m_events[ComponentWrapEvent];
+
+            if (eventDelegate != null)
+            {
+                IComponentModel model = handler.ComponentModel;
+                String key = (String) m_service2Key[ model.Service ];
+                IInterceptedComponent wrapper = new InterceptedComponentWrapper( m_interceptedComponentBuilder /*, instance, model.Service*/ );
+
+                eventDelegate(model, key, handler, wrapper);
+            }
+
+            return instance;
+        }
+
+        public virtual object RaiseUnWrapEvent( IHandler handler, object instance )
+        {
+            UnWrapDelegate eventDelegate = (UnWrapDelegate) m_events[ComponentUnWrapEvent];
+
+            if (eventDelegate != null)
+            {
+                IComponentModel model = handler.ComponentModel;
+                String key = (String) m_service2Key[ model.Service ];
+
+                instance = eventDelegate(model, key, handler, instance);
+            }
+
+            return instance;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        internal class InterceptedComponentWrapper : IInterceptedComponent
+        {
+            private IInterceptedComponentBuilder m_interceptedComponentBuilder;
+
+            public InterceptedComponentWrapper( IInterceptedComponentBuilder interceptedComponentBuilder )
+            {
+                m_interceptedComponentBuilder = interceptedComponentBuilder;
+            }
+
+            public object ProxiedInstance
+            {
+                get { throw new NotImplementedException(); }
+            }
+
+            public void Add(IInterceptor interceptor)
+            {
+                throw new NotImplementedException();
+            }
+
+            public IInterceptor InterceptorChain
+            {
+                get { throw new NotImplementedException(); }
+            }
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Starts the component if the activation policy for 
+        /// the component is 'Start'
+        /// </summary>
+        /// <param name="model">Component model</param>
+        /// <param name="handler">Handler responsible for the component</param>
+        protected virtual void StartComponent(IComponentModel model, IHandler handler)
+        {
+            if (model.ActivationPolicy == Activation.Start)
+            {
+                object instance = handler.Resolve();
+
+                m_componentsInstances.Add(new PairHandlerComponent(handler, instance));
+            }
+        }
+
+        private void OnModelConstructed(IComponentModel model, String key)
+        {
+            RaiseModelConstructed(model, key);
+        }
+
+        private void OnComponentRegistered(IComponentModel model, String key, IHandler handler)
+        {
+            m_service2Key[ model.Service ] = key;
+
+            RaiseComponentRegistered(model, key, handler);
+
+            StartComponent( model, handler );
+        }
+
+        private void OnComponentUnregistered(IComponentModel model, String key, IHandler handler)
+        {
+            m_service2Key.Remove( model.Service );
+
+            RaiseComponentUnregistered(model, key, handler);
+        }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
     internal class PairHandlerComponent
     {
         private IHandler m_handler;
         private object m_instance;
 
-        public PairHandlerComponent( IHandler handler, object instance )
+        public PairHandlerComponent(IHandler handler, object instance)
         {
             m_handler = handler;
             m_instance = instance;

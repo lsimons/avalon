@@ -14,89 +14,197 @@
 
 namespace Apache.Avalon.Castle.MicroKernel.Test
 {
-	using System;
+    using System;
 
-	using NUnit.Framework;
+    using NUnit.Framework;
 
-	using Apache.Avalon.Castle.MicroKernel;
+    using Apache.Avalon.Castle.MicroKernel;
     using Apache.Avalon.Castle.MicroKernel.Model;
     using Apache.Avalon.Castle.MicroKernel.Test.Components;
 
 	/// <summary>
-    /// Summary description for KernelEventsTestCase.
-    /// </summary>
+	/// Summary description for KernelEventsTestCase.
+	/// </summary>
 	[TestFixture]
-	public class KernelEventsTestCase : Assertion
+    public class KernelEventsTestCase : Assertion
 	{
-		private bool m_componentAdded = false;
-		private bool m_componentCreated = false;
-		private bool m_componentDestroyed = false;
+        private bool m_registered = false;
+        private bool m_unregistered = false;
+        private bool m_modelConstructed = false;
+        private bool m_wrap = false;
+        private bool m_unwrap= false;
+        private bool m_ready = false;
+        private bool m_released = false;
 
-		[Test]
-		public void TestComponentAddedEvent()
-		{
-			IKernel kernel = new DefaultAvalonKernel();
-
-            kernel.ComponentAdded += new ComponentDataDelegate(OnComponentAdded);
-
-            kernel.AddComponent( "key", typeof(IMailService), typeof(SimpleMailService) );
-
-			Assert( m_componentAdded );
-		}
-
-        public void OnComponentAdded(IComponentModel model, String key, Type service, Type implementation, IHandler handler)
+        [Test]
+        public void RegisteredAndUnregistered()
         {
-			m_componentAdded = true;
-		}
+            BaseKernel container = new BaseKernel();
 
-        /*
-		[Test]
-		public void TestComponentCreatedEvent()
-		{
-			IKernel kernel = new DefaultAvalonKernel();
+            container.ComponentRegistered += new ComponentDataDelegate(Registered);
+            container.ComponentUnregistered += new ComponentDataDelegate(Unregistered);
 
-            kernel.ComponentCreated += new KernelDelegate(OnComponentCreated);
+            Assert(!m_registered);
+            Assert(!m_unregistered);
 
-            kernel.AddComponent( "key", typeof(IMailService), typeof(SimpleMailService) );
+            container.AddComponent( "a", typeof(IMailService), typeof(SimpleMailService) );
 
-			Assert( !m_componentCreated );
+            Assert(m_registered);
+            Assert(!m_unregistered);
 
-			kernel[ "key" ].Resolve();
+            m_registered = false;
 
-			Assert( m_componentCreated );
-		}
+            container.RemoveComponent( "a" );
 
-    	public void OnComponentCreated( EventManagerData data )
-		{
-			m_componentCreated = true;
-		}*/
+            Assert(!m_registered);
+            Assert(m_unregistered);
+        }
 
-        /*
-		[Test]
-		public void TestComponentDestroyedEvent()
-		{
-			IKernel kernel = new DefaultAvalonKernel();
+        [Test]
+        public void ModelConstructed()
+        {
+            BaseKernel container = new BaseKernel();
 
-			IEventManager eventManager = (IEventManager) kernel.GetSubsystem( KernelConstants.EVENTS );
-			eventManager.ComponentDestroyed += new KernelDelegate(OnComponentDestroyed);
+            container.ComponentModelConstructed += new ComponentModelDelegate(ComponentModelConstructed);
 
-			kernel.AddComponent( "key", typeof(IMailService), typeof(SimpleMailService) );
+            Assert(!m_modelConstructed);
 
-			Assert( !m_componentDestroyed );
+            container.AddComponent( "a", typeof(IMailService), typeof(SimpleMailService) );
 
-			object instance = kernel[ "key" ].Resolve();
+            Assert(m_modelConstructed);
 
-			Assert( !m_componentDestroyed );
+            m_modelConstructed = false;
 
-			kernel[ "key" ].Release( instance );
+            container.RemoveComponent( "a" );
 
-			Assert( m_componentDestroyed );
-		}
+            Assert(!m_modelConstructed);
+        }
 
-		public void OnComponentDestroyed( EventManagerData data )
-		{
-			m_componentDestroyed = true;
-		}
-        */
+        [Test]
+        public void WrapAndUnwrap()
+        {
+            BaseKernel container = new BaseKernel();
+
+            container.ComponentWrap += new WrapDelegate(ComponentWrap);
+            container.ComponentUnWrap += new UnWrapDelegate(ComponentUnWrap);
+
+            container.AddComponent( "a", typeof(IMailService), typeof(SimpleMailService) );
+
+            Assert(!m_wrap);
+            Assert(!m_unwrap);
+
+            IHandler handler = container[ "a" ];
+
+            IMailService service = handler.Resolve() as IMailService;
+
+            Assert(m_wrap);
+            Assert(!m_unwrap);
+            m_wrap = false;
+
+            service.Send("hammett at apache dot org", "johndoe at yahoo dot org", "Aloha!", "What's up?");
+
+            handler.Release( service );
+
+            Assert(!m_wrap);
+            Assert(m_unwrap);
+        }
+
+        [Test]
+        public void ReadyAndRelease()
+        {
+            BaseKernel container = new BaseKernel();
+
+            container.ComponentReady += new ComponentInstanceDelegate(ComponentReady);
+            container.ComponentReleased += new ComponentInstanceDelegate(ComponentReleased);
+
+            container.AddComponent( "a", typeof(IMailService), typeof(SimpleMailService) );
+
+            Assert(!m_ready);
+            Assert(!m_released);
+
+            IHandler handler = container[ "a" ];
+
+            IMailService service = handler.Resolve() as IMailService;
+
+            Assert(m_ready);
+            Assert(!m_released);
+            m_ready = false;
+
+            service.Send("hammett at apache dot org", "johndoe at yahoo dot org", "Aloha!", "What's up?");
+
+            handler.Release( service );
+
+            Assert(!m_ready);
+            Assert(m_released);
+        }
+
+        private void Registered(IComponentModel model, String key, IHandler handler)
+        {
+            AssertNotNull( model );
+            AssertNotNull( key );
+            AssertNotNull( handler );
+            AssertEquals( "a", key );
+
+            m_registered = true;
+        }
+
+        private void Unregistered(IComponentModel model, String key, IHandler handler)
+        {
+            AssertNotNull( model );
+            AssertNotNull( key );
+            AssertNotNull( handler );
+            AssertEquals( "a", key );
+
+            m_unregistered = true;
+        }
+
+        private void ComponentModelConstructed(IComponentModel model, String key)
+        {
+            AssertNotNull( model );
+            AssertNotNull( key );
+
+            m_modelConstructed = true;
+        }
+
+        private void ComponentWrap(IComponentModel model, String key, IHandler handler, Apache.Avalon.Castle.MicroKernel.Interceptor.IInterceptedComponent interceptedComponent)
+        {
+            AssertNotNull( model );
+            AssertNotNull( key );
+            AssertNotNull( handler );
+
+            m_wrap = true;
+        }
+
+        private object ComponentUnWrap(IComponentModel model, String key, IHandler handler, object instance)
+        {
+            AssertNotNull( model );
+            AssertNotNull( key );
+            AssertNotNull( handler );
+            AssertNotNull( instance );
+
+            m_unwrap = true;
+
+            return instance;
+        }
+
+        private void ComponentReady(IComponentModel model, String key, IHandler handler, object instance)
+        {
+            AssertNotNull( model );
+            AssertNotNull( key );
+            AssertNotNull( handler );
+            AssertNotNull( instance );
+
+            m_ready = true;
+        }
+
+        private void ComponentReleased(IComponentModel model, String key, IHandler handler, object instance)
+        {
+            AssertNotNull( model );
+            AssertNotNull( key );
+            AssertNotNull( handler );
+            AssertNotNull( instance );
+
+            m_released = true;
+        }
     }
 }

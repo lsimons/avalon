@@ -24,5 +24,7 @@ namespace Apache.Avalon.Castle.MicroKernel
 	public interface IHandlerFactory
 	{
 		IHandler CreateHandler( IComponentModel model );
+
+        void ReleaseHandler( IHandler handler );
 	}
 }
