@@ -33,23 +33,25 @@ public class PatternFormatter
     protected final static int         TYPE_CONTEXT         = 3;
     protected final static int         TYPE_MESSAGE         = 4;
     protected final static int         TYPE_TIME            = 5;
-    protected final static int         TYPE_THROWABLE       = 6;
-    protected final static int         TYPE_PRIORITY        = 7;
+    protected final static int         TYPE_RELATIVE_TIME   = 6;
+    protected final static int         TYPE_THROWABLE       = 7;
+    protected final static int         TYPE_PRIORITY        = 8;
 
-    protected final static String      TYPE_CATEGORY_STR    = "category";
-    protected final static String      TYPE_CONTEXT_STR     = "context";
-    protected final static String      TYPE_MESSAGE_STR     = "message";
-    protected final static String      TYPE_TIME_STR        = "time";
-    protected final static String      TYPE_THROWABLE_STR   = "throwable";
-    protected final static String      TYPE_PRIORITY_STR    = "priority";
+    protected final static String      TYPE_CATEGORY_STR      = "category";
+    protected final static String      TYPE_CONTEXT_STR       = "context";
+    protected final static String      TYPE_MESSAGE_STR       = "message";
+    protected final static String      TYPE_TIME_STR          = "time";
+    protected final static String      TYPE_RELATIVE_TIME_STR = "rtime";
+    protected final static String      TYPE_THROWABLE_STR     = "throwable";
+    protected final static String      TYPE_PRIORITY_STR      = "priority";
 
-    protected final static String      SPACE_16             = "                ";
-    protected final static String      SPACE_8              = "        ";
-    protected final static String      SPACE_4              = "    ";
-    protected final static String      SPACE_2              = "  ";
-    protected final static String      SPACE_1              = " ";
+    protected final static String      SPACE_16               = "                ";
+    protected final static String      SPACE_8                = "        ";
+    protected final static String      SPACE_4                = "    ";
+    protected final static String      SPACE_2                = "  ";
+    protected final static String      SPACE_1                = " ";
 
-    protected final static String      EOL                  = System.getProperty("line.separator", "\n");
+    protected final static String      EOL                    = System.getProperty("line.separator", "\n");
 
     protected static class PatternRun
     {
@@ -189,8 +191,8 @@ public class PatternFormatter
         {
             if( escapeMode )
             {
-                if( 'n' == pattern[ index ] ) sb.append(PatternFormatter.EOL);
-                else if( 't' == pattern[ index ] ) sb.append('\t');
+                if( 'n' == pattern[ index ] ) sb.append( EOL );
+                else if( 't' == pattern[ index ] ) sb.append( '\t' );
                 else sb.append( pattern[ index ] );
                 escapeMode = false;
             }
@@ -308,6 +310,10 @@ public class PatternFormatter
             //treat text differently as it doesn't need min/max padding
             case TYPE_TEXT: sb.append( run.m_data ); continue;
 
+            case TYPE_RELATIVE_TIME:
+                str = getTime( event.getRelativeTime(), run.m_format );
+                break;
+
             case TYPE_TIME:
                 str = getTime( event.getTime(), run.m_format );
                 break;
@@ -356,6 +362,9 @@ public class PatternFormatter
         return category;
     }
 
+    /**
+     * Get formatted priority string.
+     */
     protected String getPriority( final Priority priority, final String format )
     {
         return priority.getName();
@@ -459,6 +468,7 @@ public class PatternFormatter
         else if( type.equalsIgnoreCase( TYPE_MESSAGE_STR ) ) return TYPE_MESSAGE;
         else if( type.equalsIgnoreCase( TYPE_PRIORITY_STR ) ) return TYPE_PRIORITY;
         else if( type.equalsIgnoreCase( TYPE_TIME_STR ) ) return TYPE_TIME;
+        else if( type.equalsIgnoreCase( TYPE_RELATIVE_TIME_STR ) ) return TYPE_RELATIVE_TIME;
         else if( type.equalsIgnoreCase( TYPE_THROWABLE_STR ) )
         {
             return TYPE_THROWABLE;

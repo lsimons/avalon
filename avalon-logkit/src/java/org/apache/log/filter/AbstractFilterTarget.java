@@ -20,7 +20,8 @@ import org.apache.log.LogTarget;
 public abstract class AbstractFilterTarget 
     implements FilterTarget
 {
-    protected LogTarget              m_targets[];
+    //Log targets in filter chain
+    private LogTarget   m_targets[];
 
     /**
      * Add a new target to output chain.

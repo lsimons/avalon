@@ -17,12 +17,14 @@ import org.apache.log.LogTarget;
  * the thread etc.
  *
  * <pre>
- * LogTarget target = ...;
- * AsyncLogTarget asyncTarget = new AsyncLogTarget( target );
+ * LogTarget mySlowTarget = ...;
+ * AsyncLogTarget asyncTarget = new AsyncLogTarget( mySlowTarget );
  * Thread thread = new Thread( asyncTarget );
  * thread.setPriority( Thread.MIN_PRIORITY );
  * thread.start();
- * LogKit.addLogTarget( "foo", asyncTarget );
+ * asyncTarget.addTarget( new MySlowLogTarget() );
+ *
+ * logger.setLogTargets( new LogTarget[] { asyncTarget } );
  * </pre>
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>

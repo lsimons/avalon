@@ -16,8 +16,6 @@ public class Logger
 {
     public final static char    CATEGORY_SEPARATOR   = '.';
 
-    private final static long   START_TIME           = System.currentTimeMillis();
-
     private final Hierarchy     m_hierarchy;
     private final Logger        m_parent;
     private final String        m_category;
@@ -148,6 +146,19 @@ public class Logger
      *
      * @param message the message
      */
+    public final void info( final String message, final Throwable throwable )
+    {
+        if( isInfoEnabled() )
+        {
+            output( Priority.INFO, message, throwable );
+        }
+    }
+
+    /**
+     * Log a info priority event.
+     *
+     * @param message the message
+     */
     public final void info( final String message )
     {
         if( isInfoEnabled() )
@@ -213,7 +224,7 @@ public class Logger
 
         //this next line can kill performance. It may be wise to
         //disable it sometimes and use a more granular approach
-        event.setTime( System.currentTimeMillis() - START_TIME );
+        event.setTime( System.currentTimeMillis() );
 
         output( event );
     }

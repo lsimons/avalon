@@ -8,14 +8,15 @@
 package org.apache.log;
 
 /**
- * Formatter's format log events into strings.
+ * This defines the interface for components that wish to serialize 
+ * LogEvents into Strings.
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public interface Formatter
 {
     /**
-     * Format log event into string.
+     * Serialize log event into string.
      *
      * @param event the event
      * @return the formatted string

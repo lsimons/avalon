@@ -10,20 +10,13 @@ package org.apache.log.format;
 import org.apache.avalon.framework.CascadingThrowable;
 
 /**
- * This formater formats the LogEntries according to a input pattern
- * string, and prints all exceptions in CascadingThrowable exceptions.
- *
- * The format of each pattern element can be %[+|-]#.#{field:subformat}
- *
- * The +|- indicates left or right justify.
- * The #.# indicates the minimum and maximum size of output.
- * 'field' indicates which field is to be output and must be one of
- *  proeprties of LogEvent
- * 'subformat' indicates a particular subformat and is currently unused.
+ * This formatter extends PatternFormatter so that 
+ * CascadingExceptions are formatted with all nested exceptions.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  */
-public class AvalonFormatter extends PatternFormatter
+public class AvalonFormatter 
+    extends PatternFormatter
 {
     /**
      * Utility method to format stack trace.
@@ -34,12 +27,16 @@ public class AvalonFormatter extends PatternFormatter
      */
     protected String getStackTrace( final Throwable throwable, final String format )
     {
-        StringBuffer buf = new StringBuffer(super.getStackTrace(throwable, format));
+        final StringBuffer sb = new StringBuffer();
+        sb.append( super.getStackTrace( throwable, format ) );
 
-        if (throwable instanceof CascadingThrowable) {
-            buf.append(getStackTrace(((CascadingThrowable) throwable).getCause(), format));
+        if( throwable instanceof CascadingThrowable )
+        {
+            final Throwable t = ((CascadingThrowable)throwable).getCause();
+
+            sb.append( getStackTrace( t, format ) );
         }
 
-        return buf.toString();
+        return sb.toString();
     }
 }

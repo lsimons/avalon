@@ -8,37 +8,36 @@
 package org.apache.log;
 
 /**
- * Class holding constants for logging priorities.
+ * CLass representing and holding constants for priority.
  * 
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public final class Priority
 {
     /**
-     * DEBUG indicates a message that is used during debugging stage of 
-     * project.
+     * Developer orientated messages, usually used during developement of product.
      */
     public final static Priority DEBUG = new Priority( "DEBUG", 5 );
 
     /**
-     * INFO indicates a message that is secondary information.
+     * Useful information messages such as state changes, client connection, user login etc.
      */
     public final static Priority INFO = new Priority( "INFO", 10 );
 
     /**
-     * WARN indicates a message that is gives a warning of a 
-     * potential conflict.
+     * A problem or conflict has occured but it may be recoverable, then
+     * again it could be the start of the system failing.
      */
     public final static Priority WARN = new Priority( "WARN", 15 );
 
     /**
-     * ERROR indicates a message that describes a non fatal error.
+     * A problem has occured but it is not fatal. The system will still function.
      */
     public final static Priority ERROR = new Priority( "ERROR", 20 );
     
     /**
-     * FATAL_ERROR indicates a message that describes a error 
-     * that will terminate the appliation.
+     * Something caused whole system to fail. This indicates that an administrator
+     * should restart the system and try to fix the problem that caused the failure.
      */         
     public final static Priority FATAL_ERROR = new Priority( "FATAL_ERROR", 25 );
    
@@ -61,39 +60,75 @@ public final class Priority
         else return Priority.DEBUG;
     }   
  
+    /**
+     * Private Constructor to block instantiation outside class.
+     *
+     * @param name the string name of priority
+     * @param priority the numerical code of priority
+     */
     private Priority( final String name, final int priority ) 
     {
         m_name = name;
         m_priority = priority;
     }
     
+    /**
+     * Overidden string to display Priority in human readable form.
+     *
+     * @return the string describing priority
+     */
     public String toString()
     {
         return "Priority[" + getName() + "/" + getValue() + "]";
     }
     
+    /**
+     * Get numerical value associated with priority.
+     *
+     * @return the numerical value
+     */
     public int getValue() 
     {
         return m_priority;
     }
     
+    /**
+     * Get name of priority.
+     *
+     * @return the prioritys name
+     */
     public String getName() 
     {
         return m_name;
     }
     
-    public boolean isGreater( final Priority level ) 
+    /**
+     * Test whether this priority is greater than other priority.
+     *
+     * @param other the other Priority
+     */
+    public boolean isGreater( final Priority other ) 
     {
-        return m_priority > level.getValue();
+        return m_priority > other.getValue();
     }
-    
-    public boolean isLower( final Priority level ) 
+       
+    /**
+     * Test whether this priority is lower than other priority.
+     *
+     * @param other the other Priority
+     */
+    public boolean isLower( final Priority other ) 
     {
-        return m_priority < level.getValue();
+        return m_priority < other.getValue();
     }
-    
-    public boolean isLowerOrEqual( final Priority level ) 
+       
+    /**
+     * Test whether this priority is lower or equal to other priority.
+     *
+     * @param other the other Priority
+     */
+    public boolean isLowerOrEqual( final Priority other ) 
     {
-        return m_priority <= level.getValue();
+        return m_priority <= other.getValue();
     }        
 }

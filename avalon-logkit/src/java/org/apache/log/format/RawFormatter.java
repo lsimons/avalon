@@ -11,7 +11,8 @@ import org.apache.log.Formatter;
 import org.apache.log.LogEvent;
 
 /**
- * Formatter's format log entries into strings.
+ * Basic formatter that just returns raw 
+ * message string and ignores remainder of LogEvent.
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */

@@ -11,18 +11,27 @@ import java.util.Hashtable;
 import org.apache.log.output.DefaultOutputLogTarget;
 
 /**
- * This defines a basic independent log hierarchy.
+ * This class encapsulates a basic independent log hierarchy.
+ * The hierarchy is essentially a safe wrapper around root logger.
  *
  *  @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public class Hierarchy
 {
+    ///The instance of default hierarchy
     private static final Hierarchy  c_hierarchy      = new Hierarchy();
 
+    ///The root logger which contains all Loggers in this hierarchy 
     private Logger                  m_rootLogger;
 
     /**
      * Retrieve the default hierarchy.
+     *
+     * <p>In most cases the default LogHierarchy is the only
+     * one used in an application. However when security is 
+     * a concern or multiple independent applications will
+     * be running in same JVM it is advantageous to create
+     * new Hierarchies rather than reuse default.</p>
      *
      * @return the default Hierarchy
      */
@@ -34,7 +43,6 @@ public class Hierarchy
     /**
      * Create a hierarchy object.
      * The default LogTarget writes to stdout.
-     *
      */
     public Hierarchy()
     {

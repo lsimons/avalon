@@ -26,7 +26,9 @@ public class PriorityFilter
     }
 
     /**
-     * Filter the log event.
+     * Filter the log event based on priority.
+     * 
+     * If LogEvent has a Lower or Equal priroity then discard it.
      *
      * @param event the event
      * @return return true to discard event, false otherwise
