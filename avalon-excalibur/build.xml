@@ -46,6 +46,7 @@
         <ant dir="extension" target="dist"/>
         <ant dir="i18n" target="dist"/>
         <ant dir="io" target="dist"/>
+        <ant dir="store" target="dist"/>              <!-- io -->
         <ant dir="naming" target="dist"/>
         <ant dir="tar" target="dist"/>
         <ant dir="zip" target="dist"/>
@@ -91,6 +92,8 @@
             <pathelement location="naming/src/test"/>
             <pathelement location="sourceresolve/src/java"/>
             <pathelement location="sourceresolve/src/test"/>
+            <pathelement location="store/src/java"/>
+            <pathelement location="store/src/test"/>
             <pathelement location="tar/src/java"/>
             <pathelement location="tar/src/test"/>
             <pathelement location="xmlbundle/src/java"/>
@@ -162,6 +165,7 @@
         <ant dir="cli" target="dist-jar"/>
         <ant dir="naming" target="dist-jar"/>
         <ant dir="monitor" target="dist-jar"/>
+        <ant dir="store" target="dist-jar"/>
         <!--
         <ant dir="altrmi" target="dist-jar"/>
         <ant dir="instrument-manager" target="dist-jar"/>
@@ -259,6 +263,7 @@
         <ant dir="extension" target="jar"/>
         <ant dir="i18n" target="jar"/>
         <ant dir="io" target="jar"/>
+        <ant dir="store" target="jar"/>              <!-- io -->
         <ant dir="naming" target="jar"/>
         <ant dir="tar" target="jar"/>
         <ant dir="zip" target="jar"/>
@@ -310,6 +315,7 @@
         <ant dir="naming" target="docs"/>
         <ant dir="pool" target="docs"/>
         <ant dir="sourceresolve" target="docs"/>
+        <ant dir="store" target="docs"/>
         <ant dir="tar" target="docs"/>
         <ant dir="testcase" target="docs"/>
         <ant dir="thread" target="docs"/>
@@ -356,6 +362,7 @@
         <ant dir="naming" target="site"/> 
         <ant dir="pool" target="site"/>
         <ant dir="sourceresolve" target="site"/>
+        <ant dir="store" target="site"/>
         <ant dir="tar" target="site"/>
         <ant dir="testcase" target="site"/>
         <ant dir="thread" target="site"/>
@@ -398,6 +405,7 @@
         <ant dir="pool" target="real-clean"/>
         <ant dir="site" target="clean"/>
         <ant dir="sourceresolve" target="real-clean"/>
+        <ant dir="store" target="real-clean"/>
         <ant dir="tar" target="real-clean"/>
         <ant dir="testcase" target="real-clean"/>
         <ant dir="thread" target="real-clean"/>
