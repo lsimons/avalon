@@ -20,6 +20,8 @@ import java.io.IOException;
 public class FileOutputLogTarget
     extends DefaultOutputLogTarget
 {
+    private boolean         m_append = false;
+
     public FileOutputLogTarget()
     {
     }
@@ -28,6 +30,18 @@ public class FileOutputLogTarget
         throws IOException
     {
         setFilename( filename );
+    }
+
+    public FileOutputLogTarget( final String filename, final boolean append )
+        throws IOException
+    {
+        m_append = append;
+        setFilename( filename );
+    }
+
+    public void setAppend( final boolean append )
+    {
+        m_append = append;
     }
 
    /**
@@ -44,6 +58,7 @@ public class FileOutputLogTarget
         final File file = new File( filename );
         final File parent = file.getAbsoluteFile().getParentFile();
         if( !parent.exists() ) parent.mkdirs();
-        m_output = new FileWriter( file );
+
+        m_output = new FileWriter( filename, m_append );
     }
 }
