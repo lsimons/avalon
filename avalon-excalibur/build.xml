@@ -14,7 +14,7 @@ Authors:
  Peter Donald <peter@apache.org>
 
 Legal:
-  Copyright (c) 1999-2000 The Apache Software Foundation. All Rights Reserved.
+  Copyright (c) 1999-2002 The Apache Software Foundation. All Rights Reserved.
 
 ==============================================================================
 -->
@@ -30,11 +30,11 @@ Legal:
 
   <property name="name" value="excalibur"/>
   <property name="Name" value="Excalibur"/>
-  <property name="version" value="4.0"/>
+  <property name="version" value="4.1"/>
   <property name="release" value="1st"/>
   <property name="status" value="final"/>
   <property name="short.version" value="4.1"/>
-  <property name="year" value="1999-2001"/>
+  <property name="year" value="1999-2002"/>
   <property name="compress.jars" value="true"/>
 
   <property name="excalibur.name" value="avalon-${name}"/>
