@@ -15,9 +15,10 @@ import org.apache.avalon.framework.component.Component;
  * the ComponentManager.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: Monitor.java,v 1.5 2002/02/15 16:18:15 bloritsch Exp $
+ * @version $Id: Monitor.java,v 1.6 2002/04/21 21:47:49 donaldp Exp $
  */
-public interface Monitor extends Component
+public interface Monitor 
+    extends Component
 {
     String ROLE = Monitor.class.getName();
 

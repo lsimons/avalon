@@ -19,7 +19,7 @@ import java.io.OutputStream;
  * OutputStream has been closed.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: ResourceOutputStream.java,v 1.4 2002/03/16 00:05:41 donaldp Exp $
+ * @version $Id: ResourceOutputStream.java,v 1.5 2002/04/21 21:47:49 donaldp Exp $
  */
 final class ResourceOutputStream extends FilterOutputStream
 {
@@ -28,10 +28,10 @@ final class ResourceOutputStream extends FilterOutputStream
     /**
      * Set up the ResourceOutputStream.
      */
-    public ResourceOutputStream( OutputStream out, StreamResource resource )
+    public ResourceOutputStream( final OutputStream out, 
+				 final StreamResource resource )
     {
         super( out );
-
         m_resource = resource;
     }
 
@@ -43,7 +43,6 @@ final class ResourceOutputStream extends FilterOutputStream
         throws IOException
     {
         super.close();
-
         m_resource.streamClosedEvent();
     }
 }

@@ -34,16 +34,17 @@ import org.apache.avalon.framework.thread.ThreadSafe;
  * </pre>
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: PassiveMonitor.java,v 1.6 2002/03/24 09:56:39 donaldp Exp $
+ * @version $Id: PassiveMonitor.java,v 1.7 2002/04/21 21:47:49 donaldp Exp $
  */
-public final class PassiveMonitor extends AbstractLoggable
+public final class PassiveMonitor 
+    extends AbstractLoggable
     implements Monitor, ThreadSafe, Configurable
 {
     private static final Class[] m_constructorParams = new Class[]{String.class};
     private Map m_resources = new HashMap();
     private Map m_lastModified = Collections.synchronizedMap( new HashMap() );
 
-    public final void configure( Configuration conf )
+    public final void configure( final Configuration conf )
         throws ConfigurationException
     {
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
