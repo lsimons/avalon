@@ -64,7 +64,7 @@
         <table>
           <tr><th>Element</th><th>Occurance</th><th>Description</th></tr>
           <tr>
-            <td><a href="target/index.html">targets</a></td><td>0..n</td>
+            <td><a href="target/index.html">target</a></td><td>0..n</td>
             <td>
              A set of target override configuration directives.
             </td>
