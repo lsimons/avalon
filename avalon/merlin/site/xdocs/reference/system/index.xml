@@ -43,12 +43,6 @@ The Merlin kernel is established using the <a href="http://avalon.apache.org/rep
 Additional parameters may be defined at the level of the merlin kernel.  These parameters concern security profiles, root container and classloader, and the application repository.
             </td>
           </tr>
-          <tr>
-            <td><a href="cli.html">CLI Options</a></td>
-            <td>
-Specification of the available command-line options.
-            </td>
-          </tr>
         </table>
       </subsection>
     </section>

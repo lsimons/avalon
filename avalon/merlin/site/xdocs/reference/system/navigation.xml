@@ -48,7 +48,6 @@
         <item name="System Specification" href="/reference/system/index.html">
           <item name="Properties" href="/reference/system/properties.html"/>
           <item name="kernel" href="/reference/system/kernel/index.html"/>
-          <item name="CLI" href="/reference/system/cli.html"/>
         </item>
       </item>
       <item name="Download" href="/resources/download.html"/>
