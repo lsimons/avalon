@@ -17,7 +17,6 @@
 
   <target name="package" depends="standard.package">
     <x:artifact/>
-    <x:javadoc/>
   </target>
 
 </project>

@@ -80,19 +80,18 @@ public class JavadocTask extends SystemTask
     public static final String SPI = "spi";
     public static final String IMPL = "impl";
 
-    private String m_root = "";
+    private String m_root;
+    private String m_id;
     private String m_title;
 
     public void setRoot( String root )
     {
-        if( root.endsWith( "/" ) )
-        { 
-            m_root = root.substring( 0, root.length() - 1 );
-        }
-        else
-        {
-            m_root = root;
-        }
+        m_root = root;
+    }
+
+    public void setId( String id )
+    {
+        m_id = id;
     }
 
     public void setTitle( String title )
@@ -102,7 +101,7 @@ public class JavadocTask extends SystemTask
 
     public void execute() throws BuildException
     {
-        Definition def = getHome().getDefinition( getKey() );
+        Definition def = getReferenceDefinition();
         File root = getJavadocRootDirectory( def );
         Path classpath = def.getPath( getProject(), Policy.RUNTIME );
         Link j2se = new Link( "http://java.sun.com/j2se/1.4/docs/api/" );
@@ -195,15 +194,29 @@ public class JavadocTask extends SystemTask
 
     private File getJavadocRootDirectory( Definition def )
     {
-        File docs = getContext().getDocsDirectory();
+        File docs = getProductRoot( def );
+        
         String version = def.getInfo().getVersion();
         if( null == version )
         {
-            return new File( docs, JAVADOC );
+            return docs;
         }
         else
         {
             return new File( docs, version );
+        }
+    }
+
+    private File getProductRoot( Definition def )
+    {
+        File docs = getContext().getDocsDirectory();
+        if( m_root != null )
+        {
+            return Context.getFile( docs, m_root );
+        }
+        else
+        {
+            return docs;
         }
     }
 
@@ -227,6 +240,18 @@ public class JavadocTask extends SystemTask
         else
         {
             return ", Version " + version + " : " + group;
+        }
+    }
+
+    private Definition getReferenceDefinition()
+    {
+        if( null != m_id )
+        {
+            return getHome().getDefinition( m_id );
+        }
+        else
+        {
+            return getHome().getDefinition( getKey() );
         }
     }
 }

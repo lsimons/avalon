@@ -81,6 +81,17 @@
   <projects>
 
     <!--
+    Avalon Central.
+    -->
+
+    <project basedir="../site">
+      <info>
+        <group>avalon</group>
+        <name>site</name>
+      </info>
+    </project>
+
+    <!--
     Avalon Tools.
     -->
 
@@ -148,13 +159,6 @@
     <!--
     Avalon Utilities.
     -->
-
-    <project basedir="../site">
-      <info>
-        <group>avalon</group>
-        <name>site</name>
-      </info>
-    </project>
 
     <project basedir="../../runtime/util/configuration">
       <info>
