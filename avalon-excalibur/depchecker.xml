@@ -127,6 +127,8 @@ To use it, type 'ant -f depchecker.xml'
             <property name="name" value="junit.jar"/>
             <property name="class" value="junit.framework.Test"/>
             <property name="classpath" value="${cp}"/>
+            <property name="remedy" value="Download JUnit from http://www.junit.org and copy junit.jar ${line.separator}            |   to ${ant.home}/lib"/>
+
         </ant>
     </target>
     <target name="checkFramework">
