@@ -1,0 +1,38 @@
+<catalog version="1.0">
+    <entity
+        publicId="-//PHOENIX/Assembly DTD Version 1.0//EN"
+        systemId="http://jakarta.apache.org/phoenix/assembly_1_0.dtd"
+        resource="org/apache/avalon/phoenix/tools/assembly.dtd"/>
+    <entity
+        publicId="-//PHOENIX/Mx Info DTD Version 1.0//EN"
+        systemId="http://jakarta.apache.org/phoenix/mxinfo_1_0.dtd"
+        resource="org/apache/avalon/phoenix/tools/mxinfo.dtd"/>
+    <entity
+        publicId="-//PHOENIX/Assembly DTD Version 1.1//EN"
+        systemId="http://jakarta.apache.org/phoenix/assembly_1.1.dtd"
+        resource="org/apache/avalon/phoenix/tools/assembly.dtd"/>
+    <entity
+        publicId="-//PHOENIX/Mx Info DTD Version 1.0//EN"
+        systemId="http://jakarta.apache.org/avalon/dtds/phoenix/mxinfo_1.0.dtd"
+        resource="org/apache/avalon/phoenix/tools/mxinfo.dtd"/>
+    <entity
+        publicId="-//PHOENIX/Assembly DTD Version 1.0//EN"
+        systemId="http://jakarta.apache.org/avalon/dtds/phoenix/assembly_1.0.dtd"
+        resource="org/apache/avalon/phoenix/tools/assembly.dtd"/>
+    <entity
+        publicId="-//PHOENIX/Mx Info DTD Version 1.0//EN"
+        systemId="http://jakarta.apache.org/phoenix/mxinfo_1.0.dtd"
+        resource="org/apache/avalon/phoenix/tools/mxinfo.dtd"/>
+    <entity
+        publicId="-//PHOENIX/Assembly DTD Version 1.0//EN"
+        systemId="http://jakarta.apache.org/phoenix/assembly_1.0.dtd"
+        resource="org/apache/avalon/phoenix/tools/assembly.dtd"/>
+    <entity
+        publicId="-//PHOENIX/Mx Info DTD Version 1.0//EN"
+        systemId="http://jakarta.apache.org/avalon/dtds/phoenix/mxinfo_1_0.dtd"
+        resource="org/apache/avalon/phoenix/tools/mxinfo.dtd"/>
+    <entity
+        publicId="-//PHOENIX/Assembly DTD Version 1.0//EN"
+        systemId="http://jakarta.apache.org/avalon/dtds/phoenix/assembly_1_0.dtd"
+        resource="org/apache/avalon/phoenix/tools/assembly.dtd"/>
+</catalog>
