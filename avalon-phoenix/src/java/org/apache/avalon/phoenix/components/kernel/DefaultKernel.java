@@ -14,6 +14,8 @@ import org.apache.avalon.framework.CascadingException;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.Configurable;
+import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.Logger;
@@ -47,7 +49,7 @@ import org.apache.avalon.phoenix.metadata.SarMetaData;
  */
 public class DefaultKernel
     extends AbstractLogEnabled
-    implements Kernel, KernelMBean, Initializable, Serviceable, Disposable
+    implements Kernel, KernelMBean, Initializable, Serviceable, Disposable, Configurable
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( DefaultKernel.class );
@@ -65,6 +67,8 @@ public class DefaultKernel
 
     private HashMap m_entries = new HashMap();
 
+    private boolean m_addInvalidApplications;
+
     public void service( final ServiceManager serviceManager )
         throws ServiceException
     {
@@ -72,6 +76,13 @@ public class DefaultKernel
         m_repository = (ConfigurationRepository)serviceManager.
             lookup( ConfigurationRepository.ROLE );
         m_validator = (ConfigurationValidator)serviceManager.lookup( ConfigurationValidator.ROLE );
+    }
+
+    public void configure( Configuration configuration )
+        throws ConfigurationException
+    {
+        m_addInvalidApplications =
+            configuration.getChild( "add-invalid-applications" ).getValueAsBoolean( false );
     }
 
     public void initialize()
@@ -146,9 +157,7 @@ public class DefaultKernel
                     newApp.setApplicationContext( context );
 
                     ContainerUtil.initialize( newApp );
-                    ContainerUtil.start( newApp );
 
-                    entry.setApplication( newApp );
                     application = newApp;
                 }
                 catch( final Throwable t )
@@ -162,6 +171,31 @@ public class DefaultKernel
                                        entry.getMetaData().getName() );
                     throw new CascadingException( message, t );
                 }
+
+                try
+                {
+                    ContainerUtil.start( application );
+                }
+                catch( final Throwable t )
+                {
+                    final String message =
+                        REZ.getString( "kernel.error.entry.start", entry.getMetaData().getName() );
+
+                    if( m_addInvalidApplications )
+                    {
+                        getLogger().warn( message, t );
+                    }
+                    else
+                    {
+                        //Initialization failed so clean entry
+                        //so invalid instance is not used
+                        entry.setApplication( null );
+
+                        throw new CascadingException( message, t );
+                    }
+                }
+
+                entry.setApplication( application );
 
                 // manage application
                 try
