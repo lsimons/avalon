@@ -64,7 +64,7 @@ import org.xml.sax.ext.LexicalHandler;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @version CVS $Revision: 1.5 $ $Date: 2002/11/15 12:43:31 $
+ * @version CVS $Revision: 1.6 $ $Date: 2003/01/14 08:52:48 $
  * @avalon.component
  */
 public final class JaxpParser
@@ -221,6 +221,20 @@ public final class JaxpParser
         {
             m_reader = tmpReader;
         }
+    }
+
+    /**
+     * Parse the {@link InputSource} and send
+     * SAX events to the consumer.
+     * Attention: the consumer can  implement the
+     * {@link LexicalHandler} as well.
+     * The parse should take care of this.
+     */
+    public void parse( InputSource in, ContentHandler consumer )
+        throws SAXException, IOException
+    {
+        this.parse( in, consumer, 
+                    (consumer instanceof LexicalHandler ? (LexicalHandler)consumer : null));
     }
 
     /**

@@ -34,7 +34,7 @@ import java.util.Properties;
  * to SAX events.
  *
  * @author <a href="mailto:mirceatoma@apache.org">Mircea Toma</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/12/07 01:00:51 $
+ * @version CVS $Revision: 1.3 $ $Date: 2003/01/14 08:52:48 $
  */
 public final class JTidyHTMLParser extends AbstractLogEnabled
         implements Parser, Serviceable, Configurable, Initializable, ThreadSafe, Component
@@ -74,5 +74,20 @@ public final class JTidyHTMLParser extends AbstractLogEnabled
         final Document document = m_tidy.parseDOM( in.getByteStream(), null );
         m_serializer.serialize( document, contentHandler, lexicalHandler );
     }
+    
+    /**
+     * Parse the {@link InputSource} and send
+     * SAX events to the consumer.
+     * Attention: the consumer can  implement the
+     * {@link LexicalHandler} as well.
+     * The parse should take care of this.
+     */
+    public void parse( InputSource in, ContentHandler consumer )
+        throws SAXException, IOException
+    {
+        this.parse( in, consumer, 
+                    (consumer instanceof LexicalHandler ? (LexicalHandler)consumer : null));
+    }
+    
 }
 

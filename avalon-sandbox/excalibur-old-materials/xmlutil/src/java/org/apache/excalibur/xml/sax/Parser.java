@@ -20,11 +20,21 @@ import org.xml.sax.ext.LexicalHandler;
  * the parsed document.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/11/12 23:35:34 $
+ * @version CVS $Revision: 1.4 $ $Date: 2003/01/14 08:52:48 $
  */
 public interface Parser
 {
     String ROLE = Parser.class.getName();
+
+    /**
+     * Parse the {@link InputSource} and send
+     * SAX events to the consumer.
+     * Attention: the consumer can  implement the
+     * {@link LexicalHandler} as well.
+     * The parse should take care of this.
+     */
+    void parse( InputSource in, ContentHandler consumer )
+        throws SAXException, IOException;
 
     /**
      * Parse the {@link InputSource} and send
