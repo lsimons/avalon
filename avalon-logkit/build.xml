@@ -25,10 +25,10 @@ Legal:
 
   <property name="name" value="logkit"/>
   <property name="Name" value="LogKit"/>
-  <property name="version" value="1.1.0"/>
+  <property name="version" value="1.1"/>
   <property name="year" value="1999-2002"/>
   <property name="status" value="final"/>
-  <property name="release" value="2nd"/>
+  <property name="release" value="3nd"/>
   <property name="short.version" value="1.1"/>
   <property name="compress.jars" value="true"/>
 
@@ -62,7 +62,7 @@ Legal:
   <property name="compat.dir" value="${src.dir}/compat"/>
   <property name="test.dir" value="${src.dir}/test"/>
   <property name="tools.dir" value="../jakarta-avalon/tools"/>
-  <property name="docs.dir" value="docs"/>
+  <property name="docs.dir" value="${build.dir}/docs"/>
   <property name="www.dir" value="../jakarta-avalon-site/docs/${name}"/>
   <property name="xdocs.dir" value="${src.dir}/xdocs"/>
   <property name="context.dir" value="../jakarta-avalon/src/documentation"/>
@@ -487,7 +487,7 @@ Legal:
 
     <mkdir dir="${www.dir}"/>
     <copy todir="${www.dir}">
-      <fileset dir="${build.docs}" />
+      <fileset dir="${docs.dir}" />
     </copy>
 
   </target>
@@ -504,7 +504,7 @@ Legal:
     <mkdir dir="${dist.javadocs}"/>
 
     <copy todir="${dist.docs}">
-      <fileset dir="${build.docs}"/>
+      <fileset dir="${docs.dir}"/>
     </copy>
 
     <copy todir="${dist.javadocs}">
@@ -550,7 +550,7 @@ Legal:
     </copy>
 
     <copy todir="${src.dist.docs}">
-      <fileset dir="${build.docs}"/>
+      <fileset dir="${docs.dir}"/>
     </copy>
 
     <copy todir="${src.dist.javadocs}">
@@ -586,7 +586,7 @@ Legal:
       <param name="dist.dir" value="${dist.name}" />
     </antcall>
 
-    <zip file="${dist.base}/${dist.name}-bin.zip"
+    <zip destfile="${dist.base}/${dist.name}-bin.zip"
          basedir="${dist.name}/.."
          includes="${dist.name}/**"/>
 
@@ -606,7 +606,7 @@ Legal:
       <param name="src.dist.dir" value="${dist.name}" />
     </antcall>
 
-    <zip file="${dist.base}/${dist.name}-src.zip"
+    <zip destfile="${dist.base}/${dist.name}-src.zip"
          basedir="${dist.name}/.."
          includes="${dist.name}/**"/>
 
