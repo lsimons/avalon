@@ -24,6 +24,7 @@ import org.apache.avalon.component.DefaultComponentManager;
 import org.apache.avalon.configuration.Configurable;
 import org.apache.avalon.configuration.Configuration;
 import org.apache.avalon.context.Context;
+import org.apache.avalon.context.ContextException;
 import org.apache.avalon.context.Contextualizable;
 import org.apache.avalon.context.DefaultContext;
 import org.apache.avalon.logger.AbstractLoggable;
@@ -70,6 +71,7 @@ public class StartupPhase
     private Container                   m_container;
 
     public void contextualize( final Context context )
+        throws ContextException
     {
         final File baseDirectory = (File)context.get( SarContextResources.APP_HOME_DIR );
         final String name = (String)context.get( SarContextResources.APP_NAME );

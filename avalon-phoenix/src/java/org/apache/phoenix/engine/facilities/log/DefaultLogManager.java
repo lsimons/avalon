@@ -14,6 +14,7 @@ import org.apache.avalon.configuration.Configurable;
 import org.apache.avalon.configuration.Configuration;
 import org.apache.avalon.configuration.ConfigurationException;
 import org.apache.avalon.context.Context;
+import org.apache.avalon.context.ContextException;
 import org.apache.avalon.context.Contextualizable;
 import org.apache.avalon.logger.AbstractLoggable;
 import org.apache.log.Category;
@@ -36,6 +37,7 @@ public class DefaultLogManager
     protected File          m_baseDirectory;
 
     public void contextualize( final Context context )
+        throws ContextException
     {
         m_baseName = (String)context.get( "name" );
         if( null == m_baseName ) m_baseName = "<base>";

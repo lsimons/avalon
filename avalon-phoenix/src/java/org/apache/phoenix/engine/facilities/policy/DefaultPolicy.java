@@ -33,8 +33,7 @@ import org.apache.avalon.configuration.ConfigurationException;
 import org.apache.avalon.context.Context;
 import org.apache.avalon.context.Contextualizable;
 import org.apache.avalon.context.DefaultContext;
-import org.apache.avalon.util.PropertyException;
-import org.apache.avalon.util.PropertyUtil;
+import org.apache.excalibur.property.PropertyUtil;
 
 /**
  * Policy that extracts information from policy files.
@@ -45,7 +44,7 @@ public class DefaultPolicy
     extends AbstractPolicy
     implements Contextualizable, Configurable, Initializable
 {
-    protected DefaultContext    m_context;
+    private DefaultContext    m_context;
 
     public void contextualize( final Context context )
     {
@@ -93,7 +92,7 @@ public class DefaultPolicy
         permissions.add( new PropertyPermission( "java.vm.specification.name", "read" ) );
     }
 
-    protected HashMap configureKeyStores( final Configuration[] configurations )
+    private HashMap configureKeyStores( final Configuration[] configurations )
         throws ConfigurationException
     {
         final HashMap keyStores = new HashMap();
@@ -124,8 +123,8 @@ public class DefaultPolicy
         return keyStores;
     }
 
-    protected void configureGrants( final Configuration[] configurations,
-                                    final HashMap keyStores )
+    private void configureGrants( final Configuration[] configurations,
+                                  final HashMap keyStores )
         throws ConfigurationException
     {
         for( int i = 0; i < configurations.length; i++ )
@@ -134,7 +133,7 @@ public class DefaultPolicy
         }
     }
 
-    protected void configureGrant( final Configuration configuration, final HashMap keyStores )
+    private void configureGrant( final Configuration configuration, final HashMap keyStores )
         throws ConfigurationException
     {
         //<grant signed-by="Fred" code-base="file:${sar.home}/blocks/*" key-store="foo-keystore">
@@ -166,9 +165,9 @@ public class DefaultPolicy
                               keyStores );
     }
 
-    protected void configurePermissions( final Configuration[] configurations,
-                                         final Permissions permissions,
-                                         final HashMap keyStores )
+    private void configurePermissions( final Configuration[] configurations,
+                                       final Permissions permissions,
+                                       final HashMap keyStores )
         throws ConfigurationException
     {
         for( int i = 0; i < configurations.length; i++ )
@@ -177,9 +176,9 @@ public class DefaultPolicy
         }
     }
 
-    protected void configurePermission( final Configuration configuration,
-                                        final Permissions permissions,
-                                        final HashMap keyStores )
+    private void configurePermission( final Configuration configuration,
+                                      final Permissions permissions,
+                                      final HashMap keyStores )
         throws ConfigurationException
     {
         final String type = configuration.getAttribute( "class" );
@@ -199,7 +198,7 @@ public class DefaultPolicy
         permissions.add( permission );
     }
 
-    protected String expand( final String value )
+    private String expand( final String value )
         throws ConfigurationException
     {
         try
@@ -207,16 +206,16 @@ public class DefaultPolicy
             final Object resolvedValue = PropertyUtil.resolveProperty( value, m_context, false );
             return resolvedValue.toString();
         }
-        catch( final PropertyException pe )
+        catch( final Exception e )
         {
-            throw new ConfigurationException( "Error resolving property " + value, pe );
+            throw new ConfigurationException( "Error resolving property " + value, e );
         }
     }
 
-    protected Permission createPermission( final String type,
-                                           final String target,
-                                           final String actions,
-                                           final Certificate[] signers )
+    private Permission createPermission( final String type,
+                                         final String target,
+                                         final String actions,
+                                         final Certificate[] signers )
         throws ConfigurationException
     {
         if( null != signers )
@@ -268,17 +267,17 @@ public class DefaultPolicy
         }
     }
 
-    protected Permission createUnresolvedPermission( final String type,
-                                                     final String target,
-                                                     final String actions,
-                                                     final Certificate[] signers )
+    private Permission createUnresolvedPermission( final String type,
+                                                   final String target,
+                                                   final String actions,
+                                                   final Certificate[] signers )
     {
         return new UnresolvedPermission( type, target, actions, signers );
     }
 
-    protected Certificate[] getSigners( final String signedBy,
-                                        String keyStoreName,
-                                        final HashMap keyStores )
+    private Certificate[] getSigners( final String signedBy,
+                                      String keyStoreName,
+                                      final HashMap keyStores )
         throws ConfigurationException
     {
         if( null != signedBy && null == keyStoreName )
@@ -296,9 +295,9 @@ public class DefaultPolicy
         return signers;
     }
 
-    protected Certificate[] getCertificates( final String signedBy,
-                                             final String keyStoreName,
-                                             final HashMap keyStores )
+    private Certificate[] getCertificates( final String signedBy,
+                                           final String keyStoreName,
+                                           final HashMap keyStores )
         throws ConfigurationException
     {
         final KeyStore keyStore = (KeyStore)keyStores.get( keyStoreName );

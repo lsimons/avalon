@@ -8,7 +8,9 @@
 package org.apache.phoenix.engine.blocks;
 
 import java.io.File;
+import org.apache.avalon.CascadingRuntimeException;
 import org.apache.avalon.context.Context;
+import org.apache.avalon.context.ContextException;
 import org.apache.avalon.context.DefaultContext;
 import org.apache.excalibur.thread.ThreadPool;
 import org.apache.log.Logger;
@@ -24,8 +26,8 @@ public class DefaultBlockContext
     extends DefaultContext
     implements BlockContext
 {
-    protected ThreadManager  m_threadManager;
-    protected Logger         m_baseLogger;
+    private ThreadManager  m_threadManager;
+    private Logger         m_baseLogger;
 
     public DefaultBlockContext( final Logger logger, final ThreadManager threadManager )
     {
@@ -48,7 +50,15 @@ public class DefaultBlockContext
      */
     public File getBaseDirectory()
     {
-        return (File)get( APP_HOME_DIR );
+        try
+        {
+            return (File)get( APP_HOME_DIR );
+        }
+        catch( final ContextException ce )
+        {
+            //Should never happen
+            throw new RuntimeException( "Invalid block context" );
+        }
     }
 
     /**
@@ -58,7 +68,15 @@ public class DefaultBlockContext
      */
     public String getName()
     {
-        return (String)get( NAME );
+        try
+        {
+            return (String)get( NAME );
+        }
+        catch( final ContextException ce )
+        {
+            //Should never happen
+            throw new RuntimeException( "Invalid block context" );
+        }
     }
 
     /**

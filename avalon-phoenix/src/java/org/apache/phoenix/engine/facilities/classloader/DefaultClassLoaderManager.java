@@ -13,6 +13,7 @@ import org.apache.avalon.component.ComponentException;
 import org.apache.avalon.component.ComponentManager;
 import org.apache.avalon.component.Composable;
 import org.apache.avalon.context.Context;
+import org.apache.avalon.context.ContextException;
 import org.apache.avalon.context.Contextualizable;
 import org.apache.avalon.context.DefaultContext;
 import org.apache.phoenix.engine.facilities.ClassLoaderManager;
@@ -28,6 +29,7 @@ public class DefaultClassLoaderManager
     private SarClassLoader   m_classLoader = new SarClassLoader();
 
     public void contextualize( final Context context )
+        throws ContextException
     {
         m_classLoader.contextualize( context );
     }
