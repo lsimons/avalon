@@ -131,7 +131,7 @@ public class DefaultDataSourceSelector
 
         if( null == component )
         {
-            throw new ComponentException( "Unable to provide implementation for " + hint );
+            throw new ComponentException( "Unable to provide DataSourceComponent for " + hint );
         }
 
         return component;
