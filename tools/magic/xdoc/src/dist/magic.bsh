@@ -139,8 +139,7 @@ public class XDocPlugin extends AbstractPlugin
     private void copyResources( File fromDir )
     {
         File destDir = new File( m_Context.getProperty( "xdoc.dest.dir" ) );
-        File toDir = new File( destDir, "resources" );
-        copy( fromDir, toDir, "**/*", "" );
+        copy( fromDir, destDir, "**/*", "" );
     }
     
     private void copy( File fromDir, File toDir, String includes, String excludes )
