@@ -75,7 +75,7 @@ import org.apache.avalon.composition.data.CategoryDirective;
  * Implementation of a system context that exposes a system wide set of parameters.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2003/12/03 19:04:53 $
+ * @version $Revision: 1.4 $ $Date: 2003/12/07 08:36:07 $
  */
 public class DefaultSystemContext extends DefaultContext 
   implements SystemContext
@@ -114,10 +114,8 @@ public class DefaultSystemContext extends DefaultContext
     {
         String dpml = "http://dpml.net";
         String ibiblio = "http://www.ibiblio.org/maven";
-        CacheManager manager = new DefaultCacheManager( root, null );
-        return new DefaultRepository( 
-           manager, 
-           new String[]{ dpml, ibiblio } );
+        CacheManager manager = new DefaultCacheManager( root, null, new String[]{ dpml, ibiblio } );
+        return manager.createRepository();
     }
 
     private static LoggingManager createLoggingManager( File base, int priority ) throws Exception
