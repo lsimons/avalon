@@ -358,7 +358,7 @@ Legal:
 
     <copy file="${build.lib}/phoenix-client.jar" todir="${dist.lib}"/>
     <copy file="${lib.dir}/avalonapi.jar" todir="${dist.lib}"/>
-    <copy file="${lib.dir}/xerces.jar" todir="${dist.lib}"/>
+    <copy file="${lib.dir}/xerces_1_2_3.jar" tofile="${dist.lib}/xerces.jar"/>
 
     <copy file="${script.dir}/run.bat" todir="${dist.bin}"/>
     <copy file="${script.dir}/run.sh" todir="${dist.bin}"/>
