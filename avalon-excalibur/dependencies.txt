@@ -27,7 +27,7 @@ Current at: Thu Apr  4 23:02:23 EST 2002
 ** fortress -> instrument, instrument-manager, framework, testcase, command, event (recursive on mpool in scratchpad), component (test class), logger, util
 instrument-client -> altrmi-client-impl
 * instrument-manager -> logkit, logger, framework, core, collections, instrument, altrmi-common, altrmi-server-impl, altrmi-server-interfaces, component, pool
-* logger -> logkit, framework, (testcase)
+* logger -> logkit, framework. [Unit tests: junit, testcase, component, collections, pool]
 * thread -> pool, threadcontext, logkit, framework
-* pool -> framework, collections, concurrent, logkit
+* pool -> framework, collections, concurrent, logkit, [Unit tests: junit, testcase, junitperf]
 * testcase -> framework, component, logkit, logger
