@@ -7,8 +7,8 @@
  */
 package org.apache.avalon.excalibur.thread.impl;
 
-import org.apache.avalon.excalibur.instrument.Instrument;
-import org.apache.avalon.excalibur.instrument.Instrumentable;
+import org.apache.excalibur.instrument.Instrument;
+import org.apache.excalibur.instrument.Instrumentable;
 import org.apache.avalon.excalibur.pool.ObjectFactory;
 import org.apache.avalon.excalibur.pool.ResourceLimitingPool;
 import org.apache.avalon.excalibur.thread.ThreadControl;
@@ -31,7 +31,7 @@ import org.apache.excalibur.threadcontext.ThreadContext;
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
  * @author <a href="mailto:stefano@apache.org">Stefano Mazzocchi</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/05/13 12:17:38 $
+ * @version CVS $Revision: 1.5 $ $Date: 2002/07/30 14:12:35 $
  * @since 4.1
  */
 public class ResourceLimitingThreadPool
