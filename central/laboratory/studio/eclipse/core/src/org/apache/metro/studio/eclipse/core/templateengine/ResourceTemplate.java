@@ -36,6 +36,7 @@ public class ResourceTemplate
 
     private String directoryType;
     private String templateId;
+    private String description;
     private List wizardPages = new ArrayList();
     private List resources = new ArrayList();
     private List libraries = new ArrayList();
@@ -123,4 +124,19 @@ public class ResourceTemplate
     {
         resources.add(resource);
     }
+    /**
+     * @return Returns the description.
+     */
+    public String getDescription()
+    {
+        return description;
+    }
+    /**
+     * @param description The description to set.
+     */
+    public void setDescription(String description)
+    {
+        this.description = description;
+    }
+
 }
