@@ -54,10 +54,6 @@
  */
 package org.apache.log.output;
 
-import java.util.LinkedList;
-import org.apache.log.ErrorAware;
-import org.apache.log.ErrorHandler;
-import org.apache.log.LogEvent;
 import org.apache.log.LogTarget;
 import org.apache.log.util.Closeable;
 
@@ -74,10 +70,10 @@ public abstract class AbstractWrappingTarget
 {
     private final boolean m_closeWrapped;
     private final LogTarget m_wrappedLogTarget;
-    
+
     /**
      * Creation of a new wrapping log target.
-     * 
+     *
      * @param logTarget the underlying target
      * @param closeWrappedTarget boolean flag indicating whether the wrapped log target
      *        should be closed when this target is closed. Note: This flag has no
@@ -89,22 +85,22 @@ public abstract class AbstractWrappingTarget
         m_wrappedLogTarget = logTarget;
         m_closeWrapped = closeWrappedTarget;
     }
-    
+
     /**
      * Creation of a new wrapping log target. The underlying log target will
      * <b>not</b> be closed when this target is closed.
-     * 
+     *
      * @param logTarget the underlying target
      */
     public AbstractWrappingTarget( final LogTarget logTarget )
     {
         this( logTarget, false );
     }
-    
+
     public void close()
     {
         super.close();
-        
+
         if( m_closeWrapped && m_wrappedLogTarget instanceof Closeable )
         {
             ((Closeable) m_wrappedLogTarget).close();

@@ -54,11 +54,11 @@
  */
 package org.apache.log.util;
 
+import org.apache.avalon.framework.logger.Logger;
 import org.apache.log.Hierarchy;
 import org.apache.log.LogEvent;
 import org.apache.log.LogTarget;
 import org.apache.log.Priority;
-import org.apache.avalon.framework.logger.Logger;
 
 /**
  * A basic adapter that adapts an Avalon Logger to a Logkit Logger.
@@ -66,7 +66,7 @@ import org.apache.avalon.framework.logger.Logger;
  * components.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/04/16 23:03:52 $
+ * @version CVS $Revision: 1.2 $ $Date: 2003/04/17 09:11:42 $
  * @since 4.1.4
  */
 public final class LogKit2AvalonLoggerAdapter
