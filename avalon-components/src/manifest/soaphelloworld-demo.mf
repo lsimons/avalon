@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+Created-By: Apache Avalon Project
+
+Name: org/apache/avalon/cornerstone/demos/soaphelloworldserver/SOAPHelloWorldServerImpl.class
+Avalon-Block: true

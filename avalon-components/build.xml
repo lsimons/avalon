@@ -110,7 +110,7 @@
                                   Main target
        ===================================================================
   -->
-  <target name="main" depends="jars" />
+  <target name="main" depends="xars" />
 
   <!--
        ===================================================================
@@ -167,8 +167,16 @@
        ===================================================================
   -->
   <target name="compile">
+  
     <mkdir dir="${build.dir}"/>
-    <available property="jsse.present" classname="javax.net.ssl.SSLServerSocket" />
+    
+    <available property="jsse.present" 
+        classname="javax.net.ssl.SSLServerSocket" 
+        classpathref="project.class.path"/>
+
+    <available classname="electric.registry.Registry" 
+        classpathref="project.class.path" 
+        property="glue.present"/>
 
     <mkdir dir="${build.classes}"/>
 
@@ -182,6 +190,9 @@
                unless="jsse.present" />
       <exclude name="org/apache/avalon/cornerstone/blocks/sockets/TLSServerSocketFactory.java"
                unless="jsse.present" />
+      <exclude name="org/apache/avalon/cornerstone/blocks/soapification/glue/**.java"
+               unless="glue.present" />
+               
     </javac>
 
     <copy todir="${build.classes}">
@@ -196,7 +207,8 @@
        ===================================================================
                            Creates all the .jar file
        ===================================================================
-  -->
+  -->  
+  
   <target name="jars" depends="compile">
 
     <mkdir dir="${build.lib}"/>
@@ -206,8 +218,20 @@
       <exclude name="**/Default*"/>
       <exclude name="**/*.xinfo"/>
       <exclude name="**/demos/**"/>
-    </jar>
+    </jar>  
+  
+  </target>
 
+  <!--
+       ===================================================================
+                           Creates all the .bar file
+       ===================================================================
+  -->  
+  
+  <target name="bars" depends="compile">  
+  
+    <mkdir dir="${build.lib}"/>  
+  
     <jar jarfile="${build.lib}/cornerstone.bar"
          basedir="${build.classes}"
          manifest="${manifest.dir}/cornerstone.mf">
@@ -233,16 +257,36 @@
       <include name="org/apache/avalon/cornerstone/demos/helloworldserver/*"/>
     </jar>
 
+    <jar jarfile="${build.lib}/demo-soaphelloworld.bar"
+         basedir="${build.classes}"
+         manifest="${manifest.dir}/soaphelloworld-demo.mf">
+      <include name="org/apache/avalon/cornerstone/demos/soaphelloworldserver/*"/>
+    </jar>
+
+
     <jar jarfile="${build.lib}/demo-simpleserver.bar"
          basedir="${build.classes}"
          manifest="${manifest.dir}/simpleserver-demo.mf">
       <include name="org/apache/avalon/cornerstone/demos/simpleserver/*"/>
     </jar>
+  
+  </target>
+
+  <!--
+       ===================================================================
+                           Creates all the .sar files
+       ===================================================================
+  -->  
+  <target name="sars" depends="demo-sar, soapdemo-sar">
+    <echo>${glue.present}</echo>
+  </target>  
+  <target name="demo-sar" depends="compile">    
 
     <jar jarfile="${build.lib}/avalon-demo.sar">
 
       <zipfileset dir="${build.lib}/" prefix="blocks/">
         <include name="*.bar"/>
+        <exclude name="demo-soaphelloworld.bar.bar"/>
       </zipfileset>
 
       <zipfileset dir="${lib.dir}" prefix="lib/">
@@ -267,9 +311,57 @@
         <include name="keystore"/>
       </zipfileset>
 
-    </jar>
+    </jar>  
 
-  </target>
+  </target>    
+  <target name="soapdemo-sar" depends="compile" if="glue.present">    
+    
+    
+    <jar jarfile="${build.lib}/avalon-soapdemo.sar">
+
+      <zipfileset dir="${build.lib}/" prefix="blocks/">
+        <include name="cornerstone.bar"/>
+        <include name="demo-helloworld.bar"/>
+        <include name="demo-soaphelloworld.bar"/>
+      </zipfileset>
+
+      <zipfileset dir="${lib.dir}" prefix="lib/">
+        <include name="GLUE-STD.jar"/>
+        <include name="jndi.jar"/>
+        <include name="ejb.jar"/>
+        <include name="servlet.jar"/>
+        <include name="jcert.jar"/>
+        <include name="jnet.jar"/>
+        <include name="jsse.jar"/>
+      </zipfileset>
+
+      <zipfileset dir="${conf.dir}/glue-helloworldserver" fullpath="conf/assembly.xml">
+        <include name="avalon-gluedemo-assembly.xml"/>
+      </zipfileset>
+
+      <zipfileset dir="${conf.dir}/glue-helloworldserver" fullpath="conf/server.xml">
+        <include name="avalon-gluedemo-server.xml"/>
+      </zipfileset>
+
+      <zipfileset dir="${conf.dir}/glue-helloworldserver" fullpath="conf/config.xml">
+        <include name="avalon-gluedemo-config.xml"/>
+      </zipfileset>
+
+      <zipfileset dir="${conf.dir}/glue-helloworldserver" fullpath="conf/keyStore">
+        <include name="keystore"/>
+      </zipfileset>
+
+    </jar>   
+    
+  
+  </target>    
+  
+  <!--
+       ===================================================================
+                  Creates all the .jar .bar & .sar files
+       ===================================================================
+  -->
+  <target name="xars" depends="compile, jars, bars, sars"/>
 
   <!--
        ===================================================================
@@ -286,6 +378,24 @@
 
       <testlet>org.apache.avalon.cornerstone.services.scheduler.test.CronTimeTriggerTestlet</testlet>
     </test>
+  
+  </target>
+  <!--
+       ===================================================================
+       Custom test for SoapHelloWorldServer demo
+       ===================================================================
+  -->
+  <target name="soaphello-test" depends="compile">
+
+    <java classname="org.apache.avalon.cornerstone.demos.soaphelloworldserver.SOAPHelloWorldServerTester">
+      <classpath>
+        <pathelement path="${build.classes}" />
+        <fileset dir="${lib.dir}">
+          <include name="*.jar" />
+        </fileset>
+      </classpath>
+    </java>    
+    
 
   </target>
 
@@ -453,7 +563,10 @@
                             Create the binary distribution
        ===================================================================
   -->
-  <target name="dist" depends="jars,javadocs,xdocs,setup-properties">
+  <target name="dist" depends="xars,javadocs,xdocs,setup-properties,dist-norm,dist-soap">  
+    <chmod dir="${dist.dir}" perm="go-rwx" />
+  </target>
+  <target name="dist-norm">
 
     <mkdir dir="${dist.dir}"/>
     <mkdir dir="${dist.docs}"/>
@@ -470,9 +583,13 @@
     <copy file="${build.lib}/${name}.bar" tofile="${dist.dir}/${name}-${version}.bar"/>
     <copy file="${build.lib}/avalon-demo.sar" tofile="${dist.dir}/avalon-demo-${version}.sar"/>
     <copy file="${build.lib}/avalon-cornerstone-compilation.jar" tofile="${dist.dir}/avalon-cornerstone-compilation-${version}.jar"/>
-
-    <chmod dir="${dist.dir}" perm="go-rwx" />
-
+    
+  </target>    
+  
+  <target name="dist-soap" if="glue.present">      
+  
+    <copy file="${build.lib}/avalon-soapdemo.sar" tofile="${dist.dir}/avalon-soapdemo-${version}.sar"/>
+    
   </target>
 
   <!--
