@@ -7,6 +7,8 @@
  */
 package org.apache.avalon.excalibur.instrument.manager;
 
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 
 import org.apache.avalon.excalibur.instrument.manager.interfaces.InstrumentDescriptor;
@@ -26,7 +28,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * Not Synchronized.
  *
  * @author <a href="mailto:leif@silveregg.co.jp">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/03/28 04:06:18 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/03/29 16:08:53 $
  * @since 4.1
  */
 class InstrumentableProxy
@@ -279,6 +281,23 @@ class InstrumentableProxy
             m_instrumentProxyArray = new InstrumentProxy[ m_instrumentProxies.size() ];
             m_instrumentProxies.values().toArray( m_instrumentProxyArray );
 
+            // Sort the array.  This is not a performance problem because this
+            //  method is rarely called and doing it here saves cycles in the
+            //  client.
+            Arrays.sort( m_instrumentProxyArray, new Comparator()
+                {
+                    public int compare( Object o1, Object o2 )
+                    {
+                        return ((InstrumentProxy)o1).getDescription().
+                            compareTo( ((InstrumentProxy)o2).getDescription() );
+                    }
+                    
+                    public boolean equals( Object obj )
+                    {
+                        return false;
+                    }
+                } );
+            
             return m_instrumentProxyArray;
         }
     }

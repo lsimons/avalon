@@ -12,6 +12,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 
 import org.apache.avalon.excalibur.instrument.AbstractInstrument;
@@ -38,7 +40,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
 /**
  *
  * @author <a href="mailto:leif@silveregg.co.jp">Leif Mortenson</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/03/28 04:06:18 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/03/29 16:08:53 $
  * @since 4.1
  */
 public class DefaultInstrumentManager
@@ -778,6 +780,23 @@ public class DefaultInstrumentManager
             m_instrumentableProxyArray = new InstrumentableProxy[ m_instrumentableProxies.size() ];
             m_instrumentableProxies.values().toArray( m_instrumentableProxyArray );
 
+            // Sort the array.  This is not a performance problem because this
+            //  method is rarely called and doing it here saves cycles in the
+            //  client.
+            Arrays.sort( m_instrumentableProxyArray, new Comparator()
+                {
+                    public int compare( Object o1, Object o2 )
+                    {
+                        return ((InstrumentableProxy)o1).getDescription().
+                            compareTo( ((InstrumentableProxy)o2).getDescription() );
+                    }
+                    
+                    public boolean equals( Object obj )
+                    {
+                        return false;
+                    }
+                } );
+            
             return m_instrumentableProxyArray;
         }
     }
