@@ -118,6 +118,12 @@ Legal:
   </path>
 
   &check-targets;
+
+  <!-- defer to check-targets.ent for figuring out dependencies -->
+ <target name="check-dependencies" depends="junit-check,log4j-check,logkit-check,jdk14-check"/>
+
+  <!-- defer to check-targets.ent for downloading dependencies -->
+  <target name="import-dependencies" depends="import-junit,import-log4j,import-logkit"/>
   
   <!-- Main target -->
   <target name="main" depends="jar" description="Build complete"/>
@@ -137,8 +143,8 @@ Legal:
     <echo message="   jar        -> generates the ${Name} jar file"/>
     <echo message="   javadocs   -> generates the API documentation (java 1.2+ only)"/>
     <echo message="   real-clean -> cleans up all genereated files and directories"/>
-    <echo message="   import-all-auto-dependencies -> "/>
-    <echo message="                 downloads all automatically downloadable jars"/>
+    <echo message="   import-dependencies -> "/>
+    <echo message="                 downloads required automatically downloadable jars"/>
     <echo message=""/>
     <echo message="-------------------------------------------------------------"/>
     <echo message=""/>
