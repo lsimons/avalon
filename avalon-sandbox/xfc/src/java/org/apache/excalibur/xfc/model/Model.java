@@ -50,7 +50,6 @@
 package org.apache.excalibur.xfc.model;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -58,43 +57,29 @@ import java.util.List;
  * a particular Container configuration.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: Model.java,v 1.1 2002/10/02 17:32:28 crafterm Exp $
+ * @version CVS $Id: Model.java,v 1.2 2002/10/04 14:36:24 crafterm Exp $
  */
 public final class Model
 {
     private final List m_definitions = new ArrayList();
 
     /**
-     * Adds a <code>Definition</code> object to the system.
-     * A <code>Definition</code> contains information particular to
-     * Component definition.
+     * Adds a new {@link RoleRef} object to the system. A
+     * {@link RoleRef} object contains the definition of a particular
+     * role and all {@link Definition}'s that provide it.
      *
-     * @param definition a <code>Definition</code> instance
+     * @param role a {@link RoleRef} instance
      */
-    public void addDefinition( final Definition definition )
+    public void addRoleRef( final RoleRef role )
     {
-        // add a definition to the system
-        String role = definition.getRole();
-
-        for ( Iterator i = m_definitions.iterator(); i.hasNext(); )
-        {
-            RoleRef r = (RoleRef) i.next();
-
-            if ( role.equals( r.getRole() ) )
-            {
-                r.addDefinition( definition );
-                return;
-            }
-        }
-
-        m_definitions.add( new RoleRef( role, definition ) );
+        m_definitions.add( role );
     }
 
     /**
      * Obtain all definitions this Model contains, as an
      * array of RoleRef objects.
      *
-     * @return a <code>RoleRef[]</code> array
+     * @return a {@link RoleRef}[] array
      */
     public RoleRef[] getDefinitions()
     {
