@@ -298,4 +298,28 @@ public final class CronTimeTriggerTestlet
         next = trigger.getTimeAfter( time );
         assert( "year", -1 == next );
     }
+
+    public void testRolledMonthDay()
+    {
+        final CronTimeTrigger trigger = new CronTimeTrigger( -1, -1, 5, 2, -1, false );
+
+        final Calendar now = Calendar.getInstance();
+        now.set( Calendar.SECOND, 0 );
+        now.set( Calendar.MINUTE, 0 );
+        now.set( Calendar.HOUR_OF_DAY, 0 );
+        now.set( Calendar.DAY_OF_MONTH, 29 );
+        now.set( Calendar.MONTH, 7 );
+
+        long time = now.getTime().getTime();
+        long next = trigger.getTimeAfter( time );
+        long delta = next - time;
+
+        now.setTime( new Date( next ) );
+
+        assert( "Second", now.get( Calendar.SECOND ) == 0 );
+        assert( "Minute", now.get( Calendar.MINUTE ) == 0 );
+        assert( "Hour of Day", now.get( Calendar.HOUR_OF_DAY ) == 0 );
+        assert( "Day of month", now.get( Calendar.DAY_OF_MONTH ) == 5 );
+        assert( "Month", now.get( Calendar.MONTH ) == 2 );
+    }
 }
