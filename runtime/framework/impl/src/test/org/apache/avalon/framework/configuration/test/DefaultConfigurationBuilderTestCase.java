@@ -46,7 +46,7 @@ public final class DefaultConfigurationBuilderTestCase
     private static final String NS_FILE_NAME = "config_namespaces.xml";
     private static final String EXTERNAL_FILE_NAME = "config_usingexternal.xml";
     private static final String INNER_FILE_NAME = "config_inner.xml";
-    private static final String TEST_PATH = "test/framework/io/";
+    private static final String TEST_PATH = "io";
 
     private DefaultConfigurationBuilder m_builder;
     private DefaultConfigurationBuilder m_nsBuilder;
@@ -277,7 +277,8 @@ public final class DefaultConfigurationBuilderTestCase
     public DefaultConfigurationBuilderTestCase( final String name )
     {
         super( name );
-        m_testDirectory = (new File( TEST_PATH )).getAbsoluteFile();
+        File basedir = new File( System.getProperty( "basedir" ) );
+        m_testDirectory = (new File( basedir, TEST_PATH )).getAbsoluteFile();
         if( !m_testDirectory.exists() )
         {
             m_testDirectory.mkdirs();
@@ -306,7 +307,6 @@ public final class DefaultConfigurationBuilderTestCase
         writer.close();
     }
 
-
     protected  void tearDown()
         throws Exception
     {
@@ -314,17 +314,20 @@ public final class DefaultConfigurationBuilderTestCase
         m_nsBuilder = null;
     }
 
-
     public void testBuildFromFileName()
         throws Exception
     {
          m_builder = new DefaultConfigurationBuilder();
          m_nsBuilder = new DefaultConfigurationBuilder(true); // switch on namespace support
-         Configuration conf = m_builder.buildFromFile( TEST_PATH + SIMPLE_FILE_NAME );
+         File basedir = new File( System.getProperty( "basedir" ) );
+         File testFile = new File( basedir, TEST_PATH );
+         File simple = new File( testFile, SIMPLE_FILE_NAME );
+
+         Configuration conf = m_builder.buildFromFile( simple.toString() );
          simpleAssertions( conf );
-         conf = m_builder.buildFromFile( TEST_PATH + NS_FILE_NAME );
+         conf = m_builder.buildFromFile( new File( testFile, NS_FILE_NAME ).toString() );
          simpleAssertionsNS( conf );
-         conf = m_nsBuilder.buildFromFile( TEST_PATH + NS_FILE_NAME );
+         conf = m_nsBuilder.buildFromFile( new File( testFile, NS_FILE_NAME ).toString() );
          nsAssertions( conf );
     }
 
@@ -442,7 +445,10 @@ public final class DefaultConfigurationBuilderTestCase
         MyEntityResolver customResolver = new MyEntityResolver();
  
         builder.setEntityResolver( new MyEntityResolver() );
-        Configuration conf = builder.buildFromFile( TEST_PATH + EXTERNAL_FILE_NAME );
+        File basedir = new File( System.getProperty( "basedir" ) );
+        File testFile = new File( basedir, TEST_PATH );
+        File external = new File( testFile, EXTERNAL_FILE_NAME );
+        Configuration conf = builder.buildFromFile( external  );
         simpleAssertions( conf );
     }
     
