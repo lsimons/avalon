@@ -17,32 +17,16 @@
 -->
 <project>
 
- <title>Avalon LogKit</title>
+  <title>Avalon LogKit</title>
 
- <body>
+  <body>
 
-    <links>
-      <item name="Apache" href="http://apache.org/"/>
-      <item name="Avalon" href="http://avalon.apache.org/"/>
-      <item name="Framework" href="http://avalon.apache.org/product/framework/"/>
-      <item name="Merlin" href="http://avalon.apache.org/product/containers/"/>
-      <item name="Planet" href="http://avalon.apache.org/product/components/"/>
-    </links>
-
-    <menu name="About Avalon LogKit">
+    <menu>
       <item name="Overview" href="index.html"/>
       <item name="Features" href="features.html"/>
       <item name="Whitepaper" href="whitepaper.html"/>
-      <item name="Javadoc" href="/apidocs/index.html"/>
-      <item name="Download" href="http://avalon.apache.org/download.cgi"/>
+      <item name="Javadoc" href="api/index.html"/>
     </menu>
-
-    <menu name="Related Projects">
-      <item name="Avalon Framework" href="http://avalon.apache.org/product/framework/"/>
-      <item name="Avalon Logging" href="http://avalon.apache.org/logging"/>
-      <item name="Avalon Merlin" href="http://avalon.apache.org/merlin"/>
-    </menu>
-
  </body>
 
 </project>
