@@ -80,7 +80,7 @@ public final class TPCThreadManager extends AbstractThreadManager implements Par
 {
     private DefaultThreadPool m_tpool;
     private long m_blockTimeout = 1000L;
-    private int m_processors = SystemUtil.numProcessors();
+    private int m_processors = -1;
     private int m_threadsPerProcessor = 1;
 
     /**
@@ -114,9 +114,11 @@ public final class TPCThreadManager extends AbstractThreadManager implements Par
      */
     public void parameterize( Parameters parameters ) throws ParameterException
     {
-        this.m_processors =
-          Math.max( parameters.getParameterAsInteger( "processors", SystemUtil.numProcessors() ),
-                    1 );
+        this.m_processors = parameters.getParameterAsInteger( "processors", -1);
+        if (this.m_processors < 1)
+        {
+            this.m_processors = Math.max( 1 , SystemUtil.numProcessors() );
+        }
 
         this.m_threadsPerProcessor =
             Math.max( parameters.getParameterAsInteger( "threads-per-processor", 1 ), 1 );
@@ -127,6 +129,11 @@ public final class TPCThreadManager extends AbstractThreadManager implements Par
 
     public void initialize() throws Exception
     {
+        if (this.m_processors < 1)
+        {
+            this.m_processors = Math.max( 1 , SystemUtil.numProcessors() );
+        }
+        
         if( isInitialized() )
         {
             throw new IllegalStateException( "ThreadManager is already initailized" );
