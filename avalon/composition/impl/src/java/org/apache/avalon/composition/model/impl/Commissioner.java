@@ -31,7 +31,7 @@ import org.apache.avalon.framework.activity.Disposable;
  * serve basis.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2004/02/10 16:23:33 $
+ * @version $Revision: 1.2 $ $Date: 2004/03/15 12:59:10 $
  * @see CommissionRequest
  */
 class Commissioner implements Runnable
@@ -168,7 +168,7 @@ class Commissioner implements Runnable
     {
         if( m_logger.isDebugEnabled() )
         {
-            m_logger.debug( "disposal" );
+            m_logger.debug( "commissioner disposal" );
         }
         if( null != m_thread )
         { 
