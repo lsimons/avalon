@@ -38,7 +38,7 @@ import org.apache.avalon.framework.service.Serviceable;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
- * @version CVS $Revision: 1.5 $ $Date: 2002/07/12 10:56:50 $
+ * @version CVS $Revision: 1.6 $ $Date: 2002/07/16 12:35:45 $
  * @since 4.0
  */
 public class DefaultComponentFactory
@@ -400,6 +400,12 @@ public class DefaultComponentFactory
                 final Object component = m_realManager.lookup( role );
                 addUnreleased( component );
                 return component;
+            }
+            catch( ClassCastException e )
+            {
+                throw new ServiceException( role,
+                                            "Casting exception (does your Serviceable implement Component)",
+                                            e );
             }
             catch( ComponentException e )
             {
