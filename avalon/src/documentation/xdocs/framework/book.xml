@@ -12,6 +12,7 @@
     <menu-item type="changes" label="Changes" href="changes.html"/>
     <menu-item type="external" id="downloads" label="Download" href="http://jakarta.apache.org/builds/jakarta-avalon/release/framework"/>
     <menu-item type="external" id="api-docs" label="API Docs" href="@AVALON_BASE@/api/index.html"/>
+    <menu-item type="external" id="diagrams" label="Diagrams Docs" href="diagrams/index.html"/>
   </menu>
 
   <menu label="Patterns and Design">
