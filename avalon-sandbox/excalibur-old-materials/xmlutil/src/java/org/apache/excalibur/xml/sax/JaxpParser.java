@@ -64,7 +64,7 @@ import org.xml.sax.ext.LexicalHandler;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/11/12 23:35:34 $
+ * @version CVS $Revision: 1.5 $ $Date: 2002/11/15 12:43:31 $
  * @avalon.component
  */
 public final class JaxpParser
@@ -187,6 +187,12 @@ public final class JaxpParser
 
         try
         {
+            if ( null == lexicalHandler 
+                 && contentHandler instanceof LexicalHandler)
+            {
+                tmpReader.setProperty( "http://xml.org/sax/properties/lexical-handler",
+                                       (LexicalHandler)contentHandler );
+            }   
             if( null != lexicalHandler )
             {
                 tmpReader.setProperty( "http://xml.org/sax/properties/lexical-handler",
