@@ -16,6 +16,7 @@
       <menu-item type="hidden" href="history/call-to-vote.html"/>
       <menu-item type="hidden" href="history/what-is-a-server.html"/>
       <menu-item type="hidden" href="history/need-for-avalon.html"/>
+      <menu-item type="hidden" href="history/changes.html"/>
 
     <menu-item label="License" href="license.html"/>
     <menu-item label="Mail Archive" href="mail.html"/>
