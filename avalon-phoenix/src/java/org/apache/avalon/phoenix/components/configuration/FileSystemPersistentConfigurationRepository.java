@@ -20,6 +20,7 @@ import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.excalibur.io.FileUtil;
 import org.apache.avalon.excalibur.property.PropertyException;
 import org.apache.avalon.excalibur.property.PropertyUtil;
+import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.activity.Startable;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -32,7 +33,11 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.parameters.ParameterException;
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.avalon.framework.service.ServiceException;
+import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.phoenix.interfaces.ConfigurationRepository;
+import org.apache.avalon.phoenix.interfaces.SystemManager;
 import org.apache.excalibur.configuration.merged.ConfigurationMerger;
 
 /**
@@ -43,7 +48,8 @@ import org.apache.excalibur.configuration.merged.ConfigurationMerger;
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
  */
 public class FileSystemPersistentConfigurationRepository extends AbstractLogEnabled
-    implements ConfigurationRepository, Parameterizable, Configurable, Startable
+    implements ConfigurationRepository, Parameterizable, Configurable, Startable, Serviceable,
+    Initializable, PersistentConfigurationRepositoryMBean
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( FileSystemPersistentConfigurationRepository.class );
@@ -51,6 +57,7 @@ public class FileSystemPersistentConfigurationRepository extends AbstractLogEnab
     private final HashMap m_persistedConfigurations = new HashMap();
     private final HashMap m_configurations = new HashMap();
 
+    private ServiceManager m_serviceManager;
     private String m_phoenixHome;
 
     private File m_storageDirectory;
@@ -58,6 +65,12 @@ public class FileSystemPersistentConfigurationRepository extends AbstractLogEnab
     public void parameterize( final Parameters parameters ) throws ParameterException
     {
         this.m_phoenixHome = parameters.getParameter( "phoenix.home", ".." );
+    }
+
+    public void service( ServiceManager manager )
+        throws ServiceException
+    {
+        this.m_serviceManager = manager;
     }
 
     private Context createConfigurationContext()
@@ -126,6 +139,20 @@ public class FileSystemPersistentConfigurationRepository extends AbstractLogEnab
 
             throw new ConfigurationException( message, e );
         }
+    }
+
+    public void initialize() throws Exception
+    {
+        final SystemManager systemManager =
+            ( SystemManager ) this.m_serviceManager.lookup( SystemManager.ROLE );
+        final SystemManager context =
+            systemManager.getSubContext( null, "component" ).getSubContext( "ConfigurationManager",
+                                                                            "persistent" );
+
+        context.register(
+            "PersistentConfigurationRepository",
+            this,
+            new Class[]{PersistentConfigurationRepositoryMBean.class} );
     }
 
     public void start()
@@ -253,6 +280,38 @@ public class FileSystemPersistentConfigurationRepository extends AbstractLogEnab
         else
         {
             return ConfigurationMerger.merge( p, c );
+        }
+    }
+
+    public Configuration getPersistentConfiguration( String application, String block )
+        throws ConfigurationException
+    {
+        final Configuration configuration = ( Configuration ) m_persistedConfigurations.get(
+            new ConfigurationKey( application, block ) );
+
+        if( null == configuration )
+        {
+            final String message = REZ.getString( "config.error.noconfig", block, application );
+            throw new ConfigurationException( message );
+        }
+
+        return configuration;
+    }
+
+    public void storePersistentConfiguration( String application,
+                                              String block,
+                                              Configuration configuration )
+        throws ConfigurationException
+    {
+        final ConfigurationKey key = new ConfigurationKey( application, block );
+
+        if( null == configuration )
+        {
+            m_persistedConfigurations.remove( key );
+        }
+        else
+        {
+            m_persistedConfigurations.put( key, configuration );
         }
     }
 }
