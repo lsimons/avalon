@@ -60,9 +60,7 @@ public class DefaultLogManager
                                    final Context context )
         throws Exception
     {
-
         final String version = logs.getAttribute( "version", "1.0" );
-
         if( getLogger().isDebugEnabled() )
         {
             final String message =
