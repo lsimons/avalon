@@ -21,7 +21,7 @@ import java.util.Set;
  * send an event indicating the change.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2002/09/13 10:11:41 $
+ * @version $Revision: 1.3 $ $Date: 2002/09/13 10:18:24 $
  */
 public class DirectoryResource
     extends Resource
@@ -73,6 +73,12 @@ public class DirectoryResource
         final HashSet addedFiles = new HashSet();
 
         final File[] files = m_dir.listFiles();
+        if( null == files )
+        {
+            //In the case that the directory does not exist
+            return;
+        }
+
         for( int i = 0; i < files.length; i++ )
         {
             final File file = files[ i ];
