@@ -202,7 +202,7 @@ public class Hierarchy
      *
      * @return the Logger
      */
-    protected final Logger getRootLogger()
+    public final Logger getRootLogger()
     {
         return m_rootLogger;
     }
