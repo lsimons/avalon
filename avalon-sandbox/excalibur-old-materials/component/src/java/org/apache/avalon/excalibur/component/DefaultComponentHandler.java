@@ -13,7 +13,6 @@ import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.context.Context;
-import org.apache.avalon.framework.logger.Logger;
 
 /**
  * The DefaultComponentHandler to make sure components are initialized
@@ -22,7 +21,7 @@ import org.apache.avalon.framework.logger.Logger;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1.2.1 $ $Date: 2002/05/18 05:13:05 $
+ * @version CVS $Revision: 1.1.2.2 $ $Date: 2002/05/18 05:35:49 $
  * @since 4.0
  */
 public class DefaultComponentHandler
@@ -71,15 +70,6 @@ public class DefaultComponentHandler
     }
 
     /**
-     * Sets the logger that the ComponentHandler will use.
-     */
-    public void enableLogging( final Logger logger )
-    {
-        m_factory.enableLogging( logger );
-        super.enableLogging( logger );
-    }
-
-    /**
      * Initialize the ComponentHandler.
      */
     public void initialize()
@@ -88,6 +78,8 @@ public class DefaultComponentHandler
         {
             return;
         }
+        m_factory.setLogger( getLogkitLogger() );
+        m_factory.enableLogging( getLogger() );
 
         if( getLogger().isDebugEnabled() )
         {

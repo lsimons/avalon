@@ -24,11 +24,9 @@ import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.Contextualizable;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.logger.LogKitLogger;
 import org.apache.avalon.framework.logger.Loggable;
-import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.thread.ThreadSafe;
@@ -39,11 +37,11 @@ import org.apache.avalon.framework.thread.ThreadSafe;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
- * @version CVS $Revision: 1.2.2.1 $ $Date: 2002/05/18 05:13:05 $
+ * @version CVS $Revision: 1.2.2.2 $ $Date: 2002/05/18 05:35:49 $
  * @since 4.0
  */
 public class DefaultComponentFactory
-    extends AbstractLogEnabled
+    extends AbstractDualLogEnabled
     implements ObjectFactory, Disposable, ThreadSafe
 {
     /** The class which this <code>ComponentFactory</code>
@@ -76,10 +74,6 @@ public class DefaultComponentFactory
      */
     private final BucketMap m_components = new BucketMap();
 
-    /** The LogKitManager for child ComponentSelectors
-     */
-    private org.apache.log.Logger m_logKitLogger;
-
     /**
      * Construct a new component factory for the specified component.
      *
@@ -102,12 +96,6 @@ public class DefaultComponentFactory
         m_context = context;
         m_roles = roles;
         m_logkit = logkit;
-    }
-
-    public void enableLogging( final Logger logger )
-    {
-        super.enableLogging( logger );
-        m_logKitLogger = LogKit2LoggerTarget.createLogger( logger );
     }
 
     public Object newInstance()
@@ -147,7 +135,7 @@ public class DefaultComponentFactory
         {
             if( null == m_logkit || null == m_configuration )
             {
-                ( (Loggable)component ).setLogger( m_logKitLogger );
+                ( (Loggable)component ).setLogger( getLogkitLogger() );
             }
             else
             {
@@ -155,7 +143,7 @@ public class DefaultComponentFactory
                 if( null == logger )
                 {
                     getLogger().debug( "no logger attribute available, using standard logger" );
-                    ( (Loggable)component ).setLogger( m_logKitLogger );
+                    ( (Loggable)component ).setLogger( getLogkitLogger() );
                 }
                 else
                 {

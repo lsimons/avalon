@@ -14,7 +14,6 @@ import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.context.Context;
-import org.apache.avalon.framework.logger.Logger;
 
 /**
  * The ThreadSafeComponentHandler to make sure components are initialized
@@ -23,7 +22,7 @@ import org.apache.avalon.framework.logger.Logger;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.2.2.1 $ $Date: 2002/05/18 05:13:06 $
+ * @version CVS $Revision: 1.2.2.2 $ $Date: 2002/05/18 05:35:49 $
  * @since 4.0
  */
 public class ThreadSafeComponentHandler
@@ -79,16 +78,6 @@ public class ThreadSafeComponentHandler
         m_factory = null;
     }
 
-    public void enableLogging( final Logger logger )
-    {
-        if( null != m_factory )
-        {
-            m_factory.enableLogging( logger );
-        }
-
-        super.enableLogging( logger );
-    }
-
     /**
      * Initialize the ComponentHandler.
      */
@@ -98,6 +87,11 @@ public class ThreadSafeComponentHandler
         if( m_initialized )
         {
             return;
+        }
+        if( null != m_factory )
+        {
+            m_factory.setLogger( getLogkitLogger() );
+            m_factory.enableLogging( getLogger() );
         }
 
         if( m_instance == null )
