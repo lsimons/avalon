@@ -81,7 +81,7 @@ public final class ContextMap
     implements Serializable
 {
     ///Thread local for holding instance of map associated with current thread
-    private static final ThreadLocal LOCAL_CONTEXT = new InheritableThreadLocal();
+    private static final ThreadLocal c_localContext = new InheritableThreadLocal();
 
     private final ContextMap m_parent;
 
@@ -116,12 +116,12 @@ public final class ContextMap
     public static final ContextMap getCurrentContext( final boolean autocreate )
     {
         //Check security permission here???
-        ContextMap context = (ContextMap)LOCAL_CONTEXT.get();
+        ContextMap context = (ContextMap)c_localContext.get();
 
         if( null == context && autocreate )
         {
             context = new ContextMap();
-            LOCAL_CONTEXT.set( context );
+            c_localContext.set( context );
         }
 
         return context;
@@ -135,7 +135,7 @@ public final class ContextMap
     public static final void bind( final ContextMap context )
     {
         //Check security permission here??
-        LOCAL_CONTEXT.set( context );
+        c_localContext.set( context );
     }
 
     /**
