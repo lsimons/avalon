@@ -40,6 +40,8 @@ public interface DeployerMBean
     /**
      * Deploy an installation.
      *
+     * @phoenix:mx-operation
+     *
      * @param name the name of deployment
      * @param location the installation to deploy
      * @throws DeploymentException if an error occurs
