@@ -25,7 +25,7 @@ import org.apache.excalibur.altrmi.server.PublicationException;
  *
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.11 $
+ * @version $Revision: 1.12 $
  */
 public class AutoPublisher
     implements Configurable, ApplicationListener
@@ -59,7 +59,6 @@ public class AutoPublisher
 
     public void blockAdded( final BlockEvent event )
     {
-
         if( m_publisherName.equals( event.getName() ) )
         {
             m_altrmiPublisher = (AltrmiPublisher)event.getBlock();
@@ -108,7 +107,6 @@ public class AutoPublisher
 
     public void applicationStopping()
     {
-
         for( int i = 0; i < m_events.size(); i++ )
         {
             BlockEvent event = (BlockEvent)m_events.elementAt( i );
@@ -132,6 +130,7 @@ public class AutoPublisher
 
     public void applicationStopped()
     {
+        m_events.clear();
     }
 
     public void applicationFailure( Exception e )
