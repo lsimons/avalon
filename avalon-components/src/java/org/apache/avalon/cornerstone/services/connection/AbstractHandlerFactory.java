@@ -68,6 +68,11 @@ public abstract class AbstractHandlerFactory
         return handler;
     }
 
+    public void releaseConnectionHandler( ConnectionHandler connectionHandler )
+    {
+        ContainerUtil.dispose( connectionHandler );
+    }
+
     /**
      * Overide this method to create actual instance of connection handler.
      *
