@@ -66,7 +66,7 @@ import org.apache.excalibur.store.Store;
  * @author ?
  * @author <a href="mailto:vgritsenko@apache.org">Vadim Gritsenko</a>
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Id: AbstractFilesystemStore.java,v 1.11 2003/08/25 09:50:56 cziegeler Exp $
+ * @version CVS $Id: AbstractFilesystemStore.java,v 1.12 2003/08/27 11:38:20 cziegeler Exp $
  */
 public abstract class AbstractFilesystemStore
 extends AbstractReadWriteStore
@@ -380,7 +380,6 @@ implements Store, ThreadSafe {
     public synchronized Object getObject(final Object key)
     throws IOException, ClassNotFoundException
     {
-        Object value = null;
         Sync sync = this.lock.writeLock();
         try
         {
