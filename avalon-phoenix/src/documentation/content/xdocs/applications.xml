@@ -118,7 +118,7 @@
             </p>
             <p>
                 A wrapper that allows Hsqldb (project
-                <a href="http://sf.net/prohjects/hsqldb">http://sf.net/prohjects/hsqldb</a>)
+                <link href="http://sf.net/prohjects/hsqldb">http://sf.net/prohjects/hsqldb</link>)
                 to be served from inside Phoenix.
             </p>
 
