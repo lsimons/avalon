@@ -130,9 +130,7 @@
               name="${child.artifactId}-${child.currentVersion}.jar.meta"/>
         </ant:fileset>
       </ant:copy>
-      <checksum file="${path}"/>
-      <move file="${path}.md5" toFile="temp"/>
-      <move file="temp" toFile="${path}.md5"/>
+      <checksum file="${path}" fileext=".md5" />
       <j:if test="${maven_gpg_exe != null}">
         <ant:exec executable="${maven_gpg_exe}">
           <ant:arg value="-a"/>
@@ -174,9 +172,7 @@
               name="${child.artifactId}-${child.currentVersion}.jar.meta"/>
         </ant:fileset>
       </ant:copy>
-      <checksum file="${path}"/>
-      <move file="${path}.md5" toFile="temp"/>
-      <move file="temp" toFile="${path}.md5"/>
+      <checksum file="${path}" fileext=".md5" />
       <j:if test="${maven_gpg_exe != null}">
         <ant:exec executable="${maven_gpg_exe}">
           <ant:arg value="-a"/>
@@ -219,9 +215,7 @@
               name="${child.artifactId}-${child.currentVersion}.jar.meta"/>
         </ant:fileset>
       </ant:copy>
-      <checksum file="${path}"/>
-      <move file="${path}.md5" toFile="temp"/>
-      <move file="temp" toFile="${path}.md5"/>
+      <checksum file="${path}" fileext=".md5" />
       <j:if test="${maven_gpg_exe != null}">
         <ant:exec executable="${maven_gpg_exe}">
           <ant:arg value="-a"/>
@@ -397,9 +391,7 @@
         <include name="docs/**"/>
       </fileset>
     </ant:zip>
-    <checksum file="${maven.build.dir}/${package.name}.zip"/>
-    <move file="${maven.build.dir}/${package.name}.zip.md5" toFile="temp"/>
-    <move file="temp" toFile="${maven.build.dir}/${package.name}.zip.md5"/>
+    <checksum file="${maven.build.dir}/${package.name}.zip" fileext=".md5" />
     <j:if test="${maven_gpg_exe != null}">
       <ant:exec executable="${maven_gpg_exe}">
         <ant:arg value="-a"/>
@@ -422,9 +414,7 @@
       zipfile="${maven.build.dir}/${package.name}.tar.gz"
       src="${maven.build.dir}/${package.name}.tar"/>
     <ant:delete file="${maven.build.dir}/${package.name}.tar"/>
-    <checksum file="${maven.build.dir}/${package.name}.tar.gz"/>
-    <move file="${maven.build.dir}/${package.name}.tar.gz.md5" toFile="temp"/>
-    <move file="temp" toFile="${maven.build.dir}/${package.name}.tar.gz.md5"/>
+    <checksum file="${maven.build.dir}/${package.name}.tar.gz" fileext=".md5" />
     <j:if test="${maven_gpg_exe != null}">
       <ant:exec executable="${maven_gpg_exe}">
         <ant:arg value="-a"/>
@@ -437,9 +427,7 @@
     <ant:zip zipfile="${maven.build.dir}/${tutorial.name}.zip">
       <zipfileset dir="${basedir}/target/tutorials" prefix="tutorial"/>
     </ant:zip>
-    <checksum file="${maven.build.dir}/${tutorial.name}.zip"/>
-    <move file="${maven.build.dir}/${tutorial.name}.zip.md5" toFile="temp"/>
-    <move file="temp" toFile="${maven.build.dir}/${tutorial.name}.zip.md5"/>
+    <checksum file="${maven.build.dir}/${tutorial.name}.zip" fileext=".md5" />
     <j:if test="${maven_gpg_exe != null}">
       <ant:exec executable="${maven_gpg_exe}">
         <ant:arg value="-a"/>
@@ -455,9 +443,7 @@
       zipfile="${maven.build.dir}/${tutorial.name}.tar.gz"
       src="${maven.build.dir}/${tutorial.name}.tar"/>
     <ant:delete file="${maven.build.dir}/${tutorial.name}.tar"/>
-    <checksum file="${maven.build.dir}/${tutorial.name}.tar.gz"/>
-    <move file="${maven.build.dir}/${tutorial.name}.tar.gz.md5" toFile="temp"/>
-    <move file="temp" toFile="${maven.build.dir}/${tutorial.name}.tar.gz.md5"/>
+    <checksum file="${maven.build.dir}/${tutorial.name}.tar.gz" fileext=".md5" />
     <j:if test="${maven_gpg_exe != null}">
       <ant:exec executable="${maven_gpg_exe}">
         <ant:arg value="-a"/>

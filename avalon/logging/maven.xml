@@ -94,9 +94,7 @@
       <j:set var="path" value="${child.artifactId}-${child.currentVersion}"/>
       <util:file var="jarFile" name="${maven.build.dir}/jars/${path}.jar"/>
       <j:if test="${jarFile.exists()}">
-        <checksum file="${jarFile}"/>
-        <move file="${jarFile}.md5" toFile="temp"/>
-        <move file="temp" toFile="${jarFile}.md5"/>
+        <checksum file="${jarFile}" fileext=".md5" />
         <j:if test="${maven_gpg_exe != null}">
           <ant:exec executable="${maven_gpg_exe}">
             <ant:arg value="-a"/>
@@ -108,9 +106,7 @@
       </j:if>
       <util:file var="metaFile" name="${maven.build.dir}/jars/${path}.jar.meta"/>
       <j:if test="${metaFile.exists()}">
-        <checksum file="${metaFile}"/>
-        <move file="${metaFile}.md5" toFile="temp"/>
-        <move file="temp" toFile="${metaFile}.md5"/>
+        <checksum file="${metaFile}" fileext=".md5" />
         <j:if test="${maven_gpg_exe != null}">
           <ant:exec executable="${maven_gpg_exe}">
             <ant:arg value="-a"/>
@@ -222,9 +218,7 @@
       src="${maven.dist.dir}/${binary.name}.tar"
     />
     <ant:delete file="${maven.dist.dir}/${binary.name}.tar"/>
-    <checksum file="${maven.dist.dir}/${binary.name}.tar.gz"/>
-    <move file="${metaFile}.md5" toFile="temp"/>
-    <move file="temp" toFile="${metaFile}.md5"/>
+    <checksum file="${maven.dist.dir}/${binary.name}.tar.gz" fileext=".md5" />
     <j:if test="${maven_gpg_exe != null}">
       <ant:exec executable="${maven_gpg_exe}">
         <ant:arg value="-a"/>
@@ -237,9 +231,7 @@
     <ant:zip zipfile="${maven.dist.dir}/${binary.name}.zip">
       <ant:zipfileset dir="${maven.dist.bin.archive.dir}"/>
     </ant:zip>
-    <checksum file="${maven.dist.dir}/${binary.name}.zip"/>
-    <move file="${maven.dist.dir}/${binary.name}.zip.md5" toFile="temp"/>
-    <move file="temp" toFile="${maven.dist.dir}/${binary.name}.zip.md5"/>
+    <checksum file="${maven.dist.dir}/${binary.name}.zip" fileext=".md5" />
     <j:if test="${maven_gpg_exe != null}">
       <ant:exec executable="${maven_gpg_exe}">
         <ant:arg value="-a"/>
@@ -263,9 +255,7 @@
       src="${maven.dist.dir}/${source.name}.tar"
     />
     <ant:delete file="${maven.dist.dir}/${source.name}.tar"/>
-    <checksum file="${maven.dist.dir}/${source.name}.tar.gz"/>
-    <move file="${maven.dist.dir}/${source.name}.tar.gz.md5" toFile="temp"/>
-    <move file="temp" toFile="${maven.dist.dir}/${source.name}.tar.gz.md5"/>
+    <checksum file="${maven.dist.dir}/${source.name}.tar.gz" fileext=".md5" />
     <j:if test="${maven_gpg_exe != null}">
       <ant:exec executable="${maven_gpg_exe}">
         <ant:arg value="-a"/>
@@ -278,9 +268,7 @@
     <ant:zip zipfile="${maven.dist.dir}/${source.name}.zip">
       <ant:zipfileset dir="${maven.dist.src.archive.dir}"/>
     </ant:zip>
-    <checksum file="${maven.dist.dir}/${source.name}.zip"/>
-    <move file="${maven.dist.dir}/${source.name}.zip.md5" toFile="temp"/>
-    <move file="temp" toFile="${maven.dist.dir}/${source.name}.zip.md5"/>
+    <checksum file="${maven.dist.dir}/${source.name}.zip" fileext=".md5" />
     <j:if test="${maven_gpg_exe != null}">
       <ant:exec executable="${maven_gpg_exe}">
         <ant:arg value="-a"/>
