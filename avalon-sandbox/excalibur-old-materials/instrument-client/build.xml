@@ -57,8 +57,8 @@
         <pathelement location="${checkstyle.jar}"/>
     </path>
     
-    <taskdef name="altrmiinterfaces"
-        classname="org.apache.commons.altrmi.generator.ant.AltrmiInterfaceTask">
+    <taskdef name="altrmiproxies"
+        classname="org.apache.commons.altrmi.generator.ant.AltrmiProxyTask">
         <classpath refid="project.class.path" />
     </taskdef>
         
@@ -96,8 +96,8 @@
 
     </target>
     
-    <!-- Generates the altrmi interfaces used by the client. -->
-    <target name="altrmiinterfaces" depends="compile">
+    <!-- Generates the altrmi proxies used by the client. -->
+    <target name="altrmiproxies" depends="compile">
         <mkdir dir="${build.genjava}"/>
         
         <delete>
@@ -107,17 +107,17 @@
             <fileset dir="${build.classes}" includes="AltrmiGenerated*.class"/>
         </delete>
         
-        <altrmiinterfaces genname="InstrumentManagerClient"
+        <altrmiproxies genname="InstrumentManagerClient"
             srcgendir="${build.genjava}" 
             classgendir="${build.classes}" 
-            classesorinterfaces="org.apache.avalon.excalibur.instrument.manager.client.InstrumentManagerClient"
+            interfaces="org.apache.avalon.excalibur.instrument.manager.client.InstrumentManagerClient"
             additionalfacades="org.apache.avalon.excalibur.instrument.manager.client.InstrumentableDescriptor,org.apache.avalon.excalibur.instrument.manager.client.InstrumentDescriptor,org.apache.avalon.excalibur.instrument.manager.client.InstrumentSampleDescriptor">
             <classpath refid="project.class.path" />
-        </altrmiinterfaces>        
+        </altrmiproxies>        
     </target>
 
     <!-- Creates all the .jar file -->
-    <target name="jar" depends="compile, altrmiinterfaces" description="Generates the jar files">
+    <target name="jar" depends="compile, altrmiproxies" description="Generates the jar files">
 
         <mkdir dir="${build.lib}"/>
 
