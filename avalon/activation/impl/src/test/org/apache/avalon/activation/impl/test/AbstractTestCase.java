@@ -18,6 +18,7 @@
 package org.apache.avalon.activation.impl.test;
 
 import java.io.File;
+import java.net.URL;
 
 import junit.framework.TestCase;
 
@@ -41,6 +42,8 @@ import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.parameters.Parameters;
+
+import org.apache.avalon.logging.provider.LoggingManager;
 
 import org.apache.avalon.repository.Artifact;
 import org.apache.avalon.repository.Repository;
@@ -148,6 +151,22 @@ public abstract class AbstractTestCase extends TestCase
 
         SystemContextFactory factory = 
           new DefaultSystemContextFactory( context );
+
+        //
+        // setup the logging manager
+        //
+
+        String logConfigPath = config.getChild( "logging" ).getAttribute( "path" );
+        File file = new File( base, logConfigPath );
+        URL url = file.toURL();
+        LoggingManager logging = 
+          DefaultSystemContextFactory.createLoggingManager( 
+            context, null, null, url, false );
+        factory.setLoggingManager( logging );
+        
+        //
+        // setup security
+        //
 
         Configuration secConfig = config.getChild( "security" );
 
