@@ -17,7 +17,7 @@
 <p>
     This document provides developers with simple documentation for getting
     started with Avalon. For information about the overall structure of
-    Avalon, please refer to the <link href="design.html">Design</link> document.
+    Avalon, please refer to the <link href="framework/index.html">Design</link> document.
 </p>
 
 <p>
@@ -38,12 +38,13 @@
     To generate a full set of detailed API documentation for Avalon, go to the base
     directory of source distribution and run the appropriate build script for your 
     platform with the parameter 'javadocs'.
-    
+
     <source><![CDATA[
     
     > build.[bat|sh] javadocs
     
-    ]]></source>
+]]></source>
+
 </p>
 
 </s1>
