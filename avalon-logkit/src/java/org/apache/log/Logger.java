@@ -54,6 +54,8 @@
  */
 package org.apache.log;
 
+import org.apache.log.util.LoggerListener;
+
 /**
  * The object interacted with by client objects to perform logging.
  *
@@ -68,6 +70,9 @@ public class Logger
 
     ///The ErrorHandler associated with Logger
     private final ErrorHandler m_errorHandler;
+
+    ///The ErrorHandler associated with Logger
+    private final LoggerListener m_loggerListener;
 
     ///Logger to inherit logtargets and priorities from
     private final Logger m_parent;
@@ -106,11 +111,13 @@ public class Logger
      * @param parent the parent logger (used for inheriting from)
      */
     Logger( final ErrorHandler errorHandler,
+            final LoggerListener loggerListener,
             final String category,
             final LogTarget[] logTargets,
             final Logger parent )
     {
         m_errorHandler = errorHandler;
+        m_loggerListener = loggerListener;
         m_category = category;
         m_logTargets = logTargets;
         m_parent = parent;
@@ -545,12 +552,16 @@ public class Logger
         }
 
         //Create new logger
-        final Logger child = new Logger( m_errorHandler, category, null, this );
+        final Logger child =
+            new Logger( m_errorHandler, m_loggerListener, category, null, this );
 
         if( m_additivity )
         {
             child.setAdditivity( true );
         }
+
+        m_loggerListener.loggerCreated( child.m_category, child );
+
 
         //Add new logger to child list
         if( null == m_children )

@@ -12,6 +12,9 @@
     <author email="shash_list at hotmail.com">Sash Chatterjee</author>
   </devs>
   <release version="1.2" date="?">
+    <action dev="PD" type="add">
+      Add LoggerListener support.
+    </action>
     <action dev="SC" type="add">
       Add support for any arbitrary logger wrapper class.
     </action>

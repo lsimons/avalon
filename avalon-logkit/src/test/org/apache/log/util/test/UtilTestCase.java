@@ -77,7 +77,6 @@ public final class UtilTestCase
 
     private final static String MSG = "No soup for you!";
     private final static String RMSG = MSG;
-    private final static String METHOD_RESULT = UtilTestCase.class.getName() + ".";
 
     public UtilTestCase( final String name )
     {
@@ -95,6 +94,7 @@ public final class UtilTestCase
         throws Exception
     {
         /*
+        final String METHOD_RESULT = UtilTestCase.class.getName() + ".";
         final ByteArrayOutputStream output = new ByteArrayOutputStream();
         final StreamTarget target = new StreamTarget( output, METHOD_FORMATTER );
         final Hierarchy hierarchy = new Hierarchy();

@@ -71,8 +71,6 @@ import org.apache.log.output.io.StreamTarget;
 public final class InheritanceTestCase
     extends TestCase
 {
-    private final static String POSITIVE = "+1 Positive - yay - lets do the chicken dance.";
-
     private final static String PATTERN = "%{priority}-%{message}";
     private final static PatternFormatter FORMATTER = new PatternFormatter( PATTERN );
 
