@@ -36,7 +36,7 @@
         <menu-item href="http://jira.werken.com/secure/BrowseProject.jspa?id=10081" label="Issue Tracker (Bug and Enhancement List)"/>
         <menu-item href="for-developers-alternate-kernel.html" label="Alternate Kernels"/>
     </menu>
-    <menu label="Related Links">
+    <menu label="Links">
         <menu-item href="applications.html" label="Applications"/>
     </menu>
 </book>
