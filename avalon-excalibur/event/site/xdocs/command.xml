@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+
+<document>
+  <header>
+    <title>Excalibur Event - Command</title>
+    <authors>
+      <person name="Berin Loritsch" email="bloritsch@apache.org"/>
+    </authors>
+  </header>
+  <body>
+    <s1 title="Why Command Was Created">
+      <p>
+        Command was created as a way to offload management functions
+        to a CommandManager which would execute the functions in the
+        background.  The benefits of this approach are tremendous
+        when you are handling several requests at the same time.  As
+        load increases, you don't increase the frequency in which
+        certain functions are performed (as in the normal synchronous
+        management), and you reduce the time for the critical path
+        to execute.  The critical path is the part of your code that
+        actually solves your problems as opposed to managing resources.
+      </p>
+    </s1>
+    <s1 title="When To Use Command">
+      <p>
+        A better question might be "when should I not to use Command?".
+        The complexity of the thread management and command timing is
+        completely hidden from you.  That makes Command as easy to
+        use as any event based system like Swing.  That said, if you
+        have a really trivial system, or you do not work with heavy
+        request loads it is definitely easier to design your system
+        the old fashioned way.  If you do expect your application to
+        work under heavy load, you will find Command to be indespensible.
+      </p>
+    </s1>
+    <s1 title="Core Concepts">
+      <p>
+        Command is built on top of <link href="event.html">Event</link>.
+        That means we use a Command Sink to enqueue Commands for the
+        CommandManager to process.  The CommandManager then executes the
+        commands as they are pulled off of the queue.  A Command can be
+        a repeating command, so CommandManager will automatically requeue
+        that command for you.
+      </p>
+      <s2 title="Command">
+        <p>
+          A Command is an object that performs any function you desire.
+          You create it by simply implementing the Command interface.
+          There are three types of commands: a generic command that is
+          executed immediately in a background thread, a delayed command
+          that is executed after a specified period of time, and a
+          repeated command that is executed again and again until the
+          Command Manager is shut down.
+        </p>
+      </s2>
+      <s2 title="Command Manager">
+        <p>
+          The Command Manager takes care of processing both Commands
+          and Signals.  With Signals, it will notify the registered
+          Signal listener.  With commands it schedules their execution
+          in a background thread.
+        </p>
+      </s2>
+      <s2 title="Thread Manager">
+        <p>
+          A Thread Manager takes care of the threading policy for the
+          Command Manager.  It manages the thread pool size, and how
+          often the Event Pipeline (the path from a Source to an
+          EventHandler) is checked.
+        </p>
+      </s2>
+    </s1>
+  </body>
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
+      $Revision: 1.1 $ $Date: 2002/09/25 20:03:56 $
+    </legal>
+  </footer>
+</document>
