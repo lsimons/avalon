@@ -21,35 +21,15 @@
 
   <properties>
     <author email="mcconnell@apache.org">Stephen McConnell</author>
-    <title>Lifestyle Specification</title>
+    <title>Avalon Activation Subsystem</title>
   </properties>
 
   <body>
 
-    <section name="Lifestyle Specification">
+    <section name="Avalon Activation Subsystem">
 
-    <table>
-      <tr>
-        <td><strong>Strategy</strong></td>
-        <td><strong>Description</strong></td>
-      </tr>
-      <tr>
-        <td>singleton</td>
-        <td>A single instance of the component type will be shared by all consumers.</td>
-      </tr>
-      <tr>
-        <td>thread</td>
-        <td>A new instance of the component will be created relative to each distinct thread.</td>
-      </tr>
-      <tr>
-        <td>pool</td>
-        <td>A container shall maintain a pool of components.</td>
-      </tr>
-      <tr>
-        <td>transient</td>
-        <td>New instance of the component are created on a per request basis.</td>
-      </tr>
-    </table>
+      <subsection name="Introduction">
+      </subsection>
 
     </section>
 

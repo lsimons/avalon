@@ -26,30 +26,45 @@
 
   <body>
 
-    <section name="Merlin Platform">
+    <section name="Merlin Subsystems Breakdown">
 
       <subsection name="Index">
         <table>
-          <tr><th>Topic</th><th>Summary</th></tr>
+          <tr><th>System</th><th>Summary</th></tr>
           <tr>
-            <td><a href="uml.html">Object Model</a></td>
+            <td><a href="meta.html">Avalon Meta</a></td>
             <td>
-              The object model dealing with the notion of a composite
-              component.
+              The component type model.
             </td>
           </tr>
           <tr>
-            <td><a href="system/index.html">Subsystems</a></td>
+            <td><a href="repository.html">Avalon Repository</a></td>
             <td>
-              Introduction to the respective substems and relationships with
-              the Merlin system.
+              The resource management facility.
             </td>
           </tr>
           <tr>
-            <td><a href="deployment/index.html">Embedded</a></td>
+            <td><a href="composition.html">Avalon Composition</a></td>
             <td>
-              Introduction to a set of available applications solutions
-              the include an embedded Merlin Kernel.
+              The core containment meta-model.
+            </td>
+          </tr>
+          <tr>
+            <td><a href="activation.html">Avalon Activation</a></td>
+            <td>
+              The runtime deployment platform.
+            </td>
+          </tr>
+          <tr>
+            <td><a href="logging.html">Avalon Logging</a></td>
+            <td>
+              The logging system management framework.
+            </td>
+          </tr>
+          <tr>
+            <td><a href="kernel.html">Avalon Merlin Kernel</a></td>
+            <td>
+              The merlin kernel. 
             </td>
           </tr>
         </table>

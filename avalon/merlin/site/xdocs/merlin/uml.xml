@@ -20,36 +20,23 @@
 <document>
 
   <header>
-    <title>Merlin Kernel Embedding</title>
+    <title>Merlin Overview</title>
     <authors>
       <person name="Stephen McConnell" email="mcconnell@apache.org"/>
     </authors>
   </header>
 
   <body>
-
-    <section name="Merlin Kernel Embedding">
-
-    <p>
-The Merlin Kernel is designed first and foremost as an embeddable 
-container.  The 3.2 release introduced several improvements to the 
-embedding strategy through leverage of the avalon-repository 
-boostrapping system, and added comprehensive support for the 
-management of properties anabling complete configuration of a new
-kernel instance programatically or via property resolution.
-    </p>
-
-    <subsection name="Embedded Example">
-<source>
-
-//in preparation
-
-</source>
-    </subsection>
-
-  </section>
-
-</body>
+    <section name="Object Model">
+      <subsection name="UML">
+        <p>
+        <i>UML diagram of the principal abstractions within the 
+        Merlin platform.</i>
+        </p>
+        <img src="../images/uml-top-level.gif"/>
+      </subsection>
+    </section>
+  </body>
 
 </document>
 

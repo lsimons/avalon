@@ -26,30 +26,33 @@
 
   <body>
 
-    <section name="Merlin Platform">
+    <section name="Embedded Deployment Solutions">
 
       <subsection name="Index">
         <table>
           <tr><th>Topic</th><th>Summary</th></tr>
           <tr>
-            <td><a href="uml.html">Object Model</a></td>
+            <td><a href="cli.html">Merlin Command-line</a></td>
             <td>
-              The object model dealing with the notion of a composite
-              component.
+              The classic Merlin CLI application.
             </td>
           </tr>
           <tr>
-            <td><a href="system/index.html">Subsystems</a></td>
+            <td><a href="main.html">Generic Embedding</a></td>
             <td>
-              Introduction to the respective substems and relationships with
-              the Merlin system.
+              Overview and code sample describing generic embedding solutions.
             </td>
           </tr>
           <tr>
-            <td><a href="deployment/index.html">Embedded</a></td>
+            <td><a href="servlet.html">Servlet</a></td>
             <td>
-              Introduction to a set of available applications solutions
-              the include an embedded Merlin Kernel.
+              Demonstration of Merlin emebedded in a servlet.
+            </td>
+          </tr>
+          <tr>
+            <td><a href="unit.html">Merlin Unit Test</a></td>
+            <td>
+              The Merlin UnitTest system.
             </td>
           </tr>
         </table>

@@ -27,6 +27,12 @@
   <body>
 
     <section name="Assembly">
+<p>
+Components may have dependencies on services provided by other components, which in turn may have dependencies of their own.  In addition, components can declare (as part of their meta-info) particular lifecycle stages (such as initiation or configuration) and the type of stage provider it needs to handle that stage.  So in effect, components can be deployed with classic runtime dependencies together with deployment dependencies (because deployment stage providers are themselves components).
+</p>
+<p>
+Assembly services handle candidate selection, wiring of providers to consumers, and deployment ordering.
+</p>
     </section>
 
   </body>
