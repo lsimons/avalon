@@ -25,7 +25,7 @@ import org.apache.avalon.excalibur.i18n.Resources;
  * read-only connection.
  *
  * @author <a href="mailto:mirceatoma@home.com">Mircea Toma</a>
- * @version CVS $Revision: 1.3 $ $Date: 2001/10/27 23:43:24 $
+ * @version CVS $Revision: 1.4 $ $Date: 2001/10/28 11:24:09 $
  */
 class SarURLConnection
     extends URLConnection
@@ -44,6 +44,7 @@ class SarURLConnection
     {
         super( url );
         m_jar = jar;
+        useCaches = false;
     }
 
     /**
@@ -53,8 +54,16 @@ class SarURLConnection
     public void connect() throws IOException
     {
         if (connected) return;
-        
-        m_entry = m_jar.getJarEntry( url.getPath() );
+
+        System.out.println( "URL Connected " + url );
+
+        final String name = url.getPath().substring( 1 );
+        m_entry = m_jar.getJarEntry( name );
+        if( null == m_entry )
+        {
+            throw new IOException( "No entry named " + name + " in .sar file." );
+        }
+
         ifModifiedSince = m_entry.getTime();
 
         connected = true;
