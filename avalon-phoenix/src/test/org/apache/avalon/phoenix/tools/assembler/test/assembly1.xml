@@ -4,7 +4,6 @@
 
 <assembly>
 
-    <!-- The Packet Manager block -->
     <block class="org.apache.avalon.phoenix.tools.assembler.test.data.Component1"
         name="c1">
         <provide name="c2"
