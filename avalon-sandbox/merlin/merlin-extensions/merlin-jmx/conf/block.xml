@@ -3,13 +3,7 @@
 Test
 -->
 
-<block>
-
-  <info>
-    <name>test</name>
-  </info>
-
-  <implementation>
+<container name="test">
 
     <classloader>
       <classpath>
@@ -27,6 +21,5 @@ Test
         class="org.apache.avalon.merlin.jmx.DefaultJMXServer" 
         activation="true"/>
 
-  </implementation>
 
-</block>
+</container>
