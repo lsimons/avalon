@@ -14,8 +14,8 @@
 
   http://avalon.apache.org/framework/
 
-  Requirements
-  ------------
+  Runtime Requirements
+  --------------------
   Avalon-Framework requires a Java Runtime Environment, version 1.2 or above.
   
   Additional functionality is available if the following packages are available:
@@ -24,8 +24,8 @@
       - Log4J 1.2 or higher
       - Xerces-J 2.0 or higher
 
-  Building
-  --------
+  Buildtime Requirements
+  ----------------------
   For building from source, there are some additional requirments:
       - Ant 1.5 or above
       - Forrest 0.2 or above
