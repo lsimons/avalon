@@ -17,7 +17,8 @@ namespace Apache.Avalon.DynamicProxy
 	using System;
 
 	/// <summary>
-	/// Summary description for StandardInvocationHandler.
+	/// Provides a standard implementation of <see cref="IInvocationHandler"/>.
+	/// Methods PreInvoke, PostInvoke can be overrided to customize its behavior.
 	/// </summary>
 	public class StandardInvocationHandler : IInvocationHandler
 	{

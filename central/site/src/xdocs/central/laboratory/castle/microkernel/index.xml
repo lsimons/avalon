@@ -20,7 +20,7 @@
 <document>
   <properties>
     <author email="dev@avalon.apache.org">Avalon Team</author>
-    <title>Avalon Castle Container</title>
+    <title>Avalon Castle - DynamicProxy</title>
   </properties>
 
   <body>
@@ -37,27 +37,25 @@
     Just good and old Inversion of Control and stills Avalon.</p>
   </section>
 
-  <section name="Microkernel">
+  <section name="More references">
     <p>
-    The Microkernel pattern allowed us to focus on a simple set of classes
-    which constitutes the environment for managed components.
+    There are plenty of documents, articles and blog entries about .Net and proxies, 
+    its benefits, its cons and its differences when compared to java implementation.
     </p>
-  </section>
-
-  <section name="DynamicProxy">
-    <p>
-    To overcome some limitations of CLR we had to develop common tools used 
-    by Avalon Castle. DynamicProxy is a simple implementation that act as the 
-    Java proxies - through Invocation handlers.
-    </p>
-  </section>
-
-  <section name="ManagedExtensions">
-    <p>
-    If one needs a more powerfull container, allowing him to managed his components 
-    through some remote interface, he can use the managed extensions. 
-    In fact the ManagedExtensions can be viewed as a port of JMX for CLI.
-    </p>
+     <subsection name="Useful links">
+      <ul>
+        <li>
+         <a href="../../cop/index.html">Developing With Avalon</a>:
+         An excellent white paper on the Avalon framework.
+         Recommended reading!
+        </li>
+        <li>
+        <a href="../../cop/index.html">An Introduction to COP</a>:
+         An introduction to Component Oriented Programming and the
+         core Avalon Framework.
+        </li>
+      </ul>
+     </subsection>
   </section>
 
   </body>
