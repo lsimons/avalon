@@ -26,7 +26,7 @@ import junit.framework.TestCase;
  * within your own code.
  *
  * @author <a href="bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.1 $ $Date: 2001/11/30 21:33:13 $
+ * @version CVS $Revision: 1.2 $ $Date: 2001/11/30 21:49:32 $
  */
 public final class ComponentTestCase
     extends TestCase
@@ -37,6 +37,145 @@ public final class ComponentTestCase
     }
 
     public void testCorrectLifecycle()
+        throws Exception
+    {
+        FullLifecycleComponent component = new FullLifecycleComponent();
+
+        component.enableLogging(new LogKitLogger(Hierarchy.getDefaultHierarchy().getLoggerFor("")));
+        component.contextualize(new DefaultContext());
+        component.parameterize(new Parameters());
+        component.configure(new DefaultConfiguration("", ""));
+        component.compose(new DefaultComponentManager());
+        component.initialize();
+        component.start();
+        component.suspend();
+        component.resume();
+        component.stop();
+        component.dispose();
+    }
+
+    public void testOutOfOrderInitialize()
+    {
+       FullLifecycleComponent component = new FullLifecycleComponent();
+
+       try
+       {
+           component.enableLogging(new LogKitLogger(Hierarchy.getDefaultHierarchy().getLoggerFor("")));
+           component.contextualize(new DefaultContext());
+           component.initialize();
+           component.parameterize(new Parameters());
+       }
+       catch ( Exception e )
+       {
+           return;
+       }
+       fail("Did not detect out of order initialization");
+    }
+
+    public void testOutOfOrderDispose()
+    {
+       FullLifecycleComponent component = new FullLifecycleComponent();
+
+       try
+       {
+            component.enableLogging(new LogKitLogger(Hierarchy.getDefaultHierarchy().getLoggerFor("")));
+            component.contextualize(new DefaultContext());
+            component.parameterize(new Parameters());
+            component.configure(new DefaultConfiguration("", ""));
+            component.compose(new DefaultComponentManager());
+            component.initialize();
+            component.start();
+            component.suspend();
+            component.resume();
+            component.dispose();
+            component.stop();
+       }
+       catch ( Exception e )
+       {
+           return;
+       }
+       fail("Did not detect out of order disposal");
+    }
+
+    public void testDoubleAssignOfLogger()
+    {
+        FullLifecycleComponent component = new FullLifecycleComponent();
+
+        try
+        {
+            component.enableLogging(new LogKitLogger(Hierarchy.getDefaultHierarchy().getLoggerFor("")));
+            component.enableLogging(new LogKitLogger(Hierarchy.getDefaultHierarchy().getLoggerFor("")));
+        }
+        catch (Exception e)
+        {
+            // test successfull
+            return;
+        }
+
+        fail("Did not detect double assignment of Logger");
+    }
+
+    public void testDoubleAssignOfContext()
+    {
+        FullLifecycleComponent component = new FullLifecycleComponent();
+
+        try
+        {
+            component.enableLogging(new LogKitLogger(Hierarchy.getDefaultHierarchy().getLoggerFor("")));
+            component.contextualize(new DefaultContext());
+            component.contextualize(new DefaultContext());
+        }
+        catch (Exception e)
+        {
+            // test successfull
+            return;
+        }
+
+        fail("Did not detect double assignment of Context");
+    }
+
+    public void testDoubleAssignOfParameters()
+    {
+        FullLifecycleComponent component = new FullLifecycleComponent();
+
+        try
+        {
+            component.enableLogging(new LogKitLogger(Hierarchy.getDefaultHierarchy().getLoggerFor("")));
+            component.contextualize(new DefaultContext());
+            component.parameterize(new Parameters());
+            component.parameterize(new Parameters());
+        }
+        catch (Exception e)
+        {
+            // test successfull
+            return;
+        }
+
+        fail("Did not detect double assignment of Parameters");
+    }
+
+    public void testDoubleAssignOfConfiguration()
+    {
+        FullLifecycleComponent component = new FullLifecycleComponent();
+
+        try
+        {
+            component.enableLogging(new LogKitLogger(Hierarchy.getDefaultHierarchy().getLoggerFor("")));
+            component.contextualize(new DefaultContext());
+            component.parameterize(new Parameters());
+            component.configure(new DefaultConfiguration("", ""));
+            component.configure(new DefaultConfiguration("", ""));
+        }
+        catch (Exception e)
+        {
+            // test successfull
+            return;
+        }
+
+        fail("Did not detect double assignment of Configuration");
+    }
+
+    public void testDoubleAssignOfComponentManger()
     {
         FullLifecycleComponent component = new FullLifecycleComponent();
 
@@ -47,16 +186,14 @@ public final class ComponentTestCase
             component.parameterize(new Parameters());
             component.configure(new DefaultConfiguration("", ""));
             component.compose(new DefaultComponentManager());
-            component.initialize();
-            component.start();
-            component.suspend();
-            component.resume();
-            component.stop();
-            component.dispose();
+            component.compose(new DefaultComponentManager());
         }
-        catch ( Exception ise )
+        catch (Exception e)
         {
-            fail(ise.getMessage());
+            // test successfull
+            return;
         }
+
+        fail("Did not detect double assignment of ComponentManager");
     }
 }
