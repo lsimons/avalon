@@ -101,6 +101,7 @@ public class JettySevak extends AbstractLogEnabled
     private int m_port;
     private int m_minThreads;
     private int m_maxThreads;
+    private boolean m_extractWebArchive;
     private File m_sarRootDir;
     private ServiceManager m_serviceManager;
 
@@ -137,6 +138,7 @@ public class JettySevak extends AbstractLogEnabled
         m_port = configuration.getChild( "port" ).getValueAsInteger( 8080 );
         m_minThreads = configuration.getChild( "minthreads" ).getValueAsInteger( 5 );
         m_maxThreads = configuration.getChild( "maxthreads" ).getValueAsInteger( 250 );
+        m_extractWebArchive = configuration.getChild("extract-war").getValueAsBoolean(true);
 
         if( m_maxThreads < m_minThreads )
         {
@@ -232,7 +234,7 @@ public class JettySevak extends AbstractLogEnabled
                 getLogger().info( "deploying context=" + context + ", webapp=" + webAppURL
                                   + " to host=" + ( m_hostName == null ? "(All Hosts)" : m_hostName ) );
 
-            ctx.setExtractWAR( true );
+            ctx.setExtractWAR( m_extractWebArchive );
             m_webapps.put( context, ctx );
             ctx.start();
         }
