@@ -78,8 +78,15 @@ public class DefaultThreadPool
     public Object newInstance()
     {
         final String name = getName() + " Worker #" + m_level++;
+
+        ThreadContext context = null;
+        if( null != m_context )
+        {
+            context = m_context.duplicate();
+        }
+	
         final WorkerThread worker = 
-	    new WorkerThread( this, name, m_pool, m_context.duplicate() );
+	    new WorkerThread( this, name, m_pool, context );
         worker.setDaemon( true );
         worker.enableLogging( m_logger );
         worker.start();
