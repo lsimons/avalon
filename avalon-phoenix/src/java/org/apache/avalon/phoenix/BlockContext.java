@@ -74,14 +74,6 @@ public interface BlockContext
     Logger getLogger( String name );
 
     /**
-     * Retrieve logger coresponding to root category of application.
-     *
-     * @return the base logger
-     * @deprecated Use the getLogger(String) version
-     */
-    Logger getBaseLogger();
-
-    /**
      * Retrieve the proxy for this object.
      * Each Block is referenced by other Blocks via their Proxy. When Phoenix
      * shuts down the Block, it can automatically invalidate the proxy. Thus
