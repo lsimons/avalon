@@ -497,8 +497,8 @@ directory yourself using a command such as
 
     cd ${maven.build.dir}
     for i in *.jar;
-      gpg --output ${maven.final.name}.jar.asc \
-        --detach-sig --armor ${maven.final.name}.jar
+      gpg --output $$i.asc \
+        --detach-sig --armor $$i
     done
 
  For more help, see
