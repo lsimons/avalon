@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="ISO-8859-1"?>
 
 <!-- 
 Copyright 2004 The Apache Software Foundation
@@ -16,15 +16,23 @@ implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-
 <project>
   <extend>${basedir}/../project-common.xml</extend>
-  <artifactId>merlin-developer-core</artifactId>
-  <name>Merlin Developer Core</name>
-  <currentVersion>0.1</currentVersion>
-  <siteDirectory>/www/avalon.apache.org/merlin/developer/core/</siteDirectory>
+  <artifactId>merlin-developer-launch</artifactId>
+  <name>Merlin Developer Launch</name>
+  
+  <siteAddress>www.apache.org</siteAddress>
+  <siteDirectory>/www/avalon.apache.org/merlin/developer/launch/</siteDirectory>
   <distributionDirectory>/www/www.apache.org/dist/java-repository/</distributionDirectory>
+
   <dependencies>
+    <dependency>
+      <groupId>merlin-developer</groupId>
+      <artifactId>merlin-developer-core</artifactId>
+      <version>SNAPSHOT</version>
+    </dependency>
+    
+<!--
     <dependency>
       <id>org.eclipse.core.resources</id>
     </dependency>
@@ -61,5 +69,6 @@ limitations under the License.
       <artifactId>xjavadoc</artifactId>
       <version>1.0.2</version>
     </dependency>
+-->    
   </dependencies>
 </project>
