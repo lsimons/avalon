@@ -8,7 +8,7 @@
     <person name="Berin Loritsch" email="bloritsch@apache.org" id="BL"/>
     <person name="Peter Donald" email="donaldp@apache.org" id="PD"/>
   </devs>
-  <release version="4.0-dev" date="unreleased">
+  <release version="4.0-b3" date="Unreleased">
     <action dev="PD" type="add">
       Added Executable interface to activity package.
     </action>

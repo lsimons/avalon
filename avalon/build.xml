@@ -28,9 +28,7 @@ Legal:
   <property name="name" value="avalon"/>
   <property name="Name" value="Avalon"/>
   <property name="framework.name" value="avalon-framework"/>
-  <property name="version" value="4.0-dev"/>
-  <property name="release" value="3rd"/>
-  <property name="short.version" value="4.0"/>
+  <property name="version" value="4.0b3"/>
   <property name="year" value="1999-2001"/>
   <property name="status" value="beta"/>
 
@@ -48,11 +46,7 @@ Legal:
   <property name="optimize" value="off"/>
   <property name="deprecation" value="off"/>
 
-  <!--
-       ===================================================================
-       Set the properties for intermediate directory
-       ===================================================================
-  -->
+  <!-- Set the properties for intermediate directory -->
   <property name="build.dir" value="build"/>
   <property name="build.lib" value="${build.dir}/lib"/>
   <property name="build.src" value="${build.dir}/src"/>
@@ -61,11 +55,7 @@ Legal:
   <property name="build.docs" value="${build.dir}/docs"/>
   <property name="build.context" value="${build.dir}/documentation"/>
 
-  <!--
-       ===================================================================
-       Set the properties for source directories
-       ===================================================================
-  -->
+  <!-- Set the properties for source directories -->
   <property name="src.dir" value="src"/>
   <property name="java.dir" value="${src.dir}/java"/>
   <property name="lib.dir" value="lib"/>
@@ -80,7 +70,7 @@ Legal:
   <property name="dist.name" value="${Name}-${version}"/>
   <property name="dist.base" value="distributions"/>
 
-  <property name="logkit.jar" value="${lib.dir}/logkit-1.0b2.jar"/>
+  <property name="logkit.jar" value="${lib.dir}/logkit-1.0b3.jar"/>
   <property name="xerces.jar" value="${tools.dir}/lib/xerces.jar"/>
   <property name="xalan.jar" value="${tools.dir}/lib/xalan-2.1.0.jar"/>
   <property name="bsf.jar" value="${tools.dir}/lib/bsf.jar"/>
@@ -165,7 +155,7 @@ Legal:
   </target>
 
   <!-- Prepares the build directory -->
-  <target name="prepare">
+  <target name="prepare" depends="setup-properties">
     <tstamp/>
     <mkdir dir="${build.dir}"/>
   </target>
@@ -466,7 +456,9 @@ Legal:
   <!-- Completely build all dists -->
   <target name="distributions">
     <mkdir dir="${dist.base}"/>
+    <!--
     <copy file="${build.lib}/avalon-framework.jar" tofile="${tools.dir}/lib/avalon-framework.jar"/>
+    -->
 
     <antcall target="dist">
       <param name="dist.dir" value="${dist.name}" />
