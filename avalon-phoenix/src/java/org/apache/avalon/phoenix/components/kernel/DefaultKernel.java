@@ -125,69 +125,80 @@ public class DefaultKernel
     private void startup( final SarEntry entry )
         throws Exception
     {
-        final String name = entry.getMetaData().getName();
+	//lock for application startup and shutdown
+	synchronized ( entry )
+	{
+	    final String name = entry.getMetaData().getName();
 
-        Application application = entry.getApplication();
-        if( null == application )
-        {
-            try
-            {
-                final Application newApp = new DefaultApplication();
-                final Logger childLogger = getLogger().getChildLogger( name );
-                ContainerUtil.enableLogging( newApp, childLogger );
+	    Application application = entry.getApplication();
+	    if( null == application )
+	    {
+		try
+		{
+		    final Application newApp = new DefaultApplication();
+		    final Logger childLogger =
+			getLogger().getChildLogger( name );
+		    ContainerUtil.enableLogging( newApp, childLogger );
 
-                final ApplicationContext context = createApplicationContext( entry );
-                newApp.setApplicationContext( context );
+		    final ApplicationContext context =
+			createApplicationContext( entry );
+		    newApp.setApplicationContext( context );
 
-                ContainerUtil.initialize( newApp );
-                ContainerUtil.start( newApp );
+		    ContainerUtil.initialize( newApp );
+		    ContainerUtil.start( newApp );
 
-                entry.setApplication( newApp );
-                application = newApp;
-            }
-            catch( final Throwable t )
-            {
-                //Initialization failed so clean entry
-                //so invalid instance is not used
-                entry.setApplication( null );
+		    entry.setApplication( newApp );
+		    application = newApp;
+		}
+		catch( final Throwable t )
+		{
+		    //Initialization failed so clean entry
+		    //so invalid instance is not used
+		    entry.setApplication( null );
 
-                final String message =
-                    REZ.getString( "kernel.error.entry.initialize",
-                                   entry.getMetaData().getName() );
-                throw new CascadingException( message, t );
-            }
+		    final String message =
+			REZ.getString( "kernel.error.entry.initialize",
+				       entry.getMetaData().getName() );
+		    throw new CascadingException( message, t );
+		}
 
-            // manage application
-            try
-            {
-                m_applicationManager.register( name,
-                                               application,
-                                               new Class[]{ApplicationMBean.class} );
-            }
-            catch( final Throwable t )
-            {
-                final String message =
-                    REZ.getString( "kernel.error.entry.manage", name );
-                throw new CascadingException( message, t );
-            }
-        }
+		// manage application
+		try
+		{
+		    m_applicationManager.register( name,
+						   application,
+						   new Class[]{ApplicationMBean.class} );
+		}
+		catch( final Throwable t )
+		{
+		    final String message =
+			REZ.getString( "kernel.error.entry.manage", name );
+		    throw new CascadingException( message, t );
+		}
+	    }
+	}
     }
 
     private void shutdown( final SarEntry entry )
         throws Exception
     {
-        final Application application = entry.getApplication();
-        if( null != application )
-        {
-            entry.setApplication( null );
-            ContainerUtil.shutdown( application );
-        }
-        else
-        {
-            final String message =
-                REZ.getString( "kernel.error.entry.nostop", entry.getMetaData().getName() );
-            getLogger().warn( message );
-        }
+	//lock for application startup and shutdown
+	synchronized ( entry )
+	{
+	    final Application application = entry.getApplication();
+	    if( null != application )
+	    {
+		entry.setApplication( null );
+		ContainerUtil.shutdown( application );
+	    }
+	    else
+	    {
+		final String message =
+		    REZ.getString( "kernel.error.entry.nostop",
+			           entry.getMetaData().getName() );
+		getLogger().warn( message );
+	    }
+	}
     }
 
     public void addApplication( final SarMetaData metaData,
