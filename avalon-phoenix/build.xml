@@ -490,7 +490,8 @@ Legal:
     <!-- Completely build all dists -->
     <target name="dist" description="generates the Phoenix distribution">
 
-        <ant target="site-docs" antfile="docs.xml" inheritall="false" />
+        <ant target="docs" antfile="docs.xml" inheritall="false" />
+        <ant target="javadocs" antfile="docs.xml" inheritall="false" />        
         <ant target="announcement" antfile="docs.xml" inheritall="false" />
 
         <mkdir dir="${dist.base}"/>
