@@ -64,7 +64,7 @@ import org.apache.avalon.framework.Version;
  * A doclet tag representing the name of the Type.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/01/14 12:47:33 $
+ * @version $Revision: 1.3 $ $Date: 2004/02/10 16:30:16 $
  */
 public class AbstractTag
 {
@@ -331,5 +331,27 @@ public class AbstractTag
 
         return (JavaMethod[]) list.toArray( new JavaMethod[0] );
 
+    }
+
+    JavaMethod[] findConstructorMethods( final JavaClass clazz, String key )
+    {
+        ArrayList list = new ArrayList();
+        return findConstructorMethods( clazz, key, list );
+    }
+
+    private JavaMethod[] findConstructorMethods( final JavaClass clazz, String key, List list )
+    {
+        final JavaMethod[] methods = clazz.getMethods();
+        for( int i=0; i<methods.length; i++ )
+        {
+            JavaMethod method = methods[i];
+            if( method.isConstructor() && method.isPublic() )
+            {
+                final DocletTag tag = 
+                  method.getTagByName( key );
+                if( tag != null ) list.add( method );
+            }
+        }
+        return (JavaMethod[]) list.toArray( new JavaMethod[0] );
     }
 }

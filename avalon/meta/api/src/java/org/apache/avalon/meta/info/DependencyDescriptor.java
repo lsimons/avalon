@@ -44,13 +44,17 @@ import org.apache.avalon.framework.Version;
  * demands.</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/01/24 23:20:45 $
+ * @version $Revision: 1.3 $ $Date: 2004/02/10 16:30:16 $
  */
 public final class DependencyDescriptor extends Descriptor
 {
 
     private static final Version DEFAULT_VERSION = Version.getVersion( "1.0" );
 
+    /**
+     * The name the component uses to lookup dependency.
+     */
+    private final int m_position;
 
     /**
      * The name the component uses to lookup dependency.
@@ -110,6 +114,23 @@ public final class DependencyDescriptor extends Descriptor
                                  final boolean optional,
                                  final Properties attributes )
     {
+        this( role, service, optional, attributes, -1 );
+    }
+
+    /**
+     * Creation of a new dependency descriptor.
+     * @param role the role name that will be used by the type when looking up a service
+     * @param service the version insterface service reference
+     * @param optional TRUE if this depedency is optional
+     * @param attributes a set of attributes to associate with the dependency
+     * @param position constructor position
+     */
+    public DependencyDescriptor( final String role,
+                                 final ReferenceDescriptor service,
+                                 final boolean optional,
+                                 final Properties attributes, 
+                                 final int position )
+    {
         super( attributes );
 
         if ( null == role )
@@ -125,6 +146,7 @@ public final class DependencyDescriptor extends Descriptor
         m_key = role;
         m_service = service;
         m_optional = optional;
+        m_position = position;
     }
 
     /**
@@ -182,6 +204,17 @@ public final class DependencyDescriptor extends Descriptor
         return !isOptional();
     }
 
+    /**
+     * Return the constructor position.
+     *
+     * @return -1 if not constructor else the value 
+     *   indicates the n'th public constructor
+     */
+    public int getPosition()
+    {
+        return m_position;
+    }
+
     public String toString()
     {
         return "[" + getKey() + "] " + getReference();
@@ -202,6 +235,7 @@ public final class DependencyDescriptor extends Descriptor
 
             isEqual = isEqual && m_optional == dep.m_optional;
             isEqual = isEqual && m_service.equals( dep.m_service );
+            isEqual = isEqual && m_position == dep.m_position;
         }
 
         return isEqual;
@@ -217,6 +251,7 @@ public final class DependencyDescriptor extends Descriptor
         hash >>>= 13;
         hash ^= m_service.hashCode();
         hash >>>= ( m_optional ) ? 1 : 0;
+        hash >>>= m_position;
 
         return hash;
     }

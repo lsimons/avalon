@@ -65,7 +65,7 @@ import java.util.Set;
  * A doclet tag representing the lifestyle assigned to the Type.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 08:16:15 $
+ * @version $Revision: 1.2 $ $Date: 2004/02/10 16:30:16 $
  */
 public class DependencyTag extends AbstractTag
 {
@@ -115,18 +115,23 @@ public class DependencyTag extends AbstractTag
      */
     public DependencyDescriptor[] getDependencies()
     {
+        int n = -1;
         final ArrayList deps = new ArrayList();
         final Set marked = new HashSet( 10 );
         for ( int j = 0; j < m_methods.length; j++ )
         {
+            JavaMethod method = m_methods[j];
+            boolean flag = method.isConstructor();
+            if( flag ) n++;
+
             final DocletTag[] tags =
-                    m_methods[j].getTagsByName( getNS()
+                    method.getTagsByName( getNS()
                     + Tags.DELIMITER + KEY );
 
             for ( int i = 0; i < tags.length; i++ )
             {
                 DocletTag tag = tags[i];
-                DependencyDescriptor dep = getDependency( tag );
+                DependencyDescriptor dep = getDependency( tag, flag, n );
                 final String key = dep.getKey();
                 if ( !marked.contains( key ) )
                 {
@@ -139,7 +144,7 @@ public class DependencyTag extends AbstractTag
                 new DependencyDescriptor[deps.size()] );
     }
 
-    private DependencyDescriptor getDependency( DocletTag tag )
+    private DependencyDescriptor getDependency( DocletTag tag, boolean flag, int n )
     {
         final String value = getNamedParameter( tag, TYPE_PARAM );
         final String type = resolveType( value );
@@ -149,7 +154,14 @@ public class DependencyTag extends AbstractTag
         final String optional = getNamedParameter( tag, OPTIONAL_PARAM, "false" );
         final boolean isOptional = "true".equals( optional.toLowerCase() );
         final ReferenceDescriptor ref = new ReferenceDescriptor( type, version );
-        return new DependencyDescriptor( key, ref, isOptional, null );
+        if( flag )
+        {
+            return new DependencyDescriptor( key, ref, isOptional, null, n );
+        }
+        else
+        { 
+            return new DependencyDescriptor( key, ref, isOptional, null );
+        }
     }
 
     /**
@@ -161,6 +173,13 @@ public class DependencyTag extends AbstractTag
         if ( m_methods.length == 0 )
         {
             m_methods = getLifecycleMethods( "service", SERVICE_MANAGER_CLASS );
+            if ( m_methods.length == 0 )
+            {
+                m_methods = 
+                  findConstructorMethods( 
+                   getJavaClass(), 
+                   getNS() + Tags.DELIMITER + KEY );
+            }
         }
     }
 }
