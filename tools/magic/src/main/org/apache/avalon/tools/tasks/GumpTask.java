@@ -446,7 +446,7 @@ public class GumpTask extends SystemTask
         writer.write( 
            "\n      <!-- for magic -->" );
         writer.write( 
-           "\n      <depend name=\"magic.home\" reference=\"home\" project=\"magic\" inherit=\"runtime\"/>" );
+           "\n      <property name=\"magic.home\" reference=\"home\" project=\"magic\"/>" );
         writer.write( 
            "\n      <property name=\"gump.signature\" value=\"@@DATE@@\"/>" );
 
@@ -490,6 +490,7 @@ public class GumpTask extends SystemTask
 
         writer.write( "\n      <!-- end for -->" );
         writer.write( "\n    </ant>" );       
+        writer.write( "\n    <depend project=\"magic\" runtime=\"true\" inherit=\"runtime\"/> ");
 
         //
         // add dependencies for gump to do its sequencing correctly
