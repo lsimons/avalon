@@ -53,6 +53,7 @@ package org.apache.avalon.framework.configuration.test;
 import junit.framework.TestCase;
 
 import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.ConfigurationUtil;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
 
 /**
@@ -150,6 +151,57 @@ public final class DefaultConfigurationTestCase extends TestCase
 
         m_configuration.removeChild( child );
         assertEquals( null, m_configuration.getChild( childName, false ) );
+    }
+    
+    public void testCopying() throws Exception
+    {
+        DefaultConfiguration root = new DefaultConfiguration( "root", "0:0", "http://root", "root" );
+        root.setAttribute( "attr1", "1" );
+        root.setAttribute( "attr2", "2" );
+                
+        DefaultConfiguration child1 = new DefaultConfiguration( "child1", "0:1", "http://root/child1", "child1" );
+        DefaultConfiguration child2 = new DefaultConfiguration( "child2", "0:2", "http://root/child2", "child2" );
+        
+        root.addChild( child1 );
+        root.addChild( child2 );
+        
+        root.makeReadOnly();
+        
+        DefaultConfiguration modifiableRoot = new DefaultConfiguration( root );
+        assertTrue( ConfigurationUtil.equals( root, modifiableRoot ) );
+        
+        modifiableRoot.setAttribute( "attr1", "0" );
+        
+        assertEquals( "0", modifiableRoot.getAttribute( "attr1" ) );
+        
+        DefaultConfiguration modifiableChild1 = new DefaultConfiguration( root.getChild("child1") );
+        modifiableChild1.setValue( "1" );
+        
+        modifiableRoot.removeChild( modifiableRoot.getChild("child1") );
+        modifiableRoot.addChild( modifiableChild1 );
+        
+        assertEquals( "1", modifiableRoot.getChild( "child1" ).getValue() );
+    }
+    
+    public void testConvenienceSetters() throws Exception
+    {
+        DefaultConfiguration config = new DefaultConfiguration( "root", "0:0", "http://root", "root" );
+        config.setAttribute( "integer", 12 );
+        config.setAttribute( "long", 8000000000L );
+        config.setAttribute( "float", 1.23f );
+        config.setAttribute( "boolean", true );
+        config.setAttribute( "string", "string" );
+        
+        assertEquals( "12", config.getAttribute("integer") );
+        assertEquals( "8000000000", config.getAttribute("long") );
+        assertEquals( 1.23, config.getAttributeAsFloat("float"), 0.01 );
+        assertEquals( "string", config.getAttribute("string") );
+        assertEquals( "true", config.getAttribute("boolean") );
+        
+        assertEquals( 12, config.getAttributeAsInteger("integer") );
+        assertEquals( 8000000000L, config.getAttributeAsLong("long") );
+        assertEquals( "string", config.getAttribute("string") );
+        assertEquals( true, config.getAttributeAsBoolean("boolean") );
     }
 }
 
