@@ -24,7 +24,7 @@ import org.apache.avalon.phoenix.interfaces.ManagerException;
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  * @author <a href="mailto:Huw@mmlive.com">Huw Roberts</a>
- * @version $Revision: 1.5 $ $Date: 2002/08/06 11:57:40 $
+ * @version $Revision: 1.6 $ $Date: 2002/12/07 08:57:51 $
  */
 public abstract class AbstractJMXManager
     extends AbstractSystemManager
@@ -47,19 +47,11 @@ public abstract class AbstractJMXManager
         setupLogger( topicBuilder );
     }
 
-    public void start()
-        throws Exception
-    {
-    }
-
-    public void stop()
-        throws Exception
-    {
-    }
-
     public void dispose()
     {
         setMBeanServer( null );
+
+        super.dispose();
     }
 
     /**

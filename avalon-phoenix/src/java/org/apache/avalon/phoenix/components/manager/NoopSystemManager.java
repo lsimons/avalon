@@ -17,18 +17,6 @@ import org.apache.avalon.phoenix.interfaces.ManagerException;
 public class NoopSystemManager
     extends AbstractSystemManager
 {
-    public void start()
-    {
-    }
-
-    public void stop()
-    {
-    }
-
-    public void dispose()
-    {
-    }
-
     protected Object export( final String name,
                              final Object object,
                              final Class[] interfaces )

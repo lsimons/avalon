@@ -12,7 +12,6 @@ import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
-import org.apache.avalon.framework.activity.Startable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.phoenix.interfaces.ManagerException;
 import org.apache.avalon.phoenix.interfaces.SystemManager;
@@ -24,7 +23,7 @@ import org.apache.avalon.phoenix.interfaces.SystemManager;
  */
 public abstract class AbstractSystemManager
     extends AbstractLogEnabled
-    implements SystemManager, Initializable, Startable, Disposable
+    implements SystemManager, Initializable, Disposable
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( AbstractSystemManager.class );
@@ -37,6 +36,11 @@ public abstract class AbstractSystemManager
         throws Exception
     {
         m_subContext = new SubContext( this, null, null );
+    }
+
+    public void dispose()
+    {
+        m_subContext = null;
     }
 
     /**
