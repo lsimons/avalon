@@ -88,7 +88,7 @@ import org.apache.log.output.AsyncLogTarget;
  * </p>
  *
  * @author <a href="mailto:giacomo@apache.org">Giacomo Pati</a>
- * @version CVS $Revision: 1.5 $ $Date: 2003/03/22 12:46:49 $
+ * @version CVS $Revision: 1.6 $ $Date: 2003/04/07 11:23:35 $
  * @since 4.0
  */
 public final class AsyncLogTargetFactory
@@ -123,10 +123,6 @@ public final class AsyncLogTargetFactory
         if( "MIN".equalsIgnoreCase( priority ) )
         {
             threadPriority = Thread.MIN_PRIORITY;
-        }
-        else if( "NORM".equalsIgnoreCase( priority ) )
-        {
-            threadPriority = Thread.NORM_PRIORITY;
         }
         else if( "NORM".equalsIgnoreCase( priority ) )
         {
