@@ -21,13 +21,10 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import org.apache.avalon.framework.atlantis.Application;
 import org.apache.avalon.framework.atlantis.Kernel;
-import org.apache.avalon.framework.camelot.AbstractDeployer;
-import org.apache.avalon.framework.camelot.CamelotUtil;
 import org.apache.avalon.framework.camelot.Container;
 import org.apache.avalon.framework.camelot.ContainerException;
 import org.apache.avalon.framework.camelot.Deployer;
 import org.apache.avalon.framework.camelot.DeploymentException;
-import org.apache.avalon.framework.camelot.Info;
 import org.apache.avalon.framework.camelot.Locator;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.component.ComponentException;
@@ -39,6 +36,7 @@ import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.avalon.framework.context.DefaultContext;
+import org.apache.avalon.framework.logger.AbstractLoggable;
 import org.apache.avalon.excalibur.io.FileUtil;
 import org.apache.avalon.excalibur.io.IOUtil;
 import org.apache.avalon.excalibur.io.InvertedFileFilter;
@@ -46,7 +44,6 @@ import org.apache.avalon.excalibur.io.PrefixFileFilter;
 import org.apache.avalon.phoenix.BlockContext;
 import org.apache.avalon.phoenix.engine.blocks.BlockEntry;
 import org.apache.avalon.phoenix.engine.blocks.RoleEntry;
-import org.apache.avalon.phoenix.metainfo.BlockInfo;
 
 /**
  * This class deploys a .sar file.
@@ -54,23 +51,14 @@ import org.apache.avalon.phoenix.metainfo.BlockInfo;
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public class DefaultSarDeployer
-    extends AbstractDeployer
-    implements Composable
+    extends AbstractLoggable //AbstractDeployer
+    implements Deployer, Composable
 {
     private final DefaultConfigurationBuilder  m_builder  = new DefaultConfigurationBuilder();
 
     private File            m_deployDirectory;
     private Container       m_container;
     private ZipExpander     m_expander         = new ZipExpander();
-
-    /**
-     * Default constructor.
-     */
-    public DefaultSarDeployer()
-    {
-        m_autoUndeploy = true;
-        m_type = "Sar";
-    }
 
     /**
      * Retrieve relevent services needed to deploy.
@@ -84,37 +72,88 @@ public class DefaultSarDeployer
         m_container = (Container)componentManager.lookup( Container.ROLE );
     }
 
+    public void undeploy( final String location )
+        throws DeploymentException
+    {
+        throw new DeploymentException( "Undeploying not supported at this stage" );
+    }
+
+    public void deploy( final String location, final URL url )
+        throws DeploymentException
+    {
+        try
+        {
+            final File file = getFileFor( url );
+
+            getLogger().info( "Deploying Sar file (" + file + ") as " + location );
+            deployFromFile( location, file );
+        }
+        catch( final DeploymentException de )
+        {
+            throw de;
+        }
+        catch( final Exception e )
+        {
+            throw new DeploymentException( "Failed to deploy " + location, e );
+        }
+    }
+
+    protected File getFileFor( final URL url )
+        throws DeploymentException
+    {
+        if( !url.getProtocol().equals( "file" ) )
+        {
+            throw new DeploymentException( "Can not deploy non local application archive" );
+        }
+
+        File file = new File( url.getFile() );
+        file = file.getAbsoluteFile();
+
+        if( !file.exists() )
+        {
+            throw new DeploymentException( "Could not find application archive at " + 
+                                           file );
+        }
+
+        return file;
+    }
+
     protected void deployFromFile( final String name, final File file )
         throws DeploymentException
     {
+        File destination = null;
+
         if( file.isDirectory() )
         {
-            throw new DeploymentException( "Deploying directories is not supported" );
+            destination = file;
         }
         else
         {
-            final File destination = getDestinationFor( name, file );
+            destination = getDestinationFor( name, file );
 
             try
             {
                 final InvertedFileFilter filter = 
                     new InvertedFileFilter( new PrefixFileFilter( "META-INF" ) );
                 m_expander.expand( file, destination, filter );
+
+                getLogger().info( "deploying from archive (" + file +
+                                  ") expanded into directory " + destination );
             }
             catch( final IOException ioe )
             {
                 throw new DeploymentException( "Error expanding deployment", ioe );
             }
+        }
 
-            try { deployFromDirectory( file, name, destination ); }
-            catch( final DeploymentException de )
-            {
-                throw de;
-            }
-            catch( final Exception e )
-            {
-                throw new DeploymentException( "Error deploying from " + destination, e );                
-            }
+        try { deployFromDirectory( name, destination ); }
+        catch( final DeploymentException de )
+        {
+            throw de;
+        }
+        catch( final Exception e )
+        {
+            throw new DeploymentException( "Error deploying from " + destination, e );                
         }
     }
 
@@ -135,7 +174,6 @@ public class DefaultSarDeployer
 
     private void buildEntry( final String name,
                              final ServerApplicationEntry entry,
-                             final File archive,
                              final File directory )
         throws Exception
     {
@@ -148,16 +186,11 @@ public class DefaultSarDeployer
         entry.setConfiguration( configuration );
     }
 
-    private void deployFromDirectory( final File archive,
-                                      final String name,
-                                      final File directory )
+    private void deployFromDirectory( final String name, final File directory )
         throws Exception
     {
-        getLogger().info( "deploying from archive (" + archive +
-                          ") expanded into directory " + directory );
-
         final ServerApplicationEntry entry = new ServerApplicationEntry();
-        buildEntry( name, entry, archive, directory );
+        buildEntry( name, entry, directory );
         addEntry( name, entry );
 
         final Application application = ((Kernel)m_container).getApplication( name );

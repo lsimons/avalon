@@ -8,6 +8,7 @@
 package org.apache.avalon.phoenix.engine;
 
 import java.io.File;
+import org.apache.avalon.excalibur.io.ExtensionFileFilter;
 import java.lang.UnsupportedOperationException;
 import org.apache.avalon.framework.CascadingException;
 import org.apache.avalon.framework.activity.Disposable;
@@ -15,7 +16,6 @@ import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.atlantis.Embeddor;
 import org.apache.avalon.framework.atlantis.Kernel;
 import org.apache.avalon.framework.atlantis.SystemManager;
-import org.apache.avalon.framework.camelot.CamelotUtil;
 import org.apache.avalon.framework.camelot.Container;
 import org.apache.avalon.framework.camelot.Deployer;
 import org.apache.avalon.framework.component.Composable;
@@ -392,12 +392,34 @@ public class PhoenixEmbeddor
         if( null != defaultAppsLocation )
         {
             final File directory = new File( defaultAppsLocation );
-            CamelotUtil.deployFromDirectory( m_deployer, directory, ".sar" );
+
+            final ExtensionFileFilter filter = new ExtensionFileFilter( ".sar" );
+            final File[] files = directory.listFiles( filter );
+            if( null != files )
+            {
+                deployFiles( m_deployer, files );
+            }
         }
 
         // TODO: load facilities from .fars
         // final File directory2 = new File( (String)this.context.get( "default-facilities-location" ) );
         // CamelotUtil.deployFromDirectory( deployer, directory2, ".far" );
+    }
+
+    private void deployFiles( final Deployer deployer, final File[] files )
+        throws Exception
+    {
+        for( int i = 0; i < files.length; i++ )
+        {
+            final String filename = files[ i ].getName();
+
+            int index = filename.lastIndexOf( '.' );
+            if( -1 == index ) index = filename.length();
+
+            final String name = filename.substring( 0, index );
+            final File file = files[ i ].getCanonicalFile();
+            deployer.deploy( name, file.toURL() );
+        }
     }
 
     /**
