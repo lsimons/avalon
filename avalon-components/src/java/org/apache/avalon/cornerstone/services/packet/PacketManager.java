@@ -8,7 +8,7 @@
 package org.apache.avalon.cornerstone.services.packet;
 
 import java.net.DatagramSocket;
-import org.apache.excalibur.thread.ThreadPool;
+import org.apache.avalon.excalibur.thread.ThreadPool;
 
 /**
  * This is the service through which Datagram ConnectionManagement occurs.

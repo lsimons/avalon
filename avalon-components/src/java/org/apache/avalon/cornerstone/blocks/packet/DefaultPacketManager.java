@@ -19,7 +19,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
-import org.apache.excalibur.thread.ThreadPool;
+import org.apache.avalon.excalibur.thread.ThreadPool;
 
 /**
  * This is the service through which PacketManagement occurs.

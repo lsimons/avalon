@@ -17,7 +17,7 @@ import java.util.Iterator;
 import org.apache.avalon.cornerstone.services.packet.PacketHandler;
 import org.apache.avalon.cornerstone.services.packet.PacketHandlerFactory;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.excalibur.thread.ThreadPool;
+import org.apache.avalon.excalibur.thread.ThreadPool;
 
 /**
  * Support class for the DefaultPacketManager.
