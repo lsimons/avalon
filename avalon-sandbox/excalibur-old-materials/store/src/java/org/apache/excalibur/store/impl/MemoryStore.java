@@ -69,7 +69,7 @@ import org.apache.excalibur.store.Store;
  *         (Apache Software Foundation)
  * @author <a href="mailto:fumagalli@exoffice.com">Pierpaolo Fumagalli</a>
  *         (Apache Software Foundation, Exoffice Technologies)
- * @version CVS $Id: MemoryStore.java,v 1.7 2003/05/20 21:03:39 bloritsch Exp $
+ * @version CVS $Id: MemoryStore.java,v 1.8 2003/08/28 12:40:28 cziegeler Exp $
  */
 public class MemoryStore
     extends AbstractLogEnabled
@@ -82,13 +82,14 @@ public class MemoryStore
      */
 
     /** The shared store */
-    private Hashtable table = new Hashtable();
+    protected Hashtable m_table = new Hashtable();
 
     /**
      * Get the object associated to the given unique key.
      */
-    public synchronized Object get(Object key) {
-        return(table.get(key));
+    public Object get(Object key) 
+    {
+        return m_table.get(key);
     }
 
     /**
@@ -96,55 +97,51 @@ public class MemoryStore
      * caller to ensure that the key has a persistent state across
      * different JVM executions.
      */
-    public synchronized void store(Object key, Object value) {
-        this.hold(key,value);
-    }
-
-    /**
-     * Holds the given object in a volatile state. This means
-     * the object store will discard held objects if the
-     * virtual machine is restarted or some error happens.
-     */
-    public synchronized void hold(Object key, Object value) {
-        table.put(key,value);
+    public void store(Object key, Object value) 
+    {
+        m_table.put(key,value);
     }
 
     /**
      * Remove the object associated to the given key.
      */
-    public synchronized void remove(Object key) {
-        table.remove(key);
+    public void remove(Object key) 
+    {
+        m_table.remove(key);
     }
 
     /**
      * Clear the Store of all elements 
      */
-    public synchronized void clear() {
-        table.clear();
+    public void clear() 
+    {
+        m_table.clear();
     }
 
-    public synchronized void free() {}
+    public void free() {}
 
     /**
      * Indicates if the given key is associated to a contained object.
      */
-    public synchronized boolean containsKey(Object key) {
-        return(table.containsKey(key));
+    public boolean containsKey(Object key) 
+    {
+        return m_table.containsKey(key);
     }
 
     /**
      * Returns the list of used keys as an Enumeration of Objects.
      */
-    public synchronized Enumeration keys() {
-        return(table.keys());
+    public Enumeration keys() 
+    {
+        return m_table.keys();
     }
 
     /**
      * Returns count of the objects in the store, or -1 if could not be
      * obtained.
      */
-    public synchronized int size()
+    public int size()
     {
-        return table.size();
+        return m_table.size();
     }
 }
