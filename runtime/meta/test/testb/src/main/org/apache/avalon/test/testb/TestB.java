@@ -24,6 +24,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * @avalon.component name="component-b" 
  *    type="org.apache.avalon.test.testb.B"
  *    lifestyle="singleton"
+ * @avalon.service type="org.apache.avalon.test.testb.B"
  */
 public class TestB extends AbstractLogEnabled
   implements Initializable, B
