@@ -50,14 +50,14 @@
 
      <table>
       <tr>
-        <th><a href="central/index.html">CENTRAL</a></th>
-        <th><a href="central/index.html">PRODUCTS</a></th>
-        <th><a href="central/index.html">PLANET</a></th>
+        <th><a href="central/about/index.html">CENTRAL</a></th>
+        <th><a href="central/runtime/index.html">PRODUCTS</a></th>
+        <th><a href="central/components/index.html">PLANET</a></th>
       </tr>
       <tr>
         <td>
           <p>
-          <a href="central/tutorials/index.html">Tutorials</a><br/>
+          <a href="central/about/tutorials/index.html">Tutorials</a><br/>
           <a href="central/resources/mailing-lists.html">Mailing Lists</a><br/>
           <a href="central/resources/issues.html">Issue Tracking</a><br/>
           <a href="central/download.html">Downloads</a><br/>
