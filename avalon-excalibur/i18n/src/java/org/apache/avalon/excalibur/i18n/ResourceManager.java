@@ -55,12 +55,12 @@ public class ResourceManager
      * Retrieve resource for specified name.
      * The basename is determined by name postfixed with ".Resources".
      *
-     * @param clazz the Class
+     * @param name the name to use when looking up resources
      * @return the Resources
      */
-    public final static Resources getResources( final String resource )
+    public final static Resources getResources( final String name )
     {
-        return getBaseResources( resource + ".Resources" );
+        return getBaseResources( name + ".Resources" );
     }
 
     /**
