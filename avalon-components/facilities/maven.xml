@@ -8,6 +8,10 @@
   <j:set var="maven.multiproject.includes" 
       value="**/project.xml"/>
 
+  <preGoal name="java:compile">
+    <attainGoal name="avalon:meta"/>
+  </preGoal>
+  
   <preGoal name="java:jar-resources">
     <ant:filter token="AVALON-FINDER-API-VERSION" value="&avalon-finder-api-version;"/>
     <ant:filter token="AVALON-FINDER-IMPL-VERSION" value="&avalon-finder-impl-version;"/>
