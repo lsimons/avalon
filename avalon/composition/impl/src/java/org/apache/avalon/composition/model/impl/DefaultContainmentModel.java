@@ -115,7 +115,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * as a part of a containment deployment model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.13.2.4 $ $Date: 2004/01/03 22:08:21 $
+ * @version $Revision: 1.13.2.5 $ $Date: 2004/01/03 23:18:55 $
  */
 public class DefaultContainmentModel extends DefaultModel 
   implements ContainmentModel
@@ -393,6 +393,22 @@ public class DefaultContainmentModel extends DefaultModel
         }
     }
 
+    /**
+     * Get the startup sequence for the model.
+     */
+    public Model[] getStartupGraph()
+    {
+        return m_context.getDependencyGraph().getStartupGraph();
+    }
+
+    /**
+     * Get the shutdown sequence for the model.
+     */
+    public Model[] getShutdownGraph()
+    {
+        return m_context.getDependencyGraph().getShutdownGraph();
+    }
+
    /**
     * Return the logging categories. 
     * @return the logging categories
@@ -489,6 +505,7 @@ public class DefaultContainmentModel extends DefaultModel
         synchronized( repository )
         {
             repository.addModel( name, model );
+            m_context.getDependencyGraph().add( model );
             CompositionEvent event = new CompositionEvent( this, model );
             fireModelAddedEvent( event );
             return model;
@@ -540,6 +557,7 @@ public class DefaultContainmentModel extends DefaultModel
             }
             else
             {
+                m_context.getDependencyGraph().add( model );
                 repository.removeModel( model );
                 CompositionEvent event = new CompositionEvent( this, model );
                 fireModelRemovedEvent( event );

@@ -66,11 +66,21 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * context.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.9.2.1 $ $Date: 2004/01/03 15:38:50 $
+ * @version $Revision: 1.9.2.2 $ $Date: 2004/01/03 23:18:55 $
  */
 public interface ContainmentModel extends Model, Composite
 {
     public static String SEPERATOR = "/";
+
+    /**
+     * Get the startup sequence for the model.
+     */
+    Model[] getStartupGraph();
+
+    /**
+     * Get the shutdown sequence for the model.
+     */
+    Model[] getShutdownGraph();
 
    /**
     * Return the logging categories. 
