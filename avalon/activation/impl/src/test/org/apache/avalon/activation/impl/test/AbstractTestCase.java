@@ -164,32 +164,6 @@ public abstract class AbstractTestCase extends TestCase
 
         ContainmentProfile profile = setUpProfile( block );
         m_model = m_system.getModelFactory().createRootContainmentModel( profile );
-
-        /*
-
-        //======================================================
-
-        InitialContextFactory initial = 
-          new DefaultInitialContextFactory( "test", base );
-        initial.setCacheDirectory( getMavenRepositoryDirectory() );
-        InitialContext context = initial.createInitialContext();
-
-        long timeout = 3000;
-        File local = new File( base, "repository" );
-
-        m_system = 
-          SystemContextBuilder.createSystemContext( 
-            context, base, local, ConsoleLogger.LEVEL_DEBUG, m_secured, timeout );
-        m_logger = m_system.getLogger();
-
-        //
-        // load the meta data using the profile returned from getPath()
-        // and establish a containment model for the unit test
-        //
-
-        ContainmentProfile profile = setUpProfile( block );
-        m_model = m_system.getModelFactory().createRootContainmentModel( profile );
-        */
     }
 
     InitialContext setUpInitialContext( File base, Configuration config ) throws Exception
