@@ -52,12 +52,7 @@ RedirectMatch ^/phoenix/api/org/apache/avalon/phoenix/components/embeddor/colus@
 
 RedirectMatch ^/phoenix/api/org/apache/avalon/phoenix/components/embeddor/mail@leosimons.com http://avalon.apache.org/community/who/index.html
 
-RedirectMatch ^/phoenix/api/org/apache/avalon/phoenix/components/manager/mail@leosimons.com http://avalon.apache.org/community/who/index.html
-
 RedirectMatch ^/phoenix/api/org/apache/avalon/phoenix/components/embeddor/mail@leosimons.com http://avalon.apache.org/community/who/index.html
 
 RedirectMatch ^/phoenix/api/org/apache/avalon/phoenix/interfaces/mail@leosimons.com http://avalon.apache.org/community/who/index.html
-
-
-
 
