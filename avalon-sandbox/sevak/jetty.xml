@@ -60,7 +60,7 @@
 
   
   <!-- Jetty stuff -->
-  <property name ="jetty.rel"    value="4.2.4"/>
+  <property name ="jetty.rel"    value="4.2.5-pr20030108"/>
   
   <property name="jetty.jars.dir" value="${lib.dir}/jetty-jars"/>
 
@@ -118,24 +118,33 @@
   <target name="get-jetty">
     
     <mkdir  dir="jetty-download"/>
-    
-    <get src="http://unc.dl.sourceforge.net/sourceforge/jetty/Jetty-${jetty.rel}.zip" 
-  	dest="jetty-download/Jetty-${jetty.rel}.zip" 
+
+    <!--
+    <get src="http://unc.dl.sourceforge.net/sourceforge/jetty/Jetty-${jetty.rel}.zip"
+  	dest="jetty-download/Jetty-${jetty.rel}.zip"
   	verbose="true"
   	usetimestamp="true"/>
-  	
+    -->
+
+    <!-- temporarily point to EOB site -->
+
+    <get src="http://www.enterpriseobjectbroker.org/Jetty-${jetty.rel}.zip"
+      dest="jetty-download/Jetty-${jetty.rel}.zip"
+      verbose="true"
+      usetimestamp="true"/>
+
     <unzip src="jetty-download/Jetty-${jetty.rel}.zip" dest="jetty-download/Jetty-${jetty.rel}" />
-      
-    <delete file="${jetty.jars.dir}/*.jar"/>      
-      
+
+    <delete file="${jetty.jars.dir}/*.jar"/>
+
     <copy todir="${jetty.jars.dir}" flatten="true">
       <fileset dir="jetty-download/Jetty-${jetty.rel}">
         <include  name="**/lib/*.jar"/>
       </fileset>
     </copy>
-  	
- </target> 
- 
+
+ </target>
+
  <!-- prepare -->
  <target name="prepare" depends="checkNeccesaryJars" >
  </target>

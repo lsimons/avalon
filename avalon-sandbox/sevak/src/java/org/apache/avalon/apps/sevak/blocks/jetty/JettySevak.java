@@ -16,6 +16,9 @@ import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.CascadingRuntimeException;
+import org.apache.avalon.framework.service.Serviceable;
+import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.apps.sevak.Sevak;
 import org.apache.avalon.apps.sevak.SevakException;
 import org.apache.avalon.phoenix.BlockContext;
@@ -44,7 +47,7 @@ import org.mortbay.http.SocketListener;
  * @version 1.0
  */
 public class JettySevak extends AbstractLogEnabled implements Sevak, Startable, Contextualizable,
-        Configurable, Initializable
+        Configurable, Initializable, Serviceable
 {
 
     private Server m_server;
@@ -55,6 +58,7 @@ public class JettySevak extends AbstractLogEnabled implements Sevak, Startable, 
     private HashMap m_webapps = new HashMap();
     private int m_port;
     private File m_sarRootDir;
+    private ServiceManager m_serviceManager;
 
 
     /**
@@ -62,6 +66,15 @@ public class JettySevak extends AbstractLogEnabled implements Sevak, Startable, 
      */
     public JettySevak()
     {
+    }
+
+    /**
+     * @param serviceManager
+     * @throws ServiceException
+     */
+    public void service(ServiceManager serviceManager) throws ServiceException
+    {
+        m_serviceManager = serviceManager;
     }
 
     /**
@@ -150,7 +163,7 @@ public class JettySevak extends AbstractLogEnabled implements Sevak, Startable, 
 //            WebApplicationContext ctx = m_server.addWebApplication(m_hostName, context, webAppURL);
 
             WebApplicationContext ctx =
-                new SevakWebApplicationContext(m_sarRootDir, webAppURL);
+                new SevakWebApplicationContext(m_serviceManager, m_sarRootDir, webAppURL);
             ctx.setContextPath(context);
             m_server.addContext(m_hostName,ctx);
 
