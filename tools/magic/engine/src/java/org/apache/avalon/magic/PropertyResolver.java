@@ -19,5 +19,5 @@ package org.apache.avalon.magic;
 
 public interface PropertyResolver
 {
-    String resolve( String value );
+    String resolve( PluginProperties props, String value );
 }

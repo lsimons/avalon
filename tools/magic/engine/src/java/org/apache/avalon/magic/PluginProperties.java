@@ -20,13 +20,14 @@ package org.apache.avalon.magic;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
-import java.util.Stack;
-import java.util.StringTokenizer;
 
 public class PluginProperties extends Properties
 {
+    private PropertyResolver m_Resolver;
+    
     PluginProperties()
     {
+        m_Resolver = new DefaultResolver();
     }
     
     PluginProperties( Properties content )
@@ -49,17 +50,12 @@ public class PluginProperties extends Properties
         if( value == null )
             return null;
         value = value.trim();
-        return resolver.resolve( value );
+        return resolver.resolve( this, value );
     }
     
     public String getProperty( String name )
     {
-        name = name.trim();
-        String value = super.getProperty( name );
-        if( value == null )
-            return null;
-        value = value.trim();
-        return resolve( value );
+        return getProperty( name, m_Resolver );
     }
     
 }

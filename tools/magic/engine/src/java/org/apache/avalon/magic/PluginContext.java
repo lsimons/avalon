@@ -202,6 +202,6 @@ public class PluginContext extends AbstractLogEnabled
     
     public String resolve( String value )
     {
-        return m_ProjectProperties.resolve( value );
+        return new DefaultResolver().resolve( m_ProjectProperties, value );
     }
 }
