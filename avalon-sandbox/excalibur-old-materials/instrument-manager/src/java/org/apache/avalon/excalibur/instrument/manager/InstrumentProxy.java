@@ -8,6 +8,8 @@
 package org.apache.avalon.excalibur.instrument.manager;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -36,7 +38,7 @@ import org.apache.avalon.framework.logger.Logger;
  *  It is resolved when the Instrumentable actually registers the Instrument.
  *
  * @author <a href="mailto:leif@silveregg.co.jp">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/03/28 04:06:18 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/03/29 16:08:53 $
  * @since 4.1
  */
 public class InstrumentProxy
@@ -674,6 +676,23 @@ public class InstrumentProxy
         {
             m_sampleArray = new InstrumentSample[ m_samples.size() ];
             m_samples.values().toArray( m_sampleArray );
+            
+            // Sort the array.  This is not a performance problem because this
+            //  method is rarely called and doing it here saves cycles in the
+            //  client.
+            Arrays.sort( m_sampleArray, new Comparator()
+                {
+                    public int compare( Object o1, Object o2 )
+                    {
+                        return ((InstrumentSample)o1).getDescription().
+                            compareTo( ((InstrumentSample)o2).getDescription() );
+                    }
+                    
+                    public boolean equals( Object obj )
+                    {
+                        return false;
+                    }
+                } );
             
             return m_sampleArray;
         }
