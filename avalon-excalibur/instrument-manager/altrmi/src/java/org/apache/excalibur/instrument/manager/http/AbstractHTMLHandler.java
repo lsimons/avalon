@@ -31,7 +31,7 @@ import org.apache.excalibur.instrument.manager.interfaces.InstrumentSampleDescri
 /**
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.4 $ $Date: 2004/02/28 11:47:21 $
+ * @version CVS $Revision: 1.5 $ $Date: 2004/03/02 15:33:48 $
  * @since 4.1
  */
 public abstract class AbstractHTMLHandler
@@ -189,6 +189,12 @@ public abstract class AbstractHTMLHandler
         out.print( "<td nowrap>" + value + "</td>" );
     }
     
+    protected void tableCellRight( PrintStream out, String value )
+        throws IOException
+    {
+        out.print( "<td align='right' nowrap>" + value + "</td>" );
+    }
+    
     protected void tableRow( PrintStream out, int row, String label, String value )
         throws IOException
     {
@@ -275,10 +281,10 @@ public abstract class AbstractHTMLHandler
             tableCell( out, "<a href='sample.html?name=" + urlEncode( desc.getName() ) + "'>"
                 + desc.getDescription() + "</a> (<a href='sample.html?name="
                 + urlEncode( desc.getName() ) + "&chart=true'>Chart</a>)" );
-            tableCell( out, Integer.toString( desc.getValue() ) );
+            tableCellRight( out, Integer.toString( desc.getValue() ) );
             tableCell( out, new Date( desc.getTime() ).toString() );
-            tableCell( out, Long.toString( desc.getInterval() ) );
-            tableCell( out, Integer.toString( desc.getSize() ) );
+            tableCellRight( out, Long.toString( desc.getInterval() ) );
+            tableCellRight( out, Integer.toString( desc.getSize() ) );
             String value;
             if ( desc.getLeaseExpirationTime() == 0 )
             {
