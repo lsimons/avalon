@@ -21,7 +21,7 @@
          <include>test-c.jar</include>
        </fileset>
        <repository>
-         <resource id="avalon-framework:avalon-framework-impl" version="@FRAMEWORK_IMPL_VERSION@"/>
+         <resource id="avalon-framework:avalon-framework-impl" version="4.1.5"/>
          <resource id="test:test-d"/>
        </repository>
      </classpath>

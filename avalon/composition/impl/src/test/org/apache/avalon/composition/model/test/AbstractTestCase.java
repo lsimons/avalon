@@ -65,7 +65,7 @@ public abstract class AbstractTestCase extends TestCase
       new File( System.getProperty( "basedir" ) );
 
     public static final File SYS_CONF = 
-      new File( BASEDIR, "target/test-classes/conf/system/kernel.xml" );
+      new File( BASEDIR, "target/test-classes/system/kernel.xml" );
 
     private static final XMLSecurityProfileBuilder SECURITY_BUILDER = 
       new XMLSecurityProfileBuilder();
@@ -82,7 +82,7 @@ public abstract class AbstractTestCase extends TestCase
 
    /**
     * Setup the system context and create m_model using a path
-    * relative to the ${basedir}/target-classes/conf directory.
+    * relative to the ${basedir}/target/test/conf directory.
     */
     public ContainmentModel setUp( String path ) throws Exception
     {
@@ -97,7 +97,7 @@ public abstract class AbstractTestCase extends TestCase
         // system repository
         //
 
-        File test = new File( getTargetDir(), "test-classes" );
+        File test = new File( getTargetDir(), "test" );
         Configuration sysConfig = config.getChild( "system" );
         InitialContext context = setUpInitialContext( test, sysConfig );
 
