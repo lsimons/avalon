@@ -31,7 +31,7 @@ public abstract class AbstractOutputTarget
     protected Formatter    m_formatter;
 
     ///Flag indicating that log session is finished (aka target has been closed)
-    private boolean      m_closed;
+    private boolean        m_closed  = true;
 
     /**
      * Parameterless constructor.
