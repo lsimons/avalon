@@ -33,7 +33,7 @@ import org.apache.avalon.framework.thread.ThreadSafe;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
- * @version CVS $Revision: 1.7 $ $Date: 2002/06/13 17:24:50 $
+ * @version CVS $Revision: 1.8 $ $Date: 2002/06/18 14:25:48 $
  * @since 4.0
  */
 public class ExcaliburComponentSelector
@@ -254,7 +254,7 @@ public class ExcaliburComponentSelector
                 getLogger().error( message );
             }
 
-            throw new ComponentException( message );
+            throw new ComponentException( hint.toString(), message );
         }
 
         ComponentHandler handler = (ComponentHandler)m_componentHandlers.get( hint );
@@ -267,7 +267,7 @@ public class ExcaliburComponentSelector
             {
                 getLogger().debug( message );
             }
-            throw new ComponentException( message );
+            throw new ComponentException( hint.toString(), message );
         }
 
         Component component = null;
@@ -275,6 +275,11 @@ public class ExcaliburComponentSelector
         try
         {
             component = handler.get();
+        }
+        catch( final ComponentException ce )
+        {
+            //rethrow
+            throw ce;
         }
         catch( final Exception e )
         {
@@ -284,7 +289,7 @@ public class ExcaliburComponentSelector
             {
                 getLogger().debug( message, e );
             }
-            throw new ComponentException( message, e );
+            throw new ComponentException( hint.toString(), message, e );
         }
 
         if( null == component )
@@ -294,7 +299,7 @@ public class ExcaliburComponentSelector
             {
                 getLogger().debug( message );
             }
-            throw new ComponentException( message );
+            throw new ComponentException( hint.toString(), message );
         }
 
         m_componentMapping.put( component, handler );
@@ -515,7 +520,7 @@ public class ExcaliburComponentSelector
     {
         if( m_initialized )
         {
-            throw new ComponentException( "Cannot add components to an initialized ComponentSelector", null );
+            throw new ComponentException( hint.toString(), "Cannot add components to an initialized ComponentSelector", null );
         }
 
         try
@@ -546,7 +551,7 @@ public class ExcaliburComponentSelector
                 getLogger().error( message, e );
             }
 
-            throw new ComponentException( message, e );
+            throw new ComponentException( hint.toString(), message, e );
         }
     }
 

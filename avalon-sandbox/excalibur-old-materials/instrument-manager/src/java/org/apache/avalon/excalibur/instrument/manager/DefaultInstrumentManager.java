@@ -40,7 +40,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.7 $ $Date: 2002/04/29 16:58:59 $
+ * @version CVS $Revision: 1.8 $ $Date: 2002/06/18 14:25:49 $
  * @since 4.1
  */
 public class DefaultInstrumentManager
@@ -870,7 +870,7 @@ public class DefaultInstrumentManager
                 }
                 else
                 {
-                    throw new ComponentException( "Encountered an unknown Instrument type for " +
+                    throw new ComponentException( profilePointName, "Encountered an unknown Instrument type for " +
                                                   "the Instrument with key, " + profilePointName + ": " +
                                                   profilePoint.getClass().getName() );
                 }
@@ -903,7 +903,7 @@ public class DefaultInstrumentManager
                             break;
 
                         default:
-                            throw new ComponentException(
+                            throw new ComponentException( profilePointName,
                                 "Instruments of more than one type are assigned to name: " +
                                 profilePointName );
                     }
@@ -927,14 +927,14 @@ public class DefaultInstrumentManager
                             break;
 
                         default:
-                            throw new ComponentException(
+                            throw new ComponentException( profilePointName,
                                 "Instruments of more than one type are assigned to name: " +
                                 profilePointName );
                     }
                 }
                 else
                 {
-                    throw new ComponentException( "Encountered an unknown Instrument type for " +
+                    throw new ComponentException( profilePointName, "Encountered an unknown Instrument type for " +
                                                   "the Instrument with name, " + profilePointName + ": " +
                                                   profilePoint.getClass().getName() );
                 }
@@ -948,10 +948,10 @@ public class DefaultInstrumentManager
             // Make sure that the child instrumentable name is set.
             if( childInstrumentables[ i ].getInstrumentableName() == null )
             {
-                String msg = "The getInstrumentableNAme of a child Instrumentable returned null.  " +
+                String msg = "The getInstrumentableName of a child Instrumentable returned null.  " +
                     "Instance of " + instrumentable.getClass().getName();
                 getLogger().debug( msg );
-                throw new ComponentException( msg );
+                throw new ComponentException( instrumentable.getClass().getName(), msg );
             }
 
             String instrumentableChildName = instrumentableName + "." +
