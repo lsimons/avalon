@@ -1,0 +1,186 @@
+<?xml version="1.0"?>
+
+<!--
+                               Dependency updater
+                                  Version 2.2
+                                jefft@apache.org
+
+                     This Ant script will recursively check 
+               if all the dependencies for this project are met.
+                   To use it, type 'ant -f dependencies.xml'
+-->
+
+
+<!--
+Algorithm is as follows:
+
+There are three parameters per requirement check:
+
+name:
+    Name of the jar. Eg 'avalon-collections.jar'
+path:
+    Path to named jar. Eg ${avalon-collections.jar}
+dependency:
+    Path to local project which builds the jar. Only set if the jar could be
+    local, eg another component.
+
+IF the directory ${dependency} exists THEN:
+    // The dependency is local; if the jar doesn't exist, we can build it 
+    IF file ${path} does not exist THEN:
+       call ${dependency}/build.xml's 'dist.lite' target to build that
+       project's jar, which will then build it's own dependencies if necessary
+    ELSE we're fine
+ELSE
+    // The dependency is remote; we can't build it,
+    IF file ${path} does not exist THEN:
+        print an error saying "Can't find file ${path}"
+        // Or we could do a HTTP GET to retrieve the jar
+    ELSE we're fine
+-->
+
+<project name="dependencies" default="main" basedir=".">
+    <!-- The target to call if ${target} isn't specified -->
+    <property name="default.target" value="dist.lite"/>
+
+    <target name="main" depends="usage"/>
+    <target name="usage">
+        <echo><![CDATA[
+            =======================================================
+            This is Excalibur's dependency updater script.
+            Which has been called incorrectly :)
+
+            To use it, you must call the checkRequiredFile or
+            checkRequiredClass targets from your Ant script.
+
+            For example:
+
+            <ant antfile="dependencies.xml" target="checkRequiredFile">
+                <properties name="name" value="excalibur-concurrent.jar"/>
+                <properties name="path" value="${excalibur-concurrent.jar}"/>
+                <properties name="dependency" value="../concurrent"/>
+            </ant>
+            
+            The properties are as follows:
+
+            name:
+                Name of the jar. Eg 'avalon-collections.jar'
+            path:
+                Path to named jar. Eg ${avalon-collections.jar}
+            dependency (optional):
+                Path to local project which builds the jar. Only set if
+                the jar could be local, eg another component.
+            target (optional):
+                Ant script target to run in local project to build the jar
+            =======================================================
+            ]]></echo>
+    </target>
+
+    <!-- ====================================================== -->
+    <!-- Call to ensure a class is present in the classpath     -->
+    <!-- ====================================================== -->
+    <target name="checkRequiredClass">
+        <available classname="${class}" classpath="${classpath}" property="requirement.satisfied"/>
+        <antcall target="checkRequiredClass.fail"/>
+    </target>
+
+
+    <!-- ====================================================== -->
+    <!-- Call to ensure a file (usu. jar) is present. If not,   -->
+    <!-- either build it (if local), or print an error (remote) -->
+    <!-- ====================================================== -->
+    <target name="checkRequiredFile" depends="checkIfLocal, checkRequiredFileLocal, checkRequiredFileRemote"/>
+
+    <target name="checkIfLocal" if="dependency">
+        <available type="dir" file="${dependency}" property="local"/>
+    </target>
+
+    <!--
+    Check for a local requirement (another component). If not found,
+    update_dependency will build it
+    -->
+    <target name="checkRequiredFileLocal" if="local">
+        <available type="file" file="${path}" property="requirement.satisfied"/>
+        <antcall target="update_dependency"/>
+        <available type="file" file="${path}" property="build.succeeded"/>
+        <antcall target="build.fail"/>
+    </target>
+
+    <!--
+    Check for a remote requirement. If not found, checkRequiredFile.fail will
+    print an error. Alternatively, we could do a HTTP get to retrieve the file
+    -->
+    <target name="checkRequiredFileRemote" unless="local">
+        <available type="file" file="${path}" property="requirement.satisfied"/>
+        <antcall target="checkRequiredFile.fail"/>
+    </target>
+
+     <!-- =================================================================== -->
+    <!-- Script called to recursively call another depencency.xml file in    -->
+    <!-- another project, and then run the 'dist.lite' target.               -->
+    <!-- =================================================================== -->
+    <target name="update_dependency" description="Update files for one dependency" unless="requirement.satisfied">
+        <echo message="Updating files from dependency ${dependency}"/>
+        <!-- Set target if it wasn't previously set -->
+        <property name="target" value="${default.target}"/>
+        <ant dir="${dependency}" target="${target}" inheritAll="false">
+            <property name="skip.tests" value="${skip.tests}"/>
+        </ant>
+    </target>
+
+   <target name="checkRequiredFile.fail" unless="requirement.satisfied">
+        <echo>
+            +----------------------------------------------------------------+
+            | FILE NOT FOUND:                                                |
+            | ${path}
+            +----------------------------------------------------------------+
+            | You must define the following property in order                |
+            | to build:                                                      |
+            |                                                                |
+            | ${name} (currently "${path}")
+            |                                                                |
+            | Usually this is done by copying ant.properties.sample to       |
+            | ant.properties and defining the property there. This may also  |
+            | be done in ${user.home}/.ant.properties.                       |
+            +----------------------------------------------------------------+
+        </echo>
+        <fail message="Failed requirement: file not found"/>
+    </target>
+
+    <target name="checkRequiredClass.fail" unless="requirement.satisfied">
+        <echo>
+            +----------------------------------------------------------------+
+            | CLASS NOT FOUND:                                               |
+            | ${class}
+            +----------------------------------------------------------------+
+            | A jar containing class:                                        |
+            |   ${class}
+            | must be in your classpath or Ant lib directory                 |
+            |   ${ant.home}/lib
+            | Typically it is in a jar called:                               |
+            |   ${name}                                                      
+            +----------------------------------------------------------------+
+        </echo>
+        <fail message="Failed requirement: class not found"/>
+    </target>
+
+    <target name="build.fail" unless="build.succeeded">
+        <echo>
+            +-----------------------------------------------------------------+
+            + BUILD FAILURE                                                   |
+            +-----------------------------------------------------------------+
+            |                                                                 |
+            | The dependency-checking system tried to build the project:      |
+            |   ${dependency}
+            | which should have provided the property:                        |
+            |   ${name} = ${path}
+            | However, after the build, no such file exists.                  |
+            |                                                                 |
+            | Typically this is because the required project changed the name |
+            | of the jar it produces. If so, please correct this in           |
+            | default.properties, ant.properties.sample or ant.properties     |
+            +-----------------------------------------------------------------+
+        </echo>
+        <fail message="Failed Requirement"/>
+    </target>
+
+</project>
