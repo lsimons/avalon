@@ -26,7 +26,8 @@ import org.apache.avalon.framework.logger.NullLogger;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  */
-public final class TPCThreadManager implements Runnable, ThreadManager, Disposable
+public final class TPCThreadManager 
+    implements Runnable, ThreadManager, Disposable
 {
     private final ThreadPool m_threadPool;
     private final Mutex m_mutex = new Mutex();
