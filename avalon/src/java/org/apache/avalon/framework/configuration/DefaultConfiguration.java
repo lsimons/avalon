@@ -39,7 +39,7 @@ public class DefaultConfiguration
      */
     public DefaultConfiguration( final String name, final String location )
     {
-        this (name, location, "", "");
+        this( name, location, "", "" );
     }
 
     /**
@@ -52,9 +52,9 @@ public class DefaultConfiguration
      * elements with a longer namespace string. Should not be null; use "" if no
      * namespace.
      */
-    public DefaultConfiguration( final String name, 
-                                 final String location, 
-                                 final String ns, 
+    public DefaultConfiguration( final String name,
+                                 final String location,
+                                 final String ns,
                                  final String prefix )
     {
         m_name = name;
@@ -86,7 +86,7 @@ public class DefaultConfiguration
                                               "configuration element \"" + getName() +
                                               "\" at " + getLocation() );
         }
-     }
+    }
 
     /**
      * Returns the prefix of the namespace
@@ -104,7 +104,7 @@ public class DefaultConfiguration
                                               "configuration element \"" + getName() +
                                               "\" at " + getLocation() );
         }
- 
+
     }
 
     /**
