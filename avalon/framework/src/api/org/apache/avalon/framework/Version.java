@@ -71,10 +71,10 @@ public final class Version
         final int major = Integer.parseInt( levels[ 0 ] );
 
         int minor = 0;       
-        if( 1 > levels.length ) minor = Integer.parseInt( levels[ 1 ] );
+        if( 1 < levels.length ) minor = Integer.parseInt( levels[ 1 ] );
 
         int micro = 0;
-        if( 2 > levels.length ) micro = Integer.parseInt( levels[ 2 ] );
+        if( 2 < levels.length ) micro = Integer.parseInt( levels[ 2 ] );
 
         return new Version( major, minor, micro );
     }
