@@ -1,0 +1,56 @@
+Sometimes it is hard to think of some good names for a component.
+Heres a mail from Leo that should provide inspiration;
+
+Subject: excalibur package naming (RE: [VOTE] Should Command be a sub of event?)
+Date: Wed, 3 Apr 2002 23:22:45 +0200
+From: "Leo Simons" <leosimons@apache.org>
+To: "Avalon Developers List" <avalon-dev@jakarta.apache.org>
+
+
+ Most important *event* in medieval times:
+joust
+market
+
+*Systems* used in medieval times:
+nobility (duke),
+monarchy (king),
+sword (knight),
+armor (platemail),
+fortress (castle),
+sorcery (morgana),
+guild (peasanty),
+...
+
+*Components* in medieval, mythical england times:
+spell (cantrip),
+weapon (sword, lance),
+...
+
+*Component management*:
+spellbook (arcana),
+library (tome),
+librarian (sage),
+...
+
+you could rename:
+        excalibur.event -> excalibur.joust,
+        excalibur.system -> excalibur.fortress,
+        excalibur.component -> excalibur.sage
+
+if you want more, I used to be (still am, to
+some extend) a big AD&D freak (me, I'm geek to
+the bone :) so I can dig up a _lot_ more for
+you if you have specific requests...you could
+have excalibur.component named to
+excalibur.sword and different component
+imps and manager excalibur.broadsword,
+excalibur.katana, excalibur.longsword, ...
+
+note: if we ever do rename framework I think
+"camelot" would be the term for it (even though
+that used to be something else), as camelot
+really was the core of Avalon =)
+
+cheers,
+
+- Leo
