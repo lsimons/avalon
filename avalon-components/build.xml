@@ -168,9 +168,7 @@
         </fileset>
         <fileset dir="${src.dir}/java">
             <include name="**/*-schema.xml"/>
-            <include name="**/*.xtype"/>
             <include name="**/*.xconfig"/>
-            <include name="**/*.xprofile"/>
         </fileset>
     </jar>
 
