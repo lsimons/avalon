@@ -228,13 +228,13 @@ public class DefaultDeployer
                 m_installer.install( location, m_baseWorkDirectory );
 
             final Configuration config = getConfigurationFor( installation.getConfig() );
-            final Configuration server = getConfigurationFor( installation.getEnvironment() );
+            final Configuration environment = getConfigurationFor( installation.getEnvironment() );
             final Configuration assembly = getConfigurationFor( installation.getAssembly() );
 
             final File directory = installation.getDirectory();
 
             final ClassLoader classLoader =
-                m_classLoaderManager.createClassLoader( server,
+                m_classLoaderManager.createClassLoader( environment,
                                                         installation.getSource(),
                                                         installation.getDirectory(),
                                                         installation.getWorkDirectory(),
@@ -246,18 +246,20 @@ public class DefaultDeployer
             m_verifier.verifySar( metaData, classLoader );
 
             //Setup configuration for all the applications blocks
-            setupConfiguration( name, metaData, config.getChildren() );
+            setupConfiguration( metaData, config.getChildren() );
 
-            final Configuration logs = server.getChild( "logs" );
+            final Configuration logs = environment.getChild( "logs" );
             final Hierarchy hierarchy = m_logManager.createHierarchy( metaData, logs );
 
             //Finally add application to kernel
-            m_kernel.addApplication( metaData, classLoader, hierarchy, server );
+            m_kernel.addApplication( metaData, classLoader, hierarchy, environment );
 
-            m_installations.put( name, installation );
+            m_installations.put( metaData.getName(), installation );
 
             final String message =
-                REZ.getString( "deploy.notice.sar.add", name, installation.getClassPath() );
+                REZ.getString( "deploy.notice.sar.add",
+                               metaData.getName(),
+                               installation.getClassPath() );
             getLogger().debug( message );
         }
         catch( final DeploymentException de )
@@ -300,13 +302,11 @@ public class DefaultDeployer
     /**
      * Setup Configuration for all the Blocks/BlockListeners in Sar.
      *
-     * @param appName the name of Application.
      * @param metaData the SarMetaData.
      * @param configurations the block configurations.
      * @throws DeploymentException if an error occurs
      */
-    private void setupConfiguration( final String appName,
-                                     final SarMetaData metaData,
+    private void setupConfiguration( final SarMetaData metaData,
                                      final Configuration[] configurations )
         throws DeploymentException
     {
@@ -318,13 +318,17 @@ public class DefaultDeployer
             if( !hasBlock( name, metaData.getBlocks() ) &&
                 !hasBlockListener( name, metaData.getListeners() ) )
             {
-                final String message = REZ.getString( "deploy.error.extra.config", name );
+                final String message =
+                    REZ.getString( "deploy.error.extra.config",
+                                   name );
                 throw new DeploymentException( message );
             }
 
             try
             {
-                m_repository.storeConfiguration( appName, name, configuration );
+                m_repository.storeConfiguration( metaData.getName(),
+                                                 name,
+                                                 configuration );
             }
             catch( final ConfigurationException ce )
             {
