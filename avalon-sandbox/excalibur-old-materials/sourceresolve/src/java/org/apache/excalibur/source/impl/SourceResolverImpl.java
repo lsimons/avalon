@@ -51,7 +51,7 @@ import org.apache.excalibur.source.*;
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: SourceResolverImpl.java,v 1.4 2002/05/01 09:11:47 donaldp Exp $
+ * @version $Id: SourceResolverImpl.java,v 1.5 2002/05/02 06:46:49 cziegeler Exp $
  */
 public class SourceResolverImpl
     extends AbstractLogEnabled
@@ -209,7 +209,7 @@ public class SourceResolverImpl
             else
             {
                 final int protocolEnd = baseURI.indexOf( ':' );
-                systemID = new StringBuffer( baseURI.substring( protocolEnd + 1 ) )
+                systemID = new StringBuffer( baseURI.substring( 0, protocolEnd + 1 ) )
                     .append( location ).toString();
             }
         }
