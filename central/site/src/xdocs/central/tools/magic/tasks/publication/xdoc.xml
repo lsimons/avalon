@@ -9,10 +9,28 @@
   <body>
     <section name="Xdoc Task">
       <p>
+      The xdoc task provides support for document generation.  Niclas is 
+      going to fill in the details on this one!
       </p>
 <source><![CDATA[
-    <x:xdoc/>
+<x:xdoc/>
 ]]></source>
+
+      <p><i>Example of the xdoc task output when updating this site:</i></p>
+
+<pre>xdoc:
+   [x:xdoc] Filtered source: F:\dev\avalon\central\site\target\build\xdocs
+    [mkdir] Created dir: F:\dev\avalon\central\site\target\temp\xdocs
+   [x:xdoc] Destination: F:\dev\avalon\central\site\target\docs
+    [mkdir] Created dir: F:\dev\avalon\central\site\target\docs
+   [x:xdoc] Year: 2004
+   [x:xdoc] Theme: F:\dev\avalon\central\system\themes\modern\html
+   [x:xdoc] Transforming navigation.
+     [copy] Copying 413 files to F:\dev\avalon\central\site\target\temp\xdocs
+   [x:xdoc] Transforming content.
+     [copy] Copying 2 files to F:\dev\avalon\central\site\target\docs
+     [copy] Copying 60 files to F:\dev\avalon\central\site\target\docs</pre>
+
     </section>
   </body>
 
