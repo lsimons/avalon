@@ -3,34 +3,32 @@ package org.apache.avalon.phoenix;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 
 /**
- * Subclasses of <code>AstractChainedInvocable</code> form chain of
+ * Subclasses of <tt>AbstractChainedInvocable</tt> form chain of
  * block invocation interceptors.
- * 
- * <p>The idea is to be able to extend block's behaviour without changing 
- * block's code. One of usages of such interceptors would be 
- * <code>SecurityInterceptor</code> which verifies if a caller is allowed to 
+ *
+ * <p>The idea is to be able to extend block's behaviour without changing
+ * block's code. One of usages of such interceptors would be
+ * <tt>SecurityInterceptor</tt> which verifies if a caller is allowed to
  * perform requested operation on a block.</p>
  *
  * @author ifedorenko
  */
-public abstract class AstractChainedInvocable extends AbstractLogEnabled
+public abstract class AbstractChainedInvocable
+    extends AbstractLogEnabled
     implements InvocationHandler
 {
-
     private transient Object m_object;
-
     private InvocationHandler m_chained;
 
-    public final void setObject( Object object )
+    public final void setObject( final Object object )
     {
         m_object = object;
     }
 
-    public final void setChained( InvocationHandler chained )
+    public final void setChained( final InvocationHandler chained )
     {
         m_chained = chained;
     }
@@ -43,9 +41,14 @@ public abstract class AstractChainedInvocable extends AbstractLogEnabled
                           final Object[] args )
         throws Throwable
     {
-        return ( m_chained != null )
-                ? m_chained.invoke( proxy, method, args )
-                : invokeObject( proxy, method, args );
+        if( null != m_chained )
+        {
+            return m_chained.invoke( proxy, method, args );
+        }
+        else
+        {
+            return invokeObject( proxy, method, args );
+        }
     }
 
     /**
@@ -76,8 +79,8 @@ public abstract class AstractChainedInvocable extends AbstractLogEnabled
         }
         else
         {
-            throw new IllegalStateException( "Using a stale object reference "
-                                             + "to call a disposed Block." );
+            throw new IllegalStateException( "Using a stale object reference " +
+                                             "to call a disposed Block." );
         }
     }
 }
