@@ -16,17 +16,17 @@
 <role-list>
 
   <!-- single component definitions -->
-  <role name="org.apache.avalon.excalibur.xml.Parser"
+  <role name="org.apache.excalibur.xml.dom.DOMParser"
         shorthand="xml-parser"
-        default-class="org.apache.avalon.excalibur.xml.JaxpParser"/>
+        default-class="org.apache.excalibur.xml.impl.JaxpParser"/>
 
-  <role name="org.apache.avalon.excalibur.xml.xslt.XSLTProcessor"
+  <role name="org.apache.excalibur.xml.xslt.XSLTProcessor"
         shorthand="xslt-processor"
-        default-class="org.apache.avalon.excalibur.xml.xslt.XSLTProcessorImpl"/>
+        default-class="org.apache.excalibur.xml.xslt.XSLTProcessorImpl"/>
 
-  <role name="org.apache.avalon.excalibur.xml.xpath.XPathProcessor"
+  <role name="org.apache.excalibur.xml.xpath.XPathProcessor"
         shorthand="xpath-processor"
-        default-class="org.apache.avalon.excalibur.xml.xpath.XPathProcessorImpl"/>
+        default-class="org.apache.excalibur.xml.xpath.XPathProcessorImpl"/>
 
   <!-- component selector definition -->
   <role name="org.apache.avalon.excalibur.datasource.DataSourceComponentSelector"
