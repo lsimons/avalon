@@ -34,8 +34,8 @@ div#banner {
  }
 
 #banner, #banner td { 
- background: #FFFFFF;
- color: #fff;
+ background: #fff;
+ color: #000;
  }
 
 #leftcol {

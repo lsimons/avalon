@@ -104,22 +104,18 @@
         
         
         
-    <script language="javascript">
+    <script type="text/javascript">
       
   	  function offsetDate(id, offset) {
-	    var date = new Date();
-	    var dateOffset = new Date(
-		  Date.UTC(
-		  	date.getFullYear(),
-		    date.getMonth(),
-			date.getDate(),
-			date.getHours(),
-			date.getMinutes(),
-			date.getSeconds()
-		  ) + (offset - 20) *60*60*1000);
 
-	    document.getElementById(id).innerHTML = dateOffset;
-      }
+            var now = new Date() ;
+            var nowTime = now.getTime() ;
+            var localOffset = now.getTimezoneOffset() ;
+            var developerTime = nowTime + (offset * 60 * 60 * 1000) + (localOffset * 60 * 1000) ;
+            var developerDate = new Date(developerTime) ;
+
+            document.getElementById(id).innerHTML = developerDate;
+          }
   	
   	  function init() {
 	          }
@@ -129,7 +125,7 @@
         
       </head>
 
-      <body class="composite" OnLoad="init();">
+      <body class="composite" onload="init();">
 
         <div id="banner">
           <table height="103" border="0" width="100%" cellpadding="8" cellspacing="0">
@@ -166,7 +162,7 @@
             <tr>
               
                 
-                <td>Last published: 12 February 2004
+                <td>Last published: 31 March 2004
                   
                 </td>
               
@@ -199,7 +195,7 @@
       |
       
       
-      <a href="product/containers/index.html">Containers</a>
+      <a href="product/containers/index.html">Containment</a>
       
     
       |
@@ -237,7 +233,7 @@
       <small>
       	
       	
-      		<a href="index.html">Overview</a>
+      		<a href="overview.html">Overview</a>
       	
       </small>
 	  
@@ -601,14 +597,12 @@
       
     </p>
    
-    </div>
-  
-    <div class="h3">
+    <div class="h4">
       
       
-        <h3>
+        <h4>
           <a name="Members">Members</a>
-        </h3>
+        </h4>
       
       
     <p>
@@ -620,12 +614,12 @@
    
     </div>
   
-    <div class="h3">
+    <div class="h4">
       
       
-        <h3>
+        <h4>
           <a name="Contributors">Contributors</a>
-        </h3>
+        </h4>
       
       
     <p>
@@ -635,6 +629,8 @@
  	  
     </p>
    
+    </div>
+  
     </div>
   
                   
