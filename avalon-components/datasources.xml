@@ -94,7 +94,7 @@
          <include name="**/datasource*/**/*.mxinfo"/>
       </fileset>
       <fileset dir="${src.dir}/java">
-         <include name="**/datasource*/**/*.*-schema.xml"/>
+         <include name="**/datasource*/**/*-schema.xml"/>
          <include name="**/datasource*/**/*.xconfig"/>
       </fileset>
 
