@@ -44,6 +44,7 @@ import org.mortbay.http.SocketListener;
  * @see <a href="http://jetty.mortbay.com/">Jetty Project Page</a>
  *
  * @author  Paul Hammant
+ * @author  Ulrich Mayring
  * @version 1.0
  */
 public class JettySevak extends AbstractLogEnabled implements Sevak, Startable, Contextualizable,
@@ -51,12 +52,14 @@ public class JettySevak extends AbstractLogEnabled implements Sevak, Startable, 
 {
 
     private Server m_server;
-    
+
     /** Virtual host to bind the context to.  null implies all hosts are in context. */
     private String m_hostName;
-    
+
     private HashMap m_webapps = new HashMap();
     private int m_port;
+    private int m_minThreads;
+    private int m_maxThreads;
     private File m_sarRootDir;
     private ServiceManager m_serviceManager;
 
@@ -96,6 +99,8 @@ public class JettySevak extends AbstractLogEnabled implements Sevak, Startable, 
     {
         m_hostName = configuration.getChild("hostname").getValue( null );
         m_port = configuration.getChild("port").getValueAsInteger(8080);
+        m_minThreads = configuration.getChild("minthreads").getValueAsInteger(5);
+        m_maxThreads = configuration.getChild("maxthreads").getValueAsInteger(250);
     }
 
     /**
@@ -105,12 +110,10 @@ public class JettySevak extends AbstractLogEnabled implements Sevak, Startable, 
     public void initialize() throws Exception
     {
         m_server = new Server();
-        final int minThreads = 5;
-        final int maxThreads = 250;
         SocketListener listener = new SocketListener();
         listener.setPort(m_port);
-        listener.setMinThreads(minThreads);
-        listener.setMaxThreads(maxThreads);
+        listener.setMinThreads(m_minThreads);
+        listener.setMaxThreads(m_maxThreads);
         m_server.addListener(listener);
         PhoenixLogSink phoenixLogSink = new PhoenixLogSink();
         phoenixLogSink.enableLogging(getLogger());
@@ -214,3 +217,6 @@ public class JettySevak extends AbstractLogEnabled implements Sevak, Startable, 
     }
 
 }
+
+
+
