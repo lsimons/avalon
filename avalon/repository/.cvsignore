@@ -4,3 +4,4 @@ target
 .classpath
 .project
 build.xml
+build.properties

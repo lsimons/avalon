@@ -54,7 +54,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * 
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
  * @author $Author: mcconnell $
- * @version $Revision: 1.11 $
+ * @version $Revision: 1.12 $
  */
 public class DefaultBuilder extends AbstractBuilder implements Builder
 {
@@ -198,9 +198,12 @@ public class DefaultBuilder extends AbstractBuilder implements Builder
     private final InitialContext m_context;
     
    /**
-    * The application factory established by the loader to which 
-    * requests for default criteria and instance creation are 
-    * delegated.
+    * The factory class established by the builder.
+    */
+    private final Class m_class;
+
+   /**
+    * The factory instance.
     */
     private final Factory m_delegate;
 
@@ -218,11 +221,7 @@ public class DefaultBuilder extends AbstractBuilder implements Builder
     public DefaultBuilder( InitialContext context, Artifact artifact )
         throws Exception
     {
-        this( 
-          context, 
-          //Thread.currentThread().getContextClassLoader(),
-          null,
-          artifact );
+        this( context, null, artifact );
     }
     
    /**
@@ -269,24 +268,31 @@ public class DefaultBuilder extends AbstractBuilder implements Builder
         }
 
         m_classloader = m_repository.getClassLoader( parent, artifact );
-        Class clazz = loadFactoryClass( m_classloader, classname );
+        m_class = loadFactoryClass( m_classloader, classname );
 
-        try
+        if( Factory.class.isAssignableFrom( m_class ) )
         {
-            m_delegate = createDelegate( m_classloader, classname, m_context );
+            try
+            {
+                m_delegate = createDelegate( m_classloader, m_class, m_context );
+            }
+            catch( Throwable e )
+            {
+                final String error = 
+                  "Unable to establish a factory for the supplied artifact:";
+                StringBuffer buffer = new StringBuffer( error );
+                buffer.append( "\n artifact: " + artifact );
+                buffer.append( "\n build: " + descriptor.getBuild() );
+                buffer.append( "\n factory: " + descriptor.getFactory() );
+                buffer.append( "\n source: " 
+                  + m_class.getProtectionDomain().getCodeSource().getLocation() );
+                buffer.append( "\n repository: " + m_repository );
+                throw new RepositoryException( buffer.toString(), e );
+            }
         }
-        catch( Throwable e )
+        else
         {
-            final String error = 
-              "Unable to establish a factory for the supplied artifact:";
-            StringBuffer buffer = new StringBuffer( error );
-            buffer.append( "\n artifact: " + artifact );
-            buffer.append( "\n build: " + descriptor.getBuild() );
-            buffer.append( "\n factory: " + descriptor.getFactory() );
-            buffer.append( "\n source: " 
-              + clazz.getProtectionDomain().getCodeSource().getLocation() );
-            buffer.append( "\n repository: " + m_repository );
-            throw new RepositoryException( buffer.toString(), e );
+            m_delegate = null;
         }
     }
 
@@ -295,12 +301,34 @@ public class DefaultBuilder extends AbstractBuilder implements Builder
     //-----------------------------------------------------------
 
    /**
+    * Return the primary class established by the builder.
+    * @return the main class
+    */
+    public Class getFactoryClass()
+    {
+        return m_class;
+    }
+
+   /**
     * Return the factory established by the loader.
     * @return the delegate factory
+    * @exception RepositoryRuntimeException if the declared class does 
+    *    not implement the factory interface
+    * @see getFactoryClass
     */
     public Factory getFactory()
     {
-        return m_delegate;
+        if( null != m_delegate )
+        {
+            return m_delegate;
+        }
+        else
+        {
+            final String error = 
+              "Supplied class [" + m_class.getName() 
+              + "] does not implement the Factory interface.";
+            throw new RepositoryRuntimeException( error );
+        }
     }
 
     /**
