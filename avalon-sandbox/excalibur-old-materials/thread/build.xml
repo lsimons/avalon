@@ -47,8 +47,8 @@
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkLogkit"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkThreadcontext"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkInstrument"/>
-        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkPool"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkFramework"/>
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkPool"/>
     </target>
 
     <target name="dependencies-test" depends="dist-jar, dependencies"
