@@ -53,6 +53,7 @@
     </ant:avalon>
 
     <j:if test="${testSourcesPresent == 'true'}">
+      <ant:mkdir dir="${maven.build.dir}/test-classes"/>
       <ant:avalon destDir="${maven.build.dir}/test-classes" 
         format="${avalon.meta.format}" 
         force="${avalon.meta.force}"

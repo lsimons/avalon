@@ -6,7 +6,7 @@
   <name>Avalon Meta Model API</name>
   <package>org.apache.avalon.meta</package>
 
-  <currentVersion>1.1</currentVersion>
+  <currentVersion>1.2</currentVersion>
   <inceptionYear>2002</inceptionYear>
   <shortDescription>Meta Model API</shortDescription>
   
