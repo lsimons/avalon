@@ -45,6 +45,17 @@
             class="org.apache.avalon.phoenix.components.configuration.validator.NoopConfigurationValidator"
             logger="validator"/>
 
+<!--
+        <component role="org.apache.avalon.phoenix.interfaces.ConfigurationValidator"
+            class="org.apache.avalon.phoenix.components.configuration.validator.DelegatingConfigurationValidator"
+            logger="validator">
+            <delegate schema-type="relax-ng"
+                class="org.apache.avalon.phoenix.components.configuration.validator.JarvConfigurationValidator">
+                <schema-language>http://relaxng.org/ns/structure/1.0</schema-language>
+            </delegate>
+        </component>
+        -->
+
         <component role="org.apache.avalon.phoenix.interfaces.ClassLoaderManager"
             class="org.apache.avalon.phoenix.components.classloader.DefaultClassLoaderManager"
             logger="classes"/>
