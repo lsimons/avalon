@@ -78,7 +78,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * Merlin default application factory.
  * 
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.10 $
+ * @version $Revision: 1.11 $
  */
 public class MerlinBean
 {
@@ -150,6 +150,11 @@ public class MerlinBean
 
         try
         {
+            InitialContext context = 
+               new DefaultInitialContext( 
+                 getMavenRepositoryDirectory(),
+                 m_hosts );
+
             Artifact artifact = 
               DefaultBuilder.createImplementationArtifact( 
                 classloader, 
@@ -157,11 +162,6 @@ public class MerlinBean
                 getBaseDirectory(), 
                 MERLIN_PROPERTIES, 
                 IMPLEMENTATION_KEY );
-
-            InitialContext context = 
-               new DefaultInitialContext( 
-                 getMavenRepositoryDirectory(),
-                 m_hosts );
 
             Builder builder = 
               new DefaultBuilder( context, artifact );
