@@ -41,7 +41,8 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version $Id$
  */
-public class DefaultModelRepository implements ModelRepository
+public class DefaultModelRepository 
+    implements ModelRepository
 {
     //------------------------------------------------------------------
     // immutable state
