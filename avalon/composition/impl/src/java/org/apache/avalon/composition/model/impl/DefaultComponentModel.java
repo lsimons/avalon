@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Properties;
+import java.lang.reflect.Constructor;
 import java.security.AccessControlContext;
 
 import org.apache.avalon.composition.data.DeploymentProfile;
@@ -67,7 +68,7 @@ import org.apache.excalibur.configuration.CascadingConfiguration;
  * Deployment model defintion.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.13 $ $Date: 2004/03/11 01:30:38 $
+ * @version $Revision: 1.14 $ $Date: 2004/03/11 12:28:07 $
  */
 public class DefaultComponentModel extends DefaultDeploymentModel 
   implements ComponentModel
@@ -884,7 +885,6 @@ public class DefaultComponentModel extends DefaultDeploymentModel
             Class contextualizable = 
               getComponentClass( classLoader, strategy );
 
-
             if( contextualizable == null )
             {
                 final String error = 
@@ -911,6 +911,23 @@ public class DefaultComponentModel extends DefaultDeploymentModel
         }
         else
         {
+            //
+            // its either classic avalon 4.1 or its 4.2 constructor 
+            // based - first off check the constructor for a type 
+            // corresponding to the base class
+            //
+            
+            String contextClassname = 
+              m_context.getType().getContext().getContextInterfaceClassname();
+            Class contextClass = 
+              getComponentClass( classLoader, contextClassname );
+            boolean isConstructorBased = isaConstructorArg( contextClass );
+            if( isConstructorBased ) return true;
+            
+            //
+            // otherwise check for classic avalon Contextualizable
+            //
+
             Class contextualizable = 
               getComponentClass( classLoader, CONTEXTUALIZABLE );
             if( contextualizable != null )
@@ -920,6 +937,26 @@ public class DefaultComponentModel extends DefaultDeploymentModel
                     return true;
                 }
             }
+        }
+        return false;
+    }
+
+   /**
+    * Test to determin if the first constructor supports the context
+    * base class as a parameter type.
+    * @return TRUE or FALSE
+    */
+    private boolean isaConstructorArg( Class base )
+    {
+        if( null == base ) return false;
+        Class clazz = getDeploymentClass();
+        Constructor[] constructors = clazz.getConstructors();
+        if( constructors.length == 0 ) return false;
+        Constructor constructor = constructors[0];
+        Class[] types = constructor.getParameterTypes();
+        for( int i=0; i<types.length; i++ )
+        {
+            if( base.isAssignableFrom( types[i] ) ) return true;
         }
         return false;
     }
