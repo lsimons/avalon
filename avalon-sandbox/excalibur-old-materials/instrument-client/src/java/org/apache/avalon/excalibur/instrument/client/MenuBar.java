@@ -30,7 +30,7 @@ import org.apache.excalibur.altrmi.common.AltrmiInvocationException;
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.6 $ $Date: 2002/04/03 13:48:48 $
+ * @version CVS $Revision: 1.7 $ $Date: 2002/04/04 08:07:05 $
  * @since 4.1
  */
 public class MenuBar
@@ -69,7 +69,7 @@ public class MenuBar
      *-------------------------------------------------------------*/
     private JMenu buildFileMenu()
     {
-        m_menuFile = new JMenu( "File" );
+        m_menuFile = (JMenu)new LargeMenu( "File" );
         m_menuFile.setMnemonic( 'F' );
         
         
@@ -150,7 +150,7 @@ public class MenuBar
 
     private JMenu buildInstrumentManagerMenu()
     {
-        m_menuInstrumentManagers = new JMenu( "Instrument Managers" );
+        m_menuInstrumentManagers = new LargeMenu( "Instrument Managers" );
         m_menuInstrumentManagers.setMnemonic( 'I' );
 
         m_menuInstrumentManagers.addMenuListener( new MenuListener()
@@ -208,7 +208,7 @@ public class MenuBar
                 };
                 action.putValue( "InstrumentManagerConnection", connection );
                 
-                JMenu menu = new JMenu( action );
+                JMenu menu = new LargeMenu( action );
 
                 // Set up a Listener to handle the selected event.
                 menu.addMenuListener( new MenuListener()
@@ -312,7 +312,7 @@ public class MenuBar
                         action.putValue( "InstrumentManagerConnection", connection );
                         action.putValue( "InstrumentableDescriptor", descriptor );
         
-                        JMenu menu = new JMenu( action );
+                        JMenu menu = new LargeMenu( action );
         
                         // Set up a Listener to handle the selected event.
                         menu.addMenuListener( new MenuListener()
@@ -382,7 +382,7 @@ public class MenuBar
                     action.putValue( "InstrumentableDescriptor", instrumentableDescriptor );
                     action.putValue( "InstrumentDescriptor", descriptor );
     
-                    JMenu menu = new JMenu( action );
+                    JMenu menu = new LargeMenu( action );
     
                     // Set up a Listener to handle the selected event.
                     menu.addMenuListener( new MenuListener()
@@ -536,7 +536,7 @@ public class MenuBar
 
     private JMenu buildOptionsMenu()
     {
-        m_menuOptions = new JMenu( "Options" );
+        m_menuOptions = new LargeMenu( "Options" );
         m_menuOptions.setMnemonic( 'O' );
 
         // Show Unconfigured Profilables option
@@ -549,7 +549,7 @@ public class MenuBar
 
     private JMenu buildWindowMenu()
     {
-        m_menuWindow = new JMenu( "Window" );
+        m_menuWindow = new LargeMenu( "Window" );
         m_menuWindow.setMnemonic( 'W' );
 
         m_menuWindow.addMenuListener( new MenuListener()
