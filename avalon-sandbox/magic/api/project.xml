@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+    <extend>${basedir}/../project-common.xml</extend>
+
+    <name>Avalon-Magic API</name>
+    <id>avalon-magic-api</id>
+    <currentVersion>0.1a</currentVersion>
+</project>
