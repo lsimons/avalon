@@ -55,6 +55,11 @@ import junit.framework.TestCase;
 import org.apache.avalon.fortress.ContainerManager;
 import org.apache.avalon.fortress.impl.DefaultContainer;
 import org.apache.avalon.fortress.impl.DefaultContainerManager;
+import org.apache.avalon.fortress.test.data.BaseRole;
+import org.apache.avalon.fortress.test.data.Role1;
+import org.apache.avalon.fortress.test.data.Role2;
+import org.apache.avalon.fortress.test.data.Role3;
+import org.apache.avalon.fortress.test.data.Role4;
 import org.apache.avalon.fortress.util.FortressConfig;
 import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.service.ServiceManager;
@@ -63,7 +68,7 @@ import org.apache.avalon.framework.service.ServiceManager;
  * A testcase for the different handlers.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.7 $ $Date: 2003/03/29 18:53:25 $
+ * @version $Revision: 1.8 $ $Date: 2003/04/07 21:38:26 $
  */
 public class HandlersTestCase extends TestCase
 {
@@ -78,10 +83,11 @@ public class HandlersTestCase extends TestCase
         throws Exception
     {
         final ServiceManager serviceManager = getServiceManager();
-        final String key = org.apache.avalon.fortress.test.data.Role1.ROLE;
-        final org.apache.avalon.fortress.test.data.BaseRole object1 = (org.apache.avalon.fortress.test.data.BaseRole)serviceManager.lookup( key );
-        final org.apache.avalon.fortress.test.data.BaseRole object2 = (org.apache.avalon.fortress.test.data.BaseRole)serviceManager.lookup( key );
+        final String key = Role1.ROLE;
+        final BaseRole object1 = (BaseRole)serviceManager.lookup( key );
+        final BaseRole object2 = (BaseRole)serviceManager.lookup( key );
 
+        assertSame( "Threadsafe objects (1 vs 2)", object1, object2 );
         assertEquals( "Threadsafe object IDs (1 vs 2)", object1.getID(), object2.getID() );
 
         final Thread thread = new Thread()
@@ -90,11 +96,14 @@ public class HandlersTestCase extends TestCase
             {
                 try
                 {
-                    final org.apache.avalon.fortress.test.data.BaseRole object3 = (org.apache.avalon.fortress.test.data.BaseRole)serviceManager.lookup( key );
-                    final org.apache.avalon.fortress.test.data.BaseRole object4 = (org.apache.avalon.fortress.test.data.BaseRole)serviceManager.lookup( key );
+                    final BaseRole object3 = (BaseRole)serviceManager.lookup( key );
+                    final BaseRole object4 = (BaseRole)serviceManager.lookup( key );
 
+                    assertSame( "Threadsafe objects (1 vs 3)", object1, object3 );
                     assertEquals( "Threadsafe object IDs (1 vs 3)", object1.getID(), object3.getID() );
+                    assertSame( "Threadsafe objects (2 vs 4)", object2, object4 );
                     assertEquals( "Threadsafe object IDs (2 vs 4)", object2.getID(), object4.getID() );
+                    assertSame( "Threadsafe objects (3 vs 4)", object3, object4 );
                     assertEquals( "Threadsafe object IDs (3 vs 4)", object3.getID(), object4.getID() );
                 }
                 catch( final Exception e )
@@ -112,12 +121,12 @@ public class HandlersTestCase extends TestCase
     public void testPerThread()
         throws Exception
     {
-        final String key = org.apache.avalon.fortress.test.data.Role3.ROLE;
+        final String key = Role3.ROLE;
         final String type = "PerThread";
 
         final ServiceManager serviceManager = getServiceManager();
-        final org.apache.avalon.fortress.test.data.BaseRole object1 = (org.apache.avalon.fortress.test.data.BaseRole)serviceManager.lookup( key );
-        final org.apache.avalon.fortress.test.data.BaseRole object2 = (org.apache.avalon.fortress.test.data.BaseRole)serviceManager.lookup( key );
+        final BaseRole object1 = (BaseRole)serviceManager.lookup( key );
+        final BaseRole object2 = (BaseRole)serviceManager.lookup( key );
 
         assertEquals( type + " object IDs (1 vs 2)", object1.getID(), object2.getID() );
 
@@ -127,8 +136,8 @@ public class HandlersTestCase extends TestCase
             {
                 try
                 {
-                    final org.apache.avalon.fortress.test.data.BaseRole object3 = (org.apache.avalon.fortress.test.data.BaseRole)serviceManager.lookup( key );
-                    final org.apache.avalon.fortress.test.data.BaseRole object4 = (org.apache.avalon.fortress.test.data.BaseRole)serviceManager.lookup( key );
+                    final BaseRole object3 = (BaseRole)serviceManager.lookup( key );
+                    final BaseRole object4 = (BaseRole)serviceManager.lookup( key );
 
                     assertTrue( type + " object IDs (1 vs 3)", object1.getID() != object3.getID() );
                     assertTrue( type + " object IDs (2 vs 4)", object2.getID() != object4.getID() );
@@ -149,12 +158,12 @@ public class HandlersTestCase extends TestCase
     public void testFactory()
         throws Exception
     {
-        final String key = org.apache.avalon.fortress.test.data.Role4.ROLE;
+        final String key = Role4.ROLE;
         final String type = "Factory";
 
         final ServiceManager serviceManager = getServiceManager();
-        final org.apache.avalon.fortress.test.data.BaseRole object1 = (org.apache.avalon.fortress.test.data.BaseRole)serviceManager.lookup( key );
-        final org.apache.avalon.fortress.test.data.BaseRole object2 = (org.apache.avalon.fortress.test.data.BaseRole)serviceManager.lookup( key );
+        final BaseRole object1 = (BaseRole)serviceManager.lookup( key );
+        final BaseRole object2 = (BaseRole)serviceManager.lookup( key );
 
         assertTrue( type + " object IDs (1 vs 2)", object1.getID() != object2.getID() );
 
@@ -164,8 +173,8 @@ public class HandlersTestCase extends TestCase
             {
                 try
                 {
-                    final org.apache.avalon.fortress.test.data.BaseRole object3 = (org.apache.avalon.fortress.test.data.BaseRole)serviceManager.lookup( key );
-                    final org.apache.avalon.fortress.test.data.BaseRole object4 = (org.apache.avalon.fortress.test.data.BaseRole)serviceManager.lookup( key );
+                    final BaseRole object3 = (BaseRole)serviceManager.lookup( key );
+                    final BaseRole object4 = (BaseRole)serviceManager.lookup( key );
 
                     assertTrue( type + " object IDs (1 vs 3)", object1.getID() != object3.getID() );
                     assertTrue( type + " object IDs (2 vs 4)", object2.getID() != object4.getID() );
@@ -197,10 +206,10 @@ public class HandlersTestCase extends TestCase
         throws Exception
     {
         final ServiceManager serviceManager = getServiceManager();
-        final String key = org.apache.avalon.fortress.test.data.Role2.ROLE;
-        final org.apache.avalon.fortress.test.data.BaseRole object1 = (org.apache.avalon.fortress.test.data.BaseRole)serviceManager.lookup( key );
-        final org.apache.avalon.fortress.test.data.BaseRole object2 = (org.apache.avalon.fortress.test.data.BaseRole)serviceManager.lookup( key );
-        final org.apache.avalon.fortress.test.data.BaseRole object3 = (org.apache.avalon.fortress.test.data.BaseRole)serviceManager.lookup( key );
+        final String key = Role2.ROLE;
+        final BaseRole object1 = (BaseRole)serviceManager.lookup( key );
+        final BaseRole object2 = (BaseRole)serviceManager.lookup( key );
+        final BaseRole object3 = (BaseRole)serviceManager.lookup( key );
 
 
         serviceManager.release( object1 );
@@ -216,7 +225,7 @@ public class HandlersTestCase extends TestCase
         final String BASE = "resource://org/apache/avalon/fortress/test/data/";
         config.setContainerConfiguration( BASE + "test1.xconf" );
         config.setLoggerManagerConfiguration( BASE + "test1.xlog" );
-        config.setRoleManagerConfiguration( BASE + "test1.roles" );
+        //config.setRoleManagerConfiguration( BASE + "test1.roles" );
 
         final ContainerManager cm = new DefaultContainerManager( config.getContext() );
         ContainerUtil.initialize( cm );
