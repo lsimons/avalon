@@ -26,7 +26,7 @@ import java.util.Iterator;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  */
-public final class TPCThreadManager implements Runnable
+public final class TPCThreadManager implements Runnable, ThreadManager
 {
     private final ThreadPool m_threadPool;
     private final Mutex   m_mutex = new Mutex();
@@ -52,7 +52,8 @@ public final class TPCThreadManager implements Runnable
      */
     public TPCThreadManager(Parameters params)
     {
-        this( params.getParameterAsInteger( "os.arch.cpus", 1 ) , 1 );
+        this( params.getParameterAsInteger( "os.arch.cpus", 1 ) ,
+              params.getParameterAsInteger( "container.threadsPerCPU", 2 ) );
     }
 
     /**
@@ -91,7 +92,7 @@ public final class TPCThreadManager implements Runnable
     /**
      * Register an EventPipeline with the ThreadManager.
      */
-    void register( EventPipeline pipeline )
+    public void register( EventPipeline pipeline )
     {
         try
         {
@@ -117,7 +118,7 @@ public final class TPCThreadManager implements Runnable
     /**
      * Deregister an EventPipeline with the ThreadManager
      */
-    void deregister( EventPipeline pipeline )
+    public void deregister( EventPipeline pipeline )
     {
         try
         {
@@ -144,7 +145,7 @@ public final class TPCThreadManager implements Runnable
     /**
      * Deregisters all EventPipelines from this ThreadManager
      */
-    void deregisterAll()
+    public void deregisterAll()
     {
         try
         {

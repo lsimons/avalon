@@ -26,7 +26,7 @@ import java.util.Iterator;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  */
-public final class TPSPThreadManager implements Runnable
+public final class TPSPThreadManager implements Runnable, ThreadManager
 {
     private final ThreadPool m_threadPool;
     private final Mutex   m_mutex = new Mutex();
@@ -64,7 +64,7 @@ public final class TPSPThreadManager implements Runnable
     /**
      * Register an EventPipeline with the ThreadManager.
      */
-    void register( EventPipeline pipeline )
+    public void register( EventPipeline pipeline )
     {
         try
         {
@@ -90,7 +90,7 @@ public final class TPSPThreadManager implements Runnable
     /**
      * Deregister an EventPipeline with the ThreadManager
      */
-    void deregister( EventPipeline pipeline )
+    public void deregister( EventPipeline pipeline )
     {
         try
         {
@@ -117,7 +117,7 @@ public final class TPSPThreadManager implements Runnable
     /**
      * Deregisters all EventPipelines from this ThreadManager
      */
-    void deregisterAll()
+    public void deregisterAll()
     {
         try
         {
