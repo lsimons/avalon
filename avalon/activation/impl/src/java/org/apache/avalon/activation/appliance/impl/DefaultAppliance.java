@@ -103,7 +103,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * appliance instance.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.18 $ $Date: 2004/01/13 11:41:22 $
+ * @version $Revision: 1.19 $ $Date: 2004/01/19 01:27:01 $
  */
 public class DefaultAppliance extends AbstractAppliance implements Appliance
 {
@@ -223,7 +223,7 @@ public class DefaultAppliance extends AbstractAppliance implements Appliance
     }
 
     /**
-     * Returns the appliace assigned to handle the components lifecycle stage.
+     * Returns the appliance assigned to handle the components lifecycle stage.
      * @param stage the lifecycle stage specification
      * @return the stage extension
      * @exception IllegalStateException if the stage provider is unresolvable
