@@ -12,6 +12,9 @@
         <service type="org.apache.avalon.phoenix.framework.tools.infobuilder.test.data.Service1"/>
         <service type="org.apache.avalon.phoenix.framework.tools.infobuilder.test.data.otherpkg.Service2"/>
         <service type="org.apache.avalon.phoenix.framework.tools.infobuilder.test.data.otherpkg.Service3"/>
+        <service type="org.apache.avalon.phoenix.framework.tools.infobuilder.test.data.otherpkg.ServiceMBean">
+            <attribute name="phoenix:mx"/>
+        </service>
     </services>
 
     <dependencies>

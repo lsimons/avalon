@@ -48,49 +48,14 @@
 
 */
 
-package org.apache.avalon.phoenix.framework.tools.infobuilder.test.data;
-
-import java.io.Serializable;
-import org.apache.avalon.framework.configuration.Configurable;
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.framework.service.ServiceException;
-import org.apache.avalon.framework.service.ServiceManager;
-import org.apache.avalon.framework.service.Serviceable;
-import org.apache.avalon.phoenix.framework.tools.infobuilder.test.data.otherpkg.Service2;
-import org.apache.avalon.phoenix.framework.tools.infobuilder.test.data.otherpkg.Service3;
+package org.apache.avalon.phoenix.framework.tools.infobuilder.test.data.otherpkg;
 
 /**
- * A simple avalon component to test QDox loading of info etc.
+ * Some random service
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2003/04/10 13:41:46 $
- * @phoenix:block
- * @phoenix:service name="org.apache.avalon.phoenix.framework.tools.infobuilder.test.data.Service1"
- * @phoenix:service name="org.apache.avalon.phoenix.framework.tools.infobuilder.test.data.otherpkg.Service2"
- * @phoenix:service name="org.apache.avalon.phoenix.framework.tools.infobuilder.test.data.otherpkg.Service3"
- * @phoenix:mx name="org.apache.avalon.phoenix.framework.tools.infobuilder.test.data.otherpkg.ServiceMBean"
+ * @version $Revision: 1.1 $ $Date: 2003/04/10 13:41:46 $
  */
-public class QDoxLegacyComponent1
-    extends AbstractLogEnabled
-    implements Serializable, Service1, Service2, Service3, Serviceable, Configurable
+public interface ServiceMBean
 {
-    /**
-     * @phoenix:dependency role="foo" name="org.apache.avalon.phoenix.framework.tools.infobuilder.test.data.otherpkg.Service3"
-     * @phoenix:dependency name="org.apache.avalon.phoenix.framework.tools.infobuilder.test.data.otherpkg.Service3"
-     * @phoenix:dependency name="org.apache.avalon.phoenix.framework.tools.infobuilder.test.data.otherpkg.Service2"
-     */
-    public void service( ServiceManager manager )
-        throws ServiceException
-    {
-    }
-
-    /**
-     * @phoenix:configuration-schema type="http://relaxng.org/ns/structure/1.0"
-     */
-    public void configure( Configuration configuration )
-        throws ConfigurationException
-    {
-    }
 }
