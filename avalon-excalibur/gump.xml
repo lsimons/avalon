@@ -79,6 +79,7 @@
         <depend project="jakarta-ant"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
+        <depend project="jakarta-bcel"/>
         <work nested="altrmi/build/classes"/>
 
         <home nested="altrmi"/>
