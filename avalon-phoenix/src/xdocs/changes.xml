@@ -16,7 +16,15 @@
     <author name="Eung-ju Park" email="colus@apache.org" id="EP"/>
     <author name="David W." email="daveweit@optonline.net" id="DW"/>
   </devs>
-<release version="4.0b" date="Unreleased">
+<release version="4.0" date="September 16, 2002">
+    <action dev="PD" type="add">
+        Small bug fixes.  Some work on documentation.
+    </action>
+    <action dev="HR" type="add">
+        MX4J JMX Documentation.
+    </action>    
+</release>
+<release version="4.0b2" date="August 26, 2002">
     <action dev="DW" type="change">
         Started creating a Administrators guide.
     </action>
@@ -73,6 +81,14 @@
         BeanShell debug tools for Kernel.
     </action>    
 </release>
+<release version="4.0b" date="August 11, 2002">
+    <action dev="PD" type="add">
+        Added a monitor component that monitors the deployment directory.
+        The monitor will deploys any .sars that are added to directory, undeploy
+        .sars that are removed from directory and redeploy .sars that are
+        modified.
+    </action>
+</release>
 <release version="4.0a4" date="Unreleased">
     <action dev="PR" type="add">
         Added start of configuration validation framework
@@ -102,7 +118,7 @@ any lifecycle interfaces.
         file.
     </action>
      <action dev="PD" type="add">
-        Blocks no longre need to implement Block interface. Block interface
+        Blocks no longer need to implement Block interface. Block interface
         is thus deprecated as is AbstractBlock. This was done to facilitate
         sharing of components between multiple containers.
     </action>
