@@ -55,26 +55,22 @@ namespace Apache.Avalon.Container
 	using Apache.Avalon.Container.Util;
 	using Apache.Avalon.Container.Services;
 
+	using Apache.Avalon.Meta;
+
 	/// <summary>
 	/// 
 	/// </summary>
 	public sealed class ComponentEntry : IDisposable
 	{
-		private Lifestyle                   m_lifestyle;
-		private Type	                    m_componentType;
-		private String                      m_configName;
-		private String                      m_loggerName;
-		private IConfiguration              m_configuration;
-		private AvalonDependencyAttribute[] m_dependencies;
-		private IComponentHandler           m_handler;
+		private TypeDescriptor m_descriptor;
+		private IConfiguration m_configuration;
+		private Type m_type;
+		private IComponentHandler m_handler;
 
-		public ComponentEntry(AvalonComponentAttribute attribute, Type type, AvalonDependencyAttribute[] dependencies)
+		public ComponentEntry(TypeDescriptor descriptor)
 		{
-			m_lifestyle     = attribute.Lifestyle;
-			m_configName    = attribute.Name;
-			m_loggerName    = attribute.LoggerName;
-			m_componentType = type;
-			m_dependencies  = dependencies;
+			m_descriptor = descriptor;
+			m_type = Type.GetType( descriptor.Info.Typename, true, true );
 			m_configuration = DefaultConfiguration.EmptyConfiguration;
 		}
 
@@ -82,7 +78,7 @@ namespace Apache.Avalon.Container
 		{
 			get
 			{
-				return m_lifestyle;
+				return m_descriptor.Info.Lifestyle;
 			}
 		}
 
@@ -90,7 +86,7 @@ namespace Apache.Avalon.Container
 		{
 			get
 			{
-				return m_componentType;
+				return m_type;
 			}
 		}
 
@@ -106,7 +102,7 @@ namespace Apache.Avalon.Container
 		{
 			get
 			{
-				return m_configName;
+				return Name;
 			}
 		}
 
@@ -114,7 +110,11 @@ namespace Apache.Avalon.Container
 		{
 			get
 			{
-				return m_loggerName;
+				if (m_descriptor.Categories != null && m_descriptor.Categories.Length != 0)
+				{	
+					return m_descriptor.Categories[0].Name;
+				}
+				return Name;
 			}
 		}
 
@@ -122,7 +122,7 @@ namespace Apache.Avalon.Container
 		{
 			get
 			{
-				return m_componentType.FullName;
+				return m_descriptor.Info.Name;
 			}
 		}
 
@@ -138,16 +138,11 @@ namespace Apache.Avalon.Container
 			}
 		}
 
-		public AvalonDependencyAttribute[] Dependencies
+		public DependencyDescriptor[] Dependencies
 		{
 			get
 			{
-				if (m_dependencies == null)
-				{
-					m_dependencies = new AvalonDependencyAttribute[0];
-				}
-
-				return m_dependencies;
+				return m_descriptor.Dependencies;
 			}
 		}
 
@@ -165,12 +160,7 @@ namespace Apache.Avalon.Container
 
 		public void Dispose()
 		{
-			m_componentType = null;
-			m_configName = null;
-			m_loggerName = null;
-			m_configuration = null;
-			m_dependencies = null;
-			ContainerUtil.Shutdown( m_handler );
+			ContainerUtil.Dispose( m_handler );
 		}
 
 		#endregion

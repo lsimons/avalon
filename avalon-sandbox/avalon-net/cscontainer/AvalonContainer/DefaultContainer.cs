@@ -49,20 +49,17 @@ namespace Apache.Avalon.Container
 {
 	using System;
 	using System.Collections;
-	using System.Reflection;
 	using System.Configuration;
-	using System.Diagnostics;
 
 	using Apache.Avalon.Framework;
+	using ConfigurationException = Apache.Avalon.Framework.ConfigurationException;
+	using Apache.Avalon.Composition.Data;
+	using Apache.Avalon.Composition.Data.Builder;
+	using Apache.Avalon.Composition.Logging;
+	using Apache.Avalon.Composition.Logging.Default;
+	// using Apache.Avalon.Composition.Model;
+	// using Apache.Avalon.Composition.Model.Default;
 	using Apache.Avalon.Container.Configuration;
-	using Apache.Avalon.Container.Context;
-	using Apache.Avalon.Container.Lookup;
-	using Apache.Avalon.Container.Services;
-	using Apache.Avalon.Container.Handler;
-	using Apache.Avalon.Container.Factory;
-	using Apache.Avalon.Container.Logger;
-	using Apache.Avalon.Container.Util;
-	using Apache.Avalon.Container.Util.Dag;
 
 	/// <summary>
 	/// This is the default implementation of <b>Avalon Container</b>. It 
@@ -76,462 +73,155 @@ namespace Apache.Avalon.Container
 	/// constructor or implicitly, through Configuration files.
 	/// </para>
 	/// </remarks>
-	/// <example>
-	/// <code>
-	///	<![CDATA[
-	///	
-	///	<!-- Sample configuration file -->
-	///		
-	///	<?xml version="1.0" encoding="utf-8" ?>
-	///	<configuration>
-	///		
-	///	    <avalon.container>
-	///	    
-	///	      <extensionModules>
-	///	        <add type="Namespace.Class, AssemblyName" />
-	///	      </extensionModules>
-	///	      
-	///	      <logger>
-	///	      </logger>
-    ///	      
-	///	      <components>
-	///	        
-	///	        <assembly type="Components.Assembly.Name1" />
-	///	        <assembly type="Components.Assembly.Name2" />
-	///	      
-	///	        <component configurationName="Authentication" >
-	///	          <!-- component configuration here -->
-	///	        </component>
-	///	        
-	///	      </components>
-	///	      
-	///	    </avalon.container>
-	///	      
-	///	</configuration>
-	///	]]>
-	///	</code>
-	/// </example>
-	public class DefaultContainer : MarshalByRefObject, IDisposable
+	public class DefaultContainer : IInitializable
 	{
-		#region Fields
-		protected ILoggerManager          m_loggerManager;
-		protected LifecycleManager        m_lifestyleManager;
-		protected Vertex[]                m_shutDownOrder;
-		private ComponentCollection       m_components;
-		private IComponentFactoryManager  m_factoryManager;
-		private ILookupManager            m_lookupManager;
-		private IContext                  m_context;
-		private ILogger                   m_baseLogger;
+		private static ContainmentProfileCreator CREATOR = new ContainmentProfileCreator();
+
+		protected IConfiguration m_rootConfiguration;
+
+		protected ILoggingManager m_loggingManager;
+
+		protected ILogger m_logger;
+
+		public DefaultContainer()
+		{
+			ContainerConfiguration containerConf = 
+				(ContainerConfiguration)
+				ConfigurationSettings.GetConfig( ContainerConfigurationSectionHandler.Section );
+			
+			m_rootConfiguration = containerConf.Configuration;
+		}
+
+		public DefaultContainer(ContainerConfiguration configuration)
+		{
+			m_rootConfiguration = configuration.Configuration;
+		}
+
+		#region IInitializable Members
+
+		public void Initialize()
+		{
+			InitializeLogger();
+
+			InitializeContainerApplication();
+		}
+
 		#endregion
 
-		#region Constructors
-		
-		/// <summary>
-		/// Constructs a <b>DefaultContainer</b>.
-		/// </summary>
-		/// <remarks>
-		/// This constructor searchs for a &lt;avalon.container&gt; section
-		/// in the AppDomain configuration file. If the configuration file
-		/// is not found, an exception is throwed.
-		/// </remarks>
-		/// <exception cref="ContainerException">If the configuration file is not found.</exception>
-		public DefaultContainer() : this( GetDefaultConfiguration() )
+		#region Logger
+
+		private void InitializeLogger()
 		{
+			IConfiguration loggerConfig = m_rootConfiguration.GetChild( "logging", true );
+
+			LoggingDescriptor loggingDescriptor = CreateLoggingDescriptor( loggerConfig );
+
+			m_loggingManager = new DefaultLoggingManager();
+
+			m_logger = m_loggingManager.GetLoggerForCategory( loggingDescriptor.Name );
 		}
 
-		/// <summary>
-		/// Constructs a <b>DefaultContainer</b>.
-		/// </summary>
-		/// <remarks>
-		/// This constructor needs a valid
-		/// <see cref="Apache.Avalon.Container.Configuration.ContainerConfiguration"/>.
-		/// <seealso cref="Apache.Avalon.Container.Configuration.ContainerConfiguration"/>
-		/// </remarks>
-		/// <param name="config"></param>
-		public DefaultContainer(ContainerConfiguration config) : this( config, null )
+		private LoggingDescriptor CreateLoggingDescriptor( IConfiguration configuration )
 		{
-		}
+			String name = (String) configuration.GetAttribute( "name", "kernel" );
 
-		/// <summary>
-		/// Constructs a <b>DefaultContainer</b>.
-		/// </summary>
-		/// <param name="context"></param>
-		public DefaultContainer(IContext context) : this( null, context )
-		{
-		}
+			CategoriesDirective categories = null;
 
-		/// <summary>
-		/// Constructs a <b>DefaultContainer</b>.
-		/// </summary>
-		/// <param name="config"></param>
-		/// <param name="context"></param>
-		public DefaultContainer(ContainerConfiguration config, IContext context)
-		{
-			this.m_context = ( context == null ) ? new DefaultContext() : context;
-			Setup(config);
-		}
-		#endregion
-
-		#region Methods
-		private static ContainerConfiguration GetDefaultConfiguration()
-		{
-			ContainerConfiguration config = (ContainerConfiguration) 
-					ConfigurationSettings.GetConfig(ContainerConfigurationSectionHandler.Section);
-			return config;
-		}
-
-		private void Setup(ContainerConfiguration config)
-		{
-			if (config == null)
+			try
 			{
-				MissingConfigurationError();
+				categories = CREATOR.GetCategoriesDirective( configuration, name );
+			}
+			catch(Exception e)
+			{
+				throw new ContainerException("Exception obtaining logging directive.", e);
 			}
 
-			InitializeHooks();
-			InitializeLogger(config);
-			InitializeFactoryManager();
-			InitializeLifestyleManager(config);
-			FindComponents(config.Assemblies);
-			VerifyComponentsDependencies();
-			SetupComponents(config.ComponentConfiguration);
-		}
-
-		private void InitializeHooks()
-		{
-			AppDomain.CurrentDomain.DomainUnload += new EventHandler(OnDomainUnload);
-		}
-
-		private void OnDomainUnload(object sender, EventArgs e)
-		{
-			ContainerUtil.Shutdown(this);
-		}
-
-		/// <summary>
-		/// Initialize LoggerManager for the container.
-		/// </summary>
-		/// <remarks>
-		/// <para>
-		/// <see cref="ContainerConfiguration"/> exposes the configuration 
-		/// for the logger manager in the <c>&lt;logger&gt;</c> xml element.
-		/// </para>
-		/// </remarks>
-		/// <example>
-		/// <code>
-		///	<![CDATA[
-		///	
-		///	<!-- Sample configuration file -->
-		///		
-		///	<?xml version="1.0" encoding="utf-8" ?>
-		///	<configuration>
-		///		
-		///	  <configSections>
-		///	    <section 
-		///		   name="avalon.container" 
-		///		   type="Apache.Avalon.Container.Configuration.ContainerConfigurationSectionHandler, Apache.Avalon.Container" />
-		///	  </configSections>
-		///		
-		///   <avalon.container>
-		///	    <logger>
-		///	      <manager type="fullTypeName, AssemblyName" />
-		///	    </logger>
- 		///	  </avalon.container>
- 		///	      
-		///	</configuration>
-		///	]]>
-		///	</code>
-		///		
-		///	The <c>manager</c> element should be used to
-		///	override the default <see cref="LoggerManager"/>. If the element
-		///	isn't present, the default <see cref="LoggerManager"/> will
-		///	be used.
-		/// </example>
-		/// <param name="config"></param>
-		protected virtual void InitializeLogger(ContainerConfiguration config)
-		{
-			m_baseLogger = new ConsoleLogger(ConsoleLogger.LEVEL_DEBUG);
-
-			Type loggerType = null;
-
-			IConfiguration loggerConfiguration = 
-				ConfigurationUtil.GetConfiguration(config.LoggerNode);
-
-			IConfiguration managerConfig = loggerConfiguration.GetChild("manager", false);
-
-			if (managerConfig == null)
+			ArrayList list = new ArrayList();
+			ConfigurationCollection configs = configuration.GetChildren( "target" );
+			foreach( IConfiguration conf in configs )
 			{
-				// If nothing different was specified, we instantiate 
-				// or well know LoggerManager implementantion
+				try
+				{
+					list.Add( CreateTargetDescriptor( conf ) );
+				}
+				catch( Exception e )
+				{
+					throw new ContainerException( "Invalid target descriptor.", e );
+				}
+			}
 
-				loggerType = typeof( LoggerManager );
+			TargetDescriptor[] targets = (TargetDescriptor[]) list.ToArray( typeof(TargetDescriptor) );
+
+			//
+			// return the logging descriptor
+			//
+
+			return new LoggingDescriptor(
+				categories.Name, 
+				categories.Priority, 
+				categories.Target, 
+				categories.Categories, 
+				targets );
+		}
+
+		private TargetDescriptor CreateTargetDescriptor( IConfiguration config )
+		{
+			String name = (String) config.GetAttribute( "name", String.Empty );
+
+			if( config.Children.Count == 0 )
+			{
+				throw new ConfigurationException(
+					String.Format("Missing target provider element in '{0}'", config.Name) );
+			}
+
+			IConfiguration conf = config.Children[0];
+			
+			TargetProvider provider = null;
+			
+			if( conf.Name.Equals( "file" ) )
+			{
+				// TODO: FileTargetProvider not supported yet
+				// throw new ConfigurationException(
+				//		"FileTargetProvider not supported yet." );
+				// provider = createFileTargetProvider( conf );
 			}
 			else
 			{
-				String typeName = (String) managerConfig.Attributes["type"];
-				loggerType = Type.GetType( typeName, true, true );
+				throw new ConfigurationException(
+					String.Format( "Unrecognized provider: {0} in {1}.", conf.Name, config.Name ) );
 			}
 
-			IComponentHandler handler = 
-				new InternalComponentHandler( m_baseLogger, m_context, loggerConfiguration, loggerType );
-			
-			m_loggerManager = (ILoggerManager) handler.GetInstance();
+			return new TargetDescriptor( name, provider );
 		}
 
-		protected virtual void InitializeFactoryManager()
-		{
-			IConfiguration extensionsConfiguration = 
-				ConfigurationUtil.GetConfiguration( null );
-
-			ILogger logger = m_loggerManager["FactoryManager"];
-
-			Type factoryManagerType = typeof( ComponentFactoryManager );
-
-			InternalComponentHandler handler = 
-				new InternalComponentHandler( logger, m_context, extensionsConfiguration, factoryManagerType );
-
-			m_factoryManager = (IComponentFactoryManager) handler.GetInstance();
-		}
-
-		/// <summary>
-		/// TODO: Add summary
-		/// </summary>
-		/// <param name="config"></param>
-		protected virtual void InitializeLifestyleManager(ContainerConfiguration config)
-		{
-			IConfiguration extensionsConfiguration = 
-				ConfigurationUtil.GetConfiguration( config.ExtensionsNode );
-			ILogger logger = m_loggerManager["LifestyleManager"];
-
-			Type lifestyleManager = typeof( LifecycleManager );
-
-			InternalComponentHandler handler = 
-				new InternalComponentHandler( logger, m_context, extensionsConfiguration, lifestyleManager );
-
-			InternalLookupManager lookUpManager = new InternalLookupManager();
-			lookUpManager.Add( typeof(IComponentFactoryManager).FullName, m_factoryManager );
-			lookUpManager.Add( typeof(ILoggerManager).FullName, m_loggerManager );
-			lookUpManager.Add( "Container", this );
-			handler.LookupManager = lookUpManager;
-
-			m_lifestyleManager = (LifecycleManager) handler.GetInstance();
-		}
-
-		protected virtual void FindComponents(Assembly[] assemblies)
-		{
-			foreach(Assembly assembly in assemblies)
-			{
-				Pair[] pairs = AssemblyUtil.FindTypesUsingAttribute(
-					assembly, typeof( AvalonServiceAttribute ), true);
-
-				foreach(Pair pair in pairs)
-				{
-					Type componentType = (Type) pair.First;
-					AvalonServiceAttribute serviceAttribute = 
-						(AvalonServiceAttribute) pair.Second;
-					
-					object[] dependencies = componentType.GetCustomAttributes(
-						typeof( AvalonDependencyAttribute ), true);
-					
-					object[] avalonComponent = componentType.GetCustomAttributes(
-						typeof( AvalonComponentAttribute ), false);
-
-					Debug.Assert(serviceAttribute != null, "Component doesnt specified a AvalonServiceAttribute attribute");
-					Debug.Assert(avalonComponent.Length != 0, "Component doesnt specified a AvalonComponentAttribute attribute");
-					Debug.Assert(avalonComponent.Length == 1, "Component specified more than one AvalonComponentAttribute attribute");
-					
-					AddComponent(serviceAttribute, componentType, avalonComponent, 
-						dependencies);
-				}
-			}
-		}
-
-		protected virtual void AddComponent(AvalonServiceAttribute serviceAttribute, Type type, 
-			object[] componentAttribute, object[] dependencies)
-		{
-			if ( serviceAttribute == null )
-			{
-				throw new ArgumentNullException( "serviceAttribute" );
-			}
-			if ( type == null )
-			{
-				throw new ArgumentNullException( "type" );
-			}
-			if ( componentAttribute == null || componentAttribute.Length == 0 )
-			{
-				throw new ArgumentNullException( "componentAttribute" );
-			}
-
-			String role = serviceAttribute.ServiceType.FullName;
-
-			AvalonComponentAttribute attribute = null;
-			attribute = (AvalonComponentAttribute) componentAttribute[0];
-
-			AvalonDependencyAttribute[] dependenciesAttribute = null;
-
-			if (dependencies.Length != 0)
-			{
-				dependenciesAttribute = new AvalonDependencyAttribute[dependencies.Length];
-				dependencies.CopyTo(dependenciesAttribute, 0L);
-			}
-
-			ComponentEntry entry = new ComponentEntry(
-				attribute, type, dependenciesAttribute);
-
-			m_lifestyleManager.PrepareComponent( entry );
-
-			Components.Add(role, entry);
-		}
-
-		protected virtual void VerifyComponentsDependencies()
-		{
-			Hashtable vertexMap = 
-				new Hashtable(CaseInsensitiveHashCodeProvider.Default, CaseInsensitiveComparer.Default);
-
-			foreach(DictionaryEntry dicEntry in Components.GetEntries())
-			{
-				String role = (String) dicEntry.Key;
-				ComponentEntry entry = (ComponentEntry) dicEntry.Value;
-
-				Vertex vertex = vertexMap[role] as Vertex;
-
-				if (vertex == null)
-				{
-					vertex = new Vertex(role, entry);
-					vertexMap.Add(role, vertex);
-				}
-
-				foreach(AvalonDependencyAttribute dependency in entry.Dependencies)
-				{
-					String dependencyRole = dependency.DependencyType.FullName;
-					ComponentEntry depEntry = Components[dependencyRole];
-
-					if (depEntry == null && dependency.IsOptional == false)
-					{
-						MissingDependencyError(entry, dependencyRole);
-					}
-
-					Vertex child = new Vertex(dependencyRole, entry);
-					vertex.AddDependency(child);
-				}
-			}
-
-			Vertex[] vertices = new Vertex[vertexMap.Count];
-			vertexMap.Values.CopyTo(vertices, 0);
-
-			DirectedAcyclicGraphVerifier.TopologicalSort( vertices );
-
-			Array.Reverse( vertices );
-
-			m_shutDownOrder = vertices;
-		}
-
-		protected virtual void SetupComponents(IDictionary componentConfiguration)
-		{
-			foreach(ComponentEntry entry in Components)
-			{
-				entry.ExtractConfigurationNode(componentConfiguration);
-			}
-		}
-
-		internal IComponentHandler GetComponentHandler(String role)
-		{
-			IComponentHandler handler = null;
-
-			ComponentEntry entry = Components[role];
-
-			if (entry != null)
-			{
-				handler = entry.Handler;
-			}
-
-			return handler;
-		}
 		#endregion
 
-		#region ErrorMethod
-		private void MissingDependencyError(ComponentEntry entry, String dependentRole)
+		#region Application
+
+		private void InitializeContainerApplication()
 		{
-			String message = String.Format("Component {0} depends on {1} which has not been found.", entry.Name, dependentRole);
-			throw new ContainerException(message);
+			IConfiguration config = m_rootConfiguration.GetChild( "container", false );
+
+			// IContainmentModel application = CreateContainmentModel( config );
+			CreateContainmentModel( config );
 		}
 
-		private void MissingConfigurationError()
+		private void CreateContainmentModel( IConfiguration config )
 		{
-			String message = "Impossible to start up the container while a configuration is not supplied. "
-				+ "The configuration can be supplied using a configuration file or creating manually a ContainerConfiguration.";
-			throw new ContainerException(message);
-		}
-		#endregion
+			//m_logger.Info( "building application model" );
 
-		#region Properties
-		internal ComponentCollection Components
-		{
-			get
-			{
-				if (m_components == null)
-				{
-					m_components = new ComponentCollection();
-				}
-				return m_components;
-			}
+			ContainmentProfile profile = CREATOR.CreateContainmentProfile( config );
+
+			// return null;
+
+			/* m_loggingManager.AddCategories( profile.Categories );
+
+			ITypeLoaderContext loaderContext = new DefaultTypeLoaderContext( m_logger, 
+					null, baseDir, typeRepository, serviceRepository, typeLoaderDirec, assm);
+
+			ITypeLoaderModel loaderModel = new DefaultTypeLoaderModel( loaderContext );*/
 		}
 
-		public ILookupManager LookupManager
-		{
-			get
-			{
-				if (m_lookupManager == null)
-				{
-					m_lookupManager = new DefaultLookupManager(this);
-				}
-
-				return m_lookupManager;
-			}
-		}
-		#endregion
-
-		#region IDisposable Members
-		public void Dispose()
-		{
-			if (m_baseLogger.IsDebugEnabled)
-			{
-				m_baseLogger.Debug("DefaultContainer: Dispose");
-			}
-
-			foreach(Vertex vertex in m_shutDownOrder)
-			{
-				if (m_baseLogger.IsDebugEnabled)
-				{
-					m_baseLogger.Debug("DefaultContainer: Disposing handler of {0} ...", 
-						vertex.Entry.ComponentType.FullName );
-				}
-
-				ContainerUtil.Shutdown(vertex.Entry);
-			}
-
-			if (m_baseLogger.IsDebugEnabled)
-			{
-				m_baseLogger.Debug("DefaultContainer: Disposing ComponentFactoryManager");
-			}
-			ContainerUtil.Shutdown(m_factoryManager);
-
-			if (m_baseLogger.IsDebugEnabled)
-			{
-				m_baseLogger.Debug("DefaultContainer: Disposing LifecycleManager");
-			}
-			ContainerUtil.Shutdown(m_lifestyleManager);
-
-			if (m_baseLogger.IsDebugEnabled)
-			{
-				m_baseLogger.Debug("DefaultContainer: Disposing LoggerManager");
-			}
-			ContainerUtil.Shutdown(m_loggerManager);
-
-			if (m_baseLogger.IsDebugEnabled)
-			{
-				m_baseLogger.Debug("DefaultContainer: Disposing Logger - bye");
-			}
-			ContainerUtil.Shutdown(m_baseLogger);
-		}
 		#endregion
 	}
 }

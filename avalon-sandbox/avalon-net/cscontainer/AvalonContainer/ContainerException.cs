@@ -52,9 +52,14 @@ namespace Apache.Avalon.Container
 	/// <summary>
 	/// Summary description for ContainerException.
 	/// </summary>
-	public class ContainerException : ApplicationException
+	[Serializable]
+	public class ContainerException : System.Exception
 	{
 		public ContainerException(String message) : base(message)
+		{
+		}
+
+		public ContainerException(String message, Exception inner) : base(message, inner)
 		{
 		}
 	}
