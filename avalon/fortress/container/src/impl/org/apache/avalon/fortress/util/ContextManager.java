@@ -100,7 +100,7 @@ import java.util.Iterator;
 /**
  * <p>You can get two different contexts from the ContextManager:
  * the container context (m_childContext)
- * and the container manager context (m_contaimerManagerContext)</p>
+ * and the container manager context (m_containerManagerContext)</p>
  *
  * <p>You can get two different contexts from the ContextManager: the child
  * context and the impl manager context. The former contains all
@@ -119,7 +119,7 @@ import java.util.Iterator;
  * and dispose of them properly when it itself is disposed .</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.42 $ $Date: 2003/06/10 08:31:15 $
+ * @version CVS $Revision: 1.43 $ $Date: 2003/06/11 10:48:15 $
  * @since 4.1
  */
 public class ContextManager
