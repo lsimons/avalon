@@ -127,13 +127,16 @@ public class JarTask extends AbstractDeliverableTask
 
             if( null != def.getInfo().getVersion() )
             {
+
+                // TODO: validate that the version is a dewy version
+
                 addAttribute( 
                   main, "Specification-Version", 
                   def.getInfo().getVersion() );
             }
             else
             {
-                addAttribute( main, "Specification-Version", "1.0" );
+                addAttribute( main, "Specification-Version", "0" ); 
             }
             addAttribute( 
               main, "Implementation-Vendor", 
@@ -141,8 +144,11 @@ public class JarTask extends AbstractDeliverableTask
             addAttribute( 
               main, "Implementation-Vendor-Id", 
               "org.apache.avalon" );
+
+            // TODO: get a real implementation version id
+            
             addAttribute( 
-              main, "Implementation-Version", "123" );
+              main, "Implementation-Version", "UNKNOWN" ); 
 
             String classpath = getProject().getProperty( JAR_CLASSPATH_KEY );
             if( null != classpath )

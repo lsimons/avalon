@@ -9,8 +9,14 @@
   <target name="javadoc" depends="prepare">
     <x:javadoc>
       <x:link href="http://java.sun.com/j2se/1.4/docs/api" />
+      <!--
       <x:link key="avalon-runtime"
         href="http://www.apache.org/~mcconnell/docs/avalon/runtime/3.3.0/api"/>
+      <x:link key="avalon-runtime"
+        href="./../../../../../avalon/runtime/3.3.0/api"/>
+      -->
+      <x:link key="avalon-runtime"
+        href="http://@DOC-ROOT@/avalon/runtime/3.3.0/api"/>
     </x:javadoc>
   </target>
 
