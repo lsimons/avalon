@@ -98,8 +98,10 @@ public class DefaultContext
      *
      * @param key the items key
      * @param value the item
+     * @exception IllegalStateException if context is read only
      */
     public void put( final Object key, final Object value )
+        throws IllegalStateException
     {
         checkWriteable();
         m_contextData.put( key, value );
@@ -116,7 +118,7 @@ public class DefaultContext
     }
 
     /**
-     * Gte parent context if any.
+     * Get parent context if any.
      *
      * @return the parent Context (may be null)
      */
@@ -125,11 +127,21 @@ public class DefaultContext
         return m_parent;
     }
 
+    /**
+     * Make the context read-only.
+     * Any attempt to write to the context via put() 
+     * will result in an IllegalStateException.
+     */
     public void makeReadOnly()
     {
         m_readOnly = true;
     }
 
+    /**
+     * Utility method to check if context is writeable and if not throw exception.
+     *
+     * @exception IllegalStateException if context is read only
+     */
     protected final void checkWriteable()
         throws IllegalStateException
     {
