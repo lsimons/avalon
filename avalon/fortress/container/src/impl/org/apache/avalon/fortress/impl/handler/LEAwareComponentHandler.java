@@ -59,13 +59,13 @@ import org.apache.avalon.fortress.impl.LifecycleExtensionManager;
  * calls relevent Lifecycle Extension handlers at the right time.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/01/27 16:55:41 $
+ * @version CVS $Revision: 1.2 $ $Date: 2003/02/10 15:47:00 $
  */
 public class LEAwareComponentHandler
     implements ComponentHandler, Disposable
 {
     private final ComponentHandler m_componentHandler;
-    private final org.apache.avalon.fortress.impl.LifecycleExtensionManager m_extManager;
+    private final LifecycleExtensionManager m_extManager;
     private final Context m_context;
 
    /**
@@ -75,7 +75,7 @@ public class LEAwareComponentHandler
     * @param context the context
     */
     public LEAwareComponentHandler( final ComponentHandler componentHandler,
-                                    final org.apache.avalon.fortress.impl.LifecycleExtensionManager extManager,
+                                    final LifecycleExtensionManager extManager,
                                     final Context context )
     {
         if( null == componentHandler )

@@ -76,7 +76,7 @@ import org.apache.excalibur.mpool.ObjectFactory;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
- * @version CVS $Revision: 1.2 $ $Date: 2003/02/10 15:35:47 $
+ * @version CVS $Revision: 1.3 $ $Date: 2003/02/10 15:47:00 $
  * @since 4.0
  */
 public class ComponentFactory
@@ -136,7 +136,7 @@ public class ComponentFactory
                              final ServiceManager serviceManager,
                              final Context context,
                              final LoggerManager loggerManager,
-                             final org.apache.avalon.fortress.impl.LifecycleExtensionManager extManager,
+                             final LifecycleExtensionManager extManager,
                              final InstrumentManager instrumentManager )
     {
         m_componentClass = componentClass;
