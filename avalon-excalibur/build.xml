@@ -17,6 +17,7 @@
     <!-- Build default targets of all subprojects. -->
     <target name="build-subprojects-dist">
 
+        <ant dir="collections"/>
         <ant dir="instrument"/>
         <ant dir="all"/>                <!-- depends on instrument -->
         <ant dir="instrument-manager"/> <!-- depends on instrument, all -->
