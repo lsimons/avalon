@@ -51,7 +51,7 @@ import org.apache.excalibur.instrument.manager.interfaces.InstrumentSampleUtils;
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.7 $ $Date: 2002/10/25 15:42:26 $
+ * @version CVS $Revision: 1.8 $ $Date: 2002/10/26 08:52:25 $
  * @since 4.1
  */
 class InstrumentManagerConnection
@@ -304,7 +304,8 @@ class InstrumentManagerConnection
                                 lease.getLeaseDuration(), lease.getType() );
                             
                             // Refresh the Tree Model
-                            m_treeModel.updateInstrument( instrumentDescriptor, instrumentTreeNode );
+                            m_treeModel.updateInstrument( instrumentDescriptor, instrumentTreeNode,
+                                -1 /* Force Update */ );
                         }
                         catch ( AltrmiInvocationException e )
                         {

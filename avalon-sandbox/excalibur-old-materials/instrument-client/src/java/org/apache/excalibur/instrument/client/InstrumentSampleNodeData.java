@@ -387,27 +387,43 @@ class InstrumentSampleNodeData
     boolean update()
     {
         boolean changed = false;
-        changed |= update( m_descriptor.getName(), m_descriptor.getDescription() );
+        changed |= update( m_descriptor.getName(), m_descriptor.getDescription(),
+            m_descriptor.getStateVersion() );
         
-        boolean configured = m_descriptor.isConfigured();
-        changed |= ( configured == m_configured );
-        m_configured = configured;
+        boolean newConfigured = m_descriptor.isConfigured();
+        if ( newConfigured != m_configured )
+        {
+            changed = true;
+            m_configured = newConfigured;
+        }
         
-        long leaseExpireTime = m_descriptor.getLeaseExpirationTime();
-        changed |= ( leaseExpireTime == m_leaseExpireTime );
-        m_leaseExpireTime = leaseExpireTime;
+        long newLeaseExpireTime = m_descriptor.getLeaseExpirationTime();
+        if ( newLeaseExpireTime != m_leaseExpireTime )
+        {
+            changed = true;
+            m_leaseExpireTime = newLeaseExpireTime;
+        }
         
-        int type = m_descriptor.getType();
-        changed |= ( type == m_type );
-        m_type = type;
+        int newType = m_descriptor.getType();
+        if ( newType != m_type )
+        {
+            changed = true;
+            m_type = newType;
+        }
         
-        int size = m_descriptor.getSize();
-        changed |= ( size == m_size );
-        m_size = size;
+        int newSize = m_descriptor.getSize();
+        if ( newSize != m_size )
+        {
+            changed = true;
+            m_size = newSize;
+        }
         
-        long interval = m_descriptor.getInterval();
-        changed |= ( interval == m_interval );
-        m_interval = interval;
+        long newInterval = m_descriptor.getInterval();
+        if ( newInterval != m_interval )
+        {
+            changed = true;
+            m_interval = newInterval;
+        }
         
         return changed;
     }

@@ -140,16 +140,29 @@ class InstrumentableNodeData
         return m_registered;
     }
     
+    /**
+     * Collect latest property values from the server.  Each call is remote so this
+     *  allows us to use cached values locally to speed things up.
+     */
     boolean update()
     {
         boolean changed = false;
-        changed |= update( m_descriptor.getName(), m_descriptor.getDescription() );
+        changed |= update( m_descriptor.getName(), m_descriptor.getDescription(),
+            m_descriptor.getStateVersion() );
         
-        changed |= ( m_descriptor.isConfigured() == m_configured );
-        m_configured = m_descriptor.isConfigured();
+        boolean newConfigured = m_descriptor.isConfigured();
+        if ( newConfigured != m_configured )
+        {
+            changed = true;
+            m_configured = newConfigured;
+        }
         
-        changed |= ( m_descriptor.isRegistered() == m_registered );
-        m_registered = m_descriptor.isRegistered();
+        boolean newRegistered = m_descriptor.isRegistered();
+        if ( newRegistered != m_registered )
+        {
+            changed = true;
+            m_registered = newRegistered;
+        }
         
         return changed;
     }
