@@ -21,9 +21,11 @@
         <depend project="excalibur-datasource" runtime="true"/>
         <depend project="excalibur-component" runtime="true"/>
         <depend project="excalibur-collections" runtime="true"/>
+        <depend project="excalibur-container" runtime="true"/>
         <depend project="excalibur-event" runtime="true"/>
         <depend project="excalibur-logger" runtime="true"/>
         <depend project="excalibur-instrument" runtime="true"/>
+        <depend project="excalibur-meta" runtime="true"/>
         <depend project="excalibur-sourceresolve"/>
         <depend project="excalibur-xmlutil"/>
         <depend project="excalibur-testcase"/>
@@ -97,6 +99,40 @@
         <jar name="build/lib/excalibur-altrmi-server-impl.jar"/>
         <jar name="build/lib/excalibur-altrmi-server-interfaces.jar"/>
         <nag from="Peter Donald &lt;peter@apache.org&gt;"
+            to="avalon-dev@jakarta.apache.org"/>
+    </project>
+
+    <project name="excalibur-assembly">
+        <package>org.apache.excalibur.assembly</package>
+
+        <ant basedir="assembly">
+            <depend property="logkit.jar" project="jakarta-avalon-logkit" runtime="true"/>
+            <property name="version" value="@@DATE@@"/>
+            <property name="junit.failonerror" value="true"/>
+            <property name="do.checkstyle" value="false"/>
+            <property name="skip.dependencies" value="true"/>
+        </ant>
+
+        <depend project="jakarta-avalon" runtime="true"/>
+        <depend project="excalibur-i18n" runtime="true"/>
+        <depend project="excalibur-configuration" runtime="true"/>
+        <depend project="excalibur-container" runtime="true"/>
+        <depend project="excalibur-logger" runtime="true"/>
+        <depend project="excalibur-meta" runtime="true"/>
+        <depend project="excalibur-extension" runtime="true"/>
+        <depend project="excalibur-event" runtime="true"/>
+        <depend project="excalibur-collections" runtime="true"/>
+        <depend project="excalibur-concurrent" runtime="true"/>
+        <depend project="excalibur-threadcontext" runtime="true"/>
+        <depend project="excalibur-util" runtime="true"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
+        <work nested="assembly/build/classes"/>
+
+        <home nested="assembly"/>
+        <jar name="assembly/lib/excalibur-meta-@@DATE@@.jar"/>
+
+        <nag from="Stephen McConnell &lt;mcconnell@apache.org&gt;"
             to="avalon-dev@jakarta.apache.org"/>
     </project>
 
@@ -303,6 +339,52 @@
 
         <nag from="Peter Donald &lt;peter@apache.org&gt;"
              to="avalon-dev@jakarta.apache.org"/>
+    </project>
+
+    <project name="excalibur-container">
+        <package>org.apache.excalibur.container</package>
+
+        <ant basedir="container">
+            <property name="version" value="@@DATE@@"/>
+            <property name="junit.failonerror" value="true"/>
+            <property name="do.checkstyle" value="false"/>
+            <property name="skip.dependencies" value="true"/>
+        </ant>
+
+        <depend project="jakarta-avalon" runtime="true"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
+        <work nested="container/build/classes"/>
+
+        <home nested="container"/>
+        <jar name="build/lib/excalibur-container-@@DATE@@.jar"/>
+
+        <nag from="Stephen McConnell &lt;mcconnell@apache.org&gt;"
+            to="avalon-dev@jakarta.apache.org"/>
+    </project>
+
+    <project name="excalibur-meta">
+        <package>org.apache.excalibur.meta</package>
+
+        <ant basedir="meta">
+            <property name="version" value="@@DATE@@"/>
+            <property name="junit.failonerror" value="true"/>
+            <property name="do.checkstyle" value="false"/>
+            <property name="skip.dependencies" value="true"/>
+        </ant>
+
+        <depend project="jakarta-avalon" runtime="true"/>
+        <depend project="excalibur-i18n" runtime="true"/>
+        <depend project="excalibur-configuration" runtime="true"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
+        <work nested="meta/build/classes"/>
+
+        <home nested="meta"/>
+        <jar name="build/lib/excalibur-meta-@@DATE@@.jar"/>
+
+        <nag from="Stephen McConnell &lt;mcconnell@apache.org&gt;"
+            to="avalon-dev@jakarta.apache.org"/>
     </project>
 
 
