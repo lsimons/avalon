@@ -3,7 +3,7 @@
     <title>Package Documentation for org.apache.avalon.excalibur.cache Package</title>
   </head>
   <body bgcolor="white">
-    A general extensible cache framework and implementation.
+    An extensible cache framework and implementation.
     <br><br>
     <a name="doc.Description"></a>
     <div align="center">
@@ -13,8 +13,12 @@
     <a name="doc.Intro"></a>
     <h2>Introduction</h2>
     <p>The <code>org.apache.avalon.excalibur.cache</code> package contains interfaces and classes
-    for caching. The design is such that the cache's backing mechanism (store) and replacement
-    algorithm are totally replaceable.
+    for caching. The design is sufficiently modular to allow for different implementations of the
+    backing mechanism (store) and replacement algorithm (eg LRU, FIFO).
+    </p>
+    <p>
+    Here is a class diagram: 
+    <img src="doc-files/cache.png" />
     </p>
   </body>
 </html>
