@@ -55,7 +55,7 @@
 
     <move toDir="${merlin.build.inst.dir}/lib/shared">
       <fileset dir="${merlin.build.inst.dir}/lib/system">
-        <include name="avalon-framework-*.jar"/>
+        <include name="*-api-*.jar"/>
         <include name="*-spi-*.jar"/>
       </fileset>
     </move>
