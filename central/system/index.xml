@@ -716,7 +716,9 @@
       <include key="avalon-repository-spi"/>
       <include key="avalon-composition-spi"/>
       <include key="avalon-activation-api"/>
-      <include key="avalon-composition-impl" build="false" test="true" runtime="false"/>
+      <include key="avalon-framework-impl" build="true" test="true" runtime="true"/>
+      <include key="avalon-composition-impl" 
+         build="false" test="true" runtime="false"/>
       <include key="avalon-test-components" build="false" test="true" runtime="false"/>
       <include key="avalon-test-playground" build="false" test="true" runtime="false"/>
     </dependencies>
