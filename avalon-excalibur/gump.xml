@@ -25,7 +25,10 @@
         <depend project="excalibur-event" runtime="true"/>
         <depend project="excalibur-logger" runtime="true"/>
         <depend project="excalibur-instrument" runtime="true"/>
+        <depend project="excalibur-sourceresolve"/>
+        <depend project="excalibur-xmlbundle"/>
         <depend project="excalibur-testcase"/>
+        <depend project="excalibur-io"/>
         <depend project="xml-xalan2"/>
         <depend project="jdom"/>
         <depend project="junit"/>
@@ -461,7 +464,7 @@
         <work nested="sourceresolve/build/classes"/>
 
         <home nested="sourceresolve"/>
-        <jar name="build/lib/excalibur-sourceresolving-@@DATE@@.jar"/>
+        <jar name="build/lib/excalibur-sourceresolve-@@DATE@@.jar"/>
 
         <nag from="Peter Donald &lt;peter@apache.org&gt;"
             to="avalon-dev@jakarta.apache.org"/>
@@ -682,11 +685,11 @@
             <depend property="junit.jar" project="junit"/>
             <depend property="checkstyle.jar" project="checkstyle"/>
             <depend property="avalon-framework.jar" project="jakarta-avalon"/>
-			<depend property="excalibur-logger.jar" project="excalibur-logger"/>
+            <depend property="excalibur-logger.jar" project="excalibur-logger"/>
             <depend property="logkit.jar" project="jakarta-avalon-logkit" runtime="true"/>
             <depend property="excalibur-component.jar" project="excalibur-component"/>
             <depend property="excalibur-pool.jar" project="excalibur-pool"/>
-			<depend property="excalibur-sourceresolve.jar" project="excalibur-sourceresolve"/>
+            <depend property="excalibur-sourceresolve.jar" project="excalibur-sourceresolve"/>
             <property name="version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
             <property name="do.checkstyle" value="true"/>
@@ -703,7 +706,7 @@
 
         <nag from="Peter Donald &lt;peter@apache.org&gt;"
             to="avalon-dev@jakarta.apache.org"/>
-	</project>
+    </project>
 
     <project name="excalibur-zip">
         <package>org.apache.excalibur.zip</package>

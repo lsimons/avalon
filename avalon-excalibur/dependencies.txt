@@ -33,3 +33,5 @@ instrument-client -> framework, altrmi-client-impl, altrmi-client-interfaces, al
 * pool -> framework, collections, logkit, instrument [Unit tests: junit, testcase, junitperf]
 * testcase -> framework, component, logkit, logger
 * monitor -> framework, logkit, logger, sourceresolve [Unit tests: junit, testcase]
+* xmlbundle -> framework, logger, logkit, component, pool, sourceresolve
+* sourceresolve -> framework, pool
