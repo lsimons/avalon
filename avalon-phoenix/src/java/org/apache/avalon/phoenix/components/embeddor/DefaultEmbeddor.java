@@ -7,6 +7,8 @@
  */
 package org.apache.avalon.phoenix.components.embeddor;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
@@ -21,6 +23,9 @@ import org.apache.avalon.framework.component.Composable;
 import org.apache.avalon.framework.component.DefaultComponentManager;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
+import org.apache.avalon.framework.context.Context;
+import org.apache.avalon.framework.context.ContextException;
+import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.AvalonFormatter;
 import org.apache.avalon.framework.logger.LogKitLogger;
@@ -28,6 +33,7 @@ import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.parameters.ParameterException;
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.avalon.phoenix.Constants;
 import org.apache.avalon.phoenix.interfaces.ClassLoaderManager;
 import org.apache.avalon.phoenix.interfaces.ConfigurationRepository;
 import org.apache.avalon.phoenix.interfaces.Deployer;
@@ -37,7 +43,6 @@ import org.apache.avalon.phoenix.interfaces.EmbeddorMBean;
 import org.apache.avalon.phoenix.interfaces.Kernel;
 import org.apache.avalon.phoenix.interfaces.LogManager;
 import org.apache.avalon.phoenix.interfaces.PackageRepository;
-import org.apache.avalon.phoenix.Constants;
 import org.apache.avalon.phoenix.interfaces.SystemManager;
 import org.apache.log.Hierarchy;
 import org.apache.log.LogTarget;
@@ -53,7 +58,7 @@ import org.apache.log.output.io.FileTarget;
  */
 public class DefaultEmbeddor
     extends AbstractLogEnabled
-    implements Embeddor, Parameterizable, EmbeddorMBean
+    implements Embeddor, Contextualizable, Parameterizable, EmbeddorMBean
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( DefaultEmbeddor.class );
@@ -64,6 +69,7 @@ public class DefaultEmbeddor
     private final static String DEFAULT_FORMAT =
         "%{time} [%7.7{priority}] (%{category}): %{message}\\n%{throwable}";
 
+    private Context m_context;
     private Parameters m_parameters;
     private String m_phoenixHome;
 
@@ -79,6 +85,12 @@ public class DefaultEmbeddor
     private boolean m_shutdown;
 
     private long m_startTime;
+
+    public void contextualize( final Context context )
+        throws ContextException
+    {
+        m_context = context;
+    }
 
     /**
      * Set parameters for this component.
@@ -96,10 +108,10 @@ public class DefaultEmbeddor
      * com.biz.MyCustomConfigurationRepository</p>
      *
      * <p>Of the other type of parameters, the following are supported by
-     * the DefaultEmbeddor implementation of Embeddor. Note that some of 
+     * the DefaultEmbeddor implementation of Embeddor. Note that some of
      * the embedded components may support other parameters.</p>
      * <ul>
-     * <li><b>phoenix.home</b>, the home directory of phoenix. Defaults 
+     * <li><b>phoenix.home</b>, the home directory of phoenix. Defaults
      * to "..".</li>
      * <li><b>log-destination</b>, the file to save log
      * messages in. If omitted, ${phoenix.home}/logs/phoenix.log is used.</li>
@@ -232,9 +244,36 @@ public class DefaultEmbeddor
     }
 
     /**
+     * Ask the embeddor to restart itself if this operation is supported.
+     * 
+     * @exception UnsupportedOperationException if restart not supported
+     */
+    public void restart()
+        throws UnsupportedOperationException
+    {
+        try
+        {
+            //Pass a message back to original invoker. 
+            //We use an ActionListener rather than operating on some more meaningful
+            //event system as ActionListener and friends can be loaded from system
+            //ClassLoader and thus the Embeddor does not have to share a common 
+            //classloader ancestor with invoker
+            final ActionListener listener =
+                (ActionListener)m_context.get( ActionListener.class.getName() );
+            final ActionEvent action =
+                new ActionEvent( new Object(), ActionEvent.ACTION_PERFORMED, "restart" );
+            listener.actionPerformed( action );
+        }
+        catch( final ContextException ce )
+        {
+            throw new UnsupportedOperationException();
+        }
+    }
+
+    /**
      * Get name by which the server is know.
      * Usually this defaults to "Phoenix" but the admin
-     * may assign another name. This is useful when you 
+     * may assign another name. This is useful when you
      * are managing a cluster of Phoenix servers.
      *
      * @return the name of server
@@ -255,7 +294,7 @@ public class DefaultEmbeddor
     }
 
     /**
-     * Retrieve the number of millisecond 
+     * Retrieve the number of millisecond
      * the server has been up.
      *
      * @return the the number of millisecond the server has been up
@@ -269,7 +308,7 @@ public class DefaultEmbeddor
      * Retrieve a string identifying version of server.
      * Usually looks like "v4.0.1a".
      *
-     * @return version string of server. 
+     * @return version string of server.
      */
     public String getVersion()
     {
@@ -545,7 +584,7 @@ public class DefaultEmbeddor
                                PREFIX + "configuration.DefaultConfigurationRepository" );
         defaults.setParameter( ClassLoaderManager.ROLE,
                                PREFIX + "classloader.DefaultClassLoaderManager" );
-        defaults.setParameter( PackageRepository.ROLE, 
+        defaults.setParameter( PackageRepository.ROLE,
                                PREFIX + "extensions.PhoenixPackageRepository" );
         return defaults;
     }
