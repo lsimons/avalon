@@ -12,7 +12,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.atlantis.Application;
-import org.apache.avalon.framework.atlantis.ApplicationException;
 import org.apache.avalon.framework.atlantis.SystemManager;
 import org.apache.avalon.framework.camelot.AbstractContainer;
 import org.apache.avalon.framework.camelot.Container;

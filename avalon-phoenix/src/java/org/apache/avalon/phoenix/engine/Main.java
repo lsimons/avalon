@@ -70,7 +70,9 @@ public class Main
     private void execute( final Parameters parameters )
         throws Exception
     {
-        final PhoenixEmbeddor embeddor = new PhoenixEmbeddor();
+        //final PhoenixEmbeddor embeddor = new PhoenixEmbeddor();
+        final SingleAppEmbeddor embeddor = new SingleAppEmbeddor();
+        parameters.setParameter( "application-location", "../apps/avalon-demo.sar" );
         embeddor.parameterize( parameters );
         embeddor.initialize();
         embeddor.start();
@@ -81,8 +83,8 @@ public class Main
         }
         finally
         {
-            embeddor.stop();
-            embeddor.dispose();
+            //embeddor.stop();
+            //embeddor.dispose();
         }
     }
 }

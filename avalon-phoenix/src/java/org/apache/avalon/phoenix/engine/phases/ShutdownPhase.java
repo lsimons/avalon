@@ -10,7 +10,6 @@ package org.apache.avalon.phoenix.engine.phases;
 import org.apache.avalon.excalibur.thread.ThreadContext;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Startable;
-import org.apache.avalon.framework.atlantis.ApplicationException;
 import org.apache.avalon.framework.camelot.Container;
 import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.component.ComponentManager;
@@ -43,10 +42,10 @@ public class ShutdownPhase
      *
      * @param name the name of block
      * @param entry the BlockEntry
-     * @exception ApplicationException if walking is to be stopped
+     * @exception Exception if walking is to be stopped
      */
     public void visitBlock( final String name, final BlockEntry entry )
-        throws ApplicationException
+        throws Exception
     {
         if( entry.getState() != BlockEntry.STARTEDUP ) return;
 

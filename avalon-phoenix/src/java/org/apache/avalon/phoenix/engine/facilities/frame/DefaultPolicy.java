@@ -26,7 +26,6 @@ import java.util.Iterator;
 import java.util.PropertyPermission;
 import java.util.StringTokenizer;
 import org.apache.avalon.excalibur.property.PropertyUtil;
-import org.apache.avalon.framework.atlantis.Facility;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;

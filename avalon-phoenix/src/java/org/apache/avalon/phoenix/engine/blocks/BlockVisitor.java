@@ -7,7 +7,6 @@
  */
 package org.apache.avalon.phoenix.engine.blocks;
 
-import org.apache.avalon.framework.atlantis.ApplicationException;
 import org.apache.avalon.framework.component.Component;
 
 /**
@@ -26,5 +25,5 @@ public interface BlockVisitor
      * @exception ApplicationException if walking is to be stopped
      */
     void visitBlock( String name, BlockEntry entry )
-        throws ApplicationException;
+        throws Exception;
 }
