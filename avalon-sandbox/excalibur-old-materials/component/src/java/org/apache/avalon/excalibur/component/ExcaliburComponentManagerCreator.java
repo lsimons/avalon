@@ -58,7 +58,7 @@ import org.apache.log.Priority;
  *  getter methods.  getComponentManager() for example.
  *
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/08/16 03:44:14 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/08/18 01:59:12 $
  * @since 4.1
  */
 public class ExcaliburComponentManagerCreator
@@ -311,16 +311,6 @@ public class ExcaliburComponentManagerCreator
     public LoggerManager getLoggerManager()
     {
         return m_loggerManager;
-    }
-    
-    /**
-     * Returns the configured RoleManager.
-     *
-     * @return The configured RoleManager.
-     */
-    public RoleManager getRoleManager()
-    {
-        return m_roleManager;
     }
     
     /**
