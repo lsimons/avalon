@@ -18,7 +18,7 @@ import org.apache.log.Hierarchy;
  * Avalon Logger.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2002/06/02 06:03:01 $
+ * @version $Revision: 1.3 $ $Date: 2002/09/12 15:47:53 $
  */
 class LogKit2LoggerTarget
     implements LogTarget
@@ -46,7 +46,7 @@ class LogKit2LoggerTarget
 
     public void processEvent( LogEvent event )
     {
-        final Logger logger = getLoggerForEvent( event );
+        final Logger logger = m_logger;
 
         final String message = event.getMessage();
         final Throwable throwable = event.getThrowable();
@@ -71,23 +71,5 @@ class LogKit2LoggerTarget
         {
             logger.fatalError( message, throwable );
         }
-    }
-
-    /**
-     * Retrieve Logger for event. If event is from a child
-     * Log
-     *
-     * @param event the LogEvent
-     * @return the Logger
-     */
-    private Logger getLoggerForEvent( final LogEvent event )
-    {
-        final String category = event.getCategory();
-        Logger logger = m_logger;
-        if( !"".equals( category ) )
-        {
-            logger = m_logger.getChildLogger( category );
-        }
-        return logger;
     }
 }
