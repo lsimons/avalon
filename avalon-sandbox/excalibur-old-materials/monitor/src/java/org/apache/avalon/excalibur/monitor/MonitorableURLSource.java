@@ -13,7 +13,7 @@ import org.apache.excalibur.source.impl.URLSource;
  * This adds the <code>Monitorable</code> interface to the URLSource.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/05/13 12:17:40 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/06/04 06:26:03 $
  */
 
 public class MonitorableURLSource
@@ -35,9 +35,9 @@ public class MonitorableURLSource
         throws Exception
     {
         this.getInfos();
-        if( this.isFile == true )
+        if( null == this.file )
         {
-            return new FileResource( this.systemId.substring( FILE.length() ) );
+            return new FileResource( this.file.getAbsolutePath() );
         }
         else
         {
