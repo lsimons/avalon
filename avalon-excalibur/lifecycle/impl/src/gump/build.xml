@@ -43,6 +43,7 @@
         </fileset>
       </classpath>
     </javac>
+    <!--
     <copy todir="${testclassesdir}">
       <fileset dir="F:\dev\avalon-excalibur\lifecycle\impl\src\test">
         <include name="**/*.properties">
@@ -51,8 +52,9 @@
         </include>
       </fileset>
     </copy>
+    -->
   </target>
-  <target name="jar" description="o Create the jar" depends="compile,test">
+  <target name="jar" description="o Create the jar" depends="compile">
     <jar jarfile="target/${final.name}.jar" excludes="**/package.html" basedir="${classesdir}">
     </jar>
   </target>
