@@ -32,7 +32,7 @@ import org.apache.tools.ant.types.FileSet;
 
 import org.apache.avalon.tools.home.Context;
 import org.apache.avalon.tools.project.Definition;
-import org.apache.avalon.tools.project.PluginRef;
+import org.apache.avalon.tools.project.ResourceRef;
 import org.apache.avalon.tools.project.Plugin;
 
 /**
@@ -77,10 +77,10 @@ public class PrepareTask extends SystemTask
 
         String key = getContext().getKey();
         Definition def = getHome().getDefinition( key );
-        PluginRef[] refs = def.getPluginRefs();
+        ResourceRef[] refs = def.getPluginRefs();
         for( int i=0; i<refs.length; i++ )
         {
-            PluginRef ref = refs[i];
+            ResourceRef ref = refs[i];
             Plugin plugin = getHome().getPlugin( ref );
             String path = "plugin:" + plugin.getInfo().getSpec();
             PluginTask task = new PluginTask();

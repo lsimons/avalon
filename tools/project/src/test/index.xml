@@ -63,10 +63,10 @@
         <type>jar</type>
       </info>
       <dependencies>
-        <plugins>
-          <pluginref key="demo"/>
-        </plugins>
       </dependencies>
+      <plugins>
+        <include key="demo"/>
+      </plugins>
     </project>
 
     <plugin basedir="projects/demo">
@@ -80,13 +80,9 @@
         <taskdef name="hello" class="org.apache.avalon.demo.StandardDemo"/>
       </tasks>
       <dependencies>
-        <resources>
-          <resourceref key="avalon-framework-api"/>
-        </resources>
-        <projects>
-          <projectref key="widget"/>
-          <projectref key="gizmo"/>
-        </projects>
+        <include key="avalon-framework-api" tag="api"/>
+        <include key="avalon-framework-impl"/>
+        <include key="widget" tag="spi"/>
       </dependencies>
     </plugin>
 
@@ -98,9 +94,7 @@
         <type>jar</type>
       </info>
       <dependencies>
-        <projects>
-          <projectref key="gizmo"/>
-        </projects>
+        <include key="gizmo"/>
       </dependencies>
     </project>
 
@@ -112,9 +106,7 @@
         <type>jar</type>
       </info>
       <dependencies>
-        <resources>
-          <resourceref key="avalon-util-i18n"/>
-        </resources>
+        <include key="avalon-util-i18n"/>
       </dependencies>
     </project>
 

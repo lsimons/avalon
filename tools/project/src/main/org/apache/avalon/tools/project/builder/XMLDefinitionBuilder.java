@@ -29,10 +29,10 @@ import org.apache.avalon.tools.home.Repository;
 import org.apache.avalon.tools.util.ElementHelper;
 import org.apache.avalon.tools.project.Info;
 import org.apache.avalon.tools.project.Definition;
-import org.apache.avalon.tools.project.ProjectRef;
+//import org.apache.avalon.tools.project.ProjectRef;
 import org.apache.avalon.tools.project.ResourceRef;
 import org.apache.avalon.tools.project.Resource;
-import org.apache.avalon.tools.project.PluginRef;
+//import org.apache.avalon.tools.project.PluginRef;
 import org.apache.avalon.tools.project.Plugin;
 import org.apache.avalon.tools.project.Plugin.TaskDef;
 import org.apache.avalon.tools.project.Policy;
@@ -53,7 +53,7 @@ public class XMLDefinitionBuilder
         Info info = 
           createInfo( ElementHelper.getChild( element, "info" ) );
         String key = getDefinitionKey( element, info );
-        return new Resource( key, info );
+        return new Resource( home, key, info );
     }
 
     public static Definition createDefinition( Home home, Element element, File anchor )
@@ -65,30 +65,26 @@ public class XMLDefinitionBuilder
 
         File basedir = getBasedir( anchor, element );
        
-        Element deps = ElementHelper.getChild( element, "dependencies" );
-
         ResourceRef[] resources = 
           createResourceRefs( 
-            ElementHelper.getChild( deps, "resources" ) );
+            ElementHelper.getChild( element, "dependencies" ) );
         
-        ProjectRef[] projects = 
-          createProjectRefs( 
-            ElementHelper.getChild( deps, "projects" ) );
-
-        PluginRef[] plugins = 
+        ResourceRef[] plugins = 
           createPluginRefs( 
-            ElementHelper.getChild( deps, "plugins" ) );
+            ElementHelper.getChild( element, "plugins" ) );
 
         final String tag = element.getTagName();
         if( tag.equals( "project" ) )
         {
-            return new Definition( key, basedir, info, resources, projects, plugins );
+            return new Definition( 
+              home, key, basedir, info, resources, plugins );
         }
         else if( tag.equals( "plugin" ) )
         {
             TaskDef[] tasks = 
               getTaskDefs( ElementHelper.getChild( element, "tasks" ) );
-            return new Plugin( key, basedir, info, resources, projects, plugins, tasks );
+            return new Plugin( 
+              home, key, basedir, info, resources, plugins, tasks );
         }
         else
         {
@@ -173,48 +169,31 @@ public class XMLDefinitionBuilder
     private static ResourceRef[] createResourceRefs( Element element )
       throws BuildException
     {
-        Element[] children = ElementHelper.getChildren( element, "resourceref" );
+        Element[] children = ElementHelper.getChildren( element, "include" );
         ResourceRef[] refs = new ResourceRef[ children.length ];
-
         for( int i=0; i<children.length; i++ )
         {
             Element child = children[i];
             String key = child.getAttribute( "key" );
-            String tag = child.getAttribute( "tag" );
+            int tag = ResourceRef.getCategory( child.getAttribute( "tag" ) );
             Policy policy = createPolicy( child );
             refs[i] = new ResourceRef( key, policy, tag );
         }
         return refs;
     }
 
-    private static ProjectRef[] createProjectRefs( Element element )
+    private static ResourceRef[] createPluginRefs( Element element )
       throws BuildException
     {
-        Element[] children = ElementHelper.getChildren( element, "projectref" );
-        ProjectRef[] refs = new ProjectRef[ children.length ];
+        Element[] children = ElementHelper.getChildren( element, "include" );
+        ResourceRef[] refs = new ResourceRef[ children.length ];
         for( int i=0; i<children.length; i++ )
         {
             Element child = children[i];
             String key = child.getAttribute( "key" );
-            String tag = child.getAttribute( "tag" );
-            Policy policy = createPolicy( child );
-            refs[i] = new ProjectRef( key, policy, tag );
-        }
-        return refs;
-    }
-
-    private static PluginRef[] createPluginRefs( Element element )
-      throws BuildException
-    {
-        Element[] children = ElementHelper.getChildren( element, "pluginref" );
-        PluginRef[] refs = new PluginRef[ children.length ];
-        for( int i=0; i<children.length; i++ )
-        {
-            Element child = children[i];
-            String key = child.getAttribute( "key" );
-            String tag = child.getAttribute( "tag" );
+            int tag = ResourceRef.getCategory( child.getAttribute( "tag" ) );
             Policy policy = createPolicy( child, false, false, false );
-            refs[i] = new PluginRef( key, policy, tag );
+            refs[i] = new ResourceRef( key, policy, tag );
         }
         return refs;
     }

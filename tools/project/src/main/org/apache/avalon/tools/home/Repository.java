@@ -48,7 +48,6 @@ import org.xml.sax.SAXException;
 import org.apache.avalon.tools.util.ElementHelper;
 import org.apache.avalon.tools.project.Definition;
 import org.apache.avalon.tools.project.ResourceRef;
-import org.apache.avalon.tools.project.ProjectRef;
 import org.apache.avalon.tools.project.Resource;
 import org.apache.avalon.tools.project.Policy;
 
@@ -91,6 +90,86 @@ public class Repository
     public String[] getHosts()
     {
         return m_hosts;
+    }
+
+    private File getCanonicalFile( File file ) throws BuildException
+    {
+        try
+        {
+            return file.getCanonicalFile();
+        }
+        catch( IOException ioe )
+        {
+            throw new BuildException( ioe );
+        }
+    }
+
+    private String[] getHostsSequence( Element element )
+    {
+        if( null == element )
+        {
+            return new String[0];
+        }
+        
+        Element[] children = 
+          ElementHelper.getChildren( element, "host" );
+        String[] list = new String[ children.length ];
+        for( int i=0; i<children.length; i++ )
+        {
+            Element child = children[i];
+            list[i] = ElementHelper.getValue( child );
+        }
+        return list;
+    }
+
+    private String getCachePath( Element element )
+    {
+        if( null != element )
+        {
+            String path = element.getAttribute( "dir" );
+            if( null != path )
+            {
+                return path;
+            }
+        }
+
+        return ".cache";
+    }
+
+    /*
+    public ResourceRef[] getShortResourceRefs( Definition def, int mode, int category )
+    {
+        ArrayList list = new ArrayList();
+        getShortResourceRefs( def, list, mode, category );
+        return (ResourceRef[]) list.toArray( new ResourceRef[0] );
+    }
+
+    private void getShortResourceRefs( Definition def, List list, int mode, int category )
+    {
+        ResourceRef[] refs = def.getResourceRefs();
+System.out.println( "short: " + def + ", " + category + ", " + refs.length );
+        for( int i=0; i<refs.length; i++ )
+        {
+            ResourceRef ref = refs[i];
+            if( !list.contains( ref ) )
+            {
+                Policy policy = ref.getPolicy();
+                if( policy.matches( mode ) )
+                {
+System.out.println( "  candidate: " + ref + ", " + ref.matches( category ) );
+                    if( ref.matches( category ) )
+                    {
+                        list.add( ref );
+                        if( ref instanceof ProjectRef )
+                        {
+                            ProjectRef pr = (ProjectRef) ref;
+                            Definition d = m_home.getDefinition( pr );
+                            getShortResourceRefs( d, list, mode, ResourceRef.ANY );
+                        }
+                    }
+                }
+            }
+        }
     }
 
     public ResourceRef[] getResourceRefs( Definition def )
@@ -137,7 +216,9 @@ public class Repository
             }
         }
     }
+    */
 
+    /*
     public Path createPath( Project project, Definition def )
       throws BuildException
     {
@@ -176,7 +257,7 @@ public class Repository
                 Resource resource = m_home.getResource( ref );
                 try
                 {
-                    getResource( project, resource );
+                    resource.getArtifact( project );
                     FileList file = getResourceFileList( project, resource );
                     path.addFilelist( file );
                 }
@@ -187,6 +268,12 @@ public class Repository
                     buffer.append( ": " );
                     buffer.append( resource.getInfo() );
                 }
+                if( resource instanceof Definition )
+                {
+                    Defintion defintion = (Definition) resource;
+                    Path projectPath = createPath( project, defintion, false, policy );
+                    path.add( projectPath );
+                }
             }
         }
 
@@ -196,34 +283,6 @@ public class Repository
             project.log( error );
             project.log( buffer.toString() );
             throw new BuildException( error );
-        }
-
-        //
-        // add each dependent project's path
-        //
-
-        ProjectRef[] projects = def.getProjectRefs();
-        for( int i=0; i<projects.length; i++ )
-        {
-            ProjectRef ref = projects[i];
-            if( ref.getPolicy().matches( policy ) )
-            {
-                Definition defintion = m_home.getDefinition( ref );
-                Path projectPath = createPath( project, defintion, true, policy );
-                File file = new File( getCacheDirectory(), defintion.getInfo().getPath() );
-                if( file.exists() )
-                {
-                    path.add( projectPath );
-                }
-                else
-                {
-                    final String error = 
-                      "Cannot construct a valid path for the project " 
-                      + def + " because the dependent project " 
-                      + defintion + " has not installed an artifact.";
-                    throw new BuildException( error );
-                }
-            }
         }
 
         if( flag )
@@ -257,6 +316,19 @@ public class Repository
         }
     }
 
+    private FileList getResourceFileList( Project project, Resource resource )
+      throws Exception
+    {
+        FileList list = new FileList();
+        list.setProject( project );
+        list.setDir( getCacheDirectory() );
+        String path = resource.getInfo().getPath();
+        list.setFiles( path );
+        return list;   
+    }
+    */
+
+   /*
     public File getResource( Project project, Resource resource )
       throws Exception
     {
@@ -303,59 +375,6 @@ public class Repository
 
         return target;
     }
+    */
 
-    private FileList getResourceFileList( Project project, Resource resource )
-      throws Exception
-    {
-        FileList list = new FileList();
-        list.setProject( project );
-        list.setDir( getCacheDirectory() );
-        String path = resource.getInfo().getPath();
-        list.setFiles( path );
-        return list;   
-    }
-
-    private File getCanonicalFile( File file ) throws BuildException
-    {
-        try
-        {
-            return file.getCanonicalFile();
-        }
-        catch( IOException ioe )
-        {
-            throw new BuildException( ioe );
-        }
-    }
-
-    private String[] getHostsSequence( Element element )
-    {
-        if( null == element )
-        {
-            return new String[0];
-        }
-        
-        Element[] children = 
-          ElementHelper.getChildren( element, "host" );
-        String[] list = new String[ children.length ];
-        for( int i=0; i<children.length; i++ )
-        {
-            Element child = children[i];
-            list[i] = ElementHelper.getValue( child );
-        }
-        return list;
-    }
-
-    private String getCachePath( Element element )
-    {
-        if( null != element )
-        {
-            String path = element.getAttribute( "dir" );
-            if( null != path )
-            {
-                return path;
-            }
-        }
-
-        return ".cache";
-    }
 }

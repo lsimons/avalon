@@ -49,10 +49,8 @@ import org.xml.sax.SAXException;
 
 import org.apache.avalon.tools.event.StandardListener;
 import org.apache.avalon.tools.project.Definition;
-import org.apache.avalon.tools.project.ProjectRef;
 import org.apache.avalon.tools.project.ResourceRef;
 import org.apache.avalon.tools.project.Resource;
-import org.apache.avalon.tools.project.PluginRef;
 import org.apache.avalon.tools.project.Plugin;
 import org.apache.avalon.tools.project.builder.XMLDefinitionBuilder;
 import org.apache.avalon.tools.util.ElementHelper;
@@ -138,6 +136,11 @@ public class Home extends DataType
         return m_system;
     }
 
+    public long getIndexLastModified()
+    {
+        return getIndexFile().lastModified();
+    }
+
     public Repository getRepository()
     {
         return m_repository;
@@ -146,8 +149,13 @@ public class Home extends DataType
     public Resource[] getResources()
     {
         return (Resource[]) m_resources.values().toArray( new Resource[0] );
-
     }
+
+    public boolean isaDefinition( ResourceRef ref )
+    {
+        return ( getResource( ref ) instanceof Definition );
+    }
+
     public Definition[] getDefinitions()
       throws BuildException
     {
@@ -162,18 +170,6 @@ public class Home extends DataType
             }
         }
         return (Definition[]) list.toArray( new Definition[0] );
-    }
-
-    public Plugin getPlugin( PluginRef ref )
-      throws BuildException
-    {
-        return (Plugin) getDefinition( ref );
-    }
-
-    public Definition getDefinition( ProjectRef ref )
-      throws BuildException
-    {
-        return getDefinition( ref.getKey() );
     }
 
     public Resource getResource( ResourceRef ref )
@@ -193,99 +189,45 @@ public class Home extends DataType
     public Definition getDefinition( String key )
       throws BuildException
     {
-        return getDefinition( key, true );
+        ResourceRef ref = new ResourceRef( key );
+        return getDefinition( ref );
     }
 
-    public Definition getDefinition( String key, boolean fail )
+    public Definition getDefinition( ResourceRef ref )
       throws BuildException
     {
-        Resource def = (Resource) m_resources.get( key );
-        if( null == def )
+        Resource resource = getResource( ref );
+        if( resource instanceof Definition )
         {
-            if( fail )
-            {
-                final String error = 
-                  "Unknown definition [" + key + "]";
-                throw new BuildException( error );
-            }
+            return (Definition) resource;
         }
         else
         {
-            if( def instanceof Definition )
-            {
-                return (Definition) def;
-            }
-            else
-            {
-                if( fail )
-                {
-                    final String error =
-                      "Key [" + key + "] is not project.";
-                    throw new BuildException( error );
-                }
-            }
+            final String error = 
+              "Reference [" + ref + "] does not refer to a projects.";
+            throw new BuildException( error );
         }
-        return null;
     }
 
-   /*
-    public void build( Definition definition )
+    public Plugin getPlugin( ResourceRef ref )
+      throws BuildException
     {
-        Ant ant = (Ant) getProject().createTask( "ant" );
-        Property property = ant.createProperty();
-        property.setName( "urn:avalon.definition.key" );
-        property.setValue( definition.getKey() );
-        ant.setDir( definition.getBasedir() );
-        ant.setInheritRefs( true );
-        ant.init();
-        ant.execute();
-    }
-
-    public Definition[] getBuildSequence( Definition definition )
-    {
-        ArrayList visited = new ArrayList();
-        ArrayList targets = new ArrayList();
-        ProjectRef[] refs = definition.getProjectRefs();
-        for( int i=0; i<refs.length; i++ )
+        Resource resource = getResource( ref );
+        if( resource instanceof Plugin )
         {
-            Definition def = getDefinition( refs[i] );
-            getBuildSequence( visited, targets, def );
+            return (Plugin) resource;
         }
-        return (Definition[]) targets.toArray( new Definition[0] );
+        else
+        {
+            final String error = 
+              "Reference [" + ref + "] does not refer to a plugin.";
+            throw new BuildException( error );
+        }
     }
-    */
 
     //-------------------------------------------------------------
     // internal
     //-------------------------------------------------------------
-
-    /*
-    private void getBuildSequence( List visited, List targets, Definition definition )
-    {
-        if( visited.contains( definition ) ) return;
-        visited.add( definition );
-
-        ProjectRef[] refs = definition.getProjectRefs();
-        for( int i=0; i<refs.length; i++ )
-        {
-            Definition def = getDefinition( refs[i] );
-            if( visited.contains( def ) )
-            {
-                final String error =
-                  "Recursive reference identified in project: " 
-                     + definition 
-                     + " in dependency " + def + ".";
-                throw new BuildException( error );
-            }
-            getBuildSequence( visited, targets, def );
-        }
-
-        if( !targets.contains( definition ) )
-        {
-            targets.add( definition );
-        }
-    }
-    */
 
     private void buildResourceList( Element resources )
     {
@@ -431,5 +373,59 @@ public class Home extends DataType
         props.execute();
     }
 
+   /*
+    public void build( Definition definition )
+    {
+        Ant ant = (Ant) getProject().createTask( "ant" );
+        Property property = ant.createProperty();
+        property.setName( "urn:avalon.definition.key" );
+        property.setValue( definition.getKey() );
+        ant.setDir( definition.getBasedir() );
+        ant.setInheritRefs( true );
+        ant.init();
+        ant.execute();
+    }
+
+    public Definition[] getBuildSequence( Definition definition )
+    {
+        ArrayList visited = new ArrayList();
+        ArrayList targets = new ArrayList();
+        ProjectRef[] refs = definition.getProjectRefs();
+        for( int i=0; i<refs.length; i++ )
+        {
+            Definition def = getDefinition( refs[i] );
+            getBuildSequence( visited, targets, def );
+        }
+        return (Definition[]) targets.toArray( new Definition[0] );
+    }
+    */
+
+    /*
+    private void getBuildSequence( List visited, List targets, Definition definition )
+    {
+        if( visited.contains( definition ) ) return;
+        visited.add( definition );
+
+        ProjectRef[] refs = definition.getProjectRefs();
+        for( int i=0; i<refs.length; i++ )
+        {
+            Definition def = getDefinition( refs[i] );
+            if( visited.contains( def ) )
+            {
+                final String error =
+                  "Recursive reference identified in project: " 
+                     + definition 
+                     + " in dependency " + def + ".";
+                throw new BuildException( error );
+            }
+            getBuildSequence( visited, targets, def );
+        }
+
+        if( !targets.contains( definition ) )
+        {
+            targets.add( definition );
+        }
+    }
+    */
 
 }

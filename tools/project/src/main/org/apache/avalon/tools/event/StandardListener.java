@@ -30,7 +30,7 @@ import org.apache.tools.ant.taskdefs.Sequential;
 
 import org.apache.avalon.tools.home.Home;
 import org.apache.avalon.tools.project.Definition;
-import org.apache.avalon.tools.project.PluginRef;
+import org.apache.avalon.tools.project.ResourceRef;
 import org.apache.avalon.tools.project.Plugin;
 
 /**
@@ -74,16 +74,6 @@ public class StandardListener extends AbstractListener
         project.log( "project: " + getDefinition() );
         project.log( "basedir: " + project.getBaseDir() );
         project.log( BANNER );
-
-        /*
-        PluginRef[] refs = getDefinition().getPluginRefs();
-        for( int i=0; i<refs.length; i++ )
-        {
-            PluginRef ref = refs[i];
-            Plugin plugin = getHome().getPlugin( ref );
-            project.log( "plugin ref: " + plugin );
-        }
-        */
     }
 
     private Task getTask()

@@ -8,7 +8,11 @@
 
   <target name="init" depends="standard.init">
     <x:filter key="avalon-logging-logkit-impl" feature="uri" 
-       token="AVALON-LOGGING-LOGKIT-SPEC"/>
+       token="LOGGING_IMPLEMENTATION"/>
+    <x:filter key="avalon-merlin-impl" feature="uri" 
+       token="MERLIN_IMPLEMENTATION"/>
+    <x:filter key="avalon-activation-impl" feature="uri" 
+       token="STANDARD_RUNTIME"/>
   </target>
 
   <target name="package" depends="standard.package">

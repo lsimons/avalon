@@ -18,6 +18,14 @@
 package org.apache.avalon.tools.project;
 
 import java.io.File;
+import java.util.List;
+import java.util.ArrayList;
+
+import org.apache.tools.ant.Project;
+import org.apache.tools.ant.types.Path;
+import org.apache.tools.ant.types.FileSet;
+
+import org.apache.avalon.tools.home.Home;
 
 /**
  * Defintion of a project. 
@@ -27,19 +35,17 @@ import java.io.File;
  */
 public class Definition extends Resource
 {
-    private ProjectRef[] m_projects;
     private ResourceRef[] m_resources;
-    private PluginRef[] m_plugins;
+    private ResourceRef[] m_plugins;
     private File m_basedir;
 
     public Definition( 
-      String key, File basedir, Info info, 
-      ResourceRef[] resources, ProjectRef[] projects, PluginRef[] plugins )
+      Home home, String key, File basedir, Info info, 
+      ResourceRef[] resources, ResourceRef[] plugins )
     {
-        super( key, info );
+        super( home, key, info );
 
         m_basedir = basedir;
-        m_projects = projects;
         m_resources = resources;
         m_plugins = plugins;
     }
@@ -49,19 +55,65 @@ public class Definition extends Resource
         return m_basedir;
     }
 
-    public ProjectRef[] getProjectRefs()
-    {
-        return m_projects;
-    }
-
     public ResourceRef[] getResourceRefs()
     {
         return m_resources;
     }
 
-    public PluginRef[] getPluginRefs()
+    public ResourceRef[] getResourceRefs( int mode, int tag, boolean flag )
+    {
+        ArrayList list = new ArrayList();
+//System.out.println( "#THIS " + this + ", mode: " + mode + ", tag: " + tag );
+        getResourceRefs( list, mode, tag, flag );
+        return (ResourceRef[]) list.toArray( new ResourceRef[0] );
+    }
+
+    protected void getResourceRefs( List list, int mode, int tag, boolean flag )
+    {
+        ResourceRef[] refs = getResourceRefs();
+        for( int i=0; i<refs.length; i++ )
+        {
+            ResourceRef ref = refs[i];
+            if( !list.contains( ref ) )
+            {
+//System.out.println( "#REF: " + ref + ", " + ref.getPolicy().matches( mode ) + ", " + ref.matches( tag ) );
+                Policy policy = ref.getPolicy();
+                if( policy.matches( mode ) && ref.matches( tag ) )
+                {
+                    list.add( ref );
+                    if( flag && getHome().isaDefinition( ref ) )
+                    {
+                        Definition def = getHome().getDefinition( ref );
+                        def.getResourceRefs( list, mode, tag, flag );
+                    }
+                }
+            }
+        }
+    }
+
+    public ResourceRef[] getPluginRefs()
     {
         return m_plugins;
+    }
+
+    public Path getPath( Project project, int mode )
+    {
+        if( null == project )
+        {
+            throw new NullPointerException( "project" );
+        }
+
+        Path path = new Path( project );
+        ResourceRef[] refs = getResourceRefs( mode, ResourceRef.ANY, true );
+        for( int i=0; i<refs.length; i++ )
+        {
+            ResourceRef ref = refs[i];
+            Resource resource = getHome().getResource( ref );
+            File file = resource.getArtifact( project );
+            path.createPathElement().setLocation( file );
+        }
+        
+        return path;
     }
 
     public String toString()
@@ -74,21 +126,15 @@ public class Definition extends Resource
         if( super.equals( other ) && ( other instanceof Definition ))
         {
             Definition def = (Definition) other;
-            ProjectRef[] refs = getProjectRefs();
-            ProjectRef[] refs2 = def.getProjectRefs();
+            ResourceRef[] refs = getResourceRefs();
+            ResourceRef[] references = def.getResourceRefs();
             for( int i=0; i<refs.length; i++ )
             {
-                if( !refs[i].equals( refs2[i] ) ) return false;
+                if( !refs[i].equals( references[i] ) ) return false;
             }
 
-            ResourceRef[] resources = getResourceRefs();
-            ResourceRef[] resources2 = def.getResourceRefs();
-            for( int i=0; i<resources.length; i++ )
-            {
-                if( !resources[i].equals( resources2[i] ) ) return false;
-            }
-            PluginRef[] plugins = getPluginRefs();
-            PluginRef[] plugins2 = def.getPluginRefs();
+            ResourceRef[] plugins = getPluginRefs();
+            ResourceRef[] plugins2 = def.getPluginRefs();
             for( int i=0; i<plugins.length; i++ )
             {
                 if( !plugins[i].equals( plugins2[i] ) ) return false;
