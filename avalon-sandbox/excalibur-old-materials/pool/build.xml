@@ -13,7 +13,7 @@
     <path id="project.class.path">
         <pathelement location="${build.classes}"/>
         <pathelement location="${avalon-framework.jar}"/>
-        <pathelement location="${excalibur-collections.jar}"/>
+        <pathelement location="${commons-collections.jar}"/>
         <pathelement location="${excalibur-instrument.jar}"/>
         <pathelement location="${checkstyle.jar}"/>
         <pathelement path="${java.class.path}"/>
@@ -42,7 +42,6 @@
     <target name="dependencies" description="Check dependencies" unless="skip.dependencies">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkCommon"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkFramework"/>
-        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkCollections"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkInstrument"/>
     </target>
 
@@ -53,7 +52,6 @@
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkJUnit"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkJUnitPerf"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkTestcase"/>
-        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkLogkit"/>
     </target>
 
 

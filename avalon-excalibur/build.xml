@@ -31,11 +31,6 @@
         <ant dir="altrmi" target="${subproject-target}"/>
     </target>
 
-    <!-- Assembly (Merlin 2) -->
-    <target name="prj-assembly" depends="prj-i18n, prj-configuration, prj-container, prj-meta, prj-extension, prj-event, prj-collections, prj-concurrent, prj-util, prj-logger">
-        <ant dir="assembly" target="${subproject-target}"/>
-    </target>
-
     <!-- Baxter -->
     <target name="prj-baxter">
         <ant dir="baxter" target="${subproject-target}"/>
@@ -97,7 +92,7 @@
     </target>
 
     <!-- Fortress -->
-    <target name="prj-fortress" depends="prj-altrmi, prj-assembly, prj-collections, prj-container, prj-event, prj-instrument, prj-instrument-manager, prj-logger, prj-sourceresolve, prj-threadcontext">
+    <target name="prj-fortress" depends="prj-altrmi, prj-collections, prj-container, prj-event, prj-instrument, prj-instrument-manager, prj-logger, prj-sourceresolve, prj-threadcontext">
         <ant dir="fortress" target="${subproject-target}"/>
     </target>
 
@@ -139,16 +134,6 @@
     <!-- Loader -->
     <target name="prj-loader" depends="prj-extension, prj-i18n">
         <ant dir="loader" target="${subproject-target}"/>
-    </target>
-
-    <!-- Meta -->
-    <target name="prj-meta" depends="prj-i18n, prj-configuration">
-        <ant dir="meta" target="${subproject-target}"/>
-    </target>
-
-    <!-- Monitor -->
-    <target name="prj-monitor" depends="prj-logger, prj-sourceresolve">
-        <ant dir="monitor" target="${subproject-target}"/>
     </target>
 
     <!-- Naming -->
@@ -213,10 +198,10 @@
                 prj-concurrent, prj-altrmi,
                 prj-container, prj-cache, prj-configuration, prj-event,
                 prj-thread, prj-monitor, prj-fortress, prj-datasource,
-                prj-instrument, prj-store, prj-logger, prj-meta, prj-policy,
+                prj-instrument, prj-store, prj-logger, prj-policy,
                 prj-pool, prj-util, prj-xmlutil,
                 prj-sourceresolve, prj-instrument-client,
-                prj-instrument-manager, prj-component, prj-assembly,
+                prj-instrument-manager, prj-component,
                 prj-testcase "/>
 
     <!-- ************************************************************ -->
