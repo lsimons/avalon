@@ -27,15 +27,20 @@ import java.io.File;
  */
 public class Plugin extends Definition
 {
-    private ProjectRef[] m_projects;
-    private ResourceRef[] m_resources;
-    private File m_basedir;
+    private final TaskDef[] m_tasks;
 
     public Plugin(
       String key, File basedir, Info info, 
-      ResourceRef[] resources, ProjectRef[] projects, PluginRef[] plugins )
+      ResourceRef[] resources, ProjectRef[] projects, PluginRef[] plugins, 
+      TaskDef[] tasks )
     {
         super( key, basedir, info, resources, projects, plugins );
+        m_tasks = tasks;
+    }
+
+    public TaskDef[] getTaskDefs()
+    {
+        return m_tasks;
     }
 
     public boolean equals( Object other )
@@ -45,5 +50,27 @@ public class Plugin extends Definition
             return true;
         }
         return false;
+    }
+
+    public static class TaskDef
+    {
+        private String m_name;
+        private String m_classname;
+        
+        public TaskDef( String name, String classname )
+        {
+            m_name = name;
+            m_classname = classname;
+        }
+
+        public String getName()
+        {
+            return m_name;
+        }
+
+        public String getClassname()
+        {
+            return m_classname;
+        }
     }
 }

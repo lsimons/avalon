@@ -17,17 +17,8 @@
 
 package org.apache.avalon.tools.event;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Iterator;
-
-import org.apache.tools.ant.Project;
 import org.apache.tools.ant.BuildEvent;
 import org.apache.tools.ant.BuildListener;
-import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.taskdefs.Sequential;
-
-import org.apache.avalon.tools.home.Home;
 
 /**
  * An abstract build listener. 
@@ -35,15 +26,8 @@ import org.apache.avalon.tools.home.Home;
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class AbstractListener implements BuildListener
+public abstract class AbstractListener implements BuildListener
 {
-    private Home m_home;
-
-    public AbstractListener( Home home )
-    {
-        m_home = home;
-    }
-
     /**
      * Signals that a build has started. This event
      * is fired before any targets have started.
@@ -129,6 +113,5 @@ public class AbstractListener implements BuildListener
      */
     public void messageLogged(BuildEvent event)
     {
-    }
-
+    }   
 }

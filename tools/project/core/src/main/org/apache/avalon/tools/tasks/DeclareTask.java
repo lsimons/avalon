@@ -1,0 +1,245 @@
+/* 
+ * Copyright 2004 Apache Software Foundation
+ * Licensed  under the  Apache License,  Version 2.0  (the "License");
+ * you may not use  this file  except in  compliance with the License.
+ * You may obtain a copy of the License at 
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed  under the  License is distributed on an "AS IS" BASIS,
+ * WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ * implied.
+ * 
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package org.apache.avalon.tools.tasks;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+
+import org.apache.tools.ant.Task;
+import org.apache.tools.ant.Project;
+import org.apache.tools.ant.BuildException;
+
+import org.apache.avalon.tools.home.Home;
+import org.apache.avalon.tools.project.Definition;
+import org.apache.avalon.tools.project.Resource;
+import org.apache.avalon.tools.project.ResourceRef;
+import org.apache.avalon.tools.project.Info;
+import org.apache.avalon.tools.project.Policy;
+import org.apache.avalon.tools.project.Plugin;
+import org.apache.avalon.tools.project.Plugin.TaskDef;
+
+/**
+ * Load a plugin. 
+ *
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
+ */
+public class DeclareTask extends DeliverableTask
+{
+    private static final String FILENAME = "plugin.xml";
+
+    public void init() throws BuildException 
+    {
+        super.init();
+    }
+
+    public void execute() throws BuildException 
+    {
+        log( "creating plugin declaration" );
+        final Definition def = getDefinition();
+
+        try
+        {
+            final File file = getPluginFile();
+            file.createNewFile();
+            final OutputStream output = new FileOutputStream( file );
+
+            try
+            {
+                writePluginDef( output, def );
+            }
+            finally
+            {
+                closeStream( output );
+            }
+        }
+        catch( Throwable e )
+        {
+            throw new BuildException( e );
+        }
+    }
+
+    private File getPluginFile()
+    {
+        Project project = getProject();
+        File dir = DeliverableTask.getTargetDeliverablesDirectory( project );
+        File ants = new File( dir, "ants" );
+        createDirectory( ants );
+        Definition def = getDefinition();
+        Info info = def.getInfo();
+        String filename = getFilename( info );
+        return new File( ants, filename );
+    }
+
+    private String getFilename( Info info )
+    {
+        String version = info.getVersion();
+        if( null == version )
+        {
+            return info.getName() + ".ant";
+        }
+        else
+        {
+            return info.getName() + "-" + version + ".ant";
+        }
+    }
+
+    public void writePluginDef( final OutputStream output, final Definition def )
+        throws IOException
+    {
+        final Writer writer = new OutputStreamWriter( output );
+        writeHeader( writer );
+        writePlugin( writer, def );
+        writer.flush();
+    }
+
+   /**
+    * Write the XML header.
+    * @param writer the writer
+     * @throws IOException if unable to write xml
+    */
+    private void writeHeader( final Writer writer )
+        throws IOException
+    {
+        writer.write( "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>" );
+    }
+
+    private void writePlugin( final Writer writer, final Definition def )
+        throws IOException
+    {
+        final Info info = def.getInfo();
+
+        writer.write( "\n\n<plugin>" );
+        writeInfo( writer, info );
+        if( def instanceof Plugin )
+        {
+            Plugin plugin = (Plugin) def;
+            writeTaskDefs( writer, plugin );
+        }
+        writeClasspath( writer, def );
+        writer.write( "\n</plugin>\n" );
+    }
+
+    private void writeTaskDefs( final Writer writer, final Plugin plugin )
+        throws IOException
+    {
+        writer.write( "\n  " );
+        writer.write( "<tasks>" );
+        TaskDef[] defs = plugin.getTaskDefs();
+        for( int i=0; i<defs.length; i++ )
+        {
+            TaskDef def = defs[i];
+            writer.write( 
+              "\n    <taskdef name=\"" 
+              + def.getName() 
+              + "\" class=\""
+              + def.getClassname() 
+              + "\"/>" );
+        }
+        writer.write( "\n  </tasks>" );
+    }
+
+    private void writeInfo( final Writer writer, final Info info )
+        throws IOException
+    {
+        final String name = info.getName();
+        final String group = info.getGroup();
+        final String version = info.getVersion();
+        final String type = info.getType();
+
+        writer.write( "\n  <info>" );
+        writer.write( "\n    <name>" + name + "</name>" );
+        writer.write( "\n    <group>" + group + "</group>" );
+        if( null != version )
+        {
+            writer.write( "\n    <version>" + version + "</version>" );
+        }
+        writer.write( "\n    <type>" + type + "</type>" );
+        writer.write( "\n  </info>" );
+    }
+
+    private void writeClasspath( final Writer writer, final Definition def )
+        throws IOException
+    {
+        writer.write( "\n  <classpath>" );
+        final String pad = "    ";
+        ResourceRef[] resources = getHome().getRepository().getResourceRefs( def );
+        writeResourceRefs( writer, pad, resources );
+        writeResource( writer, pad, def );
+        writer.write( "\n  </classpath>" );
+    }
+
+    private void writeResourceRefs( final Writer writer, String pad, final ResourceRef[] resources )
+        throws IOException
+    {
+        for( int i=0; i<resources.length; i++ )
+        {
+            ResourceRef ref = resources[i];
+            Policy policy = ref.getPolicy();
+            if( policy.isRuntimeEnabled() )
+            {
+                Resource resource = getHome().getResource( ref );
+                writeResource( writer, pad, resource );
+            }
+        }
+    }
+
+    private void writeResource( final Writer writer, String pad, final Resource resource )
+        throws IOException
+    {
+        Info info = resource.getInfo();
+        String name = info.getName();
+        String group = info.getGroup();
+        String version = info.getVersion();
+        String type = info.getType();
+
+        writer.write( "\n" );
+        writer.write( pad );
+        writer.write( "<" + type + ">" );
+        writer.write( group );
+        writer.write( "/" );
+        writer.write( name );
+
+        if( null != version )
+        {
+            writer.write( "#" );
+            writer.write( version );
+        }
+        writer.write( "</" + type + ">" );
+    }
+
+    private void closeStream( final OutputStream output )
+    {
+        if( null != output )
+        {
+            try
+            {
+                output.close();
+            }
+            catch( IOException e )
+            {
+                // ignore
+            }
+        }
+    }
+
+}

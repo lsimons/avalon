@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.FileNotFoundException;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.ArrayList;
 import java.net.URL;
 
@@ -89,6 +90,38 @@ public class Repository
     public String[] getHosts()
     {
         return m_hosts;
+    }
+
+    public ResourceRef[] getResourceRefs( Definition def )
+    {
+        ArrayList list = new ArrayList();
+        getResourceRefs( def, list );
+        return (ResourceRef[]) list.toArray( new ResourceRef[0] );
+    }
+
+    public void getResourceRefs( Definition def, List list )
+    {
+        ResourceRef[] refs = def.getResourceRefs();
+        for( int i=0; i<refs.length; i++ )
+        {
+            ResourceRef ref = refs[i];
+            if( !list.contains( ref ) )
+            {
+                list.add( ref );
+            }
+        }
+
+        ProjectRef[] projects = def.getProjectRefs();
+        for( int i=0; i<projects.length; i++ )
+        {
+            ProjectRef ref = projects[i];
+            if( !list.contains( ref ) )
+            {
+                Definition defintion = m_home.getDefinition( ref );
+                getResourceRefs( defintion, list );
+                list.add( ref );
+            }
+        }
     }
 
     public Path createPath( Project project, Definition def )
@@ -203,14 +236,14 @@ public class Repository
         }
     }
 
-    public URL getResource( Project project, Resource resource )
+    public File getResource( Project project, Resource resource )
       throws Exception
     {
         String path = resource.getInfo().getPath();
         File target = new File( getCacheDirectory(), path );
         if( target.exists() ) 
         {
-            return target.toURL();
+            return target;
         }
 
         target.getParentFile().mkdirs();
@@ -231,7 +264,7 @@ public class Repository
         throw new FileNotFoundException( resource.toString() );
     }
 
-    public URL getResource( Project project, String host, Resource resource ) 
+    public File getResource( Project project, String host, Resource resource ) 
       throws Exception
     {
         String path = resource.getInfo().getPath();
@@ -247,7 +280,7 @@ public class Repository
         get.setVerbose( true );
         get.execute();
 
-        return target.toURL();
+        return target;
     }
 
     private FileList getResourceFileList( Project project, Resource resource )

@@ -17,6 +17,9 @@
 
 package org.apache.avalon.demo;
 
+import org.apache.tools.ant.Project;
+import org.apache.tools.ant.Task;
+
 import org.apache.avalon.widget.Widget;
 import org.apache.avalon.widget.StandardWidget;
 import org.apache.avalon.gizmo.Gizmo;
@@ -29,11 +32,17 @@ import org.apache.avalon.gizmo.StandardGizmo;
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class StandardDemo implements Demo 
+public class StandardDemo extends Task implements Demo 
 {
-    public StandardDemo()
+
+    public void init()
     {
         Widget widget = new StandardWidget();
         Gizmo gizmo = new StandardGizmo();
+    }
+
+    public void execute()
+    {
+        log( "hello world!" );
     }
 }

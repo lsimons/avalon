@@ -6,6 +6,7 @@
 
   <x:prepare/>
   <x:javac/>
+  <x:declare/>
   <x:jar/>
   <x:test/>
   <x:install/>
