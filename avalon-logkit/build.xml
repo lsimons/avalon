@@ -25,10 +25,10 @@ Legal:
 
   <property name="name" value="logkit"/>
   <property name="Name" value="LogKit"/>
-  <property name="version" value="1.0b4"/>
+  <property name="version" value="1.0b5"/>
   <property name="year" value="1999-2001"/>
   <property name="status" value="beta"/>
-  <property name="release" value="4th"/>
+  <property name="release" value="5th"/>
   <property name="short.version" value="1.0"/>
 
   <!--
@@ -105,7 +105,7 @@ Legal:
   </path>
 
   <!-- Main target -->
-  <target name="main" depends="jar" />
+  <target name="main" depends="all" />
 
   <!-- Help on usage -->
   <target name="usage">
@@ -115,7 +115,7 @@ Legal:
     <echo message=""/>
     <echo message=" available targets are:"/>
     <echo message=""/>
-    <echo message="   jar        -> generates the ${Name} jar file"/>
+    <echo message="   all        -> generates the ${Name} jar file"/>
     <echo message="   javadocs   -> generates the API documentation (java 1.2+ only)"/>
     <echo message="   docs       -> generates the ${Name} Documentation"/>
     <echo message="   dist-lite  -> generates the ${Name} distribution without the javadocs (default)"/>
@@ -288,7 +288,9 @@ Legal:
 
   </target>
 
-  <target name="test" depends="compile" > 
+  <target name="test" depends="check"/>
+
+  <target name="check" depends="compile" > 
     <echo message="Performing Unit Tests" />
     <test showSuccess="true" showBanner="false" showTrace="true" forceShowTrace="true" > 
        <classpath refid="project.class.path" />
@@ -301,7 +303,7 @@ Legal:
   </target>
 
   <!-- Creates all the .jar file -->
-  <target name="jar" depends="compile">
+  <target name="all" depends="compile">
 
     <mkdir dir="${build.lib}"/>
 
@@ -312,7 +314,7 @@ Legal:
 
   </target>
 
-  <target name="install" depends="jar,install-check-cjan">
+  <target name="install" depends="all,install-check-cjan">
 
     <mkdir dir="${cjan.lib}" />
     <copy file="${build.lib}/${name}.jar" todir="${cjan.lib}"/>
@@ -321,6 +323,10 @@ Legal:
 
   <target name="install-check-cjan" unless="cjan.lib">
     <fail message="cjan.lib not specified." />
+  </target>
+
+  <target name="uninstall" depends="install-check-cjan">
+    <delete file="${build.lib}/${name}.jar" dir="${cjan.lib}"/>
   </target>
 
   <!-- Create the API documentation -->
@@ -375,10 +381,13 @@ Legal:
 
   </target>
 
+  <target name="printerdocs" depends="javadocs,all">
+    <echo message="Printer friendly documentation not implemented yet"/>
+  </target>
 
   <!-- Prepares the documentation directory -->
-  <target name="xdocs" depends="jar">
-
+  <target name="docs" depends="javadocs,all">
+ 
     <mkdir dir="${build.context}"/>
     <mkdir dir="${build.xdocs}"/>
     <mkdir dir="${build.docs}"/>
@@ -433,7 +442,7 @@ Legal:
     </java>
   </target>
 
-  <target name="local-docs" depends="local-javadocs,xdocs"/>
+  <target name="local-docs" depends="local-javadocs,docs"/>
 
   <!-- Update the www directory -->
   <target name="site-docs" depends="local-docs">
@@ -456,7 +465,7 @@ Legal:
   </target>
 
   <!-- Create the binary distribution -->
-  <target name="dist" depends="jar,javadocs,xdocs,setup-properties">
+  <target name="bin-dist" depends="all,setup-properties">
 
     <mkdir dir="${dist.dir}"/>
     <mkdir dir="${dist.docs}"/>
@@ -485,7 +494,7 @@ Legal:
   </target>
 
   <!-- Create the source distribution -->
-  <target name="src-dist" depends="javadocs,xdocs,setup-properties">
+  <target name="src-dist" depends="setup-properties">
 
     <mkdir dir="${src.dist.dir}" />
     <mkdir dir="${src.dist.docs}"/>
@@ -545,10 +554,10 @@ Legal:
   </target>
 
   <!-- Completely build all dists -->
-  <target name="distributions">
+  <target name="dist" depends="docs">
     <mkdir dir="${dist.base}"/>
 
-    <antcall target="dist">
+    <antcall target="bin-dist">
       <param name="dist.dir" value="${dist.name}" />
     </antcall>
 
@@ -634,7 +643,7 @@ Legal:
   </target>
 
   <!-- Cleans absolutely everything up -->
-  <target name="real-clean" depends="clean">
+  <target name="distclean" depends="clean">
     <delete dir="${docs.dir}" />
     <delete dir="${dist.base}" />
   </target>
