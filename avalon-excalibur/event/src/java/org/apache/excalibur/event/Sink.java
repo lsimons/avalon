@@ -136,10 +136,10 @@ public interface Sink
      * @param elements The element array to provisionally enqueue
      * @return A <code>PreparedEnqueue</code> that may be used to commit or
      *         abort the provisional enqueue
-     * @throws <code>SinkFullException</code> Indicates that the sink is
+     * @throws SinkFullException Indicates that the sink is
      *            temporarily full and that the requested elements could not
      *            be provisionally enqueued.
-     * @throws <code>SinkClosedException</code> Indicates that the sink is
+     * @throws SinkClosedException Indicates that the sink is
      *            no longer being serviced.
      *
      * @see PreparedEnqueue

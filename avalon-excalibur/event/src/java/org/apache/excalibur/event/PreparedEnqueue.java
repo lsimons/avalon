@@ -58,7 +58,6 @@ package org.apache.excalibur.event;
  */
 public interface PreparedEnqueue
 {
-
     /**
      * Commit a previously prepared provisional enqueue operation (from
      * the <code>prepareEnqueue</code> method). Causes the provisionally
@@ -74,5 +73,4 @@ public interface PreparedEnqueue
      * the provisionally enqueued elements.
      */
     void abort();
-
 }
