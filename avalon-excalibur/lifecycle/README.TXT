@@ -1,3 +1,4 @@
+öäå
 
 Avalon Framework
 ================
