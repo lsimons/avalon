@@ -20,7 +20,7 @@ import org.apache.avalon.excalibur.monitor.Resource;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Id: AbstractMonitor.java,v 1.3 2002/09/07 12:14:02 donaldp Exp $
+ * @version $Id: AbstractMonitor.java,v 1.4 2002/09/08 00:02:45 donaldp Exp $
  */
 public abstract class AbstractMonitor
     implements Monitor
@@ -106,5 +106,18 @@ public abstract class AbstractMonitor
     {
         final Collection collection = m_resources.values();
         return (Resource[])collection.toArray( new Resource[ collection.size() ] );
+    }
+
+    /**
+     * Scan through all resources to determine if they have changed.
+     */
+    protected void scanAllResources()
+    {
+        final long currentTestTime = System.currentTimeMillis();
+        final Resource[] resources = getResources();
+        for( int i = 0; i < resources.length; i++ )
+        {
+            resources[ i ].testModifiedAfter( currentTestTime );
+        }
     }
 }
