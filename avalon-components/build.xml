@@ -54,7 +54,7 @@
   <property name="framework.jar" value="${lib.dir}/avalon-framework.jar"/>
   <property name="excalibur.jar" value="${lib.dir}/avalon-excalibur-20010919.jar"/>
   <property name="scratchpad.jar" value="${lib.dir}/avalon-scratchpad-20010919.jar"/>
-  <property name="phoenix-client.jar" value="${lib.dir}/phoenix-client-20010922.jar"/>
+  <property name="phoenix-client.jar" value="${lib.dir}/phoenix-client.jar"/>
   <property name="testlet.jar" value="${tools.dir}/lib/testlet.jar"/>
   <property name="junit.jar" value="${tools.dir}/lib/junit-3.7.jar"/>
   <property name="tools.jar" value="${java.home}/../lib/tools.jar"/>
@@ -92,6 +92,7 @@
 
   <!-- Main target -->
   <target name="main" depends="jars" description="Generates the files minus documentation">
+    <ant antfile="build.xml" dir="apps/db" target="main" inheritall="false"/>  
     <ant antfile="build.xml" dir="apps/demo" target="main" inheritall="false"/>
     <ant antfile="build.xml" dir="apps/ftpserver" target="main" inheritall="false"/>
     <ant antfile="build.xml" dir="apps/jesktop" target="main" inheritall="false"/>
@@ -443,6 +444,7 @@
 
     <mkdir dir="${dist.base}/phoenix-apps"/>
 
+    <ant antfile="build.xml" dir="apps/db" target="dist" inheritall="false"/>
     <ant antfile="build.xml" dir="apps/demo" target="dist" inheritall="false"/>
     <ant antfile="build.xml" dir="apps/ftpserver" target="check" inheritall="false"/>
     <ant antfile="build.xml" dir="apps/jesktop" target="check" inheritall="false"/>
@@ -507,6 +509,9 @@
   
   
   <!-- Delegated (to apps/xxxxxx) Targets -->
+  <target name="db" depends="compile" description="Delegates to build.xml in apps/db'">
+    <ant antfile="build.xml" dir="apps/db" target="${apps-target}" inheritall="false"/>
+  </target>  
   <target name="demo" depends="compile" description="Delegates to build.xml in apps/demo'">
     <ant antfile="build.xml" dir="apps/demo" target="${apps-target}" inheritall="false"/>
   </target>
