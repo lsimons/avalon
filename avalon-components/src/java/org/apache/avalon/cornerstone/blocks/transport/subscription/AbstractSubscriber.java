@@ -29,7 +29,7 @@ import org.apache.commons.altrmi.common.AltrmiConnectionException;
  *
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 
 public abstract class AbstractSubscriber
@@ -73,6 +73,12 @@ public abstract class AbstractSubscriber
       throws AltrmiConnectionException
    {
       return mAltrmiFactory.lookup(s);
+   }
+
+   public Object lookup (String s, boolean beanOnly)
+      throws AltrmiConnectionException
+   {
+      return mAltrmiFactory.lookup(s, beanOnly);
    }
 
    /**
