@@ -62,7 +62,6 @@ Legal:
   <property name="build.scratchpad" value="${build.dir}/scratchpad"/>
   <property name="build.javadocs" value="${build.dir}/javadocs"/>
   <property name="build.docs" value="${build.dir}/docs"/>
-  <property name="build.xdocs" value="${build.dir}/xdocs"/>
 
   <!--
        ===================================================================
@@ -78,10 +77,6 @@ Legal:
   <property name="docs.dir" value="docs"/>
   <property name="www.dir" value="www"/>
   <property name="javadocs.dir" value="${docs.dir}/api"/>
-  <property name="skins.dir" value="${src.dir}/skins"/>
-  <property name="avalon.skin" value="${skins.dir}/avalon/"/>
-  <property name="xdocs.dir" value="${src.dir}/xdocs"/>
-  <property name="stylesheets.dir" value="${skins.dir}"/>
 
   <property name="dist.name" value="${Name}-${version}"/>
   <property name="dist.base" value="distributions"/>
@@ -107,9 +102,8 @@ Legal:
     <pathelement path="${java.class.path}" />
     <fileset dir="${lib.dir}">
       <include name="*.jar" />
-      <exclude name="logkit.jar"/>
-      <exclude name="xerces.jar"/>
-      <exclude name="avalon-framework.jar"/>
+      <exclude name="logkit*.jar"/>
+      <exclude name="avalon-framework*.jar"/>
     </fileset>
     <pathelement path="${build.classes}" />
   </path>
@@ -120,6 +114,7 @@ Legal:
     <fileset dir="${tools.dir}/lib">
       <include name="*.jar" />
       <exclude name="testlet.jar"/>
+      <exclude name="xerces.jar"/>
     </fileset>
   </path>
 
@@ -294,52 +289,6 @@ Legal:
     </javac>
   </target>
 
-  <!-- Prepares the documentation directory -->
-  <target name="xdocs">
-
-    <mkdir dir="${build.xdocs}"/>
-    <mkdir dir="${build.docs}"/>
-
-    <!-- Base pointers for non-xdocs documentation. Override these in .ant.properties to link to local docs -->
-    <property name="avalon.base" value="http://jakarta.apache.org/avalon"/>
-    <property name="framework.base" value="http://jakarta.apache.org/avalon/framework"/>
-    <property name="phoenix.base" value="http://jakarta.apache.org/avalon/phoenix"/>
-    <property name="cornerstone.base" value="http://jakarta.apache.org/avalon/cornerstone"/>
-    <property name="logkit.base" value="http://jakarta.apache.org/avalon/logkit"/>
-    <property name="testlet.base" value="http://jakarta.apache.org/avalon/testlet"/>
-
-    <filter token="year" value="${year}"/>
-    <filter token="AVALON_BASE" value="${avalon.base}"/>
-    <filter token="FRAMEWORK_BASE" value="${framework.base}"/>
-    <filter token="PHOENIX_BASE" value="${phoenix.base}"/>
-    <filter token="CORNERSTONE_BASE" value="${cornerstone.base}"/>
-    <filter token="LOGKIT_BASE" value="${logkit.base}"/>
-    <filter token="TESTLET_BASE" value="${testlet.base}"/>
-
-    <copy todir="${build.xdocs}" filtering="on">
-      <fileset dir="${xdocs.dir}">
-        <exclude name="**/images/**"/>
-      </fileset>
-    </copy>
-
-    <copy todir="${build.docs}" filtering="off">
-      <fileset dir="${xdocs.dir}">
-        <include name="**/images/**"/>
-      </fileset>
-    </copy>
-
-    <taskdef name="stylebook" classname="org.apache.tools.ant.taskdefs.optional.StyleBook">
-      <classpath refid="tools.class.path"/>
-    </taskdef>
-
-    <stylebook targetdirectory="${build.docs}"
-               book="${build.xdocs}/book.xml"
-               skindirectory="${avalon.skin}">
-      <classpath refid="tools.class.path" />
-    </stylebook>
-
-  </target>
-
   <!-- Create the API documentation -->
   <target name="javadocs">
 
@@ -375,22 +324,6 @@ Legal:
 
   </target>
 
-  <!-- Create the Local site documentation -->
-  <target name="local-xdocs" depends="xdocs">
-
-    <delete>
-      <fileset dir="${docs.dir}">
-        <exclude name="api/**"/>
-      </fileset>
-    </delete>
-    <mkdir dir="${docs.dir}"/>
-
-    <copy todir="${docs.dir}">
-      <fileset dir="${build.docs}" />
-    </copy>
-
-  </target>
-
   <!-- Create the Local API documentation -->
   <target name="local-javadocs" depends="javadocs">
 
@@ -403,7 +336,7 @@ Legal:
 
   </target>
 
-  <target name="local-docs" depends="local-javadocs,local-xdocs"/>
+  <target name="local-docs" depends="local-javadocs"/>
 
   <!-- Update the www directory -->
   <target name="site-docs" depends="local-docs">
@@ -460,7 +393,7 @@ Legal:
   <target name="install" depends="jar,install-check-cjan">
 
     <mkdir dir="${cjan.lib}" />
-    <copy file="${build.lib}/avalon-${name}.jar" todir="${cjan.lib}"/>
+    <copy file="${build.lib}/avalon-excalibur.jar" todir="${cjan.lib}"/>
     <copy file="${build.lib}/${scratchpad.name}.jar" todir="${cjan.lib}"/>
     <copy file="${build.lib}/${testlets.name}.jar" todir="${cjan.lib}"/>
 
@@ -471,19 +404,23 @@ Legal:
   </target>
 
   <!-- Create the distribution -->
-  <target name="dist" depends="jar,javadocs,xdocs">
+  <target name="dist" depends="jar,javadocs">
 
     <mkdir dir="${dist.dir}"/>
-    <copy file="${build.lib}/avalon-${name}.jar" tofile="${dist.dir}/avalon-${name}-${version}.jar"/>
+    <copy file="${build.lib}/avalon-excalibur.jar" tofile="${dist.dir}/avalon-excalibur-${version}.jar"/>
     <copy file="${build.lib}/${testlets.name}.jar" tofile="${dist.dir}/${testlets.name}-${version}.jar"/>
     <copy file="${build.lib}/${scratchpad.name}.jar" tofile="${dist.dir}/${scratchpad.name}-${version}.jar"/>
+    <copy file="${logkit.jar}" todir="${dist.dir}"/>
+    <copy file="${framework.jar}" todir="${dist.dir}"/>
 
     <mkdir dir="${dist.docs}"/>
     <mkdir dir="${dist.javadocs}"/>
 
+<!--
     <copy todir="${dist.docs}">
       <fileset dir="${build.docs}"/>
     </copy>
+-->
 
     <copy todir="${dist.javadocs}">
       <fileset dir="${build.javadocs}"/>
@@ -492,6 +429,8 @@ Legal:
     <copy todir="${dist.dir}">
       <fileset dir=".">
         <include name="README"/>
+        <include name="LICENSE"/>
+        <include name="KEYS"/>
       </fileset>
     </copy>
 
@@ -500,7 +439,7 @@ Legal:
   </target>
 
   <!-- Create the source distribution -->
-  <target name="src-dist" depends="xdocs,setup-properties">
+  <target name="src-dist" depends="setup-properties">
 
     <mkdir dir="${src.dist.dir}" />
 
@@ -511,24 +450,22 @@ Legal:
     <copy todir="${src.dist.lib}">
       <fileset dir="${lib.dir}">
         <include name="bytecode.jar" />
-<!--
-        <include name="xerces.jar" />
-        <include name="logkit.jar" />
--->
+        <include name="jdom.jar" />
       </fileset>
     </copy>
 
     <copy file="${logkit.jar}" todir="${src.dist.lib}"/>
-    <copy file="${xerces.jar}" todir="${src.dist.lib}"/>
     <copy file="${framework.jar}" todir="${src.dist.lib}"/>
 
     <copy todir="${src.dist.src}">
       <fileset dir="${src.dir}"/>
     </copy>
 
+<!--
     <copy todir="${src.dist.docs}">
       <fileset dir="${build.docs}"/>
     </copy>
+-->
 
     <copy todir="${src.dist.javadocs}">
       <fileset dir="${build.javadocs}"/>
