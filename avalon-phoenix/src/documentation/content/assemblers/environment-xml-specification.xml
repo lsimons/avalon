@@ -85,10 +85,10 @@
         org.apache.avalon.excalibur.logger package for detailed description.
         Below is example configuration.
       </p>
-        <source>
+      <source>
 &lt;?xml version="1.0"?&gt;
 &lt;environment&gt;
-    &lt;logs version="1.1"&gt;
+  &lt;logs version="1.1"&gt;
     &lt;factories&gt;
       &lt;factory type="file" class="org.apache.avalon.excalibur.logger.factory.FileTargetFactory"/&gt;
     &lt;/factories&gt;
@@ -108,9 +108,9 @@
         &lt;/rotation&gt;
       &lt;/file&gt;
     &lt;/targets&gt;
-&lt;/logs&gt;
+  &lt;/logs&gt;
 &lt;/environment&gt;
-</source>
+      </source>
     </section>
   </body>
 </document>
