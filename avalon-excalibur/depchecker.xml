@@ -3,7 +3,7 @@
 <!--
 ============================================================
                 Dependency updater
-                   Version $Revision: 1.38 $
+                   Version $Revision: 1.39 $
            Jeff Turner <jefft@apache.org>
 
 This Ant script provides "functions" to check if
@@ -396,11 +396,18 @@ To use it, type 'ant -f depchecker.xml'
             <property name="proj.home" value="${basedir}/../configuration"/>
         </ant>
     </target>
-    <target name="checkContext">
+    <target name="checkContainer">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
-            <property name="proj.jar.name" value="excalibur-context.jar"/>
-            <property name="path" value="${excalibur-context.jar}"/>
-            <property name="proj.home" value="${basedir}/../context"/>
+            <property name="name" value="excalibur-container.jar"/>
+            <property name="path" value="${excalibur-container.jar}"/>
+            <property name="proj.home" value="${basedir}/../container"/>
+        </ant>
+    </target>
+    <target name="checkMeta">
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
+            <property name="name" value="excalibur-meta.jar"/>
+            <property name="path" value="${excalibur-meta.jar}"/>
+            <property name="proj.home" value="${basedir}/../meta"/>
         </ant>
     </target>
     <target name="checkPool">
@@ -442,6 +449,13 @@ To use it, type 'ant -f depchecker.xml'
             <property name="proj.jar.name" value="excalibur-datasource.jar"/>
             <property name="path" value="${excalibur-datasource.jar}"/>
             <property name="proj.home" value="${basedir}/../datasource"/>
+        </ant>
+    </target>
+    <target name="checkExtension">
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
+            <property name="name" value="excalibur-extension"/>
+            <property name="path" value="${excalibur-extension.jar}"/>
+            <property name="proj.home" value="${basedir}/../extension"/>
         </ant>
     </target>
     <target name="checkMonitor">
