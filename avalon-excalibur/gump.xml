@@ -82,7 +82,12 @@
         <work nested="altrmi/build/classes"/>
 
         <home nested="altrmi"/>
-        <jar name="build/lib/excalibur-altrmi-@@DATE@@.jar"/>
+        <jar name="build/lib/excalibur-altrmi-client-impl.jar"/>
+        <jar name="build/lib/excalibur-altrmi-client-interfaces.jar"/>
+        <jar name="build/lib/excalibur-altrmi-common.jar"/>
+        <jar name="build/lib/excalibur-altrmi-generator.jar"/>
+        <jar name="build/lib/excalibur-altrmi-server-impl.jar"/>
+        <jar name="build/lib/excalibur-altrmi-server-interfaces.jar"/>
         <nag from="Peter Donald &lt;peter@apache.org&gt;"
             to="avalon-dev@jakarta.apache.org"/>
     </project>
