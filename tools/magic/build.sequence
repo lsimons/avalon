@@ -1,6 +1,7 @@
 
-prepare
-xdoc
-artifact
-java
-jar
+prepare plugin.install
+xdoc plugin.install
+clean plugin.install
+artifact plugin.install
+java plugin.install
+jar plugin.install
