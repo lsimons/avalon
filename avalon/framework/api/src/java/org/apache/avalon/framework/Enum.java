@@ -155,6 +155,9 @@ public abstract class Enum
      * Identity is tested for first, so this method runs fast.
      * The method is also declared final - I (LSutic) did this to
      * allow the JIT to inline it easily.
+     * 
+     * @param other the other object
+     * @return the equality status
      */
     public final boolean equals( final Object other )
     {
