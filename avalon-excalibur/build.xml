@@ -15,7 +15,11 @@
     <target name="main" depends="jar"/>
 
     <!-- Build default targets of all subprojects. -->
-    <target name="build-subprojects-dist">
+    <!-- The dependency checker was causing a strange problem where the version of -->
+    <!--  jars was being set to 2.2.D11 for some reason?? To work around the problem -->
+    <!--  depending on jar makes sure that all of the dependencies will be satisfied -->
+    <!--  in advance. -->
+    <target name="build-subprojects-dist" depends="jar">
         <!-- Sub projects which do not depend on any other excalibur sub projects. -->
         <ant dir="altrmi" target="dist"/>
         <ant dir="collections" target="dist"/>
@@ -37,7 +41,9 @@
         <ant dir="event" target="dist"/>              <!-- collections, concurrent, lang, pool, thread, util, event -->
 
 
+        <!-- Baxter requires JMX.jar to build and is causing the build to fail.
         <ant dir="baxter" target="dist"/>
+        -->
         <ant dir="bzip2" target="dist"/>
         <ant dir="cache" target="dist"/>
         <ant dir="cli" target="dist"/>
