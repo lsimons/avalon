@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+
+ <title>Apache Avalon Process</title>
+
+ <body>
+
+    <menu>
+      <item name="Project Charter" href="mission.html"/>
+      <item name="Management Committee" href="pmc.html"/>
+      <item name="PMC Procedures" href="pmc-votes.html"/>
+      <item name="Coding Standards" href="code-standards.html"/>
+      <item name="Release Management" href="release.html"/>
+      <item name="Apache License" href="license.html"/>
+    </menu>
+ </body>
+
+</project>
