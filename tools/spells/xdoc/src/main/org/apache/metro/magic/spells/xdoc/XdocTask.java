@@ -15,12 +15,14 @@
  * limitations under the License.
  */
 
-package org.apache.avalon.tools.tasks;
+package org.apache.metro.magic.spells.xdoc;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Copy;
 import org.apache.tools.ant.types.FileSet;
+
+import org.apache.avalon.tools.tasks.SystemTask;
 
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
