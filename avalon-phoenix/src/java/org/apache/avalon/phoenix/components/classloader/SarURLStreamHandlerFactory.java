@@ -21,7 +21,7 @@ import org.apache.avalon.excalibur.i18n.Resources;
  * protocol handler.
  *
  * @author <a href="mailto:mirceatoma@home.com">Mircea Toma</a>
- * @version CVS $Revision: 1.7 $ $Date: 2001/10/27 23:04:25 $
+ * @version CVS $Revision: 1.8 $ $Date: 2001/10/27 23:36:02 $
  */
 class SarURLStreamHandlerFactory
     extends URLStreamHandler
@@ -74,7 +74,7 @@ class SarURLStreamHandlerFactory
     {
         if( PROTOCOL.equals( url.getProtocol() ) )
         {
-            return new SarURLConnection( url );
+            return new SarURLConnection( m_archive, url );
         }
 
         final String message = REZ.getString( "create-connection", url.getProtocol() );
