@@ -20,7 +20,7 @@ import org.apache.excalibur.source.SourceValidity;
 /**
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version $Id: SourceResource.java,v 1.4 2002/05/13 12:17:40 donaldp Exp $
+ * @version $Id: SourceResource.java,v 1.5 2002/08/02 17:51:21 bloritsch Exp $
  */
 public final class SourceResource
     extends StreamResource
@@ -109,5 +109,10 @@ public final class SourceResource
         throws IOException
     {
         throw new IOException( "setResourceAsWriter() not supported for URLResource" );
+    }
+
+    public Source getSource()
+    {
+        return m_source;
     }
 }
