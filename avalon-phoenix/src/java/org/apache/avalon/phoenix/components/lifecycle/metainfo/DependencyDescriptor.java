@@ -8,13 +8,31 @@
 package org.apache.avalon.phoenix.components.lifecycle.metainfo;
 
 /**
- * A descriptor that describes dependency information for Block.
+ * A descriptor that describes dependency information for
+ * a particular Component. This class contains information
+ * about;
+ * <ul>
+ *   <li>role: the name component uses to look up dependency</li>
+ *   <li>service: the class/interface that the dependency must provide</li>
+ * </ul>
+ *
+ * <p>Note that in the future we may also add information relating to
+ * constraints on dependency. ie The dependency must be configured in
+ * particular fashion or must be able to provide certain facilities etc</p>
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @version $Revision: 1.2 $ $Date: 2002/06/04 01:08:34 $
  */
 public final class DependencyDescriptor
 {
+    /**
+     * The name the component uses to lookup dependency.
+     */
     private final String m_role;
+
+    /**
+     * The service class/interface that the dependency must provide.
+     */
     private final ServiceDescriptor m_service;
 
     /**
@@ -27,12 +45,9 @@ public final class DependencyDescriptor
     }
 
     /**
-     * Return role of dependency.
+     * Return the name the component uses to lookup dependency.
      *
-     * The role is what is used by block implementor to
-     * aquire dependency in ComponentManager.
-     *
-     * @return the name of the dependency
+     * @return the name the component uses to lookup dependency.
      */
     public String getRole()
     {
@@ -40,9 +55,9 @@ public final class DependencyDescriptor
     }
 
     /**
-     * Return Service dependency provides.
+     * Return the service class/interface that the dependency must provide.
      *
-     * @return the service dependency provides
+     * @return the service class/interface that the dependency must provide.
      */
     public ServiceDescriptor getService()
     {
