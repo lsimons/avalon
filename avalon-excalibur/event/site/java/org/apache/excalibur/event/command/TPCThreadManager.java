@@ -9,6 +9,7 @@ package org.apache.excalibur.event.command;
 
 import java.util.HashMap;
 import java.util.Iterator;
+
 import org.apache.avalon.excalibur.concurrent.Mutex;
 import org.apache.avalon.excalibur.thread.ThreadControl;
 import org.apache.avalon.excalibur.thread.ThreadPool;
@@ -27,7 +28,7 @@ import org.apache.excalibur.util.SystemUtil;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  */
 public final class TPCThreadManager
-    implements Runnable, ThreadManager, Disposable
+  implements Runnable, ThreadManager, Disposable
 {
     private final ThreadPool m_threadPool;
     private final Mutex m_mutex = new Mutex();
@@ -90,20 +91,23 @@ public final class TPCThreadManager
         {
             m_mutex.acquire();
 
-            m_pipelines.put( pipeline, new PipelineRunner( pipeline ) );
-
-            if( m_done )
+            try
             {
-                m_threadControl = m_threadPool.execute( this );
+                m_pipelines.put( pipeline, new PipelineRunner( pipeline ) );
+
+                if( m_done )
+                {
+                    m_threadControl = m_threadPool.execute( this );
+                }
+            }
+            finally
+            {
+                m_mutex.release();
             }
         }
         catch( InterruptedException ie )
         {
             // ignore for now
-        }
-        finally
-        {
-            m_mutex.release();
         }
     }
 
@@ -116,21 +120,24 @@ public final class TPCThreadManager
         {
             m_mutex.acquire();
 
-            m_pipelines.remove( pipeline );
-
-            if( m_pipelines.isEmpty() )
+            try
             {
-                m_done = true;
-                m_threadControl.join( 1000 );
+                m_pipelines.remove( pipeline );
+
+                if( m_pipelines.isEmpty() )
+                {
+                    m_done = true;
+                    m_threadControl.join( 1000 );
+                }
+            }
+            finally
+            {
+                m_mutex.release();
             }
         }
         catch( InterruptedException ie )
         {
             // ignore for now
-        }
-        finally
-        {
-            m_mutex.release();
         }
     }
 
@@ -142,28 +149,31 @@ public final class TPCThreadManager
         try
         {
             m_mutex.acquire();
+            try
+            {
+                m_done = true;
+                m_pipelines.clear();
 
-            m_done = true;
-            m_pipelines.clear();
-
-            m_threadControl.join( 1000 );
+                m_threadControl.join( 1000 );
+            }
+            finally
+            {
+                m_mutex.release();
+            }
         }
         catch( InterruptedException ie )
         {
             // ignore for now
-        }
-        finally
-        {
-            m_mutex.release();
         }
     }
 
     public final void dispose()
     {
         deregisterAll();
+
         if( m_threadPool instanceof Disposable )
         {
-            ( (Disposable)m_threadPool ).dispose();
+            ( ( Disposable ) m_threadPool ).dispose();
         }
 
         m_threadControl = null;
@@ -171,36 +181,42 @@ public final class TPCThreadManager
 
     public void run()
     {
-        while( !m_done )
+        try
         {
-            try
+            while( !m_done )
             {
                 m_mutex.acquire();
 
-                Iterator i = m_pipelines.values().iterator();
-
-                while( i.hasNext() )
+                try
                 {
-                    m_threadPool.execute( (PipelineRunner)i.next() );
-                }
-            }
-            catch( InterruptedException ie )
-            {
-                // ignore for now
-            }
-            finally
-            {
-                m_mutex.release();
-            }
+                    Iterator i = m_pipelines.values().iterator();
 
-            try
-            {
+                    while( i.hasNext() )
+                    {
+                        try
+                        {
+                            m_threadPool.execute( ( PipelineRunner ) i.next() );
+                        }
+                        catch( IllegalStateException e )
+                        {
+                            // that's the way ResourceLimitingThreadPool reports
+                            // that it has no threads available, will still try
+                            // to go on, hopefully at one point there will be
+                            // a thread to execute our runner
+                        }
+                    }
+                }
+                finally
+                {
+                    m_mutex.release();
+                }
+
                 Thread.sleep( m_sleepTime );
             }
-            catch( InterruptedException ie )
-            {
-                // ignore and continue processing
-            }
+        }
+        catch( InterruptedException e )
+        {
+            Thread.interrupted();
         }
     }
 
@@ -220,7 +236,7 @@ public final class TPCThreadManager
 
             for( int i = 0; i < sources.length; i++ )
             {
-                handler.handleEvents( sources[ i ].dequeueAll() );
+                handler.handleEvents( sources[i].dequeueAll() );
             }
         }
     }
