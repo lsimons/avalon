@@ -53,6 +53,7 @@ package org.apache.avalon.framework.configuration.test;
 import junit.framework.TestCase;
 
 import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.ConfigurationUtil;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
 
@@ -203,6 +204,26 @@ public final class DefaultConfigurationTestCase extends TestCase
         assertEquals( "string", config.getAttribute("string") );
         assertEquals( true, config.getAttributeAsBoolean("boolean") );
     }
+    
+    public void testSetToNull() throws Exception
+    {
+        DefaultConfiguration config = new DefaultConfiguration( "root", "0:0", "http://root", "root" );
+        config.setAttribute( "integer", "12" );
+        assertEquals( "12", config.getAttribute("integer") );
+        
+        config.setAttribute( "integer", null );
+        try 
+        {
+            config.getAttribute("integer");
+            fail( "attribute 'integer' was present despite it being set to null" );
+        } 
+        catch( ConfigurationException e )
+        {
+            // OK, this is what we expect - the attribute wasn't found.
+        }
+    }
+        
+        
 }
 
 

@@ -62,7 +62,7 @@ import java.util.HashMap;
  * This is the default <code>Configuration</code> implementation.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.37 $ $Date: 2003/12/09 15:59:31 $
+ * @version CVS $Revision: 1.38 $ $Date: 2003/12/10 18:05:49 $
  */
 public class DefaultConfiguration
     extends AbstractConfiguration
@@ -445,11 +445,21 @@ public class DefaultConfiguration
     {
         checkWriteable();
 
-        if( null == m_attributes )
+        if( null != value )
         {
-            m_attributes = new HashMap();
+            if( null == m_attributes )
+            {
+                m_attributes = new HashMap();
+            }
+            m_attributes.put( name, value );
         }
-        m_attributes.put( name, value );
+        else
+        {
+            if( null != m_attributes )
+            {
+                m_attributes.remove( name );
+            }
+        }
     }
     
     /**
@@ -495,7 +505,7 @@ public class DefaultConfiguration
     {
         setAttribute( name, String.valueOf( value ) );
     }
-
+    
     /**
      * Add an attribute to this configuration element, returning its old
      * value or <b>null</b>.
