@@ -27,7 +27,7 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.phoenix.BlockContext;
+import org.apache.avalon.framework.context.*;
 
 /**
  * Builds SSLContexts with desired properties. Hides all the gory
@@ -83,10 +83,9 @@ public class SSLFactoryBuilder extends AbstractLogEnabled
      * Requires a BlockContext. We'll see how we end up expressing
      * these dependencies.
      */
-    public void contextualize( final Context context )
+    public void contextualize( final Context context ) throws ContextException
     {
-        final BlockContext blockContext = (BlockContext) context;
-        m_baseDirectory = blockContext.getBaseDirectory();
+        m_baseDirectory = (File) context.get("app.home");
     }
 
     public void configure( final Configuration configuration )

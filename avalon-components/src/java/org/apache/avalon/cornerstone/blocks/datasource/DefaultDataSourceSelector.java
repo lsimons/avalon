@@ -23,7 +23,6 @@ import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.LogEnabled;
-import org.apache.avalon.phoenix.BlockContext;
 
 /**
  * The Default implementation for DataSourceSelector.
@@ -56,12 +55,12 @@ public class DefaultDataSourceSelector
 {
     private Configuration m_configuration;
     private Map m_dataSources;
-    private BlockContext m_context;
+    private String m_blockName;
 
     public void contextualize( final Context context )
         throws ContextException
     {
-        m_context = (BlockContext)context;
+        m_blockName = (String) context.get("block.name");
     }
 
     /**
@@ -130,9 +129,10 @@ public class DefaultDataSourceSelector
             m_configuration.getChild( "data-sources" );
         if( 0 != head.getChildren().length )
         {
+
             final String message =
                 "WARNING: Child node <data-sources/> in " +
-                "configuration of component named " + m_context.getName() +
+                "configuration of component named " + m_blockName +
                 " has been deprecated. Please put <data-source/> elements" +
                 " in root configuration element";
             getLogger().warn( message );

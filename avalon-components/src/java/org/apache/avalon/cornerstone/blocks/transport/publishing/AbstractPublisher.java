@@ -23,7 +23,6 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
-import org.apache.avalon.phoenix.BlockContext;
 import org.apache.excalibur.altrmi.common.MethodRequest;
 import org.apache.excalibur.altrmi.server.AltrmiAuthenticator;
 import org.apache.excalibur.altrmi.server.AltrmiPublisher;
@@ -36,13 +35,14 @@ import org.apache.excalibur.altrmi.server.impl.classretrievers.AbstractDynamicGe
 import org.apache.excalibur.altrmi.server.impl.classretrievers.BcelDynamicGeneratorClassRetriever;
 import org.apache.excalibur.altrmi.server.impl.classretrievers.JarFileClassRetriever;
 import org.apache.excalibur.altrmi.server.impl.classretrievers.NoClassRetriever;
+import org.apache.avalon.framework.context.ContextException;
 
 /**
  * Abstract Publisher.
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
  * @author Thomas Kiesgen
- * @version $Revision: 1.21 $
+ * @version $Revision: 1.22 $
  */
 public abstract class AbstractPublisher
     extends AbstractLogEnabled
@@ -131,9 +131,9 @@ public abstract class AbstractPublisher
      * contextualize as per Contextualizable interface
      * @param context
      */
-    public void contextualize( final Context context )
+    public void contextualize( final Context context ) throws ContextException
     {
-        m_baseDirectory = ( (BlockContext)context ).getBaseDirectory();
+        m_baseDirectory = ( File ) context.get("app.home");
     }
 
     /**

@@ -23,8 +23,6 @@ import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.activity.Disposable;
 
-import org.apache.avalon.phoenix.BlockContext;
-
 import org.apache.avalon.cornerstone.services.event.Event;
 import org.apache.avalon.cornerstone.services.event.Filter;
 import org.apache.avalon.cornerstone.services.event.EventManager;
@@ -49,18 +47,18 @@ public class DefaultEventManager extends AbstractLogEnabled
     private Publisher m_publisher = new DefaultPublisher();
     private Register m_register = new DefaultRegister();
     private Hashtable m_subscribers = new Hashtable();
-    
+
     public Publisher getPublisher(){
         return m_publisher;
     }
     public Register getRegister(){
         return m_register;
     }
-    
+
     public void contextualize( final Context context )
     {
     }
-    
+
     public void configure( final Configuration configuration )
         throws ConfigurationException
     {
@@ -76,7 +74,7 @@ public class DefaultEventManager extends AbstractLogEnabled
 
     public void initialize()
         throws Exception
-    {            
+    {
         m_eventClass = Class.forName( m_rootEventType );
         getLogger().info("Initialising eventClass " + m_eventClass);
     }
@@ -84,10 +82,10 @@ public class DefaultEventManager extends AbstractLogEnabled
     public void dispose()
     {
     }
-    
+
     class DefaultPublisher implements Publisher
     {
-        public void publish( final Event event ) 
+        public void publish( final Event event )
         {
             getLogger().info("Publishing event " + event.getClass());
             System.out.println("Publishing event " + event.getClass());
@@ -102,7 +100,7 @@ public class DefaultEventManager extends AbstractLogEnabled
             }
         }
     }
-    
+
     class DefaultRegister implements Register
     {
         public void subscribe( final Subscriber subscriber )
@@ -110,7 +108,7 @@ public class DefaultEventManager extends AbstractLogEnabled
         {
             if ( !m_eventClass.isAssignableFrom( subscriber.getEventType() ) )
                 throw new InvalidEventTypeException();
-            
+
             getLogger().info( "Subscribing event " + subscriber.getEventType().getName() );
             // Add to list but prevent duplicate subscriptions
             if ( !m_subscribers.containsKey( subscriber.getUID() ) ){
@@ -122,7 +120,7 @@ public class DefaultEventManager extends AbstractLogEnabled
             }
         }
         public void unsubscribe( Subscriber subscriber )
-            throws InvalidEventTypeException 
+            throws InvalidEventTypeException
         {
             if ( !m_eventClass.isAssignableFrom( subscriber.getEventType() ) )
                 throw new InvalidEventTypeException();
@@ -137,5 +135,5 @@ public class DefaultEventManager extends AbstractLogEnabled
             }
         }
     }
-    
+
 }

@@ -28,7 +28,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
-import org.apache.avalon.phoenix.BlockContext;
+import org.apache.avalon.framework.context.ContextException;
 
 /**
  * This an abstract class implementing functionality for creating a file-store.
@@ -57,14 +57,12 @@ public abstract class AbstractFileRepository
     protected File m_baseDirectory;
 
     protected ServiceManager m_serviceManager;
-    protected BlockContext m_context;
 
     protected abstract String getExtensionDecorator();
 
-    public void contextualize( final Context context )
+    public void contextualize( final Context context ) throws ContextException
     {
-        final BlockContext blockContext = (BlockContext) context;
-        m_baseDirectory = blockContext.getBaseDirectory();
+        m_baseDirectory = (File) context.get("app.home");
     }
 
     public void service( final ServiceManager serviceManager )
