@@ -1,7 +1,8 @@
-                  Avalons Excalibur MyComponent
-                  -----------------------------
+                  Avalons Excalibur Event
+                  -----------------------
 
-This is MyCOmponent - it does kool stuff.
+This is the Excalibur Event package which Berin needs to 
+document.
 
 Getting Started:
 ----------------
