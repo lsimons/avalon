@@ -21,7 +21,7 @@
 
     <name>excalibur-logger</name>
     <id>excalibur-logger</id>
-    <currentVersion>1.1</currentVersion>
+    <currentVersion>1.1.1-dev</currentVersion>
     <inceptionYear>1997</inceptionYear>
     <shortDescription>Container utility for implementing LogEnabled/Loggable support.</shortDescription>
     <description>
@@ -34,15 +34,13 @@
     </description>
 
     <build>
-        <sourceDirectory>${basedir}/api/src/java</sourceDirectory>
-        <!-- The other paths are added in maven.xml - yes it is ugly, but it will
-        have to do for now... I'll get some restructuring done *later*. (leosutic@apache.org) -->
+        <sourceDirectory>${basedir}/src/java</sourceDirectory>
         
         <unitTest>
             <includes><include>**/*TestCase.class</include></includes>
             <resources>
                 <resource>
-                    <directory>${basedir}/logkit/src/test</directory>
+                    <directory>${basedir}/src/test</directory>
                 </resource>
             </resources>
         </unitTest>
@@ -64,10 +62,12 @@
             <id>servletapi</id>
             <version>2.2</version>
         </dependency>
-        <!--<dependency>
-            <id>jdbc</id>
-            <version>download from sun</version>
-        </dependency>-->
+        <!-- Download from Sun.
+        <dependency>
+            <id>j2ee</id>
+            <version>1.3</version>
+        </dependency>
+        -->
         <dependency>
             <id>log4j</id>
             <version>1.2.7</version>
@@ -82,6 +82,11 @@
             <id>jms</id>
             <version>1.1</version>
         </dependency>
+        
+        <dependency>
+            <id>xml-apis</id>
+            <version>2.0.2</version>
+        </dependency>
 
         <dependency>
             <!-- testing only -->
@@ -94,7 +99,7 @@
             <id>excalibur-component</id>
             <version>1.2</version>
         </dependency>
-       
+               
         <dependency>
             <!-- testing only -->
             <id>excalibur-testcase</id>
