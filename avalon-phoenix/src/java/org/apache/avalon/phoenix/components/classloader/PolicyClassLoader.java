@@ -19,8 +19,8 @@ import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.logger.Logger;
 
 /**
- * Classloader that uses a specified <code>Policy</code> object
- * rather than system <code>Policy</code> object.
+ * Classloader that uses a specified {@link Policy} object
+ * rather than system {@link Policy} object.
  *
  * <p>Note that parts of this were cloned from other projects</p>
  *
