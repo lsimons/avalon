@@ -83,7 +83,7 @@ import org.w3c.dom.NodeList;
  * </pre>
  *
  * @author <a href="mailto:dims@yahoo.com">Davanum Srinivas</a>
- * @version CVS $Revision: 1.10 $ $Date: 2003/02/27 09:24:47 $ $Author: cziegeler $
+ * @version CVS $Revision: 1.11 $ $Date: 2003/05/16 15:18:29 $ $Author: leosutic $
  */
 public final class XPathProcessorImpl extends AbstractLogEnabled implements XPathProcessor, Configurable, PrefixResolver, Component, ThreadSafe
 {
@@ -224,7 +224,7 @@ public final class XPathProcessorImpl extends AbstractLogEnabled implements XPat
 
     public boolean handlesNullPrefixes()
     {
-        return true;
+        return false;
     }
 }
 
