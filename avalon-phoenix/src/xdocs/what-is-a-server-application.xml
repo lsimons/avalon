@@ -4,15 +4,14 @@
 
 <document>
   <header>
-    <title>Server Assemblers Guide</title>
-    <subtitle>What is a Server Application?</subtitle>
+    <title>Phoenix Server Assembler's Guide - What is a Server Application?</title>
     <authors>
       <person id="PD" name="Peter Donald" email="peter@apache.org"/>
       <person id="BL" name="Berin Loritsch" email="bloritsch@apache.org"/>
     </authors>
   </header>
   <body>
-    <s1 title="What is a Server Application?">
+    <s1 title="Introduction">
       <p>
         In Phoenix, a Server Application is a set of Blocks that act in concert
         to provide a unified user service. Example Server Applications include a Mail 
@@ -32,7 +31,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.2 $ $Date: 2001/11/19 12:21:32 $
+      $Revision: 1.3 $ $Date: 2002/04/02 18:56:21 $
     </legal>
   </footer>
 </document>

@@ -4,8 +4,7 @@
 
 <document>
   <header>
-    <title>Avalon Phoenix Administrator Documentation</title>
-    <subtitle>Introduction</subtitle>
+    <title>Phoenix - Administrator Documentation</title>
     <authors>
       <person name="Berin Loritsch" email="bloritsch@apache.org"/>
     </authors>
@@ -30,7 +29,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2001/03/01 13:44:44 $
+      $Revision: 1.2 $ $Date: 2002/04/02 18:56:21 $
     </legal>
   </footer>
 </document>

@@ -4,8 +4,7 @@
 
 <document>
   <header>
-    <title>Block Developers Guide</title>
-    <subtitle>The BlockInfo Specification</subtitle>
+    <title>Phoenix Block Developer's Guide - The BlockInfo Specification</title>
     <version>3.0</version>
     <authors>
       <person id="PD" name="Peter Donald" email="peter@apache.org"/>
@@ -98,7 +97,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.7 $ $Date: 2001/12/22 13:04:16 $
+      $Revision: 1.8 $ $Date: 2002/04/02 18:56:21 $
     </legal>
   </footer>
 </document>

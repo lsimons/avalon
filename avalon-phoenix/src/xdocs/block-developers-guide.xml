@@ -4,8 +4,7 @@
 
 <document>
   <header>
-    <title>Block Developers Guide</title>
-    <subtitle>Preface</subtitle>
+    <title>Phoenix Block Developer's Guide - Preface</title>
     <authors>
       <person name="Berin Loritsch" email="bloritsch@apache.org"/>
     </authors>
@@ -43,6 +42,7 @@
        <ol>
         <li><link href="what-is-a-block.html">What is a block?</link></li>
         <li><link href="what-is-a-block-listener.html">What is a block listener?</link></li>
+        <li><link href="what-is-an-application-listener.html">What is an application listener?</link></li>        
         <li><link href="creating-a-block.html">How do I create a block?</link></li>
         <li><link href="blockinfo-specification.html">BlockInfo specification</link></li>
        </ol>
@@ -51,7 +51,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.2 $ $Date: 2001/11/12 06:45:39 $
+      $Revision: 1.3 $ $Date: 2002/04/02 18:56:21 $
     </legal>
   </footer>
 </document>

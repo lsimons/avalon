@@ -1,0 +1,128 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE document SYSTEM "dtd/document-v10.dtd">
+
+<document>
+  <header>
+    <title>Phoenix - Making components that are Phoenix compatible</title>
+    <authors>
+      <person name="Paul Hammant" email="hammant@apache.org"/>
+    </authors>
+  </header>
+  <body>
+    <s1 title="Introduction">
+      <p>
+      Quite often reusable components are made elsewhere.  Apache has a number 
+      of places where this activity is going on.  While we get it right most of
+      the time, some components developer elsewhere are harder to use in Phoenix
+      </p>
+    </s1>
+    <s1 title="Things to remember">
+      <p>
+        There are a number of common sense things to remember when making or 
+        adapting a Java component to be reusable in Phoenix as block.
+      </p>
+      <s2 title="Beanification">      
+        <p>
+          <ul>
+            <li>Have a public empty constructor for your main class</li>
+            <li>Have setters for its configuration.</li>
+            <li>Do not assume that the File is where dependancies are - people may reuse this in jars, applets etc.</li>
+            <li>Divorce your main method (if appl) from your main class - Phoenix does not call main methods.</li>            
+            <li>Consider that the setup and initialization of the bean does not happen in the 
+                constructor - as a convenience to the user, have an initialize() method</li>            
+            <li>If the comp has start/stop functinality consider having start() and stop() methods.</li>  
+            <li>Try to avoid Singleton concepts.  There could be multiple blocks in one sar using differnt (by design) instances of your bean</li>
+          </ul>
+        </p>
+      </s2>              
+      <s2 title="Inversion of Control Pattern">
+         The IoC pattern is described <link href="http://jakarta.apache.org/avalon/framework/inversion-of-control.html">
+         here</link>.  This means for Phoenix avoiding static concepts including loggers.
+      </s2>
+      <s2 title="Sepearation of interface and implementation">
+        <p>
+         The separation of interface/impl pattern is described <link href="http://jakarta.apache.org/avalon/framework/separation-of-interface-and-implementation.html">here</link>.  
+         For Phoenix is means we can (if done completely) mount the implementation jar in place where hosted client compoennts (beans, servlets etc) can use the API, bit not see the implementation.  We can also reimplement or wrap 
+         bits of the implementation.  For example we could write a pluggable implementation that could, for a certain API 
+         journal some methods, but still delegate to the real impl.  Which pluggable impl is used by Phoenix when it 
+         boots is determined in assembly.xml of course.
+        </p>
+      </s2>
+      <s2 title="Opening up the API">
+        <p>
+         Given that you have divided into interface and impl, there are probably plenty of methods you 
+         can put method in the interface you never though might be used.  For example if you are making JDBC 
+         compliant relational database, and it is a bean, you could easily think that the only use would be 
+         clients via JDBC over sockets.  Well, given that Phoenix can now mount the RDBMS block, it might want 
+         to be reused by other blocks that other people have developed inside the the same SAR file.  In that case
+         have beanlike methods of ...
+        <ol>
+          <li>Database createDatabase(String name)</li>
+          <li>Database cloneDatabase(String name)</li>      
+        </ol>         
+        .. might be useful.  Just because you can only see a ServerSocket interface does not mean that others do.
+        </p>
+      </s2> 
+    </s1> 
+    <s1 title="Example compatible comp">
+    <p>
+      Below are an interface and implemmentation that are suitably separated, are beanlike and is in accordance 
+      with the IoC pattern...
+<source>
+package examplecomp;
+public interface StockQuoteService {
+    Quote getQuote(String symbol);
+}
+
+package examplecomp;
+public class Quote {
+   public final BigDecimal ...
+   public Quote(...);
+   public BigDecimal getXXX() {
+       ...
+   }
+}
+
+package examplecomp.impl;
+public class DefaultStockQuoteService implements StockQuoteService {
+
+    public DefaultStockQuoteService() {
+        // whatever.
+    }
+    public void setConfiguration(Properties props) {
+        // not very beanlike but OK for reuse.    
+    }
+    public void initialize() {
+        // whatever.
+    }
+    public Quote getQuote(String symbol) {
+        // whatever.
+        return new Quote(...);
+    }
+}
+</source>      
+      The interface is from the clients reuse point of view. The setConfiguration(..) and intialize(..) 
+      are something that the container will do after instantiating the bean abd are implementation specific.  
+      This is the IoC pattern at work - the bean is instantiated then decorated with additonal stuff 
+      until it is instructed to go.
+    </p>
+    </s1>
+    <s1 title="Misconceptions">    
+      <p>
+        The following are worth stating:
+        <ul>
+          <li>You do not have to implement any Avalon interfaces to be reusable inside Avalon.</li>
+          <li>Being Phoenix compatible is just as useful for whole servers as it is for small components.</li>
+          <li>Being Phoenix compatible can be for tools that are intended for client-side as well as server use.</li>
+        </ul>
+      </p>    
+    </s1>    
+  </body>
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
+      $Revision: 1.1 $ $Date: 2002/04/02 18:56:21 $
+    </legal>
+  </footer>
+</document>

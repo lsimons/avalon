@@ -4,8 +4,7 @@
 
 <document>
   <header>
-    <title>Phoenix Developer Documentation</title>
-    <subtitle>Introduction</subtitle>
+    <title>Phoenix - Overview</title>
     <authors>
       <person name="Berin Loritsch" email="bloritsch@apache.org"/>
       <person name="Peter Donald" email="peter@apache.org"/>
@@ -91,7 +90,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.5 $ $Date: 2001/12/22 13:04:16 $
+      $Revision: 1.6 $ $Date: 2002/04/02 18:56:21 $
     </legal>
   </footer>
 </document>

@@ -4,8 +4,7 @@
 
 <document>
   <header>
-    <title>Server Assemblers Guide</title>
-    <subtitle>Specification of assembly.xml </subtitle>
+    <title>Phoenix Server Assembler's Guide - Specification of assembly.xml </title>
     <authors>
       <person id="PD" name="Peter Donald" email="peter@apache.org"/>
     </authors>
@@ -58,7 +57,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.6 $ $Date: 2001/11/19 12:21:32 $
+      $Revision: 1.7 $ $Date: 2002/04/02 18:56:21 $
     </legal>
   </footer>
 </document>
