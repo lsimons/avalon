@@ -8,7 +8,8 @@
 package org.apache.log.output.test;
 
 import java.net.InetAddress;
-import org.apache.log.LogKit; 
+import org.apache.log.Hierarchy; 
+import org.apache.log.Formatter; 
 import org.apache.log.LogTarget; 
 import org.apache.log.Logger; 
 import org.apache.log.Priority; 
@@ -26,14 +27,12 @@ public final class DatagramTest
     {
         try
         {
-            final InetAddress address = InetAddress.getByName( "localhost" );
-            final DatagramOutputTarget target = new DatagramOutputTarget( address, 514 );
-
+            Formatter formatter = null;
             String message = null;
 
             if( 0 == args.length )
             {
-                target.setFormatter( new SyslogFormatter( SyslogFormatter.FACILITY_DAEMON ) );               
+                formatter = new SyslogFormatter( SyslogFormatter.FACILITY_DAEMON );
                 message = "hello!!!";
             }
             else
@@ -41,11 +40,15 @@ public final class DatagramTest
                 //final int facility = 9<<3; //Cron
                 //final int priority = 3; //ERROR
                 //final String message = "<" + (facility|priority) + "> hello!!!";
-                target.setFormatter( new RawFormatter() );
+                formatter = new RawFormatter();
                 message = args[ 0 ];
             }
 
-            final Logger logger = LogKit.getLoggerFor( "foo" );
+            final InetAddress address = InetAddress.getByName( "localhost" );
+            final DatagramOutputTarget target = 
+                new DatagramOutputTarget( address, 514, formatter );
+
+            final Logger logger = Hierarchy.getDefaultHierarchy().getLoggerFor( "foo" );
             logger.setLogTargets( new LogTarget[] { target } );
 
             logger.warn( message, new Exception() );

@@ -11,6 +11,7 @@ import org.apache.log.LogEvent;
 public class ServletOutputLogTarget
     extends DefaultOutputLogTarget
 {
+    ///The servlet context written to (may be null in which case it won't log at all)
     private ServletContext m_context;
 
     /**
@@ -28,7 +29,7 @@ public class ServletOutputLogTarget
      *
      * @param message message to log to servlet context log file.
      */
-    protected void output( final String message )
+    protected void write( final String message )
     {
         if( null != m_context )
         {

@@ -35,6 +35,22 @@ public class DatagramOutputTarget
      * @param port the address port
      * @exception IOException if an error occurs
      */
+    public DatagramOutputTarget( final InetAddress address, 
+                                 final int port,
+                                 final Formatter formatter )
+        throws IOException
+    {
+        this( address, port );
+        setFormatter( formatter );
+    }
+
+    /**
+     * Create a output target with end point specified by address and port.
+     *
+     * @param address the address endpoint
+     * @param port the address port
+     * @exception IOException if an error occurs
+     */
     public DatagramOutputTarget( final InetAddress address, final int port )
         throws IOException
     {
@@ -47,7 +63,7 @@ public class DatagramOutputTarget
      *
      * @param stringData the data to be output
      */
-    protected void output( final String stringData )
+    protected void write( final String stringData )
     {
         final byte[] data = stringData.getBytes();
 
@@ -58,10 +74,7 @@ public class DatagramOutputTarget
         }
         catch( final IOException ioe )
         {
-            Hierarchy.getDefaultHierarchy().log( "Error sending datagram.", ioe );
-            //TODO:
-            //Can no longer route to global error handler - somehow need to pass down error
-            //handler from engine...
+            error( "Error sending datagram.", ioe );
         }
     }
 }

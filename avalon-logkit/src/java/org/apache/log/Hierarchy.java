@@ -8,7 +8,8 @@
 package org.apache.log;
 
 import java.util.Hashtable;
-import org.apache.log.output.DefaultOutputLogTarget;
+import org.apache.log.output.StreamTarget;
+import org.apache.log.format.PatternFormatter;
 
 /**
  * This class encapsulates a basic independent log hierarchy.
@@ -18,6 +19,10 @@ import org.apache.log.output.DefaultOutputLogTarget;
  */
 public class Hierarchy
 {
+    ///Format of default formatter
+    private static final String  FORMAT = 
+        "%7.7{priority} %5.5{time}   [%8.8{category}] (%{context}): %{message}\\n%{throwable}";
+
     ///The instance of default hierarchy
     private static final Hierarchy  c_hierarchy      = new Hierarchy();
 
@@ -47,7 +52,12 @@ public class Hierarchy
     public Hierarchy()
     {
         m_rootLogger = new Logger( this, "", null, null );
-        setDefaultLogTarget( new DefaultOutputLogTarget() );
+
+        //Setup default output target to print to console
+        final PatternFormatter formatter = new PatternFormatter( FORMAT );
+        final StreamTarget target = new StreamTarget( System.out, formatter );
+
+        setDefaultLogTarget( target );
     }
 
     /**
