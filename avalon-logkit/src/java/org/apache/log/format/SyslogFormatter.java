@@ -112,6 +112,8 @@ public class SyslogFormatter
         final int facility = getSyslogFacility( event );
         String message = event.getMessage();
 
+        //TODO: Clean and spruce message here (ie remove \t and \n's)
+
         if( null == message )
         {
             message = "";
