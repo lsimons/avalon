@@ -12,7 +12,7 @@ package org.apache.avalon.excalibur.instrument;
  *  the Instruement interface.
  *
  * @author <a href="mailto:leif@silveregg.co.jp">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/03/26 11:17:21 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/03/27 09:47:20 $
  * @since 4.1
  */
 public abstract class AbstractInstrument
@@ -22,7 +22,7 @@ public abstract class AbstractInstrument
     private String m_name;
     
     /** Proxy object used to communicate with the InstrumentManager. */
-    protected InstrumentProxy m_proxy;
+    private InstrumentProxy m_proxy;
     
     /*---------------------------------------------------------------
      * Constructors
@@ -82,10 +82,21 @@ public abstract class AbstractInstrument
      * Used by classes being profiled so that they can avoid unnecessary
      *  code when the data from an Instrument is not being used.
      *
-     * @returns True if an InstrumentProxy has been set and is active.
+     * @return True if an InstrumentProxy has been set and is active.
      */
     public boolean isActive()
     {
         return ( m_proxy != null ) && ( m_proxy.isActive() );
+    }
+    
+    /**
+     * Returns the InstrumentProxy object assigned to the instrument by the
+     *  InstrumentManager.
+     *
+     * @return Proxy object used to communicate with the InstrumentManager.
+     */
+    protected InstrumentProxy getInstrumentProxy()
+    {
+        return m_proxy;
     }
 }
