@@ -35,12 +35,13 @@ import org.apache.avalon.composition.data.RepositoryDirective;
 import org.apache.avalon.composition.data.ServiceDirective;
 import org.apache.avalon.composition.data.FilesetDirective;
 import org.apache.avalon.composition.data.IncludeDirective;
+import org.apache.avalon.composition.data.ExcludeDirective;
 
 /**
  * Write {@link ContainmentProfile} objects to a stream as xml documents.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2004/01/24 23:25:27 $
+ * @version $Revision: 1.5 $ $Date: 2004/04/16 20:12:34 $
  */
 public class XMLContainmentProfileWriter extends XMLComponentProfileWriter
 {
@@ -300,6 +301,15 @@ public class XMLContainmentProfileWriter extends XMLComponentProfileWriter
                   + "<include>" 
                   + includes[i].getPath() 
                   + "</include>" );
+        }
+
+        ExcludeDirective[] excludes = fileset.getExcludes();
+        for( int i=0; i<excludes.length; i++ )
+        {
+            writer.write( "\n" + pad + INDENT 
+                  + "<exclude>" 
+                  + excludes[i].getPath() 
+                  + "</exclude>" );
         }
 
         writer.write( "\n" + pad + "</fileset>" );
