@@ -8,23 +8,17 @@
 package org.apache.avalon.excalibur.thread;
 
 import org.apache.avalon.framework.activity.Executable;
+import org.apache.excalibur.thread.ThreadControl;
 
 /**
  * This class is the public frontend for the thread pool code.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @deprecated Replaced with org.apache.excalibur.thread.ThreadPool
  */
 public interface ThreadPool
+    extends org.apache.excalibur.thread.ThreadPool
 {
-    /**
-     * Run work in separate thread.
-     * Return a valid ThreadControl to control work thread.
-     *
-     * @param work the work to be executed.
-     * @return the ThreadControl
-     */
-    ThreadControl execute( Runnable work );
-
     /**
      * Run work in separate thread.
      * Return a valid ThreadControl to control work thread.

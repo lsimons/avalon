@@ -9,7 +9,6 @@ package org.apache.avalon.excalibur.thread.impl;
 
 import org.apache.avalon.excalibur.pool.ObjectFactory;
 import org.apache.avalon.excalibur.pool.SoftResourceLimitingPool;
-import org.apache.avalon.excalibur.thread.ThreadControl;
 import org.apache.avalon.excalibur.thread.ThreadPool;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Executable;
@@ -17,6 +16,8 @@ import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.logger.LogKitLogger;
 import org.apache.avalon.framework.logger.Loggable;
 import org.apache.avalon.framework.logger.Logger;
+import org.apache.avalon.framework.container.ContainerUtil;
+import org.apache.excalibur.thread.ThreadControl;
 import org.apache.excalibur.threadcontext.ThreadContext;
 
 /**
@@ -29,13 +30,8 @@ public class DefaultThreadPool
     extends ThreadGroup
     implements ObjectFactory, Loggable, LogEnabled, Disposable, ThreadPool
 {
-    private SoftResourceLimitingPool m_pool;
-
-    private int m_level;
-
-    private Logger m_logger;
-
-    private ThreadContext m_context;
+    private final BasicThreadPool m_pool;
+    private SoftResourceLimitingPool m_underlyingPool;
 
     public DefaultThreadPool( final int capacity )
         throws Exception
@@ -55,8 +51,8 @@ public class DefaultThreadPool
         throws Exception
     {
         super( name );
-        m_pool = new SoftResourceLimitingPool( this, capacity );
-        m_context = context;
+        m_underlyingPool = new SoftResourceLimitingPool( this, capacity );
+        m_pool = new BasicThreadPool( this, name, m_underlyingPool, context );
     }
 
     public void setLogger( final org.apache.log.Logger logger )
@@ -66,57 +62,27 @@ public class DefaultThreadPool
 
     public void enableLogging( final Logger logger )
     {
-        m_logger = logger;
-        m_pool.enableLogging( m_logger );
+        ContainerUtil.enableLogging( m_pool, logger );
     }
 
     public void dispose()
     {
         m_pool.dispose();
-        m_pool = null;
     }
 
     public Object newInstance()
     {
-        final String name = getName() + " Worker #" + m_level++;
-
-        ThreadContext context = null;
-        if( null != m_context )
-        {
-            context = m_context.duplicate();
-        }
-
-        final WorkerThread worker =
-            new WorkerThread( this, name, m_pool, context );
-        worker.setDaemon( true );
-        worker.enableLogging( m_logger );
-        worker.start();
-        return worker;
+        return m_pool.newInstance();
     }
 
     public void decommission( final Object object )
     {
-        if( object instanceof WorkerThread )
-        {
-            ((WorkerThread)object).dispose();
-        }
+        m_pool.decommission( object );
     }
 
     public Class getCreatedClass()
     {
-        return WorkerThread.class;
-    }
-
-    /**
-     * Run work in separate thread.
-     * Return a valid ThreadControl to control work thread.
-     *
-     * @param work the work to be executed.
-     * @return the ThreadControl
-     */
-    public ThreadControl execute( final Runnable work )
-    {
-        return execute( new ExecutableRunnable( work ) );
+        return m_pool.getCreatedClass();
     }
 
     /**
@@ -128,24 +94,30 @@ public class DefaultThreadPool
      */
     public ThreadControl execute( final Executable work )
     {
-        final WorkerThread worker = getWorker();
-        return worker.execute( work );
+        return m_pool.execute( work );
     }
 
     /**
-     * Retrieve a worker thread from pool.
+     * Run work in separate thread.
+     * Return a valid ThreadControl to control work thread.
      *
-     * @return the worker thread retrieved from pool
+     * @param work the work to be executed.
+     * @return the ThreadControl
      */
-    protected WorkerThread getWorker()
+    public ThreadControl execute( final Runnable work )
     {
-        try
-        {
-            return (WorkerThread)m_pool.get();
-        }
-        catch( final Exception e )
-        {
-            throw new IllegalStateException( "Unable to access thread pool due to " + e );
-        }
+        return m_pool.execute( work );
+    }
+
+    /**
+     * Run work in separate thread.
+     * Return a valid ThreadControl to control work thread.
+     *
+     * @param work the work to be executed.
+     * @return the ThreadControl
+     */
+    public ThreadControl execute( final org.apache.excalibur.thread.Executable work )
+    {
+        return m_pool.execute( work );
     }
 }

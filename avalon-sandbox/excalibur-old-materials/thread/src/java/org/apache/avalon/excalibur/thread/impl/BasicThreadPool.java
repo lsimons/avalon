@@ -9,6 +9,7 @@ package org.apache.avalon.excalibur.thread.impl;
 
 import org.apache.avalon.excalibur.pool.ObjectFactory;
 import org.apache.avalon.excalibur.pool.SoftResourceLimitingPool;
+import org.apache.avalon.excalibur.pool.Pool;
 import org.apache.avalon.excalibur.thread.ThreadPool;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Executable;
@@ -27,14 +28,14 @@ import org.apache.excalibur.threadcontext.ThreadContext;
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  * @deprecated Only used by deprecated components. Will remove in the future
  */
-class SimpleThreadPool
+class BasicThreadPool
     extends AbstractThreadPool
     implements ObjectFactory, LogEnabled, Disposable, ThreadPool
 {
     /**
      * The underlying pool.
      */
-    private SoftResourceLimitingPool m_pool;
+    private Pool m_pool;
 
     /**
      * The logger to use for debugging purposes.
@@ -51,50 +52,24 @@ class SimpleThreadPool
      * Create a new ThreadPool with specified capacity.
      *
      * @param threadGroup the thread group used in pool
-     * @param capacity the capacity of pool
-     * @throws Exception if unable to create pool
-     */
-    public SimpleThreadPool( final ThreadGroup threadGroup,
-                             final int capacity )
-        throws Exception
-    {
-        this( threadGroup, "Worker Pool", capacity );
-    }
-
-    /**
-     * Create a new ThreadPool with specified capacity.
-     *
-     * @param threadGroup the thread group used in pool
      * @param name the name of pool (used in naming threads)
-     * @param capacity the capacity of pool
-     * @throws Exception if unable to create pool
-     */
-    public SimpleThreadPool( final ThreadGroup threadGroup,
-                             final String name,
-                             final int capacity )
-        throws Exception
-    {
-        this( threadGroup, name, capacity );
-    }
-
-
-    /**
-     * Create a new ThreadPool with specified capacity.
-     *
-     * @param threadGroup the thread group used in pool
-     * @param name the name of pool (used in naming threads)
-     * @param capacity the capacity of pool
+     * @param pool the underling pool
      * @param context the thread context associated with pool (May be null).
      * @throws Exception if unable to create pool
      */
-    public SimpleThreadPool( final ThreadGroup threadGroup,
-                             final String name,
-                             final int capacity,
-                             final ThreadContext context )
+    public BasicThreadPool( final ThreadGroup threadGroup,
+                                     final String name,
+                                     final Pool pool,
+                                     final ThreadContext context )
         throws Exception
     {
         super( name, threadGroup );
-        m_pool = new SoftResourceLimitingPool( this, capacity );
+        if( null == pool )
+        {
+            throw new NullPointerException( "pool" );
+        }
+
+        m_pool = pool;
         m_context = context;
     }
 
@@ -106,7 +81,7 @@ class SimpleThreadPool
     public void enableLogging( final Logger logger )
     {
         m_logger = logger;
-        m_pool.enableLogging( m_logger );
+        ContainerUtil.enableLogging( m_pool, logger );
     }
 
     /**
@@ -114,7 +89,7 @@ class SimpleThreadPool
      */
     public void dispose()
     {
-        m_pool.dispose();
+        ContainerUtil.dispose( m_pool );
         m_pool = null;
     }
 
@@ -191,7 +166,9 @@ class SimpleThreadPool
         }
         catch( final Exception e )
         {
-            throw new IllegalStateException( "Unable to access thread pool due to " + e );
+            final String message =
+                "Unable to access thread pool due to " + e;
+            throw new IllegalStateException( message );
         }
     }
 
@@ -202,6 +179,6 @@ class SimpleThreadPool
      */
     protected void releaseWorker( final WorkerThread worker )
     {
-        m_pool.put( (SimpleWorkerThread)worker );
+        m_pool.put( (SimpleWorkerThread) worker );
     }
 }

@@ -11,13 +11,14 @@ import org.apache.excalibur.instrument.Instrument;
 import org.apache.excalibur.instrument.Instrumentable;
 import org.apache.avalon.excalibur.pool.ObjectFactory;
 import org.apache.avalon.excalibur.pool.ResourceLimitingPool;
-import org.apache.avalon.excalibur.thread.ThreadControl;
 import org.apache.avalon.excalibur.thread.ThreadPool;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Executable;
 import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.logger.Logger;
+import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.excalibur.threadcontext.ThreadContext;
+import org.apache.excalibur.thread.ThreadControl;
 
 /**
  * A Thread Pool which can be configured to have a hard limit on the maximum number of threads
@@ -31,21 +32,22 @@ import org.apache.excalibur.threadcontext.ThreadContext;
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
  * @author <a href="mailto:stefano@apache.org">Stefano Mazzocchi</a>
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.6 $ $Date: 2002/08/05 14:21:06 $
+ * @version CVS $Revision: 1.7 $ $Date: 2002/09/28 09:31:01 $
  * @since 4.1
  */
 public class ResourceLimitingThreadPool
     extends ThreadGroup
     implements ObjectFactory, LogEnabled, Disposable, ThreadPool, Instrumentable
 {
-
-    private ResourceLimitingPool m_pool;
-    private int m_level;
-    private Logger m_logger;
-    private ThreadContext m_context;
+    private ResourceLimitingPool m_underlyingPool;
 
     /** Instrumentable Name assigned to this Instrumentable */
     private String m_instrumentableName;
+
+    /**
+     * The associated thread pool.
+     */
+    private BasicThreadPool m_pool;
 
     /*---------------------------------------------------------------
      * Constructors
@@ -130,116 +132,19 @@ public class ResourceLimitingThreadPool
     {
         super( name );
 
-        m_pool = new ResourceLimitingPool
-            ( this, max, maxStrict, blocking, blockTimeout, trimInterval );
-        m_context = context;
-    }
-
-    /*---------------------------------------------------------------
-     * ObjectFactory Methods
-     *-------------------------------------------------------------*/
-
-    /**
-     * Creates and returns a new <code>WorkerThread</code>.
-     *
-     * @return new worker thread
-     *
-     */
-    public Object newInstance()
-    {
-        final String name =
-            new StringBuffer( getName() ).append( " Worker #" ).append( m_level++ ).toString();
-        final WorkerThread worker = new WorkerThread( this, name, m_pool, m_context );
-        worker.setDaemon( true );
-        worker.enableLogging( m_logger );
-        worker.start();
-
-        return worker;
-    }
-
-    /**
-     * Returns the class of which this <code>ObjectFactory</code> creates instances.
-     *
-     * @return WorkerThread.class
-     *
-     */
-    public Class getCreatedClass()
-    {
-        return WorkerThread.class;
-    }
-
-    /**
-     * Cleans up any resources associated with the specified object and takes it
-     * out of commission.
-     *
-     * @param object the object to be decommissioned
-     *
-     */
-    public void decommission( final Object object )
-    {
-        if( object instanceof WorkerThread )
+        m_underlyingPool =
+            new ResourceLimitingPool( this, max, maxStrict,
+                                      blocking, blockTimeout,
+                                      trimInterval );
+        try
         {
-            ( (WorkerThread)object ).dispose();
+            m_pool = new BasicThreadPool(this, name, m_underlyingPool, context );
         }
-    }
-
-    /*---------------------------------------------------------------
-     * LogEnabled Methods
-     *-------------------------------------------------------------*/
-    /**
-     * Set the logger.
-     *
-     * @param logger
-     *
-     */
-    public void enableLogging( final Logger logger )
-    {
-        m_logger = logger;
-
-        m_pool.enableLogging( m_logger );
-    }
-
-    /*---------------------------------------------------------------
-     * Disposable Methods
-     *-------------------------------------------------------------*/
-    /**
-     * Clean up resources and references.
-     *
-     */
-    public void dispose()
-    {
-        m_pool.dispose();
-
-        m_pool = null;
-    }
-
-    /*---------------------------------------------------------------
-     * ThreadPool Methods
-     *-------------------------------------------------------------*/
-    /**
-     * Run work in separate thread.
-     * Return a valid ThreadControl to control work thread.
-     *
-     * @param work the work to be executed.
-     * @return the ThreadControl
-     */
-    public ThreadControl execute( final Runnable work )
-    {
-        return execute( new ExecutableRunnable( work ) );
-    }
-
-    /**
-     * Run work in separate thread.
-     * Return a valid ThreadControl to control work thread.
-     *
-     * @param work the work to be executed.
-     * @return the ThreadControl
-     */
-    public ThreadControl execute( final Executable work )
-    {
-        final WorkerThread worker = getWorker();
-
-        return worker.execute( work );
+        catch( Exception e )
+        {
+            final String message = "Unable to create ThreadPool due to " + e;
+            throw new IllegalStateException( message );
+        }
     }
 
     /*---------------------------------------------------------------
@@ -300,35 +205,7 @@ public class ResourceLimitingThreadPool
      */
     public Instrumentable[] getChildInstrumentables()
     {
-        return new Instrumentable[]{m_pool};
-    }
-
-    /*---------------------------------------------------------------
-     * Methods
-     *-------------------------------------------------------------*/
-    /**
-     * Retrieve a worker thread from pool.
-     *
-     * @return the worker thread retrieved from pool
-     *
-     * @todo remove the line:
-     * <code>worker.setContextClassLoader(Thread.currentThread().getContextClassLoader());</code>
-     */
-    protected WorkerThread getWorker()
-    {
-        try
-        {
-            final WorkerThread worker = (WorkerThread)m_pool.get();
-
-            // TODO: Remove next line
-            worker.setContextClassLoader( Thread.currentThread().getContextClassLoader() );
-
-            return worker;
-        }
-        catch( final Exception e )
-        {
-            throw new IllegalStateException( "Unable to access thread pool due to " + e );
-        }
+        return new Instrumentable[]{m_underlyingPool};
     }
 
     /**
@@ -338,6 +215,67 @@ public class ResourceLimitingThreadPool
      */
     public int getSize()
     {
-        return m_pool.getSize();
+        return m_underlyingPool.getSize();
+    }
+
+    public void enableLogging( final Logger logger )
+    {
+        ContainerUtil.enableLogging( m_pool, logger );
+    }
+
+    public void dispose()
+    {
+        m_pool.dispose();
+    }
+
+    public Object newInstance()
+    {
+        return m_pool.newInstance();
+    }
+
+    public void decommission( final Object object )
+    {
+        m_pool.decommission( object );
+    }
+
+    public Class getCreatedClass()
+    {
+        return m_pool.getCreatedClass();
+    }
+
+    /**
+     * Run work in separate thread.
+     * Return a valid ThreadControl to control work thread.
+     *
+     * @param work the work to be executed.
+     * @return the ThreadControl
+     */
+    public ThreadControl execute( final Executable work )
+    {
+        return m_pool.execute( work );
+    }
+
+    /**
+     * Run work in separate thread.
+     * Return a valid ThreadControl to control work thread.
+     *
+     * @param work the work to be executed.
+     * @return the ThreadControl
+     */
+    public ThreadControl execute( final Runnable work )
+    {
+        return m_pool.execute( work );
+    }
+
+    /**
+     * Run work in separate thread.
+     * Return a valid ThreadControl to control work thread.
+     *
+     * @param work the work to be executed.
+     * @return the ThreadControl
+     */
+    public ThreadControl execute( final org.apache.excalibur.thread.Executable work )
+    {
+        return m_pool.execute( work );
     }
 }
