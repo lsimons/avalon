@@ -17,7 +17,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * The Factory implementation for JdbcConnections.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.12 $ $Date: 2002/03/16 00:05:40 $
+ * @version CVS $Revision: 1.13 $ $Date: 2002/03/26 10:45:22 $
  * @since 4.0
  */
 public class JdbcConnectionFactory extends AbstractLogEnabled implements ObjectFactory
@@ -28,8 +28,8 @@ public class JdbcConnectionFactory extends AbstractLogEnabled implements ObjectF
     private final boolean m_autoCommit;
     private final String m_keepAlive;
     private final Class m_class;
-    private final static String DEFAULT_KEEPALIVE = "SELECT 1";
-    private final static String ORACLE_KEEPALIVE = JdbcConnectionFactory.DEFAULT_KEEPALIVE + " FROM DUAL";
+    private static final String DEFAULT_KEEPALIVE = "SELECT 1";
+    private static final String ORACLE_KEEPALIVE = JdbcConnectionFactory.DEFAULT_KEEPALIVE + " FROM DUAL";
     private Connection m_firstConnection;
 
     /**

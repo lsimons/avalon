@@ -270,7 +270,7 @@ public final class FixedSizeQueue extends AbstractQueue
         return element;
     }
 
-    private final static class FixedSizePreparedEnqueue implements PreparedEnqueue
+    private static final class FixedSizePreparedEnqueue implements PreparedEnqueue
     {
         private final FixedSizeQueue m_parent;
         private QueueElement[] m_elements;

@@ -203,7 +203,7 @@ public final class TPCThreadManager implements Runnable, ThreadManager, Disposab
         }
     }
 
-    public final static class PipelineRunner implements Runnable
+    public static final class PipelineRunner implements Runnable
     {
         private final EventPipeline m_pipeline;
 

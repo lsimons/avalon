@@ -22,15 +22,15 @@ import java.util.Set;
  * last modified property will be enough.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: Resource.java,v 1.3 2002/03/16 00:05:41 donaldp Exp $
+ * @version $Id: Resource.java,v 1.4 2002/03/26 10:45:22 donaldp Exp $
  */
 public abstract class Resource implements Modifiable
 {
-    protected final static String MODIFIED = "last-modified";
+    protected static final String MODIFIED = "last-modified";
     protected PropertyChangeSupport m_eventSupport = new PropertyChangeSupport( this );
     private final String m_resourceKey;
     protected long m_previousModified = 0L;
-    private final static Set m_propertyListeners = Collections.synchronizedSet( new HashSet() );
+    private static final Set m_propertyListeners = Collections.synchronizedSet( new HashSet() );
 
     /**
      * Required constructor.  The <code>String</code> location is transformed by

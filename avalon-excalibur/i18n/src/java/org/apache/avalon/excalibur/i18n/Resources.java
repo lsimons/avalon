@@ -26,7 +26,7 @@ import java.util.ResourceBundle;
  */
 public class Resources
 {
-    private final static Random RANDOM = new Random();
+    private static final Random RANDOM = new Random();
 
     ///Local of Resources
     private final Locale m_locale;

@@ -15,16 +15,16 @@ import java.util.Map;
  *
  * <pre>
  * import org.apache.avalon.framework.ValuedEnum;
- * 
+ *
  * public final class JavaVersion
  *   extends ValuedEnum
  * {
  *   //standard enums for version of JVM
- *   public final static JavaVersion  JAVA1_0  = new JavaVersion( "Java 1.0", 100 );
- *   public final static JavaVersion  JAVA1_1  = new JavaVersion( "Java 1.1", 110 );
- *   public final static JavaVersion  JAVA1_2  = new JavaVersion( "Java 1.2", 120 );
- *   public final static JavaVersion  JAVA1_3  = new JavaVersion( "Java 1.3", 130 );
- * 
+ *   public static final JavaVersion  JAVA1_0  = new JavaVersion( "Java 1.0", 100 );
+ *   public static final JavaVersion  JAVA1_1  = new JavaVersion( "Java 1.1", 110 );
+ *   public static final JavaVersion  JAVA1_2  = new JavaVersion( "Java 1.2", 120 );
+ *   public static final JavaVersion  JAVA1_3  = new JavaVersion( "Java 1.3", 130 );
+ *
  *   private JavaVersion( final String name, final int value )
  *   {
  *     super( name, value );
@@ -37,11 +37,11 @@ import java.util.Map;
  * import org.apache.avalon.framework.context.Context;
  * import org.apache.avalon.framework.context.Contextualizable;
  * import org.apache.avalon.framework.context.ContextException;
- * 
- * public class MyComponent implements Contextualizable 
+ *
+ * public class MyComponent implements Contextualizable
  * {
  *   JavaVersion requiredVer = JavaVersion.JAVA1_2;
- * 
+ *
  *   public void contextualize(Context context)
  *       throws ContextException
  *   {
@@ -53,7 +53,7 @@ import java.util.Map;
  *   }
  * }
  * </pre>
- * 
+ *
  * As with <code>Enum</code>, the {@link #ValuedEnum(String, int, Map)} constructor can be used to
  * populate a <code>Map</code>, from which further functionality can be derived.
  *
@@ -100,7 +100,7 @@ public abstract class ValuedEnum
      *
      * @param name the name of enum item.
      * @param value the value of enum item.
-     * @param map the <code>Map</code> to add enum item to. 
+     * @param map the <code>Map</code> to add enum item to.
      */
     protected ValuedEnum( final String name, final int value, final Map map )
     {

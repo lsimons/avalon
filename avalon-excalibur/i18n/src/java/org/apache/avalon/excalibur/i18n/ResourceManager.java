@@ -16,7 +16,7 @@ import java.util.HashMap;
  */
 public class ResourceManager
 {
-    private final static HashMap c_resources = new HashMap();
+    private static final HashMap c_resources = new HashMap();
 
     /**
      * Retrieve resource with specified basename.
@@ -24,7 +24,7 @@ public class ResourceManager
      * @param baseName the basename
      * @return the Resources
      */
-    public final static Resources getBaseResources( final String baseName )
+    public static final Resources getBaseResources( final String baseName )
     {
         return getBaseResources( baseName, null );
     }
@@ -36,7 +36,7 @@ public class ResourceManager
      * @param classLoader the classLoader to load resources from
      * @return the Resources
      */
-    public final static Resources getBaseResources( final String baseName,
+    public static final Resources getBaseResources( final String baseName,
                                                     final ClassLoader classLoader )
     {
         //TODO: Make these weak references????
@@ -58,7 +58,7 @@ public class ResourceManager
      * @param name the name to use when looking up resources
      * @return the Resources
      */
-    public final static Resources getResources( final String name )
+    public static final Resources getResources( final String name )
     {
         return getBaseResources( name + ".Resources" );
     }
@@ -71,7 +71,7 @@ public class ResourceManager
      * @param clazz the Class
      * @return the Resources
      */
-    public final static Resources getPackageResources( final Class clazz )
+    public static final Resources getPackageResources( final Class clazz )
     {
         return getBaseResources( getPackageResourcesBaseName( clazz ), clazz.getClassLoader() );
     }
@@ -84,7 +84,7 @@ public class ResourceManager
      * @param clazz the Class
      * @return the Resources
      */
-    public final static Resources getClassResources( final Class clazz )
+    public static final Resources getClassResources( final Class clazz )
     {
         return getBaseResources( getClassResourcesBaseName( clazz ), clazz.getClassLoader() );
     }
@@ -97,7 +97,7 @@ public class ResourceManager
      * @param clazz the Class
      * @return the resource basename
      */
-    public final static String getPackageResourcesBaseName( final Class clazz )
+    public static final String getPackageResourcesBaseName( final Class clazz )
     {
         final Package pkg = clazz.getPackage();
 
@@ -130,7 +130,7 @@ public class ResourceManager
      * @param clazz the Class
      * @return the resource basename
      */
-    public final static String getClassResourcesBaseName( final Class clazz )
+    public static final String getClassResourcesBaseName( final Class clazz )
     {
         return clazz.getName() + "Resources";
     }

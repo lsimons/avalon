@@ -16,10 +16,10 @@ import java.util.Map;
  * import org.apache.avalon.framework.Enum;
  *
  * public final class Color extends Enum {
- *   public final static Color RED = new Color( "Red" );
- *   public final static Color GREEN = new Color( "Green" );
- *   public final static Color BLUE = new Color( "Blue" );
- * 
+ *   public static final Color RED = new Color( "Red" );
+ *   public static final Color GREEN = new Color( "Green" );
+ *   public static final Color BLUE = new Color( "Blue" );
+ *
  *   private Color( final String color )
  *   {
  *     super( color );
@@ -33,10 +33,10 @@ import java.util.Map;
  * <pre>
  * public final class Color extends Enum {
  *   static final Map map = new HashMap();
- * 
- *   public final static Color RED = new Color( "Red", map );
- *   public final static Color GREEN = new Color( "Green", map );
- *   public final static Color BLUE = new Color( "Blue", map );
+ *
+ *   public static final Color RED = new Color( "Red", map );
+ *   public static final Color GREEN = new Color( "Green", map );
+ *   public static final Color BLUE = new Color( "Blue", map );
 
  *   private Color( final String color, final Map map )
  *   {
