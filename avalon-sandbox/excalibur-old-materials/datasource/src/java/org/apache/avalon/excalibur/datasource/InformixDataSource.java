@@ -32,19 +32,48 @@ import org.apache.avalon.framework.logger.Loggable;
  *     &lt;host port="<i>2000</i>"&gt;<i>host</i>&lt;/host&gt;
  *     &lt;user&gt;<i>user</i>&lt;/user&gt;
  *     &lt;password&gt;<i>password</i>&lt;/password&gt;
+ *     &lt;tracing&gt;
+ *       &lt;jdbc&gt; file="<i>filename</i>" level="<i>level</i>"&lt;/jdbc&gt;
+ *       &lt;sqli&gt; file="<i>filename</i>" level="<i>level</i>"&lt;/sqli&gt;
+ *     &lt;/tracing&gt;
  *   &lt;informix&gt;
  * </pre>
  *
+ * <p>
  * Informix doesn't like the JdbcDataSource Component, so we gave it it's own.
  * Do not use this datasource if you are planning on using your J2EE server's
  * connection pooling.
+ * <p>
  *
- * You must have Informix's JDBC 2.2 or higher jar file, as well as the extensions
- * jar file (<code>ifxjdbc.jar</code> and <code>ifxjdbcx.jar</code>).  Also, this
- * DataSource requires the Avalon Cadastre package because it uses the MemoryContext.
+ * <p>
+ * You must have Informix's JDBC 2.2 or higher jar file, as well as the
+ * extensions jar file (<code>ifxjdbc.jar</code> and <code>ifxjdbcx.jar</code>).
+ * Also, this DataSource requires the Avalon Cadastre package because it uses
+ * the MemoryContext.
+ * </p>
+ *
+ * <p>
+ * The <i>tracing</i> settings optionally enable Informix's tracing support
+ * within the jdbc driver. <strong>Note</strong>, for this to work, the
+ * <code>ifxjdbc-g.jar</code> and <code>ifxjdbcx-g.jar</code> jar files are
+ * required (the options have no effect when using the non -g jar files).
+ * </p>
+ *
+ * <p>
+ * <i>jdbc tracing</i> enables general logging information about the driver
+ * itself. <i>sqli tracing</i> enables logging of native sqli messages sent
+ * between the jdbc driver and the database server.
+ * </p>
+ *
+ * <p>
+ * The attribute <code>file</code> specifies where to write tracing information
+ * to, and <code>level</code> specifies the tracing level to be used, as
+ * documented in the Informix JDBC programmers guide.
+ * </p>
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.8 $ $Date: 2002/04/16 12:47:49 $
+ * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
+ * @version CVS $Revision: 1.9 $ $Date: 2002/05/16 11:55:19 $
  * @since 4.0
  */
 public class InformixDataSource
@@ -124,6 +153,7 @@ public class InformixDataSource
             m_dataSource.setPortNumber( conf.getChild( "host" ).getAttributeAsInteger( "port" ) );
             m_dataSource.setUser( conf.getChild( "user" ).getValue() );
             m_dataSource.setPassword( conf.getChild( "password" ).getValue() );
+            configureTracing( conf.getChild( "tracing", false ) );
 
             context.bind( dbname, m_dataSource );
         }
@@ -134,6 +164,37 @@ public class InformixDataSource
                 getLogger().error( "There was an error trying to bind the connection pool", e );
             }
             throw new ConfigurationException( "There was an error trying to bind the connection pool", e );
+        }
+    }
+
+    /**
+     * Helper method to enable tracing support in the Informix driver.
+     *
+     * @param config a <code>Configuration</code> value
+     * @exception ConfigurationException if an error occurs
+     */
+    private void configureTracing( final Configuration config )
+        throws ConfigurationException
+    {
+        if ( config != null )
+        {
+            Configuration child = config.getChild( "jdbc", false );
+
+            if (child != null)
+            {
+                // enables tracing on the jdbc driver itself
+                m_dataSource.setIfxTRACE( child.getAttributeAsInteger( "level" ) );
+                m_dataSource.setIfxTRACEFILE( child.getAttribute( "file" ) );
+            }
+
+            child = config.getChild( "sqli", false );
+
+            if (child != null)
+            {
+                // enables sqli message tracing
+                m_dataSource.setIfxPROTOCOLTRACE( child.getAttributeAsInteger( "level" ) );
+                m_dataSource.setIfxPROTOCOLTRACEFILE( child.getAttribute( "file" ) );
+            }
         }
     }
 }
