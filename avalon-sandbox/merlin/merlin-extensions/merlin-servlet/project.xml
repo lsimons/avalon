@@ -7,6 +7,7 @@
   <id>merlin-servlet</id>
   <name>Merlin Kernel Servlet</name>
   <package>org.apache.avalon.merlin.servlet</package>
+  <currentVersion>1.0</currentVersion>
 
   <inceptionYear>2003</inceptionYear>
   <shortDescription>Merlin Kernel Servlet</shortDescription>

@@ -63,11 +63,14 @@
     <ant:copy 
        file="${merlin.build.inst.dir}/repository/xml-apis/jars/xml-apis-1.0.b2.jar" 
        toDir="${merlin.build.inst.dir}/ext"/>
+    <delete dir="${merlin.build.inst.dir}/repository/xml-apis"/>
     <ant:copy 
        file="${merlin.build.inst.dir}/repository/xerces/jars/xerces-2.2.1.jar" 
        toDir="${merlin.build.inst.dir}/ext"/>
+    <delete dir="${merlin.build.inst.dir}/repository/xerces"/>
 
     <attainGoal name="merlinx-install-plugin"/>
+
     <!--<ant:copy 
        file="${basedir}/merlin-plugin/target/merlin-plugin-1.0.jar" 
        toDir="${merlin.build.inst.dir}/repository/merlin/jars"/>-->
@@ -88,6 +91,46 @@
     </ant:copy>
 
     <ant:chmod file="${merlin.build.inst.dir}/bin/merlin.sh" perm="ugo+rx"/>
+
+  </goal>
+
+  <goal name="merlin-package">
+    <attainGoal name="merlin-clean"/>
+    <attainGoal name="merlin-dist"/>
+    <attainGoal name="merlin-site"/>
+    <attainGoal name="package"/>
+  </goal>
+
+  <goal name="package">
+    <maven:snapshot project="${pom}"/>    
+    <j:set var="timestamp" value="${snapshotSignature.substring(7,15)}"/>
+    <j:set var="package.name" value="${maven.final.name}-dist-${timestamp}"/>
+
+    <ant:echo>Building distribution: ${package.name}.zip</ant:echo>
+    <ant:zip zipfile="${maven.build.dir}/${package.name}.zip">
+      <zipfileset dir="${merlin.build.inst.dir}" prefix="merlin"/>
+      <fileset dir="${basedir}">
+        <include name="INSTALLATION.TXT"/>
+      </fileset>
+      <fileset dir="${basedir}/merlin-plugin/target">
+        <include name="*.jar"/>
+      </fileset>
+      <fileset dir="${basedir}/../meta/plugin/target">
+        <include name="*.jar"/>
+      </fileset>
+    </ant:zip>
+
+    <j:set var="docs.name" value="${maven.final.name}-docs-${timestamp}"/>
+    <ant:echo>Building doc kit: ${docs.name}.zip</ant:echo>
+    <ant:zip zipfile="${maven.build.dir}/${docs.name}.zip">
+      <zipfileset dir="${basedir}/merlin-platform/target/docs" prefix="docs"/>
+    </ant:zip>
+
+    <ant:echo>Building tutorial kit: ${tutorial.name}.zip</ant:echo>
+    <j:set var="tutorial.name" value="${maven.final.name}-tutorial-${timestamp}"/>
+    <ant:zip zipfile="${maven.build.dir}/${tutorial.name}.zip">
+      <zipfileset dir="${basedir}/merlin-platform/target/tutorials" prefix="tutorial"/>
+    </ant:zip>
 
   </goal>
 
@@ -120,6 +163,7 @@
       banner="Building site."
       ignoreFailures="false"/>
   </goal>
+
 
   <!-- convinience docs generation within runing javadoc -->
   <goal name="merlin-site-xdocs"
