@@ -292,11 +292,18 @@ public class JUnitTestTask extends SystemTask
         junit.setTaskName( getTaskName() );
 	  if( getForkProperty() )
         {
-            JUnitTask.ForkMode mode = getForkMode();
-            log( "Executing forked test with mode: '" + mode + "'." );
             junit.setFork( true );
             junit.setDir( project.getBaseDir() );
-            junit.setForkMode( mode );
+            JUnitTask.ForkMode mode = getForkMode();
+            if( null != mode )
+            {
+                log( "Executing forked test." );
+            }
+            else
+            {
+                log( "Executing forked test with mode: '" + mode + "'." );
+                junit.setForkMode( mode );
+            }
         }
         else
         {
@@ -365,7 +372,7 @@ public class JUnitTestTask extends SystemTask
         final String value = getProject().getProperty( TEST_FORK_MODE_KEY );
         if( null == value )
         {
-            return new JUnitTask.ForkMode( JUnitTask.ForkMode.ONCE );
+            return null;
         }
         else 
         {
