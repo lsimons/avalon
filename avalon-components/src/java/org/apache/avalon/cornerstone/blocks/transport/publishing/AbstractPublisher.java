@@ -42,7 +42,7 @@ import org.apache.excalibur.altrmi.server.impl.classretrievers.NoClassRetriever;
  * @phoenix:service name="org.apache.excalibur.altrmi.server.AltrmiPublisher"
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.17 $
+ * @version $Revision: 1.18 $
  */
 public abstract class AbstractPublisher
     extends AbstractLogEnabled
@@ -159,6 +159,10 @@ public abstract class AbstractPublisher
     public void publish( Object implementation, String asName, Class interfaceToExpose )
         throws PublicationException
     {
+        if( getLogger().isDebugEnabled() )
+            getLogger().debug( "Publishing object [as: " + asName + ", impl: " + implementation
+                              + ", interf: "+ interfaceToExpose + "]" );
+
         m_abstractServer.publish( implementation, asName, interfaceToExpose );
     }
 
@@ -178,6 +182,9 @@ public abstract class AbstractPublisher
         Object implementation, String asName, PublicationDescription publicationDescription )
         throws PublicationException
     {
+        if( getLogger().isDebugEnabled() )
+            getLogger().debug( "Publishing object [as: " + asName + ", impl: " + implementation + "]" );
+
         m_abstractServer.publish( implementation, asName, publicationDescription );
     }
 
@@ -194,6 +201,9 @@ public abstract class AbstractPublisher
      */
     public void unPublish( Object o, String s ) throws PublicationException
     {
+        if( getLogger().isDebugEnabled() )
+            getLogger().debug( "Unpublishing object [nane: " + s + ", impl: " + o + "]" );
+
         m_abstractServer.unPublish( o, s );
     }
 
@@ -211,6 +221,9 @@ public abstract class AbstractPublisher
      */
     public void replacePublished( Object o, String s, Object o1 ) throws PublicationException
     {
+        if( getLogger().isDebugEnabled() )
+            getLogger().debug( "Replacing published object [nane: " + s + ", existing: " + o + ", new: " + o1 + "]" );
+
         m_abstractServer.replacePublished( o, s, o1 );
     }
 
