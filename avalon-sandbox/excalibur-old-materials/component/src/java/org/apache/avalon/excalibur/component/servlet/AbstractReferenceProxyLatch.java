@@ -10,6 +10,7 @@ package org.apache.avalon.excalibur.component.servlet;
 import org.apache.avalon.excalibur.logger.LoggerManager;
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.excalibur.instrument.InstrumentManager;
 
 /**
@@ -26,7 +27,7 @@ import org.apache.excalibur.instrument.InstrumentManager;
  *  components before disposing them.
  *
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/11/07 06:37:53 $
+ * @version CVS $Revision: 1.5 $ $Date: 2002/11/07 09:50:41 $
  * @since 4.2
  */
 abstract class AbstractReferenceProxyLatch
@@ -73,6 +74,10 @@ abstract class AbstractReferenceProxyLatch
         if( object instanceof LoggerManager )
         {
             proxy = new LoggerManagerReferenceProxy( (LoggerManager)object, this, name );
+        }
+        else if( object instanceof ServiceManager )
+        {
+            proxy = new ServiceManagerReferenceProxy( (ServiceManager)object, this, name );
         }
         else if( object instanceof ComponentManager )
         {

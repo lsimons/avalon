@@ -14,8 +14,11 @@ import org.apache.avalon.framework.component.ComponentManager;
 /**
  * Reference Proxy to a ComponentManager
  *
+ * @deprecated The ComponentManager interface has been deprecated in favor
+ *             of the ServiceManager.
+ *
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/08/21 12:45:11 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/11/07 09:50:41 $
  * @since 4.2
  */
 final class ComponentManagerReferenceProxy

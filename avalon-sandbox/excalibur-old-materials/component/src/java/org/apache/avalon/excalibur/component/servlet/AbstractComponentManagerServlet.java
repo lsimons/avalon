@@ -29,8 +29,12 @@ import org.apache.excalibur.instrument.ValueInstrument;
  *  to enable servlets to have access to a ComponentManager as well as logging
  *  and instrumentation features.
  *
+ * @deprecated Use of this class has been deprecated along with the
+ *             ComponentManager interface.  Please use the
+ *             AbstractServiceManagerServlet.
+ *
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.5 $ $Date: 2002/11/07 06:37:53 $
+ * @version CVS $Revision: 1.6 $ $Date: 2002/11/07 09:50:41 $
  * @since 4.2
  */
 public abstract class AbstractComponentManagerServlet
@@ -159,7 +163,6 @@ public abstract class AbstractComponentManagerServlet
             getLogger().debug( "servlet.destroy()" );
         }
 
-        //System.out.println( "AbstractComponentManagerServlet.destroy()" );
         // Release the ComponentManager by removing its reference.
         m_componentManager = null;
 
