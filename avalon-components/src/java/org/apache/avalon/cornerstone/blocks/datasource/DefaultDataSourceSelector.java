@@ -103,7 +103,7 @@ public class DefaultDataSourceSelector
 
     public boolean hasComponent( final Object hint )
     {
-        return ( null != m_dataSources.get( hint ) );
+        return m_dataSources.containsKey( hint );
     }
 
     public Component select( final Object hint )
