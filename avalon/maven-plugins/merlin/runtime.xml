@@ -21,8 +21,6 @@
 
 <project>
 
-  <extend>${basedir}/../project-common.xml</extend>
-
   <groupId>&merlin-plugin-id;</groupId>
   <id>&merlin-plugin-id;</id>
   <currentVersion>&merlin-plugin-version;</currentVersion>
@@ -46,31 +44,7 @@
         <classloader>root</classloader>
       </properties>
     </dependency>
-    
-    <dependency>
-      <groupId>&merlin-id;</groupId>
-      <artifactId>&merlin-impl-id;</artifactId>
-      <version>&merlin-impl-version;</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>&avalon-activation-id;</groupId>
-      <artifactId>&avalon-activation-impl-id;</artifactId>
-      <version>&avalon-activation-impl-version;</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>&avalon-logging-id;</groupId>
-      <artifactId>&avalon-logging-logkit-impl-id;</artifactId>
-      <version>&avalon-logging-logkit-impl-version;</version>
-    </dependency>
-    
-    <!--
-    <dependency>
-      <groupId>&avalon-versioning-group;</groupId>
-      <artifactId>&avalon-versioning-id;</artifactId>
-      <version>&avalon-versioning-version;</version>
-    </dependency>
-    -->
+
   </dependencies>
+
 </project>
