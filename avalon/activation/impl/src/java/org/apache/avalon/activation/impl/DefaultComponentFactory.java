@@ -74,7 +74,7 @@ import org.apache.avalon.util.i18n.Resources;
  * A factory enabling the establishment of component instances.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.7 $ $Date: 2004/03/11 18:13:14 $
+ * @version $Revision: 1.8 $ $Date: 2004/03/12 18:12:35 $
  */
 public class DefaultComponentFactory implements ComponentFactory
 {
@@ -438,7 +438,6 @@ public class DefaultComponentFactory implements ComponentFactory
              throw new LifecycleException( error, e );
         }
     }
-
 
     private Class getContextCastingClass()
     {
@@ -824,7 +823,7 @@ public class DefaultComponentFactory implements ComponentFactory
         if( model == null ) return;
 
         final DeploymentModel provider = model.getProvider();
-        if( null == provider )
+        if(( null == provider ) && (instance instanceof Contextualizable ))
         {
             getLogger().debug( "applying context" );
 
@@ -832,36 +831,48 @@ public class DefaultComponentFactory implements ComponentFactory
             // its classic avalon
             //
 
-            try
+            if( context instanceof Context )
             {
-                if( m_secure )
+                try
                 {
-                    AccessController.doPrivileged( 
-                      new PrivilegedExceptionAction()
-                      {
-                          public Object run() throws Exception
+                    if( m_secure )
+                    {
+                        AccessController.doPrivileged( 
+                          new PrivilegedExceptionAction()
                           {
-                             ((Contextualizable)instance).contextualize( (Context) context );
-                             return null;
-                          }
-                      }, 
-                      m_model.getAccessControlContext() );
+                              public Object run() throws Exception
+                              {
+                                  ((Contextualizable)instance).contextualize( 
+                                    (Context) context ); 
+                                  return null; 
+                              }
+                          }, 
+                          m_model.getAccessControlContext() );
+                    }
+                    else
+                    {
+                        ContainerUtil.contextualize( instance, (Context) context );
+                    }
                 }
-                else
+                catch( Throwable e )
                 {
-                    ContainerUtil.contextualize( instance, (Context) context );
+                    final String error = 
+                      REZ.getString( 
+                        "lifecycle.error.avalon-contextualization", 
+                        m_model.getQualifiedName() );
+                    throw new LifecycleException( error, e );
                 }
             }
-            catch( Throwable e )
+            else
             {
-                final String error = 
-                  REZ.getString( 
-                    "lifecycle.error.avalon-contextualization", 
-                    m_model.getQualifiedName() );
-                throw new LifecycleException( error, e );
+                final String error =
+                  "Supplied context class [" 
+                  + context.getClass().getName() 
+                  + "] does not implement the Avalon Context interface.";
+                throw new LifecycleException( error );
             }
         }
-        else
+        else if( null != provider )
         {
             getLogger().debug( "applying custom context" );
             try
