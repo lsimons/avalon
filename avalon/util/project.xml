@@ -25,6 +25,13 @@
     <url>http://cvs.apache.org/viewcvs/avalon/util/</url>
   </repository>
 
+  <releases>
+    <release>
+      <version>1.0-RC4</version>
+      <tag>SNAPSHOT_20031224</tag>
+    </release>
+  </releases>
+
   <mailingLists>
     <mailingList>
       <name>Avalon Developer List</name>
