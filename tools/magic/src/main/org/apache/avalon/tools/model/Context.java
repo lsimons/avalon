@@ -38,6 +38,9 @@ import java.util.TimeZone;
  */
 public class Context extends Task
 {
+    public static final String KEY = "project.context";
+    public static final String PROJECT_KEY = "project.key";
+
     public static final String TARGET = "target";
     public static final String BUILD = "build";
     public static final String TEMP = "temp";
@@ -48,7 +51,6 @@ public class Context extends Task
     private static final String USER_PROPERTIES = "user.properties";
     private static final String BUILD_PROPERTIES = "build.properties";
 
-    public static final String KEY = "project.context";
 
     public static final String SRC_KEY = "project.src";
     public static final String SRC_VALUE = "src";
@@ -114,6 +116,10 @@ public class Context extends Task
         final Project project = getProject();
         setupProperties( project );
 
+        m_key = resolveKey();
+
+        project.setNewProperty( PROJECT_KEY, getKey() );
+
         project.setNewProperty( SRC_KEY, SRC_VALUE );
         project.setNewProperty( SRC_MAIN_KEY, SRC_MAIN );
         project.setNewProperty( SRC_CONFIG_KEY, SRC_CONFIG );
@@ -136,9 +142,15 @@ public class Context extends Task
         m_docs = setBuildPath( DOCS );
 
         project.addReference( KEY, this );
+
     }
 
     public String getKey()
+    {
+        return m_key;
+    }
+
+    public String resolveKey()
     {
         if( null != m_key )
         {
@@ -146,14 +158,22 @@ public class Context extends Task
         }
         else
         {
-            final String name = getProject().getProperty( "project.name" );
-            if( null != name )
+            final String key = getProject().getProperty( "project.key" );
+            if( null != key )
             {
-                return name;            
+                return key;            
             }
             else
             {
-                return getProject().getName();
+                final String name = getProject().getProperty( "project.name" );
+                if( null != name )
+                {
+                    return name;            
+                }
+                else
+                {
+                    return getProject().getName();
+                }
             }
         }
     }
@@ -327,6 +347,17 @@ public class Context extends Task
         }
     }
 
+    public static String getCanonicalPath( final File file ) throws BuildException
+    {
+        try
+        {
+            return file.getCanonicalPath();
+        }
+        catch( IOException ioe )
+        {
+            throw new BuildException( ioe );
+        }
+    }
 
     public static String getSignature()
     {

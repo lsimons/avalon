@@ -23,6 +23,7 @@
 
  <body>
     <menu>
+      <item name="Installing" href="installation.html"/>
       <item name="Casting Spells" href="spells/index.html"/>
       <item name="System Model" href="model/index.html"/>
       <item name="Templates" href="templates/index.html"/>

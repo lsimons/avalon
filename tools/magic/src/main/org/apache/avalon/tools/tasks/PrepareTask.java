@@ -77,6 +77,7 @@ public class PrepareTask extends SystemTask
             log( "creating target directory" );
             mkDir( target );
         }
+
         final File src = getContext().getSrcDirectory();
         final File etc = getContext().getEtcDirectory();
         final File build = getContext().getBuildDirectory();
@@ -84,7 +85,6 @@ public class PrepareTask extends SystemTask
 
         if( src.exists() )
         {
-
             final String main = getSrcMain();
             final String config = getSrcConfig();
             final String test = getSrcTest();
@@ -154,8 +154,9 @@ public class PrepareTask extends SystemTask
         return Context.SRC_TEST;
     }
 
-
-    private void prepareMain( final File projectSrc, final File targetMain, final String source, final String path )
+    private void prepareMain( 
+       final File projectSrc, final File targetMain, final String source, 
+       final String path )
     {
         if( null == projectSrc ) throw new NullPointerException( "projectSrc" );
         if( null == targetMain ) throw new NullPointerException( "targetMain" );
@@ -172,7 +173,8 @@ public class PrepareTask extends SystemTask
 
             final File dest = new File( targetMain, path );
             mkDir( dest );
-            final String filters = getProject().getProperty( SRC_FILTERED_INCLUDES_KEY );
+            final String filters = 
+              getProject().getProperty( SRC_FILTERED_INCLUDES_KEY );
             copy( src, dest, true, filters, "" );
             copy( src, dest, false, "**/*.*", filters );
         }

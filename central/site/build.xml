@@ -4,6 +4,7 @@
     xmlns:x="antlib:org.apache.avalon.tools">
 
   <property file="build.properties"/>
+
   <import file="${project.home}/build/standard.xml"/>
 
   <target name="init" depends="standard.init">

@@ -147,9 +147,9 @@
     </dependencies>
   </project>
 
-    <!--
-    Avalon Framework.
-    -->
+  <!--
+  Avalon Framework.
+  -->
 
   <project basedir="../../runtime/framework/api">
     <info>
@@ -183,9 +183,9 @@
     </dependencies>
   </project>
 
-    <!--
-    Avalon Utilities.
-    -->
+  <!--
+  Avalon Utilities.
+  -->
 
   <project basedir="../../runtime/util/configuration">
     <info>
@@ -272,9 +272,9 @@
     </dependencies>
   </project>
 
-    <!--
-    Avalon Meta.
-    -->
+  <!--
+  Avalon Meta.
+  -->
 
   <project basedir="../../runtime/meta/api">
     <info>
@@ -455,9 +455,9 @@
     </plugins>
   </project>
 
-    <!--
-    Avalon Repository.
-    -->
+  <!--
+  Avalon Repository.
+  -->
 
   <project basedir="../../runtime/repository/api">
     <info>
@@ -517,7 +517,7 @@
     </dependencies>
   </project>
 
-    <!-- TODO: update cli scripts to incorporate runtime classpath -->
+  <!-- TODO: update cli scripts to incorporate runtime classpath -->
   <project basedir="../../runtime/repository/cli">
     <info>
       <group>avalon/repository</group>
@@ -543,9 +543,9 @@
     </dependencies>
   </project>
 
-    <!--
-    Avalon Logging.
-    -->
+  <!--
+  Avalon Logging.
+  -->
 
   <project basedir="../../runtime/logging/api">
     <info>
@@ -672,9 +672,9 @@
     </dependencies>
   </project>
 
-    <!--
-    Avalon Composition.
-    -->
+  <!--
+  Avalon Composition.
+  -->
 
   <project basedir="../../runtime/composition/api">
     <info>
@@ -722,9 +722,9 @@
     </dependencies>
   </project>
 
-    <!--
-    Avalon Activation.
-    -->
+  <!--
+  Avalon Activation.
+  -->
 
   <project basedir="../../runtime/activation/api">
     <info>
@@ -758,9 +758,9 @@
     </dependencies>
   </project>
 
-    <!--
-    Avalon Merlin.
-    -->
+  <!--
+  Avalon Merlin.
+  -->
 
   <project basedir="../../runtime/merlin/api">
     <info>
@@ -866,6 +866,6 @@
       <name>avalon-tools-bootstrap</name>
     </info>
   </project>
-    -->
+  -->
 
 </system>

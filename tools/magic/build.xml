@@ -3,8 +3,9 @@
 <project name="avalon-tools-magic" default="install" basedir="." 
     xmlns:x="antlib:org.apache.avalon.tools">
 
-  <property file="build.properties"/>
-  <import file="${project.home}/build/standard.xml"/>
+  <x:home index="../../central/system"/>
+
+  <import file="${magic.templates}/standard.xml"/>
 
   <target name="package" depends="standard.package">
     <x:bar name="avalon-tools.bar"/>
@@ -20,6 +21,25 @@
     <mkdir dir="${user.home}/.ant/lib"/>
     <copy toDir="${user.home}/.ant/lib" 
        file="${basedir}/target/deliverables/jars/${project.name}.jar"/>
+  </target>
+
+  <target name="properties" depends="info">
+    <echo>
+magic properties
+----------------
+magic.system:    ${magic.home}
+magic.cache:     ${magic.cache}
+magic.docs:      ${magic.docs}
+magic.templates: ${magic.templates}
+
+project properties
+------------------
+project.key:     ${project.key}
+project.home:    ${project.home}
+project.index:   ${project.index}
+project.group:   ${project.group}
+project.name:    ${project.name}
+    </echo>
   </target>
 
 </project>

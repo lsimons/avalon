@@ -42,120 +42,61 @@ public class Home extends DataType
 
     public static final String KEY = "project.home";
     public static final String HOME_KEY = "project.home";
+    public static final String INDEX_KEY = "project.index";
+    public static final String MAGIC_HOME_KEY = "magic.home";
 
     public static final String HOSTS_KEY = "project.hosts";
-    public static final String MAIN_CACHE_KEY = "project.main.cache";
-    public static final String DOCS_CACHE_KEY = "project.docs.cache";
+    public static final String MAIN_CACHE_KEY = "magic.main.cache";
+    public static final String DOCS_CACHE_KEY = "magic.docs.cache";
+
 
     //-------------------------------------------------------------
-    // mutable state
+    // immutable state
     //-------------------------------------------------------------
 
-    private boolean m_init = false;
-
-    private Home m_home;
-    private Repository m_main;
-    private Repository m_docs;
-    private File m_system;
-    private File m_index;
-
+    private final File m_index;
     private final Hashtable m_resources = new Hashtable();
-    private BuildListener m_listener;
+    private final Magic m_system;
 
     //-------------------------------------------------------------
     // constructor
     //-------------------------------------------------------------
 
-    public Home( final Project project, final File system, final File index )
+    protected Home( final Project project, Magic system, File index )
     {
-        setProject( project );
         m_index = index;
-
         m_system = system;
-
-        try
-        {
-            final String path = getCachePath( project );
-            final String hostsPath = project.getProperty( HOSTS_KEY );
-            m_main = new Repository( project, m_system, path, hostsPath, this );
-
-            final String docs = getDocsCachePath( project );
-            m_docs = new Repository( project, m_system, docs, hostsPath, this );
-
-            //
-            // construct the repository, build the definition of the available 
-            // resources and projects used within the system and associate a build
-            // listener
-            //
-
-            buildList( m_index, false );
-        }
-        catch( Throwable e )
-        {
-            throw new BuildException( e );
-        }
-
-        log( "cache: " + m_main.getCacheDirectory(), Project.MSG_VERBOSE );
-        final String[] hosts = m_main.getHosts();
-        log( "Hosts: " + hosts.length, Project.MSG_VERBOSE );
-        for( int i=0; i<hosts.length; i++ )
-        {
-            log( "  host: " + hosts[i], Project.MSG_VERBOSE ); 
-        }
-    }
-
-    private String getCachePath( final Project project ) throws IOException
-    {
-        final String path = project.getProperty( MAIN_CACHE_KEY );
-        if( null != path ) return path;
-
-        final Property property = (Property) project.createTask( "property" );
-        property.setEnvironment( "env" );
-        property.init();
-        property.execute();
-
-        final String avalonHomePath = project.getProperty( "env.AVALON_HOME" );
-        if( null != avalonHomePath )
-        {
-            final File avalonHomeDirectory = new File( avalonHomePath );
-            final File cache = new File( avalonHomeDirectory, "repository" );
-            return cache.getCanonicalPath();
-        }
-        else
-        {
-            return ".cache";
-        }
-    }
-
-    private String getDocsCachePath( final Project project )
-    {
-        final String path = project.getProperty( DOCS_CACHE_KEY );
-        if( null != path ) return path;
-        return ".docs";
+        setProject( project );
+        buildList( index, false );
     }
 
     //-------------------------------------------------------------
     // implementation
     //-------------------------------------------------------------
 
-    public File getHomeDirectory()
+    public File getIndex()
     {
-        return m_system;
+        return m_index;
     }
 
     public long getIndexLastModified()
     {
-        return getIndexFile().lastModified();
+        return m_index.lastModified();
+    }
+
+    public boolean isaResourceKey( String key )
+    {
+        return ( null != m_resources.get( key ) );
     }
 
     public Repository getRepository()
     {
-        return m_main;
+        return m_system.getRepository();
     }
 
     public Repository getDocsRepository()
     {
-        return m_docs;
+        return m_system.getDocsRepository();
     }
 
     public Resource[] getResources()
@@ -256,7 +197,8 @@ public class Home extends DataType
         buildList( system, elements, remote );
     }
 
-    private void buildList( final File system, final Element[] children, final boolean remote )
+    private void buildList( 
+      final File system, final Element[] children, final boolean remote )
     {
         if( null == children ) return;
 
@@ -289,7 +231,8 @@ public class Home extends DataType
         }
     }
 
-    private Resource createResource( final Element element, final File system, final boolean remote )
+    private Resource createResource( 
+      final Element element, final File system, final boolean remote )
     {
         if( remote )
         {
@@ -307,41 +250,6 @@ public class Home extends DataType
           "resource".equals( tag ) 
           || "project".equals( tag )
           || "plugin".equals( tag ) );
-    }
-
-    private File getIndexFile()
-    {
-        if( null != m_index ) return m_index;
-
-        final String path = project.getProperty( KEY );
-        if( null != path )
-        {
-            final File index = Context.getFile( project.getBaseDir(), path );
-            if( index.exists() )
-            {
-                if( index.isDirectory() )
-                {
-                    return new File( index, "index.xml" );
-                }
-                else
-                {
-                    return index;
-                }
-            }
-            else
-            {
-                final String error = 
-                  "Property value 'project.home' references a non-existant file: "
-                  + index;
-                throw new BuildException( error );
-            }
-        }
-        else
-        {
-            final String error = 
-              "Cannot continue due to missing index attribute.";
-            throw new BuildException( error );
-        }
     }
 
     /*

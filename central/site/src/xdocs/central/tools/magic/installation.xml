@@ -13,8 +13,9 @@
 
         <p>
         Magic runs on top of Ant.  Before installing Magic
-        you need to build or <a href="http://ant.apache.org/bindownload.cgi">
-        download a binary installation of Ant</a> (version 1.6.1 or later).
+        you need to build or download a 
+        <a href="http://ant.apache.org/bindownload.cgi">
+        binary installation of Ant</a> (version 1.6.1 or later).
         </p>
 
       </subsection>
@@ -22,39 +23,36 @@
       <subsection name="Magic Setup">
 
         <p>
-        Magic registers content in a common repository. If you want to 
-        share the repository with Merlin you should define the 
-        AVALON_HOME environment variable with a value pointing to a 
-        directory within which the repository will be created.  If 
-        undefined, the installation will create a private repository in 
-        central/system/.cache.
+        Using MAGIC_HOME ...
         </p>
 
         <p>
-        From your the root avalon/truck checkout directory...
+        Magic registers content in a common repository. If you want to 
+        share the repository with Merlin or other repository enabled products
+        you should define the MAGIC_HOME environment variable with a value 
+        pointing to a directory within which the repository will be created.  If 
+        undefined, the installation will create the magic installation in 
+        ${user.home}/.magic.
+        </p>
+
+        <p>
+        Download <a href="http://svn.apache.org/repos/asf/avalon/trunk/tools/magic/setup.xml">setup.xml</a> from Apache.
+        </p>
+
+        <p>
+        From within the directory that you downloaded setup.xml to ...
         </p>
 
 <source>
-$ ant setup
+$ ant -buildfile setup.xml
 </source>
 
         <p>
-        The above command invokes the ant file central/system/setup/setup.xml
+        The above command invokes the ant 
         which downloads the magic library and installs this under 
         ${user.home}/.ant/lib.  It also checks for the presence of Junit
         libraries and will download these if required.
         </p>
-
-      </subsection>
-
-      <subsection name="Building Avalon">
-
-        <p>
-        From your the root avalon/truck checkout directory...
-        </p>
-<source>
-$ ant
-</source>
 
       </subsection>
 

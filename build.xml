@@ -1,58 +1,42 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<project name="runtime" default="default" basedir="." xmlns:x="antlib:org.apache.avalon.tools">
+<project name="runtime" default="install" basedir="." 
+  xmlns:x="antlib:org.apache.avalon.tools">
 
+  <available property="magic.available" classname="org.apache.avalon.tools.model.Home"/>
+
+  <property name="magic.dir" value="${basedir}/tools/magic"/>
   <property file="${basedir}/user.properties"/>
   <property file="${basedir}/build.properties"/>
-  <property name="system.dir" value="${basedir}/central/system"/>
-  <property name="reactor.path" value="${system.dir}/build/reactor.xml"/>
+
+  <property name="reactor.xml" 
+    value="${magic.dir}/etc/deliverables/templates/reactor.xml"/>
 
   <target name="setup">
-    <ant dir="${system.dir}" antfile="setup/setup.xml"/>
-  </target>
-
-  <target name="verify">
-    <ant inheritall="false" dir="${system.dir}/setup" antfile="integrity.xml"/>
-  </target>
-
-  <target name="init" depends="verify">
-    <ant dir="." antfile="${reactor.path}" target="init"/>
+    <ant dir="." antfile="${magic.dir}/setup.xml"/>
   </target>
 
   <target name="clean" depends="verify">
-    <ant dir="." antfile="${reactor.path}" target="clean"/>
-  </target>
-
-  <target name="clean" depends="verify">
-    <ant dir="." antfile="${reactor.path}" target="clean"/>
-  </target>
-
-  <target name="prepare" depends="verify">
-    <ant dir="." antfile="${reactor.path}" target="prepare"/>
-  </target>
-
-  <target name="build" depends="verify">
-    <ant dir="." antfile="${reactor.path}" target="build"/>
-  </target>
-
-  <target name="package" depends="verify">
-    <ant dir="." antfile="${reactor.path}" target="package"/>
-  </target>
-
-  <target name="test" depends="verify">
-    <ant dir="." antfile="${reactor.path}" target="test"/>
-  </target>
-
-  <target name="site" depends="init">
-    <ant dir="." antfile="${reactor.path}" target="site"/>
+    <ant dir="." antfile="${reactor.xml}" target="clean"/>
   </target>
 
   <target name="install" depends="verify">
-    <ant dir="." antfile="${reactor.path}" target="install"/>
+    <ant dir="." antfile="${reactor.xml}" target="default"/>
   </target>
 
-  <target name="default" depends="verify">
-    <ant dir="." antfile="${reactor.path}" target="default"/>
+  <target name="verify" unless="magic.available">
+    <echo>
+#--------------------------------------------------------------------------------
+# Please invoke the bootstrap target in order to install prerequisite resources
+# and tools necessary to build avalon.
+#
+# $ ant setup
+#
+# Once the bootstrap resources have been build you can proceed with any of the 
+# classic build targets.
+#--------------------------------------------------------------------------------      
+    </echo>
+    <fail message="Bootstrap resources not present."/>
   </target>
 
 </project>

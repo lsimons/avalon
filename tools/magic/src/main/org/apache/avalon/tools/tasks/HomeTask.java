@@ -18,7 +18,10 @@
 package org.apache.avalon.tools.tasks;
 
 import org.apache.avalon.tools.model.Context;
+import org.apache.avalon.tools.model.Definition;
+import org.apache.avalon.tools.model.Info;
 import org.apache.avalon.tools.model.Home;
+import org.apache.avalon.tools.model.Magic;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 
@@ -33,123 +36,49 @@ import java.io.FileNotFoundException;
  */
 public class HomeTask extends ContextualTask
 {
-    public static final String SYSTEM_KEY = "project.system";
-
-    private static final String CACHE_DIR_KEY = "project.home.cache.dir";
-    private static final String INDEX_PROPERTIES = "index.properties";
-
-    private static Home HOME;
-
     private String m_path;
-
-    private boolean m_executed = false;
 
     public void setIndex( final String path )
     {
-        if( null != HOME )
-        {
-            log( 
-              "Ignoring path - home is already initialized.", 
-              Project.MSG_VERBOSE );
-        }
-        else
-        {
-            m_path = path;
-        }
+        m_path = path;
     }
 
     public void execute()
     {
-        if( !m_executed )
+        final Project project = getProject();
+
+        if( null != getProject().getReference( Home.KEY ) ) return;
+
+        Magic system = Magic.getSystem( project );
+        Home home = system.getHome( project, m_path );
+        project.setProperty( Home.HOME_KEY, getHomePath( home ) );
+        project.setProperty( Home.INDEX_KEY, getIndexPath( home ) );
+        project.addReference( Home.KEY, home );
+
+        final String key = getKey();
+        if( home.isaResourceKey( key ) )
         {
-            final Project project = getProject();
-            final File index = getIndexFile();
-            final File system = getSystemHome( project, index );
-            setupProperties( project, system );
-            if( null == HOME )
+            final Definition def = home.getDefinition( getKey() );
+            final Info info = def.getInfo();
+            final String name = info.getName();
+            project.setProperty( "project.name", name );
+            final String group = info.getGroup();
+            project.setProperty( "project.group", group );
+            final String version = info.getVersion();
+            if( null != version )
             {
-                log( "Building system definition." );
-                setupSystemProperties( project, system );
-                HOME = new Home( project, system, index );
-            }
-            project.addReference( Home.KEY, HOME );
-            
-            getProject().setNewProperty( 
-              CACHE_DIR_KEY, 
-              HOME.getRepository().getCacheDirectory().toString() );
-
-            m_executed = true;
-        }
-    }
-
-    private File getSystemHome( final Project project, final File index )
-    {
-        final String system = project.getProperty( SYSTEM_KEY );
-        if(( null == system ) || "".equals( system ))
-        {
-            final File systemHome = index.getParentFile();
-            return systemHome;
-        }
-        else
-        {
-            final File anchor = project.getBaseDir();
-            return Context.getFile( anchor, system );
-        }
-    }
-
-    private void setupSystemProperties( final Project project, final File dir )
-    {
-        final File build = Context.getFile( dir, INDEX_PROPERTIES );
-        loadProperties( project, build );
-    }
-
-    private File getIndexFile()
-    {
-        if( null != m_path )
-        {
-            final File index = Context.getFile( project.getBaseDir(), m_path );
-            return resolve( index );
-        }
-        else
-        {
-
-            //
-            // try to resolve using ${project.home}
-            //
-
-            final String path = getProject().getProperty( Home.KEY );
-            if( null != path )
-            {
-                final File root = Context.getFile( project.getBaseDir(), path );
-                return resolve( root );
-            }
-            else
-            {
-                final String error = 
-                  "Property value 'project.home' is not defined.";
-                throw new BuildException( error );
+                project.setProperty( "project.version", version );
             }
         }
     }
 
-    private File resolve( final File index )
+    private String getHomePath( Home home )
     {
-        if( index.exists() )
-        {
-            if( index.isDirectory() )
-            {
-                return resolve( new File( index, "index.xml" ) );
-            }
-            else
-            {
-                return index;
-            }
-        }
-        else
-        {
-            final FileNotFoundException e =
-              new FileNotFoundException( index.toString() );
-            throw new BuildException( e );
-        }
+        return home.getIndex().getParentFile().toString();
+    }
+
+    private String getIndexPath( Home home )
+    {
+        return home.getIndex().toString();
     }
 }
