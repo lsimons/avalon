@@ -88,12 +88,14 @@ Legal:
 
   <property name="logkit.jar" value="${lib.dir}/logkit-1.0b2.jar"/>
   <property name="xerces.jar" value="${lib.dir}/xerces.jar"/>
-  <property name="xalan.jar" value="${tools.dir}/lib/xalan_1_2_D02.jar"/>
+  <property name="xalan.jar" value="${tools.dir}/lib/xalan-2.1.0.jar"/>
+  <property name="bsf.jar" value="${tools.dir}/lib/bsf.jar"/>
   <property name="testlet.jar" value="${tools.dir}/lib/testlet.jar"/>
 
   <path id="project.class.path">
     <pathelement location="${logkit.jar}"/>
     <pathelement location="${xalan.jar}"/>
+    <pathelement location="${bsf.jar}"/>
     <pathelement location="${xerces.jar}"/>
     <pathelement location="${testlet.jar}"/>
     <pathelement path="${java.class.path}" />
