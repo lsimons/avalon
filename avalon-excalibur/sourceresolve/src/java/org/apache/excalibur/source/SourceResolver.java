@@ -77,7 +77,7 @@ import org.apache.avalon.framework.component.Component;
  * like Composable, Initializable, Disposable etc.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/11/09 12:46:56 $
+ * @version CVS $Revision: 1.2 $ $Date: 2003/11/22 11:30:40 $
  */
 
 public interface SourceResolver
@@ -98,7 +98,7 @@ public interface SourceResolver
     String URI_PARAMETERS = "org.apache.excalibur.source.Source.uri.parameters";
 
     /**
-     * Get a {@link Source} object. This is a shortcut for {@link #resolve
+     * Get a {@link Source} object. This is a shortcut for {@link #resolveURI
      * (String, String, Map)}.
      * 
      * @return the resolved source object.
