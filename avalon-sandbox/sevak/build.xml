@@ -23,7 +23,7 @@
   <!-- Set the properties for intermediate directory -->
   <property name="build.dir" value="build"/>
   <property name="build.lib" value="${build.dir}/lib"/>
-  <property name="build.xdoclet" value="${build.dir}/xdoclet"/>
+  <property name="build.metagenerate" value="${build.dir}/metagenerate"/>
   <property name="build.src" value="${build.dir}/src"/>  
   <property name="build.classes" value="${build.dir}/classes"/>
   <property name="build.javadocs" value="${build.dir}/javadocs"/>  
@@ -34,7 +34,7 @@
   <!-- Sevak specific properties for building -->
   <property name="build.reports" value="${build.dir}/reports"/>
   <property name="build.demoClasses" value="${build.dir}/demoClasses"/> 
-  <property name="build.demoXdoclet" value="${build.dir}/demoXdoclet"/>
+  <property name="build.demoMetagenerate" value="${build.dir}/demoMetagenerate"/>
 
 
   <!-- Set the properties for source directories -->
@@ -169,52 +169,40 @@
 
   </target>
 
-  <!-- Make .xinfo and manifest automatically for blocks -->
-  <target name="phoenix-xdoclet" depends="compile">
-  
-    <mkdir dir="${build.xdoclet}/catalina"/>
-    <mkdir dir="${build.xdoclet}/jo"/>
-    <mkdir dir="${build.xdoclet}/jetty"/>
-  
-    <taskdef name="phoenix-blocks"
-             classname="org.apache.avalon.phoenix.tools.xdoclet.PhoenixXDoclet"
-             classpathref="project.class.path"/>
 
-    <phoenix-blocks
-        destdir="${build.xdoclet}/catalina"
-        classpathref="project.class.path">
+  <!-- Make .xinfo and manifest automatically for blocks -->
+  <target name="phoenix-metagenerate" depends="compile">
+
+    <taskdef name="generatemeta" classname="org.apache.avalon.phoenix.tools.metagenerate.MetaGenerateTask">
+      <classpath refid="project.class.path" />
+    </taskdef>
+
+    <mkdir dir="${build.metagenerate}/catalina"/>
+    <mkdir dir="${build.metagenerate}/jo"/>
+    <mkdir dir="${build.metagenerate}/jetty"/>
+
+    <generatemeta dest="${build.metagenerate}/catalina">
       <fileset dir="${java.dir}">
         <include name="org/apache/avalon/apps/sevak/blocks/catalina/**/*.java" />
       </fileset>
-      <blockinfo/>
-      <manifest manifestFile="manifest.mf" />
-    </phoenix-blocks>
+    </generatemeta>
 
-    <phoenix-blocks
-        destdir="${build.xdoclet}/jo"
-        classpathref="project.class.path">
+    <generatemeta dest="${build.metagenerate}/jo">
       <fileset dir="${java.dir}">
         <include name="org/apache/avalon/apps/sevak/blocks/jo/**/*.java" />
       </fileset>
-      <blockinfo/>
-      <manifest manifestFile="manifest.mf" />
-    </phoenix-blocks>
+    </generatemeta>
 
-    <phoenix-blocks
-        destdir="${build.xdoclet}/jetty"
-        classpathref="project.class.path">
+    <generatemeta dest="${build.metagenerate}/jetty">
       <fileset dir="${java.dir}">
         <include name="org/apache/avalon/apps/sevak/blocks/jetty/**/*.java" />
       </fileset>
-      <blockinfo/>
-      <manifest manifestFile="manifest.mf" />
-    </phoenix-blocks>
-
+    </generatemeta>
 
   </target>
 
   <!-- Jars up project -->
-  <target name="jars" depends="phoenix-xdoclet">
+  <target name="jars" depends="phoenix-metagenerate">
 
     <mkdir dir="${build.lib}"/>
 
@@ -224,40 +212,36 @@
       </fileset>
     </jar>
 
-    <jar jarfile="${build.lib}/sevak-catalina.jar"
-         manifest="${build.xdoclet}/catalina/manifest.mf">
+    <jar jarfile="${build.lib}/sevak-catalina.jar">
       <fileset dir="${build.classes}">
         <include name="org/apache/avalon/apps/sevak/blocks/catalina/startup/*"/>
       </fileset>
-      <fileset dir="${build.xdoclet}/catalina">
+      <fileset dir="${build.metagenerate}/catalina">
         <include name="org/apache/avalon/apps/sevak/blocks/catalina/startup/**/*.xinfo"/>
       </fileset>
     </jar>
 
-      <jar jarfile="${build.lib}/sevak-catalina-impl.jar"
-         manifest="${build.xdoclet}/catalina/manifest.mf">
+      <jar jarfile="${build.lib}/sevak-catalina-impl.jar">
           <fileset dir="${build.classes}">
               <include name="org/apache/avalon/apps/sevak/blocks/catalina/**"/>
               <exclude name="org/apache/avalon/apps/sevak/blocks/catalina/startup/**"/>
           </fileset>
       </jar>
 
-    <jar jarfile="${build.lib}/sevak-jo.jar"
-         manifest="${build.xdoclet}/jo/manifest.mf">
+    <jar jarfile="${build.lib}/sevak-jo.jar">
       <fileset dir="${build.classes}">
         <include name="org/apache/avalon/apps/sevak/blocks/jo/**"/>
       </fileset>
-      <fileset dir="${build.xdoclet}/jo">
+      <fileset dir="${build.metagenerate}/jo">
         <include name="org/apache/avalon/apps/sevak/blocks/jo/**/*.xinfo"/>
       </fileset>
     </jar>
 
-    <jar jarfile="${build.lib}/sevak-jetty.jar"
-         manifest="${build.xdoclet}/jetty/manifest.mf">
+    <jar jarfile="${build.lib}/sevak-jetty.jar">
       <fileset dir="${build.classes}">
         <include name="org/apache/avalon/apps/sevak/blocks/jetty/**"/>
       </fileset>
-      <fileset dir="${build.xdoclet}/jetty">
+      <fileset dir="${build.metagenerate}/jetty">
         <include name="org/apache/avalon/apps/sevak/blocks/jetty/**/*.xinfo"/>
       </fileset>
     </jar>
@@ -281,26 +265,22 @@
     </javac>
   </target>
 
-  <target name="phoenix-demo-xdoclet" depends="compile-demo" >
-    <mkdir dir="${build.demoXdoclet}"/>
+  <target name="phoenix-demo-metagenerate" depends="compile-demo" >
+    <mkdir dir="${build.demoMetagenerate}"/>
 
-    <taskdef name="phoenix-blocks"
-             classname="org.apache.avalon.phoenix.tools.xdoclet.PhoenixXDoclet"
-             classpathref="test.class.path"/>
+    <taskdef name="generatemeta" classname="org.apache.avalon.phoenix.tools.metagenerate.MetaGenerateTask">
+      <classpath refid="project.class.path" />
+    </taskdef>
 
-    <phoenix-blocks
-        destdir="${build.demoXdoclet}"
-        classpathref="test.class.path">
+    <generatemeta dest="${build.demoMetagenerate}">
       <fileset dir="${java.demo.dir}">
         <include name="**/*.java" />
       </fileset>
-      <blockinfo/>
-      <manifest manifestFile="manifest.mf" />
-    </phoenix-blocks>
+    </generatemeta>
 
   </target>
 
-  <target name="demo-jar" depends="phoenix-demo-xdoclet" description="Makes a jar file out of the Demo classes">
+  <target name="demo-jar" depends="phoenix-demo-metagenerate" description="Makes a jar file out of the Demo classes">
     <mkdir dir="${build.lib}"/>
     <war destfile="${build.lib}/sevak-demo.war" webxml="${src.dir}/demo/webapps/sevak-test/WEB-INF/web.xml" >
       <fileset dir="${src.dir}/demo/webapps/sevak-test">
@@ -309,12 +289,11 @@
     </war>
 
 
-    <jar jarfile="${build.lib}/sevak-demo.jar"
-         manifest="${build.demoXdoclet}/manifest.mf">
+    <jar jarfile="${build.lib}/sevak-demo.jar">
       <fileset dir="${build.demoClasses}">
         <include name="org/apache/avalon/apps/sevak/**"/>
       </fileset>
-     <fileset dir="${build.demoXdoclet}">
+     <fileset dir="${build.demoMetagenerate}">
         <include name="org/apache/avalon/apps/sevak/**/*.xinfo"/>
       </fileset>
     </jar>
