@@ -46,7 +46,6 @@ import org.apache.avalon.phoenix.tools.assembler.Assembler;
 import org.apache.avalon.phoenix.tools.assembler.AssemblyException;
 import org.apache.avalon.phoenix.tools.configuration.ConfigurationBuilder;
 import org.apache.avalon.phoenix.tools.verifier.SarVerifier;
-import org.apache.avalon.phoenix.metainfo.BlockInfo;
 import org.apache.log.Hierarchy;
 import org.apache.excalibur.containerkit.verifier.VerifyException;
 
