@@ -40,9 +40,15 @@ public class File_Persistent_Object_Repository
         {
             final InputStream inputStream = getInputStream( key );
 
+            if( inputStream == null )
+                  throw new NullPointerException("Null input stream returned for key: " + key );
             try
             {
                 final ObjectInputStream stream = new ObjectInputStream( inputStream );
+
+                if( stream == null )
+                  throw new NullPointerException("Null stream returned for key: " + key );
+
                 final Object object = stream.readObject();
                 if( DEBUG )
                 {
@@ -55,9 +61,10 @@ public class File_Persistent_Object_Repository
                 inputStream.close();
             }
         }
-        catch( final Exception e )
+        catch( final Throwable e )
         {
-            throw new RuntimeException( "Exception caught while retrieving an object: " + e );
+            throw new RuntimeException( 
+              "Exception caught while retrieving an object, cause: " + e.toString() );
         }
     }
 
@@ -67,10 +74,18 @@ public class File_Persistent_Object_Repository
         {
             final InputStream inputStream = getInputStream( key );
 
+            if( inputStream == null )
+                  throw new NullPointerException("Null input stream returned for key: " + key );
+
             try
             {
                 final ObjectInputStream stream = new ClassLoaderObjectInputStream( classLoader, inputStream );
+
+                if( stream == null )
+                  throw new NullPointerException("Null stream returned for key: " + key );
+
                 final Object object = stream.readObject();
+
                 if( DEBUG )
                 {
                     getLogger().debug( "returning object " + object + " for key " + key );
@@ -82,7 +97,7 @@ public class File_Persistent_Object_Repository
                 inputStream.close();
             }
         }
-        catch( final Exception e )
+        catch( final Throwable e )
         {
             throw new RuntimeException( "Exception caught while retrieving an object: " + e );
         }

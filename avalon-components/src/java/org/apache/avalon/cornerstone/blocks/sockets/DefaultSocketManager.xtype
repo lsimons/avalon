@@ -12,7 +12,7 @@
     </attributes>
   </component>
 
-  <context type="BlockContext">
+  <context type="org.apache.avalon.phoenix.BlockContext">
     <entry key="block.name"/>
     <entry key="app.home" type="java.io.File"/>
   </context>
