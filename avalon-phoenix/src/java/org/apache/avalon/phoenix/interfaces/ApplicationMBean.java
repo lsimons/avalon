@@ -12,6 +12,7 @@ package org.apache.avalon.phoenix.interfaces;
  * the root container of Applications.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author <a href="mailto:leosimons@apache.org">Leo Simons</a>
  */
 public interface ApplicationMBean
 {
@@ -70,7 +71,7 @@ public interface ApplicationMBean
      * Shutdown and restart the application running.
      * This is only valid when isRunning() returns true,
      * otherwise it will generate an IllegalStateException.
-     * This is equivelent to  calling start() and then stop()
+     * This is equivelent to  calling stop() and then start()
      * in succession.
      *
      * @exception IllegalStateException if application is not already running
@@ -92,18 +93,5 @@ public interface ApplicationMBean
      *            pertaining to why the application failed to shutodwn
      */
     void stop()
-        throws IllegalStateException, ApplicationException;
-
-    /**
-     * Uninstall the application.
-     * This is only valid when isRunning() returns false,
-     * otherwise it will generate an IllegalStateException.
-     *
-     * @exception IllegalStateException if application is running
-     * @exception ApplicationException if the application failed to undeploy.
-     *            the message part of exception will contain more information
-     *            pertaining to why the application failed to undeploy
-     */
-    void undeploy()
         throws IllegalStateException, ApplicationException;
 }

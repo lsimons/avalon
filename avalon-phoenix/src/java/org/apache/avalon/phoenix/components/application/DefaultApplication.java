@@ -18,6 +18,8 @@ import org.apache.avalon.phoenix.Block;
 import org.apache.avalon.phoenix.ApplicationEvent;
 import org.apache.avalon.phoenix.interfaces.Application;
 import org.apache.avalon.phoenix.interfaces.ApplicationContext;
+import org.apache.avalon.phoenix.interfaces.ApplicationException;
+import org.apache.avalon.phoenix.interfaces.ApplicationMBean;
 import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
 import org.apache.avalon.phoenix.metadata.BlockMetaData;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
@@ -28,16 +30,19 @@ import org.apache.avalon.phoenix.metadata.SarMetaData;
  * an application.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author <a href="mailto:leosimons@apache.org">Leo Simons</a>
  */
 public final class DefaultApplication
     extends AbstractLogEnabled
-    implements Application
+    implements Application, ApplicationMBean
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( DefaultApplication.class );
 
     private static final String PHASE_STARTUP = "startup";
     private static final String PHASE_SHUTDOWN = "shutdown";
+
+	private boolean m_running = false;
 
     private ApplicationContext m_context;
     private LifecycleHelper m_lifecycle;
@@ -48,7 +53,116 @@ public final class DefaultApplication
     {
         m_sarMetaData = sarMetaData;
     }
+    
+    ///////////////////////
+    // LifeCycle Methods //
+    ///////////////////////
 
+    public void initialize()
+        throws Exception
+    {
+    }
+    
+    /**
+     * Start the application running.
+     * This is only valid when isRunning() returns false,
+     * otherwise it will generate an IllegalStateException.
+     *
+     * @exception IllegalStateException if application is already running
+     * @exception ApplicationException if the application failed to start.
+     *            the message part of exception will contain more information
+     *            pertaining to why the application failed to startup
+     */
+    public void start()
+        throws IllegalStateException, ApplicationException
+    {
+        if( isRunning() ) 
+        	throw new IllegalStateException();
+        else {
+        	try {
+		       	final BlockMetaData[] blocks = m_context.getMetaData().getBlocks();
+		        for( int i = 0; i < blocks.length; i++ )
+		        {
+		            final String blockName = blocks[ i ].getName();
+		            final BlockEntry blockEntry = new BlockEntry( blocks[ i ] );
+		            m_entrys.put( blockName, blockEntry );
+		        }
+		
+		        // load block listeners
+		        loadBlockListeners();
+		
+		        // load blocks
+		        runPhase( PHASE_STARTUP );
+			}
+			catch( Throwable t )
+			{
+  		        getLogger().info( "exception while starting:"+t.getMessage()+"\n" );
+  		        t.printStackTrace();
+				throw new ApplicationException( t.getMessage(), t );
+			}
+			
+			m_running = true;
+    	}
+    }
+
+    /**
+     * Shutdown and restart the application running.
+     * This is only valid when isRunning() returns true,
+     * otherwise it will generate an IllegalStateException.
+     * This is equivelent to  calling stop() and then start()
+     * in succession.
+     *
+     * @exception IllegalStateException if application is not already running
+     * @exception ApplicationException if the application failed to stop or start.
+     *            the message part of exception will contain more information
+     *            pertaining to why the application failed to startup/shutdown
+     */
+    public void restart()
+        throws IllegalStateException, ApplicationException
+    {
+    	stop();
+    	start();
+    }
+    /**
+     * Stop the application running.
+     * This is only valid when isRunning() returns true,
+     * otherwise it will generate an IllegalStateException.
+     *
+     * @exception IllegalStateException if application is not already running
+     * @exception ApplicationException if the application failed to shutdown.
+     *            the message part of exception will contain more information
+     *            pertaining to why the application failed to shutodwn
+     */
+    public void stop()
+        throws IllegalStateException, ApplicationException
+    {
+        if( !isRunning() )
+        	throw new IllegalStateException();
+        else
+        {
+        	try
+        	{
+        		runPhase( PHASE_SHUTDOWN );
+        	}
+        	catch( Throwable t )
+        	{
+  		        getLogger().info( "exception while stopping:"+t.getMessage()+"\n" );
+  		        t.printStackTrace();
+				throw new ApplicationException( t.getMessage(), t );
+          	}
+        	
+        	m_running = false;
+        }
+    }
+
+    public void dispose()
+    {
+        m_entrys.clear();
+    }
+    
+    ////////////////////////////
+    // Public Utility Methods //
+    ////////////////////////////
     public void setApplicationContext( final ApplicationContext context )
     {
         m_context = context;
@@ -68,50 +182,60 @@ public final class DefaultApplication
         return entry.getProxy();
     }
 
-    public void initialize()
-        throws Exception
+    /**
+     * Get the name of the application.
+     *
+     * @return the name of the application
+     */
+    public String getName()
     {
+    	return m_sarMetaData.getName();
     }
 
     /**
-     * Startup application by running startup phase on all the blocks.
+     * Get the name to display in Management UI.
      *
-     * @exception Exception if an error occurs
+     * @return the name of the application to display in UI
      */
-    public void start()
-        throws Exception
+    public String getDisplayName()
     {
-        final BlockMetaData[] blocks = m_context.getMetaData().getBlocks();
-        for( int i = 0; i < blocks.length; i++ )
-        {
-            final String blockName = blocks[ i ].getName();
-            final BlockEntry blockEntry = new BlockEntry( blocks[ i ] );
-            m_entrys.put( blockName, blockEntry );
-        }
-
-        // load block listeners
-        loadBlockListeners();
-
-        // load blocks
-        runPhase( PHASE_STARTUP );
+    	return m_sarMetaData.getName();
     }
 
     /**
-     * Shutdown the application.
-     * This involves shutting down every contained block.
+     * Get the string used to describe the application in the UI.
      *
-     * @exception Exception if an error occurs
+     * @return a short description of the application
      */
-    public void stop()
-        throws Exception
+    public String getDescription()
     {
-        runPhase( PHASE_SHUTDOWN );
+    	return "The "+m_sarMetaData.getName()+" application.";
     }
 
-    public void dispose()
+    /**
+     * Get location of Application installation
+     *
+     * @return the home directory of application
+     */
+    public String getHomeDirectory()
     {
-        m_entrys.clear();
+    	return m_sarMetaData.getHomeDirectory().getPath();
     }
+
+    /**
+     * Return true if the application is
+     * running or false otherwise.
+     *
+     * @return true if application is running, false otherwise
+     */
+    public boolean isRunning()
+    {
+    	return m_running;
+    }
+    
+    /////////////////////////////
+    // Private Utility Methods //
+    /////////////////////////////
 
     private void loadBlockListeners()
         throws Exception

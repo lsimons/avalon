@@ -40,6 +40,7 @@ import org.apache.log.Hierarchy;
  * configured and initialized.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author <a href="mailto:leosimons@apache.org">Leo Simons</a>
  */
 public class DefaultKernel
     extends AbstractLogEnabled
@@ -140,12 +141,12 @@ public class DefaultKernel
             // manage application
             try
             {
-              	m_systemManager.register( name+" (Application)", application );
+              	m_systemManager.register( name+" (Application)", application, new Class[]{ ApplicationMBean.class } );
           	}
             catch( final Throwable t )
             {
                 final String message =
-                    REZ.getString( "kernel.error.entry.manage", entry.getMetaData().getName() );
+                    REZ.getString( "kernel.error.entry.manage", name );
                 throw new CascadingException( message, t );
             }
         }
@@ -233,6 +234,18 @@ public class DefaultKernel
         }
         else
         {
+            // un-manage application
+            try
+            {
+              	m_systemManager.unregister( name+" (Application)" );
+          	}
+            catch( final Throwable t )
+            {
+                final String message =
+                    REZ.getString( "kernel.error.entry.unmanage", name );
+                throw new CascadingException( message, t );
+            }
+
             shutdown( entry );
         }
     }
