@@ -7,42 +7,19 @@
 
     <!-- include the avalon-wide custom project properties -->
     <property file="${basedir}/project.properties"/>
-    <property file="${basedir}/../project.properties"/>
-    <property file="${basedir}/../../project.properties"/>
-    <property file="${basedir}/../../../project.properties"/>
-    <property file="${basedir}/../../../../project.properties"/>
 
-    <goal name="check">
-        <!-- friendly error in case file is not available -->
-        <ant:available file="${avalon.buildsystem}/maven-common.xml"
-                property="buildsystem.available"/>
-            <ant:fail unless="buildsystem.available">
-            ===================================================================
-            BUILD SYSTEM FAILURE!
-            ===================================================================
-
-            a required file, ${avalon.buildsystem}/maven-common.xml, cannot be
-            found. Try setting the avalon.buildsystem property in
-            project.properties to the correct location.
-            </ant:fail>
-    </goal>
-
-    <!-- include the avalon-wide custom goal decorators from maven-common.xml -->
-    <j:import file="${avalon.buildsystem}/maven-common.xml" inherit="true"/>
-
-    <goal name="fortress:generate-meta"
-            prereqs="avalon:init">
+    
+    <preGoal name="jar:jar">
         <ant:taskdef name="collect-meta"
             classname="org.apache.avalon.fortress.tools.ComponentMetaInfoCollector">
-
             <ant:classpath>
                 <ant:path refid="maven.dependency.classpath"/>
-                <ant:pathelement path="${java.build.dir}"/>
+                <ant:pathelement path="${maven.build.dir}/classes"/>
             </ant:classpath>
         </ant:taskdef>
 
-        <collect-meta destdir="${java.build.dir}">
-            <fileset dir="${java.src.dir}"/>
+        <collect-meta destdir="${maven.build.dir}/classes">
+            <fileset dir="src/java"/>
         </collect-meta>
 
         <ant:copy todir="${java.build.dir}">
@@ -51,10 +28,39 @@
                 <ant:exclude name="**/package.html"/>
             </ant:fileset>
         </ant:copy>
-    </goal>
+    </preGoal>
 
-    <goal name="webapp"
-            prereqs="java:jar">
+
+    <postGoal name="jar:jar">
+        <jar jarfile="${maven.build.dir}/${maven.final.name}-viewer.jar"
+             basedir="${maven.build.dir}/classes"
+             includes="**/*.*">
+          <manifest>
+            <attribute name="Main-Class" value="org.apache.avalon.fortress.examples.viewer.Main"/>
+            <attribute name="Class-Path" value="logkit-1.2.jar avalon-framework-4.1.4.jar avalon-fortress-complete-1.1-dev.jar concurrent-1.3.1.jar commons-collections-2.1.jar"/>
+          </manifest>
+        </jar>
+
+        <jar jarfile="${maven.build.dir}/${maven.final.name}-swing.jar"
+             basedir="${maven.build.dir}/classes"
+             includes="**/*.*">
+          <manifest>
+            <attribute name="Main-Class" value="org.apache.avalon.fortress.examples.swing.Main"/>
+            <attribute name="Class-Path" value="logkit-1.2.jar avalon-framework-4.1.4.jar avalon-fortress-complete-1.1-dev.jar concurrent-1.3.1.jar commons-collections-2.1.jar"/>
+          </manifest>
+        </jar>
+
+        <jar jarfile="${maven.build.dir}/${maven.final.name}-extended.jar"
+             basedir="${maven.build.dir}/classes"
+             includes="**/*.*">
+          <manifest>
+            <attribute name="Main-Class" value="org.apache.avalon.fortress.examples.extended.Main"/>
+            <attribute name="Class-Path" value="logkit-1.2.jar avalon-framework-4.1.4.jar avalon-fortress-complete-1.1-dev.jar concurrent-1.3.1.jar commons-collections-2.1.jar"/>
+          </manifest>
+        </jar>
+
+
+	<!-- build webapp -->
 
         <mkdir dir="${maven.build.dir}/servlet"/>
         <mkdir dir="${maven.build.dir}/servlet/WEB-INF"/>
@@ -66,35 +72,47 @@
 
         <copy todir="${build.dir}/servlet/WEB-INF"
               file="${maven.src.dir}/conf/web.xml"/>
+
+        <jar jarfile="${maven.build.dir}/${maven.final.name}-servlet.war"
+	     basedir="${maven.build.dir}/servlet"
+	     includes="**/*.*" />
+     </postGoal>
+
+   <goal name="run:swing">
+    <attainGoal name="jar:jar"/>
+       <java classname="org.apache.avalon.fortress.examples.swing.Main" fork="true" failonerror="true">
+         <classpath>
+           <pathelement path="${maven.build.dir}/${maven.final.name}.jar"/>
+          <j:forEach var="dep" items="${pom.dependencies}">
+           <pathelement path="${maven.repo.local}/${dep.artifactDirectory}/jars/${dep.artifact}"/>
+          </j:forEach>
+         </classpath>
+       </java>
     </goal>
 
-    <postGoal name="java:jar">
-        <jar jarfile="${maven.build.dir}/${maven.final.name}-viewer.jar"
-             basedir="${maven.build.dir}/classes"
-             includes="**">
-          <manifest>
-            <attribute name="Main-Class" value="org.apache.avalon.fortress.examples.viewer.Main"/>
-            <attribute name="Class-Path" value="logkit-1.2.jar avalon-framework-4.1.4.jar avalon-fortress-complete-1.1-dev.jar concurrent-1.3.1.jar commons-collections-2.1.jar"/>
-          </manifest>
-        </jar>
+   <goal name="run:viewer">
+    <attainGoal name="jar:jar"/>
+       <java classname="org.apache.avalon.fortress.examples.viewer.Main" fork="true" failonerror="true">
+         <classpath>
+           <pathelement path="${maven.build.dir}/${maven.final.name}.jar"/>
+          <j:forEach var="dep" items="${pom.dependencies}">
+           <pathelement path="${maven.repo.local}/${dep.artifactDirectory}/jars/${dep.artifact}"/>
+          </j:forEach>
+         </classpath>
+       </java>
+    </goal>
 
-        <jar jarfile="${lib.dir}/${name}-swing.jar"
-             basedir="${build.classes.dir}"
-             includes="**/*.*">
-          <manifest>
-            <attribute name="Main-Class" value="org.apache.avalon.fortress.examples.swing.Main"/>
-            <attribute name="Class-Path" value="logkit-1.2.jar avalon-framework-4.1.4.jar avalon-fortress-complete-1.1-dev.jar concurrent-1.3.1.jar commons-collections-2.1.jar"/>
-          </manifest>
-        </jar>
+   <goal name="run:extended">
+    <attainGoal name="jar:jar"/>
+       <java classname="org.apache.avalon.fortress.examples.extended.Main" fork="true" failonerror="true">
+         <classpath>
+           <pathelement path="${maven.build.dir}/${maven.final.name}.jar"/>
+          <j:forEach var="dep" items="${pom.dependencies}">
+           <pathelement path="${maven.repo.local}/${dep.artifactDirectory}/jars/${dep.artifact}"/>
+          </j:forEach>
+         </classpath>
+       </java>
+    </goal>
 
-        <jar jarfile="${lib.dir}/${name}-extended.jar"
-             basedir="${build.classes.dir}"
-             includes="**/*.*">
-          <manifest>
-            <attribute name="Main-Class" value="org.apache.avalon.fortress.examples.extended.Main"/>
-            <attribute name="Class-Path" value="logkit-1.2.jar avalon-framework-4.1.4.jar avalon-fortress-complete-1.1-dev.jar concurrent-1.3.1.jar commons-collections-2.1.jar"/>
-          </manifest>
-        </jar>
-    </postGoal>
 
 </project>

@@ -28,7 +28,7 @@ import org.apache.avalon.framework.container.ContainerUtil;
  * via a simple swing gui.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Id: Main.java,v 1.10 2004/02/24 22:31:22 niclas Exp $
+ * @version $Id: Main.java,v 1.11 2004/03/08 16:00:23 farra Exp $
  */
 public final class Main
 {
@@ -47,7 +47,9 @@ public final class Main
             config.setContainerClass( ComponentViewer.class );
             config.setContainerConfiguration( "resource://org/apache/avalon/fortress/examples/viewer/ComponentViewer.xconf" );
             config.setLoggerManagerConfiguration( "resource://org/apache/avalon/fortress/examples/viewer/ComponentViewer.xlog" );
-            config.setInstrumentManagerConfiguration( "resource://org/apache/avalon/fortress/examples/viewer/ComponentViewer.instruments" );
+
+            // needs the altrmi binaries
+	    //   config.setInstrumentManagerConfiguration( "resource://org/apache/avalon/fortress/examples/viewer/ComponentViewer.instruments" );
 
             cm = new DefaultContainerManager( config.getContext() );
             org.apache.avalon.framework.container.ContainerUtil.initialize( cm );
