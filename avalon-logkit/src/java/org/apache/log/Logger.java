@@ -71,6 +71,16 @@ public class Logger
     }
 
     /**
+     * Determine if messages of priority DEBUG will be logged.
+     *
+     * @return true if DEBUG messages will be logged
+     */
+    public final boolean isDebugEnabled()
+    {
+        return getPriority().isLowerOrEqual( Priority.DEBUG );
+    }
+
+    /**
      * Log a debug priority event.
      *
      * @param message the message
@@ -98,84 +108,13 @@ public class Logger
     }
 
     /**
-     * Log a error priority event.
+     * Determine if messages of priority INFO will be logged.
      *
-     * @param message the message
-     * @param throwable the throwable
+     * @return true if INFO messages will be logged
      */
-    public final void error( final String message, final Throwable throwable )
+    public final boolean isInfoEnabled()
     {
-        if( isErrorEnabled() )
-        {
-            output( Priority.ERROR, message, throwable );
-        }
-    }
-
-    /**
-     * Log a error priority event.
-     *
-     * @param message the message
-     */
-    public final void error( final String message )
-    {
-        if( isErrorEnabled() )
-        {
-            output( Priority.ERROR, message, null );
-        }
-    }
-
-    /**
-     * Log a fatalError priority event.
-     *
-     * @param message the message
-     * @param throwable the throwable
-     */
-    public final void fatalError( final String message, final Throwable throwable )
-    {
-        if( isFatalErrorEnabled() )
-        {
-            output( Priority.FATAL_ERROR, message, throwable );
-        }
-    }
-
-    /**
-     * Log a fatalError priority event.
-     *
-     * @param message the message
-     */
-    public final void fatalError( final String message )
-    {
-        if( isFatalErrorEnabled() )
-        {
-            output( Priority.FATAL_ERROR, message, null );
-        }
-    }
-
-    /**
-     * Retrieve priority associated with Logger.
-     *
-     * @return the loggers priority
-     * @deprecated This method violates Inversion of Control principle. 
-     *             It will downgraded to protected access in a future 
-     *             release. When user needs to check priority it is advised
-     *             that they use the is[Priority]Enabled() functions.
-     */
-    public final Priority getPriority()
-    {
-        return m_priority;
-    }
-
-    /**
-     * Retrieve category associated with logger.
-     *
-     * @return the Category
-     * @deprecated This method violates Inversion of Control principle. 
-     *             If you are relying on its presence then there may be 
-     *             something wrong with the design of your system
-     */
-    public final String getCategory()
-    {
-        return m_category;
+        return getPriority().isLowerOrEqual( Priority.INFO );
     }
 
     /**
@@ -205,88 +144,13 @@ public class Logger
     }
 
     /**
-     * Log a event at specific priority with a certain message and throwable.
+     * Determine if messages of priority WARN will be logged.
      *
-     * @param message the message
-     * @param priority the priority
-     * @param throwable the throwable
+     * @return true if WARN messages will be logged
      */
-    public final void log( final Priority priority,
-                           final String message,
-                           final Throwable throwable )
+    public final boolean isWarnEnabled()
     {
-        if( getPriority().isLowerOrEqual( priority ) )
-        {
-            output( priority, message, throwable );
-        }
-    }
-
-    /**
-     * Log a event at specific priority with a certain message.
-     *
-     * @param message the message
-     * @param priority the priority
-     */
-    public final void log( final Priority priority, final String message )
-    {
-        log( priority, message, null );
-    }
-
-    /**
-     * Internal method to do actual outputting.
-     *
-     * @param priority the priority
-     * @param message the message
-     * @param throwable the throwable
-     */
-    private final void output( final Priority priority,
-                               final String message,
-                               final Throwable throwable )
-    {
-        final LogEvent event = new LogEvent();
-        event.setCategory( m_category );
-        event.setContextStack( ContextStack.getCurrentContext( false ) );
-        event.setContextMap( ContextMap.getCurrentContext( false ) );
-
-        if( null != message ) 
-        {
-            event.setMessage( message );
-        }
-        else
-        {
-            event.setMessage( "" );
-        }
-
-        event.setThrowable( throwable );
-        event.setPriority( priority );
-
-        //this next line can kill performance. It may be wise to
-        //disable it sometimes and use a more granular approach
-        event.setTime( System.currentTimeMillis() );
-
-        output( event );
-    }
-
-    private final void output( final LogEvent event )
-    {
-        //cache a copy of targets for thread safety
-        //It is now possible for another thread
-        //to replace m_logTargets
-        final LogTarget[] targets = m_logTargets;
-
-        if( null == targets )
-        {
-            m_hierarchy.log( "LogTarget is null for category '" + m_category + "'" );
-        }
-        else
-        {
-            for( int i = 0; i < targets.length; i++ )
-            {
-                //No need to clone array as addition of a log-target 
-                //will result in changin whole array                
-                targets[ i ].processEvent( event );
-            }
-        }
+        return getPriority().isLowerOrEqual( Priority.WARN );
     }
 
     /**
@@ -317,36 +181,6 @@ public class Logger
     }
 
     /**
-     * Determine if messages of priority DEBUG will be logged.
-     *
-     * @return true if DEBUG messages will be logged
-     */
-    public final boolean isDebugEnabled()
-    {
-        return getPriority().isLowerOrEqual( Priority.DEBUG );
-    }
-
-    /**
-     * Determine if messages of priority INFO will be logged.
-     *
-     * @return true if INFO messages will be logged
-     */
-    public final boolean isInfoEnabled()
-    {
-        return getPriority().isLowerOrEqual( Priority.INFO );
-    }
-
-    /**
-     * Determine if messages of priority WARN will be logged.
-     *
-     * @return true if WARN messages will be logged
-     */
-    public final boolean isWarnEnabled()
-    {
-        return getPriority().isLowerOrEqual( Priority.WARN );
-    }
-
-    /**
      * Determine if messages of priority ERROR will be logged.
      *
      * @return true if ERROR messages will be logged
@@ -357,6 +191,33 @@ public class Logger
     }
 
     /**
+     * Log a error priority event.
+     *
+     * @param message the message
+     * @param throwable the throwable
+     */
+    public final void error( final String message, final Throwable throwable )
+    {
+        if( isErrorEnabled() )
+        {
+            output( Priority.ERROR, message, throwable );
+        }
+    }
+
+    /**
+     * Log a error priority event.
+     *
+     * @param message the message
+     */
+    public final void error( final String message )
+    {
+        if( isErrorEnabled() )
+        {
+            output( Priority.ERROR, message, null );
+        }
+    }
+
+    /**
      * Determine if messages of priority FATAL_ERROR will be logged.
      *
      * @return true if FATAL_ERROR messages will be logged
@@ -364,6 +225,61 @@ public class Logger
     public final boolean isFatalErrorEnabled()
     {
         return getPriority().isLowerOrEqual( Priority.FATAL_ERROR );
+    }
+
+    /**
+     * Log a fatalError priority event.
+     *
+     * @param message the message
+     * @param throwable the throwable
+     */
+    public final void fatalError( final String message, final Throwable throwable )
+    {
+        if( isFatalErrorEnabled() )
+        {
+            output( Priority.FATAL_ERROR, message, throwable );
+        }
+    }
+
+    /**
+     * Log a fatalError priority event.
+     *
+     * @param message the message
+     */
+    public final void fatalError( final String message )
+    {
+        if( isFatalErrorEnabled() )
+        {
+            output( Priority.FATAL_ERROR, message, null );
+        }
+    }
+
+    /**
+     * Log a event at specific priority with a certain message and throwable.
+     *
+     * @param message the message
+     * @param priority the priority
+     * @param throwable the throwable
+     */
+    public final void log( final Priority priority,
+                           final String message,
+                           final Throwable throwable )
+    {
+        if( getPriority().isLowerOrEqual( priority ) )
+        {
+            output( priority, message, throwable );
+        }
+    }
+
+    /**
+     * Log a event at specific priority with a certain message.
+     *
+     * @param message the message
+     * @param priority the priority
+     */
+    public final void log( final Priority priority, final String message )
+    {
+        log( priority, message, null );
     }
 
     /**
@@ -404,135 +320,6 @@ public class Logger
     }
 
     /**
-     * Get all the child Loggers of current logger.
-     *
-     * @return the child loggers
-     */
-    public synchronized Logger[] getChildren()
-    {
-        if( null == m_children ) return new Logger[ 0 ];
-
-        final Logger[] children = new Logger[ m_children.length ];       
-
-        for( int i = 0; i < children.length; i++ )
-        {
-            children[ i ] = m_children[ i ];
-        }
-
-        return children;
-    }
-
-    /**
-     * Update priority of children if any.
-     */
-    private synchronized void resetChildPrioritys( final boolean recursive )
-    {
-        if( null == m_children ) return;
-
-        final Logger[] children = m_children;
-
-        for( int i = 0; i < children.length; i++ )
-        {
-            children[ i ].resetPriority( recursive );
-        }
-    }
-
-    /**
-     * Update priority of this Logger.
-     * If this loggers priority was manually set then ignore
-     * otherwise get parents priority and update all children's priority.
-     *
-     */
-    private synchronized void resetPriority( final boolean recursive )
-    {
-        if( recursive )
-        {
-            m_priorityForceSet = false;
-        }
-        else if( m_priorityForceSet ) 
-        {
-            return;
-        }
-
-        m_priority = m_parent.getPriority();
-        resetChildPrioritys( recursive );
-    }
-
-    /**
-     * Get a copy of log targets for this logger.
-     *
-     * @return the child loggers
-     * @deprecated This method is deprecated and will be removed in Future version. 
-     *             Previously it allowed unsafe access to logtargets which permitted 
-     *             masqurade attacks. It currently returns a zero sized array.
-     */
-    public LogTarget[] getLogTargets()
-    {
-        return new LogTarget[ 0 ];
-    }
-
-    /**
-     * Retrieve logtarget array contained in logger.
-     * This method is provided so that child Loggers can access a 
-     * copy of  parents LogTargets.
-     *
-     * @return the array of LogTargets
-     */
-    private synchronized LogTarget[] safeGetLogTargets()
-    {
-        if( null == m_logTargets ) 
-        {
-            if( null == m_parent ) return new LogTarget[ 0 ];
-            else return m_parent.safeGetLogTargets();
-        }
-        else
-        {
-            final LogTarget[] logTargets = new LogTarget[ m_logTargets.length ];       
-
-            for( int i = 0; i < logTargets.length; i++ )
-            {
-                logTargets[ i ] = m_logTargets[ i ];
-            }
-            
-            return logTargets;
-        }
-    }
-
-    /**
-     * Update logTargets of children if any.
-     */
-    private synchronized void resetChildLogTargets( final boolean recursive )
-    {
-        if( null == m_children ) return;
-
-        for( int i = 0; i < m_children.length; i++ )
-        {
-            m_children[ i ].resetLogTargets( recursive );
-        }
-    }
-
-    /**
-     * Update logTarget of this Logger.
-     * If this loggers logTarget was manually set then ignore
-     * otherwise get parents logTarget and update all children's logTarget.
-     *
-     */
-    private synchronized void resetLogTargets( final boolean recursive )
-    {
-        if( recursive )
-        {
-            m_logTargetsForceSet = false;
-        }
-        else if( m_logTargetsForceSet ) 
-        {
-            return;
-        }
-
-        m_logTargets = m_parent.safeGetLogTargets();
-        resetChildLogTargets( recursive );
-    }
-
-    /**
      * Set the log targets for this logger.
      *
      * @param logTargets the Log Targets
@@ -569,6 +356,25 @@ public class Logger
 
         m_logTargetsForceSet = false;
         resetChildLogTargets( recursive );
+    }
+
+    /**
+     * Get all the child Loggers of current logger.
+     *
+     * @return the child loggers
+     */
+    public synchronized Logger[] getChildren()
+    {
+        if( null == m_children ) return new Logger[ 0 ];
+
+        final Logger[] children = new Logger[ m_children.length ];       
+
+        for( int i = 0; i < children.length; i++ )
+        {
+            children[ i ] = m_children[ i ];
+        }
+
+        return children;
     }
 
     /**
@@ -639,5 +445,199 @@ public class Logger
 
         if( null == remainder ) return child;
         else return child.getChildLogger( remainder );
+    }
+
+    /**
+     * Retrieve priority associated with Logger.
+     *
+     * @return the loggers priority
+     * @deprecated This method violates Inversion of Control principle. 
+     *             It will downgraded to protected access in a future 
+     *             release. When user needs to check priority it is advised
+     *             that they use the is[Priority]Enabled() functions.
+     */
+    public final Priority getPriority()
+    {
+        return m_priority;
+    }
+
+    /**
+     * Retrieve category associated with logger.
+     *
+     * @return the Category
+     * @deprecated This method violates Inversion of Control principle. 
+     *             If you are relying on its presence then there may be 
+     *             something wrong with the design of your system
+     */
+    public final String getCategory()
+    {
+        return m_category;
+    }
+
+    /**
+     * Get a copy of log targets for this logger.
+     *
+     * @return the child loggers
+     * @deprecated This method is deprecated and will be removed in Future version. 
+     *             Previously it allowed unsafe access to logtargets which permitted 
+     *             masqurade attacks. It currently returns a zero sized array.
+     */
+    public LogTarget[] getLogTargets()
+    {
+        return new LogTarget[ 0 ];
+    }
+
+    /**
+     * Internal method to do actual outputting.
+     *
+     * @param priority the priority
+     * @param message the message
+     * @param throwable the throwable
+     */
+    private final void output( final Priority priority,
+                               final String message,
+                               final Throwable throwable )
+    {
+        final LogEvent event = new LogEvent();
+        event.setCategory( m_category );
+        event.setContextStack( ContextStack.getCurrentContext( false ) );
+        event.setContextMap( ContextMap.getCurrentContext( false ) );
+
+        if( null != message ) 
+        {
+            event.setMessage( message );
+        }
+        else
+        {
+            event.setMessage( "" );
+        }
+
+        event.setThrowable( throwable );
+        event.setPriority( priority );
+
+        //this next line can kill performance. It may be wise to
+        //disable it sometimes and use a more granular approach
+        event.setTime( System.currentTimeMillis() );
+
+        output( event );
+    }
+
+    private final void output( final LogEvent event )
+    {
+        //cache a copy of targets for thread safety
+        //It is now possible for another thread
+        //to replace m_logTargets
+        final LogTarget[] targets = m_logTargets;
+
+        if( null == targets )
+        {
+            m_hierarchy.log( "LogTarget is null for category '" + m_category + "'" );
+        }
+        else
+        {
+            for( int i = 0; i < targets.length; i++ )
+            {
+                //No need to clone array as addition of a log-target 
+                //will result in changin whole array                
+                targets[ i ].processEvent( event );
+            }
+        }
+    }
+
+    /**
+     * Update priority of children if any.
+     */
+    private synchronized void resetChildPrioritys( final boolean recursive )
+    {
+        if( null == m_children ) return;
+
+        final Logger[] children = m_children;
+
+        for( int i = 0; i < children.length; i++ )
+        {
+            children[ i ].resetPriority( recursive );
+        }
+    }
+
+    /**
+     * Update priority of this Logger.
+     * If this loggers priority was manually set then ignore
+     * otherwise get parents priority and update all children's priority.
+     *
+     */
+    private synchronized void resetPriority( final boolean recursive )
+    {
+        if( recursive )
+        {
+            m_priorityForceSet = false;
+        }
+        else if( m_priorityForceSet ) 
+        {
+            return;
+        }
+
+        m_priority = m_parent.getPriority();
+        resetChildPrioritys( recursive );
+    }
+
+    /**
+     * Retrieve logtarget array contained in logger.
+     * This method is provided so that child Loggers can access a 
+     * copy of  parents LogTargets.
+     *
+     * @return the array of LogTargets
+     */
+    private synchronized LogTarget[] safeGetLogTargets()
+    {
+        if( null == m_logTargets ) 
+        {
+            if( null == m_parent ) return new LogTarget[ 0 ];
+            else return m_parent.safeGetLogTargets();
+        }
+        else
+        {
+            final LogTarget[] logTargets = new LogTarget[ m_logTargets.length ];       
+
+            for( int i = 0; i < logTargets.length; i++ )
+            {
+                logTargets[ i ] = m_logTargets[ i ];
+            }
+            
+            return logTargets;
+        }
+    }
+
+    /**
+     * Update logTargets of children if any.
+     */
+    private synchronized void resetChildLogTargets( final boolean recursive )
+    {
+        if( null == m_children ) return;
+
+        for( int i = 0; i < m_children.length; i++ )
+        {
+            m_children[ i ].resetLogTargets( recursive );
+        }
+    }
+
+    /**
+     * Update logTarget of this Logger.
+     * If this loggers logTarget was manually set then ignore
+     * otherwise get parents logTarget and update all children's logTarget.
+     *
+     */
+    private synchronized void resetLogTargets( final boolean recursive )
+    {
+        if( recursive )
+        {
+            m_logTargetsForceSet = false;
+        }
+        else if( m_logTargetsForceSet ) 
+        {
+            return;
+        }
+
+        m_logTargets = m_parent.safeGetLogTargets();
+        resetChildLogTargets( recursive );
     }
 }
