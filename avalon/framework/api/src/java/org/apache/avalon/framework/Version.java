@@ -87,7 +87,7 @@ import java.util.StringTokenizer;
  * </ul>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.28 $ $Date: 2003/05/20 19:46:31 $
+ * @version CVS $Revision: 1.29 $ $Date: 2003/07/12 07:32:57 $
  */
 public final class Version
     implements Comparable, Serializable
@@ -117,12 +117,17 @@ public final class Version
             levels[ i ] = tokenizer.nextToken();
         }
 
-        if( 0 == levels.length || 3 < levels.length )
-        {
-            throw new IllegalArgumentException( "Malformed version string " + version );
-        }
+        //if( 0 == levels.length || 3 < levels.length )
+        //{
+        //    throw new IllegalArgumentException( "Malformed version string '" + version + "'." );
+        //}
+        //final int major = Integer.parseInt( levels[ 0 ] );
 
-        final int major = Integer.parseInt( levels[ 0 ] );
+        int major = -1;
+        if( 0 < levels.length )
+        {
+            major = Integer.parseInt( levels[ 0 ] );
+        }
 
         int minor = 0;
         if( 1 < levels.length )
@@ -285,6 +290,10 @@ public final class Version
      */
     public boolean complies( final Version other )
     {
+        if( m_major == -1 )
+        {
+            return true;
+        }
         if( m_major != other.m_major )
         {
             return false;
