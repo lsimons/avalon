@@ -16,6 +16,11 @@ package org.apache.avalon.framework.context;
  * services, settings and information that is supplied by the
  * Container to the Component.</p>
  *
+ * <p>The values placed in the context are runtime values that can
+ * only be provided by the container. The Context should <b>NOT</b> be
+ * used to retrieve configuration values or services that can be provided
+ * by peer components.</p>
+ *
  * <p>This relationship should be documented in a well known place.
  * It is sometimes convenient to derive from Context to provide
  * a particular style of Context for your Component-Container
