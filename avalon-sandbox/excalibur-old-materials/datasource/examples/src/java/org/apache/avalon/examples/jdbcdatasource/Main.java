@@ -8,7 +8,6 @@
 package org.apache.avalon.examples.jdbcdatasource;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
@@ -17,7 +16,6 @@ import org.apache.avalon.excalibur.component.ExcaliburComponentManager;
 import org.apache.avalon.excalibur.logger.DefaultLogKitManager;
 
 import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.avalon.framework.context.DefaultContext;
 
@@ -33,7 +31,7 @@ import org.apache.log.Priority;
  * Note, this code ignores exceptions to keep the code simple.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/06/18 13:15:54 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/10/03 03:36:06 $
  * @since 4.1
  */
 public class Main
@@ -48,6 +46,10 @@ public class Main
      *-------------------------------------------------------------*/
     /**
      * Creates and initializes the component manager using config files.
+     *
+     * @return the ECM for use.
+     *
+     * @throws Exception if we cannot build the ECM
      */
     private static ExcaliburComponentManager createComponentManager()
         throws Exception
@@ -95,6 +97,8 @@ public class Main
     
     /**
      * Loop and handle requests from the user.
+     *
+     * @param helloDB  The HelloDBService we are using to handle our requests
      */
     private static void handleRequests( HelloDBService helloDB )
     {
@@ -150,6 +154,10 @@ public class Main
      *-------------------------------------------------------------*/
     /**
      * All of the guts of this example exist in the main method.
+     *
+     * @param args  The command line arguments
+     *
+     * @throws Exception if there is any problem running this example
      */
     public static void main( String[] args )
         throws Exception

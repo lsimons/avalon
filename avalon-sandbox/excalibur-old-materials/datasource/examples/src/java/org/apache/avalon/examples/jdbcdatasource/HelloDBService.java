@@ -17,16 +17,19 @@ import org.apache.avalon.framework.component.Component;
  * Note, this code ignores exceptions to keep the code simple.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/06/18 13:15:54 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/10/03 03:36:06 $
  * @since 4.1
  */
 public interface HelloDBService
     extends Component
 {
+    /** The lookup key for the HelloDBService */
     String ROLE = "org.apache.avalon.examples.jdbcdatasource.HelloDBService";
     
     /**
      * Adds a single row to the database.
+     *
+     * @param title  The title for the row.
      */
     void addRow( String title );
     

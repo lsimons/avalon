@@ -17,7 +17,6 @@ import org.apache.avalon.excalibur.datasource.DataSourceComponent;
 
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
-import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.component.ComponentSelector;
 import org.apache.avalon.framework.component.Composable;
@@ -34,7 +33,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * Note, this code ignores exceptions to keep the code simple.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/06/18 13:15:54 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/10/03 03:36:06 $
  * @since 4.1
  */
 public class DefaultHelloDBService
@@ -51,6 +50,7 @@ public class DefaultHelloDBService
     /*---------------------------------------------------------------
      * Constructors
      *-------------------------------------------------------------*/
+    /** Instantiate a DefaultHelloDBService */
     public DefaultHelloDBService()
     {
     }
@@ -76,6 +76,8 @@ public class DefaultHelloDBService
      * Initializes the database by creating the required table.  Normally
      *   this would not be needed.  But doing this with HSQLDB makes it easier
      *   to run the example.
+     *
+     * @throws SQLException  if there is a problem setting the database up.
      */
     private void initializeDatabase()
         throws SQLException
@@ -116,6 +118,8 @@ public class DefaultHelloDBService
      *-------------------------------------------------------------*/
     /**
      * Adds a single row to the database.
+     *
+     * @param title  The row title
      */
     public void addRow( String title )
     {
@@ -235,7 +239,7 @@ public class DefaultHelloDBService
      * Called by the Container to tell the component which ComponentManager
      *  is controlling it.
      *
-     * @param ComponentManager which curently owns the component.
+     * @param manager which curently owns the component.
      */
     public void compose( ComponentManager manager )
     {
