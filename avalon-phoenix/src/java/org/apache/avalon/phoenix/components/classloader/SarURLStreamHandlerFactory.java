@@ -21,14 +21,14 @@ import org.apache.avalon.phoenix.tools.protocols.sar.SarURLConnection;
  * protocol handler.
  *
  * @author <a href="mailto:mirceatoma@home.com">Mircea Toma</a>
- * @version CVS $Revision: 1.3 $ $Date: 2001/10/27 15:39:21 $
+ * @version CVS $Revision: 1.4 $ $Date: 2001/10/27 16:11:03 $
  */
 class SarURLStreamHandlerFactory
     extends URLStreamHandler
     implements URLStreamHandlerFactory
 {
     private static final Resources REZ =
-        ResourceManager.getPackageResources( DefaultPolicy.class );
+        ResourceManager.getPackageResources( SarURLStreamHandlerFactory.class );
 
     /**
      * Creates a new <code>URLStreamHandler</code> instance with the specified
