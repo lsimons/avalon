@@ -59,7 +59,7 @@
 
     <!-- Checks the environment for existing resources -->
     <target name="check-environment">
-        <available property="log4j.present" classname="org.apache.log4j.Category">
+        <available property="log4j.present" classname="org.apache.log4j.LogManager">
             <classpath refid="project.class.path"/>
         </available>
         <available property="servlet.present" classname="javax.servlet.Servlet">
