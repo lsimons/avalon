@@ -86,6 +86,7 @@
     <ant:mkdir dir="${merlin.build.inst.dir}"/>
     <ant:mkdir dir="${merlin.build.inst.dir}/ext"/>
     <ant:mkdir dir="${merlin.build.inst.dir}/bin/lib"/>
+    <ant:mkdir dir="${merlin.build.inst.dir}/repository"/>
 
     <!-- import bootstrap jar -->
     <ant:copy 
@@ -102,9 +103,9 @@
 
     <!-- create a directory containing the plugins -->
     <ant:copy 
-       file="${merlin.build.inst.dir}/repository/avalon-meta/jars/${meta.plugin.jar}" 
+       file="${merlin.build.inst.dir}/system/avalon-meta/jars/${meta.plugin.jar}" 
        toDir="${maven.build.dir}/plugins"/>
-    <delete file="${merlin.build.inst.dir}/repository/avalon-meta/jars/${meta.plugin.jar}"/>
+    <delete file="${merlin.build.inst.dir}/system/avalon-meta/jars/${meta.plugin.jar}"/>
     <ant:mkdir dir="${maven.build.dir}/plugins"/>
     <ant:copy toDir="${maven.build.dir}/plugins">
       <fileset dir="${basedir}/kernel/plugin/target">
@@ -114,23 +115,23 @@
 
     <!-- copy the xml api jar file to the merlin/ext directory -->
     <ant:copy 
-       file="${merlin.build.inst.dir}/repository/xml-apis/jars/xml-apis-2.0.2.jar" 
+       file="${merlin.build.inst.dir}/system/xml-apis/jars/xml-apis-2.0.2.jar" 
        toDir="${merlin.build.inst.dir}/ext"/>
     <ant:copy 
-       file="${merlin.build.inst.dir}/repository/xml-apis/jars/xmlParserAPIs-2.0.2.jar" 
+       file="${merlin.build.inst.dir}/system/xml-apis/jars/xmlParserAPIs-2.0.2.jar" 
        toDir="${merlin.build.inst.dir}/ext"/>
-    <delete dir="${merlin.build.inst.dir}/repository/xml-apis"/>
     <ant:copy 
-       file="${merlin.build.inst.dir}/repository/xerces/jars/xerces-2.4.0.jar" 
+       file="${merlin.build.inst.dir}/system/xerces/jars/xerces-2.4.0.jar" 
        toDir="${merlin.build.inst.dir}/ext"/>
-    <delete dir="${merlin.build.inst.dir}/repository/xerces"/>
+    <delete dir="${merlin.build.inst.dir}/system/xml-apis"/>
+    <delete dir="${merlin.build.inst.dir}/system/xerces"/>
 
     <!-- add supporting resources -->
     <ant:copy toDir="${merlin.build.inst.dir}">
       <fileset dir="${basedir}/merlin-platform/src">
         <include name="bin/**/*"/>
         <include name="config/**/*"/>
-        <include name="repository/**/*"/>
+        <include name="system/**/*"/>
       </fileset>
       <fileset dir="${basedir}">
         <include name="LICENSE.txt"/>
@@ -251,9 +252,9 @@
   -->
   <goal name="ximport">
     <j:forEach var="dep" items="${pom.dependencies}">
-      <mkdir dir="${maven.build.dir}/${merlin.build.inst}/repository/${dep.artifactDirectory}/jars"/>
+      <mkdir dir="${maven.build.dir}/${merlin.build.inst}/system/${dep.artifactDirectory}/jars"/>
       <copy 
-        todir="${maven.build.dir}/${merlin.build.inst}/repository/${dep.artifactDirectory}/jars/"
+        todir="${maven.build.dir}/${merlin.build.inst}/system/${dep.artifactDirectory}/jars/"
         file="${maven.repo.local}/${dep.artifactDirectory}/jars/${dep.artifact}"/>
     </j:forEach>
   </goal>
