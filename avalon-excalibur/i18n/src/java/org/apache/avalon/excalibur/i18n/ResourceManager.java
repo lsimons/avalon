@@ -66,7 +66,14 @@ public class ResourceManager
         if ( null == pkg )
         {
             final String name = clazz.getName();
-            resource = name.substring( 0, name.lastIndexOf( "." ) ) + ".Resources";
+            if ( -1 == name.lastIndexOf( "." ) )
+            {
+                resource = "Resources";
+            }
+            else
+            {
+                resource = name.substring( 0, name.lastIndexOf( "." ) ) + ".Resources";
+            }
         }
         else
         {
