@@ -26,7 +26,6 @@ import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.phoenix.Block;
 import org.apache.avalon.phoenix.BlockContext;
 
 /**
@@ -36,7 +35,7 @@ import org.apache.avalon.phoenix.BlockContext;
  */
 public abstract class AbstractService
     extends AbstractLogEnabled
-    implements Block, Contextualizable, Composable, Configurable, Initializable, Disposable
+    implements Contextualizable, Composable, Configurable, Initializable, Disposable
 {
     protected ConnectionManager m_connectionManager;
     protected SocketManager m_socketManager;

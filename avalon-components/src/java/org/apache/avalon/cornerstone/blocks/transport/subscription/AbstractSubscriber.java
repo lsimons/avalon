@@ -12,7 +12,6 @@ import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.phoenix.Block;
 import org.apache.excalibur.altrmi.client.AltrmiFactory;
 import org.apache.excalibur.altrmi.client.AltrmiHostContext;
 import org.apache.excalibur.altrmi.client.AltrmiInterfaceLookup;
@@ -25,11 +24,11 @@ import org.apache.excalibur.altrmi.common.AltrmiConnectionException;
  * @phoenix:service name="org.apache.excalibur.altrmi.client.AltrmiInterfaceLookup"
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.11 $
+ * @version $Revision: 1.12 $
  */
 public abstract class AbstractSubscriber
     extends AbstractLogEnabled
-    implements AltrmiInterfaceLookup, Configurable, Initializable, Block
+    implements AltrmiInterfaceLookup, Configurable, Initializable
 {
     protected AltrmiFactory m_altrmiFactory;
     protected AltrmiHostContext m_hostContext;

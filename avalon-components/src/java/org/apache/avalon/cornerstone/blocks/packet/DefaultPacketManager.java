@@ -19,7 +19,6 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
-import org.apache.avalon.phoenix.Block;
 
 /**
  * This is the service through which PacketManagement occurs.
@@ -30,7 +29,7 @@ import org.apache.avalon.phoenix.Block;
  */
 public class DefaultPacketManager
     extends AbstractLogEnabled
-    implements Block, PacketManager, Serviceable, Disposable
+    implements PacketManager, Serviceable, Disposable
 {
     private HashMap m_acceptors = new HashMap();
     private ThreadManager m_threadManager;

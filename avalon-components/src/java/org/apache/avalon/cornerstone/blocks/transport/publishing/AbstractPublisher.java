@@ -26,7 +26,6 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.ServiceException;
-import org.apache.avalon.phoenix.Block;
 import org.apache.avalon.phoenix.BlockContext;
 import org.apache.excalibur.altrmi.common.MethodRequest;
 import org.apache.excalibur.altrmi.server.AltrmiAuthenticator;
@@ -43,12 +42,12 @@ import org.apache.excalibur.altrmi.server.impl.classretrievers.NoClassRetriever;
  * @phoenix:service name="org.apache.excalibur.altrmi.server.AltrmiPublisher"
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.16 $
+ * @version $Revision: 1.17 $
  */
 public abstract class AbstractPublisher
     extends AbstractLogEnabled
     implements AltrmiPublisher, Startable, Serviceable, Contextualizable, Configurable,
-    Initializable, Block
+    Initializable
 {
 
     protected AbstractServer m_abstractServer;

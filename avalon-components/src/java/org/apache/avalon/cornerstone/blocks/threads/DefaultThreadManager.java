@@ -16,7 +16,6 @@ import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.phoenix.Block;
 
 /**
  * Default implementation of ThreadManager.
@@ -27,7 +26,7 @@ import org.apache.avalon.phoenix.Block;
  */
 public class DefaultThreadManager
     extends AbstractLogEnabled
-    implements Block, ThreadManager, Configurable
+    implements ThreadManager, Configurable
 {
     ///Map of thread pools for application
     private HashMap m_threadPools = new HashMap();

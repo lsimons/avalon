@@ -28,7 +28,6 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.phoenix.Block;
 import org.apache.avalon.phoenix.BlockContext;
 
 /**
@@ -39,7 +38,7 @@ import org.apache.avalon.phoenix.BlockContext;
  */
 public abstract class AbstractFileRepository
     extends AbstractLogEnabled
-    implements Block, Repository, Contextualizable, Composable, Configurable, Initializable
+    implements Repository, Contextualizable, Composable, Configurable, Initializable
 {
     protected static final boolean DEBUG = false;
 
@@ -115,7 +114,7 @@ public abstract class AbstractFileRepository
         if( m_path.startsWith( "/" ) )
         {
             directory = new File ( m_path );
-        } 
+        }
         else
         {
             directory = new File( m_baseDirectory, m_path );

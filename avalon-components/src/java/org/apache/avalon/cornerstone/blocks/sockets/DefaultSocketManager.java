@@ -20,7 +20,6 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.phoenix.Block;
 
 /**
  * Implementation of SocketManager.
@@ -32,7 +31,7 @@ import org.apache.avalon.phoenix.Block;
  */
 public class DefaultSocketManager
     extends AbstractLogEnabled
-    implements SocketManager, Block, Contextualizable, Configurable, Initializable
+    implements SocketManager, Contextualizable, Configurable, Initializable
 {
     protected final HashMap m_serverSockets = new HashMap();
     protected final HashMap m_sockets = new HashMap();
