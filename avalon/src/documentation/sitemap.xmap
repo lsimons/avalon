@@ -92,7 +92,8 @@
    </map:match>
 
    <map:match pattern="api/**.html">
-     <map:read src="api/{1}.html" mime-type="text/html"/>
+     <!-- dummy: can't "ignore" certain uris -->
+     <map:read src="xdocs/index.xml" mime-type="text/xml"/>
    </map:match>
 
    <map:match pattern="developing/*.html">
