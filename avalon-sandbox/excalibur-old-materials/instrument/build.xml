@@ -278,23 +278,6 @@
 
     </target>
 
-    <!-- Creates the distribution -->
-    <target name="dist-bin">
-        <zip zipfile="${dist.base}/${dist.name}-bin.zip" compress="true">
-            <zipfileset dir="${dist.dir}" prefix="${dist.name}"/>
-        </zip>
-
-    </target>
-
-    <target name="dist-src">
-        <zip zipfile="${dist.base}/${dist.name}-src.zip" compress="true">
-            <zipfileset dir="${dist.dir}" prefix="${dist.name}"/>
-            <zipfileset dir="${basedir}" prefix="${dist.name}" includes="*.xml,*.properties"/>
-            <zipfileset dir="${src.dir}" prefix="${dist.name}/src"/>
-        </zip>
-
-    </target>
-
     <target name="prepare-dist"
         depends="test-reports, checkstyle-report, site">
 
@@ -305,14 +288,25 @@
         <mkdir dir="${dist.base}"/>
     </target>
 
+    <!-- Creates the distribution -->
     <target name="dist"
-        depends="prepare-dist, dist-src, dist-jar, dist-bin"
-        description="Generates a distribution (jar + docs + javadocs + unit tests + checkstyle reports)">
+        depends="dist-jar, test-reports, checkstyle-report, site"
+        description="Generates a distribution (jar + docs javadocs + unit tests + checkstyle reports)">
 
-        <checksum fileext=".md5">
-          <fileset dir="${dist.base}" />
-        </checksum>
+        <copy file="${build.conf}/LICENSE.txt" todir="${dist.dir}"/>
+        <copy file="../KEYS" todir="${dist.dir}"/>
 
+        <zip zipfile="${dist.dir}/src.zip" compress="false">
+            <zipfileset dir="src/java"/>
+        </zip>
+
+        <mkdir dir="${dist.base}"/>
+
+        <zip zipfile="${dist.base}/${dist.name}.zip" compress="true">
+            <zipfileset dir="${dist.dir}" prefix="${dist.name}"/>
+        </zip>
+       
+	    <checksum file="${dist.base}/${dist.name}.zip" fileext=".md5"/>
     </target>
 
     <!-- Creates a mini jar-only distribution -->
