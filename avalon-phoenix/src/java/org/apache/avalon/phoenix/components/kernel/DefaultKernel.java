@@ -112,6 +112,7 @@ public class DefaultKernel
                 ((Composable)application).compose( componentManager );
             }
 
+            application.addBlocks( saEntry.getMetaData().getBlocks() );
             application.addBlockListeners( saEntry.getMetaData().getListeners() );
 
             if( application instanceof Configurable )
@@ -123,38 +124,6 @@ public class DefaultKernel
         {
             final String message = REZ.getString( "kernel.error.entry.prepare", name );
             throw new ContainerException( message, e );
-        }
-    }
-
-    /**
-     * Make sure Entry is of correct type.
-     *
-     * @param name the name of entry
-     * @param entry the entry
-     * @exception ContainerException to stop removal of entry
-     */
-    protected final void preAdd( final String name, final Entry entry )
-        throws ContainerException
-    {
-        if( !(entry instanceof SarEntry) )
-        {
-            final String message = REZ.getString( "kernel.error.entry.badtype", name );
-            throw new ContainerException( message );
-        }
-    }
-
-    protected void preStartEntry( final String name, final Entry entry )
-        throws ContainerException
-    {
-        final SarEntry saEntry = (SarEntry)entry;
-        final BlockMetaData[] blocks = saEntry.getMetaData().getBlocks();
-        final Application application = (Application)saEntry.getInstance();
-
-        for( int i = 0; i < blocks.length; i++ )
-        {
-            final String blockName = blocks[ i ].getName();
-            final BlockEntry blockEntry = new BlockEntry( blocks[ i ] );
-            application.add( blockName, blockEntry );
         }
     }
 }

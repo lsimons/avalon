@@ -12,6 +12,7 @@ import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.activity.Startable;
 import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
+import org.apache.avalon.phoenix.metadata.BlockMetaData;
 
 /**
  * The Application is a self-contained component that performs a specific
@@ -27,4 +28,5 @@ public interface Application
     extends Container, Initializable, Startable, Disposable
 {
     void addBlockListeners( BlockListenerMetaData[] listeners );
+    void addBlocks( BlockMetaData[] blocks );
 }

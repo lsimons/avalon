@@ -41,6 +41,7 @@ import org.apache.avalon.phoenix.components.phases.StartupPhase;
 import org.apache.avalon.phoenix.components.kapi.BlockEntry;
 import org.apache.avalon.phoenix.metadata.RoleMetaData;
 import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
+import org.apache.avalon.phoenix.metadata.BlockMetaData;
 import org.apache.avalon.phoenix.metainfo.BlockInfo;
 import org.apache.avalon.phoenix.metainfo.BlockInfoBuilder;
 import org.apache.avalon.phoenix.metainfo.DependencyDescriptor;
@@ -48,6 +49,8 @@ import org.apache.avalon.phoenix.components.listeners.BlockListenerSupport;
 import org.apache.avalon.phoenix.components.listeners.BlockListenerManager;
 import org.apache.avalon.phoenix.BlockListener;
 import org.apache.avalon.phoenix.components.configuration.ConfigurationRepository;
+import org.apache.avalon.phoenix.tools.verifier.Verifier;
+import org.apache.avalon.phoenix.tools.verifier.DefaultVerifier;
 
 /**
  * This is the basic container of blocks. A server application
@@ -83,7 +86,9 @@ public final class DefaultServerApplication
     //these are the facilities (internal components) of ServerApplication
     private ApplicationFrame         m_frame;
     private BlockListenerManager     m_listenerManager;
-    private BlockListenerMetaData[]     m_listenerEntrys;
+
+    private BlockListenerMetaData[]     m_listeners;
+    private BlockMetaData[]             m_blocks;
 
     //Repository of configuration data to access
     private ConfigurationRepository m_repository;
@@ -124,9 +129,14 @@ public final class DefaultServerApplication
         m_repository = (ConfigurationRepository)componentManager.lookup( ConfigurationRepository.ROLE );
     }
 
+    public void addBlocks( final BlockMetaData[] blocks )
+    {
+        m_blocks = blocks;
+    }
+
     public void addBlockListeners( final BlockListenerMetaData[] listeners )
     {
-        m_listenerEntrys = listeners;
+        m_listeners = listeners;
     }
 
     public void configure( final Configuration configuration )
@@ -208,13 +218,24 @@ public final class DefaultServerApplication
      */
     public void start()
         throws Exception
-    {
+    {      
         final String message = REZ.getString( "app.notice.block.loading-count",
                                               new Integer( getEntryCount() ) );
         getLogger().info( message );
 
+        final DefaultVerifier verifier = new DefaultVerifier();
+        setupLogger( verifier );
+        verifier.hackVerifySar( m_blocks, m_listeners, m_frame.getClassLoader() );
+
+        for( int i = 0; i < m_blocks.length; i++ )
+        {
+            final String blockName = m_blocks[ i ].getName();
+            final BlockEntry blockEntry = new BlockEntry( m_blocks[ i ] );
+            add( blockName, blockEntry );
+        }
+
         // load block info
-        loadBlockInfos();
+        //loadBlockInfos();
 
         // load block listeners
         loadBlockListeners();
@@ -258,17 +279,17 @@ public final class DefaultServerApplication
     private void loadBlockListeners()
         throws Exception
     {
-        for( int i = 0; i < m_listenerEntrys.length; i++ )
+        for( int i = 0; i < m_listeners.length; i++ )
         {
-            final BlockListenerMetaData entry = m_listenerEntrys[ i ];
+            final BlockListenerMetaData listener = m_listeners[ i ];
             
             try
             {
-                loadBlockListener( entry );
+                loadBlockListener( listener );
             }
             catch( final Exception e )
             {
-                final String message = REZ.getString( "app.error.bad-listener", entry.getName() );
+                final String message = REZ.getString( "app.error.bad-listener", listener.getName() );
                 getLogger().error( message, e );
                 throw e;
             }
@@ -310,6 +331,7 @@ public final class DefaultServerApplication
      *
      * @exception Exception if an error occurs
      */
+/*
     private void loadBlockInfos()
         throws Exception
     {
@@ -328,6 +350,7 @@ public final class DefaultServerApplication
             verifyDependenciesMap( name, entry );
         }
     }
+*/
 
     /**
      * Get a BlockInfo for a particular block.
@@ -338,6 +361,7 @@ public final class DefaultServerApplication
      * @return the BlockInfo
      * @exception Exception if an error occurs
      */
+/*
     private BlockInfo getBlockInfo( final String name, final BlockEntry entry )
         throws Exception
     {
@@ -370,7 +394,7 @@ public final class DefaultServerApplication
             throw e;
         }
     }
-
+*/
     /**
      * Setup a component in this application.
      *
@@ -438,6 +462,7 @@ public final class DefaultServerApplication
      * @param entry the BlockEntry describing block
      * @return the list of RoleMetaData objects
      */
+/*
     private void verifyDependenciesMap( final String name, final BlockEntry entry )
         throws Exception
     {
@@ -475,4 +500,5 @@ public final class DefaultServerApplication
             }
         }
     }
+*/
 }

@@ -84,7 +84,7 @@ public class BlockDAG
             getLogger().debug( message );
         }
 
-        final DependencyDescriptor[] descriptors = entry.getBlockInfo().getDependencies();
+        final DependencyDescriptor[] descriptors = entry.getMetaData().getBlockInfo().getDependencies();
         for( int i = 0; i < descriptors.length; i++ )
         {
             final ServiceDescriptor serviceDescriptor = descriptors[ i ].getService();

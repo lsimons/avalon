@@ -192,7 +192,7 @@ public class StartupPhase
             entry.setState( State.STARTED );
 
             final Block block = (Block)object;
-            final BlockInfo blockInfo = entry.getBlockInfo();
+            final BlockInfo blockInfo = entry.getMetaData().getBlockInfo();
             final Class[] interfaces = 
                 BlockUtil.getServiceClasses( block, blockInfo.getServices() );
 
@@ -238,7 +238,7 @@ public class StartupPhase
                                       final Block block )
         throws Exception
     {
-        final ServiceDescriptor[] services = entry.getBlockInfo().getServices();
+        final ServiceDescriptor[] services = entry.getMetaData().getBlockInfo().getServices();
         for( int i = 0; i < services.length; i++ )
         {
             if( false == BlockUtil.implementsService( block, services[ i ] ) )
@@ -259,41 +259,18 @@ public class StartupPhase
      * @return the created ComponentManager
      */
     private ComponentManager createComponentManager( final String name, final BlockEntry entry )
-        throws ComponentException
+        throws Exception
     {
         final DefaultComponentManager componentManager = new DefaultComponentManager();
-        final BlockInfo info = entry.getBlockInfo();
         final RoleMetaData[] roles = entry.getMetaData().getRoles();
 
         for( int i = 0; i < roles.length; i++ )
         {
-            final String dependencyName = roles[ i ].getName();
-            final ServiceDescriptor serviceDescriptor =
-                info.getDependency( roles[ i ].getRole() ).getService();
+            final RoleMetaData role = roles[ i ];
+            final BlockEntry dependency = (BlockEntry)m_container.getEntry( role.getName() );
 
-            try
-            {
-                //dependency should NEVER throw ContainerException here as it
-                //is validated at entry time
-                final BlockEntry dependency =
-                    (BlockEntry)m_container.getEntry( dependencyName );
-
-                //make sure that the block offers service it supposed to be providing
-                final ServiceDescriptor[] services = dependency.getBlockInfo().getServices();
-                if( !BlockUtil.hasMatchingService( services, serviceDescriptor ) )
-                {
-                    final String message = 
-                        REZ.getString( "startup.error.dependency.noservice", 
-                                       dependencyName, 
-                                       serviceDescriptor );
-
-                    throw new ComponentException( message );
-                }
-
-                componentManager.put( roles[ i ].getRole(), 
-                                      (Block)dependency.getBlockInvocationHandler().getProxy() );
-            }
-            catch( final ContainerException ce ) {}
+            componentManager.put( role.getName(), 
+                                  (Block)dependency.getBlockInvocationHandler().getProxy() );
         }
 
         return componentManager;

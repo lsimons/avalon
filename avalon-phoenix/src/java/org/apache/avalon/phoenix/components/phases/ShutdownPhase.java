@@ -74,7 +74,7 @@ public class ShutdownPhase
         final Object object = entry.getInstance();
 
         final Object proxy = entry.getBlockInvocationHandler().getProxy();
-        final BlockEvent event = new BlockEvent( name, (Block)proxy, entry.getBlockInfo() );
+        final BlockEvent event = new BlockEvent( name, (Block)proxy, entry.getMetaData().getBlockInfo() );
         m_listener.blockRemoved( event );
         entry.getBlockInvocationHandler().invalidate();
 
