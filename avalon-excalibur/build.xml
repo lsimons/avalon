@@ -12,7 +12,7 @@
     <property name="build.reports" value="${build.dir}/reports"/>
     <property name="build.tests" value="${build.dir}/tests"/>
 
-    <target name="main" depends="mega-jar"/>
+    <target name="main" depends="jar"/>
 
     <!-- Build default targets of all subprojects. -->
     <target name="build-subprojects-dist">
@@ -113,6 +113,32 @@
     <!-- Distribution build for all subprojects. -->
     <target name="dist" depends="test-reports"
         description="Create binary distributions of all the products"/>
+
+    <!-- Generate one jar functionally equivalent to the old avalon-excalibur.jar -->
+    <target name="jar" description="Generates avalon-excalibur.jar">
+        <ant dir="all" target="all"/>
+        <ant dir="cli" target="jar"/>
+        <ant dir="collections" target="jar"/>
+        <ant dir="concurrent" target="jar"/>
+        <ant dir="i18n" target="jar"/>
+        <ant dir="io" target="jar"/>
+        <ant dir="naming" target="jar"/>
+        <ant dir="instrument" target="jar"/>
+        <jlink compress="false" outfile="avalon-excalibur.jar">
+            <mergefiles>
+                <fileset dir=".">
+                    <include name="all/build/lib/excalibur-core.jar"/>
+                    <include name="cli/build/lib/*.jar"/>
+                    <include name="collections/build/lib/*.jar"/>
+                    <include name="concurrent/build/lib/*.jar"/>
+                    <include name="i18n/build/lib/*.jar"/>
+                    <include name="io/build/lib/*.jar"/>
+                    <include name="naming/build/lib/*.jar"/>
+                    <include name="instrument/build/lib/*.jar"/>
+                </fileset>
+            </mergefiles>
+        </jlink>
+    </target>
 
     <!-- Generate one mega jar-ball -->
     <target name="mega-jar" description="Generate one large jar for all the products">
