@@ -9,15 +9,15 @@ package org.apache.avalon.excalibur.xml.xpath;
 
 import java.util.HashMap;
 import javax.xml.transform.TransformerException;
-import org.apache.xpath.objects.XObject;
-import org.apache.xpath.XPathAPI;
-import org.apache.xml.utils.PrefixResolver;
 import org.apache.avalon.framework.component.Component;
-import org.apache.avalon.framework.thread.ThreadSafe;
 import org.apache.avalon.framework.configuration.Configurable;
-import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.framework.thread.ThreadSafe;
+import org.apache.xml.utils.PrefixResolver;
+import org.apache.xpath.XPathAPI;
+import org.apache.xpath.objects.XObject;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -34,7 +34,7 @@ import org.w3c.dom.NodeList;
  * </pre>
  *
  * @author <a href="mailto:dims@yahoo.com">Davanum Srinivas</a>
- * @version CVS $Revision: 1.6 $ $Date: 2002/10/02 01:47:05 $ $Author: donaldp $
+ * @version CVS $Revision: 1.7 $ $Date: 2002/10/02 01:52:25 $ $Author: donaldp $
  */
 public final class XPathProcessorImpl extends AbstractLogEnabled implements XPathProcessor, Configurable, PrefixResolver, Component, ThreadSafe
 {

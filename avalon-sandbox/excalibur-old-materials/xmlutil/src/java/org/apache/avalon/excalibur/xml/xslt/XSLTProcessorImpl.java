@@ -27,15 +27,13 @@ import javax.xml.transform.stream.StreamSource;
 import org.apache.avalon.excalibur.xml.XMLizable;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.component.ComponentException;
-import org.apache.avalon.framework.component.ComponentManager;
-import org.apache.avalon.framework.component.Composable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.parameters.ParameterException;
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
-import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.avalon.framework.service.Serviceable;
 import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceException;
 import org.apache.excalibur.source.SourceResolver;
@@ -65,7 +63,7 @@ import org.xml.sax.XMLFilter;
  *
  * @author <a href="mailto:ovidiu@cup.hp.com">Ovidiu Predescu</a>
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
- * @version CVS $Id: XSLTProcessorImpl.java,v 1.16 2002/08/15 15:54:19 proyal Exp $
+ * @version CVS $Id: XSLTProcessorImpl.java,v 1.17 2002/10/02 01:52:25 donaldp Exp $
  * @version 1.0
  * @since   July 11, 2001
  */

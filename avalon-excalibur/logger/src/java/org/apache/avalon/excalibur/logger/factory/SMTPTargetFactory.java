@@ -49,11 +49,10 @@
 */
 package org.apache.avalon.excalibur.logger.factory;
 
-import javax.mail.Session;
 import javax.mail.Address;
+import javax.mail.Session;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
-
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.context.ContextException;
@@ -97,7 +96,7 @@ import org.apache.log.output.net.SMTPOutputLogTarget;
  * <p>
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/10/02 01:47:03 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/10/02 01:52:22 $
  * @since 4.1
  */
 public class SMTPTargetFactory

@@ -7,8 +7,8 @@
  */
 package org.apache.log.output.io.rotate;
 
-import java.io.FilenameFilter;
 import java.io.File;
+import java.io.FilenameFilter;
 
 class BaseFileNameFilter
     implements FilenameFilter

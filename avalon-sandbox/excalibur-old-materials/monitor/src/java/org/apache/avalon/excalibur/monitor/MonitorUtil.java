@@ -7,17 +7,17 @@
  */
 package org.apache.avalon.excalibur.monitor;
 
+import java.lang.reflect.Constructor;
+import java.util.ArrayList;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.logger.Logger;
-import java.util.ArrayList;
-import java.lang.reflect.Constructor;
 
 /**
  * A class that contains a few utility methods for working
  * creating resource sets from Avalons configuration objects.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2002/09/07 12:14:01 $
+ * @version $Revision: 1.2 $ $Date: 2002/10/02 01:52:22 $
  */
 class MonitorUtil
 {

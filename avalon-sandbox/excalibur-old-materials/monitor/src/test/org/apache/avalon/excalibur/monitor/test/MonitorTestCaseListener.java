@@ -7,10 +7,10 @@
  */
 package org.apache.avalon.excalibur.monitor.test;
 
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.excalibur.monitor.FileResource;
-import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import org.apache.avalon.excalibur.monitor.FileResource;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
 
 class MonitorTestCaseListener
     extends AbstractLogEnabled

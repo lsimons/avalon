@@ -54,13 +54,13 @@ import java.util.Map;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.LogKitLogger;
 import org.apache.avalon.framework.logger.Loggable;
-import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.log.Hierarchy;
 import org.apache.log.LogTarget;
 import org.apache.log.Logger;
@@ -74,7 +74,7 @@ import org.apache.log.Priority;
  *             supports the new framework Logger interface.
  *
  * @author <a href="mailto:giacomo@apache.org">Giacomo Pati</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/08/07 13:36:59 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/10/02 01:52:22 $
  * @since 4.0
  */
 public class DefaultLogKitManager

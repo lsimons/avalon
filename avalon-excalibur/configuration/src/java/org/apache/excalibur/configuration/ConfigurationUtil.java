@@ -12,7 +12,6 @@ package org.apache.excalibur.configuration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
-
 import org.apache.avalon.framework.CascadingRuntimeException;
 import org.apache.avalon.framework.configuration.AbstractConfiguration;
 import org.apache.avalon.framework.configuration.Configuration;

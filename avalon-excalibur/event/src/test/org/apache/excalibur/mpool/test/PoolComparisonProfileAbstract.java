@@ -54,8 +54,8 @@ import org.apache.avalon.excalibur.pool.ResourceLimitingPool;
 import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.logger.LogKitLogger;
 import org.apache.avalon.framework.logger.Logger;
-import org.apache.excalibur.mpool.FixedSizePool;
 import org.apache.excalibur.mpool.BlockingFixedSizePool;
+import org.apache.excalibur.mpool.FixedSizePool;
 import org.apache.excalibur.mpool.ObjectFactory;
 import org.apache.excalibur.mpool.Pool;
 import org.apache.excalibur.mpool.VariableSizePool;
@@ -64,7 +64,7 @@ import org.apache.excalibur.mpool.VariableSizePool;
  * Used as a basis for the PoolComparisonProfile Tests
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version $Id: PoolComparisonProfileAbstract.java,v 1.4 2002/08/14 16:59:55 bloritsch Exp $
+ * @version $Id: PoolComparisonProfileAbstract.java,v 1.5 2002/10/02 01:52:20 donaldp Exp $
  */
 public abstract class PoolComparisonProfileAbstract
     extends TestCase

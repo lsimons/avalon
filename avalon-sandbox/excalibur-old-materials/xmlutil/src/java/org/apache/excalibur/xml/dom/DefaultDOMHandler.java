@@ -7,15 +7,14 @@
  */
 package org.apache.excalibur.xml.dom;
 
-import org.xml.sax.SAXException;
-import org.w3c.dom.Document;
 import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.sax.TransformerHandler;
 import org.apache.avalon.excalibur.xml.ContentHandlerWrapper;
+import org.w3c.dom.Document;
 
 /**
  * @author <a href="mailto:mirceatoma@apache.org">Mircea Toma</a>
- * @version CVS $Revision: 1.5 $ $Date: 2002/10/02 01:47:05 $
+ * @version CVS $Revision: 1.6 $ $Date: 2002/10/02 01:52:25 $
  */
 public class DefaultDOMHandler
     extends ContentHandlerWrapper

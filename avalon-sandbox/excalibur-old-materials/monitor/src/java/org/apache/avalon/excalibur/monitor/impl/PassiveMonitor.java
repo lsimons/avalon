@@ -7,10 +7,10 @@
  */
 package org.apache.avalon.excalibur.monitor.impl;
 
-import org.apache.avalon.excalibur.monitor.Resource;
-import java.util.Map;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
+import org.apache.avalon.excalibur.monitor.Resource;
 
 /**
  * A passive monitor will check the reosurce each time it
@@ -18,7 +18,7 @@ import java.util.HashMap;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2002/09/07 12:14:02 $
+ * @version $Revision: 1.2 $ $Date: 2002/10/02 01:52:22 $
  */
 public class PassiveMonitor
     extends AbstractMonitor

@@ -12,11 +12,11 @@ import org.apache.avalon.excalibur.pool.SoftResourceLimitingPool;
 import org.apache.avalon.excalibur.thread.ThreadPool;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Executable;
+import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.logger.LogKitLogger;
 import org.apache.avalon.framework.logger.Loggable;
 import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.excalibur.thread.ThreadControl;
 import org.apache.excalibur.threadcontext.ThreadContext;
 

@@ -9,14 +9,14 @@ package org.apache.avalon.excalibur.pool;
 
 import java.util.Iterator;
 import java.util.LinkedList;
-import org.apache.excalibur.instrument.CounterInstrument;
-import org.apache.excalibur.instrument.Instrument;
-import org.apache.excalibur.instrument.Instrumentable;
-import org.apache.excalibur.instrument.ValueInstrument;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.thread.ThreadSafe;
+import org.apache.excalibur.instrument.CounterInstrument;
+import org.apache.excalibur.instrument.Instrument;
+import org.apache.excalibur.instrument.Instrumentable;
+import org.apache.excalibur.instrument.ValueInstrument;
 
 /**
  * General Pool implementation which supports; weak and strong pool size limits,
@@ -30,7 +30,7 @@ import org.apache.avalon.framework.thread.ThreadSafe;
  *  trimmed.  See the {@link #trim()} method for details of how trimming works.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/07/30 14:10:54 $
+ * @version CVS $Revision: 1.5 $ $Date: 2002/10/02 01:52:23 $
  * @since 4.1
  */
 public class ResourceLimitingPool

@@ -7,8 +7,8 @@
  */
 package org.apache.excalibur.xmlizer;
 
-import java.io.InputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.component.ComponentException;
 import org.xml.sax.ContentHandler;
@@ -19,7 +19,7 @@ import org.xml.sax.SAXException;
  * into SAX events.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/10/02 01:47:05 $
+ * @version CVS $Revision: 1.5 $ $Date: 2002/10/02 01:52:25 $
  */
 
 public interface XMLizer

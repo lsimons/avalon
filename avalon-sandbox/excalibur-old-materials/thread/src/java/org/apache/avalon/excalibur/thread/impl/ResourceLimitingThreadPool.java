@@ -7,18 +7,18 @@
  */
 package org.apache.avalon.excalibur.thread.impl;
 
-import org.apache.excalibur.instrument.Instrument;
-import org.apache.excalibur.instrument.Instrumentable;
 import org.apache.avalon.excalibur.pool.ObjectFactory;
 import org.apache.avalon.excalibur.pool.ResourceLimitingPool;
 import org.apache.avalon.excalibur.thread.ThreadPool;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Executable;
+import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.framework.container.ContainerUtil;
-import org.apache.excalibur.threadcontext.ThreadContext;
+import org.apache.excalibur.instrument.Instrument;
+import org.apache.excalibur.instrument.Instrumentable;
 import org.apache.excalibur.thread.ThreadControl;
+import org.apache.excalibur.threadcontext.ThreadContext;
 
 /**
  * A Thread Pool which can be configured to have a hard limit on the maximum number of threads
@@ -32,7 +32,7 @@ import org.apache.excalibur.thread.ThreadControl;
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
  * @author <a href="mailto:stefano@apache.org">Stefano Mazzocchi</a>
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.8 $ $Date: 2002/10/02 01:47:04 $
+ * @version CVS $Revision: 1.9 $ $Date: 2002/10/02 01:52:24 $
  * @since 4.1
  */
 public class ResourceLimitingThreadPool
