@@ -75,7 +75,8 @@ class MyComponent implements Component, Composer {
     }
 
     myMethod() {
-        Logger logger = (Logger) manager.getComponent("org.apache.avalon.blocks.Logger");
+        Logger logger = (Logger)manager.
+           getComponent("org.apache.avalon.blocks.Logger");
 
         logger.log("MyComponent", "Hello World!", Logger.INFO);
     }
@@ -98,7 +99,7 @@ class MyComponent implements Component, Composer {
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.2 $ $Date: 2001/03/02 01:53:50 $
+      $Revision: 1.3 $ $Date: 2001/03/02 03:14:05 $
     </legal>
   </footer>
 </document>
