@@ -91,6 +91,7 @@ public final class BlockInfoBuilder
         throws ConfigurationException
     {
         final String name = service.getAttribute( "name" );
+        //TODO: replace this with Version.getVersion( version );
         final Version version =  buildVersion( service.getAttribute( "version" ) );
         return new ServiceDescriptor( name, version );
     }
@@ -99,7 +100,7 @@ public final class BlockInfoBuilder
     {
         final int length = version.length();
         int start = 0;
-        int end = version.indexOf('.');
+        int end = version.indexOf( '.' );
         int major = 1;
         int minor = 0;
         int revision = 0;
