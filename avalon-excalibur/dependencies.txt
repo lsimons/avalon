@@ -17,6 +17,7 @@ Current at: Thu Apr  4 23:02:23 EST 2002
 * naming -> .
 * tar -> .
 * zip -> .
+* converter -> i18n
 * altrmi -> framework
 * util -> framework
 * baxter -> jmxri.jar
