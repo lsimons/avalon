@@ -63,21 +63,25 @@ import org.apache.avalon.activation.appliance.Block;
 import org.apache.avalon.activation.appliance.BlockContext;
 import org.apache.avalon.activation.appliance.Composite;
 import org.apache.avalon.activation.appliance.DependencyGraph;
-import org.apache.avalon.activation.appliance.DeploymentException;
 import org.apache.avalon.activation.appliance.Engine;
 import org.apache.avalon.activation.appliance.NoProviderDefinitionException;
 import org.apache.avalon.activation.appliance.ServiceContext;
+
 import org.apache.avalon.composition.data.CategoriesDirective;
 import org.apache.avalon.composition.logging.LoggingManager;
+
 import org.apache.avalon.composition.event.CompositionEvent;
 import org.apache.avalon.composition.event.CompositionEventListener;
+
 import org.apache.avalon.composition.model.ContainmentModel;
 import org.apache.avalon.composition.model.DependencyModel;
 import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.model.Model;
 import org.apache.avalon.composition.model.StageModel;
+
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.logger.Logger;
+
 import org.apache.avalon.meta.info.DependencyDescriptor;
 import org.apache.avalon.meta.info.StageDescriptor;
 
@@ -89,7 +93,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * context.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.10 $ $Date: 2004/01/01 13:05:05 $
+ * @version $Revision: 1.11 $ $Date: 2004/01/04 12:00:28 $
  */
 public abstract class AbstractBlock extends AbstractAppliance 
   implements Block, Composite, CompositionEventListener
@@ -660,57 +664,29 @@ public abstract class AbstractBlock extends AbstractAppliance
             {
                 return;
             }
-        
+            
             Appliance[] appliances = getLocalStartupSequence();
             if( getLogger().isDebugEnabled() )
             {
                 String message = listAppliances( "deployment: ", appliances );
                 getLogger().debug( message );
             }
-
-            for( int i=0; i<appliances.length; i++ )
+            ContainmentModel model = m_context.getContainmentModel();
+            long timeout = model.getDeploymentTimeout();
+        
+            ClassLoader oldCL = Thread.currentThread().getContextClassLoader();
+            ClassLoader classloader = model.getClassLoaderModel().getClassLoader();
+            Thread.currentThread().setContextClassLoader( classloader );    
+            Deployer deployer = new Deployer( getLogger() );
+            try
             {
-                Appliance appliance = appliances[i];
-                if( appliance instanceof Block )
-                {
-                    Block block = (Block) appliance;
-                    BlockThread thread = new BlockThread( block );
-                    m_threads.put( block, thread );
-                    thread.start();
-
-                    //
-                    // wait for the thread to complete startup
-                    //
-
-                    while( !thread.started() )
-                    {
-                        try
-                        {
-                            Thread.sleep( 300 );
-                        }
-                        catch( Throwable e )
-                        {
-                            // wakeup
-                        }
-                    }
- 
-                    //
-                    // check for any errors raised during startup
-                    //
-
-                    if( thread.getError() != null )
-                    {
-                        final String error =
-                          "Composite deployment failure in block: [" 
-                          + block + "]";
-                        throw new DeploymentException( 
-                          error, thread.getError() );  
-                    }
-                }
-                else
-                {
-                    appliances[i].deploy();
-                }
+                for( int i=0; i<appliances.length; i++ )
+                    deployer.deploy( appliances[i], timeout );
+            } finally
+            {
+                deployer.dispose();
+                // restore the Old ContextClassloader.
+                Thread.currentThread().setContextClassLoader( oldCL );
             }
             m_deployment.setEnabled( true );
         }
@@ -737,34 +713,8 @@ public abstract class AbstractBlock extends AbstractAppliance
             for( int i=0; i<appliances.length; i++ )
             {
                 Appliance appliance = appliances[i];
-                if( appliance instanceof Block )
-                {
-                    BlockThread thread = 
-                      (BlockThread) m_threads.get( appliance );
-                    thread.decommission();
-
-                    //
-                    // wait for the thread to complete decommissioning
-                    //
-
-                    while( !thread.stopped() )
-                    {
-                        try
-                        {
-                            Thread.sleep( 300 );
-                        }
-                        catch( Throwable e )
-                        {
-                            // wakeup
-                        }
-                    }
-                }
-                else
-                {
-                    appliance.decommission();
-                }
+                appliance.decommission();
             }
-
             m_deployment.setEnabled( false );
         }
     }
