@@ -151,7 +151,7 @@ class CLISetup
                 break;
 
             case REMOTE_MANAGER_OPT:
-                m_parameters.setParameter( "manager-class",
+                m_parameters.setParameter( "org.apache.avalon.phoenix.engine.SystemManager",
                                            "org.apache.avalon.phoenix.engine.PhoenixManager" );
                 break;
 
