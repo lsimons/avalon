@@ -21,7 +21,7 @@
     <property name="junit.failonerror" value="false"/>
 
     <!-- location of intermediate products -->
-    <property name="build.dir" value="build"/>
+    <property name="build.dir" value="${basedir}/build"/>
     <property name="build.lib" value="${build.dir}/lib"/>
     <property name="build.classes" value="${build.dir}/classes"/>
     <property name="build.genjava" value="${build.dir}/genjava"/>
@@ -29,12 +29,12 @@
     <property name="build.reports" value="${build.dir}/reports"/>
 
     <!-- Set the properties for source directories -->
-    <property name="src.dir" value="src"/>
+    <property name="src.dir" value="${basedir}/src"/>
     <property name="java.dir" value="${src.dir}/java"/>
     <property name="test.dir" value="${src.dir}/test"/>
 
     <!-- Set the properties for distribution directories -->
-    <property name="dist.dir" value="dist"/>
+    <property name="dist.dir" value="${basedir}/dist"/>
     <property name="dist.javadocs" value="${dist.dir}/docs/api"/>
 
     <!-- property to specify name of zip/jar files -->
@@ -113,9 +113,6 @@
             classesorinterfaces="org.apache.avalon.excalibur.instrument.manager.client.InstrumentManagerClient"
             additionalfacades="org.apache.avalon.excalibur.instrument.manager.client.InstrumentableDescriptor,org.apache.avalon.excalibur.instrument.manager.client.InstrumentDescriptor,org.apache.avalon.excalibur.instrument.manager.client.InstrumentSampleDescriptor">
             <classpath refid="project.class.path" />
-            <!--classpath>
-                <pathelement location="${build.classes}"/>
-            </classpath-->
         </altrmiinterfaces>        
     </target>
 
