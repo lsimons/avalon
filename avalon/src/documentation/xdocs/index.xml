@@ -95,6 +95,13 @@
       </s2>
 
       <s2 title="Testlet">
+        <note>
+	  As of August 1, 2001 the Avalon Development Team has decided to
+	  discontinue development of Testlet in favor of the
+	  <link href="http://www.junit.org">JUnit</link> testing framework.
+	  We will continue to reference this project until all tests are
+	  converted to JUnit TestCases.
+	</note>
         <p>
           The <link href="@TESTLET_BASE@/index.html">Testlet</link> subproject is a unit 
           testing framework used by the other sub-projects.
@@ -106,7 +113,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2001/07/18 14:35:40 $
+      $Revision: 1.2 $ $Date: 2001/08/01 15:56:03 $
     </legal>
   </footer>
 </document>
