@@ -16,14 +16,21 @@
     <menu-item label="Baxter" href="baxter/index.html"/>  
     <menu-item label="CLI" href="cli/index.html"/>  
     <menu-item label="Collections" href="collections/index.html"/>      
-    <menu-item label="Component" href="component/index.html"/>      
+    <menu-item label="Command" href="command/index.html"/>      
+    <menu-item label="Component" href="component/index.html"/>
+    <menu-item label="Concurrent" href="concurrent/index.html"/>
+    <menu-item label="Event" href="event/index.html"/>
     <menu-item label="Fortress" href="fortress/index.html"/>      
+    <menu-item label="I/O" href="io/index.html"/>      
     <menu-item label="Lang" href="lang/index.html"/>      
     <menu-item label="Logger" href="logger/index.html"/>      
+    <menu-item label="Naming" href="naming/index.html"/>
     <menu-item label="Pool" href="pool/index.html"/>          
     <menu-item label="Testcase" href="testcase/index.html"/>
+    <menu-item label="TAR" href="tar/index.html"/>
     <menu-item label="Thread" href="thread/index.html"/>
     <menu-item label="Util" href="util/index.html"/>
+    <menu-item label="ZIP" href="zip/index.html"/>
 
   </menu>
   
