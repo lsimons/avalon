@@ -34,7 +34,7 @@ import org.w3c.dom.CharacterData;
  * with configuration objects.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.17 $ $Date: 2004/02/11 14:34:25 $
+ * @version CVS $Revision: 1.18 $ $Date: 2004/05/08 14:05:07 $
  * @since 4.1.4
  */
 public class ConfigurationUtil
@@ -66,7 +66,8 @@ public class ConfigurationUtil
             configuration.setAttribute( name, value );
         }
 
-        String content = null;
+        boolean flag = false;
+        String content = "";
         final NodeList nodes = element.getChildNodes();
         final int count = nodes.getLength();
         for( int i = 0; i < count; i++ )
@@ -81,10 +82,11 @@ public class ConfigurationUtil
             {
                 final CharacterData data = (CharacterData)node;
                 content += data.getData();
+                flag = true;
             }
         }
 
-        if( null != content )
+        if( flag )
         {
             configuration.setValue( content );
         }
