@@ -64,14 +64,13 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
-import org.xml.sax.SAXException;
 
 /**
  * This class has a bunch of utility methods to work
  * with configuration objects.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.12 $ $Date: 2003/03/12 12:06:54 $
+ * @version CVS $Revision: 1.13 $ $Date: 2003/03/28 19:17:32 $
  * @since 4.1.4
  */
 public class ConfigurationUtil

@@ -107,7 +107,7 @@ public final class DefaultConfigurationBuilderTestCase
         assertEquals( "config", conf.getName() );
         assertEquals( "getNamespace() should default to \"\"", "", conf.getNamespace() );
         try {
-            String value = conf.getValue();
+            conf.getValue();
             fail( "Should throw a ConfigurationException, as this element"+
                     "contains child elements, not a value" );
         } catch ( ConfigurationException e )
@@ -140,7 +140,7 @@ public final class DefaultConfigurationBuilderTestCase
                      conf.getChild( "foo" ).getChild("bar").getChild("baz").getName()
                      );
         try {
-            String value = conf.getChild("nonexistent").getValue();
+            conf.getChild("nonexistent").getValue();
             fail( "Auto-created child nodes should not have a value" );
         } catch ( ConfigurationException e )
         {}
@@ -188,7 +188,7 @@ public final class DefaultConfigurationBuilderTestCase
         assertEquals( "conf:config", conf.getName() );
         assertEquals( "getNamespace() should default to \"\"", "", conf.getNamespace() );
         try {
-            String value = conf.getValue();
+            conf.getValue();
             fail( "Should throw a ConfigurationException, as this element"+
                     "contains child elements, not a value" );
         } catch ( ConfigurationException e )
@@ -225,7 +225,7 @@ public final class DefaultConfigurationBuilderTestCase
                      conf.getChild( "foo" ).getChild("bar").getChild("baz").getName()
                      );
         try {
-            String value = conf.getChild("nonexistent").getValue();
+            conf.getChild("nonexistent").getValue();
             fail( "Auto-created child nodes should not have a value" );
         } catch ( ConfigurationException e )
         {}
@@ -251,7 +251,7 @@ public final class DefaultConfigurationBuilderTestCase
         assertEquals( "config", conf.getName() );
         assertEquals( "Namespace not set correctly", "http://conf.com", conf.getNamespace() );
         try {
-            String value = conf.getValue();
+            conf.getValue();
             fail( "Should throw a ConfigurationException, as this element"+
                     "contains child elements, not a value" );
         } catch ( ConfigurationException e )
@@ -288,7 +288,7 @@ public final class DefaultConfigurationBuilderTestCase
                      conf.getChild( "foo" ).getChild("bar").getChild("baz").getName()
                      );
         try {
-            String value = conf.getChild("nonexistent").getValue();
+            conf.getChild("nonexistent").getValue();
             fail( "Auto-created child nodes should not have a value" );
         } catch ( ConfigurationException e )
         {}
