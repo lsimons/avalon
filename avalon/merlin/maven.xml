@@ -119,21 +119,6 @@
       </fileset>
     </ant:copy>
 
-    <!-- copy the xml api jar file to the merlin/ext directory -->
-    <!--
-    <ant:copy 
-       file="${merlin.build.inst.dir}/system/xml-apis/jars/xml-apis-2.0.2.jar" 
-       toDir="${merlin.build.inst.dir}/ext"/>
-    <ant:copy 
-       file="${merlin.build.inst.dir}/system/xml-apis/jars/xmlParserAPIs-2.0.2.jar" 
-       toDir="${merlin.build.inst.dir}/ext"/>
-    <ant:copy 
-       file="${merlin.build.inst.dir}/system/xerces/jars/xerces-2.4.0.jar" 
-       toDir="${merlin.build.inst.dir}/ext"/>
-    <delete dir="${merlin.build.inst.dir}/system/xml-apis"/>
-    <delete dir="${merlin.build.inst.dir}/system/xerces"/>
-    -->
-
     <!-- add supporting resources -->
     <ant:copy toDir="${merlin.build.inst.dir}">
       <fileset dir="${basedir}/platform/src">
