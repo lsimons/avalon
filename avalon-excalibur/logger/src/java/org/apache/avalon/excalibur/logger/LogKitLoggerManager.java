@@ -51,7 +51,6 @@ package org.apache.avalon.excalibur.logger;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
@@ -73,7 +72,7 @@ import org.apache.log.Priority;
  * @author <a href="mailto:giacomo@apache.org">Giacomo Pati</a>
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
- * @version CVS $Revision: 1.14 $ $Date: 2003/03/22 12:46:48 $
+ * @version CVS $Revision: 1.15 $ $Date: 2003/05/27 07:30:27 $
  * @since 4.0
  */
 public class LogKitLoggerManager
@@ -338,8 +337,8 @@ public class LogKitLoggerManager
         {
             final String category = categories[ i ].getAttribute( "name" );
             final String loglevel = categories[ i ].getAttribute( "log-level" ).toUpperCase();
-            final boolean additive = categories[i].getAttributeAsBoolean( "additive",
-                                                                          defaultAdditive );
+            final boolean additive = categories[ i ].getAttributeAsBoolean( "additive",
+                                                                            defaultAdditive );
 
             final Configuration[] targets = categories[ i ].getChildren( "log-target" );
             final LogTarget[] logTargets = new LogTarget[ targets.length ];

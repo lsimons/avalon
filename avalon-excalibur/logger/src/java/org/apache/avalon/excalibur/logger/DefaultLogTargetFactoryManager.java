@@ -51,7 +51,6 @@ package org.apache.avalon.excalibur.logger;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.configuration.Configurable;
@@ -68,7 +67,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * from a configuration file.
  *
  * @author <a href="mailto:giacomo@apache.org">Giacomo Pati</a>
- * @version CVS $Revision: 1.10 $ $Date: 2003/03/29 18:53:25 $
+ * @version CVS $Revision: 1.11 $ $Date: 2003/05/27 07:30:27 $
  * @since 4.0
  */
 public class DefaultLogTargetFactoryManager
@@ -76,7 +75,7 @@ public class DefaultLogTargetFactoryManager
     implements LogTargetFactoryManager, Contextualizable, Configurable
 {
     private static final Resources REZ =
-        ResourceManager.getPackageResources(DefaultLogTargetFactoryManager.class);
+        ResourceManager.getPackageResources( DefaultLogTargetFactoryManager.class );
 
     /** Map for name to logger mapping */
     private final Map m_factories = new HashMap();

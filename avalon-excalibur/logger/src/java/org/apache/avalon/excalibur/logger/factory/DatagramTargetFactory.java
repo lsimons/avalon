@@ -52,7 +52,6 @@ package org.apache.avalon.excalibur.logger.factory;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.log.LogTarget;

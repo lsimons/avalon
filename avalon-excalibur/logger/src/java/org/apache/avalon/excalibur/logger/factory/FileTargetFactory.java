@@ -52,7 +52,6 @@ package org.apache.avalon.excalibur.logger.factory;
 import java.io.File;
 import java.io.IOException;
 import java.util.StringTokenizer;
-
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.context.ContextException;
@@ -159,7 +158,7 @@ import org.apache.log.output.io.rotate.UniqueFileStrategy;
  * </dl>
  *
  * @author <a href="mailto:giacomo@apache.org">Giacomo Pati</a>
- * @version CVS $Revision: 1.9 $ $Date: 2003/04/07 06:56:23 $
+ * @version CVS $Revision: 1.10 $ $Date: 2003/05/27 07:30:28 $
  * @since 4.0
  */
 public class FileTargetFactory
@@ -266,11 +265,11 @@ public class FileTargetFactory
             final String value = conf.getValue( "yyyyMMdd" );
             return new RotateStrategyByDate( value );
         }
-        else if ( "interval".equals( type ) )
+        else if( "interval".equals( type ) )
         {
             // default rotate strategy
             final String value = conf.getValue( "24:00:00" );
-    
+
             // interpret a string like: ddd:hh:mm:ss ...
             final StringTokenizer tokenizer = new StringTokenizer( value, ":" );
             final int count = tokenizer.countTokens();
@@ -295,14 +294,14 @@ public class FileTargetFactory
                     time += no * SECOND;
                 }
             }
-    
+
             return new RotateStrategyByTime( time );
         }
         else // "time"
         {
             // default rotate strategy
             final String value = conf.getValue( "24:00:00" );
-    
+
             // interpret a string like: hh:mm:ss ...
             final StringTokenizer tokenizer = new StringTokenizer( value, ":" );
             final int count = tokenizer.countTokens();
@@ -323,7 +322,7 @@ public class FileTargetFactory
                     time += no * SECOND;
                 }
             }
-    
+
             return new RotateStrategyByTimeOfDay( time );
         }
     }

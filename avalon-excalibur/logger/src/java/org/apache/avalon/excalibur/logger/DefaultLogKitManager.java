@@ -52,7 +52,6 @@ package org.apache.avalon.excalibur.logger;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
-
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
@@ -77,7 +76,7 @@ import org.apache.log.Priority;
  *             supports the new framework Logger interface.
  *
  * @author <a href="mailto:giacomo@apache.org">Giacomo Pati</a>
- * @version CVS $Revision: 1.9 $ $Date: 2003/03/22 12:46:48 $
+ * @version CVS $Revision: 1.10 $ $Date: 2003/05/27 07:30:27 $
  * @since 4.0
  */
 public class DefaultLogKitManager
@@ -209,28 +208,28 @@ public class DefaultLogKitManager
         final LogTargetManager targetManager = setupTargetManager( targets, targetFactoryManager );
 
         final Configuration categories = configuration.getChild( "categories" );
-        final String debugURL = configuration.getAttribute("debug", null);
+        final String debugURL = configuration.getAttribute( "debug", null );
         final Configuration[] category = categories.getChildren( "category" );
         setupLoggers( targetManager, m_prefix, category );
-        
-        if ( null != debugURL )
+
+        if( null != debugURL )
         {
             try
             {
-                final File rootContext = (File)m_context.get("context-root");
+                final File rootContext = (File)m_context.get( "context-root" );
                 DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
-                Configuration debugCategories = builder.buildFromFile(new File(rootContext, debugURL));
-                final Configuration[] debugCat = debugCategories.getChildren("category");
-                setupLoggers( targetManager, m_prefix, debugCat);
+                Configuration debugCategories = builder.buildFromFile( new File( rootContext, debugURL ) );
+                final Configuration[] debugCat = debugCategories.getChildren( "category" );
+                setupLoggers( targetManager, m_prefix, debugCat );
             }
-            catch (ConfigurationException ce)
+            catch( ConfigurationException ce )
             {
                 throw ce;
             }
-            catch (Exception e)
+            catch( Exception e )
             {
-                getLogger().info("Either there was no \"debug.xlog\" file, or there was a problem reading it.");
-                getLogger().debug(e.getMessage(), e);
+                getLogger().info( "Either there was no \"debug.xlog\" file, or there was a problem reading it." );
+                getLogger().debug( e.getMessage(), e );
                 // swallow exception because it is not critical.
             }
         }

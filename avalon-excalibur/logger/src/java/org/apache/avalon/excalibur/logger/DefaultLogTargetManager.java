@@ -51,7 +51,6 @@ package org.apache.avalon.excalibur.logger;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.configuration.Configurable;
@@ -65,7 +64,7 @@ import org.apache.log.LogTarget;
  * from a configuration file.
  *
  * @author <a href="mailto:giacomo@apache.org">Giacomo Pati</a>
- * @version CVS $Revision: 1.11 $ $Date: 2003/03/22 12:46:48 $
+ * @version CVS $Revision: 1.12 $ $Date: 2003/05/27 07:30:27 $
  * @since 4.0
  */
 public class DefaultLogTargetManager
@@ -73,7 +72,7 @@ public class DefaultLogTargetManager
     implements LogTargetManager, LogTargetFactoryManageable, Configurable
 {
     private static final Resources REZ =
-        ResourceManager.getPackageResources(DefaultLogTargetManager.class);
+        ResourceManager.getPackageResources( DefaultLogTargetManager.class );
 
     /** Map for ID to LogTarget mapping */
     final private Map m_targets = new HashMap();
@@ -112,7 +111,7 @@ public class DefaultLogTargetManager
     {
         if( null == m_factoryManager )
         {
-            final String message = REZ.getString("target.error.null-target-factory");
+            final String message = REZ.getString( "target.error.null-target-factory" );
             throw new ConfigurationException( message );
         }
 
@@ -123,14 +122,14 @@ public class DefaultLogTargetManager
             final LogTargetFactory logTargetFactory = m_factoryManager.getLogTargetFactory( targetName );
             if( logTargetFactory == null )
             {
-                final String message = REZ.getString("target.error.missing", targetName);
+                final String message = REZ.getString( "target.error.missing", targetName );
                 throw new ConfigurationException( message );
             }
             final LogTarget logTarget = logTargetFactory.createTarget( confs[ i ] );
             final String targetId = confs[ i ].getAttribute( "id" );
             if( getLogger().isDebugEnabled() )
             {
-                final String message = REZ.getString("target.notice.add", targetId);
+                final String message = REZ.getString( "target.notice.add", targetId );
                 getLogger().debug( message );
             }
             m_targets.put( targetId, logTarget );
