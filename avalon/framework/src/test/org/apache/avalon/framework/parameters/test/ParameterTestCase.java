@@ -80,7 +80,7 @@ public class ParameterTestCase
             "<?xml version=\"1.0\"?>" + EOL +
             "<test>" + EOL +
             "<parameter name=\"key1\" value=\"value1\"/>" + EOL +
-            "<parameter name=\"key2\" value=\"value2\" locked=\"true\"/>" + EOL +
+            "<parameter name=\"key2\" value=\"value2\"/>" + EOL +
             "<parameter name=\"key3\" value=\"value3\"/>" + EOL +
             "</test>" ).getBytes() );
 
@@ -96,14 +96,6 @@ public class ParameterTestCase
             assertEquals( "value1", parameters.getParameter( "key1" ) );
             assertEquals( "value2", parameters.getParameter( "key2" ) );
             assertEquals( "value3", parameters.getParameter( "key3" ) );
-
-            parameters.setParameter( "key1", "newValue1" );
-            parameters.setParameter( "key2", "newValue2" );
-            parameters.setParameter( "key3", "newValue3" );
-
-            assertEquals( "newValue1", parameters.getParameter( "key1" ) );
-            assertEquals( "value2", parameters.getParameter( "key2" ) );
-            assertEquals( "newValue3", parameters.getParameter( "key3" ) );
         }
         catch ( final ConfigurationException ce )
         {
