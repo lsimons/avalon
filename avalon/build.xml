@@ -298,25 +298,7 @@ Legal:
                 <include name="**/*.java"/>
             </fileset>
             <formatter type="plain"/>
-            <formatter type="xml" toFile="${target.dir}/checkstyle-results.xml"/>
         </checkstyle>
-    </target>
-
-    <target name="checkstyle-report"
-        depends="checkstyle"
-        if="do.checkstyle"
-        description="Generate Checkstyle Report">
-
-        <mkdir dir="${target.reports}/checkstyle"/>
-        <property name="checkstyle.pathhack" location="."/>
-        <style style="${tools.dir}/etc/checkstyle-frames.xsl" in="${target.dir}/checkstyle-results.xml"
-            out="${target.reports}/checkstyle/delete-me.html">
-            <param name="pathhack" expression="${checkstyle.pathhack}"/>
-        </style>
-
-    </target>
-    <target name="printerdocs" depends="javadocs">
-        <echo message="Printer Friendly documentation is not yet available"/>
     </target>
 
     <!-- Prepares the documentation directory -->
