@@ -55,6 +55,7 @@ import java.util.Hashtable;
 import java.lang.reflect.Constructor;
 
 import org.apache.avalon.composition.model.ContextModel;
+import org.apache.avalon.composition.model.Model;
 import org.apache.avalon.composition.model.ModelException;
 import org.apache.avalon.composition.model.DeploymentContext;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
@@ -75,9 +76,9 @@ import org.apache.avalon.composition.data.ConstructorDirective;
  * a fully qualifed context can be established.</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/01/01 23:34:45 $
+ * @version $Revision: 1.3.2.1 $ $Date: 2004/01/03 18:14:58 $
  */
-public class DefaultContextModel extends AbstractLogEnabled implements ContextModel
+public class DefaultContextModel extends DefaultDependent implements ContextModel
 {
     //==============================================================
     // static
@@ -129,8 +130,7 @@ public class DefaultContextModel extends AbstractLogEnabled implements ContextMo
       ContextDirective directive, DeploymentContext context )
       throws ModelException
     {
-        if( null == logger ) 
-          throw new NullPointerException( "logger" );
+        super( logger );
 
         if( null == descriptor ) 
           throw new NullPointerException( "descriptor" );
@@ -265,7 +265,7 @@ public class DefaultContextModel extends AbstractLogEnabled implements ContextMo
     }
 
    /**
-    * Return the context objct established for the component.
+    * Return the context object established for the component.
     * 
     * @return the context object
     */
