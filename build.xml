@@ -4,12 +4,12 @@
 
   <property file="build.properties"/>
 
-  <target name="bootstrap">
-    <ant dir="${basedir}/tools/project" antfile="bootstrap.xml"/>
+  <target name="setup">
+    <ant dir="${basedir}/central/system" antfile="setup/setup.xml"/>
   </target>
 
   <target name="integrity-check">
-    <ant inheritall="false" dir="central/system/build" antfile="integrity.xml"/>
+    <ant inheritall="false" dir="central/system/setup" antfile="integrity.xml"/>
   </target>
 
   <target name="clean" depends="integrity-check">

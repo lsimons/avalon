@@ -7,7 +7,13 @@
   <import file="${project.home}/build/standard.xml"/>
 
   <target name="package" depends="standard.package">
-    <x:bar/>
+    <x:bar name="avalon-tools.bar"/>
+  </target>
+
+  <target name="install" depends="standard.install">
+    <mkdir dir="${user.home}/.ant/lib"/>
+    <copy toDir="${user.home}/.ant/lib" 
+       file="${project.target}/deliverables/jars/${project.name}.jar"/>
   </target>
 
 </project>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="setup" default="setup" basedir=".">
+
+  <!-- 
+  TODO
+  Check for jdk 1.4 as the build system prerequisite.
+  Check for ant 1.6.1 minimum version.
+  Check for dependent ant libs (junit, xsl stuff, etc.) 
+  and if not available download and add to 
+  ${user.home}/.ant/lib.
+  -->
+
+  <property file="index.properties"/>
+  <property name="cache.dir" value="${basedir}/${avalon.cache}"/>
+  <property name="cache.tools.dir" value="${cache.dir}/avalon/tools"/>
+  <property name="cache.tools.bars.dir" value="${cache.tools.dir}/bars"/>
+  <property name="tools.bar" value="${cache.tools.bars.dir}/avalon-tools.bar"/>
+  <property name="ant.lib" value="${user.home}/.ant/lib"/>
+
+  <target name="setup" depends="setup-repository,setup-antlib">
+    <echo message="Setup complete."/>
+  </target>
+
+  <target name="setup-repository">
+    <echo message="Preparing central system repository..."/>
+    <mkdir dir="${cache.tools.bars.dir}"/>
+    <get src="${avalon.tools.bar.url}" usetimestamp="true"
+      dest="${tools.bar}"/>
+    <unzip src="${tools.bar}" dest="${cache.tools.dir}">
+      <patternset>
+        <include name="**/*"/>
+        <exclude name="META-INF/**"/>
+        <exclude name="**/bars/**"/>
+      </patternset>
+    </unzip>
+  </target>
+
+  <target name="setup-antlib" depends="setup-repository">
+    <echo message="Preparing supporting tools..."/>
+    <mkdir dir="${ant.lib}"/>
+    <copy toDir="${ant.lib}">
+      <fileset dir="${cache.tools.dir}/jars">
+        <include name="avalon-tools-*.jar"/>
+      </fileset>
+    </copy>
+  </target>
+
+</project>
