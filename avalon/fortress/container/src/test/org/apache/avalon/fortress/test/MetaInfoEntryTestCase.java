@@ -73,6 +73,7 @@ public class MetaInfoEntryTestCase extends TestCase
 {
     private Class m_componentClass;
     private Properties m_properties;
+    private List m_dependencies;
     private Map m_lifecycleMap;
 
     public MetaInfoEntryTestCase( String name )
@@ -87,6 +88,8 @@ public class MetaInfoEntryTestCase extends TestCase
         m_properties.setProperty( "x-avalon.name", "component1" );
         m_properties.setProperty( "x-avalon.lifestyle", "singleton" );
 
+        m_dependencies = new ArrayList();
+
         Map lifecycleMap = new HashMap();
         lifecycleMap.put( "singleton", ThreadSafeComponentHandler.class );
         lifecycleMap.put( "thread", PerThreadComponentHandler.class );
@@ -98,7 +101,7 @@ public class MetaInfoEntryTestCase extends TestCase
 
     public void testFullySpecified() throws Exception
     {
-        MetaInfoEntry entry = new MetaInfoEntry( m_componentClass, m_properties );
+        MetaInfoEntry entry = new MetaInfoEntry( m_componentClass, m_properties, m_dependencies );
         checkMetaInfoEntry( entry, ThreadSafeComponentHandler.class, "component1", false );
     }
 
@@ -109,7 +112,7 @@ public class MetaInfoEntryTestCase extends TestCase
         m_properties.setProperty( "fortress.handler", ThreadSafeComponentHandler.class.getName() );
         m_componentClass = MetaInfoEntry.class;
 
-        MetaInfoEntry entry = new MetaInfoEntry( m_componentClass, m_properties );
+        MetaInfoEntry entry = new MetaInfoEntry( m_componentClass, m_properties, m_dependencies );
 
         checkMetaInfoEntry( entry, ThreadSafeComponentHandler.class, "meta-info-entry", false );
     }
@@ -123,7 +126,7 @@ public class MetaInfoEntryTestCase extends TestCase
         {
             String type = (String) it.next();
             m_properties.setProperty( "x-avalon.lifestyle", type );
-            MetaInfoEntry entry = new MetaInfoEntry( m_componentClass, m_properties );
+            MetaInfoEntry entry = new MetaInfoEntry( m_componentClass, m_properties, m_dependencies );
             checkMetaInfoEntry( entry, (Class) m_lifecycleMap.get( type ), name, false );
         }
     }
@@ -156,7 +159,7 @@ public class MetaInfoEntryTestCase extends TestCase
 
         try
         {
-            new MetaInfoEntry( null, m_properties );
+            new MetaInfoEntry( null, m_properties, m_dependencies );
             fail( "Did not throw an exception" );
         }
         catch ( NullPointerException npe )
@@ -170,7 +173,7 @@ public class MetaInfoEntryTestCase extends TestCase
 
         try
         {
-            new MetaInfoEntry( m_componentClass, null );
+            new MetaInfoEntry( m_componentClass, null, m_dependencies );
             fail( "Did not throw an exception" );
         }
         catch ( NullPointerException npe )
@@ -184,7 +187,21 @@ public class MetaInfoEntryTestCase extends TestCase
 
         try
         {
-            MetaInfoEntry entry = new MetaInfoEntry( m_componentClass, m_properties );
+            new MetaInfoEntry( m_componentClass, m_properties, null );
+            fail( "Did not throw an exception" );
+        }
+        catch ( NullPointerException npe )
+        {
+            // SUCCESS!
+        }
+        catch ( Exception e )
+        {
+            fail( "Threw wrong exception type: " + e.getClass().getName() );
+        }
+
+        try
+        {
+            MetaInfoEntry entry = new MetaInfoEntry( m_componentClass, m_properties, m_dependencies );
             entry.addRole( null );
             fail( "Did not throw an exception" );
         }
@@ -199,7 +216,7 @@ public class MetaInfoEntryTestCase extends TestCase
 
         try
         {
-            MetaInfoEntry entry = new MetaInfoEntry( m_componentClass, m_properties );
+            MetaInfoEntry entry = new MetaInfoEntry( m_componentClass, m_properties, m_dependencies );
             entry.addRole( Role1.class.getName() );
             entry.containsRole( null );
             fail( "Did not throw an exception" );

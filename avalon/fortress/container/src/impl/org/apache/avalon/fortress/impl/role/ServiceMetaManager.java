@@ -57,6 +57,7 @@ import org.apache.avalon.framework.activity.Initializable;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.*;
 
@@ -108,7 +109,7 @@ import java.util.*;
  * </pre>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.3 $
+ * @version CVS $Revision: 1.4 $
  */
 public final class ServiceMetaManager extends AbstractMetaInfoManager implements Initializable
 {
@@ -214,10 +215,12 @@ public final class ServiceMetaManager extends AbstractMetaInfoManager implements
     private void readMeta( final String role, final String implementation )
     {
         final Properties meta = new Properties();
+        final List deps = new ArrayList();
+        BufferedReader reader = null;
 
         try
         {
-            meta.load( getLoader().getResourceAsStream( translate( implementation ) ) );
+            meta.load( getLoader().getResourceAsStream( getMetaFile( implementation ) ) );
         }
         catch ( IOException ioe )
         {
@@ -226,7 +229,19 @@ public final class ServiceMetaManager extends AbstractMetaInfoManager implements
             return;
         }
 
-        addComponent( role, implementation, meta );
+        try
+        {
+            HashSet set = new HashSet();
+            readEntries( set, getLoader().getResource( getDepFile( implementation ) ) );
+            deps.addAll( set );
+        }
+        catch ( Exception ioe )
+        {
+            getLogger().debug( "No dependencies for " +
+                implementation + ", skipping this class.", ioe );
+        }
+
+        addComponent( role, implementation, meta, deps );
     }
 
     /**
@@ -235,10 +250,23 @@ public final class ServiceMetaManager extends AbstractMetaInfoManager implements
      * @param implementation
      * @return String
      */
-    private String translate( final String implementation )
+    private String getMetaFile( final String implementation )
     {
         String entry = implementation.replace( '.', '/' );
         entry += ".meta";
+        return entry;
+    }
+
+    /**
+     * Translate a class name into the meta file name.
+     *
+     * @param implementation
+     * @return String
+     */
+    private String getDepFile( final String implementation )
+    {
+        String entry = implementation.replace( '.', '/' );
+        entry += ".deps";
         return entry;
     }
 
@@ -255,13 +283,18 @@ public final class ServiceMetaManager extends AbstractMetaInfoManager implements
     {
         final BufferedReader reader = new BufferedReader( new InputStreamReader( url.openStream() ) );
 
-        String entry = reader.readLine();
-        while ( entry != null )
+        try
         {
-            entries.add( entry );
-            entry = reader.readLine();
+            String entry = reader.readLine();
+            while ( entry != null )
+            {
+                entries.add( entry );
+                entry = reader.readLine();
+            }
         }
-
-        reader.close();
+        finally
+        {
+            reader.close();
+        }
     }
 }

@@ -63,7 +63,7 @@ import java.util.*;
  * to enable "self-healing" configuration files.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2003/04/22 12:37:08 $
+ * @version $Revision: 1.4 $ $Date: 2003/05/15 18:56:27 $
  */
 public final class MetaInfoEntry
 {
@@ -75,6 +75,7 @@ public final class MetaInfoEntry
 
     /** Translate from lifestyle to component handler. */
     private static final Map m_lifecycleMap;
+    private final List m_dependencies;
 
     // Initialize the scope map
     static
@@ -97,15 +98,17 @@ public final class MetaInfoEntry
      *
      * @throws ClassNotFoundException if the component handler class could not be found
      */
-    public MetaInfoEntry( final Class componentClass, final Properties properties ) throws ClassNotFoundException
+    public MetaInfoEntry( final Class componentClass, final Properties properties, final List deps ) throws ClassNotFoundException
     {
         if ( null == componentClass ) throw new NullPointerException( "\"componentClass\" cannot be null." );
         if ( null == properties ) throw new NullPointerException( "\"properties\" cannot be null." );
+        if ( null == deps ) throw new NullPointerException( "\"deps\" cannot be null." );
 
         m_klass = componentClass;
         m_configName = properties.getProperty( "x-avalon.name", createShortName( componentClass.getName() ) );
         m_handler = Thread.currentThread().getContextClassLoader().loadClass( getHandler( properties ) );
         m_roles = new HashSet();
+        m_dependencies = deps;
     }
 
     /**
@@ -122,6 +125,7 @@ public final class MetaInfoEntry
         m_handler = roleEntry.getHandlerClass();
         m_roles = new HashSet();
         m_roles.add( roleEntry.getRole() );
+        m_dependencies = new ArrayList();
         makeReadOnly();
     }
 
@@ -200,6 +204,16 @@ public final class MetaInfoEntry
     public Iterator getRoles()
     {
         return m_roles.iterator();
+    }
+
+    /**
+     * Get a reference to the dependencies list.
+     *
+     * @return the dependency list
+     */
+    public List getDependencies()
+    {
+        return m_dependencies;
     }
 
     /**

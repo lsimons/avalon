@@ -54,18 +54,18 @@
  */
 package org.apache.avalon.fortress.tools;
 
+import org.apache.avalon.fortress.util.dag.Vertex;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Properties;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Represents a component, and output the meta information.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.4 $ $Date: 2003/05/14 15:54:47 $
+ * @version CVS $Revision: 1.5 $ $Date: 2003/05/15 18:56:28 $
  */
 final class Component
 {
@@ -74,6 +74,8 @@ final class Component
 
     private final String m_type;
     private final Properties m_attributes;
+    private final List m_dependencies;
+    private final Vertex m_vertex;
 
     /**
      * Initialize a service with the type name.
@@ -86,6 +88,8 @@ final class Component
 
         m_type = type;
         m_attributes = new Properties();
+        m_dependencies = new ArrayList(10);
+        m_vertex = new Vertex( this );
 
         m_repository.add( this );
     }
@@ -98,6 +102,30 @@ final class Component
     public String getType()
     {
         return m_type;
+    }
+
+    /**
+     * Add a dependency to this type.
+     *
+     * @param service  The name of the service that depends on this.
+     */
+    public void addDependency(Service service)
+    {
+        if ( ! m_dependencies.contains(service) )
+        {
+            m_dependencies.add(service);
+
+            Iterator cit = service.getComponents();
+            while ( cit.hasNext() )
+            {
+                m_vertex.addDependency( ( (Component) cit.next() ).getVertex() );
+            }
+        }
+    }
+
+    public Vertex getVertex()
+    {
+        return m_vertex;
     }
 
     /**
@@ -120,13 +148,28 @@ final class Component
     public void serialize( final File rootDir ) throws IOException
     {
         final String fileName = getType().replace( '.', '/' ).concat( ".meta" );
-        final File output = new File( rootDir, fileName );
+        final String depsName = getType().replace( '.', '/' ).concat( ".deps" );
+        File output = new File( rootDir, fileName );
         FileOutputStream writer = null;
 
         try
         {
             writer = new FileOutputStream( output );
             m_attributes.store( writer, "Meta information for " + getType() );
+
+            if ( m_dependencies.size() > 0 )
+            {
+                writer.close();
+                output = new File(rootDir, depsName);
+                writer = new FileOutputStream( output );
+
+                Iterator it = m_dependencies.iterator();
+                while(it.hasNext())
+                {
+                    Service service = (Service)it.next();
+                    writer.write(service.getType().getBytes());
+                }
+            }
         }
         finally
         {

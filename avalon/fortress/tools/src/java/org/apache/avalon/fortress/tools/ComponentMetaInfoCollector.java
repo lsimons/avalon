@@ -58,11 +58,13 @@ import com.thoughtworks.qdox.ant.AbstractQdoxTask;
 import com.thoughtworks.qdox.model.DocletTag;
 import com.thoughtworks.qdox.model.JavaClass;
 import com.thoughtworks.qdox.model.Type;
+import com.thoughtworks.qdox.model.JavaMethod;
 import org.apache.avalon.fortress.MetaInfoEntry;
 import org.apache.avalon.fortress.impl.handler.FactoryComponentHandler;
 import org.apache.avalon.fortress.impl.handler.PerThreadComponentHandler;
 import org.apache.avalon.fortress.impl.handler.PoolableComponentHandler;
 import org.apache.avalon.fortress.impl.handler.ThreadSafeComponentHandler;
+import org.apache.avalon.fortress.util.dag.*;
 import org.apache.avalon.framework.thread.SingleThreaded;
 import org.apache.avalon.framework.thread.ThreadSafe;
 import org.apache.tools.ant.BuildException;
@@ -72,15 +74,13 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 /**
  * ANT task to collect all the meta information for the components.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.16 $ $Date: 2003/04/24 19:53:24 $
+ * @version CVS $Revision: 1.17 $ $Date: 2003/05/15 18:56:28 $
  */
 public final class ComponentMetaInfoCollector extends AbstractQdoxTask
 {
@@ -144,14 +144,18 @@ public final class ComponentMetaInfoCollector extends AbstractQdoxTask
      *
      * @throws IOException if there is a problem.
      */
-    private void writeComponents() throws IOException
+    private void writeComponents() throws IOException, CyclicDependencyException
     {
+        final List dagVerifyList = new ArrayList(Component.m_repository.size());
         final Iterator it = Component.m_repository.iterator();
         while ( it.hasNext() )
         {
             final Component comp = (Component) it.next();
             comp.serialize( m_destDir );
+            dagVerifyList.add(comp.getVertex());
         }
+
+        DirectedAcyclicGraphVerifier.verify(dagVerifyList);
     }
 
     /**
@@ -273,6 +277,27 @@ public final class ComponentMetaInfoCollector extends AbstractQdoxTask
                 if ( null == avalonConfigName ) avalonConfigName = javaClass.getTagByName( "fortress.name" );
 
                 comp.setAttribute( "x-avalon.name", ( avalonConfigName == null ) ? MetaInfoEntry.createShortName( javaClass.getName() ) : avalonConfigName.getNamedParameter( "name" ) );
+
+
+                JavaMethod[] methods = javaClass.getMethods();
+                for (int i = 0; i < methods.length; i++)
+                {
+                    if (methods[i].getName().equals("service"))
+                    {
+                        if (methods[i].getParameters().length == 1 && methods[i].getParameters()[0].getType().getValue().equals("ServiceManager"))
+                        {
+                            DocletTag[] dependencies = methods[i].getTagsByName("avalon.dependency");
+                            for(int d = 0; d < dependencies.length; d++)
+                            {
+                                String type = dependencies[d].getNamedParameter("type");
+                                //String optional = dependencies[d].getNamedParameter("optional");
+
+                                Service service = getService(type);
+                                comp.addDependency(service);
+                            }
+                        }
+                    }
+                }
             }
         }
     }

@@ -52,7 +52,6 @@ package org.apache.avalon.fortress.util.dag.test;
 import junit.framework.TestCase;
 import org.apache.avalon.fortress.util.dag.Vertex;
 
-
 import java.util.List;
 
 /**
