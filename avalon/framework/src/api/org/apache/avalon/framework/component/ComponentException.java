@@ -75,7 +75,7 @@ public class ComponentException
 
     /**
      * Construct a new <code>ComponentException</code> instance.
-     *
+     * @param key the lookup key
      * @param message the exception message
      * @param throwable the throwable
      */
@@ -112,7 +112,7 @@ public class ComponentException
 
     /**
      * Construct a new <code>ComponentException</code> instance.
-     *
+     * @param key the lookup key
      * @param message the exception message
      */
     public ComponentException( final String key, final String message )
