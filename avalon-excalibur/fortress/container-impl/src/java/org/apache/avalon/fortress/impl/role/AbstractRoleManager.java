@@ -30,7 +30,7 @@ import java.util.Map;
  * the information is hard-coded.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.13 $ $Date: 2004/02/28 15:16:25 $
+ * @version CVS $Revision: 1.14 $ $Date: 2004/04/05 08:46:06 $
  * @since 4.1
  */
 public abstract class AbstractRoleManager
@@ -98,7 +98,7 @@ public abstract class AbstractRoleManager
 
     /**
      * Addition of a role to the role manager.
-     * @param shortName the shor name for the role
+     * @param shortName the short name for the role
      * @param role the role
      * @param className the class name
      * @param handlerClassName the handler classname
