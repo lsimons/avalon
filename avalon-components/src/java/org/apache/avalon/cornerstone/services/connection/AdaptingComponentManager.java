@@ -17,8 +17,8 @@ import org.apache.avalon.framework.service.ServiceException;
  * A simple component manager that adapts from a {@link ServiceManager}
  * to a {@link ComponentManager}.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2002/07/12 01:18:44 $
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @version $Revision: 1.2 $ $Date: 2002/08/05 14:12:14 $
  */
 class AdaptingComponentManager
     implements ComponentManager

@@ -32,7 +32,7 @@ import org.apache.avalon.phoenix.BlockContext;
 /**
  * Factory implementation for TLS TCP sockets.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  * @author <a href="mailto:fede@apache.org">Federico Barbieri</a>
  * @author <a href="mailto:charles@benett1.demon.co.uk">Charles Benett</a>
  * @author <a href="mailto:">Harish Prabandham</a>

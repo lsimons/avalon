@@ -22,7 +22,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * Support class for the DefaultPacketManager.
  * This manages an individual DatagramSocket.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  */
 class Acceptor
     extends AbstractLogEnabled

@@ -10,7 +10,7 @@ package org.apache.avalon.cornerstone.services.packet;
 /**
  * This interface is the way in which handlers are created.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  */
 public interface PacketHandlerFactory
 {

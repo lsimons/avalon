@@ -12,7 +12,7 @@ import org.apache.avalon.excalibur.thread.ThreadPool;
 /**
  * Manage a set of ThreadPools.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  */
 public interface ThreadManager
 {

@@ -15,10 +15,10 @@ import java.util.NoSuchElementException;
  * The heap is either a minimum or maximum heap as determined
  * by parameters passed to constructor.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  * @author <a href="mailto:ram.chidambaram@telus.com">Ram Chidambaram</a>
  * @author <a href="mailto:stansburyc@earthlink.net">Chad Stansbury</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/07/12 00:06:37 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/08/05 14:12:13 $
  * @since 4.0
  */
 final class BinaryHeap

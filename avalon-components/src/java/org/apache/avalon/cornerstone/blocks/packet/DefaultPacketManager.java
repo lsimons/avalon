@@ -26,7 +26,7 @@ import org.apache.avalon.framework.service.Serviceable;
  * @phoenix:block
  * @phoenix:service name="org.apache.avalon.cornerstone.services.packet.PacketManager"
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  */
 public class DefaultPacketManager
     extends AbstractLogEnabled

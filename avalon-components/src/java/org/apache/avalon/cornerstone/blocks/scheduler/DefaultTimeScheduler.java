@@ -26,7 +26,7 @@ import org.apache.avalon.framework.service.Serviceable;
  * @phoenix:block
  * @phoenix:service name="org.apache.avalon.cornerstone.services.scheduler.TimeScheduler"
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  * @author <a href="mailto:ram.chidambaram@telus.com">Ram Chidambaram</a>
  */
 public class DefaultTimeScheduler

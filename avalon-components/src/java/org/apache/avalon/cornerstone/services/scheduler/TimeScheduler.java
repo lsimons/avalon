@@ -12,7 +12,7 @@ import java.util.NoSuchElementException;
 /**
  * This service provides a way to regularly schedule jobs.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  */
 public interface TimeScheduler
 {
