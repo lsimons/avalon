@@ -27,6 +27,7 @@
               <a href="@link2.href@" class="menu">@link2@ &gt;</a>
               <a href="@link3.href@" class="menu">@link3@</a>    			
 				<script language="JavaScript1.2" type="text/javascript">
+				<![CDATA[ 
 				<!--
 					function sentenceCase(str) {
 						var lower = str.toLowerCase();
@@ -45,6 +46,7 @@
 					}
 					getDirsAsArray();
 				// -->
+				]]>
 				</script>
 			</div>
 			<!-- end breadcrumb trail -->
