@@ -33,51 +33,51 @@
     <xsl:text>
 
 </xsl:text>
-      <xsl:call-template name="print-title">
-        <xsl:with-param name="title">About Avalon</xsl:with-param>
-      </xsl:call-template>
-      <xsl:call-template name="word-wrap">
-        <xsl:with-param name="text" select="normalize-space(description)"/>
-        <xsl:with-param name="count" select="0"/>
-      </xsl:call-template>
-    <xsl:text>
-
-</xsl:text>
-      <xsl:for-each select="subproject">
+      <xsl:for-each select="project">
         <xsl:call-template name="print-title">
           <xsl:with-param name="title">About <xsl:value-of select="title"/></xsl:with-param>
         </xsl:call-template>
         <xsl:apply-templates select="."/>
+        <xsl:text>
+
+</xsl:text>
       </xsl:for-each>
     </text>
   </xsl:template>
 
-  <xsl:template match="subproject">
+  <xsl:template match="project">
     <xsl:call-template name="word-wrap">
       <xsl:with-param name="text" select="normalize-space(description)"/>
       <xsl:with-param name="count" select="0"/>
     </xsl:call-template>
     <xsl:text>
 
-</xsl:text>
-    <xsl:text>
 For more information about </xsl:text>
     <xsl:value-of select="title"/>
     <xsl:text>, please go to
 </xsl:text>
     <xsl:value-of select="@site"/>
-    <xsl:text>
+
+    <!-- print out ChangeLog if present --> 
+    <xsl:if test="changes">
+      <xsl:text>
 
 ChangeLog for </xsl:text>
-    <xsl:value-of select="title"/>
-    <xsl:text>
+      <xsl:value-of select="title"/>
+      <xsl:text>
 
 </xsl:text>
-    <xsl:apply-templates select="changes"/>
-    <xsl:text>
+      <xsl:apply-templates select="changes"/>
+    </xsl:if>
+
+    <!-- print out Downloads if present --> 
+    <xsl:if test="downloads">
+      <xsl:text>
 Downloads for </xsl:text><xsl:value-of select="title"/> available at 
 
 <xsl:value-of select="downloads/@base"/>/latest
+    </xsl:if>
+
   </xsl:template>
 
   <xsl:template match="p">

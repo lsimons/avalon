@@ -12,38 +12,32 @@
   <xsl:template match="announcement">
     <h1 align="center"><xsl:value-of select="title"/><xsl:text> Released</xsl:text></h1>
     <xsl:apply-templates select="abstract"/>
-    
-    <h2>About Avalon</h2>
-    <xsl:apply-templates select="description"/>
 
-    <xsl:for-each select="subproject">
+    <xsl:for-each select="project">
       <h2>About <xsl:value-of select="title"/></h2>
       <xsl:apply-templates select="."/>
     </xsl:for-each>
 
   </xsl:template>
 
-  <xsl:template match="subproject">
-
-    <xsl:apply-templates select="description"/>
+  <xsl:template match="project">
+    <p><xsl:apply-templates select="description"/></p>
 
     <p>For more information about <xsl:value-of select="title"/>, please go to
     <a><xsl:attribute name="href"><xsl:value-of select="@site"/></xsl:attribute>
     <xsl:value-of select="@site"/></a>.</p>
 
-    <h3>ChangeLog for <xsl:value-of select="title"/></h3>
-    <xsl:apply-templates select="changes"/>
-
+    <!-- print out ChangeLog if present --> 
+    <xsl:if test="changes">
+      <h3>ChangeLog for <xsl:value-of select="title"/></h3>
+      <xsl:apply-templates select="changes"/>
+    </xsl:if>
   </xsl:template>
 
   <xsl:template match="abstract">
     <div align="center">
       <xsl:apply-templates/>
     </div>
-  </xsl:template>
-
-  <xsl:template match="p">
-    <xsl:apply-templates/>
   </xsl:template>
 
   <xsl:template match="link">
