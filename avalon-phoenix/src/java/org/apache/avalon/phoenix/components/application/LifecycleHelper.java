@@ -40,7 +40,7 @@ class LifecycleHelper
     extends AbstractLoggable
 {
     private static final Resources REZ =
-        ResourceManager.getPackageResources( StartupPhase.class );
+        ResourceManager.getPackageResources( LifecycleHelper.class );
 
     ///Frame in which block executes
     private ApplicationFrame     m_frame;
