@@ -19,33 +19,13 @@ import java.io.File;
 public interface FilenameStrategy 
 {
     /**
-     * If no filename is specified use this default filename.
-     * ie. default.log
-     */
-    String BASE_FILE_NAME_DEFAULT = "default.log";
-
-    /**
      * Get 'calculated' log file name.
      *
+     * @param baseFileName the base file name
      * @return File file which has been calculated from a given
      *         base file name.
      */
-    File getLogFileName();
-
-    /**
-     * Get log file name as specifed by user.
-     *
-     * @return File return base file name
-     */
-    File getBaseFileName();
-
-    /**
-     * Set log file name.
-     *
-     * @param baseFileName the new base file name, used in 'calculating'
-     *                     the real file name.
-     */
-    void setBaseFileName( File baseFileName );
+    File getLogFileName( File baseFileName );
 }
 
 

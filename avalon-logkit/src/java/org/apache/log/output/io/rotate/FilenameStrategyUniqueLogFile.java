@@ -18,60 +18,17 @@ import java.io.IOException;
 public class FilenameStrategyUniqueLogFile 
     implements FilenameStrategy
 {
-    ///the base file name.
-    private File m_baseFileName;
-
-    public FilenameStrategyUniqueLogFile() 
-    {
-        setBaseFileName( new File(FilenameStrategy.BASE_FILE_NAME_DEFAULT) );
-    }
-
-    public FilenameStrategyUniqueLogFile( final FilenameStrategy fs ) 
-    {
-        this();
-
-        if( null != fs )
-        {
-            final File bfn = fs.getBaseFileName();
-            if( null != bfn )
-            {
-                setBaseFileName( bfn );
-            }
-        }
-    }
-
-    public FilenameStrategyUniqueLogFile( final File baseFileName ) 
-    {
-        m_baseFileName = baseFileName;
-    }
-
-    public File getBaseFileName() 
-    {
-        return m_baseFileName;
-    }
-
-    public void setBaseFileName( final File baseFileName ) 
-    {
-        m_baseFileName = baseFileName;
-    }
-
     /**
      * Calculate the real file name from the base filename.
      *
      * @return File the calculated file name
      */
-    public File getLogFileName() 
+    public File getLogFileName( final File baseFileName ) 
     {
         final StringBuffer sb = new StringBuffer();
-        sb.append( m_baseFileName );
-        sb.append( getCurrentValue() );
+        sb.append( baseFileName );
+        sb.append( System.currentTimeMillis() );
         return new File( sb.toString() );
-    }
-
-    private String getCurrentValue() 
-    {
-        final long time = System.currentTimeMillis();
-        return String.valueOf( time );
     }
 }
 
