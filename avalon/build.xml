@@ -459,11 +459,10 @@ Legal:
   </target>
 
   <!-- Completely build all dists -->
-  <target name="distributions">
+  <target name="distributions" depends="site-docs,announcement">
     <mkdir dir="${dist.base}"/>
-    <!--
-    <copy file="${build.lib}/avalon-framework.jar" tofile="${tools.dir}/lib/avalon-framework.jar"/>
-    -->
+
+    <copy file="${build.lib}/avalon-framework.jar" tofile="${tools.dir}/ext/avalon-framework.jar"/>
 
     <antcall target="dist">
       <param name="dist.dir" value="${dist.name}" />
