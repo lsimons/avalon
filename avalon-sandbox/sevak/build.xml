@@ -172,6 +172,7 @@
             </fileset>
             <fileset dir="${build.metagenerate}/deployer">
                 <include name="org/apache/avalon/apps/sevak/blocks/deployer/*.xinfo"/>
+                <include name="org/apache/avalon/apps/sevak/blocks/deployer/*.mxinfo"/>
             </fileset>
         </jar>
 
@@ -181,6 +182,7 @@
             </fileset>
             <fileset dir="${build.metagenerate}/catalina">
                 <include name="org/apache/avalon/apps/sevak/blocks/catalina/**/*.xinfo"/>
+                <include name="org/apache/avalon/apps/sevak/blocks/catalina/**/*.mxinfo"/>
             </fileset>
         </jar>
 
@@ -190,6 +192,7 @@
             </fileset>
             <fileset dir="${build.metagenerate}/jo">
                 <include name="org/apache/avalon/apps/sevak/blocks/jo/**/*.xinfo"/>
+                <include name="org/apache/avalon/apps/sevak/blocks/jo/**/*.mxinfo"/>
             </fileset>
         </jar>
 
@@ -199,6 +202,7 @@
             </fileset>
             <fileset dir="${build.metagenerate}/jetty">
                 <include name="org/apache/avalon/apps/sevak/blocks/jetty/**/*.xinfo"/>
+                <include name="org/apache/avalon/apps/sevak/blocks/jetty/**/*.mxinfo"/>
             </fileset>
         </jar>
 
