@@ -40,21 +40,28 @@ public class Resource
 
     private final String m_key;
     private Info m_info;
+    private Gump m_gump;
     private ResourceRef[] m_resources;
     private Home m_home;
 
     public Resource( final Home home, final Info info )
     {
-        this( home, null, info, EMPTY_REFS );
+        this( home, null, info, Gump.NULL_GUMP, EMPTY_REFS );
     }
 
     public Resource( 
-      final Home home, final String key, final Info info, final ResourceRef[] resources )
+      final Home home, final String key, final Info info, Gump gump, final ResourceRef[] resources )
     {
         m_key = key;
         m_info = info;
         m_resources = resources;
         m_home = home;
+        m_gump = gump;
+    }
+
+    public Gump getGump()
+    {
+        return m_gump;
     }
 
     public String getKey()

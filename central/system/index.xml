@@ -16,6 +16,7 @@
     <info>
       <group>avalon</group>
       <name>site</name>
+      <type>doc</type>
     </info>
     <dependencies>
       <include key="avalon-runtime" runtime="false" build="false" test="false"/>

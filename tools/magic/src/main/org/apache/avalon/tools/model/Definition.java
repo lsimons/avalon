@@ -31,15 +31,22 @@ public class Definition extends Resource
 {
     private ResourceRef[] m_plugins;
     private File m_basedir;
+    private String m_path;
 
     public Definition( 
-      final Home home, final String key, final File basedir, final Info info,
-      final ResourceRef[] resources, final ResourceRef[] plugins )
+      final Home home, final String key, final File basedir, final String path, final Info info,
+      final Gump gump, final ResourceRef[] resources, final ResourceRef[] plugins )
     {
-        super( home, key, info, resources );
+        super( home, key, info, gump, resources );
 
         m_basedir = basedir;
         m_plugins = plugins;
+        m_path = path;
+    }
+
+    public String getBasePath()
+    {
+        return m_path;
     }
 
     public File getBaseDir()

@@ -45,9 +45,12 @@ public class XMLDefinitionBuilder
 
         final Info info =
           createInfo( ElementHelper.getChild( element, "info" ) );
+        final Gump gump =
+          createGump( ElementHelper.getChild( element, "gump" ) );
         final String key = getDefinitionKey( element, info );
 
-        final File basedir = getBasedir( anchor, element );
+        final String path = element.getAttribute( "basedir" );
+        final File basedir = getBasedir( anchor, path );
        
         final ResourceRef[] resources =
           createResourceRefs( 
@@ -60,7 +63,7 @@ public class XMLDefinitionBuilder
         if( tag.equals( "project" ) )
         {
             return new Definition( 
-              home, key, basedir, info, resources, plugins );
+              home, key, basedir, path, info, gump, resources, plugins );
         }
         else if( tag.equals( "plugin" ) )
         {
@@ -70,7 +73,7 @@ public class XMLDefinitionBuilder
               getListenerDefs( 
                 ElementHelper.getChild( element, "listeners" ) );
             return new Plugin( 
-              home, key, basedir, info, resources, plugins, 
+              home, key, basedir, path, info, gump, resources, plugins, 
               tasks, listeners );
         }
         else
@@ -85,22 +88,27 @@ public class XMLDefinitionBuilder
     {
         final Info info =
           createInfo( ElementHelper.getChild( element, "info" ) );
+        final Gump gump =
+          createGump( ElementHelper.getChild( element, "gump" ) );
         final String key = getDefinitionKey( element, info );
 
         final ResourceRef[] resources =
           createResourceRefs( 
             ElementHelper.getChild( element, "dependencies" ) );
         
-        return new Resource( home, key, info, resources );
+        return new Resource( home, key, info, gump, resources );
     }
 
     public static Definition createDefinition( final Home home, final Element element, final File anchor )
     {
         final Info info =
           createInfo( ElementHelper.getChild( element, "info" ) );
+        final Gump gump =
+          createGump( ElementHelper.getChild( element, "gump" ) );
         final String key = getDefinitionKey( element, info );
 
-        final File basedir = getBasedir( anchor, element );
+        final String path = element.getAttribute( "basedir" );
+        final File basedir = getBasedir( anchor, path );
        
         final ResourceRef[] resources =
           createResourceRefs( 
@@ -114,7 +122,7 @@ public class XMLDefinitionBuilder
         if( tag.equals( "project" ) )
         {
             return new Definition( 
-              home, key, basedir, info, resources, plugins );
+              home, key, basedir, path, info, gump, resources, plugins );
         }
         else if( tag.equals( "plugin" ) )
         {
@@ -123,7 +131,7 @@ public class XMLDefinitionBuilder
             final ListenerDef[] listeners =
               getListenerDefs( ElementHelper.getChild( element, "listeners" ) );
             return new Plugin( 
-              home, key, basedir, info, resources, plugins, tasks, listeners );
+              home, key, basedir, path, info, gump, resources, plugins, tasks, listeners );
         }
         else
         {
@@ -160,9 +168,8 @@ public class XMLDefinitionBuilder
         return refs;
     }
 
-    private static File getBasedir( final File anchor, final Element element )
+    private static File getBasedir( final File anchor, final String path )
     {
-        final String path = element.getAttribute( "basedir" );
         if( null == path )
         {
             final String error = 
@@ -226,6 +233,14 @@ public class XMLDefinitionBuilder
         {
             return new Info( group, name, version, type, false );
         }
+    }
+
+    public static Gump createGump( final Element info )
+    {
+        final String alias =
+          ElementHelper.getValue( 
+            ElementHelper.getChild( info, "alias" ) );
+        return new Gump( alias );
     }
 
     private static ResourceRef[] createResourceRefs( final Element element )

@@ -46,6 +46,15 @@
     </info>
   </resource>
 
+  <resource>
+    <info>
+      <group>geronimo-spec</group>
+      <name>geronimo-spec-jms</name>
+      <version>DEV</version>
+      <type>jar</type>
+    </info>
+  </resource>
+
   <!--
   Avalon LogKit.
   -->
@@ -57,11 +66,10 @@
       <version>2.0.0</version>
     </info>
     <dependencies>
-      <include key="avalonx-supplemental" build="false" test="false"/>
+      <include key="mailapi" runtime="false"/>
       <include key="log4j" runtime="false"/>
       <include key="servletapi" runtime="false"/>
-      <include key="mailapi" runtime="false"/>
-      <include key="jms" runtime="false"/>
+      <include key="geronimo-spec-jms" runtime="false"/>
     </dependencies>
   </project>
 
@@ -766,6 +774,7 @@
       <group>avalon</group>
       <name>runtime</name>
       <version>3.3.1</version>
+      <type>doc</type>
       <status>SNAPSHOT</status>
     </info>
     <dependencies>
@@ -789,7 +798,7 @@
       <include key="log4j" runtime="false"/>
       <include key="servletapi"/>
       <include key="mailapi"/>
-      <include key="jms"/>
+      <include key="geronimo-spec-jms"/>
     </dependencies>
   </project>
 

@@ -354,15 +354,6 @@
   <resource>
     <info>
       <group>geronimo-spec</group>
-      <name>geronimo-spec-jms</name>
-      <version>DEV</version>
-      <type>jar</type>
-    </info>
-  </resource>
-
-  <resource>
-    <info>
-      <group>geronimo-spec</group>
       <name>geronimo-spec-jta</name>
       <version>DEV</version>
       <type>jar</type>
