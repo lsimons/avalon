@@ -42,7 +42,7 @@
 <![CDATA[
 package org.apache.bizserver.docs;
 
-public interface DocumentRepository extends Component
+public interface DocumentRepository
 {
     String ROLE = DocumentRepository.class.getName();
 
@@ -155,7 +155,7 @@ public interface DocumentRepository extends Component
     <title>Overview of Framework Interfaces</title>
     <para>
       The entire Avalon Framework can be divided into seven main categories (as
-      is the API): Activity, Component, Configuration, Context, Logger,
+      is the API): Activity, Service, Configuration, Context, Logger,
       Parameters, Thread, and Miscellany.  Each of those categories (except
       Miscellany) represents a unique concern area.  It is common for a
       Component to implement several interfaces to identify all the concern
@@ -207,7 +207,13 @@ public interface DocumentRepository extends Component
           <listitem>
             <para>
               <function>compose</function>
-              [<classname>Composable</classname>]
+              [<classname>Composeable</classname>]
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              <function>service</function>
+              [<classname>Serviceable</classname>]
             </para>
           </listitem>
           <listitem>
@@ -309,8 +315,9 @@ public interface DocumentRepository extends Component
           When I use the word "container" or "contains" when describing
           Components, I have a very specific meaning.  I am referring to child
           Components that the parent Component has instantiated and controls.
-          I am not referring to Components obtained through a ComponentManager
-          or ComponentSelector.  Furthermore, some Avalon stages received by a
+          I am not referring to Components obtained through a ServiceManager or
+	  ServiceSelector.  Furthermore, some Avalon stages
+	  received by a
           container must be propagated to all of its children implementing the
           appropriate interface.  The specific interfaces in question are
           Initializable, Startable, Suspendable, and Disposable.  The reasoning
@@ -319,38 +326,24 @@ public interface DocumentRepository extends Component
         </para>
       </note>
       <section>
-        <title>Component</title>
+        <title>Service</title>
         <para>
-          This is the core of Avalon Framework.  Any interface defined in this
-          concern area will throw ComponentException.
+	  This is the core of Avalon Framework. Any interface defined in this concern
+	  area will throw ServiceException.
         </para>
         <section>
-          <title>Component</title>
+          <title>Serviceable</title>
           <para>
-            Every Avalon Component <emphasis>must</emphasis> implement the
-            Component interface.  The Component Manager and Component Selector
-            only handle Components.  There are no methods associated with this
-            interface.  It is only used as a marker interface.
-          </para>
-          <para>
-            Any Component must use default no parameter constructors.  All
-            configurations are done with the
-            <classname>Configurable</classname> or
-            <classname>Parameterizable</classname> interfaces.
-          </para>
-        </section>
-        <section>
-          <title>Composable</title>
-          <para>
-            A Component that uses other Components needs to implement this
-            interface.  The interface has only one method
-            <function>compose</function> with a
-            <classname>ComponentManager</classname> passed in as the only
+            A Component that uses other Components needs to implement either this
+	    interface or the old Composable interface. The new interface is the
+	    preferred way of doing things.  The interface has only one method
+            <function>service</function> with a
+            <classname>ServiceManager</classname> passed in as the only
             parameter.
           </para>
           <para>
             The contract surrounding this interface is that the
-            <function>compose</function> is called once and only once during
+            <function>service</function> is called once and only once during
             the lifetime of this Component.
           </para>
           <para>
@@ -358,29 +351,20 @@ public interface DocumentRepository extends Component
             specified uses the Inversion of Control pattern.  It is called by
             the Component's container, and only the Components that this
             Component needs should be present in the
-            <classname>ComponentManager</classname>.
+            <classname>ServiceManager</classname>.
           </para>
         </section>
         <section>
-          <title>Recomposable</title>
+          <title>Reserviceable?</title>
           <para>
-            On rare occasions, a Component will need a new
-            <classname>ComponentManager</classname> with new Component role
-            mappings.  For those occasions, implement the recomposable
-            interface.  It has a separate method from Composable called
-            <function>recompose</function>.
-          </para>
-          <para>
-            The contract surrounding the interface states that the
-            <function>recompose</function> method can be called any number of
-            times, but never before the Component is fully initialized.  When
-            this method is called, the Component must update itself in a safe
-            and consistent manner.  Usually this means all processing that the
-            Component is performing must stop before the update and resume
-            after the update.
+            The Recomposable interface has no replacement in the Serviceable
+	    package. Use of Recomposable has been extremely rare, and many
+	    applications that use avalon do not provide support for it.
           </para>
         </section>
       </section>
+      <section>
+
       <section>
         <title>Activity</title>
         <para>
@@ -697,6 +681,81 @@ public interface DocumentRepository extends Component
 <parameter name="param-name" value="param-value"/>
 ]]>
           </programlisting>
+        </section>
+      </section>
+      <section>
+        <title>Component</title>
+        <para>
+	  This used to be the core of Avalon Framework. The Component interface
+	  and it friends have been deprecated in favor of the Service package,
+	  which is exactly the same, except that the service package uses
+	  java.lang.Object in place of the Component interface.
+          Any interface defined in this
+          concern area will throw ComponentException.
+        </para>
+        <section>
+          <title>Component</title>
+          <para>
+            Before the service package was put in place, every Avalon Component
+	    had to implement the Component interface. We have removed this restriction
+	    in the service package.
+	    The Component Manager and Component Selector only handle Components. 
+	    There are no methods associated with this interface.  It is only used as
+	    a marker interface.
+          </para>
+	  <para>
+	    For maximum backward compatibility with existing applications, it can still
+	    be useful to implement the Component interface as older applications may
+	    depend on it being available.
+	  </para>
+          <para>
+            Any Component must use default no parameter constructors.  All
+            configurations are done with the
+            <classname>Configurable</classname> or
+            <classname>Parameterizable</classname> interfaces.
+          </para>
+        </section>
+        <section>
+          <title>Composable</title>
+          <para>
+            A Component that uses other Components needs to implement either this
+	    interface or the new Serviceable interface. The new interface is the
+	    preferred way of doing things.  The interface has only one method
+            <function>compose</function> with a
+            <classname>ComponentManager</classname> passed in as the only
+            parameter.
+          </para>
+          <para>
+            The contract surrounding this interface is that the
+            <function>compose</function> is called once and only once during
+            the lifetime of this Component.
+          </para>
+          <para>
+            This interface along with any other interface that has methods
+            specified uses the Inversion of Control pattern.  It is called by
+            the Component's container, and only the Components that this
+            Component needs should be present in the
+            <classname>ComponentManager</classname>.
+          </para>
+        </section>
+        <section>
+          <title>Recomposable</title>
+          <para>
+            On rare occasions, a Component will need a new
+            <classname>ComponentManager</classname> with new Component role
+            mappings.  For those occasions, implement the recomposable
+            interface.  It has a separate method from Composable called
+            <function>recompose</function>.
+          </para>
+          <para>
+            The contract surrounding the interface states that the
+            <function>recompose</function> method can be called any number of
+            times, but never before the Component is fully initialized.  When
+            this method is called, the Component must update itself in a safe
+            and consistent manner.  Usually this means all processing that the
+            Component is performing must stop before the update and resume
+            after the update.
+          </para>
         </section>
       </section>
       <section>

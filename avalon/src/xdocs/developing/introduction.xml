@@ -77,7 +77,7 @@
     <section>
       <title>LogKit</title>
       <para>
-        Avalon LogKit is a high speed logging toolkit used by Framework,
+        Avalon LogKit is a high speed logging toolkit that can be used by Framework,
         Excalibur, Cornerstone, and Phoenix.  It is modeled on the same
         principles as the JDK 1.4 Logging package but is compatible with
         JDK 1.2+.
@@ -86,15 +86,14 @@
     <section>
       <title>Phoenix</title>
       <para>
-        Avalon Phoenix is the server kernel that manages the deployment
-        and execution of Services (implemented as server components
-        called Blocks).
+        Avalon Phoenix is a server kernel that manages the deployment
+        and execution of Services.
       </para>
     </section>
     <section>
       <title>Cornerstone</title>
       <para>
-        Avalon Cornerstone is a collection of Blocks or services that you
+        Avalon Cornerstone is a collection of services that you
         can deploy in the Phoenix environment.  The Blocks include socket
         management and job scheduling among others.
       </para>
@@ -103,10 +102,9 @@
       <title>Scratchpad</title>
       <para>
         Scratchpad is not really an official project, but it is the
-        staging area for Components that are not ready for inclusion in
-        Excalibur yet.  They are of varying quality, and their APIs are
-        not guaranteed to remain consistent until they are promoted into
-        Excalibur.
+        staging area for software package that are not ready for inclusion in
+        the other projects yet.  They are of varying quality, and their APIs are
+        not guaranteed to remain consistent until they are promoted.
       </para>
     </section>
   </section>

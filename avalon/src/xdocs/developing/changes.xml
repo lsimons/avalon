@@ -5,6 +5,16 @@
 
 <revhistory>
   <revision revisionflag="fixed">
+    <revnumber>1.5</revnumber>
+    <date>27 Nov 2002</date>
+    <authorinitials>LS</authorinitials>
+    <revremark>
+      Removing the Component, Composable, ComponentManager and ComponentSelector
+      from the text in favor of their replacement in the service package. Also
+      some small changes based on user comments.
+    </revremark>
+  </revision>
+  <revision revisionflag="fixed">
     <revnumber>1.4</revnumber>
     <date>28 Dec 2001</date>
     <authorinitials>BL</authorinitials>

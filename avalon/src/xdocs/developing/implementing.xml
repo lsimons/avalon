@@ -10,7 +10,7 @@
       <xi:xinclude href="../authors/bloritsch.xml"/>
     </authorgroup>
   </chapterinfo>
-  <title>Implementing the Dream</title>
+  <title>Using Avalon Framework</title>
   <subtitle>
     We will show how you can use Avalon Framework and Avalon Excalibur to
     realize your services.  We will show just how easy Avalon is to use.
@@ -76,9 +76,9 @@
         about our environment may change, or may need to be customized, we need
         to make our DocumentRepository Configurable.  Our Component makes use
         of other Components, and the method that Avalon provides to get
-        instances of the required Component is by using a ComponentManager.  We
-        will need to implement the Composable interface to get an instance of
-        the ComponentManager.
+        instances of the required Component is by using a ServiceManager.  We
+        will need to implement the Serviceable interface to get an instance of
+        the ServiceManager.
       </para>
       <para>
         Because the DocumentRepository accesses the documents in the database,
@@ -94,12 +94,12 @@
 <![CDATA[
 public class DatabaseDocumentRepository
 extends AbstractLogEnabled
-implements DocumentRepository , Configurable, Composable, Initializable,
-           Disposable, Component, ThreadSafe
+implements DocumentRepository , Configurable, Serviceable, Initializable,
+           Disposable, ThreadSafe
 {
     private boolean initialized = false;
     private boolean disposed = false;
-    private ComponentManager manager = null;
+    private ServiceManager manager = null;
     private String dbResource = null;
 
     /**
@@ -135,8 +135,8 @@ implements DocumentRepository , Configurable, Composable, Initializable,
      * already been initialized or disposed?  This is done to enforce
      * the policy of proper lifecycle management.
      */
-    public final void compose(ComponentManager cmanager)
-        throws ComponentException
+    public final void service(ServiceManager smanager)
+        throws ServiceException
     {
         if (initialized || disposed)
         {
@@ -145,7 +145,7 @@ implements DocumentRepository , Configurable, Composable, Initializable,
 
         if (null == this.manager)
         {
-            this.manager = cmanager;
+            this.manager = smanager;
         }
     }
 
@@ -242,7 +242,7 @@ implements DocumentRepository , Configurable, Composable, Initializable,
         </para>
         <programlisting>
 <![CDATA[
-class ContainerComponent implements Component, Initializable, Disposable
+class ContainerComponent implements Initializable, Disposable
 {
     DocumentRepository docs = new DatabaseDocumentRepository();
     GuardianComponent guard = new DocumentGuardianComponent();
@@ -411,7 +411,7 @@ class ContainerComponent implements Component, Initializable, Disposable
         </para>
         <programlisting>
 <![CDATA[
-class ContainerComponent implements Component, Initializable, Disposable
+class ContainerComponent implements Initializable, Disposable
 {
     ComponentHandler docs = null;
     ComponentHandler guard = null;
@@ -531,7 +531,7 @@ Configuration systemConf = builder.buildFromFile("/path/to/file.xconf");
         </para>
         <programlisting>
 <![CDATA[
-class ContainerComponent implements Component, Initializable, Disposable {
+class ContainerComponent implements Initializable, Disposable {
     ExcaliburComponentManager manager = new ExcaliburComponentManager();
 
     public void initialize()
@@ -745,17 +745,17 @@ this.manager.initialize();
         <title>Initialization and Disposal Approach</title>
         <programlisting>
 <![CDATA[
-class MyClass implements Component, Composable, Disposable
+class MyClass implements Serviceable, Disposable
 {
-    ComponentManager manager;
+    ServiceManager manager;
     Guardian myGuard;
 
     /**
      * Obtain a reference to a guard and keep the reference to
-     * the ComponentManager.
+     * the ServiceManager.
      */
-    public void compose(ComponentManager manager)
-        throws ComponentException
+    public void service(ServiceManager manager)
+        throws ServiceException
     {
         if (this.manager == null)
         {
@@ -823,15 +823,15 @@ class MyClass implements Component, Composable, Disposable
         <title>Exception Handling Approach</title>
         <programlisting>
 <![CDATA[
-class MyClass implements Composable, Disposable
+class MyClass implements Serviceable, Disposable
 {
-    ComponentManager manager;
+    ServiceManager manager;
 
     /**
      * Obtain a reference to a guard and keep the reference to
-     * the ComponentManager.
+     * the ServiceManager.
      */
-    public void compose(ComponentManager manager)
+    public void service(ServiceManager manager)
         throws ComponentException
     {
         if (this.manager == null)
@@ -915,15 +915,15 @@ class MyClass implements Composable, Disposable
       </section>
     </section>
     <section>
-      <title>Getting Components from a ComponentSelector</title>
+      <title>Getting Components from a ServiceSelector</title>
       <para>
-        For most operations, you will only need the ComponentManager.  Since we
+        For most operations, you will only need the ServiceManager.  Since we
         decided that we needed multiple instances of the DataSourceComponent,
-        we need to know how to get the instance we want.  ComponentSelectors
-        are a little trickier than ComponentManagers because we are dealing
+        we need to know how to get the instance we want.  ServiceSelectors
+        are a little trickier than ServiceManagers because we are dealing
         with hints to get the reference we need.  A Component has a specific
         Role, and this contract is well documented.  However, sometimes we need
-        to select one of many Components for a Role.  A ComponentSelector uses
+        to select one of many Components for a Role.  A ServiceSelector uses
         an arbitrary object for the hint.  Most of the time, the object is a
         String, although you might want to use a Locale object to get a proper
         internationalization Component.
@@ -938,10 +938,10 @@ class MyClass implements Composable, Disposable
         them to remember magic values for the configuration.
       </para>
       <para>
-        Conceptually, getting a Component from a ComponentSelector is no
-        different than getting a Component from a ComponentManager.  You just
-        have one more step.  Remember that a ComponentSelector is a Component.
-        The ComponentManager will be set up to return the ComponentSelector
+        Conceptually, getting a Component from a ServiceSelector is no
+        different than getting a Component from a ServiceManager.  You just
+        have one more step.  Remember that a ServiceSelector is a Component.
+        The ServiceManager will be set up to return the ServiceSelector
         when you lookup its role.  You then need to select the component from
         the selector.  To demonstrate, I will extend the code from the
         Exception Handling Approach discussed previously.
@@ -951,11 +951,11 @@ class MyClass implements Composable, Disposable
 public void myMethod()
     throws Exception
 {
-    ComponentSelector dbSelector = null;
+    ServiceSelector dbSelector = null;
     DataSourceComponent datasource = null;
     try
     {
-        dbSelector = (ComponentSelector)
+        dbSelector = (ServiceSelector)
                 this.manager.lookup(DataSourceComponent.ROLE + "Selector");
         datasource = (DataSourceComponent)
                 dbSelector.select(this.useDb);
@@ -982,7 +982,7 @@ public void myMethod()
 ]]>
       </programlisting>
       <para>
-        As you can see, we got the reference to the ComponentSelector using the
+        As you can see, we got the reference to the ServiceSelector using the
         Role specified for the Component.  We followed the Role naming
         guidelines outlined in a previous chapter by adding the "Selector"
         suffix to the Role name.  It is also perfectly acceptable to use a
@@ -991,7 +991,7 @@ public void myMethod()
       </para>
       <para>
         Next, we obtained the reference to the DataSourceComponent from the
-        ComponentSelector.  Our sample code assumed that we had already pulled
+        ServiceSelector.  Our sample code assumed that we had already pulled
         the required information from the Configuration object and placed it in
         a class variable named "useDb".
       </para>
