@@ -16,9 +16,16 @@
         The 'Hello World' demo server component is a socket listener app that replies 'Hello World' to client applications that open the port.  The reply is in HTML form so can be viewed by a Browser.  The HTTP headers are missing, but it still works.  Telnet is another client that can view the message.
       </p>
     </s1>
+    <s1 title="Architecture">
+      <p>
+        The following shows how the HelloWorld demo block depends on ConnectionManager from cornerstone.  These 
+        two blocks packaged as a server application (.SAR file) are loaded and launched by Phoenix, itself sitting on top of Avalon's framework.
+      </p>
+      <figure src="images/helloworld.gif" alt="Layer diag"/>
+    </s1>
     <s1 title="Relevant source modules">
       <p>
-        The Helloworld demo copiles as part of the build process for cornerstone.  The important modules that contribute to the demo are listed here.  All are within the src directory
+        The HelloWorld demo compiles as part of the build process for cornerstone.  The important modules that contribute to the demo are listed here.  All are within the src directory
       </p>
       <ol>
         <li>
@@ -28,7 +35,7 @@
           <strong>manifest/helloworld-demo.mf</strong> This contains a manifest for use in the bar file that details what's inside the block archive 'demo-helloworld.bar'
         </li>
         <li>
-          <strong>conf\avalon-demo-assembly.xml</strong> This cintains the assembly configuration for the resulting server archive (sar) file.
+          <strong>conf\avalon-demo-assembly.xml</strong> This contains the assembly configuration for the resulting server archive (sar) file.
         </li>
       </ol>
     </s1>
@@ -77,27 +84,35 @@ Avalon-Block: true
         &lt;provide name="sockets2" role="org.apache.avalon.cornerstone.services.sockets.SocketManager"/&gt;
         &lt;provide name="connections"
                  role="org.apache.avalon.cornerstone.services.connection.ConnectionManager" /&gt;
-
-        &lt;configuration&gt;
+    &lt;/block&gt;
+(text snipped)
+</source>
+      <p>
+        Of the block element, listed attributes are the instatiatable class implementing the HelloWorld interface (not mentioned itself in this assembly xml), the display name of the block, and two services that HelloWorld needs.
+      </p>
+    </s1>
+    <s1 title="avalon-demo-config xml">  
+    <p>
+      The file is renamed as part of the build process to config.xml, and only has a separate name here to aid development.  Again here is the pertinent section:
+    </p>      
+<source> 
+(text snipped)
+        &lt;helloworldserver&gt;
           &lt;port&gt;8999&lt;/port&gt;
           &lt;bind&gt;127.0.0.1&lt;/bind&gt;
           &lt;helloworldhandler&gt;
              &lt;connectiontimeout&gt; 360000 &lt;/connectiontimeout&gt;
           &lt;/helloworldhandler&gt;
-        &lt;/configuration&gt;
-    &lt;/block&gt;
+        &lt;/helloworldserver&gt;
 (text snipped)
 </source>
       <p>
-        Of the clock element, listed attributes are the instatiatable class implementing the HelloWorld interface (not mentioned itsef in this assembly xml), the display name of the block, and two services that HelloWorld needs.
+        The configuration element named &lt;helloworldserver&gt; is used as it's name suggests and is passed the blocks being used for the app. Elements port and bind are used by the socket manager.
       </p>
       <p>
-        The configuration element is used as it's name suggests and is passed the blocks being used for the app. Elements port and bind are used by the socket manager.
+        If you had configuration for an app, you'd specify it here in with eelement and attribute names that are invented for the application.
       </p>
-      <p>
-        If you had configuration for an app, you;d specify it here in with eelement and attribute names that are invented for the application.
-      </p>
-    </s1>
+    </s1>     
     <s1 title="Starting your own server project">
       <p>
         Familiarity with Ant and it's build script would be a good place to start.  After learning how Cornerstone compiles and jars the demos would be a good second step.  Thirdly, as I've done before, take the demos out of Cornerstone, delete classes and xml not relating to the HelloWorld server and rename from HelloWorld to whatever suits you.  I import into the lib dir avalon-cornerstone-compilation-0.x.jar to allow things that use it to compile.  I also import cornerstone-0.x.bar to the same place to allow it's inclusion in the sar file being made.  The build xml file even contains a target that allow you to install the freshly made sar file into a nearby Avalon installation - "build install", though for development you'll initially only be running "build" and "build clean".
@@ -110,7 +125,7 @@ Avalon-Block: true
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.4 $ $Date: 2001/04/27 05:26:28 $
+      $Revision: 1.5 $ $Date: 2001/09/05 08:52:21 $
     </legal>
   </footer>
 </document>

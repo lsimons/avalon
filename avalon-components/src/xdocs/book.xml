@@ -20,6 +20,7 @@
   </menu>
   <menu label="Demo Components">
     <menu-item label="Hello World" href="demo-helloworld.html"/>
+    <menu-item label="SOAP Hello World" href="demo-soaphelloworld.html"/>
     <menu-item label="HTTP Proxy" href="demo-httpproxy.html"/>
     <menu-item label="Simple Server" href="demo-simpleserver.html"/>
   </menu>
