@@ -75,7 +75,7 @@ import org.apache.avalon.framework.logger.Logger;
  * context.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.7.2.1 $ $Date: 2004/01/07 12:57:25 $
+ * @version $Revision: 1.7.2.2 $ $Date: 2004/01/07 13:58:11 $
  */
 public class DefaultBlock extends AbstractBlock implements Home
 {
@@ -201,7 +201,7 @@ public class DefaultBlock extends AbstractBlock implements Home
     final class BlockInvocationHandler
         implements InvocationHandler
     {
-        private final CompositeBlock m_block;
+        private final DefaultBlock m_block;
         private final Logger m_logger;
 
        /**
@@ -210,10 +210,11 @@ public class DefaultBlock extends AbstractBlock implements Home
         * @param block the underlying block implementation
         * @exception if an invocation handler establishment error occurs
         */
-        protected BlockInvocationHandler( final Logger logger, final CompositeBlock block )
+        protected BlockInvocationHandler( final Logger logger, final DefaultBlock block )
             throws Exception
         {
-            if( block == null ) throw new NullPointerException( "block" );
+            if( block == null ) 
+              throw new NullPointerException( "block" );
             m_block = block;
             m_logger = logger;
         }
