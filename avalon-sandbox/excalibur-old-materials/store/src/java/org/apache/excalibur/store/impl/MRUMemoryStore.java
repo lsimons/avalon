@@ -80,7 +80,7 @@ import org.apache.excalibur.store.StoreJanitor;
  * @author <a href="mailto:g-froehlich@gmx.de">Gerhard Froehlich</a>
  * @author <a href="mailto:dims@yahoo.com">Davanum Srinivas</a>
  * @author <a href="mailto:vgritsenko@apache.org">Vadim Gritsenko</a>
- * @version CVS $Id: MRUMemoryStore.java,v 1.12 2003/05/20 21:03:39 bloritsch Exp $
+ * @version CVS $Id: MRUMemoryStore.java,v 1.13 2003/07/17 07:48:08 cziegeler Exp $
  */
 public final class MRUMemoryStore
     extends AbstractLogEnabled
@@ -107,10 +107,8 @@ public final class MRUMemoryStore
         m_manager = manager;
         if( getLogger().isDebugEnabled() )
         {
-            getLogger().debug( "Looking up " + Store.PERSISTENT_STORE );
             getLogger().debug( "Looking up " + StoreJanitor.ROLE );
         }
-        m_persistentStore = (Store)manager.lookup( Store.PERSISTENT_STORE );
         m_storeJanitor = (StoreJanitor)manager.lookup( StoreJanitor.ROLE );
     }
 
@@ -133,6 +131,22 @@ public final class MRUMemoryStore
         if( ( m_maxobjects < 1 ) )
         {
             throw new ParameterException( "MRUMemoryStore maxobjects must be at least 1!" );
+        }
+
+        if ( m_persistent )
+        {
+            if( getLogger().isDebugEnabled() )
+            {
+                getLogger().debug( "Looking up " + Store.PERSISTENT_STORE );
+            }
+            try 
+            {
+                m_persistentStore = (Store)m_manager.lookup( Store.PERSISTENT_STORE );
+            }
+            catch (ServiceException se)
+            {
+                throw new ParameterException("Unable to look up persistent store.", se);
+            }
         }
 
         m_cache = new Hashtable( (int)( m_maxobjects * 1.2 ) );
