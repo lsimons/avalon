@@ -232,11 +232,6 @@ div[border=none]
     background-color: white;
 }
 
-.dummy
-{
-    display: none;
-}
-
 dd
 {
     font-weight: bolder;
@@ -432,3 +427,7 @@ a.menuitem-selected:focus
     outline: none;
 }
 
+img
+{
+    border: none;
+}
