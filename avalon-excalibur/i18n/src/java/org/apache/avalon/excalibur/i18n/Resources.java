@@ -530,26 +530,6 @@ public class Resources
      * Retrieve a raw string from bundle.
      *
      * @param key the key of resource
-     * @param defaultValue the default value if key is missing
-     * @return the resource string
-     */
-    public String getString( final String key, final String defaultValue )
-        throws MissingResourceException
-    {
-        try
-        {
-            return getString( key );
-        }
-        catch( final MissingResourceException mre )
-        {
-            return defaultValue;
-        }
-    }
-
-    /**
-     * Retrieve a raw string from bundle.
-     *
-     * @param key the key of resource
      * @return the resource string
      */
     public String getString( final String key )
