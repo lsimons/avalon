@@ -2,5 +2,6 @@ excalibur-*
 build
 ant.properties
 *.ipr
+*.iws
 .classpath
 .project
