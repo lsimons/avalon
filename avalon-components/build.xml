@@ -497,7 +497,8 @@
 -->
 
     <copy file="${logkit.jar}" tofile="${src.dist.lib}/logkit.jar"/>
-    <copy file="${avalonapi.jar}" tofile="${src.dist.lib}/avalonapi.jar"/>
+    <copy file="${framework.jar}" tofile="${src.dist.lib}/framework.jar"/>
+    <copy file="${excalibur.jar}" tofile="${src.dist.lib}/excalibur.jar"/>
     <copy file="${phoenix-client.jar}" tofile="${src.dist.lib}/phoenix-client.jar"/>
 
     <copy todir="${src.dist.src}">
