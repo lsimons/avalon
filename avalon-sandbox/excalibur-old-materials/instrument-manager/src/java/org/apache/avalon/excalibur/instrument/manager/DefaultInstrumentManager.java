@@ -40,7 +40,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.6 $ $Date: 2002/04/28 17:05:41 $
+ * @version CVS $Revision: 1.7 $ $Date: 2002/04/29 16:58:59 $
  * @since 4.1
  */
 public class DefaultInstrumentManager
@@ -267,6 +267,10 @@ public class DefaultInstrumentManager
                 // Do not call configure here because there is no configuration
                 //  for discovered instrumentables.
                 m_instrumentableProxies.put( instrumentableName, instrumentableProxy );
+
+                // Clear the optimized arrays
+                m_instrumentableProxyArray = null;
+                m_instrumentableDescriptorArray = null;
 
                 // Recursively register all the Instruments in this and any child Instrumentables.
                 registerInstruments( instrumentable, instrumentableProxy, instrumentableName );
