@@ -1,9 +1,10 @@
 /*
- * DefaultDOMHandlerFactory.java
+ * Copyright (C) The Apache Software Foundation. All rights reserved.
  *
- * Created on August 2, 2002, 3:28 PM
+ * This software is published under the terms of the Apache Software License
+ * version 1.1, a copy of which has been included with this distribution in
+ * the LICENSE.txt file.
  */
-
 package org.apache.avalon.excalibur.xml;
 
 import org.w3c.dom.Document;
@@ -20,6 +21,10 @@ import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.thread.ThreadSafe;
 
+/**
+ * @author <a href="mailto:mirceatoma@apache.org">Mircea Toma</a>
+ * @version CVS $Revision: 1.2 $ $Date: 2002/08/06 18:16:53 $
+ */
 public class DefaultDOMHandlerFactory extends AbstractLogEnabled implements DOMHandlerFactory, Configurable, Initializable, Component, ThreadSafe
 {   
     private final SAXTransformerFactory m_transformerFactory = (SAXTransformerFactory)SAXTransformerFactory.newInstance();
