@@ -15,15 +15,17 @@ import org.apache.avalon.framework.CascadingException;
  * @author <a href="mailto:ovidiu@cup.hp.com">Ovidiu Predescu</a>
  * @author <a href="mailto:proyal@managingpartners.com">Peter Royal</a>
  */
-public class XSLTProcessorException extends CascadingException
+public class XSLTProcessorException
+    extends CascadingException
 {
-    public XSLTProcessorException(final String message)
+    public XSLTProcessorException( final String message )
     {
-        super(message);
+        super( message );
     }
 
-    public XSLTProcessorException(final String message, final Throwable throwable)
+    public XSLTProcessorException( final String message,
+                                   final Throwable throwable )
     {
-        super(message, throwable);
+        super( message, throwable );
     }
 }
