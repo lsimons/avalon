@@ -66,6 +66,7 @@
         <pathelement location="${excalibur-altrmi-client-impl.jar}"/>
         <pathelement location="${excalibur-altrmi-client-interfaces.jar}"/>
         <pathelement location="${excalibur-altrmi-common.jar}"/>
+        <pathelement location="${excalibur-altrmi-generator.jar}"/>
         <pathelement location="${excalibur-instrument-manager-interfaces.jar}"/>
         <pathelement location="${junit.jar}"/>
         <pathelement location="${checkstyle.jar}"/>
