@@ -27,7 +27,7 @@ public class Test
 
     public static void main(String[] args)
     {
-        String str = SystemResource.replaceAll("hallo %test% gg %test% o", "%test%", "neu");
-        Object obj = str;
+        SystemResource.replaceAll("hallo %test% gg %test% o", "%test%", "neu");
+
     }
 }
