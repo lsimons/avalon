@@ -60,13 +60,7 @@ import com.thoughtworks.qdox.model.JavaClass;
 import com.thoughtworks.qdox.model.Type;
 import com.thoughtworks.qdox.model.JavaMethod;
 import org.apache.avalon.fortress.MetaInfoEntry;
-import org.apache.avalon.fortress.impl.handler.FactoryComponentHandler;
-import org.apache.avalon.fortress.impl.handler.PerThreadComponentHandler;
-import org.apache.avalon.fortress.impl.handler.PoolableComponentHandler;
-import org.apache.avalon.fortress.impl.handler.ThreadSafeComponentHandler;
 import org.apache.avalon.fortress.util.dag.*;
-import org.apache.avalon.framework.thread.SingleThreaded;
-import org.apache.avalon.framework.thread.ThreadSafe;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 
@@ -80,7 +74,7 @@ import java.util.*;
  * ANT task to collect all the meta information for the components.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.20 $ $Date: 2003/05/23 16:54:57 $
+ * @version CVS $Revision: 1.21 $ $Date: 2003/05/27 14:59:03 $
  */
 public final class ComponentMetaInfoCollector extends AbstractQdoxTask
 {
@@ -98,6 +92,12 @@ public final class ComponentMetaInfoCollector extends AbstractQdoxTask
      * The service list destination.
      */
     private File m_serviceFile;
+    private static final String THREADSAFE_HANDLER = "org.apache.avalon.fortress.impl.handler.ThreadSafeComponentHandler";
+    private static final String POOLABLE_HANDLER = "org.apache.avalon.fortress.impl.handler.PoolableComponentHandler";
+    private static final String FACTORY_HANDLER = "org.apache.avalon.fortress.impl.handler.FactoryComponentHandler";
+    private static final String PER_THREAD_HANDLER = "org.apache.avalon.fortress.impl.handler.PerThreadComponentHandler";
+    private static final String SINGLE_THREADED = "org.apache.avalon.framework.thread.SingleThreaded";
+    private static final String THREAD_SAFE = "org.apache.avalon.framework.thread.ThreadSafe";
     private static final String POOLABLE = "org.apache.avalon.excalibur.pool.Poolable";
     private static final String RECYCLABLE = "org.apache.avalon.excalibur.pool.Recyclable";
     private static final String SERVICE_MANAGER = "org.apache.avalon.framework.service.ServiceManager";
@@ -263,18 +263,18 @@ public final class ComponentMetaInfoCollector extends AbstractQdoxTask
                     final Type[] interfaces = javaClass.getImplements();
                     for ( int i = 0; i < interfaces.length && handler != null; i++ )
                     {
-                        if ( interfaces[i].getClass().equals( ThreadSafe.class ) )
+                        if ( interfaces[i].getClass().getName().equals( THREAD_SAFE ) )
                         {
-                            handler = ThreadSafeComponentHandler.class.getName();
+                            handler = THREADSAFE_HANDLER;
                         }
                         else if ( interfaces[i].getClass().getName().equals( POOLABLE ) ||
                             interfaces[i].getClass().getName().equals( RECYCLABLE ) )
                         {
-                            handler = PoolableComponentHandler.class.getName();
+                            handler = POOLABLE_HANDLER;
                         }
-                        else if ( interfaces[i].getClass().equals( SingleThreaded.class ) )
+                        else if ( interfaces[i].getClass().getName().equals( SINGLE_THREADED ) )
                         {
-                            handler = FactoryComponentHandler.class.getName();
+                            handler = FACTORY_HANDLER;
                         }
                     }
                 }
@@ -285,7 +285,7 @@ public final class ComponentMetaInfoCollector extends AbstractQdoxTask
                 }
                 else if ( handler != null )
                 {
-                    handler = ( null == fortressHandler ) ? PerThreadComponentHandler.class.getName() : stripQuotes(fortressHandler.getNamedParameter( ATTR_TYPE ));
+                    handler = ( null == fortressHandler ) ? PER_THREAD_HANDLER : stripQuotes(fortressHandler.getNamedParameter( ATTR_TYPE ));
                 }
 
                 if ( null != lifecycle ) comp.setAttribute( TAG_LIFESTYLE, lifecycle );
