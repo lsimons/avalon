@@ -3,7 +3,7 @@
 <!--
 ============================================================
                 Dependency updater
-                   Version $Revision: 1.16 $
+                   Version $Revision: 1.17 $
            Jeff Turner <jefft@apache.org>
 
 This Ant script provides "functions" to check if
@@ -214,8 +214,8 @@ To use it, type 'ant -f depchecker.xml'
            |   and copy bsf.jar to ${ant.home}/lib"/>
         </ant>
     </target>
-
-
+    
+    <!-- All -->
     <target name="checkCore">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
             <property name="name" value="excalibur-core.jar"/>
@@ -230,6 +230,54 @@ To use it, type 'ant -f depchecker.xml'
             <property name="path" value="${excalibur-scratchpad.jar}"/>
         </ant>
     </target>
+
+    <!-- Altrmi -->
+    <target name="checkAltrmiCommon">
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
+            <property name="name" value="excalibur-altrmi-common.jar"/>
+            <property name="path" value="${excalibur-altrmi-common.jar}"/>
+            <property name="proj.home" value="${basedir}/../altrmi"/>
+        </ant>
+    </target>
+    <target name="checkAltrmiClient" depends="checkAltrmiCommon">
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
+            <property name="name" value="excalibur-altrmi-client-impl.jar"/>
+            <property name="path" value="${excalibur-altrmi-client-impl.jar}"/>
+            <property name="proj.home" value="${basedir}/../altrmi"/>
+        </ant>
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
+            <property name="name" value="excalibur-altrmi-client-interfaces.jar"/>
+            <property name="path" value="${excalibur-altrmi-client-interfaces.jar}"/>
+            <property name="proj.home" value="${basedir}/../altrmi"/>
+        </ant>
+    </target>
+    <target name="checkAltrmiServer" depends="checkAltrmiCommon">
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
+            <property name="name" value="excalibur-altrmi-server-impl.jar"/>
+            <property name="path" value="${excalibur-altrmi-server-impl.jar}"/>
+            <property name="proj.home" value="${basedir}/../altrmi"/>
+        </ant>
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
+            <property name="name" value="excalibur-altrmi-server-interfaces.jar"/>
+            <property name="path" value="${excalibur-altrmi-server-interfaces.jar}"/>
+            <property name="proj.home" value="${basedir}/../altrmi"/>
+        </ant>
+    </target>
+    <target name="checkAltrmiGenerator" depends="checkAltrmiCommon">
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
+            <property name="name" value="excalibur-altrmi-generator.jar"/>
+            <property name="path" value="${excalibur-altrmi-generator.jar}"/>
+            <property name="proj.home" value="${basedir}/../altrmi"/>
+        </ant>
+    </target>
+    <target name="checkAltrmi" depends="checkAltrmiClient, checkAltrmiServer, checkAltrmiGenerator">
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
+            <property name="name" value="excalibur-altrmi-generator.jar"/>
+            <property name="path" value="${excalibur-altrmi-generator.jar}"/>
+            <property name="proj.home" value="${basedir}/../altrmi"/>
+        </ant>
+    </target>
+    
     <target name="checkEvent">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
             <property name="name" value="excalibur-event.jar"/>
