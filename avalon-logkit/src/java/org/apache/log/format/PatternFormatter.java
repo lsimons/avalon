@@ -77,24 +77,26 @@ import org.apache.log.Priority;
  *     </table>
  *   </p></li>
  * </ul>
- * <p>A simple example of a typical PatternFormatter format:
- * <code>%{time} %5.5{priority}[%-10.10{category}]: %{message}</code>
+ * <p>A simple example of a typical PatternFormatter format would be:
+ * <pre><code>
+ *   %{time} %5.5{priority}[%-10.10{category}]: %{message}
+ * </code></pre>
+ * </p><p>
+ * This would produce a line like:
+ * <pre><code>
+ *   1000928827905 DEBUG [     junit]: Sample message
+ * </code></pre>
+ * </p><p>
+ * The format string specifies that the logger should first print the
+ * time value of the log event without size restriction, then the
+ * priority of the log event with a minimum and maximum size of 5, 
+ * then the category of the log event right justified with a minimum
+ * and maximum size of 10, followed by the message of the log event
+ * without any size restriction.
  * </p>
- * <p>
- *   This format string will format a log event printing first time value of
- *   of log event with out size restriction, next priority with minum and maximum size 5,
- *   next category right justified having minmum and maximum size of 10,
- *   at last the message of the log event without size restriction.
- * </p>
- * <p>A formatted sample message of the above pattern format:
- * </p>
- * <pre><code>1000928827905 DEBUG [     junit]: Sample message
- * </pre><code>
- *
- *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @version CVS $Revision: 1.25 $ $Date: 2002/02/09 21:40:24 $
+ * @version CVS $Revision: 1.26 $ $Date: 2002/02/11 13:27:02 $
  */
 public class PatternFormatter
     implements Formatter, org.apache.log.Formatter
