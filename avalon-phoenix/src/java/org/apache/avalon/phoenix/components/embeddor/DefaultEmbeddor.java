@@ -157,10 +157,8 @@ public class DefaultEmbeddor
         throws ParameterException
     {
         m_parameters = parameters;
-        m_parameters.setParameter( "phoenix.home", ".." );
-        m_parameters.setParameter( "persistent", "false" );
-        m_phoenixHome = m_parameters.getParameter( "phoenix.home" );
-        m_persistent = m_parameters.getParameterAsBoolean( "persistent" );
+        m_phoenixHome = m_parameters.getParameter( "phoenix.home", ".." );
+        m_persistent = m_parameters.getParameterAsBoolean( "persistent", false );
     }
 
     public void configure( final Configuration configuration )
