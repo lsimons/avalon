@@ -39,10 +39,10 @@ different features of the Merlin platform.
 
 Unless noted in a project readme, demonstrations can be built
 using the following command (assuming you have installed 
-Maven RC2 or later and a development release of Merlin 3.3):
+Ant 1.6.1 or later and the Magic antlib):
 
   $ cd [a-tutorial-dir-containing-a-project.xml-file]
-  $ maven jar:install
+  $ ant
 
 Runtime execution can normally by simulation relative to the 
 target/classes directory, or by executing the generated jar 
@@ -53,17 +53,11 @@ readme.txt for additional details).
 
 then:
 
-  $ merlin -execute target\classes
+  $ ant -execute target\classes
 
 or:
 
-  $ merlin -execute target\<jar-name>.jar
-
-Alternatively, demonstrations can be built and deployed 
-via maven using the following command:
-
-  $ cd [a-tutorial-containing-a-project.xml]
-  $ maven demo
+  $ ant -execute target\deliverables\jars\<jar-name>.jar
 
 Additional tutorials are in constant preparation. 
 Questions and comments should be directed to 
