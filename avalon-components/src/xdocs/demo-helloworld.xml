@@ -27,13 +27,61 @@
         <li>
           <strong>manifest/helloworld-demo.mf</strong> This contains a manifest for use in the bar file that details what's inside the block archive 'demo-helloworld.bar'
         </li>
+        <li>
+          <strong>conf\avalon-demo-assembly.xml</strong> This cintains the assembly configuration for the resulting server archive (sar) file.
+        </li>
       </ol>
+    </s1>
+    <s1 title="Java Source">
+    </s1>
+    <s1 title="helloworld-demo.mf">
+      <p>
+        The file is renamed as part of the build process to MANIFEST.MF and placed in the ususal directory (META-INF).  It's used to allow Avalon to quickly index the contents of blocks.
+      </p>
+<source>
+Manifest-Version: 1.0
+Created-By: Apache Avalon Project
+
+Name: org/apache/cornerstone/demos/helloworldserver/HelloWorldServerImpl.class
+Avalon-Block: true
+</source>
+    </s1>
+    <s1 title="avalon-demo-assembly xml">
+    <p>
+      The file is renamed as part of the build process to assembly.xml, and only has a separate name here to aid development.  The bulk of the contents of the file pertain to other blocks including ones that HelloWorld is dependant upon.  Here's the section that's for HelloWorld
+    </p>
+
+<source>
+    &lt;block class="org.apache.cornerstone.demos.helloworldserver.HelloWorldServerImpl"
+           name="helloworldserver" &gt;
+        &lt;provide name="sockets2" role="org.apache.cornerstone.services.sockets.SocketManager"/&gt;
+        &lt;provide name="connections"
+                 role="org.apache.cornerstone.services.connection.ConnectionManager" /&gt;
+
+        &lt;configuration&gt;
+          &lt;port&gt;8999&lt;/port&gt;
+          &lt;bind&gt;127.0.0.1&lt;/bind&gt;
+          &lt;helloworldhandler&gt;
+             &lt;connectiontimeout&gt; 360000 &lt;/connectiontimeout&gt;
+          &lt;/helloworldhandler&gt;
+        &lt;/configuration&gt;
+    &lt;/block&gt;
+</source>
+      <p>
+        Of the clock element, listed attributes are the instatiatable class implementing the HelloWorld interface (not mentioned itsef in this assembly xml), the display name of the block, and two services that HelloWorld needs.
+      </p>
+      <p>
+        The configuration element is used as it's name suggests and is passed the blocks being used for the app. Elements port and bind are used by the socket manager.
+      </p>
+      <p>
+        If you had configuration for an app, you;d specify it here in with eelement and attribute names that are invented for the application.
+      </p>
     </s1>
   </body>
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2001/03/11 16:42:03 $
+      $Revision: 1.2 $ $Date: 2001/03/11 17:02:21 $
     </legal>
   </footer>
 </document>
