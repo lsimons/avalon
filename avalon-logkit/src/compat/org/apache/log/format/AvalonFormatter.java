@@ -81,7 +81,7 @@ public class AvalonFormatter
     private static final int TYPE_CLASS = MAX_TYPE + 1;
 
     private static final String TYPE_CLASS_STR = "class";
-    private final static String TYPE_CLASS_SHORT_STR = "short";
+    private static final String TYPE_CLASS_SHORT_STR = "short";
 
     /**
      * The constant defining the default stack depth when
