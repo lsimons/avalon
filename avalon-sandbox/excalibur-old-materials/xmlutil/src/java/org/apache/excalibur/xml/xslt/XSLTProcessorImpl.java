@@ -73,6 +73,7 @@ import javax.xml.transform.sax.TemplatesHandler;
 import javax.xml.transform.sax.TransformerHandler;
 import javax.xml.transform.stream.StreamSource;
 
+import org.apache.avalon.excalibur.pool.Recyclable;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.component.ComponentException;
@@ -113,7 +114,7 @@ import org.xml.sax.XMLFilter;
  *
  * @author <a href="mailto:ovidiu@cup.hp.com">Ovidiu Predescu</a>
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
- * @version CVS $Id: XSLTProcessorImpl.java,v 1.26 2003/02/27 09:24:47 cziegeler Exp $
+ * @version CVS $Id: XSLTProcessorImpl.java,v 1.27 2003/03/17 11:52:36 cziegeler Exp $
  * @version 1.0
  * @since   July 11, 2001
  */
@@ -124,6 +125,7 @@ public final class XSLTProcessorImpl
     Initializable,
     Disposable,
     Parameterizable,
+    Recyclable,
     URIResolver
 {
     /** The store service instance */
@@ -150,6 +152,9 @@ public final class XSLTProcessorImpl
 
     private XMLizer m_xmlizer;
 
+    /** The ServiceManager */
+    private ServiceManager m_manager;
+    
     /**
      * Compose. Try to get the store
      *
@@ -160,12 +165,13 @@ public final class XSLTProcessorImpl
     public void service( final ServiceManager manager )
         throws ServiceException
     {
-        m_xmlizer = (XMLizer)manager.lookup( XMLizer.ROLE );
-        m_resolver = (SourceResolver)manager.lookup( SourceResolver.ROLE );
+        m_manager = manager;
+        m_xmlizer = (XMLizer)m_manager.lookup( XMLizer.ROLE );
+        m_resolver = (SourceResolver)m_manager.lookup( SourceResolver.ROLE );
 
-        if( manager.hasService( Store.TRANSIENT_STORE ) )
+        if( m_manager.hasService( Store.TRANSIENT_STORE ) )
         {
-            m_store = (Store)manager.lookup( Store.TRANSIENT_STORE );
+            m_store = (Store)m_manager.lookup( Store.TRANSIENT_STORE );
         }
     }
 
@@ -178,6 +184,14 @@ public final class XSLTProcessorImpl
 
     public void dispose()
     {
+        if ( null != m_manager) 
+        {
+            m_manager.release( m_store );
+            m_manager.release( m_resolver );
+            m_manager.release( m_xmlizer );
+            m_manager = null;
+        }
+        m_xmlizer = null;
         m_store = null;
         m_resolver = null;
         m_errorHandler = null;
@@ -194,6 +208,8 @@ public final class XSLTProcessorImpl
         m_transformerFactory = params.getParameter( "transformer-factory", null );
         if( !m_useStore )
         {
+            // release the store, if we don't need it anymore
+            m_manager.release( m_store );
             m_store = null;
         }
         else if( null == m_store )
@@ -746,4 +762,14 @@ public final class XSLTProcessorImpl
         newObject.setSystemId( source.getURI() );
         return newObject;
     }
+    
+    /**
+     * Recycle the component
+     */
+    public void recycle() 
+    {
+        m_includesMap.clear();
+        m_factory = getTransformerFactory( m_transformerFactory );
+    }
+
 }
