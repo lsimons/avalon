@@ -392,7 +392,6 @@
             to="avalon-dev@jakarta.apache.org"/>
     </project>
 
-
     <project name="excalibur-containerkit">
         <package>org.apache.excalibur.containerkit</package>
 
@@ -407,7 +406,7 @@
         <depend project="checkstyle"/>
         <depend project="jakarta-avalon" runtime="true"/>
         <depend project="excalibur-i18n" runtime="true"/>
-        <depend project="xdoclet-ant15" runtime="true" inherit="runtime"/>
+        <depend project="excalibur-info" runtime="true"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
         <work nested="containerkit/build/classes"/>
@@ -593,6 +592,31 @@
             to="avalon-dev@jakarta.apache.org"/>
     </project>
 
+    <project name="excalibur-info">
+        <package>org.apache.avalon.framework.info</package>
+
+        <ant basedir="info">
+            <property name="version" value="@@DATE@@"/>
+            <property name="junit.failonerror" value="true"/>
+            <property name="do.checkstyle" value="true"/>
+            <property name="skip.dependencies" value="true"/>
+        </ant>
+
+        <depend project="jakarta-ant" inherit="runtime"/>
+        <depend project="checkstyle"/>
+        <depend project="junit"/>
+        <depend project="xdoclet-ant15" runtime="true" inherit="runtime"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
+        <work nested="info/build/classes"/>
+
+        <home nested="info"/>
+        <jar name="build/lib/excalibur-info-@@DATE@@.jar"/>
+
+        <nag from="Peter Donald &lt;peter@apache.org&gt;"
+            to="avalon-dev@jakarta.apache.org"/>
+    </project>
+
     <project name="excalibur-instrument">
         <package>org.apache.avalon.excalibur.instrument</package>
 
@@ -702,6 +726,34 @@
         <nag from="Peter Donald &lt;peter@apache.org&gt;"
             to="avalon-dev@jakarta.apache.org"/>
     </project>
+
+    <project name="excalibur-loader">
+        <package>org.apache.excalibur.loader</package>
+
+        <ant basedir="loader">
+            <property name="version" value="@@DATE@@"/>
+            <property name="junit.failonerror" value="true"/>
+            <property name="do.checkstyle" value="true"/>
+            <property name="skip.dependencies" value="true"/>
+        </ant>
+
+        <depend project="jakarta-ant" inherit="runtime"/>
+        <depend project="checkstyle"/>
+        <depend project="junit"/>
+        <depend project="excalibur-i18n" runtime="true"/>
+        <depend project="excalibur-extension" runtime="true"/>
+        <depend project="jakarta-avalon" runtime="true"/>
+        <depend project="xml-xerces"/>
+        <depend project="xml-xalan2"/>
+        <work nested="loader/build/classes"/>
+
+        <home nested="info"/>
+        <jar name="build/lib/excalibur-loader-@@DATE@@.jar"/>
+
+        <nag from="Peter Donald &lt;peter@apache.org&gt;"
+            to="avalon-dev@jakarta.apache.org"/>
+    </project>
+
 
     <project name="excalibur-logger">
         <package>org.apache.avalon.excalibur.logger</package>
