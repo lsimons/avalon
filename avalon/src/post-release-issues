@@ -17,12 +17,6 @@ Issues:
   file with instructions on how to use the components?  This
   should be settled on for Beta 2.
 
-* Should we consider using JUnit for the unit tests instead of
-  Testlet?  It would mean less code for us to maintain and
-  document.  JUnit has a critical mass surrounding it, and
-  documentation--whereas I don't understand Testlet, and the
-  only way to do so is to go through the source code.
-
 * What kind of release schedule do we want?  Should be make
   regular releases every 3 months with what we have (i.e.
   bug fixes or new features)?  Or Should we be milestone
