@@ -5,15 +5,15 @@
 <document>
 
  <header>
-  <title>Avalon Project - Features</title>
+  <title>Avalon Project - Case Studies</title>
   <authors>
-    <person name="Leo Simons" email="mail@leosimons.com"/>
+    <person name="Robert McIntosh" email="rmcintosh@bull-enterprises.com"/>
   </authors>
  </header>
 
 <body>
 
-<s1 title="Features">
+<s1 title="Case Studies">
   <p>The Avalon project is so large and broad in scope that it is not easy
   to provide a simple list of features in the form of "Avalon provides
   Component X which will fulfill role Y in your project Z perfectly".</p>
@@ -27,7 +27,7 @@
     <p>At the very core of our project is the Avalon Framework subproject.
     This framework is very stable and in daily use in many applications, from
     straightforward desktop products to large scale enterprise applications.<br />
-    After an initial difficult learning curve, this framework will help you
+    After an initial learning curve, this framework will help you
     create a better software architecture. In this way, it's role is as
     fundamental as, say Object-Oriented Programming or Design Patterns.</p>
 
