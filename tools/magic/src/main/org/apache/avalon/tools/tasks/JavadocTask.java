@@ -195,7 +195,7 @@ public class JavadocTask extends SystemTask
     {
         ResourceRef[] refs = 
           def.getResourceRefs( Policy.RUNTIME, category, true );
-        if( refs.length > 0 )
+        if( flag || ( refs.length > 0 ))
         {
             String message = ResourceRef.getCategoryName( category );
             generate( def, classpath, refs, category, root, flag );
