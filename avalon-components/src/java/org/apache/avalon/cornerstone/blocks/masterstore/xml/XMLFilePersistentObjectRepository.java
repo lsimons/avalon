@@ -19,6 +19,17 @@ import org.apache.avalon.cornerstone.blocks.masterstore.AbstractFileRepository;
  * This is a simple implementation of persistent object store using
  * XML serialization from JDK 1.4 to a file system.
  *
+ * This implementation of ObjectRepository comes with the following warning:
+ * "XMLEncoder provides suitable persistence delegates
+ * for all public subclasses of java.awt.Component in J2SE and the types of
+ * all of their properties, recursively. All other classes will be handled
+ * with the default persistence delegate which assumes the class follows
+ * the beans conventions" (snipped from Bigparade)
+ *
+ * Basically, don't use this block for anything other than Swing component 
+ * serialization.  Sun will have to do a lot of work writing a 
+ * "PersistenceDelegate" to handle other JDK types let alone custom classes.
+ *
  * @author <a href="mailto:paul_hammant@yahoo.com">Paul Hammant</a>
  * @author <a href="mailto:stefano@apache.org">Stefano Mazzocchi</a>
  * @author <a href="mailto:fede@apache.org">Federico Barbieri</a>
