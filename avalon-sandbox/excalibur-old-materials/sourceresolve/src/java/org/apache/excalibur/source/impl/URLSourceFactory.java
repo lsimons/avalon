@@ -54,39 +54,114 @@
  */
 package org.apache.excalibur.source.impl;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Map;
 
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.framework.parameters.ParameterException;
+import org.apache.avalon.framework.parameters.Parameterizable;
+import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.thread.ThreadSafe;
 import org.apache.excalibur.source.Source;
+import org.apache.excalibur.source.SourceException;
 import org.apache.excalibur.source.SourceFactory;
 
 /**
  * A factory for a {@link URL} wrapper
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version $Id: URLSourceFactory.java,v 1.1 2003/01/29 16:46:18 cziegeler Exp $
+ * @version $Id: URLSourceFactory.java,v 1.2 2003/01/30 07:57:10 cziegeler Exp $
  */
 public class URLSourceFactory
     extends AbstractLogEnabled
-    implements SourceFactory, ThreadSafe
+    implements SourceFactory, Parameterizable, ThreadSafe
 {
+
+    /** The URLSource class used */
+    protected Class m_urlSourceClass;
+
+    public void parameterize( Parameters pars )
+        throws ParameterException
+    {
+        final String urlSourceClassName = pars.getParameter( "url-source",
+                                                             "org.apache.excalibur.source.impl.URLSource" );
+        ClassLoader loader = Thread.currentThread().getContextClassLoader();
+        if( loader == null )
+        {
+            loader = getClass().getClassLoader();
+        }
+        try
+        {
+            m_urlSourceClass = loader.loadClass( urlSourceClassName );
+        }
+        catch( ClassNotFoundException cnfe )
+        {
+            this.getLogger().error( "Class not found: " + urlSourceClassName, cnfe );
+            throw new ParameterException( "Class not found: " + urlSourceClassName, cnfe );
+        }
+    }
 
     /**
      * @see org.apache.excalibur.source.SourceFactory#getSource(java.lang.String, java.util.Map)
      */
-    public Source getSource(String location, Map parameters)
+    public Source getSource(String systemID, Map parameters)
         throws MalformedURLException, IOException 
     {
         if( getLogger().isDebugEnabled() )
         {
-            final String message = "Creating source object for " + location;
+            final String message = "Creating source object for " + systemID;
             getLogger().debug( message );
         }
-        // FIXME: Some more work to do
-        return null;
+
+        Source source;
+        try
+        {
+            if( getLogger().isDebugEnabled() == true )
+            {
+                this.getLogger().debug( "Making URL from " + systemID );
+            }
+            try
+            {
+                final URLSource urlSource =
+                    (URLSource)this.m_urlSourceClass.newInstance();
+                urlSource.init( new URL( systemID ), parameters );
+                source = urlSource;
+            }
+            catch( MalformedURLException mue )
+            {
+                throw mue;
+            }
+            catch( Exception ie )
+            {
+                throw new SourceException( "Unable to create new instance of " +
+                                           this.m_urlSourceClass, ie );
+            }
+        }
+        catch( MalformedURLException mue )
+        {
+            if( getLogger().isDebugEnabled() )
+            {
+                this.getLogger().debug( "Making URL - MalformedURLException in getURL:", mue );
+                this.getLogger().debug( "Making URL a File (assuming that it is full path):" + systemID );
+            }
+            try
+            {
+                final URLSource urlSource =
+                    (URLSource)this.m_urlSourceClass.newInstance();
+                urlSource.init( ( new File( systemID ) ).toURL(), parameters );
+                source = urlSource;
+            }
+            catch( Exception ie )
+            {
+                throw new SourceException( "Unable to create new instance of " +
+                                           this.m_urlSourceClass, ie );
+            }
+        }
+
+        return source;
     }
 
     /**

@@ -77,7 +77,7 @@ import org.apache.avalon.framework.component.Component;
  * like Composable, Initializable, Disposable etc.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.7 $ $Date: 2003/01/29 06:56:01 $
+ * @version CVS $Revision: 1.8 $ $Date: 2003/01/30 07:57:10 $
  */
 
 public interface SourceResolver
@@ -85,9 +85,21 @@ public interface SourceResolver
 {
     String ROLE = SourceResolver.class.getName();
 
+    /** With this parameter you can specify the method to use for getting
+     * the content. It is up to the protocol implementation ({@link
+     * SourceFactory}) to support this or not
+     */
+    String METHOD = "org.apache.avalon.excalibur.source.Source.uri.method";
+
+    /** With this parameter you can specify additional request parameters which are
+     *  appended  to the URI. It is up to the protocol implementation ({@link
+     * SourceFactory}) to support this or not.
+     */
+    String URI_PARAMETERS = "org.apache.excalibur.source.Source.uri.parameters";
+
     /**
-     * Get a <code>Source</code> object.
-     * This is a shortcut for <code>resolve(location, null, null)</code>
+     * Get a {@link Source} object. This is a shortcut for {@link #resolve
+     * (String, String, Map)}.
      * 
      * @return the resolved source object.
      * @throws MalformetURLException if <code>location</code> is malformed.
@@ -97,7 +109,7 @@ public interface SourceResolver
         throws MalformedURLException, IOException;
 
     /**
-     * Get a <code>Source</code> object.
+     * Get a {@link Source} object.
      * @param location - the URI to resolve. If this is relative it is either
      *                   resolved relative to the base parameter (if not null)
      *                   or relative to a base setting of the source resolver
