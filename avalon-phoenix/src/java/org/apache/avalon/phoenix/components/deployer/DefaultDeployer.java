@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.Set;
+
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.activity.Disposable;
@@ -34,6 +35,12 @@ import org.apache.avalon.phoenix.BlockContext;
 import org.apache.avalon.phoenix.components.ContainerConstants;
 import org.apache.avalon.phoenix.components.assembler.Assembler;
 import org.apache.avalon.phoenix.components.assembler.AssemblyException;
+import org.apache.avalon.phoenix.containerkit.factory.ComponentBundle;
+import org.apache.avalon.phoenix.containerkit.factory.ComponentFactory;
+import org.apache.avalon.phoenix.containerkit.metadata.ComponentMetaData;
+import org.apache.avalon.phoenix.containerkit.metadata.PartitionMetaData;
+import org.apache.avalon.phoenix.containerkit.registry.ComponentProfile;
+import org.apache.avalon.phoenix.containerkit.registry.PartitionProfile;
 import org.apache.avalon.phoenix.interfaces.Application;
 import org.apache.avalon.phoenix.interfaces.ClassLoaderManager;
 import org.apache.avalon.phoenix.interfaces.ClassLoaderSet;
@@ -50,12 +57,6 @@ import org.apache.avalon.phoenix.interfaces.LogManager;
 import org.apache.avalon.phoenix.tools.configuration.ConfigurationBuilder;
 import org.apache.avalon.phoenix.tools.verifier.SarVerifier;
 import org.apache.avalon.phoenix.tools.verifier.VerifyException;
-import org.apache.avalon.phoenix.containerkit.factory.ComponentBundle;
-import org.apache.avalon.phoenix.containerkit.factory.ComponentFactory;
-import org.apache.avalon.phoenix.containerkit.metadata.ComponentMetaData;
-import org.apache.avalon.phoenix.containerkit.metadata.PartitionMetaData;
-import org.apache.avalon.phoenix.containerkit.registry.ComponentProfile;
-import org.apache.avalon.phoenix.containerkit.registry.PartitionProfile;
 
 /**
  * Deploy .sar files into a kernel using this class.
@@ -88,14 +89,14 @@ public class DefaultDeployer
     public void service( final ServiceManager serviceManager )
         throws ServiceException
     {
-        m_kernel = (Kernel)serviceManager.lookup( Kernel.ROLE );
-        m_repository = (ConfigurationRepository)serviceManager.
+        m_kernel = ( Kernel ) serviceManager.lookup( Kernel.ROLE );
+        m_repository = ( ConfigurationRepository ) serviceManager.
             lookup( ConfigurationRepository.ROLE );
-        m_classLoaderManager = (ClassLoaderManager)serviceManager.
+        m_classLoaderManager = ( ClassLoaderManager ) serviceManager.
             lookup( ClassLoaderManager.ROLE );
-        m_logManager = (LogManager)serviceManager.lookup( LogManager.ROLE );
-        m_validator = (ConfigurationValidator)serviceManager.lookup( ConfigurationValidator.ROLE );
-        m_installer = (Installer)serviceManager.lookup( Installer.ROLE );
+        m_logManager = ( LogManager ) serviceManager.lookup( LogManager.ROLE );
+        m_validator = ( ConfigurationValidator ) serviceManager.lookup( ConfigurationValidator.ROLE );
+        m_installer = ( Installer ) serviceManager.lookup( Installer.ROLE );
     }
 
     public void initialize()
@@ -113,10 +114,10 @@ public class DefaultDeployer
     {
         final Set set = m_installations.keySet();
         final String[] applications =
-            (String[])set.toArray( new String[ set.size() ] );
+            ( String[] ) set.toArray( new String[set.size()] );
         for( int i = 0; i < applications.length; i++ )
         {
-            final String name = applications[ i ];
+            final String name = applications[i];
             try
             {
                 undeploy( name );
@@ -142,7 +143,7 @@ public class DefaultDeployer
         throws DeploymentException
     {
         final Installation installation =
-            (Installation)m_installations.get( name );
+            ( Installation ) m_installations.get( name );
         if( null == installation )
         {
             final String message =
@@ -171,7 +172,7 @@ public class DefaultDeployer
         throws DeploymentException
     {
         final Installation installation =
-            (Installation)m_installations.remove( name );
+            ( Installation ) m_installations.remove( name );
         if( null == installation )
         {
             final String message =
@@ -188,8 +189,8 @@ public class DefaultDeployer
             for( int i = 0; i < blocks.length; i++ )
             {
                 //remove configuration and schema from repository and validator
-                m_repository.removeConfiguration( name, blocks[ i ] );
-                m_validator.removeSchema( name, blocks[ i ] );
+                m_repository.removeConfiguration( name, blocks[i] );
+                m_validator.removeSchema( name, blocks[i] );
             }
 
             m_installer.uninstall( installation );
@@ -347,7 +348,7 @@ public class DefaultDeployer
         final PartitionProfile[] profiles = new PartitionProfile[]{blockProfile, listenerProfile};
         return new PartitionProfile( metaData,
                                      profiles,
-                                     new ComponentProfile[ 0 ] );
+                                     new ComponentProfile[0] );
     }
 
     private PartitionProfile assembleListenerProfile( final PartitionMetaData metaData )
@@ -357,7 +358,7 @@ public class DefaultDeployer
         final ComponentMetaData[] components = metaData.getComponents();
         for( int i = 0; i < components.length; i++ )
         {
-            final ComponentMetaData component = components[ i ];
+            final ComponentMetaData component = components[i];
             final ComponentInfo info =
                 LegacyUtil.createListenerInfo( component.getImplementationKey() );
             final ComponentProfile profile = new ComponentProfile( info, component );
@@ -365,7 +366,7 @@ public class DefaultDeployer
         }
 
         final ComponentProfile[] profiles =
-            (ComponentProfile[])componentSet.toArray( new ComponentProfile[ componentSet.size() ] );
+            ( ComponentProfile[] ) componentSet.toArray( new ComponentProfile[componentSet.size()] );
         return new PartitionProfile( metaData, PartitionProfile.EMPTY_SET, profiles );
     }
 
@@ -377,7 +378,7 @@ public class DefaultDeployer
         final PartitionMetaData[] partitions = metaData.getPartitions();
         for( int i = 0; i < partitions.length; i++ )
         {
-            final PartitionMetaData partition = partitions[ i ];
+            final PartitionMetaData partition = partitions[i];
             final PartitionProfile profile = assembleProfile( partition, factory );
             partitionSet.add( profile );
         }
@@ -386,7 +387,7 @@ public class DefaultDeployer
         final ComponentMetaData[] components = metaData.getComponents();
         for( int i = 0; i < components.length; i++ )
         {
-            final ComponentMetaData component = components[ i ];
+            final ComponentMetaData component = components[i];
             final ComponentBundle bundle =
                 factory.createBundle( component.getImplementationKey() );
             final ComponentInfo info = bundle.getComponentInfo();
@@ -395,9 +396,9 @@ public class DefaultDeployer
         }
 
         final PartitionProfile[] partitionProfiles =
-            (PartitionProfile[])partitionSet.toArray( new PartitionProfile[ partitionSet.size() ] );
+            ( PartitionProfile[] ) partitionSet.toArray( new PartitionProfile[partitionSet.size()] );
         final ComponentProfile[] componentProfiles =
-            (ComponentProfile[])componentSet.toArray( new ComponentProfile[ componentSet.size() ] );
+            ( ComponentProfile[] ) componentSet.toArray( new ComponentProfile[componentSet.size()] );
         return new PartitionProfile( metaData, partitionProfiles, componentProfiles );
     }
 
@@ -446,19 +447,21 @@ public class DefaultDeployer
         final PartitionProfile partition = profile.getPartition( ContainerConstants.BLOCK_PARTITION );
         final ComponentProfile[] blocks = partition.getComponents();
         int i = 0;
+        String name = null;
 
-        final ComponentProfile block = blocks[ i ];
-        final String implementationKey =
-            block.getInfo().getDescriptor().getImplementationKey();
-        final String name = block.getMetaData().getName();
         try
         {
             for( i = 0; i < blocks.length; i++ )
             {
+                final ComponentProfile block = blocks[i];
                 final SchemaDescriptor descriptor = block.getInfo().getConfigurationSchema();
+                name = block.getMetaData().getName();
 
                 if( null != descriptor && !descriptor.getType().equals( "" ) )
                 {
+                    final String implementationKey =
+                        block.getInfo().getDescriptor().getImplementationKey();
+
                     m_validator.addSchema( application,
                                            name,
                                            descriptor.getType(),
@@ -474,13 +477,13 @@ public class DefaultDeployer
             //uh-oh, bad schema bad bad!
             final String message =
                 REZ.getString( "deploy.error.config.schema.invalid",
-                               implementationKey );
+                               name );
 
             //back out any schemas that we have already stored for this app
             while( --i >= 0 )
             {
-                m_validator.removeSchema( name,
-                                          implementationKey );
+                m_validator.removeSchema( application,
+                                          blocks[i].getMetaData().getName() );
             }
 
             throw new DeploymentException( message, e );
@@ -550,7 +553,7 @@ public class DefaultDeployer
             metaData.getPartition( ContainerConstants.BLOCK_PARTITION );
         for( int i = 0; i < configurations.length; i++ )
         {
-            final Configuration configuration = configurations[ i ];
+            final Configuration configuration = configurations[i];
             final String name = configuration.getName();
             final boolean listener =
                 null != listenerPartition.getComponent( name );
