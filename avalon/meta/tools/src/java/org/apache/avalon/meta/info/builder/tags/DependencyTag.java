@@ -33,7 +33,7 @@ import java.util.Set;
  * A doclet tag representing the lifestyle assigned to the Type.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/02/21 13:27:04 $
+ * @version $Revision: 1.4 $ $Date: 2004/02/26 00:02:18 $
  */
 public class DependencyTag extends AbstractTag
 {
@@ -90,7 +90,8 @@ public class DependencyTag extends AbstractTag
         {
             JavaMethod method = m_methods[j];
             boolean flag = method.isConstructor();
-            if( flag ) n++;
+            if( flag ) 
+                n++;
 
             final DocletTag[] tags =
                     method.getTagsByName( getNS()
