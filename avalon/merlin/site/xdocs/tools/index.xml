@@ -46,15 +46,23 @@ and services, and an equivalent Maven plugin.
           </tr>
         </table>
       </subsection>
-      <subsection name="Related Resources">
+      <subsection name="Related Resources">s
         <table>
-          <tr><th>Topic</th><th>Summary</th></tr>
+          <tr><th>Topic</th><th>Summary</th></tr>ss
+          <tr>
+            <td>
+<a href="http://avalon.apache.org/meta/tools/index.html">Avalon Meta Plugin</a></td>
+            <td>
+              Plugin for Maven and supporting ant task that provides automatic 
+              generation of meta-info component type descriptors.
+            </td>
+          </tr>
           <tr>
             <td>
 <a href="http://avalon.apache.org/meta/tools/index.html">Javadoc Tags</a></td>
             <td>
               Reference specification of the Javadoc Tags used to 
-              support automation of component and service metadata.
+              support automation of component and service metainfo.
             </td>
           </tr>
         </table>

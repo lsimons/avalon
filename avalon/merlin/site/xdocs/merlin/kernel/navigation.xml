@@ -37,8 +37,6 @@
       <item name="Merlin System" href="/merlin/index.html">
         <item name="Kernel" href="/merlin/kernel/index.html">
           <item name="Embedding" href="/merlin/kernel/embedding/index.html"/>
-          <item name="Properties" href="/merlin/kernel/properties.html"/>
-          <item name="CLI Handler" href="/merlin/kernel/cli.html"/>
           <item name="NT Service" href="/merlin/kernel/nt.html"/>
         </item>
         <item name="Block" href="/merlin/block/index.html"/>

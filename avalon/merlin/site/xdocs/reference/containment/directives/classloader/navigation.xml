@@ -43,25 +43,26 @@
       <item name="Javadoc" href="/api/index.html"/>
       <item name="Specification" href="/reference/index.html">
         <item name="Component Specification" href="/reference/component/index.html"/>
-        <item name="Container Specification" href="/reference/containment/index.html"/>
-        <item name="Deployment Specification" href="/reference/deployment/index.html"/>
-        <item name="System Specification" href="/reference/system/index.html">
-          <item name="Properties" href="/reference/system/properties.html"/>
-          <item name="kernel" href="/reference/system/kernel/index.html">
-            <item name="security" href="/reference/system/kernel/security/index.html"/>
-            <item name="repository" href="/reference/system/kernel/repository/index.html">
-              <item name="cache" href="/reference/system/kernel/repository/cache.html"/>
-              <item name="proxy" href="/reference/system/kernel/repository/proxy.html"/>
-              <item name="hosts" href="/reference/system/kernel/repository/hosts.html"/>
+        <item name="Container Specification" href="/reference/containment/index.html">
+          <item name="container" href="/reference/containment/directives/index.html">
+            <item name="services" href="/reference/containment/directives/services/index.html"/>
+            <item name="classloader" href="/reference/containment/directives/classloader/index.html">
+              <item name="classpath" href="/reference/containment/directives/classloader/classpath/index.html"/>
+              <item name="library" href="/reference/containment/directives/classloader/extensions.html"/>
             </item>
+            <item name="component" href="/reference/containment/directives/components/index.html"/>
+            <item name="container" href="/reference/containment/directives/index.html"/>
+            <item name="include" href="/reference/containment/directives/include/index.html"/>
           </item>
+          <item name="targets" href="/reference/containment/overrides/index.html"/>
         </item>
+        <item name="Deployment Specification" href="/reference/deployment/index.html"/>
+        <item name="System Specification" href="/reference/system/index.html"/>
       </item>
       <item name="Download" href="/resources/download.html"/>
       <item name="Roadmap" href="/resources/roadmap/index.html"/>
       <item name="DPML" href="/dpml/index.html"/>
     </menu>
-
 
     <menu name="Related Projects">
       <item name="Meta" href="http://avalon.apache.org/meta"/>
