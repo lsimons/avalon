@@ -92,7 +92,7 @@ public class MetaTask
     /**
      * The preferred postfix value.
      */
-    private String m_postfix = ".xinfo";
+    private String m_postfix = "xinfo";
 
     /**
      * Variable that indicates whether the output
@@ -140,10 +140,25 @@ public class MetaTask
      */
     public void setPostfix( String postfix )
     {
+        m_postfix = validatePostfix( postfix );
+    }
+
+    private String getPostfix()
+    {
+        String postfix = getProject().getProperty( "avalon.meta.postfix" );
+        if( null != postfix )
+        {
+            return validatePostfix( postfix );
+        }
+        return m_postfix;
+    }
+
+    private String validatePostfix( String postfix )
+    {
         if( postfix.equalsIgnoreCase( "xtype" )
           || postfix.equalsIgnoreCase( "xinfo" ) )
         {
-            m_postfix = "." + postfix;
+            return postfix.toLowerCase();
         }
         else
         {
@@ -469,7 +484,7 @@ public class MetaTask
         }
         else
         {
-            filename += m_postfix;
+            filename += "." + getPostfix();
         }
         return new File( m_destDir, filename ).getCanonicalFile();
     }
