@@ -50,7 +50,7 @@ import org.apache.excalibur.configuration.ConfigurationUtil;
  * for application to a LoggingManager factory.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class DefaultLoggingCriteria extends Criteria 
   implements LoggingCriteria
@@ -63,7 +63,7 @@ public class DefaultLoggingCriteria extends Criteria
 
     private static final String IMPLEMENTATION_KEY = "avalon.logging.implementation";
 
-    private static final String LOGGING_PROPERTIES = "avalon.logging.properties";
+    private static final String LOGGING_PROPERTIES = "avalon.properties";
 
     private static final Resources REZ =
       ResourceManager.getPackageResources( DefaultLoggingCriteria.class );
@@ -88,11 +88,7 @@ public class DefaultLoggingCriteria extends Criteria
               new Boolean( false ) ),
             new LoggerParameter( 
               LOGGING_BOOTSTRAP_KEY, 
-              new ConsoleLogger( ConsoleLogger.LEVEL_WARN ) ),
-            new Parameter( 
-              FACTORY_ARTIFACT_KEY, 
-              String.class,
-              null )
+              new ConsoleLogger( ConsoleLogger.LEVEL_WARN ) )
         };
     }
 
@@ -168,15 +164,6 @@ public class DefaultLoggingCriteria extends Criteria
     }
 
    /**
-    * Set the artifact referencing the implementation factory.
-    * @param artifact the implementation artifact
-    */
-    public void setFactoryArtifact( Artifact artifact )
-    {
-        put( FACTORY_ARTIFACT_KEY, artifact );
-    }
-
-   /**
     * Get the bootstrap logging channel
     * @return the boootstrap logging channel
     */
@@ -208,6 +195,7 @@ public class DefaultLoggingCriteria extends Criteria
     * @return the logging implementation factory classname
     * @exception IllegalStateException if the url is not an artifact url
     */
+    /*
     public Artifact getFactoryArtifact() throws IOException
     {
         String value = (String) get( FACTORY_ARTIFACT_KEY );
@@ -220,6 +208,7 @@ public class DefaultLoggingCriteria extends Criteria
             return Artifact.createArtifact( value );
         }
     }
+    */
 
    /**
     * Return debug policy.  If TRUE all logging channels will be 
@@ -232,29 +221,6 @@ public class DefaultLoggingCriteria extends Criteria
         Boolean value = (Boolean) get( LOGGING_DEBUG_KEY );
         if( null != value ) return value.booleanValue();
         return false;
-    }
-
-
-    private static Artifact getDefaultImplementationArtifact( 
-      InitialContext context )
-    {
-        try
-        {
-            return DefaultBuilder.createImplementationArtifact( 
-              DefaultLoggingCriteria.class.getClassLoader(), 
-              context.getInitialCacheDirectory(),
-              BASEDIR, 
-              LOGGING_PROPERTIES, 
-              IMPLEMENTATION_KEY );
-        }
-        catch( Throwable e )
-        {
-            final String error = 
-              REZ.getString( 
-                "criteria.artifact.default.error", 
-                BASEDIR, LOGGING_PROPERTIES, IMPLEMENTATION_KEY );
-            throw new LoggingRuntimeException( error, e );
-        }
     }
 
     private static File getCanonicalForm( File file )
