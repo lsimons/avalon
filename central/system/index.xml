@@ -773,32 +773,6 @@
       </dependencies>
     </project>
 
-    <project basedir="../../runtime/main">
-      <info>
-        <group>avalon/runtime</group>
-        <name>avalon-runtime-main</name>
-        <version>3.3.0</version>
-      </info>
-      <dependencies>
-        <include key="avalon-framework-api" tag="api"/>
-        <include key="avalon-util-lifecycle" tag="api"/>
-        <include key="avalon-util-extension-api" tag="spi"/>
-        <include key="avalon-merlin-api" tag="spi"/>
-        <include key="avalon-repository-api" tag="spi"/>
-        <include key="avalon-meta-spi" tag="spi"/>
-        <include key="avalon-repository-spi" tag="spi"/>
-        <include key="avalon-logging-spi" tag="spi"/>
-        <include key="avalon-composition-spi" tag="spi"/>
-        <include key="avalon-composition-impl" tag="impl"/>
-        <include key="avalon-util-configuration" tag="impl"/>
-        <include key="avalon-repository-main" runtime="false"/>
-        <include key="avalon-activation-impl" build="false" test="false" runtime="false"/>
-        <include key="avalon-merlin-api" tag="spi"/>
-        <include key="avalon-merlin-impl"/>
-        <include key="avalon-merlin-cli"/>
-      </dependencies>
-    </project>
-
     <project basedir="../../planet/tutorials/hello" key="avalon-tutorial-hello">
       <info>
         <group>avalon/tutorial</group>
