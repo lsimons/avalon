@@ -20,7 +20,7 @@
 <document>
 
   <header>
-    <title>Include Directive</title>
+    <title>Exclude Directive</title>
     <authors>
       <person name="Stephen McConnell" email="mcconnell@apache.org"/>
       <person name="Timothy Bennett" email="tbennett@apache.org"/>
@@ -29,10 +29,10 @@
 
   <body>
 
-    <section name="Include Declarations">
+    <section name="Exclude Declarations">
 
       <subsection name="Description">
-       <p>Declaration of jar files to include within the scope of a fileset.</p>
+       <p>Declaration of jar files to exclude from the scope of a fileset.</p>
       </subsection>
 
       <subsection name="Attributes">
@@ -42,7 +42,7 @@
           <tr>
             <td>name</td><td>yes</td>
             <td>
-            The name of the file to include. Ant-like wildcard patterns are
+            The name of the file to exclude.  Ant-like wildcard patterns are
             supported.
             </td>
           </tr>
@@ -51,10 +51,12 @@
 
       <subsection name="Sample XML">
       This example includes all the jar files in the lib directory and in all
-      its subdirectories.
+      its subdirectories and excludes all files in the lib directory that
+      contain the -dev string in its filename
 <source>
 &lt;fileset dir="<font color="darkred">lib</font>"&gt;
   &lt;include name="<font color="darkred">**/*.jar</font>"/&gt;
+  &lt;exclude name="<font color="darkred">*-dev*</font>"/&gt;
 &lt;/fileset&gt;
 </source>
       </subsection>
