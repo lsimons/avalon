@@ -63,7 +63,7 @@ Legal:
   <property name="test.dir" value="${src.dir}/test"/>
   <property name="tools.dir" value="../jakarta-avalon/tools"/>
   <property name="docs.dir" value="${build.dir}/docs"/>
-  <property name="www.dir" value="../jakarta-avalon-site/docs/${name}"/>
+  <property name="www.dir" value="../avalon-site/docs/${name}"/>
   <property name="xdocs.dir" value="${src.dir}/xdocs"/>
   <property name="context.dir" value="../jakarta-avalon/src/documentation"/>
   <property name="javadocs.dir" value="${docs.dir}/api"/>
@@ -85,7 +85,7 @@ Legal:
 
   <property name="servlet.jar" value="${lib.dir}/servlet.jar"/>
   <property name="mail.jar" value="${lib.dir}/mail.jar"/>
-  <property name="jakarta-site.dir" value="../jakarta-avalon-site"/>
+  <property name="avalon-site.dir" value="../avalon-site"/>
 
   <path id="project.class.path">
     <pathelement path="${java.class.path}" />
@@ -101,7 +101,7 @@ Legal:
   </path>
 
   <path id="tools.class.path">
-    <fileset dir="${jakarta-site.dir}/lib"/>
+    <fileset dir="${avalon-site.dir}/lib"/>
   </path>
 
   <path id="test.class.path">
@@ -419,7 +419,7 @@ Legal:
             AnakiaTask is not present! Please check to make sure that
             velocity.jar is in your classpath. The easiest way to build
             the documentation is to checkout jakarta-site CVS and specify
-            jakarta-site.dir property.
+            avalon-site.dir property.
         </echo>
     </target>
 
