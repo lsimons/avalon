@@ -98,7 +98,7 @@ import org.apache.avalon.util.i18n.Resources;
  * as a part of a containment deployment model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.41 $ $Date: 2004/03/11 01:30:38 $
+ * @version $Revision: 1.42 $ $Date: 2004/03/13 23:26:57 $
  */
 public class DefaultContainmentModel extends DefaultDeploymentModel 
   implements ContainmentModel
@@ -445,10 +445,24 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
             for( int i=0; i<models.length; i++ )
             {
                 DeploymentModel model = models[i];
-                model.disassemble();
+                if( model instanceof ContainmentModel )
+                {
+                    ContainmentModel containment = (ContainmentModel) model;
+                    containment.disassemble();
+                }
+                else
+                {
+                    ComponentModel component = (ComponentModel) model;
+                    dissasemble( component );
+                }
             }
             m_assembly.setEnabled( false );
         }
+    }
+
+    private void dissasemble( ComponentModel model )
+    {
+        // TODO
     }
 
     /**

@@ -29,6 +29,9 @@ import org.apache.avalon.composition.data.DependencyDirective;
 import org.apache.avalon.composition.data.StageDirective;
 import org.apache.avalon.composition.data.ContextDirective;
 import org.apache.avalon.composition.data.Mode;
+import org.apache.avalon.composition.info.DeliveryDescriptor;
+import org.apache.avalon.composition.info.NativeDeliveryDescriptor;
+import org.apache.avalon.composition.info.StagedDeliveryDescriptor;
 import org.apache.avalon.composition.model.AssemblyException;
 import org.apache.avalon.composition.model.ContextModel;
 import org.apache.avalon.composition.model.DependencyModel;
@@ -68,7 +71,7 @@ import org.apache.excalibur.configuration.CascadingConfiguration;
  * Deployment model defintion.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.15 $ $Date: 2004/03/11 13:17:44 $
+ * @version $Revision: 1.16 $ $Date: 2004/03/13 23:26:57 $
  */
 public class DefaultComponentModel extends DefaultDeploymentModel 
   implements ComponentModel
@@ -78,7 +81,7 @@ public class DefaultComponentModel extends DefaultDeploymentModel
     //--------------------------------------------------------------
 
     private static final Resources REZ =
-            ResourceManager.getPackageResources( DefaultComponentModel.class );
+      ResourceManager.getPackageResources( DefaultComponentModel.class );
 
    private static final String CONTEXTUALIZABLE = 
      "org.apache.avalon.framework.context.Contextualizable";
@@ -94,8 +97,6 @@ public class DefaultComponentModel extends DefaultDeploymentModel
     private final ComponentContext m_context;
 
     private final ContextModel m_contextModel;
-
-    private final boolean m_contextDependent;
 
     private final DependencyModel[] m_dependencies;
 
@@ -169,22 +170,14 @@ public class DefaultComponentModel extends DefaultDeploymentModel
             }
         }
 
-        m_contextDependent = getContextDependentState();
-
-        if( m_contextDependent )
-        {
-            final ContextDescriptor contextDescriptor = 
-              m_context.getType().getContext();
-            final ContextDirective contextDirective = 
-              m_context.getComponentProfile().getContext();
-            final Logger log = getLogger().getChildLogger( "context" );
-            m_contextModel = new DefaultContextModel( 
-              log, contextDescriptor, contextDirective, context );
-        }
-        else
-        {
-            m_contextModel = null;
-        }
+        final ContextDescriptor contextDescriptor = 
+          m_context.getType().getContext();
+        final ContextDirective contextDirective = 
+          m_context.getComponentProfile().getContext();
+        final Logger log = getLogger().getChildLogger( "context" );
+        m_contextModel = 
+          new DefaultContextModel( 
+            log, contextDescriptor, contextDirective, context );
 
         //
         // create the dependency models for subsequent assembly
@@ -280,12 +273,17 @@ public class DefaultComponentModel extends DefaultDeploymentModel
 
     private boolean isContextAssembled()
     {
-        if( null == getContextModel() ) return true;
-        Class clazz = getContextModel().getStrategyClass();
-        if( clazz.getName().equals( 
-          ContextModel.DEFAULT_STRATEGY_CLASSNAME ) )
-            return true;
-        return ( null != getContextModel().getProvider() );
+        ContextModel model = getContextModel();
+        if( model.isEnabled() )
+        {
+            DeliveryDescriptor delivery = 
+              getContextModel().getDeliveryDescriptor();
+            if( delivery instanceof StagedDeliveryDescriptor )
+            {
+                return ( null != getContextModel().getProvider() );
+            }
+        }
+        return true;
     }
 
     private boolean isStageAssembled()
@@ -309,23 +307,6 @@ public class DefaultComponentModel extends DefaultDeploymentModel
     }
 
     /**
-     * Assemble the model.
-     * @exception Exception if an error occurs during model assembly
-     */
-    public void assemble( List subjects ) throws AssemblyException
-    {
-        getLogger().warn( "## component assembly request in : " + this + " with " + subjects );
-    }
-
-    /**
-     * Disassemble the model.
-     */
-    public void disassemble()
-    {
-        // nothing to do
-    }
-
-    /**
      * Return the set of models assigned as providers.
      * @return the providers consumed by the model
      * @exception IllegalStateException if the model is not in an assembled state 
@@ -340,7 +321,7 @@ public class DefaultComponentModel extends DefaultDeploymentModel
         }
 
         final ArrayList list = new ArrayList();
-        if( null != getContextModel() )
+        if( getContextModel().isEnabled() )
         {
             DeploymentModel provider = getContextModel().getProvider();
             if( provider != null )
@@ -699,18 +680,6 @@ public class DefaultComponentModel extends DefaultDeploymentModel
     }
 
    /**
-    * Test if the component type backing the model requires the 
-    * establishment of a runtime context.
-    *
-    * @return TRUE if the component type requires a runtime
-    *   context otherwise FALSE
-    */
-    public boolean isContextDependent()
-    {
-        return m_contextDependent;
-    }
-
-   /**
     * Return the context model for this deployment model.
     * 
     * @return the context model if this model is context dependent, else
@@ -720,7 +689,6 @@ public class DefaultComponentModel extends DefaultDeploymentModel
     {
         return m_contextModel;
     }
-
 
    /**
     * Return the dependency models for this component type.
@@ -863,87 +831,6 @@ public class DefaultComponentModel extends DefaultDeploymentModel
     //==============================================================
     // implementation
     //==============================================================
-
-   /**
-    * Test if the component type backing the model requires the 
-    * establishment of a runtime context.
-    *
-    * @param return TRUE if the component type requires a runtime
-    *   context otherwise FALSE
-    */
-    private boolean getContextDependentState()
-    {
-        if( m_context.getType().getStages().length > 0 )
-        {
-            return true;
-        }
-
-        Class base = m_context.getDeploymentClass();
-        String strategy = 
-          m_context.getType().getContext().getAttribute( 
-              ContextDescriptor.STRATEGY_KEY, null );
-        ClassLoader classLoader = m_context.getClassLoader();
-
-        if( strategy != null )
-        {
-            Class contextualizable = 
-              getComponentClass( classLoader, strategy );
-
-            if( contextualizable == null )
-            {
-                final String error = 
-                  REZ.getString( 
-                    "deployment.missing-strategy.error", 
-                    strategy, base.getName() );
-                throw new IllegalStateException( error );
-            }
-            else
-            {
-                if( contextualizable.isAssignableFrom( base ) )
-                {
-                    return true;
-                }
-                else
-                {
-                    final String error = 
-                      REZ.getString( 
-                        "deployment.inconsitent-strategy.error",
-                        contextualizable, base );
-                    throw new IllegalStateException( error );
-                }
-            }
-        }
-        else
-        {
-            //
-            // its either classic avalon 4.1 or its 4.2 constructor 
-            // based - first off check the constructor for a type 
-            // corresponding to the base class
-            //
-            
-            String contextClassname = 
-              m_context.getType().getContext().getContextInterfaceClassname();
-            Class contextClass = 
-              getComponentClass( classLoader, contextClassname );
-            boolean isConstructorBased = isaConstructorArg( contextClass );
-            if( isConstructorBased ) return true;
-            
-            //
-            // otherwise check for classic avalon Contextualizable
-            //
-
-            Class contextualizable = 
-              getComponentClass( classLoader, CONTEXTUALIZABLE );
-            if( contextualizable != null )
-            {
-                if( contextualizable.isAssignableFrom( base ) )
-                {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
 
    /**
     * Test to determin if the first constructor supports the context

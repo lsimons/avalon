@@ -17,14 +17,14 @@
 
 package org.apache.avalon.composition.model;
 
-import org.apache.avalon.framework.context.Context;
+import org.apache.avalon.composition.info.DeliveryDescriptor;
 
 /**
  * <p>Specification of a context model from which a 
  * a fully qualifed context can be established.</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.6 $ $Date: 2004/03/11 18:13:15 $
+ * @version $Revision: 1.7 $ $Date: 2004/03/13 23:26:56 $
  */
 public interface ContextModel extends Dependent
 {
@@ -33,6 +33,20 @@ public interface ContextModel extends Dependent
      */
     public static final String DEFAULT_STRATEGY_CLASSNAME = 
       "org.apache.avalon.framework.context.Contextualizable";
+
+   /**
+    * Return the enabled state of the context model.
+    * 
+    * @return TRUE if enabled else FALSE
+    */
+    boolean isEnabled();
+
+   /**
+    * Return the delivery descriptor.
+    * 
+    * @return the descriptor
+    */
+    DeliveryDescriptor getDeliveryDescriptor();
 
    /**
     * Return the class that the context is castable to.

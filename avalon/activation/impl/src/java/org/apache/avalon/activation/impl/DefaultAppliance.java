@@ -36,7 +36,7 @@ import org.apache.avalon.util.i18n.Resources;
 /**
  * Abstract appliance.
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2004/03/08 11:28:35 $
+ * @version $Revision: 1.6 $ $Date: 2004/03/13 23:26:56 $
  */
 public class DefaultAppliance extends AbstractAppliance
 {
@@ -182,24 +182,6 @@ public class DefaultAppliance extends AbstractAppliance
                   model.getInterfaces(),
                   handler );
             }
-            //catch( AccessControlException e )
-            //{
-            //    Permission p = e.getPermission();
-            //    if( null != p )
-            //    {
-            //        final String warning = 
-            //          "Proxy creation disabled due to insufficient permission: [" 
-            //          + p.getName()
-            //          + "].";
-            //        getLogger().warn( warning );
-            //    }
-            //    else
-            //    {
-            //        final String warning = 
-            //          "Proxy creation disabled due to access control restriction."; 
-            //        getLogger().warn( warning );
-            //    }
-            //}
             catch( Throwable e )
             {
                 final String error = 

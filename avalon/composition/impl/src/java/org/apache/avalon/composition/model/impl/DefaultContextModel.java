@@ -25,6 +25,11 @@ import org.apache.avalon.composition.data.ContextDirective;
 import org.apache.avalon.composition.data.EntryDirective;
 import org.apache.avalon.composition.data.ImportDirective;
 import org.apache.avalon.composition.data.ConstructorDirective;
+import org.apache.avalon.composition.info.DeliveryDescriptor;
+import org.apache.avalon.composition.info.NullDeliveryDescriptor;
+import org.apache.avalon.composition.info.StagedDeliveryDescriptor;
+import org.apache.avalon.composition.info.InjectorDeliveryDescriptor;
+import org.apache.avalon.composition.info.NativeDeliveryDescriptor;
 import org.apache.avalon.composition.model.EntryModel;
 import org.apache.avalon.composition.model.ContextModel;
 import org.apache.avalon.composition.model.ComponentModel;
@@ -33,6 +38,7 @@ import org.apache.avalon.composition.model.ModelException;
 import org.apache.avalon.composition.provider.ComponentContext;
 
 import org.apache.avalon.framework.context.Context;
+import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.Logger;
@@ -49,7 +55,7 @@ import org.apache.avalon.util.i18n.Resources;
  * a fully qualifed context can be established.</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.14 $ $Date: 2004/03/11 18:13:15 $
+ * @version $Revision: 1.15 $ $Date: 2004/03/13 23:26:57 $
  */
 public class DefaultContextModel extends DefaultDependent implements ContextModel
 {
@@ -93,6 +99,8 @@ public class DefaultContextModel extends DefaultDependent implements ContextMode
 
     private final Class m_castingClass;
 
+    private final DeliveryDescriptor m_delivery;
+
     //==============================================================
     // constructor
     //==============================================================
@@ -126,6 +134,7 @@ public class DefaultContextModel extends DefaultDependent implements ContextMode
             throw new NullPointerException( "context" );
         }
 
+
         m_descriptor = descriptor;
         m_directive = directive;
         m_context = context;
@@ -134,6 +143,7 @@ public class DefaultContextModel extends DefaultDependent implements ContextMode
         m_strategy = loadStrategyClass( descriptor, classLoader );
         Class impl = loadContextClass( directive, classLoader );
         m_castingClass = getContextCastingClass( descriptor, classLoader, impl );
+        m_delivery = createDeliveryDescriptor( descriptor, context, m_castingClass );
 
         //
         // get the set of context entries declared by the component type
@@ -225,10 +235,129 @@ public class DefaultContextModel extends DefaultDependent implements ContextMode
             classLoader, impl, descriptor, directive, m_map );
     }
 
+    public boolean isEnabled()
+    {
+        return m_delivery != null;
+    }
+
+   /**
+    * Return the delivery descriptor for the context model.  If 
+    * the component is non-contextualizable the method return null.
+    *
+    * @param return the delivery descriptor
+    */
+    private DeliveryDescriptor createDeliveryDescriptor( 
+      ContextDescriptor descriptor, ComponentContext context, Class casting ) throws ModelException
+    {
+        Class base = context.getDeploymentClass();
+        ClassLoader classLoader = context.getClassLoader();
+        String strategy = 
+          context.getType().getContext().getAttribute( 
+            ContextDescriptor.STRATEGY_KEY, null );
+
+        if( Contextualizable.class.isAssignableFrom( base ) )
+        {
+            //
+            // Its's classic Avalon 4.1
+            //
+
+            return new NativeDeliveryDescriptor( casting );
+        }
+        else if( isaConstructorArg( casting, base ) )
+        {
+            //
+            // use constructor injection via Avalon 4.2
+            //
+
+            return new InjectorDeliveryDescriptor( casting );
+        }
+        else if( null != strategy )
+        {
+            //
+            // A custom strategy has been declared so we need to
+            // make sure the strategy class exists and declare a 
+            // staged delivery mechanism.
+            //
+
+            Class contextualizable = 
+              loadClass( classLoader, strategy );
+            if( contextualizable == null )
+            {
+                final String error = 
+                  REZ.getString( 
+                    "deployment.missing-strategy.error", 
+                    strategy, base.getName() );
+                throw new IllegalStateException( error );
+            }
+            else
+            {
+                //
+                // Verify that the base class implements the 
+                // stage delivery interface.
+                //
+
+                if( contextualizable.isAssignableFrom( base ) )
+                {
+                    return new StagedDeliveryDescriptor( 
+                      casting, contextualizable );
+                }
+                else
+                {
+                    final String error = 
+                      REZ.getString( 
+                        "deployment.inconsitent-strategy.error",
+                        contextualizable, base );
+                    throw new IllegalStateException( error );
+                }
+            }
+        }
+        else
+        {
+            if( context.getType().getStages().length > 0 )
+            {
+                return new NullDeliveryDescriptor( Context.class );
+            }
+            else
+            {
+                return null;
+            }
+        }
+    }
+
+    private Class loadClass( ClassLoader classLoader, String classname )
+    {
+        if( classLoader == null )
+        {
+            throw new NullPointerException( "classLoader" );
+        }
+        if( classname == null )
+        {
+            throw new NullPointerException( "classname" );
+        }
+
+        try
+        {
+            return classLoader.loadClass( classname );
+        }
+        catch( ClassNotFoundException e )
+        {
+            return null;
+        }
+    }
     
     //==============================================================
     // ContextModel
     //==============================================================
+
+   /**
+    * Return the delivery descriptor.
+    * 
+    * @return the descriptor
+    */
+    public DeliveryDescriptor getDeliveryDescriptor()
+    {
+        return m_delivery;
+    }
 
    /**
     * Return the set of entry models associated with this context model.
@@ -502,18 +631,7 @@ public class DefaultContextModel extends DefaultDependent implements ContextMode
         }
         else
         {
-            try
-            {
-                castingClass =
-                  classLoader.loadClass( Context.class.getName() );
-            }
-            catch( Throwable e )
-            {
-                final String error = 
-                  "Cannot load standard Avalon context interface class: "
-                  + Context.class.getName();
-                throw new ModelException( error, e );
-            }
+            castingClass = Context.class;
         }
 
         if( !castingClass.isAssignableFrom( clazz ) )
@@ -528,5 +646,24 @@ public class DefaultContextModel extends DefaultDependent implements ContextMode
         }
 
         return castingClass;
+    }
+
+   /**
+    * Test to determin if the constructor supports the context
+    * base class as a parameter type.
+    * @return TRUE or FALSE
+    */
+    private boolean isaConstructorArg( Class clazz, Class base )
+    {
+        if( null == base ) return false;
+        Constructor[] constructors = clazz.getConstructors();
+        if( constructors.length == 0 ) return false;
+        Constructor constructor = constructors[0];
+        Class[] types = constructor.getParameterTypes();
+        for( int i=0; i<types.length; i++ )
+        {
+            if( base.isAssignableFrom( types[i] ) ) return true;
+        }
+        return false;
     }
 }

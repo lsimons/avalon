@@ -21,6 +21,8 @@ import java.util.List;
 import java.util.ArrayList;
 
 import org.apache.avalon.composition.data.DeploymentProfile;
+import org.apache.avalon.composition.info.DeliveryDescriptor;
+import org.apache.avalon.composition.info.StagedDeliveryDescriptor;
 import org.apache.avalon.composition.model.ContainmentModel;
 import org.apache.avalon.composition.model.ComponentModel;
 import org.apache.avalon.composition.model.DeploymentModel;
@@ -52,7 +54,7 @@ import org.apache.avalon.util.i18n.Resources;
  * a supplied path.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.6 $ $Date: 2004/03/08 11:28:36 $
+ * @version $Revision: 1.7 $ $Date: 2004/03/13 23:26:57 $
  */
 class DefaultContainmentModelAssemblyHelper
 {
@@ -119,7 +121,8 @@ class DefaultContainmentModelAssemblyHelper
          }
          else
          {
-             model.assemble( subjects );
+             ContainmentModel containment = (ContainmentModel) model;
+             containment.assemble( subjects );
          }
     }
 
@@ -131,15 +134,18 @@ class DefaultContainmentModelAssemblyHelper
         // locate and assemble the component context handler
         //
 
-        if( model.getContextModel() != null )
+        ContextModel context = model.getContextModel();
+        DeliveryDescriptor delivery = context.getDeliveryDescriptor();
+        if( context.isEnabled() )
         {
-            ContextModel context = model.getContextModel();
-            Class clazz = context.getStrategyClass();
-            if( !clazz.getName().equals( 
-              ContextModel.DEFAULT_STRATEGY_CLASSNAME ) )
+            if( delivery instanceof StagedDeliveryDescriptor )
             {
                 if( null == context.getProvider() )
                 {
+                    StagedDeliveryDescriptor phased = 
+                     (StagedDeliveryDescriptor) delivery;
+                    Class clazz = phased.getDeliveryInterfaceClass();
+
                     try
                     {
                         subjects.add( model );

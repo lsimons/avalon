@@ -39,7 +39,7 @@ import org.apache.avalon.logging.data.CategoriesDirective;
  * Model desribing a deployment scenario.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.18 $ $Date: 2004/02/29 22:25:26 $
+ * @version $Revision: 1.19 $ $Date: 2004/03/13 23:26:56 $
  */
 public interface DeploymentModel extends Commissionable, Resolver
 {
@@ -138,13 +138,6 @@ public interface DeploymentModel extends Commissionable, Resolver
      */
     boolean isAssembled();
 
-    /**
-     * Assemble the model.
-     * @param subjects a list of deployment models that make up the assembly chain
-     * @exception Exception if an error occurs during model assembly
-     */
-    void assemble( List subjects ) throws AssemblyException;
-
    /**
     * Return the set of models consuming this model.
     * @return the consumers
@@ -156,11 +149,6 @@ public interface DeploymentModel extends Commissionable, Resolver
     * @return the providers
     */
     DeploymentModel[] getProviderGraph();
-
-    /**
-     * Disassemble the model.
-     */
-    void disassemble();
 
     /**
      * Return the set of models assigned as providers.

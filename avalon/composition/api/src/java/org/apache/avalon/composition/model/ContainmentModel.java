@@ -18,6 +18,7 @@
 package org.apache.avalon.composition.model;
 
 import java.net.URL;
+import java.util.List;
 
 import org.apache.avalon.composition.data.DeploymentProfile;
 import org.apache.avalon.composition.data.ServiceDirective;
@@ -34,7 +35,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * context.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.21 $ $Date: 2004/02/25 22:54:09 $
+ * @version $Revision: 1.22 $ $Date: 2004/03/13 23:26:56 $
  */
 public interface ContainmentModel extends DeploymentModel
 {
@@ -81,6 +82,18 @@ public interface ContainmentModel extends DeploymentModel
      * @exception Exception if an error occurs during model assembly
      */
     void assemble() throws AssemblyException;
+
+    /**
+     * Assemble the model.
+     * @param subjects a list of deployment models that make up the assembly chain
+     * @exception Exception if an error occurs during model assembly
+     */
+    void assemble( List subjects ) throws AssemblyException;
+
+    /**
+     * Disassemble the model.
+     */
+    void disassemble();
 
    /**
     * Return the set of models nested within this model.
