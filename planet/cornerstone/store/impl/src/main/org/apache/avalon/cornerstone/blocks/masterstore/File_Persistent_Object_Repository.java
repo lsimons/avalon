@@ -43,10 +43,7 @@ public class File_Persistent_Object_Repository
     extends AbstractFilePersistentObjectRepository
     implements ObjectRepository, Contextualizable, Initializable, Configurable, LogEnabled
 {
-    protected String getExtensionDecorator()
-    {
-        return ".FileObjectStore";
-    }
+
 
     public void enableLogging(Logger logger) {
         AvalonFileRepositoryMonitor avMonitor = new AvalonFileRepositoryMonitor();
