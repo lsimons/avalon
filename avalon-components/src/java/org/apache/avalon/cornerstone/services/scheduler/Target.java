@@ -10,7 +10,7 @@ package org.apache.avalon.cornerstone.services.scheduler;
 /**
  * This is the interface to implement to receive notification trigger.
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  * @author <a href="mailto:fede@apache.org">Federico Barbieri</a>
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  */

@@ -27,7 +27,7 @@ import org.apache.avalon.phoenix.Block;
 /**
  * This is the service through which ConnectionManagement occurs.
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public class DefaultConnectionManager
     extends AbstractLogEnabled

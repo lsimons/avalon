@@ -25,7 +25,7 @@ import org.apache.avalon.excalibur.thread.ThreadPool;
  * Support class for the DefaultConnectionManager.
  * This manages an individual ServerSocket.
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 class Connection
     extends AbstractLogEnabled

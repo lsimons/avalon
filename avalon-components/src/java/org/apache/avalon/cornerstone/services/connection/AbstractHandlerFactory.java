@@ -22,7 +22,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
 /**
  * Helper class to extend to create handler factorys.
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public abstract class AbstractHandlerFactory
     extends AbstractLogEnabled

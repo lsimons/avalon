@@ -21,7 +21,7 @@ import org.apache.avalon.phoenix.Block;
 /**
  * Default implementation of ThreadManager.
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public class DefaultThreadManager
     extends AbstractLogEnabled

@@ -13,7 +13,7 @@ import org.apache.avalon.phoenix.Service;
 /**
  * Manage a set of ThreadPools.
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public interface ThreadManager
 {
