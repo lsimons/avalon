@@ -25,7 +25,7 @@ import org.apache.avalon.framework.thread.ThreadSafe;
 
 /**
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/11/07 05:25:55 $
+ * @version CVS $Revision: 1.5 $ $Date: 2002/11/12 01:03:12 $
  * @since 4.1
  */
 public abstract class AbstractDataSourceCluster
@@ -86,7 +86,7 @@ public abstract class AbstractDataSourceCluster
      *  is controlling it.
      *
      * @param manager which curently owns the component.
-     * @avalon.service interface="org.apache.avalon.excalibur.datasource.DataSourceComponentClusterSelector"
+     * @avalon.service type="org.apache.avalon.excalibur.datasource.DataSourceComponentClusterSelector"
      */
     public void service( final ServiceManager manager )
         throws ServiceException
