@@ -24,11 +24,11 @@ public class AvalonFormatter
 {
     public AvalonFormatter()
     {
-        super();
+        super( "%{time} [%7.7{priority}] (%{category}): %{message}\\n%{throwable}" );
     }
 
-    public AvalonFormatter(String pattern)
+    public AvalonFormatter( final String pattern )
     {
-        super(pattern);
+        super( pattern );
     }
 }
