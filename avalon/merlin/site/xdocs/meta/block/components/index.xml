@@ -79,6 +79,15 @@
             <td>The activation policy.  Recognized values include 
             'startup' and 'lazy'.</td>
           </tr>
+          <tr>
+            <td>profile</td><td>no</td>
+            <td>The name of a template profile.  If supplied, the name 
+              must correspond to a named profile assoiated with the component
+              type. The resulting component will be based on the the template.
+              Addition directives contained with the component element are 
+              ignored at this time.  Future version may provide support
+              for profile extension. <i>Since 3.1</i></td>
+          </tr>
         </table>
 
       </subsection>
