@@ -10,7 +10,7 @@
 # It is overridden by ../ant.properties and ~/build.properties
 # It overrides all default.properties files and ~/.ant.properties
 #
-# $Id: ant.properties.sample,v 1.6 2002/04/11 17:36:22 bloritsch Exp $
+# $Id: ant.properties.sample,v 1.7 2002/04/12 10:03:12 jefft Exp $
 # -----------------------------------------------------------------------------
 
 # ----- Compile Control Flags -----
@@ -34,6 +34,11 @@ excalibur-util.jar=${excalibur-util.lib}/excalibur-util-1.0.jar
 excalibur-thread.home=${basedir}/../thread/dist
 excalibur-thread.lib=${excalibur-thread.home}
 excalibur-thread.jar=${excalibur-thread.lib}/excalibur-thread-1.0.jar
+
+# ----- Excalibur threadcontext, version 1.0 or later -----
+excalibur-threadcontext.home=${basedir}/../threadcontext/dist
+excalibur-threadcontext.lib=${excalibur-threadcontext.home}
+excalibur-threadcontext.jar=${excalibur-threadcontext.lib}/excalibur-threadcontext-1.0.jar
 
 # ----- Excalibur Collections, version 1.0 or later -----
 excalibur-collections.home=${basedir}/../collections/dist
