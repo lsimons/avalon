@@ -74,7 +74,7 @@ import java.util.*;
  * ANT task to collect all the meta information for the components.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.21 $ $Date: 2003/05/27 14:59:03 $
+ * @version CVS $Revision: 1.22 $ $Date: 2003/05/27 15:01:42 $
  */
 public final class ComponentMetaInfoCollector extends AbstractQdoxTask
 {
