@@ -53,7 +53,7 @@
         <available property="framework.present" classname="org.apache.avalon.framework.logger.AbstractLogEnabled">
             <classpath refid="project.class.path"/>
         </available>
-        
+
         <available property="ecm.present" classname="org.apache.avalon.excalibur.component.ExcaliburComponentManager">
             <classpath refid="project.class.path"/>
         </available>
@@ -62,6 +62,9 @@
     <target name="dependencies" description="Check dependencies" unless="skip.dependencies">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkCommon"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkFramework"/>
+    </target>
+
+    <target name="manager-dependencies" unless="skip.dependencies">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkAltrmi"/>
     </target>
 
@@ -93,21 +96,16 @@
                      unless="framework.present"/>
         </javac>
 
-        <javac srcdir="${manager.dir}"
-            destdir="${build.manager.classes}"
-            debug="${build.debug}"
-            optimize="${build.optimize}"
-            deprecation="${build.deprecation}"
-            target="1.2">
-            <classpath>
-              <path refid="project.class.path" />
-              <pathelement path="${build.classes}"/>
-            </classpath>
-            <include name="**/*.java"/>
-            <exclude name="org/apache/excalibur/instrument/component/*"
-                     unless="ecm.present"/>
-        </javac>
+        <!-- copy resources to same location as .class files -->
+        <copy todir="${build.classes}">
+            <fileset dir="${java.dir}">
+                <exclude name="**/*.java"/>
+                <exclude name="**/package.html"/>
+            </fileset>
+        </copy>
+    </target>
 
+    <target name="compile-manager" depends="manager-dependencies, compile" description="Compile Manager source Code">
         <javac srcdir="${client.dir}"
             destdir="${build.client.classes}"
             debug="${build.debug}"
@@ -122,14 +120,20 @@
             <include name="**/*.java"/>
         </javac>
 
-        <!-- copy resources to same location as .class files -->
-        <copy todir="${build.classes}">
-            <fileset dir="${java.dir}">
-                <exclude name="**/*.java"/>
-                <exclude name="**/package.html"/>
-            </fileset>
-        </copy>
-
+        <javac srcdir="${manager.dir}"
+            destdir="${build.manager.classes}"
+            debug="${build.debug}"
+            optimize="${build.optimize}"
+            deprecation="${build.deprecation}"
+            target="1.2">
+            <classpath>
+              <path refid="project.class.path" />
+              <pathelement path="${build.classes}"/>
+            </classpath>
+            <include name="**/*.java"/>
+            <exclude name="org/apache/excalibur/instrument/component/*"
+                     unless="ecm.present"/>
+        </javac>
     </target>
 
     <!-- Generates the altrmi proxies used by the client. -->
@@ -187,7 +191,7 @@
     </target>
 
     <!-- Creates all the .jar file -->
-    <target name="jar" depends="compile, prepare-conf, altrmiproxies" description="Generates the jar files">
+    <target name="jar" depends="compile, prepare-conf" description="Generates the jar files">
 
         <mkdir dir="${build.lib}"/>
 
@@ -206,7 +210,9 @@
                 <include name="LICENSE.txt"/>
             </zipfileset>
         </jar>
+    </target>
 
+    <target name="manager-jar" depends="jar, altrmiproxies">
         <jar jarfile="${build.lib}/${client.jar.name}"
             basedir="${build.client.classes}"
             compress="${build.compress}">
@@ -259,7 +265,7 @@
     </target>
 
     <!-- Creates all the Javadocs -->
-    <target name="javadocs" depends="compile" description="Generates the javadocs" unless="skip.javadocs">
+    <target name="javadocs" depends="compile, compile-manager" description="Generates the javadocs" unless="skip.javadocs">
 
         <mkdir dir="${dist.javadocs}"/>
         <javadoc packagenames="org.apache.*"
@@ -405,7 +411,7 @@
 
         <gzip zipfile="${dist.base}/${dist.name}-bin.tar.gz"
         src="${dist.name}-bin.tar"/>
-    
+
         <bzip2 zipfile="${dist.base}/${dist.name}-bin.tar.bz2"
                src="${dist.name}-bin.tar"/>
 
@@ -439,7 +445,7 @@
 
         <gzip zipfile="${dist.base}/${dist.name}-src.tar.gz"
         src="${dist.name}-bin.tar"/>
-    
+
         <bzip2 zipfile="${dist.base}/${dist.name}-src.tar.bz2"
         src="${dist.name}-bin.tar"/>
 
@@ -473,6 +479,17 @@
         <copy todir="${dist.dir}">
             <fileset dir="${build.lib}">
                 <include name="*.jar"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="dist-manager-jar" depends="manager-jar">
+        <mkdir dir="${dist.dir}"/>
+        <copy todir="${dist.dir}">
+            <fileset dir="${build.lib}">
+                <include name="${manager.jar.name}"/>
+                <include name="${manager-interfaces.name}.jar"/>
+                <include name="${client.jar.name}"/>
             </fileset>
         </copy>
     </target>
