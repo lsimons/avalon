@@ -74,7 +74,7 @@ Legal:
 
     <property name="tools.jar" value="${java.home}/../lib/tools.jar"/>
 
-    <property name="logkit.jar" value="${tools.dir}/ext/logkit-1.0.1.jar"/>
+    <property name="logkit.jar" value="${tools.dir}/ext/logkit-20020529.jar"/>
     <property name="xerces.jar" value="${tools.dir}/lib/xerces-2.0.1.jar"/>
     <property name="xalan.jar" value="${tools.dir}/lib/xalan-2.3.1.jar"/>
     <property name="bsf.jar" value="${tools.dir}/lib/bsf.jar"/>
