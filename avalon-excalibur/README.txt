@@ -5,7 +5,8 @@
   -----------
 
   Excalibur is a collection of often-needed reusable components. It includes tools for
-  threading, pooling, datasources, CLI option parsing and more.
+  threading, pooling, datasources, command-line interface (CLI) option parsing
+  and more.
 
   Where is it?
   ------------
@@ -15,14 +16,19 @@
   Directory Layout
   ----------------
 
-  Recently, Excalibur was broken up from a single monolithic jar, to a number
-  of reusable components. These components are what you see in all the
-  subdirectories.
+  Excalibur is comprised of a number reusable components. These components are
+  what you see in most of the subdirectories.
+
+  The all/ directory contains a core set of packages that cannot be
+  componentized further (excalibur-core.jar). It is a legacy of a time before
+  Excalibur was componentized, and as such, it's build system has much
+  functionality not yet present elsewhere. In time, functionality in
+  all/build.xml will migrate to ./build.xml.
 
   The avalon-excalibur.jar released in version 4.1 would now consist of the
   following jars:
 
-   all/build/lib/excalibur-core.jar
+   all/build/lib/avalon-excalibur.jar
    cli/build/lib/excalibur-cli-1.0.jar
    collections/build/lib/excalibur-collections-1.0.jar
    concurrent/build/lib/excalibur-concurrent-1.0.jar
@@ -34,6 +40,9 @@
 
    instrument/build/lib/excalibur-instrument-0.1.jar
 
+   Typing 'ant' in the root directory will build an avalon-excalibur.jar
+   containing these components.
+
 
   Component dependencies
   ----------------------
@@ -44,23 +53,15 @@
   your local environment. See the text in ant.properties.sample for more
   information.
 
-  [Update 2001-03-29]
-
-    To date, there remains a core set of packages which are too interrelated to
-    break up further. These reside in the all/ directory. This core set should
-    be regarded as a component in it's own right. Like any other component, it
-    has dependencies on other Excalibur components, recorded in
-    ant.properties.sample.
-
-    The documentation system for all components is still completely within the
-    all/ directory. Type 'ant html-docs' in all/ to build the HTML
-    documentation. This will be fixed in the near future.
+  In general, it is safe to type 'ant', and if an external dependency is
+  missing, you will be prompted on what to add to ant.properties
 
 
   General Building Requirements
   -----------------------------
 
   -JDK1.2 or above
+  -Jakarta Ant 1.4.1 or higher, with optional.jar and junit.jar in $ANT_HOME/lib
   -To build from CVS you must set JAVA_HOME to the jdk dir (eg:/usr/bin/jdk1.2 or
    c:\jdk1.3)
   -To build Informix drivers you need version 2.2 of the JDBC driver
@@ -71,10 +72,10 @@
   ---------------
 
   Generally, one would build individual components, not the whole of Excalibur.
-  However, as noted above, there is a core set of packages, living in all/,
-  that generally constitute what people call 'Excalibur'. To build this, you'll
-  first need to build it's dependencies (listed in all/ant.properties.sample).
-  Then running Ant in all/ should generate the core jar in build/lib/
+  This can be done by typing 'ant' in any component's directory.
+  However, if you type 'ant' in the project root, a file 'avalon-excalibur.jar'
+  will be built, containing a set of components historically regarded as
+  comprising 'Excalibur'.
 
 
   Problems?
