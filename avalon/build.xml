@@ -370,6 +370,8 @@ Legal:
   <!-- Update the www directory -->
   <target name="site-docs" depends="local-docs">
 
+    <mkdir dir="${www.dir}"/>
+
     <!-- delete all old documents but keep CVS directories -->
     <!-- note that by doing an include the defaultexcludes (CVS dirs) will be kept -->
     <delete>
@@ -382,7 +384,7 @@ Legal:
       </fileset>
     </delete>
 
-    <mkdir dir="${www.dir}"/>
+
     <copy todir="${www.dir}">
       <fileset dir="${docs.dir}" />
     </copy>
