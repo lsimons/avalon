@@ -755,6 +755,7 @@ Legal:
         <copy file="${target.lib}/phoenix-engine.jar" todir="${bin.dist.container.lib}"/>
 
         <copy file="${logkit.jar}" todir="${bin.dist.lib}"/>
+        <copy file="${log4j.jar}" todir="${bin.dist.lib}"/>
         <copy file="${framework.jar}" todir="${bin.dist.lib}"/>
         <copy file="${excalibur-instrument.jar}" todir="${bin.dist.lib}"/>
         <copy todir="${bin.dist.tools.lib}">
