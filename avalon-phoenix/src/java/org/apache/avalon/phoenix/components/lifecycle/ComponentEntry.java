@@ -49,7 +49,7 @@ public class ComponentEntry
         m_object = object;
     }
 
-    public synchronized void invalidate()
+    protected synchronized void invalidate()
     {
         m_state = State.VOID;
         m_object = null;
