@@ -10,7 +10,7 @@
 # It is overridden by ../ant.properties and ~/build.properties
 # It overrides all default.properties files and ~/.ant.properties
 #
-# $Id: ant.properties.sample,v 1.12 2003/02/08 14:40:39 hammant Exp $
+# $Id: ant.properties.sample,v 1.13 2003/08/01 06:06:46 leif Exp $
 # -----------------------------------------------------------------------------
 
 # ----- Compile Control Flags -----
@@ -25,43 +25,6 @@ base.path=${basedir}/../..
 # --------------------------------------------------
 #                REQUIRED LIBRARIES
 # --------------------------------------------------
-# ----- Avalon Logkit -----
-logkit.home=${base.path}/avalon-logkit
-logkit.lib=${logkit.home}/build/lib
-logkit.jar=${logkit.lib}/logkit.jar
-
-# ----- Avalon Framework, version 4.1 or later -----
-avalon-framework.home=${base.path}/avalon
-avalon-framework.lib=${avalon-framework.home}/build/lib
-avalon-framework.jar=${avalon-framework.lib}/avalon-framework.jar
-
-# ----- Excalibur Logger -----
-excalibur-logger.home=${avalon-excalibur.home}/logger
-excalibur-logger.lib=${excalibur-logger.home}/build/lib
-excalibur-logger.jar=${excalibur-logger.home}/excalibur-logger-1.0.jar
-
-# ----- Excalibur Pool -----
-excalibur-pool.home=${avalon-excalibur.home}/pool
-excalibur-pool.lib=${excalibur-pool.home}/build/lib
-excalibur-pool.jar=${excalibur-pool.home}/excalibur-pool-1.1.jar
-
-# ----- Excalibur instrument -----
-excalibur-instrument.home=${avalon-excalibur.home}/instrument/dist
-excalibur-instrument.lib=${excalibur-instrument.home}
-excalibur-instrument.jar=${excalibur-instrument.lib}/excalibur-instrument-0.3.jar
-
-# ----- Excalibur instrument-manager -----
-excalibur-instrument-manager.home=${avalon-excalibur.home}/instrument-manager/dist
-excalibur-instrument-manager.lib=${excalibur-instrument-manager.home}
-excalibur-instrument-manager.jar=${excalibur-instrument-manager.lib}/excalibur-instrument-manager-0.3.jar
-excalibur-instrument-manager-interfaces.jar=${excalibur-instrument-manager.lib}/excalibur-instrument-manager-interfaces-0.3.jar
-
-# ----- AltRMI -----
-excalibur-altrmi.home=${avalon-excalibur.home}/altrmi/dist
-excalibur-altrmi-common.jar=${excalibur-altrmi.home}/excalibur-altrmi-common-0.7.jar
-excalibur-altrmi-server-impl.jar=${excalibur-altrmi.home}/excalibur-altrmi-server-impl-0.7.jar
-excalibur-altrmi-server-interfaces.jar=${excalibur-altrmi.home}/excalibur-altrmi-server-interfaces-0.7.jar
-
 
 # --------------------------------------------------
 #                OPTIONAL LIBRARIES
