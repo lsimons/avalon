@@ -32,6 +32,8 @@
   <property name="build.xdocs" value="${build.context}/content/xdocs"/>
   <property name="docs.dir" value="${build.dir}/docs"/>      
 
+  <property name="www.dir" value="../../avalon-site/site"/>
+
   <!-- Sevak specific properties for building -->
   <property name="build.reports" value="${build.dir}/reports"/>
   <property name="build.demoClasses" value="${build.dir}/demoClasses"/>
@@ -80,7 +82,7 @@
     </fileset>
   </path>
 
-  <property name="avalon-site.dir" value="../../avalon-site"/> 
+  <property name="avalon-site.dir" value="../../avalon-site"/>
   <path id="tools.class.path">
     <fileset dir="${avalon-site.dir}/lib"/>
   </path>
