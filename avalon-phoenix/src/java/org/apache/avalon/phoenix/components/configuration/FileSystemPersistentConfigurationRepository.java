@@ -33,6 +33,7 @@ import org.apache.avalon.framework.parameters.ParameterException;
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.phoenix.interfaces.ConfigurationRepository;
+import org.apache.excalibur.configuration.merged.ConfigurationMerger;
 
 /**
  * Repository which persistently stores configuration information on disk
@@ -251,7 +252,7 @@ public class FileSystemPersistentConfigurationRepository extends AbstractLogEnab
         }
         else
         {
-            return new MergedConfiguration( p, c );
+            return ConfigurationMerger.merge( p, c );
         }
     }
 }
