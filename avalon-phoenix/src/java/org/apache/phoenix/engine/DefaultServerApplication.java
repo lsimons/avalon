@@ -12,6 +12,7 @@ import java.util.Iterator;
 import org.apache.avalon.Initializable;
 import org.apache.avalon.atlantis.Application;
 import org.apache.avalon.atlantis.ApplicationException;
+import org.apache.avalon.atlantis.SystemManager;
 import org.apache.avalon.camelot.AbstractContainer;
 import org.apache.avalon.camelot.ContainerException;
 import org.apache.avalon.camelot.Entry;
@@ -57,30 +58,32 @@ import org.apache.phoenix.metainfo.DependencyDescriptor;
  */
 public final class DefaultServerApplication
     extends AbstractContainer
-    implements Application, Configurable, Contextualizable
+    implements Application, Contextualizable, Composable, Configurable
 {
-    protected final static class PhaseEntry
+    private final static class PhaseEntry
     {
         protected BlockDAG.Traversal  m_traversal;
         protected BlockVisitor        m_visitor;
     }
 
-    protected HashMap                  m_phases           = new HashMap();
-    protected BlockDAG                 m_dag              = new BlockDAG();
+    private HashMap                  m_phases           = new HashMap();
+    private BlockDAG                 m_dag              = new BlockDAG();
 
     //the following are used for setting up facilities
-    protected Context                  m_context;
-    protected Configuration            m_configuration;
-    protected ComponentManager         m_componentManager;
+    private Context                  m_context;
+    private Configuration            m_configuration;
+    private ComponentManager         m_componentManager;
 
-    protected ApplicationManager       m_applicationManager;
-    protected LogManager               m_logManager;
-    protected PolicyManager            m_policyManager;
-    protected ThreadManager            m_threadManager;
-    protected ClassLoaderManager       m_classLoaderManager;
+    ///SystemManager provided by kernel
+    private SystemManager            m_systemManager;
 
     //these are the facilities (internal components) of ServerApplication
-    protected ConfigurationRepository  m_configurationRepository;
+    private ApplicationManager       m_applicationManager;
+    private LogManager               m_logManager;
+    private PolicyManager            m_policyManager;
+    private ThreadManager            m_threadManager;
+    private ClassLoaderManager       m_classLoaderManager;
+    private ConfigurationRepository  m_configurationRepository;
 
     public DefaultServerApplication()
     {
@@ -95,6 +98,13 @@ public final class DefaultServerApplication
         newContext.put( "name", context.get( SarContextResources.APP_NAME ) );
         newContext.put( "directory", context.get( SarContextResources.APP_HOME_DIR ) );
         m_context = newContext;
+    }
+
+    public void compose( final ComponentManager componentManager )
+        throws ComponentException
+    {
+        m_systemManager = (SystemManager)componentManager.
+            lookup( "org.apache.avalon.atlantis.SystemManager" );
     }
 
     public void configure( final Configuration configuration )
@@ -131,7 +141,7 @@ public final class DefaultServerApplication
         m_phases.put( "shutdown", entry );
     }
 
-    protected void setupPhases()
+    private void setupPhases()
         throws Exception
     {
         final Iterator phases = m_phases.values().iterator();
@@ -222,9 +232,9 @@ public final class DefaultServerApplication
         setupComponent( m_dag, "<core>.dag", null );
     }
 
-    protected void setupComponent( final Component object,
-                                   final String logName,
-                                   final Configuration configuration )
+    protected final void setupComponent( final Component object,
+                                         final String logName,
+                                         final Configuration configuration )
         throws Exception
     {
         setupLogger( object, logName );
@@ -250,7 +260,7 @@ public final class DefaultServerApplication
         }
     }
 
-    protected void runPhase( final PhaseEntry phase )
+    protected final void runPhase( final PhaseEntry phase )
         throws Exception
     {
         m_dag.walkGraph( phase.m_visitor, phase.m_traversal );
@@ -280,7 +290,7 @@ public final class DefaultServerApplication
      * @param entry the BlockEntry describing block
      * @return the list of RoleEntry objects
      */
-    protected void verifyDependenciesMap( final String name, final BlockEntry entry )
+    private void verifyDependenciesMap( final String name, final BlockEntry entry )
         throws ContainerException
     {
         //Make sure all role entries specified in config file are valid
@@ -323,9 +333,10 @@ public final class DefaultServerApplication
      *
      * @return the ComponentManager
      */
-    protected ComponentManager createComponentManager()
+    private ComponentManager createComponentManager()
     {
         final DefaultComponentManager componentManager = new DefaultComponentManager();
+        componentManager.put( "org.apache.avalon.atlantis.SystemManager", m_systemManager );
         componentManager.put( "org.apache.avalon.camelot.Container", this );
         componentManager.put( "org.apache.phoenix.engine.facilities.PolicyManager",
                               m_policyManager );
