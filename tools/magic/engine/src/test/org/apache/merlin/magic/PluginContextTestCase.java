@@ -2,7 +2,6 @@ package org.apache.merlin.magic;
 
 import java.io.File;
 import java.io.InputStream;
-import java.util.Properties;
 
 import junit.framework.TestCase;
 
@@ -27,7 +26,7 @@ public class PluginContextTestCase extends TestCase
         m_ProjectDir = new File( "target/projectdir");
         m_ProjectDir.mkdir();
         
-        Properties projectProps = new Properties();
+        PluginProperties projectProps = new PluginProperties();
         InputStream in = getClass().getResourceAsStream( "test.properties");
         projectProps.load( in );
         

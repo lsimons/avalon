@@ -1,8 +1,10 @@
 package org.apache.merlin.magic;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+
 import java.lang.reflect.Method;
-import java.util.Properties;
 
 import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.apache.avalon.framework.logger.LogEnabled;
@@ -21,6 +23,7 @@ public class Builder
     
     public Builder( String[] methods, File projectDir )
     {
+        m_Logger = new ConsoleLogger();
         
         m_CallMethods = new String[ methods.length ];
         for( int i=0 ; i < methods.length ; i++ )
@@ -31,8 +34,6 @@ public class Builder
         m_TempDir = new File( m_SystemDir, "temp" );
         m_TempDir.mkdirs();
         
-        m_Logger = new ConsoleLogger();
-        
         m_Logger.info( " System Directory: " + m_SystemDir );
         m_Logger.info( "Project Directory: " + m_ProjectDir );
     }
@@ -40,13 +41,26 @@ public class Builder
     public void execute()
         throws Exception
     {
-        Properties globalProps = loadGlobalProperties();
+        PluginProperties props = new PluginProperties();
+        
+        // This is included twice, so a reference to other parts
+        // can be obtained in the local project properties file.
+        loadProjectLocalProperties( props );
+        
+        loadGlobalProperties( props );
+        loadMagicSystemProperties( props );
+        loadMagicPluginProperties( props );
+        loadProjectSystemProperties( props );
+        loadProjectLocalProperties( props );
+        loadUserProjectProperties( props );
+        loadUserSystemProperties( props );
+        loadUserHomeProperties( props );
         
         FacadeFactory factory = new FacadeFactory();
         if( factory instanceof LogEnabled )
             ((LogEnabled) factory).enableLogging( m_Logger );
             
-        PluginServiceManager sm = new PluginServiceManager( factory, globalProps );
+        PluginServiceManager sm = new PluginServiceManager( factory, props );
         sm.enableLogging( m_Logger );
         
         for( int i=0 ; i < m_CallMethods.length ; i++ )
@@ -87,22 +101,104 @@ public class Builder
         }
     }
     
-    private Properties loadGlobalProperties()
+    protected Logger getLogger()
     {
-        Properties props = new Properties();
-        
-        //TODO; Load the various properties;
-        //      $GLOBAL/project.properties
-        //      $GLOBAL/user.properties
-        //  more?  Project and Plugin properties are loaded elsewhere.
+        return m_Logger;
+    }
+    
+    private void loadGlobalProperties( PluginProperties props )
+    {
         props.put( "magic.home.dir", m_SystemDir.toString() );
         props.put( "magic.plugins.dir", m_PluginsDir.getAbsolutePath() );
         props.put( "magic.repository.dir", new File( m_SystemDir, "repository" ).toString() );
         props.put( "magic.project.dir", m_ProjectDir.getAbsolutePath() );
         props.put( "magic.temp.dir", m_TempDir.getAbsolutePath() );
-        return props;
     }
     
+    private void loadMagicSystemProperties( PluginProperties props )
+    {
+        File file = new File( m_SystemDir, "build.properties" );
+        if( file.exists() )
+            load( props, file );
+    }
+    
+    private void loadMagicPluginProperties( PluginProperties props )
+    {
+        File[] plugins = m_SystemDir.listFiles();
+        for( int i=0 ; i < plugins.length ; i++ )
+        {
+            File file = new File( plugins[i], "build.properties" );
+            if( file.exists() )
+                load( props, file );
+        }
+    }
+    
+    private void loadProjectSystemProperties( PluginProperties props )
+    {
+        String projSys = props.getProperty( "project.system.dir" );
+        if( projSys == null )
+            return;
+        File dir = new File( projSys );
+        File file = new File( dir, "build.properties" );
+        if( file.exists() )
+            load( props, file );
+    }
+    
+    private void loadProjectLocalProperties( PluginProperties props )
+    {
+        File file = new File( m_ProjectDir, "build.properties" );
+        if( file.exists() )
+            load( props, file );
+    }
+    
+    private void loadUserProjectProperties( PluginProperties props )
+    {
+        File file = new File( m_ProjectDir, "user.properties" );
+        if( file.exists() )
+            load( props, file );
+    }
+    
+    private void loadUserSystemProperties( PluginProperties props )
+    {
+        File file = new File( m_SystemDir, "user.properties" );
+        if( file.exists() )
+            load( props, file );
+    }
+    
+    private void loadUserHomeProperties( PluginProperties props )
+    {
+        File dir = new File( System.getProperty( "user.dir" ) );
+        File file = new File( dir, ".magic.properties" );
+        if( file.exists() )
+            load( props, file );
+    }
+
+    private void load( PluginProperties props, File file )
+    {
+        // TODO: Investigate if java.util.Properties already Buffer,
+        // or we should do it for performance.
+        FileInputStream in = null;
+        try
+        {
+            in = new FileInputStream( file );
+            props.load( in );
+        } catch( IOException e )
+        {
+            getLogger().warn( "Properties file not found: " + file.getAbsolutePath() );
+        } finally
+        {
+            try
+            {
+                if( in != null )
+                    in.close();
+            } catch( IOException e )
+            {
+                // Ignore... Don't think it can happen.
+            }
+        }
+        
+    }
+        
     private File findSystemDir()
     {
         String system = System.getProperty( "magic.system.dir" );

@@ -53,6 +53,9 @@ public class JarPlugin extends AbstractPlugin
 
         String destDirName = m_Context.getProperty( "jar.manifest.build.dir" );
         File toDir = new File( destDirName ); 
+        toDir.mkdirs();
+        
+        getLogger().info( "Copying " + srcManifest + " to " + toDir );
         
         Copy copy = (Copy) m_Project.createTask( "copy" );
         copy.setTodir( toDir );

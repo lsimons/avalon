@@ -5,7 +5,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.context.Contextualizable;
@@ -28,10 +27,10 @@ public class PluginServiceManager extends AbstractLogEnabled
     private File m_LocalPlugins;
     private File m_TempDir;
 
-    private Properties m_GlobalProperties;
+    private PluginProperties m_GlobalProperties;
     private FacadeFactory m_FacadeFactory;
 
-    PluginServiceManager( FacadeFactory factory, Properties globalprops )
+    PluginServiceManager( FacadeFactory factory, PluginProperties globalprops )
     {
         DUMMY = new Object();
         m_FacadeFactory = factory;
@@ -154,7 +153,7 @@ public class PluginServiceManager extends AbstractLogEnabled
         if( pluginDir == null )
             throw new ServiceException( "Plugin '" + service + "' is not present in " + m_LocalPlugins + "." );
             
-        Properties props = new Properties( m_GlobalProperties );
+        PluginProperties props = new PluginProperties( m_GlobalProperties );
         
         appendProperties( props, pluginDir );
         appendProperties( props, m_ProjectDir );
@@ -174,7 +173,7 @@ public class PluginServiceManager extends AbstractLogEnabled
         }
     }
     
-    private void appendProperties( Properties props, File dir )
+    private void appendProperties( PluginProperties props, File dir )
         throws ServiceException
     {
         File file = new File( dir, "build.properties" );
@@ -186,7 +185,7 @@ public class PluginServiceManager extends AbstractLogEnabled
             loadPropertiesFile( props, file );
     }
     
-    private void loadPropertiesFile( Properties props, File file )
+    private void loadPropertiesFile( PluginProperties props, File file )
     {
         FileInputStream fis = null;
         try
