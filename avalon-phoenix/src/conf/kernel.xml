@@ -147,6 +147,28 @@
             class="org.apache.avalon.phoenix.components.monitor.DefaultDeploymentMonitor"
             logger="monitor"/>
 
+        <component
+            class="org.apache.excalibur.instrument.manager.NoopInstrumentManager"
+            logger="instrument"/>
 
+<!--
+        Use the DefaultInstrumentManager when you want to enable instrumentation of Phoenix and
+        hosted applications
+
+        You may also want to add:
+            <!ENTITY % instrumentables.xml SYSTEM "instrumentables.xml">
+        to the top of the kernel (before the phoenix tag) to store instrumentable configuration
+        in a separate document
+        <component role="org.apache.excalibur.instrument.InstrumentManager"
+            class="org.apache.excalibur.instrument.manager.DefaultInstrumentManager"
+            logger="instrument">
+                <name>phoenix</name>
+                <description>Apache Avalon Phoenix</description>
+                <connectors>
+                    <connector class="altrmi"/>
+                </connectors>
+                &instrumentables;
+        </component>
+        -->
     </embeddor>
 </phoenix>
