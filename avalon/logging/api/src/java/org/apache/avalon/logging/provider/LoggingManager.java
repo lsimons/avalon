@@ -36,7 +36,7 @@ public interface LoggingManager
      * Add a set of category entries using the supplied categories descriptor.
      * @param descriptor a set of category descriptors to be added under the path
      */
-    public void addCategories( CategoriesDirective descriptor );
+    void addCategories( CategoriesDirective descriptor );
 
     /**
      * Add a set of category entries relative to the supplied base category
@@ -45,13 +45,13 @@ public interface LoggingManager
      * @param descriptor a set of category descriptors to be added under
      *   the base path
      */
-    public void addCategories( String path, CategoriesDirective descriptor );
+    void addCategories( String path, CategoriesDirective descriptor );
 
     /**
      * Return the Logger for the specified category.
      * @param category the category path
      * @return the logging channel
      */
-    public Logger getLoggerForCategory( final String category );
+    Logger getLoggerForCategory( final String category );
 
 }

@@ -17,14 +17,13 @@
 
 package org.apache.avalon.repository.provider;
 
-import java.io.File;
 import java.util.Map;
 
 /**
  * A generic application factory.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public interface Factory
 {
