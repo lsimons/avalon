@@ -18,6 +18,7 @@ import javax.management.MBeanServer;
 import javax.management.ObjectName;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
+import org.apache.avalon.excalibur.baxter.JavaBeanMBean;
 import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.component.Composable;
@@ -37,7 +38,6 @@ import org.apache.avalon.phoenix.interfaces.LogManager;
 import org.apache.avalon.phoenix.interfaces.ManagerException;
 import org.apache.avalon.phoenix.interfaces.PackageRepository;
 import org.apache.jmx.adaptor.RMIAdaptorImpl;
-import org.apache.jmx.introspector.JavaBeanMBean;
 
 /**
  * This component is responsible for managing phoenix instance.
@@ -282,7 +282,7 @@ public class DefaultManager
     {
         final String className =
             m_parameters.getParameter( "manager-mBeanServer-class",
-                                       "org.apache.jmx.MBeanServerImpl" );
+                                       "com.sun.management.jmx.MBeanServerImpl" );
 
         try
         {

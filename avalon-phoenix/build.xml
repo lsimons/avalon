@@ -285,6 +285,7 @@ Legal:
 
         <copy file="${build.lib}/phoenix-client.jar" todir="${bin.dist.lib}"/>
         <copy file="${build.lib}/avalon-jmx.jar" todir="${bin.dist.lib}"/>
+        <copy file="${lib.dir}/excalibur-baxter-1.0a.jar" todir="${bin.dist.lib}"/>
         <copy file="${logkit.jar}" todir="${bin.dist.lib}"/>
         <copy file="${jmxri.jar}" todir="${bin.dist.lib}"/>
         <copy file="${jmxtools.jar}" todir="${bin.dist.lib}"/>

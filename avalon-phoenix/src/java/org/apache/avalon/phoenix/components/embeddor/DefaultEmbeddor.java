@@ -541,7 +541,7 @@ public class DefaultEmbeddor
         for( int i = 0; i < m_components.length; i++ )
         {
             final EmbeddorEntry entry = m_components[ i ];
-            shutdownComponent( (Component)entry.getObject(); );
+            shutdownComponent( (Component)entry.getObject() );
         }
     }
 
