@@ -13,7 +13,7 @@ import org.xml.sax.SAXNotSupportedException;
 
 public interface SAXParserFactory
 {
-    String ROLE = "org.apache.avalon.cornerstone.services.sax.SAXParserFactory";
+    String ROLE = SAXParserFactory.class.getName();
 
     /**
      * Specifies that the parser produced by this code will

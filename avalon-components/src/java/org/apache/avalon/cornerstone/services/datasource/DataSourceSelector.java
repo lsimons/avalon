@@ -19,5 +19,5 @@ import org.apache.avalon.excalibur.datasource.DataSourceComponent;
 public interface DataSourceSelector
     extends ComponentSelector
 {
-    String ROLE = "org.apache.avalon.cornerstone.services.datasource.DataSourceSelector";
+    String ROLE = DataSourceSelector.class.getName();
 }

@@ -27,7 +27,7 @@ import java.util.Iterator;
  */
 public interface Realm
 {
-    String ROLE = "org.apache.avalon.cornerstone.services.security.Realm";
+    String ROLE = Realm.class.getName();
 
     Principal getPrincipal( String name );
     Iterator getPrincipalNames();

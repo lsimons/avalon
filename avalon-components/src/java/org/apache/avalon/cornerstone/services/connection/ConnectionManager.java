@@ -17,7 +17,7 @@ import org.apache.avalon.excalibur.thread.ThreadPool;
  */
 public interface ConnectionManager
 {
-    String ROLE = "org.apache.avalon.cornerstone.services.connection.ConnectionManager";
+    String ROLE = ConnectionManager.class.getName();
 
     /**
      * Start managing a connection.

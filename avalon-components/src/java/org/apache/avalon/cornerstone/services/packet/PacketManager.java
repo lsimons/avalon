@@ -18,7 +18,7 @@ import org.apache.avalon.phoenix.Service;
  */
 public interface PacketManager
 {
-    String ROLE = "org.apache.avalon.cornerstone.services.packet.PacketManager";
+    String ROLE = PacketManager.class.getName();
 
     /**
      * Start managing a connection.

@@ -17,7 +17,7 @@ import org.apache.avalon.phoenix.Service;
  */
 public interface TimeScheduler
 {
-    String ROLE = "org.apache.avalon.cornerstone.services.scheduler.TimeScheduler";
+    String ROLE = TimeScheduler.class.getName();
 
     /**
      * Schedule a time based trigger.

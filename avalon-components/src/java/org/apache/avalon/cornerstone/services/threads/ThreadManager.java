@@ -17,7 +17,7 @@ import org.apache.avalon.phoenix.Service;
  */
 public interface ThreadManager
 {
-    String ROLE = "org.apache.avalon.cornerstone.services.threads.ThreadManager";
+    String ROLE = ThreadManager.class.getName();
 
     /**
      * Retrieve a thread pool by name.
