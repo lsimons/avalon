@@ -121,13 +121,37 @@ public class AttributeCompiler extends XJavadocTask {
     }
         
     protected void generateClass (XClass xClass) throws Exception {
+        if (xClass.isAnonymous ()) {
+            log (xClass.getName () + " is anonymous - ignoring.");
+        }
+        
         if (!hasAttributes (xClass)) {
             return;
         }
         
-        String name = xClass.getQualifiedName ();
-        File sourceFile = getSourceFile (name);
-        File destFile = new File (destDir, name.replace ('.', '/') + "$__org_apache_avalon_Attributes.java");
+        String name = null;
+        File sourceFile = null;
+        File destFile = null;
+        String packageName = null;
+        String className = null;
+        
+        packageName = xClass.getContainingPackage().getName ();
+        
+        if (xClass.isInner ()) {
+            name = xClass.getQualifiedName ().substring (packageName.length ());
+            StringTokenizer tok = new StringTokenizer (name, ".");
+            String outermostClass = packageName + (packageName.length () > 0 ? "." : "") + tok.nextToken ();
+            sourceFile = getSourceFile (outermostClass);
+            
+            className = xClass.getName ().replace ('.', '$');
+            name = packageName + (packageName.length () > 0 ? "." : "") + className;            
+        } else {
+            name = xClass.getQualifiedName ();
+            sourceFile = getSourceFile (name);
+            className = xClass.getName ();
+        }
+        
+        destFile = new File (destDir, name.replace ('.', '/') + "$__attributeRepository.java");
         
         if (destFile.exists () && destFile.lastModified () >= sourceFile.lastModified ()) {
             return;
@@ -135,8 +159,6 @@ public class AttributeCompiler extends XJavadocTask {
         
         numGenerated++;
         
-        String packageName = xClass.getContainingPackage().getName ();
-        String className = xClass.getName ();
         
         destFile.getParentFile ().mkdirs ();
         PrintWriter pw = new PrintWriter (new FileWriter (destFile));
@@ -147,7 +169,7 @@ public class AttributeCompiler extends XJavadocTask {
         
         copyImports (sourceFile, pw);
         
-        pw.println ("public class " + className + "$__org_apache_avalon_Attributes implements org.apache.avalon.attributes.AttributeRepositoryClass {");
+        pw.println ("public class " + className + "$__attributeRepository implements org.apache.avalon.attributes.AttributeRepositoryClass {");
         {
             pw.println ("    private static final java.util.Set classAttributes = new java.util.HashSet ();");
             pw.println ("    private static final java.util.Map fieldAttributes = new java.util.HashMap ();");
@@ -288,9 +310,7 @@ public class AttributeCompiler extends XJavadocTask {
             while (iter.hasNext ()) {
                 
                 XClass xClass = (XClass) iter.next ();
-                if (!xClass.isInner ()) {
-                    generateClass (xClass);
-                }                
+                generateClass (xClass);
             }
         } catch (Exception e) {
             throw new BuildException (e.toString (), e);

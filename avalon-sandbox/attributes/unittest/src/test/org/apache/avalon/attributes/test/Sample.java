@@ -29,4 +29,10 @@ public class Sample extends SuperSample implements SampleIFJoin {
     
     public void methodWithNoAttributes () {
     }
+    
+    /**
+     * @@Dependency ( SampleService.class, "inner-sample" )
+     */
+    public static class InnerSample {
+    }
 }
