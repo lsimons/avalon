@@ -75,7 +75,7 @@
         Initializable and Disposable interfaces.  Since specific information
         about our environment may change, or may need to be customized, we need
         to make our DocumentRepository Configurable.  Our Component makes use
-        of other Components, and they method that Avalon provides to get
+        of other Components, and the method that Avalon provides to get
         instances of the required Component is by using a ComponentManager.  We
         will need to implement the Composable interface to get an instance of
         the ComponentManager.
@@ -95,8 +95,8 @@
 public class DatabaseDocumentRepository
 extends AbstractLoggable
 implements DocumentRepository , Configurable, Composable, Initializable,
-           Disposable, Component, ThreadSafe {
-
+           Disposable, Component, ThreadSafe
+{
     private boolean initialized = false;
     private boolean disposed = false;
     private ComponentManager manager = null;
@@ -114,14 +114,16 @@ implements DocumentRepository , Configurable, Composable, Initializable,
      * only calling Configure once.
      */
     public final void configure(Configuration conf)
-    throws ConfigurationException {
-        if (initialized || disposed) {
-        
+        throws ConfigurationException
+    {
+        if (initialized || disposed)
+        {
             throw new IllegalStateException ("Illegal call");
         }
 
-        if (null == this.dbResource) {
-                    this.dbResource = conf.getChild("dbpool").getValue();
+        if (null == this.dbResource)
+        {
+            this.dbResource = conf.getChild("dbpool").getValue();
             getLogger().debug("Using database pool: " + this.dbResource);
             // Notice the getLogger()?  This is from AbstractLoggable
             // which I extend for just about all my components.
@@ -134,32 +136,51 @@ implements DocumentRepository , Configurable, Composable, Initializable,
      * the policy of proper lifecycle management.
      */
     public final void compose(ComponentManager cmanager)
-    throws ComponentException {
-        if (initialized || disposed) {
+        throws ComponentException
+    {
+        if (initialized || disposed)
+        {
             throw new IllegalStateException ("Illegal call");
         }
 
-        if (null == this.manager) {
+        if (null == this.manager)
+        {
             this.manager = cmanager;
         }
     }
 
-    public final void initialize() throws Exception {
-             if (null == this.manager) throw new IllegalStateException("Not Composed");
-        if (null == this.dbResource)
-                     throw new IllegalStateException("Not Configured");
+    public final void initialize()
+        throws Exception
+    {
+        if (null == this.manager)
+        {
+            throw new IllegalStateException("Not Composed");
+        }
 
-                 if (disposed) throw new IllegalStateException("Already disposed");
+        if (null == this.dbResource)
+        {
+            throw new IllegalStateException("Not Configured");
+        }
+
+        if (disposed)
+        {
+            throw new IllegalStateException("Already disposed");
+        }
 
         this.initialized = true;
     }
 
-    public final void dispose() {
+    public final void dispose()
+    {
         this.disposed = true;
+        this.manager = null;
+        this.dbresource = null;
     }
 
-    public final Document getDocument(Principal requestor, int refId) {
-        if (!initialized || disposed) {
+    public final Document getDocument(Principal requestor, int refId)
+    {
+        if (!initialized || disposed)
+        {
             throw new IllegalStateException("Illegal call");
         }
 
@@ -221,12 +242,15 @@ implements DocumentRepository , Configurable, Composable, Initializable,
         </para>
         <programlisting>
 <![CDATA[
-class ContainerComponent implements Component, Initializable, Disposable {
+class ContainerComponent implements Component, Initializable, Disposable
+{
     DocumentRepository docs = new DatabaseDocumentRepository();
     GuardianComponent guard = new DocumentGuardianComponent();
     DefaultComponentManager manager = new DefaultComponentManager();
 
-    public void initialize() throws Exception {
+    public void initialize()
+        throws Exception
+    {
         this.docs.setLogger(Heirarchy.getLoggerFor("document.repository"));
 
         DefaultConfiguration pool = new DefaultConfiguration("dbpool");
@@ -245,7 +269,8 @@ class ContainerComponent implements Component, Initializable, Disposable {
         this.docs.initialize();
     }
 
-    public void dispose() {
+    public void dispose()
+    {
         this.docs.dispose();
         this.guard.dispose();
     }
@@ -259,8 +284,8 @@ class ContainerComponent implements Component, Initializable, Disposable {
           life of a Component, you will see bugs.  This also requires intimate
           knowledge of the Components you are instantiating.  An alternate
           approach would be to add a couple methods to the above
-          ContainerComponent that handles the initialization of the components
-          dynamically.
+          <classname>ContainerComponent</classname> that handles the
+          initialization of the components dynamically.
         </para>
       </section>
       <section>
@@ -340,7 +365,7 @@ class ContainerComponent implements Component, Initializable, Disposable {
               </listitem>
               <listitem>
                 <para>
-                        Creation and initialization is done when ComponentHandler is
+                  Creation and initialization is done when ComponentHandler is
                   created.
                 </para>
               </listitem>
@@ -362,7 +387,7 @@ class ContainerComponent implements Component, Initializable, Disposable {
               </listitem>
               <listitem>
                 <para>
-                        Creation and initialization is done when ComponentHandler is
+                  Creation and initialization is done when ComponentHandler is
                   created.
                 </para>
               </listitem>
@@ -382,12 +407,15 @@ class ContainerComponent implements Component, Initializable, Disposable {
         </para>
         <programlisting>
 <![CDATA[
-class ContainerComponent implements Component, Initializable, Disposable {
+class ContainerComponent implements Component, Initializable, Disposable
+{
     ComponentHandler docs = null;
     ComponentHandler guard = null;
     DefaultComponentManager manager = new DefaultComponentManager();
 
-    public void initialize() throws Exception {
+    public void initialize()
+        throws Exception
+    {
         DefaultConfiguration pool = new DefaultConfiguration("dbpool");
         pool.setValue("main-pool");
         DefaultConfiguration conf = new DefaultConfiguration("");
@@ -411,7 +439,8 @@ class ContainerComponent implements Component, Initializable, Disposable {
         this.docs.initialize();
     }
 
-    public void dispose() {
+    public void dispose()
+    {
         this.docs.dispose();
         this.guard.dispose();
     }
@@ -487,7 +516,7 @@ Configuration systemConf = builder.buildFromFile("/path/to/file.xconf");
         <para>
           This does simplify all the code we had for hand-building the
           Configuration element earlier, and it limits the amount of
-          information we need to implicitly know right away.  We will take one
+          information we need to explicitly know right away.  We will take one
           last look at our Container class and see if we really have some
           savings.  Keep in mind that we have five components specified (a
           ComponentSelector counts as a Component), and configurations for
@@ -498,18 +527,21 @@ Configuration systemConf = builder.buildFromFile("/path/to/file.xconf");
 class ContainerComponent implements Component, Initializable, Disposable {
     ExcaliburComponentManager manager = new ExcaliburComponentManager();
 
-    public void initialize() throws Exception {
-        DefaultConfigurationBuilder builder =
-            new DefaultConfigurationBuilder();
+    public void initialize()
+        throws Exception
+    {
+        DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
         Configuration sysConfig = builder.buildFromFile("./conf/system.xconf");
 
-        this.manager.setLogger(Hierarchy.getDefaultHierarchy().getLoggerFor("document"));
+        this.manager.setLogger(Hierarchy.getDefaultHierarchy()
+                               .getLoggerFor("document"));
         this.manager.contextualize(new DefaultContext());
         this.manager.configure(sysConfig);
         this.manager.initialize();
     }
 
-    public void dispose() {
+    public void dispose()
+    {
         this.manager.dispose();
     }
 }
@@ -547,7 +579,8 @@ class ContainerComponent implements Component, Initializable, Disposable {
           </para>
           <programlisting>
 <![CDATA[
-interface RoleManager {
+interface RoleManager
+{
     String getRoleForName( String shorthandName );
     String getDefaultClassNameForRole( String role );
     String getDefaultClassNameForHint( String hint, String shorthand );
@@ -577,8 +610,8 @@ interface RoleManager {
 <role-list>
   <role
     name="org.apache.avalon.excalibur.datasource.DataSourceComponentSelector"
-    shorthand="datasources" default-class=
-    "org.apache.avalon.excalibur.component.ExcaliburComponentSelector">
+    shorthand="datasources"
+    default-class="org.apache.avalon.excalibur.component.ExcaliburComponentSelector">
      <hint shorthand="jdbc"
        class="org.apache.avalon.excalibur.datasource.JdbcDataSourceComponent"/>
      <hint shorthand="j2ee"
@@ -586,12 +619,12 @@ interface RoleManager {
   </role>
   <role
     name="org.apache.bizserver.docs.DocumentRepository"
-    shorthand="repository" default-class=
-    "org.apache.bizserver.docs.DatabaseDocumentRepository"/>
+    shorthand="repository"
+    default-class="org.apache.bizserver.docs.DatabaseDocumentRepository"/>
   <role
     name="org.apache.bizserver.docs.GuardianComponent"
-    shorthand="guardian" default-class=
-    "org.apache.bizserver.docs.DocumentGuardianComponent"/>
+    shorthand="guardian"
+    default-class="org.apache.bizserver.docs.DocumentGuardianComponent"/>
 </role-list>
 ]]>
           </programlisting>
@@ -607,8 +640,7 @@ interface RoleManager {
           </para>
           <programlisting>
 <![CDATA[
-DefaultConfigurationBuilder builder =
-            new DefaultConfigurationBuilder();
+DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
 Configuration sysConfig = builder.buildFromFile("./conf/system.xconf");
 Configuration roleConfig = builder.build(
             this.getClass().getClassLoader()
@@ -618,7 +650,8 @@ RoleManager roles = new DefaultRoleManager();
 roles.setLogger(Hierarchy.getDefaultHierarchy().getLoggerFor("document.roles"));
 roles.configure(roleConfig);
 
-this.manager.setLogger(Hierarchy.getDefaultHierarchy().getLoggerFor("document"));
+this.manager.setLogger(Hierarchy.getDefaultHierarchy()
+                       .getLoggerFor("document"));
 this.manager.contextualize(new DefaultContext());
 this.manager.setRoleManager(roles);
 this.manager.configure(sysConfig);
@@ -685,9 +718,9 @@ this.manager.initialize();
         The Component management infrastructure requires that you release any
         Component for which you have obtained a reference.  The reason for this
         restriction is so that the Component's resources can be properly
-        managed.  A ComponentManager is designed for instances when you have
+        managed.  A ComponentManager is designed for cases when you have
         multiple types of Components with distinct roles.  A ComponentSelector
-        is designed for instances when you have multiple types of Components
+        is designed for cases when you have multiple types of Components
         with the same role.  Another unique aspect of the ComponentSelector is
         that it is a Component by design.  This enables us to get a
         ComponentSelector from a ComponentManager.
@@ -703,7 +736,8 @@ this.manager.initialize();
         <title>Initialization and Disposal Approach</title>
         <programlisting>
 <![CDATA[
-class MyClass implements Component, Composable, Disposable {
+class MyClass implements Component, Composable, Disposable
+{
     ComponentManager manager;
     Guardian myGuard;
 
@@ -712,8 +746,10 @@ class MyClass implements Component, Composable, Disposable {
      * the ComponentManager.
      */
     public void compose(ComponentManager manager)
-    throws ComponentException {
-        if (this.manager == null) {
+        throws ComponentException
+    {
+        if (this.manager == null)
+        {
             this.manager = manager;
             myGuard = (Guardian) this.manager.lookup(Guardian.ROLE);
         }
@@ -722,14 +758,17 @@ class MyClass implements Component, Composable, Disposable {
     /**
      * This is the method that uses the Guardian.
      */
-    public void myMethod() throws SecurityException {
+    public void myMethod()
+        throws SecurityException
+    {
         this.myGuard.checkPermission(new BasicPermission("test"));
     }
 
     /**
      * Get rid of our references
      */
-    public void dispose() {
+    public void dispose()
+    {
         this.manager.release(this.myGuard);
         this.myGuard = null;
         this.manager = null;
@@ -775,7 +814,8 @@ class MyClass implements Component, Composable, Disposable {
         <title>Exception Handling Approach</title>
         <programlisting>
 <![CDATA[
-class MyClass implements Composable, Disposable {
+class MyClass implements Composable, Disposable
+{
     ComponentManager manager;
 
     /**
@@ -783,8 +823,10 @@ class MyClass implements Composable, Disposable {
      * the ComponentManager.
      */
     public void compose(ComponentManager manager)
-    throws ComponentException {
-        if (this.manager == null) {
+        throws ComponentException
+    {
+        if (this.manager == null)
+        {
             this.manager = manager;
         }
     }
@@ -792,17 +834,27 @@ class MyClass implements Composable, Disposable {
     /**
      * This is the method that gets the Guardian.
      */
-    public void myMethod() throws SecurityException {
+    public void myMethod()
+        throws SecurityException
+    {
         Guardian myGuard = null;
-        try {
+        try
+        {
             myGuard = (Guardian) this.manager.lookup(Guardian.ROLE);
             this.criticalSection(myGuard);
-        } catch (ComponentException ce) {
+        }
+        catch (ComponentException ce)
+        {
             throw new SecurityException(ce.getMessage());
-        } catch (SecurityException se) {
+        }
+        catch (SecurityException se)
+        {
             throw se;
-        } finally {
-            if (myGuard != null) {
+        }
+        finally
+        {
+            if (myGuard != null)
+            {
                 this.manager.release(myGuard);
             }
         }
@@ -811,7 +863,9 @@ class MyClass implements Composable, Disposable {
     /**
      * Perform critical part of code.
      */
-    public void criticalSection(Guardian myGuard) throws SecurityException {
+    public void criticalSection(Guardian myGuard)
+        throws SecurityException
+    {
         myGuard.checkPermission(new BasicPermission("test"));
     }
 }
@@ -846,7 +900,7 @@ class MyClass implements Composable, Disposable {
           understand a subtle nuance.  The Exception Handling Approach does not
           fail on initialization if the Component is missing from the manager.
           As mentioned before, this is not entirely bad.  Many times, you want
-          an object to exist, but it is not a failure if a required Component
+          an object to exist, but it is not a failure if a desired Component
           is missing.
         </para>
       </section>
@@ -885,25 +939,34 @@ class MyClass implements Composable, Disposable {
       </para>
       <programlisting>
 <![CDATA[
-public void myMethod() throws Exception {
+public void myMethod()
+    throws Exception
+{
     ComponentSelector dbSelector = null;
     DataSourceComponent datasource = null;
-    try {
+    try
+    {
         dbSelector = (ComponentSelector)
                 this.manager.lookup(DataSourceComponent.ROLE + "Selector");
         datasource = (DataSourceComponent)
                 dbSelector.select(this.useDb);
 
         this.process(datasource.getConnection());
-    } catch (Exception e) {
+    }
+    catch (Exception e)
+    {
         throw e;
-    } finally {
-        if (datasource != null) {
+    }
+    finally
+    {
+        if (datasource != null)
+        {
             dbSelector.release(datasource);
         }
 
-        if (dbSelector != null) {
-            this.manager.release(dbSelector);
+        if (dbSelector != null)
+        {
+            this.manager.release(instancesdbSelector);
         }
     }
 }
@@ -926,15 +989,15 @@ public void myMethod() throws Exception {
     </section>
   </section>
   <section>
-    <title>Excalibur's Utitities</title>
+    <title>Excalibur's Utilities</title>
     <para>
       This last section is included to give you an idea of the types of
       Components and utilities that are included with Apache Avalon Excalibur.
       These utilities are robust, and fully usable in production systems.  We
       do have an unofficial staging project called "Scratchpad" where we iron
       out implementation details for potential new utilities.  Scratchpad
-      utilities are of varying quality, and their use is not
-      guaranteed&mdash;although you may have good experience with them.
+      utilities are of varying quality, and their use is not guaranteed to
+      remain the same&mdash;although you may have good experience with them.
     </para>
     <section>
       <title>Command Line Interface (CLI)</title>
@@ -971,6 +1034,18 @@ public void myMethod() throws Exception {
         pool of Components and reuse instances.  Most of the time this works
         great.  For those last remaining times where a Component cannot be
         reused, use the <classname>SingleThreaded</classname> interface.
+      </para>
+    </section>
+    <section>
+      <title>LogKit Management</title>
+      <para>
+        The Avalon development team realized that many people wanted a simple
+        mechanism to build complex Logging target heirarchies.  In the same
+        spirit as the <classname>RoleManager</classname> the team developed
+        a <classname>LogKitManager</classname> that can be given to the
+        Excalibur Component Management system meantioned above.  Based on the
+        "logger" attribute it will give the proper <classname>Logger</classname>
+        object to the different Components.
       </para>
     </section>
     <section>
