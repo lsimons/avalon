@@ -36,11 +36,11 @@ public final class ApplicationEvent
 
         if( null == name )
         {
-            throw new NullPointerException( "name proeprty is null" );
+            throw new NullPointerException( "name property is null" );
         }
         if( null == sarMetaData )
         {
-            throw new NullPointerException( "sarMetaData proeprty is null" );
+            throw new NullPointerException( "sarMetaData property is null" );
         }
 
         m_name = name;

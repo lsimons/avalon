@@ -39,15 +39,15 @@ public final class BlockEvent
 
         if( null == name )
         {
-            throw new NullPointerException( "name proeprty is null" );
+            throw new NullPointerException( "name property is null" );
         }
         if( null == block )
         {
-            throw new NullPointerException( "block proeprty is null" );
+            throw new NullPointerException( "block property is null" );
         }
         if( null == blockInfo )
         {
-            throw new NullPointerException( "blockInfo proeprty is null" );
+            throw new NullPointerException( "blockInfo property is null" );
         }
 
         m_name = name;

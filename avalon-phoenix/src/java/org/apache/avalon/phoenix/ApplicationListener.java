@@ -27,7 +27,7 @@ public interface ApplicationListener extends BlockListener
      * @param event the ApplicationEvent
      *
      */
-    void applicationStarting(ApplicationEvent applicationEvent);
+    void applicationStarting(ApplicationEvent applicationEvent) throws Exception;
 
     /**
      * Notification that an application has now started.
