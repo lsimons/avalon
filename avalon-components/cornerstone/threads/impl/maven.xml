@@ -1,0 +1,7 @@
+<project default="jar:install-snapshot">
+
+  <postGoal name="java:prepare-filesystem">
+    <attainGoal name="avalon:meta"/>
+  </postGoal>
+
+</project>

@@ -46,6 +46,7 @@ public abstract class AbstractThreadManager
      *
      * @param configuration the configuration data
      * @exception ConfigurationException if an error occurs
+     * @avalon.configuration schema="http://relaxng.org/ns/structure/1.0"
      */
     public void configure( final Configuration configuration )
         throws ConfigurationException

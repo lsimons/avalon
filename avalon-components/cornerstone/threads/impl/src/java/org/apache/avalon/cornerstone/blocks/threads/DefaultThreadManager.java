@@ -28,6 +28,9 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
  * Default implementation of ThreadManager.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ *
+ * @avalon.component name="thread-manager" lifestyle="singleton"
+ * @avalon.service type="org.apache.avalon.cornerstone.services.threads.ThreadManager"
  */
 public class DefaultThreadManager
     extends AbstractThreadManager
