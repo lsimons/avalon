@@ -73,6 +73,7 @@
             <item name="category" href="/meta/kernel/logging/category.html"/>
           </item>
           <item name="repository" href="/meta/kernel/repository/index.html"/>
+          <item name="parameters" href="/meta/kernel/parameters/index.html" />
         </item>
         <item name="block.xml" href="/meta/block/index.html"/>
         <item name="config.xml" href="/meta/config/index.html"/>
