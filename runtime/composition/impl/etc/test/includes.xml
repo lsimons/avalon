@@ -1,0 +1,10 @@
+
+<container>
+
+  <include name="test" id="avalon/test:avalon-test-includes">
+    <target path="primary/block/test">
+      <categories priority="INFO"/>
+    </target>
+  </include>
+
+</container>

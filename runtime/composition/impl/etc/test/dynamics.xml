@@ -1,0 +1,8 @@
+
+<container name="test">
+   <classloader>
+     <classpath>
+       <artifact>artifact:jar:avalon/test/avalon-test-dynamics</artifact>
+     </classpath>
+   </classloader>
+</container>
