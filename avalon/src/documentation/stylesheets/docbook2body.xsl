@@ -40,7 +40,7 @@
         <p>
           <xsl:for-each select="//authorgroup/author">
             <xsl:choose>
-              <xsl:when test="position()=1">by&nbsp;</xsl:when>
+              <xsl:when test="position()=1">by </xsl:when>
               <xsl:otherwise>, </xsl:otherwise>
             </xsl:choose>
             <a href="mailto:{address/email}">
