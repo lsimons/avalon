@@ -19,7 +19,7 @@
       </subsection>
       <subsection name="Deployment Facts">
         <table>
-          <tr><td>Containment</td><td>Classic Framework 4.</td>
+          <tr><td>Containment</td><td>Avalon Framework 4.2.0</td>
           </tr>
           <tr><td>Lifestyle</td><td>singleton</td></tr>
           <tr><td>Lifecycle</td>

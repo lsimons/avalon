@@ -7,7 +7,7 @@
   <groupId>cornerstone-scheduler</groupId>
   <id>cornerstone-scheduler-api</id>
   <name>Cornerstone Scheduler API</name>
-  <currentVersion>1.0</currentVersion>
+  <currentVersion>1.0.0</currentVersion>
   <package>org.apache.avalon.cornerstone.services.scheduler</package>
   <inceptionYear>2001</inceptionYear>
   <shortDescription>Cornerstone Scheduler API</shortDescription>

@@ -12,18 +12,18 @@ with any jars required for its own implementation.
    <classloader>
      <classpath>
        <repository>
-         <resource id="avalon-framework:avalon-framework-api" version="4.1.5"/>
-         <resource id="excalibur-pool:excalibur-pool-api" version="SNAPSHOT"/>
-         <resource id="excalibur-thread:excalibur-thread-api" version="SNAPSHOT"/>
-         <resource id="cornerstone-threads:cornerstone-threads-api" version="SNAPSHOT"/>
-         <resource id="cornerstone-threads:cornerstone-threads-tutorial" version="SNAPSHOT"/>
+         <resource id="avalon-framework:avalon-framework-api" version="4.2.0"/>
+         <resource id="excalibur-pool:excalibur-pool-api" version="2.0.0"/>
+         <resource id="excalibur-thread:excalibur-thread-api" version="2.0.0"/>
+         <resource id="cornerstone-threads:cornerstone-threads-api" version="2.0.0"/>
+         <resource id="cornerstone-threads:cornerstone-threads-tutorial" version="2.0.0"/>
        </repository>
      </classpath>
    </classloader>
 
    <include name="threads" 
        id="cornerstone-threads:cornerstone-threads-impl" 
-       version="SNAPSHOT"/>
+       version="2.0.0"/>
 
    <component name="test" 
       class="org.apache.avalon.cornerstone.threads.tutorial.ThreadConsumer" />

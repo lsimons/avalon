@@ -8,8 +8,7 @@
   <id>cornerstone-datasources-impl</id>
   <name>Cornerstone Datasource</name>
 
-  <!-- candidate 2.0 due to excalibur dependencies -->
-  <currentVersion>2.0</currentVersion>
+  <currentVersion>2.0.0</currentVersion>
   <package>org.apache.avalon.cornerstone.blocks.datasources</package>
 
   <inceptionYear>2001</inceptionYear>
@@ -22,7 +21,7 @@
     <dependency>
       <groupId>cornerstone-datasources</groupId>
       <artifactId>cornerstone-datasources-api</artifactId>
-      <version>1.0</version>
+      <version>1.0.0</version>
     </dependency>
 
     <!-- excalibur dependencies -->
@@ -30,17 +29,17 @@
     <dependency>
       <groupId>excalibur-pool</groupId>
       <artifactId>excalibur-pool-api</artifactId>
-      <version>2.0</version>
+      <version>2.0.0</version>
     </dependency>
     <dependency>
       <groupId>excalibur-pool</groupId>
       <artifactId>excalibur-pool-impl</artifactId>
-      <version>2.0</version>
+      <version>2.0.0</version>
     </dependency>
     <dependency>
       <groupId>excalibur-datasource</groupId>
       <artifactId>excalibur-datasource</artifactId>
-      <version>1.2</version>
+      <version>1.2.0</version>
     </dependency>
 
     <!-- avalon dependencies -->

@@ -7,7 +7,7 @@
   <groupId>cornerstone-sockets</groupId>
   <id>cornerstone-sockets-impl</id>
   <name>Cornerstone Socket Manager Implementation</name>
-  <currentVersion>1.1</currentVersion> 
+  <currentVersion>1.1.0</currentVersion> 
   <package>org.apache.avalon.cornerstone.blocks.sockets</package>
 
   <inceptionYear>2001</inceptionYear>
@@ -20,7 +20,7 @@
     <dependency>
       <groupId>cornerstone-sockets</groupId>
       <artifactId>cornerstone-sockets-api</artifactId>
-      <version>1.0</version>
+      <version>1.0.0</version>
     </dependency>
 
     <!-- avalon dependencies -->

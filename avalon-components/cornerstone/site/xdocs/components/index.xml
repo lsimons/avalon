@@ -30,7 +30,7 @@
             the same thread pool.
             </p>
           </td>
-          <td>CANDIDATE</td>
+          <td>FINAL</td>
           <td>[1]</td>
           <td>No</td>
           <td>No</td>
@@ -44,7 +44,7 @@
             ready to use DataSourceComponents.
             </p>
           </td>
-          <td>CANDIDATE</td>
+          <td>FINAL</td>
           <td>[1]</td>
           <td>No</td>
           <td>No</td>
@@ -60,7 +60,7 @@
            CronTimeTrigger and PeriodicTimeTigger.
            </p>
           </td>
-          <td>CANDIDATE</td>
+          <td>FINAL</td>
           <td>[1]</td>
           <td>No</td>
           <td>No</td>
@@ -73,7 +73,7 @@
             DefaultSocketManager component.
             </p>
           </td>
-          <td>CANDIDATE</td>
+          <td>FINAL</td>
           <td>[1]</td>
           <td>No</td>
           <td>No</td>
@@ -89,7 +89,7 @@
               local file system for storage.
               </p>
           </td>
-          <td>CANDIDATE</td>
+          <td>FINAL</td>
           <td>[1]</td>
           <td>No</td>
           <td>No</td>
@@ -103,7 +103,7 @@
             the Excalibur implementations of ThreadPool.
             </p>
           </td>
-          <td>CANDIDATE</td>
+          <td>FINAL</td>
           <td>[1]</td>
           <td>No</td>
           <td>No</td>

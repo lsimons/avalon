@@ -7,7 +7,7 @@
   <groupId>cornerstone-store</groupId>
   <id>cornerstone-store-api</id>
   <name>Cornerstone Store API</name>
-  <currentVersion>1.0</currentVersion>
+  <currentVersion>1.0.0</currentVersion>
   <package>org.apache.avalon.cornerstone.services.store</package>
   <inceptionYear>2001</inceptionYear>
   <shortDescription>Cornerstone Store API</shortDescription>

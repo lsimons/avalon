@@ -6,7 +6,7 @@
   <groupId>cornerstone</groupId>
   <id>cornerstone</id>
   <name>Cornerstone Component Suite</name>
-  <currentVersion>2.0-RC1</currentVersion>
+  <currentVersion>2.0.0</currentVersion>
 
   <organization>
     <name>Apache Software Foundation</name>
@@ -197,6 +197,13 @@
         <targetPath>BLOCK-INF</targetPath>
         <includes>
           <include>block.xml</include>
+        </includes>
+      </resource>
+      <resource>
+        <directory>${basedir}/../../site/etc</directory>
+        <includes>
+          <include>LICENSE*</include>
+          <include>NOTICE*</include>
         </includes>
       </resource>
     </resources>

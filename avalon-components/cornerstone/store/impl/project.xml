@@ -7,7 +7,7 @@
   <groupId>cornerstone-store</groupId>
   <id>cornerstone-store-impl</id>
   <name>Cornerstone Store Implementation</name>
-  <currentVersion>1.1</currentVersion>
+  <currentVersion>1.1.0</currentVersion>
   <package>org.apache.avalon.cornerstone.blocks.masterstore</package>
 
   <inceptionYear>2001</inceptionYear>
@@ -18,7 +18,7 @@
     <dependency>
       <groupId>cornerstone-store</groupId>
       <artifactId>cornerstone-store-api</artifactId>
-      <version>1.0</version>
+      <version>1.0.0</version>
     </dependency>
 
     <!-- avalon dependencies -->
