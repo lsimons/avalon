@@ -11,7 +11,7 @@ package org.apache.avalon.framework.thread;
  * A interface to mark a component as ThreadSafe or reentrant.
  * This interface is incompatible with SingleThreaded.
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public interface ThreadSafe
 {

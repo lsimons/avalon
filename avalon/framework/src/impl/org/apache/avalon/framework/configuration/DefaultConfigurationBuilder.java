@@ -20,7 +20,7 @@ import javax.xml.parsers.SAXParserFactory;
  * A SAXConfigurationBuilder builds configurations via SAX2 compliant parser.
  *
  * @author <a href="mailto:fede@apache.org">Federico Barbieri</a>
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public class DefaultConfigurationBuilder
 {

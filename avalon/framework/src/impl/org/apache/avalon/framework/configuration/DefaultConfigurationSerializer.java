@@ -8,22 +8,21 @@
 package org.apache.avalon.framework.configuration;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.net.URL;
 import java.util.Properties;
-import org.xml.sax.helpers.AttributesImpl;
-import org.xml.sax.helpers.NamespaceSupport;
-import org.xml.sax.SAXException;
-import org.xml.sax.XMLReader;
 import javax.xml.transform.OutputKeys;
-import javax.xml.transform.sax.SAXTransformerFactory;
 import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.sax.SAXTransformerFactory;
 import javax.xml.transform.sax.TransformerHandler;
 import javax.xml.transform.stream.StreamResult;
-import java.io.OutputStream;
-
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
+import org.xml.sax.helpers.AttributesImpl;
+import org.xml.sax.helpers.NamespaceSupport;
 
 /**
  * A ConfigurationSerializer serializes configurations via SAX2 compliant parser.
@@ -32,7 +31,7 @@ import java.io.OutputStream;
  */
 public class DefaultConfigurationSerializer
 {
-    private SAXTransformerFactory m_tfactory = null;
+    private SAXTransformerFactory m_tfactory;
     private TransformerHandler    m_handler;
     private OutputStream          m_out;
     private Properties            m_format = new Properties();
@@ -43,23 +42,25 @@ public class DefaultConfigurationSerializer
      */
     public DefaultConfigurationSerializer()
     {
-        this.getTransformerFactory();
+        getTransformerFactory();
     }
 
     /**
      * Internally set the output strream we will be using.
      */
-    protected void setOutputStream(OutputStream out)
+    protected void setOutputStream( final OutputStream out )
     {
         try
         {
-            this.m_out = out;
-            this.m_handler = this.getTransformerFactory().newTransformerHandler();
-            this.m_format.put(OutputKeys.METHOD,"xml");
-            this.m_handler.setResult(new StreamResult(out));
-            this.m_handler.getTransformer().setOutputProperties(this.m_format);
-        } catch (Exception e) {
-            throw new RuntimeException(e.toString());
+            m_out = out;
+            m_handler = getTransformerFactory().newTransformerHandler();
+            m_format.put(OutputKeys.METHOD,"xml");
+            m_handler.setResult(new StreamResult(out));
+            m_handler.getTransformer().setOutputProperties( m_format );
+        } 
+        catch( final Exception e )
+        {
+            throw new RuntimeException( e.toString() );
         }
     }
 
@@ -82,19 +83,19 @@ public class DefaultConfigurationSerializer
      * be set before calling this method.
      */
     protected void serialize( final Configuration source )
-    throws SAXException
+        throws SAXException
     {
-        this.m_namespaceSupport.reset();
-        this.m_handler.startDocument();
-        this.serializeElement(source);
-        this.m_handler.endDocument();
+        m_namespaceSupport.reset();
+        m_handler.startDocument();
+        serializeElement(source);
+        m_handler.endDocument();
     }
 
     /**
      * Serialize each Configuration element.  This method is called recursively.
      */
     protected void serializeElement( final Configuration element )
-    throws SAXException
+        throws SAXException
     {
         m_namespaceSupport.pushContext();
 
@@ -120,8 +121,8 @@ public class DefaultConfigurationSerializer
         if ( existingURI == null || !existingURI.equals( nsURI ) )
         {
             nsWasDeclared = true;
-            this.m_handler.startPrefixMapping( nsPrefix, nsURI );
-            this.m_namespaceSupport.declarePrefix( nsPrefix, nsURI );
+            m_handler.startPrefixMapping( nsPrefix, nsURI );
+            m_namespaceSupport.declarePrefix( nsPrefix, nsURI );
         }
 
         String localName = element.getName();
@@ -135,7 +136,7 @@ public class DefaultConfigurationSerializer
             qName = nsPrefix + ":" + localName;
         }
 
-        this.m_handler.startElement(nsURI, localName, qName, attr);
+        m_handler.startElement(nsURI, localName, qName, attr);
 
         String value = element.getValue(null);
 
@@ -145,22 +146,22 @@ public class DefaultConfigurationSerializer
 
             for (int i = 0; i < children.length; i++)
             {
-                this.serializeElement(children[i]);
+                serializeElement(children[i]);
             }
         }
         else
         {
-            this.m_handler.characters(value.toCharArray(), 0, value.length());
+            m_handler.characters(value.toCharArray(), 0, value.length());
         }
 
-        this.m_handler.endElement(nsURI, localName, qName);
+        m_handler.endElement(nsURI, localName, qName);
 
         if ( nsWasDeclared )
         {
-            this.m_handler.endPrefixMapping( nsPrefix );
+            m_handler.endPrefixMapping( nsPrefix );
         }
 
-        this.m_namespaceSupport.popContext();
+        m_namespaceSupport.popContext();
     }
 
     /**
@@ -178,7 +179,7 @@ public class DefaultConfigurationSerializer
     public void serializeToFile( final File file, final Configuration source )
         throws SAXException, IOException, ConfigurationException
     {
-        this.serialize( new FileOutputStream( file ), source );
+        serialize( new FileOutputStream( file ), source );
     }
 
     /**
@@ -189,8 +190,8 @@ public class DefaultConfigurationSerializer
     {
         synchronized(this)
         {
-            this.setOutputStream( outputStream );
-            this.serialize( source );
+            setOutputStream( outputStream );
+            serialize( source );
         }
     }
 
@@ -201,6 +202,6 @@ public class DefaultConfigurationSerializer
     public void serialize( final String uri, final Configuration source )
         throws SAXException, IOException, ConfigurationException
     {
-        this.serialize( new URL( uri ).openConnection().getOutputStream(), source );
+        serialize( new URL( uri ).openConnection().getOutputStream(), source );
     }
 }

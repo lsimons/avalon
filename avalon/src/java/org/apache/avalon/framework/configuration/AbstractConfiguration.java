@@ -13,9 +13,9 @@ package org.apache.avalon.framework.configuration;
  *
  * @author <a href="mailto:fede@apache.org">Federico Barbieri</a>
  * @author <a href="mailto:stefano@apache.org">Stefano Mazzocchi</a>
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  * @author <a href="mailto:fumagalli@exoffice.com">Pierpaolo Fumagalli</a>
- * @version CVS $Revision: 1.8 $ $Date: 2001/11/09 21:34:54 $
+ * @version CVS $Revision: 1.9 $ $Date: 2001/11/19 11:47:37 $
  */
 public abstract class AbstractConfiguration
     implements Configuration
