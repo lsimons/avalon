@@ -55,7 +55,7 @@ import org.apache.excalibur.source.SourceResolver;
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: SourceResolverImpl.java,v 1.14 2002/11/12 01:04:43 donaldp Exp $
+ * @version $Id: SourceResolverImpl.java,v 1.15 2002/11/12 04:04:53 donaldp Exp $
  */
 public class SourceResolverImpl
     extends AbstractLogEnabled
@@ -123,7 +123,7 @@ public class SourceResolverImpl
      * Set the current <code>ComponentLocator</code> instance used by this
      * <code>Composable</code>.
      *
-     * @avalon.service type="org.apache.excalibur.source.SourceFactorySelector"
+     * @avalon.dependency type="org.apache.excalibur.source.SourceFactorySelector"
      */
     public void service( final ServiceManager manager )
         throws ServiceException
