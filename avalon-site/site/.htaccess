@@ -18,6 +18,6 @@ RedirectMatch ^/excalibur/sourceresolve(.*) http://avalon.apache.org/excalibur/n
 RedirectMatch ^/excalibur/store(.*) http://avalon.apache.org/excalibur/no-docs-available.html
 RedirectMatch ^/excalibur/thread(.*) http://avalon.apache.org/excalibur/no-docs-available.html
 RedirectMatch ^/excalibur/xfc(.*) http://avalon.apache.org/excalibur/no-docs-available.html
-RedirectMatch ^/download.cgi(.*) http://avalon.apache.org/downloads.cgi$1
+RedirectMatch ^/downloads.cgi(.*) http://avalon.apache.org/download.cgi$1
 
 
