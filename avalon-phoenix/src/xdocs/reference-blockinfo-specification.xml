@@ -4,9 +4,7 @@
   <header>
     <title>Reference - The BlockInfo Specification</title>
     <version>3.0</version>
-
-      <person id="PD" name="Peter Donald" email="peter@apache.org"/>
-
+      <person name="Peter Donald" email="peter@apache.org"/>
     <abstract>
       Specifies the format of BlockInfo files and the reasons for particular aspects.
     </abstract>
@@ -49,13 +47,13 @@
     <dependency>
       <role>com.biz.cornerstone.services.Authorizer</role>
       <service name="com.biz.cornerstone.service.Authorizer"
-               version="1.0"/>
+               version="1.2"/>
     </dependency>
     <dependency>
       <!-- note that role is not specified and defaults
-           to name of service -->
-      <service name="com.biz.cornerstone.service.RoleMapper"
-               version="1.0"/>
+           to name of service. The service version is not
+           specified and it defaults to "1.0" -->
+      <service name="com.biz.cornerstone.service.RoleMapper"/>
     </dependency>
   </dependencies>
 
@@ -75,15 +73,15 @@
       </subsection>
       <subsection name="BlockInfo 'services' Section">
         <p>The services section documents the services that this block can offer other
-        Blocks. The service instances indicate an interface and a version. The interface
-        MUST extend <code>org.apache.phoenix.Service</code>. This section is optional
-        and a Block can choose to not offer any services.</p>
+        Blocks. The service instances indicate an interface and optionally a version
+        (defaults to version 1.0 if not specified). This section is optional and a Block
+        can choose to not offer any services.</p>
       </subsection>
       <subsection name="BlockInfo 'dependencies' Section">
         <p>The services section documents the services that this block requires to operate.
-        Required services are placed in the Blocks ComponentManager under the name
+        Required services are placed in the Blocks ServiceManager under the name
         specified by the <code>role</code> element of dependency. As is documented in the
-        <a href="@FRAMEWORK_BASE@/guide-cop-in-avalon.html">components</a> section, the
+        <a href="http://jakarta.apache.org/avalon/framework/guide-cop-in-avalon.html">components</a> section, the
         concept of Role is more than just a behavioural contract. A <code>Service</code> is
         a behavioural contract and thus the necessity to support the role element. In most
         cases however the role element and the name attribute of the service will be
