@@ -6,12 +6,12 @@
 
   <groupId>avalon-logging</groupId>
   <id>avalon-log4j-impl</id>
-  <name>Avalon Log4J Logging Implementation</name>
+  <name>Avalon Logging Log4J Plugin</name>
   <package>org.apache.avalon.logging.log4j</package>
   <currentVersion>1.0-SNAPSHOT</currentVersion>
 
   <inceptionYear>2002</inceptionYear>
-  <shortDescription>Avalon Log4J Logging Implementation.</shortDescription>
+  <shortDescription>Avalon Logging Log4J Plugin</shortDescription>
 
   <dependencies>
 

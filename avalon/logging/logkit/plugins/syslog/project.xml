@@ -6,12 +6,12 @@
 
   <groupId>avalon-logging</groupId>
   <id>avalon-logkit-syslog</id>
-  <name>Avalon Logging Logkit Syslog Target</name>
+  <name>Avalon Logging Logkit Syslog Target Plugin</name>
   <package>org.apache.avalon.logging.logkit</package>
   <currentVersion>1.0-SNAPSHOT</currentVersion>
 
   <inceptionYear>2002</inceptionYear>
-  <shortDescription>Avalon Logging Logkit Syslog Target</shortDescription>
+  <shortDescription>Avalon Logging Logkit Syslog Target Plugin</shortDescription>
 
   <dependencies>
 

@@ -34,10 +34,10 @@ import org.apache.avalon.excalibur.i18n.Resources;
 
 /**
  * A parameter descriptor that supports transformation of a 
- * a string url or file to a configuration instance.
+ * a string to a Logger instance.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class LoggerParameter extends Parameter
 {
