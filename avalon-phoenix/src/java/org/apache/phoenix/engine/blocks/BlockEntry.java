@@ -7,9 +7,9 @@
  */
 package org.apache.phoenix.engine.blocks;
 
-import org.apache.avalon.camelot.AvalonState;
 import org.apache.avalon.camelot.Entry;
 import org.apache.avalon.camelot.Locator;
+import org.apache.avalon.camelot.pipeline.AvalonState;
 import org.apache.avalon.configuration.Configuration;
 import org.apache.phoenix.Block;
 import org.apache.phoenix.metainfo.BlockInfo;

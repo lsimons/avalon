@@ -21,7 +21,7 @@ import org.apache.avalon.DefaultContext;
 import org.apache.avalon.Initializable;
 import org.apache.avalon.atlantis.ApplicationException;
 import org.apache.avalon.camelot.AbstractContainer;
-import org.apache.avalon.camelot.AvalonState;
+import org.apache.avalon.camelot.pipeline.AvalonState;
 import org.apache.avalon.camelot.ContainerException;
 import org.apache.avalon.camelot.Entry;
 import org.apache.avalon.camelot.Factory;

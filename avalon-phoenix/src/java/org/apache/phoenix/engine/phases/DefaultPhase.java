@@ -15,13 +15,13 @@ import org.apache.avalon.Context;
 import org.apache.avalon.Contextualizable;
 import org.apache.avalon.Initializable;
 import org.apache.avalon.atlantis.ApplicationException;
+import org.apache.avalon.camelot.pipeline.AvalonState;
 import org.apache.avalon.camelot.pipeline.LifeCycleStage;
 import org.apache.avalon.util.Enum;
+import org.apache.avalon.util.thread.ThreadManager;
 import org.apache.log.LogKit;
 import org.apache.log.Logger;
 import org.apache.phoenix.engine.blocks.BlockEntry;
-import org.apache.avalon.camelot.AvalonState;
-import org.apache.avalon.util.thread.ThreadManager;
 
 /**
  *

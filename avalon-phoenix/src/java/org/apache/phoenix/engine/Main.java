@@ -118,7 +118,6 @@ public class Main
      * Main entry point.
      *
      * @param args[] the command line arguments
-     * @exception Exception if an error occurs
      */
     public void main( final String args[] )
     { 
