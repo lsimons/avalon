@@ -67,9 +67,7 @@ Legal:
     <property name="www.dir" value="../jakarta-avalon-site/docs"/>
     <property name="javadocs.dir" value="${docs.dir}/api"/>
     <property name="xdocs.dir" value="${src.dir}/xdocs"/>
-    <property name="skins.dir" value="${src.dir}/skins"/>
     <property name="context.dir" value="${src.dir}/documentation"/>
-    <property name="stylesheets.dir" value="${skins.dir}"/>
 
     <property name="dist.name" value="${Name}-${version}"/>
     <property name="dist.base" value="distributions"/>
