@@ -51,6 +51,7 @@
                 export statements that isolate a block implementation from the services 
                 it provides.</td>
           </tr>
+          <!--
           <tr>
             <td><a href="security.html">Container Security</a></td>
             <td>
@@ -59,6 +60,7 @@
               permissions to the code based on where it was loaded from.
             </td>
           </tr>
+          -->
           <tr>
             <td><a href="unit/index.html">Unit Tests</a></td>
             <td>Setting up unit tests that leverage merlin as the component factory.</td>

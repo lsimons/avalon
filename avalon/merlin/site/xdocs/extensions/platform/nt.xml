@@ -38,7 +38,7 @@ The Merlin installation includes support for the running of a Merlin Kernel as a
         <p>Installation of the service is achieved using the following
         command:</p>
         <source>
- $ cd %MERLIN_HOME%\bin
+ $ cd %MERLIN_HOME%\bin\nt
  $ InstallService-NT.bat
         </source>
         <p>
@@ -64,7 +64,7 @@ The Merlin installation includes support for the running of a Merlin Kernel as a
         <p>Deinstallation of the service is achieved using the following
         command:</p>
         <source>
- $ cd %MERLIN_HOME%\bin
+ $ cd %MERLIN_HOME%\bin\nt
  $ UninstallService-NT.bat
         </source>
       </subsection>
