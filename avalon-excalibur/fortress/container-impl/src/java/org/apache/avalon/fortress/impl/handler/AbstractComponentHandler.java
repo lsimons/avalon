@@ -67,7 +67,7 @@ import org.apache.excalibur.mpool.ObjectFactory;
  * and destroyed correctly.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.3 $ $Date: 2003/02/10 15:35:47 $
+ * @version CVS $Revision: 1.4 $ $Date: 2003/02/12 16:33:51 $
  * @since 4.0
  */
 public abstract class AbstractComponentHandler
@@ -148,7 +148,7 @@ public abstract class AbstractComponentHandler
      *
      * @throws Exception if unable to prepare handler
      */
-    public void prepareHandler()
+    public synchronized void prepareHandler()
         throws Exception
     {
         if( m_prepared )
@@ -193,12 +193,9 @@ public abstract class AbstractComponentHandler
     public Object get()
         throws Exception
     {
-        synchronized( this )
+        if( !m_prepared )
         {
-            if( !m_prepared )
-            {
-                prepareHandler();
-            }
+            prepareHandler();
         }
 
         if( m_disposed )
