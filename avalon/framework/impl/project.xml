@@ -4,7 +4,7 @@
 
 <project>
 
-  <extend>${basedir}/../project.xml</extend>
+  <extend>${basedir}/../../project.xml</extend>
 
   <groupId>&avalon-framework-id;</groupId>
   <id>&avalon-framework-impl-id;</id>
@@ -24,6 +24,12 @@
       <version>&avalon-framework-api-version;</version>
     </dependency>
     
+    <dependency>
+      <groupId>&avalon-logkit-id;</groupId>
+      <artifactId>&avalon-logkit-id;</artifactId>
+      <version>&avalon-logkit-version;</version>
+    </dependency>
+
     <dependency>
       <id>xml-apis</id>
       <version>2.0.2</version>
@@ -45,10 +51,6 @@
     <dependency>
       <id>log4j</id>
       <version>1.2.7</version>
-    </dependency>
-    <dependency>
-      <id>logkit</id>
-      <version>1.2</version>
     </dependency>
     <dependency>
       <id>junit</id>

@@ -1,3 +1,8 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE project [
+  <!ENTITY % index SYSTEM "file:index.ent"> %index;
+]>
+
 <project default="avalon:build"  xmlns:maven="jelly:maven" xmlns:j="jelly:core" xmlns:util="jelly:util" xmlns:ant="jelly:ant">
 
   <ant:property name="maven.dist.assembly.dir"
@@ -39,18 +44,36 @@ The complete set of target include:
     <maven:reactor
       basedir="${basedir}"
       includes="*/project.xml"
-      excludes="project.xml,site/project.xml"
+      excludes="project.xml,site/project.xml,target/**"
       goals="jar:install"
       banner="Building:"
-      ignoreFailures="false"/>
+      ignoreFailures="false"
+      postProcessing="true" />
+
     <ant:copy todir="${maven.build.dir}">
-      <ant:fileset dir="${basedir}/api/target">
-        <ant:include name="${pom.artifactId}-api-${pom.currentVersion}.jar"/>
-      </ant:fileset>
-      <ant:fileset dir="${basedir}/impl/target">
-        <ant:include name="${pom.artifactId}-impl-${pom.currentVersion}.jar"/>
-      </ant:fileset>
+      <j:forEach var="child" items="${reactorProjects}">
+        <ant:fileset dir="${child.file.parentFile}/target">
+          <ant:include name="${child.artifactId}-${child.currentVersion}.jar"/>
+        </ant:fileset>
+      </j:forEach>
     </ant:copy>
+
+    <j:forEach var="child" items="${reactorProjects}">
+      <j:set var="path" value="${child.artifactId}-${child.currentVersion}"/>
+      <util:file var="jarFile" name="${maven.build.dir}/${path}.jar"/>
+      <j:if test="${jarFile.exists()}">
+        <checksum file="${jarFile}" fileext=".md5" />
+        <j:if test="${maven_gpg_exe != null}">
+          <ant:exec executable="${maven_gpg_exe}">
+            <ant:arg value="-a"/>
+            <ant:arg value="--yes"/>
+            <ant:arg value="-b"/>
+            <ant:arg value="${jarFile}"/>
+          </ant:exec>
+        </j:if>
+      </j:if>
+    </j:forEach>
+
   </goal>
 
   <goal name="avalon:build-snapshot">
@@ -106,8 +129,7 @@ The complete set of target include:
     <!-- Copy Jars -->
     <ant:copy todir="${maven.dist.bin.assembly.dir}">
       <ant:fileset dir="${maven.build.dir}">
-        <ant:include name="${pom.artifactId}-api-${pom.currentVersion}.jar"/>
-        <ant:include name="${pom.artifactId}-impl-${pom.currentVersion}.jar"/>
+        <ant:include name="*.jar"/>
       </ant:fileset>
       <ant:fileset dir="${maven.build.dir}">
         <ant:include name="docs/**"/>
