@@ -293,4 +293,35 @@ public final class InheritanceTestCase
         bcd.debug( MSG );
         assertEquals( "Additivity debug output", RMSG, getResult( output ) );
     }
+
+    public void testChainedAdditivity()
+        throws Exception
+    {
+        final Hierarchy hierarchy = new Hierarchy();
+        final ByteArrayOutputStream output1 = new ByteArrayOutputStream();
+        final ByteArrayOutputStream output2 = new ByteArrayOutputStream();
+        final StreamTarget target1 = new StreamTarget( output1, FORMATTER );
+        final StreamTarget target2 = new StreamTarget( output2, FORMATTER );
+
+        final LogTarget[] targets1 = new LogTarget[] { target1 };
+        final LogTarget[] targets2 = new LogTarget[] { target2 };
+
+        final Logger b = hierarchy.getLoggerFor( "b" );
+        final Logger bc = hierarchy.getLoggerFor( "b.c" );
+        final Logger bcd = hierarchy.getLoggerFor( "b.c.d" );
+        
+        b.setLogTargets( targets1 );
+        bc.setLogTargets( targets2 );
+        bc.setAdditivity( true );
+        bcd.setAdditivity( true );
+
+        b.debug( MSG );
+        assertEquals( "Additivity debug output1", RMSG, getResult( output1 ) );
+        bc.debug( MSG );
+        assertEquals( "Additivity debug output1", RMSG, getResult( output1 ) );
+        assertEquals( "Additivity debug output2", RMSG, getResult( output2 ) );
+        bcd.debug( MSG );
+        assertEquals( "Additivity debug output1", RMSG, getResult( output1 ) );
+        assertEquals( "Additivity debug output2", RMSG, getResult( output2 ) );
+    }
 }

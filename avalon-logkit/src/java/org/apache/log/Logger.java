@@ -560,21 +560,34 @@ public class Logger
             final String message = "LogTarget is null for category '" + m_category + "'";
             m_errorHandler.error( message, null, event );
         }
+        else if( !m_additivity )
+        {
+            fireEvent( event, targets );
+        }
         else
         {
-            for( int i = 0; i < targets.length; i++ )
+            //If log targets were not inherited, additivity is true
+            //then fire an event to local targets 
+            if( m_logTargetsForceSet )
             {
-                //No need to clone array as addition of a log-target 
-                //will result in changin whole array                
-                targets[ i ].processEvent( event );
+                fireEvent( event, targets );
             }
 
-            //If log targets were not inherited, additivity is true
-            //and we have a parent Logger then send log event to parent
-            if( m_logTargetsForceSet && m_additivity && null != m_parent )
+            //if we have a parent Logger then send log event to parent
+            if( null != m_parent )
             {
                 m_parent.output( event );
             }
+        }
+    }
+
+    private final void fireEvent( final LogEvent event, final LogTarget[] targets )
+    {
+        for( int i = 0; i < targets.length; i++ )
+        {
+            //No need to clone array as addition of a log-target 
+            //will result in changin whole array                
+            targets[ i ].processEvent( event );
         }
     }
 
@@ -605,7 +618,7 @@ public class Logger
         {
             m_priorityForceSet = false;
         }
-        else if( m_priorityForceSet ) 
+        else if( m_priorityForceSet )
         {
             return;
         }
@@ -616,27 +629,27 @@ public class Logger
 
     /**
      * Retrieve logtarget array contained in logger.
-     * This method is provided so that child Loggers can access a 
+     * This method is provided so that child Loggers can access a
      * copy of  parents LogTargets.
      *
      * @return the array of LogTargets
      */
     private synchronized LogTarget[] safeGetLogTargets()
     {
-        if( null == m_logTargets ) 
+        if( null == m_logTargets )
         {
             if( null == m_parent ) return new LogTarget[ 0 ];
             else return m_parent.safeGetLogTargets();
         }
         else
         {
-            final LogTarget[] logTargets = new LogTarget[ m_logTargets.length ];       
+            final LogTarget[] logTargets = new LogTarget[ m_logTargets.length ];
 
             for( int i = 0; i < logTargets.length; i++ )
             {
                 logTargets[ i ] = m_logTargets[ i ];
             }
-            
+
             return logTargets;
         }
     }
@@ -683,7 +696,7 @@ public class Logger
         {
             m_logTargetsForceSet = false;
         }
-        else if( m_logTargetsForceSet ) 
+        else if( m_logTargetsForceSet )
         {
             return;
         }
