@@ -28,7 +28,7 @@ import org.apache.avalon.meta.info.Type;
  * Deployment model defintion.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2004/02/10 16:23:33 $
+ * @version $Revision: 1.5 $ $Date: 2004/02/25 22:54:09 $
  */
 public interface ComponentModel extends DeploymentModel
 {
@@ -68,18 +68,6 @@ public interface ComponentModel extends DeploymentModel
     * @see org.apache.avalon.meta.info.InfoDescriptor#UNDEFINED
     */
     void setCollectionPolicy( int policy );
-
-   /**
-    * Return the logging categories. 
-    * @return the logging categories
-    */
-    CategoriesDirective getCategories();
-
-   /**
-    * Set categories. 
-    * @param categories the logging categories
-    */
-    void setCategories( CategoriesDirective categories );
 
    /**
     * Set the activation policy for the model. 

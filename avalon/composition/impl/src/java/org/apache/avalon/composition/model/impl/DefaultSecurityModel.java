@@ -36,12 +36,13 @@ import org.apache.avalon.composition.provider.SecurityModel;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 
+import org.apache.avalon.logging.data.CategoriesDirective;
 
 /**
  * <p>Implementation of the default security model.</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/02/25 20:31:01 $
+ * @version $Revision: 1.3 $ $Date: 2004/02/25 22:54:09 $
  */
 public final class DefaultSecurityModel implements SecurityModel
 {

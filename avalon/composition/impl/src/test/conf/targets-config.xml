@@ -1,13 +1,13 @@
 
 <targets>
 
-  <target name="/aaa">
+  <target path="/aaa">
     <configuration>
       <source>External configuration target for AAA.</source>
     </configuration>
   </target>
 
-  <target name="/ccc/sss/xxx">
+  <target path="/ccc/sss/xxx">
     <configuration>
       <source>External configuration target for XXX.</source>
     </configuration>

@@ -30,12 +30,14 @@ import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 
+import org.apache.avalon.logging.data.CategoriesDirective;
+
 
 /**
  * Abstract model base class.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.16 $ $Date: 2004/02/12 05:59:41 $
+ * @version $Revision: 1.17 $ $Date: 2004/02/25 22:54:09 $
  */
 public abstract class DefaultDeploymentModel
   implements DeploymentModel
@@ -225,4 +227,17 @@ public abstract class DefaultDeploymentModel
         SystemContext system = m_context.getSystemContext();
         return system.getDefaultDeploymentTimeout();
     }
+
+   /**
+    * Return the logging categories. 
+    * @return the logging categories
+    */
+    public abstract CategoriesDirective getCategories();
+
+   /**
+    * Set categories. 
+    * @param categories the logging categories
+    */
+    public abstract void setCategories( CategoriesDirective categories );
+
 }

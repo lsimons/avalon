@@ -24,7 +24,7 @@ import org.apache.avalon.meta.info.EntryDescriptor;
  * context entry.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/02/22 16:22:17 $
+ * @version $Revision: 1.3 $ $Date: 2004/02/25 22:54:09 $
  */
 public class OverrideEntryModel extends DefaultEntryModel
 {
@@ -42,8 +42,7 @@ public class OverrideEntryModel extends DefaultEntryModel
     * Creation of a new overriding context entry.
     *
     * @param descriptor the context entry descriptor
-    * @param object the value to return for the entry
-    * @param context the containment context
+    * @param value the value to return for the entry
     */
     public OverrideEntryModel( 
       EntryDescriptor descriptor, Object value )

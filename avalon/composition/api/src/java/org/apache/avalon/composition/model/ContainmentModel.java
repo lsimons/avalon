@@ -34,7 +34,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * context.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.20 $ $Date: 2004/02/23 15:03:22 $
+ * @version $Revision: 1.21 $ $Date: 2004/02/25 22:54:09 $
  */
 public interface ContainmentModel extends DeploymentModel
 {
@@ -51,18 +51,6 @@ public interface ContainmentModel extends DeploymentModel
      * Get the shutdown sequence for the model.
      */
     DeploymentModel[] getShutdownGraph();
-
-   /**
-    * Return the logging categories. 
-    * @return the logging categories
-    */
-    CategoriesDirective getCategories();
-
-   /**
-    * Set categories. 
-    * @param categories the logging categories
-    */
-    void setCategories( CategoriesDirective categories );
 
    /**
     * Return the partition established by the containment model.
