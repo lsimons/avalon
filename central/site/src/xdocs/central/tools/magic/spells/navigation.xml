@@ -23,6 +23,10 @@
 
  <body>
     <menu>
+      <item name="Installing Magic" href="installation.html"/>
+      <item name="Setting up an Index" href="index-creation.html"/>
+      <item name="My First Spell" href="my-first-spell.html"/>
+      <item name="Dark Arts" href="dark-arts.html"/>
     </menu>
  </body>
 
