@@ -51,7 +51,12 @@ public class PrepareTask extends SystemTask
     private static final String ETC_FILTERED_INCLUDES_KEY = 
       "project.prepare.etc.filtered.includes";
     private static final String ETC_FILTERED_INCLUDES_VALUE = 
-      "**/*.java,**/*.x*,**/*.properties";
+      "**/*";
+
+    private static final String ETC_FILTERED_EXCLUDES_KEY = 
+      "project.prepare.etc.filtered.excludes";
+    private static final String ETC_FILTERED_EXCLUDES_VALUE = 
+      "**/*.exe,**/*.jar*,**/*.gif,**/*.jpeg,**/*.jpg";
 
     public void init() throws BuildException 
     {
@@ -63,6 +68,8 @@ public class PrepareTask extends SystemTask
               SRC_FILTERED_INCLUDES_KEY, SRC_FILTERED_INCLUDES_VALUE );
             project.setNewProperty(
               ETC_FILTERED_INCLUDES_KEY, ETC_FILTERED_INCLUDES_VALUE );
+            project.setNewProperty(
+              ETC_FILTERED_EXCLUDES_KEY, ETC_FILTERED_EXCLUDES_VALUE );
         }
     }
 
@@ -113,9 +120,10 @@ public class PrepareTask extends SystemTask
         if( etc.exists() )
         {
             File buildEtcDir = new File( build, "etc" );
-            String filters = project.getProperty( ETC_FILTERED_INCLUDES_KEY );
-            copy( etc, buildEtcDir, true, filters, "" );
-            copy( etc, buildEtcDir, false, "**/*", filters );
+            String includes = project.getProperty( ETC_FILTERED_INCLUDES_KEY );
+            String excludes = project.getProperty( ETC_FILTERED_EXCLUDES_KEY );
+            copy( etc, buildEtcDir, true, includes, excludes );
+            copy( etc, buildEtcDir, false, excludes, "" );
         }
     }
 
