@@ -21,25 +21,33 @@ import java.io.OutputStream;
  *
  * @author <a href="mailto:paul_hammant@yahoo.com">Paul Hammant</a>
  */
-
-class FileStoreObjectInputStream extends ObjectInputStream
+class FileStoreObjectInputStream 
+    extends ObjectInputStream
 {
-    private ClassLoader classLoader;
-    public FileStoreObjectInputStream(ClassLoader classLoader, InputStream in) throws IOException, StreamCorruptedException
+    private ClassLoader m_classLoader;
+
+    public FileStoreObjectInputStream( final ClassLoader classLoader, 
+                                       final InputStream inputStream ) 
+        throws IOException, StreamCorruptedException
     {
-        super(in);
-        this.classLoader = classLoader;
+        super( inputStream );
+        m_classLoader = classLoader;
     }
-    protected Class resolveClass(ObjectStreamClass v) throws IOException, ClassNotFoundException
+
+    protected Class resolveClass( final ObjectStreamClass objectStreamClass ) 
+        throws IOException, ClassNotFoundException
     {
-        Class cl = Class.forName(v.getName(), false, classLoader);
-        if (cl !=null)
+        final Class clazz = 
+            Class.forName( objectStreamClass.getName(), false, m_classLoader );
+
+        if( null != clazz )
         {
-            return cl; // the classloader knows of the class
+            return clazz; // the classloader knows of the class
         }
         else
         {
-            return super.resolveClass(v); // classloader knows not of class, let the super classloader do it
+            // classloader knows not of class, let the super classloader do it
+            return super.resolveClass( objectStreamClass ); 
         }
     }
 }
