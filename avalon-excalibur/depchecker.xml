@@ -190,7 +190,6 @@ To use it, type 'ant -f depchecker.xml'
             <property name="name" value="excalibur-util.jar"/>
             <property name="path" value="${excalibur-util.jar}"/>
             <property name="proj.home" value="${basedir}/../util"/>
-            <property name="proj.target" value="jar"/>
         </ant>
     </target>
     <target name="checkComponent">
@@ -198,7 +197,6 @@ To use it, type 'ant -f depchecker.xml'
             <property name="name" value="excalibur-component.jar"/>
             <property name="path" value="${excalibur-component.jar}"/>
             <property name="proj.home" value="${basedir}/../component"/>
-            <property name="proj.target" value="jar"/>
         </ant>
     </target>
     <target name="checkConcurrent">
