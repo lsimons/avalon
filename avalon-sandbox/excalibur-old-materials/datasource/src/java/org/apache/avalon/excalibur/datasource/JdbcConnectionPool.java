@@ -21,7 +21,7 @@ import org.apache.avalon.framework.logger.AbstractLoggable;
  * thread to manage the number of SQL Connections.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.6 $ $Date: 2001/09/26 17:52:28 $
+ * @version CVS $Revision: 1.7 $ $Date: 2001/11/02 19:28:35 $
  * @since 4.0
  */
 public class JdbcConnectionPool
@@ -31,6 +31,7 @@ public class JdbcConnectionPool
     private Thread                 m_initThread;
     private final boolean          m_autoCommit;
     private boolean                m_noConnections = false;
+    private long                   m_wait = -1;
 
     public JdbcConnectionPool( final JdbcConnectionFactory factory, final DefaultPoolController controller, final int min, final int max, final boolean autoCommit)
         throws Exception
@@ -41,6 +42,22 @@ public class JdbcConnectionPool
         this.m_autoCommit = autoCommit;
     }
 
+    /**
+     * Set the timeout in milliseconds for blocking when waiting for a
+     * new connection.  It defaults to -1.  Any number below 1 means that there
+     * is no blocking, and the Pool fails hard.  Any number above 0 means we
+     * will wait for that length of time before failing.
+     */
+    public void setTimeout( long timeout )
+    {
+        if (this.m_initialized)
+        {
+            throw new IllegalStateException("You cannot change the timeout after the pool is initialized");
+        }
+
+        m_wait = timeout;
+    }
+
     public void initialize()
     {
         m_initThread = new Thread( this );
@@ -49,7 +66,45 @@ public class JdbcConnectionPool
 
     protected final Poolable newPoolable() throws Exception
     {
-        JdbcConnection conn = (JdbcConnection) super.newPoolable();
+        JdbcConnection conn = null;
+
+        if ( m_wait < 1 )
+        {
+            conn = (JdbcConnection) super.newPoolable();
+        }
+        else
+        {
+            long curMillis = new Date().getTime();
+            long endTime = curMillis + m_wait;
+
+            while ( ( null == conn ) && ( curMillis < endTime ) )
+            {
+                try
+                {
+                    m_mutex.unlock();
+                    this.wait( m_wait ); // wait for 50 millis before trying again
+                }
+                finally
+                {
+                    m_mutex.lock();
+                }
+
+                try
+                {
+                    conn = (JdbcConnection) super.newPoolable();
+                }
+                finally
+                {
+                    // Do nothing except keep waiting
+                }
+            }
+        }
+
+        if (null == conn )
+        {
+            throw new NoAvailableConnectionException("All available connections are in use");
+        }
+
         conn.setPool(this);
         return conn;
     }
@@ -119,6 +174,12 @@ public class JdbcConnectionPool
         }
 
         return obj;
+    }
+
+    public void put( Poolable obj )
+    {
+        super.put( obj );
+        this.notifyAll();
     }
 
     public void run()
