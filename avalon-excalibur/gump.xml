@@ -446,10 +446,11 @@
         <package>org.apache.excalibur.mpool</package>
 
         <ant basedir="fortress">
-          <property name="version" value="@@DATE@@"/>
-          <property name="junit.failonerror" value="true"/>
-          <property name="do.checkstyle" value="true"/>
-          <property name="skip.dependencies" value="true"/>
+            <depend property="logkit.jar" project="jakarta-avalon-logkit" runtime="true"/>
+            <property name="version" value="@@DATE@@"/>
+            <property name="junit.failonerror" value="true"/>
+            <property name="do.checkstyle" value="true"/>
+            <property name="skip.dependencies" value="true"/>
         </ant>
 
         <depend project="jakarta-ant" inherit="runtime"/>
@@ -850,6 +851,7 @@
         <ant basedir="xmlutil">
             <depend property="excalibur-logger.jar" project="excalibur-logger"/>
             <depend property="logkit.jar" project="jakarta-avalon-logkit" runtime="true"/>
+            <depend property="excalibur-instrument.jar" project="excalibur-instrument"/>
             <depend property="excalibur-component.jar" project="excalibur-component"/>
             <depend property="excalibur-pool.jar" project="excalibur-pool"/>
             <depend property="excalibur-sourceresolve.jar" project="excalibur-sourceresolve"/>
