@@ -34,7 +34,7 @@ import org.apache.avalon.framework.logger.Logger;
  *  It is resolved when the Instrumentable actually registers the Instrument.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/09/06 02:10:12 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/09/26 04:15:45 $
  * @since 4.1
  */
 public class InstrumentProxy
@@ -212,11 +212,6 @@ public class InstrumentProxy
             // Type is not correct.
             throw new IllegalStateException(
                 "The proxy is not configured to handle CounterInstruments." );
-        }
-        
-        // Check the count
-        if ( count <= 0 ) {
-            throw new IllegalArgumentException( "Count must be a positive value." );
         }
         
         // Get a local reference to the listeners, so that synchronization can be avoided.
