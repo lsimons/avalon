@@ -12,9 +12,6 @@
 The Merlin project deals with the general area of service and component management.  The Merlin system is a container that provides comprehensive support for the management of complex component based systems based on an underlying meta-model that facilitates automated assembly and deployment of components.
     </p>
 
-    <p>
-<img src="/images/avalon-merlin1.png"/>
-    </p>
     </section>
 
     <section name="Purpose">
