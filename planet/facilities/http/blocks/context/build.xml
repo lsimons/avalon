@@ -7,7 +7,7 @@
   <import file="${project.system}/build/standard.xml"/>
 
   <target name="build" depends="standard.build">
-    <x:block name="default-context" embed="MAIN">
+    <x:block name="default-context">
       <x:component name="context" class="org.apache.avalon.http.impl.HttpContextImpl" />
       <x:component name="security-handler" class="org.apache.avalon.http.impl.SecurityHandler" />
   
