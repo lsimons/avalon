@@ -1,5 +1,5 @@
 
-Welcome to the Plug-In Development at Avalon
+Welcome to the Plug-In Development at Avalon 
 ============================================
 
 In Eclipse tradition, the package naming is exposed at the top-level 
