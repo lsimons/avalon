@@ -90,7 +90,7 @@ import org.apache.excalibur.source.impl.validity.TimeStampValidity;
  * project.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: HTTPClientSource.java,v 1.7 2003/07/30 12:22:17 crafterm Exp $
+ * @version CVS $Id: HTTPClientSource.java,v 1.8 2003/09/15 12:28:08 crafterm Exp $
  */
 public class HTTPClientSource extends AbstractLogEnabled 
     implements ModifiableSource, Initializable, Parameterizable
@@ -328,7 +328,25 @@ public class HTTPClientSource extends AbstractLogEnabled
      */
     private GetMethod createGetMethod( final String uri )
     {
-        return new GetMethod( uri );
+        final GetMethod method = new GetMethod( uri );
+
+        // add all parameters as headers
+        for ( final Iterator i = m_parameters.keySet().iterator(); i.hasNext(); )
+        {
+            final String key = (String) i.next();
+            final String value = (String) m_parameters.get( key );
+
+            if ( getLogger().isDebugEnabled() ) 
+            {
+                getLogger().debug(
+                    "Adding header '" + key + "', with value '" + value + "'"
+                );
+            }
+
+            method.setRequestHeader( key, value );
+        }
+
+        return method;
     }
 
     /**
