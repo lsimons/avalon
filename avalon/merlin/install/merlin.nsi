@@ -35,6 +35,12 @@
   InstallDirRegKey HKCU "Software\Merlin Platform 3.3" ""
 
 ;--------------------------------
+;Variables
+
+  Var MUI_TEMP
+  Var STARTMENU_FOLDER
+
+;--------------------------------
 ;Interface Settings
 
   !define MUI_HEADERIMAGE
@@ -47,6 +53,14 @@
   !insertmacro MUI_PAGE_LICENSE "..\LICENSE.txt"
   !insertmacro MUI_PAGE_COMPONENTS
   !insertmacro MUI_PAGE_DIRECTORY
+
+  ;Start Menu Folder Page Configuration
+  !define MUI_STARTMENUPAGE_REGISTRY_ROOT "HKCU"
+  !define MUI_STARTMENUPAGE_REGISTRY_KEY "Software\Modern UI Test"
+  !define MUI_STARTMENUPAGE_REGISTRY_VALUENAME "Start Menu Folder"
+
+  !insertmacro MUI_PAGE_STARTMENU Application $STARTMENU_FOLDER
+
   !insertmacro MUI_PAGE_INSTFILES
   !insertmacro MUI_PAGE_FINISH
 
@@ -97,6 +111,14 @@ Section "merlin base" SecMerlin
 
   ;Store install folder
   WriteRegStr HKCU "Software\Merlin Platform 3.3" "" $INSTDIR
+
+  !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
+
+    ;Create shortcuts
+    CreateDirectory "$SMPROGRAMS\$STARTMENU_FOLDER"
+    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Uninstall.lnk" "$INSTDIR\Uninstall.exe"
+
+  !insertmacro MUI_STARTMENU_WRITE_END
   
   ;Create uninstaller
   WriteUninstaller "$INSTDIR\Uninstall.exe"
@@ -129,6 +151,14 @@ SectionEND
 Section "docs" SecDoc
   SetOutPath $INSTDIR\docs
   File /r ..\target\docs\*
+  !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
+
+    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Merlin.lnk" "$INSTDIR\docs\index.html"
+    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Basic Tutorials.lnk" "$INSTDIR\docs\starting\tutorials\index.html"
+    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Advanced Tutorials.lnk" "$INSTDIR\docs\starting\advanced\index.html"
+    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Specification.lnk" "$INSTDIR\docs\reference\index.html"
+
+  !insertmacro MUI_STARTMENU_WRITE_END
 SectionEND
 
 Section "tutorial" SecTutorial
@@ -163,7 +193,12 @@ Section "Uninstall"
 
   Push $INSTDIR\bin
   Call un.RemoveFromPath
-  
+
+  !insertmacro MUI_STARTMENU_GETFOLDER Application $MUI_TEMP
+
+  Delete "$SMPROGRAMS\$MUI_TEMP\Uninstall.lnk"
+  RMDir /r "$SMPROGRAMS\$MUI_TEMP"
+
   RMDir /r $INSTDIR
   
 SectionEnd
@@ -173,7 +208,5 @@ SectionEnd
 ;      see  http://nsis.sourceforge.net/archive/nsisweb.php?page=543&instances=0
 ;    Check for if we are installing for one user or many
 ;    Install a default app that includes the facilities
-;    Add desktop and start menu shortcuts (to what?)
-
 
 ; eof
