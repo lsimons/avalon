@@ -1,0 +1,8 @@
+
+<container name="template">
+
+   <component name="sample" 
+       class="org.apache.avalon.playground.impl.DefaultSample" activation="startup">
+   </component>
+   
+</container>
