@@ -23,10 +23,10 @@
 
   <body>
     <menu>
-      <item name="Component Specification" href="component/index.html"/>
-      <item name="Container Specification" href="containment/index.html"/>
-      <item name="Deployment Specification" href="deployment/index.html"/>
-      <item name="System Specification" href="system/index.html"/>
+      <item name="Component" href="component/index.html"/>
+      <item name="Container" href="containment/index.html"/>
+      <item name="Deployment" href="deployment/index.html"/>
+      <item name="System" href="system/index.html"/>
     </menu>
  
   </body>

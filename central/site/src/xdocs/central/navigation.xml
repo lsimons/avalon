@@ -6,11 +6,12 @@
 
  <body>
     <menu>
-      <item name="Latest News" href="news/index.html"/>
+      <item name="News" href="news/index.html"/>
       <item name="Community" href="community/index.html"/>
-      <item name="Developer's Resources" href="developers/index.html"/>
-      <item name="User's Resources" href="users/index.html"/>
-      <item name="The Laboratory" href="laboratory/index.html"/>
+      <item name="Laboratory" href="laboratory/index.html"/>
+      <item name="Developer" href="developers/index.html"/>
+      <item name="User" href="users/index.html"/>
+      <item name="DPML" href="dpml/index.html"/>
     </menu>
  </body>
 
