@@ -23,6 +23,245 @@
     that has a larger scope.
   </para>
   <section>
+    <title>Implementing the Component</title>
+    <para>
+      At this point, we define how to implement our Component.  We will go
+      through the process of implementing the DocumentRepository Component
+      previously mentioned.  The first things we need to figure out are the
+      concern areas for our Component.  Next, we have to figure out how our
+      Component will be created and managed.  Lastly, we have to figure out
+      how we intend to locate and use our component.
+    </para>
+    <section>
+      <title>Choosing the Concern Areas</title>
+      <para>
+        We have already defined the Role and the Interface for our
+	DocumentRepository Component in the last chapter, we are ready to
+	create the implementation.  Because the interface for the
+	DocumentRepository only defines one method, we have an opportunity to
+	create a thread-safe Component.  This is the most desired type of
+	component because it allows for the least amount of resource
+	utilization.  In order for our implementation to be thread-safe, we do
+	need to be careful about how we implement the Component.  Since all of
+	our documents are stored in a database, and we desire to use an
+	external Guardian Component, we will need access to other Components.
+	As responsible developers, we will want to log messages that will help
+	us debug our component, and track down what is going on internally.
+	The beauty of the Avalon Framework is that you only implement the
+	interfaces you need, and ignore the ones you don't.  This is where
+	Separation of Concerns pays off.  As you find you need a new concern
+	area addressed, you merely implement the associated interface, and
+	incorporate the new functionality.  To the client of your Component,
+	there is no difference.
+      </para>
+      <para>
+        Since it is a design goal to be thread-safe, we already know that we
+	need to implement the ThreadSafe interface.  The DocumentRepository
+	interface only has one method, so the use of the Component's work
+	interface is compatible with that requirement.  Furthermore, we know
+	that a Component will not be used before it is fully initialized, nor
+	will it be used once it is destroyed.
+      </para>
+      <para>
+        There are a couple of implicit interfaces that we need to implement to
+	accomplish the design.  We want our solution to be as secure as
+	possible and explicitly track whether the Component is fully
+	initialized or not.  To accomplish this goal, we will implement the
+	Initializable and Disposable interfaces.  Since specific information
+	about our environment may change, or may need to be customized, we need
+	to make our DocumentRepository Configurable.  Our Component makes use
+	of other Components, and they method that Avalon provides to get
+	instances of the required Component is by using a ComponentManager.  We
+	will need to implement the Composable interface to get an instance of
+	the ComponentManager.
+      </para>
+      <para>
+        Because the DocumentRepository accesses the documents in the database,
+	we need to make a decision.  Do we want to take advantage of the Avalon
+	Excalibur DataSourceComponent, or do we want to implement our own
+	Connection management code.  For the sake of this paper, we will use
+	the DataSourceComponent.
+      </para>
+      <para>
+        At this point, our skeleton class looks like this:
+      </para>
+      <programlisting>
+<![CDATA[
+public class DatabaseDocumentRepository
+extends AbstractLoggable
+implements DocumentRepository , Configurable, Composable, Initializable,
+           Disposable, Component, ThreadSafe {
+
+    private boolean initialized = false;
+    private boolean disposed = false;
+    private ComponentManager manager = null;
+    private String dbResource = null;
+
+    /**
+     * Constructor.  All Components need a public no argument constructor
+     * to be a legal Component.
+     */
+    public DatabaseDocumentRepository() {}
+
+    /**
+     * Configuration.  Notice that I check to see if the Component has
+     * already been configured?  This is done to enforce the policy of
+     * only calling Configure once.
+     */
+    public final void configure(Configuration conf)
+    throws ConfigurationException {
+        if (initialized || disposed) {
+            throw new IllegalStateException ("Illegal call");
+        }
+
+        if (null == this.dbResource) {
+            this.dbResource = conf.getChild("dbpool");
+            getLogger().debug("Using database pool: " + this.dbResource);
+            // Notice the getLogger()?  This is from AbstractLoggable
+            // which I extend for just about all my components.
+        }
+    }
+
+    /**
+     * Composition.  Notice that I check to see if the Component has
+     * already been initialized or disposed?  This is done to enforce
+     * the policy of proper lifecycle management.
+     */
+    public final void compose(ComponentManager cmanager)
+    throws ComponentException {
+        if (initialized || disposed) {
+            throw new IllegalStateException ("Illegal call");
+        }
+
+        if (null == this.manager) {
+            this.manager = cmanager;
+        }
+    }
+
+    public final void initialize() throws Exception {
+        if (null == this.manager) throw IllegalStateException("Not Composed");
+        if (null == this.dbResource)
+            throw IllegalStateException("Not Configured");
+
+        if (disposed) throw IllegalStateException("Already disposed");
+
+        this.initialized = true;
+    }
+
+    public final void dispose() {
+        this.disposed = true;
+    }
+
+    public final Document getDocument(Principal requestor, int refId) {
+        if (initialized || disposed) {
+            throw new IllegalStateException("Illegal call");
+        }
+
+        // TODO: FILL IN LOGIC
+    }
+}
+]]>
+      </programlisting>
+      <para>
+        You will notice some constructs in the above code.  When you are
+	designing with security in mind, you should explicitly enforce every
+	contract on your Component.  Security is only as strong as the weakest
+	link.  You should only use a Component when you are certain it is fully
+	initialized, and never use it when it is disposed of.  I placed the
+	logic that you would need in this skeleton class because that way you
+	can adopt the same practices in classes that you write.
+      </para>
+    </section>
+    <section>
+      <title>Instantiating and Managing Components</title>
+      <para>
+        In order for you to understand how the Container/Component relationship
+	works, we will first discuss the manual method of managing Components.
+	Next, we will discuss how Avalon's Excalibur Component infrastructure
+	hides the complexity from you.  You will still find times when you
+	would rather manage components yourself.  Most of the time the power
+	and flexibility of Excalibur is just what you need.
+      </para>
+      <section>
+        <title>The Manual Method</title>
+	<para>
+	  All of Avalon's Components are created somewhere.  The code that
+	  creates the Component is that Component's Container.  The Container
+	  is responsible for managing the Component's lifecycle from
+	  construction through destruction.  A Container can be the static
+	  "main" method called from a command line, or it can be another
+	  Component.  Remember the Inversion of Control pattern when you
+	  design your Containers.  Information and method calls should only
+	  flow from the Container to the Component.
+	</para>
+	<warning>
+	  <title>Subversion of Control</title>
+	  <para>
+	    Subversion of Control is the anti-pattern to Inversion of Control.
+	    Subversion of control is done when you pass a reference to a
+	    Component's Container to the Component.  It is also done when you
+	    have a Component manage it's own lifecycle.  Code that operates in
+	    this manner should be considered defective.  The interactions that
+	    happen when you confuse the Container/Component relationship make
+	    the system harder to debug and security harder to audit.
+	  </para>
+	</warning>
+	<para>
+	  In order to manage the child Components, you need to keep a reference
+	  to them for their entire lifetime.  Before the Container or any other
+	  Component can use the child Component, it must go through the
+	  initialization phase of its lifecycle.  For our DocumentRepository,
+	  the code will look something like the following:
+	</para>
+	<programlisting>
+<![CDATA[
+class ContainerComponent implements Component, Initializable, Disposable {
+    DocumentRepository docs = new DatabaseDocumentRepository();
+    GuardianComponent guard = new DocumentGuardianComponent();
+    DefaultComponentManager manager = new DefaultComponentManager();
+
+    public void initialize() throws Exception {
+        this.docs.setLogger(Heirarchy.getLoggerFor("document.repository"));
+
+        DefaultConfiguration pool = new DefaultConfiguration("dbpool");
+        pool.setValue("main-pool");
+        DefaultConfiguration conf = new DefaultConfiguration("");
+        conf.addChild(pool);
+        this.docs.configure(conf);
+
+        this.manager.addComponent(DocumentRepository.ROLE, this.docs);
+        this.manager.addComponent(GuardianComponent.ROLE, this.guard);
+        this.docs.compose(this.manager);
+        this.guard.compose(this.manager);
+
+        this.guard.initialize();
+        this.docs.initialize();
+    }
+
+    public void dispose() {
+        this.docs.dispose();
+        this.guard.dispose();
+    }
+}
+]]>
+	</programlisting>
+	<para>
+	  For the sake of brevity, I removed all the explicit checking from the
+	  above code.  You can see that manually creating and managing
+	  Components is very detailed.  If you forget to do one step in the
+	  life of a Component, you will see bugs.  This also requires intimate
+	  knowledge of the Components you are instantiating.  An alternate
+	  approach would be to add a couple methods to the above
+	  ContainerComponent that handles the initialization of the components
+	  dynamically.
+	</para>
+      </section>
+
+<!-- PlaceHolder for more info -->
+
+    </section>
+  </section>
+  <section>
     <title>Excalibur's Utitities</title>
     <para>
       This last section is included to give you an idea of the types of
