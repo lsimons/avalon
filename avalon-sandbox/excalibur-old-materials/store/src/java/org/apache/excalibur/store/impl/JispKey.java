@@ -63,27 +63,16 @@ import com.coyotegulch.jisp.KeyObject;
  * IT'S NOT FINISHED YET, PLEASE DON'T USE IT !!!!
  * 
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Id: JispKey.java,v 1.1 2003/07/14 13:58:19 cziegeler Exp $
+ * @version CVS $Id: JispKey.java,v 1.2 2003/07/14 17:16:27 cziegeler Exp $
  */
 public final class JispKey extends KeyObject 
 {
-// TODO
-    //final static long serialVersionUID = -6894793231339165076L;
+    final static long serialVersionUID = 798806649359364728L;
 
     protected Object m_Key;
 
-    protected int    m_KeyHashCode;
+    static protected JispKey NULL_KEY = new JispKey("");
     
-    static protected final String INIT = new String("");
-    static protected final int    INIT_HASH_CODE = INIT.hashCode();
-    /**
-     *  Constructor for the JispStringKey object
-     */
-    public JispKey() {
-        m_Key = INIT;
-        m_KeyHashCode = INIT_HASH_CODE;
-    }
-
     /**
      *  Constructor for the JispStringKey object
      *
@@ -92,7 +81,6 @@ public final class JispKey extends KeyObject
     public JispKey(Object keyValue) 
     {
         m_Key = keyValue;
-        m_KeyHashCode = m_Key.hashCode();
     }
 
     /**
@@ -107,14 +95,19 @@ public final class JispKey extends KeyObject
         if (key instanceof JispKey) 
         {
             final JispKey other = (JispKey)key;
-            if ( other.m_KeyHashCode == m_KeyHashCode ) 
+            if ( other.m_Key.hashCode() == m_Key.hashCode() ) 
             {
-                if ( m_Key.equals(other.m_Key) ) 
+                if ( m_Key == other.m_Key || m_Key.equals(other.m_Key) ) 
                 {
                     return KEY_EQUAL;
                 }
                 // we have the same hashcode, but different keys
-                if ( m_Key.hashCode() < other.m_Key.hashCode() ) 
+                // this is usually an error condition, but we deal
+                // with it anway
+                // if they would have the same classname, they
+                // can only have the same hashCode if they are equal:
+                int comp = m_Key.getClass().getName().compareTo(other.m_Key.getClass().getName());
+                if ( comp < 0 ) 
                 {
                     return KEY_LESS;
                 }
@@ -122,7 +115,7 @@ public final class JispKey extends KeyObject
             } 
             else 
             {
-                if ( m_KeyHashCode < other.m_KeyHashCode ) 
+                if ( m_Key.hashCode() < other.m_Key.hashCode() ) 
                 {
                     return KEY_LESS;
                 }
@@ -142,7 +135,7 @@ public final class JispKey extends KeyObject
      */
     public KeyObject makeNullKey() 
     {
-        return new JispKey();
+        return NULL_KEY;
     }
 
     /**
@@ -170,7 +163,6 @@ public final class JispKey extends KeyObject
      * @exception IOException
      * @exception ClassNotFoundException
      */
-
     public void readExternal(ObjectInput in)
     throws IOException, ClassNotFoundException 
     {
