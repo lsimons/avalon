@@ -67,7 +67,7 @@ import org.apache.avalon.phoenix.framework.info.ServiceDescriptor;
  * to enablesupport of Legacy BlockInfo files.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003/04/05 04:25:43 $
+ * @version $Revision: 1.5 $ $Date: 2003/04/06 11:29:43 $
  */
 public class LegacyUtil
 {
@@ -173,5 +173,24 @@ public class LegacyUtil
                                   DependencyDescriptor.EMPTY_SET,
                                   null,
                                   null );
+    }
+
+    /**
+     * Get the location of the schema. By default it is "Foo-schema.xml"
+     * for the com.biz.Foo component.
+     *
+     * @param classname the classname of component
+     * @return the location of the schema
+     */
+    public static String getSchemaLocationFor( final String classname )
+    {
+        final int index = classname.lastIndexOf( "." );
+        String location = classname;
+        if( -1 != index )
+        {
+            location = classname.substring( index + 1 );
+        }
+        location += "-schema.xml";
+        return location;
     }
 }

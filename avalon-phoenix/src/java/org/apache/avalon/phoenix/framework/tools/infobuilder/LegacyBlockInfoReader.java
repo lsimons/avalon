@@ -74,7 +74,7 @@ import org.xml.sax.InputSource;
  * <a href="package-summary.html#external">package summary</a>.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.8 $ $Date: 2003/04/06 10:35:23 $
+ * @version $Revision: 1.9 $ $Date: 2003/04/06 11:29:43 $
  */
 public final class LegacyBlockInfoReader
     extends AbstractLogEnabled
@@ -184,16 +184,8 @@ public final class LegacyBlockInfoReader
         }
         else
         {
-            final String schemaUri =
-                LegacyUtil.translateToSchemaUri( schemaType );
-            final int index = classname.lastIndexOf( "." );
-            String location = classname;
-            if( -1 != index )
-            {
-                location = classname.substring( index + 1 );
-            }
-            location += "-schema.xml";
-            return new SchemaDescriptor( location, schemaUri, Attribute.EMPTY_SET );
+            final String location = LegacyUtil.getSchemaLocationFor( classname );
+            return new SchemaDescriptor( location, schemaType, Attribute.EMPTY_SET );
         }
 
     }
