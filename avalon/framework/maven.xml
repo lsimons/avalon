@@ -32,6 +32,19 @@
   </goal>
 
   <goal name="avalon:build">
+    
+    <echo>
+
+Building the framework using the default target "avalon:build".
+The complete set of target include:
+
+  avalon:clean
+  avalon:build
+  avalon:build-snapshot
+  avalon:dist
+  avalon:site
+    </echo>
+
     <maven:reactor
       basedir="${basedir}"
       includes="*/project.xml"
@@ -54,8 +67,8 @@
       basedir="${basedir}"
       includes="*/project.xml"
       excludes="site/project.xml"
-      goals="jar:install"
-      banner="Building:"
+      goals="jar:install-snapshot"
+      banner="Building snapshot:"
       ignoreFailures="false"/>
   </goal>
 
@@ -99,6 +112,16 @@
         <ant:include name="docs/**"/>
       </ant:fileset>
     </ant:copy>
+
+    <!-- Add composite jar -->
+    <ant:jar jarfile="${maven.build.dir}/${maven.final.name}.jar"
+        compress="true" manifest="manifest.mf">
+      <ant:fileset dir="api/target/classes"/>
+      <ant:fileset dir="impl/target/classes"/>
+    </ant:jar>
+    <ant:copy todir="${maven.dist.bin.assembly.dir}" 
+       file="${maven.build.dir}/${maven.final.name}.jar"/>
+
   </goal>
 
   <goal
