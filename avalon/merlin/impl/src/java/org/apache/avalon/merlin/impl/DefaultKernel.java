@@ -52,9 +52,6 @@ package org.apache.avalon.merlin.impl;
 
 import java.net.URL;
 
-import javax.management.NotificationBroadcasterSupport;
-import javax.management.AttributeChangeNotification;
-
 import org.apache.avalon.merlin.Kernel;
 import org.apache.avalon.merlin.KernelCriteria;
 import org.apache.avalon.merlin.KernelException;
@@ -79,10 +76,9 @@ import org.apache.avalon.framework.logger.Logger;
  * Implementation of the default Merlin Kernel.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1.2.3 $ $Date: 2004/01/07 20:34:42 $
+ * @version $Revision: 1.1.2.4 $ $Date: 2004/01/09 20:29:49 $
  */
-public class DefaultKernel extends NotificationBroadcasterSupport 
-  implements Kernel, DefaultKernelMBean
+public class DefaultKernel implements Kernel
 {
     //--------------------------------------------------------------
     // static
@@ -173,168 +169,6 @@ public class DefaultKernel extends NotificationBroadcasterSupport
                 getLogger().debug( "kernel established (" + count + ")" );
             }
         }
-    }
-
-    //--------------------------------------------------------------
-    // DefaultKernelMBean
-    //--------------------------------------------------------------
-
-    /**
-     * Return the state of the kernel.
-     * @return a string representing the kernel state
-     */
-     public String getKernelState()
-     {
-         return m_stateString;
-     }
-
-    /**
-     * Return an approximation to the total amount of memory currently 
-     * available for future allocated objects, measured in bytes.
-     * @return the number of bytes of estimated free memory
-     */
-    public long getMemoryFree()
-    {
-        return Runtime.getRuntime().freeMemory();
-    }
-
-   /**
-    * Returns the total amount of memory in the Java virtual machine. The value 
-    * returned by this method may vary over time, depending on the host environment. 
-    *
-    * @return the total amount of memory currently available for current and future 
-    *    objects, measured in bytes.
-    */
-    public long getMemoryTotal()
-    {
-        return Runtime.getRuntime().totalMemory();
-    }
-
-   /**
-    * Return the percentage of free memory available.
-    * @return the free memory percentage
-    */
-    public int getMemoryVariableRatio()
-    {
-        return (int) ((Runtime.getRuntime().freeMemory() * 100) / 
-          Runtime.getRuntime().totalMemory());
-    }
-
-   /**
-    * Return the number of active threads.
-    * @return the active thread count
-    */
-    public int getThreadCount()
-    {
-        return Thread.activeCount();
-    }
-
-   /**
-    * Return the root directory to the shared repository.
-    * @return the avalon home root repository directory
-    */
-    public String getRepositoryDirectory()
-    {
-        return m_criteria.getRepositoryDirectory().toString();
-    }
-
-   /**
-    * Return the root directory to the merlin installation
-    * @return the merlin home directory
-    */
-    public String getHomePath()
-    {
-        return m_criteria.getHomeDirectory().toString();
-    }
-
-   /**
-    * Return the root directory to the merlin system repository
-    * @return the merlin system repository directory
-    */
-    public String getSystemPath()
-    {
-        return m_criteria.getSystemDirectory().toString();
-    }
-
-   /**
-    * Return the root directory to the merlin configurations
-    * @return the merlin configuration directory
-    */
-    public String getConfigPath()
-    {
-        return m_criteria.getConfigDirectory().toString();
-    }
-
-   /**
-    * Return the url to the kernel confiuration
-    * @return the kernel configuration url
-    */
-    public String getKernelPath()
-    {
-        return m_criteria.getKernelURL().toString();
-    }
-
-   /**
-    * Return the working client directory.
-    * @return the working directory
-    */
-    public String getWorkingPath()
-    {
-        return m_criteria.getWorkingDirectory().toString();
-    }
-
-   /**
-    * Return the temporary directory.
-    * @return the temp directory
-    */
-    public String getTempPath()
-    {
-        return m_criteria.getTempDirectory().toString();
-    }
-
-   /**
-    * Return the context directory from which relative 
-    * runtime home directories will be established for 
-    * components referencing urn:avalon:home
-    *
-    * @return the working directory
-    */
-    public String getContextPath()
-    {
-        return m_criteria.getContextDirectory().toString();
-    }
-
-   /**
-    * Return the anchor directory to be used when resolving 
-    * library declarations in classload specifications.
-    *
-    * @return the anchor directory
-    */
-    public String getAnchorPath()
-    {
-        return m_criteria.getAnchorDirectory().toString();
-    }
-
-   /**
-    * Return info generation policy.  If TRUE the parameters 
-    * related to deployment will be listed on startup. 
-    *
-    * @return the info policy
-    */
-    public boolean isInfoEnabled()
-    {
-        return m_criteria.isInfoEnabled();
-    }
-
-   /**
-    * Return debug policy.  If TRUE all logging channels will be 
-    * set to debug level (useful for debugging).
-    *
-    * @return the debug policy
-    */
-    public boolean isDebugEnabled()
-    {
-        return m_criteria.isDebugEnabled();
     }
 
     //--------------------------------------------------------------
@@ -530,11 +364,11 @@ public class DefaultKernel extends NotificationBroadcasterSupport
          String old = m_stateString;
          m_stateString = state;
          long id = m_stateChangeSequenceId++;
-         AttributeChangeNotification notification = 
-           new AttributeChangeNotification( 
-             this, id, System.currentTimeMillis(),
-             "State change", "state", "string", old, state );
-         sendNotification( notification );
+         //AttributeChangeNotification notification = 
+         //  new AttributeChangeNotification( 
+         //    this, id, System.currentTimeMillis(),
+         //    "State change", "state", "string", old, state );
+         //sendNotification( notification );
      }
 
     private class DefaultState

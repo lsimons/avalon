@@ -66,9 +66,9 @@ import org.apache.avalon.composition.data.BlockCompositionDirective;
 import org.apache.avalon.composition.data.BlockIncludeDirective;
 import org.apache.avalon.composition.data.CategoriesDirective;
 import org.apache.avalon.composition.data.ContainmentProfile;
+import org.apache.avalon.composition.data.ComponentProfile;
+import org.apache.avalon.composition.data.NamedComponentProfile;
 import org.apache.avalon.composition.data.DeploymentProfile;
-import org.apache.avalon.composition.data.NamedDeploymentProfile;
-import org.apache.avalon.composition.data.Profile;
 import org.apache.avalon.composition.data.ResourceDirective;
 import org.apache.avalon.composition.data.ServiceDirective;
 import org.apache.avalon.composition.data.TargetDirective;
@@ -123,7 +123,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * as a part of a containment deployment model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.13.2.12 $ $Date: 2004/01/08 12:51:17 $
+ * @version $Revision: 1.13.2.13 $ $Date: 2004/01/09 20:29:49 $
  */
 public class DefaultContainmentModel extends DefaultDeploymentModel 
   implements ContainmentModel
@@ -205,7 +205,7 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
               + DeploymentModel.SEPARATOR;
         }
 
-        Profile[] profiles = context.getContainmentProfile().getProfiles();
+        DeploymentProfile[] profiles = context.getContainmentProfile().getProfiles();
         for( int i=0; i<profiles.length; i++ )
         {
             addModel( profiles[i] );
@@ -485,9 +485,9 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
         // we could use to construct the model
         //
 
-        Profile[] profiles = findDependencyProfiles( dependency );
+        DeploymentProfile[] profiles = findDependencyProfiles( dependency );
         ProfileSelector profileSelector = new DefaultProfileSelector();
-        Profile profile = profileSelector.select( profiles, dependency );
+        DeploymentProfile profile = profileSelector.select( profiles, dependency );
         if( profile != null ) 
         {
             try
@@ -565,9 +565,9 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
         // we could use to construct the model
         //
 
-        Profile[] profiles = findExtensionProfiles( stage );
+        DeploymentProfile[] profiles = findExtensionProfiles( stage );
         ProfileSelector profileSelector = new DefaultProfileSelector();
-        Profile profile = profileSelector.select( profiles, stage );
+        DeploymentProfile profile = profileSelector.select( profiles, stage );
         if( profile != null ) 
         {
             try
@@ -604,7 +604,7 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
         }
     }
 
-    private Profile[] findExtensionProfiles( StageDescriptor stage )
+    private DeploymentProfile[] findExtensionProfiles( StageDescriptor stage )
     {
         TypeRepository repository = getClassLoaderModel().getTypeRepository();
         Type[] types = repository.getTypes( stage );
@@ -620,7 +620,7 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
         }
     }
 
-    private Profile[] findDependencyProfiles( DependencyDescriptor dependency )
+    private DeploymentProfile[] findDependencyProfiles( DependencyDescriptor dependency )
     {
         TypeRepository repository = getClassLoaderModel().getTypeRepository();
         Type[] types = repository.getTypes( dependency );
@@ -636,20 +636,20 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
         }
     }
 
-    private Profile[] getProfiles( TypeRepository repository, Type[] types )
+    private DeploymentProfile[] getProfiles( TypeRepository repository, Type[] types )
       throws TypeUnknownException
     {
         ArrayList list = new ArrayList();
         for( int i=0; i<types.length; i++ )
         {
-            Profile[] profiles = 
+            DeploymentProfile[] profiles = 
             repository.getProfiles( types[i] );
             for( int j=0; j<profiles.length; j++ )
             {
                 list.add( profiles[j] );
             }
         }
-        return (Profile[]) list.toArray( new Profile[0] );
+        return (DeploymentProfile[]) list.toArray( new DeploymentProfile[0] );
     }
 
     /**
@@ -793,7 +793,7 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
         return model;
     }
 
-    public DeploymentModel addModel( Profile profile ) throws ModelException
+    public DeploymentModel addModel( DeploymentProfile profile ) throws ModelException
     {
         if( null == profile )
           throw new NullPointerException( "profile" );
@@ -805,15 +805,15 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
             ContainmentProfile containment = (ContainmentProfile) profile;
             model = createContainmentModel( containment );
         }
-        else if( profile instanceof DeploymentProfile ) 
+        else if( profile instanceof ComponentProfile ) 
         {
-            DeploymentProfile deployment = (DeploymentProfile) profile;
+            ComponentProfile deployment = (ComponentProfile) profile;
             model = createComponentModel( deployment );
         }
-        else if( profile instanceof NamedDeploymentProfile ) 
+        else if( profile instanceof NamedComponentProfile ) 
         {
-            DeploymentProfile deployment = 
-              createDeploymentProfile( (NamedDeploymentProfile) profile );
+            ComponentProfile deployment = 
+              createComponentProfile( (NamedComponentProfile) profile );
             model = createComponentModel( deployment );
         }
         else if( profile instanceof BlockIncludeDirective ) 
@@ -939,7 +939,7 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
     * @param profile a containment profile 
     * @return the composition model
     */
-    private ComponentModel createComponentModel( final DeploymentProfile profile ) 
+    private ComponentModel createComponentModel( final ComponentProfile profile ) 
       throws ModelException
     {
         if( null == profile )
@@ -1372,7 +1372,7 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
         }
     }
 
-    private String getName( String name, Profile profile )
+    private String getName( String name, DeploymentProfile profile )
     {
         if( name != null ) return name;
         return profile.getName();
@@ -1588,7 +1588,7 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
             Type[] types = repository.getTypes( dependency );
             for( int i=0; i<types.length; i++ )
             {
-                Profile[] profiles = 
+                DeploymentProfile[] profiles = 
                   repository.getProfiles( types[i] );
                 for( int j=0; j<profiles.length; j++ )
                 {
@@ -1604,9 +1604,9 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
             // DependencyDirective instead of the descriptor.
             //
 
-            Profile[] collection = (Profile[]) list.toArray( new Profile[0] );
+            DeploymentProfile[] collection = (DeploymentProfile[]) list.toArray( new DeploymentProfile[0] );
             ProfileSelector selector = new DefaultProfileSelector();
-            Profile profile = selector.select( collection, dependency );
+            DeploymentProfile profile = selector.select( collection, dependency );
             if( profile != null ) 
             {
                 return addModel( profile );
@@ -1666,7 +1666,7 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
             Type[] types = repository.getTypes( stage );
             for( int i=0; i<types.length; i++ )
             {
-                Profile[] profiles = 
+                DeploymentProfile[] profiles = 
                   repository.getProfiles( types[i] );
                 for( int j=0; j<profiles.length; j++ )
                 {
@@ -1682,10 +1682,11 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
             // DependencyDirective instead of the descriptor.
             //
 
-            Profile[] collection = (Profile[]) list.toArray( new Profile[0] );
+            DeploymentProfile[] collection = 
+              (DeploymentProfile[]) list.toArray( new DeploymentProfile[0] );
             ProfileSelector selector = new DefaultProfileSelector();
-            Profile profile = selector.select( collection, stage );
-            if( profile != null ) 
+            DeploymentProfile profile = selector.select( collection, stage );
+            if( profile != null )
             {
                 return addModel( profile );
             }
@@ -1756,22 +1757,22 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
     * @exception ModelException if an error occurs during 
     *    profile creation
     */
-    private DeploymentProfile createDeploymentProfile( 
-      NamedDeploymentProfile profile )
+    private ComponentProfile createComponentProfile( 
+      NamedComponentProfile profile )
       throws ModelException
     {
         try
         {
-            NamedDeploymentProfile holder = 
-              (NamedDeploymentProfile) profile;
+            NamedComponentProfile holder = 
+              (NamedComponentProfile) profile;
             final String classname = holder.getClassname();
             final String key = holder.getKey();
             TypeRepository repository = 
               m_context.getClassLoaderModel().getTypeRepository();
             Type type = repository.getType( classname );
-            DeploymentProfile template = 
+            ComponentProfile template = 
               repository.getProfile( type, key );
-            return new DeploymentProfile( profile.getName(), template );
+            return new ComponentProfile( profile.getName(), template );
         }
         catch( Throwable e )
         {

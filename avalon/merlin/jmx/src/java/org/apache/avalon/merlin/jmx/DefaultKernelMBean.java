@@ -57,7 +57,7 @@ import org.apache.avalon.merlin.KernelController;
  * Management interface for the Merlin Kernel.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/12/08 15:37:13 $
+ * @version $Revision: 1.1.2.1 $ $Date: 2004/01/09 20:29:49 $
  */
 public interface DefaultKernelMBean extends KernelController
 {

@@ -1,5 +1,5 @@
 
-PROJECT: Merlin 3.2-dev
+PROJECT: Merlin @VERSION@
 ====================================================================
 
 DESCRIPTION: 

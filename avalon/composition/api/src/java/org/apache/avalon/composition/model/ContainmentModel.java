@@ -52,7 +52,7 @@ package org.apache.avalon.composition.model;
 
 import java.net.URL;
 
-import org.apache.avalon.composition.data.Profile;
+import org.apache.avalon.composition.data.DeploymentProfile;
 import org.apache.avalon.composition.data.ServiceDirective;
 import org.apache.avalon.composition.data.CategoriesDirective;
 import org.apache.avalon.composition.data.TargetDirective;
@@ -66,7 +66,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * context.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.9.2.7 $ $Date: 2004/01/08 12:51:16 $
+ * @version $Revision: 1.9.2.8 $ $Date: 2004/01/09 20:29:48 $
  */
 public interface ContainmentModel extends DeploymentModel
 {
@@ -148,7 +148,7 @@ public interface ContainmentModel extends DeploymentModel
     * @return the model based on the supplied profile
     * @exception ModelException if an error occurs during model establishment
     */
-    DeploymentModel addModel( Profile profile ) throws ModelException;
+    DeploymentModel addModel( DeploymentProfile profile ) throws ModelException;
 
    /**
     * Removal of a named model for the containment model.

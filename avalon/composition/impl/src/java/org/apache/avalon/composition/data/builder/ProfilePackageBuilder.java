@@ -55,7 +55,7 @@ import java.io.InputStream;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.meta.ConfigurationBuilder;
 import org.apache.avalon.composition.data.ProfilePackage;
-import org.apache.avalon.composition.data.DeploymentProfile;
+import org.apache.avalon.composition.data.ComponentProfile;
 
 import org.xml.sax.InputSource;
 
@@ -65,7 +65,7 @@ import org.xml.sax.InputSource;
  * object from a source.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2003/10/28 20:21:00 $
+ * @version $Revision: 1.2.2.1 $ $Date: 2004/01/09 20:29:49 $
  */
 public final class ProfilePackageBuilder implements ProfilePackageCreator
 {
@@ -100,9 +100,9 @@ public final class ProfilePackageBuilder implements ProfilePackageCreator
               clazz.getClassLoader().getResourceAsStream( xprofile );
             if( stream == null )
             {
-                DeploymentProfile profile = 
-                  new DeploymentProfile( name, classname );
-                return new ProfilePackage( new DeploymentProfile[]{ profile } );
+                ComponentProfile profile = 
+                  new ComponentProfile( name, classname );
+                return new ProfilePackage( new ComponentProfile[]{ profile } );
             }
             else
             {

@@ -62,7 +62,7 @@ import org.apache.avalon.composition.model.EntryModel;
 import org.apache.avalon.composition.model.ModelRuntimeException;
 import org.apache.avalon.composition.model.SystemContext;
 
-import org.apache.avalon.composition.data.DeploymentProfile;
+import org.apache.avalon.composition.data.ComponentProfile;
 
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.DefaultContext;
@@ -83,7 +83,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1.2.4 $ $Date: 2004/01/08 12:51:17 $
+ * @version $Revision: 1.1.2.5 $ $Date: 2004/01/09 20:29:49 $
  */
 public class DefaultComponentContext extends DefaultDeploymentContext 
   implements ComponentContext
@@ -101,7 +101,7 @@ public class DefaultComponentContext extends DefaultDeploymentContext
 
     private final ContainmentContext m_context;
 
-    private final DeploymentProfile m_profile;
+    private final ComponentProfile m_profile;
 
     private final Type m_type;
 
@@ -139,7 +139,7 @@ public class DefaultComponentContext extends DefaultDeploymentContext
     */
     public DefaultComponentContext( 
       Logger logger, String name, ContainmentContext context, 
-      ContainmentModel model, DeploymentProfile profile, 
+      ContainmentModel model, ComponentProfile profile, 
       Type type, Class clazz, 
       File home, File temp, String partition )
     {
@@ -256,7 +256,7 @@ public class DefaultComponentContext extends DefaultDeploymentContext
     *
     * @return the profile
     */
-    public DeploymentProfile getProfile()
+    public ComponentProfile getProfile()
     {
         return m_profile;
     }
