@@ -28,5 +28,9 @@
 # the JRE home, not $JAVA_HOME.
 #tools.jar=${java.home}/../j2sdk1.3/lib/tools.jar
 
+#tools.jar=../jakarta-avalon/tools
+
 # The path to xerces.jar
 #xerces.jar=${tools.dir}/lib/xerces.jar
+
+
