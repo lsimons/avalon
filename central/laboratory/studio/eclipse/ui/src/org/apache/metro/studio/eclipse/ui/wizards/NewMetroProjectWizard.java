@@ -92,13 +92,13 @@ public class NewMetroProjectWizard extends Wizard implements INewWizard
             new NewMetroProjectWizardController().initialize();
         	
             projectPage = new WizardNewProjectCreationPage("mainPage"); //$NON-NLS-1$
-            projectPage.setTitle(MetroStudioUI.getResourceString("new.MerlinDevelopment.mainPage.title")); //$NON-NLS-1$
-            projectPage.setDescription(MetroStudioUI.getResourceString("new.MerlinDevelopment.mainPage.description")); //$NON-NLS-1$
+            projectPage.setTitle(MetroStudioUI.getResourceString("new.blockDevelopment.mainPage.title")); //$NON-NLS-1$
+            projectPage.setDescription(MetroStudioUI.getResourceString("new.blockDevelopment.mainPage.description")); //$NON-NLS-1$
             addPage(projectPage);
     
             selectionPage = new NewMetroProjectSelectionPage("selectionPage", channel);
-            selectionPage.setTitle(MetroStudioUI.getResourceString("new.MerlinDevelopment.selectionPage.title")); //$NON-NLS-1$
-            selectionPage.setDescription(MetroStudioUI.getResourceString("new.MerlinDevelopment.mainPage.description")); //$NON-NLS-1$
+            selectionPage.setTitle(MetroStudioUI.getResourceString("new.blockDevelopment.selectionPage.title")); //$NON-NLS-1$
+            selectionPage.setDescription(MetroStudioUI.getResourceString("new.blockDevelopment.mainPage.description")); //$NON-NLS-1$
             addPage(selectionPage);
         }
 
