@@ -10,7 +10,7 @@
 # building all components. These values are overridable in component-specific
 # ant.properties files.
 #
-# $Id: ant.properties.sample,v 1.8 2002/03/30 15:29:13 leif Exp $
+# $Id: ant.properties.sample,v 1.9 2002/04/04 04:24:56 hammant Exp $
 # -----------------------------------------------------------------------------
 
 
@@ -20,7 +20,7 @@ build.optimize=off
 build.deprecation=off
 
 # ----- Base Directory in which all the packages are stored -----
-base.path=/opt
+base.path=../..
 
 # --------------------------------------------------
 #                REQUIRED LIBRARIES
