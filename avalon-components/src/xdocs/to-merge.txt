@@ -1,0 +1,92 @@
+
+<s2 title="What Does Avalon Give Me?">
+        <p>
+          One of the nice things that Avalon affords you is that you do not
+          have to start from scratch.  Avalon includes a number of utilities
+          that facilitate making your life easier.  Among the utilities are
+          a logger, an object pool (for reusing objects), a thread pool,
+          and a configuration mechanism.  Just this list eliminates many
+          hours of work that would be repeated by every Component writer
+          out there.  It also means that the utilities are well tested and
+          maintained by someone else.
+        </p>
+        <s3 title="The Logger">
+          <p>
+            The Logger should always be set up for the Component before it
+            is created.  In order to obtain a useable Logger for your Component,
+            you have to perform two steps: set the global minimum priority
+            and create the log channel.  The following source code describes
+            the two step process:
+          </p>
+          <source>
+URL destination = new URL("file://log/dir/file.log");
+
+LogKit.setGlobalPriority( Priority.DEBUG );
+
+Logger myLog = LogKit.createLogger("channel-name", destination, Priority.DEBUG);
+          </source>
+          <p>
+            The LogKit does have a convenience function that makes creating
+            the Logger instance easier.  It shares the same name, but it
+            accepts three strings and converts them to the string, URL, and
+            Priority.Enum objects.
+          </p>
+          <p>
+            Once you have the Logger object, you can use it to your heart's
+            content.  If a child Component requires an instance of the same
+            Logger object, then it can call <code>LogKit.getLoggerFor("channel-name")</code>.
+            Look in the API docs for "org.apache.log" for more detail.
+          </p>
+        </s3>
+        <s3 title="The Thread Pool">
+          <p>
+            If your Component needs a pool of threads for it's use, then we
+            use the ThreadManager.  The ThreadManager (org.apache.avalon.util.lang)
+            keeps the number of running threads to a sane number, and manages
+            their reuse.  You initialize the thread like this:
+          </p>
+          <source>
+ThreadManager.setDefaultPool(new WorkerPool(64));
+          </source>
+          <p>
+            The ThreadPool has some room for expansion, in that you will be
+            able to have named pools at a future date.  For now, when you need
+            a ThreadPool, the name is ignored and you always get the default
+            pool.  In any case, the following code shows you how to actually
+            use the thread:
+          </p>
+          <source>
+WorkerPool threads = ThreadManager.getWorkerPool("pool-name");
+
+threads.execute(new MyRunnable());
+          </source>
+          <p>
+            While the named pool implementation is not yet implemented, it would
+            be a good idea to program now as if it were implemented.  That way,
+            when the work is done, you have no rework to do.
+          </p>
+        </s3>
+        <s3 title="The Object Pool">
+          <p>
+            The object pool requires more in depth information, so it will be
+            covered in another page.
+          </p>
+        </s3>
+      </s2>
+    </s1>
+
+    <s1 title="Some notes on the org.apache.avalon package">
+      <p>
+        This package defines the base interfaces and contracts between those
+        interfaces for a project to be Avalon Aware.
+      </p>
+    </s1>
+    <s1 title="The configuration pattern">
+      <p>
+        Avalon uses XML to read configurations and load Configuration objects.
+        Once Avalon initializes the Block, it passes the root Configuration
+        object to the Block.  The Block is then responsible for instantiating
+        Components based on the Configuration, and passes that node to the
+        Component that is responsible to configure itself.
+      </p>
+    </s1>
