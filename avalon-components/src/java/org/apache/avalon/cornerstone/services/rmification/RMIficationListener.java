@@ -27,7 +27,7 @@ import org.apache.avalon.phoenix.BlockListener;
  * Publish blocks via RMI.
  *
  * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class RMIficationListener
     extends AbstractLogEnabled
@@ -65,16 +65,22 @@ public class RMIficationListener
 
     public void blockAdded( final BlockEvent event )
     {
-        if ( m_publisherName.equals( event.getName() ) )
+        final String blockName = event.getName();
+
+        if ( m_publisherName.equals( blockName ) )
         {
-            getLogger().debug( "Found publisher block: " + event.getName() );
+            if ( getLogger().isDebugEnabled() )
+            {
+                final String message = "Found publisher block " + blockName;
+                getLogger().debug( message );
+            }
 
             m_publisher = (RMIfication)event.getBlock();
 
             processDelayedEvents();
         }
 
-        if ( m_publications.containsValue( event.getName() ) )
+        if ( m_publications.containsValue( blockName ) )
         {
             publishBlock( event );
         }
