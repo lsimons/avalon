@@ -89,12 +89,16 @@
     <fileset dir="${lib.dir}">
       <include name="*.jar" />
       <exclude name="phoenix-client.jar"/>
-      <exclude name="${framework.jar}"/>
-      <exclude name="${excalibur.jar}"/>
-      <exclude name="${scratchpad.jar}"/>
+      <exclude name="avalon-*"/>
       <exclude name="logkit.jar"/>
     </fileset>
     <pathelement path="${build.classes}" />
+  </path>
+
+  <path id="tools.class.path">
+    <fileset dir="${tools.dir}/lib">
+      <exclude name="ant.jar" />
+    </fileset>
   </path>
 
   <!--
@@ -359,6 +363,11 @@
         <include name="**/images/**"/>
       </fileset>
     </copy>
+
+    <taskdef name="stylebook" 
+             classname="org.apache.tools.ant.taskdefs.optional.StyleBook">
+      <classpath refid="tools.class.path"/>
+    </taskdef>
 
     <stylebook targetdirectory="${build.docs}"
                book="${build.xdocs}/book.xml"
