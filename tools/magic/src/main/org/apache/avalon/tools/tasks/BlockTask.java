@@ -67,7 +67,8 @@ public class BlockTask extends DeclareTask
     {
         private String m_classname;
         private String m_profile;
-        private Context m_context;
+        private boolean m_context = false;
+        private ArrayList m_children = new ArrayList();
 
         public void setClass( final String classname )
         {
@@ -91,22 +92,31 @@ public class BlockTask extends DeclareTask
 
         public Context createContext()
         {
-            if( null == m_context )
+            if( m_context )
             {
-                m_context = new Context();
-                return m_context;
+                Context context = new Context();
+                m_children.add( context );
+                m_context = true;
+                return context;
             }
             else
             {
                 final String error = 
-                  "Context entry already defined!";
+                  "Context entry already set!";
                 throw new BuildException( error );
             }
         }
 
-        public Context getContext()
+        public Object[] getChildren()
         {
-            return m_context;
+            return m_children.toArray();
+        }
+
+        public Dependency createDependency()
+        {
+            final Dependency dep = new Dependency();
+            m_children.add( dep );
+            return dep;
         }
     }
 
@@ -179,7 +189,7 @@ public class BlockTask extends DeclareTask
         }
     }
 
-    public static class Entry extends Constructor
+    public static class Entry extends Param
     {
         private String m_key;
 
@@ -233,8 +243,30 @@ public class BlockTask extends DeclareTask
         }
     }
 
-    public static class Constructor extends Param
+    public static class Dependency
     {
+        private String m_key;
+        private String m_source;
+
+        public void setKey( final String key )
+        {
+            m_key = key;
+        }
+
+        public String getKey()
+        {
+            return m_key;
+        }
+
+        public void setSource( final String source )
+        {
+            m_source = source;
+        }
+
+        public String getSource()
+        {
+            return m_source;
+        }
     }
 
     private String m_target;
@@ -412,15 +444,28 @@ public class BlockTask extends DeclareTask
         {
             writer.write( " profile=\"" + component.getProfile() + "\"" );
         }
-        if( null != component.getContext() )
+
+        Object[] children = component.getChildren();
+        if( children.length == 0 )
         {
-            writer.write( ">" );
-            writeContext( writer, component.getContext() );
-            writer.write( "\n  </component>" );
+            writer.write( "/>" );
         }
         else
         {
-            writer.write( "/>" );
+            writer.write( ">" );
+            for( int i=0; i<children.length; i++ )
+            {
+                Object child = children[i];
+                if( child instanceof Context )
+                {
+                    writeContext( writer, (Context) child );
+                }
+                else if( child instanceof Dependency )
+                {
+                    writeDependency( writer, (Dependency) child );
+                }
+            }
+            writer.write( "\n  </component>" );
         }
     }
 
@@ -536,5 +581,14 @@ public class BlockTask extends DeclareTask
                 writer.write( "\n        </param>" ); 
             }
         }
+    }
+
+    private void writeDependency( final Writer writer, final Dependency dep )
+        throws IOException
+    {
+        writer.write( 
+          "\n    <dependency key=\"" 
+          + dep.getKey() + "\" source=\"" 
+          + dep.getSource() + "\"/>" );
     }
 }
