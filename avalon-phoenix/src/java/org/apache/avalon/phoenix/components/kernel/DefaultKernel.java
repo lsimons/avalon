@@ -11,6 +11,8 @@ import java.util.HashMap;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.CascadingException;
+import org.apache.avalon.framework.activity.Initializable;
+import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.Logger;
@@ -45,7 +47,7 @@ import org.apache.log.Hierarchy;
  */
 public class DefaultKernel
     extends AbstractLogEnabled
-    implements Kernel, KernelMBean, Serviceable
+    implements Kernel, KernelMBean, Initializable, Serviceable, Disposable
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( DefaultKernel.class );

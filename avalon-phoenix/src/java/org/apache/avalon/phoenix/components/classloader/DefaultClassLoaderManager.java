@@ -18,6 +18,7 @@ import java.util.jar.Manifest;
 import org.apache.avalon.excalibur.extension.Extension;
 import org.apache.avalon.excalibur.extension.OptionalPackage;
 import org.apache.avalon.excalibur.extension.PackageManager;
+import org.apache.avalon.excalibur.extension.PackageRepository;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -30,7 +31,6 @@ import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.phoenix.interfaces.ClassLoaderManager;
-import org.apache.avalon.phoenix.interfaces.PackageRepository;
 
 /**
  * Component that creates and manages the <code>ClassLoader</code>
