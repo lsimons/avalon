@@ -49,7 +49,10 @@
 */
 package org.apache.avalon.fortress.impl.factory;
 
-import org.apache.avalon.framework.activity.*;
+import org.apache.avalon.framework.activity.Disposable;
+import org.apache.avalon.framework.activity.Initializable;
+import org.apache.avalon.framework.activity.Startable;
+import org.apache.avalon.framework.activity.Suspendable;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.component.Composable;
 import org.apache.avalon.framework.component.Recomposable;
@@ -61,7 +64,6 @@ import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.logger.Loggable;
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Reparameterizable;
-import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.excalibur.instrument.Instrument;
 import org.apache.excalibur.instrument.Instrumentable;
@@ -246,30 +248,5 @@ public abstract class AbstractObjectFactory implements ObjectFactory, Instrument
             workInterfaces.add( interfaces[i] );
             addInterfaces(interfaces[i].getInterfaces(), workInterfaces);
         }
-    }
-
-    public static void main(String[] args) throws Exception
-    {
-        BCELWrapperGenerator generator = new BCELWrapperGenerator();
-        Class klass = generator.createWrapper(Test.class);
-        Class[] ifaces = klass.getInterfaces();
-        for(int i =0; i < ifaces.length; i++)
-        {
-            System.out.println(ifaces[i].getName());
-        }
-    }
-
-    public static interface Base extends Executable,Serviceable{};
-    public static interface Extended extends Base{void extend();};
-    public static interface Complicate extends Extended{void complicate();};
-    public static abstract class SuperTest implements Complicate
-    {
-        public final void execute(){}
-    }
-    public static class Test extends SuperTest
-    {
-        public void extend(){}
-        public void complicate(){}
-        public void service(ServiceManager manager){}
     }
 }

@@ -414,7 +414,7 @@ public final class BCELCodeGenerator
                     meth.name,
                     meth.returnType,
                     meth.parameterTypes,
-                (meth.isFinal) ? Constants.INVOKENONVIRTUAL : Constants.INVOKEVIRTUAL ) );
+                    Constants.INVOKEVIRTUAL ) );
 
         // Creating return statement ...
         m_instructionList.append( InstructionFactory.createReturn( meth.returnType ) );
