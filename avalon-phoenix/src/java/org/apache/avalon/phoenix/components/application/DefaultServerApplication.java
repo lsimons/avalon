@@ -47,6 +47,7 @@ import org.apache.avalon.phoenix.components.listeners.BlockListenerSupport;
 import org.apache.avalon.phoenix.components.listeners.BlockListenerManager;
 import org.apache.avalon.phoenix.components.kapi.BlockListenerEntry;
 import org.apache.avalon.phoenix.BlockListener;
+import org.apache.avalon.phoenix.components.configuration.ConfigurationRepository;
 
 /**
  * This is the basic container of blocks. A server application
@@ -84,6 +85,12 @@ public final class DefaultServerApplication
     private BlockListenerManager     m_listenerManager;
     private BlockListenerEntry[]     m_listenerEntrys;
 
+    //Repository of configuration data to access
+    private ConfigurationRepository m_repository;
+
+    ///Name of application, phase is running in
+    private String               m_appName;
+
     public DefaultServerApplication()
     {
         m_frame = createFrame();
@@ -95,6 +102,8 @@ public final class DefaultServerApplication
     {
         //save it to contextualize facilities
         m_context = context;
+
+        m_appName = (String)context.get( "app.name" );
     }
 
     public void compose( final ComponentManager componentManager )
@@ -111,6 +120,8 @@ public final class DefaultServerApplication
         newComponentManager.makeReadOnly();
 
         m_componentManager = newComponentManager;
+
+        m_repository = (ConfigurationRepository)componentManager.lookup( ConfigurationRepository.ROLE );
     }
 
     public void addBlockListenerEntrys( final BlockListenerEntry[] listeners )
@@ -247,17 +258,13 @@ public final class DefaultServerApplication
     private void loadBlockListeners()
         throws Exception
     {
-        final ClassLoader classLoader = m_frame.getClassLoader();
-
         for( int i = 0; i < m_listenerEntrys.length; i++ )
         {
             final BlockListenerEntry entry = m_listenerEntrys[ i ];
             
             try
             {
-                final Class clazz = classLoader.loadClass( entry.getClassname() );
-                final BlockListener listener = (BlockListener)clazz.newInstance();
-                m_listenerManager.addBlockListener( listener );
+                loadBlockListener( entry );
             }
             catch( final Exception e )
             {
@@ -266,6 +273,35 @@ public final class DefaultServerApplication
                 throw e;
             }
         }
+    }
+
+    private void loadBlockListener( final BlockListenerEntry entry )
+        throws Exception
+    {
+        final ClassLoader classLoader = m_frame.getClassLoader();
+        final Class clazz = classLoader.loadClass( entry.getClassname() );
+        final BlockListener listener = (BlockListener)clazz.newInstance();
+        
+        if( listener instanceof Configurable )
+        {
+            final String name = entry.getName();
+
+            Configuration configuration = null;
+            try 
+            {
+                configuration = m_repository.getConfiguration( m_appName, name );
+            } 
+            catch( final ConfigurationException ce ) 
+            {
+                // missing configuration (probably).
+                final String message = REZ.getString( "app.error.listener.noconfiguration", name );
+                throw new ConfigurationException( message, ce );
+            }
+            
+            ((Configurable)listener).configure( configuration );
+        }
+        
+        m_listenerManager.addBlockListener( listener );
     }
 
     /**

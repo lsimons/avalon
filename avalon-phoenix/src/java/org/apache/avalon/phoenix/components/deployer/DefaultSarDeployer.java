@@ -111,12 +111,63 @@ public class DefaultSarDeployer
             assembleBlockListeners( entry, blockListeners );
         entry.setListenerEntrys( blockListenerEntrys );
 
+        checkNamesUnique( blockEntrys, blockListenerEntrys );
+
         //Setup configuration for all the applications blocks
         configuration = getConfigurationFor( installation.getConfig() );
-        configureBlocks( name, entry, configuration.getChildren() );
+        setupConfiguration( name, entry, configuration.getChildren() );
 
         //Finally add application to kernel
         addEntry( name, entry );
+    }
+
+    private void checkNamesUnique( final BlockEntry[] blocks, 
+                                   final BlockListenerEntry[] listeners )
+        throws DeploymentException
+    {
+        for( int i = 0; i < blocks.length; i++ )
+        {
+            final String name = blocks[ i ].getName();
+            checkNameUnique( name, blocks, listeners, i, -1 );
+        }
+
+        for( int i = 0; i < listeners.length; i++ )
+        {
+            final String name = listeners[ i ].getName();
+            checkNameUnique( name, blocks, listeners, -1, i );
+        }
+    }
+
+    private void checkNameUnique( final String name, 
+                                  final BlockEntry[] blocks, 
+                                  final BlockListenerEntry[] listeners,
+                                  final int blockIndex,
+                                  final int listenerIndex )
+        throws DeploymentException
+    {
+        //Verify no blocks have the same name
+        for( int i = 0; i < blocks.length; i++ )
+        {
+            final String other = blocks[ i ].getName();
+            if( blockIndex != i && name.equals( other ) )
+            {
+                final String message = 
+                    REZ.getString( "deploy.error.name.duplicate", name );
+                throw new DeploymentException( message );
+            }
+        }
+
+        //Verify no blocklisteners have the same name
+        for( int i = 0; i < listeners.length; i++ )
+        {
+            final String other = listeners[ i ].getName();
+            if( listenerIndex != i && name.equals( other ) )
+            {
+                final String message = 
+                    REZ.getString( "deploy.error.name.duplicate", name );
+                throw new DeploymentException( message );
+            }
+        }
     }
 
     /**
@@ -275,16 +326,26 @@ public class DefaultSarDeployer
      * @param configurations the block configurations.
      * @exception DeploymentException if an error occurs
      */
-    private void configureBlocks( final String appName,
-                                  final ServerApplicationEntry saEntry,
-                                  final Configuration[] configurations )
+    private void setupConfiguration( final String appName,
+                                     final ServerApplicationEntry saEntry,
+                                     final Configuration[] configurations )
         throws DeploymentException
     {
         for( int i = 0; i < configurations.length; i++ )
         {
             final Configuration configuration = configurations[ i ];
             final String name = configuration.getName();
-            final BlockEntry entry = getBlockEntry( name, saEntry.getBlockEntrys() );
+            
+            try { getBlockEntry( name, saEntry.getBlockEntrys() ); }
+            catch( final Exception e )
+            {
+                try { getBlockListenerEntry( name, saEntry.getListenerEntrys() ); }
+                catch( final Exception e2 )
+                {
+                    final String message = REZ.getString( "deploy.error.extra.config", name );
+                    throw new DeploymentException( message );
+                }                
+            }
 
             try { m_repository.storeConfiguration( appName, name, configuration ); }
             catch( final ConfigurationException ce )
@@ -317,7 +378,31 @@ public class DefaultSarDeployer
             }
         }
 
-        final String message = REZ.getString( "deploy.notice.block.missing", name );
+        final String message = REZ.getString( "deploy.error.block.missing", name );
+        throw new DeploymentException( message );
+    }
+
+    /**
+     * Helper method to get BlockListenerEntry with specified name from an array of BlockListenerEntrys.
+     *
+     * @param name the block entrys name
+     * @param blockEntrys the set of BlockListenerEntry objects to search
+     * @return the BlockListenerEntry
+     * @exception DeploymentException if BlockListenerEntry not found
+     */
+    private BlockListenerEntry getBlockListenerEntry( final String name,
+                                                      final BlockListenerEntry[] listenerEntrys )
+        throws DeploymentException
+    {
+        for( int i = 0; i < listenerEntrys.length; i++ )
+        {
+            if( listenerEntrys[ i ].getName().equals( name ) )
+            {
+                return listenerEntrys[ i ];
+            }
+        }
+
+        final String message = REZ.getString( "deploy.error.listener.missing", name );
         throw new DeploymentException( message );
     }
 }
