@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+  <extend>${basedir}/../project.xml</extend>
+  <pomVersion>3</pomVersion>
+  <id>avalon-meta-plugin</id>
+  <name>Avalon Meta Plugin</name>
+  <currentVersion>1.1</currentVersion>
+  <description>Avalon Plugin for Maven</description>
+  <shortDescription>Avalon Plugin for Maven</shortDescription>
+  <package>org.apache.avalon</package>
+
+  <dependencies>
+
+    <dependency>
+      <groupId>avalon-framework</groupId>
+      <artifactId>avalon-framework-api</artifactId>
+      <version>4.1.5</version>
+    </dependency>
+
+    <dependency>
+      <groupId>avalon-framework</groupId>
+      <artifactId>avalon-framework-impl</artifactId>
+      <version>4.1.5</version>
+    </dependency>
+
+    <dependency>
+      <groupId>avalon-meta</groupId>
+      <artifactId>avalon-meta-api</artifactId>
+      <version>1.1</version>
+    </dependency>
+
+    <dependency>
+      <groupId>avalon-meta</groupId>
+      <artifactId>avalon-meta-spi</artifactId>
+      <version>1.1</version>
+    </dependency>
+
+    <dependency>
+      <groupId>avalon-meta</groupId>
+      <artifactId>avalon-meta-impl</artifactId>
+      <version>1.1</version>
+    </dependency>
+
+    <dependency>
+      <groupId>avalon-meta</groupId>
+      <artifactId>avalon-meta-tools</artifactId>
+      <version>1.1</version>
+    </dependency>
+
+    <dependency>
+      <id>ant</id>
+      <version>1.5</version>
+    </dependency>
+
+    <dependency>
+      <id>qdox</id>
+      <version>1.1</version>
+    </dependency>
+
+    <!-- pre JDK 1.4 dependencies -->
+
+    <dependency>
+      <id>xml-apis</id>
+      <version>2.0.2</version>
+    </dependency>
+    <dependency>
+      <groupId>xml-apis</groupId>
+      <artifactId>xmlParserAPIs</artifactId>
+      <version>2.0.2</version>
+    </dependency>
+    <dependency>
+      <id>xerces</id>
+      <version>2.4.0</version>
+    </dependency>
+
+    <!-- xdoclet -->
+    <dependency>
+        <id>commons-collections</id>
+        <version>2.1</version>
+    </dependency>
+    <dependency>
+        <id>commons-logging</id>
+        <version>1.1-dev</version>
+    </dependency>
+    <dependency>
+        <id>log4j</id>
+        <version>1.2.6</version>
+    </dependency>
+    <dependency>
+        <id>xdoclet</id>
+        <version>1.2b2</version>
+    </dependency>
+    <dependency>
+        <id>xdoclet+xdoclet-module</id>
+        <version>1.2b2</version>
+    </dependency>
+    <dependency>
+        <id>xdoclet+xjavadoc</id>
+        <version>1.2b2</version>
+    </dependency>
+    <dependency>
+        <id>xdoclet+jmx-module</id>
+        <version>1.2b2</version>
+    </dependency>
+
+  </dependencies>
+  
+  <build>
+    <sourceDirectory>${basedir}/src/java</sourceDirectory>
+    <unitTestSourceDirectory>${basedir}/src/test</unitTestSourceDirectory>
+
+    <unitTest>
+      <includes>
+        <include>**/*Test.java</include>
+      </includes>
+    </unitTest>
+
+    <resources>
+      <resource>
+        <directory>${basedir}/src/plugin-resources</directory>
+        <targetPath>plugin-resources</targetPath>
+      </resource>
+      <resource>
+        <directory>${basedir}</directory>
+        <includes>
+          <include>plugin.jelly</include>
+          <include>plugin.properties</include>
+          <include>project.properties</include>
+          <include>project.xml</include>
+        </includes>
+      </resource>
+    </resources>
+
+  </build>
+
+</project>

@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+
+<document>
+
+    <properties>
+        <author email="mcconnell@apache.org">Stephen McConnell</author>
+        <title>Avalon Meta Model</title>
+    </properties>
+
+    <body>
+
+        <section name="Avalon Meta Model">
+
+            <subsection name="Meta Model Overview">
+                <p>
+                    The Avalon Meta Model defines the functional structure
+                    of component types and services. A Type definition contains 
+                    information about deployment and runtime dependencies together 
+                    with information about the services that a
+                    component type can provide.
+                </p>
+
+            </subsection>
+
+            <subsection name="Meta Info Generation">
+                <p>
+                    Avalon provides a set of tools that automate the process 
+                    of generating meta-info descriptors.  These tools provide
+                    support for the generation of serializable and XML based
+                    descriptors that are collocated with class files. Tool 
+                    support is available for Ant and Maven.
+                </p>
+            </subsection>
+
+            <subsection name="Meta Model API/SPI">
+                <p>
+                    Type and service meta models are established as 
+                    immutable objects that complement the classic information
+                    available about a class.  Using the Type and Service 
+                    descriptor classes, developers can be assured of greater
+                    portability and interoperability of container-side applications.
+                </p>
+            </subsection>
+
+        </section>
+
+    </body>
+
+</document>

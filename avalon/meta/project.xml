@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+
+  <name>Avalon Meta</name>
+  <groupId>avalon-meta</groupId>
+  <id>avalon-meta</id>
+  <currentVersion>1.1</currentVersion>
+  <inceptionYear>2000</inceptionYear>
+
+  <organization>
+    <name>Apache Software Foundation</name>
+    <url>http://jakarta.apache.org/</url>
+    <logo>http://avalon.apache.org/images/apache-avalon-logo.png</logo>
+  </organization>
+
+  <package>org.apache.avalon.meta</package>
+
+  <url>http://avalon.apache.org/meta</url>
+  <issueTrackingUrl>http://nagoya.apache.org/</issueTrackingUrl>
+  <siteAddress>avalon.apache.org/meta</siteAddress>
+  <siteDirectory>/site/avalon/meta/</siteDirectory>
+  <distributionDirectory></distributionDirectory>
+
+  <repository>
+    <connection>scm:cvs:pserver:anoncvs@cvs.apache.org:/home/cvspublic:avalon-sandbox/meta</connection>
+    <url>http://cvs.apache.org/viewcvs/avalon-sandbox/meta/</url>
+  </repository>
+
+  <mailingLists>
+    <mailingList>
+      <name>Avalon Dev List</name>
+      <subscribe>dev-subscribe@avalon.apache.org</subscribe>
+      <unsubscribe>dev-unsubscribe@avalon.apache.org</unsubscribe>
+      <archive>http://nagoya.apache.org/eyebrowse/SummarizeList?listName=dev@avalon.apache.org</archive>
+    </mailingList>
+    <mailingList>
+      <name>Avalon User List</name>
+      <subscribe>users-subscribe@avalon.apache.org</subscribe>
+      <unsubscribe>users-unsubscribe@avalon.apache.org</unsubscribe>
+      <archive>http://nagoya.apache.org/eyebrowse/SummarizeList?listName=users@avalon.apache.org</archive>
+    </mailingList>
+  </mailingLists>
+
+  <developers>
+    <developer>
+      <name>Stephen McConnell</name>
+      <id>mcconnell</id>
+      <email>mcconnell@apache.org</email>
+      <organization>OSM</organization>
+      <roles>
+        <role>Architecture and development.</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Leo Simons</name>
+      <id>leosimons</id>
+      <email>leosimons@apache.org</email>
+      <roles>
+        <role>System review, code cleanup.</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Berin Loritsch</name>
+      <id>bloritsch</id>
+      <email>bloritsch@apache.org</email>
+      <roles>
+        <role>Code enhancements.</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Marcus Crafter</name>
+      <id>crafterm</id>
+      <email>crafterm@apache.org</email>
+      <roles>
+        <role>Architecture review.</role>
+      </roles>
+    </developer>
+  </developers>
+
+  <contributors>
+    <contributor>
+      <name>Kristian Meier</name>
+      <email>kristian.meier@jentro.com</email>
+      <roles>
+        <role>Patches enhancing the meta-info generation sources and documentation.</role>
+      </roles>
+      <organization>Jentro AG</organization>
+    </contributor>
+  </contributors>
+
+  <build>
+
+    <nagEmailAddress>dev@avalon.apache.org</nagEmailAddress>
+    <sourceDirectory>${basedir}/src/java</sourceDirectory>
+    <unitTestSourceDirectory>${basedir}/src/test</unitTestSourceDirectory>
+    <integrationUnitTestSourceDirectory/>
+    <aspectSourceDirectory/>
+
+    <unitTest>
+      <includes>
+        <include>**/*TestCase*</include>
+      </includes>
+      <excludes>
+        <exclude>**/Abstract*</exclude>
+      </excludes>
+      <resources>
+        <resource>
+          <directory>${basedir}/src/test</directory>
+          <includes> 
+            <include>**/*.dtd</include>
+            <include>**/*.properties</include>
+            <include>**/*.xinfo</include>
+            <include>**/*.xtype</include>
+            <include>**/*.xprofile</include>
+            <include>**/*.xconfig</include>
+            <include>**/*.xml</include>
+            <include>**/*.xservice</include>
+            <include>**/*.mf</include>
+            <include>**/*.jar</include>
+          </includes>
+        </resource>
+        <resource>
+          <directory>${maven.conf.dir}</directory>
+          <includes> 
+            <include>**/*.properties</include>
+          </includes>
+        </resource>
+        <resource>
+          <directory>${basedir}/src/test/conf</directory>
+          <includes> 
+            <include>**/*</include>
+          </includes>
+        </resource>
+      </resources>
+    </unitTest>
+
+    <integrationUnitTestPatterns></integrationUnitTestPatterns>
+    
+    <resources>
+      <resource>
+        <directory>${basedir}/src/java</directory>
+        <includes>
+          <include>**/*.dtd</include>
+          <include>**/*.properties</include>
+          <include>**/*.xinfo</include>
+          <include>**/*.xtype</include>
+          <include>**/*.xprofile</include>
+          <include>**/*.xconfig</include>
+          <include>**/*.xml</include>
+          <include>**/*.xservice</include>
+        </includes>
+      </resource>
+      <resource>
+        <directory>${basedir}/../</directory>
+        <includes>
+          <include>LICENSE.txt</include>
+        </includes>
+      </resource>
+      <resource>
+        <directory>${maven.conf.dir}</directory>
+        <targetPath>BLOCK-INF</targetPath>
+        <includes>
+          <include>block.xml</include>
+        </includes>
+      </resource>
+    </resources>
+    
+    <jars></jars>
+  </build>
+
+  <reports>
+    <report>maven-changelog-plugin</report>
+    <report>maven-file-activity-plugin</report>
+    <report>maven-developer-activity-plugin</report>
+  </reports>
+
+</project>

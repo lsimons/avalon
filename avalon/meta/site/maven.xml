@@ -1,0 +1,46 @@
+<project default="site" xmlns:maven="jelly:maven" xmlns:j="jelly:core" xmlns:util="jelly:util">
+
+  <property file="${basedir}/build.properties"/>
+  <property file="${basedir}/project.properties"/>
+
+  <property name="maven.license.licenseFile" 
+    value="${basedir}/../LICENSE.txt"/>
+  <property name="maven.javadoc.stylesheet" 
+    value="${basedir}/etc/stylesheet.css"/>
+
+  <preGoal name="site">
+    <attainGoal name="license"/>
+    <attainGoal name="xjavadoc"/>
+  </preGoal>
+
+  <goal name="xjavadoc">
+    <mkdir dir="${basedir}/target/docs/api" />
+    <property name="copyright"
+      value="Copyright &amp;copy; ${year} ${pom.organization.name}. All Rights Reserved." />
+    <property name="title" value="${pom.name} ${pom.currentVersion} API"/>
+    <javadoc destdir="${basedir}/target/docs/api" 
+	doctitle="&lt;h1&gt;Avalon Meta&lt;/h1&gt;" 
+      noindex="false" author="true" use="true"
+	windowtitle="${title}" 
+      bottom="${copyright}"
+      additionalparam="-breakiterator -J-Xmx128m "
+      packagenames="*,org.*">
+        <j:forEach var="packageGroup" items="${pom.packageGroups}">
+      	  <group title="${packageGroup.title}" packages="${packageGroup.packages}"/>
+        </j:forEach>
+        <sourcepath path="${basedir}/../api/src/java"/>
+        <sourcepath path="${basedir}/../spi/src/java"/>
+        <sourcepath path="${basedir}/../impl/src/java"/>
+        <sourcepath path="${basedir}/../tools/src/java"/>
+        <classpath>
+          <path refid="maven.dependency.classpath"/>
+	  </classpath>
+	  <link href="${sun.j2se.link}" />
+	  <link href="${avalon.framework.link}" />
+	  <link href="${ant.link}" />
+	  <link href="${qdox.link}" />
+    </javadoc>
+  </goal>
+
+
+</project>
