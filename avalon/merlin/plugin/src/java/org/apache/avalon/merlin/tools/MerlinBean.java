@@ -78,7 +78,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * Merlin default application factory.
  * 
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.11 $
+ * @version $Revision: 1.12 $
  */
 public class MerlinBean
 {
@@ -189,7 +189,10 @@ public class MerlinBean
         File repository = getMavenRepositoryDirectory();
         criteria.put( "merlin.repository", repository );
         criteria.put( "merlin.server", "false" );
-        criteria.put( "merlin.deployment", m_deployment );
+        if( m_deployment != null )
+        {
+            criteria.put( "merlin.deployment", m_deployment );
+        }
         if( null != m_debug ) criteria.put( "merlin.debug", m_debug );
         if( null != m_info ) criteria.put( "merlin.info", m_info ); 
     }
