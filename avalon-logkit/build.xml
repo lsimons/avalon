@@ -63,6 +63,7 @@ Legal:
   <property name="src.dir" value="src"/>
   <property name="lib.dir" value="lib"/>
   <property name="java.dir" value="${src.dir}/java"/>
+  <property name="test.dir" value="${src.dir}/test"/>
   <property name="tools.dir" value="tools"/>
   <property name="docs.dir" value="docs"/>
   <property name="www.dir" value="www"/>
@@ -155,6 +156,7 @@ Legal:
            optimize="${optimize}"
            deprecation="${deprecation}">
       <classpath refid="project.class.path" />
+<!--      <src path="${test.dir}"/> -->
       <exclude name="org/apache/log/output/ServletOutputLogTarget.java" 
                unless="servlet.present"/>
     </javac>
@@ -180,6 +182,17 @@ Legal:
       <include name="org/apache/log/**" />
     </jar>
 
+  </target>
+
+  <target name="install" depends="jar,install-check-cjan">
+
+    <mkdir dir="${cjan.lib}" />
+    <copy file="${build.lib}/${name}.jar" todir="${cjan.lib}"/>
+
+  </target>
+
+  <target name="install-check-cjan" unless="cjan.lib">
+    <fail message="cjan.lib not specified." />
   </target>
 
   <!--

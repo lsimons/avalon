@@ -87,6 +87,8 @@ Legal:
     <pathelement location="${avalonapi.jar}"/>
     <fileset dir="${lib.dir}">
       <include name="*.jar" />
+      <exclude name="xerces.jar"/>
+      <exclude name="avalonapi.jar"/>
     </fileset>
     <pathelement path="${build.classes}" />
   </path>
@@ -365,10 +367,34 @@ Legal:
 
     <chmod dir="${dist.dir}" perm="go-rwx" />
     <chmod file="${dist.bin}/run.sh" perm="u+x"/>
+    <chmod file="${dist.bin}/run.bat" perm="u-x"/>
     <fixcrlf srcdir="${dist.dir}" cr="add" includes="**/*.bat" />
     <fixcrlf srcdir="${dist.dir}" cr="remove" includes="**/*.sh" />
-    <fixcrlf srcdir="${dist.dir}" cr="remove" includes="ant" />
 
+  </target>
+
+  <target name="install" depends="dist-lite,install-check-cjan,install-check-phoenix">
+
+    <mkdir dir="${cjan.lib}" />
+    <copy file="${build.lib}/phoenix-client.jar" todir="${cjan.lib}"/>
+
+    <mkdir dir="${phoenix.home}" />
+
+    <copy todir="${phoenix.home}">
+      <fileset dir="${dist.dir}"/>
+    </copy>
+
+    <chmod file="${phoenix.home}/bin/run.sh" perm="u+x"/>
+    <chmod file="${phoenix.home}/bin/run.bat" perm="u-x"/>
+
+  </target>
+
+  <target name="install-check-cjan" unless="cjan.lib">
+    <fail message="cjan.lib not specified." />
+  </target>
+
+  <target name="install-check-phoenix" unless="phoenix.home">
+    <fail message="phoenix.home not specified." />
   </target>
 
   <!--
