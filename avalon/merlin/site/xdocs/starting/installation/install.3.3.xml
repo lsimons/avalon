@@ -38,8 +38,6 @@
   /merlin
     /bin
     /config
-    /docs
-    /plugins
     /system
     README.TXT
     LICENSE.TXT
@@ -84,38 +82,34 @@ Under Lunix you can do this as follows:
 Versions of Merlin prior to the 3.2-dev 20031210 build maintained 
 a local repository of jar files under the %MERLIN_HOME%/repository
 directory.  As of the 20031210 build the repository is maintained 
-under AVALON_HOME which defaults to ${user.home}/.avalon.  To 
-override this behaviour you can either define a AVALON_HOME 
-environment variable or you can add a merlin.properties file to 
-${user.home} containing the "merlin.repository" property key and 
-a value point to you preferred repository location.
+under AVALON_HOME/repository where AVALON_HOME defaults to 
+${user.home}/.avalon.  To override the AVALON_HOME directory you 
+can either define a AVALON_HOME environment variable or you can 
+add a merlin.properties file to ${user.home} containing the 
+"merlin.repository" property key and a value point to you preferred 
+repository location.
         </p>
 
       </subsection>
 
       <subsection name="Maven Plugin Installation">
-        <p>
-The installation of Merlin is now complete, however, two plugins are
-provided with the installation supporting merlin development under the 
-Maven platform.  These plugins should be placed in the Maven plugin 
-directory (%MAVEN_HOME%\plugins).
-        </p>
-<source><![CDATA[
-  %MAVEN_HOME%\plugins\avalon-meta-plugin-1.3.2.jar
-  %MAVEN_HOME%\plugins\merlin-plugin-3.3-SNAPSHOT.jar
-]]></source>
 
         <p>
-Please note that if you are upgrading an existing Maven installation you must
-delete the following two directories:
+The merlin system installation is now complete.  Three plugins 
+supporting development are provided and can be installed using the 
+commands listed below (please check the packaged INSTALL.TXT for 
+correct version numbers):
         </p>
 
 <source><![CDATA[
-  %MAVEN_HOME%\plugins\merlin-plugin-* 
-  %MAVEN_HOME%\plugins\avalon-meta-plugin-*
+$ maven -DgroupId=avalon-util -DartifactId=avalon-util-plugin -Dversion=1.0.dev-0 plugin:download
+$ maven -DgroupId=avalon-meta -DartifactId=avalon-meta-plugin -Dversion=1.4.dev-0 plugin:download
+$ maven -DgroupId=merlin -DartifactId=merlin-plugin -Dversion=3.3.dev-0 plugin:download
 ]]></source>
 
       </subsection>
+
+
       <subsection name="Validating your installation.">
 
         <p>

@@ -15,7 +15,9 @@ resources.
     README.TXT
     LICENSE.TXT
     INSTALL.TXT
-  /plugins
+
+Available development tools related to the maven build system include:
+
     @META_PLUGIN_JAR@
     @MERLIN_PLUGIN_JAR@
 
@@ -45,23 +47,18 @@ Under Lunix you can do this as follows:
 Versions of Merlin prior to the 3.2-dev 20031210 build maintained 
 a local repository of jar files under the %MERLIN_HOME%/repository
 directory.  As of the 20031210 build the repository is maintained 
-under AVALON_HOME which defaults to ${user.home}/.avalon.  To 
-override this behaviour you can either define a AVALON_HOME 
-environment variable or you can add a merlin.properties file to 
-${user.home} containing the "merlin.repository" property key and 
-a value point to you preferred repository location.
+under AVALON_HOME/repository where AVALON_HOME defaults to 
+${user.home}/.avalon.  To override the AVALON_HOME location you can 
+either define a AVALON_HOME environment variable or you can add a 
+merlin.properties file to ${user.home} containing the 
+"merlin.repository" property key and a value point to you preferred 
+repository location.
 
 To confirm that your environment variables are correct, you
 should open a new command window and invoke the Merlin
 CLI application.
 
-Under DOS:
-
   $ merlin -version
-
-Under Lunix:
-
-  $ merlin.sh -version
 
 The installation of Merlin is now complete, however, two plugins are
 provided with the installation supporting merlin development under the 

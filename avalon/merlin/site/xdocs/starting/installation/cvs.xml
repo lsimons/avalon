@@ -101,7 +101,7 @@ $ cp -Rf merlin/target/merlin /opt/merlin
                 </p>
                 <p>
                 The following maven command will install a plugin into the maven system 
-                (check dstribution for latest version numbers).
+                (check distribution for latest version numbers).
                 </p>
 <source><![CDATA[
 $ maven -DgroupId=avalon-util -DartifactId=avalon-util-plugin -Dversion=1.0.dev-0 plugin:download
