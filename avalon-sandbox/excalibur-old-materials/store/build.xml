@@ -16,6 +16,7 @@
         <pathelement location="${avalon-framework.jar}"/>
         <pathelement location="${checkstyle.jar}"/>
         <pathelement location="${jisp.jar}"/>
+        <pathelement location="${util.concurrent.jar}"/>
         <pathelement location="${excalibur-fortress-tools.jar}"/>
         <pathelement location="${qdox.jar}"/>
         <pathelement path="${java.class.path}"/>
