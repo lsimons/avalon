@@ -66,6 +66,15 @@ public class PatternFormatter
 
     protected PatternRun                      m_formatSpecification[];
 
+    public PatternFormatter()
+    {
+    }
+
+    public PatternFormatter( final String format )
+    {
+        setFormat( format );
+    }
+
     /**
      * Extract and build a pattern from input string.
      *
