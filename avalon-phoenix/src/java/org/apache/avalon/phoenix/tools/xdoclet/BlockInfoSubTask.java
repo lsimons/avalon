@@ -7,18 +7,18 @@
  */
 package org.apache.avalon.phoenix.tools.xdoclet;
 
-import com.sun.javadoc.ClassDoc;
 import java.io.File;
 import java.net.URL;
 import xdoclet.TemplateSubTask;
 import xdoclet.XDocletException;
+import xjavadoc.XClass;
 
 /**
  * Generates BlockInfo 'xinfo' for Blocks
  *
  * @author <a href="mailto:vinay_chandran@users.sourceforge.net">Vinay Chandrasekharan</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2002/03/16 00:11:56 $
+ * @version $Revision: 1.4 $ $Date: 2002/04/18 10:26:04 $
  */
 public class BlockInfoSubTask
     extends TemplateSubTask
@@ -97,7 +97,7 @@ public class BlockInfoSubTask
         }
     }
 
-    protected boolean matchesGenerationRules( final ClassDoc clazz )
+    protected boolean matchesGenerationRules( final XClass clazz )
         throws XDocletException
     {
         if( !super.matchesGenerationRules( clazz ) )
