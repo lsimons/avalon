@@ -24,7 +24,7 @@ public interface DeployerMBean
 
     /**
      * Deploy an installation.
-
+     *
      * @phoenix:mx-operation
      *
      * @param name the name of deployment
@@ -32,6 +32,7 @@ public interface DeployerMBean
      * @throws DeploymentException if an error occurs
      * @see #deploy(String,String)
      * @see #undeploy(String)
+     * @see #redeploy(String)
      */
     void deploy( String name, String sarURL )
         throws DeploymentException;
@@ -44,12 +45,13 @@ public interface DeployerMBean
      * @throws DeploymentException if an error occurs
      * @see #deploy(String,String)
      * @see #undeploy(String)
+     * @see #redeploy(String)
      */
     void deploy( String name, URL location )
         throws DeploymentException;
 
     /**
-     * Undeploy a resource from a location.
+     * Undeploy an installation.
      *
      * @phoenix:mx-operation
      *
@@ -57,7 +59,22 @@ public interface DeployerMBean
      * @throws DeploymentException if an error occurs
      * @see #deploy(String,String)
      * @see #deploy(String,URL)
+     * @see #redeploy(String)
      */
     void undeploy( String name )
+        throws DeploymentException;
+
+    /**
+     * Redeploy an installation.
+     *
+     * @phoenix:mx-operation
+     *
+     * @param name the name of deployment
+     * @throws DeploymentException if an error occurs
+     * @see #deploy(String,String)
+     * @see #deploy(String,URL)
+     * @see #undeploy(String)
+     */
+    void redeploy( String name )
         throws DeploymentException;
 }

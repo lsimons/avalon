@@ -54,8 +54,6 @@ import org.apache.excalibur.containerkit.verifier.VerifyException;
 /**
  * Deploy .sar files into a kernel using this class.
  *
- * @phoenix:mx-topic name="Deployer"
- *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  */
 public class DefaultDeployer
@@ -184,10 +182,36 @@ public class DefaultDeployer
     }
 
     /**
-     * Undeploy an application.
+     * Redeploy an application.
      *
-     * @phoenix:mx-operation
-     * @phoenix:mx-description Undeploy an application.
+     * @param name the name of deployment
+     * @throws DeploymentException if an error occurs
+     */
+    public void redeploy( final String name )
+        throws DeploymentException
+    {
+        final Installation installation =
+            (Installation)m_installations.get( name );
+        if( null == installation )
+        {
+            final String message =
+                REZ.getString( "deploy.no-deployment.error", name );
+            throw new DeploymentException( message );
+        }
+        try
+        {
+            final URL location = installation.getSource().toURL();
+            undeploy( name );
+            deploy( name, location );
+        }
+        catch( final Exception e )
+        {
+            throw new DeploymentException( e.getMessage(), e );
+        }
+    }
+
+    /**
+     * Undeploy an application.
      *
      * @param name the name of deployment
      * @throws DeploymentException if an error occurs
@@ -227,9 +251,6 @@ public class DefaultDeployer
 
     /**
      * Deploy an application from an installation.
-     *
-     * @phoenix:mx-operation
-     * @phoenix:mx-description Deploy an application from an installation.
      *
      * @param name the name of application
      * @param sarURL the location to deploy from represented as String
