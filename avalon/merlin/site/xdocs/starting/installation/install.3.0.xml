@@ -49,34 +49,70 @@
 -->
 
 <document>
-  <header>
-    <title>Installation Procedures</title>
-    <authors>
-      <person name="Stephen McConnell" email="mcconnell@apache.org"/>
-    </authors>
-  </header>
-  <body>
-    <section name="Installation Procedures">
-        <table>
-          <tr><th>Topic</th><th>Summary</th></tr>
-          <tr>
-            <td><a href="install.3.2.html">Merlin 3.2 Installation</a></td>
-            <td>Installation instructions for Merlin 3.2.</td>
-          </tr>
-          <tr>
-            <td><a href="install.3.0.html">Merlin 3.0 Installation</a></td>
-            <td>Installation instructions for Merlin 3.0.</td>
-          </tr>
-          <tr>
-            <td><a href="cvs.html">Building from CVS</a></td>
-            <td>Instructions for building an installation from CVS.</td>
-          </tr>
-        </table>
-    </section>
-  </body>
+    <header>
+        <title>Installation</title>
+        <authors>
+            <person name="Stephen McConnell" email="mcconnell@apache.org"/>
+        </authors>
+    </header>
+    <body>
+        <section name="Installation">
+
+            <subsection name="Declare MERLIN_HOME environment variable">
+
+                <p>
+                    To use Merlin command line support or the Merlin NT Service
+                    you will need to define the MERLIN_HOME environment
+                    variable for your system and include MERLIN_HOME/bin in
+                    your system path:
+                </p>
+
+<source><![CDATA[
+$ echo '
+> # set location of merlin
+> export MERLIN_HOME=/opt/merlin
+> # include it in the path
+> export PATH=$PATH:$MERLIN_HOME/bin
+> ' >> ~/.bash_profile
+$ source ~/.bash_profile
+]]></source>
+
+            </subsection>
+            <subsection name="Validating your installation.">
+
+                <p>
+                    The following instructions assume that you have defined the
+                    MERLIN_HOME environment variable that points the directory
+                    containing the Merlin installation.
+                </p>
+
+                <p>
+                    To confirm that you MERLIN_HOME variable is correct, you
+                    should open a new command line window and invoke the Merlin
+                    CLI application. The following command should list the
+                    Merlin CLI help information.
+                </p>
+
+<source><![CDATA[
+$ merlin.sh -help
+usage: merlin [block] [-debug] [-config <file>] [-lang
+<code>] [-repository <directory>] [-kernel <file>] [-home
+<directory>] [-version] [-help]
+...
+]]></source>
+
+            </subsection>
+            <subsection name="Next Steps">
+                <p>
+                    Now that you have installed Merlin on your system you can
+                    proceed to the <a href="../tutorial/index.html">Using Merlin</a>
+                    tutorial page.
+                </p>
+            </subsection>
+
+        </section>
+    </body>
 
 </document>
-
-
 
 
