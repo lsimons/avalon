@@ -766,8 +766,20 @@ Copyright (c) 1999-2003 The Apache Software Foundation. All Rights Reserved.
             <fileset dir="." includes="**/*~" defaultexcludes="no"/>
         </delete>
     </target>
-    
-    <!-- Cleans absolutely everything up -->
+
+  <!-- ===================================================================== -->
+  <!-- Fix Whitespace problems in source code                                -->
+  <!-- ===================================================================== -->
+  <target name="fixCRLF">
+  <fixcrlf srcdir="."
+           includes="**/*.java,**/*.xml,*.xml,*.properties,**/*.properties"
+           eol="lf"
+           tab="remove"
+           tablength="4"
+           eof="remove"/>
+  </target>    
+
+  <!-- Cleans absolutely everything up -->
     <target name="distclean" depends="clean" description="cleans up all generated files and directories">
         <delete dir="${docs.dir}"/>
         <delete dir="${dist.base}"/>

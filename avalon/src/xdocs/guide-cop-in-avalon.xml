@@ -203,13 +203,13 @@ final Formatter formatter = (Formatter)selector.select( myURL );
       <section>
 <title>When you are done with the component</title>
         <p>
-	  Both the ServiceManager and the ServiceSelector require you to
-	  release your component when you are done with it.  The method used
-	  to do this is "release".  One way of handling this is to use the
-	  try/catch/finally construct.  For your convenience, the following
-	  code can help:
-	</p>
-	<source>
+      Both the ServiceManager and the ServiceSelector require you to
+      release your component when you are done with it.  The method used
+      to do this is "release".  One way of handling this is to use the
+      try/catch/finally construct.  For your convenience, the following
+      code can help:
+    </p>
+    <source>
 MyComponent component = null;
 
 try
@@ -225,11 +225,11 @@ finally
 {
     if (component != null) manager.release(component);
 }
-	</source>
-	<p>
-	  The reason for this is so that smart component managers that
-	  select components from a pool can properly manage the resources.
-	</p>
+    </source>
+    <p>
+      The reason for this is so that smart component managers that
+      select components from a pool can properly manage the resources.
+    </p>
       </section>
     </section>
 
@@ -282,22 +282,22 @@ finally
     </section>
     <section>
 <title>The Container</title>
-    	<p>
-		The container is the entity that manages your components. It handles
-		things like loading of configuration files, resolution of dependencies,
-		component management, component isolation, and lifecycle support.
-	</p>
-	<p>
-		The container is not formalized in the form of an interface or contract
-		within Avalon Framework, though it might be at some point in the future.
-		The informal contract for the container is that it has the ability to
-		host any fully Avalon-Framework compliant component. Most current containers
-		place additional requirements on the component.
-	</p>
-	<p>
-		For a list of container implementations,
-		<link href="reference-containers.html">look here</link>.
-	</p>
+        <p>
+        The container is the entity that manages your components. It handles
+        things like loading of configuration files, resolution of dependencies,
+        component management, component isolation, and lifecycle support.
+    </p>
+    <p>
+        The container is not formalized in the form of an interface or contract
+        within Avalon Framework, though it might be at some point in the future.
+        The informal contract for the container is that it has the ability to
+        host any fully Avalon-Framework compliant component. Most current containers
+        place additional requirements on the component.
+    </p>
+    <p>
+        For a list of container implementations,
+        <link href="reference-containers.html">look here</link>.
+    </p>
     </section>
   </body>
 </document>

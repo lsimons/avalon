@@ -29,16 +29,16 @@
 <title>COP is not just a Buzzword</title>
       <p>
         There is a lot of buzz in the industry touting Component Based Design
-	(CBD).  You will find, that the definition of a component in Avalon
-	is more formal than most companies' definition of a component.  Any
-	system developed with the principles of Avalon can claim CBD.  In
-	fact the Avalon Framework formalizes CBD more rigidly than the marketing
-	definition.  Do not be fooled though, CBD and COP aren't necessarily
-	the same thing.  Component Based Design refers to how a system is
-	designed and not how it is implemented.  Component Oriented Programming,
-	on the other hand, refers to how a system is implemented and not how
-	it is designed.  In practice, you can't implement COP without first
-	designing with components in mind.
+    (CBD).  You will find, that the definition of a component in Avalon
+    is more formal than most companies' definition of a component.  Any
+    system developed with the principles of Avalon can claim CBD.  In
+    fact the Avalon Framework formalizes CBD more rigidly than the marketing
+    definition.  Do not be fooled though, CBD and COP aren't necessarily
+    the same thing.  Component Based Design refers to how a system is
+    designed and not how it is implemented.  Component Oriented Programming,
+    on the other hand, refers to how a system is implemented and not how
+    it is designed.  In practice, you can't implement COP without first
+    designing with components in mind.
       </p>
     </section>
   </body>

@@ -33,10 +33,10 @@
         <p>
           A designer sets up a chain among objects that can all react
           to certain messages in a delegation hierarchy.  There is one
-	  major semantic detail: Inversion of Control refers to a parent
-	  object <em>controlling</em> a child object.  With this distinction,
-	  the SAX API is not considered Inversion of Control because its
-	  purpose is to send <em>information</em> from a source to a handler.
+      major semantic detail: Inversion of Control refers to a parent
+      object <em>controlling</em> a child object.  With this distinction,
+      the SAX API is not considered Inversion of Control because its
+      purpose is to send <em>information</em> from a source to a handler.
         </p>
         <section>
 <title>Definition by Analogy</title>
@@ -45,7 +45,7 @@
             understanding <em>Inversion of Control</em> easier.  We
             experience this in many different ways in regular life,
             so we are borrowing the form in code.  One analogy is called
-	    the "Chain of Command" in the military.
+        the "Chain of Command" in the military.
           </p>
           <section>
 <title>Chain of Command</title>
@@ -60,17 +60,17 @@
               instantiating entity then acts on that component how it
               needs to act.
             </p>
-	    <p>
-	      There are some deficiencies in this analogy as some military
-	      or ex-military people have explained to me.  In the military,
-	      <strong>any</strong> Commanding Officer can issue commands to
-	      anyone under his or her rank.  In the development world, to
-	      ensure proper security, this is not a pattern you want in your
-	      software.  In Avalon, Inversion of Control (IoC) is from one
-	      parent (controlling) object to a child (controlled) component.
-	      A parent may have many children, but children only have one
-	      parent.
-	    </p>
+        <p>
+          There are some deficiencies in this analogy as some military
+          or ex-military people have explained to me.  In the military,
+          <strong>any</strong> Commanding Officer can issue commands to
+          anyone under his or her rank.  In the development world, to
+          ensure proper security, this is not a pattern you want in your
+          software.  In Avalon, Inversion of Control (IoC) is from one
+          parent (controlling) object to a child (controlled) component.
+          A parent may have many children, but children only have one
+          parent.
+        </p>
           </section>
         </section>
       </section>
@@ -101,7 +101,7 @@ class MyComponent
         <p>
           The parent of MyComponent instantiates MyComponent, sets the
           Logger, and calls myMethod.  The component is not autonomous,
-	  and is given a logger that has been configured by the parent.
+      and is given a logger that has been configured by the parent.
         </p>
         <p>
           The MyComponent class has no state apart from the parent, and

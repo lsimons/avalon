@@ -26,7 +26,7 @@
         that have been well defined: authentication, authorization, and
         architecture.  Why didn't I say encryption?  It is because
         encryption does not equal security.  It is only part of the whole
-	system.
+    system.
       </p>
       <section>
 <title>Authentication</title>
@@ -164,24 +164,24 @@
         officer required that all the computers be placed on these huge power
         conditioners to reduce the Electro-Magnetic Interference (EMI) coming from the
         power line feedback of the computers.  His rationalization was that he was
-	positive KGB agents had the technology that they could read the EMI interference
-	on the power lines and read the bits on the computers.  In hindsight this is
-	improbable; no one can identify the bits travelling on a computer from EMI in the
-	power lines due to the level of noise (clocks, addressing lines,
-	<em>encrypted data</em>, and other computers on the network).
+    positive KGB agents had the technology that they could read the EMI interference
+    on the power lines and read the bits on the computers.  In hindsight this is
+    improbable; no one can identify the bits travelling on a computer from EMI in the
+    power lines due to the level of noise (clocks, addressing lines,
+    <em>encrypted data</em>, and other computers on the network).
       </p>
       <p>
         The security industry has a general rule of thumb to ensure that you don't spend
-	too much time in this area:  The cost of cracking the server should be more than
-	the information that is protected is worth.  Basically it boils down to this:
-	sites like Slashdot and SourceForge do not require as much security as a bank.
-	Protecting free information is not as critical as protecting people's bank accounts.
-	I am not minimizing the contributions of the aforementioned sites to the world
-	as a whole, but people become much more agitated if their bank account is wiped
-	clean than if their news article is defaced.  This is not to say that if you are
-	protecting free information then you can safely ignore security.  While the information
-	is monetarily free to customers, it has value that can be measured in pride, respect,
-	and accountability.
+    too much time in this area:  The cost of cracking the server should be more than
+    the information that is protected is worth.  Basically it boils down to this:
+    sites like Slashdot and SourceForge do not require as much security as a bank.
+    Protecting free information is not as critical as protecting people's bank accounts.
+    I am not minimizing the contributions of the aforementioned sites to the world
+    as a whole, but people become much more agitated if their bank account is wiped
+    clean than if their news article is defaced.  This is not to say that if you are
+    protecting free information then you can safely ignore security.  While the information
+    is monetarily free to customers, it has value that can be measured in pride, respect,
+    and accountability.
       </p>
       <p>
         The moral of the story is be paranoid to a point.  Avalon is designed to be
