@@ -66,29 +66,35 @@ public abstract class AbstractCache
 
     protected void notifyAdded( final Object key, final Object value )
     {
-        notifyEvent( key, value, CacheEvent.ADDED );
+        final CacheEvent event = new CacheEvent( this, key, value );
+
+        ArrayList listeners;
+        synchronized ( m_listeners )
+        {
+            listeners = (ArrayList)m_listeners.clone();
+        }
+
+        final int s = listeners.size();
+        for ( int i = 0; i < s; i++ )
+        {
+            ((CacheListener)listeners.get( i )).added( event );
+        }
     }
 
     protected void notifyRemoved( final Object key, final Object value )
     {
-        notifyEvent( key, value, CacheEvent.REMOVED );
-    }
+        final CacheEvent event = new CacheEvent( this, key, value );
 
-    protected void notifyEvent( final Object key, final Object value,
-                                final int type )
-    {
-        final CacheEvent event = new CacheEvent( this, key, value, type );
-
-        ArrayList l;
+        ArrayList listeners;
         synchronized ( m_listeners )
         {
-            l = (ArrayList)m_listeners.clone();
+            listeners = (ArrayList)m_listeners.clone();
         }
 
-        final int s = l.size();
+        final int s = listeners.size();
         for ( int i = 0; i < s; i++ )
         {
-            ((CacheListener)l.get( i )).cacheEvent( event );
+            ((CacheListener)listeners.get( i )).removed( event );
         }
     }
 }

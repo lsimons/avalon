@@ -16,7 +16,12 @@ public interface CacheListener
     extends EventListener
 {
     /**
-     * @param event
+     * Added new item.
      */
-    void cacheEvent( CacheEvent event );
+    void added( CacheEvent event );
+
+    /**
+     * Removed item.
+     */
+    void removed( CacheEvent event );
 }
