@@ -25,7 +25,7 @@ import java.util.Map;
  * total number of Connection objects that are created.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.3 $ $Date: 2001/12/11 09:53:28 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/01/23 15:49:52 $
  * @since 4.0
  */
 public class JdbcConnection
@@ -40,19 +40,25 @@ public class JdbcConnection
     public final Statement createStatement()
         throws SQLException
     {
-        return m_connection.createStatement();
+        final Statement temp = m_connection.createStatement();
+        m_lastUsed = System.currentTimeMillis();
+        return temp;
     }
 
     public final PreparedStatement prepareStatement( final String sql )
         throws SQLException
     {
-        return m_connection.prepareStatement( sql );
+        final PreparedStatement temp = m_connection.prepareStatement( sql );
+        m_lastUsed = System.currentTimeMillis();
+        return temp;
     }
 
     public final CallableStatement prepareCall( final String sql )
         throws SQLException
     {
-        return m_connection.prepareCall( sql );
+        final CallableStatement temp = m_connection.prepareCall( sql );
+        m_lastUsed = System.currentTimeMillis();
+        return temp;
     }
 
     public final String nativeSQL( final String sql )
@@ -77,12 +83,14 @@ public class JdbcConnection
         throws SQLException
     {
         m_connection.commit();
+        m_lastUsed = System.currentTimeMillis();
     }
 
     public final void rollback()
         throws SQLException
     {
         m_connection.rollback();
+        m_lastUsed = System.currentTimeMillis();
     }
 
     public final DatabaseMetaData getMetaData()
@@ -143,7 +151,12 @@ public class JdbcConnection
                                             final int resultSetConcurrency )
         throws SQLException
     {
-        return m_connection.createStatement(resultSetType, resultSetConcurrency);
+        final Statement temp = m_connection.createStatement(
+                resultSetType, resultSetConcurrency
+        );
+
+        m_lastUsed = System.currentTimeMillis();
+        return temp;
     }
 
     public final PreparedStatement prepareStatement( final String sql,
@@ -151,7 +164,12 @@ public class JdbcConnection
                                                final int resultSetConcurrency )
         throws SQLException
     {
-        return m_connection.prepareStatement( sql, resultSetType, resultSetConcurrency );
+        final PreparedStatement temp = m_connection.prepareStatement(
+                sql, resultSetType, resultSetConcurrency
+        );
+
+        m_lastUsed = System.currentTimeMillis();
+        return temp;
     }
 
     public final CallableStatement prepareCall( final String sql,
@@ -159,7 +177,12 @@ public class JdbcConnection
                                           final int resultSetConcurrency )
         throws SQLException
     {
-        return m_connection.prepareCall( sql, resultSetType, resultSetConcurrency );
+        final CallableStatement temp = m_connection.prepareCall(
+            sql, resultSetType, resultSetConcurrency
+        );
+
+        m_lastUsed = System.currentTimeMillis();
+        return temp;
     }
 
     public final Map getTypeMap()
