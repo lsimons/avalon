@@ -11,9 +11,8 @@ import java.io.File;
 import java.net.URL;
 import org.apache.avalon.framework.camelot.Entry;
 import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.context.Context;
-import org.apache.log.Logger;
 import org.apache.avalon.phoenix.engine.blocks.BlockEntry;
+import org.apache.log.Logger;
 
 /**
  * This is the structure describing each server application before it is loaded.
@@ -25,9 +24,9 @@ public class ServerApplicationEntry
 {
     private Logger          m_logger;
     private File            m_homeDirectory;
-    private Configuration   m_configuration;
     private URL[]           m_classPath;
     private BlockEntry[]    m_blockEntrys;
+    private Configuration   m_configuration;
 
     public BlockEntry[] getBlockEntrys()
     {

@@ -92,6 +92,8 @@ public final class DefaultServerApplication
         throws ComponentException
     {
         m_systemManager = (SystemManager)componentManager.lookup( SystemManager.ROLE );
+        m_repository = 
+            (ConfigurationRepository)componentManager.lookup( ConfigurationRepository.ROLE );
     }
 
     public void configure( final Configuration configuration )
@@ -248,7 +250,6 @@ public final class DefaultServerApplication
         throws Exception
     {
         m_frame = new DefaultApplicationFrame();
-        m_repository = new DefaultConfigurationRepository();
         m_manager = new DefaultApplicationManager();
     }
 
@@ -261,7 +262,6 @@ public final class DefaultServerApplication
         throws Exception
     {
         setupComponent( m_frame, "<core>.frame", m_configuration );
-        setupComponent( m_repository, "<core>.config", null );
         setupComponent( m_manager, "<core>.manager", null );
         setupComponent( m_dag, "<core>.dag", null );
     }
