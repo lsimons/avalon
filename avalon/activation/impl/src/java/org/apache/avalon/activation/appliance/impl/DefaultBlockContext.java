@@ -60,7 +60,7 @@ import org.apache.avalon.activation.appliance.BlockContext;
  * Context object applied to a new block.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3.2.1 $ $Date: 2004/01/07 12:57:25 $
+ * @version $Revision: 1.3.2.2 $ $Date: 2004/01/07 20:34:42 $
  */
 public class DefaultBlockContext implements BlockContext
 {
@@ -79,7 +79,6 @@ public class DefaultBlockContext implements BlockContext
     * @param context the service context
     * @param engine the engine from which dependent applicance 
     *      instances may be resolved
-    * @param repository the parent appliance repository
     */
     public DefaultBlockContext( 
       Logger logger, ContainmentModel model, 

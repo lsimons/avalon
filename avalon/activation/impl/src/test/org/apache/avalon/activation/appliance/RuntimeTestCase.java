@@ -3,7 +3,9 @@
 package org.apache.avalon.activation.appliance;
 
 import org.apache.avalon.activation.appliance.impl.AbstractBlock;
-import org.apache.avalon.composition.util.ExceptionHelper;
+
+import org.apache.avalon.util.exception.ExceptionHelper;
+
 import org.apache.avalon.framework.activity.Disposable;
 
 public class RuntimeTestCase extends AbstractTestCase

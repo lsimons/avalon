@@ -59,11 +59,12 @@ import java.util.Hashtable;
 
 import org.apache.avalon.activation.appliance.Appliance;
 import org.apache.avalon.activation.appliance.Home;
-import org.apache.avalon.composition.util.ExceptionHelper;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
+
+import org.apache.avalon.util.exception.ExceptionHelper;
 
 /**
  * Default implementation of the framework {@link ServiceManager} interface.
@@ -219,7 +220,8 @@ class DefaultServiceManager extends AbstractLogEnabled implements ServiceManager
         {
             final String error = 
               "Internal error while attempting to release object from provider: " + provider;
-            final String warning = ExceptionHelper.packException( error, e, true );
+            final String warning = 
+              ExceptionHelper.packException( error, e, true );
             getLogger().warn( warning );
         }
         finally
