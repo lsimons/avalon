@@ -17,20 +17,9 @@
 
 package org.apache.avalon.http.impl;
 
-import org.apache.avalon.framework.logger.LogEnabled;
-import org.apache.avalon.framework.logger.Logger;
-
 import org.apache.avalon.framework.parameters.ParameterException;
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
-
-import org.apache.avalon.framework.service.Serviceable;
-import org.apache.avalon.framework.service.ServiceException;
-import org.apache.avalon.framework.service.ServiceManager;
-
-import org.apache.avalon.http.HttpContextService;
-
-import org.mortbay.http.Authenticator;
 
 /** Wrapper for the Jetty ClientCertAuthenticator
  *
@@ -38,41 +27,12 @@ import org.mortbay.http.Authenticator;
  * @avalon.service type="org.mortbay.http.Authenticator"
  */
 public class ClientCertAuthenticator extends org.mortbay.http.ClientCertAuthenticator
-    implements Serviceable, LogEnabled
+    implements Parameterizable
 {
-    private HttpContextService  m_Context;
-    private Logger              m_Logger;
-    
     public ClientCertAuthenticator()
     {
     }
     
-    /**
-     * Enable the logging system.
-     *
-     * @avalon.logger name="http"
-     */
-    public void enableLogging( Logger logger )
-    {
-        m_Logger = logger;
-    }
-    
-    public Logger getLogger()
-    {
-        return m_Logger;
-    }
-    
-    /**  
-     * @avalon.dependency type="org.apache.avalon.http.HttpContextService"
-     *                    key="httpcontext" 
-     */
-    public void service( ServiceManager man )
-        throws ServiceException
-    {
-        m_Context = (HttpContextService) man.lookup( "httpcontext" );
-        m_Context.setAuthenticator( this );
-    }
-
     public void parameterize( Parameters params )
         throws ParameterException
     {
