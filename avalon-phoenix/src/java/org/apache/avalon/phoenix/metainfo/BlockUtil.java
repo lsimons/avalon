@@ -13,7 +13,7 @@ import org.apache.avalon.phoenix.Block;
  * Class containing utility methods for blocks.
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
- */
+*/
 public final class BlockUtil 
 {
     /**
@@ -27,11 +27,8 @@ public final class BlockUtil
     {
         try
         {
-            System.out.println("service.getName() " + service.getName());
-            System.out.println("block.getClass().getName() " + block.getClass().getName());
             final Class clazz = 
                 block.getClass().getClassLoader().loadClass( service.getName() );
-
 
             return clazz.isAssignableFrom( block.getClass() );
         }
@@ -54,4 +51,5 @@ public final class BlockUtil
         return false;
     }
 }
+
 
