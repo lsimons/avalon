@@ -17,5 +17,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry exported="true" kind="src" path="/org.apache.avalon.ide.repository"/>
 	<classpathentry exported="true" kind="src" path="/org.apache.avalon.ide.eclipse.repository"/>
+	<classpathentry kind="src" path="src/java"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
 <plugin
    id="org.apache.avalon.ide.repository.testrepo"
    name="Test Repository Plug-in"
@@ -12,10 +13,17 @@
       </library>
    </runtime>
    <requires>
+      org.eclipse.core.runtime.compatibility
+      <import plugin="org.eclipse.ui.ide"/>
+      <import plugin="org.eclipse.ui.views"/>
+      <import plugin="org.eclipse.jface.text"/>
+      <import plugin="org.eclipse.ui.workbench.texteditor"/>
+      <import plugin="org.eclipse.ui.editors"/>
       <import plugin="org.eclipse.core.resources"/>
       <import plugin="org.eclipse.ui"/>
       <import plugin="org.apache.avalon.ide.eclipse.repository"/>
       <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.osgi"/>
    </requires>
 
 
@@ -23,8 +31,8 @@
          point="org.apache.avalon.ide.eclipse.repository.agent">
       <scheme
             name="Test Repository Agent"
-            class="org.apache.avalon.ide.repository.testrepo.TestRepoRepositoryAgentFactory"
-            prefix="testrepo">
+            prefix="testrepo"
+            class="org.apache.avalon.ide.repository.testrepo.TestRepoRepositoryAgentFactory">
          <description>
             This Repository Agent only exists to aid in the creation of the Repository View Plug-In and should not be used beyond that.
          </description>
