@@ -8,25 +8,27 @@
 package org.apache.phoenix.engine;
 
 import org.apache.avalon.Composer;
-import org.apache.avalon.atlantis.Kernel;
+import org.apache.avalon.Contextualizable;
 import org.apache.avalon.atlantis.AbstractKernel;
 import org.apache.avalon.atlantis.Application;
+import org.apache.avalon.atlantis.Kernel;
 import org.apache.avalon.camelot.Entry;
+import org.apache.avalon.configuration.Configurable;
 import org.apache.log.LogKit;
 
 /**
  * The ServerKernel is the core of the Phoenix system.
- * The kernel is responsible for orchestrating low level services 
- * such as loading, configuring and destroying blocks. It also 
+ * The kernel is responsible for orchestrating low level services
+ * such as loading, configuring and destroying blocks. It also
  * gives access to basic facilities such as scheduling sub-systems,
  * protected execution contexts, naming and directory services etc.
  *
- * Note that no facilities are available until after the Kernel has been 
+ * Note that no facilities are available until after the Kernel has been
  * configured and initialized.
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
-public class PhoenixKernel 
+public class PhoenixKernel
     extends AbstractKernel
     implements Kernel
 {
@@ -35,11 +37,11 @@ public class PhoenixKernel
     public PhoenixKernel()
     {
         m_entryClass = ServerApplicationEntry.class;
-        m_applicationClass = ServerApplication.class;
+        m_applicationClass = Application.class;
     }
 
-    public void init() 
-        throws Exception 
+    public void init()
+        throws Exception
     {
         System.out.println();
         System.out.println( BANNER );
@@ -57,31 +59,37 @@ public class PhoenixKernel
 
     /**
      * Prepare an application before it is initialized.
-     * Overide to provide functionality. 
+     * Overide to provide functionality.
      * Usually used to setLogger(), contextualize, compose, configure.
      *
      * @param name the name of application
-     * @param entry the application entry 
+     * @param entry the application entry
      * @param application the application instance
      * @exception Exception if an error occurs
      */
-    protected void prepareApplication( final String name, 
-                                       final Entry entry, 
+    protected void prepareApplication( final String name,
+                                       final Entry entry,
                                        final Application application )
         throws Exception
     {
         final ServerApplicationEntry saEntry = (ServerApplicationEntry)entry;
-        final ServerApplication saApplication = (ServerApplication)application;
 
-        setupLogger( saApplication, LogKit.getLoggerFor( name ) );
-        saApplication.contextualize( saEntry.getContext() );
-        
-        if( saApplication instanceof Composer )
-        { 
-            ((Composer)saApplication).compose( saEntry.getComponentManager() );
+        setupLogger( application, LogKit.getLoggerFor( name ) );
+
+        if( application instanceof Contextualizable )
+        {
+            ((Contextualizable)application).contextualize( saEntry.getContext() );
         }
 
-        saApplication.configure( saEntry.getConfiguration() );
+        if( application instanceof Composer )
+        {
+            ((Composer)application).compose( saEntry.getComponentManager() );
+        }
+
+        if( application instanceof Configurable )
+        {
+            ((Configurable)application).configure( saEntry.getConfiguration() );
+        }
     }
 
     protected void postAdd( final String name, final Entry entry )

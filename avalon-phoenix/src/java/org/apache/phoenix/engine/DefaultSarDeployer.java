@@ -24,6 +24,7 @@ import org.apache.avalon.ComponentManagerException;
 import org.apache.avalon.Composer;
 import org.apache.avalon.DefaultComponentManager;
 import org.apache.avalon.DefaultContext;
+import org.apache.avalon.atlantis.Application;
 import org.apache.avalon.atlantis.Kernel;
 import org.apache.avalon.camelot.AbstractCamelotDeployer;
 import org.apache.avalon.camelot.CamelotUtil;
@@ -207,10 +208,10 @@ public class DefaultSarDeployer
         addEntry( name, entry );
 
         final Kernel kernel = getKernel();
-        ServerApplication serverApplication = null;
+        Application application = null;
         try
         {
-            serverApplication = (ServerApplication)kernel.getApplication( name );
+            application = kernel.getApplication( name );
         }
         catch( final ContainerException ce )
         {
@@ -229,7 +230,7 @@ public class DefaultSarDeployer
         {
             final Configuration configuration = getConfigurationFor( file );
             final Configuration[] blocks = configuration.getChildren( "block" );
-            handleBlocks( serverApplication, entry, blocks );
+            handleBlocks( application, entry, blocks );
         }
         catch( final ComponentManagerException cme )
         {
@@ -273,7 +274,7 @@ public class DefaultSarDeployer
         return deployer;
     }
 
-    protected void handleBlocks( final ServerApplication serverApplication,
+    protected void handleBlocks( final Application application,
                                  final ServerApplicationEntry saEntry,
                                  final Configuration[] blocks )
         throws ComponentManagerException, ConfigurationException, DeploymentException
@@ -326,7 +327,7 @@ public class DefaultSarDeployer
             entry.setBlockInfo( info );
             entry.setConfiguration( block.getChild( "configuration" ) );
 
-            try { serverApplication.add( name, entry ); }
+            try { application.add( name, entry ); }
             catch( final ContainerException ce )
             {
                 throw new DeploymentException( "Error adding component to container", ce );

@@ -5,7 +5,7 @@
  * version 1.1, a copy of which has been included with this distribution in 
  * the LICENSE file. 
  */
-package org.apache.phoenix.engine.facilities;
+package org.apache.phoenix.engine.facilities.security;
 
 import java.io.File;
 import java.io.InputStream;
@@ -36,7 +36,6 @@ import org.apache.avalon.configuration.Configuration;
 import org.apache.avalon.configuration.ConfigurationException;
 import org.apache.avalon.util.PropertyException;
 import org.apache.avalon.util.PropertyUtil;
-import org.apache.avalon.util.security.AbstractPolicy;
 
 /**
  * Policy that extracts information from policy files.
@@ -270,9 +269,9 @@ public class DefaultPolicy
         }
     }
     
-    protected Permission createUnresolvedPermission( final String type, 
-                                                     final String target, 
-                                                     final String actions, 
+    protected Permission createUnresolvedPermission( final String type,
+                                                     final String target,
+                                                     final String actions,
                                                      final Certificate[] signers )
     {
         return new UnresolvedPermission( type, target, actions, signers );
@@ -289,7 +288,7 @@ public class DefaultPolicy
         }
 
         Certificate[] signers = null;
-         
+
         if( null != signedBy )
         {
             signers = getCertificates( signedBy, keyStoreName, keyStores );
@@ -298,13 +297,13 @@ public class DefaultPolicy
         return signers;
     }
 
-    protected Certificate[] getCertificates( final String signedBy, 
+    protected Certificate[] getCertificates( final String signedBy,
                                              final String keyStoreName,
                                              final HashMap keyStores )
         throws ConfigurationException
     {
         final KeyStore keyStore = (KeyStore)keyStores.get( keyStoreName );
-        
+
         if( null == keyStore )
         {
             throw new ConfigurationException( "Unable to aquire keyStore " + keyStoreName );
@@ -313,12 +312,12 @@ public class DefaultPolicy
         final ArrayList certificateSet = new ArrayList();
 
         final StringTokenizer tokenizer = new StringTokenizer( signedBy, "," );
-        
-        while( tokenizer.hasMoreTokens() ) 
+
+        while( tokenizer.hasMoreTokens() )
         {
             final String alias = ((String)tokenizer.nextToken()).trim();
             Certificate certificate = null;
-            
+
             try { certificate = keyStore.getCertificate( alias ); }
             catch( final KeyStoreException kse )
             {
@@ -328,17 +327,17 @@ public class DefaultPolicy
 
             if( null == certificate )
             {
-                throw new ConfigurationException( "Unable to locate alias " + alias + 
+                throw new ConfigurationException( "Unable to locate alias " + alias +
                                                   " in keystore named " + keyStoreName );
             }
 
-            if( !certificateSet.contains( certificate ) ) 
+            if( !certificateSet.contains( certificate ) )
             {
                 if( DEBUG ) getLogger().debug( "Certificate " + certificate );
                 certificateSet.add( certificate );
             }
         }
-        
+
         return (Certificate[])certificateSet.toArray( new Certificate[ 0 ] );
     }
 }
