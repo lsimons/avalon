@@ -8,6 +8,63 @@
     </authors>
   </header>
   <body>
+	<s1 title="Until these docs form...">
+		<p>This manual is not finished yet. In the meantime, a few steps to get you started
+		quickly follow below.</p>
+
+		<s2 title="Introducing: phoenix">
+
+		<p>Phoenix is what is called a container. It allows you to build any kind of server application
+		following avalon patterns and concepts.</p>
+
+		<ol>
+			<li>Download <link href="http://jakarta.apache.org/builds/jakarta-avalon-phoenix/release/latest/">Phoenix</link> (the binary version)</li>
+			<li>Extract the archive. I'll assume you extracted into a directory named $PHOENIX.</li>
+			<li>Download <link href="http://jakarta.apache.org/builds/jakarta-avalon-apps/nightly/2002-10-27/">The Demo applications</link> (demo-x.x-bin.extension)</li>
+			<li>Extract the archive. I'll assume you extracted into a directory named $DEMOS.</li>
+			<li>copy the files with an extension of .sar from $DEMOS to $PHOENIX/apps.</li>
+			<li>change to the $PHOENIX/bin directory.</li>
+			<li>Run the startup script (run.bat or run.sh depending on your platform)</li>
+			<li>Hit CTRL+C to shut down phoenix again</li>
+			<li>Download <link href="http://jakarta.apache.org/builds/jakarta-avalon-apps/nightly/2002-10-27/">The Demo application sources</link> (demo-x.x-src.extension)</li>
+			<li>Extract the archive. Take a look at the sources for the demo apps and play with them a bit.</li>
+			<li>Take a look at the build.xml file from the demo application sources. Don't worry if you don't understand.</li>
+		</ol>
+
+		</s2>
+
+		<s2 title="Introducing: tweety">
+
+		<p>If you figured out what happens in the process outlined above and you managed to modify and
+		recompile the demo applications and get them running, you might not need to look at this. If you
+                found it all rather complex, this is for you :)</p>
+
+		<p>Tweety is a very simple toy for playing around with avalon concepts.</p>
+
+		<ol>
+			<li>Download <link href="http://cvs.apache.org/~leosimons/excalibur/tweety/">Tweety</link> (the beta)</li>
+			<li>Extract the archive. I'll assume you extracted into a directory named $TWEETY.</li>
+			<li>read <link href="http://jakarta.apache.org/avalon/excalibur/tweety/getting-started.html">The Tweety getting started docs</link></li>
+			<li>Take a look at the <code>$TWEETY/src/java/org/apache/avalon/excalibur/tweety/demos/ChirpWorld.java</code> file.</li>
+			<li>Change some stuff, then recompile (tip: you need to have the <code>$TWEETY/avalon-framework.jar</code> on your classpath)</li>
+			<li>Create a directory $TWEETY/classes</li>
+			<li>Put the recompiled sources into that directory</li>
+			<li>Run tweety again</li>
+		</ol>
+
+		</s2>
+
+		<s2 title="The documentation">
+			<p>Now is the time for you to delve a little deeper. Browse the avalon website.
+			There's <b>loads</b> of stuff here :)</p>
+		</s2>
+
+		<s2 title="Getting more help">
+			<p>We've got a mailing list dedicated to avalon users. Read
+			<link href="http://jakarta.apache.org/site/mail.html">This</link> for info
+			on how to subscribe.</p>
+		</s2>
+	</s1>
 	<s1 title="Work in Progress!">
 		<p>This manual is quite far from finished. While you are free to read it, I recommend
 		you don't.</p>
@@ -141,7 +198,6 @@ public interface BirdSong extends Parameterizable, Startable, LogEnabled
 	* <li>chilpMessage</li>
 	* <li>chilpSeparator</li>
 	* </ul>
-	* </pre>
 	*
 	*/
 	void parameterize( Parameters parameters ) throws ParameterException;
@@ -236,7 +292,7 @@ public class BirdSongRunner implements Runnable
 
 		for( int i = 0; i != max; i++ )
 		{
-			if( i != 0 && i != (max-1) )
+			if( i != 0 &amp;&amp; i != (max-1) )
 				System.out.print( seperator );
 
 			System.out.print(msg );
@@ -505,7 +561,7 @@ public class BirdSongRunner implements Runnable
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.5 $ $Date: 2002/10/27 19:07:52 $
+      $Revision: 1.6 $ $Date: 2002/10/27 21:38:18 $
     </legal>
   </footer>
 </document>
