@@ -81,7 +81,7 @@ import org.apache.excalibur.xfc.model.RoleRef;
  * </p>
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: Fortress.java,v 1.1 2002/10/02 17:32:28 crafterm Exp $
+ * @version CVS $Id: Fortress.java,v 1.2 2002/10/04 14:46:35 crafterm Exp $
  */
 public class Fortress extends ECM
 {
@@ -105,6 +105,34 @@ public class Fortress extends ECM
     // </role-list>
 
     /**
+     * Method to construct a {@link RoleRef} object from
+     * a Role definition.
+     *
+     * @param role role information
+     * @return a {@link RoleRef} instance
+     * @exception Exception if an error occurs
+     */
+    protected RoleRef buildRoleRef( final Configuration role )
+        throws Exception
+    {
+        Configuration[] hints = role.getChildren( "component" );
+        Definition[] definitions = new Definition[ hints.length ];
+
+        for ( int i = 0; i < hints.length; ++i )
+        {
+            definitions[i] =
+                new Definition(
+                    getRole( role ),
+                    getHintClass( hints[i] ),
+                    getShorthand( hints[i] ),
+                    getHandler( getHintClass( hints[i] ) )
+                );
+        }
+
+        return new RoleRef( getRole( role ), definitions );
+    }
+
+    /**
      * Method for extracting a role's default implementing class, 
      * Fortress style.
      *
@@ -115,21 +143,7 @@ public class Fortress extends ECM
     protected String getDefaultClass( final Configuration role )
         throws Exception
     {
-        return role.getChild( "component" ).getAttribute( "class" );
-    }
-
-    /**
-     * Method for extracting a role's shorthand name, Fortress
-     * style.
-     *
-     * @param role role <code>Configuration</code> information
-     * @return the role's shorthand name
-     * @exception Exception if an error occurs
-     */
-    protected String getShorthand( final Configuration role )
-        throws Exception
-    {
-        return super.getShorthand( role.getChild( "component" ) );
+        return role.getAttribute( "class" );
     }
 
     /**
@@ -142,9 +156,7 @@ public class Fortress extends ECM
     protected String getHandler( final Configuration role )
         throws Exception
     {
-        return getLifestyleType(
-            role.getChild( "component" ).getAttribute( "handler" ), TRANSIENT
-        );
+        return getLifestyleType( role.getAttribute( "handler" ), TRANSIENT );
     }
 
     /**
@@ -178,35 +190,46 @@ public class Fortress extends ECM
     }
 
     /**
-     * Method for building a Fortress style Role definition
-     * based on a {@link RoleRef} object.
+     * Builds a single component Role definition from a {@link RoleRef}
+     * definition.
      *
-     * @param roleref a <code>RoleRef</code> instance
-     * @return role definition as a <code>Configuration</code> value
+     * @param ref a {@link RoleRef} instance
+     * @return a <code>Configuration</code> instance
      * @exception Exception if an error occurs
      */
-    protected Configuration buildRole( final RoleRef roleref )
+    protected Configuration buildSingleComponentRole( final RoleRef ref )
+        throws Exception
+    {
+        return buildMultipleComponentRole( ref );
+    }
+
+    /**
+     * Builds a multiple component Role definition (ie ComponentSelector based)
+     * from a {@link RoleRef} definition.
+     *
+     * @param ref a {@link RoleRef} instance
+     * @return a <code>Configuration</code> instance
+     * @exception Exception if an error occurs
+     */
+    protected Configuration buildMultipleComponentRole( final RoleRef ref )
         throws Exception
     {
         DefaultConfiguration role = new DefaultConfiguration( "role", "" );
-        Definition[] defs = roleref.getProviders();
+        Definition[] defs = ref.getProviders();
 
-        if ( defs.length > 1 )
+        for ( int i = 0; i < defs.length; ++i )
         {
-            // REVISIT(MC): generate component selector
-        }
-        else
-        {
-            role.setAttribute( "name", roleref.getRole() );
-
-            DefaultConfiguration component = new DefaultConfiguration( "component", "");
-            component.setAttribute( "shorthand", defs[0].getShorthand() );
-            component.setAttribute( "class", defs[0].getDefaultClass() );
-            component.setAttribute(
-                "handler", getLifestyleType( defs[0].getHandler(), FACTORY )
+            DefaultConfiguration hint = new DefaultConfiguration( "component", "" );
+            hint.setAttribute( "shorthand", defs[i].getShorthand() );
+            hint.setAttribute( "class", defs[i].getDefaultClass() );
+            hint.setAttribute(
+                "handler", getLifestyleType( defs[i].getHandler(), TRANSIENT )
             );
-            role.addChild( component );
+
+            role.addChild( hint );
         }
+
+        role.setAttribute( "name", ref.getRole() );
 
         return role;
     }
