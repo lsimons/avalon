@@ -1,0 +1,11 @@
+
+
+import org.apache.merlin.magic.AbstractPlugin;
+
+public class MagicPlugin extends AbstractPlugin
+{
+
+    public void build()
+    {
+    }
+}

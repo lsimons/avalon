@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE project [
+  <!ENTITY % index SYSTEM "file:index.ent"> %index;
+]>
+
+<project>
+
+  <extend>${basedir}/../../project.xml</extend>
+
+  <groupId>&avalon-framework-id;</groupId>
+  <id>&avalon-framework-api-id;</id>
+  <currentVersion>&avalon-framework-api-version;</currentVersion>
+
+  <name>Avalon Framework API</name>
+  <shortDescription>Avalon Framework API</shortDescription>
+  <description>Avalon Framework API</description>
+
+  <dependencies>
+
+    <dependency>
+      <groupId>&avalon-logkit-id;</groupId>
+      <artifactId>&avalon-logkit-id;</artifactId>
+      <version>&avalon-logkit-version;</version>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+    <sourceDirectory>src/java</sourceDirectory>
+  </build>
+
+</project>
