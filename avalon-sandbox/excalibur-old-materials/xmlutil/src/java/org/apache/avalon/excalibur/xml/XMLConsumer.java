@@ -19,8 +19,9 @@ import org.xml.sax.ext.LexicalHandler;
  *
  * @author <a href="mailto:fumagalli@exoffice.com">Pierpaolo Fumagalli</a>
  *         (Apache Software Foundation, Exoffice Technologies)
- * @version CVS $Revision: 1.1 $ $Date: 2002/04/22 10:06:04 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/07/07 07:16:44 $
  */
-public interface XMLConsumer extends ContentHandler, LexicalHandler
+public interface XMLConsumer
+    extends ContentHandler, LexicalHandler
 {
 }

@@ -17,12 +17,10 @@ import org.w3c.dom.Node;
  *
  * @author <a href="mailto:sylvain.wallez@anyware-tech.com">Sylvain Wallez</a>
  * @author <a href="mailto:ricardo@apache.org">Ricardo Rocha</a> for the original XObject class
- * @version CVS $Revision: 1.1 $ $Date: 2002/04/22 10:06:04 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/07/07 07:16:44 $
  */
-
 public interface XMLFragment
 {
-
     /**
      * Appends children representing the object's state to the given node.
      */
