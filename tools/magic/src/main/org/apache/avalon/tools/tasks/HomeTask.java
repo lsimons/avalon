@@ -19,6 +19,7 @@ package org.apache.avalon.tools.tasks;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.FileNotFoundException;
 
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.Project;
@@ -50,6 +51,13 @@ public class HomeTask extends ContextualTask
 
     private static Home HOME;
 
+    private String m_path;
+
+    public void setIndex( String path )
+    {
+        m_path = path;        
+    }
+
     public void init()
     {
         if( !isInitialized() )
@@ -77,7 +85,8 @@ public class HomeTask extends ContextualTask
         String system = project.getProperty( SYSTEM_KEY );
         if(( null == system ) || "".equals( system ))
         {
-            return index.getParentFile();
+            File systemHome = index.getParentFile();
+            return systemHome;
         }
         else
         {
@@ -120,35 +129,51 @@ public class HomeTask extends ContextualTask
 
     private File getIndexFile()
     {
-        String path = getProject().getProperty( Home.KEY );
-        if( null != path )
+        if( null != m_path )
         {
-            File index = Context.getFile( project.getBaseDir(), path );
-            if( index.exists() )
+            File index = Context.getFile( project.getBaseDir(), m_path );
+            return resolve( index );
+        }
+        else
+        {
+
+            //
+            // try to resolve using ${project.home}
+            //
+
+            String path = getProject().getProperty( Home.KEY );
+            if( null != path )
             {
-                if( index.isDirectory() )
-                {
-                    return new File( index, "index.xml" );
-                }
-                else
-                {
-                    return index;
-                }
+                File root = Context.getFile( project.getBaseDir(), path );
+                return resolve( root );
             }
             else
             {
                 final String error = 
-                  "Property value 'project.home' references a non-existant file: "
-                  + index;
+                  "Property value 'project.home' is not defined.";
                 throw new BuildException( error );
+            }
+        }
+    }
+
+    private File resolve( File index )
+    {
+        if( index.exists() )
+        {
+            if( index.isDirectory() )
+            {
+                return resolve( new File( index, "index.xml" ) );
+            }
+            else
+            {
+                return index;
             }
         }
         else
         {
-            final String error = 
-              "Cannot continue due to unresolved 'project.home' property.";
-            throw new BuildException( error );
+            FileNotFoundException e =
+              new FileNotFoundException( index.toString() );
+            throw new BuildException( e );
         }
     }
-
 }
