@@ -7,16 +7,16 @@ import org.apache.avalon.excalibur.event.QueueElement;
 import org.apache.avalon.excalibur.event.Sink;
 import org.apache.avalon.excalibur.event.SinkException;
 import org.apache.avalon.excalibur.event.Source;
-import org.apache.avalon.framework.CascadingRuntimeException;
 
 /**
  * Simple test to expose the thread queue bug
  *
  * @author <a href="mailto:proyal@managingpartners.com">Peter Royal</a>
  * @author <a href="mailto:leo.sutic@inspireinfrastructure.com">Leo Sutic</a>
- * @version VSS $Revision: 1.2 $ $Date: 2002/03/16 00:05:46 $
+ * @version VSS $Revision: 1.3 $ $Date: 2002/03/30 21:31:59 $
  */
-public class ThreadedQueueTestCase extends TestCase
+public class ThreadedQueueTestCase 
+    extends TestCase
 {
     private QueueStart start;
     private QueueEnd end;
@@ -88,7 +88,7 @@ public class ThreadedQueueTestCase extends TestCase
             }
             catch( InterruptedException e )
             {
-                throw new CascadingRuntimeException( "Stage unexpectedly interrupted", e );
+                throw new RuntimeException( "Stage unexpectedly interrupted: " + e );
             }
         }
 
