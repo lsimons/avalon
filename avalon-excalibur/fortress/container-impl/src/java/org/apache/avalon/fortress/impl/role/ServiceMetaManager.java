@@ -108,7 +108,7 @@ import java.util.*;
  * </pre>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.2 $
+ * @version CVS $Revision: 1.3 $
  */
 public final class ServiceMetaManager extends AbstractMetaInfoManager implements Initializable
 {

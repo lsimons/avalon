@@ -59,7 +59,7 @@ import org.apache.avalon.framework.context.Context;
  * calls relevent Lifecycle Extension handlers at the right time.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.13 $ $Date: 2003/04/18 20:02:29 $
+ * @version CVS $Revision: 1.14 $ $Date: 2003/05/14 15:54:45 $
  */
 public final class LEAwareComponentHandler
     implements ComponentHandler, Disposable

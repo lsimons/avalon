@@ -75,7 +75,7 @@ public final class WrapperObjectFactory extends AbstractObjectFactory
      * @param  objectFactory The {@link org.apache.excalibur.mpool.ObjectFactory
      *                     ObjectFactory} to sue when creating new instances
      * @throws IllegalArgumentException If <code>objFactory</code> is
-     * 									 <code>null</code>
+     *                                   <code>null</code>
      */
     public WrapperObjectFactory( final ObjectFactory objectFactory )
         throws IllegalArgumentException
