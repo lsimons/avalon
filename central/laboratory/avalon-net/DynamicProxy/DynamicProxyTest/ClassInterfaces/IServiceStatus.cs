@@ -12,31 +12,34 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Apache.Avalon.DynamicProxy.Test
+namespace Apache.Avalon.DynamicProxy.Test.ClassInterfaces
 {
 	using System;
 
 	/// <summary>
-	/// Summary description for IMyInterface.
+	/// Simple enum declaration
 	/// </summary>
-	public interface IMyInterface
+	public enum State
 	{
-		String Name
+		Valid, 
+		Invalid
+	}
+
+	/// <summary>
+	/// Summary description for IServiceStatus.
+	/// </summary>
+	public interface IServiceStatus
+	{
+		int Requests
 		{
 			get;
-			set;
 		}
 
-		bool Started
+		State ActualState
 		{
 			get;
-			set;
 		}
 
-		// void Calc(int x, int y, out int result);
-
-		int Calc(int x, int y);
-
-		int Calc(int x, int y, int z, Single k);
+		void ChangeState(State state);
 	}
 }

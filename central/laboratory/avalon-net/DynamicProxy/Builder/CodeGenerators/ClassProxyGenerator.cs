@@ -12,35 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Apache.Avalon.DynamicProxy.Test
+namespace Apache.Avalon.DynamicProxy.Builder.CodeGenerators
 {
 	using System;
 
 	/// <summary>
-	/// Summary description for MySecondInterfaceImpl.
+	/// Summary description for ClassProxyGenerator.
 	/// </summary>
-	public class MySecondInterfaceImpl : MyInterfaceImpl, IMySecondInterface
+	public class ClassProxyGenerator : BaseCodeGenerator
 	{
-		private String m_address;
-
-		public MySecondInterfaceImpl()
+		public Type GenerateCode(Type baseClass)
 		{
+			// TODO: interfaces of base class
+			
+			CreateTypeBuilder( baseClass, new Type[0] );
+			GenerateTypeImplementation( baseClass );
+
+			return MainTypeBuilder.CreateType();
 		}
-
-		#region IMySecondInterface Members
-
-		public String Address
-		{
-			get
-			{
-				return m_address;
-			}
-			set
-			{
-				m_address = value;
-			}
-		}
-
-		#endregion
 	}
 }

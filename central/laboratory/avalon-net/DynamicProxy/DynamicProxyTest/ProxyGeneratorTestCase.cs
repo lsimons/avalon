@@ -20,6 +20,8 @@ namespace Apache.Avalon.DynamicProxy.Test
 	using NUnit.Framework;
 
 	using Apache.Avalon.DynamicProxy;
+	using Apache.Avalon.DynamicProxy.Test.Classes;
+	using Apache.Avalon.DynamicProxy.Test.ClassInterfaces;
 
 	/// <summary>
 	/// Summary description for ProxyGeneratorTestCase.
@@ -27,6 +29,100 @@ namespace Apache.Avalon.DynamicProxy.Test
 	[TestFixture]
 	public class ProxyGeneratorTestCase : Assertion
 	{
+		[Test]
+		public void ProxyForClass()
+		{
+			object proxy = ProxyGenerator.CreateClassProxy( 
+				typeof(ServiceClass), new ResultModifiedInvocationHandler( new ServiceClass() ) );
+			
+			AssertNotNull( proxy );
+			Assert( typeof(ServiceClass).IsAssignableFrom( proxy.GetType() ) );
+
+			ServiceClass inter = (ServiceClass) proxy;
+
+			AssertEquals( 44, inter.Sum( 20, 25 ) );
+			AssertEquals( true, inter.Valid );
+		}
+
+		[Test]
+		public void ProxyForClassWithSuperClass()
+		{
+			object proxy = ProxyGenerator.CreateClassProxy( 
+				typeof(SpecializedServiceClass), new ResultModifiedInvocationHandler( new SpecializedServiceClass() ) );
+			
+			AssertNotNull( proxy );
+			Assert( typeof(ServiceClass).IsAssignableFrom( proxy.GetType() ) );
+			Assert( typeof(SpecializedServiceClass).IsAssignableFrom( proxy.GetType() ) );
+
+			SpecializedServiceClass inter = (SpecializedServiceClass) proxy;
+
+			AssertEquals( 44, inter.Sum( 20, 25 ) );
+			AssertEquals( -6, inter.Subtract( 20, 25 ) );
+			AssertEquals( true, inter.Valid );
+		}
+
+		[Test]
+		public void ProxyingClassWithoutVirtualMethods()
+		{
+			object proxy = ProxyGenerator.CreateClassProxy( 
+				typeof(NoVirtualMethodClass), new ResultModifiedInvocationHandler( new SpecializedServiceClass() ) );
+			
+			AssertNotNull( proxy );
+			Assert( typeof(NoVirtualMethodClass).IsAssignableFrom( proxy.GetType() ) );
+
+			NoVirtualMethodClass inter = (NoVirtualMethodClass) proxy;
+
+			AssertEquals( 45, inter.Sum( 20, 25 ) );
+		}
+
+		[Test]
+		public void ProxyingClassWithSealedMethods()
+		{
+			object proxy = ProxyGenerator.CreateClassProxy( 
+				typeof(SealedMethodsClass), new ResultModifiedInvocationHandler( new SpecializedServiceClass() ) );
+			
+			AssertNotNull( proxy );
+			Assert( typeof(SealedMethodsClass).IsAssignableFrom( proxy.GetType() ) );
+
+			SealedMethodsClass inter = (SealedMethodsClass) proxy;
+
+			AssertEquals( 45, inter.Sum( 20, 25 ) );
+		}
+
+		[Test]
+		public void CreateClassProxyInvalidArguments()
+		{
+			try
+			{
+				ProxyGenerator.CreateClassProxy( 
+					typeof(ICloneable), new StandardInvocationHandler( new SpecializedServiceClass() ) );
+			}
+			catch(ArgumentException)
+			{
+				// Expected
+			}
+
+			try
+			{
+				ProxyGenerator.CreateClassProxy( 
+					null, new StandardInvocationHandler( new SpecializedServiceClass() ) );
+			}
+			catch(ArgumentNullException)
+			{
+				// Expected
+			}
+
+			try
+			{
+				ProxyGenerator.CreateClassProxy( 
+					typeof(SpecializedServiceClass), null );
+			}
+			catch(ArgumentNullException)
+			{
+				// Expected
+			}
+		}
+
 		[Test]
 		public void TestGenerationSimpleInterface()
 		{
@@ -97,6 +193,22 @@ namespace Apache.Avalon.DynamicProxy.Test
 			}
 
 			#endregion
+		}
+	}
+
+	public class ResultModifiedInvocationHandler : StandardInvocationHandler
+	{
+		public ResultModifiedInvocationHandler( object instanceDelegate ) : base(instanceDelegate)
+		{
+		}
+
+		protected override void PostInvoke(object proxy, System.Reflection.MethodInfo method, ref object returnValue, params object[] arguments)
+		{
+			if ( returnValue != null && returnValue.GetType() == typeof(int))
+			{
+				int value = (int) returnValue;
+				returnValue = --value;
+			}
 		}
 	}
 }

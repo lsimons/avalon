@@ -12,34 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Apache.Avalon.DynamicProxy.Test
+namespace Apache.Avalon.DynamicProxy.Test.Classes
 {
 	using System;
 
 	/// <summary>
-	/// Simple enum declaration
+	/// Summary description for SpecializedServiceClass.
 	/// </summary>
-	public enum State
+	public class SpecializedServiceClass : ServiceClass
 	{
-		Valid, 
-		Invalid
-	}
-
-	/// <summary>
-	/// Summary description for IServiceStatus.
-	/// </summary>
-	public interface IServiceStatus
-	{
-		int Requests
+		public virtual int Subtract(int b1, int b2)
 		{
-			get;
+			return b1 - b2;
 		}
-
-		State ActualState
-		{
-			get;
-		}
-
-		void ChangeState(State state);
 	}
 }

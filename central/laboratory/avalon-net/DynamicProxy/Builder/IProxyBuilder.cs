@@ -12,44 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Apache.Avalon.DynamicProxy.Test
+namespace Apache.Avalon.DynamicProxy.Builder
 {
 	using System;
 
 	/// <summary>
-	/// Summary description for ServiceStatusImpl.
+	/// Summary description for IProxyBuilder.
 	/// </summary>
-	public class ServiceStatusImpl : IServiceStatus
+	public interface IProxyBuilder
 	{
-		private Apache.Avalon.DynamicProxy.Test.State m_state = Apache.Avalon.DynamicProxy.Test.State.Invalid;
+		Type CreateInterfaceProxy( Type[] interfaces );
 
-		public ServiceStatusImpl()
-		{
-		}
-
-		#region IServiceStatus Members
-
-		public int Requests
-		{
-			get
-			{
-				return 10;
-			}
-		}
-
-		public Apache.Avalon.DynamicProxy.Test.State ActualState
-		{
-			get
-			{
-				return m_state;
-			}
-		}
-
-		public void ChangeState(Apache.Avalon.DynamicProxy.Test.State state)
-		{
-			m_state = state;
-		}
-
-		#endregion
+		Type CreateClassProxy( Type theClass );
 	}
 }
