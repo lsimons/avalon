@@ -1,6 +1,7 @@
 To Build Castle you'll need:
 
 NAnt  -> http://nant.sourceforge.net
+(Tested against version 0.84)
 
 NUnit is not a requirement as NAnt already includes it. 
 We cannot provide them for you due to licensing issues.
