@@ -41,14 +41,9 @@ class AppLifecycleHelper
     private ApplicationContext m_context;
 
     /**
-     * Object to support notification of BlockListeners.
-     */
-    private BlockListenerSupport m_blockListenerSupport = new BlockListenerSupport();
-
-    /**
      * Object to support notification of ApplicationListeners.
      */
-    private ApplicationListenerSupport m_applicationListenerSupport =
+    private ApplicationListenerSupport m_listenerSupport =
         new ApplicationListenerSupport();
 
     private final LifecycleHelper m_lifecycleHelper = new LifecycleHelper();
@@ -113,16 +108,17 @@ class AppLifecycleHelper
             ContainerUtil.configure( listener, configuration );
         }
 
-        // As ApplicationListners are BlockListeners then this is applicable for all
-        m_blockListenerSupport.addBlockListener( (BlockListener)listener );
-
         // However onky ApplicationListners can avail of block events.
         if( listener instanceof ApplicationListener )
         {
-            m_applicationListenerSupport.addApplicationListener( (ApplicationListener)listener );
+            m_listenerSupport.addApplicationListener( (ApplicationListener)listener );
         }
         else
         {
+            // As ApplicationListners are BlockListeners then
+            //this is applicable for all
+            m_listenerSupport.addBlockListener( (BlockListener)listener );
+
             final String message =
                 REZ.getString( "helper.isa-blocklistener.error",
                                name,
@@ -134,7 +130,7 @@ class AppLifecycleHelper
 
     ApplicationListenerSupport getAppListenerSupport()
     {
-        return m_applicationListenerSupport;
+        return m_listenerSupport;
     }
 
     /**
@@ -158,7 +154,7 @@ class AppLifecycleHelper
         m_exportHelper.exportBlock( m_context, entry.getMetaData(), block );
 
         entry.setObject( block );
-        m_blockListenerSupport.fireBlockAddedEvent( entry );
+        m_listenerSupport.fireBlockAddedEvent( entry );
     }
 
     /**
@@ -172,7 +168,7 @@ class AppLifecycleHelper
      */
     public void shutdown( final BlockEntry entry )
     {
-        m_blockListenerSupport.fireBlockRemovedEvent( entry );
+        m_listenerSupport.fireBlockRemovedEvent( entry );
 
         //Remove block from Management system
         m_exportHelper.unexportBlock( m_context, entry.getMetaData(), entry.getObject() );
