@@ -14,6 +14,7 @@ import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.AbstractLoggable;
 import org.apache.avalon.phoenix.BlockContext;
+import org.apache.avalon.phoenix.metadata.SarMetaData;
 import org.apache.log.Hierarchy;
 
 /**
@@ -25,14 +26,13 @@ public class DefaultLogManager
     extends AbstractLoggable
     implements LogManager
 {
-    public Hierarchy createHierarchy( final String name, 
-                                      final File baseDirectory, 
+    public Hierarchy createHierarchy( final SarMetaData metaData, 
                                       final Configuration logs )
         throws Exception
     {
         final DefaultContext context = new DefaultContext();
-        context.put( BlockContext.APP_NAME, name );
-        context.put( BlockContext.APP_HOME_DIR, baseDirectory );
+        context.put( BlockContext.APP_NAME, metaData.getName() );
+        context.put( BlockContext.APP_HOME_DIR, metaData.getHomeDirectory() );
 
         final String version = logs.getAttribute( "version", "1.0" );
         if( version.equals( "1.0" ) )
@@ -45,7 +45,7 @@ public class DefaultLogManager
         }
         else if( version.equals( "1.1" ) )
         {
-            final DefaultLogKitManager manager = new DefaultLogKitManager( name );
+            final DefaultLogKitManager manager = new DefaultLogKitManager();
             setupLogger( manager );
             manager.contextualize( context );
             manager.configure( logs );
