@@ -163,8 +163,8 @@ public class DefaultClassLoaderManager
         throws Exception
     {
         final Manifest[] manifests = getManifests( classPath );
-        final Extension[] available = getAvailable( manifests );
-        final Extension[] required = getRequired( manifests );
+        final Extension[] available = Extension.getAvailable( manifests );
+        final Extension[] required = Extension.getRequired( manifests );
 
         if( getLogger().isDebugEnabled() )
         {
@@ -212,50 +212,6 @@ public class DefaultClassLoaderManager
         final OptionalPackage[] packages =
             (OptionalPackage[])dependencies.toArray( new OptionalPackage[ 0 ] );
         return OptionalPackage.toFiles( packages );
-    }
-
-    /**
-     * Retrieve an array of available extensions from the specified manifests.
-     *
-     * @param manifests the manifests to scan
-     * @return the extensions
-     */
-    private Extension[] getAvailable( final Manifest[] manifests )
-    {
-        final ArrayList availableSet = new ArrayList();
-
-        for( int i = 0; i < manifests.length; i++ )
-        {
-            final Extension[] available = Extension.getAvailable( manifests[ i ] );
-            for( int j = 0; j < available.length; j++ )
-            {
-                availableSet.add( available[ j ] );
-            }
-        }
-
-        return (Extension[])availableSet.toArray( new Extension[ 0 ] );
-    }
-
-    /**
-     * Retrieve an array of required extensions from the specified manifests.
-     *
-     * @param manifests the manifests to scan
-     * @return the extensions
-     */
-    private Extension[] getRequired( final Manifest[] manifests )
-    {
-        final ArrayList availableSet = new ArrayList();
-
-        for( int i = 0; i < manifests.length; i++ )
-        {
-            final Extension[] available = Extension.getRequired( manifests[ i ] );
-            for( int j = 0; j < available.length; j++ )
-            {
-                availableSet.add( available[ j ] );
-            }
-        }
-
-        return (Extension[])availableSet.toArray( new Extension[ 0 ] );
     }
 
     private Manifest[] getManifests( final String[] classPath )
