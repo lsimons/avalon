@@ -8,10 +8,14 @@
 package org.apache.avalon.excalibur.thread.impl;
 
 import org.apache.excalibur.threadcontext.ThreadContext;
+
+import org.apache.avalon.excalibur.instrument.Instrument;
+import org.apache.avalon.excalibur.instrument.Instrumentable;
 import org.apache.avalon.excalibur.pool.ObjectFactory;
 import org.apache.avalon.excalibur.pool.ResourceLimitingPool;
 import org.apache.avalon.excalibur.thread.ThreadControl;
 import org.apache.avalon.excalibur.thread.ThreadPool;
+
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Executable;
 import org.apache.avalon.framework.logger.LogEnabled;
@@ -29,12 +33,12 @@ import org.apache.avalon.framework.logger.Logger;
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
  * @author <a href="mailto:stefano@apache.org">Stefano Mazzocchi</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/04/09 11:32:12 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/05/10 14:46:39 $
  * @since 4.1
  */
 public class ResourceLimitingThreadPool
     extends ThreadGroup
-    implements ObjectFactory, LogEnabled, Disposable, ThreadPool
+    implements ObjectFactory, LogEnabled, Disposable, ThreadPool, Instrumentable
 {
 
     private ResourceLimitingPool m_pool;
@@ -42,6 +46,9 @@ public class ResourceLimitingThreadPool
     private Logger m_logger;
     private ThreadContext m_context;
 
+    /** Instrumentable Name assigned to this Instrumentable */
+    private String m_instrumentableName;
+    
     /*---------------------------------------------------------------
      * Constructors
      *-------------------------------------------------------------*/
@@ -238,6 +245,67 @@ public class ResourceLimitingThreadPool
     }
 
     /*---------------------------------------------------------------
+     * Instrumentable Methods
+     *-------------------------------------------------------------*/
+    /**
+     * Sets the name for the Instrumentable.  The Instrumentable Name is used
+     *  to uniquely identify the Instrumentable during the configuration of
+     *  the InstrumentManager and to gain access to an InstrumentableDescriptor
+     *  through the InstrumentManager.  The value should be a string which does
+     *  not contain spaces or periods.
+     * <p>
+     * This value may be set by a parent Instrumentable, or by the
+     *  InstrumentManager using the value of the 'instrumentable' attribute in
+     *  the configuration of the component.
+     *
+     * @param name The name used to identify a Instrumentable.
+     */
+    public void setInstrumentableName( String name )
+    {
+        m_instrumentableName = name;
+    }
+
+    /**
+     * Gets the name of the Instrumentable.
+     *
+     * @return The name used to identify a Instrumentable.
+     */
+    public String getInstrumentableName()
+    {
+        return m_instrumentableName;
+    }
+
+    /**
+     * Obtain a reference to all the Instruments that the Instrumentable object
+     *  wishes to expose.  All sampling is done directly through the
+     *  Instruments as opposed to the Instrumentable interface.
+     *
+     * @return An array of the Instruments available for profiling.  Should
+     *         never be null.  If there are no Instruments, then
+     *         EMPTY_INSTRUMENT_ARRAY can be returned.  This should never be
+     *         the case though unless there are child Instrumentables with
+     *         Instruments.
+     */
+    public Instrument[] getInstruments()
+    {
+        return Instrumentable.EMPTY_INSTRUMENT_ARRAY;
+    }
+
+    /**
+     * Any Object which implements Instrumentable can also make use of other
+     *  Instrumentable child objects.  This method is used to tell the
+     *  InstrumentManager about them.
+     *
+     * @return An array of child Instrumentables.  This method should never
+     *         return null.  If there are no child Instrumentables, then
+     *         EMPTY_INSTRUMENTABLE_ARRAY can be returned.
+     */
+    public Instrumentable[] getChildInstrumentables()
+    {
+        return new Instrumentable[] { m_pool };
+    }
+    
+    /*---------------------------------------------------------------
      * Methods
      *-------------------------------------------------------------*/
     /**
@@ -263,5 +331,15 @@ public class ResourceLimitingThreadPool
         {
             throw new IllegalStateException( "Unable to access thread pool due to " + e );
         }
+    }
+    
+    /**
+     * Return the number of worker threads in the pool.
+     *
+     * @return the numebr of worker threads in the pool.
+     */
+    public int getSize()
+    {
+        return m_pool.getSize();
     }
 }
