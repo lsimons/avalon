@@ -21,7 +21,7 @@ import org.apache.avalon.framework.context.Context;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/08/06 16:28:38 $
+ * @version CVS $Revision: 1.5 $ $Date: 2002/09/24 20:39:53 $
  * @since 4.0
  */
 public class ThreadSafeComponentHandler
@@ -37,7 +37,8 @@ public class ThreadSafeComponentHandler
      * whether a Component is ThreadSafe, Poolable, or SingleThreaded.
      * It falls back to SingleThreaded if not specified.
      */
-    protected ThreadSafeComponentHandler( final Class componentClass,
+    protected ThreadSafeComponentHandler( final String role,
+                                          final Class componentClass,
                                           final Configuration config,
                                           final ComponentManager manager,
                                           final Context context,
@@ -46,7 +47,7 @@ public class ThreadSafeComponentHandler
         throws Exception
     {
         this(
-            new DefaultComponentFactory( componentClass, config, manager, context, roles, logkit ),
+            new DefaultComponentFactory( role, componentClass, config, manager, context, roles, logkit ),
             config );
     }
 

@@ -30,7 +30,7 @@ import org.apache.excalibur.instrument.ValueInstrument;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.6 $ $Date: 2002/08/20 10:32:10 $
+ * @version CVS $Revision: 1.7 $ $Date: 2002/09/24 20:39:53 $
  * @since 4.0
  */
 public abstract class ComponentHandler
@@ -55,6 +55,7 @@ public abstract class ComponentHandler
     /**
      * Looks up and returns a component handler for a given component class.
      *
+     * @param role           The role name of the component.
      * @param componentClass Class of the component for which the handle is
      *                       being requested.
      * @param configuration The configuration for this component.
@@ -63,15 +64,14 @@ public abstract class ComponentHandler
      * @param context The current context object.
      * @param roleManager The current RoleManager.
      * @param loggerManager The current LogKitLoggerManager.
-     * @param instrumentManager The current InstrumentManager.
-     * @param instrumentableName The name of the handler.
      *
      * @throws Exception If there were any problems obtaining a ComponentHandler
      *
      * @deprecated This method has been deprecated in favor of the version below which
      *             handles instrumentation.
      */
-    public static ComponentHandler getComponentHandler( final Class componentClass,
+    public static ComponentHandler getComponentHandler( final String role,
+                                                        final Class componentClass,
                                                         final Configuration configuration,
                                                         final ComponentManager componentManager,
                                                         final Context context,
@@ -79,7 +79,8 @@ public abstract class ComponentHandler
                                                         final LogkitLoggerManager loggerManager )
         throws Exception
     {
-        return ComponentHandler.getComponentHandler( componentClass,
+        return ComponentHandler.getComponentHandler( role,
+                                                     componentClass,
                                                      configuration,
                                                      componentManager,
                                                      context,
@@ -92,6 +93,7 @@ public abstract class ComponentHandler
     /**
      * Looks up and returns a component handler for a given component class.
      *
+     * @param role           The role name of the component.
      * @param componentClass Class of the component for which the handle is
      *                       being requested.
      * @param configuration The configuration for this component.
@@ -106,7 +108,8 @@ public abstract class ComponentHandler
      *
      * @throws Exception If there were any problems obtaining a ComponentHandler
      */
-    public static ComponentHandler getComponentHandler( final Class componentClass,
+    public static ComponentHandler getComponentHandler( final String role,
+                                                        final Class componentClass,
                                                         final Configuration configuration,
                                                         final ComponentManager componentManager,
                                                         final Context context,
@@ -142,7 +145,8 @@ public abstract class ComponentHandler
 
         // Create the factory to use to create the instances of the Component.
         DefaultComponentFactory factory =
-            new DefaultComponentFactory( componentClass,
+            new DefaultComponentFactory( role,
+                                         componentClass,
                                          configuration,
                                          componentManager,
                                          context,

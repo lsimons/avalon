@@ -42,7 +42,7 @@ import org.apache.excalibur.instrument.InstrumentManager;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.14 $ $Date: 2002/08/22 22:56:10 $
+ * @version CVS $Revision: 1.15 $ $Date: 2002/09/24 20:39:53 $
  * @since 4.0
  */
 public class ExcaliburComponentSelector
@@ -625,7 +625,8 @@ public class ExcaliburComponentSelector
      *
      * @throws Exception If there were any problems obtaining a ComponentHandler
      */
-    protected ComponentHandler getComponentHandler( final Class componentClass,
+    protected ComponentHandler getComponentHandler( final String role,
+                                                    final Class componentClass,
                                                     final Configuration configuration,
                                                     final ComponentManager componentManager,
                                                     final Context context,
@@ -640,7 +641,8 @@ public class ExcaliburComponentSelector
             + configuration.getAttribute( "instrumentable",
                 configuration.getAttribute( "name", configuration.getName() ) );
 
-        return ComponentHandler.getComponentHandler( componentClass,
+        return ComponentHandler.getComponentHandler( role,
+                                                     componentClass,
                                                      configuration,
                                                      componentManager,
                                                      context,
@@ -678,7 +680,8 @@ public class ExcaliburComponentSelector
 
         try
         {
-            final ComponentHandler handler = getComponentHandler( component,
+            final ComponentHandler handler = getComponentHandler( m_rolename,
+                                                                  component,
                                                                   configuration,
                                                                   m_componentManager,
                                                                   m_context,
