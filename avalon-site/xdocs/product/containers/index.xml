@@ -66,7 +66,7 @@
       <subsection name="Dependencies" >
         <p>
           There are many ways on how to resolve dependencies between components.
-          Avalon uses a method called <emp>Lookup Injection</emp>, which means 
+          Avalon uses a method called <em>Lookup Injection</em>, which means 
           that the container will hand over a ServiceManager to the component,
           if the component implements the Serviceable interface.
         </p>
@@ -133,7 +133,7 @@
       
       <subsection name="Repository" >
         <p>
-          We have all been in <emp>JAR Hell</emp>, which means that it is hard
+          We have all been in <em>JAR Hell</em>, which means that it is hard
           to keep track of which Jars are required, and more importantly which
           version of each. And that is only for your build system. When you
           start deploying the applications, this grows into a nightmare.

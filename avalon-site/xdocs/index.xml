@@ -102,13 +102,11 @@
       </subsection>
       <subsection name="Component Developers">
        <p>
-       If you're new to Avalon, be certain to check out the <a
+       If you're new to Avalon, be certain to check out the <a 
        href="doc/index.html">Articles</a> section, specifically, the
-       <a href="developing/index.html">Developing With Avalon</a>
-       white paper and the Getting Started
-       Tutorial.  You may also want to look at the Excalibur and
-       Cornerstone documentation to examine existing utilities and
-       components.
+       <a href="developing/index.html">Developing With Avalon</a> white paper
+       and the Getting Started Tutorial.  You may also want to look at the 
+       Cornerstone documentation to examine existing utilities and components.
        </p>
       </subsection>
       <subsection name="Avalon Developers">

@@ -34,13 +34,26 @@
        the authors to rebase to Phoenix or make their apps phoenix compatible.
     </p>
     <p>
-       Paul wrote some of blocks for Cornerstone and some of the apps in Avalon apps.
-       He also started <a href="http://avalon.apache.org/apps/apps/db/index.html">AvalonDB</a>,
+       Paul wrote some of blocks for Cornerstone and some of the apps in Avalon
+       apps. He also started AvalonDB, <!-- removed the ref since it is no longer valid -->
        <a href="http://www.jesktop.com">Jesktop</a>,
        <a href="http://incubator.apache.org/projects/altrmi/">AltRMI</a>,
        <a href="http://www.enterpriseobjectbroker.org">Enterprise Object Broker</a>, and
        <a href="http://www.picocontainer.org">Picocontainer</a>.
     </p>
+   </subsection>
+   <subsection name="Niclas Hedhman">
+     <p>
+       After the departure of Paul and Berin, Niclas have taken up to be the
+       standard bearer of Avalon's Mission and the vanguard of the Component
+       Author.
+     </p>
+     <p>
+       When Niclas is not working on Apache Avalon, he is busy as a
+       consultant and developer in technically difficult projects. He also
+       developing an Avalon-based Process Control &amp; Industrial Automation 
+       framework, where component re-use can be heavily leveraged.
+     </p>
    </subsection>
   </section>
  </body>
