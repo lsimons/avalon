@@ -13,11 +13,11 @@ import org.apache.excalibur.altrmi.common.AltrmiAuthenticationException;
 import org.apache.excalibur.altrmi.server.AltrmiAuthenticator;
 
 /**
- *
+ * @phoenix:block
  * @phoenix:service name="org.apache.excalibur.altrmi.server.AltrmiAuthenticator"
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class DefaultAuthenticator
     implements AltrmiAuthenticator, Initializable

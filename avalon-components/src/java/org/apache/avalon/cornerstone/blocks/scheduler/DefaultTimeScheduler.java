@@ -27,6 +27,7 @@ import org.apache.avalon.framework.service.Serviceable;
 /**
  * Default implementation of TimeScheduler service.
  *
+ * @phoenix:block
  * @phoenix:service name="org.apache.avalon.cornerstone.services.scheduler.TimeScheduler"
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>

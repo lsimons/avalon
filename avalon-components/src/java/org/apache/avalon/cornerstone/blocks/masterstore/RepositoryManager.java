@@ -25,7 +25,7 @@ import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 
 /**
- *
+ * @phoenix:block
  * @phoenix:service name="org.apache.avalon.cornerstone.services.store.Store"
  *
  * @author <a href="mailto:fede@apache.org">Federico Barbieri</a>

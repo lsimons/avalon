@@ -43,6 +43,7 @@ import org.apache.avalon.framework.logger.Loggable;
  * &lt;/data-sources&gt;
  * </pre>
  *
+ * @phoenix:block
  * @phoenix:service name="org.apache.avalon.cornerstone.services.datasource.DataSourceSelector"
  *
  * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>

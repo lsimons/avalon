@@ -32,12 +32,13 @@ import org.apache.excalibur.altrmi.server.impl.socket.AbstractPartialSocketStrea
 
 
 /**
+ * @phoenix:block
  * @phoenix:service name="org.apache.excalibur.altrmi.server.AltrmiPublisher"
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
  * @author Mike Miller.
  * @author Peter Royal.
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class SocketStreamPublisher
     extends AbstractPublisher

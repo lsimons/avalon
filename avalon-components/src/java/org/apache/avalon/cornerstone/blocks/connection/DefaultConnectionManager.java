@@ -22,6 +22,7 @@ import org.apache.avalon.framework.service.Serviceable;
 /**
  * This is the service through which ConnectionManagement occurs.
  *
+ * @phoenix:block
  * @phoenix:service name="org.apache.avalon.cornerstone.services.connection.ConnectionManager"
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>

@@ -38,6 +38,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * jnet.jar
  * jsse.jar
  *
+ * @phoenix:block
  * @phoenix:service name="org.apache.avalon.cornerstone.services.soapification.SOAPification"
  *
  * @author <a href="mailto:Paul_Hammant@yahoo.com">Paul Hammant</>

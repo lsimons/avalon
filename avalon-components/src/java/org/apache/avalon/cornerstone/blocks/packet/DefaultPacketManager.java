@@ -23,6 +23,7 @@ import org.apache.avalon.framework.service.Serviceable;
 /**
  * This is the service through which PacketManagement occurs.
  *
+ * @phoenix:block
  * @phoenix:service name="org.apache.avalon.cornerstone.services.packet.PacketManager"
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
