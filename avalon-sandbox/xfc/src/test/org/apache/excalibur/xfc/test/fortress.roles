@@ -14,21 +14,21 @@
 <role-list>
 
   <!-- single component definitions -->
-  <role name="org.apache.avalon.excalibur.xml.Parser">
+  <role name="org.apache.excalibur.xml.dom.DOMParser">
     <component shorthand="xml-parser"
-               class="org.apache.avalon.excalibur.xml.JaxpParser"
+               class="org.apache.excalibur.xml.impl.JaxpParser"
                handler="org.apache.excalibur.fortress.handler.PoolableComponentHandler"/>
   </role>
 
-  <role name="org.apache.avalon.excalibur.xml.xslt.XSLTProcessor">
+  <role name="org.apache.excalibur.xml.xslt.XSLTProcessor">
     <component shorthand="xslt-processor"
-               class="org.apache.avalon.excalibur.xml.xslt.XSLTProcessorImpl"
+               class="org.apache.excalibur.xml.xslt.XSLTProcessorImpl"
                handler="org.apache.excalibur.fortress.handler.FactoryComponentHandler"/>
   </role>
 
-  <role name="org.apache.avalon.excalibur.xml.xpath.XPathProcessor">
+  <role name="org.apache.excalibur.xml.xpath.XPathProcessor">
     <component shorthand="xpath-processor"
-               class="org.apache.avalon.excalibur.xml.xpath.XPathProcessorImpl"
+               class="org.apache.excalibur.xml.xpath.XPathProcessorImpl"
                handler="org.apache.excalibur.fortress.handler.ThreadSafeComponentHandler"/>
   </role>
 

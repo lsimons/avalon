@@ -74,7 +74,7 @@ import junit.textui.TestRunner;
  * XFC TestCase.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: xfcTestCase.java,v 1.8 2002/10/17 14:38:18 crafterm Exp $
+ * @version CVS $Id: xfcTestCase.java,v 1.9 2003/01/22 04:38:54 jefft Exp $
  */
 public final class xfcTestCase extends TestCase
 {
@@ -360,9 +360,9 @@ public final class xfcTestCase extends TestCase
         // input classes to analyse
         final String[] classes =
             {
-                "org.apache.avalon.excalibur.xml.JaxpParser",
-                "org.apache.avalon.excalibur.xml.xslt.XSLTProcessorImpl",
-                "org.apache.avalon.excalibur.xml.xpath.XPathProcessorImpl",
+                "org.apache.excalibur.xml.impl.JaxpParser",
+                "org.apache.excalibur.xml.xslt.XSLTProcessorImpl",
+                "org.apache.excalibur.xml.xpath.XPathProcessorImpl",
             };
 
         // actual handlers these classes should use

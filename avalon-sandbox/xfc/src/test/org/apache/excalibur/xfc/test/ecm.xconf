@@ -3,7 +3,7 @@
 <ecm-xconf>
 
   <!-- XML Parser -->
-  <xml-parser class="org.apache.avalon.excalibur.xml.JaxpParser">
+  <xml-parser class="org.apache.excalibur.xml.impl.JaxpParser">
     <parameter name="validate" value="false"/>
     <parameter name="namespace-prefixes" value="false"/>
     <parameter name="stop-on-warning" value="true"/>
@@ -18,7 +18,7 @@
   </xslt-processor>
 
   <!-- Xpath Processor -->
-  <xpath-processor class="org.apache.avalon.excalibur.xml.xpath.XPathProcessorImpl"/>
+  <xpath-processor class="org.apache.excalibur.xml.xpath.XPathProcessorImpl"/>
 
   <!-- Datasources -->
   <datasources>
