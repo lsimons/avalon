@@ -11,15 +11,14 @@ import java.util.Iterator;
 
 import org.apache.framework.context.Context;
 import org.apache.framework.configuration.Configuration;
-import org.apache.framework.lifecycle.Suspendable;
-import org.apache.framework.lifecycle.Resumable;
+import org.apache.framework.lifecycle.Interruptable;
 
 import org.apache.avalon.camelot.Container;
 import org.apache.avalon.camelot.ContainerException;
 import org.apache.avalon.camelot.Entry;
 
-import org.apache.phoenix.applications.Application;
-import org.apache.phoenix.core.ServerKernel;
+import org.apache.avalon.atlantis.applications.Application;
+import org.apache.avalon.atlantis.core.ServerKernel;
 
 import org.apache.log.Logger;
 
@@ -27,9 +26,9 @@ import org.apache.log.Logger;
  * This is the default Kernel for Phoenix. It uses Camelot for container/
  * deployer stuff.
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @author <a href="mailto:mail@leosimons.com">Leo Simons</a>
  */
-public class PhoenixKernel implements ServerKernel, Suspendable, Resumable
+public class PhoenixKernel implements ServerKernel, Interruptable
     // and thus implements Application, Runnable, Initializable, Startable,
     // Stoppable, Disposable, Container, Component, Loggable, Kernel,
     // Contextualizable and ServerApplication

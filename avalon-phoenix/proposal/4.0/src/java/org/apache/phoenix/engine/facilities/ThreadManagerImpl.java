@@ -7,7 +7,7 @@
  */
 package org.apache.phoenix.engine.facilities;
 
-import org.apache.phoenix.facilities.ThreadManager;
+import org.apache.avalon.atlantis.facilities.ThreadManager;
 
 /**
  *

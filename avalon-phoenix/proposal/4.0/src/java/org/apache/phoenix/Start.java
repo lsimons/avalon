@@ -15,6 +15,9 @@ import java.util.List;
 import javax.management.MBeanServer;
 
 import org.apache.framework.lifecycle.Disposable;
+import org.apache.framework.parameters.Parameters;
+import org.apache.framework.parameters.ParameterException;
+import org.apache.framework.parameters.Parametizable;
 import org.apache.framework.context.Context;
 import org.apache.framework.context.DefaultContext;
 import org.apache.framework.configuration.Configuration;
@@ -28,7 +31,7 @@ import org.apache.avalon.util.cli.CLArgsParser;
 import org.apache.avalon.util.cli.CLOption;
 import org.apache.avalon.util.cli.CLUtil;
 
-import org.apache.phoenix.core.Embeddor;
+import org.apache.avalon.atlantis.core.Embeddor;
 import org.apache.phoenix.engine.PhoenixEmbeddor;
 
 import org.apache.log.LogKit;
@@ -73,7 +76,6 @@ public class Start implements Disposable
     // monitor these for status changes
     private static boolean singleton = false;
     private static boolean shutdown = false;
-    private static boolean restart = false;
 
     // command line options
     private static final int       DEBUG_LOG_OPT        = 'd';
@@ -118,14 +120,6 @@ public class Start implements Disposable
     /// LIFECYCLE METHODS ///
     /////////////////////////
     /**
-     * Shuts down and immediately restarts the server using the
-     * same settings.
-     */
-    public void restart()
-    {
-        this.restart = true;
-    }
-    /**
      * Shuts down the server.
      */
     public void dispose()
@@ -162,30 +156,29 @@ public class Start implements Disposable
         this.parseCommandLineOptions( args );
         this.createEmbeddor();
 
-        final DefaultContext ctx = new DefaultContext();
-            ctx.put( "kernel-class", this.kernelClass );
-            ctx.put( "deployer-class", this.deployerClass );
-            ctx.put( "mBeanServer-class", this.mBeanServerClass );
-            ctx.put( "kernel-configuration-source", this.configurationSource );
-            ctx.put( "log-destination", this.logDestination );
-            ctx.put( "application-source", this.applicationSource );
-        final Configuration conf = new DefaultConfiguration("phoenix","localhost");
+        final Parameters parameters = new Parameters();
+            parameters.setParameter( "kernel-class", this.kernelClass );
+            parameters.setParameter( "deployer-class", this.deployerClass );
+            parameters.setParameter( "mBeanServer-class", this.mBeanServerClass );
+            parameters.setParameter( "kernel-configuration-source", this.configurationSource );
+            parameters.setParameter( "log-destination", this.logDestination );
+            parameters.setParameter( "application-source", this.applicationSource );
 
         // run Embeddor lifecycle
-        this.embeddor.contextualize(ctx);
-        this.embeddor.configure(conf);
+        this.embeddor.parametize( parameters );
         this.embeddor.init();
+
+        this.embeddor.start();
 
         while( !this.shutdown )
         {
-            while( !this.restart )
-            {
-                this.embeddor.run();
-            }
-            this.embeddor.restart();
-            this.restart = false;
+            // loop
+
+            // wait() for shutdown() to take action...
+            try { synchronized( this ) { wait(); } }
+            catch( final InterruptedException e ) {}
         }
-        embeddor.dispose();
+        embeddor.stop();
         System.exit( 0 );
     }
     //////////////////////
