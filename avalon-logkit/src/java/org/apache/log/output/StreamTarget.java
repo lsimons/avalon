@@ -33,7 +33,11 @@ public class StreamTarget
     public StreamTarget( final OutputStream outputStream, final Formatter formatter )
     {
         super( formatter );
-        m_outputStream = outputStream;
+
+        if( null != outputStream )
+        {
+            setOutputStream( outputStream );
+        }
     }
 
     /**
