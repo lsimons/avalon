@@ -47,7 +47,6 @@
  Apache Software Foundation, please see <http://www.apache.org/>.
 
 */
-
 package org.apache.avalon.phoenix.components.application;
 
 import java.io.File;
@@ -105,11 +104,6 @@ public final class DefaultApplication
      * ResourceProvider for blocks.
      */
     private BlockResourceProvider m_blockAccessor;
-
-    /**
-     * ResourceProvider for listeners.
-     */
-    private ListenerResourceProvider m_listenerAccessor;
 
     /**
      * Object to support notification of ApplicationListeners.
@@ -263,8 +257,6 @@ public final class DefaultApplication
         m_context = context;
         m_blockAccessor = new BlockResourceProvider( context, this );
         setupLogger( m_blockAccessor, "lifecycle" );
-        m_listenerAccessor = new ListenerResourceProvider( context );
-        setupLogger( m_listenerAccessor, "lifecycle" );
     }
 
     public String[] getBlockNames()
@@ -536,7 +528,7 @@ public final class DefaultApplication
     {
         final Object block =
             m_lifecycleHelper.startup( entry.getName(),
-                                       entry,
+                                       entry.getProfile(),
                                        m_blockAccessor );
 
         m_exportHelper.exportBlock( m_context,
@@ -567,8 +559,7 @@ public final class DefaultApplication
         {
             //Remove block from Management system
             m_exportHelper.unexportBlock( m_context,
-                                          entry.getProfile()
-            );
+                                          entry.getProfile() );
             entry.invalidate();
 
             m_lifecycleHelper.shutdown( entry.getName(),
@@ -596,7 +587,7 @@ public final class DefaultApplication
         final Object listener =
             m_lifecycleHelper.startup( name,
                                        profile,
-                                       m_listenerAccessor );
+                                       m_blockAccessor );
 
         // However onky ApplicationListners can avail of block events.
         if( listener instanceof ApplicationListener )
