@@ -1,36 +1,36 @@
 
 <!ENTITY excalibur-fortress-bean-id "excalibur-fortress-bean">
 <!ENTITY excalibur-fortress-bean-group "excalibur-fortress">
-<!ENTITY excalibur-fortress-bean-version "1.2">
+<!ENTITY excalibur-fortress-bean-version "1.2.dev-0">
 
 <!ENTITY excalibur-fortress-cli-id "excalibur-fortress-cli">
 <!ENTITY excalibur-fortress-cli-group "excalibur-fortress">
-<!ENTITY excalibur-fortress-cli-version "1.2">
+<!ENTITY excalibur-fortress-cli-version "1.2.dev-0">
 
 <!ENTITY excalibur-fortress-container-api-id "excalibur-fortress-container-api">
 <!ENTITY excalibur-fortress-container-api-group "excalibur-fortress">
-<!ENTITY excalibur-fortress-container-api-version "1.2">
+<!ENTITY excalibur-fortress-container-api-version "1.2.dev-0">
 
 <!ENTITY excalibur-fortress-container-impl-id "excalibur-fortress-container-impl">
 <!ENTITY excalibur-fortress-container-impl-group "excalibur-fortress">
-<!ENTITY excalibur-fortress-container-impl-version "1.2">
+<!ENTITY excalibur-fortress-container-impl-version "1.2.dev-0">
 
 <!ENTITY excalibur-fortress-container-test-id "excalibur-fortress-container-test">
 <!ENTITY excalibur-fortress-container-test-group "excalibur-fortress">
-<!ENTITY excalibur-fortress-container-test-version "1.2">
+<!ENTITY excalibur-fortress-container-test-version "1.2.dev-0">
 
 <!ENTITY excalibur-fortress-examples-id "excalibur-fortress-examples">
 <!ENTITY excalibur-fortress-examples-group "excalibur-fortress">
-<!ENTITY excalibur-fortress-examples-version "1.2">
+<!ENTITY excalibur-fortress-examples-version "1.2.dev-0">
 
 <!ENTITY excalibur-fortress-meta-id "excalibur-fortress-meta">
 <!ENTITY excalibur-fortress-meta-group "excalibur-fortress">
-<!ENTITY excalibur-fortress-meta-version "1.2">
+<!ENTITY excalibur-fortress-meta-version "1.2.dev-0">
 
 <!ENTITY excalibur-fortress-platform-id "excalibur-fortress-platform">
 <!ENTITY excalibur-fortress-platform-group "excalibur-fortress">
-<!ENTITY excalibur-fortress-platform-version "1.2">
+<!ENTITY excalibur-fortress-platform-version "1.2.dev-0">
 
 <!ENTITY excalibur-fortress-servlet-id "excalibur-fortress-servlet">
 <!ENTITY excalibur-fortress-servlet-group "excalibur-fortress">
-<!ENTITY excalibur-fortress-servlet-version "1.2">
+<!ENTITY excalibur-fortress-servlet-version "1.2.dev-0">
