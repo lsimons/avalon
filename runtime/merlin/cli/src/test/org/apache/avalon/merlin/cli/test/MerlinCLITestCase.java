@@ -54,14 +54,17 @@ public class MerlinCLITestCase extends TestCase
     public void testMain() throws Exception
     {
         String system = getCacheDirectory().toString();
-          
+        String basedir = System.getProperty( "project.dir" );
+
         try
         {
             String[] args = 
               new String[]
               {
                 "-execute",
-                "conf/hello.block",
+                "hello.block",
+                "-home",
+                basedir,
                 "-system",
                 system
               };
