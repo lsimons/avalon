@@ -98,7 +98,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * as a part of a containment deployment model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.35 $ $Date: 2004/02/23 13:00:31 $
+ * @version $Revision: 1.36 $ $Date: 2004/02/23 15:03:22 $
  */
 public class DefaultContainmentModel extends DefaultDeploymentModel 
   implements ContainmentModel
@@ -311,21 +311,6 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
     public ClassLoaderModel getClassLoaderModel()
     {
         return m_context.getClassLoaderModel();
-    }
-
-   /**
-    * Returns true if Secure Execution mode has been enabled in the kernel.
-    * 
-    * Secure Execution mode enables the deployer to restrict the exection
-    * environment, and this flag allows for developers to quickly switch
-    * between the secure and non-secure execution modes.
-    * 
-    * @return true if Secure Execution mode has been enabled in the kernel.
-    **/ 
-    public boolean isSecureExecutionEnabled()
-    {
-        SystemContext system = m_context.getSystemContext();
-        return system.isCodeSecurityEnabled();
     }
    
    /** 

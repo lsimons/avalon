@@ -34,7 +34,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * context.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.19 $ $Date: 2004/02/21 23:54:42 $
+ * @version $Revision: 1.20 $ $Date: 2004/02/23 15:03:22 $
  */
 public interface ContainmentModel extends DeploymentModel
 {
@@ -77,17 +77,6 @@ public interface ContainmentModel extends DeploymentModel
     * @return the classloader model
     */
     ClassLoaderModel getClassLoaderModel();
-    
-   /**
-    * Returns true if Secure Execution mode has been enabled in the kernel.
-    * 
-    * Secure Execution mode enables the deployer to restrict the exection
-    * environment, and this flag allows for developers to quickly switch
-    * between the secure and non-secure execution modes.
-    * 
-    * @return true if Secure Execution mode has been enabled in the kernel.
-    **/ 
-    boolean isSecureExecutionEnabled();
     
    /** 
     * Return the default deployment timeout value declared in the 
