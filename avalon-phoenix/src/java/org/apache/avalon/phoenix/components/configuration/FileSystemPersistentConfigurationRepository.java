@@ -147,7 +147,7 @@ public class FileSystemPersistentConfigurationRepository extends AbstractLogEnab
             ( SystemManager ) this.m_serviceManager.lookup( SystemManager.ROLE );
         final SystemManager context =
             systemManager.getSubContext( null, "component" ).getSubContext( "ConfigurationManager",
-                                                                            "persistent" );
+                                                                            "subcomponent" );
 
         context.register(
             "PersistentConfigurationRepository",
