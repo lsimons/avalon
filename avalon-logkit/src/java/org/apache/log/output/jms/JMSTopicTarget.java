@@ -14,6 +14,7 @@ import javax.jms.TopicConnection;
 import javax.jms.TopicConnectionFactory;
 import javax.jms.TopicPublisher;
 import javax.jms.TopicSession;
+import org.apache.log.ErrorHandler;
 
 /**
  * A target that writes to a JMS Topic.
@@ -43,6 +44,17 @@ public class JMSTopicTarget
                            final Topic topic )
     {
         super( builder );
+        m_factory = factory;
+        m_topic = topic;
+        open();
+    }
+
+    public JMSTopicTarget( final MessageBuilder builder,
+                           final TopicConnectionFactory factory,
+                           final Topic topic,
+                           final ErrorHandler handler )
+    {
+        super( builder, handler );
         m_factory = factory;
         m_topic = topic;
         open();

@@ -29,6 +29,20 @@ public abstract class AbstractTarget
     ///Flag indicating that log session is finished (aka target has been closed)
     private boolean m_isOpen;
 
+    public AbstractTarget()
+    {
+
+    }
+
+    public AbstractTarget( final ErrorHandler errorHandler )
+    {
+        if( errorHandler == null )
+        {
+            throw new NullPointerException( "errorHandler specified cannot be null" );
+        }
+        setErrorHandler( errorHandler );
+    }
+
     /**
      * Provide component with ErrorHandler.
      *
