@@ -15,6 +15,11 @@ package org.apache.log.output;
 public class NullOutputLogTarget 
     extends AbstractOutputTarget
 {
+    public NullOutputLogTarget()
+    {
+        open();
+    }
+
     /**
      * Do nothing output method.
      *

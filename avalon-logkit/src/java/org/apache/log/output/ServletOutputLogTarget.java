@@ -22,6 +22,7 @@ public class ServletOutputLogTarget
     public ServletOutputLogTarget( final ServletContext context )
     {
         m_context = context;
+        open();
     }
 
     /**
@@ -38,5 +39,16 @@ public class ServletOutputLogTarget
                 m_context.log( message );
             }
         }
+    }
+
+    /**
+     * Shutdown target.
+     * Attempting to write to target after close() will cause errors to be logged.
+     */
+    public synchronized void close()
+    {
+        super.close();
+
+        m_context = null;
     }
 }
