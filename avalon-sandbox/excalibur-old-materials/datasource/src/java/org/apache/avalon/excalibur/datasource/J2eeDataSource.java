@@ -13,7 +13,9 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
-import org.apache.avalon.framework.logger.AbstractLoggable;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.framework.logger.Loggable;
+import org.apache.avalon.framework.logger.LogKitLogger;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 
@@ -23,15 +25,20 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
  * J2EE container pools the datasources properly.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.3 $ $Date: 2001/08/07 10:57:07 $
+ * @version CVS $Revision: 1.4 $ $Date: 2001/11/23 01:43:24 $
  * @since 4.0
  */
 public class J2eeDataSource
-    extends AbstractLoggable
-    implements DataSourceComponent
+    extends AbstractLogEnabled
+    implements DataSourceComponent, Loggable
 {
     public static final String  JDBC_NAME     = "java:comp/env/jdbc/";
     protected DataSource        m_dataSource  = null;
+
+    public void setLogger( org.apache.log.Logger logger )
+    {
+        enableLogging( new LogKitLogger( logger ) );
+    }
 
     /**
      *  Configure and set up DB connection.  Here we set the connection

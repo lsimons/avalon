@@ -12,8 +12,9 @@ import java.sql.SQLException;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.logger.AbstractLoggable;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.LogKitLogger;
+import org.apache.avalon.framework.logger.Loggable;
 import org.apache.avalon.excalibur.pool.DefaultPoolController;
 
 /**
@@ -34,14 +35,19 @@ import org.apache.avalon.excalibur.pool.DefaultPoolController;
  * </pre>
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.11 $ $Date: 2001/11/02 19:28:35 $
+ * @version CVS $Revision: 1.12 $ $Date: 2001/11/23 01:43:24 $
  * @since 4.0
  */
 public class JdbcDataSource
-    extends AbstractLoggable
-    implements DataSourceComponent, Disposable
+    extends AbstractLogEnabled
+    implements DataSourceComponent, Disposable, Loggable
 {
     protected JdbcConnectionPool        m_pool;
+
+    public void setLogger( final org.apache.log.Logger logger )
+    {
+        enableLogging( new LogKitLogger( logger ) );
+    }
 
     /**
      *  Configure and set up DB connection.  Here we set the connection
@@ -156,12 +162,12 @@ public class JdbcDataSource
                     new JdbcConnectionFactory( dburl, user, passwd, autoCommit, keepAlive, connectionClass );
             final DefaultPoolController poolController = new DefaultPoolController(l_max / 4);
 
-            factory.enableLogging( new LogKitLogger( getLogger() ) );
+            factory.enableLogging( getLogger() );
 
             try
             {
                 m_pool = new JdbcConnectionPool( factory, poolController, l_min, l_max, autoCommit );
-                m_pool.setLogger( getLogger() );
+                m_pool.enableLogging( getLogger() );
                 m_pool.setTimeout( timeout );
                 m_pool.initialize();
             }
