@@ -120,7 +120,7 @@ $ merlin -execute target\classes -config conf\config.xml
 </targets>
 ]]></source>
       </subsection>
-      <subsection name="Declaring a Configuration">
+      <subsection name="Moving on">
 
         <p>
         We are now ready to move on to the subject of 
