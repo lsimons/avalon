@@ -54,18 +54,16 @@
  */
 package org.apache.excalibur.xml.xpath;
 
-import java.util.HashMap;
-
 import javax.xml.transform.TransformerException;
 
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.thread.ThreadSafe;
 import org.apache.xpath.XPathAPI;
 import org.apache.xpath.objects.XObject;
+
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -82,88 +80,19 @@ import org.w3c.dom.NodeList;
  * </pre>
  *
  * @author <a href="mailto:dims@yahoo.com">Davanum Srinivas</a>
- * @version CVS $Revision: 1.12 $ $Date: 2003/05/20 10:43:00 $ $Author: leosutic $
+ * @version CVS $Revision: 1.13 $ $Date: 2003/08/01 01:02:43 $ $Author: vgritsenko $
  */
-public final class XPathProcessorImpl extends AbstractLogEnabled implements XPathProcessor, Configurable, PrefixResolver, Component, ThreadSafe
+public final class XPathProcessorImpl
+        extends AbstractProcessorImpl
+        implements XPathProcessor, Configurable, Component, ThreadSafe
 {
-
     private String m_baseURI;
-    private final HashMap m_mappings = new HashMap();
 
     public void configure( Configuration configuration ) throws ConfigurationException
     {
+        super.configure(configuration);
         final Configuration namespaceMappings = configuration.getChild( "namespace-mappings", true );
         m_baseURI = namespaceMappings.getAttribute( "base-uri", null );
-
-        final Configuration[] namespaces = namespaceMappings.getChildren( "namespace" );
-        for( int i = 0; i < namespaces.length; i++ )
-        {
-            final String prefix = namespaces[ i ].getAttribute( "prefix" );
-            final String uri = namespaces[ i ].getAttribute( "uri" );
-            m_mappings.put( prefix, uri );
-        }
-    }
-
-    /**
-     * Use an XPath string to select a single node. XPath namespace
-     * prefixes are resolved from the context node, which may not
-     * be what you want (see the next method).
-     *
-     * @param contextNode The node to start searching from.
-     * @param str A valid XPath string.
-     * @return The first node found that matches the XPath, or null.
-     */
-    public Node selectSingleNode( final Node contextNode,
-                                  final String str )
-    {
-        return selectSingleNode(contextNode, str, this);
-    }
-
-    /**
-     *  Use an XPath string to select a nodelist.
-     *  XPath namespace prefixes are resolved from the contextNode.
-     *
-     *  @param contextNode The node to start searching from.
-     *  @param str A valid XPath string.
-     *  @return A NodeList, should never be null.
-     */
-    public NodeList selectNodeList( final Node contextNode,
-                                    final String str )
-    {
-        return selectNodeList(contextNode, str, this);
-    }
-
-    /** Evaluate XPath expression within a context.
-     *
-     * @param contextNode The context node.
-     * @param str A valid XPath string.
-     * @return expression result as boolean.
-     */
-    public boolean evaluateAsBoolean( Node contextNode, String str )
-    {
-        return evaluateAsBoolean(contextNode, str, this);
-    }
-
-    /** Evaluate XPath expression within a context.
-     *
-     * @param contextNode The context node.
-     * @param str A valid XPath string.
-     * @return expression result as number.
-     */
-    public Number evaluateAsNumber( Node contextNode, String str )
-    {
-        return evaluateAsNumber(contextNode, str, this);
-    }
-
-    /** Evaluate XPath expression within a context.
-     *
-     * @param contextNode The context node.
-     * @param str A valid XPath string.
-     * @return expression result as string.
-     */
-    public String evaluateAsString( Node contextNode, String str )
-    {
-        return evaluateAsString(contextNode, str, this);
     }
 
     /**
@@ -181,8 +110,13 @@ public final class XPathProcessorImpl extends AbstractLogEnabled implements XPat
             final XObject result = XPathAPI.eval( contextNode, str, new XalanResolver(resolver) );
             return result.bool();
         }
-        catch( final TransformerException te )
+        catch( final TransformerException e )
         {
+            if (getLogger().isDebugEnabled()) {
+                getLogger().debug("Failed to evaluate '" + str + "'", e);
+            }
+
+            // ignore it
             return false;
         }
     }
@@ -202,8 +136,13 @@ public final class XPathProcessorImpl extends AbstractLogEnabled implements XPat
             final XObject result = XPathAPI.eval( contextNode, str, new XalanResolver(resolver) );
             return new Double( result.num() );
         }
-        catch( final TransformerException te )
+        catch( final TransformerException e )
         {
+            if (getLogger().isDebugEnabled()) {
+                getLogger().debug("Failed to evaluate '" + str + "'", e);
+            }
+
+            // ignore it
             return null;
         }
     }
@@ -223,8 +162,13 @@ public final class XPathProcessorImpl extends AbstractLogEnabled implements XPat
             final XObject result = XPathAPI.eval( contextNode, str, new XalanResolver(resolver) );
             return result.str();
         }
-        catch( final TransformerException te )
+        catch( final TransformerException e )
         {
+            if (getLogger().isDebugEnabled()) {
+                getLogger().debug("Failed to evaluate '" + str + "'", e);
+            }
+
+            // ignore it
             return null;
         }
     }
@@ -244,8 +188,13 @@ public final class XPathProcessorImpl extends AbstractLogEnabled implements XPat
             final XObject result = XPathAPI.eval( contextNode, str, new XalanResolver(resolver) );
             return result.nodeset().nextNode();
         }
-        catch( final TransformerException te )
+        catch( final TransformerException e )
         {
+            if (getLogger().isDebugEnabled()) {
+                getLogger().debug("Failed to evaluate '" + str + "'", e);
+            }
+
+            // ignore it
             return null;
         }
     }
@@ -265,15 +214,15 @@ public final class XPathProcessorImpl extends AbstractLogEnabled implements XPat
             final XObject result = XPathAPI.eval( contextNode, str, new XalanResolver(resolver) );
             return result.nodelist();
         }
-        catch( final TransformerException te )
+        catch( final TransformerException e )
         {
+            if (getLogger().isDebugEnabled()) {
+                getLogger().debug("Failed to evaluate '" + str + "'", e);
+            }
+
+            // ignore it
             return new EmptyNodeList();
         }
-    }
-
-    public String prefixToNamespace(String prefix)
-    {
-        return (String)m_mappings.get( prefix );
     }
 
     /**
@@ -307,4 +256,3 @@ public final class XPathProcessorImpl extends AbstractLogEnabled implements XPat
         }
     }
 }
-
