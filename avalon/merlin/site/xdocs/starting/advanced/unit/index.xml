@@ -92,11 +92,11 @@ public class ExampleTestCase extends AbstractMerlinTestCase
 }
         </source>
         <p>
-        The default behaviour it to deploy a block based on the 
+        The default behaviour is to deploy a block based on the 
         deployment path ${basedir}/target/classes/.  Merlin will attempt
         to locate a block.xml file at the [DEPLOYMENT-PATH]/BLOCK-INF/block.xml. 
         To make sure that a block.xml file and component meta-info is available under 
-        ${basedir}/target/classes/ and you need to include the following resource
+        ${basedir}/target/classes/ you need to include the following resource
         statement in you maven project descriptor.
         </p>
 <source><![CDATA[
@@ -123,15 +123,15 @@ public class ExampleTestCase extends AbstractMerlinTestCase
 
         <p>
         You can now access components established by Merlin via 
-        the component name.  For example, if you block.xml defines
+        the component name.  For example, if your block.xml defines
         a component named "hello" you access the component by 
         requesting the relative path "hello".  Relative paths are 
         resolved relative to the container defined by your block
-        defintion.
+        definition.
         </p>
         <p>
         The following code fragment demonstrates the usage of the 
-        resolve method to locate a named component and a convinience 
+        resolve method to locate a named component and a convenience 
         getLogger() method.
         </p>
 <source><![CDATA[
@@ -146,7 +146,7 @@ public void testServiceResolution() throws Exception
       </subsection>
       <subsection name="Customizing Merlin behaviour">
         <p>
-        The abstract test case include a constructor that allows
+        The abstract test case includes a constructor that allows
         control over the deployment path, configuration, debugging 
         and info generation policies.  Please refer to the supporting
         javadoc for more details.
