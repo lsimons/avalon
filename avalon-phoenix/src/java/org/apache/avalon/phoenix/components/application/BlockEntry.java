@@ -27,7 +27,7 @@ public class BlockEntry
 
     public BlockEntry( final BlockMetaData blockMetaData )
     {
-        setState( State.VOID );
+        invalidate();
         m_blockMetaData = blockMetaData;
     }
 
