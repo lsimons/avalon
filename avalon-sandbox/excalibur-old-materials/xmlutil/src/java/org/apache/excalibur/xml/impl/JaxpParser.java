@@ -5,7 +5,7 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE.txt file.
  */
-package org.apache.excalibur.xml.sax;
+package org.apache.excalibur.xml.impl;
 
 import java.io.IOException;
 
@@ -15,6 +15,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParserFactory;
 import org.apache.avalon.excalibur.pool.Poolable;
 import org.apache.excalibur.xml.EntityResolver;
+import org.apache.excalibur.xml.dom.DOMParser;
+import org.apache.excalibur.xml.sax.Parser;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.parameters.ParameterException;
@@ -68,12 +70,12 @@ import org.xml.sax.ext.LexicalHandler;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @version CVS $Revision: 1.7 $ $Date: 2003/01/14 09:23:12 $
+ * @version CVS $Revision: 1.1 $ $Date: 2003/01/15 08:35:55 $
  * @avalon.component
  */
 public final class JaxpParser
     extends AbstractLogEnabled
-    implements Parser, org.apache.excalibur.xml.dom.Parser, 
+    implements Parser, DOMParser, 
                 Poolable, Component, Parameterizable, Serviceable, ErrorHandler
 {
     /** the SAX Parser factory */
