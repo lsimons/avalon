@@ -89,9 +89,6 @@ Legal:
     <path id="tools.class.path">
         <path refid="project.class.path"/>
         <pathelement location="${tools.jar}"/>
-        <fileset dir="${tools.dir}/lib">
-            <include name="*.jar" />
-        </fileset>
     </path>
 
     <path id="test.class.path">
