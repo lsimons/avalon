@@ -8,16 +8,20 @@
 package org.apache.avalon.phoenix.components.deployer;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Map;
 import java.util.Hashtable;
+import java.util.Map;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.framework.parameters.ParameterException;
+import org.apache.avalon.framework.parameters.Parameterizable;
+import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
@@ -47,7 +51,7 @@ import org.apache.log.Hierarchy;
  */
 public class DefaultDeployer
     extends AbstractLogEnabled
-    implements Deployer, Serviceable, Initializable, DeployerMBean
+    implements Deployer, Parameterizable, Serviceable, Initializable, DeployerMBean
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( DefaultDeployer.class );
@@ -61,6 +65,39 @@ public class DefaultDeployer
     private Kernel m_kernel;
     private ConfigurationRepository m_repository;
     private ClassLoaderManager m_classLoaderManager;
+
+    /**
+     * The directory which is used as the base for
+     * extracting all temporary files from archives. It is
+     * expected that the temporary files will be deleted when
+     * the .sar file is undeployed.
+     */
+    private File m_baseWorkDirectory;
+
+    /**
+     * Retrieve parameter that specifies work directory.
+     *
+     * @param parameters the parameters to read
+     * @throws ParameterException if invlaid work directory
+     */
+    public void parameterize( final Parameters parameters )
+        throws ParameterException
+    {
+        final String phoenixHome = parameters.getParameter( "phoenix.home" );
+        final String defaultWorkDir = phoenixHome + File.separator + "work";
+        final String rawWorkDir =
+            parameters.getParameter( "phoenix.work.dir", defaultWorkDir );
+
+        final File dir = new File( rawWorkDir );
+        try
+        {
+            m_baseWorkDirectory = dir.getCanonicalFile();
+        }
+        catch( final IOException ioe )
+        {
+            m_baseWorkDirectory = dir.getAbsoluteFile();
+        }
+    }
 
     /**
      * Retrieve relevant services needed to deploy.
@@ -80,6 +117,8 @@ public class DefaultDeployer
     public void initialize()
         throws Exception
     {
+        initWorkDirectory();
+
         setupLogger( m_installer );
         setupLogger( m_assembler );
         setupLogger( m_verifier );
@@ -155,6 +194,7 @@ public class DefaultDeployer
     {
         try
         {
+            //m_baseWorkDirectory
             final Installation installation = m_installer.install( location );
 
             final Configuration config = getConfigurationFor( installation.getConfig() );
@@ -302,5 +342,38 @@ public class DefaultDeployer
         }
 
         return false;
+    }
+
+    /**
+     * Make sure that the work directory is created and not a file.
+     *
+     * @throws Exception if work directory can not be created or is a file
+     */
+    private void initWorkDirectory()
+        throws Exception
+    {
+        if( !m_baseWorkDirectory.exists() )
+        {
+            final String message =
+                REZ.getString( "deploy.create-dir.notice",
+                               m_baseWorkDirectory );
+            getLogger().info( message );
+
+            if( !m_baseWorkDirectory.mkdirs() )
+            {
+                final String error =
+                    REZ.getString( "deploy.workdir-nocreate.error",
+                                   m_baseWorkDirectory );
+                throw new Exception( error );
+            }
+        }
+
+        if( !m_baseWorkDirectory.isDirectory() )
+        {
+            final String message =
+                REZ.getString( "deploy.workdir-notadir.error",
+                               m_baseWorkDirectory );
+            throw new Exception( message );
+        }
     }
 }
