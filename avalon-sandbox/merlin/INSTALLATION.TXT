@@ -1,5 +1,5 @@
 
-PROJECT: Merlin
+PROJECT: merlin-3.0-dist-XXXXXXXX.jar
 ====================================================================
 
 DESCRIPTION: 
