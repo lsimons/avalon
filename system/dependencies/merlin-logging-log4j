@@ -1,0 +1,10 @@
+avalon-framework-api
+avalon-framework-impl
+merlin-repository-spi
+merlin-logging-api
+merlin-logging-spi
+merlin-logging-impl
+merlin-util-criteria
+merlin-util-i18n
+merlin-util-configuration
+log4j

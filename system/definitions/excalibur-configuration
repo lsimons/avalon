@@ -1,0 +1,5 @@
+
+# Explicitly commented out, to test that defaults are established.
+# -------  artifact.group=excalibur-configuration  ------
+
+artifact.version=1.2 

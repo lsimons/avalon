@@ -1,0 +1,9 @@
+merlin-repository-api
+merlin-repository-spi
+merlin-repository-main
+merlin-repository-util
+merlin-util-env
+merlin-util-exception
+merlin-util-i18n
+commons-cli
+ 
