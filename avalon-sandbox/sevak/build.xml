@@ -86,7 +86,7 @@
 
   <path id="test.class.path">
     <fileset dir="../common/lib">
-      <include name="*.jar" />
+      <include name="**/*.jar" />
     </fileset>
     <pathelement path="${build.lib}/sevak.jar"/>
   </path>
