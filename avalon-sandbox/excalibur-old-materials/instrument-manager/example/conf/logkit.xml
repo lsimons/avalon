@@ -17,7 +17,7 @@
     </targets>
     <categories>
         <!-- Profiler Manager Logger -->
-        <category name="im" log-level="DEBUG">
+        <category name="im" log-level="INFO">
             <log-target id-ref="console"/>
             
             <!-- The values child logger can dump out a lot of data. -->
