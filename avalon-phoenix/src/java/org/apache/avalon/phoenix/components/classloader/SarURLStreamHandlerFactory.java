@@ -14,14 +14,13 @@ import java.net.URLStreamHandler;
 import java.net.URLStreamHandlerFactory;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.avalon.phoenix.tools.protocols.sar.SarURLConnection;
 
 /**
  * Implementation and "factory" and for <code>sar:</code> URL stream
  * protocol handler.
  *
  * @author <a href="mailto:mirceatoma@home.com">Mircea Toma</a>
- * @version CVS $Revision: 1.4 $ $Date: 2001/10/27 16:11:03 $
+ * @version CVS $Revision: 1.5 $ $Date: 2001/10/27 17:02:17 $
  */
 class SarURLStreamHandlerFactory
     extends URLStreamHandler
