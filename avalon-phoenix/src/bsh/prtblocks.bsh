@@ -8,7 +8,7 @@ prtblocks( String appName ) {
 
     kernel = this.interpreter.get("phoenix-kernel");
     String[] blocks = kernel.getApplication(appName).getBlockNames();
-    print(appName " has " + blocks.length + " blocks..");
+    print(appName + " has " + blocks.length + " blocks..");
     for (int i = 0; i < blocks.length; i++) {
       print(i + " " + blocks[i]);
     }
