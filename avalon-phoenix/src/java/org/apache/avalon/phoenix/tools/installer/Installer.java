@@ -36,10 +36,16 @@ public class Installer
     private static final Resources REZ =
         ResourceManager.getPackageResources( Installer.class );
 
-    private static final String    SAR_INF      = "SAR-INF/";    
+    private static final String    SAR_INF      = "SAR-INF/";   
+    private static final String    LIB          = "lib/";   
     private static final String    ASSEMBLY_XML = "assembly.xml";
     private static final String    CONFIG_XML   = "config.xml";
     private static final String    SERVER_XML   = "server.xml";
+    
+    // deprecated structure
+    private static final String    BLOCKS       = "blocks/";   
+    private static final String    CONF         = "conf/";   
+
     
     /**
      * Install a Sar indicate by url to location.
@@ -62,14 +68,14 @@ public class Installer
              
             URL installURL = url;
             
-            if ( !isContext( url ) )
+            if ( !isDirectory( url ) )
             {
                 installURL = new URL( "sar:" + url.toExternalForm() + "|/" );
-                extract( installURL, baseDirectory, "" );
+                download( installURL, baseDirectory, "" );
             }
             else
             {
-                // cannot install from remote a directory
+                // cannot install from a remote directory
                 if ( !"file".equals( url.getProtocol() ) )
                 {
                     final String msg = REZ.getString( "install-nonlocal", url);
@@ -85,17 +91,17 @@ public class Installer
                 final String msg = REZ.getString("deprecated-sar-format", url);
                 getLogger().warn( msg );
                 
-                inf = "conf/";
+                inf = CONF;
                 
-                final URL blocksURL = new URL( installURL, "blocks/" );
+                final URL blocksURL = new URL( installURL, BLOCKS );
                 codeBase.addAll( getCodeBase( blocksURL ) );            
                 
-                final URL librariesURL = new URL( installURL, "lib/" );
+                final URL librariesURL = new URL( installURL, LIB );
                 codeBase.addAll( getCodeBase( librariesURL ) );            
             }
             else 
             {                
-                final URL librariesURL = new URL( installURL, SAR_INF + "lib/" );
+                final URL librariesURL = new URL( installURL, SAR_INF + LIB );
                 codeBase.addAll( getCodeBase( librariesURL ) );            
             }
             
@@ -147,30 +153,21 @@ public class Installer
         return true;        
     }
     
-    private boolean isContext( final URL url ) throws InstallationException
+    /**
+     * Test if specified resource is a directory.
+     * @param url the resource.
+     * @return true if resoource is a directory.
+     */
+    private boolean isDirectory( final URL url )
     {
         return url.getFile().endsWith( "/" );
     }
     
-    private Collection getCodeBase( final URL url ) 
-        throws MalformedURLException, IOException
-    {
-        final ArrayList urls = new ArrayList();
-        final String[] libraryNames = list( url );
-
-        for (int i = 0; i < libraryNames.length; i++ ) 
-        {
-            if ( libraryNames[i].endsWith( ".zip" ) || 
-                 libraryNames[i].endsWith( ".jar" ) || 
-                 libraryNames[i].endsWith( ".bar" ) ) 
-            {
-                urls.add( new URL( url, libraryNames[i] ) );
-            }
-        }
-        
-        return urls;
-    }
-        
+    /**
+     * Extract application's relative deployment directory name from resource.
+     * @url the resource.
+     * @param the application's relative deployment directory name.
+     */    
     public String extractName( final URL url )
     {
         final String filename = url.getFile();        
@@ -181,6 +178,12 @@ public class Installer
         return filename.substring( first + 1, last );        
     }
 
+    /**
+     * List contained resource names.
+     *
+     * @param url the base resource.
+     * @return the list of contained resources.
+     */
     private String[] list( final URL url ) 
         throws MalformedURLException, IOException
     {
@@ -201,13 +204,38 @@ public class Installer
         
         return names;
     }
+
+    /**
+     * Get the code base list found within resource.
+     * 
+     * @param url the resource.
+     * @return the code base list.
+     */
+    private Collection getCodeBase( final URL url ) 
+        throws MalformedURLException, IOException
+    {
+        final ArrayList urls = new ArrayList();
+        final String[] libraryNames = list( url );
+
+        for (int i = 0; i < libraryNames.length; i++ ) 
+        {
+            if ( libraryNames[i].endsWith( ".zip" ) || 
+                 libraryNames[i].endsWith( ".jar" ) || 
+                 libraryNames[i].endsWith( ".bar" ) ) 
+            {
+                urls.add( new URL( url, libraryNames[i] ) );
+            }
+        }
+        
+        return urls;
+    }
     
     /**
      * Download resource into specified location.
      *
-     * @param url the resource to download from
-     * @param file the file to download to
-     * @exception IOException if an error occurs
+     * @param url the resource to download from.
+     * @param file the file to download to.
+     * @exception IOException if an error occurs.
      */
     private void download( final URL url, final File file )
         throws IOException
@@ -230,24 +258,24 @@ public class Installer
     }                   
     
     /**
-     * Extract files recursively to the local filesystem. Avoids the extraction 
-     * of configuration files, blocks and libraries.
+     * Download resources recursively into specified relative locations. Avoid 
+     * download of configuration files, blocks and libraries.
      * 
-     * @param resource the resource from where data is copied.
-     * @param directory the directory where resource is be copied.
+     * @param resource the resource to download from.
+     * @param directory the directory to download to.
      * @param context the relative identifier for a resource.
      */
-    private void extract( final URL resource, final File directory, final String context ) 
-        throws MalformedURLException, InstallationException, IOException
+    private void download( final URL resource, final File directory, final String context ) 
+        throws MalformedURLException, IOException
     {
         if ( SAR_INF.equals( context ) ||
-             "blocks/".equals( context ) ||
-             "lib/".equals( context ) ||
-             "conf/".equals( context ) ) return;
+             BLOCKS.equals( context ) ||
+             LIB.equals( context ) ||
+             CONF.equals( context ) ) return;
         
         final URL url = new URL( resource, context );
         
-        if ( isContext( url ) ) 
+        if ( isDirectory( url ) ) 
         {
             final String[] contexts = list( url );
             
@@ -255,7 +283,7 @@ public class Installer
             {                
                 final File file = new File( directory, context );
                 file.mkdirs();
-                extract( url, file, contexts[i] );
+                download( url, file, contexts[i] );
             }            
         }
         else 
