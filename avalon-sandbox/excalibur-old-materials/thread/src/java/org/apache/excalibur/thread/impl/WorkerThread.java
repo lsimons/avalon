@@ -63,6 +63,18 @@ public class WorkerThread
     extends Thread
 {
     /**
+     * Enables debug output of major events.  Subclasses which implement
+     *  their own logging do not require this to be true.
+     */
+    private static final boolean ENABLE_DEBUG = false;
+    
+    /**
+     * Enables debug output of minor events.  Subclasses which implement
+     *  their own logging do not require this to be true.
+     */
+    private static final boolean ENABLE_DETAIL_DEBUG = false;
+    
+    /**
      * The work currentlyy associated with worker (May be null).
      */
     private Executable m_work;
@@ -120,53 +132,107 @@ public class WorkerThread
     public final synchronized void run()
     {
         debug( "starting." );
-
-        // Notify the pool this worker started running.
-        //notifyAll();
-
-        while( m_alive )
+        try
         {
-            waitUntilCondition( true );
-
-            debug( "running." );
-
-            try
+            while( m_alive )
             {
-                preExecute();
-                m_work.execute();
-                if (m_clearInterruptFlag) clearInterruptFlag();
-                m_threadControl.finish( null );
+                waitForWork();
+                if ( m_alive )
+                {
+                    detailDebug( "start with work: " + m_work );
+                    
+                    try
+                    {
+                        try
+                        {
+                            preExecute();
+                            
+                            // Actually do the work.
+                            m_work.execute();
+                            
+                            // Completed without error, so notify the thread control
+                            m_threadControl.finish( null );
+                        }
+                        catch( final ThreadDeath threadDeath )
+                        {
+                            debug( "thread has died." );
+                            m_threadControl.finish( threadDeath );
+                            
+                            // This is to let the thread death propagate to the runtime
+                            // enviroment to let it know it must kill this worker
+                            throw threadDeath;
+                        }
+                        catch( final Throwable throwable )
+                        {
+                            // Error thrown while working.
+                            debug( "error caught", throwable );
+                            m_threadControl.finish( throwable );
+                        }
+                    }
+                    finally
+                    {
+                        detailDebug( "done with work: " + m_work );
+                        
+                        m_work = null;
+                        m_threadControl = null;
+                        
+                        if ( m_clearInterruptFlag )
+                        {
+                            clearInterruptFlag();
+                        }
+                        
+                        postExecute();
+                    }
+                    
+                    /*
+                    try
+                    {
+                        preExecute();
+                        m_work.execute();
+                        if (m_clearInterruptFlag) clearInterruptFlag();
+                        m_threadControl.finish( null );
+                    }
+                    catch( final ThreadDeath threadDeath )
+                    {
+                        debug( "thread has died." );
+                        m_threadControl.finish( threadDeath );
+                        // This is to let the thread death propagate to the runtime
+                        // enviroment to let it know it must kill this worker
+                        throw threadDeath;
+                    }
+                    catch( final Throwable throwable )
+                    {
+                        // Error thrown while working.
+                        debug( "error caught", throwable );
+                        m_threadControl.finish( throwable );
+                    }
+                    finally
+                    {
+                        detailDebug( "done." );
+                        m_work = null;
+                        m_threadControl = null;
+                        if (m_clearInterruptFlag) clearInterruptFlag();
+                        postExecute();
+                    }
+                    */
+        
+                    //should this be just notify or notifyAll ???
+                    //It seems to resource intensive option to use notify()
+                    //notifyAll();
+                    
+                    // Let the thread, if any, waiting for the work to complete
+                    //  know we are done.  Should never me more than one thread
+                    //  waiting, so notifyAll is not necessary.
+                    notify();
+        
+                    // recycle ourselves
+                    recycleThread();
+                }
             }
-            catch( final ThreadDeath threadDeath )
-            {
-                debug( "thread has died." );
-                m_threadControl.finish( threadDeath );
-                // This is to let the thread death propagate to the runtime
-                // enviroment to let it know it must kill this worker
-                throw threadDeath;
-            }
-            catch( final Throwable throwable )
-            {
-                // Error thrown while working.
-                debug( "error caught", throwable );
-                m_threadControl.finish( throwable );
-            }
-            finally
-            {
-                debug( "done." );
-                m_work = null;
-                m_threadControl = null;
-                if (m_clearInterruptFlag) clearInterruptFlag();
-                postExecute();
-            }
-
-            //should this be just notify or notifyAll ???
-            //It seems to resource intensive option to use notify()
-            //notifyAll();
-            notify();
-
-            // recycle ourselves
-            recycleThread();
+        }
+        finally
+        {
+            debug( "stopped." );
         }
     }
 
@@ -175,11 +241,17 @@ public class WorkerThread
      */
     protected void recycleThread()
     {
-        if( m_alive )
+        if ( !m_alive )
         {
-            if (m_clearInterruptFlag) clearInterruptFlag();
-            m_pool.releaseWorker( this );
+            throw new IllegalStateException( "Attempted to recycle dead thread." );
         }
+        
+        detailDebug( "recycle." );
+        if ( m_clearInterruptFlag )
+        {
+            clearInterruptFlag();
+        }
+        m_pool.releaseWorker( this );
     }
 
     /**
@@ -202,15 +274,15 @@ public class WorkerThread
     }
 
     /**
-	 * Clears the interrupt flag for this thread.  Since Java does
+     * Clears the interrupt flag for this thread.  Since Java does
      * not provide a method that does this for an external thread,
      * we have to verify that we are in the WorkerThread.  If the
      * code calling this method does not originate from this thread,
      * we set a flag and wait for it to be called internally.
-	 */
-	public void clearInterruptFlag()
+     */
+    public void clearInterruptFlag()
     {
-		if (Thread.currentThread().equals(this))
+        if (Thread.currentThread().equals(this))
         {
             Thread.interrupted();
             m_clearInterruptFlag = false;
@@ -219,19 +291,29 @@ public class WorkerThread
         {
             m_clearInterruptFlag = true;
         }
-	}
+    }
 
-	/**
+    /**
      * Set the <tt>alive</tt> variable to false causing the worker to die.
      * If the worker is stalled and a timeout generated this call, this method
      * does not change the state of the worker (that must be destroyed in other
      * ways).
+     * <p>
+     * This is called by the pool when it is removed.
      */
     public void dispose()
     {
         debug( "destroying." );
+        
         m_alive = false;
-        waitUntilCondition( false );
+        
+        // Notify the thread so it will be woken up and notice that it has been destroyed.
+        synchronized(this)
+        {
+            this.notify();
+        }
+        
+        debug( "destroyed." );
     }
 
     /**
@@ -243,7 +325,7 @@ public class WorkerThread
         m_work = work;
         m_threadControl = new DefaultThreadControl( this );
 
-        debug( "notifying this worker." );
+        detailDebug( "notifying this worker of new work: " + work.toString() );
         notify();
 
         return m_threadControl;
@@ -254,63 +336,122 @@ public class WorkerThread
      * execute and <i>notifies</i> its thread to do it. Wait
      * until the executable has finished before returning.
      */
-    protected synchronized void executeAndWait( final Executable work )
+    protected void executeAndWait( final Executable work )
     {
+        // Assign work to the thread.
         execute( work );
-        waitUntilCondition( false );
-    }
-
-    /**
-     * Wait until the worker either has work or doesn't have work.
-     *
-     * @param hasWork true if waiting till work is present, false otherwise
-     */
-    private synchronized void waitUntilCondition( final boolean hasWork )
-    {
-        while( hasWork == ( null == m_work ) )
+        
+        // Wait for the work to complete.
+        synchronized(this)
         {
-            try
+            while( null != m_work )
             {
-                debug( "waiting." );
-                wait();
-                debug( "notified." );
+                try
+                {
+                    detailDebug( "waiting for work to complete." );
+                    wait();
+                    detailDebug( "notified." );
+                }
+                catch( final InterruptedException ie )
+                {
+                    // Ignore
+                }
             }
-            catch( final InterruptedException ie )
-            {
-            }
-        }
-    }
-
-    /**
-     * Write a debug message.
-     * A Noop oin this implementation. Subclasses can overide
-     * to actually do some logging.
-     *
-     * @param message the message to write out
-     */
-    protected void debug( final String message )
-    {
-        if( false )
-        {
-            final String output = getName() + ": " + message;
-            System.out.println( output );
         }
     }
     
     /**
-     * Write a debug message.
-     * A Noop oin this implementation. Subclasses can overide
-     * to actually do some logging.
+     * For for new work to arrive or for the thread to be destroyed.
+     */
+    private void waitForWork()
+    {
+        synchronized(this)
+        {
+            while( m_alive && ( null == m_work ) )
+            {
+                try
+                {
+                    detailDebug( "waiting for work." );
+                    wait();
+                    detailDebug( "notified." );
+                }
+                catch( final InterruptedException ie )
+                {
+                    // Ignore
+                }
+            }
+        }
+    }
+
+    /**
+     * Used to log major events against the worker.  Creation, deletion,
+     *  uncaught exceptions etc.
+     * <p>
+     * This implementation is a Noop.  Subclasses can override to actually
+     *  do some logging.
      *
-     * @param message the message to write out.
-     * @param throwable the throwable to write out with the message.
+     * @param message Message to log.
+     */
+    protected void debug( final String message )
+    {
+        if( ENABLE_DEBUG )
+        {
+            System.out.println( getName() + ": " + message );
+        }
+    }
+    
+    /**
+     * Used to log major events against the worker.  Creation, deletion,
+     *  uncaught exceptions etc.
+     * <p>
+     * This implementation is a Noop.  Subclasses can override to actually
+     *  do some logging.
+     *
+     * @param message Message to log.
+     * @param throwable Throwable to log with the message.
      */
     protected void debug( final String message, final Throwable throwable )
     {
-        if( false )
+        if( ENABLE_DEBUG )
         {
-            final String output = getName() + ": " + message + ": " + throwable;
-            System.out.println( output );
+            System.out.println( getName() + ": " + message + ": " + throwable );
+        }
+    }
+    
+    /**
+     * Used to log minor events against the worker.  Start and stop of
+     *  individual pieces of work etc.  Separated from the major events
+     *  so that they are not lost in a sea of minor events.
+     * <p>
+     * This implementation is a Noop.  Subclasses can override to actually
+     *  do some logging.
+     *
+     * @param message Message to log.
+     */
+    protected void detailDebug( final String message )
+    {
+        if ( ENABLE_DETAIL_DEBUG )
+        {
+            System.out.println( getName() + ": " + message );
+        }
+    }
+    
+    /**
+     * Used to log minor events against the worker.  Start and stop of
+     *  individual pieces of work etc.  Separated from the major events
+     *  so that they are not lost in a sea of minor events.
+     * <p>
+     * This implementation is a Noop.  Subclasses can override to actually
+     *  do some logging.
+     *
+     * @param message Message to log.
+     * @param throwable Throwable to log with the message.
+     */
+    protected void detailDebug( final String message, final Throwable throwable )
+    {
+        if ( ENABLE_DETAIL_DEBUG )
+        {
+            System.out.println( getName() + ": " + message + ": " + throwable );
         }
     }
 }

@@ -67,7 +67,15 @@ class SimpleWorkerThread
     extends WorkerThread
     implements Poolable, LogEnabled
 {
+    /** Log major events like uncaught exceptions and worker creation
+     *   and deletion.  Stuff that is useful to be able to see over long
+     *   periods of time. */
     private Logger m_logger;
+    
+    /**
+     * Log minor detail events like 
+     */
+    private Logger m_detailLogger;
 
     /**
      * Allocates a new <code>Worker</code> object.
@@ -82,8 +90,15 @@ class SimpleWorkerThread
     public void enableLogging( final Logger logger )
     {
         m_logger = logger;
+        m_detailLogger = logger.getChildLogger( "detail" );
     }
 
+    /**
+     * Used to log major events against the worker.  Creation, deletion,
+     *  uncaught exceptions etc.
+     *
+     * @param message Message to log.
+     */
     protected void debug( final String message )
     {
         if ( m_logger.isDebugEnabled() )
@@ -92,11 +107,49 @@ class SimpleWorkerThread
         }
     }
 
-    protected void debug( final String message, final Throwable t )
+    /**
+     * Used to log major events against the worker.  Creation, deletion,
+     *  uncaught exceptions etc.
+     *
+     * @param message Message to log.
+     * @param throwable Throwable to log with the message.
+     */
+    protected void debug( final String message, final Throwable throwable )
     {
         if ( m_logger.isDebugEnabled() )
         {
-            m_logger.debug( getName() + ": " + message, t );
+            m_logger.debug( getName() + ": " + message, throwable );
+        }
+    }
+
+    /**
+     * Used to log minor events against the worker.  Start and stop of
+     *  individual pieces of work etc.  Separated from the major events
+     *  so that they are not lost in a sea of minor events.
+     *
+     * @param message Message to log.
+     */
+    protected void detailDebug( final String message )
+    {
+        if ( m_detailLogger.isDebugEnabled() )
+        {
+            m_detailLogger.debug( getName() + ": " + message );
+        }
+    }
+
+    /**
+     * Used to log minor events against the worker.  Start and stop of
+     *  individual pieces of work etc.  Separated from the major events
+     *  so that they are not lost in a sea of minor events.
+     *
+     * @param message Message to log.
+     * @param throwable Throwable to log with the message.
+     */
+    protected void detailDebug( final String message, final Throwable throwable )
+    {
+        if ( m_detailLogger.isDebugEnabled() )
+        {
+            m_detailLogger.debug( getName() + ": " + message, throwable );
         }
     }
 }
