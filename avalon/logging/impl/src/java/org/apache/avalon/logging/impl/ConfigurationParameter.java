@@ -34,7 +34,7 @@ import org.apache.avalon.util.i18n.Resources;
  * a string url to an URL instance.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class ConfigurationParameter extends Parameter
 {
@@ -52,7 +52,6 @@ public class ConfigurationParameter extends Parameter
    /**
     * Transform a string to a string array.
     * @param key the parameter key
-    * @param defaults the default string array
     */
     public ConfigurationParameter( final String key ) 
     {
