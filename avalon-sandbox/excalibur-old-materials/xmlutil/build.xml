@@ -15,7 +15,8 @@
         <pathelement location="${build.classes}"/>
         <pathelement location="${avalon-framework.jar}"/>
         <pathelement location="${excalibur-logger.jar}"/>
-        <pathelement location="${avalon-logkit.jar}"/>
+        <pathelement location="${avalon-logkit.jar}"/> <!-- deprecated -->
+        <pathelement location="${logkit.jar}"/>
         <pathelement location="${excalibur-component.jar}"/>
         <pathelement location="${excalibur-pool.jar}"/>
 	<pathelement location="${excalibur-sourceresolve.jar}"/>
