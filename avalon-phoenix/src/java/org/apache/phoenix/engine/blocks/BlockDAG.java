@@ -7,6 +7,7 @@
  */
 package org.apache.phoenix.engine.blocks;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import org.apache.avalon.AbstractLoggable;
 import org.apache.avalon.ComponentManager;
@@ -17,6 +18,7 @@ import org.apache.avalon.camelot.ContainerException;
 import org.apache.phoenix.Block;
 import org.apache.phoenix.metainfo.DependencyDescriptor;
 import org.apache.phoenix.metainfo.ServiceDescriptor;
+import org.apache.avalon.util.Enum;
 
 /**
  * This is the dependency graph for blocks.
@@ -27,7 +29,20 @@ public class BlockDAG
     extends AbstractLoggable
     implements Composer
 {
-    protected Container       m_container;
+    public final static Traversal  FORWARD     = new Traversal( "FORWARD" );
+    public final static Traversal  REVERSE     = new Traversal( "REVERSE" );
+    public final static Traversal  LINEAR      = new Traversal( "LINEAR" );
+
+    public final static class Traversal
+        extends Enum
+    {
+        private Traversal( final String name )
+        {
+            super( name );
+        }
+    }
+
+    private Container       m_container;
 
     public void compose( final ComponentManager componentManager )
         throws ComponentManagerException
@@ -35,23 +50,26 @@ public class BlockDAG
         m_container = (Container)componentManager.lookup( "org.apache.avalon.camelot.Container" );
     }
 
-    public void walkGraph( final String root, final BlockVisitor visitor )
+    public void walkGraph( final BlockVisitor visitor, final Traversal traversal )
         throws Exception
     {
-        visitBlock( root, getBlockEntry( root ), visitor, true );
+        //temporary storage to record those 
+        //that are already traversed
+        final ArrayList completed = new ArrayList();
+
+        final Iterator entries = m_container.list();
+        while( entries.hasNext() )
+        {
+            final String name = (String)entries.next();
+            final BlockEntry entry = getBlockEntry( name );
+            visitBlock( name, entry, visitor, traversal, completed );
+        }
     }
 
-    public void reverseWalkGraph( final String root, final BlockVisitor visitor )
-        throws Exception
-    {
-        visitBlock( root, getBlockEntry( root ), visitor, false );
-    }
-
-    protected BlockEntry getBlockEntry( final String name )
+    private BlockEntry getBlockEntry( final String name )
         throws Exception
     {
         return (BlockEntry)m_container.getEntry( name );
-        //catch( final ContainerException ce )
     }
 
     /**
@@ -60,9 +78,10 @@ public class BlockDAG
      * @param name name of BlockEntry
      * @param entry the BlockEntry
      */
-    protected void visitDependencies( final String name,
-                                      final BlockEntry entry,
-                                      final BlockVisitor visitor )
+    private void visitDependencies( final String name,
+                                    final BlockEntry entry,
+                                    final BlockVisitor visitor,
+                                    final ArrayList completed )
         throws Exception
     {
         getLogger().debug( "Traversing dependencies for " + name );
@@ -81,7 +100,7 @@ public class BlockDAG
             final RoleEntry roleEntry = entry.getRoleEntry( role );
             final String dependencyName = roleEntry.getName();
             final BlockEntry dependency = getBlockEntry( dependencyName );
-            visitBlock( dependencyName, dependency, visitor, true );
+            visitBlock( dependencyName, dependency, visitor, FORWARD, completed );
         }
     }
 
@@ -92,7 +111,9 @@ public class BlockDAG
      * @param name name of BlockEntry
      * @param entry the BlockEntry
      */
-    protected void visitReverseDependencies( final String name, final BlockVisitor visitor )
+    private void visitReverseDependencies( final String name, 
+                                           final BlockVisitor visitor,
+                                           final ArrayList completed )
         throws Exception
     {
         getLogger().debug( "Traversing reverse dependencies for " + name );
@@ -114,25 +135,30 @@ public class BlockDAG
                                        " as it depends on " + depends );
 
                     //finally try to traverse block
-                    visitBlock( blockName, entry, visitor, false );
+                    visitBlock( blockName, entry, visitor, REVERSE, completed );
                 }
             }
         }
     }
 
-    protected void visitBlock( final String name,
-                               final BlockEntry entry,
-                               final BlockVisitor visitor,
-                               final boolean forward )
+    private void visitBlock( final String name,
+                             final BlockEntry entry,
+                             final BlockVisitor visitor,
+                             final Traversal traversal,
+                             final ArrayList completed )
         throws Exception
     {
-        if( forward )
+        //If already visited this block then bug out early
+        if( completed.contains( name ) ) return;
+        completed.add( name );
+
+        if( FORWARD == traversal )
         {
-            visitDependencies( name, entry, visitor );
+            visitDependencies( name, entry, visitor, completed );
         }
-        else
+        else if( REVERSE == traversal )
         {
-            visitReverseDependencies( name, visitor );
+            visitReverseDependencies( name, visitor, completed );
         }
 
         visitor.visitBlock( name, entry );

@@ -25,7 +25,6 @@ import org.apache.avalon.camelot.AbstractContainer;
 import org.apache.avalon.camelot.ContainerException;
 import org.apache.avalon.camelot.Entry;
 import org.apache.avalon.camelot.Factory;
-import org.apache.phoenix.engine.facilities.ComponentBuilder;
 import org.apache.phoenix.engine.facilities.ComponentManagerBuilder;
 import org.apache.phoenix.engine.facilities.ConfigurationRepository;
 import org.apache.phoenix.engine.facilities.LoggerBuilder;
@@ -36,7 +35,6 @@ import org.apache.avalon.util.thread.ThreadManager;
 import org.apache.phoenix.engine.blocks.BlockDAG;
 import org.apache.phoenix.engine.blocks.BlockEntry;
 import org.apache.phoenix.engine.blocks.RoleEntry;
-import org.apache.phoenix.engine.facilities.DefaultComponentBuilder;
 import org.apache.phoenix.engine.facilities.DefaultComponentManagerBuilder;
 import org.apache.phoenix.engine.facilities.DefaultConfigurationRepository;
 import org.apache.phoenix.engine.facilities.DefaultLogManager;
@@ -48,7 +46,6 @@ import org.apache.phoenix.engine.phases.ShutdownPhase;
 import org.apache.phoenix.engine.phases.StartupPhase;
 import org.apache.phoenix.engine.blocks.BlockVisitor;
 import org.apache.phoenix.metainfo.DependencyDescriptor;
-import org.apache.avalon.util.Enum;
 
 /**
  * This is the basic container of blocks. A server application
@@ -62,24 +59,10 @@ public class DefaultServerApplication
     extends AbstractContainer
     implements Application, Configurable, Contextualizable
 {
-
-    protected final static Traversal  FORWARD     = new Traversal( "FORWARD" );
-    protected final static Traversal  REVERSE     = new Traversal( "REVERSE" );
-    protected final static Traversal  LINEAR      = new Traversal( "LINEAR" );
-
-    protected final static class Traversal
-        extends Enum
-    {
-        protected Traversal( final String name )
-        {
-            super( name );
-        }
-    }
-    
     protected final static class PhaseEntry
     {
-        protected Traversal     m_traversal;
-        protected BlockVisitor  m_visitor;
+        protected BlockDAG.Traversal  m_traversal;
+        protected BlockVisitor        m_visitor;
     }
 
     protected HashMap                  m_phases           = new HashMap();
@@ -96,7 +79,6 @@ public class DefaultServerApplication
     protected SarClassLoader           m_classLoader;
 
     //these are the facilities (internal components) of ServerApplication
-    protected ComponentBuilder         m_componentBuilder;
     protected LoggerBuilder            m_loggerBuilder;
     protected ComponentManagerBuilder  m_componentManagerBuilder;
     protected ConfigurationRepository  m_configurationRepository;
@@ -140,12 +122,12 @@ public class DefaultServerApplication
     {
         PhaseEntry entry = new PhaseEntry();
         entry.m_visitor = new StartupPhase();
-        entry.m_traversal = FORWARD;
+        entry.m_traversal = BlockDAG.FORWARD;
         m_phases.put( "startup", entry );
         
         entry = new PhaseEntry();
         entry.m_visitor = new ShutdownPhase();
-        entry.m_traversal = REVERSE;
+        entry.m_traversal = BlockDAG.REVERSE;
         m_phases.put( "shutdown", entry );
     }
 
@@ -168,7 +150,7 @@ public class DefaultServerApplication
         {
             getLogger().info( "Number of blocks to load: " + m_entries.size() );
             final PhaseEntry entry = (PhaseEntry)m_phases.get( "startup" );
-            runPhase( entry.m_visitor, entry.m_traversal );
+            runPhase( entry );
         }
         catch( final ApplicationException ae )
         {
@@ -188,7 +170,7 @@ public class DefaultServerApplication
         getLogger().info( "Number of blocks to unload: " + m_entries.size() );
 
         final PhaseEntry entry = (PhaseEntry)m_phases.get( "shutdown" );
-        runPhase( entry.m_visitor, entry.m_traversal );
+        runPhase( entry );
 
         m_entries.clear();
     }
@@ -208,7 +190,6 @@ public class DefaultServerApplication
         m_componentManagerBuilder = new DefaultComponentManagerBuilder();
         m_configurationRepository = new DefaultConfigurationRepository();
         m_loggerBuilder = new DefaultLoggerBuilder();
-        m_componentBuilder = new DefaultComponentBuilder();
 
         m_classLoader = new SarClassLoader();
         m_threadManager = new DefaultThreadManager();
@@ -236,7 +217,6 @@ public class DefaultServerApplication
 
         setupComponent( m_classLoader );
 
-        setupComponent( m_componentBuilder );
         setupComponent( m_loggerBuilder );
         setupComponent( m_componentManagerBuilder );
         setupComponent( m_configurationRepository );
@@ -278,39 +258,10 @@ public class DefaultServerApplication
         }
     }
 
-    protected void runPhase( final BlockVisitor visitor, final Traversal traversal )
+    protected void runPhase( final PhaseEntry phase )
         throws Exception
     {
-        if( FORWARD == traversal )
-        {
-            final Iterator entries = list();
-            while( entries.hasNext() )
-            {
-                final String name = (String)entries.next();
-                m_dag.walkGraph( name, visitor );
-            }
-        }
-        else if( REVERSE == traversal )
-        {
-            //TODO:
-            final Iterator entries = list();
-            while( entries.hasNext() )
-            {
-                final String name = (String)entries.next();
-                //m_dag.reverseWalkGraph( name, visitor );
-            }
-        }
-        else
-        {
-            //TODO: Does this make sense ????
-            final Iterator entries = list();
-            while( entries.hasNext() )
-            {
-                final String name = (String)entries.next();
-                final BlockEntry entry = (BlockEntry)getEntry( name );
-                visitor.visitBlock( name, entry );
-            }
-        }
+        m_dag.walkGraph( phase.m_visitor, phase.m_traversal );
     }
 
     /**
@@ -389,8 +340,6 @@ public class DefaultServerApplication
         componentManager.put( "NOT_DONE_YET", m_logManager );
         componentManager.put( "org.apache.avalon.util.thread.ThreadManager", m_threadManager );
         componentManager.put( "org.apache.phoenix.engine.facilities.LoggerBuilder", m_loggerBuilder );
-        componentManager.put( "org.apache.phoenix.engine.facilities.ComponentBuilder",
-                              m_componentBuilder );
         componentManager.put( "org.apache.phoenix.engine.facilities.ComponentManagerBuilder",
                               m_componentManagerBuilder );
         componentManager.put( "org.apache.phoenix.engine.facilities.ConfigurationRepository",

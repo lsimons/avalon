@@ -17,6 +17,7 @@ import org.apache.avalon.atlantis.ApplicationException;
 import org.apache.avalon.util.thread.ThreadContext;
 import org.apache.avalon.util.thread.ThreadManager;
 import org.apache.phoenix.engine.blocks.BlockEntry;
+import org.apache.phoenix.engine.blocks.BlockVisitor;
 
 /**
  *
@@ -24,7 +25,7 @@ import org.apache.phoenix.engine.blocks.BlockEntry;
  */
 public class ShutdownPhase
     extends AbstractLoggable
-    implements Phase, Composer
+    implements BlockVisitor, Composer
 {
     private ClassLoader                 m_classLoader;
     private ThreadManager               m_threadManager;
