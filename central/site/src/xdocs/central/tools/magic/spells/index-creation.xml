@@ -64,7 +64,9 @@
 <project name="gizmo" default="install" basedir="." 
     xmlns:x="antlib:org.apache.avalon.tools">
 
-  <x:home index=".."/>
+  <!-- Search for an index.xml file from current directory and upwards
+       in the directory structures.  -->
+  <x:home />
   <import file="${magic.templates}/standard.xml"/>
 
 </project>]]></source>
@@ -86,8 +88,10 @@
           The default target "install" is a target declared in the 
           imported buildfile <code>${magic.templates}/standard.xml</code>.</li>
         <li>
-          The <code><![CDATA[<x:home index=".."/>]]></code> triggers
-          the loading of the index file located in the parent directory
+          The <code><![CDATA[<x:home />]]></code> triggers
+          the loading of the index file located in the current directory OR
+          in any ascendent parent directory, i.e. the file system will be scanned
+          upwards in the directory structure,
           and from this the construction of the project model that contains
           version information, dependencies, etc.</li>
         <li>
