@@ -23,7 +23,7 @@ import org.apache.avalon.composition.model.DeploymentModel;
  * Defintion of runtime services.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2004/02/10 16:23:35 $
+ * @version $Revision: 1.2 $ $Date: 2004/04/04 23:33:56 $
  */
 public interface Runtime
 {
@@ -53,6 +53,15 @@ public interface Runtime
     * @exception Exception if a deployment error occurs
     */
     Object resolve( DeploymentModel model ) throws Exception;
+
+   /**
+    * Request resolution of an object from the runtime.
+    * @param model the deployment model
+    * @param proxy if TRUE the return value will be proxied if the 
+    *   underlying component typoe suppports proxy representation 
+    * @exception Exception if a deployment error occurs
+    */
+    Object resolve( DeploymentModel model, boolean proxy ) throws Exception;
 
    /**
     * Request the release of an object from the runtime.

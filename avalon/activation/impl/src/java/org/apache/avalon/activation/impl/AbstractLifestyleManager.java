@@ -44,7 +44,7 @@ import org.apache.avalon.util.i18n.Resources;
  * Abstract implentation class for a lifestyle handler.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.7 $ $Date: 2004/03/17 10:30:07 $
+ * @version $Revision: 1.8 $ $Date: 2004/04/04 23:33:56 $
  */
 public abstract class AbstractLifestyleManager implements LifestyleManager
 {
@@ -114,6 +114,17 @@ public abstract class AbstractLifestyleManager implements LifestyleManager
     {
         Object instance = handleResolve();
         return applyExtensionStages( instance, true );
+    }
+
+    /**
+     * Resolve a object to a value.
+     *
+     * @return the resolved object
+     * @throws Exception if an error occurs
+     */
+    public Object resolve( boolean proxy ) throws Exception
+    {
+        return resolve();
     }
 
     /**

@@ -47,7 +47,7 @@ import org.apache.avalon.util.i18n.Resources;
  * Implementation of a system context that exposes a system wide set of parameters.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.30 $ $Date: 2004/04/01 04:06:52 $
+ * @version $Revision: 1.31 $ $Date: 2004/04/04 23:33:56 $
  */
 public class DefaultSystemContext extends DefaultContext 
   implements SystemContext
@@ -381,6 +381,18 @@ public class DefaultSystemContext extends DefaultContext
     public Object resolve( DeploymentModel model ) throws Exception
     {
         return getRuntime().resolve( model );
+    }
+
+   /**
+    * Request resolution of an object from the runtime.
+    * @param model the deployment model
+    * @param proxy if TRUE the return value will be proxied if the 
+    *   underlying component typoe suppports proxy representation 
+    * @exception Exception if a deployment error occurs
+    */
+    public Object resolve( DeploymentModel model, boolean proxy ) throws Exception
+    {
+        return getRuntime().resolve( model, proxy );
     }
 
    /**

@@ -30,7 +30,7 @@ import org.apache.avalon.util.i18n.Resources;
  * Implementation of a system context that exposes a system wide set of parameters.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2004/03/17 10:30:07 $
+ * @version $Revision: 1.5 $ $Date: 2004/04/04 23:33:56 $
  */
 public class DefaultRuntime implements Runtime
 {
@@ -105,6 +105,18 @@ public class DefaultRuntime implements Runtime
     public Object resolve( DeploymentModel model ) throws Exception
     {
         return getRuntimeFactory().getRuntime( model ).resolve();
+    }
+
+   /**
+    * Request resolution of an object from the runtime.
+    * @param model the deployment model
+    * @param proxy if TRUE the return value will be proxied if the 
+    *   underlying component typoe suppports proxy representation 
+    * @exception Exception if a deployment error occurs
+    */
+    public Object resolve( DeploymentModel model, boolean proxy ) throws Exception
+    {
+        return getRuntimeFactory().getRuntime( model ).resolve( proxy );
     }
 
    /**
