@@ -101,6 +101,8 @@ public class DefaultSystemContextFactory implements SystemContextFactory
 
     private boolean m_secure = false;
 
+    private boolean m_proxies = true;
+
     //--------------------------------------------------------------
     // constructor
     //--------------------------------------------------------------
@@ -129,6 +131,19 @@ public class DefaultSystemContextFactory implements SystemContextFactory
     public void setSecurityEnabled( boolean secure )
     {
         m_secure = secure;
+    }
+
+   /**
+    * Set the system wide default for proxy creation.  The default value
+    * is TRUE enabling automation of component finalization and improved
+    * memory management.
+    *
+    * @param flag if TRUE (the default) proxy generation is enabled on
+    *   all components otherwise proxy creation is disabled.
+    */
+    public void setDefaultProxyPolicy( boolean flag )
+    {
+        m_proxies = flag;
     }
 
    /**
@@ -255,6 +270,7 @@ public class DefaultSystemContextFactory implements SystemContextFactory
           getRepository(), 
           getName(), 
           isTraceEnabled(), 
+          isProxyEnabled(),
           getDefaultDeploymentTimeout(), 
           getSecurityEnabled(),
           getSecurityProfiles(), 
@@ -390,6 +406,16 @@ public class DefaultSystemContextFactory implements SystemContextFactory
     public boolean isTraceEnabled()
     {
         return m_trace;
+    }
+
+   /**
+    * Return the proxy enabled flag.
+    *
+    * @return the proxy enablement flag
+    */
+    public boolean isProxyEnabled()
+    {
+        return m_proxies;
     }
 
    /**
