@@ -31,7 +31,7 @@ public abstract class AbstractOutputTarget
     protected Formatter    m_formatter;
 
     ///Flag indicating that log session is finished (aka target has been closed)
-    private boolean        m_closed  = true;
+    private boolean        m_isOpen;
 
     /**
      * Parameterless constructor.
@@ -43,6 +43,11 @@ public abstract class AbstractOutputTarget
     public AbstractOutputTarget( final Formatter formatter )
     {
         m_formatter = formatter;
+    }
+
+    protected boolean isOpen()
+    {
+        return m_isOpen;
     }
 
     /**
@@ -98,7 +103,7 @@ public abstract class AbstractOutputTarget
      */
     public void processEvent( final LogEvent event )
     {
-        if( m_closed )
+        if( !isOpen() ) 
         {
             error( "Writing event to closed stream.", null );
             return;
@@ -121,8 +126,11 @@ public abstract class AbstractOutputTarget
      */
     protected void open()
     {
-        m_closed = false;
-        writeHead();
+        if( !isOpen() )
+        {
+            m_isOpen = true;
+            writeHead();
+        }
     }
 
     /**
@@ -132,8 +140,11 @@ public abstract class AbstractOutputTarget
      */
     public void close()
     {
-        writeTail();
-        m_closed = true;
+        if( isOpen() )
+        {
+            writeTail();
+            m_isOpen = false;
+        }
     }
 
     /**
@@ -160,7 +171,7 @@ public abstract class AbstractOutputTarget
      */
     private void writeHead()
     {
-        if( m_closed ) return;
+        if( !isOpen() ) return;
 
         final String head = getHead();
         if( null != head )
@@ -175,7 +186,7 @@ public abstract class AbstractOutputTarget
      */
     private void writeTail()
     {
-        if( m_closed ) return;
+        if( !isOpen() ) return;
 
         final String tail = getTail();
         if( null != tail )
