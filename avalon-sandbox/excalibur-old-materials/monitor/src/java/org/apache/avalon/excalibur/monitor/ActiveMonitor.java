@@ -64,18 +64,23 @@ import org.apache.avalon.framework.thread.ThreadSafe;
  * looks like this:
  *
  * <pre>
- *   &lt;monitor&gt;
+ *   &lt;active-monitor&gt;
  *     &lt;thread priority="<i>5</i>" frequency="<i>60000</i>"/&gt;
  *     &lt;init-resources&gt;
  *       &lt;-- This entry can be repeated for every resource you want to register immediately --&gt;
  *
  *       &lt;resource key="<i>file:./myfile.html</i>" class="<i>org.apache.avalon.excalibur.monitor.FileResource</i>"/&gt;
  *     &lt;/init-resources&gt;
- *   &lt;/monitor&gt;
+ *   &lt;/active-monitor&gt;
  * </pre>
  *
+ * @avalon.component
+ * @avalon.service type=org.apache.avalon.excalibur.monitor.Monitor
+ * @x-avalon.info name=active-monitor
+ * @x-avalon.lifestyle type=singleton
+ *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: ActiveMonitor.java,v 1.19 2003/03/22 12:46:50 leosimons Exp $
+ * @version $Id: ActiveMonitor.java,v 1.20 2003/05/23 17:41:04 bloritsch Exp $
  */
 public class ActiveMonitor
     extends org.apache.avalon.excalibur.monitor.impl.ActiveMonitor

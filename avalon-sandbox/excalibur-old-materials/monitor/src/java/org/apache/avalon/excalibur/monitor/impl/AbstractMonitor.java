@@ -55,6 +55,7 @@ import java.util.Map;
 
 import org.apache.avalon.excalibur.monitor.Monitor;
 import org.apache.avalon.excalibur.monitor.Resource;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
 
 /**
  * The AbstractMonitor class is a useful base class which all Monitors
@@ -63,7 +64,7 @@ import org.apache.avalon.excalibur.monitor.Resource;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Id: AbstractMonitor.java,v 1.10 2003/03/22 12:46:50 leosimons Exp $
+ * @version $Id: AbstractMonitor.java,v 1.11 2003/05/23 17:41:04 bloritsch Exp $
  */
 public abstract class AbstractMonitor
     implements Monitor

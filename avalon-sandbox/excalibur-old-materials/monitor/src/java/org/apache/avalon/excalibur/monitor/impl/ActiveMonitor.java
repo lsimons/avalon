@@ -54,14 +54,9 @@ package org.apache.avalon.excalibur.monitor.impl;
  * changed. It will poll the resources with a frequency as specified or if
  * unspecified with the default (60 seconds).
  * 
- * @avalon.component
- * @avalon.service type=org.apache.avalon.excalibur.monitor.Monitor
- * @x-avalon.info name=active-monitor
- * @x-avalon.lifestyle type=singleton
- *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Id: ActiveMonitor.java,v 1.8 2003/05/20 20:49:35 bloritsch Exp $
+ * @version $Id: ActiveMonitor.java,v 1.9 2003/05/23 17:41:04 bloritsch Exp $
  */
 public class ActiveMonitor
     extends AbstractMonitor
