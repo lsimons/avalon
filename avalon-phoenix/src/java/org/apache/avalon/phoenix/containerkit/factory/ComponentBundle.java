@@ -47,7 +47,6 @@
  Apache Software Foundation, please see <http://www.apache.org/>.
 
 */
-
 package org.apache.avalon.phoenix.containerkit.factory;
 
 import java.io.InputStream;
@@ -72,7 +71,7 @@ import org.apache.avalon.phoenix.framework.info.ComponentInfo;
  * </ul>
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003/03/22 12:07:11 $
+ * @version $Revision: 1.5 $ $Date: 2003/04/06 03:17:59 $
  */
 public interface ComponentBundle
 {
