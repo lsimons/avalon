@@ -13,7 +13,7 @@ import org.apache.avalon.framework.CascadingException;
  * The exception thrown to indicate a problem with service.
  * It is usually thrown by ServiceManager or ServiceSelector.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  * @author <a href="mailto:fumagalli@exoffice.com">Pierpaolo Fumagalli</a>
  * @author <a href="mailto:fede@apache.org">Federico Barbieri</a>
  * @author <a href="mailto:stefano@apache.org">Stefano Mazzocchi</a>

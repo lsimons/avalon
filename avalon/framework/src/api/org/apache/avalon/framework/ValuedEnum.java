@@ -64,7 +64,7 @@ import java.util.Map;
  * should be defined in the Enum class, as shown above.
  * </p>
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  * @author <a href="mailto:jefft@apache.org">Jeff Turner</a>
  */
 public abstract class ValuedEnum

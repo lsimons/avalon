@@ -11,7 +11,7 @@ package org.apache.avalon.framework;
  * Class from which all exceptions should inherit.
  * Allows recording of nested exceptions.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  */
 public class CascadingException
     extends Exception

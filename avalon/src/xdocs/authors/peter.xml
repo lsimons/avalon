@@ -8,7 +8,7 @@
   <firstname>Peter</firstname>
   <surname>Donald</surname>
   <address>
-    <email>peter@apache.org</email>
+    <email>peter at apache.org</email>
   </address>
   <affiliation>
     <shortaffil>ASF</shortaffil>

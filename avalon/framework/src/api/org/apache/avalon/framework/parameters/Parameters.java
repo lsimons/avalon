@@ -43,7 +43,7 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
  * </p>
  *
  * @author <a href="mailto:fumagalli@exoffice.com">Pierpaolo Fumagalli</a>
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  * @version 1.0
  */
 public class Parameters

@@ -17,7 +17,7 @@ import java.util.Map;
  * Object scope.
  *
  * @author <a href="mailto:fede@apache.org">Federico Barbieri</a>
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
  * @version 1.0
  */

@@ -17,7 +17,7 @@ import java.util.StringTokenizer;
  *
  * Some exception handling stuff thieved from Turbine...
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  * @author <a href="mailto:Rafal.Krzewski@e-point.pl">Rafal Krzewski</a>
  * @version 1.0
  */
