@@ -31,6 +31,7 @@ import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.framework.thread.ThreadSafe;
+import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.excalibur.container.legacy.ComponentProxyGenerator;
 import org.apache.excalibur.instrument.InstrumentManageable;
 import org.apache.excalibur.instrument.InstrumentManager;
@@ -43,7 +44,7 @@ import org.apache.excalibur.instrument.Instrumentable;
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.11 $ $Date: 2002/11/07 06:37:53 $
+ * @version CVS $Revision: 1.12 $ $Date: 2002/11/07 07:15:13 $
  * @since 4.0
  */
 public class DefaultComponentFactory
@@ -178,7 +179,7 @@ public class DefaultComponentFactory
         {
             if( null == m_loggerManager || null == m_configuration )
             {
-                ( (LogEnabled)component ).enableLogging( getLogger() );
+                ContainerUtil.enableLogging( component, getLogger() );
             }
             else
             {
@@ -186,12 +187,12 @@ public class DefaultComponentFactory
                 if( null == logger )
                 {
                     getLogger().debug( "no logger attribute available, using standard logger" );
-                    ( (LogEnabled)component ).enableLogging( getLogger() );
+                    ContainerUtil.enableLogging( component, getLogger() );
                 }
                 else
                 {
                     getLogger().debug( "logger attribute is " + logger );
-                    ( (LogEnabled)component ).enableLogging( m_loggerManager.getLoggerForCategory( logger ) );
+                    ContainerUtil.enableLogging( component, m_loggerManager.getLoggerForCategory( logger ) );
                 }
             }
         }
@@ -232,7 +233,7 @@ public class DefaultComponentFactory
 
         if( component instanceof Contextualizable )
         {
-            ( (Contextualizable)component ).contextualize( m_context );
+            ContainerUtil.contextualize( component, m_context );
         }
 
         Object proxy = null;
@@ -242,7 +243,7 @@ public class DefaultComponentFactory
             // wrap the real CM with a proxy, see below for more info
             final ComponentManagerProxy manager =
                 new ComponentManagerProxy( m_componentManager );
-            ( (Composable)component ).compose( manager );
+            ContainerUtil.compose( component, manager );
             proxy = manager;
         }
 
@@ -251,7 +252,7 @@ public class DefaultComponentFactory
             // wrap the real CM with a proxy, see below for more info
             final ServiceManagerProxy manager =
                 new ServiceManagerProxy( m_componentManager );
-            ( (Serviceable)component ).service( manager );
+            ContainerUtil.service( component, manager );
             proxy = manager;
         }
 
@@ -265,21 +266,15 @@ public class DefaultComponentFactory
             ( (LogKitManageable)component ).setLogKitManager( m_loggerManager.getLogKitManager() );
         }
 
-        if( component instanceof Configurable )
-        {
-            ( (Configurable)component ).configure( m_configuration );
-        }
+        ContainerUtil.configure( component, m_configuration );
 
         if( component instanceof Parameterizable )
         {
-            ( (Parameterizable)component ).
-                parameterize( Parameters.fromConfiguration( m_configuration ) );
+            final Parameters parameters = Parameters.fromConfiguration( m_configuration );
+            ContainerUtil.parameterize( component, parameters );
         }
 
-        if( component instanceof Initializable )
-        {
-            ( (Initializable)component ).initialize();
-        }
+        ContainerUtil.initialize( component );
 
         // Register the component as an instrumentable now that it has been initialized.
         if( component instanceof Instrumentable )
@@ -291,11 +286,7 @@ public class DefaultComponentFactory
                     (Instrumentable)component, m_instrumentableName );
             }
         }
-
-        if( component instanceof Startable )
-        {
-            ( (Startable)component ).start();
-        }
+        ContainerUtil.start( component );
 
         m_components.put( component, proxy );
 
@@ -319,9 +310,7 @@ public class DefaultComponentFactory
         return m_componentClass;
     }
 
-    public final void decommission
-        (
-        final Object component )
+    public final void decommission( final Object component )
         throws Exception
     {
         Object check = m_components.get( component );
@@ -342,15 +331,8 @@ public class DefaultComponentFactory
                                m_componentClass.getName() + "." );
         }
 
-        if( decommission instanceof Startable )
-        {
-            ( (Startable)decommission ).stop();
-        }
-
-        if( component instanceof Disposable )
-        {
-            ( (Disposable)decommission ).dispose();
-        }
+        ContainerUtil.stop( component );
+        ContainerUtil.dispose( component );
 
         if( decommission instanceof Composable )
         {
@@ -370,8 +352,7 @@ public class DefaultComponentFactory
     /*---------------------------------------------------------------
      * Disposable Methods
      *-------------------------------------------------------------*/
-    public final void dispose
-        ()
+    public final void dispose()
     {
         Component[] components = new Component[ m_components.keySet().size() ];
 
