@@ -93,7 +93,8 @@ import org.xml.sax.SAXException;
  * @see org.apache.excalibur.configuration.merged.ConfigurationMerger
  * @see org.apache.excalibur.configuration.merged.ConfigurationSplitter
  */
-public class FileSystemPersistentConfigurationRepository extends AbstractLogEnabled
+public class FileSystemPersistentConfigurationRepository
+    extends AbstractLogEnabled
     implements ConfigurationRepository, Contextualizable, Configurable, Initializable,
     ConfigurationRepositoryMBean
 {
@@ -119,16 +120,16 @@ public class FileSystemPersistentConfigurationRepository extends AbstractLogEnab
 
     public void configure( final Configuration configuration ) throws ConfigurationException
     {
-        this.m_storageDirectory = new File( constructStoragePath( configuration ) );
+        m_storageDirectory = new File( constructStoragePath( configuration ) );
 
         try
         {
-            FileUtil.forceMkdir( this.m_storageDirectory );
+            FileUtil.forceMkdir( m_storageDirectory );
         }
         catch( IOException e )
         {
             final String message = REZ.getString( "config.error.dir.invalid",
-                                                  this.m_storageDirectory );
+                                                  m_storageDirectory );
 
             throw new ConfigurationException( message, e );
 
@@ -175,7 +176,6 @@ public class FileSystemPersistentConfigurationRepository extends AbstractLogEnab
         throws IOException, SAXException, ConfigurationException
     {
         final File[] apps = m_storageDirectory.listFiles( new ConfigurationDirectoryFilter() );
-
         for( int i = 0; i < apps.length; i++ )
         {
             loadConfigurations( apps[ i ] );
@@ -199,8 +199,10 @@ public class FileSystemPersistentConfigurationRepository extends AbstractLogEnab
                                                           builder.buildFromFile( blocks[ i ] ) );
 
             if( getLogger().isDebugEnabled() )
+            {
                 getLogger().debug( "Loaded persistent configuration [app: " + app
                                    + ", block: " + block + "]" );
+            }
         }
     }
 
@@ -210,13 +212,15 @@ public class FileSystemPersistentConfigurationRepository extends AbstractLogEnab
         throws SAXException, IOException, ConfigurationException
     {
         final DefaultConfigurationSerializer serializer = new DefaultConfigurationSerializer();
-        final File directory = new File( this.m_storageDirectory, application );
+        final File directory = new File( m_storageDirectory, application );
 
         FileUtil.forceMkdir( directory );
 
         if( getLogger().isDebugEnabled() )
+        {
             getLogger().debug( "Serializing configuration to disk [app: " + application
                                + ", block: " + block + "]" );
+        }
 
         serializer.setIndent( true );
         serializer.serializeToFile( new File( directory, block + ".xml" ), configuration );
@@ -344,8 +348,8 @@ public class FileSystemPersistentConfigurationRepository extends AbstractLogEnab
 
     public boolean hasConfiguration( final String application, final String block )
     {
-        return m_mergedConfigurations.hasConfiguration( application, block )
-            || m_transientConfigurations.hasConfiguration( application, block )
-            || m_persistedConfigurations.hasConfiguration( application, block );
+        return m_mergedConfigurations.hasConfiguration( application, block ) ||
+            m_transientConfigurations.hasConfiguration( application, block ) ||
+            m_persistedConfigurations.hasConfiguration( application, block );
     }
 }
