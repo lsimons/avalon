@@ -61,13 +61,13 @@ public abstract class AbstractPlugin extends AbstractLogEnabled
         }
     }
 
-    protected void notifyStep( String method, int stepIndex )
+    protected void notifyStep( String method, String step )
     {
         Iterator list = m_Listeners.iterator();
         while( list.hasNext() )
         {
             PluginObserver observer = (PluginObserver) list.next();
-            observer.stepPerformed( this, method, stepIndex );
+            observer.stepPerformed( this, method, step );
         }
     }
 } 
