@@ -73,6 +73,7 @@ public class PhoenixServlet
         final String logPriority = getInitParameter( "log-priority", "INFO" );
         final String appName = getInitParameter( "application-name", "default" );
         final String appLoc = getInitParameter( "application-location", phoenixHome + "/" + appName );
+        final String configFile = getInitParameter( "config-file", phoenixHome + "/conf/kernel.xml");
 
         m_parameters = new Parameters();
         m_parameters.setParameter( "phoenix.home", context.getRealPath( phoenixHome ) );
@@ -83,12 +84,17 @@ public class PhoenixServlet
 
         try
         {
-            m_embeddor = new SingleAppEmbeddor();
+			Configuration conf = getConfigurationFor(configFile).getChild("embeddor");
+			m_embeddor = (Embeddor) Class.forName(conf.getAttribute("class")).newInstance();
             m_embeddor.enableLogging( createLogger( m_parameters ) );
+
             if( m_embeddor instanceof Parameterizable )
             {
                 ( (Parameterizable)m_embeddor ).parameterize( m_parameters );
             }
+			if (m_embeddor instanceof Configurable) {
+				((Configurable) m_embeddor).configure(conf);
+			}
             m_embeddor.initialize();
 
             final Thread thread = new Thread( this, "Phoenix" );

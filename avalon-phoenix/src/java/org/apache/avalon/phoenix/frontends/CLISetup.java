@@ -33,6 +33,7 @@ class CLISetup
     private static final int LOG_FILE_OPT = 'l';
     private static final int APPS_PATH_OPT = 'a';
     private static final int PERSISTENT_OPT = 'p';
+    private static final int CONFIGFILE_OPT = 'f';
     private static final int REMOTE_MANAGER_OPT = 1;
     private static final int DISABLE_HOOK_OPT = 2;
     private static final int APPLICATION_OPT = 3;
@@ -63,7 +64,7 @@ class CLISetup
      */
     private CLOptionDescriptor[] createCLOptions()
     {
-        final CLOptionDescriptor options[] = new CLOptionDescriptor[ 8 ];
+        final CLOptionDescriptor options[] = new CLOptionDescriptor[ 9 ];
         options[ 0 ] =
             new CLOptionDescriptor( "help",
                                     CLOptionDescriptor.ARGUMENT_DISALLOWED,
@@ -111,6 +112,13 @@ class CLISetup
                                     PERSISTENT_OPT,
                                     REZ.getString( "cli.opt.persistent.desc" ) );
 
+        options[ 8 ] =
+            new CLOptionDescriptor( "configfile",
+                                    CLOptionDescriptor.ARGUMENT_REQUIRED,
+                                    CONFIGFILE_OPT,
+                                    REZ.getString( "cli.opt.configfile.desc" ) );
+
+
         return options;
     }
 
@@ -133,6 +141,9 @@ class CLISetup
 
         final List clOptions = parser.getArguments();
         final int size = clOptions.size();
+        
+        m_parameters.setParameter( "phoenix.configfile", "../conf/kernel.xml");  // setting default
+        
 
         for( int i = 0; i < size; i++ )
         {
@@ -180,6 +191,11 @@ class CLISetup
                 case DISABLE_HOOK_OPT:
                     m_parameters.setParameter( "disable-hook", "true" );
                     break;
+
+                case CONFIGFILE_OPT:
+                    m_parameters.setParameter( "phoenix.configfile", option.getArgument() );
+                    break;
+
             }
         }
 

@@ -22,8 +22,9 @@ import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.component.Composable;
 import org.apache.avalon.framework.component.DefaultComponentManager;
+import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
+import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
@@ -32,16 +33,10 @@ import org.apache.avalon.framework.parameters.ParameterException;
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.phoenix.Constants;
-import org.apache.avalon.phoenix.interfaces.ClassLoaderManager;
-import org.apache.avalon.phoenix.interfaces.ConfigurationRepository;
 import org.apache.avalon.phoenix.interfaces.Deployer;
-import org.apache.avalon.phoenix.interfaces.DeploymentRecorder;
 import org.apache.avalon.phoenix.interfaces.Embeddor;
 import org.apache.avalon.phoenix.interfaces.EmbeddorMBean;
 import org.apache.avalon.phoenix.interfaces.Kernel;
-import org.apache.avalon.phoenix.interfaces.LogManager;
-import org.apache.avalon.phoenix.interfaces.PackageRepository;
-import org.apache.avalon.phoenix.interfaces.SystemManager;
 
 /**
  * This is the object that is interacted with to create, manage and
@@ -49,11 +44,13 @@ import org.apache.avalon.phoenix.interfaces.SystemManager;
  *
  * @author <a href="mail@leosimons.com">Leo Simons</a>
  * @author <a href="peter@apache.org">Peter Donald</a>
+ * @author <a href="bauer@denic.de">Joerg Bauer</a>
  */
 public class DefaultEmbeddor
     extends AbstractLogEnabled
-    implements Embeddor, Contextualizable, Parameterizable, EmbeddorMBean
+    implements Embeddor, Contextualizable, Parameterizable, Configurable, EmbeddorMBean
 {
+
     private static final Resources REZ =
         ResourceManager.getPackageResources( DefaultEmbeddor.class );
 
@@ -63,14 +60,7 @@ public class DefaultEmbeddor
     private Parameters m_parameters;
     private String m_phoenixHome;
 
-    private ClassLoaderManager m_classLoaderManager;
-    private ConfigurationRepository m_repository;
-    private Kernel m_kernel;
-    private Deployer m_deployer;
-    private DeploymentRecorder m_recorder;
-    private LogManager m_logManager;
-    private SystemManager m_systemManager;
-    private PackageRepository m_packageRepository;
+    private EmbeddorEntry[] components;
 
     /**
      * If true, flag indicates that the Embeddor should continue running
@@ -135,11 +125,31 @@ public class DefaultEmbeddor
     public synchronized void parameterize( final Parameters parameters )
         throws ParameterException
     {
-        m_parameters = createDefaultParameters();
-        m_parameters.merge( parameters );
-
+        m_parameters = parameters;
+        m_parameters.setParameter( "phoenix.home", ".." );
+        m_parameters.setParameter( "persistent", "false" );
         m_phoenixHome = m_parameters.getParameter( "phoenix.home" );
         m_persistent = m_parameters.getParameterAsBoolean( "persistent" );
+    }
+
+    public void configure( final Configuration configuration )
+        throws ConfigurationException
+    {
+        Configuration[] childs = configuration.getChildren( "component" );
+        components = new EmbeddorEntry[ childs.length ];
+        for( int i = 0; i < childs.length; i++ )
+        {
+            final String role = childs[ i ].getAttribute( "role" );
+            final String classname = childs[ i ].getAttribute( "class" );
+            final String logger = childs[ i ].getAttribute( "logger" );
+            final Configuration childConfiguration = childs[ i ];
+
+            components[ i ] = new EmbeddorEntry();
+            components[ i ].setRole( role );
+            components[ i ].setClassName( classname );
+            components[ i ].setLoggerName( logger );
+            components[ i ].setConfiguration( childConfiguration );
+        }
     }
 
     /**
@@ -154,16 +164,7 @@ public class DefaultEmbeddor
         try
         {
             createComponents();
-
-            // setup core handler components
-            setupComponent( m_packageRepository, "packages" );
-            setupComponent( m_logManager, "logs" );
-            setupComponent( m_classLoaderManager, "classes" );
-            setupComponent( m_repository, "config" );
-            setupComponent( m_deployer, "deployer" );
-            setupComponent( m_recorder, "recorder" );
-            setupComponent( m_systemManager, "manager" );
-            setupComponent( m_kernel, "kernel" );
+            setupComponents();
         }
         catch( final Exception e )
         {
@@ -221,9 +222,10 @@ public class DefaultEmbeddor
 
     private boolean emptyKernel()
     {
-        if( null != m_kernel )
+        Kernel kernel = (Kernel)getEmbeddorComponent( Kernel.ROLE );
+        if( null != kernel )
         {
-            final String[] names = m_kernel.getApplicationNames();
+            final String[] names = kernel.getApplicationNames();
             return ( 0 == names.length );
         }
         else
@@ -256,14 +258,7 @@ public class DefaultEmbeddor
         shutdown();
         try
         {
-            shutdownComponent( m_systemManager );
-            shutdownComponent( m_recorder );
-            shutdownComponent( m_deployer );
-            shutdownComponent( m_kernel );
-            shutdownComponent( m_repository );
-            shutdownComponent( m_logManager );
-            shutdownComponent( m_classLoaderManager );
-            shutdownComponent( m_packageRepository );
+            shutdownComponents();
         }
         catch( final Exception e )
         {
@@ -271,14 +266,10 @@ public class DefaultEmbeddor
             final String message = REZ.getString( "embeddor.error.shutdown.failed" );
             getLogger().fatalError( message, e );
         }
-
-        m_packageRepository = null;
-        m_systemManager = null;
-        m_kernel = null;
-        m_repository = null;
-        m_classLoaderManager = null;
-        m_logManager = null;
-        m_deployer = null;
+        for( int i = 0; i < components.length; i++ )
+        {
+            components[ i ].setObject( null );
+        }
         System.gc(); // make sure resources are released
     }
 
@@ -380,44 +371,30 @@ public class DefaultEmbeddor
         return "(" + Constants.DATE + ")";
     }
 
-
     //////////////////////
     /// HELPER METHODS ///
     //////////////////////
-
     /**
      * Create the logger, deployer and kernel components.
      * Note that these components are not ready to be used
      * until setupComponents() is called.
      */
     private synchronized void createComponents()
-        throws Exception
     {
-        String component = null;
-
-        component = m_parameters.getParameter( PackageRepository.ROLE );
-        m_packageRepository = (PackageRepository)createComponent( component, PackageRepository.class );
-
-        component = m_parameters.getParameter( ConfigurationRepository.ROLE );
-        m_repository = (ConfigurationRepository)createComponent( component, ConfigurationRepository.class );
-
-        component = m_parameters.getParameter( LogManager.ROLE );
-        m_logManager = (LogManager)createComponent( component, LogManager.class );
-
-        component = m_parameters.getParameter( ClassLoaderManager.ROLE );
-        m_classLoaderManager = (ClassLoaderManager)createComponent( component, ClassLoaderManager.class );
-
-        component = m_parameters.getParameter( Deployer.ROLE );
-        m_deployer = (Deployer)createComponent( component, Deployer.class );
-
-        component = m_parameters.getParameter( DeploymentRecorder.ROLE );
-        m_recorder = (DeploymentRecorder)createComponent( component, DeploymentRecorder.class );
-
-        component = m_parameters.getParameter( SystemManager.ROLE );
-        m_systemManager = (SystemManager)createComponent( component, SystemManager.class );
-
-        component = m_parameters.getParameter( Kernel.ROLE );
-        m_kernel = (Kernel)createComponent( component, Kernel.class );
+        Object object;
+        try
+        {
+            for( int i = 0; i < components.length; i++ )
+            {
+                object = createComponent( components[ i ].getClassName(), Class.forName( components[ i ].getClassName() ) );
+                components[ i ].setObject( object );
+            }
+        }
+        catch( Exception e )
+        {
+            final String message = REZ.getString( "embeddor.error.createComponents.failed" );
+            getLogger().fatalError( message, e );
+        }
     }
 
     /**
@@ -437,8 +414,7 @@ public class DefaultEmbeddor
             final File file = new File( application );
             deployFile( file );
         }
-        final String defaultAppsLocation =
-            m_parameters.getParameter( "applications-directory", m_phoenixHome + DEFAULT_APPS_PATH );
+        final String defaultAppsLocation = m_parameters.getParameter( "applications-directory", m_phoenixHome + DEFAULT_APPS_PATH );
         if( null != defaultAppsLocation )
         {
             final File directory = new File( defaultAppsLocation );
@@ -474,7 +450,20 @@ public class DefaultEmbeddor
     protected final synchronized void deployFile( final String name, final File file )
         throws Exception
     {
-        m_deployer.deploy( name, file.toURL() );
+        final Deployer deployer = (Deployer)getEmbeddorComponent( Deployer.ROLE );
+        deployer.deploy( name, file.toURL() );
+    }
+
+    private void setupComponents()
+        throws Exception
+    {
+        for( int i = 0; i < components.length; i++ )
+        {
+            final Component component = (Component)( components[ i ].getObject() );
+            final String loggerName = components[ i ].getLoggerName();
+            final Configuration configuration = components[ i ].getConfiguration();
+            setupComponent( component, loggerName, configuration );
+        }
     }
 
     /**
@@ -484,7 +473,7 @@ public class DefaultEmbeddor
      * @param component the component
      * @exception Exception if an error occurs
      */
-    private void setupComponent( final Component component, final String loggerName )
+    private void setupComponent( final Component component, final String loggerName, Configuration config )
         throws Exception
     {
         setupLogger( component, loggerName );
@@ -497,6 +486,10 @@ public class DefaultEmbeddor
         {
             ( (Parameterizable)component ).parameterize( m_parameters );
         }
+        else if( component instanceof Configurable )
+        {
+            ( (Configurable)component ).configure( config );
+        }
         if( component instanceof Initializable )
         {
             ( (Initializable)component ).initialize();
@@ -504,6 +497,15 @@ public class DefaultEmbeddor
         if( component instanceof Startable )
         {
             ( (Startable)component ).start();
+        }
+    }
+
+    private void shutdownComponents()
+        throws Exception
+    {
+        for( int i = 0; i < components.length; i++ )
+        {
+            shutdownComponent( (Component)components[ i ] );
         }
     }
 
@@ -556,14 +558,12 @@ public class DefaultEmbeddor
         }
         catch( final InstantiationException ie )
         {
-            final String message =
-                REZ.getString( "no-instantiate.error", clazz.getName(), component );
+            final String message = REZ.getString( "no-instantiate.error", clazz.getName(), component );
             throw new CascadingException( message, ie );
         }
         catch( final ClassNotFoundException cnfe )
         {
-            final String message =
-                REZ.getString( "no-class.error", clazz.getName(), component );
+            final String message = REZ.getString( "no-class.error", clazz.getName(), component );
             throw new CascadingException( message, cnfe );
         }
     }
@@ -572,43 +572,11 @@ public class DefaultEmbeddor
     {
         final DefaultComponentManager componentManager = new DefaultComponentManager();
         componentManager.put( Embeddor.ROLE, this );
-        componentManager.put( LogManager.ROLE, m_logManager );
-        componentManager.put( PackageRepository.ROLE, m_packageRepository );
-        componentManager.put( ClassLoaderManager.ROLE, m_classLoaderManager );
-        componentManager.put( ConfigurationRepository.ROLE, m_repository );
-        componentManager.put( Deployer.ROLE, m_deployer );
-        componentManager.put( DeploymentRecorder.ROLE, m_recorder );
-        componentManager.put( SystemManager.ROLE, m_systemManager );
-        componentManager.put( Kernel.ROLE, m_kernel );
+        for( int i = 0; i < components.length; i++ )
+        {
+            componentManager.put( components[ i ].getRole(), (Component)getEmbeddorComponent( components[ i ].getRole() ) );
+        }
         return componentManager;
-    }
-
-    /**
-     * Create default properties which includes default names of all components.
-     * Overide this in sub-classes to change values.
-     *
-     * @return the Parameters
-     */
-    protected Parameters createDefaultParameters()
-    {
-        final Parameters defaults = new Parameters();
-        defaults.setParameter( "phoenix.home", ".." );
-        defaults.setParameter( "persistent", "false" );
-
-        final String PREFIX = "org.apache.avalon.phoenix.components.";
-        defaults.setParameter( Deployer.ROLE, PREFIX + "deployer.DefaultDeployer" );
-        defaults.setParameter( DeploymentRecorder.ROLE, PREFIX + "deployer.DefaultDeploymentRecorder" );
-        //defaults.setParameter( DeploymentRecorder.ROLE, PREFIX + "deployer.PersistentDeploymentRecorder" );
-        defaults.setParameter( LogManager.ROLE, PREFIX + "logger.DefaultLogManager" );
-        defaults.setParameter( Kernel.ROLE, PREFIX + "kernel.DefaultKernel" );
-        defaults.setParameter( SystemManager.ROLE, PREFIX + "manager.NoopSystemManager" );
-        defaults.setParameter( ConfigurationRepository.ROLE,
-                               PREFIX + "configuration.DefaultConfigurationRepository" );
-        defaults.setParameter( ClassLoaderManager.ROLE,
-                               PREFIX + "classloader.DefaultClassLoaderManager" );
-        defaults.setParameter( PackageRepository.ROLE,
-                               PREFIX + "extensions.PhoenixPackageRepository" );
-        return defaults;
     }
 
     /**
@@ -618,7 +586,7 @@ public class DefaultEmbeddor
      */
     protected final Kernel getKernel()
     {
-        return m_kernel;
+        return (Kernel)getEmbeddorComponent( Kernel.ROLE );
     }
 
     /**
@@ -631,18 +599,19 @@ public class DefaultEmbeddor
         return m_parameters;
     }
 
-    /**
-     * Helper method to retrieve configuration from a location on filesystem.
-     *
-     * @param location the location of configuration
-     * @return the configuration
-     * @exception Exception if an error occurs
-     */
-    private Configuration getConfigurationFor( final String location )
-        throws Exception
+    private Object getEmbeddorComponent( final String role )
     {
-        final DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
-        return builder.buildFromFile( location );
+        for( int i = 0; i < components.length; i++ )
+        {
+            final EmbeddorEntry entry = components[ i ];
+            if( entry.getRole().equals( role ) )
+            {
+                return components[ i ].getObject();
+            }
+        }
+        // Should never happen
+        // TODO: create error / warning
+        return null;
     }
 }
 

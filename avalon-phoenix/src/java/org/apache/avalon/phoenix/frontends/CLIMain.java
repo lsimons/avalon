@@ -14,6 +14,9 @@ import java.util.Observer;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.ExceptionUtil;
+import org.apache.avalon.framework.configuration.Configurable;
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.AvalonFormatter;
@@ -23,7 +26,6 @@ import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.phoenix.Constants;
-import org.apache.avalon.phoenix.components.embeddor.DefaultEmbeddor;
 import org.apache.avalon.phoenix.interfaces.Embeddor;
 import org.apache.log.Hierarchy;
 import org.apache.log.LogTarget;
@@ -162,7 +164,8 @@ public final class CLIMain
     {
         try
         {
-            m_embeddor = new DefaultEmbeddor();
+            Configuration conf = getConfigurationFor( parameters.getParameter( "phoenix.configfile" ) ).getChild( "embeddor" );
+            m_embeddor = (Embeddor)Class.forName( conf.getAttribute( "class" ) ).newInstance();
 
             if( m_embeddor instanceof LogEnabled )
             {
@@ -179,6 +182,10 @@ public final class CLIMain
             if( m_embeddor instanceof Parameterizable )
             {
                 ( (Parameterizable)m_embeddor ).parameterize( parameters );
+            }
+            if( m_embeddor instanceof Configurable )
+            {
+                ( (Configurable)m_embeddor ).configure( conf );
             }
 
             m_embeddor.initialize();
@@ -297,6 +304,13 @@ public final class CLIMain
         System.out.println( REZ.getString( "main.exception.footer" ) );
 
         m_exitCode = 1;
+    }
+
+    private Configuration getConfigurationFor( final String location )
+        throws Exception
+    {
+        final DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
+        return builder.buildFromFile( location );
     }
 }
 
