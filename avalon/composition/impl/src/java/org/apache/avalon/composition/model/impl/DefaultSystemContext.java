@@ -79,7 +79,7 @@ import org.apache.avalon.excalibur.i18n.Resources;
  * Implementation of a system context that exposes a system wide set of parameters.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.7 $ $Date: 2004/01/16 16:39:02 $
+ * @version $Revision: 1.8 $ $Date: 2004/01/19 17:37:31 $
  */
 public class DefaultSystemContext extends DefaultContext 
   implements SystemContext
@@ -92,7 +92,8 @@ public class DefaultSystemContext extends DefaultContext
             ResourceManager.getPackageResources( DefaultSystemContext.class );
 
    /**
-    * Creation of a new system context.
+    * Convinience function to create a new system context. This function
+    * is intended for test purposes only.
     *
     * @param base the base directory from which relative references 
     *   within a classpath or library directive shall be resolved
@@ -107,22 +108,27 @@ public class DefaultSystemContext extends DefaultContext
         Logger logger = logging.getLoggerForCategory( "" );
         CacheManager cache = createCacheManager( root );
         Repository repository = cache.createRepository();
-        final File working = new File( System.getProperty( "user.dir" ), "working" );
-        final File home = new File( working, "home" );
-        final File temp = new File( working, "temp" );
+        //final File working = new File( System.getProperty( "user.dir" ), "working" );
+        //final File home = new File( working, "home" );
+        //final File temp = new File( working, "temp" );
+
+        final File home = new File( base, "home" );
+        final File temp = new File( base, "temp" );
 
         return new DefaultSystemContext( 
           logging, base, home, temp, repository, "system", false, null );
     }
 
-    private static CacheManager createCacheManager( File root ) throws Exception
+    private static CacheManager createCacheManager( File root ) 
+      throws Exception
     {
         String dpml = "http://dpml.net";
         String ibiblio = "http://www.ibiblio.org/maven";
         return new DefaultCacheManager( root, null, new String[]{ dpml, ibiblio } );
     }
 
-    private static LoggingManager createLoggingManager( File base, int priority ) throws Exception
+    private static LoggingManager createLoggingManager( 
+      File base, int priority ) throws Exception
     {
         final String level = getStringPriority( priority );
         LoggingDescriptor logging =
