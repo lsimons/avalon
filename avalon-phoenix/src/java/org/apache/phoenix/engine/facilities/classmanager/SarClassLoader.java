@@ -20,6 +20,7 @@ import org.apache.avalon.Initializable;
 import org.apache.avalon.atlantis.Facility;
 import org.apache.avalon.util.io.ExtensionFileFilter;
 import org.apache.phoenix.engine.SarContextResources;
+import org.apache.phoenix.engine.facilities.PolicyManager;
 
 /**
  * This component creates blocks and blockInfos.
@@ -45,7 +46,10 @@ public class SarClassLoader
     public void compose( final ComponentManager componentManager )
         throws ComponentManagerException
     {
-        m_policy = (Policy)componentManager.lookup( "java.security.Policy" );
+        final PolicyManager policyManager = (PolicyManager)componentManager.
+            lookup( "org.apache.phoenix.engine.facilities.PolicyManager" );
+
+        m_policy = policyManager.getPolicy();
     }
 
     public void init()

@@ -1,11 +1,11 @@
-/* 
- * Copyright (C) The Apache Software Foundation. All rights reserved. 
- * 
- * This software is published under the terms of the Apache Software License 
- * version 1.1, a copy of which has been included with this distribution in 
- * the LICENSE file. 
+/*
+ * Copyright (C) The Apache Software Foundation. All rights reserved.
+ *
+ * This software is published under the terms of the Apache Software License
+ * version 1.1, a copy of which has been included with this distribution in
+ * the LICENSE file.
  */
-package org.apache.phoenix.engine.facilities.security;
+package org.apache.phoenix.engine.facilities.policy;
 
 import java.io.File;
 import java.io.InputStream;
@@ -39,12 +39,12 @@ import org.apache.avalon.util.PropertyUtil;
 
 /**
  * Policy that extracts information from policy files.
- * 
+ *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public class DefaultPolicy
     extends AbstractPolicy
-    implements Facility, Contextualizable, Configurable, Initializable
+    implements Contextualizable, Configurable, Initializable
 {
     protected DefaultContext    m_context;
 
@@ -76,16 +76,16 @@ public class DefaultPolicy
         permissions.add( new PropertyPermission( "file.separator", "read" ) );
         permissions.add( new PropertyPermission( "path.separator", "read" ) );
         permissions.add( new PropertyPermission( "line.separator", "read" ) );
-        
+
         permissions.add( new PropertyPermission( "java.version", "read" ) );
         permissions.add( new PropertyPermission( "java.vendor", "read" ) );
         permissions.add( new PropertyPermission( "java.vendor.url", "read" ) );
-        
+
         permissions.add( new PropertyPermission( "java.class.version", "read" ) );
         permissions.add( new PropertyPermission( "java.vm.version", "read" ) );
         permissions.add( new PropertyPermission( "java.vm.vendor", "read" ) );
         permissions.add( new PropertyPermission( "java.vm.name", "read" ) );
-        
+
         permissions.add( new PropertyPermission( "java.specification.version", "read" ) );
         permissions.add( new PropertyPermission( "java.specification.vendor", "read" ) );
         permissions.add( new PropertyPermission( "java.specification.name", "read" ) );
@@ -111,7 +111,7 @@ public class DefaultPolicy
                 final KeyStore keyStore = KeyStore.getInstance( type );
                 final URL url = new URL( location );
                 final InputStream ins = url.openStream();
-                
+
                 keyStore.load( ins, null );
 
                 keyStores.put( name, keyStore );
@@ -124,8 +124,8 @@ public class DefaultPolicy
 
         return keyStores;
     }
-    
-    protected void configureGrants( final Configuration[] configurations, 
+
+    protected void configureGrants( final Configuration[] configurations,
                                     final HashMap keyStores )
         throws ConfigurationException
     {
@@ -161,13 +161,13 @@ public class DefaultPolicy
             throw new ConfigurationException( "Malformed code-base " + codeBase, mue );
         }
 
-        
-        configurePermissions( configuration.getChildren( "permission" ), 
+
+        configurePermissions( configuration.getChildren( "permission" ),
                               permissions,
                               keyStores );
     }
 
-    protected void configurePermissions( final Configuration[] configurations, 
+    protected void configurePermissions( final Configuration[] configurations,
                                          final Permissions permissions,
                                          final HashMap keyStores )
         throws ConfigurationException
@@ -214,21 +214,21 @@ public class DefaultPolicy
         }
     }
 
-    protected Permission createPermission( final String type, 
-                                           final String target, 
-                                           final String actions, 
+    protected Permission createPermission( final String type,
+                                           final String target,
+                                           final String actions,
                                            final Certificate[] signers )
         throws ConfigurationException
     {
-        if( null != signers ) 
+        if( null != signers )
         {
             return createUnresolvedPermission( type, target, actions, signers );
         }
-        
+
         try
         {
             final Class c = Class.forName( type );
-            
+
             Class paramClasses[] = null;
             Object params[] = null;
 
@@ -237,7 +237,7 @@ public class DefaultPolicy
                 paramClasses = new Class[ 0 ];
                 params = new Object[ 0 ];
             }
-            else if( null == actions ) 
+            else if( null == actions )
             {
                 paramClasses = new Class[1];
                 paramClasses[0] = String.class;
@@ -253,10 +253,10 @@ public class DefaultPolicy
                 params[0] = target;
                 params[1] = actions;
             }
-            
+
             final Constructor constructor = c.getConstructor( paramClasses );
             final Object o = constructor.newInstance( params );
-            return (Permission)o;                
+            return (Permission)o;
         }
         catch( final ClassNotFoundException cnfe )
         {
@@ -264,11 +264,11 @@ public class DefaultPolicy
         }
         catch( final Exception e )
         {
-            throw new ConfigurationException( "Failed to create permission " + type + 
+            throw new ConfigurationException( "Failed to create permission " + type +
                                               " due to " + e, e );
         }
     }
-    
+
     protected Permission createUnresolvedPermission( final String type,
                                                      final String target,
                                                      final String actions,

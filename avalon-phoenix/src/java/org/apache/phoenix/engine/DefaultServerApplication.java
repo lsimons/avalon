@@ -25,22 +25,23 @@ import org.apache.avalon.camelot.AbstractContainer;
 import org.apache.avalon.camelot.ContainerException;
 import org.apache.avalon.camelot.Entry;
 import org.apache.avalon.camelot.Factory;
-import org.apache.phoenix.engine.facilities.ConfigurationRepository;
 import org.apache.avalon.configuration.Configurable;
 import org.apache.avalon.configuration.Configuration;
 import org.apache.avalon.configuration.ConfigurationException;
 import org.apache.avalon.util.thread.ThreadManager;
 import org.apache.phoenix.engine.blocks.BlockDAG;
 import org.apache.phoenix.engine.blocks.BlockEntry;
+import org.apache.phoenix.engine.blocks.BlockVisitor;
 import org.apache.phoenix.engine.blocks.RoleEntry;
+import org.apache.phoenix.engine.facilities.ConfigurationRepository;
 import org.apache.phoenix.engine.facilities.DefaultConfigurationRepository;
 import org.apache.phoenix.engine.facilities.DefaultLogManager;
-import org.apache.phoenix.engine.facilities.security.DefaultPolicy;
 import org.apache.phoenix.engine.facilities.DefaultThreadManager;
+import org.apache.phoenix.engine.facilities.PolicyManager;
 import org.apache.phoenix.engine.facilities.classmanager.SarClassLoader;
+import org.apache.phoenix.engine.facilities.policy.DefaultPolicyManager;
 import org.apache.phoenix.engine.phases.ShutdownPhase;
 import org.apache.phoenix.engine.phases.StartupPhase;
-import org.apache.phoenix.engine.blocks.BlockVisitor;
 import org.apache.phoenix.metainfo.DependencyDescriptor;
 
 /**
@@ -51,7 +52,7 @@ import org.apache.phoenix.metainfo.DependencyDescriptor;
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  * @author <a href="mailto:fede@apache.org">Federico Barbieri</a>
  */
-public class DefaultServerApplication
+public final class DefaultServerApplication
     extends AbstractContainer
     implements Application, Configurable, Contextualizable
 {
@@ -70,8 +71,8 @@ public class DefaultServerApplication
     protected ComponentManager         m_componentManager;
 
     protected DefaultLogManager        m_logManager;
+    protected PolicyManager            m_policyManager;
     protected ThreadManager            m_threadManager;
-    protected DefaultPolicy            m_policy;
     protected SarClassLoader           m_classLoader;
 
     //these are the facilities (internal components) of ServerApplication
@@ -118,7 +119,7 @@ public class DefaultServerApplication
         entry.m_visitor = new StartupPhase();
         entry.m_traversal = BlockDAG.FORWARD;
         m_phases.put( "startup", entry );
-        
+
         entry = new PhaseEntry();
         entry.m_visitor = new ShutdownPhase();
         entry.m_traversal = BlockDAG.REVERSE;
@@ -185,7 +186,7 @@ public class DefaultServerApplication
 
         m_classLoader = new SarClassLoader();
         m_threadManager = new DefaultThreadManager();
-        m_policy = new DefaultPolicy();
+        m_policyManager = new DefaultPolicyManager();
     }
 
     /**
@@ -205,7 +206,7 @@ public class DefaultServerApplication
         setupComponent( m_threadManager, "<core>.threads", configuration );
 
         configuration = m_configuration.getChild( "policy" );
-        setupComponent( (Component)m_policy, "<policy>", configuration );
+        setupComponent( m_policyManager, "<policy>", configuration );
 
         setupComponent( m_classLoader );
 
@@ -325,7 +326,7 @@ public class DefaultServerApplication
     {
         final DefaultComponentManager componentManager = new DefaultComponentManager();
         componentManager.put( "org.apache.avalon.camelot.Container", this );
-        componentManager.put( "java.security.Policy", m_policy );
+        componentManager.put( "org.apache.phoenix.engine.facilities.PolicyManager", m_policyManager );
         componentManager.put( "java.lang.ClassLoader", m_classLoader );
         componentManager.put( "NOT_DONE_YET", m_logManager );
         componentManager.put( "org.apache.avalon.util.thread.ThreadManager", m_threadManager );
