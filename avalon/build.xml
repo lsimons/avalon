@@ -134,14 +134,14 @@ Legal:
       <classpath refid="project.class.path"/>
     </available>
 
-    <property name="dist.dir" value="dist"/>
+    <property name="dist.dir" value="${dist.name}"/>
     <property name="dist.bin" value="${dist.dir}/bin"/>
     <property name="dist.apps" value="${dist.dir}/apps"/>
     <property name="dist.lib" value="${dist.dir}/lib"/>
     <property name="dist.docs" value="${dist.dir}/docs"/>
     <property name="dist.javadocs" value="${dist.dir}/docs/api"/>
 
-    <property name="src.dist.dir" value="dist-src"/>
+    <property name="src.dist.dir" value="${dist.name}-src"/>
     <property name="src.dist.src" value="${src.dist.dir}/src"/>
     <property name="src.dist.docs" value="${src.dist.dir}/docs"/>
     <property name="src.dist.javadocs" value="${src.dist.dir}/docs/api"/>
@@ -150,13 +150,13 @@ Legal:
   </target>
 
   <!-- Prepares the build directory -->
-  <target name="prepare" depends="setup-properties">
+  <target name="prepare">
     <tstamp/>
     <mkdir dir="${build.dir}"/>
   </target>
 
   <!-- Compiles the source code -->
-  <target name="compile" depends="prepare" description="compiles the source code">
+  <target name="compile" depends="setup-properties,prepare" description="compiles the source code">
 
     <mkdir dir="${build.classes}"/>
 
@@ -175,7 +175,7 @@ Legal:
   </target>
 
   <!-- Creates the exceptionutil.jar file -->
-  <target name="compile-exceptionutil" depends="prepare">
+  <target name="compile-exceptionutil" depends="setup-properties,prepare">
 
     <mkdir dir="${build.classes}"/>
 
@@ -448,11 +448,7 @@ Legal:
     <mkdir dir="${dist.javadocs}"/>
 
     <copy todir="${dist.docs}">
-      <fileset dir="${build.docs}"/>
-    </copy>
-
-    <copy todir="${dist.javadocs}">
-      <fileset dir="${build.javadocs}"/>
+      <fileset dir="${docs.dir}"/>
     </copy>
 
     <copy todir="${dist.dir}">
@@ -490,6 +486,12 @@ Legal:
 
     <copy todir="${src.dist.javadocs}">
       <fileset dir="${build.javadocs}"/>
+    </copy>
+
+    <copy todir="${src.dist.dir}/tools">
+      <fileset dir="${tools.dir}">
+        <include name="*.xsl"/>
+      </fileset>
     </copy>
 
     <filter token="version" value="${version}"/>
