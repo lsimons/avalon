@@ -16,6 +16,7 @@
         <pathelement location="${logkit.jar}"/>
         <pathelement location="${avalon-framework.jar}"/>
         <pathelement location="${excalibur-collections.jar}"/>
+        <pathelement location="${excalibur-container.jar}"/>
         <pathelement location="${excalibur-logger.jar}"/>
         <pathelement location="${excalibur-instrument.jar}"/>
         <pathelement location="${excalibur-instrument-manager.jar}"/>
@@ -75,6 +76,7 @@
     <target name="dependencies" depends="dependencies.optional" description="Check dependencies" unless="skip.dependencies">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkCommon"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkLogkit"/>
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkContainer"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkFramework"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkInstrument"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkInstrumentManager"/>

@@ -20,7 +20,7 @@ import org.apache.avalon.framework.context.Context;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/08/21 05:04:36 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/09/24 20:39:53 $
  * @since 4.0
  */
 public class DefaultComponentHandler
@@ -51,7 +51,8 @@ public class DefaultComponentHandler
      *
      * @throws Exception If there are any problems creating the handler.
      */
-    protected DefaultComponentHandler( final Class componentClass,
+    protected DefaultComponentHandler( final String role,
+                                       final Class componentClass,
                                        final Configuration config,
                                        final ComponentManager manager,
                                        final Context context,
@@ -60,7 +61,7 @@ public class DefaultComponentHandler
         throws Exception
     {
         this(
-            new DefaultComponentFactory( componentClass, config, manager, context, roles, logkit ),
+            new DefaultComponentFactory(role, componentClass, config, manager, context, roles, logkit ),
             config );
     }
 

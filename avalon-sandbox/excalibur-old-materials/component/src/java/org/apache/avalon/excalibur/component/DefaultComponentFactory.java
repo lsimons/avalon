@@ -37,6 +37,7 @@ import org.apache.avalon.framework.service.Serviceable;
 import org.apache.excalibur.instrument.Instrumentable;
 import org.apache.excalibur.instrument.InstrumentManageable;
 import org.apache.excalibur.instrument.InstrumentManager;
+import org.apache.excalibur.container.legacy.ComponentProxyGenerator;
 
 /**
  * Factory for Avalon components.
@@ -45,7 +46,7 @@ import org.apache.excalibur.instrument.InstrumentManager;
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.8 $ $Date: 2002/08/18 14:40:22 $
+ * @version CVS $Revision: 1.9 $ $Date: 2002/09/24 20:39:53 $
  * @since 4.0
  */
 public class DefaultComponentFactory
@@ -88,6 +89,9 @@ public class DefaultComponentFactory
     /** Instrumentable Name assigned to objects created by this factory. */
     private String m_instrumentableName;
 
+    private ComponentProxyGenerator m_proxyGenerator;
+    private String m_role;
+
     /*---------------------------------------------------------------
      * Constructors
      *-------------------------------------------------------------*/
@@ -103,14 +107,16 @@ public class DefaultComponentFactory
      * @deprecated This constructor has been deprecated in favor of the version below which
      *             handles instrumentation.
      */
-    public DefaultComponentFactory( final Class componentClass,
+    public DefaultComponentFactory( final String role,
+                                    final Class componentClass,
                                     final Configuration configuration,
                                     final ComponentManager componentManager,
                                     final Context context,
                                     final RoleManager roles,
                                     final LogkitLoggerManager loggerManager )
     {
-        this( componentClass,
+        this( role,
+              componentClass,
               configuration,
               componentManager,
               context,
@@ -134,7 +140,8 @@ public class DefaultComponentFactory
      * @param instrumentableName The instrument name to assign the component if
      *                           it is Instrumentable.
      */
-    public DefaultComponentFactory( final Class componentClass,
+    public DefaultComponentFactory( final String role,
+                                    final Class componentClass,
                                     final Configuration configuration,
                                     final ComponentManager componentManager,
                                     final Context context,
@@ -144,6 +151,7 @@ public class DefaultComponentFactory
                                     final String instrumentableName )
 
     {
+        m_role = role;
         m_componentClass = componentClass;
         m_configuration = configuration;
         m_componentManager = componentManager;
@@ -152,6 +160,7 @@ public class DefaultComponentFactory
         m_loggerManager = loggerManager;
         m_instrumentManager = instrumentManager;
         m_instrumentableName = instrumentableName;
+        m_proxyGenerator = new ComponentProxyGenerator( m_componentClass.getClassLoader() );
     }
     
     /*---------------------------------------------------------------
@@ -293,7 +302,19 @@ public class DefaultComponentFactory
 
         m_components.put( component, proxy );
 
-        return component;
+        Component returnableComponent;
+
+        if ( ! ( component instanceof Component ) )
+        {
+           returnableComponent = m_proxyGenerator.getProxy( m_role , component );
+           m_components.put( returnableComponent, component );
+        }
+        else
+        {
+           returnableComponent = (Component) component;
+        }
+
+        return returnableComponent;
     }
 
     public final Class getCreatedClass()
@@ -304,35 +325,47 @@ public class DefaultComponentFactory
     public final void decommission( final Object component )
         throws Exception
     {
+        Object check = m_components.get( component );
+        Object decommission;
+        if ( check instanceof ServiceManager || check instanceof ComponentManager || null == check )
+        {
+            decommission = component;
+        }
+        else
+        {
+            decommission = check;
+            m_components.remove( component );
+        }
+
         if( getLogger().isDebugEnabled() )
         {
             getLogger().debug( "ComponentFactory decommissioning instance of " +
                                m_componentClass.getName() + "." );
         }
 
-        if( component instanceof Startable )
+        if( decommission instanceof Startable )
         {
-            ( (Startable)component ).stop();
+            ( (Startable)decommission ).stop();
         }
 
         if( component instanceof Disposable )
         {
-            ( (Disposable)component ).dispose();
+            ( (Disposable)decommission ).dispose();
         }
 
-        if( component instanceof Composable )
+        if( decommission instanceof Composable )
         {
             // ensure any components looked up by this Composable are properly
             // released, if they haven't been released already
-            ( (ComponentManagerProxy)m_components.get( component ) ).releaseAll();
+            ( (ComponentManagerProxy)m_components.get( decommission ) ).releaseAll();
         }
 
-        if( component instanceof Serviceable )
+        if( decommission instanceof Serviceable )
         {
-            ( (ServiceManagerProxy)m_components.get( component ) ).releaseAll();
+            ( (ServiceManagerProxy)m_components.get( decommission ) ).releaseAll();
         }
 
-        m_components.remove( component );
+        m_components.remove( decommission );
     }
 
     /*---------------------------------------------------------------
