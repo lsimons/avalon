@@ -40,11 +40,6 @@
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkCommon"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkFramework"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkInstrument"/>
-
-        <available classname="org.apache.altrmi.server.ServerException"
-            property="altrmi.present">
-            <classpath refid="project.class.path"/>
-        </available>
     </target>
 
     <target name="dependencies-test" depends="dist-jar, dependencies"
@@ -54,7 +49,14 @@
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkJUnit"/>
     </target>
     
-    <target name="warn-altrmi" depends="dependencies" unless="altrmi.present">
+    <target name="check-altrmi" depends="dependencies">
+        <available classname="org.apache.altrmi.server.ServerException"
+            property="altrmi.present">
+            <classpath refid="project.class.path"/>
+        </available>
+    </target>
+    
+    <target name="warn-altrmi" depends="check-altrmi" unless="altrmi.present">
         <echo message="**********************************************************************"/>
         <echo message="WARNING - Version ${altrmi.version} of the altrmi libraries could not "/>
         <echo message="          be found, the altrmi connector will be missing from the jar "/>
