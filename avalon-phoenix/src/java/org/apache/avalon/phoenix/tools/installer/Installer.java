@@ -34,7 +34,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * and installing it as appropriate.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.33 $ $Date: 2002/05/10 15:07:30 $
+ * @version $Revision: 1.34 $ $Date: 2002/05/10 15:32:14 $
  */
 public class Installer
     extends AbstractLogEnabled
@@ -98,7 +98,10 @@ public class Installer
                     }
 
                     file.delete();
-                    if( 0 == parent.list().length ) parent.delete();
+                    if( 0 == parent.list().length )
+                    {
+                        parent.delete();
+                    }
                 }
             }
         }
@@ -122,7 +125,8 @@ public class Installer
             final File file = getFileFor( url );
             if( file.isDirectory() )
             {
-                final String message = REZ.getString( "deprecated-sar-format", url );
+                final String message =
+                    REZ.getString( "deprecated-sar-format", url );
                 System.err.println( message );
                 getLogger().warn( message );
                 return installDeprecated( file );
@@ -132,7 +136,8 @@ public class Installer
             final ZipFile zipFile = new ZipFile( file );
             if( isDeprecated( zipFile ) )
             {
-                final String message = REZ.getString( "deprecated-sar-format", url );
+                final String message =
+                    REZ.getString( "deprecated-sar-format", url );
                 System.err.println( message );
                 getLogger().warn( message );
                 return installDeprecated( url, file, zipFile );
