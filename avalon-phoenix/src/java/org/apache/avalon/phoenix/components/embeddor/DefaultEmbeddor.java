@@ -619,7 +619,8 @@ public class DefaultEmbeddor
             if( null != registration )
             {
                 componentManager.register( registration.getName(),
-                                           m_entries[ i ].getObject(), registration.getInterfaces() );
+                                           m_entries[ i ].getObject(),
+                                           registration.getInterfaces() );
             }
         }
     }

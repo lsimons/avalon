@@ -173,14 +173,19 @@ class DefaultApplicationContext
         {
             return configuration;
         }
-        else if( m_validator.isValid( m_metaData.getName(), component, configuration ) )
+        else if( m_validator.isValid( m_metaData.getName(),
+                                      component,
+                                      configuration ) )
         {
 
             return configuration;
         }
         else
         {
-            throw new ConfigurationException( REZ.getString( "applicationcontext.error.invalidconfig", component ) );
+            final String message =
+                REZ.getString( "applicationcontext.error.invalidconfig",
+                               component );
+            throw new ConfigurationException( message );
         }
     }
 
