@@ -105,7 +105,7 @@ public class DefaultClassLoaderManager
      * @return the ClassLoader created
      * @exception Exception if an error occurs
      */
-    public ClassLoader createClassLoader( final Configuration server,
+    public ClassLoader createClassLoader( final Configuration environment,
                                           final File source,
                                           final File homeDirectory,
                                           final String[] classPath )
@@ -119,7 +119,7 @@ public class DefaultClassLoaderManager
         }
 
         //Configure policy
-        final Configuration policyConfig = server.getChild( "policy" );
+        final Configuration policyConfig = environment.getChild( "policy" );
         final Policy policy = configurePolicy( policyConfig, homeDirectory );
 
         final File[] extensions = getOptionalPackagesFor( classPath );
