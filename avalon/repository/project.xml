@@ -6,7 +6,7 @@
   <groupId>avalon</groupId>
   <id>avalon-reposiory</id>
   <name>Avalon Repository POM</name>
-  <currentVersion>1.2-dev</currentVersion>
+  <currentVersion>1.2-RC1</currentVersion>
 
   <organization>
     <name>Apache Software Foundation</name>
