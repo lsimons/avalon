@@ -12,7 +12,7 @@ import org.apache.avalon.excalibur.instrument.InstrumentManageable;
 import org.apache.avalon.excalibur.instrument.InstrumentManager;
 import org.apache.avalon.excalibur.component.DefaultComponentFactory;
 import org.apache.avalon.excalibur.component.RoleManager;
-import org.apache.avalon.excalibur.logger.LogKitManager;
+import org.apache.avalon.excalibur.component.LogkitLoggerManager;
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.context.Context;
@@ -21,14 +21,14 @@ import org.apache.avalon.framework.context.Context;
  * Factory for Avalon Instrumentable components.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.5 $ $Date: 2002/04/29 16:32:23 $
+ * @version CVS $Revision: 1.6 $ $Date: 2002/06/04 06:33:03 $
  * @since 4.0
  */
 public class InstrumentDefaultComponentFactory
     extends DefaultComponentFactory
 {
     private InstrumentManager m_instrumentManager;
-    
+
     /** Instrumentable Name assigned to objects created by this factory. */
     private String m_instrumentableName;
 
@@ -42,7 +42,7 @@ public class InstrumentDefaultComponentFactory
      * @param configuration the <code>Configuration</code> object to pass to new instances.
      * @param componentManager the component manager to pass to <code>Composable</code>s.
      * @param context the <code>Context</code> to pass to <code>Contexutalizable</code>s.
-     * @param roles the <code>RoleManager</code> to pass to 
+     * @param roles the <code>RoleManager</code> to pass to
      *              <code>DefaultComponentSelector</code>s.
      * @param instrumentManager the <code>InstrumentManager</code> to register the component
      *                          with if it is a Instrumentable.
@@ -53,7 +53,7 @@ public class InstrumentDefaultComponentFactory
                                               final ComponentManager componentManager,
                                               final Context context,
                                               final RoleManager roles,
-                                              final LogKitManager logkit,
+                                              final LogkitLoggerManager logkit,
                                               final InstrumentManager instrumentManager,
                                               final String instrumentableName )
 
@@ -93,9 +93,9 @@ public class InstrumentDefaultComponentFactory
         if( component instanceof Instrumentable )
         {
             Instrumentable instrumentable = (Instrumentable)component;
-            
+
             getLogger().debug( "Doing instrument setup for: " + instrumentable );
-            
+
             instrumentable.setInstrumentableName( m_instrumentableName );
             m_instrumentManager.registerInstrumentable( (Instrumentable)component, m_instrumentableName );
         }
