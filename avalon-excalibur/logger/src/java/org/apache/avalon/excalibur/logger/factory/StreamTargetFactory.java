@@ -82,13 +82,12 @@ import org.apache.log.output.io.StreamTarget;
  * <p>The syntax of "format" is the same as in <code>FileTargetFactory</code>.</p>
  *
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @version CVS $Revision: 1.6 $ $Date: 2003/03/22 12:46:49 $
+ * @version CVS $Revision: 1.7 $ $Date: 2003/04/07 11:26:39 $
  */
 public class StreamTargetFactory
     extends AbstractTargetFactory
     implements Contextualizable
 {
-
     /**
      * Create a LogTarget based on a Configuration
      */
