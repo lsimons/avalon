@@ -42,8 +42,8 @@
   <section>
     <title>What is Avalon?</title>
     <para>
-      Avalon is a parent project for six sub-projects: Framework,
-      Excalibur, LogKit, Phoenix, Cornerstone, and Testlet.  Most
+      Avalon is a parent project for five sub-projects: Framework,
+      Excalibur, LogKit, Phoenix, and Cornerstone.  Most
       people think of the Framework when they hear the name Avalon,
       but it is more than that.  Avalon began as the Java Apache
       Server Framework that had the framework, utilities, components,
@@ -97,14 +97,6 @@
         Avalon Cornerstone is a collection of Blocks or services that you
 	can deploy in the Phoenix environment.  The Blocks include socket
 	management and job scheduling among others.
-      </para>
-    </section>
-    <section>
-      <title>Testlet</title>
-      <para>
-        Avalon Testlet is a simple test framework designed to work with
-	Apache Ant.  It is used to unit test the Framework and Components
-	to ensure that known bugs remain squashed.
       </para>
     </section>
     <section>
