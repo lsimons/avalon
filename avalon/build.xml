@@ -194,6 +194,7 @@ Legal:
               <attribute name="Specification-Version" value="1.0"/>
               <attribute name="Implementation-Vendor" value="Apache Software Foundation"/>
               <attribute name="Implementation-Version" value="${version}"/>
+              <attribute name="Implementation-Vendor-Id" value="ASF"/>
             </manifest>
             <include name="org/apache/avalon/framework/ExceptionUtil.class" />
             <include name="org/apache/avalon/framework/Cascading*" />
