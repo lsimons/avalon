@@ -7,26 +7,32 @@
  */
 package org.apache.avalon.phoenix.components.classloader;
 
-import org.apache.excalibur.loader.builder.DefaultLoaderResolver;
-import org.apache.avalon.excalibur.packagemanager.PackageManager;
-import org.apache.avalon.framework.logger.LogEnabled;
-import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.framework.container.ContainerUtil;
+import java.io.File;
 import java.net.URL;
 import java.security.Policy;
-import java.io.File;
+import java.util.Arrays;
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
+import org.apache.avalon.excalibur.packagemanager.PackageManager;
+import org.apache.avalon.framework.container.ContainerUtil;
+import org.apache.avalon.framework.logger.LogEnabled;
+import org.apache.avalon.framework.logger.Logger;
+import org.apache.excalibur.loader.builder.DefaultLoaderResolver;
 
 /**
  * a LoaderResolver that knows about Phoenixs environment,
  * and the way it is split across multiple directories.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2002/10/31 21:52:31 $
+ * @version $Revision: 1.2 $ $Date: 2002/11/01 22:55:27 $
  */
 class SarLoaderResolver
     extends DefaultLoaderResolver
     implements LogEnabled
 {
+    private final static Resources REZ =
+        ResourceManager.getPackageResources( SarLoaderResolver.class );
+
     /**
      * Logger to use when reporting information
      */
@@ -122,6 +128,13 @@ class SarLoaderResolver
                                           final URL[] urls )
         throws Exception
     {
+        if( m_logger.isDebugEnabled() )
+        {
+            final String message =
+                REZ.getString( "resolver.loader-urls.notice",
+                               Arrays.asList( urls ) );
+            m_logger.debug( message );
+        }
         final PolicyClassLoader loader =
             new PolicyClassLoader( urls, parent, m_policy );
         ContainerUtil.enableLogging( loader, m_logger );
