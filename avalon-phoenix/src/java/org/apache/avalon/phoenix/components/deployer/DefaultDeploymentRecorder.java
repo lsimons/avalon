@@ -9,8 +9,8 @@ package org.apache.avalon.phoenix.components.deployer;
 
 import java.util.HashMap;
 import org.apache.avalon.framework.logger.AbstractLoggable;
-import org.apache.avalon.phoenix.interfaces.DeploymentRecorder;
 import org.apache.avalon.phoenix.interfaces.DeploymentException;
+import org.apache.avalon.phoenix.interfaces.DeploymentRecorder;
 import org.apache.avalon.phoenix.tools.installer.Installation;
 
 /**
@@ -20,26 +20,26 @@ import org.apache.avalon.phoenix.tools.installer.Installation;
  */
 public class DefaultDeploymentRecorder 
     extends AbstractLoggable 
-    implements DeploymentRecorder {
-           
+    implements DeploymentRecorder
+{
     private final HashMap m_installations = new HashMap();
 
     public synchronized void recordInstallation( final String name, final Installation installation ) 
-       throws DeploymentException
+        throws DeploymentException
     {
         if( null == installation )
         {
             m_installations.remove( name );
         }
         else
-        {        
-            m_installations.put( name, installation );           
+        {
+            m_installations.put( name, installation );
         }
-    }           
+    }
 
-    public synchronized Installation fetchInstallation( final String name ) 
-       throws DeploymentException
+    public synchronized Installation fetchInstallation( final String name )
+        throws DeploymentException
     {
-       return (Installation)m_installations.get( name );
-    }        
+        return (Installation)m_installations.get( name );
+    }
 }
