@@ -22,12 +22,13 @@ import org.apache.avalon.phoenix.interfaces.LogManager;
 import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
 import org.apache.avalon.phoenix.metadata.BlockMetaData;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
+import org.apache.log.Hierarchy;
 
 /**
  *  An basic test case for the LogManager.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2002/09/28 04:05:27 $
+ * @version $Revision: 1.3 $ $Date: 2002/09/28 04:45:35 $
  */
 public class LogManagerTestCase
     extends TestCase
@@ -69,7 +70,25 @@ public class LogManagerTestCase
     public void testBasic()
         throws Exception
     {
-        final int index = 1;
+        runtTestForConfigFile( 1 );
+    }
+
+    public void testExcaliburLogger()
+        throws Exception
+    {
+        Hierarchy hierarchy = new Hierarchy();
+        final org.apache.log.Logger root = hierarchy.getLoggerFor( "" );
+        final org.apache.log.Logger bah = root.getChildLogger( "bah" );
+        final org.apache.log.Logger bah2 = hierarchy.getLoggerFor( "bah" );
+        System.out.println( "root = " + root );
+        System.out.println( "bah = " + bah );
+        System.out.println( "bah2 = " + bah2 );
+
+        runtTestForConfigFile( 2 );
+    }
+
+    private void runtTestForConfigFile( final int index ) throws Exception
+    {
         final Logger hierarchy = createHierarchy( index );
         runLoggerTest( hierarchy, DEFAULT_LOGFILE, index );
 
