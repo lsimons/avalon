@@ -82,7 +82,7 @@ public abstract class AbstractTestCase extends TestCase
         File local = new File( base, "repository" );
         SystemContext system = 
               DefaultSystemContext.createSystemContext( 
-                base, local, ConsoleLogger.LEVEL_DEBUG );
+                base, local, ConsoleLogger.LEVEL_INFO );
         m_logger = system.getLogger();
 
         //

@@ -6,7 +6,7 @@
   <groupId>avalon-util</groupId>
   <id>avalon-plugin</id>
   <name>Avalon Plugin</name>
-  <currentVersion>1.0-dev</currentVersion>
+  <currentVersion>1.0</currentVersion>
   <description>Avalon Plugin for Maven</description>
   <shortDescription>Avalon Plugin</shortDescription>
   <package>org.apache.avalon</package>

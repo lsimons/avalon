@@ -7,7 +7,7 @@
   <groupId>avalon-repository</groupId>
   <id>avalon-repository-test</id>
   <name>Avalon Repository Test</name>
-  <currentVersion>1.2-dev</currentVersion>
+  <currentVersion>1.2</currentVersion>
 
   <package>org.apache.avalon.repository</package>
 
@@ -18,7 +18,7 @@
     <dependency>
       <groupId>avalon-repository</groupId>
       <artifactId>avalon-repository-main</artifactId>
-      <version>1.2-dev</version>
+      <version>1.2</version>
     </dependency>
   </dependencies>
 

@@ -7,19 +7,19 @@
   <groupId>avalon-util</groupId>
   <id>avalon-util-defaults</id>
   <name>Avalon Property Defaults</name>
-  <currentVersion>1.1-dev</currentVersion>
+  <currentVersion>1.1</currentVersion>
 
   <package>org.apache.avalon.util.defaults</package>
 
   <inceptionYear>2003</inceptionYear>
-  <shortDescription>Avalon utilities used to discover property defaults.</shortDescription>
+  <shortDescription>Avalon default property management.</shortDescription>
 
   <dependencies>
 
     <dependency>
       <groupId>avalon-util</groupId>
       <artifactId>avalon-util-env</artifactId>
-      <version>1.0-dev</version>
+      <version>1.0</version>
     </dependency>
 
   </dependencies>

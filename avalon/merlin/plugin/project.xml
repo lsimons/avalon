@@ -10,13 +10,13 @@
   <description>Merlin Plugin for Maven</description>
   <shortDescription>Merlin Plugin for Maven</shortDescription>
   <package>org.apache.avalon.merlin</package>
-  <currentVersion>3.2.1-dev</currentVersion>
+  <currentVersion>3.2.1</currentVersion>
 
   <dependencies>
     <dependency>
       <groupId>avalon-repository</groupId>
       <artifactId>avalon-repository-main</artifactId>
-      <version>1.2-dev</version>
+      <version>1.2</version>
       <properties>
         <classloader>root</classloader>
       </properties>

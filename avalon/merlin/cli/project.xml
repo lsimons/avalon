@@ -7,7 +7,7 @@
   <groupId>merlin</groupId>
   <id>merlin-cli</id>
   <name>Merlin CLI</name>
-  <currentVersion>3.2-dev</currentVersion>
+  <currentVersion>3.2</currentVersion>
 
   <package>org.apache.avalon.merlin.cli</package>
 
@@ -18,7 +18,7 @@
     <dependency>
       <groupId>avalon-repository</groupId>
       <artifactId>avalon-repository-main</artifactId>
-      <version>1.2-dev</version>
+      <version>1.2</version>
     </dependency>
     <dependency>
       <id>commons-cli</id>

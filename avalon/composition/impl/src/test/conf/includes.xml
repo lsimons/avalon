@@ -3,7 +3,7 @@
 
   <include name="test" id="test:includes">
     <target path="primary/block/test">
-      <categories priority="DEBUG"/>
+      <categories priority="INFO"/>
     </target>
   </include>
 

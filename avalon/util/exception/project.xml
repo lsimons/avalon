@@ -7,12 +7,12 @@
   <groupId>avalon-util</groupId>
   <id>avalon-util-exception</id>
   <name>Avalon Exception Utilities</name>
-  <currentVersion>1.0-dev</currentVersion>
+  <currentVersion>1.0</currentVersion>
 
   <package>org.apache.avalon.util.exception</package>
 
   <inceptionYear>2003</inceptionYear>
-  <shortDescription>Avalon utilities used to present cascading error reports.</shortDescription>
+  <shortDescription>Avalon exception reporting utility.</shortDescription>
 
   <build>
 
