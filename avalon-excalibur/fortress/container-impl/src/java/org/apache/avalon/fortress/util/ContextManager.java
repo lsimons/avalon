@@ -117,7 +117,7 @@ import java.util.Iterator;
  * and dispose of them properly when it itself is disposed .</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.46 $ $Date: 2003/06/12 15:19:21 $
+ * @version CVS $Revision: 1.47 $ $Date: 2003/06/12 18:45:54 $
  * @since 4.1
  */
 public class ContextManager
@@ -185,6 +185,12 @@ public class ContextManager
      * Either supplied via rootContext or created locally.
      */
     protected PoolManager m_poolManager;
+
+    /**
+     * The ThreadManager to be used by the container.
+     * Either supplied via rootContext or created locally.
+     */
+    protected ThreadManager m_threadManager;
 
     /**
      * The InstrumentManager to be used by the container.
@@ -266,6 +272,7 @@ public class ContextManager
         initializeDefaultSourceResolver();
         initializeLoggerManager();
         initializeMetaInfoManager();
+        initializeThreadManager();
         initializeCommandSink();
         initializePoolManager();
         initializeContext();
@@ -457,10 +464,8 @@ public class ContextManager
     private Sink createCommandSink() throws Exception
     {
         final CommandManager cm = new CommandManager();
-        final ThreadManager tm = new TPCThreadManager();
-        
+
         assumeOwnership( cm );
-        assumeOwnership( tm );
 
         // Set the CommandFailureHandler
         Class failureHandlerClass;
@@ -479,14 +484,7 @@ public class ContextManager
         ContainerUtil.initialize( fh );
         cm.setCommandFailureHandler( fh );
 
-        // Get the context Logger Manager
-        final Logger tmLogger = m_loggerManager.getLoggerForCategory( "system.threadmgr" );
-
-        ContainerUtil.enableLogging( tm, tmLogger );
-        ContainerUtil.parameterize( tm, buildCommandSinkConfig() );
-        ContainerUtil.initialize( tm );
-
-        tm.register( cm );
+        m_threadManager.register( cm );
 
         return cm.getCommandSink();
     }
@@ -497,7 +495,7 @@ public class ContextManager
      * @return ThreadManager configuration as a <code>Parameters</code>
      *         instance
      */
-    private Parameters buildCommandSinkConfig()
+    private Parameters buildThreadManagerParameters()
     {
         final Parameters p = new Parameters();
         Integer threadsPerProcessor;
@@ -722,6 +720,7 @@ public class ContextManager
         manager.put( MetaInfoManager.ROLE, m_metaInfoManager );
         manager.put( PoolManager.ROLE, m_poolManager );
         manager.put( InstrumentManager.ROLE, m_instrumentManager );
+        manager.put( ThreadManager.ROLE, m_threadManager );
 
         if ( lem != null )
         {
@@ -888,7 +887,7 @@ public class ContextManager
                  * Working around a weird compilation problem: with JDK 1.4.1-b21
                  * on Win2K couldn't get the following statement to compile:
                  *
-                 * m_loggerManager = 
+                 * m_loggerManager =
                  *         new Log4JConfLoggerManager( lmDefaultLoggerName, lmLoggerName );
                  *
                  * javac kept complaining:
@@ -903,13 +902,13 @@ public class ContextManager
                  *
                  * - Anton Tagunov
                  */
-                m_loggerManager = Log4JConfLoggerManager.newInstance( 
+                m_loggerManager = Log4JConfLoggerManager.newInstance(
                         lmDefaultLoggerName, lmLoggerName );
             }
             else // LogKitLoggerManager
             {
                 // Setup the Logger Manager
-                m_loggerManager = new LogKitLoggerManager( 
+                m_loggerManager = new LogKitLoggerManager(
                         lmDefaultLoggerName, lmLoggerName );
             }
 
@@ -934,15 +933,38 @@ public class ContextManager
         m_containerManagerContext.put( LOGGER, m_logger );
     }
 
+    protected void initializeThreadManager() throws Exception
+    {
+        try
+        {
+            m_threadManager = (ThreadManager)m_rootContext.get( ThreadManager.ROLE );
+        }
+        catch( ContextException e )
+        {
+            final ThreadManager tm = new TPCThreadManager();
+
+            assumeOwnership( tm );
+
+            // Get the context Logger Manager
+            final Logger tmLogger = m_loggerManager.getLoggerForCategory( "system.threadmgr" );
+
+            ContainerUtil.enableLogging( tm, tmLogger );
+            ContainerUtil.parameterize( tm, buildThreadManagerParameters() );
+            ContainerUtil.initialize( tm );
+
+            m_threadManager = tm;
+        }
+    }
+
     /**
-     * Will set up a LogKitLoggerManager if none is supplied.  This can be
-     * overridden if you don't want a LogKitLoggerManager.
+     * Will set up an InstrumentManager if none is supplied.  This can be
+     * overridden if you don't want an InstrumentManager
      *
      * <p>The postcondition is that
-     * <code>childContext.get( LoggerManager.ROLE )</code> should
-     * return a valid logger manager.</p>
+     * <code>childContext.get( InstrumentManager.ROLE )</code> should
+     * return a valid instrument manager.</p>
      *
-     * @throws Exception if it cannot instantiate the LoggerManager
+     * @throws Exception if it cannot instantiate the InstrumentManager
      */
     protected void initializeInstrumentManager() throws Exception
     {
