@@ -24,6 +24,7 @@ public class DefaultContext
 {
     private final Map                       m_contextData;
     private final Context                   m_parent;
+    private boolean                         m_readOnly;
 
     /**
      * Create a Context with specified data and parent.
@@ -100,6 +101,7 @@ public class DefaultContext
      */
     public void put( final Object key, final Object value )
     {
+        checkWriteable();
         m_contextData.put( key, value );
     }
 
@@ -121,5 +123,19 @@ public class DefaultContext
     protected final Context getParent()
     {
         return m_parent;
+    }
+
+    public void makeReadOnly()
+    {
+        m_readOnly = true;
+    }
+
+    protected final void checkWriteable()
+        throws IllegalStateException
+    {
+        if( m_readOnly )
+        {
+            throw new IllegalStateException( "Context is read only and can not be modified" );
+        }
     }
 }

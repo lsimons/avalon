@@ -18,7 +18,8 @@ import java.util.Map;
 public class DefaultComponentSelector
     implements ComponentSelector
 {
-    private final HashMap m_components = new HashMap();
+    private final HashMap  m_components = new HashMap();
+    private boolean        m_readOnly;
 
     /**
      * Select the desired component.  It does not cascade, neither
@@ -60,6 +61,7 @@ public class DefaultComponentSelector
      */
     public void put( final Object hint, final Component component )
     {
+        checkWriteable();
         m_components.put( hint, component );
     }
 
@@ -71,5 +73,19 @@ public class DefaultComponentSelector
     protected final Map getComponentMap()
     {
         return m_components;
+    }
+
+    public void makeReadOnly()
+    {
+        m_readOnly = true;
+    }
+
+    protected final void checkWriteable()
+        throws IllegalStateException
+    {
+        if( m_readOnly )
+        {
+            throw new IllegalStateException( "ComponentManager is read only and can not be modified" );
+        }
     }
 }

@@ -28,6 +28,7 @@ public class DefaultConfiguration
     private HashMap                          m_attributes;
     private ArrayList                        m_children;
     private String                           m_value;
+    private boolean                          m_readOnly;
 
     /**
      * Create a new <code>DefaultConfiguration</code> instance.
@@ -192,9 +193,13 @@ public class DefaultConfiguration
 
     /**
      * Append data to the value of this configuration element.
+     *
+     * @deprecated Use setValue() instead
      */
     public void appendValueData( final String value )
     {
+        checkWriteable();
+
         if( null == m_value )
         {
             m_value = value;
@@ -207,11 +212,15 @@ public class DefaultConfiguration
 
     public void setValue( final String value )
     {
+        checkWriteable();
+
         m_value = value;
     }
 
     public void setAttribute( final String name, final String value )
     {
+        checkWriteable();
+
         if( null == m_attributes )
         {
             m_attributes = new HashMap();
@@ -222,9 +231,13 @@ public class DefaultConfiguration
     /**
      * Add an attribute to this configuration element, returning its old
      * value or <b>null</b>.
+     *
+     * @deprecated Use setAttribute() instead
      */
     public String addAttribute( final String name, String value )
     {
+        checkWriteable();
+
         if( null == m_attributes )
         {
             m_attributes = new HashMap();
@@ -238,6 +251,8 @@ public class DefaultConfiguration
      */
     public void addChild( final Configuration configuration )
     {
+        checkWriteable();
+
         if( null == m_children )
         {
             m_children = new ArrayList();
@@ -251,6 +266,8 @@ public class DefaultConfiguration
      */
     public void removeChild( final Configuration configuration )
     {
+        checkWriteable();
+
         if( null == m_children )
         {
             return;
@@ -269,5 +286,19 @@ public class DefaultConfiguration
         }
 
         return m_children.size();
+    }
+
+    public void makeReadOnly()
+    {
+        m_readOnly = true;
+    }
+
+    protected final void checkWriteable()
+        throws IllegalStateException
+    {
+        if( m_readOnly )
+        {
+            throw new IllegalStateException( "Configuration is read only and can not be modified" );
+        }
     }
 }

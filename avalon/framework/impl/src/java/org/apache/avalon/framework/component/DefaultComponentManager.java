@@ -24,6 +24,7 @@ public class DefaultComponentManager
 {
     private final HashMap               m_components = new HashMap();
     private final ComponentManager      m_parent;
+    private boolean                     m_readOnly;
 
     /**
      * Construct ComponentManager with no parent.
@@ -78,6 +79,7 @@ public class DefaultComponentManager
      */
     public void put( final String role, final Component component )
     {
+        checkWriteable();
         m_components.put( role, component );
     }
 
@@ -131,5 +133,19 @@ public class DefaultComponentManager
     protected final Map getComponentMap()
     {
         return m_components;
+    }
+
+    public void makeReadOnly()
+    {
+        m_readOnly = true;
+    }
+
+    protected final void checkWriteable()
+        throws IllegalStateException
+    {
+        if( m_readOnly )
+        {
+            throw new IllegalStateException( "ComponentManager is read only and can not be modified" );
+        }
     }
 }
