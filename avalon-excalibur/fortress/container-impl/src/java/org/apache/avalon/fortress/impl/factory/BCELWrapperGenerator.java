@@ -53,6 +53,7 @@ import org.apache.bcel.Constants;
 import org.apache.bcel.classfile.JavaClass;
 import org.apache.bcel.classfile.Method;
 import org.apache.bcel.generic.ClassGen;
+import org.apache.bcel.generic.Type;
 import org.apache.bcel.util.ClassLoaderRepository;
 import org.apache.bcel.util.Repository;
 
@@ -246,7 +247,7 @@ final class BCELWrapperGenerator
             classToWrap.getName() + WRAPPER_CLASS_SUFFIX;
 
         Class generatedClass;
-        synchronized ( m_bcelClassLoader )
+        synchronized ( Type.class )
         {
             // Create BCEL class generator
             m_classGenerator =
