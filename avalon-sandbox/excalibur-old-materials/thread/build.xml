@@ -292,8 +292,6 @@
             <zipfileset dir="${dist.dir}" prefix="${dist.name}"/>
             <zipfileset dir="${docs.dir}" prefix="${dist.name}/docs"/>
         </zip>
-
-        <delete dir="${dist.dir}" />
     </target>
 
     <!-- Creates a mini jar-only distribution -->
@@ -345,7 +343,7 @@
 
     <!-- Prepares the documentation directory -->
     <target name="docs" depends="setup-filters" description="Generates the Docs">
-	<ant antfile="${basedir}/../cocoonbuild.xml"/>
+    <ant antfile="${basedir}/../cocoonbuild.xml"/>
 
       <copy todir="${docs.dir}">
         <fileset dir="${build.docs}">

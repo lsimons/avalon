@@ -276,9 +276,6 @@
             <zipfileset dir="${dist.dir}" prefix="${dist.name}"/>
             <zipfileset dir="${docs.dir}" prefix="${dist.name}/docs"/>
         </zip>
-
-        <delete dir="${dist.dir}" />
-
     </target>
 
     <!-- Creates a mini jar-only distribution -->

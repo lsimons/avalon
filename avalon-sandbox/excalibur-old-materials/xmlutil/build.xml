@@ -331,9 +331,6 @@
         <zip zipfile="${dist.base}/${dist.name}.zip" compress="true">
             <zipfileset dir="${dist.dir}" prefix="${dist.name}"/>
         </zip>
-
-        <delete dir="${dist.dir}" />
-
     </target>
 
     <!-- Creates a mini jar-only distribution -->
@@ -384,7 +381,7 @@
             style="docs.vsl"
             projectfile="menu.xml"
             includes="**/*.xml"
-	    excludes="menu.xml"
+        excludes="menu.xml"
             velocitypropertiesfile="../site/src/stylesheets/velocity.properties"
             />
 

@@ -321,8 +321,6 @@
           <fileset dir="${dist.base}" />
         </checksum>
         -->
-        <delete dir="${dist.dir}" />
-
     </target>
 
     <!-- Creates a mini jar-only distribution -->
