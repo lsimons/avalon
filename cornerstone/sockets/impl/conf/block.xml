@@ -1,0 +1,39 @@
+
+<!--
+Thread Block deployment directive.
+-->
+
+<container name="sockets">
+
+   <services>
+     <service type="org.apache.avalon.cornerstone.services.sockets.SocketManager">
+       <source>manager</source>
+     </service>
+   </services>
+
+   <classloader>
+     <classpath>
+       <repository>
+         <resource id="avalon-framework:avalon-framework-impl" version="4.2.0"/>
+         <resource id="cornerstone-sockets:cornerstone-sockets-api" version="1.0.0"/>
+         <resource id="cornerstone-sockets:cornerstone-sockets-impl" version="1.1.0"/>
+       </repository>
+     </classpath>
+   </classloader>
+
+   <component name="manager" 
+        class="org.apache.avalon.cornerstone.blocks.sockets.DefaultSocketManager" 
+        activation="true">
+     <configuration>
+       <server-sockets>
+         <factory name="plain" 
+           class="org.apache.avalon.cornerstone.blocks.sockets.DefaultServerSocketFactory"/>
+       </server-sockets>
+       <client-sockets>
+         <factory name="plain" 
+           class="org.apache.avalon.cornerstone.blocks.sockets.DefaultSocketFactory"/>
+       </client-sockets>
+     </configuration>
+   </component>
+
+</container>

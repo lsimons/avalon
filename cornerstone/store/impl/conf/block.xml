@@ -1,0 +1,30 @@
+
+<!--
+Thread Block deployment directive.
+-->
+
+<container name="sockets">
+
+   <services>
+     <service type="org.apache.avalon.cornerstone.services.store.Store">
+       <source>manager</source>
+     </service>
+   </services>
+
+   <classloader>
+     <classpath>
+       <repository>
+         <resource id="avalon-framework:avalon-framework-impl" version="4.2.0"/>
+         <resource id="cornerstone-store:cornerstone-store-api" version="1.0.0"/>
+         <resource id="cornerstone-store:cornerstone-store-impl" version="1.1.0"/>
+       </repository>
+     </classpath>
+   </classloader>
+
+   <component name="manager" 
+        class="org.apache.avalon.cornerstone.blocks.masterstore.RepositoryManager" 
+        activation="true">
+       <!-- configuration must be supplied -->
+   </component>
+
+</container>

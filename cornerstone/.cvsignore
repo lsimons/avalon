@@ -1,0 +1,14 @@
+.ant.properties
+gen
+*.el
+dist
+build
+distributions
+docs
+*.ipr
+maven.log
+velocity.log
+target
+build
+build.properties
+build.xml
