@@ -19,8 +19,8 @@ package org.apache.avalon.http;
 
 import java.io.IOException;
 
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
+import org.mortbay.http.HttpRequest;
+import org.mortbay.http.HttpResponse;
 
 /**
  * Defines methods that all http handlers must implement.
@@ -30,7 +30,6 @@ import javax.servlet.ServletResponse;
  * response generation.</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2004/04/04 15:00:56 $
  */
 public interface HttpRequestHandler
 {
@@ -51,6 +50,7 @@ public interface HttpRequestHandler
      * @exception IOException if an input or output exception occurs
      *
      */
-    public void service( ServletRequest request, ServletResponse response )
+    public void handle( String pathInContext, String pathParms,
+                        HttpRequest request, HttpResponse response )
         throws HttpRequestHandlerException, IOException;
 }

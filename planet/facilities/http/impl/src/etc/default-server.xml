@@ -16,9 +16,16 @@
       <artifact>jar:avalon/logkit/avalon-logkit#2.0.0</artifact>
       <artifact>jar:avalon/http/avalon-http-impl#SNAPSHOT</artifact>
       <artifact>jar:commons-logging/commons-logging#SNAPSHOT</artifact>
+      <artifact>jar:avalon/http/avalon-http-test</artifact>
     </classpath>
   </classloader>
 
+<!-- Test components for the Facility  -->  
+  <component name="primary" class="test.http.TestComponent" profile="primary"/>
+
+  <component name="secondary" class="test.http.TestComponent" profile="secondary"/>
+
+<!-- Actual Facility  -->  
   <component name="socketlistener" class="org.apache.avalon.http.impl.SocketListenerComponent">
     <parameters>
       <parameter name="port" value="8088"/>
@@ -36,30 +43,41 @@
     </configuration>
   </component>
   
-  
-<!--  
   <component name="security-handler" class="org.apache.avalon.http.impl.SecurityHandler" >
     <parameters>
     </parameters>
   </component>
   
-  <component name="model-handler"    class="org.apache.avalon.http.impl.ModelHandler" >
+  <component name="model-handler-primary"    
+             class="org.apache.avalon.http.impl.ModelHandler" 
+  >
     <parameters>
+      <parameter name="context-path" value="/primary" />
+      <parameter name="target" value="/http/primary" />
     </parameters>
   </component>
--->  
+  
+  <component name="model-handler-secondary"
+             class="org.apache.avalon.http.impl.ModelHandler" 
+  >
+    <parameters>
+      <parameter name="context-path" value="/secondary" />
+      <parameter name="target" value="/http/secondary" />
+    </parameters>
+  </component>
+
   <component name="resource-handler" class="org.apache.avalon.http.impl.ResourceHandler" >
     <parameters>
       <parameter name="allow-directory" value="true" />
       <parameter name="allow-methods" value="GET" />
     </parameters>
   </component>
-<!--  
+
   <component name="notfound-handler" class="org.apache.avalon.http.impl.NotFoundHandler" >
     <parameters>
     </parameters>
   </component>
-
+<!--  
   <component name="errorpage-handler" class="org.apache.avalon.http.impl.ErrorPageHandler" >
     <parameters>
     </parameters>

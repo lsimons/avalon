@@ -18,6 +18,8 @@
 package test.http;
 
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.Date;
 
@@ -30,24 +32,21 @@ import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.Configurable;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import org.apache.avalon.http.HttpRequestHandler;
 
-import org.apache.avalon.http.HttpRequestHandlerException;
-import org.apache.avalon.http.util.AbstractHttpRequestHandler;
+import org.mortbay.http.HttpRequest;
+import org.mortbay.http.HttpResponse;
 
 /**
- * HTTP Handler component that receives and processes http service 
- * requests.
+ * HTTP Handler component that receives and processes http requests.
  * 
  * @avalon.component name="test" lifestyle="thread"
  * @avalon.service type="org.apache.avalon.http.HttpRequestHandler"
+ *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
-public class TestComponent extends AbstractHttpRequestHandler 
-    implements LogEnabled, Serviceable, Configurable
+public class TestComponent
+    implements LogEnabled, Serviceable, Configurable, HttpRequestHandler
 {
     //----------------------------------------------------------
     // state
@@ -97,31 +96,22 @@ public class TestComponent extends AbstractHttpRequestHandler
         m_name = config.getChild( "name" ).getValue();
     }
 
-    //----------------------------------------------------------
-    // Handler
-    //----------------------------------------------------------
 
-    /**
-     * Respond to a GET request for the content produced by
-     * this servlet.  This method should be overidden in a
-     *
-     * @param request The servlet request we are processing
-     * @param response The servlet response we are producing
-     *
-     * @exception IOException if an input/output error occurs
-     * @exception ServletException if a servlet error occurs
-     */
-    public void doGet(HttpServletRequest request,
-                      HttpServletResponse response)
-      throws IOException, HttpRequestHandlerException {
-
+    public void handle( String path, String params, 
+                        HttpRequest request, HttpResponse response )
+        throws IOException
+    {
+        m_logger.debug( "TestComponent - Handling HTTP: " + path );
+        
         int count = m_counter.increment();
         
         m_count++;
 
         response.setContentType("text/html");
-        PrintWriter writer = response.getWriter();
-        String context = request.getContextPath();
+        OutputStream out = response.getOutputStream();
+        OutputStreamWriter osw = new OutputStreamWriter( out, "ISO8859-1" );
+        PrintWriter writer = new PrintWriter( osw );
+        
         writer.println("<html>");
         writer.println("<head>");
         writer.println("<title>" + m_name + "</title>" );
@@ -143,5 +133,6 @@ public class TestComponent extends AbstractHttpRequestHandler
         writer.println("<hr/>");
         writer.println("</body>");
         writer.println("</html>");
+        writer.flush();
     }
 }

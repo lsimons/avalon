@@ -17,12 +17,15 @@
 
 package org.apache.avalon.http.impl;
 
+import java.io.IOException;
+
 import org.apache.avalon.composition.event.CompositionEvent;
 import org.apache.avalon.composition.event.CompositionListener;
 import org.apache.avalon.composition.model.ContainmentModel;
 import org.apache.avalon.composition.model.ComponentModel;
 import org.apache.avalon.composition.model.DeploymentModel;
 
+import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.activity.Startable;
 
 import org.apache.avalon.framework.context.Context;
@@ -56,7 +59,7 @@ import org.mortbay.http.HttpResponse;
  */
 public class ModelHandler
     implements Serviceable, Parameterizable, Contextualizable, LogEnabled,
-               HttpHandler, CompositionListener, Startable
+               HttpHandler, CompositionListener, Startable, Initializable
 {
     private Logger              m_Logger;
     private ContainmentModel    m_Model;
@@ -64,6 +67,11 @@ public class ModelHandler
     private String              m_Name;
     private boolean             m_Started;
     private int                 m_Index;
+    private String              m_ContextPath;
+    private String              m_ComponentPath;
+    
+    private HttpRequestHandler  m_HandlerComponent;
+    private ContainmentModel    m_Container;
         
     public ModelHandler()
     {
@@ -121,6 +129,10 @@ public class ModelHandler
         throws ParameterException
     {
         m_Index = params.getParameterAsInteger( "handler-index", -1 );
+        
+        m_ContextPath = params.getParameter( "context-path", "/" );
+        
+        m_ComponentPath = params.getParameter( "target" );
     }
     
     /* HttpHandler interface */
@@ -137,22 +149,61 @@ public class ModelHandler
 
     public void handle( String pathInContext, String pathParams, 
                         HttpRequest request, HttpResponse response ) 
-        throws HttpException
+        throws IOException
     {
-        getLogger().info( "Request: " + pathInContext + ", " + pathParams );
+        getLogger().info( "ModelHandler arg1: " + pathInContext + ", " + pathParams );
+        getLogger().info( "ModelHandler arg2: " + request.getPath() );
+        
+        getLogger().info( "ModelHandler ContextPath: " + m_ContextPath );
+        getLogger().info( "ModelHandler ComponentPath: " + m_ComponentPath );
+        getLogger().info( "ModelHandler Container: " + m_Container );
+        getLogger().info( "ModelHandler Component: " + m_HandlerComponent );
+        
+        if( pathInContext.startsWith( m_ContextPath ) )
+        {
+            pathInContext = pathInContext.substring( m_ContextPath.length() );
+            m_HandlerComponent.handle( pathInContext, pathParams, request, response );
+            request.setHandled( true );
+            response.getOutputStream().close();
+        }
     }
 
+    public void initialize()
+        throws Exception
+    {
+        ContainmentModel root = (ContainmentModel) m_Model;
+        
+        int pos = m_ComponentPath.lastIndexOf( "/" );
+        String containerName = m_ComponentPath.substring( 0, pos );
+        if( "".equals( containerName ) )
+            containerName = "/";
+        String componentName = m_ComponentPath.substring( pos + 1 );
+        
+        m_Container = (ContainmentModel) root.getModel( containerName );
+        ComponentModel component = (ComponentModel) m_Container.getModel( componentName );
+
+        m_Container.addCompositionListener( this );              
+        m_HandlerComponent = (HttpRequestHandler) component.resolve();
+    }
+    
+    public void dispose()
+    {
+        m_Container.removeCompositionListener( this );              
+    }
+    
+    /* Jetty LifeCycle interface */
+    
     public void initialize( HttpContext context )
     {
         m_Logger.warn( "unhandled:  initialize( " + context + " );" );
     }
 
-    /* Jetty LifeCycle interface */
-    
     public boolean isStarted()
     {
         return m_Started;
     }
+    
+    /* Combined Avalon and Jetty LifeCycle interface */
     
     public void start()
     {
@@ -180,11 +231,32 @@ public class ModelHandler
     */
     public void modelAdded( CompositionEvent event )
     {
-        DeploymentModel model = event.getChild();
-        if( ! ( model instanceof HttpRequestHandler ) )
+        if( m_Logger.isDebugEnabled() )
+            m_Logger.debug( "modelRemoved( " + event + " );" );
+        
+        DeploymentModel dmodel = event.getChild();
+        
+        if( ! ( dmodel instanceof ComponentModel ) )
+            return;
+        ComponentModel cmodel = (ComponentModel) dmodel;
+        
+        String path = cmodel.getPath();
+        if( ! path.equals( m_ComponentPath ) )
             return;
             
-        // TODO:
+        if( m_HandlerComponent != null )
+        {
+            getLogger().warn( "Internal error. New component added at the same path, without a modelRemoved() event: " + path );
+        }
+        
+        try
+        {
+            m_HandlerComponent = (HttpRequestHandler) cmodel.resolve();
+            getLogger().info( "HttpRequestHandler added: " + path );
+        } catch( Exception e )
+        {
+            getLogger().error( "Unable to resolve " + path, e );
+        }
     }
 
    /**
@@ -192,10 +264,21 @@ public class ModelHandler
     */
     public void modelRemoved( CompositionEvent event )
     {
-        DeploymentModel model = event.getChild();
-        if( ! ( model instanceof HttpRequestHandler ) )
-            return;
+        if( m_Logger.isDebugEnabled() )
+            m_Logger.debug( "modelRemoved( " + event + " );" );
             
-        // TODO:
+        if( m_HandlerComponent == null)  // No model bound to this handler.
+            return;    
+        
+        DeploymentModel dmodel = event.getChild();
+        if( ! ( dmodel instanceof ComponentModel ) )
+            return;
+        
+        String path = dmodel.getPath();
+        if( path.equals( m_ComponentPath ) )
+        {
+            m_HandlerComponent = null;
+            getLogger().info( "HttpRequestHandler removed: " + path );
+        }
     }
 } 
