@@ -34,7 +34,7 @@ import org.apache.avalon.framework.logger.Logger;
  *  It is resolved when the Instrumentable actually registers the Instrument.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/08/14 14:58:21 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/08/20 03:27:12 $
  * @since 4.1
  */
 public class InstrumentProxy
@@ -76,6 +76,9 @@ public class InstrumentProxy
     
     /** Child logger to use for logging of new values. */
     private Logger m_valueLogger;
+    
+    /** The most recent value set if this is a value instrument. */
+    private int m_lastValue;
     
     /*---------------------------------------------------------------
      * Constructors
@@ -247,6 +250,11 @@ public class InstrumentProxy
             throw new IllegalStateException(
                 "The proxy is not configured to handle ValueInstruments." );
         }
+        
+        // Store the most recent value so that new listeners can be informed
+        //  of the current value when they register.  ints are single memory
+        //  locations, so synchronization is not needed here.
+        m_lastValue = value;
         
         // Get a local reference to the listeners, so that synchronization can be avoided.
         InstrumentListener[] listeners = m_listeners;
@@ -473,6 +481,10 @@ public class InstrumentProxy
         }
         
         addInstrumentListener( listener );
+        
+        // Inform the new listener of the current value
+        long time = System.currentTimeMillis();
+        listener.setValue( getName(), m_lastValue, time );
     }
     
     /**
