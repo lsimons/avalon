@@ -40,7 +40,16 @@
     </path>
     <property name="cp" refid="test.class.path"/>
 
-    <target name="main" depends="test,jar" description="Build the project"/>
+    <target name="main" depends="jar" description="Build the project">
+        <echo>
+=============================================================
+WARNING: excalibur-thread's unit tests are not run by
+         default, since they include performance tests
+         which may fail in some environments. Please run
+         these tests manually using `ant test`.
+=============================================================
+        </echo>
+    </target>
     <target name="rebuild" depends="clean,main" description="Rebuild the project"/>
 
     <target name="dependencies" description="Check dependencies" unless="skip.dependencies">
