@@ -127,7 +127,7 @@
       </info>
       <dependencies>
         <projects>
-          <projectref key="avalon-logkit"/>
+          <projectref key="avalon-logkit" runtime="false" test="false"/>
         </projects>
       </dependencies>
     </project>
@@ -372,6 +372,7 @@
       </dependencies>
     </project>
 
+    <!-- TODO: update cli scripts to incorporate runtime classpath -->
     <project basedir="../../runtime/repository/cli">
       <info>
         <group>avalon/repository</group>
@@ -396,8 +397,9 @@
       </info>
       <dependencies>
         <projects>
+          <projectref key="avalon-repository-impl" test="false"/>
           <projectref key="avalon-repository-main"/>
-          <projectref key="avalon-framework-impl"/>
+          <projectref key="avalon-framework-impl" test="true"/>
         </projects>
       </dependencies>
     </project>
@@ -412,6 +414,142 @@
         <name>avalon-logging-api</name>
         <version>1.0.0</version>
       </info>
+    </project>
+
+    <project basedir="../../runtime/logging/spi">
+      <info>
+        <group>avalon/logging</group>
+        <name>avalon-logging-spi</name>
+        <version>1.0.0</version>
+      </info>
+      <dependencies>
+        <projects>
+          <projectref key="avalon-logging-api"/>
+          <projectref key="avalon-repository-spi"/>
+          <projectref key="avalon-framework-api"/>
+        </projects>
+      </dependencies>
+    </project>
+
+    <project basedir="../../runtime/logging/impl">
+      <info>
+        <group>avalon/logging</group>
+        <name>avalon-logging-impl</name>
+        <version>1.0.0</version>
+      </info>
+      <dependencies>
+        <projects>
+          <projectref key="avalon-logging-spi"/>
+          <projectref key="avalon-repository-main" runtime="false"/>
+        </projects>
+      </dependencies>
+    </project>
+
+    <project basedir="../../runtime/logging/log4j">
+      <info>
+        <group>avalon/logging</group>
+        <name>avalon-logging-log4j</name>
+        <version>1.0.0</version>
+      </info>
+      <dependencies>
+        <projects>
+          <projectref key="avalon-logging-impl" runtime="false"/>
+        </projects>
+        <resources>
+          <resourceref key="log4j"/>
+        </resources>
+      </dependencies>
+    </project>
+
+    <project basedir="../../runtime/logging/logkit/api">
+      <info>
+        <group>avalon/logging/logkit</group>
+        <name>avalon-logging-logkit-api</name>
+        <version>1.0.0</version>
+      </info>
+      <dependencies>
+        <projects>
+          <projectref key="avalon-logging-spi" runtime="false"/>
+          <projectref key="avalon-logkit"/>
+        </projects>
+      </dependencies>
+    </project>
+
+    <project basedir="../../runtime/logging/logkit/impl">
+      <info>
+        <group>avalon/logging/logkit</group>
+        <name>avalon-logging-logkit-impl</name>
+        <version>1.0.0</version>
+      </info>
+      <dependencies>
+        <projects>
+          <projectref key="avalon-logging-logkit-api"/>
+          <projectref key="avalon-logging-impl" runtime="false"/>
+          <projectref key="avalon-util-configuration"/>
+        </projects>
+      </dependencies>
+    </project>
+
+    <project basedir="../../runtime/logging/logkit/plugins/datagram">
+      <info>
+        <group>avalon/logging/logkit</group>
+        <name>avalon-logging-logkit-datagram</name>
+        <version>1.0.0</version>
+      </info>
+      <dependencies>
+        <projects>
+          <projectref key="avalon-logging-logkit-api" runtime="false"/>
+          <projectref key="avalon-repository-main" runtime="false"/>
+        </projects>
+      </dependencies>
+    </project>
+
+    <project basedir="../../runtime/logging/logkit/plugins/socket">
+      <info>
+        <group>avalon/logging/logkit</group>
+        <name>avalon-logging-logkit-socket</name>
+        <version>1.0.0</version>
+      </info>
+      <dependencies>
+        <projects>
+          <projectref key="avalon-logging-logkit-api" runtime="false"/>
+          <projectref key="avalon-repository-main" runtime="false"/>
+        </projects>
+      </dependencies>
+    </project>
+
+    <project basedir="../../runtime/logging/logkit/plugins/syslog">
+      <info>
+        <group>avalon/logging/logkit</group>
+        <name>avalon-logging-logkit-syslog</name>
+        <version>1.0.0</version>
+      </info>
+      <dependencies>
+        <projects>
+          <projectref key="avalon-logging-logkit-api" runtime="false"/>
+          <projectref key="avalon-repository-main" runtime="false"/>
+        </projects>
+      </dependencies>
+    </project>
+
+    <project basedir="../../runtime/logging/test">
+      <info>
+        <group>avalon/logging</group>
+        <name>avalon-logging-test</name>
+        <version>1.0.0</version>
+      </info>
+      <dependencies>
+        <projects>
+          <projectref key="avalon-logging-logkit-impl" test="false"/>
+          <projectref key="avalon-logging-log4j" test="false"/>
+          <projectref key="avalon-logging-logkit-syslog" test="false"/>
+          <projectref key="avalon-logging-logkit-socket" test="false"/>
+          <projectref key="avalon-logging-logkit-datagram" test="false"/>
+          <projectref key="avalon-repository-main"/>
+          <projectref key="avalon-logging-impl"/>
+          <projectref key="avalon-framework-impl"/>
+        </projects>
+      </dependencies>
     </project>
 
   </projects>

@@ -32,6 +32,7 @@ import org.apache.tools.ant.types.Path;
 import org.apache.avalon.tools.home.Context;
 import org.apache.avalon.tools.home.Home;
 import org.apache.avalon.tools.project.Definition;
+import org.apache.avalon.tools.project.Policy;
 
 /**
  * Compile sources.
@@ -78,7 +79,7 @@ public class JavacTask extends SystemTask
 
             Path classpath = 
               getHome().getRepository().createPath( 
-                getProject(), getHome().getDefinition( getKey() ) );
+                getProject(), getHome().getDefinition( getKey() ), Policy.BUILD );
             compile( main, classes, classpath );
 
             Copy copy = (Copy) getProject().createTask( "copy" );

@@ -36,6 +36,7 @@ import org.apache.tools.ant.types.Path;
 
 import org.apache.avalon.tools.home.Home;
 import org.apache.avalon.tools.project.Definition;
+import org.apache.avalon.tools.project.Policy;
 import org.apache.avalon.tools.home.Context;
 
 /**
@@ -109,7 +110,7 @@ public class JUnitTestTask extends SystemTask
             mkDir( classes );
             Definition definition = getHome().getDefinition( getKey() );
             Path classpath = 
-              getHome().getRepository().createPath( project, definition );
+              getHome().getRepository().createPath( project, definition, Policy.TEST );
 
             //
             // add the project jar to the classpath for the compilation

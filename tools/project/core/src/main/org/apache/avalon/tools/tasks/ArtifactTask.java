@@ -55,11 +55,21 @@ public class ArtifactTask extends SystemTask
     public static final String FACTORY_KEY = "avalon.artifact.factory";
     public static final String EXPORT_KEY = "avalon.artifact.export";
 
+    private String m_factory;
+
     public void execute() throws BuildException 
     {
         String key = getContext().getKey();
         Definition def = getHome().getDefinition( key );
         File artifact = getArtifactFile( def );
+
+        m_factory = getProject().getProperty( FACTORY_KEY );
+        if( null == m_factory ) 
+        {
+            final String error = 
+              "Required artifact property '" + FACTORY_KEY + "' is undefined.";
+            throw new BuildException( error );
+        }
         writeMetaFile( def, artifact );
     }
 
@@ -286,18 +296,11 @@ public class ArtifactTask extends SystemTask
     private void writeProperties( final Writer writer )
         throws IOException
     {
-        String factory = getProject().getProperty( FACTORY_KEY );
-        if( null == factory ) 
-        {
-            final String error = 
-              "Required artifact property '" + FACTORY_KEY + "' is undefined.";
-            throw new BuildException( error );
-        }
         writer.write( "\n" );
         writer.write( "\n#" );
         writer.write( "\n# Factory classname." );
         writer.write( "\n#" );
-        writer.write( "\n" + FACTORY_KEY + " = " + factory);
+        writer.write( "\n" + FACTORY_KEY + " = " + m_factory);
 
         String export = getProject().getProperty( EXPORT_KEY );
         if( null == export ) 
