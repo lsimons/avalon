@@ -15,6 +15,7 @@
         <pathelement location="${avalon-logkit.jar}"/> <!-- deprecated -->
         <pathelement location="${logkit.jar}"/>
         <pathelement location="${avalon-framework.jar}"/>
+        <pathelement location="${excalibur-i18n.jar}"/>
         <pathelement location="${checkstyle.jar}"/>
 
         <!-- Optional jars -->
@@ -114,6 +115,7 @@
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkCommon"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkFramework"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkLogkit"/>
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkI18n"/>
     </target>
 
     <target name="dependencies-test" depends="dist-jar, dependencies"
@@ -188,7 +190,7 @@
 
 
   <target name="optional-warnings" depends="jms-warn,sql-warn,mail-warn,log4j-warn,servlet-warn"
-      description="Outputs warnings if some jars are missing from the environment"> 
+      description="Outputs warnings if some jars are missing from the environment">
   </target>
 
   <!-- Compiles the source code -->
@@ -489,7 +491,7 @@
         <fileset dir="${build.docs}">
           <include name="**"/>
         </fileset>
-      </copy>    
+      </copy>
 
     </target>
 
