@@ -20,18 +20,25 @@ package org.apache.avalon.merlin.impl;
 
 import java.io.File;
 import java.io.InputStream;
+import java.io.IOException;
 import java.net.URL;
 import java.util.Map;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Locale;
+import java.security.cert.CertificateException;
 
 import org.apache.avalon.logging.data.CategoriesDirective;
 import org.apache.avalon.logging.provider.LoggingManager;
 import org.apache.avalon.logging.provider.LoggingCriteria;
 
+import org.apache.avalon.composition.data.CertsDirective;
 import org.apache.avalon.composition.data.ContainmentProfile;
+import org.apache.avalon.composition.data.GrantDirective;
+import org.apache.avalon.composition.data.PermissionDirective;
+import org.apache.avalon.composition.data.PKCS7Directive;
 import org.apache.avalon.composition.data.TargetDirective;
+import org.apache.avalon.composition.data.X509Directive;
 import org.apache.avalon.composition.data.builder.XMLTargetsCreator;
 import org.apache.avalon.composition.data.builder.XMLComponentProfileCreator;
 import org.apache.avalon.composition.data.builder.XMLContainmentProfileCreator;
@@ -41,12 +48,14 @@ import org.apache.avalon.composition.model.ContainmentModel;
 import org.apache.avalon.composition.model.ClassLoaderModel;
 import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.model.ModelRepository;
+import org.apache.avalon.composition.model.impl.DefaultSecurityModel;
 import org.apache.avalon.composition.model.impl.DefaultSystemContext;
 import org.apache.avalon.composition.model.impl.DefaultContainmentContext;
 import org.apache.avalon.composition.model.impl.DefaultContainmentModel;
 import org.apache.avalon.composition.model.impl.DefaultClassLoaderModel;
 import org.apache.avalon.composition.model.impl.DefaultClassLoaderContext;
 import org.apache.avalon.composition.model.impl.DefaultModelRepository;
+import org.apache.avalon.composition.provider.SecurityModel;
 import org.apache.avalon.composition.provider.SystemContext;
 import org.apache.avalon.composition.provider.ClassLoaderContext;
 import org.apache.avalon.composition.util.StringHelper;
@@ -256,8 +265,7 @@ public class DefaultFactory implements Factory
         // install any blocks declared within the kernel context
         //
 
-        getLogger().info( "block installation" );
-        getLogger().debug( "install phase" );
+        getLogger().info( "install phase" );
         URL[] urls = criteria.getDeploymentURLs();
         for( int i=0; i<urls.length; i++ )
         {
@@ -403,6 +411,13 @@ public class DefaultFactory implements Factory
           "repository established: " + repository );
 
         //
+        // build the security grants directive
+        //
+
+        Configuration securityConfig = config.getChild( "security" );
+        SecurityModel security = createSecurityModel( criteria, securityConfig );
+
+        //
         // create the system context
         //
 
@@ -421,13 +436,26 @@ public class DefaultFactory implements Factory
             name,
             criteria.isDebugEnabled(),
             criteria.getDeploymentTimeout(),
-            criteria.isCodeSecurityEnabled() );
+            security );
 
         system.put( "urn:composition:dir", criteria.getWorkingDirectory() );
         system.put( "urn:composition:anchor", criteria.getAnchorDirectory() );
         system.makeReadOnly();
 
         return system;
+    }
+
+    private SecurityModel createSecurityModel( 
+      KernelCriteria criteria, Configuration config ) throws Exception
+    {
+        if( !criteria.isCodeSecurityEnabled() )
+        {
+            return new DefaultSecurityModel();
+        }
+        else
+        {
+            return DefaultSecurityModel.createSecurityModel( config );
+        }
     }
 
     private ContainmentModel createApplicationModel( 

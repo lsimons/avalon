@@ -41,6 +41,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
 
 import org.apache.avalon.meta.info.Service;
 import org.apache.avalon.meta.info.ServiceDescriptor;
+import org.apache.avalon.meta.info.PermissionDescriptor;
 import org.apache.avalon.meta.info.Type;
 import org.apache.avalon.meta.info.builder.TypeBuilder;
 import org.apache.avalon.meta.info.builder.ServiceBuilder;
@@ -52,7 +53,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * A repository for services, types and profiles.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.6 $ $Date: 2004/02/07 22:46:42 $
+ * @version $Revision: 1.7 $ $Date: 2004/02/25 18:55:40 $
  */
 class Scanner extends AbstractLogEnabled
 {
@@ -344,6 +345,7 @@ class Scanner extends AbstractLogEnabled
         try
         {
             verifyType( type, clazz );
+
             if( getLogger().isDebugEnabled() )
             {
                 final String message =

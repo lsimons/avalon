@@ -94,7 +94,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * and the extensions package.
  * </p>
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.10 $ $Date: 2004/02/23 13:00:31 $
+ * @version $Revision: 1.11 $ $Date: 2004/02/25 18:55:40 $
  */
 public class DefaultClassLoaderModel extends AbstractLogEnabled 
     implements ClassLoaderModel
@@ -207,6 +207,15 @@ public class DefaultClassLoaderModel extends AbstractLogEnabled
             m_urls = buildQualifiedClassPath();
             m_classLoader = 
               new URLClassLoader( m_urls, context.getClassLoader() );
+
+            //
+            // changes needed here - grants must be under the control of 
+            // system administrator which means that grants can only exist in 
+            // either the kernel configuration or a targets override 
+            // configuration - more specifically, a block's classloader directive
+            // cannot grant permissions
+            //
+
             m_protectionDomains = createProtectionDomains( directive.getGrantDirective() );
 
             //
@@ -230,6 +239,7 @@ public class DefaultClassLoaderModel extends AbstractLogEnabled
             Logger serviceLogger = getLocalLogger().getChildLogger( "services" );
             m_services = new DefaultServiceRepository( 
               serviceLogger, context.getServiceRepository(), services );
+
         }
         catch( Throwable e )
         {

@@ -33,7 +33,7 @@ import org.apache.avalon.framework.parameters.Parameters;
  * Defintion of a system context that exposes a system wide set of parameters.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/02/14 21:33:56 $
+ * @version $Revision: 1.3 $ $Date: 2004/02/25 18:54:24 $
  */
 public interface SystemContext extends Context
 {
@@ -118,10 +118,10 @@ public interface SystemContext extends Context
     long getDefaultDeploymentTimeout();
 
    /**
-    * Return the enabled status of the code security policy.
-    * @return the code security enabled status
+    * Return the system security model.
+    * @return the security model
     */
-    boolean isCodeSecurityEnabled();
+    SecurityModel getSecurityModel();
 
     //------------------------------------------------------------------
     // runtime operations

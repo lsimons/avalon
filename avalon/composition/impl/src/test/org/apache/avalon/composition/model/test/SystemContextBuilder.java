@@ -23,8 +23,10 @@ import java.util.Map;
 
 import org.apache.avalon.composition.model.ContainmentModel;
 import org.apache.avalon.composition.model.impl.DefaultSystemContext;
+import org.apache.avalon.composition.model.impl.DefaultSecurityModel;
 import org.apache.avalon.composition.provider.ModelFactory;
 import org.apache.avalon.composition.provider.SystemContext;
+import org.apache.avalon.composition.provider.SecurityModel;
 
 import org.apache.avalon.logging.provider.LoggingManager;
 import org.apache.avalon.logging.data.CategoryDirective;
@@ -48,7 +50,7 @@ import org.apache.avalon.excalibur.i18n.Resources;
  * Implementation of a system context that exposes a system wide set of parameters.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/02/19 08:58:04 $
+ * @version $Revision: 1.3 $ $Date: 2004/02/25 18:55:40 $
  */
 public class SystemContextBuilder
 {
@@ -86,10 +88,17 @@ public class SystemContextBuilder
 
         final File home = new File( base, "home" );
         final File temp = new File( base, "temp" );
+
+        //
+        // FIX ME - build the security model from a configuration
+        //
+
+        SecurityModel security = 
+          new DefaultSecurityModel( null, null, secure );
  
         return new DefaultSystemContext( 
           context, null, logging, base, home, temp, repository, "system", 
-          false, timeout, secure );
+          false, timeout, security );
     }
 
     private static Repository createTestRepository( InitialContext context, File cache ) throws Exception
