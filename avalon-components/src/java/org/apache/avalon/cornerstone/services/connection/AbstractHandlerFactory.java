@@ -7,17 +7,16 @@
  */
 package org.apache.avalon.cornerstone.services.connection;
 
-import org.apache.avalon.framework.activity.Initializable;
-import org.apache.avalon.framework.component.Component;
-import org.apache.avalon.framework.component.ComponentException;
-import org.apache.avalon.framework.component.ComponentManager;
-import org.apache.avalon.framework.component.Composable;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.framework.service.ServiceException;
+import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.avalon.framework.service.Serviceable;
 
 /**
  * Helper class to extend to create handler factorys.
@@ -26,21 +25,21 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  */
 public abstract class AbstractHandlerFactory
     extends AbstractLogEnabled
-    implements Component, Contextualizable, Composable, Configurable, ConnectionHandlerFactory
+    implements Contextualizable, Serviceable, Configurable, ConnectionHandlerFactory
 {
-    protected Context m_context;
-    protected ComponentManager m_componentManager;
-    protected Configuration m_configuration;
+    private Context m_context;
+    private ServiceManager m_serviceManager;
+    private Configuration m_configuration;
 
     public void contextualize( final Context context )
     {
         m_context = context;
     }
 
-    public void compose( final ComponentManager componentManager )
-        throws ComponentException
+    public void service( final ServiceManager serviceManager )
+        throws ServiceException
     {
-        m_componentManager = componentManager;
+        m_serviceManager = serviceManager;
     }
 
     public void configure( final Configuration configuration )
@@ -59,28 +58,12 @@ public abstract class AbstractHandlerFactory
         throws Exception
     {
         final ConnectionHandler handler = newHandler();
-
-        setupLogger( handler );
-
-        if( handler instanceof Contextualizable )
-        {
-            ( (Contextualizable)handler ).contextualize( m_context );
-        }
-
-        if( handler instanceof Composable )
-        {
-            ( (Composable)handler ).compose( m_componentManager );
-        }
-
-        if( handler instanceof Configurable )
-        {
-            ( (Configurable)handler ).configure( m_configuration );
-        }
-
-        if( handler instanceof Initializable )
-        {
-            ( (Initializable)handler ).initialize();
-        }
+        ContainerUtil.enableLogging( handler, getLogger() );
+        ContainerUtil.contextualize( handler, m_context );
+        ContainerUtil.service( handler, m_serviceManager );
+        ContainerUtil.compose( handler, new AdaptingComponentManager( m_serviceManager ) );
+        ContainerUtil.configure( handler, m_configuration );
+        ContainerUtil.initialize( handler );
 
         return handler;
     }
