@@ -109,8 +109,10 @@ public class VersionTestCase
         final Version v3 = new Version( 1, 4 , 0 );
         final Version v4 = new Version( 2, 0 , 1 );
 
-        assertTrue(   v0.complies( v1 ) );
-        assertTrue(   v0.complies( v4 ) );
+        assertTrue(   v1.complies( v0 ) );
+        assertTrue(   v4.complies( v0 ) );
+        assertTrue( ! v0.complies( v1 ) );
+        assertTrue( ! v0.complies( v4 ) );
         
         assertTrue(   v1.complies( v1 ) );
         assertTrue( ! v1.complies( v2 ) );
