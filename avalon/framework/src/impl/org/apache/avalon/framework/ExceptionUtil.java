@@ -85,7 +85,7 @@ public final class ExceptionUtil
 
                 if( cause instanceof CascadingThrowable )
                 {
-                    cause = ((CascadingThrowable)throwable).getCause();
+                    cause = ((CascadingThrowable)cause).getCause();
                 }
                 else
                 {
