@@ -183,11 +183,43 @@ if ( numElements < 0 )
         ]]>
       </source>
     </s1>
+    <s1 title="EventHandlers">
+      <p>
+        Event Handlers are used in automated event routing systems like
+        SEDA architectures.  Basically, it is a way for your object/component
+        to handle events without having to implement the Sink interface,
+        which can be kind of tricky.  Here is an example:
+      </p>
+      <source>
+        <![CDATA[
+import org.apache.excalibur.event.EventHandler;
+
+/** Send events to System.out */
+public class MyEventHandler implements EventHandler
+{
+     /** Handle several events at one time */
+     public void handleEvents( Object[] events )
+     {
+         for (int i = 0; i < events.length; i++)
+         {
+             handleEvent( events[i] );
+         }
+     }
+
+     /** Handle one event at a time */
+     public void handleEvent( Object event )
+     {
+         System.out.println( event );
+     }
+}
+        ]]>
+      </source>
+    </s1>
   </body>
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.2 $ $Date: 2002/09/30 20:43:09 $
+      $Revision: 1.3 $ $Date: 2002/09/30 20:49:07 $
     </legal>
   </footer>
 </document>
