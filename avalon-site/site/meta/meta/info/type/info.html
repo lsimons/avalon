@@ -476,6 +476,28 @@
   
     </div>
   
+    <div>
+      <strong>Related</strong>
+      
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      	
+      		<a href="http://avalon.apache.org/merlin">Merlin</a>
+      	
+      </small>
+	  
+        
+      
+    </div>
+  
+    </div>
+  
                 
                 
                 
@@ -705,9 +727,11 @@
     <td>
       
              Declaration of a garbage collection policy default override.  If 
-             the value is "liberal" the component will be decommissioned automatically
-             if all references to the component have been released.  If the value is
-             "conservative" the component will be maintained for the life of its parent.
+             the value is "weak" the component will be decommissioned automatically
+             if all references to the component have been released.  If the value
+             "soft" the component will be decommissioned in the event of 
+             memory contention. If the value is "hard" the component will be 
+             maintained for the life of its container.
             
     </td>
    </tr>
@@ -746,6 +770,7 @@ The org.apache.avalon.meta.info.infoDescriptor class describes the component typ
     &lt;name&gt;test&lt;/info&gt;
     &lt;version&gt;1.0&lt;/version&gt;
     &lt;lifestyle&gt;singleton&lt;/lifestyle&gt;
+    &lt;collection&gt;soft&lt;/collection&gt;
     &lt;attributes&gt;
       &lt;attribute key="about" value="An example attribute."/&gt;
       &lt;attribute key="status" value="FINAL"/&gt;
