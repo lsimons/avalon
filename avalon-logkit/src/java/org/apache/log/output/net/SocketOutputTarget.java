@@ -18,7 +18,6 @@ import org.apache.log.output.AbstractOutputTarget;
  * Useful for writing the output to a TCP/IP client socket.
  *
  * @author <a href="mailto:rghorpade@onebridge.de"> Rajendra Ghorpade </a>
- * @version
  */
 public class SocketOutputTarget extends AbstractOutputTarget
 {

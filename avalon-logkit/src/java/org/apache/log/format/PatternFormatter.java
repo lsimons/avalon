@@ -20,46 +20,66 @@ import org.apache.log.Priority;
  * This formater formats the LogEvents according to a input pattern
  * string.
  * <p>
- * The format of each pattern element can be %[+|-][#[.#]]{field:subformat}.
+ * The format of each pattern element can be
+ * <code>%[+|-][#[.#]]{field:subformat}</code>.
  * </p>
  * <ul>
- * <li>The +|- indicates left or right justify.
- * </li>
- * <li>The #.# indicates the minimum and maximum size of output.<br>
- *   You may omit the values and the field will be formatted without size
- *   restriction.<br>
- *   You may specify '#', or '#.' to define an minimum size, only.</br>
- *   You may specify '.#' to define an maximum size only.
- * </li>
- * <li>
-   * 'field' indicates which field is to be output and must be one of
- *  properties of LogEvent.<br>
- *  Currently following fields are supported:
- *   <dl>
- *     <dt>category</dt>
- *     <dd>Category value of the logging event.</dd>
- *     <dt>context</dt>
- *     <dd>Context value of the logging event.</dd>
- *     <dt>message</dt>
- *     <dd>Message value of the logging event.</dd>
- *     <dt>time</dt>
- *     <dd>Time value of the logging event.</dd>
- *     <dt>rtime</dt>
- *     <dd>Relative time value of the logging event.</dd>
- *     <dt>throwable</dt>
- *     <dd>Throwable value of the logging event.</dd>
- *     <dt>priority</dt>
- *     <dd>Priority value of the logging event.</dd>
- *   </dl>
- * </li>
- * <li>'subformat' indicates a particular subformat and is currently only used
- *   for category context to specify the context map parameter name.
- * </li>
+ *   <li><p>The <code>+|-</code> indicates left or right justify.
+ *   </p></li>
+ *   <li><p>The <code>#.#</code> indicates the minimum and maximum
+ *     size of output.  You may omit the values and the field will be
+ *     formatted without size restriction.<br />
+ *     You may specify <code>#</code>, or <code>#.</code> to only
+ *     define the minimum size.<br />
+ *     You may specify <code>.#</code> to only define the maximum
+ *     size.
+ *   </p></li>
+ *   <li><p><code>field</code> indicates which field is to be output and must be
+ *     one of properties of LogEvent.  The following fields are
+ *     currently supported:
+ *     <table border="0" cellpadding="4" cellspacing="0">
+ *       <tr>
+ *         <td><b>category</b></td>
+ *         <td>Category value of the logging event.</td>
+ *       </tr><tr>
+ *         <td><b>context</b></td>
+ *         <td>Context value of the logging event.</td>
+ *       </tr><tr>
+ *         <td><b>message</b></td>
+ *         <td>Message value of the logging event.</td>
+ *       </tr><tr>
+ *         <td><b>time</b></td>
+ *         <td>Time value of the logging event.</td>
+ *       </tr><tr>
+ *         <td><b>rtime</b></td>
+ *         <td>Relative time value of the logging event.</td>
+ *       </tr><tr>
+ *         <td><b>throwable</b></td>
+ *         <td>Throwable value of the logging event.</td>
+ *       </tr><tr>
+ *         <td><b>priority</b></td>
+ *         <td>Priority value of the logging event.</td>
+ *       </tr>
+ *     </table>
+ *   </p></li>
+ *
+ *   <li><p><code>subformat</code> indicates a particular subformat to
+ *     use on the specified field, and is currently only supported by:
+ *     <table border="0" cellpadding="4" cellspacing="0">
+ *       <tr>
+ *         <td><b>context</b></td>
+ *         <td>Specifies the context map parameter name.</td>
+ *       </tr><tr>
+ *         <td><b>time</b></td>
+ *         <td>Specifies the pattern to be pass to 
+ *         {@link java.text.SimpleDateFormat SimpleDateFormat} to format the time.</td>
+ *       </tr>
+ *     </table>
+ *   </p></li>
  * </ul>
  * <p>A simple example of a typical PatternFormatter format:
+ * <code>%{time} %5.5{priority}[%-10.10{category}]: %{message}</code>
  * </p>
- * <pre><code>%{time} %5.5{priority}[%-10.10{category}]: %{message}
- * </pre></code>
  * <p>
  *   This format string will format a log event printing first time value of
  *   of log event with out size restriction, next priority with minum and maximum size 5,
@@ -71,9 +91,10 @@ import org.apache.log.Priority;
  * <pre><code>1000928827905 DEBUG [     junit]: Sample message
  * </pre><code>
  *
+ *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @version CVS $Revision: 1.24 $ $Date: 2001/12/13 08:04:51 $
+ * @version CVS $Revision: 1.25 $ $Date: 2002/02/09 21:40:24 $
  */
 public class PatternFormatter
     implements Formatter, org.apache.log.Formatter

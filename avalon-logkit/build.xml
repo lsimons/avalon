@@ -392,12 +392,15 @@ Legal:
              destdir="${build.javadocs}">
       <classpath refid="project.class.path" />
       <doclet name="com.sun.tools.doclets.standard.Standard">
-       <param name="-author"/>
-       <param name="-version"/>
-       <param name="-doctitle" value="${Name}"/>
-       <param name="-windowtitle" value="${Name} API"/>
-       <param name="-bottom"
-              value="&quot;Copyright &#169; 2001 Apache Jakarta Project. All Rights Reserved.&quot;"/>
+        <param name="-author"/>
+        <param name="-version"/>
+        <param name="-doctitle" value="${Name}"/>
+        <param name="-windowtitle" value="${Name} API"/>
+        <param name="-bottom"
+               value="&quot;Copyright &#169; 2001 Apache Jakarta Project. All Rights Reserved.&quot;"/>
+        <param name="-link" value="http://java.sun.com/j2se/1.4/docs/api/"/>
+        <param name="-link" value="http://java.sun.com/j2ee/sdk_1.3/techdocs/api/"/>
+        <param name="-link" value="http://jakarta.apache.org/avalon/api/"/>
       </doclet>
     </javadoc>
 
