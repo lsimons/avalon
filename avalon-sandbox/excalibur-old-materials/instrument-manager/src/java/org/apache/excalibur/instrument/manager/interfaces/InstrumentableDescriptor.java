@@ -12,7 +12,7 @@ package org.apache.excalibur.instrument.manager.interfaces;
  *  Instrumentable.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/08/14 14:58:24 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/09/06 02:10:13 $
  * @since 4.1
  */
 public interface InstrumentableDescriptor
@@ -95,4 +95,15 @@ public interface InstrumentableDescriptor
      *  Instrumentable.
      */
     InstrumentDescriptor[] getInstrumentDescriptors();
+    
+    /**
+     * Returns the stateVersion of the instrumentable.  The state version
+     *  will be incremented each time any of the configuration of the
+     *  instrumentable or any of its children is modified.
+     * Clients can use this value to tell whether or not anything has
+     *  changed without having to do an exhaustive comparison.
+     *
+     * @return The state version of the instrumentable.
+     */
+    int getStateVersion();
 }

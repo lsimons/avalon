@@ -12,12 +12,14 @@ import java.io.Serializable;
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/08/14 14:58:24 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/09/06 02:10:13 $
  * @since 4.1
  */
 public class InstrumentSampleSnapshot
     implements Serializable
 {
+    static final long serialVersionUID = -3284372358291073513L;
+    
     /** The name used to reference the InstrumentSample. */
     private String m_InstrumentSampleName;
     
@@ -33,6 +35,9 @@ public class InstrumentSampleSnapshot
     /** The samples as an array of integers. */
     private int[] m_samples;
     
+    /** State Version. */
+    private int m_stateVersion;
+    
     /*---------------------------------------------------------------
      * Constructors
      *-------------------------------------------------------------*/
@@ -42,18 +47,21 @@ public class InstrumentSampleSnapshot
      * @param size The number of samples in the InstrumentSample.
      * @param time The time that the last sample starts.
      * @param samples The samples as an array of integers.
+     * @param stateVersion The current state version of the sample. 
      */
     public InstrumentSampleSnapshot( String InstrumentSampleName,
                            long interval,
                            int size,
                            long time,
-                           int[] samples )
+                           int[] samples,
+                           int stateVersion )
     {
         m_InstrumentSampleName = InstrumentSampleName;
         m_interval = interval;
         m_size = size;
         m_time = time;
         m_samples = samples;
+        m_stateVersion = stateVersion;
     }
     
     /*---------------------------------------------------------------
@@ -108,6 +116,20 @@ public class InstrumentSampleSnapshot
     public int[] getSamples()
     {
         return m_samples;
+    }
+    
+    /**
+     * Returns the stateVersion of the sample.  The state version will be
+     *  incremented each time any of the configuration of the sample is
+     *  modified.
+     * Clients can use this value to tell whether or not anything has
+     *  changed without having to do an exhaustive comparison.
+     *
+     * @return The state version of the sample.
+     */
+    public int getStateVersion()
+    {
+        return m_stateVersion;
     }
 }
 

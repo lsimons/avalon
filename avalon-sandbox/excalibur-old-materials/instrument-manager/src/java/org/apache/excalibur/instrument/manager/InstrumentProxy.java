@@ -34,7 +34,7 @@ import org.apache.avalon.framework.logger.Logger;
  *  It is resolved when the Instrumentable actually registers the Instrument.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/08/20 03:27:12 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/09/06 02:10:12 $
  * @since 4.1
  */
 public class InstrumentProxy
@@ -79,6 +79,9 @@ public class InstrumentProxy
     
     /** The most recent value set if this is a value instrument. */
     private int m_lastValue;
+    
+    /** State Version. */
+    private int m_stateVersion;
     
     /*---------------------------------------------------------------
      * Constructors
@@ -570,6 +573,8 @@ public class InstrumentProxy
                     "Don't know how to deal with the type: " + m_type );
             }
         }
+        
+        stateChanged();
     }
 
     /**
@@ -604,6 +609,8 @@ public class InstrumentProxy
             m_sampleArray = null;
             m_sampleDescriptorArray = null;
         }
+        
+        stateChanged();
     }
     
     /**
@@ -719,6 +726,20 @@ public class InstrumentProxy
             descriptors = updateInstrumentSampleDescriptorArray();
         }
         return descriptors;
+    }
+    
+    /**
+     * Returns the stateVersion of the instrument.  The state version will be
+     *  incremented each time any of the configuration of the instrument or
+     *  any of its children is modified.
+     * Clients can use this value to tell whether or not anything has
+     *  changed without having to do an exhaustive comparison.
+     *
+     * @return The state version of the instrument.
+     */
+    int getStateVersion()
+    {
+        return m_stateVersion;
     }
     
     /**
@@ -980,6 +1001,19 @@ public class InstrumentProxy
                 }
             }
         }
+        
+        stateChanged();
+    }
+    
+    /**
+     * Called whenever the state of the instrument is changed.
+     */
+    protected void stateChanged()
+    {
+        m_stateVersion++;
+        
+        // Propagate to the parent
+        m_instrumentableProxy.stateChanged();
     }
     
     /**

@@ -24,7 +24,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  *  InstrumentSamples.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/08/14 14:58:21 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/09/06 02:10:12 $
  * @since 4.1
  */
 abstract class AbstractInstrumentSample
@@ -78,6 +78,9 @@ abstract class AbstractInstrumentSample
     
     /** Array of registered InstrumentSampleListeners. */
     private InstrumentSampleListener[] m_listeners;
+    
+    /** State Version. */
+    private int m_stateVersion;
     
     /*---------------------------------------------------------------
      * Constructors
@@ -291,7 +294,11 @@ abstract class AbstractInstrumentSample
             if ( ( m_leaseExpirationTime > 0 ) && ( !m_expired ) )
             {
                 long newLeaseExpirationTime = System.currentTimeMillis() + lease;
-                m_leaseExpirationTime = Math.max( m_leaseExpirationTime, newLeaseExpirationTime );
+                if ( newLeaseExpirationTime > m_leaseExpirationTime )
+                {
+                    m_leaseExpirationTime = newLeaseExpirationTime;
+                    stateChanged();
+                }
             }
             
             return m_leaseExpirationTime;
@@ -328,8 +335,23 @@ abstract class AbstractInstrumentSample
                 m_interval,
                 m_size,
                 m_time,
-                getHistorySnapshot() );
+                getHistorySnapshot(),
+                m_stateVersion );
         }
+    }
+    
+    /**
+     * Returns the stateVersion of the sample.  The state version will be
+     *  incremented each time any of the configuration of the sample is
+     *  modified.
+     * Clients can use this value to tell whether or not anything has
+     *  changed without having to do an exhaustive comparison.
+     *
+     * @return The state version of the sample.
+     */
+    public int getStateVersion()
+    {
+        return m_stateVersion;
     }
     
     /**
@@ -610,6 +632,8 @@ abstract class AbstractInstrumentSample
                     registerLeasedInstrumentSample( this );
             }
         }
+        
+        stateChanged();
     }
     
     /*---------------------------------------------------------------
@@ -791,6 +815,17 @@ abstract class AbstractInstrumentSample
         history[ m_size - 1] = getValueInner();
         
         return history;
+    }
+    
+    /**
+     * Called whenever the state of the sample is changed.
+     */
+    protected void stateChanged()
+    {
+        m_stateVersion++;
+        
+        // Propagate to the parent
+        m_instrumentProxy.stateChanged();
     }
     
     /**

@@ -14,7 +14,7 @@ import org.apache.excalibur.instrument.manager.interfaces.InstrumentSampleSnapsh
  *  InstrumentSample object.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/08/14 14:58:21 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/09/06 02:10:12 $
  * @since 4.1
  */
 public class InstrumentSampleDescriptorLocalImpl
@@ -172,6 +172,20 @@ public class InstrumentSampleDescriptorLocalImpl
     public InstrumentSampleSnapshot getSnapshot()
     {
         return m_instrumentSample.getSnapshot();
+    }
+    
+    /**
+     * Returns the stateVersion of the sample.  The state version will be
+     *  incremented each time any of the configuration of the sample is
+     *  modified.
+     * Clients can use this value to tell whether or not anything has
+     *  changed without having to do an exhaustive comparison.
+     *
+     * @return The state version of the sample.
+     */
+    public int getStateVersion()
+    {
+        return m_instrumentSample.getStateVersion();
     }
     
     /*---------------------------------------------------------------
