@@ -16,7 +16,7 @@
   <property file="${basedir}/../cocoon.properties"/>
 
 
-  <!-- Set the installation variables for Cornerstone/Phoenix -->
+  <!-- Set the installation variables for Phoenix -->
   <property name="phoenix.home" value="../../jakarta-avalon-phoenix/dist"/>
   <property name="install.dir" value="${phoenix.home}/apps"/>
 
@@ -158,10 +158,6 @@
         <include name="sevak-jetty.jar"/>
         <include name="sevak-demo.jar"/>
         <include name="sevak-api.jar"/>
-      </lib>
-
-      <lib dir="../../jakarta-avalon-apps/common/lib">
-        <include name="cornerstone.jar"/>
       </lib>
     
       <zipfileset dir="jetty-download/Jetty-${jetty.rel}/Jetty-${jetty.rel}/webapps" prefix="webapps">
