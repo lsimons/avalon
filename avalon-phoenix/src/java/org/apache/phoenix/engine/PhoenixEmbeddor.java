@@ -119,6 +119,8 @@ public class PhoenixEmbeddor
             setupComponents();
             deployDefaultApplications();
 
+            m_systemManager.start();
+
             m_kernel.start();
 
             // loop until <code>Shutdown</code> is created.
