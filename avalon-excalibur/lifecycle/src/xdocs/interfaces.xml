@@ -1,4 +1,5 @@
 <?xml version="1.0"?>
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.1//EN" "document-v11.dtd">
 
 <document>
   <header>
@@ -9,7 +10,7 @@
   </header>
   <body>
 
-  <s1 title="Lifestyle Extension Interfaces">
+  <section><title>Lifestyle Extension Interfaces</title>
 
       <p>
       A container manages extensions using an extension handler.  Handlers may implement
@@ -18,7 +19,7 @@
       accessor extension will be activated during the access and release stages.
       </p>
 
-      <s2 title="The Creator Interface">
+      <section><title>The Creator Interface</title>
 
 <p>The <code>Creator</code> interface describes the create and destroy
 stages that occur between a component and a container
@@ -54,9 +55,9 @@ and destroy stages must implement this interface.</p>
 
  }
      </source>
-      </s2>
+      </section>
 
-      <s2 title="Accessor Interface">
+      <section><title>Accessor Interface</title>
 <p>
 The <code>Accessor</code> interface describes the access and release
 stages that occur between a service or component manager and a container
@@ -92,14 +93,14 @@ and release stages must implement this interface.
 
  }
 </source>
-   </s2>
-  </s1>
+   </section>
+  </section>
 
   </body>
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2003/03/11 13:31:35 $
+      $Revision: 1.2 $ $Date: 2003/03/11 15:53:56 $
     </legal>
   </footer>
 </document>
