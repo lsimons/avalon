@@ -62,7 +62,8 @@ public class MerlinCLITestCase extends TestCase
               new String[]
               {
                 "-execute",
-                "hello.block",
+                "-repository",
+                system,
                 "-home",
                 basedir,
                 "-system",
