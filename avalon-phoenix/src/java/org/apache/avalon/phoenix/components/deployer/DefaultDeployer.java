@@ -221,12 +221,21 @@ public class DefaultDeployer
     public void deploy( final String name, final String sarURL )
         throws DeploymentException
     {
+        System.out.println( "DefaultDeployer.deploy(" + name + "," + sarURL + ")" );
         try
         {
-            deploy( name, new URL( sarURL ) );
+            try
+            {
+                deploy( name, new URL( sarURL ) );
+            }
+            catch( DeploymentException e )
+            {
+                e.printStackTrace();
+            }
         }
         catch( MalformedURLException mue )
         {
+            mue.printStackTrace();
             throw new DeploymentException( mue.getMessage(), mue );
         }
     }
@@ -252,7 +261,7 @@ public class DefaultDeployer
         {
             //m_baseWorkDirectory
             final Installation installation =
-                m_installer.install( location );
+                m_installer.install( name, location );
 
             final Configuration config = getConfigurationFor( installation.getConfig() );
             final Configuration environment = getConfigurationFor( installation.getEnvironment() );
