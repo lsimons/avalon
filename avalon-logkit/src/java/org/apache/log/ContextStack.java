@@ -18,6 +18,8 @@ import java.util.Stack;
  * by the name of the applet etc.
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @deprecated This class has been deprecated as it encouraged use of bad
+ *             design practices. Use org.apache.log.ContextMap instead.
  */
 public class ContextStack 
 {
