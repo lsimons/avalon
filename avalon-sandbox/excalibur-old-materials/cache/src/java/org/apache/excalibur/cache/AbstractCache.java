@@ -11,8 +11,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
+ * An abstract superclass for cache implementations.
  *
  * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>
+ * @author <a href="mailto:anryoshi@users.sf.net">Antti Koivunen</a>
  */
 public abstract class AbstractCache
     implements Cache
@@ -36,22 +38,30 @@ public abstract class AbstractCache
 
     protected void notifyAdded( final Object key, final Object value )
     {
-        final CacheEvent event = new CacheEvent( this, key, value );
+        CacheEvent event = null;
 
         final int s = m_listeners.size();
         for ( int i = 0; i < s; i++ )
         {
+            if ( event == null )
+            {
+                event = new CacheEvent( this, key, value );
+            }
             ((CacheListener)m_listeners.get( i )).added( event );
         }
     }
 
     protected void notifyRemoved( final Object key, final Object value )
     {
-        final CacheEvent event = new CacheEvent( this, key, value );
+        CacheEvent event = null;
 
         final int s = m_listeners.size();
         for ( int i = 0; i < s; i++ )
         {
+            if ( event == null )
+            {
+                event = new CacheEvent( this, key, value );
+            }
             ((CacheListener)m_listeners.get( i )).removed( event );
         }
     }
