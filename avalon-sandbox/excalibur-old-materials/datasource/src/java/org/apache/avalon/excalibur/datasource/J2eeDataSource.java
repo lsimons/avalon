@@ -9,6 +9,7 @@ package org.apache.avalon.excalibur.datasource;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Hashtable;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -25,7 +26,7 @@ import org.apache.avalon.framework.logger.Loggable;
  * J2EE container pools the datasources properly.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.6 $ $Date: 2002/03/16 00:05:40 $
+ * @version CVS $Revision: 1.7 $ $Date: 2002/05/23 08:14:29 $
  * @since 4.0
  */
 public class J2eeDataSource
@@ -34,6 +35,8 @@ public class J2eeDataSource
 {
     public static final String JDBC_NAME = "java:comp/env/jdbc/";
     protected DataSource m_dataSource = null;
+    protected String m_user;
+    protected String m_password;
 
     public void setLogger( org.apache.log.Logger logger )
     {
@@ -55,12 +58,43 @@ public class J2eeDataSource
     {
         if( null == m_dataSource )
         {
-            final String databaseName = configuration.getChild( "dbname" ).getValue();
+            final String contextFactory =
+                configuration.getChild( "initial-context-factory" ).getValue( null );
+            final String providerUrl =
+                configuration.getChild( "provider-url" ).getValue( null );
+            String lookupName =
+                configuration.getChild( "lookup-name" ).getValue( null );
+
+            if ( null == lookupName )
+            {
+                lookupName = JDBC_NAME +
+                    configuration.getChild( "dbname" ).getValue();
+            }
 
             try
             {
-                final Context initialContext = new InitialContext();
-                m_dataSource = (DataSource)initialContext.lookup( JDBC_NAME + databaseName );
+                Context initialContext;
+                if ( null == contextFactory || null == providerUrl )
+                {
+                    final Hashtable props = new Hashtable();
+                    props.put( Context.INITIAL_CONTEXT_FACTORY, contextFactory );
+                    props.put( Context.PROVIDER_URL, providerUrl );
+                    initialContext = new InitialContext( props );
+                }
+                else
+                {
+                    initialContext = new InitialContext();
+                }
+
+                if ( null == lookupName )
+                {
+                    m_dataSource =
+                        (DataSource)initialContext.lookup( lookupName );
+                }
+                else
+                {
+                    m_dataSource = (DataSource)initialContext.lookup( lookupName );
+                }
             }
             catch( final NamingException ne )
             {
@@ -72,6 +106,9 @@ public class J2eeDataSource
                 throw new ConfigurationException( "Could not use JNDI to find datasource", ne );
             }
         }
+
+        m_user = configuration.getChild( "user" ).getValue( null );
+        m_password = configuration.getChild( "password" ).getValue( null );
     }
 
     /** Get the database connection */
@@ -83,6 +120,13 @@ public class J2eeDataSource
             throw new SQLException( "Can not access DataSource object" );
         }
 
-        return m_dataSource.getConnection();
+        if ( null == m_user || null == m_password )
+        {
+            return m_dataSource.getConnection();
+        }
+        else
+        {
+            return m_dataSource.getConnection( m_user, m_password );
+        }
     }
 }
