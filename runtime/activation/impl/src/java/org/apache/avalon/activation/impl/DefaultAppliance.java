@@ -129,14 +129,23 @@ public class DefaultAppliance extends AbstractAppliance
      */
     public Object resolve() throws Exception
     {
+        //
+        // handle the legacy 3.3.0 usage of the "urn:activation:proxy" key
+        // if after handle the 3.4.0 semantics for resolution against the model
+        //
+
         if( getComponentModel().getType().getInfo().
               getAttribute( "urn:activation:proxy", "true" ).equals( "false" ) )
         {
+            final String message = 
+              "Component type references the deprecated 'urn:activation:proxy' key."
+              + " Please update to the key '" + ComponentModel.PROXY_KEY + "'.";
+            getLogger().warn( message );
             return resolve( false );
         }
         else        
         {
-            return resolve( true );
+            return resolve( getComponentModel().getProxyPolicy() );
         }
     }
 

@@ -31,6 +31,7 @@ import org.apache.avalon.meta.info.Type;
  */
 public interface ComponentModel extends DeploymentModel
 {
+    static final String PROXY_KEY = "urn:composition:proxy";
 
    /**
     * Return the deployment type.
@@ -38,6 +39,16 @@ public interface ComponentModel extends DeploymentModel
     * @return the type
     */
     Type getType();
+
+   /**
+    * Return the proxy enabled policy for the model. If the system wide
+    * proxy enabled is disabled the operation will return false otherwise the 
+    * value returned is true unless overriden by the "urn:composition:proxy"
+    * attribute.
+    *
+    * @return the proxy policy
+    */
+    boolean getProxyPolicy();
 
    /**
     * Return the activation policy for the model. 
