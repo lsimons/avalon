@@ -82,13 +82,13 @@ $ cvs -z3 -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic co avalon/merlin
 
 <source><![CDATA[
 $ cd avalon/meta
-$ maven avalon:build
+$ maven
 $ cd ../util
-$ maven avalon:build
+$ maven
 $ cd ../repository
-$ maven avalon:build
+$ maven
 $ cd ../merlin
-$ maven merlin:install
+$ maven
 ]]></source>
 
                 <p>
