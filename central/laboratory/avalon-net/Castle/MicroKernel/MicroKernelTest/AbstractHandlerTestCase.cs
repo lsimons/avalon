@@ -30,7 +30,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Test
 	[TestFixture]
 	public class AbstractHandlerTestCase : Assertion
 	{
-		private Kernel kernel = new DefaultKernel();
+		private IKernel kernel = new DefaultAvalonKernel();
 		private Type service = typeof( IMailService );
 		private Type implementation = typeof( SimpleMailService );
 		private IComponentModel model;

@@ -31,7 +31,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Test
 		[Test]
 		public void TestUsage()
 		{
-			Kernel kernel = new BaseKernel();
+			IKernel kernel = new BaseKernel();
 			LoggerManager manager = new LoggerManager();
 
 			kernel.AddSubsystem( KernelConstants.LOGGER, manager );
@@ -44,7 +44,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Test
 		[Test]
 		public void TestCreateLogger()
 		{
-			Kernel kernel = new BaseKernel();
+			IKernel kernel = new BaseKernel();
 			LoggerManager manager = new LoggerManager();
 
 			kernel.AddSubsystem( KernelConstants.LOGGER, manager );

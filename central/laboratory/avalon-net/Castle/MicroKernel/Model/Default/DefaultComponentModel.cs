@@ -1,4 +1,4 @@
-// Copyright 2004 The Apache Software Foundation
+ // Copyright 2004 The Apache Software Foundation
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -27,36 +27,62 @@ namespace Apache.Avalon.Castle.MicroKernel.Model.Default
 		private Type m_service;
 		private String m_name;
 		private Lifestyle m_lifestyle;
+		private Activation m_activation;
 		private ILogger m_logger;
 		private IConfiguration m_config;
 		private IContext m_context;
 		private IDependencyModel[] m_dependencies;
 		private IConstructionModel m_constructionModel;
 
+		protected DefaultComponentModel()
+		{
+			m_context = new DefaultContext();
+		}
+
+		public DefaultComponentModel(
+			ComponentData data,
+			Type service,
+			ILogger logger,
+			IConfiguration configuration,
+			IConstructionModel constructionModel) : this()
+		{
+			AssertUtil.ArgumentNotNull(data, "data");
+			AssertUtil.ArgumentNotNull(service, "service");
+			AssertUtil.ArgumentNotNull(logger, "logger");
+			AssertUtil.ArgumentNotNull(configuration, "configuration");
+			AssertUtil.ArgumentNotNull(constructionModel, "constructionModel");
+
+			m_name = data.Name;
+			m_service = service;
+			m_lifestyle = data.SupportedLifestyle;
+			m_activation = data.AvalonComponent.Activation;
+			m_logger = logger;
+			m_config = configuration;
+			m_dependencies = data.DependencyModel;
+			m_constructionModel = constructionModel;
+		}
+
 		public DefaultComponentModel(
 			String name,
 			Type service,
-			Lifestyle lifestyle, 
-			ILogger logger, 
-			IConfiguration configuration, 
-			IContext context, 
-			IDependencyModel[] dependencies, 
-			IConstructionModel constructionModel)
+			Lifestyle lifestyle,
+			ILogger logger,
+			IConfiguration configuration,
+			IDependencyModel[] dependencies,
+			IConstructionModel constructionModel) : this()
 		{
-			AssertUtil.ArgumentNotNull( name, "name" );
-			AssertUtil.ArgumentNotNull( service, "service" );
-			AssertUtil.ArgumentNotNull( logger, "logger" );
-			AssertUtil.ArgumentNotNull( configuration, "configuration" );
-			AssertUtil.ArgumentNotNull( context, "context" );
-			AssertUtil.ArgumentNotNull( dependencies, "dependencies" );
-			AssertUtil.ArgumentNotNull( constructionModel, "constructionModel" );
+			AssertUtil.ArgumentNotNull(name, "name");
+			AssertUtil.ArgumentNotNull(service, "service");
+			AssertUtil.ArgumentNotNull(logger, "logger");
+			AssertUtil.ArgumentNotNull(configuration, "configuration");
+			AssertUtil.ArgumentNotNull(dependencies, "dependencies");
+			AssertUtil.ArgumentNotNull(constructionModel, "constructionModel");
 
 			m_name = name;
 			m_service = service;
 			m_lifestyle = lifestyle;
 			m_logger = logger;
 			m_config = configuration;
-			m_context = context;
 			m_dependencies = dependencies;
 			m_constructionModel = constructionModel;
 		}
@@ -65,74 +91,49 @@ namespace Apache.Avalon.Castle.MicroKernel.Model.Default
 
 		public String Name
 		{
-			get
-			{
-				return m_name;
-			}
+			get { return m_name; }
 		}
 
 		public Type Service
 		{
-			get
-			{
-				return m_service;
-			}
+			get { return m_service; }
 		}
 
 		public Lifestyle SupportedLifestyle
 		{
-			get
-			{
-				return m_lifestyle;
-			}
+			get { return m_lifestyle; }
+		}
+
+		public Activation ActivationPolicy
+		{
+			get { return m_activation; }
 		}
 
 		public ILogger Logger
 		{
-			get
-			{
-				return m_logger;
-			}
-			set
-			{
-				m_logger = value;
-			}
+			get { return m_logger; }
+			set { m_logger = value; }
 		}
 
 		public IConfiguration Configuration
 		{
-			get
-			{
-				return m_config;
-			}
-			set
-			{
-				m_config = value;
-			}
+			get { return m_config; }
+			set { m_config = value; }
 		}
 
 		public IContext Context
 		{
-			get
-			{
-				return m_context;
-			}
+			get { return m_context; }
 		}
 
 		public IDependencyModel[] Dependencies
 		{
-			get
-			{
-				return m_dependencies;
-			}
+			get { return m_dependencies; }
 		}
 
 		public IConstructionModel ConstructionModel
 		{
-			get
-			{
-				return m_constructionModel;
-			}
+			get { return m_constructionModel; }
 		}
 
 		#endregion

@@ -27,12 +27,12 @@ namespace Apache.Avalon.Castle.MicroKernel.Test
 	[TestFixture]
 	public class ConcernManagerTestCase : Assertion
 	{
-		private Kernel m_kernel;
+		private IKernel m_kernel;
 
 		[SetUp]
 		public void CreateKernel()
 		{
-			m_kernel = new DefaultKernel();
+			m_kernel = new DefaultAvalonKernel();
 		}
 
 		[Test]

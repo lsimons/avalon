@@ -35,7 +35,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Test
 		[Test]
 		public void TestComponentAddedEvent()
 		{
-			Kernel kernel = new DefaultKernel();
+			IKernel kernel = new DefaultAvalonKernel();
 
 			IEventManager eventManager = (IEventManager) kernel.GetSubsystem( KernelConstants.EVENTS );
 			eventManager.ComponentAdded += new KernelDelegate(OnComponentAdded);
@@ -53,7 +53,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Test
 		[Test]
 		public void TestComponentCreatedEvent()
 		{
-			Kernel kernel = new DefaultKernel();
+			IKernel kernel = new DefaultAvalonKernel();
 
 			IEventManager eventManager = (IEventManager) kernel.GetSubsystem( KernelConstants.EVENTS );
 			eventManager.ComponentCreated += new KernelDelegate(OnComponentCreated);
@@ -75,7 +75,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Test
 		[Test]
 		public void TestComponentDestroyedEvent()
 		{
-			Kernel kernel = new DefaultKernel();
+			IKernel kernel = new DefaultAvalonKernel();
 
 			IEventManager eventManager = (IEventManager) kernel.GetSubsystem( KernelConstants.EVENTS );
 			eventManager.ComponentDestroyed += new KernelDelegate(OnComponentDestroyed);

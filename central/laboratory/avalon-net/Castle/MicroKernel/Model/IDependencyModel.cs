@@ -1,4 +1,4 @@
-// Copyright 2004 The Apache Software Foundation
+ // Copyright 2004 The Apache Software Foundation
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,23 +17,24 @@ namespace Apache.Avalon.Castle.MicroKernel.Model
 	using System;
 
 	/// <summary>
-	/// Summary description for IDependencyModel.
+	/// Holds the dependency information as 
+	/// requested by the component.
 	/// </summary>
 	public interface IDependencyModel
 	{
-		Type Service
-		{
-			get;
-		}
+		/// <summary>
+		/// Type of the service registered as a dependency.
+		/// </summary>
+		Type Service { get; }
 
-		String LookupKey
-		{
-			get;
-		}
+		/// <summary>
+		/// Name that will be used to request this dependency.
+		/// </summary>
+		String LookupKey { get; }
 
-		bool Optional
-		{
-			get;
-		}
+		/// <summary>
+		/// Is this dependency optional?
+		/// </summary>
+		bool Optional { get; }
 	}
 }

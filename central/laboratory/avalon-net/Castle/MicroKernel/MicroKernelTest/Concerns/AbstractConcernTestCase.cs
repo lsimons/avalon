@@ -28,7 +28,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Test.Concerns
 	/// </summary>
 	public abstract class AbstractConcernTestCase : Assertion
 	{
-		protected Kernel m_kernel = new DefaultKernel();
+		protected IKernel m_kernel = new DefaultAvalonKernel();
 
 		public abstract IConcern Create();
 

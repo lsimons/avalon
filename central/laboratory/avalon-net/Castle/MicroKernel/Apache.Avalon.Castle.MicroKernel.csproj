@@ -104,17 +104,27 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "AvalonKernel.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "BaseKernel.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "DefaultKernel.cs"
+                    RelPath = "DefaultAvalonKernel.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "IAvalonKernel.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "IContainerFacility.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "IKernel.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -125,11 +135,6 @@
                 />
                 <File
                     RelPath = "IResolver.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Kernel.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

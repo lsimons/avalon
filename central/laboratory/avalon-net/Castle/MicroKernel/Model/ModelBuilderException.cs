@@ -17,7 +17,8 @@ namespace Apache.Avalon.Castle.MicroKernel.Model
 	using System;
 
 	/// <summary>
-	/// Summary description for ModelBuilderException.
+	/// Exception throwed if the <see cref="IComponentModelBuilder"/>
+	/// fail to collect the necessary information.
 	/// </summary>
 	[Serializable]
 	public class ModelBuilderException : System.Exception

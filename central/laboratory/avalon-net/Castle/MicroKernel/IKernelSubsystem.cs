@@ -1,4 +1,4 @@
-// Copyright 2004 The Apache Software Foundation
+ // Copyright 2004 The Apache Software Foundation
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,13 +14,11 @@
 
 namespace Apache.Avalon.Castle.MicroKernel
 {
-	using System;
-
 	/// <summary>
 	/// Summary description for IKernelSubsystem.
 	/// </summary>
 	public interface IKernelSubsystem
 	{
-		void Init(Kernel kernel);
+		void Init(IKernel kernel);
 	}
 }

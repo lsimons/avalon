@@ -25,7 +25,7 @@ namespace Apache.Avalon.Castle.MicroKernel
 		/// 
 		/// </summary>
 		/// <param name="kernel"></param>
-		void Init( Kernel kernel );
+		void Init( IKernel kernel );
 
 		/// <summary>
 		/// 

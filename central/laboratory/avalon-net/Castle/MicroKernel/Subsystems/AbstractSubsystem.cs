@@ -21,7 +21,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Subsystems
 	/// </summary>
 	public abstract class AbstractSubsystem : IKernelSubsystem
 	{
-		private Kernel m_kernel;
+		private IKernel m_kernel;
 
 		public AbstractSubsystem()
 		{
@@ -29,7 +29,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Subsystems
 
 		#region IKernelSubsystem Members
 
-		public void Init(Kernel kernel)
+		public void Init( IKernel kernel )
 		{
 			AssertUtil.ArgumentNotNull( kernel, "kernel" );
 
@@ -38,7 +38,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Subsystems
 
 		#endregion
 
-		protected virtual Kernel Kernel
+		protected virtual IKernel Kernel
 		{
 			get
 			{

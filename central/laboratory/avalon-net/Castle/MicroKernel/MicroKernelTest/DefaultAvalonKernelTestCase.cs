@@ -1,3 +1,4 @@
+using Apache.Avalon.Castle.MicroKernel.Handler;
 // Copyright 2004 The Apache Software Foundation
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,15 +22,15 @@ namespace Apache.Avalon.Castle.MicroKernel.Test
 	using Apache.Avalon.Castle.MicroKernel.Test.Components;
 
 	/// <summary>
-	/// Summary description for DefaultKernelTestCase.
+	/// Summary description for DefaultAvalonKernelTestCase.
 	/// </summary>
 	[TestFixture]
-	public class DefaultKernelTestCase : Assertion
+	public class DefaultAvalonKernelTestCase : Assertion
 	{
 		[Test]
 		public void Creation()
 		{
-			DefaultKernel kernel = new DefaultKernel();
+			IAvalonKernel kernel = new DefaultAvalonKernel();
 			AssertNotNull(kernel);
 		}
 
@@ -40,7 +41,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Test
 		[Test]
 		public void SimpleUsage()
 		{
-			AvalonKernel container = new DefaultKernel();
+			IAvalonKernel container = new DefaultAvalonKernel();
 			container.AddComponent( "a", typeof(IMailService), typeof(SimpleMailService) );
 
 			IHandler handler = container[ "a" ];
@@ -57,7 +58,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Test
 		[Test]
 		public void SimpleAvalonComponent()
 		{
-			AvalonKernel container = new DefaultKernel();
+			IAvalonKernel container = new DefaultAvalonKernel();
 			container.AddComponent( "a", typeof(IMailService), typeof(AvalonMailService2) );
 
 			IHandler handler = container[ "a" ];
@@ -80,9 +81,28 @@ namespace Apache.Avalon.Castle.MicroKernel.Test
 		}
 
 		[Test]
+		public void AvalonComponentWithUnsatisfiedDependencies()
+		{
+			IAvalonKernel container = new DefaultAvalonKernel();
+			container.AddComponent( "b", typeof(ISpamService), typeof(AvalonSpamService) );
+
+			IHandler handler = container[ "b" ];
+
+			try
+			{
+				ISpamService service = handler.Resolve() as ISpamService;
+				Fail("Dependencies unsatisfied for this component. Resolve should fail.");
+			}
+			catch(HandlerException)
+			{
+				// Expected.
+			}
+		}
+
+		[Test]
 		public void AvalonComponentWithDependencies()
 		{
-			AvalonKernel container = new DefaultKernel();
+			IAvalonKernel container = new DefaultAvalonKernel();
 			container.AddComponent( "a", typeof(IMailService), typeof(AvalonMailService) );
 			container.AddComponent( "b", typeof(ISpamService), typeof(AvalonSpamService) );
 
@@ -99,7 +119,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Test
 		[Test]
 		public void HybridAvalonComponent()
 		{
-			AvalonKernel container = new DefaultKernel();
+			IAvalonKernel container = new DefaultAvalonKernel();
 			container.AddComponent( "a", typeof(IMailService), typeof(AvalonMailService) );
 			container.AddComponent( "b", typeof(ISpamService), typeof(AvalonSpamService2) );
 
@@ -116,7 +136,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Test
 		[Test]
 		public void HybridAvalonComponentUsingSetters()
 		{
-			AvalonKernel container = new DefaultKernel();
+			IAvalonKernel container = new DefaultAvalonKernel();
 			container.AddComponent( "a", typeof(IMailService), typeof(AvalonMailService) );
 			container.AddComponent( "b", typeof(ISpamService2), typeof(AvalonSpamService3) );
 

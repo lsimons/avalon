@@ -28,23 +28,23 @@ namespace Apache.Avalon.Castle.MicroKernel.Test
 	[TestFixture]
 	public class EventManagerTestCase : Assertion
 	{
-		private Kernel m_kernel;
+		private IKernel m_kernel;
 		private bool m_invoked = false;
 
 		[SetUp]
 		public void CreateKernel()
 		{
-			m_kernel = new DefaultKernel();
+			m_kernel = new DefaultAvalonKernel();
 		}
 
 		[Test]
 		public void TestUsage()
 		{
-			EventManager manager = new EventManager();
+			IEventManager manager = new EventManager();
 			manager.Init( m_kernel );
 
-			manager.ComponentAdded += new KernelDelegate(Evento);
-			manager.ComponentDestroyed += new KernelDelegate(Evento);
+			manager.ComponentAdded += new KernelDelegate(TheEvent);
+			manager.ComponentDestroyed += new KernelDelegate(TheEvent);
 			
 			Assert( !m_invoked );
 			
@@ -62,7 +62,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Test
 			Assert( m_invoked );
 		}
 
-		public void Evento( EventManagerData data )
+		public void TheEvent( EventManagerData data )
 		{
 			m_invoked = true;
 		}

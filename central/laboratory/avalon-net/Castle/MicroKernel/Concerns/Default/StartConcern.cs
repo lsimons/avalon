@@ -1,3 +1,5 @@
+using Apache.Avalon.Castle.MicroKernel.Model;
+using Apache.Avalon.Framework;
 // Copyright 2004 The Apache Software Foundation
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,11 +16,6 @@
 
 namespace Apache.Avalon.Castle.MicroKernel.Concerns.Default
 {
-	using System;
-
-	using Apache.Avalon.Framework;
-	using Apache.Avalon.Castle.MicroKernel.Model;
-
 	/// <summary>
 	/// Summary description for StartConcern.
 	/// </summary>
@@ -30,9 +27,9 @@ namespace Apache.Avalon.Castle.MicroKernel.Concerns.Default
 
 		public override void Apply(IComponentModel model, object component)
 		{
-			ContainerUtil.Start( component );
+			ContainerUtil.Start(component);
 
-			base.Apply( model, component );
+			base.Apply(model, component);
 		}
 	}
 }

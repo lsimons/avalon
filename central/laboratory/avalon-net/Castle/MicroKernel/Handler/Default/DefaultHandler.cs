@@ -32,13 +32,13 @@ namespace Apache.Avalon.Castle.MicroKernel.Handler.Default
 		protected override void CreateComponentFactoryAndLifestyleManager()
 		{
 			IComponentFactory innerFactory = new Factory.Default.SimpleComponentFactory( 
-				m_kernel.GetAspects(AspectPointCutFlags.Before), 
-				m_kernel.GetAspects(AspectPointCutFlags.After), 
+				// m_kernel.GetAspects(AspectPointCutFlags.Before), 
+				// m_kernel.GetAspects(AspectPointCutFlags.After), 
 				m_componentModel, m_serv2handler);
 
-			if (m_kernel is AvalonKernel)
+			if (m_kernel is IAvalonKernel)
 			{
-				AvalonKernel kernel = (AvalonKernel) m_kernel;
+				IAvalonKernel kernel = (IAvalonKernel) m_kernel;
 
 				IConcern commissionChain = kernel.Concerns.GetCommissionChain( kernel );
 				IConcern decommissionChain = kernel.Concerns.GetDecommissionChain( kernel );

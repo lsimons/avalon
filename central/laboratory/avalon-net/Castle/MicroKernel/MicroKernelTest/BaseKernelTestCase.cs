@@ -68,58 +68,41 @@ namespace Apache.Avalon.Castle.MicroKernel.Test
 			handler.Release( service );
 		}
 
-		/// <summary>
-		/// Adds a InterceptionAspect to calling chain and check if is has been called
-		/// during method execution
-		/// </summary>
+		/*
 		[Test]
-		public void AddingAspect()
+		public void FacilityEvents()
 		{
 			BaseKernel container = new BaseKernel();
+			MockFacility facility = new MockFacility();
 
-			InterceptionAspect aspect = new InterceptionAspect();
+			container.RegisterFacility( facility );
 
-			container.AddAspect( 
-				AspectPointCutFlags.Before|AspectPointCutFlags.After, 
-				aspect );
+			Assert( facility.OnInitCalled );
 
-			container.AddComponent( "a", typeof(IMailService), typeof(SimpleMailService) );
+			container.AddComponent( "a", typeof(IMailService), typeof(SimpleMailServiceWithLogger) );
+
+			Assert( facility.ComponentAddedCalled );
 
 			IHandler handler = container[ "a" ];
 
 			IMailService service = handler.Resolve() as IMailService;
 
+			Assert( facility.ComponentCreatedCalled );
+
 			AssertNotNull( service );
 
-			service.Send("hammett at apache dot org", "johndoe at yahoo dot org", "Aloha!", "What's up?");
+			service.Send("hammett at apache dot org", 
+				"johndoe at yahoo dot org", "Aloha!", "What's up?");
 
 			handler.Release( service );
 
-			AssertEquals( 2, aspect.m_invocations.Count );
-			AssertEquals( "Before Send", aspect.m_invocations[0] );
-			AssertEquals( "After Send", aspect.m_invocations[1] );
+			Assert( facility.ComponentReleasedCalled );
 		}
 
-		public class InterceptionAspect : IAspect
+		public class MockFacility : IContainerFacility
 		{
-			public ArrayList m_invocations = new ArrayList();
-
-			public void Perform( AspectPointCutFlags pointcut, 
-				object componentInstance, 
-				MethodBase method, 
-				object returnValue, 
-				Exception exception, 
-				params object[] arguments)
-			{
-				if (pointcut == AspectPointCutFlags.Before)
-				{
-					m_invocations.Add("Before " + method.Name);
-				}
-				else if (pointcut == AspectPointCutFlags.After)
-				{
-					m_invocations.Add("After " + method.Name);
-				}
-			}
+			
 		}
+		*/
 	}
 }

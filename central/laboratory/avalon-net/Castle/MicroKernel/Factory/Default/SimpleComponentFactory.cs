@@ -27,23 +27,23 @@ namespace Apache.Avalon.Castle.MicroKernel.Factory.Default
 	/// </summary>
 	public class SimpleComponentFactory : IComponentFactory
 	{
-		protected IAspect[] m_before;
-		protected IAspect[] m_after;
+		// protected IAspect[] m_before;
+		// protected IAspect[] m_after;
 		protected IComponentModel m_componentModel;
 		protected Hashtable m_serv2handler;
 		private Hashtable m_instances = new Hashtable();
 
-		public SimpleComponentFactory( IAspect[] before, IAspect[] after, 
+		public SimpleComponentFactory( /*IAspect[] before, IAspect[] after, */
 			IComponentModel componentModel,
 			Hashtable serv2handler)
 		{
-			AssertUtil.ArgumentNotNull( before, "before" );
-			AssertUtil.ArgumentNotNull( after, "after" );
+			// AssertUtil.ArgumentNotNull( before, "before" );
+			// AssertUtil.ArgumentNotNull( after, "after" );
 			AssertUtil.ArgumentNotNull( componentModel, "componentModel" );
 			AssertUtil.ArgumentNotNull( serv2handler, "serv2handler" );
 
-			m_before = before;
-			m_after = after;
+			// m_before = before;
+			// m_after = after;
 			m_componentModel = componentModel;
 			m_serv2handler = serv2handler;
 		}
@@ -60,12 +60,13 @@ namespace Apache.Avalon.Castle.MicroKernel.Factory.Default
 
 				Object instance = Activator.CreateInstance( m_componentModel.ConstructionModel.Implementation, arguments );
 
+				/*
 				if (m_before.Length != 0 || m_after.Length != 0 )
 				{
 					instance = DynamicProxy.ProxyGenerator.CreateProxy( 
 						new Type[] { m_componentModel.Service }, 
 						new Aspects.AspectInvocationHandler( m_before, m_after, instance ) ); 
-				}
+				}*/
 
 				SetupProperties( instance, burden );
 
