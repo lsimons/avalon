@@ -20,7 +20,7 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.phoenix.Block;
 import org.apache.avalon.cornerstone.services.soapification.SOAPification;
 import org.apache.avalon.cornerstone.services.soapification.SOAPificationException;
-import org.apache.avalon.cornerstone.blocks.soapification.DynamicProxy;
+import org.apache.avalon.excalibur.proxy.DynamicProxy;
 
 import java.util.Hashtable;
 
