@@ -57,6 +57,7 @@ package org.apache.avalon.framework.container;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.activity.Startable;
+import org.apache.avalon.framework.activity.Executable;
 import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.component.Composable;
@@ -80,7 +81,7 @@ import org.apache.avalon.framework.service.Serviceable;
  * a component throught it's lifecycle stages.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.13 $ $Date: 2003/02/11 15:58:40 $
+ * @version CVS $Revision: 1.14 $ $Date: 2003/03/24 06:15:49 $
  */
 public final class ContainerUtil
 {
@@ -296,6 +297,22 @@ public final class ContainerUtil
         if( object instanceof Startable )
         {
             ( (Startable)object ).start();
+        }
+    }
+
+    /**
+     * Execute the specified object if it implements the
+     * {@link Executable} interface.
+     *
+     * @param object the object to execute
+     * @throws Exception if there is a problem executing object
+     */
+    public static void execute( final Object object )
+        throws Exception
+    {
+        if( object instanceof Executable )
+        {
+            ( (Executable)object ).execute();
         }
     }
 
