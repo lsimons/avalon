@@ -16,6 +16,7 @@
         digest.  Excalibur Instrumentation is such a package that you can use
         for your Avalon based projects.
     </description>
+    <package>org.apache.excalibur</package>
 
     <dependencies>
         <dependency>
