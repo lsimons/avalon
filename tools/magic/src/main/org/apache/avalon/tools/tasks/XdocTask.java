@@ -172,7 +172,7 @@ public class XdocTask extends SystemTask
         final String resourcesPath = project.getProperty( XDOC_RESOURCES_KEY );
         final File resources = new File( build, resourcesPath );
 
-        log( "Year: " + getProject().getProperty( "magic.year" ) );
+        log( "Year: " + getYear() );
         log( "Theme: " + themeDir );
         
         //
@@ -279,8 +279,8 @@ public class XdocTask extends SystemTask
         final FileFilter filter, final String extension )
         throws BuildException
     {
-        final String year = getProject().getProperty( "magic.year" );
-        final String org = getProject().getProperty( ORG_NAME_KEY );
+        final String year = getYear();
+        final String org = getOrganization();
         final String copyright =
           "Copyright " + year + ", " + org + " All rights reserved.";
 
@@ -401,5 +401,23 @@ public class XdocTask extends SystemTask
             m = m_Excludes.matcher( fullpath );
             return ! m.matches() ;
         }
+    }
+
+    private String getYear()
+    {
+        String year = getProject().getProperty( "magic.year" );
+        if( year != null ) 
+        {
+            return year;
+        }
+        else
+        {
+            return "2004"; // 6 months to fix this
+        }
+    }
+
+    private String getOrganization()
+    {
+        getProject().getProperty( ORG_NAME_KEY );
     }
 }
