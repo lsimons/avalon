@@ -48,6 +48,8 @@
 namespace Apache.Avalon.Meta
 {
 	using System;
+	using System.Reflection;
+
 	using Apache.Avalon.Framework;
 	
 	/// <summary> This is the Abstract class for all feature feature descriptors.
@@ -55,22 +57,30 @@ namespace Apache.Avalon.Meta
 	/// </summary>
 	/// <author>  <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
 	/// </author>
-	/// <version>  $Revision: 1.1 $ $Date: 2004/01/13 00:59:28 $
+	/// <version>  $Revision: 1.2 $ $Date: 2004/01/19 01:19:41 $
 	/// </version>
 	[Serializable]
 	public abstract class Descriptor
 	{
 		private static readonly System.String[] EMPTY_SET = new System.String[0];
+
+		/// <summary>
+		/// The member from which this descriptor applies.
+		/// </summary>
+		private MemberInfo m_memberinfo;
 		
-		/// <summary> The arbitrary set of attributes associated with Component.</summary>
+		/// <summary>
+		/// The arbitrary set of attributes associated with Component.
+		/// </summary>
 		private System.Collections.Specialized.NameValueCollection m_attributes;
 		
 		/// <summary> Creation of an abstract descriptor.</summary>
 		/// <param name="attributes">the set of attributes to assign to the descriptor
 		/// </param>
-		protected internal Descriptor(System.Collections.Specialized.NameValueCollection attributes)
+		protected internal Descriptor(System.Collections.Specialized.NameValueCollection attributes, MemberInfo memberinfo)
 		{
 			m_attributes = attributes;
+			m_memberinfo = memberinfo;
 		}
 		
 		/// <summary> Return the attribute for specified key.
@@ -97,7 +107,7 @@ namespace Apache.Avalon.Meta
 		/// </summary>
 		/// <returns> an array of the properties names held by the descriptor.
 		/// </returns>
-		virtual public System.String[] AttributeNames
+		public virtual System.String[] AttributeNames
 		{
 			get
 			{
@@ -110,8 +120,19 @@ namespace Apache.Avalon.Meta
 					return m_attributes.AllKeys;
 				}
 			}
-			
 		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public MemberInfo MemberInfo
+		{
+			get
+			{
+				return m_memberinfo;
+			}
+		}
+
 		/// <summary> Returns the property set.
 		/// TODO: check necessity for this operationi and if really needed return 
 		/// a cloned equivalent (i.e. disable modification)
@@ -119,13 +140,12 @@ namespace Apache.Avalon.Meta
 		/// </summary>
 		/// <returns> the property set.
 		/// </returns>
-		virtual protected internal System.Collections.Specialized.NameValueCollection Properties
+		protected virtual internal System.Collections.Specialized.NameValueCollection Properties
 		{
 			get
 			{
 				return m_attributes;
 			}
-			
 		}
 		
 		/// <summary> Return the attribute for specified key.
@@ -154,7 +174,7 @@ namespace Apache.Avalon.Meta
 		/// </param>
 		/// <returns> TRUE if the supplied object equivalent
 		/// </returns>
-		public  override bool Equals(System.Object other)
+		public override bool Equals(System.Object other)
 		{
 			if (other is Descriptor)
 			{

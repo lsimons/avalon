@@ -61,17 +61,16 @@ namespace Apache.Avalon.Meta
 	/// </summary>
 	/// <author>  <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
 	/// </author>
-	/// <version>  $Revision: 1.1 $ $Date: 2004/01/13 00:59:28 $
+	/// <version>  $Revision: 1.2 $ $Date: 2004/01/19 01:19:41 $
 	/// </version>
 	[Serializable]
-	public sealed class EntryDescriptor
+	public sealed class EntryDescriptor : Descriptor
 	{
-		
 		/// <summary> The name the component uses to lookup entry.</summary>
 		private System.String m_key;
 		
 		/// <summary> The class/interface of the Entry.</summary>
-		private System.String m_classname;
+		private Type m_type;
 		
 		/// <summary> True if entry is optional, false otherwise.</summary>
 		private bool m_optional;
@@ -89,7 +88,8 @@ namespace Apache.Avalon.Meta
 		/// </param>
 		/// <exception cref=""> NullPointerException if the key or type value are null
 		/// </exception>
-		public EntryDescriptor(System.String key, System.String typename):this(key, typename, false)
+		public EntryDescriptor(System.String key, Type type, System.Reflection.MemberInfo memberinfo) :
+			this(key, type, false, memberinfo)
 		{
 		}
 		
@@ -102,7 +102,9 @@ namespace Apache.Avalon.Meta
 		/// </param>
 		/// <exception cref=""> NullPointerException if the key or type value are null
 		/// </exception>
-		public EntryDescriptor(System.String key, System.String typename, bool optional):this(key, typename, optional, false)
+		public EntryDescriptor(System.String key, Type type, bool optional, 
+			System.Reflection.MemberInfo memberinfo) : 
+			this(key, type, optional, false, memberinfo)
 		{
 		}
 		
@@ -117,7 +119,9 @@ namespace Apache.Avalon.Meta
 		/// </param>
 		/// <exception cref=""> NullPointerException if the key or type value are null
 		/// </exception>
-		public EntryDescriptor(System.String key, System.String typename, bool optional, bool isVolatile):this(key, typename, optional, isVolatile, null)
+		public EntryDescriptor(System.String key, System.Type type, bool optional, 
+			bool isVolatile, System.Reflection.MemberInfo memberinfo) : 
+			this(key, type, optional, isVolatile, null, memberinfo)
 		{
 		}
 		
@@ -134,19 +138,21 @@ namespace Apache.Avalon.Meta
 		/// </param>
 		/// <exception cref=""> NullPointerException if the key or type value are null
 		/// </exception>
-		public EntryDescriptor(System.String key, System.String typename, bool optional, bool isVolatile, System.String alias)
+		public EntryDescriptor(System.String key, System.Type type, bool optional, 
+			bool isVolatile, System.String alias, System.Reflection.MemberInfo memberinfo) : 
+			base(null, memberinfo)
 		{
 			if (null == key)
 			{
-				throw new System.NullReferenceException("key");
+				throw new System.ArgumentNullException("key");
 			}
-			if (null == typename)
+			if (null == type)
 			{
-				throw new System.NullReferenceException("typename");
+				throw new System.ArgumentNullException("type");
 			}
 			
 			m_key = key;
-			m_classname = typename;
+			m_type = type;
 			m_optional = optional;
 			m_volatile = isVolatile;
 			m_alias = alias;
@@ -192,11 +198,11 @@ namespace Apache.Avalon.Meta
 		/// </summary>
 		/// <returns> the key type of value that is stored in Context.
 		/// </returns>
-		public System.String Typename
+		public System.Type Type
 		{
 			get
 			{
-				return m_classname;
+				return m_type;
 			}
 			
 		}
@@ -254,7 +260,7 @@ namespace Apache.Avalon.Meta
 				EntryDescriptor entry = (EntryDescriptor) other;
 				
 				isEqual = isEqual && m_key.Equals(entry.m_key);
-				isEqual = isEqual && m_classname.Equals(entry.m_classname);
+				isEqual = isEqual && m_type.Equals(entry.m_type);
 				isEqual = isEqual && m_optional == entry.m_optional;
 				isEqual = isEqual && m_volatile == entry.m_volatile;
 				if (null == (System.Object) m_alias)
@@ -277,7 +283,7 @@ namespace Apache.Avalon.Meta
 		{
 			int hash = base.GetHashCode();
 			hash ^= m_key.GetHashCode();
-			hash ^= m_classname.GetHashCode();
+			hash ^= m_type.GetHashCode();
 			hash ^= ((null != (System.Object) m_alias)?m_alias.GetHashCode():0);
 			return hash;
 		}

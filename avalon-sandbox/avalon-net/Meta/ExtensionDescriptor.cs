@@ -55,7 +55,7 @@ namespace Apache.Avalon.Meta
 	/// </summary>
 	/// <author>  <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
 	/// </author>
-	/// <version>  $Revision: 1.1 $ $Date: 2004/01/13 00:59:28 $
+	/// <version>  $Revision: 1.2 $ $Date: 2004/01/19 01:19:41 $
 	/// </version>
 	[Serializable]
 	public sealed class ExtensionDescriptor : Descriptor
@@ -80,7 +80,9 @@ namespace Apache.Avalon.Meta
 		/// </param>
 		/// <exception cref=""> NullPointerException if the supplied urn is null
 		/// </exception>
-		public ExtensionDescriptor(System.String urn, System.Collections.Specialized.NameValueCollection attributes):base(attributes)
+		public ExtensionDescriptor(System.String urn, 
+			System.Collections.Specialized.NameValueCollection attributes) : 
+			base(attributes, null)
 		{
 			
 			if (null == (System.Object) urn)

@@ -74,8 +74,6 @@ namespace Apache.Avalon.Meta
 	[Serializable]
 	public sealed class DependencyDescriptor : Descriptor
 	{
-		
-		
 		/// <summary> The name the component uses to lookup dependency.</summary>
 		private System.String m_key;
 		
@@ -90,7 +88,8 @@ namespace Apache.Avalon.Meta
 		/// </param>
 		/// <param name="service">the interface service
 		/// </param>
-		public DependencyDescriptor(System.String role, System.String service) : this(role, new ReferenceDescriptor( service ) )
+		public DependencyDescriptor(System.String role, System.String service, System.Reflection.MemberInfo memberinfo) : 
+			this(role, new ReferenceDescriptor( service ), memberinfo )
 		{
 		}
 		
@@ -99,7 +98,8 @@ namespace Apache.Avalon.Meta
 		/// </param>
 		/// <param name="service">the version insterface service reference
 		/// </param>
-		public DependencyDescriptor(System.String role, ReferenceDescriptor service) : this(role, service, false, null)
+		public DependencyDescriptor(System.String role, ReferenceDescriptor service, System.Reflection.MemberInfo memberinfo) : 
+			this(role, service, false, null, memberinfo)
 		{
 		}
 		
@@ -112,9 +112,12 @@ namespace Apache.Avalon.Meta
 		/// </param>
 		/// <param name="attributes">a set of attributes to associate with the dependency
 		/// </param>
-		public DependencyDescriptor(System.String role, ReferenceDescriptor service, bool optional, System.Collections.Specialized.NameValueCollection attributes):base(attributes)
+		public DependencyDescriptor(System.String role, 
+			ReferenceDescriptor service, bool optional, 
+			System.Collections.Specialized.NameValueCollection attributes,
+			System.Reflection.MemberInfo memberinfo) : 
+			base(attributes, memberinfo)
 		{
-			
 			if (null == (System.Object) role)
 			{
 				throw new System.NullReferenceException("role");

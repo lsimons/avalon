@@ -62,47 +62,47 @@ namespace Apache.Avalon.Meta.Test
 	{
 		private const System.String m_key = "key";
 		private const System.String m_alias = "otherVal";
-		private static readonly System.String m_type;
+		private static readonly System.Type m_type;
 		private const bool m_optional = true;
 		private const bool m_volatile = true;
 		
 		[Test]
 		public void TestEntryDescriptor()
 		{
-			EntryDescriptor entry = new EntryDescriptor(m_key, m_type, m_optional, m_volatile, m_alias);
+			EntryDescriptor entry = new EntryDescriptor(m_key, m_type, m_optional, m_volatile, m_alias, null);
 			CheckEntry(entry, m_key, m_type, m_optional, m_volatile, m_alias);
 			
-			entry = new EntryDescriptor(m_key, m_type);
+			entry = new EntryDescriptor(m_key, m_type, null);
 			CheckEntry(entry, m_key, m_type, false, false, null);
 			
-			entry = new EntryDescriptor(m_key, m_type, m_optional);
+			entry = new EntryDescriptor(m_key, m_type, m_optional, null);
 			CheckEntry(entry, m_key, m_type, m_optional, false, null);
 			
-			entry = new EntryDescriptor(m_key, m_type, m_optional, m_volatile);
+			entry = new EntryDescriptor(m_key, m_type, m_optional, m_volatile, null);
 			CheckEntry(entry, m_key, m_type, m_optional, m_volatile, null);
 			
 			try
 			{
-				new EntryDescriptor(null, m_type);
+				new EntryDescriptor(null, m_type, null);
 				Fail("Did not throw expected NullPointerException");
 			}
-			catch (System.NullReferenceException)
+			catch (System.ArgumentNullException)
 			{
 				// Success!!
 			}
 			
 			try
 			{
-				new EntryDescriptor(m_key, null);
+				new EntryDescriptor(m_key, null, null);
 				Fail("Did not throw expected NullPointerException");
 			}
-			catch (System.NullReferenceException)
+			catch (System.ArgumentNullException)
 			{
 				// Success!!
 			}
 		}
 		
-		private void CheckEntry(EntryDescriptor desc, System.String key, System.String type, bool isOptional, bool isVolatile, System.String alias)
+		private void CheckEntry(EntryDescriptor desc, System.String key, System.Type type, bool isOptional, bool isVolatile, System.String alias)
 		{
 			AssertNotNull(desc);
 			AssertEquals(key, desc.Key);
@@ -114,7 +114,7 @@ namespace Apache.Avalon.Meta.Test
 			{
 				AssertEquals(alias, desc.Alias);
 			}
-			AssertEquals(type, desc.Typename);
+			AssertEquals(type, desc.Type);
 			AssertEquals(isOptional, desc.Optional);
 			AssertEquals(!isOptional, desc.Required);
 			AssertEquals(isVolatile, desc.Volatile);
@@ -122,7 +122,7 @@ namespace Apache.Avalon.Meta.Test
 		
 		static EntryDescriptorTestCase()
 		{
-			m_type = typeof(EntryDescriptor).Name;
+			m_type = typeof(EntryDescriptor);
 		}
 	}
 }

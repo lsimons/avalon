@@ -108,22 +108,23 @@ namespace Apache.Avalon.Meta.Test
 			try
 			{
 				new InfoDescriptor(m_name, null, m_version, m_lifestyle, m_collection, m_schema, Properties);
-				Fail("Did not throw the proper NullPointerException");
+				Fail("Did not throw the proper ArgumentNullException");
 			}
-			catch (System.NullReferenceException)
+			catch (System.ArgumentNullException)
 			{
 				// Success!
 			}
 			
+			/*
 			try
 			{
 				new InfoDescriptor(m_name, "foo/fake/ClassName", m_version, m_lifestyle, m_collection, m_schema, Properties);
-				Fail("Did not throw the proper IllegalArgumentException");
+				Fail("Did not throw the proper ArgumentNullException");
 			}
-			catch (System.ArgumentException)
+			catch (System.ArgumentNullException)
 			{
 				// Success!
-			}
+			}*/
 			
 			new InfoDescriptor(m_name, m_classname, m_version, Lifestyle.Singleton, m_collection, m_schema, Properties);
 			new InfoDescriptor(m_name, m_classname, m_version, Lifestyle.Pooled, m_collection, m_schema, Properties);

@@ -66,7 +66,7 @@ namespace Apache.Avalon.Meta
 	/// </summary>
 	/// <author>  <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
 	/// </author>
-	/// <version>  $Revision: 1.1 $ $Date: 2004/01/13 00:59:28 $
+	/// <version>  $Revision: 1.2 $ $Date: 2004/01/19 01:19:41 $
 	/// </version>
 	[Serializable]
 	public class ContextDescriptor : Descriptor
@@ -102,7 +102,7 @@ namespace Apache.Avalon.Meta
 		// immutable state
 		//---------------------------------------------------------
 		
-		private System.String m_classname;
+		private System.Type m_type;
 		
 		private EntryDescriptor[] m_entries;
 		
@@ -113,7 +113,7 @@ namespace Apache.Avalon.Meta
 		/// <summary> Create a standard descriptor without attributes.</summary>
 		/// <param name="entries">the set of entries required within the context
 		/// </param>
-		public ContextDescriptor(EntryDescriptor[] entries):this(null, entries, null)
+		public ContextDescriptor(EntryDescriptor[] entries) : this(null, entries, null)
 		{
 		}
 		
@@ -122,7 +122,7 @@ namespace Apache.Avalon.Meta
 		/// </param>
 		/// <param name="entries">the set of entries required within the context
 		/// </param>
-		public ContextDescriptor(System.String classname, EntryDescriptor[] entries):this(classname, entries, null)
+		public ContextDescriptor(Type contextType, EntryDescriptor[] entries) : this(contextType, entries, null)
 		{
 		}
 		
@@ -135,21 +135,25 @@ namespace Apache.Avalon.Meta
 		/// </param>
 		/// <exception cref=""> NullPointerException if the entries argument is null
 		/// </exception>
-		public ContextDescriptor(System.String classname, EntryDescriptor[] entries, System.Collections.Specialized.NameValueCollection attributes):base(attributes)
+		public ContextDescriptor(Type contextType, 
+			EntryDescriptor[] entries, 
+			System.Collections.Specialized.NameValueCollection attributes) : 
+			base(attributes, null)
 		{
 			if (null == entries)
 			{
 				throw new System.NullReferenceException("entries");
 			}
 			
-			if (null == (System.Object) classname)
+			if (contextType == null)
 			{
-				m_classname = AVALON_CONTEXT_CLASSNAME;
+				m_type = typeof(Apache.Avalon.Framework.DefaultContext);
 			}
 			else
 			{
-				m_classname = classname;
+				m_type = contextType;
 			}
+
 			m_entries = entries;
 		}
 		
@@ -166,7 +170,7 @@ namespace Apache.Avalon.Meta
 		/// </param>
 		/// <returns> the entry with specified key.
 		/// </returns>
-		public virtual EntryDescriptor getEntry(System.String alias)
+		public virtual EntryDescriptor GetEntry(System.String alias)
 		{
 			if (null == (System.Object) alias)
 			{
@@ -210,10 +214,10 @@ namespace Apache.Avalon.Meta
 			{
 				EntryDescriptor entry = entries[i];
 				System.String key = entry.Key;
-				EntryDescriptor local = getEntry(entry.Key);
+				EntryDescriptor local = GetEntry(entry.Key);
 				if (local != null)
 				{
-					if (!entry.Typename.Equals(local.Typename))
+					if (!entry.Type.Equals(local.Type))
 					{
 						System.String error = "Conflicting entry type for key: " + key;
 						throw new System.ArgumentException(error);
@@ -243,7 +247,7 @@ namespace Apache.Avalon.Meta
 			if (isEqual)
 			{
 				ContextDescriptor entity = (ContextDescriptor) other;
-				isEqual = isEqual && m_classname.Equals(entity.m_classname);
+				isEqual = isEqual && m_type.Equals(entity.m_type);
 				for (int i = 0; i < m_entries.Length; i++)
 				{
 					isEqual = isEqual && m_entries[i].Equals(entity.m_entries[i]);
@@ -258,7 +262,7 @@ namespace Apache.Avalon.Meta
 		public override int GetHashCode()
 		{
 			int hash = base.GetHashCode();
-			hash ^= m_classname.GetHashCode();
+			hash ^= m_type.GetHashCode();
 			for (int i = 0; i < m_entries.Length; i++)
 			{
 				hash ^= m_entries[i].GetHashCode();
@@ -273,11 +277,11 @@ namespace Apache.Avalon.Meta
 		/// </summary>
 		/// <returns> the reference descriptor.
 		/// </returns>
-		virtual public System.String ContextInterfaceClassname
+		virtual public Type ContextInterface
 		{
 			get
 			{
-				return m_classname;
+				return m_type;
 			}
 			
 		}

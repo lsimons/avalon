@@ -81,7 +81,9 @@ namespace Apache.Avalon.Meta
 		/// </param>
 		/// <exception cref=""> NullPointerException if name argument is null
 		/// </exception>
-		public CategoryDescriptor(System.String name, System.Collections.Specialized.NameValueCollection attributes):base(attributes)
+		public CategoryDescriptor(System.String name, 
+			System.Collections.Specialized.NameValueCollection attributes) : 
+			base(attributes, null)
 		{
 			if (null == (System.Object) name)
 			{

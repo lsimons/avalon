@@ -78,9 +78,9 @@ namespace Apache.Avalon.Meta.Test
 			m_key = typeof(TypeTestCase).FullName;
 			m_descriptor = CreateSimpleInfo(typeof(TypeTestCase).FullName);
 			m_loggers = new CategoryDescriptor[]{new CategoryDescriptor("name", new System.Collections.Specialized.NameValueCollection())};
-			m_context = new ContextDescriptor(typeof(TypeTestCase).FullName, new EntryDescriptor[0]);
+			m_context = new ContextDescriptor(typeof(TypeTestCase), new EntryDescriptor[0]);
 			m_services = new ServiceDescriptor[]{new ServiceDescriptor(m_reference)};
-			m_dependencies = new DependencyDescriptor[]{new DependencyDescriptor("role", m_reference)};
+			m_dependencies = new DependencyDescriptor[]{new DependencyDescriptor("role", m_reference, null)};
 			m_stages = new StageDescriptor[]{new StageDescriptor(m_key)};
 			m_extensions = new ExtensionDescriptor[]{new ExtensionDescriptor(m_key)};
 			m_defaults = new DefaultConfiguration("default", String.Empty);
@@ -93,16 +93,16 @@ namespace Apache.Avalon.Meta.Test
 			AssertEquals(m_defaults, type.Configuration);
 			AssertEquals(m_context, type.Context);
 			CheckArray(m_dependencies, type.Dependencies);
-			AssertEquals(m_dependencies[0], type.getDependency(m_dependencies[0].Key));
-			AssertEquals(m_extensions[0], type.getExtension(m_stages[0].Key));
+			AssertEquals(m_dependencies[0], type.GetDependency(m_dependencies[0].Key));
+			AssertEquals(m_extensions[0], type.GetExtension(m_stages[0].Key));
 			CheckArray(m_extensions, type.Extensions);
 			AssertEquals(m_descriptor, type.Info);
-			AssertEquals(m_services[0], type.getService(m_reference));
-			AssertEquals(m_services[0], type.getService(m_services[0].Reference.Typename));
+			AssertEquals(m_services[0], type.GetService(m_reference));
+			AssertEquals(m_services[0], type.GetService(m_services[0].Reference.Typename));
 			CheckArray(m_services, type.Services);
 			CheckArray(m_stages, type.Stages);
-			Assert(type.isaCategory(m_loggers[0].Name));
-			Assert(!type.isaCategory("fake name"));
+			Assert(type.IsACategory(m_loggers[0].Name));
+			Assert(!type.IsACategory("fake name"));
 		}
 		
 		private void CheckArray(System.Object[] orig, System.Object[] other)
@@ -123,7 +123,7 @@ namespace Apache.Avalon.Meta.Test
 		
 		private static InfoDescriptor CreateSimpleInfo(System.String classname)
 		{
-			return new InfoDescriptor(null, classname,
+			return new InfoDescriptor(classname, classname,
 				null, Lifestyle.Transient, CollectionPolicy.Undefined, 
 				null, null);
 		}

@@ -52,6 +52,7 @@ namespace Apache.Avalon.Meta.Test
 	using NUnit.Framework;
 
 	using Apache.Avalon.Meta;
+	using Apache.Avalon.Meta.Test.Components;
 
 	
 	/// <summary> ContextDescriptorTestCase does XYZ
@@ -64,7 +65,7 @@ namespace Apache.Avalon.Meta.Test
 	[TestFixture]
 	public class ContextDescriptorTestCase : AbstractDescriptorTestCase
 	{
-		private System.String m_classname;
+		private System.Type m_classname;
 		private EntryDescriptor[] m_entries;
 		
 		protected override internal void CheckDescriptor(Descriptor desc)
@@ -72,7 +73,7 @@ namespace Apache.Avalon.Meta.Test
 			base.CheckDescriptor(desc);
 			ContextDescriptor ctxd = (ContextDescriptor) desc;
 			
-			AssertEquals(m_classname, ctxd.ContextInterfaceClassname);
+			AssertEquals(m_classname, ctxd.ContextInterface);
 			AssertEquals(m_entries.Length, ctxd.Entries.Length);
 			
 			EntryDescriptor[] entries = ctxd.Entries;
@@ -80,7 +81,7 @@ namespace Apache.Avalon.Meta.Test
 			for (int i = 0; i < m_entries.Length; i++)
 			{
 				//AssertEquals(m_entries[i], entries[i]);
-				AssertEquals(m_entries[i], ctxd.getEntry(m_entries[i].Key));
+				AssertEquals(m_entries[i], ctxd.GetEntry(m_entries[i].Key));
 			}
 		}
 		
@@ -88,8 +89,8 @@ namespace Apache.Avalon.Meta.Test
 		public void TestJoin()
 		{
 			ContextDescriptor desc = (ContextDescriptor) Descriptor;
-			EntryDescriptor[] good = new EntryDescriptor[]{new EntryDescriptor("key", typeof(System.String).FullName), new EntryDescriptor("no conflict", typeof(System.String).FullName)};
-			EntryDescriptor[] bad = new EntryDescriptor[]{new EntryDescriptor("key", typeof(System.Int32).FullName)};
+			EntryDescriptor[] good = new EntryDescriptor[]{new EntryDescriptor("key", typeof(System.String), null), new EntryDescriptor("no conflict", typeof(System.String), null)};
+			EntryDescriptor[] bad = new EntryDescriptor[]{new EntryDescriptor("key", typeof(System.Int32), null)};
 			
 			CheckDescriptor(desc);
 			EntryDescriptor[] merged = desc.Merge(good);
@@ -114,8 +115,8 @@ namespace Apache.Avalon.Meta.Test
 		[SetUp]
 		public void SetUp()
 		{
-			m_classname = "org.apache.avalon.playground.MyContext";
-			m_entries = new EntryDescriptor[]{new EntryDescriptor("key", typeof(System.String).FullName)};
+			m_classname = typeof(IMyContext);
+			m_entries = new EntryDescriptor[]{new EntryDescriptor("key", typeof(System.String), null)};
 		}
 
 		protected override internal Descriptor Descriptor

@@ -76,6 +76,7 @@ namespace Apache.Avalon.Meta.Test
 			AssertEquals( "samplecomponent", descriptor.Info.Name );
 			AssertEquals( "role", descriptor.Dependencies[0].Key );
 			AssertEquals( true, descriptor.Dependencies[0].Optional );
+			AssertEquals( "loggerName", descriptor.Categories[0].Name );
 		}
 	}
 }

@@ -86,7 +86,7 @@ namespace Apache.Avalon.Meta.Test
 		{
 			get
 			{
-				return new DependencyDescriptor(m_role, m_reference, m_optional, Properties);
+				return new DependencyDescriptor(m_role, m_reference, m_optional, Properties, null);
 			}
 			
 		}
