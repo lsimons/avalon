@@ -62,7 +62,14 @@ public abstract class AbstractFileRepository
 
     public void contextualize( final Context context ) throws ContextException
     {
-        m_baseDirectory = (File) context.get("app.home");
+        try
+        {
+            m_baseDirectory = (File) context.get("urn:avalon:home");
+        }
+        catch( ContextException e )
+        {
+            m_baseDirectory = (File) context.get("app.home");
+        }
     }
 
     public void service( final ServiceManager serviceManager )
