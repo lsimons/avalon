@@ -1,0 +1,9 @@
+org.apache.avalon.fortress
+org.apache.avalon.fortress.impl
+org.apache.avalon.fortress.impl.extensions
+org.apache.avalon.fortress.impl.factory
+org.apache.avalon.fortress.impl.handler
+org.apache.avalon.fortress.impl.lookup
+org.apache.avalon.fortress.impl.role
+org.apache.avalon.fortress.util
+org.apache.avalon.fortress.util.dag
