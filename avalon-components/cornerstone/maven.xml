@@ -54,13 +54,13 @@
     <j:forEach var="child" items="${reactorProjects}">
       <j:set var="path" value="${child.artifactId}-${child.currentVersion}"/>
       <ant:mkdir dir="${maven.build.dir}/jars/${child.groupId}"/>
-      <ant:copy todir="${maven.build.dir}/jars/${child.groupId}">
+      <ant:copy todir="${maven.build.dir}/jars/${child.groupId}/jars">
         <ant:fileset dir="${child.file.parentFile}/target">
           <ant:include name="${path}.jar"/>
           <ant:include name="${path}.jar.meta"/>
         </ant:fileset>
       </ant:copy>
-      <util:file var="jarFile" name="${maven.build.dir}/jars/${child.groupId}/${path}.jar"/>
+      <util:file var="jarFile" name="${maven.build.dir}/jars/${child.groupId}/jars/${path}.jar"/>
       <j:if test="${jarFile.exists()}">
         <checksum file="${jarFile}"/>
         <move file="${jarFile}.md5" toFile="temp"/>
