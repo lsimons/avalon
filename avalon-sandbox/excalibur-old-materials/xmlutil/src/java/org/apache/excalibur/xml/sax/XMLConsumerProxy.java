@@ -7,38 +7,37 @@
  */
 package org.apache.excalibur.xml.sax;
 
-import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
-import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 import org.xml.sax.ext.LexicalHandler;
 
 /**
  * This class is an utility class proxying a SAX version 2.0
- * {@link ContentHandler} and {@link LexicalHandler) and forwarding it those 
+ * {@link ContentHandler} and {@link LexicalHandler) and forwarding it those
  * events received throug its {@link XMLConsumer}s interface.
  *
  * @author <a href="mailto:mirceatoma@apache.org">Mircea Toma</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/10/16 17:22:29 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/11/12 23:35:34 $
  */
-public class XMLConsumerProxy extends ContentHandlerProxy implements XMLConsumer
+public class XMLConsumerProxy
+    extends ContentHandlerProxy implements XMLConsumer
 {
     /** The {@link LexicalHandler} */
     private LexicalHandler m_lexicalHandler;
-    
+
     /**
      * Create a new <code>XMLConsumerProxy</code> instance.
      */
-    public XMLConsumerProxy(final ContentHandler contentHandler, final LexicalHandler lexicalHandler)
+    public XMLConsumerProxy( final ContentHandler contentHandler, final LexicalHandler lexicalHandler )
     {
-        super(contentHandler);
+        super( contentHandler );
         m_lexicalHandler = lexicalHandler;
     }
 
     /**
      * Create a new <code>XMLConsumerProxy</code> instance.
      */
-    public XMLConsumerProxy(final XMLConsumer xmlConsumer)
+    public XMLConsumerProxy( final XMLConsumer xmlConsumer )
     {
         this( xmlConsumer, xmlConsumer );
     }

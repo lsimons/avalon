@@ -14,13 +14,15 @@ import org.w3c.dom.Document;
  * behaviour is setup by the factory.
  *
  * @author <a href="mailto:mirceatoma@apache.org">Mircea Toma</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/10/02 01:47:05 $
+ * @version CVS $Revision: 1.5 $ $Date: 2002/11/12 23:35:34 $
  */
 public interface DOMHandlerFactory
 {
     String ROLE = DOMHandlerFactory.class.getName();
 
-    DOMHandler createDOMHandler() throws Exception;
+    DOMHandler createDOMHandler()
+        throws Exception;
 
-    DOMHandler createDOMHandler( Document document ) throws Exception;
+    DOMHandler createDOMHandler( Document document )
+        throws Exception;
 }

@@ -14,7 +14,7 @@ import org.w3c.dom.Document;
 
 /**
  * @author <a href="mailto:mirceatoma@apache.org">Mircea Toma</a>
- * @version CVS $Revision: 1.6 $ $Date: 2002/10/02 01:52:25 $
+ * @version CVS $Revision: 1.7 $ $Date: 2002/11/12 23:35:34 $
  */
 public class DefaultDOMHandler
     extends ContentHandlerWrapper
@@ -22,7 +22,8 @@ public class DefaultDOMHandler
 {
     private final Document m_document;
 
-    public DefaultDOMHandler( TransformerHandler handler, Document document )
+    public DefaultDOMHandler( TransformerHandler handler,
+                              Document document )
     {
         super( handler, handler );
         m_document = document;

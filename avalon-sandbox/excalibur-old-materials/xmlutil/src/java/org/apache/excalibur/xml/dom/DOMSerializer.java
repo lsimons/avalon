@@ -16,11 +16,14 @@ import org.xml.sax.ext.LexicalHandler;
  * Converts a DOM document to a stream of SAX events.
  *
  * @author <a href="mailto:mirceatoma@apache.org">Mircea Toma</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/10/02 01:52:25 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/11/12 23:35:34 $
  */
 public interface DOMSerializer
 {
     String ROLE = DOMSerializer.class.getName();
 
-    void serialize( Document document, ContentHandler contentHandler, LexicalHandler lexicalHandler ) throws SAXException;
+    void serialize( Document document,
+                    ContentHandler contentHandler,
+                    LexicalHandler lexicalHandler )
+        throws SAXException;
 }

@@ -7,17 +7,18 @@
  */
 package org.apache.excalibur.xml.sax;
 
-import org.xml.sax.ext.LexicalHandler;
 import org.xml.sax.SAXException;
+import org.xml.sax.ext.LexicalHandler;
 
 /**
  * This class provides default implementation of the methods specified
  * by the <code>LexicalHandler</code> interface.
  *
  * @author <a href="mailto:mirceatoma@apache.org">Mircea Toma</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/10/13 03:23:28 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/11/12 23:35:34 $
  */
-public class NOPLexicalHandler implements LexicalHandler
+public class NOPLexicalHandler
+    implements LexicalHandler
 {
     /**
      * Report the start of DTD declarations, if any.

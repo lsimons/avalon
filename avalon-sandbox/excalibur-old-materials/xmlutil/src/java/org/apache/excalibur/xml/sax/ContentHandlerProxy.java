@@ -18,9 +18,10 @@ import org.xml.sax.SAXException;
  * <br>
  *
  * @author <a href="mailto:mirceatoma@apache.org">Mircea Toma</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/10/16 17:11:00 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/11/12 23:35:34 $
  */
-public class ContentHandlerProxy implements ContentHandler
+public class ContentHandlerProxy
+    implements ContentHandler
 {
     /** The current {@link ContentHandler}. */
     private final ContentHandler m_contentHandler;
@@ -28,7 +29,7 @@ public class ContentHandlerProxy implements ContentHandler
     /**
      * Create a new <code>ContentHandlerWrapper</code> instance.
      */
-    public ContentHandlerProxy(final ContentHandler contentHandler)
+    public ContentHandlerProxy( final ContentHandler contentHandler )
     {
         m_contentHandler = contentHandler;
     }

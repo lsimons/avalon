@@ -7,8 +7,8 @@
  */
 package org.apache.excalibur.xml.sax;
 
-import org.xml.sax.ContentHandler;
 import org.xml.sax.Attributes;
+import org.xml.sax.ContentHandler;
 import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 
@@ -17,9 +17,10 @@ import org.xml.sax.SAXException;
  * by the <code>ContentHandler</code> interface.
  *
  * @author <a href="mailto:mirceatoma@apache.org">Mircea Toma</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/10/13 03:21:37 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/11/12 23:35:34 $
  */
-public class NOPContentHandler implements ContentHandler
+public class NOPContentHandler
+    implements ContentHandler
 {
     /**
      * Receive an object for locating the origin of SAX document events.
