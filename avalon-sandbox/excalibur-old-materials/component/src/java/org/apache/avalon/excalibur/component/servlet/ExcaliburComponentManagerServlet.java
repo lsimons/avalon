@@ -109,9 +109,24 @@ import org.apache.excalibur.instrument.InstrumentManager;
  * The ExcaliburComponentManagerServlet makes use of a proxy system to manage
  * reference to the above managers, so it is not necessary to release them
  * when a servlet is done using them.
+ * <p>
+ * It may be necessary to add the following code to the end of the dispose method of any
+ *  servlets referencing any of the above proxies.  This is because on some containers,
+ *  like Tomcat, the classloader is immediately invalidated after the last servlet is
+ *  disposed.  If this happens before the managers have all been disposed, then you may
+ *  see errors in the console like: <code>WebappClassLoader: Lifecycle error : CL stopped</code>
+ * <pre>
+ *  System.gc();
+ *  try
+ *  {
+ *      Thread.sleep(250);
+ *  }
+ *  catch ( InterruptedException e ) {}
+ * </pre>
+ * Note that servlets which extend the AbstractComponentManagerServlet will behave correctly.
  *
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/08/21 12:45:11 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/09/19 05:41:10 $
  * @since 4.2
  */
 public class ExcaliburComponentManagerServlet
