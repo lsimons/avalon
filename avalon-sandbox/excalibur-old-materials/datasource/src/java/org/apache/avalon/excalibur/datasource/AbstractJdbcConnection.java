@@ -13,7 +13,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Iterator;
-import java.util.Map;
+import java.util.LinkedList;
+import java.util.List;
 import org.apache.avalon.excalibur.pool.Pool;
 import org.apache.avalon.excalibur.pool.Recyclable;
 import org.apache.avalon.framework.activity.Disposable;
@@ -26,7 +27,7 @@ import org.apache.avalon.framework.logger.Logger;
  * object.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.21 $ $Date: 2002/11/08 03:24:27 $
+ * @version CVS $Revision: 1.22 $ $Date: 2003/02/14 19:23:27 $
  * @since 4.1
  */
 public abstract class AbstractJdbcConnection
@@ -38,6 +39,17 @@ public abstract class AbstractJdbcConnection
     protected PreparedStatement m_testStatement;
     protected SQLException m_testException;
     protected long m_lastUsed = System.currentTimeMillis();
+    /**
+     * Contains Statements created on the original jdbc connection
+     * between a {@link JdbcDataSource#getConnection} and {@link
+     * Connection#close}. The statements are registered using
+     * {@link #registerAllocatedStatement} and deallocated in
+     * {@link #close}. LinkedList was chosen because access
+     * to elements is sequential through Iterator and the number
+     * of elements is not known in advance. Synchronization is
+     * done on the Link instance itself.
+     */
+    final private List m_allocatedStatements = new LinkedList();
 
     /**
      * @deprecated Use the version with keepAlive specified
@@ -69,7 +81,10 @@ public abstract class AbstractJdbcConnection
         {
             try
             {
-                m_testStatement = prepareStatement( keepAlive );
+                // test statement is allocated directly from the
+                // underlying connection, it is special and should not
+                // be closed during recycling session
+                m_testStatement = m_connection.prepareStatement( keepAlive );
             }
             catch( final SQLException se )
             {
@@ -108,6 +123,7 @@ public abstract class AbstractJdbcConnection
         m_testException = null;
         try
         {
+            clearAllocatedStatements();
             m_connection.clearWarnings();
         }
         catch( SQLException se )
@@ -157,8 +173,65 @@ public abstract class AbstractJdbcConnection
     public void close()
         throws SQLException
     {
-        clearWarnings();
-        m_pool.put( this );
+        try
+        {
+            clearAllocatedStatements();
+            clearWarnings();
+            m_pool.put( this );
+        }
+        catch ( SQLException se )
+        {
+            // gets rid of connections that throw SQLException during
+            // clean up
+            getLogger().error( "Connection could not be recycled", se );
+            this.dispose();
+        }
+    }
+
+    /**
+     * Closes statements that were registered and removes all
+     * statements from the list of allocated ones.  If any statement
+     * fails to properly close, the rest of the statements is ignored.
+     * But the registration list if cleared in any case.
+     * <p>
+     * Holds m_allocatedStatements locked the whole time. This should
+     * not be a problem because connections are inherently single
+     * threaded objects and any attempt to use them from a different
+     * thread while it is being closed is a violation of the contract.
+     *
+     * @throws SQLException of the first Statement.close()
+     */
+    protected void clearAllocatedStatements() throws SQLException
+    {
+        synchronized( m_allocatedStatements )
+        {
+            try
+            {
+                final Iterator iterator = m_allocatedStatements.iterator();
+                while( iterator.hasNext() )
+                {
+                    Statement stmt = (Statement) iterator.next();
+                    stmt.close();
+                }
+            }
+            finally
+            {
+                m_allocatedStatements.clear();
+            }
+        }
+    }
+
+    /**
+     * Adds the statement to the list of this connection.  Used by
+     * subclasses to ensure release of statements when connection is
+     * logically terminated and returned to the pool.
+     */
+    protected void registerAllocatedStatement( Statement stmt )
+    {
+        synchronized( m_allocatedStatements )
+        {
+            m_allocatedStatements.add( stmt );
+        }
     }
 
     public void dispose()
