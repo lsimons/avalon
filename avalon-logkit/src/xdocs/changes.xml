@@ -11,6 +11,18 @@
     <person name="Leif Mortenson" email="leif@apache.org" id="LM"/>
     <person name="Giacomo Pati" email="giacomo@apache.org" id="GP"/>
   </devs>
+  <release version="1.1">
+    <action dev="EP" type="update">
+      Changed the default log format so that the log entry times are formatted
+      using a human friendly format.
+    </action>
+    <action dev="EP" type="update">
+      Rotate before write.
+    </action>
+    <action dev="EP" type="add">
+      Added RotateStrategyByDate to enable daily, weekly, and monthly rotation of log files.
+    </action>
+  </release>
   <release version="1.0.1" date="January 31, 2001">
     <action dev="PD" type="fix">
       Fixed spelling in the documentation files.
