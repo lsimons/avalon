@@ -18,9 +18,11 @@
 package org.apache.avalon.test.dynamics;
 
 import org.apache.avalon.framework.logger.Logger;
+import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.avalon.framework.service.ServiceException;
 
 /**
- * A component that implements the Gizmo service.
+ * A component that implements the Widget service.
  *
  * @avalon.component name="widget" lifestyle="singleton"
  * @avalon.service type="org.apache.avalon.test.dynamics.Widget"
@@ -43,11 +45,14 @@ public class DefaultWidget implements Widget
   /**
    * Creation of a new hello facility.
    * @param logger a logging channel
+   * @avalon.dependency key="gizmo" type="org.apache.avalon.test.dynamics.Gizmo"
    */
-   public DefaultWidget( Logger logger )
+   public DefaultWidget( Logger logger, ServiceManager manager ) 
+     throws ServiceException
    {
        m_logger = logger;
        m_logger.info( "I've been created" );
+       Gizmo gizmo = (Gizmo) manager.lookup( "gizmo" );
    }
 }
 
