@@ -67,6 +67,7 @@ import org.apache.log.Priority;
  *
  * This is based on specification of MemoryHandler in Logging JSR47.
  *
+ * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public class MemoryTarget
@@ -121,7 +122,9 @@ public class MemoryTarget
         if( isFull() )
         {
             if( m_overwrite )
+            {
                 m_used--;
+            }
             else
             {
                 getErrorHandler().error( "Memory buffer is full", null, event );
@@ -130,7 +133,9 @@ public class MemoryTarget
         }
 
         if( 0 == m_used )
+        {
             m_index = 0;
+        }
         else
         {
             m_index = ( m_index + 1 ) % m_buffer.length;
@@ -182,7 +187,10 @@ public class MemoryTarget
         {
             final int size = m_used;
             int base = m_index - m_used + 1;
-            if( base < 0 ) base += m_buffer.length;
+            if( base < 0 )
+            {
+                base += m_buffer.length;
+            }
 
             for( int i = 0; i < size; i++ )
             {

@@ -86,7 +86,7 @@ public class ColumnInfo
 
    /**
     * Return the column name
-    * @param the name of the column
+    * @return the name of the column
     */
     public String getName()
     {
