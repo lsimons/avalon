@@ -79,7 +79,6 @@ public abstract class AbstractKernel
     }
 
     public void dispose()
-        throws Exception
     {
         m_initialised = false;
 
@@ -87,8 +86,16 @@ public abstract class AbstractKernel
         while( names.hasNext() )
         {
             final String name = (String)names.next();
-            final Entry entry = getEntry( name );
-            disposeEntry( name, entry );
+
+            try
+            {
+                final Entry entry = getEntry( name );
+                disposeEntry( name, entry );
+            }
+            catch( final ContainerException ce )
+            {
+                getLogger().warn( "Error disposing entry " + name, ce );
+            }
         }
     }
 
