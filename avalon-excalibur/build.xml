@@ -162,6 +162,7 @@
         <ant dir="testcase" target="dist-jar"/>
         <ant dir="datasource" target="dist-jar"/>
         <ant dir="util" target="dist-jar"/>
+        <ant dir="store" target="dist-jar"/>
         <ant dir="xmlbundle" target="dist-jar"/>
         <ant dir="cli" target="dist-jar"/>
         <ant dir="naming" target="dist-jar"/>
@@ -200,6 +201,7 @@
                     <include name="testcase/dist/*.jar"/>
                     <include name="datasource/dist/*.jar"/>
                     <include name="util/dist/*.jar"/>
+                    <include name="store/dist/*.jar"/>
                     <include name="xmlbundle/dist/*.jar"/>
                     <include name="cli/dist/*.jar"/>
                     <include name="naming/dist/*.jar"/>
