@@ -26,7 +26,7 @@ import org.apache.avalon.composition.model.DeploymentModel;
 /**
  * A deployment request handler.
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/04/02 01:06:49 $
+ * @version $Revision: 1.4 $ $Date: 2004/05/06 18:23:53 $
  */
 class CommissionRequest
 {
@@ -178,6 +178,7 @@ class CommissionRequest
         m_exception = e;
         synchronized( this )
         {
+            m_completed = true;
             notify();
         }
     }
