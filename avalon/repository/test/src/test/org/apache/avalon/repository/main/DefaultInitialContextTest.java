@@ -71,7 +71,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * 
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
  * @author $Author: mcconnell $
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class DefaultInitialContextTest extends TestCase
 {
@@ -165,16 +165,6 @@ public class DefaultInitialContextTest extends TestCase
               ExceptionHelper.packException( error, e, true );
             throw new RuntimeException( message );
         }
-    }
-
-    private File getBaseDirectory()
-    {
-        String base = System.getProperty( "basedir" );
-        if( null != base )
-        {
-            return new File( base );
-        }
-        return new File( System.getProperty( "user.dir" ) );
     }
 
     private static String[] getDefaultHosts()

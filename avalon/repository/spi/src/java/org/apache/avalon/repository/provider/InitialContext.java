@@ -57,7 +57,7 @@ import java.io.File;
  * The initial context established by an initial repository factory.
  *
  * @author <a href="mailto:mcconnell@osm.net">Stephen McConnell</a>
- * @version $Revision: 1.3 $ $Date: 2003/12/07 03:15:16 $
+ * @version $Revision: 1.4 $ $Date: 2003/12/09 09:19:10 $
  */
 public interface InitialContext
 {        
@@ -71,6 +71,13 @@ public interface InitialContext
     * value assigned to this property is a comma seperated list of urls.
     */
     String HOSTS_KEY = "avalon.repository.hosts";
+
+    /**
+     * Return the base working directory.
+     * 
+     * @return the base directory
+     */
+    File getInitialWorkingDirectory();
 
     /**
      * Return cache root directory.

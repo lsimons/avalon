@@ -98,7 +98,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * 
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  */
 public class DefaultInitialContext extends AbstractBuilder implements InitialContext
 {
@@ -123,9 +123,6 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
     private static final File USER_HOME = 
       new File( System.getProperty( "user.home" ) );
 
-    private static final File USER_DIR = 
-      getBaseDirectory();
-
     private static final String[] DEFAULT_INITIAL_HOSTS = 
       new String[]{
         "http://dpml.net/", 
@@ -149,6 +146,11 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
     * The initial remote host names.
     */
     private final String[] m_hosts;
+
+   /**
+    * The base working directory.
+    */
+    private final File m_base;
 
     // ------------------------------------------------------------------------
     // constructors
@@ -186,7 +188,7 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
     public DefaultInitialContext( String[] hosts ) 
         throws RepositoryException
     {
-         this( null, hosts );
+         this( (File) null, hosts );
     }
 
     /**
@@ -199,7 +201,7 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
     public DefaultInitialContext( File cache, String[] hosts ) 
         throws RepositoryException
     {
-         this( null, cache, hosts );
+         this( (Artifact) null, cache, hosts );
     }
     
     /**
@@ -215,8 +217,7 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
       throws RepositoryException
     {
         this( 
-          DefaultInitialContext.class.getClassLoader(), 
-          artifact, cache, hosts );
+          null, null, artifact, cache, hosts );
     }
 
     /**
@@ -228,17 +229,17 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
      * @throws RepositoryException if an error occurs during establishment
      */
     public DefaultInitialContext( 
-      ClassLoader parent, Artifact artifact, File cache, String[] hosts ) 
+      File base, ClassLoader loader, Artifact artifact, File cache, String[] hosts ) 
       throws RepositoryException
     {
+        m_base = setupBaseDirectory( base );
         Properties avalonHome = getLocalProperties( USER_HOME, AVALON );
-        Properties avalonWork = getLocalProperties( USER_DIR, AVALON );
-        
+        Properties avalonWork = getLocalProperties( m_base, AVALON );
         m_cache = setupCache( cache, avalonHome, avalonWork );
         m_hosts = setupHosts( hosts, avalonHome, avalonWork );
 
-        Artifact implementation = 
-          setupImplementation( artifact );
+        Artifact implementation = setupImplementation( artifact );
+        ClassLoader parent = setupClassLoader( loader );
 
         //
         // Create the temporary directory to pull down files into
@@ -316,6 +317,16 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
     // ------------------------------------------------------------------------
 
     /**
+     * Return the base working directory.
+     * 
+     * @return the base directory
+     */
+    public File getInitialWorkingDirectory()
+    {
+        return m_base;
+    }
+    
+    /**
      * Return cache root directory.
      * 
      * @return the cache directory
@@ -358,6 +369,12 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
         {
              return RepositoryUtils.getAttributes( hosts, artifact );
         }
+    }
+
+    private ClassLoader setupClassLoader( ClassLoader classloader )
+    {
+        if( null != classloader ) return classloader;
+        return DefaultInitialContext.class.getClassLoader();
     }
 
     private File setupCache( File file, Properties home, Properties work )
@@ -430,6 +447,12 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
               "Internal error while attempting to build default implementation artifact.";
             throw new RepositoryRuntimeException( error, e );
         }
+    }
+
+    private File setupBaseDirectory( File base )
+    {
+        if( null != base ) return base;
+        return getBaseDirectory();
     }
 
     private String[] setupDefaultHosts( Properties home, Properties work )
