@@ -155,7 +155,6 @@ class ConnectionRunner
                 wait( /*1000*/ );
             }
         }
-        m_handlerFactory = null;
     }
 
     public void run()
@@ -176,6 +175,7 @@ class ConnectionRunner
         }
         finally
         {
+            m_handlerFactory = null;
             try
             {
                 m_socket.close();
