@@ -69,7 +69,7 @@ import org.apache.excalibur.instrument.ValueInstrument;
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/09/08 09:00:46 $
+ * @version CVS $Revision: 1.2 $ $Date: 2003/09/10 12:51:43 $
  * @since 4.1
  */
 public abstract class AbstractHTTPURLHandler
@@ -236,6 +236,24 @@ public abstract class AbstractHTTPURLHandler
         }
     }
     
+    public long getLongParameter( Map params, String name, long defaultValue )
+    {
+        String value = getParameter( params, name, null );
+        if ( value == null )
+        {
+            return defaultValue;
+        }
+        
+        try
+        {
+            return Long.parseLong( value );
+        }
+        catch ( NumberFormatException e )
+        {
+            return defaultValue;
+        }
+    }
+    
     public String[] getParameters( Map params, String name )
     {
         Object param = params.get( name );
@@ -254,6 +272,26 @@ public abstract class AbstractHTTPURLHandler
             list.toArray( ary );
             return ary;
         }
+    }
+    
+    public long[] getLongParameters( Map params, String name, long defaultValue )
+    {
+        String[] values = getParameters( params, name );
+        long[] lValues = new long[values.length];
+        
+        for ( int i = 0; i < values.length; i++ )
+        {
+            try
+            {
+                lValues[i] = Long.parseLong( values[i] );
+            }
+            catch ( NumberFormatException e )
+            {
+                lValues[i] = defaultValue;
+            }
+        }
+        
+        return lValues;
     }
 }
 
