@@ -30,7 +30,7 @@
         path="ECLIPSE_HOME/plugins/org.eclipse.core.runtime_3.0.0/runtime.jar" sourcepath="ORG_ECLIPSE_PLATFORM_SOURCE_SRC/org.eclipse.core.runtime_3.0.0/runtimesrc.zip"/>
     <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
     <classpathentry exported="true" kind="src" path="/org.apache.avalon.ide.repository"/>
-    <classpathentry kind="src" path="src/java"/>
+    <classpathentry excluding="CVS" kind="src" path="src/java"/>
     <classpathentry exported="true" kind="src" path="/org.apache.avalon.ide.eclipse.repository"/>
     <classpathentry kind="output" path="build"/>
 </classpath>
