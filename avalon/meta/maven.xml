@@ -1,6 +1,10 @@
 <project default="avalon:plugin"  xmlns:maven="jelly:maven" xmlns:j="jelly:core" xmlns:util="jelly:util" xmlns:ant="jelly:ant">
 
-  <ant:property name="meta.plugin.version" value="1.2-SNAPSHOT"/>
+  <ant:property name="meta.plugin.version" value="1.2"/>
+  <ant:property name="meta.plugin.groupId" value="avalon-meta"/>   
+  <ant:property name="meta.plugin.artifactId" value="avalon-meta-plugin"/>   
+  <ant:property name="meta.plugin.jar" 
+    value="${meta.plugin.artifactId}-${meta.plugin.version}.jar"/>   
 
   <ant:property name="maven.ui.banner.background" value="#fff"/>
   <ant:property name="maven.ui.banner.foreground" value="#000"/>
@@ -97,7 +101,9 @@ The complete set of target include:
 
   <goal name="avalon:dist" prereqs="avalon:plugin,avalon:site,xdist"/>
 
-  <goal name="avalon:site" prereqs="avalon:build">
+  <goal name="avalon:site" prereqs="avalon:build,xsite"/>
+
+  <goal name="xsite">
     <ant:mkdir dir="${maven.build.dir}"/>
     <maven:reactor
       basedir="${basedir}"
@@ -106,6 +112,7 @@ The complete set of target include:
       banner="Building site:"
       ignoreFailures="false"/>
   </goal>
+
 
   <goal name="xjavadoc">
     <mkdir dir="${basedir}/target/docs/api" />
@@ -267,6 +274,77 @@ The complete set of target include:
       <ant:zipfileset dir="${maven.dist.src.archive.dir}"/>
     </ant:zip>
 
+  </goal>
+
+  <postGoal name="java:prepare-filesystem">
+    <ant:available file="${maven.home}/plugins/${meta.plugin.jar}"
+      property="metaPluginPresent"/>
+    <j:if test="${metaPluginPresent != 'true'}">
+      <ant:echo>
+#####################################################################
+#                                                                   #
+#   WARNING:                                                        #
+#   You do not have the required version of the avalon-meta         #
+#   plugin installed on your system.                                #
+#   Please invoke the following command                             #
+#                                                                   #
+#     $ maven avalon:setup                                          #
+#                                                                   #
+#####################################################################</ant:echo>
+      <attainGoal name="avalon:repo-plugin-install"/>
+    </j:if>
+  </postGoal>
+
+  <goal name="avalon:setup">
+    <echo>
+Initiating download and installation of the Avalon Meta Plugin.
+${meta.plugin.artifactId}-${meta.plugin.version}.jar</echo>
+    <j:set var="repoList">${maven.repo.remote}</j:set> 
+    <util:tokenize var="repos" delim=",">${repoList.trim()}</util:tokenize> 
+    <j:forEach var="repo" items="${repos}"> 
+      <echo>repository '${repo}'</echo> 
+      <util:file var="localPlugin" name="${maven.home}/plugins/${meta.plugin.artifactId}-${meta.plugin.version}.jar" /> 
+      <j:if test="${!localPlugin.exists()}"> 
+        <j:set var="remoteFile" value="${repo}/${meta.plugin.groupId}/plugins/${meta.plugin.artifactId}-${meta.plugin.version}.jar" /> 
+        <echo>trying to download ${remoteFile}</echo> 
+        <j:catch var="ex"> 
+        <j:invokeStatic var="dummy" method="getFile" className="org.apache.maven.util.HttpUtils"> 
+          <j:arg type="java.lang.String" value="${remoteFile}" /> 
+          <j:arg type="java.io.File" value="${localPlugin}"/> 
+          <j:arg type="boolean" value="false"/> 
+          <j:arg type="boolean" value="true"/> 
+          <j:arg type="java.lang.String" value="${maven.proxy.host}" /> 
+          <j:arg type="java.lang.String" value="${maven.proxy.port}" /> 
+          <j:arg type="java.lang.String" value="${maven.proxy.username}" /> 
+          <j:arg type="java.lang.String" value="${maven.proxy.password}" /> 
+          <j:arg type="boolean" value="false"/> 
+        </j:invokeStatic> 
+        </j:catch> 
+      </j:if> 
+      <j:break test="${localPlugin.exists()}"/> 
+    </j:forEach>
+    <j:set var="downloaded" value="${localPlugin.exists()}"/> 
+    <j:if test="${!downloaded}"> 
+      <ant:fail message="Unable to find plug-in" /> 
+    </j:if> 
+    <j:if test="${downloaded}">
+      <ant:move file="${localPlugin}" toFile="tmp.jar"/>
+      <echo>Plugin downloaded, removing other versions</echo> 
+      <delete verbose="false"> 
+        <fileset dir="${maven.home}/plugins">
+          <include name="${meta.plugin.artifactId}-*.jar" /> 
+          <exclude name="${meta.plugin.artifactId}-${meta.plugin.version}.jar" /> 
+        </fileset> 
+      </delete> 
+      <delete includeEmptyDirs="true" verbose="false"> 
+        <fileset dir="${maven.plugin.unpacked.dir}"> 
+          <include name="*.cache"/> 
+          <include name="**/.processed" /> 
+          <include name="${meta.plugin.artifactId}-*/**" /> 
+        </fileset>
+      </delete>
+      <ant:move file="tmp.jar" toFile="${localPlugin}"/>
+    </j:if> 
   </goal>
 
 </project>

@@ -5,7 +5,7 @@
   <pomVersion>3</pomVersion>
   <id>avalon-meta-plugin</id>
   <name>Avalon Meta Plugin</name>
-  <currentVersion>1.2-SNAPSHOT</currentVersion>
+  <currentVersion>1.2</currentVersion>
   <description>Avalon Plugin for Maven</description>
   <shortDescription>Avalon Plugin for Maven</shortDescription>
   <package>org.apache.avalon</package>
