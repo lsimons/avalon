@@ -1,0 +1,27 @@
+<?xml version="1.0" standalone="no"?>
+
+<!DOCTYPE author PUBLIC "-//OASIS//DTD DocBook XML V4.1//EN"
+                         "./dtd/docbookx.dtd">
+
+<author id="bloritsch.html">
+  <honorific>Mr</honorific>
+  <firstname>Peter</firstname>
+  <surname>Donald</surname>
+  <address>
+    <email>donaldp@apache.org</email>
+  </address>
+  <affiliation>
+    <shortaffil>ASF</shortaffil>
+    <jobtitle>Project Management Committee</jobtitle>
+    <orgname>Apache Software Foundation</orgname>
+    <orgdiv>Apache Avalon</orgdiv>
+  </affiliation>
+  <authorblurb>
+    <para>
+       Peter wanders the earth looking for interesting things. His latest
+       kick has been java development. Currently he hacks on the Avalon
+       and Ant projects.
+    </para>
+  </authorblurb>
+</author>
+
