@@ -40,7 +40,7 @@ import java.lang.reflect.Array;
  * Block or Listener.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.9 $ $Date: 2002/10/01 07:50:56 $
+ * @version $Revision: 1.10 $ $Date: 2002/10/01 09:34:35 $
  */
 class BlockResourceProvider
     extends AbstractLogEnabled
@@ -143,11 +143,11 @@ class BlockResourceProvider
         final Iterator iterator = serviceMap.keySet().iterator();
         while( iterator.hasNext() )
         {
-            final String key = (String) iterator.next();
+            final String key = (String)iterator.next();
             final Object value = serviceMap.get( key );
             if( value instanceof Component )
             {
-                manager.put( key, (Component) value );
+                manager.put( key, (Component)value );
             }
             else
             {
@@ -182,7 +182,7 @@ class BlockResourceProvider
         final Iterator iterator = serviceMap.keySet().iterator();
         while( iterator.hasNext() )
         {
-            final String key = (String) iterator.next();
+            final String key = (String)iterator.next();
             final Object value = serviceMap.get( key );
             manager.put( key, value );
         }
@@ -212,7 +212,7 @@ class BlockResourceProvider
             final ServiceDescriptor service = candidate.getService();
             if( service.isArray() )
             {
-                ArrayList list = (ArrayList) sets.get( key );
+                ArrayList list = (ArrayList)sets.get( key );
                 if( null == list )
                 {
                     list = new ArrayList();
@@ -223,7 +223,7 @@ class BlockResourceProvider
             }
             else if( service.isMap() )
             {
-                HashMap smap = (HashMap) sets.get( key );
+                HashMap smap = (HashMap)sets.get( key );
                 if( null == smap )
                 {
                     smap = new HashMap();
@@ -241,25 +241,28 @@ class BlockResourceProvider
         final Iterator iterator = sets.keySet().iterator();
         while( iterator.hasNext() )
         {
-            final String key = (String) iterator.next();
+            final String key = (String)iterator.next();
             final Object value = sets.get( key );
             if( value instanceof List )
             {
-                final List list = (List) value;
+                final List list = (List)value;
                 final ServiceDescriptor service =
                     metaData.getBlockInfo().getDependency( key ).getService();
 
-                final String classname =
-                    "[L" + service.getComponentType() + ";";
-
                 final Object[] result = toArray( list, service.getComponentType() );
                 map.put( key, result );
-                map.put( classname, result );
+
+                if( key.equals( service.getName() ) )
+                {
+                    final String classname =
+                        "[L" + service.getComponentType() + ";";
+                    map.put( classname, result );
+                }
             }
             else
             {
                 final Map smap =
-                    Collections.unmodifiableMap( (Map)value);
+                    Collections.unmodifiableMap( (Map)value );
                 map.put( key, smap );
             }
         }
@@ -284,7 +287,7 @@ class BlockResourceProvider
             list.get( 0 ).getClass().getClassLoader();
         final Class clazz = classLoader.loadClass( type );
         final Object[] elements =
-            (Object[]) Array.newInstance( clazz, list.size() );
+            (Object[])Array.newInstance( clazz, list.size() );
         return list.toArray( elements );
     }
 
@@ -327,6 +330,6 @@ class BlockResourceProvider
      */
     private BlockMetaData getMetaDataFor( final Object entry )
     {
-        return ( (BlockEntry) entry ).getMetaData();
+        return ( (BlockEntry)entry ).getMetaData();
     }
 }
