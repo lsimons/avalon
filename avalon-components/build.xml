@@ -52,8 +52,8 @@
   <property name="xerces.jar" value="${tools.dir}/lib/xerces.jar"/>
   <property name="logkit.jar" value="${lib.dir}/logkit.jar"/>
   <property name="framework.jar" value="${lib.dir}/avalon-framework.jar"/>
-  <property name="excalibur.jar" value="${lib.dir}/avalon-excalibur.jar"/>
-  <property name="scratchpad.jar" value="${lib.dir}/avalon-scratchpad.jar"/>
+  <property name="excalibur.jar" value="${lib.dir}/avalon-excalibur-20010919.jar"/>
+  <property name="scratchpad.jar" value="${lib.dir}/avalon-scratchpad-20010919.jar"/>
   <property name="phoenix-client.jar" value="${lib.dir}/phoenix-client-20010919.jar"/>
   <property name="testlet.jar" value="${tools.dir}/lib/testlet.jar"/>
   <property name="junit.jar" value="${tools.dir}/lib/junit-3.7.jar"/>
