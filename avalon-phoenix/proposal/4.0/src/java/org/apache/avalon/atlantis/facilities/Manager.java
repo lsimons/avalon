@@ -32,4 +32,9 @@ public interface Manager extends Facility, Executable, Contextualizable
      * </ul>
      */
     public void contextualize( Context context ) throws ContextException;
+
+    /**
+     * Get a reference to the MBeanServer this manager manages.
+     */
+    public MBeanServer getMBeanServer();
 }

@@ -7,6 +7,10 @@
  */
 package org.apache.phoenix.engine.facilities;
 
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.Naming;
+
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
 
@@ -24,6 +28,8 @@ import org.apache.avalon.camelot.Deployer;
 import org.apache.log.Logger;
 
 import org.apache.jmx.introspector.DynamicMBeanFactory;
+import org.apache.jmx.adaptor.RMIAdaptor;
+import org.apache.jmx.adaptor.RMIAdaptorImpl;
 
 /**
  *
@@ -36,6 +42,12 @@ public class ManagerImpl implements Manager
     private Embeddor embeddor;
     private Deployer deployer;
     private Kernel kernel;
+    private RMIAdaptor adaptor;
+        private Registry rmiRegistry;
+        private int registryPort;
+        private String computerName;
+        private String adaptorName;
+        private String registryString;
 
     public ManagerImpl()
     {
@@ -66,6 +78,20 @@ public class ManagerImpl implements Manager
         catch( Exception e ) {
             logger.error( "Invalid context - no Deployer supplied", e );
             throw new ContextException( "Invalid context - no Deployer supplied", e ); }
+
+        try { this.registryPort = (new Integer((String)context.get( "java.rmi.registry.port" ))).intValue(); }
+        catch( Exception e ) {
+            logger.error( "Invalid context - no port for RMI Registry supplied", e );
+            throw new ContextException( "Invalid context - no port for RMI Registry supplied", e ); }
+        try { this.computerName = (String)context.get( "java.rmi.registry.name" ); }
+        catch( Exception e ) {
+            logger.error( "Invalid context - no computer name for RMI Adaptor supplied", e );
+            throw new ContextException( "Invalid context - no computer name for RMI Adaptor supplied", e ); }
+        try { this.adaptorName = (String)context.get( "org.apache.jmx.adaptor.name" ); }
+        catch( Exception e ) {
+            logger.error( "Invalid context - no name for RMI Adaptor supplied", e );
+            throw new ContextException( "Invalid context - no name for RMI Adaptor supplied", e ); }
+        this.registryString = "//"+computerName+":"+registryPort+"/"+adaptorName;
     }
     public void start() throws StartException
     {
@@ -97,10 +123,22 @@ public class ManagerImpl implements Manager
                 new ObjectName( "Logger" ) );
         }
         catch( Exception e ) { logger.error( "Unable to register MBean for Logger", e ); }
+
+        // create a RMI adaptor for the MBeanServer and expose it
+        try
+        {
+            this.adaptor = new RMIAdaptorImpl( this.mBeanServer );
+
+            // TODO: improve this!
+            this.rmiRegistry = LocateRegistry.createRegistry( registryPort );
+            Naming.bind(this.registryString, this.adaptor);
+        }
+        catch( Exception e ) { logger.error( "Unable to bind JMX RMI Adaptor", e ); }
     }
     public void stop() throws StopException
     {
-        try {
+        try
+        {
             mBeanServer.unregisterMBean( new ObjectName( "Embeddor" ) );
             mBeanServer.unregisterMBean( new ObjectName( "Kernel" ) );
             mBeanServer.unregisterMBean( new ObjectName( "Deployer" ) );
@@ -108,7 +146,25 @@ public class ManagerImpl implements Manager
         }
         catch( Exception e )
         {
-            logger.error( "error unregistering MBeans", e );
+            if( logger != null )
+                logger.error( "error unregistering MBeans", e );
         }
+        try
+        {
+            Naming.unbind(this.registryString);
+        }
+        catch( Exception e )
+        {
+            if( logger != null )
+                logger.error( "Unable to unbind JMX RMI Adaptor", e );
+        }
+    }
+
+    ///////////////////////
+    /// MANAGER METHODS ///
+    ///////////////////////
+    public MBeanServer getMBeanServer()
+    {
+        return this.mBeanServer;
     }
 }
