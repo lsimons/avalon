@@ -22,7 +22,7 @@ import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
  * Convert a {@link org.apache.avalon.framework.info.ComponentInfo} into a {@link org.apache.avalon.phoenix.metainfo.BlockInfo}.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2002/11/13 01:18:17 $
+ * @version $Revision: 1.6 $ $Date: 2002/11/16 08:56:02 $
  */
 public class ComponentInfoConverter
 {
@@ -33,7 +33,7 @@ public class ComponentInfoConverter
     public static BlockInfo toBlockInfo( final ComponentInfo component )
     {
         final BlockDescriptor descriptor =
-            toBlockDescriptor( component.getComponentDescriptor() );
+            toBlockDescriptor( component.getDescriptor() );
         final ServiceDescriptor[] services =
             toPhoenixServices( component.getServices() );
         final ServiceDescriptor[] mxServices =
