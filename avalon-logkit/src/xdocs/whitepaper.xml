@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.1//EN" "document-v11.dtd">
+
 <document>
-  <properties>
-    <title>LogKit - Whitepaper</title>
 
-      <author email="peter at apache.org">Peter Donald</author>
+ <header>
+  <title>Logkit - Whitepaper</title>
 
-  </properties>
+  <authors>
+    <person name="Avalon Documentation Team" email="dev@avalon.apache.org"/>
+  </authors>
+  
+ </header>
+
   <body>
-    <section name="Abstract">
+          <section>
+                  <title>Abstract</title>
       <p>
         Logging is an integral component to any software development project.
         During the development stages it offers a valuable source of debugging
@@ -16,7 +23,7 @@
         arise. This whitepaper describes the design and implementation of LogKit.
       </p>
     </section>
-    <section name="Introduction">
+    <section><title>Introduction</title>
 
       <p>
         LogKit, began life as a facade for a more complex logging toolkit. During
@@ -42,7 +49,7 @@
 
     </section>
 
-    <section name="Structure and Elements">
+    <section><title>Structure and Elements</title>
 
       <p>
         The most basic components of LogKit are the Logger, the LogEvent and the
@@ -53,7 +60,7 @@
       </p>
     </section>
 
-    <section name="Priorities">
+    <section><title>Priorities</title>
       <p>
         One of the advantages of a logging toolkit is fine grain control over which
         statements get printed. At some times during development you may wish to enable
@@ -132,7 +139,7 @@ if( logger.isDebugEnabled() )
 
     </section>
 
-    <section name="Categories">
+    <section><title>Categories</title>
 
       <p>
         In a complex system it is often not enough to suppress logging based on priority.
@@ -175,7 +182,7 @@ if( logger.isDebugEnabled() )
 
     </section>
 
-    <section name="Log Targets">
+    <section><title>Log Targets</title>
 
       <p>
         In LogKit, LogTargets are the destination of LogEvents. Decoupling LogEvent
@@ -191,7 +198,7 @@ if( logger.isDebugEnabled() )
         runtime performance penalty.
       </p>
 
-      <subsection name="Filters">
+      <section><title>Filters</title>
 
         <p>
           Filters are a special kind of LogTarget. Instead of writing to an output
@@ -209,9 +216,9 @@ if( logger.isDebugEnabled() )
           for pager log target.
         </p>
 
-      </subsection>
+      </section>
 
-      <subsection name="AsyncLogTarget">
+      <section><title>AsyncLogTarget</title>
 
         <p>
           AsyncLogTarget is another kind of special LogTarget. It takes a log event
@@ -234,11 +241,11 @@ thread.start();
 
 logger.setLogTargets( new LogTarget[] { asyncTarget } );
 </source>
-      </subsection>
+      </section>
 
     </section>
 
-    <section name="Formatters">
+    <section><title>Formatters</title>
 
       <p>
         LogTargets that write to a serial or unstructured store (ie filesystem or
@@ -294,7 +301,7 @@ output: DEBUG   123   [network   ]: This is another debug message
 
     </section>
 
-    <section name="Context">
+    <section><title>Context</title>
 
       <p>
         In many systems you need to include extra information depending in logs that depends
@@ -376,7 +383,7 @@ ContextMap.bind( context );
 
     </section>
 
-    <section name="Examples">
+    <section><title>Examples</title>
 
       <p>
         One of the best ways to learn how to use a toolkit is to see an
@@ -428,7 +435,7 @@ myLogger.setPriority( priority );
 
     </section>
 
-    <section name="Conclusion">
+    <section><title>Conclusion</title>
 
       <p>
         LogKit is a friendly, easy to use logging toolkit. It is high performing and
