@@ -86,7 +86,7 @@ import org.apache.log.Hierarchy;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
  * @author <a href="http://cvs.apache.org/~atagunov">Anton Tagunov</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/06/11 10:52:11 $
+ * @version CVS $Revision: 1.2 $ $Date: 2003/06/11 12:07:12 $
  * @since 4.0
  */
 public class LogKitConfHelper extends AbstractLogEnabled implements
@@ -212,16 +212,17 @@ public class LogKitConfHelper extends AbstractLogEnabled implements
                                      final boolean defaultAdditive )
         throws ConfigurationException
     {
-        boolean rootLoggerAlive = false;
+        boolean rootLoggerConfigured = false;
 
         for( int i = 0; i < categories.length; i++ )
         {
-            final String category = categories[ i ].getAttribute( "name" );
-            final String loglevel = categories[ i ].getAttribute( "log-level" ).toUpperCase();
-            final boolean additive = categories[ i ].
+            final Configuration category = categories[ i ];
+            final String name = category.getAttribute( "name" );
+            final String loglevel = category.getAttribute( "log-level" ).toUpperCase();
+            final boolean additive = category.
                 getAttributeAsBoolean( "additive", defaultAdditive );
 
-            final Configuration[] targets = categories[ i ].getChildren( "log-target" );
+            final Configuration[] targets = category.getChildren( "log-target" );
             final LogTarget[] logTargets = new LogTarget[ targets.length ];
             for( int j = 0; j < targets.length; j++ )
             {
@@ -233,49 +234,62 @@ public class LogKitConfHelper extends AbstractLogEnabled implements
                 }
             }
 
-            if( root && "".equals( category ) && logTargets.length > 0 )
+            final String fullCategory;
+            final org.apache.log.Logger logger;
+
+            if ( "".equals( name ) )
             {
-                m_hierarchy.setDefaultPriority( Priority.getPriorityForName( loglevel ) );
-                m_hierarchy.setDefaultLogTargets( logTargets );
-                rootLoggerAlive = true;
+                if ( !root )
+                {
+                    final String message = "'category' element with empty name not " +
+                            "at the root level: " + category.getLocation();
+                    throw new ConfigurationException( message );
+                }
+
+                if ( logTargets.length == 0 )
+                {
+                    final String message = "At least one log-target should be " +
+                            "specified for the root category " + category.getLocation();
+                    throw new ConfigurationException( message );
+                }
+
+                fullCategory = null;
+                logger = m_hierarchy.getRootLogger();
+                rootLoggerConfigured = true;
             }
-
-            final String fullCategory = 
-                    LoggerUtil.getFullCategoryName( parentCategory, category );
-
-            final org.apache.log.Logger logger = m_hierarchy.getLoggerFor( fullCategory );
+            else
+            {
+                fullCategory = LoggerUtil.getFullCategoryName( parentCategory, name );
+                logger = m_hierarchy.getLoggerFor( fullCategory );
+            }
 
             if( getLogger().isDebugEnabled() )
             {
                 /**
-                 * We have to identify ourselves here via 'LogKitConfHelper:'
-                 * because we are likely be logging directly to a bootstrap
-                 * logger and this logger has no categories.
+                 * We have to identify ourselves now via 'LogKitConfHelper:'
+                 * because we are likely to be logging to a shared bootstrap
+                 * logger, not to a dedicated category Logger.
                  */
                 final String message = "LogKitConfHelper: adding logger for category '" +
-                        fullCategory + "'";
+                        ( fullCategory != null ? fullCategory : "" ) + "'";
                 getLogger().debug( message );
             }
+
             logger.setPriority( Priority.getPriorityForName( loglevel ) );
             logger.setLogTargets( logTargets );
             logger.setAdditivity( additive );
 
-            final Configuration[] subCategories = categories[ i ].getChildren( "category" );
+            final Configuration[] subCategories = category.getChildren( "category" );
             if( null != subCategories )
             {
                 setupLoggers( targetManager, fullCategory, subCategories, false, defaultAdditive );
             }
         }
 
-        if ( root && !rootLoggerAlive )
+        if ( root && !rootLoggerConfigured )
         {
-            /**
-             * We have to identify ourselves here via 'LogKitConfHelper:'
-             * because we are likely be logging directly to a bootstrap
-             * logger and this logger has no categories.
-             */
-            final String message = "LogKitConfHelper: " +
-                    "No log targets configured for the root logger.";
+            final String message = 
+                    "No configuration for root category (<category name=''/>) found.";
 
             throw new ConfigurationException( message );
         }
