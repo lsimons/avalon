@@ -50,6 +50,7 @@
 
 package org.apache.avalon.activation.appliance.impl;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
@@ -85,7 +86,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * context.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2003/11/28 11:58:46 $
+ * @version $Revision: 1.6 $ $Date: 2003/12/04 00:23:21 $
  */
 public abstract class AbstractBlock extends AbstractAppliance 
   implements Block, Composite
@@ -150,11 +151,62 @@ public abstract class AbstractBlock extends AbstractAppliance
         m_self.setEnabled( true );
 
         Model[] models = m_context.getContainmentModel().getModels();
-        for( int i=models.length-1; i>-1; i-- )
+        for( int i=0; i<models.length; i++ )
         {
-            Appliance appliance = createAppliance( models[i] );
-            m_repository.addAppliance( appliance );
+            addModel( models[i] );
         }
+        //for( int i=models.length-1; i>-1; i-- )
+        //{
+        //    Appliance appliance = createAppliance( models[i] );
+        //    m_repository.addAppliance( appliance );
+        //}
+    }
+
+    //-------------------------------------------------------------------
+    // Block
+    //-------------------------------------------------------------------
+
+   /**
+    * Return the containment metamodel associated with the block.
+    * @return the containment model
+    */
+    public ContainmentModel getContainmentModel() 
+    {
+        return m_context.getContainmentModel();
+    }
+
+   /**
+    * Add a model as a child to this block.
+    * @param url the model url
+    * @return the appliance established to handle the model
+    * @exception ApplianceException if a error occurs
+    */
+    public Appliance addModel( URL url ) throws ApplianceException
+    {
+        try
+        {
+            return addModel( 
+              getContainmentModel().addModel( url ) );
+        }
+        catch( Throwable e )
+        {
+            final String error = 
+              "Cannot add model due to a model related error.";
+            throw new ApplianceException( error, e );
+        }
+    }
+
+   /**
+    * Add a model as a child to this block.
+    * @param model the model to add as a child of the block
+    * @return the appliance established to handle the model
+    * @exception ApplianceException if a error occurs
+    */
+    public Appliance addModel( Model model ) throws ApplianceException
+    {
+        Appliance appliance = createAppliance( model );
+        m_repository.addAppliance( appliance );
+        return appliance;
     }
 
     //-------------------------------------------------------------------

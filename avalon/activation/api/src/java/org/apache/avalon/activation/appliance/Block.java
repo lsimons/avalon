@@ -50,14 +50,40 @@
 
 package org.apache.avalon.activation.appliance;
 
+import java.net.URL;
+
+import org.apache.avalon.composition.model.Model;
+import org.apache.avalon.composition.model.ContainmentModel;
 
 /**
  * A block is an appliance that manages a set of subsidiary 
  * appliance instances.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/10/12 15:34:49 $
+ * @version $Revision: 1.2 $ $Date: 2003/12/04 00:23:21 $
  */
 public interface Block extends Appliance, Engine
 {
+   /**
+    * Return the containment metamodel associated with the block.
+    * @return the containment model
+    */
+    ContainmentModel getContainmentModel();
+
+   /**
+    * Add a model as a child to this block.
+    * @param model the model to add as a child of the block
+    * @return the appliance established to handle the model
+    * @exception ApplianceException if a error occurs
+    */
+    Appliance addModel( Model model ) throws ApplianceException;
+
+   /**
+    * Add a model as a child to this block.
+    * @param url the model url
+    * @return the appliance established to handle the model
+    * @exception ApplianceException if a error occurs
+    */
+    Appliance addModel( URL url ) throws ApplianceException;
+
 }
