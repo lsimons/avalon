@@ -65,14 +65,16 @@ public class CronTimeTrigger
     }
 
     /**
-     * Retrieve the next time at which this trigger activates.
+     * Returns the next time after the given <tt>moment</tt> when
+     * this trigger goes off.
      *
-     * @return the time at which the trigger will activate
+     * @param moment base point in milliseconds
+     * @return the time in milliseconds when this trigger goes off
      */
-    public long getTimeAfter( final long time )
+    public long getTimeAfter( final long moment )
     {
         //first create calendars
-        final Date timeMarker = new Date( time );
+        final Date timeMarker = new Date( moment );
         final GregorianCalendar relativeTo = new GregorianCalendar();
         relativeTo.setTime( timeMarker );
         relativeTo.set( Calendar.SECOND, 0 );
