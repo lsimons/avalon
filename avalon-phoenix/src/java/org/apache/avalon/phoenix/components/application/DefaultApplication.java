@@ -87,6 +87,7 @@ public final class DefaultApplication
     {
         super.enableLogging( logger );
         setupLogger( m_lifecycleHelper );
+        setupLogger( m_exportHelper );
     }
 
     public void initialize()
