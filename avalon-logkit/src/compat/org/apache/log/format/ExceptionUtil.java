@@ -69,7 +69,7 @@ import java.util.StringTokenizer;
  * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
  * @version 1.0
  */
-public final class ExceptionUtil
+final class ExceptionUtil
 {
     private static final String LINE_SEPARATOR = System.getProperty( "line.separator" );
     private static final String GET_CAUSE_NAME = "getCause";
