@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 import org.apache.avalon.framework.CascadingRuntimeException;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
@@ -25,9 +26,9 @@ import org.apache.excalibur.altrmi.server.PublicationException;
  *
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.12 $
+ * @version $Revision: 1.13 $
  */
-public class AutoPublisher
+public class AutoPublisher extends AbstractLogEnabled
     implements Configurable, ApplicationListener
 {
     private String m_publisherName;
@@ -67,6 +68,9 @@ public class AutoPublisher
         if( m_publications.containsKey( event.getName() ) )
         {
             m_events.add( event );
+
+            if( getLogger().isDebugEnabled() )
+                getLogger().debug( "Will publish block: " + event.getName() );
         }
     }
 
@@ -94,6 +98,8 @@ public class AutoPublisher
             }
             catch( PublicationException e )
             {
+                getLogger().error( "Some problem auto-publishing", e );
+
                 throw new CascadingRuntimeException( "Some problem auto-publishing", e );
             }
             catch( ClassNotFoundException e )
@@ -131,6 +137,8 @@ public class AutoPublisher
     public void applicationStopped()
     {
         m_events.clear();
+
+        if( getLogger().isDebugEnabled() ) getLogger().debug( "Cleared event list" );
     }
 
     public void applicationFailure( Exception e )
