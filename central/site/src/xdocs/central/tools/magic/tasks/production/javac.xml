@@ -15,6 +15,12 @@
       are copied to the classes directory along with all files
       from the target/build/etc/main directory.
       </p>
+      <p>
+      The classpath used for compilation will be constructed 
+      automatically based on build dependencies (and dependent 
+      project transitive dependencies) derived from the project
+      model.
+      </p>
 <source><![CDATA[
 <x:javac/>
 ]]></source>
