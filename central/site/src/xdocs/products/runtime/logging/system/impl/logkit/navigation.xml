@@ -19,43 +19,15 @@
 
 <project>
 
- <title>Merlin</title>
+  <title>Merlin</title>
 
- <body>
-
-    <links>
-      <item name="Apache" href="http://apache.org/"/>
-      <item name="Avalon" href="http://avalon.apache.org/"/>
-      <item name="Framework" href="http://avalon.apache.org/product/framework/"/>
-      <item name="Merlin" href="http://avalon.apache.org/product/containers/"/>
-      <item name="Planet" href="http://avalon.apache.org/product/components/"/>
-    </links>
-
-    <menu name="About Avalon Logging">
-      <item name="Overview" href="/index.html"/>
-      <item name="Specification" href="/spec/index.html"/>
-      <item name="Implementations" href="/impl/index.html">
-        <item name="LogKit" href="/impl/logkit/index.html">
-          <item name="Stream Target" href="/impl/logkit/stream.html"/>
-          <item name="File Target" href="/impl/logkit/file.html"/>
-          <item name="Multicast Target" href="/impl/logkit/multicast.html"/>
-          <item name="Plugin Target" href="/impl/logkit/plugin/index.html"/>
-          <item name="Formatter" href="/impl/logkit/formatter.html"/>
-        </item>
-        <item name="Log4J" href="/impl/log4j/index.html"/>
-      </item>
-      <item name="Examples" href="/examples/index.html"/>
-    </menu>
-
-    <menu name="Resources">
-      <item name="Javadoc" href="/api/index.html"/>
-      <item name="Download" href="/download.html"/>
-    </menu>
-
-    <menu name="Related Projects">
-      <item name="Merlin" href="http://avalon.apache.org/merlin"/>
-      <item name="Repository" href="http://avalon.apache.org/repository"/>
-      <item name="Utilities" href="http://avalon.apache.org/util"/>
+  <body>
+    <menu>
+      <item name="Stream Target" href="stream.html"/>
+      <item name="File Target" href="file.html"/>
+      <item name="Multicast Target" href="multicast.html"/>
+      <item name="Plugin Target" href="plugin/index.html"/>
+      <item name="Formatter" href="formatter.html"/>
     </menu>
  
  </body>
