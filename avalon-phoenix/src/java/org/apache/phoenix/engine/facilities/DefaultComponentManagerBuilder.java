@@ -72,7 +72,7 @@ public class DefaultComponentManagerBuilder
                 final ServiceInfo[] services = dependency.getBlockInfo().getServices();
                 if( !BlockUtil.hasMatchingService( services, serviceInfo ) )
                 {
-                    throw new ComponentManagerException( "Dependency " + name + 
+                    throw new ComponentManagerException( "Dependency " + dependencyName + 
                                                          " does not offer service required: " + 
                                                          serviceInfo );
                 }
