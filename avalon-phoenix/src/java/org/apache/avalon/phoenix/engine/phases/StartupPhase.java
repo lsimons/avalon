@@ -8,6 +8,7 @@
 package org.apache.avalon.phoenix.engine.phases;
 
 import java.io.File;
+import java.net.URL;
 import org.apache.avalon.framework.activity.Startable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.atlantis.ApplicationException;
@@ -190,7 +191,7 @@ public class StartupPhase
         }
     }
 
-    private Object createBlock( final String name, final BlockEntry entry )
+    private Block createBlock( final String name, final BlockEntry entry )
         throws Exception
     {
         getLogger().info( "Creating block " + name );

@@ -21,14 +21,22 @@ import org.apache.avalon.phoenix.metainfo.BlockInfo;
 public class BlockEntry
     extends Entry
 {
-    protected final RoleEntry[]           m_roleEntrys;
+    private final RoleEntry[]   m_roleEntrys;
+
+    private final String        m_name;
 
     //UGLY HACK should be stored in another server Facility (ie ConfigurationRepository)
-    protected Configuration               m_configuration;
+    private Configuration       m_configuration;
 
-    public BlockEntry( final RoleEntry[] roleEntrys )
+    public BlockEntry( final String name, final RoleEntry[] roleEntrys )
     {
+        m_name = name;
         m_roleEntrys = roleEntrys;
+    }
+
+    public String getName()
+    {
+        return m_name;
     }
 
     public BlockInfo getBlockInfo()

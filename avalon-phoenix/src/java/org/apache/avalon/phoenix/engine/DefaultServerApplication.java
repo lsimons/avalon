@@ -7,6 +7,7 @@
  */
 package org.apache.avalon.phoenix.engine;
 
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Iterator;
 import org.apache.avalon.framework.activity.Initializable;
@@ -14,6 +15,7 @@ import org.apache.avalon.framework.atlantis.Application;
 import org.apache.avalon.framework.atlantis.ApplicationException;
 import org.apache.avalon.framework.atlantis.SystemManager;
 import org.apache.avalon.framework.camelot.AbstractContainer;
+import org.apache.avalon.framework.camelot.Container;
 import org.apache.avalon.framework.camelot.ContainerException;
 import org.apache.avalon.framework.camelot.Entry;
 import org.apache.avalon.framework.component.Component;
@@ -46,6 +48,8 @@ import org.apache.avalon.phoenix.engine.facilities.policy.DefaultPolicyManager;
 import org.apache.avalon.phoenix.engine.facilities.thread.DefaultThreadManager;
 import org.apache.avalon.phoenix.engine.phases.ShutdownPhase;
 import org.apache.avalon.phoenix.engine.phases.StartupPhase;
+import org.apache.avalon.phoenix.metainfo.BlockInfo;
+import org.apache.avalon.phoenix.metainfo.BlockInfoBuilder;
 import org.apache.avalon.phoenix.metainfo.DependencyDescriptor;
 
 /**
@@ -65,6 +69,8 @@ public final class DefaultServerApplication
         protected BlockDAG.Traversal  m_traversal;
         protected BlockVisitor        m_visitor;
     }
+
+    private final BlockInfoBuilder   m_builder          = new BlockInfoBuilder();
 
     private HashMap                  m_phases           = new HashMap();
     private BlockDAG                 m_dag              = new BlockDAG();
@@ -154,6 +160,14 @@ public final class DefaultServerApplication
     public void start()
         throws Exception
     {
+        // load block info
+        try { loadBlockInfos(); }
+        catch( final Exception e )
+        {
+            getLogger().warn( "Error loading block infos: " + e.getMessage(), e );
+            throw e;
+        }
+
         // load blocks
         try
         {
@@ -161,10 +175,10 @@ public final class DefaultServerApplication
             final PhaseEntry entry = (PhaseEntry)m_phases.get( "startup" );
             runPhase( entry );
         }
-        catch( final ApplicationException ae )
+        catch( final Exception e )
         {
-            getLogger().warn( "Error loading blocks: " + ae.getMessage(), ae );
-            throw ae;
+            getLogger().warn( "Error loading blocks: " + e.getMessage(), e );
+            throw e;
         }
     }
 
@@ -182,12 +196,60 @@ public final class DefaultServerApplication
             final PhaseEntry entry = (PhaseEntry)m_phases.get( "shutdown" );
             runPhase( entry );
         }
-        catch( final Exception e ) 
+        catch( final Exception e )
         {
             getLogger().error( "Error shutting down application", e );
         }
 
         m_entries.clear();
+    }
+
+    private void loadBlockInfos()
+        throws Exception
+    {
+        final Iterator names = list();
+        while( names.hasNext() )
+        {
+            final String name = (String)names.next();
+            final BlockEntry entry = (BlockEntry)getEntry( name );
+
+            final BlockInfo info = getBlockInfo( name, entry );
+            entry.setInfo( info );
+
+            //Make sure the entry has all relevent
+            //dependencies specified and that they match up with
+            //dependencies indicated in BlockInfo.
+            verifyDependenciesMap( name, entry );
+        }
+    }
+
+    private BlockInfo getBlockInfo( final String name, final BlockEntry entry )
+        throws Exception
+    {
+        //We should cache copies here...
+        final String className = entry.getLocator().getName();
+        final String resourceName = className.replace( '.', '/' ) + ".xinfo";
+
+        getLogger().info( "Creating block info from " + resourceName );
+
+        final ClassLoader classLoader = m_classLoaderManager.getClassLoader();
+        final URL resource = classLoader.getResource( resourceName );
+
+        if( null == resource )
+        {
+            final String message =
+                "Unable to locate resource for block info " + resourceName;
+
+            getLogger().error( message );
+            throw new Exception( message );
+        }
+
+        try { return m_builder.build( resource.toString() ); }
+        catch( final Exception e )
+        {
+            getLogger().error( "Failed to create block info for from " + resourceName, e );
+            throw e;
+        }
     }
 
     /**
@@ -272,21 +334,6 @@ public final class DefaultServerApplication
     }
 
     /**
-     * This method is called before entry is added to give chance for
-     * sub-class to veto addition.
-     *
-     * @param name the name of entry
-     * @param entry the entry
-     * @exception ContainerException to stop removal of entry
-     */
-    protected void preAdd( final String name, final Entry entry )
-        throws ContainerException
-    {
-        final BlockEntry blockEntry = (BlockEntry)entry;
-        verifyDependenciesMap( name, blockEntry );
-    }
-
-    /**
      * Retrieve a list of RoleEntry objects that were specified
      * in configuration file and verify they were expected based
      * on BlockInfo file. Also verify that all entries specified
@@ -341,18 +388,13 @@ public final class DefaultServerApplication
     private ComponentManager createComponentManager()
     {
         final DefaultComponentManager componentManager = new DefaultComponentManager();
-        componentManager.put( "org.apache.avalon.framework.atlantis.SystemManager", m_systemManager );
-        componentManager.put( "org.apache.avalon.framework.camelot.Container", this );
-        componentManager.put( "org.apache.avalon.phoenix.engine.facilities.PolicyManager",
-                              m_policyManager );
-        componentManager.put( "org.apache.avalon.phoenix.engine.facilities.ClassLoaderManager",
-                              m_classLoaderManager );
-        componentManager.put( "org.apache.avalon.phoenix.engine.facilities.ThreadManager",
-                              m_threadManager );
-        componentManager.put( "org.apache.avalon.phoenix.engine.facilities.ConfigurationRepository",
-                              m_configurationRepository );
-        componentManager.put( "org.apache.avalon.phoenix.engine.facilities.LogManager",
-                              m_logManager );
+        componentManager.put( SystemManager.ROLE, m_systemManager );
+        componentManager.put( Container.ROLE, this );
+        componentManager.put( PolicyManager.ROLE, m_policyManager );
+        componentManager.put( ClassLoaderManager.ROLE, m_classLoaderManager );
+        componentManager.put( ThreadManager.ROLE, m_threadManager );
+        componentManager.put( ConfigurationRepository.ROLE, m_configurationRepository );
+        componentManager.put( LogManager.ROLE, m_logManager );
 
         return componentManager;
     }

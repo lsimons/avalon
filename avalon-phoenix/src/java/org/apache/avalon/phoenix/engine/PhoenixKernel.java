@@ -7,6 +7,7 @@
  */
 package org.apache.avalon.phoenix.engine;
 
+import org.apache.avalon.phoenix.engine.blocks.BlockEntry;
 import org.apache.avalon.framework.atlantis.AbstractKernel;
 import org.apache.avalon.framework.atlantis.SystemManager;
 import org.apache.avalon.framework.atlantis.Application;
@@ -107,7 +108,7 @@ public class PhoenixKernel
             if( application instanceof Composable )
             {
                 final DefaultComponentManager componentManager = new DefaultComponentManager();
-                componentManager.put( "org.apache.avalon.framework.atlantis.SystemManager", m_systemManager );
+                componentManager.put( SystemManager.ROLE, m_systemManager );
                 ((Composable)application).compose( componentManager );
             }
 
@@ -119,6 +120,20 @@ public class PhoenixKernel
         catch( final Exception e )
         {
             throw new ContainerException( "Error preparing Application", e );
+        }
+    }
+
+    protected void preStartEntry( final String name, final Entry entry )
+        throws ContainerException
+    {
+        final ServerApplicationEntry saEntry = (ServerApplicationEntry)entry;
+        final BlockEntry[] blockEntrys = saEntry.getBlockEntrys();
+        final Application application = (Application)saEntry.getInstance();
+
+        for( int i = 0; i < blockEntrys.length; i++ )
+        {
+            final String blockName = blockEntrys[ i ].getName();
+            application.add( blockName, blockEntrys[ i ] );
         }
     }
 }

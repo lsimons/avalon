@@ -170,7 +170,9 @@ public abstract class AbstractKernel
         final Application application = (Application)entry.getInstance();
         if( null != application )
         {
+            preStartEntry( name, entry );
             application.start();
+            postStartEntry( name, entry );
         }
         else
         {
@@ -236,6 +238,30 @@ public abstract class AbstractKernel
      * @param entry the entry
      */
     protected void postInitializeEntry( final String name, final Entry entry )
+    {
+    }
+
+    /**
+     * This method is called before an entry is initialized.
+     * Overide to do something.
+     *
+     * @param name the name of the entry
+     * @param entry the entry
+     * @exception ContainerException if an error occurs
+     */
+    protected void preStartEntry( final String name, final Entry entry )
+        throws ContainerException
+    {
+    }
+
+    /**
+     * This method is called after an entry is startd.
+     * Overide to do something.
+     *
+     * @param name the name of the entry
+     * @param entry the entry
+     */
+    protected void postStartEntry( final String name, final Entry entry )
     {
     }
 

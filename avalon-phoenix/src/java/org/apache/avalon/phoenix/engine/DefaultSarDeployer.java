@@ -25,14 +25,12 @@ import org.apache.avalon.framework.camelot.AbstractDeployer;
 import org.apache.avalon.framework.camelot.CamelotUtil;
 import org.apache.avalon.framework.camelot.Container;
 import org.apache.avalon.framework.camelot.ContainerException;
-import org.apache.avalon.framework.camelot.DefaultRegistry;
 import org.apache.avalon.framework.camelot.Deployer;
 import org.apache.avalon.framework.camelot.DeployerUtil;
 import org.apache.avalon.framework.camelot.DeploymentException;
 import org.apache.avalon.framework.camelot.Info;
-import org.apache.avalon.framework.camelot.Locator;
-import org.apache.avalon.framework.camelot.Registry;
-import org.apache.avalon.framework.camelot.RegistryException;
+import org.apache.avalon.framework.camelot.DefaultLocator;
+import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.component.Composable;
@@ -44,9 +42,10 @@ import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.excalibur.io.FileUtil;
 import org.apache.avalon.excalibur.io.IOUtil;
+import org.apache.avalon.excalibur.io.InvertedFileFilter;
+import org.apache.avalon.excalibur.io.PrefixFileFilter;
 import org.apache.avalon.phoenix.BlockContext;
 import org.apache.avalon.phoenix.engine.blocks.BlockEntry;
-import org.apache.avalon.phoenix.engine.blocks.DefaultBlockDeployer;
 import org.apache.avalon.phoenix.engine.blocks.RoleEntry;
 import org.apache.avalon.phoenix.metainfo.BlockInfo;
 
@@ -61,6 +60,7 @@ public class DefaultSarDeployer
 {
     private File            m_deployDirectory;
     private Container       m_container;
+    private ZipExpander     m_expander         = new ZipExpander();
 
     /**
      * Default constructor.
@@ -93,65 +93,28 @@ public class DefaultSarDeployer
         else
         {
             final File destination = getDestinationFor( name, file );
-            expandTo( file, destination );
-            deployFromDirectory( file, name, destination );
-        }
-    }
-
-    private void expandTo( final File file, final File directory )
-        throws DeploymentException
-    {
-        final ZipFile zipFile = DeployerUtil.getZipFileFor( file );
-
-        if( !needsExpanding( zipFile, directory ) )
-        {
-            return;
-        }
-
-        directory.mkdirs();
-
-        final Enumeration entries = zipFile.entries();
-        while( entries.hasMoreElements() )
-        {
-            final ZipEntry entry = (ZipEntry)entries.nextElement();
-            if( entry.isDirectory() ) continue;
-
-            final String name = entry.getName().replace( '/', File.separatorChar );
-            if( !shouldExpandEntry( entry.getName() ) ) continue;
-
-            final File destination = new File( directory, name );
-
-            InputStream input = null;
-            OutputStream output = null;
 
             try
             {
-                destination.getParentFile().mkdirs();
-                output = new FileOutputStream( destination );
-                input = zipFile.getInputStream( entry );
-                IOUtil.copy( input, output );
+                final InvertedFileFilter filter = 
+                    new InvertedFileFilter( new PrefixFileFilter( "META-INF" ) );
+                m_expander.expand( file, destination, filter );
             }
             catch( final IOException ioe )
             {
-                throw new DeploymentException( "Error extracting " + name, ioe );
+                throw new DeploymentException( "Error expanding deployment", ioe );
             }
-            finally
+
+            try { deployFromDirectory( file, name, destination ); }
+            catch( final DeploymentException de )
             {
-                IOUtil.shutdownStream( input );
-                IOUtil.shutdownStream( output );
+                throw de;
+            }
+            catch( final Exception e )
+            {
+                throw new DeploymentException( "Error deploying from " + destination, e );                
             }
         }
-    }
-
-    private boolean shouldExpandEntry( final String name )
-    {
-        if( name.startsWith( "META-INF" ) ) return false;
-        else return true;
-    }
-
-    private boolean needsExpanding( final ZipFile zipFile, final File directory )
-    {
-        return !directory.exists();
     }
 
     private File getDestinationFor( final String location, final File file )
@@ -169,27 +132,13 @@ public class DefaultSarDeployer
         }
     }
 
-    private Kernel getKernel()
-        throws DeploymentException
-    {
-        if( !(m_container instanceof Kernel) )
-        {
-            throw new DeploymentException( "Can only deploy to a kernel container" );
-        }
-        else
-        {
-            return (Kernel)m_container;
-        }
-    }
-
     private void buildEntry( final String name,
                              final ServerApplicationEntry entry,
                              final File archive,
                              final File directory )
-        throws DeploymentException
+        throws Exception
     {
         //final File file = new File( directory, "SAR-INF" + File.separator + "sar-inf.xml" );
-
         entry.setHomeDirectory( directory );
 
         //setup the ServerApplications configuration manager
@@ -199,9 +148,9 @@ public class DefaultSarDeployer
     }
 
     private void deployFromDirectory( final File archive,
-                                        final String name,
-                                        final File directory )
-        throws DeploymentException
+                                      final String name,
+                                      final File directory )
+        throws Exception
     {
         getLogger().info( "deploying from archive (" + archive +
                           ") expanded into directory " + directory );
@@ -210,50 +159,23 @@ public class DefaultSarDeployer
         buildEntry( name, entry, archive, directory );
         addEntry( name, entry );
 
-        final Kernel kernel = getKernel();
-        Application application = null;
-        try
-        {
-            application = kernel.getApplication( name );
-        }
-        catch( final ContainerException ce )
-        {
-            throw new DeploymentException( "Error preparing server application", ce );
-        }
-
-        //rework next bit so it grabs deployments from archive
-
-        //Registry that stores locators and infos for blocks
-        final Registry registry = new DefaultRegistry( Info.class );
-
-        final Deployer deployer = getBlockDeployer( entry, registry );
+        final Application application = ((Kernel)m_container).getApplication( name );
 
         final File blocksDirectory = new File( directory, "blocks" );
-        CamelotUtil.deployFromDirectory( deployer, blocksDirectory, ".bar" );
 
-       try
-        {
-            final File file =
-                new File( directory, "conf" + File.separator + "assembly.xml" );
+        File file =
+            new File( directory, "conf" + File.separator + "assembly.xml" );
+        
+        Configuration configuration = getConfigurationFor( file );
+        final Configuration[] blocks = configuration.getChildren( "block" );
+        final BlockEntry[] blockEntrys = assembleBlocks( application, entry, blocks );
 
-            final Configuration configuration = getConfigurationFor( file );
-            final Configuration[] blocks = configuration.getChildren( "block" );
-            assembleBlocks( application, entry, blocks, registry );
-        }
-        catch( final ComponentException cme )
-        {
-            throw new DeploymentException( "Error Assembling Blocks", cme );
-        }
-        catch( final ConfigurationException ce )
-        {
-            throw new DeploymentException( "Error in assembly.xml", ce );
-        }
+        entry.setBlockEntrys( blockEntrys );
 
-       final File file =
-           new File( directory, "conf" + File.separator + "config.xml" );
-       
-       final Configuration configuration = getConfigurationFor( file );
-       configureBlocks( application, entry, configuration.getChildren() );
+        file = new File( directory, "conf" + File.separator + "config.xml" );
+        
+        configuration = getConfigurationFor( file );
+        configureBlocks( entry, configuration.getChildren() );
     }
 
     private void addEntry( final String name, final ServerApplicationEntry entry )
@@ -268,7 +190,7 @@ public class DefaultSarDeployer
             throw new DeploymentException( "Error adding component to container", ce );
         }
 
-        getLogger().debug( "Adding " + m_type + "Entry " + name + " as " + entry );
+        getLogger().debug( "Adding SarEntry " + name + " as " + entry );
     }
 
     private Configuration getConfigurationFor( final File file )
@@ -285,58 +207,18 @@ public class DefaultSarDeployer
         }
     }
 
-    private Deployer getBlockDeployer( final ServerApplicationEntry entry, final Registry registry )
-        throws DeploymentException
-    {
-        final Deployer deployer = new DefaultBlockDeployer();
-        setupLogger( deployer );
-
-        if( deployer instanceof Composable )
-        {
-            final DefaultComponentManager componentManager = new DefaultComponentManager();
-            componentManager.put( "org.apache.avalon.framework.camelot.Registry", registry );
-
-            try
-            {
-                ((Composable)deployer).compose( componentManager );
-            }
-            catch( final Exception e )
-            {
-                throw new DeploymentException( "Error composing block deployer", e );
-            }
-        }
-
-        return deployer;
-    }
-
-    private void assembleBlocks( final Application application,
-                                 final ServerApplicationEntry saEntry,
-                                 final Configuration[] blocks,
-                                 final Registry registry )
+    private BlockEntry[] assembleBlocks( final Application application,
+                                         final ServerApplicationEntry saEntry,
+                                         final Configuration[] blocks )
         throws ComponentException, ConfigurationException, DeploymentException
     {
+        final ArrayList blockEntrys = new ArrayList();
+
         for( int i = 0; i < blocks.length; i++ )
         {
             final Configuration block = blocks[ i ];
             final String name = block.getAttribute("name");
             final String className = block.getAttribute("class");
-
-            BlockInfo info = null;
-
-            try { info = (BlockInfo)registry.getInfo( className, BlockInfo.class ); }
-            catch( final RegistryException re )
-            {
-                throw new DeploymentException( "Failed to aquire BlockInfo for " + className,
-                                               re );
-            }
-
-            Locator locator = null;
-            try { locator = (Locator)registry.getInfo( className + "/Locator", Locator.class ); }
-            catch( final RegistryException re )
-            {
-                throw new DeploymentException( "Failed to aquire Locator for " + className,
-                                               re );
-            }
 
             final Configuration[] provides = block.getChildren( "provide" );
             final ArrayList roleList = new ArrayList();
@@ -350,23 +232,21 @@ public class DefaultSarDeployer
             }
 
             final RoleEntry[] roles = (RoleEntry[]) roleList.toArray( new RoleEntry[ 0 ] );
-            final BlockEntry entry = new BlockEntry( roles );
+            final BlockEntry entry = new BlockEntry( name, roles );
+
+            final DefaultLocator locator = new DefaultLocator( className, null );
             entry.setLocator( locator );
-            entry.setBlockInfo( info );
+
             entry.setConfiguration( block.getChild( "configuration" ) );
 
-            try { application.add( name, entry ); }
-            catch( final ContainerException ce )
-            {
-                throw new DeploymentException( "Error adding component to container", ce );
-            }
-
+            blockEntrys.add( entry );
             getLogger().debug( "Adding BlockEntry " + name + " as " + entry );
         }
+
+        return (BlockEntry[])blockEntrys.toArray( new BlockEntry[ 0 ] );
     }
 
-    private void configureBlocks( final Application application,
-                                  final ServerApplicationEntry saEntry,
+    private void configureBlocks( final ServerApplicationEntry saEntry,
                                   final Configuration[] configurations )
         throws DeploymentException
     {
@@ -374,21 +254,26 @@ public class DefaultSarDeployer
         {
             final Configuration configuration = configurations[ i ];
             final String name = configuration.getName();
-
-            BlockEntry entry = null;
-            try 
-            { 
-                entry = (BlockEntry)application.getEntry( name ); 
-            }
-            catch( final ContainerException ce )
-            {
-                throw new DeploymentException( "Configuration element " + name + 
-                                               " refers to unknown block", ce );
-            }
+            final BlockEntry entry = getBlockEntry( name, saEntry.getBlockEntrys() );
 
             entry.setConfiguration( configuration );
 
             getLogger().debug( "Loaded configuration for block " + name );
         }
+    }
+
+    private BlockEntry getBlockEntry( final String name, 
+                                      final BlockEntry[] blockEntrys )
+        throws DeploymentException
+    {
+        for( int i = 0; i < blockEntrys.length; i++ )
+        {
+            if( blockEntrys[ i ].getName().equals( name ) )
+            {
+                return blockEntrys[ i ];
+            }
+        }
+
+        throw new DeploymentException( "Unable to locate block named '" + name + "'" );
     }
 }
