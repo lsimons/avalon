@@ -20,9 +20,13 @@ package org.apache.metro.installer.magic;
 import java.awt.Container;
 import java.awt.Dimension;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import java.io.File;
 
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -30,11 +34,13 @@ import javax.swing.JProgressBar;
 import javax.swing.JTextArea;
 
 public class SwingInstaller
+    implements ActionListener
 {
     private JFrame m_ProgressWindow;
     private JProgressBar m_ProgressBar;
     private JTextArea  m_TextArea;
-        
+    private JButton m_FinishButton;
+    
     public SwingInstaller()
     {
         m_ProgressWindow = new JFrame();
@@ -83,8 +89,20 @@ public class SwingInstaller
         setSizes( spring4, 0, 10, 100 );
         column.add( spring4 );
         
+        m_FinishButton = createFinishButton();
+        column.add( m_FinishButton );
+        
+        final JPanel spring5 = new JPanel();
+        setSizes( spring5, 0, 10, 100 );
+        column.add( spring5 );
+                
         m_ProgressWindow.pack();
         m_ProgressWindow.setVisible( true );
+    }
+    
+    public void actionPerformed( ActionEvent event )
+    {
+        System.out.println( event.toString() );
     }
     
     public void start()
@@ -93,10 +111,12 @@ public class SwingInstaller
         File userHome = new File( System.getProperty( "user.home" ) );
         File magicHome = new File( userHome, ".magic" );
         File antLibDir = new File( userHome, ".ant/lib" );
+        File cwDir = new File( System.getProperty( "user.dir" ) );
         
         ProgressIndicator indicator = new SwingProgress();
-        Worker w = new Worker( magicHome, antLibDir );
-        w.start( indicator );
+        Worker w = new Worker( indicator, magicHome, antLibDir, cwDir );
+        w.start();
+        m_FinishButton.setEnabled( true );
     }
 
     private void setSizes( JPanel panel, int min, int pref, int max )
@@ -135,7 +155,21 @@ public class SwingInstaller
         area.setMaximumSize( maxDim );
         return area;
     }
-    
+
+    private JButton createFinishButton()
+    {
+        final Dimension minDim = new Dimension( 20, 20 );
+        final Dimension prefDim = new Dimension( 50, 30 );
+        final Dimension maxDim = new Dimension( 100, 40 );
+        JButton button = new JButton( "Finish" );
+        button.setMinimumSize( minDim );
+        button.setPreferredSize( prefDim );
+        button.setMaximumSize( maxDim );
+        button.setEnabled( false );
+        button.addActionListener( this );    
+        return button;
+    }
+        
     public class SwingProgress
         implements ProgressIndicator
     {

@@ -33,10 +33,11 @@ public class ConsoleInstaller
         File userHome = new File( System.getProperty( "user.home" ) );
         File magicHome = new File( userHome, ".magic" );
         File antLibDir = new File( userHome, ".ant/lib" );
+        File cwDir = new File( System.getProperty( "user.dir" ) );
         
         ProgressIndicator indicator = new ConsoleProgress();
-        Worker w = new Worker( magicHome, antLibDir );
-        w.start( indicator );
+        Worker w = new Worker( indicator, magicHome, antLibDir, cwDir );
+        w.start();
     }
     
     public class ConsoleProgress

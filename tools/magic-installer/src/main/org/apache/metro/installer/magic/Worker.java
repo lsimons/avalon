@@ -40,14 +40,21 @@ public class Worker
     
     private File m_MagicHome;
     private File m_AntLibDir;
+    private File m_DevDir;
     
-    public Worker( File magicHome, File antLib )
+    private ProgressIndicator   m_Progress;
+    private long                m_ProgressSize;    
+    
+    public Worker( ProgressIndicator indicator, 
+                   File magicHome, File antLib, File devDir )
     {
         m_MagicHome = magicHome;
         m_AntLibDir = antLib;
+        m_Progress = indicator;
+        m_DevDir = devDir;
     }
     
-    public void start( ProgressIndicator indicator )
+    public void start()
         throws Exception
     {
         /* Not sure what to do with these yet.
@@ -56,52 +63,70 @@ public class Worker
         */
         
         String url = "http://www.dpml.net/avalon/tools/bars/avalon-tools-magic.bar";
-        File barFile = download( url, indicator );
-        unjar( barFile, m_MagicHome, indicator );
+        File barFile = download( url );
+        unjar( barFile, m_MagicHome );
         
         File toolsJar = new File( m_MagicHome, "jars/avalon-tools-magic.jar" );
+        copy( toolsJar, m_AntLibDir );
         
-        copy( toolsJar, m_AntLibDir, indicator );
-        indicator.message( "Cleaning up." );
+        File globalBuild = new File( m_MagicHome, "templates/global/build.xml" );
+        
+        // Below is for testing purposes. The following 2 lines should be removed
+        // as soon as Magic contains the global/build.xml file.
+        if( ! globalBuild.isFile() )
+            globalBuild = new File( m_MagicHome, "templates/standard.xml" );
+            
+        copy( globalBuild, m_DevDir );
+        
+        m_Progress.message( "Cleaning up." );
+        
         File jarsDir = toolsJar.getParentFile();
-        toolsJar.delete();
-        jarsDir.delete();
+        deleteDir( jarsDir );
+        File barsDir = new File( m_MagicHome, "bars/" );
+        deleteDir( barsDir );        
     }
     
-    private void unjar( File barFile, File toDir, ProgressIndicator indicator )
+    private void unjar( File barFile, File toDir )
         throws IOException
     {
-        indicator.message( "Unzipping " + barFile );
-        indicator.start();
+        m_Progress.message( "Unzipping " + barFile );
+        m_Progress.start();
         JarFile jar = new JarFile( barFile );
         Enumeration entries = jar.entries();
         while( entries.hasMoreElements() )
         {
             JarEntry entry = (JarEntry) entries.nextElement();
             String name = entry.getName();
-            InputStream in = jar.getInputStream( entry );
-            File file = new File( toDir, name );
-            FileOutputStream out = new FileOutputStream( file );
-            long size = entry.getSize();
-            copy( in, out, indicator, size );
-            in.close();
-            out.close();
+            File dest = new File( toDir, name );
+            if( entry.isDirectory() )
+            {
+                dest.mkdirs();
+            }
+            else
+            {
+                InputStream in = jar.getInputStream( entry );
+                FileOutputStream out = new FileOutputStream( dest );
+                m_ProgressSize = entry.getSize();
+                copy( in, out );
+                in.close();
+                out.close();
+            }
         }
-        indicator.finished();
+        m_Progress.finished();
     }
     
-    private File download( String url, ProgressIndicator indicator )
+    private File download( String url )
         throws IOException
     {        
         URL download = new URL( url );
-        indicator.message( "Connecting to " + download.getHost() );
+        m_Progress.message( "Connecting to " + download.getHost() );
 
         URLConnection conn = download.openConnection();
         conn.connect();
-        int size = conn.getContentLength();
+        m_ProgressSize = conn.getContentLength();
         
-        indicator.message( "Downloading " + url );
-        indicator.start();
+        m_Progress.message( "Downloading " + url );
+        m_Progress.start();
         InputStream in = conn.getInputStream();
         
         File tmp = File.createTempFile( "magic", null );
@@ -109,16 +134,15 @@ public class Worker
         
         FileOutputStream out = new FileOutputStream( tmp );
         
-        copy( in, out, indicator, size );
+        copy( in, out );
         in.close();
         out.close();
-        indicator.finished();
+        m_Progress.finished();
         return tmp;   
     }
     
     
-    private void copy( InputStream from, OutputStream to, 
-                       ProgressIndicator indicator, long size )
+    private void copy( InputStream from, OutputStream to )
         throws IOException
     {
         BufferedOutputStream out = new BufferedOutputStream( to );
@@ -130,19 +154,19 @@ public class Worker
             byte[] data = new byte[ BUFFER_SIZE ];
             bytesRead = in.read( data, 0, BUFFER_SIZE );
             counter = counter + bytesRead;
-            if( size != 0 )
-                indicator.progress( (int) ( ( counter * 100 ) / size ) );
+            if( m_ProgressSize != 0 )
+                m_Progress.progress( (int) ( ( counter * 100 ) / m_ProgressSize ) );
             if( bytesRead != -1 )
                 out.write( data, 0, bytesRead );
         } while( bytesRead != -1 );
         out.flush();
     }
     
-    private void copy( File file, File toDir, ProgressIndicator indicator )
+    private void copy( File file, File toDir )
         throws IOException
     {
-        indicator.message( "Copying " + file + " to " + file );
-        indicator.start();
+        m_Progress.message( "Copying " + file + " to " + file );
+        m_Progress.start();
         toDir.mkdirs();
         String name = file.getName();
         File destFile = new File( toDir, name );
@@ -150,11 +174,19 @@ public class Worker
         FileInputStream in = new FileInputStream( file );
         FileOutputStream out = new FileOutputStream( destFile );
         
-        long size = file.length();
-        copy( in, out, indicator, size );
+        m_ProgressSize = file.length();
+        copy( in, out );
         
         in.close();
         out.close();
-        indicator.finished();
+        m_Progress.finished();
+    }
+    
+    private void deleteDir( File dir )
+    {
+        File[] files = dir.listFiles();
+        for( int i=0 ; i < files.length ; i++ )
+            files[i].delete();
+        dir.delete();
     }
 }
