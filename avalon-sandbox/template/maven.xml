@@ -27,7 +27,7 @@
     </ant:copy>
   </goal>
 
-  <goal name="avalon:site" prereqs="xjavadoc,site"/>
+  <goal name="avalon:site" prereqs="avalon:build,xjavadoc,site"/>
 
   <goal name="xjavadoc">
 
