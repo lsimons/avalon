@@ -61,6 +61,8 @@ import org.apache.avalon.merlin.unit.AbstractMerlinTestCase;
 public class StandardTestCase extends AbstractMerlinTestCase
 {
 
+    private static URL CONF = getProjectPath( "conf/cofig.xml", false );
+
     //--------------------------------------------------------
     // constructors
     //--------------------------------------------------------
