@@ -75,7 +75,18 @@ to be accessible as a win32 Service or a unix daemon.
 * Unpack the product into a convenient location so that it resides in
   its own subdirectory.
 
-(4) Customize Build Properties For This Subproject
+(4) Download and Install Checkstyle, 2.1 or later (OPTIONAL)
+
+NOTE: This is only required if you wish to generate reports regarding code style.
+
+* Download the Checkstyle package (version 2.1 or later) from:
+
+    http://checkstyle.sourceforge.net/
+
+* Unpack the package into a convenient location so that it resides in its
+  own subdirectory.
+
+(5) Customize Build Properties For This Subproject
 
 Most Jakarta subprojects allow you to customize Ant properties (with default
 values defined in the "build.xml" file.  This is done by creating a text file
@@ -90,7 +101,7 @@ way to satisfy these dependencies is to copy the "ant.properties.sample"
 file (in the top-level Phoenix source directory) to ".ant.properties", and
 then edit it to suit your environment.  On Unix, this would be done as:
 
-  cd ${phoenix.source}
+  cd @dist.name@
   cp ant.properties.sample .ant.properties
   emacs .ant.properties
 
@@ -98,7 +109,7 @@ NOTE:  Be *sure* that you do not check "ant.properties" in to the CVS
 repository.  This file is local to your own development environment, and
 each developer will have their own version.
 
-(5) Build A Binary Distribution
+(6) Build A Binary Distribution
 
 Open a command line shell, and issue the following commands:
 
