@@ -560,8 +560,8 @@ Legal:
 
     <copy todir="${dist.dir}">
       <fileset dir=".">
-        <include name="README"/>
-        <include name="LICENSE"/>
+        <include name="README.txt"/>
+		<include name="LICENSE.txt"/>
         <include name="KEYS"/>
       </fileset>
     </copy>
@@ -666,8 +666,8 @@ Legal:
 
     <copy todir="${src.dist.dir}">
       <fileset dir=".">
-        <include name="README"/>
-        <include name="LICENSE"/>
+        <include name="README.txt"/>
+        <include name="LICENSE.txt"/>
         <include name="build.bat"/>
         <include name="build.sh"/>
         <include name="build.xml"/>

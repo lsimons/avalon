@@ -3,7 +3,7 @@
  *
  * This software is published under the terms of the Apache Software License
  * version 1.1, a copy of which has been included with this distribution in
- * the LICENSE file.
+ * the LICENSE.txt file.
  */
 
 package org.apache.avalon.excalibur.monitor.test;
@@ -34,7 +34,7 @@ import java.io.Writer;
  * Junit TestCase for all the monitors in Excalibur.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: MonitorTestCase.java,v 1.5 2001/09/26 14:16:13 bloritsch Exp $
+ * @version $Id: MonitorTestCase.java,v 1.6 2001/12/11 09:53:39 jefft Exp $
  */
 public class MonitorTestCase extends ExcaliburTestCase
 {

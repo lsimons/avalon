@@ -3,7 +3,7 @@
  *
  * This software is published under the terms of the Apache Software License
  * version 1.1, a copy of which has been included with this distribution in
- * the LICENSE file.
+ * the LICENSE.txt file.
  */
 package org.apache.avalon.excalibur.datasource;
 
@@ -25,7 +25,7 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
  * J2EE container pools the datasources properly.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.4 $ $Date: 2001/11/23 01:43:24 $
+ * @version CVS $Revision: 1.5 $ $Date: 2001/12/11 09:53:28 $
  * @since 4.0
  */
 public class J2eeDataSource
