@@ -1,4 +1,4 @@
-<project default="jar:install-snapshot" xmlns:maven="jelly:maven" xmlns:j="jelly:core" xmlns:util="jelly:util" xmlns:ant="jelly:ant">
+<project default="merlin:build" xmlns:maven="jelly:maven" xmlns:j="jelly:core" xmlns:util="jelly:util" xmlns:ant="jelly:ant">
 
   <ant:property file="project.properties"/>
   <ant:property name="maven.docs.src" value="${basedir}/merlin-platform/xdocs"/>
@@ -18,7 +18,7 @@
 
   <goal name="merlin:update">
     <attainGoal name="merlin:clean"/>
-    <attainGoal name="merlin:dist"/>
+    <attainGoal name="merlin:install"/>
     <attainGoal name="merlin:site"/>
     <attainGoal name="merlin:tutorials"/>
     <attainGoal name="merlin:package"/>
@@ -31,8 +31,7 @@
     </copy>
   </goal>
 
-  <goal name="merlin:demo" 
-    description="Execute the demo targets." >
+  <goal name="merlin:demo" description="Execute the demo targets." >
     <maven:reactor
       basedir="${basedir}"
       includes="merlin-platform/tutorials/**/project.xml"
@@ -42,41 +41,39 @@
       ignoreFailures="false" />
   </goal>
 
-  <goal name="merlin:dist" 
-    description="Build the Merlin distribution." >
+  <goal name="merlin:build" description="Build Merlin." >
 
-    <ant:mkdir dir="${merlin.build.inst.dir}"/>
-    <ant:mkdir dir="${merlin.build.inst.dir}/ext"/>
-    <ant:mkdir dir="${merlin.build.inst.dir}/bin/lib"/>
-
-    <!--
-    Install the sub-project jars (meta, assembly, merlin, etc.)
-    into the user's local repository and put a copy in the 
-    build target install directory.
-    -->
-    <maven:reactor
-      basedir="${basedir}"
+    <!-- build the subprojects -->
+    <maven:reactor basedir="${basedir}"
       includes="**/project.xml"
-      excludes="merlin-platform/**,merlin-plugin/**,project.xml,kernel/bootstrap/*,merlin-extensions/**"
+      excludes="target/**,merlin-platform/**,merlin-plugin/**,project.xml,kernel/bootstrap/*,merlin-extensions/**"
       goals="jar:install-snapshot"
       banner="Installing:"
       ignoreFailures="false" />
     <attainGoal name="merlin:plugin"/>
 
-    <maven:reactor
-      basedir="${basedir}"
+    <!-- build the plugin -->
+    <maven:reactor basedir="${basedir}"
       includes="kernel/bootstrap/project.xml"
       goals="jar:install"
       banner="Installing:"
       ignoreFailures="false" />
+
+  </goal>
+
+  <goal name="merlin:install" 
+    description="Build the Merlin distribution." prereqs="merlin:build">
+
+    <ant:mkdir dir="${merlin.build.inst.dir}"/>
+    <ant:mkdir dir="${merlin.build.inst.dir}/ext"/>
+    <ant:mkdir dir="${merlin.build.inst.dir}/bin/lib"/>
+
+    <!-- import bootstrap jar -->
     <ant:copy 
        file="${basedir}/kernel/bootstrap/target/merlin-bootstrap-1.0.jar" 
        toDir="${merlin.build.inst.dir}/bin/lib"/>
 
-    <!--
-    Import the dependent jar files referenced by platform.xml
-    into the install directory.
-    -->
+    <!-- import subproject jar files -->
     <maven:reactor
       basedir="${basedir}"
       includes="platform.xml"
@@ -84,10 +81,7 @@
       banner="Resolving dependencies:"
       ignoreFailures="false"/>
 
-    <!--
-    Copy the xml api jar file to the merlin/ext directory so that it 
-    will included in the JVM bootstrap process.
-    -->
+    <!-- copy the xml api jar file to the merlin/ext directory -->
     <ant:copy 
        file="${merlin.build.inst.dir}/repository/xml-apis/jars/xml-apis-2.0.2.jar" 
        toDir="${merlin.build.inst.dir}/ext"/>
@@ -100,9 +94,7 @@
        toDir="${merlin.build.inst.dir}/ext"/>
     <delete dir="${merlin.build.inst.dir}/repository/xerces"/>
 
-    <!--
-    Add the supporting resources.
-    -->
+    <!-- add supporting resources -->
     <ant:copy toDir="${merlin.build.inst.dir}">
       <fileset dir="${basedir}/merlin-platform/src">
         <include name="bin/**/*"/>
@@ -288,7 +280,7 @@
   </goal>
 
   <goal name="merlin-clean" prereqs="merlin:clean"/>
-  <goal name="merlin-dist" prereqs="merlin:dist"/>
+  <goal name="merlin-dist" prereqs="merlin:install"/>
   <goal name="merlin-site" prereqs="merlin:site"/>
   <goal name="merlin-libs" prereqs="merlin:update"/>
 

@@ -15,8 +15,10 @@ STRUCTURE:
     +-- activation               activation implementation
     +-- activation-api           activation API interfaces and classes
     +-- activation-spi           activation SPI interfaces and classes
-    +-- composition              composition implementation
-    +-- composition-spi          composition SPI interfaces and classes
+    +-- composition              composition framework
+        +- api                   composition API
+        +- spi                   composition SPI
+        +- impl                  composition framework implementation
     +-- extension                jar manegement implementation
     +-- extension-spi            jar manegement SPI interfaces and classes
     +-- kernel                   
@@ -32,26 +34,24 @@ STRUCTURE:
     +-- merlin-platform          site and installation resources
         +- src                   resources used to build a merlin installation
         +- tutorials             several merlin tutorials
-        +- examples              example applications
-        +- target
-           +- docs               generate site documentation
+        +- examples              example applications (work-in-progress) 
     +-- repository
         +- spi                   resource repository interfaces
         +- impl                  resource repository implementation
     +-- target                   generated build
         +- merlin                the generated installation (see 
                                  build procedure detailed below)
+        +- docs                  generate site documentation
 
 
 BUILD PROCEDURE:
 ----------------
 
-The Merlin project requires the Maven project management tool.
-
-The merlin-dist goal builds a Merlin installation directory under the 
+The Merlin project requires the Maven project management tool. 
+The merlin:install goal builds a Merlin installation directory under the 
 default /target/merlin.
 
-  $ maven merlin-dist
+  $ maven merlin:install
 
 Following the creation of an installation you need to declare the environment 
 variable MERLIN_HOME with a value corresponding to the directory in which you
@@ -66,20 +66,20 @@ window and invoking the following command:
 Support for the installation and execution of Merlin as an NT process is 
 now included in the package (refer bin directory) - special thanks to Leif
 for helping to set this up.  When updating an existing installation, the 
-maven goal merlin-libs invokes the classic merlin-dist and updates your local
+maven goal merlin:update invokes the classic merlin:install and updates your local
 merlin repository.  This is often convinient if you are frequently updating 
-the merlin core. 
+the merlin core.
 
 For additional information please check the documentation and also use the 
-Avalon Users list (subscription details in the doc).  The merlin-site goal 
+Avalon Users list (subscription details in the doc).  The merlin:site goal 
 aggregates the sources from across the main Merlin sub-projects to build a 
 consolidated project presentation. The goal should be invoked from the 
 root merlin directory.
 
-  $ maven merlin-site
+  $ maven merlin:site
 
 Finally, please keep in mind that while Merlin is nearing completion and 
 readiness for a first release, it should be considered as beta software as 
 APIs are changing, and documentation is evolving.
 
-SJM 17 August 2003
+SJM 1 September 2003
