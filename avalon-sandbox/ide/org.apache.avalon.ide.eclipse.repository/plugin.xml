@@ -16,7 +16,11 @@
    </requires>
 
 
-   <extension-point id="org.apache.avalon.ide.eclipse.repository" name="Avalon Repository" schema="schema/org.apache.avalon.ide.eclipse.repository.exsd"/>
+   <extension-point 
+         id="org.apache.avalon.ide.eclipse.repository" 
+         name="Avalon Repository" 
+         schema="schema/org.apache.avalon.ide.eclipse.repository.exsd"
+   />
 
    <extension
          point="org.eclipse.ui.actionSets">
