@@ -26,7 +26,7 @@
       <item name="Apache" href="http://apache.org/"/>
       <item name="Avalon" href="http://avalon.apache.org/"/>
       <item name="Framework" href="http://avalon.apache.org/product/framework/"/>
-      <item name="Containers" href="http://avalon.apache.org/product/containers/"/>
+      <item name="Containment" href="http://avalon.apache.org/product/containers/"/>
       <item name="Components" href="http://avalon.apache.org/product/components/"/>
     </links>
 
