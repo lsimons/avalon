@@ -64,7 +64,7 @@ import org.apache.avalon.framework.service.ServiceSelector;
  * interface to a {@link ComponentManager} interface.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.15 $ $Date: 2003/03/12 12:08:45 $
+ * @version CVS $Revision: 1.16 $ $Date: 2003/03/25 04:08:52 $
  * @since 4.1.4
  */
 public class WrapperComponentManager
@@ -79,9 +79,9 @@ public class WrapperComponentManager
     * Creation of a new wrapper component manger using a supplied
     * service manager as a source backing the wrapped.  This implementation
     * redirects lookup requests to the supplied service manager provided under
-    * this constructor. No attempt is made to proxy object supplied by the 
-    * primary manager as Component instances - as such, it is the responsibility  
-    * of the application establishing the wrapper to ensure that objects 
+    * this constructor. No attempt is made to proxy object supplied by the
+    * primary manager as Component instances - as such, it is the responsibility
+    * of the application establishing the wrapper to ensure that objects
     * accessed via the primary manager implement the Component interface.
     *
     * @param manager the service manager backing the wrapper.
@@ -123,8 +123,8 @@ public class WrapperComponentManager
             throw new ComponentException( se.getKey(), se.getMessage(), se.getCause() );
         }
 
-        final String message = "Role does not implement the Component "
-            + "interface and thus can not be accessed via ComponentManager";
+        final String message = "Role does not implement the Component " +
+            "interface and thus can not be accessed via ComponentManager";
         throw new ComponentException( key, message );
     }
 
@@ -152,8 +152,8 @@ public class WrapperComponentManager
     {
         if( component instanceof WrapperComponentSelector )
         {
-            m_manager.
-                release( ( (WrapperComponentSelector)component ).getWrappedSelector() );
+            final WrapperComponentSelector selector = (WrapperComponentSelector)component;
+            m_manager.release( selector.getWrappedSelector() );
         }
         else
         {
