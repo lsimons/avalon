@@ -290,10 +290,10 @@
                 <include name="**/*"/>
             </fileset>
         </copy>
-	
-	<mkdir dir="${dist.dir}/lib"/>
+    
+    <mkdir dir="${dist.dir}/lib"/>
 
-	<!-- create temporary dir so we can get a proper .tar even with the current, released ant -->
+    <!-- create temporary dir so we can get a proper .tar even with the current, released ant -->
         <mkdir dir="${dist.base}/${dist.name}"/>
         <copy todir="${dist.base}/${dist.name}">
             <fileset dir="${dist.dir}">
@@ -301,23 +301,23 @@
             </fileset>
         </copy>
 
-	<zip zipfile="${dist.base}/${dist.name}.zip" compress="true">
+    <zip zipfile="${dist.base}/${dist.name}.zip" compress="true">
             <zipfileset dir="${dist.dir}" prefix="${dist.name}"/>
         </zip>
 
         <tar longfile="gnu" tarfile="${dist.base}/${dist.name}.tar">
-		<tarfileset dir="${dist.base}/" username="avalon" group="avalon">
-			<include name="${dist.name}/**"/>
-		</tarfileset>
+        <tarfileset dir="${dist.base}/" username="avalon" group="avalon">
+            <include name="${dist.name}/**"/>
+        </tarfileset>
         </tar>
 
-	<gzip zipfile="${dist.base}/${dist.name}.tar.gz"
+    <gzip zipfile="${dist.base}/${dist.name}.tar.gz"
               src="${dist.base}/${dist.name}.tar"/>
 
         <delete file="${dist.base}/${dist.name}.tar"/>
         <delete dir="${dist.base}/${dist.name}" />
 
-	<!--
+    <!--
           Not supported by released ant but when it is we should enable this across
           all of the products
         <tar longfile="gnu" tarfile="${dist.base}/${dist.name}-bin.tar">
@@ -338,9 +338,6 @@
           <fileset dir="${dist.base}" />
         </checksum>
         -->
-        <!--<delete dir="${dist.dir}" />-->
-
-
     </target>
 
     <!-- Creates a mini jar-only distribution -->
