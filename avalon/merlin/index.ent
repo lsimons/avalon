@@ -1,0 +1,1 @@
+<!ENTITY % version-entities SYSTEM "file:version.ent"> %version-entities;
