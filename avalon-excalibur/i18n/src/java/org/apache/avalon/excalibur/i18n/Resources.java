@@ -12,6 +12,9 @@ import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.Random;
 import java.util.ResourceBundle;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.util.Date;
 
 /**
  * A class to simplify extracting localized strings, icons 
@@ -88,10 +91,10 @@ public class Resources
     }
 
     /**
-     * Retrieve a raw string from bundle.
+     * Retrieve a boolean from bundle.
      *
      * @param key the key of resource
-     * @return the resource string
+     * @return the resource boolean
      */
     public boolean getBoolean( final String key )
         throws MissingResourceException
@@ -122,10 +125,10 @@ public class Resources
     }
 
     /**
-     * Retrieve a raw string from bundle.
+     * Retrieve a byte from bundle.
      *
      * @param key the key of resource
-     * @return the resource string
+     * @return the resource byte
      */
     public byte getByte( final String key )
         throws MissingResourceException
@@ -165,10 +168,10 @@ public class Resources
     }
 
     /**
-     * Retrieve a raw string from bundle.
+     * Retrieve a char from bundle.
      *
      * @param key the key of resource
-     * @return the resource string
+     * @return the resource char
      */
     public char getChar( final String key )
         throws MissingResourceException
@@ -209,10 +212,10 @@ public class Resources
     }
 
     /**
-     * Retrieve a raw string from bundle.
+     * Retrieve a short from bundle.
      *
      * @param key the key of resource
-     * @return the resource string
+     * @return the resource short
      */
     public short getShort( final String key )
         throws MissingResourceException
@@ -252,10 +255,10 @@ public class Resources
     }
 
     /**
-     * Retrieve a raw string from bundle.
+     * Retrieve a integer from bundle.
      *
      * @param key the key of resource
-     * @return the resource string
+     * @return the resource integer
      */
     public int getInteger( final String key )
         throws MissingResourceException
@@ -295,10 +298,10 @@ public class Resources
     }
 
     /**
-     * Retrieve a raw string from bundle.
+     * Retrieve a long from bundle.
      *
      * @param key the key of resource
-     * @return the resource string
+     * @return the resource long
      */
     public long getLong( final String key )
         throws MissingResourceException
@@ -338,10 +341,10 @@ public class Resources
     }
 
     /**
-     * Retrieve a raw string from bundle.
+     * Retrieve a float from bundle.
      *
      * @param key the key of resource
-     * @return the resource string
+     * @return the resource float
      */
     public float getFloat( final String key )
         throws MissingResourceException
@@ -381,10 +384,10 @@ public class Resources
     }
 
     /**
-     * Retrieve a raw string from bundle.
+     * Retrieve a double from bundle.
      *
      * @param key the key of resource
-     * @return the resource string
+     * @return the resource double
      */
     public double getDouble( final String key )
         throws MissingResourceException
@@ -398,6 +401,141 @@ public class Resources
         catch( final NumberFormatException nfe )
         {
             throw new MissingResourceException( "Expecting a double value but got " + value,
+                                                "java.lang.String",
+                                                key );
+        }
+    }
+
+    /**
+     * Retrieve a date from bundle.
+     *
+     * @param key the key of resource
+     * @param defaultValue the default value if key is missing
+     * @return the resource date
+     */
+    public Date getDate( final String key, final Date defaultValue )
+        throws MissingResourceException
+    {
+        try
+        {
+            return getDate( key );
+        }
+        catch( final MissingResourceException mre )
+        {
+            return defaultValue;
+        }
+    }
+
+    /**
+     * Retrieve a date from bundle.
+     *
+     * @param key the key of resource
+     * @return the resource date
+     */
+    public Date getDate( final String key )
+        throws MissingResourceException
+    {
+        final ResourceBundle bundle = getBundle();
+        final String value = bundle.getString( key );
+        try
+        {
+            final DateFormat format = 
+                DateFormat.getDateInstance( DateFormat.DEFAULT, m_locale );
+            return format.parse( value );
+        }
+        catch( final ParseException pe )
+        {
+            throw new MissingResourceException( "Expecting a date value but got " + value,
+                                                "java.lang.String",
+                                                key );
+        }
+    }
+
+    /**
+     * Retrieve a time from bundle.
+     *
+     * @param key the key of resource
+     * @param defaultValue the default value if key is missing
+     * @return the resource time
+     */
+    public Date getTime( final String key, final Date defaultValue )
+        throws MissingResourceException
+    {
+        try
+        {
+            return getTime( key );
+        }
+        catch( final MissingResourceException mre )
+        {
+            return defaultValue;
+        }
+    }
+
+    /**
+     * Retrieve a time from bundle.
+     *
+     * @param key the key of resource
+     * @return the resource time
+     */
+    public Date getTime( final String key )
+        throws MissingResourceException
+    {
+        final ResourceBundle bundle = getBundle();
+        final String value = bundle.getString( key );
+        try
+        {
+            final DateFormat format = 
+                DateFormat.getTimeInstance( DateFormat.DEFAULT, m_locale );
+            return format.parse( value );
+        }
+        catch( final ParseException pe )
+        {
+            throw new MissingResourceException( "Expecting a time value but got " + value,
+                                                "java.lang.String",
+                                                key );
+        }
+    }
+
+    /**
+     * Retrieve a time from bundle.
+     *
+     * @param key the key of resource
+     * @param defaultValue the default value if key is missing
+     * @return the resource time
+     */
+    public Date getDateTime( final String key, final Date defaultValue )
+        throws MissingResourceException
+    {
+        try
+        {
+            return getDateTime( key );
+        }
+        catch( final MissingResourceException mre )
+        {
+            return defaultValue;
+        }
+    }
+
+    /**
+     * Retrieve a date + time from bundle.
+     *
+     * @param key the key of resource
+     * @return the resource date + time
+     */
+    public Date getDateTime( final String key )
+        throws MissingResourceException
+    {
+        final ResourceBundle bundle = getBundle();
+        final String value = bundle.getString( key );
+        try
+        {
+            final DateFormat format = 
+                DateFormat.getDateTimeInstance( DateFormat.DEFAULT, DateFormat.DEFAULT, m_locale );
+            return format.parse( value );
+        }
+        catch( final ParseException pe )
+        {
+            throw new MissingResourceException( "Expecting a time value but got " + value,
                                                 "java.lang.String",
                                                 key );
         }
