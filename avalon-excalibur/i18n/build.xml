@@ -51,6 +51,13 @@
         <pathelement location="${build.classes}"/>
         <pathelement location="${junit.jar}"/>
     </path>
+        
+    <path id="test.class.path">
+        <path refid="project.class.path"/>
+        <fileset dir="${framework.dir}/tools/lib">
+            <include name="*.jar" />
+        </fileset>
+    </path>
 
     <target name="main" depends="dist" description="Build the project"/>
     <target name="rebuild" depends="clean,main" description="Rebuild the project"/>
@@ -111,26 +118,30 @@
     </target>
 
     <target name="test" depends="compile" description="Perform the unit tests">
-
+        
         <echo message="Performing Unit Tests" />
+        
         <mkdir dir="${build.tests}"/>
+        
         <junit fork="true" printsummary="yes" dir="${build.tests}">
-            <classpath refid="project.class.path"/>
+            <classpath refid="test.class.path"/>
 
             <formatter type="xml"/>    <!-- xml reports for junitreport -->
             <formatter type="plain"/>  <!-- text reports for humans     -->
 
-            <batchtest todir="${build.reports}">
+            <batchtest todir="${build.tests}">
                 <fileset dir="${build.classes}">
                     <include name="**/test/*TestCase.class"/>
                 </fileset>
             </batchtest>
         </junit>
-
+        
     </target>
 
     <target name="test-reports" depends="test" description="Generate Reports for the unit tests">
-
+        
+        <mkdir dir="${build.reports}"/>
+        
         <junitreport todir="${build.tests}">
             <fileset dir="${build.tests}">
                 <include name="TEST-*.xml"/>
@@ -143,10 +154,11 @@
             <fileset dir="${build.tests}" includes="TEST-*.xml"/>
             <fileset dir="${build.tests}" includes="TESTS-*.xml"/>
         </delete>
+        
     </target>
 
     <!-- Creates the distribution -->
-    <target name="dist" depends="jar, test, javadocs" description="Generates the jar files">
+    <target name="dist" depends="jar, test-reports, javadocs" description="Generates the jar files">
 
         <mkdir dir="${dist.dir}"/>
         <copy file="${build.lib}/${dist.name}.jar" todir="${dist.dir}"/>
