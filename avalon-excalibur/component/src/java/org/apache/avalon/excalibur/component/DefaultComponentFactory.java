@@ -49,6 +49,7 @@
 */
 package org.apache.avalon.excalibur.component;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -82,7 +83,7 @@ import org.apache.excalibur.instrument.Instrumentable;
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2004/01/21 08:34:24 $
+ * @version CVS $Revision: 1.3 $ $Date: 2004/01/22 14:08:16 $
  * @since 4.0
  */
 public class DefaultComponentFactory
@@ -122,7 +123,7 @@ public class DefaultComponentFactory
      *  proxies, if they are Composables.  These must be seperate maps in case
      *  a component falls into more than one category, which they often do.
      */
-    private final Map m_componentProxies = new HashMap();
+    private final Map m_componentProxies = Collections.synchronizedMap(new HashMap());
 
     /** Instrument Manager to register objects created by this factory with (May be null). */
     private InstrumentManager m_instrumentManager;
