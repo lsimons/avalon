@@ -1,0 +1,12 @@
+project.xml
+maven.log
+velocity.log
+build.properties
+target
+xdocs
+forced-error
+publisher
+singleton
+*.zip
+*.gz
+
