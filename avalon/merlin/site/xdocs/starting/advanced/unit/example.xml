@@ -63,7 +63,7 @@
         included in the hello tutorial.
         </p>
         <p><i>block.xml<br/>
-        Definition of a container holding a single componet.
+        Definition of a container holding a single component.
         </i></p>
 <source><![CDATA[
 <container name="tutorial">
