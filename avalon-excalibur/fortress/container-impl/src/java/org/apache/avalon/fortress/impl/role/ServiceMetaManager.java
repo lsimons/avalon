@@ -109,7 +109,7 @@ import java.util.*;
  * </pre>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.9 $
+ * @version CVS $Revision: 1.10 $
  */
 public final class ServiceMetaManager extends AbstractMetaInfoManager implements Initializable
 {
@@ -196,7 +196,7 @@ public final class ServiceMetaManager extends AbstractMetaInfoManager implements
     private void setupImplementations( final String role )
         throws ClassNotFoundException
     {
-        final Iterator it = Service.providers( getLoader().loadClass( role ) );
+        final Iterator it = Service.providers( getLoader().loadClass( role ), getLoader() );
 
         while ( it.hasNext() )
         {
