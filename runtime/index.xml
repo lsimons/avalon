@@ -705,6 +705,8 @@
       <include key="avalon-test-testa" build="false" runtime="false" test="false"/>
       <include key="avalon-test-testb" build="false" runtime="false" test="false"/>
       <include key="avalon-test-testc" build="false" runtime="false" test="false"/>
+      <include key="avalon-test-testd" build="false" runtime="false" test="false"/>
+      <include key="avalon-test-teste" build="false" runtime="false" test="false"/>
       <include key="avalon-test-dynamics" build="false" runtime="false" test="false"/>
       <include key="avalon-test-includes" build="false" runtime="false" test="true"/>
       <include key="avalon-test-testcyclic" build="false" runtime="false" test="false"/>
