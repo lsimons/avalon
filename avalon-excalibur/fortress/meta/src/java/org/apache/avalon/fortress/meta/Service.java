@@ -67,7 +67,7 @@ import java.util.Set;
  * logic to serialize the service.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.7 $ $Date: 2003/05/14 15:54:47 $
+ * @version CVS $Revision: 1.8 $ $Date: 2003/05/15 18:56:28 $
  */
 final class Service
 {
@@ -108,6 +108,11 @@ final class Service
         if ( type == null ) throw new NullPointerException( "type" );
 
         m_components.add( type );
+    }
+
+    public Iterator getComponents()
+    {
+        return m_components.iterator();
     }
 
     /**

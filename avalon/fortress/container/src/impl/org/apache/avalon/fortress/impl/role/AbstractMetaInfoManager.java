@@ -57,12 +57,13 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+import java.util.List;
 
 /**
  * Provides the foundation for MetaInfoManagers.
  *
  * @author <a href="bloritsch.at.apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.1 $
+ * @version CVS $Revision: 1.2 $
  */
 public abstract class AbstractMetaInfoManager extends AbstractLogEnabled implements MetaInfoManager
 {
@@ -142,7 +143,8 @@ public abstract class AbstractMetaInfoManager extends AbstractLogEnabled impleme
      */
     protected void addComponent( final String role,
                                  final String className,
-                                 final Properties meta )
+                                 final Properties meta,
+                                 final List deps )
     {
         final Class klass;
 
@@ -175,7 +177,7 @@ public abstract class AbstractMetaInfoManager extends AbstractLogEnabled impleme
 
         try
         {
-            entry = new MetaInfoEntry( klass, meta );
+            entry = new MetaInfoEntry( klass, meta, deps );
             entry.addRole( role );
 
             m_shorthands.put( entry.getConfigurationName(), entry );
