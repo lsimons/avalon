@@ -1,0 +1,53 @@
+<project default="build" xmlns:maven="jelly:maven" xmlns:j="jelly:core" xmlns:util="jelly:util">
+  <property file="${basedir}/project.properties"/>
+  <property file="${basedir}/../project.properties"/>
+
+  <goal name="avalon:build">
+    <attainGoal name="avalon:install"/>
+  </goal>
+
+  <goal name="avalon:install"
+    description="Install the sub-project jars." >
+    <maven:reactor
+      basedir="${basedir}"
+      includes="**/project.xml"
+      excludes="project.xml,site/*"
+      goals="jar:install"
+      banner="Installing:"
+      ignoreFailures="false" />
+  </goal>
+
+  <goal name="avalon:site"
+    description="Build the project site." >
+    <maven:reactor
+      basedir="${basedir}"
+      includes="project.xml,site/project.xml"
+      goals="site"
+      banner="Building site:"
+      ignoreFailures="false" />
+  </goal>
+
+  <goal name="avalon:clean"
+    description="Clean up build artifacts" >
+    <maven:reactor
+      basedir="${basedir}"
+      includes="**/project.xml"
+      excludes="project.xml,site/*"
+      goals="clean"
+      banner="Cleaning:"
+      ignoreFailures="false" />
+    <attainGoal name="clean"/>
+  </goal>
+
+  <goal name="avalon:dist"
+      description="Build binary distributions" >
+      <maven:reactor
+        basedir="${basedir}"
+        includes="**/project.xml"
+        excludes="project.xml,site/*"
+        goals="dist"
+        banner="Building distribution:"
+        ignoreFailures="false" />
+  </goal>
+
+</project>
