@@ -1,4 +1,4 @@
-// Copyright 2004 The Apache Software Foundation
+ // Copyright 2004 The Apache Software Foundation
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,32 +12,43 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Apache.Avalon.Castle.MicroKernel.Lifestyle.Default
+namespace Apache.Avalon.Castle.MicroKernel.Graph
 {
 	using System;
 
 	/// <summary>
-	/// Summary description for AbstractLifestyleManager.
+	/// Represents a direct path between two Vertex.
 	/// </summary>
-	public abstract class AbstractLifestyleManager : ILifestyleManager
+	public class Edge
 	{
-		protected IComponentFactory m_componentFactory;
+		private Vertex m_source;
+		private Vertex m_target;
 
-		public AbstractLifestyleManager(IComponentFactory componentFactory)
+		/// <summary>
+		/// Constructs a Edge.
+		/// </summary>
+		/// <param name="from"></param>
+		/// <param name="to"></param>
+		public Edge(Vertex from, Vertex to)
 		{
-			m_componentFactory = componentFactory;
+			m_source = from;
+			m_target = to;
 		}
 
-		public virtual void Release(object instance)
+		/// <summary>
+		/// The source node.
+		/// </summary>
+		public Vertex Source
 		{
-			m_componentFactory.Etherialize( instance );
-		}
-	
-		public virtual object Resolve()
-		{
-			return m_componentFactory.Incarnate();
+			get { return m_source; }
 		}
 
-		public abstract void Dispose();
+		/// <summary>
+		/// The target node.
+		/// </summary>
+		public Vertex Target
+		{
+			get { return m_target; }
+		}
 	}
 }

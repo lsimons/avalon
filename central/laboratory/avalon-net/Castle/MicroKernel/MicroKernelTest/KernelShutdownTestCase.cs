@@ -1,4 +1,4 @@
-﻿// Copyright 2004 The Apache Software Foundation
+﻿ // Copyright 2004 The Apache Software Foundation
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -23,23 +23,93 @@ namespace Apache.Avalon.Castle.MicroKernel.Test
 	using Apache.Avalon.Castle.MicroKernel.Test.Components;
 
 	/// <summary>
-    /// Summary description for KernelShutdownTestCase.
-    /// </summary>
+	/// Summary description for KernelShutdownTestCase.
+	/// </summary>
 	[TestFixture]
-    public class KernelShutdownTestCase : Assertion
-    {
-        private IKernel m_kernel;
+	public class KernelShutdownTestCase : Assertion
+	{
+		private IKernel m_kernel;
 
-        [SetUp]
-        public void Init()
-        {
-            m_kernel = new BaseKernel();
-        }
+		[SetUp]
+		public void Init()
+		{
+			m_kernel = new DefaultAvalonKernel();
+		}
 
-        [Test]
-        public void ShutdownOrder()
-        {
+		[Test]
+		public void ShutdownOrder()
+		{
+			m_kernel.AddComponent("parent", typeof (IParent), typeof (ParentImpl));
+			m_kernel.AddComponent("child", typeof (IChild), typeof (ChildImpl));
 
-        }
-    }
+			IHandler handler = m_kernel[ "parent" ];
+			IParent parent = handler.Resolve() as IParent;
+
+			ContainerUtil.Dispose(m_kernel);
+			
+			Assert( parent.Terminated );
+		}
+
+		internal interface IParent
+		{
+			bool Terminated { get; }
+		}
+
+		internal interface IChild
+		{
+			void Terminate();
+		}
+
+		[AvalonComponent("Parent", Framework.Lifestyle.Singleton)]
+		[AvalonService(typeof (IParent))]
+		internal class ParentImpl : IParent, IDisposable
+		{
+			private IChild m_child;
+			private bool m_terminated = false;
+
+			public ParentImpl(IChild child)
+			{
+				m_child = child;
+			}
+
+			public bool Terminated
+			{
+				get { return m_terminated; }
+			}
+
+			#region IDisposable Members
+
+			public void Dispose()
+			{
+				m_child.Terminate();
+				m_terminated = true;
+			}
+
+			#endregion
+		}
+
+		[AvalonComponent("Child", Framework.Lifestyle.Singleton)]
+		[AvalonService(typeof (IChild))]
+		internal class ChildImpl : IChild, IDisposable
+		{
+			private bool m_terminated = false;
+
+			public void Terminate()
+			{
+				if (m_terminated)
+				{
+					throw new ApplicationException("Already disposed.");
+				}
+			}
+
+			#region IDisposable Members
+
+			public void Dispose()
+			{
+				m_terminated = true;
+			}
+
+			#endregion
+		}
+	}
 }

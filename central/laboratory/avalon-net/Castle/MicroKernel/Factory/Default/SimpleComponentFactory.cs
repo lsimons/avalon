@@ -16,7 +16,6 @@ namespace Apache.Avalon.Castle.MicroKernel.Factory.Default
 {
 	using System;
 	using System.Collections;
-	using System.Reflection;
 
 	using Apache.Avalon.Castle.MicroKernel.Assemble;
 	using Apache.Avalon.Castle.MicroKernel.Handler;
@@ -27,23 +26,22 @@ namespace Apache.Avalon.Castle.MicroKernel.Factory.Default
 	/// </summary>
 	public class SimpleComponentFactory : IComponentFactory
 	{
-		// protected IAspect[] m_before;
-		// protected IAspect[] m_after;
+		private Hashtable m_instance2Burden = new Hashtable();
+		protected IKernel m_kernel;
+		protected IHandler m_handler;
 		protected IComponentModel m_componentModel;
 		protected Hashtable m_serv2handler;
-		private Hashtable m_instances = new Hashtable();
 
-		public SimpleComponentFactory( /*IAspect[] before, IAspect[] after, */
+		public SimpleComponentFactory( IKernel kernel, IHandler handler, 
 			IComponentModel componentModel,
 			Hashtable serv2handler)
 		{
-			// AssertUtil.ArgumentNotNull( before, "before" );
-			// AssertUtil.ArgumentNotNull( after, "after" );
+			AssertUtil.ArgumentNotNull( kernel, "kernel" );
 			AssertUtil.ArgumentNotNull( componentModel, "componentModel" );
 			AssertUtil.ArgumentNotNull( serv2handler, "serv2handler" );
 
-			// m_before = before;
-			// m_after = after;
+			m_kernel = kernel;
+			m_handler = handler;
 			m_componentModel = componentModel;
 			m_serv2handler = serv2handler;
 		}
@@ -60,17 +58,10 @@ namespace Apache.Avalon.Castle.MicroKernel.Factory.Default
 
 				Object instance = Activator.CreateInstance( m_componentModel.ConstructionModel.Implementation, arguments );
 
-				/*
-				if (m_before.Length != 0 || m_after.Length != 0 )
-				{
-					instance = DynamicProxy.ProxyGenerator.CreateProxy( 
-						new Type[] { m_componentModel.Service }, 
-						new Aspects.AspectInvocationHandler( m_before, m_after, instance ) ); 
-				}*/
-
 				SetupProperties( instance, burden );
-
 				AssociateBurden( instance, burden );
+				instance = RaiseWrapEvent(instance);
+				RaiseComponentReadyEvent(instance);
 
 				return instance;
 			}
@@ -87,6 +78,8 @@ namespace Apache.Avalon.Castle.MicroKernel.Factory.Default
 				return;
 			}
 
+			RaiseComponentReleasedEvent(instance);
+			instance = RaiseUnWrapEvent(instance);
 			ReleaseBurden( instance );
 		}
 
@@ -96,20 +89,20 @@ namespace Apache.Avalon.Castle.MicroKernel.Factory.Default
 		{
 			if ( burden.HasBurden )
 			{
-				m_instances.Add( instance, burden );
+				m_instance2Burden.Add( instance, burden );
 			}
 		}
 
 		private void ReleaseBurden( object instance )
 		{
-			if (m_instances.ContainsKey( instance ))
+			if (m_instance2Burden.ContainsKey( instance ))
 			{
 				ComponentInstanceBurden burden = 
-					(ComponentInstanceBurden) m_instances[ instance ];
+					(ComponentInstanceBurden) m_instance2Burden[ instance ];
 
 				burden.ReleaseBurden();
 
-				m_instances.Remove( instance );
+				m_instance2Burden.Remove( instance );
 			}
 		}
 
@@ -138,6 +131,26 @@ namespace Apache.Avalon.Castle.MicroKernel.Factory.Default
 				ComponentInstanceBurden burden = (ComponentInstanceBurden) key;
 				burden.AddBurden( value, handler );
 			}
+		}
+
+		protected virtual object RaiseWrapEvent(object instance)
+		{
+			return m_kernel.RaiseWrapEvent(m_handler, instance);
+		}
+
+		protected virtual object RaiseUnWrapEvent(object instance)
+		{
+			return m_kernel.RaiseUnWrapEvent(m_handler, instance);
+		}
+
+		protected virtual void RaiseComponentReadyEvent(object instance)
+		{
+			m_kernel.RaiseComponentReadyEvent(m_handler, instance);
+		}
+
+		protected virtual void RaiseComponentReleasedEvent(object instance)
+		{
+			m_kernel.RaiseComponentReleasedEvent(m_handler, instance);
 		}
 	}
 }

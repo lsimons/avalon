@@ -16,6 +16,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Handler.Default
 {
 	using System;
 
+	using Apache.Avalon.Framework;
 	using Apache.Avalon.Castle.MicroKernel.Model;
 
 	/// <summary>
@@ -36,6 +37,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Handler.Default
 
         public virtual void ReleaseHandler( IHandler handler )
         {
+        	handler.Dispose();
         }
 
 		#endregion

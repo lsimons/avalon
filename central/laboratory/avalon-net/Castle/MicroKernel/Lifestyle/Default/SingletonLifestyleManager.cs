@@ -27,7 +27,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Lifestyle.Default
 		{
 		}
 
-		~SingletonLifestyleManager()
+		public override void Dispose()
 		{
 			base.Release( m_instance );
 		}

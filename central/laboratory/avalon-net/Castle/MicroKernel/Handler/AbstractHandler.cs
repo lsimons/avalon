@@ -26,15 +26,15 @@ namespace Apache.Avalon.Castle.MicroKernel.Handler
     {
 		private State m_state = State.Valid;
 		
-		private IList m_instances = new ArrayList();
+		private ArrayList m_instances = new ArrayList();
 
 		private Delegate m_changeStateListener;
 
-		protected IKernel m_kernel;
+		private IKernel m_kernel;
 
-        protected IComponentModel m_componentModel;
+        private IComponentModel m_componentModel;
 
-        protected IList m_dependencies = new ArrayList();
+        private IList m_dependencies = new ArrayList();
 
         protected Hashtable m_serv2handler = new Hashtable();
 
@@ -50,6 +50,16 @@ namespace Apache.Avalon.Castle.MicroKernel.Handler
 
             m_componentModel = model;
         }
+
+		public IKernel Kernel
+		{
+			get { return m_kernel; }
+		}
+
+		public IList Dependencies
+		{
+			get { return m_dependencies; }
+		}
 
         #region IHandler Members
 
@@ -92,8 +102,6 @@ namespace Apache.Avalon.Castle.MicroKernel.Handler
             {
                 object instance = m_lifestyleManager.Resolve();
 
-                instance = RaiseWrapEvent(instance);
-
                 RegisterInstance(instance);
 
                 return instance;
@@ -108,7 +116,6 @@ namespace Apache.Avalon.Castle.MicroKernel.Handler
         {
             if (IsOwner(instance))
             {
-                instance = RaiseUnWrapEvent(instance);
                 UnregisterInstance(instance);
                 m_lifestyleManager.Release(instance);
             }
@@ -128,6 +135,22 @@ namespace Apache.Avalon.Castle.MicroKernel.Handler
         }
 
         #endregion
+
+		#region IDisposable Members
+
+		public void Dispose()
+		{
+			object[] instances = m_instances.ToArray();
+
+			foreach( object instance in instances )
+			{
+				Release( instance );
+			}
+
+			m_lifestyleManager.Dispose();
+		}
+
+		#endregion
 
 		protected virtual void SetNewState( State state )
 		{
@@ -153,14 +176,10 @@ namespace Apache.Avalon.Castle.MicroKernel.Handler
                 // m_instances.Add( reference );
                 m_instances.Add(instance);
             }
-
-            RaiseComponentReadyEvent(instance);
         }
 
         protected virtual void UnregisterInstance(object instance)
         {
-            RaiseComponentReleasedEvent(instance);
-
             if (m_instances.Count == 0)
             {
                 return;
@@ -193,24 +212,5 @@ namespace Apache.Avalon.Castle.MicroKernel.Handler
             return false;
         }
 
-        protected virtual object RaiseWrapEvent(object instance)
-        {
-            return m_kernel.RaiseWrapEvent(this, instance);
-        }
-
-        protected virtual object RaiseUnWrapEvent(object instance)
-        {
-            return m_kernel.RaiseUnWrapEvent(this, instance);
-        }
-
-        protected virtual void RaiseComponentReadyEvent(object instance)
-        {
-            m_kernel.RaiseComponentReadyEvent(this, instance);
-        }
-
-        protected virtual void RaiseComponentReleasedEvent(object instance)
-        {
-            m_kernel.RaiseComponentReleasedEvent(this, instance);
-        }
-    }
+	}
 }

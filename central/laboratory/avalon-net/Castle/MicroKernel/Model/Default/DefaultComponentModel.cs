@@ -1,4 +1,4 @@
- // Copyright 2004 The Apache Software Foundation
+// Copyright 2004 The Apache Software Foundation
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,6 +15,8 @@
 namespace Apache.Avalon.Castle.MicroKernel.Model.Default
 {
 	using System;
+	using System.Collections;
+	using System.Collections.Specialized;
 
 	using Apache.Avalon.Framework;
 	using Apache.Avalon.Castle.MicroKernel.Model;
@@ -33,6 +35,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Model.Default
 		private IContext m_context;
 		private IDependencyModel[] m_dependencies;
 		private IConstructionModel m_constructionModel;
+		private IDictionary m_dictionary = new HybridDictionary();
 
 		protected DefaultComponentModel()
 		{
@@ -137,6 +140,11 @@ namespace Apache.Avalon.Castle.MicroKernel.Model.Default
         public IConstructionModel ConstructionModel
 		{
 			get { return m_constructionModel; }
+		}
+
+		public IDictionary Properties
+		{
+			get { return m_dictionary; }
 		}
 
 		#endregion

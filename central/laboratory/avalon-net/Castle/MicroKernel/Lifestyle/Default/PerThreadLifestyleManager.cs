@@ -38,7 +38,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Lifestyle.Default
 		/// <summary>
 		/// 
 		/// </summary>
-		~PerThreadLifestyleManager()
+		public override void Dispose()
 		{
 			foreach( object instance in m_instances )
 			{

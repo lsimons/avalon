@@ -17,6 +17,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Handler.Default
 	using System;
 
 	using Apache.Avalon.Castle.MicroKernel.Model;
+	using Apache.Avalon.Castle.MicroKernel.Factory.Default;
 
 	/// <summary>
 	/// Summary description for SimpleHandler.
@@ -49,7 +50,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Handler.Default
 
 		protected virtual void EnsureDependenciesCanBeSatisfied()
 		{
-			foreach(IDependencyModel dependency in m_componentModel.Dependencies )
+			foreach(IDependencyModel dependency in ComponentModel.Dependencies )
 			{
 				AddDependency( dependency.Service );
 			}
@@ -57,20 +58,20 @@ namespace Apache.Avalon.Castle.MicroKernel.Handler.Default
 
 		protected virtual void AddDependency( Type service )
 		{
-			if (m_kernel.HasService( service ))
+			if (Kernel.HasService( service ))
 			{
-				m_serv2handler[ service ] = m_kernel.GetHandlerForService( service );
+				m_serv2handler[ service ] = Kernel.GetHandlerForService( service );
 			}
 			else
 			{
 				// This handler is considered invalid
 				// until dependencies are satisfied
 				SetNewState( State.WaitingDependency );
-				m_dependencies.Add( service );
+				Dependencies.Add( service );
 						
 				// Register ourself in the kernel
 				// to be notified if the dependency is satified
-				m_kernel.AddDependencyListener( 
+				Kernel.AddDependencyListener( 
 					service, 
 					new DependencyListenerDelegate(DependencySatisfied) );
 			}
@@ -87,9 +88,9 @@ namespace Apache.Avalon.Castle.MicroKernel.Handler.Default
 		{
 			m_serv2handler[ service ] = handler;
 
-			m_dependencies.Remove( service );
+			Dependencies.Remove( service );
 
-			if (m_dependencies.Count == 0)
+			if (Dependencies.Count == 0)
 			{
 				SetNewState(State.Valid);
 			}
@@ -97,11 +98,11 @@ namespace Apache.Avalon.Castle.MicroKernel.Handler.Default
 
 		protected virtual void CreateComponentFactoryAndLifestyleManager()
 		{
-			IComponentFactory factory = new Factory.Default.SimpleComponentFactory( 
-				m_componentModel, m_serv2handler);
+			IComponentFactory factory = new SimpleComponentFactory( 
+				Kernel, this, ComponentModel, m_serv2handler);
 
-			m_lifestyleManager = m_kernel.LifestyleManagerFactory.Create( 
-				factory, m_componentModel );
+			m_lifestyleManager = Kernel.LifestyleManagerFactory.Create( 
+				factory, ComponentModel );
 		}
 	}
 }

@@ -1,267 +1,385 @@
-﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup>
-    <ProjectType>Local</ProjectType>
-    <ProductVersion>8.0.40607</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{50442F0D-987F-4A8D-B38C-DFA855B9249E}</ProjectGuid>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ApplicationIcon>
-    </ApplicationIcon>
-    <AssemblyKeyContainerName>
-    </AssemblyKeyContainerName>
-    <AssemblyName>Apache.Avalon.Castle.MicroKernel.Test</AssemblyName>
-    <AssemblyOriginatorKeyFile>
-    </AssemblyOriginatorKeyFile>
-    <DefaultClientScript>JScript</DefaultClientScript>
-    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
-    <DefaultTargetSchema>IE50</DefaultTargetSchema>
-    <DelaySign>false</DelaySign>
-    <OutputType>Library</OutputType>
-    <RootNamespace>Apache.Avalon.Castle.MicroKernel.Test</RootNamespace>
-    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
-    <StartupObject>
-    </StartupObject>
-    <FileUpgradeFlags>
-    </FileUpgradeFlags>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <OutputPath>..\..\bin\</OutputPath>
-    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
-    <BaseAddress>285212672</BaseAddress>
-    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
-    <ConfigurationOverrideFile>
-    </ConfigurationOverrideFile>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DocumentationFile>
-    </DocumentationFile>
-    <DebugSymbols>true</DebugSymbols>
-    <FileAlignment>4096</FileAlignment>
-    <NoStdLib>false</NoStdLib>
-    <NoWarn>
-    </NoWarn>
-    <Optimize>false</Optimize>
-    <RegisterForComInterop>false</RegisterForComInterop>
-    <RemoveIntegerChecks>false</RemoveIntegerChecks>
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <OutputPath>..\..\bin\</OutputPath>
-    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
-    <BaseAddress>285212672</BaseAddress>
-    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
-    <ConfigurationOverrideFile>
-    </ConfigurationOverrideFile>
-    <DefineConstants>TRACE</DefineConstants>
-    <DocumentationFile>
-    </DocumentationFile>
-    <DebugSymbols>false</DebugSymbols>
-    <FileAlignment>4096</FileAlignment>
-    <NoStdLib>false</NoStdLib>
-    <NoWarn>
-    </NoWarn>
-    <Optimize>true</Optimize>
-    <RegisterForComInterop>false</RegisterForComInterop>
-    <RemoveIntegerChecks>false</RemoveIntegerChecks>
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="Apache.Avalon.Framework">
-      <Name>Apache.Avalon.Framework</Name>
-      <HintPath>..\..\..\bin\Apache.Avalon.Framework.dll</HintPath>
-    </Reference>
-    <Reference Include="nunit.framework">
-      <Name>nunit.framework</Name>
-      <HintPath>..\..\..\..\..\..\..\dotnet\NUnit2\bin\nunit.framework.dll</HintPath>
-    </Reference>
-    <Reference Include="System">
-      <Name>System</Name>
-    </Reference>
-    <Reference Include="System.Data">
-      <Name>System.Data</Name>
-    </Reference>
-    <Reference Include="System.Xml">
-      <Name>System.XML</Name>
-    </Reference>
-    <ProjectReference Include="..\Apache.Avalon.Castle.MicroKernel.csproj">
-      <Name>MicroKernel</Name>
-      <Project>{1E57B734-BA4B-4ADE-B4C2-78C7D4993AD4}</Project>
-      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="AbstractHandlerTestCase.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="AssemblerTestCase.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="AssemblyInfo.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="BaseKernelTestCase.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Business\Components\AbstractBusinessObject.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Business\Components\BusinessObject.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Business\Components\CustomerBusinessObject.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Business\Components\CustomerBusinessObjectImpl.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Business\Components\CustomerDataAccess.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Business\Components\CustomerDataAccessImpl.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Components\AvalonMailService.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Components\AvalonMailService2.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Components\AvalonSpamService.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Components\AvalonSpamService2.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Components\AvalonSpamService3.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Components\ICustomerManager.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Components\IMailMarketingService.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Components\IMailService.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Components\ISpamService.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Components\ISpamService2.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Components\IStartableService.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Components\SimpleCustomerManager.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Components\SimpleMailMarketingService.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Components\SimpleMailService.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Components\SimpleMailServiceWithLogger.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Components\SimpleSpamService.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Components\SimpleStartableComponent.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Components\SimpleStartableComponent2.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ComponentWrapperTestCase.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ConcernManagerTestCase.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Concerns\AbstractConcernTestCase.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Concerns\ConfigureConcernTestCase.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Concerns\ContextConcernTestCase.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Concerns\EnableLoggerConcernTestCase.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Concerns\EnableLookupConcernTestCase.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Concerns\InitializeConcernTestCase.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Concerns\ShutdownConcernTestCase.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Concerns\StartConcernTestCase.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DefaultAvalonKernelTestCase.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DefaultComponentModelBuilderTestCase.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DefaultConfigurationManagerTestCase.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DependencyDisposeTestCase.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Interceptor\AbstractInterceptorTestCase.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Interceptor\DefaultInterceptedComponentBuilderTestCase.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Interceptor\InterceptedComponentTestCase.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="KernelEventsTestCase.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="KernelShutdownTestCase.cs" />
-    <Compile Include="Lifestyle\Components\IComponent.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Lifestyle\Components\PerThreadComponent.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Lifestyle\Components\SingletonComponent.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Lifestyle\Components\TransientComponent.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Lifestyle\LifestyleManagerTestCase.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LoggerManagerTestCase.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="SimpleComponentFactoryTestCase.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <AppDesigner Include="Properties\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Properties\" />
-  </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
-  <PropertyGroup>
-    <PreBuildEvent>
-    </PreBuildEvent>
-    <PostBuildEvent>
-    </PostBuildEvent>
-  </PropertyGroup>
-</Project>
+<VisualStudioProject>
+    <CSHARP
+        ProjectType = "Local"
+        ProductVersion = "7.10.3077"
+        SchemaVersion = "2.0"
+        ProjectGuid = "{50442F0D-987F-4A8D-B38C-DFA855B9249E}"
+    >
+        <Build>
+            <Settings
+                ApplicationIcon = ""
+                AssemblyKeyContainerName = ""
+                AssemblyName = "Apache.Avalon.Castle.MicroKernel.Test"
+                AssemblyOriginatorKeyFile = ""
+                DefaultClientScript = "JScript"
+                DefaultHTMLPageLayout = "Grid"
+                DefaultTargetSchema = "IE50"
+                DelaySign = "false"
+                OutputType = "Library"
+                PreBuildEvent = ""
+                PostBuildEvent = ""
+                RootNamespace = "Apache.Avalon.Castle.MicroKernel.Test"
+                RunPostBuildEvent = "OnBuildSuccess"
+                StartupObject = ""
+            >
+                <Config
+                    Name = "Debug"
+                    AllowUnsafeBlocks = "false"
+                    BaseAddress = "285212672"
+                    CheckForOverflowUnderflow = "false"
+                    ConfigurationOverrideFile = ""
+                    DefineConstants = "DEBUG;TRACE"
+                    DocumentationFile = ""
+                    DebugSymbols = "true"
+                    FileAlignment = "4096"
+                    IncrementalBuild = "false"
+                    NoStdLib = "false"
+                    NoWarn = ""
+                    Optimize = "false"
+                    OutputPath = "..\..\bin\"
+                    RegisterForComInterop = "false"
+                    RemoveIntegerChecks = "false"
+                    TreatWarningsAsErrors = "false"
+                    WarningLevel = "4"
+                />
+                <Config
+                    Name = "Release"
+                    AllowUnsafeBlocks = "false"
+                    BaseAddress = "285212672"
+                    CheckForOverflowUnderflow = "false"
+                    ConfigurationOverrideFile = ""
+                    DefineConstants = "TRACE"
+                    DocumentationFile = ""
+                    DebugSymbols = "false"
+                    FileAlignment = "4096"
+                    IncrementalBuild = "false"
+                    NoStdLib = "false"
+                    NoWarn = ""
+                    Optimize = "true"
+                    OutputPath = "bin\Release\"
+                    RegisterForComInterop = "false"
+                    RemoveIntegerChecks = "false"
+                    TreatWarningsAsErrors = "false"
+                    WarningLevel = "4"
+                />
+            </Settings>
+            <References>
+                <Reference
+                    Name = "System"
+                    AssemblyName = "System"
+                    HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.dll"
+                />
+                <Reference
+                    Name = "System.Data"
+                    AssemblyName = "System.Data"
+                    HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Data.dll"
+                />
+                <Reference
+                    Name = "System.XML"
+                    AssemblyName = "System.Xml"
+                    HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.XML.dll"
+                />
+                <Reference
+                    Name = "MicroKernel"
+                    Project = "{1E57B734-BA4B-4ADE-B4C2-78C7D4993AD4}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                />
+                <Reference
+                    Name = "Apache.Avalon.Framework"
+                    AssemblyName = "Apache.Avalon.Framework"
+                    HintPath = "..\..\..\bin\Apache.Avalon.Framework.dll"
+                />
+                <Reference
+                    Name = "nunit.framework"
+                    AssemblyName = "nunit.framework"
+                    HintPath = "..\..\..\..\..\..\..\dotnet\NUnit2\bin\nunit.framework.dll"
+                />
+            </References>
+        </Build>
+        <Files>
+            <Include>
+                <File
+                    RelPath = "AbstractHandlerTestCase.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "AssemblerTestCase.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "AssemblyInfo.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "BaseKernelTestCase.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ComponentWrapperTestCase.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ConcernManagerTestCase.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "DefaultAvalonKernelTestCase.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "DefaultComponentModelBuilderTestCase.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "DefaultConfigurationManagerTestCase.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "DependencyDisposeTestCase.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "KernelEventsTestCase.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "KernelShutdownTestCase.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "LoggerManagerTestCase.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SimpleComponentFactoryTestCase.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Business\Components\AbstractBusinessObject.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Business\Components\BusinessObject.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Business\Components\CustomerBusinessObject.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Business\Components\CustomerBusinessObjectImpl.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Business\Components\CustomerDataAccess.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Business\Components\CustomerDataAccessImpl.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Components\AvalonMailService.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Components\AvalonMailService2.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Components\AvalonSpamService.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Components\AvalonSpamService2.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Components\AvalonSpamService3.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Components\ICustomerManager.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Components\IMailMarketingService.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Components\IMailService.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Components\ISpamService.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Components\ISpamService2.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Components\IStartableService.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Components\SimpleCustomerManager.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Components\SimpleMailMarketingService.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Components\SimpleMailService.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Components\SimpleMailServiceWithLogger.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Components\SimpleSpamService.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Components\SimpleStartableComponent.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Components\SimpleStartableComponent2.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Concerns\AbstractConcernTestCase.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Concerns\ConfigureConcernTestCase.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Concerns\ContextConcernTestCase.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Concerns\EnableLoggerConcernTestCase.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Concerns\EnableLookupConcernTestCase.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Concerns\InitializeConcernTestCase.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Concerns\ShutdownConcernTestCase.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Concerns\StartConcernTestCase.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Graph\SimpleGraphTestCase.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Graph\TopologicalSortTestCase.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Interceptor\AbstractInterceptorTestCase.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Interceptor\DefaultInterceptedComponentBuilderTestCase.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Interceptor\InterceptedComponentTestCase.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Lifestyle\LifestyleManagerTestCase.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Lifestyle\Components\IComponent.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Lifestyle\Components\PerThreadComponent.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Lifestyle\Components\SingletonComponent.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Lifestyle\Components\TransientComponent.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+            </Include>
+        </Files>
+    </CSHARP>
+</VisualStudioProject>
+

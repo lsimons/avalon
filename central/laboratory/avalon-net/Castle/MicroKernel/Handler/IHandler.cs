@@ -23,7 +23,7 @@ namespace Apache.Avalon.Castle.MicroKernel
 	/// <summary>
 	/// Summary description for IHandler.
 	/// </summary>
-	public interface IHandler : IResolver
+	public interface IHandler : IResolver, IDisposable
 	{
 		/// <summary>
 		/// 

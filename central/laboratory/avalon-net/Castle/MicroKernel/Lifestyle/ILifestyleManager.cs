@@ -19,8 +19,7 @@ namespace Apache.Avalon.Castle.MicroKernel
 	/// <summary>
 	/// Summary description for ILifestyleManager.
 	/// </summary>
-	public interface ILifestyleManager : IResolver
+	public interface ILifestyleManager : IResolver, IDisposable
 	{
-		
 	}
 }

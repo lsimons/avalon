@@ -29,14 +29,12 @@ namespace Apache.Avalon.Castle.MicroKernel.Handler.Default
 
 		protected override void CreateComponentFactoryAndLifestyleManager()
 		{
-			IComponentFactory innerFactory = new Factory.Default.SimpleComponentFactory( 
-				// m_kernel.GetAspects(AspectPointCutFlags.Before), 
-				// m_kernel.GetAspects(AspectPointCutFlags.After), 
-				m_componentModel, m_serv2handler);
+			IComponentFactory innerFactory = new SimpleComponentFactory( 
+				Kernel, this, ComponentModel, m_serv2handler );
 
-			if (m_kernel is IAvalonKernel)
+			if (Kernel is IAvalonKernel)
 			{
-				IAvalonKernel kernel = (IAvalonKernel) m_kernel;
+				IAvalonKernel kernel = (IAvalonKernel) Kernel;
 
 				IConcern commissionChain = kernel.Concerns.GetCommissionChain( kernel );
 				IConcern decommissionChain = kernel.Concerns.GetDecommissionChain( kernel );
@@ -44,14 +42,14 @@ namespace Apache.Avalon.Castle.MicroKernel.Handler.Default
 				ConcernChainComponentFactory factory = 
 					new ConcernChainComponentFactory( 
 						commissionChain, decommissionChain, 
-						m_componentModel, innerFactory );
+						ComponentModel, innerFactory );
 
 				innerFactory = factory;
 			}
 
 			m_lifestyleManager = 
-				m_kernel.LifestyleManagerFactory.Create( 
-					innerFactory, m_componentModel );
+				Kernel.LifestyleManagerFactory.Create( 
+					innerFactory, ComponentModel );
 		}
 	}
 }

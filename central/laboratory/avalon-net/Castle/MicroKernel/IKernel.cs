@@ -25,7 +25,7 @@ namespace Apache.Avalon.Castle.MicroKernel
 	/// Defines the Kernel contract and behavior.
 	/// <para></para>
 	/// </summary>
-    public interface IKernel : IKernelEvents
+    public interface IKernel : IKernelEvents, IDisposable
     {
 		/// <summary>
 		/// Adds a component to kernel.
