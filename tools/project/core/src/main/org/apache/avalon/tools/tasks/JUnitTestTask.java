@@ -209,9 +209,6 @@ public class JUnitTestTask extends SystemTask
         JUnitTask junit = (JUnitTask) getProject().createTask( "junit" );
         junit.init();
 
-        junit.setErrorProperty( ERROR_KEY );
-        junit.setFailureProperty( FAILURE_KEY );
-
         JUnitTask.SummaryAttribute summary = new JUnitTask.SummaryAttribute();
         summary.setValue( "on" );
         junit.setPrintsummary( summary );
@@ -255,6 +252,9 @@ public class JUnitTestTask extends SystemTask
         basedir.setKey( "basedir" );
         basedir.setValue( base.toString() );
         junit.addSysproperty( basedir );
+
+        junit.setErrorProperty( ERROR_KEY );
+        junit.setFailureProperty( FAILURE_KEY );
 
         junit.execute();
     }
