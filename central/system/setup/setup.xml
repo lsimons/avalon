@@ -59,7 +59,7 @@
 
   <target name="setup-avalon-cache" unless="avalon.cache.declared">
     <property environment="ENV"/>
-    <property name="avalon.cache" value="${ENV.AVALON_HOME}"/>
+    <property name="avalon.cache" value="${ENV.AVALON_HOME}/repository"/>
     <condition property="avalon.home.undeclared" value="true">
       <contains string="${avalon.cache}" substring="{" />
     </condition>
