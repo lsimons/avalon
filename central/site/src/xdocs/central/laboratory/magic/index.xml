@@ -129,13 +129,15 @@
             go to tools/magic
           </li>
           <li>
-            run "magic build" .  This will validate and install the plugins.
+            run "magic" .  This will validate and install the plugins.
           </li>
           <li>
-            go to legacy/avalon/framework/api
+            go to tools/magic/test-project and run run "magic java.compile" 
+            or "magic jar.jar"
           </li>
           <li>
-            run "magic java.compile" or "magic jar.jar"
+            or go to central/site and run "magic", which will generate the
+            Avalon site.
           </li>
         </ol>
       </subsection>
@@ -153,19 +155,10 @@
             Unittesting with reporting.
           </li>
           <li>
-            Fix up so that the xdoc plugin works (now missing some jars in classpath).
-          </li>
-          <li>
-            Filtering in source copying.
-          </li>
-          <li>
-            Better handling of Site xdoc aggregation in the xdoc plugin.
-          </li>
-          <li>
             Add xdocs to the existing plugins.
           </li>
           <li>
-            Some simple sequencing mechanism.
+            A more sophisticated sequencing mechanism with groups.
           </li>
           <li>
             Better error handling.
