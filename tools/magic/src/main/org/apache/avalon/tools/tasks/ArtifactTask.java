@@ -50,6 +50,23 @@ public class ArtifactTask extends SystemTask
 
     private String m_factory;
 
+    public void setFactory( String factory )
+    {
+        m_factory = factory;
+    }
+
+    private String getFactory()
+    {
+        if( null != m_factory )
+        {
+            return m_factory;
+        }
+        else
+        {
+            return getProject().getProperty( FACTORY_KEY );
+        }
+    }
+
     public void execute() throws BuildException 
     {
         final String key = getContext().getKey();
@@ -57,7 +74,7 @@ public class ArtifactTask extends SystemTask
         final Definition def = getHome().getDefinition( ref );
         final File artifact = getArtifactFile( def );
 
-        m_factory = getProject().getProperty( FACTORY_KEY );
+        m_factory = getFactory();
         if( null == m_factory ) 
         {
             final String error = 
