@@ -8,31 +8,40 @@
 package org.apache.phoenix.engine.blocks;
 
 import java.io.IOException;
+import java.io.File;
 import java.io.InputStream;
 import java.net.URL;
+import java.net.MalformedURLException;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
 import java.util.zip.ZipFile;
-import org.apache.avalon.camelot.AbstractZipDeployer;
+import org.apache.avalon.camelot.AbstractDeployer;
 import org.apache.avalon.camelot.DeployerUtil;
 import org.apache.avalon.camelot.DeploymentException;
+import org.apache.avalon.camelot.DefaultLocator;
 import org.apache.avalon.camelot.Registry;
 import org.apache.avalon.camelot.RegistryException;
 import org.apache.avalon.util.io.IOUtil;
 import org.apache.phoenix.metainfo.BlockInfo;
 import org.apache.phoenix.metainfo.BlockInfoBuilder;
+import org.apache.avalon.ComponentManager;
+import org.apache.avalon.ComponentManagerException;
+import org.apache.avalon.Composer;
 
 /**
  * This class deploys a .bar file into a registry.
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
-public class DefaultBlockDeployer
-    extends AbstractZipDeployer
+public final class DefaultBlockDeployer
+    extends AbstractDeployer
+    implements Composer
 {
-    protected BlockInfoBuilder    m_builder;
+    private Registry            m_registry;
+    private BlockInfoBuilder    m_builder;
+    
 
     /**
      * Default constructor.
@@ -40,29 +49,55 @@ public class DefaultBlockDeployer
     public DefaultBlockDeployer()
     {
         m_builder = new BlockInfoBuilder();
-
-        //Indicate that this deployer should deploy to respective types
-        m_deployToLocatorRegistry = true;
-        m_deployToInfoRegistry = true;
-
         m_autoUndeploy = true;
         m_type = "Block";
     }
 
     /**
-     * Load resources from jar required to deploy file.
+     * Retrieve relevent services needed to deploy.
      *
-     * @param zipFile the zipFile
-     * @param location the location deploying to
-     * @param url the URL
+     * @param componentManager the ComponentManager
+     * @exception ComponentManagerException if an error occurs
+     */
+    public void compose( final ComponentManager componentManager )
+        throws ComponentManagerException
+    {
+        m_registry = (Registry)componentManager.
+            lookup( "org.apache.avalon.camelot.Registry" );
+    }
+
+    /**
+     * Deploy a file.
+     * Eventually this should be cached for performance reasons.
+     *
+     * @param location the location 
+     * @param file the file
      * @exception DeploymentException if an error occurs
      */
-    protected void loadResources( final ZipFile zipFile, final String location, final URL url )
+    protected void deployFromFile( final String location, final File file )
         throws DeploymentException
     {
-        handleBlocks( zipFile, DeployerUtil.loadManifest( zipFile ), url );
-    }
-    
+        final ZipFile zipFile = DeployerUtil.getZipFileFor( file );
+
+        URL url = null;
+
+        try
+        {
+            try { url = file.toURL(); }
+            catch( final MalformedURLException mue )
+            {
+                throw new DeploymentException( "Unable to form url", mue );
+            }
+
+            handleBlocks( zipFile, DeployerUtil.loadManifest( zipFile ), url );
+        }
+        finally
+        {
+            try { zipFile.close(); }
+            catch( final IOException ioe ) {}
+        }
+    }    
+
     /**
      * Create and register Infos for all blocks stored in deployment.
      *
@@ -137,5 +172,34 @@ public class DefaultBlockDeployer
         {
             IOUtil.shutdownStream( inputStream );
         }
+    }
+
+
+    protected void addLocator( final String name, final String classname, final URL url )
+        throws DeploymentException
+    {
+        final DefaultLocator locator = new DefaultLocator( classname, url );
+
+        try { m_registry.register( name + "/Locator", locator ); }
+        catch( final RegistryException re )
+        {
+            throw new DeploymentException( "Error registering " + name + " due to " + re,
+                                           re );
+        }
+
+        getLogger().debug( "Registered Locator for " + m_type + " " + name + " as " + classname );
+    }
+
+    protected void addInfo( final String name, final BlockInfo info )
+        throws DeploymentException
+    {
+        try { m_registry.register( name, info ); }
+        catch( final RegistryException re )
+        {
+            throw new DeploymentException( "Error registering " + name + " due to " + re,
+                                           re );
+        }
+
+        getLogger().debug( "Registered Info " + m_type + " " + name );
     }
 }
