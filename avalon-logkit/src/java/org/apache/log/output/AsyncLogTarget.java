@@ -24,7 +24,6 @@ import org.apache.log.LogTarget;
  * Thread thread = new Thread( asyncTarget );
  * thread.setPriority( Thread.MIN_PRIORITY );
  * thread.start();
- * asyncTarget.addTarget( new MySlowLogTarget() );
  *
  * logger.setLogTargets( new LogTarget[] { asyncTarget } );
  * </pre>
