@@ -8,7 +8,7 @@
 package org.apache.avalon.framework.service;
 
 /**
- * A Composable is a class that need to connect to software components using
+ * A Serviceable is a class that need to connect to software components using
  * a "role" abstraction, thus not depending on particular implementations
  * but on behavioral interfaces.
  * <br />
