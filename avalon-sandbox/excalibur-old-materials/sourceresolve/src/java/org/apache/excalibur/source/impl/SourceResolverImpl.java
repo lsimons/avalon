@@ -99,7 +99,7 @@ import org.apache.excalibur.source.SourceResolver;
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: SourceResolverImpl.java,v 1.21 2003/01/16 21:27:05 bloritsch Exp $
+ * @version $Id: SourceResolverImpl.java,v 1.22 2003/01/17 14:26:21 cziegeler Exp $
  */
 public class SourceResolverImpl
     extends AbstractLogEnabled
@@ -137,7 +137,14 @@ public class SourceResolverImpl
 
         try
         {
-            m_baseURL = ( (File)m_context.get( "context-root" ) ).toURL();
+            if( m_context.get( "context-root" ) instanceof URL )
+            {
+                m_baseURL = (URL)m_context.get( "context-root" );
+            }
+            else
+            {
+                m_baseURL = ( (File)m_context.get( "context-root" ) ).toURL();
+            }
         }
         catch( ContextException ce )
         {
