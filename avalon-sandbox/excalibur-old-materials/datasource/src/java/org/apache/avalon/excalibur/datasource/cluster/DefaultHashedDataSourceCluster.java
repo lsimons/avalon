@@ -102,7 +102,7 @@ import org.apache.avalon.excalibur.datasource.NoValidConnectionException;
  * </pre>
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/04/22 03:04:27 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/11/05 04:34:02 $
  * @since 4.1
  */
 public class DefaultHashedDataSourceCluster
@@ -144,7 +144,7 @@ public class DefaultHashedDataSourceCluster
      * @throws NoValidConnectionException when there is no valid Connection wrapper
      *         available in the classloader or when the index is not valid.
      *
-     * @throws NoAvailableConnectionException when there are no more available
+     * @throws NoValidConnectionException when there are no more available
      *         Connections in the pool.
      */
     public Connection getConnectionForHashObject( Object hashObject ) throws SQLException
@@ -161,7 +161,7 @@ public class DefaultHashedDataSourceCluster
      * @throws NoValidConnectionException when there is no valid Connection wrapper
      *         available in the classloader or when the index is not valid.
      *
-     * @throws NoAvailableConnectionException when there are no more available
+     * @throws NoValidConnectionException when there are no more available
      *         Connections in the pool.
      */
     public Connection getConnectionForHashCode( int hashCode ) throws SQLException
