@@ -28,6 +28,7 @@ import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.model.EntryModel;
 import org.apache.avalon.composition.model.ModelRuntimeException;
 import org.apache.avalon.composition.model.SystemContext;
+import org.apache.avalon.composition.model.DependencyGraph;
 
 import org.apache.avalon.composition.data.ComponentProfile;
 
@@ -50,7 +51,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2004/02/06 15:27:14 $
+ * @version $Revision: 1.5 $ $Date: 2004/02/07 17:41:28 $
  */
 public class DefaultComponentContext extends DefaultDeploymentContext 
   implements ComponentContext
@@ -66,7 +67,7 @@ public class DefaultComponentContext extends DefaultDeploymentContext
     // immutable state
     //==============================================================
 
-    private final ContainmentContext m_context;
+    private final ClassLoader m_classloader;
 
     private final ComponentProfile m_profile;
 
@@ -95,8 +96,9 @@ public class DefaultComponentContext extends DefaultDeploymentContext
     *
     * @param logger the logging channel to assign
     * @param name the deployment context name
-    * @param context the containment context in which this 
-    *     deployment context is scoped
+    * @param system the system context
+    * @param classloader the containers classloader
+    * @param graph the containers dependency graph
     * @param profile the deployment profile
     * @param type the underlying component type
     * @param clazz the compoent deployment class
@@ -105,22 +107,20 @@ public class DefaultComponentContext extends DefaultDeploymentContext
     * @param partition the partition name 
     */
     public DefaultComponentContext( 
-      Logger logger, String name, ContainmentContext context, 
-      ContainmentModel model, ComponentProfile profile, 
-      Type type, Class clazz, 
-      File home, File temp, String partition )
+      Logger logger, String name, SystemContext system, ClassLoader classloader, 
+      DependencyGraph graph, ContainmentModel model, ComponentProfile profile, 
+      Type type, Class clazz, File home, File temp, String partition )
     {
         super( 
-          logger, context.getSystemContext(), partition, name, profile.getMode(),
-          context.getDependencyGraph() );
+          logger, system, partition, name, profile.getMode(), graph );
 
         if( partition == null )
         {
             throw new NullPointerException( "partition" );
         }
-        if( context == null )
+        if( classloader == null )
         {
-            throw new NullPointerException( "context" );
+            throw new NullPointerException( "classloader" );
         }
         if( clazz == null )
         {
@@ -154,7 +154,7 @@ public class DefaultComponentContext extends DefaultDeploymentContext
 
         m_home = home;
         m_temp = temp;
-        m_context = context;
+        m_classloader = classloader;
         m_type = type;
         m_profile = profile;
         m_class = clazz;
@@ -164,16 +164,6 @@ public class DefaultComponentContext extends DefaultDeploymentContext
     //==============================================================
     // ContainmentContext
     //==============================================================
-
-   /**
-    * Return the containment context.
-    *
-    * @return the containment context
-    */
-    public ContainmentContext getContainmentContext()
-    {
-        return m_context;
-    }
 
    /**
     * Return the enclosing containment model.
@@ -241,7 +231,7 @@ public class DefaultComponentContext extends DefaultDeploymentContext
     */
     public ClassLoader getClassLoader()
     {
-        return m_context.getClassLoader();
+        return m_classloader;
     }
 
    /**

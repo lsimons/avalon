@@ -128,7 +128,7 @@ public abstract class AbstractTestCase extends TestCase
         //
 
         ContainmentProfile profile = setUpProfile( block );
-        m_model = m_system.getModelFactory().createContainmentModel( profile );
+        m_model = m_system.getModelFactory().createRootContainmentModel( profile );
     }
 
     protected ContainmentProfile setUpProfile( File file )

@@ -18,14 +18,16 @@
 package org.apache.avalon.composition.model;
 
 import java.net.URL;
+import java.io.File;
 
+import org.apache.avalon.composition.data.ComponentProfile;
 import org.apache.avalon.composition.data.ContainmentProfile;
 
 /**
  * A factory enabling the establishment of new containment model instances.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2004/02/07 14:03:42 $
+ * @version $Revision: 1.6 $ $Date: 2004/02/07 17:41:28 $
  */
 public interface ModelFactory 
 {
@@ -36,7 +38,7 @@ public interface ModelFactory
     * @return the containment model
     * @exception ModelException if an error occurs during model establishment
     */
-    ContainmentModel createContainmentModel( URL url ) 
+    ContainmentModel createRootContainmentModel( URL url ) 
       throws ModelException;
 
    /**
@@ -46,38 +48,28 @@ public interface ModelFactory
     * @return the containment model
     * @exception ModelException if an error occurs during model establishment
     */
-    ContainmentModel createContainmentModel( ContainmentProfile profile ) 
+    ContainmentModel createRootContainmentModel( ContainmentProfile profile ) 
       throws ModelException;
 
    /**
-    * Creation of a new root containment context.
+    * Creation of a new nested component model using a supplied component
+    * context.
     *
-    * @param profile a composition profile 
-    * @return the containment model
+    * @param context a potentially foreign component context
+    * @return the compoent model
     */
-    //ContainmentContext createContainmentContext( ContainmentProfile profile ) 
-    //  throws ModelException;
+    ComponentModel createComponentModel( ComponentContext context )
+      throws ModelException;
+
 
    /**
-    * Creation of a new nested containment model.  This method is called
-    * by a container implementation when constructing model instances.  The 
-    * factory is identified by its implementation classname.
+    * Creation of a new nested containment model using a supplied 
+    * containment context.
     *
     * @param context a potentially foreign containment context
     * @return the containment model
     */
-    //ContainmentModel createContainmentModel( ContainmentContext context )
-    //  throws ModelException;
-
-   /**
-    * Creation of a new nested deployment model.  This method is called
-    * by a container implementation when constructing model instances.  The 
-    * factory is identified by its implementation classname.
-    *
-    * @param context a potentially foreign deployment context
-    * @return the deployment model
-    */
-    //ComponentModel createComponentModel( ComponentContext context )
-    //  throws ModelException;
+    ContainmentModel createContainmentModel( ContainmentContext context )
+      throws ModelException;
 
 }

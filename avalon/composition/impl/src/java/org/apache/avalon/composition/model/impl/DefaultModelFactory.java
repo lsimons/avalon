@@ -22,6 +22,11 @@ import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 
+import org.apache.avalon.composition.data.ComponentProfile;
+import org.apache.avalon.composition.data.ContainmentProfile;
+import org.apache.avalon.composition.data.ClassLoaderDirective;
+import org.apache.avalon.composition.data.builder.ContainmentProfileBuilder;
+import org.apache.avalon.composition.data.builder.XMLContainmentProfileCreator;
 import org.apache.avalon.composition.model.ClassLoaderModel;
 import org.apache.avalon.composition.model.ClassLoaderContext;
 import org.apache.avalon.composition.model.ContainmentModel;
@@ -31,30 +36,35 @@ import org.apache.avalon.composition.model.ComponentModel;
 import org.apache.avalon.composition.model.ModelFactory;
 import org.apache.avalon.composition.model.ModelException;
 import org.apache.avalon.composition.model.SystemContext;
+import org.apache.avalon.composition.model.DependencyGraph;
+
+import org.apache.avalon.logging.provider.LoggingManager;
+import org.apache.avalon.logging.data.CategoriesDirective;
+
 import org.apache.avalon.repository.Repository;
+
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
+
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.composition.data.ContainmentProfile;
-import org.apache.avalon.composition.data.ClassLoaderDirective;
-import org.apache.avalon.composition.data.builder.ContainmentProfileBuilder;
-import org.apache.avalon.composition.data.builder.XMLContainmentProfileCreator;
+
+import org.apache.avalon.meta.info.Type;
 
 /**
  * A factory enabling the establishment of new composition model instances.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.6 $ $Date: 2004/02/07 14:03:42 $
+ * @version $Revision: 1.7 $ $Date: 2004/02/07 17:41:28 $
  */
 public class DefaultModelFactory extends AbstractLogEnabled 
   implements ModelFactory
 {
-    //==============================================================
+    //-------------------------------------------------------------------
     // static
-    //==============================================================
+    //-------------------------------------------------------------------
 
     private static final XMLContainmentProfileCreator CREATOR = 
       new XMLContainmentProfileCreator();
@@ -65,15 +75,15 @@ public class DefaultModelFactory extends AbstractLogEnabled
     private static final Resources REZ =
       ResourceManager.getPackageResources( DefaultModelFactory.class );
 
-    //==============================================================
+    //-------------------------------------------------------------------
     // immutable state
-    //==============================================================
+    //-------------------------------------------------------------------
 
     final SystemContext m_system;
 
-    //==============================================================
+    //-------------------------------------------------------------------
     // constructor
-    //==============================================================
+    //-------------------------------------------------------------------
 
     public DefaultModelFactory( final SystemContext system )
     {
@@ -85,9 +95,9 @@ public class DefaultModelFactory extends AbstractLogEnabled
         enableLogging( system.getLogger() );
     }
 
-    //==============================================================
-    // ContainmentModelFactory
-    //==============================================================
+    //-------------------------------------------------------------------
+    // ModelFactory
+    //-------------------------------------------------------------------
 
    /**
     * Creation of a new root containment model using 
@@ -96,7 +106,7 @@ public class DefaultModelFactory extends AbstractLogEnabled
     * @param url a composition profile source
     * @return the containment model
     */
-    public ContainmentModel createContainmentModel( URL url ) 
+    public ContainmentModel createRootContainmentModel( URL url ) 
       throws ModelException
     {
         //
@@ -119,7 +129,7 @@ public class DefaultModelFactory extends AbstractLogEnabled
                   builder.build( url.toString() );
                 final ContainmentProfile profile = 
                   CREATOR.createContainmentProfile( config );
-                return createContainmentModel( profile );
+                return createRootContainmentModel( profile );
             }
             catch( ModelException e )
             {
@@ -143,7 +153,7 @@ public class DefaultModelFactory extends AbstractLogEnabled
             final InputStream stream = connection.getInputStream();
             final ContainmentProfile profile = 
               BUILDER.createContainmentProfile( stream );
-            return createContainmentModel( profile );
+            return createRootContainmentModel( profile );
         }
         catch( Throwable e )
         {
@@ -160,21 +170,58 @@ public class DefaultModelFactory extends AbstractLogEnabled
     * @param profile a containment profile 
     * @return the containment model
     */
-    public ContainmentModel createContainmentModel( ContainmentProfile profile ) 
+    public ContainmentModel createRootContainmentModel( 
+      ContainmentProfile profile ) 
       throws ModelException
     {
         try
         {
-            ContainmentContext context = createContainmentContext( profile );
+            ContainmentContext context = 
+              createRootContainmentContext( profile );
             return createContainmentModel( context );
         }
         catch( Throwable e )
         {
             final String error = 
-              REZ.getString( "factory.containment.create.error", profile.getName() );
+              REZ.getString( 
+                "factory.containment.create.error", 
+                profile.getName() );
             throw new ModelException( error, e );
         }
     }
+
+   /**
+    * Creation of a new nested deployment model.  This method is called
+    * by a container implementation when constructing model instances.  The 
+    * factory is identified by its implementation classname.
+    *
+    * @param context a potentially foreign deployment context
+    * @return the deployment model
+    */
+    public ComponentModel createComponentModel( ComponentContext context )
+      throws ModelException
+    {
+        return new DefaultComponentModel( context );
+    }
+
+   /**
+    * Creation of a new nested containment model.  This method is called
+    * by a container implementation when constructing model instances.  The 
+    * factory is identified by its implementation classname.
+    *
+    * @param context a potentially foreign containment context
+    * @return the containment model
+    */
+    public ContainmentModel createContainmentModel( 
+      ContainmentContext context )
+      throws ModelException
+    {
+        return new DefaultContainmentModel( context );
+    }
+
+    //-------------------------------------------------------------------
+    // implementation
+    //-------------------------------------------------------------------
 
    /**
     * Creation of a new root containment context.
@@ -182,7 +229,8 @@ public class DefaultModelFactory extends AbstractLogEnabled
     * @param profile a containment profile 
     * @return the containment context
     */
-    private ContainmentContext createContainmentContext( ContainmentProfile profile ) 
+    private ContainmentContext createRootContainmentContext( 
+      ContainmentProfile profile ) 
       throws ModelException
     {
         if( profile == null )
@@ -190,8 +238,10 @@ public class DefaultModelFactory extends AbstractLogEnabled
             throw new NullPointerException( "profile" );
         }
 
-        m_system.getLoggingManager().addCategories( profile.getCategories() );
-        final Logger logger = m_system.getLoggingManager().getLoggerForCategory("");
+        m_system.getLoggingManager().addCategories( 
+          profile.getCategories() );
+        final Logger logger =
+          m_system.getLoggingManager().getLoggerForCategory("");
 
         try
         {
@@ -216,38 +266,10 @@ public class DefaultModelFactory extends AbstractLogEnabled
         catch( Throwable e )
         {
             final String error = 
-              REZ.getString( "factory.containment.create.error", profile.getName() );
+              REZ.getString( 
+                "factory.containment.create.error", 
+                profile.getName() );
             throw new ModelException( error, e );
         }
-    }
-
-
-   /**
-    * Creation of a new nested containment model.  This method is called
-    * by a container implementation when constructing model instances.  The 
-    * factory is identified by its implementation classname.
-    *
-    * @param context a potentially foreign containment context
-    * @return the containment model
-    */
-    private ContainmentModel createContainmentModel( ContainmentContext context )
-      throws ModelException
-    {
-        return new DefaultContainmentModel( context );
-    }
-
-
-   /**
-    * Creation of a new nested deployment model.  This method is called
-    * by a container implementation when constructing model instances.  The 
-    * factory is identified by its implementation classname.
-    *
-    * @param context a potentially foreign deployment context
-    * @return the deployment model
-    */
-    public ComponentModel createComponentModel( ComponentContext context )
-      throws ModelException
-    {
-        return new DefaultComponentModel( context );
     }
 }

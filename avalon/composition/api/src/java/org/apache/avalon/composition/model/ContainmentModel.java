@@ -33,7 +33,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * context.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.15 $ $Date: 2004/02/07 06:06:30 $
+ * @version $Revision: 1.16 $ $Date: 2004/02/07 17:41:28 $
  */
 public interface ContainmentModel extends DeploymentModel
 {
@@ -105,10 +105,13 @@ public interface ContainmentModel extends DeploymentModel
     DeploymentModel[] getModels();
 
    /**
-    * Return a model relative to a supplied name.
-    * @return the named model or null if the name is unknown
+    * Return a model relative to a supplied path.
+    *
+    * @param path a relative or absolute path
+    * @return the model or null if the path is unresolvable
+    * @exception IllegalArgumentException if the path if badly formed
     */
-    DeploymentModel getModel( String name );
+    DeploymentModel getModel( String path );
 
    /**
     * Addition of a new subsidiary model within
@@ -143,12 +146,10 @@ public interface ContainmentModel extends DeploymentModel
     DeploymentModel addModel( DeploymentProfile profile ) throws ModelException;
 
    /**
-    * Removal of a named model for the containment model.
-    *
-    * @param name the name of the subsidiary model to be removed
+    * Remove a named model from this model.
+    * @param name the name of an immediate child model
     */
     void removeModel( String name );
-
 
    /**
     * Return the set of service export models.
