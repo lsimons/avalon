@@ -49,7 +49,7 @@ the LICENSE.txt file.
     <pathelement location="${build.testclasses}"/>
   </path>
 
-  <target name="main" depends="jar,jar-playground" description="Build the project"/>
+  <target name="main" depends="jar,jar-playground,deploy" description="Build the project"/>
   <target name="rebuild" depends="clean,main" description="Rebuild the project"/>
   <target name="all" depends="rebuild,docs" description="Rebuild the project"/>
 
@@ -92,6 +92,18 @@ the LICENSE.txt file.
     </uptodate>
   </target>
 
+  <target name="context-bootstrap">
+    <mkdir dir="${lib.dir}"/>
+    <uptodate property="uptodate-bootstrap" targetfile="${build.lib}/${bootstrap.jar}">
+      <srcfiles dir="${src.dir}">
+        <include name="**/bootstrap/**/*.*"/>
+      </srcfiles>
+      <srcfiles dir="${lib.dir}">
+        <include name="**/*.*"/>
+      </srcfiles>
+    </uptodate>
+  </target>
+
   <!-- Compiles the source code -->
   <target name="compile" depends="context,dependencies" 
        description="Compiles the source code" unless="uptodate">
@@ -110,6 +122,7 @@ the LICENSE.txt file.
       <src path="${java.dir}" />
       <classpath refid="project.class.path" />
       <exclude name="**/playground/**/*.java"/>
+      <exclude name="**/bootstrap/**/*.java"/>
       <include name="**/*.java"/>
     </javac>
 
@@ -124,8 +137,29 @@ the LICENSE.txt file.
 
   </target>
 
-  <!-- Creates all the .jar file -->
-  <target name="jar" depends="compile, deploy" description="Generates the jar files" unless="uptodate">
+  <!-- Compiles the bootstrap source code -->
+  <target name="compile-bootstrap" depends="context-bootstrap" 
+       description="Compiles the bootstrap source code" unless="uptodate-bootstrap">
+    
+    <echo message="compiling bootstrap"/>
+    <mkdir dir="${build.bootstrap}"/>
+
+    <javac srcdir="${java.dir}"
+       destdir="${build.bootstrap}"
+       debug="${build.debug}"
+       optimize="${build.optimize}"
+       deprecation="${build.deprecation}"
+       target="1.2">
+      <src path="${java.dir}" />
+      <include name="**/bootstrap/**/*.java"/>
+    </javac>
+
+  </target>
+
+  <!-- Creates the merlin jar files -->
+  <target name="jar" depends="merlin.jar,bootstrap.jar" description="Generates the jar files"/>
+
+  <target name="merlin.jar" depends="compile" description="Generates the merlin jar file" unless="uptodate">
 
     <mkdir dir="${build.conf}"/>
     <copy todir="${build.conf}" flatten="true">
@@ -153,25 +187,28 @@ the LICENSE.txt file.
         <include name="kernel.xml"/>
       </zipfileset>
     </jar>
+
   </target>
 
-  <target name="deploy">
+  <target name="bootstrap.jar" depends="compile-bootstrap" description="Generates the jar files" unless="uptodate-bootstrap">
+    <mkdir dir="${build.lib}"/>
+    <jar jarfile="${build.lib}/${bootstrap.jar}"
+       basedir="${build.bootstrap}"
+       compress="${build.compress}" >
+    </jar>
+  </target>
+
+  <target name="deploy" depends="jar">
 
      <mkdir dir="${common.dir}"/>
      <copy todir="${common.dir}" file="${avalon-framework.jar}"/>
-     <copy todir="${common.dir}" file="${avalon-meta.jar}"/>
-     <copy todir="${common.dir}" file="${excalibur-configuration.jar}"/>
      <copy todir="${common.dir}" file="${excalibur-i18n.jar}"/>
-     <copy todir="${common.dir}" preservelastmodified="true">
-       <fileset dir="${tools.dir}/lib">
-         <include name="xerces-2.0.1.jar"/>
-         <include name="xml-apis.jar"/>
-         <include name="xalan-2.3.1.jar"/>
-       </fileset>
-     </copy>
+     <copy todir="${common.dir}" file="${excalibur-configuration.jar}"/>
+     <copy todir="${common.dir}" file="${avalon-meta.jar}"/>
+     <copy todir="${common.dir}" file="${logkit.jar}"/>
 
      <mkdir dir="${lib.dir}"/>
-     <copy todir="${lib.dir}" file="${logkit.jar}"/>
+     <copy todir="${lib.dir}" file="${build.lib}/${jar.name}"/>
      <copy todir="${lib.dir}" file="${excalibur-extension.jar}"/>
      <copy todir="${lib.dir}" file="${excalibur-logger.jar}"/>
      <copy todir="${lib.dir}" file="${excalibur-event.jar}"/>
@@ -180,6 +217,13 @@ the LICENSE.txt file.
      <copy todir="${lib.dir}" file="${excalibur-thread.jar}"/>
      <copy todir="${lib.dir}" file="${avalon-lifecycle.jar}"/>
      <copy todir="${lib.dir}" file="${avalon-assembly.jar}"/>
+     <copy todir="${lib.dir}" preservelastmodified="true">
+       <fileset dir="${tools.dir}/lib">
+         <include name="xerces-2.0.1.jar"/>
+         <include name="xml-apis.jar"/>
+         <include name="xalan-2.3.1.jar"/>
+       </fileset>
+     </copy>
 
   </target>
 
