@@ -82,9 +82,9 @@
       <util:file var="jarFile" name="${maven.build.dir}/jars/${path}.jar"/>
       <j:if test="${jarFile.exists()}">
         <checksum file="${jarFile}"/>
-        <j:if test="${maven.gpg.exe != null}">
-          <ant:exec executable="${maven.gpg.exe}">
-            <ant:arg value="--armour"/>
+        <j:if test="${maven_gpg_exe != null}">
+          <ant:exec executable="${maven_gpg_exe}">
+            <ant:arg value="-a"/>
             <ant:arg value="--yes"/>
             <ant:arg value="-b"/>
             <ant:arg value="${jarFile}"/>
@@ -94,9 +94,9 @@
       <util:file var="metaFile" name="${maven.build.dir}/jars/${path}.jar.meta"/>
       <j:if test="${metaFile.exists()}">
         <checksum file="${metaFile}"/>
-        <j:if test="${maven.gpg.exe != null}">
-          <ant:exec executable="${maven.gpg.exe}">
-            <ant:arg value="--armour"/>
+        <j:if test="${maven_gpg_exe != null}">
+          <ant:exec executable="${maven_gpg_exe}">
+            <ant:arg value="-a"/>
             <ant:arg value="--yes"/>
             <ant:arg value="-b"/>
             <ant:arg value="${metaFile}"/>
@@ -194,9 +194,9 @@
     />
     <ant:delete file="${maven.dist.dir}/${binary.name}.tar"/>
     <checksum file="${maven.dist.dir}/${binary.name}.tar.gz"/>
-    <j:if test="${maven.gpg.exe != null}">
-      <ant:exec executable="${maven.gpg.exe}">
-        <ant:arg value="--armour"/>
+    <j:if test="${maven_gpg_exe != null}">
+      <ant:exec executable="${maven_gpg_exe}">
+        <ant:arg value="-a"/>
         <ant:arg value="-b"/>
         <ant:arg value="${maven.dist.dir}/${binary.name}.tar.gz"/>
       </ant:exec>
@@ -207,9 +207,9 @@
       <ant:zipfileset dir="${maven.dist.bin.archive.dir}"/>
     </ant:zip>
     <checksum file="${maven.dist.dir}/${binary.name}.zip"/>
-    <j:if test="${maven.gpg.exe != null}">
-      <ant:exec executable="${maven.gpg.exe}">
-        <ant:arg value="--armour"/>
+    <j:if test="${maven_gpg_exe != null}">
+      <ant:exec executable="${maven_gpg_exe}">
+        <ant:arg value="-a"/>
         <ant:arg value="-b"/>
         <ant:arg value="${maven.dist.dir}/${binary.name}.zip"/>
       </ant:exec>
@@ -231,9 +231,9 @@
     />
     <ant:delete file="${maven.dist.dir}/${source.name}.tar"/>
     <checksum file="${maven.dist.dir}/${source.name}.tar.gz"/>
-    <j:if test="${maven.gpg.exe != null}">
-      <ant:exec executable="${maven.gpg.exe}">
-        <ant:arg value="--armour"/>
+    <j:if test="${maven_gpg_exe != null}">
+      <ant:exec executable="${maven_gpg_exe}">
+        <ant:arg value="-a"/>
         <ant:arg value="-b"/>
         <ant:arg value="${maven.dist.dir}/${source.name}.tar.gz"/>
       </ant:exec>
@@ -244,9 +244,9 @@
       <ant:zipfileset dir="${maven.dist.src.archive.dir}"/>
     </ant:zip>
     <checksum file="${maven.dist.dir}/${source.name}.zip"/>
-    <j:if test="${maven.gpg.exe != null}">
-      <ant:exec executable="${maven.gpg.exe}">
-        <ant:arg value="--armour"/>
+    <j:if test="${maven_gpg_exe != null}">
+      <ant:exec executable="${maven_gpg_exe}">
+        <ant:arg value="-a"/>
         <ant:arg value="-b"/>
         <ant:arg value="${maven.dist.dir}/${source.name}.zip"/>
       </ant:exec>
