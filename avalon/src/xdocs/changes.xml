@@ -8,6 +8,11 @@
     <person name="Berin Loritsch" email="bloritsch@apache.org" id="BL"/>
     <person name="Peter Donald" email="donaldp@apache.org" id="PD"/>
   </devs>
+  <release version="4.0b2" date="unreleased">
+   <action dev="BL" type="add">
+     Added KEYS file so that we can sign our releases
+   </action>
+  </release>
 <release version="4.0b1" date="May 11, 2001">
   <action dev="BL" type="fix">
     Fixed Avalon pooling code and unified pooling framework for
