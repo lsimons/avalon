@@ -13,6 +13,7 @@ import java.util.ArrayList;
  * The default queue implementation is a variable size queue.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
+ * @author <a href="mailto:leo.sutic@inspireinfrastructure.com">Leo Sutic</a>
  */
 public abstract class AbstractQueue implements Queue
 {
@@ -35,11 +36,13 @@ public abstract class AbstractQueue implements Queue
     }
 
     /**
-     * Default for isFull()
+     * Default for isFull(). The method uses the maxSize() and size() methods
+     * to determine whether the queue is full.
      */
     public boolean isFull()
     {
-        return (maxSize() < 0) ? false : maxSize() - size() <= 0;
+        return maxSize () != -1  /* There exists an upper bound... */
+           && maxSize() - size() <= 0; /* ...and it is reached. */
     }
 
     /**
