@@ -20,6 +20,20 @@ import org.apache.log.format.PatternFormatter;
 public class AvalonFormatter 
     extends PatternFormatter
 {
+    public AvalonFormatter()
+    {
+    }
+
+    /*
+      Uncomment this code after next release
+      as it uses changes to logkit that occured 
+      after last release.
+    public AvalonFormatter( final String pattern )
+    {
+        super( pattern );
+    }
+    */
+
     /**
      * Utility method to format stack trace.
      *
