@@ -65,7 +65,7 @@ import org.apache.avalon.meta.info.ServiceDescriptor;
  * the a container.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2004/01/19 01:26:19 $
+ * @version $Revision: 1.5 $ $Date: 2004/01/19 14:14:56 $
  */
 public class ContainmentProfile extends DeploymentProfile
 {
@@ -81,12 +81,17 @@ public class ContainmentProfile extends DeploymentProfile
     private static final ServiceDirective[] EMPTY_SERVICES =
       new ServiceDirective[0];
 
-    private static final DeploymentProfile[] EMPTY_PROFILES = new DeploymentProfile[0];
+    private static final DeploymentProfile[] EMPTY_PROFILES = 
+      new DeploymentProfile[0];
 
-    private static final CategoriesDirective EMPTY_CATEGORIES = new CategoriesDirective();
+    private static final CategoriesDirective EMPTY_CATEGORIES = 
+      new CategoriesDirective();
 
     private static final ClassLoaderDirective EMPTY_CLASSLOADER =
-      new ClassLoaderDirective( new LibraryDirective(), new ClasspathDirective(), new GrantDirective() );
+      new ClassLoaderDirective( 
+        new LibraryDirective(), 
+        new ClasspathDirective(), 
+        new GrantDirective() );
 
     //========================================================================
     // state

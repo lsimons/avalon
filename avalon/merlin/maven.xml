@@ -274,20 +274,6 @@
     </ant:fixcrlf>
   </goal>
 
-
-  <goal name="avalon:test">
-    <!--- DOES NOT WORK -->
-    <j:choose>
-        <echo>PROPERTY: '${merlin.snapshot}'</echo>
-      <j:when test="${merlin.snapshot == 'true'}">
-        <echo>SNAPSHOT BUILD</echo>
-      </j:when>
-      <j:otherwise>
-        <echo>RELEASE BUILD</echo>
-      </j:otherwise>
-    </j:choose>
-  </goal>
-
   <!--
   ==============================================================================
   prepare the merlin installation package
@@ -296,15 +282,20 @@
 
   <goal name="avalon:package">
 
-    <!--
-    <j:set var="package.name" value="${maven.final.name}-dist"/>
-    -->
-    <maven:snapshot project="${pom}"/>
-    <j:set var="timestamp" value="${snapshotSignature.substring(7,15)}"/>
-    <j:set var="package.name" value="${maven.final.name}-dist-${timestamp}"/>
-
-    <j:set var="tutorial.name" value="${maven.final.name}-tutorial-${timestamp}"/>
-    <!--<j:set var="tutorial.name" value="${maven.final.name}-tutorial"/>-->
+    <j:choose>
+      <j:when test="${merlin.snapshot}">
+        <maven:snapshot project="${pom}"/>
+        <j:set var="timestamp" value="${snapshotSignature.substring(7,15)}"/>
+        <j:set var="package.name" value="${maven.final.name}-dist-${timestamp}"/>
+        <j:set var="tutorial.name" value="${maven.final.name}-tutorial-${timestamp}"/>
+        <echo>Snapshot Packaging: ${timestamp}</echo>
+      </j:when>
+      <j:otherwise>
+        <j:set var="package.name" value="${maven.final.name}-dist"/>
+        <j:set var="tutorial.name" value="${maven.final.name}-tutorial"/>
+        <echo>Release Packaging: ${pom.currentVersion}</echo>
+      </j:otherwise>
+    </j:choose>
 
     <ant:echo>Building distribution: ${package.name}</ant:echo>
     <ant:zip zipfile="${maven.build.dir}/${package.name}.zip">

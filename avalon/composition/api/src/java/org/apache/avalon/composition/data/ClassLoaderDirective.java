@@ -56,12 +56,13 @@ import java.io.Serializable;
  * Description of classloader.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/01/19 01:26:19 $
+ * @version $Revision: 1.4 $ $Date: 2004/01/19 14:14:56 $
  */
 public final class ClassLoaderDirective implements Serializable
 {
     private static final LibraryDirective EMPTY_LIBRARY = new LibraryDirective();
     private static final ClasspathDirective EMPTY_CLASSPATH = new ClasspathDirective();
+    private static final GrantDirective EMPTY_GRANT = new GrantDirective();
 
     /**
      * The library directive.
@@ -112,10 +113,15 @@ public final class ClassLoaderDirective implements Serializable
         {
             m_classpath = classpath;
         }
+
         if( grant == null )
-            m_grantDirective = new GrantDirective();
+        {
+            m_grantDirective = EMPTY_GRANT;
+        }
         else
+        {
             m_grantDirective = grant;
+        }
     }
 
    /**
