@@ -176,5 +176,86 @@ run:
 BUILD SUCCESSFUL
 Total time: 3 seconds</pre></blockquote>
         
+        
+        <h3>What happens if I add the same attribute twice?</h3>
+        
+        <p>Let's define the question a bit stricter. Suppose you have an attribute (MyAttribute), and you have a class MyClass:</p>
+        
+        <blockquote><pre>/**
+ * @@MyAttribute
+ * @@MyAttribute
+ */
+public class MyClass {}</pre></blockquote>
+        
+        <p>The question is now, will the collection returned by Attributes.getAttributes (MyClass.class) have one or two elements? The answer is that it depends on the way MyAttribute handles equality. The attributes associated with a class, method or field always for a Set, meaning that there are no duplicates. So if MyAttribute is implemented this way:</p>
+        
+        <blockquote><pre>public class MyAttribute {}</pre></blockquote>
+        
+        <p>Then you will get two elements, since each instance of MyAttribute is different from every other instance. However, if MyAttribute is implemented like this:</p>
+        
+        <blockquote><pre>public class MyAttribute {
+    public int hashCode () { return 0; }
+    public boolean equals (Object o) { return o instanceof MyAttribute; }
+}</pre></blockquote>
+        
+        <p>That is, every instance of MyAttribute is equal to any other instance of the class, then you will only get one element in the collection.</p>
+        
+        <p>The above also holds true if the attribute has been inherited.</p>
+        
+        
+        <h3>What syntax is preferred for attributes - <code>@AttributeName</code> or <code>@@AttributeName</code>?</h3>
+        
+        <p><code>@@AttributeName</code>, since this explicitely tells the compiler that this is an attribute, and eliminates a lot of guesswork.</p>
+        
+        
+        <h3>What are the requirements for an attrbute class?</h3>
+        
+        <p>It must have a public constructor. That's all.</p>
+        
+        
+        <h3>I tried adding attributes to an inner class and it didn't work.</h3>
+        
+        <p>That's not supported (yet).</p>
+        
+        
+        <h3>I tried adding attributes to an anonymous class and it didn't work.</h3>
+        
+        <p>That's not supported (yet). It is also very hard to implement since the class name is decided by the Java compiler.</p>
+        
+        <h3>How do I add attributes to classes that are generated at runtime (BCEL, dynamic proxies)?</h3>
+        
+        <p>Not supported yet, but probably we'll supply a method like <code>Attributes.registerAttributes (Class clazz, AttributePackage package)</code> that you'll be able to call.</p>
+        
+        
+        <h3>I want to add a constant value as an attribute.</h3>
+        
+        <p>So you have this</p>
+        
+        <blockquote><pre>public class Values {
+    public static final Integer ONE = new Integer (1);
+}</pre></blockquote>
+        
+        <p>and now you'd like to add ONE as an attribute like this:</p>
+        
+        <blockquote><pre>/**
+ * @@Values.ONE
+ */
+public class MyClass { ... }</pre></blockquote>
+        
+        <p>how can this be done?</p>
+        
+        <p>The best that can be offered is:</p>
+        
+        <blockquote><pre>/**
+ * @@Integer(Values.ONE)
+ */
+public class MyClass { ... }</pre></blockquote>
+        
+        <p>I'm afraid. The expression follwing the @@ must fit the template "new (expression)" optionally suffixed by "()". This makes the compiler much simpler, and the loss of functionality was considered worth it. You can also define a separate ONE class:</p>
+        
+<blockquote><pre>public class One {}</pre></blockquote>
+        
+        <p>and use it.</p>
+        
     </body>
 </html>
