@@ -13,8 +13,6 @@
 
             <title>
             <xsl:value-of select="/site/document/title" />
-            -
-            <xsl:value-of select="/site/document/subtitle" />
             </title>
          </head>
 
