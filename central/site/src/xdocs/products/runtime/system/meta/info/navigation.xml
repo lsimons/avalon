@@ -25,7 +25,6 @@
 
   <body>
     <menu>
-      <item name="Overview" href="index.html"/>
       <item name="Type" href="type/index.html"/>
       <item name="Service" href="service.html"/>
       <item name="Attributes" href="attributes/index.html"/>

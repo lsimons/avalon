@@ -22,7 +22,6 @@
 
   <body>
     <menu>
-      <item name="Overview" href="index.html"/>
       <item name="COP in Avalon" href="guide-cop-in-avalon.html"/>
       <item name="Patterns in Avalon" href="guide-patterns-avalon.html"/>
       <item name="IOC Patterns" href="guide-patterns-ioc.html"/>

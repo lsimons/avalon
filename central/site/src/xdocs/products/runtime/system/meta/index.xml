@@ -41,16 +41,6 @@
                support is available for Ant and Maven.
             </td>
           </tr>
-          <tr>
-            <td><a href="api/index.html">Meta Model API</a></td>
-            <td>
-               Type and service meta models are established as 
-               immutable objects that complement the classic information
-               available about a class.  Using the Type and Service 
-               descriptor classes, developers can be assured of greater
-               portability and interoperability of container-side applications.
-            </td>
-          </tr>
         </table>
       </section>
 

@@ -25,14 +25,12 @@
 
   <body>
     <menu>
-      <item name="Overview" href="index.html"/>
       <item name="Criteria" href="criteria/index.html"/>
       <item name="Defaults" href="defaults/index.html"/>
       <item name="Environment" href="env/index.html"/>
       <item name="Exception" href="exception/index.html"/>
       <item name="Extension" href="extension/index.html"/>
       <item name="Plugin" href="plugin/index.html"/>
-      <item name="Javdocs" href="api/index.html"/>
     </menu>
   </body>
 

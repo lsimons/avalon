@@ -22,7 +22,6 @@
 
   <body>
     <menu>
-      <item name="Overview" href="index.html"/>
       <item name="Lifecycle" href="lifecycle.html"/>
       <item name="Containment" href="containment.html"/>
     </menu>
