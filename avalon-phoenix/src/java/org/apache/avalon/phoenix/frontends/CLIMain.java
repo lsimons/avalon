@@ -160,12 +160,16 @@ public final class CLIMain
     /**
      * Startup the embeddor.
      */
-    private synchronized boolean startup( final Parameters parameters, final Hashtable data )
+    private synchronized boolean startup( final Parameters parameters,
+                                          final Hashtable data )
     {
         try
         {
-            Configuration conf = getConfigurationFor( parameters.getParameter( "phoenix.configfile" ) ).getChild( "embeddor" );
-            m_embeddor = (Embeddor)Class.forName( conf.getAttribute( "class" ) ).newInstance();
+            final String configFilename = parameters.getParameter( "phoenix.configfile" );
+            final Configuration root = getConfigurationFor( configFilename );
+            final Configuration configuration = root.getChild( "embeddor" );
+            final String embeddorClassname = configuration.getAttribute( "class" );
+            m_embeddor = (Embeddor)Class.forName( embeddorClassname ).newInstance();
 
             if( m_embeddor instanceof LogEnabled )
             {
@@ -183,9 +187,9 @@ public final class CLIMain
             {
                 ( (Parameterizable)m_embeddor ).parameterize( parameters );
             }
-            if( m_embeddor instanceof Configurable )
+            else if( m_embeddor instanceof Configurable )
             {
-                ( (Configurable)m_embeddor ).configure( conf );
+                ( (Configurable)m_embeddor ).configure( configuration );
             }
 
             m_embeddor.initialize();
