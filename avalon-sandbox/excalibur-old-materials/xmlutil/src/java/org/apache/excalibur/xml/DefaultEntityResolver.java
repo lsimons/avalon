@@ -57,13 +57,14 @@ package org.apache.excalibur.xml;
 import java.io.IOException;
 
 import org.apache.avalon.framework.activity.Disposable;
-import org.apache.avalon.framework.component.ComponentException;
-import org.apache.avalon.framework.component.ComponentManager;
-import org.apache.avalon.framework.component.Composable;
+import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.parameters.ParameterException;
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.avalon.framework.service.ServiceException;
+import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.framework.thread.ThreadSafe;
 import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceResolver;
@@ -81,22 +82,17 @@ import org.xml.sax.SAXException;
  * found at
  * http://xml.apache.org/cocoon/userdocs/concepts/catalog.html
  *
- * The catalog is by default loaded from "WEB-INF/entities/catalog".
- * This can be configured by the "catalog" parameter in the cocoon.xconf:
- * &lt;entity-resolver&gt;
- *   &lt;parameter name="catalog" value="mycatalog"/&gt;
- * &lt;/entity-resolver&gt;
- *
  * @author <a href="mailto:dims@yahoo.com">Davanum Srinivas</a>
  * @author <a href="mailto:crossley@apache.org">David Crossley</a>
- * @version CVS $Id: DefaultEntityResolver.java,v 1.1 2003/02/27 09:49:13 cziegeler Exp $
+ * @version CVS $Id: DefaultEntityResolver.java,v 1.2 2003/03/12 10:03:15 cziegeler Exp $
  */
 public class DefaultEntityResolver extends AbstractLogEnabled
   implements EntityResolver,
-             Composable,
+             Serviceable,
              Parameterizable,
              ThreadSafe,
-             Disposable {
+             Disposable,
+             Component {
 
     /** The catalog manager */
     protected CatalogManager catalogManager = new CatalogManager();
@@ -105,7 +101,7 @@ public class DefaultEntityResolver extends AbstractLogEnabled
     protected CatalogResolver catalogResolver = new CatalogResolver(catalogManager);
 
     /** The component manager */
-    protected ComponentManager manager;
+    protected ServiceManager manager;
 
     /** SourceResolver */
     protected SourceResolver resolver;
@@ -143,10 +139,15 @@ public class DefaultEntityResolver extends AbstractLogEnabled
         }
 
         // Load the built-in catalog 
-        // FIXME - remove dependency to servlet
-        String catalogFile = params.getParameter("catalog",
-                                "/WEB-INF/entities/catalog");
-        this.parseCatalog(catalogFile);
+        String catalogFile = params.getParameter("catalog", this.defaultCatalog());
+        if ( null == catalogFile)
+        {
+            this.getLogger().warn("No default catalog defined.");
+        }
+        else
+        {
+            this.parseCatalog(catalogFile);
+        }
 
         // Load a single additional local catalog 
         String localCatalogFile = params.getParameter("local-catalog", null);
@@ -183,18 +184,23 @@ public class DefaultEntityResolver extends AbstractLogEnabled
     }
     
     /**
+     * Default catalog path
+     */
+    protected String defaultCatalog() 
+    {
+        return null;
+    }
+    
+    /**
      * Set the global component manager.
      * @param manager The global component manager
      * @exception ComponentException
      */
-    public void compose(ComponentManager manager) 
-    throws ComponentException 
+    public void service(ServiceManager manager) 
+    throws ServiceException 
     {
-        if ( null == this.manager ) 
-        {
-            this.manager = manager;
-            this.resolver = (SourceResolver) this.manager.lookup( SourceResolver.ROLE );
-        }
+        this.manager = manager;
+        this.resolver = (SourceResolver) this.manager.lookup( SourceResolver.ROLE );
     }
 
     /**
