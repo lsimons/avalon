@@ -8,23 +8,10 @@
 package org.apache.avalon.phoenix.components.deployer;
 
 import java.io.File;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.Enumeration;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import org.apache.avalon.excalibur.io.IOUtil;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.avalon.excalibur.io.ExtensionFileFilter;
-import org.apache.avalon.excalibur.io.FileUtil;
-import org.apache.avalon.excalibur.io.InvertedFileFilter;
-import org.apache.avalon.excalibur.io.PrefixFileFilter;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.camelot.Container;
 import org.apache.avalon.framework.camelot.ContainerException;
