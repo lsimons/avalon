@@ -68,7 +68,7 @@ import org.apache.avalon.framework.thread.ThreadSafe;
 
 /**
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.11 $ $Date: 2003/06/04 13:15:11 $
+ * @version CVS $Revision: 1.12 $ $Date: 2003/06/04 13:22:43 $
  * @since 4.1
  */
 public abstract class AbstractDataSourceCluster
