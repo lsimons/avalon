@@ -79,7 +79,7 @@ import org.apache.log.LogTarget;
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public class AsyncLogTarget
-    extends AbstractTarget
+    extends AbstractWrappingTarget
     implements Runnable
 {
     private final LinkedList m_list;
@@ -102,12 +102,36 @@ public class AsyncLogTarget
     */
     public AsyncLogTarget( final LogTarget logTarget, final int queueSize )
     {
+        this( logTarget, queueSize, false );
+    }
+
+    /**
+     * Creation of a new async log target.
+     * @param logTarget the underlying target
+     * @param closeTarget close the underlying target when this target is closed. This flag
+     *        has no effect unless the logTarget implements Closeable.
+     */
+    public AsyncLogTarget( final LogTarget logTarget, final boolean closeTarget )
+    {
+        this( logTarget, 15, closeTarget );
+    }
+    
+    /**
+     * Creation of a new async log target.
+     * @param logTarget the underlying target
+     * @param queueSize the queue size
+     * @param closeTarget close the underlying target when this target is closed. This flag
+     *        has no effect unless the logTarget implements Closeable.
+     */
+    public AsyncLogTarget( final LogTarget logTarget, final int queueSize, final boolean closeTarget )
+    {
+        super( logTarget, closeTarget );
         m_logTarget = logTarget;
         m_list = new LinkedList();
         m_queueSize = queueSize;
         open();
     }
-
+    
     /**
      * Provide component with ErrorHandler.
      *
