@@ -27,6 +27,9 @@ public class DefaultConfigurationBuilder
     private SAXConfigurationHandler               m_handler;
     private XMLReader                             m_parser;
 
+    /**
+     * Create a Configuration Builder with a default XMLReader.
+     */
     public DefaultConfigurationBuilder()
     {
         //yaya the bugs with some compilers and final variables ..
@@ -43,11 +46,17 @@ public class DefaultConfigurationBuilder
         }
     }
 
+    /**
+     * Create a Configuration Builder with your own XMLReader.
+     */
     public DefaultConfigurationBuilder( XMLReader parser )
     {
         this.setParser(parser);
     }
 
+    /**
+     * Internally sets up the XMLReader
+     */
     private void setParser(XMLReader parser)
     {
         m_parser = parser;
@@ -58,20 +67,26 @@ public class DefaultConfigurationBuilder
         m_parser.setErrorHandler( m_handler );
     }
 
+    /**
+     * Get a SAXConfigurationHandler for your configuration reading.
+     */
     protected SAXConfigurationHandler getHandler()
     {
         return new SAXConfigurationHandler();
     }
 
+    /**
+     * Build a configuration object from a file using a filename.
+     */
     public Configuration buildFromFile( final String filename )
         throws SAXException, IOException, ConfigurationException
     {
-        synchronized(this)
-        {
-            return buildFromFile( new File( filename ) );
-        }
+        return buildFromFile( new File( filename ) );
     }
 
+    /**
+     * Build a configuration object from a file using a File object.
+     */
     public Configuration buildFromFile( final File file )
         throws SAXException, IOException, ConfigurationException
     {
@@ -83,22 +98,27 @@ public class DefaultConfigurationBuilder
         }
     }
 
+    /**
+     * Build a configuration object using an InputStream.
+     */
     public Configuration build( final InputStream inputStream )
         throws SAXException, IOException, ConfigurationException
     {
-        synchronized(this)
-        {
-            final InputSource inputSource = new InputSource( inputStream );
-            return build( inputSource );
-        }
+        return build( new InputSource( inputStream ) );
     }
 
+    /**
+     * Build a configuration object using an URI
+     */
     public Configuration build( final String uri )
         throws SAXException, IOException, ConfigurationException
     {
         return build( new InputSource( uri ) );
     }
 
+    /**
+     * Build a configuration object using an XML InputSource object
+     */
     public Configuration build( final InputSource input )
         throws SAXException, IOException, ConfigurationException
     {
