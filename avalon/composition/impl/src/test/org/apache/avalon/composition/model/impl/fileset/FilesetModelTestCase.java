@@ -111,7 +111,7 @@ public class FilesetModelTestCase extends TestCase
         ExcludeDirective[] excludes = new ExcludeDirective[0];
 
         // provide legitimate fileset directory attribute
-        final String dir = "target/test";
+        final String dir = "target/test-classes";
         FilesetDirective fsd = new FilesetDirective( dir, includes, excludes );
 
         // create the fileset model's anchor directory
@@ -174,7 +174,7 @@ public class FilesetModelTestCase extends TestCase
         ExcludeDirective[] excludes = new ExcludeDirective[0];
 
         // provide legitimate fileset directory attribute
-        final String dir = "target/test/ext";
+        final String dir = "target/test-classes/ext";
         FilesetDirective fsd = new FilesetDirective( dir, includes, excludes );
 
         // create the fileset model's anchor directory
@@ -243,7 +243,7 @@ public class FilesetModelTestCase extends TestCase
         excludes[0] = new ExcludeDirective( "test*.jar" );
 
         // provide legitimate fileset directory attribute
-        final String dir = "target/test/ext";
+        final String dir = "target/test-classes/ext";
         FilesetDirective fsd = new FilesetDirective( dir, includes, excludes );
 
         // create the fileset model's anchor directory
@@ -313,7 +313,7 @@ public class FilesetModelTestCase extends TestCase
         ExcludeDirective[] excludes = new ExcludeDirective[0];
 
         // provide legitimate fileset directory attribute
-        final String dir = "target/test";
+        final String dir = "target/test-classes";
         FilesetDirective fsd = new FilesetDirective( dir, includes, excludes );
 
         // create the fileset model's anchor directory

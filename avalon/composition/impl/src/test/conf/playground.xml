@@ -11,7 +11,7 @@ Example block deployment descriptor.
      <classpath>
        <fileset dir="../test-classes"/>
        <repository>
-         <resource id="avalon-framework:avalon-framework-impl" version="4.1.5"/>
+         <resource id="avalon-framework:avalon-framework-impl" version="@FRAMEWORK_IMPL_VERSION@"/>
        </repository>
      </classpath>
    </classloader>
