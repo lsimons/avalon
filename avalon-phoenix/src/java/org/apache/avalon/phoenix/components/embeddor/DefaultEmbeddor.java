@@ -10,6 +10,7 @@ package org.apache.avalon.phoenix.components.embeddor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.Date;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.excalibur.io.ExtensionFileFilter;
@@ -294,12 +295,22 @@ public class DefaultEmbeddor
     }
 
     /**
+     * Get the date at which this server started.
+     *
+     * @return the date at which this server started
+     */
+    public Date getStartTime()
+    {
+        return new Date( m_startTime );
+    }
+
+    /**
      * Retrieve the number of millisecond
      * the server has been up.
      *
      * @return the the number of millisecond the server has been up
      */
-    public long getUpTime()
+    public long getUpTimeInMillis()
     {
         return System.currentTimeMillis() - m_startTime;
     }
@@ -322,7 +333,7 @@ public class DefaultEmbeddor
      *
      * @return the string describing build
      */
-    public String getBuildData()
+    public String getBuild()
     {
         return "(" + Constants.DATE + ")";
     }

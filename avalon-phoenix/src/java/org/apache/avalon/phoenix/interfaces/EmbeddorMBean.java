@@ -7,6 +7,8 @@
  */
 package org.apache.avalon.phoenix.interfaces;
 
+import java.util.Date;
+
 /**
  * This is the interface via which the Management interface interacts 
  * with the Embeddor.
@@ -35,12 +37,19 @@ public interface EmbeddorMBean
     String getHomeDirectory();
 
     /**
+     * Get the date at which this server started.
+     *
+     * @return the date at which this server started
+     */
+    Date getStartTime();
+
+    /**
      * Retrieve the number of millisecond
      * the server has been up.
      *
      * @return the the number of millisecond the server has been up
      */
-    long getUpTime();
+    long getUpTimeInMillis();
 
     /**
      * Retrieve a string identifying version of server.
@@ -57,7 +66,7 @@ public interface EmbeddorMBean
      *
      * @return the string describing build
      */
-    String getBuildData();
+    String getBuild();
 
     /**
      * Request the Embeddor shutsdown.
