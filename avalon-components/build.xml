@@ -318,15 +318,6 @@
       <classpath refid="tools.class.path"/>
     </java>
 
-    <!--
-      This is needed as Cocoon tries to resolve all references during styling.
-      The apps xdocs are only generated in subsequent steps.
-    -->
-
-    <replace file="${docs.dir}/apps.html" token="@link1@" value="&lt;a"/>
-    <replace file="${docs.dir}/apps.html" token="@link2@" value="&gt;"/>
-    <replace file="${docs.dir}/apps.html" token="@link3@" value="&lt;/a&gt;"/>
-
   </target>
 
   <target name="docs" depends="javadocs,xdocs"/>
