@@ -51,6 +51,7 @@
 package org.apache.avalon.composition.model.impl;
 
 import org.apache.avalon.composition.model.Model;
+import org.apache.avalon.composition.model.DeploymentContext;
 import org.apache.avalon.composition.model.DependencyGraph;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
@@ -62,35 +63,27 @@ import org.apache.avalon.composition.data.Mode;
  * Abstract model base class.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1.1.1.2.1 $ $Date: 2004/01/04 01:19:28 $
+ * @version $Revision: 1.1.1.1.2.2 $ $Date: 2004/01/04 20:19:27 $
  */
 public abstract class DefaultModel
   implements Model
 {
-    //==============================================================
+    //--------------------------------------------------------------
     // static
-    //==============================================================
+    //--------------------------------------------------------------
 
     private static final Resources REZ =
       ResourceManager.getPackageResources( DefaultModel.class );
 
-    //==============================================================
+    //--------------------------------------------------------------
     // immutable state
-    //==============================================================
+    //--------------------------------------------------------------
 
-    private final String m_name;
+    private final DeploymentContext m_context;
 
-    private final String m_path;
-
-    private final Logger m_logger;
-
-    private final Mode m_mode;
-
-    private final DependencyGraph m_graph;
-
-    //==============================================================
+    //--------------------------------------------------------------
     // constructor
-    //==============================================================
+    //--------------------------------------------------------------
 
    /**
     * Creation of an abstract model.  The model associated a 
@@ -99,19 +92,18 @@ public abstract class DefaultModel
     * @param path the profile partition
     * @param name the profile name
     */
-    public DefaultModel( 
-      final Logger logger, String path, final String name, Mode mode, DependencyGraph graph )
-    {
-        m_logger = logger;
-        m_name = name;
-        m_path = path;
-        m_mode = mode;
-        m_graph = graph;
+    public DefaultModel( DeploymentContext context )
+    { 
+        if( null == context )
+        {
+            throw new NullPointerException( "context" );
+        }
+        m_context = context;
     }
 
-    //==============================================================
+    //--------------------------------------------------------------
     // Model
-    //==============================================================
+    //--------------------------------------------------------------
 
    /**
     * Return the profile name.
@@ -119,7 +111,7 @@ public abstract class DefaultModel
     */
     public String getName()
     {
-        return m_name;
+        return m_context.getName();
     }
 
    /**
@@ -128,7 +120,11 @@ public abstract class DefaultModel
     */
     public String getPath()
     {
-        return m_path;
+        if( null == m_context.getPartitionName() )
+        {
+            return SEPERATOR;
+        }
+        return m_context.getPartitionName();
     }
 
    /**
@@ -146,7 +142,7 @@ public abstract class DefaultModel
     */
     public Mode getMode()
     {
-        return m_mode;
+        return m_context.getMode();
     }
 
    /**
@@ -155,7 +151,7 @@ public abstract class DefaultModel
     */
     public Model[] getConsumerGraph()
     {
-        return m_graph.getConsumerGraph( this );
+        return m_context.getDependencyGraph().getConsumerGraph( this );
     }
 
    /**
@@ -164,13 +160,12 @@ public abstract class DefaultModel
     */
     public Model[] getProviderGraph()
     {
-        return m_graph.getProviderGraph( this );
+        return m_context.getDependencyGraph().getProviderGraph( this );
     }
 
-
-    //==============================================================
+    //--------------------------------------------------------------
     // implementation
-    //==============================================================
+    //--------------------------------------------------------------
 
    /**
     * Return the logging channel.
@@ -178,7 +173,7 @@ public abstract class DefaultModel
     */
     protected Logger getLogger()
     {
-        return m_logger;
+        return m_context.getLogger();
     }
 
     public String toString()

@@ -62,9 +62,9 @@ import org.apache.avalon.composition.data.DeploymentProfile;
  * Defintion of a component deployment context.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1.2.1 $ $Date: 2004/01/04 17:23:16 $
+ * @version $Revision: 1.1.2.2 $ $Date: 2004/01/04 20:19:27 $
  */
-public interface ComponentContext
+public interface ComponentContext extends DeploymentContext
 {
     /**
      * The standard context entry key for the partition name.
@@ -90,20 +90,6 @@ public interface ComponentContext
      * The standard context entry key for the partition name.
      */
     static final String TEMP_KEY = ContextDescriptor.TEMP_KEY;
-
-   /**
-    * Return the partition name that the component will execute within.
-    *
-    * @return the partition name
-    */
-    String getPartitionName();
-
-   /**
-    * Return the name that the component will execute under.
-    *
-    * @return the name
-    */
-    String getName();
 
    /**
     * Return the system context.
@@ -132,13 +118,6 @@ public interface ComponentContext
     * @return the temporary directory
     */
     File getTempDirectory();
-
-   /**
-    * Return the logging channel assignable to the deployment model.
-    *
-    * @return the logging channel
-    */
-    Logger getLogger();
 
    /**
     * Return the deployment profile.

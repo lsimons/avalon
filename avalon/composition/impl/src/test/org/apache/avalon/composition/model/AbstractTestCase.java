@@ -5,8 +5,11 @@ package org.apache.avalon.composition.model;
 import java.io.File;
 
 import org.apache.avalon.composition.model.impl.DefaultSystemContext;
+
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.logger.ConsoleLogger;
+
+import org.apache.avalon.util.exception.ExceptionHelper;
 
 import junit.framework.TestCase;
 
@@ -58,9 +61,18 @@ public abstract class AbstractTestCase extends TestCase
             File confDir = new File( base, "conf" );
             File source = new File( confDir, m_path );
 
-            SystemContext system = 
-              DefaultSystemContext.createSystemContext( base, repository, PRIORITY );
-            m_model = system.getFactory().createContainmentModel( source.toURL() );
+            try
+            {
+                SystemContext system = 
+                  DefaultSystemContext.createSystemContext( base, repository, PRIORITY );
+                m_model = system.getFactory().createContainmentModel( source.toURL() );
+            }
+            catch( Throwable e )
+            {
+                final String error = ExceptionHelper.packException( e, true );
+                System.err.println( error );
+                fail( error );
+            }
         }
     }
 }

@@ -65,24 +65,24 @@ import org.apache.avalon.composition.data.ContainmentProfile;
 
 
 /**
- * Implementation of a system context that exposes a system wide set of parameters.
+ * Implementation of a containment supplied to a containment model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2.2.2 $ $Date: 2004/01/03 22:08:21 $
+ * @version $Revision: 1.2.2.3 $ $Date: 2004/01/04 20:19:27 $
  */
-public class DefaultContainmentContext extends DefaultContext 
+public class DefaultContainmentContext extends DefaultDeploymentContext 
   implements ContainmentContext
 {
-    //==============================================================
+    //---------------------------------------------------------
     // static
-    //==============================================================
+    //---------------------------------------------------------
 
     private static final Resources REZ =
             ResourceManager.getPackageResources( DefaultContainmentContext.class );
 
-    //==============================================================
+    //---------------------------------------------------------
     // immutable state
-    //==============================================================
+    //---------------------------------------------------------
 
     private final File m_home;
 
@@ -90,26 +90,18 @@ public class DefaultContainmentContext extends DefaultContext
 
     private final ClassLoaderModel m_model;
 
-    private final Logger m_logger;
-
     private final ContainmentProfile m_profile;
-
-    private final String m_partition;
 
     private final SystemContext m_system;
 
-    private final String m_name;
-
     private final ModelRepository m_repository;
 
-    private final DependencyGraph m_graph;
-
-    //==============================================================
+    //---------------------------------------------------------
     // constructor
-    //==============================================================
+    //---------------------------------------------------------
 
    /**
-    * Creation of a new containment context.
+    * Creation of a new root containment context.
     *
     * @param logger the logging channel to assign
     * @param system the system context
@@ -147,10 +139,8 @@ public class DefaultContainmentContext extends DefaultContext
       ModelRepository repository, DependencyGraph graph, 
       File home, File temp, ContainmentProfile profile, String partition, String name )
     {
-        if( logger == null )
-        {
-            throw new NullPointerException( "logger" );
-        }
+        super( logger, partition, name, profile.getMode(), graph );
+
         if( system == null )
         {
             throw new NullPointerException( "system" );
@@ -187,53 +177,18 @@ public class DefaultContainmentContext extends DefaultContext
             throw new IllegalArgumentException( error );
         }
 
-        
-        m_graph = new DependencyGraph( graph );
         m_repository = new DefaultModelRepository( repository, logger );
-        m_logger = logger;
+
         m_system = system;
         m_model = model;
         m_home = home;
         m_temp = temp;
         m_profile = profile;
-        m_partition = partition;
-        m_name = name;
     }
 
-    //==============================================================
+    //---------------------------------------------------------
     // ContainmentContext
-    //==============================================================
-
-   /**
-    * Return the name that the container has been assigned.
-    *
-    * @return the container name
-    */
-    public String getName()
-    {
-        return m_name;
-    }
-
-   /**
-    * Return the partition name that the container is 
-    * established with.
-    *
-    * @return the partition name
-    */
-    public String getPartitionName()
-    {
-        return m_partition;
-    }
-
-   /**
-    * Return the logging channel.
-    *
-    * @return the containment models logging channel
-    */
-    public Logger getLogger()
-    {
-        return m_logger;
-    }
+    //---------------------------------------------------------
 
    /**
     * Return the system context.
@@ -307,15 +262,5 @@ public class DefaultContainmentContext extends DefaultContext
     public ClassLoader getClassLoader()
     {
         return m_model.getClassLoader();
-    }
-
-   /**
-    * Return the model dependency graph.
-    *
-    * @return the dependency graph
-    */
-    public DependencyGraph getDependencyGraph()
-    {
-        return m_graph;
     }
 }
