@@ -1,5 +1,5 @@
 export RSYNC_RSH=ssh
 
+ssh leosimons@cvs.apache.org mkdir -p ~/public_html/avalon
 cd target/www.apache.org/dist/avalon
-ssh leosimons@www.apache.org mkdir ~/test
-rsync -vRrlpt --ignore-existing * www.apache.org:~/test
+rsync -vRrlpt --ignore-existing * cvs.apache.org:~/public_html/avalon
