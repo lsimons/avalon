@@ -116,6 +116,12 @@ class LifecycleHelper
         final Class clazz = classLoader.loadClass( metaData.getClassname() );
         final BlockListener listener = (BlockListener)clazz.newInstance();
 
+        if( listener instanceof LogEnabled )
+        {
+            final Logger logger = new LogKitLogger( m_context.getLogger( name ) );
+            ( (LogEnabled)listener ).enableLogging( logger );
+        }
+
         if( listener instanceof Configurable )
         {
             final Configuration configuration = getConfiguration( name, TYPE_LISTENER );
@@ -200,7 +206,8 @@ class LifecycleHelper
             if( block instanceof Parameterizable )
             {
                 notice( name, stage );
-                final Parameters parameters = Parameters.fromConfiguration( getConfiguration( name, TYPE_BLOCK ) );
+                final Parameters parameters = 
+                    Parameters.fromConfiguration( getConfiguration( name, TYPE_BLOCK ) );
                 parameters.makeReadOnly();
                 ( (Parameterizable)block ).parameterize( parameters );
             }
