@@ -67,7 +67,7 @@ import org.apache.excalibur.mpool.ObjectFactory;
  * and destroyed correctly.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.15 $ $Date: 2003/05/14 15:54:45 $
+ * @version CVS $Revision: 1.16 $ $Date: 2003/06/11 19:13:32 $
  * @since 4.0
  */
 public abstract class AbstractComponentHandler
@@ -279,10 +279,10 @@ public abstract class AbstractComponentHandler
         }
         catch ( final Exception e )
         {
-            if ( m_logger.isErrorEnabled() )
+            if ( m_logger.isDebugEnabled() )
             {
                 final String message = "Unable to create new instance";
-                m_logger.error( message, e );
+                m_logger.debug( message, e );
             }
 
             throw e;
