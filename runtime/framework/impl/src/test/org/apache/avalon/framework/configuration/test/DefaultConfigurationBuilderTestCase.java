@@ -335,7 +335,7 @@ public final class DefaultConfigurationBuilderTestCase
     {
          m_builder = new DefaultConfigurationBuilder();
          m_nsBuilder = new DefaultConfigurationBuilder(true); // switch on namespace support
-         File basedir = new File( System.getProperty( "basedir" ) );
+         File basedir = getWorkDir();
          File testFile = new File( basedir, TEST_PATH );
          File simple = new File( testFile, SIMPLE_FILE_NAME );
 
@@ -461,7 +461,7 @@ public final class DefaultConfigurationBuilderTestCase
         MyEntityResolver customResolver = new MyEntityResolver();
  
         builder.setEntityResolver( new MyEntityResolver() );
-        File basedir = new File( System.getProperty( "basedir" ) );
+        File basedir = getWorkDir();
         File testFile = new File( basedir, TEST_PATH );
         File external = new File( testFile, EXTERNAL_FILE_NAME );
         Configuration conf = builder.buildFromFile( external  );
