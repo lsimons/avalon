@@ -53,17 +53,18 @@ import org.apache.avalon.excalibur.concurrent.Mutex;
 import org.apache.avalon.excalibur.collections.Buffer;
 import org.apache.avalon.excalibur.collections.FixedSizeBuffer;
 import org.apache.avalon.framework.activity.Disposable;
+import org.apache.avalon.framework.activity.Initializable;
 
 /**
  * This is an <code>Pool</code> that caches Poolable objects for reuse.
  * Please note that this pool offers no resource limiting whatsoever.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/08/09 19:01:12 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/08/14 16:59:55 $
  * @since 4.1
  */
 public final class BlockingFixedSizePool
-    implements Pool, Disposable
+    implements Pool, Disposable, Initializable
 {
     private boolean m_disposed = false;
     private final Buffer m_buffer;
@@ -87,8 +88,12 @@ public final class BlockingFixedSizePool
         m_buffer = new FixedSizeBuffer( size );
         m_maxSize = size;
         m_factory = factory;
+    }
 
-        for( int i = 0; i < size; i++ )
+    public void initialize()
+        throws Exception
+    {
+        for( int i = 0; i < m_maxSize; i++ )
         {
             m_buffer.add( newInstance() );
         }
@@ -115,27 +120,24 @@ public final class BlockingFixedSizePool
 
                     do
                     {
-                        if ( blockWait > 0 )
+                        try
                         {
-                            try
-                            {
-                                m_semaphore.wait( blockWait );
-                            }
-                            catch ( InterruptedException ie )
-                            {}
-
-                            if ( m_disposed )
-                            {
-                                throw new IllegalStateException( "Pool disposed of while waiting for resources to free up" );
-                            }
-
-                            if ( m_buffer.isEmpty() )
-                            {
-                                blockWait = m_timeout -
-                                    ( System.currentTimeMillis() - blockStart );
-                            }
+                            m_semaphore.wait( blockWait );
                         }
-                    } while ( m_buffer.isEmpty() );
+                        catch ( InterruptedException ie )
+                        {}
+
+                        if ( m_disposed )
+                        {
+                            throw new IllegalStateException( "Pool disposed of while waiting for resources to free up" );
+                        }
+
+                        if ( m_buffer.isEmpty() )
+                        {
+                            blockWait = m_timeout -
+                                ( System.currentTimeMillis() - blockStart );
+                        }
+                    } while ( m_buffer.isEmpty() && blockWait > 0 );
                 }
                 else
                 {
