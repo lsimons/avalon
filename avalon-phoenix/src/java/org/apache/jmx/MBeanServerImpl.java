@@ -23,9 +23,10 @@ import javax.management.timer.*;
  * javax.management.MBeanServer}.
  *
  * @author <a href="mailto:mail@leosimons.com">Leo Simons</a>
- * @version CVS $Revision: 1.1 $ $Date: 2001/04/24 05:00:51 $
+ * @version CVS $Revision: 1.2 $ $Date: 2001/04/25 01:02:44 $
  */
-public class MBeanServerImpl extends com.sun.management.jmx.MBeanServerImpl
+public class MBeanServerImpl 
+    extends com.sun.management.jmx.MBeanServerImpl
 {
     /**
      * Creates an MBeanServer with a standard default domain name. The default
