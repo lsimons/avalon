@@ -7,8 +7,6 @@
  */
 package org.apache.avalon.excalibur.monitor.impl;
 
-import org.apache.avalon.excalibur.monitor.Resource;
-
 /**
  * The ActiveMonitor is used to actively check a set of resources to see if they have
  * changed. It will poll the resources with a frequency as specified or if
@@ -16,7 +14,7 @@ import org.apache.avalon.excalibur.monitor.Resource;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Id: ActiveMonitor.java,v 1.2 2002/09/07 12:14:02 donaldp Exp $
+ * @version $Id: ActiveMonitor.java,v 1.3 2002/09/08 00:02:45 donaldp Exp $
  */
 public class ActiveMonitor
     extends AbstractMonitor
@@ -97,11 +95,7 @@ public class ActiveMonitor
                 delay( sleepTillTime - currentTestTime );
             }
 
-            final Resource[] resources = getResources();
-            for( int i = 0; i < resources.length; i++ )
-            {
-                resources[ i ].testModifiedAfter( currentTestTime );
-            }
+            scanAllResources();
         }
     }
 
