@@ -34,6 +34,9 @@ public class PhoenixManager
     extends AbstractSystemManager
     implements Parameterizable
 {
+    private static final int DEFAULT_REGISTRY_PORT = 
+        Integer.getInteger( "phoenix.port", 1111 ).intValue();
+
     private Parameters      m_parameters;
     private MBeanServer     m_mBeanServer;
     private RMIAdaptorImpl  m_rmiAdaptor;
@@ -60,7 +63,8 @@ public class PhoenixManager
     public void start()
         throws Exception
     {
-        final int port = m_parameters.getParameterAsInteger( "manager-registry-port", 1111 );
+        final int port = 
+            m_parameters.getParameterAsInteger( "manager-registry-port", DEFAULT_REGISTRY_PORT );
         m_name = m_parameters.getParameter( "manager-name", "Phoenix.JMXAdaptor" );
 
         m_rmiRegistry = LocateRegistry.createRegistry( port );
