@@ -61,8 +61,8 @@ import java.util.ArrayList ;
 import java.util.Properties ;
 import java.util.Enumeration ;
 
-import org.apache.avalon.merlin.env.Env ;
-import org.apache.avalon.merlin.env.EnvAccessException ;
+import org.apache.avalon.util.env.Env ;
+import org.apache.avalon.util.env.EnvAccessException ;
 import org.apache.avalon.repository.ProxyContext ;
 
 
@@ -78,7 +78,7 @@ import org.apache.avalon.repository.ProxyContext ;
  * 
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
  * @author $Author: mcconnell $
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class KernelDefaults
 {
@@ -664,7 +664,7 @@ public class KernelDefaults
         File l_merlinHome = null ;
         try 
         {
-            final String merlinHomeEnv = Env.getVariable( MERLIN_HOME_ENV );
+            final String merlinHomeEnv = Env.getEnvVariable( MERLIN_HOME_ENV );
             if( merlinHomeEnv != null )
             {
                 return new File( merlinHomeEnv ) ;
@@ -700,7 +700,7 @@ public class KernelDefaults
     {
         try 
         {
-            final String userRepoEnv = Env.getVariable( MERLIN_REPO_LOCAL_ENV );
+            final String userRepoEnv = Env.getEnvVariable( MERLIN_REPO_LOCAL_ENV );
             if( userRepoEnv != null )
             {
                 return new File( userRepoEnv ) ;
