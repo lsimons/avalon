@@ -23,21 +23,23 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-
 import java.lang.reflect.Constructor;
 import java.lang.NoSuchMethodException;
-
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.Properties;
-import java.text.ParseException;
-import java.util.StringTokenizer;
-
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLClassLoader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.JarURLConnection;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.Map;
+import java.util.Properties;
+import java.text.ParseException;
+import java.util.StringTokenizer;
+import java.util.jar.Manifest;
+import java.util.jar.JarFile;
+import java.util.zip.ZipEntry;
 
 import javax.naming.NamingException;
 import javax.naming.NamingEnumeration;
@@ -66,13 +68,18 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * 
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.15 $
+ * @version $Revision: 1.16 $
  */
 public class DefaultInitialContext extends AbstractBuilder implements InitialContext
 {
     //------------------------------------------------------------------
     // public static 
     //------------------------------------------------------------------
+
+   /**
+    * Group identifier manifest key.
+    */
+    public static final String BLOCK_GROUP_KEY = "Block-Group";
 
    /**
     * The name of the properties file to be searched for confiuration
@@ -303,7 +310,7 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
 
         try
         {
-            m_delegate = createDelegate( classloader, factory, this );
+            m_delegate = createDelegate( classloader, clazz, this );
         }
         catch( Throwable e )
         {
@@ -387,9 +394,159 @@ public class DefaultInitialContext extends AbstractBuilder implements InitialCon
         return new DefaultBuilder( this, classloader, artifact );
     }
 
+   /**
+    * Install a block archive into the repository.
+    * @param url the block archive url
+    * @return the block manifest
+    */
+    public Manifest install( URL url ) throws RepositoryException
+    {
+        String path = url.getFile();
+
+        try
+        {
+            File temp = File.createTempFile( "avalon-", "-bar" );
+            temp.delete();
+            LoaderUtils.getResource( url.toString(), temp, true );
+            temp.deleteOnExit();
+            StringBuffer buffer = new StringBuffer();
+            Manifest manifest = expand( temp.toURL(), buffer );
+
+            //
+            // need a logging solution
+            //
+
+            System.out.println( buffer.toString() );
+            return manifest;
+        }
+        catch( RepositoryException e )
+        {
+            throw e;
+        }
+        catch( Throwable e )
+        {
+            final String error = 
+              "Cannot install target: " + url;
+            throw new RepositoryException( error, e );
+        }
+    }
+
     // ------------------------------------------------------------------------
     // implementation
     // ------------------------------------------------------------------------
+
+   /**
+    * Expand a block archive into the repository.
+    * @param url the block archive url
+    * @param buffer a string buffer against which messages may be logged
+    * @return the block manifest
+    */
+    private Manifest expand( URL url, StringBuffer buffer ) throws RepositoryException
+    {
+        try
+        {
+            URL jurl = new URL( "jar:" + url.toString() + "!/" );
+            JarURLConnection connection = (JarURLConnection) jurl.openConnection();
+            Manifest manifest = connection.getManifest();
+
+            final String group = getBlockGroup( manifest );
+
+            buffer.append( "\nBlock Group: " + group );
+            final File root = new File( m_cache, group );
+            buffer.append( "\nLocal target: " + root );
+            JarFile jar = connection.getJarFile();
+            Enumeration entries = jar.entries();
+            while( entries.hasMoreElements() )
+            {
+                ZipEntry entry = (ZipEntry) entries.nextElement();
+                if( !entry.getName().startsWith( "META-INF" ) )
+                {
+                    installEntry( buffer, root, jar, entry );
+                }
+            }
+            buffer.append( "\nInstall successful." );
+            return manifest;
+        }
+        catch( Throwable e )
+        {
+            final String error = 
+              "Could not install block: " + url;
+            throw new RepositoryException( error, e );
+        }
+    }
+
+    private String getBlockGroup( Manifest manifest )
+    {
+        return (String) manifest.getMainAttributes().getValue( BLOCK_GROUP_KEY );
+    }
+
+   /**
+    * Internal utility to install a entry from a jar file into the local repository.
+    * @param buffer the buffer to log messages to
+    * @param root the root directory corresponding to the bar group
+    * @param jar the block archive
+    * @param entry the entry from the archive to install
+    */
+    private void installEntry( 
+      StringBuffer buffer, File root, JarFile jar, ZipEntry entry ) throws Exception
+    {
+        if( entry.isDirectory() ) return;
+        
+        final String name = entry.getName();
+        File file = new File( root, name );
+
+        long timestamp = entry.getTime();
+        if( file.exists() )
+        {
+            if( file.lastModified() == timestamp )
+            {
+                buffer.append( "\nEntry: " + name + " (already exists)" );
+                return;
+            }
+            else if( file.lastModified() > timestamp )
+            {
+                buffer.append( "\nEntry: " + name + " (local version is more recent)" );
+                return;
+            }
+            else
+            {
+                buffer.append( "\nEntry: " + name + " (updating local version)" );
+            }
+        }
+        else
+        {
+            buffer.append( "\nEntry: " + name );
+        }
+
+        InputStream is = jar.getInputStream( entry );
+        if ( is == null )
+        {
+            final String error = 
+              "Entry returned a null input stream: " + name;
+            buffer.append( "\n  " + error );
+            throw new IOException( error );
+        }
+
+        file.getParentFile().mkdirs();
+        FileOutputStream fos = new FileOutputStream( file );
+        byte[] buf = new byte[100 * 1024];
+        int length;
+        while ( ( length = is.read( buf ) ) >= 0 )
+        {
+            fos.write( buf, 0, length );
+        }
+        fos.close();
+        is.close();
+
+        if ( timestamp < 0 )
+        {
+            file.setLastModified( System.currentTimeMillis() );
+        }
+        else
+        {
+            file.setLastModified( timestamp );
+        }
+    }
 
     private Attributes loadAttributes( File cache, String[] hosts, Artifact artifact )
       throws RepositoryException

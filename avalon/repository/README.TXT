@@ -11,8 +11,26 @@ the construction of application classloaders.  This is core
 container facilities that serves at the overal bootstrapping
 platform.
 
-Build instructions
-------------------
+Binary Installation Procedure
+-----------------------------
+
+After downloading and unpacking the distribution you should copy
+or move the directory 'avalon-VERSION' to a convinient location and
+then declare an environment variable AVALON_HOME to reference this 
+directory.  You should also include AVALON_HOME/bin in you system
+PATH.  To verify your installation - invoke the following command 
+from a new command window:
+
+  repository -info
+
+This will list information about the default cache directory, hosts
+and working directory.  For additional command options use:
+
+  repository -help
+
+
+CVS Build instructions
+----------------------
 
 Build Dependencies: Maven beta10 or later.
 
@@ -34,12 +52,12 @@ subprojects.
 Structure
 ---------
 
-The repository facility is structured into 7 build subprojects.
+The repository facility is structured into 8 build subprojects.
 
 * api    -- the client API
+* cli    -- the command line tools
 * impl   -- the default implementation
 * main   -- the bootstrap deliverable
-* plugin -- maven plugin supporting artifact metadata generation
 * site   -- site documentation
 * spi    -- interfaces and imutable classes required by a repository
             implementation (in addition to the api)

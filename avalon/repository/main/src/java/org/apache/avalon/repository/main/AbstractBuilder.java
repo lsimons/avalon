@@ -40,7 +40,7 @@ import org.apache.avalon.repository.provider.InitialContext;
  * 
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public abstract class AbstractBuilder
 {
@@ -92,15 +92,12 @@ public abstract class AbstractBuilder
     * @exception RepositoryException if a factory creation error occurs
     */
     protected Factory createDelegate( 
-      ClassLoader classloader, String factory, InitialContext context ) 
+      ClassLoader classloader, Class clazz, InitialContext context ) 
       throws RepositoryException
     {
-
         if( null == classloader ) throw new NullPointerException( "classloader" );
-        if( null == factory ) throw new NullPointerException( "factory" );
+        if( null == clazz ) throw new NullPointerException( "clazz" );
         if( null == context ) throw new NullPointerException( "context" );
-
-        Class clazz = loadFactoryClass( classloader, factory );
 
         try
         {

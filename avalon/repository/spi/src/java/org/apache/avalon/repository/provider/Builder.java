@@ -21,10 +21,16 @@ package org.apache.avalon.repository.provider;
  * The defintion of an application builder.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.4 $ $Date: 2004/01/24 23:20:05 $
+ * @version $Revision: 1.5 $ $Date: 2004/01/31 13:29:50 $
  */
 public interface Builder
-{        
+{       
+   /**
+    * Return the primary class established by the builder.
+    * @return the class
+    */
+    Class getFactoryClass();
+ 
     /**
      * Return the factory established by the builder.
      * 

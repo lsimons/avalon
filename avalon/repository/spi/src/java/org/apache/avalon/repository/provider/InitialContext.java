@@ -17,7 +17,9 @@
 
 package org.apache.avalon.repository.provider;
 
+import java.net.URL;
 import java.io.File;
+import java.util.jar.Manifest;
 
 import org.apache.avalon.repository.Artifact;
 import org.apache.avalon.repository.RepositoryException;
@@ -27,7 +29,7 @@ import org.apache.avalon.repository.RepositoryException;
  * The initial context established by an initial repository factory.
  *
  * @author <a href="mailto:mcconnell@osm.net">Stephen McConnell</a>
- * @version $Revision: 1.6 $ $Date: 2004/01/25 13:17:51 $
+ * @version $Revision: 1.7 $ $Date: 2004/01/31 13:29:50 $
  */
 public interface InitialContext
 {        
@@ -41,6 +43,9 @@ public interface InitialContext
     * value assigned to this property is a comma seperated list of urls.
     */
     String HOSTS_KEY = "avalon.repository.hosts";
+
+    String LINE = 
+      "\n-----------------------------------------------------------";
 
     /**
      * Return the base working directory.
@@ -86,5 +91,12 @@ public interface InitialContext
     */
     Builder newBuilder( ClassLoader classloader, Artifact artifact )
       throws Exception;
+
+   /**
+    * Install a block archive into the repository.
+    * @param url the block archive url
+    * @return the block manifest
+    */
+    Manifest install( URL url ) throws RepositoryException;
 
 }
