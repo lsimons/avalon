@@ -310,6 +310,11 @@ public class FTPSource extends URLSource implements ModifiableSource
                 try
                 {
                     ftpClient = m_source.getFtpClient();
+                    // NOTE:
+                    // we don't have a way to determine whether we are
+                    // dealing with an ascii file or not. Therefore transfer mode
+                    // will be binary by default as this will cause the least problems.
+                    // The worse that can happen now is that linebreaks get messed up.
                     String parentPath = null;
                     String fileName = null;
                     final String relativePath = m_source.m_url.getPath().substring( 1 );
