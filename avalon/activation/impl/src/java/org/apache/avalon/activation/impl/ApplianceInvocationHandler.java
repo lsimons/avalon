@@ -28,7 +28,6 @@ import java.security.PrivilegedExceptionAction;
 
 import org.apache.avalon.activation.Appliance;
 import org.apache.avalon.activation.ApplianceException;
-import org.apache.avalon.activation.LifestyleManager;
 import org.apache.avalon.activation.TransientApplianceException;
 
 import org.apache.avalon.composition.model.ComponentModel;
@@ -42,7 +41,7 @@ import org.apache.avalon.framework.logger.Logger;
  * by one, some or all of it's interfaces.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2004/02/29 22:25:25 $
+ * @version $Revision: 1.6 $ $Date: 2004/03/04 03:42:30 $
  */
 public final class ApplianceInvocationHandler implements InvocationHandler
 {

@@ -34,7 +34,7 @@ import org.apache.avalon.framework.context.Context;
  * Defintion of a system context that exposes a system wide set of parameters.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/03/01 16:31:41 $
+ * @version $Revision: 1.4 $ $Date: 2004/03/04 03:42:30 $
  */
 public interface SystemContextFactory 
 {
@@ -58,6 +58,15 @@ public interface SystemContextFactory
     * @see #setRuntime( Class )
     */
     void setRuntime( Artifact artifact );
+
+   /**
+    * Set the lifestyle factory using a supplied artifact.
+    * @param artifact a factory artifact supporting 
+    *    {@link LifestyleFactory} instance creation. 
+    * @see Runtime
+    * @see #setRuntime( Class )
+    */
+    void setLifestyleArtifact( Artifact artifact );
 
    /**
     * Set the runtime using a supplied class.
@@ -110,7 +119,7 @@ public interface SystemContextFactory
 
    /**
     * Set the temporary directory.
-    * @param work the temporary directory
+    * @param temp the temporary directory
     */
     void setTemporaryDirectory( File temp );
 

@@ -19,10 +19,10 @@ package org.apache.avalon.activation.impl;
 
 import java.util.Map;
 import java.util.Hashtable;
+import java.lang.reflect.Constructor;
 
 import org.apache.avalon.activation.RuntimeFactory;
-import org.apache.avalon.activation.LifestyleFactory;
-import org.apache.avalon.activation.LifestyleManager;
+import org.apache.avalon.activation.RuntimeFactoryException;
 import org.apache.avalon.activation.Appliance;
 import org.apache.avalon.activation.ApplianceException;
 import org.apache.avalon.activation.ApplianceRuntimeException;
@@ -34,17 +34,21 @@ import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.model.ComponentModel;
 import org.apache.avalon.composition.model.ContainmentModel;
 import org.apache.avalon.composition.provider.SystemContext;
+import org.apache.avalon.composition.provider.LifestyleFactory;
+import org.apache.avalon.composition.provider.LifestyleManager;
 
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 
 import org.apache.avalon.repository.Artifact;
+import org.apache.avalon.repository.provider.InitialContext;
+import org.apache.avalon.repository.provider.Builder;
 
 /**
  * A factory enabling the establishment of runtime handlers.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/02/29 22:25:25 $
+ * @version $Revision: 1.4 $ $Date: 2004/03/04 03:42:30 $
  */
 public class DefaultRuntimeFactory implements RuntimeFactory
 {
@@ -78,6 +82,137 @@ public class DefaultRuntimeFactory implements RuntimeFactory
         m_factory = new DefaultLifestyleFactory( m_system );
         m_secure = m_system.isCodeSecurityEnabled();
     }
+
+   /**
+    * Get the runtime class referenced by the artifact.
+    * @param context the repository initial context
+    * @param artifact the factory artifact
+    * @return the Runtime class
+    */
+    private LifestyleFactory getLifestyleFactory( 
+      SystemContext system, InitialContext context, Artifact artifact )
+      throws RuntimeFactoryException
+    {
+        if( null == artifact )
+        {
+            return new DefaultLifestyleFactory( system );
+        }
+
+        try
+        {
+            ClassLoader classloader = 
+              DefaultRuntimeFactory.class.getClassLoader();
+            Builder builder = 
+              context.newBuilder( classloader, artifact );
+            Class candidate = builder.getFactoryClass();
+            return buildLifestyleFactory( context, candidate );
+        }
+        catch( Throwable e )
+        {
+            final String error = 
+              REZ.getString( "system.error.load", artifact.toString() );
+            throw new RuntimeFactoryException( error, e );
+        }
+    }
+
+   /**
+    * Build a lifestyle factory using a supplied class.
+    *
+    * @param clazz the log target factory class
+    * @return a instance of the class
+    * @exception RuntimeFactoryException if the class does not expose a public 
+    *    constructor, or the constructor requires arguments that the 
+    *    builder cannot resolve, or if a unexpected instantiation error 
+    *    ooccurs
+    */ 
+    public LifestyleFactory buildLifestyleFactory( InitialContext context, Class clazz ) 
+      throws RuntimeFactoryException
+    {
+        if( null == clazz )
+        {
+            throw new NullPointerException( "clazz" );
+        }
+
+        Constructor[] constructors = clazz.getConstructors();
+        if( constructors.length < 1 ) 
+        {
+            final String error = 
+              REZ.getString( 
+                "runtime.error.lifestyle.no-constructor", 
+                clazz.getName() );
+            throw new RuntimeFactoryException( error );
+        }
+
+        //
+        // lifestyle factories may declare constructor arguments
+        // including the SystemContext, InitialContext, and/or 
+        // RuntimeFactory
+        //
+
+        Constructor constructor = constructors[0];
+        Class[] classes = constructor.getParameterTypes();
+        Object[] args = new Object[ classes.length ];
+        for( int i=0; i<classes.length; i++ )
+        {
+            Class c = classes[i];
+            if( SystemContext.class.isAssignableFrom( c ) )
+            {
+                args[i] = m_system;
+            }
+            else if( InitialContext.class.isAssignableFrom( c ) )
+            {
+                args[i] = context;
+            }
+            else if( RuntimeFactory.class.isAssignableFrom( c ) )
+            {
+                args[i] = this;
+            }
+            else
+            {
+                final String error = 
+                  REZ.getString( 
+                    "runtime.error.unrecognized-runtime-parameter", 
+                    c.getName(),
+                    clazz.getName() );
+                throw new RuntimeFactoryException( error );
+            }
+        }
+
+        //
+        // instantiate the factory
+        //
+
+        return instantiateLifestyleFactory( constructor, args );
+    }
+
+   /**
+    * Instantiation of a lifestyle factory using a supplied constructor 
+    * and arguments.
+    * 
+    * @param constructor the runtime constructor
+    * @param args the constructor arguments
+    * @return the runtime instance
+    * @exception RuntimeFactoryException if an instantiation error occurs
+    */
+    private LifestyleFactory instantiateLifestyleFactory( 
+      Constructor constructor, Object[] args ) 
+      throws RuntimeFactoryException
+    {
+        Class clazz = constructor.getDeclaringClass();
+        try
+        {
+            return (LifestyleFactory) constructor.newInstance( args );
+        }
+        catch( Throwable e )
+        {
+            final String error = 
+              REZ.getString( 
+                "runtime.error.lifestyle-instantiation", 
+                clazz.getName() );
+            throw new RuntimeFactoryException( error, e );
+        }
+    }
+
 
     //-------------------------------------------------------------------
     // RuntimeFactory

@@ -57,7 +57,7 @@ import org.apache.avalon.excalibur.i18n.Resources;
  * Implementation of a system context that exposes a system wide set of parameters.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.24 $ $Date: 2004/03/01 16:31:41 $
+ * @version $Revision: 1.25 $ $Date: 2004/03/04 03:42:30 $
  */
 public class DefaultSystemContext extends DefaultContext 
   implements SystemContext
@@ -89,9 +89,9 @@ public class DefaultSystemContext extends DefaultContext
 
     private final Logger m_logger;
 
-    private ModelFactory m_factory;
+    private final ModelFactory m_factory;
 
-    private Runtime m_runtime;
+    private final Runtime m_runtime;
 
     private final long m_timeout;
 
@@ -111,7 +111,9 @@ public class DefaultSystemContext extends DefaultContext
     * Creation of a new system context.
     *
     * @param context the repository intial context
-    * @param artifact the runtime artifact
+    * @param parent the parent context object (possibly null)
+    * @param artifact an artifact reference to a plugin runtime factory
+    * @param lifestyle an artifact reference to a plugin lifestyle factory
     * @param runtime the runtime class
     * @param logging the logging manager
     * @param base the base directory from which relative references 
@@ -129,6 +131,7 @@ public class DefaultSystemContext extends DefaultContext
       InitialContext context, 
       Context parent, 
       Artifact artifact, 
+      Artifact lifestyle, 
       Class runtime, 
       LoggingManager logging, 
       File base, 
@@ -143,18 +146,15 @@ public class DefaultSystemContext extends DefaultContext
       TargetDirective[] targets ) throws SystemException
     {
         super( parent );
-        if( base == null )
-        {
-            throw new NullPointerException( "base" );
-        }
-        if( repository == null )
-        {
-            throw new NullPointerException( "repository" );
-        }
-        if( logging == null )
-        {
-            throw new NullPointerException( "logging" );
-        }
+
+        assertNotNull( "context", context );
+        assertNotNull( "base", base );
+        assertNotNull( "repository", repository );
+        assertNotNull( "logging", logging );
+        assertNotNull( "category", category );
+        assertNotNull( "security", security );
+        assertNotNull( "targets", targets );
+
         if( !base.isDirectory() )
         {
             final String error = 
@@ -192,12 +192,12 @@ public class DefaultSystemContext extends DefaultContext
 
         if( null != runtime )
         {
-            m_runtime = buildRuntimeInstance( context, runtime );
+            m_runtime = buildRuntimeInstance( context, runtime, lifestyle );
         }
         else if( null != artifact )
         {
             Class clazz = resolveRuntimeClass( context, artifact );
-            m_runtime = buildRuntimeInstance( context, clazz );
+            m_runtime = buildRuntimeInstance( context, clazz, lifestyle );
         }
         else
         {
@@ -456,7 +456,7 @@ public class DefaultSystemContext extends DefaultContext
     private Artifact getDefaultRuntimeArtifact( InitialContext context )
     {
         Artifact[] artifacts = 
-          context.getRegistry().getCandidates( Runtime.class );
+          context.getRepository().getCandidates( Runtime.class );
         if( artifacts.length > 0 ) return artifacts[0];
 
         final String error =
@@ -468,14 +468,17 @@ public class DefaultSystemContext extends DefaultContext
    /**
     * Build a runtime using a supplied class.
     *
-    * @param clazz the log target factory class
+    * @param context the initial context from which to bootstrap the runtime
+    * @param clazz the runtime factory class
+    * @param lifestyle the artifact referencing the lifestyle factory
     * @return a instance of the class
     * @exception SystemException if the class does not expose a public 
     *    constructor, or the constructor requires arguments that the 
     *    builder cannot resolve, or if a unexpected instantiation error 
     *    ooccurs
     */ 
-    public Runtime buildRuntimeInstance( InitialContext context, Class clazz ) 
+    public Runtime buildRuntimeInstance( 
+      InitialContext context, Class clazz, Artifact lifestyle ) 
       throws SystemException
     {
         if( null == clazz ) return null;
@@ -507,6 +510,10 @@ public class DefaultSystemContext extends DefaultContext
             else if( InitialContext.class.isAssignableFrom( c ) )
             {
                 args[i] = context;
+            }
+            else if( Artifact.class.isAssignableFrom( c ) )
+            {
+                args[i] = lifestyle;
             }
             else
             {
@@ -552,5 +559,13 @@ public class DefaultSystemContext extends DefaultContext
                 clazz.getName() );
             throw new SystemException( error, e );
         }
+    }
+
+    private void assertNotNull( String name, Object object )
+    {
+        if( null == object ) 
+        {
+            throw new NullPointerException( name );
+        } 
     }
 }

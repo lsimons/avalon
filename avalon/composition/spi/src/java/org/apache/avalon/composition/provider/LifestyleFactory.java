@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.avalon.activation;
+package org.apache.avalon.composition.provider;
 
 import org.apache.avalon.composition.model.ComponentModel;
 
@@ -23,9 +23,9 @@ import org.apache.avalon.composition.model.ComponentModel;
  * A factory enabling the establishment of runtime handlers.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2004/02/10 16:18:42 $
+ * @version $Revision: 1.1 $ $Date: 2004/03/04 03:42:30 $
  */
-public interface LifestyleFactory 
+public interface LifestyleFactory
 {
    /**
     * Create a new lifestyle manager.

@@ -17,12 +17,12 @@
 
 package org.apache.avalon.activation.impl;
 
-import org.apache.avalon.activation.LifestyleFactory;
-import org.apache.avalon.activation.LifestyleManager;
 import org.apache.avalon.activation.ComponentFactory;
 
 import org.apache.avalon.composition.model.ComponentModel;
 import org.apache.avalon.composition.provider.SystemContext;
+import org.apache.avalon.composition.provider.LifestyleFactory;
+import org.apache.avalon.composition.provider.LifestyleManager;
 
 import org.apache.avalon.meta.info.InfoDescriptor;
 
@@ -33,7 +33,7 @@ import org.apache.avalon.framework.logger.Logger;
  * A factory enabling the establishment of runtime handlers.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/02/14 21:33:55 $
+ * @version $Revision: 1.3 $ $Date: 2004/03/04 03:42:30 $
  */
 public class DefaultLifestyleFactory implements LifestyleFactory
 {
