@@ -76,7 +76,7 @@ public class DefaultLogManager
             setupLogger( manager );
             manager.contextualize( context );
             manager.configure( logs );
-            return new LogKitLogger( manager.getHierarchy().getLoggerFor( "" ) );
+            return new LogKitHierarchyLogger( manager.getHierarchy() );
         }
         else
         {
