@@ -18,7 +18,7 @@
         <pathelement location="${logkit.jar}"/>
         <pathelement location="${excalibur-component.jar}"/>
         <pathelement location="${excalibur-pool.jar}"/>
-	<pathelement location="${excalibur-sourceresolve.jar}"/>
+        <pathelement location="${excalibur-sourceresolve.jar}"/>
         <pathelement location="${checkstyle.jar}"/>
         <pathelement location="${xalan.jar}"/>
         <pathelement location="${xerces.jar}"/>
@@ -26,6 +26,7 @@
         <fileset dir="${lib.dir}">
             <include name="*.jar" />
         </fileset>
+        <pathelement path="${java.class.path}"/>
     </path>
 
     <path id="tools.class.path">

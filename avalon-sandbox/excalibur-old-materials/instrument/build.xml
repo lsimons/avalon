@@ -16,6 +16,7 @@
         
         <!-- Optional jars -->
         <pathelement location="${avalon-framework.jar}"/>
+        <pathelement path="${java.class.path}"/>
     </path>
 
     <path id="tools.class.path">

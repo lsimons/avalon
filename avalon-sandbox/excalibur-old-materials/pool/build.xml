@@ -18,6 +18,7 @@
         <pathelement location="${excalibur-collections.jar}"/>
         <pathelement location="${excalibur-instrument.jar}"/>
         <pathelement location="${checkstyle.jar}"/>
+        <pathelement path="${java.class.path}"/>
     </path>
 
     <path id="tools.class.path">

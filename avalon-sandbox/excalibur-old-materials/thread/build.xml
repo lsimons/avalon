@@ -19,6 +19,7 @@
         <pathelement location="${excalibur-instrument.jar}"/>
         <pathelement location="${excalibur-pool.jar}"/>
         <pathelement location="${checkstyle.jar}"/>
+        <pathelement path="${java.class.path}"/>
     </path>
 
     <path id="tools.class.path">

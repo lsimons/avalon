@@ -25,6 +25,7 @@
         <pathelement location="${excalibur-altrmi-server-impl.jar}"/>
         <pathelement location="${excalibur-altrmi-server-interfaces.jar}"/>
         <pathelement location="${checkstyle.jar}"/>
+        <pathelement path="${java.class.path}"/>
     </path>
 
     <path id="tools.class.path">

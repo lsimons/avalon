@@ -22,6 +22,7 @@
         <pathelement location="${avalon-framework.jar}"/>
         <pathelement location="${excalibur-util.jar}"/>
         <pathelement location="${checkstyle.jar}"/>
+        <pathelement path="${java.class.path}"/>
     </path>
 
     <path id="tools.class.path">

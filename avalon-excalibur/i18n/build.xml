@@ -13,6 +13,7 @@
     <path id="project.class.path">
         <pathelement location="${build.classes}"/>
         <pathelement location="${checkstyle.jar}"/>
+        <pathelement path="${java.class.path}"/>
     </path>
 
     <path id="tools.class.path">
