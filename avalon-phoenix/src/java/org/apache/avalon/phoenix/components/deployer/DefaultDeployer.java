@@ -10,12 +10,10 @@ package org.apache.avalon.phoenix.components.deployer;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.Set;
-
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.activity.Disposable;
@@ -23,24 +21,19 @@ import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.context.DefaultContext;
-import org.apache.avalon.framework.info.ComponentInfo;
 import org.apache.avalon.framework.info.SchemaDescriptor;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
-import org.apache.avalon.framework.tools.infobuilder.LegacyUtil;
 import org.apache.avalon.phoenix.BlockContext;
 import org.apache.avalon.phoenix.components.ContainerConstants;
-import org.apache.avalon.phoenix.components.assembler.Assembler;
 import org.apache.avalon.phoenix.components.assembler.AssemblyException;
-import org.apache.avalon.phoenix.containerkit.factory.ComponentBundle;
-import org.apache.avalon.phoenix.containerkit.factory.ComponentFactory;
-import org.apache.avalon.phoenix.containerkit.metadata.ComponentMetaData;
 import org.apache.avalon.phoenix.containerkit.metadata.PartitionMetaData;
 import org.apache.avalon.phoenix.containerkit.registry.ComponentProfile;
 import org.apache.avalon.phoenix.containerkit.registry.PartitionProfile;
+import org.apache.avalon.phoenix.containerkit.registry.ProfileBuilder;
 import org.apache.avalon.phoenix.interfaces.Application;
 import org.apache.avalon.phoenix.interfaces.ClassLoaderManager;
 import org.apache.avalon.phoenix.interfaces.ClassLoaderSet;
@@ -70,8 +63,8 @@ public class DefaultDeployer
     private static final Resources REZ =
         ResourceManager.getPackageResources( DefaultDeployer.class );
 
-    private final Assembler m_assembler = new Assembler();
     private final SarVerifier m_verifier = new SarVerifier();
+    private final ProfileBuilder m_builder = new PhoenixProfileBuilder();
     private final Map m_installations = new Hashtable();
     private LogManager m_logManager;
     private Kernel m_kernel;
@@ -102,8 +95,9 @@ public class DefaultDeployer
     public void initialize()
         throws Exception
     {
-        setupLogger( m_assembler );
+        setupLogger( m_builder );
         setupLogger( m_verifier );
+
     }
 
     /**
@@ -271,17 +265,19 @@ public class DefaultDeployer
 
             context.put( "classloader", classLoader );
 
-            final PartitionMetaData metaData = assembleSar( name, assembly );
+            final Map parameters = new HashMap();
+            parameters.put( ContainerConstants.ASSEMBLY_NAME, name );
+            parameters.put( ContainerConstants.ASSEMBLY_CONFIG, assembly );
+            parameters.put( ContainerConstants.ASSEMBLY_CLASSLOADER, classLoader );
 
-            final ComponentFactory factory = new PhoenixComponentFactory( classLoader );
-            setupLogger( factory, "factory" );
-            final PartitionProfile profile = assembleSarProfile( metaData, factory );
+            //assemble all the blocks for application
+            final PartitionProfile profile = m_builder.buildProfile( parameters );
 
             storeConfigurationSchemas( profile, classLoader );
             verify( profile, classLoader );
 
             //Setup configuration for all the applications blocks
-            setupConfiguration( metaData, config.getChildren() );
+            setupConfiguration( profile.getMetaData(), config.getChildren() );
 
             final Configuration logs = environment.getChild( "logs" );
             final Logger logger =
@@ -295,11 +291,11 @@ public class DefaultDeployer
                                      logger,
                                      classLoaderSet.getClassLoaders() );
 
-            m_installations.put( metaData.getName(), installation );
+            m_installations.put( name, installation );
 
             final String message =
                 REZ.getString( "deploy.notice.sar.add",
-                               metaData.getName() );
+                               name );
             getLogger().debug( message );
             success = true;
         }
@@ -330,86 +326,6 @@ public class DefaultDeployer
                 }
             }
         }
-    }
-
-    private PartitionProfile assembleSarProfile( final PartitionMetaData metaData,
-                                                 final ComponentFactory factory )
-        throws Exception
-    {
-        final PartitionMetaData blockPartition =
-            metaData.getPartition( ContainerConstants.BLOCK_PARTITION );
-        final PartitionMetaData listenerPartition =
-            metaData.getPartition( ContainerConstants.LISTENER_PARTITION );
-
-        final PartitionProfile blockProfile = assembleProfile( blockPartition, factory );
-        final PartitionProfile listenerProfile =
-            assembleListenerProfile( listenerPartition );
-
-        final PartitionProfile[] profiles = new PartitionProfile[]{blockProfile, listenerProfile};
-        return new PartitionProfile( metaData,
-                                     profiles,
-                                     new ComponentProfile[ 0 ] );
-    }
-
-    private PartitionProfile assembleListenerProfile( final PartitionMetaData metaData )
-    {
-        final ArrayList componentSet = new ArrayList();
-        final ComponentMetaData[] components = metaData.getComponents();
-        for( int i = 0; i < components.length; i++ )
-        {
-            final ComponentMetaData component = components[ i ];
-            final ComponentInfo info =
-                LegacyUtil.createListenerInfo( component.getImplementationKey() );
-            final ComponentProfile profile = new ComponentProfile( info, component );
-            componentSet.add( profile );
-        }
-
-        final ComponentProfile[] profiles =
-            (ComponentProfile[])componentSet.toArray( new ComponentProfile[ componentSet.size() ] );
-        return new PartitionProfile( metaData, PartitionProfile.EMPTY_SET, profiles );
-    }
-
-    private PartitionProfile assembleProfile( final PartitionMetaData metaData,
-                                              final ComponentFactory factory )
-        throws Exception
-    {
-        final ArrayList partitionSet = new ArrayList();
-        final PartitionMetaData[] partitions = metaData.getPartitions();
-        for( int i = 0; i < partitions.length; i++ )
-        {
-            final PartitionMetaData partition = partitions[ i ];
-            final PartitionProfile profile = assembleProfile( partition, factory );
-            partitionSet.add( profile );
-        }
-
-        final ArrayList componentSet = new ArrayList();
-        final ComponentMetaData[] components = metaData.getComponents();
-        for( int i = 0; i < components.length; i++ )
-        {
-            final ComponentMetaData component = components[ i ];
-            final ComponentBundle bundle =
-                factory.createBundle( component.getImplementationKey() );
-            final ComponentInfo info = bundle.getComponentInfo();
-            final ComponentProfile profile = new ComponentProfile( info, component );
-            componentSet.add( profile );
-        }
-
-        final PartitionProfile[] partitionProfiles =
-            (PartitionProfile[])partitionSet.toArray( new PartitionProfile[ partitionSet.size() ] );
-        final ComponentProfile[] componentProfiles =
-            (ComponentProfile[])componentSet.toArray( new ComponentProfile[ componentSet.size() ] );
-        return new PartitionProfile( metaData, partitionProfiles, componentProfiles );
-    }
-
-    private PartitionMetaData assembleSar( final String name,
-                                           final Configuration assembly )
-        throws Exception
-    {
-        final Map parameters = new HashMap();
-        parameters.put( ContainerConstants.ASSEMBLY_NAME, name );
-        parameters.put( ContainerConstants.ASSEMBLY_CONFIG, assembly );
-        //assemble all the blocks for application
-        return m_assembler.buildAssembly( parameters );
     }
 
     /**
