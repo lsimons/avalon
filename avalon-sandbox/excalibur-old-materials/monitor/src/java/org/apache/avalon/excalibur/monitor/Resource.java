@@ -22,14 +22,17 @@ import java.util.Set;
  * last modified property will be enough.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: Resource.java,v 1.15 2002/09/08 00:39:41 donaldp Exp $
+ * @version $Id: Resource.java,v 1.16 2002/09/09 21:24:19 donaldp Exp $
  */
 public abstract class Resource
     implements Modifiable
 {
     protected static final String MODIFIED = "last-modified";
 
-    private static final Set m_propertyListeners = Collections.synchronizedSet( new HashSet() );
+    /**
+     * The set of listeners for this particular resource.
+     */
+    private final Set m_propertyListeners = Collections.synchronizedSet( new HashSet() );
 
     /**
      * @deprecated Developers should use the setter/getters
