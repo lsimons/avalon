@@ -86,7 +86,7 @@ import org.apache.excalibur.configuration.CascadingConfiguration;
  * Deployment model defintion.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.7 $ $Date: 2003/11/22 12:52:55 $
+ * @version $Revision: 1.8 $ $Date: 2003/12/02 01:34:09 $
  */
 public class DefaultDeploymentModel extends DefaultModel implements DeploymentModel
 {
@@ -197,9 +197,6 @@ public class DefaultDeploymentModel extends DefaultModel implements DeploymentMo
             final ContextDirective contextDirective = 
               m_context.getProfile().getContext();
             final Logger log = getLogger().getChildLogger( "context" );
-            final SystemContext system = 
-              m_context.getSystemContext();
-
             m_contextModel = new DefaultContextModel( 
               log, contextDescriptor, contextDirective, context );
         }
