@@ -7,7 +7,6 @@
  */
 package org.apache.phoenix.engine.phases;
 
-
 import java.io.File;
 import org.apache.avalon.AbstractLoggable;
 import org.apache.avalon.ComponentManager;
@@ -30,7 +29,6 @@ import org.apache.avalon.component.ComponentException;
 import org.apache.avalon.configuration.Configurable;
 import org.apache.avalon.configuration.Configuration;
 import org.apache.avalon.util.thread.ThreadContext;
-import org.apache.phoenix.engine.facilities.ThreadManager;
 import org.apache.phoenix.Block;
 import org.apache.phoenix.BlockContext;
 import org.apache.phoenix.engine.SarContextResources;
@@ -40,6 +38,8 @@ import org.apache.phoenix.engine.blocks.DefaultBlockContext;
 import org.apache.phoenix.engine.blocks.RoleEntry;
 import org.apache.phoenix.engine.facilities.ClassLoaderManager;
 import org.apache.phoenix.engine.facilities.ConfigurationRepository;
+import org.apache.phoenix.engine.facilities.LogManager;
+import org.apache.phoenix.engine.facilities.ThreadManager;
 import org.apache.phoenix.metainfo.BlockInfo;
 import org.apache.phoenix.metainfo.BlockUtil;
 import org.apache.phoenix.metainfo.ServiceDescriptor;
@@ -55,6 +55,7 @@ public class StartupPhase
     private ClassLoader                 m_classLoader;
     private ConfigurationRepository     m_repository;
     private ThreadManager               m_threadManager;
+    private LogManager                  m_logManager;
 
     ///Factory used to build instance of Block
     private Factory                     m_factory;
@@ -99,6 +100,9 @@ public class StartupPhase
 
         m_repository = (ConfigurationRepository)componentManager.
             lookup( "org.apache.phoenix.engine.facilities.ConfigurationRepository" );
+
+        m_logManager = (LogManager)componentManager.
+            lookup( "org.apache.phoenix.engine.facilities.LogManager" );
     }
 
     /**
@@ -134,7 +138,7 @@ public class StartupPhase
             if( object instanceof Loggable )
             {
                 getLogger().debug( "Pre-Loggable Stage" );
-                ((Loggable)object).setLogger( getLogger().getChildLogger( name ) );
+                ((Loggable)object).setLogger( m_logManager.getLogger( name ) );
                 getLogger().debug( "Loggable successful." );
             }
 
