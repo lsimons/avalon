@@ -461,6 +461,9 @@
     <project name="excalibur-instrument">
         <package>org.apache.avalon.excalibur.instrument</package>
 
+	<mkdir dir="instrument/build/classes"/>
+	<mkdir dir="instrument/build/managerclasses"/>
+
         <ant basedir="instrument">
             <property name="version" value="@@DATE@@"/>
             <property name="junit.failonerror" value="true"/>
@@ -475,7 +478,8 @@
         <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
-        <work nested="instrument/build/classes"/>
+	<work nested="instrument/build/classes"/>
+	<work nested="instrument/build/managerclasses"/>
 
         <home nested="instrument"/>
         <jar name="build/lib/excalibur-instrument-@@DATE@@.jar"/>
