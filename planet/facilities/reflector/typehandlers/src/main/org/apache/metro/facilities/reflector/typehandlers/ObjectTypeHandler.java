@@ -17,7 +17,7 @@
 
 package org.apache.metro.facilities.reflector.typehandlers;
 
-import java.util.ArrayList; 
+import java.util.TreeSet; 
 
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.framework.service.ServiceException;
@@ -54,7 +54,7 @@ public class ObjectTypeHandler extends AbstractObjectTypeHandler
     public String[] getNames( Object container )
         throws ReflectionException
     {
-        ArrayList names = new ArrayList();
+        TreeSet names = new TreeSet();
         getNames( names, container );
         return packageNames( names );
     }
