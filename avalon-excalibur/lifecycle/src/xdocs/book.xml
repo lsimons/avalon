@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//APACHE//DTD Cocoon Documentation Book V1.0//EN" "book-cocoon-v10.dtd">
+
+<book software="Excalibur Lifecycle Extensions" title="Excalibur Lifecycle Extensions" copyright="@year@ The Apache Software Foundation" xmlns:xlink="http://www.w3.org/1999/xlink">
+
+
+  <menu label="About">
+    <menu-item href="http://avalon.apache.org/excalibur/index.html" label="Excalibur Home"/>
+    <menu-item href="http://avalon.apache.org/bindownload.cgi" label="Download"/>
+    <menu-item label="API Docs" href="http://avalon.apache.org/excalibur/compatibility/api/"/>
+
+  </menu>
+  <menu label="Lifecycle">
+    <menu-item label="Overview" href="index.html"/>
+    <menu-item label="Extensions" href="extension.html"/>
+    <menu-item label="Interfaces" href="interfaces.html"/>
+  </menu>
+  <menu label="Tutorial">
+    <menu-item label="Fortress" href="fortress.html"/>
+    <menu-item label="Merlin" href="merlin.html"/>
+  </menu>
+  <menu label="Related Links">
+    <menu-item label="Fortress Home" href="http://avalon.apache.org/excalibur/fortress/"/>
+    <menu-item label="Merlin Home" href="http://avalon.apache.org/sandbox/merlin/"/>
+  </menu>
+
+</book>
