@@ -43,25 +43,19 @@ A component is a reusable computation unit that provides zero or more functional
             </td>
           </tr>
           <tr>
-            <td><a href="lifecycle/index.html">Lifecycle Management</a></td>
-            <td>
-Lifecycle management encompasses the process of deployment during which artifacts are delivered and a component is fully established, runtime lifecycle management functions, through to end-of-life processing and the related decommissioning of the component.  This section of the specification deals with abstract lifecycle concepts and the effects of lifecycle management on an overall system.
-            </td>
-          </tr>
-          <tr>
-            <td><a href="artifacts/index.html">Lifecycle Artifacts</a></td>
+            <td><a href="artifacts/index.html">Artifacts</a></td>
             <td>
 A component may be instantiated using either constructor injection or phased lifecycle processing.  During the process of instantiation a container can supplies a range of artifacts such as logging channel, configuration, context object, service manager, etc.  This section of the specification presents each of the standard artifacts and the associated semantics.
             </td>
           </tr>
           <tr>
-            <td><a href="delivery/index.html">Artifact Delivery</a></td>
+            <td><a href="lifecycle/index.html">Lifecycle</a></td>
             <td>
-Lifecycle artifacts can be delivered to a component using a number of techniques.  These include constructor injection, phased lifecycle processing, and potentialy a combination of the two.  This section of the specification presents the respective delivery strategies and mechanisms supporting strategy customization.
+Lifecycle management encompasses the process of deployment during which artifacts are delivered and a component is fully established, runtime lifecycle management functions, through to end-of-life processing and the related decommissioning of the component.  This section of the specification deals with abstract lifecycle concepts and the effects of lifecycle management on an overall system.
             </td>
           </tr>
           <tr>
-            <td><a href="lifestyle/index.html">Lifestyles</a></td>
+            <td><a href="lifestyle/index.html">Lifestyle</a></td>
             <td>
 A component implementation is associated with a particular lifestyle.  A lifestyle is policy that deals with the decision to create a new component as opposed to to supplying a reference to an existing component.  Examples of lifestyle policies include "singleton", "per-thread", "pooled", and "transient".  This section of the specification describes each policy and the related semantics that a component author can assume concerning instantiation and references sharing. 
             </td>

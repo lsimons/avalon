@@ -21,16 +21,21 @@
 
   <properties>
     <author email="mcconnell@apache.org">Stephen McConnell</author>
-    <title>Deployment Specification</title>
+    <title>Configuration Artifact</title>
   </properties>
 
   <body>
 
-    <section name="Deployment Specification">
+    <section name="Configuration Artifact">
 
-      <p>
-IN PREPARATION
-      </p>
+      <subsection name="Overview">
+        <p>IN PREP</p>
+      </subsection>
+
+      <subsection name="Configuration Usage">
+        <p>IN PREP</p>
+      </subsection>
+
     </section>
 
   </body>

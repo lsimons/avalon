@@ -37,11 +37,11 @@ Lifecycle management concerns the process of incarnation, runtime management, an
 Just as objects are instantiated, the equivalent process from a component is "incarnation".  Incarnation involves instantiation, a series of optional artifact delivery stages, and an optional execution phase.  Component incarnation is managed exclusively by a container.  Occurances of component icarnation are controlled by as associated component implementation <a href="../lifestyle/index.html">lifestyle</a> characteristic.
         </p>
 
+      </subsection>
+
+      <subsection name="Incarnation Stage Table">
+
         <table>
-          <tr>
-            <td><strong><p>Phase</p></strong></td>
-            <td><strong><p>Description</p></strong></td>
-          </tr>
           <tr>
             <td><p>instantiation</p></td>
             <td>
@@ -272,11 +272,11 @@ public class HelloComponent extends AbstractLogEnabled
 Runtime management deals with interaction with a component between the incarnation and etherialization stages.  The Avalon framework defines the notion of a suspendable component.  The framework also defines a number of delivery interfaces dealing with reintroduction of lifecycle artificats. None of the framework reintroduction interfaces are supported - instead, runtime management is approached as a management concern wherein any existing artifact delivery interface may be reused by a container while a component is under a suspended state.  The action of resumption is equivalent to the notion of re-initialization.
       </p>
 
+      </subsection>
+
+      <subsection name="Runtime Stage Table">
+
         <table>
-          <tr>
-            <td><strong><p>Phase</p></strong></td>
-            <td><strong><p>Description</p></strong></td>
-          </tr>
           <tr>
             <td><p>suspension</p></td>
             <td>
@@ -322,11 +322,11 @@ A component implementing the the <a href="http://avalon.apache.org/framework/api
 The etherialization stage is the component equivalent of an object finalization.  Etherialization covers the stopping of a running component and subsequent disposal.  Initiation of the etherialization phase on a component instance is exclusively controlled by it's container.
         </p>
 
+      </subsection>
+
+      <subsection name="Etherialization Stage Table">
+
         <table>
-          <tr>
-            <td><strong><p>Phase</p></strong></td>
-            <td><strong><p>Description</p></strong></td>
-          </tr>
           <tr>
             <td><p>execution</p></td>
             <td>
@@ -353,7 +353,7 @@ A component implementing the the <a href="http://avalon.apache.org/framework/api
 A component may participate in end-of-life processing by implementing the 
 <a href="http://avalon.apache.org/framework/api/org/apache/avalon/framework/activity/Disposable.html">Disposable</a> lifecycle interface. An implementation will typically released references during this stage.
 </p>
-<p><i>Startable Example:</i></p>
+<p><i>Example:</i></p>
 
 <source>
     /**

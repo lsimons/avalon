@@ -46,7 +46,6 @@ public class HelloComponent
     * standard context entries for the home and 
     * working directories, component name and partition.
     *
-    * @avalon.context
     * @avalon.entry key="urn:avalon:name" 
     * @avalon.entry key="urn:avalon:partition" 
     * @avalon.entry key="urn:avalon:home" type="java.io.File"

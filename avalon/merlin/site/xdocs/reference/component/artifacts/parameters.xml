@@ -21,31 +21,21 @@
 
   <properties>
     <author email="mcconnell@apache.org">Stephen McConnell</author>
-    <title>Deployment Specification</title>
+    <title>Parameters Artifact</title>
   </properties>
 
   <body>
 
-    <section name="Deployment Specification">
-      <p>
-      </p>
-      <subsection name="Index">
-        <table>
-          <tr><th>Topic</th><th>Summary</th></tr>
-          <tr>
-            <td><a href="directives/index.html">Deployment Directives</a></td>
-            <td>
-The Deployment Directive Specification deals with the language and semantics of container and component specification and the mechanisms provided concerning classloader management, component addressing, and composition component inclusion. 
-            </td>
-          </tr>
-          <tr>
-            <td><a href="overrides/index.html">Override Directives</a></td>
-            <td>
-IN PREP
-            </td>
-          </tr>
-        </table>
+    <section name="Parameters Artifact">
+
+      <subsection name="Overview">
+        <p>IN PREP</p>
       </subsection>
+
+      <subsection name="Parameters Usage">
+        <p>IN PREP</p>
+      </subsection>
+
     </section>
 
   </body>

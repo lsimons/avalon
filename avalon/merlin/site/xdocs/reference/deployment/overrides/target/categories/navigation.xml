@@ -39,24 +39,25 @@
       <item name="Tools" href="/tools/index.html"/>
       <item name="Extensions" href="/extensions/index.html" />
     </menu>
-    
+
     <menu name="Resources">
       <item name="Javadoc" href="/api/index.html"/>
       <item name="Specification" href="/reference/index.html">
-        <item name="Component Specification" href="/reference/component/index.html">
-          <item name="Descriptors" href="/reference/component/descriptors/index.html"/>
-          <item name="Artifacts" href="/reference/component/artifacts/index.html"/>
-          <item name="Lifecycle" href="/reference/component/lifecycle/index.html">
-            <item name="Incarnation" 
-                href="/reference/component/lifecycle/index.html#Incarnation"/>
-            <item name="Runtime Management" 
-                href="/reference/component/lifecycle/index.html#Runtime Management"/>
-            <item name="Etherialization" 
-                href="/reference/component/lifecycle/index.html#Etherialization"/>
+        <item name="Component Specification" href="/reference/component/index.html"/>
+        <item name="Deployment Specification" href="/reference/deployment/index.html">
+          <item name="Deployment Directives" href="/reference/deployment/directives/index.html"/>
+          <item name="Override Directives" href="/reference/deployment/overrides/index.html">
+            <item name="target" href="/reference/deployment/overrides/target/index.html">
+              <item name="configuration" 
+                  href="/reference/deployment/overrides/target/config.html"/>
+              <item name="categories" 
+                  href="/reference/deployment/overrides/target/categories/index.html">
+                <item name="categories" 
+                    href="/reference/deployment/overrides/target/categories/category.html"/>
+              </item>
+            </item>
           </item>
-          <item name="Lifestyle" href="/reference/component/lifestyle/index.html"/>
         </item>
-        <item name="Deployment Specification" href="/reference/deployment/index.html"/>
         <item name="System Specification" href="/reference/system/index.html"/>
       </item>
       <item name="Download" href="/resources/download.html"/>
@@ -69,7 +70,8 @@
       <item name="Utilities" href="http://avalon.apache.org/util"/>
       <item name="Repository" href="http://avalon.apache.org/repository"/>
     </menu>
- 
+
  </body>
 
 </project>
+

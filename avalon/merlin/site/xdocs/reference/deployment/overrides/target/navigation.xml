@@ -39,16 +39,30 @@
       <item name="Tools" href="/tools/index.html"/>
       <item name="Extensions" href="/extensions/index.html" />
     </menu>
-    
+
     <menu name="Resources">
       <item name="Javadoc" href="/api/index.html"/>
       <item name="Specification" href="/reference/index.html">
         <item name="Component Specification" href="/reference/component/index.html"/>
         <item name="Deployment Specification" href="/reference/deployment/index.html">
-          <item name="Kernel Specification" href="/reference/deployment/kernel/index.html"/>
           <item name="Deployment Directives" href="/reference/deployment/directives/index.html"/>
+          <item name="Override Directives" href="/reference/deployment/overrides/index.html">
+            <item name="target" href="/reference/deployment/overrides/target/index.html">
+              <item name="configuration" href="/reference/deployment/overrides/target/config.html"/>
+              <item name="categories" href="/reference/deployment/overrides/target/categories/index.html"/>
+            </item>
+          </item>
         </item>
+        <item name="System Specification" href="/reference/system/index.html"/>
       </item>
+      <item name="Download" href="/resources/download.html"/>
+      <item name="Roadmap" href="/resources/roadmap/index.html"/>
+      <item name="DPML" href="/dpml/index.html"/>
+    </menu>
+
+    <menu name="Resources">
+      <item name="Javadoc" href="/api/index.html"/>
+      <item name="Specification" href="/reference/index.html"/>
       <item name="Download" href="/resources/download.html"/>
       <item name="Roadmap" href="/resources/roadmap/index.html"/>
       <item name="DPML" href="/dpml/index.html"/>
@@ -59,7 +73,7 @@
       <item name="Utilities" href="http://avalon.apache.org/util"/>
       <item name="Repository" href="http://avalon.apache.org/repository"/>
     </menu>
- 
+
  </body>
 
 </project>
