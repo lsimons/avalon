@@ -11,8 +11,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-import org.apache.log.LogKit;
 import org.apache.log.format.PatternFormatter;
+import org.apache.log.Hierarchy;
 
 /**
  * This is a basic Output log target that writes to a stream.
@@ -23,7 +23,7 @@ import org.apache.log.format.PatternFormatter;
 public class DefaultOutputLogTarget
     extends AbstractOutputTarget
 {
-    protected Writer                  m_output;
+    protected Writer             m_output;
 
     /**
      * Initialize the default pattern.
@@ -64,6 +64,7 @@ public class DefaultOutputLogTarget
     public DefaultOutputLogTarget( Writer writer )
     {
         m_output = writer;
+
         initPattern();
     }
 
@@ -79,9 +80,9 @@ public class DefaultOutputLogTarget
             m_output.write( data );
             m_output.flush();
         }
-        catch( final IOException ioe )
+        catch (IOException ioe)
         {
-            LogKit.log("IOException in DefaultOutputLogTarget", ioe );
+            Hierarchy.getDefaultHierarchy().log("Caught an IOException", ioe);
         }
     }
 

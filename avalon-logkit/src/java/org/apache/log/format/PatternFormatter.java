@@ -49,6 +49,8 @@ public class PatternFormatter
     protected final static String      SPACE_2              = "  ";
     protected final static String      SPACE_1              = " ";
 
+    protected final static String      EOL                  = System.getProperty("line.separator", "\n");
+
     protected static class PatternRun
     {
         String             m_data;
@@ -187,7 +189,7 @@ public class PatternFormatter
         {
             if( escapeMode )
             {
-                if( 'n' == pattern[ index ] ) sb.append('\n');
+                if( 'n' == pattern[ index ] ) sb.append(PatternFormatter.EOL);
                 else if( 't' == pattern[ index ] ) sb.append('\t');
                 else sb.append( pattern[ index ] );
                 escapeMode = false;
@@ -395,7 +397,7 @@ public class PatternFormatter
     }
 
     /**
-     * Correct a context string by replacccing '.''s with a '_'.
+     * Correct a context string by replacing '.''s with a '_'.
      *
      * @param context the un-fixed context
      * @return the fixed context
