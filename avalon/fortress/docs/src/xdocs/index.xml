@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.1//EN" "document-v11.dtd">
+
+<document>
+  <header>
+    <title>Excalibur Fortress - Overview</title>
+    <authors>
+      <person name="The Avalon Documentation Team" email="dev@avalon.apache.org"/>
+    </authors>
+  </header>
+  <body>
+    <section><title>Introduction</title>
+      <p>
+        Fortress contains a framework to help you create your own
+        avalon containers.  It boasts asynchronous management of your
+        component instances, high scalability, easier maintenance of
+        your code, and easy embedding into various environments like
+        servlet engines.
+      </p>
+    </section>
+    <section><title>Downloads</title>
+        <p>
+            When fortress is released, binaries will be made available. For
+            now, you can try downloading a nightly build from
+            <link href="http://cvs.apache.org/builds/avalon/nightly/">here</link>.
+        </p>
+        <p>
+            Other than that, the only way to get fortress is by using cvs.
+        </p>
+    </section>
+    <section><title>Available Documentation</title>
+        <ul>
+            <li>The primary source of documentation is the fortress website, available
+            at
+            <link href="http://jakarta.apache.org/avalon/fortress/">http://jakarta.apache.org/avalon/fortress/</link>.</li>
+            <li>There is some material relating to fortress in the experimental
+            <link href="http://nagoya.apache.org/wiki/">ApacheWiki</link>, right
+            <link href="http://nagoya.apache.org/wiki/apachewiki.cgi?AvalonFortress">here</link>.
+            One of the things you can find there is the
+            <link href="http://nagoya.apache.org/wiki/apachewiki.cgi?AvalonFortressFAQ">FAQ</link>.</li>
+            <li>You will probably want to check out the examples that come with fortress;
+            they're located in the examples/ dir in cvs, and nightly builds are also
+            made available.</li>
+            <li>For general information about the avalon project, you will want to read the
+            <link href="http://jakarta.apache.org/avalon/framework/">Avalon Framework Documentation</link>.
+            <link href="http://jakarta.apache.org/avalon/developing/">Developing with Avalon</link> is a
+            terribly useful resource as well.</li>
+            <li>We strive to completely javadoc all source code; the apidocs are available
+            <link href="api/">online</link>.</li>
+            <li>If, after reading all that, you still have unanswered questions, the
+            <link href="http://jakarta.apache.org/site/mail2.html#Avalon">avalon-user list</link>
+            and its archive can be incredibly useful.</li>
+        </ul>
+    </section>
+  </body>
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
+      $Revision: 1.1 $ $Date: 2003/06/09 15:27:45 $
+    </legal>
+  </footer>
+</document>

@@ -1,0 +1,718 @@
+<?xml version="1.0"?>
+
+<project default="avalon:info"
+    xmlns:j="jelly:core"
+    xmlns:ant="jelly:ant">
+
+    <goal name="avalon:header"
+            description="Displays a fancy header">
+
+        <j:if test="${not banner.shown}">
+            <j:set var="banner.shown" value="true"/>
+            <ant:echo>
+            __
+           /  \    Apache
+          /    \__________________________________
+         /  /\  \  \/  /    \ |  |  /   \|   \|  |
+        /  /  \  \    /  /\  \|  |_|  O  |  \ \  |
+       /__/    \__\__/__/  \__\_____\__ /|__|\___|     Build System
+            </ant:echo>
+        </j:if>
+    </goal>
+
+    <!-- ==========================================================
+          Project setup detection
+         ========================================================== -->
+
+    <goal name="avalon:init"
+            prereqs="avalon:header,avalon:version-override"
+            description="sets various properties based on the existence of directories">
+
+        <j:set var="api.src.dir" value="${basedir}/src/api"/>
+        <j:set var="impl.src.dir" value="${basedir}/src/impl"/>
+        <j:set var="java.src.dir" value="${pom.build.sourceDirectory}"/>
+        <j:set var="test.src.dir" value="${pom.build.unitTestSourceDirectory}"/>
+
+        <ant:available file="${api.src.dir}" property="ant.api.src.present"/>
+        <ant:available file="${impl.src.dir}" property="ant.impl.src.present"/>
+        <ant:available file="${java.src.dir}" property="ant.java.src.present"/>
+        <ant:available file="${test.src.dir}" property="ant.test.src.present"/>
+
+        <j:set var="api.src.present" value="${ant.api.src.present}"/>
+        <j:set var="impl.src.present" value="${ant.impl.src.present}"/>
+        <j:set var="java.src.present" value="${ant.java.src.present}"/>
+        <j:set var="test.src.present" value="${ant.test.src.present}"/>
+
+        <j:set var="build.src.dir" value="${maven.build.dir}/src"/>
+        <j:set var="api.build.dir" value="${maven.build.dir}/api"/>
+        <j:set var="impl.build.dir" value="${maven.build.dir}/impl"/>
+        <j:set var="test.build.dir" value="${maven.build.dir}/test-classes"/>
+    </goal>
+
+    <!-- check for override.version -->
+    <goal name="avalon:version-override"
+                description="Overrides the version set in the POM if an override.version property is specified">
+        <j:set var="override" value="${override.version}"/>
+        <j:if test="${not empty(override)}">
+            <j:setProperties object="${pom}" currentVersion="${override}"/>
+        </j:if>
+        <ant:echo>
+            overriding version; setting to: ${pom.currentVersion}
+        </ant:echo>
+    </goal>
+
+    <!-- ==========================================================
+          Doc Generation
+         ==========================================================
+
+         This uses a very rudimentary forrest plugin.
+
+         ========================================================== -->
+
+    <!-- use forrest for doc generation if requested -->
+    <postGoal name="xdoc">
+        <j:if test="${pom.getProperty('use-forrest') == 'true'}">
+            <attainGoal name="forrest:generate"/>
+        </j:if>
+    </postGoal>
+
+    <goal name="avalon:generate-readme"
+            description="Generates a README.txt from the maven POM">
+
+        <ant:echo file="${maven.build.dir}/README.txt">
+=======================================================================
+            __
+           /  \    Apache
+          /    \__________________________________
+         /  /\  \  \/  /    \ |  |  /   \|   \|  |
+        /  /  \  \    /  /\  \|  |_|  O  |  \ \  |
+       /__/    \__\__/__/  \__\_____\__ /|__|\___|
+
+
+                         == ${pom.name} ==
+
+=======================================================================
+summary:   ${pom.shortDescription}
+publisher: ${pom.organization.name}
+website:   ${pom.url}
+version:   ${pom.currentVersion}
+license:   Please see the LICENSE.txt file
+=======================================================================
+
+${pom.description}
+
+More documentation?
+===================
+We do not distribute all our documentation through releases. Rather,
+you are encouraged to visit our website at
+    ${pom.url}
+for more information.
+
+Building from source?
+=====================
+The avalon buildfiles use a common buildsystem which utilizes maven and
+forrest. You will need to download and install maven, the
+maven-forrest-plugin, and the avalon-buildsystem module.
+</ant:echo>
+    </goal>
+
+    <goal name="avalon:generate-license"
+            description="Generates a LICENSE.txt from the maven POM">
+
+        <ant:tstamp><ant:format property="current.year" pattern="yyyy"/></ant:tstamp>
+        <j:if test="${current.year==pom.inceptionYear}">
+            <j:set var="year.string" value="${current.year}"/>
+        </j:if>
+        <j:if test="${empty(year.string)}">
+            <j:set var="year.string" value="${pom.inceptionYear}-${current.year}"/>
+        </j:if>
+        <ant:echo file="${maven.build.dir}/LICENSE.txt">
+ ============================================================================
+                   The Apache Software License, Version 1.1
+ ============================================================================
+
+ Copyright (C) ${year.string} The Apache Software Foundation.
+ All rights reserved.
+
+ Redistribution and use in source and binary forms, with or without modifica-
+ tion, are permitted provided that the following conditions are met:
+
+ 1. Redistributions of  source code must  retain the above copyright  notice,
+    this list of conditions and the following disclaimer.
+
+ 2. Redistributions in binary form must reproduce the above copyright notice,
+    this list of conditions and the following disclaimer in the documentation
+    and/or other materials provided with the distribution.
+
+ 3. The end-user documentation included with the redistribution, if any, must
+    include  the following  acknowledgment:  "This product includes  software
+    developed  by the  Apache Software Foundation  (http://www.apache.org/)."
+    Alternately, this  acknowledgment may  appear in the software itself,  if
+    and wherever such third-party acknowledgments normally appear.
+
+ 4. The  names   "Apache",   "Avalon",  "Excalibur",  "Fortress",  "Phoenix",
+    "Merlin" and "Apache Software Foundation" must not be used  to endorse or
+    promote  products  derived  from  this  software  without  prior  written
+    permission.  For written permission, please contact apache@apache.org.
+
+ 5. Products  derived from this software may not  be called "Apache", nor may
+    "Apache" appear  in their name,  without prior written permission  of the
+    Apache Software Foundation.
+
+ THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES,
+ INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ FITNESS  FOR A PARTICULAR  PURPOSE ARE  DISCLAIMED.  IN NO  EVENT SHALL  THE
+ APACHE SOFTWARE  FOUNDATION  OR ITS CONTRIBUTORS  BE LIABLE FOR  ANY DIRECT,
+ INDIRECT, INCIDENTAL, SPECIAL,  EXEMPLARY, OR CONSEQUENTIAL  DAMAGES (INCLU-
+ DING, BUT NOT LIMITED TO, PROCUREMENT  OF SUBSTITUTE GOODS OR SERVICES; LOSS
+ OF USE, DATA, OR  PROFITS; OR BUSINESS  INTERRUPTION)  HOWEVER CAUSED AND ON
+ ANY  THEORY OF LIABILITY,  WHETHER  IN CONTRACT,  STRICT LIABILITY,  OR TORT
+ (INCLUDING  NEGLIGENCE OR  OTHERWISE) ARISING IN  ANY WAY OUT OF THE  USE OF
+ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+ This software  consists of voluntary contributions made  by many individuals
+ on  behalf of the Apache Software  Foundation. For more  information on the
+ Apache Software Foundation, please see http://www.apache.org/.
+        </ant:echo>
+    </goal>
+
+    <!-- ==========================================================
+          Compilation customization
+         ========================================================== -->
+
+    <!-- compile api/ and impl/ dirs as well -->
+    <preGoal name="java:compile">
+        <attainGoal name="avalon:custom-compile"/>
+    </preGoal>
+
+    <goal name="avalon:custom-compile"
+            prereqs="avalon:init,avalon:compile-api,avalon:compile-impl"
+            description="Compiles custom source directories">
+
+        <!-- after this, other maven functionality should
+             mostly work as normal... -->
+        <ant:mkdir dir="${maven.build.dest}"/>
+        <j:if test="${api.src.present}">
+            <copy todir="${maven.build.dest}">
+                <fileset dir="${api.build.dir}"/>
+            </copy>
+        </j:if>
+        <j:if test="${api.src.present}">
+            <copy todir="${maven.build.dest}">
+                <fileset dir="${impl.build.dir}"/>
+            </copy>
+        </j:if>
+    </goal>
+
+    <goal name="avalon:compile-api"
+            prereqs="avalon:init"
+            description="Compiles the src/api/ source directory if it exists">
+        <j:if test="${api.src.present}">
+            <ant:mkdir dir="${api.build.dir}"/>
+            <javac
+                    destdir="${api.build.dir}"
+                    excludes="**/package.html"
+                    debug="${maven.compile.debug}"
+                    deprecation="${maven.compile.deprecation}"
+                    optimize="${maven.compile.optimize}">
+
+                <src>
+                    <pathelement path="${api.src.dir}"/>
+                </src>
+
+                <classpath>
+                    <path refid="maven.dependency.classpath"/>
+                </classpath>
+            </javac>
+        </j:if>
+    </goal>
+
+    <goal name="avalon:compile-impl"
+            prereqs="avalon:init,avalon:compile-api"
+            description="Compiles the src/impl/ source directory if it exists">
+        <j:if test="${impl.src.present}">
+            <mkdir dir="${impl.build.dir}"/>
+            <javac
+                    destdir="${impl.build.dir}"
+                    excludes="**/package.html"
+                    debug="${maven.compile.debug}"
+                    deprecation="${maven.compile.deprecation}"
+                    optimize="${maven.compile.optimize}">
+
+                <src>
+                    <pathelement path="${impl.src.dir}"/>
+                </src>
+
+                <classpath>
+                    <path refid="maven.dependency.classpath"/>
+                    <pathelement path="${api.build.dir}"/>
+                </classpath>
+            </javac>
+        </j:if>
+    </goal>
+
+    <goal name="avalon:copy-sources"
+            prereqs="avalon:init"
+            description="build a source directory containing all project sources">
+
+        <mkdir dir="${build.src.dir}"/>
+        <j:if test="${java.src.present}">
+            <ant:copy todir="${build.src.dir}">
+                <ant:fileset dir="${java.src.dir}">
+                    <include name="**"/>
+                </ant:fileset>
+            </ant:copy>
+        </j:if>
+        <j:if test="${impl.src.present}">
+            <ant:copy todir="${build.src.dir}">
+                <ant:fileset dir="${impl.src.dir}">
+                    <include name="**"/>
+                </ant:fileset>
+            </ant:copy>
+        </j:if>
+        <j:if test="${api.src.present}">
+            <ant:copy todir="${build.src.dir}">
+                <ant:fileset dir="${api.src.dir}">
+                    <include name="**"/>
+                </ant:fileset>
+            </ant:copy>
+        </j:if>
+
+        <!-- sort-of hack to make further targets work normally -->
+        <ant:available property="ant.actual.java.src.present"
+                file="${java.src.dir}/org"/>
+        <ant:condition property="ant.no.actual.java.src.present">
+            <ant:not>
+                <ant:isset property="ant.actual.java.src.present"/>
+            </ant:not>
+        </ant:condition>
+        <j:set var="no.actual.java.src.present" value="${ant.no.actual.java.src.present}"/>
+        <j:if test="${no.actual.java.src.present}">
+            <mkdir dir="${java.src.dir}"/>
+            <ant:copy todir="${java.src.dir}">
+                <ant:fileset dir="${build.src.dir}"/>
+            </ant:copy>
+        </j:if>
+    </goal>
+
+    <goal name="avalon:cleanup-copy-sources">
+        <ant:echo>
+=======================================================================
+Caution
+=======================================================================
+We're now attempting to delete
+
+    ${java.src.dir}
+
+That might fail due to file locking. If so, you should delete this
+directory yourself using a command such as
+
+    rm -Rf ${java.src.dir}
+=======================================================================
+        </ant:echo>
+        <j:if test="${no.actual.java.src.present}">
+            <delete dir="${java.src.dir}" failonerror="false"/>
+        </j:if>
+    </goal>
+
+    <!-- ==========================================================
+          Jar customization
+         ========================================================== -->
+
+    <!-- build api and impl jars as well -->
+    <preGoal name="java:jar">
+        <attainGoal name="avalon:custom-jar"/>
+    </preGoal>
+
+    <goal name="avalon:custom-jar"
+            prereqs="avalon:init,avalon:jar-api,avalon:jar-impl"
+            description="Creates api and impl jars">
+
+        <ant:mkdir dir="${maven.build.dir}"/>
+        <j:if test="${api.src.present}">
+            <ant:zip destfile="${maven.build.dir}/${maven.final.name}.jar">
+                <ant:zipfileset src="${maven.build.dir}/${maven.final.name}-api.jar"/>
+            </ant:zip>
+        </j:if>
+        <j:if test="${impl.src.present}">
+            <ant:zip destfile="${maven.build.dir}/${maven.final.name}.jar"
+                    update="true">
+                <ant:zipfileset src="${maven.build.dir}/${maven.final.name}-impl.jar"/>
+            </ant:zip>
+        </j:if>
+    </goal>
+
+    <goal name="avalon:jar-api"
+            prereqs="avalon:init,avalon:compile-api"
+            description="Creates an api jar">
+        <j:if test="${api.src.present}">
+            <ant:jar destfile="${maven.build.dir}/${maven.final.name}-api.jar" basedir="${api.build.dir}"/>
+        </j:if>
+    </goal>
+
+    <goal name="avalon:jar-impl"
+            prereqs="avalon:init,avalon:compile-impl"
+            description="Creates an impl jar">
+        <j:if test="${api.src.present}">
+            <ant:jar destfile="${maven.build.dir}/${maven.final.name}-impl.jar" basedir="${impl.build.dir}"/>
+        </j:if>
+    </goal>
+
+    <!-- ==========================================================
+          Test customization
+         ========================================================== -->
+
+    <!-- copy additional test resources -->
+    <postGoal name="test:prepare-filesystem">
+        <ant:copy todir="${maven.build.dir}/test-classes">
+            <ant:fileset dir="${pom.build.unitTestSourceDirectory}">
+                <ant:exclude name="**/*.java"/>
+                <ant:exclude name="**/package.html"/>
+            </ant:fileset>
+        </ant:copy>
+        <attainGoal name="avalon:copy-sources"/>
+    </postGoal>
+
+    <!-- ==========================================================
+          Distribution customization
+         ========================================================== -->
+
+    <!-- check for override.version -->
+    <preGoal name="dist:build-setup">
+        <attainGoal name="avalon:version-override"/>
+    </preGoal>
+
+    <!-- auto-gen readme and license when building distributions -->
+    <postGoal name="dist:build-setup">
+        <attainGoal name="avalon:generate-readme"/>
+        <attainGoal name="avalon:generate-license"/>
+    </postGoal>
+    <preGoal name="javadoc:generate">
+        <attainGoal name="avalon:copy-sources"/>
+    </preGoal>
+    <postGoal name="javadoc:generate">
+        <attainGoal name="avalon:cleanup-copy-sources"/>
+    </postGoal>
+    <preGoal name="maven-junit-report-plugin:report">
+        <attainGoal name="avalon:copy-sources"/>
+    </preGoal>
+    <postGoal name="maven-junit-report-plugin:report">
+        <attainGoal name="avalon:cleanup-copy-sources"/>
+    </postGoal>
+
+    <!-- include genned readme and license and src.zip in distro -->
+    <postGoal name="dist:prepare-bin-filesystem">
+        <attainGoal name="avalon:generate-readme"/>
+        <attainGoal name="avalon:generate-license"/>
+        <attainGoal name="avalon:generate-src-zip"/>
+        <attainGoal name="avalon:generate-test-src-zip"/>
+
+        <ant:copy todir="${maven.dist.bin.assembly.dir}">
+          <ant:fileset dir="${maven.build.dir}">
+            <ant:include name="README.txt"/>
+            <ant:include name="LICENSE.txt"/>
+            <ant:include name="src.zip"/>
+            <ant:include name="test-src.zip"/>
+            <ant:include name="*.jar"/>
+          </ant:fileset>
+        </ant:copy>
+    </postGoal>
+
+    <!-- include genned readme and license and src.zip in distro -->
+    <postGoal name="dist:prepare-src-filesystem">
+        <attainGoal name="avalon:generate-readme"/>
+        <attainGoal name="avalon:generate-license"/>
+
+        <ant:copy todir="${maven.dist.src.assembly.dir}">
+          <ant:fileset dir="${maven.build.dir}">
+            <ant:include name="README.txt"/>
+            <ant:include name="LICENSE.txt"/>
+          </ant:fileset>
+        </ant:copy>
+    </postGoal>
+
+    <goal name="avalon:generate-src-zip"
+            prereqs="avalon:init"
+            description="build a source zip containing all project sources">
+        <ant:zip destfile="${maven.build.dir}/src.zip"
+                basedir="${build.src.dir}"/>
+    </goal>
+
+    <goal name="avalon:generate-test-src-zip"
+            description="build a source zip containing all project test sources">
+        <ant:zip destfile="${maven.build.dir}/test-src.zip"
+            basedir="${test.src.dir}"/>
+    </goal>
+
+    <goal name="avalon:dist-checksums"
+            description="Generate checksums of the distributions">
+
+        <!-- generate checksums -->
+        <ant:checksum fileext="md5">
+            <fileset dir="${maven.build.dir}/distributions">
+                <include name="*.zip"/>
+                <include name="*.gz"/>
+            </fileset>
+        </ant:checksum>
+        <ant:checksum fileext="md5">
+            <fileset dir="${maven.build.dir}">
+                <include name="*.jar"/>
+            </fileset>
+        </ant:checksum>
+
+    </goal>
+
+    <!-- ==========================================================
+          Deployment customization
+         ========================================================== -->
+
+    <goal name="avalon:deploy"
+            prereqs="avalon:version-override"
+            description="Deploys a release to www.apache.org/dist">
+
+        <!-- set variables -->
+        <j:set var="hostname" value="${remote.host.name}"/>
+        <j:if test="${empty(hostname)}">
+            <j:set var="hostname" value="lsd.student.utwente.nl"/>
+        </j:if>
+        <j:set var="repodir" value="${remote.repository.dir}"/>
+        <j:if test="${empty(repodir)}">
+            <j:set var="repodir" value="~/repo"/>
+        </j:if>
+        <j:set var="mailannounce" value="${send.announce}"/>
+
+        <j:set var="repo" value="${hostname}:${repodir}"/>
+        <j:set var="mkdir" value="mkdir -p"/>
+        <j:set var="sshopts" value="-T -o BatchMode=yes"/>
+        <j:set var="scpopts" value="-B"/>
+
+        <attainGoal name="avalon:deploy-pgp-check"/>
+        <attainGoal name="avalon:deploy-create-dirs"/>
+        <attainGoal name="avalon:deploy-upload"/>
+        <attainGoal name="avalon:deploy-create-symlinks"/>
+        <attainGoal name="avalon:deploy-announce"/>
+    </goal>
+
+    <goal name="avalon:deploy-pgp-check"
+            description="check for *.asc">
+        <j:set var="fail.on.pgp.missing" value="false"/>
+        <ant:available file="${maven.build.dir}/distributions/${maven.final.name}-bin.zip.asc"
+                property="asc.files.present"/>
+        <j:set var="pgpdone" value="${asc.files.present}"/>
+        <j:if test="${not pgpdone}">
+            <echo>
+WARNING: No PGP .asc files available! Please execute
+'maven avalon:info' in the parent directory to read
+about PGP and deploying distributions!
+            </echo>
+            <j:if test="fail.on.pgp.missing">
+                <ant:fail/>
+            </j:if>
+        </j:if>
+    </goal>
+
+    <goal name="avalon:deploy-create-dirs">
+        <!-- create directories -->
+        <ant:exec dir="." executable="${maven.ssh.executable}">
+            <arg line="${sshopts} ${hostname} ${mkdir} ${repodir}/${pom.groupId}/source/"/>
+        </ant:exec>
+        <ant:exec dir="." executable="${maven.ssh.executable}">
+            <arg line="${sshopts} ${hostname} ${mkdir} ${repodir}/${pom.groupId}/binaries/"/>
+        </ant:exec>
+        <ant:exec dir="." executable="${maven.ssh.executable}">
+            <arg line="${sshopts} ${hostname} ${mkdir} ${repodir}/${pom.groupId}/jars/"/>
+        </ant:exec>
+    </goal>
+
+    <goal name="avalon:deploy-upload">
+        <!-- upload files -->
+        <ant:exec dir="." executable="${maven.scp.executable}">
+            <arg line="${scpopts} target/distributions/*${pom.currentVersion}-src* ${repo}/${pom.groupId}/source/"/>
+        </ant:exec>
+        <ant:exec dir="." executable="${maven.scp.executable}">
+            <arg line="${scpopts} target/distributions/*${pom.currentVersion}-src* ${repo}/${pom.groupId}/binaries/"/>
+        </ant:exec>
+        <ant:exec dir="." executable="${maven.scp.executable}">
+            <arg line="${scpopts} target/${maven.final.name}.jar ${repo}/${pom.groupId}/jars/"/>
+        </ant:exec>
+        <j:if test="api.src.present">
+            <ant:exec dir="." executable="${maven.scp.executable}">
+                <arg line="${scpopts} target/${maven.final.name}-api.jar ${repo}/${pom.groupId}/jars/"/>
+            </ant:exec>
+        </j:if>
+        <j:if test="impl.src.present">
+            <ant:exec dir="." executable="${maven.scp.executable}">
+                <arg line="${scpopts} target/${maven.final.name}-impl.jar ${repo}/${pom.groupId}/jars/"/>
+            </ant:exec>
+        </j:if>
+    </goal>
+
+    <goal name="avalon:deploy-create-symlinks">
+        <!-- create symlinks -->
+
+        <!-- -src.tar.gz to basedir -->
+        <ant:exec dir="." executable="${maven.ssh.executable}">
+            <arg line="${sshopts} ${hostname} ln -f -s ${repodir}/${pom.artifactId}/source/${maven.final.name}-src.tar.gz ${repodir}/${pom.groupId}/${maven.final.name}-src.tar.gz"/>
+        </ant:exec>
+        <!-- basedir/$v-src.tar.gz to basedir/latest-src.tar.gz -->
+        <ant:exec dir="." executable="${maven.ssh.executable}">
+            <arg line="${sshopts} ${hostname} ln -f -s ${repodir}/${pom.groupId}/${maven.final.name}-src.tar.gz ${repodir}/${pom.groupId}/${pom.artifactId}-latest-src.tar.gz"/>
+        </ant:exec>
+        <!-- -src.tar.gz.asc to basedir -->
+        <ant:exec dir="." executable="${maven.ssh.executable}">
+            <arg line="${sshopts} ${hostname} ln -f -s ${repodir}/${pom.groupId}/source/${maven.final.name}-src.tar.gz.asc ${repodir}/${pom.groupId}/${maven.final.name}-src.tar.gz.asc"/>
+        </ant:exec>
+        <!-- basedir/$v-src.tar.gz.asc to basedir/latest-src.tar.gz.asc -->
+        <ant:exec dir="." executable="${maven.ssh.executable}">
+            <arg line="${sshopts} ${hostname} ln -f -s ${repodir}/${pom.groupId}/${maven.final.name}-src.tar.gz.asc ${repodir}/${pom.groupId}/${pom.artifactId}-latest-src.tar.gz.asc"/>
+        </ant:exec>
+        <!-- -src.tar.gz.md5 to basedir -->
+        <ant:exec dir="." executable="${maven.ssh.executable}">
+            <arg line="${sshopts} ${hostname} ln -f -s ${repodir}/${pom.groupId}/source/${maven.final.name}-src.tar.gz.md5 ${repodir}/${pom.groupId}/${maven.final.name}-src.tar.gz.md5"/>
+        </ant:exec>
+        <!-- basedir/$v-src.tar.gz.md5 to basedir/latest-src.tar.gz.md5 -->
+        <ant:exec dir="." executable="${maven.ssh.executable}">
+            <arg line="${sshopts} ${hostname} ln -f -s ${repodir}/${pom.groupId}/${maven.final.name}-src.tar.gz.md5 ${repodir}/${pom.groupId}/${pom.artifactId}-latest-src.tar.gz.md5"/>
+        </ant:exec>
+
+        <!-- -src.zip to basedir -->
+        <ant:exec dir="." executable="${maven.ssh.executable}">
+            <arg line="${sshopts} ${hostname} ln -f -s ${repodir}/${pom.groupId}/source/${maven.final.name}-src.zip ${repodir}/${pom.groupId}/${maven.final.name}-src.zip"/>
+        </ant:exec>
+        <!-- basedir/$v-src.zip to basedir/latest-src.zip -->
+        <ant:exec dir="." executable="${maven.ssh.executable}">
+            <arg line="${sshopts} ${hostname} ln -f -s ${repodir}/${pom.groupId}/${maven.final.name}-src.zip ${repodir}/${pom.groupId}/${pom.artifactId}-latest-src.zip"/>
+        </ant:exec>
+        <!-- -src.zip.md5 to basedir -->
+        <ant:exec dir="." executable="${maven.ssh.executable}">
+            <arg line="${sshopts} ${hostname} ln -f -s ${repodir}/${pom.groupId}/source/${maven.final.name}-src.zip.md5 ${repodir}/${pom.groupId}/${maven.final.name}-src.zip.md5"/>
+        </ant:exec>
+        <!-- basedir/$v-src.zip.md5 to basedir/latest-src.zip.md5 -->
+        <ant:exec dir="." executable="${maven.ssh.executable}">
+            <arg line="${sshopts} ${hostname} ln -f -s ${repodir}/${pom.groupId}/${maven.final.name}-src.zip.md5 ${repodir}/${pom.groupId}/${pom.artifactId}-latest-src.zip.md5"/>
+        </ant:exec>
+        <!-- -src.zip.asc to basedir -->
+        <ant:exec dir="." executable="${maven.ssh.executable}">
+            <arg line="${sshopts} ${hostname} ln -f -s ${repodir}/${pom.groupId}/source/${maven.final.name}-src.zip.asc ${repodir}/${pom.groupId}/${maven.final.name}-src.zip.asc"/>
+        </ant:exec>
+        <!-- basedir/$v-src.zip.asc to basedir/latest-src.zip.asc -->
+        <ant:exec dir="." executable="${maven.ssh.executable}">
+            <arg line="${sshopts} ${hostname} ln -f -s ${repodir}/${pom.groupId}/${maven.final.name}-src.zip.asc ${repodir}/${pom.groupId}/${pom.artifactId}-latest-src.zip.asc"/>
+        </ant:exec>
+    </goal>
+
+    <goal name="avalon:deploy-announce">
+        <!-- create announcment -->
+        <ant:echo file="${maven.build.dir}/announcement-${pom.currentVersion}.txt">
+The Avalon team is proud to announce the release of version ${pom.currentVersion}
+of the ${pom.artifactId} project.
+
+About ${pom.artifactId}
+=======================
+${pom.description}
+
+About Avalon
+============
+The Avalon project is an effort to create, design, develop and maintain
+a common framework and set of components for applications written using
+the Java language.
+
+Avalon is proud to be a part of the Apache Software Foundation.
+
+For more information about avalon, see
+
+            http://avalon.apache.org/
+
+For more information about the Apache Software Foundation, see
+
+            http://www.apache.org/
+
+Downloading the distribution
+============================
+You may get the official release from the following URL:
+
+http://avalon.apache.org/download.cgi
+        </ant:echo>
+
+        <!-- e-mail announcement -->
+
+        <j:if test="${mailannounce}">
+<ant:echo>
+    Attempting to send distribution announcement
+</ant:echo>
+            <ant:mail
+                from="Avalon Development Team &gt;dev@avalon.apache.org&lt;"
+                toList="Avalon Development List &gt;dev@avalon.apache.org&lt;, Avalon User List &gt;users@avalon.apache.org&lt;"
+                messageFile="${maven.build.dir}/announcement-${pom.currentVersion}.txt"
+                subject="[Announce] ${pom.artifactId} ${pom.currentVersion} released"/>
+        </j:if>
+    </goal>
+
+    <!-- ==========================================================
+          Gump Integration
+         ========================================================== -->
+
+    <goal name="avalon:seed-gump"
+            prereqs="avalon:init">
+
+        <mkdir dir="${avalon.buildsystem}/gump-integration"/>
+        <mkdir dir="${avalon.buildsystem}/gump-integration/project"/>
+        <!-- create gump-project.xml -->
+        <ant:available file="${avalon.buildsystem}/gump-integration/project/${pom.artifactId}.xml"
+                property="gump.exists"/>
+        <j:set var="gexists" value="${gump.exists}"/>
+        <j:if test="${gexists}"><ant:fail>${avalon.buildsystem}/gump-integration/project/${pom.artifactId}.xml already exists!</ant:fail></j:if>
+        <j:if test="${not gexists}">
+
+            <!-- copied from the maven gump plugin -->
+            <j:new var="dependentProjects" className="java.util.TreeSet" />
+            <j:forEach var="dependency" items="${pom.dependencies}">
+              <j:set var="gumpDepName">${dependency.groupId}</j:set>
+              <j:set var="dummy">${dependentProjects.add(gumpDepName)}</j:set>
+            </j:forEach>
+
+            <j:file name="${avalon.buildsystem}/gump-integration/project/${pom.artifactId}.xml">
+            <j:whitespace xmlns="dummy">
+<project name="${pom.artifactId}">
+    <package>${pom.package}</package>
+    <ant basedir="${component.dir}" target="dist">
+        <property name="project.version" value="@@DATE@@"/>
+    </ant>
+
+    <!-- common dependencies -->
+    <depend project="ant" inherit="runtime"/>
+    <depend project="xml-xalan2"/>
+    <depend project="xml-xerces"/>
+
+    <!-- dump out the set of dependencies -->
+    <j:forEach var="dependency" items="${dependentProjects}">
+      <depend project="${dependency}" runtime="true"/>
+    </j:forEach>
+
+    <work nested="${component.dir}/target/classes"/>
+    <j:if test="${api.src.present}"><work nested="${component.dir}/target/api-classes"/></j:if>
+    <j:if test="${impl.src.present}"><work nested="${component.dir}/target/impl-classes"/></j:if>
+    <j:if test="${test.src.present}"><work nested="${component.dir}/target/test-classes"/></j:if>
+
+    <home nested="${component.dir}"/>
+    <jar name="target/${pom.artifactId}-@@DATE@@.jar"/>
+    <j:if test="${api.src.present}"><jar name="target/${pom.artifactId}-@@DATE@@-api.jar"/></j:if>
+    <j:if test="${impl.src.present}"><jar name="target/${pom.artifactId}-@@DATE@@-impl.jar"/></j:if>
+    <javadoc nested="${component.dir}/target/docs/apidocs"/>
+
+    <nag from="Gump Integration Build &lt;dev@avalon.apache.org&gt;"
+            to="dev@avalon.apache.org"/>
+</project>
+            </j:whitespace>
+            </j:file>
+        </j:if>
+    </goal>
+
+
+    <postGoal name="clean">
+        <delete dir="${basedir}/test"/>
+    </postGoal>
+    <postGoal name="test">
+        <delete dir="${basedir}/test"/>
+    </postGoal>
+</project>

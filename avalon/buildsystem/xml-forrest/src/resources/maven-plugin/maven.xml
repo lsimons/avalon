@@ -1,0 +1,82 @@
+<!-- this script generates the forrest shbat distribution,
+     patches it to fit a little better within a maven-style
+     website, then jars up the modified distribution
+     together with a little bit of jelly script which
+     delegates to the shbat distribution. -->
+<project default="forrest-plugin:jar">
+
+    <!-- called by maven-plugin-plugin -->
+    <postGoal name="jar:jar">
+        <attainGoal name="forrest-plugin:jar"/>
+    </postGoal>
+
+    <goal name="forrest-plugin:jar">
+        <echo>
+            generating plugin....
+
+            assembly dir: ${basedir}/target/assemblyDir
+            shbat buildfile: ${basedir}/../../../build.xml
+            generated plugin: ${maven.build.dir}/${maven.final.name}.jar
+        </echo>
+        <!-- set up the directory the jar will be assembled to -->
+        <property name="assemblyDir" value="target/assemblyDir"/>
+
+        <!-- delete current contents -->
+        <mkdir dir="${assemblyDir}"/>
+        <delete includeEmptyDirs="true" verbose="false">
+            <fileset dir="${assemblyDir}"/>
+        </delete>
+
+        <!-- make new dir -->
+        <mkdir dir="${assemblyDir}"/>
+
+        <!-- generate forrest-shbat -->
+        <path id="forrest-classpath">
+            <fileset dir="../../../">
+                <include name="lib/core/*.jar"/>
+                <include name="lib/endorsed/*.jar"/>
+                <include name="lib/optional/*.jar"/>
+                <include name="lib/endorsed/*.jar"/>
+                <include name="tools/ant/lib/*.jar"/>
+            </fileset>
+            <pathelement location="${java.home}/../lib/tools.jar"/>
+        </path>
+
+        <java classname="org.apache.tools.ant.Main" fork="true">
+            <classpath refid="forrest-classpath"/>
+            <arg line="-f ../../../build.xml -emacs dist-shbat"/>
+        </java>
+
+        <!-- copy forrest-shbat to plugin-resources -->
+        <mkdir dir="${assemblyDir}/plugin-resources"/>
+        <copy todir="${assemblyDir}/plugin-resources">
+            <fileset dir="../../../build/dist/shbat">
+                <!-- no jars inside the plugin pleez! -->
+                <exclude name="ant/**"/>
+                <exclude name="bin/**"/>
+                <exclude name="forrestbot/**"/>
+                <exclude name="lib/**"/>
+                <exclude name="WEB-INF/lib/**"/>
+            </fileset>
+        </copy>
+
+        <!-- patch the forrest.build.xml file -->
+        <patch patchfile="forrest.build.xml.patch.txt"
+                originalfile="${assemblyDir}/plugin-resources/forrest.build.xml"/>
+
+        <!-- copy the maven-related files -->
+        <copy todir="${assemblyDir}/">
+            <fileset dir=".">
+                <include name="plugin.jelly"/>
+                <include name="plugin.properties"/>
+                <include name="project.properties"/>
+                <include name="project.xml"/>
+            </fileset>
+        </copy>
+
+        <!-- jar the files up -->
+        <jar jarfile="${maven.build.dir}/${maven.final.name}.jar">
+            <fileset dir="${assemblyDir}"/>
+        </jar>
+    </goal>
+</project>

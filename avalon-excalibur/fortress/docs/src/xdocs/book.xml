@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+      <!DOCTYPE book PUBLIC "-//APACHE//DTD Cocoon Documentation Book V1.0//EN" "book-cocoon-v10.dtd">
+
+<book software="Excalibur Fortress"
+    title="Excalibur Fortress"
+    copyright="@year@ The Apache Software Foundation"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+
+        <menu label="Essentials">
+            <menu-item href="index.html" label="Overview"/>
+            <menu-item href="features.html" label="Features"/>
+            <menu-item href="getting-started.html" label="Getting Started"/>
+            <menu-item href="using-meta-info.html" label="Using Meta Info"/>
+            <menu-item href="http://avalon.apache.org/download.cgi" label="Download"/>
+        </menu>
+
+        <menu label="Environments">
+            <menu-item href="cli.html" label="Command Line Applications"/>
+            <menu-item href="swing.html" label="Swing Applications"/>
+            <menu-item href="servlet.html" label="Servlet Applications"/>
+        </menu>
+
+        <menu label="Related">
+            <menu-item href="http://avalon.apache.org/" label="Avalon Home"/>
+            <menu-item href="http://avalon.apache.org/excalibur/" label="Excalibur Home"/>
+            <menu-item href="http://avalon.apache.org/phoenix/" label="Avalon Phoenix"/>
+            <menu-item href="http://avalon.apache.org/excalibur/component/" label="ECM"/>
+        </menu>
+
+        <menu label="Reference">
+            <menu-item label="API Docs" href="apidocs/index.html"/>
+            <menu-item href="lifecycle-extensions.html" label="Lifecycle Extensions"/>
+            <menu-item href="design-notes.html" label="Design Notes"/>
+        </menu>
+
+        <menu label="Reports">
+          <menu-item href="maven-reports.html" label="Maven-generated reports"/>
+          <menu-item href="project-info.html" label="Maven-generated project info"/>
+        </menu>
+    </book>
+

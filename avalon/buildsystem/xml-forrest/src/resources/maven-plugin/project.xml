@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+    <pomVersion>3</pomVersion>
+    <id>maven-forrest-plugin</id>
+    <name>Maven Forrest Plug-in</name>
+    <currentVersion>1.0</currentVersion>
+    <shortDescription>Java Documentation Management Tool</shortDescription>
+    <url>http://xml.apache.org/forrest/</url>
+    <inceptionYear>2003</inceptionYear>
+    <package>org.apache.maven</package>
+    <logo>http://maven.apache.org/images/maven.jpg</logo>
+
+    <repository>
+        <connection>scm:cvs:pserver:anoncvs@cvs.apache.org:/home/cvspublic:xml-forrest</connection>
+        <url>http://cvs.apache.org/viewcvs.cgi/xml-forrest/</url>
+    </repository>
+
+    <developers>
+        <developer>
+            <name>Leo Simons</name>
+            <id>leosimons</id>
+            <email>leosimons at apache dot org</email>
+            <roles>
+                <role>Initial plugin contribution</role>
+            </roles>
+        </developer>
+    </developers>
+
+    <organization>
+        <name>Apache Software Foundation</name>
+        <url>http://www.apache.org/</url>
+        <logo>http://maven.apache.org/images/jakarta-logo-blue.gif</logo>
+    </organization>
+
+    <!-- all of the dependencies with <groupId>forrest</groupId>
+         are not available from ibiblio or the avalon distribution
+         site. -->
+    <dependencies>
+        <!-- forrest itself -->
+        <dependency>
+            <id>xml-forrest-components</id>
+            <version>20030605</version>
+            <groupId>forrest</groupId>
+        </dependency>
+        <dependency>
+            <id>xml-forrest-scratchpad</id>
+            <version>20030605</version>
+            <groupId>forrest</groupId>
+        </dependency>
+
+        <!-- forrest uses a custom ant -->
+        <dependency>
+            <id>ant</id>
+            <version>20030605</version>
+            <groupId>forrest</groupId>
+        </dependency>
+        <dependency>
+            <id>ant-apache-resolver</id>
+            <version>20030605</version>
+            <groupId>forrest</groupId>
+        </dependency>
+        <dependency>
+            <id>ant-trax</id>
+            <version>20030605</version>
+            <groupId>forrest</groupId>
+        </dependency>
+        <dependency>
+            <id>ant-xalan2</id>
+            <version>20030605</version>
+            <groupId>forrest</groupId>
+        </dependency>
+        <dependency>
+            <id>nodeps</id>
+            <version>20030605</version>
+            <groupId>forrest</groupId>
+            <jar>nodeps.jar</jar>
+        </dependency>
+        <dependency>
+            <id>resolver</id>
+            <version>20030605</version>
+            <groupId>forrest</groupId>
+            <jar>resolver.jar</jar>
+        </dependency>
+
+<!--        <dependency>
+            <id>ant</id>
+            <version>1.5.1</version>
+            <properties>
+                <classloader>root</classloader>
+            </properties>
+        </dependency>-->
+
+        <!-- xml stuff -->
+        <dependency>
+            <id>xml-apis</id>
+            <version>2.0.2</version>
+        </dependency>
+        <dependency>
+            <id>xercesImpl</id>
+            <version>2.4.0</version>
+            <groupId>xerces</groupId>
+        </dependency>
+        <dependency>
+            <id>xmlParserAPIs</id>
+            <version>2.2.1</version>
+            <groupId>xerces</groupId>
+        </dependency>
+        <dependency>
+            <id>xalan</id>
+            <version>2.5.1</version>
+        </dependency>
+        <dependency>
+            <id>batik-all</id>
+            <version>1.5b5</version>
+            <groupId>forrest</groupId>
+        </dependency>
+        <dependency>
+            <id>chaperon</id>
+            <version>20030407</version>
+            <groupId>forrest</groupId>
+        </dependency>
+
+        <!-- cocoon stuff. Forrest runs on a patched
+             custom-built version of cocoon. -->
+        <dependency>
+            <id>cocoon</id>
+            <version>m2-patched</version>
+            <groupId>forrest</groupId>
+        </dependency>
+        <dependency>
+            <id>cocoon-asciiart-block</id>
+            <version>m2</version>
+            <groupId>forrest</groupId>
+        </dependency>
+        <dependency>
+            <id>cocoon-batik-block</id>
+            <version>m2</version>
+            <groupId>forrest</groupId>
+        </dependency>
+        <dependency>
+            <id>cocoon-chaperon-block</id>
+            <version>m2</version>
+            <groupId>forrest</groupId>
+        </dependency>
+        <dependency>
+            <id>cocoon-deprecated</id>
+            <version>m2</version>
+            <groupId>forrest</groupId>
+        </dependency>
+        <dependency>
+            <id>cocoon-fop-block</id>
+            <version>m2</version>
+            <groupId>forrest</groupId>
+        </dependency>
+        <dependency>
+            <id>cocoon-html-block</id>
+            <version>m2</version>
+            <groupId>forrest</groupId>
+        </dependency>
+        <dependency>
+            <id>cocoon-jfor-block</id>
+            <version>m2</version>
+            <groupId>forrest</groupId>
+        </dependency>
+        <dependency>
+            <id>cocoon-linkrewriter-block</id>
+            <version>m2</version>
+            <groupId>forrest</groupId>
+        </dependency>
+        <dependency>
+            <id>cocoon-lucene-block</id>
+            <version>m2</version>
+            <groupId>forrest</groupId>
+        </dependency>
+        <dependency>
+            <id>cocoon-profiler-block</id>
+            <version>m2</version>
+            <groupId>forrest</groupId>
+        </dependency>
+
+        <!-- avalon stuff. Most of this can be found at
+            www.apache.org/dist/avalon/. Some of it is
+            unreleased, and you need to get that stuff from
+            http://lsd.student.utwente.nl/repository/ -->
+        <dependency>
+            <id>avalon-framework</id>
+            <version>4.1.4</version>
+        </dependency>
+<!-- replaced with excalibur-compatibility        <dependency>
+            <id>excalibur-cli</id>
+            <version>1.0</version>
+        </dependency>-->
+<!-- not according to gump        <dependency>
+            <id>excalibur-collections</id>
+            <version>20020820</version>
+            <groupId>forrest</groupId>
+        </dependency>-->
+        <dependency>
+            <id>excalibur-compatibility</id>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <id>excalibur-component</id>
+            <version>1.1</version>
+        </dependency>
+<!-- not according to gump        <dependency>
+            <id>excalibur-concurrent</id>
+            <version>20020820</version>
+            <groupId>forrest</groupId>
+        </dependency>-->
+        <dependency>
+            <id>excalibur-datasource</id>
+            <version>vm12-20021121</version>
+            <groupId>forrest</groupId>
+        </dependency>
+        <dependency>
+            <id>excalibur-event</id>
+            <version>1.0.2</version>
+        </dependency>
+        <dependency>
+            <id>excalibur-i18n</id>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <id>excalibur-instrument</id>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <id>excalibur-instrument-manager</id>
+            <version>1.0</version>
+            <groupId>excalibur-instrument</groupId>
+        </dependency>
+        <dependency>
+            <id>excalibur-instrument-manager-interfaces</id>
+            <version>1.0</version>
+            <groupId>excalibur-instrument</groupId>
+        </dependency>
+        <dependency>
+            <id>excalibur-io</id>
+            <version>1.1</version>
+            <groupId>forrest</groupId>
+        </dependency>
+        <dependency>
+            <id>excalibur-logger</id>
+            <version>1.0.1</version>
+        </dependency>
+        <dependency>
+            <id>excalibur-monitor</id>
+            <version>1.0.1</version>
+        </dependency>
+        <dependency>
+            <id>excalibur-naming</id>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <id>excalibur-pool</id>
+            <version>1.2</version>
+        </dependency>
+        <dependency>
+            <id>excalibur-sourceresolve</id>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <id>excalibur-store</id>
+            <version>20030317</version>
+            <groupId>forrest</groupId>
+        </dependency>
+        <dependency>
+            <id>excalibur-xmlutil</id>
+            <version>20030503</version>
+            <groupId>forrest</groupId>
+        </dependency>
+
+        <!-- lots of other stuff. Most can be gotten from
+        www.ibiblio.org/maven/, some files only available
+        from http://lsd.student.utwente.nl/repository/ -->
+        <dependency>
+            <id>concurrent</id>
+            <version>1.3.1</version>
+        </dependency>
+        <dependency>
+            <id>commons-cli</id>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <id>commons-collections</id>
+            <version>2.1</version>
+        </dependency>
+        <dependency>
+            <id>commons-jxpath</id>
+            <version>1.1</version>
+        </dependency>
+        <dependency>
+            <id>commons-lang</id>
+            <version>1.0.1</version>
+        </dependency>
+        <!-- not according to cvs libdir        <dependency>
+            <id>commons-httpclient</id>
+            <version>2.0-beta1</version>
+        </dependency>-->
+        <!-- not according to cvs libdir        <dependency>
+            <id>commons-logging</id>
+            <version>1.0</version>
+        </dependency>-->
+        <dependency>
+            <id>fop</id>
+            <version>0.20.5rc3a</version>
+            <groupId>forrest</groupId>
+        </dependency>
+        <dependency>
+            <id>oro</id>
+            <version>2.0.6</version>
+        </dependency>
+        <dependency>
+            <id>regexp</id>
+            <version>1.2</version>
+        </dependency>
+        <dependency>
+            <id>jing</id>
+            <version>20020724</version>
+            <groupId>forrest</groupId>
+        </dependency>
+        <dependency>
+            <id>jisp</id>
+            <version>2.0.1</version>
+        </dependency>
+        <dependency>
+            <id>jtidy</id>
+            <version>4aug2000r7-dev</version>
+        </dependency>
+        <dependency>
+            <id>logkit</id>
+            <version>1.2</version>
+        </dependency>
+        <dependency>
+            <id>lucene</id>
+            <version>1.2</version>
+        </dependency>
+        <dependency>
+            <id>nekodtd</id>
+            <version>0.1.6</version>
+            <groupId>forrest</groupId>
+        </dependency>
+        <dependency>
+            <id>nekopull</id>
+            <version>0.2.2</version>
+            <groupId>forrest</groupId>
+        </dependency>
+        <dependency>
+            <id>resolver</id>
+            <version>20021114</version>
+            <groupId>forrest</groupId>
+        </dependency>
+
+        <!-- the below dependencies were just copied from the
+             xdoc plugin. No idea whether they should really
+             be here -->
+        <dependency>
+            <id>commons-jelly</id>
+            <version>20030211.141339</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-jelly</groupId>
+            <artifactId>commons-jelly-tags-jsl</artifactId>
+            <version>20030211.143151</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-jelly</groupId>
+            <artifactId>commons-jelly-tags-log</artifactId>
+            <version>20030211.142821</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-jelly</groupId>
+            <artifactId>commons-jelly-tags-velocity</artifactId>
+            <version>20030303.205659</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-jelly</groupId>
+            <artifactId>commons-jelly-tags-xml</artifactId>
+            <version>20030211.142705</version>
+            <url>http://jakarta.apache.org/commons/jelly/libs/xml/</url>
+        </dependency>
+        <dependency>
+            <id>maven</id>
+            <version>b9</version>
+            <jar>maven.jar</jar>
+        </dependency>
+    </dependencies>
+</project>
