@@ -1,0 +1,25 @@
+<project default="avalon:build" xmlns:maven="jelly:maven" xmlns:j="jelly:core" xmlns:util="jelly:util" xmlns:ant="jelly:ant">
+
+  <ant:property name="pom.organization.identifier" value="ASF"/>
+  <ant:property name="pom.specificationVersion" value="1.0"/>
+
+  <goal name="avalon:build" description="Build the Repository.">
+    <maven:reactor basedir="${basedir}"
+      includes="**/project.xml"
+      excludes="**/target/**,project.xml"
+      goals="jar:install"
+      banner="Building:"
+      ignoreFailures="false" />
+  </goal>
+
+  <goal name="avalon:clean" prereqs="clean">
+    <maven:reactor
+      basedir="${basedir}"
+      includes="**/project.xml"
+      excludes="project.xml,**/target/**"
+      goals="clean:clean"
+      banner="Cleaning subproject:"
+      ignoreFailures="false"/>
+  </goal>
+
+</project>
