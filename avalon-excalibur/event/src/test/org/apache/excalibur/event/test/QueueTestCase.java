@@ -62,15 +62,15 @@ public class QueueTestCase extends TestCase
         throws Exception
     {
         DefaultQueue queue = new DefaultQueue();
-        assertEquals( queue.size(), 0 );
+        assertEquals( 0, queue.size() );
 
         for ( int j = 0; j < 1000000; j++ )
         {
             queue.enqueue( element );
-            assertEquals( queue.size(), 1 );
+            assertEquals( 1, queue.size() );
 
             assertNotNull( queue.dequeue() );
-            assertEquals( queue.size(), 0 );
+            assertEquals( 0, queue.size() );
         }
     }
 
@@ -78,56 +78,56 @@ public class QueueTestCase extends TestCase
         throws Exception
     {
         DefaultQueue queue = new DefaultQueue();
-        assertEquals( queue.size(), 0 );
+        assertEquals( 0, queue.size() );
 
         for ( int j = 0; j < 1000000; j++ )
         {
             queue.enqueue( elements );
-            assertEquals( queue.size(), 10 );
+            assertEquals( 10, queue.size() );
 
             QueueElement[] results = queue.dequeueAll();
-            assertEquals( results.length, 10 );
-            assertEquals( queue.size(), 0 );
+            assertEquals( 10, results.length );
+            assertEquals( 0, queue.size() );
         }
     }
 
     public void testDefaultQueue()
     {
         DefaultQueue queue = new DefaultQueue();
-        assertEquals( queue.size(), 0 );
+        assertEquals( 0, queue.size() );
 
         //test enqueue
         try
         {
             queue.enqueue( new TestQueueElement () );
-            assertEquals( queue.size(), 1 );
+            assertEquals( 1, queue.size() );
 
             assertNotNull( queue.dequeue() );
-            assertEquals( queue.size(), 0 );
+            assertEquals( 0, queue.size() );
 
             queue.enqueue( elements );
-            assertEquals( queue.size(), 10 );
+            assertEquals( 10, queue.size() );
 
             QueueElement[] results = queue.dequeue( 3 );
-            assertEquals( results.length, 3 );
-            assertEquals( queue.size(), 7 );
+            assertEquals( 3, results.length );
+            assertEquals( 7, queue.size() );
 
             results = queue.dequeueAll();
-            assertEquals( results.length, 7 );
-            assertEquals( queue.size(), 0 );
+            assertEquals( 7, results.length );
+            assertEquals( 0, queue.size() );
 
             PreparedEnqueue prep = queue.prepareEnqueue( elements );
-            assertEquals( queue.size(), 0 );
+            assertEquals( 0, queue.size() );
             prep.abort();
-            assertEquals( queue.size(), 0 );
+            assertEquals( 0, queue.size() );
 
             prep = queue.prepareEnqueue( elements );
-            assertEquals( queue.size(), 0 );
+            assertEquals( 0, queue.size() );
             prep.commit();
-            assertEquals( queue.size(), 10 );
+            assertEquals( 10, queue.size() );
 
             results = queue.dequeue( queue.size() );
-            assertEquals( queue.size(), 0 );
+            assertEquals( 0, queue.size() );
         }
         catch ( SourceException se )
         {

@@ -26,7 +26,7 @@ public final class FixedSizeQueue extends AbstractQueue
 
     public FixedSizeQueue( int size )
     {
-        m_elements = new QueueElement[ size ];
+        m_elements = new QueueElement[ size + 1 ];
         m_mutex = new Mutex();
     }
 
