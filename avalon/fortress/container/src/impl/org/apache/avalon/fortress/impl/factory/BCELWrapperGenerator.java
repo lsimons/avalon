@@ -49,12 +49,11 @@
 */
 package org.apache.avalon.fortress.impl.factory;
 
+import org.apache.bcel.Constants;
+import org.apache.bcel.Repository;
 import org.apache.bcel.classfile.JavaClass;
 import org.apache.bcel.classfile.Method;
 import org.apache.bcel.generic.ClassGen;
-import org.apache.bcel.Constants;
-import org.apache.bcel.Repository;
-import org.apache.avalon.fortress.impl.factory.BCELCodeGenerator;
 
 /**
  * Create the BCELWrapper for the component

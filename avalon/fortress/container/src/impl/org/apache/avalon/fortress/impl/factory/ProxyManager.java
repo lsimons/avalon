@@ -88,31 +88,31 @@ public final class ProxyManager
 
     public ProxyManager()
     {
-        this(false);
+        this( false );
     }
 
-    public ProxyManager(final boolean useBCEL)
+    public ProxyManager( final boolean useBCEL )
     {
         m_useBCELPreference = useBCEL;
     }
 
-    public ObjectFactory getWrappedObjectFactory(final ObjectFactory source) throws Exception
+    public ObjectFactory getWrappedObjectFactory( final ObjectFactory source ) throws Exception
     {
         if ( null == m_factoryClass )
         {
             final ClassLoader loader = source.getClass().getClassLoader();
 
-            if (m_useBCELPreference && m_isBCELPresent)
+            if ( m_useBCELPreference && m_isBCELPresent )
             {
-                m_factoryClass = loader.loadClass(BCEL_WRAPPER);
+                m_factoryClass = loader.loadClass( BCEL_WRAPPER );
             }
             else
             {
-                m_factoryClass = loader.loadClass(PROXY_WRAPPER);
+                m_factoryClass = loader.loadClass( PROXY_WRAPPER );
             }
         }
 
-        final Constructor constr = m_factoryClass.getConstructor(new Class[] {ObjectFactory.class});
-        return (ObjectFactory) constr.newInstance(new Object[] {source});
+        final Constructor constr = m_factoryClass.getConstructor( new Class[]{ObjectFactory.class} );
+        return (ObjectFactory) constr.newInstance( new Object[]{source} );
     }
 }

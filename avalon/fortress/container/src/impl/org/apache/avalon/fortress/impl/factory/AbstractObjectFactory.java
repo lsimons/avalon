@@ -49,25 +49,25 @@
 */
 package org.apache.avalon.fortress.impl.factory;
 
-import org.apache.excalibur.mpool.ObjectFactory;
-import org.apache.excalibur.instrument.Instrumentable;
-import org.apache.excalibur.instrument.Instrument;
-import org.apache.avalon.framework.logger.Loggable;
-import org.apache.avalon.framework.logger.LogEnabled;
-import org.apache.avalon.framework.context.Contextualizable;
-import org.apache.avalon.framework.context.Recontextualizable;
-import org.apache.avalon.framework.component.Composable;
-import org.apache.avalon.framework.component.Recomposable;
-import org.apache.avalon.framework.component.Component;
-import org.apache.avalon.framework.service.Serviceable;
-import org.apache.avalon.framework.configuration.Configurable;
-import org.apache.avalon.framework.configuration.Reconfigurable;
-import org.apache.avalon.framework.parameters.Parameterizable;
-import org.apache.avalon.framework.parameters.Reparameterizable;
+import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.activity.Startable;
 import org.apache.avalon.framework.activity.Suspendable;
-import org.apache.avalon.framework.activity.Disposable;
+import org.apache.avalon.framework.component.Component;
+import org.apache.avalon.framework.component.Composable;
+import org.apache.avalon.framework.component.Recomposable;
+import org.apache.avalon.framework.configuration.Configurable;
+import org.apache.avalon.framework.configuration.Reconfigurable;
+import org.apache.avalon.framework.context.Contextualizable;
+import org.apache.avalon.framework.context.Recontextualizable;
+import org.apache.avalon.framework.logger.LogEnabled;
+import org.apache.avalon.framework.logger.Loggable;
+import org.apache.avalon.framework.parameters.Parameterizable;
+import org.apache.avalon.framework.parameters.Reparameterizable;
+import org.apache.avalon.framework.service.Serviceable;
+import org.apache.excalibur.instrument.Instrument;
+import org.apache.excalibur.instrument.Instrumentable;
+import org.apache.excalibur.mpool.ObjectFactory;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -109,7 +109,7 @@ public abstract class AbstractObjectFactory implements ObjectFactory, Instrument
      */
     protected final ObjectFactory m_delegateFactory;
 
-    public AbstractObjectFactory(final ObjectFactory objectFactory )
+    public AbstractObjectFactory( final ObjectFactory objectFactory )
     {
         if ( null == objectFactory )
         {
