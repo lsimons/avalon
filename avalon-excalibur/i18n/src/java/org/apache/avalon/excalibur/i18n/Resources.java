@@ -126,19 +126,17 @@ public class Resources
                       final Locale locale,
                       final ClassLoader classLoader )
     {
-        m_baseName = baseName;
-        m_locale = locale;
-        m_classLoader = classLoader;
-
         if( null == baseName )
         {
             throw new NullPointerException( "baseName property is null" );
         }
-
         if( null == locale )
         {
             throw new NullPointerException( "locale property is null" );
         }
+        m_baseName = baseName;
+        m_locale = locale;
+        m_classLoader = classLoader;
     }
 
     /**
