@@ -49,17 +49,17 @@
 */
 package org.apache.avalon.fortress.impl.handler;
 
-import org.apache.avalon.fortress.impl.LifecycleExtensionManager;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.context.Context;
+import org.apache.excalibur.container.lifecycle.LifecycleExtensionManager;
 
 /**
  * A ComponentHandler that delegates to underlying handler but also
  * calls relevent Lifecycle Extension handlers at the right time.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.5 $ $Date: 2003/03/06 19:42:08 $
+ * @version CVS $Revision: 1.6 $ $Date: 2003/03/07 13:14:22 $
  */
 public class LEAwareComponentHandler
     implements ComponentHandler, Disposable

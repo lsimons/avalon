@@ -81,6 +81,7 @@ import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.commons.collections.BoundedFifoBuffer;
 import org.apache.commons.collections.StaticBucketMap;
+import org.apache.excalibur.container.lifecycle.LifecycleExtensionManager;
 import org.apache.excalibur.event.Queue;
 import org.apache.excalibur.instrument.InstrumentManager;
 import org.apache.excalibur.instrument.Instrumentable;
@@ -94,7 +95,7 @@ import org.apache.excalibur.mpool.PoolManager;
  * Container's Manager can expose that to the instantiating class.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.10 $ $Date: 2003/02/25 16:28:33 $
+ * @version CVS $Revision: 1.11 $ $Date: 2003/03/07 13:14:21 $
  */
 public abstract class AbstractContainer
     extends AbstractLogEnabled
@@ -122,7 +123,7 @@ public abstract class AbstractContainer
     /** contains the impl's InstrumentManager, which is extracted from m_serviceManager */
     protected InstrumentManager m_instrumentManager;
     /** contains the impl's LifecycleExtensionManager, which is extracted from m_serviceManager */
-    protected org.apache.avalon.fortress.impl.LifecycleExtensionManager m_extManager;
+    protected LifecycleExtensionManager m_extManager;
     /**
      * Contains entries mapping roles to hint maps, where the hint map contains
      * mappings from hints to ComponentHandlers.
@@ -178,14 +179,14 @@ public abstract class AbstractContainer
 
         // get optional services, or a default if the service isn't provided
 
-        if( serviceManager.hasService( org.apache.avalon.fortress.impl.LifecycleExtensionManager.ROLE ) )
+        if( serviceManager.hasService( LifecycleExtensionManager.ROLE ) )
         {
             m_extManager =
-                (org.apache.avalon.fortress.impl.LifecycleExtensionManager)serviceManager.lookup( org.apache.avalon.fortress.impl.LifecycleExtensionManager.ROLE );
+                (LifecycleExtensionManager)serviceManager.lookup( LifecycleExtensionManager.ROLE );
         }
         else
         {
-            m_extManager = new org.apache.avalon.fortress.impl.LifecycleExtensionManager();
+            m_extManager = new LifecycleExtensionManager();
             m_extManager.enableLogging( getLogger() );
 
             if( getLogger().isDebugEnabled() )
