@@ -12,21 +12,14 @@ import org.apache.avalon.framework.ExceptionUtil;
 import org.apache.log.format.PatternFormatter;
 
 /**
- * This formatter extends PatternFormatter so that 
+ * This formatter extends PatternFormatter so that
  * CascadingExceptions are formatted with all nested exceptions.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  */
-public class AvalonFormatter 
+public class AvalonFormatter
     extends PatternFormatter
 {
-    /**
-     * @deprecated Use Constructor that passes in pattern as setFormat is deprecated.
-     */
-    public AvalonFormatter()
-    {
-    }
-
     public AvalonFormatter( final String pattern )
     {
         super( pattern );
