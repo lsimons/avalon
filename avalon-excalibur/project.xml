@@ -3,9 +3,9 @@
 <project>
 
   <pomVersion>3</pomVersion>
-  <groupId>cornerstone</groupId>
+  <groupId>excalibur</groupId>
   <id>cornerstone-home</id>
-  <name>Cornerstone Component Suite</name>
+  <name>Excalibur Component Suite</name>
   <currentVersion>1.0</currentVersion>
 
   <organization>
@@ -200,13 +200,14 @@
           <include>LICENSE.txt</include>
         </includes>
       </resource>
+<!--
       <resource>
         <directory>${basedir}/conf</directory>
         <targetPath>BLOCK-INF</targetPath>
         <includes>
           <include>block.xml</include>
         </includes>
-      </resource>
+</resource> -->
     </resources>
   </build>
 
