@@ -90,7 +90,7 @@ import org.apache.excalibur.source.impl.validity.TimeStampValidity;
  * project.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: HTTPClientSource.java,v 1.8 2003/09/15 12:28:08 crafterm Exp $
+ * @version CVS $Id: HTTPClientSource.java,v 1.9 2003/09/17 15:20:32 crafterm Exp $
  */
 public class HTTPClientSource extends AbstractLogEnabled 
     implements ModifiableSource, Initializable, Parameterizable
@@ -455,20 +455,26 @@ public class HTTPClientSource extends AbstractLogEnabled
      * Method to update whether a referenced resource exists, after
      * executing a particular {@link HttpMethod}.
      *
+     * <p>REVISIT: exists() would be better called canRead()
+     * or similar, as a resource can exist but not be readable.</p>
+     *
      * @param method {@link HttpMethod} executed.
      */
     private void updateExists( final HttpMethod method )
     {
         final int response = method.getStatusCode();
 
-        // REVISIT(MC): should this return true if the server does 
-        // not return a 404, or a 410, or should it only return true 
-        // if the user can successfully get an InputStream from 
-        // it without getting errors.
+        // The following returns true, if the user can successfully get
+        // an InputStream without receiving errors? ie. if we receive a
+        // HTTP 200 (OK), 201 (CREATED), 206 (PARTIAL CONTENT)
+
+        // REVISIT(MC): need a special way to handle 304 (NOT MODIFIED)
+        // 204 & 205 in the future
 
         // resource does not exist if HttpClient returns a 404 or a 410
-        m_exists = !( response == HttpStatus.SC_GONE || 
-                      response == HttpStatus.SC_NOT_FOUND );
+        m_exists = (response == HttpStatus.SC_OK ||
+                    response == HttpStatus.SC_CREATED ||
+                    response == HttpStatus.SC_PARTIAL_CONTENT);
     }
 
     /**
