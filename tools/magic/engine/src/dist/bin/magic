@@ -8,6 +8,6 @@ CP=$JAVA_HOME/lib/tools.jar
 for FILE in `find $BIN_DIR -name "*.jar"` ; do
   CP=$CP:$FILE
 done
-CP=$CP:$ANT_HOME/lib/ant.jar:$ANT_HOME/ant-trax.jar
+CP=$CP:$ANT_HOME/lib/ant.jar:$ANT_HOME/lib/ant-trax.jar
 
 java $JVM_OPTS -Dmagic.system.dir=$SYSTEM_DIR -cp $CP org.apache.merlin.magic.Main $@
