@@ -52,7 +52,7 @@ jefft@apache.org
        skin: forrest-site renders it at the top -->
   <project-name>Avalon Phoenix</project-name>
   <project-url>http://jakarta.apache.org/avalon/phoenix/</project-url>
-  <project-logo>http://jakarta.apache.org/avalon/phoenix/images/header.gif</project-logo>
+  <project-logo>images/header.gif</project-logo>
 
   <!-- optional group logo
        skin: forrest-site renders it at the top-left corner -->
