@@ -51,7 +51,7 @@
 package org.apache.avalon.cornerstone.blocks.threads;
 
 import java.util.Map;
-import org.apache.avalon.excalibur.thread.impl.DefaultThreadPool;
+import org.apache.avalon.excalibur.thread.impl.ResourceLimitingThreadPool;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 
@@ -61,9 +61,9 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
  * @phoenix:block
  * @phoenix:service name="org.apache.avalon.cornerstone.services.threads.ThreadManager"
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author <a href="mailto:leif at apache.org">Leif Mortenson</a>
  */
-public class DefaultThreadManager
+public class ResourceLimitingThreadManager
     extends AbstractThreadManager
 {
     protected void configureThreadPool( final Map threadPools,
@@ -71,21 +71,18 @@ public class DefaultThreadManager
         throws ConfigurationException
     {
         final String name = configuration.getChild( "name" ).getValue();
-        // NEVER USED!!
-        //final int priority = configuration.getChild( "priority" ).getValueAsInteger( 5 );
         final boolean isDaemon = configuration.getChild( "is-daemon" ).getValueAsBoolean( false );
-
-        final int minThreads = configuration.getChild( "min-threads" ).getValueAsInteger( 5 );
-        final int maxThreads = configuration.getChild( "max-threads" ).getValueAsInteger( 10 );
-
-        // NEVER USED!!
-        //final int minSpareThreads = configuration.getChild( "min-spare-threads" ).
-        //    getValueAsInteger( maxThreads - minThreads );
+        
+        final int max = configuration.getChild( "max-threads" ).getValueAsInteger( 10 );
+        final boolean maxStrict = configuration.getChild( "max-strict" ).getValueAsBoolean( true );
+        final boolean blocking = configuration.getChild( "blocking" ).getValueAsBoolean( true );
+        final long blockTimeout = configuration.getChild( "block-timeout" ).getValueAsLong( 0 );
+        final long trimInterval = configuration.getChild( "trim-interval" ).getValueAsLong( 10000 );
 
         try
         {
-            final DefaultThreadPool threadPool =
-                new DefaultThreadPool( name, minThreads, maxThreads );
+            final ResourceLimitingThreadPool threadPool = new ResourceLimitingThreadPool(
+                name, max, maxStrict, blocking, blockTimeout, trimInterval );
             threadPool.setDaemon( isDaemon );
             threadPool.enableLogging( getLogger() );
             threadPools.put( name, threadPool );
