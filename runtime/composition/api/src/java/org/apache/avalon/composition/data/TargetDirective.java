@@ -20,6 +20,7 @@ package org.apache.avalon.composition.data;
 import java.io.Serializable;
 
 import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.parameters.Parameters;
 
 import org.apache.avalon.logging.data.CategoriesDirective;
 
@@ -48,6 +49,11 @@ public class TargetDirective implements Serializable
     private final Configuration m_config;
 
     /**
+     * The parameters.
+     */
+    private final Parameters m_params;
+
+    /**
      * The configuration.
      */
     private final CategoriesDirective m_categories;
@@ -67,6 +73,7 @@ public class TargetDirective implements Serializable
      * @param path target path
      * @param configuration the configuration 
      * @param categories the logging category directives 
+     * @param profile a security profile
      */
     public TargetDirective( 
       final String path, 
@@ -74,11 +81,34 @@ public class TargetDirective implements Serializable
       final CategoriesDirective categories,
       final String profile )
     {
+        this( path, configuration, null, categories, profile );
+    }
+
+    /**
+     * Create a new Target instance.
+     *
+     * @param path target path
+     * @param configuration the configuration 
+     * @param parameters the parameters
+     * @param categories the logging category directives 
+     * @param profile a security profile
+     *
+     * @since 2.1.0
+     */
+    public TargetDirective( 
+      final String path, 
+      final Configuration configuration, 
+      final Parameters parameters, 
+      final CategoriesDirective categories,
+      final String profile )
+    {
         m_path = path;
         m_config = configuration;
+        m_params = parameters;
         m_categories = categories;
         m_profile = profile;
     }
+
 
     //========================================================================
     // implementation
@@ -102,6 +132,16 @@ public class TargetDirective implements Serializable
     public Configuration getConfiguration()
     {
         return m_config;
+    }
+
+    /**
+     * Return the target parameters.
+     *
+     * @return the target parameters
+     */
+    public Parameters getParameters()
+    {
+        return m_params;
     }
 
     /**
@@ -132,6 +172,7 @@ public class TargetDirective implements Serializable
     {
         return "[target: " + getPath() + ", " 
           + (getConfiguration() != null ) + ", " 
+          + (getParameters() != null ) + ", " 
           + (getCategoriesDirective() != null ) + ", " 
           + (getSecurityProfileName() != null )
           + " ]";

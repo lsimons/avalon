@@ -69,6 +69,7 @@ import org.apache.avalon.repository.RepositoryException;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
+import org.apache.avalon.framework.parameters.Parameters;
 
 import org.apache.avalon.meta.info.DependencyDescriptor;
 import org.apache.avalon.meta.info.ServiceDescriptor;
@@ -811,10 +812,16 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
                 if( model instanceof ComponentModel )
                 {
                     ComponentModel deployment = (ComponentModel) model;
-                    if( target.getConfiguration() != null )
+                    Configuration config = target.getConfiguration();
+                    if( config != null )
                     {
-                        deployment.setConfiguration( 
-                          target.getConfiguration() );
+                        deployment.setConfiguration( config );
+                    }
+
+                    Parameters params = target.getParameters();
+                    if( params != null )
+                    {
+                        deployment.setParameters( params  );
                     }
                 }
             }
