@@ -216,19 +216,19 @@ public class EclipseDirectoryHelper
             libraries = pluginPath.toFile().list();
             for (int i = 0; i < libraries.length; i++)
             {
-                if (libraries[i].equalsIgnoreCase("avalon-framework-api-4.1.5.jar"))
+                if (libraries[i].toLowerCase().startsWith("avalon-framework-api"))
                 { //$NON-NLS-1$
                     classpathEntries.add(
                         JavaCore.newLibraryEntry(
-                            pluginPath.append("avalon-framework-api-4.1.5.jar"),
+                            pluginPath.append(libraries[i]),
                             null,
                             null));
                 }
-                if (libraries[i].equalsIgnoreCase("avalon-framework-impl-4.1.5.jar"))
+                if (libraries[i].toLowerCase().startsWith("avalon-framework-impl"))
                 { //$NON-NLS-1$
                     classpathEntries.add(
                         JavaCore.newLibraryEntry(
-                            pluginPath.append("avalon-framework-impl-4.1.5.jar"),
+                            pluginPath.append(libraries[i]),
                             null,
                             null));
                 }

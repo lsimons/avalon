@@ -69,7 +69,7 @@ public class ProjectResourceManager extends AbstractResourceManager
 
             // create project structure and generate files.
             createProjectResources(model, param);
-
+            
             // refresh the directory
             getProject().refreshLocal(IProject.DEPTH_INFINITE, null);
 
@@ -136,8 +136,9 @@ public class ProjectResourceManager extends AbstractResourceManager
             }
 
         }
+        // add required libs
         helper.setClasspath();
-    }
+       }
 
     /**
 	 * @return
@@ -161,41 +162,5 @@ public class ProjectResourceManager extends AbstractResourceManager
         xml.setPluginId(pluginId);
         xml.setFileName(fileName);
         return ProjectModelConfiguration.newInstance(xml);
-    }
-
-    /**
-     * @param pString
-     */
-    public void addBuilder(String builderID)
-    {
-        try
-        {
-            IProjectDescription desc = getProject().getDescription();
-            ICommand[] commands = desc.getBuildSpec();
-            boolean found = false;
-
-            for (int i = 0; i < commands.length; ++i) {
-                if (commands[i].getBuilderName().equals(builderID)) {
-                    found = true;
-                    break;
-                }
-            }
-            if (!found) { 
-                //add builder to project
-                ICommand command = desc.newCommand();
-                command.setBuilderName(builderID);
-                ICommand[] newCommands = new ICommand[commands.length + 1];
-
-                // Add it before other builders.
-                System.arraycopy(commands, 0, newCommands, 1, commands.length);
-                newCommands[0] = command;
-                desc.setBuildSpec(newCommands);
-                getProject().setDescription(desc, null);
-            }
-        } catch (CoreException e)
-        {
-            MerlinDeveloperCore.log(e, "Error while setting the builder commands");
-        }
-
     }
 }
