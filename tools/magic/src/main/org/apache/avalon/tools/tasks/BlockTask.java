@@ -52,6 +52,7 @@ public class BlockTask extends DeclareTask
     {
         private String m_name;
         private String m_classname;
+        private String m_profile;
 
         public Component()
         {
@@ -67,6 +68,11 @@ public class BlockTask extends DeclareTask
             m_classname = classname;
         }
 
+        public void setProfile( final String profile )
+        {
+            m_profile = profile;
+        }
+
         public String getName()
         {
             return m_name;
@@ -76,11 +82,17 @@ public class BlockTask extends DeclareTask
         {
             return m_classname;
         }
+
+        public String getProfile()
+        {
+            return m_profile;
+        }
     }
 
     private String m_target;
     private String m_container;
     private List m_components = new ArrayList();
+    private boolean m_standalone = true;
 
     public void setName( final String name )
     {
@@ -109,6 +121,16 @@ public class BlockTask extends DeclareTask
             throw new BuildException( error );
         }
     }
+
+   /**
+    * Optional attribute indicating that the block is to be generated
+    * as a standalone block.
+    */
+    public void setStandalone( final boolean flag )
+    {
+        m_standalone = flag;
+    }
+
 
     private String getName( Definition def )
     {
@@ -161,6 +183,21 @@ public class BlockTask extends DeclareTask
         super.setType( BLOCK );
     }
 
+    public void execute()
+    {
+        if( null != m_target )
+        {
+System.out.println( "EMBEDDED: " + getPluginFile() );
+            super.execute(); // generate the embedded block
+            m_target = null;
+        }
+        if( m_standalone )
+        {
+System.out.println( "STANDALONE: " + getPluginFile() );
+            super.execute(); // generate the standalone block
+        }
+    }
+
     protected void writePlugin( final Writer writer, final Definition def )
         throws IOException
     {
@@ -187,8 +224,18 @@ public class BlockTask extends DeclareTask
     private void writeComponent( final Writer writer, final Component component )
         throws IOException
     {
-        writer.write( 
-          "\n  <component name=\"" + component.getName() + "\" class=\""
-          + component.getClassname() + "\"/>\n" );
+        if( null == component.getProfile() )
+        {
+            writer.write( 
+              "\n  <component name=\"" + component.getName() + "\" class=\""
+              + component.getClassname() + "\"/>\n" );
+        }
+        else
+        {
+            writer.write( 
+              "\n  <component name=\"" + component.getName()  + "\" profile=\""
+              + component.getProfile() + "\"\n    class=\""
+              + component.getClassname() + "\"/>\n" );
+        }
     }
 }
