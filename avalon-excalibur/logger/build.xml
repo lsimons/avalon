@@ -225,6 +225,8 @@
                      unless="lf5.present"/>
             <exclude name="org/apache/avalon/excalibur/logger/factory/ServletTargetFactory.java"
                      unless="servlet.present"/>
+            <exclude name="org/apache/avalon/excalibur/logger/ServletLogger.java"
+                     unless="servlet.present"/>
             <exclude name="org/apache/avalon/excalibur/logger/factory/JMSTargetFactory.java"
                      unless="jms.present"/>
             <exclude name="org/apache/avalon/excalibur/logger/factory/JDBCTargetFactory.java"
