@@ -386,7 +386,7 @@
 
     <copy todir="${src.dist.dir}">
       <fileset dir=".">
-        <include name="README"/>
+        <include name="README.txt"/>
         <include name="WARNING"/>
         <include name="LICENSE"/>
         <include name="build.bat"/>
