@@ -8,9 +8,6 @@
 package org.apache.avalon.phoenix.frontends;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Iterator;
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -23,24 +20,26 @@ import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.avalon.phoenix.interfaces.Embeddor;
 import org.apache.avalon.phoenix.components.embeddor.SingleAppEmbeddor;
+import org.apache.avalon.phoenix.interfaces.Embeddor;
 
 /**
  * Servlet frontends for SingleAppEmbeddor.
  *
  * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>
  */
-public class ServiceServlet
+public class PhoenixServlet
     extends HttpServlet
     implements Runnable
 {
-    private static final Resources REZ = ResourceManager.getPackageResources( ServiceServlet.class );
+    private static final Resources REZ =
+        ResourceManager.getPackageResources( PhoenixServlet.class );
 
-    private Parameters m_parameters;
-    private Embeddor m_embeddor;
+    private Parameters              m_parameters;
+    private SingleAppEmbeddor       m_embeddor;
 
-    private String getInitParameter( final String name, final String defaultValue )
+    private String getInitParameter( final String name,
+                                     final String defaultValue )
     {
         final String value = getInitParameter( name );
         if ( null == value )
@@ -58,6 +57,7 @@ public class ServiceServlet
     {
         super.init();
 
+        //TODO: configuring with more parameters.
         final ServletContext context = getServletContext();
         final String logDestination = context.getRealPath( getInitParameter( "log-destination", "/WEB-INF/logs/phoenix.log" ) );
         final String logPriority = getInitParameter( "log-priority", "INFO" );
