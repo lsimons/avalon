@@ -16,20 +16,24 @@
  limitations under the License.
 -->
 <project>
-    <extend>${avalon.buildsystem}/project-common.xml</extend>
-
-    <name>Avalon-LogKit</name>
+    <name>Avalon LogKit</name>
     <id>avalon-logkit</id>
     <groupId>avalon-logkit</groupId>
     <currentVersion>2.0</currentVersion>
     <inceptionYear>2003</inceptionYear>
-    <shortDescription>The Avalon-LogKit logging utility</shortDescription>
+    
+    <shortDescription>The Avalon LogKit logging utility</shortDescription>
     <description>
 Avalon LogKit is the logging utility used by default in all Avalon systems.
     </description>
 
     <package>org.apache.log</package>
-
+  
+    <repository>
+      <connection>scm:cvs:pserver:anoncvs@cvs.apache.org:/home/cvspublic:avalon-logkit</connection>
+      <url>http://cvs.apache.org/viewcvs/avalon-logkit/</url>
+    </repository>
+  
     <dependencies>
       <dependency>
         <id>log4j</id>
@@ -53,25 +57,156 @@ Avalon LogKit is the logging utility used by default in all Avalon systems.
         <artifactId>jms</artifactId>
         <version>1.1</version>
       </dependency>
-
-      <!-- Forrest Deps -->
-        <dependency>
-            <id>xml-apis</id>
-            <version>2.0.2</version>
-        </dependency>
-        <dependency>
-            <id>xercesImpl</id>
-            <version>2.4.0</version>
-            <groupId>xerces</groupId>
-        </dependency>
-        <dependency>
-            <id>xmlParserAPIs</id>
-            <version>2.2.1</version>
-            <groupId>xerces</groupId>
-        </dependency>
-        <dependency>
-            <id>xalan</id>
-            <version>2.5.1</version>
-        </dependency>
     </dependencies>
+
+  <organization>
+    <name>The Apache Software Foundation</name>
+    <url>http://avalon.apache.org/</url>
+    <logo>http://avalon.apache.org/images/apache-avalon-logo.png</logo>
+  </organization>
+  <gumpRepositoryId>avalon-logkit</gumpRepositoryId>
+
+  <mailingLists>
+    <mailingList>
+      <name>Avalon Developer List</name>
+      <subscribe>dev-subscribe@avalon.apache.org</subscribe>
+      <unsubscribe>dev-unsubscribe@avalon.apache.org</unsubscribe>
+      <archive>http://nagoya.apache.org/eyebrowse/SummarizeList?listName=dev@avalon.apache.org</archive>
+    </mailingList>
+    <mailingList>
+      <name>Avalon User List</name>
+      <subscribe>users-subscribe@avalon.apache.org</subscribe>
+      <unsubscribe>users-unsubscribe@avalon.apache.org</unsubscribe>
+      <archive>http://nagoya.apache.org/eyebrowse/SummarizeList?listName=users@avalon.apache.org</archive>
+    </mailingList>
+    <mailingList>
+      <name>CVS List</name>
+      <subscribe>cvs-subscribe@avalon.apache.org</subscribe>
+      <unsubscribe>cvs-unsubscribe@avalon.apache.org</unsubscribe>
+    </mailingList>
+  </mailingLists>
+
+  <developers>
+    <developer>
+      <name>Stephen McConnell</name>
+      <id>mcconnell</id>
+      <email>mcconnell@apache.org</email>
+    </developer>
+    <developer>
+      <name>Leo Simons</name>
+      <id>leosimons</id>
+      <email>leosimons@apache.org</email>
+    </developer>
+    <developer>
+      <name>Berin Loritsch</name>
+      <id>bloritsch</id>
+      <email>bloritsch@apache.org</email>
+    </developer>
+    <developer>
+      <name>Peter Royal</name>
+      <id>proyal</id>
+      <email>proyal@apache.org</email>
+    </developer>
+    <developer>
+      <name>Aaron Far</name>
+      <email>farra@apache.org</email>
+      <id>farra</id>
+      <organization>Sony Electronics</organization>
+    </developer>
+    <developer>
+      <name>Alex Karasulu</name>
+      <email>aok123@bellsouth.net</email>
+      <id>akarasulu</id>
+    </developer>
+    <developer>
+      <name>Niclas Hedhman</name>
+      <email>niclas@apache.org</email>
+      <id>niclas</id>
+    </developer>
+  </developers>
+  
+  <build>
+
+    <nagEmailAddress>dev@avalon.apache.org</nagEmailAddress>
+    <sourceDirectory>${basedir}/src/java</sourceDirectory>
+    <unitTestSourceDirectory>${basedir}/src/test</unitTestSourceDirectory>
+    <integrationUnitTestSourceDirectory/>
+    <aspectSourceDirectory/>
+
+    <unitTest>
+      <includes>
+        <include>**/*TestCase*</include>
+      </includes>
+      <excludes>
+        <exclude>**/Abstract*</exclude>
+      </excludes>
+      <resources>
+        <resource>
+          <directory>${basedir}/src/test</directory>
+          <includes> 
+            <include>**/*.dtd</include>
+            <include>**/*.properties</include>
+            <include>**/*.xinfo</include>
+            <include>**/*.xtype</include>
+            <include>**/*.xprofile</include>
+            <include>**/*.xconfig</include>
+            <include>**/*.xml</include>
+            <include>**/*.xservice</include>
+            <include>**/*.mf</include>
+            <include>**/*.jar</include>
+          </includes>
+        </resource>
+        <resource>
+          <directory>${maven.conf.dir}</directory>
+          <includes> 
+            <include>**/*.properties</include>
+          </includes>
+        </resource>
+        <resource>
+          <directory>${basedir}/src/test/conf</directory>
+          <includes> 
+            <include>**/*</include>
+          </includes>
+        </resource>
+      </resources>
+    </unitTest>
+
+    <integrationUnitTestPatterns></integrationUnitTestPatterns>
+    
+    <resources>
+      <resource>
+        <directory>${basedir}/src/java</directory>
+        <includes>
+          <include>**/*.dtd</include>
+          <include>**/*.properties</include>
+          <include>**/*.xinfo</include>
+          <include>**/*.xtype</include>
+          <include>**/*.xprofile</include>
+          <include>**/*.xconfig</include>
+          <include>**/*.xml</include>
+          <include>**/*.xservice</include>
+        </includes>
+      </resource>
+      <resource>
+        <directory>${basedir}/../</directory>
+        <includes>
+          <include>LICENSE.txt</include>
+        </includes>
+      </resource>
+      <resource>
+        <directory>${maven.conf.dir}</directory>
+        <targetPath>BLOCK-INF</targetPath>
+        <includes>
+          <include>block.xml</include>
+        </includes>
+      </resource>
+    </resources>
+    
+    <jars></jars>
+  </build>
+
+  <reports>
+    <report>maven-javadoc-plugin</report>
+  </reports>
+
 </project>
