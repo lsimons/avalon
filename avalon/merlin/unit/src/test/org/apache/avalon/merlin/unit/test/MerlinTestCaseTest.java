@@ -80,7 +80,7 @@ import org.apache.avalon.merlin.unit.AbstractMerlinTestCase;
  * 
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class MerlinTestCaseTest extends AbstractMerlinTestCase
 {
@@ -106,4 +106,11 @@ public class MerlinTestCaseTest extends AbstractMerlinTestCase
         Object hello = super.resolve( "/tutorial/hello" );
         assertNotNull( "hello", hello );
     }
+
+    public void testHelloAquisitionAgain() throws Exception
+    {
+        Object hello = super.resolve( "/tutorial/hello" );
+        assertNotNull( "hello-2", hello );
+    }
+
 }

@@ -56,6 +56,7 @@ import java.util.Hashtable;
 
 import org.apache.avalon.activation.appliance.Appliance;
 import org.apache.avalon.activation.appliance.ApplianceException;
+import org.apache.avalon.activation.appliance.ApplianceRuntimeException;
 import org.apache.avalon.activation.appliance.ApplianceRepository;
 import org.apache.avalon.activation.appliance.AssemblyException;
 import org.apache.avalon.activation.appliance.Block;
@@ -68,6 +69,8 @@ import org.apache.avalon.activation.appliance.NoProviderDefinitionException;
 import org.apache.avalon.activation.appliance.ServiceContext;
 import org.apache.avalon.composition.data.CategoriesDirective;
 import org.apache.avalon.composition.logging.LoggingManager;
+import org.apache.avalon.composition.event.CompositionEvent;
+import org.apache.avalon.composition.event.CompositionEventListener;
 import org.apache.avalon.composition.model.ContainmentModel;
 import org.apache.avalon.composition.model.DependencyModel;
 import org.apache.avalon.composition.model.DeploymentModel;
@@ -86,10 +89,10 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * context.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.8 $ $Date: 2003/12/22 21:28:09 $
+ * @version $Revision: 1.9 $ $Date: 2003/12/29 14:31:21 $
  */
 public abstract class AbstractBlock extends AbstractAppliance 
-  implements Block, Composite
+  implements Block, Composite, CompositionEventListener
 {
     //-------------------------------------------------------------------
     // static
@@ -151,16 +154,17 @@ public abstract class AbstractBlock extends AbstractAppliance
         m_repository.enableLogging( getLogger() );
         m_self.setEnabled( true );
 
-        Model[] models = m_context.getContainmentModel().getModels();
-        for( int i=0; i<models.length; i++ )
+        ContainmentModel model = m_context.getContainmentModel();
+        synchronized( model )
         {
-            addModel( models[i] );
+            model.addCompositionListener( this );
+            Model[] models = model.getModels();
+            for( int i=0; i<models.length; i++ )
+            {
+                Appliance appliance = createAppliance( models[i] );
+                m_repository.addAppliance( appliance );
+            }
         }
-        //for( int i=models.length-1; i>-1; i-- )
-        //{
-        //    Appliance appliance = createAppliance( models[i] );
-        //    m_repository.addAppliance( appliance );
-        //}
     }
 
     //-------------------------------------------------------------------
@@ -182,20 +186,20 @@ public abstract class AbstractBlock extends AbstractAppliance
     * @return the appliance established to handle the model
     * @exception ApplianceException if a error occurs
     */
-    public Appliance addModel( URL url ) throws ApplianceException
-    {
-        try
-        {
-            return addModel( 
-              getContainmentModel().addModel( url ) );
-        }
-        catch( Throwable e )
-        {
-            final String error = 
-              "Cannot add model due to a model related error.";
-            throw new ApplianceException( error, e );
-        }
-    }
+    //public Appliance addModel( URL url ) throws ApplianceException
+    //{
+    //    try
+    //    {
+    //        return addModel( 
+    //          getContainmentModel().addModel( url ) );
+    //    }
+    //    catch( Throwable e )
+    //    {
+    //        final String error = 
+    //          "Cannot add model due to a model related error.";
+    //        throw new ApplianceException( error, e );
+    //    }
+    //}
 
    /**
     * Add a model as a child to this block.
@@ -203,11 +207,56 @@ public abstract class AbstractBlock extends AbstractAppliance
     * @return the appliance established to handle the model
     * @exception ApplianceException if a error occurs
     */
-    public Appliance addModel( Model model ) throws ApplianceException
+    //public Appliance addModel( Model model ) throws ApplianceException
+    //{
+    //    Appliance appliance = createAppliance( model );
+    //    m_repository.addAppliance( appliance );
+    //    return appliance;
+    //}
+
+    //-------------------------------------------------------------------
+    // CompositionEventListener
+    //-------------------------------------------------------------------
+
+    /**
+     * Notify the listener that a model has been added to 
+     * a source containment model.
+     *
+     * @param event the containment event raised by the 
+     *    source containment model
+     */
+    public void modelAdded( CompositionEvent event )
     {
-        Appliance appliance = createAppliance( model );
-        m_repository.addAppliance( appliance );
-        return appliance;
+        try
+        {
+            getLogger().debug( "event/addition: " + event );
+            Appliance appliance = createAppliance( event.getChild() );
+            m_repository.addAppliance( appliance );
+        }
+        catch( Throwable e )
+        {
+            final String error = 
+              "An error occured while attempting to create an appliance"
+              + " in response to a composition event: " + event;
+            throw new ApplianceRuntimeException( error, e );
+        }
+    }
+
+    /**
+     * Notify the listener that a model has been removed from 
+     * a source containment model.
+     *
+     * @param event the containment event raised by the 
+     *    source containment model
+     */
+    public void modelRemoved( CompositionEvent event )
+    {
+        getLogger().debug( "event/removal: " + event );
+        final Model model = event.getChild();
+        final String name = model.getName();
+        final Appliance appliance = getLocalAppliance( name );
+        m_context.getDependencyGraph().remove( appliance );
+        m_repository.removeAppliance( appliance );
     }
 
     //-------------------------------------------------------------------
@@ -788,11 +837,13 @@ public abstract class AbstractBlock extends AbstractAppliance
             for( int i=0; i<appliances.length; i++ )
             {
                 Appliance appliance = appliances[i];
+                m_repository.removeAppliance( appliance );
                 if( appliance instanceof Disposable )
                 {
                     ((Disposable)appliance).dispose();
                 }
             }
+            m_context.getContainmentModel().removeCompositionListener( this );
             m_self.setEnabled( false );
         }
     }
@@ -941,6 +992,18 @@ public abstract class AbstractBlock extends AbstractAppliance
         graph.add( appliance );
         return appliance;
     }
+
+    /**
+     * Remove an appliance.
+     * @param model the component model
+     * @return the appliance
+     */
+    //public void removeAppliance( String name ) throws ApplianceException
+    //{
+    //    final Appliance appliance = getLocalAppliance( name );
+    //    m_context.getDependencyGraph().remove( appliance );
+    //    m_repository.removeAppliance( appliance );
+    //}
 
     //-------------------------------------------------------------------
     // Object

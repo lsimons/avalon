@@ -69,7 +69,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * a stage or service dependencies.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2003/12/22 09:06:41 $
+ * @version $Revision: 1.4 $ $Date: 2003/12/29 14:31:21 $
  */
 class DefaultApplianceRepository implements ApplianceRepository
 {
@@ -189,6 +189,16 @@ class DefaultApplianceRepository implements ApplianceRepository
     }
 
     /**
+     * Remove an appliance from the repository.
+     *
+     * @param appliance the appliance to remove
+     */
+    protected void removeAppliance( Appliance appliance )
+    {
+        m_appliances.remove( appliance.getModel().getName() );
+    }
+
+    /**
      * Locate an appliance meeting the supplied criteria.
      *
      * @param dependency a component service dependency
@@ -202,14 +212,20 @@ class DefaultApplianceRepository implements ApplianceRepository
     /**
      * Locate an appliance matching the supplied name.
      *
-     * @param dependency a component service dependency
-     * @return the appliance
+     * @param name the appliance name
+     * @return the appliance or null if the appliance name is unknown
      */
     public Appliance getLocalAppliance( String name )
     {
         Appliance appl = (Appliance) m_appliances.get( name );
         if( appl == null && m_Logger != null )
-            m_Logger.debug( "Can't find '" + name + "' in appliance repository: " + m_appliances );
+        {
+            m_Logger.debug( 
+              "Can't find '" 
+              + name 
+              + "' in appliance repository: " 
+              + m_appliances );
+        }
         return appl;
     }
 }
