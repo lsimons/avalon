@@ -61,6 +61,7 @@ import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.meta.info.DependencyDescriptor;
 import org.apache.avalon.meta.info.ReferenceDescriptor;
 import org.apache.avalon.meta.info.ServiceDescriptor;
+import org.apache.avalon.meta.info.InfoDescriptor;
 
 /**
  * Definition of the criteria for an explicit component profile.  A profile, when
@@ -135,7 +136,7 @@ import org.apache.avalon.meta.info.ServiceDescriptor;
  *
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2003/10/04 11:53:03 $
+ * @version $Revision: 1.3 $ $Date: 2003/10/19 06:12:58 $
  */
 public class DeploymentProfile extends Profile
 {
@@ -143,6 +144,11 @@ public class DeploymentProfile extends Profile
      * The assigned logging categories.
      */
     private CategoriesDirective m_categories;
+
+    /**
+     * The collection policy override.
+     */
+    private String m_collection;
 
     /**
      * The component classname.
@@ -183,12 +189,19 @@ public class DeploymentProfile extends Profile
     // constructor
     //--------------------------------------------------------------------------
 
+   /**
+    * Creation of a new profile using IMPLICT mode and LIBERAL collection
+    * policies.
+    *
+    * @param name the name to assign to the component deployment scenario
+    * @param classname the classname of the component type
+    */
     public DeploymentProfile( 
            final String name, 
            final String classname )
     {
         this( 
-          name, false, classname, null, null, null, null, 
+          name, false, InfoDescriptor.LIBERAL, classname, null, null, null, null, 
           null, null, Mode.IMPLICIT );
     }
 
@@ -202,6 +215,7 @@ public class DeploymentProfile extends Profile
         this( 
           name, 
           template.getActivationPolicy(),
+          template.getCollectionPolicy(),
           template.m_classname,
           template.m_categories,
           template.m_context,
@@ -215,6 +229,7 @@ public class DeploymentProfile extends Profile
     public DeploymentProfile( 
            final String name, 
            final boolean activation, 
+           final String collection, 
            final String classname, 
            final CategoriesDirective categories, 
            final ContextDirective context, 
@@ -226,6 +241,7 @@ public class DeploymentProfile extends Profile
     {
         super( name, activation, mode );
 
+        m_collection = collection;
         m_classname = classname;
         m_categories = categories;
         m_context = context;
@@ -263,6 +279,17 @@ public class DeploymentProfile extends Profile
     public String getClassname()
     {
         return m_classname;
+    }
+
+    /**
+     * Return the component collection policy.  If null, the component
+     * type collection policy will apply.
+     *
+     * @return a LIBERAL, DEMOCRAT, CONSERVATIVE or null
+     */
+    public String getCollectionPolicy()
+    {
+        return m_collection;
     }
 
     /**

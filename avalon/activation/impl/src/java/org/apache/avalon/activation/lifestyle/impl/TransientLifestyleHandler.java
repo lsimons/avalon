@@ -59,7 +59,7 @@ import org.apache.avalon.framework.logger.Logger;
 
 /**
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2003/10/18 00:34:19 $
+ * @version $Revision: 1.5 $ $Date: 2003/10/19 06:12:58 $
  */
 public class TransientLifestyleHandler extends AbstractLifestyleHandler implements Disposable
 {
@@ -90,11 +90,12 @@ public class TransientLifestyleHandler extends AbstractLifestyleHandler implemen
     }
 
     /**
-     * Release an object. 
+     * Release an object
      *
-     * @param instance the object to be reclaimed
+     * @param instance the object to be released
+     * @param finalized if TRUE the lifestyle handler cannot reuse the instance
      */
-    public void release( Object instance )
+    public void release( Object instance, boolean finalized )
     {
         disposeInstance( instance );
     }

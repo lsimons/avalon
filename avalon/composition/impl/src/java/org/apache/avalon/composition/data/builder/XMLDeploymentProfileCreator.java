@@ -64,7 +64,7 @@ import org.apache.excalibur.configuration.ConfigurationUtil;
 /**
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2003/10/04 11:53:04 $
+ * @version $Revision: 1.3 $ $Date: 2003/10/19 06:12:58 $
  */
 public class XMLDeploymentProfileCreator extends XMLProfileCreator
 {
@@ -108,6 +108,7 @@ public class XMLDeploymentProfileCreator extends XMLProfileCreator
       throws Exception
     {
         final boolean activation = getActivationPolicy( config, true );
+        final String collection = getCollectionPolicy( config );
 
         final CategoriesDirective categories = 
           getCategoriesDirective( config.getChild( "categories", false ), name );
@@ -123,8 +124,21 @@ public class XMLDeploymentProfileCreator extends XMLProfileCreator
           config.getChild( "configuration", true );
 
         return new DeploymentProfile( 
-          name, activation, classname, categories, context, dependencies, 
+          name, activation, collection, classname, categories, context, dependencies, 
           stages, params, configuration, Mode.EXPLICIT );
+    }
+
+   /**
+    * Get the collection policy from a configuration.  If the collection
+    * policy is not declared a null is returned indicating that the collection 
+    * policy shall default to the component type collection policy. 
+    *
+    * @param config a configuration fragment holding a collection attribute
+    * @return collection policy or null if not declared
+    */
+    protected String getCollectionPolicy( Configuration config )
+    {
+        return config.getAttribute( "collection", null );
     }
 
     protected DependencyDirective[] getDependencyDirectives( Configuration config )

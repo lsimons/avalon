@@ -175,6 +175,7 @@ public class DefaultEmbeddedKernel implements Runnable, Kernel
             Method method = 
               clazz.getMethod( "getKernel", new Class[0] );
             m_kernel = (Kernel) method.invoke( m_loader, new Object[0] );
+            setShutdownHook( this );
             m_started = true;
         }
         catch( Throwable e )
@@ -263,6 +264,7 @@ public class DefaultEmbeddedKernel implements Runnable, Kernel
     */
     public void startup()
     {
+        if( m_command == EXIT ) throw new IllegalStateException("trminated");
         synchronized( m_command )
         {
             m_command = STARTUP;
@@ -292,6 +294,7 @@ public class DefaultEmbeddedKernel implements Runnable, Kernel
     public void shutdown()
     {
         if( m_error != null ) return;
+        if( m_command == EXIT ) throw new IllegalStateException("trminated");
         synchronized( m_command )
         {
             m_command = SHUTDOWN;
@@ -613,5 +616,33 @@ public class DefaultEmbeddedKernel implements Runnable, Kernel
         }
     }
 
+   /**
+    * Create a shutdown hook that will trigger shutdown of the supplied kernel.
+    * @param kernel the kernel to be shutdown
+    */
+    private void setShutdownHook( final DefaultEmbeddedKernel kernel )
+    {
+        //
+        // Create a shutdown hook to trigger clean disposal of the
+        // Merlin kernel
+        //
+
+        Runtime.getRuntime().addShutdownHook(
+          new Thread()
+          {
+              public void run()
+              {
+                  try
+                  {
+                      kernel.shutdown();
+                  }
+                  catch( Throwable e )
+                  {
+                      // ignore it
+                  }
+              }
+          }
+        );
+    }
 }
 

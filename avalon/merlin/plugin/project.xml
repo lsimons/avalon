@@ -41,33 +41,33 @@
     <dependency>
       <groupId>avalon-activation</groupId>
       <artifactId>avalon-activation-api</artifactId>
-      <version>1.1-dev</version>
+      <version>1.2-dev</version>
     </dependency>
     <dependency>
       <groupId>avalon-activation</groupId>
       <artifactId>avalon-activation-spi</artifactId>
-      <version>1.1-dev</version>
+      <version>1.2-dev</version>
     </dependency>
     <dependency>
       <groupId>avalon-activation</groupId>
       <artifactId>avalon-activation-impl</artifactId>
-      <version>1.1-dev</version>
+      <version>1.2-dev</version>
     </dependency>
 
     <dependency>
       <groupId>avalon-composition</groupId>
       <artifactId>avalon-composition-api</artifactId>
-      <version>1.1-dev</version>
+      <version>1.2-dev</version>
     </dependency>
     <dependency>
       <groupId>avalon-composition</groupId>
       <artifactId>avalon-composition-spi</artifactId>
-      <version>1.1-dev</version>
+      <version>1.2-dev</version>
     </dependency>
     <dependency>
       <groupId>avalon-composition</groupId>
       <artifactId>avalon-composition-impl</artifactId>
-      <version>1.1-dev</version>
+      <version>1.2-dev</version>
     </dependency>
 
     <dependency>
@@ -84,17 +84,17 @@
     <dependency>
       <groupId>avalon-meta</groupId>
       <artifactId>avalon-meta-api</artifactId>
-      <version>1.2-dev</version>
+      <version>1.2.1-dev</version>
     </dependency>
     <dependency>
       <groupId>avalon-meta</groupId>
       <artifactId>avalon-meta-spi</artifactId>
-      <version>1.2-dev</version>
+      <version>1.2.1-dev</version>
     </dependency>
     <dependency>
       <groupId>avalon-meta</groupId>
       <artifactId>avalon-meta-impl</artifactId>
-      <version>1.2-dev</version>
+      <version>1.2.1-dev</version>
     </dependency>
 
     <dependency>

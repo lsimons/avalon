@@ -58,7 +58,7 @@ import org.apache.avalon.framework.logger.Logger;
 
 /**
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2003/10/18 00:34:19 $
+ * @version $Revision: 1.5 $ $Date: 2003/10/19 06:12:58 $
  */
 public class SingletonLifestyleHandler extends AbstractLifestyleHandler
   implements Disposable
@@ -79,7 +79,7 @@ public class SingletonLifestyleHandler extends AbstractLifestyleHandler
      * @return the resolved object
      * @throws Exception if an error occurs
      */
-    public Object resolve() throws Exception
+    public synchronized Object resolve() throws Exception
     {
         Object instance = null;
 
@@ -102,13 +102,21 @@ public class SingletonLifestyleHandler extends AbstractLifestyleHandler
     }
 
     /**
-     * Release an object.
+     * Release an object
      *
      * @param instance the object to be released
+     * @param finalized if TRUE the lifestyle handler cannot reuse the instance
      */
-    public void release( Object instance )
+    public synchronized void release( Object instance, boolean finalized )
     {
-        // don't release singleton types
+        if( finalized )
+        {
+            m_reference = null;
+        }
+        else
+        {
+            // continue with the current reference
+        }
     }
 
    /**
@@ -132,6 +140,4 @@ public class SingletonLifestyleHandler extends AbstractLifestyleHandler
             return instance;
         }
     }
-
-
 }

@@ -56,7 +56,7 @@ import org.apache.avalon.framework.logger.Logger;
 /**
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2003/10/17 06:44:49 $
+ * @version $Revision: 1.4 $ $Date: 2003/10/19 06:12:58 $
  */
 public class PooledLifestyleHandler extends AbstractLifestyleHandler
 {
@@ -78,13 +78,13 @@ public class PooledLifestyleHandler extends AbstractLifestyleHandler
     }
 
     /**
-     * Release an object. 
+     * Release an object
      *
-     * @param instance the object to be reclaimed
+     * @param instance the object to be released
+     * @param finalized if TRUE the lifestyle handler cannot reuse the instance
      */
-    public void release( Object instance )
+    public void release( Object instance, boolean finalized )
     {
         throw new UnsupportedOperationException();
     }
-
 }

@@ -61,7 +61,7 @@ import org.apache.avalon.meta.info.Type;
  * Deployment model defintion.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2003/10/17 03:26:29 $
+ * @version $Revision: 1.3 $ $Date: 2003/10/19 06:12:58 $
  */
 public interface DeploymentModel extends Model
 {
@@ -78,6 +78,18 @@ public interface DeploymentModel extends Model
     * @return the activaltion policy
     */
     boolean getActivationPolicy();
+
+   /**
+    * Return the collection policy for the model. If a profile
+    * does not declare a collection policy, the collection policy 
+    * declared by the type will be used.
+    *
+    * @return the collection policy
+    * @see org.apache.avalon.meta.info.InfoDescriptor#LIBERAL
+    * @see org.apache.avalon.meta.info.InfoDescriptor#DEMOCRAT
+    * @see org.apache.avalon.meta.info.InfoDescriptor#CONSERVATIVE
+    */
+    String getCollectionPolicy();
 
    /**
     * Return the logging categories. 

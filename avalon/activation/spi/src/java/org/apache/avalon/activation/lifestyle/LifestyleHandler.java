@@ -54,7 +54,7 @@ package org.apache.avalon.activation.lifestyle;
  * A lifestyle handler provides support for a particular lifestyle policy.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2003/10/17 03:26:29 $
+ * @version $Revision: 1.3 $ $Date: 2003/10/19 06:12:58 $
  */
 public interface LifestyleHandler
 {
@@ -72,5 +72,13 @@ public interface LifestyleHandler
      * @param instance the object to be released
      */
     void release( Object instance );
+
+    /**
+     * Release an object
+     *
+     * @param instance the object to be released
+     * @param finalized if TRUE the lifestyle handler cannot reuse the instance
+     */
+    void release( Object instance, boolean finalized );
 
 }

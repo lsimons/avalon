@@ -76,7 +76,7 @@ import org.apache.excalibur.configuration.ConfigurationUtil;
  * Write a {@link DeploymentProfile} to a stream as xml documents.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:31:46 $
+ * @version $Revision: 1.2 $ $Date: 2003/10/19 06:12:58 $
  */
 public class XMLDeploymentProfileWriter
 {
@@ -100,11 +100,21 @@ public class XMLDeploymentProfileWriter
         writer.write( "\n" + pad + "  class=\"" + profile.getClassname() + "\"");
         if( !profile.getActivationPolicy() )
         {
-            writer.write( "\n" + pad + "  activation=\"false\"" ); 
+            writer.write( 
+              "\n" + pad 
+              + "  activation=\"false\"" ); 
+        }
+        if( profile.getCollectionPolicy() != null )
+        {
+            writer.write( 
+              "\n" + pad 
+              + "  collection=\"" 
+              + profile.getCollectionPolicy() 
+              + "\"" ); 
         }
 
         if(( profile.getCategories() == null ) && ( profile.getContext() == null )
-         && ( isEmptyConfiguration( profile.getConfiguration() ) ) && (profile.getParameters() == null ))
+         && ( isEmptyConfiguration( profile.getConfiguration() ) ) && ( profile.getParameters() == null ))
         {
             writer.write( "/>");
         }

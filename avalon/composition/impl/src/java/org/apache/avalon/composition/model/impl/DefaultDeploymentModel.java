@@ -71,6 +71,7 @@ import org.apache.avalon.composition.data.CategoriesDirective;
 import org.apache.avalon.repository.Repository;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
+import org.apache.avalon.framework.activity.Startable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.avalon.framework.configuration.Configurable;
@@ -81,11 +82,12 @@ import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.composition.data.ContextDirective;
 import org.apache.avalon.composition.data.DeploymentProfile;
 import org.apache.avalon.composition.data.Mode;
-import org.apache.avalon.meta.info.Type;
+import org.apache.avalon.meta.info.ContextDescriptor;
+import org.apache.avalon.meta.info.DependencyDescriptor;
+import org.apache.avalon.meta.info.InfoDescriptor;
 import org.apache.avalon.meta.info.ServiceDescriptor;
 import org.apache.avalon.meta.info.StageDescriptor;
-import org.apache.avalon.meta.info.DependencyDescriptor;
-import org.apache.avalon.meta.info.ContextDescriptor;
+import org.apache.avalon.meta.info.Type;
 import org.apache.avalon.meta.info.builder.TypeBuilder;
 import org.apache.excalibur.configuration.CascadingConfiguration;
 
@@ -93,7 +95,7 @@ import org.apache.excalibur.configuration.CascadingConfiguration;
  * Deployment model defintion.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2003/10/17 03:26:29 $
+ * @version $Revision: 1.3 $ $Date: 2003/10/19 06:12:58 $
  */
 public class DefaultDeploymentModel extends DefaultModel implements DeploymentModel
 {
@@ -308,6 +310,67 @@ public class DefaultDeploymentModel extends DefaultModel implements DeploymentMo
     }
 
    /**
+    * Return the collection policy for the model. If a profile
+    * does not declare a collection policy, then the collection
+    * policy declareed by the underrlying component type
+    * will be used.
+    *
+    * @return the collection policy
+    * @see InfoDescriptor#LIBERAL
+    * @see InfoDescriptor#DEMOCRAT
+    * @see InfoDescriptor#CONSERVATIVE
+    */
+    public String getCollectionPolicy()
+    {
+        final String policy = m_context.getProfile().getCollectionPolicy();
+        if( policy != null )
+        {
+            if( policy.equalsIgnoreCase( InfoDescriptor.LIBERAL ) )
+            {
+                return InfoDescriptor.LIBERAL;
+            }
+            else if( policy.equalsIgnoreCase( InfoDescriptor.DEMOCRAT ) )
+            {
+                return InfoDescriptor.DEMOCRAT;
+            }
+            else if( policy.equalsIgnoreCase( InfoDescriptor.CONSERVATIVE ) )
+            {
+                return InfoDescriptor.CONSERVATIVE;
+            }
+            else
+            {
+                final String warning = 
+                  "Overriding collection policy argument [" + policy + "] is not recognized. "
+                  + "Reverting to CONSERVATIVE policy.";
+                return InfoDescriptor.CONSERVATIVE;
+            }
+        }
+        else
+        {
+            //if( isStartable() )
+            //{
+            //    return InfoDescriptor.CONSERVATIVE;
+            //}
+            //else
+            //{
+                return m_context.getType().getInfo().getCollectionPolicy();
+            //}
+        }
+    }
+
+   /**
+    * Rest if the component type backing the model is 
+    * startable.
+    *
+    * @return TRUE if the component type is startable
+    *   otherwise FALSE
+    */
+    //public boolean isStartable()
+    //{
+    //    return Startable.class.isAssignableFrom( getDeploymentClass() );
+    //}
+
+   /**
     * Set categories. 
     * @param categories the categories directive
     */
@@ -330,7 +393,8 @@ public class DefaultDeploymentModel extends DefaultModel implements DeploymentMo
     }
 
    /**
-    * Set the activation policy for the model. 
+    * Set the activation policy for the model.
+    *
     * @param policy the activaltion policy
     */
     public void setActivationPolicy( boolean policy )
