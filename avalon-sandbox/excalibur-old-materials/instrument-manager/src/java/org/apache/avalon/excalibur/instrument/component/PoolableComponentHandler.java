@@ -85,9 +85,9 @@ import org.apache.log.Logger;
  * </ul>
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @author <a href="mailto:leif@silveregg.co.jp">Leif Mortenson</a>
+ * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/03/29 14:03:49 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/04/03 13:18:29 $
  * @since 4.0
  */
 public class PoolableComponentHandler extends InstrumentComponentHandler

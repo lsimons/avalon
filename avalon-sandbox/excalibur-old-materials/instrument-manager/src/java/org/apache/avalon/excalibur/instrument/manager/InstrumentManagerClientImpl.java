@@ -15,8 +15,8 @@ import org.apache.avalon.framework.configuration.Configuration;
 
 /**
  *
- * @author <a href="mailto:leif@silveregg.co.jp">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/03/28 04:06:18 $
+ * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
+ * @version CVS $Revision: 1.3 $ $Date: 2002/04/03 13:18:29 $
  * @since 4.1
  */
 public class InstrumentManagerClientImpl

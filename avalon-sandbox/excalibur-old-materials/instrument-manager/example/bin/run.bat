@@ -2,7 +2,7 @@
 rem
 rem Example start script.
 rem
-rem Author: Leif Mortenson [leif@silveregg.co.jp]
+rem Author: Leif Mortenson [leif@tanukisoftware.com]
 
 rem
 rem Determine if JAVA_HOME is set and if so then use it

@@ -24,8 +24,8 @@ import org.apache.excalibur.altrmi.server.impl.socket.CompleteSocketCustomStream
 
 /**
  *
- * @author <a href="mailto:leif@silveregg.co.jp">Leif Mortenson</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/04/03 11:36:10 $
+ * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
+ * @version CVS $Revision: 1.5 $ $Date: 2002/04/03 13:18:30 $
  * @since 4.1
  */
 public class InstrumentManagerAltrmiServer
