@@ -5,6 +5,8 @@ import java.io.File;
 /**
  * FileDigest holds file deployment information. Information
  * used to verify if file was modified since deployment.
+ *
+ * @version $Revision: 1.6 $ $Date: 2002/02/26 11:13:03 $
  */
 public class FileDigest
 {

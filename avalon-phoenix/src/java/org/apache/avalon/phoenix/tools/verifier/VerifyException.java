@@ -13,6 +13,7 @@ import org.apache.avalon.framework.CascadingException;
  * Exception to indicate error verifying a Block or application.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @version $Revision: 1.4 $ $Date: 2002/02/26 11:13:03 $
  */
 public final class VerifyException
     extends CascadingException

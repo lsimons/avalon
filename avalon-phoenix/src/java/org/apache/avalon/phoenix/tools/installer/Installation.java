@@ -16,6 +16,7 @@ import java.io.File;
  * jars in Classpath, config files and installation directory.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @version $Revision: 1.11 $ $Date: 2002/02/26 11:13:03 $
  */
 public final class Installation
 {

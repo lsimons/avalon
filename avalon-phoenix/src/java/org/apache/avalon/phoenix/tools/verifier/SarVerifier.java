@@ -49,6 +49,7 @@ import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
  * </ul>
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @version $Revision: 1.10 $ $Date: 2002/02/26 11:13:03 $
  */
 public class SarVerifier
     extends AbstractLogEnabled

@@ -32,6 +32,7 @@ import org.apache.avalon.phoenix.tools.configuration.ConfigurationBuilder;
  * and is in the format specified for <code>assembly.xml</code> files.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @version $Revision: 1.9 $ $Date: 2002/02/26 11:13:04 $
  */
 public class Assembler
     extends AbstractLogEnabled

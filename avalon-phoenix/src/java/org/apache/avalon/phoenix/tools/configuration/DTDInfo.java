@@ -9,6 +9,9 @@ package org.apache.avalon.phoenix.tools.configuration;
 
 /**
  * Holds information about a given DTD.
+ *
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @version $Revision: 1.2 $ $Date: 2002/02/26 11:13:04 $
  */
 public class DTDInfo
 {
