@@ -57,8 +57,9 @@ import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.ServiceSelector;
 import org.apache.avalon.framework.service.WrapperServiceSelector;
-import org.apache.commons.collections.StaticBucketMap;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -67,7 +68,7 @@ import java.util.Map;
  * the references.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.17 $ $Date: 2003/05/14 15:54:46 $
+ * @version CVS $Revision: 1.18 $ $Date: 2004/02/20 09:25:02 $
  */
 public class FortressServiceManager
     implements ServiceManager
@@ -93,7 +94,7 @@ public class FortressServiceManager
 
         m_parent = parent;
         m_container = container;
-        m_used = new StaticBucketMap();
+        m_used = Collections.synchronizedMap(new HashMap());
     }
 
     public Object lookup( final String role )
