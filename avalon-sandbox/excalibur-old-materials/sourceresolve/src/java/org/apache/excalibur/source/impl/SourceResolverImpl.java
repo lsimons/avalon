@@ -60,7 +60,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Map;
 
-import org.apache.avalon.framework.CascadingRuntimeException;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
@@ -100,7 +99,7 @@ import org.apache.excalibur.source.SourceResolver;
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: SourceResolverImpl.java,v 1.18 2003/01/08 12:13:53 cziegeler Exp $
+ * @version $Id: SourceResolverImpl.java,v 1.19 2003/01/09 08:45:50 cziegeler Exp $
  */
 public class SourceResolverImpl
     extends AbstractLogEnabled

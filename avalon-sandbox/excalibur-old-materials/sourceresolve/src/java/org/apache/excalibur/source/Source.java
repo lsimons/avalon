@@ -56,7 +56,6 @@ package org.apache.excalibur.source;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Collection;
 import java.util.Iterator;
 
 /**
@@ -99,7 +98,7 @@ import java.util.Iterator;
  * validity object must be the same until discardValidity is called!
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.12 $ $Date: 2003/01/08 21:37:32 $
+ * @version CVS $Revision: 1.13 $ $Date: 2003/01/09 08:45:51 $
  */
 public interface Source
 {
