@@ -1,3 +1,5 @@
+#! /usr/bin/sh
+
 gpg --edit-key 'Leo Simons'
 ./dist.sh
 ./sign.sh
