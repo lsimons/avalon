@@ -103,13 +103,4 @@ public class ContextStack
     {
         return m_stack.size();
     }
-
-    /**
-     * Create a context stack with no contexts.
-     *
-     */
-    public ContextStack() 
-    {
-        super();
-    }
 }
