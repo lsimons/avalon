@@ -323,7 +323,7 @@
         </ant>
 
         <depend project="jakarta-ant"/>
-        <depend project="exclibur-i18n"/>
+        <depend project="excalibur-i18n"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
         <work nested="containerkit/build/classes"/>
