@@ -9,6 +9,7 @@ package org.apache.avalon.phoenix.engine.facilities.log;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import org.apache.avalon.framework.atlantis.Facility;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -17,10 +18,10 @@ import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.AbstractLoggable;
-import org.apache.log.Category;
 import org.apache.log.LogKit;
 import org.apache.log.LogTarget;
 import org.apache.log.Logger;
+import org.apache.log.Priority;
 import org.apache.log.output.FileOutputLogTarget;
 import org.apache.avalon.phoenix.engine.facilities.LogManager;
 
@@ -33,8 +34,8 @@ public class DefaultLogManager
     extends AbstractLoggable
     implements LogManager, Contextualizable, Configurable
 {
-    protected String        m_baseName;
-    protected File          m_baseDirectory;
+    private String        m_baseName;
+    private File          m_baseDirectory;
 
     public void contextualize( final Context context )
         throws ContextException
@@ -50,10 +51,10 @@ public class DefaultLogManager
         throws ConfigurationException
     {
         final Configuration[] targets = configuration.getChildren( "log-target" );
-        configureTargets( m_baseName, m_baseDirectory, targets );
+        final HashMap targetSet = configureTargets( m_baseName, m_baseDirectory, targets );
 
         final Configuration[] categories = configuration.getChildren( "category" );
-        configureCategories( m_baseName, categories );
+        configureCategories( m_baseName, categories, targetSet );
 
         /*
           final String logPriority = configuration.getChild( "global-priority" ).getValue();
@@ -85,11 +86,13 @@ public class DefaultLogManager
         return LogKit.getLoggerFor( name );
     }
 
-    private void configureTargets( final String baseName,
-                                   final File baseDirectory,
-                                   final Configuration[] targets )
+    private HashMap configureTargets( final String baseName,
+                                      final File baseDirectory,
+                                      final Configuration[] targets )
         throws ConfigurationException
     {
+        final HashMap targetSet = new HashMap();
+
         for( int i = 0; i < targets.length; i++ )
         {
             final Configuration target = targets[ i ];
@@ -121,37 +124,35 @@ public class DefaultLogManager
                 logTarget.setFormat( format );
             }
 
-            LogKit.addLogTarget( name, logTarget );
+            targetSet.put( name, logTarget );
         }
+
+        return targetSet;
     }
 
-    private void configureCategories( final String baseName, final Configuration[] categories )
+    private void configureCategories( final String baseName, 
+                                      final Configuration[] categories,
+                                      final HashMap targets )
         throws ConfigurationException
     {
         for( int i = 0; i < categories.length; i++ )
         {
             final Configuration category = categories[ i ];
-            String name = category.getAttribute( "name" );
+            final String name = category.getAttribute( "name" );
             final String target = baseName + '.' + category.getAttribute( "target" );
-            final String priority = category.getAttribute( "priority" );
+            final String priorityName = category.getAttribute( "priority" );
 
-            if( name.trim().equals( "" ) )
+            final Logger logger = getLogger( name );
+
+            final LogTarget logTarget = (LogTarget)targets.get( target );
+            if( null != target ) 
             {
-                name = baseName;
-            }
-            else
-            {
-                name = baseName + '.' + name;
+                logger.setLogTargets( new LogTarget[] { logTarget } );
             }
 
-            final Category logCategory =
-                LogKit.createCategory( name, LogKit.getPriorityForName( priority ) );
-            final LogTarget logTarget = LogKit.getLogTarget( target );
-            LogTarget logTargets[] = null;
+            final Priority priority = Priority.getPriorityForName( priorityName );
+            logger.setPriority( priority );
 
-            if( null != target ) logTargets = new LogTarget[] { logTarget };
-
-            LogKit.createLogger( logCategory, logTargets );
         }
     }
 }

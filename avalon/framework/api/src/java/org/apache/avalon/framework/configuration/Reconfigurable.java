@@ -18,6 +18,7 @@ package org.apache.avalon.framework.configuration;
 public interface Reconfigurable
     extends Configurable
 {
-    void reconfigure( Configuration configuration ) throws ConfigurationException;
+    void reconfigure( Configuration configuration ) 
+        throws ConfigurationException;
 }
 
