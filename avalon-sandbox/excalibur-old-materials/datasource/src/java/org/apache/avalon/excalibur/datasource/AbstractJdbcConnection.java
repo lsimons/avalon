@@ -7,12 +7,13 @@
  */
 package org.apache.avalon.excalibur.datasource;
 
-import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Iterator;
+import java.util.Map;
 import org.apache.avalon.excalibur.pool.Pool;
 import org.apache.avalon.excalibur.pool.Recyclable;
 import org.apache.avalon.framework.activity.Disposable;
@@ -29,7 +30,7 @@ import org.apache.avalon.framework.logger.Logger;
  * total number of Connection objects that are created.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.17 $ $Date: 2002/11/05 04:34:02 $
+ * @version CVS $Revision: 1.18 $ $Date: 2002/11/05 23:51:25 $
  * @since 4.1
  */
 public abstract class AbstractJdbcConnection
@@ -43,14 +44,6 @@ public abstract class AbstractJdbcConnection
     protected long m_lastUsed = System.currentTimeMillis();
 
     protected Map m_statements;
-
-    /**
-     * Private default constructor so that it cannot be instantiated any
-     * other way than we desire.
-     */
-    private AbstractJdbcConnection()
-    {
-    }
 
     /**
      * @deprecated Use the version with keepAlive specified
@@ -123,7 +116,7 @@ public abstract class AbstractJdbcConnection
         {
             m_connection.clearWarnings();
 
-            Iterator it = m_statements.getKeySet().iterator();
+            Iterator it = m_statements.keySet().iterator();
             while (it.hasNext())
             {
                 Object key = it.next();
