@@ -52,7 +52,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  */
- package sourceresolve.src.java.org.apache.excalibur.source;
+package org.apache.excalibur.source;
 
 import org.apache.excalibur.source.Source;
 
@@ -63,19 +63,26 @@ import java.util.Collection;
  * a parent, like a file system.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/01/08 21:37:32 $
+ * @version CVS $Revision: 1.2 $ $Date: 2003/01/09 08:33:34 $
  */
 public interface TraversableSource extends Source {
 
 	/**
 	 * Does this source point to a directory?
 	 */
-	boolean isDirectory();
+	boolean hasChildren();
     
 	/**
 	 * Return the URIs of the children
 	 * The returned URIs are relative to the URI of the parent
 	 * (this object)
 	 */
-	Collection getChildrenLocations();
+	Collection getChildrenLocations() throws SourceException;
+    
+    /**
+     * Return the complete URI of the parent source. 
+     * The method should return null if the source hasn't a parent.
+     */
+    String getParentLocation() throws SourceException;
+
 }
