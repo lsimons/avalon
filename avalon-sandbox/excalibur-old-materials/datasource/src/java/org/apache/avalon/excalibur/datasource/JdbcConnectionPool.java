@@ -63,13 +63,14 @@ import org.apache.avalon.framework.activity.Initializable;
  * thread to manage the number of SQL Connections.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.23 $ $Date: 2003/03/25 21:34:01 $
+ * @version CVS $Revision: 1.24 $ $Date: 2003/03/31 18:32:55 $
  * @since 4.0
  */
 public class JdbcConnectionPool
     extends HardResourceLimitingPool
     implements Runnable, Disposable, Initializable
 {
+    private Exception m_cause = null;
     private Thread m_initThread;
     private final boolean m_autoCommit;
     private boolean m_noConnections;
@@ -85,7 +86,7 @@ public class JdbcConnectionPool
     {
         super( factory, controller, max );
         m_min = min;
-
+        m_initialized = false;
         m_autoCommit = autoCommit;
     }
 
@@ -167,6 +168,8 @@ public class JdbcConnectionPool
         {
             if( m_noConnections )
             {
+                if (m_cause != null) throw m_cause;
+                
                 throw new IllegalStateException( "There are no connections in the pool, check your settings." );
             }
             else if( m_initThread == null )
@@ -257,9 +260,10 @@ public class JdbcConnectionPool
         }
         catch( Exception e )
         {
-            if( getLogger().isDebugEnabled() )
+            m_cause = e;
+            if( getLogger().isWarnEnabled() )
             {
-                getLogger().debug( "Caught an exception during initialization", e );
+                getLogger().warn( "Caught an exception during initialization", e );
             }
         }
     }
