@@ -55,9 +55,6 @@
 
 package org.apache.avalon.framework.component;
 
-import org.apache.avalon.framework.component.Component;
-import org.apache.avalon.framework.component.ComponentException;
-import org.apache.avalon.framework.component.ComponentSelector;
 import org.apache.avalon.framework.service.ServiceSelector;
 import org.apache.avalon.framework.service.ServiceException;
 
@@ -68,7 +65,7 @@ import org.apache.avalon.framework.service.ServiceException;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/11/07 15:52:11 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/11/22 00:53:25 $
  */
 public class WrapperComponentSelector
     implements ComponentSelector

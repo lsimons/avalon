@@ -7,9 +7,6 @@
  */
 package org.apache.avalon.framework.component;
 
-import org.apache.avalon.framework.component.ComponentManager;
-import org.apache.avalon.framework.component.Component;
-import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceSelector;
@@ -21,7 +18,7 @@ import org.apache.avalon.framework.service.WrapperServiceSelector;
  * interface to a {@link ComponentManager} interface.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2002/11/09 08:04:53 $
+ * @version $Revision: 1.6 $ $Date: 2002/11/22 00:53:25 $
  */
 public class WrapperComponentManager
     implements ComponentManager
