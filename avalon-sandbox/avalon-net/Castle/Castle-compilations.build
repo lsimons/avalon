@@ -110,6 +110,7 @@
                     <includes name="${nant.settings.currentframework.frameworkassemblydirectory}/mscorlib.dll"
                         fromPath="false" />
                     <includes name="${nant.settings.currentframework.frameworkassemblydirectory}/System.dll" fromPath="false" />
+                    <includes name="${nant.settings.currentframework.frameworkassemblydirectory}/System.Runtime.Remoting.dll" fromPath="false" />
                     <includes name="${nant.settings.currentframework.frameworkassemblydirectory}/System.Data.dll"
                         fromPath="false" />
                     <includes name="${nant.settings.currentframework.frameworkassemblydirectory}/System.Web.dll"
@@ -160,6 +161,7 @@
                     <includes name="${nant.settings.currentframework.frameworkassemblydirectory}/mscorlib.dll"
                         fromPath="false" />
                     <includes name="${nant.settings.currentframework.frameworkassemblydirectory}/System.dll" fromPath="false" />
+                    <includes name="${nant.settings.currentframework.frameworkassemblydirectory}/System.Runtime.Remoting.dll" fromPath="false" />
                     <includes name="${nant.settings.currentframework.frameworkassemblydirectory}/System.Data.dll"
                         fromPath="false" />
                     <includes name="${nant.settings.currentframework.frameworkassemblydirectory}/System.Web.dll"
@@ -208,6 +210,7 @@
                 </sources>
                 <references defaultexcludes="true">
                     <includes name="${nant.settings.currentframework.frameworkassemblydirectory}/System.dll" fromPath="false" />
+                    <includes name="${nant.settings.currentframework.frameworkassemblydirectory}/System.Runtime.Remoting.dll" fromPath="false" />
                     <includes name="${nant.settings.currentframework.frameworkassemblydirectory}/System.Data.dll"
                         fromPath="false" />
                     <includes name="${nant.settings.currentframework.frameworkassemblydirectory}/System.Web.dll"
@@ -259,6 +262,7 @@
                 <references defaultexcludes="true">
                     <includes name="${nant.settings.currentframework.frameworkassemblydirectory}/mscorlib.dll"
                         fromPath="false" />
+                    <includes name="${nant.settings.currentframework.frameworkassemblydirectory}/System.Runtime.Remoting.dll" fromPath="false" />
                     <includes name="${nant.settings.currentframework.frameworkassemblydirectory}/System.dll" fromPath="false" />
                     <includes name="${nant.settings.currentframework.frameworkassemblydirectory}/System.Xml.dll"
                         fromPath="false" />
@@ -283,6 +287,7 @@
                 <includes name="${nant.settings.currentframework.frameworkassemblydirectory}/mscorlib.dll"
                     fromPath="false" />
                 <includes name="${nant.settings.currentframework.frameworkassemblydirectory}/System.dll" fromPath="false" />
+                <includes name="${nant.settings.currentframework.frameworkassemblydirectory}/System.Runtime.Remoting.dll" fromPath="false" />
                 <includes name="${nant.settings.currentframework.frameworkassemblydirectory}/System.Data.dll"
                     fromPath="false" />
                 <includes name="${nant.settings.currentframework.frameworkassemblydirectory}/System.Web.dll"

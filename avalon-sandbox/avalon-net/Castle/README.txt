@@ -22,6 +22,10 @@ Where ?????? is one of the following:
   net-1.0 for Microsoft .NET Framework 1.0
   sscli-1.0 for Shared CLI 1.0
 
+For example:
+
+> build.cmd -defaultframework:net-1.1 compile
+
 You may also type:
 
 > build.cmd
