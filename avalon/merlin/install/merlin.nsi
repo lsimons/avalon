@@ -25,8 +25,8 @@
 ;Configuration
 
   ;General
-  Name "Merlin Platform 3.3"
-  OutFile "merlin-install-3.3.0-RC6.exe"
+  Name "Merlin Platform 3.3.0"
+  OutFile "merlin-install-3.3.0.exe"
 
   ;Folder selection page
   InstallDir "C:\merlin"
