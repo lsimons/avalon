@@ -44,17 +44,17 @@ Legal:
     <property name="compress.jars" value="true"/>
 
     <!-- Set the properties for intermediate directory -->
-    <property name="build.dir" value="build"/>
-    <property name="build.lib" value="${build.dir}/lib"/>
-    <property name="build.src" value="${build.dir}/src"/>
-    <property name="build.conf" value="${build.dir}/conf"/>
-    <property name="build.classes" value="${build.dir}/classes"/>
-    <property name="build.javadocs" value="${build.dir}/javadocs"/>
-    <property name="build.docs" value="${build.dir}/docs"/>
-    <property name="build.testdocs" value="${build.docs}/test"/>
-    <property name="build.reports" value="${build.dir}/reports"/>
-    <property name="build.context" value="${build.dir}/documentation"/>
-    <property name="build.xdocs" value="${build.context}/content/xdocs"/>
+    <property name="target.dir" value="target"/>
+    <property name="target.lib" value="${target.dir}/lib"/>
+    <property name="target.src" value="${target.dir}/src"/>
+    <property name="target.conf" value="${target.dir}/conf"/>
+    <property name="target.classes" value="${target.dir}/classes"/>
+    <property name="target.javadocs" value="${target.dir}/javadocs"/>
+    <property name="target.docs" value="${target.dir}/docs"/>
+    <property name="target.testdocs" value="${target.docs}/test"/>
+    <property name="target.reports" value="${target.dir}/reports"/>
+    <property name="target.context" value="${target.dir}/documentation"/>
+    <property name="target.xdocs" value="${target.context}/content/xdocs"/>
 
     <!-- Set the properties for source directories -->
     <property name="src.dir" value="src"/>
@@ -98,7 +98,7 @@ Legal:
         <fileset dir="${lib.dir}">
             <include name="*.jar" />
         </fileset>
-        <pathelement path="${build.classes}" />
+        <pathelement path="${target.classes}" />
     </path>
 
     <path id="tools.class.path">
@@ -154,16 +154,16 @@ Legal:
     <!-- Prepares the build directory -->
     <target name="prepare">
         <tstamp/>
-        <mkdir dir="${build.dir}"/>
+        <mkdir dir="${target.dir}"/>
     </target>
 
     <!-- Compiles the source code -->
     <target name="compile" depends="setup-properties,prepare" description="compiles the source code">
 
-        <mkdir dir="${build.classes}"/>
+        <mkdir dir="${target.classes}"/>
 
         <javac srcdir="${java.dir}"
-            destdir="${build.classes}"
+            destdir="${target.classes}"
             debug="${debug}"
             optimize="${optimize}"
             deprecation="${deprecation}"
@@ -180,10 +180,10 @@ Legal:
     <!-- Creates the exceptionutil.jar file -->
     <target name="compile-exceptionutil" depends="setup-properties,prepare">
 
-        <mkdir dir="${build.classes}"/>
+        <mkdir dir="${target.classes}"/>
 
         <javac srcdir="${java.dir}"
-            destdir="${build.classes}"
+            destdir="${target.classes}"
             debug="${debug}"
             optimize="${optimize}"
             deprecation="${deprecation}"
@@ -194,9 +194,9 @@ Legal:
     </target>
 
     <target name="jar-exceptionutil" depends="compile-exceptionutil, prepare-conf">
-        <mkdir dir="${build.lib}"/>
-        <jar jarfile="${build.lib}/exceptionutil.jar"
-            basedir="${build.classes}"
+        <mkdir dir="${target.lib}"/>
+        <jar jarfile="${target.lib}/exceptionutil.jar"
+            basedir="${target.classes}"
             compress="${compress.jars}">
             <manifest>
               <attribute name="Extension-Name" value="avalon-exceptionutil"/>
@@ -207,7 +207,7 @@ Legal:
             </manifest>
             <include name="org/apache/avalon/framework/ExceptionUtil.class" />
             <include name="org/apache/avalon/framework/Cascading*" />
-            <zipfileset dir="${build.conf}" prefix="META-INF/">
+            <zipfileset dir="${target.conf}" prefix="META-INF/">
                 <include name="LICENSE.txt"/>
             </zipfileset>
         </jar>
@@ -219,17 +219,17 @@ Legal:
         <echo message="Avalon Framework is mostly interfaces."/>
         <echo message="But some tests to be performed at this time."/>
 
-        <mkdir dir="${build.reports}"/>
+        <mkdir dir="${target.reports}"/>
 
         <echo message="Performing Unit Tests" />
-        <junit fork="true" printsummary="yes" dir="${build.reports}">
+        <junit fork="true" printsummary="yes" dir="${target.reports}">
             <formatter type="plain" usefile="false"/>
             <classpath>
                 <path refid="test.class.path"/>
-                <pathelement location="${build.classes}"/>
+                <pathelement location="${target.classes}"/>
             </classpath>
-            <batchtest todir="${build.reports}">
-                <fileset dir="${build.classes}">
+            <batchtest todir="${target.reports}">
+                <fileset dir="${target.classes}">
                     <include name="**/test/*TestCase.class"/>
                 </fileset>
             </batchtest>
@@ -238,18 +238,18 @@ Legal:
     </target>
 
     <target name="test-report" depends="compile" >
-        <mkdir dir="${build.testdocs}"/>
-        <mkdir dir="${build.reports}"/>
+        <mkdir dir="${target.testdocs}"/>
+        <mkdir dir="${target.reports}"/>
 
         <echo message="Performing Unit Tests" />
-        <junit fork="true" printsummary="yes" dir="${build.reports}">
+        <junit fork="true" printsummary="yes" dir="${target.reports}">
             <formatter type="xml"/>
             <classpath>
                 <path refid="test.class.path"/>
-                <pathelement location="${build.classes}"/>
+                <pathelement location="${target.classes}"/>
             </classpath>
-            <batchtest todir="${build.reports}">
-                <fileset dir="${build.classes}">
+            <batchtest todir="${target.reports}">
+                <fileset dir="${target.classes}">
                     <exclude name="**/test/Abstract*TestCase.class"/>
                     <include name="**/test/*Profile.class" if="test.profile"/>
                     <include name="**/test/*TestCase.class"/>
@@ -257,11 +257,11 @@ Legal:
             </batchtest>
         </junit>
 
-        <junitreport todir="${build.reports}">
-            <fileset dir="${build.reports}">
+        <junitreport todir="${target.reports}">
+            <fileset dir="${target.reports}">
                 <include name="TEST-*.xml"/>
             </fileset>
-            <report format="frames" todir="${build.testdocs}"/>
+            <report format="frames" todir="${target.testdocs}"/>
         </junitreport>
     </target>
 
@@ -298,7 +298,7 @@ Legal:
                 <include name="**/*.java"/>
             </fileset>
             <formatter type="plain"/>
-            <formatter type="xml" toFile="${build.dir}/checkstyle-results.xml"/>
+            <formatter type="xml" toFile="${target.dir}/checkstyle-results.xml"/>
         </checkstyle>
     </target>
 
@@ -307,10 +307,10 @@ Legal:
         if="do.checkstyle"
         description="Generate Checkstyle Report">
 
-        <mkdir dir="${build.reports}/checkstyle"/>
+        <mkdir dir="${target.reports}/checkstyle"/>
         <property name="checkstyle.pathhack" location="."/>
-        <style style="${tools.dir}/etc/checkstyle-frames.xsl" in="${build.dir}/checkstyle-results.xml"
-            out="${build.reports}/checkstyle/delete-me.html">
+        <style style="${tools.dir}/etc/checkstyle-frames.xsl" in="${target.dir}/checkstyle-results.xml"
+            out="${target.reports}/checkstyle/delete-me.html">
             <param name="pathhack" expression="${checkstyle.pathhack}"/>
         </style>
 
@@ -346,12 +346,12 @@ Legal:
         <filter token="year" value="2002"/>
         <filter token="vendor" value="Apache Software Foundation"/>
 
-        <delete dir="${build.dir}/work"/>
+        <delete dir="${target.dir}/work"/>
 
-        <mkdir dir="${build.context}"/>
-        <mkdir dir="${build.docs}"/>
-        <mkdir dir="${build.xdocs}"/>
-        <mkdir dir="${build.dir}/work"/>
+        <mkdir dir="${target.context}"/>
+        <mkdir dir="${target.docs}"/>
+        <mkdir dir="${target.xdocs}"/>
+        <mkdir dir="${target.dir}/work"/>
 
         <!-- Base pointers for non-xdocs documentation. Override these in .ant.properties to link to local docs -->
         <property name="avalon.base" value="http://jakarta.apache.org/avalon"/>
@@ -373,7 +373,7 @@ Legal:
         <filter token="TESTLET_BASE" value="${testlet.base}"/>
         <filter token="APPS_BASE" value="${apps.base}"/>
 
-        <copy todir="${build.context}" overwrite="true" filtering="on">
+        <copy todir="${target.context}" overwrite="true" filtering="on">
             <fileset dir="${context.dir}">
                 <exclude name="**/*.ico"/>
                 <exclude name="**/*.gif"/>
@@ -382,7 +382,7 @@ Legal:
             </fileset>
         </copy>
 
-        <copy todir="${build.context}" filtering="off">
+        <copy todir="${target.context}" filtering="off">
             <fileset dir="${context.dir}">
                 <include name="**/*.ico"/>
                 <include name="**/*.gif"/>
@@ -390,13 +390,13 @@ Legal:
                 <include name="**/*.png"/>
             </fileset>
         </copy>
-        <copy todir="${build.xdocs}" filtering="on" overwrite="true">
+        <copy todir="${target.xdocs}" filtering="on" overwrite="true">
             <fileset dir="${xdocs.dir}"/>
         </copy>
 
 
         <copy file="${context.dir}/resources/schema/CatalogManager.properties"
-              todir="${build.context}/resources/schema" filtering="off"/>
+              todir="${target.context}/resources/schema" filtering="off"/>
 
         <echo message="                   ok."/>
         
@@ -409,12 +409,12 @@ Legal:
  
         <java classname="org.apache.cocoon.Main" fork="true" maxmemory="128m" failonerror="true">
         
-            <arg value="-c${build.context}/"/>
-            <arg value="-d${build.docs}"/>
-            <arg value="-w${build.dir}/work"/>
-            <arg value="-b${build.dir}/brokenlinks.txt"/>            
-            <arg value="-k${build.context}/logkit.xconf"/>
-            <!-- <arg value="-l${build.dir}/work/cocoon.log"/> -->
+            <arg value="-c${target.context}/"/>
+            <arg value="-d${target.docs}"/>
+            <arg value="-w${target.dir}/work"/>
+            <arg value="-b${target.dir}/brokenlinks.txt"/>            
+            <arg value="-k${target.context}/logkit.xconf"/>
+            <!-- <arg value="-l${target.dir}/work/cocoon.log"/> -->
             <arg value="-uERROR"/>
             <arg value="-V"/>            
             <arg value="index.html"/>
@@ -426,14 +426,14 @@ Legal:
             </classpath>
         </java>
 
-        <delete dir="${build.dir}/work"/>
+        <delete dir="${target.dir}/work"/>
 
         <echo message="  ...docs generated succesfully in ./build/docs dir."/>
         <echo message="-------------------------------------------------------------"/>
 
-        <mkdir dir="${build.docs}/framework/diagrams"/>
-        <copy todir="${build.docs}/framework/diagrams" filtering="off">
-            <fileset dir="${context.dir}/diagrams"/>
+        <mkdir dir="${target.docs}/framework/diagrams"/>
+        <copy todir="${target.docs}/framework/diagrams" filtering="off">
+            <fileset dir="${src.dir}/diagrams"/>
         </copy>
 
     </target>
@@ -441,22 +441,22 @@ Legal:
   <target name="docswar" depends="prepare-html-docs" 
           description="Create a .war package out of the docs">
           
-    <mkdir dir="${build.context}/WEB-INF"/>
-    <move file="${build.context}/web.xml" todir="${build.context}/WEB-INF"/>
-    <move file="${build.context}/cocoon.xconf" todir="${build.context}/WEB-INF"/>
-    <move file="${build.context}/logkit.xconf" todir="${build.context}/WEB-INF"/>
+    <mkdir dir="${target.context}/WEB-INF"/>
+    <move file="${target.context}/web.xml" todir="${target.context}/WEB-INF"/>
+    <move file="${target.context}/cocoon.xconf" todir="${target.context}/WEB-INF"/>
+    <move file="${target.context}/logkit.xconf" todir="${target.context}/WEB-INF"/>
             
-    <war warfile="${build.dir}/${name}.war"
-         webxml="${build.context}/WEB-INF/web.xml"
+    <war warfile="${target.dir}/${name}.war"
+         webxml="${target.context}/WEB-INF/web.xml"
          compress="false">
 
-      <fileset dir="${build.context}">
+      <fileset dir="${target.context}">
         <exclude name="WEB-INF/web.xml"/>
       </fileset>
       <lib dir="tools/ext"/>
       <lib dir="tools/lib"/>
 
-      <!--<classes dir="${build.context}/WEB-INF/classes/"/>-->
+      <!--<classes dir="${target.context}/WEB-INF/classes/"/>-->
 
     </war>
 
@@ -465,12 +465,12 @@ Legal:
     <!-- Create the API documentation -->
     <target name="javadocs" description="generates the API documentation (java 1.2+ only)">
 
-        <delete dir="${build.javadocs}"/>
-        <mkdir dir="${build.javadocs}"/>
+        <delete dir="${target.javadocs}"/>
+        <mkdir dir="${target.javadocs}"/>
 
         <javadoc packagenames="org.apache.*"
             sourcepath="${java.dir}"
-            destdir="${build.javadocs}">
+            destdir="${target.javadocs}">
             <classpath refid="project.class.path" />
             <doclet name="com.sun.tools.doclets.standard.Standard">
                 <param name="-author"/>
@@ -495,7 +495,7 @@ Legal:
         <mkdir dir="${docs.dir}"/>
 
         <copy todir="${docs.dir}">
-            <fileset dir="${build.docs}" />
+            <fileset dir="${target.docs}" />
         </copy>
 
     </target>
@@ -507,7 +507,7 @@ Legal:
         <mkdir dir="${javadocs.dir}"/>
 
         <copy todir="${javadocs.dir}">
-            <fileset dir="${build.javadocs}" />
+            <fileset dir="${target.javadocs}" />
         </copy>
 
     </target>
@@ -550,10 +550,10 @@ Legal:
         <filter token="release" value="${release}"/>
         <filter token="short-version" value="${short.version}"/>
 
-        <mkdir dir="${build.dir}" />
+        <mkdir dir="${target.dir}" />
         <mkdir dir="${dist.base}" />
 
-        <copy todir="${build.context}" overwrite="true" filtering="on">
+        <copy todir="${target.context}" overwrite="true" filtering="on">
             <fileset dir="${context.dir}">
                 <exclude name="**/*.ico"/>
                 <exclude name="**/*.gif"/>
@@ -561,7 +561,7 @@ Legal:
                 <exclude name="**/*.png"/>
             </fileset>
         </copy>
-        <copy todir="${build.context}" filtering="off">
+        <copy todir="${target.context}" filtering="off">
             <fileset dir="${context.dir}">
                 <include name="**/*.ico"/>
                 <include name="**/*.gif"/>
@@ -569,25 +569,25 @@ Legal:
                 <include name="**/*.png"/>
             </fileset>
         </copy>
-        <copy todir="${build.xdocs}" overwrite="true" filtering="on">
+        <copy todir="${target.xdocs}" overwrite="true" filtering="on">
             <fileset dir="${xdocs.dir}"/>
         </copy>
 
-        <style style="${announce2txt}" in="${build.xdocs}/framework/announcement.xml"
+        <style style="${announce2txt}" in="${target.xdocs}/framework/announcement.xml"
             out="Announcement.txt"/>
-        <style style="${announce2header}" in="${build.xdocs}/framework/announcement.xml"
+        <style style="${announce2header}" in="${target.xdocs}/framework/announcement.xml"
             out="${dist.base}/HEADER.html"/>
-        <style style="${announce2readme}" in="${build.xdocs}/framework/announcement.xml"
+        <style style="${announce2readme}" in="${target.xdocs}/framework/announcement.xml"
             out="${dist.base}/README.html"/>
-        <style style="${announce2site}" in="${build.xdocs}/framework/announcement.xml"
+        <style style="${announce2site}" in="${target.xdocs}/framework/announcement.xml"
             out="jakarta-news.xml"/>
 
     </target>
 
     <!-- Copies and filters the license. Used by jar and dist -->
     <target name="prepare-conf">
-        <mkdir dir="${build.conf}"/>
-        <copy todir="${build.conf}" flatten="true">
+        <mkdir dir="${target.conf}"/>
+        <copy todir="${target.conf}" flatten="true">
             <fileset dir="." includes="LICENSE.txt"/>
 
             <filterset>
@@ -601,9 +601,9 @@ Legal:
 
     <!-- Creates all the .jar files -->
     <target name="all" depends="compile, prepare-conf" description="generates the Avalon jar files">
-        <mkdir dir="${build.lib}"/>
-        <jar jarfile="${build.lib}/${framework.name}.jar"
-            basedir="${build.classes}"
+        <mkdir dir="${target.lib}"/>
+        <jar jarfile="${target.lib}/${framework.name}.jar"
+            basedir="${target.classes}"
             compress="${compress.jars}">
             <manifest>
               <attribute name="Extension-Name" value="${framework.name}"/>
@@ -614,7 +614,7 @@ Legal:
             </manifest>
             <exclude name="**/test/*"/>
             <include name="org/apache/avalon/framework/**"/>
-            <zipfileset dir="${build.conf}" prefix="META-INF/">
+            <zipfileset dir="${target.conf}" prefix="META-INF/">
                 <include name="LICENSE.txt"/>
             </zipfileset>
         </jar>
@@ -622,7 +622,7 @@ Legal:
 
     <target name="install" depends="all,install-check-cjan">
         <mkdir dir="${cjan.lib}" />
-        <copy file="${build.lib}/${framework.name}.jar" todir="${cjan.lib}"/>
+        <copy file="${target.lib}/${framework.name}.jar" todir="${cjan.lib}"/>
     </target>
 
     <target name="install-check-cjan" unless="cjan.lib">
@@ -630,14 +630,14 @@ Legal:
     </target>
 
     <target name="uninstall" depends="install-check-cjan">
-        <delete file="${build.lib}/${framework.name}.jar" dir="${cjan.lib}"/>
+        <delete file="${target.lib}/${framework.name}.jar" dir="${cjan.lib}"/>
     </target>
 
     <!-- Create the distribution -->
     <target name="bin-dist" depends="all">
 
         <mkdir dir="${dist.dir}"/>
-        <copy file="${build.lib}/${framework.name}.jar" tofile="${dist.dir}/${framework.name}-${version}.jar"/>
+        <copy file="${target.lib}/${framework.name}.jar" tofile="${dist.dir}/${framework.name}-${version}.jar"/>
         <copy file="${logkit.jar}" todir="${dist.dir}"/>
 
         <mkdir dir="${dist.docs}"/>
@@ -677,11 +677,11 @@ Legal:
         </copy>
 
         <copy todir="${src.dist.docs}">
-            <fileset dir="${build.docs}"/>
+            <fileset dir="${target.docs}"/>
         </copy>
 
         <copy todir="${src.dist.javadocs}">
-            <fileset dir="${build.javadocs}"/>
+            <fileset dir="${target.javadocs}"/>
         </copy>
 
         <copy todir="${src.dist.dir}/tools">
@@ -699,12 +699,12 @@ Legal:
                 <include name="LICENSE.txt"/>
                 <include name="KEYS"/>
                 <include name="ant.properties.sample"/>
-                <include name="build.xml"/>
+                <include name="target.xml"/>
             </fileset>
         </copy>
 
-        <fixcrlf srcdir="${src.dist.dir}" includes="build.sh" eol="lf"/>
-        <fixcrlf srcdir="${src.dist.dir}" includes="build.bat" eol="crlf"/>
+        <fixcrlf srcdir="${src.dist.dir}" includes="target.sh" eol="lf"/>
+        <fixcrlf srcdir="${src.dist.dir}" includes="target.bat" eol="crlf"/>
 
         <fixcrlf srcdir="${src.dist.src}/java" includes="**/*.java" eol="lf"/>
 
@@ -720,7 +720,7 @@ Legal:
             <param name="dist.dir" value="${dist.name}" />
         </antcall>
 
-        <copy file="${build.lib}/avalon-framework.jar" tofile="${tools.dir}/ext/avalon-framework.jar"/>
+        <copy file="${target.lib}/avalon-framework.jar" tofile="${tools.dir}/ext/avalon-framework.jar"/>
 
         <zip file="${dist.base}/${dist.name}-bin.zip"
             basedir="${dist.name}/.."
@@ -752,11 +752,11 @@ Legal:
 
         <tar longfile="gnu" tarfile="${dist.base}/${dist.name}-src.tar" >
             <tarfileset dir="${dist.name}/.." mode="755" username="avalon" group="avalon">
-                <include name="${dist.name}/build.sh"/>
+                <include name="${dist.name}/target.sh"/>
             </tarfileset>
             <tarfileset dir="${dist.name}/.." username="avalon" group="avalon">
                 <include name="${dist.name}/**"/>
-                <exclude name="${dist.name}/build.sh"/>
+                <exclude name="${dist.name}/target.sh"/>
             </tarfileset>
         </tar>
 
@@ -772,14 +772,14 @@ Legal:
     <target name="sitebook2docbook" description="goes through all the xdocs and transforms them to docbook">
         <style style="${document2docbook}"
             basedir="${context.dir}/xdocs"
-            destdir="${build.context}/xdocs"
+            destdir="${target.context}/xdocs"
             extension=".xml"
             includes="*.xml,*/*.xml,*/*/*.xml"/>
     </target>
 
     <!-- Cleans up build and distribution directories -->
     <target name="clean" depends="setup-properties" description="cleans up the created directories">
-        <delete dir="${build.dir}" />
+        <delete dir="${target.dir}" />
         <delete dir="${dist.dir}" />
         <delete>
             <fileset dir="." includes="**/*~" defaultexcludes="no"/>
