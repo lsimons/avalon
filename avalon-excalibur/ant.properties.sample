@@ -10,7 +10,7 @@
 # building all components. These values are overridable in component-specific
 # ant.properties files.
 #
-# $Id: ant.properties.sample,v 1.9 2002/04/04 04:24:56 hammant Exp $
+# $Id: ant.properties.sample,v 1.10 2002/04/08 07:44:26 cziegeler Exp $
 # -----------------------------------------------------------------------------
 
 
@@ -53,6 +53,47 @@ avalon-excalibur.jar=${avalon-excalibur.home}/avalon-excalibur.jar
 # ----- Excalibur Collections -----
 excalibur-collections.home=${base.path}/jakarta-avalon-excalibur/collections/build/lib
 excalibur-collections.jar=${excalibur-collections.home}/excalibur-collections-1.0.jar
+
+# ----- Excalibur Lang -----
+excalibur-lang.home=${base.path}/jakarta-avalon-excalibur/lang/build/lib
+excalibur-lang.jar=${excalibur-lang.home}/excalibur-lang-1.0.jar
+
+# ----- Excalibur Thread -----
+excalibur-thread.home=${base.path}/jakarta-avalon-excalibur/thread/build/lib
+excalibur-thread.jar=${excalibur-thread.home}/excalibur-thread-1.0.jar
+
+# ----- Excalibur Pool -----
+excalibur-pool.home=${base.path}/jakarta-avalon-excalibur/pool/build/lib
+excalibur-pool.jar=${excalibur-pool.home}/excalibur-pool-1.0.jar
+
+# ----- Excalibur Logger -----
+excalibur-logger.home=${base.path}/jakarta-avalon-excalibur/logger/build/lib
+excalibur-logger.jar=${excalibur-logger.home}/excalibur-logger-1.0.jar
+
+# ----- Excalibur Logger -----
+excalibur-util.home=${base.path}/jakarta-avalon-excalibur/util/build/lib
+excalibur-util.jar=${excalibur-util.home}/excalibur-util-1.0.jar
+
+# ----- Excalibur Component -----
+excalibur-component.home=${base.path}/jakarta-avalon-excalibur/component/build/lib
+excalibur-component.jar=${excalibur-component.home}/excalibur-component-1.0.jar
+
+# ----- Excalibur Event -----
+excalibur-event.home=${base.path}/jakarta-avalon-excalibur/event/build/lib
+excalibur-event.jar=${excalibur-event.home}/excalibur-event-1.0a.jar
+
+# ----- Excalibur Concurrent -----
+excalibur-concurrent.home=${base.path}/jakarta-avalon-excalibur/concurrent/build/lib
+excalibur-concurrent.jar=${excalibur-concurrent.home}/excalibur-concurrent-1.0.jar
+
+# ----- Excalibur Concurrent -----
+excalibur-altrmi.home=${base.path}/jakarta-avalon-excalibur/altrmi/build/lib
+excalibur-altrmi-common.jar=${excalibur-altrmi.home}/excalibur-altrmi-common.jar
+excalibur-altrmi-client-impl.jar=${excalibur-altrmi.home}/excalibur-altrmi-client-impl.jar
+excalibur-altrmi-client-interfaces.jar=${excalibur-altrmi.home}/excalibur-altrmi-client-interfaces.jar
+excalibur-altrmi-generator.jar=${excalibur-altrmi.home}/excalibur-altrmi-generator.jar
+excalibur-altrmi-server-impl.jar=${excalibur-altrmi.home}/excalibur-altrmi-server-impl.jar
+excalibur-altrmi-server-interfaces.jar=${excalibur-altrmi.home}/excalibur-altrmi-server-interfaces.jar
 
 # ----- Excalibur Instrument -----
 excalibur-instrument.home=${base.path}/jakarta-avalon-excalibur/instrument/build/lib
