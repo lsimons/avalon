@@ -70,7 +70,7 @@ public class SingleAppEmbeddor
         final Object component = m_application.getBlock( role );
         if( null == component )
         {
-            throw new ComponentException( "Unable to get reference to component " + role );
+            throw new ComponentException( role, "Could not find component" );
         }
         return (Component)component;
     }
