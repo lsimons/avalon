@@ -27,13 +27,15 @@ import org.apache.tools.ant.BuildException;
  */
 public class Gump 
 {
-    public static final Gump NULL_GUMP = new Gump( null );
+    public static final Gump NULL_GUMP = new Gump( null, null );
 
     private String m_alias;
+    private String m_id;
 
-    public Gump( final String alias )
+    public Gump( final String alias, final String id )
     {
         m_alias = alias;
+        m_id = id;
     }
 
    /**
@@ -42,5 +44,13 @@ public class Gump
     public String getAlias()
     {
         return m_alias;
+    }
+
+   /**
+    * Gump project artifact id.
+    */
+    public String getId()
+    {
+        return m_id;
     }
 }
