@@ -52,6 +52,8 @@ package org.apache.avalon.excalibur.logger;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Collection;
+import java.util.Iterator;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.configuration.Configurable;
@@ -63,10 +65,12 @@ import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.AvalonFormatter;
 import org.apache.avalon.framework.logger.LogKitLogger;
+import org.apache.avalon.framework.activity.Disposable;
 import org.apache.log.Hierarchy;
 import org.apache.log.LogTarget;
 import org.apache.log.Logger;
 import org.apache.log.Priority;
+import org.apache.log.util.Closeable;
 import org.apache.log.output.io.FileTarget;
 
 /**
@@ -79,7 +83,7 @@ import org.apache.log.output.io.FileTarget;
  */
 public class SimpleLogKitManager
     extends AbstractLogEnabled
-    implements LoggerManager, Contextualizable, Configurable
+    implements LoggerManager, Contextualizable, Configurable, Disposable
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( SimpleLogKitManager.class );
@@ -106,6 +110,7 @@ public class SimpleLogKitManager
      */
     private org.apache.avalon.framework.logger.Logger m_logger =
         new LogKitLogger( m_logkitLogger );
+    private Collection m_targets;
 
     /**
      * Contextualize the manager. Requires that the "app.home" entry
@@ -138,8 +143,25 @@ public class SimpleLogKitManager
     {
         final Configuration[] targets = configuration.getChildren( "log-target" );
         final HashMap targetSet = configureTargets( targets );
+        m_targets = targetSet.values();
         final Configuration[] categories = configuration.getChildren( "category" );
         configureCategories( categories, targetSet );
+    }
+
+    /**
+     * Close any closable log targets opened by LoggerManager.
+     */
+    public void dispose()
+    {
+        final Iterator iterator = m_targets.iterator();
+        while( iterator.hasNext() )
+        {
+            final LogTarget logTarget = (LogTarget)iterator.next();
+            if( logTarget instanceof Closeable )
+            {
+                ( (Closeable)logTarget ).close();
+            }
+        }
     }
 
     /**
