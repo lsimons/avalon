@@ -389,7 +389,8 @@ class LifecycleHelper
      */
     private void safeFail( final String name, final int stage, final Throwable t )
     {
-        final String reason = t.getMessage();
+        //final String reason = t.getMessage();
+        final String reason = t.toString();
         final String message =
             REZ.getString( "lifecycle-fail.error", name, new Integer( stage ), reason );
         getLogger().error( message );
@@ -408,7 +409,8 @@ class LifecycleHelper
     private void fail( final String name, final int stage, final Throwable t )
         throws Exception
     {
-        final String reason = t.getMessage();
+        //final String reason = t.getMessage();
+        final String reason = t.toString();
         final String message =
             REZ.getString( "lifecycle-fail.error", name, new Integer( stage ), reason );
         getLogger().error( message );
