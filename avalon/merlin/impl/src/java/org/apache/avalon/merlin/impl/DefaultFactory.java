@@ -910,6 +910,8 @@ public class DefaultFactory implements Factory
             }
             else
             {
+                File absolute = new File( path );
+                if( absolute.isAbsolute() ) return absolute.toURL();
                 return 
                   new File( 
                     base, path ).getCanonicalFile().toURL();      
