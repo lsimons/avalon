@@ -1,4 +1,4 @@
-<logkit logger="system.logkit" log-level="INFO">
+<logkit logger="system.logkit" log-level="DEBUG">
     <factories>
         <factory type="stream" 
                  class="org.apache.avalon.excalibur.logger.factory.StreamTargetFactory"/>
@@ -18,8 +18,8 @@
     <categories>
         <!-- System loggers -->
         <category name="system" log-level="DEBUG">
-            <!-- Profiler Manager Logger -->
-            <category name="instrument" log-level="DEBUG">
+            <!-- Instrument Manager Logger -->
+            <category name="instrument" log-level="INFO">
                 <log-target id-ref="console"/>
                 
                 <!-- The values child logger can dump out a lot of data. -->
@@ -35,7 +35,7 @@
             </category>
             
             <!-- Component Manager Logger -->
-            <category name="components" log-level="INFO">
+            <category name="components" log-level="DEBUG">
                 <log-target id-ref="console"/>
             </category>
         </category>

@@ -14,17 +14,7 @@ import org.apache.avalon.excalibur.component.ExcaliburComponentManagerCreator;
 import org.apache.avalon.excalibur.concurrent.ThreadBarrier;
 import org.apache.avalon.framework.component.ComponentManager;
 
-//import org.apache.avalon.framework.configuration.Configuration;
-//import org.apache.avalon.framework.configuration.ConfigurationException;
-//import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
-//import org.apache.avalon.framework.context.DefaultContext;
-//import org.apache.avalon.framework.logger.LogKitLogger;
-
-//import org.apache.excalibur.instrument.manager.DefaultInstrumentManager;
-
-//import org.apache.log.Hierarchy;
-//import org.apache.log.Logger;
-//import org.apache.log.Priority;
+import org.apache.avalon.framework.service.ServiceManager;
 
 /**
  * This example application loads a component which publishes a series
@@ -35,7 +25,7 @@ import org.apache.avalon.framework.component.ComponentManager;
  * Note, this code ignores exceptions to keep the code simple.
  *
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/11/07 05:11:51 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/11/07 11:46:13 $
  * @since 4.1
  */
 public class Main
@@ -64,15 +54,15 @@ public class Main
         //  utility class.  See the contents of that class if you wish to do the
         //  initialization yourself.
         m_componentManagerCreator = new ExcaliburComponentManagerCreator( null,
-                                                                          new File( "../conf/logkit.xml" ), new File( "../conf/roles.xml" ),
-                                                                          new File( "../conf/components.xml" ), new File( "../conf/instrument.xml" ) );
+            new File( "../conf/logkit.xml" ), new File( "../conf/roles.xml" ),
+            new File( "../conf/components.xml" ), new File( "../conf/instrument.xml" ) );
 
-        // Get a reference to the component manager
-        ComponentManager componentManager = m_componentManagerCreator.getComponentManager();
+        // Get a reference to the service manager
+        ServiceManager serviceManager = m_componentManagerCreator.getServiceManager();
 
         // Get a reference to the example component.
         ExampleInstrumentable instrumentable =
-            (ExampleInstrumentable)componentManager.lookup( ExampleInstrumentable.ROLE );
+            (ExampleInstrumentable)serviceManager.lookup( ExampleInstrumentable.ROLE );
         try
         {
             boolean quit = false;
@@ -129,7 +119,7 @@ public class Main
         finally
         {
             // Release the component
-            componentManager.release( instrumentable );
+            serviceManager.release( instrumentable );
             instrumentable = null;
 
             // Dispose of the ComponentManagerCreator.  It will dispose all
@@ -170,10 +160,6 @@ public class Main
             {
             }
         }
-    }
-}
-
-     }
     }
 }
 

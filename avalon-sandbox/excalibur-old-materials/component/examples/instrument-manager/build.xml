@@ -44,17 +44,6 @@
     <target name="help" depends="usage"/>
 
     <!-- =================================================================== -->
-    <!-- Dependency Checker                                                  -->
-    <!-- =================================================================== -->
-    <target name="dependencies" description="Check dependencies" unless="skip.dependencies">
-        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkCommon"/>
-        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkFramework"/>
-        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkComponent"/>
-        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkAltrmiServer"/>
-        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkAltrmiCommon"/>
-    </target>
-    
-    <!-- =================================================================== -->
     <!-- Help on usage                                                       -->
     <!-- =================================================================== -->
     <target name="collect-jars">
@@ -85,6 +74,10 @@
         <copy file="${excalibur-component.jar}"
             todir="${lib.dir}" preservelastmodified="yes"/>
 
+        <!-- Avalon Excalibur Container -->
+        <copy file="${excalibur-container.jar}"
+            todir="${lib.dir}" preservelastmodified="yes"/>
+
         <!-- Avalon Excalibur Logger -->
         <copy file="${excalibur-logger.jar}"
             todir="${lib.dir}" preservelastmodified="yes"/>
@@ -96,6 +89,8 @@
         <!-- Avalon Excalibur Instrument -->
         <copy file="${excalibur-instrument.jar}"
             todir="${lib.dir}" preservelastmodified="yes"/>
+        
+        <!-- Avalon Excalibur Instrument Manager-->
         <copy file="${excalibur-instrument-manager.jar}"
             todir="${lib.dir}" preservelastmodified="yes"/>
         <copy file="${excalibur-instrument-manager-interfaces.jar}"
