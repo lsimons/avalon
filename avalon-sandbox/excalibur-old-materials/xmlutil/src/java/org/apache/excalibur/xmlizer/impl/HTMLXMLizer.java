@@ -35,29 +35,21 @@ import org.xml.sax.SAXException;
  * This class uses jtidy.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/07/07 05:27:27 $
+ * @version CVS $Revision: 1.5 $ $Date: 2002/07/07 07:11:45 $
  */
 public class HTMLXMLizer
     extends AbstractLogEnabled
     implements XMLizer, ThreadSafe, Composable
 {
-    /** The component manager */
-    protected ComponentManager manager;
-
     /** Used for converting DOM -> SAX */
-    protected static Properties format;
+    private static final Properties c_format = createFormatProperties();
 
-    static
-    {
-        format = new Properties();
-        format.put( OutputKeys.METHOD, "xml" );
-        format.put( OutputKeys.OMIT_XML_DECLARATION, "no" );
-        format.put( OutputKeys.INDENT, "yes" );
-    }
+    /** The component manager */
+    private ComponentManager m_manager;
 
     public void compose( final ComponentManager manager )
     {
-        this.manager = manager;
+        this.m_manager = manager;
     }
 
     /**
@@ -115,9 +107,10 @@ public class HTMLXMLizer
         try
         {
             final Transformer transformer = TransformerFactory.newInstance().newTransformer();
-            transformer.setOutputProperties( format );
-            transformer.transform( new DOMSource( xhtmlconvert.parseDOM( stream, null ) ),
-                                   new StreamResult( writer ) );
+            transformer.setOutputProperties( c_format );
+            final DOMSource domSource = new DOMSource( xhtmlconvert.parseDOM( stream, null ) );
+            final StreamResult streamResult = new StreamResult( writer );
+            transformer.transform( domSource, streamResult );
         }
         catch( final TransformerException te )
         {
@@ -128,15 +121,27 @@ public class HTMLXMLizer
             new InputSource( new java.io.StringReader( writer.toString() ) );
         if( null != systemID ) inputSource.setSystemId( systemID );
 
-        final Parser parser = (Parser)manager.lookup( Parser.ROLE );
+        final Parser parser = (Parser)m_manager.lookup( Parser.ROLE );
         try
         {
             parser.parse( inputSource, handler );
         }
         finally
         {
-            manager.release( parser );
+            m_manager.release( parser );
         }
+    }
+
+    /**
+     * Utility method to create format properties for XMLizer.
+     */
+    private static Properties createFormatProperties()
+    {
+        final Properties format = new Properties();
+        format.put( OutputKeys.METHOD, "xml" );
+        format.put( OutputKeys.OMIT_XML_DECLARATION, "no" );
+        format.put( OutputKeys.INDENT, "yes" );
+        return format;
     }
 }
 
