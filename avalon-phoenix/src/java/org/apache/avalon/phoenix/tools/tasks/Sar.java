@@ -23,7 +23,7 @@ public class Sar
 {
     private File      m_config;
     private File      m_assembly;
-    private File      m_server;
+    private File      m_environment;
 
     public Sar() 
     {
@@ -68,16 +68,22 @@ public class Sar
 
     public void setServer( final File server ) 
     {
-        m_server = server;
+        System.err.println( "DEPRECATED: Server attribute of sar task is deprecated" );
+        setEnvironment( server );
+    }
 
-        if( !m_server.exists() )
+    public void setEnvironment( final File environment ) 
+    {
+        m_environment = environment;
+
+        if( !m_environment.exists() )
         {
-            throw new BuildException( "Server descriptor: " + m_server + " does not exist." );
+            throw new BuildException( "Environment descriptor: " + m_environment + " does not exist." );
         }
 
-        if( !m_server.isFile() )
+        if( !m_environment.isFile() )
         {
-            throw new BuildException( "Server descriptor: " + m_server + " is not a file." );
+            throw new BuildException( "Environment descriptor: " + m_environment + " is not a file." );
         }
     }
 
@@ -97,14 +103,14 @@ public class Sar
         {
             throw new BuildException( "assembly attribute is required", location );
         }
-        if( null == m_server )
+        if( null == m_environment )
         {
-            throw new BuildException( "server attribute is required", location );
+            throw new BuildException( "environment attribute is required", location );
         }
 
         pushFile( "SAR-INF/config.xml", m_config );
         pushFile( "SAR-INF/assembly.xml", m_assembly );
-        pushFile( "SAR-INF/server.xml", m_server );
+        pushFile( "SAR-INF/environment.xml", m_environment );
 
         super.execute();
     }
@@ -124,6 +130,6 @@ public class Sar
 
         m_config = null;
         m_assembly = null;
-        m_server = null;
+        m_environment = null;
     }
 }
