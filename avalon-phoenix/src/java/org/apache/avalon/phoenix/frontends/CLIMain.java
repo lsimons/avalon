@@ -25,6 +25,7 @@ import java.util.Hashtable;
  * @author <a href="mailto:mail@leosimons.com">Leo Simons</a>
  */
 public final class CLIMain
+    implements Runnable
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( CLIMain.class );
@@ -42,7 +43,9 @@ public final class CLIMain
      *
      * @param args[] the command line arguments
      */
-    public int main( final String args[], final Hashtable data )
+    public int main( final String args[], 
+                     final Hashtable data,
+                     final boolean blocking )
     {
         try
         {
@@ -61,7 +64,7 @@ public final class CLIMain
             final Parameters parameters = setup.getParameters();
             final String phoenixHome = System.getProperty( "phoenix.home", ".." );
             parameters.setParameter( "phoenix.home", phoenixHome );
-            execute( parameters, data );
+            execute( parameters, data, blocking );
         }
         catch( final Throwable throwable )
         {
@@ -76,7 +79,9 @@ public final class CLIMain
      *
      * @exception Exception if an error occurs
      */
-    private void execute( final Parameters parameters, final Hashtable data )
+    private void execute( final Parameters parameters, 
+                          final Hashtable data,
+                          final boolean blocking )
         throws Exception
     {
         if( false == startup( parameters, data ) )
@@ -91,6 +96,20 @@ public final class CLIMain
             Runtime.getRuntime().addShutdownHook( m_hook );
         }
 
+        if( blocking )
+        {
+            run();
+        }
+        else
+        {
+            final Thread thread = new Thread( this, "Phoenix-Monitor" );
+            thread.setDaemon( false );
+            thread.start();
+        }
+    }
+
+    public void run()
+    {
         try
         {
             m_embeddor.execute();

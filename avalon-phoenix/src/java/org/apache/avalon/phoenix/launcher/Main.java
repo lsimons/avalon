@@ -35,6 +35,9 @@ public final class Main
     ///The code to return to system using exit code
     private static int c_exitCode;
 
+    ///The code to return to system using exit code
+    private static boolean c_blocking;
+
     /**
      * Main entry point for Phoenix.
      *
@@ -44,6 +47,7 @@ public final class Main
     public final static void main( final String[] args )
         throws Exception
     {
+        c_blocking = true;
         startup( args, new Hashtable() );
         System.exit( c_exitCode );
     }
@@ -75,13 +79,14 @@ public final class Main
 
             //Create main launcher
             final Class clazz = classLoader.loadClass( MAIN_CLASS );
-            final Class[] paramTypes = new Class[] { args.getClass(), Hashtable.class };
+            final Class[] paramTypes = 
+                new Class[] { args.getClass(), Hashtable.class, Boolean.TYPE };
             final Method method = clazz.getMethod( "main", paramTypes );
             c_frontend = clazz.newInstance();
             
             //kick the tires and light the fires....
             final Integer integer = 
-                (Integer)method.invoke( c_frontend, new Object[] { args, data } );
+                (Integer)method.invoke( c_frontend, new Object[] { args, data, new Boolean( c_blocking ) } );
             c_exitCode = integer.intValue();
         }
         catch( final Exception e )
