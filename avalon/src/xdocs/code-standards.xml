@@ -197,7 +197,7 @@ Example:
 <source>
 class MyClass
 {
-    String m_class = MyClass.getClass();
+    Class m_class = MyClass.getClass();
 	int m_users;
 }
 </source>
