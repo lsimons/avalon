@@ -16,7 +16,7 @@ Build Procedure
 
 To build the facility:
 
-$ cd merlin\facilities\finder
-$ merlin avalon:build
+$ cd avalon-components/facilities/db
+$ maven
 
 

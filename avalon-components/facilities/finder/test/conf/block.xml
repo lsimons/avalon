@@ -3,9 +3,9 @@
   <classloader>
     <classpath>
       <repository>
-        <resource id="avalon-finder:avalon-finder-api" version="SNAPSHOT"/>
-        <resource id="avalon-finder:avalon-finder-impl" version="SNAPSHOT"/>
-        <resource id="avalon-finder:avalon-finder-ecm" version="SNAPSHOT"/>
+        <resource id="avalon-finder:avalon-finder-api" version="0.9.0"/>
+        <resource id="avalon-finder:avalon-finder-impl" version="0.9.0"/>
+        <resource id="avalon-finder:avalon-finder-ecm" version="0.9.0"/>
       </repository>
       <fileset dir="target">
         <include name="classes"/>
