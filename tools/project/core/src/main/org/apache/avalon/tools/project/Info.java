@@ -17,6 +17,7 @@
 
 package org.apache.avalon.tools.project;
 
+import org.apache.tools.ant.BuildException;
 
 /**
  * Project info.
@@ -26,6 +27,15 @@ package org.apache.avalon.tools.project;
  */
 public class Info 
 {
+    public static Info create( String id, String type )
+    {
+        int n = getGroupIndex( id );
+        String group = getGroupFromId( id, n );
+        String name = getNameFromId( id, n );
+        String version = getVersionFromId( id );
+        return new Info( group, name, version, type );
+    }
+
     private String m_name;
     private String m_group;
     private String m_version;
@@ -93,7 +103,7 @@ public class Info
         return buffer.toString();
     }
 
-    public String toString()
+    public String getURI()
     {
         StringBuffer buffer = new StringBuffer();
         buffer.append( getType() );
@@ -107,6 +117,12 @@ public class Info
             buffer.append( getVersion() );
         }
         return buffer.toString();
+    }
+
+
+    public String toString()
+    {
+        return getURI();
     }
 
     public boolean equals( Object other )
@@ -136,4 +152,52 @@ public class Info
     {
         if( null == object ) throw new NullPointerException( key );
     }
+
+    private static int getGroupIndex( String id )
+    {
+        int n = id.lastIndexOf( "/" );
+        if( n < 0 )
+        {
+            final String error = 
+              "Invalid resource identifier \"" + id + "\". "
+              + "A resource identifier must be in for for [group]/[name]#[version]";
+            throw new BuildException( error );
+        }
+        else
+        {
+            return n;
+        }
+    }
+
+    private static String getGroupFromId( String id, int n )
+    {
+        return id.substring( 0, n );
+    }
+
+    private static String getNameFromId( String id, int n )
+    {
+        int j = id.indexOf( "#" );
+        if( j < 0 )
+        {
+            return id.substring( n+1 );
+        }
+        else
+        {
+            return id.substring( n+1, j );
+        }
+    }
+
+    private static String getVersionFromId( String id )
+    {
+        int j = id.indexOf( "#" );
+        if( j < 0 )
+        {
+            return null;
+        }
+        else
+        {
+            return id.substring( j+1 );
+        }
+    }
+
 }

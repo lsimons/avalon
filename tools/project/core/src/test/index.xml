@@ -55,19 +55,50 @@
 
   <projects>
 
-    <project basedir="projects/demo">
+    <project basedir="projects/sample">
+      <info>
+        <group>demo</group>
+        <name>sample</name>
+        <version>1.0</version>
+        <type>jar</type>
+      </info>
+      <dependencies>
+        <plugins>
+          <pluginref key="demo"/>
+        </plugins>
+      </dependencies>
+    </project>
+
+    <plugin basedir="projects/demo">
       <info>
         <group>demo</group>
         <name>demo</name>
         <version>1.0</version>
         <type>jar</type>
       </info>
+      <tasks>
+        <taskdef name="hello" class="org.apache.avalon.demo.StandardDemo"/>
+      </tasks>
       <dependencies>
         <resources>
           <resourceref key="avalon-framework-api"/>
         </resources>
         <projects>
           <projectref key="widget"/>
+          <projectref key="gizmo"/>
+        </projects>
+      </dependencies>
+    </plugin>
+
+    <project basedir="projects/widget">
+      <info>
+        <group>demo</group>
+        <name>widget</name>
+        <version>1.0</version>
+        <type>jar</type>
+      </info>
+      <dependencies>
+        <projects>
           <projectref key="gizmo"/>
         </projects>
       </dependencies>
@@ -84,23 +115,6 @@
         <resources>
           <resourceref key="avalon-util-i18n"/>
         </resources>
-        <plugins>
-          <pluginref key="compile"/>
-        </plugins>
-      </dependencies>
-    </project>
-
-    <project basedir="projects/widget">
-      <info>
-        <group>demo</group>
-        <name>widget</name>
-        <version>1.0</version>
-        <type>jar</type>
-      </info>
-      <dependencies>
-        <projects>
-          <projectref key="gizmo"/>
-        </projects>
       </dependencies>
     </project>
 

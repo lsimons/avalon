@@ -25,6 +25,8 @@ import java.util.ArrayList;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.tools.ant.BuildEvent;
+import org.apache.tools.ant.BuildListener;
 import org.apache.tools.ant.ProjectComponent;
 import org.apache.tools.ant.taskdefs.Ant;
 import org.apache.tools.ant.taskdefs.Ant.Reference;
@@ -43,7 +45,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import org.apache.avalon.tools.event.AbstractListener;
 import org.apache.avalon.tools.project.Definition;
 import org.apache.avalon.tools.project.ProjectRef;
 import org.apache.avalon.tools.project.ResourceRef;
@@ -109,8 +110,6 @@ public class Home
 
         HOME = this;
  
-        project.addBuildListener( new AbstractListener( this ) );
-
         Element root = ElementHelper.getRootElement( file );
         project.log( "home: " + m_home, Project.MSG_DEBUG );
 
@@ -137,6 +136,7 @@ public class Home
         //
 
         buildProjectList( projects );
+
     }
 
     private void buildResourceList( Element resources )
@@ -148,7 +148,7 @@ public class Home
         for( int i=0; i<resourceArray.length; i++ )
         {
             Element child = resourceArray[i];
-            Resource resource = XMLDefinitionBuilder.createResource( child );
+            Resource resource = XMLDefinitionBuilder.createResource( this, child );
             String key = resource.getKey();
             m_resources.put( key, resource );
             m_project.log( 
@@ -161,7 +161,7 @@ public class Home
     {
         if( null == projects ) return;
 
-        Element[] entries = ElementHelper.getChildren( projects, "project" );
+        Element[] entries = ElementHelper.getChildren( projects );
         m_project.log( 
           "projects: " + entries.length, 
           Project.MSG_DEBUG );
@@ -169,7 +169,7 @@ public class Home
         {
             Element element = entries[i];
             Definition definition = 
-              XMLDefinitionBuilder.createDefinition( m_home, element );
+              XMLDefinitionBuilder.createDefinition( this, element, m_home );
             String key = definition.getKey();
             m_resources.put( key, definition );
             m_project.log( 
@@ -196,6 +196,12 @@ public class Home
     public Project getProject()
     {
         return m_project;
+    }
+
+    public Plugin getPlugin( PluginRef ref )
+      throws BuildException
+    {
+        return (Plugin) getDefinition( ref );
     }
 
     public Definition getDefinition( ProjectRef ref )
@@ -259,7 +265,6 @@ public class Home
             Definition def = getDefinition( refs[i] );
             getBuildSequence( visited, targets, def );
         }
-        //targets.add( definition );
         return (Definition[]) targets.toArray( new Definition[0] );
     }
 

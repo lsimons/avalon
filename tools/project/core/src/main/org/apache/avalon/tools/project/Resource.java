@@ -30,6 +30,11 @@ public class Resource
     private String m_key;
     private Info m_info;
 
+    public Resource( Info info )
+    {
+        this( null, info );
+    }
+
     public Resource( String key, Info info )
     {
         m_key = key;

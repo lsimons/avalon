@@ -34,6 +34,7 @@ import org.apache.avalon.tools.project.ResourceRef;
 import org.apache.avalon.tools.project.Resource;
 import org.apache.avalon.tools.project.PluginRef;
 import org.apache.avalon.tools.project.Plugin;
+import org.apache.avalon.tools.project.Plugin.TaskDef;
 import org.apache.avalon.tools.project.Policy;
 
 import org.w3c.dom.Element;
@@ -47,7 +48,7 @@ import org.w3c.dom.Element;
 public class XMLDefinitionBuilder 
 {
 
-    public static Resource createResource( Element element )
+    public static Resource createResource( Home home, Element element )
     {
         Info info = 
           createInfo( ElementHelper.getChild( element, "info" ) );
@@ -55,7 +56,7 @@ public class XMLDefinitionBuilder
         return new Resource( key, info );
     }
 
-    public static Definition createDefinition( File anchor, Element element )
+    public static Definition createDefinition( Home home, Element element, File anchor )
     {
         Info info = 
           createInfo( ElementHelper.getChild( element, "info" ) );
@@ -78,7 +79,37 @@ public class XMLDefinitionBuilder
           createPluginRefs( 
             ElementHelper.getChild( deps, "plugins" ) );
 
-        return new Definition( key, basedir, info, resources, projects, plugins );
+        final String tag = element.getTagName();
+        if( tag.equals( "project" ) )
+        {
+            return new Definition( key, basedir, info, resources, projects, plugins );
+        }
+        else if( tag.equals( "plugin" ) )
+        {
+            TaskDef[] tasks = 
+              getTaskDefs( ElementHelper.getChild( element, "tasks" ) );
+            return new Plugin( key, basedir, info, resources, projects, plugins, tasks );
+        }
+        else
+        {
+            final String error =
+              "Unrecognized project type \"" + tag + "\".";
+            throw new BuildException( error );
+        }
+    }
+
+    public static TaskDef[] getTaskDefs( Element element )
+    {
+        Element[] children = ElementHelper.getChildren( element, "taskdef" );
+        TaskDef[] refs = new TaskDef[ children.length ];
+        for( int i=0; i<children.length; i++ )
+        {
+            Element child = children[i];
+            String name = child.getAttribute( "name" );
+            String classname = child.getAttribute( "class" );
+            refs[i] = new TaskDef( name, classname );
+        }
+        return refs;
     }
 
     private static File getBasedir( File anchor, Element element )
@@ -121,7 +152,7 @@ public class XMLDefinitionBuilder
         return key;
     }
 
-    private static Info createInfo( Element info )
+    public static Info createInfo( Element info )
     {
         String group = 
           ElementHelper.getValue( 

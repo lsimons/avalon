@@ -22,12 +22,15 @@ import java.io.IOException;
 
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.BuildEvent;
+import org.apache.tools.ant.BuildListener;
 import org.apache.tools.ant.taskdefs.Property;
 import org.apache.tools.ant.taskdefs.Sequential;
 import org.apache.tools.ant.types.Path;
 
 import org.apache.avalon.tools.home.Home;
 import org.apache.avalon.tools.home.Repository;
+import org.apache.avalon.tools.event.StandardListener;
 
 /**
  * Load the home defintion. 
@@ -37,7 +40,7 @@ import org.apache.avalon.tools.home.Repository;
  */
 public class ProjectTask extends Sequential
 {
-    private static final String ANT_PROPERTIES = "ant.properties";
+    private static final String USER_PROPERTIES = "user.properties";
     private static final String BUILD_PROPERTIES = "build.properties";
 
     private File m_index;
@@ -87,7 +90,6 @@ public class ProjectTask extends Sequential
         }
     }
 
-
     public void execute() throws BuildException 
     {
         //
@@ -95,7 +97,7 @@ public class ProjectTask extends Sequential
         //
 
         readProperties( 
-          new File( getProject().getBaseDir(), ANT_PROPERTIES ) );
+          new File( getProject().getBaseDir(), USER_PROPERTIES ) );
         readProperties( getPropertiesFile() );
 
         //
@@ -108,6 +110,7 @@ public class ProjectTask extends Sequential
             log( "index: " + m_index, Project.MSG_INFO );
             Home.initialize( getProject(), m_index );
         }
+
         Home home = Home.getHome( getProject() );
 
         //
@@ -116,8 +119,11 @@ public class ProjectTask extends Sequential
         //
 
         Definition definition = home.getDefinition( key );
+        BuildListener listener = new StandardListener( this, home, definition );
+        getProject().addBuildListener( listener );
         setProjectProperties( home, definition );
-        log( "build: " + definition );
+        listener.buildStarted( new BuildEvent( getProject() ) );
+
         super.execute();
 
         /*

@@ -78,6 +78,7 @@ public class JavacTask extends HomeTask
               getHome().getRepository().createPath( 
                 getProject(), getDefinition() );
             compile( src, classes, classpath );
+            copy( src, classes );
         }
     }
 
@@ -105,6 +106,20 @@ public class JavacTask extends HomeTask
         javac.setClasspath( classpath );
         javac.init();
         javac.execute();
+    }
+
+    private void copy( File sources, File classes )
+    {        
+        Copy copy = (Copy) getProject().createTask( "copy" );
+        copy.setTodir( classes );
+
+        FileSet fileset = new FileSet();
+        fileset.setDir( sources );
+        fileset.setIncludes( "**/**" );
+        fileset.setExcludes( "**/_svn/**,**/*.java,**/package.html" );
+        copy.addFileset( fileset );
+        copy.init();
+        copy.execute();
     }
 
     private boolean getDebugProperty()
