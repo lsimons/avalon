@@ -22,7 +22,7 @@ import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
  * Convert a {@link org.apache.avalon.framework.info.ComponentInfo} into a {@link org.apache.avalon.phoenix.metainfo.BlockInfo}.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2002/10/02 11:25:56 $
+ * @version $Revision: 1.4 $ $Date: 2002/10/11 05:59:23 $
  */
 public class ComponentInfoConverter
 {
@@ -112,7 +112,7 @@ public class ComponentInfoConverter
             schemaType = tag.getParameter( "schema-type" );
         }
 
-        return new BlockDescriptor( component.getName(),
+        return new BlockDescriptor( null,
                                     component.getImplementationKey(),
                                     schemaType,
                                     version );
