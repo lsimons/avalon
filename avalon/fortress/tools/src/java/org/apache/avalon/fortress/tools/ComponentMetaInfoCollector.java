@@ -293,21 +293,37 @@ public class ComponentMetaInfoCollector extends AbstractQdoxTask
             if ( className.indexOf('.') < 0)
             {
                 int classLen = className.length();
-                Type[] types = javaClass.getImplements();
-                for (int t = 0; t < types.length; t++)
-                {
-                    String type = types[t].getValue();
-                    int typeLen = type.length();
-                    
-                    if (type.substring(typeLen - classLen).equals(className))
-                    {
-                        className = type;
-                    }
-                }
+                className = resolveDeepClassName(javaClass, className, classLen);
             }
         }
         
         return className;
+    }
+    
+    private String resolveDeepClassName(final JavaClass javaClass, final String className, final int classLen)
+    {
+        // Stop at java.lang.Object
+        if (javaClass.getFullyQualifiedName().equals("java.lang.Object")) return className;
+        
+        String serviceClass = null;
+        Type[] types = javaClass.getImplements();
+        for (int t = 0; t < types.length; t++)
+        {
+            String type = types[t].getValue();
+            int typeLen = type.length();
+                    
+            if (type.substring(typeLen - classLen).equals(className))
+            {
+                serviceClass = type;
+            }
+        }
+        
+        if (serviceClass == null)
+        {
+            serviceClass = resolveDeepClassName(javaClass.getSuperJavaClass(), className, classLen);
+        }
+        
+        return serviceClass;
     }
     
     private Service getService(final String type) throws ClassNotFoundException
