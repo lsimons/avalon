@@ -71,7 +71,7 @@ import org.apache.regexp.RE;
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
  * @author <a href="mailto:stephan@apache.org">Stephan Michels</a>
- * @version CVS $Revision: 1.9 $ $Date: 2003/06/07 20:59:40 $
+ * @version CVS $Revision: 1.10 $ $Date: 2003/06/10 09:40:15 $
  */
 public final class SourceUtil
 {
@@ -554,12 +554,32 @@ public final class SourceUtil
         if (url1 == null)
             return url2;
 
+        // do this before parsing using the regexp as a performance optimalisation
+        if (getScheme(url2) != null)
+            return url2;
+
+        // regexp can be slow (and give stack overflows) with large query strings, so cut them of here
+        String query1 = null, query2 = null;
+        int queryPos = url1.indexOf('?');
+        if (queryPos != -1)
+        {
+            query1 = url1.substring(queryPos + 1);
+            url1 = url1.substring(0, queryPos);
+        }
+        queryPos = url2.indexOf('?');
+        if (queryPos != -1)
+        {
+            query2 = url2.substring(queryPos + 1);
+            url2 = url2.substring(0, queryPos);
+        }
+
         // parse the urls into parts
         // if the second url contains a scheme, it is not relative so return it right away (part 3 of the algorithm)
-        String[] url2Parts = parseUrl(url2);
-        if (url2Parts[SCHEME] != null)
-            return url2;
         String[] url1Parts = parseUrl(url1);
+        String[] url2Parts = parseUrl(url2);
+
+        url1Parts[QUERY] = query1;
+        url2Parts[QUERY] = query2;
 
         if (treatAuthorityAsBelongingToPath)
             return absolutizeWithoutAuthority(url1Parts, url2Parts);
