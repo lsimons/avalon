@@ -22,6 +22,8 @@ import java.util.Iterator;
 /**
  * This is a ThreadManager which provides a threadpool per Sink per EventPipeline.
  *
+ * ::NOTE:: This is not implemented yet!
+ *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  */
 public final class TPSPThreadManager implements Runnable
