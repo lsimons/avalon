@@ -78,4 +78,21 @@ public class SarClassLoader
             addURL( files[ i ].toURL() );
         }
     }
+
+    public String toString()
+    {
+        final StringBuffer sb = new StringBuffer();
+        sb.append( "ClassLoader[" );
+
+        final URL[] urls = getURLs();
+
+        for( int i = 0; i < urls.length; i++ )
+        {
+            sb.append( ' ' );
+            sb.append( urls[ i ] );
+        }
+
+        sb.append( " ]" );
+        return sb.toString();        
+    }
 }
