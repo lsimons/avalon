@@ -59,7 +59,7 @@ import org.apache.avalon.framework.logger.Logger;
 /**
  * Runnable deployment thread.
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/01/04 15:23:01 $
+ * @version $Revision: 1.2.2.1 $ $Date: 2004/01/07 12:57:25 $
  */
 class Deployer
     implements Runnable
@@ -93,7 +93,7 @@ class Deployer
         m_deploymentFIFO = new SimpleFIFO();
         
         m_deploymentThread = 
-          new Thread( this, "Deployer - " + m_ThreadCounter++ );
+          new Thread( this, "Deployer " + m_ThreadCounter++ );
         m_deploymentThread.start();
     }
 
@@ -121,7 +121,7 @@ class Deployer
         }
         if( m_logger.isDebugEnabled() )
         {
-            m_logger.debug( "Deployer: deploy - " + deployable );
+            m_logger.debug( "deploying: " + deployable );
         }
         DeploymentRequest req = 
           new DeploymentRequest( deployable, m_deploymentThread );
@@ -138,7 +138,7 @@ class Deployer
     {
         if( m_logger.isDebugEnabled() )
         {
-            m_logger.debug( "Deployer: dispose deployer " );
+            m_logger.debug( "disposal" );
         }
         m_deploymentThread.interrupt();
     }
@@ -147,7 +147,7 @@ class Deployer
     {
         if( m_logger.isDebugEnabled() )
         {
-            m_logger.debug( "Deployer: DeploymentThread started." );
+            m_logger.debug( "deployment thread started" );
         }
         try
         {
@@ -163,7 +163,7 @@ class Deployer
                 catch( InterruptedException e )
                 {
                     req.interrupted();
-                } 
+                }
                 catch( Throwable e )
                 {
                     req.exception( e );

@@ -51,10 +51,8 @@
 package org.apache.avalon.activation.appliance.impl;
 
 import org.apache.avalon.framework.logger.Logger;
+import org.apache.avalon.composition.model.SystemContext;
 import org.apache.avalon.composition.model.ContainmentModel;
-import org.apache.avalon.activation.appliance.ApplianceRepository;
-import org.apache.avalon.activation.appliance.DependencyGraph;
-import org.apache.avalon.activation.appliance.ServiceContext;
 import org.apache.avalon.activation.appliance.Engine;
 import org.apache.avalon.activation.appliance.BlockContext;
 
@@ -62,7 +60,7 @@ import org.apache.avalon.activation.appliance.BlockContext;
  * Context object applied to a new block.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2003/11/04 01:07:52 $
+ * @version $Revision: 1.3.2.1 $ $Date: 2004/01/07 12:57:25 $
  */
 public class DefaultBlockContext implements BlockContext
 {
@@ -70,38 +68,29 @@ public class DefaultBlockContext implements BlockContext
 
     private final ContainmentModel m_model;
 
-    private final DependencyGraph m_graph;
-
-    private final ServiceContext m_context;
+    private final SystemContext m_context;
 
     private final Engine m_engine;
-
-    private final ApplianceRepository m_repository;
 
    /**
     * Creation of a new block context.
     * @param logger the logging channel to assign
     * @param model the containment model describing the block
-    * @param graph the dependency graph
     * @param context the service context
     * @param engine the engine from which dependent applicance 
     *      instances may be resolved
     * @param repository the parent appliance repository
     */
     public DefaultBlockContext( 
-      Logger logger, ContainmentModel model, DependencyGraph graph, 
-      ServiceContext context, Engine engine, ApplianceRepository repository )
+      Logger logger, ContainmentModel model, 
+      SystemContext context, Engine engine )
     {
-        if( graph == null ) throw new NullPointerException( "graph" );
         if( context == null ) throw new NullPointerException( "context" );
-        if( repository == null ) throw new NullPointerException( "repository" );
 
         m_logger = logger;
-        m_repository = repository;
         m_model = model;
         m_context = context;
         m_engine = engine;
-        m_graph = graph;
     }
 
    /**
@@ -123,19 +112,10 @@ public class DefaultBlockContext implements BlockContext
     }
 
    /**
-    * Returns the dependency graph assigned to the block.
-    * @return the dependency graph
+    * Returns the system context assigned to the block.
+    * @return the system context
     */
-    public DependencyGraph getDependencyGraph()
-    {
-        return m_graph;
-    }
-
-   /**
-    * Returns the service context assigned to the block.
-    * @return the service context
-    */
-    public ServiceContext getServiceContext()
+    public SystemContext getSystemContext()
     {
         return m_context;
     }
@@ -147,14 +127,5 @@ public class DefaultBlockContext implements BlockContext
     public Engine getEngine()
     {
         return m_engine;
-    }
-
-   /**
-    * Returns the parent appliance repository.
-    * @return the appliance repository
-    */
-    public ApplianceRepository getApplianceRepository()
-    {
-        return m_repository;
     }
 }

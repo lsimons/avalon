@@ -57,7 +57,7 @@ package org.apache.avalon.activation.appliance;
  * completely.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2004/01/04 12:03:00 $
+ * @version $Revision: 1.1.2.1 $ $Date: 2004/01/07 12:57:25 $
  */
 public final class FatalDeploymentException extends DeploymentException
 {
