@@ -126,11 +126,11 @@ public abstract class Enum
         if( !(o instanceof Enum) )
             return false;
 
-        final Enum enum = (Enum)o;
+        final Enum enumerated = (Enum)o;
 
-        if( !getClass().equals( enum.getClass() ) )
+        if( !getClass().equals( enumerated.getClass() ) )
             return false;
-        if( m_name != null ? !m_name.equals( enum.m_name ) : enum.m_name != null )
+        if( m_name != null ? !m_name.equals( enumerated.m_name ) : enumerated.m_name != null )
             return false;
 
         return true;
