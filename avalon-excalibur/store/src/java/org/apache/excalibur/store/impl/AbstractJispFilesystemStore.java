@@ -73,7 +73,7 @@ import org.apache.excalibur.store.Store;
  * @author <a href="mailto:g-froehlich@gmx.de">Gerhard Froehlich</a>
  * @author <a href="mailto:vgritsenko@apache.org">Vadim Gritsenko</a>
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Id: AbstractJispFilesystemStore.java,v 1.2 2003/12/11 16:48:45 leosutic Exp $
+ * @version CVS $Id: AbstractJispFilesystemStore.java,v 1.3 2003/12/13 04:18:41 niclas Exp $
  */
 public abstract class AbstractJispFilesystemStore
 extends AbstractReadWriteStore
@@ -221,22 +221,43 @@ implements Store, ThreadSafe {
 
         try 
         {
+            
+            //empty the cache before clearing
+            m_Index.emptyPageCache();
             final BTreeIterator iter = new BTreeIterator(m_Index);
             Object tmp;
-            do 
+//            do 
+//            {
+//                tmp = iter.getKey();
+//                if ( tmp != null ) 
+//                {
+//                    if (getLogger().isDebugEnabled()) 
+//                    {
+//                        getLogger().debug("clear(): Removing key: " + tmp.toString());
+//                    }
+//                    iter.moveNext();
+//                    this.doRemove( tmp );
+//                }
+//            } 
+//            //while (tmp != null);
+//          while(iter.moveNext());
+
+            while(iter.isValid()) 
             {
                 tmp = iter.getKey();
-                if ( tmp != null ) 
+                if( tmp != null )  
                 {
                     if (getLogger().isDebugEnabled()) 
                     {
                         getLogger().debug("clear(): Removing key: " + tmp.toString());
                     }
-                    iter.moveNext();
-                    this.doRemove( tmp );
+                    this.doRemove(tmp);
                 }
-            } 
-            while (tmp != null);
+                if( !iter.moveNext() )
+                {
+                    break;
+                }
+            }
         } 
         catch (Exception ignore) 
         {
@@ -259,7 +280,7 @@ implements Store, ThreadSafe {
         try 
         {
             KeyObject[] keyArray = new KeyObject[1];
-            keyArray[0] = this.wrapKeyObject(key);
+            keyArray[0] = (KeyObject)key;
             m_Database.remove(keyArray);
         } 
         catch (KeyNotFound ignore) 
