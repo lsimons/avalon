@@ -1,0 +1,27 @@
+
+<!--
+The blocks.xml file contains the declaration of the blocks to be loaded
+and assembled by the kernel.  Each block element declares a block name,
+a path to a single jar file, an engine configuration (which may 
+include declaration of additional extension directories and a block 
+classpath), anad tagged configuration fragments.
+-->
+
+<blocks>
+
+   <!--
+   DEV NOTE: - Path statements need to declared as just the filename and 
+   the kernel should be resonsible for resolving the full path.  The current
+   inclusion of a directory is temporary because it is making assumptions 
+   about the deployment context.
+   -->
+
+   <block name="playground" path="../assembly/build/lib/avalon-assembly-demo-1.0.jar"/>
+
+   <block name="demo" path="../merlin/build/lib/avalon-merlin-demo-1.0.jar">
+     <configuration target="test/standard">
+       <message>Client supplied message.</message>
+     </configuration>
+   </block>
+
+</blocks>
