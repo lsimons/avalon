@@ -19,58 +19,14 @@
 
 <project>
 
- <title>Merlin</title>
+  <title>Merlin</title>
 
- <body>
+  <body>
 
-    <links>
-      <item name="Apache" href="http://apache.org/"/>
-      <item name="Avalon" href="http://avalon.apache.org/"/>
-      <item name="Framework" href="http://avalon.apache.org/product/framework/"/>
-      <item name="Merlin" href="http://avalon.apache.org/product/containers/"/>
-      <item name="Planet" href="http://avalon.apache.org/product/components/"/>
-    </links>
-
-    <menu name="About Merlin">
-      <item name="Overview" href="/about/index.html"/>
-      <item name="Getting Started" href="/starting/index.html"/>
-      <item name="Merlin System" href="/merlin/index.html"/>
-      <item name="Extensions" href="/extensions/index.html"/>
-      <item name="Tools" href="/tools/index.html" />
+    <menu>
+      <item name="permission" href="permission/index.html"/>
     </menu>
 
-    <menu name="Resources">
-      <item name="Javadoc" href="/api/index.html"/>
-      <item name="Specification" href="/reference/index.html">
-        <item name="Component Specification" href="/reference/component/index.html"/>
-        <item name="Container Specification" href="/reference/containment/index.html"/>
-        <item name="Deployment Specification" href="/reference/deployment/index.html"/>
-        <item name="System Specification" href="/reference/system/index.html">
-          <item name="Properties" href="/reference/system/properties.html"/>
-          <item name="kernel" href="/reference/system/kernel/index.html">
-            <item name="security" href="/reference/system/kernel/security/index.html">
-              <item name="profile" href="/reference/system/kernel/security/profile/index.html">
-                <item name="permissions" href="/reference/system/kernel/security/profile/permissions/index.html">
-                  <item name="permission" 
-                    href="/reference/system/kernel/security/profile/permissions/permission/index.html"/>
-                </item>
-              </item>
-            </item>
-            <item name="repository" href="/reference/system/kernel/repository/index.html"/>
-          </item>
-        </item>
-      </item>
-      <item name="Download" href="/resources/download.html"/>
-      <item name="Roadmap" href="/resources/roadmap/index.html"/>
-      <item name="DPML" href="/dpml/index.html"/>
-    </menu>
-
-    <menu name="Related Projects">
-      <item name="Meta" href="http://avalon.apache.org/meta"/>
-      <item name="Utilities" href="http://avalon.apache.org/util"/>
-      <item name="Repository" href="http://avalon.apache.org/repository"/>
-    </menu>
-
- </body>
+  </body>
 
 </project>

@@ -19,52 +19,19 @@
 
 <project>
 
- <title>Merlin</title>
+  <title>Merlin</title>
 
- <body>
+  <body>
 
-    <links>
-      <item name="Apache" href="http://apache.org/"/>
-      <item name="Avalon" href="http://avalon.apache.org/"/>
-      <item name="Framework" href="http://avalon.apache.org/product/framework/"/>
-      <item name="Merlin" href="http://avalon.apache.org/product/containers/"/>
-      <item name="Planet" href="http://avalon.apache.org/product/components/"/>
-    </links>
-
-    <menu name="About Merlin">
-      <item name="Overview" href="/about/index.html"/>
-      <item name="Getting Started" href="/starting/index.html"/>
-      <item name="Merlin System" href="/merlin/index.html"/>
-      <item name="Extensions" href="/extensions/index.html"/>
-      <item name="Tools" href="/tools/index.html" />
-    </menu>
-    
-    <menu name="Resources">
-      <item name="Javadoc" href="/api/index.html"/>
-      <item name="Specification" href="/reference/index.html">
-        <item name="Component Specification" href="/reference/component/index.html"/>
-        <item name="Container Specification" href="/reference/containment/index.html"/>
-        <item name="Deployment Specification" href="/reference/deployment/index.html">
-          <item name="Block Management" href="/reference/deployment/block.html"/>
-          <item name="Assembly" href="/reference/deployment/assembly.html"/>
-          <item name="Deployment" href="/reference/deployment/deployment.html"/>
-          <item name="Memory Management" href="/reference/deployment/memory.html"/>
-          <item name="Dynamics" href="/reference/deployment/dynamics.html"/>
-          <item name="Decommissioning" href="/reference/deployment/decommission.html"/>
-        </item>
-        <item name="System Specification" href="/reference/system/index.html"/>
-      </item>
-      <item name="Download" href="/resources/download.html"/>
-      <item name="Roadmap" href="/resources/roadmap/index.html"/>
-      <item name="DPML" href="/dpml/index.html"/>
-    </menu>
-
-    <menu name="Related Projects">
-      <item name="Meta" href="http://avalon.apache.org/meta"/>
-      <item name="Utilities" href="http://avalon.apache.org/util"/>
-      <item name="Repository" href="http://avalon.apache.org/repository"/>
+    <menu>
+      <item name="Block Management" href="block.html"/>
+      <item name="Assembly" href="assembly.html"/>
+      <item name="Deployment" href="deployment.html"/>
+      <item name="Memory Management" href="memory.html"/>
+      <item name="Dynamics" href="dynamics.html"/>
+      <item name="Decommissioning" href="decommission.html"/>
     </menu>
  
- </body>
+  </body>
 
 </project>
