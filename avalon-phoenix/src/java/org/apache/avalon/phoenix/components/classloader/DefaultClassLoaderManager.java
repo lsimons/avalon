@@ -72,6 +72,7 @@ import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.phoenix.interfaces.ClassLoaderManager;
 import org.apache.avalon.phoenix.interfaces.ClassLoaderSet;
+import org.apache.avalon.phoenix.BlockContext;
 import org.apache.excalibur.policy.builder.PolicyBuilder;
 import org.apache.excalibur.policy.metadata.PolicyMetaData;
 import org.apache.excalibur.policy.reader.PolicyReader;
@@ -83,6 +84,7 @@ import org.realityforge.classman.metadata.FileSetMetaData;
 import org.realityforge.classman.metadata.JoinMetaData;
 import org.realityforge.classman.reader.ClassLoaderSetReader;
 import org.realityforge.classman.verifier.ClassLoaderVerifier;
+import org.realityforge.configkit.PropertyExpander;
 import org.w3c.dom.Element;
 
 /**
@@ -146,6 +148,16 @@ public class DefaultClassLoaderManager
     private Map m_predefinedLoaders;
 
     /**
+     * The contextdata used in interpolation of the policy configuration file.
+     */
+    private final Map m_data = new HashMap();
+
+    /**
+     * The property expander that will expand properties in the policy configuraiton file.
+     */
+    private final PropertyExpander m_expander = new PropertyExpander();
+
+    /**
      * Pass the Context to the Manager.
      * It is expected that the there will be an entry
      * <ul>
@@ -160,6 +172,9 @@ public class DefaultClassLoaderManager
         throws ContextException
     {
         m_commonClassLoader = (ClassLoader)context.get( "common.classloader" );
+        m_data.put( BlockContext.APP_HOME_DIR, context.get( BlockContext.APP_HOME_DIR ) );
+        m_data.put( BlockContext.APP_NAME, context.get( BlockContext.APP_NAME ) );
+        //extractData( context, "phoenix.home" );
     }
 
     /**
@@ -300,7 +315,7 @@ public class DefaultClassLoaderManager
     private Policy configurePolicy( final Configuration configuration,
                                     final File baseDirectory,
                                     final File workDirectory )
-        throws ConfigurationException
+        throws Exception
     {
         final SarPolicyResolver resolver =
             new SarPolicyResolver( baseDirectory, workDirectory );
@@ -311,6 +326,11 @@ public class DefaultClassLoaderManager
         setupLogger( verifier );
 
         final Element element = ConfigurationUtil.toElement( configuration );
+        final HashMap data = new HashMap();
+        data.putAll( m_data );
+        data.put( "/", File.separator );
+        m_expander.expandValues( element, data );
+
         element.setAttribute( "version", "1.0" );
         try
         {
