@@ -7,10 +7,7 @@
  */
 package org.apache.log;
 
-import java.io.File;
-import java.lang.reflect.*;
-import java.util.*;
-import org.apache.log.output.*;
+import java.util.Hashtable;
 import org.apache.log.output.DefaultOutputLogTarget;
 
 /**
@@ -40,7 +37,7 @@ public final class LogEngine
      * @param name the name of target
      * @param target the target
      */
-    public void addLogTarget( final String name, final LogTarget target )
+    public synchronized void addLogTarget( final String name, final LogTarget target )
     {
         if( name.equals("default") ) m_defaultLogTarget = target;
         m_logTargets.put( name, target );
@@ -64,8 +61,9 @@ public final class LogEngine
      * @param priority the priority of categroy
      * @return the catgeory
      */
-    public Category createCategory( final String categoryName, final Priority.Enum priority )
-    {
+    public synchronized Category createCategory( final String categoryName, 
+                                                 final Priority.Enum priority )
+    {       
         Category category = (Category)m_categories.get( categoryName );
 
         if( null == category )
@@ -97,7 +95,7 @@ public final class LogEngine
      * @param category the category that logger logs about
      * @return the Logger
      */
-    public Logger createLogger( final Category category, final LogTarget logTargets[] )
+    public synchronized Logger createLogger( final Category category, final LogTarget logTargets[] )
     {
         final String categoryName = category.getName();
         Logger logger = (Logger)m_loggers.get( categoryName );
@@ -192,7 +190,6 @@ public final class LogEngine
     public void setDefaultLogTarget( final LogTarget defaultLogTarget )
     {
         addLogTarget( "default", defaultLogTarget );
-        m_defaultLogTarget = defaultLogTarget;
     }
 
     /**
