@@ -242,6 +242,8 @@
         <sourcepath path="${basedir}/../meta/src/java"/>
         <sourcepath path="${basedir}/../extension-spi/src/java"/>
         <sourcepath path="${basedir}/../extension/src/java"/>
+        <sourcepath path="${basedir}/../composition-spi/src/java"/>
+        <sourcepath path="${basedir}/../composition/src/java"/>
         <sourcepath path="${basedir}/../assembly-spi/src/java"/>
         <sourcepath path="${basedir}/../assembly/src/java"/>
         <sourcepath path="${basedir}/../merlin-spi/src/java"/>
