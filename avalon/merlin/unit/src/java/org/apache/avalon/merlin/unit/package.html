@@ -1,0 +1,31 @@
+
+<body>
+<p>
+The unit package is an extended UnitTest class that handles the establishment of 
+a Merlin Kernel using the target/classes as the primary deployment path.  The 
+unit test builds and deploys the container and provides convinient access to 
+services via component paths.
+</p>
+<h3>Usage Example</h3>
+<p>The package include the class AbstractMerlinTestCase.  To create a new test
+case including the Merlin service handling simply extend AbstractMerlinTestCase.</p>
+<pre>
+  public class SampleTestCase extends AbstractMerlinTestCase
+  {
+      public void testSomething()
+      {
+          // resolve a service established by Merlin
+          Hello hello = resolve( "hello" );
+
+          // do some tests against the Hello service
+          assetTrue( hello.getMessage().equals( "Hello" ) );
+      }
+  }
+</pre>
+<p>In the above example the abstract testcase is establishing a merlin kernel and 
+loading a container relative to the default deployment path ${basedir}/target/classes.
+You can override default behaviour by using constructor arguments to qualify an 
+alternative deployment path, info, and debugging policies.</p>
+
+</body>
+
