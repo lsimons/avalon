@@ -17,23 +17,23 @@
 
 
   <!-- Set the installation variables for Phoenix -->
-  <property name="phoenix.home" value="../../jakarta-avalon-phoenix/dist"/>
+  <property name="phoenix.home" value="../../avalon-phoenix/dist"/>
   <property name="install.dir" value="${phoenix.home}/apps"/>
 
   <!-- Set the properties for intermediate directory -->
   <property name="build.dir" value="build"/>
   <property name="build.lib" value="${build.dir}/lib"/>
   <property name="build.metagenerate" value="${build.dir}/metagenerate"/>
-  <property name="build.src" value="${build.dir}/src"/>  
+  <property name="build.src" value="${build.dir}/src"/>
   <property name="build.classes" value="${build.dir}/classes"/>
-  <property name="build.javadocs" value="${build.dir}/javadocs"/>  
+  <property name="build.javadocs" value="${build.dir}/javadocs"/>
   <property name="build.docs" value="${build.dir}/docs"/>
-  <property name="build.context" value="${build.dir}/documentation"/>  
+  <property name="build.context" value="${build.dir}/documentation"/>
   <property name="build.xdocs" value="${build.context}/content/xdocs"/>
-  
+
   <!-- Sevak specific properties for building -->
   <property name="build.reports" value="${build.dir}/reports"/>
-  <property name="build.demoClasses" value="${build.dir}/demoClasses"/> 
+  <property name="build.demoClasses" value="${build.dir}/demoClasses"/>
   <property name="build.demoMetagenerate" value="${build.dir}/demoMetagenerate"/>
 
 
@@ -42,12 +42,12 @@
   <property name="java.dir" value="${src.dir}/java"/>
   <property name="manifest.dir" value="${src.dir}/manifest"/>
   <property name="conf.dir" value="${src.dir}/conf"/>
-  <property name="context.dir" value="../../jakarta-avalon/src/documentation"/>  
-  <property name="xdocs.dir" value="${src.dir}/xdocs"/>  
-  <property name="tools.dir" location="../../jakarta-avalon/tools"/>
-   
+  <property name="context.dir" value="../../avalon/src/documentation"/>
+  <property name="xdocs.dir" value="${src.dir}/xdocs"/>
+  <property name="tools.dir" location="../../avalon/tools"/>
+
   <property name="junit.jar" value="${tools.dir}/lib/junit-3.7.jar"/>
-  <property name="tools.jar" value="${java.home}/../lib/tools.jar"/>  
+  <property name="tools.jar" value="${java.home}/../lib/tools.jar"/>
   <property name="dist.base" value="dist"/>
   <property name="do.checkstyle" value="true"/>
 
@@ -55,13 +55,13 @@
   <property name="test.dir" value="${src.dir}/test"/>
   <property name="demo.dir" value="${src.dir}/demo"/>
   <property name="java.demo.dir" value="${demo.dir}/java"/>
-  <property name="conf.demo.dir" value="${demo.dir}/conf"/>  
-  
+  <property name="conf.demo.dir" value="${demo.dir}/conf"/>
 
-  
+
+
   <!-- Jetty stuff -->
-  <property name ="jetty.rel"    value="4.2.5"/>
-  
+  <property name ="jetty.rel" value="4.2.7"/>
+
   <property name="jetty.jars.dir" value="${lib.dir}/jetty-jars"/>
 
   <path id="project.class.path">
@@ -69,10 +69,10 @@
     <pathelement path="${build.classes}" />
     <fileset dir="../common/lib">
       <include name="*.jar" />
-    </fileset> 
+    </fileset>
     <fileset dir="${jetty.jars.dir}">
       <include name="*.jar" />
-    </fileset>       
+    </fileset>
   </path>
 
   <path id="tools.class.path">
@@ -88,7 +88,7 @@
     </fileset>
     <pathelement path="${build.lib}/sevak-api.jar"/>
   </path>
-  
+
   <taskdef name="sar" classname="org.apache.avalon.phoenix.tools.tasks.Sar">
     <classpath refid="project.class.path" />
   </taskdef>
@@ -104,19 +104,19 @@
       <echo>****************************</echo>
       <echo>* Please execute target    *</echo>
       <echo>* 'get-jetty' in           *</echo>
-      <echo>* jetty.xml build file     *</echo>    
+      <echo>* jetty.xml build file     *</echo>
       <echo>* to download six mega-    *</echo>
       <echo>* bytes of Jetty from      *</echo>
       <echo>* Sourceforge              *</echo>
-      <echo>****************************</echo>   
-      
-      <fail message="Jetty needed. See above."/>   
+      <echo>****************************</echo>
+
+      <fail message="Jetty needed. See above."/>
 
   </target>
 
-    
+
   <target name="get-jetty">
-    
+
     <mkdir  dir="jetty-download"/>
 
 
@@ -142,14 +142,14 @@
  </target>
 
 
- 
+
  <!--- Build Test SAR Archive -->
  <target name="sar" depends="prepare" description="Builds a Demo block which uses Sevak Service">
- 
- 
+
+
     <ant antfile="build.xml" target="jars"/>
     <ant antfile="build.xml" target="demo-jar"/>
- 
+
     <sar sarfile="${build.lib}/sevak-jetty-demo.sar"
          config="${conf.demo.dir}/jetty-config.xml"
          environment="${conf.demo.dir}/jetty-environment.xml"
@@ -160,13 +160,13 @@
         <include name="sevak-demo.jar"/>
         <include name="sevak-api.jar"/>
       </lib>
-    
+
       <lib dir="${jetty.jars.dir}">
           <include name="javax.servlet.jar"/>
           <include name="org.apache.jasper.jar"/>
           <include name="org.mortbay.jetty-jdk1.2.jar"/>
-          <include name="org.mortbay.jmx.jar"/>          
-      </lib>      
+          <include name="org.mortbay.jmx.jar"/>
+      </lib>
 
       <lib dir="jetty-download/Jetty-${jetty.rel}/Jetty-${jetty.rel}/ext">
           <include name="jasper-compiler.jar"/>
@@ -175,8 +175,8 @@
 
       <lib dir="jetty-download/Jetty-${jetty.rel}/Jetty-${jetty.rel}/ext">
           <include name="ant.jar"/>
-      </lib>      
-      
+      </lib>
+
       <zipfileset dir="jetty-download/Jetty-${jetty.rel}/Jetty-${jetty.rel}/ext" prefix="jsplibs">
           <include name="jasper-compiler.jar"/>
           <include name="jasper-runtime.jar"/>
@@ -185,10 +185,10 @@
       <zipfileset dir="${jetty.jars.dir}" prefix="jsplibs">
           <include name="javax.servlet.jar"/>
       </zipfileset>
-           
+
       <zipfileset dir="${build.lib}">
         <include name="sevak-demo.war"/>
-      </zipfileset>           
+      </zipfileset>
 
     </sar>
 
@@ -198,11 +198,11 @@
       <fileset dir="${build.lib}">
         <include name="**"/>
       </fileset>
-    </copy>    
+    </copy>
 
  </target>
 
- <target name="install" depends="sar" description="Installs Demo SAR into Phoenix" > 
+ <target name="install" depends="sar" description="Installs Demo SAR into Phoenix" >
      <echo message="Installing to ${install.dir}" />
     <delete dir="${install.dir}/sevak-jetty-demo-demo" />
     <copy file="${build.lib}/sevak-jetty-demo.sar" todir="${install.dir}" />
