@@ -391,7 +391,10 @@
       <arg value="-l${build.dir}/work/cocoon.log"/>
       <arg value="-uINFO"/>
       <arg value="-f${xdocs.dir}/cornerstone.uris"/>
-      <classpath refid="tools.class.path"/>
+      <classpath>
+        <path refid="tools.class.path"/>
+        <fileset dir="${tools.dir}/ext"/>
+      </classpath>
     </java>
   </target>
 

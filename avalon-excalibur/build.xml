@@ -497,7 +497,8 @@ Legal:
       <arg value="-f${xdocs.dir}/excalibur.uris"/>
       <classpath>
         <path refid="tools.class.path"/>
-	<fileset dir="${build.lib}"/>
+        <fileset dir="${build.lib}"/>
+        <fileset dir="${tools.dir}/ext"/>
       </classpath>
     </java>
   </target>
