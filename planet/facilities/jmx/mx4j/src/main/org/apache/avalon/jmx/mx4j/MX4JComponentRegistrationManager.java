@@ -37,6 +37,7 @@ import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.context.Context;
 
+import org.apache.avalon.jmx.ComponentRegistrationManager;
 import org.apache.avalon.jmx.spi.AbstractJMXComponentRegistrationManager;
 
 import org.apache.avalon.util.i18n.ResourceManager;
