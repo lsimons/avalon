@@ -5,6 +5,7 @@
   <extend>${basedir}/../../../master.xml</extend>
 
   <id>secure-locator-impl</id>
+  <groupId>merlin-tutorial</groupId>
   <name>Composition Locator Impl Tutorial</name>
   <currentVersion>1.0</currentVersion>
 
@@ -12,12 +13,12 @@
     <dependency>
       <groupId>avalon-framework</groupId>
       <artifactId>avalon-framework-api</artifactId>
-      <version>4.1.5</version>
+      <version>4.2.0</version>
     </dependency>
     <dependency>
       <groupId>avalon-framework</groupId>
       <artifactId>avalon-framework-impl</artifactId>
-      <version>4.1.5</version>
+      <version>4.2.0</version>
     </dependency>
     <dependency>
       <groupId>merlin-tutorial</groupId>

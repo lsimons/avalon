@@ -62,6 +62,13 @@
       </fileset>
     </ant:copy>
 
+    <ant:copy toDir="${maven.build.dir}/tutorials">
+      <fileset dir="${basedir}/../buildsystem/site">
+        <include name="LICENSE*"/>
+        <include name="NOTICE*"/>
+      </fileset>
+    </ant:copy>
+
   </goal>
 
   <goal name="avalon:dist" prereqs="avalon:build">
@@ -77,6 +84,7 @@
 
     <j:set var="tutorial.name" value="${maven.final.name}"/>
     <ant:echo>Building tutorial kit: ${tutorial.name}</ant:echo>
+
     <ant:zip zipfile="${maven.build.dir}/${tutorial.name}.zip">
       <zipfileset dir="${basedir}/target/tutorials" prefix="tutorial"/>
     </ant:zip>

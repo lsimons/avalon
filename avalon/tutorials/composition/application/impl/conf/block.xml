@@ -4,8 +4,8 @@
      <classloader>
        <classpath>
          <repository>
-           <resource id="avalon-framework:avalon-framework-api" version="4.1.5"/>
-           <resource id="avalon-framework:avalon-framework-impl" version="4.1.5"/>
+           <resource id="avalon-framework:avalon-framework-api" version="4.2.0"/>
+           <resource id="avalon-framework:avalon-framework-impl" version="4.2.0"/>
            <resource id="merlin-tutorial:locator-api" version="1.0"/>
            <resource id="merlin-tutorial:publisher-api" version="1.0"/>
            <resource id="merlin-tutorial:application-impl" version="1.0"/>
