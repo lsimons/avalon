@@ -4,6 +4,6 @@ populatation of registered artifacts with the initial context.
 -->
 
 <system>
-  <artifact spec="avalon-logging/avalon-logkit-impl#1.0-SNAPSHOT"/>
-  <artifact spec="avalon-logging/avalon-log4j-impl#1.0-SNAPSHOT"/>
+  <artifact spec="@AVALON-LOGGING-LOGKIT-SPEC@"/>
+  <artifact spec="@AVALON-LOGGING-LOG4J-SPEC@"/>
 </system>
