@@ -16,8 +16,4 @@ public interface SarContextResources
 {
     String    APP_NAME          = "app.name";
     String    APP_HOME_DIR      = "app.home";
-
-    String    APP_BLOCKS_DIR    = "app.blocks";
-    String    APP_LIB_DIR       = "app.lib";
-    String    APP_CONF_DIR      = "app.conf";
 }

@@ -182,9 +182,6 @@ public class DefaultSarDeployer
         //setup the ServerApplications context
         final DefaultContext context = new DefaultContext();
         context.put( SarContextResources.APP_HOME_DIR, directory );
-        context.put( SarContextResources.APP_BLOCKS_DIR, "blocks" );
-        context.put( SarContextResources.APP_CONF_DIR, "conf" );
-        context.put( SarContextResources.APP_LIB_DIR, "lib" );
         context.put( SarContextResources.APP_NAME, name );
         entry.setContext( context );
 
@@ -223,16 +220,11 @@ public class DefaultSarDeployer
         }
  
         final Deployer deployer = getBlockDeployer( entry );
-        final String blockDirectory = 
-            (String)entry.getContext().get( SarContextResources.APP_BLOCKS_DIR );
-        final File blocksDirectory = new File( directory, blockDirectory );    
+        final File blocksDirectory = new File( directory, "blocks" );    
         CamelotUtil.deployFromDirectory( deployer, blocksDirectory, ".bar" );
 
-        final String confDirectory = 
-            (String)entry.getContext().get( SarContextResources.APP_CONF_DIR );
-
         final File file = 
-            new File( directory, confDirectory + File.separator + "assembly.xml" );
+            new File( directory, "conf" + File.separator + "assembly.xml" );
 
         try
         {

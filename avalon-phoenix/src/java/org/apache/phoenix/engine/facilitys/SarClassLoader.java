@@ -32,8 +32,6 @@ public class SarClassLoader
     implements Facility, Contextualizable, Composer, Initializable
 {
     protected File              m_baseDirectory;
-    protected String            m_blocksDirectory;
-    protected String            m_libDirectory;
 
     public SarClassLoader()
     {
@@ -43,8 +41,6 @@ public class SarClassLoader
     public void contextualize( final Context context )
     {
         m_baseDirectory = (File)context.get( SarContextResources.APP_HOME_DIR );
-        m_blocksDirectory = (String)context.get( SarContextResources.APP_BLOCKS_DIR );
-        m_libDirectory = (String)context.get( SarContextResources.APP_LIB_DIR );
     }
 
     public void compose( final ComponentManager componentManager )
@@ -57,9 +53,9 @@ public class SarClassLoader
         throws Exception
     {
         final File blockDir = 
-            (new File( m_baseDirectory, m_blocksDirectory )).getAbsoluteFile();
+            (new File( m_baseDirectory, "blocks" )).getAbsoluteFile();
         final File libDir = 
-            (new File( m_baseDirectory, m_libDirectory )).getAbsoluteFile();
+            (new File( m_baseDirectory, "lib" )).getAbsoluteFile();
         
         addURLs( blockDir, new String[] { ".bar" } );
         addURLs( libDir, new String[] { ".jar", ".zip" } );
