@@ -80,17 +80,21 @@ public class Definition extends Resource
             {
                 if( !refs[i].equals( refs2[i] ) ) return false;
             }
+
             ResourceRef[] resources = getResourceRefs();
             ResourceRef[] resources2 = def.getResourceRefs();
             for( int i=0; i<resources.length; i++ )
             {
                 if( !resources[i].equals( resources2[i] ) ) return false;
             }
+            PluginRef[] plugins = getPluginRefs();
+            PluginRef[] plugins2 = def.getPluginRefs();
+            for( int i=0; i<plugins.length; i++ )
+            {
+                if( !plugins[i].equals( plugins2[i] ) ) return false;
+            }
             return true;
         }
-        else
-        {
-            return false;
-        }
+        return false;
     }
 }

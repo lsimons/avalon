@@ -77,7 +77,7 @@ public class Home
         final Element repo = ElementHelper.getChild( root, "repository" );
         final Element resources = ElementHelper.getChild( root, "resources" );
         final Element projects = ElementHelper.getChild( root, "projects" );
-        final Element plugins = ElementHelper.getChild( root, "plugins" );
+        final Element plugins = ElementHelper.getChild( root, "xplugins" );
 
         //
         // construct the repository
