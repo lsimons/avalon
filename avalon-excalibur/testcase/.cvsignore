@@ -7,3 +7,4 @@ excalibur-*
 *.el
 *.ipr
 target
+*.iml
