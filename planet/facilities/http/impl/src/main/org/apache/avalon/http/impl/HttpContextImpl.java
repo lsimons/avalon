@@ -151,7 +151,8 @@ public class HttpContextImpl
         
         m_RequestLog = (RequestLog) man.lookup( "request-log" );
         
-        m_MimeTypes = (MimeTypes) man.lookup( "mimetypes" );
+        if( man.hasService( "mimetypes" ) )
+            m_MimeTypes = (MimeTypes) man.lookup( "mimetypes" );
     }
 
     public void parameterize( Parameters params )
