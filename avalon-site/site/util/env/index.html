@@ -228,6 +228,23 @@
       <small>
       	
       	
+      		<a href="../criteria/index.html">Criteria</a>
+      	
+      </small>
+	  
+        
+      
+    </div>
+  
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      	
       		<a href="../defaults/index.html">Defaults</a>
       	
       </small>
@@ -279,7 +296,7 @@
       <small>
       	
       	
-      		<a href="../factory/index.html">Factory</a>
+      		<a href="../plugin/index.html">Plugin</a>
       	
       </small>
 	  
@@ -419,9 +436,31 @@
       
       
     <p>
-      IN PREPARATION
+      A simple facility for extracting environment parameters from
+	   an operating system specific shell.  The Env class extends Properties
+           and contains static Methods to access shell variables.  An instance 
+	   of the Env class takes a snapshot of these variables which can be
+	   accessed as properties using superclass methods.
+        
     </p>
    
+    <div id="source">
+      <pre>
+Env env = null ;
+
+try
+{
+    env = new Env() ;
+}
+catch ( EnvAccessException e )
+{
+    ...	
+}	
+
+String home = env.getProperty( MERLIN_HOME ) ;
+	</pre>
+    </div>
+  
     </div>
   
     </div>
