@@ -81,7 +81,9 @@ public class BlockDAG
             //roleEntry should NEVER be null as it is checked when 
             //entry is added to container
             final RoleEntry roleEntry = entry.getRoleEntry( role );
-            visitDependency( roleEntry.getName(), serviceInfo, visitor );
+            final String dependencyName = roleEntry.getName();
+            final BlockEntry dependency = getBlockEntry( dependencyName );
+            visitBlock( dependencyName, dependency, visitor, true );
         }
     }
 
@@ -118,33 +120,6 @@ public class BlockDAG
                 }
             }
         }
-    }
-
-    /**
-     * Load a single dependency. 
-     * Make sure dependency has service that it is supposed to be providing.
-     *
-     * @param name the name of dependency
-     * @param serviceInfo the description of service dependency should provide
-     * @return false on unrecoverable failure
-     */
-    protected void visitDependency( final String name, 
-                                    final ServiceInfo serviceInfo,
-                                    final BlockVisitor visitor )
-        throws Exception
-    {
-        final BlockEntry entry = getBlockEntry( name );
-/*
-        //make sure that the block offers service it supposed to be providing
-        final ServiceInfo[] services = entry.getBlockInfo().getServices();
-        if( !BlockUtil.hasMatchingService( services, serviceInfo ) )
-        {
-            throw new Exception( "Dependency " + name + " does not offer " +
-                                 "service required: " + serviceInfo );
-        }
-*/        
-        //finally try to traverse block
-        visitBlock( name, entry, visitor, true );
     }
 
     protected void visitBlock( final String name, 
