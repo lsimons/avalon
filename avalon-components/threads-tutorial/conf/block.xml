@@ -3,26 +3,20 @@
 Thread Tutorial.
 -->
 
-<block>
-
-   <info>
-     <name>threads-tutorial</name>
-   </info>
-
-   <implementation>
+<container name="thread-tutorial">
 
      <classloader>
        <classpath>
          <repository>
-           <resource id="avalon-framework:avalon-framework-impl" version="SNAPSHOT"/>
-           <resource id="cornerstone-threads:cornerstone-threads-api" version="SNAPSHOT"/>
+           <resource id="avalon-framework:avalon-framework-impl" version="4.1.5"/>
+           <resource id="cornerstone-threads:cornerstone-threads-api" version="1.0"/>
            <resource id="excalibur-thread:excalibur-thread" version="1.1.1"/>
            <resource id="excalibur-event:excalibur-event" version="1.0.3"/>
          </repository>
        </classpath>
      </classloader>
 
-     <include name="threads" id="cornerstone-threads:cornerstone-threads-impl" version="SNAPSHOT"/>
+     <include name="threads" id="cornerstone-threads:cornerstone-threads-impl" version="1.0"/>
 
      <component name="test" 
         class="org.apache.avalon.cornerstone.threads.tutorial.ThreadConsumer" 
@@ -30,4 +24,4 @@ Thread Tutorial.
 
    </implementation>
 
-</block>
+</container>
