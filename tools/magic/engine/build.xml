@@ -62,7 +62,7 @@
   
   </target>
   
-  <target name="dist" depends="install" >
+  <target name="dist" depends="install,test" >
     <copy todir="${build.dist.dir}" >
       <fileset dir="${build.src.dir}/dist" includes="**" />
     </copy>

@@ -45,6 +45,7 @@ public class PluginContext extends AbstractLogEnabled
     private File m_TempDir;
    
     private Project  m_AntProject;
+    private PropertyResolver m_Resolver;
     
     
     PluginContext( File scriptDir )
@@ -74,6 +75,8 @@ public class PluginContext extends AbstractLogEnabled
         if( ant == null )
             throw new IllegalArgumentException( "Null argument: ant" );
             
+        m_Resolver = new DefaultResolver( this );
+        
         m_ProjectName = projectName.trim();
         m_ProjectDir = projectDir;
         m_ProjectProperties = projectProps;
@@ -162,7 +165,8 @@ public class PluginContext extends AbstractLogEnabled
     
     public String getProperty( String name )
     {
-        String value = m_ProjectProperties.getProperty( name );
+        name = name.trim();
+        String value = m_ProjectProperties.getProperty( name, m_Resolver );
         if( value == null )
         {
             if( name.equals( "plugin.dir" ) )
@@ -202,6 +206,6 @@ public class PluginContext extends AbstractLogEnabled
     
     public String resolve( String value )
     {
-        return new DefaultResolver().resolve( m_ProjectProperties, value );
+        return m_ProjectProperties.resolve( value, m_Resolver );
     }
 }

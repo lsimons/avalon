@@ -17,45 +17,82 @@ limitations under the License.
 
 package org.apache.avalon.magic;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 
-public class PluginProperties extends Properties
+public class PluginProperties
 {
-    private PropertyResolver m_Resolver;
+    private Properties m_Properties;
     
     PluginProperties()
     {
-        m_Resolver = new DefaultResolver();
+        m_Properties = new Properties();
     }
     
-    PluginProperties( Properties content )
+    PluginProperties( PluginProperties content )
     {
-        super();
+        this();
+        putAll( content );
+    }
+    
+    void putAll( PluginProperties content )
+    {    
         Iterator list = content.entrySet().iterator();
         while( list.hasNext() )
         {
             Map.Entry entry = (Map.Entry) list.next();
             Object key = entry.getKey();
             Object value = entry.getValue();
-            put( key, value );
+            m_Properties.put( key, value );
         }
+    }
+    
+    public String getProperty( String name )
+    {
+        String value = m_Properties.getProperty( name ).trim();
+        if( value.indexOf( "${" ) >= 0 )
+            throw new IllegalArgumentException( "The value of '" + name + "' contains a variable, and not supported to resolve with this method:" + value );
+        return value;
     }
     
     public String getProperty( String name, PropertyResolver resolver )
     {
         name = name.trim();
-        String value = super.getProperty( name );
+        String value = m_Properties.getProperty( name );
         if( value == null )
             return null;
         value = value.trim();
         return resolver.resolve( this, value );
     }
     
-    public String getProperty( String name )
+    public String resolve( String data, PropertyResolver resolver  )
     {
-        return getProperty( name, m_Resolver );
+        return resolver.resolve( this, data ).trim();
+    }
+
+    public void setProperty( String name, String value )
+    {
+        m_Properties.setProperty( name, value );
     }
     
+    void load( InputStream in )
+        throws IOException
+    {
+        m_Properties.load( in );
+    }
+    
+    Set entrySet()
+    {
+        return m_Properties.entrySet();
+    }
+
+    Set keySet()
+    {
+        return m_Properties.keySet();
+    }
 }
