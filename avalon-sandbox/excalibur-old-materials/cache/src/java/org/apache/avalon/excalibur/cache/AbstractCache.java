@@ -26,34 +26,22 @@ public abstract class AbstractCache
 
     public void addListener( final CacheListener listener )
     {
-        synchronized ( m_listeners )
-        {
-            m_listeners.add( listener );
-        }
+        m_listeners.add( listener );
     }
 
     public void removeListener( final CacheListener listener )
     {
-        synchronized ( m_listeners )
-        {
-            m_listeners.remove( listener );
-        }
+        m_listeners.remove( listener );
     }
 
     protected void notifyAdded( final Object key, final Object value )
     {
         final CacheEvent event = new CacheEvent( this, key, value );
 
-        ArrayList listeners;
-        synchronized ( m_listeners )
-        {
-            listeners = (ArrayList)m_listeners.clone();
-        }
-
-        final int s = listeners.size();
+        final int s = m_listeners.size();
         for ( int i = 0; i < s; i++ )
         {
-            ((CacheListener)listeners.get( i )).added( event );
+            ((CacheListener)m_listeners.get( i )).added( event );
         }
     }
 
@@ -61,16 +49,10 @@ public abstract class AbstractCache
     {
         final CacheEvent event = new CacheEvent( this, key, value );
 
-        ArrayList listeners;
-        synchronized ( m_listeners )
-        {
-            listeners = (ArrayList)m_listeners.clone();
-        }
-
-        final int s = listeners.size();
+        final int s = m_listeners.size();
         for ( int i = 0; i < s; i++ )
         {
-            ((CacheListener)listeners.get( i )).removed( event );
+            ((CacheListener)m_listeners.get( i )).removed( event );
         }
     }
 }
