@@ -1,12 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE project [
-<!-- =================  Cocoon project targets =================  -->
-<!ENTITY cocoon-targets     SYSTEM "../cocoon.xtarget">
-]>
-
 <project name="Avalon Excalibur's Tweety" default="run" basedir=".">
-
-    &cocoon-targets;
 
     <property file="${user.home}/build.properties"/>
     <property file="${basedir}/../ant.properties"/>
@@ -14,7 +7,6 @@
     <property file="${user.home}/.ant.properties"/>
     <property file="${basedir}/../default.properties"/>
     <property file="${basedir}/default.properties"/>
-    <property file="${basedir}/../cocoon.properties"/>
 
     <!-- Classpath for product -->
     <path id="project.class.path">
@@ -403,7 +395,9 @@
     <!-- Prepares the documentation directory -->
     <target name="docs" depends="html-docs, javadocs" description="generates all the Avalon documentation"/>
 
-    <target name="html-docs" depends="cocoon:html-docs" description="generates the xdocs-based documentation"/>
+    <target name="html-docs" description="generates the xdocs-based documentation">
+      <ant antfile="${basedir}/../cocoonbuild.xml"/>
+    </target>
         
     <target name="site" depends="javadocs, docs" description=" Places Docs ready for hosting on website">  
   
