@@ -155,6 +155,10 @@ public class Logger
      * Retrieve priority associated with Logger.
      *
      * @return the loggers priority
+     * @deprecated This method violates Inversion of Control principle. 
+     *             It will downgraded to protected access in a future 
+     *             release. When user needs to check priority it is advised
+     *             that they use the is[Priority]Enabled() functions.
      */
     public final Priority getPriority()
     {
@@ -241,7 +245,8 @@ public class Logger
     {
         final LogEvent event = new LogEvent();
         event.setCategory( m_category );
-        event.setContextStack( ContextStack.getCurrentContext() );
+        event.setContextStack( ContextStack.getCurrentContext( false ) );
+        event.setContextMap( ContextMap.getCurrentContext( false ) );
 
         if( null != message ) 
         {

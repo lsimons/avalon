@@ -7,6 +7,8 @@
  */
 package org.apache.log;
 
+import java.io.ObjectStreamException;
+
 /**
  * This class encapsulates each individual log event.
  * LogEvents usually originate at a Logger and are routed
@@ -20,22 +22,25 @@ public final class LogEvent
     private final static long   START_TIME           = System.currentTimeMillis();
 
     ///The category that this LogEvent concerns. (Must not be null)
-    private String                   m_category;
+    private String        m_category;
 
     ///The message to be logged. (Must not be null)
-    private String                   m_message;
+    private String        m_message;
 
     ///The exception that caused LogEvent if any. (May be null)
-    private Throwable                m_throwable;
+    private Throwable     m_throwable;
 
     ///The time in millis that LogEvent occured
-    private long                     m_time;
+    private long          m_time;
 
     ///The priority of LogEvent. (Must not be null)
-    private Priority                 m_priority;
+    private Priority      m_priority;
 
     ///The context stack associated with LogEvent. (May be null)
-    private ContextStack             m_contextStack;
+    private ContextStack  m_contextStack;
+
+    ///The context map associated with LogEvent. (May be null).
+    private ContextMap    m_contextMap;
 
     /**
      * Get Priority for LogEvent.
@@ -55,6 +60,26 @@ public final class LogEvent
     public final void setPriority( final Priority priority )
     {
         m_priority = priority;
+    }
+
+    /**
+     * Get ContextMap associated with LogEvent
+     *
+     * @return the ContextMap
+     */
+    public final ContextMap getContextMap()
+    {
+        return m_contextMap;
+    }
+
+    /**
+     * Set the ContextMap for this LogEvent.
+     *
+     * @param contextMap the context map
+     */
+    public final void setContextMap( final ContextMap contextMap )
+    {
+        m_contextMap = contextMap;
     }
 
     /**
@@ -167,5 +192,27 @@ public final class LogEvent
     public final void setTime( final long time )
     {
         m_time = time;
+    }
+
+
+    /**
+     * Helper method that replaces deserialized priority with correct singleton.
+     *
+     * @return the singleton version of object
+     * @exception ObjectStreamException if an error occurs
+     */
+    private Object readResolve()
+        throws ObjectStreamException
+    {
+        String priorityName = "";
+        
+        if( null != m_priority ) 
+        {
+            priorityName = m_priority.getName();
+        }
+
+        m_priority = Priority.getPriorityForName( priorityName );
+
+        return this;
     }
 }
