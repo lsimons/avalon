@@ -1,5 +1,5 @@
 <project name="Excalibur Driver Build file" default="main" basedir=".">
-
+    
   <target name="main" depends="mega-jar"/>
 
   <target name="dist" description="Create binary distributions of all the products">
@@ -15,7 +15,6 @@
 
   <!-- Generate one mega jar-ball -->
   <target name="mega-jar" description="Generate one large jar for all the products">
-
     <ant dir="all" target="all"/>
     <ant dir="cli" target="jar"/>
     <ant dir="extension" target="jar"/>
@@ -30,12 +29,11 @@
         </fileset>
       </mergefiles>
     </jlink>
-
   </target>
 
   <target name="clean">
 
-    <ant dir="all" target="real-clean"/>
+    <ant dir="all" target="distclean"/>
     <ant dir="cli" target="real-clean"/>
     <ant dir="extension" target="real-clean"/>
     <ant dir="i18n" target="real-clean"/>
