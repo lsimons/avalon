@@ -60,6 +60,7 @@ Legal:
     <property name="java.dir" value="${src.dir}/java"/>
     <property name="test.dir" value="${src.dir}/test"/>
     <property name="conf.dir" value="${src.dir}/conf"/>
+    <property name="xdocs.dir" value="${src.dir}/xdocs"/>
     <property name="lib.dir" value="lib"/>
     <property name="tools.dir" value="tools"/>
     <property name="docs.dir" value="docs"/>
@@ -109,7 +110,7 @@ Legal:
 
     <target name="dist.lite" depends="main"/>
     <target name="help" depends="usage"/>
-    
+
     <!-- Set up properties -->
     <target name="setup-properties" depends="setup-dependencies">
         <property name="dist.dir" value="${dist.base}/${dist.name}"/>
@@ -299,7 +300,7 @@ Legal:
         <!-- todo: remove -->
         <mkdir dir="${target.docs}/framework/diagrams"/>
     </target>
-  
+
     <!-- Create the API documentation -->
     <target name="javadocs" description="generates the API documentation (java 1.2+ only)">
 
@@ -392,33 +393,22 @@ Legal:
         <mkdir dir="${target.dir}" />
         <mkdir dir="${dist.base}" />
 
-        <copy todir="${target.context}" overwrite="true" filtering="on">
-            <fileset dir="${context.dir}">
-                <exclude name="**/*.ico"/>
-                <exclude name="**/*.gif"/>
-                <exclude name="**/*.jpg"/>
-                <exclude name="**/*.png"/>
+        <copy todir="${target.docs}" overwrite="true" filtering="on">
+            <fileset dir="${xdocs.dir}">
+              <include name="changes.xml"/>
             </fileset>
-        </copy>
-        <copy todir="${target.context}" filtering="off">
-            <fileset dir="${context.dir}">
-                <include name="**/*.ico"/>
-                <include name="**/*.gif"/>
-                <include name="**/*.jpg"/>
-                <include name="**/*.png"/>
+            <fileset dir="${tools.dir}">
+              <include name="announcement.xml"/>
             </fileset>
-        </copy>
-        <copy todir="${target.xdocs}" overwrite="true" filtering="on">
-            <fileset dir="${xdocs.dir}"/>
         </copy>
 
-        <style style="${announce2txt}" in="${tools.dir}/announcement.xml"
+        <style style="${announce2txt}" in="${target.docs}/announcement.xml"
             out="Announcement.txt"/>
-        <style style="${announce2header}" in="${tools.dir}/announcement.xml"
+        <style style="${announce2header}" in="${target.docs}/announcement.xml"
             out="${dist.base}/HEADER.html"/>
-        <style style="${announce2readme}" in="${tools.dir}/announcement.xml"
+        <style style="${announce2readme}" in="${target.docs}/announcement.xml"
             out="${dist.base}/README.html"/>
-        <style style="${announce2site}" in="${tools.dir}/announcement.xml"
+        <style style="${announce2site}" in="${target.docs}/announcement.xml"
             out="jakarta-news.xml"/>
 
     </target>
@@ -513,13 +503,13 @@ Legal:
         <copy file="${lib.dir}/${logkit.jar}" todir="${src.dist.lib}"/>
 
         <copy todir="${src.dist.src}">
-	  <fileset dir="${src.dir}">
-	    <exclude name="**/*.zip"/>
-	    <exclude name="src/diagrams/**"/>
-	    <exclude name="src/documentation/**"/>
-	    <exclude name="src/logos/**"/>
-	    <exclude name="src/maven/**"/>
-	    <exclude name="src/proposal/**"/>
+      <fileset dir="${src.dir}">
+        <exclude name="**/*.zip"/>
+        <exclude name="src/diagrams/**"/>
+        <exclude name="src/documentation/**"/>
+        <exclude name="src/logos/**"/>
+        <exclude name="src/maven/**"/>
+        <exclude name="src/proposal/**"/>
           </fileset>
         </copy>
 

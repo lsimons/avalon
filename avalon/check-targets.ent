@@ -20,10 +20,10 @@ Usage:
   &check-targets;
 
 4) define the properties
-	- lib.dir
-	- project.class.path
-	- Name
-  
+    - lib.dir
+    - project.class.path
+    - Name
+
 This is like expanding a macro: it pulls in the contents of this file.
 
 A minimal build.xml would thus be:
@@ -55,8 +55,8 @@ A minimal build.xml would thus be:
                classname="com.puppycrawl.tools.checkstyle.Checker"
                classpathref="project.class.path" />
         <available property="commons-logging.present"
-	       classname="org.apache.comons.logging.Log"
-	       classpathref="project.class.path" />
+           classname="org.apache.comons.logging.Log"
+           classpathref="project.class.path" />
       <available property="javax.jms.present"
                classname="javax.jms.TopicConnection"
                classpathref="project.class.path" />
@@ -70,101 +70,101 @@ A minimal build.xml would thus be:
                classname="javax.sql.DataSource"
                classpathref="project.class.path" />
         <available property="jdk14.present"
-	       classname="java.util.logging.Logger"
-	       classpathref="project.class.path" />
+           classname="java.util.logging.Logger"
+           classpathref="project.class.path" />
         <available property="junit.present"
                classname="junit.framework.Test"
                classpathref="project.class.path" />
         <available property="log4j.present"
-	       classname="org.apache.log4j.Level"
-	       classpathref="project.class.path" />
+           classname="org.apache.log4j.Level"
+           classpathref="project.class.path" />
         <available property="logkit.present"
-	       classname="org.apache.log.Hierarchy"
-	       classpathref="project.class.path" />
+           classname="org.apache.log.Hierarchy"
+           classpathref="project.class.path" />
 
     </target>
 
   <!-- called if a dependency is missing which has a BSD or ASL or
        similar license for which autodownload is okay. -->
   <target name="missing-dependency">
-	<echo>
-	*************************************************************************
-	Classes needed for compiling ${Name} against the ${id} API
-	are not available. The build may fail or some functionality may
-	not be available.
-	
-	Recovery:
-	Run the build target import-${id} and it will download
-	the needed jar - you should be online for that.
-	
-	If you have a fast connection you can also just run the build target
-	import-all-auto-dependencies, which will download all external jars this
-	buildfile knows about.
-	Note this may download unused jars as well.
-	*************************************************************************
-	</echo>
-	<echo/>
+    <echo>
+    *************************************************************************
+    Classes needed for compiling ${Name} against the ${id} API
+    are not available. The build may fail or some functionality may
+    not be available.
+
+    Recovery:
+    Run the build target import-${id} and it will download
+    the needed jar - you should be online for that.
+
+    If you have a fast connection you can also just run the build target
+    import-all-auto-dependencies, which will download all external jars this
+    buildfile knows about.
+    Note this may download unused jars as well.
+    *************************************************************************
+    </echo>
+    <echo/>
   </target>
 
   <!-- called if a dependency is missing which we cannot autodownload
        due to licensing-->
   <target name="missing-dependency-noauto">
-	<echo>
-	*************************************************************************
-	Classes needed for compiling ${Name} against the ${id} API
-	are not available. The build may fail or some functionality may
-	not be available.
-	
-	Recovery:
-	Get the ${id} jar from the ${id} distribution at
-	${dist.url}
-	and place it in ${lib.dir}.
-	
-	Please note that ${id} is licensed under the ${license}
-	and that by downloading it you are agreeing to that license. You can read
-	this license at
-	${license.url}
-	*************************************************************************
-	</echo>
-	<echo/>
+    <echo>
+    *************************************************************************
+    Classes needed for compiling ${Name} against the ${id} API
+    are not available. The build may fail or some functionality may
+    not be available.
+
+    Recovery:
+    Get the ${id} jar from the ${id} distribution at
+    ${dist.url}
+    and place it in ${lib.dir}.
+
+    Please note that ${id} is licensed under the ${license}
+    and that by downloading it you are agreeing to that license. You can read
+    this license at
+    ${license.url}
+    *************************************************************************
+    </echo>
+    <echo/>
   </target>
-  
+
   <!-- this target fetches a file from a maven repository -->
   <target name="import-dependency">
-	<get src="${license.url}"
-		dest="${lib.dir}/${id}.LICENSE.html"
-		usetimestamp="true"/>
-	<loadfile property="license.text" srcFile="${lib.dir}/${id}.LICENSE.html"/>
-	<echo>
-	*************************************************************************
-	You have requested to download the ${id} jar, which is licensed under
-	the ${license}. A copy of this license has been saved to
-	${lib.dir}/${id}.LICENSE.html
-	
-	Please view it now.
-	*************************************************************************
-	</echo>
-	<input message="Do you agree to the terms of this license?"
-		validargs="y,n"
-		addproperty="do.download"/>
+    <get src="${license.url}"
+        dest="${lib.dir}/${id}.LICENSE.html"
+        usetimestamp="true"/>
+    <loadfile property="license.text" srcFile="${lib.dir}/${id}.LICENSE.html"/>
+    <echo>
+    *************************************************************************
+    You have requested to download the ${id} jar, which is licensed under
+    the ${license}. A copy of this license has been saved to
+    ${lib.dir}/${id}.LICENSE.html
 
-	<condition property="do.abort">
-		<equals arg1="n" arg2="${do.download}"/>
-	</condition>
-	<fail if="do.abort">Download aborted.</fail>
-	
-	<get src="${jar.repository}/${id}/jars/${id}-${version}.jar"
-		dest="${lib.dir}/${id}-${version}.jar"
-		verbose="true"
-		usetimestamp="true"/>
+    Please view it now.
+    *************************************************************************
+    </echo>
+    <input message="Do you agree to the terms of this license?"
+        validargs="y,n"
+        addproperty="do.download"/>
+
+    <condition property="do.abort">
+        <equals arg1="n" arg2="${do.download}"/>
+    </condition>
+    <fail if="do.abort">Download aborted.</fail>
+
+    <get src="${jar.repository}/${id}/jars/${id}-${version}.jar"
+        dest="${lib.dir}/${id}-${version}.jar"
+        verbose="true"
+        usetimestamp="true"/>
   </target>
 
   <target name="check-all-dependencies"
           depends="bsf-check,checkstyle-check,javamail-check,jdbc-check,jms-check,junit-check,log4j-check,logkit-check,servletapi-check,commons-logging-check"
-	  description="checks for all dependencies we know about. This is usually more than the minimum needed to build this project; actual use is not recommended."/>
+      description="checks for all dependencies we know about. This is usually more than the minimum needed to build this project; actual use is not recommended."/>
   <target name="import-all-auto-dependencies"
           depends="import-bsf,import-checkstyle,import-junit,import-log4j,import-logkit,import-commons-logging"
-	  description="checks for all dependencies we know about. This is usually more than the minimum needed to build this project; actual use is not recommended."/>
+      description="checks for all dependencies we know about. This is usually more than the minimum needed to build this project; actual use is not recommended."/>
 
   <!-- BSF -->
   <target name="bsf-check" unless="bsf.present" depends="setup-dependencies">
@@ -213,7 +213,7 @@ A minimal build.xml would thus be:
       <param name="license.url" value="${commons-logging.license.url}"/>
     </antcall>
   </target>
-  
+
   <target name="import-commons-logging" depends="setup-dependencies">
     <antcall target="import-dependency">
       <param name="id" value="${commons-logging.id}"/>
@@ -313,7 +313,7 @@ A minimal build.xml would thus be:
       <param name="license.url" value="${logkit.license.url}"/>
     </antcall>
   </target>
-  
+
   <target name="import-logkit" depends="setup-dependencies">
     <antcall target="import-dependency">
       <param name="id" value="${logkit.id}"/>
