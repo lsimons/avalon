@@ -137,9 +137,13 @@ commandSink.enqueu( new MySpecialCommand() );
             return 10 * 1000L;
         }
 
+        /**
+         * Anything less than one (zero or less) means to repeat as long
+         * as the CommandManager is in service.
+         */
         public int getNumberOfRepeats()
         {
-            return 0;
+            return -1;
         }
 
         public void execute()
@@ -172,7 +176,7 @@ commandSink.enqueu( new MySpecialCommand() );
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2002/09/27 20:27:16 $
+      $Revision: 1.2 $ $Date: 2002/09/27 20:29:18 $
     </legal>
   </footer>
 </document>
