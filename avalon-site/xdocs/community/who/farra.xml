@@ -7,6 +7,7 @@
   <body> 
     <section name="J Aaron Farr">
       <p>(farra at apache dot org)</p>
+      <p><a href="http://www.jadetower.org">www.jadetower.org</a></p>
       <p>
        Aaron started working with Avalon in 2002, quickly became a COP
        convert and joined the team as a committer in 2003.  His initial
@@ -14,10 +15,9 @@
        documentation.
       </p>
       <p>
-       In addition to finishing a Scientific Computing degree at the
-       University of Pittsburgh, Aaron works at Sony Electronics as a
-       software developer.  He is also active in other open source
-       projects outside of Apache.
+       Having just finished a degree in scientific computing at the University
+       of Pittsburgh, Aaron develops software at Sony Electronics.  
+       He also actively participates in other open source projects outside of Apache.
       </p>
     </section>
   </body>

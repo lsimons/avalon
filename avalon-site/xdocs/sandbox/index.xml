@@ -35,6 +35,11 @@
 	   <td>Phoenix block for embedded web/servlet containers</td>
 	   <td>proyal</td>
 	 </tr>
+	 <tr>
+	   <td>eclipse</td>
+	   <td>Eclipse IDE plugins for Avalon development</td>
+	   <td>niclas</td>
+	 </tr>
        </table>
      </subsection>
     </section>

@@ -10,6 +10,15 @@
   <section name="News and Information">
 
    <!-- insert new news items as a subsection here -->
+   <subsection name="06-DEC-2003: New Wiki Site">
+    <p>
+      Thanks to Leo Simons and the other good folks of Apache Infrastructure,
+      Avalon has a new wiki site!  The new 
+      <a href="http://moin.sourceforge.net/">MoinMoin</a> based site is at
+      <a href="http://wiki.apache.org/avalon">http://wiki.apache.org/avalon</a>.
+      Please contribute to our growing documentation!
+    </p>
+   </subsection>
 
    <subsection name="29-OCT-2003: New Avalon Site">
      <p>
