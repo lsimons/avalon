@@ -119,7 +119,7 @@ import java.util.Iterator;
  * and dispose of them properly when it itself is disposed .</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.41 $ $Date: 2003/06/04 13:19:41 $
+ * @version CVS $Revision: 1.42 $ $Date: 2003/06/10 08:31:15 $
  * @since 4.1
  */
 public class ContextManager
@@ -866,62 +866,46 @@ public class ContextManager
             }
 
             final String lmDefaultLoggerName =
-                    (String) m_rootContext.get( ContextManagerConstants.LOG_CATEGORY );
+                    (String) get( m_rootContext, ContextManagerConstants.LOG_CATEGORY, "fotress" );
             final String lmLoggerName = loggerManagerConfig.getAttribute( "logger",
-                    lmDefaultLoggerName + ( log4j ? ".system.log4j" : ".system.logkit" ) );
+                    log4j ? "system.log4j" : "system.logkit" );
 
             if ( log4j )
             {
-                // this section totally not debuged, just written - Anton Tagunov
-                final Log4JConfLoggerManager logManager = new Log4JConfLoggerManager();
-                logManager.configure( loggerManagerConfig );
-                // Create the logger for use internally by the Logger Manager.
-                Logger lmLogger = logManager.getLoggerForCategory( lmLoggerName );
-                /*
-                 * We rely here on specifics of Log4JConfLoggerManager implementation:
-                 * enableLogging may be called _after_ configure.
-                 */
-                logManager.enableLogging( lmLogger );
-
                 /**
-                 * Now let's compare this immature section with the mature one
-                 * bellow: we haven't made sure the default logger is at DEBUG
-                 * priority level, we haven't considered log-level attribute
-                 * on the root element to set the priority of the logger
-                 * servicing Log4LoggerManager itself. Moreover we have
-                 * enableLogging called after configure on Log4ConfLoggerManager
-                 * which is potentially explosive. Conclusion: this section
-                 * is just a scetch and needs further work. - Anton Tagunov
+                 * Working around a weird compilation problem: with JDK 1.4.1-b21
+                 * on Win2K couldn't get the following statement to compile:
+                 *
+                 * m_loggerManager = 
+                 *         new Log4JConfLoggerManager( lmDefaultLoggerName, lmLoggerName );
+                 *
+                 * javac kept complaining:
+                 *
+                 * file org\apache\log4j\spi\LoggerRepository.class not found
+                 *           new Log4JConfLoggerManager( lmDefaultLoggerName, lmLoggerName );
+                 *
+                 * ... ContextManager.java:xxx: cannot access org.apache.log4j.spi.LoggerRepository
+                 * file org\apache\log4j\spi\LoggerRepository.class not found
+                 * m_loggerManager = new Log4JConfLoggerManager( lmDefaultLoggerName, lmLoggerName );
+                 *                 ^
+                 *
+                 * - Anton Tagunov
                  */
-
-                m_loggerManager = logManager;
+                m_loggerManager = Log4JConfLoggerManager.newInstance( 
+                        lmDefaultLoggerName, lmLoggerName );
             }
             else // LogKitLoggerManager
             {
-                // Create the default logger for the Logger Manager.
-                final org.apache.log.Logger lmDefaultLogger =
-                        Hierarchy.getDefaultHierarchy().getLoggerFor( lmDefaultLoggerName );
-                // The default logger is not used until after the logger conf has been loaded
-                //  so it is possible to configure the priority there.
-                lmDefaultLogger.setPriority( Priority.DEBUG );
-
-                // Create the logger for use internally by the Logger Manager.
-                final org.apache.log.Logger lmLogger =
-                        Hierarchy.getDefaultHierarchy().getLoggerFor( lmLoggerName );
-                lmLogger.setPriority( Priority.getPriorityForName(
-                        loggerManagerConfig.getAttribute( "log-level", "DEBUG" ) ) );
-
                 // Setup the Logger Manager
-                final LoggerManager logManager = new LogKitLoggerManager(
-                        lmDefaultLoggerName, Hierarchy.getDefaultHierarchy(),
-                        new LogKitLogger( lmDefaultLogger ), new LogKitLogger( lmLogger ) );
-                ContainerUtil.contextualize( logManager, m_rootContext );
-                ContainerUtil.configure( logManager, loggerManagerConfig );
-
-                assumeOwnership( logManager );
-
-                m_loggerManager = logManager;
+                m_loggerManager = new LogKitLoggerManager( 
+                        lmDefaultLoggerName, lmLoggerName );
             }
+
+            ContainerUtil.enableLogging( m_loggerManager, getLogger() );
+            ContainerUtil.contextualize( m_loggerManager, m_rootContext );
+            ContainerUtil.configure( m_loggerManager, loggerManagerConfig );
+            ContainerUtil.start( m_loggerManager );
+            assumeOwnership( m_loggerManager );
         }
 
         // Since we now have a LoggerManager, we can update the this.logger field
