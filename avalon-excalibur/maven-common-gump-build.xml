@@ -38,6 +38,9 @@ DEBUG INFO
   jarfile      = ${maven.build.dir}/${project.name}-${project.version}.jar
   javadocs     = ${maven.build.dir}/docs/apidocs
   junitreports = ${maven.build.dir}/docs/junitreports
+
+  src.exclude.pattern = ${src.exclude.pattern}
+  test.exclude.pattern = ${test.exclude.pattern}
 =======================================================================
         </echo>
     </target>
@@ -106,6 +109,9 @@ DEBUG INFO
         <property name="maven.junit.dir" value="${basedir}"/>
         <property name="maven.junit.usefile" value="true"/>
 
+        <property name="src.exclude.pattern" value="**/package.html"/>
+        <property name="test.exclude.pattern" value="**/package.html"/>
+
         <property name="project.name" value="some-nameless-gump-built-component"/>
         <tstamp>
             <format property="project.version" pattern="yyyyMMdd"/>
@@ -152,7 +158,7 @@ DEBUG INFO
         <mkdir dir="${maven.build.dir}/impl-classes"/><!-- to ensure <classpath/> works -->
         <javac
                 destdir="${maven.build.dir}/classes"
-                excludes="**/package.html"
+                excludes="${src.exclude.pattern}"
                 debug="${maven.compile.debug}"
                 deprecation="${maven.compile.deprecation}"
                 optimize="${maven.compile.optimize}">
@@ -181,7 +187,7 @@ DEBUG INFO
         <mkdir dir="${maven.build.dir}/api-classes"/>
         <javac
                 destdir="${maven.build.dir}/api-classes"
-                excludes="**/package.html"
+                excludes="${src.exclude.pattern}"
                 debug="${maven.compile.debug}"
                 deprecation="${maven.compile.deprecation}"
                 optimize="${maven.compile.optimize}">
@@ -213,7 +219,7 @@ DEBUG INFO
         <mkdir dir="${maven.build.dir}/api-classes"/><!-- to ensure <classpath/> works -->
         <javac
                 destdir="${maven.build.dir}/impl-classes"
-                excludes="**/package.html"
+                excludes="${src.exclude.pattern}"
                 debug="${maven.compile.debug}"
                 deprecation="${maven.compile.deprecation}"
                 optimize="${maven.compile.optimize}">
@@ -249,7 +255,7 @@ DEBUG INFO
         <mkdir dir="${maven.build.dir}/impl-classes"/><!-- to ensure <classpath/> works -->
         <javac
                 destdir="${maven.build.dir}/test-classes"
-                excludes="**/package.html"
+                excludes="${test.exclude.pattern}"
                 debug="${maven.compile.debug}"
                 deprecation="${maven.compile.deprecation}"
                 optimize="${maven.compile.optimize}">
