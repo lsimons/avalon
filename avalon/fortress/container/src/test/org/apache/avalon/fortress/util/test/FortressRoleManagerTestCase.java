@@ -47,7 +47,7 @@
  Apache Software Foundation, please see <http://www.apache.org/>.
 
 */
-package org.apache.avalon.fortress.test.util;
+package org.apache.avalon.fortress.util.test;
 
 import org.apache.avalon.fortress.impl.role.FortressRoleManager;
 import org.apache.avalon.framework.logger.ConsoleLogger;
@@ -58,7 +58,7 @@ import org.apache.avalon.framework.logger.ConsoleLogger;
  * in the org.apache.avalon.component package.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.7 $ $Date: 2003/04/18 20:02:31 $
+ * @version CVS $Revision: 1.1 $ $Date: 2003/04/21 17:52:09 $
  * @since 4.1
  */
 public class FortressRoleManagerTestCase
@@ -79,16 +79,6 @@ public class FortressRoleManagerTestCase
         roles.enableLogging( new ConsoleLogger( ConsoleLogger.LEVEL_INFO ) );
         roles.initialize();
 
-        checkRole( roles,
-            "cache",
-            "org.apache.excalibur.cache.Cache",
-            "org.apache.excalibur.cache.impl.DefaultCache",
-            "org.apache.avalon.fortress.impl.handler.ThreadSafeComponentHandler" );
-        checkRole( roles,
-            "lru-cache",
-            "org.apache.excalibur.cache.Cache",
-            "org.apache.excalibur.cache.impl.LRUCache",
-            "org.apache.avalon.fortress.impl.handler.ThreadSafeComponentHandler" );
         checkRole( roles,
             "jdbc-datasource",
             "org.apache.avalon.excalibur.datasource.DataSourceComponent",

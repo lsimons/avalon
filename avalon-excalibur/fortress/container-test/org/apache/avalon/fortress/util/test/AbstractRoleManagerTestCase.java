@@ -47,53 +47,55 @@
  Apache Software Foundation, please see <http://www.apache.org/>.
 
 */
-package org.apache.avalon.fortress.test.util;
+package org.apache.avalon.fortress.util.test;
 
-import org.apache.avalon.fortress.impl.role.ConfigurableRoleManager;
-import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
-import org.apache.avalon.framework.logger.ConsoleLogger;
+import junit.framework.TestCase;
+import org.apache.avalon.fortress.RoleEntry;
+import org.apache.avalon.fortress.RoleManager;
 
 /**
- * Configurable RoleManager implementation.  It populates the RoleManager
- * from a configuration hierarchy.  This is based on the DefaultRoleManager
- * in the org.apache.avalon.component package.
  *
- * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.7 $ $Date: 2003/04/18 20:02:31 $
- * @since 4.1
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @version $Revision: 1.1 $ $Date: 2003/04/21 17:52:09 $
  */
-public class ConfigurableRoleManagerTestCase
-    extends AbstractRoleManagerTestCase
+public class AbstractRoleManagerTestCase extends TestCase
 {
-    public ConfigurableRoleManagerTestCase( String name )
+    private boolean m_informixClassExists = false;
+
+    public AbstractRoleManagerTestCase( final String key )
     {
-        super( name );
+        super( key );
+
+        try
+        {
+            Class.forName( "org.apache.avalon.excalibur.datasource.InformixDataSource" );
+            m_informixClassExists = true;
+        }
+        catch ( Exception e )
+        {
+            m_informixClassExists = false;
+        }
     }
 
-    public void testShorthandReturnValues()
-        throws Exception
+    protected boolean isInformixClassExists()
     {
-        DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
-        ConfigurableRoleManager roles = new ConfigurableRoleManager( null, this.getClass().getClassLoader() );
-        roles.enableLogging( new ConsoleLogger( ConsoleLogger.LEVEL_INFO ) );
-        roles.configure( builder.build( this.getClass().getClassLoader()
-            .getResourceAsStream( "org/apache/avalon/fortress/test/ContainerProfile.roles" ) ) );
+        return m_informixClassExists;
+    }
 
-        checkRole( roles,
-            "datasource",
-            "org.apache.avalon.excalibur.datasource.DataSourceComponent",
-            "org.apache.avalon.excalibur.datasource.JdbcDataSource",
-            "org.apache.avalon.fortress.impl.handler.ThreadSafeComponentHandler" );
-        checkRole( roles,
-            "monitor",
-            "org.apache.avalon.excalibur.monitor.Monitor",
-            "org.apache.avalon.excalibur.monitor.ActiveMonitor",
-            "org.apache.avalon.fortress.impl.handler.ThreadSafeComponentHandler" );
-        checkRole( roles,
-            "parser",
-            "org.apache.excalibur.xml.dom.DOMParser",
-            "org.apache.excalibur.xml.impl.JaxpParser",
-            "org.apache.avalon.fortress.impl.handler.PoolableComponentHandler" );
+    protected void checkRole( final RoleManager roles,
+                              final String shortname,
+                              final String role,
+                              final String className,
+                              final String handlerClassname )
+        throws ClassNotFoundException
+    {
+        final RoleEntry roleEntry = roles.getRoleForShortName( shortname );
+        assertNotNull( "RoleEntry", roleEntry );
+
+        assertEquals( "componentClass:",
+            roleEntry.getComponentClass(), Class.forName( className ) );
+        assertEquals( "Role:", roleEntry.getRole(), role );
+        assertEquals( "Handler:",
+            roleEntry.getHandlerClass(), Class.forName( handlerClassname ) );
     }
 }
-

@@ -47,7 +47,7 @@
  Apache Software Foundation, please see <http://www.apache.org/>.
 
 */
-package org.apache.avalon.fortress.test.util;
+package org.apache.avalon.fortress.util.test;
 
 import junit.framework.TestCase;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
@@ -55,13 +55,14 @@ import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.NullLogger;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.DefaultServiceManager;
+import org.apache.avalon.fortress.test.util.FullLifecycleComponent;
 
 /**
  * This class provides basic facilities for enforcing Avalon's contracts
  * within your own code.
  *
  * @author <a href="bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.7 $ $Date: 2003/04/18 20:02:31 $
+ * @version CVS $Revision: 1.1 $ $Date: 2003/04/21 17:52:09 $
  */
 public final class ComponentTestCase
     extends TestCase
@@ -107,7 +108,7 @@ public final class ComponentTestCase
     public void testOutOfOrderInitialize()
         throws Exception
     {
-        final org.apache.avalon.fortress.test.util.FullLifecycleComponent component = new org.apache.avalon.fortress.test.util.FullLifecycleComponent();
+        final org.apache.avalon.fortress.util.test.FullLifecycleComponent component = new org.apache.avalon.fortress.util.test.FullLifecycleComponent();
         component.enableLogging( new NullLogger() );
         component.contextualize( new DefaultContext() );
         component.service( new DefaultServiceManager() );
@@ -126,7 +127,7 @@ public final class ComponentTestCase
     public void testOutOfOrderDispose()
         throws Exception
     {
-        final org.apache.avalon.fortress.test.util.FullLifecycleComponent component = new org.apache.avalon.fortress.test.util.FullLifecycleComponent();
+        final org.apache.avalon.fortress.util.test.FullLifecycleComponent component = new org.apache.avalon.fortress.util.test.FullLifecycleComponent();
         component.enableLogging( new NullLogger() );
         component.contextualize( new DefaultContext() );
         component.service( new DefaultServiceManager() );
@@ -151,7 +152,7 @@ public final class ComponentTestCase
 
     public void testDoubleAssignOfLogger()
     {
-        final org.apache.avalon.fortress.test.util.FullLifecycleComponent component = new org.apache.avalon.fortress.test.util.FullLifecycleComponent();
+        final org.apache.avalon.fortress.util.test.FullLifecycleComponent component = new org.apache.avalon.fortress.util.test.FullLifecycleComponent();
         try
         {
             component.enableLogging( new NullLogger() );
@@ -168,7 +169,7 @@ public final class ComponentTestCase
 
     public void testDoubleAssignOfContext()
     {
-        final org.apache.avalon.fortress.test.util.FullLifecycleComponent component = new org.apache.avalon.fortress.test.util.FullLifecycleComponent();
+        final org.apache.avalon.fortress.util.test.FullLifecycleComponent component = new org.apache.avalon.fortress.util.test.FullLifecycleComponent();
         component.enableLogging( new NullLogger() );
         try
         {
@@ -187,7 +188,7 @@ public final class ComponentTestCase
     public void testDoubleAssignOfParameters()
         throws Exception
     {
-        final org.apache.avalon.fortress.test.util.FullLifecycleComponent component = new org.apache.avalon.fortress.test.util.FullLifecycleComponent();
+        final org.apache.avalon.fortress.util.test.FullLifecycleComponent component = new org.apache.avalon.fortress.util.test.FullLifecycleComponent();
         component.enableLogging( new NullLogger() );
         component.contextualize( new DefaultContext() );
         component.service( new DefaultServiceManager() );
@@ -209,7 +210,7 @@ public final class ComponentTestCase
 
     public void testDoubleAssignOfConfiguration() throws Exception
     {
-        final org.apache.avalon.fortress.test.util.FullLifecycleComponent component = new org.apache.avalon.fortress.test.util.FullLifecycleComponent();
+        final org.apache.avalon.fortress.util.test.FullLifecycleComponent component = new org.apache.avalon.fortress.util.test.FullLifecycleComponent();
         component.enableLogging( new NullLogger() );
         component.contextualize( new DefaultContext() );
         component.service( new DefaultServiceManager() );
@@ -230,7 +231,7 @@ public final class ComponentTestCase
     public void testDoubleAssignOfComponentManger()
         throws Exception
     {
-        final org.apache.avalon.fortress.test.util.FullLifecycleComponent component = new org.apache.avalon.fortress.test.util.FullLifecycleComponent();
+        final org.apache.avalon.fortress.util.test.FullLifecycleComponent component = new org.apache.avalon.fortress.util.test.FullLifecycleComponent();
         component.enableLogging( new NullLogger() );
         component.contextualize( new DefaultContext() );
         try

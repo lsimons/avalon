@@ -47,7 +47,7 @@
  Apache Software Foundation, please see <http://www.apache.org/>.
 
 */
-package org.apache.avalon.fortress.test.util;
+package org.apache.avalon.fortress.util.test;
 
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
@@ -73,7 +73,7 @@ import org.apache.avalon.framework.service.Serviceable;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:mike@hihat.net">Michael McKibben</a>
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.6 $ $Date: 2003/04/18 20:02:31 $
+ * @version CVS $Revision: 1.1 $ $Date: 2003/04/21 17:52:09 $
  */
 public final class ComponentStateValidator
 {
