@@ -200,8 +200,6 @@ public class DeclareTask extends SystemTask
         final String pad = "    ";
         ResourceRef[] resources = 
           def.getResourceRefs( Policy.RUNTIME, ResourceRef.ANY, true );
-
-        //  getHome().getRepository().getResourceRefs( def );
         writeResourceRefs( writer, pad, resources );
         writeResource( writer, pad, def );
         writer.write( "\n  </classpath>" );
@@ -235,7 +233,7 @@ public class DeclareTask extends SystemTask
 
         writer.write( "\n" );
         writer.write( pad );
-        writer.write( "<" + type + ">" );
+        writer.write( "<artifact>" + type + ":" );
         writer.write( group );
         writer.write( "/" );
         writer.write( name );
@@ -245,7 +243,7 @@ public class DeclareTask extends SystemTask
             writer.write( "#" );
             writer.write( version );
         }
-        writer.write( "</" + type + ">" );
+        writer.write( "</artifact>" );
     }
 
     private void closeStream( final OutputStream output )
