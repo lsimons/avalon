@@ -9,12 +9,37 @@
 
   <body>
     <section name="Cornerstone - Examples">
-      <subsection name="Index">
-        <p>PLACEHOLDER</p>
+      <subsection name="Containers">
+        <p>
+        Component management is intrinsically linked with the containment 
+        environment with which a component is deployed.  A container provides
+        functions covering the establishment of a component, subsequent 
+        deployment and component decommissioning. At this time there are three
+        production quality containers with Avalon.  These include  
+        <a href="http://avalon.apache.org/excalibur/fortress">Fortress</a>, 
+        <a href="http://avalon.apache.org/phoenix">Phoenix</a>, and the 
+        <a href="http://avalon.apache.org/sandbox/merlin">
+        Merlin Service Management Platform</a>.  The following links provide
+        examples of the deployment of cornerstone components across one or 
+        more of the these respective containers.
+        </p>
+      </subsection>
+      <subsection name="Tutorials">
+        <table>
+          <tr><th>Container</th><th>Tutorial Overview</th></tr>
+          <tr><td><a href="merlin/index.html">Merlin</a></td>
+            <td>
+              A set of tutorials using the 
+              <a href="http://avalon.apache.org/sandbox/merlin">
+              Merlin Service Management Platform</a>. Currently the tutorials 
+              address the Thread component.  Tutorials will be expanded to 
+              include all cornerstone candidate-release components as part of
+              the overall cornerstone release process.
+            </td>
+          </tr>
+        </table>
       </subsection>
     </section>
   </body>
 
 </document>
-
-

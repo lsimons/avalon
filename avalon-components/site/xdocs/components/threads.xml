@@ -51,108 +51,21 @@
           </tr>
         </table>
       </subsection>
-      <subsection name="Example">
+      <subsection name="Examples">
         <table>
-          <tr><th>Source</th><th>Description</th></tr>
+          <tr><th>Container</th><th>Description</th></tr>
           <tr>
-            <td><a href="http://cvs.apache.org/viewcvs.cgi/avalon-cornerstone/threads/tutorial/src/java/org/apache/avalon/cornerstone/threads/tutorial/ThreadConsumer.java">ThreadConsumer.java</a>
-            </td>
+            <td><a href="../examples/merlin/threads.html">Merlin</a></td>
             <td>
               A demonstration component implementation demonstrates the resolution
               of a ThreadManager and subsequent access to a ThreadPoll against 
               which a Runnable object is launched.  Termination of the container 
-              before this time will trigger disposal of the compoennt causing the 
+              before this time will trigger disposal of the component causing the 
               interuption of the subsidiary thread.
             </td>
           </tr>
-          <tr>
-            <td>
-              <a href="http://cvs.apache.org/viewcvs.cgi/avalon-cornerstone/threads/tutorial/src/java/org/apache/avalon/cornerstone/threads/tutorial/Counter.java">Counter.java</a>
-            </td>
-            <td>
-              The runnable object that simply iniates a countdown and will normally 
-              complete and teminate within 10 seconds.  Used by the ThreadConsumer
-              component to establish a threaded activity.
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <a href="http://cvs.apache.org/viewcvs.cgi/*checkout*/avalon-cornerstone/threads/tutorial/src/conf/BLOCK-INF/block.xml">block.xml</a>
-            </td>
-            <td>
-              Merlin deployment directive.
-<source><![CDATA[
-<block>
-
-   <info>
-     <name>threads-tutorial</name>
-   </info>
-
-   <implementation>
-
-     <categories priority="INFO"/>
-
-     <engine>
-       <classpath>
-         <repository>
-           <resource id="cornerstone:cornerstone-threads-api" version="1.0"/>
-           <resource id="excalibur:excalibur-thread" version="1.1.1"/>
-           <resource id="excalibur:excalibur-event" version="2.0"/>
-         </repository>
-       </classpath>
-     </engine>
-
-     <include id="cornerstone:cornerstone-threads-impl" version="1.0"/>
-
-     <component name="test" 
-        class="org.apache.avalon.cornerstone.threads.tutorial.ThreadConsumer" 
-        activation="true"/>
-
-   </implementation>
-
-</block>
-
-]]></source>
-            </td>
-          </tr>
         </table>
-      </subsection>
-      <subsection name="Runtime">
-<p>
-To execute this demonstation please make sure that you copy the cornerstone-threads-* jar files from your Maven repository to you <a href="http://avalon.apache.org/sandbox/merlin/">Merlin</a> repository.
-</p>
-<source><![CDATA[
-$ cd avalon-cornerstone\threads\tutorial
-$ merlin target\cornerstone-threads-tutorial-1.0.jar
-
-[INFO   ] (sys): initialization: localhost
-[INFO   ] (sys): commencing block assembly phase
-[INFO   ] (test): aquiring cornerstone threads service
-[INFO   ] (threads): container initialization: threads
-[INFO   ] (test): initialization
-[INFO   ] (sys): Block hierarchy established.
-[INFO   ] (test.counter): count: 10
-[INFO   ] (test.counter): count: 9
-[INFO   ] (test.counter): count: 8
-[INFO   ] (test.counter): count: 7
-]]></source>
-<p>
-Interrupting the container (using ^C) will trigger component disposal
-which in turn will trigger early termination of the thread established
-using the cornerstone thread manager.
-</p>
-<source><![CDATA[
-[INFO   ] (sys): commencing decommissioning phase
-[INFO   ] (test): disposal
-[INFO   ] (test): disposal invoked while child thread active
-[INFO   ] (test): waiting for child
-[INFO   ] (test.counter): I've been interrupted.
-[INFO   ] (test.counter): Time to die.
-[INFO   ] (test): disposal complete
-[INFO   ] (sys): bye
-]]></source>
-      </subsection>
-      
+      </subsection>      
     </section>
 
   </body>
