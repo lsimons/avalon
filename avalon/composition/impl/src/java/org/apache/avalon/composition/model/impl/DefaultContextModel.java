@@ -75,7 +75,7 @@ import org.apache.avalon.composition.data.ConstructorDirective;
  * a fully qualifed context can be established.</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3.2.4 $ $Date: 2004/01/04 21:28:59 $
+ * @version $Revision: 1.3.2.5 $ $Date: 2004/01/12 00:17:19 $
  */
 public class DefaultContextModel extends DefaultDependent implements ContextModel
 {
@@ -178,7 +178,7 @@ public class DefaultContextModel extends DefaultDependent implements ContextMode
                     }
                 }
             }
-            else if( key.startsWith( "urn:merlin:" ) )
+            else if( key.startsWith( "urn:composition:" ) )
             {
                 try
                 {

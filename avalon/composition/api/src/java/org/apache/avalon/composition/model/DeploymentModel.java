@@ -51,15 +51,18 @@
 package org.apache.avalon.composition.model;
 
 import org.apache.avalon.composition.data.Mode;
+
 import org.apache.avalon.meta.info.DependencyDescriptor;
 import org.apache.avalon.meta.info.ServiceDescriptor;
 import org.apache.avalon.meta.info.StageDescriptor;
+
+import org.apache.avalon.framework.logger.Logger;
 
 /**
  * Model desribing a deployment scenario.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.7.2.5 $ $Date: 2004/01/08 12:51:17 $
+ * @version $Revision: 1.7.2.6 $ $Date: 2004/01/12 00:17:19 $
  */
 public interface DeploymentModel
 {
@@ -100,6 +103,12 @@ public interface DeploymentModel
     * @return the runtime handler
     */
     Object getHandler();
+
+   /**
+    * Return the assigned logging channel.
+    * @return the logging channel
+    */
+    Logger getLogger();
 
     //-----------------------------------------------------------
     // service production
@@ -173,6 +182,5 @@ public interface DeploymentModel
     * long a deployment may take.
     **/
    long getDeploymentTimeout();
-
 
 }

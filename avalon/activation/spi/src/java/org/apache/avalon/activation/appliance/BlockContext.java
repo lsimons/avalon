@@ -58,27 +58,15 @@ import org.apache.avalon.composition.model.SystemContext;
  * Context object applied to a new block.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2.2.1 $ $Date: 2004/01/07 12:57:26 $
+ * @version $Revision: 1.2.2.2 $ $Date: 2004/01/12 00:17:19 $
  */
 public interface BlockContext
 {
-   /**
-    * Returns the logging channel to assign to the block.
-    * @return the logging channel
-    */
-    Logger getLogger();
-
    /**
     * Returns the containment model assigned to the block.
     * @return the containment model
     */
     ContainmentModel getContainmentModel();
-
-   /**
-    * Returns the service context assigned to the block.
-    * @return the service context
-    */
-    SystemContext getSystemContext();
 
    /**
     * Returns the assigned engine.

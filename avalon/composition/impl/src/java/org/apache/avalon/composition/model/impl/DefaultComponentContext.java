@@ -83,7 +83,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1.2.5 $ $Date: 2004/01/09 20:29:49 $
+ * @version $Revision: 1.1.2.6 $ $Date: 2004/01/12 00:17:19 $
  */
 public class DefaultComponentContext extends DefaultDeploymentContext 
   implements ComponentContext
@@ -331,7 +331,7 @@ public class DefaultComponentContext extends DefaultDeploymentContext
             key = entry.getKey();
         }
         
-        if( key.startsWith( "urn:merlin:" ) )
+        if( key.startsWith( "urn:composition:" ) )
         {
             return getSystemContext().get( key );
         }

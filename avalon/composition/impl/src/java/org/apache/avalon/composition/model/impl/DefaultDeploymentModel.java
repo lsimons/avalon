@@ -67,7 +67,7 @@ import org.apache.avalon.excalibur.i18n.Resources;
  * Abstract model base class.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.9.2.8 $ $Date: 2004/01/08 12:51:17 $
+ * @version $Revision: 1.9.2.9 $ $Date: 2004/01/12 00:17:19 $
  */
 public abstract class DefaultDeploymentModel
   implements DeploymentModel
@@ -190,18 +190,18 @@ public abstract class DefaultDeploymentModel
         return m_handler;
     }
 
-    //--------------------------------------------------------------
-    // implementation
-    //--------------------------------------------------------------
-
    /**
-    * Return the logging channel.
-    * @return the logger
+    * Return the assigned logging channel.
+    * @return the logging channel
     */
-    protected Logger getLogger()
+    public Logger getLogger()
     {
         return m_context.getLogger();
     }
+
+    //--------------------------------------------------------------
+    // implementation
+    //--------------------------------------------------------------
 
     public String toString()
     {

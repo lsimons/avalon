@@ -103,7 +103,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * appliance instance.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.15.2.5 $ $Date: 2004/01/08 10:40:53 $
+ * @version $Revision: 1.15.2.6 $ $Date: 2004/01/12 00:17:19 $
  */
 public class DefaultAppliance extends AbstractAppliance implements Appliance
 {
@@ -182,12 +182,9 @@ public class DefaultAppliance extends AbstractAppliance implements Appliance
     // constructor
     //-------------------------------------------------------------------
 
-    public DefaultAppliance( 
-      Logger logger, ComponentModel model, Engine engine )
+    public DefaultAppliance( ComponentModel model, Engine engine )
     {
-        super( logger.getChildLogger( "appliance" ), model );
-
-        m_logger = logger;
+        super( model );
         m_model = (ComponentModel) model;
         m_engine = engine;
     }
@@ -527,7 +524,8 @@ public class DefaultAppliance extends AbstractAppliance implements Appliance
                 int id = System.identityHashCode( instance );
                 getLogger().debug( "applying logger to: " + id );
             }
-            ((LogEnabled)instance).enableLogging( m_logger );
+            final Logger logger = m_model.getLogger();
+            ((LogEnabled)instance).enableLogging( logger );
         }
     }
 

@@ -76,7 +76,7 @@ import org.apache.avalon.framework.logger.Logger;
  * Implementation of the default Merlin Kernel.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1.2.4 $ $Date: 2004/01/09 20:29:49 $
+ * @version $Revision: 1.1.2.5 $ $Date: 2004/01/12 00:17:20 $
  */
 public class DefaultKernel implements Kernel
 {
@@ -242,7 +242,7 @@ public class DefaultKernel implements Kernel
             try
             {
                 m_application = 
-                  AbstractBlock.createRootBlock( m_context, m_model );
+                  AbstractBlock.createRootBlock( m_model );
                 setState( INITIALIZED );
             }
             catch( Throwable e )
@@ -398,4 +398,5 @@ public class DefaultKernel implements Kernel
     {
         return m_logger;
     }
+
 }

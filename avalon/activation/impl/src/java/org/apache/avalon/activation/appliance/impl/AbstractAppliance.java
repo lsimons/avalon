@@ -76,7 +76,7 @@ import org.apache.avalon.framework.logger.Logger;
  *
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2.2.2 $ $Date: 2004/01/07 12:57:25 $
+ * @version $Revision: 1.2.2.3 $ $Date: 2004/01/12 00:17:19 $
  */
 public abstract class AbstractAppliance extends AbstractLogEnabled implements Appliance, Disposable
 {
@@ -92,9 +92,9 @@ public abstract class AbstractAppliance extends AbstractLogEnabled implements Ap
     // constructor
     //-------------------------------------------------------------------
 
-    public AbstractAppliance( Logger logger, DeploymentModel model )
+    public AbstractAppliance( DeploymentModel model )
     {
-        enableLogging( logger );
+        enableLogging( model.getLogger() );
         m_model = model;
         m_model.setHandler( this );
     }

@@ -75,7 +75,7 @@ public class RuntimeTestCase extends AbstractTestCase
         //
 
         getLogger().debug( "creating root block" );
-        Block block = AbstractBlock.createRootBlock( m_system, m_model );
+        Block block = AbstractBlock.createRootBlock( m_model );
         getLogger().debug( "block: " + block );
 
         //

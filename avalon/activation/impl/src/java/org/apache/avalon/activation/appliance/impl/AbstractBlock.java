@@ -90,7 +90,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * context.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.10.2.6 $ $Date: 2004/01/08 12:51:16 $
+ * @version $Revision: 1.10.2.7 $ $Date: 2004/01/12 00:17:19 $
  */
 public abstract class AbstractBlock extends AbstractAppliance 
   implements Block, CompositionEventListener
@@ -105,23 +105,16 @@ public abstract class AbstractBlock extends AbstractAppliance
      * @param model the root containment model
      * @return the appliance
      */
-    public static Block createRootBlock( 
-      SystemContext system, ContainmentModel model ) throws Exception
+    public static Block createRootBlock( ContainmentModel model ) throws Exception
     {
-        if( null == system ) 
-        {
-            throw new NullPointerException( "system" );
-        }
         if( null == model ) 
         {
             throw new NullPointerException( "model" );
         }
 
-        Logger logger = 
-          system.getLoggingManager().getLoggerForCategory( "" );
-        BlockContext context = new DefaultBlockContext(
-          logger, model, system, null );
-        return new CompositeBlock( context );
+        BlockContext context = 
+          new DefaultBlockContext( model, null );
+        return new DefaultBlock( context );
     }
 
     //-------------------------------------------------------------------
@@ -146,7 +139,7 @@ public abstract class AbstractBlock extends AbstractAppliance
     */
     AbstractBlock( BlockContext context )
     {
-        super( context.getLogger(), context.getContainmentModel() );
+        super( context.getContainmentModel() );
 
         m_context = context;
 
@@ -396,37 +389,20 @@ public abstract class AbstractBlock extends AbstractAppliance
         Appliance appliance = null;
 
         final String path = model.getPath() + model.getName();
-        final SystemContext services = m_context.getSystemContext();
-        final LoggingManager logging = services.getLoggingManager();
+        Logger logger = model.getLogger();
 
         if( model instanceof ComponentModel )
         {
             getLogger().debug( "creating appliance: " + path );
-            ComponentModel deployment = (ComponentModel) model;
-            CategoriesDirective categories = deployment.getCategories();
-            if( categories != null )
-            {
-                logging.addCategories( path, categories );
-            }
-            Logger logger = logging.getLoggerForCategory( path );
-            appliance = new DefaultAppliance( logger, deployment, this );
+            ComponentModel component = (ComponentModel) model;
+            appliance = new DefaultAppliance( component, this );
         }
         else if( model instanceof ContainmentModel )
         {
             getLogger().debug( "creating block: " + path );
             ContainmentModel containment = (ContainmentModel) model;
-            CategoriesDirective categories = containment.getCategories();
-            if( categories != null )
-            {
-                logging.addCategories( path, categories );
-            }
-
-            Logger logger = logging.getLoggerForCategory( path );
-
             BlockContext context = 
-              new DefaultBlockContext(
-                logger, containment, services, this );
-
+              new DefaultBlockContext( containment, this );
             appliance = new CompositeBlock( context );
         }
         else

@@ -76,7 +76,7 @@ import org.apache.avalon.framework.logger.Logger;
  * context.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.7.2.4 $ $Date: 2004/01/08 10:40:53 $
+ * @version $Revision: 1.7.2.5 $ $Date: 2004/01/12 00:17:19 $
  */
 public class DefaultBlock extends AbstractBlock implements Home
 {
@@ -108,8 +108,8 @@ public class DefaultBlock extends AbstractBlock implements Home
 
         try
         {
-            final Logger log = context.getLogger().getChildLogger( "proxy" );
             final ContainmentModel model = context.getContainmentModel();
+            final Logger log = model.getLogger().getChildLogger( "proxy" );
             final BlockInvocationHandler handler = 
               new BlockInvocationHandler( log, this );
             final Class[] classes = getInterfaceClasses();
@@ -241,25 +241,6 @@ public class DefaultBlock extends AbstractBlock implements Home
             //
             // if the invocation is against java.lang.Object then
             // delegate the operation to the block
-            //
-
-            if( method.getDeclaringClass().equals( java.lang.Object.class ) )
-            {
-                m_logger.debug( "invocation: " +  method.getName() );
-                try
-                {
-                    return method.invoke( m_block, args );
-                }
-                catch( InvocationTargetException e )
-                {
-                    final String error = 
-                      "Unexpected delegation error on java.lang.Object";
-                    throw new ApplianceException( error, e.getTargetException() );
-                }
-            }
-
-            //
-            // otherwise we are delegating to an implementation component
             //
 
             final ContainmentModel model = m_context.getContainmentModel();
