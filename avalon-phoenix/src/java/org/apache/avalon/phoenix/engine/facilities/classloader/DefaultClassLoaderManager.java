@@ -1,0 +1,58 @@
+/*
+ * Copyright (C) The Apache Software Foundation. All rights reserved.
+ *
+ * This software is published under the terms of the Apache Software License
+ * version 1.1, a copy of which has been included with this distribution in
+ * the LICENSE file.
+ */
+package org.apache.avalon.phoenix.engine.facilities.classloader;
+
+import java.security.Policy;
+import org.apache.avalon.framework.activity.Initializable;
+import org.apache.avalon.framework.component.ComponentException;
+import org.apache.avalon.framework.component.ComponentManager;
+import org.apache.avalon.framework.component.Composable;
+import org.apache.avalon.framework.context.Context;
+import org.apache.avalon.framework.context.ContextException;
+import org.apache.avalon.framework.context.Contextualizable;
+import org.apache.avalon.framework.context.DefaultContext;
+import org.apache.avalon.phoenix.engine.facilities.ClassLoaderManager;
+
+/**
+ * This facility manages the ClassLoader for an application instance.
+ *
+ * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ */
+public class DefaultClassLoaderManager
+    implements ClassLoaderManager, Contextualizable, Composable, Initializable
+{
+    private SarClassLoader   m_classLoader = new SarClassLoader();
+
+    public void contextualize( final Context context )
+        throws ContextException
+    {
+        m_classLoader.contextualize( context );
+    }
+
+    public void compose( final ComponentManager componentManager )
+        throws ComponentException
+    {
+        m_classLoader.compose( componentManager );
+    }
+
+    public void initialize()
+        throws Exception
+    {
+        m_classLoader.initialize();
+    }
+
+    /**
+     * Get ClassLoader for the current application.
+     *
+     * @return the ClassLoader
+     */
+    public ClassLoader getClassLoader()
+    {
+        return m_classLoader;
+    }
+}

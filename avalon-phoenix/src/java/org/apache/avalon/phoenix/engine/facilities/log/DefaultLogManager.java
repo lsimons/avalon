@@ -1,0 +1,157 @@
+/*
+ * Copyright (C) The Apache Software Foundation. All rights reserved.
+ *
+ * This software is published under the terms of the Apache Software License
+ * version 1.1, a copy of which has been included  with this distribution in
+ * the LICENSE file.
+ */
+package org.apache.avalon.phoenix.engine.facilities.log;
+
+import java.io.File;
+import java.io.IOException;
+import org.apache.avalon.framework.atlantis.Facility;
+import org.apache.avalon.framework.configuration.Configurable;
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.context.Context;
+import org.apache.avalon.framework.context.ContextException;
+import org.apache.avalon.framework.context.Contextualizable;
+import org.apache.avalon.framework.logger.AbstractLoggable;
+import org.apache.log.Category;
+import org.apache.log.LogKit;
+import org.apache.log.LogTarget;
+import org.apache.log.Logger;
+import org.apache.log.output.FileOutputLogTarget;
+import org.apache.avalon.phoenix.engine.facilities.LogManager;
+
+/**
+ * Component responsible for managing logs.
+ *
+ * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ */
+public class DefaultLogManager
+    extends AbstractLoggable
+    implements LogManager, Contextualizable, Configurable
+{
+    protected String        m_baseName;
+    protected File          m_baseDirectory;
+
+    public void contextualize( final Context context )
+        throws ContextException
+    {
+        m_baseName = (String)context.get( "name" );
+        if( null == m_baseName ) m_baseName = "<base>";
+
+        m_baseDirectory = (File)context.get( "directory" );
+        if( null == m_baseDirectory ) m_baseDirectory = new File( "." );
+    }
+
+    public void configure( final Configuration configuration )
+        throws ConfigurationException
+    {
+        final Configuration[] targets = configuration.getChildren( "log-target" );
+        configureTargets( m_baseName, m_baseDirectory, targets );
+
+        final Configuration[] categories = configuration.getChildren( "category" );
+        configureCategories( m_baseName, categories );
+
+        /*
+          final String logPriority = configuration.getChild( "global-priority" ).getValue();
+          final Priority.Enum priority = LogKit.getPriorityForName( logPriority );
+          LogKit.setGlobalPriority( priority );
+        */
+    }
+
+    /**
+     * Get logger with category for application.
+     * Note that this name may not be the absolute category.
+     *
+     * @param category the logger category
+     * @return the Logger
+     */
+    public Logger getLogger( final String category )
+    {
+        String name = null;
+
+        if( category.trim().equals( "" ) )
+        {
+            name = m_baseName;
+        }
+        else
+        {
+            name = m_baseName + '.' + category;
+        }
+
+        return LogKit.getLoggerFor( name );
+    }
+
+    private void configureTargets( final String baseName,
+                                   final File baseDirectory,
+                                   final Configuration[] targets )
+        throws ConfigurationException
+    {
+        for( int i = 0; i < targets.length; i++ )
+        {
+            final Configuration target = targets[ i ];
+            final String name = baseName + '.' + target.getAttribute( "name" );
+            String location = target.getAttribute( "location" ).trim();
+            final String format = target.getAttribute( "format", null );
+
+            if( '/' == location.charAt( 0 ) )
+            {
+                location = location.substring( 1 );
+            }
+
+            final File file = new File( baseDirectory, location );
+
+            final FileOutputLogTarget logTarget = new FileOutputLogTarget();
+            final AvalonLogFormatter formatter = new AvalonLogFormatter();
+            formatter.setFormat( "%{time} [%7.7{priority}] <<%{category}>> " +
+                                 "(%{context}): %{message}\\n%{throwable}" );
+            logTarget.setFormatter( formatter );
+
+            try { logTarget.setFilename( file.getAbsolutePath() ); }
+            catch( final IOException ioe )
+            {
+                throw new ConfigurationException( "Error initializing log files", ioe );
+            }
+
+            if( null != format )
+            {
+                logTarget.setFormat( format );
+            }
+
+            LogKit.addLogTarget( name, logTarget );
+        }
+    }
+
+    private void configureCategories( final String baseName, final Configuration[] categories )
+        throws ConfigurationException
+    {
+        for( int i = 0; i < categories.length; i++ )
+        {
+            final Configuration category = categories[ i ];
+            String name = category.getAttribute( "name" );
+            final String target = baseName + '.' + category.getAttribute( "target" );
+            final String priority = category.getAttribute( "priority" );
+
+            if( name.trim().equals( "" ) )
+            {
+                name = baseName;
+            }
+            else
+            {
+                name = baseName + '.' + name;
+            }
+
+            final Category logCategory =
+                LogKit.createCategory( name, LogKit.getPriorityForName( priority ) );
+            final LogTarget logTarget = LogKit.getLogTarget( target );
+            LogTarget logTargets[] = null;
+
+            if( null != target ) logTargets = new LogTarget[] { logTarget };
+
+            LogKit.createLogger( logCategory, logTargets );
+        }
+    }
+}
