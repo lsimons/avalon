@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE document SYSTEM "dtd/document-v10.dtd">
 
 <document>
   <header>
@@ -55,7 +54,7 @@ layer.
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.4 $ $Date: 2002/07/19 18:32:47 $
+      $Revision: 1.5 $ $Date: 2002/07/26 15:48:01 $
     </legal>
   </footer>
 </document>
