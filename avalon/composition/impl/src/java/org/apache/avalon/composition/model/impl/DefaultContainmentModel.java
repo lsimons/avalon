@@ -111,7 +111,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * as a part of a containment deployment model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.12 $ $Date: 2003/12/29 14:31:21 $
+ * @version $Revision: 1.13 $ $Date: 2004/01/01 13:08:56 $
  */
 public class DefaultContainmentModel extends DefaultModel 
   implements ContainmentModel
@@ -284,7 +284,6 @@ public class DefaultContainmentModel extends DefaultModel
         }
     }
 
-
    /**
     * Return the logging categories. 
     * @return the logging categories
@@ -327,6 +326,9 @@ public class DefaultContainmentModel extends DefaultModel
 
     public Model addModel( Profile profile ) throws ModelException
     {
+        if( null == profile )
+          throw new NullPointerException( "profile" );
+
         Model model = null;
         final String name = profile.getName();
         if( profile instanceof ContainmentProfile )
@@ -466,6 +468,8 @@ public class DefaultContainmentModel extends DefaultModel
     private DeploymentModel createDeploymentModel( final DeploymentProfile profile ) 
       throws ModelException
     {
+        if( null == profile ) 
+          throw new NullPointerException( "profile" );
 
         final String name = profile.getName();
         final String partition = getPartition();
@@ -699,10 +703,20 @@ public class DefaultContainmentModel extends DefaultModel
     {
         final String name = directive.getName();
         final String path = directive.getPath();
+
         try
         {
-            URL url = new URL( path );
-            return createContainmentModel( name, url );
+            if( path.indexOf( ":" ) < 0 )
+            {
+                URL anchor = m_context.getSystemContext().getBaseDirectory().toURL();
+                URL url = new URL( anchor, path );
+                return createContainmentModel( name, url );
+            }
+            else
+            {
+                URL url = new URL( path );
+                return createContainmentModel( name, url );
+            }
         }
         catch( MalformedURLException e )
         {
@@ -726,6 +740,7 @@ public class DefaultContainmentModel extends DefaultModel
       throws ModelException
     {
         final String path = url.toString();
+
         try
         {
             if( path.endsWith( ".jar" ) )
