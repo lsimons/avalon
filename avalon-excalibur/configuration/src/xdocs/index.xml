@@ -58,12 +58,18 @@ Given a Configuration and a "base", generate the "layer" that when passed to
 the ConfigurationMerger will yield the original Configuration.
         </p>
       </s2>
+      <s2 title="ConfigurationValidator">
+        <p>
+A set of tools to apply various XML schema languages to Configuration objects to verify
+their validity.
+        </p>
+      </s2>
     </s1>
   </body>
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.6 $ $Date: 2002/07/26 19:22:28 $
+      $Revision: 1.7 $ $Date: 2002/11/13 03:28:29 $
     </legal>
   </footer>
 </document>
