@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
-<logging debug="true">
+<logging debug="false">
 
   <!--
   Declaration of a set of logging targets.

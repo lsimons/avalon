@@ -30,19 +30,13 @@ import org.apache.avalon.framework.logger.Logger;
  * for application to a LoggingManager factory.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public interface LoggingCriteria extends Map
 {
     //--------------------------------------------------------------
     // criteria keys
     //--------------------------------------------------------------
-
-   /**
-    * The logging artifact key.
-    */
-    String FACTORY_ARTIFACT_KEY = 
-      "avalon.logging.factory.artifact";
 
    /**
     * The logging configuration key.
@@ -76,31 +70,36 @@ public interface LoggingCriteria extends Map
     //--------------------------------------------------------------
 
    /**
-    * Set the bootstrap logging channel
+    * Set the bootstrap logging channel.  The supplied logging
+    * channel is the logging channel used during the establishment of 
+    * the logging system. The channel is typically a console logger 
+    * set to warn or error priority.
+    *
     * @param logger the boootstrap logging channel
     */
     void setBootstrapLogger( Logger logger );
 
    /**
-    * Set the base directory for logging resources.
+    * Set the base directory for logging resources.  The directory 
+    * serves as the anchor directory for the resolution of filenames
+    * related to file targets established by the logging system.
+    *
     * @param dir the base directory
     */
     void setBaseDirectory( File dir );
 
    /**
-    * Set the artifact referencing the implementation factory.
-    * @param artifact the implementation artifact
-    */
-    void setFactoryArtifact( Artifact artifact );
-
-   /**
-    * Set the logging system configuration
+    * Set the logging system configuration.  If not set, an 
+    * implementation of the logging system is required to establish
+    * a console logging solution as a default logging target.
+    *
     * @param config the configuration
     */
     void setConfiguration( Configuration config );
 
    /**
-    * Set the debug enabled policy
+    * Set the debug enabled policy.  Used to override the all logging
+    * channel priotities to DEBUG level.  Useful when debuging applications.
     * @param mode TRUE to enabled debug mode else FALSE
     */
     void setDebugEnabled( boolean mode );
@@ -122,12 +121,6 @@ public interface LoggingCriteria extends Map
     * @return the configuration
     */
     Configuration getConfiguration();
-
-   /**
-    * Return the artifact reference to the logging implementation factory .
-    * @return the logging implementation factory classname 
-    */
-    Artifact getFactoryArtifact() throws IOException;
 
    /**
     * Return debug policy.  If TRUE all logging channels will be 

@@ -239,7 +239,8 @@ public class DefaultLoggingFactory implements Factory
     *    are resolved
     * @param config the log targets configuration
     */
-    private void setupTargets( final Map factories, final Map targets, final Configuration config )
+    private void setupTargets( 
+      final Map factories, final Map targets, final Configuration config )
       throws LoggingException
     {
         Configuration[] children = config.getChildren();
@@ -249,7 +250,8 @@ public class DefaultLoggingFactory implements Factory
             final String id = getTargetId( child );
             try
             {
-                final LogTarget target = createLogTarget( factories, id, child );
+                final LogTarget target = 
+                  createLogTarget( factories, id, child );
                 targets.put( id, target );
                 final String message = 
                   REZ.getString( "target.notice.add", id );
@@ -272,18 +274,21 @@ public class DefaultLoggingFactory implements Factory
     * @return the logging target
     * @exception Exception if an error occurs during factory creation
     */ 
-    private LogTarget createLogTarget( Map factories, final String id, final Configuration config )
+    private LogTarget createLogTarget( 
+      Map factories, final String id, final Configuration config )
       throws LoggingException
     {
         final String key = getTargetFactoryKey( config );
-        final LogTargetFactory factory = getLogTargetFactory( factories, key );
+        final LogTargetFactory factory = 
+          getLogTargetFactory( factories, key );
         return factory.createTarget( config );
     }
 
     private LogTargetFactory getLogTargetFactory( Map factories, String key )
       throws LoggingException
     {
-        final LogTargetFactory factory = m_factories.getLogTargetFactory( key );
+        final LogTargetFactory factory = 
+          m_factories.getLogTargetFactory( key );
         if( factory != null )
         {
             return factory;
@@ -422,153 +427,4 @@ public class DefaultLoggingFactory implements Factory
         final String target = config.getAttribute( "target", null );
         return new CategoryDirective( name, priority, target );
     }
-
-    //--------------------------------------------------------------------------
-    // junk
-    //--------------------------------------------------------------------------
-
-   /**
-    * Return the identitying key associated with the log target factory.
-    * @param config the log target factory configuration
-    * @return the unique key
-    */
-    /*
-    private String getFactoryKey( Configuration config )
-      throws LoggingException
-    {
-        try
-        {
-            return config.getAttribute( "type" );
-        }
-        catch( ConfigurationException e )
-        {
-            final String listing = ConfigurationUtil.list( config );
-            final String error = 
-              REZ.getString( 
-                "target.error.missing-type", 
-                listing );
-           throw new LoggingException( error );
-        }
-    }
-    */
-
-
-   /**
-    * Return the class attribute from a factory element.
-    * @param config the target factory configuration
-    * @return the target classname
-    * @exception LoggingException if the class attribute is not declared
-    */
-    /*
-    private String getFactoryClassname( Configuration config )
-      throws LoggingException
-    { 
-        try
-        {
-            return config.getAttribute( "class" );
-        }
-        catch( ConfigurationException e )
-        {
-            final String listing = ConfigurationUtil.list( config );
-            final String error = 
-              REZ.getString( 
-                "target.error.missing-class", 
-                listing );
-            throw new LoggingException( error );
-        }
-    }
-    */
-
-   /**
-    * Load a factory class using a supplied factory classname.
-    * @param factory the factory classname
-    * @return the factory class
-    * @exception LoggingException if a factory class loading error occurs
-    */
-    /*
-    protected Class loadFactoryClass( String classname )
-        throws LoggingException
-    {
-        try
-        {
-            return m_classloader.loadClass( classname );
-        }
-        catch( ClassNotFoundException e )
-        {
-            final String error = 
-              REZ.getString( 
-                "target.error.class-not-found", 
-                classname );
-            throw new LoggingException( error, e );
-        }
-        catch( Throwable e )
-        {
-            final String error = 
-              REZ.getString( 
-                "target.error.class-load", 
-                classname );
-            throw new LoggingException( error, e );
-        }
-    }
-    */
-
-   /**
-    * Create a new logging target factory instance.
-    */
-    /*
-    private LogTargetFactory createLogTargetFactory( Configuration config ) 
-      throws LoggingException
-    {
-        String classname = getFactoryClassname( config );
-        Class clazz = loadFactoryClass( classname );
-        return buildLogTargetFactoryViaConstructor( clazz );
-    }
-    */
-
-    /**
-     * Create the log target factories.
-     *
-     * @param config the factory configuration element.
-     * @throws LoggingException if an error occurs in factor directive parsing
-     */
-    /*
-    private void setupTargetFactories( 
-      final Map factories, final Configuration config )
-      throws LoggingException
-    {
-        Configuration[] children = config.getChildren();
-        for( int i = 0; i < children.length; i++ )
-        {
-            Configuration child = children[i];
-            if( child.getName().equalsIgnoreCase( "factory" ) )
-            {
-                final String key = getFactoryKey( child );
-                try
-                {
-                    LogTargetFactory factory =
-                      createLogTargetFactory( child );
-                    factories.put( key, factory );
-                }
-                catch( LoggingException e )
-                {
-                    final String error = 
-                     REZ.getString( "factory.target-factory.load.error", key );
-                    m_logger.error( error, e );
-                }
-            }
-            else
-            {
-                final String name = child.getName();
-                final String listing = ConfigurationUtil.list( child ); 
-                final String error = 
-                  REZ.getString( 
-                    "factory.target-factory.unknown-element", 
-                    name, 
-                    listing );
-                m_logger.error( error );
-            }
-        }
-    }
-    */
-
 }

@@ -47,7 +47,6 @@
 
   <ant:property name="pom.specificationVersion" value="1.0"/>
   <ant:property name="pom.organization.identifier" value="ASF"/>
-  <ant:property name="maven.docs.src" value="${basedir}/site/xdocs"/>
   <ant:property file="project.properties"/>
 
   <!--
@@ -365,6 +364,10 @@
 	  </classpath>
 
 	  <link href="http://java.sun.com/j2se/1.4.2/docs/api/" />
+	  <link href="http://avalon.apache.org/util/api/" />
+	  <link href="http://avalon.apache.org/logkit/api/" />
+	  <link href="http://avalon.apache.org/repository/api/" />
+	  <link href="http://avalon.apache.org/framework/api/" />
 
     </ant:javadoc>
   </goal>
