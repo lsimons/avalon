@@ -81,7 +81,7 @@ import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.commons.collections.BoundedFifoBuffer;
 import org.apache.commons.collections.StaticBucketMap;
-import org.apache.excalibur.event.Queue;
+import org.apache.excalibur.event.Sink;
 import org.apache.excalibur.instrument.InstrumentManager;
 import org.apache.excalibur.instrument.Instrumentable;
 import org.apache.excalibur.mpool.ObjectFactory;
@@ -96,7 +96,7 @@ import java.util.*;
  * Container's Manager can expose that to the instantiating class.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.30 $ $Date: 2003/05/28 17:50:20 $
+ * @version CVS $Revision: 1.31 $ $Date: 2003/05/28 19:03:48 $
  */
 public abstract class AbstractContainer
     extends AbstractLogEnabled
@@ -115,8 +115,8 @@ public abstract class AbstractContainer
     protected LoggerManager m_loggerManager;
     /** contains the impl's PoolManager, which is extracted from m_serviceManager. */
     protected PoolManager m_poolManager;
-    /** contains the impl's Queue, which is extracted from m_serviceManager. */
-    protected Queue m_commandQueue;
+    /** contains the impl's Sink, which is extracted from m_serviceManager. */
+    protected Sink m_commandSink;
     /** contains the impl's root ClassLoader, which is extracted from m_serviceManager. */
     protected ClassLoader m_classLoader;
     /** contains the impl's RoleManager, which is extracted from m_serviceManager. */
@@ -173,7 +173,7 @@ public abstract class AbstractContainer
      * @avalon.dependency type="InstrumentManager"
      * @avalon.dependency type="LifecycleExtensionManager" optional="true"
      * @avalon.dependency type="RoleManager" optional="true"
-     * @avalon.dependency type="Queue" optional="true"
+     * @avalon.dependency type="Sink" optional="true"
      */
     public void service( final ServiceManager serviceManager )
         throws ServiceException
@@ -188,14 +188,14 @@ public abstract class AbstractContainer
 
         setupExtensionManager( serviceManager );
 
-        if ( serviceManager.hasService( Queue.ROLE ) )
+        if ( serviceManager.hasService( Sink.ROLE ) )
         {
-            m_commandQueue = (Queue) serviceManager.lookup( Queue.ROLE );
+            m_commandSink = (Sink) serviceManager.lookup( Sink.ROLE );
         }
         else
         {
             final String message =
-                "No " + Queue.ROLE + " is given, all " +
+                "No " + Sink.ROLE + " is given, all " +
                 "management will be performed synchronously";
             getLogger().warn( message );
         }
@@ -585,8 +585,8 @@ public abstract class AbstractContainer
                 int activation = entry.getMetaData().getActivation();
                 if ( activation == ComponentHandlerMetaData.ACTIVATION_BACKGROUND )
                 {
-                    // If a queue is not set then we must change to inline.
-                    if ( null == m_commandQueue )
+                    // If a sink is not set then we must change to inline.
+                    if ( null == m_commandSink )
                     {
                         activation = ComponentHandlerMetaData.ACTIVATION_INLINE;
                     }
@@ -597,11 +597,11 @@ public abstract class AbstractContainer
                 {
                 case ComponentHandlerMetaData.ACTIVATION_BACKGROUND:
                     // Add a command to initialize the component to the command
-                    //  queue so it will be initialized asynchronously in the
+                    //  sink so it will be initialized asynchronously in the
                     //  background.
                     final PrepareHandlerCommand element =
                         new PrepareHandlerCommand( handler, getLogger() );
-                    m_commandQueue.enqueue( element );
+                    m_commandSink.enqueue( element );
                     break;
 
                 case ComponentHandlerMetaData.ACTIVATION_INLINE:

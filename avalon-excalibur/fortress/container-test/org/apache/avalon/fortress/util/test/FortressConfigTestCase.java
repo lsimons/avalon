@@ -90,7 +90,7 @@ public class FortressConfigTestCase extends TestCase
     public void setUp() throws Exception
     {
         m_config = new FortressConfig( FortressConfig.createDefaultConfig() );
-        m_config.setCommandQueue( new DefaultQueue() );
+        m_config.setCommandSink( new DefaultQueue() );
         m_config.setContextClassLoader( FortressConfigTestCase.class.getClassLoader() );
         m_config.setInstrumentManager( new TestInstrumentManager() );
         m_config.setLifecycleExtensionManager( new LifecycleExtensionManager() );

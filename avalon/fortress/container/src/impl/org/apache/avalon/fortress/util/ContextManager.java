@@ -73,7 +73,6 @@ import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.DefaultServiceManager;
 import org.apache.avalon.framework.service.DefaultServiceSelector;
 import org.apache.avalon.framework.service.ServiceManager;
-import org.apache.excalibur.event.Queue;
 import org.apache.excalibur.event.Sink;
 import org.apache.excalibur.event.command.CommandManager;
 import org.apache.excalibur.event.command.TPCThreadManager;
@@ -117,7 +116,7 @@ import java.util.Iterator;
  * and dispose of them properly when it itself is disposed .</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.32 $ $Date: 2003/05/28 16:18:50 $
+ * @version CVS $Revision: 1.33 $ $Date: 2003/05/28 19:03:48 $
  * @since 4.1
  */
 public final class ContextManager
@@ -174,7 +173,7 @@ public final class ContextManager
      * The Sink in use.
      * Either supplied via rootContext or created locally.
      */
-    protected Sink m_queue;
+    protected Sink m_sink;
 
     /**
      * The MetaInfoManager to be used by the container.
@@ -339,7 +338,7 @@ public final class ContextManager
         m_childContext.put( InstrumentManager.ROLE, null );
         m_childContext.put( INSTRUMENT_MANAGER_CONFIGURATION, null );
         m_childContext.put( INSTRUMENT_MANAGER_CONFIGURATION_URI, null );
-        m_childContext.put( Queue.ROLE, null );
+        m_childContext.put( Sink.ROLE, null );
         m_childContext.put( MetaInfoManager.ROLE, null );
         m_childContext.put( PoolManager.ROLE, null );
     }
@@ -430,28 +429,28 @@ public final class ContextManager
     }
 
     /**
-     * Set up the CommandQueue to enable asynchronous management.
+     * Set up the CommandSink to enable asynchronous management.
      *
-     * @throws Exception if the <code>CommandQueue</code> could not be
+     * @throws Exception if the <code>CommandSink</code> could not be
      *         created.
      */
     protected void initializeCommandSink() throws Exception
     {
         try
         {
-            m_queue = (Queue) m_rootContext.get( Queue.ROLE );
+            m_sink = (Sink) m_rootContext.get( Sink.ROLE );
         }
         catch ( ContextException ce )
         {
-            // No CommandQueue specified, create a default one
-            m_queue = createCommandSink();
+            // No CommandSink specified, create a default one
+            m_sink = createCommandSink();
         }
     }
 
     /**
-     * Helper method for creating a default CommandQueue
+     * Helper method for creating a default CommandSink
      *
-     * @return a default <code>CommandQueue</code>
+     * @return a default <code>CommandSink</code>
      * @throws Exception if an error occurs
      */
     private Sink createCommandSink() throws Exception
@@ -466,7 +465,7 @@ public final class ContextManager
         final Logger tmLogger = m_loggerManager.getLoggerForCategory( "system.threadmgr" );
 
         ContainerUtil.enableLogging( tm, tmLogger );
-        ContainerUtil.parameterize( tm, buildCommandQueueConfig() );
+        ContainerUtil.parameterize( tm, buildCommandSinkConfig() );
         ContainerUtil.initialize( tm );
 
         tm.register( cm );
@@ -480,7 +479,7 @@ public final class ContextManager
      * @return ThreadManager configuration as a <code>Parameters</code>
      *         instance
      */
-    private Parameters buildCommandQueueConfig()
+    private Parameters buildCommandSinkConfig()
     {
         final Parameters p = new Parameters();
         Integer threadsPerProcessor;
@@ -533,7 +532,7 @@ public final class ContextManager
         }
         catch ( ContextException ce )
         {
-            final PoolManager pm = new DefaultPoolManager( m_queue );
+            final PoolManager pm = new DefaultPoolManager( m_sink );
             assumeOwnership( pm );
             m_poolManager = pm;
         }
@@ -696,7 +695,7 @@ public final class ContextManager
         }
 
         manager.put( LoggerManager.ROLE, m_loggerManager );
-        manager.put( Queue.ROLE, m_queue );
+        manager.put( Sink.ROLE, m_sink );
         manager.put( MetaInfoManager.ROLE, m_metaInfoManager );
         manager.put( PoolManager.ROLE, m_poolManager );
         manager.put( InstrumentManager.ROLE, m_instrumentManager );
