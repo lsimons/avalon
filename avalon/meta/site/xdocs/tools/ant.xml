@@ -50,7 +50,7 @@ The meta info generator task scans sources files for the present of an avalon.me
 <source><![CDATA[
   <target name="meta" description="Generates the XML descriptors" depends="build">
     <mkdir dir="${meta.dir}" />
-    <taskdef name="meta" classname="org.apache.avalon.meta.tools.ant.MetaTask">
+    <taskdef name="meta" classname="org.apache.avalon.meta.info.ant.MetaTask">
       <classpath refid="project.class.path" />
     </taskdef>
     <meta destDir="${meta.dir}" format="xml">
