@@ -12,9 +12,6 @@ import java.util.Map;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.context.Context;
-import org.apache.avalon.framework.context.ContextException;
-import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.log.LogTarget;
 
@@ -23,18 +20,15 @@ import org.apache.log.LogTarget;
  * from a configuration file.
  *
  * @author <a href="mailto:giacomo@apache.org">Giacomo Pati</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/04/04 02:34:14 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/05/21 10:04:18 $
  * @since 4.0
  */
 public class DefaultLogTargetManager
     extends AbstractLogEnabled
-    implements LogTargetManager, LogTargetFactoryManageable, Contextualizable, Configurable
+    implements LogTargetManager, LogTargetFactoryManageable, Configurable
 {
     /** Map for ID to LogTarget mapping */
     final private Map m_targets = new HashMap();
-
-    /** The context object */
-    private Context m_context;
 
     /** The LogTargetFactoryManager object */
     private LogTargetFactoryManager m_factoryManager;
@@ -48,20 +42,7 @@ public class DefaultLogTargetManager
      */
     public final LogTarget getLogTarget( final String id )
     {
-        final LogTarget logTarget = (LogTarget)m_targets.get( id );
-        return logTarget;
-    }
-
-    /**
-     * Reads a context object.
-     *
-     * @param context The context object.
-     * @throws ContextException if the context is malformed
-     */
-    public final void contextualize( final Context context )
-        throws ContextException
-    {
-        m_context = context;
+        return (LogTarget)m_targets.get( id );
     }
 
     /**
