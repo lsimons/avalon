@@ -199,7 +199,7 @@ public final class TPSPThreadManager implements Runnable, ThreadManager
 
             for( int i = 0; i < sources.length; i++ )
             {
-                handler.handleEvents( sources[ i ].dequeueAll() );
+                handler.handleEvent( sources[ i ].dequeue() );
             }
         }
     }
@@ -210,17 +210,38 @@ public final class TPSPThreadManager implements Runnable, ThreadManager
         private final PooledExecutor m_threadPool;
         private final int m_threshold;
         private final DequeueInterceptor m_parent;
+        private final int m_margin;
 
-        public SourceDequeueInterceptor( Source source, PooledExecutor threadPool, int threshold )
+        public SourceDequeueInterceptor( Source source, PooledExecutor threadPool, int threshold, int margin )
         {
             if (source == null) throw new NullPointerException("source");
             if (threadPool == null) throw new NullPointerException("threadPool");
+            if ( threshold < threadPool.getMinimumPoolSize())
+                throw new IllegalArgumentException("threshold must be higher than the minimum number" +
+                                                   " of threads for the pool");
+            if ( margin < 0 )
+                throw new IllegalArgumentException("margin must not be less then zero");
+            if ( threshold - margin <= threadPool.getMinimumPoolSize() )
+                throw new IllegalArgumentException( "The margin must not exceed or equal the" +
+                                                    " differnece between threshold and the thread" +
+                                                    " pool minimum size" );
 
             m_source = source;
             m_threadPool = threadPool;
             m_threshold = threshold;
-            m_parent = (source instanceof Queue) ? ((Queue)source).getDequeueInterceptor()
-                         : new NullDequeueInterceptor();
+
+            if (source instanceof Queue)
+            {
+                Queue queue = (Queue)source;
+                m_parent = queue.getDequeueInterceptor();
+                queue.setDequeueInterceptor(this);
+            }
+            else
+            {
+                m_parent = new NullDequeueInterceptor();
+            }
+
+            m_margin  = margin;
         }
 
         /**
@@ -239,7 +260,7 @@ public final class TPSPThreadManager implements Runnable, ThreadManager
          */
         public void before( Source context )
         {
-            if (m_source.size() > m_threshold) m_threadPool.createThreads(1);
+            if (m_source.size() > (m_threshold + m_margin)) m_threadPool.createThreads(1);
             m_parent.before(context);
         }
 
@@ -260,6 +281,12 @@ public final class TPSPThreadManager implements Runnable, ThreadManager
         public void after( Source context )
         {
             m_parent.after(context);
+
+            if (m_source.size() < (m_threshold - m_margin))
+            {
+                m_threadPool.setMaximumPoolSize(
+                        Math.max(m_threadPool.getMinimumPoolSize(), m_threadPool.getPoolSize() - 1));
+            }
         }
     }
 }
