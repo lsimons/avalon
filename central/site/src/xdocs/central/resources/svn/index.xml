@@ -23,6 +23,15 @@
           <li> Enables binary diffs </li> 
         </ul> 
       </p>
+      <subsection name="Avalon Repository" >
+        <p>The Avalon trunk developement can be found at;</p>
+        <source>   http://svn.apache.org/repos/asf/avalon/trunk</source>
+        <p>
+          For more information look in the 
+          <a href="starting.html">Getting started</a> and the document
+          about <a href="committing.html">committing</a>.
+        </p>
+      </subsection>
     </section> 
   </body>
 </document>

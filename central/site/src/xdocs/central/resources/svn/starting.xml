@@ -35,9 +35,7 @@
       </p>
         
       <p>To get the current development project, run the following command</p>
-      <source>
-        svn co https://svn.apache.org/repos/asf/avalon/trunk
-      </source>
+      <source>  svn co https://svn.apache.org/repos/asf/avalon/trunk  avalon</source>
         
       <subsection name="Using TortoiseSVN">
         <p>
