@@ -239,11 +239,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Handler\ConstructionInfo.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "Handler\HandlerException.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
