@@ -96,7 +96,7 @@ public class SAXConfigurationHandler
         throws SAXException
     {
         final DefaultConfiguration configuration =
-            createConfiguration( localName, getLocationString() );
+            createConfiguration( rawName, getLocationString() );
         final int size = m_elements.size() - 1;
 
         if( size > -1 )
