@@ -31,6 +31,7 @@ import org.apache.avalon.phoenix.interfaces.ConfigurationRepository;
 import org.apache.avalon.phoenix.interfaces.Deployer;
 import org.apache.avalon.phoenix.interfaces.Embeddor;
 import org.apache.avalon.phoenix.interfaces.Kernel;
+import org.apache.avalon.phoenix.interfaces.KernelMBean;
 import org.apache.avalon.phoenix.interfaces.PackageRepository;
 import org.apache.avalon.phoenix.interfaces.ExtensionManagerMBean;
 import org.apache.avalon.phoenix.interfaces.LogManager;
@@ -131,7 +132,7 @@ public class DefaultManager
 
         //TODO: SystemManager itself aswell???
         //FIXME: All this stuff should be done by embeddor and read out of a config file
-        register( "Kernel", m_kernel );
+        register( "Kernel", m_kernel, new Class[]{ KernelMBean.class } );
         register( "ExtensionManager", m_extensionManager, new Class[]{ ExtensionManagerMBean.class } );
         register( "Embeddor", m_embeddor, new Class[]{ EmbeddorMBean.class } );
         register( "Deployer", m_deployer, new Class[]{ Deployer.class } );
