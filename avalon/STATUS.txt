@@ -1,5 +1,5 @@
 APACHE AVALON PROJECT STATUS:                          -*-indented-text-*-
-Last modified at [$Date: 2002/12/02 13:04:13 $]
+Last modified at [$Date: 2002/12/03 08:19:47 $]
 
    
 Release:
@@ -14,7 +14,12 @@ Resolved Issues:
       all non-released code. It has its own site to make less confusion
       with released products.
       
-
+    o Use a unified avalon-dev mailing list (and avalon-user remains separate) 
+      +1: nicolaken, neeme, leosutic, mcconnell, bloritsch, stefano, giacomo
+      +0: crafterm, cziegeler
+      -0: leosimons 
+      -1: hammant, leif
+      
 Pending issues:
     o Coming up with a set of bylaws for the project
 
@@ -26,12 +31,6 @@ Pending issues:
     o Switch to a avalon.apache.org website and @avalon.apache.org
       mailing lists.
       
-    o Use a unified avalon-dev mailing list (and avalon-user remains separate) 
-      +1: nicolaken, neeme, leosutic, mcconnell, bloritsch, stefano, giacomo
-      +0: crafterm, cziegeler
-      -0: leosimons 
-      -1: hammant, leif, donaldp
-
     o Existing committers can start new projects without a
       detour to the Incubator by using the avalon-sandbox, and
       must meet the (TBD) goals of Apache Avalon.
