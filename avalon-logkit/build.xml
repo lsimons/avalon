@@ -59,7 +59,7 @@ Legal:
   <property name="tools.dir" value="../jakarta-avalon/tools"/>
   <property name="docs.dir" value="docs"/>
   <property name="www.dir" value="www"/>
-  <property name="avalon.skin" value="${tools.dir}/../src/skins/avalon/"/>
+  <property name="avalon.skin" value="${tools.dir}/lib/jakarta-style.jar"/>
   <property name="xdocs.dir" value="${src.dir}/xdocs"/>
   <property name="javadocs.dir" value="${docs.dir}/api"/>
 
@@ -93,11 +93,9 @@ Legal:
     <echo message=""/>
     <echo message="   jar        -> generates the ${Name} jar file"/>
     <echo message="   javadocs   -> generates the API documentation (java 1.2+ only)"/>
-<!--
     <echo message="   docs       -> generates the ${Name} Documentation"/>
     <echo message="   dist-lite  -> generates the ${Name} distribution without the javadocs (default)"/>
     <echo message="   dist       -> generates the ${Name} distribution"/>
- -->
     <echo message="   clean      -> cleans up the created directories"/>
     <echo message="   real-clean -> cleans up all genereated files and directories"/>
     <echo message=""/>
@@ -303,6 +301,14 @@ Legal:
 
     <copy file="${build.lib}/${name}.jar" tofile="${dist.dir}/${name}-${version}.jar"/>
 
+    <copy todir="${dist.dir}">
+      <fileset dir=".">
+        <include name="README"/>
+        <include name="KEYS"/>
+        <include name="LICENSE"/>
+      </fileset>
+    </copy>
+
     <chmod dir="${dist.dir}" perm="go-rwx" />
 
   </target>
@@ -336,6 +342,9 @@ Legal:
 
     <copy todir="${src.dist.dir}">
       <fileset dir=".">
+        <include name="README"/>
+        <include name="KEYS"/>
+        <include name="LICENSE"/>
         <include name="build.bat"/>
         <include name="build.sh"/>
         <include name="build.xml"/>
