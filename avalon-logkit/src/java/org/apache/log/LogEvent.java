@@ -62,7 +62,7 @@ import java.io.Serializable;
  * LogEvents usually originate at a Logger and are routed
  * to LogTargets.
  *
- * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public final class LogEvent

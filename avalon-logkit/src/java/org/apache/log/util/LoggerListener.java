@@ -54,23 +54,44 @@
  */
 package org.apache.log.util;
 
+
+
 import org.apache.log.Logger;
 
+
+
 /**
+
  * The LoggerListener class is used to notify listeners
+
  * when a new Logger object is created. Loggers are created
+
  * when a client requests a new Logger via {@link Logger#getChildLogger}.
+
  *
- * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
+
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+
  */
+
 public abstract class LoggerListener
+
 {
+
     /**
+
      * Notify listener that Logger was created.
+
      *
+
      * @param category the error message
+
      * @param logger the logger that was created
+
      */
+
     public abstract void loggerCreated( String category, Logger logger );
+
 }
+

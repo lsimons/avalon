@@ -62,7 +62,7 @@ import org.apache.log.format.Formatter;
  * Any new output target that is writing to a single connected
  * resource should extend this class directly or indirectly.
  *
- * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public abstract class AbstractOutputTarget

@@ -70,9 +70,9 @@ import org.apache.log.util.StackIntrospector;
  * AsyncLogTarget). They then attempt to determine appropriate
  * information dynamically.
  *
- * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.9 $ $Date: 2003/02/05 06:13:17 $
+ * @version CVS $Revision: 1.10 $ $Date: 2003/02/07 15:25:59 $
  */
 public class ExtendedPatternFormatter
     extends PatternFormatter

@@ -60,10 +60,10 @@ import java.io.StringWriter;
 /**
  * A set of utilities to inspect current stack frame.
  *
- * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
  * @author <a href="mailto:stuart.roebuck@adolos.com">Stuart Roebuck</a>
- * @version CVS $Revision: 1.11 $ $Date: 2003/02/05 08:29:07 $
+ * @version CVS $Revision: 1.12 $ $Date: 2003/02/07 15:26:01 $
  */
 public final class StackIntrospector
 {

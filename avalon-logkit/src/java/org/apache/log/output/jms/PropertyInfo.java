@@ -57,7 +57,7 @@ package org.apache.log.output.jms;
 /**
  * A descriptor for each message property.
  *
- * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @author <a href="mailto:mirceatoma@home.com">Mircea Toma</a>
  */
 public class PropertyInfo

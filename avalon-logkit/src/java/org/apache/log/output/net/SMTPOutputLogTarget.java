@@ -67,9 +67,9 @@ import org.apache.log.output.AbstractOutputTarget;
 /**
  * Logkit output target that logs data via SMTP (ie. email, email gateways).
  *
- * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: SMTPOutputLogTarget.java,v 1.4 2003/02/05 06:26:52 mcconnell Exp $
+ * @version CVS $Id: SMTPOutputLogTarget.java,v 1.5 2003/02/07 15:26:01 leosimons Exp $
  * @since 1.1.0
  */
 public class SMTPOutputLogTarget extends AbstractOutputTarget
