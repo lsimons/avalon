@@ -82,7 +82,7 @@ import org.apache.log.Logger;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/04/04 05:09:02 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/04/10 05:37:02 $
  * @since 4.0
  */
 public class PoolableComponentHandler extends ComponentHandler
@@ -222,5 +222,15 @@ public class PoolableComponentHandler extends ComponentHandler
         }
 
         m_disposed = true;
+    }
+    
+    /**
+     * Gives subclasses access to the pool.
+     *
+     * @return The internal pool
+     */
+    protected ResourceLimitingPool getPool()
+    {
+        return m_pool;
     }
 }
