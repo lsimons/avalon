@@ -18,6 +18,7 @@
     <target name="build-subprojects-dist">
 
         <ant dir="collections"/>
+        <ant dir="concurrent"/>
         <ant dir="instrument"/>
         <ant dir="all"/>                <!-- depends on instrument -->
         <ant dir="instrument-manager"/> <!-- depends on instrument, all -->
@@ -39,6 +40,10 @@
         <path id="java.src">
             <pathelement location="instrument/src/java"/>
             <pathelement location="instrument/src/test"/>
+            <pathelement location="concurrent/src/java"/>
+            <pathelement location="concurrent/src/test"/>
+            <pathelement location="collections/src/java"/>
+            <pathelement location="collections/src/test"/>
             <pathelement location="all/src/java"/>
             <pathelement location="all/src/scratchpad"/>
             <pathelement location="all/src/test"/>
@@ -112,6 +117,8 @@
     <!-- Generate one mega jar-ball -->
     <target name="mega-jar" description="Generate one large jar for all the products">
         <ant dir="instrument" target="jar"/>
+        <ant dir="concurrent" target="jar"/>
+        <ant dir="collections" target="jar"/>
         <ant dir="all" target="all"/>                <!-- depends on instrument -->
         <ant dir="instrument-manager" target="jar"/> <!-- depends on instrument, all -->
         <!--ant dir="instrument-client" target="jar"/-->  <!-- depends on instrument-manager -->
@@ -139,6 +146,8 @@
         <delete dir="${build.dir}" />
 
         <ant dir="instrument" target="real-clean"/>
+        <ant dir="concurrent" target="real-clean"/>
+        <ant dir="collections" target="real-clean"/>
         <ant dir="all" target="distclean"/>
         <ant dir="instrument-manager" target="real-clean"/>
         <ant dir="instrument-client" target="real-clean"/>
