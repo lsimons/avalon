@@ -26,6 +26,7 @@ import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.ServiceSelector;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.framework.thread.ThreadSafe;
+import org.apache.avalon.framework.component.WrapperComponentManager;
 import org.apache.excalibur.source.Recyclable;
 import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceException;
@@ -54,7 +55,7 @@ import org.apache.excalibur.source.SourceResolver;
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: SourceResolverImpl.java,v 1.12 2002/11/07 05:00:17 donaldp Exp $
+ * @version $Id: SourceResolverImpl.java,v 1.13 2002/11/07 09:09:46 donaldp Exp $
  */
 public class SourceResolverImpl
     extends AbstractLogEnabled

@@ -19,18 +19,15 @@ import org.apache.excalibur.source.SourceValidity;
  * Abstract base class for a source implementation.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/07/06 03:55:06 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/11/07 09:09:46 $
  */
 
 public abstract class AbstractSource
     implements Source
 {
     protected boolean gotInfos;
-
     protected long lastModificationDate;
-
     protected long contentLength;
-
     protected String systemId;
 
     /**
