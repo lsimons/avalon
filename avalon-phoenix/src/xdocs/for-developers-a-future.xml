@@ -8,16 +8,25 @@
   <body>
     <section name="Introduction">
       <p>
-        A long term aim of Phoenix is to provide a platform that hosts multiple third party applications written only in Java within a single virtual machine.  The Phoenix platform is currently hosted on an Operating System such as Unix, Windows or Mac.  It could function directly on top of a Java Operating System.  A CPU combined with a suitable amount of memory, a basic BIOS, a Kernal, a suitable JVM and runtime library, could mount Phoenix and hosted server applications.
+        A long term aim of Phoenix is to provide a platform that hosts multiple
+        third party applications written only in Java within a single virtual 
+        machine.  The Phoenix platform is currently hosted on an Operating System
+        such as Unix, Windows or Mac.  It could function directly on top of a
+        Java Operating System.  A CPU combined with a suitable amount of memory, 
+        a basic BIOS, a Kernal, a suitable JVM and runtime library, could mount
+        Phoenix and hosted server applications.
       </p>
     </section>
     <section name="One step further">
       <p>
-        Imagine Sun making such a box under their own name or as Cobalt, using low power chips from their own stable or perhaps a StrongARM. That machine could be rack mounted like their current X1:
+        Imagine Sun making such a box under their own name or as Cobalt, using low power chips from their
+        own stable or perhaps a StrongARM. That machine could be rack mounted like their current X1:
       </p>
       <figure>
         <title>Sun X1</title>
-        <graphic srccredit="&#169; Sun Microsystems" fileref="http://www.sun.com/products-n-solutions/hw/networking/images/prodsplash/x1.jpg" format="JPEG"/>
+        <graphic srccredit="&#169; Sun Microsystems" 
+        fileref="http://www.sun.com/products-n-solutions/hw/networking/images/prodsplash/x1.jpg" 
+        format="JPEG"/>
       </figure>
       <p>
         If that rackable server had 32 such CPUs, each with 128Mb of memory all

@@ -21,7 +21,7 @@
 	</ul>
 </section>
 
-<section name="Flexible environment">
+<section name="Flexible Environment">
 	<p>Phoenix has native support for use in the following environments:</p>
 	<ul>
 		<li>command-line stand-alone program</li>
@@ -30,12 +30,12 @@
 	</ul>
 </section>
 
-<section name="Integrated management">
+<section name="Integrated Management">
 	<p>Phoenix enables JMX management of your software:</p>
 	<ul>
-		<li>All aspects of phoenix itself are manageable, including
+		<li>All aspects of Phoenix itself are manageable, including
 		startup/shutdown, deployment, management and logging.</li>
-		<li>Applications running in phoenix are manageable, exposing
+		<li>Applications running in Phoenix are manageable, exposing
 		their lifecycle (configuration, startup/shutdown, etc) and
 		everything else you mark as manageable.</li>
 	</ul>
@@ -47,7 +47,7 @@
 	isolated from each other.</p>
 
 	<p>Phoenix provides simple XML configuration files that allow you to
-	rapidly assemble a customised server applications from readily available
+	rapidly assemble a customised server application from readily available
 	components (called blocks).</p>
 
 	<p>Phoenix provides the following services to hosted applications:</p>
