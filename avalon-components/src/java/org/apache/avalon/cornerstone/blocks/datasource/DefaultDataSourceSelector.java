@@ -53,6 +53,9 @@ public class DefaultDataSourceSelector
     private Configuration m_configuration;
     private Map m_dataSources;
 
+    /**
+     * @phoenix:configuration-schema type="relax-ng"
+     */
     public void configure( final Configuration configuration )
     {
         m_configuration = configuration;
