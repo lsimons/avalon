@@ -65,7 +65,7 @@ public class Parameters
      * <p />
      * If the specified parameter cannot be found, <b>null</b> is returned.
      */
-    protected String getParameter( final String name )
+    private String getParameter( final String name )
     {
         if( null == name )
         {
