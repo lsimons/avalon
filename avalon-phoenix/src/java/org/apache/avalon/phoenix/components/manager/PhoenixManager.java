@@ -121,7 +121,7 @@ public class PhoenixManager
         }
         catch( final Exception e )
         {
-            final String message = REZ.format( "jmxmanager.error.export.fail", name );
+            final String message = REZ.getString( "jmxmanager.error.export.fail", name );
             getLogger().error( message, e );
             throw new ManagerException( message, e );
         }
@@ -144,7 +144,7 @@ public class PhoenixManager
         }
         catch( final Exception e )
         {
-            final String message = REZ.format( "jmxmanager.error.unexport.fail", name );
+            final String message = REZ.getString( "jmxmanager.error.unexport.fail", name );
             getLogger().error( message, e );
             throw new ManagerException( message, e );
         }
@@ -182,7 +182,7 @@ public class PhoenixManager
         }
         catch( final Exception e )
         {
-            final String message = REZ.format( "jmxmanager.error.mbeanserver.create", className );
+            final String message = REZ.getString( "jmxmanager.error.mbeanserver.create", className );
             throw new ParameterException( message, e );
         }
     }

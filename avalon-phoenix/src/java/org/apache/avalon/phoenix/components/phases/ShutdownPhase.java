@@ -56,7 +56,7 @@ public class ShutdownPhase
 
         if( getLogger().isInfoEnabled() )
         {
-            final String message = REZ.format( "shutdown.notice.processing.name", name );
+            final String message = REZ.getString( "shutdown.notice.processing.name", name );
             getLogger().info( message );
         }
         
@@ -64,7 +64,7 @@ public class ShutdownPhase
         if( getLogger().isDebugEnabled() )
         {
             final String message = 
-                REZ.format( "shutdown.notice.processing.classloader", m_frame.getClassLoader() );
+                REZ.getString( "shutdown.notice.processing.classloader", m_frame.getClassLoader() );
             getLogger().debug( message );
         }
 
@@ -87,7 +87,7 @@ public class ShutdownPhase
             }
             catch( final Exception e )
             {
-                final String message = REZ.format( "shutdown.error.stop.fail", name );
+                final String message = REZ.getString( "shutdown.error.stop.fail", name );
                 getLogger().warn( message, e );
             }
         }
@@ -104,7 +104,7 @@ public class ShutdownPhase
             }
             catch( final Throwable t )
             {
-                final String message = REZ.format( "shutdown.error.dispose.fail", name );
+                final String message = REZ.getString( "shutdown.error.dispose.fail", name );
                 getLogger().warn( message, t );
             }
         }
@@ -122,11 +122,11 @@ public class ShutdownPhase
         }
         catch( final Throwable t )
         {
-            final String message = REZ.format( "shutdown.error.container.failremove", name );
+            final String message = REZ.getString( "shutdown.error.container.failremove", name );
             getLogger().warn( message, t );
         }
 
-        final String message = REZ.format( "shutdown.error.phase.completed", name );
+        final String message = REZ.getString( "shutdown.error.phase.completed", name );
         getLogger().info( message );
     }
 }

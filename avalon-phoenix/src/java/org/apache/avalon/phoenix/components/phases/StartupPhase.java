@@ -104,7 +104,7 @@ public class StartupPhase
 
         if( getLogger().isInfoEnabled() )
         {
-            final String message = REZ.format( "startup.notice.processing.name", name );
+            final String message = REZ.getString( "startup.notice.processing.name", name );
             getLogger().info( message );
         }
         
@@ -112,7 +112,7 @@ public class StartupPhase
         if( getLogger().isDebugEnabled() )
         {
             final String message = 
-                REZ.format( "startup.notice.processing.classloader", m_frame.getClassLoader() );
+                REZ.getString( "startup.notice.processing.classloader", m_frame.getClassLoader() );
             getLogger().debug( message );
         }
 
@@ -186,7 +186,7 @@ public class StartupPhase
         }
         catch( final Exception e )
         {
-            final String message = REZ.format( "startup.error.load.fail", name );
+            final String message = REZ.getString( "startup.error.load.fail", name );
             throw new CascadingException( message, e );
         }
     }
@@ -224,7 +224,7 @@ public class StartupPhase
             if( false == BlockUtil.implementsService( block, services[ i ] ) )
             {
                 final String message = 
-                    REZ.format( "startup.error.block.noimplement", name, services[ i ] );
+                    REZ.getString( "startup.error.block.noimplement", name, services[ i ] );
                 getLogger().warn( message );
                 throw new Exception( message );
             }
@@ -263,9 +263,9 @@ public class StartupPhase
                 if( !BlockUtil.hasMatchingService( services, serviceDescriptor ) )
                 {
                     final String message = 
-                        REZ.format( "startup.error.dependency.noservice", 
-                                    dependencyName, 
-                                    serviceDescriptor );
+                        REZ.getString( "startup.error.dependency.noservice", 
+                                       dependencyName, 
+                                       serviceDescriptor );
 
                     throw new ComponentException( message );
                 }

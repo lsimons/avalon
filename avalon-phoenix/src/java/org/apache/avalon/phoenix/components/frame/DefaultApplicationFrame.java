@@ -176,7 +176,7 @@ public class DefaultApplicationFrame
 
         if( null == threadPool )
         {
-            final String message = REZ.format( "frame.error.thread.missing", name );
+            final String message = REZ.getString( "frame.error.thread.missing", name );
             throw new IllegalArgumentException( message );
         }
 
@@ -240,7 +240,7 @@ public class DefaultApplicationFrame
             }
             catch( final Exception e )
             {
-                final String message = REZ.format( "frame.error.thread.create", name );
+                final String message = REZ.getString( "frame.error.thread.create", name );
                 throw new ConfigurationException( message, e );
             }
         }
@@ -282,14 +282,13 @@ public class DefaultApplicationFrame
             //Setup logtarget
             FileTarget logTarget = null;
             
-
             try
             {
                 logTarget = new FileTarget( file.getAbsoluteFile(), false, formatter );
             }
             catch( final IOException ioe )
             {
-                final String message = REZ.format( "frame.error.log.create", file );
+                final String message = REZ.getString( "frame.error.log.create", file );
                 throw new ConfigurationException( message, ioe );
             }
 
@@ -321,14 +320,14 @@ public class DefaultApplicationFrame
             final LogTarget logTarget = (LogTarget)targets.get( target );
             if( null == target )
             {
-                final String message = REZ.format( "frame.error.target.locate", target );
+                final String message = REZ.getString( "frame.error.target.locate", target );
                 throw new ConfigurationException( message );
             }
 
             final Priority priority = Priority.getPriorityForName( priorityName );
             if( !priority.getName().equals( priorityName ) )
             {
-                final String message = REZ.format( "frame.error.priority.unknown", priorityName );
+                final String message = REZ.getString( "frame.error.priority.unknown", priorityName );
                 throw new ConfigurationException( message );
             }
 

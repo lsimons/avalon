@@ -128,7 +128,7 @@ public class DefaultPolicy
             }
             catch( final Exception e )
             {
-                final String message = REZ.format( "policy.error.keystore.config", name );
+                final String message = REZ.getString( "policy.error.keystore.config", name );
                 throw new ConfigurationException( message, e );
             }
         }
@@ -169,7 +169,7 @@ public class DefaultPolicy
         try { permissions = createPermissionSetFor( codeBase, signers ); }
         catch( final MalformedURLException mue )
         {
-            final String message = REZ.format( "policy.error.codebase.malformed", codeBase );
+            final String message = REZ.getString( "policy.error.codebase.malformed", codeBase );
             throw new ConfigurationException( message, mue );
         }
 
@@ -222,7 +222,7 @@ public class DefaultPolicy
         }
         catch( final Exception e )
         {
-            final String message = REZ.format( "policy.error.property.resolve", value );
+            final String message = REZ.getString( "policy.error.property.resolve", value );
             throw new ConfigurationException( message, e );
         }
     }
@@ -277,7 +277,7 @@ public class DefaultPolicy
         }
         catch( final Exception e )
         {
-            final String message = REZ.format( "policy.error.permission.create", type );
+            final String message = REZ.getString( "policy.error.permission.create", type );
             throw new ConfigurationException( message, e );
         }
     }
@@ -319,7 +319,7 @@ public class DefaultPolicy
 
         if( null == keyStore )
         {
-            final String message = REZ.format( "policy.error.keystore.aquire", keyStoreName );
+            final String message = REZ.getString( "policy.error.keystore.aquire", keyStoreName );
             throw new ConfigurationException( message );
         }
 
@@ -335,13 +335,13 @@ public class DefaultPolicy
             try { certificate = keyStore.getCertificate( alias ); }
             catch( final KeyStoreException kse )
             {
-                final String message = REZ.format( "policy.error.certificate.aquire", alias );
+                final String message = REZ.getString( "policy.error.certificate.aquire", alias );
                 throw new ConfigurationException( message, kse );
             }
 
             if( null == certificate )
             {
-                final String message = REZ.format( "policy.error.alias.missing", alias, keyStoreName );
+                final String message = REZ.getString( "policy.error.alias.missing", alias, keyStoreName );
                 throw new ConfigurationException( message );
             }
 

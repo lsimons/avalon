@@ -99,7 +99,7 @@ public class DefaultSarDeployer
         throws DeploymentException
     {
         final File file = getFileFor( url );
-        final String message = REZ.format( "deploy.notice.deploying", file, name );
+        final String message = REZ.getString( "deploy.notice.deploying", file, name );
         getLogger().info( message );
 
         if( file.isDirectory() )
@@ -138,7 +138,7 @@ public class DefaultSarDeployer
 
         if( !file.exists() )
         {
-            final String message = REZ.format( "deploy.error.deploy.nofile", file );
+            final String message = REZ.getString( "deploy.error.deploy.nofile", file );
             throw new DeploymentException( message );
         }
 
@@ -157,7 +157,7 @@ public class DefaultSarDeployer
     {
         try
         {
-            final String message = REZ.format( "deploy.notice.expanding", file, destination );
+            final String message = REZ.getString( "deploy.notice.expanding", file, destination );
             getLogger().info( message );
 
             final InvertedFileFilter filter =
@@ -166,11 +166,11 @@ public class DefaultSarDeployer
         }
         catch( final IOException ioe )
         {
-            final String message = REZ.format( "deploy.error.expanding", file, destination );
+            final String message = REZ.getString( "deploy.error.expanding", file, destination );
             throw new DeploymentException( message, ioe );
         }
 
-        final String message = REZ.format( "deploy.notice.expanded", file, destination );
+        final String message = REZ.getString( "deploy.notice.expanded", file, destination );
         getLogger().info( message );
     }
 
@@ -289,11 +289,11 @@ public class DefaultSarDeployer
         }
         catch( final ContainerException ce )
         {
-            final String message = REZ.format( "deploy.error.sar.add", name );
+            final String message = REZ.getString( "deploy.error.sar.add", name );
             throw new DeploymentException( message, ce );
         }
 
-        final String message = REZ.format( "deploy.notice.sar.add", name );
+        final String message = REZ.getString( "deploy.notice.sar.add", name );
         getLogger().debug( message );
     }
 
@@ -313,7 +313,7 @@ public class DefaultSarDeployer
         }
         catch( final Exception e )
         {
-            final String message = REZ.format( "deploy.error.config.create", file );
+            final String message = REZ.getString( "deploy.error.config.create", file );
             throw new DeploymentException( message, e );
         }
     }
@@ -346,7 +346,7 @@ public class DefaultSarDeployer
                 final BlockEntry entry = new BlockEntry( name, roles, locator );
                 blockEntrys.add( entry );
 
-                final String message = REZ.format( "deploy.notice.block.add", name );
+                final String message = REZ.getString( "deploy.notice.block.add", name );
                 getLogger().debug( message );
             }
             catch( final ConfigurationException ce )
@@ -407,7 +407,7 @@ public class DefaultSarDeployer
                 throw new DeploymentException( ce.getMessage(), ce );
             }
 
-            final String message = REZ.format( "deploy.notice.block.config", name );
+            final String message = REZ.getString( "deploy.notice.block.config", name );
             getLogger().debug( message );
         }
     }
@@ -432,7 +432,7 @@ public class DefaultSarDeployer
             }
         }
 
-        final String message = REZ.format( "deploy.notice.block.missing", name );
+        final String message = REZ.getString( "deploy.notice.block.missing", name );
         throw new DeploymentException( message );
     }
 }

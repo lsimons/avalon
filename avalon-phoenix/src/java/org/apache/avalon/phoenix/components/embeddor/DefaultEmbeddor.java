@@ -350,7 +350,7 @@ public class DefaultEmbeddor
         }
         catch( final Exception e )
         {
-            final String message = REZ.format( "embeddor.error.create.repository", className );
+            final String message = REZ.getString( "embeddor.error.create.repository", className );
             getLogger().warn( message, e );
             throw new ConfigurationException( message, e );
         }
@@ -373,7 +373,7 @@ public class DefaultEmbeddor
         }
         catch( final Exception e )
         {
-            final String message = REZ.format( "embeddor.error.create.deployer", className );
+            final String message = REZ.getString( "embeddor.error.create.deployer", className );
             getLogger().warn( message, e );
             throw new ConfigurationException( message, e );
         }
@@ -459,7 +459,7 @@ public class DefaultEmbeddor
         }
         catch( final Exception e )
         {
-            final String message = REZ.format( "embeddor.error.create.manager", className );
+            final String message = REZ.getString( "embeddor.error.create.manager", className );
             getLogger().warn( message, e );
             throw new ConfigurationException( message, e );
         }
@@ -507,7 +507,7 @@ public class DefaultEmbeddor
         }
         catch( final Exception e )
         {
-            final String message = REZ.format( "embeddor.error.create.kernel", className );
+            final String message = REZ.getString( "embeddor.error.create.kernel", className );
             getLogger().warn( message, e );
             throw new ConfigurationException( message, e );
         }

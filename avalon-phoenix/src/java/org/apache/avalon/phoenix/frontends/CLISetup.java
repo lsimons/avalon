@@ -104,7 +104,7 @@ class CLISetup
 
         if( null != parser.getErrorString() )
         {
-            final String message = REZ.format( "cli.error.parser", parser.getErrorString() );
+            final String message = REZ.getString( "cli.error.parser", parser.getErrorString() );
             System.err.println( message );
             return false;
         }
@@ -121,7 +121,7 @@ class CLISetup
             case 0:
                 {
                     final String message =
-                        REZ.format( "cli.error.unknown.arg", option.getArgument() );
+                        REZ.getString( "cli.error.unknown.arg", option.getArgument() );
                     System.err.println( message );
                 }
                 return false;

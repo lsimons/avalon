@@ -52,7 +52,7 @@ public class DefaultConfigurationRepository
 
         if( null == configuration )
         {
-            final String message = REZ.format( "config.error.noconfig", block, application );
+            final String message = REZ.getString( "config.error.noconfig", block, application );
             throw new ConfigurationException( message );
         }
 
