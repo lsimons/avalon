@@ -33,6 +33,8 @@
       <map:serializer logger="sitemap.serializer.html" mime-type="text/html" name="html" pool-grow="4" pool-max="32" pool-min="4" src="org.apache.cocoon.serialization.HTMLSerializer">
          <buffer-size>1024</buffer-size>
          <doctype-public>-//W3C//DTD HTML 4.01 Transitional//EN</doctype-public>
+         <doctype-system>http://www.w3.org/TR/html4/loose.dtd</doctype-system> 
+         <indent>no</indent>        
          <encoding>ISO-8859-1</encoding>
       </map:serializer>
       <map:serializer mime-type="application/pdf" name="pdf" src="org.apache.cocoon.serialization.FOPSerializer"/>     
