@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE changes SYSTEM "dtd/changes-v10.dtd">
+
+<changes title="Developing with Avalon History of Changes">
+  <devs>
+    <person name="Berin Loritsch" email="bloritsch@apache.org" id="BL"/>
+  </devs>
+  <release version="1.0" date="">
+    <action dev="BL" type="add">
+      Add initial port of documentation from MS Word to XML
+    </action>
+  </release>
+</changes>
