@@ -174,9 +174,10 @@
 
     <unitTest>
       <includes>
-        <include>**/*TestCase*</include>
+        <include>**/*TestCase.*</include>
       </includes>
       <excludes>
+        <include>**/Abstract*.*</include>
       </excludes>
       <resources>
         <resource>
