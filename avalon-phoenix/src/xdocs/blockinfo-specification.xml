@@ -106,7 +106,7 @@
         <p>The services section documents the services that this block requires to operate.
         Required services are placed in the Blocks ComponentManager under the name
         specified by the <code>role</code> element of service. As is documented in the 
-        <link href="@AVALON_BASE@/framework/components.html">components</link> section, the 
+        <link href="@FRAMEWORK_BASE@/components.html">components</link> section, the 
         concept of Role is more than just a behavioural contract. A <code>Service</code> is 
         a behavioural contract and thus the necessity to support the role element. In most 
         cases however the role element and the name attribute of the service will be 
@@ -117,7 +117,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.2 $ $Date: 2001/03/01 14:07:05 $
+      $Revision: 1.3 $ $Date: 2001/03/01 15:05:02 $
     </legal>
   </footer>
 </document>
