@@ -78,14 +78,10 @@ public class LifecycleHelper
         int stage = 0;
         try
         {
-            entry.setState( State.CREATING );
             //Creation stage
             stage = STAGE_CREATE;
             notice( name, stage );
             final Object object = accessor.createObject( entry );
-            entry.setState( State.CREATED );
-
-            entry.setState( State.STARTING );
 
             //LogEnabled stage
             stage = STAGE_LOGGER;
@@ -158,12 +154,10 @@ public class LifecycleHelper
                 ContainerUtil.start( object );
             }
 
-            entry.setState( State.STARTED );
             return object;
         }
         catch( final Throwable t )
         {
-            entry.setState( State.FAILED );
             fail( name, stage, t );
 
             //fail() throws an exception so next
@@ -193,13 +187,10 @@ public class LifecycleHelper
             notice( name, STAGE_STOP );
             try
             {
-                entry.setState( State.STOPPING );
                 ContainerUtil.stop( object );
-                entry.setState( State.STOPPED );
             }
             catch( final Throwable t )
             {
-                entry.setState( State.FAILED );
                 safeFail( name, STAGE_STOP, t );
             }
         }
@@ -210,18 +201,15 @@ public class LifecycleHelper
             notice( name, STAGE_DISPOSE );
             try
             {
-                entry.setState( State.DESTROYING );
                 ContainerUtil.dispose( object );
             }
             catch( final Throwable t )
             {
-                entry.setState( State.FAILED );
                 safeFail( name, STAGE_DISPOSE, t );
             }
         }
 
         notice( name, STAGE_DESTROY );
-        entry.setState( State.DESTROYED );
     }
 
     /**

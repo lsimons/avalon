@@ -148,13 +148,25 @@ class AppLifecycleHelper
     public void startup( final BlockEntry entry )
         throws Exception
     {
-        final Object block =
-            m_lifecycleHelper.startup( entry, m_blockAccessor );
+        State state = State.FAILED;
+        try
+        {
+            entry.setState( State.STARTING );
 
-        m_exportHelper.exportBlock( m_context, entry.getMetaData(), block );
+            final Object block =
+                m_lifecycleHelper.startup( entry, m_blockAccessor );
 
-        entry.setObject( block );
-        m_listenerSupport.fireBlockAddedEvent( entry );
+            m_exportHelper.exportBlock( m_context, entry.getMetaData(), block );
+
+            state = State.STARTED;
+            entry.setObject( block );
+
+            m_listenerSupport.fireBlockAddedEvent( entry );
+        }
+        finally
+        {
+            entry.setState( state );
+        }
     }
 
     /**
@@ -168,6 +180,7 @@ class AppLifecycleHelper
      */
     public void shutdown( final BlockEntry entry )
     {
+        entry.setState( State.DESTROYING );
         m_listenerSupport.fireBlockRemovedEvent( entry );
 
         //Remove block from Management system
