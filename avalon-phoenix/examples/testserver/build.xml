@@ -33,14 +33,10 @@
     <path id="project.class.path">
         <pathelement path="${java.class.path}"/>
         <pathelement path="${target.classes}"/>
-        <fileset dir="../../dist/lib">
-            <include name="**/*.jar"/>
-        </fileset>
-        <fileset dir="../../dist/tools/lib">
-            <include name="**/*.jar"/>
-        </fileset>
-        <fileset dir="../common/lib">
-            <include name="**/*.jar"/>
+        <fileset dir="../../">
+            <include name="dist/lib/**/*.jar"/>
+            <include name="dist/tools/lib/**/*.jar"/>
+            <include name="examples/common/lib/**/*.jar"/>
         </fileset>
     </path>
 
