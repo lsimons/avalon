@@ -77,6 +77,7 @@ public class JavacTask extends SystemTask
             compile( main, classes, classpath );
 
             final Copy copy = (Copy) getProject().createTask( "copy" );
+            copy.setTaskName( getTaskName() );
             copy.setPreserveLastModified( true );
             copy.setTodir( classes );
 
