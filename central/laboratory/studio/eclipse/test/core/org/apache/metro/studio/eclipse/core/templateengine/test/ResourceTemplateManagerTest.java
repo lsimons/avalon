@@ -18,9 +18,6 @@
 package org.apache.metro.studio.eclipse.core.templateengine.test;
 
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
 
 import junit.framework.TestCase;
 
@@ -32,9 +29,6 @@ import org.apache.metro.studio.eclipse.core.templateengine.Resource;
 import org.apache.metro.studio.eclipse.core.templateengine.ResourceTemplate;
 import org.apache.metro.studio.eclipse.core.templateengine.ResourceTemplateManager;
 import org.eclipse.core.resources.IProject;
-
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.xml.DomDriver;
 
 /**
  * @author <a href="mailto:dev@avalon.apache.org">Metro Development Team </a>
@@ -59,15 +53,13 @@ public class ResourceTemplateManagerTest extends TestCase
 
     public final void testCreateResourceTemplate()
     {
-        XStream xstream = new XStream(new DomDriver());
-        ResourceTemplateManager.initXStream(xstream);
+        ResourceTemplateManager.initXStream();
         ResourceTemplateManager rm = new ResourceTemplateManager();
 
         // import DirectoryTemplates, which are created in
         // DirectoryTemplatemanagerTest
         DirectoryTemplateManager dm = DirectoryTemplateManager
                 .load(directoryLocation);
-        dm.addXStreamAliases(xstream);
         rm.importDirectoryTemplates(dm);
 
         rm.addResourceTemplate(createHelloWorldResources());
@@ -81,15 +73,9 @@ public class ResourceTemplateManagerTest extends TestCase
         rm.addResourceTemplate(createPlusContextResources());
         rm.addResourceTemplate(createStrategyContextResources());
         */
-        try
-        {
-            Writer out = new FileWriter(resourcesLocation);
-            xstream.toXML(rm, out);
-        } catch (IOException e)
-        {
-            fail("unable to write config file");
-        }
 
+        rm.store(resourcesLocation);
+        
         rm = ResourceTemplateManager.load(resourcesLocation);
 
         assertNotNull("Could not reload xml file", rm);
