@@ -491,11 +491,11 @@ public class Parameters
     {
         checkWriteable();
 
-        final Iterator names = other.getParameterNames();
+        final String[] names = other.getNames();
 
-        while( names.hasNext() )
-        {
-            final String name = (String)names.next();
+        for( int i = 0; i < names.length; i++ )
+		{
+            final String name = names[i];
             String value = null;
             try
             {
