@@ -199,8 +199,7 @@ public class DefaultEmbeddor
     }
 
     /**
-     * Shut down the Embeddor together with the
-     * Logger, Deployer, Manager and Kernel.
+     * Request the Embeddor shutsdown.
      */
     public void shutdown()
     {
