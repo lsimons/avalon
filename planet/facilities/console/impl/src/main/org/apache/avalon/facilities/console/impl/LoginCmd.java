@@ -19,6 +19,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
+import org.apache.avalon.facilities.console.LoginException;
 import org.apache.avalon.facilities.console.CommandInterpreter;
 import org.apache.avalon.facilities.console.Console;
 import org.apache.avalon.facilities.console.ConsoleCommand;

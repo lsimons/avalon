@@ -13,11 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.avalon.facilities.console.impl;
+package org.apache.avalon.facilities.console;
 
 
-public class LoginException extends Exception
+public class CommandException extends Exception
 {
-    
+    public CommandException( String message )
+    {
+        super( message );
+    }
 }
 

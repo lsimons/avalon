@@ -29,6 +29,7 @@ import java.util.StringTokenizer;
 
 import org.apache.avalon.composition.model.ContainmentModel;
 
+import org.apache.avalon.facilities.console.LoginException;
 import org.apache.avalon.facilities.console.CommandInterpreter;
 import org.apache.avalon.facilities.console.Console;
 import org.apache.avalon.facilities.console.ConsoleCommand;

@@ -546,6 +546,7 @@
       <include key="avalon-framework-api"/>
       <include key="avalon-console-api"/>
       <include key="avalon-composition-api"/>
+      <include key="avalon-repository-api"/>
     </dependencies>
     <plugins>
       <include key="avalon-meta-tools"/>

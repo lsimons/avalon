@@ -94,7 +94,7 @@ public class ListCmd
         ContainmentModel current = intp.getCurrentContainer();
         String path;
         if( arguments.length == 0 )
-            path = current.getPath();
+            path = current.getQualifiedName();
         else
             path = arguments[0];
             
