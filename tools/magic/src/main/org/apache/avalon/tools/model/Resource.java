@@ -107,6 +107,10 @@ public class Resource
         }
     }
 
+   /**
+    * Returns a path of artifact filenames relative to the supplied scope.
+    * The mode may be one of ANY, BUILD, TEST or RUNTIME.
+    */
     public Path getPath( final Project project, final int mode )
     {
         if( null == project )

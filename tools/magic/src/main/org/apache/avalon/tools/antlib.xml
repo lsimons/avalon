@@ -19,5 +19,8 @@
   <taskdef name="bar" classname="org.apache.avalon.tools.tasks.BarTask"/> 
   <taskdef name="javadoc" classname="org.apache.avalon.tools.tasks.JavadocTask"/> 
   <taskdef name="publish" classname="org.apache.avalon.tools.tasks.PublishTask"/> 
+  <taskdef name="property" classname="org.apache.avalon.tools.tasks.PropertyTask"/> 
+  <taskdef name="replicate" classname="org.apache.avalon.tools.tasks.ReplicateTask"/> 
+  <typedef name="path" classname="org.apache.avalon.tools.model.MagicPath"/> 
 
 </antlib>

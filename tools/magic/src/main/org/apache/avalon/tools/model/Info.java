@@ -135,6 +135,19 @@ public class Info
         } 
     }
 
+    public String getFilename()
+    {
+        final StringBuffer buffer = new StringBuffer( getName() );
+        if( null != getVersion() )
+        {
+            buffer.append( "-" );
+            buffer.append( getVersion() );
+        }
+        buffer.append( "." );
+        buffer.append( getType() );
+        return buffer.toString();
+    }
+
     public String getPath()
     {
         final StringBuffer buffer = new StringBuffer( getGroup() );

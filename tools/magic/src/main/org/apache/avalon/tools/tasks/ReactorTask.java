@@ -20,9 +20,12 @@ package org.apache.avalon.tools.tasks;
 import org.apache.avalon.tools.model.Context;
 import org.apache.avalon.tools.model.Definition;
 import org.apache.avalon.tools.model.ResourceRef;
+import org.apache.avalon.tools.model.Home;
+
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Ant;
+import org.apache.tools.ant.taskdefs.Sequential;
 import org.apache.tools.ant.types.DirSet;
 import org.apache.tools.ant.types.FileList;
 import org.apache.tools.ant.types.FileSet;
@@ -36,27 +39,44 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+
 /**
- * Build a set of projects taking into account dependencies within the 
- * supplied fileset. 
+ * Build a set of projects taking into account cross-project dependencies.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class ReactorTask extends SystemTask
+public class ReactorTask extends Sequential
 {
     private static final String BANNER = 
       "------------------------------------------------------------------------";
 
     private String m_target;
-    private Path m_path;
     private List m_defs;
+    private Context m_context;
+    private Home m_home;
+    private boolean m_verbose = true;
 
     public void init()
     {
-        if( !isInitialized() )
+        if( null == m_context )
         {
-            super.init();
+            m_context = Context.getContext( getProject() );
+        }
+
+        if( null == m_home ) 
+        {
+            Home home = (Home) getProject().getReference( Home.KEY );
+            if( null == home )
+            {
+                final String error = 
+                  "Undefined home.";
+                throw new BuildException( error );
+            }
+            else
+            {
+                m_home = home;
+            }
         }
     }
 
@@ -65,74 +85,69 @@ public class ReactorTask extends SystemTask
         m_target = target;
     }
 
-    public void addConfigured( final Path path )
+    public void setVerbose( final boolean flag )
     {
-        getPath().add( path );
-    }
-
-    public void addConfigured( final DirSet dirset )
-    {
-        getPath().addDirset( dirset );
-    }
-
-    public void addConfigured( final FileSet fileset )
-    {
-        getPath().addFileset( fileset );
-    }
-
-    public void addConfigured( final FileList list ) 
-    {
-        getPath().addFilelist( list );
+        m_verbose = flag;
     }
 
     public void execute() throws BuildException 
     {
         final Project project = getProject();
-        log( "Preparing build sequence." );
         m_defs = getDefinitions();
         final Definition[] defs = walkGraph();
-        project.log( BANNER );
-        for( int i=0; i<defs.length; i++ )
+
+        if( m_verbose )
         {
-            final Definition def = defs[i];
-            project.log( def.toString() );
-        }
-        project.log( BANNER );
-        for( int i=0; i<defs.length; i++ )
-        {
-            final Definition def = defs[i];
-            try
+            log( "Preparing build sequence." );
+            project.log( BANNER );
+            for( int i=0; i<defs.length; i++ )
             {
-                execute( def, m_target );
+                final Definition def = defs[i];
+                project.log( def.toString() );
             }
-            catch( Throwable e )
-            {
-                throw new BuildException( e );
-            }
+            project.log( BANNER );
         }
-    }
 
-    private Path getPath()
-    {
-        if( null == m_path )
+        if( null != m_target )
         {
-            m_path = new Path( getProject() );
+            for( int i=0; i<defs.length; i++ )
+            {
+                final Definition def = defs[i];
+                try
+                {
+                    executeTarget( def, m_target );
+                }
+                catch( Throwable e )
+                {
+                    throw new BuildException( e );
+                }
+            }
         }
-        return m_path;
+        else
+        {
+            for( int i=0; i<defs.length; i++ )
+            {
+                final Definition def = defs[i];
+                project.setProperty( "reactor.key", def.getKey() );
+                project.setProperty( "reactor.version", def.getInfo().getVersion() );
+                project.setProperty( "reactor.name", def.getInfo().getName() );
+                project.setProperty( "reactor.group", def.getInfo().getGroup() );
+                project.setProperty( "reactor.basedir", def.getBaseDir().toString() );
+                project.setProperty( "reactor.path", def.getInfo().getPath() );
+                project.setProperty( "reactor.uri", def.getInfo().getURI() );
+                project.setProperty( "reactor.spec", def.getInfo().getSpec() );
+                super.execute();
+            }
+        }
     }
 
-    public void execute( final Definition definition )
-    {
-        execute( definition, null );
-    }
-
-    public void execute( final Definition definition, final String target )
+    private void executeTarget( final Definition definition, final String target )
     {
         final Ant ant = (Ant) getProject().createTask( "ant" );
         ant.setDir( definition.getBaseDir() );
         ant.setInheritRefs( false );
         ant.setInheritAll( false );
-        if( null != target )
+        if(( null != target ) && (!"default".equals( target )))
         {
             ant.setTarget( target );
         }
@@ -213,18 +228,6 @@ public class ReactorTask extends SystemTask
     {
         final Project project = getProject();
         final File basedir = project.getBaseDir(); 
-        if( null == m_path )
-        {
-            return getLocalDefinitions( basedir );
-        }
-        else
-        {
-            return getExplicitDefinitions( basedir );
-        }
-    }
-
-    private List getLocalDefinitions( final File basedir )
-    {
         try
         {
             final ArrayList list = new ArrayList();
@@ -247,60 +250,13 @@ public class ReactorTask extends SystemTask
         }
     }
 
-    private List getExplicitDefinitions( final File basedir )
+    private Context getContext()
     {
-        final ArrayList list = new ArrayList();
-
-        final String[] names = getPath().list();
-        for( int i=0; i<names.length; i++ )
-        {
-            final String path = names[i];
-            final File file = Context.getFile( basedir, path );
-            final File dir = getDir( file );
-            if( file.exists() )
-            {
-                final String key = getProjectName( dir );
-                if( null != key )
-                {
-                    final ResourceRef ref = new ResourceRef( key );
-                    list.add( getHome().getDefinition( ref ) );
-                }
-                else
-                {
-                    log( "Skipping dir: " 
-                      + dir 
-                      + "due to unresolve project name." );
-                }
-            }
-            else
-            {
-                log( "Skipping dir: " 
-                  + dir 
-                  + " as it does not exist." );
-            }
-        }
-        return list;
+        return m_context;
     }
 
-    private String getProjectName( final File dir )
+    private Home getHome()
     {
-        try
-        {
-            final Properties properties = new Properties();
-            final File props = new File( dir, "build.properties" );
-            final InputStream stream = new FileInputStream( props );
-            properties.load( stream );
-            return properties.getProperty( "project.name" );
-        }
-        catch( IOException ioe )
-        {
-            throw new BuildException( ioe );
-        }
-    }
-
-    private File getDir( final File file )
-    {
-        if( file.isDirectory() ) return file;
-        return file.getParentFile();
+        return m_home;
     }
 }
