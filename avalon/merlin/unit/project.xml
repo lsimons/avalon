@@ -6,7 +6,7 @@
   <groupId>merlin</groupId>
   <id>merlin-unit</id>
   <name>Merlin Unit</name>
-  <currentVersion>dev-0001</currentVersion>
+  <currentVersion>3.1-SNAPSHOT</currentVersion>
   <package>org.apache.avalon.merlin.unit</package>
 
   <inceptionYear>2003</inceptionYear>
