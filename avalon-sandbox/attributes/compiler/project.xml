@@ -25,6 +25,12 @@
             <id>xdoclet+xjavadoc</id>
             <version>1.0</version>
         </dependency>
+        
+        <dependency>
+            <groupId>avalon-attributes</groupId>
+            <artifactId>avalon-attributes-api</artifactId>
+            <version>SNAPSHOT</version>
+        </dependency>
     </dependencies>
     
     <packageGroups>

@@ -44,16 +44,21 @@ public class AttributeCompiler extends XJavadocTask {
     }
     
     protected void addExpressions (Collection tags, PrintWriter pw, String collectionName, String fileName) {
+        fileName = fileName.replace ('\\', '/');
         Iterator iter = tags.iterator ();
         while (iter.hasNext ()) {
             XTag tag = (XTag) iter.next ();
             
-            String expression = tag.getName () + " " + tag.getValue ();
-            if (!expression.endsWith (")")) {
-                expression = expression + "()";
-            }
-            
-            if (Character.isUpperCase (expression.charAt (0))) {
+            if (isAttribute (tag)) {
+                String expression = tag.getName () + " " + tag.getValue ();
+                if (expression.startsWith ("@")) {
+                    expression = expression.substring (1);
+                }
+                
+                if (!expression.endsWith (")")) {
+                    expression = expression + "()";
+                }
+                
                 pw.println ("        " + collectionName + ".add (\n" +
                     "new " + expression + " // " + fileName + ":" + tag.getLineNumber () + "\n" +
                     ");");
@@ -229,9 +234,17 @@ public class AttributeCompiler extends XJavadocTask {
         return false;
     }
 
+    protected boolean isClassName (String name) {
+        StringTokenizer tok = new StringTokenizer (name, ".");
+        String lastToken = null;
+        while (tok.hasMoreTokens ()) {
+            lastToken = tok.nextToken ();
+        }
+        return Character.isUpperCase (lastToken.charAt (0));
+    }
     
     protected boolean isAttribute (XTag tag) {
-        return Character.isUpperCase (tag.getName ().charAt (0));
+        return tag.getName ().charAt (0) == '@' || isClassName (tag.getName ());
     }
     
     protected void start() throws BuildException {

@@ -34,13 +34,6 @@
             <id>commons-collections</id>
             <version>2.1</version>
         </dependency>
-       
-        
-        <dependency>
-            <groupId>avalon-attributes</groupId>
-            <artifactId>avalon-attributes-compiler</artifactId>
-            <version>SNAPSHOT</version>
-        </dependency>
     </dependencies>
     
     <packageGroups>
