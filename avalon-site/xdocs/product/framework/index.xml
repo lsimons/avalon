@@ -41,6 +41,34 @@
             <p>The Avalon Meta Model defines the functional criteria for component types and services. A Type definition contains information about deployment and runtime dependencies together with information about the services that a component type can provide.</p>
           </td>
         </tr>
+        <tr>
+          <td>
+            <p>
+              <a name="util"/>
+              <a href="http://avalon.apache.org/util/" name="util">Avalon Utilities</a>
+            </p>
+          </td>
+          <td>
+            <p>A set of utilities shared by framework components supporting default property
+            management, environment variable resolution, exceptio reporting and a 
+            parameterized map implementation (using within the repositroy package).</p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p>
+              <a name="repository"/>
+              <a href="http://avalon.apache.org/repository/" 
+                  name="repository">Avalon Repository</a>
+            </p>
+          </td>
+          <td>
+            <p>A joint initative by the Avalon Project and the Apache Directory Project 
+             in the development of an inteligent bootstrappig, resource replication,
+             and artifact management framework.</p>
+          </td>
+        </tr>
+
       </table>
       </subsection>
     </section>
