@@ -7,10 +7,6 @@
  */
 package org.apache.avalon.phoenix.engine;
 
-import java.security.AccessController;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
-import java.util.List;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.excalibur.cli.CLArgsParser;
 import org.apache.avalon.excalibur.cli.CLOption;
@@ -43,6 +39,10 @@ public class Main
             {
                 return;
             }
+
+            System.out.println();
+            System.out.println( Constants.SOFTWARE + " " + Constants.VERSION );
+            System.out.println();
             
             main.execute( setup.getParameters() ); 
         }
@@ -62,44 +62,19 @@ public class Main
         System.exit( 0 );
     }
 
-    private void execute( final Parameters parameters )
-        throws Exception
-    {
-        //Execute with correct permissions
-        try
-        {
-            final PrivilegedExceptionAction action = new PrivilegedExceptionAction()
-                {
-                    public Object run() throws Exception
-                    {
-                        doExecute( parameters );
-                        return null;
-                    }
-                };
-
-            AccessController.doPrivileged( action );
-        }
-        catch( final PrivilegedActionException pae )
-        {
-            // only "checked" exceptions will be "wrapped" in a PrivilegedActionException.
-            throw pae.getException();
-        }
-    }
-
     /**
      * Actually create and execute the main component of embeddor.
      *
      * @exception Exception if an error occurs
      */
-    private void doExecute( final Parameters parameters )
+    private void execute( final Parameters parameters )
         throws Exception
     {
         final PhoenixEmbeddor embeddor = new PhoenixEmbeddor();
+        //final SingleAppEmbeddor embeddor = new SingleAppEmbeddor();
+        //parameters.setParameter( "application-name", "griffin" );
+        //parameters.setParameter( "application-location", "../apps/avalon-demo.sar" );
         embeddor.parameterize( parameters );
-
-        System.out.println();
-        System.out.println( Constants.SOFTWARE + " " + Constants.VERSION );
-        System.out.println();
 
         embeddor.initialize();
         embeddor.start();
