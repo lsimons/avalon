@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Laboratory - Magic</title>
+  </properties> 
+
+  <body>
+    <section name="Avalon Magic">
+      <subsection name="MAGIC - Magic Ain't Gonna Interest Critics" >
+        <p>
+          Magic is an experimental generic build system, an attempt to think
+          outside the box.
+        </p>
+      </subsection>
+      
+      <subsection name="What is it?" >
+        <ul>
+          <li>
+            Magic is a generic build system, influenced by both the good parts
+            as well as the bad parts of Maven;
+            <ul>
+              <li>Plugins are good.</li>
+              <li>Standard build layouts are good.</li>
+              <li>Downloadable artifacts are good.</li>
+              <li>Automatic dependency resolution is good.</li>
+              <li>Scripting can(!) be convenient.</li>
+              <li>preGoal/postGoal can be useful.</li>
+              <li>Ant is an incredible collection of well-tested code.</li>
+              <li>XML is not for programming language syntax.</li>
+              <li>Why do I need to know another programming language than Java?</li>
+              <li>XML is slow to parse.</li>
+              <li>Don't mix Ant XML with other XML.</li>
+            </ul>
+          </li>
+          <li>
+            Once Magic is built and 'installed', it is a command-line utility 
+            which is invoked with the command 'magic'.
+          </li>
+          <li>
+            Magic is small. The engine Jar file is &lt;20k.
+          </li>
+          <li>
+            Magic is fast. Practically no overhead at all. Most processing 
+            on-demand only.
+          </li>
+          <li>
+            Magic uses partial Avalon Framework for the scripts, namely
+            Contextualizable, LogEnabled, Serviceable and Initializable.
+          </li>
+          <li>
+            Magic leverages the BeanShell scripting interpreter (which is also
+            fairly small ~150k).
+          </li>
+          <li>
+            Magic can build and install BeanShell script plugins, which makes 
+            up the complete build system. Currently, I have created; plugin, 
+            prepare, artifact, java, jar and xdoc plugins.
+          </li>
+          <li>
+            Magic allows the programmer to add their own build.bsh scripts at 
+            each project for specialized processing.
+          </li>
+          <li>
+            Magic has a properties file chain, for multi-level overrides.
+          </li>
+          <li>
+            Magic knows about projects sharing a common higher level system, 
+            so called "Project System".
+          </li>
+          <li>
+            Magic has a powerful and flexible, yet simple, notification system,
+            that handles preGoal/postGoal constructs.
+          </li>
+        </ul>
+      </subsection>
+      <subsection name="What is it NOT?" >
+        <ul>
+          <li>
+            Magic is not perfect.
+          </li>
+          <li>
+            Magic is not complete, or intend to compete with the breadth of 
+            plugins for Maven.
+          </li>
+          <li>
+            Magic is not bug-free.
+          </li>
+          <li>
+            Magic is not optimized at all. Just happened to be fast be design.
+          </li>
+          <li>
+            Magic is not necessary going to become a proper product/project, 
+            only an experiment at this stage.
+          </li>
+          <li>
+            Magic is not going to replace Ant.
+          </li>
+        </ul>
+      </subsection>
+      <subsection name="Where is it?" >
+        <p>
+          Magic is checked into the Avalon subversion repo, under tools/magic,
+          and it also requires the system/ directory, which contains all the 
+          definition and dependency files. system/ is the 'Project System".
+        </p>
+      </subsection>
+      
+      <subsection name="How do I build and test run it?" >
+        <ol>
+          <li>
+            You need to run on Linux, or create your own .bat file equivalent 
+            to the 'magic' one. You will also need Ant and JDK 1.4 or later.
+          </li>
+          <li>
+            Make sure you have BeanShell 2.0b1 in your Maven repository, under 
+            the id bsh.
+          </li>
+          <li>
+            go to tools/magic/engine
+          </li>
+          <li>
+            run "ant"
+          </li>
+          <li>
+            add the directory tools/magic/engine/target/dist/bin to your PATH.
+          </li>
+          <li>
+            go to tools/magic
+          </li>
+          <li>
+            run "magic build" .  This will validate and install the plugins.
+          </li>
+          <li>
+            go to legacy/avalon/framework/api
+          </li>
+          <li>
+            run "magic java.compile" or "magic jar.jar"
+          </li>
+        </ol>
+      </subsection>
+
+      <subsection name="What will happen next?" >
+        <p>
+          Features that I will add over the next few days (not necessarily 
+          in this order);
+        </p>
+        <ul>
+          <li>
+            JavaDoc plugin.
+          </li>
+          <li>
+            Unittesting with reporting.
+          </li>
+          <li>
+            Fix up so that the xdoc plugin works (now missing some jars in classpath).
+          </li>
+          <li>
+            Filtering in source copying.
+          </li>
+          <li>
+            Better handling of Site xdoc aggregation in the xdoc plugin.
+          </li>
+          <li>
+            Add xdocs to the existing plugins.
+          </li>
+          <li>
+            Some simple sequencing mechanism.
+          </li>
+          <li>
+            Better error handling.
+          </li>
+          <li>
+            Better Logging solution, currently a hardcoded ConsoleLogger.
+          </li>
+        </ul>
+        <p>
+          I will try to entertain any feedback received, but please be 
+          realistic about any feature requests. I will try my best to get you
+          going, and explain how one can write plugins, and how the system 
+          hangs together.
+        </p>
+        <p>
+          I hope someone will find the experiment interesting, and as the
+          acronym suggests, I will not entertain people who only wishes to 
+          piss on the 'bad things', I have better things to do than convince 
+          people with opinions :o)
+        </p>
+      </subsection>
+    </section>
+  </body>
+</document>
+
