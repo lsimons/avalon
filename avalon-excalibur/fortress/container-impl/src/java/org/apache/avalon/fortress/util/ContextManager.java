@@ -53,7 +53,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
-
 import org.apache.avalon.excalibur.logger.LogKitLoggerManager;
 import org.apache.avalon.excalibur.logger.LoggerManager;
 import org.apache.avalon.fortress.RoleManager;
@@ -117,7 +116,7 @@ import org.apache.log.Priority;
  * and dispose of them properly when it itself is disposed .</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.18 $ $Date: 2003/04/11 07:38:30 $
+ * @version CVS $Revision: 1.19 $ $Date: 2003/04/11 07:39:11 $
  * @since 4.1
  */
 public class ContextManager
