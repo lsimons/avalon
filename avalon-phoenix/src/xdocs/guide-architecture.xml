@@ -1,87 +1,85 @@
 <?xml version="1.0"?>
 
-<!DOCTYPE document SYSTEM "dtd/document-v10.dtd">
-
 <document>
-  <header>
-    <title>Avalon Phoenix - Guide - Architectural overview</title>
-    <authors>
-      <person name="Leo Simons" email="leosimons@apache.org"/>
-    </authors>
-  </header>
-  <body>
-    <s1 title="Introduction">
-      <p>
-        This document briefly describes the Phoenix server architecture.
-      </p>
-    </s1>
-    <s1 title="Multiple Server Application hosting">
-      <p>
-        Phoenix hosts one or more server applications at the same time in the same Virtual machine.
-      </p>
-      <figure>
-        <title>Phoenix layer diagram</title>
-        <graphic srccredit="Paul Hammant, 2001" fileref="images/phoenix-layers.jpg" format="JPEG"/>
-      </figure>
-      <p>
-        Shown above are three hosted server applications.  A mail server that would implement
-        multiple listeners for incoming and outgoing services (POP3, SMTP, IMAP etc).  Outlook,
-        Eudora and other mail clients would be able to connect to the server.  As it happens,
-        Apache has a project in progress called "James" that provides these services and Newsgroups.
-        Also shown is a Web server.  That would respond to HTTP/HTTPS requests from similar standards
-        based clients and be able to host it's own applications (web-apps and virtual websites). Lastly,
-        and non-existant currently at Apache is an EJB Server.  This would be able to host it's own
-        bean applications and might use the web server for it's HTTP needs.
-      </p>
-    </s1>
-    <s1 title="Packaging of a Server Application">
-      <p>
-        Phoenix application are distriuted in a single archive.
-      </p>
-      <s2 title="Packaging in terms of blocks">
-        <p>
-          Phoenix hosts server applications made up of blocks.  The blocks may depend on libraries
-          to function correctly.  The blocks are tied together with Assembly instructions and Configured
-          externally.
-        </p>
-        <figure>
-          <title>Phoenix application in block view</title>
-          <graphic srccredit="Paul Hammant, 2001" fileref="images/phoenix-app-block.jpg" format="JPEG"/>
-        </figure>
-      </s2>
-      <s2 title="Packaging in terms of block jar files">
-        <p>
-          The server application is entirely contained withing one "sar" file.  Sar is "Server ARchive".
-          Each block is a jar file.  The dependant libraries are regular jars (placed
-          within a directory "lib" insde the sar file).  The Assembly and configuration instructions
-          are in xml form and contained within a "conf" directory inside the sar file.
-        </p>
-        <figure>
-          <title>Phoenix application in block jar view</title>
-          <graphic srccredit="Paul Hammant, 2001" fileref="images/phoenix-app-blockjars.jpg" format="JPEG"/>
-        </figure>
-      </s2>
-      <s2 title="FtpServer as a Phoenix application">
-      <p>
-        FtpServer (part of the Avalon/Cornerstone project) is distributed in sar form.  Here is a
-        view of it's blocks.  It has no third party jars that it depends on.
-      </p>
-        <figure>
-          <title>FtpServer, a real Phoenix application</title>
-          <graphic srccredit="Paul Hammant, 2001" fileref="images/phoenix-app-ftpserver.jpg" format="JPEG"/>
-        </figure>
-      </s2>
-      <p>
-        Notes - Phoenix does not limit the number of blocks that it allows in a sar file.  We have taksdefs for Apache's Ant
-        tool for making sar files.  See the "Block Developers Guide" (left
-        margin of this page) for more what/how/why.
-      </p>
-    </s1>
-  </body>
-  <footer>
-    <legal>
-      Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2002/05/12 19:52:49 $
-    </legal>
-  </footer>
+    <header>
+        <title>Guide - Architectural overview</title>
+        <author name="Leo Simons" email="leosimons@apache.org"/>
+    </header>
+    <body>
+        <section name="Introduction">
+            <p>
+              This document briefly describes the Phoenix server architecture.
+            </p>
+        </section>
+        <section name="Multiple Server Application hosting">
+            <p>
+              Phoenix hosts one or more server applications at the same time in the same Virtual machine.
+            </p>
+            <center>
+                <b>Phoenix layer diagram</b>
+            </center>
+            <center>
+                <img src="./images/phoenix-layers.jpg"/>
+            </center>
+            <p>
+              Shown above are three hosted server applications.  A mail server that would implement
+              multiple listeners for incoming and outgoing services (POP3, SMTP, IMAP etc).  Outlook,
+              Eudora and other mail clients would be able to connect to the server.  As it happens,
+              Apache has a project in progress called "James" that provides these services and Newsgroups.
+              Also shown is a Web server.  That would respond to HTTP/HTTPS requests from similar standards
+              based clients and be able to host it's own applications (web-apps and virtual websites). Lastly,
+              and non-existant currently at Apache is an EJB Server.  This would be able to host it's own
+              bean applications and might use the web server for it's HTTP needs.
+            </p>
+        </section>
+        <section name="Packaging of a Server Application">
+            <p>
+              Phoenix application are distriuted in a single archive.
+            </p>
+            <subsection name="Packaging in terms of blocks">
+                <p>
+                  Phoenix hosts server applications made up of blocks.  The blocks may depend on libraries
+                  to function correctly.  The blocks are tied together with Assembly instructions and Configured
+                  externally.
+                </p>
+                <center>
+                    <b>Phoenix application in block view</b>
+                </center>
+                <center>
+                    <img src="./images/phoenix-app-block.jpg"/>
+                </center>
+            </subsection>
+            <subsection name="Packaging in terms of block jar files">
+                <p>
+                  The server application is entirely contained withing one "sar" file.  Sar is "Server ARchive".
+                  Each block is a jar file.  The dependant libraries are regular jars (placed
+                  within a directory "lib" insde the sar file).  The Assembly and configuration instructions
+                  are in xml form and contained within a "conf" directory inside the sar file.
+                </p>
+                <figure>
+                    <title>Phoenix application in block jar view</title>
+                    <center>
+                        <img src="./images/phoenix-app-blockjars.jpg"/>
+                    </center>
+                </figure>
+            </subsection>
+            <subsection name="FtpServer as a Phoenix application">
+                <p>
+                  FtpServer (part of the Avalon/Cornerstone project) is distributed in sar form.  Here is a
+                  view of it's blocks.  It has no third party jars that it depends on.
+                </p>
+                <center>
+                    <b>FtpServer, a real Phoenix application</b>
+                </center>
+                <center>
+                    <img src="./images/phoenix-app-ftpserver.jpg"/>
+                </center>
+            </subsection>
+            <p>
+              Notes - Phoenix does not limit the number of blocks that it allows in a sar file.  We have taksdefs for Apache's Ant
+              tool for making sar files.  See the "Block Developers Guide" (left
+              margin of this page) for more what/how/why.
+            </p>
+        </section>
+    </body>
 </document>
