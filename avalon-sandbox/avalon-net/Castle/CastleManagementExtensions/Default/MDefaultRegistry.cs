@@ -54,12 +54,20 @@ namespace Apache.Avalon.Castle.ManagementExtensions.Default
 	/// TODO: Implement a lyfecycle for registering managed components.
 	/// </summary>
 	[ManagedComponent]
-	public class MDefaultRegistry : MRegistry
+	public class MDefaultRegistry : MarshalByRefObject, MRegistry
 	{
 		protected DomainCollection domains = new DomainCollection();
 
-		public MDefaultRegistry()
+		protected MServer server;
+
+		public MDefaultRegistry(MServer server)
 		{
+			if (server == null)
+			{
+				throw new ArgumentNullException("server");
+			}
+
+			this.server = server;
 		}
 
 		#region MRegistry Members
@@ -115,14 +123,29 @@ namespace Apache.Avalon.Castle.ManagementExtensions.Default
 
 			Entry entry = new Entry(instance, dynamic);
 
-			lock(domain)
+			try
 			{
-				if (domain.Contains(name))
+				MRegistrationListener registration = instance as MRegistrationListener;
+
+				InvokeBeforeRegister(registration, name);
+
+				lock(domain)
 				{
-					throw new InstanceAlreadyRegistredException(name.ToString());
+					if (domain.Contains(name))
+					{
+						throw new InstanceAlreadyRegistredException(name.ToString());
+					}
+
+					domain.Add(name, entry);
 				}
 
-				domain.Add(name, entry);
+				InvokeAfterRegister(registration);
+			}
+			catch(Exception e)
+			{
+				domain.Remove(name);
+
+				throw e;
 			}
 
 			return new ManagedInstance(instance.GetType().FullName, name);
@@ -168,7 +191,18 @@ namespace Apache.Avalon.Castle.ManagementExtensions.Default
 			try
 			{
 				Domain domain = FindDomain(domainName);
-				domain.Remove(name);
+				Entry entry = domain[name];
+
+				if (entry != null)
+				{
+					MRegistrationListener listener = entry.Instance as MRegistrationListener;
+
+					InvokeBeforeDeregister(listener);
+
+					domain.Remove(name);
+
+					InvokeAfterDeregister(listener);
+				}
 			}
 			catch(InvalidDomainException)
 			{
@@ -314,6 +348,52 @@ namespace Apache.Avalon.Castle.ManagementExtensions.Default
 			}
 
 			return entry;
+		}
+
+		private void InvokeBeforeRegister(MRegistrationListener listener, ManagedObjectName name)
+		{
+			if (listener != null)
+			{
+				listener.BeforeRegister(server, name);
+			}
+		}
+
+		private void InvokeAfterRegister(MRegistrationListener listener)
+		{
+			if (listener != null)
+			{
+				listener.AfterRegister();
+			}
+		}
+
+		private void InvokeBeforeDeregister(MRegistrationListener listener)
+		{
+			if (listener != null)
+			{
+				try
+				{
+					listener.BeforeDeregister();
+				}
+				catch(Exception)
+				{
+					// An exception here shall not stop us from continue
+				}
+			}
+		}
+
+		private void InvokeAfterDeregister(MRegistrationListener listener)
+		{
+			if (listener != null)
+			{
+				try
+				{
+					listener.AfterDeregister();
+				}
+				catch(Exception)
+				{
+					// An exception here shall not stop us from continue
+				}
+			}
 		}
 	}
 }

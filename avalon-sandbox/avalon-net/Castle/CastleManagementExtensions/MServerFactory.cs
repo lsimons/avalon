@@ -48,6 +48,7 @@
 namespace Apache.Avalon.Castle.ManagementExtensions
 {
 	using System;
+	using System.Collections;
 	using System.Configuration;
 	using System.Security.Policy;
 
@@ -59,6 +60,9 @@ namespace Apache.Avalon.Castle.ManagementExtensions
 	public sealed class MServerFactory
 	{
 		public static readonly String CustomServerConfigurationKey = "MServerFactory";
+
+		private static readonly Hashtable domains = Hashtable.Synchronized(
+			new Hashtable(CaseInsensitiveHashCodeProvider.Default, CaseInsensitiveComparer.Default));
 
 		private MServerFactory()
 		{
@@ -87,6 +91,11 @@ namespace Apache.Avalon.Castle.ManagementExtensions
 			if (domain == null)
 			{
 				throw new ArgumentNullException("domain");
+			}
+
+			if (domains.Contains(domain))
+			{
+				throw new DomainAlreadyExistsException(domain);
 			}
 
 			String typeName = ConfigurationSettings.AppSettings[CustomServerConfigurationKey];
@@ -129,6 +138,10 @@ namespace Apache.Avalon.Castle.ManagementExtensions
 				object remoteInstance = newDomain.CreateInstanceAndUnwrap(
 					serverType.Assembly.FullName, serverType.FullName);
 
+				// Register the domain
+
+				domains.Add(domain, new DomainInfo( domain, remoteInstance as MServer, newDomain) );
+
 				// As this already method "unwraps" the target object, its safe
 				// to return it - in an "wrapped" object we should invoke the 
 				// class's constructor
@@ -138,6 +151,10 @@ namespace Apache.Avalon.Castle.ManagementExtensions
 			else
 			{
 				object localInstance = Activator.CreateInstance(serverType);
+
+				// Register the domain
+
+				domains.Add(domain, new DomainInfo( domain, localInstance as MServer ) );
 
 				return (MServer) localInstance;
 			}
@@ -152,8 +169,46 @@ namespace Apache.Avalon.Castle.ManagementExtensions
 		{
 			if (server != null)
 			{
-				// TODO: Release (unload) the server's appdomain, if exists
+				foreach(DomainInfo info in domains.Values)
+				{
+					if (info.Server == server)
+					{
+						domains.Remove( info.Name );
+
+						if (info.DedicatedDomain != null)
+						{
+							AppDomain.Unload( info.DedicatedDomain );
+						}
+
+						break;
+					}
+				}
 			}
+		}
+	}
+
+	/// <summary>
+	/// Holds registered domains information.
+	/// </summary>
+	class DomainInfo
+	{
+		public String Name;
+		public AppDomain DedicatedDomain;
+		public MServer Server;
+
+		private DomainInfo(String name)
+		{
+			this.Name = name;
+		}
+
+		public DomainInfo(String name, MServer Server) : this(name)
+		{
+			this.Server = Server;
+		}
+
+		public DomainInfo(String name, MServer Server, AppDomain domain) : this(name, Server)
+		{
+			this.DedicatedDomain = domain;
 		}
 	}
 }

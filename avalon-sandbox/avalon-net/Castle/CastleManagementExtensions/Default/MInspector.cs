@@ -153,7 +153,7 @@ namespace Apache.Avalon.Castle.ManagementExtensions.Default
 
 					ManagedAttributeAttribute att = (ManagedAttributeAttribute) atts[0];
 
-					ManagementAttribute attribute = new ManagementAttribute(minfo.Name, att.Description);
+					ManagementAttribute attribute = new ManagementAttribute(minfo.Name, att.Description, minfo.PropertyType);
 
 					info.Attributes.Add(attribute);
 				}

@@ -158,19 +158,27 @@ namespace Apache.Avalon.Castle.ManagementExtensions
 	[Serializable]
 	public class ManagementAttribute : ManagementObject
 	{
-		public ManagementAttribute()
-		{
-		}
+		protected Type type;
 
-		public ManagementAttribute(String name)
+		public ManagementAttribute(String name, Type attType)
 		{
 			Name = name;
+			type = attType;
 		}
 
-		public ManagementAttribute(String name, String description)
+		public ManagementAttribute(String name, String description, Type attType)
 		{
 			Name = name;
 			Description = description;
+			type = attType;
+		}
+
+		public Type AttributeType
+		{
+			get
+			{
+				return type;
+			}
 		}
 	}
 
@@ -178,30 +186,36 @@ namespace Apache.Avalon.Castle.ManagementExtensions
 	/// 
 	/// </summary>
 	[Serializable]
-	public class ManagementObjectCollection : DictionaryBase, IEnumerable
+	public class ManagementObjectCollection : NameObjectCollectionBase, IEnumerable
 	{
-		public ManagementObjectCollection()
+		public ManagementObjectCollection() : 
+			base(CaseInsensitiveHashCodeProvider.Default, CaseInsensitiveComparer.Default)
 		{
 		}
 
 		public void Add(ManagementObject obj)
 		{
-			base.InnerHashtable.Add(obj.Name, obj);
+			base.BaseAdd(obj.Name, obj);
 		}
 
 		public ManagementObject this[String name]
 		{
 			get
 			{
-				return (ManagementObject) base.InnerHashtable[name];
+				return (ManagementObject) base.BaseGet(name);
 			}
+		}
+
+		public bool Contains(String name)
+		{
+			return BaseGet(name) != null;
 		}
 
 		#region IEnumerable Members
 
 		public new IEnumerator GetEnumerator()
 		{
-			return base.InnerHashtable.Values.GetEnumerator();
+			return base.BaseGetAllValues().GetEnumerator();
 		}
 
 		#endregion

@@ -63,7 +63,7 @@ namespace Apache.Avalon.Castle.ManagementExtensions.Test
 		[Test]
 		public void TestUse()
 		{
-			MDefaultRegistry registry = new MDefaultRegistry();
+			MDefaultRegistry registry = new MDefaultRegistry(new MDefaultServer());
 			AssertEquals( 0, registry.Count );
 
 			DummyHttpServer instance = new DummyHttpServer();
@@ -81,6 +81,24 @@ namespace Apache.Avalon.Castle.ManagementExtensions.Test
 			registry.UnregisterManagedObject( name );
 
 			AssertEquals( 0, registry.Count );
+		}
+
+		[Test]
+		public void TestRegistration()
+		{
+			MDefaultRegistry registry = new MDefaultRegistry(new MDefaultServer());
+
+			DummyLifecycledService service = new DummyLifecycledService();
+
+			ManagedObjectName name = new ManagedObjectName("domain.org:name=Service");
+
+			registry.RegisterManagedObject( service, name );
+			registry.UnregisterManagedObject( name );
+
+			AssertEquals( 0, service.beforeRegisterCalled );
+			AssertEquals( 1, service.afterRegisterCalled );
+			AssertEquals( 2, service.beforeDeregisterCalled );
+			AssertEquals( 3, service.afterDeregisterCalled );
 		}
 	}
 }
