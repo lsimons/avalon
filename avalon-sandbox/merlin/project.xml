@@ -16,7 +16,7 @@
   <inceptionYear>1997</inceptionYear>
 
   <package></package>
-  <gumpRepositoryId>avalon-sandbox-${pom.artifactId.substring(7)}</gumpRepositoryId>
+  <gumpRepositoryId>avalon-sandbox</gumpRepositoryId>
   
   <url>http://avalon.apache.org/sandbox/merlin/index.html</url>
   <issueTrackingUrl>http://nagoya.apache.org/</issueTrackingUrl>
