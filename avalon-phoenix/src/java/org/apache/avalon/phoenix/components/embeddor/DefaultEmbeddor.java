@@ -91,6 +91,11 @@ public class DefaultEmbeddor
     private long m_startTime;
 
     /**
+     * The default directory in which applications are deployed from.
+     */
+    private String m_appDir;
+
+    /**
      * Pass the Context to the embeddor.
      * It is expected that the following will be entrys in context;
      * <ul>
@@ -158,6 +163,8 @@ public class DefaultEmbeddor
         m_parameters = parameters;
         m_phoenixHome = m_parameters.getParameter( "phoenix.home", ".." );
         m_persistent = m_parameters.getParameterAsBoolean( "persistent", false );
+        m_appDir = m_parameters.getParameter( "phoenix.apps.dir",
+                                               m_phoenixHome + DEFAULT_APPS_PATH );
     }
 
     public void configure( final Configuration configuration )
@@ -433,16 +440,16 @@ public class DefaultEmbeddor
         throws Exception
     {
         //Name of optional application specified on CLI
-        final String application = m_parameters.getParameter( "application-location", null );
+        final String application =
+            m_parameters.getParameter( "application-location", null );
         if( null != application )
         {
             final File file = new File( application );
             deployFile( file );
         }
-        final String defaultAppsLocation = m_parameters.getParameter( "applications-directory", m_phoenixHome + DEFAULT_APPS_PATH );
-        if( null != defaultAppsLocation )
+        if( null != m_appDir )
         {
-            final File directory = new File( defaultAppsLocation );
+            final File directory = new File( m_appDir );
             final ExtensionFileFilter filter = new ExtensionFileFilter( ".sar" );
             final File[] files = directory.listFiles( filter );
             if( null != files )
@@ -507,10 +514,18 @@ public class DefaultEmbeddor
         ContainerUtil.logEnable( object, childLogger );
         ContainerUtil.contextualize( object, m_context );
         ContainerUtil.service( object, getServiceManager() );
-        ContainerUtil.parameterize( object, m_parameters );
+        ContainerUtil.parameterize( object, createChildParameters() );
         ContainerUtil.configure( object, config );
         ContainerUtil.initialize( object );
         ContainerUtil.start( object );
+    }
+
+    private Parameters createChildParameters()
+    {
+        final Parameters parameters = new Parameters();
+        parameters.merge( m_parameters );
+        parameters.setParameter( "phoenix.apps.dir", m_appDir );
+        return parameters;
     }
 
     private void shutdownComponents()
