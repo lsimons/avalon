@@ -66,7 +66,7 @@ import org.apache.excalibur.xfc.modules.ecm.ECMSerializer;
  * module.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: FortressSerializer.java,v 1.4 2002/11/12 19:55:28 donaldp Exp $
+ * @version CVS $Id: FortressSerializer.java,v 1.5 2002/11/12 19:55:48 donaldp Exp $
  */
 public class FortressSerializer extends ECMSerializer
 {
@@ -218,7 +218,6 @@ public class FortressSerializer extends ECMSerializer
      * Builds an xconf entry based on a {@link MultiNonRoleInstance} object.
      *
      * @param i a {@link MultiNonRoleInstance} instance
-     * @return a <code>Configuration[]</code> value
      */
     public void visit( final MultiNonRoleInstance i )
         throws Exception
