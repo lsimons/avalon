@@ -9,6 +9,10 @@
       <version>1.6.1</version>
       <type>jar</type>
     </info>
+    <gump>
+      <alias>ant</alias>
+      <id>ant</id>
+    </gump>
   </resource>
 
   <resource>
@@ -18,6 +22,10 @@
       <version>1.6.1</version>
       <type>jar</type>
     </info>
+    <gump>
+      <alias>ant</alias>
+      <id>nodeps</id>
+    </gump>
   </resource>
 
   <resource>
@@ -27,6 +35,10 @@
       <version>1.6.1</version>
       <type>jar</type>
     </info>
+    <gump>
+      <alias>ant</alias>
+      <id>junit</id>
+    </gump>
   </resource>
 
   <resource>
