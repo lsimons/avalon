@@ -10,7 +10,7 @@
     <section name="Tools">
 
       <p>
-      The Avalon project represents over 70 versioned artifacts
+      The Avalon project represents over 100 versioned artifacts
       with many build, test and runtime interdependencies.  Across 
       this codebase with have a single container application, a 
       Eclipse plugin, a number of plugable platform facilities, 
