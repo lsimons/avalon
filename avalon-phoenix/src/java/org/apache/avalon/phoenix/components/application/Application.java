@@ -5,7 +5,7 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE file.
  */
-package org.apache.avalon.framework.atlantis;
+package org.apache.avalon.phoenix.components.application;
 
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;

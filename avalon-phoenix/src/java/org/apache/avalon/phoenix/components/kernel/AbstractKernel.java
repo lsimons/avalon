@@ -5,7 +5,7 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE file.
  */
-package org.apache.avalon.framework.atlantis;
+package org.apache.avalon.phoenix.components.kernel;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -22,6 +22,7 @@ import org.apache.avalon.framework.component.DefaultComponentManager;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.AbstractLoggable;
+import org.apache.avalon.phoenix.components.application.Application;
 
 /**
  * This is the basic Kernel that supports functionality most kernels need.
@@ -29,10 +30,6 @@ import org.apache.avalon.framework.logger.AbstractLoggable;
  * configure/reconfigure blocks, can start/stop/initialize blocks, provide
  * contexts for blocks etc.
  *
- * When extending this the developer must set the value of m_entryClass and m_applicationClass.
- * ie.
- * m_entryClass = ServerApplicationEntry.class;
- * m_applicationClass = ServerApplication.class;
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */

@@ -9,7 +9,7 @@ package org.apache.avalon.phoenix.components.embeddor;
 
 import java.io.File;
 import java.util.Iterator;
-import org.apache.avalon.framework.atlantis.Application;
+import org.apache.avalon.phoenix.components.application.Application;
 import org.apache.avalon.framework.camelot.ContainerException;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.component.ComponentException;
