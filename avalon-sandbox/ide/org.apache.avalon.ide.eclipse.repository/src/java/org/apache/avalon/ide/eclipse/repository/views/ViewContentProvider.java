@@ -60,7 +60,7 @@ import org.apache.avalon.ide.repository.RepositoryAgentFactoryListener;
 import org.apache.avalon.ide.repository.RepositoryAgentListener;
 import org.apache.avalon.ide.repository.RepositoryTypeRegistry;
 import org.apache.avalon.ide.repository.ResourceInfo;
-import org.apache.avalon.ide.repository.URNDescriptor;
+import org.apache.avalon.ide.repository.RepositorySchemeDescriptor;
 import org.apache.avalon.ide.repository.Version;
 import org.apache.avalon.ide.repository.tools.common.NonVersion;
 import org.apache.avalon.ide.repository.tools.common.ResourceInfoImpl;
@@ -103,7 +103,7 @@ class ViewContentProvider
         m_View = pView;
         RepositoryPlugin plugin = RepositoryPlugin.getDefault();
         RepositoryTypeRegistry reg = plugin.getRepositoryTypeRegistry();
-        URNDescriptor[] urns = reg.getRegisteredURNs();
+        RepositorySchemeDescriptor[] urns = reg.getRegisteredURNs();
         for( int i=0 ; i < urns.length ; i++ )
         {
             RepositoryAgentFactory factory = reg.getRepositoryAgentFactory( urns[i] );
@@ -121,7 +121,7 @@ class ViewContentProvider
         
         RepositoryPlugin plugin = RepositoryPlugin.getDefault();
         RepositoryTypeRegistry reg = plugin.getRepositoryTypeRegistry();
-        URNDescriptor[] urns = reg.getRegisteredURNs();
+        RepositorySchemeDescriptor[] urns = reg.getRegisteredURNs();
         for( int i=0 ; i < urns.length ; i++ )
         {
             RepositoryAgentFactory factory = reg.getRepositoryAgentFactory( urns[i] );
@@ -227,7 +227,7 @@ class ViewContentProvider
             while (removeList.hasNext())
             {
                 String s = (String) removeList.next();
-                URNDescriptor urn = reg.findByType(s);
+                RepositorySchemeDescriptor urn = reg.findByType(s);
                 RepositoryAgentFactory factory = reg.getRepositoryAgentFactory(urn);
                 RepositoryAgent agent = factory.findRepositoryAgentByLocation(s);
                 factory.dispose(agent);
@@ -239,7 +239,7 @@ class ViewContentProvider
                 String s = (String) addList.next();
                 try
                 {
-                    URNDescriptor urn = reg.findByType(s);
+                    RepositorySchemeDescriptor urn = reg.findByType(s);
                     RepositoryAgentFactory factory = reg.getRepositoryAgentFactory(urn);
                     factory.create(s, null);
                 } catch (RepositoryAgentCreationException e)

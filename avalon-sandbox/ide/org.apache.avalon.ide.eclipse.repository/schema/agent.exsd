@@ -19,6 +19,7 @@
       <complexType>
          <sequence>
             <element ref="description"/>
+            <element ref="scheme"/>
          </sequence>
          <attribute name="name" type="string" use="default" value="Sample Repository Agent">
             <annotation>
@@ -41,13 +42,6 @@
                </documentation>
             </annotation>
          </attribute>
-         <attribute name="class" type="string" use="required">
-            <annotation>
-               <documentation>
-                  The classname of the RepositoryAgentFactory interface, of course inclusive of the package name.
-               </documentation>
-            </annotation>
-         </attribute>
       </complexType>
    </element>
 
@@ -57,6 +51,35 @@
             A longer description of the capabilities of the RepositoryAgent and its factory.
          </documentation>
       </annotation>
+   </element>
+
+   <element name="scheme">
+      <complexType>
+         <sequence>
+            <element ref="description"/>
+         </sequence>
+         <attribute name="class" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The classname of the RepositoryAgentFactory interface, of course inclusive of the package name.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string" use="default" value="Sample Repository Agent">
+            <annotation>
+               <documentation>
+                  The official name of the scheme. Example; &quot;Maven Repository&quot;
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="prefix" type="string">
+            <annotation>
+               <documentation>
+                  The registered (at Avalon) unique prefix for the Scheme.
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
    </element>
 
    <annotation>

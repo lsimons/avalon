@@ -7,24 +7,23 @@
  * Copyright (C) 1999-2002 The Apache Software Foundation. All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without modifica-
- * tion, are permitted provided that the following conditions are met:
- *  1. Redistributions of source code must retain the above copyright notice,
- * this list of conditions and the following disclaimer.
- *  2. Redistributions in binary form must reproduce the above copyright
- * notice, this list of conditions and the following disclaimer in the
- * documentation and/or other materials provided with the distribution.
- *  3. The end-user documentation included with the redistribution, if any,
- * must include the following acknowledgment: "This product includes software
- * developed by the Apache Software Foundation (http://www.apache.org/)."
- * Alternately, this acknowledgment may appear in the software itself, if and
- * wherever such third-party acknowledgments normally appear.
- *  4. The names "Jakarta", "Apache Avalon", "Avalon Framework" and "Apache
- * Software Foundation" must not be used to endorse or promote products derived
- * from this software without prior written permission. For written permission,
- * please contact apache@apache.org.
- *  5. Products derived from this software may not be called "Apache", nor may
- * "Apache" appear in their name, without prior written permission of the
- * Apache Software Foundation.
+ * tion, are permitted provided that the following conditions are met: 1.
+ * Redistributions of source code must retain the above copyright notice, this
+ * list of conditions and the following disclaimer. 2. Redistributions in
+ * binary form must reproduce the above copyright notice, this list of
+ * conditions and the following disclaimer in the documentation and/or other
+ * materials provided with the distribution. 3. The end-user documentation
+ * included with the redistribution, if any, must include the following
+ * acknowledgment: "This product includes software developed by the Apache
+ * Software Foundation (http://www.apache.org/)." Alternately, this
+ * acknowledgment may appear in the software itself, if and wherever such
+ * third-party acknowledgments normally appear. 4. The names "Jakarta", "Apache
+ * Avalon", "Avalon Framework" and "Apache Software Foundation" must not be
+ * used to endorse or promote products derived from this software without prior
+ * written permission. For written permission, please contact
+ * apache@apache.org. 5. Products derived from this software may not be called
+ * "Apache", nor may "Apache" appear in their name, without prior written
+ * permission of the Apache Software Foundation.
  * 
  * THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES,
  * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
@@ -44,6 +43,14 @@
  */
 package org.apache.avalon.ide.eclipse.repository.plugins;
 
+import org.apache.avalon.ide.repository.InvalidSchemeException;
+import org.apache.avalon.ide.repository.RepositoryAgentFactory;
+import org.apache.avalon.ide.repository.RepositorySchemeDescriptor;
+import org.apache.avalon.ide.repository.RepositoryTypeRegistry;
+import org.apache.avalon.ide.repository.tools.common.GenericSchemeDescriptor;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.IPluginDescriptor;
 
 /**
@@ -51,23 +58,58 @@ import org.eclipse.core.runtime.IPluginDescriptor;
  */
 public class PluginHandlerInstalled implements PluginHandler
 {
+    private RepositoryTypeRegistry m_Registry;
 
-    /**
-     * 
-     */
-    public PluginHandlerInstalled()
+    public PluginHandlerInstalled(RepositoryTypeRegistry registry)
     {
         super();
-        // TODO Auto-generated constructor stub
+        m_Registry = registry;
     }
 
-    /* (non-Javadoc)
-     * @see org.apache.avalon.ide.eclipse.repository.PluginHandler#handle(org.eclipse.core.runtime.IPluginDescriptor)
-     */
-    public void handle(IPluginDescriptor pDescriptor) throws PluginHandlerException
+    /**
+	 * Handle the IPluginEvent.INSTALLED.
+	 * 
+	 * @see org.apache.avalon.ide.eclipse.repository.PluginHandler#handle(org.eclipse.core.runtime.IPluginDescriptor)
+	 */
+    public void handle(IPluginDescriptor descriptor) throws PluginHandlerException
     {
-        // TODO Auto-generated method stub
+        String prefix = null;
+        try
+        {
+            IExtension[] extensions = descriptor.getExtensions();
+            for (int i = 0; i < extensions.length; i++)
+            {
+                IConfigurationElement[] elements = extensions[i].getConfigurationElements();
+                for (int j = 0; j < elements.length; j++)
+                {
+                    if ("scheme".equals(elements[j].getName()))
+                    {
+                        RepositoryAgentFactory factory =
+                            (RepositoryAgentFactory) elements[j].createExecutableExtension("class");
+                        prefix = elements[j].getAttribute("prefix");
+                        String name = elements[j].getAttribute("name");
+                        String description = null;
+                        IConfigurationElement[] desc = elements[j].getChildren("description");
+                        if (desc.length > 0)
+                            description = desc[0].getValue();
+                        RepositorySchemeDescriptor rsd =
+                            new GenericSchemeDescriptor(prefix, name, description);
 
+                        m_Registry.registerRepositoryAgentFactory(rsd, factory);
+                    }
+                }
+            }
+        } catch (InvalidSchemeException e)
+        {
+            throw new PluginHandlerException(
+                "Scheme '" + prefix + "' contains invalid characters.",
+                e);
+        } catch (CoreException e)
+        {
+            throw new PluginHandlerException(
+                "Unable to instantiate '" + descriptor.getUniqueIdentifier() + "'",
+                e);
+        }
     }
 
 }
