@@ -25,7 +25,6 @@ import org.apache.avalon.phoenix.Block;
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  *
- * @phoenix:version 1.0
  * @phoenix:service name="org.apache.avalon.cornerstone.services.connection.ConnectionManager"
  */
 public class DefaultConnectionManager
