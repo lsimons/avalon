@@ -73,7 +73,7 @@ import org.apache.log.Priority;
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @version CVS $Revision: 1.23 $ $Date: 2001/12/13 07:58:04 $
+ * @version CVS $Revision: 1.24 $ $Date: 2001/12/13 08:04:51 $
  */
 public class PatternFormatter
     implements Formatter, org.apache.log.Formatter
@@ -411,7 +411,7 @@ public class PatternFormatter
     {
         switch( run.m_type )
         {
-        case TYPE_RELATIVE_TIME: return getTime( event.getRelativeTime(), run.m_format );
+        case TYPE_RELATIVE_TIME: return getRTime( event.getRelativeTime(), run.m_format );
         case TYPE_TIME: return getTime( event.getTime(), run.m_format );
         case TYPE_THROWABLE: return getStackTrace( event.getThrowable(), run.m_format );
         case TYPE_MESSAGE: return getMessage( event.getMessage(), run.m_format );
@@ -520,6 +520,18 @@ public class PatternFormatter
         final StringWriter sw = new StringWriter();
         throwable.printStackTrace( new java.io.PrintWriter( sw ) );
         return sw.toString();
+    }
+
+    /**
+     * Utility method to format relative time.
+     *
+     * @param time the time
+     * @param format ancilliary format parameter - allowed to be null
+     * @return the formatted string
+     */
+    protected String getRTime( final long time, final String format )
+    {
+        return getTime( time, format );
     }
 
     /**
