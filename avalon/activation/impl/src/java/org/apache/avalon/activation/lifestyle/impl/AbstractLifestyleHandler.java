@@ -32,7 +32,7 @@ import org.apache.avalon.framework.logger.Logger;
  * Abstract implentation class for a lifestyle handler.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.8 $ $Date: 2004/01/24 23:25:22 $
+ * @version $Revision: 1.8.2.1 $ $Date: 2004/02/22 15:50:07 $
  */
 public abstract class AbstractLifestyleHandler extends AbstractLogEnabled
   implements LifestyleHandler
@@ -92,7 +92,14 @@ public abstract class AbstractLifestyleHandler extends AbstractLogEnabled
         {
             synchronized( getFactory() )
             {
-                m_factory.destroy( instance );
+                try
+                {
+                    m_factory.destroy( instance );
+                } catch( Exception e )
+                {
+                    // TODO:  ????
+                    // Perhaps report to an Error facility.
+                }
             }
         }
     }

@@ -17,6 +17,7 @@
 
 package org.apache.avalon.activation.lifestyle.impl;
 
+import org.apache.avalon.activation.lifecycle.DestructionException;
 import org.apache.avalon.activation.lifecycle.LifecycleRuntimeException;
 import org.apache.avalon.activation.lifecycle.Factory;
 import org.apache.avalon.framework.logger.Logger;
@@ -24,9 +25,10 @@ import org.apache.avalon.framework.activity.Disposable;
 
 /**
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.6 $ $Date: 2004/01/24 23:25:22 $
+ * @version $Revision: 1.6.2.1 $ $Date: 2004/02/22 15:50:07 $
  */
-public class ThreadLifestyleHandler extends AbstractLifestyleHandler implements Disposable
+public class ThreadLifestyleHandler extends AbstractLifestyleHandler 
+    implements Disposable
 {
     /**
      * Internal utility class to hold the thread local instance.
@@ -115,7 +117,7 @@ public class ThreadLifestyleHandler extends AbstractLifestyleHandler implements 
     {
         if( m_local != null )
         {
-            m_factory.destroy( m_local.get() );
+            disposeInstance( m_local.get() );
         }
         m_local = null;
     }

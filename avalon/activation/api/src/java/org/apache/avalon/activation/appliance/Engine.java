@@ -17,18 +17,14 @@
 
 package org.apache.avalon.activation.appliance;
 
-import org.apache.avalon.composition.model.StageModel;
 import org.apache.avalon.composition.model.DeploymentModel;
-import org.apache.avalon.composition.model.DependencyModel;
-import org.apache.avalon.meta.info.DependencyDescriptor;
-import org.apache.avalon.meta.info.StageDescriptor;
 
 /**
  * The Engine interface defines the contract for service that provide
  * appliance resolution.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2004/01/24 23:25:20 $
+ * @version $Revision: 1.5.2.1 $ $Date: 2004/02/22 15:50:06 $
  */
 public interface Engine
 {

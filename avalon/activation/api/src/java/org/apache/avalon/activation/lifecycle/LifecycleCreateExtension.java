@@ -17,6 +17,7 @@
 
 package org.apache.avalon.activation.lifecycle;
 
+import org.apache.avalon.activation.appliance.Engine;
 import org.apache.avalon.composition.model.ComponentModel;
 import org.apache.avalon.meta.info.StageDescriptor;
 
@@ -29,7 +30,7 @@ public interface LifecycleCreateExtension
      * @param object the object under deployment
      * @exception if a deployment error occurs
      */
-     public void create( ComponentModel model, StageDescriptor stage, Object object)
-       throws Exception;
+     void create( ComponentModel model, Engine engine, StageDescriptor stage, Object object)
+       throws CreationException;
 
 }

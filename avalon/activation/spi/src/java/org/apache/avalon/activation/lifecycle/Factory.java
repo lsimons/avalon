@@ -17,7 +17,6 @@
 
 package org.apache.avalon.activation.lifecycle;
 
-import org.apache.avalon.activation.lifecycle.LifecycleException;
 import org.apache.avalon.composition.model.ComponentModel;
 
 /**
@@ -25,7 +24,7 @@ import org.apache.avalon.composition.model.ComponentModel;
  * new component instance may be accessed.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2004/01/24 23:25:23 $
+ * @version $Revision: 1.4.2.1 $ $Date: 2004/02/22 15:50:07 $
  */
 public interface Factory
 {
@@ -41,13 +40,12 @@ public interface Factory
     *
     * @exception LifecycleException
     */
-    Object newInstance() throws LifecycleException;
+    Object newInstance() throws CreationException;
 
    /**
     * Decommission and dispose of the supplied component. 
     *
     * @param instance the object to decommission
     */
-    void destroy( Object instance );
-
+    void destroy( Object instance ) throws DestructionException;
 }

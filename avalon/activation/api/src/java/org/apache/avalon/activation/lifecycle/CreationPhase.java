@@ -19,17 +19,17 @@ package org.apache.avalon.activation.lifecycle;
 
 import org.apache.avalon.activation.appliance.Engine;
 import org.apache.avalon.composition.model.ComponentModel;
-import org.apache.avalon.meta.info.StageDescriptor;
 
-public interface LifecycleDestroyExtension
+public interface CreationPhase
 {
     /**
-     * Invocation of the deployment destroy stage extension.
-     * @param model the model representing for the object to destroy
-     * @param stage the extension stage descriptor
+     * Invocation of the deployment creation cycle.
+     * @param model the model representing the object under deployment
+     * @param engine the engine that drives the lifecycle
      * @param object the object under deployment
      * @exception if a deployment error occurs
      */
-     void destroy( ComponentModel model, Engine engine, StageDescriptor stage, Object object)
-       throws DestructionException;
+     void create( Engine engine, ComponentModel model, Object object)
+       throws CreationException;
+
 }

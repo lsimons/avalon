@@ -23,10 +23,9 @@ import org.apache.avalon.framework.CascadingException;
  * Exception to indicate that there was a lifecycle related error.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/01/24 23:25:20 $
+ * @version $Revision: 1.2.2.1 $ $Date: 2004/02/22 15:50:06 $
  */
-public class LifecycleException
-        extends CascadingException
+public class LifecycleException extends CascadingException
 {
 
     /**
@@ -36,7 +35,7 @@ public class LifecycleException
      */
     public LifecycleException( final String message )
     {
-        this( message, null );
+        super( message );
     }
 
     /**
