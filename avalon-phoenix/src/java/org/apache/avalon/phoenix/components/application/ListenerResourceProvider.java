@@ -50,8 +50,6 @@
 
 package org.apache.avalon.phoenix.components.application;
 
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
@@ -71,15 +69,12 @@ import org.apache.excalibur.instrument.InstrumentManager;
  * Block or Listener.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.11 $ $Date: 2003/03/22 12:07:08 $
+ * @version $Revision: 1.12 $ $Date: 2003/04/06 11:23:21 $
  */
 class ListenerResourceProvider
     extends AbstractLogEnabled
     implements ResourceProvider
 {
-    private static final Resources REZ =
-        ResourceManager.getPackageResources( ListenerResourceProvider.class );
-
     /**
      * Context in which Blocks/Listeners operate.
      */
@@ -185,20 +180,7 @@ class ListenerResourceProvider
         throws Exception
     {
         final ComponentMetaData metaData = getMetaData( entry );
-        final String name = metaData.getName();
-        try
-        {
-            return m_context.getConfiguration( name );
-        }
-        catch( final ConfigurationException ce )
-        {
-            //Note that this shouldn't ever happen once we
-            //create a Config validator
-            final String message =
-                REZ.getString( "missing-listener-configuration",
-                               name );
-            throw new ConfigurationException( message, ce );
-        }
+        return metaData.getConfiguration();
     }
 
     public Parameters createParameters( final Object entry )

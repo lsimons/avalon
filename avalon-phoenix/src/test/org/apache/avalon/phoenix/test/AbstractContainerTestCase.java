@@ -55,6 +55,7 @@ import java.util.HashMap;
 import java.util.Map;
 import junit.framework.TestCase;
 import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.apache.avalon.phoenix.components.deployer.PhoenixProfileBuilder;
 import org.apache.avalon.phoenix.containerkit.profile.PartitionProfile;
@@ -66,7 +67,7 @@ import org.xml.sax.InputSource;
  * Abstract class which TestCases can extend.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.11 $ $Date: 2003/04/05 11:21:10 $
+ * @version $Revision: 1.12 $ $Date: 2003/04/06 11:23:22 $
  */
 public class AbstractContainerTestCase
     extends TestCase
@@ -89,7 +90,8 @@ public class AbstractContainerTestCase
                                         new ConsoleLogger() );
         final Map parameters = new HashMap();
         parameters.put( ContainerConstants.ASSEMBLY_NAME, "test" );
-        parameters.put( ContainerConstants.ASSEMBLY_CONFIG, assembly );
+        parameters.put( ContainerConstants.ASSEMBLY_DESCRIPTOR, assembly );
+        parameters.put( ContainerConstants.CONFIG_DESCRIPTOR, new DefaultConfiguration( "config" ) );
         parameters.put( ContainerConstants.ASSEMBLY_CLASSLOADER, getClass().getClassLoader() );
         return assembler.buildProfile( parameters );
     }

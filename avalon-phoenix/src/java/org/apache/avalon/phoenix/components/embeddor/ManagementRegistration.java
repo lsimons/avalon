@@ -53,10 +53,6 @@ package org.apache.avalon.phoenix.components.embeddor;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.avalon.excalibur.packagemanager.ExtensionManager;
-import org.apache.avalon.phoenix.interfaces.ConfigurationRepository;
-import org.apache.avalon.phoenix.interfaces.ConfigurationRepositoryMBean;
-import org.apache.avalon.phoenix.interfaces.ConfigurationValidator;
-import org.apache.avalon.phoenix.interfaces.ConfigurationValidatorMBean;
 import org.apache.avalon.phoenix.interfaces.Deployer;
 import org.apache.avalon.phoenix.interfaces.DeployerMBean;
 import org.apache.avalon.phoenix.interfaces.Embeddor;
@@ -87,14 +83,6 @@ final class ManagementRegistration
         new ManagementRegistration( Deployer.ROLE, "Deployer", new Class[]{DeployerMBean.class} );
     public static final ManagementRegistration LOG_MANAGER =
         new ManagementRegistration( LogManager.ROLE, "LogManager", new Class[]{} );
-    public static final ManagementRegistration CONFIGURATION_REPOSITORY =
-        new ManagementRegistration( ConfigurationRepository.ROLE,
-                                    "ConfigurationManager",
-                                    new Class[]{ConfigurationRepositoryMBean.class} );
-    public static final ManagementRegistration CONFIGURATION_VALIDATOR =
-        new ManagementRegistration( ConfigurationValidator.ROLE,
-                                    "ConfigurationValidator",
-                                    new Class[]{ConfigurationValidatorMBean.class} );
     //TODO: Need information for SystemManager?
 
     private final String m_role;

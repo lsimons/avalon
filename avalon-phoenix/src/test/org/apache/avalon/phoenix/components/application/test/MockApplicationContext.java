@@ -53,8 +53,6 @@ package org.apache.avalon.phoenix.components.application.test;
 import java.io.File;
 import java.io.InputStream;
 import java.util.HashMap;
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.phoenix.containerkit.profile.PartitionProfile;
 import org.apache.avalon.phoenix.interfaces.ApplicationContext;
@@ -66,7 +64,7 @@ import org.apache.excalibur.threadcontext.impl.DefaultThreadContextPolicy;
 /**
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.10 $ $Date: 2003/04/05 04:25:44 $
+ * @version $Revision: 1.11 $ $Date: 2003/04/06 11:23:22 $
  */
 class MockApplicationContext
     implements ApplicationContext
@@ -117,12 +115,6 @@ class MockApplicationContext
     public InputStream getResourceAsStream( final String name )
     {
         return getClassLoader().getResourceAsStream( name );
-    }
-
-    public Configuration getConfiguration( String component )
-        throws ConfigurationException
-    {
-        throw new ConfigurationException( "I can't do that dave!" );
     }
 
     public File getHomeDirectory()

@@ -50,10 +50,9 @@
 
 package org.apache.avalon.phoenix.components.configuration.validator;
 
-import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.phoenix.containerkit.profile.ComponentProfile;
 import org.apache.avalon.phoenix.interfaces.ConfigurationValidator;
-import org.apache.avalon.phoenix.interfaces.ConfigurationValidatorMBean;
 
 /**
  * A ConfigurationValidator that always says everything is okay
@@ -61,41 +60,10 @@ import org.apache.avalon.phoenix.interfaces.ConfigurationValidatorMBean;
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
  */
 public class NoopConfigurationValidator
-    implements ConfigurationValidator, ConfigurationValidatorMBean
+    implements ConfigurationValidator
 {
-    public void addSchema( final String application, final String block, final String schemaType, final String url )
+    public boolean isValid( ComponentProfile component, ClassLoader classLoader )
         throws ConfigurationException
-    {
-    }
-
-    public void removeSchema( final String application, final String block )
-    {
-    }
-
-    public boolean isValid( final String application, final String block, final Configuration configuration )
-        throws ConfigurationException
-    {
-        return true;
-    }
-
-    public boolean isFeasiblyValid( final String application, final String block, final Configuration configuration )
-        throws ConfigurationException
-    {
-        return true;
-    }
-
-    public String getSchema( final String application, final String block )
-    {
-        return null;
-    }
-
-    public String getSchemaType( final String application, final String block )
-    {
-        return null;
-    }
-
-    public boolean isValid( final String application, final String block, final String configurationXml )
-
     {
         return true;
     }

@@ -63,20 +63,7 @@ public interface ConfigurationRepository
     String ROLE = ConfigurationRepository.class.getName();
 
     /**
-     * Retrieve configuration information from the repository
-     *
-     * @param application Application name
-     * @param block Block name to get configuration for
-     *
-     * @return Configuration information
-     *
-     * @throws ConfigurationException if no configuration could be found
-     */
-    Configuration getConfiguration( String application, String block )
-        throws ConfigurationException;
-
-    /**
-     * Store configuration information in the repository
+     * Process configuration information
      *
      * @param application Application name
      * @param block Block name to store configuration for
@@ -84,9 +71,9 @@ public interface ConfigurationRepository
      *
      * @throws ConfigurationException if configuration could not be stored
      */
-    void storeConfiguration( String application,
-                             String block,
-                             Configuration configuration )
+    Configuration processConfiguration( String application,
+                                        String block,
+                                        Configuration configuration )
         throws ConfigurationException;
 
     /**

@@ -87,9 +87,15 @@ public interface ContainerConstants
 
     /**
      * The name of the config file which is used
+     * to load config data.
+     */
+    String CONFIG_DESCRIPTOR = "phoenix:config";
+
+    /**
+     * The name of the config file which is used
      * to load assembly data.
      */
-    String ASSEMBLY_CONFIG = "phoenix:config";
+    String ASSEMBLY_DESCRIPTOR = "phoenix:assembly";
 
     /**
      * The default classloader to use to load components.
