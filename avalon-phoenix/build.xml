@@ -1353,6 +1353,10 @@ Legal:
             eof="remove"/>
     </target>
     
+    <target name="get-spice-dependencies"
+        depends="get-loggerstore,get-configkit,get-xmlpolicy,get-classman"
+        description="Target that retrieves the Spice dependencies. Used by Gump."/>
+    
     <target name="get-all-dependencies"
         depends="get-mx4j,get-log4j,get-loggerstore,get-configkit,get-xmlpolicy,get-classman,get-wrapper"
         description="Meta-task to get all optional libaries"/>
