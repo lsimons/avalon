@@ -28,16 +28,16 @@ package org.apache.avalon.framework.configuration;
  * The data model is a subset of XML's; a single-rooted hierarchical tree where each
  * node can contain multiple <em>attributes</em>, and leaf nodes can also
  * contain a <em>value</em>. Reflecting this, <code>Configuration</code>s are
- * usually built from an XML file by the {@link DefaultConfigurationBuilder}
- * class, or directly by a SAX parser using a {@link SAXConfigurationHandler} or
- * {@link NamespacedSAXConfigurationHandler} event handler.
+ * usually built from an XML file by the DefaultConfigurationBuilder
+ * class, or directly by a SAX parser using a SAXConfigurationHandler or
+ * NamespacedSAXConfigurationHandler event handler.
  * </p>
  * <h4>Namespace support</h4>
  * <p>
  * Since version 4.1, each <code>Configuration</code> node has a namespace
  * associated with it, in the form of a string, accessible through {@link
  * #getNamespace}. If no namespace is present, <code>getNamespace</code> will
- * return blank (""). See {@link DefaultConfigurationBuilder} for details on how
+ * return blank (""). See DefaultConfigurationBuilder for details on how
  * XML namespaces are mapped to <code>Configuration</code> namespaces.
  * </p>
  * <h3>Example</h3>
@@ -51,16 +51,16 @@ package org.apache.avalon.framework.configuration;
  *   &lt;widget name="fooWidget" initOrder="1" threadsafe="true"/&gt;
  * &lt;/my-system&gt;
  * </pre>
- * <p>If namespace support is enabled (eg through {@link
+ * <p>If namespace support is enabled (eg through 
  * DefaultConfigurationBuilder#DefaultConfigurationBuilder(boolean) new
- * DefaultConfigurationBuilder(true)}), then the <code>xmlns:doc</code> element
+ * DefaultConfigurationBuilder(true)), then the <code>xmlns:doc</code> element
  * will not translate into a Configuration attribute, and the
  * <code>doc:desc</code> element will become a <code>Configuration</code> node
  * with name "desc" and namespace "http://myco.com/documentation". The
  * <code>widget</code> element will have namespace "".
  * </p>
- * <p>If namespace support is disabled (the default for {@link
- * DefaultConfigurationBuilder}), the above XML will translate directly to
+ * <p>If namespace support is disabled (the default for 
+ * DefaultConfigurationBuilder), the above XML will translate directly to
  * <code>Configuration</code> nodes. The <code>my-system</code> node will have
  * an attribute named "xmlns:doc", and a child called "doc:desc".
  * </p>
@@ -161,7 +161,7 @@ public interface Configuration
      * Configuration builder. If the Configuration builder does not support
      * namespaces, this method will return a blank string.
      * </p>
-     * <p>In the case of {@link DefaultConfigurationBuilder}, the namespace will
+     * <p>In the case of DefaultConfigurationBuilder, the namespace will
      * be the URI associated with the XML element. Eg.,:</p>
      * <pre>
      * &lt;foo xmlns:x="http://blah.com"&gt;

@@ -107,7 +107,7 @@ public final class Specification
     /**
      * Enum indicating that extension is incompatible with
      * other Package Specification in ways other than other enums
-     * indicate). ie For example the other Package Specification
+     * indicate. For example the other Package Specification
      * may have a different ID.
      */
     public static final Compatability INCOMPATIBLE =

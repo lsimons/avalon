@@ -124,8 +124,6 @@ public class DefaultClassLoaderContext extends DefaultContext
     *
     * @param logger the logging channel to assign to the classloader model
     * @param system the system context
-    * @param repository a local repository
-    * @param base the system base directory
     * @param parent the parent classloader
     * @param directive the classloader directive
     */
@@ -142,8 +140,6 @@ public class DefaultClassLoaderContext extends DefaultContext
     *
     * @param logger the logging channel to assign to the classloader model
     * @param system the system context
-    * @param repository a local repository
-    * @param base the system base directory
     * @param parent the parent classloader
     * @param packages the set of optional packages established under 
     *    current classloader chain
@@ -152,6 +148,7 @@ public class DefaultClassLoaderContext extends DefaultContext
     * @param types the parent type manager
     * @param services the parent service manager
     * @param directive the classloader directive
+    * @param implied url array added though implication
     */
     public DefaultClassLoaderContext( 
       Logger logger, SystemContext system, 
