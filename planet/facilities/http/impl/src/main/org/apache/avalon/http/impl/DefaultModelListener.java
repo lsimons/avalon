@@ -152,12 +152,11 @@ public class DefaultModelListener extends AbstractLogEnabled
             {
                 if( flag )
                 {
-                    if( getLogger().isInfoEnabled() )
-                    {
-                        getLogger().info( 
-                          "component: " + component + " is a HttpRequestHandler" );
-                    }
                     m_server.register( component );
+                }
+                else
+                {
+                    m_server.unregister( component );
                 }
             }
         }

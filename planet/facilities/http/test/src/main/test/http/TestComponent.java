@@ -43,7 +43,7 @@ import org.apache.avalon.http.util.AbstractHttpRequestHandler;
  * requests.
  * 
  * @avalon.component name="test" lifestyle="thread"
- * @avalon.service type="org.apache.avalon.http.Handler"
+ * @avalon.service type="org.apache.avalon.http.HttpRequestHandler"
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public class TestComponent extends AbstractHttpRequestHandler 

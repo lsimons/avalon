@@ -25,8 +25,14 @@ import org.apache.avalon.composition.model.ComponentModel;
 public interface HttpService
 {
    /**
-    * Register a servlet under a context.
+    * Register a component model under a context.
     * @param model the component model
     */
     void register( ComponentModel model );
+
+   /**
+    * Unregister the component model under the context.
+    * @param model the component model
+    */
+    void unregister( ComponentModel model );
 }
