@@ -1,6 +1,7 @@
 index.html
 changes.html
 demo-helloworld.html
+demo-soaphelloworld.html
 demo-httpproxy.html
 demo-simpleserver.html
 features.html
@@ -11,3 +12,5 @@ images/remove.jpg
 images/update.jpg
 images/header.gif
 images/jakarta-logo.gif
+images/helloworld.gif
+images/soaphelloworld.gif
