@@ -9,23 +9,69 @@ package org.apache.log.format;
 
 import java.io.StringWriter;
 import java.util.Stack;
-import org.apache.log.*;
+import org.apache.log.ContextMap;
+import org.apache.log.ContextStack;
+import org.apache.log.LogEvent;
+import org.apache.log.Priority;
 
 /**
- * This formater formats the LogEntries according to a input pattern
+ * This formater formats the LogEvents according to a input pattern
  * string.
- *
- * The format of each pattern element can be %[+|-]#.#{field:subformat}
- *
- * The +|- indicates left or right justify.
- * The #.# indicates the minimum and maximum size of output.
- * 'field' indicates which field is to be output and must be one of
- *  properties of LogEvent
- * 'subformat' indicates a particular subformat and is currently unused.
+ * <p>
+ * The format of each pattern element can be %[+|-][#[.#]]{field:subformat}.
+ * </p>
+ * <ul>
+ * <li>The +|- indicates left or right justify.
+ * </li>
+ * <li>The #.# indicates the minimum and maximum size of output.<br>
+ *   You may omit the values and the field will be formatted without size
+ *   restriction.<br>
+ *   You may specify '#', or '#.' to define an minimum size, only.</br>
+ *   You may specify '.#' to define an maximum size only.
+ * </li>
+ * <li>
+   * 'field' indicates which field is to be output and must be one of
+ *  properties of LogEvent.<br>
+ *  Currently following fields are supported:
+ *   <dl>
+ *     <dt>category</dt>
+ *     <dd>Category value of the logging event.</dd>
+ *     <dt>context</dt>
+ *     <dd>Context value of the logging event.</dd>
+ *     <dt>message</dt>
+ *     <dd>Message value of the logging event.</dd>
+ *     <dt>time</dt>
+ *     <dd>Time value of the logging event.</dd>
+ *     <dt>rtime</dt>
+ *     <dd>Relative time value of the logging event.</dd>
+ *     <dt>throwable</dt>
+ *     <dd>Throwable value of the logging event.</dd>
+ *     <dt>priority</dt>
+ *     <dd>Priority value of the logging event.</dd>
+ *   </dl>
+ * </li>
+ * <li>'subformat' indicates a particular subformat and is currently only used
+ *   for category context to specify the context map parameter name.
+ * </li>
+ * </ul>
+ * <p>A simple example of a typical PatternFormatter format:
+ * </p>
+ * <pre><code>%{time} %5.5{priority}[%-10.10{category}]: %{message}
+ * </pre></code>
+ * <p>
+ *   This format string will format a log event printing first time value of
+ *   of log event with out size restriction, next priority with minum and maximum size 5,
+ *   next category right justified having minmum and maximum size of 10,
+ *   at last the message of the log event without size restriction.
+ * </p>
+ * <p>A formatted sample message of the above pattern format:
+ * </p>
+ * <pre><code>1000928827905 DEBUG [     junit]: Sample message
+ * </pre><code>
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @version CVS $Revision: 1.19 $ $Date: 2001/08/30 05:43:19 $
+ * @version CVS $Revision: 1.20 $ $Date: 2001/09/25 10:04:37 $
  */
 public class PatternFormatter
     implements Formatter, org.apache.log.Formatter
@@ -74,7 +120,7 @@ public class PatternFormatter
     private PatternRun                      m_formatSpecification[];
 
     /**
-     * @deprecated Use constructor PatternFormatter(String pattern) as this does not 
+     * @deprecated Use constructor PatternFormatter(String pattern) as this does not
      *             correctly initialize object
      */
     public PatternFormatter()
@@ -368,7 +414,7 @@ public class PatternFormatter
         case TYPE_PRIORITY: return getPriority( event.getPriority(), run.m_format );
 
         case TYPE_CONTEXT:
-            if( null == run.m_format || 
+            if( null == run.m_format ||
                 run.m_format.startsWith( "stack" ) )
             {
                 //Print a warning out to stderr here
