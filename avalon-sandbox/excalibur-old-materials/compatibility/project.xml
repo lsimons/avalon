@@ -14,6 +14,10 @@
         Deprecated materials
     </description>
 
+    <properties>
+        <use-forrest>true</use-forrest>
+    </properties>
+
     <build>
         <!-- Unit test cases; need to rule out abstract classes -->
         <unitTest>
