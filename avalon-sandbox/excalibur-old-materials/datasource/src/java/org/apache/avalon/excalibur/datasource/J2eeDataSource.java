@@ -26,7 +26,7 @@ import org.apache.avalon.framework.logger.Loggable;
  * J2EE container pools the datasources properly.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.7 $ $Date: 2002/05/23 08:14:29 $
+ * @version CVS $Revision: 1.8 $ $Date: 2002/06/03 00:23:21 $
  * @since 4.0
  */
 public class J2eeDataSource
@@ -74,16 +74,22 @@ public class J2eeDataSource
             try
             {
                 Context initialContext;
-                if ( null == contextFactory || null == providerUrl )
+                if ( null == contextFactory && null == providerUrl )
                 {
-                    final Hashtable props = new Hashtable();
-                    props.put( Context.INITIAL_CONTEXT_FACTORY, contextFactory );
-                    props.put( Context.PROVIDER_URL, providerUrl );
-                    initialContext = new InitialContext( props );
+                    initialContext = new InitialContext();
                 }
                 else
                 {
-                    initialContext = new InitialContext();
+                    final Hashtable props = new Hashtable();
+                    if ( null != contextFactory )
+                    {
+                        props.put( Context.INITIAL_CONTEXT_FACTORY, contextFactory );
+                    }
+                    if ( null != providerUrl )
+                    {
+                        props.put( Context.PROVIDER_URL, providerUrl );
+                    }
+                    initialContext = new InitialContext( props );
                 }
 
                 if ( null == lookupName )
