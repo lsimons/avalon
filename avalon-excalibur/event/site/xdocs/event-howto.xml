@@ -159,7 +159,7 @@ catch (SinkException se)
         There are some other methods that are utility methods:
         <code>maxSize()</code>, <code>isFull()</code>,
         <code>canAccept()</code>, <code>size()</code>.  They help
-        yoy in your planning.  Use <code>maxSize()</code> to determine
+        you in your planning.  Use <code>maxSize()</code> to determine
         the bounds of the Sink.  If the value returned is -1, then
         there are no bounds.  If the value is positive, then that
         is the limit of the number of events the Sink can have at
@@ -219,7 +219,7 @@ public class MyEventHandler implements EventHandler
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.5 $ $Date: 2003/02/20 14:25:22 $
+      $Revision: 1.6 $ $Date: 2003/10/26 12:33:25 $
     </legal>
   </footer>
 </document>

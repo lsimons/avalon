@@ -10,7 +10,7 @@
   <body>
     <section><title>System Util Design</title>
       <p>
-        SystemUtil determins which CPUParser it needs by examining
+        SystemUtil determines which CPUParser it needs by examining
         the results from <code>System.getProperty( "os.name" )</code>.
         It strips all the whitespace from the name, and appends it
         to the <code>org.apache.excalibur.util.system</code> package.
@@ -40,7 +40,7 @@ import org.apache.excalibur.util.CPUParser;
  * Parses the Windows XP environment
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.3 $ $Date: 2003/02/20 14:25:21 $
+ * @version CVS $Revision: 1.4 $ $Date: 2003/10/26 12:33:25 $
  */
 public final class WindowsXP implements CPUParser
 {
@@ -105,7 +105,7 @@ public final class WindowsXP implements CPUParser
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.3 $ $Date: 2003/02/20 14:25:21 $
+      $Revision: 1.4 $ $Date: 2003/10/26 12:33:25 $
     </legal>
   </footer>
 </document>
