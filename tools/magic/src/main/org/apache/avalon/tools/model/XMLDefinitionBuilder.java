@@ -32,6 +32,21 @@ import java.io.File;
  */
 public class XMLDefinitionBuilder 
 {
+    public static Resource createResource( final Home home, final Element element )
+    {
+        final Info info =
+          createInfo( home, ElementHelper.getChild( element, "info" ) );
+        final Gump gump =
+          createGump( ElementHelper.getChild( element, "gump" ) );
+        final String key = getDefinitionKey( element, info );
+
+        final ResourceRef[] resources =
+          createResourceRefs( 
+            ElementHelper.getChild( element, "dependencies" ) );
+        
+        return new Resource( home, key, info, gump, resources );
+    }
+
     public static Resource createResource( final Home home, final Element element, final File anchor )
     {
         final String tag = element.getTagName();
@@ -44,7 +59,7 @@ public class XMLDefinitionBuilder
         // 
 
         final Info info =
-          createInfo( ElementHelper.getChild( element, "info" ) );
+          createInfo( home, ElementHelper.getChild( element, "info" ) );
         final Gump gump =
           createGump( ElementHelper.getChild( element, "gump" ) );
         final String key = getDefinitionKey( element, info );
@@ -75,63 +90,6 @@ public class XMLDefinitionBuilder
             return new Plugin( 
               home, key, basedir, path, info, gump, resources, plugins, 
               tasks, listeners );
-        }
-        else
-        {
-            final String error =
-              "Unrecognized project type \"" + tag + "\".";
-            throw new BuildException( error );
-        }
-    }
-
-    public static Resource createResource( final Home home, final Element element )
-    {
-        final Info info =
-          createInfo( ElementHelper.getChild( element, "info" ) );
-        final Gump gump =
-          createGump( ElementHelper.getChild( element, "gump" ) );
-        final String key = getDefinitionKey( element, info );
-
-        final ResourceRef[] resources =
-          createResourceRefs( 
-            ElementHelper.getChild( element, "dependencies" ) );
-        
-        return new Resource( home, key, info, gump, resources );
-    }
-
-    public static Definition createDefinition( final Home home, final Element element, final File anchor )
-    {
-        final Info info =
-          createInfo( ElementHelper.getChild( element, "info" ) );
-        final Gump gump =
-          createGump( ElementHelper.getChild( element, "gump" ) );
-        final String key = getDefinitionKey( element, info );
-
-        final String path = element.getAttribute( "basedir" );
-        final File basedir = getBasedir( anchor, path );
-       
-        final ResourceRef[] resources =
-          createResourceRefs( 
-            ElementHelper.getChild( element, "dependencies" ) );
-        
-        final ResourceRef[] plugins =
-          createPluginRefs( 
-            ElementHelper.getChild( element, "plugins" ) );
-
-        final String tag = element.getTagName();
-        if( tag.equals( "project" ) )
-        {
-            return new Definition( 
-              home, key, basedir, path, info, gump, resources, plugins );
-        }
-        else if( tag.equals( "plugin" ) )
-        {
-            final TaskDef[] tasks =
-              getTaskDefs( ElementHelper.getChild( element, "tasks" ) );
-            final ListenerDef[] listeners =
-              getListenerDefs( ElementHelper.getChild( element, "listeners" ) );
-            return new Plugin( 
-              home, key, basedir, path, info, gump, resources, plugins, tasks, listeners );
         }
         else
         {
@@ -207,7 +165,7 @@ public class XMLDefinitionBuilder
         return key;
     }
 
-    public static Info createInfo( final Element info )
+    public static Info createInfo( Home home, final Element info )
     {
         final String group =
           ElementHelper.getValue( 
@@ -221,18 +179,16 @@ public class XMLDefinitionBuilder
         final String type =
           ElementHelper.getValue( 
             ElementHelper.getChild( info, "type" ) );
+        final boolean status = createSnapshotPolicy( info );
+        return Info.create( home, group, name, version, type, status );
+    }
+
+    private static boolean createSnapshotPolicy( final Element info )
+    {
         final String status =
           ElementHelper.getValue( 
             ElementHelper.getChild( info, "status" ) );
-
-        if( Info.SNAPSHOT.equalsIgnoreCase( status ) )
-        {
-            return new Info( group, name, version, type, true );
-        }
-        else
-        {
-            return new Info( group, name, version, type, false );
-        }
+        return Info.SNAPSHOT.equalsIgnoreCase( status );
     }
 
     public static Gump createGump( final Element info )

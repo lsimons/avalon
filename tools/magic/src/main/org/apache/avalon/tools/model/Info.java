@@ -31,7 +31,7 @@ public class Info
  
     public static final String PROTOCOL = "artifact";
 
-    public static Info create( final String id )
+    public static Info create( Home home, final String id )
     {
         final int i = id.indexOf( ":" );
         if( i<0 )
@@ -42,23 +42,33 @@ public class Info
         }
         final String protocol = id.substring( 0, i );
         final String spec = id.substring( i+1 );
-        return Info.create( protocol, spec );
+        return Info.create( home, protocol, spec );
     }
 
-    public static Info create( final String type, final String id )
+    public static Info create( Home home, final String type, final String id )
     {
         final int n = getGroupIndex( id );
         final String group = getGroupFromId( id, n );
         final String name = getNameFromId( id, n );
         final String version = getVersionFromId( id );
-        if( SNAPSHOT.equalsIgnoreCase( version ) )
-        {
-            return new Info( group, name, version, type, true );
-        }
-        else
-        {
-            return new Info( group, name, version, type, false );
-        }
+        return Info.create( 
+          home, group, name, version, type, 
+          SNAPSHOT.equalsIgnoreCase( version ) );
+    }
+
+    public static Info create(
+      final Home home, final String group, final String name, final String version, 
+      final String type, boolean snapshot )
+    {
+        //if( home.isGump() ) 
+        //{
+        //    final String sig = home.getGumpSignature();
+        //    return new Info( group, name, sig, type, snapshot );
+        //}
+        //else
+        //{
+            return new Info( group, name, version, type, snapshot );
+        //}
     }
 
     private String m_name;
@@ -67,7 +77,7 @@ public class Info
     private String m_type;
     private boolean m_snapshot;
 
-    public Info( 
+    private Info( 
       final String group, final String name, final String version, 
       final String type, boolean snapshot )
     {

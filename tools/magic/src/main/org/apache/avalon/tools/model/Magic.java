@@ -46,6 +46,8 @@ public class Magic extends DataType
     //-------------------------------------------------------------
 
     public static final String KEY = "magic.home";
+    public static final String GUMP_SRCDIR_KEY = "gump.srcdir";
+    public static final String GUMP_SIGNATURE_KEY = "gump.signature";
 
     public static final String HOSTS_KEY = "magic.hosts";
     public static final String CACHE_KEY = "magic.cache";
@@ -92,10 +94,16 @@ public class Magic extends DataType
     }
 
     //-------------------------------------------------------------
+    // immutable state
+    //-------------------------------------------------------------
+
+    private final String m_signature;
+    private final File m_system;
+
+    //-------------------------------------------------------------
     // mutable state
     //-------------------------------------------------------------
 
-    private File m_system;
     private Repository m_main;
     private Repository m_docs;
     private Map m_homes = new Hashtable();
@@ -108,7 +116,10 @@ public class Magic extends DataType
     {
         setProject( project );
 
+        m_signature = project.getProperty( GUMP_SIGNATURE_KEY );
+
         m_system = getSystemDirectory( project );
+
         project.setProperty( KEY, Context.getCanonicalPath( m_system ) );
 
         File user = new File( m_system, "user.properties" );
@@ -164,6 +175,11 @@ public class Magic extends DataType
     public Repository getDocsRepository()
     {
         return m_docs;
+    }
+
+    public String getGumpSignature()
+    {
+        return m_signature;
     }
 
     public Home getHome( Project project, String value )

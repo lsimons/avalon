@@ -345,24 +345,46 @@ public class Context extends Task
 
     public static File getFile( final File root, final String path )
     {
+        return getFile( root, path, false );
+    }
+
+    public static File getFile( final File root, final String path, boolean create )
+    {
         if( null == path )
         {
             throw new NullPointerException( "path" );
         }
         final File file = new File( path );
-        if( file.isAbsolute() ) return getCanonicalFile( file );
+        if( file.isAbsolute() ) return getCanonicalFile( file, create );
         if( null == root )
         {
             throw new NullPointerException( "root" );
         }
-        return getCanonicalFile( new File( root, path ) );
+        return getCanonicalFile( new File( root, path ), create );
     }
 
     public static File getCanonicalFile( final File file ) throws BuildException
     {
+        return getCanonicalFile( file, false );
+    }
+
+    public static File getCanonicalFile( final File file, boolean create ) throws BuildException
+    {
         try
         {
-            return file.getCanonicalFile();
+            File result = file.getCanonicalFile();
+            if( create )
+            {
+                if( result.isDirectory() )
+                {
+                    result.mkdirs();
+                }
+                else
+                {
+                    result.getParentFile().mkdirs();
+                }
+            }
+            return result;
         }
         catch( IOException ioe )
         {

@@ -81,7 +81,12 @@ public class Home extends DataType
         m_project = project;
         buildList( index );
         int n = m_resources.size();
-        project.log( "count: " + n );
+        project.log( "Resource count: " + n );
+
+        if( null != system.getGumpSignature() )
+        {
+            project.log( "Gump signature: " + system.getGumpSignature() );
+        }
     }
 
     //-------------------------------------------------------------
@@ -106,6 +111,16 @@ public class Home extends DataType
     public boolean isaResourceKey( String key )
     {
         return ( null != m_resources.get( key ) );
+    }
+
+    public boolean isGump()
+    {
+        return ( null != getGumpSignature() );
+    }
+
+    public String getGumpSignature()
+    {
+        return m_system.getGumpSignature();
     }
 
     public Repository getRepository()

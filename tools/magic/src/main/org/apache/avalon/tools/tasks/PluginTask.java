@@ -74,9 +74,10 @@ public class PluginTask extends SystemTask
             // get the xml definition of the plugin
             //
 
-            final String id = getArtifactSpec();
 
-            final Info info = Info.create( id );
+            final String id = getArtifactSpec();
+            final Info info = Info.create( getHome(), id );
+
             final Project project = getProject();
             final Resource resource = new Resource( getHome(), info );
             final File file = resource.getArtifact( project );
@@ -224,7 +225,7 @@ public class PluginTask extends SystemTask
         {
             final Element root = ElementHelper.getRootElement( file );
             final Element infoElement = ElementHelper.getChild( root, "info" );
-            m_info = XMLDefinitionBuilder.createInfo( infoElement );
+            m_info = XMLDefinitionBuilder.createInfo( home, infoElement );
             final Element tasksElement = ElementHelper.getChild( root, "tasks" );
             m_tasks = XMLDefinitionBuilder.getTaskDefs( tasksElement );
             final Element listenerElement = ElementHelper.getChild( root, "listeners" );
@@ -238,7 +239,7 @@ public class PluginTask extends SystemTask
                 final String value = ElementHelper.getValue( child );
                 final String type = getArtifactType( value );
                 final String uri = getArtifactURI( value );
-                final Info info = Info.create( type, uri );
+                final Info info = Info.create( home, type, uri );
                 final Resource resource = new Resource( home, info );
                 final File jar = resource.getArtifact( project );
                 m_path.createPathElement().setLocation( jar );
