@@ -37,7 +37,7 @@ import java.util.Map;
  *   public static final Color RED = new Color( "Red", map );
  *   public static final Color GREEN = new Color( "Green", map );
  *   public static final Color BLUE = new Color( "Blue", map );
-
+ *
  *   private Color( final String color, final Map map )
  *   {
  *     super( color, map );
@@ -60,6 +60,7 @@ import java.util.Map;
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  * @author <a href="mailto:jefft@apache.org">Jeff Turner</a>
+ * @author <a href="mailto:leo.sutic@insprieinfrastructure.com">Leo Sutic</a>
  * @version 1.0
  */
 public abstract class Enum
@@ -68,7 +69,7 @@ public abstract class Enum
      * The string representation of the Enum.
      */
     private final String        m_name;
-
+    
     /**
      * Constructor to add a new named item.
      * <p>
@@ -82,7 +83,7 @@ public abstract class Enum
     {
         this( name, null );
     }
-
+    
     /**
      * Constructor to add a new named item.
      * <p>
@@ -102,7 +103,22 @@ public abstract class Enum
             map.put( name, this );
         }
     }
-
+    
+    /**
+     * Tests for equality. Two Enum:s are considered equal
+     * if they have the same class names and the same names.
+     * Identity is tested for first, so this method runs fast.
+     * The method is also declared final - I (LSutic) did this to
+     * allow the JIT to inline it easily.
+     */
+    public final boolean equals( final Object other )
+    {
+        return other == this ||
+            ( other.getClass().getName().equals( this.getClass().getName() ) &&
+            m_name.equals( ((Enum) other).m_name ) );
+    }
+    
+    
     /**
      * Retrieve the name of this Enum item, set in the constructor.
      * @return the name <code>String</code> of this Enum item
@@ -111,7 +127,7 @@ public abstract class Enum
     {
         return m_name;
     }
-
+    
     /**
      * Human readable description of this Enum item. For use when debugging.
      * @return String in the form <code>type[name]</code>, eg.:
