@@ -18,7 +18,7 @@ import java.security.KeyStore;
 import javax.net.ssl.SSLServerSocket;
 import javax.net.ssl.SSLServerSocketFactory;
 import javax.security.cert.X509Certificate;
-import org.apache.avalon.framework.Initializable;
+import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -87,7 +87,7 @@ public class TLSServerSocketFactory
             keyStore.getChild( "authenticate-client" ).getValueAsBoolean( false );
     }
 
-    public void init()
+    public void initialize()
         throws Exception
     {
         final KeyStore keyStore = initKeyStore();
