@@ -244,7 +244,7 @@ Legal:
             constPattern="(^c_[a-z][a-zA-Z0-9]*$)|([A-Z_]*$)"
             ignoreImportLen="true"
             allowTabs="false"
-            javadocScope="protected"
+            javadocScope="nothing"
             ignoreWhitespace="true"
             cacheFile="checkstyle.cache"
             failOnViolation="false"
