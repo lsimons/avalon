@@ -32,27 +32,6 @@ public class PluginPlugin extends AbstractPlugin
         m_ServiceManager = (PluginServiceManager) man;
     }
     
-    public void install()
-    {
-        validate();
-        notifyPreMethod( "install" );
-        
-        getLogger().info( "Installing plugin: " + m_Context.getProjectName() );
-
-        String projectName = m_Context.getProjectName();
-        File systemDir = m_Context.getSystemDir();
-        File localpluginrepo = new File( systemDir, "plugins/" + projectName );
-        File srcDir = new File( m_Context.getProjectDir(), "src/dist" );
-        FileSet src = new FileSet();
-        src.setDir( srcDir );
-        Copy copy = m_Project.createTask( "copy" );
-        copy.setVerbose( true );
-        copy.setTodir( localpluginrepo );
-        copy.addFileset( src );
-        copy.execute();        
-        notifyPostMethod( "install" );
-    }
-
     public void loadAll()
         throws ServiceException
     {
@@ -126,4 +105,25 @@ public class PluginPlugin extends AbstractPlugin
         notifyPostMethod( "validate" );
     }
     
+    public void install()
+    {
+        validate();
+        notifyPreMethod( "install" );
+        
+        getLogger().info( "Installing plugin: " + m_Context.getProjectName() );
+
+        String projectName = m_Context.getProjectName();
+        File systemDir = m_Context.getSystemDir();
+        File localpluginrepo = new File( systemDir, "plugins/" + projectName );
+        File srcDir = new File( m_Context.getProjectDir(), "src/dist" );
+        FileSet src = new FileSet();
+        src.setDir( srcDir );
+        Copy copy = m_Project.createTask( "copy" );
+        copy.setVerbose( true );
+        copy.setTodir( localpluginrepo );
+        copy.addFileset( src );
+        copy.execute();        
+        notifyPostMethod( "install" );
+    }
+
 }

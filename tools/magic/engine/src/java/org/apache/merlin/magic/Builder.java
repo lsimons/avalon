@@ -11,6 +11,8 @@ import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.service.ServiceException;
 
+import org.apache.tools.ant.Project;
+
 public class Builder
 {
     private Logger   m_Logger;
@@ -20,6 +22,7 @@ public class Builder
     private File     m_ProjectDir;
     private File     m_PluginsDir;
     private File     m_TempDir;
+    private Project  m_AntProject;
     
     public Builder( String[] methods, File projectDir )
     {
@@ -56,11 +59,13 @@ public class Builder
         loadUserSystemProperties( props );
         loadUserHomeProperties( props );
         
+        m_AntProject = initializeAntProject( props );
+        
         FacadeFactory factory = new FacadeFactory();
         if( factory instanceof LogEnabled )
             ((LogEnabled) factory).enableLogging( m_Logger );
             
-        PluginServiceManager sm = new PluginServiceManager( factory, props );
+        PluginServiceManager sm = new PluginServiceManager( factory, props, m_AntProject );
         sm.enableLogging( m_Logger );
         
         for( int i=0 ; i < m_CallMethods.length ; i++ )
@@ -205,5 +210,16 @@ public class Builder
         File systemDir = new File( system );
         return systemDir;
     }
+
+    private Project initializeAntProject( PluginProperties props )
+    {
+        Project antProject = new Project();
+        antProject.setBaseDir( m_ProjectDir );
+        antProject.setCoreLoader( this.getClass().getClassLoader() );
+        antProject.setName( props.getProperty( "project.name" ) );
+        antProject.init();
+        return antProject;
+    }
+        
 } 
  

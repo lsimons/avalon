@@ -14,6 +14,8 @@ import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 
+import org.apache.tools.ant.Project;
+
 public class PluginServiceManager extends AbstractLogEnabled
     implements ServiceManager
 {
@@ -29,18 +31,27 @@ public class PluginServiceManager extends AbstractLogEnabled
 
     private PluginProperties m_GlobalProperties;
     private FacadeFactory m_FacadeFactory;
-
-    PluginServiceManager( FacadeFactory factory, PluginProperties globalprops )
+    private Project m_AntProject;
+    
+    PluginServiceManager( FacadeFactory factory, PluginProperties globalProps, Project ant )
     {
+        if( factory == null )
+            throw new IllegalArgumentException( "Null argument: factory" );
+        if( globalProps == null )
+            throw new IllegalArgumentException( "Null argument: globalProps" );
+        if( ant == null )
+            throw new IllegalArgumentException( "Null argument: ant" );
+            
         DUMMY = new Object();
         m_FacadeFactory = factory;
         
         m_PluginsByKey = new HashMap();
         m_PluginsByValue = new HashMap();
-        m_SystemDir = new File( globalprops.getProperty( "magic.home.dir" ) );
-        m_LocalPlugins = new File( globalprops.getProperty( "magic.plugins.dir" ) );;
-        m_ProjectDir = new File( globalprops.getProperty( "magic.project.dir" ) );;
-        m_TempDir = new File( globalprops.getProperty( "magic.temp.dir" ) );;
+        m_SystemDir = new File( globalProps.getProperty( "magic.home.dir" ) );
+        m_LocalPlugins = new File( globalProps.getProperty( "magic.plugins.dir" ) );;
+        m_ProjectDir = new File( globalProps.getProperty( "magic.project.dir" ) );;
+        m_TempDir = new File( globalProps.getProperty( "magic.temp.dir" ) );;
+        m_AntProject = ant;
     }
         
     public Object lookup( String service )
@@ -160,7 +171,7 @@ public class PluginServiceManager extends AbstractLogEnabled
         String projectName = props.getProperty( "project.name" );
         
         PluginContext ctx = new PluginContext( projectName, m_ProjectDir, 
-            props, service, pluginDir, m_SystemDir, m_TempDir );
+            props, service, pluginDir, m_SystemDir, m_TempDir, m_AntProject );
         
         try
         {

@@ -1,6 +1,7 @@
 package org.apache.merlin.magic;
 
 import java.io.File;
+import java.util.Iterator;
 import java.util.Stack;
 import java.util.StringTokenizer;
 
@@ -29,33 +30,42 @@ public class PluginContext extends AbstractLogEnabled
     PluginContext( File scriptDir )
     {
         this( "virtual", new File( "." ), new PluginProperties(), "virtual plugin", 
-              scriptDir, new File( "." ), new File( "." ) );
+              scriptDir, new File( "." ), new File( "." ), new Project() );
     }
     
-    PluginContext( String projectname, File projectDir, PluginProperties projectProps,
-                   String pluginname, File pluginDir, File systemDir, File tempDir )
+    PluginContext( String projectName, File projectDir, PluginProperties projectProps,
+                   String pluginName, File pluginDir, File systemDir, File tempDir,
+                   Project ant )
     {
-        m_ProjectName = projectname.trim();
+        if( projectName == null )
+            throw new IllegalArgumentException( "Null argument: projectName" );
+        if( projectDir == null )
+            throw new IllegalArgumentException( "Null argument: projectDir" );
+        if( projectProps == null )
+            throw new IllegalArgumentException( "Null argument: projectProps" );
+        if( pluginName == null )
+            throw new IllegalArgumentException( "Null argument: pluginName" );
+        if( pluginDir == null )
+            throw new IllegalArgumentException( "Null argument: pluginDir" );
+        if( systemDir == null )
+            throw new IllegalArgumentException( "Null argument: systemDir" );
+        if( tempDir == null )
+            throw new IllegalArgumentException( "Null argument: tempDir" );
+        if( ant == null )
+            throw new IllegalArgumentException( "Null argument: ant" );
+            
+        m_ProjectName = projectName.trim();
         m_ProjectDir = projectDir;
         m_ProjectProperties = projectProps;
         
         m_PluginDir = pluginDir;
-        m_PluginName = pluginname.trim();
+        m_PluginName = pluginName.trim();
         
         m_SystemDir = systemDir;
         m_TempDir = tempDir;
-        initializeAntProject();
+        m_AntProject = ant;
     }
 
-    private void initializeAntProject()
-    {
-        m_AntProject = new Project();
-        m_AntProject.setBaseDir( m_ProjectDir );
-        m_AntProject.setCoreLoader( this.getClass().getClassLoader() );
-        m_AntProject.setName( m_ProjectName );
-        m_AntProject.init();
-    }
-        
     public Object get( Object entry )
     {
         if( !( entry instanceof String ))
@@ -128,6 +138,11 @@ public class PluginContext extends AbstractLogEnabled
     {
         String value = m_ProjectProperties.getProperty( name );
         return value;
+    }
+    
+    public Iterator getPropertyKeys()
+    {
+        return m_ProjectProperties.keySet().iterator();
     }
     
     public Project getAntProject()

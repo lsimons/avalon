@@ -22,12 +22,14 @@ public class JarPlugin extends AbstractPlugin
     implements Serviceable
 {
     private Object m_JavaPlugin;
+    private Object m_PreparePlugin;
     private boolean m_Jarred = false;
         
     public void service( ServiceManager man )
         throws ServiceException
     {
         m_JavaPlugin = man.lookup( "java" );
+        m_PreparePlugin = man.lookup( "prepare" );
     }
     
     public void jar()

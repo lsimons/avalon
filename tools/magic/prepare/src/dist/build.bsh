@@ -15,12 +15,12 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
 
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.types.FileSet;
+import org.apache.tools.ant.types.FilterSet;
 import org.apache.tools.ant.types.Path;
 import org.apache.tools.ant.taskdefs.Copy;
 import org.apache.tools.ant.taskdefs.Javac;
 
-public class JavacPlugin extends AbstractPlugin
-    implements Plugin, Contextualizable
+public class PreparePlugin extends AbstractPlugin
 {
     private Project m_Project;
     
@@ -43,35 +43,48 @@ public class JavacPlugin extends AbstractPlugin
         String srcdirname = m_Context.getProperty( "prepare.src.dir" );
         File fromDir = new File( srcdirname ); 
         toDir.mkdirs();  /* ensure that the directory exists. */
+        String textFiles = m_Context.getProperty( "prepare.filtered.files" );
         
-        copyWithFilter( fromDir, toDir );
+        copyWithFilter( fromDir, toDir, textFiles );
+        copyWithOutFilter( fromDir, toDir, textFiles );
         
     }
     
-    private void copyWithFilter( File fromDir, File toDir )
+    private void copyWithFilter( File fromDir, File toDir, String textFiles )
     {
         FileSet from = new FileSet();
         from.setDir( fromDir );
-        from.setIncludes( "**/*" );
+        from.setIncludes( textFiles );
 
         /* Copy with filtering */    
         Copy copy = (Copy) m_Project.createTask( "copy" );
+        FilterSet fs = copy.createFilterSet();
+        Iterator list = m_Context.getPropertyKeys();
+        while( list.hasNext() )
+        {
+            String key = (String) list.next();
+            String value = m_Context.getProperty( key );
+            fs.addFilter( key.toUpperCase(), value );
+        }
         copy.setTodir( toDir );
+        copy.setFiltering( true );
         copy.addFileset( from );
         copy.init();
         copy.execute();
     }
     
-    private void copyWithOutFilter( File fromDir, File toDir )
+    private void copyWithOutFilter( File fromDir, File toDir, String textFiles )
     {
         FileSet from = new FileSet();
         from.setDir( fromDir );
         from.setIncludes( "**/*" );
+        from.setExcludes( textFiles );
         
         /* Copy without filtering */    
         Copy copy = (Copy) m_Project.createTask( "copy" );
         copy.setTodir( toDir );
         copy.addFileset( from );
+        copy.setFiltering( false );
         copy.init();
         copy.execute();
     }

@@ -1,4 +1,12 @@
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.BufferedReader;
+import java.io.IOException;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import org.apache.merlin.magic.Plugin;
 import org.apache.merlin.magic.Builder;
 import org.apache.merlin.magic.PluginContext;
@@ -18,38 +26,55 @@ public class MagicPlugin extends AbstractLogEnabled
         m_Context = (PluginContext) context;
     }
 
+    private Iterator readBuildSequence()
+        throws IOException
+    {
+        ArrayList result = new ArrayList();
+        FileReader reader = null;
+        BufferedReader br = null;
+        try
+        {
+            File projectDir = m_Context.getProjectDir();
+            File file = new File( projectDir, "build.sequence" );
+            reader = new FileReader( file );
+            br = new BufferedReader( reader );
+            String line;
+            while( (line = br.readLine() ) != null )
+            {
+                result.add( line );
+            }
+            System.out.println( "RETURNING!!!!" );
+        } finally
+        {
+            if( reader != null )
+                reader.close();
+            if( br != null )
+                br.close();
+        }
+        Iterator value = result.iterator();
+        return value;
+    }
+
     public void build()
+        throws IOException
     {
         String[] methods = new String[] { "plugin.install" };
         
         File projectDir = m_Context.getProjectDir();
-        File[] plugins = projectDir.listFiles();
-        for( int i=0 ; i < plugins.length ; i++ )
+        Iterator projects = readBuildSequence();
+        while( projects.hasNext() )
         {
-            if( ! plugins[i].isDirectory() )
-                continue;
-            /* skip engine itself */
-            if( plugins[i].getName().equals( "engine" ) )
-                continue;
-            
-            File f = new File( plugins[i], "build.properties" );
-            if( ! f.exists() )
-                continue;
-            
-            File f = new File( plugins[i], "src/dist/build.bsh" );
-            if( ! f.exists() )
-                continue;
-                
-            Builder builder = new Builder( methods, plugins[i].getAbsoluteFile() );
+            String project = (String) projects.next();
+            File dir = new File( projectDir, project );
+            Builder builder = new Builder( methods, dir.getAbsoluteFile() );
             try
             {
                 builder.execute();
             } catch( Exception e )
             {
-                getLogger().error( "Niclas!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" );
                 e.printStackTrace();
-                getLogger().error( "Hedhman!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" );
             }
         }
     }
+    
 }
