@@ -197,17 +197,7 @@ public class DefaultEmbeddor
         {
             createComponents();
             setupComponents();
-            final SystemManager systemManager = (SystemManager)getServiceManager().lookup( SystemManager.ROLE );
-            systemManager.register( ManagementInfo.EMBEDDOR.getName(), this, ManagementInfo.EMBEDDOR.getInterfaces() );
-            for( int i = 0; i < m_entrys.length; i++ )
-            {
-                System.out.println( m_entrys[ i ].getRole() );
-                final ManagementInfo mi = ManagementInfo.getManagementInfoForRole( m_entrys[ i ].getRole() );
-                if ( null != mi )
-                {
-                    systemManager.register( mi.getName(), m_entrys[ i ].getObject(), mi.getInterfaces() );
-                }
-            }
+            registerComponents();
         }
         catch( final Exception e )
         {
@@ -302,14 +292,8 @@ public class DefaultEmbeddor
         shutdown();
         try
         {
+            unregisterComponents();
             shutdownComponents();
-            final SystemManager systemManager = (SystemManager)getServiceManager().lookup( SystemManager.ROLE );
-            systemManager.unregister( ManagementInfo.EMBEDDOR.getName() );
-            for( int i = 0; i < m_entrys.length; i++ )
-            {
-                final ManagementInfo mi = ManagementInfo.getManagementInfoForRole( m_entrys[ i ].getRole() );
-                systemManager.unregister( mi.getName() );
-            }
         }
         catch( final Exception e )
         {
@@ -609,6 +593,50 @@ public class DefaultEmbeddor
         {
             final String message = REZ.getString( "no-class.error", service.getName(), classname );
             throw new CascadingException( message, cnfe );
+        }
+    }
+
+    /**
+     * Register embeddor and it's components to <code>SystemManager</code>.
+     */
+    private void registerComponents()
+        throws Exception
+    {
+        final SystemManager systemManager =
+            (SystemManager)getServiceManager().lookup( SystemManager.ROLE );
+        systemManager.register( ManagementRegistration.EMBEDDOR.getName(),
+                                this, ManagementRegistration.EMBEDDOR.getInterfaces() );
+
+        for( int i = 0; i < m_entrys.length; i++ )
+        {
+            final ManagementRegistration registration =
+                ManagementRegistration.getManagementInfoForRole( m_entrys[ i ].getRole() );
+            if ( null != registration )
+            {
+                systemManager.register( registration.getName(),
+                                        m_entrys[ i ].getObject(), registration.getInterfaces() );
+            }
+        }
+    }
+
+    /**
+     * Unregister embeddor and it's components from <code>SystemManager</code>.
+     */
+    private void unregisterComponents()
+        throws Exception
+    {
+        final SystemManager systemManager =
+            (SystemManager)getServiceManager().lookup( SystemManager.ROLE );
+        systemManager.unregister( ManagementRegistration.EMBEDDOR.getName() );
+
+        for( int i = 0; i < m_entrys.length; i++ )
+        {
+            final ManagementRegistration registration =
+                ManagementRegistration.getManagementInfoForRole( m_entrys[ i ].getRole() );
+            if ( null != registration )
+            {
+                systemManager.unregister( registration.getName() );
+            }
         }
     }
 
