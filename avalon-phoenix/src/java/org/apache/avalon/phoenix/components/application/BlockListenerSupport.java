@@ -30,13 +30,7 @@ final class BlockListenerSupport
      */
     void fireBlockAddedEvent( final BlockEntry entry )
     {
-        final BlockMetaData metaData = entry.getMetaData();
-        final Object proxy = entry.getProxy();
-        final BlockEvent event =
-            new BlockEvent( metaData.getName(),
-                            proxy,
-                            metaData.getBlockInfo() );
-        blockAdded( event );
+        blockAdded( createEvent( entry ) );
     }
 
     /**
@@ -47,12 +41,24 @@ final class BlockListenerSupport
      */
     void fireBlockRemovedEvent( final BlockEntry entry )
     {
+        blockRemoved( createEvent( entry ) );
+    }
+
+    /**
+     * Utility method to create an event for a
+     * specific entry.
+     *
+     * @param entry the entry
+     * @return the new event
+     */
+    private BlockEvent createEvent( final BlockEntry entry )
+    {
         final BlockMetaData metaData = entry.getMetaData();
         final BlockEvent event =
             new BlockEvent( metaData.getName(),
                             entry.getProxy(),
                             metaData.getBlockInfo() );
-        blockRemoved( event );
+        return event;
     }
 
     /**
