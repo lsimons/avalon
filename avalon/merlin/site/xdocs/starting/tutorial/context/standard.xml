@@ -185,7 +185,7 @@ $ merlin -execute target\classes
 </source>
       </subsection>
 
-      <subsection name="Using Defaults">
+      <subsection name="Custom entries">
 
         <p>
         The <a href="entries.html">next tutorial</a> shows how 
