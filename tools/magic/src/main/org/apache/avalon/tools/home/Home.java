@@ -213,6 +213,13 @@ public class Home extends DataType
         return (Definition[]) list.toArray( new Definition[0] );
     }
 
+    public Resource getResource( String key )
+      throws BuildException
+    {
+        ResourceRef ref = new ResourceRef( key );
+        return getResource( ref );
+    }
+
     public Resource getResource( ResourceRef ref )
       throws BuildException
     {
