@@ -15,7 +15,7 @@
         <pathelement location="${build.classes}"/>
         <pathelement location="${avalon-logkit.jar}"/>
         <pathelement location="${avalon-framework.jar}"/>
-        <pathelement location="${excalibur-lang.jar}"/>
+        <pathelement location="${excalibur-threadcontext.jar}"/>
         <pathelement location="${excalibur-pool.jar}"/>
         <pathelement location="${junit.jar}"/>
         <pathelement location="${checkstyle.jar}"/>
@@ -35,7 +35,7 @@
     <target name="dependencies" description="Check dependencies" unless="skip.dependencies">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkCommon"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkLogkit"/>
-        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkLang"/>
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkThreadcontext"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkPool"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkFramework"/>
     </target>
