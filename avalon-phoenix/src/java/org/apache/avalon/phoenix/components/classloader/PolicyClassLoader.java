@@ -41,7 +41,7 @@ class PolicyClassLoader
     private final URLStreamHandlerFactory m_factory;
 
     ///Logger to use when reporting information
-    private Logger        m_logger;
+    private Logger  m_logger;
 
     /**
      * Construct a ClassLoader using specified URLs, parent
