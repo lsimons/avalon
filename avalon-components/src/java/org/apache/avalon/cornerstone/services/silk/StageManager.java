@@ -23,10 +23,10 @@ import org.apache.avalon.excalibur.event.Source;
  * </p>
  *
  * @author <a href="bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/02/01 20:06:24 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/02/01 20:08:53 $
  */
 
-public interface SilkServer {
+public interface StageManager {
     String ROLE = "org.apache.avalon.cornerstone.services.silk.SilkServer";
 
     /**
