@@ -23,13 +23,13 @@ final class TimeScheduledEntry
 {
     private static final SimpleDateFormat DATEFORMAT = new SimpleDateFormat();
 
-    protected final String m_name;
-    protected final TimeTrigger m_trigger;
-    protected final Target m_target;
+    private final String m_name;
+    private final TimeTrigger m_trigger;
+    private final Target m_target;
 
     //cached version of time from TimeTrigger class
-    protected long m_time;
-    protected boolean m_isValid;
+    private long m_time;
+    private boolean m_isValid;
 
     public TimeScheduledEntry( String name, TimeTrigger trigger, Target target )
     {
