@@ -34,7 +34,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * and installing it as appropriate.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2002/05/15 12:16:51 $
+ * @version $Revision: 1.6 $ $Date: 2002/05/15 12:27:38 $
  */
 public class Installer
     extends AbstractLogEnabled
@@ -57,7 +57,6 @@ public class Installer
     //The names on the native filesystem
     private static final String FS_CONFIG_XML = "SAR-INF" + File.separator + "config.xml";
     private static final String FS_ASSEMBLY_XML = "SAR-INF" + File.separator + "assembly.xml";
-    private static final String FS_SERVER_XML = "SAR-INF" + File.separator + "server.xml";
     private static final String FS_ENV_XML = "SAR-INF" + File.separator + "environment.xml";
     private static final String FS_CLASSES =
         "SAR-INF" + File.separator + "classes" + File.separator;
@@ -326,15 +325,7 @@ public class Installer
 
         //Retrieve name of environment file
         //need to check existence to support backwards compatability
-        File envFile = new File( directory, FS_ENV_XML );
-        if( !envFile.exists() )
-        {
-            final String message =
-                REZ.getString( "deprecated-environment-xml", url );
-            System.err.println( message );
-            getLogger().warn( message );
-            envFile = new File( directory, FS_SERVER_XML );
-        }
+        final File envFile = new File( directory, FS_ENV_XML );
 
         //Prepare and create Installation
         final String[] classPath =
