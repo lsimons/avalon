@@ -80,6 +80,7 @@ public class JarTask extends AbstractDeliverableTask
         }
  
         final Jar jar = (Jar) getProject().createTask( "jar" );
+        jar.setTaskName( getTaskName() );
         jar.setDestFile( jarFile );
         jar.setBasedir( classes );
         jar.setIndex( true );

@@ -5,15 +5,35 @@
 
   <available property="magic.available" classname="org.apache.avalon.tools.model.Home"/>
 
+  <property environment="ENV"/>
   <property name="magic.dir" value="${basedir}/tools/magic"/>
   <property file="${basedir}/user.properties"/>
   <property file="${basedir}/build.properties"/>
-
   <property name="reactor.xml" 
     value="${project.home}/build/reactor.xml"/>
 
-  <target name="setup">
+  <condition property="magic.env.declared" value="false">
+    <isset property="ENV.MAGIC_HOME"/>
+  </condition>
+
+  <target name="declare-magic-home" if="magic.env.declared">
+    <property name="magic.home" value="${ENV.MAGIC_HOME}"/>
+  </target>
+
+  <target name="check-magic-home" unless="magic.env.declared">
+    <property name="magic.home" value="${user.home}/.magic"/>
+  </target>
+
+  <target name="setup" depends="check-magic-home,declare-magic-home">
     <ant dir="." antfile="${magic.dir}/setup.xml"/>
+    <path id="magic.path">
+      <pathelement location="${user.dir}/.ant/lib/avalon-tools-magic.jar"/>
+    </path>
+    <taskdef name="unbar" classpath="magic.path"
+      classname="org.apache.avalon.tools.tasks.UnbarTask"/>
+    <property name="magic.cache" value="${magic.home}/cache"/>
+    <unbar repository="${magic.cache}" 
+      href="http://www.dpml.net/avalonx/supplemental/bars/avalonx-supplemental-1.0.bar"/>
   </target>
 
   <target name="clean" depends="verify">

@@ -169,6 +169,7 @@ public class JUnitTestTask extends SystemTask
         {
             mkDir( dest );
             final Copy copy = (Copy) getProject().createTask( "copy" );
+            copy.setTaskName( getTaskName() );
             copy.setPreserveLastModified( true );
             copy.setTodir( dest );
 
@@ -204,6 +205,7 @@ public class JUnitTestTask extends SystemTask
     private void compile( final File sources, final File classes, final Path classpath )
     {
         final Javac javac = (Javac) getProject().createTask( "javac" );
+        javac.setTaskName( getTaskName() );
         final Path src = javac.createSrc();
         final Path.PathElement element = src.createPathElement();
         element.setLocation( sources );
@@ -292,6 +294,7 @@ public class JUnitTestTask extends SystemTask
 
         junit.setErrorProperty( ERROR_KEY );
         junit.setFailureProperty( FAILURE_KEY );
+        junit.setTaskName( getTaskName() );
 
         junit.execute();
     }

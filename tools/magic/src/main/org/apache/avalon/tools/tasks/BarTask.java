@@ -94,6 +94,7 @@ public class BarTask extends AbstractDeliverableTask
         fileset.createExclude().setName( "**/*." + BAR_EXT + "*" );
  
         final Jar jar = (Jar) getProject().createTask( "jar" );
+        jar.setTaskName( getTaskName() );
         jar.setDestFile( bar );
         jar.addFileset( fileset );
         jar.setIndex( true );
@@ -115,6 +116,7 @@ public class BarTask extends AbstractDeliverableTask
 
             final Manifest.Section block = new Manifest.Section();
             block.setName( "Block" );
+            addAttribute( block, "Block-Key", def.getKey() );    
             addAttribute( block, "Block-Group", def.getInfo().getGroup() );    
             addAttribute( block, "Block-Name", def.getInfo().getName() );
             if( null != def.getInfo().getVersion() )
@@ -126,6 +128,7 @@ public class BarTask extends AbstractDeliverableTask
             }
 
             manifest.addConfiguredSection( block );
+
             jar.addConfiguredManifest( manifest );
         }
         catch( Throwable e )

@@ -77,6 +77,7 @@ public abstract class ContextualTask extends Task
     public void mkDir( final File dir )
     {
         final Mkdir mkdir = (Mkdir) getProject().createTask( "mkdir" );
+        mkdir.setTaskName( getTaskName() );
         mkdir.setDir( dir );
         mkdir.init();
         mkdir.execute();
@@ -95,6 +96,7 @@ public abstract class ContextualTask extends Task
       final Project project, final File file ) throws BuildException
     {
         final Property props = (Property) project.createTask( "property" );
+        props.setTaskName( getTaskName() );
         props.init();
         props.setFile( file );
         props.execute();

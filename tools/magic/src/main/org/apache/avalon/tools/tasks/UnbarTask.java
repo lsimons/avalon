@@ -17,16 +17,17 @@
 
 package org.apache.avalon.tools.tasks;
 
-import org.apache.avalon.tools.model.Definition;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
-import org.apache.tools.ant.taskdefs.Jar;
-import org.apache.tools.ant.taskdefs.Manifest;
-import org.apache.tools.ant.taskdefs.ManifestException;
-import org.apache.tools.ant.types.FileSet;
+import org.apache.tools.ant.taskdefs.Get;
+import org.apache.tools.ant.taskdefs.Expand;
+import org.apache.tools.ant.types.PatternSet;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
+import java.net.JarURLConnection;
+import java.util.jar.Manifest;
 
 /**
  * Unpack a bar file into a repository. 
@@ -36,18 +37,49 @@ import java.io.IOException;
  */
 public class UnbarTask extends Task
 {
+   /**
+    * Group identifier manifest key.
+    */
+    public static final String BLOCK_KEY_KEY = "Block-Key";
+    public static final String BLOCK_GROUP_KEY = "Block-Group";
+    public static final String BLOCK_NAME_KEY = "Block-Name";
+    public static final String BLOCK_VERSION_KEY = "Block-Version";
+    public static final String BLOCK = "Block";
+
     public static final String BAR_EXT = "bar";
 
     private File m_cache;
     private File m_bar;
+    private URL m_href;
 
     public void setRepository( final File cache )
     {
         m_cache = cache;
     }
-    
-    public void setBar( final File bar )
+
+    public void setHref( final URL href )
     {
+        if( m_bar == null )
+        {
+            m_href = href;
+        }
+        else
+        {
+            final String error = 
+              "The file and href attributes are mutually exclusive.";
+            throw new BuildException( error );
+        }
+    }
+    
+    public void setFile( final File bar )
+    {
+        if( m_href != null )
+        {
+            final String error = 
+              "The file and href attributes are mutually exclusive.";
+            throw new BuildException( error );
+        }
+
         if( bar.exists() )
         {
             m_bar = bar;
@@ -74,17 +106,48 @@ public class UnbarTask extends Task
 
     private File getBar()
     {
-        if( null == m_bar )
-        {
-            final String error = 
-              "You must declare the 'bar' filename.";
-            throw new BuildException( error );
-        }
-        else
+        if( null != m_bar )
         {
             return m_bar;
         }
+        else if( null != m_href )
+        {
+            return getRemoteBar( m_href );
+        }
+        else
+        {
+            final String error = 
+              "You must declare the file or href attribute.";
+            throw new BuildException( error );
+        }
     }
+
+    private File getRemoteBar( URL url )
+    {
+        File temp = createTempFile();
+        Get get = (Get) getProject().createTask( "get" );
+        get.setSrc( url );
+        get.setDest( temp );
+        get.init();
+        get.execute();
+        return temp;
+    }
+
+    private File createTempFile()
+    {
+        try
+        {
+            File temp = File.createTempFile( "~magic-", ".bar" );
+            temp.deleteOnExit();
+            return temp;
+        }
+        catch( IOException ioe )
+        {
+            throw new BuildException( ioe );
+        }
+    }
+
+
 
     private File getDefaultRepository()
     {
@@ -95,13 +158,59 @@ public class UnbarTask extends Task
         }
         else
         {
-            return getProject().getBaseDir();
+            final String error = 
+              "Unbar task currently restricted to usage within magic build files.";
+            throw new BuildException( error );
         }
     }
 
     public void execute() throws BuildException 
     {
-        log( "bar: " + getBar() );
+        File bar = getBar();
+        File cache = getRepository();
+
+        log( "bar: " + bar );
         log( "cache: " + getRepository() );
+
+        try
+        {
+            
+            URL jurl = new URL( "jar:" + bar.toURL() + "!/" );
+            JarURLConnection connection = (JarURLConnection) jurl.openConnection();
+            Manifest manifest = connection.getManifest();
+            final String key = getBlockAttribute( manifest, BLOCK_KEY_KEY );
+            final String group = getBlockAttribute( manifest, BLOCK_GROUP_KEY );
+            final String name = getBlockAttribute( manifest, BLOCK_NAME_KEY );
+            final String version = getBlockAttribute( manifest, BLOCK_VERSION_KEY );
+
+            log( "key: " + key );
+            log( "group: " + group );
+            log( "name: " + name );
+            if( null != version )
+            {
+                log( "version: " + version );
+            }
+
+            File destination = new File( cache, group );
+            Expand expand = (Expand) getProject().createTask( "unjar" );
+            expand.setSrc( bar );
+            expand.setDest( destination );
+            PatternSet patternset = new PatternSet();
+            patternset.createInclude().setName( "**/*" );
+            patternset.createExclude().setName( "META-INF/**" );
+            expand.addPatternset( patternset );
+            expand.setTaskName( getTaskName() );
+            expand.init();
+            expand.execute(); 
+        }
+        catch( Throwable e )
+        {
+            throw new BuildException( e );
+        }
+    }
+
+    private String getBlockAttribute( Manifest manifest, String key )
+    {
+        return (String) manifest.getAttributes( BLOCK ).getValue( key );
     }
 }

@@ -62,7 +62,11 @@ project.name:    ${project.name}
   </target>
 
   <target name="unbar">
-    <x:unbar bar="target/deliverables/bars/${project.short-filename}.bar"/>
+    <x:unbar file="target/deliverables/bars/${project.short-filename}.bar"/>
+  </target>
+
+  <target name="unbar2">
+    <x:unbar href="http://www.dpml.net/avalon/tools/bars/${project.short-filename}.bar"/>
   </target>
 
 </project>

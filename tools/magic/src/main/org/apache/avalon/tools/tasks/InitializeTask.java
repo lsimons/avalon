@@ -119,6 +119,7 @@ public class InitializeTask extends SystemTask
         {
             File destination = resource.getArtifact( project, false );
             Copy copy = (Copy) project.createTask( "copy" );
+            copy.setTaskName( getTaskName() );
             copy.setFile( source );
             copy.setTofile( destination );
             copy.setPreserveLastModified( true );

@@ -84,6 +84,7 @@ public class PropertyTask extends SystemTask
             property.init();
             property.setName( m_property );
             property.setValue( value );
+            property.setTaskName( getTaskName() );
             property.execute();
         }
         else
