@@ -35,7 +35,11 @@ public class FileTarget
         throws IOException
     {
         super( null, formatter );
-        setFile( file, append );
+
+        if( null != file )
+        {
+            setFile( file, append );
+        }
     }
 
     /**
@@ -61,8 +65,22 @@ public class FileTarget
         }
 
         final FileOutputStream outputStream = 
-            new FileOutputStream( file.getName(), append );
+            new FileOutputStream( file.getPath(), append );
+
+        super.close();
         setOutputStream( outputStream );
+        open();
         m_file = file;
+    }
+
+    /**
+     * Retrieve file associated with target.
+     * This allows subclasses to access file object.
+     *
+     * @return the output File
+     */
+    protected File getFile()
+    {
+        return m_file;
     }
 }
