@@ -120,7 +120,7 @@ Legal:
   &check-targets;
 
   <!-- defer to check-targets.ent for figuring out dependencies -->
-  <target name="check-dependencies" 
+  <target name="check-dependencies"
           depends="jdk14-check,
                    javamail-check,
                    jdbc-check,
@@ -130,9 +130,9 @@ Legal:
                    servletapi-check"/>
 
   <!-- defer to check-targets.ent for downloading dependencies -->
-  <target name="import-dependencies" 
+  <target name="import-dependencies"
           depends="import-junit,import-log4j"/>
-  
+
   <!-- Main target -->
   <target name="main" depends="jar" description="Build complete"/>
 
@@ -170,30 +170,30 @@ Legal:
          latest of everything and just download that! -->
     <mkdir dir="${avalon-site.dir}"/>
     <mkdir dir="${avalon-site.dir}/lib"/>
-    
+
     <get src="http://www.ibiblio.org/maven/ant/jars/ant-1.4.1.jar"
         dest="${avalon-site.dir}/lib/ant-1.4.1.jar"
         verbose="true"
         usetimestamp="true"/>
-      
+
     <get src="http://www.ibiblio.org/maven/commons-collections/jars/commons-collections-2.0.jar"
         dest="${avalon-site.dir}/lib/commons-collections-2.0.jar"
         verbose="true"
         usetimestamp="true"/>
-      
+
     <get src="http://www.ibiblio.org/maven/jdom/jars/jdom-b8.jar"
         dest="${avalon-site.dir}/lib/jdom-b8.jar"
         verbose="true"
         usetimestamp="true"/>
-      
+
     <get src="http://www.ibiblio.org/maven/jdom/jars/jdom-b8.jar"
         dest="${avalon-site.dir}/lib/jdom-b8.jar"
         verbose="true"
         usetimestamp="true"/>
-    
+
     <copy file="${lib.dir}/log4j-1.2.7.jar"
         tofile="${avalon-site.dir}/lib/log4j-1.2.7.jar"/>
-	
+
     <get src="http://www.ibiblio.org/maven/velocity/jars/velocity-1.4-dev.jar"
         dest="${avalon-site.dir}/lib/velocity-1.4-dev.jar"
         verbose="true"
@@ -206,7 +206,7 @@ Legal:
 
   </target>
 
-  <target name="optional-tests" 
+  <target name="optional-tests"
           description="Tests for classes missing to the environment">
     <available property="avalon-site.present"
                file="${avalon-site.dir}/lib/velocity-1.4-dev.jar"
@@ -223,7 +223,7 @@ Legal:
     <echo>*  Recovery:</echo>
     <echo>*  Set the avalon-site.dir property in either</echo>
     <echo>*  ant.properties or ${user.home}/.ant.properties to</echo>
-    <echo>*  point at your cvs checkout of avalon-site, or run</echo> 
+    <echo>*  point at your cvs checkout of avalon-site, or run</echo>
     <echo>*  the build target import-avalon-site and it will</echo>
     <echo>*  check out the required parts of avalon-site into the</echo>
     <echo>*  parent directory.</echo>
@@ -233,7 +233,7 @@ Legal:
     <echo>*</echo>
     <echo>******************************************************</echo>
     <echo/>
-    
+
     <mkdir dir="${avalon-site.dir}/lib"/>
   </target>
 
@@ -243,12 +243,12 @@ Legal:
     <mkdir dir="${build.dir}"/>
     <mkdir dir="${build.classes}"/>
   </target>
-  
+
   <!-- Prepares the build directory -->
-  <target name="compile" 
-          depends="setup-properties,setup-dependencies,prepare" 
+  <target name="compile"
+          depends="setup-properties,setup-dependencies,prepare"
           description="Compile project">
-          
+
 
     <javac srcdir="${java.dir}"
            destdir="${build.classes}"
@@ -274,16 +274,16 @@ Legal:
                unless="javax.sql.present"/>
       <exclude name="org/apache/log/output/lf5/**"
                unless="log4j.present"/>
-               
+
       <!-- leave out test cases if junit not installed -->
       <exclude name="org/apache/log/util/test/**"
                unless="junit.present"/>
       <exclude name="org/apache/log/test/**"
                unless="junit.present"/>
       <exclude name="org/apache/log/output/test/**"
-               unless="junit.present"/>               
+               unless="junit.present"/>
       <exclude name="org/apache/log/format/test/**"
-               unless="junit.present"/>               
+               unless="junit.present"/>
     </javac>
 
     <copy todir="${build.classes}">
@@ -436,7 +436,7 @@ Legal:
             velocity.jar is in your classpath. The easiest way to build
             the documentation is to checkout avalon-site CVS and specify
             avalon-site.dir property.
-	    
+
 	    You can also run the build target import-avalon-site, to do
 	    this automatically.
         </echo>
@@ -491,15 +491,15 @@ Legal:
     </delete>
 
     <mkdir dir="${www.dir}"/>
-    
+
     <copy todir="${www.dir}">
       <fileset dir="${docs.dir}" />
     </copy>
-    
+
     <copy todir="${www.dir}/api">
       <fileset dir="${build.javadocs}" />
     </copy>
-  
+
 
   </target>
 
@@ -526,9 +526,9 @@ Legal:
 
     <copy todir="${dist.dir}">
       <fileset dir=".">
-        <include name="README"/>
+        <include name="README.txt"/>
         <include name="KEYS"/>
-        <include name="LICENSE"/>
+        <include name="LICENSE.txt"/>
       </fileset>
     </copy>
 
@@ -570,9 +570,9 @@ Legal:
 
     <copy todir="${src.dist.dir}">
       <fileset dir=".">
-        <include name="README"/>
+        <include name="README.txt"/>
         <include name="KEYS"/>
-        <include name="LICENSE"/>
+        <include name="LICENSE.txt"/>
         <include name="build.xml"/>
       </fileset>
     </copy>
