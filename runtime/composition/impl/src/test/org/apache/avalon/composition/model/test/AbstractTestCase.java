@@ -57,18 +57,25 @@ public abstract class AbstractTestCase extends TestCase
     // state
     //-------------------------------------------------------
 
-    public static int PRIORITY = ConsoleLogger.LEVEL_INFO;
+    public static int PRIORITY;
 
-    private static Logger LOGGER = new ConsoleLogger( PRIORITY );
+    private static Logger LOGGER;
 
-    public static final File BASEDIR = getWorkDir();
+    public static final File BASEDIR;
 
-    public static final File SYS_CONF = 
-      new File( BASEDIR, "system/kernel.xml" );
+    public static final File SYS_CONF;
 
-    private static final XMLSecurityProfileBuilder SECURITY_BUILDER = 
-      new XMLSecurityProfileBuilder();
+    private static final XMLSecurityProfileBuilder SECURITY_BUILDER;
 
+    static
+    {
+        PRIORITY = ConsoleLogger.LEVEL_INFO;
+        LOGGER = new ConsoleLogger( PRIORITY );
+        BASEDIR = getWorkDir();
+        SYS_CONF = new File( BASEDIR, "system/kernel.xml" ).getAbsoluteFile();
+        SECURITY_BUILDER = new XMLSecurityProfileBuilder();
+    }
+    
     private static File getWorkDir()
     {
         String path = System.getProperty( "project.dir" );
@@ -105,7 +112,7 @@ public abstract class AbstractTestCase extends TestCase
         //
 
         Configuration config = getConfiguration( SYS_CONF );
-
+        System.out.println( "Loading " + SYS_CONF );
         //
         // create the initial context using the maven repository as the 
         // system repository
