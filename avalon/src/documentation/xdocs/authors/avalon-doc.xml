@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<author id="hammant.html">
+  <honorific>The</honorific>
+  <firstname>Avalon</firstname>
+  <surname>Documentation Team</surname>
+  <address format="linespecific">
+    <email>avalon-dev@jakarta.apache.org</email>
+  </address>
+  <authorblurb>
+    <para>
+       The Avalon Documentation Team is the full group of developers who
+       contribute toward our site documentation.  Please direct all
+       inquiries about the site to the mailing list.  It really helps
+       everyone involved.
+    </para>
+  </authorblurb>
+</author>

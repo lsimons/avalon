@@ -1,19 +1,20 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
+<book software="Avalon" title="Avalon Documentation" copyright="@year@ The Apache Software Foundation">
 
-<book software="Avalon" 
-      title="Avalon Documentation" 
-      copyright="@year@ The Apache Software Foundation">
-
-  <project label="Jakarta main" href="/" />
+  <project label="Jakarta main" href="/"/>
   <project label="Avalon main" href="../index.html"/>
 
   <menu label="Authors">
     <menu-item label="Contributors" href="index.html"/>
+    <menu-item label="Avalon Documentation Team" href="avalon-doc.html"/>
     <menu-item label="Mr. Peter Donald" href="donaldp.html"/>
+    <menu-item label="Mr. Federico Barbieri" href="fede.html"/>
+    <menu-item label="Mr. Pier Fumagalli" href="pier.html"/>
+    <menu-item label="Mr. Paul Hammant" href="hammant.html"/>
+    <menu-item label="Mr. Roberto Lo Giacco" href="roberto.html"/>
     <menu-item label="Mr. Berin Loritsch" href="bloritsch.html"/>
     <menu-item label="Dott. Stefano Mazzocchi" href="stefano.html"/>
+    <menu-item label="Mr. Leo Simmons" href="lsimons.html"/>
   </menu>
 
 </book>
-
-
