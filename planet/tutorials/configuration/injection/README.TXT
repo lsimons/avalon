@@ -7,6 +7,9 @@ via a component constructor.
 
 Build using:
 
-  $ maven jar
+  $ ant
+
+Execute using:
+
   $ merlin target\classes -execute
 
