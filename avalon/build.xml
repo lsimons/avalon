@@ -342,7 +342,7 @@ Legal:
 
         <delete dir="${build.dir}/work"/>
 
-	<mkdir dir="${build.context}"/>
+        <mkdir dir="${build.context}"/>
         <mkdir dir="${build.docs}"/>
         <mkdir dir="${build.xdocs}"/>
         <mkdir dir="${build.dir}/work"/>
@@ -369,6 +369,7 @@ Legal:
 
         <copy todir="${build.context}" overwrite="true" filtering="on">
             <fileset dir="${context.dir}">
+                <exclude name="**/*.ico"/>
                 <exclude name="**/*.gif"/>
                 <exclude name="**/*.jpg"/>
                 <exclude name="**/*.png"/>
@@ -377,6 +378,7 @@ Legal:
 
         <copy todir="${build.context}" filtering="off">
             <fileset dir="${context.dir}">
+                <include name="**/*.ico"/>
                 <include name="**/*.gif"/>
                 <include name="**/*.jpg"/>
                 <include name="**/*.png"/>
@@ -395,24 +397,24 @@ Legal:
 
         <java classname="org.apache.cocoon.Main" fork="true" maxmemory="128m" failonerror="true">
             <arg value="-c${build.context}/"/>
-	    <arg value="-d${build.docs}"/>
-	    <arg value="-k${build.context}/logkit.xconf"/>
-	    <arg value="-w${build.dir}/work"/>
-	    <!--            <arg value="-l${build.dir}/work/cocoon.log"/> -->
+            <arg value="-d${build.docs}"/>
+            <arg value="-k${build.context}/logkit.xconf"/>
+            <arg value="-w${build.dir}/work"/>
+            <!-- <arg value="-l${build.dir}/work/cocoon.log"/> -->
             <arg value="-uERROR"/>
             <arg value="index.html"/>
             <classpath>
                 <path refid="tools.class.path"/>
                 <fileset dir="${tools.dir}/ext">
-			<include name="*.jar"/>
-		</fileset>
+                    <include name="*.jar"/>
+                </fileset>
             </classpath>
         </java>
 
         <delete dir="${build.dir}/work"/>
 
-       <echo message="  ...docs generated succesfully in ./build/docs dir."/>
-       <echo message="-------------------------------------------------------------"/>
+        <echo message="  ...docs generated succesfully in ./build/docs dir."/>
+        <echo message="-------------------------------------------------------------"/>
 
         <mkdir dir="${build.docs}/framework/diagrams"/>
         <copy todir="${build.docs}/framework/diagrams" filtering="off">
@@ -514,6 +516,7 @@ Legal:
 
         <copy todir="${build.context}" overwrite="true" filtering="on">
             <fileset dir="${context.dir}">
+                <exclude name="**/*.ico"/>
                 <exclude name="**/*.gif"/>
                 <exclude name="**/*.jpg"/>
                 <exclude name="**/*.png"/>
@@ -521,6 +524,7 @@ Legal:
         </copy>
         <copy todir="${build.context}" filtering="off">
             <fileset dir="${context.dir}">
+                <include name="**/*.ico"/>
                 <include name="**/*.gif"/>
                 <include name="**/*.jpg"/>
                 <include name="**/*.png"/>
