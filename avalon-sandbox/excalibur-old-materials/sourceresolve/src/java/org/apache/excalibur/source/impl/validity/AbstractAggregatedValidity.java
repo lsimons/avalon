@@ -55,7 +55,9 @@
 package org.apache.excalibur.source.impl.validity;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 
 import org.apache.excalibur.source.SourceValidity;
 
@@ -63,7 +65,7 @@ import org.apache.excalibur.source.SourceValidity;
  * The base class for the aggregation implementations
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.2 $ $Date: 2003/05/20 20:56:43 $
+ * @version CVS $Revision: 1.3 $ $Date: 2003/06/18 00:51:46 $
  */
 public abstract class AbstractAggregatedValidity
     implements SourceValidity
@@ -84,6 +86,11 @@ public abstract class AbstractAggregatedValidity
             if( i.hasNext() ) sb.append( ':' );
         }
         return sb.toString();
+    }
+    
+    public List getValidities() 
+    {
+        return Collections.unmodifiableList(m_list);
     }
     
     SourceValidity getValidity(final int index) 
