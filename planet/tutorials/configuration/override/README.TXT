@@ -3,9 +3,9 @@ Configuration Management
 ------------------------
 
 This tutorial covers the declaration of an explicit configuration 
-target that overrides block configuration directives.
+target that overrides block or packaged configuration directives.
 
-$ maven
-$ merlin target\classes -execute -config conf\config.xml
+$ ant
+$ merlin target\deliverables\blocks\*.* -execute -config conf\config.xml
 
 
