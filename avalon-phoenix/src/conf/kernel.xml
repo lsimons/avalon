@@ -22,11 +22,11 @@
             See http://mx4j.sourceforge.net/ -
 
               org.apache.avalon.phoenix.components.manager.MX4JSystemManager
-              
+
             There is an impl of system manager that does nothing and it is....
-            
+
               org.apache.avalon.phoenix.components.manager.NoopSystemManager
-            
+
             Alternatively, you could comment the whole SystemManager section out.
         -->
 
@@ -49,6 +49,16 @@
           </user>
           -->
         </component>
+
+        <!--
+        This SystemManager is useful when you are Running Phoenix in a system
+        where a MBeanServer is already running. It will grab this MBeanServer and
+        use it to manage Phoenix.
+        <component role="org.apache.avalon.phoenix.interfaces.SystemManager"
+            class="org.apache.avalon.phoenix.components.manager.HostedSystemManager"
+            logger="manager" >
+        </component>
+        -->
 
         <!-- There are two kernels
           org.apache.avalon.phoenix.components.kernel.DefaultKernel
