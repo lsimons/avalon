@@ -83,7 +83,7 @@ public class FixedSizeQueueTestCase extends TestCase
         for ( int j = 0; j < 1000000; j++ )
         {
             queue.enqueue( elements );
-            assertEquals( 0, queue.size() );
+            assertEquals( 10, queue.size() );
 
             QueueElement[] results = queue.dequeueAll();
             assertEquals( 10, results.length );
