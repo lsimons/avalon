@@ -6,7 +6,7 @@
 # modules that Phoenix depends on.  Copy this file to ".ant.properties"
 # in the top-level source directory, and customize it as needed.
 #
-# $Id: ant.properties.sample,v 1.13 2002/07/30 12:10:48 donaldp Exp $
+# $Id: ant.properties.sample,v 1.14 2002/08/03 19:17:44 hammant Exp $
 # -----------------------------------------------------------------------------
 
 # ----- Compile Environment Flags -----
@@ -37,12 +37,6 @@ base.path=/opt
 #wrapper.exe=${wrapper.home}/bin/Wrapper.exe
 #wrapper.dll=${wrapper.home}/lib/Wrapper.dll
 
-# ----- MX4J Open JMX Implementation, version 1.1 or later -----
-mx4j.home=${base.path}/mx4j-1.1
-mx4j.lib=${mx4j.home}/lib
-mx4j.jar=${mx4j.lib}/mx4j-jmx.jar
-mx4j-tools.jar=${mx4j.lib}/mx4j-tools.jar
-
 # ----- Javac tools.jar -----
 # The path to tools.jar, required for building the docs. Most people won't need
 # to set this, unless $JRE_HOME is not equal to $JAVA_HOME/jre. For example, on
@@ -70,3 +64,8 @@ phoenix.home=phoenix-home
 # You'll also need bsh-1.2b6.jar for compilation dependancies.
 #beanshell.jars
 #kernel.impl.class=org.apache.avalon.phoenix.components.kernel.beanshell.BeanShellKernel
+
+# ----- Management Type -----
+# Uncomment these two use MX4J for JMX management
+#mx4j.jars
+#system.manager.impl.class=org.apache.avalon.phoenix.components.manager.MX4JSystemManager

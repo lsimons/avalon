@@ -26,17 +26,21 @@
             See http://mx4j.sourceforge.net/ -
 
               org.apache.avalon.phoenix.components.manager.MX4JSystemManager
+              
+            There is an impl of system manager that does nothing and it is....
+            
+              org.apache.avalon.phoenix.components.manager.NoopSystemManager
+            
+            Alternatively, you could comment the whole SystemManager section out.
         -->
 
-        <!-- JMX Management... use this one if you need the MX4JSystemManager
         <component role="org.apache.avalon.phoenix.interfaces.SystemManager"
-            class="org.apache.avalon.phoenix.components.manager.MX4JSystemManager"
+            class="@SYSTEM-MANAGER-CLASS@"
             logger="manager" >
           <manager-adaptor-port>8082</manager-adaptor-port>
           <enable-rmi-adaptor>false</enable-rmi-adaptor>
           <stylesheets-dir>conf/xsl</stylesheets-dir>
         </component>
-        -->
 
         <!-- There are two kernels
           org.apache.avalon.phoenix.components.kernel.DefaultKernel

@@ -61,6 +61,10 @@ Legal:
     <property name="framework.jar" value="${lib.dir}/avalon-framework-20020713.jar"/>
     <property name="logkit.jar" value="${lib.dir}/logkit-1.1a.jar"/>
     <property name="tools.jar" value="${java.home}/../lib/tools.jar"/>
+    
+    <!-- Invoke 'ant get-mx4j' to get these -->
+    <property name="mx4j.jar" value="mx4j\mx4j-1.1\lib\mx4j-jmx.jar"/>
+    <property name="mx4j-tools.jar" value="mx4j\mx4j-1.1\lib\mx4j-tools.jar"/>
 
     <path id="project.class.path">
         <pathelement location="${xerces.jar}"/>
@@ -97,15 +101,30 @@ Legal:
     <target name="help" depends="usage"/>
 
     <!-- Check requirements of environment -->
-    <target name="check-environment">
+    <target name="check-mx4j" if="mx4j.jars">
+        <available property="mx4j.present" classname="mx4j.server.MBeanServerImpl">
+            <classpath refid="project.class.path"/>
+        </available>
+        <antcall target="check-mx4j2"/>
+    </target>
+    <target name="check-mx4j2" unless="mx4j.present">
+        <echo>**************************</echo>
+        <echo>* Please execute target  *</echo>
+        <echo>* 'get-mx4j' in the main *</echo>
+        <echo>* build.xml build file   *</echo>    
+        <echo>* to download one and    *</echo>
+        <echo>* a half Mb of MX4J      *</echo>
+        <echo>**************************</echo> 
+        <fail message="MX4J needed. See above."/>   
+    </target>    
+        
+    <!-- Check requirements of environment -->
+    <target name="check-environment" depends="check-mx4j">
         <available property="xerces.present" type="file" file="${xerces.jar}"/>
         <available property="servlet.present" classname="javax.servlet.Servlet">
             <classpath refid="project.class.path"/>
         </available>
         <available property="jmx.present" classname="javax.management.MBeanException">
-            <classpath refid="project.class.path"/>
-        </available>
-        <available property="mx4j.present" classname="mx4j.server.MBeanServerImpl">
             <classpath refid="project.class.path"/>
         </available>
         <available property="wrapper.present" classname="com.silveregg.wrapper.WrapperManager">
@@ -115,6 +134,19 @@ Legal:
             <classpath refid="project.class.path"/>
         </available>
     </target>
+
+  <!-- Get the jars from the MX4J project. -->
+  <!-- For licensing reasons, we are unable to put these Jars in our CVS or source distributions. -->
+  <target name="get-mx4j">  
+    <mkdir  dir="mx4j"/>  
+    <get src="http://telia.dl.sourceforge.net/sourceforge/mx4j/mx4j-1.1.tar.gz" 
+	dest="mx4j/mx4j.tar.gz" 
+	verbose="true"
+	usetimestamp="true"/>	
+    <gunzip src="mx4j/mx4j.tar.gz" dest="mx4j" />
+    <untar src="mx4j/mx4j.tar" dest="mx4j"/>   	
+  </target>
+
 
     <target name="pretty">
        <taskdef name="pretty"
@@ -366,6 +398,7 @@ Legal:
         <copy file="${xml-api.jar}" todir="${bin.dist.lib}"/>
         <copy file="${xalan.jar}" todir="${bin.dist.lib}"/>
         <filter token="KERNEL-CLASS" value="${kernel.impl.class}"/>
+        <filter token="SYSTEM-MANAGER-CLASS" value="${system.manager.impl.class}"/>        
         <copy todir="${bin.dist.conf}" filtering="on">
             <fileset dir="${conf.dir}">
                 <include name="kernel.xml"/>
