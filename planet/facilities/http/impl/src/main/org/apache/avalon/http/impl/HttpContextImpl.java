@@ -83,6 +83,17 @@ public class HttpContextImpl
         return m_HttpContext;
     }
     
+    public void setAuthenticator( Authenticator authenticator )
+    {
+        m_HttpContext.setAuthenticator( authenticator );
+    }
+    
+    public Authenticator getAuthenticator()
+    {
+        return m_HttpContext.getAuthenticator();
+    }
+    
+    
     /**
      * Enable the logging system.
      *

@@ -17,6 +17,7 @@
 
 package org.apache.avalon.http;
 
+import org.mortbay.http.Authenticator;
 import org.mortbay.http.HttpContext;
 import org.mortbay.http.HttpHandler;
 
@@ -33,4 +34,6 @@ public interface HttpContextService
     void removeHandler( HttpHandler handler );
     
     HttpContext getHttpContext();
+    
+    void setAuthenticator( Authenticator authenticator );
 }
