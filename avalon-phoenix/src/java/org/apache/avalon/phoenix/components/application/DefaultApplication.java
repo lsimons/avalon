@@ -35,8 +35,6 @@ import org.apache.excalibur.threadcontext.ThreadContext;
  * represents an aggregation of blocks that act together to form
  * an application.
  *
- * @phoenix:mx-topic name="Application"
- *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  * @author <a href="mailto:leosimons@apache.org">Leo Simons</a>
  */
@@ -112,8 +110,6 @@ public final class DefaultApplication
      * This is only valid when isRunning() returns false,
      * otherwise it will generate an IllegalStateException.
      *
-     * @phoenix:mx-operation
-     *
      * @throws IllegalStateException if application is already running
      * @throws ApplicationException if the application failed to start.
      *            the message part of exception will contain more information
@@ -159,8 +155,6 @@ public final class DefaultApplication
      * This is equivelent to  calling stop() and then start()
      * in succession.
      *
-     * @phoenix:mx-operation
-     *
      * @throws IllegalStateException if application is not already running
      * @throws ApplicationException if the application failed to stop or start.
      *            the message part of exception will contain more information
@@ -177,8 +171,6 @@ public final class DefaultApplication
      * Stop the application running.
      * This is only valid when isRunning() returns true,
      * otherwise it will generate an IllegalStateException.
-     *
-     * @phoenix:mx-operation
      *
      * @throws IllegalStateException if application is not already running
      * @throws ApplicationException if the application failed to shutdown.
@@ -253,8 +245,6 @@ public final class DefaultApplication
     /**
      * Get the name of the application.
      *
-     * @phoenix:mx-attribute
-     *
      * @return the name of the application
      */
     public String getName()
@@ -264,8 +254,6 @@ public final class DefaultApplication
 
     /**
      * Get the name to display in Management UI.
-     *
-     * @phoenix:mx-attribute
      *
      * @return the name of the application to display in UI
      */
@@ -277,8 +265,6 @@ public final class DefaultApplication
     /**
      * Get the string used to describe the application in the UI.
      *
-     * @phoenix:mx-attribute
-     *
      * @return a short description of the application
      */
     public String getDescription()
@@ -288,8 +274,6 @@ public final class DefaultApplication
 
     /**
      * Get location of Application installation
-     *
-     * @phoenix:mx-attribute
      *
      * @return the home directory of application
      */
@@ -301,8 +285,6 @@ public final class DefaultApplication
     /**
      * Return true if the application is
      * running or false otherwise.
-     *
-     * @phoenix:mx-attribute
      *
      * @return true if application is running, false otherwise
      */
