@@ -14,9 +14,6 @@ package org.apache.log.output.db;
  */
 public class ColumnType
 {
-    //x-db sequencer...
-    public static final int SEQUENCE = 0;
-
     public static final int STATIC = 1;
     public static final int CATEGORY = 2;
     public static final int CONTEXT = 3;
@@ -34,7 +31,6 @@ public class ColumnType
      */
     //public static final int     MAX_TYPE        = IPADDRESS;
 
-    public static final String SEQUENCE_STR = "sequence";
     public static final String STATIC_STR = "static";
     public static final String CATEGORY_STR = "category";
     public static final String CONTEXT_STR = "context";
@@ -50,22 +46,38 @@ public class ColumnType
     public static int getTypeIdFor( final String type )
     {
         if( type.equalsIgnoreCase( CATEGORY_STR ) )
+        {
             return CATEGORY;
+        }
         else if( type.equalsIgnoreCase( STATIC_STR ) )
+        {
             return STATIC;
+        }
         else if( type.equalsIgnoreCase( CONTEXT_STR ) )
+        {
             return CONTEXT;
+        }
         else if( type.equalsIgnoreCase( MESSAGE_STR ) )
+        {
             return MESSAGE;
+        }
         else if( type.equalsIgnoreCase( PRIORITY_STR ) )
+        {
             return PRIORITY;
+        }
         else if( type.equalsIgnoreCase( TIME_STR ) )
+        {
             return TIME;
+        }
         else if( type.equalsIgnoreCase( RELATIVE_TIME_STR ) )
+        {
             return RELATIVE_TIME;
+        }
         //else if( type.equalsIgnoreCase( IPADDRESS_STR ) ) return IPADDRESS;
         else if( type.equalsIgnoreCase( HOSTNAME_STR ) )
+        {
             return HOSTNAME;
+        }
         else if( type.equalsIgnoreCase( THROWABLE_STR ) )
         {
             return THROWABLE;

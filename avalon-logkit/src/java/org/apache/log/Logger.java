@@ -14,6 +14,8 @@ package org.apache.log;
  */
 public class Logger
 {
+    private static final Logger[] EMPTY_SET = new Logger[ 0 ];
+
     ///Separator character use to separate different categories
     public static final char CATEGORY_SEPARATOR = '.';
 
@@ -360,7 +362,22 @@ public class Logger
      */
     public synchronized void setLogTargets( final LogTarget[] logTargets )
     {
+        if( null != logTargets )
+        {
+            //Make sure that the array passed in does not have any
+            //nulls in it before we actually do the assignment
+            for( int i = 0; i < logTargets.length; i++ )
+            {
+                if( null == logTargets[ i ] )
+                {
+                    final String message = "logTargets[ " + i + " ]";
+                    throw new NullPointerException( message );
+                }
+            }
+        }
+
         m_logTargets = logTargets;
+
         setupErrorHandlers();
         m_logTargetsForceSet = true;
         resetChildLogTargets( false );
@@ -384,9 +401,13 @@ public class Logger
     public synchronized void unsetLogTargets( final boolean recursive )
     {
         if( null != m_parent )
+        {
             m_logTargets = m_parent.safeGetLogTargets();
+        }
         else
+        {
             m_logTargets = null;
+        }
 
         m_logTargetsForceSet = false;
         resetChildLogTargets( recursive );
@@ -400,7 +421,9 @@ public class Logger
     public synchronized Logger[] getChildren()
     {
         if( null == m_children )
-            return new Logger[ 0 ];
+        {
+            return EMPTY_SET;
+        }
 
         final Logger[] children = new Logger[ m_children.length ];
 
@@ -679,7 +702,6 @@ public class Logger
         else
         {
             final LogTarget[] logTargets = new LogTarget[ m_logTargets.length ];
-
             for( int i = 0; i < logTargets.length; i++ )
             {
                 logTargets[ i ] = m_logTargets[ i ];
