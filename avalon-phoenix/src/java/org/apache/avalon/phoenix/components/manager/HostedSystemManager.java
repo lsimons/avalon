@@ -25,18 +25,7 @@ import org.apache.avalon.framework.context.Contextualizable;
  */
 public class HostedSystemManager
     extends AbstractJMXManager
-    implements Contextualizable, Configurable
 {
-    public void contextualize( Context context )
-        throws ContextException
-    {
-    }
-
-    public void configure( final Configuration configuration )
-        throws ConfigurationException
-    {
-    }
-
     protected MBeanServer createMBeanServer()
         throws Exception
     {
