@@ -51,11 +51,7 @@ Legal:
   <property name="optimize" value="off"/>
   <property name="deprecation" value="off"/>
 
-  <!--
-       ===================================================================
-       Set the properties for intermediate directory
-       ===================================================================
-  -->
+  <!-- Set the properties for intermediate directory -->
   <property name="build.dir" value="build"/>
   <property name="build.lib" value="${build.dir}/lib"/>
   <property name="build.src" value="${build.dir}/src"/>
@@ -66,11 +62,7 @@ Legal:
   <property name="build.context" value="${build.dir}/documentation"/>
   <property name="build.xdocs" value="${build.context}/xdocs/excalibur"/>
 
-  <!--
-       ===================================================================
-       Set the properties for source directories
-       ===================================================================
-  -->
+  <!-- Set the properties for source directories -->
   <property name="src.dir" value="src"/>
   <property name="java.dir" value="${src.dir}/java"/>
   <property name="test.dir" value="${src.dir}/test"/>
@@ -86,6 +78,7 @@ Legal:
   <property name="dist.name" value="${Name}-${version}"/>
   <property name="dist.base" value="distributions"/>
 
+  <property name="j2ee.jar" value="${cjan.lib}/j2ee.jar"/>
   <property name="framework.jar" value="${lib.dir}/avalon-framework.jar"/>
   <property name="logkit.jar" value="${lib.dir}/logkit.jar"/>
   <property name="xerces.jar" value="${tools.dir}/lib/xerces.jar"/>
@@ -100,6 +93,7 @@ Legal:
 
   <path id="project.class.path">
     <pathelement location="${framework.jar}"/>
+    <pathelement location="${j2ee.jar}"/>
     <pathelement location="${logkit.jar}"/>
     <pathelement location="${xalan.jar}"/>
     <pathelement location="${bsf.jar}"/>
@@ -178,6 +172,9 @@ Legal:
 
   <!-- Checks the environment for existing resources -->
   <target name="check-environment">
+    <available property="xpath.present" classname="org.apache.xpath.XPathAPI">
+      <classpath refid="project.class.path"/>
+    </available>
     <available property="jndi.present" classname="javax.naming.Context">
       <classpath refid="project.class.path"/>
     </available>
@@ -242,6 +239,8 @@ Legal:
            optimize="${optimize}"
            deprecation="${deprecation}">
       <classpath refid="project.class.path" />
+      <exclude name="org/apache/avalon/excalibur/i18n/XMLResourceBundle.java"
+               unless="xpath.present"/>
     </javac>
 
   </target>
