@@ -65,11 +65,12 @@ import org.apache.avalon.phoenix.framework.tools.infobuilder.test.data.otherpkg.
  * A simple avalon component to test QDox loading of info etc.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003/04/06 21:21:16 $
+ * @version $Revision: 1.5 $ $Date: 2003/04/10 13:41:46 $
  * @phoenix:block
  * @phoenix:service name="org.apache.avalon.phoenix.framework.tools.infobuilder.test.data.Service1"
  * @phoenix:service name="org.apache.avalon.phoenix.framework.tools.infobuilder.test.data.otherpkg.Service2"
  * @phoenix:service name="org.apache.avalon.phoenix.framework.tools.infobuilder.test.data.otherpkg.Service3"
+ * @phoenix:mx name="org.apache.avalon.phoenix.framework.tools.infobuilder.test.data.otherpkg.ServiceMBean"
  */
 public class QDoxLegacyComponent1
     extends AbstractLogEnabled
