@@ -3,8 +3,8 @@
 <document>
   <properties>
     <title>Guide - What is a Server Application?</title>
-    <author name="Peter Donald" email="peter@apache.org"/>
-    <author name="Berin Loritsch" email="bloritsch@apache.org"/>
+    <author email="peter@apache.org">Peter Donald</author>
+    <author email="bloritsch@apache.org">Berin Loritsch</author>
   </properties>
   <body>
     <section name="Introduction">

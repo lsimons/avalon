@@ -3,9 +3,7 @@
 <document>
   <properties>
     <title>Guide - Making components that are Phoenix compatible</title>
-
-      <author name="Paul Hammant" email="hammant@apache.org"/>
-
+      <author email="hammant@apache.org">Paul Hammant</author>
   </properties>
   <body>
     <section name="Introduction">

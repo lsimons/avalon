@@ -3,9 +3,7 @@
 <document>
   <properties>
     <title>Guide - What is an Application Listener?</title>
-
-      <person id="PH" name="Paul Hammant" email="Paul_Hammant@yahoo.com"/>
-
+    <author email="Paul_Hammant@yahoo.com">Paul Hammant</author>
   </properties>
   <body>
     <section name="Introduction">

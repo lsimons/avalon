@@ -3,10 +3,8 @@
 <document>
   <properties>
     <title>Guide - What is a Block Listener?</title>
-
-      <person id="PD" name="Peter Donald" email="peter@apache.org"/>
-      <person id="PH" name="Paul Hammant" email="Paul_Hammant@yahoo.com"/>
-
+      <author email="peter@apache.org">Peter Donald</author>
+      <author email="Paul_Hammant@yahoo.com">Paul Hammant</author>
   </properties>
   <body>
     <section name="Introduction">

@@ -3,9 +3,7 @@
 <document>
   <properties>
     <title>Specification of config.xml </title>
-
-      <person id="PD" name="Peter Donald" email="peter@apache.org"/>
-
+    <author email="peter@apache.org">Peter Donald</author>
   </properties>
   <body>
     <section name="Introduction">

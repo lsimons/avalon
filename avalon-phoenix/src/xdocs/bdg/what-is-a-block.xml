@@ -3,9 +3,7 @@
 <document>
   <properties>
     <title>Guide - What is a Block?</title>
-
-      <person id="FB" name="Federico Barbieri" email="fede@apache.org"/>
-
+    <author email="fede@apache.org">Federico Barbieri</author>
   </properties>
   <body>
     <section name="Introduction">
