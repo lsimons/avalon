@@ -11,6 +11,9 @@
                     <ref name="datasource"/>
                 </oneOrMore>
             </element>
+            <oneOrMore>
+                <ref name="datasource"/>
+            </oneOrMore>
         </element>
     </start>
 

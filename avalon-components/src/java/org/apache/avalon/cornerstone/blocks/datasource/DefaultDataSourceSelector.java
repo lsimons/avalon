@@ -20,13 +20,17 @@ import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.LogEnabled;
+import org.apache.avalon.framework.context.Contextualizable;
+import org.apache.avalon.framework.context.Context;
+import org.apache.avalon.framework.context.ContextException;
+import org.apache.avalon.phoenix.BlockContext;
 
 /**
  * The Default implementation for DataSourceSelector.
  * The Configuration is like this:
  *
  * <pre>
- * &lt;data-sources&gt;
+ * &lt;myBlock&gt;
  *   &lt;data-source name="<i>default</i>"
  *     class="<i>org.apache.avalon.excalibur.datasource.JdbcDataSource</i>"&gt;
  *     &lt;!-- configuration for JdbcDataSource --&gt;
@@ -38,7 +42,7 @@ import org.apache.avalon.framework.logger.LogEnabled;
  *     &lt;user&gt;<i>username</i>&lt;/user&gt;
  *     &lt;password&gt;<i>password</i>&lt;/password&gt;
  *   &lt;/data-source&gt;
- * &lt;/data-sources&gt;
+ * &lt;/myBlock&gt;
  * </pre>
  *
  * @phoenix:block
@@ -48,10 +52,17 @@ import org.apache.avalon.framework.logger.LogEnabled;
  */
 public class DefaultDataSourceSelector
     extends AbstractLogEnabled
-    implements DataSourceSelector, Configurable, Initializable, Disposable
+    implements DataSourceSelector, Contextualizable, Configurable, Initializable, Disposable
 {
     private Configuration m_configuration;
     private Map m_dataSources;
+    private BlockContext m_context;
+
+    public void contextualize( final Context context )
+        throws ContextException
+    {
+        m_context = (BlockContext)context;
+    }
 
     /**
      * @phoenix:configuration-schema type="relax-ng"
@@ -66,8 +77,7 @@ public class DefaultDataSourceSelector
     {
         m_dataSources = new HashMap();
 
-        final Configuration[] dataSourceConfs =
-            m_configuration.getChild( "data-sources" ).getChildren( "data-source" );
+        Configuration[] dataSourceConfs = getDataSourceConfig();
 
         for( int i = 0; i < dataSourceConfs.length; i++ )
         {
@@ -114,6 +124,27 @@ public class DefaultDataSourceSelector
         }
     }
 
+    private Configuration[] getDataSourceConfig()
+    {
+        final Configuration head =
+            m_configuration.getChild( "data-sources" );
+        if( 0 != head.getChildren().length )
+        {
+            final String message =
+                "WARNING: Child node <data-sources/> in " +
+                "configuration of component named " + m_context.getName() +
+                " has been deprecated. Please put <data-source/> elements" +
+                " in root configuration element";
+            getLogger().warn( message );
+            System.out.println( message );
+            return head.getChildren( "data-source" );
+        }
+        else
+        {
+            return m_configuration.getChildren( "data-source" );
+        }
+    }
+
     public void dispose()
     {
         final Iterator keys = m_dataSources.keySet().iterator();
@@ -123,7 +154,7 @@ public class DefaultDataSourceSelector
                 (DataSourceComponent)m_dataSources.get( keys.next() );
             if( dsc instanceof Disposable )
             {
-                ( (Disposable)dsc ).dispose();
+                ((Disposable)dsc).dispose();
             }
         }
     }
