@@ -1,4 +1,4 @@
-// Copyright 2004 Apache Software Foundation
+// Copyright 2003-2004 The Apache Software Foundation
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,11 +21,53 @@ namespace Apache.Avalon.Composition.Data
 	/// </summary>
 	/// <author>  <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
 	/// </author>
-	/// <version>  $Revision: 1.1 $ $Date: 2004/02/01 13:31:01 $
+	/// <version>  $Revision: 1.2 $ $Date: 2004/02/28 22:15:36 $
 	/// </version>
 	[Serializable]
 	public sealed class ClasspathDirective
 	{
+
+		private static readonly FilesetDirective[] EMPTY_FILESETS;
+		private static readonly RepositoryDirective[] EMPTY_REPOSITORIES;
+		
+		/// <summary> The fileset directives</summary>
+		private FilesetDirective[] m_filesets;
+		
+		/// <summary> The resource references</summary>
+		private RepositoryDirective[] m_repositories;
+		
+		/// <summary> Create a empty ClasspathDirective.</summary>
+		public ClasspathDirective():this(null, null)
+		{
+		}
+		
+		/// <summary> Create a ClasspathDirective instance.
+		/// 
+		/// </summary>
+		/// <param name="filesets">the filesets to be included in a classloader
+		/// </param>
+		/// <param name="repositories">the repositories directives to be included in a classloader
+		/// </param>
+		public ClasspathDirective(FilesetDirective[] filesets, RepositoryDirective[] repositories)
+		{
+			if (filesets == null)
+			{
+				m_filesets = EMPTY_FILESETS;
+			}
+			else
+			{
+				m_filesets = filesets;
+			}
+			if (repositories == null)
+			{
+				m_repositories = EMPTY_REPOSITORIES;
+			}
+			else
+			{
+				m_repositories = repositories;
+			}
+		}
+
 		/// <summary> Return the default status of this directive.  If TRUE
 		/// the enclosed repository and fileset directives are empty.
 		/// </summary>
@@ -129,46 +171,7 @@ namespace Apache.Avalon.Composition.Data
 			*/
 			
 		}
-		private static readonly FilesetDirective[] EMPTY_FILESETS;
-		private static readonly RepositoryDirective[] EMPTY_REPOSITORIES;
-		
-		/// <summary> The fileset directives</summary>
-		private FilesetDirective[] m_filesets;
-		
-		/// <summary> The resource references</summary>
-		private RepositoryDirective[] m_repositories;
-		
-		/// <summary> Create a empty ClasspathDirective.</summary>
-		public ClasspathDirective():this(null, null)
-		{
-		}
-		
-		/// <summary> Create a ClasspathDirective instance.
-		/// 
-		/// </summary>
-		/// <param name="filesets">the filesets to be included in a classloader
-		/// </param>
-		/// <param name="repositories">the repositories directives to be included in a classloader
-		/// </param>
-		public ClasspathDirective(FilesetDirective[] filesets, RepositoryDirective[] repositories)
-		{
-			if (filesets == null)
-			{
-				m_filesets = EMPTY_FILESETS;
-			}
-			else
-			{
-				m_filesets = filesets;
-			}
-			if (repositories == null)
-			{
-				m_repositories = EMPTY_REPOSITORIES;
-			}
-			else
-			{
-				m_repositories = repositories;
-			}
-		}
+
 		static ClasspathDirective()
 		{
 			EMPTY_FILESETS = new FilesetDirective[0];

@@ -1,4 +1,4 @@
-// Copyright 2004 Apache Software Foundation
+// Copyright 2003-2004 The Apache Software Foundation
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,13 +21,37 @@ namespace Apache.Avalon.Castle
 	/// </summary>
 	public enum LifecyclePhase
 	{
+		/// <summary>
+		/// Pending
+		/// </summary>
 		EnableLogging,
+		/// <summary>
+		/// Pending
+		/// </summary>
 		Contextualize,
+		/// <summary>
+		/// Pending
+		/// </summary>
 		Configure,
+		/// <summary>
+		/// Pending
+		/// </summary>
 		Initialize,
+		/// <summary>
+		/// Pending
+		/// </summary>
 		Service,
+		/// <summary>
+		/// Pending
+		/// </summary>
 		Start,
+		/// <summary>
+		/// Pending
+		/// </summary>
 		Stop,
+		/// <summary>
+		/// Pending
+		/// </summary>
 		Dispose,
 	}
 }

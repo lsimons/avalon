@@ -1,4 +1,4 @@
-// Copyright 2004 Apache Software Foundation
+// Copyright 2003-2004 The Apache Software Foundation
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,6 +18,15 @@ namespace Apache.Avalon.Castle
 
 	using Apache.Avalon.Castle.ManagementExtensions;
 
+	public enum ManagedObjectState
+	{
+		Undefined,
+		Created,
+		Started,
+		Stopped, 
+		Destroyed
+	}
+
 	/// <summary>
 	/// Summary description for MService.
 	/// </summary>
@@ -27,6 +36,27 @@ namespace Apache.Avalon.Castle
 		{
 			get;
 		}
+
+		ManagedObjectName ParentName
+		{
+			get;
+		}
+
+		ManagedObjectName[] Children
+		{
+			get;
+		}
+
+		ManagedObjectState ManagedObjectState
+		{
+			get;
+		}
+
+		void AddChild(ManagedObjectName childName);
+
+		void RemoveChild(ManagedObjectName childName);
+
+		void SetParent(ManagedObjectName parentName);
 
 		void Create();
 

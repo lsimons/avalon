@@ -1,4 +1,4 @@
-// Copyright 2004 Apache Software Foundation
+// Copyright 2003-2004 The Apache Software Foundation
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -37,15 +37,15 @@ namespace Apache.Avalon.Composition.Data.Builder
 		/// <returns>the deployment profile</returns>
 		public ComponentProfile CreateComponentProfile( IConfiguration config )
 		{
-			String classname = (String) config.GetAttribute( "class", null );
-			if( null == classname )
+			String typename = (String) config.GetAttribute( "type", null );
+			if( null == typename )
 			{
 				// String c = IConfigurationUtil.list( config );
 				String error = 
-				"Missing 'class' attribute in component declaration:\n";// + c;
+				"Missing 'type' attribute in component declaration:\n";// + c;
 				throw new ConfigurationException( error );
 			}
-			return CreateComponentProfile( null, classname, config );
+			return CreateComponentProfile( null, typename, config );
 		}
 
 		/// <summary>
@@ -102,8 +102,15 @@ namespace Apache.Avalon.Composition.Data.Builder
 		/// <returns>policy</returns>
 		protected CollectionPolicy GetCollectionPolicy( IConfiguration config )
 		{
+			object collection = config.GetAttribute("collection", null);
+
+			if ( collection == null )
+			{
+				return CollectionPolicy.Liberal;
+			}
+
 			return (CollectionPolicy) Enum.Parse( typeof(CollectionPolicy), 
-				(String) config.GetAttribute("collection", null), true ); 
+				collection.ToString(), true ); 
 		}
 
 		protected DependencyDirective[] GetDependencyDirectives( IConfiguration config )
@@ -211,7 +218,7 @@ namespace Apache.Avalon.Composition.Data.Builder
 				return new ContextDirective( null );
 			}
 
-			String classname = (String) config.GetAttribute( "class", null );
+			String classname = (String) config.GetAttribute( "type", null );
 			String source = (String) config.GetAttribute( "source", null );
 			EntryDirective[] entries = GetEntries( config.GetChildren( "entry" ) );
 			return new ContextDirective( classname, entries, source );
@@ -246,7 +253,7 @@ namespace Apache.Avalon.Composition.Data.Builder
 				else if( name.Equals( "constructor" ) )
 				{
 					String classname = (String)
-						child.GetAttribute( "class", typeof(String) );
+						child.GetAttribute( "type", typeof(String) );
 					/*
 					IConfiguration[] paramsConf = child.GetChildren( "param" );
 					if( paramsConf.Length > 0 )

@@ -1,4 +1,4 @@
-// Copyright 2004 Apache Software Foundation
+// Copyright 2003-2004 The Apache Software Foundation
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -151,7 +151,7 @@ namespace Apache.Avalon.Meta
 		/// </summary>
 		/// <returns> the Component descriptor.
 		/// </returns>
-		virtual public InfoDescriptor Info
+		public virtual InfoDescriptor Info
 		{
 			get
 			{
@@ -164,7 +164,7 @@ namespace Apache.Avalon.Meta
 		/// </summary>
 		/// <returns> the set of Logger that this Component will use.
 		/// </returns>
-		virtual public CategoryDescriptor[] Categories
+		public virtual CategoryDescriptor[] Categories
 		{
 			get
 			{
@@ -178,7 +178,7 @@ namespace Apache.Avalon.Meta
 		/// </summary>
 		/// <returns> the ContextDescriptor for component, may be null.
 		/// </returns>
-		virtual public ContextDescriptor Context
+		public virtual ContextDescriptor Context
 		{
 			get
 			{
@@ -191,7 +191,7 @@ namespace Apache.Avalon.Meta
 		/// </summary>
 		/// <returns> the set of Services that this component is capable of providing.
 		/// </returns>
-		virtual public ServiceDescriptor[] Services
+		public virtual ServiceDescriptor[] Services
 		{
 			get
 			{
@@ -204,7 +204,7 @@ namespace Apache.Avalon.Meta
 		/// </summary>
 		/// <returns> the set of Dependencies that this component requires to operate.
 		/// </returns>
-		virtual public DependencyDescriptor[] Dependencies
+		public virtual DependencyDescriptor[] Dependencies
 		{
 			get
 			{
@@ -217,7 +217,7 @@ namespace Apache.Avalon.Meta
 		/// </summary>
 		/// <returns> the default configuration or null if no packaged defaults
 		/// </returns>
-		virtual public IConfiguration Configuration
+		public virtual IConfiguration Configuration
 		{
 			get
 			{
@@ -230,7 +230,7 @@ namespace Apache.Avalon.Meta
 		/// </summary>
 		/// <returns> an array of stage descriptors.
 		/// </returns>
-		virtual public StageDescriptor[] Stages
+		public virtual StageDescriptor[] Stages
 		{
 			get
 			{
@@ -243,7 +243,7 @@ namespace Apache.Avalon.Meta
 		/// </summary>
 		/// <returns> an array of extension descriptors.
 		/// </returns>
-		virtual public ExtensionDescriptor[] Extensions
+		public virtual ExtensionDescriptor[] Extensions
 		{
 			get
 			{

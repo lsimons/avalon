@@ -1,4 +1,4 @@
-// Copyright 2004 Apache Software Foundation
+// Copyright 2003-2004 The Apache Software Foundation
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -24,24 +24,12 @@ namespace Apache.Avalon.Composition.Data
 	/// </seealso>
 	/// <author>  <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
 	/// </author>
-	/// <version>  $Revision: 1.1 $ $Date: 2004/02/01 13:31:01 $
+	/// <version>  $Revision: 1.2 $ $Date: 2004/02/28 22:15:36 $
 	/// </version>
 	[Serializable]
 	public class CategoriesDirective : CategoryDirective
 	{
-		/// <summary> Return the set of logging categories.
-		/// 
-		/// </summary>
-		/// <returns> the set of category declarations
-		/// </returns>
-		public virtual CategoryDirective[] Categories
-		{
-			get
-			{
-				return m_categories;
-			}
-			
-		}
+
 		/// <summary> The root category hierachy.</summary>
 		private CategoryDirective[] m_categories;
 		
@@ -151,6 +139,20 @@ namespace Apache.Avalon.Composition.Data
 				hash ^= m_categories[i].GetHashCode();
 			}
 			return hash;
+		}
+
+		/// <summary> Return the set of logging categories.
+		/// 
+		/// </summary>
+		/// <returns> the set of category declarations
+		/// </returns>
+		public virtual CategoryDirective[] Categories
+		{
+			get
+			{
+				return m_categories;
+			}
+			
 		}
 	}
 }

@@ -1,4 +1,4 @@
-// Copyright 2004 Apache Software Foundation
+// Copyright 2003-2004 The Apache Software Foundation
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,21 +15,69 @@
 namespace Apache.Avalon.Castle
 {
 	using System;
+	using System.IO;
 
 	/// <summary>
 	/// Summary description for CastleOptions.
 	/// </summary>
+	[Serializable]
 	public class CastleOptions
 	{
+		/// <summary>
+		/// 
+		/// </summary>
 		private String defaultDomain = Castle.CASTLE_DOMAIN;
+		
+		/// <summary>
+		/// 
+		/// </summary>
 		private String homePath;
+
+		/// <summary>
+		/// 
+		/// </summary>
+		private String tempPath;
+
+		/// <summary>
+		/// 
+		/// </summary>
 		private bool isolatedDomain = true;
+
+		/// <summary>
+		/// 
+		/// </summary>
 		private bool noJoin = false;
+
+		/// <summary>
+		/// 
+		/// </summary>
 		private bool remoting = true;
-		private String serverConnectorUrl = "provider:tcp:binary:server.rem";
+
+		/// <summary>
+		/// 
+		/// </summary>
+		private String serverConnectorUrl;
+
+		/// <summary>
+		/// 
+		/// </summary>
+		private String systemConfig;
+
+		/// <summary>
+		/// 
+		/// </summary>
+		private long timeout;
+
+		/// <summary>
+		/// 
+		/// </summary>
+		private bool traceEnabled;
 
 		public CastleOptions()
 		{
+			homePath = Environment.GetFolderPath( Environment.SpecialFolder.ApplicationData );
+			tempPath = Path.GetTempPath( );
+			serverConnectorUrl = "provider:tcp:binary:server.rem";
 		}
 
 		public String DomainName
@@ -53,6 +101,38 @@ namespace Apache.Avalon.Castle
 			set
 			{
 				homePath = value;
+			}
+		}
+
+		public String BasePath
+		{
+			get
+			{
+				return AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+			}
+		}
+
+		public String TempPath
+		{
+			get
+			{
+				return tempPath;
+			}
+			set
+			{
+				tempPath = value;
+			}
+		}
+
+		public String SystemConfig
+		{
+			get
+			{
+				return systemConfig;
+			}
+			set
+			{
+				systemConfig = value;
 			}
 		}
 
@@ -101,6 +181,30 @@ namespace Apache.Avalon.Castle
 			set
 			{
 				serverConnectorUrl = value;
+			}
+		}
+
+		public bool TraceEnabled 
+		{
+			get
+			{
+				return traceEnabled;
+			}
+			set
+			{
+				traceEnabled = value;
+			}
+		}
+
+		public long DeploymentTimeout 
+		{
+			get
+			{
+				return timeout;
+			}
+			set
+			{
+				timeout = value;
 			}
 		}
 	}

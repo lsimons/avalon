@@ -1,4 +1,4 @@
-// Copyright 2004 Apache Software Foundation
+// Copyright 2003-2004 The Apache Software Foundation
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
 namespace Apache.Avalon.Composition.Data
 {
 	using System;
+
 	using Apache.Avalon.Meta;
 	
 	/// <summary> A containment profile describes a containment context including
@@ -24,10 +25,11 @@ namespace Apache.Avalon.Composition.Data
 	/// </summary>
 	/// <author>  <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
 	/// </author>
-	/// <version>  $Revision: 1.1 $ $Date: 2004/02/01 13:31:01 $
+	/// <version>  $Revision: 1.2 $ $Date: 2004/02/28 22:15:36 $
 	/// </version>
-	public class ContainmentProfile : Profile
+	public class ContainmentProfile : DeploymentProfile
 	{
+
 		//========================================================================
 		// static
 		//========================================================================
@@ -35,26 +37,26 @@ namespace Apache.Avalon.Composition.Data
 		/// <summary> Container path delimiter.</summary>
 		public const System.String DELIMITER = "/";
 		
-		private static readonly ServiceDirective[] EMPTY_SERVICES = new ServiceDirective[0];
+		private static readonly ServiceDirective[] EMPTY_SERVICES;
 		
-		private static readonly Profile[] EMPTY_PROFILES = new Profile[0];
+		private static readonly DeploymentProfile[] EMPTY_PROFILES;
 		
 		private static readonly CategoriesDirective EMPTY_CATEGORIES = new CategoriesDirective();
 		
-		private static readonly TypeLoaderDirective EMPTY_CLASSLOADER = new TypeLoaderDirective(new LibraryDirective(), new ClasspathDirective());
+		private static readonly TypeLoaderDirective EMPTY_TYPELOADER = new TypeLoaderDirective(new LibraryDirective(), new ClasspathDirective());
 		
 		//========================================================================
 		// state
 		//========================================================================
 		
 		/// <summary> The classloader directive.</summary>
-		private TypeLoaderDirective m_classloader;
+		private TypeLoaderDirective m_typeloader;
 		
 		/// <summary> The published service directives.</summary>
 		private ServiceDirective[] m_export;
 		
 		/// <summary> The profiles described within the scope of the containment profile.</summary>
-		private Profile[] m_profiles;
+		private DeploymentProfile[] m_profiles;
 		
 		/// <summary> The assigned logging categories.</summary>
 		private CategoriesDirective m_categories;
@@ -82,15 +84,21 @@ namespace Apache.Avalon.Composition.Data
 		/// <param name="profiles">the set of profiles contained within this 
 		/// containment profile
 		/// </param>
-		public ContainmentProfile(System.String name, TypeLoaderDirective classloader, 
+		public ContainmentProfile(System.String name, TypeLoaderDirective typeloader, 
 			ServiceDirective[] exports, CategoriesDirective categories, 
-			Profile[] profiles) : base(name, ActivationPolicy.Startup, Mode.Explicit)
+			DeploymentProfile[] profiles) : 
+			base(name, ActivationPolicy.Startup, Mode.Explicit)
 		{
+			
 			m_categories = categories;
-			m_classloader = classloader;
+			m_typeloader = typeloader;
 			m_profiles = profiles;
 			m_export = exports;
 		}
+		
+		//--------------------------------------------------------------------------
+		// implementation
+		//--------------------------------------------------------------------------
 		
 		/// <summary> Return the logging categories for the profile.
 		/// 
@@ -105,8 +113,8 @@ namespace Apache.Avalon.Composition.Data
 					return EMPTY_CATEGORIES;
 				return m_categories;
 			}
+			
 		}
-
 		/// <summary> Return the classloader directive that describes the creation
 		/// arguments for the classloader required by this container.
 		/// 
@@ -117,9 +125,9 @@ namespace Apache.Avalon.Composition.Data
 		{
 			get
 			{
-				if (m_classloader == null)
-					return EMPTY_CLASSLOADER;
-				return m_classloader;
+				if (m_typeloader == null)
+					return EMPTY_TYPELOADER;
+				return m_typeloader;
 			}
 			
 		}
@@ -138,12 +146,9 @@ namespace Apache.Avalon.Composition.Data
 					return EMPTY_SERVICES;
 				return m_export;
 			}
+			
 		}
 
-		//--------------------------------------------------------------------------
-		// implementation
-		//--------------------------------------------------------------------------
-		
 		/// <summary> Retrieve a service directive matching a supplied class.
 		/// 
 		/// </summary>
@@ -151,15 +156,16 @@ namespace Apache.Avalon.Composition.Data
 		/// </param>
 		/// <returns> the service directive or null if it does not exist
 		/// </returns>
-		public virtual ServiceDirective GetExportDirective(System.Type type)
+		public virtual ServiceDirective GetExportDirective(System.Type clazz)
 		{
+			System.String classname = clazz.FullName;
 			ServiceDescriptor[] services = ExportDirectives;
 			for (int i = 0; i < services.Length; i++)
 			{
-				ServiceDirective virtualObj = (ServiceDirective) services[i];
-				if (virtualObj.Reference.Type.Equals(type))
+				ServiceDirective virtual_Renamed = (ServiceDirective) services[i];
+				if (virtual_Renamed.Reference.Type.Equals(clazz))
 				{
-					return virtualObj;
+					return virtual_Renamed;
 				}
 			}
 			return null;
@@ -170,11 +176,14 @@ namespace Apache.Avalon.Composition.Data
 		/// </summary>
 		/// <returns> the profiles nested in this containment profile
 		/// </returns>
-		public virtual Profile[] GetProfiles()
+		public virtual DeploymentProfile[] Profiles
 		{
-			if (m_profiles == null)
-				return EMPTY_PROFILES;
-			return m_profiles;
+			get
+			{
+				if (m_profiles == null)
+					return EMPTY_PROFILES;
+				return m_profiles;
+			}
 		}
 		
 		/// <summary> Return the set of nested profiles contained within this profile matching
@@ -186,10 +195,10 @@ namespace Apache.Avalon.Composition.Data
 		/// </param>
 		/// <returns> the profiles matching the supplied creation mode
 		/// </returns>
-		public virtual Profile[] GetProfiles(Mode mode)
+		public virtual DeploymentProfile[] GetProfiles(Mode mode)
 		{
-			Profile[] profiles = GetProfiles();
-			return SelectProfileByMode(profiles, mode);
+			DeploymentProfile[] profiles = Profiles;
+			return selectProfileByMode(profiles, mode);
 		}
 		
 		/// <summary> Returns a sub-set of the supplied containers matching the supplied creation mode.</summary>
@@ -200,18 +209,24 @@ namespace Apache.Avalon.Composition.Data
 		/// <returns> the subset of the supplied profiles with a creation mode matching
 		/// the supplied mode value
 		/// </returns>
-		private Profile[] SelectProfileByMode(Profile[] profiles, Mode mode)
+		private DeploymentProfile[] selectProfileByMode(DeploymentProfile[] profiles, Mode mode)
 		{
 			System.Collections.ArrayList list = new System.Collections.ArrayList();
 			for (int i = 0; i < profiles.Length; i++)
 			{
-				Profile profile = profiles[i];
+				DeploymentProfile profile = profiles[i];
 				if (profile.Mode.Equals(mode))
 				{
 					list.Add(profile);
 				}
 			}
-			return (Profile[]) list.ToArray( typeof(Profile[]) );
+			return (DeploymentProfile[]) list.ToArray( typeof(DeploymentProfile) );
+		}
+
+		static ContainmentProfile()
+		{
+			EMPTY_SERVICES = new ServiceDirective[0];
+			EMPTY_PROFILES = new DeploymentProfile[0];
 		}
 	}
 }

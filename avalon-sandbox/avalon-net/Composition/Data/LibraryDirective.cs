@@ -1,4 +1,4 @@
-// Copyright 2004 Apache Software Foundation
+// Copyright 2003-2004 The Apache Software Foundation
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -31,47 +31,11 @@ namespace Apache.Avalon.Composition.Data
 	/// </summary>
 	/// <author>  <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
 	/// </author>
-	/// <version>  $Revision: 1.1 $ $Date: 2004/02/01 13:31:01 $
+	/// <version>  $Revision: 1.2 $ $Date: 2004/02/28 22:15:36 $
 	/// </version>
 	[Serializable]
 	public class LibraryDirective
 	{
-		/// <summary> Return the empty status of this directive.</summary>
-		public virtual bool Empty
-		{
-			get
-			{
-				int n = m_includes.Length + m_groups.Length;
-				return n == 0;
-			}
-			
-		}
-		/// <summary> Return the set of include path entries.
-		/// 
-		/// </summary>
-		/// <returns> the include paths
-		/// </returns>
-		public virtual System.String[] Includes
-		{
-			get
-			{
-				return m_includes;
-			}
-			
-		}
-		/// <summary> Return the set of group identifiers.
-		/// 
-		/// </summary>
-		/// <returns> the group identifiers
-		/// </returns>
-		public virtual System.String[] Groups
-		{
-			get
-			{
-				return m_groups;
-			}
-			
-		}
 		private static readonly System.String[] EMPTY_SET = new System.String[0];
 		
 		/// <summary> The include paths</summary>
@@ -139,6 +103,43 @@ namespace Apache.Avalon.Composition.Data
 			return (System.IO.FileInfo[]) list.ToArray( typeof(System.IO.FileInfo[]) );
 		}
 		
+		/// <summary> Return the empty status of this directive.</summary>
+		public virtual bool Empty
+		{
+			get
+			{
+				int n = m_includes.Length + m_groups.Length;
+				return n == 0;
+			}
+			
+		}
+		/// <summary> Return the set of include path entries.
+		/// 
+		/// </summary>
+		/// <returns> the include paths
+		/// </returns>
+		public virtual System.String[] Includes
+		{
+			get
+			{
+				return m_includes;
+			}
+			
+		}
+		/// <summary> Return the set of group identifiers.
+		/// 
+		/// </summary>
+		/// <returns> the group identifiers
+		/// </returns>
+		public virtual System.String[] Groups
+		{
+			get
+			{
+				return m_groups;
+			}
+			
+		}
+
 		private System.IO.FileInfo getDirectory(System.IO.FileInfo baseObj, System.String path)
 		{
 			System.IO.FileInfo file = new System.IO.FileInfo(path);

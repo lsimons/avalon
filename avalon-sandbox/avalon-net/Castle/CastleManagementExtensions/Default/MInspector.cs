@@ -1,4 +1,4 @@
-// Copyright 2004 Apache Software Foundation
+// Copyright 2003-2004 The Apache Software Foundation
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -101,7 +101,16 @@ namespace Apache.Avalon.Castle.ManagementExtensions.Default
 
 					ManagedOperationAttribute att = (ManagedOperationAttribute) atts[0];
 
-					ManagementOperation operation = new ManagementOperation(minfo.Name, att.Description);
+					ParameterInfo[] parameters = minfo.GetParameters();
+
+					Type[] arguments = new Type[ parameters.Length ];
+
+					for(int i=0 ; i < parameters.Length; i++ )
+					{
+						arguments[i] = parameters[i].ParameterType;
+					}
+
+					ManagementOperation operation = new ManagementOperation(minfo.Name, att.Description, arguments);
 
 					info.Operations.Add(operation);
 				}

@@ -1,4 +1,4 @@
-// Copyright 2004 Apache Software Foundation
+// Copyright 2003-2004 The Apache Software Foundation
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -138,11 +138,6 @@ namespace Apache.Avalon.Meta.Builder
 
 		private DependencyDescriptor[] BuildDependencyDescriptor( TypeMetaInformation typeInfo )
 		{
-			if (typeInfo.DependenciesAttribute.Length == 0)
-			{
-				return null;
-			}
-
 			ArrayList list = new ArrayList();
 
 			foreach(AvalonDependencyAttribute attribute in typeInfo.DependenciesAttribute)

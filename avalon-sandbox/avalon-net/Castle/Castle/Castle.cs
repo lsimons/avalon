@@ -1,4 +1,4 @@
-// Copyright 2004 Apache Software Foundation
+// Copyright 2003-2004 The Apache Software Foundation
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@ namespace Apache.Avalon.Castle
 	/// </summary>
 	public class Castle
 	{
-		internal static readonly String CASTLE_DOMAIN = "apache.avalon.castle";
+		public static readonly String CASTLE_DOMAIN = "apache.avalon.castle";
 
 		protected CastleOptions options;
 
@@ -64,13 +64,17 @@ namespace Apache.Avalon.Castle
 				PrintDetailErrorInformation(ex);
 
 				// TODO: Shall we rethrow the exception to parent?
+
+				throw ex;
 			}
 			finally
 			{
 				loader.Stop();
 			}
 
-			logger.Info("Castle : Service exiting at {0} {1}", DateTime.Now.ToShortTimeString(), DateTime.Now.ToShortDateString());
+			logger.Info("Castle : Service exiting at {0} {1}", 
+				DateTime.Now.ToShortTimeString(), 
+				DateTime.Now.ToShortDateString());
 		}
 
 		/// <summary>

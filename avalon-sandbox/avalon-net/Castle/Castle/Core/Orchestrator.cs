@@ -1,4 +1,4 @@
-// Copyright 2004 Apache Software Foundation
+// Copyright 2003-2004 The Apache Software Foundation
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,7 +16,13 @@ namespace Apache.Avalon.Castle.Core
 {
 	using System;
 
+	using Apache.Avalon.Castle.Core.Proxies;
 	using Apache.Avalon.Castle.ManagementExtensions;
+	using Apache.Avalon.Composition.Model;
+	using Apache.Avalon.Composition.Model.Default;
+	using Apache.Avalon.Composition.Logging;
+	using Apache.Avalon.Repository;
+	using Apache.Avalon.Castle.Util;
 	using ILogger = Apache.Avalon.Framework.ILogger;
 
 	/// <summary>
@@ -30,11 +36,26 @@ namespace Apache.Avalon.Castle.Core
 		private static readonly int LOOKUP_MANAGER = 2;
 
 		protected ManagedObjectName[] childServices = new ManagedObjectName[3];
+		
 		protected ManagedObjectName deployManager;
 
+		protected ManagedObjectName runtimeName;
+
+		protected ManagedObjectName repositoryName;
+		
+		protected CastleOptions options;
+
+		protected IRepository repository;
+
+		protected ILoggingManager loggingManager;
+
+		protected IRuntime runtime;
+		
 		protected ILogger logger = Logger.LoggerFactory.GetLogger("Orchestrator");
 
-		private OrchestratorNotificationSystem notificationSystem;
+		protected OrchestratorNotificationSystem notificationSystem;
+
+		protected ISystemContext systemContext;
 
 		/// <summary>
 		/// 
@@ -42,6 +63,32 @@ namespace Apache.Avalon.Castle.Core
 		public Orchestrator()
 		{
 			logger.Debug("Constructor");
+		}
+
+		[ManagedAttribute]
+		public ManagedObjectName Runtime
+		{
+			get
+			{
+				return runtimeName;
+			}
+			set
+			{
+				runtimeName = value;
+			}
+		}
+
+		[ManagedAttribute]
+		public ManagedObjectName Repository
+		{
+			get
+			{
+				return repositoryName;
+			}
+			set
+			{
+				repositoryName = value;
+			}
 		}
 
 		[ManagedAttribute]
@@ -101,10 +148,65 @@ namespace Apache.Avalon.Castle.Core
 		{
 			logger.Debug("Start");
 
-			base.Create();
+			base.Start();
 
-			// Start up notification system
+			RetriveCastleOptions();
 
+			// First step: create a SystemContext
+
+			CreateSystemContext();
+
+			// Create/Start notification system
+
+			CreateAndStartNotificationSystem();
+		}
+
+		public override void Stop()
+		{
+			logger.Debug("Stop");
+		}
+
+		protected void RetriveCastleOptions()
+		{
+			options = (CastleOptions) 
+				MXUtil.GetAttribute( server, CastleLoader.CONTROLLER, "Options" );
+		}
+
+		protected void CreateSystemContext() 
+		{
+			EnsureRuntimeImplementationExists();
+
+			EnsureLoggingImplementationExists();
+
+			systemContext = new DefaultSystemContext(
+				runtime, loggingManager, IOUtil.ToFile( options.BasePath ), 
+				IOUtil.ToFile( options.HomePath ), 
+				IOUtil.ToFile( options.TempPath ), repository, 
+				"system", options.TraceEnabled, options.DeploymentTimeout, false);
+		}
+
+		protected void EnsureRuntimeImplementationExists()
+		{
+			AssertNotNull( Runtime, "Runtime implementation required" );
+
+			if ( runtime == null )
+			{
+				runtime = new RuntimeProxy( server, Runtime );
+			}
+		}
+
+		protected void EnsureLoggingImplementationExists()
+		{
+			AssertNotNull( LoggerManager, "LoggingManager implementation required" );
+
+			if ( loggingManager == null )
+			{
+				loggingManager = new LoggingManagerProxy( server, LoggerManager );
+			}
+		}
+
+		protected void CreateAndStartNotificationSystem()
+		{
 			notificationSystem = new OrchestratorNotificationSystem();
 
 			foreach(ManagedObjectName child in childServices)
@@ -118,12 +220,7 @@ namespace Apache.Avalon.Castle.Core
 			}
 		}
 
-		public override void Stop()
-		{
-			logger.Debug("Stop");
-		}
-
-		private void RegisterForPhases(ManagedObjectName name)
+		protected void RegisterForPhases(ManagedObjectName name)
 		{
 			try
 			{
@@ -139,9 +236,18 @@ namespace Apache.Avalon.Castle.Core
 			}
 			catch(Exception e)
 			{
-				logger.Error("Exception {0} invoking 'RegisterForPhases' on {1}", e.Message, name);
+				logger.Error("Exception {0} invoking 'RegisterForPhases' on {1}", 
+					e.Message, name);
 
 				throw e;
+			}
+		}
+
+		private void AssertNotNull( ManagedObjectName name, String message )
+		{
+			if (name == null)
+			{
+				throw new OrchestratorException( message );
 			}
 		}
 	}

@@ -80,9 +80,9 @@
                     HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.XML.dll"
                 />
                 <Reference
-                    Name = "Apache.Avalon.Framework"
-                    AssemblyName = "Apache.Avalon.Framework"
-                    HintPath = "..\bin\Apache.Avalon.Framework.dll"
+                    Name = "AvalonFramework"
+                    Project = "{A4DA9A13-FD5A-42A0-97C5-18CEDA5CB1A5}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
             </References>
         </Build>

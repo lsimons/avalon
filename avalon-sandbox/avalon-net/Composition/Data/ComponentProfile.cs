@@ -1,4 +1,4 @@
-// Copyright 2004 Apache Software Foundation
+// Copyright 2003-2004 The Apache Software Foundation
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -83,9 +83,9 @@ namespace Apache.Avalon.Composition.Data
 	/// </summary>
 	/// <author>  <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
 	/// </author>
-	/// <version>  $Revision: 1.1 $ $Date: 2004/02/01 13:31:01 $
+	/// <version>  $Revision: 1.2 $ $Date: 2004/02/28 22:15:36 $
 	/// </version>
-	public class ComponentProfile : Profile
+	public class ComponentProfile : DeploymentProfile
 	{
 		/// <summary> The assigned logging categories.</summary>
 		private CategoriesDirective m_categories;
@@ -111,9 +111,6 @@ namespace Apache.Avalon.Composition.Data
 		/// <summary> The stage directives.</summary>
 		private StageDirective[] m_stages;
 		
-		/// <summary> The creation mode.</summary>
-		private Mode m_mode;
-		
 		//--------------------------------------------------------------------------
 		// constructor
 		//--------------------------------------------------------------------------
@@ -126,7 +123,9 @@ namespace Apache.Avalon.Composition.Data
 		/// </param>
 		/// <param name="classname">the classname of the component type
 		/// </param>
-		public ComponentProfile(System.String name, System.String classname) : this(name, ActivationPolicy.Lazy, CollectionPolicy.Undefined, classname, null, null, null, null, null, Mode.Implicit)
+		public ComponentProfile(System.String name, System.String classname):this(name, ActivationPolicy.Lazy, 
+			Apache.Avalon.Meta.CollectionPolicy.Undefined, 
+			classname, null, null, null, null, null, Mode.Implicit)
 		{
 		}
 		
@@ -135,32 +134,33 @@ namespace Apache.Avalon.Composition.Data
 		/// </param>
 		/// <param name="template">the template deployment profile
 		/// </param>
-		public ComponentProfile(System.String name, ComponentProfile template) : 
-			this(name, template.ActivationPolicy, 
+		public ComponentProfile(System.String name, ComponentProfile template):this(name, 
+			template.Activation, 
 			template.CollectionPolicy, template.m_classname, 
 			template.m_categories, template.m_context, 
-			template.m_dependencies, template.m_stages, /*template.m_parameters,*/
+			template.m_dependencies, template.m_stages,
 			template.m_configuration, Mode.Explicit)
 		{
 		}
 		
 		public ComponentProfile(System.String name, ActivationPolicy activation, 
-			CollectionPolicy collection, System.String classname, CategoriesDirective categories,
+			Apache.Avalon.Meta.CollectionPolicy collection, 
+			System.String classname, CategoriesDirective categories, 
 			ContextDirective context, DependencyDirective[] dependencies, 
-			StageDirective[] stages, /*Parameters parameters,*/ 
-			IConfiguration config, Mode mode) : base(name, activation, mode)
+			StageDirective[] stages, IConfiguration config, Mode mode) : 
+			base(name, activation, mode)
 		{
+			
 			if (null == (System.Object) classname)
 			{
 				throw new System.NullReferenceException("classname");
 			}
 			
-			m_mode = mode;
 			m_collection = collection;
 			m_classname = classname;
 			m_categories = categories;
 			m_context = context;
-			// m_parameters = parameters;
+			//m_parameters = parameters;
 			m_configuration = config;
 			
 			if (null == dependencies)
@@ -186,6 +186,122 @@ namespace Apache.Avalon.Composition.Data
 		// implementation
 		//--------------------------------------------------------------------------
 		
+		/// <summary> Return the component type classname.
+		/// 
+		/// </summary>
+		/// <returns> classname of the component type
+		/// </returns>
+		public virtual System.String Classname
+		{
+			get
+			{
+				return m_classname;
+			}
+			
+		}
+
+		/// <summary> Return the component collection policy.  If null, the component
+		/// type collection policy will apply.
+		/// 
+		/// </summary>
+		/// <returns> a HARD, WEAK, SOFT or UNDEFINED
+		/// </returns>
+		public virtual CollectionPolicy CollectionPolicy
+		{
+			get
+			{
+				return m_collection;
+			}
+			
+		}
+
+		/// <summary> Return the logging categories for the profile.
+		/// 
+		/// </summary>
+		/// <returns> the logger
+		/// </returns>
+		public virtual CategoriesDirective Categories
+		{
+			get
+			{
+				return m_categories;
+			}
+			
+		}
+
+		/// <summary> Return the context directive for the profile.
+		/// 
+		/// </summary>
+		/// <returns> the ContextDirective for the profile.
+		/// </returns>
+		public virtual ContextDirective Context
+		{
+			get
+			{
+				return m_context;
+			}
+			
+		}
+
+		/// <summary> Return the dependency directives.
+		/// 
+		/// </summary>
+		/// <returns> the set of DependencyDirective statements for the profile.
+		/// </returns>
+		public virtual DependencyDirective[] DependencyDirectives
+		{
+			get
+			{
+				return m_dependencies;
+			}
+			
+		}
+
+		/// <summary> Return the stage directives.
+		/// 
+		/// </summary>
+		/// <returns> the set of StageDirective statements for the profile.
+		/// </returns>
+		public virtual StageDirective[] StageDirectives
+		{
+			get
+			{
+				return m_stages;
+			}
+			
+		}
+
+		/// <summary> Return the Parameters for the profile.
+		/// 
+		/// </summary>
+		/// <returns> the Parameters for Component (if any).
+		/// </returns>
+		/*
+		public virtual Parameters Parameters
+		{
+			get
+			{
+				return m_parameters;
+			}
+			
+		}
+		*/
+
+		/// <summary> Return the base Configuration for the profile.  The implementation
+		/// garantees that the supplied configuration is not null.
+		/// 
+		/// </summary>
+		/// <returns> the base Configuration for profile.
+		/// </returns>
+		public virtual IConfiguration Configuration
+		{
+			get
+			{
+				return m_configuration;
+			}
+			
+		}
+
 		/// <summary> Return the dependency directive for a supplied key.
 		/// 
 		/// </summary>
@@ -224,114 +340,6 @@ namespace Apache.Avalon.Composition.Data
 				}
 			}
 			return null;
-		}
-
-		/// <summary> Return the component type classname.
-		/// 
-		/// </summary>
-		/// <returns> classname of the component type
-		/// </returns>
-		public virtual System.String Classname
-		{
-			get
-			{
-				return m_classname;
-			}
-			
-		}
-		/// <summary> Return the component collection policy.  If null, the component
-		/// type collection policy will apply.
-		/// 
-		/// </summary>
-		/// <returns> a HARD, WEAK, SOFT or UNDEFINED
-		/// </returns>
-		public virtual CollectionPolicy CollectionPolicy
-		{
-			get
-			{
-				return m_collection;
-			}
-			
-		}
-		/// <summary> Return the logging categories for the profile.
-		/// 
-		/// </summary>
-		/// <returns> the logger
-		/// </returns>
-		public virtual CategoriesDirective Categories
-		{
-			get
-			{
-				return m_categories;
-			}
-			
-		}
-		/// <summary> Return the context directive for the profile.
-		/// 
-		/// </summary>
-		/// <returns> the ContextDirective for the profile.
-		/// </returns>
-		public virtual ContextDirective Context
-		{
-			get
-			{
-				return m_context;
-			}
-			
-		}
-		/// <summary> Return the dependency directives.
-		/// 
-		/// </summary>
-		/// <returns> the set of DependencyDirective statements for the profile.
-		/// </returns>
-		public virtual DependencyDirective[] DependencyDirectives
-		{
-			get
-			{
-				return m_dependencies;
-			}
-			
-		}
-		/// <summary> Return the stage directives.
-		/// 
-		/// </summary>
-		/// <returns> the set of StageDirective statements for the profile.
-		/// </returns>
-		public virtual StageDirective[] StageDirectives
-		{
-			get
-			{
-				return m_stages;
-			}
-			
-		}
-		/// <summary> Return the Parameters for the profile.
-		/// 
-		/// </summary>
-		/// <returns> the Parameters for Component (if any).
-		/// </returns>
-		/* public virtual Parameters Parameters
-		{
-			get
-			{
-				return m_parameters;
-			}
-			
-		}*/
-
-		/// <summary> Return the base Configuration for the profile.  The implementation
-		/// garantees that the supplied configuration is not null.
-		/// 
-		/// </summary>
-		/// <returns> the base Configuration for profile.
-		/// </returns>
-		public virtual IConfiguration Configuration
-		{
-			get
-			{
-				return m_configuration;
-			}
-			
 		}
 		
 		/// <summary> Returns a string representation of the profile.</summary>
