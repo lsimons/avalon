@@ -10,7 +10,7 @@
   <menu label="About">
     <menu-item label="Overview" href="index.html"/>
     <menu-item label="Features" href="features.html"/>
-    <menu-item label="Getting Started" href="framework/getting-started.html" />
+    <menu-item label="Getting Started" href="getting-started.html" />
     <menu-item label="Download Binaries" href="http://jakarta.apache.org/site/binindex.html" />
     <menu-item label="Download Source" href="http://jakarta.apache.org/site/sourceindex.html" />
     <menu-item label="Case Studies" href="case-studies.html" />
@@ -23,20 +23,20 @@
     <menu-item label="Excalibur" href="@EXCALIBUR_BASE@/index.html"/>
     <menu-item label="Phoenix" href="@PHOENIX_BASE@/index.html"/>
     <menu-item label="Cornerstone" href="@CORNERSTONE_BASE@/index.html"/>
+    <menu-item label="Applications" href="@APPS_BASE@/index.html"/>
     <menu-item label="LogKit" href="@LOGKIT_BASE@/index.html"/>
-    <menu-item label="Applications" href="@APPS_BASE@/index.html"/>    
   </menu>
-  
-  <menu label="Developing with Avalon">
-    <menu-item label="Prerequisites" href="developing/index.html"/>
-    <menu-item label="Tweety, Avalon Educational Channel" href="@EXCALIBUR_BASE@/tweety/index.html" />    
-    <menu-item label="Framework, Excalibur and LogKit" href="developing/index.html" />
-    <menu-item label="Phoenix and Cornerstone" href="@PHOENIX_BASE@/index.html" />
+
+  <menu label="Guides">
+    <menu-item label="Avalon for Beginners" href="@EXCALIBUR_BASE@/tweety/avalon-for-beginners.html" />
+    <menu-item label="Developing with Avalon" href="developing/index.html" />
+    <menu-item label="Developing with Phoenix" href="@PHOENIX_BASE@/index.html" />
+    <menu-item label="Developing with Logkit" href="@LOGKIT_BASE@/whitepaper.html" />
   </menu>
 
   <menu label="For Developers">
     <menu-item label="Coding standards" href="code-standards.html" />
-    <menu-item label="CVS" href="http://cvs.apache.org/viewcvs/jakarta-avalon/.html" />
+    <menu-item label="CVS" href="http://cvs.apache.org/viewcvs/jakarta-avalon/" />
     <menu-item label="Mailing Lists" href="mail.html"/>
   </menu>
   

@@ -5,15 +5,16 @@
 <document>
 
  <header>
-  <title>Avalon Project - Case Studies</title>
+  <title>Avalon Project - Features</title>
   <authors>
     <person name="Robert McIntosh" email="rmcintosh@bull-enterprises.com"/>
+    <person name="Leo Simons" email="leosimons@apache.org"/>
   </authors>
  </header>
 
 <body>
 
-<s1 title="Case Studies">
+<s1 title="Introduction">
   <p>The Avalon project is so large and broad in scope that it is not easy
   to provide a simple list of features in the form of "Avalon provides
   Component X which will fulfill role Y in your project Z perfectly".</p>
