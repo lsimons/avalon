@@ -212,7 +212,7 @@
         </jar>
     </target>
 
-    <target name="manager-jar" depends="jar, altrmiproxies">
+    <target name="manager-jar" depends="compile-manager, jar, altrmiproxies">
         <jar jarfile="${build.lib}/${client.jar.name}"
             basedir="${build.client.classes}"
             compress="${build.compress}">
