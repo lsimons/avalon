@@ -265,6 +265,8 @@ DEBUG INFO
     </target>
 
     <target name="avalon:reactor-run" if="reactor.target.isset">
-        <ant dir="${dir}" target="${target}" inheritAll="false"/>
+        <ant dir="${dir}" target="${target}" inheritAll="false">
+            <property name="project.version" value="${project.version}"/>
+        </ant>
     </target>
 </project>
