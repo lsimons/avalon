@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+
+<document>
+  <header>
+    <title>About Excalibur XFC</title>
+    <authors>
+      <person name="Marcus Crafter" email="crafterm@apache.org"/>
+    </authors>
+  </header>
+  <body>
+    <s1 title="Introduction">
+      <p>
+        This is the Excalibur <strong>X</strong>Conf <strong>F</strong>ile
+        <strong>C</strong>onverter package which contains a tool for
+        converting between container configuration files.
+      </p>
+      <p>
+        Using XFC it's possible to convert your older ECM configuration
+        files into a format understood, for example, by Fortress.
+      </p>
+      <p>
+        XFC consists of several packages that define a generic model for
+        component definitions and an input/output module interface for
+        supporting conversions between specific containers.
+      </p>
+    </s1>
+  </body>
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
+      $Revision: 1.1 $ $Date: 2002/10/23 16:08:20 $
+    </legal>
+  </footer>
+</document>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project href="http://jakarta.apache.org/avalon/excalibur/xfc/" name="Excalibur XFC">
+  <title>Excalibur XFC</title>
+  <body>
+
+    <menu name="About">
+      <item href="index.html" name="About XFC"/>
+      <item href="http://jakarta.apache.org/avalon/excalibur/index.html" name="Excalibur Home"/>
+      <item href="http://jakarta.apache.org/builds/jakarta-avalon-excalibur/release" name="Download"/>
+      <item href="api/" name="API Docs"/>
+    </menu>
+
+    <menu name="Overview">
+      <item href="whatis.html" name="What is XFC ?"/>
+	  <item href="how.html" name="How does XFC work ?"/>
+	  <item href="using.html" name="How do I use XFC ?"/>
+      <item href="issues.html" name="Known issues"/>
+      <item href="todo.html" name="Todo"/>
+    </menu>
+<!--
+    <menu name="How To">
+      <item href="ecm-howto.html" name="Convert to/from ECM"/>
+      <item href="fortress-howto.html" name="Convert to/from Fortress"/>
+    </menu>
+-->
+  </body>
+</project>
