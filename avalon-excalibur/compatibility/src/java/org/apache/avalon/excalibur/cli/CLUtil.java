@@ -20,7 +20,7 @@ package org.apache.avalon.excalibur.cli;
  * CLUtil offers basic utility operations for use both internal and external to package.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2004/02/28 11:47:31 $
+ * @version $Revision: 1.6 $ $Date: 2004/04/26 10:23:05 $
  * @since 4.0
  * @see CLOptionDescriptor
  * @deprecated Toolkit deprecated and replaced by http://spice.sourceforge.net/cli/
@@ -43,16 +43,16 @@ public final class CLUtil
 
         for( int i = 0; i < options.length; i++ )
         {
-            final char ch = (char)options[ i ].getId();
-            final String name = options[ i ].getName();
-            String description = options[ i ].getDescription();
-            int flags = options[ i ].getFlags();
+            final char ch = (char)options[i].getId();
+            final String name = options[i].getName();
+            String description = options[i].getDescription();
+            int flags = options[i].getFlags();
             boolean argumentRequired =
-                ( ( flags & CLOptionDescriptor.ARGUMENT_REQUIRED ) ==
-                CLOptionDescriptor.ARGUMENT_REQUIRED );
+                    ((flags & CLOptionDescriptor.ARGUMENT_REQUIRED) ==
+                    CLOptionDescriptor.ARGUMENT_REQUIRED);
             boolean twoArgumentsRequired =
-                ( ( flags & CLOptionDescriptor.ARGUMENTS_REQUIRED_2 ) ==
-                CLOptionDescriptor.ARGUMENTS_REQUIRED_2 );
+                    ((flags & CLOptionDescriptor.ARGUMENTS_REQUIRED_2) ==
+                    CLOptionDescriptor.ARGUMENTS_REQUIRED_2);
             boolean needComma = false;
             if( twoArgumentsRequired )
             {
@@ -94,9 +94,9 @@ public final class CLUtil
                 while( description.length() > MAX_DESCRIPTION_COLUMN_LENGTH )
                 {
                     final String descriptionPart =
-                        description.substring( 0, MAX_DESCRIPTION_COLUMN_LENGTH );
+                            description.substring( 0, MAX_DESCRIPTION_COLUMN_LENGTH );
                     description =
-                        description.substring( MAX_DESCRIPTION_COLUMN_LENGTH );
+                            description.substring( MAX_DESCRIPTION_COLUMN_LENGTH );
                     sb.append( "\t\t" );
                     sb.append( descriptionPart );
                     sb.append( lSep );

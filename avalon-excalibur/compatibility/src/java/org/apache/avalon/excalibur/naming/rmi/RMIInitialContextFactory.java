@@ -22,7 +22,6 @@ import java.io.ObjectInputStream;
 import java.net.Socket;
 import java.rmi.MarshalledObject;
 import java.util.Hashtable;
-
 import javax.naming.ConfigurationException;
 import javax.naming.Context;
 import javax.naming.NamingException;
@@ -38,14 +37,14 @@ import org.apache.avalon.excalibur.naming.RemoteContext;
  * Initial context factory for memorycontext.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  * @deprecated Toolkit deprecated and replaced by http://spice.sourceforge.net/jndikit/
  */
 public class RMIInitialContextFactory
-    implements InitialContextFactory
+        implements InitialContextFactory
 {
     public Context getInitialContext( final Hashtable environment )
-        throws NamingException
+            throws NamingException
     {
         final NamingProvider provider = newNamingProvider( environment );
         environment.put( RemoteContext.NAMING_PROVIDER, provider );
@@ -57,7 +56,7 @@ public class RMIInitialContextFactory
     }
 
     protected NamingProvider newNamingProvider( final Hashtable environment )
-        throws NamingException
+            throws NamingException
     {
         final String url = (String)environment.get( Context.PROVIDER_URL );
         if( null == url )
@@ -92,7 +91,7 @@ public class RMIInitialContextFactory
     }
 
     protected NamingProvider newNamingProvider( final String host, final int port )
-        throws NamingException
+            throws NamingException
     {
         Socket socket = null;
 
@@ -101,10 +100,10 @@ public class RMIInitialContextFactory
             socket = new Socket( host, port );
 
             final ObjectInputStream input =
-                new ObjectInputStream( new BufferedInputStream( socket.getInputStream() ) );
+                    new ObjectInputStream( new BufferedInputStream( socket.getInputStream() ) );
 
             final NamingProvider provider =
-                ( (NamingProvider)( (MarshalledObject)input.readObject() ).get() );
+                    ((NamingProvider)((MarshalledObject)input.readObject()).get());
 
             socket.close();
 
@@ -113,7 +112,7 @@ public class RMIInitialContextFactory
         catch( final Exception e )
         {
             final ServiceUnavailableException sue =
-                new ServiceUnavailableException( e.getMessage() );
+                    new ServiceUnavailableException( e.getMessage() );
             sue.setRootCause( e );
             throw sue;
         }
@@ -133,12 +132,12 @@ public class RMIInitialContextFactory
     }
 
     protected Namespace newNamespace( final Hashtable environment )
-        throws NamingException
+            throws NamingException
     {
         try
         {
             final NamingProvider provider =
-                (NamingProvider)environment.get( RemoteContext.NAMING_PROVIDER );
+                    (NamingProvider)environment.get( RemoteContext.NAMING_PROVIDER );
 
             return new DefaultNamespace( provider.getNameParser() );
         }
@@ -151,7 +150,7 @@ public class RMIInitialContextFactory
             else
             {
                 final ServiceUnavailableException sue =
-                    new ServiceUnavailableException( e.getMessage() );
+                        new ServiceUnavailableException( e.getMessage() );
                 sue.setRootCause( e );
                 throw sue;
             }

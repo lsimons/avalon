@@ -46,13 +46,13 @@ public class BasicCLI
     private static final CLOptionDescriptor[] OPTIONS = new CLOptionDescriptor[]
     {
         new CLOptionDescriptor( "help",
-                                CLOptionDescriptor.ARGUMENT_DISALLOWED,
-                                HELP_OPT,
-                                "print this message and exit" ),
+                CLOptionDescriptor.ARGUMENT_DISALLOWED,
+                HELP_OPT,
+                "print this message and exit" ),
         new CLOptionDescriptor( "version",
-                                CLOptionDescriptor.ARGUMENT_DISALLOWED,
-                                VERSION_OPT,
-                                "print the version information and exit" )
+                CLOptionDescriptor.ARGUMENT_DISALLOWED,
+                VERSION_OPT,
+                "print the version information and exit" )
     };
 
     public static void main( final String[] args )

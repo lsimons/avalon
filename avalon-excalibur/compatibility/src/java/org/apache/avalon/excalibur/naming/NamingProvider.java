@@ -27,35 +27,35 @@ import javax.naming.NamingException;
  * The underlying communication interface for remote contexts.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  * @deprecated Toolkit deprecated and replaced by http://spice.sourceforge.net/jndikit/
  */
 public interface NamingProvider
 {
     NameParser getNameParser()
-        throws NamingException, Exception;
+            throws NamingException, Exception;
 
     void bind( Name name, String className, Object object )
-        throws NamingException, Exception;
+            throws NamingException, Exception;
 
     void rebind( Name name, String className, Object object )
-        throws NamingException, Exception;
+            throws NamingException, Exception;
 
     Context createSubcontext( Name name )
-        throws NamingException, Exception;
+            throws NamingException, Exception;
 
     void destroySubcontext( Name name )
-        throws NamingException, Exception;
+            throws NamingException, Exception;
 
     NameClassPair[] list( Name name )
-        throws NamingException, Exception;
+            throws NamingException, Exception;
 
     Binding[] listBindings( Name name )
-        throws NamingException, Exception;
+            throws NamingException, Exception;
 
     Object lookup( Name name )
-        throws NamingException, Exception;
+            throws NamingException, Exception;
 
     void unbind( Name name )
-        throws NamingException, Exception;
+            throws NamingException, Exception;
 }

@@ -27,12 +27,12 @@ import javax.naming.spi.StateFactory;
  * object factories and state factories.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  * @deprecated Toolkit deprecated and replaced by http://spice.sourceforge.net/jndikit/
  */
 public interface Namespace
-    extends ObjectFactory, StateFactory
+        extends ObjectFactory, StateFactory
 {
     NameParser getNameParser()
-        throws NamingException;
+            throws NamingException;
 }

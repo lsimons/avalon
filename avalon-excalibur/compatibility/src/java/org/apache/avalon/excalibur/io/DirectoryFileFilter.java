@@ -33,11 +33,11 @@ import java.io.FilenameFilter;
  * </pre>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2004/02/28 11:47:13 $
+ * @version $Revision: 1.6 $ $Date: 2004/04/26 10:23:06 $
  * @since 4.0
  */
 public class DirectoryFileFilter
-    implements FilenameFilter
+        implements FilenameFilter
 {
     public boolean accept( final File file, final String name )
     {

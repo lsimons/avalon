@@ -25,11 +25,11 @@ import java.util.NoSuchElementException;
  *
  * @deprecated use org.apache.commons.collections.ArrayEnumeration instead
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.5 $ $Date: 2004/02/28 11:47:15 $
+ * @version CVS $Revision: 1.6 $ $Date: 2004/04/26 10:23:05 $
  * @since 4.0
  */
 public final class ArrayEnumeration
-    implements Enumeration
+        implements Enumeration
 {
     protected Object[] m_elements;
     protected int m_index;
@@ -46,7 +46,7 @@ public final class ArrayEnumeration
 
     public boolean hasMoreElements()
     {
-        return ( m_index < m_elements.length );
+        return (m_index < m_elements.length);
     }
 
     public Object nextElement()
@@ -56,7 +56,7 @@ public final class ArrayEnumeration
             throw new NoSuchElementException( "No more elements exist" );
         }
 
-        return m_elements[ m_index++ ];
+        return m_elements[m_index++];
     }
 }
 

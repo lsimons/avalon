@@ -41,21 +41,21 @@ public class OptionArguments
     {
         //File requires an argument
         new CLOptionDescriptor( "file",
-                                CLOptionDescriptor.ARGUMENT_REQUIRED,
-                                FILE_OPT,
-                                "specify a file" ),
+                CLOptionDescriptor.ARGUMENT_REQUIRED,
+                FILE_OPT,
+                "specify a file" ),
 
         //secure can take an argument if supplied
         new CLOptionDescriptor( "secure",
-                                CLOptionDescriptor.ARGUMENT_OPTIONAL,
-                                SECURE_OPT,
-                                "set security mode" ),
+                CLOptionDescriptor.ARGUMENT_OPTIONAL,
+                SECURE_OPT,
+                "set security mode" ),
 
         //define requires 2 arguments
         new CLOptionDescriptor( "define",
-                                CLOptionDescriptor.ARGUMENTS_REQUIRED_2,
-                                DEFINE_OPT,
-                                "Require 2 arguments" )
+                CLOptionDescriptor.ARGUMENTS_REQUIRED_2,
+                DEFINE_OPT,
+                "Require 2 arguments" )
     };
 
     public static void main( final String[] args )
@@ -108,8 +108,8 @@ public class OptionArguments
 
                 case DEFINE_OPT:
                     System.out.println( "Defining: " +
-                                        option.getArgument( 0 ) + "=" +
-                                        option.getArgument( 1 ) );
+                            option.getArgument( 0 ) + "=" +
+                            option.getArgument( 1 ) );
                     break;
             }
         }

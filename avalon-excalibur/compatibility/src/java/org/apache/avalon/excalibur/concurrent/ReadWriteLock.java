@@ -30,7 +30,7 @@ package org.apache.avalon.excalibur.concurrent;
  * @deprecated use EDU.oswego.cs.dl.util.concurrent.ReadWriteLock instead
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.4 $ $Date: 2004/02/28 11:47:28 $
+ * @version CVS $Revision: 1.5 $ $Date: 2004/04/26 10:23:06 $
  * @since 4.0
  */
 public class ReadWriteLock
@@ -65,11 +65,11 @@ public class ReadWriteLock
      * a lock.
      */
     public void acquireRead()
-        throws InterruptedException
+            throws InterruptedException
     {
         synchronized( m_lock )
         {
-            while( !( m_numReadLocksHeld != -1 && m_numWaitingForWrite == 0 ) )
+            while( !(m_numReadLocksHeld != -1 && m_numWaitingForWrite == 0) )
             {
                 m_lock.wait();
             }
@@ -84,9 +84,9 @@ public class ReadWriteLock
      * for a lock.
      */
     public void aquireRead()
-        throws InterruptedException
+            throws InterruptedException
     {
-        acquireRead ();
+        acquireRead();
     }
 
 
@@ -98,7 +98,7 @@ public class ReadWriteLock
      * a lock.
      */
     public void acquireWrite()
-        throws InterruptedException
+            throws InterruptedException
     {
         synchronized( m_lock )
         {
@@ -125,9 +125,9 @@ public class ReadWriteLock
      * for a lock.
      */
     public void aquireWrite()
-        throws InterruptedException
+            throws InterruptedException
     {
-        acquireWrite ();
+        acquireWrite();
     }
 
     /**
@@ -227,14 +227,16 @@ public class ReadWriteLock
     /**
      * Returns the number of read locks held.
      */
-    protected synchronized int getNumReadLocksHeld() {
+    protected synchronized int getNumReadLocksHeld()
+    {
         return m_numReadLocksHeld;
     }
-    
+
     /**
      * Returns the number of write locks held.
      */
-    protected synchronized int getNumWaitingForWrite() {
+    protected synchronized int getNumWaitingForWrite()
+    {
         return m_numWaitingForWrite;
     }
 }

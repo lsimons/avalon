@@ -19,7 +19,7 @@ package org.apache.avalon.excalibur.collections;
 /**
  * @deprecated use one of the Buffer implementations instead.
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.4 $ $Date: 2004/02/28 11:47:15 $
+ * @version CVS $Revision: 1.5 $ $Date: 2004/04/26 10:23:05 $
  * @since 4.0
  */
 public class CircularBuffer
@@ -32,7 +32,7 @@ public class CircularBuffer
 
     public CircularBuffer( int size )
     {
-        m_buffer = new Object[ size ];
+        m_buffer = new Object[size];
         m_bufferSize = size;
         m_contentSize = 0;
         m_head = 0;
@@ -46,7 +46,7 @@ public class CircularBuffer
 
     public boolean isEmpty()
     {
-        return ( m_contentSize == 0 );
+        return (m_contentSize == 0);
     }
 
     public int getContentSize()
@@ -65,7 +65,7 @@ public class CircularBuffer
         {
             int j = 0;
             int i = m_tail;
-            Object[] tmp = new Object[ m_bufferSize * 2 ];
+            Object[] tmp = new Object[m_bufferSize * 2];
 
             while( m_contentSize > 0 )
             {
@@ -73,7 +73,7 @@ public class CircularBuffer
                 i %= m_bufferSize;
                 j++;
                 m_contentSize--;
-                tmp[ j ] = m_buffer[ i ];
+                tmp[j] = m_buffer[i];
             }
             m_buffer = tmp;
             m_tail = 0;
@@ -82,7 +82,7 @@ public class CircularBuffer
             m_bufferSize *= 2;
         }
 
-        m_buffer[ m_head ] = o;
+        m_buffer[m_head] = o;
         m_head++;
         m_head %= m_bufferSize;
         m_contentSize++;
@@ -95,7 +95,7 @@ public class CircularBuffer
             return null;
         }
 
-        Object o = m_buffer[ m_tail ];
+        Object o = m_buffer[m_tail];
         m_tail++;
         m_tail %= m_bufferSize;
         m_contentSize--;

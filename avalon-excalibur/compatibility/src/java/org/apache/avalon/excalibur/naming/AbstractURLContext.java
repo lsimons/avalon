@@ -17,7 +17,6 @@
 package org.apache.avalon.excalibur.naming;
 
 import java.util.Hashtable;
-
 import javax.naming.CompositeName;
 import javax.naming.Context;
 import javax.naming.InvalidNameException;
@@ -32,12 +31,12 @@ import javax.naming.spi.ResolveResult;
  * provide a particular type of Context.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  * @deprecated Toolkit deprecated and replaced by http://spice.sourceforge.net/jndikit/
  */
 public abstract class AbstractURLContext
-    extends AbstractContext
-    implements NameParser
+        extends AbstractContext
+        implements NameParser
 {
     protected final String m_scheme;
 
@@ -48,13 +47,13 @@ public abstract class AbstractURLContext
     }
 
     public Name parse( final String name )
-        throws NamingException
+            throws NamingException
     {
-        return ( new CompositeName().add( name ) );
+        return (new CompositeName().add( name ));
     }
 
     protected NameParser getNameParser()
-        throws NamingException
+            throws NamingException
     {
         return this;
     }
@@ -63,7 +62,7 @@ public abstract class AbstractURLContext
      * Helper method to bind
      */
     protected void bind( final Name name, final Object object, final boolean rebind )
-        throws NamingException
+            throws NamingException
     {
         final ResolveResult resolveResult = getBaseURLContext( name, getRawEnvironment() );
         final Context context = (Context)resolveResult.getResolvedObj();
@@ -93,7 +92,7 @@ public abstract class AbstractURLContext
      * @exception NamingException if an error occurs (ie context exists, badly formated name etc)
      */
     public Context createSubcontext( final Name name )
-        throws NamingException
+            throws NamingException
     {
         final ResolveResult resolveResult = getBaseURLContext( name, getRawEnvironment() );
         final Context context = (Context)resolveResult.getResolvedObj();
@@ -109,7 +108,7 @@ public abstract class AbstractURLContext
     }
 
     public void destroySubcontext( final Name name )
-        throws NamingException
+            throws NamingException
     {
         final ResolveResult resolveResult = getBaseURLContext( name, getRawEnvironment() );
         final Context context = (Context)resolveResult.getResolvedObj();
@@ -125,7 +124,7 @@ public abstract class AbstractURLContext
     }
 
     public String getNameInNamespace()
-        throws NamingException
+            throws NamingException
     {
         return "";
     }
@@ -138,7 +137,7 @@ public abstract class AbstractURLContext
      * @exception NamingException if an error occurs
      */
     public NamingEnumeration list( final Name name )
-        throws NamingException
+            throws NamingException
     {
         final ResolveResult resolveResult = getBaseURLContext( name, getRawEnvironment() );
         final Context context = (Context)resolveResult.getResolvedObj();
@@ -161,7 +160,7 @@ public abstract class AbstractURLContext
      * @exception NamingException if an error occurs
      */
     public NamingEnumeration listBindings( final Name name )
-        throws NamingException
+            throws NamingException
     {
         final ResolveResult resolveResult = getBaseURLContext( name, getRawEnvironment() );
         final Context context = (Context)resolveResult.getResolvedObj();
@@ -184,7 +183,7 @@ public abstract class AbstractURLContext
      * @exception NamingException if an error occurs (ie object name is inavlid or unbound)
      */
     public Object lookup( final Name name )
-        throws NamingException
+            throws NamingException
     {
         final ResolveResult resolveResult = getBaseURLContext( name, getRawEnvironment() );
         final Context context = (Context)resolveResult.getResolvedObj();
@@ -206,7 +205,7 @@ public abstract class AbstractURLContext
      * @exception NamingException if an error occurs
      */
     public void unbind( final Name name )
-        throws NamingException
+            throws NamingException
     {
         final ResolveResult resolveResult = getBaseURLContext( name, getRawEnvironment() );
         final Context context = (Context)resolveResult.getResolvedObj();
@@ -222,7 +221,7 @@ public abstract class AbstractURLContext
     }
 
     protected ResolveResult getBaseURLContext( final Name name, final Hashtable environment )
-        throws NamingException
+            throws NamingException
     {
         if( name.isEmpty() )
         {
@@ -234,7 +233,8 @@ public abstract class AbstractURLContext
 
         if( -1 == index )
         {
-            throw new InvalidNameException( "Unable to build URLContext as it does not specify scheme" );
+            throw new InvalidNameException(
+                    "Unable to build URLContext as it does not specify scheme" );
         }
 
         final String scheme = nameString.substring( 0, index );
@@ -244,8 +244,9 @@ public abstract class AbstractURLContext
 
         if( !m_scheme.equals( scheme ) )
         {
-            throw new InvalidNameException( "Bad Scheme use to build URLContext (" + scheme + "). " +
-                                            "Expected " + m_scheme );
+            throw new InvalidNameException( "Bad Scheme use to build URLContext (" + scheme +
+                    "). " +
+                    "Expected " + m_scheme );
         }
 
         final Context context = newContext( urlPart );
@@ -267,7 +268,7 @@ public abstract class AbstractURLContext
      * @exception NamingException if an error occurs
      */
     protected int getEndIndexOfURLPart( final String name, final int index )
-        throws NamingException
+            throws NamingException
     {
         int result = 0;
 
@@ -299,5 +300,5 @@ public abstract class AbstractURLContext
      * @exception NamingException if an error occurs
      */
     protected abstract Context newContext( String urlPart )
-        throws NamingException;
+            throws NamingException;
 }

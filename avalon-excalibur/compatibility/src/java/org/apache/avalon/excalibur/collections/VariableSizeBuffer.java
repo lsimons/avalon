@@ -24,7 +24,7 @@ package org.apache.avalon.excalibur.collections;
  * @deprecated use org.apache.commons.collections.UnboundedFifoBuffer instead
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.4 $ $Date: 2004/02/28 11:47:15 $
+ * @version CVS $Revision: 1.5 $ $Date: 2004/04/26 10:23:05 $
  * @since 4.0
  */
 public final class VariableSizeBuffer implements Buffer
@@ -39,7 +39,7 @@ public final class VariableSizeBuffer implements Buffer
      */
     public VariableSizeBuffer( int size )
     {
-        m_buffer = new Object[ size + 1 ];
+        m_buffer = new Object[size + 1];
         m_head = 0;
         m_tail = 0;
     }
@@ -62,7 +62,7 @@ public final class VariableSizeBuffer implements Buffer
      */
     public final boolean isEmpty()
     {
-        return ( size() == 0 );
+        return (size() == 0);
     }
 
     /**
@@ -96,13 +96,13 @@ public final class VariableSizeBuffer implements Buffer
 
         if( size() + 1 >= m_buffer.length )
         {
-            Object[] tmp = new Object[ ( ( m_buffer.length - 1 ) * 2 ) + 1 ];
+            Object[] tmp = new Object[((m_buffer.length - 1) * 2) + 1];
 
             int j = 0;
             for( int i = m_head; i != m_tail; )
             {
-                tmp[ j ] = m_buffer[ i ];
-                m_buffer[ i ] = null;
+                tmp[j] = m_buffer[i];
+                m_buffer[i] = null;
 
                 j++;
                 i++;
@@ -117,7 +117,7 @@ public final class VariableSizeBuffer implements Buffer
             m_tail = j;
         }
 
-        m_buffer[ m_tail ] = o;
+        m_buffer[m_tail] = o;
         m_tail++;
         if( m_tail >= m_buffer.length )
         {
@@ -135,11 +135,11 @@ public final class VariableSizeBuffer implements Buffer
             throw new BufferUnderflowException( "The buffer is already empty" );
         }
 
-        Object element = m_buffer[ m_head ];
+        Object element = m_buffer[m_head];
 
         if( null != element )
         {
-            m_buffer[ m_head ] = null;
+            m_buffer[m_head] = null;
 
             m_head++;
             if( m_head >= m_buffer.length )

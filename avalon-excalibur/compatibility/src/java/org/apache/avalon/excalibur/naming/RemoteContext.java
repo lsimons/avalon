@@ -21,7 +21,6 @@ import java.io.Serializable;
 import java.rmi.MarshalledObject;
 import java.util.Hashtable;
 import java.util.Iterator;
-
 import javax.naming.Binding;
 import javax.naming.CommunicationException;
 import javax.naming.ConfigurationException;
@@ -39,12 +38,12 @@ import javax.naming.Referenceable;
  * Context that hooks up to a remote source.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  * @deprecated Toolkit deprecated and replaced by http://spice.sourceforge.net/jndikit/
  */
 public class RemoteContext
-    extends AbstractContext
-    implements Serializable
+        extends AbstractContext
+        implements Serializable
 {
     public static final String NAMESPACE_NAME = "org.apache.avalon.excalibur.naming.Namespace/NAME";
     public static final String NAMESPACE = "org.apache.avalon.excalibur.naming.Namespace";
@@ -62,7 +61,7 @@ public class RemoteContext
     }
 
     public RemoteContext( final Hashtable environment, final Name baseName )
-        throws NamingException
+            throws NamingException
     {
         super( environment );
         m_baseName = baseName;
@@ -72,7 +71,7 @@ public class RemoteContext
      * Helper method to bind
      */
     protected void bind( final Name name, Object object, final boolean rebind )
-        throws NamingException
+            throws NamingException
     {
         if( isSelf( name ) )
         {
@@ -85,12 +84,12 @@ public class RemoteContext
 
         if( object instanceof Reference )
         {
-            className = ( (Reference)object ).getClassName();
+            className = ((Reference)object).getClassName();
         }
         else if( object instanceof Referenceable )
         {
-            object = ( (Referenceable)object ).getReference();
-            className = ( (Reference)object ).getClassName();
+            object = ((Referenceable)object).getReference();
+            className = ((Reference)object).getClassName();
         }
         else
         {
@@ -103,8 +102,8 @@ public class RemoteContext
             catch( final IOException ioe )
             {
                 throw new NamingException( "Only Reference, Referenceables and " +
-                                           "Serializable objects can be bound " +
-                                           "to context" );
+                        "Serializable objects can be bound " +
+                        "to context" );
             }
         }
 
@@ -143,7 +142,7 @@ public class RemoteContext
      * @exception NamingException if an error occurs (ie context exists, badly formated name etc)
      */
     public Context createSubcontext( final Name name )
-        throws NamingException
+            throws NamingException
     {
         if( isSelf( name ) )
         {
@@ -166,7 +165,7 @@ public class RemoteContext
     }
 
     public void destroySubcontext( final Name name )
-        throws NamingException
+            throws NamingException
     {
         if( isSelf( name ) )
         {
@@ -184,7 +183,7 @@ public class RemoteContext
     }
 
     public String getNameInNamespace()
-        throws NamingException
+            throws NamingException
     {
         return getAbsoluteName( getNameParser().parse( "" ) ).toString();
     }
@@ -197,7 +196,7 @@ public class RemoteContext
      * @exception NamingException if an error occurs
      */
     public NamingEnumeration list( final Name name )
-        throws NamingException
+            throws NamingException
     {
         try
         {
@@ -218,7 +217,7 @@ public class RemoteContext
      * @exception NamingException if an error occurs
      */
     public NamingEnumeration listBindings( final Name name )
-        throws NamingException
+            throws NamingException
     {
         try
         {
@@ -226,7 +225,7 @@ public class RemoteContext
 
             for( int i = 0; i < result.length; i++ )
             {
-                final Object object = result[ i ].getObject();
+                final Object object = result[i].getObject();
                 if( object instanceof Context )
                 {
                     fillInContext( (Context)object );
@@ -249,7 +248,7 @@ public class RemoteContext
      * @exception NamingException if an error occurs (ie object name is inavlid or unbound)
      */
     public Object lookup( final Name name )
-        throws NamingException
+            throws NamingException
     {
         if( isSelf( name ) )
         {
@@ -264,7 +263,7 @@ public class RemoteContext
 
             if( object instanceof MarshalledObject )
             {
-                object = ( (MarshalledObject)object ).get();
+                object = ((MarshalledObject)object).get();
             }
 
             object = getNamespace().getObjectInstance( object, name, this, getRawEnvironment() );
@@ -289,7 +288,7 @@ public class RemoteContext
      * @exception NamingException if an error occurs
      */
     public void unbind( final Name name )
-        throws NamingException
+            throws NamingException
     {
         if( isSelf( name ) )
         {
@@ -307,7 +306,7 @@ public class RemoteContext
     }
 
     protected void fillInContext( final Context object )
-        throws NamingException
+            throws NamingException
     {
         final Hashtable environment = getRawEnvironment();
         final Iterator keys = environment.keySet().iterator();
@@ -321,13 +320,13 @@ public class RemoteContext
     }
 
     protected Namespace getNamespace()
-        throws NamingException
+            throws NamingException
     {
         if( null == m_namespace )
         {
             final Object object = getRawEnvironment().get( RemoteContext.NAMESPACE );
 
-            if( !( object instanceof Namespace ) || null == object )
+            if( !(object instanceof Namespace) || null == object )
             {
                 throw new ConfigurationException( "Context does not contain Namespace" );
             }
@@ -341,13 +340,13 @@ public class RemoteContext
     }
 
     protected NamingProvider getProvider()
-        throws NamingException
+            throws NamingException
     {
         if( null == m_provider )
         {
             final Object object = getRawEnvironment().get( RemoteContext.NAMING_PROVIDER );
 
-            if( !( object instanceof NamingProvider ) || null == object )
+            if( !(object instanceof NamingProvider) || null == object )
             {
                 throw new ConfigurationException( "Context does not contain provider" );
             }
@@ -361,7 +360,7 @@ public class RemoteContext
     }
 
     protected NameParser getNameParser()
-        throws NamingException
+            throws NamingException
     {
         if( null == m_nameParser )
         {
@@ -380,7 +379,7 @@ public class RemoteContext
     }
 
     protected Name getAbsoluteName( final Name name )
-        throws NamingException
+            throws NamingException
     {
         return composeName( name, m_baseName );
     }

@@ -48,15 +48,15 @@ public class IncompatOptions
     private static final CLOptionDescriptor[] OPTIONS = new CLOptionDescriptor[]
     {
         new CLOptionDescriptor( "verbose",
-                                CLOptionDescriptor.ARGUMENT_DISALLOWED,
-                                VERBOSE_OPT,
-                                "Run command in verbose mode",
-                                new int[]{QUIET_OPT} ),
+                CLOptionDescriptor.ARGUMENT_DISALLOWED,
+                VERBOSE_OPT,
+                "Run command in verbose mode",
+                new int[]{QUIET_OPT} ),
         new CLOptionDescriptor( "quiet",
-                                CLOptionDescriptor.ARGUMENT_DISALLOWED,
-                                QUIET_OPT,
-                                "Run command in quiet mode",
-                                new int[]{VERBOSE_OPT} )
+                CLOptionDescriptor.ARGUMENT_DISALLOWED,
+                QUIET_OPT,
+                "Run command in quiet mode",
+                new int[]{VERBOSE_OPT} )
     };
 
     public static void main( final String[] args )

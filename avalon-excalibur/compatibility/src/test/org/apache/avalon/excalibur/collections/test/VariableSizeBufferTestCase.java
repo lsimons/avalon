@@ -16,15 +16,15 @@
  */
 package org.apache.avalon.excalibur.collections.test;
 
-import junit.framework.TestCase;
-
 import org.apache.avalon.excalibur.collections.VariableSizeBuffer;
+
+import junit.framework.TestCase;
 
 /**
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public class VariableSizeBufferTestCase
-    extends TestCase
+        extends TestCase
 {
     public VariableSizeBufferTestCase( final String name )
     {
@@ -37,7 +37,7 @@ public class VariableSizeBufferTestCase
      * the buffer.
      */
     public void testGrowthWrapAround()
-        throws Exception
+            throws Exception
     {
         VariableSizeBuffer buf = new VariableSizeBuffer( 1 );
         buf.add( "1" );
@@ -45,7 +45,7 @@ public class VariableSizeBufferTestCase
         buf.add( "2" );
         buf.add( "3" );
         assertEquals( "After 3 puts and 1 remove buffer size must be 2",
-                      2, buf.size() );
+                2, buf.size() );
         assertEquals( "Got 2", "2", buf.remove() );
         assertEquals( "Got 3", "3", buf.remove() );
         assertTrue( "Buffer is empty", buf.isEmpty() );
@@ -60,7 +60,7 @@ public class VariableSizeBufferTestCase
         buf.add( "1" );
         buf.add( "2" );
         assertEquals( "After 2 puts buffer size must be 2",
-                      2, buf.size() );
+                2, buf.size() );
         assertEquals( "Got 1", "1", buf.remove() );
         assertEquals( "Got 2", "2", buf.remove() );
         assertTrue( "Buffer is empty", buf.isEmpty() );

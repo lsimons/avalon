@@ -17,7 +17,6 @@
 package org.apache.avalon.excalibur.naming;
 
 import java.util.Hashtable;
-
 import javax.naming.Context;
 import javax.naming.InvalidNameException;
 import javax.naming.Name;
@@ -30,11 +29,11 @@ import javax.naming.NamingException;
  * provide a particular type of Context.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  * @deprecated Toolkit deprecated and replaced by http://spice.sourceforge.net/jndikit/
  */
 public abstract class AbstractContext
-    implements Context
+        implements Context
 {
     private Hashtable m_environment;
 
@@ -49,7 +48,7 @@ public abstract class AbstractContext
     }
 
     protected abstract NameParser getNameParser()
-        throws NamingException;
+            throws NamingException;
 
     /**
      * Add a key-value pair to environment
@@ -59,7 +58,7 @@ public abstract class AbstractContext
      * @return the value
      */
     public Object addToEnvironment( final String key, final Object value )
-        throws NamingException
+            throws NamingException
     {
         if( null == m_environment ) m_environment = new Hashtable( 5, 0.75f );
         return m_environment.put( key, value );
@@ -76,7 +75,7 @@ public abstract class AbstractContext
 
     protected boolean isSelf( final Name name )
     {
-        return ( name.isEmpty() || name.get( 0 ).equals( "" ) );
+        return (name.isEmpty() || name.get( 0 ).equals( "" ));
     }
 
     /**
@@ -87,7 +86,7 @@ public abstract class AbstractContext
      * @exception NamingException if an error occurs such as bad name or invalid binding
      */
     public void bind( final String name, final Object object )
-        throws NamingException
+            throws NamingException
     {
         bind( getNameParser().parse( name ), object );
     }
@@ -100,7 +99,7 @@ public abstract class AbstractContext
      * @exception NamingException if an error occurs such as bad name or invalid binding
      */
     public void bind( final Name name, final Object object )
-        throws NamingException
+            throws NamingException
     {
         bind( name, object, false );
     }
@@ -109,7 +108,7 @@ public abstract class AbstractContext
      * Helper method to bind
      */
     protected abstract void bind( Name name, Object object, boolean rebind )
-        throws NamingException;
+            throws NamingException;
 
     /**
      * Compose a name form a name and a prefix.
@@ -120,11 +119,11 @@ public abstract class AbstractContext
      * @exception NamingException if a badly formatted name for context
      */
     public String composeName( final String name, final String prefix )
-        throws NamingException
+            throws NamingException
     {
         final NameParser nameParser = getNameParser();
         final Name result =
-            composeName( nameParser.parse( name ), nameParser.parse( prefix ) );
+                composeName( nameParser.parse( name ), nameParser.parse( prefix ) );
         return result.toString();
     }
 
@@ -137,9 +136,9 @@ public abstract class AbstractContext
      * @exception NamingException if a badly formatted name for context
      */
     public Name composeName( final Name name, final Name prefix )
-        throws NamingException
+            throws NamingException
     {
-        final Name result = (Name)( prefix.clone() );
+        final Name result = (Name)(prefix.clone());
         result.addAll( name );
         return result;
     }
@@ -152,7 +151,7 @@ public abstract class AbstractContext
      * @exception NamingException if an error occurs (ie context exists, badly formated name etc)
      */
     public Context createSubcontext( final String name )
-        throws NamingException
+            throws NamingException
     {
         return createSubcontext( getNameParser().parse( name ) );
     }
@@ -165,7 +164,7 @@ public abstract class AbstractContext
      *            context not exiting or not empty
      */
     public void destroySubcontext( final String name )
-        throws NamingException
+            throws NamingException
     {
         destroySubcontext( getNameParser().parse( name ) );
     }
@@ -176,7 +175,7 @@ public abstract class AbstractContext
      * @return the environment
      */
     public Hashtable getEnvironment()
-        throws NamingException
+            throws NamingException
     {
         if( null == m_environment )
             return new Hashtable( 3, 0.75f );
@@ -192,7 +191,7 @@ public abstract class AbstractContext
      * @exception NamingException if an error occurs
      */
     public NameParser getNameParser( final String name )
-        throws NamingException
+            throws NamingException
     {
         return getNameParser( getNameParser().parse( name ) );
     }
@@ -205,7 +204,7 @@ public abstract class AbstractContext
      * @exception NamingException if an error occurs
      */
     public NameParser getNameParser( final Name name )
-        throws NamingException
+            throws NamingException
     {
         if( name.isEmpty() )
         {
@@ -213,7 +212,7 @@ public abstract class AbstractContext
         }
 
         Object object = lookup( name );
-        if( !( object instanceof Context ) )
+        if( !(object instanceof Context) )
         {
             object = lookup( getPathName( name ) );
         }
@@ -232,7 +231,7 @@ public abstract class AbstractContext
      * @exception NamingException if an error occurs
      */
     public NamingEnumeration list( final String name )
-        throws NamingException
+            throws NamingException
     {
         return list( getNameParser().parse( name ) );
     }
@@ -245,7 +244,7 @@ public abstract class AbstractContext
      * @exception NamingException if an error occurs
      */
     public NamingEnumeration listBindings( final String name )
-        throws NamingException
+            throws NamingException
     {
         return listBindings( getNameParser().parse( name ) );
     }
@@ -258,7 +257,7 @@ public abstract class AbstractContext
      * @exception NamingException if an error occurs (ie object name is inavlid or unbound)
      */
     public Object lookup( final String name )
-        throws NamingException
+            throws NamingException
     {
         return lookup( getNameParser().parse( name ) );
     }
@@ -271,7 +270,7 @@ public abstract class AbstractContext
      * @exception NamingException if an error occurs (ie object name is inavlid or unbound)
      */
     public Object lookupLink( final String name )
-        throws NamingException
+            throws NamingException
     {
         return lookupLink( getNameParser().parse( name ) );
     }
@@ -284,7 +283,7 @@ public abstract class AbstractContext
      * @exception NamingException if an error occurs (ie object name is inavlid or unbound)
      */
     public Object lookupLink( final Name name )
-        throws NamingException
+            throws NamingException
     {
         return lookup( name );
     }
@@ -297,7 +296,7 @@ public abstract class AbstractContext
      * @exception NamingException if an error occurs
      */
     public void rebind( final String name, final Object object )
-        throws NamingException
+            throws NamingException
     {
         rebind( getNameParser().parse( name ), object );
     }
@@ -310,7 +309,7 @@ public abstract class AbstractContext
      * @exception NamingException if an error occurs
      */
     public void rebind( final Name name, final Object object )
-        throws NamingException
+            throws NamingException
     {
         bind( name, object, true );
     }
@@ -322,7 +321,7 @@ public abstract class AbstractContext
      * @return the value
      */
     public Object removeFromEnvironment( final String key )
-        throws NamingException
+            throws NamingException
     {
         if( null == m_environment ) return null;
         return m_environment.remove( key );
@@ -336,13 +335,13 @@ public abstract class AbstractContext
      * @exception NamingException if an error occurs
      */
     public void rename( final String oldName, final String newName )
-        throws NamingException
+            throws NamingException
     {
         rename( getNameParser().parse( oldName ), getNameParser().parse( newName ) );
     }
 
     public void rename( final Name oldName, final Name newName )
-        throws NamingException
+            throws NamingException
     {
         if( isSelf( oldName ) || isSelf( newName ) )
         {
@@ -364,7 +363,7 @@ public abstract class AbstractContext
      * @exception NamingException if an error occurs
      */
     public void unbind( final String name )
-        throws NamingException
+            throws NamingException
     {
         unbind( getNameParser().parse( name ) );
     }
@@ -388,7 +387,7 @@ public abstract class AbstractContext
      * @exception NamingException if an error occurs
      */
     protected Name getPathName( final Name name )
-        throws NamingException
+            throws NamingException
     {
         return name.getPrefix( name.size() - 1 );
     }
@@ -401,7 +400,7 @@ public abstract class AbstractContext
      * @exception NamingException if an error occurs
      */
     protected Name getLeafName( final Name name )
-        throws NamingException
+            throws NamingException
     {
         return name.getSuffix( name.size() - 1 );
     }

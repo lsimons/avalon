@@ -16,11 +16,11 @@
  */
 package org.apache.avalon.excalibur.naming.test;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 import org.apache.avalon.excalibur.naming.memory.test.MemoryContextTestCase;
 import org.apache.avalon.excalibur.naming.rmi.test.RMIContextTestCase;
+
+import junit.framework.Test;
+import junit.framework.TestSuite;
 
 /**
  * A basic test suite that tests all the naming package.

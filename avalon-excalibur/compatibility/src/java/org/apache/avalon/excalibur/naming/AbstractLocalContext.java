@@ -17,7 +17,6 @@
 package org.apache.avalon.excalibur.naming;
 
 import java.util.Hashtable;
-
 import javax.naming.Context;
 import javax.naming.ContextNotEmptyException;
 import javax.naming.InvalidNameException;
@@ -37,18 +36,18 @@ import javax.naming.Referenceable;
  * on the same machine.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  * @deprecated Toolkit deprecated and replaced by http://spice.sourceforge.net/jndikit/
  */
 public abstract class AbstractLocalContext
-    extends AbstractContext
+        extends AbstractContext
 {
     private Context m_parent;
     private Namespace m_namespace;
 
     public AbstractLocalContext( final Namespace namespace,
-                                 final Hashtable environment,
-                                 final Context parent )
+            final Hashtable environment,
+            final Context parent )
     {
         super( environment );
         m_namespace = namespace;
@@ -76,22 +75,22 @@ public abstract class AbstractLocalContext
     }
 
     protected boolean isDestroyableContext( final Object object )
-        throws NamingException
+            throws NamingException
     {
         return getClass().isInstance( object );
     }
 
     protected abstract Context newContext()
-        throws NamingException;
+            throws NamingException;
 
     protected abstract Context cloneContext()
-        throws NamingException;
+            throws NamingException;
 
     /**
      * Helper method to bind
      */
     protected void bind( final Name name, Object object, final boolean rebind )
-        throws NamingException
+            throws NamingException
     {
         if( isSelf( name ) )
         {
@@ -119,7 +118,7 @@ public abstract class AbstractLocalContext
                 //Should this occur here or in the factories ???
                 if( object instanceof Referenceable )
                 {
-                    object = ( (Referenceable)object ).getReference();
+                    object = ((Referenceable)object).getReference();
                 }
 
                 // Call getStateToBind for using any state factories
@@ -144,7 +143,7 @@ public abstract class AbstractLocalContext
     }
 
     protected abstract void doLocalBind( Name name, Object object )
-        throws NamingException;
+            throws NamingException;
 
     public void close()
     {
@@ -160,7 +159,7 @@ public abstract class AbstractLocalContext
      * @exception NamingException if an error occurs (ie context exists, badly formated name etc)
      */
     public Context createSubcontext( final Name name )
-        throws NamingException
+            throws NamingException
     {
         final Context context = newContext();
         bind( name, context );
@@ -168,7 +167,7 @@ public abstract class AbstractLocalContext
     }
 
     public void destroySubcontext( final Name name )
-        throws NamingException
+            throws NamingException
     {
         if( isSelf( name ) )
         {
@@ -214,7 +213,7 @@ public abstract class AbstractLocalContext
     }
 
     protected void checkUnbindContext( final Name name, final Object entry )
-        throws NamingException
+            throws NamingException
     {
         if( !isDestroyableContext( entry ) )
         {
@@ -229,13 +228,13 @@ public abstract class AbstractLocalContext
     }
 
     public String getNameInNamespace()
-        throws NamingException
+            throws NamingException
     {
         throw new OperationNotSupportedException( "Namespace has no notion of a 'full name'" );
     }
 
     protected NameParser getNameParser()
-        throws NamingException
+            throws NamingException
     {
         return m_namespace.getNameParser();
     }
@@ -248,7 +247,7 @@ public abstract class AbstractLocalContext
      * @exception NamingException if an error occurs
      */
     public NamingEnumeration list( final Name name )
-        throws NamingException
+            throws NamingException
     {
         if( isSelf( name ) )
         {
@@ -263,10 +262,10 @@ public abstract class AbstractLocalContext
     }
 
     protected abstract NamingEnumeration doLocalList()
-        throws NamingException;
+            throws NamingException;
 
     protected abstract NamingEnumeration doLocalListBindings()
-        throws NamingException;
+            throws NamingException;
 
     /**
      * Enumerates the names bound in the named context, along with the objects bound to them.
@@ -276,7 +275,7 @@ public abstract class AbstractLocalContext
      * @exception NamingException if an error occurs
      */
     public NamingEnumeration listBindings( final Name name )
-        throws NamingException
+            throws NamingException
     {
         if( isSelf( name ) )
         {
@@ -298,7 +297,7 @@ public abstract class AbstractLocalContext
      * @exception NamingException if an error occurs (ie object name is inavlid or unbound)
      */
     public Object lookup( final Name name )
-        throws NamingException
+            throws NamingException
     {
         //if it refers to base context return a copy of it.
         if( isSelf( name ) )
@@ -338,7 +337,7 @@ public abstract class AbstractLocalContext
      * @exception NamingException if an error occurs
      */
     protected Object localLookup( final Name name )
-        throws NamingException
+            throws NamingException
     {
         final Object value = doLocalLookup( name );
 
@@ -365,7 +364,7 @@ public abstract class AbstractLocalContext
      * @exception NamingException if an error occurs
      */
     protected abstract Object doLocalLookup( Name name )
-        throws NamingException;
+            throws NamingException;
 
     /**
      * Lookup a sub-context of current context.
@@ -376,22 +375,22 @@ public abstract class AbstractLocalContext
      * @exception NamingException if an error occurs (like named entry is not a Context)
      */
     protected Context lookupSubContext( final Name name )
-        throws NamingException
+            throws NamingException
     {
         final Name atom = name.getPrefix( 1 );
         Object object = localLookup( atom );
 
         if( 1 != name.size() )
         {
-            if( !( object instanceof Context ) )
+            if( !(object instanceof Context) )
             {
                 throw new NotContextException( atom.toString() );
             }
 
-            object = ( (Context)object ).lookup( name.getSuffix( 1 ) );
+            object = ((Context)object).lookup( name.getSuffix( 1 ) );
         }
 
-        if( !( object instanceof Context ) )
+        if( !(object instanceof Context) )
         {
             throw new NotContextException( name.toString() );
         }
@@ -407,7 +406,7 @@ public abstract class AbstractLocalContext
      * @exception NamingException if an error occurs
      */
     public void unbind( final Name name )
-        throws NamingException
+            throws NamingException
     {
         if( isSelf( name ) )
         {
@@ -431,5 +430,5 @@ public abstract class AbstractLocalContext
      * @exception NamingException if an error occurs
      */
     protected abstract void doLocalUnbind( Name name )
-        throws NamingException;
+            throws NamingException;
 }

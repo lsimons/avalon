@@ -25,7 +25,7 @@ package org.apache.avalon.excalibur.concurrent;
  * @deprecated use EDU.oswego.cs.dl.util.concurrent.CyclicBarrier instead
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.4 $ $Date: 2004/02/28 11:47:27 $
+ * @version CVS $Revision: 1.5 $ $Date: 2004/04/26 10:23:06 $
  * @since 4.0
  */
 public class ThreadBarrier
@@ -54,7 +54,7 @@ public class ThreadBarrier
      * interrupted
      */
     public void barrierSynchronize()
-        throws InterruptedException
+            throws InterruptedException
     {
         synchronized( this )
         {

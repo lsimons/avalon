@@ -21,11 +21,11 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import org.apache.avalon.excalibur.io.FileUtil;
+
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-
-import org.apache.avalon.excalibur.io.FileUtil;
 
 /**
  * This is used to test FileUtil for correctness.
@@ -33,7 +33,7 @@ import org.apache.avalon.excalibur.io.FileUtil;
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public final class FileUtilTestCase
-    extends TestCase
+        extends TestCase
 {
     private final int FILE1_SIZE = 1;
     private final int FILE2_SIZE = 1024 * 4 + 1;
@@ -43,11 +43,11 @@ public final class FileUtilTestCase
     private final File m_testFile2;
 
     public FileUtilTestCase( final String name )
-        throws IOException
+            throws IOException
     {
         super( name );
 
-        m_testDirectory = ( new File( "test/io/" ) ).getAbsoluteFile();
+        m_testDirectory = (new File( "test/io/" )).getAbsoluteFile();
         if( !m_testDirectory.exists() )
         {
             m_testDirectory.mkdirs();
@@ -61,10 +61,10 @@ public final class FileUtilTestCase
     }
 
     private void createFile( final File file, final long size )
-        throws IOException
+            throws IOException
     {
         final BufferedOutputStream output =
-            new BufferedOutputStream( new FileOutputStream( file ) );
+                new BufferedOutputStream( new FileOutputStream( file ) );
 
         for( int i = 0; i < size; i++ )
         {
@@ -75,7 +75,7 @@ public final class FileUtilTestCase
     }
 
     public static Test suite()
-        throws IOException
+            throws IOException
     {
         final TestSuite suite = new TestSuite();
         suite.addTest( new FileUtilTestCase( "testCopyFile1" ) );
@@ -93,7 +93,7 @@ public final class FileUtilTestCase
     }
 
     public void testCopyFile1()
-        throws Exception
+            throws Exception
     {
         final File destination = new File( m_testDirectory, "copy1.txt" );
         FileUtil.copyFile( m_testFile1, destination );
@@ -102,7 +102,7 @@ public final class FileUtilTestCase
     }
 
     public void testCopyFile2()
-        throws Exception
+            throws Exception
     {
         final File destination = new File( m_testDirectory, "copy2.txt" );
         FileUtil.copyFile( m_testFile2, destination );
@@ -111,7 +111,7 @@ public final class FileUtilTestCase
     }
 
     public void testForceDeleteAFile1()
-        throws Exception
+            throws Exception
     {
         final File destination = new File( m_testDirectory, "copy1.txt" );
         destination.createNewFile();
@@ -121,7 +121,7 @@ public final class FileUtilTestCase
     }
 
     public void testForceDeleteAFile2()
-        throws Exception
+            throws Exception
     {
         final File destination = new File( m_testDirectory, "copy2.txt" );
         destination.createNewFile();
@@ -131,7 +131,7 @@ public final class FileUtilTestCase
     }
 
     public void testCopyFile1ToDir()
-        throws Exception
+            throws Exception
     {
         final File directory = new File( m_testDirectory, "subdir" );
         if( !directory.exists() ) directory.mkdirs();
@@ -142,7 +142,7 @@ public final class FileUtilTestCase
     }
 
     public void testCopyFile2ToDir()
-        throws Exception
+            throws Exception
     {
         final File directory = new File( m_testDirectory, "subdir" );
         if( !directory.exists() ) directory.mkdirs();
@@ -153,49 +153,49 @@ public final class FileUtilTestCase
     }
 
     public void testForceDeleteDir()
-        throws Exception
+            throws Exception
     {
         FileUtil.forceDelete( m_testDirectory.getParentFile() );
         assertTrue( "Check No Exist", !m_testDirectory.getParentFile().exists() );
     }
 
     public void testResolveFileDotDot()
-        throws Exception
+            throws Exception
     {
         final File file = FileUtil.resolveFile( m_testDirectory, ".." );
         assertEquals( "Check .. operator", file, m_testDirectory.getParentFile() );
     }
 
     public void testResolveFileDot()
-        throws Exception
+            throws Exception
     {
         final File file = FileUtil.resolveFile( m_testDirectory, "." );
         assertEquals( "Check . operator", file, m_testDirectory );
     }
 
     public void testNormalize()
-        throws Exception
+            throws Exception
     {
         final String[] src =
-            {
-                "", "/", "///", "/foo", "/foo//", "/./", "/foo/./", "/foo/./bar",
-                "/foo/../bar", "/foo/../bar/../baz", "/foo/bar/../../baz", "/././",
-                "/foo/./../bar", "/foo/.././bar/", "//foo//./bar", "/../",
-                "/foo/../../"
-            };
+                {
+                    "", "/", "///", "/foo", "/foo//", "/./", "/foo/./", "/foo/./bar",
+                    "/foo/../bar", "/foo/../bar/../baz", "/foo/bar/../../baz", "/././",
+                    "/foo/./../bar", "/foo/.././bar/", "//foo//./bar", "/../",
+                    "/foo/../../"
+                };
 
         final String[] dest =
-            {
-                "", "/", "/", "/foo", "/foo/", "/", "/foo/", "/foo/bar", "/bar",
-                "/baz", "/baz", "/", "/bar", "/bar/", "/foo/bar", null, null
-            };
+                {
+                    "", "/", "/", "/foo", "/foo/", "/", "/foo/", "/foo/bar", "/bar",
+                    "/baz", "/baz", "/", "/bar", "/bar/", "/foo/bar", null, null
+                };
 
         assertEquals( "Oops, test writer goofed", src.length, dest.length );
 
         for( int i = 0; i < src.length; i++ )
         {
-            assertEquals( "Check if '" + src[ i ] + "' normalized to '" + dest[ i ] + "'",
-                          dest[ i ], FileUtil.normalize( src[ i ] ) );
+            assertEquals( "Check if '" + src[i] + "' normalized to '" + dest[i] + "'",
+                    dest[i], FileUtil.normalize( src[i] ) );
         }
     }
 

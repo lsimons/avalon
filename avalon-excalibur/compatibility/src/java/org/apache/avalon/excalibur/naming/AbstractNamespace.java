@@ -17,7 +17,6 @@
 package org.apache.avalon.excalibur.naming;
 
 import java.util.Hashtable;
-
 import javax.naming.Context;
 import javax.naming.Name;
 import javax.naming.NamingException;
@@ -29,20 +28,20 @@ import javax.naming.spi.StateFactory;
  * basic facilities for Namespace management.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  * @deprecated Toolkit deprecated and replaced by http://spice.sourceforge.net/jndikit/
  */
 public abstract class AbstractNamespace
-    implements Namespace
+        implements Namespace
 {
     protected ObjectFactory[] m_objectFactorySet;
     protected StateFactory[] m_stateFactorySet;
 
     public Object getStateToBind( final Object object,
-                                  final Name name,
-                                  final Context parent,
-                                  final Hashtable environment )
-        throws NamingException
+            final Name name,
+            final Context parent,
+            final Hashtable environment )
+            throws NamingException
     {
         //for thread safety so that member variable can be updated
         //at any time
@@ -51,7 +50,7 @@ public abstract class AbstractNamespace
         for( int i = 0; i < stateFactorySet.length; i++ )
         {
             final Object result =
-                stateFactorySet[ i ].getStateToBind( object, name, parent, environment );
+                    stateFactorySet[i].getStateToBind( object, name, parent, environment );
 
             if( null != result )
             {
@@ -63,10 +62,10 @@ public abstract class AbstractNamespace
     }
 
     public Object getObjectInstance( final Object object,
-                                     final Name name,
-                                     final Context parent,
-                                     final Hashtable environment )
-        throws Exception
+            final Name name,
+            final Context parent,
+            final Hashtable environment )
+            throws Exception
     {
         //for thread safety so that member variable can be updated
         //at any time
@@ -75,7 +74,7 @@ public abstract class AbstractNamespace
         for( int i = 0; i < objectFactorySet.length; i++ )
         {
             final Object result =
-                objectFactorySet[ i ].getObjectInstance( object, name, parent, environment );
+                    objectFactorySet[i].getObjectInstance( object, name, parent, environment );
 
             if( null != result )
             {
@@ -95,13 +94,13 @@ public abstract class AbstractNamespace
     {
         //create new array of factory objects
         final StateFactory[] stateFactorySet =
-            new StateFactory[ m_stateFactorySet.length + 1 ];
+                new StateFactory[m_stateFactorySet.length + 1];
 
         //copy old factory objects to new array
         System.arraycopy( m_stateFactorySet, 0, stateFactorySet, 0, m_stateFactorySet.length );
 
         //add in new factory at end
-        stateFactorySet[ m_stateFactorySet.length ] = stateFactory;
+        stateFactorySet[m_stateFactorySet.length] = stateFactory;
 
         //update factory set
         m_stateFactorySet = stateFactorySet;
@@ -116,13 +115,13 @@ public abstract class AbstractNamespace
     {
         //create new array of factory objects
         final ObjectFactory[] objectFactorySet =
-            new ObjectFactory[ m_objectFactorySet.length + 1 ];
+                new ObjectFactory[m_objectFactorySet.length + 1];
 
         //copy old factory objects to new array
         System.arraycopy( m_objectFactorySet, 0, objectFactorySet, 0, m_objectFactorySet.length );
 
         //add in new factory at end
-        objectFactorySet[ m_objectFactorySet.length ] = objectFactory;
+        objectFactorySet[m_objectFactorySet.length] = objectFactory;
 
         //update factory set
         m_objectFactorySet = objectFactorySet;

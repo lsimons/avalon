@@ -26,7 +26,7 @@ package org.apache.avalon.excalibur.concurrent;
  * @deprecated use EDU.oswego.cs.dl.util.concurrent.Semaphore instead
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.4 $ $Date: 2004/02/28 11:47:27 $
+ * @version CVS $Revision: 1.5 $ $Date: 2004/04/26 10:23:06 $
  * @since 4.0
  */
 public class DijkstraSemaphore
@@ -70,7 +70,7 @@ public class DijkstraSemaphore
      * @see #acquireAll()
      */
     public void acquire()
-        throws InterruptedException
+            throws InterruptedException
     {
         synchronized( this )
         {
@@ -176,7 +176,7 @@ public class DijkstraSemaphore
      * @see #releaseAll()
      */
     public void acquireAll()
-        throws InterruptedException
+            throws InterruptedException
     {
         synchronized( this )
         {
@@ -213,7 +213,7 @@ public class DijkstraSemaphore
      * @throws InterruptedException if the thread is interrupted while waiting
      */
     public void starvationCheck()
-        throws InterruptedException
+            throws InterruptedException
     {
         synchronized( m_starvationLock )
         {

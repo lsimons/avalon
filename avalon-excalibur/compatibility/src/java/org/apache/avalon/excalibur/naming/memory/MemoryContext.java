@@ -17,7 +17,6 @@
 package org.apache.avalon.excalibur.naming.memory;
 
 import java.util.Hashtable;
-
 import javax.naming.Context;
 import javax.naming.Name;
 import javax.naming.NameNotFoundException;
@@ -31,56 +30,56 @@ import org.apache.avalon.excalibur.naming.Namespace;
  * An in memory context implementation.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  * @deprecated Toolkit deprecated and replaced by http://spice.sourceforge.net/jndikit/
  */
 public class MemoryContext
-    extends AbstractLocalContext
+        extends AbstractLocalContext
 {
     private Hashtable m_bindings;
 
     protected MemoryContext( final Namespace namespace,
-                             final Hashtable environment,
-                             final Context parent,
-                             final Hashtable bindings )
+            final Hashtable environment,
+            final Context parent,
+            final Hashtable bindings )
     {
         super( namespace, environment, parent );
         m_bindings = bindings;
     }
 
     public MemoryContext( final Namespace namespace,
-                          final Hashtable environment,
-                          final Context parent )
+            final Hashtable environment,
+            final Context parent )
     {
         this( namespace, environment, parent, new Hashtable( 11 ) );
     }
 
     protected Context newContext()
-        throws NamingException
+            throws NamingException
     {
         return new MemoryContext( getNamespace(), getRawEnvironment(), getParent() );
     }
 
     protected Context cloneContext()
-        throws NamingException
+            throws NamingException
     {
         return new MemoryContext( getNamespace(), getRawEnvironment(), getParent(), m_bindings );
     }
 
     protected void doLocalBind( final Name name, final Object object )
-        throws NamingException
+            throws NamingException
     {
         m_bindings.put( name.get( 0 ), object );
     }
 
     protected NamingEnumeration doLocalList()
-        throws NamingException
+            throws NamingException
     {
         return new MemoryNamingEnumeration( this, getNamespace(), m_bindings, false );
     }
 
     protected NamingEnumeration doLocalListBindings()
-        throws NamingException
+            throws NamingException
     {
         return new MemoryNamingEnumeration( this, getNamespace(), m_bindings, true );
     }
@@ -94,7 +93,7 @@ public class MemoryContext
      * @exception NamingException if an error occurs
      */
     protected Object doLocalLookup( final Name name )
-        throws NamingException
+            throws NamingException
     {
         final Object object = m_bindings.get( name.get( 0 ) );
         if( null == object ) throw new NameNotFoundException( name.get( 0 ) );
@@ -108,7 +107,7 @@ public class MemoryContext
      * @exception NamingException if an error occurs
      */
     protected void doLocalUnbind( final Name name )
-        throws NamingException
+            throws NamingException
     {
         m_bindings.remove( name.get( 0 ) );
     }

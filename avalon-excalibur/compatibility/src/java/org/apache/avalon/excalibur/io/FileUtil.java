@@ -51,7 +51,7 @@ import java.net.URL;
  * </p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.5 $ $Date: 2004/02/28 11:47:13 $
+ * @version CVS $Revision: 1.6 $ $Date: 2004/04/26 10:23:06 $
  * @since 4.0
  */
 public final class FileUtil
@@ -72,7 +72,7 @@ public final class FileUtil
      * @return true if the content of the files are equal or they both don't exist, false otherwise
      */
     public static boolean contentEquals( final File file1, final File file2 )
-        throws IOException
+            throws IOException
     {
         final boolean file1Exists = file1.exists();
         if( file1Exists != file2.exists() )
@@ -135,13 +135,13 @@ public final class FileUtil
      * @throws IOException if an error occurs
      */
     public static URL[] toURLs( final File[] files )
-        throws IOException
+            throws IOException
     {
-        final URL[] urls = new URL[ files.length ];
+        final URL[] urls = new URL[files.length];
 
         for( int i = 0; i < urls.length; i++ )
         {
-            urls[ i ] = files[ i ].toURL();
+            urls[i] = files[i].toURL();
         }
 
         return urls;
@@ -312,11 +312,11 @@ public final class FileUtil
      * <code>destinationDirectory</code> cannot be written to, or an IO error occurs during copying.
      */
     public static void copyFileToDirectory( final String source,
-                                            final String destinationDirectory )
-        throws IOException
+            final String destinationDirectory )
+            throws IOException
     {
         copyFileToDirectory( new File( source ),
-                             new File( destinationDirectory ) );
+                new File( destinationDirectory ) );
     }
 
     /**
@@ -333,8 +333,8 @@ public final class FileUtil
      * <code>destinationDirectory</code> cannot be written to, or an IO error occurs during copying.
      */
     public static void copyFileToDirectory( final File source,
-                                            final File destinationDirectory )
-        throws IOException
+            final File destinationDirectory )
+            throws IOException
     {
         if( destinationDirectory.exists() && !destinationDirectory.isDirectory() )
         {
@@ -360,7 +360,7 @@ public final class FileUtil
      * (use {@link #copyFileToDirectory}).
      */
     public static void copyFile( final File source, final File destination )
-        throws IOException
+            throws IOException
     {
         //check source exists
         if( !source.exists() )
@@ -371,7 +371,7 @@ public final class FileUtil
 
         //does destinations directory exist ?
         if( destination.getParentFile() != null &&
-            !destination.getParentFile().exists() )
+                !destination.getParentFile().exists() )
         {
             destination.getParentFile().mkdirs();
         }
@@ -380,7 +380,7 @@ public final class FileUtil
         if( destination.exists() && !destination.canWrite() )
         {
             final String message = "Unable to open file " +
-                destination + " for writing.";
+                    destination + " for writing.";
             throw new IOException( message );
         }
 
@@ -393,7 +393,7 @@ public final class FileUtil
         if( source.length() != destination.length() )
         {
             final String message = "Failed to copy full contents from " + source +
-                " to " + destination;
+                    " to " + destination;
             throw new IOException( message );
         }
     }
@@ -415,11 +415,11 @@ public final class FileUtil
      * </ul>
      */
     public static void copyURLToFile( final URL source, final File destination )
-        throws IOException
+            throws IOException
     {
         //does destination directory exist ?
         if( destination.getParentFile() != null &&
-            !destination.getParentFile().exists() )
+                !destination.getParentFile().exists() )
         {
             destination.getParentFile().mkdirs();
         }
@@ -428,7 +428,7 @@ public final class FileUtil
         if( destination.exists() && !destination.canWrite() )
         {
             final String message = "Unable to open file " +
-                destination + " for writing.";
+                    destination + " for writing.";
             throw new IOException( message );
         }
 
@@ -491,7 +491,8 @@ public final class FileUtil
             length -= 2;
         }
 
-        boolean startsWithSlash = length > 0 && ( buff.charAt( 0 ) == '/' || buff.charAt( 0 ) == '\\' );
+        boolean startsWithSlash = length > 0 &&
+                (buff.charAt( 0 ) == '/' || buff.charAt( 0 ) == '\\');
 
         boolean expStart = true;
         int ptCount = 0;
@@ -499,6 +500,7 @@ public final class FileUtil
         int upLevel = 0;
 
         for( int i = length - 1; i >= 0; i-- )
+        {
             switch( path.charAt( i ) )
             {
                 case '\\':
@@ -545,6 +547,7 @@ public final class FileUtil
                     expStart = false;
                     break;
             }
+        }
 
         switch( ptCount )
         {
@@ -578,14 +581,14 @@ public final class FileUtil
 
         length = buff.length();
         boolean isLengthNull = length == 0;
-        char firstChar = isLengthNull?(char)0:buff.charAt( 0 );
+        char firstChar = isLengthNull ? (char)0 : buff.charAt( 0 );
 
         if( !startsWithSlash && !isLengthNull && firstChar == '/' )
         {
             buff.deleteCharAt( 0 );
         }
         else if( startsWithSlash &&
-            ( isLengthNull || ( !isLengthNull && firstChar != '/' ) ) )
+                (isLengthNull || (!isLengthNull && firstChar != '/')) )
         {
             buff.insert( 0, '/' );
         }
@@ -618,7 +621,7 @@ public final class FileUtil
      * @throws NullPointerException if any parameter is null.
      */
     public static String catPath( String lookupPath,
-                                  final String path )
+            final String path )
     {
         if( path == null )
         {
@@ -696,18 +699,18 @@ public final class FileUtil
         for( int i = start; i < chars.length; i++ )
         {
             final boolean doubleSeparator =
-                File.separatorChar == chars[ i ] && File.separatorChar == chars[ i - 1 ];
+                    File.separatorChar == chars[i] && File.separatorChar == chars[i - 1];
 
             if( !doubleSeparator )
             {
-                sb.append( chars[ i ] );
+                sb.append( chars[i] );
             }
         }
 
         filenm = sb.toString();
 
         //must be relative
-        File file = ( new File( baseFile, filenm ) ).getAbsoluteFile();
+        File file = (new File( baseFile, filenm )).getAbsoluteFile();
 
         try
         {
@@ -724,7 +727,7 @@ public final class FileUtil
      * Delete a file. If file is directory delete it and all sub-directories.
      */
     public static void forceDelete( final String file )
-        throws IOException
+            throws IOException
     {
         forceDelete( new File( file ) );
     }
@@ -733,7 +736,7 @@ public final class FileUtil
      * Delete a file. If file is directory delete it and all sub-directories.
      */
     public static void forceDelete( final File file )
-        throws IOException
+            throws IOException
     {
         if( file.isDirectory() )
         {
@@ -744,7 +747,7 @@ public final class FileUtil
             if( !file.delete() )
             {
                 final String message =
-                    "File " + file + " unable to be deleted.";
+                        "File " + file + " unable to be deleted.";
                 throw new IOException( message );
             }
         }
@@ -755,7 +758,7 @@ public final class FileUtil
      * If file is directory delete it and all sub-directories.
      */
     public static void forceDeleteOnExit( final File file )
-        throws IOException
+            throws IOException
     {
         if( file.isDirectory() )
         {
@@ -771,7 +774,7 @@ public final class FileUtil
      * Recursively schedule directory for deletion on JVM exit.
      */
     private static void deleteDirectoryOnExit( final File directory )
-        throws IOException
+            throws IOException
     {
         if( !directory.exists() )
         {
@@ -786,7 +789,7 @@ public final class FileUtil
      * Clean a directory without deleting it.
      */
     private static void cleanDirectoryOnExit( final File directory )
-        throws IOException
+            throws IOException
     {
         if( !directory.exists() )
         {
@@ -805,7 +808,7 @@ public final class FileUtil
         final File[] files = directory.listFiles();
         for( int i = 0; i < files.length; i++ )
         {
-            final File file = files[ i ];
+            final File file = files[i];
             try
             {
                 FileUtil.forceDeleteOnExit( file );
@@ -827,14 +830,14 @@ public final class FileUtil
      * the directory is unable to be created then an exception is thrown.
      */
     public static void forceMkdir( final File file )
-        throws IOException
+            throws IOException
     {
         if( file.exists() )
         {
             if( file.isFile() )
             {
                 final String message = "File " + file + " exists and is " +
-                    "not a directory. Unable to create directory.";
+                        "not a directory. Unable to create directory.";
                 throw new IOException( message );
             }
         }
@@ -852,7 +855,7 @@ public final class FileUtil
      * Recursively delete a directory.
      */
     public static void deleteDirectory( final String directory )
-        throws IOException
+            throws IOException
     {
         deleteDirectory( new File( directory ) );
     }
@@ -861,7 +864,7 @@ public final class FileUtil
      * Recursively delete a directory.
      */
     public static void deleteDirectory( final File directory )
-        throws IOException
+            throws IOException
     {
         if( !directory.exists() )
         {
@@ -872,7 +875,7 @@ public final class FileUtil
         if( !directory.delete() )
         {
             final String message =
-                "Directory " + directory + " unable to be deleted.";
+                    "Directory " + directory + " unable to be deleted.";
             throw new IOException( message );
         }
     }
@@ -881,7 +884,7 @@ public final class FileUtil
      * Clean a directory without deleting it.
      */
     public static void cleanDirectory( final String directory )
-        throws IOException
+            throws IOException
     {
         cleanDirectory( new File( directory ) );
     }
@@ -890,7 +893,7 @@ public final class FileUtil
      * Clean a directory without deleting it.
      */
     public static void cleanDirectory( final File directory )
-        throws IOException
+            throws IOException
     {
         if( !directory.exists() )
         {
@@ -909,7 +912,7 @@ public final class FileUtil
         final File[] files = directory.listFiles();
         for( int i = 0; i < files.length; i++ )
         {
-            final File file = files[ i ];
+            final File file = files[i];
             try
             {
                 FileUtil.forceDelete( file );
@@ -960,7 +963,7 @@ public final class FileUtil
         final File[] files = directory.listFiles();
         for( int i = 0; i < files.length; i++ )
         {
-            final File file = files[ i ];
+            final File file = files[i];
 
             if( file.isDirectory() )
             {

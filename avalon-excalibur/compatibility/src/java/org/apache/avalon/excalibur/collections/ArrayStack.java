@@ -24,11 +24,11 @@ import java.util.EmptyStackException;
  *
  * @deprecated use org.apache.commons.collections.ArrayStack instead;
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.5 $ $Date: 2004/02/28 11:47:15 $
+ * @version CVS $Revision: 1.6 $ $Date: 2004/04/26 10:23:05 $
  * @since 4.0
  */
 public class ArrayStack
-    extends ArrayList
+        extends ArrayList
 {
     public void setSize( final int size )
     {
@@ -61,7 +61,7 @@ public class ArrayStack
      * @throws EmptyStackException if no elements left on stack
      */
     public Object pop()
-        throws EmptyStackException
+            throws EmptyStackException
     {
         final int size = size();
         if( 0 == size )

@@ -17,7 +17,6 @@
 package org.apache.avalon.excalibur.naming;
 
 import java.util.NoSuchElementException;
-
 import javax.naming.Context;
 import javax.naming.Name;
 import javax.naming.NamingEnumeration;
@@ -27,11 +26,11 @@ import javax.naming.NamingException;
  * Class for building NamingEnumerations.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  * @deprecated Toolkit deprecated and replaced by http://spice.sourceforge.net/jndikit/
  */
 public abstract class AbstractNamingEnumeration
-    implements NamingEnumeration
+        implements NamingEnumeration
 {
     protected Context m_owner;
     protected Namespace m_namespace;
@@ -43,7 +42,7 @@ public abstract class AbstractNamingEnumeration
     }
 
     public boolean hasMore()
-        throws NamingException
+            throws NamingException
     {
         return hasMoreElements();
     }
@@ -61,14 +60,14 @@ public abstract class AbstractNamingEnumeration
     }
 
     protected Object resolve( final String name, final Object object )
-        throws NamingException
+            throws NamingException
     {
         // Call getObjectInstance for using any object factories
         try
         {
             final Name atom = m_owner.getNameParser( name ).parse( name );
             return m_namespace.
-                getObjectInstance( object, atom, m_owner, m_owner.getEnvironment() );
+                    getObjectInstance( object, atom, m_owner, m_owner.getEnvironment() );
         }
         catch( final Exception e )
         {

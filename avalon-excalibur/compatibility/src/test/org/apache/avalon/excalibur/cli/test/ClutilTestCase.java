@@ -18,8 +18,6 @@ package org.apache.avalon.excalibur.cli.test;
 
 import java.util.List;
 
-import junit.framework.TestCase;
-
 import org.apache.avalon.excalibur.cli.AbstractParserControl;
 import org.apache.avalon.excalibur.cli.CLArgsParser;
 import org.apache.avalon.excalibur.cli.CLOption;
@@ -27,13 +25,15 @@ import org.apache.avalon.excalibur.cli.CLOptionDescriptor;
 import org.apache.avalon.excalibur.cli.CLUtil;
 import org.apache.avalon.excalibur.cli.ParserControl;
 
+import junit.framework.TestCase;
+
 /**
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @deprecated Toolkit deprecated and replaced by http://spice.sourceforge.net/cli/
  */
 public final class ClutilTestCase
-    extends TestCase
+        extends TestCase
 {
     private static final String[] ARGLIST1 = new String[]
     {
@@ -75,49 +75,49 @@ public final class ClutilTestCase
     private static final int TAINT_OPT = 'T';
 
     private static final CLOptionDescriptor DEFINE =
-        new CLOptionDescriptor( "define",
-                                CLOptionDescriptor.ARGUMENTS_REQUIRED_2,
-                                DEFINE_OPT,
-                                "define" );
+            new CLOptionDescriptor( "define",
+                    CLOptionDescriptor.ARGUMENTS_REQUIRED_2,
+                    DEFINE_OPT,
+                    "define" );
     private static final CLOptionDescriptor CASE_CHECK =
-        new CLOptionDescriptor( "charCheck",
-                                CLOptionDescriptor.ARGUMENT_DISALLOWED,
-                                CASE_CHECK_OPT,
-                                "check character case sensitivity" );
+            new CLOptionDescriptor( "charCheck",
+                    CLOptionDescriptor.ARGUMENT_DISALLOWED,
+                    CASE_CHECK_OPT,
+                    "check character case sensitivity" );
     private static final CLOptionDescriptor YOU =
-        new CLOptionDescriptor( "you", CLOptionDescriptor.ARGUMENT_DISALLOWED, YOU_OPT, "you" );
+            new CLOptionDescriptor( "you", CLOptionDescriptor.ARGUMENT_DISALLOWED, YOU_OPT, "you" );
 
     private static final CLOptionDescriptor CLEAR1 =
-        new CLOptionDescriptor( "c", CLOptionDescriptor.ARGUMENT_DISALLOWED, CLEAR1_OPT, "c" );
+            new CLOptionDescriptor( "c", CLOptionDescriptor.ARGUMENT_DISALLOWED, CLEAR1_OPT, "c" );
     private static final CLOptionDescriptor CLEAR2 =
-        new CLOptionDescriptor( "l", CLOptionDescriptor.ARGUMENT_DISALLOWED, CLEAR2_OPT, "l" );
+            new CLOptionDescriptor( "l", CLOptionDescriptor.ARGUMENT_DISALLOWED, CLEAR2_OPT, "l" );
     private static final CLOptionDescriptor CLEAR3 =
-        new CLOptionDescriptor( "e", CLOptionDescriptor.ARGUMENT_DISALLOWED, CLEAR3_OPT, "e" );
+            new CLOptionDescriptor( "e", CLOptionDescriptor.ARGUMENT_DISALLOWED, CLEAR3_OPT, "e" );
     private static final CLOptionDescriptor CLEAR5 =
-        new CLOptionDescriptor( "r", CLOptionDescriptor.ARGUMENT_DISALLOWED, CLEAR5_OPT, "r" );
+            new CLOptionDescriptor( "r", CLOptionDescriptor.ARGUMENT_DISALLOWED, CLEAR5_OPT, "r" );
     private static final CLOptionDescriptor BLEE =
-        new CLOptionDescriptor( "blee",
-                                CLOptionDescriptor.ARGUMENT_DISALLOWED,
-                                BLEE_OPT,
-                                "blee" );
+            new CLOptionDescriptor( "blee",
+                    CLOptionDescriptor.ARGUMENT_DISALLOWED,
+                    BLEE_OPT,
+                    "blee" );
 
     private static final CLOptionDescriptor ALL =
-        new CLOptionDescriptor( "all",
-                                CLOptionDescriptor.ARGUMENT_DISALLOWED,
-                                ALL_OPT,
-                                "all",
-                                new CLOptionDescriptor[]{BLEE} );
+            new CLOptionDescriptor( "all",
+                    CLOptionDescriptor.ARGUMENT_DISALLOWED,
+                    ALL_OPT,
+                    "all",
+                    new CLOptionDescriptor[]{BLEE} );
 
     private static final CLOptionDescriptor FILE =
-        new CLOptionDescriptor( "file",
-                                CLOptionDescriptor.ARGUMENT_REQUIRED,
-                                FILE_OPT,
-                                "the build file." );
+            new CLOptionDescriptor( "file",
+                    CLOptionDescriptor.ARGUMENT_REQUIRED,
+                    FILE_OPT,
+                    "the build file." );
     private static final CLOptionDescriptor TAINT =
-        new CLOptionDescriptor( "taint",
-                                CLOptionDescriptor.ARGUMENT_OPTIONAL,
-                                TAINT_OPT,
-                                "turn on tainting checks (optional level)." );
+            new CLOptionDescriptor( "taint",
+                    CLOptionDescriptor.ARGUMENT_OPTIONAL,
+                    TAINT_OPT,
+                    "turn on tainting checks (optional level)." );
 
     public ClutilTestCase()
     {
@@ -154,9 +154,10 @@ public final class ClutilTestCase
         assertEquals( "Option count", 3, size );
 
         final CLOption option0 = (CLOption)clOptions.get( 0 );
-        assertEquals( "Option Code: " + option0.getDescriptor().getId(), TAINT_OPT, option0.getDescriptor().getId() );
+        assertEquals( "Option Code: " + option0.getDescriptor().getId(), TAINT_OPT,
+                option0.getDescriptor().getId() );
         assertEquals( "Option Arg: " + option0.getArgument( 0 ),
-                      null, option0.getArgument( 0 ) );
+                null, option0.getArgument( 0 ) );
 
         final CLOption option1 = (CLOption)clOptions.get( 1 );
         assertEquals( option1.getDescriptor().getId(), CLOption.TEXT_ARGUMENT );
@@ -186,7 +187,8 @@ public final class ClutilTestCase
         assertEquals( "Option count", 2, size );
 
         final CLOption option0 = (CLOption)clOptions.get( 0 );
-        assertEquals( "Option Code: " + option0.getDescriptor().getId(), TAINT_OPT, option0.getDescriptor().getId() );
+        assertEquals( "Option Code: " + option0.getDescriptor().getId(), TAINT_OPT,
+                option0.getDescriptor().getId() );
         assertEquals( "Option Arg: " + option0.getArgument( 0 ), null, option0.getArgument( 0 ) );
 
         final CLOption option1 = (CLOption)clOptions.get( 1 );
@@ -270,14 +272,14 @@ public final class ClutilTestCase
         final int size = clOptions.size();
 
         assertEquals( size, 8 );
-        assertEquals( ( (CLOption)clOptions.get( 0 ) ).getDescriptor().getId(), YOU_OPT );
-        assertEquals( ( (CLOption)clOptions.get( 1 ) ).getDescriptor().getId(), 0 );
-        assertEquals( ( (CLOption)clOptions.get( 2 ) ).getDescriptor().getId(), ALL_OPT );
-        assertEquals( ( (CLOption)clOptions.get( 3 ) ).getDescriptor().getId(), CLEAR1_OPT );
-        assertEquals( ( (CLOption)clOptions.get( 4 ) ).getDescriptor().getId(), CLEAR2_OPT );
-        assertEquals( ( (CLOption)clOptions.get( 5 ) ).getDescriptor().getId(), CLEAR3_OPT );
-        assertEquals( ( (CLOption)clOptions.get( 6 ) ).getDescriptor().getId(), CLEAR5_OPT );
-        assertEquals( ( (CLOption)clOptions.get( 7 ) ).getDescriptor().getId(), 0 );
+        assertEquals( ((CLOption)clOptions.get( 0 )).getDescriptor().getId(), YOU_OPT );
+        assertEquals( ((CLOption)clOptions.get( 1 )).getDescriptor().getId(), 0 );
+        assertEquals( ((CLOption)clOptions.get( 2 )).getDescriptor().getId(), ALL_OPT );
+        assertEquals( ((CLOption)clOptions.get( 3 )).getDescriptor().getId(), CLEAR1_OPT );
+        assertEquals( ((CLOption)clOptions.get( 4 )).getDescriptor().getId(), CLEAR2_OPT );
+        assertEquals( ((CLOption)clOptions.get( 5 )).getDescriptor().getId(), CLEAR3_OPT );
+        assertEquals( ((CLOption)clOptions.get( 6 )).getDescriptor().getId(), CLEAR5_OPT );
+        assertEquals( ((CLOption)clOptions.get( 7 )).getDescriptor().getId(), 0 );
     }
 
     public void testDuplicateOptions()
@@ -296,11 +298,11 @@ public final class ClutilTestCase
         final int size = clOptions.size();
 
         assertEquals( size, 5 );
-        assertEquals( ( (CLOption)clOptions.get( 0 ) ).getDescriptor().getId(), DEFINE_OPT );
-        assertEquals( ( (CLOption)clOptions.get( 1 ) ).getDescriptor().getId(), 0 );
-        assertEquals( ( (CLOption)clOptions.get( 2 ) ).getDescriptor().getId(), ALL_OPT );
-        assertEquals( ( (CLOption)clOptions.get( 3 ) ).getDescriptor().getId(), ALL_OPT );
-        assertEquals( ( (CLOption)clOptions.get( 4 ) ).getDescriptor().getId(), 0 );
+        assertEquals( ((CLOption)clOptions.get( 0 )).getDescriptor().getId(), DEFINE_OPT );
+        assertEquals( ((CLOption)clOptions.get( 1 )).getDescriptor().getId(), 0 );
+        assertEquals( ((CLOption)clOptions.get( 2 )).getDescriptor().getId(), ALL_OPT );
+        assertEquals( ((CLOption)clOptions.get( 3 )).getDescriptor().getId(), ALL_OPT );
+        assertEquals( ((CLOption)clOptions.get( 4 )).getDescriptor().getId(), 0 );
     }
 
     public void testIncompatableOptions()
@@ -318,11 +320,11 @@ public final class ClutilTestCase
         final int size = clOptions.size();
 
         assertEquals( size, 5 );
-        assertEquals( ( (CLOption)clOptions.get( 0 ) ).getDescriptor().getId(), DEFINE_OPT );
-        assertEquals( ( (CLOption)clOptions.get( 1 ) ).getDescriptor().getId(), 0 );
-        assertEquals( ( (CLOption)clOptions.get( 2 ) ).getDescriptor().getId(), ALL_OPT );
-        assertEquals( ( (CLOption)clOptions.get( 3 ) ).getDescriptor().getId(), BLEE_OPT );
-        assertEquals( ( (CLOption)clOptions.get( 4 ) ).getDescriptor().getId(), 0 );
+        assertEquals( ((CLOption)clOptions.get( 0 )).getDescriptor().getId(), DEFINE_OPT );
+        assertEquals( ((CLOption)clOptions.get( 1 )).getDescriptor().getId(), 0 );
+        assertEquals( ((CLOption)clOptions.get( 2 )).getDescriptor().getId(), ALL_OPT );
+        assertEquals( ((CLOption)clOptions.get( 3 )).getDescriptor().getId(), BLEE_OPT );
+        assertEquals( ((CLOption)clOptions.get( 4 )).getDescriptor().getId(), 0 );
     }
 
     public void testSingleArg()
@@ -340,8 +342,8 @@ public final class ClutilTestCase
         final int size = clOptions.size();
 
         assertEquals( size, 1 );
-        assertEquals( ( (CLOption)clOptions.get( 0 ) ).getDescriptor().getId(), FILE_OPT );
-        assertEquals( ( (CLOption)clOptions.get( 0 ) ).getArgument(), "myfile.txt" );
+        assertEquals( ((CLOption)clOptions.get( 0 )).getDescriptor().getId(), FILE_OPT );
+        assertEquals( ((CLOption)clOptions.get( 0 )).getArgument(), "myfile.txt" );
     }
 
     public void test2ArgsParse()
@@ -360,11 +362,11 @@ public final class ClutilTestCase
         final int size = clOptions.size();
 
         assertEquals( size, 5 );
-        assertEquals( ( (CLOption)clOptions.get( 0 ) ).getDescriptor().getId(), DEFINE_OPT );
-        assertEquals( ( (CLOption)clOptions.get( 1 ) ).getDescriptor().getId(), 0 );
-        assertEquals( ( (CLOption)clOptions.get( 2 ) ).getDescriptor().getId(), ALL_OPT );
-        assertEquals( ( (CLOption)clOptions.get( 3 ) ).getDescriptor().getId(), 0 );
-        assertEquals( ( (CLOption)clOptions.get( 4 ) ).getDescriptor().getId(), CASE_CHECK_OPT );
+        assertEquals( ((CLOption)clOptions.get( 0 )).getDescriptor().getId(), DEFINE_OPT );
+        assertEquals( ((CLOption)clOptions.get( 1 )).getDescriptor().getId(), 0 );
+        assertEquals( ((CLOption)clOptions.get( 2 )).getDescriptor().getId(), ALL_OPT );
+        assertEquals( ((CLOption)clOptions.get( 3 )).getDescriptor().getId(), 0 );
+        assertEquals( ((CLOption)clOptions.get( 4 )).getDescriptor().getId(), CASE_CHECK_OPT );
 
         final CLOption option = (CLOption)clOptions.get( 0 );
         assertEquals( "stupid", option.getArgument( 0 ) );
@@ -382,7 +384,7 @@ public final class ClutilTestCase
         {
             public boolean isFinished( int lastOptionCode )
             {
-                return ( lastOptionCode == YOU_OPT );
+                return (lastOptionCode == YOU_OPT);
             }
         };
 
@@ -394,7 +396,7 @@ public final class ClutilTestCase
         final int size = clOptions.size();
 
         assertEquals( size, 1 );
-        assertEquals( ( (CLOption)clOptions.get( 0 ) ).getDescriptor().getId(), YOU_OPT );
+        assertEquals( ((CLOption)clOptions.get( 0 )).getDescriptor().getId(), YOU_OPT );
     }
 
     public void test2PartParse()
@@ -413,7 +415,7 @@ public final class ClutilTestCase
         {
             public boolean isFinished( int lastOptionCode )
             {
-                return ( lastOptionCode == YOU_OPT );
+                return (lastOptionCode == YOU_OPT);
             }
         };
 
@@ -425,10 +427,10 @@ public final class ClutilTestCase
         final int size1 = clOptions1.size();
 
         assertEquals( size1, 1 );
-        assertEquals( ( (CLOption)clOptions1.get( 0 ) ).getDescriptor().getId(), YOU_OPT );
+        assertEquals( ((CLOption)clOptions1.get( 0 )).getDescriptor().getId(), YOU_OPT );
 
         final CLArgsParser parser2 =
-            new CLArgsParser( parser1.getUnparsedArgs(), options2 );
+                new CLArgsParser( parser1.getUnparsedArgs(), options2 );
 
         assertNull( parser2.getErrorString(), parser2.getErrorString() );
 
@@ -436,13 +438,13 @@ public final class ClutilTestCase
         final int size2 = clOptions2.size();
 
         assertEquals( size2, 7 );
-        assertEquals( ( (CLOption)clOptions2.get( 0 ) ).getDescriptor().getId(), 0 );
-        assertEquals( ( (CLOption)clOptions2.get( 1 ) ).getDescriptor().getId(), ALL_OPT );
-        assertEquals( ( (CLOption)clOptions2.get( 2 ) ).getDescriptor().getId(), CLEAR1_OPT );
-        assertEquals( ( (CLOption)clOptions2.get( 3 ) ).getDescriptor().getId(), CLEAR2_OPT );
-        assertEquals( ( (CLOption)clOptions2.get( 4 ) ).getDescriptor().getId(), CLEAR3_OPT );
-        assertEquals( ( (CLOption)clOptions2.get( 5 ) ).getDescriptor().getId(), CLEAR5_OPT );
-        assertEquals( ( (CLOption)clOptions2.get( 6 ) ).getDescriptor().getId(), 0 );
+        assertEquals( ((CLOption)clOptions2.get( 0 )).getDescriptor().getId(), 0 );
+        assertEquals( ((CLOption)clOptions2.get( 1 )).getDescriptor().getId(), ALL_OPT );
+        assertEquals( ((CLOption)clOptions2.get( 2 )).getDescriptor().getId(), CLEAR1_OPT );
+        assertEquals( ((CLOption)clOptions2.get( 3 )).getDescriptor().getId(), CLEAR2_OPT );
+        assertEquals( ((CLOption)clOptions2.get( 4 )).getDescriptor().getId(), CLEAR3_OPT );
+        assertEquals( ((CLOption)clOptions2.get( 5 )).getDescriptor().getId(), CLEAR5_OPT );
+        assertEquals( ((CLOption)clOptions2.get( 6 )).getDescriptor().getId(), 0 );
     }
 
     public void test2PartPartialParse()
@@ -458,7 +460,7 @@ public final class ClutilTestCase
         {
             public boolean isFinished( final int lastOptionCode )
             {
-                return ( lastOptionCode == CLEAR1_OPT );
+                return (lastOptionCode == CLEAR1_OPT);
             }
         };
 
@@ -470,15 +472,15 @@ public final class ClutilTestCase
         final int size1 = clOptions1.size();
 
         assertEquals( size1, 4 );
-        assertEquals( ( (CLOption)clOptions1.get( 0 ) ).getDescriptor().getId(), YOU_OPT );
-        assertEquals( ( (CLOption)clOptions1.get( 1 ) ).getDescriptor().getId(), 0 );
-        assertEquals( ( (CLOption)clOptions1.get( 2 ) ).getDescriptor().getId(), ALL_OPT );
-        assertEquals( ( (CLOption)clOptions1.get( 3 ) ).getDescriptor().getId(), CLEAR1_OPT );
+        assertEquals( ((CLOption)clOptions1.get( 0 )).getDescriptor().getId(), YOU_OPT );
+        assertEquals( ((CLOption)clOptions1.get( 1 )).getDescriptor().getId(), 0 );
+        assertEquals( ((CLOption)clOptions1.get( 2 )).getDescriptor().getId(), ALL_OPT );
+        assertEquals( ((CLOption)clOptions1.get( 3 )).getDescriptor().getId(), CLEAR1_OPT );
 
-        assertTrue( parser1.getUnparsedArgs()[ 0 ].equals( "ler" ) );
+        assertTrue( parser1.getUnparsedArgs()[0].equals( "ler" ) );
 
         final CLArgsParser parser2 =
-            new CLArgsParser( parser1.getUnparsedArgs(), options2 );
+                new CLArgsParser( parser1.getUnparsedArgs(), options2 );
 
         assertNull( parser2.getErrorString(), parser2.getErrorString() );
 
@@ -486,8 +488,8 @@ public final class ClutilTestCase
         final int size2 = clOptions2.size();
 
         assertEquals( size2, 2 );
-        assertEquals( ( (CLOption)clOptions2.get( 0 ) ).getDescriptor().getId(), 0 );
-        assertEquals( ( (CLOption)clOptions2.get( 1 ) ).getDescriptor().getId(), 0 );
+        assertEquals( ((CLOption)clOptions2.get( 0 )).getDescriptor().getId(), 0 );
+        assertEquals( ((CLOption)clOptions2.get( 1 )).getDescriptor().getId(), 0 );
     }
 
     public void testDuplicatesFail()
@@ -542,7 +544,7 @@ public final class ClutilTestCase
         final int size = clOptions.size();
 
         assertEquals( size, 2 );
-        assertEquals( ( (CLOption)clOptions.get( 1 ) ).getDescriptor().getId(), CLEAR1_OPT );
+        assertEquals( ((CLOption)clOptions.get( 1 )).getDescriptor().getId(), CLEAR1_OPT );
         final CLOption option = (CLOption)clOptions.get( 0 );
         assertEquals( option.getDescriptor().getId(), DEFINE_OPT );
         assertEquals( option.getArgument( 0 ), "stupid" );
@@ -567,7 +569,7 @@ public final class ClutilTestCase
         final int size = clOptions.size();
 
         assertEquals( size, 2 );
-        assertEquals( ( (CLOption)clOptions.get( 1 ) ).getDescriptor().getId(), CLEAR1_OPT );
+        assertEquals( ((CLOption)clOptions.get( 1 )).getDescriptor().getId(), CLEAR1_OPT );
         final CLOption option = (CLOption)clOptions.get( 0 );
         assertEquals( option.getDescriptor().getId(), DEFINE_OPT );
         assertEquals( option.getArgument( 0 ), "stupid" );
@@ -598,10 +600,10 @@ public final class ClutilTestCase
     public void testNullLongForm()
     {
         final CLOptionDescriptor test =
-            new CLOptionDescriptor( null,
-                                    CLOptionDescriptor.ARGUMENT_DISALLOWED,
-                                    'n',
-                                    "test null long form" );
+                new CLOptionDescriptor( null,
+                        CLOptionDescriptor.ARGUMENT_DISALLOWED,
+                        'n',
+                        "test null long form" );
 
         final String[] args = {"-n", "testarg"};
         final CLOptionDescriptor[] options = {test};
@@ -621,10 +623,10 @@ public final class ClutilTestCase
     public void testNullDescription()
     {
         final CLOptionDescriptor test =
-            new CLOptionDescriptor( "nulltest",
-                                    CLOptionDescriptor.ARGUMENT_DISALLOWED,
-                                    'n',
-                                    null );
+                new CLOptionDescriptor( "nulltest",
+                        CLOptionDescriptor.ARGUMENT_DISALLOWED,
+                        'n',
+                        null );
 
         final String[] args = {"-n", "testarg"};
         final CLOptionDescriptor[] options = {test};
@@ -637,7 +639,7 @@ public final class ClutilTestCase
         final StringBuffer sb = CLUtil.describeOptions( options );
         final String lineSeparator = System.getProperty( "line.separator" );
         assertEquals( "Testing display of null description",
-                      "\t-n, --nulltest" + lineSeparator,
-                      sb.toString() );
+                "\t-n, --nulltest" + lineSeparator,
+                sb.toString() );
     }
 }

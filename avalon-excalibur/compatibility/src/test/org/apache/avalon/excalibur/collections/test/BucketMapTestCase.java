@@ -16,16 +16,16 @@
  */
 package org.apache.avalon.excalibur.collections.test;
 
-import junit.framework.TestCase;
-
 import org.apache.avalon.excalibur.collections.BucketMap;
+
+import junit.framework.TestCase;
 
 /**
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public final class BucketMapTestCase
-    extends TestCase
+        extends TestCase
 {
 
     private static class TestInteger

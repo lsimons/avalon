@@ -17,7 +17,6 @@
 package org.apache.avalon.excalibur.naming.test;
 
 import java.util.Enumeration;
-
 import javax.naming.Context;
 import javax.naming.NameNotFoundException;
 import javax.naming.NamingException;
@@ -29,11 +28,11 @@ import junit.framework.TestCase;
  * Unit testing for JNDI system
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  * @deprecated Toolkit deprecated and replaced by http://spice.sourceforge.net/jndikit/
  */
 public abstract class AbstractContextTestCase
-    extends TestCase
+        extends TestCase
 {
     protected static final Object O1 = "iO1";
     protected static final Object O2 = "iO2";
@@ -52,13 +51,13 @@ public abstract class AbstractContextTestCase
     }
 
     public void testBindToDirectContext()
-        throws AssertionFailedError
+            throws AssertionFailedError
     {
         try
         {
             m_context.bind( "O1", O1 );
             assertTrue( "Make sure lookup returns correct object",
-                        m_context.lookup( "O1" ).equals( O1 ) );
+                    m_context.lookup( "O1" ).equals( O1 ) );
 
             m_context.bind( "O2", O2 );
             m_context.bind( "O3", O3 );
@@ -69,19 +68,19 @@ public abstract class AbstractContextTestCase
             m_context.bind( "O8", O8 );
 
             assertTrue( "Make sure lookup O2 returns correct object",
-                        m_context.lookup( "O2" ).equals( O2 ) );
+                    m_context.lookup( "O2" ).equals( O2 ) );
             assertTrue( "Make sure lookup O3 returns correct object",
-                        m_context.lookup( "O3" ).equals( O3 ) );
+                    m_context.lookup( "O3" ).equals( O3 ) );
             assertTrue( "Make sure lookup O4 returns correct object",
-                        m_context.lookup( "O4" ).equals( O4 ) );
+                    m_context.lookup( "O4" ).equals( O4 ) );
             assertTrue( "Make sure lookup O5 returns correct object",
-                        m_context.lookup( "O5" ).equals( O5 ) );
+                    m_context.lookup( "O5" ).equals( O5 ) );
             assertTrue( "Make sure lookup O6 returns correct object",
-                        m_context.lookup( "O6" ).equals( O6 ) );
+                    m_context.lookup( "O6" ).equals( O6 ) );
             assertTrue( "Make sure lookup O7 returns correct object",
-                        m_context.lookup( "O7" ).equals( O7 ) );
+                    m_context.lookup( "O7" ).equals( O7 ) );
             assertTrue( "Make sure lookup O8 returns correct object",
-                        m_context.lookup( "O8" ).equals( O8 ) );
+                    m_context.lookup( "O8" ).equals( O8 ) );
         }
         catch( final NamingException ne )
         {
@@ -90,7 +89,7 @@ public abstract class AbstractContextTestCase
     }
 
     public void testUnBindFromDirectContext()
-        throws AssertionFailedError
+            throws AssertionFailedError
     {
         testBindToDirectContext();
 
@@ -110,7 +109,7 @@ public abstract class AbstractContextTestCase
             if( enum.hasMoreElements() )
             {
                 fail( "Failed to unbind all test elements: ie " +
-                      enum.nextElement() );
+                        enum.nextElement() );
             }
         }
         catch( final NamingException ne )
@@ -120,34 +119,34 @@ public abstract class AbstractContextTestCase
     }
 
     public void testBindToDirectSubContext()
-        throws AssertionFailedError
+            throws AssertionFailedError
     {
         try
         {
             m_context.createSubcontext( "x" );
             m_context.bind( "x/O1", O1 );
             assertTrue( "Make sure lookup x/O1 returns correct object",
-                        m_context.lookup( "x/O1" ).equals( O1 ) );
+                    m_context.lookup( "x/O1" ).equals( O1 ) );
             assertTrue( "Make sure lookup x/ returns correct object",
-                        m_context.lookup( "x/" ) instanceof Context );
+                    m_context.lookup( "x/" ) instanceof Context );
             assertTrue( "Make sure lookup x returns correct object",
-                        m_context.lookup( "x" ) instanceof Context );
+                    m_context.lookup( "x" ) instanceof Context );
 
             m_context.bind( "x/O2", O2 );
             assertTrue( "Make sure lookup x/O2 returns correct object",
-                        m_context.lookup( "x/O2" ).equals( O2 ) );
+                    m_context.lookup( "x/O2" ).equals( O2 ) );
             assertTrue( "Make sure lookup x/ returns correct object",
-                        m_context.lookup( "x/" ) instanceof Context );
+                    m_context.lookup( "x/" ) instanceof Context );
             assertTrue( "Make sure lookup x returns correct object",
-                        m_context.lookup( "x" ) instanceof Context );
+                    m_context.lookup( "x" ) instanceof Context );
 
             m_context.bind( "x/O3", O3 );
             assertTrue( "Make sure lookup x/O3 returns correct object",
-                        m_context.lookup( "x/O3" ).equals( O3 ) );
+                    m_context.lookup( "x/O3" ).equals( O3 ) );
             assertTrue( "Make sure lookup x/ returns correct object",
-                        m_context.lookup( "x/" ) instanceof Context );
+                    m_context.lookup( "x/" ) instanceof Context );
             assertTrue( "Make sure lookup x returns correct object",
-                        m_context.lookup( "x" ) instanceof Context );
+                    m_context.lookup( "x" ) instanceof Context );
         }
         catch( final NamingException ne )
         {
@@ -156,7 +155,7 @@ public abstract class AbstractContextTestCase
     }
 
     public void testUnBindFromDirectSubContext()
-        throws AssertionFailedError
+            throws AssertionFailedError
     {
         testBindToDirectSubContext();
 
@@ -171,7 +170,7 @@ public abstract class AbstractContextTestCase
             if( enum.hasMoreElements() )
             {
                 fail( "Failed to unbind all test elements: ie " +
-                      enum.nextElement() );
+                        enum.nextElement() );
             }
 
             //unbind a unbound name - OK
@@ -185,7 +184,7 @@ public abstract class AbstractContextTestCase
     }
 
     public void testBindToArbitarySubContexts()
-        throws AssertionFailedError
+            throws AssertionFailedError
     {
         try
         {
@@ -193,13 +192,13 @@ public abstract class AbstractContextTestCase
             m_context.createSubcontext( "x/y" );
             m_context.bind( "x/y/O1", O1 );
             assertTrue( "Make sure lookup x/y/O1 returns correct object",
-                        m_context.lookup( "x/y/O1" ).equals( O1 ) );
+                    m_context.lookup( "x/y/O1" ).equals( O1 ) );
             assertTrue( "Make sure lookup x/y/ returns correct object",
-                        m_context.lookup( "x/y/" ) instanceof Context );
+                    m_context.lookup( "x/y/" ) instanceof Context );
             assertTrue( "Make sure lookup x/y returns correct object",
-                        m_context.lookup( "x/y" ) instanceof Context );
+                    m_context.lookup( "x/y" ) instanceof Context );
             assertTrue( "Make sure lookup x returns correct object",
-                        m_context.lookup( "x" ) instanceof Context );
+                    m_context.lookup( "x" ) instanceof Context );
 
             try
             {
@@ -254,7 +253,7 @@ public abstract class AbstractContextTestCase
     }
 
     public void testUnBindFromArbitarySubContext()
-        throws AssertionFailedError
+            throws AssertionFailedError
     {
         testBindToArbitarySubContexts();
 
@@ -271,7 +270,7 @@ public abstract class AbstractContextTestCase
             if( enum.hasMoreElements() )
             {
                 fail( "Failed to unbind all test elements: ie " +
-                      enum.nextElement() );
+                        enum.nextElement() );
             }
 
             //Not sure if the next is legal????
@@ -295,16 +294,16 @@ public abstract class AbstractContextTestCase
     }
 
     public void testCreateSubContext()
-        throws AssertionFailedError
+            throws AssertionFailedError
     {
         try
         {
             m_context.createSubcontext( "x" );
             assertTrue( "Make sure lookup x returns correct object",
-                        m_context.lookup( "x" ) instanceof Context );
+                    m_context.lookup( "x" ) instanceof Context );
             m_context.createSubcontext( "x/y" );
             assertTrue( "Make sure lookup x/y returns correct object",
-                        m_context.lookup( "x/y" ) instanceof Context );
+                    m_context.lookup( "x/y" ) instanceof Context );
 
             try
             {
@@ -331,7 +330,7 @@ public abstract class AbstractContextTestCase
     }
 
     public void testDestroySubContext()
-        throws AssertionFailedError
+            throws AssertionFailedError
     {
         testCreateSubContext();
 
@@ -374,16 +373,16 @@ public abstract class AbstractContextTestCase
     }
 
     public void testRenameToDirectContext()
-        throws AssertionFailedError
+            throws AssertionFailedError
     {
         try
         {
             m_context.bind( "O1", O1 );
             m_context.rename( "O1", "+O1" );
             assertTrue( "Make sure lookup not null",
-                        m_context.lookup( "+O1" ) != null );
+                    m_context.lookup( "+O1" ) != null );
             assertTrue( "Make sure lookup +O1 returns correct object",
-                        m_context.lookup( "+O1" ).equals( O1 ) );
+                    m_context.lookup( "+O1" ).equals( O1 ) );
 
             try
             {
@@ -397,9 +396,9 @@ public abstract class AbstractContextTestCase
             m_context.bind( "O2", O2 );
             m_context.rename( "O2", "+O2" );
             assertTrue( "Make sure lookup not null",
-                        m_context.lookup( "+O2" ) != null );
+                    m_context.lookup( "+O2" ) != null );
             assertTrue( "Make sure lookup +O2 returns correct object",
-                        m_context.lookup( "+O2" ).equals( O2 ) );
+                    m_context.lookup( "+O2" ).equals( O2 ) );
 
             try
             {
@@ -413,9 +412,9 @@ public abstract class AbstractContextTestCase
             m_context.bind( "O3", O3 );
             m_context.rename( "O3", "+O3" );
             assertTrue( "Make sure lookup not null",
-                        m_context.lookup( "+O3" ) != null );
+                    m_context.lookup( "+O3" ) != null );
             assertTrue( "Make sure lookup +O3 returns correct object",
-                        m_context.lookup( "+O3" ).equals( O3 ) );
+                    m_context.lookup( "+O3" ).equals( O3 ) );
             try
             {
                 m_context.lookup( "O3" );
@@ -428,9 +427,9 @@ public abstract class AbstractContextTestCase
             m_context.bind( "O4", O4 );
             m_context.rename( "O4", "+O4" );
             assertTrue( "Make sure lookup not null",
-                        m_context.lookup( "+O4" ) != null );
+                    m_context.lookup( "+O4" ) != null );
             assertTrue( "Make sure lookup +04 returns correct object",
-                        m_context.lookup( "+O4" ).equals( O4 ) );
+                    m_context.lookup( "+O4" ).equals( O4 ) );
 
             try
             {
@@ -448,13 +447,13 @@ public abstract class AbstractContextTestCase
     }
 
     public void testReBind()
-        throws AssertionFailedError
+            throws AssertionFailedError
     {
         try
         {
             m_context.bind( "O1", O1 );
             assertTrue( "Make sure lookup returns correct object",
-                        m_context.lookup( "O1" ).equals( O1 ) );
+                    m_context.lookup( "O1" ).equals( O1 ) );
 
             m_context.bind( "O2", O2 );
             m_context.bind( "O3", O3 );
@@ -464,19 +463,19 @@ public abstract class AbstractContextTestCase
             m_context.bind( "O7", O7 );
             m_context.bind( "O8", O8 );
             assertTrue( "Make sure lookup O2 returns correct object",
-                        m_context.lookup( "O2" ).equals( O2 ) );
+                    m_context.lookup( "O2" ).equals( O2 ) );
             assertTrue( "Make sure lookup O3 returns correct object",
-                        m_context.lookup( "O3" ).equals( O3 ) );
+                    m_context.lookup( "O3" ).equals( O3 ) );
             assertTrue( "Make sure lookup O4 returns correct object",
-                        m_context.lookup( "O4" ).equals( O4 ) );
+                    m_context.lookup( "O4" ).equals( O4 ) );
             assertTrue( "Make sure lookup O5 returns correct object",
-                        m_context.lookup( "O5" ).equals( O5 ) );
+                    m_context.lookup( "O5" ).equals( O5 ) );
             assertTrue( "Make sure lookup O6 returns correct object",
-                        m_context.lookup( "O6" ).equals( O6 ) );
+                    m_context.lookup( "O6" ).equals( O6 ) );
             assertTrue( "Make sure lookup O7 returns correct object",
-                        m_context.lookup( "O7" ).equals( O7 ) );
+                    m_context.lookup( "O7" ).equals( O7 ) );
             assertTrue( "Make sure lookup O8 returns correct object",
-                        m_context.lookup( "O8" ).equals( O8 ) );
+                    m_context.lookup( "O8" ).equals( O8 ) );
         }
         catch( final NamingException ne )
         {
@@ -487,7 +486,7 @@ public abstract class AbstractContextTestCase
         {
             m_context.rebind( "O1", O2 );
             assertTrue( "Rebind of O1 returns correct object",
-                        m_context.lookup( "O1" ).equals( O2 ) );
+                    m_context.lookup( "O1" ).equals( O2 ) );
 
             m_context.rebind( "O2", O3 );
             m_context.rebind( "O3", O4 );
@@ -497,26 +496,26 @@ public abstract class AbstractContextTestCase
             m_context.rebind( "O7", O8 );
             m_context.rebind( "O8", O1 );
             assertTrue( "Rebind of O2 returns correct object",
-                        m_context.lookup( "O2" ).equals( O3 ) );
+                    m_context.lookup( "O2" ).equals( O3 ) );
             assertTrue( "Rebind of O3 returns correct object",
-                        m_context.lookup( "O3" ).equals( O4 ) );
+                    m_context.lookup( "O3" ).equals( O4 ) );
             assertTrue( "Rebind of O4 returns correct object",
-                        m_context.lookup( "O4" ).equals( O5 ) );
+                    m_context.lookup( "O4" ).equals( O5 ) );
             assertTrue( "Rebind of O5 returns correct object",
-                        m_context.lookup( "O5" ).equals( O6 ) );
+                    m_context.lookup( "O5" ).equals( O6 ) );
             assertTrue( "Rebind of O6 returns correct object",
-                        m_context.lookup( "O6" ).equals( O7 ) );
+                    m_context.lookup( "O6" ).equals( O7 ) );
             assertTrue( "Rebind of O7 returns correct object",
-                        m_context.lookup( "O7" ).equals( O8 ) );
+                    m_context.lookup( "O7" ).equals( O8 ) );
             assertTrue( "Rebind of O8 returns correct object",
-                        m_context.lookup( "O8" ).equals( O1 ) );
+                    m_context.lookup( "O8" ).equals( O1 ) );
 
             m_context.bind( "x", O1 );
             assertTrue( "Make sure lookup x returns correct object",
-                        m_context.lookup( "x" ).equals( O1 ) );
+                    m_context.lookup( "x" ).equals( O1 ) );
             m_context.rebind( "x", O8 );
             assertTrue( "Rebind of x returns correct object",
-                        m_context.lookup( "x" ).equals( O8 ) );
+                    m_context.lookup( "x" ).equals( O8 ) );
         }
         catch( final NamingException ne )
         {

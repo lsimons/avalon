@@ -22,7 +22,7 @@ import java.util.Arrays;
  * Basic class describing an instance of option.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2004/02/28 11:47:31 $
+ * @version $Revision: 1.6 $ $Date: 2004/04/26 10:23:05 $
  * @since 4.0
  * @deprecated Toolkit deprecated and replaced by http://spice.sourceforge.net/cli/
  */
@@ -37,7 +37,8 @@ public final class CLOption
      * Default descriptor. Required, since code assumes that getDescriptor will never return null.
      */
     private static final CLOptionDescriptor TEXT_ARGUMENT_DESCRIPTOR =
-        new CLOptionDescriptor( null, CLOptionDescriptor.ARGUMENT_OPTIONAL, TEXT_ARGUMENT, null );
+            new CLOptionDescriptor( null, CLOptionDescriptor.ARGUMENT_OPTIONAL, TEXT_ARGUMENT,
+                    null );
 
     private String[] m_arguments;
     private CLOptionDescriptor m_descriptor = TEXT_ARGUMENT_DESCRIPTOR;
@@ -67,7 +68,7 @@ public final class CLOption
         }
         else
         {
-            return m_arguments[ index ];
+            return m_arguments[index];
         }
     }
 
@@ -126,9 +127,9 @@ public final class CLOption
         }
         else
         {
-            final String[] arguments = new String[ m_arguments.length + 1 ];
+            final String[] arguments = new String[m_arguments.length + 1];
             System.arraycopy( m_arguments, 0, arguments, 0, m_arguments.length );
-            arguments[ m_arguments.length ] = argument;
+            arguments[m_arguments.length] = argument;
             m_arguments = arguments;
         }
     }

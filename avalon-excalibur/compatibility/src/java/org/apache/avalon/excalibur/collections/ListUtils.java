@@ -25,7 +25,7 @@ import java.util.List;
  *
  * @deprecated use org.apache.commons.collections.ListUtils instead
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.5 $ $Date: 2004/02/28 11:47:15 $
+ * @version CVS $Revision: 1.6 $ $Date: 2004/04/26 10:23:05 $
  * @since 4.0
  */
 public class ListUtils
@@ -64,7 +64,7 @@ public class ListUtils
     public static List sum( final List list1, final List list2 )
     {
         return subtract( union( list1, list2 ),
-                         intersection( list1, list2 ) );
+                intersection( list1, list2 ) );
     }
 
     public static List union( final List list1, final List list2 )

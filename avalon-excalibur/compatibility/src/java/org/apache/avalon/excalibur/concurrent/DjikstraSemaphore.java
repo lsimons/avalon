@@ -24,12 +24,12 @@ package org.apache.avalon.excalibur.concurrent;
  * calls release() thus increasing the count.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.4 $ $Date: 2004/02/28 11:47:28 $
+ * @version CVS $Revision: 1.5 $ $Date: 2004/04/26 10:23:06 $
  * @since 4.0
  * @deprecated Replaced by {@link DijkstraSemaphore}.
  */
 public class DjikstraSemaphore
-    extends DijkstraSemaphore
+        extends DijkstraSemaphore
 {
     /**
      * Creates a Djikstra semaphore with the specified max count and initial

@@ -32,7 +32,7 @@ public final class FixedSizeBuffer implements Buffer
 
     public FixedSizeBuffer( int size )
     {
-        m_elements = new Object[ size ];
+        m_elements = new Object[size];
     }
 
     public FixedSizeBuffer()
@@ -50,7 +50,7 @@ public final class FixedSizeBuffer implements Buffer
         }
         else if( m_end == m_start )
         {
-            size = ( m_full ? m_elements.length : 0 );
+            size = (m_full ? m_elements.length : 0);
         }
         else
         {
@@ -75,10 +75,10 @@ public final class FixedSizeBuffer implements Buffer
         if( m_full )
         {
             throw new BufferOverflowException( "The buffer cannot hold more than "
-                                               + m_elements.length + " objects." );
+                    + m_elements.length + " objects." );
         }
 
-        m_elements[ m_end++ ] = element;
+        m_elements[m_end++] = element;
 
         if( m_end >= m_elements.length )
         {
@@ -98,11 +98,11 @@ public final class FixedSizeBuffer implements Buffer
             throw new BufferUnderflowException( "The buffer is already empty" );
         }
 
-        Object element = m_elements[ m_start ];
+        Object element = m_elements[m_start];
 
         if( null != element )
         {
-            m_elements[ m_start++ ] = null;
+            m_elements[m_start++] = null;
 
             if( m_start >= m_elements.length )
             {

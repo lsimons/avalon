@@ -17,7 +17,6 @@
 package org.apache.avalon.excalibur.naming;
 
 import java.util.Hashtable;
-
 import javax.naming.Context;
 import javax.naming.Name;
 import javax.naming.NameParser;
@@ -28,11 +27,11 @@ import javax.naming.spi.NamingManager;
  * Namespace that directly uses NamingManager.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  * @deprecated Toolkit deprecated and replaced by http://spice.sourceforge.net/jndikit/
  */
 public class StandardNamespace
-    implements Namespace
+        implements Namespace
 {
     private NameParser m_nameParser;
 
@@ -52,19 +51,19 @@ public class StandardNamespace
     }
 
     public Object getStateToBind( final Object object,
-                                  final Name name,
-                                  final Context parent,
-                                  final Hashtable environment )
-        throws NamingException
+            final Name name,
+            final Context parent,
+            final Hashtable environment )
+            throws NamingException
     {
         return NamingManager.getStateToBind( object, name, parent, environment );
     }
 
     public Object getObjectInstance( final Object object,
-                                     final Name name,
-                                     final Context parent,
-                                     final Hashtable environment )
-        throws Exception
+            final Name name,
+            final Context parent,
+            final Hashtable environment )
+            throws Exception
     {
         return NamingManager.getObjectInstance( object, name, parent, environment );
     }

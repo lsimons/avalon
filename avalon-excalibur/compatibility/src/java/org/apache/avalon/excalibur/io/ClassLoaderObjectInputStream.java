@@ -27,26 +27,26 @@ import java.io.StreamCorruptedException;
  * by Avalon components that are juggling many classloaders.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2004/02/28 11:47:13 $
+ * @version $Revision: 1.5 $ $Date: 2004/04/26 10:23:06 $
  */
 public class ClassLoaderObjectInputStream
-    extends ObjectInputStream
+        extends ObjectInputStream
 {
     private ClassLoader m_classLoader;
 
     public ClassLoaderObjectInputStream( final ClassLoader classLoader,
-                                         final InputStream inputStream )
-        throws IOException, StreamCorruptedException
+            final InputStream inputStream )
+            throws IOException, StreamCorruptedException
     {
         super( inputStream );
         m_classLoader = classLoader;
     }
 
     protected Class resolveClass( final ObjectStreamClass objectStreamClass )
-        throws IOException, ClassNotFoundException
+            throws IOException, ClassNotFoundException
     {
         final Class clazz =
-            Class.forName( objectStreamClass.getName(), false, m_classLoader );
+                Class.forName( objectStreamClass.getName(), false, m_classLoader );
 
         if( null != clazz )
         {

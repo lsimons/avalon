@@ -25,12 +25,12 @@ package org.apache.avalon.excalibur.concurrent;
  * calls release(), which increases the count.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.4 $ $Date: 2004/02/28 11:47:27 $
+ * @version CVS $Revision: 1.5 $ $Date: 2004/04/26 10:23:06 $
  * @deprecated use EDU.oswego.cs.dl.util.concurrent.Semaphore instead
  * @since 4.0
  */
 public class Semaphore
-    implements Sync
+        implements Sync
 {
     private long m_tokens;
 
@@ -46,7 +46,7 @@ public class Semaphore
     }
 
     public synchronized void acquire()
-        throws InterruptedException
+            throws InterruptedException
     {
         //TODO: check for interuption outside sync block?
         if( Thread.interrupted() ) throw new InterruptedException();
@@ -66,7 +66,7 @@ public class Semaphore
     }
 
     public synchronized boolean attempt( final long msecs )
-        throws InterruptedException
+            throws InterruptedException
     {
         if( Thread.interrupted() ) throw new InterruptedException();
 
@@ -91,7 +91,7 @@ public class Semaphore
                 }
                 else
                 {
-                    wait = msecs - ( System.currentTimeMillis() - start );
+                    wait = msecs - (System.currentTimeMillis() - start);
                 }
             }
 

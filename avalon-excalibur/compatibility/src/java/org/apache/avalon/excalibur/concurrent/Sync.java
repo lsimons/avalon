@@ -22,7 +22,7 @@ package org.apache.avalon.excalibur.concurrent;
  * @deprecated use EDU.oswego.cs.dl.util.concurrent.Sync instead
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.5 $ $Date: 2004/02/28 11:47:28 $
+ * @version CVS $Revision: 1.6 $ $Date: 2004/04/26 10:23:06 $
  * @since 4.0
  */
 public interface Sync
@@ -34,7 +34,7 @@ public interface Sync
      * @throws InterruptedException if an error occurs
      */
     void acquire()
-        throws InterruptedException;
+            throws InterruptedException;
 
     /**
      * Aquire access to resource.
@@ -45,7 +45,7 @@ public interface Sync
      * @throws InterruptedException if an error occurs
      */
     boolean attempt( long msec )
-        throws InterruptedException;
+            throws InterruptedException;
 
     /**
      * Release lock.
