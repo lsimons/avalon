@@ -5,7 +5,7 @@
   <header>
     <title>New and Emerging Solutions</title>
     <authors>
-      <person name="Avalon Development Team" email="avalon-dev@jakarta.apache.org"/>
+      <person name="Avalon Development Team" email="dev@avalon.apache.org"/>
     </authors>
   </header>
 
@@ -55,7 +55,7 @@ Parameter, and Dependency constraints/requirments.</td>
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.2 $ $Date: 2002/12/02 06:50:20 $
+      $Revision: 1.3 $ $Date: 2003/02/07 15:39:53 $
     </legal>
   </footer>
 
