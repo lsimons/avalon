@@ -37,7 +37,7 @@
           If you need additional functionality, either create proxy
           objects that implement the interface, or add it by subclassing
           (hence the name &quot;Recursion Introduction&quot;.  Even if
-          there is no recursion happening, it appears to opperate in the
+          there is no recursion happening, it appears to operate in the
           same manner.
         </p>
       </s2>
@@ -45,7 +45,7 @@
         <p>
           Avoid testing to see if an object is an instance of a particular
           class.  Usually, if you think you need that approach then a
-          redesign will help emmensely.
+          redesign will help immensely.
         </p>
       </s2>
       <s2 title="Reduce the Number of Arguments">
@@ -102,7 +102,7 @@
         <p>
           If a subclass implements a method completely different from
           the superclass, then it is not really a specialization.  It
-          should be split off from that class heirarchy tree.
+          should be split off from that class hierarchy tree.
         </p>
       </s2>
       <s2 title="Separate Methods that Do Not Communicate">
@@ -186,7 +186,7 @@ class DefaultExampleDocument
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.4 $ $Date: 2001/05/12 08:09:26 $
+      $Revision: 1.5 $ $Date: 2001/06/10 03:55:54 $
     </legal>
   </footer>
 </document>

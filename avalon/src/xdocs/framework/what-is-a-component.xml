@@ -23,7 +23,7 @@
         entities that take care of themselves. There are many advantages to this
         approach. I'll assume that you, being a java programmer, are familiar
         with those.<br />
-        It also has a big limition: that of object codependency. To remove that
+        It also has a big limitation: that of object co-dependency. To remove that
         limitation, a more rigid idea had to be formalized: the Component. The key
         difference between a regular object and a component is that a component is
         completely replaceable.
@@ -87,7 +87,7 @@
         so far as to organize data objects into entities that take care of
         themselves.  It has many powerful features that make things that
         used to be difficult to impossible relatively easy.  However, its
-        limitation is one of object codependency.  That doesn't mean that
+        limitation is one of object co-dependency.  That doesn't mean that
         all OOP is horrid and previous OO programmers didn't have a clue.
         It means that over time a more rigid idea had to be formalized:
         the Component.  The key difference between a Component and an
@@ -242,7 +242,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2001/04/26 19:40:57 $
+      $Revision: 1.2 $ $Date: 2001/06/10 03:55:54 $
     </legal>
   </footer>
 </document>

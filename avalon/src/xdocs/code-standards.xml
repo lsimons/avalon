@@ -73,7 +73,7 @@ if( foo )
 <p>
 4 spaces. <strong>NO</strong> tabs. Period. We understand that a lot of you like
 to use tabs, but the fact of the matter is that in a distributed development
-enviroment, when the cvs commit messages get sent to a mailing list, they
+environment, when the cvs commit messages get sent to a mailing list, they
 are almost impossible to read if you use tabs.
 </p>
 
@@ -112,9 +112,8 @@ top of the file. For java files the preferred Javadoc format is:
 
  <li>
           Indent comments on an 80 column basis and the code on a
-          100 column using a two more indention when you're constrained
-          to wrap a line.
-     </li>
+          100 column, using a two more indents when a line must be wrapped.
+      </li>
         <li>
           We focus on readability over performance, at least initially. Source code 
           optimization is the last thing to be done to increase performance.
@@ -138,8 +137,8 @@ while( myListIterator.hasNext() )
 </source>
 </li>
 <li>
-Variable should be descriptive and ideally english words. The exceptions
-being; loop counters (usually use i, j and k), exceptions (use concaternation
+Variable should be descriptive and ideally English words. The exceptions
+being; loop counters (usually use i, j and k), exceptions (use concatenation
 of word separating characters - ie SocketException is abbreviated as se) and
 other commonly used abbreviations (ie sb for StringBuffer).
 <source><![CDATA[

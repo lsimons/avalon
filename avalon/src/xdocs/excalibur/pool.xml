@@ -25,7 +25,7 @@
         If you are using the Exalibur Component Management package,
 	you can have your components implement Poolable or Recyclable
 	from this package, and your components will be pooled.  The
-	Components are pooled with a soft resource limmiting pool.
+	Components are pooled with a soft resource limiting pool.
 	That means that as additional resources are needed, they are
 	created--but once they are returned to the pool, the extra
 	instances are decommissioned.
@@ -41,7 +41,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.2 $ $Date: 2001/06/01 18:10:31 $
+      $Revision: 1.3 $ $Date: 2001/06/10 03:55:53 $
     </legal>
   </footer>
 </document>

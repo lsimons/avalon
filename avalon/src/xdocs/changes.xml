@@ -50,16 +50,16 @@
     (org.apache.avalon.util.threads).
   </action>
   <action dev="PD" type="update">
-    Modify the packagin of all kernel related files into org.apache.phoenix.
+    Modify the packaging of all kernel related files into org.apache.phoenix.
   </action>
   <action dev="PD" type="update">
-    Modify the packagin of all blocks/services/demos into package hierarchy 
+    Modify the packaging of all blocks/services/demos into package hierarchy 
     org.apache.cornerstone.
   </action>
   <action dev="PD" type="add">
     Added two new services/blocks by refactoring code from tomcat and old SocketServer. 
     There is now a SocketManager and a ConnectionManager. The TLS code is now much improved 
-    and there is the begining of client socket factory. This provides for future client 
+    and there is the beginning of client socket factory. This provides for future client 
     socket code factories for SSL/TLS or SSH1/2 etc. Also adapted SimpleServer to use 
     these methods.
   </action>
@@ -73,7 +73,7 @@
     configuring .sar wide variables. Some examples include security, logging and thread loading.
   </action>
   <action dev="PD" type="update">
-    Refactored most of the code to use AbstractLoggable and the coresponding getLogger() 
+    Refactored most of the code to use AbstractLoggable and the corresponding getLogger() 
     method. Also removed the remaining static access to LogKit.
   </action>
   <action dev="PD" type="update">
@@ -84,7 +84,7 @@
     This should enable future GUI tools to easily assemble blocks.
   </action>
   <action dev="PD" type="add">
-    ReAdded the sub-classed context BlockContext to allow blocks full access to important 
+    Re-Added the sub-classed context BlockContext to allow blocks full access to important 
     environmental information.
   </action>
   <action dev="PD" type="update">
@@ -106,7 +106,7 @@
   </action>
   <action dev="PD" type="update">
     Configuration temporarily will create new Configuration objects on getChild() if they 
-    don't exist until Berins work is finalized.
+    don't exist until Berin's work is finalized.
   </action>
   <action dev="PD" type="update">
     Altered Compose so that it threw ComponentManagerException of which the previous two 
