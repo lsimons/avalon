@@ -66,7 +66,7 @@
   </target>
 
   <target name="test-cache" if="avalon.home.undeclared">
-    <fail message="Cache Undeclared."/>
+    <property name="avalon.cache" value=".cache"/>
   </target>
 
   <target name="setup-proxy" if="project.proxy.declared">
@@ -76,6 +76,5 @@
 	   proxyuser="${project.proxy.user}"
 	   proxypassword="${project.proxy.password}"/>
   </target>
-
 
 </project>
