@@ -5,16 +5,16 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE file.
  */
-package org.apache.avalon.phoenix.engine;
+package org.apache.avalon.phoenix.frontends;
 
 import java.util.List;
-import org.apache.avalon.framework.parameters.Parameters;
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.excalibur.cli.CLArgsParser;
 import org.apache.avalon.excalibur.cli.CLOption;
 import org.apache.avalon.excalibur.cli.CLOptionDescriptor;
 import org.apache.avalon.excalibur.cli.CLUtil;
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
+import org.apache.avalon.framework.parameters.Parameters;
 
 /**
  * The class prepare parameters based on input options.
@@ -24,7 +24,7 @@ import org.apache.avalon.excalibur.cli.CLUtil;
  */
 class CLISetup
 {
-    private static final Resources REZ = 
+    private static final Resources REZ =
         ResourceManager.getPackageResources( CLISetup.class );
 
     private static final int DEBUG_LOG_OPT       = 'd';
@@ -120,7 +120,7 @@ class CLISetup
             {
             case 0:
                 {
-                    final String message = 
+                    final String message =
                         REZ.format( "cli.error.unknown.arg", option.getArgument() );
                     System.err.println( message );
                 }
@@ -130,25 +130,25 @@ class CLISetup
                 usage( options );
                 return false;
 
-            case DEBUG_LOG_OPT: 
-                m_parameters.setParameter( "log-priority", "DEBUG" ); 
+            case DEBUG_LOG_OPT:
+                m_parameters.setParameter( "log-priority", "DEBUG" );
                 break;
 
-            case LOG_FILE_OPT: 
-                m_parameters.setParameter( "log-destination",  option.getArgument() ); 
+            case LOG_FILE_OPT:
+                m_parameters.setParameter( "log-destination",  option.getArgument() );
                 break;
 
-            case APPS_PATH_OPT: 
+            case APPS_PATH_OPT:
                 m_parameters.setParameter( "applications-directory", option.getArgument() );
                 break;
 
             case REMOTE_MANAGER_OPT:
-                m_parameters.setParameter( "manager-class", 
+                m_parameters.setParameter( "manager-class",
                                            "org.apache.avalon.phoenix.engine.PhoenixManager" );
                 break;
             }
         }
 
         return true;
-    } 
+    }
 }

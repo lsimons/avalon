@@ -5,12 +5,12 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE file.
  */
-package org.apache.avalon.phoenix.engine.facilities.configuration;
+package org.apache.avalon.phoenix.components.configuration;
 
 import java.util.HashMap;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.phoenix.engine.facilities.ConfigurationRepository;
+import org.apache.avalon.phoenix.components.configuration.ConfigurationRepository;
 
 /**
  * Repository from which all configuration data is retrieved.
@@ -22,8 +22,8 @@ public class DefaultConfigurationRepository
 {
     private final HashMap m_configurations = new HashMap();
 
-    public synchronized void storeConfiguration( final String application, 
-                                                 final String block, 
+    public synchronized void storeConfiguration( final String application,
+                                                 final String block,
                                                  final Configuration configuration )
         throws ConfigurationException
     {
@@ -38,7 +38,7 @@ public class DefaultConfigurationRepository
         }
     }
 
-    public synchronized Configuration getConfiguration( final String application, 
+    public synchronized Configuration getConfiguration( final String application,
                                                         final String block )
         throws ConfigurationException
     {
@@ -47,10 +47,10 @@ public class DefaultConfigurationRepository
 
         if( null == configuration )
         {
-            throw new ConfigurationException( "Unable to locate configuration for Block '" + 
+            throw new ConfigurationException( "Unable to locate configuration for Block '" +
                                               block + "' in application '" + application + "'" );
         }
-        
+
         return configuration;
     }
 }

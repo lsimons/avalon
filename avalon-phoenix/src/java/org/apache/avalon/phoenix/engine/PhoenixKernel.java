@@ -20,7 +20,7 @@ import org.apache.avalon.framework.component.DefaultComponentManager;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.context.DefaultContext;
-import org.apache.avalon.phoenix.engine.facilities.ConfigurationRepository;
+import org.apache.avalon.phoenix.components.configuration.ConfigurationRepository;
 
 /**
  * The ServerKernel is the core of the Phoenix system.
@@ -92,6 +92,7 @@ public class PhoenixKernel
                 context.put( "app.name", name );
                 context.put( "app.home", saEntry.getHomeDirectory() );
                 context.put( "app.class.path", saEntry.getClassPath() );
+                context.makeReadOnly();
                 ((Contextualizable)application).contextualize( context );
             }
 
@@ -100,6 +101,7 @@ public class PhoenixKernel
                 final DefaultComponentManager componentManager = new DefaultComponentManager();
                 componentManager.put( SystemManager.ROLE, m_systemManager );
                 componentManager.put( ConfigurationRepository.ROLE, m_repository );
+                componentManager.makeReadOnly();
                 ((Composable)application).compose( componentManager );
             }
 

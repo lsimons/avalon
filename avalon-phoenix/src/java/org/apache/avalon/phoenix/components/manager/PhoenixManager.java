@@ -5,7 +5,7 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE file.
  */
-package org.apache.avalon.phoenix.engine;
+package org.apache.avalon.phoenix.components.manager;
 
 import java.rmi.Remote;
 import java.rmi.registry.LocateRegistry;
@@ -34,7 +34,7 @@ public class PhoenixManager
     extends AbstractSystemManager
     implements Parameterizable
 {
-    private static final int DEFAULT_REGISTRY_PORT = 
+    private static final int DEFAULT_REGISTRY_PORT =
         Integer.getInteger( "phoenix.port", 1111 ).intValue();
 
     private Parameters      m_parameters;
@@ -63,7 +63,7 @@ public class PhoenixManager
     public void start()
         throws Exception
     {
-        final int port = 
+        final int port =
             m_parameters.getParameterAsInteger( "manager-registry-port", DEFAULT_REGISTRY_PORT );
         m_name = m_parameters.getParameter( "manager-name", "Phoenix.JMXAdaptor" );
 
@@ -179,7 +179,7 @@ public class PhoenixManager
         }
         catch( final Exception e )
         {
-            throw new ParameterException( "Failed to create MBean Server of class " + 
+            throw new ParameterException( "Failed to create MBean Server of class " +
                                           className, e );
         }
     }

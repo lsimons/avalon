@@ -5,7 +5,7 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE file.
  */
-package org.apache.avalon.phoenix.engine.loader;
+package org.apache.avalon.phoenix.launcher;
 
 import java.io.File;
 import java.lang.reflect.Method;
@@ -19,13 +19,13 @@ import java.util.StringTokenizer;
 
 /**
  * PhoenixLoader is the class that bootstraps and sets up engine ClassLoader.
- * It also a default policy that gives full permissions to engine code.
+ * It also sets up a default policy that gives full permissions to engine code.
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
-public final class PhoenixLoader
+public final class Main
 {
-    private final static String  MAIN_CLASS  = "org.apache.avalon.phoenix.engine.Main";
+    private final static String  MAIN_CLASS  = "org.apache.avalon.phoenix.frontends.CLIMain";
     private final static String  MAIN_JAR    = "phoenix-engine.jar";
     private final static String  LOADER_JAR  = "phoenix-loader.jar";
 
@@ -52,7 +52,7 @@ public final class PhoenixLoader
 
             //kick the tires and light the fires....
             method.invoke( instance, new Object[] { args } );
-        } 
+        }
         catch( final Exception e )
         {
             e.printStackTrace();
@@ -73,7 +73,7 @@ public final class PhoenixLoader
 
         if( null != phoenixHome )
         {
-            final String filename = 
+            final String filename =
                 phoenixHome + File.separator + "bin" + File.separator + MAIN_JAR;
             return new File( filename );
         }
@@ -90,30 +90,30 @@ public final class PhoenixLoader
     /**
      *  Finds the LOADER_JAR file in the classpath.
      */
-    private final static File findLoaderDir() 
+    private final static File findLoaderDir()
         throws Exception
     {
         final String classpath = System.getProperty( "java.class.path" );
         final String pathSeparator = System.getProperty( "path.separator" );
         final StringTokenizer tokenizer = new StringTokenizer( classpath, pathSeparator );
-        
+
         while( tokenizer.hasMoreTokens() )
         {
             final String element = tokenizer.nextToken();
-            
+
             if( element.endsWith( LOADER_JAR ) )
             {
                 File file = (new File( element )).getCanonicalFile();
                 file = file.getParentFile();
-                return file;                
+                return file;
             }
         }
-        
+
         throw new Exception( "Unable to locate " + LOADER_JAR + " in classpath" );
     }
 
     /**
-     * Default polic class to give every code base all permssions. 
+     * Default polic class to give every code base all permssions.
      * Will be replaced once the kernel loads.
      */
     private static class FreeNEasyPolicy

@@ -5,15 +5,15 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE file.
  */
-package org.apache.avalon.phoenix.engine;
+package org.apache.avalon.phoenix.components.embeddor;
 
 import java.io.File;
 import java.util.Iterator;
 import org.apache.avalon.framework.atlantis.Application;
 import org.apache.avalon.framework.camelot.ContainerException;
-import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.component.ComponentException;
+import org.apache.avalon.framework.component.ComponentManager;
 
 /**
  * Embeddor to host only a single application.
@@ -43,7 +43,7 @@ public class SingleAppEmbeddor
     {
         final String applicationName = getParameters().getParameter( "application-name", "default" );
         final String applicationLocation = getParameters().getParameter( "application-location" );
- 
+
         final File directory = new File( applicationLocation );
         getDeployer().deploy( applicationName, directory.toURL() );
 
