@@ -79,29 +79,9 @@ public final class ValidatingCache
         return value;
     }
 
-    public Object remove( Object key )
+    public Object remove( final Object key )
     {
         return m_cache.remove( key );
-    }
-
-    public boolean containsKey( final Object key )
-    {
-        boolean contains = false;
-
-        if( m_cache.containsKey( key ) )
-        {
-            final Object value = m_cache.get( key );
-            if( validate( key, value ) )
-            {
-                contains = true;
-            }
-            else
-            {
-                remove( key );
-            }
-        }
-
-        return contains;
     }
 
     public void clear()

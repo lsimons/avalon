@@ -24,11 +24,4 @@ public class AbstractCacheTestCase
     {
         super( name );
     }
-
-    public void testNullValue()
-    {
-        m_cache.put( "KEY", null );
-        assertTrue( m_cache.containsKey( "KEY" ) );
-        assertEquals( 1, m_cache.size() );
-    }
 }

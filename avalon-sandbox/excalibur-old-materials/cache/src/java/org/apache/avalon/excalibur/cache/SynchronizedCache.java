@@ -68,19 +68,11 @@ public class SynchronizedCache
         }
     }
 
-    public Object remove( Object key )
+    public Object remove( final Object key )
     {
         synchronized( m_cache )
         {
             return m_cache.remove( key );
-        }
-    }
-
-    public boolean containsKey( final Object key )
-    {
-        synchronized( m_cache )
-        {
-            return m_cache.containsKey( key );
         }
     }
 
