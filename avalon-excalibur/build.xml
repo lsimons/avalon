@@ -90,9 +90,8 @@ Legal:
   <property name="testlet.jar" value="${tools.dir}/lib/testlet.jar"/>
   <property name="tools.jar" value="${java.home}/../lib/tools.jar"/>
 
-  <property name="build.announce" value="${build.dir}/Announcement.xml"/>
   <property name="announce2txt" value="${tools.dir}/announcement2txt.xsl"/>
-  <property name="announce2site" value="${tools.dir}/announcement2site.xsl"/>
+  <property name="announce2header" value="${tools.dir}/announcement2header.xsl"/>
 
   <path id="project.class.path">
     <pathelement location="${framework.jar}"/>
@@ -347,7 +346,11 @@ Legal:
 
   </target>
 
-  <target name="local-docs" depends="local-javadocs"/>
+  <target name="local-docs" depends="local-javadocs,xdocs">
+    <copy todir="${docs.dir}">
+      <fileset dir="${build.docs}/excalibur"/>
+    </copy>
+  </target>
 
   <!-- Update the www directory -->
   <target name="site-docs" depends="local-docs">
@@ -356,12 +359,12 @@ Legal:
     <!-- note that by doing an include the defaultexcludes (CVS dirs) will be kept -->
     <delete>
       <fileset dir="${www.dir}">
-        <include name="**"/>
+        <include name="excalibur/**"/>
       </fileset>
     </delete>
 
-    <mkdir dir="${www.dir}"/>
-    <copy todir="${www.dir}">
+    <mkdir dir="${www.dir}/excalibur"/>
+    <copy todir="${www.dir}/excalibur">
       <fileset dir="${docs.dir}" />
     </copy>
 
@@ -370,8 +373,8 @@ Legal:
   <!-- Create the announcements -->
   <target name="announcement" depends="setup-properties">
 
-    <filter token="Name" value="Avalon Framework"/>
-    <filter token="name" value="framework"/>
+    <filter token="Name" value="Avalon Excalibur"/>
+    <filter token="name" value="excalibur"/>
     <filter token="version" value="${version}"/>
     <filter token="year" value="${year}"/>
     <filter token="status" value="${status}"/>
@@ -380,11 +383,17 @@ Legal:
 
     <mkdir dir="${build.dir}" />
     <mkdir dir="${dist.base}" />
+    <mkdir dir="${build.xdocs}" />
 
     <copy todir="${build.context}" filtering="on">
       <fileset dir="${context.dir}">
+        <exclude name="xdocs/**"/>
         <exclude name="resources/**"/>
       </fileset>
+    </copy>
+
+    <copy todir="${build.xdocs}" filtering="on">
+      <fileset dir="${xdocs.dir}"/>
     </copy>
 
     <style style="${announce2txt}" in="${build.context}/xdocs/excalibur/announcement.xml" 
@@ -463,7 +472,7 @@ Legal:
 
 
   <!-- Prepares the documentation directory -->
-  <target name="xdocs" depends="jar">
+  <target name="xdocs">
 
     <mkdir dir="${build.context}"/>
     <mkdir dir="${build.xdocs}"/>
@@ -513,7 +522,6 @@ Legal:
       <arg value="-f${xdocs.dir}/excalibur.uris"/>
       <classpath>
         <path refid="tools.class.path"/>
-        <fileset dir="${build.lib}"/>
         <fileset dir="${tools.dir}/ext"/>
       </classpath>
     </java>
