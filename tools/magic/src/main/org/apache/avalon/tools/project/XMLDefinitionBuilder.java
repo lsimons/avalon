@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.avalon.tools.project.builder;
+package org.apache.avalon.tools.project;
 
 import java.io.File;
 import java.io.IOException;
@@ -27,15 +27,9 @@ import org.apache.tools.ant.taskdefs.Sequential;
 import org.apache.avalon.tools.home.Home;
 import org.apache.avalon.tools.home.Repository;
 
-import org.apache.avalon.tools.util.ElementHelper;
-import org.apache.avalon.tools.project.Info;
-import org.apache.avalon.tools.project.Definition;
-import org.apache.avalon.tools.project.ResourceRef;
-import org.apache.avalon.tools.project.Resource;
-import org.apache.avalon.tools.project.Plugin;
 import org.apache.avalon.tools.project.Plugin.TaskDef;
 import org.apache.avalon.tools.project.Plugin.ListenerDef;
-import org.apache.avalon.tools.project.Policy;
+import org.apache.avalon.tools.util.ElementHelper;
 
 import org.w3c.dom.Element;
 
