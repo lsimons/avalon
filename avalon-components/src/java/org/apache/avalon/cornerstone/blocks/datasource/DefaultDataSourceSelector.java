@@ -53,7 +53,19 @@ public class DefaultDataSourceSelector
             final String clazz = dataSourceConf.getAttribute( "type" );
             final String driver = dataSourceConf.getChild( "driver" ).getValue();
 
-            Class.forName( driver );
+            final ClassLoader classLoader = 
+                Thread.currentThread().getContextClassLoader();
+
+            if( null == classLoader )
+            {
+                Class.forName( driver );
+            }
+            else
+            {
+                classLoader.loadClass( driver );
+            }
+
+            
             final DataSourceComponent component =
                 (DataSourceComponent)Class.forName( clazz ).newInstance();
             setupLogger( component, name );
