@@ -205,14 +205,24 @@ public class SyslogFormatter
     protected int getSyslogPriority( final LogEvent event )
     {
         if( event.getPriority().isLowerOrEqual( Priority.DEBUG ) )
+        {
             return PRIORITY_DEBUG;
+        }
         else if( event.getPriority().isLowerOrEqual( Priority.INFO ) )
+        {
             return PRIORITY_INFO;
+        }
         else if( event.getPriority().isLowerOrEqual( Priority.WARN ) )
+        {
             return PRIORITY_WARNING;
+        }
         else if( event.getPriority().isLowerOrEqual( Priority.ERROR ) )
+        {
             return PRIORITY_ERR;
+        }
         else
+        {
             return PRIORITY_CRIT;
+        }
     }
 }
