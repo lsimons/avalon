@@ -38,6 +38,12 @@ public abstract class AbstractLoggable
 
     /**
      * Helper method to allow sub-classes to aquire logger.
+     * This method exists rather than exposing a member variable
+     * because it protects other users against future changes. It
+     * also means they do not have to use our naming convention.
+     *
+     * <p>There is no performance penalty as this is a final method
+     * and will be inlined by the JVM.</p>
      *
      * @return the Logger
      */
