@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.Map;
 import org.apache.avalon.excalibur.packagemanager.ExtensionManager;
 import org.apache.avalon.phoenix.interfaces.ConfigurationRepository;
+import org.apache.avalon.phoenix.interfaces.ConfigurationValidator;
+import org.apache.avalon.phoenix.interfaces.ConfigurationValidatorMBean;
 import org.apache.avalon.phoenix.interfaces.Deployer;
 import org.apache.avalon.phoenix.interfaces.DeployerMBean;
 import org.apache.avalon.phoenix.interfaces.Embeddor;
@@ -19,8 +21,6 @@ import org.apache.avalon.phoenix.interfaces.ExtensionManagerMBean;
 import org.apache.avalon.phoenix.interfaces.Kernel;
 import org.apache.avalon.phoenix.interfaces.KernelMBean;
 import org.apache.avalon.phoenix.interfaces.LogManager;
-import org.apache.avalon.phoenix.interfaces.ConfigurationValidator;
-import org.apache.avalon.phoenix.interfaces.ConfigurationValidatorMBean;
 
 /**
  *
@@ -34,16 +34,21 @@ final class ManagementRegistration
         new ManagementRegistration( Kernel.ROLE,
                                     "Kernel",
                                     new Class[]{KernelMBean.class} );
+
     public static final ManagementRegistration EXTENSION_MANAGER =
         new ManagementRegistration( ExtensionManager.ROLE,
                                     "ExtensionManager",
                                     new Class[]{ExtensionManagerMBean.class} );
+
     public static final ManagementRegistration EMBEDDOR =
         new ManagementRegistration( Embeddor.ROLE, "Embeddor", new Class[]{EmbeddorMBean.class} );
+
     public static final ManagementRegistration DEPLOYER =
         new ManagementRegistration( Deployer.ROLE, "Deployer", new Class[]{DeployerMBean.class} );
+
     public static final ManagementRegistration LOG_MANAGER =
         new ManagementRegistration( LogManager.ROLE, "LogManager", new Class[]{} );
+
     public static final ManagementRegistration CONFIGURATION_REPOSITORY =
         new ManagementRegistration( ConfigurationRepository.ROLE,
                                     "ConfigurationManager",
@@ -56,7 +61,9 @@ final class ManagementRegistration
     //TODO: Need information for SystemManager?
 
     private String m_role;
+
     private String m_name;
+
     private Class[] m_interfaces;
 
     private ManagementRegistration( final String role, final String name, final Class[] interfaces )

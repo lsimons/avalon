@@ -20,7 +20,9 @@ public interface BlockContext
     extends Context
 {
     String APP_NAME = "app.name";
+
     String APP_HOME_DIR = "app.home";
+
     String NAME = "block.name";
 
     /**

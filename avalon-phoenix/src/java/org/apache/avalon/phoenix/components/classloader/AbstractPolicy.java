@@ -32,6 +32,7 @@ abstract class AbstractPolicy
     implements LogEnabled
 {
     private final ArrayList m_entries = new ArrayList();
+
     private Logger m_logger;
 
     public void enableLogging( final Logger logger )

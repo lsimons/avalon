@@ -11,12 +11,11 @@ import javax.management.Attribute;
 import javax.management.MBeanServer;
 import javax.management.MBeanServerFactory;
 import javax.management.ObjectName;
+import mx4j.adaptor.rmi.jrmp.JRMPAdaptorMBean;
+import mx4j.util.StandardMBeanProxy;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
-
-import mx4j.adaptor.rmi.jrmp.JRMPAdaptorMBean;
-import mx4j.util.StandardMBeanProxy;
 
 /**
  * This component is responsible for managing phoenix instance.
@@ -28,11 +27,11 @@ import mx4j.util.StandardMBeanProxy;
 public class MX4JSystemManager
     extends AbstractJMXManager implements Configurable
 {
-
     private static final int DEFAULT_HTTPADAPTER_PORT =
         Integer.getInteger( "phoenix.adapter.http", 8082 ).intValue();
 
     private int m_port;
+
     private boolean m_rmi;
 
     public void initialize()
@@ -44,7 +43,7 @@ public class MX4JSystemManager
 
         final ObjectName adaptorName = new ObjectName( "Http:name=HttpAdaptor" );
         mBeanServer.createMBean( "mx4j.adaptor.http.HttpAdaptor", adaptorName, null );
-        mBeanServer.setAttribute( adaptorName, new Attribute( "Port", new Integer(m_port) ) );
+        mBeanServer.setAttribute( adaptorName, new Attribute( "Port", new Integer( m_port ) ) );
 
         /**
          // add user names
@@ -98,9 +97,9 @@ public class MX4JSystemManager
         ObjectName adaptor = new ObjectName( "Adaptor:protocol=JRMP" );
         server.createMBean( "mx4j.adaptor.rmi.jrmp.JRMPAdaptor", adaptor, null );
         JRMPAdaptorMBean mbean =
-            ( JRMPAdaptorMBean ) StandardMBeanProxy.create( JRMPAdaptorMBean.class,
-                                                            server,
-                                                            adaptor );
+            (JRMPAdaptorMBean)StandardMBeanProxy.create( JRMPAdaptorMBean.class,
+                                                         server,
+                                                         adaptor );
         // Set the JNDI name with which will be registered
         String jndiName = "jrmp";
         mbean.setJNDIName( jndiName );
@@ -112,7 +111,7 @@ public class MX4JSystemManager
         throws ConfigurationException
     {
         m_port = configuration.getChild( "manager-adaptor-port" ).
-                getValueAsInteger( DEFAULT_HTTPADAPTER_PORT );
+            getValueAsInteger( DEFAULT_HTTPADAPTER_PORT );
         m_rmi = configuration.getChild( "enable-rmi-adaptor" ).getValueAsBoolean( false );
     }
 

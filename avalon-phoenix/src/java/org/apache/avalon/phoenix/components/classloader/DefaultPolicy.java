@@ -42,12 +42,17 @@ class DefaultPolicy
         ResourceManager.getPackageResources( DefaultPolicy.class );
 
     private static final String SAR_PROTOCOL = "sar:";
+
     private static final String SAR_INF = SAR_PROTOCOL + "SAR-INF/";
+
     private static final String CLASSES = SAR_INF + "classes";
+
     private static final String LIB = SAR_INF + "lib";
 
     private final File m_baseDirectory;
+
     private final File m_workDirectory;
+
     private DefaultContext m_context;
 
     protected DefaultPolicy( final File baseDirectory,
@@ -397,7 +402,7 @@ class DefaultPolicy
 
         while( tokenizer.hasMoreTokens() )
         {
-            final String alias = ( (String)tokenizer.nextToken() ).trim();
+            final String alias = ((String)tokenizer.nextToken()).trim();
             Certificate certificate = null;
 
             try

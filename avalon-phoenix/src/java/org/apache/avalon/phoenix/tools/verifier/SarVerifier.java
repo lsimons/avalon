@@ -30,8 +30,8 @@ import org.apache.avalon.phoenix.metadata.SarMetaData;
 import org.apache.avalon.phoenix.metainfo.BlockInfo;
 import org.apache.avalon.phoenix.metainfo.DependencyDescriptor;
 import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
-import org.apache.excalibur.containerkit.verifier.VerifyException;
 import org.apache.excalibur.containerkit.verifier.ComponentVerifier;
+import org.apache.excalibur.containerkit.verifier.VerifyException;
 
 /**
  * This Class verifies that Sars are valid. It performs a number
@@ -59,7 +59,7 @@ import org.apache.excalibur.containerkit.verifier.ComponentVerifier;
  * </ul>
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.24 $ $Date: 2002/06/23 22:19:24 $
+ * @version $Revision: 1.25 $ $Date: 2002/07/26 09:49:22 $
  */
 public class SarVerifier
     extends AbstractLogEnabled
@@ -551,7 +551,7 @@ public class SarVerifier
         {
             final char ch = name.charAt( i );
 
-            if( !Character.isLetterOrDigit( ch ) && '-' != ch && '.' != ch)
+            if( !Character.isLetterOrDigit( ch ) && '-' != ch && '.' != ch )
             {
                 return false;
             }

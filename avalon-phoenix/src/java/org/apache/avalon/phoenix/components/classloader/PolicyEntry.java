@@ -16,6 +16,7 @@ import java.security.Permissions;
 final class PolicyEntry
 {
     private final CodeSource m_codeSource;
+
     private final Permissions m_permissions;
 
     public PolicyEntry( final CodeSource codeSource,

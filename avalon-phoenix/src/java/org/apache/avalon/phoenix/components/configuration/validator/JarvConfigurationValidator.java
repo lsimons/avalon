@@ -13,11 +13,6 @@ import java.net.URL;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.xml.sax.ErrorHandler;
-import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
-
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.excalibur.io.FileUtil;
@@ -31,12 +26,14 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.phoenix.interfaces.ConfigurationValidator;
 import org.apache.avalon.phoenix.interfaces.ConfigurationValidatorMBean;
 import org.apache.excalibur.configuration.ConfigurationUtil;
-
 import org.iso_relax.verifier.Schema;
 import org.iso_relax.verifier.Verifier;
 import org.iso_relax.verifier.VerifierConfigurationException;
 import org.iso_relax.verifier.VerifierFactory;
 import org.iso_relax.verifier.VerifierHandler;
+import org.xml.sax.ErrorHandler;
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
 
 /**
  * A validator that is capable of validating any schema supported by the JARV
@@ -51,15 +48,20 @@ public class JarvConfigurationValidator extends AbstractLogEnabled
         ResourceManager.getPackageResources( JarvConfigurationValidator.class );
 
     private String m_schemaType;
+
     private String m_schemaLanguage;
+
     private String m_verifierFactoryClass;
+
     private String m_debugPath;
 
     private final DefaultConfigurationSerializer m_serializer =
         new DefaultConfigurationSerializer();
 
     private final Map m_schemaURLs = Collections.synchronizedMap( new HashMap() );
+
     private final Map m_schemas = Collections.synchronizedMap( new HashMap() );
+
     private VerifierFactory m_verifierFactory;
 
     /**
@@ -82,8 +84,8 @@ public class JarvConfigurationValidator extends AbstractLogEnabled
         this.m_verifierFactoryClass =
             configuration.getChild( "verifier-factory-class" ).getValue( null );
 
-        if( ( null == this.m_schemaLanguage && null == this.m_verifierFactoryClass )
-            || ( null != this.m_schemaLanguage && null != this.m_verifierFactoryClass ) )
+        if( (null == this.m_schemaLanguage && null == this.m_verifierFactoryClass)
+            || (null != this.m_schemaLanguage && null != this.m_verifierFactoryClass) )
         {
             throw new ConfigurationException( REZ.getString( "jarv.error.badconfig" ) );
         }
@@ -99,7 +101,7 @@ public class JarvConfigurationValidator extends AbstractLogEnabled
         else if( null != this.m_verifierFactoryClass )
         {
             this.m_verifierFactory =
-                ( VerifierFactory ) Class.forName( this.m_verifierFactoryClass ).newInstance();
+                (VerifierFactory)Class.forName( this.m_verifierFactoryClass ).newInstance();
         }
 
         if( null != this.m_debugPath )
@@ -172,7 +174,7 @@ public class JarvConfigurationValidator extends AbstractLogEnabled
                             final Configuration configuration )
         throws ConfigurationException
     {
-        final Schema schema = ( Schema ) this.m_schemas.get( createKey( application, block ) );
+        final Schema schema = (Schema)this.m_schemas.get( createKey( application, block ) );
         final Configuration branched = ConfigurationUtil.branch( configuration, "root" );
 
         if( null == schema )
@@ -285,7 +287,7 @@ public class JarvConfigurationValidator extends AbstractLogEnabled
     public String getSchema( String application, String block )
     {
         final String key = createKey( application, block );
-        final String url = ( String ) this.m_schemaURLs.get( key );
+        final String url = (String)this.m_schemaURLs.get( key );
 
         if( null != url )
         {

@@ -17,6 +17,7 @@ import org.apache.avalon.phoenix.metainfo.BlockInfo;
 public class BlockMetaData
 {
     private final String m_name;
+
     private final DependencyMetaData[] m_dependencies;
 
     private BlockInfo m_blockInfo;

@@ -15,9 +15,13 @@ import org.apache.avalon.framework.configuration.Configuration;
 public class EmbeddorEntry
 {
     private final String m_role;
+
     private final String m_classname;
+
     private final String m_loggerName;
+
     private final Configuration m_configuration;
+
     private Object m_object;
 
     public EmbeddorEntry( final String role,

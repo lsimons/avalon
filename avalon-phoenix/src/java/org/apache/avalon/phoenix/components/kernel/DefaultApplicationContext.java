@@ -8,6 +8,8 @@
 package org.apache.avalon.phoenix.components.kernel;
 
 import java.util.HashMap;
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
@@ -21,10 +23,8 @@ import org.apache.avalon.phoenix.interfaces.ConfigurationRepository;
 import org.apache.avalon.phoenix.interfaces.ConfigurationValidator;
 import org.apache.avalon.phoenix.interfaces.ManagerException;
 import org.apache.avalon.phoenix.interfaces.SystemManager;
-import org.apache.avalon.phoenix.metadata.SarMetaData;
 import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
-import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.phoenix.metadata.SarMetaData;
 import org.apache.excalibur.threadcontext.ThreadContext;
 import org.apache.excalibur.threadcontext.impl.DefaultThreadContextPolicy;
 
@@ -58,6 +58,7 @@ class DefaultApplicationContext
 
     ///Place to expose Management beans
     private SystemManager m_systemManager;
+
     private SystemManager m_blockManager;
 
     private final SarMetaData m_metaData;
@@ -161,7 +162,7 @@ class DefaultApplicationContext
      * @return the Configuration
      */
     public Configuration getConfiguration( final String component )
-      throws ConfigurationException
+        throws ConfigurationException
     {
         final Configuration configuration =
             m_repository.getConfiguration( m_metaData.getName(),
@@ -200,7 +201,7 @@ class DefaultApplicationContext
     {
         for( int i = 0; i < listeners.length; i++ )
         {
-            if( listeners[i].getName().equals( name ) )
+            if( listeners[ i ].getName().equals( name ) )
             {
                 return true;
             }

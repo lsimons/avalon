@@ -20,7 +20,7 @@ import org.apache.avalon.phoenix.interfaces.ExtensionManagerMBean;
 
 /**
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2002/07/14 05:44:22 $
+ * @version $Revision: 1.4 $ $Date: 2002/07/26 09:49:21 $
  */
 public class DefaultExtensionManager
     extends org.apache.avalon.excalibur.packagemanager.impl.DefaultExtensionManager
@@ -28,6 +28,7 @@ public class DefaultExtensionManager
     ExtensionManager, ExtensionManagerMBean
 {
     private Logger m_logger;
+
     private String m_rawPath;
 
     public void enableLogging( final Logger logger )

@@ -17,6 +17,7 @@ import org.apache.log.Hierarchy;
 public class LogKitHierarchyLogger implements Logger
 {
     private final Hierarchy m_hierarchy;
+
     private final org.apache.log.Logger m_root;
 
     public LogKitHierarchyLogger( Hierarchy hierarchy )

@@ -25,12 +25,12 @@ import org.apache.avalon.phoenix.interfaces.SystemManager;
 public abstract class AbstractSystemManager
     extends AbstractLogEnabled
     implements SystemManager, Initializable, Startable, Disposable
-
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( AbstractSystemManager.class );
 
     private final HashMap m_entries = new HashMap();
+
     private SubContext m_subContext;
 
     public void initialize()
@@ -95,7 +95,7 @@ public abstract class AbstractSystemManager
     public SystemManager getSubContext( String parent, String type )
         throws ManagerException
     {
-        return m_subContext.getSubContext( parent,type );
+        return m_subContext.getSubContext( parent, type );
     }
 
     /**

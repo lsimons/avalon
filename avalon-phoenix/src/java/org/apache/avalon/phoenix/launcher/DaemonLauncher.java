@@ -31,7 +31,7 @@ public class DaemonLauncher
      *  CLIMain but we can't do that for security reasons.
      */
     private boolean m_ignoreUpdates = false;
-    
+
     public Integer start( final String[] args )
     {
         Integer exitCodeInteger = null;
@@ -76,7 +76,7 @@ public class DaemonLauncher
     {
         // To avoid recursive calls, start ignoring updates.
         m_ignoreUpdates = true;
-        
+
         Main.shutdown();
         return exitCode;
     }
@@ -115,7 +115,7 @@ public class DaemonLauncher
      */
     public void update( final Observable observable, final Object arg )
     {
-        if ( m_ignoreUpdates )
+        if( m_ignoreUpdates )
         {
             // Ignore this update
             if( WrapperManager.isDebugEnabled() )
@@ -128,7 +128,7 @@ public class DaemonLauncher
         else
         {
             Thread.dumpStack();
-            final String command = ( null != arg ) ? arg.toString() : "";
+            final String command = (null != arg) ? arg.toString() : "";
             if( command.equals( "restart" ) )
             {
                 if( WrapperManager.isDebugEnabled() )
@@ -136,9 +136,9 @@ public class DaemonLauncher
                     System.out.println( "DaemonLauncher: restart requested." );
                     System.out.flush();
                 }
-    
+
                 WrapperManager.restart();
-    
+
                 if( WrapperManager.isDebugEnabled() )
                 {
                     //Should never get here???
@@ -153,9 +153,9 @@ public class DaemonLauncher
                     System.out.println( "DaemonLauncher: shutdown requested." );
                     System.out.flush();
                 }
-    
+
                 WrapperManager.stop( 0 );
-    
+
                 if( WrapperManager.isDebugEnabled() )
                 {
                     //Should never get here???

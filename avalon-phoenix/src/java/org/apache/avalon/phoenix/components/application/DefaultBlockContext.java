@@ -23,6 +23,7 @@ final class DefaultBlockContext
     implements BlockContext
 {
     private String m_name;
+
     private ApplicationContext m_applicationContext;
 
     protected DefaultBlockContext( final String name, final ApplicationContext frame )

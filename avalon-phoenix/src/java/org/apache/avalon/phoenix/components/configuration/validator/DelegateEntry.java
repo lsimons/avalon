@@ -18,7 +18,9 @@ import org.apache.avalon.phoenix.interfaces.ConfigurationValidator;
 class DelegateEntry
 {
     private final String m_schemaType;
+
     private final String m_className;
+
     private final Configuration m_configuration;
 
     private ConfigurationValidator m_validator;

@@ -46,11 +46,13 @@ public final class DefaultApplication
         ResourceManager.getPackageResources( DefaultApplication.class );
 
     private static final String PHASE_STARTUP = "startup";
+
     private static final String PHASE_SHUTDOWN = "shutdown";
 
     private boolean m_running = false;
 
     private ApplicationContext m_context;
+
     private HashMap m_entries = new HashMap();
 
     /**

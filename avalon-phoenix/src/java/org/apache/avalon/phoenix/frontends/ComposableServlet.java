@@ -9,11 +9,11 @@ package org.apache.avalon.phoenix.frontends;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.component.Composable;
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.phoenix.components.embeddor.SingleAppEmbeddor;
 import org.apache.avalon.phoenix.interfaces.Embeddor;
 
@@ -39,7 +39,7 @@ public abstract class ComposableServlet
         super.init();
 
         m_embeddor = (SingleAppEmbeddor)getServletContext().getAttribute( Embeddor.ROLE );
-        if ( null == m_embeddor )
+        if( null == m_embeddor )
         {
             final String message = REZ.getString( "servlet.error.load" );
             throw new ServletException( message );
@@ -49,7 +49,7 @@ public abstract class ComposableServlet
         {
             compose( m_embeddor );
         }
-        catch ( final ComponentException ce )
+        catch( final ComponentException ce )
         {
             throw new ServletException( ce );
         }

@@ -27,12 +27,13 @@ import java.lang.reflect.Proxy;
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  * @author <a href="mailto:Paul_Hammant@yahoo.com">Paul Hammant</a>
- * @version CVS $Revision: 1.6 $ $Date: 2002/07/15 16:17:46 $
+ * @version CVS $Revision: 1.7 $ $Date: 2002/07/26 09:49:20 $
  */
 final class BlockInvocationHandler
     implements InvocationHandler
 {
     private transient Object m_object;
+
     private transient Object m_proxy;
 
     /**
