@@ -11,16 +11,17 @@ import java.io.IOException;
 import java.net.DatagramSocket;
 import java.util.HashMap;
 import java.util.Iterator;
-import org.apache.avalon.framework.activity.Disposable;
-import org.apache.avalon.framework.context.Context;
-import org.apache.avalon.framework.context.Contextualizable;
-import org.apache.avalon.framework.logger.AbstractLoggable;
 import org.apache.avalon.cornerstone.services.packet.PacketHandler;
 import org.apache.avalon.cornerstone.services.packet.PacketHandlerFactory;
 import org.apache.avalon.cornerstone.services.packet.PacketManager;
+import org.apache.avalon.cornerstone.services.threads.ThreadManager;
 import org.apache.avalon.excalibur.thread.ThreadPool;
+import org.apache.avalon.framework.activity.Disposable;
+import org.apache.avalon.framework.component.ComponentException;
+import org.apache.avalon.framework.component.ComponentManager;
+import org.apache.avalon.framework.component.Composable;
+import org.apache.avalon.framework.logger.AbstractLoggable;
 import org.apache.avalon.phoenix.Block;
-import org.apache.avalon.phoenix.BlockContext;
 
 /**
  * This is the service through which PacketManagement occurs.
@@ -29,14 +30,15 @@ import org.apache.avalon.phoenix.BlockContext;
  */
 public class DefaultPacketManager
     extends AbstractLoggable
-    implements Block, PacketManager, Contextualizable, Disposable
+    implements Block, PacketManager, Composable, Disposable
 {
-    protected BlockContext        m_context;
-    protected HashMap             m_acceptors        = new HashMap();
+    private HashMap             m_acceptors        = new HashMap();
+    private ThreadManager       m_threadManager;
 
-    public void contextualize( final Context context )
+    public void compose( final ComponentManager componentManager )
+        throws ComponentException
     {
-        m_context = (BlockContext)context;
+        m_threadManager = (ThreadManager)componentManager.lookup( ThreadManager.ROLE );
     }
 
     public void dispose()
@@ -49,7 +51,7 @@ public class DefaultPacketManager
             catch( final Exception e )
             {
                 getLogger().warn( "Error disconnecting " + name, e );
-            }   
+            }
         }
     }
 
@@ -96,7 +98,7 @@ public class DefaultPacketManager
                                       final PacketHandlerFactory handlerFactory )
         throws Exception
     {
-        connect( name, socket, handlerFactory, m_context.getDefaultThreadPool() );
+        connect( name, socket, handlerFactory, m_threadManager.getDefaultThreadPool() );
     }
 
     /**

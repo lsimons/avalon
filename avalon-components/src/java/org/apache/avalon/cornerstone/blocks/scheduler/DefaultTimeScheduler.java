@@ -9,22 +9,22 @@ package org.apache.avalon.cornerstone.blocks.scheduler;
 
 import java.util.Hashtable;
 import java.util.NoSuchElementException;
-import org.apache.avalon.framework.context.Context;
-import org.apache.avalon.framework.context.ContextException;
-import org.apache.avalon.framework.context.Contextualizable;
-import org.apache.avalon.framework.activity.Startable;
-import org.apache.avalon.framework.activity.Disposable;
-import org.apache.avalon.framework.activity.Initializable;
-import org.apache.avalon.framework.logger.AbstractLoggable;
 import org.apache.avalon.cornerstone.services.scheduler.Target;
 import org.apache.avalon.cornerstone.services.scheduler.TimeScheduler;
 import org.apache.avalon.cornerstone.services.scheduler.TimeTrigger;
+import org.apache.avalon.cornerstone.services.threads.ThreadManager;
 import org.apache.avalon.excalibur.collections.BinaryHeap;
 import org.apache.avalon.excalibur.collections.PriorityQueue;
 import org.apache.avalon.excalibur.collections.SynchronizedPriorityQueue;
-import org.apache.log.Logger;
+import org.apache.avalon.framework.activity.Disposable;
+import org.apache.avalon.framework.activity.Initializable;
+import org.apache.avalon.framework.activity.Startable;
+import org.apache.avalon.framework.component.ComponentException;
+import org.apache.avalon.framework.component.ComponentManager;
+import org.apache.avalon.framework.component.Composable;
+import org.apache.avalon.framework.logger.AbstractLoggable;
 import org.apache.avalon.phoenix.Block;
-import org.apache.avalon.phoenix.BlockContext;
+import org.apache.log.Logger;
 
 /**
  * Default implementation of TimeScheduler service.
@@ -34,24 +34,19 @@ import org.apache.avalon.phoenix.BlockContext;
  */
 public class DefaultTimeScheduler
     extends AbstractLoggable
-    implements Block, TimeScheduler, Contextualizable, Initializable, Startable, Disposable, Runnable
+    implements Block, TimeScheduler, Composable, Initializable, Startable, Disposable, Runnable
 {
     private final Object               m_monitor         = new Object();
 
     private boolean                    m_running;
     private Hashtable                  m_entries;
     private PriorityQueue              m_priorityQueue;
-    private BlockContext               m_context;
-    
-    public void contextualize( final Context context )
-        throws ContextException
-    {
-        m_context = (BlockContext)context;
-    }
+    private ThreadManager              m_threadManager;
 
-    protected final BlockContext getContext()
+    public void compose( final ComponentManager componentManager )
+        throws ComponentException
     {
-        return m_context;
+        m_threadManager = (ThreadManager)componentManager.lookup( ThreadManager.ROLE );
     }
 
     public void initialize()
@@ -199,7 +194,7 @@ public class DefaultTimeScheduler
             };
 
         //this should suck threads from a named pool
-        try { getContext().getDefaultThreadPool().execute( runnable ); }
+        try { m_threadManager.getDefaultThreadPool().execute( runnable ); }
         catch( final Exception e )
         {
             getLogger().warn( "Error executing trigger " + entry.getName(), e );
@@ -210,7 +205,7 @@ public class DefaultTimeScheduler
         throws Exception
     {
         //this should suck threads from a named pool
-        getContext().getDefaultThreadPool().execute( this );
+        m_threadManager.getDefaultThreadPool().execute( this );
     }
 
     public void stop()
