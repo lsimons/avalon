@@ -1,5 +1,9 @@
 #! /bin/sh
- 
+
+# Save and unset ANT_HOME to force use of optional.jar in CVS with junit task
+ANT_OLD=$ANT_HOME
+ANT_HOME=""
+  
 if [ -f "$HOME/.antrc" ] ; then 
   . $HOME/.antrc
 fi
@@ -105,3 +109,5 @@ if $cygwin; then
 fi
 
 $JAVACMD -classpath "$LOCALCLASSPATH" -Dant.home="${ANT_HOME}" $ANT_OPTS org.apache.tools.ant.Main "$@"
+
+ANT_HOME=$ANT_OLD
