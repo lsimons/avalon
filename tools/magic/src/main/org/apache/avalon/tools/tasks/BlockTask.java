@@ -67,6 +67,7 @@ public class BlockTask extends DeclareTask
     {
         private String m_classname;
         private String m_profile;
+        private Context m_context;
 
         public void setClass( final String classname )
         {
@@ -86,6 +87,26 @@ public class BlockTask extends DeclareTask
         public String getProfile()
         {
             return m_profile;
+        }
+
+        public Context createContext()
+        {
+            if( null == m_context )
+            {
+                m_context = new Context();
+                return m_context;
+            }
+            else
+            {
+                final String error = 
+                  "Context entry already defined!";
+                throw new BuildException( error );
+            }
+        }
+
+        public Context getContext()
+        {
+            return m_context;
         }
     }
 
@@ -128,6 +149,92 @@ public class BlockTask extends DeclareTask
         {
             return m_source;
         }
+    }
+
+    public static class Context
+    {
+        private String m_class;
+        private List m_entries = new ArrayList();
+
+        public void setClass( final String classname )
+        {
+            m_class = classname ;
+        }
+
+        public String getClassname()
+        {
+            return m_class;
+        }
+
+        public Entry createEntry()
+        {
+            final Entry entry = new Entry();
+            m_entries.add( entry );
+            return entry;
+        }
+
+        public Entry[] getEntries()
+        {
+            return (Entry[]) m_entries.toArray( new Entry[0] );
+        }
+    }
+
+    public static class Entry extends Constructor
+    {
+        private String m_key;
+
+        public void setKey( final String key )
+        {
+            m_key = key ;
+        }
+
+        public String getKey()
+        {
+            return m_key;
+        }
+    }
+
+    public static class Param
+    {
+        private String m_classname;
+        private String m_value;
+        private List m_params = new ArrayList();
+
+        public void setClass( final String classname )
+        {
+            m_classname = classname;
+        }
+
+        public String getClassname()
+        {
+            return m_classname;
+        }
+
+        public void setValue( final String value )
+        {
+            m_value = value;
+        }
+
+        public String getValue()
+        {
+            return m_value;
+        }
+
+        public Param createParam()
+        {
+            final Param param = new Param();
+            m_params.add( param );
+            return param;
+        }
+
+        public Param[] getParams()
+        {
+            return (Param[]) m_params.toArray( new Param[0] );
+        }
+    }
+
+    public static class Constructor extends Param
+    {
     }
 
     private String m_target;
@@ -276,7 +383,6 @@ public class BlockTask extends DeclareTask
         boolean standalone = (null == m_target);
         writeClasspath( writer, def, "    ", standalone );
         writer.write( "\n  </classloader>" );
-        writer.write( "\n" );
 
         Identifiable[] components = 
           (Identifiable[]) m_content.toArray( new Identifiable[0] );
@@ -293,24 +399,86 @@ public class BlockTask extends DeclareTask
             }
         }
 
-        writer.write( "\n</container>\n" );
+        writer.write( "\n\n</container>\n" );
     }
 
     private void writeComponent( final Writer writer, final Component component )
         throws IOException
     {
-        if( null == component.getProfile() )
+        writer.write( "\n\n  <component name=\"" + component.getName() 
+          + "\" class=\"" + component.getClassname() + "\"" );
+
+        if( null != component.getProfile() )
         {
-            writer.write( 
-              "\n  <component name=\"" + component.getName() + "\" class=\""
-              + component.getClassname() + "\"/>\n" );
+            writer.write( " profile=\"" + component.getProfile() + "\"" );
+        }
+        if( null != component.getContext() )
+        {
+            writer.write( ">" );
+            writeContext( writer, component.getContext() );
+            writer.write( "\n  </component>" );
         }
         else
         {
-            writer.write( 
-              "\n  <component name=\"" + component.getName()  + "\" profile=\""
-              + component.getProfile() + "\"\n    class=\""
-              + component.getClassname() + "\"/>\n" );
+            writer.write( "/>" );
+        }
+    }
+
+    private void writeContext( final Writer writer, final Context context )
+        throws IOException
+    {
+        writer.write( "\n    <context" ); 
+        if( null != context.getClassname() )
+        {
+            writer.write( " class=\"" + context.getClassname() + "\"" );
+        }
+        Entry[] entries = context.getEntries();
+        if( entries.length == 0 )
+        {
+            writer.write( "/>" );
+        }
+        else
+        {
+            writer.write( ">" );
+            for( int i=0; i<entries.length; i++ )
+            {
+                writeEntry( writer, entries[i] );
+            }  
+            writer.write( "\n    </context>" ); 
+        }
+    }
+
+    private void writeEntry( final Writer writer, final Entry entry )
+        throws IOException
+    {
+        writer.write( 
+          "\n      <entry key=\"" + entry.getKey() + "\"" );
+
+        if( null != entry.getClassname() )
+        {
+            writer.write( " class=\"" + entry.getClassname() + "\"" );
+        }
+
+        if( null != entry.getValue() )
+        {
+            writer.write( ">" + entry.getValue() + "</entry>" );
+        }
+        else
+        {
+            Param[] params = entry.getParams();
+            if( params.length == 0 )
+            {
+                writer.write( "/>" );  // is this legal?
+            }
+            else
+            {
+                writer.write( ">" );
+                for( int i=0; i<params.length; i++ )
+                {
+                    writeParam( writer, params[i] );
+                } 
+                writer.write( "\n      </entry>" ); 
+            }
         }
     }
 
@@ -332,5 +500,41 @@ public class BlockTask extends DeclareTask
         writer.write( "\n      <source>" + service.getSource() + "</source>" );
         writer.write( "\n    </service>" );
         writer.write( "\n  </services>" );
+    }
+
+    private void writeParam( final Writer writer, final Param param )
+        throws IOException
+    {
+        if( null == param.getClassname() )
+        {
+            writer.write( "\n        <param>" );
+        }
+        else
+        {
+            writer.write( "\n        <param class=\"" + param.getClassname() + "\">" );
+        }
+
+        String value = param.getValue();
+        if( null != value )
+        {
+            writer.write( value + "</param>" );
+        }
+        else
+        {
+            Param[] parameters = param.getParams();
+            if( parameters.length == 0 )
+            {
+                writer.write( "/>" );  // is this legal?
+            }
+            else
+            {
+                writer.write( ">" );
+                for( int i=0; i<parameters.length; i++ )
+                {
+                    writeParam( writer, parameters[i] );
+                } 
+                writer.write( "\n        </param>" ); 
+            }
+        }
     }
 }
