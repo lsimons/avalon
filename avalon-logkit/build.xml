@@ -67,6 +67,7 @@ Legal:
   <property name="javadocs.dir" value="${docs.dir}/api"/>
 
   <property name="dist.name" value="${Name}-${version}"/>
+  <property name="dist.base" value="distributions"/>
 
   <path id="project.class.path">
     <pathelement path="${java.class.path}" />
@@ -113,6 +114,26 @@ Legal:
 
   <!--
        ===================================================================
+       Set up dist properties
+       ===================================================================
+  -->
+  <target name="setup-properties" >
+
+    <property name="dist.dir" value="dist"/>
+    <property name="dist.lib" value="${dist.dir}/lib"/>
+    <property name="dist.docs" value="${dist.dir}/docs"/>
+    <property name="dist.javadocs" value="${dist.dir}/docs/api"/>
+
+    <property name="src.dist.dir" value="dist-src"/>
+    <property name="src.dist.src" value="${src.dist.dir}/src"/>
+    <property name="src.dist.docs" value="${src.dist.dir}/docs"/>
+    <property name="src.dist.javadocs" value="${src.dist.dir}/docs/api"/>
+    <property name="src.dist.lib" value="${src.dist.dir}/lib"/>
+    <property name="src.dist.tools" value="${src.dist.dir}/tools"/>
+  </target>
+
+  <!--
+       ===================================================================
                          Prepares the build directory
        ===================================================================
   -->
@@ -145,7 +166,7 @@ Legal:
 
     <mkdir dir="${build.lib}"/>
 
-    <jar jarfile="${build.lib}/log.jar" basedir="${build.classes}">
+    <jar jarfile="${build.lib}/${name}.jar" basedir="${build.classes}">
       <include name="org/apache/log/**" />
     </jar>
 
@@ -176,6 +197,10 @@ Legal:
       </doclet>
     </javadoc>
 
+  </target>
+
+  <target name="docs">
+    <mkdir dir="${build.docs}"/>
   </target>
 
   <!--
@@ -218,6 +243,139 @@ Legal:
 
   <!--
        ===================================================================
+                            Create the binary distribution
+       ===================================================================
+  -->
+  <target name="dist" depends="jar,javadocs,docs,setup-properties">
+
+    <mkdir dir="${dist.dir}"/>
+    <mkdir dir="${dist.docs}"/>
+    <mkdir dir="${dist.javadocs}"/>
+
+    <copy todir="${dist.docs}">
+      <fileset dir="${build.docs}"/>
+    </copy>
+
+    <copy todir="${dist.javadocs}">
+      <fileset dir="${build.javadocs}"/>
+    </copy>
+
+    <copy file="${build.lib}/${name}.jar" tofile="${dist.dir}/${name}-${version}.jar"/>
+
+    <chmod dir="${dist.dir}" perm="go-rwx" />
+
+  </target>
+
+  <!--
+       ===================================================================
+                            Create the source distribution
+       ===================================================================
+  -->
+  <target name="src-dist" depends="javadocs,docs,setup-properties">
+
+    <mkdir dir="${src.dist.dir}" />
+    <mkdir dir="${src.dist.docs}"/>
+    <mkdir dir="${src.dist.javadocs}"/>
+
+    <copy todir="${src.dist.tools}">
+      <fileset dir="${tools.dir}"/>
+    </copy>
+
+    <copy todir="${src.dist.lib}">
+      <fileset dir="${lib.dir}"/>
+    </copy>
+
+    <copy todir="${src.dist.src}">
+      <fileset dir="${src.dir}"/>
+    </copy>
+
+    <copy todir="${src.dist.docs}">
+      <fileset dir="${build.docs}"/>
+    </copy>
+
+    <copy todir="${src.dist.javadocs}">
+      <fileset dir="${build.javadocs}"/>
+    </copy>
+
+    <copy todir="${src.dist.dir}">
+      <fileset dir=".">
+        <include name="build.bat"/>
+        <include name="build.sh"/>
+        <include name="build.xml"/>
+      </fileset>
+    </copy>
+
+    <fixcrlf srcdir="${src.dist.dir}" includes="build.sh" cr="remove"/>
+    <fixcrlf srcdir="${src.dist.dir}" includes="build.bat" cr="add"/>
+
+    <chmod perm="+x">
+      <fileset dir="${src.dist.dir}">
+        <include name="build.sh" />
+      </fileset>
+    </chmod>
+
+    <fixcrlf srcdir="${src.dist.src}/java" includes="**/*.java" cr="remove"/>
+
+    <chmod dir="${src.dist.dir}" perm="go-rwx" />
+
+  </target>
+
+  <!--
+       ===================================================================
+                 Completely build all dists
+       ===================================================================
+  -->
+  <target name="distributions">
+    <mkdir dir="${dist.base}"/>
+
+    <antcall target="dist">
+      <param name="dist.dir" value="${dist.name}" />
+    </antcall>
+
+    <zip zipfile="${dist.base}/${dist.name}-bin.zip" 
+         basedir="${dist.name}/.." 
+         includes="${dist.name}/**"/>
+
+    <tar longfile="gnu" tarfile="${dist.base}/${dist.name}-bin.tar">
+      <tarfileset dir="${dist.name}/.." username="avalon" group="avalon"> 
+        <include name="${dist.name}/**"/>
+      </tarfileset> 
+    </tar>
+
+    <gzip zipfile="${dist.base}/${dist.name}-bin.tar.gz" 
+          src="${dist.base}/${dist.name}-bin.tar"/>
+
+    <delete file="${dist.base}/${dist.name}-bin.tar"/>
+    <delete dir="${dist.name}" />
+
+    <antcall target="src-dist">
+      <param name="src.dist.dir" value="${dist.name}" />
+    </antcall>
+
+    <zip zipfile="${dist.base}/${dist.name}-src.zip" 
+         basedir="${dist.name}/.." 
+         includes="${dist.name}/**"/>
+
+    <tar longfile="gnu" tarfile="${dist.base}/${dist.name}-src.tar" >
+      <tarfileset dir="${dist.name}/.." mode="755" username="avalon" group="avalon">
+        <include name="${dist.name}/build.sh"/>
+      </tarfileset> 
+      <tarfileset dir="${dist.name}/.." username="avalon" group="avalon"> 
+        <include name="${dist.name}/**"/>
+        <exclude name="${dist.name}/build.sh"/>
+      </tarfileset>
+    </tar> 
+
+    <gzip zipfile="${dist.base}/${dist.name}-src.tar.gz" 
+          src="${dist.base}/${dist.name}-src.tar"/>
+
+    <delete file="${dist.base}/${dist.name}-src.tar"/>
+    <delete dir="${dist.name}" />
+
+  </target>
+
+  <!--
+       ===================================================================
                  Cleans up build and distribution directories
        ===================================================================
   -->
@@ -235,6 +393,7 @@ Legal:
   -->
   <target name="real-clean" depends="clean">
     <delete dir="${docs.dir}" />
+    <delete dir="${dist.base}" />
   </target>
  
 </project>
