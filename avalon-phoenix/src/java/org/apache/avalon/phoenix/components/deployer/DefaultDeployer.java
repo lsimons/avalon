@@ -45,6 +45,7 @@ import org.apache.avalon.phoenix.tools.assembler.Assembler;
 import org.apache.avalon.phoenix.tools.assembler.AssemblyException;
 import org.apache.avalon.phoenix.tools.configuration.ConfigurationBuilder;
 import org.apache.avalon.phoenix.tools.verifier.SarVerifier;
+import org.apache.avalon.phoenix.tools.verifier.VerifyException;
 import org.apache.log.Hierarchy;
 
 /**
@@ -283,7 +284,7 @@ public class DefaultDeployer
             final SarMetaData metaData =
                 m_assembler.assembleSar( name, assembly, directory, classLoader );
 
-            m_verifier.verifySar( metaData, classLoader );
+            verify( metaData, classLoader, environment, config );
 
             //Setup configuration for all the applications blocks
             setupConfiguration( metaData, config.getChildren() );
@@ -331,6 +332,20 @@ public class DefaultDeployer
                 }
             }
         }
+    }
+
+    /**
+     * Verify that the application conforms to our requirements.
+     *
+     * @param metaData the application metaData
+     * @param classLoader the ClassLoader associated with app
+     * @throws VerifyException on error
+     */
+    protected void verify( final SarMetaData metaData,
+                           final ClassLoader classLoader )
+        throws VerifyException
+    {
+        m_verifier.verifySar( metaData, classLoader );
     }
 
     /**
