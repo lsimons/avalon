@@ -1,4 +1,4 @@
 Manifest-Version: 1.0
-Main-Class: org.apache.phoenix.engine.loader.PhoenixLoader
+Main-Class: org.apache.avalon.phoenix.engine.loader.PhoenixLoader
 Created-By: Jakarta-Apache Avalon/Phoenix Project
 
