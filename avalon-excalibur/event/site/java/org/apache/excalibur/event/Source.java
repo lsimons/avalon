@@ -71,7 +71,7 @@ public interface Source
      * <code>1</code> will turn off blocking for Source.  This is intentional
      * because a Source should never block indefinitely.
      *
-     * @param  Number of milliseconds to block
+     * @param millis Number of milliseconds to block
      */
     void setTimeout( long millis );
 
