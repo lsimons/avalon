@@ -53,6 +53,11 @@ public interface Priority
             m_priority = priority;
         }
 
+        public String toString()
+        {
+            return "Priority[" + m_name + "/" + m_priority + "]";
+        }
+
         public int getPriority() 
         {
             return m_priority;
