@@ -44,13 +44,9 @@ public class DefaultSarDeployer
     private static final Resources REZ =
         ResourceManager.getPackageResources( DefaultSarDeployer.class );
 
-    private static final String    ASSEMBLY_XML  = "conf" + File.separator + "assembly.xml";
-    private static final String    CONFIG_XML    = "conf" + File.separator + "config.xml";
-    private static final String    SERVER_XML    = "conf" + File.separator + "server.xml";
-
     private final DefaultConfigurationBuilder  m_builder  = new DefaultConfigurationBuilder();
+    private final DefaultAssembler m_assembler = new DefaultAssembler();
 
-    private File                     m_deployDirectory;
     private Container                m_container;
     private ConfigurationRepository  m_repository;
 
@@ -91,59 +87,37 @@ public class DefaultSarDeployer
     public void deploy( final String name, final Installation installation )
         throws DeploymentException
     {
-        Configuration configuration = null;
+        final Configuration config = getConfigurationFor( installation.getConfig() );
+        final Configuration server = getConfigurationFor( installation.getServer() );
+        final Configuration assembly = getConfigurationFor( installation.getAssembly() );
 
-        //assemble all the blocks for application
-        configuration = getConfigurationFor( installation.getAssembly() );
-        final Configuration[] blockConfig = configuration.getChildren( "block" );
-        final BlockMetaData[] blocks = assembleBlocks( blockConfig );
-
-        final Configuration[] listenerConfig = configuration.getChildren( "block-listener" );
-        final BlockListenerMetaData[] listeners = assembleBlockListeners( listenerConfig );
-
-        final SarMetaData metaData = 
-            new SarMetaData( name,
-                             installation.getDirectory(),
-                             installation.getClassPath(),
-                             blocks,
-                             listeners );
-
-        final SarEntry entry = new SarEntry( metaData );
-
-        //Loader server.xml for application
-        configuration = getConfigurationFor( installation.getServer() );
-        entry.setConfiguration( configuration );
-
-        //Setup configuration for all the applications blocks
-        configuration = getConfigurationFor( installation.getConfig() );
-        setupConfiguration( name, entry, configuration.getChildren() );
-
-        //Finally add application to kernel
-        addEntry( name, entry );
-    }
-
-    /**
-     * Add server application entry to kernel.
-     *
-     * @param name the name of application
-     * @param entry the entry
-     * @exception DeploymentException if an error occurs
-     */
-    private void addEntry( final String name, final SarEntry entry )
-        throws DeploymentException
-    {
         try
         {
+            //assemble all the blocks for application
+            final File directory = installation.getDirectory();
+            final SarMetaData metaData = 
+                m_assembler.assembleSar( name, assembly, directory );
+            
+            final SarEntry entry = 
+                new SarEntry( metaData, installation.getClassPath(), server );
+
+            //Setup configuration for all the applications blocks
+            setupConfiguration( name, entry, config.getChildren() );
+
+            //Finally add application to kernel
             m_container.add( name, entry );
+
+            final String message = REZ.getString( "deploy.notice.sar.add", name );
+            getLogger().debug( message );
         }
         catch( final ContainerException ce )
         {
-            final String message = REZ.getString( "deploy.error.sar.add", name );
-            throw new DeploymentException( message, ce );
+            throw new DeploymentException( ce.getMessage(), ce );
         }
-
-        final String message = REZ.getString( "deploy.notice.sar.add", name );
-        getLogger().debug( message );
+        catch( final AssemblyException ae )
+        {
+            throw new DeploymentException( ae.getMessage(), ae );
+        }
     }
 
     /**
@@ -168,105 +142,6 @@ public class DefaultSarDeployer
     }
 
     /**
-     * Process assembly.xml and create a list of BlockEntrys.
-     *
-     * @param saEntry the ServerApplication Entry
-     * @param blocks the assembly data for blocks
-     * @return the  created BlockEntrys
-     * @exception DeploymentException if an error occurs
-     */
-    private BlockMetaData[] assembleBlocks( final Configuration[] blocks )
-        throws DeploymentException
-    {
-        final ArrayList blockSet = new ArrayList();
-        for( int i = 0; i < blocks.length; i++ )
-        {
-            final Configuration block = blocks[ i ];
-
-            try
-            {
-                final String name = block.getAttribute( "name" );
-                final String classname = block.getAttribute( "class" );
-                final Configuration[] provides = block.getChildren( "provide" );
-
-                final DependencyMetaData[] roles = buildDependencyMetaDatas( provides );
-                final BlockMetaData blockMetaData = new BlockMetaData( name, classname, roles );
-                blockSet.add( blockMetaData );
-
-                final String message = REZ.getString( "deploy.notice.block.add", name );
-                getLogger().debug( message );
-            }
-            catch( final ConfigurationException ce )
-            {
-                final String message = REZ.getString( "deploy.error.assembly.malformed" );
-                throw new DeploymentException( message, ce );
-            }
-        }
-
-        return (BlockMetaData[])blockSet.toArray( new BlockMetaData[ 0 ] );
-    }
-
-
-    /**
-     * Process assembly.xml and create a list of BlockListenerMetaDatas.
-     *
-     * @param blockListeners the assembly data for blockListeners
-     * @return the  created BlockListenerMetaDatas
-     * @exception DeploymentException if an error occurs
-     */
-    private BlockListenerMetaData[] assembleBlockListeners( final Configuration[] listeners )
-        throws DeploymentException
-    {
-        final ArrayList listenersMetaData = new ArrayList();
-        for( int i = 0; i < listeners.length; i++ )
-        {
-            final Configuration listener = listeners[ i ];
-
-            try
-            {
-                final String name = listener.getAttribute( "name" );
-                final String className = listener.getAttribute( "class" );
-
-                final BlockListenerMetaData entry = new BlockListenerMetaData( name, className );
-                listenersMetaData.add( entry );
-
-                final String message = REZ.getString( "deploy.notice.listener.add", name );
-                getLogger().debug( message );
-            }
-            catch( final ConfigurationException ce )
-            {
-                final String message = REZ.getString( "deploy.error.assembly.malformed" );
-                throw new DeploymentException( message, ce );
-            }
-        }
-
-        return (BlockListenerMetaData[])listenersMetaData.toArray( new BlockListenerMetaData[ 0 ] );
-    }
-
-    /**
-     * Helper method to build an array of DependencyMetaDatas from input config data.
-     *
-     * @param provides the set of provides elements for block
-     * @return the created DependencyMetaData array
-     * @exception ConfigurationException if config data is malformed
-     */
-    private DependencyMetaData[] buildDependencyMetaDatas( final Configuration[] provides )
-        throws ConfigurationException
-    {
-        final ArrayList dependencies = new ArrayList();
-        for( int j = 0; j < provides.length; j++ )
-        {
-            final Configuration provide = provides[ j ];
-            final String requiredName = provide.getAttribute( "name" );
-            final String role = provide.getAttribute( "role" );
-
-            dependencies.add( new DependencyMetaData( requiredName, role ) );
-        }
-
-        return (DependencyMetaData[])dependencies.toArray( new DependencyMetaData[ 0 ] );
-    }
-
-    /**
      * Setup Configuration for all the BlockEntrys in ServerApplication.
      *
      * @param appName the name of Application.
@@ -284,13 +159,11 @@ public class DefaultSarDeployer
             final Configuration configuration = configurations[ i ];
             final String name = configuration.getName();
             
-            if( null == getBlock( name, saEntry.getMetaData().getBlocks() ) )
+            if( !hasBlock( name, saEntry.getMetaData().getBlocks() ) &&
+                !hasBlockListener( name, saEntry.getMetaData().getListeners() ) )
             {
-                if( null == getBlockListener( name, saEntry.getMetaData().getListeners() ) )
-                {
-                    final String message = REZ.getString( "deploy.error.extra.config", name );
-                    throw new DeploymentException( message );
-                }                
+                final String message = REZ.getString( "deploy.error.extra.config", name );
+                throw new DeploymentException( message );
             }
 
             try { m_repository.storeConfiguration( appName, name, configuration ); }
@@ -298,51 +171,48 @@ public class DefaultSarDeployer
             {
                 throw new DeploymentException( ce.getMessage(), ce );
             }
-
-            final String message = REZ.getString( "deploy.notice.block.config", name );
-            getLogger().debug( message );
         }
     }
 
     /**
-     * Helper method to get BlockEntry with specified name from an array of BlockEntrys.
+     * Return true if specified array contains entry with specified name.
      *
-     * @param name the block entrys name
-     * @param blockEntrys the set of BlockEntry objects to search
-     * @return the BlockEntry or null if not found
+     * @param name the blocks name
+     * @param blocks the set of BlockMetaData objects to search
+     * @return true if block present, false otherwise
      */
-    private BlockMetaData getBlock( final String name, final BlockMetaData[] blocks )
+    private boolean hasBlock( final String name, final BlockMetaData[] blocks )
     {
         for( int i = 0; i < blocks.length; i++ )
         {
             final String other = blocks[ i ].getName();
             if( other.equals( name ) )
             {
-                return blocks[ i ];
+                return true;
             }
         }
 
-        return null;
+        return false;
     }
 
     /**
-     * Helper method to get BlockListenerEntry with specified name from an array of BlockListenerEntrys.
+     * Return true if specified array contains entry with specified name.
      *
-     * @param name the block entrys name
-     * @param blockEntrys the set of BlockListenerEntry objects to search
-     * @return the BlockListenerEntry or null if not found
+     * @param name the blocks name
+     * @param listeners the set of BlockListenerMetaData objects to search
+     * @return true if block present, false otherwise
      */
-    private BlockListenerMetaData getBlockListener( final String name,
-                                                    final BlockListenerMetaData[] listeners )
+    private boolean hasBlockListener( final String name,
+                                      final BlockListenerMetaData[] listeners )
     {
         for( int i = 0; i < listeners.length; i++ )
         {
             if( listeners[ i ].getName().equals( name ) )
             {
-                return listeners[ i ];
+                return true;
             }
         }
 
-        return null;
+        return false;
     }
 }
