@@ -40,7 +40,7 @@ type name, version, and optionally a set of attributes.
             <td><a href="lifestyle.html">lifestyle</a></td><td>0..1</td>
             <td>
              Declaration of the component lifestyle. May contain one of the 
-             recognized values "singleton", "thread", "pooled", or "transient".
+             recognized values "singleton", "thread", or "transient".
              If not supplied the default value is transient.
             </td>
           </tr>

@@ -14,7 +14,7 @@
       <subsection name="Description">
         <p>
         Declaration of the component lifestyle. May contain one of the 
-        recognized values "singleton", "thread", "pooled", or "transient".
+        recognized values "singleton", "thread", or "transient".
         If not supplied the default value is "transient".
         </p>
       </subsection>
