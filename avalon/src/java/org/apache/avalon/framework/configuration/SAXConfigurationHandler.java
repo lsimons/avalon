@@ -30,7 +30,7 @@ public class SAXConfigurationHandler
      * Likely number of nested configuration items. If more is
      * encountered the lists will grow automatically.
      */
-    private final static int EXPECTED_DEPTH  = 5;
+    private static final int EXPECTED_DEPTH  = 5;
     private final ArrayList m_elements       = new ArrayList(EXPECTED_DEPTH);
     private final ArrayList m_values         = new ArrayList(EXPECTED_DEPTH);
     /**
@@ -107,9 +107,9 @@ public class SAXConfigurationHandler
         final int depth = m_elements.size() - 1;
         final DefaultConfiguration finishedConfiguration =
             (DefaultConfiguration) m_elements.remove( depth );
-        final String accumulatedValue = 
+        final String accumulatedValue =
             ((StringBuffer) m_values.remove( depth )).toString();
-        
+
         if( finishedConfiguration.getChildren().length == 0 )
         {
             // leaf node

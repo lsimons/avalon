@@ -24,10 +24,10 @@ import java.util.Map;
 public class DefaultContext
     implements Context
 {
-    private final static class Hidden implements Serializable {}
-    
-    private final static Hidden m_hiddenMarker = new Hidden ();
-    
+    private static final class Hidden implements Serializable {}
+
+    private static final Hidden m_hiddenMarker = new Hidden ();
+
     private final Map m_contextData;
     private final Context m_parent;
     private boolean m_readOnly;
@@ -92,7 +92,7 @@ public class DefaultContext
                 // Always fail.
                 throw new ContextException( "Unable to locate " + key );
             }
-            
+
             if( data instanceof Resolvable )
             {
                 return ( (Resolvable)data ).resolve( this );
@@ -141,13 +141,13 @@ public class DefaultContext
      * @param key the items key
      * @throws IllegalStateException if context is read only
      */
-    public void hide( final Object key ) 
+    public void hide( final Object key )
         throws IllegalStateException
     {
         checkWriteable();
         m_contextData.put( key, m_hiddenMarker );
     }
-    
+
     /**
      * Utility method to retrieve context data.
      *
