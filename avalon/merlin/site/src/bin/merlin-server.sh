@@ -33,7 +33,7 @@ usage()
 
 ACTION=$1
 shift
-ARGS="$*"
+ARGS="$@"
 
 
 
@@ -104,15 +104,17 @@ fi
 # like placing jaxp/jaas/xml-parser jars in ext dir 
 # thus breaking Merlin 
 # 
+
 JVM_EXT_DIRS="$MERLIN_HOME/ext" 
 JVM_OPTS="-Djava.security.policy=$MERLIN_HOME/bin/security.policy -Djava.ext.dirs=$JVM_EXT_DIRS" 
+MERLIN_BOOTSTRAP_JAR=$MERLIN_HOME/bin/lib/merlin-cli-3.2.jar
 
 # Get the run cmd
-RUN_CMD="$JAVA_HOME/bin/java $JVM_OPTS $DEBUG $MERLIN_JVM_OPTS -jar $MERLIN_HOME/bin/lib/merlin-cli-3.2.jar $*"
+RUN_CMD="$JAVA_HOME/bin/java $JVM_OPTS $DEBUG $MERLIN_JVM_OPTS -jar $MERLIN_BOOTSTRAP_JAR $ARGS"
 
 echo "Using MERLIN_HOME:   $MERLIN_HOME"
 echo "Using JAVA_HOME:     $JAVA_HOME"
-echo "USing RUN_CMD:       $RUN_CMD"
+echo "Using RUN_CMD:       $RUN_CMD"
 
 #####################################################
 # Find a PID for the pid file
@@ -173,9 +175,9 @@ case "$ACTION" in
         ;;
 
   restart)
-        $0 stop $*
+        $0 stop $ARGS
         sleep 5
-        $0 start $*
+        $0 start $ARGS
         ;;
 
   supervise)
@@ -183,7 +185,7 @@ case "$ACTION" in
        # Under control of daemontools supervise monitor which
        # handles restarts and shutdowns via the svc program.
        #
-         exec $RUN_CMD
+         echo "This command is not implemented yet."
          ;;
 
   run|demo)
