@@ -80,7 +80,7 @@ import org.apache.excalibur.xfc.model.RoleRef;
  * </p>
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: ECM.java,v 1.4 2002/10/07 17:13:17 crafterm Exp $
+ * @version CVS $Id: ECM.java,v 1.5 2002/10/08 10:40:30 crafterm Exp $
  */
 public class ECM extends AbstractModule
 {
@@ -218,7 +218,7 @@ public class ECM extends AbstractModule
      * @return a {@link RoleRef} value
      * @exception Exception if an error occurs
      */
-    protected RoleRef buildSingleComponentRoleRef( final Configuration role )
+    private RoleRef buildSingleComponentRoleRef( final Configuration role )
         throws Exception
     {
         Definition def =
@@ -239,7 +239,7 @@ public class ECM extends AbstractModule
      * @return a {@link RoleRef} value
      * @exception Exception if an error occurs
      */
-    protected RoleRef buildMultipleComponentRoleRef( final Configuration role )
+    private RoleRef buildMultipleComponentRoleRef( final Configuration role )
         throws Exception
     {
         Configuration[] hints = role.getChildren( "hint" );
