@@ -13,52 +13,46 @@ import org.apache.avalon.framework.logger.ConsoleLogger;
 import junit.framework.TestCase;
 import java.util.ArrayList;
 
-
-public abstract class PUnit extends TestCase
+public abstract class PUnit
+    extends TestCase
 {
-
     private LifecycleHelper m_lifecycleHelper = new LifecycleHelper();
     private PUnitResourceProvider m_pUnitResourceProvider;
 
     private ArrayList m_blocks = new ArrayList();
 
-    public PUnit(String name)
+    public PUnit( String name )
     {
-        super(name);
-        m_lifecycleHelper.enableLogging(new ConsoleLogger());
+        super( name );
+        m_lifecycleHelper.enableLogging( new ConsoleLogger() );
     }
 
-    protected void addBlock(String blockName, Object block) {
-        PUnitBlock pBlock= new PUnitBlock(blockName, block, null);
-        m_blocks.add(pBlock);
+    protected void addBlock( String blockName, Object block )
+    {
+        PUnitBlock pBlock = new PUnitBlock( blockName, block, null );
+        m_blocks.add( pBlock );
     }
-
 
     protected final void startup() throws LifecycleException
     {
 
         m_pUnitResourceProvider = new PUnitResourceProvider();
-        for (int i = 0; i < m_blocks.size(); i++)
+        for( int i = 0; i < m_blocks.size(); i++ )
         {
-            PUnitBlock block = (PUnitBlock) m_blocks.get(i);
-            m_lifecycleHelper.startup(block.getBlockName(),block.getBlock(),
-                    m_pUnitResourceProvider);
-
+            final PUnitBlock block = (PUnitBlock)m_blocks.get( i );
+            m_lifecycleHelper.startup( block.getBlockName(),
+                                       block.getBlock(),
+                                       m_pUnitResourceProvider );
         }
-
     }
 
     protected final void shutdown() throws LifecycleException
     {
         m_pUnitResourceProvider = new PUnitResourceProvider();
-        for (int i = 0; i < m_blocks.size(); i++)
+        for( int i = 0; i < m_blocks.size(); i++ )
         {
-            PUnitBlock block = (PUnitBlock) m_blocks.get(i);
-            m_lifecycleHelper.shutdown(block.getBlockName(),block.getBlock());
-
+            PUnitBlock block = (PUnitBlock)m_blocks.get( i );
+            m_lifecycleHelper.shutdown( block.getBlockName(), block.getBlock() );
         }
-
     }
-
-
 }

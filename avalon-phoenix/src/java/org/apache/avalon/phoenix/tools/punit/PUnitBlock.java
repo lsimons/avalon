@@ -9,14 +9,13 @@ package org.apache.avalon.phoenix.tools.punit;
 
 import org.apache.avalon.framework.configuration.Configuration;
 
-
 public class PUnitBlock
 {
     private String m_blockName;
     private Object m_block;
     private Configuration m_configuration;
 
-    public PUnitBlock(String blockName, Object block, Configuration configuration)
+    public PUnitBlock( String blockName, Object block, Configuration configuration )
     {
         this.m_blockName = blockName;
         this.m_block = block;
