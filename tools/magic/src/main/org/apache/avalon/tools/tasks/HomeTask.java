@@ -85,7 +85,7 @@ public class HomeTask extends ContextualTask
             project.setProperty( "project.basedir", def.getBaseDir().toString() );
             project.setProperty( "project.path", info.getPath() );
             project.setProperty( "project.uri", info.getURI() );
-            project.setProperty( "project.spec", def.getInfo().getSpec() );
+            project.setProperty( "project.spec", info.getSpec() );
             project.setProperty( "project.type", info.getType() );
             project.setProperty( "project.filename", info.getFilename() );
             project.setProperty( "project.short-filename", info.getShortFilename() );
