@@ -21,7 +21,7 @@
   <name>Excalibur Lifecycle</name>
   <groupId>excalibur-lifecycle</groupId>
   <id>excalibur-lifecycle</id>
-  <currentVersion>1.1</currentVersion>
+  <currentVersion>1.1.0</currentVersion>
   <inceptionYear>2002</inceptionYear>
 
   <package>org.apache.avalon.lifecycle</package>
