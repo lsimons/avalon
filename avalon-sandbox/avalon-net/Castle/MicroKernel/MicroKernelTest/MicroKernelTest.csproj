@@ -99,12 +99,37 @@
         <Files>
             <Include>
                 <File
+                    RelPath = "AbstractHandlerTestCase.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "AssemblerTestCase.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "AssemblyInfo.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
                     RelPath = "BaseKernelTestCase.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ConcernManagerTestCase.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "DefaultComponentModelBuilderTestCase.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "DefaultKernelTestCase.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -120,6 +145,16 @@
                 />
                 <File
                     RelPath = "Components\AvalonSpamService.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Components\AvalonSpamService2.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Components\AvalonSpamService3.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -144,6 +179,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Components\ISpamService2.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Components\SimpleCustomerManager.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -159,7 +199,52 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Components\SimpleMailServiceWithLogger.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Components\SimpleSpamService.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Concerns\AbstractConcernTestCase.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Concerns\ConfigureConcernTestCase.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Concerns\ContextConcernTestCase.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Concerns\EnableLoggerConcernTestCase.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Concerns\EnableLookupConcernTestCase.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Concerns\InitializeConcernTestCase.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Concerns\ShutdownConcernTestCase.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Concerns\StartConcernTestCase.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

@@ -19,24 +19,27 @@ namespace Apache.Avalon.Castle.MicroKernel.Test.Components
 	using Apache.Avalon.Framework;
 
 	/// <summary>
-	/// Summary description for AvalonMailService.
+	/// Summary description for AvalonSpamService2.
 	/// </summary>
-	[AvalonComponent("mailservice", Lifestyle.Singleton)]
-	[AvalonService( typeof(IMailService) )]
-	public class AvalonMailService : IMailService, IInitializable, IConfigurable, IDisposable
+	[AvalonComponent("spamservice2", Lifestyle.Singleton)]
+	[AvalonService( typeof(ISpamService) )]
+	public class AvalonSpamService2 : ISpamService, IInitializable
 	{
-		public bool initialized;
-		public bool configured;
-		public bool disposed;
+		public IMailService m_mailService;
 
-		public AvalonMailService()
+		public AvalonSpamService2(IMailService mailservice)
 		{
+			m_mailService = mailservice;
 		}
 
-		#region IMailService Members
+		#region ISpamService Members
 
-		public void Send(String from, String to, String subject, String message)
+		public void AnnoyPeople(String contents)
 		{
+			if (m_mailService == null)
+			{
+				throw new Exception("Dependency not satisfied.");
+			}		
 		}
 
 		#endregion
@@ -45,25 +48,6 @@ namespace Apache.Avalon.Castle.MicroKernel.Test.Components
 
 		public void Initialize()
 		{
-			initialized = true;
-		}
-
-		#endregion
-
-		#region IConfigurable Members
-
-		public void Configure(IConfiguration config)
-		{
-			configured = true;
-		}
-
-		#endregion
-
-		#region IDisposable Members
-
-		public void Dispose()
-		{
-			disposed = true;
 		}
 
 		#endregion

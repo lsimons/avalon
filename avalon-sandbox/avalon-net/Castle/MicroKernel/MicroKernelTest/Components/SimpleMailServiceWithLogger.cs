@@ -15,42 +15,16 @@
 namespace Apache.Avalon.Castle.MicroKernel.Test.Components
 {
 	using System;
-	
+
 	using Apache.Avalon.Framework;
 
 	/// <summary>
-	/// Summary description for AvalonSpamService.
+	/// Summary description for SimpleMailServiceWithLogger.
 	/// </summary>
-	[AvalonComponent("spamservice", Lifestyle.Singleton)]
-	[AvalonService( typeof(ISpamService) )]
-	[AvalonDependency( typeof(IMailService), "mailservice", Optional.False) ]
-	public class AvalonSpamService : ISpamService, ILookupEnabled
+	public class SimpleMailServiceWithLogger : SimpleMailService
 	{
-		public IMailService m_mailService;
-
-		public AvalonSpamService()
+		public SimpleMailServiceWithLogger( ILogger logger )
 		{
 		}
-
-		#region ISpamService Members
-
-		public void AnnoyPeople(String contents)
-		{
-			if (m_mailService == null)
-			{
-				throw new Exception("Dependency not satisfied.");
-			}
-		}
-
-		#endregion
-
-		#region ILookupEnabled Members
-
-		public void EnableLookups(ILookupManager manager)
-		{
-			m_mailService = (IMailService) manager[ "mailservice" ];
-		}
-
-		#endregion
 	}
 }

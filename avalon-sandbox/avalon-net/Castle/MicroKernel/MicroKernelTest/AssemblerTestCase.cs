@@ -12,25 +12,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Apache.Avalon.Castle.MicroKernel.Test.Components
+namespace Apache.Avalon.Castle.MicroKernel.Test
 {
 	using System;
 
+	using NUnit.Framework;
+
 	/// <summary>
-	/// Summary description for SimpleMailService.
+	/// Summary description for AssemblerTestCase.
 	/// </summary>
-	public class SimpleMailService : IMailService
+	public class AssemblerTestCase : Assertion
 	{
-		public SimpleMailService()
+		public void BuildingConstructorArgs()
 		{
+			// object[] arguments = Assembler.BuildConstructorArguments( model );
+
+			// Assembler.AssembleProperties( properties, model );
 		}
 
-		#region IMailService Members
-
-		public void Send(String from, String to, String subject, String message)
+		public void AssembleProperties()
 		{
 		}
-
-		#endregion
 	}
 }

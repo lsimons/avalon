@@ -12,25 +12,30 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Apache.Avalon.Castle.MicroKernel.Test.Components
+namespace Apache.Avalon.Castle.MicroKernel.Test.Concerns
 {
 	using System;
 
+	using NUnit.Framework;
+
+	using Apache.Avalon.Castle.MicroKernel.Model;
+	using Apache.Avalon.Castle.MicroKernel.Concerns;
+	using Apache.Avalon.Castle.MicroKernel.Concerns.Default;
+
 	/// <summary>
-	/// Summary description for SimpleMailService.
+	/// Summary description for EnableLookupConcernTestCase.
 	/// </summary>
-	public class SimpleMailService : IMailService
+	[TestFixture]
+	public class EnableLookupConcernTestCase : AbstractConcernTestCase
 	{
-		public SimpleMailService()
+		public override IConcern Create()
 		{
+			return new EnableLookupConcern( null );
 		}
 
-		#region IMailService Members
-
-		public void Send(String from, String to, String subject, String message)
+		public override void AssertComponent( IComponentModel model, DummyComponent component )
 		{
+			Assert( component.lookup );
 		}
-
-		#endregion
 	}
 }

@@ -47,7 +47,25 @@ namespace Apache.Avalon.Castle.MicroKernel.Test
 
 			service.Send("hammett at apache dot org", "johndoe at yahoo dot org", "Aloha!", "What's up?");
 
-			handler.Release( );
+			handler.Release( service );
+		}
+
+		[Test]
+		public void ComponentDependingOnLogger()
+		{
+			BaseKernel container = new BaseKernel();
+			container.AddComponent( "a", typeof(IMailService), typeof(SimpleMailServiceWithLogger) );
+
+			IHandler handler = container[ "a" ];
+
+			IMailService service = handler.Resolve() as IMailService;
+
+			AssertNotNull( service );
+
+			service.Send("hammett at apache dot org", 
+				"johndoe at yahoo dot org", "Aloha!", "What's up?");
+
+			handler.Release( service );
 		}
 
 		/// <summary>
@@ -75,7 +93,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Test
 
 			service.Send("hammett at apache dot org", "johndoe at yahoo dot org", "Aloha!", "What's up?");
 
-			handler.Release( );
+			handler.Release( service );
 
 			AssertEquals( 2, aspect.m_invocations.Count );
 			AssertEquals( "Before Send", aspect.m_invocations[0] );

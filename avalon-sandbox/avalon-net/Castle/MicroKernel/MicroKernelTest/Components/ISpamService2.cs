@@ -17,20 +17,14 @@ namespace Apache.Avalon.Castle.MicroKernel.Test.Components
 	using System;
 
 	/// <summary>
-	/// Summary description for SimpleMailService.
+	/// Summary description for ISpamService2.
 	/// </summary>
-	public class SimpleMailService : IMailService
+	public interface ISpamService2 : ISpamService
 	{
-		public SimpleMailService()
+		IMailService MailService
 		{
+			get;
+			set;
 		}
-
-		#region IMailService Members
-
-		public void Send(String from, String to, String subject, String message)
-		{
-		}
-
-		#endregion
 	}
 }
