@@ -66,6 +66,7 @@ import org.apache.log.output.io.rotate.RotateStrategy;
 import org.apache.log.output.io.rotate.RotateStrategyByDate;
 import org.apache.log.output.io.rotate.RotateStrategyBySize;
 import org.apache.log.output.io.rotate.RotateStrategyByTime;
+import org.apache.log.output.io.rotate.RotateStrategyByTimeOfDay;
 import org.apache.log.output.io.rotate.RotatingFileTarget;
 import org.apache.log.output.io.rotate.UniqueFileStrategy;
 
@@ -150,10 +151,15 @@ import org.apache.log.output.io.rotate.UniqueFileStrategy;
  *  <dd>
  *   Rotation occur when string formatted date changed. Specify date formatting pattern.
  *  </dd>
+ *  <dt>&lt;interval&gt;</dt>
+ *  <dd>
+ *   Interval at which a rotation should occur.  The interval should be given in the
+ *   format ddd:hh:mm:ss.
+ *  </dd>
  * </dl>
  *
  * @author <a href="mailto:giacomo@apache.org">Giacomo Pati</a>
- * @version CVS $Revision: 1.8 $ $Date: 2003/03/22 12:46:49 $
+ * @version CVS $Revision: 1.9 $ $Date: 2003/04/07 06:56:23 $
  * @since 4.0
  */
 public class FileTargetFactory
@@ -230,8 +236,7 @@ public class FileTargetFactory
 
             return new OrRotateStrategy( strategies );
         }
-
-        if( "size".equals( type ) )
+        else if( "size".equals( type ) )
         {
             final String value = conf.getValue( "2m" );
 
@@ -256,42 +261,71 @@ public class FileTargetFactory
 
             return new RotateStrategyBySize( size );
         }
-
-        if( "date".equals( type ) )
+        else if( "date".equals( type ) )
         {
             final String value = conf.getValue( "yyyyMMdd" );
             return new RotateStrategyByDate( value );
         }
-
-        // default rotate strategy
-        final String value = conf.getValue( "24:00:00" );
-
-        // interpret a string like: ddd:hh:mm:ss ...
-        final StringTokenizer tokenizer = new StringTokenizer( value, ":" );
-        final int count = tokenizer.countTokens();
-        long time = 0;
-        for( int i = count; i > 0; i-- )
+        else if ( "interval".equals( type ) )
         {
-            final long no = Long.parseLong( tokenizer.nextToken() );
-            if( 4 == i )
+            // default rotate strategy
+            final String value = conf.getValue( "24:00:00" );
+    
+            // interpret a string like: ddd:hh:mm:ss ...
+            final StringTokenizer tokenizer = new StringTokenizer( value, ":" );
+            final int count = tokenizer.countTokens();
+            long time = 0;
+            for( int i = count; i > 0; i-- )
             {
-                time += no * DAY;
+                final long no = Long.parseLong( tokenizer.nextToken() );
+                if( 4 == i )
+                {
+                    time += no * DAY;
+                }
+                if( 3 == i )
+                {
+                    time += no * HOUR;
+                }
+                if( 2 == i )
+                {
+                    time += no * MINUTE;
+                }
+                if( 1 == i )
+                {
+                    time += no * SECOND;
+                }
             }
-            if( 3 == i )
-            {
-                time += no * HOUR;
-            }
-            if( 2 == i )
-            {
-                time += no * MINUTE;
-            }
-            if( 1 == i )
-            {
-                time += no * SECOND;
-            }
+    
+            return new RotateStrategyByTime( time );
         }
-
-        return new RotateStrategyByTime( time );
+        else // "time"
+        {
+            // default rotate strategy
+            final String value = conf.getValue( "24:00:00" );
+    
+            // interpret a string like: hh:mm:ss ...
+            final StringTokenizer tokenizer = new StringTokenizer( value, ":" );
+            final int count = tokenizer.countTokens();
+            long time = 0;
+            for( int i = count; i > 0; i-- )
+            {
+                final long no = Long.parseLong( tokenizer.nextToken() );
+                if( 3 == i )
+                {
+                    time += no * HOUR;
+                }
+                if( 2 == i )
+                {
+                    time += no * MINUTE;
+                }
+                if( 1 == i )
+                {
+                    time += no * SECOND;
+                }
+            }
+    
+            return new RotateStrategyByTimeOfDay( time );
+        }
     }
 
     protected FileStrategy getFileStrategy( final Configuration conf, final File file )
