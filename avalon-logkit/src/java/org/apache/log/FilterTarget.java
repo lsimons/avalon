@@ -16,6 +16,8 @@ package org.apache.log;
  * in some manner.</p>
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @deprecated Interface offered no significant advantage and thus will no
+ *             longer be used by new interfaces
  */
 public interface FilterTarget 
     extends LogTarget
