@@ -182,7 +182,7 @@ Legal:
     <rmic base="${build.classes}" 
           classname="org.apache.jmx.adaptor.RMIAdaptorImpl" 
           stubVersion="1.2">
-<!--      <classpath refid="project.class.path" /> -->
+      <classpath refid="project.class.path" />
     </rmic>
 
   </target>
