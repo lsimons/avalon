@@ -735,11 +735,46 @@ public class DefaultConfiguration
     {
         if( other == null ) 
             return false;
-        if( !( other instanceof Configuration ) ) 
+        if( !( other instanceof DefaultConfiguration ) ) 
+        {
+            // Niclas: It is not possible to validate equality against any
+            //         Configuration implementation, as it would be 
+            //         impossible to get the hashCode() method return the
+            //         same value for two instances evaluating equal().
+            //         I.e. If we were to do equality at API level, we would be
+            //         breaking the equals()/hashCode() semantic contract.
             return false;
-        return ConfigurationUtil.equals( this, (Configuration) other );
+        }
+        
+        DefaultConfiguration c = (DefaultConfiguration) other;
+
+        if( m_readOnly ^ c.m_readOnly )
+            return false;
+            
+        if( check( m_name, c.m_name ) )
+            return false;
+        if( check( m_location, c.m_location ) )
+            return false;
+        if( check( m_namespace, c.m_namespace ) )
+            return false;
+        if( check( m_prefix, c.m_prefix ) )
+            return false;
+        if( check( m_value, c.m_value ) )
+            return false;
+        if( check( m_attributes, c.m_attributes ) )
+            return false;
+        if( check( m_children, c.m_children ) )
+            return false;
+        return true;
     }
-    
+
+    private boolean check( Object one, Object two )
+    {
+        if( one == null )
+            return two != null;
+        return ! one.equals( two );
+    }
+        
     /**
      * Obtaine the hashcode for this configuration.
      *
@@ -765,8 +800,7 @@ public class DefaultConfiguration
         hash >>>= 7;
         if( m_value != null ) 
             hash ^= m_value.hashCode();
-        hash >>>= 7;
-        hash ^= ( m_readOnly ) ? 1 : 3;
+        hash >>>= ( m_readOnly ) ? 7 : 13;
         return hash;
     }
 }
