@@ -89,7 +89,7 @@ Legal:
     <property name="status2changes" value="${phoenix.tools.dir}/status2changes.xsl"/>
 
     <!-- Invoke 'ant get-wrapper' to get these -->
-    <property name="wrapper.version" value="3.0.0"/>
+    <property name="wrapper.version" value="3.0.3"/>
     <property name="wrapper.jar" value="${repo.dir}/wrapper/bin/wrapper.jar"/>
 
     <!-- Invoke 'ant get-mx4j' to get these -->
@@ -1291,8 +1291,8 @@ Legal:
     </target>
 
     <target name="get-all-dependencies"
-	    depends="get-mx4j,get-log4j,get-cli,get-configkit,get-classman,get-wrapper"
-	    description="Meta-task to get all optional libaries"/>
+        depends="get-mx4j,get-log4j,get-cli,get-configkit,get-classman,get-wrapper"
+        description="Meta-task to get all optional libaries"/>
 
     &forrest-targets;
 
