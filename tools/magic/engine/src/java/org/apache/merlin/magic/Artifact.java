@@ -1,7 +1,6 @@
 
 package org.apache.merlin.magic;
 
-
 public class Artifact
 {
     private static final String DEFAULT_REPOSITORY = "http://www.ibiblio.org/maven";
@@ -59,5 +58,15 @@ public class Artifact
     public String getVersion()
     {
         return m_Version;
-    }    
+    }   
+    
+    public String toString()
+    {
+        return m_Repository + "/" + m_GroupId + "/" + m_Type + "s/" + m_ArtifactId + "-" + m_Version + "." + m_Type;
+    } 
+    
+    public String getFilename()
+    {
+        return m_ArtifactId + "-" + m_Version + "." + m_Type;
+    }
 } 
