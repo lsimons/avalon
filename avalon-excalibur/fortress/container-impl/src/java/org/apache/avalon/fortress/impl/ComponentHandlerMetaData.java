@@ -55,7 +55,7 @@ import org.apache.avalon.framework.configuration.Configuration;
  * A class holding metadata about a component handler.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.8 $ $Date: 2003/04/18 20:02:29 $
+ * @version $Revision: 1.9 $ $Date: 2003/04/21 19:54:52 $
  */
 public final class ComponentHandlerMetaData
 {
@@ -69,7 +69,7 @@ public final class ComponentHandlerMetaData
      * @param name the handler name
      * @param classname the handler classname
      * @param configuration the handler configuration
-     * @param laxyActivation the activation policy
+     * @param lazyActivation the activation policy
      */
     public ComponentHandlerMetaData( final String name,
                                      final String classname,
