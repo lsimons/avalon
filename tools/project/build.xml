@@ -1,71 +1,13 @@
-<project name="home" default="install" basedir="."> 
+<?xml version="1.0" encoding="UTF-8" ?>
 
-  <property environment="env"/>
-  <property name="ant.home" value="${env.ANT_HOME}"/>
+<project name="avalon-tools-project" default="dist" basedir="." 
+    xmlns:x="antlib:org.apache.avalon.tools">
 
-  <property name="src" value="src"/>
-  <property name="src.main" value="main"/>
-  <property name="src.main.dir" value="${src}/${src.main}"/>
-  <property name="src.test" value="test"/>
-  <property name="src.test.dir" value="${src}/${src.test}"/>
-  <property name="src.library" value="library"/>
-  <property name="src.library.dir" value="${src}/${src.library}"/>
+  <property file="build.properties"/>
+  <import file="${project.home}/build/standard.xml"/>
 
-  <property name="target" value="target"/>
-  <property name="target.classes" value="classes"/>
-  <property name="target.classes.dir" value="${target}/${target.classes}"/>
-  <property name="target.test.dir" value="${target}/test"/>
-
-  <property name="toolkit.jar" value="avalon-toolkit.jar"/>
-
-  <target name="prepare">
-    <tstamp/>
-    <mkdir dir="${target.classes.dir}"/>
-    <copy toDir="${target.classes.dir}">
-      <fileset dir="${src.main.dir}">
-        <include name="**/*.xml"/>
-      </fileset>
-    </copy>
-  </target>
-
-  <target name="compile" depends="prepare">
-    <javac srcdir="${src.main.dir}" destdir="${target.classes.dir}"/> 
-  </target>
-
-  <target name="jar" depends="compile">
-    <jar destfile="${target}/${toolkit.jar}" 
-       basedir="${target.classes.dir}" 
-       includes="**/*.class,**/*.xml"/>
-  </target>
-
-  <target name="install" depends="jar">
-    <mkdir dir="${user.home}/.ant/lib"/>
-    <copy toDir="${user.home}/.ant/lib" 
-       file="${target}/${toolkit.jar}"/>
-  </target>
-
-  <target name="test-prepare">
-    <mkdir dir="${target.test.dir}"/>
-    <copy toDir="${target.test.dir}">
-      <fileset dir="${src.test.dir}">
-        <exclude name="**/_svn/**"/>
-        <exclude name="**/.svn/**"/>
-      </fileset>
-      <fileset dir="${src}">
-        <include name="${src.library}/**"/>
-        <exclude name="**/_svn/**"/>
-        <exclude name="**/.svn/**"/>
-      </fileset>
-    </copy>
-  </target>
-
-  <target name="test" depends="test-prepare">
-    <ant dir="${target.test.dir}" />
-    <!--<ant dir="${target.test.dir}/projects/gizmo" />-->
-  </target>
-
-  <target name="clean">
-    <delete dir="${target}"/> 
+  <target name="package" depends="standard.package">
+    <x:bar/>
   </target>
 
 </project>

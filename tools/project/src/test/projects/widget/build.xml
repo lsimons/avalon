@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-
-<project name="widget" default="install" basedir=".">
-
-  <property file="build.properties"/>
-  <import file="${project.home}/standard.xml"/>
-
-</project>
-

@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<antlib xmlns:current="ant:current"> 
+<antlib xmlns:current="ant:current">
 
   <taskdef name="context" classname="org.apache.avalon.tools.home.Context"/>
   <taskdef name="home" classname="org.apache.avalon.tools.tasks.HomeTask"/>
@@ -17,5 +17,6 @@
   <taskdef name="filter" classname="org.apache.avalon.tools.tasks.FilterTask"/> 
   <taskdef name="info" classname="org.apache.avalon.tools.tasks.AnnounceTask"/> 
   <taskdef name="artifact" classname="org.apache.avalon.tools.tasks.ArtifactTask"/> 
+  <taskdef name="bar" classname="org.apache.avalon.tools.tasks.BarTask"/> 
 
 </antlib>

@@ -88,21 +88,8 @@ public class JarTask extends SystemTask
         Definition def = getHome().getDefinition( getKey() );
         String type = def.getInfo().getType();
         File types = new File( deliverables, type + "s" );
-        String filename = getJarFilename( def );
+        String filename = def.getFilename( JAR_EXT );
         return new File( types, filename );
-    }
-
-    public String getJarFilename( Definition def )
-    {
-        String name = def.getInfo().getName();
-        if( null != def.getInfo().getVersion() )
-        {
-            return name + "-" + def.getInfo().getVersion() + "." + JAR_EXT;
-        }
-        else
-        {
-            return name + "." + JAR_EXT;
-        }
     }
 
     private boolean jar( Definition def, File classes, File jarFile )
@@ -115,7 +102,6 @@ public class JarTask extends SystemTask
         {
             modified = jarFile.lastModified();
         }
-
  
         Jar jar = (Jar) getProject().createTask( "jar" );
         jar.setDestFile( jarFile );
@@ -138,19 +124,28 @@ public class JarTask extends SystemTask
             addAttribute( main, "Created-By", "Apache Avalon" );
             addAttribute( main, "Built-By", System.getProperty( "user.name" ) );
             addAttribute( main, "Extension-Name", def.getInfo().getName() );
-            addAttribute( main, "Specification-Vendor", "The Apache Software Foundation Avalon Project" );
+            addAttribute( 
+              main, "Specification-Vendor", 
+              "The Apache Software Foundation Avalon Project" );
 
             if( null != def.getInfo().getVersion() )
             {
-                addAttribute( main, "Specification-Version", def.getInfo().getVersion() );
+                addAttribute( 
+                  main, "Specification-Version", 
+                  def.getInfo().getVersion() );
             }
             else
             {
                 addAttribute( main, "Specification-Version", "1.0" );
             }
-            addAttribute( main, "Implementation-Vendor", "The Apache Software Foundation Avalon Project" );
-            addAttribute( main, "Implementation-Vendor-Id", "org.apache.avalon" );
-            addAttribute( main, "Implementation-Version", "123" );
+            addAttribute( 
+              main, "Implementation-Vendor", 
+              "The Apache Software Foundation Avalon Project" );
+            addAttribute( 
+              main, "Implementation-Vendor-Id", 
+              "org.apache.avalon" );
+            addAttribute( 
+              main, "Implementation-Version", "123" );
 
             String classpath = getProject().getProperty( JAR_CLASSPATH_KEY );
             if( null != classpath )
