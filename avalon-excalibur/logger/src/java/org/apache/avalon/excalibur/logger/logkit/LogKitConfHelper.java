@@ -49,31 +49,29 @@
 */
 package org.apache.avalon.excalibur.logger.logkit;
 
-import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.excalibur.logger.LogTargetFactory;
-import org.apache.avalon.excalibur.logger.LogTargetFactoryManager;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+
 import org.apache.avalon.excalibur.logger.DefaultLogTargetFactoryManager;
+import org.apache.avalon.excalibur.logger.DefaultLogTargetManager;
 import org.apache.avalon.excalibur.logger.LogTargetFactoryManageable;
 import org.apache.avalon.excalibur.logger.LogTargetFactoryManager;
-import org.apache.avalon.excalibur.logger.DefaultLogTargetManager;
 import org.apache.avalon.excalibur.logger.LogTargetManager;
 import org.apache.avalon.excalibur.logger.util.LoggerUtil;
-import org.apache.avalon.framework.context.Context;
-import org.apache.avalon.framework.context.Contextualizable;
-import org.apache.avalon.framework.context.ContextException;
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.Configurable;
-import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.activity.Disposable;
+import org.apache.avalon.framework.configuration.Configurable;
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.container.ContainerUtil;
+import org.apache.avalon.framework.context.Context;
+import org.apache.avalon.framework.context.ContextException;
+import org.apache.avalon.framework.context.Contextualizable;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.log.Hierarchy;
 import org.apache.log.LogTarget;
 import org.apache.log.Priority;
 import org.apache.log.util.Closeable;
-import java.util.Set;
-import java.util.HashSet;
-import java.util.Iterator;
-import org.apache.log.Hierarchy;
 
 /**
  * Tie this object to a LoggerManagerTee, give it the Hierachy
@@ -86,7 +84,7 @@ import org.apache.log.Hierarchy;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
  * @author <a href="http://cvs.apache.org/~atagunov">Anton Tagunov</a>
- * @version CVS $Revision: 1.3 $ $Date: 2003/06/11 13:32:06 $
+ * @version CVS $Revision: 1.4 $ $Date: 2003/06/12 18:57:45 $
  * @since 4.0
  */
 public class LogKitConfHelper extends AbstractLogEnabled implements

@@ -50,18 +50,21 @@
 
 package org.apache.avalon.merlin.jndi;
 
-import javax.naming.*;
-import javax.naming.spi.ObjectFactory;
-import java.util.Hashtable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Hashtable;
 import java.io.File;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.List;
+import java.util.Map;
+
+import javax.naming.Context;
+import javax.naming.Name;
+import javax.naming.RefAddr;
+import javax.naming.Reference;
+import javax.naming.spi.ObjectFactory;
 
 /**
  * This is an object factory that when given a reference for a service

@@ -52,6 +52,8 @@ package org.apache.avalon.excalibur.logger;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+
+import org.apache.avalon.excalibur.logger.util.LoggerUtil;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -60,16 +62,14 @@ import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
-import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.logger.LogKitLogger;
 import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.excalibur.logger.util.LoggerUtil;
+import org.apache.log.ErrorHandler;
 import org.apache.log.Hierarchy;
+import org.apache.log.LogEvent;
 import org.apache.log.LogTarget;
 import org.apache.log.Priority;
 import org.apache.log.util.Closeable;
-import org.apache.log.ErrorHandler;
-import org.apache.log.LogEvent;
 
 /**
  * LogKitLoggerManager implementation.  It populates the LoggerManager
@@ -79,7 +79,7 @@ import org.apache.log.LogEvent;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
  * @author <a href="http://cvs.apache.org/~atagunov">Anton Tagunov</a>
- * @version CVS $Revision: 1.18 $ $Date: 2003/06/11 10:52:10 $
+ * @version CVS $Revision: 1.19 $ $Date: 2003/06/12 18:57:45 $
  * @since 4.0
  */
 public class LogKitLoggerManager extends AbstractLoggerManager

@@ -56,9 +56,7 @@ package org.apache.log.output.jms;
 
 import javax.jms.Message;
 import javax.jms.Session;
-import javax.jms.TopicConnection;
-import javax.jms.TopicPublisher;
-import javax.jms.TopicSession;
+
 import org.apache.log.ErrorHandler;
 import org.apache.log.LogEvent;
 import org.apache.log.output.AbstractTarget;
