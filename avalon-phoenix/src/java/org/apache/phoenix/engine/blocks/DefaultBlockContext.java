@@ -25,15 +25,19 @@ public class DefaultBlockContext
     implements BlockContext
 {
     protected ThreadManager  m_threadManager;
+    protected Logger         m_baseLogger;
 
-    public DefaultBlockContext( final ThreadManager threadManager )
+    public DefaultBlockContext( final Logger logger, final ThreadManager threadManager )
     {
-        m_threadManager = threadManager;
+        this( logger, threadManager, null );
     }
 
-    public DefaultBlockContext( final ThreadManager threadManager, final Context context )
+    public DefaultBlockContext( final Logger logger, 
+                                final ThreadManager threadManager, 
+                                final Context context )
     {
         super( context );
+        m_baseLogger = logger;
         m_threadManager = threadManager;
     }
 
@@ -71,15 +75,22 @@ public class DefaultBlockContext
     }
 
     /**
-     * Retrieve thread manager by category.
-     * ThreadManagers are given names so that you can manage different thread 
-     * count to different components.
-     *
-     * @param category the category
-     * @return the ThreadManager
+     * Retrieve the default thread pool.
+     * Equivelent to getThreadPool( "default" );
+     * @return the ThreadPool
      */
     public ThreadPool getDefaultThreadPool()
     {
-        return m_threadManager.getThreadPool( "default" );
+        return getThreadPool( "default" );
+    }
+
+    /**
+     * Retrieve logger coresponding to root category of application.
+     *
+     * @return the base logger
+     */
+    public Logger getBaseLogger()
+    {
+        return m_baseLogger;
     }
 }

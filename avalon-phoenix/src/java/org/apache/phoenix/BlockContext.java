@@ -39,8 +39,8 @@ public interface BlockContext
     String getName();
 
     /**
-     * Retrieve thread manager by category.
-     * ThreadManagers are given names so that you can manage different thread 
+     * Retrieve thread pool by category.
+     * ThreadPools are given names so that you can manage different thread 
      * count to different components.
      *
      * @param category the category
@@ -48,5 +48,18 @@ public interface BlockContext
      */
     ThreadPool getThreadPool( String category );
 
+    /**
+     * Retrieve default thread pool.
+     * Equivelent to getThreadPool( "default" ); 
+     *
+     * @return the default ThreadPool
+     */
     ThreadPool getDefaultThreadPool();
+
+    /**
+     * Retrieve logger coresponding to root category of application.
+     *
+     * @return the base logger
+     */
+    Logger getBaseLogger();
 }
