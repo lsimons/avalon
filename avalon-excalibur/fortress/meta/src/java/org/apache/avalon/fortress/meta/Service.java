@@ -70,90 +70,93 @@ final class Service
 {
     private ClassLoader m_loader;
 
-	private final Set m_components;
+    private final Set m_components;
 
-	private final Class m_type;
-    
+    private final Class m_type;
+
     private boolean m_isRole;
     private boolean m_areRolesCollected;
 
     /**
      * Initialize a service with the type name.
-     * 
+     *
      * @param type
      */
-	public Service(final String type, boolean isRole) throws ClassNotFoundException
+    public Service( final String type, boolean isRole ) throws ClassNotFoundException
     {
-        if (type==null)throw new NullPointerException("type");
-        
+        if( type == null ) throw new NullPointerException( "type" );
+
         m_loader = Thread.currentThread().getContextClassLoader();
-        m_type = m_loader.loadClass(type);
+        m_type = m_loader.loadClass( type );
         m_components = new HashSet();
         m_isRole = isRole;
         m_areRolesCollected = false;
     }
-    
+
     public String getType()
     {
         return m_type.getName();
     }
-    
-    public void addComponent(final Component type)
+
+    public void addComponent( final Component type )
     {
-        if (type==null)throw new NullPointerException("type");
-        
-        m_components.add(type);
+        if( type == null ) throw new NullPointerException( "type" );
+
+        m_components.add( type );
     }
-    
+
     /**
      * Output the service info
-     * 
+     *
      * @param rootDir
      * @throws IOException
      */
-    public void serialize(final File rootDir) throws IOException, ClassNotFoundException
+    public void serialize( final File rootDir ) throws IOException, ClassNotFoundException
     {
         collectComponents();
-        
-        if (m_components.isEmpty()) return;
-        
-        File serviceFile = new File(rootDir, "META-INF/services/" + getType());
+
+        if( m_components.isEmpty() ) return;
+
+        File serviceFile = new File( rootDir, "META-INF/services/" + getType() );
         PrintWriter writer = null;
-        
+
         try
         {
-            writer = new PrintWriter(new FileWriter(serviceFile, true));
-            
+            writer = new PrintWriter( new FileWriter( serviceFile, true ) );
+
             Iterator it = m_components.iterator();
             while( it.hasNext() )
             {
                 Component comp = (Component)it.next();
-                writer.println(comp.getType());
+                writer.println( comp.getType() );
             }
         }
         finally
         {
-            if (null != writer) {writer.close();}
+            if( null != writer )
+            {
+                writer.close();
+            }
         }
     }
 
-	/**
-	 * 
-	 */
-	private void collectComponents() throws ClassNotFoundException
+    /**
+     *
+     */
+    private void collectComponents() throws ClassNotFoundException
     {
-		if ( (! m_isRole) || m_areRolesCollected ) return;
-        
+        if( ( !m_isRole ) || m_areRolesCollected ) return;
+
         Iterator it = Component.m_repository.iterator();
         while( it.hasNext() )
         {
-            Component comp = (Component)it.next();		
-            Class component = m_loader.loadClass(comp.getType());
-            
-            if ( m_type.isAssignableFrom(component) )
+            Component comp = (Component)it.next();
+            Class component = m_loader.loadClass( comp.getType() );
+
+            if( m_type.isAssignableFrom( component ) )
             {
-                addComponent(comp);
+                addComponent( comp );
             }
         }
-	}
+    }
 }

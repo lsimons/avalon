@@ -95,7 +95,7 @@ import org.apache.excalibur.mpool.PoolManager;
  * Container's Manager can expose that to the instantiating class.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.20 $ $Date: 2003/04/05 19:39:35 $
+ * @version CVS $Revision: 1.21 $ $Date: 2003/04/11 07:38:30 $
  */
 public abstract class AbstractContainer
     extends AbstractLogEnabled
@@ -487,7 +487,7 @@ public abstract class AbstractContainer
      * Create the hint map for a role.  The map may have to take care for thread-safety.
      * By default a StaticBucketMap is created, but you may change the implementation
      * or increment the number of buckets according your needs.
-     * 
+     *
      * <div>
      *   <span style="font-weight:strong;text-color: red;">WARNING:</span>
      *   This Map must be threadsafe, so either use the

@@ -67,7 +67,7 @@ import org.apache.excalibur.mpool.ObjectFactory;
  * and destroyed correctly.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.11 $ $Date: 2003/03/22 12:46:33 $
+ * @version CVS $Revision: 1.12 $ $Date: 2003/04/11 07:38:30 $
  * @since 4.0
  */
 public abstract class AbstractComponentHandler

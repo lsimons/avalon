@@ -76,7 +76,7 @@ import org.apache.excalibur.xml.dom.DOMParser;
  * Used as a basis for the PoolComparisonProfile Tests
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: ContainerProfile.java,v 1.7 2003/04/11 07:37:36 donaldp Exp $
+ * @version $Id: ContainerProfile.java,v 1.8 2003/04/11 07:37:57 donaldp Exp $
  */
 public final class ContainerProfile
     extends TestCase
@@ -143,7 +143,6 @@ public final class ContainerProfile
         config.setContainerConfiguration( "resource://org/apache/avalon/fortress/test/ContainerProfile.xconf" );
         config.setLoggerManagerConfiguration( "resource://org/apache/avalon/fortress/test/ContainerProfile.xlog" );
         config.setRoleManagerConfiguration( "resource://org/apache/avalon/fortress/test/ContainerProfile.roles" );
-
 
         final ContainerManager cm = new DefaultContainerManager( config.getContext(), new NullLogger() );
         ContainerUtil.initialize( cm );
