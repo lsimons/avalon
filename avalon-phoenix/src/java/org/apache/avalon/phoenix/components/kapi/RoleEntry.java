@@ -12,10 +12,10 @@ package org.apache.avalon.phoenix.components.kapi;
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
-public class RoleEntry
+public final class RoleEntry
 {
-    protected final String        m_name;
-    protected final String        m_role;
+    private final String        m_name;
+    private final String        m_role;
 
     public RoleEntry( final String name, final String role )
     {

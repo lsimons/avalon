@@ -20,6 +20,8 @@ import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.jmx.adaptor.RMIAdaptorImpl;
 import org.apache.jmx.introspector.DynamicMBeanFactory;
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
 
 /**
  * This component is responsible for managing phoenix instance.
@@ -32,6 +34,9 @@ public class PhoenixManager
     extends AbstractSystemManager
     implements Parameterizable
 {
+    private static final Resources REZ =
+        ResourceManager.getPackageResources( PhoenixManager.class );
+
     private static final int DEFAULT_REGISTRY_PORT =
         Integer.getInteger( "phoenix.port", 1111 ).intValue();
 
@@ -116,7 +121,7 @@ public class PhoenixManager
         }
         catch( final Exception e )
         {
-            final String message = "Unable to export " + name + " as mBean";
+            final String message = REZ.format( "jmxmanager.error.export.fail", name );
             getLogger().error( message, e );
             throw new ManagerException( message, e );
         }
@@ -139,7 +144,7 @@ public class PhoenixManager
         }
         catch( final Exception e )
         {
-            final String message = "Unable to unexport " + name + " as mBean";
+            final String message = REZ.format( "jmxmanager.error.unexport.fail", name );
             getLogger().error( message, e );
             throw new ManagerException( message, e );
         }
@@ -177,8 +182,8 @@ public class PhoenixManager
         }
         catch( final Exception e )
         {
-            throw new ParameterException( "Failed to create MBean Server of class " +
-                                          className, e );
+            final String message = REZ.format( "jmxmanager.error.mbeanserver.create", className );
+            throw new ParameterException( message, e );
         }
     }
 }

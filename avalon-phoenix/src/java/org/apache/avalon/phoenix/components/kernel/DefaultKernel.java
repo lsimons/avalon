@@ -7,8 +7,8 @@
  */
 package org.apache.avalon.phoenix.components.kernel;
 
-import org.apache.avalon.phoenix.components.application.Application;
-import org.apache.avalon.phoenix.components.manager.SystemManager;
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.camelot.ContainerException;
 import org.apache.avalon.framework.camelot.Entry;
 import org.apache.avalon.framework.component.ComponentException;
@@ -18,10 +18,12 @@ import org.apache.avalon.framework.component.DefaultComponentManager;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.context.DefaultContext;
+import org.apache.avalon.phoenix.components.application.Application;
 import org.apache.avalon.phoenix.components.application.DefaultServerApplication;
 import org.apache.avalon.phoenix.components.configuration.ConfigurationRepository;
-import org.apache.avalon.phoenix.components.kapi.ServerApplicationEntry;
 import org.apache.avalon.phoenix.components.kapi.BlockEntry;
+import org.apache.avalon.phoenix.components.kapi.ServerApplicationEntry;
+import org.apache.avalon.phoenix.components.manager.SystemManager;
 
 /**
  * The ServerKernel is the core of the Phoenix system.
@@ -39,6 +41,9 @@ public class DefaultKernel
     extends AbstractKernel
     implements Composable
 {
+    private static final Resources REZ =
+        ResourceManager.getPackageResources( DefaultKernel.class );
+
     ///SystemManager provided by Embeddor
     private SystemManager            m_systemManager;
 
@@ -113,7 +118,8 @@ public class DefaultKernel
         }
         catch( final Exception e )
         {
-            throw new ContainerException( "Error preparing Application", e );
+            final String message = REZ.format( "kernel.error.entry.prepare", name );
+            throw new ContainerException( message, e );
         }
     }
 
@@ -129,8 +135,8 @@ public class DefaultKernel
     {
         if( !(entry instanceof ServerApplicationEntry) )
         {
-            throw new ContainerException( "Only Entries of type ServerApplicationEntry " +
-                                          "may be placed in container." );
+            final String message = REZ.format( "kernel.error.entry.badtype", name );
+            throw new ContainerException( message );
         }
     }
 
