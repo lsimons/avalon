@@ -42,7 +42,11 @@ public class DefaultThreadManager
     public void configure( final Configuration configuration )
         throws ConfigurationException
     {
-        final ThreadContext threadContext = ThreadContext.getThreadContext();
+        ThreadContext threadContext = ThreadContext.getThreadContext();
+        if( null != threadContext )
+        {
+            threadContext = threadContext.duplicate();
+        }
 
         final Configuration[] groups = configuration.getChildren( "thread-group" );
         for( int i = 0; i < groups.length; i++ )
