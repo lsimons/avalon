@@ -219,7 +219,7 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
             DeploymentModel[] startup = getStartupGraph();
             
             Commissioner commissioner = 
-              new Commissioner( getLogger(), true );
+              new Commissioner( getLogger(), true, this.getName() );
 
             try
             {

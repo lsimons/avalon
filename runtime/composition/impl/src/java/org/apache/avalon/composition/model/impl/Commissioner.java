@@ -64,10 +64,15 @@ class Commissioner implements Runnable
 
     Commissioner( Logger logger, boolean flag )
     {
+        this( logger, flag, "unnamed" );
+    }
+
+    Commissioner( Logger logger, boolean flag, String tag )
+    {
         m_logger = logger;
         m_ThreadCounter++;
         final String name = 
-          "Commissioner [" + m_ThreadCounter + "]";
+          "Commissioner [" + tag + ", " + m_ThreadCounter + "]";
         m_flag = flag;
         if( flag ) 
         {
