@@ -71,6 +71,7 @@ public final class TPCThreadManager extends AbstractThreadManager implements Par
     private PooledExecutor m_threadPool;
     private int m_processors = -1;
     private int m_threadsPerProcessor = 1;
+    private int m_keepAliveTime = 300000;
     private boolean m_hardShutdown = false;
 
     /**
@@ -96,6 +97,11 @@ public final class TPCThreadManager extends AbstractThreadManager implements Par
      *     <td>1000</td>
      *   </tr>
      *   <tr>
+     *     <td>keep-alive-time</td>
+     *     <td>Time (in milliseconds) that idle threads should remain in the threadpool</td>
+     *     <td>300000</td>
+     *   </tr>
+     *   <tr>
      *     <td>force-shutdown</td>
      *     <td>At shutdown time, allow currently queued tasks to finish, or immediately quit</td>
      *     <td>false</td>
@@ -112,6 +118,8 @@ public final class TPCThreadManager extends AbstractThreadManager implements Par
 
         m_threadsPerProcessor =
             Math.max( parameters.getParameterAsInteger( "threads-per-processor", 1 ), 1 );
+
+        m_keepAliveTime = parameters.getParameterAsInteger("keep-alive-time", 300000);
 
         setSleepTime( parameters.getParameterAsLong( "sleep-time", 1000L ) );
 
@@ -130,11 +138,26 @@ public final class TPCThreadManager extends AbstractThreadManager implements Par
             throw new IllegalStateException( "ThreadManager is already initailized" );
         }
 
+        final int maxPoolSize = ( m_processors * m_threadsPerProcessor ) + 1;
         m_threadPool = new PooledExecutor( m_processors + 1 );
         m_threadPool.setMinimumPoolSize( 2 ); // at least two threads
-        m_threadPool.setMaximumPoolSize( ( m_processors * m_threadsPerProcessor ) + 1 );
-        m_threadPool.setKeepAliveTime( getSleepTime() );
-        m_threadPool.discardWhenBlocked();
+        m_threadPool.setMaximumPoolSize( maxPoolSize );
+        m_threadPool.waitWhenBlocked();
+        if (maxPoolSize == 2) {
+            // The PooledExecutor has an inherent race condition between releasing threads
+            // and adding new tasks (when using the waitWhenBlocked policy):
+            // it could be that a thread is being released while a new
+            // task is being added. That task would then remain waiting to be picked up by
+            // the next thread that becomes available, but meanwhile the threadpool is below its maximum capacity.
+            // If the threadpool has a maximum size of 1, then this could leave the task waiting forever.
+            // Here we check if maxPoolSize == 2 because one of the threads used by the threadpool will
+            // be used continuously by the ThreadManager itself.
+            // As a solution to this problem, the one available work-thread we have in this case
+            // is set to never expire.
+            m_threadPool.setKeepAliveTime( -1 );
+        } else {
+            m_threadPool.setKeepAliveTime( m_keepAliveTime );
+        }
 
         if( null == getLogger() )
         {
