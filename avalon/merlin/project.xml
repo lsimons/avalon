@@ -258,11 +258,13 @@ limitations under the License.
     </packageGroup>
   </packageGroups>
 
+  <!--
   <reports>
     <report>maven-changelog-plugin</report>
     <report>maven-file-activity-plugin</report>
     <report>maven-developer-activity-plugin</report>
   </reports> 
+  -->
 
   <build>
 

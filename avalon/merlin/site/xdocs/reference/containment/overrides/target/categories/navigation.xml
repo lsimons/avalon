@@ -54,6 +54,7 @@
                 <item name="categories" 
                     href="/reference/containment/overrides/target/categories/category.html"/>
               </item>
+              <item name="security" href="/reference/containment/overrides/target/security.html"/>
             </item>
           </item>
         </item>

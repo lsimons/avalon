@@ -49,6 +49,7 @@
             <item name="target" href="/reference/containment/overrides/target/index.html">
               <item name="configuration" href="/reference/containment/overrides/target/config.html"/>
               <item name="categories" href="/reference/containment/overrides/target/categories/index.html"/>
+              <item name="security" href="/reference/containment/overrides/target/security.html"/>
             </item>
           </item>
         </item>

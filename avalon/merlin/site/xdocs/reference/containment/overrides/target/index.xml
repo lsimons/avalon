@@ -41,7 +41,13 @@
           <tr>
             <td><a href="categories/index.html">categories</a></td><td>0..n</td>
             <td>
-             A target categories directive
+             A target categories directive.
+            </td>
+          </tr>
+          <tr>
+            <td><a href="security.html">security</a></td><td>0..n</td>
+            <td>
+             A target security profile assignment directive.
             </td>
           </tr>
         </table>
