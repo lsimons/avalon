@@ -192,6 +192,8 @@
                unless="jsse.present" />
       <exclude name="org/apache/avalon/cornerstone/blocks/soapification/glue/**.java"
                unless="glue.present" />
+      <exclude name="org/apache/avalon/cornerstone/demos/soaphelloworldserver/**.java"
+               unless="glue.present" />               
                
     </javac>
 
@@ -277,9 +279,7 @@
                            Creates all the .sar files
        ===================================================================
   -->  
-  <target name="sars" depends="demo-sar, soapdemo-sar">
-    <echo>${glue.present}</echo>
-  </target>  
+  <target name="sars" depends="demo-sar, soapdemo-sar"/>
   <target name="demo-sar" depends="compile">    
 
     <jar jarfile="${build.lib}/avalon-demo.sar">
