@@ -19,7 +19,7 @@ import org.apache.log.Logger;
  * @author  Paul Hammant <Paul_Hammant@yahoo.com>
  * @version 1.0
  */
-public class HttpRequestWrapper 
+public class HttpRequestWrapper
 {
     protected final static String     EOF        = "\r\n\r\n";
     protected final static int        SEGLEN     = 2048;
@@ -28,19 +28,19 @@ public class HttpRequestWrapper
     protected String                  m_request;
     protected URL                     m_url;
 
-    protected HttpRequestWrapper( final Logger logger ) 
+    protected HttpRequestWrapper( final Logger logger )
     {
         m_logger = logger;
     }
 
-    protected HttpRequestWrapper( final Logger logger, final String request ) 
+    protected HttpRequestWrapper( final Logger logger, final String request )
         throws IOException
     {
         this( logger );
         setRequest( request );
     }
 
-    protected void setRequest( final String request ) 
+    protected void setRequest( final String request )
         throws IOException
     {
         m_request = request;
@@ -48,14 +48,14 @@ public class HttpRequestWrapper
         try
         {
             m_url = new URL( getURLFromHttpHeader() );
-        } 
+        }
         catch( final MalformedURLException mfue )
         {
             m_logger.error( "URL from http header is malformed", mfue );
         }
     }
 
-    public final URL getURL() 
+    public final URL getURL()
     {
         return m_url;
     }
@@ -64,21 +64,21 @@ public class HttpRequestWrapper
      * Method getServerInetAddress
      * The server's internet address.
      */
-    public final InetAddress getServerInetAddress() 
+    public final InetAddress getServerInetAddress()
         throws UnknownHostException
     {
         return InetAddress.getByName( m_url.getHost() );
     }
 
-    private String getURLFromHttpHeader() 
+    private String getURLFromHttpHeader()
     {
         try
         {
             int hostStart = m_request.indexOf( " " ) + 1;
 
-            return m_request.substring( hostStart, 
+            return m_request.substring( hostStart,
                                         m_request.indexOf( " ", hostStart ) );
-        } 
+        }
         catch( final StringIndexOutOfBoundsException sioobe )
         {
             m_logger.error( "Unable to find URL in http header", sioobe );
@@ -91,7 +91,7 @@ public class HttpRequestWrapper
      * Method getServerName
      * The server's domain name
      */
-    public String getServerName() 
+    public String getServerName()
     {
         return m_url.getHost();
     }
@@ -100,7 +100,7 @@ public class HttpRequestWrapper
      * Method getServerPort
      * The port on the server where the http requests should be sent.
      */
-    public int getServerPort() 
+    public int getServerPort()
     {
         final int port = m_url.getPort();
 
@@ -111,7 +111,7 @@ public class HttpRequestWrapper
      * Method getNakedHttpRequest
      * Used to forward requests to another proxy server
      */
-    public final String getNakedHttpRequest() 
+    public final String getNakedHttpRequest()
     {
         return m_request;
     }
@@ -120,14 +120,14 @@ public class HttpRequestWrapper
      * Method getHttpRequest
      * Get the address without the proxy extras
      */
-    public String getHttpRequest() 
+    public String getHttpRequest()
     {
         // strip out proxy info.
-        int hostEnd = 1 + 
+        int hostEnd = 1 +
             m_request.indexOf( "/", m_request.indexOf( "//" ) + 2 );
-        
-        return 
-            m_request.substring( 0, m_request.indexOf("http://") ) + "/" + 
+
+        return
+            m_request.substring( 0, m_request.indexOf("http://") ) + "/" +
             m_request.substring( hostEnd, m_request.length() );
     }
 
@@ -136,9 +136,9 @@ public class HttpRequestWrapper
      * Factory to create the right sub class of HttpRequestWrapper.
      *
      */
-    static HttpRequestWrapper createHttpRequestWrapper( final Logger logger, 
+    static HttpRequestWrapper createHttpRequestWrapper( final Logger logger,
                                                         final InputStream is )
-        throws IOException 
+        throws IOException
     {
         byte[] threeBytes = new byte[3];
         int bytes = is.read( threeBytes );
@@ -150,14 +150,13 @@ public class HttpRequestWrapper
 
         final String reqType = new String( threeBytes, 0, bytes );
 
-        if( reqType.equals("POS") ) 
+        if( reqType.equals("POS") )
         {
             return new HttpPostRequestWrapper( logger, is );
-        } 
+        }
         else
         {
             return new HttpGetRequestWrapper( logger, is );
         }
     }
 }
-

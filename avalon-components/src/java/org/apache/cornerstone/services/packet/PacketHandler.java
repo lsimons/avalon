@@ -28,7 +28,7 @@ public interface PacketHandler
      * @exception IOException if an error reading from socket occurs
      * @exception ProtocolException if an error handling connection occurs
      */
-    void handlePacket( DatagramPacket packet ) 
+    void handlePacket( DatagramPacket packet )
         throws IOException, ProtocolException;
 }
 

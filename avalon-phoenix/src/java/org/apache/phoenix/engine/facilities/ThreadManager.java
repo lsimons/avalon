@@ -8,7 +8,7 @@
 package org.apache.phoenix.engine.facilities;
 
 import org.apache.avalon.atlantis.Facility;
-import org.apache.avalon.util.thread.ThreadPool;
+import org.apache.excalibur.thread.ThreadPool;
 
 /**
  * This facility manages the policy for an application instance.

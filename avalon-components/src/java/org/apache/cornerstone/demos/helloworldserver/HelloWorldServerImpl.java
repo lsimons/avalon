@@ -33,10 +33,10 @@ import org.apache.phoenix.BlockContext;
  * @author  Federico Barbieri <scoobie@pop.systemy.it>
  * @version 1.0
  */
-public class HelloWorldServerImpl 
+public class HelloWorldServerImpl
     extends AbstractLoggable
-    implements Block, HelloWorldServer, 
-    Contextualizable, Composer, Configurable, Initializable, ConnectionHandlerFactory
+    implements Block, HelloWorldServer,
+               Contextualizable, Composer, Configurable, Initializable, ConnectionHandlerFactory
 {
     protected SocketManager       m_socketManager;
     protected ConnectionManager   m_connectionManager;
@@ -61,18 +61,18 @@ public class HelloWorldServerImpl
     {
         m_port = configuration.getChild("port").getValueAsInt( 8000 );
 
-        try 
-        { 
+        try
+        {
             final String bindAddress = configuration.getChild( "bind" ).getValue();
-            m_bindTo = InetAddress.getByName( bindAddress ); 
+            m_bindTo = InetAddress.getByName( bindAddress );
         }
-        catch( final UnknownHostException unhe ) 
+        catch( final UnknownHostException unhe )
         {
             throw new ConfigurationException( "Malformed bind parameter", unhe );
         }
     }
 
-    public void compose( final ComponentManager componentManager ) 
+    public void compose( final ComponentManager componentManager )
         throws ComponentManagerException
     {
         getLogger().info("HelloWorldServer.compose()");
@@ -106,5 +106,5 @@ public class HelloWorldServerImpl
         final HelloWorldHandler handler = new HelloWorldHandler( m_greeting );
         setupLogger( handler );
         return handler;
-    }   
+    }
 }

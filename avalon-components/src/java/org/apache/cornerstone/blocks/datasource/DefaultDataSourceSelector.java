@@ -12,12 +12,12 @@ import java.util.Iterator;
 import java.util.Map;
 import org.apache.avalon.AbstractLoggable;
 import org.apache.avalon.Component;
-import org.apache.avalon.component.ComponentException;
 import org.apache.avalon.Disposable;
 import org.apache.avalon.Initializable;
+import org.apache.avalon.component.ComponentException;
 import org.apache.avalon.configuration.Configurable;
 import org.apache.avalon.configuration.Configuration;
-import org.apache.avalon.util.datasource.DataSourceComponent;
+import org.apache.excalibur.datasource.DataSourceComponent;
 import org.apache.cornerstone.services.datasource.DataSourceSelector;
 import org.apache.phoenix.Block;
 
@@ -42,7 +42,7 @@ public class DefaultDataSourceSelector
     {
         m_dataSources = new HashMap();
 
-        final Configuration[] dataSourceConfs = 
+        final Configuration[] dataSourceConfs =
             m_configuration.getChild( "data-sources" ).getChildren( "data-source" );
 
         for ( int i = 0; i < dataSourceConfs.length; i++ )
@@ -54,13 +54,13 @@ public class DefaultDataSourceSelector
             final String driver = dataSourceConf.getChild( "driver" ).getValue();
 
             Class.forName( driver );
-            final DataSourceComponent component = 
+            final DataSourceComponent component =
                 (DataSourceComponent)Class.forName( clazz ).newInstance();
             setupLogger( component, name );
             component.configure( dataSourceConf );
             m_dataSources.put( name, component );
 
-            if( getLogger().isInfoEnabled() ) 
+            if( getLogger().isInfoEnabled() )
             {
                 getLogger().info( "DataSource " + name + " ready" );
             }
@@ -73,7 +73,7 @@ public class DefaultDataSourceSelector
         final Iterator keys = m_dataSources.keySet().iterator();
         while ( keys.hasNext() )
         {
-            final DataSourceComponent dsc = 
+            final DataSourceComponent dsc =
                 (DataSourceComponent)m_dataSources.get( keys.next() );
             if ( dsc instanceof Disposable )
             {
@@ -97,7 +97,7 @@ public class DefaultDataSourceSelector
         {
             throw new ComponentException( "Unable to provide implementation for " + hint );
         }
-        
+
         return component;
     }
 

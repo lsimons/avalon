@@ -15,16 +15,16 @@ import org.apache.log.Logger;
  * @author  Paul Hammant <Paul_Hammant@yahoo.com>
  * @version 1.0
  */
-public class HttpGetRequestWrapper 
+public class HttpGetRequestWrapper
     extends HttpRequestWrapper
 {
-    protected HttpGetRequestWrapper( final Logger logger, final String rq ) 
+    protected HttpGetRequestWrapper( final Logger logger, final String rq )
         throws IOException
     {
         super( logger, rq );
     }
 
-    protected HttpGetRequestWrapper( final Logger logger, final InputStream is ) 
+    protected HttpGetRequestWrapper( final Logger logger, final InputStream is )
         throws IOException
     {
         super( logger );
@@ -33,7 +33,7 @@ public class HttpGetRequestWrapper
         byte[] bytes = new byte[ SEGLEN ];
         int bytesRead = is.read( bytes );
 
-        do 
+        do
         {
             wholeBuffer += new String( bytes, 0, bytesRead );
 
@@ -41,7 +41,7 @@ public class HttpGetRequestWrapper
             {
                 bytesRead = is.read( bytes );
             }
-        } 
+        }
         while( !wholeBuffer.endsWith( EOF ) );
 
         super.setRequest( wholeBuffer );

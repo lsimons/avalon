@@ -10,7 +10,7 @@ package org.apache.phoenix.engine.blocks;
 import java.io.File;
 import org.apache.avalon.Context;
 import org.apache.avalon.DefaultContext;
-import org.apache.avalon.util.thread.ThreadPool;
+import org.apache.excalibur.thread.ThreadPool;
 import org.apache.log.Logger;
 import org.apache.phoenix.BlockContext;
 import org.apache.phoenix.engine.facilities.ThreadManager;

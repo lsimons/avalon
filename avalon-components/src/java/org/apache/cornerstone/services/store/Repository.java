@@ -14,7 +14,7 @@ import org.apache.avalon.Component;
  *
  * @author <a href="mailto:fede@apache.org">Federico Barbieri</a>
  */
-public interface Repository 
+public interface Repository
     extends Component
 {
     Repository getChildRepository( String childName );

@@ -28,7 +28,7 @@ public interface ConnectionHandler
      * @exception IOException if an error reading from socket occurs
      * @exception ProtocolException if an error handling connection occurs
      */
-    void handleConnection( Socket connection ) 
+    void handleConnection( Socket connection )
         throws IOException, ProtocolException;
 }
 

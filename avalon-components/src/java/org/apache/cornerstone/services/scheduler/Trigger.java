@@ -17,7 +17,7 @@ package org.apache.cornerstone.services.scheduler;
 public interface Trigger
 {
     /**
-     * Reset the Trigger. The Triggers can be time-based, 
+     * Reset the Trigger. The Triggers can be time-based,
      * event-based or other.
      */
     void reset();

@@ -14,14 +14,14 @@ import org.apache.phoenix.Block;
 
 /**
  * Service to manager the role mappings for principals.
- * 
- * This currently assumes principal is the prime dimension 
+ *
+ * This currently assumes principal is the prime dimension
  * which could be wrong. It could be that roles are a primary
- * aspect and 
+ * aspect and
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
-public class DefaultRoleManager 
+public class DefaultRoleManager
     implements Block, RoleManager
 {
     protected Hashtable          m_principals   = new Hashtable();

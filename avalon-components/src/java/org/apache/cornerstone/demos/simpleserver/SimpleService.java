@@ -14,10 +14,7 @@ import org.apache.phoenix.Service;
  *
  * @author Charles Benett <charles@benett1.demon.co.uk>
  */
-public interface SimpleService 
+public interface SimpleService
     extends Service
 {
 }
-
-
-

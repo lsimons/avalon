@@ -8,12 +8,12 @@
 package org.apache.cornerstone.services.packet;
 
 import java.net.DatagramSocket;
-import org.apache.avalon.util.thread.ThreadPool;
+import org.apache.excalibur.thread.ThreadPool;
 import org.apache.phoenix.Service;
 
 /**
  * This is the service through which Datagram ConnectionManagement occurs.
- * 
+ *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public interface PacketManager
@@ -21,23 +21,23 @@ public interface PacketManager
 {
     /**
      * Start managing a connection.
-     * Management involves accepting connections and farming them out to threads 
+     * Management involves accepting connections and farming them out to threads
      * from pool to be handled.
      *
      * @param name the name of connection
-     * @param socket the ServerSocket from which to 
+     * @param socket the ServerSocket from which to
      * @param handlerFactory the factory from which to aquire handlers
      * @param threadPool the thread pool to use
      * @exception Exception if an error occurs
      */
-    void connect( String name, 
+    void connect( String name,
                   DatagramSocket socket,
                   PacketHandlerFactory handlerFactory,
                   ThreadPool threadPool )
         throws Exception;
 
     /**
-     * Start managing a connection. 
+     * Start managing a connection.
      * This is similar to other connect method except that it uses default thread pool.
      *
      * @param name the name of connection
@@ -45,8 +45,8 @@ public interface PacketManager
      * @param handlerFactory the factory from which to aquire handlers
      * @exception Exception if an error occurs
      */
-    void connect( String name, 
-                  DatagramSocket socket, 
+    void connect( String name,
+                  DatagramSocket socket,
                   PacketHandlerFactory handlerFactory )
         throws Exception;
 
@@ -60,9 +60,9 @@ public interface PacketManager
         throws Exception;
 
     /**
-     * This shuts down all handlers and socket. 
-     * If tearDown is true then it will forcefully shutdown all connections and try 
-     * to return as soon as possible. Otherwise it will behave the same as 
+     * This shuts down all handlers and socket.
+     * If tearDown is true then it will forcefully shutdown all connections and try
+     * to return as soon as possible. Otherwise it will behave the same as
      * void disconnect( String name );
      *
      * @param name the name of connection

@@ -12,11 +12,11 @@ import java.io.OutputStream;
 import java.util.Iterator;
 
 /**
- * Repository for Streams 
+ * Repository for Streams
  *
  * @author <a href="mailto:fede@apache.org">Federico Barbieri</a>
  */
-public interface StreamRepository 
+public interface StreamRepository
     extends Repository
 {
     OutputStream put( String key );

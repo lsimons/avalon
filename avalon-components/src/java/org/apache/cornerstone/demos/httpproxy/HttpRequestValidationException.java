@@ -11,14 +11,14 @@ package org.apache.cornerstone.demos.httpproxy;
  * @author  Paul Hammant <Paul_Hammant@yahoo.com>
  * @version 1.0
  */
-public class HttpRequestValidationException 
+public class HttpRequestValidationException
     extends Exception
 {
     /**
      * Constructor HttpRequestValidationException
      * Thrown when somethod failed during the handlers validation stage.
      */
-    public HttpRequestValidationException( final String message ) 
+    public HttpRequestValidationException( final String message )
     {
         super( message );
     }

@@ -13,18 +13,18 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import org.apache.excalibur.io.IOUtil;
 import org.apache.cornerstone.services.store.StreamRepository;
-import org.apache.avalon.util.io.IOUtil;
 
 /**
  * Implementation of a StreamRepository to a File.
- * TODO: -retieve(String key) should return a FilterInputStream to allow 
+ * TODO: -retieve(String key) should return a FilterInputStream to allow
  * mark and reset methods. (working not like BufferedInputStream!!!)
  *
  * @author  Federico Barbieri <fede@apache.org>
  */
-public class File_Persistent_Stream_Repository 
-    extends AbstractFileRepository  
+public class File_Persistent_Stream_Repository
+    extends AbstractFileRepository
     implements StreamRepository
 {
     protected final HashMap             m_inputs  = new HashMap();
@@ -42,11 +42,11 @@ public class File_Persistent_Stream_Repository
     {
         try
         {
-            final ResettableFileInputStream stream = 
+            final ResettableFileInputStream stream =
                 new ResettableFileInputStream( getFile( key ) );
 
             final Object o = m_inputs.get( key );
-            if( null == o ) 
+            if( null == o )
             {
                 m_inputs.put( key, stream );
             }
@@ -63,7 +63,7 @@ public class File_Persistent_Stream_Repository
             }
 
             return stream;
-        } 
+        }
         catch( final IOException ioe )
         {
             final String message = "Exception caught while retrieving a stream ";
@@ -71,10 +71,10 @@ public class File_Persistent_Stream_Repository
             throw new RuntimeException( message+ ": " + ioe );
         }
     }
-   
+
     /**
      * Store the given object and associates it to the given key
-     */ 
+     */
     public synchronized OutputStream put( final String key )
     {
         try
@@ -83,7 +83,7 @@ public class File_Persistent_Stream_Repository
             final BufferedOutputStream stream = new BufferedOutputStream( outputStream );
 
             final Object o = m_outputs.get( key );
-            if( null == o ) 
+            if( null == o )
             {
                 m_outputs.put( key, stream );
             }
@@ -100,7 +100,7 @@ public class File_Persistent_Stream_Repository
             }
 
             return stream;
-        } 
+        }
         catch( final IOException ioe )
         {
             final String message = "Exception caught while storing a stream ";
@@ -108,7 +108,7 @@ public class File_Persistent_Stream_Repository
             throw new RuntimeException( message+ ": " + ioe );
         }
     }
-    
+
     public void remove( final String key )
     {
         Object o = m_inputs.remove( key );
@@ -122,7 +122,7 @@ public class File_Persistent_Stream_Repository
             {
                 final ArrayList list = (ArrayList)o;
                 final int size = list.size();
-                
+
                 for( int i = 0; i < size; i++ )
                 {
                     IOUtil.shutdownStream( (InputStream)list.get( i ) );
@@ -141,7 +141,7 @@ public class File_Persistent_Stream_Repository
             {
                 final ArrayList list = (ArrayList)o;
                 final int size = list.size();
-                
+
                 for( int i = 0; i < size; i++ )
                 {
                     IOUtil.shutdownStream( (OutputStream)list.get( 0 ) );
@@ -153,4 +153,4 @@ public class File_Persistent_Stream_Repository
     }
 }
 
-    
+

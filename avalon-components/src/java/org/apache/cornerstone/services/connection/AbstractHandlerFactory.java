@@ -26,17 +26,17 @@ import org.apache.avalon.configuration.ConfigurationException;
  */
 public abstract class AbstractHandlerFactory
     extends AbstractLoggable
-    implements Component, Contextualizable, Composer, Configurable, ConnectionHandlerFactory 
+    implements Component, Contextualizable, Composer, Configurable, ConnectionHandlerFactory
 {
     protected Context             m_context;
     protected ComponentManager    m_componentManager;
     protected Configuration       m_configuration;
-    
+
     public void contextualize( final Context context )
     {
         m_context = context;
     }
-    
+
     public void compose( final ComponentManager componentManager )
         throws ComponentManagerException
     {
@@ -91,6 +91,6 @@ public abstract class AbstractHandlerFactory
      * @return the new ConnectionHandler
      * @exception Exception if an error occurs
      */
-    protected abstract ConnectionHandler newHandler() 
+    protected abstract ConnectionHandler newHandler()
         throws Exception;
 }

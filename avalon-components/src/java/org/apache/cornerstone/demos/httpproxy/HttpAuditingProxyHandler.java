@@ -15,7 +15,7 @@ import org.apache.log.Logger;
  * @author  Paul Hammant <Paul_Hammant@yahoo.com>
  * @version 1.0
  */
-public class HttpAuditingProxyHandler 
+public class HttpAuditingProxyHandler
     extends HttpProxyHandler
 {
     protected HttpAuditingProxyHandler( final String forwardToAnotherProxy )
@@ -23,7 +23,7 @@ public class HttpAuditingProxyHandler
         super( forwardToAnotherProxy);
     }
 
-    protected void validateRequest() 
+    protected void validateRequest()
         throws HttpRequestValidationException
     {
         // no validate, just log.

@@ -16,7 +16,7 @@ import java.io.InputStream;
 /**
  * @author  Federico Barbieri <fede@apache.org>
  */
-public class ResettableFileInputStream 
+public class ResettableFileInputStream
     extends InputStream
 {
     protected static final int         DEFAULT_BUFFER_SIZE          = 1024;
@@ -29,19 +29,19 @@ public class ResettableFileInputStream
     protected boolean                  m_isMarkSet;
 
     public ResettableFileInputStream( final File file )
-        throws IOException 
+        throws IOException
     {
         this( file.getCanonicalPath() );
     }
-    
+
     public ResettableFileInputStream( final String filename )
-        throws IOException 
+        throws IOException
     {
         this( filename, DEFAULT_BUFFER_SIZE );
     }
-    
+
     public ResettableFileInputStream( final String filename, final int bufferSize )
-        throws IOException 
+        throws IOException
     {
         m_bufferSize = bufferSize;
         m_filename = filename;
@@ -49,30 +49,30 @@ public class ResettableFileInputStream
 
         m_inputStream = newStream();
     }
-    
+
     public void mark( final int readLimit )
     {
         m_isMarkSet = true;
         m_mark = m_position;
         m_inputStream.mark( readLimit );
     }
-    
+
     public boolean markSupported()
     {
         return true;
     }
-    
+
     public void reset()
-        throws IOException 
+        throws IOException
     {
         if( !m_isMarkSet )
         {
             throw new IOException( "Unmarked Stream" );
         }
-        try 
+        try
         {
             m_inputStream.reset();
-        } 
+        }
         catch( final IOException ioe )
         {
             try
@@ -81,7 +81,7 @@ public class ResettableFileInputStream
                 m_inputStream = newStream();
                 m_inputStream.skip( m_mark );
                 m_position = m_mark;
-            } 
+            }
             catch( final Exception e )
             {
                 throw new IOException( "Cannot reset current Stream: " + e.getMessage() );
@@ -100,28 +100,28 @@ public class ResettableFileInputStream
     {
         return m_inputStream.available();
     }
-    
+
     public void close() throws IOException
     {
         m_inputStream.close();
     }
-    
+
     public int read() throws IOException
     {
         m_position++;
         return m_inputStream.read();
     }
-    
+
     public int read( final byte[] bytes, final int offset, final int length )
-        throws IOException 
+        throws IOException
     {
         final int count = m_inputStream.read( bytes, offset, length );
         m_position += count;
         return count;
     }
-    
+
     public long skip( final long count )
-        throws IOException 
+        throws IOException
     {
         m_position += count;
         return m_inputStream.skip( count );

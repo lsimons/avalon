@@ -28,7 +28,7 @@ import org.apache.avalon.camelot.SimpleFactory;
 import org.apache.avalon.component.ComponentException;
 import org.apache.avalon.configuration.Configurable;
 import org.apache.avalon.configuration.Configuration;
-import org.apache.avalon.util.thread.ThreadContext;
+import org.apache.excalibur.thread.ThreadContext;
 import org.apache.phoenix.Block;
 import org.apache.phoenix.BlockContext;
 import org.apache.phoenix.engine.SarContextResources;

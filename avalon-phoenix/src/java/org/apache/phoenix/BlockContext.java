@@ -9,7 +9,7 @@ package org.apache.phoenix;
 
 import java.io.File;
 import org.apache.avalon.Context;
-import org.apache.avalon.util.thread.ThreadPool;
+import org.apache.excalibur.thread.ThreadPool;
 import org.apache.log.Logger;
 
 /**

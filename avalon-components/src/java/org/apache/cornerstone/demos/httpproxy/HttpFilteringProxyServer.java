@@ -45,4 +45,3 @@ public interface HttpFilteringProxyServer
      */
     String[] getCookieSuppressedDomains();
 }
-

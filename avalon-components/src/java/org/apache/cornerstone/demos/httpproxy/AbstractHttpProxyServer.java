@@ -36,7 +36,7 @@ import org.apache.phoenix.Service;
 public abstract class AbstractHttpProxyServer
     extends AbstractLoggable
     implements Block, Contextualizable, Composer, Configurable, Service, 
-    Initializable, ConnectionHandlerFactory
+               Initializable, ConnectionHandlerFactory
 {
     protected SocketManager       m_socketManager;
     protected ConnectionManager   m_connectionManager;

@@ -22,7 +22,7 @@ import org.apache.avalon.Loggable;
 import org.apache.avalon.configuration.Configurable;
 import org.apache.avalon.configuration.Configuration;
 import org.apache.avalon.configuration.ConfigurationException;
-import org.apache.avalon.util.thread.ThreadPool;
+import org.apache.excalibur.thread.ThreadPool;
 import org.apache.cornerstone.services.sockets.ServerSocketFactory;
 import org.apache.cornerstone.services.sockets.SocketManager;
 import org.apache.log.Logger;
@@ -36,7 +36,7 @@ import org.apache.phoenix.BlockContext;
  */
 public abstract class AbstractService
     extends AbstractLoggable
-    implements Block, Contextualizable, Composer, Configurable, Initializable, Disposable 
+    implements Block, Contextualizable, Composer, Configurable, Initializable, Disposable
 {
     protected ConnectionManager        m_connectionManager;
     protected SocketManager            m_socketManager;
@@ -69,7 +69,7 @@ public abstract class AbstractService
             ((Loggable)m_factory).setLogger( logger );
         }
     }
-    
+
     public void contextualize( final Context context )
     {
         final String name = getThreadPoolName();
@@ -85,7 +85,7 @@ public abstract class AbstractService
             ((Contextualizable)m_factory).contextualize( context );
         }
     }
-    
+
     public void compose( final ComponentManager componentManager )
         throws ComponentManagerException
     {
@@ -110,7 +110,7 @@ public abstract class AbstractService
         }
     }
 
-    public void init() 
+    public void init()
         throws Exception
     {
         if( m_factory instanceof Initializable )
@@ -124,21 +124,21 @@ public abstract class AbstractService
             sb.append( m_serverSocketType );
             sb.append( ':' );
             sb.append( m_port );
-            
+
             if( null != m_bindTo )
             {
                 sb.append( '/' );
                 sb.append( m_bindTo );
             }
-            
+
             m_connectionName = sb.toString();
         }
 
-        final ServerSocketFactory factory = 
+        final ServerSocketFactory factory =
             m_socketManager.getServerSocketFactory( m_serverSocketType );
 
         ServerSocket serverSocket = null;
-        
+
         if( null == m_bindTo )
         {
             serverSocket = factory.createServerSocket( m_port );
