@@ -10,24 +10,33 @@ package org.apache.avalon.phoenix.tools.metagenerate.test;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
+import org.apache.avalon.framework.configuration.Configurable;
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.ConfigurationException;
 
 /**
  * Blah!
  *
  * @phoenix:block
- * @phoenix:service name="blah.BlahService"
+ * @phoenix:service name="blah.BlahService" version="1.9"
  * @phoenix:mx name="YeeeHaaa"
  *
  */
-public class TestBlock implements Serviceable
+public class TestBlock implements Serviceable, Configurable
 {
     /**
-     * @phoenix:dependency name="blah.OtherBlahService"
+     * @phoenix:dependency name="blah.OtherBlahService" version="1.2"
      */
     public void service( final ServiceManager serviceManager )
         throws ServiceException
     {
 
+    }
+
+    /**
+     * @phoenix:configuration-schema type="abc"
+     */
+    public void configure(Configuration configuration) throws ConfigurationException {
     }
 
 

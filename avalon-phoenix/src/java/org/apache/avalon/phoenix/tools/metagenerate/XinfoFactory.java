@@ -41,11 +41,11 @@ public class XinfoFactory
     public void generate() throws IOException
     {
         File file = new File( m_destDir,
-                              m_javaClass.getFullyQualifiedName().replace( '.', File.separatorChar ) + ".xinfo" );
+             m_javaClass.getFullyQualifiedName().replace( '.', File.separatorChar ) + ".xinfo" );
         file.getParentFile().mkdirs();
         XinfoHelper xinfo = new XinfoHelper( file );
 
-        xinfo.writeHeader();
+        xinfo.writeHeader(getConfigurationSchema());
 
         // services
 
@@ -74,7 +74,8 @@ public class XinfoFactory
         for( int i = 0; i < services.length; i++ )
         {
             DocletTag service = services[ i ];
-            xinfo.writeServiceLines( service.getNamedParameter( "name" ) );
+            xinfo.writeServiceLines( service.getNamedParameter( "name" ),
+                    service.getNamedParameter("version") );
         }
     }
 
@@ -115,9 +116,43 @@ public class XinfoFactory
                 for( int i = 0; i < dependencies.length; i++ )
                 {
                     DocletTag dependency = dependencies[ i ];
-                    xinfo.writeDependencyLines( dependency.getNamedParameter( "name" ) );
+                    xinfo.writeDependencyLines( dependency.getNamedParameter( "name" ),
+                            dependency.getNamedParameter( "version" ) );
                 }
             }
         }
+    }
+
+    /**
+     * Get the configuaation schema type
+     * @return The type.
+     */
+    protected String getConfigurationSchema()
+    {
+        JavaMethod[] methods = m_javaClass.getMethods();
+        for (int j = 0; j < methods.length; j++)
+        {
+            // dependencies
+
+            JavaMethod method = methods[j];
+            if (method.getName().equals("configure")
+                    && method.getReturns().equals(new Type("void",0))
+                    && method.getParameters().length == 1
+                    && method.getParameters()[0].getType().getValue().equals(
+                            "org.apache.avalon.framework.configuration.Configuration"))
+            {
+                DocletTag[] dependencies = method.getTagsByName("phoenix:configuration-schema");
+                for (int i = 0; i < dependencies.length; i++)
+                {
+                    DocletTag dependency = dependencies[i];
+                    String typeQt = dependency.getNamedParameter("type");
+                    if (typeQt.length() > 2)
+                    {
+                        return typeQt.substring(1,typeQt.length()-1);
+                    }
+                }
+            }
+        }
+        return null;
     }
 }
