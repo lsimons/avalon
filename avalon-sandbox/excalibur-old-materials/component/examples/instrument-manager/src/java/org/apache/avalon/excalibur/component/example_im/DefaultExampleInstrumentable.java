@@ -22,7 +22,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * Note, this code ignores exceptions to keep the code simple.
  *
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/08/06 16:28:37 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/08/16 03:44:14 $
  * @since 4.1
  */
 public class DefaultExampleInstrumentable
@@ -87,7 +87,7 @@ public class DefaultExampleInstrumentable
      */
     public void doAction()
     {
-        getLogger().info( "ExampleInstrumentable.doAction() called." );
+        getLogger().debug( "ExampleInstrumentable.doAction() called." );
 
         // Notify the profiler.
         m_doActionInstrument.increment();

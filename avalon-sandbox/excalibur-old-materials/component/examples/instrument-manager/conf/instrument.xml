@@ -1,4 +1,4 @@
-<instrument logger="im">
+<instrument logger="system.instrument">
     <name>example-instrument-manager</name>
     <description>ECM Example Instrument Application</description>
     

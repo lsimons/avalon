@@ -11,22 +11,23 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
 
-import org.apache.avalon.excalibur.component.DefaultRoleManager;
-import org.apache.avalon.excalibur.component.ExcaliburComponentManager;
-import org.apache.avalon.excalibur.logger.LogKitLoggerManager;
+//import org.apache.avalon.excalibur.component.DefaultRoleManager;
+import org.apache.avalon.excalibur.component.ExcaliburComponentManagerCreator;
+//import org.apache.avalon.excalibur.logger.LogKitLoggerManager;
 import org.apache.avalon.excalibur.concurrent.ThreadBarrier;
 
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
-import org.apache.avalon.framework.context.DefaultContext;
-import org.apache.avalon.framework.logger.LogKitLogger;
+import org.apache.avalon.framework.component.ComponentManager;
+//import org.apache.avalon.framework.configuration.Configuration;
+//import org.apache.avalon.framework.configuration.ConfigurationException;
+//import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
+//import org.apache.avalon.framework.context.DefaultContext;
+//import org.apache.avalon.framework.logger.LogKitLogger;
 
-import org.apache.excalibur.instrument.manager.DefaultInstrumentManager;
+//import org.apache.excalibur.instrument.manager.DefaultInstrumentManager;
 
-import org.apache.log.Hierarchy;
-import org.apache.log.Logger;
-import org.apache.log.Priority;
+//import org.apache.log.Hierarchy;
+//import org.apache.log.Logger;
+//import org.apache.log.Priority;
 
 /**
  * This example application loads a component which publishes a series
@@ -37,80 +38,17 @@ import org.apache.log.Priority;
  * Note, this code ignores exceptions to keep the code simple.
  *
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/08/06 16:28:37 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/08/16 03:44:14 $
  * @since 4.1
  */
 public class Main
 {
-    private static ExcaliburComponentManager            m_componentManager;
-    private static DefaultInstrumentManager             m_instrumentManager;
+    private static ExcaliburComponentManagerCreator     m_componentManagerCreator;
 
     /*---------------------------------------------------------------
      * Constructors
      *-------------------------------------------------------------*/
     private Main() {}
-
-    /*---------------------------------------------------------------
-     * Methods
-     *-------------------------------------------------------------*/
-    /**
-     * Creates and initializes the component manager using config files.
-     */
-    private static void createComponentManager()
-        throws Exception
-    {
-        // Create a context to use.
-        DefaultContext context = new DefaultContext();
-        // Add any context variables here.
-        context.makeReadOnly();
-
-        // Create a ConfigurationBuilder to parse the config files.
-        DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
-
-        // Load in the configuration files
-        Configuration logKitConfig     = builder.build( "../conf/logkit.xml" );
-        Configuration instrumentConfig = builder.build( "../conf/instrument.xml" );
-        Configuration rolesConfig      = builder.build( "../conf/roles.xml" );
-        Configuration componentsConfig = builder.build( "../conf/components.xml" );
-
-        // Create the default logger for the Logger Manager.
-        Logger lmLogger = Hierarchy.getDefaultHierarchy().
-            getLoggerFor( logKitConfig.getAttribute( "logger", "lm" ) );
-        lmLogger.setPriority(
-            Priority.getPriorityForName( logKitConfig.getAttribute( "log-level", "INFO" ) ) );
-        
-        // Setup the LogKitLoggerManager
-        LogKitLoggerManager logManager = new LogKitLoggerManager(
-            null, Hierarchy.getDefaultHierarchy(), new LogKitLogger( lmLogger ) );
-        logManager.contextualize( context );
-        logManager.configure( logKitConfig );
-
-        // Set up the Instrument Manager
-        DefaultInstrumentManager instrumentManager = new DefaultInstrumentManager();
-        instrumentManager.enableLogging(
-            logManager.getLoggerForCategory( instrumentConfig.getAttribute( "logger", "im" ) ) );
-        instrumentManager.configure( instrumentConfig );
-        instrumentManager.initialize();
-        m_instrumentManager = instrumentManager;
-
-        // Setup the RoleManager
-        DefaultRoleManager roleManager = new DefaultRoleManager();
-        roleManager.enableLogging(
-            logManager.getLoggerForCategory( rolesConfig.getAttribute( "logger", "rm" ) ) );
-        roleManager.configure( rolesConfig );
-
-        // Set up the ComponentManager
-        ExcaliburComponentManager componentManager = new ExcaliburComponentManager();
-        componentManager.enableLogging(
-            logManager.getLoggerForCategory( componentsConfig.getAttribute( "logger", "cm" ) ) );
-        componentManager.setLoggerManager( logManager );
-        componentManager.contextualize( context );
-        componentManager.setInstrumentManager( m_instrumentManager );
-        componentManager.setRoleManager( roleManager );
-        componentManager.configure( componentsConfig );
-        componentManager.initialize();
-        m_componentManager = componentManager;
-    }
 
     /*---------------------------------------------------------------
      * Main method
@@ -123,12 +61,19 @@ public class Main
     {
         System.out.println( "Running the InstrumentManager Example Application" );
 
-        // Create the ComponentManager
-        createComponentManager();
+        // Create the ComponentManager using the ExcaliburComponentManagerCreator
+        //  utility class.  See the contents of that class if you wish to do the
+        //  initialization yourself.
+        m_componentManagerCreator = new ExcaliburComponentManagerCreator( null,
+            new File( "../conf/logkit.xml" ), new File( "../conf/roles.xml" ),
+            new File( "../conf/components.xml"), new File( "../conf/instrument.xml" ) );
+        
+        // Get a reference to the component manager
+        ComponentManager componentManager = m_componentManagerCreator.getComponentManager();
 
         // Get a reference to the example component.
         ExampleInstrumentable instrumentable =
-            (ExampleInstrumentable)m_componentManager.lookup( ExampleInstrumentable.ROLE );
+            (ExampleInstrumentable)componentManager.lookup( ExampleInstrumentable.ROLE );
         try
         {
             boolean quit = false;
@@ -183,16 +128,12 @@ public class Main
         finally
         {
             // Release the component
-            m_componentManager.release( instrumentable );
+            componentManager.release( instrumentable );
             instrumentable = null;
-
-            // Dispose the ComponentManager
-            m_componentManager.dispose();
-            m_componentManager = null;
-
-            // Dispose the InstrumentManager
-            m_instrumentManager.dispose();
-            m_instrumentManager = null;
+            
+            // Dispose of the ComponentManagerCreator.  It will dispose all
+            //  of its own components, including the ComponentManager
+            m_componentManagerCreator.dispose();
         }
 
         System.out.println();

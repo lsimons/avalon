@@ -1,6 +1,6 @@
-<components logger="cm">
+<components logger="system.components">
     <!-- =============================================================== -->
     <!-- Application components.                                         -->
     <!-- =============================================================== -->
-    <example-instrumentable logger="app"/>
+    <example-instrumentable logger="example-instrumentable"/>
 </components>
