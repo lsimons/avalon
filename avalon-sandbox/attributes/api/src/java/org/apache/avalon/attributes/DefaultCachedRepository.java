@@ -15,11 +15,10 @@ class DefaultCachedRepository implements CachedRepository {
     public DefaultCachedRepository (Class clazz, AttributeRepositoryClass repo) throws Exception {
         // ---- Fix up class attributes
         this.classAttributes.addAll (repo.getClassAttributes ());
-        
-        Class c = clazz.getSuperclass ();
-        while (c != null) {
-            this.classAttributes.addAll (getInheritableAttributes (Attributes.getAttributes (c)));
-            c = c.getSuperclass ();
+        this.classAttributes.addAll (getInheritableClassAttributes (clazz.getSuperclass ()));
+        Class[] ifs = clazz.getInterfaces ();
+        for (int i = 0; i < ifs.length; i++) {
+            this.classAttributes.addAll (getInheritableClassAttributes (ifs[i]));
         }
         
         // ---- Fix up method attributes
@@ -27,25 +26,31 @@ class DefaultCachedRepository implements CachedRepository {
         for (int i = 0; i < methods.length; i++) {
             Method m = methods[i];
             String key = Util.getSignature (m);
+            
             Set attributes = new HashSet ();
             attributes.addAll ((Collection) repo.getMethodAttributes ().get (key));
-            
-            c = clazz.getSuperclass ();
-            while (c != null) {
-                
-                try {
-                    // Get equivalent method in superclass
-                    Method m2 = c.getMethod (m.getName (), m.getParameterTypes ());
-                    if (m2.getDeclaringClass () == c) {
-                        attributes.addAll (getInheritableAttributes (Attributes.getAttributes (m2)));
-                    }
-                } catch (NoSuchMethodException nsme) {
-                }
-                
-                c = c.getSuperclass ();
+            attributes.addAll (getInheritableMethodAttributes (clazz.getSuperclass (), m.getName (), m.getParameterTypes ()));
+            for (int j = 0; j < ifs.length; j++) {
+                attributes.addAll (getInheritableMethodAttributes (ifs[j], m.getName (), m.getParameterTypes ()));
             }
             
             this.methods.put (m, attributes);
+        }
+        
+        // --- Just copy constructor attributes (they aren't inherited)
+        Constructor[] constructors = clazz.getDeclaredConstructors ();
+        for (int i = 0; i < constructors.length; i++) {
+            Constructor ctor = constructors[i];
+            String key = Util.getSignature (ctor);
+            this.constructors.put (ctor, repo.getConstructorAttributes ().get (key));
+        }
+        
+        // --- Just copy field attributes (they aren't inherited)
+        Field[] fields = clazz.getDeclaredFields ();
+        for (int i = 0; i < fields.length; i++) {
+            Field f = fields[i];
+            String key = f.getName ();
+            this.fields.put (f, repo.getFieldAttributes ().get (key));
         }
     }
     
@@ -59,6 +64,54 @@ class DefaultCachedRepository implements CachedRepository {
                 result.add (attr);
             }
         }
+        return result;
+    }
+    
+    private static Collection getInheritableClassAttributes (Class c) throws Exception {
+        if (c == null) {
+            return new ArrayList (0);
+        }
+        
+        HashSet result = new HashSet ();
+        result.addAll (getInheritableAttributes (Attributes.getAttributes (c)));
+        
+        // Traverse the class hierarchy
+        result.addAll (getInheritableClassAttributes (c.getSuperclass ()));
+        
+        // Traverse the interface hierarchy
+        Class[] ifs = c.getInterfaces ();
+        for (int i = 0; i < ifs.length; i++) {
+            result.addAll (getInheritableClassAttributes (ifs[i]));
+        }
+        
+        return result;
+    }
+    
+    private static Collection getInheritableMethodAttributes (Class c, String methodName, Class[] methodParams) throws Exception {
+        if (c == null) {
+            return new ArrayList (0);
+        }
+        
+        HashSet result = new HashSet ();
+        
+        try {
+            // Get equivalent method in c
+            Method m = c.getMethod (methodName, methodParams);
+            if (m.getDeclaringClass () == c) {
+                result.addAll (getInheritableAttributes (Attributes.getAttributes (m)));
+            }
+        } catch (NoSuchMethodException nsme) {
+        }
+        
+        // Traverse the class hierarchy
+        result.addAll (getInheritableMethodAttributes (c.getSuperclass (), methodName, methodParams));
+        
+        // Traverse the interface hierarchy
+        Class[] ifs = c.getInterfaces ();
+        for (int i = 0; i < ifs.length; i++) {
+            result.addAll (getInheritableMethodAttributes (ifs[i], methodName, methodParams));
+        }
+        
         return result;
     }
     
@@ -76,5 +129,5 @@ class DefaultCachedRepository implements CachedRepository {
     
     public Collection getAttributes (Constructor c) throws Exception {
         return (Collection) constructors.get (c);
-    }
+    }   
 }
