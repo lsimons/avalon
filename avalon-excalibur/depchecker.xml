@@ -3,7 +3,7 @@
 <!--
 ============================================================
                 Dependency updater
-                   Version $Revision: 1.17 $
+                   Version $Revision: 1.18 $
            Jeff Turner <jefft@apache.org>
 
 This Ant script provides "functions" to check if
@@ -22,7 +22,7 @@ To use it, type 'ant -f depchecker.xml'
 
 <project name="dependencies" default="main" basedir=".">
     <!-- The target to call if ${proj.target} isn't specified -->
-    <property name="default.target" value="dist.lite"/>
+    <property name="default.target" value="dist-jar"/>
     <property name="nl" value="${line.separator}"/>
 
     <target name="main" depends="usage"/>
