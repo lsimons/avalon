@@ -31,8 +31,9 @@
       <item name="Home" href="home.html"/>
       <item name="Info" href="info.html"/>
       <item name="Install" href="install.html"/>
-      <item name="Jar" href="jar.html"/>
       <item name="Javac" href="javac.html"/>
+      <item name="Javadoc" href="javadoc.html"/>
+      <item name="Jar" href="jar.html"/>
       <item name="Junit" href="junit.html"/>
       <item name="Prepare" href="prepare.html"/>
       <item name="Plugin" href="plugin.html"/>
