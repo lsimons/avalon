@@ -519,6 +519,80 @@ public interface DocumentRepository {
 	  </para>
 	</section>
       </section>
+      <section>
+        <title>Context</title>
+	<para>
+	  The concept of the <classname>Context</classname> in Avalon arose
+	  from the need to provide a mechanism to pass simple objects from a
+	  container to a Component.  The exact protocol and binding names are
+	  purposely left undefined to provide the greatest flexibility to
+	  developers.  The contracts surrounding the use of the
+	  <classname>Context</classname> object are left for you to define in
+	  your system, however the mechanism is the same.
+	</para>
+	<section>
+	  <title>Context</title>
+	  <para>
+	    The <classname>Context</classname> interface defines only the
+	    method <function>get</function>.  It has an
+	    <parameter>Object</parameter> for a parameter, and it returns an
+	    object based on that key.  The <classname>Context</classname> is
+	    populated by the container, and passed to the child Component who
+	    only has access to <emphasis>read</emphasis> the
+	    <classname>Context</classname>.
+	  </para>
+	  <para>
+            There is no set contract with the <classname>Context</cassname>
+	    other than it should always be <emphasis>read-only</emphasis> by
+	    the child Component.  If you extend Avalon's
+	    <classname>Context</classname>, please respect that contract.  It
+	    is part of the Inversion of Control pattern as well as security by
+	    design.  In addition, it is a bad idea to pass a reference to the
+	    container in the Context for the same reason that the Context
+	    should be <emphasis>read-only</emphasis>.
+	  </para>
+	</section>
+	<section>
+	  <title>Contextualizable</title>
+	  <para>
+	    A Component that wishes to receive the container's
+	    <classname>Context</classname> will implement this interface.  It
+	    has one method named <function>contextualize</function> with the
+	    parameter being the container's <classname>Context</classname>
+	    object.
+	  </para>
+	  <para>
+            The contract surrounding this interface is that the
+	    <function>contextualize</function> method is called once during the
+	    life of a Component, before any other initialization method.
+	  </para>
+	</section>
+	<section>
+	  <title>Recontextualizable</title>
+	  <para>
+	    Components that implement this interface behave very similar to
+	    <classname>Recomposable</classname> Components.  It's only method
+	    is named <function>recontextualize</function>.  This design
+	    decision is used to minimize the learning curve of the Re*
+	    interfaces.  <classname>Recontextualizable</classname> is to
+	    <classname>Contextualizable</classname> as
+	    <classname>Recomposable</classname> is to
+	    <classname>Composable</classname>.
+	  </para>
+	</section>
+	<section>
+	  <title>Resolvable</title>
+	  <para>
+	    The Resolvable interface is used to mark objects that need to be
+	    resolved in some particular context.  An example might be an object
+	    that is shared by multiple <classname>Context</classname> objects,
+	    and modifies its behavior based on a particular
+	    <classname>Context</classname>.  The <function>resolve</function>
+	    method is called by the <classname>Context</classname> before the
+	    object is returned.
+	  </para>
+	</section>
+      </section>
     </section>
   </section>
 </chapter>
