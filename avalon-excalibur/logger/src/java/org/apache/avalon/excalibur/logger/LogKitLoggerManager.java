@@ -28,7 +28,7 @@ import org.apache.log.Priority;
  *
  * @author <a href="mailto:giacomo@apache.org">Giacomo Pati</a>
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/04/04 02:34:14 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/05/22 13:05:19 $
  * @since 4.0
  */
 public class LogKitLoggerManager
@@ -210,18 +210,6 @@ public class LogKitLoggerManager
         if( targetManager instanceof LogEnabled )
         {
             targetManager.enableLogging( m_defaultLogger );
-        }
-
-        if( targetManager instanceof Contextualizable )
-        {
-            try
-            {
-                targetManager.contextualize( m_context );
-            }
-            catch( final ContextException ce )
-            {
-                throw new ConfigurationException( "cannot contextualize factory manager", ce );
-            }
         }
 
         if( targetManager instanceof LogTargetFactoryManageable )
