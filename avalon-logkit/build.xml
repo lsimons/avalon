@@ -110,7 +110,7 @@ Legal:
   </path>
 
   <!-- Main target -->
-  <target name="main" depends="all" />
+  <target name="main" depends="jar" description="Build complete"/>
 
   <!-- Help on usage -->
   <target name="usage">
@@ -120,12 +120,12 @@ Legal:
     <echo message=""/>
     <echo message=" available targets are:"/>
     <echo message=""/>
-    <echo message="   all        -> generates the ${Name} jar file"/>
-    <echo message="   javadocs   -> generates the API documentation (java 1.2+ only)"/>
-    <echo message="   docs       -> generates the ${Name} Documentation"/>
-    <echo message="   dist-lite  -> generates the ${Name} distribution without the javadocs (default)"/>
-    <echo message="   dist       -> generates the ${Name} distribution"/>
     <echo message="   clean      -> cleans up the created directories"/>
+    <echo message="   dist       -> generates the ${Name} distribution"/>
+    <echo message="   dist-lite  -> generates the ${Name} distribution without the javadocs (default)"/>
+    <echo message="   docs       -> generates the ${Name} Documentation"/>
+    <echo message="   jar        -> generates the ${Name} jar file"/>
+    <echo message="   javadocs   -> generates the API documentation (java 1.2+ only)"/>
     <echo message="   real-clean -> cleans up all genereated files and directories"/>
     <echo message=""/>
     <echo message="-------------------------------------------------------------"/>
@@ -142,7 +142,7 @@ Legal:
   <target name="import-servlet-jar" description="Imports the servlet API if required">
 
     <mkdir dir="tmp-imports"/>
-
+    
     <property name="jar-version" value="3.2.3"/>
 
     <get src="http://jakarta.apache.org/builds/jakarta-tomcat/release/v${jar-version}/bin/jakarta-servletapi-${jar-version}.zip"
@@ -156,6 +156,16 @@ Legal:
 
     <delete dir="tmp-imports" />
 
+  </target>
+
+  <target name="import-log4j-jar" description="Imports the Log4J API if required">
+
+
+    <get src="http://www.ibiblio.org/maven/log4j/jars/log4j-1.1.3.jar"
+        dest="${lib.dir}/log4j-1.1.3.jar"
+        verbose="true"
+        usetimestamp="true"/>
+        
   </target>
 
   <target name="import-framework-jar" if="avalon-framework-jar.relatively-present" depends="optional-tests" description="Imports the Avalon Framework jar if required">
@@ -190,9 +200,13 @@ Legal:
                classname="javax.mail.Message"
                classpathref="project.class.path" />
 
+    <available property="log4j.present"
+               classname="org.apache.log4j.Appender"
+               classpathref="project.class.path" />
+
   </target>
 
-  <target name="op-warning" description="General waring target (used by other targets)">
+  <target name="op-warning">
     <echo>**********************************************</echo>
     <echo>*</echo>
     <echo>*  Classes needed for output via ${thing} are not </echo>
@@ -205,8 +219,7 @@ Legal:
     <echo/>
   </target>
 
-  <target name="servlet-warn" unless="servlet.present"
-      description="Outputs a warning if javax.servlet.* classes are missing during compilation">
+  <target name="servlet-warn" unless="servlet.present">
     <antcall target="op-warning">
       <param name="thing" value="Servlet"/>
       <param name="recovery"
@@ -214,8 +227,7 @@ Legal:
     </antcall>
   </target>
 
-  <target name="mail-warn" unless="javax.mail.present"
-      description="Outputs a warning if javax.mail.* classes are missing during compilation">
+  <target name="mail-warn" unless="javax.mail.present">
     <antcall target="op-warning">
       <param name="thing" value="SMTP"/>
       <param name="recovery"
@@ -223,8 +235,7 @@ Legal:
     </antcall>
   </target>
 
-  <target name="jms-warn" unless="javax.jms.present"
-      description="Outputs a warning if javax.jms.* classes are missing during compilation">
+  <target name="jms-warn" unless="javax.jms.present">
     <antcall target="op-warning">
       <param name="thing" value="JMS"/>
       <param name="recovery"
@@ -232,8 +243,7 @@ Legal:
     </antcall>
   </target>
 
-  <target name="sql-warn" unless="javax.sql.present"
-      description="Outputs a warning if javax.sql.* classes are missing during compilation">
+  <target name="sql-warn" unless="javax.sql.present">
     <antcall target="op-warning">
       <param name="thing" value="SQL databases"/>
       <param name="recovery"
@@ -241,8 +251,15 @@ Legal:
     </antcall>
   </target>
 
-  <target name="framework-warn" unless="avalon-framework.present"
-      description="If Avalon's Framework jar is missing, a warning will be output">
+  <target name="log4j-warn" unless="log4j.present">
+    <antcall target="op-warning">
+      <param name="thing" value="Log4J"/>
+      <param name="recovery"
+        value="Run the build target import-log4j-jar and it will download the Log4J api jar - you should be online for that."/>
+    </antcall>
+  </target>
+
+  <target name="framework-warn" unless="avalon-framework.present">
     <echo>**********************************************</echo>
     <echo>*</echo>
     <echo>*  Optional classes from Avalon's framework subproject</echo>
@@ -255,12 +272,11 @@ Legal:
     <echo/>
   </target>
 
-  <target name="optional-warnings" depends="jms-warn,framework-warn,sql-warn,servlet-warn,mail-warn"
-      description="Outputs warnings if some jars are missing from the environment">
+  <target name="optional-warnings" depends="jms-warn,framework-warn,sql-warn,servlet-warn,mail-warn,log4j-warn">
   </target>
 
   <!-- Prepares the build directory -->
-  <target name="compile" depends="optional-tests, optional-warnings">
+  <target name="compile" depends="optional-tests, optional-warnings" description="Compile project">
     <mkdir dir="${build.dir}"/>
     <mkdir dir="${build.classes}"/>
 
@@ -299,9 +315,7 @@ Legal:
 
   </target>
 
-  <target name="test" depends="check"/>
-
-  <target name="check" depends="compile" >
+  <target name="test" depends="compile" description="Run tests">
     <mkdir dir="${build.reports}"/>
 
     <echo message="Performing Unit Tests" />
@@ -321,7 +335,7 @@ Legal:
 
   </target>
 
-  <target name="test-report" depends="compile" >
+  <target name="test-report" depends="compile" description="Run tests with reports">
     <mkdir dir="${build.testdocs}"/>
     <mkdir dir="${build.reports}"/>
 
@@ -350,7 +364,7 @@ Legal:
   </target>
 
   <!-- Creates all the .jar file -->
-  <target name="all" depends="compile">
+  <target name="jar" depends="compile" description="Build jar file">
 
     <mkdir dir="${build.lib}"/>
 
@@ -361,7 +375,7 @@ Legal:
 
   </target>
 
-  <target name="install" depends="all,install-check-cjan">
+  <target name="install" depends="jar, install-check-cjan">
 
     <mkdir dir="${cjan.lib}" />
     <copy file="${build.lib}/${name}.jar" todir="${cjan.lib}"/>
@@ -377,7 +391,7 @@ Legal:
   </target>
 
   <!-- Create the API documentation -->
-  <target name="javadocs">
+  <target name="javadocs" description="Build javadocs">
 
     <!-- Hack to exclude javax.sql and javax.jms dependent classes -->
     <delete dir="${build.src}"/>
@@ -473,7 +487,7 @@ Legal:
     </target>
 
   <!-- Update the www directory -->
-  <target name="site-docs" depends="docs,javadocs">
+  <target name="site-docs" depends="docs,javadocs" description="Build docs for jakarta site">
 
     <mkdir dir="${www.dir}"/>
 
@@ -499,7 +513,7 @@ Legal:
   </target>
 
   <!-- Create the binary distribution -->
-  <target name="bin-dist" depends="all">
+  <target name="bin-dist" depends="jar">
 
     <property name="dist.lib" value="${dist.dir}/lib"/>
     <property name="dist.docs" value="${dist.dir}/docs"/>
@@ -585,7 +599,7 @@ Legal:
   </target>
 
   <!-- Completely build all dists -->
-  <target name="dist" depends="site-docs,announcement">
+  <target name="dist" depends="site-docs,announcement" description="Build distribution">
     <mkdir dir="${dist.base}"/>
 
     <antcall target="bin-dist">
@@ -670,7 +684,7 @@ Legal:
   </target>
 
   <!-- Cleans up build and distribution directories -->
-  <target name="clean">
+  <target name="clean" description="Clean build dirs">
     <delete dir="${build.dir}" />
     <delete dir="test" /> <!-- cleanup unit test directory -->
     <delete>
