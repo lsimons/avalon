@@ -34,7 +34,7 @@ import org.w3c.dom.NodeList;
  * </pre>
  *
  * @author <a href="mailto:dims@yahoo.com">Davanum Srinivas</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/08/01 21:35:39 $ $Author: mirceatoma $
+ * @version CVS $Revision: 1.5 $ $Date: 2002/08/02 21:24:59 $ $Author: mirceatoma $
  */
 public final class XPathProcessorImpl extends AbstractLogEnabled implements XPathProcessor, Configurable, PrefixResolver, Component, ThreadSafe
 {
@@ -170,4 +170,9 @@ public final class XPathProcessorImpl extends AbstractLogEnabled implements XPat
     {
         return getNamespaceForPrefix( prefix );
     }    
+    
+    public boolean handlesNullPrefixes() {
+        return true;
+    }
 }
+
