@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+
+<document>
+    <header>
+        <title>Excalibur TestCase</title>
+        <subtitle>TestCase Utilities</subtitle>
+        <authors>
+            <person name="Peter Donald" email="peter@apache.org"/>
+            <person name="Leif Mortenson" email="leif@tanukisoftware.com"/>
+        </authors>
+    </header>
+    <body>
+        <s1 title="Introduction">
+            <p>
+            This project contains utilities which can be used to write Excalibur Test Cases.
+            </p>
+        </s1>
+    </body>
+    <footer>
+        <legal>
+          Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
+          $Revision: 1.1 $ $Date: 2002/04/04 02:34:16 $
+        </legal>
+    </footer>
+</document>
