@@ -78,16 +78,37 @@ import java.util.List;
  * </p>
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Revision: 1.8 $ $Date: 2003/04/22 12:37:09 $
+ * @version CVS $Revision: 1.9 $ $Date: 2003/05/29 13:32:48 $
  */
 public final class LifecycleExtensionManager
-    extends AbstractLogEnabled
+        extends AbstractLogEnabled
 {
     public static final String ROLE = LifecycleExtensionManager.class.getName();
 
     // extensions objects
     private final CachedArrayList m_accessorExtensions = new CachedArrayList();
     private final CachedArrayList m_creatorExtensions = new CachedArrayList();
+    private boolean m_readOnly = false;
+
+    /**
+     * Make the extension manager read only (immutable).
+     */
+    public void makeReadOnly()
+    {
+        m_readOnly = true;
+    }
+
+    /**
+     * Create a copy; it will be writeable even if the original was not.
+     */
+    public LifecycleExtensionManager writeableCopy()
+    {
+        final LifecycleExtensionManager copy = new LifecycleExtensionManager();
+        copy.m_accessorExtensions.copyFrom( m_accessorExtensions );
+        copy.m_creatorExtensions.copyFrom( m_creatorExtensions );
+
+        return copy;
+    }
 
     /**
      * <code>executeAccessExtensions</code> method, executes all access
@@ -98,7 +119,7 @@ public final class LifecycleExtensionManager
      * @exception Exception if an error occurs
      */
     public void executeAccessExtensions( final Object component, final Context context )
-        throws Exception
+            throws Exception
     {
         executeExtensions( m_accessorExtensions.toArray(), component, context, ACCESS );
     }
@@ -112,7 +133,7 @@ public final class LifecycleExtensionManager
      * @exception Exception if an error occurs
      */
     public void executeReleaseExtensions( final Object component, final Context context )
-        throws Exception
+            throws Exception
     {
         executeExtensions( m_accessorExtensions.toArray(), component, context, RELEASE );
     }
@@ -126,7 +147,7 @@ public final class LifecycleExtensionManager
      * @exception Exception if an error occurs
      */
     public void executeCreationExtensions( final Object component, final Context context )
-        throws Exception
+            throws Exception
     {
         executeExtensions( m_creatorExtensions.toArray(), component, context, CREATE );
     }
@@ -140,7 +161,7 @@ public final class LifecycleExtensionManager
      * @exception Exception if an error occurs
      */
     public void executeDestructionExtensions( final Object component, final Context context )
-        throws Exception
+            throws Exception
     {
         executeExtensions( m_creatorExtensions.toArray(), component, context, DESTROY );
     }
@@ -168,6 +189,7 @@ public final class LifecycleExtensionManager
      */
     public void addAccessorExtension( final Accessor extension )
     {
+        checkWriteable();
         m_accessorExtensions.add( extension );
     }
 
@@ -178,6 +200,7 @@ public final class LifecycleExtensionManager
      */
     public void addCreatorExtension( final Creator extension )
     {
+        checkWriteable();
         m_creatorExtensions.add( extension );
     }
 
@@ -189,6 +212,7 @@ public final class LifecycleExtensionManager
      */
     public void insertAccessorExtension( final int position, final Accessor extension )
     {
+        checkWriteable();
         m_accessorExtensions.insert( position, extension );
     }
 
@@ -200,6 +224,7 @@ public final class LifecycleExtensionManager
      */
     public void insertCreatorExtension( final int position, final Creator extension )
     {
+        checkWriteable();
         m_creatorExtensions.insert( position, extension );
     }
 
@@ -211,6 +236,7 @@ public final class LifecycleExtensionManager
      */
     public Accessor removeAccessorExtension( final int position )
     {
+        checkWriteable();
         return (Accessor) m_accessorExtensions.remove( position );
     }
 
@@ -222,6 +248,7 @@ public final class LifecycleExtensionManager
      */
     public Creator removeCreatorExtension( final int position )
     {
+        checkWriteable();
         return (Creator) m_creatorExtensions.remove( position );
     }
 
@@ -292,6 +319,7 @@ public final class LifecycleExtensionManager
      */
     public void clearAccessorExtensions()
     {
+        checkWriteable();
         m_accessorExtensions.clear();
     }
 
@@ -300,6 +328,7 @@ public final class LifecycleExtensionManager
      */
     public void clearCreatorExtensions()
     {
+        checkWriteable();
         m_creatorExtensions.clear();
     }
 
@@ -324,7 +353,7 @@ public final class LifecycleExtensionManager
                                       final Object component,
                                       final Context context,
                                       final int type )
-        throws Exception
+            throws Exception
     {
         switch ( type )
         {
@@ -360,9 +389,26 @@ public final class LifecycleExtensionManager
                 if ( getLogger().isErrorEnabled() )
                 {
                     final String message =
-                        "Incorrect extension phase specified: " + type;
+                            "Incorrect extension phase specified: " + type;
                     getLogger().error( message );
                 }
+        }
+    }
+
+    /**
+     * Utility method to check if LifecycleExtensionsManager
+     * is writeable and if not throw exception.
+     *
+     * @throws IllegalStateException if context is read only
+     */
+    protected final void checkWriteable()
+            throws IllegalStateException
+    {
+        if ( m_readOnly )
+        {
+            final String message =
+                    "LifecycleExtensionsManager is read only and can not be modified";
+            throw new IllegalStateException( message );
         }
     }
 
@@ -404,6 +450,16 @@ public final class LifecycleExtensionManager
         private Object[] m_cache = EMPTY_ARRAY;
 
         /**
+         *  Become a copy of another CachedArrayList.
+         */
+        public void copyFrom( final CachedArrayList original )
+        {
+            m_proxy.clear();
+            m_proxy.addAll( original.m_proxy );
+            m_cache = original.m_cache; // it won't mutate anyway :-)
+        }
+
+        /**
          * Add an object to the list
          *
          * @param object an <code>Object</code> value
@@ -440,13 +496,14 @@ public final class LifecycleExtensionManager
         }
 
         /**
-         * Obtain an iterator
+         * Obtain an iterator.  This iterator is read-only.
          *
          * @return an <code>Iterator</code> value
          */
         public Iterator iterator()
         {
-            return m_proxy.iterator();
+            final Iterator base = m_proxy.iterator();
+            return new UnmodifiableIterator( base );
         }
 
         /**
@@ -500,6 +557,35 @@ public final class LifecycleExtensionManager
         public Object[] toArray()
         {
             return m_cache;
+        }
+    }
+
+    /**
+     * Read only iterator.
+     */
+    private static class UnmodifiableIterator implements Iterator
+    {
+        private final Iterator m_base;
+
+        UnmodifiableIterator( final Iterator base )
+        {
+            if ( base == null ) throw new NullPointerException( "base can not be null" );
+            m_base = base;
+        }
+
+        public boolean hasNext()
+        {
+            return m_base.hasNext();
+        }
+
+        public Object next()
+        {
+            return m_base.next();
+        }
+
+        public void remove()
+        {
+            throw new UnsupportedOperationException( "Unmodifiable iterator" );
         }
     }
 }
