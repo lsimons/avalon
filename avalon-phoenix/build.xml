@@ -52,7 +52,8 @@ Legal:
   <property name="build.classes" value="${build.dir}/classes"/>
   <property name="build.javadocs" value="${build.dir}/javadocs"/>
   <property name="build.docs" value="${build.dir}/docs"/>
-  <property name="build.xdocs" value="${build.dir}/xdocs"/>
+  <property name="build.context" value="${build.dir}/documentation"/>
+  <property name="build.xdocs" value="${build.context}/xdocs/phoenix"/>
 
   <!-- Set the properties for source directories -->
   <property name="src.dir" value="src"/>
@@ -67,6 +68,7 @@ Legal:
   <property name="avalon.skin" value="${tools.dir}/lib/jakarta-style.jar"/>
   <property name="xdocs.dir" value="${src.dir}/xdocs"/>
   <property name="javadocs.dir" value="${docs.dir}/api"/>
+  <property name="context.dir" value="../jakarta-avalon/src/documentation"/>
 
   <property name="dist.name" value="${name}-${version}"/>
   <property name="dist.base" value="distributions"/>
@@ -96,6 +98,7 @@ Legal:
   <path id="tools.class.path">
     <pathelement location="${xerces.jar}"/>
     <pathelement location="${testlet.jar}"/>
+    <pathelement location="${java.home}/../lib/tools.jar"/>
     <fileset dir="${tools.dir}/lib">
       <exclude name="ant.jar" />
       <exclude name="testlet.jar"/>
@@ -228,39 +231,58 @@ Legal:
 
   </target>
 
+
   <!-- Prepares the documentation directory -->
   <target name="xdocs">
-     
+
+    <mkdir dir="${build.context}"/>
     <mkdir dir="${build.xdocs}"/>
     <mkdir dir="${build.docs}"/>
+    <mkdir dir="${build.dir}/work"/>
+
+    <!-- Base pointers for non-xdocs documentation. Override these in .ant.properties to link to local docs -->
+    <property name="avalon.base" value="http://jakarta.apache.org/avalon"/>
+    <property name="framework.base" value="http://jakarta.apache.org/avalon/framework"/>
+    <property name="phoenix.base" value="http://jakarta.apache.org/avalon/phoenix"/>
+    <property name="cornerstone.base" value="http://jakarta.apache.org/avalon/cornerstone"/>
+    <property name="logkit.base" value="http://jakarta.apache.org/avalon/logkit"/>
+    <property name="testlet.base" value="http://jakarta.apache.org/avalon/testlet"/>
 
     <filter token="year" value="${year}"/>
-    <filter token="AVALON_BASE" value="http://jakarta.apache.org/avalon"/>
-    <filter token="FRAMEWORK_BASE" value="http://jakarta.apache.org/avalon/framework"/>
+    <filter token="AVALON_BASE" value="${avalon.base}"/>
+    <filter token="FRAMEWORK_BASE" value="${framework.base}"/>
+    <filter token="PHOENIX_BASE" value="${phoenix.base}"/>
+    <filter token="CORNERSTONE_BASE" value="${cornerstone.base}"/>
+    <filter token="LOGKIT_BASE" value="${logkit.base}"/>
+    <filter token="TESTLET_BASE" value="${testlet.base}"/>
 
-    <copy todir="${build.xdocs}" filtering="on">
-      <fileset dir="${xdocs.dir}">
-        <exclude name="**/images/**"/>
+    <copy todir="${build.context}" filtering="on">
+      <fileset dir="${context.dir}">
+        <exclude name="resources/**"/>
+	<exclude name="xdocs"/>
       </fileset>
     </copy>
 
-    <copy todir="${build.docs}" filtering="off">
+    <copy todir="${build.context}/xdocs/phoenix" filtering="on">
+      <fileset dir="${xdocs.dir}"/>
+    </copy>
+
+    <copy todir="${build.context}/resources" filtering="off">
+      <fileset dir="${context.dir}/resources"/>
       <fileset dir="${xdocs.dir}">
         <include name="**/images/**"/>
       </fileset>
     </copy>
 
-    <taskdef name="stylebook" 
-             classname="org.apache.tools.ant.taskdefs.optional.StyleBook">
+    <java classname="org.apache.cocoon.Main" fork="true">
+      <arg value="-c${build.context}/"/>
+      <arg value="-d${build.docs}"/>
+      <arg value="-w${build.dir}/work"/>
+      <arg value="-l${build.dir}/work/cocoon.log"/>
+      <arg value="-uINFO"/>
+      <arg value="-f${xdocs.dir}/phoenix.uris"/>
       <classpath refid="tools.class.path"/>
-    </taskdef>
-
-    <stylebook targetdirectory="${build.docs}"
-               book="${build.xdocs}/book.xml"
-               skindirectory="${avalon.skin}">
-      <classpath refid="tools.class.path" />
-    </stylebook>
-
+    </java>
   </target>
 
   <!-- Create the Local site documentation -->
