@@ -71,7 +71,14 @@ public class ResourceTemplateManagerTest extends TestCase
         rm.importDirectoryTemplates(dm);
 
         rm.addResourceTemplate(createHelloWorldResources());
-        rm.addResourceTemplate(createCompositionApplicationResources());
+        //rm.addResourceTemplate(createCompositionApplicationResources());
+        rm.addResourceTemplate(createConfigurationResources());
+        rm.addResourceTemplate(createStandardContextResources());
+        rm.addResourceTemplate(createCustomContextResources());
+        rm.addResourceTemplate(createCastingContextResources());
+        rm.addResourceTemplate(createAliasContextResources());
+        rm.addResourceTemplate(createPlusContextResources());
+        rm.addResourceTemplate(createStrategyContextResources());
 
         try
         {
@@ -102,6 +109,7 @@ public class ResourceTemplateManagerTest extends TestCase
     public final void testCreateHelloWorldProject()
     {
         project = BlockProjectManager.create("HelloWorld Tutorial", "HelloWorld Tutorial");
+        assertNotNull("project was not created", project);
         
         String testpath;
         assertEquals("Project was not created", true, (new File(project.getLocation().toString()).exists()));
@@ -110,23 +118,22 @@ public class ResourceTemplateManagerTest extends TestCase
         testpath = "/src/BLOCK-INF/block.xml";
         assertEquals("block.xml not created", true, (new File(project.getLocation().toString()+testpath).exists()));
 
-        // ProjectManager.delete(project);
+        BlockProjectManager.delete(project);
     }
 
-    public final void testCreateCompositionApplicationProject()
+    public final void testCreateStandardContextProject()
     {
-        project = BlockProjectManager.create("Composition (Application) Tutorial", "Composition (Application) Tutorial");
+        project = BlockProjectManager.create("Standard Context Tutorial", "Standard Context Tutorial");
+        assertNotNull("project was not created", project);
         
         String testpath;
         assertEquals("Project was not created", true, (new File(project.getLocation().toString()).exists()));
-        testpath = "/impl/tutorial/Application/Application.java";
-        assertEquals("Composition (Application) Tutorial", true, (new File(project.getLocation().toString()+testpath).exists()));
-        testpath = "/impl/BLOCK-INF/block.xml";
+        testpath = "/src/tutorial/HelloComponent.java";
+        assertEquals("Standard Context Tutorial", true, (new File(project.getLocation().toString()+testpath).exists()));
+        testpath = "/src/BLOCK-INF/block.xml";
         assertEquals("block.xml not created", true, (new File(project.getLocation().toString()+testpath).exists()));
-        testpath = "/impl/BLOCK-INF/debug.xml";
-        assertEquals("debug.xml not created", true, (new File(project.getLocation().toString()+testpath).exists()));
 
-        // ProjectManager.delete(project);
+        BlockProjectManager.delete(project);
     }
 
     /**
@@ -136,11 +143,11 @@ public class ResourceTemplateManagerTest extends TestCase
     {
         ResourceTemplate rt = new ResourceTemplate();
         rt.setTemplateId("HelloWorld Tutorial");
-        rt.setDescription("this is the hello world help");
+        rt.setDescription("This tutorial takes you through the creation of a very simple component, the declaration of a component type descriptor, and the declaration of a block containing the component.");
         rt.setDirectoryType("StandardBlock");
         Library library = new Library();
         library.setName("avalon-framework-api");
-        library.setVersion("4.1.5");
+        library.setVersion("4.2.0");
         rt.addLibrary(library);
 
         Resource r = new Resource();
@@ -155,6 +162,160 @@ public class ResourceTemplateManagerTest extends TestCase
         r.setPackageName("");
         rt.addResource(r);
 
+        r = new Resource();
+        r.setRootSegment("src");
+        r.setSourceFilePathName(baseDir+"templates/hello/HelloComponent.xinfo");
+        r.setPackageName("tutorial");
+        rt.addResource(r);
+
+        return rt;
+    }
+    /**
+     * @return
+     */
+    private ResourceTemplate createConfigurationResources()
+    {
+        ResourceTemplate rt = new ResourceTemplate();
+        rt.setTemplateId("Configuration Tutorial");
+        rt.setDescription("This example is the HelloComponent extended to include a configuration constructor argument and updates to log the source of the configuration based on runtime information.");
+        rt.setDirectoryType("StandardBlock");
+        Library library = new Library();
+        library.setName("avalon-framework-api");
+        library.setVersion("4.2.0");
+        rt.addLibrary(library);
+
+        Resource r = new Resource();
+        r.setRootSegment("src");
+        r.setSourceFilePathName(baseDir+"templates/configuration/HelloComponent.java");
+        r.setPackageName("tutorial");
+        rt.addResource(r);
+
+        r = new Resource();
+        r.setRootSegment("src/BLOCK-INF");
+        r.setSourceFilePathName(baseDir+"templates/configuration/block.xml");
+        r.setPackageName("");
+        rt.addResource(r);
+
+        r = new Resource();
+        r.setRootSegment("src/BLOCK-INF");
+        r.setSourceFilePathName(baseDir+"templates/configuration/categories.xml");
+        r.setPackageName("");
+        rt.addResource(r);
+
+        r = new Resource();
+        r.setRootSegment("src/BLOCK-INF");
+        r.setSourceFilePathName(baseDir+"templates/configuration/config.xml");
+        r.setPackageName("");
+        rt.addResource(r);
+
+        r = new Resource();
+        r.setRootSegment("src");
+        r.setSourceFilePathName(baseDir+"templates/configuration/HelloComponent.xconfig");
+        r.setPackageName("tutorial");
+        rt.addResource(r);
+        
+        return rt;
+    }
+    /**
+     * @return
+     */
+    private ResourceTemplate createCustomContextResources()
+    {
+        ResourceTemplate rt = new ResourceTemplate();
+        rt.setTemplateId("Custom Context Tutorial");
+        rt.setDescription("This tutorial presents information about the management of the runtime context supplied to your component.");
+        rt.setDirectoryType("StandardBlock");
+        Library library = new Library();
+        library.setName("avalon-framework-api");
+        library.setVersion("4.2.0");
+        rt.addLibrary(library);
+
+        Resource r = new Resource();
+        r.setRootSegment("src");
+        r.setSourceFilePathName(baseDir+"templates/context/custom/HelloComponent.java");
+        r.setPackageName("tutorial");
+        rt.addResource(r);
+
+        r = new Resource();
+        r.setRootSegment("src");
+        r.setSourceFilePathName(baseDir+"templates/context/custom/NumberCruncher.java");
+        r.setPackageName("tutorial");
+        rt.addResource(r);
+        
+        r = new Resource();
+        r.setRootSegment("src/BLOCK-INF");
+        r.setSourceFilePathName(baseDir+"templates/context/custom/block.xml");
+        r.setPackageName("");
+        rt.addResource(r);
+        
+        return rt;
+    }
+    /**
+     * @return
+     */
+    private ResourceTemplate createCastingContextResources()
+    {
+        ResourceTemplate rt = new ResourceTemplate();
+        rt.setTemplateId("Casting Context Tutorial");
+        rt.setDescription("This tutorial covers the declaration of context casting criteria and the creation of a typed context.");
+        rt.setDirectoryType("StandardBlock");
+        Library library = new Library();
+        library.setName("avalon-framework-api");
+        library.setVersion("4.2.0");
+        rt.addLibrary(library);
+
+        Resource r = new Resource();
+        r.setRootSegment("src");
+        r.setSourceFilePathName(baseDir+"templates/context/casting/HelloComponent.java");
+        r.setPackageName("tutorial");
+        rt.addResource(r);
+
+        r = new Resource();
+        r.setRootSegment("src");
+        r.setSourceFilePathName(baseDir+"templates/context/casting/DemoContext.java");
+        r.setPackageName("tutorial");
+        rt.addResource(r);
+
+        r = new Resource();
+        r.setRootSegment("src");
+        r.setSourceFilePathName(baseDir+"templates/context/casting/DemoContextProvider.java");
+        r.setPackageName("tutorial");
+        rt.addResource(r);
+        
+        r = new Resource();
+        r.setRootSegment("src/BLOCK-INF");
+        r.setSourceFilePathName(baseDir+"templates/context/casting/block.xml");
+        r.setPackageName("");
+        rt.addResource(r);
+        
+        return rt;
+    }
+    /**
+     * @return
+     */
+    private ResourceTemplate createStandardContextResources()
+    {
+        ResourceTemplate rt = new ResourceTemplate();
+        rt.setTemplateId("Standard Context Tutorial");
+        rt.setDescription("This tutorial presents information about the management of the runtime context supplied to your component.");
+        rt.setDirectoryType("StandardBlock");
+        Library library = new Library();
+        library.setName("avalon-framework-api");
+        library.setVersion("4.2.0");
+        rt.addLibrary(library);
+
+        Resource r = new Resource();
+        r.setRootSegment("src");
+        r.setSourceFilePathName(baseDir+"templates/context/standard/HelloComponent.java");
+        r.setPackageName("tutorial");
+        rt.addResource(r);
+
+        r = new Resource();
+        r.setRootSegment("src/BLOCK-INF");
+        r.setSourceFilePathName(baseDir+"templates/context/standard/block.xml");
+        r.setPackageName("");
+        rt.addResource(r);
+        
         return rt;
     }
     /**
@@ -186,5 +347,126 @@ public class ResourceTemplateManagerTest extends TestCase
 
         return rt;
     }
+    /**
+     * @return
+     */
+    private ResourceTemplate createAliasContextResources()
+    {
+        ResourceTemplate rt = new ResourceTemplate();
+        rt.setTemplateId("Alias Context Tutorial");
+        rt.setDescription("This tutorial covers usage of standard context entries using a constructor supplied context (as opposed to the classic Contextualization delivery mecahanism).");
+        rt.setDirectoryType("StandardBlock");
 
+        Resource r = new Resource();
+        r.setRootSegment("src");
+        r.setSourceFilePathName(baseDir+"templates/context/alias/HelloComponent.java");
+        r.setPackageName("tutorial.application");
+        rt.addResource(r);
+
+        r = new Resource();
+        r.setRootSegment("impl/BLOCK-INF");
+        r.setSourceFilePathName(baseDir+"templates/context/alias/block.xml");
+        r.setPackageName("");
+        rt.addResource(r);
+
+        return rt;
+    }
+    /**
+     * @return
+     */
+    private ResourceTemplate createPlusContextResources()
+    {
+        ResourceTemplate rt = new ResourceTemplate();
+        rt.setTemplateId("Plus Context Tutorial");
+        rt.setDescription("This tutorial covers usage of context entries using a constructor supplied custom context");
+        rt.setDirectoryType("StandardBlock");
+        Library library = new Library();
+        library.setName("avalon-framework-api");
+        library.setVersion("4.2.0");
+        rt.addLibrary(library);
+
+        Resource r = new Resource();
+        r.setRootSegment("src");
+        r.setSourceFilePathName(baseDir+"templates/context/plus/HelloComponent.java");
+        r.setPackageName("tutorial");
+        rt.addResource(r);
+
+        r = new Resource();
+        r.setRootSegment("src");
+        r.setSourceFilePathName(baseDir+"templates/context/plus/DemoContext.java");
+        r.setPackageName("tutorial");
+        rt.addResource(r);
+
+        r = new Resource();
+        r.setRootSegment("src");
+        r.setSourceFilePathName(baseDir+"templates/context/plus/DemoContextProvider.java");
+        r.setPackageName("tutorial");
+        rt.addResource(r);
+        
+        r = new Resource();
+        r.setRootSegment("src/BLOCK-INF");
+        r.setSourceFilePathName(baseDir+"templates/context/plus/block.xml");
+        r.setPackageName("");
+        rt.addResource(r);
+        
+        return rt;
+    }
+    /**
+     * @return
+     */
+    private ResourceTemplate createStrategyContextResources()
+    {
+        ResourceTemplate rt = new ResourceTemplate();
+        rt.setTemplateId("Strategy Context Tutorial");
+        rt.setDescription("This tutorial covers the declaration of custom contextualization strategy.");
+        rt.setDirectoryType("StandardBlock");
+        Library library = new Library();
+        library.setName("avalon-framework-api");
+        library.setVersion("4.2.0");
+        rt.addLibrary(library);
+
+        Resource r = new Resource();
+        r.setRootSegment("src");
+        r.setSourceFilePathName(baseDir+"templates/context/strategy/StandardComponent.java");
+        r.setPackageName("tutorial");
+        rt.addResource(r);
+
+        r = new Resource();
+        r.setRootSegment("src");
+        r.setSourceFilePathName(baseDir+"templates/context/strategy/StandardService.java");
+        r.setPackageName("tutorial");
+        rt.addResource(r);
+        
+        r = new Resource();
+        r.setRootSegment("src");
+        r.setSourceFilePathName(baseDir+"templates/context/strategy/StandardContext.java");
+        r.setPackageName("tutorial");
+        rt.addResource(r);
+
+        r = new Resource();
+        r.setRootSegment("src");
+        r.setSourceFilePathName(baseDir+"templates/context/strategy/StandardContextImp.java");
+        r.setPackageName("tutorial");
+        rt.addResource(r);
+        
+        r = new Resource();
+        r.setRootSegment("src");
+        r.setSourceFilePathName(baseDir+"templates/context/strategy/Contextualizable.java");
+        r.setPackageName("tutorial");
+        rt.addResource(r);
+        
+        r = new Resource();
+        r.setRootSegment("src");
+        r.setSourceFilePathName(baseDir+"templates/context/strategy/DemoContextualizationHandler.java");
+        r.setPackageName("tutorial");
+        rt.addResource(r);
+        
+        r = new Resource();
+        r.setRootSegment("src/BLOCK-INF");
+        r.setSourceFilePathName(baseDir+"templates/context/strategy/block.xml");
+        r.setPackageName("");
+        rt.addResource(r);
+        
+        return rt;
+    }
 }
