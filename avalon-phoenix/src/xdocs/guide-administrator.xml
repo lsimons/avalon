@@ -107,7 +107,8 @@ wrapper.dll=${wrapper.home}/lib/Wrapper.dll
             <subsection name="JMX Overview">
               <p>
                 Phoenix is tightly integrated with Java Management Extensions (JMX).
-                TODO: say something else
+                TODO: say something else.  Integrate this section with the other
+                <a href="mx/index.html">JMX info</a>.
               </p>
             </subsection>
             <subsection name="How to Make Your Block an MBean">
@@ -138,6 +139,10 @@ public interface WebServerMBean {
 <source>
 package examplecomp.block;
 
+/**
+ * TODO: describe PhoenixXDoclet setup.
+ * @phoenix:mx name="daveq.jms.JmsServiceMBean"
+ */
 public class WebServerBlock
     extends AbstractLoggable
     implements WebServer, WebServerMBean, Startable, Configurable, Initializable {
