@@ -62,7 +62,7 @@ public class HttpFilteringProxyHandler
      *
      * @param anotherProxy
      *
-     * @return
+     * @returns a String with the http request with ow without cookie
      *
      */
     public String getOutgoingHttpRequest( final boolean anotherProxy )
