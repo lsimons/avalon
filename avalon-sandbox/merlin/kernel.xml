@@ -18,13 +18,4 @@
       <category name="/sys" priority="INFO"/>
    </categories>
 
-   <blocks>
-     <fileset dir="../assembly/build/lib">
-       <include name="avalon-assembly-demo-1.0.jar"/>
-     </fileset>
-     <fileset dir="build/lib">
-       <include name="avalon-merlin-demo-1.0.jar"/>
-     </fileset>
-   </blocks>
-
 </kernel>
