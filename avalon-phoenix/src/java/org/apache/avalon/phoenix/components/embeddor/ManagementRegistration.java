@@ -47,7 +47,7 @@ final class ManagementRegistration
     public static final ManagementRegistration CONFIGURATION_REPOSITORY =
         new ManagementRegistration( ConfigurationRepository.ROLE,
                                     "ConfigurationManager",
-                                    new Class[]{} );
+                                    new Class[]{ConfigurationRepository.class} );
 
     public static final ManagementRegistration CONFIGURATION_VALIDATOR =
         new ManagementRegistration( ConfigurationValidator.ROLE,
