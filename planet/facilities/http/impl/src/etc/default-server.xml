@@ -82,12 +82,14 @@
     <parameters>
     </parameters>
   </component>
+  
 <!--  
   <component name="errorpage-handler" class="org.apache.avalon.http.impl.ErrorPageHandler" >
     <parameters>
     </parameters>
   </component>
--->    
+-->
+
   <component name="request-log" class="org.apache.avalon.http.impl.NcsaRequestLog" >
     <parameters>
       <parameter name="filename" value="request.log" />
@@ -96,12 +98,12 @@
     </parameters>
   </component>
   
-<!--    
+
   <container name="model-context" >
-    <component name="realm" class="org.apache.avalon.http.impl.DefaultUserRealm" />
-    <component name="authenticator" class="org.apache.avalon.http.impl.DefaultAuthenticator" />
+    <component name="realm" class="org.apache.avalon.http.impl.HashUserRealm" />
+    <component name="authenticator" class="org.mortbay.http.BasicAuthenticator" />
   </container>
--->    
+
   
 </container>
  
