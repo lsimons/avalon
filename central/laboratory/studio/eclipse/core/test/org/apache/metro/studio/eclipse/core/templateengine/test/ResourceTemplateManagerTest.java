@@ -25,12 +25,12 @@ import java.io.Writer;
 import junit.framework.TestCase;
 
 import org.apache.metro.studio.eclipse.core.MetroStudioCore;
+import org.apache.metro.studio.eclipse.core.templateengine.BlockProjectManager;
 import org.apache.metro.studio.eclipse.core.templateengine.DirectoryTemplateManager;
-import org.apache.metro.studio.eclipse.core.templateengine.ProjectManager;
+import org.apache.metro.studio.eclipse.core.templateengine.Library;
 import org.apache.metro.studio.eclipse.core.templateengine.Resource;
 import org.apache.metro.studio.eclipse.core.templateengine.ResourceTemplate;
 import org.apache.metro.studio.eclipse.core.templateengine.ResourceTemplateManager;
-import org.apache.metro.studio.eclipse.core.tools.DynProjectParam;
 import org.eclipse.core.resources.IProject;
 
 import com.thoughtworks.xstream.XStream;
@@ -88,12 +88,20 @@ public class ResourceTemplateManagerTest extends TestCase
 
     }
 
+    public final void testListTemplateNames()
+    {
+        String[] names = BlockProjectManager.listTemplateNames();
+        
+        ResourceTemplateManager rtm = ResourceTemplateManager.load(null);
+        int number = rtm.getResourceTemplates().size();
+        
+        assertEquals("didnt get all template names ", number, names.length);
+        
+    }
+
     public final void testCreateHelloWorldProject()
     {
-        project = ProjectManager.createBlockProject("HelloWorld Tutorial");
-        ResourceTemplateManager rm = ResourceTemplateManager
-                .load(resourcesLocation);
-        rm.create(project, "HelloWorld Tutorial", new DynProjectParam());
+        project = BlockProjectManager.create("HelloWorld Tutorial", "HelloWorld Tutorial");
         
         String testpath;
         assertEquals("Project was not created", true, (new File(project.getLocation().toString()).exists()));
@@ -107,15 +115,12 @@ public class ResourceTemplateManagerTest extends TestCase
 
     public final void testCreateCompositionApplicationProject()
     {
-        project = ProjectManager.createBlockProject("Composition (Application) Tutorial");
-        ResourceTemplateManager rm = ResourceTemplateManager
-                .load(resourcesLocation);
-        rm.create(project, "Composition (Application) Tutorial", new DynProjectParam());
+        project = BlockProjectManager.create("Composition (Application) Tutorial", "Composition (Application) Tutorial");
         
         String testpath;
         assertEquals("Project was not created", true, (new File(project.getLocation().toString()).exists()));
         testpath = "/impl/tutorial/Application/Application.java";
-        assertEquals("HelloComponent not created", true, (new File(project.getLocation().toString()+testpath).exists()));
+        assertEquals("Composition (Application) Tutorial", true, (new File(project.getLocation().toString()+testpath).exists()));
         testpath = "/impl/BLOCK-INF/block.xml";
         assertEquals("block.xml not created", true, (new File(project.getLocation().toString()+testpath).exists()));
         testpath = "/impl/BLOCK-INF/debug.xml";
@@ -131,7 +136,12 @@ public class ResourceTemplateManagerTest extends TestCase
     {
         ResourceTemplate rt = new ResourceTemplate();
         rt.setTemplateId("HelloWorld Tutorial");
+        rt.setDescription("this is the hello world help");
         rt.setDirectoryType("StandardBlock");
+        Library library = new Library();
+        library.setName("avalon-framework-api");
+        library.setVersion("4.1.5");
+        rt.addLibrary(library);
 
         Resource r = new Resource();
         r.setRootSegment("src");

@@ -27,10 +27,10 @@ import java.util.Vector;
 import junit.framework.TestCase;
 
 import org.apache.metro.studio.eclipse.core.MetroStudioCore;
+import org.apache.metro.studio.eclipse.core.templateengine.BlockProjectManager;
 import org.apache.metro.studio.eclipse.core.templateengine.Directory;
 import org.apache.metro.studio.eclipse.core.templateengine.DirectoryTemplate;
 import org.apache.metro.studio.eclipse.core.templateengine.DirectoryTemplateManager;
-import org.apache.metro.studio.eclipse.core.templateengine.ProjectManager;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IJavaProject;
@@ -91,7 +91,7 @@ public class DirectoryTemplateManagerTest extends TestCase
      */
     public final void testCreateStandardBlockProject()
     {
-        project = ProjectManager.createBlockProject("StandardBlockTest");
+        project = BlockProjectManager.testCreateProject("StandardBlockTest");
         DirectoryTemplateManager m = DirectoryTemplateManager.load(configFileLocation);
         m.create("StandardBlock", project.getProject());
         
@@ -114,8 +114,8 @@ public class DirectoryTemplateManagerTest extends TestCase
         
         DirectoryTemplateManager m = DirectoryTemplateManager.load(configFileLocation);
         DirectoryTemplate template = m.getTemplate("StandardBlock");
-        Vector libNames = m.collectLibraries(template, m.getRepositoryPath());
-        Vector sourceNames = m.collectSourceFolders(template, project);
+
+        Vector sourceFolders = template.getSourceFolderNames();
         
         try
         {
@@ -137,10 +137,9 @@ public class DirectoryTemplateManagerTest extends TestCase
             fail("can't retrieve project libraries");
         }
         
-        assertEquals("not all required libs are created", libNames.size(), libCount);
-        assertEquals("not all required sourcedirectories are created", sourceNames.size(), sourceCount);
+        assertEquals("not all required sourcedirectories are created", sourceFolders.size(), sourceCount);
         
-        ProjectManager.delete(project);
+        BlockProjectManager.delete(project);
     }
 
     /**
@@ -150,7 +149,7 @@ public class DirectoryTemplateManagerTest extends TestCase
      */
     public final void testCreateImplApiBlockProject()
     {
-        project = ProjectManager.createBlockProject("ImplApiTest");
+        project = BlockProjectManager.create("ImplApiTest", null);
         DirectoryTemplateManager m = DirectoryTemplateManager.load(configFileLocation);
         m.create("ImplApiBlock", project.getProject());
         
@@ -174,9 +173,9 @@ public class DirectoryTemplateManagerTest extends TestCase
         
         DirectoryTemplateManager m = DirectoryTemplateManager.load(configFileLocation);
         DirectoryTemplate template = m.getTemplate("ImplApiBlock");
-        Vector libNames = m.collectLibraries(template, m.getRepositoryPath());
-        Vector sourceNames = m.collectSourceFolders(template, project);
         
+        Vector sourceFolders = template.getSourceFolderNames();
+
         try
         {
             IJavaProject javaProject = JavaCore.create(project);
@@ -197,8 +196,7 @@ public class DirectoryTemplateManagerTest extends TestCase
             fail("can't retrieve project libraries");
         }
         
-        assertEquals("not all required libs are created", libNames.size(), libCount);
-        assertEquals("not all required sourcedirectories are created", sourceNames.size(), sourceCount);
+        assertEquals("not all required sourcedirectories are created", sourceFolders.size(), sourceCount);
     }
 
     /**
