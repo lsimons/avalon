@@ -1,0 +1,18 @@
+2003-06-07 14:13:27,171 INFO  org.apache.maven.plugin.PluginManager - Initializing Plugins!
+2003-06-07 14:13:27,265 INFO  org.apache.maven.plugin.PluginManager - Processing Plugin: maven-castor-plugin-1.0
+2003-06-07 14:13:27,390 INFO  org.apache.maven.plugin.PluginManager - Processing Plugin: maven-deploy-plugin-1.1
+2003-06-07 14:13:27,437 INFO  org.apache.maven.plugin.PluginManager - Processing Plugin: maven-plexus-plugin-0.2
+2003-06-07 14:13:27,453 INFO  org.apache.maven.plugin.PluginManager - Processing Plugin: maven-sea-plugin-1.0
+2003-06-07 14:13:27,468 INFO  org.apache.maven.plugin.PluginManager - Processing Plugin: maven-vdoclet-plugin-1.0
+2003-06-07 14:13:27,796 INFO  org.apache.maven.plugin.PluginManager - Finished initializing Plugins!
+2003-06-07 14:13:32,000 ERROR org.apache.commons.jelly.tags.ant.AntTag - Class com.werken.werkz.jelly.ProjectTag doesn't support the nested "path" element.
+2003-06-07 14:13:32,921 ERROR org.apache.commons.jelly.tags.ant.AntTag - Class com.werken.werkz.jelly.GoalTag doesn't support the nested "tstamp" element.
+2003-06-07 14:13:32,984 ERROR org.apache.commons.jelly.tags.ant.AntTag - Class com.werken.werkz.jelly.GoalTag doesn't support the nested "echo" element.
+2003-06-07 14:13:33,062 ERROR org.apache.commons.jelly.tags.ant.AntTag - Class com.werken.werkz.jelly.GoalTag doesn't support the nested "mkdir" element.
+2003-06-07 14:13:33,062 ERROR org.apache.commons.jelly.tags.ant.AntTag - Class com.werken.werkz.jelly.GoalTag doesn't support the nested "mkdir" element.
+2003-06-07 14:13:33,078 ERROR org.apache.commons.jelly.tags.ant.AntTag - Class com.werken.werkz.jelly.GoalTag doesn't support the nested "mkdir" element.
+2003-06-07 14:13:33,078 ERROR org.apache.commons.jelly.tags.ant.AntTag - Class com.werken.werkz.jelly.GoalTag doesn't support the nested "mkdir" element.
+2003-06-07 14:13:33,093 ERROR org.apache.commons.jelly.tags.ant.AntTag - Class com.werken.werkz.jelly.GoalTag doesn't support the nested "mkdir" element.
+2003-06-07 14:13:33,171 ERROR org.apache.commons.jelly.tags.ant.AntTag - Class com.werken.werkz.jelly.GoalTag doesn't support the nested "copy" element.
+2003-06-07 14:13:33,187 ERROR org.apache.commons.jelly.tags.ant.AntTag - Class com.werken.werkz.jelly.GoalTag doesn't support the nested "echo" element.
+2003-06-07 14:13:33,359 ERROR org.apache.commons.jelly.tags.ant.AntTag - Class com.werken.werkz.jelly.GoalTag doesn't support the nested "echo" element.
