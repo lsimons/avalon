@@ -85,7 +85,7 @@ import org.apache.excalibur.configuration.CascadingConfiguration;
  * Deployment model defintion.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2003/10/28 20:21:00 $
+ * @version $Revision: 1.6 $ $Date: 2003/11/03 06:11:30 $
  */
 public class DefaultDeploymentModel extends DefaultModel implements DeploymentModel
 {
@@ -329,7 +329,7 @@ public class DefaultDeploymentModel extends DefaultModel implements DeploymentMo
    /**
     * Set the collection policy for the model.
     *
-    * @param the collection policy
+    * @param policy the collection policy
     * @see InfoDescriptor#LIBERAL
     * @see InfoDescriptor#DEMOCRAT
     * @see InfoDescriptor#CONSERVATIVE

@@ -63,7 +63,7 @@ import org.apache.avalon.merlin.kernel.KernelRuntimeException;
 import org.apache.avalon.activation.appliance.Appliance;
 import org.apache.avalon.activation.appliance.Block;
 import org.apache.avalon.activation.appliance.Composite;
-import org.apache.avalon.activation.appliance.impl.DefaultBlock;
+import org.apache.avalon.activation.appliance.impl.AbstractBlock;
 import org.apache.avalon.activation.appliance.impl.DefaultServiceContext;
 import org.apache.avalon.composition.data.TargetDirective;
 import org.apache.avalon.composition.logging.LoggingManager;
@@ -79,7 +79,7 @@ import org.apache.excalibur.mpool.PoolManager;
  * Implementation of the default Merlin Kernel.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.6 $ $Date: 2003/10/28 20:21:01 $
+ * @version $Revision: 1.7 $ $Date: 2003/11/03 06:11:30 $
  */
 public class DefaultKernel extends NotificationBroadcasterSupport 
   implements Kernel, DefaultKernelMBean
@@ -443,7 +443,7 @@ public class DefaultKernel extends NotificationBroadcasterSupport
                 {
                     services.put( Appliance.MBEAN_SERVER_KEY, m_server );
                 }
-                m_block = DefaultBlock.createRootBlock( services, m_model );
+                m_block = AbstractBlock.createRootBlock( services, m_model );
             }
             catch( Throwable e )
             {

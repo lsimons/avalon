@@ -9,7 +9,7 @@
   <name>Merlin Kernel Implementation</name>
   <package>org.apache.avalon.merlin</package>
 
-  <currentVersion>3.2-dev</currentVersion>
+  <currentVersion>3.2.1-dev</currentVersion>
   <inceptionYear>2002</inceptionYear>
   <shortDescription>Merlin Kernel Implementation</shortDescription>
 
@@ -50,12 +50,12 @@ Merlin service management platform.
     <dependency>
       <groupId>avalon-activation</groupId>
       <artifactId>avalon-activation-spi</artifactId>
-      <version>1.2-dev</version>
+      <version>1.2.1-dev</version>
     </dependency>
     <dependency>
       <groupId>avalon-activation</groupId>
       <artifactId>avalon-activation-impl</artifactId>
-      <version>1.2.1-dev</version>
+      <version>1.2.2-dev</version>
     </dependency>
 
     <dependency>

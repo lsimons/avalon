@@ -53,20 +53,21 @@ package org.apache.avalon.activation.appliance.impl;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.composition.model.ContainmentModel;
 import org.apache.avalon.composition.model.DependencyModel;
+import org.apache.avalon.activation.appliance.ApplianceRepository;
 import org.apache.avalon.activation.appliance.DependencyGraph;
 import org.apache.avalon.activation.appliance.ServiceContext;
 import org.apache.avalon.activation.appliance.Engine;
-import org.apache.avalon.activation.appliance.ApplianceRepository;
+import org.apache.avalon.activation.appliance.BlockContext;
 
 /**
  * Context object applied to a new block.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/11/02 23:12:50 $
+ * @version $Revision: 1.2 $ $Date: 2003/11/03 06:11:30 $
  */
-public class DefaultBlockContext
+public class DefaultBlockContext implements BlockContext
 {
-    private Logger m_logger;
+    private final Logger m_logger;
 
     private final ContainmentModel m_model;
 
@@ -96,6 +97,7 @@ public class DefaultBlockContext
         if( context == null ) throw new NullPointerException( "context" );
         if( repository == null ) throw new NullPointerException( "repository" );
 
+        m_logger = logger;
         m_repository = repository;
         m_model = model;
         m_context = context;
