@@ -45,7 +45,7 @@ import org.mortbay.util.Resource;
 
 /**
  * @avalon.component name="http-resource-handler" lifestyle="singleton"
- * @avalon.server    type="org.mortbay.http.HttpHandler"
+ * @avalon.service   type="org.mortbay.http.HttpHandler"
  */
 public class ResourceHandler 
     extends org.mortbay.http.handler.ResourceHandler 
