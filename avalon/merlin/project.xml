@@ -215,8 +215,8 @@
 
   <packageGroups>
     <packageGroup>
-      <title>Merlin Service Management Platform</title>
-      <packages>org.apache.avalon.merlin,org.apache.avalon.merlin.*</packages>
+      <title>Kernel</title>
+      <packages>org.apache.avalon.merlin,org.apache.avalon.merlin.impl,org.apache.avalon.merlin.event</packages>
     </packageGroup>
     <packageGroup>
       <title>Activation</title>
@@ -233,6 +233,10 @@
     <packageGroup>
       <title>Facilities</title>
       <packages>org.apache.avalon.http,org.apache.avalon.http.*</packages>
+    </packageGroup>
+    <packageGroup>
+      <title>Embedded</title>
+      <packages>org.apache.avalon.merlin.cli,org.apache.avalon.merlin.unit,org.apache.avalon.merlin.tools,org.apache.avalon.merlin.servlet</packages>
     </packageGroup>
   </packageGroups>
 

@@ -93,7 +93,7 @@ import org.apache.excalibur.configuration.CascadingConfiguration;
  * Deployment model defintion.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/01/13 11:41:26 $
+ * @version $Revision: 1.3 $ $Date: 2004/01/15 12:23:04 $
  */
 public class DefaultComponentModel extends DefaultDeploymentModel 
   implements ComponentModel
@@ -309,7 +309,7 @@ public class DefaultComponentModel extends DefaultDeploymentModel
      */
     public void assemble() throws AssemblyException
     {
-        return;
+        // nothing to do
     }
 
     /**
@@ -317,6 +317,7 @@ public class DefaultComponentModel extends DefaultDeploymentModel
      */
     public void disassemble()
     {
+        // nothing to do
     }
 
     /**
@@ -839,6 +840,39 @@ public class DefaultComponentModel extends DefaultDeploymentModel
         }
 
         return (Class[]) list.toArray( new Class[0] );
+    }
+
+   /** 
+    * Return the deployment timeout value for the component.
+    *
+    * @return the default deployment timeout value
+    */
+    public long getDeploymentTimeout()
+    {
+        String value = 
+          m_context.getType().getInfo().getAttribute( 
+            DEPLOYMENT_TIMEOUT_KEY, null );
+        if( null != value )
+        {
+            try
+            {
+                return Long.paseLong( value );
+            }
+            catch( NumberFormatException nfe )
+            {
+                final String error =
+                  "Invalid timout parameter [" 
+                  + value 
+                  + "] in component type [" 
+                  + m_context.getType()
+                  + "].";
+                throw new IllegalStateException( error, nfe );
+            }
+        }
+        else
+        {
+            return super.getDeploymentTimeout();
+        }
     }
 
     //==============================================================
