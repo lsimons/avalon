@@ -8,7 +8,7 @@
 package org.apache.log;
 
 /**
- * Interface holding constants for logging priorities.
+ * Class holding constants for logging priorities.
  * 
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
@@ -46,10 +46,10 @@ public final class Priority
     private final int           m_priority;
 
     /**
-     * Retrieve a Priority.Enum value for the String Priority level.
+     * Retrieve a Priority object for the name parameter.
      *
-     * @param priority the priority
-     * @return the descriptive string
+     * @param priority the priority name
+     * @return the Priority for name
      */
     public static Priority getPriorityForName( final String priority )
     {
