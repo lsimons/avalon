@@ -32,7 +32,6 @@ public class PermissionDescriptorTestCase extends TestCase
 {
     private static final String m_classname = FilePermission.class.getName();
     private static final String m_name = "${avalon.dir}";
-    private static final String m_actionsList = "read,write";
     private static final String[] m_actions = new String[]{"read","write"};
 
     public PermissionDescriptorTestCase( String name )
@@ -79,14 +78,14 @@ public class PermissionDescriptorTestCase extends TestCase
 
     public void testPermission()
     {
-        PermissionDescriptor d = new PermissionDescriptor( m_classname, m_name, m_actionsList );
+        PermissionDescriptor d = new PermissionDescriptor( m_classname, m_name, m_actions );
         check( d, m_classname, m_name, m_actions );
     }
 
 
     public void testSerialization() throws IOException, ClassNotFoundException
     {
-        PermissionDescriptor p = new PermissionDescriptor( m_classname, m_name, m_actionsList );
+        PermissionDescriptor p = new PermissionDescriptor( m_classname, m_name, m_actions );
 
         File file = new File( "test.out" );
         ObjectOutputStream oos = new ObjectOutputStream( new FileOutputStream( file ) );

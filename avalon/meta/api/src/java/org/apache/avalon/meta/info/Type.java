@@ -39,11 +39,12 @@ import org.apache.avalon.framework.configuration.Configuration;
  * <p><image src="doc-files/Type.gif" border="0"/></p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/01/24 23:20:45 $
+ * @version $Revision: 1.4 $ $Date: 2004/02/24 21:35:31 $
  */
 public class Type implements Serializable
 {
     private final InfoDescriptor m_descriptor;
+    private final SecurityDescriptor m_security;
     private final ContextDescriptor m_context;
     private final Configuration m_configuration;
     private final ServiceDescriptor[] m_services;
@@ -117,9 +118,51 @@ public class Type implements Serializable
                  final Configuration defaults )
             throws NullPointerException
     {
+        this( 
+          descriptor, new SecurityDescriptor( null, null ), loggers, context, services, dependencies, 
+          stages, extensions, defaults );
+    }
+
+    /**
+     * Creation of a new Type instance using a supplied component descriptor,
+     * logging, cotext, services, depedencies, stages and extension descriptors.
+     * @param descriptor a component descriptor that contains information about
+     *   the component type
+     * @param security a component security descriptor
+     * @param loggers a set of logger descriptors the declare the logging channels
+     *   required by the type
+     * @param context a component context descriptor that declares the context type
+     *   and context entry key and value classnames
+     * @param services a set of service descriprors that detail the service that
+     *   this component type is capable of supplying
+     * @param dependencies a set of depedency descriprors that detail the service
+     *   that this component type is depedent on
+     * @param stages a set of stage descriprors that detail the extensiuon stage
+     *   interfaces that this component requires a handler for
+     * @param extensions a set of lifecycle extension capabilities that this
+     *   componet can provide to its container during the process of stage
+     *   suppier resolution
+     * @exception NullPointerException if the descriptor, loggers, context, services,
+     *   dependencies, stages, or extensions argument is null
+     */
+    public Type( final InfoDescriptor descriptor,
+                 final SecurityDescriptor security,
+                 final CategoryDescriptor[] loggers,
+                 final ContextDescriptor context,
+                 final ServiceDescriptor[] services,
+                 final DependencyDescriptor[] dependencies,
+                 final StageDescriptor[] stages,
+                 final ExtensionDescriptor[] extensions,
+                 final Configuration defaults )
+            throws NullPointerException
+    {
         if ( null == descriptor )
         {
             throw new NullPointerException( "descriptor" );
+        }
+        if ( null == security )
+        {
+            throw new NullPointerException( "security" );
         }
         if ( null == loggers )
         {
@@ -147,6 +190,7 @@ public class Type implements Serializable
         }
 
         m_descriptor = descriptor;
+        m_security = security;
         m_loggers = loggers;
         m_context = context;
         m_services = services;
@@ -164,6 +208,16 @@ public class Type implements Serializable
     public InfoDescriptor getInfo()
     {
         return m_descriptor;
+    }
+
+    /**
+     * Return the security descriptor
+     *
+     * @return the security descriptor.
+     */
+    public SecurityDescriptor getSecurity()
+    {
+        return m_security;
     }
 
     /**
@@ -362,6 +416,7 @@ public class Type implements Serializable
     {
         boolean isEqual = other instanceof Type;
         isEqual = isEqual && m_descriptor.equals(((Type)other).m_descriptor);
+        isEqual = isEqual && m_security.equals(((Type)other).m_security);
         isEqual = isEqual && m_configuration.equals(((Type)other).m_configuration);
         isEqual = isEqual && m_context.equals(((Type)other).m_context);
         for( int i=0; i<m_loggers.length; i++ )
@@ -394,6 +449,8 @@ public class Type implements Serializable
     public int hashCode()
     {
         int hash = m_descriptor.hashCode();
+        hash >>>= 13;
+        hash ^= m_security.hashCode();
         hash >>>= 13;
         hash ^= m_context.hashCode();
         hash >>>= 13;
