@@ -1,5 +1,5 @@
 /* 
- * Copyright 2004 Apache Software Foundation
+ * Copyright 2003-2004 The Apache Software Foundation
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
  * You may obtain a copy of the License at 
@@ -25,7 +25,7 @@ import org.apache.avalon.framework.CascadingException;
  * Container.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.7 $ $Date: 2004/02/24 22:31:19 $
+ * @version CVS $Revision: 1.8 $ $Date: 2004/02/28 15:16:24 $
  */
 public final class InitializationException extends CascadingException
 {

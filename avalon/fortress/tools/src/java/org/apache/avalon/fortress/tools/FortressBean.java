@@ -1,5 +1,5 @@
 /* 
- * Copyright 2004 Apache Software Foundation
+ * Copyright 2003-2004 The Apache Software Foundation
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
  * You may obtain a copy of the License at 
@@ -36,7 +36,7 @@ import org.apache.avalon.framework.service.Serviceable;
  * Bean for making it easier to run Fortress, for example as Ant task.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.4 $ $Date: 2004/02/26 22:42:03 $
+ * @version CVS $Revision: 1.5 $ $Date: 2004/02/28 15:16:27 $
  */
 public class FortressBean implements Initializable, LogEnabled, Serviceable, Disposable {
 

@@ -1,5 +1,5 @@
 /* 
- * Copyright 2004 Apache Software Foundation
+ * Copyright 2003-2004 The Apache Software Foundation
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
  * You may obtain a copy of the License at 
@@ -24,7 +24,7 @@ import org.apache.avalon.fortress.InitializationException;
  * InitializationExceptionTestCase does XYZ
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.5 $
+ * @version CVS $Revision: 1.6 $
  */
 public class InitializationExceptionTestCase extends TestCase
 {

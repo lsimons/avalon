@@ -1,5 +1,5 @@
 /* 
- * Copyright 2004 Apache Software Foundation
+ * Copyright 2003-2004 The Apache Software Foundation
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
  * You may obtain a copy of the License at 
@@ -34,7 +34,7 @@ import org.apache.avalon.framework.service.ServiceException;
  * information to determine the generic form of the container internals.</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.9 $ $Date: 2004/02/21 13:26:59 $
+ * @version CVS $Revision: 1.10 $ $Date: 2004/02/28 15:16:24 $
  * @see ContainerConstants for the contract surrounding the Container context
  * @see <a href="http://avalon.apache.org/framework/guide-cop-in-avalon.html">COP In Avalon</a>
  */
