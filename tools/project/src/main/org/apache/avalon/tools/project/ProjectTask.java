@@ -37,6 +37,7 @@ import org.apache.avalon.tools.home.Repository;
  */
 public class ProjectTask extends Sequential
 {
+    private static final String ANT_PROPERTIES = "ant.properties";
     private static final String BUILD_PROPERTIES = "build.properties";
 
     private File m_index;
@@ -93,10 +94,9 @@ public class ProjectTask extends Sequential
         // make sure that the build.properties file is loaded
         //
 
-        Property props = (Property) getProject().createTask( "property" );
-        props.setFile( getPropertiesFile() );
-        props.init();
-        props.execute();
+        readProperties( 
+          new File( getProject().getBaseDir(), ANT_PROPERTIES ) );
+        readProperties( getPropertiesFile() );
 
         //
         // make sure we have a common defintion available
@@ -259,5 +259,13 @@ public class ProjectTask extends Sequential
         {
             throw new BuildException( ioe );
         }
+    }
+
+    private void readProperties( File file ) throws BuildException 
+    {
+        Property props = (Property) getProject().createTask( "property" );
+        props.setFile( file );
+        props.init();
+        props.execute();
     }
 }

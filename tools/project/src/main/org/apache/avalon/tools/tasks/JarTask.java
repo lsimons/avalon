@@ -24,8 +24,10 @@ import org.apache.tools.ant.Task;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.taskdefs.Copy;
+import org.apache.tools.ant.taskdefs.Delete;
 import org.apache.tools.ant.taskdefs.Jar;
 import org.apache.tools.ant.taskdefs.Checksum;
+import org.apache.tools.ant.taskdefs.Execute;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.Path;
 
@@ -38,10 +40,11 @@ import org.apache.avalon.tools.project.Definition;
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class JarTask extends HomeTask
+public class JarTask extends DeliverableTask
 {
     public static final String MD5_EXT = "md5";
     public static final String JAR_EXT = "jar";
+    public static final String ASC_EXT = "asc";
 
     public static String getJarFilename( Definition def )
     {
@@ -58,9 +61,9 @@ public class JarTask extends HomeTask
 
     public static File getJarFile( Project project, Definition def )
     {
-        File target = PrepareTask.getTargetDirectory( project );
+        File type = getTargetDeliverablesTypeDirectory( project, def );
         String filename = getJarFilename( def );
-        return new File( target, filename );
+        return new File( type, filename );
     }
 
     public void execute() throws BuildException 
@@ -70,8 +73,16 @@ public class JarTask extends HomeTask
         File jarFile = getJarFile();
         if( classes.exists() )
         {
-            jar( classes, jarFile );
-            checksum( jarFile );
+            try
+            {
+                boolean modified = jar( classes, jarFile );
+                checksum( jarFile, modified );
+                asc( jarFile, modified );
+            }
+            catch( IOException ioe )
+            {
+                throw new BuildException( ioe );
+            }
         }
     }
 
@@ -80,21 +91,59 @@ public class JarTask extends HomeTask
         return getJarFile( getProject(), getDefinition() );
     }
 
-    private void jar( File classes, File jarFile )
+    private boolean jar( File classes, File jarFile )
     {
+        long modified = -1;
+        if( jarFile.exists() )
+        {
+            modified = jarFile.lastModified();
+        }
+ 
         Jar jar = (Jar) getProject().createTask( "jar" );
         jar.setDestFile( jarFile );
         jar.setBasedir( classes );
+        jar.setIndex( true );
         jar.init();
         jar.execute();
+
+        return jarFile.lastModified() > modified;
     }
 
-    private void checksum( File jarFile )
+    private void checksum( File jar, boolean modified )
     {
+        if( modified )
+        {
+            log( "Creating md5 checksum" );
+        }
+
         Checksum checksum = (Checksum) getProject().createTask( "checksum" );
-        checksum.setFile( jarFile );
+        checksum.setFile( jar );
         checksum.setFileext( "." + MD5_EXT );
         checksum.init();
         checksum.execute();
+    }
+
+    private void asc( File jar, boolean modified ) throws IOException
+    {
+        File md5 = new File( jar.toString() + "." + ASC_EXT );
+        if( modified )
+        {
+            if( md5.exists() )
+            {
+                md5.delete();
+            }
+
+            String gpg = getProject().getProperty( "avalon.gpg.exe" );
+            if( null != gpg )
+            {
+                log( "Creating asc signature" );
+                Execute execute = new Execute();
+                execute.setCommandline( 
+                  new String[]{ gpg, "-a", "-b", jar.toString() } );
+                execute.setWorkingDirectory( getProject().getBaseDir() );
+                execute.setSpawn( true );
+                execute.execute();
+            }
+        }
     }
 }
