@@ -25,10 +25,20 @@ public class SarEntry
     private SarMetaData     m_metaData;
     private Logger          m_logger;
     private Configuration   m_configuration;
+    private URL[]           m_classPath;
 
-    public SarEntry( final SarMetaData metaData )
+    public SarEntry( final SarMetaData metaData, 
+                     final URL[] classPath,
+                     final Configuration configuration )
     {
         m_metaData = metaData;
+        m_classPath = classPath;
+        m_configuration = configuration;
+    }
+
+    public URL[] getClassPath()
+    {
+        return m_classPath;
     }
 
     public SarMetaData getMetaData()
@@ -49,10 +59,5 @@ public class SarEntry
     public Configuration getConfiguration()
     {
         return m_configuration;
-    }
-
-    public void setConfiguration( final Configuration configuration )
-    {
-        m_configuration = configuration;
     }
 }

@@ -8,7 +8,6 @@
 package org.apache.avalon.phoenix.metadata;
 
 import java.io.File;
-import java.net.URL;
 
 /**
  * This describes each server application.
@@ -19,19 +18,16 @@ public class SarMetaData
 {
     private String                  m_name;
     private File                    m_homeDirectory;
-    private URL[]                   m_classPath;
     private BlockMetaData[]         m_blocks;
     private BlockListenerMetaData[] m_listeners;
 
     public SarMetaData( final String name,
                         final File homeDirectory,
-                        final URL[] classPath,
                         final BlockMetaData[] blocks,
                         final BlockListenerMetaData[] listeners )
     {
         m_name = name;
         m_homeDirectory = homeDirectory;
-        m_classPath = classPath;
         m_blocks = blocks;
         m_listeners = listeners;
     }
@@ -44,11 +40,6 @@ public class SarMetaData
     public File getHomeDirectory()
     {
         return m_homeDirectory;
-    }
-
-    public URL[] getClassPath()
-    {
-        return m_classPath;
     }
 
     public BlockMetaData[] getBlocks()
