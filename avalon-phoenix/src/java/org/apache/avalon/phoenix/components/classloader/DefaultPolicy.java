@@ -413,7 +413,10 @@ class DefaultPolicy
 
             if( null == certificate )
             {
-                final String message = REZ.getString( "policy.error.alias.missing", alias, keyStoreName );
+                final String message =
+                    REZ.getString( "policy.error.alias.missing",
+                                   alias,
+                                   keyStoreName );
                 throw new ConfigurationException( message );
             }
 

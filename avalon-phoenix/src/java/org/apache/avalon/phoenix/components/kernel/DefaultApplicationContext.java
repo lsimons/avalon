@@ -66,8 +66,10 @@ class DefaultApplicationContext
     public void service( final ServiceManager serviceManager )
         throws ServiceException
     {
-        m_repository = (ConfigurationRepository)serviceManager.lookup( ConfigurationRepository.ROLE );
-        m_systemManager = (SystemManager)serviceManager.lookup( SystemManager.ROLE );
+        m_repository = (ConfigurationRepository)serviceManager.
+            lookup( ConfigurationRepository.ROLE );
+        m_systemManager = (SystemManager)serviceManager.
+            lookup( SystemManager.ROLE );
     }
 
     public SarMetaData getMetaData()
