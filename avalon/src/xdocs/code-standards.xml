@@ -1,0 +1,214 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE document SYSTEM "dtd/document-v10.dtd">
+
+<document>
+
+ <header>
+  <title>Coding Standards</title>
+  <authors>
+   <person name="Avalon Documentation Team" email="bloritsch@apache.org"/>
+   <person name="Berin Loritsch" email="bloritsch@apache.org"/>
+   <person name="Peter Donald" email="donaldp@apache.org"/>
+   <person name="Roberto Lo Giacco" email="rlogiacco@mail.com"/>
+  </authors>
+ </header>
+
+<body>
+<s1 title="Coding Standards">
+ <p>
+ This document describes a list of coding conventions that are required
+ for code submissions to the project. By default, the coding conventions
+ for most Open Source Projects should follow the existing coding conventions
+ in the code that you are working on. For example, if the bracket is on
+ the same line as the if statement, then you should write all your code
+ to have that convention.
+ </p>
+
+<p>
+<strong>If you commit code that does not follow these conventions and you
+are caught, you are responsible for also fixing your own code.</strong>
+</p>
+
+<ol>
+<li>Brackets should begin and end on a new line. Examples:
+<source><![CDATA[
+
+if( foo )
+{
+    // code here
+}    
+
+try
+{
+    // code here
+}
+catch( final Exception bar )
+{
+    // code here
+}
+finally
+{
+    // code here
+}    
+
+while( true )
+{
+    // code here
+}    
+
+]]></source>
+</li>
+
+<li><p>The preference is to include extra spaces between parenthesis and expression. 
+For example;</p>
+<source><![CDATA[
+
+if( foo )
+
+]]></source>
+</li>
+<li>
+<p>
+4 spaces. <strong>NO</strong> tabs. Period. We understand that a lot of you like
+to use tabs, but the fact of the matter is that in a distributed development
+enviroment, when the cvs commit messages get sent to a mailing list, they
+are almost impossible to read if you use tabs.
+</p>
+
+<p>
+In Emacs-speak, this translates to the following command:
+
+(setq-default tab-width 4 indent-tabs-mode nil)
+</p>
+</li>
+
+<li>
+Unix linefeeds for all .java source code files. Other platform specific
+files should have the platform specific linefeeds.
+</li>
+
+<li>
+Javadoc <strong>SHOULD</strong> exist on all your methods. Also, if you are working
+on existing code and there currently isn't a javadoc for that method/class/variable
+or whatever, then you should contribute and add it. This will improve the
+project as a whole.
+</li>
+
+<li>
+The Jakarta Apache/Avalon License <strong>MUST</strong> be placed at the top
+of each and every file.
+</li>
+
+<li>
+If you contribute to a file (code or documentation), add yourself to the
+top of the file. For java files the preferred Javadoc format is:
+
+<source><![CDATA[
+@author <a href="mailto:user@domain.com">John Doe</a>
+]]></source>    
+</li>
+
+ <li>
+          Indent comments on an 80 column basis and the code on a
+          100 column using a two more indention when you're constrained
+          to wrap a line.
+     </li>
+        <li>
+          We focus on readability over performance, at least in the first
+          phase, leaving source code optimization the last resource to give
+          out some milliseconds from my code. If the code is not performing then
+          it is better to re-engineer it rather than to expand loops, take
+          out variable declarations and such things. If the code is
+          performing well and you know what the core methods are then, in the
+          end of the process, try to give out the best from them.
+        </li>
+        <li>
+          Try to javadoc-comment all methods and public/default/protected
+          attributes adding code comments only when you think it's really
+          needed (like assumptions).
+        </li>
+<li>
+Variables are declared in the inner scope regardless of
+performances unless the code really needs for performances
+(2 thousand loops every 5 seconds for example) like:
+<source>
+while( myListIterator.hasNext() ) 
+{
+    final String myString = (String)myLstIterator.nextElement();
+}
+</source>
+</li>
+<li>
+Variable names are every time descriptive. The cases where this rule is
+not applied include; manipulating exceptions (only uppercase class 
+exception letters), loop declaring variables (mostly I use i,j,k and t) 
+and other established shortenings (like init() for initialize, sb for 
+StringBuffer etc). ie.
+<source><![CDATA[
+try 
+{
+    for( int i = 0; i < 10; i++ )
+    {
+        // some stuff
+    }
+} 
+catch( final FileNotFoundException fnfe )
+{
+    // some stuff
+}
+catch( final IndexOutOfBoundsException ioobe ) 
+{
+    // some stuff
+}
+]]></source>
+</li>
+<li>
+Use only String concatenation unlesss you really need
+StringBuffer methods leaving to the compiler optimization
+the stuff to replace it with StringBuffer, so use:
+<source>
+final String myString = "test " + "for " + "performances";
+</source>
+</li>
+<li>
+Indent comments on an 80 column basis and the code on a          
+100 column using a two more indention when you're constrained
+to wrap a line.
+</li>
+        <li>
+          Try not to declare a method as 'synchronized'.  If a method accesses
+          a shared resource then surround accesses to that resource with
+          a synchronized block. Ideally the synchronized block should surround 
+          the smallest possible area. For example:
+<source>
+public void sharedMethod() 
+{
+    String display = null;
+
+    synchronized( this ) 
+    {
+        display = mySharedObject.getHelloWorld();
+    }
+
+    System.out.println( display );
+}
+</source>
+If you are within a static method, then you may have to create
+a static object whose sole purpose in life is to provide the
+lock you need.
+</li>
+</ol>
+
+<p>
+Thanks for your cooperation.
+</p>
+
+<p>
+-The Avalon Team
+</p>
+
+</s1>
+
+</body>
+</document>
