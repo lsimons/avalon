@@ -7,7 +7,47 @@
     <person name="Federico Barbieri" email="fede@apache.org" id="FB"/>
     <person name="Berin Loritsch" email="bloritsch@apache.org" id="BL"/>
     <person name="Peter Donald" email="donaldp@apache.org" id="PD"/>
+    <person name="Paul Hammant" email="Paul_Hammant@yahoo.com" id="PH"/>
+    <person name="Mircea Toma" email="mirceatoma@home.com" id="MT"/>
   </devs>
+<release version="4.0a2" date="November 12, 2001">
+  <action dev="PD" type="change">
+    Update Phoenix to use the new Avalon Framework Logger interface rather than
+    directly using LogKits Logger class. This required a backwards incompatible 
+    change in BlockContext. The getLogger() methods now return the Logger interface
+    rather than LogKits Logger class. If a Block implements Loggable then it will
+    be passed LogKits Logger, this is required for backwards compatability. If the 
+    Block implements LogEnabled it will receive the new style Logger.
+  </action>
+  <action dev="MT" type="add">
+    Add support for undeploying and unistalling applications. Add support for separating
+    out install phase from deployment phase and persisting information about 
+    application installations.
+  </action>
+  <action dev="PD" type="change">
+    Rework the application deployment format (ie .sar format) to be more in line
+    with other specifications. See docs/deployment-format.html in distribution for 
+    details. The old format is still supported but is deprecated.
+  </action>
+  <action dev="PH" type="add">
+    Created the start of a Phoenix Developers Kit (PDK) that will enable 
+    developers to rapidly become accustom to developing Phoenix applications.
+  </action>
+  <action dev="PD" type="add">
+    Started to incorporate the JMX code more fully into Phoenix kernel. Started
+    doing this by refactoring the base MBeans and testing using the RIs agent.
+  </action>
+  <action dev="PD" type="change">
+    Separated code that validated assembly of application into separate 
+    classes. The validation is now much stricter and requires that 
+    Blocks conform to established patterns. The validation phase should give
+    more reasonable explanations for violations. Extra validation checks 
+    include verifying that services offered by a Block are actually interfaces,
+    that there is no circular dependencies, that declared Blocks and BlockListeners
+    actually implement Block or BlockListener interface, that the names of Blocks
+    are valid etc.
+  </action>
+</release>
 <release version="4.0a1" date="September 25, 2001">
   <action dev="BL" type="change">
     Too many things to enumerate here.  This is the first public release,
