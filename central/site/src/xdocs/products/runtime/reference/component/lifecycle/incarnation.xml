@@ -21,7 +21,7 @@
 
   <properties>
     <author email="mcconnell@apache.org">Stephen McConnell</author>
-    <title>Lifestyle Specification</title>
+    <title>Lifecycle Specification</title>
   </properties>
 
   <body>
@@ -239,7 +239,42 @@ public class HelloComponent extends AbstractLogEnabled
           <tr>
             <td><a name="execution"/><p>execution</p></td>
             <td>
-<p>Optional execution stage.  A component may implement either the <a href="../../../../../avalon/runtime/@RUNTIME-VERSION@/api/org/apache/avalon/framework/activity/Startable.html">Startable</a> or <a href="../../../../../avalon/runtime/@RUNTIME-VERSION@/api/org/apache/avalon/framework/activity/Executable.html">Executable</a> interfaces.  If the component implements Executable the execute method will be invoked before the component instance is exposed to any other component.  If the component implements the Startable interface the container will invoke the start operation.  An implementation is responsible for establishing a working thread and returned from the start operation promptly.</p>
+<p>Optional execution stage.  A component may implement either the 
+<a href="../../../../../avalon/runtime/@RUNTIME-VERSION@/api/org/apache/avalon/framework/activity/Startable.html">Startable</a> 
+or <a href="../../../../../avalon/runtime/@RUNTIME-VERSION@/api/org/apache/avalon/framework/activity/Executable.html">Executable</a> 
+interfaces.  If the component implements Executable the execute method will be 
+invoked before the component instance is exposed to any other component.  If the 
+component implements the Startable interface the container will invoke the start
+operation.  An implementation is responsible for establishing a working thread 
+and returned from the start operation promptly.
+</p>
+<p>
+The Startable interface is used by any component that is constantly running for
+the duration of its life. The interface defines two methods: start and stop. 
+Neither method has any parameters. 
+</p>
+<p> 
+The contract surrounding this interface is that the start method is called once
+after the component is fully initialized, and the stop method is called once 
+before the component is disposed of. Neither method will be called more than
+once, and start will always be called before stop. 
+</p>
+<p>
+Furthermore, the method must return, it can not go into a endless loop. 
+The container may include a deployment timeout and try to regain the thread
+control. Details of this functionality is container specific.
+</p>
+<p>
+From this follows that the component should create a thread and call the 
+Thread.start() method inside this method to start the continous processing. 
+The stop() method should interrupt the thread in a safe manner. This should be 
+done by variables and the Thread.interrupt() method, slightly depending on how 
+the thread is operating. Implications of using this interface require that the 
+start and stop methods be conducted safely (unlike the Thread.stop method) and 
+not render the system unstable.
+</p>
+ 
+ 
 <p><i>Executable Example:</i></p>
 <source>
 /**
