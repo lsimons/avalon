@@ -4,14 +4,7 @@
     value="org/apache/avalon/repository/impl/DefaultRepositoryCriteria"/>
 
   <postGoal name="test:test">
-    <attainGoal name="avalon:artifact"/>
+    <attainGoal name="avalon:artifact-install"/>
   </postGoal>
 
-  <postGoal name="jar:install">
-    <ant:copy toDir="${maven.repo.local}/${pom.groupId}/jars">
-      <fileset dir="${maven.build.dir}">
-        <include name="*.meta"/>
-      </fileset>
-    </ant:copy>
-  </postGoal>
 </project>

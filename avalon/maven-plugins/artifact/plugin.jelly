@@ -5,13 +5,15 @@
   xmlns:util="jelly:util"
   xmlns:maven="jelly:maven"
   xmlns:ant="jelly:ant"
-  xmlns:avalon="avalon">
+  xmlns:avalon="avalon-artifact">
 
   <goal name="avalon:artifact-install" prereqs="avalon:artifact">
     <ant:copy toDir="${maven.repo.local}/${pom.groupId}/jars" 
        file="${maven.build.dir}/${pom.artifactId}-${pom.currentVersion}.jar.meta" 
        verbose="yes"/>
   </goal>
+
+  <define:taglib uri="avalon-artifact"/>
 
   <!--
   #
