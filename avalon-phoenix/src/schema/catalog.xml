@@ -35,4 +35,8 @@
         publicId="-//PHOENIX/Assembly DTD Version 1.0//EN"
         systemId="http://jakarta.apache.org/avalon/dtds/phoenix/assembly_1_0.dtd"
         resource="org/apache/avalon/phoenix/tools/assembly.dtd"/>
+    <entity
+        publicId="-//AVALON/Component Info DTD Version 1.0//EN"
+        systemId="http://avalon.apache.org/dtds/info/componentinfo_1_0.dtd"
+        resource="org/apache/avalon/phoenix/tools/componentinfo.dtd"/>
 </catalog>

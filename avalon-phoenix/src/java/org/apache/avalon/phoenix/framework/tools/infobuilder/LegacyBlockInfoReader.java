@@ -63,6 +63,7 @@ import org.apache.avalon.phoenix.framework.info.DependencyDescriptor;
 import org.apache.avalon.phoenix.framework.info.LoggerDescriptor;
 import org.apache.avalon.phoenix.framework.info.SchemaDescriptor;
 import org.apache.avalon.phoenix.framework.info.ServiceDescriptor;
+import org.apache.avalon.phoenix.tools.configuration.ConfigurationBuilder;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.xml.sax.InputSource;
 
@@ -73,7 +74,7 @@ import org.xml.sax.InputSource;
  * <a href="package-summary.html#external">package summary</a>.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003/04/04 10:56:25 $
+ * @version $Revision: 1.5 $ $Date: 2003/04/05 04:21:47 $
  */
 public final class LegacyBlockInfoReader
     extends AbstractLogEnabled
@@ -96,7 +97,7 @@ public final class LegacyBlockInfoReader
         throws Exception
     {
         final InputSource input = new InputSource( inputStream );
-        final Configuration configuration = ConfigurationBuilder.build( input );
+        final Configuration configuration = ConfigurationBuilder.build( input, false );
         return build( implementationKey, configuration );
     }
 
