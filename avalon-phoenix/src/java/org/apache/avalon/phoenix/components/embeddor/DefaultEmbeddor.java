@@ -69,7 +69,7 @@ public class DefaultEmbeddor
 
     private String m_phoenixHome;
 
-    private EmbeddorEntry[] m_entrys;
+    private EmbeddorEntry[] m_entries;
 
     /**
      * If true, flag indicates that the Embeddor should continue running
@@ -99,7 +99,7 @@ public class DefaultEmbeddor
 
     /**
      * Pass the Context to the embeddor.
-     * It is expected that the following will be entrys in context;
+     * It is expected that the following will be entries in context;
      * <ul>
      *   <li><b>common.classloader</b>: ClassLoader shared betweeen
      *      container and applications</li>
@@ -173,13 +173,13 @@ public class DefaultEmbeddor
         throws ConfigurationException
     {
         final Configuration[] children = configuration.getChildren( "component" );
-        m_entrys = new EmbeddorEntry[ children.length ];
+        m_entries = new EmbeddorEntry[ children.length ];
         for( int i = 0; i < children.length; i++ )
         {
             final String role = children[ i ].getAttribute( "role" );
             final String classname = children[ i ].getAttribute( "class" );
             final String logger = children[ i ].getAttribute( "logger" );
-            m_entrys[ i ] =
+            m_entries[ i ] =
                 new EmbeddorEntry( role, classname, logger, children[ i ] );
         }
     }
@@ -301,9 +301,9 @@ public class DefaultEmbeddor
             final String message = REZ.getString( "embeddor.error.shutdown.failed" );
             getLogger().fatalError( message, e );
         }
-        for( int i = 0; i < m_entrys.length; i++ )
+        for( int i = 0; i < m_entries.length; i++ )
         {
-            m_entrys[ i ].setObject( null );
+            m_entries[ i ].setObject( null );
         }
         System.gc(); // make sure resources are released
     }
@@ -418,12 +418,12 @@ public class DefaultEmbeddor
     {
         try
         {
-            for( int i = 0; i < m_entrys.length; i++ )
+            for( int i = 0; i < m_entries.length; i++ )
             {
-                final String className = m_entrys[ i ].getClassName();
+                final String className = m_entries[ i ].getClassName();
                 final Class clazz = Class.forName( className );
                 final Object object = createObject( className, clazz );
-                m_entrys[ i ].setObject( object );
+                m_entries[ i ].setObject( object );
             }
         }
         catch( Exception e )
@@ -497,9 +497,9 @@ public class DefaultEmbeddor
     private void setupComponents()
         throws Exception
     {
-        for( int i = 0; i < m_entrys.length; i++ )
+        for( int i = 0; i < m_entries.length; i++ )
         {
-            final EmbeddorEntry entry = m_entrys[ i ];
+            final EmbeddorEntry entry = m_entries[ i ];
             setupComponent( entry.getObject(),
                             entry.getLoggerName(),
                             entry.getConfiguration() );
@@ -539,10 +539,10 @@ public class DefaultEmbeddor
     private void shutdownComponents()
         throws Exception
     {
-        //for( int i = m_entrys.length - 1; i >= 0; i-- )
-        for( int i = 0; i < m_entrys.length; i++ )
+        //for( int i = m_entries.length - 1; i >= 0; i-- )
+        for( int i = 0; i < m_entries.length; i++ )
         {
-            final Object object = m_entrys[ i ].getObject();
+            final Object object = m_entries[ i ].getObject();
             if( null == object )
             {
                 continue;
@@ -607,14 +607,14 @@ public class DefaultEmbeddor
         systemManager.register( ManagementRegistration.EMBEDDOR.getName(),
                                 this, ManagementRegistration.EMBEDDOR.getInterfaces() );
 
-        for( int i = 0; i < m_entrys.length; i++ )
+        for( int i = 0; i < m_entries.length; i++ )
         {
             final ManagementRegistration registration =
-                ManagementRegistration.getManagementInfoForRole( m_entrys[ i ].getRole() );
+                ManagementRegistration.getManagementInfoForRole( m_entries[ i ].getRole() );
             if ( null != registration )
             {
                 systemManager.register( registration.getName(),
-                                        m_entrys[ i ].getObject(), registration.getInterfaces() );
+                                        m_entries[ i ].getObject(), registration.getInterfaces() );
             }
         }
     }
@@ -629,10 +629,10 @@ public class DefaultEmbeddor
             (SystemManager)getServiceManager().lookup( SystemManager.ROLE );
         systemManager.unregister( ManagementRegistration.EMBEDDOR.getName() );
 
-        for( int i = 0; i < m_entrys.length; i++ )
+        for( int i = 0; i < m_entries.length; i++ )
         {
             final ManagementRegistration registration =
-                ManagementRegistration.getManagementInfoForRole( m_entrys[ i ].getRole() );
+                ManagementRegistration.getManagementInfoForRole( m_entries[ i ].getRole() );
             if ( null != registration )
             {
                 systemManager.unregister( registration.getName() );
@@ -644,9 +644,9 @@ public class DefaultEmbeddor
     {
         final DefaultServiceManager serviceManager = new DefaultServiceManager();
         serviceManager.put( Embeddor.ROLE, this );
-        for( int i = 0; i < m_entrys.length; i++ )
+        for( int i = 0; i < m_entries.length; i++ )
         {
-            final String role = m_entrys[ i ].getRole();
+            final String role = m_entries[ i ].getRole();
             final Object component = getEmbeddorComponent( role );
             serviceManager.put( role, component );
         }
@@ -675,12 +675,12 @@ public class DefaultEmbeddor
 
     private Object getEmbeddorComponent( final String role )
     {
-        for( int i = 0; i < m_entrys.length; i++ )
+        for( int i = 0; i < m_entries.length; i++ )
         {
-            final EmbeddorEntry entry = m_entrys[ i ];
+            final EmbeddorEntry entry = m_entries[ i ];
             if( entry.getRole().equals( role ) )
             {
-                return m_entrys[ i ].getObject();
+                return m_entries[ i ].getObject();
             }
         }
         // Should never happen

@@ -30,7 +30,7 @@ public abstract class AbstractSystemManager
     private static final Resources REZ =
         ResourceManager.getPackageResources( AbstractSystemManager.class );
 
-    private HashMap m_entrys = new HashMap();
+    private HashMap m_entries = new HashMap();
 
     /**
      * Register an object for management.
@@ -64,7 +64,7 @@ public abstract class AbstractSystemManager
             new ManagedEntry( object, interfaces );
         entry.setExportedObject( export( name, entry.getObject(), interfaces ) );
 
-        m_entrys.put( name, entry );
+        m_entries.put( name, entry );
     }
 
     /**
@@ -85,7 +85,7 @@ public abstract class AbstractSystemManager
         final ManagedEntry entry =
             new ManagedEntry( object, null );
         entry.setExportedObject( export( name, entry.getObject(), null ) );
-        m_entrys.put( name, entry );
+        m_entries.put( name, entry );
     }
 
     /**
@@ -97,7 +97,7 @@ public abstract class AbstractSystemManager
     public synchronized void unregister( final String name )
         throws ManagerException
     {
-        final ManagedEntry entry = (ManagedEntry)m_entrys.remove( name );
+        final ManagedEntry entry = (ManagedEntry)m_entries.remove( name );
 
         if( null == entry )
         {
@@ -196,7 +196,7 @@ public abstract class AbstractSystemManager
             throw new NullPointerException( "name" );
         }
 
-        if( null != m_entrys.get( name ) )
+        if( null != m_entries.get( name ) )
         {
             final String message = REZ.getString( "manager.error.register.exists", name );
             throw new ManagerException( message );
