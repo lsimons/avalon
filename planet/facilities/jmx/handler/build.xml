@@ -8,7 +8,7 @@
   <import file="${magic.templates}/standard.xml"/>
 
   <target name="build" depends="standard.build">
-    <x:property property="mx4j.spec" key="avalon-jmx-mx4j" feature="spec"/>
+    <x:property property="mx4j.spec" key="avalon-jmx-mx4j" feature="spec" resolve="false"/>
     <x:block name="jmx-facility" embed="MAIN">
       <x:include name="mx4j" artifact="block:${mx4j.spec}"/>
       <x:component name="handler" 
