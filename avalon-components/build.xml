@@ -202,7 +202,26 @@
        ===================================================================
   -->
   <target name="test" depends="jars">
-    <ant antfile="src/make/build-test.xml" target="test" />
+
+<!--
+    <path id="test.class.path">
+      <pathelement path="${java.class.path}" />
+      <pathelement path="${build.classes}" />
+    </path>
+
+    <property name="test.class.path" refid="test.class.path" />
+    <echo message="TCP: ${test.class.path}" />
+-->
+
+    <test showSuccess="false" showBanner="false" showTrace="true" forceShowTrace="true" > 
+      <classpath>
+        <pathelement path="${build.classes}" /> 
+        <pathelement path="${java.class.path}" />
+      </classpath>
+
+      <testlet>org.apache.cornerstone.services.scheduler.test.CronTimeTriggerTestlet</testlet>
+    </test> 
+
   </target>
 
   <target name="install" depends="jars,install-check" if="install.dir">
