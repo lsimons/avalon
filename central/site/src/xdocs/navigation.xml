@@ -13,12 +13,11 @@
     </links>
 
     <menu>
-      <item name="Introduction" href="index.html"/>
-      <item name="Latest News" href="news/index.html"/>
       <item name="Central" href="central/index.html" />
-      <item name="Products" href="product/index.html" />
+      <item name="Products" href="products/index.html" />
       <item name="Planet" href="planet/index.html"/>
     </menu>
+
  </body>
 
 </project>

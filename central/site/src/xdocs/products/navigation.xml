@@ -6,7 +6,6 @@
 
  <body>
     <menu>
-      <item name="Framework 4" href="af4/index.html"/>
       <item name="Runtime" href="runtime/index.html"/>
       <item name="Studio" href="studio/index.html"/>
       <item name="Tools" href="tools/index.html"/>
