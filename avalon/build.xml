@@ -177,6 +177,34 @@ Legal:
 
   <!--
        ===================================================================
+                          Creates the clutil.jar file
+       ===================================================================
+  -->
+
+  <target name="compile-clutil" depends="prepare">
+
+    <mkdir dir="${build.classes}"/>
+
+    <javac srcdir="${java.dir}"
+           destdir="${build.classes}"
+           debug="${debug}"
+           optimize="${optimize}"
+           deprecation="${deprecation}">
+      <include name="org/apache/avalon/util/cli/*" />
+      <exclude name="org/apache/avalon/util/cli/AbstractMain.java" />
+    </javac>
+  </target>
+
+  <target name="jar-clutil" depends="compile-clutil">
+    <jar jarfile="${build.lib}/clutil.jar" basedir="${build.classes}">
+      <include name="org/apache/avalon/util/cli/*" />
+      <exclude name="org/apache/avalon/util/cli/AbstractMain.class" />
+    </jar>
+  </target>
+
+
+  <!--
+       ===================================================================
        Create documentation
        ===================================================================
   -->
