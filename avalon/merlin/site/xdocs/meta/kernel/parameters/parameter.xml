@@ -94,7 +94,9 @@
 <source><![CDATA[
  <kernel>
    <parameters>
-     <parameter name="deployment-timeout" value="2500" />
+     <parameter 
+       name="urn:composition:deployment.timeout" 
+       value="2500" />
    </parameters>
  </kernel>
 ]]></source>

@@ -88,7 +88,7 @@
         <table>
           <tr><th>Name</th><th>Default</th><th>Description</th></tr>
           <tr>
-            <td>urn:avalon:composition.timeout</td>
+            <td>urn:composition:deployment.timeout</td>
             <td>5000</td>
             <td>
               The time in millisecond within which the deployment of any 
