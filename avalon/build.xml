@@ -25,9 +25,13 @@ Legal:
   <property file=".ant.properties"/>
   <property file="${user.home}/.ant.properties"/>
 
-  <property name="name" value="avalonapi"/>
+  <property name="name" value="avalon"/>
+  <property name="framework.name" value="${name}-framework"/>
+  <property name="excalibur.name" value="${name}-excalibur"/>
+  <property name="testlets.name" value="${name}-framework-excalibur-test"/>
+  <property name="scratchpad.name" value="${name}-scratchpad"/>
   <property name="Name" value="Avalon"/>
-  <property name="version" value="3.9rc1"/>
+  <property name="version" value="3.9rc2"/>
   <property name="year" value="1999-2001"/>
 
   <!--
@@ -75,7 +79,7 @@ Legal:
   <property name="skins.dir" value="${src.dir}/skins"/>
   <property name="avalon.skin" value="${skins.dir}/avalon/"/>
   <property name="xdocs.dir" value="${src.dir}/xdocs"/>
-  <property name="stylesheets.dir" value="${skins.dir}"/> 
+  <property name="stylesheets.dir" value="${skins.dir}"/>
 
   <property name="dist.name" value="${Name}-${version}"/>
   <property name="dist.base" value="distributions"/>
@@ -258,7 +262,7 @@ Legal:
        ===================================================================
   -->
   <target name="xdocs">
-     
+
     <mkdir dir="${build.xdocs}"/>
     <mkdir dir="${build.docs}"/>
     <mkdir dir="${build.docs}/framework"/>
@@ -322,7 +326,7 @@ Legal:
        <param name="-use"/>
        <param name="-doctitle" value="${Name}"/>
        <param name="-windowtitle" value="${Name} API"/>
-       <param name="-bottom" 
+       <param name="-bottom"
               value="&quot;Copyright &#169; 2001 Apache Jakarta Project. All Rights Reserved.&quot;"/>
       </doclet>
     </javadoc>
@@ -397,15 +401,15 @@ Legal:
   <target name="jar" depends="compile">
 
     <mkdir dir="${build.lib}"/>
-    <jar jarfile="${build.lib}/excalibur.jar" basedir="${build.classes}">
-      <include name="org/apache/excalibur/**"/>
+    <jar jarfile="${build.lib}/${excalibur.name}.jar" basedir="${build.classes}">
+      <include name="org/apache/avalon/excalibur/**"/>
       <exclude name="**/test/*"/>
     </jar>
-    <jar jarfile="${build.lib}/avalon.jar" basedir="${build.classes}">
-      <include name="org/apache/avalon/**"/>
+    <jar jarfile="${build.lib}/${framework.name}.jar" basedir="${build.classes}">
+      <include name="org/apache/avalon/framework/**"/>
       <exclude name="**/test/*"/>
     </jar>
-    <jar jarfile="${build.lib}/avalon-test.jar" basedir="${build.classes}">
+    <jar jarfile="${build.lib}/${testlets.name}.jar" basedir="${build.classes}">
       <include name="**/test/*"/>
     </jar>
   </target>
@@ -413,9 +417,9 @@ Legal:
   <target name="install" depends="jar,install-check-cjan">
 
     <mkdir dir="${cjan.lib}" />
-    <copy file="${build.lib}/avalon.jar" todir="${cjan.lib}"/>
-    <copy file="${build.lib}/excalibur.jar" todir="${cjan.lib}"/>
-    <copy file="${build.lib}/avalon-test.jar" todir="${cjan.lib}"/>
+    <copy file="${build.lib}/${framework.name}.jar" todir="${cjan.lib}"/>
+    <copy file="${build.lib}/${excalibur.name}.jar" todir="${cjan.lib}"/>
+    <copy file="${build.lib}/${testlets.name}.jar" todir="${cjan.lib}"/>
 
   </target>
 
@@ -431,9 +435,9 @@ Legal:
   <target name="dist" depends="jar,javadocs,xdocs">
 
     <mkdir dir="${dist.dir}"/>
-    <copy file="${build.lib}/avalon.jar" tofile="${dist.dir}/avalon-${version}.jar"/>
-    <copy file="${build.lib}/excalibur.jar" tofile="${dist.dir}/excalibur-${version}.jar"/>
-    <copy file="${build.lib}/avalon-test.jar" tofile="${dist.dir}/avalon-test-${version}.jar"/>
+    <copy file="${build.lib}/${framework.name}.jar" tofile="${dist.dir}/${framework.name}-${version}.jar"/>
+    <copy file="${build.lib}/${excalibur.name}.jar" tofile="${dist.dir}/${excalibur.name}-${version}.jar"/>
+    <copy file="${build.lib}/${testlets.name}.jar" tofile="${dist.dir}/${testlets.name}-${version}.jar"/>
 
     <mkdir dir="${dist.docs}"/>
     <mkdir dir="${dist.javadocs}"/>
@@ -474,7 +478,7 @@ Legal:
         <include name="bytecode.jar" />
 <!--
         <include name="xerces.jar" />
-        <include name="logkit.jar" /> 
+        <include name="logkit.jar" />
 -->
       </fileset>
     </copy>
@@ -529,17 +533,17 @@ Legal:
       <param name="dist.dir" value="${dist.name}" />
     </antcall>
 
-    <zip zipfile="${dist.base}/${dist.name}-bin.zip" 
-         basedir="${dist.name}/.." 
+    <zip zipfile="${dist.base}/${dist.name}-bin.zip"
+         basedir="${dist.name}/.."
          includes="${dist.name}/**"/>
 
     <tar longfile="gnu" tarfile="${dist.base}/${dist.name}-bin.tar">
-      <tarfileset dir="${dist.name}/.." username="avalon" group="avalon"> 
+      <tarfileset dir="${dist.name}/.." username="avalon" group="avalon">
         <include name="${dist.name}/**"/>
-      </tarfileset> 
+      </tarfileset>
     </tar>
 
-    <gzip zipfile="${dist.base}/${dist.name}-bin.tar.gz" 
+    <gzip zipfile="${dist.base}/${dist.name}-bin.tar.gz"
           src="${dist.base}/${dist.name}-bin.tar"/>
 
     <delete file="${dist.base}/${dist.name}-bin.tar"/>
@@ -549,21 +553,21 @@ Legal:
       <param name="src.dist.dir" value="${dist.name}" />
     </antcall>
 
-    <zip zipfile="${dist.base}/${dist.name}-src.zip" 
-         basedir="${dist.name}/.." 
+    <zip zipfile="${dist.base}/${dist.name}-src.zip"
+         basedir="${dist.name}/.."
          includes="${dist.name}/**"/>
 
     <tar longfile="gnu" tarfile="${dist.base}/${dist.name}-src.tar" >
       <tarfileset dir="${dist.name}/.." mode="755" username="avalon" group="avalon">
         <include name="${dist.name}/build.sh"/>
-      </tarfileset> 
-      <tarfileset dir="${dist.name}/.." username="avalon" group="avalon"> 
+      </tarfileset>
+      <tarfileset dir="${dist.name}/.." username="avalon" group="avalon">
         <include name="${dist.name}/**"/>
         <exclude name="${dist.name}/build.sh"/>
       </tarfileset>
-    </tar> 
+    </tar>
 
-    <gzip zipfile="${dist.base}/${dist.name}-src.tar.gz" 
+    <gzip zipfile="${dist.base}/${dist.name}-src.tar.gz"
           src="${dist.base}/${dist.name}-src.tar"/>
 
     <delete file="${dist.base}/${dist.name}-src.tar"/>
