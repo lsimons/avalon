@@ -267,11 +267,11 @@
       </fileset>
     </copy>
 
-    <copy todir="${build.context}/xdocs" filtering="on">
+    <copy todir="${build.context}/xdocs" filtering="on" overwrite="yes">
       <fileset dir="${xdocs.dir}"/>
     </copy>
 
-    <copy todir="${build.context}/resources">
+    <copy todir="${build.context}/resources" filtering="off" overwrite="yes">
       <fileset dir="${context.dir}/resources"/>
       <fileset dir="${xdocs.dir}">
         <include name="**/images/**"/>
