@@ -52,7 +52,13 @@ package org.apache.avalon.activation.appliance.impl;
 
 import java.util.ArrayList;
 
-
+/** This class implements a simple thread-safe FirstIn-FirstOut queue.
+ * 
+ * It is not intended to be used outside this package,
+ * 
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Revision: 1.2 $ $Date: 2004/01/19 01:28:09 $
+*/
 class SimpleFIFO
 {
     private ArrayList m_Queue;
