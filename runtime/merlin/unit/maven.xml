@@ -1,0 +1,22 @@
+
+<project default="jar:install" xmlns:maven="jelly:maven" xmlns:j="jelly:core" xmlns:util="jelly:util" xmlns:ant="jelly:ant">
+
+  <!--
+  Aggregate dependent jars into the jar created by this project so that we 
+  has a single reference jar file for convinient deployment.
+  -->
+  <preGoal name="jar:jar">
+    <j:forEach var="dep" items="${pom.dependencies}">
+      <j:if test="${dep.getId() != 'junit:junit'}">
+        <unzip src="${pom.getDependencyPath( dep.getId() )}" 
+          dest="${maven.build.dir}/classes">
+          <patternset>
+            <exclude name="META-INF/**"/>
+            <exclude name="*.meta"/>
+          </patternset>
+        </unzip>
+      </j:if>
+    </j:forEach>
+  </preGoal>
+
+</project>

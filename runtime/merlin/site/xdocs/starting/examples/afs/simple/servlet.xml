@@ -1,0 +1,103 @@
+<?xml version="1.0"?>
+
+<!-- 
+ Copyright 2004 Apache Software Foundation
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+  <header>
+    <title>Getting Started</title>
+    <authors>
+      <person name="Stephen McConnell" email="mcconnell@apache.org"/>
+    </authors>
+  </header>
+  <body>
+    <section name="Apache Financial Services">
+      <subsection name="Simple Bank Servlet">
+        <p>
+          The Simple Servlet example demonstrates the embedding of a 
+          Merlin Kernel within a Servlet and the mechanisms used to 
+          get the initial reference to the Apache Financial Service Bank.
+        </p>
+        <p><img src="../../../../images/simple-servlet.gif"/></p>
+      </subsection>
+      <subsection name="Servlet Implementation">
+        <p>
+          The Servlet implementation extends the Merlin Servlet extension.
+          The Servlet extension establishes the Merlin Kernel and the Servlet
+          implementation includes the logic for extracting the Bank service
+          from the kernel.
+        </p>
+        <p><i>SimpleServlet.java (init method)</i></p>
+<source><![CDATA[
+/**
+ * Servlet example containing an embedded Merlin Kernel.
+ *
+ * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
+ */
+public class SimpleServlet extends MerlinServlet
+{
+
+    private Bank m_bank;
+
+    public void init()
+      throws ServletException
+    {
+        super.init();
+        URL root = (URL) getServletContext().getAttribute( Kernel.BASE_URL_KEY );
+        if( root == null )
+        {
+            final String error = 
+              "Unable to locate the Merlin Kernel base URL for the supplied context.";
+            throw new ServletException( error );
+        }
+
+        try
+        {
+            //
+            // get the bank
+            //
+
+            URL url = new URL( root, "/banking/bank#org.apache.bank.Bank" );
+            m_bank = (Bank) url.getContent();
+
+            log( "Bank established: " + m_bank );
+
+            //
+            // ok - we have bank so we can now create and destroy
+            // accounts - need to think about the best way to move on
+            // from here
+            //
+        }
+        catch( Exception e )
+        {
+            throw new ServletException( "Bank initialization error.", e );
+        }
+    }
+
+    // etc.
+
+}
+]]></source>
+      </subsection>
+    </section>
+  </body>
+
+</document>
+
+
+
+

@@ -1,0 +1,128 @@
+<?xml version="1.0"?>
+
+<!-- 
+ Copyright 2004 Apache Software Foundation
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+  <header>
+    <title>About James</title>
+    <authors>
+      <person name="Stephen McConnell" email="mcconnell@apache.org"/>
+    </authors>
+  </header>
+  <body>
+    <section name="James Enterprise Messaging Platform">
+      <subsection name="About James">
+        <p>
+        The Java Apache Mail Enterprise Server (a.k.a. Apache 
+        James) is a 100% pure Java SMTP and POP3 Mail server and 
+        NNTP News server designed to be a complete and portable 
+        enterprise mail engine solution based on currently available 
+        open protocols.
+        </p>
+        <p>
+        James is also a mail application platform. The James project 
+        hosts the Apache Mailet API, and James provides an 
+        implementation of this mail application platform API. 
+        </p>
+      </subsection>
+      <subsection name="Features">
+        <table>
+          <tr><th>Feature</th><th>Description</th></tr>
+          <tr><td>Complete portability</td>
+            <td>
+              <p>
+              Apache James is be a 100% pure Java application
+              based on the Java 2 platform and the JavaMail 1.3 API.
+              </p>
+            </td>
+          </tr>
+          <tr><td>Protocol abstraction</td>
+            <td>
+              <p>
+              Unlike other mail engines, protocols are seen only
+              like "communication languages" ruling comunications between clients and
+              the server. Apache James is not be tied to any particular protocol but
+              follow an abstracted server design (like JavaMail did on the
+              client side).
+             </p>
+            </td>
+          </tr>
+          <tr><td>Complete solution</td>
+            <td>
+              <p>
+              The mail system is able to handle both mail
+              transport and storage in a single server application. Apache James
+              in combnination with the Merlin platform works alone without the need 
+              for any other server or solution.
+             </p>
+            </td>
+          </tr>
+          <tr><td>Complete solution</td>
+            <td>
+              <p>
+              The mail system is able to handle both mail
+              transport and storage in a single server application. Apache James
+              works alone without the need for any other server or solution.
+             </p>
+            </td>
+          </tr>
+          <tr><td>Mailet support</td>
+            <td>
+              <p>
+               Apache James supports the Apache Mailet API. A Mailet
+               is a discrete piece of mail-processing logic which is incorporated into
+               a Mailet-compliant mail-server's processing. This easy-to-write,
+               easy-to-use pattern allows developers to build powerful customized mail
+               systems. Examples of the services a Mailet might provide include: a
+               mail-to-fax or mail-to-phone transformer, a filter, a language translator, a mailing
+               list manager, etc. Several Mailets are included in the JAMES
+               distribution (see 
+               <a href="http://james.apache.org/documentation_2_1.html">documentation</a>).
+             </p>
+            </td>
+          </tr>
+          <tr><td>Resource abstraction</td>
+            <td>
+              <p>
+              Like protocols, resources are abstracted and,
+              accessed through defined interfaces (JavaMail for transport, JDBC for
+              spool storage or user accounts in RDBMS's, Apache Mailet API). The server is
+              highly modular and reuse solutions from other projects.
+              </p>
+            </td>
+          </tr>
+          <tr><td>Secure and multi-threaded design</td>
+            <td>
+              <p>
+              Based on the technology developed
+              for the Apache JServ servlet engine, Apache James has a careful,
+              security-oriented, full multi-threaded design, to allow performance,
+              scalability and mission-critical use.
+              </p>
+            </td>
+          </tr>
+        </table>
+      </subsection>
+    </section>
+  </body>
+
+</document>
+
+
+
+

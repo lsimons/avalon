@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE project [
+  <!ENTITY % index SYSTEM "file:index.ent"> %index;
+]>
+
+<project>
+
+  <pomVersion>3</pomVersion>
+  <groupId>merlin</groupId>
+  <id>merlin-external</id>
+  <name>Avalon Merlin External Artifacts</name>
+  <currentVersion>3.3</currentVersion>
+
+  <dependencies>
+
+    <dependency>
+      <groupId>&avalon-framework-id;</groupId>
+      <artifactId>&avalon-framework-api-id;</artifactId>
+      <version>&avalon-framework-api-version;</version>
+    </dependency>
+    <dependency>
+      <groupId>&avalon-framework-id;</groupId>
+      <artifactId>&avalon-framework-impl-id;</artifactId>
+      <version>&avalon-framework-impl-version;</version>
+    </dependency>
+
+    <dependency>
+      <groupId>&avalon-repository-id;</groupId>
+      <artifactId>&avalon-repository-api-id;</artifactId>
+      <version>&avalon-repository-api-version;</version>
+    </dependency>
+    <dependency>
+      <groupId>&avalon-repository-id;</groupId>
+      <artifactId>&avalon-repository-spi-id;</artifactId>
+      <version>&avalon-repository-spi-version;</version>
+    </dependency>
+    <dependency>
+      <groupId>&avalon-repository-id;</groupId>
+      <artifactId>&avalon-repository-main-id;</artifactId>
+      <version>&avalon-repository-main-version;</version>
+    </dependency>
+    <dependency>
+      <groupId>&avalon-repository-id;</groupId>
+      <artifactId>&avalon-repository-util-id;</artifactId>
+      <version>&avalon-repository-util-version;</version>
+    </dependency>
+    <dependency>
+      <groupId>&avalon-repository-id;</groupId>
+      <artifactId>&avalon-repository-cli-id;</artifactId>
+      <version>&avalon-repository-cli-version;</version>
+    </dependency>
+    <dependency>
+      <groupId>&avalon-repository-id;</groupId>
+      <artifactId>&avalon-repository-impl-id;</artifactId>
+      <version>&avalon-repository-impl-version;</version>
+    </dependency>
+
+    <dependency>
+      <groupId>&avalon-logging-id;</groupId>
+      <artifactId>&avalon-logging-api-id;</artifactId>
+      <version>&avalon-logging-api-version;</version>
+    </dependency>
+    <dependency>
+      <groupId>&avalon-logging-id;</groupId>
+      <artifactId>&avalon-logging-spi-id;</artifactId>
+      <version>&avalon-logging-spi-version;</version>
+    </dependency>
+    <dependency>
+      <groupId>&avalon-logging-id;</groupId>
+      <artifactId>&avalon-logging-impl-id;</artifactId>
+      <version>&avalon-logging-impl-version;</version>
+    </dependency>
+    <dependency>
+      <groupId>&avalon-logging-id;</groupId>
+      <artifactId>&avalon-logging-logkit-api-id;</artifactId>
+      <version>&avalon-logging-logkit-api-version;</version>
+    </dependency>
+    <dependency>
+      <groupId>&avalon-logging-id;</groupId>
+      <artifactId>&avalon-logging-logkit-impl-id;</artifactId>
+      <version>&avalon-logging-logkit-impl-version;</version>
+    </dependency>
+    <dependency>
+      <groupId>&avalon-logkit-group;</groupId>
+      <artifactId>&avalon-logkit-id;</artifactId>
+      <version>&avalon-logkit-version;</version>
+    </dependency>
+
+    <dependency>
+      <groupId>&avalon-activation-id;</groupId>
+      <artifactId>&avalon-activation-api-id;</artifactId>
+      <version>&avalon-activation-api-version;</version>
+    </dependency>
+    <dependency>
+      <groupId>&avalon-activation-id;</groupId>
+      <artifactId>&avalon-activation-impl-id;</artifactId>
+      <version>&avalon-activation-impl-version;</version>
+    </dependency>
+
+    <dependency>
+      <groupId>&avalon-composition-id;</groupId>
+      <artifactId>&avalon-composition-api-id;</artifactId>
+      <version>&avalon-composition-api-version;</version>
+    </dependency>
+    <dependency>
+      <groupId>&avalon-composition-id;</groupId>
+      <artifactId>&avalon-composition-spi-id;</artifactId>
+      <version>&avalon-composition-spi-version;</version>
+    </dependency>
+    <dependency>
+      <groupId>&avalon-composition-id;</groupId>
+      <artifactId>&avalon-composition-impl-id;</artifactId>
+      <version>&avalon-composition-impl-version;</version>
+    </dependency>
+
+    <dependency>
+      <groupId>&avalon-meta-id;</groupId>
+      <artifactId>&avalon-meta-api-id;</artifactId>
+      <version>&avalon-meta-api-version;</version>
+    </dependency>
+    <dependency>
+      <groupId>&avalon-meta-id;</groupId>
+      <artifactId>&avalon-meta-spi-id;</artifactId>
+      <version>&avalon-meta-spi-version;</version>
+    </dependency>
+    <dependency>
+      <groupId>&avalon-meta-id;</groupId>
+      <artifactId>&avalon-meta-impl-id;</artifactId>
+      <version>&avalon-meta-impl-version;</version>
+    </dependency>
+    <dependency>
+      <groupId>&avalon-meta-id;</groupId>
+      <artifactId>&avalon-meta-plugin-id;</artifactId>
+      <version>&avalon-meta-plugin-version;</version>
+      <type>plugin</type>
+    </dependency>
+
+    <dependency>
+      <groupId>&avalon-util-id;</groupId>
+      <artifactId>&avalon-util-criteria-id;</artifactId>
+      <version>&avalon-util-criteria-version;</version>
+    </dependency>
+    <dependency>
+      <groupId>&avalon-util-id;</groupId>
+      <artifactId>&avalon-util-defaults-id;</artifactId>
+      <version>&avalon-util-defaults-version;</version>
+    </dependency>
+    <dependency>
+      <groupId>&avalon-util-id;</groupId>
+      <artifactId>&avalon-util-env-id;</artifactId>
+      <version>&avalon-util-env-version;</version>
+    </dependency>
+    <dependency>
+      <groupId>&avalon-util-id;</groupId>
+      <artifactId>&avalon-util-exception-id;</artifactId>
+      <version>&avalon-util-exception-version;</version>
+    </dependency>
+    <dependency>
+      <groupId>&avalon-util-id;</groupId>
+      <artifactId>&avalon-util-extension-api-id;</artifactId>
+      <version>&avalon-util-extension-api-version;</version>
+    </dependency>
+    <dependency>
+      <groupId>&avalon-util-id;</groupId>
+      <artifactId>&avalon-util-extension-impl-id;</artifactId>
+      <version>&avalon-util-extension-impl-version;</version>
+    </dependency>
+    <dependency>
+      <groupId>&avalon-util-id;</groupId>
+      <artifactId>&avalon-util-i18n-id;</artifactId>
+      <version>&avalon-util-i18n-version;</version>
+    </dependency>
+    <dependency>
+      <groupId>&avalon-util-id;</groupId>
+      <artifactId>&avalon-util-plugin-id;</artifactId>
+      <version>&avalon-util-plugin-version;</version>
+      <type>plugin</type>
+    </dependency>
+
+    <dependency>
+      <groupId>&excalibur-lifecycle-id;</groupId>
+      <artifactId>&excalibur-lifecycle-api-id;</artifactId>
+      <version>&excalibur-lifecycle-api-version;</version>
+    </dependency>
+
+    <dependency>
+      <groupId>excalibur-configuration</groupId>
+      <artifactId>excalibur-configuration</artifactId>
+      <version>1.2</version>
+    </dependency>
+    <dependency>
+      <groupId>xerces</groupId>
+      <artifactId>xerces</artifactId>
+      <version>2.4.0</version>
+    </dependency>
+    <dependency>
+      <groupId>xml-apis</groupId>
+      <artifactId>xml-apis</artifactId>
+      <version>2.0.2</version>
+    </dependency>
+    <dependency>
+      <groupId>xml-apis</groupId>
+      <artifactId>xmlParserAPIs</artifactId>
+      <version>2.0.2</version>
+    </dependency>
+
+  </dependencies>
+
+</project>

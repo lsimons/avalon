@@ -1,0 +1,54 @@
+#!/bin/sh
+#
+# This extended Merlin command-line launch script is intended to be
+# used during development, when Maven repository are used exclusively.
+#
+# For other deployments, please use "merlin" and specify the system
+# and repository locations with the -system and -repository switch
+# respectively.
+#
+
+#usage VARIABLE=`find_property "property_file" "property_name" "default_value"`
+find_property()
+{
+       VAL=
+       if [ -f "${1}" ] ; then
+               VAL=`cat "${1}" | grep "^${2}" | cut -d= -f2`
+       fi
+
+       if [ "${VAL}" = "" ] ; then
+               echo "${3}"
+       else
+               echo "${VAL}"
+       fi
+}
+
+#
+# Compute the MERLIN_HOME if not already set.
+#
+if [ -z "$MERLIN_HOME" ] ; then
+    CWD=`pwd`
+    BIN_DIR=`dirname "$0"`
+    cd "$BIN_DIR"
+    ABSOLUTE_PATH=`pwd`
+    cd "$CWD"
+    export MERLIN_HOME="`dirname "$ABSOLUTE_PATH"`"
+fi
+
+
+MAVEN_HOME_LOCAL=${HOME}/.maven
+
+MAVEN_HOME_LOCAL=`find_property "project.properties" "maven.home.local" "${MAVEN_HOME_LOCAL}"`
+MAVEN_HOME_LOCAL=`find_property "build.properties" "maven.home.local" "${MAVEN_HOME_LOCAL}"`
+MAVEN_HOME_LOCAL=`find_property "${HOME}/build.properties" "maven.home.local" "${MAVEN_HOME_LOCAL}"`
+
+MAVEN_REPO_LOCAL=${MAVEN_HOME_LOCAL}/repository
+MAVEN_REPO_LOCAL=`find_property "project.properties" "maven.repo.local" "${MAVEN_REPO_LOCAL}"`
+MAVEN_REPO_LOCAL=`find_property "build.properties" "maven.repo.local" "${MAVEN_REPO_LOCAL}"`
+MAVEN_REPO_LOCAL=`find_property "${HOME}/build.properties" "maven.repo.local" "${MAVEN_REPO_LOCAL}"`
+
+echo "using MAVEN_REPO_LOCAL: ${MAVEN_REPO_LOCAL}"
+
+export MERLIN_ARGS="$MERLIN_ARGS -system \"${MAVEN_REPO_LOCAL}\" -repository \"${MAVEN_REPO_LOCAL}\""
+
+"$MERLIN_HOME/bin/merlin"  "$@"
