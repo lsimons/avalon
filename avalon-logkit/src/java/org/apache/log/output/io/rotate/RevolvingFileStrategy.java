@@ -145,20 +145,20 @@ public class RevolvingFileStrategy
         //Okay now we need to calculate the youngest file for our rotation
         long time = matchingFiles[ 0 ].lastModified();
 
-        //index of youngest file
-        int youngest = 0;
+        //index of oldest file
+        int oldest = 0;
         for( int i = 0; i < matchingFiles.length; i++ )
         {
             final File file = matchingFiles[ i ];
             final long lastModified = file.lastModified();
-            if( lastModified > time )
+            if( lastModified < time )
             {
                 time = lastModified;
-                youngest = rotations[ i ] + 1;
+                oldest = rotations[ i ];
             }
         }
 
-        return youngest;
+        return oldest;
     }
 
     /**

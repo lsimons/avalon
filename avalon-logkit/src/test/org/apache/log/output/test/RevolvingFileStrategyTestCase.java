@@ -164,7 +164,7 @@ public final class RevolvingFileStrategyTestCase
         assertEquals( "rotation", 0, strategy.getCurrentRotation() );
     }
 
-    public void testFullRotationWithYounger()
+    public void testFullRotationWithOlder()
         throws Exception
     {
         deleteFiles( 9 );
@@ -175,13 +175,13 @@ public final class RevolvingFileStrategyTestCase
         createFile( 4, 0 );
         createFile( 5, 0 );
         createFile( 6, 0 );
-        createFile( 7, YOUNG_AGE );
+        createFile( 7, OLD_AGE );
         createFile( 8, 0 );
         createFile( 9, 0 );
 
         final RevolvingFileStrategy strategy =
             new RevolvingFileStrategy( m_baseFile, 9 );
 
-        assertEquals( "rotation", 8, strategy.getCurrentRotation() );
+        assertEquals( "rotation", 7, strategy.getCurrentRotation() );
     }
 }
