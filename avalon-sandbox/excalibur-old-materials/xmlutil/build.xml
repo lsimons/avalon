@@ -107,7 +107,7 @@
             <classpath refid="project.class.path" />
             <exclude name="**/test/**"/>
             <exclude name="org/apache/avalon/excalibur/xml/xpath/XPathProcessorImpl.java"
-                unless="xpath.present"/> 
+                unless="xpath.present"/>
             <exclude name="org/apache/avalon/excalibur/xml/xpath/JaxenProcessorImpl.java"
                 unless="jaxen.present"/>
             <exclude name="org/apache/excalibur/xmlizer/impl/HTMLXMLizer.java"
@@ -155,17 +155,15 @@
 
     </target>
 
-    <!-- Copies and filters the manifest and license. Used by jar and dist -->
+    <!-- Copies and filters the license. Used by jar and dist -->
     <target name="prepare-conf">
         <mkdir dir="${build.conf}"/>
         <copy todir="${build.conf}" flatten="true">
             <fileset dir="../" includes="LICENSE.txt"/>
-            <fileset dir="${conf.dir}" includes="MANIFEST.MF"/> 
             <filterset>
-                <filtersfile file="default.properties"/>
+                <filter token="year" value="${year}"/>
             </filterset>
         </copy>
-
     </target>
 
     <!-- Creates all the .jar file -->
@@ -175,8 +173,14 @@
 
         <jar jarfile="${build.lib}/${jar.name}"
             basedir="${build.classes}"
-            compress="${build.compress}"
-            manifest="${build.conf}/MANIFEST.MF">
+            compress="${build.compress}">
+            <manifest>
+              <attribute name="Extension-Name" value="${name}"/>
+              <attribute name="Specification-Vendor" value="Apache Software Foundation"/>
+              <attribute name="Specification-Version" value="1.0"/>
+              <attribute name="Implementation-Vendor" value="Apache Software Foundation"/>
+              <attribute name="Implementation-Version" value="${package-version}"/>
+            </manifest>
             <exclude name="**/test/**"/>
             <zipfileset dir="${build.conf}" prefix="META-INF/">
                 <include name="LICENSE.txt"/>
@@ -353,8 +357,8 @@
             <fileset dir="${build.lib}">
                 <include name="*.jar"/>
             </fileset>
-        </copy> 
-    </target>   
+        </copy>
+    </target>
 
     <!-- Creates a minimal distribution -->
     <target name="dist.lite"
@@ -392,8 +396,8 @@
       <filter token="LOGKIT_BASE" value="${logkit.base}"/>
       <filter token="TESTLET_BASE" value="${testlet.base}"/>
     </target>
-    
-    
+
+
     <!-- Prepares the documentation directory -->
     <target name="docs" depends="setup-filters"> <!-- depends="javadocs" description="Generates the Docs" -->
       <mkdir dir="${docs.dir}"/>
@@ -402,7 +406,7 @@
       <mkdir dir="${build.xdocs}"/>
       <mkdir dir="${build.docs}"/>
       <mkdir dir="${build.dir}/work"/>
-  
+
       <!-- Base pointers for non-xdocs documentation. Override these in .ant.properties to link to local docs -->
       <copy todir="${build.context}" filtering="on">
         <fileset dir="${context.dir}">
@@ -411,7 +415,7 @@
           <exclude name="xdocs"/>
         </fileset>
       </copy>
-  
+
       <copy todir="${build.context}/xdocs" filtering="on" overwrite="yes">
         <fileset dir="${xdocs.dir}"/>
       </copy>
@@ -440,22 +444,22 @@
         <fileset dir="${build.docs}">
           <include name="**"/>
         </fileset>
-      </copy>    
+      </copy>
 
       <!-- hack for stupid transport on api link -->
       <replace file="${docs.dir}/index.html" token="index.html.xml" value="index.html"/>
-     
+
     </target>
-    
-    <target name="site" depends="javadocs, docs" description=" Places Docs ready for hosting on website">  
-  
-      <mkdir dir="../site/dist/docs/${dir-name}"/>     
+
+    <target name="site" depends="javadocs, docs" description=" Places Docs ready for hosting on website">
+
+      <mkdir dir="../site/dist/docs/${dir-name}"/>
       <copy todir="../site/dist/docs/${dir-name}">
         <fileset dir="${docs.dir}">
           <include name="**"/>
         </fileset>
-      </copy>        
-  
+      </copy>
+
     </target>
 
     <!-- Cleans up build and distribution directories -->

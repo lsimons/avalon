@@ -103,17 +103,15 @@
 
     </target>
 
-    <!-- Copies and filters the manifest and license. Used by jar and dist -->
+    <!-- Copies and filters the license. Used by jar and dist -->
     <target name="prepare-conf">
         <mkdir dir="${build.conf}"/>
         <copy todir="${build.conf}" flatten="true">
             <fileset dir="../" includes="LICENSE.txt"/>
-            <fileset dir="${conf.dir}" includes="MANIFEST.MF"/> 
             <filterset>
-                <filtersfile file="default.properties"/>
+                <filter token="year" value="${year}"/>
             </filterset>
         </copy>
-
     </target>
 
     <!-- Creates all the .jar file -->
@@ -123,8 +121,14 @@
 
         <jar jarfile="${build.lib}/${jar.name}"
             basedir="${build.classes}"
-            compress="${build.compress}"
-            manifest="${build.conf}/MANIFEST.MF">
+            compress="${build.compress}">
+            <manifest>
+              <attribute name="Extension-Name" value="${name}"/>
+              <attribute name="Specification-Vendor" value="Apache Software Foundation"/>
+              <attribute name="Specification-Version" value="1.0"/>
+              <attribute name="Implementation-Vendor" value="Apache Software Foundation"/>
+              <attribute name="Implementation-Version" value="${package-version}"/>
+            </manifest>
             <exclude name="**/test/**"/>
             <zipfileset dir="${build.conf}" prefix="META-INF/">
                 <include name="LICENSE.txt"/>
