@@ -13,7 +13,7 @@ import java.util.List;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.excalibur.lang.ThreadContext;
-import org.apache.avalon.framework.logger.AbstractLoggable;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.phoenix.Block;
 import org.apache.avalon.phoenix.BlockListener;
 import org.apache.avalon.phoenix.interfaces.Application;
@@ -29,7 +29,7 @@ import org.apache.avalon.phoenix.metadata.BlockMetaData;
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public final class DefaultApplication
-    extends AbstractLoggable
+    extends AbstractLogEnabled
     implements Application
 {
     private static final Resources REZ =

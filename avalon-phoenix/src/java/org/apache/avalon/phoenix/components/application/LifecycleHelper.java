@@ -22,8 +22,11 @@ import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.context.Contextualizable;
-import org.apache.avalon.framework.logger.AbstractLoggable;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.logger.Loggable;
+import org.apache.avalon.framework.logger.Logger;
+import org.apache.avalon.framework.logger.LogKitLogger;
 import org.apache.avalon.phoenix.Block;
 import org.apache.avalon.phoenix.BlockContext;
 import org.apache.avalon.phoenix.BlockEvent;
@@ -43,7 +46,7 @@ import org.apache.avalon.phoenix.metadata.DependencyMetaData;
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 class LifecycleHelper
-    extends AbstractLoggable
+    extends AbstractLogEnabled
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( LifecycleHelper.class );
@@ -148,12 +151,18 @@ class LifecycleHelper
             notice( name, stage );
             final Block block = createBlock( metaData );
 
-            //Loggable stage
+            //LogEnabled stage
             stage = STAGE_LOGGER;
             if( block instanceof Loggable )
             {
                 notice( name, stage );
                 ((Loggable)block).setLogger( m_context.getLogger( name ) );
+            }
+            else if( block instanceof LogEnabled )
+            {
+                notice( name, stage );
+                final Logger logger = new LogKitLogger( m_context.getLogger( name ) );
+                ((LogEnabled)block).enableLogging( logger );
             }
 
             //Contextualize stage

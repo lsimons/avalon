@@ -9,7 +9,7 @@ package org.apache.avalon.phoenix.tools.infobuilder;
 
 import java.util.ArrayList;
 import org.apache.avalon.framework.Version;
-import org.apache.avalon.framework.logger.AbstractLoggable;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
@@ -28,7 +28,7 @@ import org.apache.avalon.excalibur.i18n.Resources;
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public final class BlockInfoBuilder
-    extends AbstractLoggable
+    extends AbstractLogEnabled
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( BlockInfoBuilder.class );

@@ -29,7 +29,7 @@ import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.excalibur.io.ExtensionFileFilter;
 import org.apache.avalon.excalibur.io.FileUtil;
 import org.apache.avalon.excalibur.io.IOUtil;
-import org.apache.avalon.framework.logger.AbstractLoggable;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
 
 /**
  * An Installer is responsible for taking a URL for Sar
@@ -38,7 +38,7 @@ import org.apache.avalon.framework.logger.AbstractLoggable;
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public class Installer
-    extends AbstractLoggable
+    extends AbstractLogEnabled
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( Installer.class );

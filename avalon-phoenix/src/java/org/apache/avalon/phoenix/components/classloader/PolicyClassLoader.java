@@ -19,8 +19,8 @@ import java.security.Permissions;
 import java.security.Policy;
 import java.util.ArrayList;
 import java.util.Enumeration;
-import org.apache.avalon.framework.logger.Loggable;
-import org.apache.log.Logger;
+import org.apache.avalon.framework.logger.LogEnabled;
+import org.apache.avalon.framework.logger.Logger;
 
 /**
  * Classloader that uses a specified <code>Policy</code> object
@@ -32,7 +32,7 @@ import org.apache.log.Logger;
  */
 class PolicyClassLoader
     extends URLClassLoader
-    implements Loggable
+    implements LogEnabled
 {
     ///Policy to use to define permissions for classes loaded in classloader
     private final Policy  m_policy;
@@ -73,7 +73,7 @@ class PolicyClassLoader
         }
     }
 
-    public void setLogger( final Logger logger )
+    public void enableLogging( final Logger logger )
     {
         m_logger = logger;
     }

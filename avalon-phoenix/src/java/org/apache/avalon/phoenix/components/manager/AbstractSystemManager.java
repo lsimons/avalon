@@ -10,7 +10,7 @@ package org.apache.avalon.phoenix.components.manager;
 import java.util.HashMap;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.avalon.framework.logger.AbstractLoggable;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.phoenix.interfaces.ManagerException;
 import org.apache.avalon.phoenix.interfaces.SystemManager;
 
@@ -20,7 +20,7 @@ import org.apache.avalon.phoenix.interfaces.SystemManager;
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public abstract class AbstractSystemManager
-    extends AbstractLoggable
+    extends AbstractLogEnabled
     implements SystemManager
 {
     private static final Resources REZ =

@@ -8,7 +8,7 @@
 package org.apache.avalon.phoenix.components.deployer;
 
 import java.io.File;
-import org.apache.avalon.framework.logger.AbstractLoggable;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
@@ -27,7 +27,7 @@ import org.apache.avalon.phoenix.tools.installer.FileDigest;
  *
  * @author <a href="mailto:mirceatoma@home.com">Mircea Toma</a>
  */
-public class PersistentDeploymentRecorder extends AbstractLoggable implements DeploymentRecorder {
+public class PersistentDeploymentRecorder extends AbstractLogEnabled implements DeploymentRecorder {
 
     private static final Resources REZ =
         ResourceManager.getPackageResources( PersistentDeploymentRecorder.class );

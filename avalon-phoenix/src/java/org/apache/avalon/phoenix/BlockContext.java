@@ -10,7 +10,7 @@ package org.apache.avalon.phoenix;
 import java.io.File;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.excalibur.thread.ThreadPool;
-import org.apache.log.Logger;
+import org.apache.avalon.framework.logger.Logger;
 
 /**
  * Context via which Blocks communicate with container.

@@ -15,14 +15,15 @@ import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
-import org.apache.avalon.framework.logger.AbstractLoggable;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
 import org.apache.avalon.phoenix.metadata.BlockMetaData;
 import org.apache.avalon.phoenix.metadata.DependencyMetaData;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
 import org.apache.avalon.phoenix.metainfo.BlockInfo;
 import org.apache.avalon.phoenix.tools.infobuilder.BlockInfoBuilder;
-import org.apache.log.Logger;
+
 
 /**
  * Assemble a <code>SarMetaData</code> object from a Configuration
@@ -32,7 +33,7 @@ import org.apache.log.Logger;
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public class Assembler
-    extends AbstractLoggable
+    extends AbstractLogEnabled
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( Assembler.class );
@@ -45,9 +46,9 @@ public class Assembler
      *
      * @param logger the logger to use
      */
-    public void setLogger( final Logger logger )
+    public void enableLogging( final Logger logger )
     {
-        super.setLogger( logger );
+        super.enableLogging( logger );
         setupLogger( m_builder );
     }
 

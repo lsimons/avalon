@@ -14,11 +14,12 @@ import org.apache.avalon.excalibur.thread.ThreadPool;
 import org.apache.avalon.framework.CascadingRuntimeException;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
-import org.apache.avalon.framework.logger.Loggable;
+import org.apache.avalon.framework.logger.LogEnabled;
+import org.apache.avalon.framework.logger.Logger;
+import org.apache.avalon.framework.logger.LogKitLogger;
 import org.apache.avalon.phoenix.BlockContext;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
 import org.apache.avalon.phoenix.interfaces.ApplicationContext;
-import org.apache.log.Logger;
 
 /**
  * Context via which Blocks communicate with container.
@@ -26,7 +27,7 @@ import org.apache.log.Logger;
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 final class DefaultBlockContext
-    implements BlockContext, Loggable
+    implements BlockContext, LogEnabled
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( DefaultBlockContext.class );
@@ -42,7 +43,7 @@ final class DefaultBlockContext
         m_frame = frame;
     }
 
-    public void setLogger( final Logger logger )
+    public void enableLogging( final Logger logger )
     {
         m_logger = logger;
     }
@@ -118,7 +119,7 @@ final class DefaultBlockContext
      */
     public Logger getLogger( final String name )
     {
-        return m_frame.getLogger( getName() ).getChildLogger( name );
+        return new LogKitLogger( m_frame.getLogger( getName() ).getChildLogger( name ) );
     }
 
     /**
@@ -129,6 +130,6 @@ final class DefaultBlockContext
      */
     public Logger getBaseLogger()
     {
-        return m_frame.getLogger( getName() );
+        return new LogKitLogger( m_frame.getLogger( getName() ) );
     }
 }
