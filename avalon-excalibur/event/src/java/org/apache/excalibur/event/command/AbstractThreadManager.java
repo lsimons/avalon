@@ -174,14 +174,9 @@ public abstract class AbstractThreadManager extends AbstractLogEnabled
         }
     }
 
-    public final void dispose()
+    public void dispose()
     {
         deregisterAll();
-
-        if( m_threadPool instanceof Disposable )
-        {
-            ( ( Disposable ) m_threadPool ).dispose();
-        }
 
         m_threadControl = null;
     }

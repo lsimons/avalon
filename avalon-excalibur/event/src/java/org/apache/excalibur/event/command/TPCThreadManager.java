@@ -35,6 +35,7 @@ import org.apache.excalibur.util.SystemUtil;
  */
 public final class TPCThreadManager extends AbstractThreadManager implements Parameterizable
 {
+    private ResourceLimitingThreadPool m_tpool;
     private long m_blockTimeout = 1000L;
     private int m_processors = SystemUtil.numProcessors();
     private int m_threadsPerProcessor = 1;
@@ -88,23 +89,29 @@ public final class TPCThreadManager extends AbstractThreadManager implements Par
             throw new IllegalStateException( "ThreadManager is already initailized" );
         }
 
-        final ResourceLimitingThreadPool tpool =
-          new ResourceLimitingThreadPool( "TPCThreadManager",
-                                          ( m_processors * m_threadsPerProcessor ) + 1,
-                                          true,
-                                          true,
-                                          this.m_blockTimeout,
-                                          10L * 1000L );
+        m_tpool = new ResourceLimitingThreadPool( "TPCThreadManager",
+                                                  ( m_processors * m_threadsPerProcessor ) + 1,
+                                                  true,
+                                                  true,
+                                                  this.m_blockTimeout,
+                                                  10L * 1000L );
 
         if( null == getLogger() )
         {
             this.enableLogging( new NullLogger() );
         }
 
-        tpool.enableLogging( getLogger() );
+        m_tpool.enableLogging( getLogger() );
 
-        setThreadPool( tpool );
+        setThreadPool( m_tpool );
 
         super.initialize();
+    }
+
+    public final void dispose()
+    {
+        super.dispose();
+
+        m_tpool.dispose();
     }
 }
