@@ -176,6 +176,11 @@
           #makeProject()
           </td>
           <td align="left" valign="top">
+          <table width="100%"><tr><td bgcolor="$bannerfg">
+          <center><b><font face="arial,helvetica,sanserif" size="+2">
+            $project.getChild("title").getText() - $root.getChild("header").getChild("title").getText()
+          </font></b></center>
+          </td></tr></table>
 #end
 
 #macro (footer)
