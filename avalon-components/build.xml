@@ -168,7 +168,7 @@
 
     <mkdir dir="${build.lib}"/>
 
-    <jar file="${build.lib}/cornerstone.jar"
+    <jar jarfile="${build.lib}/cornerstone.jar"
          basedir="${build.classes}"
          manifest="${manifest.dir}/cornerstone.mf">
       <include name="org/apache/avalon/cornerstone/blocks/**"/>
