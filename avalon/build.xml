@@ -113,7 +113,7 @@ Legal:
 
     <!-- Set up properties -->
     <target name="setup-properties" depends="setup-dependencies">
-        <property name="dist.dir" value="${dist.base}/${dist.name}"/>
+        <property name="dist.dir" value="${dist.name}"/>
         <property name="dist.bin" value="${dist.dir}/bin"/>
         <property name="dist.apps" value="${dist.dir}/apps"/>
         <property name="dist.lib" value="${dist.dir}/lib"/>
@@ -474,7 +474,7 @@ Legal:
         <mkdir dir="${dist.javadocs}"/>
 
         <copy todir="${dist.docs}">
-            <fileset dir="${docs.dir}"/>
+            <fileset dir="${target.docs}"/>
         </copy>
 
         <copy todir="${dist.dir}">
