@@ -82,6 +82,6 @@
 
 # ----- Logkit -----
 #avalon-logkit.home=${basedir}/../../avalon-logkit
-#avalon-logkit.lib=${logkit.home}/build/lib
-#avalon-logkit.jar=${logkit.lib}/logkit.jar
+#avalon-logkit.lib=${avalon-logkit.home}/build/lib
+#avalon-logkit.jar=${avalon-logkit.lib}/logkit.jar
 
