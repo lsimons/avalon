@@ -92,7 +92,7 @@ project.home = central/systemnts
 Where did the XXXX subproject go?
 =============================================
 There's been quite a bit of reorganization and somethings have been
-moved, depricated, or archived.
+moved, deprecated, or archived.
 
     excalibur/ecm   -->  http://excalibur.apache.org
     fortress	    -->  http://excalibur.apache.org
