@@ -30,7 +30,6 @@ import java.util.StringTokenizer;
 class CommandInterpreter extends Thread
 {
     static private final String WELCOME_MESSAGE =
-    "Welcome to eWarna.com ServiceManager.\n\n" +
     "Type 'help' for a list of available commands.\n\nlogin\n";
 
     private Socket m_Socket;
