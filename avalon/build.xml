@@ -526,11 +526,11 @@ Legal:
         <copy todir="${src.dist.src}">
       <fileset dir="${src.dir}">
         <exclude name="**/*.zip"/>
-        <exclude name="src/diagrams/**"/>
-        <exclude name="src/documentation/**"/>
-        <exclude name="src/logos/**"/>
-        <exclude name="src/maven/**"/>
-        <exclude name="src/proposal/**"/>
+        <exclude name="diagrams/**"/>
+        <!--<exclude name="./documentation/**"/>-->
+        <exclude name="logos/**"/>
+        <exclude name="maven/**"/>
+        <exclude name="proposal/**"/>
           </fileset>
         </copy>
 
