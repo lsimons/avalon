@@ -40,12 +40,15 @@ public class DefaultClassLoaderManager
      * <code>ClassLoader</code>.
      * 
      * @param server the configuration "server.xml" for the application
+     * @param source the source of application. (usually the name of the .sar file 
+     *               or else the same as baseDirectory)
      * @param baseDirectory the base directory of application
      * @param classPath the list of URLs in applications deployment
      * @return the ClassLoader created
      * @exception Exception if an error occurs
      */
     public ClassLoader createClassLoader( final Configuration server,
+                                          final File source,
                                           final File homeDirectory,
                                           final String[] classPath )
         throws Exception
@@ -57,6 +60,7 @@ public class DefaultClassLoaderManager
         //TODO: Load Extensions from Package Repository as required
         //TODO: Determine parentClassLoader in a safer fashion
         final ClassLoader parentClassLoader = Thread.currentThread().getContextClassLoader();
+        //final ZipFile zipFile = new ZipFile();
         final SarURLStreamHandlerFactory factory = new SarURLStreamHandlerFactory();
         return new PolicyClassLoader( classPath, parentClassLoader, factory, policy );
     }
