@@ -65,8 +65,8 @@
         versions of libraries. Many of these libraries were not used by Phoenix at
         all or could be moved to the container specific classloader. The libraries
         that are no longer visible to the client applications include; excalibur-thread,
-        excalibur-threadcontext, excalibur-pool, excalibur-collections,
-        excalibur-logger, excalibur-util, excalibur-extension, excalibur-concurrent
+        excalibur-threadcontext, excalibur-pool, excalibur-collections, excalibur-i18n,
+        excalibur-logger, excalibur-util, excalibur-extension, excalibur-concurrent, qdox
     </action>
     <action dev="PD" type="update">
         Move website to be based at http://avalon.apache.org/phoenix
