@@ -7,14 +7,15 @@
  */
 package org.apache.avalon.framework.configuration.test;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
-import java.util.List;
+import java.io.InputStream;
 import junit.framework.TestCase;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
+import org.xml.sax.SAXException;
 
 /**
  * Test that the <code>Configuration</code>s built by
@@ -336,5 +337,64 @@ public final class DefaultConfigurationBuilderTestCase
         simpleAssertionsNS( conf );
         conf = m_nsBuilder.buildFromFile( m_nsFile );
         nsAssertions( conf );
+    }
+
+    private final String spaceTrimmingCheckXML =
+        "<?xml version=\"1.0\" ?>"+
+        " <config>"+
+        "   <trimmed-item>\n"+
+        "    value     \n"+
+        "   </trimmed-item>\n"+
+        "   <preserved-item xml:space='preserve'>\n"+
+        " a space&#13; a CR, then a trailing space </preserved-item>\n"+
+        "   <first-level-item xml:space='preserve'>\n"+
+        "      <second-level-preserved> whitespace around </second-level-preserved>\n"+
+        "   </first-level-item>\n"+
+        "   <trimmed-again-item>\n"+
+        "    value     \n"+
+        "   </trimmed-again-item>\n"+
+        "</config>";
+    
+    /**
+     * Checks that whitespace is normally stripped but preserved if
+     * space preserving processing instructions are present.
+     */
+    public void testSpaceTrimming()
+        throws Exception
+    {
+        DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
+        InputStream in = new ByteArrayInputStream( spaceTrimmingCheckXML.getBytes() );
+        Configuration conf = builder.build( in );
+        assertEquals( "Value is trimmed by default",
+                      "value",
+                      conf.getChild( "trimmed-item" ).getValue() );
+        assertEquals( "After trimming turned off value is preserved",
+                      "\n a space\r a CR, then a trailing space ",
+                      conf.getChild( "preserved-item" ).getValue() );
+        assertEquals( "Trimming two levels deep works too",
+                      " whitespace around ",
+                      conf.getChild( "first-level-item" )
+                      .getChild( "second-level-preserved" ).getValue() );
+        assertEquals( "Trimming turned back on",
+                      "value",
+                      conf.getChild( "trimmed-again-item" ).getValue() );
+    }
+
+    
+    private final String mixedContentXML =
+        "<?xml version=\"1.0\" ?>"+
+        "<a>a<a/></a>"
+        ;
+    public void testMixedContentDetection()
+        throws Exception
+    {
+        DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
+        InputStream in = new ByteArrayInputStream( mixedContentXML.getBytes() );
+        try
+        {
+            builder.build( in );
+            fail ("Must fail on mixed content");
+        } catch ( SAXException e )
+        {}
     }
 }
