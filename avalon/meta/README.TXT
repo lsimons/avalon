@@ -12,6 +12,13 @@ Where?
    For more detailed information, visit the online documentation at:
    http://avalon.apache.org/avalon/meta
 
+Status
+------
+
+   Avalon Meta 1.2 released and published.
+   Avalon Meta 1.3.1 has been released and is pending a vote to publish by the PMC
+   Avalon Meta 1.3.2 has not been released
+
 Structure:
 ----------
 
@@ -22,7 +29,7 @@ Structure:
    /impl ..................... meta info builders, writers, serializers, readers
    /tools .................... ant plugin and javadoc tag related content
    /plugin ................... maven plugin
-   /site .................... project documetation
+   /site ..................... project documetation
 
 Installation
 ------------

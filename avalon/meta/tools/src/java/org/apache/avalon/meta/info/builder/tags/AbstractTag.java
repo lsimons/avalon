@@ -64,7 +64,7 @@ import org.apache.avalon.framework.Version;
  * A doclet tag representing the name of the Type.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 08:16:14 $
+ * @version $Revision: 1.2 $ $Date: 2004/01/14 12:47:33 $
  */
 public class AbstractTag
 {
@@ -254,8 +254,7 @@ public class AbstractTag
         {
             return resolvedType;
         }
-        else if( clazz.getSuperJavaClass() == null 
-          || JavaClass.OBJECT.equals( clazz.getSuperClass() ) )
+        else if( clazz.getSuperJavaClass() == null )
         {
             return null;
         }
@@ -301,9 +300,7 @@ public class AbstractTag
             }
         }
 
-        if( 
-            clazz.getSuperJavaClass() != null 
-            && !JavaClass.OBJECT.equals( clazz.getSuperClass() ) )
+        if( clazz.getSuperJavaClass() != null )
         {
             this.findLifecycleMethod( 
               result, clazz.getSuperJavaClass(), methodName, parameterType );
@@ -327,9 +324,7 @@ public class AbstractTag
             if( tag != null ) list.add( method );
         }
 
-        if( 
-            clazz.getSuperJavaClass() != null 
-            && !JavaClass.OBJECT.equals( clazz.getSuperClass() ) )
+        if( clazz.getSuperJavaClass() != null )
         {
             return this.findTaggedMethods( clazz.getSuperJavaClass(), key, list );
         }
