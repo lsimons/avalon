@@ -175,7 +175,7 @@ public interface Configuration
      *
      * @post getValueAsInteger() != null
      *
-     * @returns the value of the node.
+     * @return the value of the node.
      *
      * @exception ConfigurationException If conversion to <code>int</code> fails.
      */
