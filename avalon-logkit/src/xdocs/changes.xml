@@ -9,6 +9,11 @@
     <author email="giacomo at apache.org">Giacomo Pati</author>
     <author email="crafterm at apache.org">Marcus Crafter</author>
   </devs>
+  <release version="1.1.1" date="?">
+    <action dev="PD" type="fix">
+      Makes sure target arrays contain no nulls and a few other cleanups.
+    </action>
+  </release>
   <release version="1.1" date="September 1, 2002">
     <action dev="MC" type="add">
       Added SMTPOutputLogTarget to enable logging to email addresses.
