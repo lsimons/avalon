@@ -68,10 +68,12 @@
         <item name="Using Merlin" href="/starting/tutorial/index.html"/>
         <item name="Advanced Features" href="/starting/advanced/index.html">
           <item name="Lifecycle Extensions" href="/starting/advanced/lifecycle/index.html"/>
-          <item name="Contextulization" href="/starting/advanced/context.html"/>
+          <item name="Contextualization" href="/starting/advanced/context.html"/>
           <item name="Deployment Templates" href="/starting/advanced/profiles.html"/>
           <item name="Profile Selectors" href="/starting/advanced/selectors.html"/>
+          <item name="Includes" href="/starting/advanced/includes.html"/>
           <item name="Composition" href="/starting/advanced/composite.html"/>
+          <item name="Containers" href="/starting/advanced/containers.html"/>
         </item>
       </item>
       <item name="Merlin System" href="/merlin/index.html"/>
