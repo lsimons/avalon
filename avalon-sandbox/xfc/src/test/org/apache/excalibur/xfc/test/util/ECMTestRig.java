@@ -59,7 +59,7 @@ import org.apache.excalibur.xfc.model.RoleRef;
  * internal ECM methods that are otherwise not available from the normal Module API.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: ECMTestRig.java,v 1.2 2002/10/08 10:39:37 crafterm Exp $
+ * @version CVS $Id: ECMTestRig.java,v 1.3 2002/10/08 12:49:22 crafterm Exp $
  */
 public final class ECMTestRig extends ECM
 {
@@ -67,6 +67,12 @@ public final class ECMTestRig extends ECM
         throws Exception
     {
         return super.buildRole( roleref );
+    }
+
+    public String getHandler( final String classname )
+        throws Exception
+    {
+        return super.getHandler( classname );
     }
 }
 
