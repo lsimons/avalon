@@ -54,15 +54,15 @@ public class SimpleServer
     implements Block, SimpleService, Composable, Configurable, Initializable,
                ConnectionHandlerFactory, ConnectionHandler, Target
 {
-    protected TimeScheduler           m_timeScheduler;
-    protected Configuration           m_configuration;
-    protected SocketManager           m_socketManager;
-    protected ConnectionManager       m_connectionManager;
-    protected Store                   m_testStore;
-    protected ObjectRepository        m_repository;
+    private TimeScheduler           m_timeScheduler;
+    private Configuration           m_configuration;
+    private SocketManager           m_socketManager;
+    private ConnectionManager       m_connectionManager;
+    private Store                   m_testStore;
+    private ObjectRepository        m_repository;
 
-    protected PrintWriter             m_out;
-    protected int                     m_count;
+    private PrintWriter             m_out;
+    private int                     m_count;
 
     public void compose( final ComponentManager componentManager )
         throws ComponentException
@@ -211,7 +211,7 @@ public class SimpleServer
         System.out.println( "Target triggered: " + triggerName );
     }
 
-    protected boolean parseCommand( String command )
+    private boolean parseCommand( String command )
         throws Exception
     {
         if( null == command )
