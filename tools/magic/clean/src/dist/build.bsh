@@ -1,0 +1,56 @@
+
+import java.io.File;
+import java.io.IOException;
+
+import java.util.StringTokenizer;
+
+import org.apache.merlin.magic.AbstractPlugin;
+
+import org.apache.avalon.framework.service.Serviceable;
+import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.avalon.framework.service.ServiceException;
+
+public class CleanPlugin extends AbstractPlugin
+    implements Serviceable
+{
+    private Object m_PreparePlugin;
+        
+    public void service( ServiceManager man )
+        throws ServiceException
+    {
+        m_PreparePlugin = man.lookup( "prepare" );
+    }
+    
+    public void clean()
+        throws IOException
+    {   
+        notifyPreMethod( "clean" );
+        delete();    
+        notifyPostMethod( "clean" );
+    }
+    
+    private void delete()
+        throws IOException
+    {
+        File basedir = m_Context.getProjectDir();
+        String targets = m_Context.getProperty( "clean.build.dest.dirs" );
+        StringTokenizer st = new StringTokenizer( targets, " ,", false );
+        while( st.hasMoreTokens() )
+        {
+            File f = new File( basedir, st.nextToken() );
+            delete( f );
+        }
+    }
+    
+    private void delete( File f )
+        throws IOException
+    {
+        if( f.isDirectory() )
+        {
+            File[] content = f.listFiles();
+            for( int i= 0 ; i < content.length ; i++ )
+                delete( content[i] );
+        }
+        f.delete();
+    }
+}   
