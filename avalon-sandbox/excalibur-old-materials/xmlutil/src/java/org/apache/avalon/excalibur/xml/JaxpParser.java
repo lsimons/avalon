@@ -72,7 +72,7 @@ import org.xml.sax.ext.LexicalHandler;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @version CVS $Revision: 1.9 $ $Date: 2002/12/27 07:29:11 $
+ * @version CVS $Revision: 1.10 $ $Date: 2002/12/30 13:42:33 $
  */
 public final class JaxpParser
     extends AbstractLogEnabled
@@ -238,6 +238,7 @@ public final class JaxpParser
         throws SAXException, IOException
     {
         setupXMLReader();
+        LexicalHandler lex = lexicalHandler;
 
         // Ensure we will use a fresh new parser at next parse in case of failure
         XMLReader tmpReader = m_reader;
@@ -245,10 +246,10 @@ public final class JaxpParser
 
         try
         {
-            if( null != lexicalHandler )
+            if( null != lex )
             {
                 tmpReader.setProperty( "http://xml.org/sax/properties/lexical-handler",
-                                       lexicalHandler );
+                                       lex );
             }
         }
         catch( final SAXException e )
@@ -258,7 +259,7 @@ public final class JaxpParser
                 "'http://xml.org/sax/properties/lexical-handler'";
             getLogger().warn( message );
 	    
-	    lexicalHandler = null;
+	    lex = null;
         }
 
         tmpReader.setErrorHandler( this );
@@ -276,7 +277,7 @@ public final class JaxpParser
             m_reader = tmpReader;
 	    // Reset the Lexical Handler to null, so that we can reuse the parser
 
-	    if(lexicalHandler != null)
+	    if(lex != null)
 	    {
 	        tmpReader.setProperty("http://xml.org/sax/properties/lexical-handler", null);
 	    }
