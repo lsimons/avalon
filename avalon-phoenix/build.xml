@@ -425,8 +425,8 @@ Legal:
       </fileset>
     </copy>
 
-    <copy file="${xerces.jar}" todir="${src.dist.lib}">
-    <copy file="${avalonapi.jar}" todir="${src.dist.lib}">
+    <copy file="${xerces.jar}" todir="${src.dist.lib}/"/>
+    <copy file="${avalonapi.jar}" tofile="${src.dist.lib}/avalonapi.jar"/>
 
     <copy todir="${src.dist.src}">
       <fileset dir="${src.dir}"/>
