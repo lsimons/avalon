@@ -65,7 +65,7 @@ import org.apache.log.Hierarchy;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
  * @author <a href="http://cvs.apache.org/~atagunov">Anton Tagunov</a>
- * @version CVS $Revision: 1.2 $ $Date: 2003/06/11 12:07:12 $
+ * @version CVS $Revision: 1.3 $ $Date: 2003/06/11 12:14:45 $
  * @since 4.0
  */
 public class LogKitAdapter extends AbstractLogEnabled implements LoggerManager
@@ -96,7 +96,7 @@ public class LogKitAdapter extends AbstractLogEnabled implements LoggerManager
      *
      * <p>
      * Our LogKitConfHelper configures getRootLogger(), not getLoggerFor("").
-     * We think this is a reasonable behaviour and expect that LogKit
+     * We think this is a reasonable behavior and expect that LogKit
      * Hierarchies configured by other means then LogKitConfHelper are
      * configured in the same way.
      * 
