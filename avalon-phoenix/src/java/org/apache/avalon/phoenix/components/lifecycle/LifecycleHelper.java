@@ -181,6 +181,7 @@ public class LifecycleHelper
     {
         final String name = entry.getName();
         final Object object = entry.getObject();
+        entry.invalidate();
 
         //Stoppable stage
         if( object instanceof Startable )
@@ -217,33 +218,6 @@ public class LifecycleHelper
 
         notice( name, STAGE_DESTROY );
         entry.setState( State.DESTROYED );
-    }
-
-    /**
-     * Method to run a <code>Block</code> through it's shutdown phase.
-     * Errors that occur during shutdown will be logged appropraitely.
-     *
-     * @param entry the entry containing Block
-     */
-    public void shutdown( final ComponentEntry entry )
-    {
-        final Object block = entry.getObject();
-
-        //Invalidate entry. This will invalidate
-        //and null out Proxy object aswell as nulling out
-        //block property
-        entry.invalidate();
-
-        //Stoppable stage
-        try
-        {
-            ContainerUtil.shutdown( block );
-        }
-        finally
-        {
-            entry.setObject( null );
-            entry.setState( State.DESTROYED );
-        }
     }
 
     /**
