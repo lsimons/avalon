@@ -81,8 +81,13 @@
         <ant dir="container" target="${subproject-target}"/>
     </target>
     
+    <!-- Info -->
+    <target name="prj-info" depends="prj-i18n">
+        <ant dir="info" target="${subproject-target}"/>
+    </target>
+
     <!-- ContainerKit -->
-    <target name="prj-containerkit" depends="prj-i18n">
+    <target name="prj-containerkit" depends="prj-i18n,prj-info">
         <ant dir="containerkit" target="${subproject-target}"/>
     </target>
     
