@@ -300,7 +300,7 @@ public class Installer
                     LIB.length() == name.lastIndexOf( "/" ) )
                 {
                     isJar = true;
-                    //expand = true;
+                    //expand = false;
                     //final String jar = baseURL + name;
                     //jars.add( jar );
                 }
