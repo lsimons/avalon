@@ -63,7 +63,7 @@ import org.apache.log4j.spi.LoggerRepository;
  * leaves that as an excercise for Log4J's construction.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.7 $ $Date: 2002/10/14 12:48:19 $
+ * @version CVS $Revision: 1.8 $ $Date: 2002/10/28 00:36:03 $
  * @since 4.1
  */
 public class Log4JLoggerManager
@@ -73,7 +73,7 @@ public class Log4JLoggerManager
     private final Map m_loggers = new HashMap();
 
     /** The root logger to configure */
-    private String m_prefix;
+    //private String m_prefix;
 
     /** The hierarchy private to Log4JManager */
     private LoggerRepository m_hierarchy;
@@ -140,7 +140,7 @@ public class Log4JLoggerManager
                                final Logger defaultLogger,
                                final Logger logger )
     {
-        m_prefix = prefix;
+        //m_prefix = prefix;
         m_hierarchy = hierarchy;
         m_defaultLogger = defaultLogger;
         m_logger = logger;
