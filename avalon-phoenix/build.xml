@@ -31,9 +31,9 @@ Legal:
   <property name="version" value="3.1a1-dev"/>
   <property name="year" value="1999-2001"/>
 
-  <property name="debug" value="off"/>
-  <property name="optimize" value="off"/>
-  <property name="deprecation" value="on"/>
+  <property name="build.debug" value="off"/>
+  <property name="build.optimize" value="off"/>
+  <property name="build.deprecation" value="on"/>
 
   <!-- Set the properties for intermediate directory -->
   <property name="build.dir" value="build"/>
@@ -165,9 +165,9 @@ Legal:
 
     <javac srcdir="${java.dir}"
            destdir="${build.classes}"
-           debug="${debug}"
-           optimize="${optimize}"
-           deprecation="${deprecation}">
+           debug="${build.debug}"
+           optimize="${build.optimize}"
+           deprecation="${build.deprecation}">
       <classpath refid="project.class.path" />
       <src path="${build.src}" />
       <exclude name="${constants.file}" />
