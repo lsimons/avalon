@@ -20,7 +20,7 @@
    </logging>
 
    <categories>
-      <category name="/sys" priority="DEBUG"/>
+      <category name="/sys" priority="INFO"/>
    </categories>
 
    <engine/>
