@@ -9,6 +9,7 @@ Authors:
  Federico Barbieri <scoobie@apache.org>
  Berin Loritsch <bloritsch@apache.org>
  Peter Donald <donaldp@apache.org>
+ Leo Simons <mail@leosimons.com>
 
 Legal:
   Copyright (c) 1999-2001 The Apache Software Foundation. All Rights Reserved.
@@ -193,6 +194,12 @@ Legal:
       <exclude name="${constants.file}" />
     </javac>
 
+    <rmic base="${build.classes}" 
+          classname="org.apache.jmx.adaptor.RMIAdaptorImpl" 
+          stubVersion="1.2">
+      <classpath refid="project.class.path" />
+    </rmic>
+
   </target>
 
   <!--
@@ -335,11 +342,15 @@ Legal:
       <include name="org/apache/phoenix/engine/loader/**"/>
     </jar>
 
+    <jar jarfile="${build.lib}/avalon-jmx.jar" basedir="${build.classes}">
+      <include name="org/apache/jmx/**" />
+    </jar>
+
     <jar jarfile="${build.lib}/phoenix-engine.jar"
          basedir="${build.classes}"
          manifest="${manifest.dir}/engine-Manifest.mf" >
 
-      <!-- temporary hack until camelot stabilizes -->
+      <!-- temporary hack until camelot/atlantis stabilizes -->
       <include name="org/apache/avalon/**"/>
 
       <include name="org/apache/phoenix/metainfo/**"/>
@@ -366,9 +377,12 @@ Legal:
     <copy file="${build.lib}/phoenix-engine.jar" todir="${dist.bin}"/>
 
     <copy file="${build.lib}/phoenix-client.jar" todir="${dist.lib}"/>
+    <copy file="${build.lib}/avalon-jmx.jar" todir="${dist.lib}"/>
     <copy file="${logkit.jar}" todir="${dist.lib}"/>
     <copy file="${avalonapi.jar}" todir="${dist.lib}"/>
     <copy file="${xerces.jar}" tofile="${dist.lib}/xerces.jar"/>
+    <copy file="${lib.dir}/jmxtools.jar" todir="${dist.lib}"/>
+    <copy file="${lib.dir}/jmxri.jar" todir="${dist.lib}"/>
 
     <copy file="${script.dir}/run.bat" todir="${dist.bin}"/>
     <copy file="${script.dir}/run.sh" todir="${dist.bin}"/>
