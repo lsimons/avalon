@@ -72,7 +72,7 @@ import org.apache.avalon.framework.service.ServiceManager;
  * See that interface for a description.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.22 $ $Date: 2003/05/28 16:10:58 $
+ * @version CVS $Revision: 1.23 $ $Date: 2003/05/28 16:18:50 $
  */
 public class DefaultContainerManager
     implements Initializable, Disposable, ContainerManager, ContainerManagerConstants
