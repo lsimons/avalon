@@ -15,13 +15,13 @@
         The framework defines a standard method of piecing together server
         components and creating a server.
       </p>
-      <subsection title="Target Audience">
+      <subsection name="Target Audience">
         <p>
           This documentation will describe the care and feeding of the Avalon
           Phoenix kernel from the point of view of the administrator.
         </p>
       </subsection>
-      <subsection title="Guide non-existent, but features are there">
+      <subsection name="Guide non-existent, but features are there">
 	<p>
           We currently have no info on this whatsoever. However, this doesn't
 	  mean that Phoenix is not easy to administrate - the contrary is true,
