@@ -34,13 +34,14 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 
-import org.apache.avalon.logging.provider.ConsoleLogger;
+import org.apache.avalon.logging.impl.ConsoleLogger;
+import org.apache.avalon.logging.impl.DefaultLoggingCriteria;
+import org.apache.avalon.logging.data.CategoriesDirective;
+import org.apache.avalon.logging.data.CategoryDirective;
 import org.apache.avalon.logging.provider.LoggingCriteria;
 import org.apache.avalon.logging.provider.LoggingFactory;
 import org.apache.avalon.logging.provider.LoggingException;
 import org.apache.avalon.logging.provider.LoggingManager;
-import org.apache.avalon.logging.data.CategoriesDirective;
-import org.apache.avalon.logging.data.CategoryDirective;
 import org.apache.avalon.logging.logkit.factory.FileTargetFactory;
 import org.apache.avalon.logging.logkit.factory.StreamTargetFactory;
 import org.apache.avalon.logging.logkit.factory.MulticastTargetFactory;
@@ -116,7 +117,7 @@ public class DefaultLoggingFactory implements LoggingFactory
     */
     public LoggingCriteria createDefaultLoggingCriteria()
     {
-        return new LoggingCriteria( m_context );
+        return new DefaultLoggingCriteria( m_context );
     }
 
    /**

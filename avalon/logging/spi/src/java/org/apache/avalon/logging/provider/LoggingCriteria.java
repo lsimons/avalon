@@ -19,35 +19,19 @@ package org.apache.avalon.logging.provider;
 
 import java.io.File;
 import java.net.URL;
-import java.io.IOException;
-import java.util.Properties;
+import java.util.Map;
 
 import org.apache.avalon.framework.logger.Logger;
 
-import org.apache.avalon.repository.Artifact;
-import org.apache.avalon.repository.ArtifactHandler;
-import org.apache.avalon.repository.provider.InitialContext;
-import org.apache.avalon.repository.main.DefaultBuilder;
-
-import org.apache.avalon.util.criteria.CriteriaException;
-import org.apache.avalon.util.criteria.Criteria;
-import org.apache.avalon.util.criteria.Parameter;
-import org.apache.avalon.util.defaults.Defaults;
-import org.apache.avalon.util.defaults.DefaultsBuilder;
-
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
-
-
-
 /**
- * DefaultLoggingCriteria is a class holding the values supplied by a user 
- * for application to a LoggingManager factory.
+ * LoggingCriteria is convinience interface that extends Map with 
+ * a set of operations that enable easy manipulation of the logging
+ * system parameters.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
-public class LoggingCriteria extends Criteria 
+public interface LoggingCriteria extends Map 
 {
     //--------------------------------------------------------------
     // criteria keys
@@ -56,13 +40,13 @@ public class LoggingCriteria extends Criteria
    /**
     * The logging configuration key.
     */
-    public static String LOGGING_CONFIGURATION_KEY = 
+    String LOGGING_CONFIGURATION_KEY = 
       "avalon.logging.configuration";
 
    /**
     * The logging system bootstrap logger key.
     */
-    public static String LOGGING_BOOTSTRAP_KEY = 
+    String LOGGING_BOOTSTRAP_KEY = 
       "avalon.logging.bootstrap";
 
    /**
@@ -71,7 +55,7 @@ public class LoggingCriteria extends Criteria
     * logging file should be created in the directory 
     * assigned to this key.
     */
-    public static String LOGGING_BASEDIR_KEY = 
+    String LOGGING_BASEDIR_KEY = 
       "avalon.logging.basedir";
 
    /**
@@ -79,172 +63,50 @@ public class LoggingCriteria extends Criteria
     * Logging subsystems that supports changes on-the-fly, will
     * be passed this argument.
     */
-    public static String LOGGING_INTERVAL_KEY = 
+    String LOGGING_INTERVAL_KEY = 
       "avalon.logging.update";
 
    /**
     * Debug mode.
     */
-    public static String LOGGING_DEBUG_KEY = 
+    String LOGGING_DEBUG_KEY = 
       "avalon.logging.debug";
-
-    //--------------------------------------------------------------
-    // static
-    //--------------------------------------------------------------
-
-    private static final String[] KEYS = 
-      new String[]{
-        LOGGING_CONFIGURATION_KEY,
-        LOGGING_BASEDIR_KEY,
-        LOGGING_DEBUG_KEY,
-        LOGGING_BOOTSTRAP_KEY,
-        LOGGING_INTERVAL_KEY };
-
-    private static final String DEFAULTS = "/avalon.logging.properties";
-
-    private static final Resources REZ =
-      ResourceManager.getPackageResources( LoggingCriteria.class );
-
-   /**
-    * The factory parameters template.
-    * @return the set of parameters constraining the criteria
-    */
-    private static Parameter[] buildParameters( InitialContext context ) 
-    {
-        return new Parameter[] {
-            new ConfigurationParameter( 
-              LOGGING_CONFIGURATION_KEY ),
-            new Parameter( 
-              LOGGING_BASEDIR_KEY, 
-              File.class, 
-              context.getInitialWorkingDirectory() ),
-            new Parameter( 
-              LOGGING_DEBUG_KEY, 
-              Boolean.class, 
-              new Boolean( false ) ),
-            new LoggerParameter( 
-              LOGGING_BOOTSTRAP_KEY, 
-              new ConsoleLogger( ConsoleLogger.LEVEL_WARN ) ),
-            new Parameter( 
-              LOGGING_INTERVAL_KEY, 
-              Long.class, 
-              new Long( -1 ) )
-        };
-    }
-
-    //--------------------------------------------------------------
-    // immutable state
-    //--------------------------------------------------------------
-
-    private final InitialContext m_context;
-
-    //--------------------------------------------------------------
-    // constructor
-    //--------------------------------------------------------------
-
-   /**
-    * Creation of a new default logging criteria.
-    * @param context the initial repository context
-    */
-    public LoggingCriteria( InitialContext context )
-    {
-        super( buildParameters( context ) );
-        m_context = context;
-
-        try
-        {
-            //
-            // get the properties declared relative to the application
-            //
-
-            final String key = context.getApplicationKey();
-            final File work = context.getInitialWorkingDirectory();
-            DefaultsBuilder builder = new DefaultsBuilder( key, work );
-            Properties defaults = 
-              Defaults.getStaticProperties( LoggingCriteria.class );
-
-            final String[] keys = super.getKeys();
-            Properties properties = 
-              builder.getConsolidatedProperties( defaults, keys );
-
-            //
-            // apply any non-null properties to the criteria
-            //
-
-            for( int i=0; i<keys.length; i++ )
-            {
-                final String propertyKey = keys[i];
-                final String value = properties.getProperty( propertyKey );
-                if( null != value )
-                {
-                    put( propertyKey, value );
-                }
-            }
-        }
-        catch ( IOException e )
-        {
-            throw new LoggingRuntimeException( 
-             "Failed to load implementation default resources.", e );
-        }
-    }
-
-    //--------------------------------------------------------------
-    // LoggingCriteria
-    //--------------------------------------------------------------
 
    /**
     * Set the debug enabled policy
     * @param mode TRUE to enabled debug mode else FALSE
     */
-    public void setDebugEnabled( boolean mode )
-    {
-        put( LOGGING_DEBUG_KEY, new Boolean( mode ) );
-    }
+    void setDebugEnabled( boolean mode );
 
    /**
     * Set the bootstrap logging channel
     * @param logger the boootstrap logging channel
     */
-    public void setBootstrapLogger( Logger logger )
-    {
-        put( LOGGING_BOOTSTRAP_KEY, logger );
-    }
+    void setBootstrapLogger( Logger logger );
 
    /**
     * Set the base directory.
     * @param dir the base directory
     */
-    public void setBaseDirectory( File dir )
-    {
-        put( LOGGING_BASEDIR_KEY, dir );
-    }
+    void setBaseDirectory( File dir );
 
    /**
     * Set the configuration URL.
     * @param url the configuration URL
     */
-    public void setLoggingConfiguration( URL url )
-    {
-        put( LOGGING_CONFIGURATION_KEY, url );
-    }
+    void setLoggingConfiguration( URL url );
 
    /**
     * Get the bootstrap logging channel
     * @return the boootstrap logging channel
     */
-    public Logger getBootstrapLogger()
-    {
-        return (Logger) get( LOGGING_BOOTSTRAP_KEY );
-    }
+    Logger getBootstrapLogger();
 
    /**
     * Returns the base directory for logging resources.
     * @return the base directory
     */
-    public File getBaseDirectory()
-    {
-        return (File) get( LOGGING_BASEDIR_KEY );
-    }
+    File getBaseDirectory();
 
    /**
     * Returns debug policy.  If TRUE all logging channels will be 
@@ -252,46 +114,17 @@ public class LoggingCriteria extends Criteria
     *
     * @return the debug policy
     */
-    public boolean isDebugEnabled()
-    {
-        Boolean value = (Boolean) get( LOGGING_DEBUG_KEY );
-        if( null != value ) 
-            return value.booleanValue();
-        return false;
-    }
+    boolean isDebugEnabled();
 
    /**
     * Returns an external logging system configuration file
     * @return the configuration file (possibly null)
     */
-    public URL getLoggingConfiguration()
-    {
-        return (URL) get( LOGGING_CONFIGURATION_KEY );
-    }
+    URL getLoggingConfiguration();
 
-    /** Returns the logging configuration update interval.
-     */
-    public long getUpdateInterval()
-    {
-        Long value = (Long) get( LOGGING_INTERVAL_KEY );
-        if( null != value ) 
-            return value.longValue();
-        return -1;
-    }
+   /** 
+    * Returns the logging configuration update interval.
+    */
+    long getUpdateInterval();
     
-    private static File getCanonicalForm( File file )
-    {
-        try
-        {
-            return file.getCanonicalFile();
-        }
-        catch( Throwable e )
-        {
-            final String error = 
-              REZ.getString( 
-                "criteria.artifact.cononical.error", 
-                file.toString() );
-            throw new LoggingRuntimeException( error, e );
-        }
-    }
 }

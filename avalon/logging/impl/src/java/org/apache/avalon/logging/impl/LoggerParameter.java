@@ -15,13 +15,15 @@
  * limitations under the License.
  */
 
-package org.apache.avalon.logging.provider;
+package org.apache.avalon.logging.impl;
 
 import java.io.File;
 import java.net.URL;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
+
+import org.apache.avalon.framework.logger.Logger;
 
 import org.apache.avalon.util.criteria.Parameter;
 import org.apache.avalon.util.criteria.CriteriaException;
@@ -31,32 +33,37 @@ import org.apache.avalon.excalibur.i18n.Resources;
 
 /**
  * A parameter descriptor that supports transformation of a 
- * a string url to an URL instance.
+ * a string to a Logger instance.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version $Revision: 1.1 $
  */
-public class ConfigurationParameter extends Parameter
+public class LoggerParameter extends Parameter
 {
     //--------------------------------------------------------------
     // static
     //--------------------------------------------------------------
 
     private static final Resources REZ =
-      ResourceManager.getPackageResources( ConfigurationParameter.class );
+      ResourceManager.getPackageResources( LoggerParameter.class );
+
+    private static final int PRIORITY = ConsoleLogger.LEVEL_WARN;
 
     //--------------------------------------------------------------
     // constructors
     //--------------------------------------------------------------
 
    /**
-    * Transform a string to a string array.
+    * Creation of a new logger parameter.  The parameter support
+    * convertion of strings in the form "debug", "info", "warn", 
+    * "error", "fatal" and "none" to an equivalent logger.
+    *
     * @param key the parameter key
-    * @param defaults the default string array
+    * @param logger the default logger
     */
-    public ConfigurationParameter( final String key ) 
+    public LoggerParameter( final String key, final Logger logger )
     {
-        super( key, URL.class );
+        super( key, Logger.class, logger );
     }
 
    /**
@@ -67,48 +74,46 @@ public class ConfigurationParameter extends Parameter
     public Object resolve( Object value ) 
       throws CriteriaException
     {
-        if( value == null ) 
-            return null;
-        if( value instanceof URL )
+        if( value == null )
+        {
+            return new ConsoleLogger( PRIORITY );
+        }
+        if( value instanceof Logger )
         {
             return value;
         }
         if( value instanceof String )
         {
-            return resolve( super.resolve( URL.class, value ) );
-        }
-        else if( value instanceof File )
-        {
-            File file = (File) value;
-            if( ! file.exists() )
+            String priority = ((String)value).toLowerCase();
+            if( priority.equals( "debug" ) )
             {
-                final String error = 
-                  REZ.getString( 
-                    "parameter.configuration.fnf.error", 
-                    file.toString() );
-                throw new CriteriaException( error );
+                return new ConsoleLogger( ConsoleLogger.LEVEL_DEBUG );
             }
-
-            try
+            else if( priority.equals( "info" ) )
             {
-                return file.toURL();
+                return new ConsoleLogger( ConsoleLogger.LEVEL_INFO );
             }
-            catch( Throwable e )
+            else if( priority.equals( "warn" ) )
             {
-                final String error = 
-                  REZ.getString( 
-                    "parameter.configuration.file.error", 
-                    file.toString() );
-                throw new CriteriaException( error );
+                return new ConsoleLogger( ConsoleLogger.LEVEL_WARN );
+            }
+            else if( priority.equals( "error" ) )
+            {
+                return new ConsoleLogger( ConsoleLogger.LEVEL_ERROR );
+            }
+            else if( priority.equals( "fatal" ) )
+            {
+                return new ConsoleLogger( ConsoleLogger.LEVEL_FATAL );
+            }
+            else if( priority.equals( "none" ) )
+            {
+                return new ConsoleLogger( ConsoleLogger.LEVEL_DISABLED );
             }
         }
-        else
-        {
-            final String error = 
-              REZ.getString( 
-                "parameter.unknown", 
-                value.getClass().getName(), URL.class.getName() );
-            throw new CriteriaException( error );
-        }
+        final String error = 
+          REZ.getString( 
+            "parameter.unknown", 
+            value.getClass().getName(), Logger.class.getName() );
+        throw new CriteriaException( error );
     }
 }

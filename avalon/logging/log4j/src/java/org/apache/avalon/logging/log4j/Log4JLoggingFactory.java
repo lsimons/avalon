@@ -32,6 +32,7 @@ import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationUtil;
 
+import org.apache.avalon.logging.impl.DefaultLoggingCriteria;
 import org.apache.avalon.logging.provider.LoggingCriteria;
 import org.apache.avalon.logging.provider.LoggingFactory;
 import org.apache.avalon.logging.provider.LoggingManager;
@@ -49,7 +50,7 @@ import org.w3c.dom.Element;
  * A Log4J factory.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public class Log4JLoggingFactory
     implements LoggingFactory
@@ -83,7 +84,7 @@ public class Log4JLoggingFactory
     */
     public LoggingCriteria createDefaultLoggingCriteria()
     {
-        return new LoggingCriteria( m_Context );
+        return new DefaultLoggingCriteria( m_Context );
     }
 
    /**
