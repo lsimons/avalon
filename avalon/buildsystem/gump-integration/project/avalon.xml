@@ -15,6 +15,7 @@
         descriptor. -->
 
         <package>org.apache.avalon</package>
+        <mkdir dir="framework/target/classes"/>
         <ant target="dist" basedir="framework">
             <property name="project.version" value="@@DATE@@"></property>
         </ant>
