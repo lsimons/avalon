@@ -89,17 +89,10 @@
         <group>avalon</group>
         <name>site</name>
       </info>
-    </project>
-
-    <!--
-    Avalon Tools.
-    -->
-
-    <project basedir="../../tools/magic">
-      <info>
-        <group>avalon/tools</group>
-        <name>avalon-tools-magic</name>
-      </info>
+      <dependencies>
+        <include key="avalon-merlin-cli" runtime="false"/>
+        <include key="avalon-repository-cli" runtime="false"/>
+      </dependencies>
     </project>
 
     <!--
@@ -804,6 +797,16 @@
       </plugins>
     </project>
 
+    <!--
+    Avalon Tools.
+    -->
+
+    <project basedir="../../tools/magic">
+      <info>
+        <group>avalon/tools</group>
+        <name>avalon-tools-magic</name>
+      </info>
+    </project>
 
     <!--
     <project basedir="../../runtime/merlin/unit">
