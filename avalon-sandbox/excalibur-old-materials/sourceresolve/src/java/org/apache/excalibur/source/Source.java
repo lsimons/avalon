@@ -97,7 +97,7 @@ import java.io.InputStream;
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @version CVS $Revision: 1.14 $ $Date: 2003/01/29 06:56:01 $
+ * @version CVS $Revision: 1.15 $ $Date: 2003/07/02 13:20:40 $
  */
 public interface Source
 {
@@ -106,7 +106,7 @@ public interface Source
      * 
      * @return true if the source exists
      */
-    public boolean exists();
+    boolean exists();
     
     /**
      * Return an <code>InputStream</code> to read from the source.
