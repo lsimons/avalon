@@ -1,0 +1,249 @@
+/*
+ * Copyright (C) The Apache Software Foundation. All rights reserved.
+ *
+ * This software is published under the terms of the Apache Software License
+ * version 1.1, a copy of which has been included with this distribution in
+ * the LICENSE.txt file.
+ */
+package org.apache.avalon.phoenix.components.cpbuilder.verifier;
+
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.phoenix.components.cpbuilder.metadata.ClassLoaderDef;
+import org.apache.avalon.phoenix.components.cpbuilder.metadata.ClassLoaderSetDef;
+import org.apache.avalon.phoenix.components.cpbuilder.metadata.JoinDef;
+
+/**
+ * Verify ClassLoader set is valid. Validity is defined as
+ * <ul>
+ *   <li>With exception of predefined names, all ClassLoader
+ *       names should be defined starting with letters or '_'
+ *       and then continuing with Alpha-Numeric characters, '-'
+ *       or '_'.</li>
+ *   <li>No ClassLoader can have a parent ClassLoader that is
+ *       not predefined or not defined in ClassLoaderSet.</li>
+ *   <li>No "join" ClassLoader can join multiple instances
+ *       of same ClassLoader.</li>
+ *   <li>No ClassLoader can have multiple entrys that point
+ *       to the same location.</li>
+ *   <li>No ClassLoader (either join or regular) can have the same
+ *       name.</li>
+ *   <li>The default ClassLoader must exist.</li>
+ * </ul>
+ *
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @version $Revision: 1.1 $ $Date: 2002/09/01 02:31:29 $
+ */
+public class ClassLoaderVerifier
+    extends AbstractLogEnabled
+{
+    private final static Resources REZ =
+        ResourceManager.getPackageResources( ClassLoaderVerifier.class );
+
+    public void verifyClassLoaderSet( final ClassLoaderSetDef set )
+        throws Exception
+    {
+        String message = null;
+
+        message = REZ.getString( "default-loader.notice" );
+        getLogger().info( message );
+        verifyDefaultLoaderExists( set );
+
+        message = REZ.getString( "unique-classloader.notice" );
+        getLogger().info( message );
+        verifyUniqueClassLoaderNames( set );
+
+        message = REZ.getString( "unique-joins.notice" );
+        getLogger().info( message );
+        verifyUniqueJoinNames( set );
+
+        message = REZ.getString( "unique-predefined.notice" );
+        getLogger().info( message );
+        verifyUniquePredefinedNames( set );
+
+    }
+
+    /**
+     * Verify that the Predefined names are unique set.
+     *
+     * @throws Exception if validity check fails
+     */
+    private void verifyUniquePredefinedNames( final ClassLoaderSetDef set )
+        throws Exception
+    {
+        final String[] predefined = set.getPredefined();
+        for( int i = 0; i < predefined.length; i++ )
+        {
+            final String name = predefined[ i ];
+            for( int j = i + 1; j < predefined.length; j++ )
+            {
+                final String other = predefined[ j ];
+                if( other.equals( name ) )
+                {
+                    final String message =
+                        REZ.getString( "duplicate-name.error",
+                                       "predefined",
+                                       "predefined",
+                                       name );
+                    throw new Exception( message );
+                }
+            }
+        }
+    }
+
+    /**
+     * Verify that the ClassLoader names are unique throughout the set.
+     *
+     * @param set the set of ClassLoader defs to search in
+     * @throws Exception if validity check fails
+     */
+    private void verifyUniqueClassLoaderNames( final ClassLoaderSetDef set )
+        throws Exception
+    {
+        final ClassLoaderDef[] classLoaders = set.getClassLoaders();
+        for( int i = 0; i < classLoaders.length; i++ )
+        {
+            final ClassLoaderDef classLoader = classLoaders[ i ];
+            verifyUniqueName( set,
+                              classLoader.getName(),
+                              "classloader",
+                              classLoader );
+        }
+    }
+
+    /**
+     * Verify that the specified name is unique in set
+     * except for specified entity.
+     *
+     * @param set the set of classloaders
+     * @param name the name
+     * @param type the type of classloder (used for exception messages)
+     * @param entity the entity to skip (ie the one the name refers to)
+     * @throws Exception if validity check fails
+     */
+    private void verifyUniqueName( final ClassLoaderSetDef set,
+                                   final String name,
+                                   final String type,
+                                   final Object entity )
+        throws Exception
+    {
+        //Make sure our join does not have same name as a
+        //predefined ClassLoader
+        if( set.isPredefined( name ) )
+        {
+            final String message =
+                REZ.getString( "duplicate-name.error",
+                               type,
+                               "predefined",
+                               name );
+            throw new Exception( message );
+        }
+
+        //Make sure no joins have same name as our join
+        final JoinDef[] joins = set.getJoins();
+        for( int j = 0; j < joins.length; j++ )
+        {
+            final JoinDef other = joins[ j ];
+            if( other == entity )
+            {
+                continue;
+            }
+            if( other.getName().equals( name ) )
+            {
+                final String message =
+                    REZ.getString( "duplicate-name.error",
+                                   type,
+                                   "join",
+                                   name );
+                throw new Exception( message );
+            }
+        }
+
+        final ClassLoaderDef[] classLoaders = set.getClassLoaders();
+        for( int j = 0; j < classLoaders.length; j++ )
+        {
+            final ClassLoaderDef other = classLoaders[ j ];
+            if( other == entity )
+            {
+                continue;
+            }
+            if( other.getName().equals( name ) )
+            {
+                final String message =
+                    REZ.getString( "duplicate-name.error",
+                                   type,
+                                   "classloader",
+                                   name );
+                throw new Exception( message );
+            }
+        }
+    }
+
+    /**
+     * Verify that the join names are unique throughout the set.
+     *
+     * @param set the set of ClassLoader defs to search in
+     * @throws Exception if validity check fails
+     */
+    private void verifyUniqueJoinNames( final ClassLoaderSetDef set )
+        throws Exception
+    {
+        final JoinDef[] joins = set.getJoins();
+        for( int i = 0; i < joins.length; i++ )
+        {
+            final JoinDef join = joins[ i ];
+            verifyUniqueName( set,
+                              join.getName(),
+                              "join",
+                              join );
+        }
+    }
+
+    /**
+     * Verify that the default loader is defined.
+     *
+     * @param set the set of ClassLoader defs to search in
+     * @throws Exception if validity check fails
+     */
+    private void verifyDefaultLoaderExists( final ClassLoaderSetDef set )
+        throws Exception
+    {
+        final String name = set.getDefault();
+        if( !isLoaderDefined( name, set ) )
+        {
+            final String message =
+                REZ.getString( "missing-default-loader.error",
+                               name );
+            throw new Exception( message );
+        }
+    }
+
+    /**
+     * Return true if specified loader is defined in set.
+     *
+     * @param name the name of loader
+     * @param set the set to search
+     * @return true if specified loader is defined in set.
+     */
+    private boolean isLoaderDefined( final String name,
+                                     final ClassLoaderSetDef set )
+    {
+        if( set.isPredefined( name ) )
+        {
+            return true;
+        }
+        else if( null != set.getClassLoader( name ) )
+        {
+            return true;
+        }
+        else if( null != set.getJoin( name ) )
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+}
