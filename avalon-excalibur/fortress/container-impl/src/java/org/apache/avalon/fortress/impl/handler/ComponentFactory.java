@@ -76,7 +76,7 @@ import org.apache.excalibur.mpool.ObjectFactory;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
- * @version CVS $Revision: 1.3 $ $Date: 2003/02/10 15:47:00 $
+ * @version CVS $Revision: 1.4 $ $Date: 2003/02/19 12:02:55 $
  * @since 4.0
  */
 public class ComponentFactory
@@ -199,6 +199,13 @@ public class ComponentFactory
             }
         }
 
+        // Set the name of the instrumentable before initialization.
+        if( component instanceof Instrumentable )
+        {
+            final Instrumentable instrumentable = (Instrumentable)component;
+            instrumentable.setInstrumentableName( m_instrumentableName );
+        }
+        
         if( component instanceof InstrumentManageable )
         {
             ( (InstrumentManageable)component ).setInstrumentManager( m_instrumentManager );
@@ -222,9 +229,10 @@ public class ComponentFactory
         if( component instanceof Instrumentable )
         {
             final Instrumentable instrumentable = (Instrumentable)component;
-            instrumentable.setInstrumentableName( m_instrumentableName );
+            
+            // Get the name from the instrumentable in case it was changed since being set above.
             m_instrumentManager.registerInstrumentable(
-                instrumentable, m_instrumentableName );
+                instrumentable, instrumentable.getInstrumentableName() );
         }
 
         ContainerUtil.start( component );
