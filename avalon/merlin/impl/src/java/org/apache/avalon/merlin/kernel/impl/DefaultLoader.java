@@ -40,6 +40,62 @@ public class DefaultLoader
     // static
     //--------------------------------------------------------------------------
 
+   /**
+    * The map key to a {@link java.io.File} that is the root directory for the 
+    * local application repository.  This directory will be used during retrival 
+    * and of resources such as jar files referenced by block include directives 
+    * and classloader resource references.
+    */
+    public static final String MERLIN_REPOSITORY_DIR = 
+      "merlin.repository.dir";
+
+   /**
+    * The map key to a {@link java.io.File} that is the directory used as the base anchor
+    * for resolution of relative path references for jar extension library directory
+    * statements in classloader directives.  If not supplied the value defaults to
+    * the current working directory.
+    */
+    public static final String MERLIN_LIBRARY_DIR = 
+      "merlin.library.dir";
+
+   /**
+    * The map key to a {@link java.io.File} that is the working base directory.  Working and
+    * temporary directories are created relative to this root directory.  The default
+    * value is the current working directory ${user.dir}. 
+    */
+    public static final String MERLIN_BASE_DIR = 
+      "merlin.base.dir";
+
+   /**
+    * The map key to a {@link java.net.URL} of kernel configuration.  If not supplied
+    * a default kernel defintion will be established. 
+    */
+    public static final String MERLIN_KERNEL_URL = 
+      "merlin.kernel.url";
+
+   /**
+    * The map key to a {@link java.net.URL} of an optional configuration targets override file.
+    */
+    public static final String MERLIN_TARGETS_URL = 
+      "merlin.targets.url";
+
+   /**
+    * The map key to a {@link Boolean} declaring the info generation option. If TRUE
+    * a summary listing of the Merlin environment will be generated on system 
+    * establishment.  This information is generally useful when validating current
+    * version information and configuration paths.
+    */
+    public static final String MERLIN_POLICY_INFO = 
+      "merlin.policy.info";
+
+   /**
+    * The map key to a {@link Boolean} declaring the debug generation option. If TRUE
+    * debug level logging is automatically enabled on all channels (typically only
+    * used when debugging an application).
+    */
+    public static final String MERLIN_POLICY_DEBUG = 
+      "merlin.policy.debug";
+
     private static Resources REZ =
         ResourceManager.getPackageResources( DefaultLoader.class );
 
@@ -66,13 +122,13 @@ public class DefaultLoader
     public DefaultLoader( final Repository repository, Map map ) 
       throws Exception
     {
-        File repo = (File) map.get( "merlin.repository.dir" );
-        File library = (File) map.get( "merlin.library.dir" );
-        File base = (File) map.get( "merlin.base.dir" );
-        URL kernel = (URL) map.get( "merlin.kernel.url" );
-        URL targets = (URL) map.get( "merlin.targets.url" );
-        boolean info = getBooleanValue( (Boolean) map.get( "merlin.policy.info" ), false );
-        boolean debug = getBooleanValue( (Boolean) map.get( "merlin.policy.debug" ), false );
+        File repo = (File) map.get( MERLIN_REPOSITORY_DIR );
+        File library = (File) map.get( MERLIN_LIBRARY_DIR );
+        File base = (File) map.get( MERLIN_BASE_DIR );
+        URL kernel = (URL) map.get( MERLIN_KERNEL_URL );
+        URL targets = (URL) map.get( MERLIN_TARGETS_URL );
+        boolean info = getBooleanValue( (Boolean) map.get( MERLIN_POLICY_INFO ), false );
+        boolean debug = getBooleanValue( (Boolean) map.get( MERLIN_POLICY_DEBUG ), false );
 
         try
         {
