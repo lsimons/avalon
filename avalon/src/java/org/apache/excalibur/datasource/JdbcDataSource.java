@@ -20,7 +20,7 @@ import org.apache.avalon.logger.AbstractLoggable;
  * <code>java.sql.DriverManager</code>.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.3 $ $Date: 2001/04/25 14:24:43 $
+ * @version CVS $Revision: 1.4 $ $Date: 2001/04/25 16:21:57 $
  */
 public class JdbcDataSource
     extends AbstractLoggable
@@ -48,7 +48,7 @@ public class JdbcDataSource
             final String passwd = configuration.getChild( "password" ).getValue( null );
             final Configuration controler = configuration.getChild( "pool-controller" );
 
-            final int max = controler.getAttributeAsInt( "max", 3 );
+            final int max = controler.getAttributeAsInteger( "max", 3 );
             final boolean autoCommit = configuration.getChild("auto-commit").getValueAsBoolean(true);
 
             m_pool = new JdbcConnectionPool( dburl, user, passwd, max, autoCommit );
