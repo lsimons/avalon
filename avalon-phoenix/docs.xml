@@ -6,12 +6,22 @@
     Give user a chance to override without editing this file
     (and without typing -D each time he compiles it)
     -->
+        
     <property file="ant.properties"/>
     <property file="${user.home}/.ant.properties"/>
 
-    <property name="docs.dir" value="docs"/>
+    <property file="default.properties"/>
+    <property file="${user.home}/.default.properties"/>
+
+    <property name="build.dir" value="build"/>    
+    <property name="docs.dir" value="${build.dir}/docs"/>
+    <property name="build.xdocs" value="${build.dir}/xdocs"/>    
+    <property name="build.javadocs" value="${build.dir}/javadocs"/>    
+    <property name="src.dir" value="src"/>    
+    <property name="java.dir" value="${src.dir}/java"/>    
     <property name="xdocs.dir" value="src/xdocs"/>
     <property name="jakarta-site.dir" value="../jakarta-site"/>
+    <property name="dist.base" value="distributions"/>    
 
     <path id="project.class.path">
                 <fileset dir="${jakarta-site.dir}/lib">
@@ -67,6 +77,63 @@
       </fileset>
     </copy>
     </target>
+    
+  <!-- Create the API documentation -->
+  <target name="javadocs">
+
+    <delete dir="${build.javadocs}"/>
+    <mkdir dir="${build.javadocs}"/>
+
+    <javadoc packagenames="org.apache.*"
+             sourcepath="${java.dir}"
+             destdir="${build.javadocs}">
+      <classpath refid="project.class.path" />
+      <doclet name="com.sun.tools.doclets.standard.Standard">
+        <param name="-author"/>
+        <param name="-version"/>
+        <param name="-doctitle" value="${Name}"/>
+        <param name="-windowtitle" value="${Name} API"/>
+        <param name="-bottom"
+               value="&quot;Copyright &#169; 2001 Apache Jakarta Project. All Rights Reserved.&quot;"/>
+        <param name="-link" value="http://java.sun.com/j2se/1.4/docs/api/"/>
+        <param name="-link" value="http://java.sun.com/j2ee/sdk_1.3/techdocs/api/"/>
+        <param name="-link" value="http://jakarta.apache.org/avalon/api/"/>
+      </doclet>
+    </javadoc>
+
+  </target>
+
+    
+    <!-- Create the announcements and HEADER.html -->
+    <target name="announcement">
+    
+        <filter token="Name" value="${Near}"/>
+        <filter token="name" value="${near}"/>
+        <filter token="version" value="${version}"/>
+        <filter token="year" value="${year}"/>
+        <filter token="status" value="${status}"/>
+        <filter token="release" value="${release}"/>
+        <filter token="short-version" value="${short.version}"/>
+            
+        <mkdir dir="${build.dir}" />
+        <mkdir dir="${dist.base}" />
+    
+        <copy todir="${build.xdocs}" overwrite="true" filtering="on">
+          <fileset dir="${xdocs.dir}">
+            <exclude name="**/images/**"/>
+          </fileset>
+        </copy>
+    
+        <style style="${announce2txt}" in="${build.xdocs}/announcement.xml" out="Announcement.txt"/>
+        <style style="${announce2header}" in="${build.xdocs}/announcement.xml"
+               out="${dist.base}/HEADER.html"/>
+        <style style="${announce2readme}" in="${build.xdocs}/announcement.xml"
+               out="${dist.base}/README.html"/>
+        <style style="${announce2site}" in="${build.xdocs}/announcement.xml"
+               out="jakarta-news.xml"/>
+    
+      </target>
+
 
     <!-- Cleans up build and distribution directories -->
     <target name="clean" description="Deletes all built files">
