@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<project name="Excalibur Collections" default="main" basedir=".">
+<project name="Excalibur Compatibility" default="main" basedir=".">
 
     <property file="${user.home}/build.properties"/>
     <property file="${basedir}/../ant.properties"/>
@@ -28,7 +28,7 @@
     </path>
     <property name="cp" refid="test.class.path"/>
 
-    <target name="main" depends="jar" description="Build the project"/>
+    <target name="main" depends="test,jar" description="Build the project"/>
     <target name="rebuild" depends="clean,main" description="Rebuild the project"/>
 
     <target name="dependencies" description="Check dependencies" unless="skip.dependencies">
@@ -275,7 +275,7 @@
             <zipfileset dir="${dist.dir}" prefix="${dist.name}"/>
             <zipfileset dir="${docs.dir}" prefix="${dist.name}/docs"/>
         </zip>
-    
+
         <checksum fileext=".md5">
             <fileset dir="${dist.base}" />
         </checksum>
