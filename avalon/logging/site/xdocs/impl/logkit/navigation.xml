@@ -35,8 +35,15 @@
       <item name="Overview" href="/index.html"/>
       <item name="Specification" href="/spec/index.html"/>
       <item name="Implementations" href="/impl/index.html">
-        <item name="LogKit" href="/impl/logkit/index.html"/>
+        <item name="LogKit" href="/impl/logkit/index.html">
+          <item name="Stream Target" href="/impl/logkit/stream.html"/>
+          <item name="File Target" href="/impl/logkit/file.html"/>
+          <item name="Multicast Target" href="/impl/logkit/multicast.html"/>
+          <item name="Plugin Target" href="/impl/logkit/plugin/index.html"/>
+          <item name="Formatter" href="/impl/logkit/formatter.html"/>
+        </item>
       </item>
+      <item name="Examples" href="/examples/index.html"/>
     </menu>
 
     <menu name="Resources">

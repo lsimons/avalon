@@ -48,13 +48,13 @@ import org.apache.log.output.net.SocketOutputTarget;
  *  TCP/IP socket to communicate with the server. The name of the target is specified by the
  *  hostname attribute of the &lt;address&gt; element and the port by the port attribute.
  *  In the config file above the formatting for the log messages is not embedded as it should
- *  be specified on the server side
+ *  be specified on the server side.
  * </p>
  *
  *
  * @author <a href="mailto:rghorpade@onebridge.de"> Rajendra Ghorpade </a>
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.1 $ $Date: 2004/02/04 20:49:12 $
+ * @version $Revision: 1.2 $ $Date: 2004/02/21 15:20:19 $
  */
 public class SocketTargetFactory implements LogTargetFactory
 {

@@ -24,25 +24,22 @@
   </properties>
   <body>
     <section name="Avalon Logging">
-      <subsection name="Implementation Model">
-        <p>
-        The Avalon Logging system is defined by an API.  This API declares
-        a set of interfaces for use by plugable implementations.  Currently
-        we have one default plugable implementation which is based on the 
-        Avalon LogKit solution.
-        </p>
-      </subsection>
-      <subsection name="Plugins">
+      <subsection name="Examples">
         <table>
-          <tr><th>Plugin</th><th>Description</th></tr>
+          <tr><th>Topic</th><th>Description</th></tr>
           <tr>
-            <td><a href="logkit/index.html">LogKit</a></td>
+            <td><a href="code.html">Code Example</a></td>
             <td>
-            The Avalon LogKit plugin provides support for four standard log 
-            targets.  These include a rotating file target, a console target, 
-            a multiplex target, and a plugin target.  The plugin target provides
-            support for the dynamic loading of new targets based on a artifact
-            identifier.
+            The example shows how to setup a logging manager using 
+            Avalon Repository bootstrapping system.
+            </td>
+          </tr>
+          <tr>
+            <td><a href="logkit.html">LogKit Example</a></td>
+            <td>
+            An example of a logging configuration the combines a 
+            console target and a rotating file target under a 
+            mutiplex target.
             </td>
           </tr>
         </table>

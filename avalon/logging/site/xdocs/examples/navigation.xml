@@ -35,7 +35,10 @@
       <item name="Overview" href="/index.html"/>
       <item name="Specification" href="/spec/index.html"/>
       <item name="Implementations" href="/impl/index.html"/>
-      <item name="Examples" href="/examples/index.html"/>
+      <item name="Examples" href="/examples/index.html">
+        <item name="Code Example" href="/examples/code.html"/>
+        <item name="LogKit Example" href="/examples/logkit.html"/>
+      </item>
     </menu>
 
     <menu name="Resources">
