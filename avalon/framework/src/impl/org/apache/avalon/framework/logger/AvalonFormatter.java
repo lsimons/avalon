@@ -21,6 +21,12 @@ import org.apache.log.format.PatternFormatter;
 public class AvalonFormatter
     extends PatternFormatter
 {
+    /**
+     * The constant defining the default stack depth when 
+     * none other is specified.
+     */
+    private static final int DEFAULT_STACK_DEPTH = 8;
+
     //The depth to which stacktraces are printed out
     private final int m_stackDepth;
 
@@ -30,7 +36,7 @@ public class AvalonFormatter
      */
     public AvalonFormatter( final String pattern )
     {
-        this( pattern, 8 );
+        this( pattern, DEFAULT_STACK_DEPTH );
     }
 
     /**
