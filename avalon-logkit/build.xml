@@ -70,7 +70,6 @@ Legal:
   <property name="src.dist.dir" value="src-dist"/>
 
   <property name="tools.jar" value="${java.home}/../lib/tools.jar"/>
-  <property name="testlet.jar" value="${tools.dir}/lib/testlet.jar"/>
   <property name="junit.jar" value="${tools.dir}/lib/junit-3.7.jar"/>
   <property name="j2ee.jar" value="${cjan.dir}/j2ee.jar"/>
   <property name="jdbc.driver.jar" value=""/>
@@ -87,7 +86,6 @@ Legal:
 
   <path id="project.class.path">
     <pathelement path="${java.class.path}" />
-    <pathelement location="${testlet.jar}"/>
     <pathelement location="${junit.jar}"/>
     <pathelement path="${servlet.jar}" />
     <pathelement path="${j2ee.jar}" />
@@ -101,7 +99,6 @@ Legal:
 
   <path id="tools.class.path">
     <pathelement location="${tools.jar}"/>
-    <pathelement location="${testlet.jar}"/>
     <pathelement location="${junit.jar}"/>
     <fileset dir="${tools.dir}/lib">
       <exclude name="ant.jar" />
@@ -275,8 +272,6 @@ Legal:
                unless="javax.sql.present"/>
       <exclude name="org/apache/log/output/jms/**"
                unless="javax.jms.present"/>
-      <exclude name="org/apache/log/output/test/DBTargetTestlet.java"
-               unless="javax.sql.present"/>
       <exclude name="org/apache/log/output/test/DBTargetTestCase.java"
                unless="javax.sql.present"/>
     </javac>
@@ -382,8 +377,6 @@ Legal:
                  unless="javax.sql.present"/>
         <exclude name="org/apache/log/output/jms/**"
                  unless="javax.jms.present"/>
-        <exclude name="org/apache/log/output/test/DBTargetTestlet.java"
-                 unless="javax.sql.present"/>
         <exclude name="org/apache/log/output/test/DBTargetTestCase.java"
                  unless="javax.sql.present"/>
       </fileset>
@@ -679,9 +672,9 @@ Legal:
     <style style="${announce2txt}" in="${build.xdocs}/announcement.xml" out="Announcement.txt"/>
     <style style="${announce2header}" in="${build.xdocs}/announcement.xml" 
            out="${dist.base}/HEADER.html"/>
-    <style style="${announce2readme}" in="${build.context}/xdocs/announcement.xml"
+    <style style="${announce2readme}" in="${build.xdocs}/announcement.xml"
            out="${dist.base}/README.html"/>
-    <style style="${announce2site}" in="${build.context}/xdocs/announcement.xml"
+    <style style="${announce2site}" in="${build.xdocs}/announcement.xml"
            out="jakarta-news.xml"/>
 
   </target>
