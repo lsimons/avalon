@@ -37,7 +37,7 @@ import org.apache.log.Priority;
  * Note, this code ignores exceptions to keep the code simple.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/04/03 13:18:29 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/05/09 10:50:59 $
  * @since 4.1
  */
 public class Main
@@ -108,7 +108,7 @@ public class Main
 
         // Set up the InstrumentManagerAltrmiServer so clients can connect.
         m_altrmiServer = new InstrumentManagerAltrmiServer( m_instrumentManager );
-        
+
         /*
         m_instrumentFrame = new InstrumentFrame( m_instrumentManager, "Example Instrument" );
         m_instrumentFrame.setVisible( true );
@@ -197,7 +197,7 @@ public class Main
             // Release the component
             m_componentManager.release( instrumentable );
             instrumentable = null;
-            
+
             // Dispose the InstrumentManagerAltrmiServer
             m_altrmiServer.dispose();
             m_altrmiServer = null;
@@ -223,7 +223,7 @@ public class Main
         System.exit(0);
     }
 
-    private final static class ActionRunner implements Runnable
+    private static final class ActionRunner implements Runnable
     {
         private final int m_numIterations;
         private final ExampleInstrumentable m_instrumentable;
