@@ -45,10 +45,10 @@
           <td>Appliance Creation</td>
           <td>
           The activation 
-          <a href="../../api/org/apache/avalon/activation/package-summary.html">
+          <a href="/api/org/apache/avalon/activation/package-summary.html">
           api</a> provides support for the creation of new 
           appliance instances.  
-          An <a href="../../api/org/apache/avalon/activation/Appliance.html">
+          An <a href="/api/org/apache/avalon/activation/Appliance.html">
           appliance</a> is the object that maintains the runtime state of a 
           particular component model.
           </td>
@@ -56,7 +56,7 @@
         <tr>
           <td>Component Factory</td>
           <td>
-          A <a href="../../api/org/apache/avalon/activation/ComponentFactory.html">
+          A <a href="/api/org/apache/avalon/activation/ComponentFactory.html">
           component factory</a> provides support for the creation and destruction of component instances
           including constructor management and complete lifecycle handling.
           </td>
