@@ -2,10 +2,6 @@
 
 <logging>
 
-  <categories priority="debug" name="kernel" target="simple">
-    <category name="logger" priority="warn"/>
-  </categories>
-
   <factories>
     <factory type="file" 
       class="org.apache.avalon.logging.logkit.factory.FileTargetFactory"/>
@@ -17,5 +13,9 @@
       <append>true</append>
     </file>
   </targets>
+
+  <categories priority="warn" target="simple"/>
+
+  <logger name="kernel.logger"/>
 
 </logging>

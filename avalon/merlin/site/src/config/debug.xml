@@ -3,9 +3,12 @@
 <kernel>
 
    <logging>
-     <categories priority="debug" name="kernel">
-       <category name="logger" priority="warn"/>
+     <categories priority="info">
+       <categories name="kernel">
+         <category name="logger" priority="warn"/>
+       </categories>
      </categories>
+     <logger name="kernel.logger"/>
    </logging>
 
    <repository>
