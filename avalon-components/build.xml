@@ -90,14 +90,24 @@
 
   <!-- Main target -->
   <target name="main" depends="jars" description="Generates the files minus documentation">
-    <ant antfile="build.xml" dir="apps/db" target="main" inheritall="false"/>  
-    <ant antfile="build.xml" dir="apps/demo" target="main" inheritall="false"/>
-    <ant antfile="build.xml" dir="apps/ftpserver" target="main" inheritall="false"/>
-    <ant antfile="build.xml" dir="apps/jesktop" target="main" inheritall="false"/>
-    <ant antfile="build.xml" dir="apps/hsql" target="main" inheritall="false"/>    
-    <ant antfile="build.xml" dir="apps/httpproxy" target="main" inheritall="false"/>        
-    <ant antfile="build.xml" dir="apps/simpleserver" target="main" inheritall="false"/>            
-    <ant antfile="build.xml" dir="apps/xcommander" target="main" inheritall="false"/>            
+    <ant antfile="build.xml" dir="apps/db" target="main"
+         inheritall="false"/>  
+    <ant antfile="build.xml" dir="apps/demo" target="main"
+         inheritall="false"/>  
+    <ant antfile="build.xml" dir="apps/ftpserver" target="main"
+         inheritall="false"/>  
+    <ant antfile="build.xml" dir="apps/hsql" target="main"
+         inheritall="false"/>  
+    <ant antfile="build.xml" dir="apps/httpproxy" target="main"
+         inheritall="false"/>  
+    <ant antfile="build.xml" dir="apps/jesktop" target="main"
+         inheritall="false"/>  
+    <ant antfile="build.xml" dir="apps/overlord" target="main"
+         inheritall="false"/>  
+    <ant antfile="build.xml" dir="apps/simpleserver" target="main"
+         inheritall="false"/>  
+    <ant antfile="build.xml" dir="apps/xcommander" target="main"
+         inheritall="false"/>  
   </target>
 
   <target name="all" depends="main,docs" description="Generates the files including documentation"/>
@@ -462,14 +472,24 @@
 
     <mkdir dir="${dist.base}/phoenix-apps"/>
 
-    <ant antfile="build.xml" dir="apps/db" target="check" inheritall="false"/>
-    <ant antfile="build.xml" dir="apps/demo" target="dist" inheritall="false"/>
-    <ant antfile="build.xml" dir="apps/ftpserver" target="check" inheritall="false"/>
-    <ant antfile="build.xml" dir="apps/jesktop" target="check" inheritall="false"/>
-    <ant antfile="build.xml" dir="apps/hsql" target="dist" inheritall="false"/>
-    <ant antfile="build.xml" dir="apps/httpproxy" target="dist" inheritall="false"/>
-    <ant antfile="build.xml" dir="apps/simpleserver" target="dist" inheritall="false"/>
-    <ant antfile="build.xml" dir="apps/xcommander" target="dist" inheritall="false"/>
+    <ant antfile="build.xml" dir="apps/db" target="check"
+         inheritall="false"/>
+    <ant antfile="build.xml" dir="apps/demo" target="dist"
+         inheritall="false"/>
+    <ant antfile="build.xml" dir="apps/ftpserver" target="check"
+         inheritall="false"/>
+    <ant antfile="build.xml" dir="apps/hsql" target="dist"
+         inheritall="false"/>
+    <ant antfile="build.xml" dir="apps/httpproxy" target="dist"
+         inheritall="false"/>
+    <ant antfile="build.xml" dir="apps/jesktop" target="check"
+         inheritall="false"/>
+    <ant antfile="build.xml" dir="apps/overlord" target="dist"
+         inheritall="false"/>
+    <ant antfile="build.xml" dir="apps/simpleserver" target="dist"
+         inheritall="false"/>
+    <ant antfile="build.xml" dir="apps/xcommander" target="dist"
+         inheritall="false"/>
 
     <copy todir="${dist.base}/phoenix-apps" flatten="true">
       <fileset dir="apps">
@@ -531,6 +551,8 @@
          inheritall="false"/>
     <ant antfile="build.xml" dir="apps/jesktop" target="clean"
          inheritall="false"/>
+    <ant antfile="build.xml" dir="apps/overlord" target="clean"
+         inheritall="false"/>
     <ant antfile="build.xml" dir="apps/simpleserver" target="clean"
          inheritall="false"/>
     <ant antfile="build.xml" dir="apps/xcommander" target="clean"
@@ -555,6 +577,8 @@
     <ant antfile="build.xml" dir="apps/httpproxy" target="distclean"
          inheritall="false"/>
     <ant antfile="build.xml" dir="apps/jesktop" target="distclean"
+         inheritall="false"/>
+    <ant antfile="build.xml" dir="apps/overlord" target="distclean"
          inheritall="false"/>
     <ant antfile="build.xml" dir="apps/simpleserver" target="distclean"
          inheritall="false"/>
@@ -585,6 +609,9 @@
   <target name="httpproxy" depends="compile" description="Delegates to build.xml in apps/httpproxy">
     <ant antfile="build.xml" dir="apps/httpproxy" target="${apps-target}" inheritall="false"/>
   </target>
+  <target name="overlord" depends="compile" description="Delegates to build.xml in apps/overlord">
+    <ant antfile="build.xml" dir="apps/overlord" target="${apps-target}" inheritall="false"/>
+  </target>  
   <target name="simpleserver" depends="compile" description="Delegates to build.xml in apps/simpleserver">
     <ant antfile="build.xml" dir="apps/simpleserver" target="${apps-target}" inheritall="false"/>
   </target>  
