@@ -11,32 +11,35 @@
     <ant dir="${system.dir}" antfile="setup/setup.xml"/>
   </target>
 
-  <target name="init">
+  <target name="verify">
     <ant inheritall="false" dir="${system.dir}/setup" antfile="integrity.xml"/>
+  </target>
+
+  <target name="init" depends="verify">
     <ant dir="." antfile="${reactor.path}" target="init"/>
   </target>
 
-  <target name="clean" depends="init">
+  <target name="clean" depends="verify">
     <ant dir="." antfile="${reactor.path}" target="clean"/>
   </target>
 
-  <target name="clean" depends="init">
+  <target name="clean" depends="verify">
     <ant dir="." antfile="${reactor.path}" target="clean"/>
   </target>
 
-  <target name="prepare" depends="init">
+  <target name="prepare" depends="verify">
     <ant dir="." antfile="${reactor.path}" target="prepare"/>
   </target>
 
-  <target name="build" depends="init">
+  <target name="build" depends="verify">
     <ant dir="." antfile="${reactor.path}" target="build"/>
   </target>
 
-  <target name="package" depends="init">
+  <target name="package" depends="verify">
     <ant dir="." antfile="${reactor.path}" target="package"/>
   </target>
 
-  <target name="test" depends="init">
+  <target name="test" depends="verify">
     <ant dir="." antfile="${reactor.path}" target="test"/>
   </target>
 
@@ -44,11 +47,11 @@
     <ant dir="." antfile="${reactor.path}" target="site"/>
   </target>
 
-  <target name="install" depends="init">
+  <target name="install" depends="verify">
     <ant dir="." antfile="${reactor.path}" target="install"/>
   </target>
 
-  <target name="dist" depends="init">
+  <target name="dist" depends="verify">
     <ant dir="." antfile="${reactor.path}" target="dist"/>
   </target>
 
