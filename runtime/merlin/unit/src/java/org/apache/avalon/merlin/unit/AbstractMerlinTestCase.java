@@ -142,9 +142,10 @@ public abstract class AbstractMerlinTestCase extends TestCase
               classloader, home, work, 
               MERLIN_PROPERTIES, IMPLEMENTATION_KEY );
 
+            File cache = getCacheDirectory();
             InitialContextFactory icFactory = 
               new DefaultInitialContextFactory( "merlin", work );
-            icFactory.setCacheDirectory( getCacheDirectory() );
+            icFactory.setCacheDirectory( cache );
 
             InitialContext context = icFactory.createInitialContext();
 
@@ -160,6 +161,7 @@ public abstract class AbstractMerlinTestCase extends TestCase
             criteria.put( "merlin.context", "target" );
             criteria.put( "merlin.server", "true" );
             criteria.put( "merlin.code.security.enabled", "false" );
+            criteria.put( "merlin.repository", cache );
 
             //
             // if the deployment path is undefined then the best we 
