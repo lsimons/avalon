@@ -55,17 +55,15 @@ import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.apache.excalibur.instrument.manager.DefaultInstrumentManager;
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentDescriptor;
-import org.apache.excalibur.instrument.manager.interfaces.InstrumentSampleDescriptor;
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentableDescriptor;
 import org.apache.excalibur.instrument.manager.interfaces.NoSuchInstrumentException;
-import org.apache.excalibur.instrument.manager.interfaces.NoSuchInstrumentSampleException;
 import org.apache.excalibur.instrument.manager.interfaces.NoSuchInstrumentableException;
 
 /**
  * Test of the DefaultInstrumentManager.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.5 $ $Date: 2003/03/22 12:46:44 $
+ * @version CVS $Revision: 1.6 $ $Date: 2003/03/29 18:53:25 $
  */
 public class DefaultInstrumentManagerTestCase
     extends TestCase
@@ -122,8 +120,7 @@ public class DefaultInstrumentManagerTestCase
     {
         try
         {
-            InstrumentableDescriptor descriptor =
-                m_instrumentManager.locateInstrumentableDescriptor( name );
+            m_instrumentManager.locateInstrumentableDescriptor( name );
             fail( "Found an instrumentable named " + name + " when it should not have existed." );
         }
         catch( NoSuchInstrumentableException e )
@@ -143,8 +140,7 @@ public class DefaultInstrumentManagerTestCase
     {
         try
         {
-            InstrumentDescriptor descriptor =
-                m_instrumentManager.locateInstrumentDescriptor( name );
+            m_instrumentManager.locateInstrumentDescriptor( name );
             fail( "Found an instrument named " + name + " when it should not have existed." );
         }
         catch( NoSuchInstrumentException e )
@@ -153,13 +149,15 @@ public class DefaultInstrumentManagerTestCase
         }
     }
     
+    /* Never called
     private void assertInstrumentSampleExists( String name )
     {
         InstrumentSampleDescriptor descriptor =
             m_instrumentManager.locateInstrumentSampleDescriptor( name );
         assertEquals( "Looked up instrument sample name incorrect.", descriptor.getName(), name );
     }
-    
+    */
+    /* Never called
     private void assertInstrumentSampleNotExists( String name )
     {
         try
@@ -173,6 +171,7 @@ public class DefaultInstrumentManagerTestCase
             // Ok
         }
     }
+    */
     
     /*---------------------------------------------------------------
      * Test Cases

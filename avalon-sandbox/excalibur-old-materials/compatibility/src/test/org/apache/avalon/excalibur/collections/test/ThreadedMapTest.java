@@ -36,7 +36,7 @@ public class ThreadedMapTest extends TestCase
     public void setUp()
     {
         System.gc();
-        try {Thread.currentThread().sleep(100);} catch(Exception e){}
+        try {Thread.sleep(100);} catch(Exception e){}
     }
     
     public void tearDown()

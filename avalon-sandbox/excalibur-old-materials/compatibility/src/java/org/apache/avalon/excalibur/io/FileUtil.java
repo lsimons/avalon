@@ -86,7 +86,7 @@ import java.net.URL;
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  * @author <a href="mailto:jefft@apache.org">Jeff Turner</a>
  * @author <a href="mailto:nl@novadeck.com">Nicolas Leclerc</a>
- * @version CVS $Revision: 1.4 $ $Date: 2003/03/22 12:46:24 $
+ * @version CVS $Revision: 1.5 $ $Date: 2003/03/29 18:53:24 $
  * @since 4.0
  */
 public final class FileUtil
@@ -714,8 +714,7 @@ public final class FileUtil
 
             return file;
         }
-        // FIXME: I'm almost certain this // removal is unnecessary, as getAbsoluteFile() strips
-        // them. However, I'm not sure about this UNC stuff. (JT)
+
         final char[] chars = filename.toCharArray();
         final StringBuffer sb = new StringBuffer();
 

@@ -68,7 +68,7 @@ import org.apache.excalibur.xfc.test.util.FortressTestRig;
  * XFC TestCase.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: xfcTestCase.java,v 1.13 2003/03/22 12:46:58 leosimons Exp $
+ * @version CVS $Id: xfcTestCase.java,v 1.14 2003/03/29 18:53:26 bloritsch Exp $
  */
 public final class xfcTestCase extends TestCase
 {
@@ -112,7 +112,7 @@ public final class xfcTestCase extends TestCase
         {
             Module ecm = new ECM();
             ecm.enableLogging( m_logger );
-            Model model = ecm.generate( "just-roles-no-xconf" );
+            ecm.generate( "just-roles-no-xconf" );
 
             fail( "Context validation failed" );
         }

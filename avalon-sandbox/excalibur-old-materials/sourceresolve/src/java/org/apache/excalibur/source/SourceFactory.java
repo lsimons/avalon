@@ -55,7 +55,6 @@
 package org.apache.excalibur.source;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.Map;
 
 import org.apache.avalon.framework.component.Component;
@@ -70,7 +69,7 @@ import org.apache.avalon.framework.component.Component;
  * and the factory can create a corresponding {@link Source} object.
  * 
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version $Id: SourceFactory.java,v 1.6 2003/01/29 06:56:01 cziegeler Exp $
+ * @version $Id: SourceFactory.java,v 1.7 2003/03/29 18:53:26 bloritsch Exp $
  */
 public interface SourceFactory
     extends Component
@@ -90,12 +89,11 @@ public interface SourceFactory
      *        that drive the creation of the <code>Source</code> object. Each implementation
      *        must specify what parameters it accepts.
      * @return the created source object.
-     * @throws MalformedURLException if the location is malformed.
-     * @throws IOException if the source couldn't be created for some other reason.
+     *
+     * @throws IOException if the source couldn't be created for some reason.
      */
-    //FIXME : can we really have an IOException here ?
     Source getSource( String location, Map parameters )
-        throws MalformedURLException, IOException;
+        throws IOException;
     
     /**
      * Release a {@link Source} object.

@@ -73,7 +73,7 @@ import org.apache.excalibur.instrument.manager.interfaces.InstrumentSampleUtils;
  *  It is resolved when the Instrumentable actually registers the Instrument.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.6 $ $Date: 2003/02/25 16:28:16 $
+ * @version CVS $Revision: 1.7 $ $Date: 2003/03/29 18:53:25 $
  * @since 4.1
  */
 public class InstrumentProxy
@@ -708,9 +708,6 @@ public class InstrumentProxy
         getLogger().debug("Create new sample for " + m_name + ": interval=" + sampleInterval +
             ", size=" + sampleSize + ", lease=" + sampleLease + ", type=" +
             InstrumentSampleUtils.getInstrumentSampleTypeName( sampleType ) );
-        
-        // Validate the parameters
-        long now = System.currentTimeMillis();
         
         // Generate a name for the new sample
         String sampleName = InstrumentSampleUtils.generateFullInstrumentSampleName(

@@ -65,18 +65,18 @@ import org.apache.excalibur.source.SourceValidity;
  * Abstract base class for a source implementation.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.9 $ $Date: 2003/01/29 06:56:01 $
+ * @version CVS $Revision: 1.10 $ $Date: 2003/03/29 18:53:26 $
  */
 
 public abstract class AbstractSource
     implements Source
 {
-    protected boolean gotInfos;
-    protected long lastModificationDate;
-    protected long contentLength;
-    protected String systemId;
+    private boolean m_gotInfos;
+    private long m_lastModificationDate;
+    private long m_contentLength;
+    private String m_systemId;
 
-	protected String scheme;
+	private String m_scheme;
 
     /**
      * Get the last modification date and content length of the source.
@@ -85,16 +85,16 @@ public abstract class AbstractSource
      */
     protected void getInfos()
     {
-        this.contentLength = -1;
-        this.lastModificationDate = 0;
+        this.m_contentLength = -1;
+        this.m_lastModificationDate = 0;
     }
 
     protected void checkInfos()
     {
-        if( !this.gotInfos )
+        if( !m_gotInfos )
         {
             getInfos();
-            this.gotInfos = true;
+            m_gotInfos = true;
         }
     }
 
@@ -116,7 +116,7 @@ public abstract class AbstractSource
      */
     public String getURI()
     {
-        return this.systemId;
+        return m_systemId;
     }
 
     /**
@@ -124,7 +124,7 @@ public abstract class AbstractSource
      */
     public String getScheme() 
     {
-    	return this.scheme;
+    	return this.m_scheme;
     }
 
     /**
@@ -144,7 +144,7 @@ public abstract class AbstractSource
      */
     public void refresh()
     {
-        this.gotInfos = false;
+        m_gotInfos = false;
     }
 
     /**
@@ -164,7 +164,7 @@ public abstract class AbstractSource
     public long getContentLength()
     {
         checkInfos();
-        return this.contentLength;
+        return this.m_contentLength;
     }
 
     /**
@@ -174,6 +174,42 @@ public abstract class AbstractSource
     public long getLastModified()
     {
         checkInfos();
-        return this.lastModificationDate;
+        return this.m_lastModificationDate;
     }
+    /**
+     * Sets the contentLength.
+     * @param contentLength The contentLength to set
+     */
+    protected void setContentLength(long contentLength)
+    {
+        m_contentLength = contentLength;
+    }
+
+    /**
+     * Sets the lastModificationDate.
+     * @param setLastModified The lastModificationDate to set
+     */
+    protected void setLastModified(long lastModificationDate)
+    {
+        m_lastModificationDate = lastModificationDate;
+    }
+
+    /**
+     * Sets the scheme.
+     * @param scheme The scheme to set
+     */
+    protected void setScheme(String scheme)
+    {
+        m_scheme = scheme;
+    }
+
+    /**
+     * Sets the systemId.
+     * @param systemId The systemId to set
+     */
+    protected void setSystemId(String systemId)
+    {
+        m_systemId = systemId;
+    }
+
 }

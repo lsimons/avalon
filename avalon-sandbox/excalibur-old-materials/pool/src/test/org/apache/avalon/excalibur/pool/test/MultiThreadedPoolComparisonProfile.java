@@ -60,19 +60,16 @@ import org.apache.avalon.framework.activity.Disposable;
  *  given a single access thread.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version $Id: MultiThreadedPoolComparisonProfile.java,v 1.4 2003/03/22 12:46:54 leosimons Exp $
+ * @version $Id: MultiThreadedPoolComparisonProfile.java,v 1.5 2003/03/29 18:53:25 bloritsch Exp $
  */
 public class MultiThreadedPoolComparisonProfile
     extends PoolComparisonProfileAbstract
 {
     protected static final int THREADS = 100;
 
-    private Object m_semaphore = new Object();
-    private int m_startedCount;
-    private boolean m_latched;
-    private int m_completedCount;
-    private int m_getCount;
-    private Throwable m_throwable;
+    protected Object m_semaphore = new Object();
+    protected int m_getCount;
+    protected Throwable m_throwable;
 
     /*---------------------------------------------------------------
      * Constructors

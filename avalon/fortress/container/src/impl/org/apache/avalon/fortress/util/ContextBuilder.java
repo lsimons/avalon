@@ -61,7 +61,7 @@ import org.apache.excalibur.mpool.PoolManager;
 /**
  * Helper class to create a context for the ContextManager.
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.9 $ $Date: 2003/03/22 12:46:34 $
+ * @version CVS $Revision: 1.10 $ $Date: 2003/03/29 18:53:24 $
  * @deprecated Replaced with FortressConfig
  */
 public class ContextBuilder
@@ -128,12 +128,6 @@ public class ContextBuilder
     public ContextBuilder setCommandQueue( Queue commandQueue )
     {
         m_config.setCommandQueue( commandQueue );
-        return this;
-    }
-
-    public ContextBuilder setServiceManagerParent( ServiceManager serviceManager )
-    {
-        m_config.setServiceManagerParent( serviceManager );
         return this;
     }
 

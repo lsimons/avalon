@@ -114,7 +114,7 @@ import org.xml.sax.XMLFilter;
  *
  * @author <a href="mailto:ovidiu@cup.hp.com">Ovidiu Predescu</a>
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
- * @version CVS $Id: XSLTProcessorImpl.java,v 1.27 2003/03/17 11:52:36 cziegeler Exp $
+ * @version CVS $Id: XSLTProcessorImpl.java,v 1.28 2003/03/29 18:53:26 bloritsch Exp $
  * @version 1.0
  * @since   July 11, 2001
  */
@@ -661,7 +661,7 @@ public final class XSLTProcessorImpl
             }
             else
             {
-                // is the base a file or a real url
+                // is the base a file or a real m_url
                 if( !base.startsWith( "file:" ) )
                 {
                     int lastPathElementPos = base.lastIndexOf( '/' );

@@ -81,7 +81,7 @@ import org.apache.excalibur.instrument.Instrumentable;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.21 $ $Date: 2003/02/25 16:28:21 $
+ * @version CVS $Revision: 1.22 $ $Date: 2003/03/29 18:53:24 $
  * @since 4.0
  */
 public class ExcaliburComponentSelector
@@ -353,11 +353,7 @@ public class ExcaliburComponentSelector
     public void compose( final ComponentManager componentManager )
         throws ComponentException
     {
-        //HACK: Is this necessary???
-        if( null == m_componentManager )
-        {
-            m_componentManager = componentManager;
-        }
+        m_componentManager = componentManager;
     }
 
     /*---------------------------------------------------------------

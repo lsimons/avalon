@@ -58,11 +58,13 @@ import org.apache.avalon.framework.thread.ThreadSafe;
 import org.apache.commons.collections.Buffer;
 import org.apache.commons.collections.UnboundedFifoBuffer;
 
+import EDU.oswego.cs.dl.util.concurrent.Mutex;
+
 /**
  * This is an <code>Pool</code> that caches Poolable objects for reuse.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.9 $ $Date: 2003/03/07 13:36:06 $
+ * @version CVS $Revision: 1.10 $ $Date: 2003/03/29 18:53:25 $
  * @since 4.0
  */
 public abstract class AbstractPool

@@ -65,7 +65,7 @@ import org.apache.excalibur.mpool.VariableSizePool;
  * Used as a basis for the PoolComparisonProfile Tests
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version $Id: PoolComparisonProfileAbstract.java,v 1.9 2003/03/22 12:46:30 leosimons Exp $
+ * @version $Id: PoolComparisonProfileAbstract.java,v 1.10 2003/03/29 18:53:24 bloritsch Exp $
  */
 public abstract class PoolComparisonProfileAbstract
     extends TestCase
@@ -116,7 +116,6 @@ public abstract class PoolComparisonProfileAbstract
 
         Class poolableClass = SmallPoolable.class;
         ClassInstanceObjectFactory factory = new ClassInstanceObjectFactory( poolableClass, m_poolLogger );
-        int min = 0;
         int max = 100;
         boolean maxStrict = true;
         boolean blocking = false;
@@ -145,7 +144,6 @@ public abstract class PoolComparisonProfileAbstract
 
         Class poolableClass = SmallPoolable.class;
         ClassInstanceObjectFactory factory = new ClassInstanceObjectFactory( poolableClass, m_poolLogger );
-        int min = 0;
         int max = 100;
         long blockTimeout = 1;
 
@@ -170,7 +168,6 @@ public abstract class PoolComparisonProfileAbstract
 
         Class poolableClass = MediumPoolable.class;
         ClassInstanceObjectFactory factory = new ClassInstanceObjectFactory( poolableClass, m_poolLogger );
-        int min = 0;
         int max = 100;
         long blockTimeout = 1;
 
@@ -195,7 +192,6 @@ public abstract class PoolComparisonProfileAbstract
 
         Class poolableClass = LargePoolable.class;
         ClassInstanceObjectFactory factory = new ClassInstanceObjectFactory( poolableClass, m_poolLogger );
-        int min = 0;
         int max = 100;
         long blockTimeout = 1;
 
@@ -220,7 +216,6 @@ public abstract class PoolComparisonProfileAbstract
 
         Class poolableClass = LargePoolable.class;
         ClassInstanceObjectFactory factory = new ClassInstanceObjectFactory( poolableClass, m_poolLogger );
-        int min = 0;
         int max = 100;
         boolean maxStrict = true;
         boolean blocking = false;
@@ -387,7 +382,6 @@ public abstract class PoolComparisonProfileAbstract
 
         Class poolableClass = SmallPoolable.class;
         ClassInstanceObjectFactory factory = new ClassInstanceObjectFactory( poolableClass, m_poolLogger );
-        int min = 0;
         int max = 100;
         boolean maxStrict = false;
         boolean blocking = false;
@@ -416,7 +410,6 @@ public abstract class PoolComparisonProfileAbstract
 
         Class poolableClass = SmallPoolable.class;
         ClassInstanceObjectFactory factory = new ClassInstanceObjectFactory( poolableClass, m_poolLogger );
-        int min = 0;
         int max = 100;
         boolean maxStrict = false;
         boolean blocking = false;
@@ -445,7 +438,6 @@ public abstract class PoolComparisonProfileAbstract
 
         Class poolableClass = MediumPoolable.class;
         ClassInstanceObjectFactory factory = new ClassInstanceObjectFactory( poolableClass, m_poolLogger );
-        int min = 0;
         int max = 100;
         boolean maxStrict = false;
         boolean blocking = false;
@@ -474,7 +466,6 @@ public abstract class PoolComparisonProfileAbstract
 
         Class poolableClass = MediumPoolable.class;
         ClassInstanceObjectFactory factory = new ClassInstanceObjectFactory( poolableClass, m_poolLogger );
-        int min = 0;
         int max = 100;
         boolean maxStrict = false;
         boolean blocking = false;
@@ -503,7 +494,6 @@ public abstract class PoolComparisonProfileAbstract
 
         Class poolableClass = LargePoolable.class;
         ClassInstanceObjectFactory factory = new ClassInstanceObjectFactory( poolableClass, m_poolLogger );
-        int min = 0;
         int max = 100;
         boolean maxStrict = false;
         boolean blocking = false;
@@ -532,7 +522,6 @@ public abstract class PoolComparisonProfileAbstract
 
         Class poolableClass = LargePoolable.class;
         ClassInstanceObjectFactory factory = new ClassInstanceObjectFactory( poolableClass, m_poolLogger );
-        int min = 0;
         int max = 100;
         boolean maxStrict = false;
         boolean blocking = false;

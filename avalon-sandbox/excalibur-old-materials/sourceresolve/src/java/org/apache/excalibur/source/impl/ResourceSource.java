@@ -56,6 +56,8 @@ package org.apache.excalibur.source.impl;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
 
 import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceException;
@@ -66,29 +68,54 @@ import org.apache.excalibur.source.impl.validity.NOPValidity;
 /**
  * Description of a source which is described by the resource protocol
  * which gets a resource from the classloader.
- * FIXME: Get mime-type, content-length, lastModified
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.8 $ $Date: 2003/01/29 06:56:01 $
+ * @version CVS $Revision: 1.9 $ $Date: 2003/03/29 18:53:26 $
  */
 public final class ResourceSource
     extends AbstractSource
     implements Source
 {
     /** Location of the resource */
-    private String m_location;
+    private URL m_location;
+    private String m_mimeType;
 
-    public ResourceSource( String systemId )
+    public ResourceSource( final String systemId )
     {
-        this.systemId = systemId;
+        setSystemId(systemId);
         final int pos = systemId.indexOf( "://" );
-        m_location = systemId.substring( pos + 3 );
-        this.scheme = systemId.substring(0, pos);
+        m_location = getClassLoader().getResource(systemId.substring( pos + 3 ));
+        setScheme(systemId.substring(0, pos));
     }
     
     public boolean exists()
     {
-        return getClassLoader().getResource( m_location ) != null;
+        return m_location != null;
+    }
+    
+    protected void checkInfos()
+    {
+        super.checkInfos();
+
+        URLConnection connection = null;
+        try
+        {
+            connection = m_location.openConnection();
+            setLastModified(connection.getLastModified());
+            setContentLength(connection.getContentLength());
+            m_mimeType = connection.getContentType();
+        }
+        catch(IOException ioe)
+        {
+            setLastModified(0);
+            setContentLength(-1);
+            m_mimeType = null;
+        }
+    }
+    
+    public String getMimeType()
+    {
+        return m_mimeType;
     }
 
     /**
@@ -98,7 +125,7 @@ public final class ResourceSource
         throws IOException, SourceException
     {
 
-        InputStream in = getClassLoader().getResourceAsStream( m_location );
+        InputStream in = m_location.openStream();
         if ( in == null )
           throw new SourceNotFoundException( "Source '"+m_location+"' was not found" );
         return in;
