@@ -1,6 +1,8 @@
 package avalon.tutorial;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 
 public class Cartoon
 {
@@ -10,7 +12,7 @@ public class Cartoon
 	private ArrayList m_cats;
 	private ArrayList m_cages;
 	
-	public CartoonBird( String name )
+	public Cartoon( String name )
 	{
 		m_name = name;
 		
@@ -24,7 +26,7 @@ public class Cartoon
 		Cartoon c = new Cartoon( "AvalonBirdie vs StupidCat" );
 		CartoonBird ab = new CartoonBird( "AvalonBirdie", "I thawt I saw a Stupid Cat!" );
 		CartoonBird ob = new CartoonBird( "OtherBirdie", "I like the mountains, I like the rolling hills. I like the ..." );
-		CartoonCat sc = new CartoonBird( "StupidCat", "EJBs to the victory!" );
+		CartoonCat sc = new CartoonCat( "StupidCat", "EJBs to the victory!" );
 		
 		CartoonCage gc = new CartoonCage( "GoldenCage", "A shiney golden cage" );
 		
@@ -45,19 +47,19 @@ public class Cartoon
 		}
 		if( o instanceof CartoonBird )
 		{
-			CartoonBird c = (CartoonBird)b;
+			CartoonBird c = (CartoonBird)o;
 			System.out.println( "   Starring the really cool bird :" + c.getName() );
 			return;
 		}
 		if( o instanceof CartoonCat )
 		{
-			CartoonCat c = (CartoonBird)c;
+			CartoonCat c = (CartoonCat)o;
 			System.out.println( "   Starring the really mean cat :" + c.getName() );
 			return;
 		}
 		
 		// got ourselves something else
-		System.out.println( "   Containing the really interesting object :" + c.getName() );
+		System.out.println( "   Containing the really interesting object :" + o.toString() );
 	}
 	
 	public void setName( String name )
