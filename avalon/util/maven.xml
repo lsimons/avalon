@@ -89,13 +89,14 @@
       zipfile="${maven.dist.dir}/${maven.final.name}.tar.gz"
       src="${maven.dist.dir}/${maven.final.name}.tar"
     />
-    
+    <checksum file="${maven.dist.dir}/${maven.final.name}.tar.gz"/>
     <ant:delete file="${maven.dist.dir}/${maven.final.name}.tar"/>
 
     <!-- Create a zip file -->
     <ant:zip zipfile="${maven.dist.dir}/${maven.final.name}.zip">
       <ant:zipfileset dir="${maven.dist.bin.archive.dir}"/>
     </ant:zip>
+    <checksum file="${maven.dist.dir}/${maven.final.name}.zip"/>
   </goal>
 
   <goal
@@ -107,19 +108,18 @@
     <ant:tar longfile="gnu" tarfile="${maven.dist.dir}/${maven.final.name}-src.tar">
       <ant:tarfileset dir="${maven.dist.src.archive.dir}"/>
     </ant:tar>
-
     <ant:gzip 
       zipfile="${maven.dist.dir}/${maven.final.name}-src.tar.gz" 
       src="${maven.dist.dir}/${maven.final.name}-src.tar"
     />
-    
+    <checksum file="${maven.dist.dir}/${maven.final.name}-src.tar.gz"/>
     <ant:delete file="${maven.dist.dir}/${maven.final.name}-src.tar"/>
 
     <!-- Create a zip file -->
     <ant:zip zipfile="${maven.dist.dir}/${maven.final.name}-src.zip">
       <ant:zipfileset dir="${maven.dist.src.archive.dir}"/>
     </ant:zip>
-
+    <checksum file="${maven.dist.dir}/${maven.final.name}-src.zip"/>
   </goal>
 
   <goal
