@@ -4,9 +4,17 @@
 
 <changes title="Avalon Excalibur History of Changes">
   <devs>
+    <person name="Berin Loritsch" email="bloritsch@apache.org" id="BL"/>
     <person name="Leo Simons" email="mail@leosimons.com" id="LS"/>
   </devs>
 <release version="4.0b2" date="unreleased">
+  <action dev="BL" type="add">
+    Added initial documentation for Excalibur.
+  </action>
+  <action dev="BL" type="fix">
+    Fixed issues introduced with removing "throws Exception" from
+    Disposable.
+  </action>
   <action dev="BL" type="fix">
     Made connections expire after 15 uses.  This avoids problems with
     buggy client code or buggy drivers from causing serious issues
