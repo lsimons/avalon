@@ -129,7 +129,7 @@ public class ComponentProfile extends DeploymentProfile
     /**
      * The configuration for component (if any).
      */
-    private ContextDirective m_context;
+    private ContextDirective m_context = new ContextDirective( new EntryDirective[0] );
 
     /**
      * The dependency directives.
