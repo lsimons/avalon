@@ -56,7 +56,6 @@ import org.apache.excalibur.event.EventHandler;
 import org.apache.excalibur.event.Source;
 import org.apache.excalibur.thread.ThreadControl;
 import org.apache.excalibur.thread.ThreadPool;
-import org.apache.excalibur.thread.impl.DefaultThreadPool;
 
 /**
  * This is a <code>ThreadManager</code> which provides a threadpool per
@@ -103,7 +102,7 @@ public final class TPSPThreadManager implements Runnable, ThreadManager
         int processors = Math.max( numProcessors, 1 );
         int threads = Math.max( threadsPerProcessor, 1 );
 
-        m_threadPool = new DefaultThreadPool( "TPCThreadManager",
+        m_threadPool = new EventThreadPool( "TPCThreadManager",
                                                        ( processors * threads ) + 1, (int) timeOut );
 
         m_sleepTime = sleepTime;
