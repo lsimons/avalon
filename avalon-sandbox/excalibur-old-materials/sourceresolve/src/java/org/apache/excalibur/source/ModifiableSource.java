@@ -84,7 +84,7 @@ public interface ModifiableSource
 	 * Delete the source 
 	 * @return true if the source could be deleted
 	 */
-	boolean delete();
+	void delete() throws SourceException;
 
     /**
      * Can the data sent to an <code>OutputStream</code> returned by
@@ -100,6 +100,6 @@ public interface ModifiableSource
      * <p>
      * After cancel, the stream should no more be used.
      */
-    void cancel(OutputStream stream) throws SourceException;
+    void cancel(OutputStream stream) throws IOException;
 	
 }
