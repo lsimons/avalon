@@ -32,8 +32,6 @@ import org.apache.avalon.phoenix.components.application.Application;
 import org.apache.avalon.phoenix.components.kernel.Kernel;
 import org.apache.avalon.phoenix.components.configuration.ConfigurationRepository;
 import org.apache.avalon.phoenix.components.manager.SystemManager;
-import org.apache.avalon.phoenix.components.installer.Installer;
-import org.apache.avalon.phoenix.components.installer.Installation;
 import org.apache.avalon.phoenix.components.deployer.Deployer;
 import org.apache.avalon.phoenix.components.classloader.ClassLoaderManager;
 import org.apache.log.Hierarchy;
@@ -67,7 +65,6 @@ public class DefaultEmbeddor
 
     private Parameters     m_parameters;
 
-    private Installer                m_installer;
     private ClassLoaderManager       m_classLoaderManager;
     private ConfigurationRepository  m_repository;
     private Kernel                   m_kernel;
@@ -126,7 +123,6 @@ public class DefaultEmbeddor
             createComponents();
 
             // setup core handler components
-            setupComponent( m_installer );
             setupComponent( m_classLoaderManager );
             setupComponent( m_repository );
             setupComponent( m_deployer );
@@ -184,7 +180,6 @@ public class DefaultEmbeddor
             shutdownComponent( m_kernel );
             shutdownComponent( m_repository );
             shutdownComponent( m_classLoaderManager );
-            shutdownComponent( m_installer );
         }
         catch( final Exception e )
         {
@@ -198,7 +193,6 @@ public class DefaultEmbeddor
         m_repository = null;
         m_classLoaderManager = null;
         m_deployer = null;
-        m_installer = null;
 
         System.gc(); // make sure resources are released
     }
@@ -229,9 +223,6 @@ public class DefaultEmbeddor
         setLogger( logger );
 
         String component = null;
-
-        component = m_parameters.getParameter( Installer.ROLE );
-        m_installer = (Installer)createComponent( component, Installer.class );
 
         component = m_parameters.getParameter( ConfigurationRepository.ROLE );
         m_repository = 
@@ -329,8 +320,7 @@ public class DefaultEmbeddor
     protected final void deployFile( final String name, final File file )
         throws Exception
     {
-        final Installation installation = m_installer.install( name, file.toURL() );
-        m_deployer.deploy( name, installation );
+        m_deployer.deploy( name, file.toURL() );        
     }
 
     /**
@@ -436,7 +426,6 @@ public class DefaultEmbeddor
     {
         final DefaultComponentManager componentManager = new DefaultComponentManager();
 
-        componentManager.put( Installer.ROLE, m_installer );
         componentManager.put( ClassLoaderManager.ROLE, m_classLoaderManager );
         componentManager.put( ConfigurationRepository.ROLE, m_repository );
         componentManager.put( Deployer.ROLE, m_deployer );
@@ -457,7 +446,6 @@ public class DefaultEmbeddor
         final Parameters defaults = new Parameters();
 
         final String PREFIX = "org.apache.avalon.phoenix.components.";
-        defaults.setParameter( Installer.ROLE, PREFIX + "installer.DefaultInstaller" );
         defaults.setParameter( Deployer.ROLE, PREFIX + "deployer.DefaultSarDeployer" );
         defaults.setParameter( Kernel.ROLE, PREFIX + "kernel.DefaultKernel" );
         defaults.setParameter( SystemManager.ROLE, PREFIX + "manager.NoopSystemManager" );

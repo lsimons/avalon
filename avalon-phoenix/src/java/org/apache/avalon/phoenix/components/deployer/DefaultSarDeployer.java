@@ -21,15 +21,16 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.avalon.framework.logger.AbstractLoggable;
 import org.apache.avalon.phoenix.components.application.Application;
-import org.apache.avalon.phoenix.components.configuration.ConfigurationRepository;
 import org.apache.avalon.phoenix.components.classloader.ClassLoaderManager;
-import org.apache.avalon.phoenix.components.installer.Installation;
+import org.apache.avalon.phoenix.components.configuration.ConfigurationRepository;
 import org.apache.avalon.phoenix.components.kernel.Kernel;
 import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
 import org.apache.avalon.phoenix.metadata.BlockMetaData;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
 import org.apache.avalon.phoenix.tools.assembler.Assembler;
 import org.apache.avalon.phoenix.tools.assembler.AssemblyException;
+import org.apache.avalon.phoenix.tools.installer.Installation;
+import org.apache.avalon.phoenix.tools.installer.Installer;
 import org.apache.avalon.phoenix.tools.verifier.SarVerifier;
 
 /**
@@ -45,8 +46,9 @@ public class DefaultSarDeployer
         ResourceManager.getPackageResources( DefaultSarDeployer.class );
 
     private final DefaultConfigurationBuilder  m_builder  = new DefaultConfigurationBuilder();
-    private final Assembler        m_assembler = new Assembler();
-    private final SarVerifier      m_verifier = new SarVerifier();
+    private final Assembler          m_assembler  = new Assembler();
+    private final SarVerifier        m_verifier   = new SarVerifier();
+    private final Installer          m_installer  = new Installer();
 
     private Kernel                   m_kernel;
     private ConfigurationRepository  m_repository;
@@ -69,6 +71,7 @@ public class DefaultSarDeployer
     public void initialize()
         throws Exception
     {
+        setupLogger( m_installer );
         setupLogger( m_assembler );
         setupLogger( m_verifier );
     }
@@ -94,36 +97,42 @@ public class DefaultSarDeployer
      * @param directory the directory to deploy from
      * @exception DeploymentException if an error occurs
      */
-    public void deploy( final String name, final Installation installation )
+    public void deploy( final String name, final URL location )
         throws DeploymentException
     {
-        final Configuration config = getConfigurationFor( installation.getConfig() );
-        final Configuration server = getConfigurationFor( installation.getServer() );
-        final Configuration assembly = getConfigurationFor( installation.getAssembly() );
-
         try
         {
+            final Installation installation = m_installer.install( location );
+
+            final Configuration config = getConfigurationFor( installation.getConfig() );
+            final Configuration server = getConfigurationFor( installation.getServer() );
+            final Configuration assembly = getConfigurationFor( installation.getAssembly() );
+
             final File directory = installation.getDirectory();
 
-            final ClassLoader classLoader = 
-                m_classLoaderManager.createClassLoader( server, 
-                                                        directory, 
+            final ClassLoader classLoader =
+                m_classLoaderManager.createClassLoader( server,
+                                                        directory,
                                                         installation.getClassPath() );
             //assemble all the blocks for application
-            final SarMetaData metaData = 
+            final SarMetaData metaData =
                 m_assembler.assembleSar( name, assembly, directory, classLoader );
 
             m_verifier.verifySar( metaData, classLoader );
 
             //Setup configuration for all the applications blocks
             setupConfiguration( name, metaData, config.getChildren() );
-            
+
             //Finally add application to kernel
             m_kernel.addApplication( metaData, classLoader, server );
 
-            final String message = 
+            final String message =
                 REZ.getString( "deploy.notice.sar.add", name, installation.getClassPath() );
             getLogger().debug( message );
+        }
+        catch( final DeploymentException de )
+        {
+            throw de;
         }
         catch( final AssemblyException ae )
         {
@@ -174,7 +183,7 @@ public class DefaultSarDeployer
         {
             final Configuration configuration = configurations[ i ];
             final String name = configuration.getName();
-            
+
             if( !hasBlock( name, metaData.getBlocks() ) &&
                 !hasBlockListener( name, metaData.getListeners() ) )
             {

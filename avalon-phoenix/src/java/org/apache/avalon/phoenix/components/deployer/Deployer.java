@@ -9,7 +9,7 @@ package org.apache.avalon.phoenix.components.deployer;
 
 import java.net.URL;
 import org.apache.avalon.framework.component.Component;
-import org.apache.avalon.phoenix.components.installer.Installation;
+import org.apache.avalon.phoenix.tools.installer.Installation;
 
 /**
  * A Deployer is responsible for taking a URL (ie a jar/war/ear) and deploying
@@ -32,7 +32,7 @@ public interface Deployer
      * @param installation the installation to deploy
      * @exception DeploymentException if an error occurs
      */
-    void deploy( String name, Installation installation )
+    void deploy( String name, URL location )
         throws DeploymentException;
 
     /**
