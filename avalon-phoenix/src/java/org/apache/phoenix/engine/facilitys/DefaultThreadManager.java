@@ -14,6 +14,7 @@ import org.apache.avalon.atlantis.Facility;
 import org.apache.avalon.configuration.Configurable;
 import org.apache.avalon.configuration.Configuration;
 import org.apache.avalon.configuration.ConfigurationException;
+import org.apache.avalon.util.thread.DefaultThreadPool;
 import org.apache.avalon.util.thread.ThreadManager;
 import org.apache.avalon.util.thread.ThreadPool;
 
@@ -48,7 +49,7 @@ public class DefaultThreadManager
 
             try
             {
-                final ThreadPool threadPool = new ThreadPool( name, maxThreads );
+                final DefaultThreadPool threadPool = new DefaultThreadPool( name, maxThreads );
                 threadPool.setDaemon( isDaemon );
                 setupLogger( threadPool );
                 m_pools.put( name, threadPool );
