@@ -10,8 +10,7 @@
       <type>jar</type>
     </info>
     <gump>
-      <alias>ant</alias>
-      <id>ant</id>
+      <classpath/>
     </gump>
   </resource>
 
@@ -23,6 +22,7 @@
       <type>jar</type>
     </info>
     <gump>
+      <ignore/>
       <alias>ant</alias>
       <id>nodeps</id>
     </gump>
@@ -36,6 +36,7 @@
       <type>jar</type>
     </info>
     <gump>
+      <ignore/>
       <alias>ant</alias>
       <id>junit</id>
     </gump>
@@ -66,6 +67,9 @@
       <version>3.8.1</version>
       <type>jar</type>
     </info>
+    <gump>
+      <classpath/>
+    </gump>
   </resource>
 
   <!--
