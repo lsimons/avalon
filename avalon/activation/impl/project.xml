@@ -52,6 +52,12 @@
     </dependency>
 
     <dependency>
+      <groupId>avalon-util</groupId>
+      <artifactId>avalon-util-exception</artifactId>
+      <version>1.0</version>
+    </dependency>
+
+    <dependency>
       <groupId>avalon-activation</groupId>
       <artifactId>avalon-activation-api</artifactId>
       <version>2.0-DEV</version>

@@ -103,7 +103,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * appliance instance.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.15.2.4 $ $Date: 2004/01/08 09:42:58 $
+ * @version $Revision: 1.15.2.5 $ $Date: 2004/01/08 10:40:53 $
  */
 public class DefaultAppliance extends AbstractAppliance implements Appliance
 {
@@ -832,7 +832,6 @@ public class DefaultAppliance extends AbstractAppliance implements Appliance
         }
     }
 
-
     private void applyStart( Object instance ) 
       throws LifecycleException
     {
@@ -999,9 +998,9 @@ public class DefaultAppliance extends AbstractAppliance implements Appliance
 
     private Object createProvider( Object instance ) throws ApplianceException
     {
-        if( getDeploymentModel().
+        if( getComponentModel().
           getType().getInfo().
-            getAttribute( "urn:merlin:proxy", "true" ).equals( "false" ) )
+            getAttribute( "urn:activation:proxy", "true" ).equals( "false" ) )
         {
             return instance;
         }

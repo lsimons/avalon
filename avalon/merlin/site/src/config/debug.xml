@@ -8,7 +8,7 @@
    <repository>
      <hosts>
        <host path="http://dpml.net/"/>
-       <host path="http://www.ibiblio.org/maven/"/>
+       <host path="http://ibiblio.org/maven/"/>
      </hosts>
    </repository>
 

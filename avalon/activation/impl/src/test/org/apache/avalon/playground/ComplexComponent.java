@@ -145,6 +145,7 @@ public class ComplexComponent extends AbstractLogEnabled
         try
         {
             m_simple = (SimpleService) m_manager.lookup( "simple" );
+            getLogger().info( m_simple.getClass().toString() );
         }
         catch( ServiceException e )
         {
@@ -155,6 +156,7 @@ public class ComplexComponent extends AbstractLogEnabled
         try
         {
             m_basic = (BasicService) m_manager.lookup( "basic" );
+            getLogger().info( m_basic.getClass().toString() );
         }
         catch( ServiceException e )
         {
