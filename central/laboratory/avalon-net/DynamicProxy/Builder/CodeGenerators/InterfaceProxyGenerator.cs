@@ -15,8 +15,6 @@
 namespace Apache.Avalon.DynamicProxy.Builder.CodeGenerators
 {
 	using System;
-	using System.Reflection;
-	using System.Reflection.Emit;
 
 	/// <summary>
 	/// Summary description for InterfaceProxyGenerator.
@@ -27,28 +25,21 @@ namespace Apache.Avalon.DynamicProxy.Builder.CodeGenerators
 		{
 		}
 
-		public InterfaceProxyGenerator(EnhanceTypeDelegate enhance, ScreenInterfacesDelegate screenInterfaces) : 
-			base(enhance, screenInterfaces)
+		public InterfaceProxyGenerator(GeneratorContext context) : base(context)
 		{
-
 		}
 
-		public Type GenerateCode(Type[] interfaces)
+		public virtual Type GenerateCode(Type[] interfaces)
 		{
-			if (ScreenInterfacesDelegate != null)
-			{
-				interfaces = ScreenInterfacesDelegate(interfaces);
-			}
+			interfaces = ScreenInterfaces(interfaces);
 
-			CreateTypeBuilder( null, interfaces );
+			CreateTypeBuilder( typeof(Object), interfaces );
 			GenerateInterfaceImplementation( interfaces );
 
-			if (EnhanceTypeDelegate != null)
-			{
-				EnhanceTypeDelegate(MainTypeBuilder, HandlerFieldBuilder, DefaultConstructorBuilder);
-			}
+			EnhanceType();
 
-			return MainTypeBuilder.CreateType();
+			return CreateType();
 		}
+
 	}
 }

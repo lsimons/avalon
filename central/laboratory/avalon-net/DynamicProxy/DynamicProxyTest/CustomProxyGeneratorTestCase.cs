@@ -31,7 +31,6 @@ namespace Apache.Avalon.DynamicProxy.Test
 		private ProxyGenerator m_generator;
 		private bool m_enhanceInvoked;
 		private bool m_screenInvoked;
-		private bool m_constructorInvoked;
 
 		[SetUp]
 		public void Init()
@@ -39,37 +38,37 @@ namespace Apache.Avalon.DynamicProxy.Test
 			m_generator = new ProxyGenerator();
 			m_enhanceInvoked = false;
 			m_screenInvoked = false;
-			m_constructorInvoked = false;
 		}
 
 		[Test]
 		public void CreateCustomProxy()
 		{
+			GeneratorContext context = new GeneratorContext( 
+				new EnhanceTypeDelegate(EnhanceType),
+				new ScreenInterfacesDelegate(ScreenInterfaces));
+
 			object proxy = m_generator.CreateCustomProxy(
 				typeof (IMyInterface), 
-				new StandardInvocationHandler(new MyInterfaceImpl()),
-				new EnhanceTypeDelegate(EnhanceType), 
-				new ScreenInterfacesDelegate(ScreenInterfaces), 
-				new ConstructorArgumentsDelegate(BuildConstructorArguments));
+				new StandardInvocationHandler(new MyInterfaceImpl()), context);
 
 			Assert( m_enhanceInvoked );
 			Assert( m_screenInvoked );
-			Assert( m_constructorInvoked );
 		}
 
 		[Test]
 		public void CreateCustomClassProxy()
 		{
+			GeneratorContext context = new GeneratorContext( 
+				new EnhanceTypeDelegate(EnhanceType),
+				new ScreenInterfacesDelegate(ScreenInterfaces));
+
 			object proxy = m_generator.CreateCustomClassProxy(
 				typeof (ServiceClass), 
 				new StandardInvocationHandler(new ServiceClass()),
-				new EnhanceTypeDelegate(EnhanceType), 
-				new ScreenInterfacesDelegate(ScreenInterfaces), 
-				new ConstructorArgumentsDelegate(BuildConstructorArguments));
+				context);
 
 			Assert( m_enhanceInvoked );
 			Assert( m_screenInvoked );
-			Assert( m_constructorInvoked );
 		}
 
 		private void EnhanceType(TypeBuilder mainType, FieldBuilder handlerFieldBuilder, ConstructorBuilder constructorBuilder)
@@ -92,18 +91,6 @@ namespace Apache.Avalon.DynamicProxy.Test
 			m_screenInvoked = true;
 
 			return interfaces;
-		}
-		
-		private object[] BuildConstructorArguments(Type generatedType, IInvocationHandler handler)
-		{
-			Assert( !m_constructorInvoked );
-
-			AssertNotNull( generatedType );
-			AssertNotNull( handler );
-
-			m_constructorInvoked = true;
-
-			return new object[] { handler };
 		}
 	}
 }
