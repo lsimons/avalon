@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<author id="proyal.html">
+  <honorific>Mr</honorific>
+  <firstname>Peter</firstname>
+  <surname>Royal</surname>
+  <address format="linespecific">
+    <email>proyal@apache.org</email>
+  </address>
+  <affiliation>
+    <shortaffil>PSG</shortaffil>
+    <jobtitle>Framework Architect</jobtitle>
+    <orgname>Pace Systems Group</orgname>
+  </affiliation>
+  <authorblurb>
+    <para>
+      Peter is a relative newcomer to Apache Avalon. His introduction was
+      via the <link href="http://xml.apache.org/cocoon/">Apache Cocoon</link>
+      project. After noticing the incredible framework which Cocoon was built
+      upon he moved the rest of his projects to be hosted in Avalon Phoenix.
+    </para>
+  </authorblurb>
+</author>
