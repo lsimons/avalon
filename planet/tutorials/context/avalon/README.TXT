@@ -4,7 +4,7 @@ Typesafe context casting
 
 This tutorial covers usage of standard context entries.
 
-$ maven
+$ ant
 $ merlin -execute target\classes
 
 [INFO   ] (tutorial.hello): standard context entries
