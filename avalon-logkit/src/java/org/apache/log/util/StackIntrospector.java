@@ -7,15 +7,15 @@
  */
 package org.apache.log.util;
 
-import java.io.StringWriter;
 import java.io.PrintWriter;
+import java.io.StringWriter;
 
 /**
  * A set of utilities to inspect current stack frame.
  *
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
  * @author <a href="mailto:stuart.roebuck@adolos.com">Stuart Roebuck</a>
- * @version CVS $Revision: 1.2 $ $Date: 2001/08/14 00:43:36 $
+ * @version CVS $Revision: 1.3 $ $Date: 2001/08/16 08:55:18 $
  */
 public final class StackIntrospector
 {
@@ -178,7 +178,6 @@ public final class StackIntrospector
         return "";
     }
 
-
     /**
      * Return the current call stack as a String, starting with the first call
      * in the stack after a reference to the <code>clazz</code> class, and then
@@ -216,7 +215,7 @@ public final class StackIntrospector
         {
             final char ch = buffer.charAt( i );
 
-            switch( state ) 
+            switch( state )
             {
             case 0:
                 //Strip the first line from input
@@ -242,12 +241,12 @@ public final class StackIntrospector
                     //At this stage you have the line that looks like
                     //com.biz.SomeClass.someMethod(SomeClass.java:22)
                     final String method = line.toString();
-                    
+
                     ///Determine if line is a match for class
                     final boolean match = method.startsWith( className );
                     if( !found && match )
                     {
-                        //If this is the first time we cound class then 
+                        //If this is the first time we cound class then
                         //set found to true and look for caller into class
                         found = true;
                     }
@@ -259,7 +258,7 @@ public final class StackIntrospector
                         if (entries == 0) return stack.toString();
                         stack.append("\n");
                     }
-                    
+
                     //start parsing from start of line again
                     state = 1;
                 }
