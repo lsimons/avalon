@@ -20,14 +20,14 @@ import java.util.Date;
  * to form the appended string to the base file name as well as a suffix
  * which should be appended last.
  *
- * A <code>new UniqueFileStrategy( new File("foo.", "yyyy-MM-dd", ".log" )</code>
+ * A <code>new UniqueFileStrategy( new File( "foo." ), "yyyy-MM-dd", ".log" )</code>
  * object will return <code>File</code> objects with file names like
  * <code>foo.2001-12-24.log</code>
  *
  * @author <a href="mailto:bh22351@i-one.at">Bernhard Huber</a>
  * @author <a href="mailto:giacomo@apache.org">Giacomo Pati</a>
  */
-public class UniqueFileStrategy 
+public class UniqueFileStrategy
     implements FileStrategy
 {
     private File    m_baseFile;
@@ -58,24 +58,24 @@ public class UniqueFileStrategy
      *
      * @return File the calculated file name
      */
-    public File nextFile() 
+    public File nextFile()
     {
         final StringBuffer sb = new StringBuffer();
         sb.append( m_baseFile );
-        if( m_formatter == null ) 
+        if( m_formatter == null )
         {
             sb.append( System.currentTimeMillis() );
-        } 
-        else 
+        }
+        else
         {
             final String dateString = m_formatter.format(new Date());
             sb.append(dateString);
-        } 
-        
+        }
+
         if( m_suffix != null ) {
             sb.append( m_suffix );
         }
-        
+
         return new File( sb.toString() );
     }
 }
