@@ -82,7 +82,7 @@ import junit.framework.TestCase;
  * Abstract Merlin Test Case.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2003/10/07 21:33:37 $
+ * @version $Revision: 1.3 $ $Date: 2003/10/11 22:13:07 $
  */
 public class AbstractMerlinTestCase extends TestCase
 {
@@ -90,11 +90,19 @@ public class AbstractMerlinTestCase extends TestCase
     // static
     //-------------------------------------------------------------------
 
-    private static boolean DEBUG = false;
+    public static boolean MERLIN_DEBUG_OFF = false;
+    public static boolean MERLIN_DEBUG_ON = true;
+    public static boolean MERLIN_INFO_OFF = false;
+    public static boolean MERLIN_INFO_ON = true;
 
-    private static boolean INFO = false;
+    public static final File MAVEN_TARGET_CLASSES_DIR = 
+      getTargetClassesDirectory();
 
-    private static URL BLOCK = getTargetClassesPath();
+    public static final File MAVEN_TARGET_TEST_CLASSES_DIR = 
+      getTargetTestClassesDirectory();
+
+    public static final File MERLIN_DEFAULT_CONFIG_FILE = 
+      getProjectFile( "conf/config.xml" );
 
     //-------------------------------------------------------------------
     // state
@@ -131,7 +139,7 @@ public class AbstractMerlinTestCase extends TestCase
     */
     public AbstractMerlinTestCase( String name )
     {
-        this( BLOCK, INFO, DEBUG, name );
+        this( MAVEN_TARGET_CLASSES_DIR, null, MERLIN_INFO_OFF, MERLIN_DEBUG_OFF, name );
     }
 
    /**
@@ -144,7 +152,7 @@ public class AbstractMerlinTestCase extends TestCase
     */
     public AbstractMerlinTestCase( boolean info, boolean debug, String name )
     {
-        this( BLOCK, info, debug, name );
+        this( MAVEN_TARGET_CLASSES_DIR, null, info, debug, name );
     }
 
    /**
@@ -157,9 +165,31 @@ public class AbstractMerlinTestCase extends TestCase
     * @param name the name of the test case
     */
     public AbstractMerlinTestCase( 
-      URL url, boolean info, boolean debug, String name )
+      File block, File targets, boolean info, boolean debug, String name )
     {
         super( name );
+
+        if( block == null )
+        {
+            throw new NullPointerException( "block" );
+        }
+
+        if( !block.exists() )
+        {
+            final String error = 
+              "Containment block [" + block + "] does not exist.";
+            throw new IllegalStateException( error );
+        }
+
+        if( ( targets != null ) && !targets.exists() )
+        {
+            final String error = 
+              "Configuration targets [" + targets + "] does not exist.";
+            throw new IllegalStateException( error );
+        }
+
+        URL url = convertToURL( block );
+        URL conf = convertToURL( targets );
 
         File base = 
           new File( 
@@ -205,7 +235,7 @@ public class AbstractMerlinTestCase extends TestCase
         try
         {
             ContainmentModel root = m_kernel.getContainmentModel();
-            m_test = (ContainmentModel) root.addModel( url );
+            m_test = root.addContainmentModel( url, conf );
         }
         catch( Throwable e )
         {
@@ -416,54 +446,52 @@ public class AbstractMerlinTestCase extends TestCase
     }
 
    /**
-    * Convinience method to get the ${basedir}/target/classes directory
-    * as a deployment url.
-    * @return the deployment url
+    * Convinience method to get the ${basedir}/target/classes directory.
+    * @return the deployment directory
     */
-    public static URL getTargetClassesPath()
+    public static File getTargetClassesDirectory()
     {
-        return getBlockPath( "target/classes" );
+        return getProjectFile( "target/classes" );
     }
 
    /**
-    * Convinience method to get the ${basedir}/target/test-classes directory
-    * as a deployment url.
+    * Convinience method to get the ${basedir}/target/test-classes directory.
     * @return the deployment url
     */
-    public static URL getTargetTestClassesPath()
+    public static File getTargetTestClassesDirectory()
     {
-        return getBlockPath( "target/test-classes" );
+        return getProjectFile( "target/test-classes" );
     }
 
    /**
-    * Convinience method to get the ${basedir}/[path] directory
-    * as a deployment url.
+    * Convinience method to get the ${basedir}/[path] directory.
     * @return the deployment url
     */
-    public static URL getBlockPath( String path )
+    public static File getProjectFile( String path )
     {
         File base = getBaseDirectory();
-        File inf = new File( base, path );
-        try
-        {
-            if( inf.exists() ) return inf.toURL();
-        }
-        catch( Throwable e )
-        {
-            final String error = 
-              "Unexpected error while constructing block path: " + inf;
-            throw new UnitRuntimeException( error, e );
-        }
-
-        final String error = 
-          "Test path ${basedir}/[" + path + "] does not exist.";
-        throw new UnitRuntimeException( error );
+        return new File( base, path );
     }
 
     private static File getBaseDirectory()
     {
         String basedir = System.getProperty( "basedir" );
         return new File( basedir );
+    }
+
+    private URL convertToURL( File file )
+    {
+        if( file == null ) return null;
+        try
+        {
+            return file.toURL();
+        }
+        catch( Throwable e )
+        {
+            final String error = 
+              "Unable to convert file [" + file + "] to a url.";
+            throw new UnitRuntimeException( error, e );
+        }
     }
 }
 

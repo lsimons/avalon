@@ -6,7 +6,7 @@
   <groupId>merlin</groupId>
   <id>merlin-unit</id>
   <name>Merlin Unit Test</name>
-  <currentVersion>1.0</currentVersion>
+  <currentVersion>dev-031012</currentVersion>
   <package>*</package>
 
   <inceptionYear>2003</inceptionYear>

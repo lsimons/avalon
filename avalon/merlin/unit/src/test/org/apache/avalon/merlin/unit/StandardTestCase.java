@@ -61,15 +61,6 @@ import org.apache.avalon.framework.logger.Logger;
  */
 public class StandardTestCase extends AbstractMerlinTestCase
 {
-    //--------------------------------------------------------
-    // static
-    //--------------------------------------------------------
-
-    private static boolean DEBUG = false;
-
-    private static boolean INFO = false;
-
-    private static URL BLOCK = getTargetTestClassesPath();
 
     //--------------------------------------------------------
     // constructors
@@ -79,18 +70,14 @@ public class StandardTestCase extends AbstractMerlinTestCase
     * @param name the name of the test case
     * @param root the merlin system install directory
     */
-    public StandardTestCase( )
-    {
-        this( "standard" );
-    }
-
-   /**
-    * @param name the name of the test case
-    * @param root the merlin system install directory
-    */
     public StandardTestCase( String name )
     {
-        super( BLOCK, INFO, DEBUG, name );
+        super( 
+          MAVEN_TARGET_TEST_CLASSES_DIR, 
+          MERLIN_DEFAULT_CONFIG_FILE, 
+          MERLIN_DEBUG_OFF, 
+          MERLIN_INFO_OFF, 
+          name );
     }
 
     //--------------------------------------------------------
