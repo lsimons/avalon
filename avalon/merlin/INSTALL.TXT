@@ -96,4 +96,4 @@ MERLIN_JVM_OPTS environment variable, i.e. -Djava.ext.dir=someDirectory
   system/xml-apis/jars/xml-apis-2.0.2.jar
   system/xml-apis/jars/xmlParserAPIs-2.0.2.jar
   system/xerces/jars/xerces-2.4.0.jar
-
+  
