@@ -169,6 +169,9 @@ Legal:
     <available property="jms.present" classname="javax.jms.Queue">
       <classpath refid="project.class.path"/>
     </available>
+    <available property="jaxen.present" classname="XPath">
+      <classpath refid="project.class.path"/>
+    </available>
   </target>
 
   <target name="check-datasource" depends="check-environment" if="datasource.present">
@@ -238,6 +241,8 @@ Legal:
                unless="jms.present"/>
       <exclude name="org/apache/avalon/excalibur/logger/factory/JDBCTargetFactory.java"
                unless="datasource.present"/>
+      <exclude name="org/apache/avalon/excalibur/xml/xpath/JaxenProcessorImpl.java"
+               unless="jaxen.present"/>
     </javac>
 
     <javac srcdir="${scratchpad.dir}"
