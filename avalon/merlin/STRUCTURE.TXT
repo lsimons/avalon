@@ -33,9 +33,6 @@ STRUCTURE:
         +- src                   resources used to build a merlin installation
         +- tutorials             several merlin tutorials
         +- xdocs                 site documentation src 
-    +-- repository
-        +- spi                   resource repository interfaces
-        +- impl                  resource repository implementation
     +-- target                   
         +- merlin                the generated installation (see 
                                  build procedure detailed below)
