@@ -172,7 +172,7 @@
           <xsl:attribute name="href"><xsl:value-of select="@href" /></xsl:attribute>
         </xsl:otherwise>
       </xsl:choose>
-      <xsl:apply-templates select="." />
+      <xsl:apply-templates/>
     </a>
   </xsl:template>
   
