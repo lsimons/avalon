@@ -11,29 +11,27 @@ import java.util.Hashtable;
 import org.apache.log.output.DefaultOutputLogTarget;
 
 /**
- * This defines the basic interface to a log engine.
- * The log engine represents an independent hierarchy.
+ * This defines a basic independent log hierarchy.
  *
  *  @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
-public final class LogEngine
+public class Hierarchy
 {
-    private static final LogEngine  c_engine                 = new LogEngine();
+    private static final Hierarchy  c_hierarchy      = new Hierarchy();
 
-    private Priority                m_priority               = Priority.DEBUG;
     private Logger                  m_rootLogger;
 
     /**
      * Retrieve the default log engine.
      *
-     * @return the default LogEngine
+     * @return the default Hierarchy
      */
-    public static LogEngine getDefaultLogEngine()
+    public static Hierarchy getDefaultHierarchy()
     {
-        return c_engine;
+        return c_hierarchy;
     }
 
-    public LogEngine()
+    public Hierarchy()
     {
         m_rootLogger = new Logger( this, "", null, null );
         setDefaultLogTarget( new DefaultOutputLogTarget() );
@@ -47,7 +45,7 @@ public final class LogEngine
         }
 
         final LogTarget[] targets = new LogTarget[] { target };
-        m_rootLogger.setLogTargets( targets );
+        getRootLogger().setLogTargets( targets );
     }
 
     /**
@@ -58,26 +56,7 @@ public final class LogEngine
      */
     public synchronized Logger getLoggerFor( final String category )
     {
-        return m_rootLogger.getChildLogger( category );
-    }
-
-    /**
-     * Return VM global priority.
-     *
-     * @return the priority
-     */
-    public Priority getGlobalPriority()
-    {
-        return m_priority;
-    }
-
-    /**
-     * Set the global priority for this virtual machine.  Nothing below
-     * this level will be logged when using this LogKit.
-     */
-    public void setGlobalPriority( final Priority priority )
-    {
-        m_priority = priority;
+        return getRootLogger().getChildLogger( category );
     }
 
     /**
@@ -97,5 +76,10 @@ public final class LogEngine
     public void log( final String message )
     {
         System.err.println( "Error: " + message );
+    }
+
+    protected final Logger getRootLogger()
+    {
+        return m_rootLogger;
     }
 }

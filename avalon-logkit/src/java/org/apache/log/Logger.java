@@ -18,22 +18,23 @@ public class Logger
 
     private final static long   START_TIME           = System.currentTimeMillis();
 
-    private final LogEngine     m_engine;
+    private final Hierarchy     m_hierarchy;
     private final Logger        m_parent;
     private final String        m_category;
 
     private Logger[]            m_children;
+
     private LogTarget[]         m_logTargets;
     private boolean             m_logTargetsForceSet;
     private Priority            m_priority;
     private boolean             m_priorityForceSet;
 
-    protected Logger( final LogEngine engine, 
+    protected Logger( final Hierarchy hierarchy, 
                       final String category, 
                       final LogTarget[] logTargets, 
                       final Logger parent )
     {
-        m_engine = engine;
+        m_hierarchy = hierarchy;
         m_category = category;
         m_logTargets = logTargets;
         m_parent = parent;
@@ -166,8 +167,7 @@ public class Logger
                            final String message,
                            final Throwable throwable )
     {
-        if( getPriority().isLowerOrEqual( priority ) &&
-            m_engine.getGlobalPriority().isLowerOrEqual( priority ) )
+        if( getPriority().isLowerOrEqual( priority ) )
         {
             output( priority, message, throwable );
         }
@@ -227,7 +227,7 @@ public class Logger
 
         if( null == targets )
         {
-            m_engine.log( "LogTarget is null for category '" + m_category + "'" );
+            m_hierarchy.log( "LogTarget is null for category '" + m_category + "'" );
         }
         else
         {
@@ -274,9 +274,7 @@ public class Logger
      */
     public final boolean isDebugEnabled()
     {
-        return
-            ( getPriority().isLowerOrEqual( Priority.DEBUG ) &&
-              m_engine.getGlobalPriority().isLowerOrEqual( Priority.DEBUG ) );
+        return getPriority().isLowerOrEqual( Priority.DEBUG );
     }
 
     /**
@@ -286,9 +284,7 @@ public class Logger
      */
     public final boolean isInfoEnabled()
     {
-        return
-            ( getPriority().isLowerOrEqual( Priority.INFO ) &&
-              m_engine.getGlobalPriority().isLowerOrEqual( Priority.INFO ) );
+        return getPriority().isLowerOrEqual( Priority.INFO );
     }
 
     /**
@@ -298,9 +294,7 @@ public class Logger
      */
     public final boolean isWarnEnabled()
     {
-        return
-            ( getPriority().isLowerOrEqual( Priority.WARN ) &&
-              m_engine.getGlobalPriority().isLowerOrEqual( Priority.WARN ) );
+        return getPriority().isLowerOrEqual( Priority.WARN );
     }
 
     /**
@@ -310,9 +304,7 @@ public class Logger
      */
     public final boolean isErrorEnabled()
     {
-        return
-            ( getPriority().isLowerOrEqual( Priority.ERROR ) &&
-              m_engine.getGlobalPriority().isLowerOrEqual( Priority.ERROR ) );
+        return getPriority().isLowerOrEqual( Priority.ERROR );
     }
 
     /**
@@ -322,9 +314,7 @@ public class Logger
      */
     public final boolean isFatalErrorEnabled()
     {
-        return
-            ( getPriority().isLowerOrEqual( Priority.FATAL_ERROR ) &&
-              m_engine.getGlobalPriority().isLowerOrEqual( Priority.FATAL_ERROR ) );
+        return getPriority().isLowerOrEqual( Priority.FATAL_ERROR );
     }
 
     /**
@@ -555,7 +545,7 @@ public class Logger
         }
 
         //Create new logger
-        final Logger child = new Logger( m_engine, category, null, this );
+        final Logger child = new Logger( m_hierarchy, category, null, this );
 
         //Add new logger to child list
         if( null == m_children ) 

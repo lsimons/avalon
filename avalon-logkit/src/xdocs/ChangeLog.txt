@@ -44,3 +44,4 @@
 * Removed the hashtable that stored log targets as it can be easily done
   by users of LogKit and wasn't serving any real purpose.
 
+* Renamed LogEngine to Hierarchy to match Log4j and allow easy cross migration

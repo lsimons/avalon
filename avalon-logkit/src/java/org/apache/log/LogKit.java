@@ -15,8 +15,6 @@ package org.apache.log;
  */
 public final class LogKit
 {
-    protected static final LogEngine       c_engine                 = new LogEngine();
-
     /**
      * Get the Current ContextStack.
      * This returns a ContextStack associated with current thread. If the
@@ -31,16 +29,6 @@ public final class LogKit
     }
 
     /**
-     * Return VM global priority.
-     *
-     * @return the priority
-     */
-    public static Priority getGlobalPriority()
-    {
-        return LogEngine.getDefaultLogEngine().getGlobalPriority();
-    }
-
-    /**
      * Retrieve a logger for named category.
      *
      * @param category the context
@@ -48,7 +36,7 @@ public final class LogKit
      */
     public static Logger getLoggerFor( final String category )
     {
-        return LogEngine.getDefaultLogEngine().getLoggerFor( category );
+        return Hierarchy.getDefaultHierarchy().getLoggerFor( category );
     }
 
     /**
@@ -56,6 +44,7 @@ public final class LogKit
      *
      * @param priority the priority
      * @return the descriptive string
+     * @deprecated Use Priority.getPriorityForName() instead
      */
     public static Priority getPriorityForName( final String priority )
     {
@@ -67,7 +56,7 @@ public final class LogKit
      */
     public static void log( final String message, final Throwable t )
     {
-        LogEngine.getDefaultLogEngine().log( message, t );
+        Hierarchy.getDefaultHierarchy().log( message, t );
     }
 
     /**
@@ -75,7 +64,7 @@ public final class LogKit
      */
     public static void log( final String message )
     {
-        LogEngine.getDefaultLogEngine().log( message );
+        Hierarchy.getDefaultHierarchy().log( message );
     }
 
     /**
@@ -83,16 +72,7 @@ public final class LogKit
      */
     public static void setDefaultLogTarget( final LogTarget defaultLogTarget )
     {
-        LogEngine.getDefaultLogEngine().setDefaultLogTarget( defaultLogTarget );
-    }
-
-    /**
-     * Set the global priority for this virtual machine.  Nothing below
-     * this level will be logged when using this LogKit.
-     */
-    public static void setGlobalPriority( final Priority priority )
-    {
-        LogEngine.getDefaultLogEngine().setGlobalPriority( priority );
+        Hierarchy.getDefaultHierarchy().setDefaultLogTarget( defaultLogTarget );
     }
 
     /**
