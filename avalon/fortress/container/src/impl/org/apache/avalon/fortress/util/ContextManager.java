@@ -117,7 +117,7 @@ import org.apache.log.Priority;
  * and dispose of them properly when it itself is disposed .</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.17 $ $Date: 2003/04/07 20:46:59 $
+ * @version CVS $Revision: 1.18 $ $Date: 2003/04/11 07:38:30 $
  * @since 4.1
  */
 public class ContextManager
@@ -557,8 +557,8 @@ public class ContextManager
      */
     protected void initializeServiceManager() throws Exception
     {
-        final ServiceManager parent = (ServiceManager)get(m_rootContext, SERVICE_MANAGER, null);
-        final DefaultServiceManager manager = new DefaultServiceManager(parent);
+        final ServiceManager parent = (ServiceManager)get( m_rootContext, SERVICE_MANAGER, null );
+        final DefaultServiceManager manager = new DefaultServiceManager( parent );
         final DefaultServiceSelector selector = new DefaultServiceSelector();
         final URLSourceFactory file = new URLSourceFactory();
         file.enableLogging( getLogger() );
@@ -582,7 +582,7 @@ public class ContextManager
         assumeOwnership( manager );
 
         m_manager = manager;
-        
+
         m_childContext.put( ContextManagerConstants.SERVICE_MANAGER, m_manager );
     }
 

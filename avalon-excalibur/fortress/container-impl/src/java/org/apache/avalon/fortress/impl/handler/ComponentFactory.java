@@ -72,7 +72,7 @@ import org.apache.excalibur.mpool.ObjectFactory;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
- * @version CVS $Revision: 1.20 $ $Date: 2003/04/03 13:43:51 $
+ * @version CVS $Revision: 1.21 $ $Date: 2003/04/11 07:38:30 $
  * @since 4.0
  */
 public class ComponentFactory
@@ -205,10 +205,10 @@ public class ComponentFactory
     private Logger aquireLogger()
     {
         Logger logger;
-        
+
         try
         {
-            final String name = (String)m_context.get("component.logger");
+            final String name = (String)m_context.get( "component.logger" );
             if( getLogger().isDebugEnabled() )
             {
                 final String message = "logger name is " + name;

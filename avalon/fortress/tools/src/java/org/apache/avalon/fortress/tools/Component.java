@@ -67,60 +67,63 @@ import java.util.Set;
 final class Component
 {
     static final Set m_repository = new HashSet();
-    
+
     private final String m_type;
     private final Properties m_attributes;
 
-	/**
+    /**
      * Initialize a service with the type name.
-     * 
+     *
      * @param type
      */
-    public Component(final String type)
+    public Component( final String type )
     {
-        if (type==null)throw new NullPointerException("type");
-        
+        if( type == null ) throw new NullPointerException( "type" );
+
         m_type = type;
         m_attributes = new Properties();
-        
-        m_repository.add(this);
+
+        m_repository.add( this );
     }
-    
+
     /**
      * Get the type name.
-     * 
+     *
      * @return String
      */
     public String getType()
     {
         return m_type;
     }
-    
-    public void setAttribute(String name, String value)
+
+    public void setAttribute( String name, String value )
     {
-        m_attributes.setProperty(name, value);
+        m_attributes.setProperty( name, value );
     }
-    
+
     /**
      * Output the meta information.
-     * 
+     *
      * @param rootDir
      * @throws IOException
      */
-    public void serialize(File rootDir) throws IOException
+    public void serialize( File rootDir ) throws IOException
     {
-        String fileName = getType().replace('.','/').concat(".meta");
-        File output = new File(rootDir, fileName);
+        String fileName = getType().replace( '.', '/' ).concat( ".meta" );
+        File output = new File( rootDir, fileName );
         FileOutputStream writer = null;
-        
+
         try
         {
-            writer = new FileOutputStream(output);
-            m_attributes.store(writer, "Meta information for " + getType());
+            writer = new FileOutputStream( output );
+            m_attributes.store( writer, "Meta information for " + getType() );
         }
         finally
         {
-            if (null!=writer) {writer.close();}
+            if( null != writer )
+            {
+                writer.close();
+            }
         }
     }
 }

@@ -62,7 +62,7 @@ import org.apache.commons.collections.StaticBucketMap;
  * the references.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.9 $ $Date: 2003/03/22 12:46:34 $
+ * @version CVS $Revision: 1.10 $ $Date: 2003/04/11 07:38:30 $
  */
 public class FortressServiceSelector
     implements ServiceSelector

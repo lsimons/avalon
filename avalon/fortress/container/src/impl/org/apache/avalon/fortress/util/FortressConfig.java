@@ -63,7 +63,7 @@ import org.apache.excalibur.mpool.PoolManager;
 
 /**
  * Helper class to create a m_context for the ContextManager.
- * @version CVS $Revision: 1.11 $ $Date: 2003/03/29 18:53:24 $
+ * @version CVS $Revision: 1.12 $ $Date: 2003/04/11 07:38:30 $
  */
 public class FortressConfig
 {
@@ -125,7 +125,7 @@ public class FortressConfig
 
         File contextDir = new File( System.getProperty( "user.dir" ) );
         File workDir = new File( System.getProperty( "java.io.tmpdir" ) );
-        
+
         defaultContext.put( ContextManagerConstants.THREADS_CPU, new Integer( 2 ) );
         defaultContext.put( ContextManagerConstants.THREAD_TIMEOUT, new Long( 1000 ) );
         defaultContext.put( ContextManagerConstants.CONTEXT_DIRECTORY, contextDir );

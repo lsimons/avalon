@@ -67,7 +67,7 @@ import org.apache.avalon.framework.service.ServiceManager;
  * A testcase for the different handlers.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.9 $ $Date: 2003/04/11 07:37:36 $
+ * @version $Revision: 1.10 $ $Date: 2003/04/11 07:37:57 $
  */
 public class HandlersTestCase extends TestCase
 {
@@ -209,7 +209,6 @@ public class HandlersTestCase extends TestCase
         final BaseRole object1 = (BaseRole)serviceManager.lookup( key );
         final BaseRole object2 = (BaseRole)serviceManager.lookup( key );
         final BaseRole object3 = (BaseRole)serviceManager.lookup( key );
-
 
         serviceManager.release( object1 );
         serviceManager.release( object2 );
