@@ -1,4 +1,3 @@
-
 /*
  * Copyright (C) The Apache Software Foundation. All rights reserved.
  *
@@ -8,28 +7,21 @@
  */
 package org.apache.avalon.cornerstone.blocks.transport.publishing;
 
-
-
 import java.io.IOException;
-
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.UnknownHostException;
-
+import org.apache.avalon.cornerstone.services.connection.ConnectionHandler;
 import org.apache.avalon.cornerstone.services.connection.ConnectionHandlerFactory;
 import org.apache.avalon.cornerstone.services.connection.ConnectionManager;
-import org.apache.avalon.cornerstone.services.connection.ConnectionHandler;
 import org.apache.avalon.cornerstone.services.sockets.ServerSocketFactory;
 import org.apache.avalon.cornerstone.services.sockets.SocketManager;
-import org.apache.avalon.framework.component.ComponentException;
-import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.ServiceException;
-import org.apache.excalibur.altrmi.server.impl.socket.PartialSocketCustomStreamServer;
+import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.excalibur.altrmi.server.impl.socket.AbstractPartialSocketStreamServer;
-
+import org.apache.excalibur.altrmi.server.impl.socket.PartialSocketCustomStreamServer;
 
 /**
  * @phoenix:block
@@ -38,18 +30,18 @@ import org.apache.excalibur.altrmi.server.impl.socket.AbstractPartialSocketStrea
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
  * @author Mike Miller.
  * @author Peter Royal.
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class SocketStreamPublisher
     extends AbstractPublisher
     implements ConnectionHandlerFactory
 {
-    protected SocketManager m_socketManager;
-    protected ConnectionManager m_connectionManager;
+    private SocketManager m_socketManager;
+    private ConnectionManager m_connectionManager;
     private int m_port;
     private InetAddress m_bindTo;
     private String m_socketStreamServerClass;
-    boolean m_allAddresses = false;
+    private boolean m_allAddresses = false;
 
     /**
      * Pass the <code>Configuration</code> to the <code>Configurable</code>
@@ -58,18 +50,18 @@ public class SocketStreamPublisher
      *
      * @param configuration the class configurations.
      */
-    public final void configure(Configuration configuration) throws ConfigurationException
+    public final void configure( Configuration configuration ) throws ConfigurationException
     {
 
-        super.configure(configuration);
+        super.configure( configuration );
 
-        m_port = configuration.getChild("port").getValueAsInteger();
+        m_port = configuration.getChild( "port" ).getValueAsInteger();
 
         try
         {
-            final String bindAddress = configuration.getChild("bind").getValue();
+            final String bindAddress = configuration.getChild( "bind" ).getValue();
 
-            if ("*".equals(bindAddress))
+            if( "*".equals( bindAddress ) )
             {
                 m_allAddresses = true;
                 m_bindTo = null;
@@ -77,15 +69,15 @@ public class SocketStreamPublisher
             else
             {
                 m_allAddresses = false;
-                m_bindTo = InetAddress.getByName(bindAddress);
+                m_bindTo = InetAddress.getByName( bindAddress );
             }
         }
-        catch (final UnknownHostException unhe)
+        catch( final UnknownHostException unhe )
         {
-            throw new ConfigurationException("Malformed bind parameter", unhe);
+            throw new ConfigurationException( "Malformed bind parameter", unhe );
         }
 
-        m_socketStreamServerClass = configuration.getChild("socketStreamServerClass").getValue();
+        m_socketStreamServerClass = configuration.getChild( "socketStreamServerClass" ).getValue();
     }
 
     /**
@@ -93,27 +85,28 @@ public class SocketStreamPublisher
      * @phoenix:dependency name="org.apache.avalon.cornerstone.services.sockets.SocketManager"
      * @phoenix:dependency name="org.apache.avalon.cornerstone.services.connection.ConnectionManager"
      */
-    public final void service( final ServiceManager manager)
+    public final void service( final ServiceManager manager )
         throws ServiceException
     {
-        super.service(manager);
+        super.service( manager );
 
-        m_socketManager = (SocketManager) manager.lookup(SocketManager.ROLE);
-        m_connectionManager = (ConnectionManager) manager.lookup(ConnectionManager.ROLE);
+        m_socketManager = (SocketManager)manager.lookup( SocketManager.ROLE );
+        m_connectionManager = (ConnectionManager)manager.lookup( ConnectionManager.ROLE );
     }
 
-    protected ServerSocket makeServerSocket() throws ComponentException, IOException
+    protected ServerSocket makeServerSocket()
+        throws IOException, Exception
     {
 
-        final ServerSocketFactory factory = m_socketManager.getServerSocketFactory("plain");
+        final ServerSocketFactory factory = m_socketManager.getServerSocketFactory( "plain" );
 
-        if (m_allAddresses)
+        if( m_allAddresses )
         {
-            return factory.createServerSocket(m_port, 5);
+            return factory.createServerSocket( m_port, 5 );
         }
         else
         {
-            return factory.createServerSocket(m_port, 5, m_bindTo);
+            return factory.createServerSocket( m_port, 5, m_bindTo );
         }
     }
 
@@ -127,7 +120,7 @@ public class SocketStreamPublisher
     {
         final PartialSocketStreamConnectionHandler handler =
             new PartialSocketStreamConnectionHandler(
-                (AbstractPartialSocketStreamServer) m_abstractServer );
+                (AbstractPartialSocketStreamServer)getAbstractServer() );
 
         setupLogger( handler );
 
@@ -151,9 +144,9 @@ public class SocketStreamPublisher
      */
     public void initialize() throws Exception
     {
-        m_abstractServer = (AbstractPartialSocketStreamServer) Class.forName(m_socketStreamServerClass).newInstance();
+        setAbstractServer( (AbstractPartialSocketStreamServer)Class.forName( m_socketStreamServerClass ).newInstance() );
 
-        setupLogger( m_abstractServer );
+        setupLogger( getAbstractServer() );
         super.initialize();
         m_connectionManager.connect( "SocketStreamListener", makeServerSocket(), this );
     }

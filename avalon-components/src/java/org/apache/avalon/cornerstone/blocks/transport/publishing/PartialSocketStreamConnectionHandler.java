@@ -11,32 +11,20 @@ import java.io.IOException;
 import java.net.ProtocolException;
 import java.net.Socket;
 import org.apache.avalon.cornerstone.services.connection.ConnectionHandler;
-import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.excalibur.altrmi.server.impl.socket.AbstractPartialSocketStreamServer;
 
 /**
- * Class PartialSocketStreamConnectionHandler
- *
- *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
  * @author Peter Royal.
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class PartialSocketStreamConnectionHandler
     extends AbstractLogEnabled
-    implements Component, ConnectionHandler
+    implements ConnectionHandler
 {
-
     private AbstractPartialSocketStreamServer m_PartialSockeStreamServer;
 
-    /**
-     * Constructor PartialSocketStreamConnectionHandler
-     *
-     *
-     * @param partialSocketStreamServer
-     *
-     */
     public PartialSocketStreamConnectionHandler(
         AbstractPartialSocketStreamServer partialSocketStreamServer )
     {
@@ -51,7 +39,8 @@ public class PartialSocketStreamConnectionHandler
      * @exception IOException if an error reading from socket occurs
      * @exception ProtocolException if an error handling connection occurs
      */
-    public void handleConnection( Socket connection ) throws IOException, ProtocolException
+    public void handleConnection( Socket connection )
+        throws IOException, ProtocolException
     {
         m_PartialSockeStreamServer.handleConnection( connection );
     }

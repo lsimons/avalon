@@ -18,7 +18,7 @@ import org.apache.excalibur.altrmi.server.impl.rmi.RmiServer;
  * @phoenix:service name="org.apache.excalibur.altrmi.server.AltrmiPublisher"
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.11 $
+ * @version $Revision: 1.12 $
  */
 public class RmiPublisher
     extends AbstractPublisher
@@ -52,9 +52,9 @@ public class RmiPublisher
     public void initialize() throws Exception
     {
 
-        m_abstractServer = new RmiServer( m_host, m_port );
+        setAbstractServer( new RmiServer( m_host, m_port ) );
 
-        setupLogger( m_abstractServer );
+        setupLogger( getAbstractServer() );
         super.initialize();
     }
 
