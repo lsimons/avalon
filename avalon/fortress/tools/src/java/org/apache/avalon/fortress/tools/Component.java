@@ -65,7 +65,7 @@ import java.util.*;
  * Represents a component, and output the meta information.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.6 $ $Date: 2003/05/23 17:04:30 $
+ * @version CVS $Revision: 1.7 $ $Date: 2003/05/27 15:27:52 $
  */
 final class Component
 {
@@ -119,7 +119,7 @@ final class Component
 
     public Vertex getVertex()
     {
-        if ( m_vertex.getDependencies().size() != m_dependencies.size() )
+        if ( m_vertex.getDependencies().size() != 0 )
         {
             Iterator it = m_dependencies.iterator();
             while ( it.hasNext() )
