@@ -83,7 +83,7 @@ import org.apache.avalon.repository.util.RepositoryUtils;
  * an underlying file system.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2003/12/19 16:46:15 $
+ * @version $Revision: 1.5 $ $Date: 2004/01/16 00:07:49 $
  */
 public class DefaultRepository implements Repository
 {
@@ -248,7 +248,6 @@ public class DefaultRepository implements Repository
           getURLs( artifact, 
             relational.getDependencies( 
               FactoryDescriptor.IMP_KEY ) );
-
         return buildClassLoader( imps, spi );
     }
 
@@ -258,7 +257,6 @@ public class DefaultRepository implements Repository
     */
     public String toString()
     {
-        //return m_cache.toString() ;
         StringBuffer buffer = new StringBuffer( m_cache.toString() );
         for( int i=0; i<m_hosts.length; i++ )
         {
