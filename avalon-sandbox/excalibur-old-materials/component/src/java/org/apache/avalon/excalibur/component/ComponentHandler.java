@@ -15,7 +15,6 @@ import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.context.Context;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.thread.SingleThreaded;
 import org.apache.avalon.framework.thread.ThreadSafe;
 
@@ -26,11 +25,11 @@ import org.apache.avalon.framework.thread.ThreadSafe;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.2.2.1 $ $Date: 2002/05/18 05:13:05 $
+ * @version CVS $Revision: 1.2.2.2 $ $Date: 2002/05/18 05:35:49 $
  * @since 4.0
  */
 public abstract class ComponentHandler
-    extends AbstractLogEnabled
+    extends AbstractDualLogEnabled
     implements Initializable, Disposable
 {
     private Object m_referenceSemaphore = new Object();

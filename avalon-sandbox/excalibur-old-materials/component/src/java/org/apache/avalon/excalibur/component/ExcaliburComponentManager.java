@@ -24,7 +24,6 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.Contextualizable;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
 
 /**
  * Default component manager for Avalon's components.
@@ -32,11 +31,11 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
- * @version CVS $Revision: 1.5.2.1 $ $Date: 2002/05/18 05:13:05 $
+ * @version CVS $Revision: 1.5.2.2 $ $Date: 2002/05/18 05:35:49 $
  * @since 4.0
  */
 public class ExcaliburComponentManager
-    extends AbstractLogEnabled
+    extends AbstractDualLogEnabled
     implements ComponentManager,
     Configurable,
     Contextualizable,
@@ -308,6 +307,7 @@ public class ExcaliburComponentManager
                                                        m_roles,
                                                        m_logkit );
 
+                        handler.setLogger( getLogkitLogger() );
                         handler.enableLogging( getLogger() );
                         handler.initialize();
                     }
@@ -392,10 +392,10 @@ public class ExcaliburComponentManager
     {
         if( null == m_roles )
         {
-            DefaultRoleManager role_info = new DefaultRoleManager();
-            role_info.enableLogging( getLogger() );
-            role_info.configure( configuration );
-            m_roles = role_info;
+            final DefaultRoleManager roleInfo = new DefaultRoleManager();
+            roleInfo.enableLogging( getLogger() );
+            roleInfo.configure( configuration );
+            m_roles = roleInfo;
             getLogger().debug( "No RoleManager given, deriving one from configuration" );
         }
 
@@ -625,6 +625,7 @@ public class ExcaliburComponentManager
                 getLogger().debug( "Handler type = " + handler.getClass().getName() );
             }
 
+            handler.setLogger( getLogkitLogger() );
             handler.enableLogging( getLogger() );
             m_componentHandlers.put( role, handler );
         }
@@ -650,6 +651,7 @@ public class ExcaliburComponentManager
         {
             ComponentHandler handler =
                 ComponentHandler.getComponentHandler( instance );
+            handler.setLogger( getLogkitLogger() );
             handler.enableLogging( getLogger() );
             m_componentHandlers.put( role, handler );
         }

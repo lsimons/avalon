@@ -25,7 +25,6 @@ import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.Contextualizable;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.thread.ThreadSafe;
 
 /**
@@ -33,11 +32,11 @@ import org.apache.avalon.framework.thread.ThreadSafe;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
- * @version CVS $Revision: 1.4.2.1 $ $Date: 2002/05/18 05:13:06 $
+ * @version CVS $Revision: 1.4.2.2 $ $Date: 2002/05/18 05:35:49 $
  * @since 4.0
  */
 public class ExcaliburComponentSelector
-    extends AbstractLogEnabled
+    extends AbstractDualLogEnabled
     implements Contextualizable,
     ComponentSelector,
     Composable,
@@ -503,6 +502,7 @@ public class ExcaliburComponentSelector
                                                                   m_roles,
                                                                   m_logkit );
 
+            handler.setLogger( getLogkitLogger() );
             handler.enableLogging( getLogger() );
             handler.initialize();
             m_componentHandlers.put( hint, handler );
@@ -540,6 +540,7 @@ public class ExcaliburComponentSelector
         {
             final ComponentHandler handler =
                 ComponentHandler.getComponentHandler( instance );
+            handler.setLogger( getLogkitLogger() );
             handler.enableLogging( getLogger() );
             handler.initialize();
             m_componentHandlers.put( hint, handler );

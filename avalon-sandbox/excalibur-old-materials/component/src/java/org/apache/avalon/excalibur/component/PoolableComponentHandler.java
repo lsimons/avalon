@@ -15,7 +15,6 @@ import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.context.Context;
-import org.apache.avalon.framework.logger.Logger;
 
 /**
  * The PoolableComponentHandler to make sure that poolable components are initialized
@@ -81,7 +80,7 @@ import org.apache.avalon.framework.logger.Logger;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
- * @version CVS $Revision: 1.3.2.1 $ $Date: 2002/05/18 05:13:06 $
+ * @version CVS $Revision: 1.3.2.2 $ $Date: 2002/05/18 05:35:49 $
  * @since 4.0
  */
 public class PoolableComponentHandler
@@ -145,16 +144,6 @@ public class PoolableComponentHandler
     }
 
     /**
-     * Sets the logger that the ComponentHandler will use.
-     */
-    public void enableLogging( final Logger logger )
-    {
-        m_factory.enableLogging( logger );
-        m_pool.enableLogging( logger );
-        super.enableLogging( logger );
-    }
-
-    /**
      * Initialize the ComponentHandler.
      */
     public void initialize()
@@ -163,6 +152,10 @@ public class PoolableComponentHandler
         {
             return;
         }
+
+        m_factory.setLogger( getLogkitLogger() );
+        m_factory.enableLogging( getLogger() );
+        m_pool.enableLogging( getLogger() );
 
         if( getLogger().isDebugEnabled() )
         {
