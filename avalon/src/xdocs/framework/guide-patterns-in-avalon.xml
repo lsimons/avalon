@@ -6,10 +6,7 @@
   <header>
     <title>Avalon Framework - Guide - Patterns in Avalon</title>
     <authors>
-      <person name="Berin Loritsch" email="bloritsch@apache.org"/>
-      <person name="Leo simons" email="leosimons@apache.org"/>
-      <person name="Paul Hammant" email="Paul_Hammant@yahoo.com"/>
-      <person name="Peter Donald" email="peter at apache.org"/>
+      <person name="Avalon Documentation Team" email="avalon-dev@jakarta.apache.org"/>
     </authors>
   </header>
   <body>
