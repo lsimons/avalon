@@ -13,8 +13,8 @@
 
   <property file="index.properties"/>
 
-  <condition property="avalon.cache.declared" value="false">
-    <isset property="avalon.cache"/>
+  <condition property="project.main.cache.declared" value="false">
+    <isset property="project.main.cache"/>
   </condition>
 
   <condition property="project.proxy.declared" value="false">
@@ -26,7 +26,7 @@
   </target>
 
   <target name="setup-cache-properties" depends="setup-avalon-cache,test-cache">
-    <property name="cache.dir" value="${avalon.cache}"/>
+    <property name="cache.dir" value="${project.main.cache}"/>
     <property name="cache.tools.dir" value="${cache.dir}/avalon/tools"/>
     <property name="cache.tools.bars.dir" value="${cache.tools.dir}/bars"/>
     <property name="ant.lib" value="${user.home}/.ant/lib"/>
@@ -57,16 +57,16 @@
     </copy>
   </target>
 
-  <target name="setup-avalon-cache" unless="avalon.cache.declared">
+  <target name="setup-avalon-cache" unless="project.main.cache.declared">
     <property environment="ENV"/>
-    <property name="avalon.cache" value="${ENV.AVALON_HOME}/repository"/>
+    <property name="project.main.cache" value="${ENV.AVALON_HOME}/repository"/>
     <condition property="avalon.home.undeclared" value="true">
-      <contains string="${avalon.cache}" substring="{" />
+      <contains string="${project.main.cache}" substring="{" />
     </condition>
   </target>
 
   <target name="test-cache" if="avalon.home.undeclared">
-    <property name="avalon.cache" value=".cache"/>
+    <property name="project.main.cache" value=".cache"/>
   </target>
 
   <target name="setup-proxy" if="project.proxy.declared">
