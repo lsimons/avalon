@@ -55,8 +55,6 @@
 package org.apache.log.test;
 
 import junit.framework.TestCase;
-import org.apache.log.Hierarchy;
-import org.apache.log.Logger;
 import org.apache.log.LogEvent;
 import org.apache.log.LogTarget;
 import org.apache.log.output.AbstractWrappingTarget;
@@ -70,6 +68,10 @@ import org.apache.log.util.Closeable;
 public final class WrappingTargetTestCase
     extends TestCase
 {
+    public WrappingTargetTestCase(String name)
+    {
+        super(name);
+    }
     
     static private class DummyTarget implements LogTarget
     {
