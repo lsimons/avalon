@@ -2,7 +2,7 @@
 dist
 build
 distributions
-prj.el
-emacs-jprj.el
+*.el
+*.ipr
 docs
 todo
