@@ -79,6 +79,11 @@ return logTarget;
 }
     */
 
+    public static LogEngine getDefaultLogEngine()
+    {
+        return c_engine;
+    }
+
     /**
      * Add a named log target to global list.
      *

@@ -22,11 +22,53 @@ public class Logger
     protected LogTarget[]                      m_logTargets;
 
     /**
+     * Constructor.
+     *
+     * @deprecated This method should not be called directly but instead use a LogEngine or LogKit
+     */
+    public Logger( final Category category )
+    {
+        this( LogKit.getDefaultLogEngine(), category, null, null );
+    }
+
+    /**
+     * Constructor.
+     *
+     * @deprecated This method should not be called directly but instead use a LogEngine or LogKit
+     */
+    public Logger( final Category category, final LogTarget[] logTargets )
+    {
+        this( LogKit.getDefaultLogEngine(), category, logTargets, null );
+    }
+
+    /**
+     * Constructor.
+     *
+     * @deprecated This method should not be called directly but instead use a LogEngine or LogKit
+     */
+    public Logger( final Category category, final Logger parent )
+    {
+        this( LogKit.getDefaultLogEngine(), category, null, parent );
+    }
+
+    /**
+     * Constructor.
+     *
+     * @deprecated This method should not be called directly but instead use a LogEngine or LogKit
+     */
+    public Logger( final Category category, 
+                   final LogTarget[] logTargets, 
+                   final Logger parent )
+    {
+        this( LogKit.getDefaultLogEngine(), category, logTargets, parent );
+    }
+
+    /**
      * Constructor taking a category.
      *
      * @param category the category
      */
-    public Logger( final LogEngine engine, final Category category )
+    protected Logger( final LogEngine engine, final Category category )
     {
         this( engine, category, null, null );
     }
@@ -37,20 +79,20 @@ public class Logger
      * @param category the category
      * @param logTargets the targets
      */
-    public Logger( final LogEngine engine, final Category category, final LogTarget[] logTargets )
+    protected Logger( final LogEngine engine, final Category category, final LogTarget[] logTargets )
     {
         this( engine, category, logTargets, null );
     }
 
-    public Logger( final LogEngine engine, final Category category, final Logger parent )
+    protected Logger( final LogEngine engine, final Category category, final Logger parent )
     {
         this( engine, category, null, parent );
     }
 
-    public Logger( final LogEngine engine, 
-                   final Category category, 
-                   final LogTarget[] logTargets, 
-                   final Logger parent )
+    protected Logger( final LogEngine engine, 
+                      final Category category, 
+                      final LogTarget[] logTargets, 
+                      final Logger parent )
     {
         m_engine = engine;
         m_category = category;
