@@ -4,7 +4,7 @@
                    The Apache Software License, Version 1.1
  ============================================================================
 
- Copyright (C) 1999-2003 The Apache Software Foundation. All rights reserved.
+ Copyright (C) @year@ The Apache Software Foundation. All rights reserved.
 
  Redistribution and use in source and binary forms, with or without modifica-
  tion, are permitted provided that the following conditions are met:
@@ -75,7 +75,7 @@ import org.apache.avalon.framework.thread.ThreadSafe;
  * FIXME: This is only a start, it's neither tested not run
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.2 $ $Date: 2003/03/22 11:29:12 $
+ * @version CVS $Revision: 1.3 $ $Date: 2003/03/22 12:31:56 $
  */
 
 public final class DefaultLoggerManager 

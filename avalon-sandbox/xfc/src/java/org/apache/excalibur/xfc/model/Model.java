@@ -4,7 +4,7 @@
                    The Apache Software License, Version 1.1
  ============================================================================
 
- Copyright (C) 1999-2003 The Apache Software Foundation. All rights reserved.
+ Copyright (C) @year@ The Apache Software Foundation. All rights reserved.
 
  Redistribution and use in source and binary forms, with or without modifica-
  tion, are permitted provided that the following conditions are met:
@@ -60,7 +60,7 @@ import org.apache.excalibur.xfc.model.role.RoleRef;
  * a particular Container configuration.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: Model.java,v 1.7 2003/03/22 11:29:15 leosimons Exp $
+ * @version CVS $Id: Model.java,v 1.8 2003/03/22 12:32:03 leosimons Exp $
  */
 public final class Model
 {

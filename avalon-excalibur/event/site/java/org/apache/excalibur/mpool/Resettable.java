@@ -4,7 +4,7 @@
                    The Apache Software License, Version 1.1
  ============================================================================
 
- Copyright (C) 1999-2003 The Apache Software Foundation. All rights reserved.
+ Copyright (C) @year@ The Apache Software Foundation. All rights reserved.
 
  Redistribution and use in source and binary forms, with or without modifica-
  tion, are permitted provided that the following conditions are met:
@@ -68,7 +68,7 @@ package org.apache.excalibur.mpool;
  * @author <a href="mailto:bloritach@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:stefano@apache.org">Stefano Mazzocchi</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.3 $ $Date: 2003/03/22 11:29:06 $
+ * @version CVS $Revision: 1.4 $ $Date: 2003/03/22 12:31:47 $
  * @since 4.0
  */
 public interface Resettable

@@ -1,52 +1,145 @@
 /*
+ * Copyright  The Apache Software Foundation. All rights reserved.
+ *
+ * This software is published under the terms of the Apache Software License
+ * version 1.1, a copy of which has been included with this distribution in
+ * the LICENSE.txt file.
+ */
+package org.apache.avalon.excalibur.io.test;
 
- ============================================================================
-                   The Apache Software License, Version 1.1
- ============================================================================
- 
- Copyright (C) 1999-2003 The Apache Software Foundation. All rights reserved.
- 
- Redistribution and use in source and binary forms, with or without modifica-
- tion, are permitted provided that the following conditions are met:
- 
- 1. Redistributions of  source code must  retain the above copyright  notice,
-    this list of conditions and the following disclaimer.
- 
- 2. Redistributions in binary form must reproduce the above copyright notice,
-    this list of conditions and the following disclaimer in the documentation
-    and/or other materials provided with the distribution.
- 
- 3. The end-user documentation included with the redistribution, if any, must
-    include  the following  acknowledgment:  "This product includes  software
-    developed  by the  Apache Software Foundation  (http://www.apache.org/)."
-    Alternately, this  acknowledgment may  appear in the software itself,  if
-    and wherever such third-party acknowledgments normally appear.
- 
- 4. The names "Jakarta", "Avalon", "Excalibur" and "Apache Software Foundation"  
-    must not be used to endorse or promote products derived from this  software 
-    without  prior written permission. For written permission, please contact 
-    apache@apache.org.
- 
- 5. Products  derived from this software may not  be called "Apache", nor may
-    "Apache" appear  in their name,  without prior written permission  of the
-    Apache Software Foundation.
- 
- THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES,
- INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- FITNESS  FOR A PARTICULAR  PURPOSE ARE  DISCLAIMED.  IN NO  EVENT SHALL  THE
- APACHE SOFTWARE  FOUNDATION  OR ITS CONTRIBUTORS  BE LIABLE FOR  ANY DIRECT,
- INDIRECT, INCIDENTAL, SPECIAL,  EXEMPLARY, OR CONSEQUENTIAL  DAMAGES (INCLU-
- DING, BUT NOT LIMITED TO, PROCUREMENT  OF SUBSTITUTE GOODS OR SERVICES; LOSS
- OF USE, DATA, OR  PROFITS; OR BUSINESS  INTERRUPTION)  HOWEVER CAUSED AND ON
- ANY  THEORY OF LIABILITY,  WHETHER  IN CONTRACT,  STRICT LIABILITY,  OR TORT
- (INCLUDING  NEGLIGENCE OR  OTHERWISE) ARISING IN  ANY WAY OUT OF THE  USE OF
- THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- 
- This software  consists of voluntary contributions made  by many individuals
- on  behalf of the Apache Software  Foundation. For more  information on the 
- Apache Software Foundation, please see <http://www.apache.org/>.
- 
-*/
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
+import java.io.PrintWriter;
+import java.io.Writer;
+import java.util.Arrays;
+
+import junit.framework.AssertionFailedError;
+import junit.framework.TestCase;
+
+import org.apache.avalon.excalibur.io.FileUtil;
+import org.apache.avalon.excalibur.io.IOUtil;
+
+// Note: jdk1.2 dependency
+
+/**
+ * This is used to test IOUtil for correctness. The following checks are performed:
+ * <ul>
+ *   <li>The return must not be null, must be the same type and equals() to the method's second arg</li>
+ *   <li>All bytes must have been read from the source (available() == 0)</li>
+ *   <li>The source and destination content must be identical (byte-wise comparison check)</li>
+ *   <li>The output stream must not have been closed (a byte/char is written to test this, and
+ *   subsequent size checked)</li>
+ * </ul>
+ * Due to interdependencies in IOUtils and IOUtilsTestlet, one bug may cause
+ * multiple tests to fail.
+ *
+ * @author <a href="mailto:jefft@apache.org">Jeff Turner</a>
+ */
+public final class IOUtilTestCase
+    extends TestCase
+{
+    /*
+     * Note: this is not particularly beautiful code. A better way to check for
+     * flush and close status would be to implement "trojan horse" wrapper
+     * implementations of the various stream classes, which set a flag when
+     * relevant methods are called. (JT)
+     */
+
+    private final int FILE_SIZE = 1024 * 4 + 1;
+
+    private File m_testDirectory;
+    private File m_testFile;
+
+    public void setUp()
+    {
+        try
+        {
+            m_testDirectory = ( new File( "test/io/" ) ).getAbsoluteFile();
+            if( !m_testDirectory.exists() )
+            {
+                m_testDirectory.mkdirs();
+            }
+
+            m_testFile = new File( m_testDirectory, "file2-test.txt" );
+
+            createFile( m_testFile, FILE_SIZE );
+        }
+        catch( IOException ioe )
+        {
+            throw new RuntimeException( "Can't run this test because environment could not be built" );
+        }
+    }
+
+    public void tearDown()
+    {
+        try
+        {
+            FileUtil.deleteDirectory( "test" );
+        }
+        catch( IOException ioe )
+        {
+            // Ignore, because by this time, it is too late.
+        }
+    }
+
+    public IOUtilTestCase( String name )
+    {
+        super( name );
+    }
+
+    private void createFile( final File file, final long size )
+        throws IOException
+    {
+        final BufferedOutputStream output =
+            new BufferedOutputStream( new FileOutputStream( file ) );
+
+        for( int i = 0; i < size; i++ )
+        {
+            output.write( (byte)( i % 128 ) ); // nice varied byte pattern compatible with Readers and Writers
+        }
+
+        output.close();
+    }
+
+    /** Assert that the contents of two byte arrays are the same. */
+    private void assertEqualContent( final byte[] b0, final byte[] b1 )
+        throws IOException
+    {
+        assertTrue( "Content not equal according to java.util.Arrays#equals()", Arrays.equals( b0, b1 ) );
+    }
+
+    /** Assert that the content of two files is the same. */
+    private void assertEqualContent( final File f0, final File f1 )
+        throws IOException
+    {
+        final FileInputStream is0 = new FileInputStream( f0 );
+        final FileInputStream is1 = new FileInputStream( f1 );
+        final byte[] buf0 = new byte[ FILE_SIZE ];
+        final byte[] buf1 = new byte[ FILE_SIZE ];
+        int n0 = 0;
+        int n1 = 0;
+
+        while( -1 != n0 )
+        {
+            n0 = is0.read( buf0 );
+            n1 = is1.read( buf1 );
+            assertTrue( "The files " + f0 + " and " + f1 +
+                        " have differing number of bytes available (" + n0 +
+                        " vs " + n1 + ")", ( n0 == n1 ) );
+
+            assertTrue( "The files " + f0 + " and " + f1 +
+                        " have different content", Arrays.equals( buf0, buf1 ) );
+        }
+    }
+
+    /** Assert that the content of a file is equal to that in a byte[]. */
     private void assertEqualContent( final byte[] b0, final File file )
         throws IOException
     {
