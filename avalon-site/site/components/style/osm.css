@@ -1,0 +1,35 @@
+
+#osm-banner {
+ top:0px; left:0px; 
+ height:100px;
+ background: lightsteelblue;
+}
+
+#osm-seperator {
+ top:100px; left:0px;
+ height:30px;
+ background-repeat: repeat;
+ background-image: url( ../images/osm-bkg.gif );
+}
+
+.osm-body { 
+ margin-left: 0px;
+ margin-right: 0px;
+ color: black; 
+ font-family: Verdana, Arial, Lucida console, sans-serif, Monospace;
+}
+
+.osm-title { 
+ font-size: 14pt; color: black;  
+ margin-right: 20px; margin-left: 20px; margin-top: 30px; margin-bottom: 5px;
+ text-align: right;
+ font-family: Verdana, Arial, Lucida console, sans-serif, Monospace;
+}
+
+.osm-subtitle { 
+ font-size: 10pt; color: black;  
+ margin-right: 20px; margin-left: 20px; margin-top: 5px; 
+ text-align: right;
+ font-family: Verdana, Arial, Lucida console, sans-serif, Monospace;
+}
+
