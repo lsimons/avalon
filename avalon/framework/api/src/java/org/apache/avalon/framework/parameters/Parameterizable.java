@@ -78,7 +78,7 @@ public interface Parameterizable
     /**
      * Provide component with parameters.
      *
-     * @param parameters the parameters
+     * @param parameters the parameters. Must not be <code>null</code>.
      * @throws ParameterException if parameters are invalid
      */
     void parameterize( Parameters parameters )

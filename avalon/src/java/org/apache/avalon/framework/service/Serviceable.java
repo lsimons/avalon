@@ -81,7 +81,7 @@ public interface Serviceable
      * execution.
      *
      * @param manager The <code>ServiceManager</code> which this
-     *                <code>Serviceable</code> uses.
+     *                <code>Serviceable</code> uses. Must not be <code>null</code>.
      * @throws ServiceException if an error occurs
      */
     void service( ServiceManager manager )

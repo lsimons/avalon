@@ -85,7 +85,7 @@ public interface Composable
      * execution.
      *
      * @param componentManager The <code>ComponentManager</code> which this
-     *                <code>Composable</code> uses.
+     *                <code>Composable</code> uses. Must not be <code>null</code>.
      * @throws ComponentException if an error occurs
      */
     void compose( ComponentManager componentManager )

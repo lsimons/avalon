@@ -68,7 +68,7 @@ public interface Contextualizable
      * This method is called after the Loggable.setLogger() (if present)
      * method and before any other method.
      *
-     * @param context the context
+     * @param context the context. Must not be <code>null</code>.
      * @throws ContextException if context is invalid
      */
     void contextualize( Context context )
