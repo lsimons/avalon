@@ -68,6 +68,7 @@ import org.apache.avalon.phoenix.framework.info.EntryDescriptor;
 import org.apache.avalon.phoenix.framework.info.LoggerDescriptor;
 import org.apache.avalon.phoenix.framework.info.SchemaDescriptor;
 import org.apache.avalon.phoenix.framework.info.ServiceDescriptor;
+import org.apache.avalon.phoenix.tools.configuration.ConfigurationBuilder;
 import org.xml.sax.InputSource;
 
 /**
@@ -76,7 +77,7 @@ import org.xml.sax.InputSource;
  * is specified in the <a href="package-summary.html#external">package summary</a>.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003/03/22 12:07:13 $
+ * @version $Revision: 1.5 $ $Date: 2003/04/05 04:21:47 $
  */
 public final class XMLInfoReader
     extends AbstractLogEnabled
@@ -99,7 +100,7 @@ public final class XMLInfoReader
         throws Exception
     {
         final InputSource input = new InputSource( inputStream );
-        final Configuration configuration = ConfigurationBuilder.build( input );
+        final Configuration configuration = ConfigurationBuilder.build( input, false );
         return buildComponentInfo( implementationKey, configuration );
     }
 
