@@ -142,7 +142,7 @@
     </target>
 
     <!-- Loader -->
-    <target name="prj-loader">
+    <target name="prj-loader" depends="prj-extension, prj-i18n">
         <ant dir="loader" target="${subproject-target}"/>
     </target>
 
