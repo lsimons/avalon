@@ -14,7 +14,6 @@
         <pathelement location="${commons-collections.jar}"/>
         <pathelement location="${build.classes}"/>
         <pathelement location="${util.concurrent.jar}"/>
-        <pathelement location="${excalibur-thread.jar}"/>
         <pathelement location="${excalibur-scratchpad.jar}"/>
         <pathelement location="${avalon-framework.jar}"/>
         <pathelement location="${checkstyle.jar}"/>
@@ -45,7 +44,6 @@
     <target name="dependencies" description="Check dependencies" unless="skip.dependencies">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkCommon"/>
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkFramework"/>
-        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkThread"/>
     </target>
 
     <target name="dependencies-test" depends="dist-jar, dependencies"

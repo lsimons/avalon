@@ -226,6 +226,7 @@ public abstract class AbstractThreadManager extends AbstractLogEnabled
      */
     public void dispose()
     {
+        m_done = true;
         deregisterAll();
 
         doDispose();
@@ -260,13 +261,16 @@ public abstract class AbstractThreadManager extends AbstractLogEnabled
                 }
             }
 
-            try
+            if ( !m_done )
             {
-                Thread.sleep( m_sleepTime );
-            }
-            catch( InterruptedException e )
-            {
-                Thread.interrupted();
+                try
+                {
+                    Thread.sleep( m_sleepTime );
+                }
+                catch( InterruptedException e )
+                {
+                    Thread.interrupted();
+                }
             }
         }
     }
@@ -306,7 +310,7 @@ public abstract class AbstractThreadManager extends AbstractLogEnabled
                 {
                     handler.handleEvents( sources[i].dequeueAll() );
                 }
-                catch( RuntimeException e )
+                catch( Exception e )
                 {
                     // We want to catch this, because this is the only
                     // place where exceptions happening in this thread

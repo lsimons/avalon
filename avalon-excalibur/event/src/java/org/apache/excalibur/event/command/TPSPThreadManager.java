@@ -49,9 +49,9 @@
 */
 package org.apache.excalibur.event.command;
 
-import java.util.HashMap;
 import java.util.Iterator;
-import EDU.oswego.cs.dl.util.concurrent.ReentrantLock;
+import EDU.oswego.cs.dl.util.concurrent.PooledExecutor;
+import org.apache.commons.collections.StaticBucketMap;
 import org.apache.excalibur.event.EventHandler;
 import org.apache.excalibur.event.Source;
 import org.apache.excalibur.thread.ThreadControl;
@@ -68,11 +68,10 @@ import org.apache.excalibur.thread.ThreadPool;
 public final class TPSPThreadManager implements Runnable, ThreadManager
 {
     private final ThreadPool m_threadPool;
-    private final ReentrantLock m_mutex = new ReentrantLock();
-    private final HashMap m_pipelines = new HashMap();
-    private ThreadControl m_threadControl;
-    private boolean m_done = false;
+    private final StaticBucketMap m_pipelines = new StaticBucketMap();
+    private volatile boolean m_done = false;
     private final long m_sleepTime;
+    private int m_threadsPerPool = 2;
 
     /**
      * The default constructor assumes there is a system property named "os.arch.cpus"
@@ -84,47 +83,28 @@ public final class TPSPThreadManager implements Runnable, ThreadManager
     public TPSPThreadManager()
         throws Exception
     {
-        this( 1, 1, 1000 );
+        this( 2, 1000 );
     }
 
     /**
      * Constructor provides a specified number of threads per processor.  If
      * either value is less then one, then the value is rewritten as one.
      *
-     * @param numProcessors        The number of processors in the machine
-     * @param threadsPerProcessor  The number of threads to allocate for each processor
+     * @param maxThreadPerPool     The number of processors in the machine
      * @param sleepTime            The number of milliseconds to wait between cycles
      *
      * @throws Exception when there is a problem creating the ThreadManager
      */
-    public TPSPThreadManager( int numProcessors, int threadsPerProcessor, long sleepTime )
+    public TPSPThreadManager( int maxThreadPerPool, long sleepTime )
         throws Exception
     {
-        this( numProcessors, threadsPerProcessor, sleepTime, 1000L );
-    }
-
-    /**
-     * Constructor provides a specified number of threads per processor.  If
-     * either value is less then one, then the value is rewritten as one.
-     *
-     * @param numProcessors        The number of processors in the machine
-     * @param threadsPerProcessor  The number of threads to allocate for each processor
-     * @param sleepTime            The number of milliseconds to wait between cycles
-     * @param timeOut              The number of milliseconds to use as a "timeout" parameter
-     *
-     * @throws Exception when there is a problem creating the ThreadManager
-     */
-    public TPSPThreadManager( int numProcessors, int threadsPerProcessor, long sleepTime, long timeOut )
-        throws Exception
-    {
-        int processors = Math.max( numProcessors, 1 );
-        int threads = Math.max( threadsPerProcessor, 1 );
-
-        m_threadPool = new EventThreadPool( "TPCThreadManager",
-                                            ( processors * threads ) + 1, (int)timeOut );
+        m_threadsPerPool = maxThreadPerPool;
 
         m_sleepTime = sleepTime;
-        m_threadControl = m_threadPool.execute( this );
+
+        Thread runner = new Thread(this);
+        runner.setDaemon(true);
+        runner.start();
     }
 
     /**
@@ -134,24 +114,13 @@ public final class TPSPThreadManager implements Runnable, ThreadManager
      */
     public void register( EventPipeline pipeline )
     {
-        try
-        {
-            m_mutex.acquire();
+        m_pipelines.put( pipeline, new PipelineRunner( pipeline ) );
 
-            m_pipelines.put( pipeline, new PipelineRunner( pipeline ) );
-
-            if( m_done )
-            {
-                m_threadControl = m_threadPool.execute( this );
-            }
-        }
-        catch( InterruptedException ie )
+        if( m_done )
         {
-            // ignore for now
-        }
-        finally
-        {
-            m_mutex.release();
+            Thread runner = new Thread(this);
+            runner.setDaemon(true);
+            runner.start();
         }
     }
 
@@ -162,25 +131,11 @@ public final class TPSPThreadManager implements Runnable, ThreadManager
      */
     public void deregister( EventPipeline pipeline )
     {
-        try
-        {
-            m_mutex.acquire();
+        m_pipelines.remove( pipeline );
 
-            m_pipelines.remove( pipeline );
-
-            if( m_pipelines.isEmpty() )
-            {
-                m_done = true;
-                m_threadControl.join( 1000 );
-            }
-        }
-        catch( InterruptedException ie )
+        if( m_pipelines.isEmpty() )
         {
-            // ignore for now
-        }
-        finally
-        {
-            m_mutex.release();
+            m_done = true;
         }
     }
 
@@ -189,23 +144,8 @@ public final class TPSPThreadManager implements Runnable, ThreadManager
      */
     public void deregisterAll()
     {
-        try
-        {
-            m_mutex.acquire();
-
-            m_done = true;
-            m_pipelines.clear();
-
-            m_threadControl.join( 1000 );
-        }
-        catch( InterruptedException ie )
-        {
-            // ignore for now
-        }
-        finally
-        {
-            m_mutex.release();
-        }
+        m_done = true;
+        m_pipelines.clear();
     }
 
     public void run()
@@ -214,31 +154,30 @@ public final class TPSPThreadManager implements Runnable, ThreadManager
         {
             try
             {
-                m_mutex.acquire();
-
                 Iterator i = m_pipelines.values().iterator();
 
                 while( i.hasNext() )
                 {
-                    m_threadPool.execute( (PipelineRunner)i.next() );
+                    Thread runner = new Thread( (PipelineRunner)i.next() );
+                    runner.setDaemon(true);
+                    runner.start();
                 }
             }
             catch( InterruptedException ie )
             {
                 // ignore for now
             }
-            finally
-            {
-                m_mutex.release();
-            }
 
-            try
+            if (! m_done)
             {
-                Thread.sleep( m_sleepTime );
-            }
-            catch( InterruptedException ie )
-            {
-                // ignore and continue processing
+                try
+                {
+                    Thread.sleep( m_sleepTime );
+                }
+                catch( InterruptedException ie )
+                {
+                    // ignore and continue processing
+                }
             }
         }
     }
