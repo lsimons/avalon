@@ -14,7 +14,6 @@ import org.apache.avalon.framework.CascadingException;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.activity.Startable;
-import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.component.Composable;
 import org.apache.avalon.framework.component.DefaultComponentManager;
@@ -24,9 +23,9 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.LogEnabled;
+import org.apache.avalon.framework.logger.LogKitLogger;
 import org.apache.avalon.framework.logger.Loggable;
 import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.framework.logger.LogKitLogger;
 import org.apache.avalon.phoenix.Block;
 import org.apache.avalon.phoenix.BlockContext;
 import org.apache.avalon.phoenix.BlockEvent;
@@ -52,29 +51,29 @@ class LifecycleHelper
         ResourceManager.getPackageResources( LifecycleHelper.class );
 
     //Constants to designate stages
-    private final static int STAGE_CREATE   = 0;
-    private final static int STAGE_LOGGER   = 1;
-    private final static int STAGE_CONTEXT  = 2;
-    private final static int STAGE_COMPOSE  = 3;
-    private final static int STAGE_CONFIG   = 4;
-    private final static int STAGE_INIT     = 5;
-    private final static int STAGE_START    = 6;
-    private final static int STAGE_STOP     = 7;
-    private final static int STAGE_DISPOSE  = 8;
-    private final static int STAGE_DESTROY  = 9;
+    private final static int STAGE_CREATE = 0;
+    private final static int STAGE_LOGGER = 1;
+    private final static int STAGE_CONTEXT = 2;
+    private final static int STAGE_COMPOSE = 3;
+    private final static int STAGE_CONFIG = 4;
+    private final static int STAGE_INIT = 5;
+    private final static int STAGE_START = 6;
+    private final static int STAGE_STOP = 7;
+    private final static int STAGE_DISPOSE = 8;
+    private final static int STAGE_DESTROY = 9;
 
     //Constants to designate type of component
-    private final static int TYPE_BLOCK     = 0;
-    private final static int TYPE_LISTENER  = 1;
+    private final static int TYPE_BLOCK = 0;
+    private final static int TYPE_LISTENER = 1;
 
     ///Frame in which block executes
-    private ApplicationContext   m_context;
+    private ApplicationContext m_context;
 
     /**
      * The Application which this phase is associated with.
      * Required to build a ComponentManager.
      */
-    private Application          m_application;
+    private Application m_application;
 
     /**
      * Object to support notification of BlockListeners.
@@ -116,7 +115,7 @@ class LifecycleHelper
         if( listener instanceof Configurable )
         {
             final Configuration configuration = getConfiguration( name, TYPE_LISTENER );
-            ((Configurable)listener).configure( configuration );
+            ( (Configurable)listener ).configure( configuration );
         }
 
         m_listenerSupport.addBlockListener( listener );
@@ -156,13 +155,13 @@ class LifecycleHelper
             if( block instanceof Loggable )
             {
                 notice( name, stage );
-                ((Loggable)block).setLogger( m_context.getLogger( name ) );
+                ( (Loggable)block ).setLogger( m_context.getLogger( name ) );
             }
             else if( block instanceof LogEnabled )
             {
                 notice( name, stage );
                 final Logger logger = new LogKitLogger( m_context.getLogger( name ) );
-                ((LogEnabled)block).enableLogging( logger );
+                ( (LogEnabled)block ).enableLogging( logger );
             }
 
             //Contextualize stage
@@ -171,7 +170,7 @@ class LifecycleHelper
             {
                 notice( name, stage );
                 final BlockContext context = createBlockContext( name );
-                ((Contextualizable)block).contextualize( context );
+                ( (Contextualizable)block ).contextualize( context );
             }
 
             //Composition stage
@@ -180,7 +179,7 @@ class LifecycleHelper
             {
                 notice( name, stage );
                 final ComponentManager componentManager = createComponentManager( metaData );
-                ((Composable)block).compose( componentManager );
+                ( (Composable)block ).compose( componentManager );
             }
 
             //Configuring stage
@@ -189,7 +188,7 @@ class LifecycleHelper
             {
                 notice( name, stage );
                 final Configuration configuration = getConfiguration( name, TYPE_BLOCK );
-                ((Configurable)block).configure( configuration );
+                ( (Configurable)block ).configure( configuration );
             }
 
             //Initialize stage
@@ -197,7 +196,7 @@ class LifecycleHelper
             if( block instanceof Initializable )
             {
                 notice( name, stage );
-                ((Initializable)block).initialize();
+                ( (Initializable)block ).initialize();
             }
 
             //Start stage
@@ -205,7 +204,7 @@ class LifecycleHelper
             if( block instanceof Startable )
             {
                 notice( name, stage );
-                ((Startable)block).start();
+                ( (Startable)block ).start();
             }
 
             entry.setState( State.STARTED );
@@ -254,7 +253,7 @@ class LifecycleHelper
             try
             {
                 entry.setState( State.STOPPING );
-                ((Startable)block).stop();
+                ( (Startable)block ).stop();
                 entry.setState( State.STOPPED );
             }
             catch( final Throwable t )
@@ -271,7 +270,7 @@ class LifecycleHelper
             try
             {
                 entry.setState( State.DESTROYING );
-                ((Disposable)block).dispose();
+                ( (Disposable)block ).dispose();
             }
             catch( final Throwable t )
             {

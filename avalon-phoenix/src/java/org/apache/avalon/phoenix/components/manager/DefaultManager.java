@@ -7,12 +7,12 @@
  */
 package org.apache.avalon.phoenix.components.manager;
 
+import com.sun.jdmk.comm.HtmlAdaptorServer;
 import java.rmi.Remote;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.RemoteObject;
 import java.rmi.server.UnicastRemoteObject;
-import javax.management.DynamicMBean;
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
@@ -23,6 +23,8 @@ import org.apache.avalon.framework.component.Composable;
 import org.apache.avalon.framework.parameters.ParameterException;
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.avalon.phoenix.components.kernel.DefaultKernel;
+import org.apache.avalon.phoenix.components.kernel.DefaultKernelMBean;
 import org.apache.avalon.phoenix.interfaces.ClassLoaderManager;
 import org.apache.avalon.phoenix.interfaces.ConfigurationRepository;
 import org.apache.avalon.phoenix.interfaces.Deployer;
@@ -30,12 +32,8 @@ import org.apache.avalon.phoenix.interfaces.Embeddor;
 import org.apache.avalon.phoenix.interfaces.Kernel;
 import org.apache.avalon.phoenix.interfaces.LogManager;
 import org.apache.avalon.phoenix.interfaces.ManagerException;
-import org.apache.avalon.phoenix.interfaces.SystemManager;
-import org.apache.avalon.phoenix.components.kernel.DefaultKernel;
-import org.apache.avalon.phoenix.components.kernel.DefaultKernelMBean;
 import org.apache.jmx.adaptor.RMIAdaptorImpl;
 import org.apache.jmx.introspector.JavaBeanMBean;
-import com.sun.jdmk.comm.HtmlAdaptorServer;
 
 /**
  * This component is responsible for managing phoenix instance.
@@ -54,23 +52,23 @@ public class DefaultManager
     private static final int DEFAULT_REGISTRY_PORT =
         Integer.getInteger( "phoenix.port", 1111 ).intValue();
 
-    private Parameters      m_parameters;
-    private MBeanServer     m_mBeanServer;
-    private RMIAdaptorImpl  m_rmiAdaptor;
-    private Registry        m_rmiRegistry;
+    private Parameters m_parameters;
+    private MBeanServer m_mBeanServer;
+    private RMIAdaptorImpl m_rmiAdaptor;
+    private Registry m_rmiRegistry;
 
     ///Name Adaptor registered with
-    private String          m_name;
+    private String m_name;
 
     ///Name Adaptor registered with
-    private String          m_domain = "Phoenix";
+    private String m_domain = "Phoenix";
 
-    private Embeddor                 m_embeddor;
-    private Deployer                 m_deployer;
-    private LogManager               m_logManager;
-    private Kernel                   m_kernel;
-    private ConfigurationRepository  m_repository;
-    private ClassLoaderManager       m_classLoaderManager;
+    private Embeddor m_embeddor;
+    private Deployer m_deployer;
+    private LogManager m_logManager;
+    private Kernel m_kernel;
+    private ConfigurationRepository m_repository;
+    private ClassLoaderManager m_classLoaderManager;
 
     public void parameterize( final Parameters parameters )
         throws ParameterException
@@ -101,7 +99,7 @@ public class DefaultManager
         m_mBeanServer = createMBeanServer();
         m_rmiAdaptor = new RMIAdaptorImpl( m_mBeanServer );
 
-        try 
+        try
         {
             final HtmlAdaptorServer html = new HtmlAdaptorServer();
             final ObjectName name = new ObjectName( "Adaptor:name=html,port=8082" );
@@ -109,17 +107,17 @@ public class DefaultManager
             m_mBeanServer.registerMBean( html, name );
             html.start();
         }
-        catch( final Exception e ) 
+        catch( final Exception e )
         {
-            System.out.println("Could not create the HTML adaptor!!!");
+            System.out.println( "Could not create the HTML adaptor!!!" );
             e.printStackTrace();
             throw e;
         }
 
         //TODO: SystemManager itself aswell???
         register( "Kernel", m_kernel );
-        register( "Embeddor", m_embeddor, new Class[] { Embeddor.class } );
-        register( "Deployer", m_deployer, new Class[] { Deployer.class } );
+        register( "Embeddor", m_embeddor, new Class[]{ Embeddor.class } );
+        register( "Deployer", m_deployer, new Class[]{ Deployer.class } );
         register( "LogManager", m_logManager );
         register( "ConfigurationRepository", m_repository );
         register( "ClassLoaderManager", m_classLoaderManager );
@@ -186,7 +184,7 @@ public class DefaultManager
                 mBean = createMBean( object );
             }
 
-            final ObjectName objectName = 
+            final ObjectName objectName =
                 new ObjectName( m_domain + ":type=" + name );
             m_mBeanServer.registerMBean( mBean, objectName );
             return mBean;

@@ -28,7 +28,7 @@ import org.apache.log.Priority;
 import org.apache.log.output.io.FileTarget;
 
 /**
- * A <code>LogKitManager</code> that supports the old &lt;logs version="1.0"/&gt; 
+ * A <code>LogKitManager</code> that supports the old &lt;logs version="1.0"/&gt;
  * style logging configuration.
  *
  * @author <a href="mailto:colus@isoft.co.kr">Eung-ju Park</a>
@@ -41,17 +41,17 @@ public class SimpleLogKitManager
     private static final Resources REZ =
         ResourceManager.getPackageResources( SimpleLogKitManager.class );
 
-    private final static String  DEFAULT_FORMAT =
+    private final static String DEFAULT_FORMAT =
         "%{time} [%7.7{priority}] (%{category}): %{message}\\n%{throwable}";
 
     //Base name of logger categories
-    private String       m_name;
+    private String m_name;
 
     ///Base directory of applications working directory
-    private File         m_baseDirectory;
+    private File m_baseDirectory;
 
     ///Hierarchy of Application logging
-    private Hierarchy    m_logHierarchy    = new Hierarchy();
+    private Hierarchy m_logHierarchy = new Hierarchy();
 
     public void contextualize( final Context context )
         throws ContextException
@@ -72,7 +72,7 @@ public class SimpleLogKitManager
     public Hierarchy getHierarchy()
     {
         return m_logHierarchy;
-    } 
+    }
 
     /**
      * Configure a set of logtargets based on config data.
@@ -111,7 +111,7 @@ public class SimpleLogKitManager
             }
             catch( final IOException ioe )
             {
-                final String message = 
+                final String message =
                     REZ.getString( "target.nocreate", name, file, ioe.getMessage() );
                 throw new ConfigurationException( message, ioe );
             }
@@ -165,7 +165,7 @@ public class SimpleLogKitManager
             else
             {
                 logger.setPriority( priority );
-                logger.setLogTargets( new LogTarget[] { logTarget } );
+                logger.setLogTargets( new LogTarget[]{ logTarget } );
             }
         }
     }

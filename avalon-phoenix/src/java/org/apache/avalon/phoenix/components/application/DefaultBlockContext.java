@@ -11,15 +11,13 @@ import java.io.File;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.excalibur.thread.ThreadPool;
-import org.apache.avalon.framework.CascadingRuntimeException;
-import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.logger.LogEnabled;
-import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.logger.LogKitLogger;
+import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.phoenix.BlockContext;
-import org.apache.avalon.phoenix.metadata.SarMetaData;
 import org.apache.avalon.phoenix.interfaces.ApplicationContext;
+import org.apache.avalon.phoenix.metadata.SarMetaData;
 
 /**
  * Context via which Blocks communicate with container.
@@ -32,10 +30,10 @@ final class DefaultBlockContext
     private static final Resources REZ =
         ResourceManager.getPackageResources( DefaultBlockContext.class );
 
-    private String              m_name;
-    private ApplicationContext  m_frame;
-    private Logger              m_logger;
-    private boolean             m_warningEmitted;
+    private String m_name;
+    private ApplicationContext m_frame;
+    private Logger m_logger;
+    private boolean m_warningEmitted;
 
     protected DefaultBlockContext( final String name, final ApplicationContext frame )
     {
@@ -52,9 +50,12 @@ final class DefaultBlockContext
         throws ContextException
     {
         final SarMetaData metaData = m_frame.getMetaData();
-        if( BlockContext.APP_NAME.equals( key ) ) return metaData.getName();
-        else if( BlockContext.APP_HOME_DIR.equals( key ) ) return metaData.getHomeDirectory();
-        else if( BlockContext.NAME.equals( key ) ) return m_name;
+        if( BlockContext.APP_NAME.equals( key ) )
+            return metaData.getName();
+        else if( BlockContext.APP_HOME_DIR.equals( key ) )
+            return metaData.getHomeDirectory();
+        else if( BlockContext.NAME.equals( key ) )
+            return m_name;
         else
         {
             throw new ContextException( "Unknown key: " + key );

@@ -41,13 +41,13 @@ class DefaultApplicationContext
         ResourceManager.getPackageResources( DefaultApplicationContext.class );
 
     ///Map of thread pools for application
-    private HashMap      m_threadPools     = new HashMap();
+    private HashMap m_threadPools = new HashMap();
 
     //LogKitManager for application
-    private Hierarchy    m_hierarchy;
+    private Hierarchy m_hierarchy;
 
     ///ClassLoader for application
-    private ClassLoader  m_classLoader;
+    private ClassLoader m_classLoader;
 
     ///ThreadContext for application
     private ThreadContext m_threadContext;

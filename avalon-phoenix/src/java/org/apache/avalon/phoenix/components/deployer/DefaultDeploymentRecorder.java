@@ -14,17 +14,17 @@ import org.apache.avalon.phoenix.interfaces.DeploymentRecorder;
 import org.apache.avalon.phoenix.tools.installer.Installation;
 
 /**
- * Recorder for application deployment specific information. 
+ * Recorder for application deployment specific information.
  *
  * @author <a href="mailto:mirceatoma@home.com">Mircea Toma</a>
  */
-public class DefaultDeploymentRecorder 
-    extends AbstractLogEnabled 
+public class DefaultDeploymentRecorder
+    extends AbstractLogEnabled
     implements DeploymentRecorder
 {
     private final HashMap m_installations = new HashMap();
 
-    public synchronized void recordInstallation( final String name, final Installation installation ) 
+    public synchronized void recordInstallation( final String name, final Installation installation )
         throws DeploymentException
     {
         if( null == installation )

@@ -20,10 +20,10 @@ import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
  */
 public class BlockEntry
 {
-    private BlockMetaData           m_blockMetaData;
-    private BlockInvocationHandler  m_invocationHandler;
-    private Block                   m_block;
-    private State                   m_state;
+    private BlockMetaData m_blockMetaData;
+    private BlockInvocationHandler m_invocationHandler;
+    private Block m_block;
+    private State m_state;
 
     public BlockEntry( final BlockMetaData blockMetaData )
     {
@@ -35,7 +35,6 @@ public class BlockEntry
     {
         return m_blockMetaData;
     }
-
 
     public synchronized State getState()
     {
@@ -103,7 +102,9 @@ public class BlockEntry
             {
                 classes[ i ] = classLoader.loadClass( services[ i ].getName() );
             }
-            catch( final Throwable throwable ) {}
+            catch( final Throwable throwable )
+            {
+            }
         }
 
         classes[ services.length ] = Block.class;
