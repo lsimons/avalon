@@ -12,22 +12,49 @@
         <!-- friendly error in case file is not available -->
         <ant:available file="${avalon.buildsystem}/maven-common.xml"
                 property="buildsystem.available"/>
-        <j:set var="avalon.buildsystem.available" value="${buildsystem.available}"/>
-        <j:if test="${empty(avalon.buildsystem.available)}">
-            <ant:fail>
-            ===================================================================
-            BUILD SYSTEM FAILURE!
-            ===================================================================
+        <ant:available classname="javax.mail.Message" property="javamail.present"/>
+        <ant:available classname="javax.jms.Message" property="jms.present"/>
+        <ant:fail unless="buildsystem.available">
+          ===================================================================
+          BUILD SYSTEM FAILURE!
+          ===================================================================
 
-            a required file, ${avalon.buildsystem}/maven-common.xml, cannot be
-            found. Try setting the avalon.buildsystem property in
-            project.properties to the correct location.
-            </ant:fail>
-        </j:if>
+          a required file, ${avalon.buildsystem}/maven-common.xml, cannot be
+          found. Try setting the avalon.buildsystem property in
+          project.properties to the correct location.
+        </ant:fail>
+        <ant:fail unless="javamail.present">
+          Avalon LogKit must have JavaMail in your repository.  You must
+          download it manually from the URL provided here:
+
+          http://java.sun.com/products/javamail/index.html
+
+          Place the jar in your repository in the subdirectory:
+
+          javamail/jars
+        </ant:fail>
+        <ant:fail unless="jms.present">
+          Avalon LogKit must have JavaMail in your repository.  You must
+          download it manually from the URL provided here:
+
+          http://java.sun.com/products/jms/docs.html
+
+          Place the jar in your repository in the subdirectory:
+
+          jms/jars
+        </ant:fail>
     </goal>
 
     <!-- include the avalon-wide custom goal decorators from maven-common.xml -->
     <j:import file="${avalon.buildsystem}/maven-common.xml" inherit="true"/>
+
+    <preGoal name="java:compile">
+        <ant:property name="java.src.dir" location="${maven.build.dir}/src"/>
+        <ant:copy todir="${java.src.dir}">
+            <ant:fileset dir="${basedir}/src/java"/>
+            <ant:fileset dir="${basedir}/src/compat"/>
+        </ant:copy>
+    </preGoal>
 
     <postGoal name="avalon:deploy-upload">
         <!-- upload big jar -->

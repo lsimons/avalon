@@ -14,19 +14,30 @@ Avalon LogKit is the logging utility used by default in all Avalon systems.
     </description>
 
     <dependencies>
-        <dependency>
-            <id>avalon-framework</id>
-            <version>4.1.4</version>
-            <groupId>framework</groupId>
-        </dependency>
-        <dependency>
-            <id>log4j</id>
-            <version>1.2.8</version>
-        </dependency>
-        <dependency>
-            <id>commons-logging</id>
-            <version>1.0.2</version>
-        </dependency>
+      <dependency>
+        <id>avalon-framework</id>
+        <version>4.1.4</version>
+        <groupId>framework</groupId>
+      </dependency>
+      <dependency>
+        <id>log4j</id>
+        <version>1.2.8</version>
+      </dependency>
+      <dependency>
+        <id>commons-logging</id>
+        <version>1.0.2</version>
+      </dependency>
+      <dependency>
+        <id>servletapi</id>
+        <version>2.3</version>
+      </dependency>
+      <dependency>
+        <id>javamail</id>
+        <version>1.2</version>
+      </dependency>
+      <dependency>
+        <id>jms</id>
+        <version>1.1</version>
+      </dependency>
     </dependencies>
-
 </project>
