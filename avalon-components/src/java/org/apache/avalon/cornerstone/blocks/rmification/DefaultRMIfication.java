@@ -30,7 +30,7 @@ import org.apache.avalon.cornerstone.services.rmification.RMIfication;
  * Default implementation of <code>RMIfication</code>.
  *
  * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class DefaultRMIfication
     extends AbstractLogEnabled
@@ -43,7 +43,7 @@ public class DefaultRMIfication
     public void configure( final Configuration configuration )
         throws ConfigurationException
     {
-        m_port = configuration.getChild( "port" ).getValueAsInteger();
+        m_port = configuration.getChild( "port", true ).getValueAsInteger( Registry.REGISTRY_PORT );
     }
 
     public void initialize()
