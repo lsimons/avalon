@@ -24,7 +24,7 @@
     <ant:izpack input="${maven.build.dir}/temp-installer.xml"
             output="${maven.build.dir}/merlin-inst-${pom.currentVersion}.jar"
             installerType="standard"
-            basedir="${basedir}/../../"
+            basedir="${basedir}/../../target/merlin/"
             izPackDir="${izPackHome}"
     />
 
