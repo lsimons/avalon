@@ -60,7 +60,7 @@ import org.apache.avalon.framework.service.ServiceManager;
  * adding configuration markup semantics to the {@link AbstractContainer}.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.9 $ $Date: 2003/03/22 12:46:33 $
+ * @version CVS $Revision: 1.10 $ $Date: 2003/04/07 20:19:08 $
  */
 public class DefaultContainer
     extends AbstractContainer
@@ -137,9 +137,11 @@ public class DefaultContainer
     private String getClassname( final Configuration config )
         throws ConfigurationException
     {
+        String className = null;
+        
         if( "component".equals( config.getName() ) )
         {
-            return config.getAttribute( "class" );
+            className = config.getAttribute( "class" );
         }
         else
         {
@@ -150,8 +152,16 @@ public class DefaultContainer
                     "[name: " + config.getName() + ", location: " + config.getLocation() + "]";
                 throw new ConfigurationException( message );
             }
-            return roleEntry.getComponentClass().getName();
+            
+            className = roleEntry.getComponentClass().getName();
         }
+        
+        if (getLogger().isDebugEnabled())
+        {
+            getLogger().debug("Configuration processed for: " + className);
+        }
+        
+        return className;
     }
 
     /**
