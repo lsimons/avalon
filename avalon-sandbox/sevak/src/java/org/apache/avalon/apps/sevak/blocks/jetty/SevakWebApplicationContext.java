@@ -40,8 +40,10 @@ public class SevakWebApplicationContext extends WebApplicationContext
         m_sarRoot = sarRoot;
         m_phoenixLib = new File(sarRoot.getParentFile().getParentFile(),"lib");
         m_serviceManager = serviceManager;
-    }
 
+        addHandler(0, new SevakWebApplicationHandler(m_serviceManager));
+
+    }
 
     /**
      * Make a classpath for Jasper to use during compilation. This is minimalist
@@ -55,29 +57,6 @@ public class SevakWebApplicationContext extends WebApplicationContext
         classpath += new File(m_sarRoot, "jsplibs" + File.separator + "javax.servlet.jar") + File.pathSeparator;
         classpath += new File(m_phoenixLib, "tools.jar");
         return classpath;
-    }
-
-    public synchronized ServletHandler getServletHandler() {
-//        super.getServletHandler();
-
-//        ServletHandler shandler = (ServletHandler)getHandler(org.mortbay.jetty.servlet.ServletHandler.class);
-//        if(shandler == null) {
-//            shandler = new SevakServletHandler(serviceManager);
-//            addHandler(shandler);
-//        }
-//        return shandler;
-
-        if(_webAppHandler == null) {
-            _webAppHandler = (WebApplicationHandler)getHandler(SevakWebApplicationHandler.class);
-            if(_webAppHandler == null) {
-                if(getHandler(org.mortbay.jetty.servlet.ServletHandler.class) != null)
-                    throw new IllegalStateException("Cannot have ServletHandler in WebApplicationContext");
-                _webAppHandler = new SevakWebApplicationHandler(m_serviceManager);
-                addHandler(_webAppHandler);
-            }
-        }
-        return _webAppHandler;
-
     }
 
 }
