@@ -67,11 +67,15 @@
       ignoreFailures="false" />
   </goal>
 
-
   <goal name="merlin:build" description="Build Merlin.">
     <maven:reactor basedir="${basedir}"
       includes="**/project.xml"
-      excludes="target/**,platform/**,kernel/plugin/**,project.xml,merlin-extensions/**"
+      excludes="target/**,platform/**,kernel/plugin/**,project.xml,merlin-extensions/**,kernel/cli/**,kernel/unit/**"
+      goals="jar:install"
+      banner="Installing:"
+      ignoreFailures="false" />
+    <maven:reactor basedir="${basedir}"
+      includes="kernel/unit/project.xml,kernel/cli/project.xml"
       goals="jar:install"
       banner="Installing:"
       ignoreFailures="false" />

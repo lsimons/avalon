@@ -92,7 +92,7 @@ import org.apache.commons.cli.Options;
  * Merlin command line handler.
  * 
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class Main 
 {
@@ -105,9 +105,6 @@ public class Main
 
     private static final File USER_HOME = 
       new File( System.getProperty( "user.home" ) );
-
-    private static final File USER_DIR = 
-      getBaseDirectory();
 
     private static final String MERLIN = "merlin.properties";
 
@@ -155,6 +152,12 @@ public class Main
            .withDescription( REZ.getString( "cli-home-description" ) )
            .create( "home" );
 
+        Option context = OptionBuilder
+           .hasArg()
+           .withArgName( REZ.getString( "directory" ) )
+           .withDescription( REZ.getString( "cli-context-description" ) )
+           .create( "context" );
+
         Option system = OptionBuilder
            .hasArg()
            .withArgName( REZ.getString( "directory" ) )
@@ -199,6 +202,7 @@ public class Main
         options.addOption( debug );
         options.addOption( install );
         options.addOption( home );
+        options.addOption( context );
         options.addOption( system );
         options.addOption( repository );
         options.addOption( library );
@@ -256,6 +260,7 @@ public class Main
         setDebugPolicy( criteria, line );
         setServerPolicy( criteria, line );
         setAnchorDirectory( criteria, line );
+        setContextDirectory( criteria, line );
         setRepositoryDirectory( criteria, line );
         setKernelURL( criteria, line );
         setOverridePath( criteria, line );
@@ -304,6 +309,15 @@ public class Main
         {
             String library = line.getOptionValue( "library" );
             criteria.put( "merlin.anchor", library );
+        }
+    }
+
+    private void setContextDirectory( Map criteria, CommandLine line )
+    {
+        if( line.hasOption( "context" ) )
+        {
+            String context = line.getOptionValue( "context" );
+            criteria.put( "merlin.context", context );
         }
     }
 
@@ -538,7 +552,9 @@ public class Main
         catch( Throwable e )
         {
             System.out.println( "\nImplementation: " 
-              + artifact.getGroup() + ":" + artifact.getName() + ";" + artifact.getVersion() );
+              + artifact.getGroup() 
+              + ":" + artifact.getName() 
+              + ";" + artifact.getVersion() );
         }
     }
 
