@@ -24,6 +24,7 @@ import org.apache.avalon.excalibur.io.ExtensionFileFilter;
 import org.apache.avalon.excalibur.io.FileUtil;
 import org.apache.avalon.excalibur.io.IOUtil;
 import org.apache.avalon.framework.logger.AbstractLoggable;
+import org.apache.avalon.phoenix.tools.protocols.sar.SarURLConnection;
 
 /**
  * An Installer is responsible for taking a URL for Sar
@@ -37,10 +38,12 @@ public class Installer
     private static final Resources REZ =
         ResourceManager.getPackageResources( Installer.class );
 
-    private static final String    ASSEMBLY_XML  = "conf" + File.separator + "assembly.xml";
-    private static final String    CONFIG_XML    = "conf" + File.separator + "config.xml";
-    private static final String    SERVER_XML    = "conf" + File.separator + "server.xml";
-
+    private static final String    ASSEMBLY_XML  = "conf/assembly.xml";
+    private static final String    CONFIG_XML    = "conf/config.xml";
+    private static final String    SERVER_XML    = "conf/server.xml";
+    private static final String    BLOCKS_DIR    = "blocks/";
+    private static final String    LIB_DIR       = "lib/";
+    
     /**
      * Install a Sar indicate by url to location.
      *
@@ -50,37 +53,62 @@ public class Installer
     public Installation install( final URL url )
         throws InstallationException
     {
-        final File file = getFileFor( url );
-        final String message = REZ.getString( "installing-sar", file );
-        getLogger().info( message );
-
-        //TODO: Create Lockfile here
-
-        URL[] classPath = null;
-        File baseDirectory = null;
-
-        if( file.isDirectory() )
+        try 
         {
-            baseDirectory = file;
-            classPath = getClassPathForDirectory( file );
-        }
-        else
-        {
-            baseDirectory = getDestinationFor( file );
-
-            final ArrayList codeBase = new ArrayList();
-            expand( file, baseDirectory, codeBase );
+            final String message = REZ.getString( "installing-sar", url);
+            getLogger().info( message );
             
-            classPath = (URL[])codeBase.toArray( new URL[ 0 ] );
+            final ArrayList classPath = new ArrayList();
+            URL installURL = null;
+            
+            // hack: should get the specified baseDirectory from Deployer
+            File baseDirectory = new File( System.getProperty("phoenix.home", "..") + 
+                                           File.separator + "apps" + 
+                                           File.separator + extractName( url ) );
+             
+            if ( !isContext( url ) )
+            {
+                installURL = new URL( "sar:" + url.toExternalForm() + "|/" );
+            }
+
+            final URL blocksURL = new URL( installURL, BLOCKS_DIR );
+            final String[] blockNames = list( blocksURL );        
+            
+            for (int i = 0; i < blockNames.length; i++ ) 
+            {
+                if ( blockNames[i].endsWith( ".bar" ) ) 
+                {
+                    classPath.add( new URL( blocksURL, blockNames[i] ) );
+                }
+            }
+
+            final URL librariesURL = new URL( installURL, LIB_DIR );
+            final String[] libraryNames = list( librariesURL );
+            
+            for (int i = 0; i < libraryNames.length; i++ ) 
+            {
+                if ( libraryNames[i].endsWith( ".zip" ) || libraryNames[i].endsWith( ".jar" ) ) 
+                {
+                    classPath.add( new URL( librariesURL, libraryNames[i] ) );
+                }
+            }
+
+            final URL config = new URL( installURL, CONFIG_XML );
+            final URL assembly = new URL( installURL, ASSEMBLY_XML );
+            final URL server = new URL( installURL, SERVER_XML );                
+            
+            return new Installation( baseDirectory, config, assembly, server, 
+                (URL[]) classPath.toArray( new URL[0] ) );
+        } 
+        catch ( MalformedURLException mue )
+        {
+            throw new InstallationException( mue.getMessage(), mue );
+        } 
+        catch ( IOException ioe )
+        {            
+            final String msg = REZ.getString( "install-nourl", url );
+            throw new InstallationException( msg, ioe );
         }
-
-        final URL config = getURL( new File( baseDirectory, CONFIG_XML ) );
-        final URL assembly = getURL( new File( baseDirectory, ASSEMBLY_XML ) );
-        final URL server = getURL( new File( baseDirectory, SERVER_XML ) );
-
-        //TODO: Release Lockfile here
-
-        return new Installation( baseDirectory, config, assembly, server, classPath );
     }
 
     public void uninstall( final Installation installation )
@@ -90,142 +118,66 @@ public class Installer
         getLogger().error( message );
         //throw new InstallationException( message );
     }
-
-    /**
-     * Get File object for URL.
-     * Currently it assumes that URL is a file URL but in the
-     * future it will allow downloading of remote URLs thus enabling
-     * a deploy from anywhere functionality.
-     *
-     * @param url the url of deployment
-     * @return the File for deployment
-     * @exception DeploymentException if an error occurs
-     */
-    private File getFileFor( final URL url )
-        throws InstallationException
+    
+    public String extractName( final URL url )
     {
-        if( !url.getProtocol().equals( "file" ) )
-        {
-            final String message = REZ.getString( "install-nonlocal", url );
-            throw new InstallationException( message );
-        }
-
-        File file = new File( url.getFile() );
-        file = file.getAbsoluteFile();
-
-        if( !file.exists() )
-        {
-            final String message = REZ.getString( "install-nofile", file );
-            throw new InstallationException( message );
-        }
-
-        return file;
+        final String filename = url.getFile();        
+        int first = filename.lastIndexOf( '/' );        
+        int last = filename.lastIndexOf( '.' );
+        if ( -1 == last ) last = filename.length();
+        
+        return filename.substring( first + 1, last );        
     }
 
-    /**
-     * Expand matching files from a zip file to directory.
-     *
-     * @param file the zip file
-     * @param directory the directory to expand to
-     * @param filter the filter used to match files
-     * @exception IOException if an error occurs
-     */
-    private void expand( final File file, final File directory, final ArrayList codeBase )
-        throws InstallationException
+    private String[] list( final URL url ) 
+        throws MalformedURLException, IOException
     {
-        try
+        String[] names = new String[0];
+        
+        if ( "sar".equals( url.getProtocol() ) ) 
+        {            
+            final SarURLConnection connection = 
+                (SarURLConnection) url.openConnection();
+            names = connection.list();            
+        }
+        
+        if ( "file".equals( url.getProtocol() ) ) 
         {
-            final String message = REZ.getString( "expanding-sar", file, directory );
-            getLogger().info( message );
-
-            //final String url = file.toURL().toString();
-            final String directoryUrl = directory.toURL().toString();
-            final ZipFile zipFile = new ZipFile( file );
-
-            directory.mkdirs();
-            
-            final Enumeration entries = zipFile.entries();
-            while( entries.hasMoreElements() )
+            final File directory = new File( url.getFile() );
+            names = directory.list();
+        }
+        
+        return names;
+    }
+    
+    private boolean isContext( final URL url ) throws InstallationException
+    {
+        boolean isContext = false;
+        
+        if( url.getFile().endsWith( "/" ) )
+        {
+            if ( "file".equals( url.getProtocol() ) ) 
             {
-                final ZipEntry entry = (ZipEntry)entries.nextElement();
-
-                String entryName = entry.getName();
-                if( entryName.startsWith( "/" ) )
-                {
-                    entryName = entryName.substring( 1 );
-                }
-                
-                if( entry.isDirectory() ||
-                    false == handleZipEntry( entryName, directoryUrl, codeBase ) )
-                {
-                    continue;
-                }
-
-                final String name = entryName.replace( '/', File.separatorChar );
-                //TODO: Do this before filter and use getParentFile(), getName()
-                final File destination = new File( directory, name );
-                if ( ! destination.exists() )
-                {
-                    expandZipEntry( zipFile, entry, destination );
-                }
+                isContext = true;
             }
-        }
-        catch( final IOException ioe )
-        {
-            final String message = REZ.getString( "error-expanding", file, directory );
-            throw new InstallationException( message, ioe );
-        }
+            else 
+            {
+                final String message = REZ.getString( "install-nonlocal", url );
+                throw new InstallationException( message );
+            }
+        }             
         
-        final String message = REZ.getString( "expanded-sar", file, directory );
-        getLogger().info( message );
+        return isContext;
     }
-
+    
     /**
-     * Handle an entry in zip.
-     * Zips/jars/bars extracted are added to codeBase list.
-     * In future these zipz/jars/bars will not be extracted but accessed from inside
-     * .sar.
+     * Download resource into specified location.
      *
-     * @param entryName the name of entry
-     * @param url the url string for deployment directory
-     * @param codeBase the list of codeBase entries
-     * @return true if entry should be extracted, false otherwise
+     * @param url the resource to download from
+     * @param file the file to download to
      * @exception IOException if an error occurs
      */
-    private boolean handleZipEntry( final String entryName,
-                                    final String url,
-                                    final ArrayList codeBase )
-        throws IOException
-    {
-        if( entryName.startsWith( "META-INF" ) )
-        {
-            return false;
-        }
-        else if( entryName.startsWith( "lib/" ) &&
-                 ( entryName.endsWith( ".jar" ) ||
-                   entryName.endsWith( ".zip" ) ) )
-        {
-            final URL classPathEntry = new URL( url + "/" + entryName );
-            codeBase.add( classPathEntry );
-        }
-        else if( entryName.startsWith( "blocks/" ) && entryName.endsWith( ".bar" ) )
-        {
-            final URL classPathEntry = new URL( url + "/" + entryName );
-            codeBase.add( classPathEntry );
-        }
-        
-        return true;
-    }
-
-    /**
-     * Expand specified entry from specified zipfile into specified location.
-     *
-     * @param zipFile the zip file to extract from
-     * @param entry the zip entry
-     * @param file the file to extract to
-     * @exception IOException if an error occurs
-     */
-    private void expandZipEntry( final ZipFile zipFile, final ZipEntry entry, final File file )
+    private void download( final URL url, final File file )
         throws IOException
     {
         InputStream input = null;
@@ -235,7 +187,7 @@ public class Installer
         {
             file.getParentFile().mkdirs();
             output = new FileOutputStream( file );
-            input = zipFile.getInputStream( entry );
+            input = url.openStream();
             IOUtil.copy( input, output );
         }
         finally
@@ -243,70 +195,5 @@ public class Installer
             IOUtil.shutdownStream( input );
             IOUtil.shutdownStream( output );
         }
-    }
-
-    /**
-     * Get destination that .sar should be expanded to.
-     *
-     * @param file the file object representing .sar archive
-     * @return the destination to expand archive
-     */
-    private File getDestinationFor( final File file )
-    {
-        final String base =
-            FileUtil.removeExtension( FileUtil.removePath( file.getName() ) );
-
-        return (new File( file.getParentFile(), base )).getAbsoluteFile();
-    }
-
-    /**
-     * Get Classpath for application.
-     *
-     * @return the list of URLs in ClassPath
-     */
-    private URL[] getClassPathForDirectory( final File directory )
-    {
-        final File blockDir = new File( directory, "blocks" );
-        final File libDir = new File( directory, "lib" );
-
-        final ArrayList urls = new ArrayList();
-        getURLs( urls, blockDir, new String[] { ".bar" } );
-        getURLs( urls, libDir, new String[] { ".jar", ".zip" } );
-        return (URL[])urls.toArray( new URL[0] );
-    }
-
-    /**
-     * Add all matching files in directory to url list.
-     *
-     * @param urls the url list
-     * @param directory the directory to scan
-     * @param extentions the list of extensions to match
-     * @exception MalformedURLException if an error occurs
-     */
-    private void getURLs( final ArrayList urls, final File directory, final String[] extensions )
-    {
-        final ExtensionFileFilter filter = new ExtensionFileFilter( extensions );
-        final File[] files = directory.listFiles( filter );
-        if( null == files ) return;
-        for( int i = 0; i < files.length; i++ )
-        {
-            urls.add( getURL( files[ i ] ) );
-        }
-    }
-
-    /**
-     * Utility method to extract URL from file in safe manner.
-     *
-     * @param file the file
-     * @return the URL representation of file
-     */
-    private URL getURL( final File file )
-    {
-        try { return file.toURL(); }
-        catch( final MalformedURLException mue )
-        {
-            return null;
-            //should never occur
-        }
-    }
+    }        
 }
