@@ -38,7 +38,7 @@ public class SingleAppEmbeddor
     /**
      * Deploy a single application.
      *
-     * @exception Exception if an error occurs
+     * @throws Exception if an error occurs
      */
     protected void deployDefaultApplications()
         throws Exception

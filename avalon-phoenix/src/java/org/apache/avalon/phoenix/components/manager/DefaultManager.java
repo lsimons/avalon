@@ -91,7 +91,7 @@ public class DefaultManager
      * Retrieve relevant services needed to deploy.
      *
      * @param componentManager the ComponentManager
-     * @exception ComponentException if an error occurs
+     * @throws ComponentException if an error occurs
      */
     public void compose( final ComponentManager componentManager )
         throws ComponentException
@@ -184,7 +184,7 @@ public class DefaultManager
      * @param object the object
      * @param interfaces the interfaces
      * @return the exported object
-     * @exception ManagerException if an error occurs
+     * @throws ManagerException if an error occurs
      */
     protected Object export( final String name,
                              final Object object,
@@ -226,7 +226,7 @@ public class DefaultManager
      *
      * @param object the object to create MBean for
      * @return the MBean to be exported
-     * @exception ManagerException if an error occurs
+     * @throws ManagerException if an error occurs
      */
     private Object createMBean( final Object object )
         throws ManagerException
@@ -247,7 +247,7 @@ public class DefaultManager
      *
      * @param name the name of object
      * @param exportedObject the object return by export
-     * @exception ManagerException if an error occurs
+     * @throws ManagerException if an error occurs
      */
     protected void unexport( final String name,
                              final Object exportedObject )
@@ -269,7 +269,7 @@ public class DefaultManager
      * Verify that an interface conforms to the requirements of management medium.
      *
      * @param clazz the interface class
-     * @exception ManagerException if verification fails
+     * @throws ManagerException if verification fails
      */
     protected void verifyInterface( final Class clazz )
         throws ManagerException

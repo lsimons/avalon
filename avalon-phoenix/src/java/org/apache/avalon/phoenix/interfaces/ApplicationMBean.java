@@ -59,8 +59,8 @@ public interface ApplicationMBean
      * This is only valid when isRunning() returns false,
      * otherwise it will generate an IllegalStateException.
      *
-     * @exception IllegalStateException if application is already running
-     * @exception ApplicationException if the application failed to start.
+     * @throws IllegalStateException if application is already running
+     * @throws ApplicationException if the application failed to start.
      *            the message part of exception will contain more information
      *            pertaining to why the application failed to startup
      */
@@ -74,8 +74,8 @@ public interface ApplicationMBean
      * This is equivelent to  calling stop() and then start()
      * in succession.
      *
-     * @exception IllegalStateException if application is not already running
-     * @exception ApplicationException if the application failed to stop or start.
+     * @throws IllegalStateException if application is not already running
+     * @throws ApplicationException if the application failed to stop or start.
      *            the message part of exception will contain more information
      *            pertaining to why the application failed to startup/shutdown
      */
@@ -87,8 +87,8 @@ public interface ApplicationMBean
      * This is only valid when isRunning() returns true,
      * otherwise it will generate an IllegalStateException.
      *
-     * @exception IllegalStateException if application is not already running
-     * @exception ApplicationException if the application failed to shutdown.
+     * @throws IllegalStateException if application is not already running
+     * @throws ApplicationException if the application failed to shutdown.
      *            the message part of exception will contain more information
      *            pertaining to why the application failed to shutodwn
      */

@@ -49,7 +49,7 @@ import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
  * </ul>
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.10 $ $Date: 2002/02/26 11:13:03 $
+ * @version $Revision: 1.11 $ $Date: 2002/05/10 02:43:04 $
  */
 public class SarVerifier
     extends AbstractLogEnabled
@@ -66,7 +66,7 @@ public class SarVerifier
      * @param classLoader the ClassLoader used to load types. This is used
      *                    to verify that specified Class objects exist and
      *                    implement the correct interfaces.
-     * @exception VerifyException if an error occurs
+     * @throws VerifyException if an error occurs
      */
     public void verifySar( final SarMetaData sar, final ClassLoader classLoader )
         throws VerifyException
@@ -111,7 +111,7 @@ public class SarVerifier
      * Verfiy that all Blocks have the needed dependencies specified correctly.
      *
      * @param blocks the BlockMetaData objects for the blocks
-     * @exception VerifyException if an error occurs
+     * @throws VerifyException if an error occurs
      */
     private void verifyValidDependencies( final BlockMetaData[] blocks )
         throws VerifyException
@@ -126,7 +126,7 @@ public class SarVerifier
      * Verfiy that there are no circular references between Blocks.
      *
      * @param blocks the BlockMetaData objects for the blocks
-     * @exception VerifyException if an error occurs
+     * @throws VerifyException if an error occurs
      */
     private void verifyNoCircularDependencies( final BlockMetaData[] blocks )
         throws VerifyException
@@ -146,7 +146,7 @@ public class SarVerifier
      * Verfiy that there are no circular references between Blocks.
      *
      * @param blocks the BlockMetaData objects for the blocks
-     * @exception VerifyException if an error occurs
+     * @throws VerifyException if an error occurs
      */
     private void verifyNoCircularDependencies( final BlockMetaData block,
                                                final BlockMetaData[] blocks,
@@ -226,7 +226,7 @@ public class SarVerifier
      * Verfiy that the inter-Block dependencies are valid.
      *
      * @param blocks the BlockMetaData objects for the blocks
-     * @exception VerifyException if an error occurs
+     * @throws VerifyException if an error occurs
      */
     private void verifyDependencyReferences( final BlockMetaData[] blocks )
         throws VerifyException
@@ -242,7 +242,7 @@ public class SarVerifier
      *
      * @param block the BlockMetaData object for the block
      * @param others the BlockMetaData objects for the other blocks
-     * @exception VerifyException if an error occurs
+     * @throws VerifyException if an error occurs
      */
     private void verifyDependencyReferences( final BlockMetaData block,
                                              final BlockMetaData[] others )
@@ -304,7 +304,7 @@ public class SarVerifier
      * advertised interfaces.
      *
      * @param blocks the BlockMetaData objects for the blocks
-     * @exception VerifyException if an error occurs
+     * @throws VerifyException if an error occurs
      */
     private void verifyBlocksType( final BlockMetaData[] blocks, final ClassLoader classLoader )
         throws VerifyException
@@ -320,7 +320,7 @@ public class SarVerifier
      * advertised interfaces.
      *
      * @param block the BlockMetaData object for the blocks
-     * @exception VerifyException if an error occurs
+     * @throws VerifyException if an error occurs
      */
     private void verifyBlockType( final BlockMetaData block, final ClassLoader classLoader )
         throws VerifyException
@@ -362,7 +362,7 @@ public class SarVerifier
      * Verfiy that all listeners implement BlockListener.
      *
      * @param listeners the BlockListenerMetaData objects for the listeners
-     * @exception VerifyException if an error occurs
+     * @throws VerifyException if an error occurs
      */
     private void verifyListenersType( final BlockListenerMetaData[] listeners,
                                       final ClassLoader classLoader )
@@ -378,7 +378,7 @@ public class SarVerifier
      * Verfiy that specified Listener class implements the BlockListener interface.
      *
      * @param listener the BlockListenerMetaData object for the listener
-     * @exception VerifyException if an error occurs
+     * @throws VerifyException if an error occurs
      */
     private void verifyListenerType( final BlockListenerMetaData listener,
                                      final ClassLoader classLoader )
@@ -411,7 +411,7 @@ public class SarVerifier
      * Verify that the Sat name specified is valid.
      *
      * @param name the sar name
-     * @exception VerifyException if an error occurs
+     * @throws VerifyException if an error occurs
      */
     private void verifySarName( final String name )
         throws VerifyException
@@ -427,7 +427,7 @@ public class SarVerifier
      * Verify that the names of the specified blocks are valid.
      *
      * @param blocks the Blocks
-     * @exception VerifyException if an error occurs
+     * @throws VerifyException if an error occurs
      */
     private void verifyValidNames( final BlockMetaData[] blocks )
         throws VerifyException
@@ -447,7 +447,7 @@ public class SarVerifier
      * Verify that the names of the specified listeners are valid.
      *
      * @param listeners the listeners
-     * @exception VerifyException if an error occurs
+     * @throws VerifyException if an error occurs
      */
     private void verifyValidNames( final BlockListenerMetaData[] listeners )
         throws VerifyException
@@ -493,7 +493,7 @@ public class SarVerifier
      *
      * @param blocks the Blocks
      * @param listeners the listeners
-     * @exception VerifyException if an error occurs
+     * @throws VerifyException if an error occurs
      */
     private void checkNamesUnique( final BlockMetaData[] blocks,
                                    final BlockListenerMetaData[] listeners )
@@ -523,7 +523,7 @@ public class SarVerifier
      *                   match in name (or -1 if name designates a listener)
      * @param listenerIndex the index of listener that is allowed to
      *                      match in name (or -1 if name designates a block)
-     * @exception VerifyException if an error occurs
+     * @throws VerifyException if an error occurs
      */
     private void checkNameUnique( final String name,
                                   final BlockMetaData[] blocks,
@@ -561,7 +561,7 @@ public class SarVerifier
      * in BlockInfo.
      *
      * @param block the BlockMetaData describing the block
-     * @exception VerifyException if an error occurs
+     * @throws VerifyException if an error occurs
      */
     private void verifyDependenciesMap( final BlockMetaData block )
         throws VerifyException
@@ -612,7 +612,7 @@ public class SarVerifier
      * @param services the services the Block offers
      * @param classLoader the classLoader
      * @return an array of Classes for all the services
-     * @exception VerifyException if an error occurs
+     * @throws VerifyException if an error occurs
      */
     private Class[] getServiceClasses( final String name,
                                        final ServiceDescriptor[] services,

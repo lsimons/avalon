@@ -108,7 +108,7 @@ public class DefaultKernel
      * Create and initialize the application instance if it is not already initialized.
      *
      * @param entry the entry for application
-     * @exception Exception if an error occurs
+     * @throws Exception if an error occurs
      */
     private void startup( final SarEntry entry )
         throws Exception

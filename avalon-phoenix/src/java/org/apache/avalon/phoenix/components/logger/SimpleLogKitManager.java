@@ -76,7 +76,7 @@ public class SimpleLogKitManager
      *
      * @param targets the target configuration data
      * @return a Map of target-name to target
-     * @exception ConfigurationException if an error occurs
+     * @throws ConfigurationException if an error occurs
      */
     private HashMap configureTargets( final Configuration[] targets )
         throws ConfigurationException
@@ -124,7 +124,7 @@ public class SimpleLogKitManager
      *
      * @param categories configuration data for categories
      * @param targets a hashmap containing the already existing taregt
-     * @exception ConfigurationException if an error occurs
+     * @throws ConfigurationException if an error occurs
      */
     private void configureCategories( final Configuration[] categories, final HashMap targets )
         throws ConfigurationException

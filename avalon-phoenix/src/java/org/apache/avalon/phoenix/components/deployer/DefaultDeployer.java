@@ -65,7 +65,7 @@ public class DefaultDeployer
      * Retrieve relevant services needed to deploy.
      *
      * @param componentManager the ComponentManager
-     * @exception ComponentException if an error occurs
+     * @throws ComponentException if an error occurs
      */
     public void compose( final ComponentManager componentManager )
         throws ComponentException
@@ -89,7 +89,7 @@ public class DefaultDeployer
      * Undeploy an application.
      *
      * @param name the name of deployment
-     * @exception DeploymentException if an error occurs
+     * @throws DeploymentException if an error occurs
      */
     public void undeploy( final String name )
         throws DeploymentException
@@ -118,19 +118,19 @@ public class DefaultDeployer
             throw new DeploymentException( e.getMessage(), e );
         }
     }
-    
-    
+
+
     /**
      * Deploy an application from an installation.
      *
      * @param name the name of application
      * @param sarURL the location to deploy from represented as String
-     * @exception DeploymentException if an error occurs
+     * @throws DeploymentException if an error occurs
      */
     public void deploy( final String name, final String sarURL )
         throws DeploymentException
     {
-        try 
+        try
         {
 	        deploy( name, new URL( sarURL ) );
         }
@@ -146,7 +146,7 @@ public class DefaultDeployer
      *
      * @param name the name of application
      * @param location the location to deploy from
-     * @exception DeploymentException if an error occurs
+     * @throws DeploymentException if an error occurs
      */
     public void deploy( final String name, final URL location )
         throws DeploymentException
@@ -212,7 +212,7 @@ public class DefaultDeployer
      *
      * @param location the location of configuration data as a url
      * @return the Configuration
-     * @exception DeploymentException if an error occurs
+     * @throws DeploymentException if an error occurs
      */
     private Configuration getConfigurationFor( final String location )
         throws DeploymentException
@@ -235,7 +235,7 @@ public class DefaultDeployer
      * @param appName the name of Application.
      * @param metaData the SarMetaData.
      * @param configurations the block configurations.
-     * @exception DeploymentException if an error occurs
+     * @throws DeploymentException if an error occurs
      */
     private void setupConfiguration( final String appName,
                                      final SarMetaData metaData,

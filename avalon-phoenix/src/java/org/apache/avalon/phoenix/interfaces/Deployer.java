@@ -30,7 +30,7 @@ public interface Deployer
      *
      * @param name the name of deployment
      * @param location the installation to deploy
-     * @exception DeploymentException if an error occurs
+     * @throws DeploymentException if an error occurs
      */
     void deploy( String name, URL location )
         throws DeploymentException;
@@ -39,7 +39,7 @@ public interface Deployer
      * undeploy a resource from a location.
      *
      * @param name the name of deployment
-     * @exception DeploymentException if an error occurs
+     * @throws DeploymentException if an error occurs
      */
     void undeploy( String name )
         throws DeploymentException;

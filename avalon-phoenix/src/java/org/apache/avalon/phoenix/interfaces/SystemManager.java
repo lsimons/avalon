@@ -33,10 +33,10 @@ public interface SystemManager
      * @param name the name to register object under
      * @param object the object
      * @param interfaces the interfaces to register the component under
-     * @exception ManagerException if an error occurs. An error could occur if the object doesn't
+     * @throws ManagerException if an error occurs. An error could occur if the object doesn't
      *            implement the interfaces, the interfaces parameter contain non-instance
      *            classes, the name is already registered etc.
-     * @exception IllegalArgumentException if object or interfaces is null
+     * @throws IllegalArgumentException if object or interfaces is null
      */
     void register( String name, Object object, Class[] interfaces )
         throws ManagerException, IllegalArgumentException;
@@ -49,8 +49,8 @@ public interface SystemManager
      *
      * @param name the name to register object under
      * @param object the object
-     * @exception ManagerException if an error occurs such as name already registered.
-     * @exception IllegalArgumentException if object is null
+     * @throws ManagerException if an error occurs such as name already registered.
+     * @throws IllegalArgumentException if object is null
      */
     void register( String name, Object object )
         throws ManagerException, IllegalArgumentException;
@@ -59,7 +59,7 @@ public interface SystemManager
      * Unregister named object.
      *
      * @param name the name of object to unregister
-     * @exception ManagerException if an error occurs such as when no such object registered.
+     * @throws ManagerException if an error occurs such as when no such object registered.
      */
     void unregister( String name )
         throws ManagerException;

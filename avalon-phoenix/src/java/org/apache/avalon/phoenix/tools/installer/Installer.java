@@ -34,7 +34,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * and installing it as appropriate.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.31 $ $Date: 2002/03/21 08:20:42 $
+ * @version $Revision: 1.32 $ $Date: 2002/05/10 02:43:04 $
  */
 public class Installer
     extends AbstractLogEnabled
@@ -64,7 +64,7 @@ public class Installer
      * Uninstall the Sar designated installation.
      *
      * @param installation the installation
-     * @exception InstallationException if an error occurs
+     * @throws InstallationException if an error occurs
      */
     public void uninstall( final Installation installation )
         throws InstallationException
@@ -134,7 +134,7 @@ public class Installer
      * Install the Sar designated by url.
      *
      * @param url the url of instalation
-     * @exception InstallationException if an error occurs
+     * @throws InstallationException if an error occurs
      */
     public Installation install( final URL url )
         throws InstallationException
@@ -452,7 +452,7 @@ public class Installer
      *
      * @param url the url of deployment
      * @return the File for deployment
-     * @exception InstallationException if an error occurs
+     * @throws InstallationException if an error occurs
      */
     private File getFileFor( final URL url )
         throws InstallationException
@@ -482,7 +482,7 @@ public class Installer
      * @param entry the zip entry
      * @param file the file to extract to
      * @param digests the digests for the expanded files.
-     * @exception InstallationException if an error occurs
+     * @throws InstallationException if an error occurs
      */
     private void expandZipEntry( final ZipFile zipFile,
                                  final ZipEntry entry,

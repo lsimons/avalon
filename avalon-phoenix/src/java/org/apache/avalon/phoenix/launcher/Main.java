@@ -36,7 +36,7 @@ public final class Main
      * Main entry point for Phoenix.
      *
      * @param args the command line arguments
-     * @exception Exception if an error occurs
+     * @throws Exception if an error occurs
      */
     public final static void main( final String[] args )
         throws Exception
@@ -56,7 +56,7 @@ public final class Main
      *
      * @returns the exit code which should be used to exit the JVM
      *
-     * @exception Exception if an error occurs
+     * @throws Exception if an error occurs
      */
     protected final static int startup( final String[] args,
                                         final Hashtable data,
@@ -130,7 +130,7 @@ public final class Main
      * Find the "engine" jar from which to run main phoenix kernel.
      *
      * @return the engine file
-     * @exception Exception if an error occurs
+     * @throws Exception if an error occurs
      */
     private final static File findEngineJar()
         throws Exception

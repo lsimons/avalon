@@ -49,10 +49,10 @@ public abstract class AbstractSystemManager
      * @param name the name to register object under
      * @param object the object
      * @param interfaces the interfaces to register the component under
-     * @exception ManagerException if an error occurs. An error could occur if the object doesn't
+     * @throws ManagerException if an error occurs. An error could occur if the object doesn't
      *            implement the interfaces, the interfaces parameter contain non-instance
      *            classes, the name is already registered etc.
-     * @exception IllegalArgumentException if object or interfaces is null
+     * @throws IllegalArgumentException if object or interfaces is null
      */
     public synchronized void register( final String name, final Object object, final Class[] interfaces )
         throws ManagerException, IllegalArgumentException
@@ -81,8 +81,8 @@ public abstract class AbstractSystemManager
      *
      * @param name the name to register object under
      * @param object the object
-     * @exception ManagerException if an error occurs such as name already registered.
-     * @exception IllegalArgumentException if object is null
+     * @throws ManagerException if an error occurs such as name already registered.
+     * @throws IllegalArgumentException if object is null
      */
     public synchronized void register( final String name, final Object object )
         throws ManagerException, IllegalArgumentException
@@ -101,7 +101,7 @@ public abstract class AbstractSystemManager
      * Unregister named object.
      *
      * @param name the name of object to unregister
-     * @exception ManagerException if an error occurs such as when no such object registered.
+     * @throws ManagerException if an error occurs such as when no such object registered.
      */
     public synchronized void unregister( final String name )
         throws ManagerException
@@ -126,7 +126,7 @@ public abstract class AbstractSystemManager
      * @param object the object
      * @param interfaces the interfaces
      * @return the exported object
-     * @exception ManagerException if an error occurs
+     * @throws ManagerException if an error occurs
      */
     protected abstract Object export( String name, Object object, Class[] interfaces )
         throws ManagerException;
@@ -136,7 +136,7 @@ public abstract class AbstractSystemManager
      *
      * @param name the name of object
      * @param exportedObject the object return by export
-     * @exception ManagerException if an error occurs
+     * @throws ManagerException if an error occurs
      */
     protected abstract void unexport( String name, Object exportedObject )
         throws ManagerException;
@@ -145,7 +145,7 @@ public abstract class AbstractSystemManager
      * Verify that an interface conforms to the requirements of management medium.
      *
      * @param clazz the interface class
-     * @exception ManagerException if verification fails
+     * @throws ManagerException if verification fails
      */
     protected abstract void verifyInterface( Class clazz )
         throws ManagerException;
@@ -156,7 +156,7 @@ public abstract class AbstractSystemManager
      *
      * @param object the object
      * @param interfaces the array of interfaces to check
-     * @exception ManagerException if an error occurs
+     * @throws ManagerException if an error occurs
      */
     private void verifyInterfaces( final Object object, final Class[] interfaces )
         throws ManagerException
@@ -189,8 +189,8 @@ public abstract class AbstractSystemManager
      *
      * @param name the name of object
      * @param object the object to be registered
-     * @exception ManagerException if name already exists
-     * @exception IllegalArgumentException if name or object is null
+     * @throws ManagerException if name already exists
+     * @throws IllegalArgumentException if name or object is null
      */
     private void checkRegister( final String name, final Object object )
         throws ManagerException, IllegalArgumentException

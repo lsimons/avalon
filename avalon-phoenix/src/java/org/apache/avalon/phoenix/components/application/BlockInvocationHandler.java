@@ -27,7 +27,7 @@ import java.lang.reflect.Proxy;
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  * @author <a href="mailto:Paul_Hammant@yahoo.com">Paul Hammant</a>
- * @version CVS $Revision: 1.4 $ $Date: 2001/12/11 10:13:33 $
+ * @version CVS $Revision: 1.5 $ $Date: 2002/05/10 02:43:03 $
  */
 final class BlockInvocationHandler
     implements InvocationHandler
@@ -77,7 +77,7 @@ final class BlockInvocationHandler
      * @param method the method invoked on proxy object
      * @param args the arguments supplied to method
      * @return the return value of method
-     * @exception Throwable if an error occurs
+     * @throws Throwable if an error occurs
      */
     public Object invoke( final Object proxy,
                           final Method method,
