@@ -7,7 +7,20 @@
   </properties> 
 
   <body>
-    <section name="Magic">
+    <section name="Magic's Project Model">
+
+      <p>
+      The notion of a POM (Project Object Model) is familiar to 
+      Maven users.  Magic extends this concepts through a central 
+      index of projects, unique project keys, and complete support
+      for transitive inheritance of dependency information.
+      </p>
+      <p>
+      An example of a Magic project defintion is shown below:
+      </p>
+<source>
+</source>
+
     </section>
   </body>
 

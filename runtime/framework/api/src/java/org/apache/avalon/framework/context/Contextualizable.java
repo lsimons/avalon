@@ -27,7 +27,7 @@ public interface Contextualizable
 {
     /**
      * Pass the Context to the component.
-     * This method is called after the Loggable.setLogger() (if present)
+     * This method is called after the LogEnabled.enableLogging( Logger ) (if present)
      * method and before any other method.
      *
      * @param context the context. Must not be <code>null</code>.

@@ -34,7 +34,7 @@
           <tr>
             <td><a href="properties.html">System Properties</a></td>
             <td>
-The Merlin kernel is established using the <a href="http://avalon.apache.org/repository">Avalon Repository</a> resource management system under the application key <strong>"merlin"</strong>.  The complete specification of system properties (description and default values) together with supported property file locations are defined here.
+The Merlin kernel is established using the <a href="../../system/repository">Avalon Repository</a> resource management system under the application key <strong>"merlin"</strong>.  The complete specification of system properties (description and default values) together with supported property file locations are defined here.
             </td>
           </tr>
           <tr>

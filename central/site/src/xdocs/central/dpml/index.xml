@@ -40,7 +40,7 @@ along with a suite of <a href="http://www.apache.org">Apache</a> projects can be
 meta-driven component solutions.  Each of these initative, from 
 complex system such as the <a href="http://james.apache.org/">
 James</a> enterprise messaging platform through to utility components
-such as the <a href="http://avalon.apache.org/cornerstone/">Cornerstone</a>
+such as the <a href="/planet/components/index.html/">Cornerstone</a>
 component suite (thread pools, persistence, task scheduling, etc.) can 
 be represented in Merlin as pluggable services within a composite 
 component context. Looking forward, the challenge will be the ability to 
