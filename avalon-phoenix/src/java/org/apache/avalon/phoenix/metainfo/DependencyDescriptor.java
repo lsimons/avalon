@@ -8,7 +8,6 @@
 package org.apache.avalon.phoenix.metainfo;
 
 import org.apache.avalon.framework.Version;
-import org.apache.avalon.framework.camelot.Info;
 
 /**
  * A descriptor that describes dependency information for Block.
@@ -16,7 +15,6 @@ import org.apache.avalon.framework.camelot.Info;
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public final class DependencyDescriptor
-    implements Info
 {
     private final String              m_role;
     private final ServiceDescriptor   m_service;
