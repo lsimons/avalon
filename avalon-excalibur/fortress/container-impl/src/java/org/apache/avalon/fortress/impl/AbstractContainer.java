@@ -68,6 +68,7 @@ import org.apache.avalon.fortress.impl.lookup.FortressServiceManager;
 import org.apache.avalon.fortress.impl.lookup.FortressServiceSelector;
 import org.apache.avalon.fortress.impl.role.FortressRoleManager;
 import org.apache.avalon.fortress.util.CompositeException;
+import org.apache.avalon.fortress.util.LifecycleExtensionManager;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -82,7 +83,6 @@ import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.commons.collections.BoundedFifoBuffer;
 import org.apache.commons.collections.StaticBucketMap;
-import org.apache.excalibur.container.lifecycle.LifecycleExtensionManager;
 import org.apache.excalibur.event.Queue;
 import org.apache.excalibur.instrument.InstrumentManager;
 import org.apache.excalibur.instrument.Instrumentable;
@@ -96,7 +96,7 @@ import org.apache.excalibur.mpool.PoolManager;
  * Container's Manager can expose that to the instantiating class.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.12 $ $Date: 2003/03/07 17:46:01 $
+ * @version CVS $Revision: 1.13 $ $Date: 2003/03/07 20:21:26 $
  */
 public abstract class AbstractContainer
     extends AbstractLogEnabled
