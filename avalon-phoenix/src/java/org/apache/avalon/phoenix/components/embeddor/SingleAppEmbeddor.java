@@ -14,6 +14,7 @@ import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.phoenix.interfaces.Application;
 
 /**
+ * WARNING: DO NOT USE THIS SERVLET FOR PRODUCTION SERVICE. THIS IS EXPERIMENTAL.
  * Embeddor to host only a single application.
  * It is required that the user set parameter
  * <ul>
@@ -23,6 +24,7 @@ import org.apache.avalon.phoenix.interfaces.Application;
  *
  * @author <a href="colus@isoft.co.kr">Eung-ju Park</a>
  * @author <a href="peter@apache.org">Peter Donald</a>
+ * @deprecated
  */
 public class SingleAppEmbeddor
     extends DefaultEmbeddor
