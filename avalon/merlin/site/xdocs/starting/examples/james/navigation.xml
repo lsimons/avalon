@@ -36,20 +36,8 @@
         <item name="Installation" href="/starting/installation/index.html"/>
         <item name="Using Merlin" href="/starting/tutorial/index.html"/>
         <item name="Advanced Features" href="/starting/advanced/index.html"/>
-        <!--
-        <item name="Examples" href="/starting/examples/index.html">
-          <item name="Apache Financial Services" href="/starting/examples/afs/index.html"/>
-          <item name="James Enterprise Messaging" href="/starting/examples/james/index.html">
-            <item name="About James" href="/starting/examples/james/about.html"/>
-            <item name="Resources" href="/starting/examples/james/resources.html"/>
-            <item name="Block Defintion" href="/starting/examples/james/block.html"/>
-            <item name="Runtime" href="/starting/examples/james/runtime.html"/>
-          </item>
-        </item>
-        -->
       </item>
       <item name="Merlin System" href="/merlin/index.html"/>
-      <item name="Meta Model" href="/meta/index.html"/>
       <item name="Tools" href="/tools/index.html"/>
       <item name="Extensions" href="/extensions/index.html" />
     </menu>

@@ -35,12 +35,12 @@
       <item name="Overview" href="/about/index.html"/>
       <item name="Getting Started" href="/starting/index.html"/>
       <item name="Merlin System" href="/merlin/index.html"/>
-      <item name="Meta Model" href="/meta/index.html"/>
       <item name="Tools" href="/tools/index.html"/>
       <item name="Extensions" href="/extensions/index.html">
-        <item name="HTTP Server Facility" href="/extensions/http/index.html"/>
-        <item name="Merlin Servlet" href="/extensions/servlet/index.html"/>
-        <item name="JMX Facility" href="/extensions/jmx/index.html"/>
+        <item name="Finder" href="/extensions/http/index.html"/>
+        <item name="HTTP" href="/extensions/http/index.html"/>
+        <item name="Servlet" href="/extensions/servlet/index.html"/>
+        <item name="JMX" href="/extensions/jmx/index.html"/>
 <!--      
         <item name="Persistence Facility" href="/extensions/persistence/index.html"/>
 -->

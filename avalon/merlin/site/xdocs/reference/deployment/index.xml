@@ -33,15 +33,16 @@
         <table>
           <tr><th>Topic</th><th>Summary</th></tr>
           <tr>
-            <td><a href="directives/index.html">Deployment Directives</a></td>
+            <td><a href="directives/index.html">Container Directive</a></td>
             <td>
-The Deployment Directive Specification deals with the language and semantics of container and component specification and the mechanisms provided concerning classloader management, component addressing, and composition component inclusion. 
+The Container Directive declares the creation of a new container. A container directive includes a classloader specification, an arbitary number of components and sub-containers.
             </td>
           </tr>
           <tr>
-            <td><a href="overrides/index.html">Override Directives</a></td>
+            <td><a href="overrides/index.html">Override Targets Directive</a></td>
             <td>
-IN PREP
+              A file containing logging categotry and component configuration
+              overrides.
             </td>
           </tr>
         </table>

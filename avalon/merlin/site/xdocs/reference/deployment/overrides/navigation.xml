@@ -35,7 +35,6 @@
       <item name="Overview" href="/about/index.html"/>
       <item name="Getting Started" href="/starting/index.html"/>
       <item name="Merlin System" href="/merlin/index.html"/>
-      <item name="Meta Model" href="/meta/index.html"/>
       <item name="Tools" href="/tools/index.html"/>
       <item name="Extensions" href="/extensions/index.html" />
     </menu>
@@ -45,8 +44,8 @@
       <item name="Specification" href="/reference/index.html">
         <item name="Component Specification" href="/reference/component/index.html"/>
         <item name="Deployment Specification" href="/reference/deployment/index.html">
-          <item name="Deployment Directives" href="/reference/deployment/directives/index.html"/>
-          <item name="Override Directives" href="/reference/deployment/overrides/index.html">
+          <item name="container" href="/reference/deployment/directives/index.html"/>
+          <item name="targets" href="/reference/deployment/overrides/index.html">
             <item name="target" href="/reference/deployment/overrides/target/index.html"/>
           </item>
         </item>

@@ -26,12 +26,11 @@
 
   <body>
 
-    <section name="Deployment Specification">
-
+    <section name="Container">
 
       <subsection name="Overview">
         <p>
-A deployment specification is represented by a &lt;container&gt; XML element directive.  The directive presents a deployment scenerario to the runtime containment model and through this process, defines a composite component model based on a series of subsidiary containment and component diectives. Each containment directive represents a composite component solution.  Each component directive represents an implementation deployment directive designed to fulfill a particular application scenario.
+A deployment specification is represented by a <strong>&lt;container&gt;</strong> XML element directive.  The directive presents a deployment scenerario to the runtime containment model and through this process, defines a composite component model based on a series of subsidiary containment and component diectives. Each containment directive represents a composite component solution.  Each component directive represents an implementation deployment directive designed to fulfill a particular application scenario.
         </p>
 
         <p>
