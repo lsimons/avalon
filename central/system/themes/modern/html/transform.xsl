@@ -166,7 +166,7 @@
       <xsl:choose>
         <!-- Test if a root reference -->
         <xsl:when test="substring( @href, 1, 1 ) = '/'" >
-          <xsl:attribute name="href"><xsl:value-of select="concat( $relativepath, @href)" /></xsl:attribute>
+          <xsl:attribute name="href"><xsl:value-of select="concat( $relativepath[position() = last()], @href)" /></xsl:attribute>
         </xsl:when>
         <xsl:otherwise>
           <xsl:attribute name="href"><xsl:value-of select="@href" /></xsl:attribute>
