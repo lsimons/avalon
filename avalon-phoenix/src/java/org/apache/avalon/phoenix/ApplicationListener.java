@@ -7,6 +7,8 @@
  */
 package org.apache.avalon.phoenix;
 
+import java.util.EventListener;
+
 /**
  * Implementations of this interface receive notifications about
  * changes to the state of Application.
@@ -18,8 +20,23 @@ package org.apache.avalon.phoenix;
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public interface ApplicationListener
-    extends BlockListener
+    extends EventListener, BlockListener
 {
+    /**
+     * Notification that a block has just been added
+     * to Server Application.
+     *
+     * @param event the BlockEvent
+     */
+    void blockAdded( BlockEvent event );
+
+    /**
+     * Notification that a block is just about to be
+     * removed from Server Application.
+     *
+     * @param event the BlockEvent
+     */
+    void blockRemoved( BlockEvent event );
 
     /**
      * Notification that an application is being started.
