@@ -63,7 +63,7 @@ Legal:
   <property name="test.dir" value="${src.dir}/test"/>
   <property name="tools.dir" value="../jakarta-avalon/tools"/>
   <property name="docs.dir" value="docs"/>
-  <property name="www.dir" value="www"/>
+  <property name="www.dir" value="../jakarta-avalon/www/${name}"/>
   <property name="xdocs.dir" value="${src.dir}/xdocs"/>
   <property name="context.dir" value="../jakarta-avalon/src/documentation"/>
   <property name="javadocs.dir" value="${docs.dir}/api"/>
@@ -289,7 +289,7 @@ Legal:
       </fileset>
     </copy>
 
-    <copy todir="${build.context}/xdocs/logkit" filtering="on">
+    <copy todir="${build.context}/xdocs" filtering="on">
       <fileset dir="${xdocs.dir}"/>
     </copy>
 
@@ -319,6 +319,8 @@ Legal:
 
   <!-- Update the www directory -->
   <target name="site-docs" depends="local-docs">
+
+    <mkdir dir="${www.dir}"/>
 
     <!-- delete all old documents but keep CVS directories -->
     <!-- note that by doing an include the defaultexcludes (CVS dirs) will be kept -->
