@@ -114,7 +114,7 @@ namespace Apache.Avalon.Container
 	{
 		#region Fields
 		protected ILoggerManager          m_loggerManager;
-		protected LifecycleManager        m_lifecycleManager;
+		protected LifecycleManager        m_lifestyleManager;
 		protected Vertex[]                m_shutDownOrder;
 		private ComponentCollection       m_components;
 		private IComponentFactoryManager  m_factoryManager;
@@ -276,12 +276,12 @@ namespace Apache.Avalon.Container
 		{
 			IConfiguration extensionsConfiguration = 
 				ConfigurationUtil.GetConfiguration( config.ExtensionsNode );
-			ILogger logger = m_loggerManager["LifecycleManager"];
+			ILogger logger = m_loggerManager["LifestyleManager"];
 
-			Type lifecycleManager = typeof( LifecycleManager );
+			Type lifestyleManager = typeof( LifecycleManager );
 
 			InternalComponentHandler handler = 
-				new InternalComponentHandler( logger, extensionsConfiguration, lifecycleManager );
+				new InternalComponentHandler( logger, extensionsConfiguration, lifestyleManager );
 
 			InternalLookupManager lookUpManager = new InternalLookupManager();
 			lookUpManager.Add( typeof(IComponentFactoryManager).FullName, m_factoryManager );
@@ -289,7 +289,7 @@ namespace Apache.Avalon.Container
 			lookUpManager.Add( "Container", this );
 			handler.LookupManager = lookUpManager;
 
-			m_lifecycleManager = (LifecycleManager) handler.GetInstance();
+			m_lifestyleManager = (LifecycleManager) handler.GetInstance();
 		}
 
 		protected virtual void FindComponents(Assembly[] assemblies)
@@ -353,7 +353,7 @@ namespace Apache.Avalon.Container
 			ComponentEntry entry = new ComponentEntry(
 				attribute, type, dependenciesAttribute);
 
-			m_lifecycleManager.PrepareComponent( entry );
+			m_lifestyleManager.PrepareComponent( entry );
 
 			Components.Add(role, entry);
 		}
@@ -495,7 +495,7 @@ namespace Apache.Avalon.Container
 			{
 				m_baseLogger.Debug("DefaultContainer: Disposing LifecycleManager");
 			}
-			ContainerUtil.Shutdown(m_lifecycleManager);
+			ContainerUtil.Shutdown(m_lifestyleManager);
 
 			if (m_baseLogger.IsDebugEnabled)
 			{
