@@ -481,6 +481,7 @@ Legal:
         <mkdir dir="${bin.dist.conf}"/>
 
         <copy file="${target.lib}/phoenix-client.jar" todir="${bin.dist.lib}/"/>
+        <copy file="${target.lib}/phoenix-tools.jar" todir="${bin.dist.lib}/"/>
         <copy file="${target.lib}/phoenix-loader.jar" todir="${bin.dist.bin}/"/>
         <copy file="${target.lib}/phoenix-engine.jar" todir="${bin.dist.container.lib}"/>
         <copy file="${converter.jar}" todir="${bin.dist.container.lib}"/>
@@ -490,7 +491,6 @@ Legal:
         <copy todir="${bin.dist.lib}">
             <fileset dir="${lib.dir}">
                 <include name="excalibur*.jar"/>
-                <include name="sandbox-info-*.jar"/>
             </fileset>
             <fileset dir="${target.lib}">
                 <include name="phoenix-containerkit.jar"/>
