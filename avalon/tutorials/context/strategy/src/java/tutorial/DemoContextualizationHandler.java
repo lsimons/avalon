@@ -20,7 +20,7 @@ package tutorial;
 import java.lang.reflect.Constructor;
 import java.util.Map;
 
-import org.apache.avalon.activation.lifecycle.ContextualizationHandler;
+import org.apache.avalon.composition.model.ContextualizationHandler;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Context;
 

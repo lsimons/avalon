@@ -39,6 +39,7 @@ import org.apache.avalon.repository.provider.InitialContext;
 
 import org.apache.avalon.util.defaults.Defaults;
 import org.apache.avalon.util.defaults.DefaultsFinder;
+import org.apache.avalon.util.defaults.DefaultsBuilder;
 import org.apache.avalon.util.defaults.SimpleDefaultsFinder;
 import org.apache.avalon.util.defaults.SystemDefaultsFinder;
 import org.apache.avalon.util.env.Env;
@@ -55,7 +56,7 @@ import org.apache.avalon.util.criteria.PackedParameter;
  * for application to a factory.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.21 $
+ * @version $Revision: 1.22 $
  */
 public class DefaultCriteria extends Criteria implements KernelCriteria
 {
@@ -227,145 +228,54 @@ public class DefaultCriteria extends Criteria implements KernelCriteria
 
         m_context = context;
 
-        //
-        // static defaults are the most primative
-        //
-
-        Properties avalonStatic = getStaticProperties( AVALON_PROPERTIES );
-        Properties merlinStatic = getStaticProperties( MERLIN_PROPERTIES );
-
-        //
-        // then comes environment variables
-        //
-
-        Properties env = getEnvinronment();
-
-        //
-        // then the system properites
-        //
-
-        Properties system = System.getProperties();
-
-        //
-        // get the application properties
-        //
-
-        Properties avalonSystem = 
-          getLocalProperties( getAvalonHomeDirectory(), AVALON_PROPERTIES );
-        Properties merlinSystem = 
-          getLocalProperties( getMerlinHomeDirectory(), MERLIN_PROPERTIES );
-
-        //
-        // ${user.home} overrides environment
-        //
-
-        Properties avalonHome = 
-          getLocalProperties( USER_HOME, AVALON_PROPERTIES );
-        Properties merlinHome = 
-          getLocalProperties( USER_HOME, MERLIN_PROPERTIES );
-
-        //
-        // and ${merlin.dir} overrides ${user.home}
-        //
-
-        File work = getWorkingDirectory();
-        Properties avalonWork = 
-          getLocalProperties( work, AVALON_PROPERTIES );
-        Properties merlinWork = 
-          getLocalProperties( work, MERLIN_PROPERTIES );
-
-        //
-        // Create the finder (discovery policy), construct the defaults, and
-        // macro expand the values.
-        //
-
-        final Properties[] parameters = 
-          new Properties[] { 
-            avalonStatic, 
-            merlinStatic, 
-            avalonSystem, 
-            merlinSystem, 
-            env, 
-            avalonHome, 
-            avalonWork, 
-            merlinHome, 
-            merlinWork };
-
-        final DefaultsFinder[] finders = 
-          new DefaultsFinder[]{
-            new SimpleDefaultsFinder( 
-              parameters, 
-              false ), 
-            new SystemDefaultsFinder() 
-          };
-        
-        Defaults defaults = 
-          new Defaults( 
-             Parameter.getKeys( super.getParameters() ), new String[0], finders );
-
-        //printProperties( defaults, "defaults" );
-
-        //
-        // add ${merlin.dir} to assist in synbol expansion then expand
-        // symbols (done twice to handle nested defintions)
-        //
-
-        defaults.setProperty( "merlin.dir", work.toString() );
-        Defaults.macroExpand( defaults, new Properties[]{ system, avalonStatic, env } );
-        Defaults.macroExpand( defaults, new Properties[]{ system, avalonStatic, env } );
-
-        //
-        // following aquistion of the default parameters we need to assign
-        // them as criteria values before we expose the criteria instance to the
-        // client
-        //
-
-        put( "merlin.dir", work.toString() );
-        ArrayList errors = new ArrayList();
-        Parameter[] params = super.getParameters();
-        for( int i=0; i<params.length; i++ )
+        try
         {
-            Parameter param = params[i];
-            final String key = param.getKey();
-            if( !key.equals( "merlin.dir" ) && !key.equals( "merlin.implementation" ))
+            final String key = context.getApplicationKey();
+            final File work = context.getInitialWorkingDirectory();
+            DefaultsBuilder builder = new DefaultsBuilder( key, work );
+            Properties defaults = 
+              Defaults.getStaticProperties( DefaultCriteria.class, "/merlin.properties" );
+
+            //
+            // set the ${merlin.dir} value 
+            //
+
+            defaults.setProperty( "merlin.dir", getWorkingDirectory().toString() );
+
+            //
+            // get the consolidated properties
+            //
+
+            final String[] keys = super.getKeys();
+            Properties properties = 
+              builder.getConsolidatedProperties( defaults, keys );
+
+            //
+            // expand the properties
+            //
+
+            Defaults.macroExpand( properties, new Properties[0] );
+            Defaults.macroExpand( properties, new Properties[0] );
+
+            //
+            // apply any non-null properties to the criteria
+            //
+
+            for( int i=0; i<keys.length; i++ )
             {
-                try
+                final String propertyKey = keys[i];
+                final String value = properties.getProperty( propertyKey );
+                if( null != value )
                 {
-                    put( key, defaults.getProperty( key ) );
-                }
-                catch( Exception re )
-                {
-                    errors.add( re );
+                    put( propertyKey, value );
                 }
             }
         }
-
-        //
-        // check for any errors created in the process and dump a 
-        // notice to System.err
-        //
-
-        if( errors.size() > 0 )
+        catch( Throwable e )
         {
-            Throwable[] throwables = 
-              (Throwable[]) errors.toArray( new Throwable[0] );
-            
-            if( errors.size() > 1 )
-            {
-                final String report = 
-                  "Multiple errors (ignored) while resolving defaults.";
-                String message = 
-                  ExceptionHelper.packException( report, throwables, false );
-                System.err.println( message );
-            }
-            else
-            {
-                final String report = 
-                  "One error (ignored) occured while resolving defaults.";
-                String message = 
-                  ExceptionHelper.packException( report, throwables[0], false );
-                System.err.println( message );
-            }
+            final String error = 
+              "Unexpected error while constructing criteria defaults.";
+            throw new KernelRuntimeException( error, e );
         }
     }
 
