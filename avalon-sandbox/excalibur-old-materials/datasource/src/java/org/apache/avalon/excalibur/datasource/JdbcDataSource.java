@@ -21,7 +21,7 @@ import org.apache.avalon.excalibur.pool.DefaultPoolController;
  * <code>java.sql.DriverManager</code>.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.3 $ $Date: 2001/07/31 04:35:49 $
+ * @version CVS $Revision: 1.4 $ $Date: 2001/08/01 21:27:33 $
  */
 public class JdbcDataSource
     extends AbstractLoggable
@@ -44,7 +44,7 @@ public class JdbcDataSource
     {
         if( null == m_pool )
         {
-            final String driver = configuration.getChild( "driver", true).getValue("");
+            final String driver = configuration.getChild( "driver" ).getValue("");
             final String dburl = configuration.getChild( "dburl" ).getValue();
             final String user = configuration.getChild( "user" ).getValue( null );
             final String passwd = configuration.getChild( "password" ).getValue( null );
@@ -62,6 +62,11 @@ public class JdbcDataSource
             // If driver is specified....
             if ( ! "".equals(driver) )
             {
+                if (getLogger().isDebugEnabled())
+                {
+                    getLogger().debug("Loading new driver: " + driver);
+                }
+
                 try
                 {
                     Thread.currentThread().getContextClassLoader().loadClass( driver );
@@ -70,7 +75,7 @@ public class JdbcDataSource
                 {
                     if (getLogger().isWarnEnabled())
                     {
-                        getLogger().warn( "Could not load driver: " + driver );
+                        getLogger().warn( "Could not load driver: " + driver, cnfe );
                     }
                 }
             }
