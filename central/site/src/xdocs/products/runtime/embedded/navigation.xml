@@ -23,9 +23,10 @@
 
   <body>
     <menu>
+      <item name="Application" href="index.html"/>
       <item name="CLI" href="cli.html"/>
-      <item name="Application" href="main.html"/>
       <item name="Servlet" href="servlet.html"/>
+      <item name="Unit" href="unit.html"/>
     </menu>
  </body>
 

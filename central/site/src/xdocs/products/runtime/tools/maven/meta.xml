@@ -20,7 +20,7 @@
 <document>
   <properties>
     <author email="mcconnell@apache.org">Stephen McConnell</author>
-    <title>Merlin Plugin for Maven</title>
+    <title>Merlin Runtime</title>
   </properties>
   <body>
     <section name="Merlin Plugin for Maven">
