@@ -23,11 +23,9 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.avalon.framework.configuration.DefaultConfigurationSerializer;
 import org.apache.avalon.framework.context.Context;
-import org.apache.avalon.framework.context.DefaultContext;
+import org.apache.avalon.framework.context.ContextException;
+import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.framework.parameters.ParameterException;
-import org.apache.avalon.framework.parameters.Parameterizable;
-import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.phoenix.interfaces.ConfigurationRepository;
 import org.apache.avalon.phoenix.interfaces.ConfigurationRepositoryMBean;
 import org.apache.excalibur.configuration.ConfigurationUtil;
@@ -56,7 +54,7 @@ import org.xml.sax.SAXException;
  * @see org.apache.excalibur.configuration.merged.ConfigurationSplitter
  */
 public class FileSystemPersistentConfigurationRepository extends AbstractLogEnabled
-    implements ConfigurationRepository, Parameterizable, Configurable, Initializable,
+    implements ConfigurationRepository, Contextualizable, Configurable, Initializable,
     ConfigurationRepositoryMBean
 {
     private static final Resources REZ =
@@ -69,22 +67,14 @@ public class FileSystemPersistentConfigurationRepository extends AbstractLogEnab
     private final DefaultConfigurationRepository
         m_mergedConfigurations = new DefaultConfigurationRepository();
 
-    private String m_phoenixHome;
+    private Context m_context;
 
     private File m_storageDirectory;
 
-    public void parameterize( final Parameters parameters ) throws ParameterException
+    public void contextualize( Context context )
+        throws ContextException
     {
-        this.m_phoenixHome = parameters.getParameter( "phoenix.home", ".." );
-    }
-
-    private Context createConfigurationContext()
-    {
-        final DefaultContext ctx = new DefaultContext();
-
-        ctx.put( "phoenix.home", this.m_phoenixHome );
-
-        return ctx;
+        m_context = context;
     }
 
     public void configure( final Configuration configuration ) throws ConfigurationException
@@ -113,9 +103,7 @@ public class FileSystemPersistentConfigurationRepository extends AbstractLogEnab
 
         try
         {
-            final Object opath = PropertyUtil.resolveProperty( path,
-                                                               createConfigurationContext(),
-                                                               false );
+            final Object opath = PropertyUtil.resolveProperty( path, m_context, false );
 
             if( opath instanceof String )
             {
