@@ -13,7 +13,6 @@ import java.util.Map;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
 
 /**
  * Default RoleManager implementation.  It populates the RoleManager
@@ -22,11 +21,11 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:ricardo@apache.org">Ricardo Rocha</a>
  * @author <a href="mailto:giacomo@apache.org">Giacomo Pati</a>
- * @version CVS $Revision: 1.1.2.1 $ $Date: 2002/05/18 05:13:05 $
+ * @version CVS $Revision: 1.1.2.2 $ $Date: 2002/05/18 06:14:35 $
  * @since 4.0
  */
 public class DefaultRoleManager
-    extends AbstractLogEnabled
+    extends AbstractDualLogEnabled
     implements RoleManager, Configurable
 {
     /** Map for shorthand to role mapping */
