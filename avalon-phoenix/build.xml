@@ -12,7 +12,7 @@ Authors:
  Leo Simons <mail@leosimons.com>
 
 Legal:
-  Copyright (c) 1999-2001 The Apache Software Foundation. All Rights Reserved.
+  Copyright (c) 1999-2002 The Apache Software Foundation. All Rights Reserved.
 
 ==============================================================================
 -->
@@ -118,6 +118,18 @@ Legal:
         <available property="wrapper.present" classname="com.silveregg.wrapper.WrapperManager">
             <classpath refid="project.class.path"/>
         </available>
+    </target>
+
+    <target name="pretty">
+       <taskdef name="pretty"
+          classname="org.acm.seguin.ant.Pretty"
+          classpath="${jrefactory.jar}" />
+       <pretty settingsDir="tools/etc" cvs="true" compileDir="${build.classes}">
+          <fileset dir="${src.dir}">
+             <include name="**/*.java" />
+             <!--<exclude name="org/**/*.java" />-->
+          </fileset>
+       </pretty>
     </target>
 
     <!-- Prepares the build directory -->
@@ -538,6 +550,7 @@ Legal:
         <delete dir="${bin.dist.dir}" />
         <delete>
             <fileset dir="." includes="**/*~" defaultexcludes="no"/>
+            <fileset dir="." includes="velocity.log*"/>
         </delete>
     </target>
 
