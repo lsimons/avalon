@@ -159,9 +159,43 @@ public class Resources
         }
         catch( final MissingResourceException mre )
         {
-            return
-                "Unable to locate resource '" + m_baseName +
-                "' with key '" + key + "' due to: " + mre;
+            final StringBuffer sb = new StringBuffer();
+            sb.append( "Unknown resource. Bundle: '" );
+            sb.append( m_baseName );
+            sb.append( "' Key: '" );
+            sb.append( key );
+            sb.append( "' Args: '" );
+
+            for( int i = 0; i < args.length; i++ )
+            {
+                if( 0 != i ) sb.append( "', '" );
+                sb.append( args[ i ] );
+            }
+
+            sb.append( "' Reason: " );
+            sb.append( mre );
+
+            return sb.toString();
+        }
+    }
+
+    /**
+     * Retrieve a raw string from bundle.
+     *
+     * @param key the key of resource
+     * @param defaultValue the default value if key is missing
+     * @return the resource string
+     */
+    public String getString( final String key, final String defaultValue )
+        throws MissingResourceException
+    {
+        try
+        {
+            return getString( key );
+        }
+        catch( final MissingResourceException mre )
+        {
+            return defaultValue;
         }
     }
 
@@ -172,17 +206,345 @@ public class Resources
      * @return the resource string
      */
     public String getString( final String key )
+        throws MissingResourceException
+    {
+        final ResourceBundle bundle = getBundle();
+        return bundle.getString( key );
+    }
+
+    /**
+     * Retrieve a boolean from bundle.
+     *
+     * @param key the key of resource
+     * @param defaultValue the default value if key is missing
+     * @return the resource boolean
+     */
+    public boolean getBoolean( final String key, final boolean defaultValue )
+        throws MissingResourceException
     {
         try
         {
-            final ResourceBundle bundle = getBundle();
-            return bundle.getString( key );
+            return getBoolean( key );
         }
         catch( final MissingResourceException mre )
         {
-            return
-                "Unable to locate resource '" + m_baseName +
-                "' with key '" + key + "' due to: " + mre;
+            return defaultValue;
+        }
+    }
+
+    /**
+     * Retrieve a raw string from bundle.
+     *
+     * @param key the key of resource
+     * @return the resource string
+     */
+    public boolean getBoolean( final String key )
+        throws MissingResourceException
+    {
+        final ResourceBundle bundle = getBundle();
+        final String value = bundle.getString( key );
+        return value.equalsIgnoreCase( "true" );
+    }
+
+    /**
+     * Retrieve a byte from bundle.
+     *
+     * @param key the key of resource
+     * @param defaultValue the default value if key is missing
+     * @return the resource byte
+     */
+    public byte getByte( final String key, final byte defaultValue )
+        throws MissingResourceException
+    {
+        try
+        {
+            return getByte( key );
+        }
+        catch( final MissingResourceException mre )
+        {
+            return defaultValue;
+        }
+    }
+
+    /**
+     * Retrieve a raw string from bundle.
+     *
+     * @param key the key of resource
+     * @return the resource string
+     */
+    public byte getByte( final String key )
+        throws MissingResourceException
+    {
+        final ResourceBundle bundle = getBundle();
+        final String value = bundle.getString( key );
+        try
+        {
+            return Byte.parseByte( value );
+        }
+        catch( final NumberFormatException nfe )
+        {
+            throw new MissingResourceException( "Expecting a byte value but got " + value,
+                                                "java.lang.String",
+                                                key );
+        }
+    }
+
+    /**
+     * Retrieve a char from bundle.
+     *
+     * @param key the key of resource
+     * @param defaultValue the default value if key is missing
+     * @return the resource char
+     */
+    public char getChar( final String key, final char defaultValue )
+        throws MissingResourceException
+    {
+        try
+        {
+            return getChar( key );
+        }
+        catch( final MissingResourceException mre )
+        {
+            return defaultValue;
+        }
+    }
+
+    /**
+     * Retrieve a raw string from bundle.
+     *
+     * @param key the key of resource
+     * @return the resource string
+     */
+    public char getChar( final String key )
+        throws MissingResourceException
+    {
+        final ResourceBundle bundle = getBundle();
+        final String value = bundle.getString( key );
+
+        if( 1 == value.length() )
+        {
+            return value.charAt( 0 );
+        }
+        else
+        {
+            throw new MissingResourceException( "Expecting a char value but got " + value,
+                                                "java.lang.String",
+                                                key );
+        }
+    }
+
+    /**
+     * Retrieve a short from bundle.
+     *
+     * @param key the key of resource
+     * @param defaultValue the default value if key is missing
+     * @return the resource short
+     */
+    public short getShort( final String key, final short defaultValue )
+        throws MissingResourceException
+    {
+        try
+        {
+            return getShort( key );
+        }
+        catch( final MissingResourceException mre )
+        {
+            return defaultValue;
+        }
+    }
+
+    /**
+     * Retrieve a raw string from bundle.
+     *
+     * @param key the key of resource
+     * @return the resource string
+     */
+    public short getShort( final String key )
+        throws MissingResourceException
+    {
+        final ResourceBundle bundle = getBundle();
+        final String value = bundle.getString( key );
+        try
+        {
+            return Short.parseShort( value );
+        }
+        catch( final NumberFormatException nfe )
+        {
+            throw new MissingResourceException( "Expecting a short value but got " + value,
+                                                "java.lang.String",
+                                                key );
+        }
+    }
+
+    /**
+     * Retrieve a integer from bundle.
+     *
+     * @param key the key of resource
+     * @param defaultValue the default value if key is missing
+     * @return the resource integer
+     */
+    public int getInteger( final String key, final int defaultValue )
+        throws MissingResourceException
+    {
+        try
+        {
+            return getInteger( key );
+        }
+        catch( final MissingResourceException mre )
+        {
+            return defaultValue;
+        }
+    }
+
+    /**
+     * Retrieve a raw string from bundle.
+     *
+     * @param key the key of resource
+     * @return the resource string
+     */
+    public int getInteger( final String key )
+        throws MissingResourceException
+    {
+        final ResourceBundle bundle = getBundle();
+        final String value = bundle.getString( key );
+        try
+        {
+            return Integer.parseInt( value );
+        }
+        catch( final NumberFormatException nfe )
+        {
+            throw new MissingResourceException( "Expecting a integer value but got " + value,
+                                                "java.lang.String",
+                                                key );
+        }
+    }
+
+    /**
+     * Retrieve a long from bundle.
+     *
+     * @param key the key of resource
+     * @param defaultValue the default value if key is missing
+     * @return the resource long
+     */
+    public long getLong( final String key, final long defaultValue )
+        throws MissingResourceException
+    {
+        try
+        {
+            return getLong( key );
+        }
+        catch( final MissingResourceException mre )
+        {
+            return defaultValue;
+        }
+    }
+
+    /**
+     * Retrieve a raw string from bundle.
+     *
+     * @param key the key of resource
+     * @return the resource string
+     */
+    public long getLong( final String key )
+        throws MissingResourceException
+    {
+        final ResourceBundle bundle = getBundle();
+        final String value = bundle.getString( key );
+        try
+        {
+            return Long.parseLong( value );
+        }
+        catch( final NumberFormatException nfe )
+        {
+            throw new MissingResourceException( "Expecting a long value but got " + value,
+                                                "java.lang.String",
+                                                key );
+        }
+    }
+
+    /**
+     * Retrieve a float from bundle.
+     *
+     * @param key the key of resource
+     * @param defaultValue the default value if key is missing
+     * @return the resource float
+     */
+    public float getFloat( final String key, final float defaultValue )
+        throws MissingResourceException
+    {
+        try
+        {
+            return getFloat( key );
+        }
+        catch( final MissingResourceException mre )
+        {
+            return defaultValue;
+        }
+    }
+
+    /**
+     * Retrieve a raw string from bundle.
+     *
+     * @param key the key of resource
+     * @return the resource string
+     */
+    public float getFloat( final String key )
+        throws MissingResourceException
+    {
+        final ResourceBundle bundle = getBundle();
+        final String value = bundle.getString( key );
+        try
+        {
+            return Float.parseFloat( value );
+        }
+        catch( final NumberFormatException nfe )
+        {
+            throw new MissingResourceException( "Expecting a float value but got " + value,
+                                                "java.lang.String",
+                                                key );
+        }
+    }
+
+    /**
+     * Retrieve a double from bundle.
+     *
+     * @param key the key of resource
+     * @param defaultValue the default value if key is missing
+     * @return the resource double
+     */
+    public double getDouble( final String key, final double defaultValue )
+        throws MissingResourceException
+    {
+        try
+        {
+            return getDouble( key );
+        }
+        catch( final MissingResourceException mre )
+        {
+            return defaultValue;
+        }
+    }
+
+    /**
+     * Retrieve a raw string from bundle.
+     *
+     * @param key the key of resource
+     * @return the resource string
+     */
+    public double getDouble( final String key )
+        throws MissingResourceException
+    {
+        final ResourceBundle bundle = getBundle();
+        final String value = bundle.getString( key );
+        try
+        {
+            return Double.parseDouble( value );
+        }
+        catch( final NumberFormatException nfe )
+        {
+            throw new MissingResourceException( "Expecting a double value but got " + value,
+                                                "java.lang.String",
+                                                key );
         }
     }
 
