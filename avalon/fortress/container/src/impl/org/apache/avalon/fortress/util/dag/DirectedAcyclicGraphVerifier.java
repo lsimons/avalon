@@ -59,6 +59,7 @@ import java.util.*;
  * and ansure that dependencies can be loaded and unloaded in the proper order.
  *
  * @author <a href="bloritsch.at.d-haven.org">Berin Loritsch</a>
+ * @author <a href="leif.at.apache.org">Leif Mortenson</a>
  * @version CVS $ Revision: 1.1 $
  */
 public class DirectedAcyclicGraphVerifier
