@@ -7,34 +7,16 @@
  */
 package org.apache.avalon.phoenix.components.application.test;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.HashMap;
-import junit.framework.TestCase;
-import org.apache.avalon.excalibur.io.FileUtil;
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
-import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.logger.ConsoleLogger;
-import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.phoenix.components.logger.DefaultLogManager;
 import org.apache.avalon.phoenix.components.application.DefaultApplication;
-import org.apache.avalon.phoenix.interfaces.LogManager;
-import org.apache.avalon.phoenix.interfaces.ApplicationContext;
-import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
-import org.apache.avalon.phoenix.metadata.BlockMetaData;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
 import org.apache.avalon.phoenix.test.AbstractContainerTestCase;
-import org.apache.excalibur.threadcontext.ThreadContext;
-import org.apache.excalibur.threadcontext.impl.DefaultThreadContextPolicy;
 
 /**
  *  An basic test case for the LogManager.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2002/10/01 06:19:50 $
+ * @version $Revision: 1.2 $ $Date: 2002/10/01 07:30:24 $
  */
 public class ApplicationTestCase
     extends AbstractContainerTestCase
@@ -50,10 +32,16 @@ public class ApplicationTestCase
         runApplicationTest( "assembly1.xml" );
     }
 
-    public void testComplex()
+    public void testArrayAssembly()
         throws Exception
     {
         runApplicationTest( "assembly2.xml" );
+    }
+
+    public void testMapAssembly()
+        throws Exception
+    {
+        runApplicationTest( "assembly3.xml" );
     }
 
     private void runApplicationTest( final String config )
