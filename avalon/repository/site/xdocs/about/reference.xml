@@ -85,15 +85,13 @@
           <a href="bootstrap.html">bootstrap properties</a>.
           </p>
         <table>
-          <tr><th>Property</th><th>Default Value</th><th>Description</th></tr>
+          <tr><th>Property</th><th>Description</th></tr>
           <tr>
             <td>${avalon.repository.proxy.host}</td>
-            <td></td>
             <td>The proxy host name.</td>
           </tr>
           <tr>
             <td>${avalon.repository.proxy.port}</td>
-            <td></td>
             <td>The proxy port.</td>
           </tr>
           <tr>
@@ -103,7 +101,6 @@
           </tr>
           <tr>
             <td>${avalon.repository.proxy.password}</td>
-            <td></td>
             <td>The proxy password.</td>
           </tr>
         </table>
