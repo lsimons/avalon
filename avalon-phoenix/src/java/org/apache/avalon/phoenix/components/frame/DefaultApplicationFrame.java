@@ -36,6 +36,7 @@ import org.apache.avalon.framework.logger.AbstractLoggable;
 import org.apache.avalon.phoenix.BlockContext;
 import org.apache.avalon.phoenix.BlockEvent;
 import org.apache.avalon.phoenix.components.configuration.ConfigurationRepository;
+import org.apache.avalon.phoenix.components.logger.SimpleLogKitManager;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
 import org.apache.log.Logger;
 
