@@ -256,6 +256,14 @@ public class DefaultDeployer
             context.put( BlockContext.APP_NAME, name );
             context.put( BlockContext.APP_HOME_DIR, directory );
 
+            final Configuration logs = environment.getChild( "logs" );
+            //Load hierarchy before classloader placed in context as
+            //that way the logFactory will not try to use the application
+            //specific classloader to load the targets which will cause
+            //CastClassExceptions 
+            final Logger logger =
+                m_logManager.createHierarchy( logs, context );
+
             final ClassLoaderSet classLoaderSet =
                 m_classLoaderManager.createClassLoaderSet( environment,
                                                            installation.getHomeDirectory(),
@@ -277,10 +285,6 @@ public class DefaultDeployer
 
             //Setup configuration for all the applications blocks
             setupConfiguration( profile.getMetaData(), config.getChildren() );
-
-            final Configuration logs = environment.getChild( "logs" );
-            final Logger logger =
-                m_logManager.createHierarchy( logs, context );
 
             //Finally add application to kernel
             m_kernel.addApplication( profile,
