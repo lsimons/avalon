@@ -65,6 +65,7 @@ import org.apache.avalon.activation.appliance.BlockContext;
 import org.apache.avalon.activation.appliance.Home;
 import org.apache.avalon.composition.data.ServiceDirective;
 import org.apache.avalon.composition.model.ContainmentModel;
+import org.apache.avalon.composition.model.ServiceModel;
 import org.apache.avalon.framework.logger.Logger;
 
 /**
@@ -75,7 +76,7 @@ import org.apache.avalon.framework.logger.Logger;
  * context.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2.4.3 $ $Date: 2004/01/12 02:12:12 $
+ * @version $Revision: 1.2.4.4 $ $Date: 2004/01/12 06:22:52 $
  */
 public class CompositeBlock extends AbstractBlock implements Home
 {
@@ -162,36 +163,12 @@ public class CompositeBlock extends AbstractBlock implements Home
     private Class[] getInterfaceClasses() throws Exception
     {
         ContainmentModel model = m_context.getContainmentModel();
-        ClassLoader loader = model.getClassLoaderModel().getClassLoader();
         ArrayList list = new ArrayList();
-        ServiceDirective[] services = model.getExportDirectives();
+        ServiceModel[] services = model.getServiceModels();
         for( int i=0; i<services.length; i++ )
         {
-            final ServiceDirective service = services[i];
-            final String classname = service.getReference().getClassname();
-            try
-            {
-                Class clazz = loader.loadClass( classname );
-                list.add( clazz );
-            }
-            catch( ClassNotFoundException cnfe )
-            {
-                final String error = 
-                   "Class not found: [" + classname
-                   + "] in block [" + this
-                   + "] with classloader content: \n";
-                StringBuffer buffer = new StringBuffer( error );
-                if( loader instanceof URLClassLoader ) 
-                {
-                    URL[] urls = ((URLClassLoader)loader).getURLs();
-                    for( int j=0; j<urls.length; j++ )
-                    {
-                        buffer.append( "\n  " + urls[j].toString() );
-                    }
-                }
-                String message = buffer.toString();
-                throw new ApplianceException( message );
-            }
+            final ServiceModel service = services[i];
+            list.add( service.getServiceClass() );
         }
         return (Class[]) list.toArray( new Class[0] );
     }
@@ -240,9 +217,7 @@ public class CompositeBlock extends AbstractBlock implements Home
 
             final ContainmentModel model = m_context.getContainmentModel();
             Class source = method.getDeclaringClass();
-            ServiceDirective service = 
-              model.getExportDirective( source );
-
+            ServiceModel service = model.getServiceModel( source );
             if( null == service )
             {
                 final String error = 
@@ -252,7 +227,7 @@ public class CompositeBlock extends AbstractBlock implements Home
                 throw new IllegalStateException( error );
             }
 
-            String path = service.getPath();
+            String path = service.getServiceDirective().getPath();
             Appliance provider = (Appliance) m_block.locate( path );
             m_logger.debug( "delegating: " +  method.getName() );
 
