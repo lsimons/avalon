@@ -29,8 +29,8 @@
     PGP).  If so, there will be an accompanying
     <samp><em>distribution</em>.asc</samp> file in the same directory as
     the distribution.  The PGP keys can be found in the distribution
-    directory at &lt;<a href="http://jakarta.apache.org/builds/jakarta-avalon/release/KEYS">
-    <samp>http://jakarta.apache.org/builds/jakarta-avalon/release/KEYS</samp></a>&gt;.</p>
+    directory at &lt;<a href="http://avalon.apache.org/builds/release/KEYS">
+    <samp>http://avalon.apache.org/builds/release/KEYS</samp></a>&gt;.</p>
 
     <xsl:variable name="filename"><xsl:value-of 
       select="project/downloads/@name"/>-<xsl:value-of 
