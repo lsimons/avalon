@@ -120,7 +120,6 @@ public final class CLIMain
             }
                 
             m_embeddor.initialize();
-            m_embeddor.start();
         }
         catch( final Throwable throwable )
         {
@@ -151,8 +150,6 @@ public final class CLIMain
         {
             try
             {
-                //m_embeddor.shutdown();
-                m_embeddor.stop();
                 m_embeddor.dispose();
             }
             catch( final Throwable throwable )
