@@ -161,7 +161,7 @@ class BasicThreadPool
         }
         final SimpleWorkerThread thread =
             new SimpleWorkerThread( this, getThreadGroup(), name, context );
-        ContainerUtil.enableLogging( thread, m_logger );
+        ContainerUtil.enableLogging( thread, m_logger.getChildLogger( "worker" ) );
         return thread;
     }
 

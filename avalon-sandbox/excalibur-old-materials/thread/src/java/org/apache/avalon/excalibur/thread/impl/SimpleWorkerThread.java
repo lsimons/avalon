@@ -99,14 +99,21 @@ class SimpleWorkerThread
         super.preExecute();
         ThreadContext.setThreadContext( m_context );
     }
-
+    
     protected void debug( final String message )
     {
-        if( false )
+        if ( m_logger.isDebugEnabled() )
         {
-            final String output = getName() + ": " + message;
-            m_logger.debug( output );
-            //System.out.println( output );
+            m_logger.debug( getName() + ": " + message );
+        }
+    }
+
+    protected void debug( final String message, final Throwable t )
+    {
+        if ( m_logger.isDebugEnabled() )
+        {
+            m_logger.debug( getName() + ": " + message, t );
         }
     }
 }
+
