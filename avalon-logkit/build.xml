@@ -488,6 +488,7 @@ Legal:
   <!-- Cleans up build and distribution directories -->
   <target name="clean">
     <delete dir="${build.dir}" />
+    <delete dir="test" /> <!-- cleanup unit test directory -->
     <delete>
       <fileset dir="." includes="**/*~" defaultexcludes="no"/>
     </delete>
