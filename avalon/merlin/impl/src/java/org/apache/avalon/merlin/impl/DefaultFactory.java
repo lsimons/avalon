@@ -59,6 +59,7 @@ import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 
 import org.apache.avalon.framework.logger.Logger;
+import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
@@ -667,6 +668,11 @@ public class DefaultFactory implements Factory
         Builder builder = m_context.newBuilder( m_classloader, artifact );
         Factory factory = builder.getFactory();
         LoggingCriteria params = getLoggingCriteria( factory );
+        if( conf.getAttribute( "debug", "false" ).equals( "true" ) )
+        {
+            params.setBootstrapLogger( 
+              new ConsoleLogger( ConsoleLogger.LEVEL_DEBUG ) );
+        }
         params.setBaseDirectory( dir );
         params.setConfiguration( conf );
         return (LoggingManager) factory.create( params );

@@ -90,6 +90,8 @@
     prereqs="avalon:build-logging,avalon:build-main,avalon:build-kernel,avalon:build-plugin"/>
 
   <goal name="avalon:build-logging" description="Build Logging.">
+
+    <!-- build the logging service -->
     <maven:reactor basedir="${basedir}"
       includes="logging/**/project.xml"
       excludes="logging/logkit/test/project.xml"
@@ -117,6 +119,8 @@
           </ant:copy>
         </j:forEach>
     </j:forEach>
+
+    <!-- execute the logging service test -->
     <maven:reactor basedir="${basedir}"
       includes="logging/logkit/test/project.xml"
       banner="Testing:"
