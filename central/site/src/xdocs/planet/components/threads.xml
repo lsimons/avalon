@@ -51,21 +51,6 @@
           </tr>
         </table>
       </subsection>
-      <subsection name="Examples">
-        <table>
-          <tr><th>Container</th><th>Description</th></tr>
-          <tr>
-            <td><a href="../examples/threads.html">Merlin</a></td>
-            <td>
-              A demonstration component implementation demonstrates the resolution
-              of a ThreadManager and subsequent access to a ThreadPoll against 
-              which a Runnable object is launched.  Termination of the container 
-              before this time will trigger disposal of the component causing the 
-              interuption of the subsidiary thread.
-            </td>
-          </tr>
-        </table>
-      </subsection>      
     </section>
 
   </body>
