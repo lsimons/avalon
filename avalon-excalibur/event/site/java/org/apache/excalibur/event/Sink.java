@@ -21,7 +21,7 @@ public interface Sink {
      * will turn off blocking for Sink.  This is intentional because a Sink should
      * never block indefinitely.
      */
-    void setTimeOut( long millis );
+    void setTimeout( long millis );
 
     /**
      * Dequeues the next element, or returns <code>null</code> if there is
