@@ -49,13 +49,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import org.apache.avalon.tools.model.Definition;
-import org.apache.avalon.tools.model.ResourceRef;
-import org.apache.avalon.tools.model.Resource;
-import org.apache.avalon.tools.model.Plugin;
-import org.apache.avalon.tools.model.XMLDefinitionBuilder;
-import org.apache.avalon.tools.util.ElementHelper;
-
 /**
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.avalon.tools.util;
+package org.apache.avalon.tools.model;
 
 import java.io.File;
 import java.io.IOException;
