@@ -43,7 +43,9 @@
             <item name="classpath" href="/meta/block/classloader/classpath/index.html"/>
             <item name="library" href="/meta/block/classloader/extensions.html"/>
             <item name="grant" href="/meta/block/classloader/grant/index.html">
-              <item name="permission" href="/meta/block/classloader/grant/permission/index.html"/>
+              <item name="permission" href="/meta/block/classloader/grant/permission/index.html">
+                <item name="action" href="/meta/block/classloader/grant/permission/action.html"/>
+              </item>
               <item name="certificates" href="/meta/block/classloader/grant/certificates/index.html"/>
             </item>
           </item>

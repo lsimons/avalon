@@ -44,7 +44,10 @@
             <item name="library" href="/meta/block/classloader/extensions.html"/>
             <item name="grant" href="/meta/block/classloader/grant/index.html">
               <item name="permission" href="/meta/block/classloader/grant/permission/index.html"/>
-              <item name="certificates" href="/meta/block/classloader/grant/certificates/index.html"/>
+              <item name="certificates" href="/meta/block/classloader/grant/certificates/index.html">
+                <item name="x509" href="/meta/block/classloader/grant/certificates/x509.html"/>
+                <item name="pkcs7" href="/meta/block/classloader/grant/certificates/pkcs7.html"/>
+              </item>
             </item>
           </item>
           <item name="component" href="/meta/block/components/index.html"/>

@@ -66,25 +66,13 @@
 
       <subsection name="Description">
 <p>
-A resource directive is a logical reference to a jar file within the enclosing repository.  A repository implementation is responsible for the mapping of logical directives to physical jar URL.
+Declaration of a permission requested by the container to its parent and grnated provisionally to the components defined within the scope of the container.
 </p>
       </subsection>
 
       <subsection name="Example XML">
-<p>
-The following example block.xml demonstrates the inclusion of three blocks within another enclosing block.  In this example, the common shared API (containing service interfaces classes is declared in the containing block classloader).
-</p>
 
 <source><![CDATA[
-<classloader>
-  <classpath>
-    <repository>
-      <resource id="james:mail" version="1.3"/>
-      <resource id="james:activation" version="1.0"/>
-      <resource id="james:mailet-api" version="1.0"/>
-    </repository>
-  </classpath>
-  <grant>
     <permission class="java.lang.RuntimePermission" name="getClassLoader" />
     <permission class="java.util.PropertyPermission" name="java.*" >
       <action>read</action>
@@ -93,12 +81,6 @@ The following example block.xml demonstrates the inclusion of three blocks withi
       <action>read</action>
       <action>write</action>
     </permission>
-  </grant>
-    
-  <!-- include blocks here -->
-
-  <include name="james" id="james:block" type="xml"/>
-</classloader>
 ]]></source>
 
      </subsection>
