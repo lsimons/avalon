@@ -205,7 +205,7 @@ Legal:
       <classpath refid="project.class.path" />
       <src path="${build.src}" />
       <exclude name="${constants.file}" />
-      <exclude name="org/apache/avalon/phoenix/frontends/ServiceServlet.java" unless="servlet.present"/>
+      <exclude name="org/apache/avalon/phoenix/frontends/PhoenixServlet.java" unless="servlet.present"/>
     </javac>
 
     <copy todir="${build.classes}">
