@@ -61,9 +61,7 @@ import java.util.Locale;
 
 import org.apache.avalon.activation.appliance.Block;
 import org.apache.avalon.activation.appliance.BlockContext;
-import org.apache.avalon.activation.appliance.Composite;
 import org.apache.avalon.activation.appliance.impl.AbstractBlock;
-import org.apache.avalon.activation.appliance.impl.DefaultServiceContext;
 
 import org.apache.avalon.composition.data.ContainmentProfile;
 import org.apache.avalon.composition.data.CategoriesDirective;
@@ -87,6 +85,7 @@ import org.apache.avalon.composition.model.ClassLoaderContext;
 import org.apache.avalon.composition.model.ClassLoaderModel;
 import org.apache.avalon.composition.model.ModelRepository;
 import org.apache.avalon.composition.model.impl.DefaultSystemContext;
+import org.apache.avalon.composition.model.impl.DelegatingSystemContext;
 import org.apache.avalon.composition.model.impl.DefaultModelFactory;
 import org.apache.avalon.composition.model.impl.DefaultContainmentContext;
 import org.apache.avalon.composition.model.impl.DefaultContainmentModel;
@@ -103,6 +102,7 @@ import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
+import org.apache.avalon.framework.parameters.Parameters;
 
 import org.apache.avalon.merlin.Kernel;
 import org.apache.avalon.merlin.KernelException;
@@ -375,12 +375,20 @@ public class DefaultFactory implements Factory
           "repository established: " + repository );
 
         //
+        // create the <parameters>
+        //
+
+        Configuration paramsConfig = kernelConfig.getChild( "parameters" );
+        Parameters params = Parameters.fromConfiguration(
+            paramsConfig, "parameter" );
+
+        //
         // create the system context
         //
 
         File anchor = criteria.getAnchorDirectory();
 
-        DefaultSystemContext applicationContext = 
+        DefaultSystemContext systemContext = 
           new DefaultSystemContext( 
             m_logging,
             anchor,
@@ -388,7 +396,8 @@ public class DefaultFactory implements Factory
             criteria.getTempDirectory(),
             repository,
             loggingDescriptor.getName(),
-            criteria.isDebugEnabled() );
+            criteria.isDebugEnabled(),
+            params );
 
         //
         // create the application model
@@ -396,11 +405,11 @@ public class DefaultFactory implements Factory
 
         getLogger().info( "building application model" );
         final Logger applicationLogger = m_logging.getLoggerForCategory("");
-        ClassLoader api = applicationContext.getCommonClassLoader();
+        ClassLoader api = systemContext.getCommonClassLoader();
         ContainmentModel application = 
           new DefaultContainmentModel(
             createContainmentContext( 
-              applicationContext, applicationLogger, api,
+              systemContext, applicationLogger, api,
               getContainmentProfile( 
                 kernelConfig.getChild( "container" ) ) ) );
 
@@ -411,67 +420,44 @@ public class DefaultFactory implements Factory
 
         getLogger().info( "facilities deployment" );
 
-        Configuration facilities = 
+        Configuration facilitiesConfig = 
           kernelConfig.getChild( "system" );
 
-        DefaultSystemContext systemContext = 
-          new DefaultSystemContext( 
-            m_logging,
-            anchor,
-            criteria.getContextDirectory(),
-            criteria.getTempDirectory(),
-            repository,
-            loggingDescriptor.getName(),
-            criteria.isDebugEnabled() );
-
-        systemContext.put( "urn:merlin:dir", criteria.getWorkingDirectory() );
-        systemContext.put( "urn:merlin:anchor", criteria.getAnchorDirectory() );
-        systemContext.put( "urn:merlin:model", application );
-
-        systemContext.makeReadOnly();
+        DelegatingSystemContext facilitiesContext = 
+          new DelegatingSystemContext( systemContext );
+        facilitiesContext.put( "urn:merlin:dir", criteria.getWorkingDirectory() );
+        facilitiesContext.put( "urn:merlin:anchor", criteria.getAnchorDirectory() );
+        facilitiesContext.put( "urn:merlin:model", application );
+        facilitiesContext.makeReadOnly();
 
         ClassLoader spi = BlockContext.class.getClassLoader();
         final Logger systemLogger = getLogger();
-        ContainmentModel system = 
+        ContainmentModel facilities = 
           new DefaultContainmentModel(
             createContainmentContext( 
-              systemContext, systemLogger, spi,
-              getContainmentProfile( facilities ) ) );
-
-        //
-        // TODO: now that the system context is established we 
-        // need to create a block and supply the system block
-        // (perhaps under a service manager) to the new model
-        // model factory to ensure that new system services 
-        // established under system scope override the bootstrap 
-        // facilities
-        //
-
-        DefaultServiceContext services = new DefaultServiceContext();
-        services.put( LoggingManager.KEY, m_logging );
+              facilitiesContext, systemLogger, spi,
+              getContainmentProfile( facilitiesConfig ) ) );
 
         try
         {
-            m_system = AbstractBlock.createRootBlock( services, system );
-            if( m_system instanceof Composite )
-            {
-                try
-                {
-                    getLogger().debug( "system assembly" );
-                    ((Composite)m_system).assemble();
-                }
-                catch( Throwable e )
-                {
-                    final String error = 
-                      "Facilities assembly failure.";
-                    throw new KernelException( error, e );
-                }
-            }
+            getLogger().debug( "system assembly" );
+            facilities.assemble();
         }
         catch( Throwable e )
         {
             final String error = 
-              "Facilities composition failure.";
+             "Facilities assembly failure.";
+            throw new KernelException( error, e );
+        }
+
+        try
+        {
+            m_system = AbstractBlock.createRootBlock( facilitiesContext, facilities );
+        }
+        catch( Throwable e )
+        {
+            final String error = 
+              "Facilities establishment failure.";
             throw new KernelException( error, e );
         }
 
@@ -541,29 +527,11 @@ public class DefaultFactory implements Factory
         }
 
         //
-        // instantiate the runtime root application block
-        //
-        getLogger().info( "deployment" );
-
-        getLogger().debug( "activation phase" );
-        try
-        {
-            m_application = 
-              AbstractBlock.createRootBlock( services, application );
-        }
-        catch( Throwable e )
-        {
-            final String error = 
-              "Composition failure.";
-            throw new KernelException( error, e );
-        }
-
-        //
         // instantiate the kernel
         //
 
         Kernel kernel = 
-          createKernel( getLogger(), criteria, m_system, m_application );
+          createKernel( getLogger(), criteria, systemContext, application );
         setShutdownHook( getLogger(), kernel );
         if( criteria.isAutostartEnabled() )
         {
@@ -603,13 +571,13 @@ public class DefaultFactory implements Factory
     }
 
     private Kernel createKernel(
-      Logger logger, KernelCriteria criteria, Block system, Block application )
+      Logger logger, KernelCriteria criteria, SystemContext context, ContainmentModel application )
       throws KernelException
     {
         try
         {
             return new DefaultKernel( 
-              logger, criteria, system, application );
+              logger, criteria, context, application );
         }
         catch( Throwable e )
         {
