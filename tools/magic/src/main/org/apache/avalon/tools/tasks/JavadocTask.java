@@ -34,6 +34,7 @@ import org.apache.avalon.tools.home.Home;
 import org.apache.avalon.tools.project.Definition;
 import org.apache.avalon.tools.project.ResourceRef;
 import org.apache.avalon.tools.project.Resource;
+import org.apache.avalon.tools.project.Policy;
 
 /**
  * Build the javadoc for a project. 
@@ -48,19 +49,41 @@ public class JavadocTask extends SystemTask
     public static final String SPI = "spi";
     public static final String IMPL = "impl";
 
+    private String m_root = "{docRoot}";
+
+    public void setRoot( String root )
+    {
+        if( root.endsWith( "/" ) )
+        { 
+            m_root = root.substring( 0, root.length() - 1 );
+        }
+        else
+        {
+            m_root = root;
+        }
+    }
+
     public void execute() throws BuildException 
     {
         Definition def = getHome().getDefinition( getKey() );
         File root = getJavadocRootDirectory( def );
+        Path classpath = def.getPath( getProject(), Policy.RUNTIME );
 
         ArrayList visited = new ArrayList();
-        execute( def, visited, ResourceRef.API, "api", root );
-        execute( def, visited, ResourceRef.SPI, "spi", root );
-        execute( def, visited, ResourceRef.IMPL, "impl", root );
+        File api = setup( 
+          def, classpath, visited, ResourceRef.API, 
+          "api", root, null, null, false );
+        File spi = setup( 
+          def, classpath, visited, ResourceRef.SPI, 
+          "spi", root, api, m_root + "/../api/", false );
+        setup( 
+          def, classpath, visited, ResourceRef.IMPL, 
+          "impl", root, spi, m_root + "/../spi/", true );
     }
 
-    private void execute( 
-      Definition def, List visited, int category, String branch, File root )
+    private File setup( 
+      Definition def, Path classpath, List visited, int category, String branch, 
+      File root, File parent, String href, boolean flag )
     {
         File base = new File( root, branch );
         ResourceRef[] refs = def.getQualifiedRefs( visited, category );
@@ -70,19 +93,22 @@ public class JavadocTask extends SystemTask
               "Javadoc preparation for category: " 
               + branch + ", " 
               + refs.length );
-            generate( def, refs, base );
+            generate( def, classpath, refs, base, parent, href, flag );
         }
+        return base;
     }
 
     private void generate( 
-       Definition definition, ResourceRef[] refs, File root )
+       Definition definition, Path classpath, ResourceRef[] refs, 
+       File root, File parent, String href, boolean flag )
     {
         Javadoc javadoc = (Javadoc) getProject().createTask( "javadoc" );
 
         javadoc.init();
         javadoc.setDestdir( root );
         Path source = javadoc.createSourcepath();
-        Path classpath = javadoc.createClasspath();
+        javadoc.createClasspath().add( classpath );
+        
         for( int i=0; i<refs.length; i++ )
         {
             ResourceRef ref = refs[i];
@@ -91,30 +117,41 @@ public class JavadocTask extends SystemTask
             {
                 Definition def = (Definition) resource;
                 File base = def.getBasedir();
-                File src = new File( base, "target/build/main" );
+                File src = Context.getFile( base, "target/build/main" );
                 if( src.exists() )
                 {
+                    log( "Adding src path: " + src );
                     source.createPathElement().setLocation( src );
                     DirSet packages = new DirSet();
                     packages.setDir( src );
                     packages.setIncludes( "**/**" );
                     javadoc.addPackageset( packages );
                 }
-            }
-            else
-            {
-                File artifact = resource.getArtifact( getProject() );
-                classpath.createPathElement().setLocation( artifact );
+                else
+                {
+                    log( "Ignoring src path: " + src );
+                }
             }
         }
 
-        File basedir = definition.getBasedir();
-        File local = new File( basedir, "target/build/main" );
-        if( local.exists() )
+        if( null != href )
         {
-            source.createPathElement().setLocation( local );
-            javadoc.execute();
+            Javadoc.LinkArgument link = javadoc.createLink();
+            link.setOffline( true );
+            link.setPackagelistLoc( parent );
+            link.setHref( href );
         }
+
+        if( flag )
+        {
+            File basedir = definition.getBasedir();
+            File local = new File( basedir, "target/build/main" );
+            if( local.exists() )
+            {
+                source.createPathElement().setLocation( local );
+            }
+        }
+        javadoc.execute();
     }
 
     private File getJavadocRootDirectory( Definition def )

@@ -18,6 +18,7 @@
 package org.apache.avalon.tools.home;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Hashtable;
 import java.util.Map;
 import java.text.SimpleDateFormat;
@@ -308,13 +309,26 @@ public class Context extends Task
             throw new NullPointerException( "path" );
         }
         File file = new File( path );
-        if( file.isAbsolute() ) return file;
+        if( file.isAbsolute() ) return getCanonicalFile( file );
         if( null == root )
         {
             throw new NullPointerException( "root" );
         }
-        return new File( root, path );
+        return getCanonicalFile( new File( root, path ) );
     }
+
+    public static File getCanonicalFile( File file ) throws BuildException
+    {
+        try
+        {
+            return file.getCanonicalFile();
+        }
+        catch( IOException ioe )
+        {
+            throw new BuildException( ioe );
+        }
+    }
+
 
     public static String getSignature()
     {
