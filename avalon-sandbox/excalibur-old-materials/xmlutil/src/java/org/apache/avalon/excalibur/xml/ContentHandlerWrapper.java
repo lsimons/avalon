@@ -22,9 +22,9 @@ import org.xml.sax.ext.LexicalHandler;
  *
  * @author <a href="mailto:dims@yahoo.com">Davanum Srinivas</a>
  *         (Apache Software Foundation, Computer Associates)
- * @version CVS $Revision: 1.3 $ $Date: 2002/07/10 08:53:17 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/08/06 18:13:02 $
  */
-public final class ContentHandlerWrapper
+public class ContentHandlerWrapper
     extends AbstractXMLConsumer
     implements Recyclable
 {
