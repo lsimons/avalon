@@ -69,7 +69,6 @@ import org.apache.avalon.repository.provider.Factory;
 import org.apache.avalon.repository.RepositoryException;
 import org.apache.avalon.repository.main.DefaultInitialContext;
 import org.apache.avalon.repository.main.DefaultBuilder;
-import org.apache.avalon.merlin.main.DefaultMerlinBuilder;
 
 import org.apache.avalon.util.env.Env;
 import org.apache.avalon.util.exception.ExceptionHelper;
@@ -80,13 +79,17 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * 
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.20 $
+ * @version $Revision: 1.21 $
  */
 public abstract class AbstractMerlinTestCase extends TestCase
 {
     //----------------------------------------------------------
     // static
     //----------------------------------------------------------
+
+    private static final String MERLIN_PROPERTIES = "merlin.properties";
+
+    private static final String IMPLEMENTATION_KEY = "merlin.implementation";
 
     private static final String APPLICANCE_CLASSNAME = 
       "org.apache.avalon.activation.appliance.Appliance";
@@ -120,14 +123,23 @@ public abstract class AbstractMerlinTestCase extends TestCase
 
     public void setUp() throws Exception
     {
+        ClassLoader classloader = AbstractMerlinTestCase.class.getClassLoader();
+
         try
         {
             File repository = new File( getMavenHome(), "repository" );
 
+            Artifact artifact = 
+              DefaultBuilder.createImplementationArtifact( 
+                classloader, 
+                getBaseDirectory(), 
+                MERLIN_PROPERTIES, 
+                IMPLEMENTATION_KEY );
+
             InitialContext context = 
                new DefaultInitialContext( repository );
 
-            Builder builder = new DefaultMerlinBuilder( context );
+            Builder builder = new DefaultBuilder( context, artifact );
             m_classloader = builder.getClassLoader();
             Factory factory = builder.getFactory();
             Map criteria = factory.createDefaultCriteria();
