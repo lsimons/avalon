@@ -34,7 +34,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * and installing it as appropriate.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.30 $ $Date: 2002/03/16 00:11:56 $
+ * @version $Revision: 1.31 $ $Date: 2002/03/21 08:20:42 $
  */
 public class Installer
     extends AbstractLogEnabled
@@ -53,10 +53,6 @@ public class Installer
     private static final String SAR_INF = "SAR-INF";
     private static final String LIB = "SAR-INF/lib";
     private static final String CLASSES = "SAR-INF/classes/";
-    private static final String ASSEMBLY_XML = "SAR-INF/assembly.xml";
-    private static final String CONFIG_XML = "SAR-INF/config.xml";
-    private static final String SERVER_XML = "SAR-INF/server.xml";
-    private static final String ENV_XML = "SAR-INF/environment.xml";
 
     //The names on the native filesystem
     private static final String FS_CONFIG_XML = "SAR-INF" + File.separator + "config.xml";
@@ -486,7 +482,7 @@ public class Installer
      * @param entry the zip entry
      * @param file the file to extract to
      * @param digests the digests for the expanded files.
-     * @exception IOException if an error occurs
+     * @exception InstallationException if an error occurs
      */
     private void expandZipEntry( final ZipFile zipFile,
                                  final ZipEntry entry,
@@ -519,7 +515,6 @@ public class Installer
         }
 
         final long checksum = entry.getCrc();
-        final long modified = file.lastModified();
         final FileDigest info = new FileDigest( file, checksum );
 
         digests.add( info );
@@ -560,8 +555,7 @@ public class Installer
      *
      * @param urls the url list
      * @param directory the directory to scan
-     * @param extentions the list of extensions to match
-     * @exception MalformedURLException if an error occurs
+     * @param extensions the list of extensions to match
      */
     private void getURLsAsStrings( final ArrayList urls, final File directory, final String[] extensions )
     {
