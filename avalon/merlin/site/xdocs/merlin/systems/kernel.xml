@@ -28,7 +28,38 @@
 
     <section name="Avalon Merlin Kernel Subsystem">
 
-      <subsection name="Introduction">
+      <p>
+      The kernel represents the root object within a merlin system.
+      It provides access to a root container and exposes operations 
+      enabling system startup and shutdown. The kernel is created 
+      using a kernel factory (see <a href="embedding.html">embedding</a>). 
+      </p>
+
+      <subsection name="Aspects">
+
+      <table>
+        <tr>
+          <th>Feature</th><th>Description</th>
+        </tr>
+        <tr>
+          <td>Embeddable</td>
+          <td>
+          The kernel provides support for generic embedding within 
+          diverse application scenarios.  In all cases the the approach 
+          to embedding leverages a kernal factory that can be parameterized
+          to suite the particular embedding scenario.
+          </td>
+        </tr>
+        <tr>
+          <td>Model Access</td>
+          <td>
+          The kernel provides application programmers with access to the 
+          root containment model, enabling dynamic addition and removal 
+          of deployment models. 
+          </td>
+        </tr>
+      </table>
+
       </subsection>
 
     </section>

@@ -28,7 +28,48 @@
 
     <section name="Avalon Activation Subsystem">
 
-      <subsection name="Introduction">
+      <p>
+      The activation platform is the runtime that is controlled by 
+      the <a href="composition.html">composition model</a>. It provides
+      support for the instanction of components, general lifecycle
+      handfling, and lifestyle management.
+      </p>
+
+      <subsection name="Aspects">
+
+      <table>
+        <tr>
+          <th>Feature</th><th>Description</th>
+        </tr>
+        <tr>
+          <td>Appliance Creation</td>
+          <td>
+          The activation 
+          <a href="../../api/org/apache/avalon/activation/package-summary.html">
+          api</a> provides support for the creation of new 
+          appliance instances.  
+          An <a href="../../api/org/apache/avalon/activation/Appliance.html">
+          appliance</a> is the object that maintains the runtime state of a 
+          particular component model.
+          </td>
+        </tr>
+        <tr>
+          <td>Component Factory</td>
+          <td>
+          A <a href="../../api/org/apache/avalon/activation/ComponentFactory.html">
+          component factory</a> provides support for the creation and destruction of component instances
+          including constructor management and complete lifecycle handling.
+          </td>
+        </tr>
+        <tr>
+          <td>Lifestyle Managers</td>
+          <td>
+          Lifestyle managers are responsible for the triggering of new component 
+          instance creation and component instance destruction.
+          </td>
+        </tr>
+      </table>
+
       </subsection>
 
     </section>
