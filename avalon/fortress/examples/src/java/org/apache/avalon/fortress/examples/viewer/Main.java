@@ -50,13 +50,17 @@
 package org.apache.avalon.fortress.examples.viewer;
 
 import org.apache.avalon.fortress.impl.DefaultContainerManager;
+import org.apache.avalon.fortress.util.FortressConfig;
+import org.apache.avalon.fortress.ContainerManager;
+import org.apache.avalon.framework.CascadingException;
+import org.apache.avalon.framework.container.ContainerUtil;
 
 /**
  * Fortress container example allowing you to perform lookups on components
  * via a simple swing gui.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version $Id: Main.java,v 1.7 2003/04/11 07:36:21 donaldp Exp $
+ * @version $Id: Main.java,v 1.8 2003/05/30 20:55:10 bloritsch Exp $
  */
 public final class Main
 {
@@ -67,25 +71,22 @@ public final class Main
     public static final void main( String[] args )
         throws Exception
     {
-        org.apache.avalon.fortress.ContainerManager cm = null;
+        ContainerManager cm = null;
 
         try
         {
-            final org.apache.avalon.fortress.util.FortressConfig config = new org.apache.avalon.fortress.util.FortressConfig();
-            config.setContainerClass( "org.apache.avalon.fortress.examples.viewer.ComponentViewer" );
-            config.setContextDirectory( "./" );
-            config.setWorkDirectory( "./" );
+            final FortressConfig config = new FortressConfig();
+            config.setContainerClass( ComponentViewer.class );
             config.setContainerConfiguration( "resource://org/apache/avalon/fortress/examples/viewer/ComponentViewer.xconf" );
             config.setLoggerManagerConfiguration( "resource://org/apache/avalon/fortress/examples/viewer/ComponentViewer.xlog" );
-            config.setRoleManagerConfiguration( "resource://org/apache/avalon/fortress/examples/viewer/ComponentViewer.roles" );
             config.setInstrumentManagerConfiguration( "resource://org/apache/avalon/fortress/examples/viewer/ComponentViewer.instruments" );
 
             cm = new DefaultContainerManager( config.getContext() );
             org.apache.avalon.framework.container.ContainerUtil.initialize( cm );
 
-            ( (org.apache.avalon.fortress.examples.viewer.ComponentViewer)cm.getContainer() ).run();
+            ( (ComponentViewer)cm.getContainer() ).run();
         }
-        catch( org.apache.avalon.framework.CascadingException e )
+        catch( CascadingException e )
         {
             e.printStackTrace();
 
@@ -95,15 +96,12 @@ public final class Main
             {
                 t.printStackTrace();
 
-                if( t instanceof org.apache.avalon.framework.CascadingException )
-                    t = ( (org.apache.avalon.framework.CascadingException)t ).getCause();
-                else
-                    t = null;
+                t = t.getCause();
             }
         }
         finally
         {
-            org.apache.avalon.framework.container.ContainerUtil.dispose( cm );
+            ContainerUtil.dispose( cm );
         }
     }
 }

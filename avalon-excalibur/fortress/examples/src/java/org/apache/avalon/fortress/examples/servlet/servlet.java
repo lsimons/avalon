@@ -49,7 +49,12 @@
 */
 package org.apache.avalon.fortress.examples.servlet;
 
+import org.apache.avalon.fortress.ContainerManager;
+import org.apache.avalon.fortress.impl.DefaultContainerManager;
+import org.apache.avalon.framework.container.ContainerUtil;
+
 import java.io.IOException;
+import java.io.File;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -59,12 +64,12 @@ import javax.servlet.http.HttpServlet;
  * Servlet based Fortress container example.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version $Id: servlet.java,v 1.6 2003/04/11 07:36:20 donaldp Exp $
+ * @version $Id: servlet.java,v 1.7 2003/05/30 20:55:10 bloritsch Exp $
  */
 public final class servlet extends HttpServlet
 {
     private ServletContainer m_container;
-    private org.apache.avalon.fortress.ContainerManager m_containerManager;
+    private ContainerManager m_containerManager;
 
     /**
      * Initializes Servlet and creates a <code>ServletContainer</code> instance
@@ -79,15 +84,14 @@ public final class servlet extends HttpServlet
         try
         {
             final org.apache.avalon.fortress.util.FortressConfig config = new org.apache.avalon.fortress.util.FortressConfig();
-            config.setContainerClass( "org.apache.avalon.fortress.examples.servlet.ServletContainer" );
-            config.setContextDirectory( "./" );
-            config.setWorkDirectory( "./" );
+            config.setContainerClass( ServletContainer.class );
+            config.setContextDirectory( getServletContext().getRealPath("/") );
+            config.setWorkDirectory( (File) getServletContext().getAttribute( "javax.servlet.context.tempdir" ) );
             config.setContainerConfiguration( "resource://org/apache/avalon/fortress/examples/servlet/ServletContainer.xconf" );
             config.setLoggerManagerConfiguration( "resource://org/avalon/excalibur/fortress/examples/servlet/ServletContainer.xlog" );
-            config.setRoleManagerConfiguration( "resource://org/avalon/excalibur/fortress/examples/servlet/ServletContainer.roles" );
 
-            m_containerManager = new org.apache.avalon.fortress.impl.DefaultContainerManager( config.getContext() );
-            org.apache.avalon.framework.container.ContainerUtil.initialize( m_containerManager );
+            m_containerManager = new DefaultContainerManager( config.getContext() );
+            ContainerUtil.initialize( m_containerManager );
 
             m_container = (ServletContainer)m_containerManager.getContainer();
         }
@@ -119,6 +123,6 @@ public final class servlet extends HttpServlet
      */
     public void destroy()
     {
-        org.apache.avalon.framework.container.ContainerUtil.dispose( m_containerManager );
+        ContainerUtil.dispose( m_containerManager );
     }
 }

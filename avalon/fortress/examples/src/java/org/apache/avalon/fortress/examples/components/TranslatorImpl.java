@@ -54,6 +54,7 @@ import java.util.Map;
 import java.util.Set;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.excalibur.instrument.AbstractLogEnabledInstrumentable;
 import org.apache.excalibur.instrument.CounterInstrument;
 
@@ -75,11 +76,16 @@ import org.apache.excalibur.instrument.CounterInstrument;
  * </pre>
  * </p>
  *
+ * @avalon.component
+ * @avalon.service type=Translator
+ * @x-avalon.info name=translator
+ * @x-avalon.lifestyle type=singleton
+ *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Revision: 1.7 $ $Date: 2003/04/11 07:36:20 $
+ * @version CVS $Revision: 1.8 $ $Date: 2003/05/30 20:55:10 $
  */
 public class TranslatorImpl extends AbstractLogEnabledInstrumentable
-    implements Translator, org.apache.avalon.framework.configuration.Configurable
+    implements Translator, Configurable
 {
     // Instrument to count the number of translations performed
     private CounterInstrument m_translationsInstrument;

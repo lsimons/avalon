@@ -50,12 +50,15 @@
 package org.apache.avalon.fortress.examples.swing;
 
 import org.apache.avalon.fortress.impl.DefaultContainerManager;
+import org.apache.avalon.fortress.util.FortressConfig;
+import org.apache.avalon.fortress.ContainerManager;
+import org.apache.avalon.framework.container.ContainerUtil;
 
 /**
  * Fortress container example.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version $Id: Main.java,v 1.6 2003/04/11 07:36:21 donaldp Exp $
+ * @version $Id: Main.java,v 1.7 2003/05/30 20:55:10 bloritsch Exp $
  */
 public final class Main
 {
@@ -69,18 +72,15 @@ public final class Main
         throws Exception
     {
         // Set up all the preferences for Fortress
-        final org.apache.avalon.fortress.util.FortressConfig config = new org.apache.avalon.fortress.util.FortressConfig();
-        config.setContainerClass( "org.apache.avalon.fortress.examples.swing.SwingContainer" );
-        config.setContextDirectory( "./" );
-        config.setWorkDirectory( "./" );
+        final FortressConfig config = new FortressConfig();
+        config.setContainerClass( SwingContainer.class );
         config.setContainerConfiguration( "resource://org/apache/avalon/fortress/examples/swing/SwingContainer.xconf" );
         config.setLoggerManagerConfiguration( "resource://org/apache/avalon/fortress/examples/swing/SwingContainer.xlog" );
-        config.setRoleManagerConfiguration( "resource://org/apache/avalon/fortress/examples/swing/SwingContainer.roles" );
         config.setInstrumentManagerConfiguration( "resource://org/apache/avalon/fortress/examples/swing/SwingContainer.instruments" );
 
         // Get the root container initialized
-        org.apache.avalon.fortress.ContainerManager cm = new DefaultContainerManager( config.getContext() );
-        org.apache.avalon.framework.container.ContainerUtil.initialize( cm );
+        ContainerManager cm = new DefaultContainerManager( config.getContext() );
+        ContainerUtil.initialize( cm );
 
         /* Special containers such as Swing applications run in a different
          * thread in the background.  This is only one method of handling
@@ -93,7 +93,7 @@ public final class Main
         ( (SwingContainer)cm.getContainer() ).run();
 
         // Properly clean up when we are done
-        org.apache.avalon.framework.container.ContainerUtil.dispose( cm );
+        ContainerUtil.dispose( cm );
     }
 }
 
