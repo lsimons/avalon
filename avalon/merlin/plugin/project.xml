@@ -23,7 +23,7 @@
 
   <extend>${basedir}/../project.xml</extend>
 
-  <groupId>&merlin-plugin-id;</groupId>
+  <groupId>&merlin-id;</groupId>
   <id>&merlin-plugin-id;</id>
   <currentVersion>&merlin-plugin-version;</currentVersion>
   
@@ -33,7 +33,7 @@
   <shortDescription>Merlin Plugin for Maven</shortDescription>
   <package>org.apache.avalon.plugins.merlin</package>
   
-  <url>http://avalon.apache.org/plugins/merlin/</url>
+  <url>http://avalon.apache.org/merlin/</url>
   <siteDirectory>/www/avalon.apache.org/maven-plugins/merlin</siteDirectory>
 
   <dependencies>
@@ -48,5 +48,39 @@
     </dependency>
 
   </dependencies>
+
+  <build>
+    <sourceDirectory>src/java</sourceDirectory>
+    <unitTestSourceDirectory>src/test</unitTestSourceDirectory>
+
+    <unitTest>
+      <includes>
+        <include>**/*Test.java</include>
+      </includes>
+    </unitTest>
+
+    <resources>
+      <resource>
+        <directory>..</directory>
+        <targetPath>META-INF</targetPath>
+        <includes>
+          <include>LICENSE.txt</include>
+        </includes>
+      </resource>
+      <resource>
+        <directory>src/plugin-resources</directory>
+        <targetPath>plugin-resources</targetPath>
+      </resource>
+      <resource>
+        <directory>.</directory>
+        <includes>
+          <include>plugin.jelly</include>
+          <include>plugin.properties</include>
+          <include>project.properties</include>
+        </includes>
+      </resource>
+    </resources>
+  </build>
+
 
 </project>

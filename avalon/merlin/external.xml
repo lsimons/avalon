@@ -66,6 +66,20 @@
       <version>&avalon-activation-impl-version;</version>
     </dependency>
 
+    <dependency>
+      <groupId>&avalon-meta-id;</groupId>
+      <artifactId>&avalon-meta-plugin-id;</artifactId>
+      <version>&avalon-meta-plugin-version;</version>
+      <type>plugin</type>
+    </dependency>
+
+    <dependency>
+      <groupId>&avalon-util-id;</groupId>
+      <artifactId>&avalon-util-plugin-id;</artifactId>
+      <version>&avalon-util-plugin-version;</version>
+      <type>plugin</type>
+    </dependency>
+
   </dependencies>
 
 </project>
