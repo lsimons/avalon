@@ -4,14 +4,13 @@
 
 <document>
   <header>
-    <title>Avalon Developer Documentation</title>
-    <subtitle>Security Concerns</subtitle>
+    <title>Avalon Framework - Security Concerns</title>
     <authors>
       <person name="Berin Loritsch" email="bloritsch@apache.org"/>
     </authors>
   </header>
   <body>
-    <s1 title="Security Concerns">
+    <s1 title="Introduction">
       <p>
         One major concern for many companies is the security of a system.
         In this context security is defined as protection of data, and
@@ -191,7 +190,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.7 $ $Date: 2002/02/15 23:05:08 $
+      $Revision: 1.8 $ $Date: 2002/04/02 11:20:19 $
     </legal>
   </footer>
 </document>

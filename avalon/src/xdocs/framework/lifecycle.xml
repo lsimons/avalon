@@ -4,8 +4,7 @@
 
 <document>
   <header>
-    <title>Avalon Component Developers Documentation</title>
-    <subtitle>The Component Lifecycle</subtitle>
+    <title>Avalon Framework - The Component Lifecycle</title>
     <authors>
       <person id="BL" name="Berin Loritsch" email="bloritsch@apache.org"/>
       <person id="PD" name="Peter Donald" email="peter@apache.org"/>
@@ -215,7 +214,7 @@ System.gc(); // finalize() is called on myComponent, which allows it to perform 
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.5 $ $Date: 2002/02/15 23:05:08 $
+      $Revision: 1.6 $ $Date: 2002/04/02 11:20:19 $
     </legal>
   </footer>
 </document>

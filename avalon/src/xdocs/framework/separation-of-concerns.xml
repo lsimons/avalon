@@ -4,14 +4,13 @@
 
 <document>
   <header>
-    <title>Avalon Developer Documentation</title>
-    <subtitle>Multi Dimensional Separation of Concerns</subtitle>
+    <title>Avalon Framework - Multi Dimensional Separation of Concerns</title>
     <authors>
       <person name="Berin Loritsch" email="bloritsch@apache.org"/>
     </authors>
   </header>
   <body>
-    <s1 title="Separation of Concerns">
+    <s1 title="Introduction">
       <p>
         The concept of using different points of view within the the system
         goes a long way in the overall comprehension of the system.
@@ -62,7 +61,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.5 $ $Date: 2002/01/31 15:43:52 $
+      $Revision: 1.6 $ $Date: 2002/04/02 11:20:19 $
     </legal>
   </footer>
 </document>

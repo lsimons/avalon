@@ -4,14 +4,13 @@
 
 <document>
   <header>
-    <title>Avalon Developer Documentation</title>
-    <subtitle>Designing for Reuse</subtitle>
+    <title>Avalon Framework - Designing for Reuse</title>
     <authors>
       <person name="Berin Loritsch" email="bloritsch@apache.org"/>
     </authors>
   </header>
   <body>
-    <s1 title="Rules for Reuse">
+    <s1 title="Introduction">
       <p>
         If you are asking yourself why this section is even included,
         the answer is that a well designed framework is designed to
@@ -186,7 +185,7 @@ class DefaultExampleDocument
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.7 $ $Date: 2002/01/31 15:43:52 $
+      $Revision: 1.8 $ $Date: 2002/04/02 11:20:19 $
     </legal>
   </footer>
 </document>
