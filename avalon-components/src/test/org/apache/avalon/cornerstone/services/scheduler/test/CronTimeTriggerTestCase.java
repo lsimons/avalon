@@ -364,10 +364,17 @@ public final class CronTimeTriggerTestCase
         now.set( Calendar.HOUR_OF_DAY, 11 );
         now.set( Calendar.DAY_OF_MONTH, 31 );
         now.set( Calendar.MONTH, Calendar.DECEMBER );
-
+        
         long time = now.getTime().getTime();
         long next = trigger.getTimeAfter( time );
+        int year =  now.get( Calendar.YEAR ) + 1;
 
-        assertTrue(next > time );
+        now.setTime( new Date( next ) );
+
+        assertEquals( "Second", now.get( Calendar.SECOND ), 0 );
+        assertEquals( "Minute", now.get( Calendar.MINUTE ), 51 );
+        assertEquals( "Hour of Day", now.get( Calendar.HOUR_OF_DAY ), 5 );
+        assertEquals( "Month", now.get( Calendar.MONTH ), Calendar.JANUARY );
+        assertEquals( "Year", now.get( Calendar.YEAR ), year );
     }
 }
