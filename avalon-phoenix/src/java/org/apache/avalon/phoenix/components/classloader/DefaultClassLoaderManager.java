@@ -75,7 +75,6 @@ public class DefaultClassLoaderManager
         {
             final JarFile archive = new JarFile( source, true, JarFile.OPEN_READ );
             factory = new SarURLStreamHandlerFactory( archive );
-            //URL.setURLStreamHandlerFactory( factory );
         }
 
         final URL[] urls = createURLs( classPath, factory );
@@ -157,22 +156,6 @@ public class DefaultClassLoaderManager
         {
             url = new URL( urlString );
         }            
-
-        /*
-        final URL temp = new URL( "jar:" + url + "!/org/apache/avalon/cornerstone/blocks/masterstore/RepositoryManager.xinfo" );
-        System.err.println( "temp: " + temp );
-        if( null != temp )
-        {
-            try
-            {
-                System.err.println( "temp-oc: " + temp.openConnection() );
-            }
-            catch( final Exception e )
-            {
-                e.printStackTrace();
-            }
-        }
-        */
 
         return url;
     }
