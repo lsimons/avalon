@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project>
+
+  <groupId>merlin-tutorial</groupId>
+  <id>merlin-tutorials-home</id>
+  <name>Merlin Tutorials</name>
+  <package>tutorial</package>
+
+  <inceptionYear>2003</inceptionYear>
+  <repository>
+    <connection>scm:cvs:pserver:anoncvs@cvs.apache.org:/home/cvspublic:avalon/merlin/platform/src/tutorials</connection>
+    <url>http://cvs.apache.org/viewcvs/avalon/merlin/platform/src/tutorials</url>
+  </repository>
+  <shortDescription>Merlin Tutorials</shortDescription>
+  <description>
+	A set of tutorials on merlin
+  </description>
+  
+  <build>
+
+    <nagEmailAddress>dev@avalon.apache.org</nagEmailAddress>
+    <sourceDirectory>${basedir}/src/java</sourceDirectory>
+    <unitTestSourceDirectory>${basedir}/src/test</unitTestSourceDirectory>
+    <integrationUnitTestSourceDirectory/>
+    <aspectSourceDirectory/>
+
+    <unitTest>
+      <includes>
+        <include>**/*TestCase*</include>
+      </includes>
+      <excludes>
+      </excludes>
+      <resources>
+        <resource>
+          <directory>${basedir}/src/test</directory>
+          <includes> 
+            <include>**/*.dtd</include>
+            <include>**/*.properties</include>
+            <include>**/*.x*</include>
+            <include>**/*.mf</include>
+            <include>**/*.jar</include>
+          </includes>
+        </resource>
+      </resources>
+    </unitTest>
+    
+    <resources>
+      <resource>
+        <directory>${basedir}/src/java</directory>
+        <includes>
+          <include>**/*.dtd</include>
+          <include>**/*.properties</include>
+          <include>**/*.x*</include>
+        </includes>
+      </resource>
+      <resource>
+        <directory>${basedir}/conf</directory>
+        <targetPath>BLOCK-INF</targetPath>
+        <includes>
+          <include>block.xml</include>
+        </includes>
+      </resource>
+    </resources>
+    <jars></jars>
+  </build>
+
+</project>

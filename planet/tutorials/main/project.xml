@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE project [
+  <!ENTITY % index SYSTEM "file:index.ent"> %index;
+]>
+
+<project>
+
+  <extend>${basedir}/../master.xml</extend>
+  <groupId>merlin/main</groupId>
+  <id>merlin-main</id>
+  <name>Merlin Embedding Tutorials</name>
+  <package>tutorial</package>
+  <currentVersion>1.0</currentVersion>
+
+  <inceptionYear>2003</inceptionYear>
+  <shortDescription>Merlin Embedding Tutorial</shortDescription>
+
+  <description>
+Tutorial demonstrating the embedding of a merlin kernel under a 
+main method.  The objective of the tutorial is to demonsrate the 
+basic requirements for embedding merlin within another application.
+  </description>
+
+  <dependencies>
+    <dependency>
+      <groupId>&avalon-repository-id;</groupId>
+      <artifactId>&avalon-repository-main-id;</artifactId>
+      <version>&avalon-repository-main-version;</version>
+    </dependency>
+  </dependencies>
+
+</project>

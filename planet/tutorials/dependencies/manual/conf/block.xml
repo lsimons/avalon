@@ -1,0 +1,22 @@
+
+<container name="tutorial">
+
+     <classloader>
+       <classpath>
+         <repository>
+           <resource id="avalon-framework:avalon-framework-impl" version="4.2.0"/>
+         </repository>
+       </classpath>
+     </classloader>
+
+     <component name="gloria" class="tutorial.IdentifiableComponent"/>
+     <component name="nancy" class="tutorial.IdentifiableComponent"/>
+
+     <component name="hello" class="tutorial.HelloComponent">
+       <dependencies>
+         <dependency key="primary" source="gloria"/>
+         <dependency key="secondary" source="nancy"/>
+       </dependencies>
+     </component>
+
+</container>
