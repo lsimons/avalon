@@ -76,7 +76,7 @@
         </p>
         <ul>
           <li><p>an application component</p></li>
-          <li><p>a location provider block inlcuded by reference</p></li>
+          <li><p>a location provider block included by reference</p></li>
           <li><p>an application block included by reference</p></li>
         </ul>
         <p>
@@ -87,10 +87,10 @@
           blocks relative to the services and dependencies they declare.
           When a block is deployed, it appears to other components as a 
           component providing the services it exports.  However in practice
-          these services are provided by components defined with the 
-          container (i.e. the container represents the defintion of 
+          these services are provided by components defined within the 
+          container (i.e. the container represents the definition of 
           a virtual component and the containers components and subcontainers
-          represent the virual compoent implementation).
+          represent the virtual component implementation).
         </p>
         <p>The top level application block declaration (block.xml):</p>
         <source><![CDATA[

@@ -68,7 +68,7 @@
    <p>
     Lifecycle extensions provide support for the declaration of supplimentary 
     stages above and beyond the classic Avalon stages.  These custom stages 
-    can be introduced during component creation, deployment, decommissining, 
+    can be introduced during component creation, deployment, decommissioning, 
     and release.
    </p>
 
