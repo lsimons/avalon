@@ -27,7 +27,7 @@ import org.w3c.dom.NodeList;
  * </pre>
  *
  * @author <a href="mailto:dims@yahoo.com">Davanum Srinivas</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/06/27 19:07:00 $ $Author: proyal $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/07/07 06:24:16 $ $Author: donaldp $
  */
 public class JaxenProcessorImpl
     extends AbstractLoggable
@@ -42,18 +42,19 @@ public class JaxenProcessorImpl
      * @param str A valid XPath string.
      * @return The first node found that matches the XPath, or null.
      */
-    public Node selectSingleNode( Node contextNode, String str )
+    public Node selectSingleNode( final Node contextNode,
+                                  final String str )
     {
         try
         {
-            DOMXPath path = new DOMXPath( str );
+            final DOMXPath path = new DOMXPath( str );
             return (Node)path.selectSingleNode( (Object)contextNode );
         }
-        catch( Exception e )
+        catch( final Exception e )
         {
             // ignore it
+            return null;
         }
-        return null;
     }
 
     /**
@@ -64,46 +65,19 @@ public class JaxenProcessorImpl
      *  @param str A valid XPath string.
      *  @return A NodeList, should never be null.
      */
-    public NodeList selectNodeList( Node contextNode, String str )
+    public NodeList selectNodeList( final Node contextNode,
+                                    final String str )
     {
         try
         {
-            DOMXPath path = new DOMXPath( str );
-            List list = path.selectNodes( (Object)contextNode );
-            return new NodeListEx( list );
+            final DOMXPath path = new DOMXPath( str );
+            final List list = path.selectNodes( (Object)contextNode );
+            return new SimpleNodeList( list );
         }
-        catch( Exception e )
+        catch( final Exception e )
         {
             // ignore it
-        }
-        return new NodeListEx();
-    }
-
-    class NodeListEx implements NodeList
-    {
-        List list = null;
-
-        NodeListEx()
-        {
-        }
-
-        NodeListEx( List l )
-        {
-            list = l;
-        }
-
-        public Node item( int index )
-        {
-            if( list == null )
-                return null;
-            return (Node)list.get( index );
-        }
-
-        public int getLength()
-        {
-            if( list == null )
-                return 0;
-            return list.size();
+            return new EmptyNodeList();
         }
     }
 }
