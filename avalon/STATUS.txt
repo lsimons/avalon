@@ -1,5 +1,5 @@
 APACHE AVALON PROJECT STATUS:                          -*-indented-text-*-
-Last modified at [$Date: 2002/12/02 11:17:35 $]
+Last modified at [$Date: 2002/12/02 11:37:46 $]
 
    
 Release:
@@ -34,8 +34,9 @@ Pending issues:
       mailing lists.
       
     o Use a unified avalon-dev mailing list (and avalon-user remains separate) 
-      +1: nicolaken, neeme, leosutic, leosimons, mcconnell, bloritsch, stefano, giacomo
+      +1: nicolaken, neeme, leosutic, mcconnell, bloritsch, stefano, giacomo
       +0: crafterm, cziegeler
+      -0: leosimons 
       -1: hammant, leif, donaldp
 
     o Voting will follow the "standard Apache voting guidelines"
