@@ -36,7 +36,7 @@ Legal:
   -->
   <property name="build.compiler.emacs" value="on"/>
   <property name="build.compiler.warnings" value="true"/>
-<!--  <property name="build.compiler.pedantic" value="true"/> -->
+  <property name="build.compiler.pedantic" value="true"/>
   <property name="build.compiler.depend" value="true"/>
   <property name="build.compiler.fulldepend" value="true"/>
 
@@ -76,7 +76,7 @@ Legal:
                                   Main target
        ===================================================================
   -->
-  <target name="main" depends="dist-lite" />
+  <target name="main" depends="jars" />
 
   <!--
        ===================================================================
@@ -133,9 +133,10 @@ Legal:
                   Checks the environment for existing resources
        ===================================================================
   -->
-  <target name="check-environment">
-    <available property="test-task.present" classname="org.apache.tools.ant.taskdefs.Test" />
-    <available property="xalan.present" classname="org.apache.xalan.xpath.XPath" />
+  <target name="check-environment" depends="check-datasource" if="jndi.present"/>
+
+  <target name="check-datasource" if="datasource.present">
+    <property name="j2ee.present" value="true"/>
   </target>
 
   <!--
@@ -145,20 +146,7 @@ Legal:
   -->
   <target name="prepare" depends="check-environment,setup-properties">
     <tstamp/>
-    <filter token="year" value="${year}"/>
-    <filter token="version" value="${version}"/>
-    <filter token="date" value="${TODAY}"/>
-    <property name="date" value="${TODAY}" />
     <mkdir dir="${build.dir}"/>
-
-    <mkdir dir="${build.lib}"/>
-    <copy file="${lib.dir}/xerces.jar" todir="${build.lib}"/>
-
-    <mkdir dir="${build.src}"/>
-    <copy todir="${build.src}">
-      <fileset dir="${java.dir}">
-      </fileset>
-    </copy>
 
   </target>
 
@@ -171,17 +159,19 @@ Legal:
 
     <mkdir dir="${build.classes}"/>
 
-    <javac srcdir="${build.src}"
+    <javac srcdir="${java.dir}"
            destdir="${build.classes}"
            debug="${debug}"
            optimize="${optimize}"
            deprecation="${deprecation}">
       <classpath>
-        <pathelement location="${lib.dir}/log.jar"/>
-        <fileset dir="${build.lib}">
+        <fileset dir="${lib.dir}">
           <include name="*.jar" />
         </fileset>
       </classpath>
+
+      <exclude name="org/apache/avalon/util/datasource/J2eeDataSource.java"
+               unless="j2ee.present"/>
     </javac>
 
   </target>
@@ -220,21 +210,10 @@ Legal:
   -->
   <target name="jars" depends="compile">
 
-    <jar jarfile="${build.lib}/${dist.name}.jar" basedir="${build.classes}">
+    <jar jarfile="${build.lib}/avalonapi.jar" basedir="${build.classes}">
       <include name="org/apache/avalon/**"/>
+      <zipfileset src="${lib.dir}/log.jar" includes="**/*.class"/>
     </jar>
-  </target>
-
-  <!--
-       ===================================================================
-                         Create the lite build
-       ===================================================================
-  -->
-  <target name="dist-lite" depends="jars">
-
-  <mkdir dir="${dist.dir}"/>
-  <copy file="${build.lib}/${dist.name}.jar" tofile="${dist.dir}/${dist.name}.jar"/>
-
   </target>
 
   <!--
@@ -242,7 +221,11 @@ Legal:
                             Create the distribution
        ===================================================================
   -->
-  <target name="dist" depends="dist-lite,javadocs,docs">
+  <target name="dist" depends="jars,javadocs,docs">
+
+    <mkdir dir="${dist.dir}"/>
+    <copy file="${build.lib}/avalonapi.jar" tofile="${dist.dir}/${dist.name}.jar"/>
+
     <mkdir dir="${dist.docs}"/>
     <mkdir dir="${dist.javadocs}"/>
 
