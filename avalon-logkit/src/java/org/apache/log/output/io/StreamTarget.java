@@ -190,7 +190,11 @@ public class StreamTarget
         {
             if( null != outputStream )
             {
-                outputStream.close();
+                // Never close System Streams
+                if( ! ( System.out == outputStream && System.err == outputStream ) )
+                {
+                    outputStream.close();
+                }
             }
         }
         catch( final IOException ioe )
