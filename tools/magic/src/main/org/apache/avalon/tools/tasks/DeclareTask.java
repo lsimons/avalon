@@ -181,10 +181,6 @@ public class DeclareTask extends SystemTask
         writer.write( "\n  </info>" );
     }
 
-   /**
-    * Write the classpath.  If the fag is true, then include this defintion 
-    * in the claspath.
-    */
     protected void writeClasspath( 
       final Writer writer, final Definition def, String padding, boolean flag )
         throws IOException

@@ -68,6 +68,8 @@ public class BlockTask extends DeclareTask
         private String m_classname;
         private String m_profile;
         private boolean m_context = false;
+        private boolean m_parameters = false;
+        private boolean m_dependencies = false;
         private ArrayList m_children = new ArrayList();
 
         public void setClass( final String classname )
@@ -103,6 +105,40 @@ public class BlockTask extends DeclareTask
             {
                 final String error = 
                   "Context entry already set!";
+                throw new BuildException( error );
+            }
+        }
+
+        public Parameters createParameters()
+        {
+            if( !m_parameters )
+            {
+                Parameters parameters = new Parameters();
+                m_children.add( parameters );
+                m_parameters = true;
+                return parameters;
+            }
+            else
+            {
+                final String error = 
+                  "Parameters definition already set!";
+                throw new BuildException( error );
+            }
+        }
+
+        public Dependencies createDependencies()
+        {
+            if( !m_dependencies )
+            {
+                Dependencies deps = new Dependencies();
+                m_children.add( deps );
+                m_dependencies = true;
+                return deps;
+            }
+            else
+            {
+                final String error = 
+                  "Dependencies definition already set!";
                 throw new BuildException( error );
             }
         }
@@ -245,8 +281,9 @@ public class BlockTask extends DeclareTask
 
     public static class Dependency
     {
-        private String m_key;
         private String m_source;
+
+        private String m_key;
 
         public void setKey( final String key )
         {
@@ -266,6 +303,55 @@ public class BlockTask extends DeclareTask
         public String getSource()
         {
             return m_source;
+        }
+    }
+
+    public static class Dependencies
+    {
+        private List m_dependencies = new ArrayList();
+
+        public Dependency createDependency()
+        {
+            final Dependency dep = new Dependency();
+            m_dependencies.add( dep );
+            return dep;
+        }
+
+        public Dependency[] getDependencies()
+        {
+            return (Dependency[]) m_dependencies.toArray( new Dependency[0] );
+        }
+    }
+
+    public static class Parameter extends Identifiable
+    {
+        private String m_value;
+
+        public void setValue( final String value )
+        {
+            m_value = value;
+        }
+
+        public String getValue()
+        {
+            return m_value;
+        }
+    }
+
+    public static class Parameters
+    {
+        private List m_parameters = new ArrayList();
+
+        public Parameter createParameter()
+        {
+            final Parameter parameter = new Parameter();
+            m_parameters.add( parameter );
+            return parameter;
+        }
+
+        public Parameter[] getParameters()
+        {
+            return (Parameter[]) m_parameters.toArray( new Parameter[0] );
         }
     }
 
@@ -402,19 +488,26 @@ public class BlockTask extends DeclareTask
     protected void writePlugin( final Writer writer, final Definition def )
         throws IOException
     {
+        writeContainer( "", writer, def );
+    }
+
+    protected void writeContainer( final String pad, final Writer writer, final Definition def )
+        throws IOException
+    {
         final Info info = def.getInfo();
 
-        writer.write( "\n\n<container name=\"" + getName( def ) + "\">" );
+        writer.write( "\n\n" + pad + "<container name=\"" + getName( def ) + "\">" );
 
         if( null != m_service )
         {
-            writeService( writer, m_service );
+            writeService( pad + "  ", writer, m_service );
         }
 
-        writer.write( "\n\n  <classloader>" );
+        final String indent = pad + "  ";
+        writer.write( "\n\n" + indent + "<classloader>" );
         boolean standalone = (null == m_target);
-        writeClasspath( writer, def, "    ", standalone );
-        writer.write( "\n  </classloader>" );
+        writeClasspath( writer, def, indent + "  ", standalone );
+        writer.write( "\n" + indent + "</classloader>" );
 
         Identifiable[] components = 
           (Identifiable[]) m_content.toArray( new Identifiable[0] );
@@ -423,21 +516,21 @@ public class BlockTask extends DeclareTask
             Identifiable identifiable = components[i];
             if( identifiable instanceof Component )
             {
-                writeComponent( writer, (Component) identifiable );
+                writeComponent( indent, writer, (Component) identifiable );
             }
             else if( identifiable instanceof Include )
             {
-                writeInclude( writer, (Include) identifiable );
+                writeInclude( indent, writer, (Include) identifiable );
             }
         }
 
-        writer.write( "\n\n</container>\n" );
+        writer.write( "\n\n" + pad + "</container>\n" );
     }
 
-    private void writeComponent( final Writer writer, final Component component )
+    private void writeComponent( final String pad, final Writer writer, final Component component )
         throws IOException
     {
-        writer.write( "\n\n  <component name=\"" + component.getName() 
+        writer.write( "\n\n" + pad + "<component name=\"" + component.getName() 
           + "\" class=\"" + component.getClassname() + "\"" );
 
         if( null != component.getProfile() )
@@ -458,21 +551,25 @@ public class BlockTask extends DeclareTask
                 Object child = children[i];
                 if( child instanceof Context )
                 {
-                    writeContext( writer, (Context) child );
+                    writeContext( pad + "  ", writer, (Context) child );
                 }
-                else if( child instanceof Dependency )
+                else if( child instanceof Dependencies )
                 {
-                    writeDependency( writer, (Dependency) child );
+                    writeDependencies( pad + "  ", writer, (Dependencies) child );
+                }
+                else if( child instanceof Parameters )
+                {
+                    writeParameters( pad + "  ", writer, (Parameters) child );
                 }
             }
-            writer.write( "\n  </component>" );
+            writer.write( "\n" + pad + "</component>" );
         }
     }
 
-    private void writeContext( final Writer writer, final Context context )
+    private void writeContext( final String pad, final Writer writer, final Context context )
         throws IOException
     {
-        writer.write( "\n    <context" ); 
+        writer.write( "\n" + pad + "<context" ); 
         if( null != context.getClassname() )
         {
             writer.write( " class=\"" + context.getClassname() + "\"" );
@@ -487,17 +584,17 @@ public class BlockTask extends DeclareTask
             writer.write( ">" );
             for( int i=0; i<entries.length; i++ )
             {
-                writeEntry( writer, entries[i] );
+                writeEntry( pad + "  ", writer, entries[i] );
             }  
             writer.write( "\n    </context>" ); 
         }
     }
 
-    private void writeEntry( final Writer writer, final Entry entry )
+    private void writeEntry( final String pad, final Writer writer, final Entry entry )
         throws IOException
     {
         writer.write( 
-          "\n      <entry key=\"" + entry.getKey() + "\"" );
+          "\n" + pad + "<entry key=\"" + entry.getKey() + "\"" );
 
         if( null != entry.getClassname() )
         {
@@ -520,43 +617,44 @@ public class BlockTask extends DeclareTask
                 writer.write( ">" );
                 for( int i=0; i<params.length; i++ )
                 {
-                    writeParam( writer, params[i] );
+                    writeParam( pad + "  ", writer, params[i] );
                 } 
-                writer.write( "\n      </entry>" ); 
+                writer.write( "\n" + pad + "</entry>" ); 
             }
         }
     }
 
-    private void writeInclude( final Writer writer, final Include include )
+    private void writeInclude( final String pad, final Writer writer, final Include include )
         throws IOException
     {
         writer.write( 
-          "\n  <include name=\"" 
+          "\n\n" + pad + "<include name=\"" 
           + include.getName() + "\" artifact=\"" 
-          + include.getArtifact() + "\"/>\n" );
+          + include.getArtifact() + "\"/>" );
     }
 
-    private void writeService( final Writer writer, final Service service )
+    private void writeService( final String pad, final Writer writer, final Service service )
         throws IOException
     {
+        final String lead = "\n" + pad;
         writer.write( "\n" );
-        writer.write( "\n  <services>" );
-        writer.write( "\n    <service type=\"" + service.getType() + "\">" );
-        writer.write( "\n      <source>" + service.getSource() + "</source>" );
-        writer.write( "\n    </service>" );
-        writer.write( "\n  </services>" );
+        writer.write( lead + "<services>" );
+        writer.write( lead + "  <service type=\"" + service.getType() + "\">" );
+        writer.write( lead + "    <source>" + service.getSource() + "</source>" );
+        writer.write( lead + "  </service>" );
+        writer.write( lead + "</services>" );
     }
 
-    private void writeParam( final Writer writer, final Param param )
+    private void writeParam( final String pad, final Writer writer, final Param param )
         throws IOException
     {
         if( null == param.getClassname() )
         {
-            writer.write( "\n        <param>" );
+            writer.write( "\n" + pad + "<param>" );
         }
         else
         {
-            writer.write( "\n        <param class=\"" + param.getClassname() + "\">" );
+            writer.write( "\n" + pad + "<param class=\"" + param.getClassname() + "\">" );
         }
 
         String value = param.getValue();
@@ -576,19 +674,53 @@ public class BlockTask extends DeclareTask
                 writer.write( ">" );
                 for( int i=0; i<parameters.length; i++ )
                 {
-                    writeParam( writer, parameters[i] );
+                    writeParam( pad + "  ", writer, parameters[i] );
                 } 
-                writer.write( "\n        </param>" ); 
+                writer.write( "\n" + pad + "</param>" ); 
             }
         }
     }
 
-    private void writeDependency( final Writer writer, final Dependency dep )
+    private void writeDependencies( final String pad, final Writer writer, final Dependencies deps )
+        throws IOException
+    {
+        writer.write( "\n" + pad + "<dependencies>" );
+        Dependency[] dependencies = deps.getDependencies();
+        for( int i=0; i<dependencies.length; i++ )
+        {
+            writeDependency( pad + "  ", writer, dependencies[i] );
+        } 
+        writer.write( "\n" + pad + "</dependencies>" );
+    }
+
+    private void writeDependency( final String pad, final Writer writer, final Dependency dep )
         throws IOException
     {
         writer.write( 
-          "\n    <dependency key=\"" 
+          "\n" + pad + "<dependency key=\"" 
           + dep.getKey() + "\" source=\"" 
           + dep.getSource() + "\"/>" );
     }
+
+    private void writeParameters( final String pad, final Writer writer, final Parameters parameters )
+        throws IOException
+    {
+        writer.write( "\n" + pad + "<parameters>" );
+        Parameter[] params = parameters.getParameters();
+        for( int i=0; i<params.length; i++ )
+        {
+            writeParameter( pad + "  ", writer, params[i] );
+        } 
+        writer.write( "\n" + pad + "</parameters>" );
+    }
+
+    private void writeParameter( final String pad, final Writer writer, final Parameter param )
+        throws IOException
+    {
+        writer.write( 
+          "\n" + pad + "<parameter name=\"" 
+          + param.getName() + "\" value=\"" 
+          + param.getValue() + "\"/>" );
+    }
+
 }
