@@ -8,7 +8,7 @@
 package org.apache.phoenix.engine;
 
 import org.apache.avalon.atlantis.SystemManager;
-import org.apache.avalon.logger.AbstractLoggable;
+import org.apache.avalon.atlantis.AbstractSystemManager;
 import org.apache.avalon.parameters.ParameterException;
 import org.apache.avalon.parameters.Parameterizable;
 import org.apache.avalon.parameters.Parameters;
@@ -28,7 +28,7 @@ import javax.management.MBeanServer;
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public class PhoenixManager
-    extends AbstractLoggable
+    extends AbstractSystemManager
     implements SystemManager, Parameterizable
 {
     private Parameters      m_parameters;
