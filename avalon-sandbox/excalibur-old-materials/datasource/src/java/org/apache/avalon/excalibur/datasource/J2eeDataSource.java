@@ -23,7 +23,7 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
  * J2EE container pools the datasources properly.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.1 $ $Date: 2001/07/19 07:33:01 $
+ * @version CVS $Revision: 1.2 $ $Date: 2001/07/20 16:23:02 $
  */
 public class J2eeDataSource
     extends AbstractLoggable
@@ -56,7 +56,11 @@ public class J2eeDataSource
             }
             catch( final NamingException ne )
             {
-                getLogger().error( "Problem with JNDI lookup of datasource", ne );
+                if (getLogger().isErrorEnabled())
+                {
+                    getLogger().error( "Problem with JNDI lookup of datasource", ne );
+                }
+
                 throw new ConfigurationException( "Could not use JNDI to find datasource", ne );
             }
         }

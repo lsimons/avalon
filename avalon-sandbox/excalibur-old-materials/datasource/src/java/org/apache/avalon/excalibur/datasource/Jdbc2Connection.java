@@ -30,7 +30,7 @@ import org.apache.log.Logger;
  * total number of Connection objects that are created.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.1 $ $Date: 2001/07/19 07:33:01 $
+ * @version CVS $Revision: 1.2 $ $Date: 2001/07/20 16:23:02 $
  */
 public final class JdbcConnection
     extends AbstractLoggable
@@ -75,7 +75,10 @@ public final class JdbcConnection
 
         if (m_test_statement == null)
         {
-            getLogger().warn("Could not prepare test statement", m_test_exception);
+            if (getLogger().isWarnEnabled())
+            {
+                getLogger().warn("Could not prepare test statement", m_test_exception);
+            }
             m_test_exception = null;
         }
     }
@@ -140,7 +143,10 @@ public final class JdbcConnection
         try { m_connection.close(); }
         catch( final SQLException se )
         {
-            getLogger().warn( "Could not close connection", se );
+            if (getLogger().isWarnEnabled())
+            {
+                getLogger().warn( "Could not close connection", se );
+            }
         }
     }
 
