@@ -59,7 +59,7 @@ package org.apache.avalon.framework.configuration;
  * with methods that can be abstracted away from underlying implementations.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.28 $ $Date: 2003/02/11 16:19:27 $
+ * @version CVS $Revision: 1.29 $ $Date: 2003/08/29 15:12:00 $
  */
 public abstract class AbstractConfiguration
     implements Configuration
@@ -110,8 +110,8 @@ public abstract class AbstractConfiguration
         catch( final Exception nfe )
         {
             final String message =
-                "Cannot parse the value \"" + value 
-                + "\" as an integer in the configuration element \"" 
+                "Cannot parse the value \"" + value
+                + "\" as an integer in the configuration element \""
                 + getName() + "\" at " + getLocation();
             throw new ConfigurationException( message );
         }
@@ -173,8 +173,8 @@ public abstract class AbstractConfiguration
         catch( final Exception nfe )
         {
             final String message =
-                "Cannot parse the value \"" + value 
-                + "\" as a long in the configuration element \"" 
+                "Cannot parse the value \"" + value
+                + "\" as a long in the configuration element \""
                 + getName() + "\" at " + getLocation();
             throw new ConfigurationException( message );
         }
@@ -218,8 +218,8 @@ public abstract class AbstractConfiguration
         catch( final Exception nfe )
         {
             final String message =
-                "Cannot parse the value \"" + value 
-                + "\" as a float in the configuration element \"" 
+                "Cannot parse the value \"" + value
+                + "\" as a float in the configuration element \""
                 + getName() + "\" at " + getLocation();
             throw new ConfigurationException( message );
         }
@@ -265,7 +265,7 @@ public abstract class AbstractConfiguration
         else
         {
             final String message =
-                "Cannot parse the value \"" + value 
+                "Cannot parse the value \"" + value
                 + "\" as a boolean in the configuration element \""
                 + getName() + "\" at " + getLocation();
             throw new ConfigurationException( message );
@@ -345,8 +345,8 @@ public abstract class AbstractConfiguration
         catch( final Exception nfe )
         {
             final String message =
-                "Cannot parse the value \"" + value 
-                + "\" as an integer in the attribute \"" 
+                "Cannot parse the value \"" + value
+                + "\" as an integer in the attribute \""
                 + name + "\" at " + getLocation();
             throw new ConfigurationException( message );
         }
@@ -522,17 +522,17 @@ public abstract class AbstractConfiguration
 
     private boolean isTrue( final String value )
     {
-        return value.equalsIgnoreCase( "true" ) 
-            || value.equalsIgnoreCase( "yes" ) 
-            || value.equalsIgnoreCase( "on" ) 
+        return value.equalsIgnoreCase( "true" )
+            || value.equalsIgnoreCase( "yes" )
+            || value.equalsIgnoreCase( "on" )
             || value.equalsIgnoreCase( "1" );
     }
 
     private boolean isFalse( final String value )
     {
-        return value.equalsIgnoreCase( "false" ) 
-            || value.equalsIgnoreCase( "no" ) 
-            || value.equalsIgnoreCase( "off" ) 
+        return value.equalsIgnoreCase( "false" )
+            || value.equalsIgnoreCase( "no" )
+            || value.equalsIgnoreCase( "off" )
             || value.equalsIgnoreCase( "0" );
     }
 
@@ -615,5 +615,17 @@ public abstract class AbstractConfiguration
                 return null;
             }
         }
+    }
+
+    /**
+     * The toString() operation is used for debugging information.  It does
+     * not create a deep reproduction of this configuration and all child configurations,
+     * instead it displays the name, value, and location.
+     *
+     * @return getName() + "::" + getValue() + ":@" + getLocation();
+     */
+    public String toString()
+    {
+        return getName() + "::" + getValue("<no value>") + ":@" + getLocation();
     }
 }

@@ -61,11 +61,23 @@ import org.apache.avalon.framework.CascadingException;
  * properly, or if a value cannot be retrieved properly.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.11 $ $Date: 2003/02/11 15:58:38 $
+ * @version CVS $Revision: 1.12 $ $Date: 2003/08/29 15:12:00 $
  */
 public class ConfigurationException
     extends CascadingException
 {
+    private final Configuration m_config;
+
+    /**
+     * Construct a new <code>ConfigurationException</code> instance.
+     *
+     * @param config  The offending configuration object
+     */
+    public ConfigurationException( final Configuration config )
+    {
+        this( "Bad configuration: " + config.toString(), config );
+    }
+
     /**
      * Construct a new <code>ConfigurationException</code> instance.
      *
@@ -73,7 +85,7 @@ public class ConfigurationException
      */
     public ConfigurationException( final String message )
     {
-        this( message, null );
+        this( message, (Configuration) null );
     }
 
     /**
@@ -84,6 +96,47 @@ public class ConfigurationException
      */
     public ConfigurationException( final String message, final Throwable throwable )
     {
+        this( message, null, throwable );
+    }
+
+    /**
+     * Construct a new <code>ConfigurationException</code> instance.
+     *
+     * @param message The detail message for this exception.
+     * @param config  The configuration object
+     */
+    public ConfigurationException( final String message, final Configuration config )
+    {
+        this( message, config, null );
+    }
+
+    /**
+     * Construct a new <code>ConfigurationException</code> instance.
+     *
+     * @param message The detail message for this exception.
+     * @param throwable the root cause of the exception
+     */
+    public ConfigurationException( final String message, final Configuration config, final Throwable throwable )
+    {
         super( message, throwable );
+        m_config = config;
+    }
+
+    public Configuration getOffendingConfiguration()
+    {
+        return m_config;
+    }
+
+    public String getMessage()
+    {
+        StringBuffer message = new StringBuffer(super.getMessage());
+
+        if (null != m_config)
+        {
+            message.append("@");
+            message.append(m_config.getLocation());
+        }
+
+        return message.toString();
     }
 }
