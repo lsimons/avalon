@@ -8,7 +8,8 @@
   <body>
     <section name="Products">
       <p>
-        Avalon consists of a number of product and sub-projects.
+        Avalon consists of a number of products and sub-projects supporting
+        service and component management.
       </p>
       <table>
         <tr>
@@ -19,9 +20,9 @@
           <td><a href="/products/framework/index.html">Framework</a></td>
           <td>
               <p>The framework collection includes a component meta model 
-              used to describe component dependencies towards a container, and,
+              used to describe component dependencies towards a container, 
               the classic framework APIs that describe the runtime contact 
-              between a container and a component.</p>
+              between a container and a component, and container utilities</p>
             </td>
         </tr>
         <tr>
@@ -39,8 +40,7 @@
           <td><a href="products/components/index.html">Components</a></td>
           <td>
               <p>The components page provides a summary of the two main
-              component groups in Avalon - the course grained cornerstone
-              suite and the fine grain utilites under Excalibur.</p>
+              component groups in Avalon.</p>
             </td>
         </tr>
       </table>
