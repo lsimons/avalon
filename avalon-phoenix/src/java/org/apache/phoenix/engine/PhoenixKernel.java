@@ -33,20 +33,9 @@ public class PhoenixKernel
     extends AbstractKernel
     implements Kernel
 {
-    private final static String BANNER = Constants.SOFTWARE + " " + Constants.VERSION;
-
     public PhoenixKernel()
     {
         m_entryClass = ServerApplicationEntry.class;
-    }
-
-    public void init()
-        throws Exception
-    {
-        System.out.println();
-        System.out.println( BANNER );
-
-        super.init();
     }
 
     /**
