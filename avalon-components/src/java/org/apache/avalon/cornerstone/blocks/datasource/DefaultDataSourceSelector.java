@@ -22,6 +22,24 @@ import org.apache.avalon.excalibur.datasource.DataSourceComponent;
 import org.apache.avalon.phoenix.Block;
 
 /**
+ * The Default implementation for DataSourceSelector.
+ * The Configuration is like this:
+ *
+ * <pre>
+ * &lt;data-sources&gt;
+ *   &lt;data-source name="<i>default</i>"
+ *     class="<i>org.apache.avalon.excalibur.datasource.JdbcDataSource</i>"&gt;
+ *     &lt;!-- configuration for JdbcDataSource --&gt;
+ *     &lt;pool-controller min="<i>5</i>" max="<i>10</i>" connection-class="<i>my.overrided.ConnectionClass</i>"&gt;
+ *       &lt;keep-alive&gt;select 1&lt;/keep-alive&gt;
+ *     &lt;/pool-controller&gt;
+ *     &lt;driver&gt;<i>com.database.jdbc.JdbcDriver</i>&lt;/driver&gt;
+ *     &lt;dburl&gt;<i>jdbc:driver://host/mydb</i>&lt;/dburl&gt;
+ *     &lt;user&gt;<i>username</i>&lt;/user&gt;
+ *     &lt;password&gt;<i>password</i>&lt;/password&gt;
+ *   &lt;/data-source&gt;
+ * &lt;/data-sources&gt;
+ * </pre>
  *
  * @author <a href="mailto:colus@isoft.co.kr">Eung-ju Park</a>
  */
