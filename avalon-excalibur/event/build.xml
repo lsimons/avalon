@@ -270,17 +270,21 @@
 
     </target>
 
-    <!-- Creates a minimal distribution -->
-    <target name="dist.lite"
-        depends="jar, test, javadocs"
-        description="Generates a minimal distribution (jar + javadocs)">
-
+    <!-- Creates a mini jar-only distribution -->
+    <target name="dist-jar" depends="jar">
         <mkdir dir="${dist.dir}"/>
         <copy todir="${dist.dir}">
             <fileset dir="${build.lib}">
                 <include name="*.jar"/>
             </fileset>
-        </copy>
+        </copy> 
+    </target>   
+
+    <!-- Creates a minimal distribution -->
+    <target name="dist.lite"
+        depends="dist-jar, test, javadocs"
+        description="Generates a minimal distribution (jar + javadocs)">
+
         <copy file="../LICENSE.txt" todir="${dist.dir}"/>
         <copy file="../KEYS" todir="${dist.dir}"/>
         <copy file="README.txt" todir="${dist.dir}"/>
