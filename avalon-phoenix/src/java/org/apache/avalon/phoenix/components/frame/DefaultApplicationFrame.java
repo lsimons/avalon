@@ -20,10 +20,11 @@ import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.context.Context;
+import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.AbstractLoggable;
-import org.apache.avalon.phoenix.components.frame.ApplicationFrame;
+import org.apache.avalon.phoenix.BlockContext;
 import org.apache.log.Hierarchy;
 import org.apache.log.LogTarget;
 import org.apache.log.Logger;
@@ -63,6 +64,9 @@ public class DefaultApplicationFrame
 
     ///Classpath for application
     private URL[]        m_classPath;
+
+    ///Base context for all blocks in application
+    private Context      m_context;
 
     public void contextualize( final Context context )
         throws ContextException
@@ -108,6 +112,12 @@ public class DefaultApplicationFrame
     {
         final ClassLoader parentClassLoader = Thread.currentThread().getContextClassLoader();
         m_classLoader = new PolicyClassLoader( m_classPath, parentClassLoader, m_policy );
+
+        //base contxt that all block contexts inherit from
+        final DefaultContext context = new DefaultContext();
+        context.put( BlockContext.APP_NAME, m_name );
+        context.put( BlockContext.APP_HOME_DIR, m_baseDirectory );
+        m_context = context;
     }
 
     /**
@@ -130,6 +140,21 @@ public class DefaultApplicationFrame
     public Logger getLogger( final String category )
     {
         return m_logHierarchy.getLoggerFor( category );
+    }
+
+    /**
+     * Create a BlockContext for a particular Block.
+     *
+     * @param name the name of the Block
+     * @return the created BlockContext
+     */
+    public BlockContext createBlockContext( final String name )
+    {
+        final DefaultBlockContext context =
+            new DefaultBlockContext( getLogger(), this, m_context );
+        context.put( BlockContext.NAME, name );
+        context.makeReadOnly();
+        return context;
     }
 
     /**

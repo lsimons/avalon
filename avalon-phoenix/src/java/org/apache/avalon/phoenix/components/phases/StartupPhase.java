@@ -36,7 +36,6 @@ import org.apache.avalon.phoenix.BlockContext;
 import org.apache.avalon.phoenix.components.configuration.ConfigurationRepository;
 import org.apache.avalon.phoenix.components.frame.ApplicationFrame;
 import org.apache.avalon.phoenix.engine.blocks.BlockEntry;
-import org.apache.avalon.phoenix.engine.blocks.DefaultBlockContext;
 import org.apache.avalon.phoenix.engine.blocks.RoleEntry;
 import org.apache.avalon.phoenix.metainfo.BlockInfo;
 import org.apache.avalon.phoenix.metainfo.BlockUtil;
@@ -59,9 +58,6 @@ public class StartupPhase
     ///Factory used to build instance of Block
     private Factory              m_factory;
 
-    ///base context used to setup hosted blocks
-    private DefaultContext       m_baseBlockContext;
-
     ///Name of application, phase is running in
     private String               m_appName;
 
@@ -74,15 +70,7 @@ public class StartupPhase
     public void contextualize( final Context context )
         throws ContextException
     {
-        final File baseDirectory = (File)context.get( "app.home" );
         m_appName = (String)context.get( "app.name" );
-
-        //base contxt that all block contexts inherit from
-        final DefaultContext blockContext = new DefaultContext();
-        blockContext.put( BlockContext.APP_NAME, m_appName );
-        blockContext.put( BlockContext.APP_HOME_DIR, baseDirectory );
-
-        m_baseBlockContext = blockContext;
     }
 
     public void compose( final ComponentManager componentManager )
@@ -136,7 +124,8 @@ public class StartupPhase
             if( object instanceof Contextualizable )
             {
                 getLogger().debug( "Pre-Contextualize Stage" );
-                ((Contextualizable)object).contextualize( createContext( name ) );
+                final BlockContext context = m_frame.createBlockContext( name );
+                ((Contextualizable)object).contextualize( context );
                 getLogger().debug( "Contextualize successful." );
             }
 
@@ -227,14 +216,6 @@ public class StartupPhase
                 throw new Exception( message );
             }
         }
-    }
-
-    private Context createContext( final String name )
-    {
-        final DefaultBlockContext context =
-            new DefaultBlockContext( getLogger(), m_frame, m_baseBlockContext );
-        context.put( BlockContext.NAME, name );
-        return context;
     }
 
     /**

@@ -5,17 +5,16 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE file.
  */
-package org.apache.avalon.phoenix.engine.blocks;
+package org.apache.avalon.phoenix.components.frame;
 
 import java.io.File;
+import org.apache.avalon.excalibur.thread.ThreadPool;
 import org.apache.avalon.framework.CascadingRuntimeException;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.DefaultContext;
-import org.apache.avalon.excalibur.thread.ThreadPool;
-import org.apache.log.Logger;
 import org.apache.avalon.phoenix.BlockContext;
-import org.apache.avalon.phoenix.components.frame.ApplicationFrame;
+import org.apache.log.Logger;
 
 /**
  * Context via which Blocks communicate with container.

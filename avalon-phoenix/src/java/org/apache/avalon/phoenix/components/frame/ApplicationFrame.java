@@ -9,6 +9,7 @@ package org.apache.avalon.phoenix.components.frame;
 
 import org.apache.avalon.excalibur.thread.ThreadPool;
 import org.apache.avalon.framework.component.Component;
+import org.apache.avalon.phoenix.BlockContext;
 import org.apache.log.Logger;
 
 /**
@@ -36,6 +37,14 @@ public interface ApplicationFrame
      * @return the Logger
      */
     Logger getLogger( String category );
+
+    /**
+     * Create a BlockContext for a particular Block.
+     *
+     * @param name the name of the Block
+     * @return the created BlockContext
+     */
+    BlockContext createBlockContext( String name );
 
     /**
      * Retrieve thread pool by name.
