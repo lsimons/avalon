@@ -7,7 +7,13 @@
     <person name="Peter Donald" email="donaldp@apache.org" id="PD"/>
     <person name="Berin Loritsch" email="bloritsch@apache.org" id="BL"/>
   </devs>
-<release version="1.0b2rc1" date="unreleased">
+<release version="1.0b2" date="June 4, 2001">
+  <action dev="BL" type="add">
+    Beta 2 release.
+  </action>
+  <action dev="PD" type="update">
+    Update documentation so that you can get started easily.
+  </action>
   <action dev="BL" type="fix">
     Fixed logical error in PriorityFilter.  The code _used_ to allow
     anything up to a priority level (i.e. if priority was set to
