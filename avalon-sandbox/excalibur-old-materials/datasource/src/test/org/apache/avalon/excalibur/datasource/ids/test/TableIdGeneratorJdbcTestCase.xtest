@@ -81,7 +81,7 @@
                 <auto-commit>true</auto-commit>
                 <driver>org.hsqldb.jdbcDriver</driver>
                 <dburl>jdbc:hsqldb:test</dburl>
-                <user>SA</user>
+                <user>sa</user>
                 <password></password>
             </jdbc>
         </datasources>

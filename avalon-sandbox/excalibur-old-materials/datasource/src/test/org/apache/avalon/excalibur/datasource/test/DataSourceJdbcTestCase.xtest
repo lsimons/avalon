@@ -53,10 +53,10 @@
   -->
   <components>
     <datasource logger="test">
-      <pool-controller min="5" max="10"/>
+      <pool-controller min="1" max="10"/>
       <driver>org.hsqldb.jdbcDriver</driver>
       <dburl>jdbc:hsqldb:test</dburl>
-      <user>SA</user>
+      <user>sa</user>
       <password/>
     </datasource>
   </components>
