@@ -1,45 +1,49 @@
 
-                      A  V  A  L  O  N - F R A M E W O R K
+=======================================================================
+            __
+           /  \    Apache
+          /    \__________________________________
+         /  /\  \  \/  /    \ |  |  /   \|   \|  |
+        /  /  \  \    /  /\  \|  |_|  O  |  \ \  |
+       /__/    \__\__/__/  \__\_____\__ /|__|\___|
 
-                                   @version@
+
+                         == Server Framework ==
+
+=======================================================================
+summary:   an effort to create, design, develop and maintain a common
+           framework and set of components for applications written
+           using the java language.
+publisher: Apache Software Foundation
+website:   http://avalon.apache.org/
+license:   Please see the LICENSE.txt file
+=======================================================================
+
+This is the main cvs module for the Apache Avalon project. It is
+organised into several subdirectories containing several subprojects.
+See the documentation and other resources inside those subdirectories
+for more information.
 
 
-  What is it?
-  -----------
+More documentation?
+===================
+Most of our documentation is stored in CVS only in xml format. The HTML-
+formatted pages that are generated from those xml files are available at
+our website at
 
-  It is a set of classes and patterns that support high level server development.
+    http://avalon.apache.org/
 
-  Where is it?
-  ------------
 
-  http://avalon.apache.org/framework/
+Building from source?
+=====================
+The avalon buildfiles use a common buildsystem which utilizes maven and
+forrest. You will need to download and install maven, the
+maven-forrest-plugin, and the avalon-buildsystem module. After doing so,
+change into the buildsystem directory and type `maven avalon:info` to
+get yourself started.
 
-  Runtime Requirements
-  --------------------
-  Avalon-Framework requires a Java Runtime Environment, version 1.2 or above.
-  
-  Additional functionality is available if the following packages are available:
-      - JRE 1.4 or higher
-      - Avalon-Logkit 1.0 or higher
-      - Log4J 1.2 or higher
-      - Xerces-J 2.0 or higher
 
-  Buildtime Requirements
-  ----------------------
-  For building from source, there are some additional requirments:
-      - Ant 1.5 or above
-      - Forrest 0.2 or above
-      - JAVA_HOME to the jdk dir (eg:/usr/bin/jdk1.2 or c:\jdk1.3)
-      - ANT_HOME set to the ant dir (eg: /opt/ant or c:\ant)
-      - FORREST_HOME set to the forrest dir (eg: /opt/forrest or c:\forrest)
-      - ant scripts in the path
-      - forrest scripts in the path
-  If the above requirments are all satisfied, you can build Avalon-Framework by
-  running ant, normally done by typing `ant dist`.
-
-  What are the files?
-  -------------------
-  README.txt        This file.  It is a general overview.
-  LICENSE.txt       The Apache Software License 1.1 that covers Avalon.
-  KEYS              The list of public keys used for releasing Avalon.
-  build.xml         The ANT build script.
+Where did the Avalon-Framework subproject go?
+=============================================
+Don't worry, it didn't move very far. The framework sources have been
+relocated to the framework subdirectory.
