@@ -42,6 +42,13 @@
 
 <release version="4.1alpha" date="unreleased">
     <action dev="PD" type="update">
+        Schema types should now be the URI (ie "http://relaxng.org/ns/structure/1.0")
+        rather than a shorthand (ie "relax-ng"). The old form is still supported but
+        you will need to add mapping for any custom schema handlers previously
+        implemented. See the kernel.xml for example mapping. Components that use old
+        shorthand type will cause warnings to logs and System.err
+    </action>
+    <action dev="PD" type="update">
         Configuration Validation is now enabled by default. So if the BlockInfo specifies
         a schema type and a schema exists the configuration for each Block will be validated.
     </action>
