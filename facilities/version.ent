@@ -1,0 +1,33 @@
+
+<!ENTITY avalon-finder-id "avalon-finder">
+<!ENTITY avalon-finder-api-id "avalon-finder-api">
+<!ENTITY avalon-finder-api-version "0.9.0">
+<!ENTITY avalon-finder-impl-id "avalon-finder-impl">
+<!ENTITY avalon-finder-impl-version "0.9.0">
+
+<!ENTITY avalon-http-id "avalon-http">
+<!ENTITY avalon-http-api-id "avalon-http-api">
+<!ENTITY avalon-http-api-version "0.9.0">
+<!ENTITY avalon-http-spi-id "avalon-http-spi">
+<!ENTITY avalon-http-spi-version "0.9.0">
+<!ENTITY avalon-http-impl-id "avalon-http-impl">
+<!ENTITY avalon-http-impl-version "0.9.0">
+<!ENTITY avalon-http-util-id "avalon-http-util">
+<!ENTITY avalon-http-util-version "0.9.0">
+<!ENTITY avalon-http-test-id "avalon-http-test">
+<!ENTITY avalon-http-test-version "0.9.0">
+
+<!ENTITY avalon-jmx-id "avalon-jmx">
+<!ENTITY avalon-jmx-api-id "avalon-jmx-api">
+<!ENTITY avalon-jmx-api-version "0.9.0">
+<!ENTITY avalon-jmx-spi-id "avalon-jmx-spi">
+<!ENTITY avalon-jmx-spi-version "0.9.0">
+<!ENTITY avalon-jmx-handler-id "avalon-jmx-handler">
+<!ENTITY avalon-jmx-handler-version "0.9.0">
+<!ENTITY avalon-jmx-util-id "avalon-jmx-util">
+<!ENTITY avalon-jmx-util-version "0.9.0">
+<!ENTITY avalon-jmx-mx4j-id "avalon-jmx-mx4j">
+<!ENTITY avalon-jmx-mx4j-version "0.9.0">
+<!ENTITY avalon-jmx-test-id "avalon-jmx-test">
+<!ENTITY avalon-jmx-test-version "0.9.0">
+

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE project [
+  <!ENTITY % index SYSTEM "file:index.ent"> %index;
+]>
+
+<project default="multiproject:install" xmlns:j="jelly:core" xmlns:ant="jelly:ant">
+
+  <j:set var="maven.multiproject.includes" 
+      value="**/project.xml"/>
+
+  <preGoal name="java:compile">
+    <attainGoal name="avalon:meta"/>
+  </preGoal>
+  
+  <preGoal name="java:jar-resources">
+    <ant:filter token="AVALON-FINDER-API-VERSION" value="&avalon-finder-api-version;"/>
+    <ant:filter token="AVALON-FINDER-IMPL-VERSION" value="&avalon-finder-impl-version;"/>
+  </preGoal>
+
+</project>

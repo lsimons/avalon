@@ -1,0 +1,2 @@
+<!ENTITY % versions SYSTEM "../../avalon/versioning/versions.ent"> %versions;
+<!ENTITY % vlocal SYSTEM "version.ent"> %vlocal;

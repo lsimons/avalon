@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE project [
+  <!ENTITY % index SYSTEM "file:index.ent"> %index;
+]>
+
+<project>
+
+  <extend>${basedir}/../common-project.xml</extend>
+  <extend>${basedir}/../../common-project.xml</extend>
+
+  <groupId>&avalon-db-id;</groupId>
+  <id>&avalon-db-api-id;</id>
+  <currentVersion>&avalon-db-api-version;</currentVersion>
+
+  <name>Avalon Database API</name>
+  <package>org.apache.avalon.db</package>
+
+  <shortDescription>Avalon Database Server API</shortDescription>
+
+</project>
