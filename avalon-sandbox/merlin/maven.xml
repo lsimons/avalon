@@ -138,20 +138,38 @@
       </fileset>
     </ant:copy>
 
-    <ant:chmod file="${merlin.build.inst.dir}/bin/merlin.sh" perm="ugo+rx"/>
-    <ant:chmod file="${merlin.build.inst.dir}/bin/merlinx.sh" perm="ugo+rx"/>
-    <ant:chmod file="${merlin.build.inst.dir}/bin/merlin-server.sh" perm="ugo+rx"/>
-    <ant:fixcrlf eol="lf" srcdir="${merlin.build.inst.dir}/bin">
-      <include name="merlin.sh"/>
-      <include name="merlinx.sh"/>
-      <include name="merlin-server.sh"/>
-    </ant:fixcrlf>
-
     <ant:copy toDir="${maven.build.dir}">
       <fileset dir="${basedir}">
         <include name="INSTALLATION.TXT"/>
       </fileset>
     </ant:copy>
+
+    <ant:chmod file="${merlin.build.inst.dir}/bin/merlin.sh" perm="u=rwx,go=rx"/>
+    <ant:chmod file="${merlin.build.inst.dir}/bin/merlinx.sh" perm="u=rwx,go=rx"/>
+    <ant:chmod file="${merlin.build.inst.dir}/bin/merlin-server.sh" perm="u=rwx,go=rx"/>
+    <ant:fixcrlf eol="crlf" srcdir="${merlin.build.inst.dir}/bin">
+       <include name="README.TXT"/>
+    </ant:fixcrlf>
+    <ant:fixcrlf eol="crlf" srcdir="${merlin.build.dir}">
+       <include name="INSTALLATION.TXT"/>
+    </ant:fixcrlf>
+    <ant:fixcrlf eol="crlf" srcdir="${merlin.build.inst.dir}/bin">
+      <include name="merlin.bat"/>
+      <include name="merlinx.bat"/>
+      <include name="README.TXT"/>
+      <include name="LICENSE.TXT"/>
+    </ant:fixcrlf>
+    <ant:fixcrlf eol="crlf" srcdir="${merlin.build.inst.dir}/bin/nt">
+      <include name="InstallService-NT.bat"/>
+      <include name="UninstallService-NT.bat"/>
+      <include name="TANUKISOFTWARE_LICENSE.txt"/>
+      <include name="wrapper.conf"/>
+    </ant:fixcrlf>
+    <ant:fixcrlf eol="lf" srcdir="${merlin.build.inst.dir}/bin">
+      <include name="merlin.sh"/>
+      <include name="merlinx.sh"/>
+      <include name="merlin-server.sh"/>
+    </ant:fixcrlf>
 
   </goal>
 
