@@ -52,6 +52,7 @@ package org.apache.avalon.excalibur.datasource;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -75,7 +76,7 @@ import org.apache.avalon.framework.logger.Logger;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
- * @version CVS $Revision: 1.27 $ $Date: 2003/04/08 18:34:33 $
+ * @version CVS $Revision: 1.28 $ $Date: 2003/04/17 20:46:49 $
  * @since 4.1
  */
 public class AbstractJdbcConnection
@@ -345,13 +346,20 @@ public class AbstractJdbcConnection
         Object retVal = null;
         Method executeMethod = (Method)m_methods.get( method.getName() );
 
-        if( null == executeMethod )
+        try
         {
-            retVal = method.invoke( m_connection, args );
+            if( null == executeMethod )
+            {
+                retVal = method.invoke( m_connection, args );
+            }
+            else
+            {
+                retVal = executeMethod.invoke( this, args );
+            }
         }
-        else
+        catch( InvocationTargetException e )
         {
-            retVal = executeMethod.invoke( this, args );
+            throw e.getTargetException();
         }
 
         return retVal;
