@@ -71,14 +71,14 @@ public class BirdSong1
 	private String m_chilpMessage;
 	private String m_chilpSeparator;
 
-	public void BirdSong1( int numberOfChilps, chilpMessage, chilpSeparator )
+	public BirdSong1( int numberOfChilps, String chilpMessage, String chilpSeparator )
 	{
 		m_numberOfChilps = numberOfChilps;
 		m_chilpMessage = chilpMessage;
 		m_chilpSeparator = chilpSeparator;
 	}
 
-	public sing()
+	public void sing()
 	{
 		for( int i = 0; i != m_numberOfChilps; i++ )
 		{
@@ -89,12 +89,12 @@ public class BirdSong1
 		}
 	}
 
-	public static void main(String args[])
+	public static void main( String args[] )
 	{
 		BirdSong1 birdSong = new BirdSong1( new Integer( args[0] ).intValue(),
 				args[1], args[2] );
 
-		BirdSong.sing();
+		birdSong.sing();
 	}
 }
 		</source>
@@ -124,10 +124,11 @@ package avalon.tutorial;
 
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.avalon.framework.parameters.ParameterException;
 import org.apache.avalon.framework.activity.Startable;
 import org.apache.avalon.framework.logger.LogEnabled;
 
-public interface BirdSong extends Parameterizable, Startable, LogEnabled;
+public interface BirdSong extends Parameterizable, Startable, LogEnabled
 {
 	public static final String PARAM_NUMBER_OF_CHILPS = "numberOfChilps";
 	public static final String PARAM_CHILP_MESSAGE = "chilpMessage";
@@ -135,15 +136,15 @@ public interface BirdSong extends Parameterizable, Startable, LogEnabled;
 
 	/**
 	* Provide us with the parameters it needs to work. Required are:
-	* &gt;ul&lt;
-	* &gt;li&lt;numberOfChilps&gt;/li&lt;
-	* &gt;li&lt;chilpMessage&gt;/li&lt;
-	* &gt;li&lt;chilpSeparator&gt;/li&lt;
-	* &gt;/ul&lt;
-	* &gt;/pre&lt;
+	* <ul>
+	* <li>numberOfChilps</li>
+	* <li>chilpMessage</li>
+	* <li>chilpSeparator</li>
+	* </ul>
+	* </pre>
 	*
 	*/
-	public void parameterize( Parameters parameters );
+	void parameterize( Parameters parameters ) throws ParameterException;
 }
 		</source>
 		</s4>
@@ -154,12 +155,12 @@ package avalon.tutorial;
 
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.parameters.ParameterException;
-import org.apache.avalon.logger.AbstractLoggable;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
 
 import avalon.tutorial.BirdSong;
 import avalon.tutorial.BirdSongRunner;
 
-public class BirdSongImpl extends AbstractLoggable implements BirdSong
+public class BirdSongImpl extends AbstractLogEnabled implements BirdSong
 {
 	private int m_numberOfChilps;
 	private String m_chilpMessage;
@@ -167,8 +168,7 @@ public class BirdSongImpl extends AbstractLoggable implements BirdSong
 
 	private Thread m_runnerThread;
 
-
-	public void BirdSongImpl()
+	public BirdSongImpl()
 	{
 	}
 
@@ -176,15 +176,15 @@ public class BirdSongImpl extends AbstractLoggable implements BirdSong
 	{
 		getLogger().debug( "got parameters" );
 
-		m_numberOfChilps = m_parameters.getParameterAsInteger( PARAM_NUMBER_OF_CHILPS );
-		m_chilpMessage = m_parameters.getParameter( PARAM_CHILP_MESSAGE );
-		m_chilpSeparator = m_parameters.getParameter( PARAM_CHILP_SEPARATOR );
+		m_numberOfChilps = parameters.getParameterAsInteger( PARAM_NUMBER_OF_CHILPS );
+		m_chilpMessage = parameters.getParameter( PARAM_CHILP_MESSAGE );
+		m_chilpSeparator = parameters.getParameter( PARAM_CHILP_SEPARATOR );
 	}
 	public void start()
 	{
 		getLogger().debug( "starting" );
 
-		Runnable runnable = new BirdSongImplRunner( this );
+		Runnable runnable = new BirdSongRunner( this );
 
 		m_runnerThread = new Thread( runnable );
 		m_runnerThread.setDaemon( true );
@@ -197,15 +197,15 @@ public class BirdSongImpl extends AbstractLoggable implements BirdSong
 		m_runnerThread.notify();
 	}
 
-	int getNumberOfChilps()
+	public int getNumberOfChilps()
 	{
 		return m_numberOfChilps;
 	}
-	String getChilpMessage()
+	public String getChilpMessage()
 	{
 		return m_chilpMessage;
 	}
-	String getChilpSeperator()
+	public String getChilpSeperator()
 	{
 		return m_chilpSeparator;
 	}
@@ -213,7 +213,7 @@ public class BirdSongImpl extends AbstractLoggable implements BirdSong
 		</source>
 		</s4>
 
-		<s4>
+		<s4 title="BirdSongRunner.java">
 		<source>
 package avalon.tutorial;
 
@@ -223,21 +223,21 @@ public class BirdSongRunner implements Runnable
 {
 	BirdSongImpl m_bs;
 
-	public void BirdSongRunner( BirdSongImpl bs )
+	public BirdSongRunner( BirdSongImpl bs )
 	{
 		m_bs = bs;
 	}
 
 	public void run()
 	{
-		int max = bs.getNumberOfChilps();
-		String msg = bs.getChilpMessage();
-		String separator = bs.getSeparator();
+		int max = m_bs.getNumberOfChilps();
+		String msg = m_bs.getChilpMessage();
+		String seperator = m_bs.getChilpSeperator();
 
 		for( int i = 0; i != max; i++ )
 		{
-			if( i != 0 &amp;&amp; i != (max-1) )
-				System.out.print( separator );
+			if( i != 0 && i != (max-1) )
+				System.out.print( seperator );
 
 			System.out.print(msg );
 		}
@@ -275,9 +275,10 @@ public class BirdSongRunner implements Runnable
 			<p>Based on the name of the container (a vital piece in all avalon software)
 			we'll be using (it's called "Tweety"), the idea to do something with cartoons
 			immediately sprang to mind. At first we thought it'd be cool to have a
-			CartoonDistributionService or something cool and serverside (which is where
-			avalon is probably used most), we're going to keep it even more simple and
-			do a commandline input-output thing.</p>
+			CartoonDistributionService or something more complex and serverside (which is where
+			avalon is probably used most), but we're going to keep it even more simple and
+			do a commandline input-output thing. If you want more complex examples,
+			avalon's got plenty :)</p>
 
 			<p>Our application will be configurable with a <strong>bird</strong>, a
 			<strong>cat</strong>, and a <strong>cage</strong>. In addition to these, we're
@@ -504,7 +505,7 @@ public class BirdSongRunner implements Runnable
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.4 $ $Date: 2002/07/14 10:41:29 $
+      $Revision: 1.5 $ $Date: 2002/10/27 19:07:52 $
     </legal>
   </footer>
 </document>
