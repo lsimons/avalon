@@ -161,7 +161,7 @@ public final class DefaultServerApplication
 
         final DefaultVerifier verifier = new DefaultVerifier();
         setupLogger( verifier );
-        verifier.hackVerifySar( m_blocks, m_listeners, m_frame.getClassLoader() );
+        verifier.verifySar( m_metaData, m_frame.getClassLoader() );
 
         for( int i = 0; i < m_blocks.length; i++ )
         {
