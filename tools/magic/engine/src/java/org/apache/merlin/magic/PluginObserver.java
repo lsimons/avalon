@@ -6,5 +6,5 @@ public interface PluginObserver
     
     void postMethod( Plugin source, String method );
 
-    void stepPerformed( Plugin source, String method, int stepIndex );
+    void stepPerformed( Plugin source, String method, String step );
 } 

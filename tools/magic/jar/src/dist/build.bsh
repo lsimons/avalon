@@ -7,10 +7,9 @@ import java.util.Iterator;
 import org.apache.merlin.magic.Plugin;
 import org.apache.merlin.magic.PluginContext;
 
-import org.apache.avalon.framework.context.Context;
-import org.apache.avalon.framework.context.Contextualizable;
-
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.framework.service.Serviceable;
+import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.avalon.framework.service.ServiceException;
 
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.types.FileSet;
@@ -18,49 +17,34 @@ import org.apache.tools.ant.types.Path;
 import org.apache.tools.ant.taskdefs.Copy;
 import org.apache.tools.ant.taskdefs.Javac;
 
-public class JarPlugin extends AbstractLogEnabled
-    implements Plugin, Contextualizable
+public class JarPlugin extends AbstractPlugin
+    implements Serviceable
 {
-    private PluginContext m_PluginContext;
-    
-    private Project m_Project;
-    
-    private ArrayList m_JarListeners;
-    
+    private Object m_JavaPlugin;
     private boolean m_Jarred = false;
         
-    public void contextualize( Context ctx )
+    public void service( ServiceManager man )
+        throws ServiceException
     {
-        m_PluginContext = (PluginContext) ctx;
-        m_Project = m_PluginContext.getAntProject();
+        m_JavaPlugin = man.lookup( "java" );
     }
     
     public void jar()
     {   
         if( m_Jarred )
             return;
-        notifyPreJar();
-        executeJar();    
-        notifyPostJar();
+        
+        JavaPlugin java = (JavaPlugin) m_JavaPlugin;
+        java.compile();
+        
+        notifyPreMethod( "jar" );
+        prepareManifest()
+        notifyStep( "jar", "manifest-created" );
+        createJar();    
+        notifyPostMethod( "jar" );
         m_Jarred = true;
     }
     
-    public void addJarListener( JarListener listener )
-    {
-        if( m_JarListeners == null )
-        {
-            m_JarListeners = new ArrayList();
-        }
-        m_JarListeners.add( listener );
-    }
-    
-    public void removeJarListener( JarListener listener )
-    {
-        if( m_JarListeners == null )
-            return;
-        m_JarListeners.remove( listener );
-    }
-
     private File prepareManifest()
     {
         String manifestName = m_PluginContext.getProperty( "jar.manifest" );
@@ -80,7 +64,7 @@ public class JarPlugin extends AbstractLogEnabled
         return manifest;
     }
         
-    private void executeJar( File manifest )
+    private void createJar( File manifest )
     {
         String jarFilename = m_PluginContext.getProperty( "jar.filename" );
         File jarFile = new File( jarFilename ); 
@@ -109,38 +93,5 @@ public class JarPlugin extends AbstractLogEnabled
         
         javac.init();
         javac.execute(); 
-    }
-    
-    private void notifyPreJar()
-    {
-        if( m_JarListeners == null )
-            return;
-        Iterator list = m_JarListeners.iterator();
-        while( list.hasNext() )
-        {
-            JarListener listener = (JarListener) list.next();
-            listener.preCompile();
-        }
-    }
-    
-    private void notifyPostJar()
-    {
-        if( m_JarListeners == null )
-            return;
-        Iterator list = m_JarListeners.iterator();
-        while( list.hasNext() )
-        {
-            JarListener listener = (JarListener) list.next();
-            listener.postCompile();
-        }
-    }
-    
-    public interface JarListener
-    {
-        void preJar();
-        
-        void manifestPrepared();
-        
-        void postJar();
     }
 }   
