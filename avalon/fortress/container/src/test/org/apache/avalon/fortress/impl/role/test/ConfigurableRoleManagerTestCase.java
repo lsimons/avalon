@@ -60,11 +60,11 @@ import org.apache.avalon.framework.logger.ConsoleLogger;
  * in the org.apache.avalon.component package.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.2 $ $Date: 2003/04/21 20:29:42 $
+ * @version CVS $Revision: 1.3 $ $Date: 2003/05/29 17:51:16 $
  * @since 4.1
  */
 public class ConfigurableRoleManagerTestCase
-    extends AbstractRoleManagerTestCase
+        extends AbstractRoleManagerTestCase
 {
     public ConfigurableRoleManagerTestCase( String name )
     {
@@ -72,29 +72,29 @@ public class ConfigurableRoleManagerTestCase
     }
 
     public void testShorthandReturnValues()
-        throws Exception
+            throws Exception
     {
         DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
         ConfigurableRoleManager roles = new ConfigurableRoleManager( null, this.getClass().getClassLoader() );
         roles.enableLogging( new ConsoleLogger( ConsoleLogger.LEVEL_INFO ) );
         roles.configure( builder.build( this.getClass().getClassLoader()
-            .getResourceAsStream( "org/apache/avalon/fortress/test/ContainerProfile.roles" ) ) );
+                .getResourceAsStream( "org/apache/avalon/fortress/impl/role/test/ConfigManager.roles" ) ) );
 
         checkRole( roles,
-            "datasource",
-            "org.apache.avalon.excalibur.datasource.DataSourceComponent",
-            "org.apache.avalon.excalibur.datasource.JdbcDataSource",
-            "org.apache.avalon.fortress.impl.handler.ThreadSafeComponentHandler" );
+                "component1",
+                "org.apache.avalon.fortress.test.data.Role1",
+                "org.apache.avalon.fortress.test.data.Component1",
+                "org.apache.avalon.fortress.impl.handler.ThreadSafeComponentHandler" );
         checkRole( roles,
-            "monitor",
-            "org.apache.avalon.excalibur.monitor.Monitor",
-            "org.apache.avalon.excalibur.monitor.ActiveMonitor",
-            "org.apache.avalon.fortress.impl.handler.ThreadSafeComponentHandler" );
+                "component2",
+                "org.apache.avalon.fortress.test.data.Role2",
+                "org.apache.avalon.fortress.test.data.Component2",
+                "org.apache.avalon.fortress.impl.handler.ThreadSafeComponentHandler" );
         checkRole( roles,
-            "parser",
-            "org.apache.excalibur.xml.dom.DOMParser",
-            "org.apache.excalibur.xml.impl.JaxpParser",
-            "org.apache.avalon.fortress.impl.handler.PoolableComponentHandler" );
+                "component3",
+                "org.apache.avalon.fortress.test.data.Role3",
+                "org.apache.avalon.fortress.test.data.Component3",
+                "org.apache.avalon.fortress.impl.handler.PoolableComponentHandler" );
     }
 }
 
