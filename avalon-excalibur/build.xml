@@ -26,11 +26,6 @@
     <!--  within Excalibur should be listed in the depends list.      -->
     <!--  Do not include test dependent jars in the depends list.     -->
 
-    <!-- Altrmi -->
-    <target name="prj-altrmi" depends="prj-pool">
-        <ant dir="altrmi" target="${subproject-target}"/>
-    </target>
-
     <!-- Baxter -->
     <target name="prj-baxter">
         <ant dir="baxter" target="${subproject-target}"/>
@@ -92,7 +87,7 @@
     </target>
 
     <!-- Fortress -->
-    <target name="prj-fortress" depends="prj-altrmi, prj-collections, prj-container, prj-event, prj-instrument, prj-instrument-manager, prj-logger, prj-sourceresolve, prj-threadcontext">
+    <target name="prj-fortress" depends="prj-collections, prj-container, prj-event, prj-instrument, prj-instrument-manager, prj-logger, prj-sourceresolve, prj-threadcontext">
         <ant dir="fortress" target="${subproject-target}"/>
     </target>
 
@@ -107,12 +102,12 @@
     </target>
 
     <!-- InstrumentClient -->
-    <target name="prj-instrument-client" depends="prj-altrmi, prj-instrument-manager">
+    <target name="prj-instrument-client" depends="prj-instrument-manager">
         <ant dir="instrument-client" target="${subproject-target}"/>
     </target>
 
     <!-- InstrumentManager -->
-    <target name="prj-instrument-manager" depends="prj-altrmi, prj-instrument">
+    <target name="prj-instrument-manager" depends="prj-instrument">
         <ant dir="instrument-manager" target="${subproject-target}"/>
     </target>
 
@@ -200,7 +195,7 @@
         depends="prj-cli, prj-baxter, prj-io, prj-loader,
                 prj-naming, prj-jprocess, prj-threadcontext, 
                 prj-collections, prj-converter, prj-i18n, prj-extension,
-                prj-concurrent, prj-altrmi,
+                prj-concurrent,
                 prj-container, prj-cache, prj-configuration, prj-event,
                 prj-thread, prj-monitor, prj-fortress, prj-datasource,
                 prj-instrument, prj-store, prj-logger, prj-policy,
@@ -229,8 +224,6 @@
         <mkdir dir="${build.reports}"/>
 
         <path id="java.src">
-            <pathelement location="altrmi/src/java"/>
-            <pathelement location="altrmi/src/test"/>
             <pathelement location="instrument/src/java"/>
             <pathelement location="instrument/src/client"/>
             <pathelement location="instrument/src/manager"/>
@@ -348,9 +341,6 @@
                     <include name="naming/dist/*.jar"/>
                     <include name="monitor/dist/*.jar"/>
                     <include name="store/dist/*.jar"/>
-                    <!-- These jars should not be in avalon-excalibur.jar as they are quite large.
-                    <include name="altrmi/dist/*.jar"/>
-                    -->
                     <exclude name="*/dist/*a.jar"/> <!-- Exclude alpha quality jars -->
                  </fileset>
             </mergefiles>
@@ -382,7 +372,6 @@
             <mergefiles>
                 <fileset dir=".">
                     <include name="*/build/lib/*.jar"/>
-                    <include name="altrmi/**"/>
 
                     <!-- Instrument client is a standalone application -->
                     <exclude name="instrument-client/**"/>
