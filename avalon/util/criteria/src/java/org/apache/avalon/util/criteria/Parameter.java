@@ -1,52 +1,19 @@
-/*
-
- ============================================================================
-                   The Apache Software License, Version 1.1
- ============================================================================
-
- Copyright (C) 1999-2002 The Apache Software Foundation. All rights reserved.
-
- Redistribution and use in source and binary forms, with or without modifica-
- tion, are permitted provided that the following conditions are met:
-
- 1. Redistributions of  source code must  retain the above copyright  notice,
-    this list of conditions and the following disclaimer.
-
- 2. Redistributions in binary form must reproduce the above copyright notice,
-    this list of conditions and the following disclaimer in the documentation
-    and/or other materials provided with the distribution.
-
- 3. The end-user documentation included with the redistribution, if any, must
-    include  the following  acknowledgment:  "This product includes  software
-    developed  by the  Apache Software Foundation  (http://www.apache.org/)."
-    Alternately, this  acknowledgment may  appear in the software itself,  if
-    and wherever such third-party acknowledgments normally appear.
-
- 4. The names "Jakarta", "Apache Avalon", "Avalon Framework" and
-    "Apache Software Foundation"  must not be used to endorse or promote
-    products derived  from this  software without  prior written
-    permission. For written permission, please contact apache@apache.org.
-
- 5. Products  derived from this software may not  be called "Apache", nor may
-    "Apache" appear  in their name,  without prior written permission  of the
-    Apache Software Foundation.
-
- THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES,
- INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- FITNESS  FOR A PARTICULAR  PURPOSE ARE  DISCLAIMED.  IN NO  EVENT SHALL  THE
- APACHE SOFTWARE  FOUNDATION  OR ITS CONTRIBUTORS  BE LIABLE FOR  ANY DIRECT,
- INDIRECT, INCIDENTAL, SPECIAL,  EXEMPLARY, OR CONSEQUENTIAL  DAMAGES (INCLU-
- DING, BUT NOT LIMITED TO, PROCUREMENT  OF SUBSTITUTE GOODS OR SERVICES; LOSS
- OF USE, DATA, OR  PROFITS; OR BUSINESS  INTERRUPTION)  HOWEVER CAUSED AND ON
- ANY  THEORY OF LIABILITY,  WHETHER  IN CONTRACT,  STRICT LIABILITY,  OR TORT
- (INCLUDING  NEGLIGENCE OR  OTHERWISE) ARISING IN  ANY WAY OUT OF THE  USE OF
- THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
- This software  consists of voluntary contributions made  by many individuals
- on  behalf of the Apache Software  Foundation. For more  information on the
- Apache Software Foundation, please see <http://www.apache.org/>.
-
-*/
+/* 
+ * Copyright 2004 Apache Software Foundation
+ * Licensed  under the  Apache License,  Version 2.0  (the "License");
+ * you may not use  this file  except in  compliance with the License.
+ * You may obtain a copy of the License at 
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed  under the  License is distributed on an "AS IS" BASIS,
+ * WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ * implied.
+ * 
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 package org.apache.avalon.util.criteria;
 
@@ -57,7 +24,7 @@ import java.lang.reflect.Constructor;
  * of an allowable parameter within a crieria instance.
  * 
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class Parameter
 {
@@ -180,8 +147,21 @@ public class Parameter
     */
     public Object resolve( Object value ) throws CriteriaException
     {
+        return resolve( m_type, value );
+    }
+
+   /**
+    * Resolve a supplied argument to a value.
+    * @param type the base class
+    * @param value the supplied argument
+    * @return the resolved object
+    * @exception Exception if an error occurs
+    */
+    protected Object resolve( Class type, Object value ) throws CriteriaException
+    {
         if( value == null ) return null;
-        if( m_type.isInstance( value ) )
+        if( type == null ) throw new NullPointerException( "type" );
+        if( type.isInstance( value ) )
         {
             return value;
         }
@@ -191,7 +171,7 @@ public class Parameter
             try
             {
                 constructor = 
-                  m_type.getConstructor( 
+                  type.getConstructor( 
                     new Class[]{ value.getClass() } );
             }
             catch( NoSuchMethodException nsme )
@@ -202,7 +182,7 @@ public class Parameter
                   + "] supplied for key [" 
                   + getKey() 
                   + "] is not an instance of type: [" 
-                  + m_type.getName()
+                  + type.getName()
                   + "].";
                 throw new CriteriaException( error );
             }
@@ -220,7 +200,7 @@ public class Parameter
                   + "] supplied for key [" 
                   + getKey() 
                   + "] is not an instance of or was not resolvable to the type: [" 
-                  + m_type.getName()
+                  + type.getName()
                   + "].";
                 throw new CriteriaException( error, e );
             }
