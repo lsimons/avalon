@@ -6,8 +6,8 @@ import junit.framework.TestCase ;
  * Env tests.
  * 
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
- * @author $Author: mcconnell $
- * @version $Revision: 1.1 $
+ * @author $Author: akarasulu $
+ * @version $Revision: 1.2 $
  */
 public class EnvTest extends TestCase
 {
@@ -59,19 +59,6 @@ public class EnvTest extends TestCase
         }
         
         assertNull( Env.getEnvVariable( "PAT" ) ) ;
-        
-        EnvAccessException l_error = null ;
-        try 
-        {
-            // All shells and their echo's will freak out when they see this
-            Env.getEnvVariable( "--*&^%^%$" ) ;
-        }
-        catch( EnvAccessException e )
-        {
-            l_error = e ;
-        }
-        
-        assertNotNull( l_error ) ;
     }
 
     
