@@ -27,7 +27,7 @@ import java.lang.reflect.Proxy;
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  * @author <a href="mailto:Paul_Hammant@yahoo.com">Paul Hammant</a>
- * @version CVS $Revision: 1.5 $ $Date: 2002/05/10 02:43:03 $
+ * @version CVS $Revision: 1.6 $ $Date: 2002/07/15 16:17:46 $
  */
 final class BlockInvocationHandler
     implements InvocationHandler
@@ -97,8 +97,8 @@ final class BlockInvocationHandler
         }
         else
         {
-            throw new IllegalStateException( "Using a stale object reference " +
-                                             "to call a disposed Block." );
+            throw new IllegalStateException( "Using a stale object reference "
+                                             + "to call a disposed Block." );
         }
     }
 }
