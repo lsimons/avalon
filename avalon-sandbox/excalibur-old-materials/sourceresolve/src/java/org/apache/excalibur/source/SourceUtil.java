@@ -57,6 +57,8 @@ package org.apache.excalibur.source;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.BitSet;
 import java.util.Iterator;
@@ -68,7 +70,8 @@ import org.apache.avalon.framework.parameters.Parameters;
  * Utility class for source resolving.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.4 $ $Date: 2003/01/29 06:56:01 $
+ * @author <a href="mailto:stephan@apache.org">Stephan Michels</a>
+ * @version CVS $Revision: 1.5 $ $Date: 2003/01/30 07:57:10 $
  */
 public final class SourceUtil
 {
@@ -324,4 +327,81 @@ public final class SourceUtil
         }
         return null;
     }
+    
+    /**
+     * Move the source to a specified destination.
+     *
+     * @param source Source of the source.
+     * @param destination Destination of the source.
+     *
+     * @throws SourceException If an exception occurs during
+     *                         the move.
+     */
+    static public void move(Source source,
+                              Source destination) 
+    throws SourceException 
+    {
+        if (source instanceof MoveableSource
+            && source.getClass().equals(destination.getClass()))
+        {
+            ((MoveableSource)source).move(destination);
+        } 
+        else if (source instanceof ModifiableSource) 
+        {
+            copy(source, destination);
+            ((ModifiableSource) source).delete();
+        } 
+        else 
+        {
+            throw new SourceException("Source '"+source.getURI()+ "' is not writeable");
+        }
+    }
+
+    /**
+     * Copy the source to a specified destination.
+     *
+     * @param source Source of the source.
+     * @param destination Destination of the source.
+     *
+     * @throws SourceException If an exception occurs during
+     *                         the copy.
+     */
+    static public void copy(Source source,
+                            Source destination) 
+    throws SourceException {
+        if (source instanceof MoveableSource 
+            && source.getClass().equals(destination.getClass())) 
+        {
+            ((MoveableSource) source).copy(destination);
+        } 
+        else 
+        {
+            if ( !(destination instanceof ModifiableSource)) {
+                throw new SourceException("Source '"+
+                                          destination.getURI()+
+                                          "' is not writeable");
+            }
+
+            try {
+                OutputStream out = ((ModifiableSource) destination).getOutputStream();
+                InputStream in = source.getInputStream();
+
+                byte[] buffer = new byte[8192];
+                int length = -1;
+
+                while ((length = in.read(buffer))>-1) {
+                    out.write(buffer, 0, length);
+                }
+                in.close();
+                out.flush();
+                out.close();
+            } catch (IOException ioe) {
+                throw new SourceException("Could not copy source '"+
+                                          source.getURI()+"' to '"+
+                                          destination.getURI()+"' :"+
+                                          ioe.getMessage(), ioe);
+            }
+        }
+    }
+
 }

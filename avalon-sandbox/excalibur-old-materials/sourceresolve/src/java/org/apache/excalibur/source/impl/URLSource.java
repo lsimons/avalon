@@ -78,22 +78,12 @@ import org.apache.excalibur.source.impl.validity.TimeStampValidity;
  * FIXME: Get mime-type
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.18 $ $Date: 2003/01/29 06:56:01 $
+ * @version CVS $Revision: 1.19 $ $Date: 2003/01/30 07:57:10 $
  */
 public class URLSource
     extends AbstractSource
     implements Source
 {
-    /** With this parameter you can specify the method to use for a http request.
-     *  Default is GET.
-     */
-    static public final String HTTP_METHOD = "org.apache.avalon.excalibur.source.Source.http.method";
-
-    /** With this parameter you can specify additional request parameters which are
-     *  appended to the URI.
-     */
-    static public final String REQUEST_PARAMETERS = "org.apache.avalon.excalibur.source.Source.request.parameters";
-
     /** Identifier for file urls */
     protected final String FILE = "file:";
 
@@ -152,8 +142,8 @@ public class URLSource
         this.isPost = false;
         if( null != parameters )
         {
-            this.parameters = (SourceParameters)parameters.get( REQUEST_PARAMETERS );
-            final String method = (String)parameters.get( HTTP_METHOD );
+            this.parameters = (SourceParameters)parameters.get( SourceResolver.URI_PARAMETERS );
+            final String method = (String)parameters.get( SourceResolver.METHOD );
             if( "POST".equalsIgnoreCase( method ) )
                 this.isPost = true;
         }

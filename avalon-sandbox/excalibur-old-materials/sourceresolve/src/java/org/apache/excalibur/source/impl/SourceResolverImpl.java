@@ -60,14 +60,12 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Map;
 
+import org.apache.avalon.framework.CascadingRuntimeException;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.framework.parameters.ParameterException;
-import org.apache.avalon.framework.parameters.Parameterizable;
-import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.ServiceSelector;
@@ -93,14 +91,13 @@ import org.apache.excalibur.source.SourceResolver;
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: SourceResolverImpl.java,v 1.26 2003/01/30 07:15:30 cziegeler Exp $
+ * @version $Id: SourceResolverImpl.java,v 1.27 2003/01/30 07:57:10 cziegeler Exp $
  */
 public class SourceResolverImpl
     extends AbstractLogEnabled
     implements Serviceable,
     Contextualizable,
     Disposable,
-    Parameterizable,
     SourceResolver,
     ThreadSafe
 {
@@ -115,9 +112,9 @@ public class SourceResolverImpl
      */
     protected URL m_baseURL;
 
-    /** The URLSource class used */
-    protected Class m_urlSourceClass;
-
+    /** The default factory (if it is thread safe) */
+    protected SourceFactory m_defaultFactory;
+    
     /**
      * Get the context
      */
@@ -170,35 +167,25 @@ public class SourceResolverImpl
     {
         m_manager = manager;
         m_factorySelector = (ServiceSelector)m_manager.lookup( SourceFactory.ROLE + "Selector" );
+        m_defaultFactory = (SourceFactory) m_factorySelector.select( "*" );
+        if ( !(m_defaultFactory instanceof ThreadSafe) ) 
+        {
+            m_factorySelector.release(m_defaultFactory);
+            m_defaultFactory = null;
+        }
     }
 
     public void dispose()
     {
-        if( m_manager != null )
+        if( null != m_manager )
         {
+            if ( null != m_defaultFactory )
+            {
+                m_factorySelector.release( m_defaultFactory );
+                m_defaultFactory = null;
+            }
             m_manager.release( m_factorySelector );
             m_factorySelector = null;
-        }
-    }
-
-    public void parameterize( Parameters pars )
-        throws ParameterException
-    {
-        final String urlSourceClassName = pars.getParameter( "url-source",
-                                                             "org.apache.excalibur.source.impl.URLSource" );
-        ClassLoader loader = Thread.currentThread().getContextClassLoader();
-        if( loader == null )
-        {
-            loader = getClass().getClassLoader();
-        }
-        try
-        {
-            m_urlSourceClass = loader.loadClass( urlSourceClassName );
-        }
-        catch( ClassNotFoundException cnfe )
-        {
-            this.getLogger().error( "Class not found: " + urlSourceClassName, cnfe );
-            throw new ParameterException( "Class not found: " + urlSourceClassName, cnfe );
         }
     }
 
@@ -306,7 +293,6 @@ public class SourceResolverImpl
             catch( final ServiceException ce )
             {
             	// no selector available, use fallback
-                //throw new SourceException( "Unable to select source factory for protocol " + protocol, ce );
             }
             finally
             {
@@ -316,48 +302,27 @@ public class SourceResolverImpl
 
         if( null == source )
         {
-            // no factory found, so usual url handling stuff...
-            try
+            // no factory found, so use default factory
+            if ( null != m_defaultFactory) 
             {
-                if( getLogger().isDebugEnabled() == true )
-                {
-                    this.getLogger().debug( "Making URL from " + systemID );
-                }
-                try
-                {
-                    final URLSource urlSource =
-                        (URLSource)this.m_urlSourceClass.newInstance();
-                    urlSource.init( new URL( systemID ), parameters );
-                    source = urlSource;
-                }
-                catch( MalformedURLException mue )
-                {
-                    throw mue;
-                }
-                catch( Exception ie )
-                {
-                    throw new SourceException( "Unable to create new instance of " +
-                                               this.m_urlSourceClass, ie );
-                }
-            }
-            catch( MalformedURLException mue )
+                // thread safe default factory
+                source = m_defaultFactory.getSource( systemID, parameters );
+            } 
+            else 
             {
-                if( getLogger().isDebugEnabled() )
+                try 
                 {
-                    this.getLogger().debug( "Making URL - MalformedURLException in getURL:", mue );
-                    this.getLogger().debug( "Making URL a File (assuming that it is full path):" + systemID );
-                }
-                try
+                    m_defaultFactory = (SourceFactory) m_factorySelector.select("*");
+                    source = m_defaultFactory.getSource( systemID, parameters );
+                } 
+                catch (ServiceException se ) 
                 {
-                    final URLSource urlSource =
-                        (URLSource)this.m_urlSourceClass.newInstance();
-                    urlSource.init( ( new File( systemID ) ).toURL(), parameters );
-                    source = urlSource;
-                }
-                catch( Exception ie )
+                    throw new SourceException( "Unable to select source factory for " + systemID, se );
+                } 
+                finally 
                 {
-                    throw new SourceException( "Unable to create new instance of " +
-                                               this.m_urlSourceClass, ie );
+                    m_factorySelector.release( m_defaultFactory );
+                    m_defaultFactory = null;
                 }
             }
         }
@@ -383,8 +348,29 @@ public class SourceResolverImpl
         }
         catch( ServiceException ce )
         {
-        	//no factory available, so use fallback
-            //throw new CascadingRuntimeException( "Unable to select source factory for protocol " + protocol, ce );
+            // no factory found, so use default factory
+            if ( null != m_defaultFactory) 
+            {
+                // thread safe default factory
+                m_defaultFactory.release( source );
+            } 
+            else 
+            {
+                try 
+                {
+                    m_defaultFactory = (SourceFactory) m_factorySelector.select("*");
+                    m_defaultFactory.release( source );
+                } 
+                catch (ServiceException se ) 
+                {
+                    throw new CascadingRuntimeException( "Unable to select source factory for " + source.getURI(), se );
+                } 
+                finally 
+                {
+                    m_factorySelector.release( m_defaultFactory );
+                    m_defaultFactory = null;
+                }
+            }
         }
         finally
         {
