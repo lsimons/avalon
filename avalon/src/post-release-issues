@@ -13,6 +13,10 @@ address after release.
 Issues:
 -------
 
+* Should we require every Excalibur component to have a package.html
+  file with instructions on how to use the components?  This
+  should be settled on for Beta 2.
+
 * Should we consider using JUnit for the unit tests instead of
   Testlet?  It would mean less code for us to maintain and
   document.  JUnit has a critical mass surrounding it, and
