@@ -56,6 +56,9 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Vector;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.avalon.cornerstone.services.scheduler.Target;
 import org.apache.avalon.cornerstone.services.scheduler.TimeScheduler;
 import org.apache.avalon.cornerstone.services.scheduler.TimeTrigger;
@@ -77,6 +80,9 @@ public class DefaultTimeScheduler
     extends AbstractLogEnabled
     implements TimeScheduler, Serviceable, Startable, Disposable, Runnable, MonitorableTimeSchedulerMBean
 {
+    // ----------------------------------------------------------------------
+    //  Properties
+    // ----------------------------------------------------------------------
     private final Hashtable m_entries = new Hashtable();
     private final PriorityQueue m_priorityQueue =
         new SynchronizedPriorityQueue( new BinaryHeap() );
@@ -84,6 +90,49 @@ public class DefaultTimeScheduler
     private boolean m_running;
     private ArrayList m_triggerFailureListeners = new ArrayList();
 
+    // ----------------------------------------------------------------------
+    //  Getter/Setter methods
+    // ----------------------------------------------------------------------
+    //
+    // LSD: these have been added in to allow subclasses of the
+    // DefaultScheduler to override implementation behaviour.
+    // You should *not* make these public in subclasses (hence
+    // they are final); they're here for convenience implementation
+    // only.
+
+    protected final ThreadManager getThreadManager()
+    {
+        return m_threadManager;
+    }
+
+    protected final boolean isRunning()
+    {
+        return m_running;
+    }
+
+    protected final void setRunning( boolean running )
+    {
+        m_running = running;
+    }
+
+    protected final List getTriggerFailureListeners()
+    {
+        return m_triggerFailureListeners;
+    }
+
+    protected final Map getEntryMap()
+    {
+        return m_entries;
+    }
+
+    protected final PriorityQueue getPriorityQueue()
+    {
+        return m_priorityQueue;
+    }
+
+    // ----------------------------------------------------------------------
+    //  Avalon Lifecycle
+    // ----------------------------------------------------------------------
     public void service( final ServiceManager serviceManager )
         throws ServiceException
     {
@@ -100,205 +149,11 @@ public class DefaultTimeScheduler
         m_priorityQueue.clear();
     }
 
-    /**
-     * Schedule a time based trigger.
-     * Note that if a TimeTrigger already has same name then it is removed.
-     *
-     * @param name the name of the trigger
-     * @param trigger the trigger
-     * @param target the target
-     */
-    public synchronized void addTrigger( final String name,
-                                         final TimeTrigger trigger,
-                                         final Target target )
-    {
-        try
-        {
-            removeTrigger( name );
-        }
-        catch( final NoSuchElementException nse )
-        {
-        }
-
-        final TimeScheduledEntry entry = new TimeScheduledEntry( name, trigger, target );
-        m_entries.put( name, entry );
-        final boolean added = rescheduleEntry( entry, false );
-
-        if( !added ) return;
-
-        try
-        {
-            if( entry == m_priorityQueue.peek() )
-            {
-                notifyAll();
-            }
-        }
-        catch( final NoSuchElementException nse )
-        {
-            final String message =
-                "Unexpected exception when peek() on priority queue for " +
-                entry.getName();
-            getLogger().warn( message, nse );
-        }
-    }
-
-    /**
-     * Remove a scheduled trigger by name.
-     *
-     * @param name the name of the trigger
-     * @exception NoSuchElementException if no trigger exists with that name
-     */
-    public synchronized void removeTrigger( String name )
-        throws NoSuchElementException
-    {
-        //use the kill-o-matic against any entry with same name
-        final TimeScheduledEntry entry = getEntry( name );
-        entry.invalidate();
-        m_entries.remove( name );
-    }
-
-    /**
-     * Force a trigger time to be recalculated.
-     *
-     * @param name the name of the trigger
-     * @exception NoSuchElementException if no trigger exists with that name
-     */
-    public synchronized void resetTrigger( final String name )
-        throws NoSuchElementException
-    {
-        final TimeScheduledEntry entry = getEntry( name );
-        entry.getTimeTrigger().reset();
-        rescheduleEntry( entry, true );
-    }
-
-    /**
-     * Reschedule an entry.
-     * if clone is true then invalidate old version and create a new entry to
-     * insert into queue.
-     *
-     * @param timeEntry the entry
-     * @param clone true if new entry is to be created
-     * @return true if added to queue, false if not added
-     */
-    private synchronized boolean rescheduleEntry( final TimeScheduledEntry timeEntry,
-                                                  final boolean clone )
-    {
-        TimeScheduledEntry entry = timeEntry;
-
-        if( clone )
-        {
-            entry = new TimeScheduledEntry( timeEntry.getName(),
-                                            timeEntry.getTimeTrigger(),
-                                            timeEntry.getTarget() );
-            timeEntry.invalidate();
-
-            // remove old refernce to the entry..so that next time
-            // somebody calls getEntry( name ), we will get the new valid entry.
-            m_entries.remove( timeEntry.getName() );
-            m_entries.put( timeEntry.getName(), entry );
-        }
-
-        //reschedule if appropriate
-        final long next = entry.getTimeTrigger().getTimeAfter( System.currentTimeMillis() );
-
-        if( 0 < next )
-        {
-            entry.setNextTime( next );
-            m_priorityQueue.insert( entry );
-
-            if( entry == m_priorityQueue.peek() )
-            {
-                notify();
-            }
-
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    /**
-     * Retrieve entry from set.
-     *
-     * @param name the name of entry
-     * @return the entry
-     * @exception NoSuchElementException if no entry is found with that name
-     */
-    private TimeScheduledEntry getEntry( final String name )
-        throws NoSuchElementException
-    {
-        //use the kill-o-matic against any entry with same name
-        final TimeScheduledEntry entry = (TimeScheduledEntry)m_entries.get( name );
-        if( null != entry )
-        {
-            return entry;
-        }
-        else
-        {
-            throw new NoSuchElementException();
-        }
-    }
-
-    /**
-     * Rune entry in a separate thread.
-     *
-     * @param entry the entry to run
-     */
-    private void runEntry( final TimeScheduledEntry entry )
-    {
-        final Runnable runnable = new Runnable()
-        {
-            public void run()
-            {
-                doRunEntry( entry );
-            }
-        };
-
-        //this should suck threads from a named pool
-        try
-        {
-            m_threadManager.getDefaultThreadPool().execute( runnable );
-        }
-        catch( final Exception e )
-        {
-            final String message = "Error executing trigger " + entry.getName();
-            getLogger().warn( message, e );
-        }
-    }
-
-    /**
-     * Helper method delegated to to run in a separate thread.
-     *
-     * @param entry the entry to run
-     */
-    private void doRunEntry( final TimeScheduledEntry entry )
-    {
-        try
-        {
-            entry.getTarget().targetTriggered( entry.getName() );
-        }
-        catch( final Error e )
-        {
-            final String message = "Error occured executing trigger " + entry.getName();
-            getLogger().error( message, e );
-            notifyFailedTriggers( e );
-
-        }
-        catch( final Exception e )
-        {
-            final String message = "Exception occured executing trigger " + entry.getName();
-            getLogger().warn( message, e );
-            notifyFailedTriggers( e );
-        }
-    }
-
     public void start()
         throws Exception
     {
         //this should suck threads from a named pool
-        m_threadManager.getDefaultThreadPool().execute( this );
+        getThreadManager().getDefaultThreadPool().execute( this );
     }
 
     public void stop()
@@ -310,6 +165,9 @@ public class DefaultTimeScheduler
         }
     }
 
+    // ----------------------------------------------------------------------
+    //  Work Interface: Runnable
+    // ----------------------------------------------------------------------
     /**
      * Entry point for thread that monitors entrys and triggers
      * entrys when necessary.
@@ -322,7 +180,7 @@ public class DefaultTimeScheduler
         {
             long duration = 0;
 
-            if( !m_priorityQueue.isEmpty() )
+            if( !getPriorityQueue().isEmpty() )
             {
                 TimeScheduledEntry entry = null;
                 synchronized( this )
@@ -336,7 +194,7 @@ public class DefaultTimeScheduler
                     {
                         //time to run job so remove it from priority queue
                         //and run it
-                        m_priorityQueue.pop();
+                        getPriorityQueue().pop();
 
                         //Note that we need the pop to occur in a
                         //synchronized section while the runEntry
@@ -378,41 +236,16 @@ public class DefaultTimeScheduler
         }
     }
 
-    /**
-     * Retrieve next valid entry. It will pop off any
-     * invalid entrys until the heap is empty or a valid entry
-     * is found.
-     *
-     * @return the next valid entry or null if none
-     */
-    private synchronized TimeScheduledEntry getNextEntry()
-    {
-        TimeScheduledEntry entry =
-            (TimeScheduledEntry)m_priorityQueue.peek();
-
-        //if job has been invalidated then remove it and continue
-        while( !entry.isValid() )
-        {
-            m_priorityQueue.pop();
-
-            if( m_priorityQueue.isEmpty() )
-            {
-                return null;
-            }
-
-            entry = (TimeScheduledEntry)m_priorityQueue.peek();
-        }
-
-        return entry;
-    }
-
+    // ----------------------------------------------------------------------
+    //  Work Interface: Time Scheduler
+    // ----------------------------------------------------------------------
     /**
      * Add a trigger failure listener
      * @param listener The listener
      */
     public void addTriggerFailureListener( TriggerFailureListener listener )
     {
-        m_triggerFailureListeners.add( listener );
+        getTriggerFailureListeners().add( listener );
     }
 
     /**
@@ -421,18 +254,83 @@ public class DefaultTimeScheduler
      */
     public void removeTriggerFailureListener( TriggerFailureListener listener )
     {
-        m_triggerFailureListeners.remove( listener );
+        getTriggerFailureListeners().remove( listener );
     }
 
-    private void notifyFailedTriggers( Throwable t )
+    /**
+     * Schedule a time based trigger.
+     * Note that if a TimeTrigger already has same name then it is removed.
+     *
+     * @param name the name of the trigger
+     * @param trigger the trigger
+     * @param target the target
+     */
+    public synchronized void addTrigger( final String name,
+                                         final TimeTrigger trigger,
+                                         final Target target )
     {
-        for( int i = 0; i < m_triggerFailureListeners.size(); i++ )
+        try
         {
-            TriggerFailureListener triggerFailureListener = (TriggerFailureListener)m_triggerFailureListeners.get( i );
-            triggerFailureListener.triggerFailure( t );
+            removeTrigger( name );
+        }
+        catch( final NoSuchElementException nse )
+        {
         }
 
+        final TimeScheduledEntry entry = new TimeScheduledEntry( name, trigger, target );
+        getEntryMap().put( name, entry );
+        final boolean added = rescheduleEntry( entry, false );
+
+        if( !added ) return;
+
+        try
+        {
+            if( entry == getPriorityQueue().peek() )
+            {
+                notifyAll();
+            }
+        }
+        catch( final NoSuchElementException nse )
+        {
+            final String message =
+                "Unexpected exception when peek() on priority queue for " +
+                entry.getName();
+            getLogger().warn( message, nse );
+        }
     }
+
+    /**
+     * Remove a scheduled trigger by name.
+     *
+     * @param name the name of the trigger
+     * @exception NoSuchElementException if no trigger exists with that name
+     */
+    public synchronized void removeTrigger( String name )
+        throws NoSuchElementException
+    {
+        //use the kill-o-matic against any entry with same name
+        final TimeScheduledEntry entry = getEntry( name );
+        entry.invalidate();
+        getEntryMap().remove( name );
+    }
+
+    /**
+     * Force a trigger time to be recalculated.
+     *
+     * @param name the name of the trigger
+     * @exception NoSuchElementException if no trigger exists with that name
+     */
+    public synchronized void resetTrigger( final String name )
+        throws NoSuchElementException
+    {
+        final TimeScheduledEntry entry = getEntry( name );
+        entry.getTimeTrigger().reset();
+        rescheduleEntry( entry, true );
+    }
+
+    // ----------------------------------------------------------------------
+    //  Work Interface: MonitorableTimeSchedulerMBean
+    // ----------------------------------------------------------------------
 
     /**
      * Return a collection of the triggerable names.
@@ -440,15 +338,179 @@ public class DefaultTimeScheduler
      */
     public synchronized Collection getEntries()
     {
-        Collection coll = m_entries.keySet();
+        Collection coll = getEntryMap().keySet();
         Vector retval = new Vector();
         for( Iterator iterator = coll.iterator(); iterator.hasNext(); )
         {
-            TimeScheduledEntry tse = (TimeScheduledEntry)m_entries.get( iterator.next() );
+            TimeScheduledEntry tse = (TimeScheduledEntry)getEntryMap().get( iterator.next() );
             retval.add( tse.toString() );
         }
         return retval;
     }
 
+    // ----------------------------------------------------------------------
+    //  Helper methods
+    // ----------------------------------------------------------------------
+
+    /**
+     * Reschedule an entry.
+     * if clone is true then invalidate old version and create a new entry to
+     * insert into queue.
+     *
+     * @param timeEntry the entry
+     * @param clone true if new entry is to be created
+     * @return true if added to queue, false if not added
+     */
+    protected synchronized boolean rescheduleEntry( final TimeScheduledEntry timeEntry,
+                                                  final boolean clone )
+    {
+        TimeScheduledEntry entry = timeEntry;
+
+        if( clone )
+        {
+            entry = new TimeScheduledEntry( timeEntry.getName(),
+                                            timeEntry.getTimeTrigger(),
+                                            timeEntry.getTarget() );
+            timeEntry.invalidate();
+
+            // remove old refernce to the entry..so that next time
+            // somebody calls getEntry( name ), we will get the new valid entry.
+            getEntryMap().remove( timeEntry.getName() );
+            getEntryMap().put( timeEntry.getName(), entry );
+        }
+
+        //reschedule if appropriate
+        final long next = entry.getTimeTrigger().getTimeAfter( System.currentTimeMillis() );
+
+        if( 0 < next )
+        {
+            entry.setNextTime( next );
+            getPriorityQueue().insert( entry );
+
+            if( entry == getPriorityQueue().peek() )
+            {
+                notify();
+            }
+
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    /**
+     * Retrieve entry from set.
+     *
+     * @param name the name of entry
+     * @return the entry
+     * @exception NoSuchElementException if no entry is found with that name
+     */
+    protected TimeScheduledEntry getEntry( final String name )
+        throws NoSuchElementException
+    {
+        //use the kill-o-matic against any entry with same name
+        final TimeScheduledEntry entry = (TimeScheduledEntry)getEntryMap().get( name );
+        if( null != entry )
+        {
+            return entry;
+        }
+        else
+        {
+            throw new NoSuchElementException();
+        }
+    }
+
+    /**
+     * Rune entry in a separate thread.
+     *
+     * @param entry the entry to run
+     */
+    protected void runEntry( final TimeScheduledEntry entry )
+    {
+        final Runnable runnable = new Runnable()
+        {
+            public void run()
+            {
+                doRunEntry( entry );
+            }
+        };
+
+        //this should suck threads from a named pool
+        try
+        {
+            getThreadManager().getDefaultThreadPool().execute( runnable );
+        }
+        catch( final Exception e )
+        {
+            final String message = "Error executing trigger " + entry.getName();
+            getLogger().warn( message, e );
+        }
+    }
+
+    /**
+     * Helper method delegated to to run in a separate thread.
+     *
+     * @param entry the entry to run
+     */
+    protected void doRunEntry( final TimeScheduledEntry entry )
+    {
+        try
+        {
+            entry.getTarget().targetTriggered( entry.getName() );
+        }
+        catch( final Error e )
+        {
+            final String message = "Error occured executing trigger " + entry.getName();
+            getLogger().error( message, e );
+            notifyFailedTriggers( e );
+
+        }
+        catch( final Exception e )
+        {
+            final String message = "Exception occured executing trigger " + entry.getName();
+            getLogger().warn( message, e );
+            notifyFailedTriggers( e );
+        }
+    }
+
+    /**
+     * Retrieve next valid entry. It will pop off any
+     * invalid entrys until the heap is empty or a valid entry
+     * is found.
+     *
+     * @return the next valid entry or null if none
+     */
+    protected synchronized TimeScheduledEntry getNextEntry()
+    {
+        TimeScheduledEntry entry =
+            (TimeScheduledEntry)getPriorityQueue().peek();
+
+        //if job has been invalidated then remove it and continue
+        while( !entry.isValid() )
+        {
+            getPriorityQueue().pop();
+
+            if( getPriorityQueue().isEmpty() )
+            {
+                return null;
+            }
+
+            entry = (TimeScheduledEntry)getPriorityQueue().peek();
+        }
+
+        return entry;
+    }
+
+    protected void notifyFailedTriggers( Throwable t )
+    {
+        for( int i = 0; i < getTriggerFailureListeners().size(); i++ )
+        {
+            TriggerFailureListener triggerFailureListener = (TriggerFailureListener)m_triggerFailureListeners.get( i );
+            triggerFailureListener.triggerFailure( t );
+        }
+
+    }
 }
 
