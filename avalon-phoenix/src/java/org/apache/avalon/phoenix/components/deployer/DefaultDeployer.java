@@ -77,6 +77,11 @@ public class DefaultDeployer
     private File m_baseWorkDirectory;
 
     /**
+     * The base directory in which applications are deployed.
+     */
+    private File m_baseDirectory;
+
+    /**
      * Retrieve parameter that specifies work directory.
      *
      * @param parameters the parameters to read
@@ -87,17 +92,30 @@ public class DefaultDeployer
     {
         final String phoenixHome = parameters.getParameter( "phoenix.home" );
         final String defaultWorkDir = phoenixHome + File.separator + "work";
+        final String defaultAppsDir = phoenixHome + File.separator + "apps";
         final String rawWorkDir =
             parameters.getParameter( "phoenix.work.dir", defaultWorkDir );
+        final String rawAppsDir =
+            parameters.getParameter( "phoenix.apps.dir", defaultAppsDir );
 
-        final File dir = new File( rawWorkDir );
+        final File workDir = new File( rawWorkDir );
         try
         {
-            m_baseWorkDirectory = dir.getCanonicalFile();
+            m_baseWorkDirectory = workDir.getCanonicalFile();
         }
         catch( final IOException ioe )
         {
-            m_baseWorkDirectory = dir.getAbsoluteFile();
+            m_baseWorkDirectory = workDir.getAbsoluteFile();
+        }
+
+        final File appsDir = new File( rawAppsDir );
+        try
+        {
+            m_baseDirectory = appsDir.getCanonicalFile();
+        }
+        catch( final IOException ioe )
+        {
+            m_baseDirectory = appsDir.getAbsoluteFile();
         }
     }
 
@@ -124,6 +142,8 @@ public class DefaultDeployer
         setupLogger( m_installer );
         setupLogger( m_assembler );
         setupLogger( m_verifier );
+        m_installer.setBaseDirectory( m_baseDirectory );
+        m_installer.setBaseWorkDirectory( m_baseWorkDirectory );
     }
 
     /**
@@ -183,7 +203,7 @@ public class DefaultDeployer
                 m_repository.storeConfiguration( name, blocks[ i ], null );
             }
 
-            m_installer.uninstall( installation, m_baseWorkDirectory );
+            m_installer.uninstall( installation );
         }
         catch( final Exception e )
         {
@@ -232,7 +252,7 @@ public class DefaultDeployer
         {
             //m_baseWorkDirectory
             final Installation installation =
-                m_installer.install( location, m_baseWorkDirectory );
+                m_installer.install( location );
 
             final Configuration config = getConfigurationFor( installation.getConfig() );
             final Configuration environment = getConfigurationFor( installation.getEnvironment() );

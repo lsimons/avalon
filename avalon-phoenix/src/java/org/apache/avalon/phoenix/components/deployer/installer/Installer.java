@@ -34,7 +34,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * and installing it as appropriate.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2002/05/13 21:09:31 $
+ * @version $Revision: 1.3 $ $Date: 2002/05/15 09:34:36 $
  */
 public class Installer
     extends AbstractLogEnabled
@@ -63,13 +63,42 @@ public class Installer
         "SAR-INF" + File.separator + "classes" + File.separator;
 
     /**
+     * Base directory in which to install extracted application.
+     */
+    private File m_baseDirectory;
+
+    /**
+     * Base directory in which to install temporary/work files.
+     */
+    private File m_baseWorkDirectory;
+
+    /**
+     * Set the baseDirectory in which to install applications.
+     *
+     * @param baseDirectory the baseDirectory in which to install applications.
+     */
+    public void setBaseDirectory( File baseDirectory )
+    {
+        m_baseDirectory = baseDirectory;
+    }
+
+    /**
+     * Set the baseDirectory in which to install applications temporary Data.
+     *
+     * @param baseWorkDirectory the baseDirectory in which to install applications temporary Data.
+     */
+    public void setBaseWorkDirectory( File baseWorkDirectory )
+    {
+        m_baseWorkDirectory = baseWorkDirectory;
+    }
+
+    /**
      * Uninstall the Sar designated installation.
      *
      * @param installation the installation
      * @throws InstallationException if an error occurs
      */
-    public void uninstall( final Installation installation,
-                           final File workDir )
+    public void uninstall( final Installation installation )
         throws InstallationException
     {
         final FileDigest[] infos = installation.getFileDigests();
@@ -129,8 +158,7 @@ public class Installer
      * @param url the url of instalation
      * @throws InstallationException if an error occurs
      */
-    public Installation install( final URL url,
-                                 final File workDir )
+    public Installation install( final URL url )
         throws InstallationException
     {
         lock();
@@ -161,7 +189,7 @@ public class Installer
             }
             else
             {
-                return install( url, file, zipFile, workDir );
+                return install( url, file, zipFile, m_baseWorkDirectory );
             }
         }
         catch( final IOException ioe )
@@ -703,7 +731,7 @@ public class Installer
         final String base =
             FileUtil.removeExtension( FileUtil.removePath( file.getName() ) );
 
-        return ( new File( file.getParentFile(), base ) ).getAbsoluteFile();
+        return ( new File( m_baseDirectory, base ) ).getAbsoluteFile();
     }
 
     /**

@@ -169,7 +169,7 @@ class CLISetup
                     break;
 
                 case APPS_PATH_OPT:
-                    m_parameters.setParameter( "applications-directory", option.getArgument() );
+                    m_parameters.setParameter( "phoenix.apps.dir", option.getArgument() );
                     break;
 
                 case REMOTE_MANAGER_OPT:
