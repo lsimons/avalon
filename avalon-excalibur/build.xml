@@ -36,7 +36,6 @@ Legal:
   <property name="excalibur.name" value="avalon-${name}"/>
   <property name="testlets.name" value="avalon-${name}-test"/>
   <property name="scratchpad.name" value="avalon-scratchpad"/>
-  <property name="cadastre.name" value="avalon-cadastre"/>
 
   <!--
     these are here only for those who use jikes compiler. For other
@@ -58,7 +57,6 @@ Legal:
   <property name="build.src" value="${build.dir}/src"/>
   <property name="build.classes" value="${build.dir}/classes"/>
   <property name="build.scratchpad" value="${build.dir}/scratchpad"/>
-  <property name="build.cadastre" value="${build.dir}/cadastre"/>
   <property name="build.javadocs" value="${build.dir}/javadocs"/>
   <property name="build.docs" value="${build.dir}/docs"/>
   <property name="build.testdocs" value="${build.docs}/test"/>
@@ -71,7 +69,6 @@ Legal:
   <property name="java.dir" value="${src.dir}/java"/>
   <property name="test.dir" value="${src.dir}/test"/>
   <property name="scratchpad.dir" value="${src.dir}/scratchpad"/>
-  <property name="cadastre.dir" value="${src.dir}/cadastre"/>
   <property name="lib.dir" value="lib"/>
   <property name="tools.dir" value="../jakarta-avalon/tools"/>
   <property name="docs.dir" value="docs"/>
@@ -130,7 +127,6 @@ Legal:
   <path id="test.class.path">
     <path refid="tools.class.path"/>
     <path refid="project.class.path"/>
-    <pathelement path="${build.cadastre}" />
   </path>
 
   <!-- Main target -->
@@ -223,7 +219,6 @@ Legal:
 
     <mkdir dir="${build.classes}"/>
     <mkdir dir="${build.scratchpad}"/>
-    <mkdir dir="${build.cadastre}"/>
 
 <!--
     <depend closure="yes"
@@ -258,20 +253,6 @@ Legal:
                unless="xpath.present"/>
     </javac>
 
-    <javac srcdir="${cadastre.dir}"
-           destdir="${build.cadastre}"
-           debug="${debug}"
-           optimize="${optimize}"
-           deprecation="${deprecation}">
-      <classpath refid="project.class.path" />
-    </javac>
-
-    <rmic base="${build.cadastre}"
-          classname="org.apache.avalon.cadastre.rmi.server.RMINamingProviderImpl"
-          stubVersion="1.2">
-      <classpath refid="project.class.path" />
-    </rmic>
-
     <rmic base="${build.classes}"
           classname="org.apache.avalon.excalibur.naming.rmi.server.RMINamingProviderImpl"
           stubVersion="1.2">
@@ -295,11 +276,6 @@ Legal:
           <include name="**/test/*TestCase.class"/>
         </fileset>
         <fileset dir="${build.scratchpad}">
-          <exclude name="**/test/Abstract*TestCase.class"/>
-          <include name="**/test/*Profile.class" if="test.profile"/>
-          <include name="**/test/*TestCase.class"/>
-        </fileset>
-        <fileset dir="${build.cadastre}">
           <exclude name="**/test/Abstract*TestCase.class"/>
           <include name="**/test/*Profile.class" if="test.profile"/>
           <include name="**/test/*TestCase.class"/>
@@ -458,10 +434,6 @@ Legal:
 
     <jar jarfile="${build.lib}/${scratchpad.name}.jar" basedir="${build.scratchpad}">
       <include name="org/apache/avalon/excalibur/**"/>
-      <exclude name="**/test/*"/>
-    </jar>
-    <jar jarfile="${build.lib}/${cadastre.name}.jar" basedir="${build.cadastre}">
-      <include name="org/apache/avalon/cadastre/**"/>
       <exclude name="**/test/*"/>
     </jar>
 
