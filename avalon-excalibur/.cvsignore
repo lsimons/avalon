@@ -6,3 +6,4 @@ ant.properties
 *.iws
 .classpath
 .project
+*.log
