@@ -85,7 +85,7 @@
   <goal name="avalon:dist">
     <attainGoal name="avalon:install"/>
     <attainGoal name="avalon:site"/>
-    <attainGoal name="avalon:tutorials"/>
+    <!-- <attainGoal name="avalon:tutorials"/> -->
     <attainGoal name="avalon:package"/>
   </goal>
 
@@ -421,6 +421,7 @@
       </ant:exec>
     </j:if>
 
+    <!--
     <ant:echo>Building tutorial kit: ${tutorial.name}</ant:echo>
     <ant:zip zipfile="${maven.build.dir}/${tutorial.name}.zip">
       <zipfileset dir="${basedir}/target/tutorials" prefix="tutorial"/>
@@ -449,6 +450,7 @@
         <ant:arg value="${maven.build.dir}/${tutorial.name}.tar.gz"/>
       </ant:exec>
     </j:if>
+    -->
 
   </goal>
 
@@ -557,7 +559,7 @@
   (note: the xgen target is defined in the platform/tutorials/maven.xml file)
   ==============================================================================
   -->
-
+  <!--
   <goal name="avalon:tutorials" prereqs="avalon:validate">
     <ant:copy todir="${basedir}/target/tutorials">
       <fileset dir="${basedir}/platform/tutorials">
@@ -570,6 +572,7 @@
     <ant:copy toFile="${basedir}/target/tutorials/maven.xml"
        file="${basedir}/platform/tutorials/maven-template.xml"/>
   </goal>
+  -->
 
   <goal name="avalon:validate" 
        description="Generate a clean tutorial package." >
