@@ -60,6 +60,11 @@
       <artifactId>&avalon-util-i18n-id;</artifactId>
       <version>&avalon-util-i18n-version;</version>
     </dependency>
+    <dependency>
+      <groupId>&avalon-util-id;</groupId>
+      <artifactId>&avalon-util-env-id;</artifactId>
+      <version>&avalon-util-env-version;</version>
+    </dependency>
 
     <dependency>
       <groupId>&avalon-meta-id;</groupId>
