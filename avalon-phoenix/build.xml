@@ -806,6 +806,10 @@ Legal:
                 <include name="phoenix-containerkit.jar"/>
             </fileset>
         </copy>
+        <copy file="${configkit.jar}" todir="${bin.dist.tools.lib}"/>
+        <copy todir="${bin.dist.tools.lib}">
+            <fileset refid="configkit.fileset"/>
+        </copy>
         <copy todir="${bin.dist.container.lib}">
             <fileset dir="${lib.dir}/container">
                 <include name="*.jar"/>
@@ -856,10 +860,6 @@ Legal:
         <zip destfile="${target.lib}/mx4j-tools.jar" basedir="${target.mx}"/>
 
         <copy file="${cli.jar}" todir="${bin.dist.bin}/lib"/>
-        <copy file="${configkit.jar}" todir="${bin.dist.bin}/lib"/>
-        <copy todir="${bin.dist.bin}/lib">
-            <fileset refid="configkit.fileset"/>
-        </copy>
         <copy file="${mx4j.jar}" todir="${bin.dist.bin}/lib"/>
         <copy file="${target.lib}/mx4j-tools.jar" todir="${bin.dist.bin}/lib"/>
 
