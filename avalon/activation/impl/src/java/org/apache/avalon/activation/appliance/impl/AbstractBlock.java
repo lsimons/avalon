@@ -99,7 +99,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * context.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.16 $ $Date: 2004/01/20 05:26:17 $
+ * @version $Revision: 1.17 $ $Date: 2004/01/20 05:43:35 $
  */
 public abstract class AbstractBlock extends AbstractAppliance 
   implements Block, CompositionEventListener
@@ -223,8 +223,9 @@ public abstract class AbstractBlock extends AbstractAppliance
    /**
     * Return an appliance relative to a specific path.
     * @param source the appliance path
-    * @return the appliance, or null if it couldn't be found.
-    * @exception IllegalArgumentException if the supplied path is invalid
+    * @return the appliance
+    * @exception IllegalArgumentException if the supplied does
+    *    not refer to a know appliance
     * @exception ApplianceException if an error occurs during appliance
     *    resolution
     */
@@ -233,7 +234,11 @@ public abstract class AbstractBlock extends AbstractAppliance
         DeploymentModel model =
           getContainmentModel().getModel( source );
         if( model == null )
-            return null;
+        {
+            final String error = 
+              "Path [" + source + "] does not refer to a known appliance.";
+            throw new IllegalArgumentException( error );
+        }
         return locate( model );
     }
 
@@ -251,6 +256,11 @@ public abstract class AbstractBlock extends AbstractAppliance
 
     private Appliance getAppliance( final DeploymentModel model, boolean create )
     {
+        if( null == model )
+        {
+            throw new NullPointerException( "model" );
+        }
+
         Appliance appliance = (Appliance) model.getHandler();
         if( null != appliance )
         {
