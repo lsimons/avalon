@@ -15,6 +15,10 @@
     <author name="Huw Roberts" email="huw@apache.org" id="HR"/>    
   </devs>
 <release version="4.0b" date="Unreleased">
+    <action dev="PR" type="add">
+        Added support for validation of a Blocks configuration
+        against a schema (such as XMLSchema, Relax NG etc).
+    </action>
     <action dev="PD" type="add">
         Added the ability for Blocks to request shutdown of their
         enclosing application via BlockContext.requestShutdown().
