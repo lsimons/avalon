@@ -65,6 +65,7 @@
                 <exclude name="**/*.gif"/>
                 <exclude name="**/*.jpg"/>
                 <exclude name="**/*.png"/>
+                <exclude name="**/*.jar"/>
             </fileset>
         </copy>
 
@@ -74,6 +75,7 @@
                 <include name="**/*.gif"/>
                 <include name="**/*.jpg"/>
                 <include name="**/*.png"/>
+                <include name="**/*.jar"/>
             </fileset>
         </copy>
         
@@ -83,6 +85,7 @@
                 <exclude name="**/*.gif"/>
                 <exclude name="**/*.jpg"/>
                 <exclude name="**/*.png"/>
+                <exclude name="**/*.jar"/>
             </fileset>
         </copy>
         <copy todir="${cocoon.build.resources}" filtering="off">
@@ -91,6 +94,7 @@
                 <include name="**/*.gif"/>
                 <include name="**/*.jpg"/>
                 <include name="**/*.png"/>
+                <include name="**/*.jar"/>
             </fileset>
         </copy>
 
