@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<author id="mcconnell.html">
+
+  <honorific>Mr</honorific>
+
+  <firstname>Stephen</firstname>
+
+  <surname>McConnell</surname>
+
+  <address format="linespecific">
+
+    <email>mcconnell@apache.org</email>
+
+  </address>
+
+  <affiliation>
+
+    <shortaffil>ASF</shortaffil>
+
+    <jobtitle>Committer</jobtitle>
+
+    <orgname>Apache Software Foundation</orgname>
+
+    <orgdiv>Apache Avalon</orgdiv>
+
+  </affiliation>
+
+  <affiliation>
+
+    <shortaffil>OSM</shortaffil>
+
+    <jobtitle>CEO</jobtitle>
+
+    <orgname>OSM - Open Service Management</orgname>
+
+  </affiliation>
+
+  <authorblurb>
+
+    <para>
+
+      Stephen was initially drawn to Avalon in respect to the work
+      undertaken in the framework projects.  The consitent and clean
+      component-oriented approach seperated Avalon from may other 
+      projects.  Stephen, as comitter to Avalon, is involved with 
+      framework maintenance and evolution, advanced devopment related 
+      to inteligent service management, the Avalon Apps Enterprise 
+      project, and the Merlin Service Management Architecture.
+
+    </para>
+  </authorblurb>
+
+</author>
+
