@@ -79,11 +79,6 @@ public class WorkerThread
     private boolean m_alive;
 
     /**
-     * The name of thread.
-     */
-    private final String m_name;
-
-    /**
      * The thread pool this thread is associated with.
      */
     private final AbstractThreadPool m_pool;
@@ -105,14 +100,14 @@ public class WorkerThread
             throw new NullPointerException( "pool" );
         }
 
-        m_name = name;
+        setName( name );
         m_work = null;
         m_alive = true;
         m_pool = pool;
 
         setDaemon( false );
     }
-
+    
     /**
      * The main execution loop.
      */
@@ -146,7 +141,7 @@ public class WorkerThread
             catch( final Throwable throwable )
             {
                 // Error thrown while working.
-                debug( "error caught: " + throwable );
+                debug( "error caught", throwable );
                 m_threadControl.finish( throwable );
             }
             finally
@@ -194,7 +189,6 @@ public class WorkerThread
     {
         //TODO: Thread name setting should reuse the
         //ThreadContext code if ThreadContext used.
-        Thread.currentThread().setName( m_name );
     }
 
     /**
@@ -269,6 +263,23 @@ public class WorkerThread
         if( false )
         {
             final String output = getName() + ": " + message;
+            System.out.println( output );
+        }
+    }
+    
+    /**
+     * Write a debug message.
+     * A Noop oin this implementation. Subclasses can overide
+     * to actually do some logging.
+     *
+     * @param message the message to write out.
+     * @param throwable the throwable to write out with the message.
+     */
+    protected void debug( final String message, final Throwable throwable )
+    {
+        if( false )
+        {
+            final String output = getName() + ": " + message + ": " + throwable;
             System.out.println( output );
         }
     }
