@@ -376,6 +376,8 @@ the LICENSE.txt file.
     <mkdir dir="${merlin.home}/lib/system"/>
     <mkdir dir="${merlin.home}/lib/shared"/>
     <mkdir dir="${merlin.home}/repository"/>
+    <copy toDir="${merlin.home}/lib" file="${wrapper.dll}"/>
+    <copy toDir="${merlin.home}/lib" file="${wrapper.jar}"/>
     <copy toDir="${merlin.home}/lib/shared" file="${avalon-framework.jar}"/>
     <copy toDir="${merlin.home}/lib/system" file="${excalibur-i18n.jar}"/>
     <copy toDir="${merlin.home}/lib/system" file="${excalibur-configuration.jar}"/>
