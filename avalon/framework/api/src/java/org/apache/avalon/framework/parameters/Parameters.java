@@ -33,6 +33,16 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 public class Parameters
     implements Serializable
 {
+
+    /** Empty Parameters object */
+    public static final Parameters EMPTY_PARAMETERS;
+
+    /** Static initializer to initialize the empty Parameters object */
+    static {
+        EMPTY_PARAMETERS = new Parameters();
+        EMPTY_PARAMETERS.makeReadOnly();
+    }
+
     ///Underlying store of parameters
     private Map                m_parameters = new HashMap();
 
