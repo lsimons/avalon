@@ -44,6 +44,7 @@
     <item name="Baxter" href="baxter/index.html"/>
     <item name="CLI" href="cli/index.html"/>
     <item name="Collections" href="collections/index.html"/>
+    <item name="Configuration" href="configuration/index.html"/>
     <item name="Concurrent" href="concurrent/index.html"/>
     <item name="Extension" href="extension/index.html"/>
     <item name="I/O" href="io/index.html"/>
