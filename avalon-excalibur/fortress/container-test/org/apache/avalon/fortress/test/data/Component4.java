@@ -51,11 +51,13 @@ package org.apache.avalon.fortress.test.data;
 
 /**
  * @avalon.component
- * @x-avalon.lifecycle type=transient
+ *
+ * @avalon.service type=Role4
+ * @x-avalon.lifestyle type=transient
  * @x-avalon.info name=component4
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.8 $ $Date: 2003/04/11 07:37:58 $
+ * @version $Revision: 1.9 $ $Date: 2003/04/11 20:39:38 $
  */
 public class Component4
     implements Role4

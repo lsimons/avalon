@@ -184,7 +184,7 @@ public class ServiceRoleManager extends AbstractRoleManager implements Initializ
      * name.  It assumes all classnames for a particular component is
      * unique.
      *
-     * @param string  The classname of a component
+     * @param className  The classname of a component
      * @return String the short name
      */
     public static final String createShortName( String className )
@@ -246,7 +246,7 @@ public class ServiceRoleManager extends AbstractRoleManager implements Initializ
      * @param role
      */
     private void setupImplementations( String role )
-        throws IOException, ClassNotFoundException
+        throws ClassNotFoundException
     {
         Iterator it = Service.providers( getLoader().loadClass( role ) );
 
@@ -293,7 +293,7 @@ public class ServiceRoleManager extends AbstractRoleManager implements Initializ
      */
     private String getHandler( Properties meta )
     {
-        String lifecycle = meta.getProperty( "x-avalon.lifecycle", null );
+        String lifecycle = meta.getProperty( "x-avalon.lifestyle", null );
         String handler = null;
 
         if( null != lifecycle )
@@ -329,7 +329,7 @@ public class ServiceRoleManager extends AbstractRoleManager implements Initializ
     /**
      * Read entries in a list file and add them all to the provided Set.
      *
-     * @param services
+     * @param entries
      * @param url
      */
     private void readEntries( Set entries, URL url )

@@ -52,11 +52,11 @@ package org.apache.avalon.fortress.test.data;
 /**
  * @avalon.component
  * @avalon.service type=org.apache.avalon.fortress.test.data.Role2
- * @x-avalon.lifecycle type=pooled
+ * @x-avalon.lifestyle type=pooled
  * @x-avalon.info name=component2
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.8 $ $Date: 2003/04/11 07:37:57 $
+ * @version $Revision: 1.9 $ $Date: 2003/04/11 20:39:38 $
  */
 public class Component2
     implements Role2
