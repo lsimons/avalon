@@ -1,4 +1,4 @@
- // Copyright 2004 The Apache Software Foundation
+// Copyright 2004 The Apache Software Foundation
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,10 +15,15 @@
 namespace Apache.Avalon.DynamicProxy
 {
 	using System;
-	using System.Reflection;
 	using System.Reflection.Emit;
 
 	using Apache.Avalon.DynamicProxy.Builder;
+
+	public delegate void EnhanceTypeDelegate( TypeBuilder mainType, FieldBuilder handlerFieldBuilder, ConstructorBuilder constructorBuilder );
+
+	public delegate Type[] ScreenInterfacesDelegate( Type[] interfaces );
+
+	public delegate object[] ConstructorArgumentsDelegate( Type generatedType, IInvocationHandler handler );
 
 	/// <summary>
 	/// Generates a Java style proxy. This overrides the .Net proxy requirements 
@@ -53,21 +58,21 @@ namespace Apache.Avalon.DynamicProxy
 
 		public static object CreateClassProxy(Type baseClass, IInvocationHandler handler)
 		{
-			if (baseClass == null)
-			{
-				throw new ArgumentNullException("theClass");
-			}
-			if (baseClass.IsInterface)
-			{
-				throw new ArgumentException("'baseClass' must be a class, not an interface");
-			}
-			if (handler == null)
-			{
-				throw new ArgumentNullException("handler");
-			}
+			AssertCreateClassProxyArguments(baseClass, handler);
 
 			Type newType = ProxyBuilder.CreateClassProxy(baseClass);
 			return CreateProxyInstance( newType, handler );
+		}
+
+		public static object CreateCustomClassProxy(Type baseClass, IInvocationHandler handler, 
+			EnhanceTypeDelegate enhance, 
+			ScreenInterfacesDelegate screenInterfaces, 
+			ConstructorArgumentsDelegate constructorArguments)
+		{
+			AssertCreateClassProxyArguments(baseClass, handler);
+
+			Type newType = ProxyBuilder.CreateCustomClassProxy(baseClass, enhance, screenInterfaces);
+			return CreateCustomProxyInstance( newType, handler, constructorArguments );
 		}
 
 		/// <summary>
@@ -91,6 +96,69 @@ namespace Apache.Avalon.DynamicProxy
 		/// <returns>Proxy instance</returns>
 		public static object CreateProxy(Type[] interfaces, IInvocationHandler handler)
 		{
+			AssertCreateProxyArguments(interfaces, handler);
+
+			Type newType = ProxyBuilder.CreateInterfaceProxy(interfaces);
+			return CreateProxyInstance( newType, handler );
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="theInterface"></param>
+		/// <param name="handler"></param>
+		/// <param name="enhance"></param>
+		/// <param name="screenInterfaces"></param>
+		/// <param name="constructorArguments"></param>
+		/// <returns></returns>
+		public static object CreateCustomProxy(Type theInterface, 
+			IInvocationHandler handler, EnhanceTypeDelegate enhance, 
+			ScreenInterfacesDelegate screenInterfaces, 
+			ConstructorArgumentsDelegate constructorArguments )
+		{
+			return CreateCustomProxy( new Type[] { theInterface }, handler, 
+				enhance, screenInterfaces, constructorArguments );
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="interfaces"></param>
+		/// <param name="handler"></param>
+		/// <param name="enhance"></param>
+		/// <param name="screenInterfaces"></param>
+		/// <param name="constructorArguments"></param>
+		/// <returns></returns>
+		public static object CreateCustomProxy(Type[] interfaces, 
+			IInvocationHandler handler, EnhanceTypeDelegate enhance, 
+			ScreenInterfacesDelegate screenInterfaces, 
+			ConstructorArgumentsDelegate constructorArguments )
+		{
+			AssertCreateProxyArguments( interfaces, handler);
+			Type newType = ProxyBuilder.CreateCustomInterfaceProxy(interfaces, enhance, screenInterfaces);
+			return CreateCustomProxyInstance( newType, handler, constructorArguments );
+		}
+
+		private static object CreateProxyInstance(Type type, IInvocationHandler handler)
+		{
+			return Activator.CreateInstance(type, new object[] {handler});
+		}
+
+		private static object CreateCustomProxyInstance(Type type, IInvocationHandler handler, ConstructorArgumentsDelegate constructorArguments)
+		{
+			if (constructorArguments != null)
+			{
+				object[] arguments = constructorArguments( type, handler );
+				return Activator.CreateInstance(type, arguments);
+			}
+			else
+			{
+				return CreateProxyInstance( type, handler );
+			}
+		}
+
+		private static void AssertCreateProxyArguments(Type[] interfaces, IInvocationHandler handler)
+		{
 			if (interfaces == null)
 			{
 				throw new ArgumentNullException("interfaces");
@@ -103,14 +171,22 @@ namespace Apache.Avalon.DynamicProxy
 			{
 				throw new ArgumentException("Can't handle an empty interface array");
 			}
-
-			Type newType = ProxyBuilder.CreateInterfaceProxy(interfaces);
-			return CreateProxyInstance( newType, handler );
 		}
 
-		private static object CreateProxyInstance(Type type, IInvocationHandler handler)
+		private static void AssertCreateClassProxyArguments(Type baseClass, IInvocationHandler handler)
 		{
-			return Activator.CreateInstance(type, new object[] {handler});
+			if (baseClass == null)
+			{
+				throw new ArgumentNullException("theClass");
+			}
+			if (baseClass.IsInterface)
+			{
+				throw new ArgumentException("'baseClass' must be a class, not an interface");
+			}
+			if (handler == null)
+			{
+				throw new ArgumentNullException("handler");
+			}
 		}
 	}
 }

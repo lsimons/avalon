@@ -26,7 +26,32 @@ namespace Apache.Avalon.DynamicProxy.Builder.CodeGenerators
 	{
 		private TypeBuilder m_typeBuilder;
 		private FieldBuilder m_handlerField;
+		private ConstructorBuilder m_constBuilder;
 		private IList m_generated = new ArrayList();
+
+		private EnhanceTypeDelegate m_enhanceDelegate;
+		private ScreenInterfacesDelegate m_screenInterfacesDelegate;
+
+		protected BaseCodeGenerator()
+		{
+		}
+
+		protected BaseCodeGenerator(EnhanceTypeDelegate enhance, 
+			ScreenInterfacesDelegate screenInterfaces)
+		{
+			m_enhanceDelegate = enhance;
+			m_screenInterfacesDelegate = screenInterfaces;
+		}
+
+		protected EnhanceTypeDelegate EnhanceTypeDelegate
+		{
+			get { return m_enhanceDelegate; }
+		}
+
+		protected ScreenInterfacesDelegate ScreenInterfacesDelegate
+		{
+			get { return m_screenInterfacesDelegate; }
+		}
 
 		protected TypeBuilder MainTypeBuilder
 		{
@@ -36,6 +61,11 @@ namespace Apache.Avalon.DynamicProxy.Builder.CodeGenerators
 		protected FieldBuilder HandlerFieldBuilder
 		{
 			get { return m_handlerField; }
+		}
+
+		protected ConstructorBuilder DefaultConstructorBuilder
+		{
+			get { return m_constBuilder; }
 		}
 
 		protected virtual ModuleBuilder CreateDynamicModule()
@@ -59,7 +89,7 @@ namespace Apache.Avalon.DynamicProxy.Builder.CodeGenerators
 				"ProxyType", TypeAttributes.Public | TypeAttributes.Class, baseType, interfaces);
 
 			m_handlerField = GenerateField();
-			ConstructorBuilder constr = GenerateConstructor();
+			m_constBuilder = GenerateConstructor();
 
 			return m_typeBuilder;
 		}
@@ -129,6 +159,7 @@ namespace Apache.Avalon.DynamicProxy.Builder.CodeGenerators
 			if (!ignoreInterfaces)
 			{
 				Type[] baseInterfaces = type.FindInterfaces(new TypeFilter(NoFilterImpl), type);
+
 				GenerateInterfaceImplementation(baseInterfaces);
 			}
 

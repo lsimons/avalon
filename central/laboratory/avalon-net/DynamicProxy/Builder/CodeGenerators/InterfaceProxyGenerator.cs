@@ -23,14 +23,31 @@ namespace Apache.Avalon.DynamicProxy.Builder.CodeGenerators
 	/// </summary>
 	public class InterfaceProxyGenerator : BaseCodeGenerator
 	{
-		public InterfaceProxyGenerator()
+		public InterfaceProxyGenerator() : base()
 		{
+		}
+
+		public InterfaceProxyGenerator(EnhanceTypeDelegate enhance, ScreenInterfacesDelegate screenInterfaces) : 
+			base(enhance, screenInterfaces)
+		{
+
 		}
 
 		public Type GenerateCode(Type[] interfaces)
 		{
+			if (ScreenInterfacesDelegate != null)
+			{
+				interfaces = ScreenInterfacesDelegate(interfaces);
+			}
+
 			CreateTypeBuilder( null, interfaces );
 			GenerateInterfaceImplementation( interfaces );
+
+			if (EnhanceTypeDelegate != null)
+			{
+				EnhanceTypeDelegate(MainTypeBuilder, HandlerFieldBuilder, DefaultConstructorBuilder);
+			}
+
 			return MainTypeBuilder.CreateType();
 		}
 	}
