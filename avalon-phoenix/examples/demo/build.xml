@@ -15,11 +15,11 @@
     <property name="install.dir" value="${phoenix.home}/apps"/>
 
     <!-- Set the properties for intermediate directory -->
-    <property name="build.dir" value="build"/>
-    <property name="build.lib" value="${build.dir}/lib"/>
-    <property name="build.metagenerate" value="${build.dir}/metagenerate"/>
-    <property name="build.src" value="${build.dir}/src"/>
-    <property name="build.classes" value="${build.dir}/classes"/>
+    <property name="target.dir" value="target"/>
+    <property name="target.lib" value="${target.dir}/lib"/>
+    <property name="target.metagenerate" value="${target.dir}/metagenerate"/>
+    <property name="target.src" value="${target.dir}/src"/>
+    <property name="target.classes" value="${target.dir}/classes"/>
 
     <!-- Set the properties for source directories -->
     <property name="src.dir" value="src"/>
@@ -33,7 +33,7 @@
 
     <path id="project.class.path">
         <pathelement path="${java.class.path}"/>
-        <pathelement path="${build.classes}"/>
+        <pathelement path="${target.classes}"/>
         <fileset dir="../common/lib">
             <include name="**/*.jar"/>
         </fileset>
@@ -61,14 +61,14 @@
     <!-- Compiles project -->
     <target name="compile">
 
-        <mkdir dir="${build.classes}"/>
-        <mkdir dir="${build.dir}/genjava"/>
-        <mkdir dir="${build.dir}/genclasses"/>
-        <mkdir dir="${build.dir}/genjava2"/>
-        <mkdir dir="${build.dir}/genclasses2"/>
+        <mkdir dir="${target.classes}"/>
+        <mkdir dir="${target.dir}/genjava"/>
+        <mkdir dir="${target.dir}/genclasses"/>
+        <mkdir dir="${target.dir}/genjava2"/>
+        <mkdir dir="${target.dir}/genclasses2"/>
 
         <javac srcdir="${java.dir}"
-            destdir="${build.classes}"
+            destdir="${target.classes}"
             debug="${build.debug}"
             optimize="${build.optimize}"
             deprecation="${build.deprecation}">
@@ -76,25 +76,25 @@
 
         </javac>
 
-        <rmic base="${build.classes}"
+        <rmic base="${target.classes}"
             classname="org.apache.avalon.apps.demos.rmihelloworldserver.RMIHelloWorldServerImpl"
             stubVersion="1.2">
             <classpath refid="project.class.path"/>
         </rmic>
 
-        <altrmiproxies genname="helloworld" srcgendir="${build.dir}/genjava"
+        <altrmiproxies genname="helloworld" srcgendir="${target.dir}/genjava"
             interfaces="org.apache.avalon.apps.demos.helloworldserver.HelloWorldServer"
-            classgendir="${build.dir}/genclasses">
+            classgendir="${target.dir}/genclasses">
             <classpath>
                 <pathelement location="../common/lib/altrmi-client-interfaces-${altrmi.ver}.jar"/>
                 <pathelement location="../common/lib/altrmi-client-impl-${altrmi.ver}.jar"/>
                 <pathelement location="../common/lib/altrmi-common-${altrmi.ver}.jar"/>
                 <pathelement location="../common/lib/altrmi-generator-${altrmi.ver}.jar"/>
-                <pathelement path="${build.classes}"/>
+                <pathelement path="${target.classes}"/>
             </classpath>
         </altrmiproxies>
 
-        <copy todir="${build.classes}">
+        <copy todir="${target.classes}">
             <fileset dir="${java.dir}">
                 <exclude name="**/test/**"/>
                 <exclude name="**/*.java"/>
@@ -106,15 +106,15 @@
     <!-- Make .xinfo and manifest automatically for blocks -->
     <target name="phoenix-metagenerate" depends="compile">
 
-        <mkdir dir="${build.metagenerate}"/>
+        <mkdir dir="${target.metagenerate}"/>
 
         <taskdef name="generatemeta" classname="org.apache.avalon.phoenix.tools.metagenerate.MetaGenerateTask">
             <classpath refid="project.class.path"/>
         </taskdef>
 
-        <mkdir dir="${build.metagenerate}"/>
+        <mkdir dir="${target.metagenerate}"/>
 
-        <generatemeta dest="${build.metagenerate}">
+        <generatemeta dest="${target.metagenerate}">
             <fileset dir="${java.dir}">
                 <include name="**/*.java"/>
             </fileset>
@@ -125,75 +125,75 @@
     <!-- Jars up project -->
     <target name="jars" depends="phoenix-metagenerate">
 
-        <mkdir dir="${build.lib}"/>
+        <mkdir dir="${target.lib}"/>
 
-        <jar jarfile="${build.lib}/demo-helloworld.jar"
-            basedir="${build.classes}">
+        <jar jarfile="${target.lib}/demo-helloworld.jar"
+            basedir="${target.classes}">
 
             <include name="org/apache/avalon/apps/demos/helloworldserver/*"/>
-            <fileset dir="${build.metagenerate}">
+            <fileset dir="${target.metagenerate}">
                 <include name="org/apache/avalon/apps/demos/helloworldserver/*.xinfo"/>
                 <include name="org/apache/avalon/apps/demos/helloworldserver/*.mxinfo"/>
             </fileset>
         </jar>
 
-        <jar jarfile="${build.lib}/demo-rmihelloworld.jar"
-            basedir="${build.classes}">
+        <jar jarfile="${target.lib}/demo-rmihelloworld.jar"
+            basedir="${target.classes}">
             <include name="org/apache/avalon/apps/demos/rmihelloworldserver/*"/>
-            <fileset dir="${build.metagenerate}">
+            <fileset dir="${target.metagenerate}">
                 <include name="org/apache/avalon/apps/demos/rmihelloworldserver/*.xinfo"/>
                 <include name="org/apache/avalon/apps/demos/rmihelloworldserver/*.mxinfo"/>
             </fileset>
 
         </jar>
 
-        <jar jarfile="${build.lib}/demo-altrmihelloworld.jar">
-            <fileset dir="${build.classes}">
+        <jar jarfile="${target.lib}/demo-altrmihelloworld.jar">
+            <fileset dir="${target.classes}">
                 <include name="org/apache/avalon/apps/demos/altrmihelloworldserver/*"/>
             </fileset>
-            <fileset dir="${build.metagenerate}">
+            <fileset dir="${target.metagenerate}">
                 <include name="org/apache/avalon/apps/demos/altrmihelloworldserver/*.xinfo"/>
                 <include name="org/apache/avalon/apps/demos/altrmihelloworldserver/*.mxinfo"/>
             </fileset>
 
         </jar>
 
-        <jar jarfile="${build.lib}/HelloWorldAltrmiProxy.jar" compress="false">
-            <fileset dir="${build.dir}/genclasses">
+        <jar jarfile="${target.lib}/HelloWorldAltrmiProxy.jar" compress="false">
+            <fileset dir="${target.dir}/genclasses">
                 <include name="**"/>
             </fileset>
         </jar>
 
-        <jar jarfile="${build.lib}/demo-lifecycle.jar"
-            basedir="${build.classes}">
+        <jar jarfile="${target.lib}/demo-lifecycle.jar"
+            basedir="${target.classes}">
 
             <include name="org/apache/avalon/apps/demos/lifecycledemo/*"/>
-            <fileset dir="${build.metagenerate}">
+            <fileset dir="${target.metagenerate}">
                 <include name="org/apache/avalon/apps/demos/lifecycledemo/*.xinfo"/>
                 <include name="org/apache/avalon/apps/demos/lifecycledemo/*.mxinfo"/>
             </fileset>
         </jar>
 
-        <mkdir dir="${build.dir}/temp"/>
-        <unzip src="../common/lib/altrmi-common-${altrmi.ver}.jar" dest="${build.dir}/temp"/>
-        <unzip src="../common/lib/altrmi-client-interfaces-${altrmi.ver}.jar" dest="${build.dir}/temp"/>
-        <unzip src="../common/lib/altrmi-client-impl-${altrmi.ver}.jar" dest="${build.dir}/temp"/>
+        <mkdir dir="${target.dir}/temp"/>
+        <unzip src="../common/lib/altrmi-common-${altrmi.ver}.jar" dest="${target.dir}/temp"/>
+        <unzip src="../common/lib/altrmi-client-interfaces-${altrmi.ver}.jar" dest="${target.dir}/temp"/>
+        <unzip src="../common/lib/altrmi-client-impl-${altrmi.ver}.jar" dest="${target.dir}/temp"/>
 
-        <jar jarfile="${build.lib}/avalon-altrmidemo-tester.jar" compress="false" manifest="${manifest.dir}/AltrmiHelloWorldTest.mf">
-            <fileset dir="${build.dir}/genclasses">
+        <jar jarfile="${target.lib}/avalon-altrmidemo-tester.jar" compress="false" manifest="${manifest.dir}/AltrmiHelloWorldTest.mf">
+            <fileset dir="${target.dir}/genclasses">
                 <include name="**"/>
             </fileset>
-            <fileset dir="${build.dir}/temp">
+            <fileset dir="${target.dir}/temp">
                 <include name="org/apache/altrmi/**"/>
             </fileset>
-            <fileset dir="${build.dir}/classes">
+            <fileset dir="${target.dir}/classes">
                 <include name="org/apache/avalon/apps/demos/altrmihelloworldserver/AltrmiHelloWorldServer.class"/>
                 <include name="org/apache/avalon/apps/demos/altrmihelloworldserver/AltrmiHelloWorldServerTester.class"/>
                 <include name="org/apache/avalon/apps/demos/helloworldserver/HelloWorldServer.class"/>
             </fileset>
         </jar>
 
-        <delete dir="${build.dir}/temp"/>
+        <delete dir="${target.dir}/temp"/>
 
     </target>
 
@@ -204,7 +204,7 @@
         <mkdir dir="dist"/>
 
         <copy todir="dist">
-            <fileset dir="${build.lib}">
+            <fileset dir="${target.lib}">
                 <include name="*.sar"/>
                 <include name="*-tester.jar"/>
             </fileset>
@@ -214,12 +214,12 @@
 
     <target name="demo-sar" depends="jars" description="Create the demo SAR">
 
-        <sar sarfile="${build.lib}/avalon-demo.sar"
+        <sar sarfile="${target.lib}/avalon-demo.sar"
             config="${conf.dir}/avalon-demo-config.xml"
             environment="${conf.dir}/avalon-demo-environment.xml"
             assembly="${conf.dir}/avalon-demo-assembly.xml">
 
-            <lib dir="${build.lib}/">
+            <lib dir="${target.lib}/">
                 <include name="demo-helloworld.jar"/>
             </lib>
 
@@ -236,12 +236,12 @@
 
     <target name="rmidemo-sar" depends="jars" description="Create the RMI demo SAR">
 
-        <sar sarfile="${build.lib}/avalon-rmidemo.sar"
+        <sar sarfile="${target.lib}/avalon-rmidemo.sar"
             config="${conf.dir}/avalon-rmidemo-config.xml"
             environment="${conf.dir}/avalon-rmidemo-environment.xml"
             assembly="${conf.dir}/avalon-rmidemo-assembly.xml">
 
-            <lib dir="${build.lib}/">
+            <lib dir="${target.lib}/">
                 <include name="demo-rmihelloworld.jar"/>
             </lib>
 
@@ -255,12 +255,12 @@
 
     <target name="altrmidemo-sar" depends="jars" description="Create the AltRMI demo SAR">
 
-        <sar sarfile="${build.lib}/avalon-altrmidemo.sar"
+        <sar sarfile="${target.lib}/avalon-altrmidemo.sar"
             config="${conf.dir}/avalon-altrmidemo-config.xml"
             environment="${conf.dir}/avalon-altrmidemo-environment.xml"
             assembly="${conf.dir}/avalon-altrmidemo-assembly.xml">
 
-            <lib dir="${build.lib}/">
+            <lib dir="${target.lib}/">
                 <include name="demo-helloworld.jar"/>
                 <include name="demo-altrmihelloworld.jar"/>
             </lib>
@@ -281,7 +281,7 @@
                 <include name="excalibur-collections*.jar"/>
             </lib>
 
-            <fileset dir="${build.lib}">
+            <fileset dir="${target.lib}">
                 <include name="HelloWorldAltrmiProxy.jar"/>
             </fileset>
 
@@ -291,12 +291,12 @@
 
     <target name="lifecycledemo-sar" depends="jars" description="Create the lifecycle SAR">
 
-        <sar sarfile="${build.lib}/avalon-lifecycledemo.sar"
+        <sar sarfile="${target.lib}/avalon-lifecycledemo.sar"
             config="${conf.dir}/avalon-lifecycledemo-config.xml"
             environment="${conf.dir}/avalon-lifecycledemo-environment.xml"
             assembly="${conf.dir}/avalon-lifecycledemo-assembly.xml">
 
-            <lib dir="${build.lib}/">
+            <lib dir="${target.lib}/">
                 <include name="demo-lifecycle.jar"/>
             </lib>
 
@@ -318,7 +318,7 @@
     <target name="test-altrmi" depends="compile">
         <java classname="org.apache.avalon.apps.demos.altrmihelloworldserver.AltrmiHelloWorldServerTester">
             <classpath>
-                <pathelement location="${build.dir}/lib/avalon-altrmidemo-tester.jar"/>
+                <pathelement location="${target.dir}/lib/avalon-altrmidemo-tester.jar"/>
             </classpath>
         </java>
     </target>
@@ -362,10 +362,10 @@
         <property name="bin.dist.dir" value="dist"/>
         <property name="bin.dist.lib" value="${bin.dist.dir}/lib"/>
 
-        <copy file="${build.lib}/avalon-demo.sar" tofile="${bin.dist.dir}/avalon-demo-${version}.sar"/>
-        <copy file="${build.lib}/avalon-lifecycledemo.sar" tofile="${bin.dist.dir}/avalon-lifecycledemo-${version}.sar"/>
-        <copy file="${build.lib}/avalon-altrmidemo.sar" tofile="${bin.dist.dir}/avalon-altrmidemo-${version}.sar"/>
-        <copy file="${build.lib}/avalon-altrmidemo-tester.jar" tofile="${bin.dist.dir}/avalon-altrmidemo-tester-${version}.jar"/>
+        <copy file="${target.lib}/avalon-demo.sar" tofile="${bin.dist.dir}/avalon-demo-${version}.sar"/>
+        <copy file="${target.lib}/avalon-lifecycledemo.sar" tofile="${bin.dist.dir}/avalon-lifecycledemo-${version}.sar"/>
+        <copy file="${target.lib}/avalon-altrmidemo.sar" tofile="${bin.dist.dir}/avalon-altrmidemo-${version}.sar"/>
+        <copy file="${target.lib}/avalon-altrmidemo-tester.jar" tofile="${bin.dist.dir}/avalon-altrmidemo-tester-${version}.jar"/>
 
         <chmod dir="${bin.dist.dir}" perm="go-rwx"/>
     </target>
@@ -374,7 +374,7 @@
         <!-- <fail message="install.dir not specified." unless="install.dir"/> -->
         <echo message="Installing to ${install.dir}"/>
         <copy todir="${install.dir}">
-            <fileset dir="${build.lib}">
+            <fileset dir="${target.lib}">
                 <include name="avalon-*demo.sar"/>
             </fileset>
         </copy>
@@ -389,7 +389,7 @@
     </target>
 
     <target name="clean" description="Cleans up artifacts from build process">
-        <delete dir="${build.dir}"/>
+        <delete dir="${target.dir}"/>
         <delete>
             <fileset dir="." includes="**/*~" defaultexcludes="no"/>
         </delete>
