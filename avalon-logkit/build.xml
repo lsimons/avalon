@@ -141,12 +141,18 @@ Legal:
     <mkdir dir="${build.dir}"/>
     <mkdir dir="${build.classes}"/>
 
+    <available property="servlet.present" 
+               classname="javax.servlet.ServletContext"
+               classpathref="project.class.path" />
+
     <javac srcdir="${java.dir}"
            destdir="${build.classes}"
            debug="${debug}"
            optimize="${optimize}"
            deprecation="${deprecation}">
       <classpath refid="project.class.path" />
+      <exclude name="org/apache/log/output/ServletOutputLogTarget.java" 
+               unless="servlet.present"/>
     </javac>
 
     <copy todir="${build.classes}">
