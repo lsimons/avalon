@@ -7,7 +7,7 @@
     <article>
       <articleinfo>
         <authorgroup>
-          <xsl:for-each select="header/person">
+          <xsl:for-each select="header/authors/person">
             <author>
               <firstname><xsl:value-of select="@name"/></firstname>
               <address><email><xsl:value-of select="@email"/></email></address>
