@@ -66,7 +66,7 @@ import org.apache.avalon.fortress.impl.AbstractContainer;
  * the references.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.4 $ $Date: 2003/02/15 17:34:16 $
+ * @version CVS $Revision: 1.5 $ $Date: 2003/02/18 08:52:44 $
  */
 public class FortressServiceManager
     implements ServiceManager
@@ -131,7 +131,8 @@ public class FortressServiceManager
         {
             final ComponentHandler handler = (ComponentHandler)result;
             final Object component = handler.get();
-            m_used.put( component.toString(), handler );
+            
+            m_used.put( new ComponentKey(component), handler );
             return component;
         }
         catch( final ServiceException ce )
@@ -162,7 +163,7 @@ public class FortressServiceManager
 
     public void release( final Object component )
     {
-        final ComponentHandler handler = (ComponentHandler)m_used.remove( component.toString() );
+        final ComponentHandler handler = (ComponentHandler)m_used.remove( new ComponentKey(component) );
         if( null == handler )
         {
             if( null == m_parent )
@@ -216,5 +217,25 @@ public class FortressServiceManager
     {
         public String role;
         public String hint;
+    }
+    
+    private final static class ComponentKey
+    {
+        private final Object component;
+        
+        public ComponentKey( Object component )
+        {
+            this.component = component;
+        }
+        
+        public boolean equals( Object other )
+        {
+            return (other instanceof ComponentKey) && ((ComponentKey) other).component == this.component;
+        }
+        
+        public int hashCode()
+        {
+            return component.hashCode();
+        }
     }
 }
