@@ -7,10 +7,9 @@
  */
 package org.apache.avalon.phoenix.engine.facilities.configuration;
 
-import org.apache.avalon.framework.camelot.Entry;
+import java.util.HashMap;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.phoenix.engine.blocks.BlockEntry;
 import org.apache.avalon.phoenix.engine.facilities.ConfigurationRepository;
 
 /**
@@ -21,10 +20,37 @@ import org.apache.avalon.phoenix.engine.facilities.ConfigurationRepository;
 public class DefaultConfigurationRepository
     implements ConfigurationRepository
 {
-    public Configuration getConfiguration( final String name, final Entry entry )
+    private final HashMap m_configurations = new HashMap();
+
+    public synchronized void storeConfiguration( final String application, 
+                                                 final String block, 
+                                                 final Configuration configuration )
         throws ConfigurationException
     {
-        final BlockEntry blockEntry = (BlockEntry)entry;
-        return blockEntry.getConfiguration();
+        final String name = application + "." + block;
+        if( null == configuration )
+        {
+            m_configurations.remove( name );
+        }
+        else
+        {
+            m_configurations.put( name, configuration );
+        }
+    }
+
+    public synchronized Configuration getConfiguration( final String application, 
+                                                        final String block )
+        throws ConfigurationException
+    {
+        final String name = application + "." + block;
+        final Configuration configuration = (Configuration)m_configurations.get( name );
+
+        if( null == configuration )
+        {
+            throw new ConfigurationException( "Unable to locate configuration for Block '" + 
+                                              block + "' in application '" + application + "'" );
+        }
+        
+        return configuration;
     }
 }
