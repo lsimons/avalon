@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project>
+
     <extend>${avalon.buildsystem}/project-common.xml</extend>
 
     <name>Avalon-Fortress-Examples</name>
@@ -10,8 +11,8 @@
     <inceptionYear>2003</inceptionYear>
     <shortDescription>Avalon-Fortress-Examples component</shortDescription>
     <description>
-Provides some simple examples showing basic Avalon-Fortress
-usage.
+     Provides some simple examples showing basic Avalon-Fortress
+     usage.
     </description>
 
     <dependencies>
@@ -19,12 +20,6 @@ usage.
             <id>servletapi</id>
             <version>2.3</version>
         </dependency>
-        <dependency>
-            <id></id>
-            <version></version>
-            <!--<groupId></groupId>-->
-        </dependency>
-
 
         <!-- dependencies for container -->
         <dependency>
