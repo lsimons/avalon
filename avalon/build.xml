@@ -247,6 +247,7 @@ Legal:
       <classpath>
         <path refid="tools.class.path"/>
         <fileset dir="${build.lib}"/>
+        <fileset dir="${tools.dir}/ext"/>
       </classpath>
     </java>
 
