@@ -56,8 +56,8 @@ The org.apache.avalon.meta.info.ExtensionDescriptor class declares tha ability o
 
   <footer>
     <legal>
-      Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2003/09/24 08:15:59 $
+      Copyright (c) @year@ The Avalon Apache Project All rights reserved.
+      $Revision: 1.2 $ $Date: 2003/10/30 00:44:51 $
     </legal>
   </footer>
 
