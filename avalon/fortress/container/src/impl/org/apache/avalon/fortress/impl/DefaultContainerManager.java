@@ -64,6 +64,7 @@ import org.apache.avalon.framework.service.DefaultServiceManager;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.excalibur.event.Queue;
 import org.apache.avalon.fortress.util.ContextManager;
+import org.apache.avalon.fortress.RoleManager;
 import org.apache.excalibur.instrument.InstrumentManager;
 import org.apache.excalibur.mpool.PoolManager;
 
@@ -72,7 +73,7 @@ import org.apache.excalibur.mpool.PoolManager;
  * See that interface for a description.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.2 $ $Date: 2003/02/07 16:08:11 $
+ * @version CVS $Revision: 1.3 $ $Date: 2003/02/07 22:37:52 $
  */
 public class DefaultContainerManager
     implements Initializable, Disposable, org.apache.avalon.fortress.ContainerManager, org.apache.avalon.fortress.ContainerManagerConstants
@@ -230,8 +231,8 @@ public class DefaultContainerManager
         addService( LoggerManager.ROLE, managerContext, serviceManager );
         addService( PoolManager.ROLE, managerContext, serviceManager );
         addService( InstrumentManager.ROLE, managerContext, serviceManager );
-        addService( org.apache.avalon.fortress.RoleManager.ROLE, managerContext, serviceManager );
-        addService( org.apache.avalon.fortress.impl.LifecycleExtensionManager.ROLE, managerContext, serviceManager );
+        addService( RoleManager.ROLE, managerContext, serviceManager );
+        addService( LifecycleExtensionManager.ROLE, managerContext, serviceManager );
         serviceManager.makeReadOnly();
 
         return serviceManager;
@@ -316,7 +317,7 @@ public class DefaultContainerManager
      */
     public final Logger getLogger()
     {
-        // (mschier) was protected.  
+        // (mschier) was protected.
         // Made public to get to the logger at the impl setup level.
         return m_logger;
     }

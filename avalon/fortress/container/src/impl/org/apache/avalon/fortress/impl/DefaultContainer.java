@@ -60,7 +60,7 @@ import org.apache.avalon.fortress.RoleEntry;
  * adding configuration markup semantics to the {@link AbstractContainer}.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.3 $ $Date: 2003/02/07 16:08:11 $
+ * @version CVS $Revision: 1.4 $ $Date: 2003/02/07 22:37:52 $
  */
 public class DefaultContainer
     extends AbstractContainer
@@ -143,7 +143,7 @@ public class DefaultContainer
         }
         else
         {
-            final org.apache.avalon.fortress.RoleEntry roleEntry = m_roleManager.getRoleForShortName( config.getName() );
+            final RoleEntry roleEntry = m_roleManager.getRoleForShortName( config.getName() );
             if( null == roleEntry )
             {
                 final String message = "No class found matching configuration name " +

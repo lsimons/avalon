@@ -115,7 +115,7 @@ import org.apache.log.Priority;
  * and dispose of them properly when it itself is disposed .</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.2 $ $Date: 2003/02/07 16:08:12 $
+ * @version CVS $Revision: 1.3 $ $Date: 2003/02/07 22:37:52 $
  * @since 4.1
  */
 public class ContextManager
@@ -268,6 +268,7 @@ public class ContextManager
                 }
                 catch( ContextException cex )
                 {
+                    m_logger.debug("Could not initialize the Configuration", ce);
                     // Guess there is none.
                     return;
                 }
@@ -293,7 +294,8 @@ public class ContextManager
             copyEntry( PARAMETERS );
         }
         catch( ContextException ce )
-        {/* ignore this exception */
+        {
+            m_logger.debug("Could not initialize the Context", ce);
         }
     }
 
@@ -535,7 +537,7 @@ public class ContextManager
     {
         try
         {
-            m_childContext.put( org.apache.avalon.fortress.RoleManager.ROLE, m_rootContext.get( org.apache.avalon.fortress.RoleManager.ROLE ) );
+            m_childContext.put( RoleManager.ROLE, m_rootContext.get( RoleManager.ROLE ) );
             return;
         }
         catch( ContextException ce )
@@ -557,6 +559,7 @@ public class ContextManager
             }
             catch( ContextException ce )
             {
+                m_logger.debug("Could not initialize the RoleManager", ce);
                 // No RoleManager available anywhere.
                 roleConfig = EMPTY_CONFIG;
             }
