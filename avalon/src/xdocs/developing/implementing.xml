@@ -293,7 +293,7 @@ class ContainerComponent implements Component, Initializable, Disposable {
 	    <itemizedlist>
 	      <listitem>
 	        <para>
-		  Not thread-safe or reentrant.
+		  Not thread-safe or reusable.
 		</para>
 	      </listitem>
 	      <listitem>
@@ -320,8 +320,8 @@ class ContainerComponent implements Component, Initializable, Disposable {
 	    <itemizedlist>
 	      <listitem>
 	        <para>
-		  Component does not maintain state between method calls, and
-		  is fully reentrant.
+		  Component is fully reentrant, and complies with all
+		  principles of thread safety.
 		</para>
 	      </listitem>
 	      <listitem>
@@ -343,7 +343,7 @@ class ContainerComponent implements Component, Initializable, Disposable {
 	    <itemizedlist>
 	      <listitem>
 	        <para>
-		  Not thread-safe, but is fully reentrant.
+		  Not thread-safe, but is fully reusable.
 		</para>
 	      </listitem>
 	      <listitem>
