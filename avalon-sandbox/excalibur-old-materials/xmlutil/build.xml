@@ -45,7 +45,6 @@
         <pathelement location="${junit.jar}"/>
         <pathelement location="${commons-collections.jar}"/>
         <pathelement location="${excalibur-testcase.jar}"/>
-        <pathelement location="${excalibur-i18n.jar}"/>
         <path refid="project.class.path"/>
     </path>
     <property name="cp" refid="test.class.path"/>
