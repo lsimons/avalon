@@ -35,7 +35,6 @@
       <item name="Overview" href="/about/index.html"/>
       <item name="Getting Started" href="/starting/index.html"/>
       <item name="Merlin System" href="/merlin/index.html"/>
-      <item name="Meta Model" href="/meta/index.html"/>
       <item name="Tools" href="/tools/index.html">
         <item name="Merlin Plugin for Maven" href="/tools/maven/index.html">
           <item name="Goals" href="/tools/maven/deploy.html"/>
