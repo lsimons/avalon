@@ -27,3 +27,12 @@
 # in /usr/lib/j2re1.3, requiring the variable to be set. Note: ${java.home} is
 # the JRE home, not $JAVA_HOME.
 #tools.jar=${java.home}/../j2sdk1.3/lib/tools.jar
+
+#
+# This file is also useful for specifying the location of 3rd party jars
+# instead of downloading them to the /lib directory.  To do so uncomment and then modify
+# the lines below.
+#
+#junit.jar=
+#log4j.jar=
+#logkit.jar=
