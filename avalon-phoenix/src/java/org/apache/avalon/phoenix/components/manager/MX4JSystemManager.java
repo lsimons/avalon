@@ -199,6 +199,8 @@ public class MX4JSystemManager
                                                          adaptor );
         // Set the JNDI name with which will be registered
         mbean.setJNDIName( "jrmp" );
+        mbean.putJNDIProperty( javax.naming.Context.INITIAL_CONTEXT_FACTORY,
+                               m_namingFactory );
         // Register the JRMP adaptor in JNDI and start it
         mbean.start();
     }
