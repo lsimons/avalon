@@ -37,7 +37,7 @@ import org.apache.avalon.framework.logger.Logger;
  * <code>FilesetDirective</code>.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2004/04/21 03:21:04 $
+ * @version $Revision: 1.4 $ $Date: 2004/04/21 05:38:07 $
  */
 public class DefaultFilesetModel extends AbstractLogEnabled
     implements FilesetModel
@@ -77,6 +77,18 @@ public class DefaultFilesetModel extends AbstractLogEnabled
     private final Logger m_logger;
     
     /**
+     * Constructs a new default fileset model.  Note this instance is
+     * in an illegal state for performing fileset resolution.
+     * 
+     * @param logger <code>Logger</code> for the fileset model to use
+     */
+    public DefaultFilesetModel(Logger logger)
+    {
+        m_logger = logger;
+        m_list = new ArrayList();
+    }
+    
+    /**
      * Constructs a new default fileset model.
      * 
      * @param anchor base directory anchor from which to begin
@@ -89,13 +101,13 @@ public class DefaultFilesetModel extends AbstractLogEnabled
      * to use as a default set of fileset includes
      * @param defaultExcludes array of <code>String</code> objects
      * to use as a default set of fileset excludes
+     * @param logger <code>Logger</code> for the fileset model to use
      */
     public DefaultFilesetModel(File anchor, IncludeDirective[] includes,
             ExcludeDirective[] excludes, String[] defaultIncludes,
             String[] defaultExcludes, Logger logger)
     {
-        m_logger = logger;
-        m_list = new ArrayList();
+        this( logger );
         setBaseDirectory( anchor );
         setIncludeDirectives( includes );
         setExcludeDirectives( excludes );
@@ -183,7 +195,21 @@ public class DefaultFilesetModel extends AbstractLogEnabled
      * to include in the classpath.
      */
     public void resolveFileset() throws IOException, IllegalStateException {
-
+        // sanity check...
+        if (m_anchor == null) {
+            throw new IllegalStateException("No basedir set");
+        }
+        if (!m_anchor.exists()) {
+            System.out.println("basedir=[" + m_anchor + "]");
+            throw new IllegalStateException("basedir " + m_anchor
+                                            + " does not exist");
+        }
+        
+        if (!m_anchor.isDirectory()) {
+            throw new IllegalStateException("basedir " + m_anchor
+                                            + " is not a directory");
+        }
+        
         // New stuff...
         if ( m_includes.length == 0 && m_defaultIncludes.length == 0 ) {
             m_list.add( m_anchor );
