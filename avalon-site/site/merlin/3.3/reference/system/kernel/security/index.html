@@ -259,7 +259,7 @@
       <small>
       	
       	
-      		<a href="../../../../meta/index.html">Meta Model</a>
+      		<a href="../../../../extensions/index.html">Extensions</a>
       	
       </small>
 	  
@@ -277,23 +277,6 @@
       	
       	
       		<a href="../../../../tools/index.html">Tools</a>
-      	
-      </small>
-	  
-        
-      
-    </div>
-  
-    
-    
-    
-    
-
-    <div>
-      <small>
-      	
-      	
-      		<a href="../../../../extensions/index.html">Extensions</a>
       	
       </small>
 	  
@@ -363,6 +346,23 @@
       <small>
       	
       	
+      		<a href="../../../../reference/containment/index.html">Container Specification</a>
+      	
+      </small>
+	  
+        
+      
+    </div>
+  
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      	
       		<a href="../../../../reference/deployment/index.html">Deployment Specification</a>
       	
       </small>
@@ -411,7 +411,21 @@
       <small>
       	
       	
-      		<a href="../../../../reference/system/kernel/index.html">kernel.xml</a>
+      		<a href="../../../../reference/system/kernel/index.html">kernel</a>
+      	
+      </small>
+	  
+        
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      		<b><a href="../../../../reference/system/kernel/security/index.html">security</a></b>
+      	
       	
       </small>
 	  
@@ -425,11 +439,14 @@
       <small>
       	
       	
-      		<a href="../../../../reference/system/kernel/repository/index.html">repository</a>
+      		<a href="../../../../reference/system/kernel/security/profile/index.html">profile</a>
       	
       </small>
 	  
         
+      
+    </div>
+  
       
     </div>
   
@@ -441,8 +458,8 @@
     <div>
       <small>
       	
-      		<b><a href="../../../../reference/system/kernel/security/index.html">security</a></b>
       	
+      		<a href="../../../../reference/system/kernel/repository/index.html">repository</a>
       	
       </small>
 	  
@@ -605,10 +622,18 @@
 					
                     
                     
+                      
+                      
+                    
+                      
+                      
+                    
                     
                     
                     
                   </div>
+                  
+                    
                   
                   
                 </div>
@@ -632,24 +657,10 @@
       
       
         <h3>
-          <a name="Security">Security</a>
+          <a name="Security Element">Security Element</a>
         </h3>
       
       
-    <div class="h4">
-      
-      
-        <h4>
-          <a name="Nested Elements">Nested Elements</a>
-        </h4>
-      
-      
-    <p>
-      TO DO
-    </p>
-   
-    </div>
-  
     <div class="h4">
       
       
@@ -659,9 +670,73 @@
       
       
     <p>
-      TO DO
+      
+          Declaration of a security model including a set of named 
+          security profiles.
+        
     </p>
    
+    </div>
+  
+    <div class="h4">
+      
+      
+        <h4>
+          <a name="Nested Elements">Nested Elements</a>
+        </h4>
+      
+      
+    
+    <table border="1" width="100%" cellspacing="2" cellpadding="3">
+      
+    
+      
+        
+      
+      
+    
+
+    
+    <tr class="b">
+    <th>
+      Element
+    </th>
+   
+    <th>
+      Occurance
+    </th>
+   
+    <th>
+      Description
+    </th>
+   </tr>
+  
+    
+      
+      
+        
+      
+    
+
+    
+    <tr class="a">
+    <td>
+      
+    <a href="profile/index.html">profile</a>
+  
+    </td>
+   
+    <td>
+      0..n
+    </td>
+   
+    <td>
+      Defintion of a security profile.
+    </td>
+   </tr>
+  
+    </table>
+  
     </div>
   
     <div class="h4">
@@ -674,6 +749,35 @@
       
     <div id="source">
       <pre>
+ &lt;!-- kernel declaration --&gt;
+&lt;kernel&gt;
+
+  &lt;security&gt;
+    &lt;profile name="default"&gt;
+      &lt;permissions&gt;
+        &lt;permission class="java.util.PropertyPermission" name="java.*"&gt;
+          &lt;action&gt;read&lt;/action&gt;
+        &lt;/permission&gt;
+        &lt;permission class="java.util.PropertyPermission" name="os.*"&gt;
+          &lt;action&gt;read&lt;/action&gt;
+        &lt;/permission&gt;
+        &lt;permission class="java.util.PropertyPermission" name="file.separator"&gt;
+          &lt;action&gt;read&lt;/action&gt;
+        &lt;/permission&gt;
+        &lt;permission class="java.util.PropertyPermission" name="path.separator"&gt;
+          &lt;action&gt;read&lt;/action&gt;
+        &lt;/permission&gt;
+        &lt;permission class="java.util.PropertyPermission" name="line.separator"&gt;
+          &lt;action&gt;read&lt;/action&gt;
+        &lt;/permission&gt;
+        &lt;permission class="java.util.PropertyPermission" name="user.name"&gt;
+          &lt;action&gt;read&lt;/action&gt;
+        &lt;/permission&gt;
+      &lt;/permissions&gt;
+    &lt;/profile&gt;
+  &lt;/security&gt;
+
+&lt;/kernel&gt;
 </pre>
     </div>
   

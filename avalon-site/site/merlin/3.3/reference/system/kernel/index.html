@@ -259,7 +259,7 @@
       <small>
       	
       	
-      		<a href="../../../meta/index.html">Meta Model</a>
+      		<a href="../../../extensions/index.html">Extensions</a>
       	
       </small>
 	  
@@ -277,23 +277,6 @@
       	
       	
       		<a href="../../../tools/index.html">Tools</a>
-      	
-      </small>
-	  
-        
-      
-    </div>
-  
-    
-    
-    
-    
-
-    <div>
-      <small>
-      	
-      	
-      		<a href="../../../extensions/index.html">Extensions</a>
       	
       </small>
 	  
@@ -363,6 +346,23 @@
       <small>
       	
       	
+      		<a href="../../../reference/containment/index.html">Container Specification</a>
+      	
+      </small>
+	  
+        
+      
+    </div>
+  
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      	
       		<a href="../../../reference/deployment/index.html">Deployment Specification</a>
       	
       </small>
@@ -410,7 +410,7 @@
     <div>
       <small>
       	
-      		<b><a href="../../../reference/system/kernel/index.html">kernel.xml</a></b>
+      		<b><a href="../../../reference/system/kernel/index.html">kernel</a></b>
       	
       	
       </small>
@@ -425,7 +425,7 @@
       <small>
       	
       	
-      		<a href="../../../reference/system/kernel/repository/index.html">repository</a>
+      		<a href="../../../reference/system/kernel/security/index.html">security</a>
       	
       </small>
 	  
@@ -442,7 +442,7 @@
       <small>
       	
       	
-      		<a href="../../../reference/system/kernel/security/index.html">security</a>
+      		<a href="../../../reference/system/kernel/repository/index.html">repository</a>
       	
       </small>
 	  
@@ -605,10 +605,18 @@
 					
                     
                     
+                      
+                      
+                    
+                      
+                      
+                    
                     
                     
                     
                   </div>
+                  
+                    
                   
                   
                 </div>
@@ -632,14 +640,143 @@
       
       
         <h3>
-          <a name="Kernel Configuration">Kernel Configuration</a>
+          <a name="Kernel">Kernel</a>
         </h3>
       
       
+    <div class="h4">
+      
+      
+        <h4>
+          <a name="Description">Description</a>
+        </h4>
+      
+      
     <p>
-      IN PREP
+      
+          The kernel element declares a root Merlin kernel that is used
+          to establish core services.
+        
     </p>
    
+    </div>
+  
+    <div class="h4">
+      
+      
+        <h4>
+          <a name="Nested Elements">Nested Elements</a>
+        </h4>
+      
+      
+    
+    <table border="1" width="100%" cellspacing="2" cellpadding="3">
+      
+    
+      
+      
+        
+      
+    
+
+    
+    <tr class="a">
+    <th>
+      Element
+    </th>
+   
+    <th>
+      Occurance
+    </th>
+   
+    <th>
+      Description
+    </th>
+   </tr>
+  
+    
+      
+        
+      
+      
+    
+
+    
+    <tr class="b">
+    <td>
+      
+    <a href="security/index.html">security</a>
+  
+    </td>
+   
+    <td>
+      0..1
+    </td>
+   
+    <td>
+      Defintion of a set of named security profiles.
+    </td>
+   </tr>
+  
+    
+      
+      
+        
+      
+    
+
+    
+    <tr class="a">
+    <td>
+      
+    <a href="repository/index.html">repository</a>
+  
+    </td>
+   
+    <td>
+      0..1
+    </td>
+   
+    <td>
+      Defintion of the repository sub-system including proxy settings, 
+                cache directory and remote host list.
+    </td>
+   </tr>
+  
+    </table>
+  
+    </div>
+  
+    <div class="h4">
+      
+      
+        <h4>
+          <a name="Sample XML">Sample XML</a>
+        </h4>
+      
+      
+    <div id="source">
+      <pre>
+ &lt;!-- kernel declaration --&gt;
+&lt;kernel&gt;
+
+   &lt;logging target="default" priority="INFO"&gt;
+      &lt;category name="/logger" priority="WARN"/&gt;
+   &lt;/logging&gt;
+
+   &lt;repository&gt;
+     &lt;hosts&gt;
+       &lt;host&gt;http://dpml.net&lt;/host&gt;
+       &lt;host&gt;http://ibiblio.org/maven/&lt;/host&gt;
+     &lt;/hosts&gt;
+   &lt;/repository&gt;
+
+&lt;/kernel&gt;
+</pre>
+    </div>
+  
+    </div>
+  
     </div>
   
                   

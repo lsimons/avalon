@@ -262,7 +262,7 @@
       <small>
       	
       	
-      		<a href="../../../meta/index.html">Meta Model</a>
+      		<a href="../../../extensions/index.html">Extensions</a>
       	
       </small>
 	  
@@ -280,23 +280,6 @@
       	
       	
       		<a href="../../../tools/index.html">Tools</a>
-      	
-      </small>
-	  
-        
-      
-    </div>
-  
-    
-    
-    
-    
-
-    <div>
-      <small>
-      	
-      	
-      		<a href="../../../extensions/index.html">Extensions</a>
       	
       </small>
 	  
@@ -502,6 +485,23 @@
       <small>
       	
       	
+      		<a href="../../../reference/containment/index.html">Container Specification</a>
+      	
+      </small>
+	  
+        
+      
+    </div>
+  
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      	
       		<a href="../../../reference/deployment/index.html">Deployment Specification</a>
       	
       </small>
@@ -676,10 +676,18 @@
 					
                     
                     
+                      
+                      
+                    
+                      
+                      
+                    
                     
                     
                     
                   </div>
+                  
+                    
                   
                   
                 </div>
@@ -707,45 +715,108 @@
         </h3>
       
       
-    <div class="h4">
+    
+    <table border="1" width="100%" cellspacing="2" cellpadding="3">
+      
+    
       
       
-        <h4>
-          <a name="Transient">Transient</a>
-        </h4>
+        
       
+    
+
+    
+    <tr class="a">
+    <td>
       
-    </div>
+    <strong>
+      Strategy
+    </strong>
+   
+    </td>
+   
+    <td>
+      
+    <strong>
+      Description
+    </strong>
+   
+    </td>
+   </tr>
   
-    <div class="h4">
+    
+      
+        
       
       
-        <h4>
-          <a name="Thread">Thread</a>
-        </h4>
-      
-      
-    </div>
+    
+
+    
+    <tr class="b">
+    <td>
+      singleton
+    </td>
+   
+    <td>
+      A single instance of the component type will be shared by all consumers.
+    </td>
+   </tr>
   
-    <div class="h4">
+    
       
       
-        <h4>
-          <a name="Pooled">Pooled</a>
-        </h4>
+        
       
-      
-    </div>
+    
+
+    
+    <tr class="a">
+    <td>
+      thread
+    </td>
+   
+    <td>
+      A new instance of the component will be created relative to each distinct thread.
+    </td>
+   </tr>
   
-    <div class="h4">
+    
+      
+        
       
       
-        <h4>
-          <a name="Singleton">Singleton</a>
-        </h4>
+    
+
+    
+    <tr class="b">
+    <td>
+      pool
+    </td>
+   
+    <td>
+      A container shall maintain a pool of components.
+    </td>
+   </tr>
+  
+    
       
       
-    </div>
+        
+      
+    
+
+    
+    <tr class="a">
+    <td>
+      transient
+    </td>
+   
+    <td>
+      New instance of the component are created on a per request basis.
+    </td>
+   </tr>
+  
+    </table>
   
     </div>
   

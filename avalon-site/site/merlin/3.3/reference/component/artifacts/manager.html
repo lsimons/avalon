@@ -262,7 +262,7 @@
       <small>
       	
       	
-      		<a href="../../../meta/index.html">Meta Model</a>
+      		<a href="../../../extensions/index.html">Extensions</a>
       	
       </small>
 	  
@@ -280,23 +280,6 @@
       	
       	
       		<a href="../../../tools/index.html">Tools</a>
-      	
-      </small>
-	  
-        
-      
-    </div>
-  
-    
-    
-    
-    
-
-    <div>
-      <small>
-      	
-      	
-      		<a href="../../../extensions/index.html">Extensions</a>
       	
       </small>
 	  
@@ -519,6 +502,23 @@
       <small>
       	
       	
+      		<a href="../../../reference/containment/index.html">Container Specification</a>
+      	
+      </small>
+	  
+        
+      
+    </div>
+  
+    
+    
+    
+    
+
+    <div>
+      <small>
+      	
+      	
       		<a href="../../../reference/deployment/index.html">Deployment Specification</a>
       	
       </small>
@@ -693,10 +693,18 @@
 					
                     
                     
+                      
+                      
+                    
+                      
+                      
+                    
                     
                     
                     
                   </div>
+                  
+                    
                   
                   
                 </div>
@@ -733,9 +741,47 @@
       
       
     <p>
-      IN PREP
+      
+A 
+    <a href="http://avalon.apache.org/framework/api/org/apache/avalon/framework/service/ServiceManager.html"> ServiceManager </a>
+   is used as a mechanisms to provide dependent services to a component.  A component implementation declares dependencies using the 
+    <a href="http://avalon.apache.org/meta/tools/tags/dependency.html">@avalon.dependency</a>
+   tag.  Dependencies may be declared relative to the component constructor or through the optional 
+    <a href="http://avalon.apache.org/framework/api/org/apache/avalon/framework/service/Serviceable.html">Serviceable</a>
+   delivery interface.
+        
     </p>
    
+    <p>
+      
+    <i>
+      Example of a constructor based declaration of service dependencies.
+    </i>
+   
+    </p>
+   
+    <div id="source">
+      <pre>
+   /**
+    * Creation of a new instance.  The component receives
+    * a service manager via constructor that is pre-populated
+    * with services based on the avalon.dependency declarations.
+    *
+    * @param manager the service manager
+    *
+    * @avalon.dependency type="tutorial.RandomGenerator" key="random"
+    * @avalon.dependency type="tutorial.Identifiable"
+    */
+    public DefaultWidget( ServiceManager manager )
+      throws ServiceException
+    {
+        m_random = (RandomGenerator) manager.lookup( "random" );
+        m_identifiable = (Identifiable) manager.lookup( 
+          Identifiable.class.getName() );
+    }
+</pre>
+    </div>
+  
     </div>
   
     <div class="h4">
@@ -747,9 +793,40 @@
       
       
     <p>
-      IN PREP
+      
+Services are aquired by passing the dependency key under the lookup operation.  If no key is declared, the component can aquire the service using the value of the type attribute.  When a component no longer requires a service it can relase the service, thereby notifying the container that the service instance is no longer required.   While release of a service is optional, component authors shyould be aware that the component implementation underlying the service may be pooled. As such, release of the service may have a direct impact on memory consumption and overall performance.
+        
     </p>
    
+    <p>
+      
+    <i>
+      Example of an aquisition and relace cycle.
+    </i>
+   
+    </p>
+   
+    <div id="source">
+      <pre>
+   /**
+    * Creation of a new instance during which a service is aquired,
+    * used, and released.
+    *
+    * @param manager the service manager
+    *
+    * @avalon.dependency type="tutorial.RandomGenerator" key="random"
+    */
+    public DefaultWidget( ServiceManager manager )
+      throws ServiceException
+    {
+        RandomGenerator random = 
+          (RandomGenerator) manager.lookup( "random" );
+        doSomething( random.getValue() );
+        manager.release( random );
+    }
+</pre>
+    </div>
+  
     </div>
   
     </div>
