@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0"?>
 
 <!--
  ============================================================================
@@ -48,34 +48,19 @@
  Apache Software Foundation, please see http://www.apache.org/.
 -->
 
-<project>
+<document>
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>Avalon Utilities - Criteria</title>
+  </properties>
+  <body>
+    <section name="Criteria">
+      <subsection name="Overview">
+        <p>IN PREPARATION</p>
+      </subsection>
+    </section>
+  </body>
 
- <title>Avalon Utilities</title>
+</document>
 
- <body>
-
-    <links>
-      <item name="Apache" href="http://apache.org/"/>
-      <item name="Avalon" href="http://avalon.apache.org/"/>
-      <item name="Framework" href="http://avalon.apache.org/product/framework/"/>
-      <item name="Containers" href="http://avalon.apache.org/product/containers/"/>
-      <item name="Components" href="http://avalon.apache.org/product/components/"/>
-    </links>
-
-    <menu name="About Utilities">
-      <item name="Overview" href="/index.html"/>
-      <item name="Defaults" href="/defaults/index.html"/>
-      <item name="Environment" href="/env/index.html"/>
-      <item name="Exception" href="/exception/index.html"/>
-      <item name="Factory" href="/factory/index.html"/>
-    </menu>
-
-    <menu name="Resources">
-      <item name="Javadoc" href="/api/index.html"/>
-      <item name="Download" href="/download.html"/>
-    </menu>
-
- </body>
-
-</project>
 
