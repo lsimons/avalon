@@ -74,7 +74,7 @@ Merlin service management platform.
     <dependency>
       <groupId>avalon-composition</groupId>
       <artifactId>avalon-composition-api</artifactId>
-      <version>1.2.2</version>
+      <version>1.2.3</version>
       <properties>
         <avalon.classloader>api</avalon.classloader>
       </properties>
@@ -90,7 +90,7 @@ Merlin service management platform.
     <dependency>
       <groupId>avalon-composition</groupId>
       <artifactId>avalon-composition-impl</artifactId>
-      <version>1.2.4</version>
+      <version>1.2.5</version>
     </dependency>
 
     <dependency>

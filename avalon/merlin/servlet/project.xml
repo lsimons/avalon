@@ -48,7 +48,7 @@ Merlin servlet is a servlet with an embedded Merlin Kernel.
     <dependency>
       <groupId>avalon-composition</groupId>
       <artifactId>avalon-composition-api</artifactId>
-      <version>1.2.2</version>
+      <version>1.2.3</version>
       <type>jar</type>
       <properties>
         <war.bundle>true</war.bundle>

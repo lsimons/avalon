@@ -144,10 +144,13 @@ public class ComplexComponent extends AbstractLogEnabled
         m_simple = (SimpleService) m_manager.lookup( "simple" );
         m_basic = (BasicService) m_manager.lookup( "basic" );
 
+        getLogger().info( "simple: " + m_simple );
+        getLogger().info( "basic: " + m_basic );
+
         Logger logger = getLogger().getChildLogger( "internal" );
         if( logger.isInfoEnabled() )
         {
-            logger.debug( "ready" );
+            logger.info( "ready" );
         }
     }
 
