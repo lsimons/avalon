@@ -65,7 +65,7 @@
         <ant:mkdir dir="${maven.build.dir}/libs"/>
         <deploy:copy-deps
                 todir="${maven.build.dir}/libs"
-                excludes="junit,avalon-fortress-tools,ant,qdox,xalan"/>
+                excludes="junit,avalon-fortress-tools,ant,qdox,xalan,concurrent,commons-collections"/>
 
         <ant:jar destfile="${maven.build.dir}/${pom.artifactId}-complete-${pom.currentVersion}.jar" duplicate="preserve">
             <ant:manifest>
