@@ -1,12 +1,18 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE project [
+  <!ENTITY % index SYSTEM "file:index.ent"> %index;
+]>
 
 <project>
+
   <extend>${basedir}/../project.xml</extend>
-  <id>avalon-meta-impl</id>
+
+  <groupId>&avalon-meta-id;</groupId>
+  <id>&avalon-meta-impl-id;</id>
+  <currentVersion>&avalon-meta-impl-version;</currentVersion>
+
   <name>Avalon Meta Model Implementation</name>
   <package>org.apache.avalon.meta</package>
-
-  <!--<currentVersion>1.3.2-SNAPSHOT</currentVersion>-->
   <inceptionYear>2002</inceptionYear>
   <shortDescription>Meta Model Builder and Verification Framework</shortDescription>
   
@@ -17,31 +23,31 @@ Services supporting the creation of meta info and data data content based on XML
   <dependencies>
 
     <dependency>
-      <groupId>avalon-framework</groupId>
-      <artifactId>avalon-framework-api</artifactId>
-      <version>4.1.5</version>
+      <groupId>&avalon-framework-id;</groupId>
+      <artifactId>&avalon-framework-api-id;</artifactId>
+      <version>&avalon-framework-api-version;</version>
     </dependency>
     <dependency>
-      <groupId>avalon-framework</groupId>
-      <artifactId>avalon-framework-impl</artifactId>
-      <version>4.1.5</version>
-    </dependency>
-
-    <dependency>
-      <groupId>avalon-meta</groupId>
-      <artifactId>avalon-meta-api</artifactId>
-      <version>1.4-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>avalon-meta</groupId>
-      <artifactId>avalon-meta-spi</artifactId>
-      <version>1.4-SNAPSHOT</version>
+      <groupId>&avalon-framework-id;</groupId>
+      <artifactId>&avalon-framework-impl-id;</artifactId>
+      <version>&avalon-framework-impl-version;</version>
     </dependency>
 
     <dependency>
-      <groupId>avalon-util</groupId>
-      <artifactId>avalon-util-i18n</artifactId>
-      <version>1.0</version>
+      <groupId>&avalon-meta-id;</groupId>
+      <artifactId>&avalon-meta-api-id;</artifactId>
+      <version>&avalon-meta-api-version;</version>
+    </dependency>
+    <dependency>
+      <groupId>&avalon-meta-id;</groupId>
+      <artifactId>&avalon-meta-spi-id;</artifactId>
+      <version>&avalon-meta-spi-version;</version>
+    </dependency>
+
+    <dependency>
+      <groupId>&avalon-util-id;</groupId>
+      <artifactId>&avalon-util-i18n-id;</artifactId>
+      <version>&avalon-util-i18n-version;</version>
     </dependency>
 
     <dependency>
