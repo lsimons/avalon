@@ -55,30 +55,30 @@ import java.io.PrintStream;
 import java.util.Map;
 
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentManagerClient;
-import org.apache.excalibur.instrument.manager.interfaces.InstrumentableDescriptor;
-import org.apache.excalibur.instrument.manager.interfaces.NoSuchInstrumentableException;
+import org.apache.excalibur.instrument.manager.interfaces.InstrumentSampleDescriptor;
+import org.apache.excalibur.instrument.manager.interfaces.NoSuchInstrumentSampleException;
 
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2003/09/10 10:03:17 $
+ * @version CVS $Revision: 1.1 $ $Date: 2003/09/10 10:03:17 $
  * @since 4.1
  */
-public class XMLInstrumentableHandler
+public class XMLSnapshotsHandler
     extends AbstractXMLHandler
 {
     /*---------------------------------------------------------------
      * Constructors
      *-------------------------------------------------------------*/
     /**
-     * Creates a new XMLInstrumentableHandler.
+     * Creates a new XMLSnapshotsHandler.
      *
      * @param path The path handled by this handler.
      * @param contentType The content type.
      */
-    public XMLInstrumentableHandler( InstrumentManagerClient manager )
+    public XMLSnapshotsHandler( InstrumentManagerClient manager )
     {
-        super( "/instrumentable.xml", manager );
+        super( "/snapshots.xml", manager );
     }
     
     /*---------------------------------------------------------------
@@ -94,23 +94,49 @@ public class XMLInstrumentableHandler
     public void doGet( String path, Map parameters, PrintStream out )
         throws IOException
     {
-        String name = getParameter( parameters, "name" );
+        String[] names = getParameters( parameters, "name" );
+        long[] baseTimes = getLongParameters( parameters, "base-time", 0 );
         boolean packed = ( getParameter( parameters, "packed", null ) != null );
-        boolean recurse = ( getParameter( parameters, "recurse", null ) != null );
+        boolean compact = ( getParameter( parameters, "compact", null ) != null );
         
-        InstrumentableDescriptor desc;
-        try
+        if ( ( baseTimes.length == 0 ) && ( baseTimes.length > 0 ) )
         {
-            desc = getInstrumentManagerClient().locateInstrumentableDescriptor( name );
+            baseTimes = new long[baseTimes.length];
         }
-        catch ( NoSuchInstrumentableException e )
+        else if ( names.length != baseTimes.length )
         {
             throw new FileNotFoundException(
-                "The specified instrumentable does not exist: " + name );
+                "The number of base-time values not equal to the number of names." );
         }
         
         out.println( InstrumentManagerHTTPConnector.XML_BANNER );
-        outputInstrumentable( out, desc, "", recurse, packed );
+        if ( names.length > 0 )
+        {
+            outputLine( out, "", packed, "<samples>" );
+            
+            for ( int i = 0; i < names.length; i++ )
+            {
+                InstrumentSampleDescriptor desc;
+                try
+                {
+                    desc =
+                        getInstrumentManagerClient().locateInstrumentSampleDescriptor( names[i] );
+                    
+                    outputSampleHistory( out, desc, "", baseTimes[i], packed, compact );
+                }
+                catch ( NoSuchInstrumentSampleException e )
+                {
+                    outputLine( out, "  ", packed,
+                        "<sample name=\"" + names[i] + "\" expired=\"true\"/>" );
+                }
+            }
+            
+            outputLine( out, "", packed, "</samples>" );
+        }
+        else
+        {
+            outputLine( out, "", packed, "<samples/>" );
+        }
     }
             
     /*---------------------------------------------------------------

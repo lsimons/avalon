@@ -54,31 +54,32 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Map;
 
+import org.apache.excalibur.instrument.manager.http.server.HTTPRedirect;
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentManagerClient;
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentableDescriptor;
+import org.apache.excalibur.instrument.manager.interfaces.InstrumentDescriptor;
 import org.apache.excalibur.instrument.manager.interfaces.NoSuchInstrumentableException;
 
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2003/09/10 10:03:17 $
+ * @version CVS $Revision: 1.1 $ $Date: 2003/09/10 10:03:17 $
  * @since 4.1
  */
-public class XMLInstrumentableHandler
-    extends AbstractXMLHandler
+public class HTMLInstrumentManagerHandler
+    extends AbstractHTMLHandler
 {
     /*---------------------------------------------------------------
      * Constructors
      *-------------------------------------------------------------*/
     /**
-     * Creates a new XMLInstrumentableHandler.
+     * Creates a new HTMLInstrumentManagerHandler.
      *
-     * @param path The path handled by this handler.
-     * @param contentType The content type.
+     * @param manager Reference to the InstrumentManagerClient.
      */
-    public XMLInstrumentableHandler( InstrumentManagerClient manager )
+    public HTMLInstrumentManagerHandler( InstrumentManagerClient manager )
     {
-        super( "/instrumentable.xml", manager );
+        super( "/instrument-manager.html", manager );
     }
     
     /*---------------------------------------------------------------
@@ -94,23 +95,32 @@ public class XMLInstrumentableHandler
     public void doGet( String path, Map parameters, PrintStream out )
         throws IOException
     {
-        String name = getParameter( parameters, "name" );
-        boolean packed = ( getParameter( parameters, "packed", null ) != null );
-        boolean recurse = ( getParameter( parameters, "recurse", null ) != null );
+        // This is the root
+        out.println( "<html>" );
+        out.println( "<head><title>" + getInstrumentManagerClient().getDescription()
+            + "</title></head>" );
+        out.println( "<body>" );
         
-        InstrumentableDescriptor desc;
-        try
+        breadCrumbs( out, false );
+        
+        out.println( "<h2>Instrument Manager</h2>" );
+        startTable( out );
+        tableRow( out, 0, "Name", getInstrumentManagerClient().getName() );
+        tableRow( out, 0, "Description", getInstrumentManagerClient().getDescription() );
+        endTable( out );
+        
+        InstrumentableDescriptor[] instrumentables =
+            getInstrumentManagerClient().getInstrumentableDescriptors();
+        if ( instrumentables.length > 0 )
         {
-            desc = getInstrumentManagerClient().locateInstrumentableDescriptor( name );
-        }
-        catch ( NoSuchInstrumentableException e )
-        {
-            throw new FileNotFoundException(
-                "The specified instrumentable does not exist: " + name );
+            out.println( "<h2>Instrumentables</h2>" );
+            outputInstrumentables( out, instrumentables );
         }
         
-        out.println( InstrumentManagerHTTPConnector.XML_BANNER );
-        outputInstrumentable( out, desc, "", recurse, packed );
+        footer( out );
+        
+        out.println( "</body>" );
+        out.println( "</html>" );
     }
             
     /*---------------------------------------------------------------

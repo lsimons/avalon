@@ -55,30 +55,30 @@ import java.io.PrintStream;
 import java.util.Map;
 
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentManagerClient;
-import org.apache.excalibur.instrument.manager.interfaces.InstrumentableDescriptor;
-import org.apache.excalibur.instrument.manager.interfaces.NoSuchInstrumentableException;
+import org.apache.excalibur.instrument.manager.interfaces.InstrumentSampleDescriptor;
+import org.apache.excalibur.instrument.manager.interfaces.NoSuchInstrumentSampleException;
 
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2003/09/10 10:03:17 $
+ * @version CVS $Revision: 1.1 $ $Date: 2003/09/10 10:03:17 $
  * @since 4.1
  */
-public class XMLInstrumentableHandler
+public class XMLSnapshotHandler
     extends AbstractXMLHandler
 {
     /*---------------------------------------------------------------
      * Constructors
      *-------------------------------------------------------------*/
     /**
-     * Creates a new XMLInstrumentableHandler.
+     * Creates a new XMLSnapshotHandler.
      *
      * @param path The path handled by this handler.
      * @param contentType The content type.
      */
-    public XMLInstrumentableHandler( InstrumentManagerClient manager )
+    public XMLSnapshotHandler( InstrumentManagerClient manager )
     {
-        super( "/instrumentable.xml", manager );
+        super( "/snapshot.xml", manager );
     }
     
     /*---------------------------------------------------------------
@@ -95,22 +95,23 @@ public class XMLInstrumentableHandler
         throws IOException
     {
         String name = getParameter( parameters, "name" );
+        long baseTime = getLongParameter( parameters, "base-time", 0 );
         boolean packed = ( getParameter( parameters, "packed", null ) != null );
-        boolean recurse = ( getParameter( parameters, "recurse", null ) != null );
+        boolean compact = ( getParameter( parameters, "compact", null ) != null );
         
-        InstrumentableDescriptor desc;
+        InstrumentSampleDescriptor desc;
         try
         {
-            desc = getInstrumentManagerClient().locateInstrumentableDescriptor( name );
+            desc = getInstrumentManagerClient().locateInstrumentSampleDescriptor( name );
         }
-        catch ( NoSuchInstrumentableException e )
+        catch ( NoSuchInstrumentSampleException e )
         {
             throw new FileNotFoundException(
-                "The specified instrumentable does not exist: " + name );
+                "The specified instrument sample does not exist: " + name );
         }
         
         out.println( InstrumentManagerHTTPConnector.XML_BANNER );
-        outputInstrumentable( out, desc, "", recurse, packed );
+        outputSampleHistory( out, desc, "", baseTime, packed, compact );
     }
             
     /*---------------------------------------------------------------

@@ -66,7 +66,7 @@ import org.apache.excalibur.instrument.manager.interfaces.NoSuchInstrumentExcept
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/09/08 09:00:44 $
+ * @version CVS $Revision: 1.2 $ $Date: 2003/09/10 10:03:17 $
  * @since 4.1
  */
 public class HTMLCreateSampleHandler
@@ -121,7 +121,7 @@ public class HTMLCreateSampleHandler
             }
             else
             {
-                throw new HTTPRedirect( "instrumentable.html" );
+                throw new HTTPRedirect( "instrument-manager.html" );
             }
         }
         

@@ -62,7 +62,7 @@ import org.apache.excalibur.instrument.manager.interfaces.InstrumentManagerClien
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/09/08 10:19:22 $
+ * @version CVS $Revision: 1.2 $ $Date: 2003/09/10 10:03:17 $
  * @since 4.1
  */
 public class HTMLRootHandler
@@ -94,7 +94,7 @@ public class HTMLRootHandler
     public void doGet( String path, Map parameters, PrintStream out )
         throws IOException
     {
-        throw new HTTPRedirect( "instrumentable.html" );
+        throw new HTTPRedirect( "instrument-manager.html" );
     }
 }
 

@@ -55,30 +55,30 @@ import java.io.PrintStream;
 import java.util.Map;
 
 import org.apache.excalibur.instrument.manager.interfaces.InstrumentManagerClient;
-import org.apache.excalibur.instrument.manager.interfaces.InstrumentableDescriptor;
-import org.apache.excalibur.instrument.manager.interfaces.NoSuchInstrumentableException;
+import org.apache.excalibur.instrument.manager.interfaces.InstrumentDescriptor;
+import org.apache.excalibur.instrument.manager.interfaces.NoSuchInstrumentException;
 
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2003/09/10 10:03:17 $
+ * @version CVS $Revision: 1.1 $ $Date: 2003/09/10 10:03:17 $
  * @since 4.1
  */
-public class XMLInstrumentableHandler
+public class XMLInstrumentHandler
     extends AbstractXMLHandler
 {
     /*---------------------------------------------------------------
      * Constructors
      *-------------------------------------------------------------*/
     /**
-     * Creates a new XMLInstrumentableHandler.
+     * Creates a new XMLInstrumentHandler.
      *
      * @param path The path handled by this handler.
      * @param contentType The content type.
      */
-    public XMLInstrumentableHandler( InstrumentManagerClient manager )
+    public XMLInstrumentHandler( InstrumentManagerClient manager )
     {
-        super( "/instrumentable.xml", manager );
+        super( "/instrument.xml", manager );
     }
     
     /*---------------------------------------------------------------
@@ -98,19 +98,19 @@ public class XMLInstrumentableHandler
         boolean packed = ( getParameter( parameters, "packed", null ) != null );
         boolean recurse = ( getParameter( parameters, "recurse", null ) != null );
         
-        InstrumentableDescriptor desc;
+        InstrumentDescriptor desc;
         try
         {
-            desc = getInstrumentManagerClient().locateInstrumentableDescriptor( name );
+            desc = getInstrumentManagerClient().locateInstrumentDescriptor( name );
         }
-        catch ( NoSuchInstrumentableException e )
+        catch ( NoSuchInstrumentException e )
         {
             throw new FileNotFoundException(
-                "The specified instrumentable does not exist: " + name );
+                "The specified instrument does not exist: " + name );
         }
         
         out.println( InstrumentManagerHTTPConnector.XML_BANNER );
-        outputInstrumentable( out, desc, "", recurse, packed );
+        outputInstrument( out, desc, "", recurse, packed );
     }
             
     /*---------------------------------------------------------------
