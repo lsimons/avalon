@@ -34,7 +34,7 @@ import java.util.NoSuchElementException;
  * @author <a href="mailto:g-froehlich@gmx.de">Gerhard Froehlich</a>
  * @author <a href="mailto:dims@yahoo.com">Davanum Srinivas</a>
  * @author <a href="mailto:vgritsenko@apache.org">Vadim Gritsenko</a>
- * @version CVS $Id: MRUMemoryStore.java,v 1.5 2002/07/10 09:40:17 donaldp Exp $
+ * @version CVS $Id: MRUMemoryStore.java,v 1.6 2002/08/14 15:33:53 crafterm Exp $
  */
 public final class MRUMemoryStore
 extends AbstractLogEnabled
@@ -219,6 +219,20 @@ implements Store, Parameterizable, Composable, Disposable, ThreadSafe {
         if(this.persistent && key != null) {
             this.persistentStore.remove(key);
         }
+    }
+
+    /**
+     * Clear the Store of all elements 
+     */
+    public synchronized void clear() {
+                Enumeration enum = this.cache.keys();
+                while (enum.hasMoreElements()) {
+                    Object key = enum.nextElement();
+                    if (key == null) {
+                        continue;
+                    }
+                        this.remove(key);
+                 }
     }
 
     /**

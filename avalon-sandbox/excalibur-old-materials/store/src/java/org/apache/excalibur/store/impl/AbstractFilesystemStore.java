@@ -21,7 +21,7 @@ import java.util.Enumeration;
  *
  * @author ?
  * @author <a href="mailto:vgritsenko@apache.org">Vadim Gritsenko</a>
- * @version CVS $Id: AbstractFilesystemStore.java,v 1.3 2002/06/13 17:24:52 bloritsch Exp $
+ * @version CVS $Id: AbstractFilesystemStore.java,v 1.4 2002/08/14 15:33:53 crafterm Exp $
  */
 public abstract class AbstractFilesystemStore
 extends AbstractLogEnabled
@@ -158,6 +158,20 @@ implements Store, ThreadSafe {
         if (file != null) {
             file.delete();
         }
+    }
+
+    /**
+     * Clear the Store of all elements 
+     */
+    public synchronized void clear() {
+                Enumeration enum = this.keys();
+                while (enum.hasMoreElements()) {
+                    Object key = enum.nextElement();
+                    if (key == null) {
+                        continue;
+                    }
+                        this.remove(key);
+                 }
     }
 
     /**

@@ -27,7 +27,7 @@ import org.apache.avalon.framework.component.Component;
  *         (Apache Software Foundation)
  * @author <a href="mailto:fumagalli@exoffice.com">Pierpaolo Fumagalli</a>
  *         (Apache Software Foundation, Exoffice Technologies)
- * @version CVS $Id: Store.java,v 1.3 2002/07/14 01:28:01 donaldp Exp $
+ * @version CVS $Id: Store.java,v 1.4 2002/08/14 15:33:53 crafterm Exp $
  */
 public interface Store
     extends Component
@@ -63,6 +63,11 @@ public interface Store
      * Remove the object associated to the given key.
      */
     void remove( Object key );
+
+    /**
+     * Clear the Store of all data it holds 
+     */
+    void clear();
 
     /**
      * Indicates if the given key is associated to a contained object.
