@@ -16,7 +16,7 @@ jefft@apache.org
   <!ELEMENT credit (name, url, image, width?, height?)>
   <!ELEMENT disable-search (#PCDATA)>
   <!ELEMENT searchsite-domain (#PCDATA)>
-  <!ELEMENT searchsite-name (#PCDATA)>  
+  <!ELEMENT searchsite-name (#PCDATA)>
   <!ELEMENT project-name (#PCDATA)>
   <!ELEMENT project-url (#PCDATA)>
   <!ELEMENT project-logo (#PCDATA)>
@@ -45,19 +45,19 @@ jefft@apache.org
 <skinconfig>
   <!-- Do we want to disable the Google search box? -->
   <disable-search>false</disable-search>
-  <searchsite-domain>jakarta.apache.org</searchsite-domain>
-  <searchsite-name>Apache Jakarta</searchsite-name>  
+  <searchsite-domain>avalon.apache.org</searchsite-domain>
+  <searchsite-name>Apache Avalon</searchsite-name>
 
   <!-- mandatory project logo
        skin: forrest-site renders it at the top -->
   <project-name>Avalon Phoenix</project-name>
-  <project-url>http://jakarta.apache.org/avalon/phoenix/</project-url>
+  <project-url>http://avalon.apache.org/phoenix/</project-url>
   <project-logo>images/header.gif</project-logo>
 
   <!-- optional group logo
        skin: forrest-site renders it at the top-left corner -->
-  <group-name>Apache Jakarta</group-name>
-  <group-url>http://jakarta.apache.org/</group-url>
+  <group-name>Apache Avalon</group-name>
+  <group-url>http://avalon.apache.org/</group-url>
   <group-logo>images/jakarta-logo.gif</group-logo>
 
   <!-- optional host logo (e.g. sourceforge logo)
@@ -74,7 +74,7 @@ jefft@apache.org
   -->
   <trail>
     <link1 name="Apache Main" href="http://www.apache.org/"/>
-    <link2 name="Avalon Main" href="http://jakarta.apache.org/avalon"/>
+    <link2 name="Avalon Main" href="http://avalon.apache.org/"/>
     <link3 name="Up" href=".."/>
   </trail>
 
