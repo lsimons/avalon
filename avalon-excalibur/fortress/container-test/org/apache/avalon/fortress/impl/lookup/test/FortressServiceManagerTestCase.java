@@ -51,16 +51,13 @@ package org.apache.avalon.fortress.impl.lookup.test;
 
 import junit.framework.TestCase;
 import org.apache.avalon.fortress.Container;
-import org.apache.avalon.fortress.test.data.Role1;
-import org.apache.avalon.fortress.test.data.Component1;
+import org.apache.avalon.fortress.impl.AbstractContainer;
+import org.apache.avalon.fortress.impl.handler.ComponentHandler;
 import org.apache.avalon.fortress.impl.lookup.FortressServiceManager;
 import org.apache.avalon.fortress.impl.lookup.FortressServiceSelector;
-import org.apache.avalon.fortress.impl.AbstractContainer;
-import org.apache.avalon.fortress.impl.handler.ThreadSafeComponentHandler;
-import org.apache.avalon.fortress.impl.handler.ComponentHandler;
+import org.apache.avalon.fortress.test.data.Component1;
+import org.apache.avalon.fortress.test.data.Role1;
 import org.apache.avalon.framework.service.ServiceException;
-import org.apache.avalon.framework.service.DefaultServiceManager;
-import org.apache.avalon.framework.logger.NullLogger;
 
 /**
  * FortressServiceManagerTestCase does XYZ
@@ -79,12 +76,12 @@ public class FortressServiceManagerTestCase extends TestCase
 
     public void testServiceManager() throws Exception
     {
-        FortressServiceManager manager = new FortressServiceManager(m_container, null);
+        FortressServiceManager manager = new FortressServiceManager( m_container, null );
 
-        m_container.setExpectedKey(Role1.ROLE);
+        m_container.setExpectedKey( Role1.ROLE );
 
-        assertTrue( manager.hasService(Role1.ROLE) );
-        assertNotNull( manager.lookup(Role1.ROLE) );
+        assertTrue( manager.hasService( Role1.ROLE ) );
+        assertNotNull( manager.lookup( Role1.ROLE ) );
 
         String hint = "test";
         m_container.setExpectedHint( hint );
@@ -92,8 +89,8 @@ public class FortressServiceManagerTestCase extends TestCase
         assertNotNull( manager.lookup( Role1.ROLE + "/" + hint ) );
 
         m_container.setExpectedHint( AbstractContainer.SELECTOR_ENTRY );
-        assertTrue( manager.hasService( Role1.ROLE + "Selector") );
-        assertNotNull( manager.lookup( Role1.ROLE + "Selector") );
+        assertTrue( manager.hasService( Role1.ROLE + "Selector" ) );
+        assertNotNull( manager.lookup( Role1.ROLE + "Selector" ) );
     }
 
     public void testServiceSelector() throws Exception
@@ -137,12 +134,12 @@ class TestContainer implements Container
             return m_component;
         }
 
-        throw new ServiceException(m_key, "Unexpected key/hint combo");
+        throw new ServiceException( m_key, "Unexpected key/hint combo" );
     }
 
     public boolean has( String key, Object hint )
     {
-        if ( exists(key, hint) )
+        if ( exists( key, hint ) )
         {
             return true;
         }
@@ -154,7 +151,7 @@ class TestContainer implements Container
     {
         boolean exists = false;
 
-        if ( m_key.equals(key) )
+        if ( m_key.equals( key ) )
         {
             if ( null == m_hint )
             {
@@ -180,7 +177,8 @@ class TestComponentHandler implements ComponentHandler
     }
 
     public void prepareHandler() throws Exception
-    {}
+    {
+    }
 
     public Object get() throws Exception
     {
