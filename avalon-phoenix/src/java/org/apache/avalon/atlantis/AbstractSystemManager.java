@@ -7,6 +7,7 @@
  */
 package org.apache.avalon.atlantis;
 
+import java.util.HashMap;
 import org.apache.avalon.logger.AbstractLoggable;
 
 /**
@@ -18,6 +19,20 @@ public abstract class AbstractSystemManager
     extends AbstractLoggable
     implements SystemManager
 {
+    protected final static class ManagedEntry
+    {
+        ///Object passed in for management
+        protected Object   m_object;
+
+        ///Interfaces object wants to be managed through (can be null)
+        protected Class[]  m_interfaces;
+
+        ///Object representation when exported (usually a proxy)
+        protected Object   m_exportedObject;
+    }
+
+    private HashMap       m_entrys = new HashMap();
+
     /**
      * Register an object for management.
      * The object is exported through some management scheme
@@ -27,13 +42,28 @@ public abstract class AbstractSystemManager
      * @param name the name to register object under
      * @param object the object
      * @param interfaces the interfaces to register the component under
-     * @exception Exception if an error occurs. An error could occur if the object doesn't 
+     * @exception ManagerException if an error occurs. An error could occur if the object doesn't 
      *            implement the interfaces, the interfaces parameter contain non-instance 
      *            classes, the name is already registered etc.
+     * @exception IllegalArgumentException if object or interfaces is null
      */
-    public void register( final String name, final Object object, final Class[] interfaces )
-        throws Exception
+    public synchronized void register( final String name, final Object object, final Class[] interfaces )
+        throws ManagerException, IllegalArgumentException
     {
+        checkRegister( name, object );
+        if( null == interfaces )
+        {
+            throw new IllegalArgumentException( "Null interfaces parameter" );
+        }
+
+        verifyInterfaces( object, interfaces );
+
+        final ManagedEntry entry = new ManagedEntry();
+        entry.m_object = object;
+        entry.m_interfaces = interfaces;
+        entry.m_exportedObject = export( name, entry.m_object, interfaces );
+
+        m_entrys.put( name, entry );
     }
 
     /**
@@ -43,21 +73,131 @@ public abstract class AbstractSystemManager
      *
      * @param name the name to register object under
      * @param object the object
-     * @exception Exception if an error occurs such as name being already registered.
+     * @exception ManagerException if an error occurs such as name already registered.
+     * @exception IllegalArgumentException if object is null
      */
-    public void register( final String name, final Object object )
-        throws Exception
+    public synchronized void register( final String name, final Object object )
+        throws ManagerException, IllegalArgumentException
     {
+        checkRegister( name, object );
+
+        final ManagedEntry entry = new ManagedEntry();
+        entry.m_object = object;
+        entry.m_interfaces = null;
+        entry.m_exportedObject = export( name, entry.m_object, null );
+
+        m_entrys.put( name, entry );
     }
 
     /**
      * Unregister named object.
      *
      * @param name the name of object to unregister
-     * @exception Exception if an error occurs such as when no such object registered.
+     * @exception ManagerException if an error occurs such as when no such object registered.
      */
-    public void unregister( final String name )
-        throws Exception
+    public synchronized void unregister( final String name )
+        throws ManagerException
     {
+        final ManagedEntry entry = (ManagedEntry)m_entrys.remove( name );
+        
+        if( null == entry )
+        {
+            throw new ManagerException( "No such entry" );
+        }
+
+        unexport( name, entry.m_exportedObject );
+    }
+
+    /**
+     * Export the object to the particular management medium using 
+     * the supplied object and interfaces.
+     * This needs to be implemented by subclasses.
+     *
+     * @param name the name of object
+     * @param object the object
+     * @param interfaces the interfaces
+     * @return the exported object 
+     * @exception ManagerException if an error occurs
+     */
+    protected abstract Object export( String name, Object object, Class[] interfaces )
+        throws ManagerException;
+
+    /**
+     * Stop the exported object from being managed.
+     *
+     * @param name the name of object
+     * @param exportedObject the object return by export
+     * @exception ManagerException if an error occurs
+     */
+    protected abstract void unexport( String name, Object exportedObject )
+        throws ManagerException;
+
+    /**
+     * Verify that an interface conforms to the requirements of management medium.
+     *
+     * @param clazz the interface class
+     * @exception ManagerException if verification fails
+     */
+    protected abstract void verifyInterface( Class clazz )
+        throws ManagerException;
+
+    /**
+     * Verify that object implements interfaces and interfaces are of "acceptable form".
+     * "Acceptable form" is determined by specific management policy.
+     *
+     * @param object the object
+     * @param interfaces the array of interfaces to check
+     * @exception ManagerException if an error occurs
+     */
+    private void verifyInterfaces( final Object object, final Class[] interfaces )
+        throws ManagerException
+    {
+        for( int i = 0; i < interfaces.length; i++ )
+        {
+            final Class clazz = interfaces[ i ];
+
+            if( !clazz.isInterface() )
+            {
+                throw new ManagerException( "Can not export " + clazz.getName() +
+                                            " for management as it is not an interface" );
+            }
+
+            if( !clazz.isInstance( object ) )
+            {
+                throw new ManagerException( "Can not export " + clazz.getName() +
+                                            " for management as object does not " +
+                                            "implement interface" );
+            }
+
+            verifyInterface( clazz );
+        }
+    }
+
+    /**
+     * Helper method to help check before an objects registration.
+     * Verifies name and object are not null and verifies no entry exists using name.
+     *
+     * @param name the name of object
+     * @param object the object to be registered
+     * @exception ManagerException if name already exists
+     * @exception IllegalArgumentException if name or object is null
+     */
+    private void checkRegister( final String name, final Object object )
+        throws ManagerException, IllegalArgumentException
+    {
+        if( null == object )
+        {
+            throw new IllegalArgumentException( "Null object parameter" );
+        }
+
+        if( null == name )
+        {
+            throw new IllegalArgumentException( "Null name parameter" );
+        }
+
+        if( null != m_entrys.get( name ) )
+        {
+            throw new ManagerException( "Entry already exisits" );
+        }
     }
 }
