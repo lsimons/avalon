@@ -18,10 +18,8 @@
 package org.apache.avalon.fortress.impl.role;
 
 import org.apache.avalon.excalibur.pool.Poolable;
+import org.apache.avalon.fortress.MetaInfoEntry;
 import org.apache.avalon.fortress.RoleManager;
-import org.apache.avalon.fortress.impl.handler.FactoryComponentHandler;
-import org.apache.avalon.fortress.impl.handler.PerThreadComponentHandler;
-import org.apache.avalon.fortress.impl.handler.PoolableComponentHandler;
 import org.apache.avalon.fortress.impl.role.AbstractRoleManager;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -33,7 +31,7 @@ import org.apache.avalon.framework.thread.ThreadSafe;
  * This role manager implementation is able to read ECM based role files. 
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.2 $ $Date: 2004/04/05 08:46:06 $
+ * @version CVS $Revision: 1.3 $ $Date: 2004/04/05 10:16:56 $
  */
 public class ECMRoleManager
         extends AbstractRoleManager
@@ -135,15 +133,15 @@ public class ECMRoleManager
         
         if ( ThreadSafe.class.isAssignableFrom( clazz ) )
         {
-            return PerThreadComponentHandler.class.getName();
+            return MetaInfoEntry.THREADSAFE_HANDLER;
         }
         else if ( Poolable.class.isAssignableFrom( clazz ) )
         {
-            return PoolableComponentHandler.class.getName();
+            return MetaInfoEntry.POOLABLE_HANDLER;
         }
         else if ( SingleThreaded.class.isAssignableFrom( clazz) )
         {            
-            return FactoryComponentHandler.class.getName();
+            return MetaInfoEntry.FACTORY_HANDLER;
         }
         
         // Don't know, use default
