@@ -379,8 +379,7 @@ Legal:
         <filter token="SYSTEM-MANAGER-CLASS" value="${system.manager.impl.class}"/>
         <copy todir="${bin.dist.conf}" filtering="on">
             <fileset dir="${conf.dir}">
-                <include name="kernel.xml"/>
-                <include name="emx4j-kernel.xml"/>
+                <include name="*.xml"/>
             </fileset>
         </copy>
 
