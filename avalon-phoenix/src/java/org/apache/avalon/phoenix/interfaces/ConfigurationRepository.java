@@ -27,7 +27,7 @@ public interface ConfigurationRepository
      *
      * @return Configuration information
      *
-     * @throws org.apache.avalon.framework.configuration.Configuration if no configuration could be found
+     * @throws ConfigurationException if no configuration could be found
      */
     Configuration getConfiguration( String application, String block )
         throws ConfigurationException;
@@ -41,7 +41,7 @@ public interface ConfigurationRepository
      *
      * Question: Is the storing of a null value to remove configuration information part of the contract?
      *
-     * @throws org.apache.avalon.framework.configuration.Configuration if configuration could not be stored
+     * @throws ConfigurationException if configuration could not be stored
      */
     void storeConfiguration( String application, String block, Configuration configuration )
         throws ConfigurationException;
