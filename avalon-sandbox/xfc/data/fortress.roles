@@ -1,0 +1,10 @@
+<fortress-roles logger="system.roles">
+
+  <role name="org.apache.excalibur.fortress.examples.components.Translator">
+    <component shorthand="translator"
+               class="org.apache.excalibur.fortress.examples.components.TranslatorImpl"
+               handler="org.apache.excalibur.fortress.handler.ThreadSafeComponentHandler"/>
+  </role>
+
+</fortress-roles>
+
