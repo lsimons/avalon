@@ -118,8 +118,9 @@ Legal:
         description="generates the Phoenix distribution without the javadocs"/>
 
     <target name="rebuild" description="Rebuilds Phoenix">
-        <antcall target="clean"/>
-        <antcall target="main"/>
+        <antcall target="clean" inheritall="false"/>
+        <antcall target="main" inheritall="false"/>
+        <antcall target="test" inheritall="false"/>
     </target>
 
     <target name="all" depends="main, site-all" description="generates the Phoenix distribution"/>
