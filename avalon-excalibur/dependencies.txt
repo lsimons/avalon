@@ -20,9 +20,9 @@ Current at: Thu Apr  4 23:02:23 EST 2002
 * altrmi -> framework
 * util -> framework
 * baxter -> jmxri.jar
-* datasource -> pool, logkit, framework
+* datasource -> pool, logkit, framework [Unit tests: junit, testcase, component, logger]
 * event -> collections, concurrent, core, framework, event, util, thread, threadcontext, pool
-* all -> collections, concurrent, instrument, event, component, pool, logkit, logger, (recursive on fortress, commented out) 
+* all -> framework, collections, concurrent, instrument, event, component, pool, logkit, logger, datasource, (recursive on fortress, commented out) [Unit tests: junit, testcase]
 * component -> logkit, framework, collections, logger, pool [Unit tests: junit, util, testcase, instrument (runtime)]
 * fortress -> instrument, instrument-manager, framework, testcase, event (recursive on mpool in scratchpad), component (test class), logger, util
 instrument-client -> altrmi-client-impl
