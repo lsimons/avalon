@@ -66,10 +66,13 @@ import org.xml.sax.ext.LexicalHandler;
  * </li>
  * </ul>
  *
+ * @deprecated Moved to org.apache.excalibur.xml.sax package. Removed DOM 
+ * functionality.
+ *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @version CVS $Revision: 1.6 $ $Date: 2002/10/02 01:52:24 $
+ * @version CVS $Revision: 1.7 $ $Date: 2002/10/16 00:04:47 $
  */
 public final class JaxpParser
     extends AbstractLogEnabled

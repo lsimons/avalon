@@ -21,8 +21,10 @@ import org.xml.sax.ext.LexicalHandler;
  * It can either send XML events or create a DOM from
  * the parsed document.
  *
+ * @deprecated Moved to org.apache.excalibur.xml.sax package. Removed dependency
+ * on Component. Removed DOM functionality.
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/07/07 06:09:51 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/10/16 00:04:47 $
  */
 public interface Parser
     extends Component
