@@ -47,56 +47,57 @@
  Apache Software Foundation, please see <http://www.apache.org/>.
 
 */
-package org.apache.excalibur.xfc.test.util;
+package org.apache.excalibur.xfc.model.role;
 
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.DefaultConfiguration;
-import org.apache.avalon.framework.logger.Logger;
-
-import org.apache.excalibur.xfc.modules.ecm.ECM;
-import org.apache.excalibur.xfc.modules.ecm.ECMSerializer;
-import org.apache.excalibur.xfc.modules.ecm.HandlerAnalyzer;
-import org.apache.excalibur.xfc.model.role.RoleRef;
+import org.apache.excalibur.xfc.model.Definition;
 
 /**
- * ECM Module Test Rig. This class extends ECM and provides several accessor methods to
- * internal ECM methods that are otherwise not available from the normal Module API.
+ * Class which represents an entry in a roles file, that contains multiple
+ * definitions for the one role.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: ECMTestRig.java,v 1.5 2002/10/17 14:38:18 crafterm Exp $
+ * @version CVS $Id: MultiRoleRef.java,v 1.1 2002/10/17 14:38:17 crafterm Exp $
  */
-public final class ECMTestRig extends ECM
+public class MultiRoleRef extends RoleRef
 {
-    private ECMSerializerTestRig m_serializerRig = new ECMSerializerTestRig();
+    // internals
+    private Definition[] m_definitions;
 
-    public Configuration buildRole( final RoleRef roleref )
+    /**
+     * Constructor
+     *
+     * @param role role name
+     * @param shorthand shorthand name
+     * @param definitions a {@link Definition}[] array
+     */
+    public MultiRoleRef(
+        final String role, final String shorthand, final Definition[] definitions
+    )
+    {
+        super( role, shorthand );
+        m_definitions = definitions;
+    }
+
+    /**
+     * Obtain a list of all Definition objects that provide the role
+     * this represents.
+     *
+     * @return a {@link Definition}[] array
+     */
+    public Definition[] getProviders()
+    {
+        return m_definitions;
+    }
+
+    /**
+     * Accept a {@link RoleRefVisitor} on this class.
+     *
+     * @param visitor a {@link RoleRefVisitor} value
+     * @exception Exception if an error occurs
+     */
+    public void accept( RoleRefVisitor visitor )
         throws Exception
     {
-        return m_serializerRig.buildRole( roleref );
-    }
-
-    public String getHandler( final String classname )
-        throws Exception
-    {
-        return HandlerAnalyzer.getHandler( classname );
-    }
-
-    public void enableLogging( final Logger logger )
-    {
-        super.enableLogging( logger );
-        m_serializerRig.enableLogging( logger );
-    }
-
-    class ECMSerializerTestRig extends ECMSerializer
-    {
-        public Configuration buildRole( final RoleRef roleref )
-            throws Exception
-        {
-            m_roles = new DefaultConfiguration( "", "" );
-            roleref.accept( this );
-            return m_roles.getChildren()[0];
-        }
+        visitor.visit( this );
     }
 }
-
-

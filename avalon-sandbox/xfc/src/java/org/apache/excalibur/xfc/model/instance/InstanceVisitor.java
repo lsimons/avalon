@@ -47,56 +47,63 @@
  Apache Software Foundation, please see <http://www.apache.org/>.
 
 */
-package org.apache.excalibur.xfc.test.util;
-
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.DefaultConfiguration;
-import org.apache.avalon.framework.logger.Logger;
-
-import org.apache.excalibur.xfc.modules.ecm.ECM;
-import org.apache.excalibur.xfc.modules.ecm.ECMSerializer;
-import org.apache.excalibur.xfc.modules.ecm.HandlerAnalyzer;
-import org.apache.excalibur.xfc.model.role.RoleRef;
+package org.apache.excalibur.xfc.model.instance;
 
 /**
- * ECM Module Test Rig. This class extends ECM and provides several accessor methods to
- * internal ECM methods that are otherwise not available from the normal Module API.
+ * Visitor class for performing operations on concrete {@link Instance}
+ * classes.
  *
+ * <p>
+ *  This class is based on the Visitor pattern <i>(Design Patterns, p331)</i>.
+ * </p>
+ * 
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: ECMTestRig.java,v 1.5 2002/10/17 14:38:18 crafterm Exp $
+ * @version CVS $Id: InstanceVisitor.java,v 1.1 2002/10/17 14:38:17 crafterm Exp $
  */
-public final class ECMTestRig extends ECM
+public interface InstanceVisitor
 {
-    private ECMSerializerTestRig m_serializerRig = new ECMSerializerTestRig();
+    /**
+     * Operate on a {@link SingleRoleInstance} class.
+     *
+     * @param instance a {@link SingleRoleInstance} value
+     * @exception Exception if an error occurs
+     */
+    void visit( SingleRoleInstance instance )
+        throws Exception;
 
-    public Configuration buildRole( final RoleRef roleref )
-        throws Exception
-    {
-        return m_serializerRig.buildRole( roleref );
-    }
+    /**
+     * Operate on a {@link SingleNonRoleInstance} class.
+     *
+     * @param instance a {@link SingleNonRoleInstance} value
+     * @exception Exception if an error occurs
+     */
+    void visit( SingleNonRoleInstance instance )
+        throws Exception;
 
-    public String getHandler( final String classname )
-        throws Exception
-    {
-        return HandlerAnalyzer.getHandler( classname );
-    }
+    /**
+     * Operate on a {@link MultiRoleInstance} class.
+     *
+     * @param instance a {@link MultiRoleInstance} value
+     * @exception Exception if an error occurs
+     */
+    void visit( MultiRoleInstance instance )
+        throws Exception;
 
-    public void enableLogging( final Logger logger )
-    {
-        super.enableLogging( logger );
-        m_serializerRig.enableLogging( logger );
-    }
+    /**
+     * Operate on a {@link MultiNonRoleInstance} class.
+     *
+     * @param instance a {@link MultiNonRoleInstance} value
+     * @exception Exception if an error occurs
+     */
+    void visit( MultiNonRoleInstance instance )
+        throws Exception;
 
-    class ECMSerializerTestRig extends ECMSerializer
-    {
-        public Configuration buildRole( final RoleRef roleref )
-            throws Exception
-        {
-            m_roles = new DefaultConfiguration( "", "" );
-            roleref.accept( this );
-            return m_roles.getChildren()[0];
-        }
-    }
+    /**
+     * Operate on a {@link Instance} class.
+     *
+     * @param instance an {@link Instance} value
+     * @exception Exception if an error occurs
+     */
+    void visit( Instance instance )
+        throws Exception;
 }
-
-

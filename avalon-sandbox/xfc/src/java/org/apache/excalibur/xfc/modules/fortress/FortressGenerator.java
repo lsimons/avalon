@@ -56,16 +56,23 @@ import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
 
 import org.apache.excalibur.xfc.model.Definition;
-import org.apache.excalibur.xfc.model.Instance;
+
 import org.apache.excalibur.xfc.model.Model;
-import org.apache.excalibur.xfc.model.RoleRef;
+import org.apache.excalibur.xfc.model.instance.Instance;
+import org.apache.excalibur.xfc.model.instance.SingleNonRoleInstance;
+import org.apache.excalibur.xfc.model.instance.SingleRoleInstance;
+import org.apache.excalibur.xfc.model.role.RoleRef;
+import org.apache.excalibur.xfc.model.role.SingleRoleRef;
+import org.apache.excalibur.xfc.model.role.MultiRoleRef;
 
 import org.apache.excalibur.xfc.modules.ecm.ECMGenerator;
 
 /**
+ * Implementation of the <code>generate</code> method on the {@link Fortress}
+ * module.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: FortressGenerator.java,v 1.1 2002/10/16 16:20:38 crafterm Exp $
+ * @version CVS $Id: FortressGenerator.java,v 1.2 2002/10/17 14:38:18 crafterm Exp $
  */
 public class FortressGenerator extends ECMGenerator
 {
@@ -103,7 +110,7 @@ public class FortressGenerator extends ECMGenerator
                 HandlerMapper.getHandler( config.getAttribute( HANDLER ) )
             );
 
-        return new RoleRef(
+        return new SingleRoleRef(
             role.getAttribute( NAME ), config.getAttribute( SHORTHAND ), definition
         );
     }
@@ -132,7 +139,7 @@ public class FortressGenerator extends ECMGenerator
                 );
         }
 
-        return new RoleRef( role.getAttribute( NAME ), "UNKNOWN", definitions );
+        return new MultiRoleRef( role.getAttribute( NAME ), "UNKNOWN", definitions );
     }
 
     // INSTANCE GENERATION METHODS
@@ -168,11 +175,11 @@ public class FortressGenerator extends ECMGenerator
     private Instance buildNonRoleComponentInstance( final Configuration i )
         throws Exception
     {
-        return new Instance(
-            i.getChildren(),
-            i.getAttribute( CLASS ),
+        return new SingleNonRoleInstance(
             i.getAttribute( ROLE ),
-            null
+            i.getAttribute( CLASS ),
+            i.getChildren(),
+            i.getAttribute( HANDLER )
         );
     }
 
@@ -187,10 +194,10 @@ public class FortressGenerator extends ECMGenerator
     private Instance buildRoleComponentInstance( final Configuration i )
         throws Exception
     {
-        return new Instance(
+        return new SingleRoleInstance(
             i.getName(),
+            i.getAttribute( CLASS, null ),
             i.getChildren(),
-            null,
             null
         );
     }

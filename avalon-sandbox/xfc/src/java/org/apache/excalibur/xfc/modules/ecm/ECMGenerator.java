@@ -60,8 +60,14 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
 
 import org.apache.excalibur.xfc.model.Model;
 import org.apache.excalibur.xfc.model.Definition;
-import org.apache.excalibur.xfc.model.Instance;
-import org.apache.excalibur.xfc.model.RoleRef;
+import org.apache.excalibur.xfc.model.instance.Instance;
+import org.apache.excalibur.xfc.model.instance.MultiNonRoleInstance;
+import org.apache.excalibur.xfc.model.instance.MultiRoleInstance;
+import org.apache.excalibur.xfc.model.instance.SingleNonRoleInstance;
+import org.apache.excalibur.xfc.model.instance.SingleRoleInstance;
+import org.apache.excalibur.xfc.model.role.RoleRef;
+import org.apache.excalibur.xfc.model.role.SingleRoleRef;
+import org.apache.excalibur.xfc.model.role.MultiRoleRef;
 
 import org.apache.excalibur.xfc.modules.Constants;
 
@@ -70,7 +76,7 @@ import org.apache.excalibur.xfc.modules.Constants;
  * of the <code>generate</code> method defined in {@link ECM}.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: ECMGenerator.java,v 1.1 2002/10/16 16:20:38 crafterm Exp $
+ * @version CVS $Id: ECMGenerator.java,v 1.2 2002/10/17 14:38:18 crafterm Exp $
  */
 public class ECMGenerator extends AbstractLogEnabled
     implements Constants
@@ -97,6 +103,28 @@ public class ECMGenerator extends AbstractLogEnabled
     {
         Model model = new Model();
 
+        addRoles( model, context);
+        addInstances( model, context);
+
+        if ( getLogger().isDebugEnabled() )
+        {
+            getLogger().debug( "Model built" );
+        }
+
+        return model;
+    }
+
+    /**
+     * Helper method for adding all role definitions to the
+     * given model.
+     *
+     * @param model a {@link Model} instance
+     * @param context input context
+     * @exception Exception if an error occurs
+     */
+    private void addRoles( final Model model, final String context )
+        throws Exception
+    {
         // locate all roles
         Configuration[] roles = getRoles( getRoleFile( context ) );
 
@@ -110,7 +138,19 @@ public class ECMGenerator extends AbstractLogEnabled
         {
             model.addRoleRef( buildRoleRef( roles[i] ) );
         }
+    }
 
+    /**
+     * Helper method for adding all component instance definitions
+     * to the given model.
+     *
+     * @param model a {@link Model} instance
+     * @param context input context
+     * @exception Exception if an error occurs
+     */
+    private void addInstances( final Model model, final String context )
+        throws Exception
+    {
         // locate all component instances
         Configuration[] instances = getInstanceList( getConfigurationFile( context ) );
 
@@ -125,14 +165,6 @@ public class ECMGenerator extends AbstractLogEnabled
         {
             model.addInstance( buildInstance( instances[i], model ) );
         }
-
-        // finished
-        if ( getLogger().isDebugEnabled() )
-        {
-            getLogger().debug( "Model built" );
-        }
-
-        return model;
     }
 
     /**
@@ -171,7 +203,7 @@ public class ECMGenerator extends AbstractLogEnabled
         throws Exception
     {
         Configuration config = m_builder.buildFromFile( input );
-        return config.getChildren( "role" );
+        return config.getChildren( ROLE );
     }
 
     /**
@@ -202,7 +234,7 @@ public class ECMGenerator extends AbstractLogEnabled
     protected RoleRef buildRoleRef( final Configuration role )
         throws Exception
     {
-        if ( isComponentSelectorRole( role ) )   // component selector definition
+        if ( isComponentSelectorRole( role ) )
         {
             return buildMultipleComponentRoleRef( role );
         }
@@ -216,7 +248,7 @@ public class ECMGenerator extends AbstractLogEnabled
      * a ComponentSelector style definition or not.
      *
      * @param role a <code>Configuration</code> value
-     * @return a <code>boolean</code> value
+     * @return true if the given role refers to a ECS definition, false otherwise
      */
     protected boolean isComponentSelectorRole( final Configuration role )
     {
@@ -242,7 +274,9 @@ public class ECMGenerator extends AbstractLogEnabled
                 HandlerAnalyzer.getHandler( role.getAttribute( DEFAULT ) )
             );
 
-        return new RoleRef( role.getAttribute( NAME ), role.getAttribute( SHORTHAND ), def );
+        return new SingleRoleRef(
+            role.getAttribute( NAME ), role.getAttribute( SHORTHAND ), def
+        );
     }
 
     /**
@@ -269,13 +303,22 @@ public class ECMGenerator extends AbstractLogEnabled
                 );
         }
 
-        return new RoleRef(
+        return new MultiRoleRef(
             role.getAttribute( NAME ), role.getAttribute( SHORTHAND ), definitions
         );
     }
 
     // INSTANCE GENERATION METHODS
 
+    /**
+     * Builds an {@link Instance} object from a given component configuration 
+     * definition.
+     *
+     * @param i a <code>Configuration</code> definition
+     * @param model a {@link Model} instance
+     * @return an {@link Instance} instance
+     * @exception Exception if an error occurs
+     */
     protected Instance buildInstance( final Configuration i, final Model model )
         throws Exception
     {
@@ -320,13 +363,7 @@ public class ECMGenerator extends AbstractLogEnabled
     {
         // check if shorthand corresponds to ECM
         RoleRef ref = model.findByShorthand( shorthand );
-
-        if ( ref != null && ref.getProviders().length > 1 )
-        {
-            return true;
-        }
-
-        return false;
+        return ( ref != null && ref instanceof MultiRoleRef );
     }
 
     /**
@@ -344,16 +381,22 @@ public class ECMGenerator extends AbstractLogEnabled
         throws Exception
     {
         final Configuration[] kids = i.getChildren( COMPONENT_INSTANCE );
-        final Instance[] subinstances = new Instance[ kids.length ];
+        final SingleRoleInstance[] subs = new SingleRoleInstance[ kids.length ];
 
         for ( int j = 0; j < kids.length; ++j )
         {
-            subinstances[j] = buildSubInstance( kids[j] );
+            String clazz = kids[j].getAttribute( CLASS );
+
+            subs[j] =
+                new SingleRoleInstance(
+                    kids[j].getAttribute( NAME ),
+                    clazz,
+                    kids[j].getChildren(),
+                    clazz == null ? null : HandlerAnalyzer.getHandler( clazz )
+                );
         }
 
-        return new Instance(
-            ECS, i.getAttribute( ROLE ), subinstances, SINGLETON
-        );
+        return new MultiNonRoleInstance( i.getAttribute( ROLE ), subs );
     }
 
     /**
@@ -368,10 +411,10 @@ public class ECMGenerator extends AbstractLogEnabled
     private Instance buildNonRoleComponentInstance( final Configuration i )
         throws Exception
     {
-        return new Instance(
-            i.getChildren(),
-            i.getAttribute( CLASS, null ),
+        return new SingleNonRoleInstance(
             i.getAttribute( ROLE ),
+            i.getAttribute( CLASS, null ),
+            i.getChildren(),
             HandlerAnalyzer.getHandler( i.getAttribute( CLASS, null ) )
         );
     }
@@ -387,12 +430,13 @@ public class ECMGenerator extends AbstractLogEnabled
     private Instance buildRoleComponentInstance( final Configuration i )
         throws Exception
     {
-        String cl = i.getAttribute( CLASS, null );
+        String clazz = i.getAttribute( CLASS, null );
 
-        return new Instance(
+        return new SingleRoleInstance(
             i.getName(),
+            clazz,
             i.getChildren(),
-            cl, cl == null ? null : HandlerAnalyzer.getHandler( cl )
+            clazz == null ? null : HandlerAnalyzer.getHandler( clazz )
         );
     }
 
@@ -407,36 +451,16 @@ public class ECMGenerator extends AbstractLogEnabled
     {
         // get the subinstances
         Configuration[] kids = i.getChildren();
-        Instance[] subinstances = new Instance[ kids.length ];
+        SingleRoleInstance[] subinstances = new SingleRoleInstance[ kids.length ];
 
         for ( int j = 0; j < kids.length; ++j )
         {
+            // REVISIT; invent a new node type ?
             subinstances[j] =
-                new Instance( kids[j].getName(), kids[j].getChildren(), null, null );
+                new SingleRoleInstance( kids[j].getName(), null, kids[j].getChildren(), null );
         }
 
         // create the root instance
-        return new Instance( i.getName(), subinstances );
-    }
-
-    /**
-     * Helper method for buiding an {@link Instance} object from a 
-     * configuration snippet that refers to the component definitions
-     * inside a component selector definitino that isn't using rolemanager.
-     *
-     * @param i a <code>Configuration</code> instance
-     * @return an {@link Instance} instance
-     * @exception Exception if an error occurs
-     */
-    private Instance buildSubInstance( final Configuration i )
-        throws Exception
-    {
-        String cl = i.getAttribute( CLASS );
-
-        return new Instance(
-            i.getAttribute( NAME ),
-            i.getChildren(),
-            cl, cl == null ? null : HandlerAnalyzer.getHandler( cl )
-        );
+        return new MultiRoleInstance( i.getName(), subinstances );
     }
 }

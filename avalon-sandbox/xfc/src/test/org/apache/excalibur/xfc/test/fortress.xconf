@@ -29,7 +29,7 @@
              id="default-connection"
              class="org.apache.avalon.excalibur.datasource.JdbcDataSourceComponent"
              handler="org.apache.excalibur.fortress.handler.ThreadSafeComponentHandler">
-     <omponent-specific-configuration/>
+     <component-specific-configuration/>
   </component>
 
 </fortress-xconf>

@@ -52,12 +52,15 @@ package org.apache.excalibur.xfc.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.excalibur.xfc.model.role.RoleRef;
+import org.apache.excalibur.xfc.model.instance.Instance;
+
 /**
  * Class for maintaining the Roles and their providing Components
  * a particular Container configuration.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: Model.java,v 1.3 2002/10/14 16:17:50 crafterm Exp $
+ * @version CVS $Id: Model.java,v 1.4 2002/10/17 14:38:17 crafterm Exp $
  */
 public final class Model
 {

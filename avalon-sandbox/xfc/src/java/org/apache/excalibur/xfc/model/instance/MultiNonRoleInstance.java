@@ -47,65 +47,43 @@
  Apache Software Foundation, please see <http://www.apache.org/>.
 
 */
-package org.apache.excalibur.xfc.model;
-
-import java.util.ArrayList;
-import java.util.List;
+package org.apache.excalibur.xfc.model.instance;
 
 /**
- * Class for maintaining a 1-N list of references between Roles & Components.
- *
- * <p>
- *  Normally there is a 1 Component per role definition, but in the of a
- *  ComponentSelector there can be more.
- * </p>
+ * Class which represents an instance of a particular component, that does not
+ * use RoleManager, but has multiple providers of the same role.
+ * (eg. ComponentSelector)
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: RoleRef.java,v 1.4 2002/10/14 16:17:50 crafterm Exp $
+ * @version CVS $Id: MultiNonRoleInstance.java,v 1.1 2002/10/17 14:38:17 crafterm Exp $
  */
-public final class RoleRef
+public class MultiNonRoleInstance extends Instance
 {
-    // internals
-    private final List m_definitions = new ArrayList();
+    // instance roles/override class/and subinstance definitions, if any
     private final String m_role;
-    private final String m_shorthand;
+    private final SingleRoleInstance[] m_subinstances;
 
     /**
-     * Creates a new <code>RoleRef</code> instance.
+     * Constructor
      *
      * @param role role name
-     * @param shorthand shorthand name
-     * @param definition a {@link Definition} instance
+     * @param subinstances an {@link SingleRoleInstance}[] array
      */
-    public RoleRef( final String role, final String shorthand, final Definition definition )
+    public MultiNonRoleInstance(
+        final String role,
+        final SingleRoleInstance[] subinstances
+    )
     {
+        super( null, null, null );
+
         m_role = role;
-        m_shorthand = shorthand;
-        m_definitions.add( definition );
+        m_subinstances = subinstances;
     }
 
     /**
-     * Creates a new <code>RoleRef</code> instance.
+     * Obtain this Instance's role name
      *
-     * @param role role name
-     * @param shorthand shorthand name
-     * @param definitions a {@link Definition} array
-     */
-    public RoleRef( final String role, final String shorthand, final Definition[] definitions )
-    {
-        m_role = role;
-        m_shorthand = shorthand;
-
-        for ( int i = 0; i < definitions.length; ++i )
-        {
-            m_definitions.add( definitions[i] );
-        }
-    }
-
-    /**
-     * Obtain the role this ref object manages
-     *
-     * @return a <code>String</code> value
+     * @return role name
      */
     public String getRole()
     {
@@ -113,25 +91,24 @@ public final class RoleRef
     }
 
     /**
-     * Obtain the shorthand name of this role
+     * Obtain this Instance's list of sub instances.
      *
-     * @return a <code>String</code> value
+     * @return an {@link SingleRoleInstance}[] value
      */
-    public String getShorthand()
+    public SingleRoleInstance[] getSubInstances()
     {
-        return m_shorthand;
+        return m_subinstances;
     }
 
     /**
-     * Obtain a list of all Definition objects that provide the role
-     * this roleref manages.
+     * Accept an {@link InstanceVisitor} on this class.
      *
-     * @return a {@link Definition}[] array
+     * @param visitor an {@link InstanceVisitor} value
+     * @exception Exception if an error occurs
      */
-    public Definition[] getProviders()
+    public void accept( final InstanceVisitor visitor )
+        throws Exception
     {
-        return (Definition[]) m_definitions.toArray(
-            new Definition[ m_definitions.size() ]
-        );
+        visitor.visit( this );
     }
 }
