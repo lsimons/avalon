@@ -125,7 +125,7 @@ Legal:
 
     <!-- Check requirements of environment -->
     <target name="check-mx4j">
-        <available property="mx4j.present" classname="mx4j.server.MBeanServerImpl">
+        <available property="mx4j.present" classname="mx4j.util.StandardMBeanProxy">
             <classpath refid="project.class.path"/>
         </available>
         <antcall target="check-mx4j2"/>
