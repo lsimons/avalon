@@ -380,7 +380,8 @@ public class AbstractMerlinTestCase extends TestCase
     private static File getBaseDirectory()
     {
         String basedir = System.getProperty( "basedir" );
-        return new File( basedir );
+        if( basedir != null ) return new File( basedir );
+        return new File( "." );
     }
 
    /**
