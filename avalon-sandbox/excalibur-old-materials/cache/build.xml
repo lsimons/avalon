@@ -48,6 +48,7 @@
         <pathelement location="${framework.jar}"/>
         <pathelement location="${build.classes}"/>
         <pathelement location="${junit.jar}"/>
+        <pathelement location="${checkstyle.jar}"/>
     </path>
 
     <target name="main" depends="dist" description="Build the project"/>
@@ -186,8 +187,56 @@
                style="${ant.home}/etc/jdepend-frames.xsl"/>
     </target>
 
+	<target name="checkstyle" if="do.checkstyle" description="Checkstyle">
+    
+        <!-- this invocation of checkstyle requires that checkstyle be downloaded and setup -->
+        <!-- thats why you are required to define do.checkstyle property to generate the report -->
+		<taskdef name="checkstyle"
+			classname="com.puppycrawl.tools.checkstyle.CheckStyleTask">
+			<classpath refid="project.class.path"/>
+		</taskdef>
+		<checkstyle
+			lcurlyType="nl"
+			lcurlyMethod="nl"
+			lcurlyOther="nl"
+			rcurly="ignore"
+			allowProtected="false"
+			allowPackage="false"
+			allowNoAuthor="false"
+			maxLineLen="100"
+			maxMethodLen="100"
+			maxConstructorLen="100"
+			memberPattern="^m_[a-z][a-zA-Z0-9]*$"
+			staticPattern="^c_[a-z][a-zA-Z0-9]*$"
+			constPattern="(^c_[a-z][a-zA-Z0-9]*$)|([A-Z_]*$)"
+			ignoreImportLen="true"
+			allowTabs="false"
+			javadocScope="protected"
+			ignoreWhitespace="true"
+			cacheFile="checkstyle.cache"
+			failOnViolation="false"
+			ignoreCastWhitespace="true">
+			<fileset dir="${java.dir}">
+				<include name="**/*.java"/>
+			</fileset>
+            <formatter type="plain"/>
+            <formatter type="xml" toFile="build/checkstyle-results.xml"/>
+		</checkstyle>
+	</target>
+
+	<target name="checkstyle-report" 
+            depends="checkstyle" 
+            if="do.checkstyle" 
+            description="Generate Checkstyle Report">
+
+		<mkdir dir="${build.reports}/checkstyle"/>
+		<style style="../tools/etc/checkstyle-frames.xsl" in="build/checkstyle-results.xml"
+			out="${build.reports}/checkstyle/delete-me.html"/>
+
+	</target>
+
     <!-- Creates the distribution -->
-    <target name="dist" depends="jar, test-reports, jdepend, javadocs" description="Generates the jar files">
+    <target name="dist" depends="jar, test-reports, jdepend, checkstyle-report, javadocs" description="Generates the jar files">
 
         <mkdir dir="${dist.dir}"/>
         <copy file="${build.lib}/${dist.name}.jar" todir="${dist.dir}"/>

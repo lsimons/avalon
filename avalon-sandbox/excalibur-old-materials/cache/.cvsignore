@@ -1,5 +1,6 @@
 ant.properties
 build
+checkstyle.cache
 distributions
 dist
 excalibur-*
