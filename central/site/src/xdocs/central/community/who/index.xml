@@ -50,56 +50,5 @@
 <tr><td>ymikulski</td> 	<td>Yauheny Mikulski</td></tr>
      </table>
     </section>
-    <section name="Associated Committers">
-    <p>
-     Associated committers have access to the following repositories:     
-    </p>
-     <ul>
-      <li><code>avalon-excalibur</code></li>
-      <li><code>avalon-components</code></li>
-      <li><code>avalon-sandbox</code></li>
-     </ul>
-     <p>
-      ASF projects with associated committer access:
-     </p>
-      <ul>
-        <li><a href="http://cocoon.apache.org">Cocoon</a></li>
-	<li><a href="http://james.apache.org">James</a></li>
-      </ul>
-     <p>
-     If your project would also like access, please notify the
-     <a href="mailto:pmc@avalon.apache.org">Avalon PMC</a>.
-    </p>
-    <p>
-     Full lists of ASF committers are available at:
-     <ul>
-      <li>
-       <a href="http://www.apache.org/~jim/committers.html">http://www.apache.org/~jim/committers.html</a>
-      </li>
-      <li>
-       <a href="http://www.apache.org/~jim/projects.html">http://www.apache.org/~jim/projects.html</a>
-     ( warning: it's a <em>large</em> page ~980 KB)
-      </li>
-     </ul>
-    </p>
-    </section>
-    <section name="Emeritus Committers">
-      <p>
-       The current emeritus committers (an emeritus committer is
-      someone who is not active within the avalon project anymore)
-      are: jon, fede
-      </p>
-    </section>
-    <section name="Contributors">
-      <p>
-      We've been rather sloppy in maintaining lists of these
-      peeps. Many, many people help out with avalon in one way or
-      another, be it by providing infrastructure or project resources,
-      guidance and advice, patches, or user feedback. You can find
-      many names in the avalon mailing list archives and in the
-      sources. People, even if we don't keep a list of y'all, thanks
-      for all your good work!
-      </p>
-    </section>
   </body>
 </document>

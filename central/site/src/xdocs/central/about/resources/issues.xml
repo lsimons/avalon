@@ -2,32 +2,11 @@
 <document>
   <properties>
     <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
-    <title>Apache Avalon News</title>
+    <title>Avalon Central</title>
   </properties> 
  <body>
-   <section name="Submitting Patches">
-	    <p>Generate patches using <code>cvs diff -u</code>, or <code>diff -u</code>.
-	    Please create your patches relative to the root of the cvs module the patch
-	    should be applied to. Please compile changes to multiple files
-	    in a single patch file. Make sure the patch adheres to the coding standards,
-	    and includes appropriate javadoc.</p>
-	    
-	    <p>When you've built the patch, file a new bug report in JIRA (see below) if one
-	    does not exist yet, explain the reason behind the patch, how the patch fixes
-	    the issues, and add the patch as an attachment.</p>
-	    
-	    <p>If your patch is not getting applied or there is no response, start nagging
-	    the developers (politely, please :D) on the developers mailing list.</p>    
-	    
-            <subsection name="Documentation patches">
-	      <p>Please submit documentation patches against the XML sourcefiles used
-	      for generating the documentation, and not against the documentation
-	      itself.  Site documentation issues can be opened in the Avalon Framework's
-              Documentation module.</p>
-	    </subsection>
-   </section>
 
-   <section name="Avalon Issue Tracking">
+   <section name="Issue Tracking">
     <p>
     Avalon uses the <a href="http://issues.apache.org/jira">ASF JIRA</a>
     issue tracker to manage feature requests
@@ -37,76 +16,64 @@
     send a message to the developers mailing list).
     </p>
     <table>
+
      <tr>
        <th>Project</th>
        <th>Description</th>
-       <th>Reports</th>
      </tr>
+
      <tr>
-       <td><a href="http://nagoya.apache.org/jira/secure/BrowseProject.jspa?id=10423">Avalon</a></td>
-       <td>Core Framework, Site docs, General Issues</td>
-       <td>
-         <a href="http://issues.apache.org/jira/secure/BrowseProject.jspa?id=10423&amp;report=compversions">Open Issues</a> |
-         <a href="http://issues.apache.org/jira/secure/BrowseProject.jspa?id=10423&amp;report=roadmap">Road Map</a> |
-         <a href="http://issues.apache.org/jira/secure/BrowseProject.jspa?id=10423&amp;report=changelog">Change Log</a> | 
-         <a href="http://issues.apache.org/jira/secure/BrowseProject.jspa?id=10423&amp;report=popular">Popular</a>
-       </td> 
+       <td><a href="http://issues.apache.org/jira/secure/BrowseProject.jspa?id=10530">Avalon Central</a></td>
+       <td>Site docs, General Issues</td>
       </tr>
-      <tr> 
-       <td><a href="http://nagoya.apache.org/jira/secure/BrowseProject.jspa?id=10420">Fortress</a></td>
-       <td>All Avalon Fortress container issues</td>
-       <td>
-         <a href="http://issues.apache.org/jira/secure/BrowseProject.jspa?id=10420&amp;report=compversions">Open Issues</a> |
-         <a href="http://issues.apache.org/jira/secure/BrowseProject.jspa?id=10420&amp;report=roadmap">Road Map</a> |
-         <a href="http://issues.apache.org/jira/secure/BrowseProject.jspa?id=10420&amp;report=changelog">Change Log</a> | 
-         <a href="http://issues.apache.org/jira/secure/BrowseProject.jspa?id=10420&amp;report=popular">Popular</a>
-       </td> 
-      </tr>
+
       <tr>  
-       <td><a href="http://issues.apache.org/jira/secure/BrowseProject.jspa?id=10081">Phoenix</a></td>
-       <td>All Avalon Phoenix container issues</td>
-       <td>
-         <a href="http://issues.apache.org/jira/secure/BrowseProject.jspa?id=10081&amp;report=compversions">Open Issues</a> |
-         <a href="http://issues.apache.org/jira/secure/BrowseProject.jspa?id=10081&amp;report=roadmap">Road Map</a> |
-         <a href="http://issues.apache.org/jira/secure/BrowseProject.jspa?id=10081&amp;report=changelog">Change Log</a> | 
-         <a href="http://issues.apache.org/jira/secure/BrowseProject.jspa?id=10081&amp;report=popular">Popular</a>
-       </td> 
+       <td><a href="http://issues.apache.org/jira/secure/BrowseProject.jspa?id=10532">Avalon Planet</a></td>
+       <td>Components and facilities.</td>
       </tr> 
-      <tr> 
-       <td><a href="http://issues.apache.org/jira/secure/BrowseProject.jspa?id=10428">Excalibur</a></td>
-       <td>Issues in any of the Excalibur utilities, components, or documentation</td>
-       <td>
-         <a href="http://issues.apache.org/jira/secure/BrowseProject.jspa?id=10428&amp;report=compversions">Open Issues</a> |
-         <a href="http://issues.apache.org/jira/secure/BrowseProject.jspa?id=10428&amp;report=roadmap">Road Map</a> |
-         <a href="http://issues.apache.org/jira/secure/BrowseProject.jspa?id=10428&amp;report=changelog">Change Log</a> | 
-         <a href="http://issues.apache.org/jira/secure/BrowseProject.jspa?id=10428&amp;report=popular">Popular</a>
-       </td> 
+
+      <tr>  
+       <td><a href="http://issues.apache.org/jira/secure/BrowseProject.jspa?id=10533">Avalon Tools</a></td>
+       <td>Avalon's build system and general developer tools.</td>
       </tr> 
-      <tr> 
-       <td><a href="http://issues.apache.org/jira/secure/BrowseProject.jspa?id=10414">Merlin</a></td>
-       <td>Core Merlin container issues</td>
-       <td>
-         <a href="http://issues.apache.org/jira/secure/BrowseProject.jspa?id=10414&amp;report=compversions">Open Issues</a> |
-         <a href="http://issues.apache.org/jira/secure/BrowseProject.jspa?id=10414&amp;report=roadmap">Road Map</a> |
-         <a href="http://issues.apache.org/jira/secure/BrowseProject.jspa?id=10414&amp;report=changelog">Change Log</a> | 
-         <a href="http://issues.apache.org/jira/secure/BrowseProject.jspa?id=10414&amp;report=popular">Popular</a>
-       </td> 
-      </tr> 
-      <tr> 
-       <td><a href="http://issues.apache.org/jira/secure/BrowseProject.jspa?id=10426">Avalon#</a></td>
-       <td>All Avalon# issues.</td>
-       <td>
-         <a href="http://issues.apache.org/jira/secure/BrowseProject.jspa?id=10426&amp;report=compversions">Open Issues</a> |
-         <a href="http://issues.apache.org/jira/secure/BrowseProject.jspa?id=10426&amp;report=roadmap">Road Map</a> |
-         <a href="http://issues.apache.org/jira/secure/BrowseProject.jspa?id=10426&amp;report=changelog">Change Log</a> | 
-         <a href="http://issues.apache.org/jira/secure/BrowseProject.jspa?id=10426&amp;report=popular">Popular</a>
-       </td> 
-      </tr> 
+
+      <tr>  
+       <td><a href="http://issues.apache.org/jira/secure/BrowseProject.jspa?id=10425">Merlin Runtime</a></td>
+       <td>Avalon Merlin RI Container.</td>
+      </tr>
+
+      <tr>  
+       <td><a href="http://issues.apache.org/jira/secure/BrowseProject.jspa?id=10531">Merlin Studio</a></td>
+       <td>Exclipse support tools for Merlin component development.</td>
+      </tr>
+
     </table>
     <p>
      A full list of the projects can be found at <a href="http://issues.apache.org/jira">http://issues.apache.org/jira</a>
      in the Avalon, Avalon Merlin, and Avalon Components categories.
     </p>
+
+     <subsection name="Submitting Patches">
+	    <p>Generate patches using <code>cvs diff -u</code>, or <code>diff -u</code>.
+	    Please create your patches relative to the root of the cvs module the patch
+	    should be applied to. Please compile changes to multiple files
+	    in a single patch file. Make sure the patch adheres to the coding standards,
+	    and includes appropriate javadoc.</p>
+	    
+	    <p>When you've built the patch, file a new bug report in JIRA if one
+	    does not exist yet, explain the reason behind the patch, how the patch fixes
+	    the issues, and add the patch as an attachment.</p>
+	    
+	    <p>If your patch is not getting applied or there is no response, start nagging
+	    the developers (politely, please :D) on the developers mailing list.</p>    
+	    
+	    <p>Please submit documentation patches against the XML sourcefiles used
+	    for generating the documentation, and not against the documentation
+	    itself.  Site documentation issues can be opened in the Avalon Framework's
+          Documentation module.</p>
+
+     </subsection>
+
    </section>
   </body>
 </document>

@@ -20,12 +20,12 @@
 <document>
   <properties>
     <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
-    <title>Merlin Runtime</title>
+    <title>Avalon Central</title>
   </properties> 
 
   <body>
-    <section name="Using Merlin">
-      <subsection name="Publishing Services">
+    <section name="Service Publication">
+
         <p>
         One of the most important aspects of a component management 
         platform is the ability to provide component assembly.  Assembly
@@ -41,7 +41,7 @@
         Resources supporting this tutorial are contained in the 
         tutorials/dependencies/ package.
         </p>
-      </subsection>
+
       <subsection name="Service Interface">
         <p>
         Services are normally exposed under a service interface. The following

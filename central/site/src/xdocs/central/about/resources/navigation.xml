@@ -25,8 +25,7 @@
     <menu>
       <item name="Mailing Lists" href="mailing-lists.html"/>
       <item name="Issue Tracking" href="issues.html"/>
-      <item name="Subversion" href="subversion.html"/>
-      <item name="CVS" href="cvs.html"/>
+      <item name="Subversion" href="svn/index.html"/>
     </menu>
   </body>
 

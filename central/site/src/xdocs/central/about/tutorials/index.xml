@@ -20,17 +20,17 @@
 <document>
   <properties>
     <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
-    <title>Merlin Runtime</title>
+    <title>Avalon Central</title>
   </properties> 
 
   <body>
-    <section name="Getting Started">
+    <section name="Avalon Tutorial">
         <table>
           <tr><th>Topic</th><th>Summary</th></tr>
           <tr>
-            <td><a href="basic/index.html">Using Merlin</a></td>
+            <td><a href="basic/index.html">Basic Concepts</a></td>
             <td>
-A short introduction to using Merlin based on a Hello Block example that takes your though the definition of a block, subsequent deployment, and general aspects concerning configuration, contextualization, service publication, and service dependency management.
+A short introduction to using Avalon Merlin together with "Hello Block" that takes your though the definition of a block, subsequent deployment, and general aspects concerning configuration, contextualization, service publication, and service dependency management.
             </td>
           </tr>
           <tr>
