@@ -15,7 +15,7 @@ import java.io.StringWriter;
  *
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
  * @author <a href="mailto:stuart.roebuck@adolos.com">Stuart Roebuck</a>
- * @version CVS $Revision: 1.3 $ $Date: 2001/08/16 08:55:18 $
+ * @version CVS $Revision: 1.4 $ $Date: 2001/11/11 02:18:32 $
  */
 public final class StackIntrospector
 {
@@ -103,7 +103,7 @@ public final class StackIntrospector
      * created, this includes the path name and the source filename and line
      * number if the source was compiled with debugging on.
      *
-     * @returns The method path name in the form "the.package.path.Method"
+     * @return The method path name in the form "the.package.path.Method"
      */
     public final static String getCallerMethod( final Class clazz ) 
     {
@@ -189,7 +189,7 @@ public final class StackIntrospector
      * @param clazz the last class on the stack you are <i>not</i> interested in!
      * @param entries the number of stack lines to return.
      *
-     * @returns The method path name in the form "the.package.path.Method"
+     * @return The method path name in the form "the.package.path.Method"
      */
     public final static String getRecentStack( final Class clazz, int entries ) 
     {
