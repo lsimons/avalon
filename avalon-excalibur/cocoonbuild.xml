@@ -21,9 +21,9 @@
     <filter token="link2.href"        value="http://jakarta.apache.org"/>
     <filter token="link3"             value=""/>
     <filter token="link3.href"        value=""/>
-    <filter token="group-logo.src"    value="images/jakarta-logo.gif"/>
+    <filter token="group-logo.src"    value="/images/jakarta-logo.gif"/>
     <filter token="group-logo.href"   value="http://jakarta.apache.org/"/>
-    <filter token="project-logo.src"  value="images/header.gif"/>                    
+    <filter token="project-logo.src"  value="/images/header.gif"/>                    
     <filter token="project-logo.href" value="http://jakarta.apache.org/avalon/"/>                    
     <filter token="year" value="2002"/>  
     <filter token="vendor" value="Apache Software Foundation"/>        
