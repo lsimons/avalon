@@ -15,6 +15,7 @@ import java.security.CodeSource;
 import java.security.PermissionCollection;
 import java.security.Permissions;
 import java.security.Policy;
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.StringTokenizer;
 
@@ -27,7 +28,6 @@ import java.util.StringTokenizer;
 public final class Main
 {
     private static final String MAIN_CLASS = "org.apache.avalon.phoenix.frontends.CLIMain";
-    private static final String MAIN_JAR = "phoenix-engine.jar";
     private static final String LOADER_JAR = "phoenix-loader.jar";
 
     private static Object c_frontend;
@@ -138,25 +138,40 @@ public final class Main
     private static URL[] getEngineClassPath()
         throws Exception
     {
-        final File mainJar = findEngineJar();
-        final URL archive = mainJar.toURL();
-        return new URL[]{archive};
+        final ArrayList urls = new ArrayList();
+
+        final File dir = findEngineLibDir();
+        final File[] files = dir.listFiles();
+        for( int i = 0; i < files.length; i++ )
+        {
+            final File file = files[ i ];
+            if( file.getName().endsWith( ".jar" ) )
+            {
+                urls.add( file.toURL() );
+            }
+        }
+
+        return (URL[])urls.toArray( new URL[ urls.size() ] );
     }
 
     /**
-     * Find the "engine" jar from which to run main phoenix kernel.
+     * Find directory to load engine specific libraries from.
      *
-     * @return the engine file
-     * @throws Exception if an error occurs
+     * @return the lib dir
+     * @throws Exception if unable to aquire directory
      */
-    private static final File findEngineJar()
+    private static File findEngineLibDir()
         throws Exception
     {
         final String phoenixHome = findPhoenixHome();
-
-        final String filename =
-            phoenixHome + File.separator + "bin" + File.separator + MAIN_JAR;
-        return ( new File( filename ) ).getCanonicalFile();
+        final String engineLibDir =
+            phoenixHome + File.separator + "bin" + File.separator + "lib";
+        final File dir = new File( engineLibDir ).getCanonicalFile();
+        if( !dir.exists() )
+        {
+            throw new Exception( "Unable to locate engine lib directory at " + engineLibDir );
+        }
+        return dir;
     }
 
     /**

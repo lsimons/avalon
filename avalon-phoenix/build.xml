@@ -339,7 +339,7 @@ Legal:
         <property name="bin.dist.lib" value="${bin.dist.dir}/lib"/>
         <property name="bin.dist.conf" value="${bin.dist.dir}/conf"/>
 
-        <mkdir dir="${bin.dist.bin}"/>
+        <mkdir dir="${bin.dist.bin}/lib"/>
         <mkdir dir="${bin.dist.apps}"/>
         <mkdir dir="${bin.dist.ext}"/>
         <mkdir dir="${bin.dist.lib}"/>
@@ -353,7 +353,7 @@ Legal:
             </fileset>
         </copy>
         <copy file="${build.lib}/phoenix-loader.jar" todir="${bin.dist.bin}/"/>
-        <copy file="${build.lib}/phoenix-engine.jar" todir="${bin.dist.bin}"/>
+        <copy file="${build.lib}/phoenix-engine.jar" todir="${bin.dist.bin}/lib"/>
 
         <copy file="${logkit.jar}" todir="${bin.dist.lib}"/>
         <copy file="${framework.jar}" todir="${bin.dist.lib}"/>
