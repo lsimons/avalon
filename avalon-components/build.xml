@@ -78,6 +78,8 @@
     <pathelement location="${phoenix-client.jar}"/>
     <fileset dir="${lib.dir}">
       <include name="*.jar" />
+      <exclude name="phoenix-client.jar"/>
+      <exclude name="avalonapi.jar"/>
     </fileset>
     <pathelement path="${build.classes}" />
   </path>
@@ -393,22 +395,23 @@
 
   </target>
 
-  <target name="install" depends="jars,install-check" if="install.dir">
+  <target name="install" depends="jars,install-check-cjan,install-check-phoenix">
+    <mkdir dir="${cjan.lib}" />
+    <copy file="${build.lib}/cornerstone.bar" todir="${cjan.lib}"/>
 
-    <property name="install.apps" value="${install.dir}/apps"/>
-    <delete file="${install.apps}/avalon-demo.sar"/>
-    <delete dir="${install.apps}/avalon-demo"/>
-    <copy file="${build.lib}/avalon-demo.sar" todir="${install.apps}"/>
+    <property name="phoenix.apps" value="${phoenix.home}/apps"/>
+    <mkdir dir="${phoenix.apps}" />
 
+    <delete dir="${phoenix.apps}/avalon-demo"/>
+    <copy file="${build.lib}/avalon-demo.sar" todir="${phoenix.apps}"/>
   </target>
 
-  <target name="install-check" unless="install.dir">
+  <target name="install-check-cjan" unless="cjan.lib">
+    <fail message="cjan.lib not specified." />
+  </target>
 
-    <property name="install.dir" value="../jakarta-avalon-phoenix/dist"/>
-
-    <echo message="install.dir not specified." />
-    <echo message="Guessing install.dir=${install.dir}" />
-
+  <target name="install-check-phoenix" unless="phoenix.home">
+    <fail message="phoenix.home not specified." />
   </target>
 
   <!--
