@@ -419,7 +419,7 @@
     <copy todir="${dist.base}/phoenix-apps" flatten="true">
       <fileset dir="apps">
         <include name="*/dist/*.sar"/>
-        <include name="demo/build/*.sar"/>
+        <exclude name="ftpserver/dist/ftp-server.sar"/>
       </fileset>
     </copy>    
   </target>
@@ -473,10 +473,6 @@
     <delete file="${dist.base}/${dist.name}-src.tar"/>
     <delete dir="${dist.name}" />
 
-    <antcall target="distributions-apps" inheritall="false">
-      <param name="dist.dir" value="${dist.name}" />
-    </antcall>
-
     <mkdir dir="${dist.base}/phoenix-apps"/>
 
     <ant antfile="build.xml" dir="apps/db" target="check"
@@ -498,11 +494,9 @@
     <ant antfile="build.xml" dir="apps/xcommander" target="dist"
          inheritall="false"/>
 
-    <copy todir="${dist.base}/phoenix-apps" flatten="true">
-      <fileset dir="apps">
-        <include name="*/dist/*.sar"/>
-      </fileset>
-    </copy>        
+    <antcall target="distributions-apps" inheritall="false">
+      <param name="dist.dir" value="${dist.name}" />
+    </antcall>       
 
   </target>
 
