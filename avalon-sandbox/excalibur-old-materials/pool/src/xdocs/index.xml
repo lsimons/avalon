@@ -2,8 +2,7 @@
 
 <document>
     <header>
-        <title>Excalibur Pool</title>
-        <subtitle>Pool Utilities</subtitle>
+        <title>Excalibur - Pool Utilities</title>
         <authors>
             <person name="Peter Donald" email="peter@apache.org"/>
             <person name="Leif Mortenson" email="leif@tanukisoftware.com"/>
@@ -19,7 +18,7 @@
     <footer>
         <legal>
           Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-          $Revision: 1.1 $ $Date: 2002/04/04 05:09:05 $
+          $Revision: 1.2 $ $Date: 2002/04/04 20:19:04 $
         </legal>
     </footer>
 </document>
