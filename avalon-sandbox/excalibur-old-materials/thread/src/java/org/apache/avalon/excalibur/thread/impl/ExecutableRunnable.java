@@ -10,7 +10,8 @@ package org.apache.avalon.excalibur.thread.impl;
 import org.apache.avalon.framework.activity.Executable;
 
 /**
- * Class to adapt a <code>Runnable</code> object in an <code>Executable</code> object.
+ * Class to adapt a {@link Runnable} object in
+ * an {@link Executable} object.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  */
@@ -27,17 +28,15 @@ final class ExecutableRunnable
      */
     protected ExecutableRunnable( final Runnable runnable )
     {
-        m_runnable = runnable;
-
-        ///Verify runnable is not null
         if( null == runnable )
         {
-            throw new NullPointerException( "runnable property is null" );
+            throw new NullPointerException( "runnable" );
         }
+        m_runnable = runnable;
     }
 
     /**
-     * Execute the underlying <code>Runnable</code> object.
+     * Execute the underlying {@link Runnable} object.
      *
      * @throws Exception if an error occurs
      */
