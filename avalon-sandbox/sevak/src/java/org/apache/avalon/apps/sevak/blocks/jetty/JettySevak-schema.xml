@@ -17,5 +17,8 @@
         <optional>
             <element name="maxthreads"><data type="integer"/></element>
         </optional>
+        <optional>
+            <element name="extract-war"><data type="boolean"/></element>
+        </optional>
     </interleave>
 </element>
