@@ -92,9 +92,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * resources are defined by a configuration.  Secondly, a lot of 
  * method documentation is needed.
  *
- * @avalon.meta.version 1.0
- * @avalon.meta.name jmx
- * @avalon.meta.lifestyle singleton
+ * @avalon.component name="jmx" version="1.0" lifestyle="singleton"
  * @avalon.meta.service type="javax.management.MBeanServer:1.0"
  */
 public class DefaultJMXServer extends AbstractLogEnabled implements Initializable, MBeanServer 

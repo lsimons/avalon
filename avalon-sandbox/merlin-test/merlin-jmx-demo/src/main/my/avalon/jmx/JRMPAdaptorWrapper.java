@@ -22,7 +22,7 @@ import javax.naming.Context;
 /**
  * Wrapper of the mx4j RMIAdaptor to use it in the Avalon Framework.
  *
- * @avalon.type version="1.0" name="jmx-rmi" lifestyle="singleton"
+ * @avalon.component version="1.0" name="jmx-rmi" lifestyle="singleton"
  */
 public class JRMPAdaptorWrapper extends AbstractLogEnabled implements Serviceable, Configurable, Startable 
 {
