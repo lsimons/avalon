@@ -62,6 +62,7 @@ import org.apache.log.LogTarget;
  * Abstract implementation of FilterTarget.
  * A concrete implementation has to implement filter method.
  *
+ * @author <a href="mailto:avalon-dev@jakarta.apache.org">Avalon Development Team</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public abstract class AbstractFilterTarget
@@ -106,7 +107,9 @@ public abstract class AbstractFilterTarget
     public void processEvent( final LogEvent event )
     {
         if( null == m_targets || filter( event ) )
+        {
             return;
+        }
         else
         {
             for( int i = 0; i < m_targets.length; i++ )
