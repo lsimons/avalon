@@ -101,10 +101,9 @@ public class DefaultSarDeployer
         final Configuration[] listenerConfig = configuration.getChildren( "block-listener" );
         final BlockListenerMetaData[] listeners = assembleBlockListeners( listenerConfig );
 
-        checkNamesUnique( blocks, listeners );
-
         final SarMetaData metaData = 
-            new SarMetaData( installation.getDirectory(),
+            new SarMetaData( name,
+                             installation.getDirectory(),
                              installation.getClassPath(),
                              blocks,
                              listeners );
@@ -121,55 +120,6 @@ public class DefaultSarDeployer
 
         //Finally add application to kernel
         addEntry( name, entry );
-    }
-
-    private void checkNamesUnique( final BlockMetaData[] blocks, 
-                                   final BlockListenerMetaData[] listeners )
-        throws DeploymentException
-    {
-        for( int i = 0; i < blocks.length; i++ )
-        {
-            final String name = blocks[ i ].getName();
-            checkNameUnique( name, blocks, listeners, i, -1 );
-        }
-
-        for( int i = 0; i < listeners.length; i++ )
-        {
-            final String name = listeners[ i ].getName();
-            checkNameUnique( name, blocks, listeners, -1, i );
-        }
-    }
-
-    private void checkNameUnique( final String name, 
-                                  final BlockMetaData[] blocks, 
-                                  final BlockListenerMetaData[] listeners,
-                                  final int blockIndex,
-                                  final int listenerIndex )
-        throws DeploymentException
-    {
-        //Verify no blocks have the same name
-        for( int i = 0; i < blocks.length; i++ )
-        {
-            final String other = blocks[ i ].getName();
-            if( blockIndex != i && name.equals( other ) )
-            {
-                final String message = 
-                    REZ.getString( "deploy.error.name.duplicate", name );
-                throw new DeploymentException( message );
-            }
-        }
-
-        //Verify no blocklisteners have the same name
-        for( int i = 0; i < listeners.length; i++ )
-        {
-            final String other = listeners[ i ].getName();
-            if( listenerIndex != i && name.equals( other ) )
-            {
-                final String message = 
-                    REZ.getString( "deploy.error.name.duplicate", name );
-                throw new DeploymentException( message );
-            }
-        }
     }
 
     /**
@@ -267,7 +217,7 @@ public class DefaultSarDeployer
     private BlockListenerMetaData[] assembleBlockListeners( final Configuration[] listeners )
         throws DeploymentException
     {
-        final ArrayList listenerEntrys = new ArrayList();
+        final ArrayList listenersMetaData = new ArrayList();
         for( int i = 0; i < listeners.length; i++ )
         {
             final Configuration listener = listeners[ i ];
@@ -278,7 +228,7 @@ public class DefaultSarDeployer
                 final String className = listener.getAttribute( "class" );
 
                 final BlockListenerMetaData entry = new BlockListenerMetaData( name, className );
-                listenerEntrys.add( entry );
+                listenersMetaData.add( entry );
 
                 final String message = REZ.getString( "deploy.notice.listener.add", name );
                 getLogger().debug( message );
@@ -290,7 +240,7 @@ public class DefaultSarDeployer
             }
         }
 
-        return (BlockListenerMetaData[])listenerEntrys.toArray( new BlockListenerMetaData[ 0 ] );
+        return (BlockListenerMetaData[])listenersMetaData.toArray( new BlockListenerMetaData[ 0 ] );
     }
 
     /**
@@ -303,17 +253,17 @@ public class DefaultSarDeployer
     private DependencyMetaData[] buildDependencyMetaDatas( final Configuration[] provides )
         throws ConfigurationException
     {
-        final ArrayList roleList = new ArrayList();
+        final ArrayList dependencies = new ArrayList();
         for( int j = 0; j < provides.length; j++ )
         {
             final Configuration provide = provides[ j ];
             final String requiredName = provide.getAttribute( "name" );
             final String role = provide.getAttribute( "role" );
 
-            roleList.add( new DependencyMetaData( requiredName, role ) );
+            dependencies.add( new DependencyMetaData( requiredName, role ) );
         }
 
-        return (DependencyMetaData[])roleList.toArray( new DependencyMetaData[ 0 ] );
+        return (DependencyMetaData[])dependencies.toArray( new DependencyMetaData[ 0 ] );
     }
 
     /**
@@ -334,11 +284,9 @@ public class DefaultSarDeployer
             final Configuration configuration = configurations[ i ];
             final String name = configuration.getName();
             
-            try { getBlock( name, saEntry.getMetaData().getBlocks() ); }
-            catch( final Exception e )
+            if( null == getBlock( name, saEntry.getMetaData().getBlocks() ) )
             {
-                try { getBlockListener( name, saEntry.getMetaData().getListeners() ); }
-                catch( final Exception e2 )
+                if( null == getBlockListener( name, saEntry.getMetaData().getListeners() ) )
                 {
                     final String message = REZ.getString( "deploy.error.extra.config", name );
                     throw new DeploymentException( message );
@@ -361,11 +309,9 @@ public class DefaultSarDeployer
      *
      * @param name the block entrys name
      * @param blockEntrys the set of BlockEntry objects to search
-     * @return the BlockEntry
-     * @exception DeploymentException if BlockEntry not found
+     * @return the BlockEntry or null if not found
      */
     private BlockMetaData getBlock( final String name, final BlockMetaData[] blocks )
-        throws DeploymentException
     {
         for( int i = 0; i < blocks.length; i++ )
         {
@@ -376,8 +322,7 @@ public class DefaultSarDeployer
             }
         }
 
-        final String message = REZ.getString( "deploy.error.block.missing", name );
-        throw new DeploymentException( message );
+        return null;
     }
 
     /**
@@ -385,12 +330,10 @@ public class DefaultSarDeployer
      *
      * @param name the block entrys name
      * @param blockEntrys the set of BlockListenerEntry objects to search
-     * @return the BlockListenerEntry
-     * @exception DeploymentException if BlockListenerEntry not found
+     * @return the BlockListenerEntry or null if not found
      */
     private BlockListenerMetaData getBlockListener( final String name,
                                                     final BlockListenerMetaData[] listeners )
-        throws DeploymentException
     {
         for( int i = 0; i < listeners.length; i++ )
         {
@@ -400,7 +343,6 @@ public class DefaultSarDeployer
             }
         }
 
-        final String message = REZ.getString( "deploy.error.listener.missing", name );
-        throw new DeploymentException( message );
+        return null;
     }
 }
