@@ -259,7 +259,7 @@ public class Logger
     }
 
     /**
-     * Make this logger additive. ie Send all log events to parent
+     * Make this logger additive. I.e. Send all log events to parent
      * loggers LogTargets regardless of whether or not the
      * LogTargets have been overidden.
      *
