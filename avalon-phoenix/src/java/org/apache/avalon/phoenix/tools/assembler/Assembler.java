@@ -30,7 +30,7 @@ import org.apache.avalon.phoenix.tools.infobuilder.BlockInfoBuilder;
  * and is in the format specified for <code>assembly.xml</code> files.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.11 $ $Date: 2002/05/10 02:43:04 $
+ * @version $Revision: 1.12 $ $Date: 2002/05/10 13:26:00 $
  */
 public class Assembler
     extends AbstractLogEnabled
@@ -59,7 +59,8 @@ public class Assembler
      * @param name the name of Sar
      * @param assembly the assembly configuration object
      * @param directory the directory Sar installed to
-     * @param classPath the URL array to represent Sar ClassPath
+     * @param classLoader the ClassLoader from which resources
+     *        are loaded (such as meta-data).
      * @return the new SarMetaData
      * @throws AssemblyException if an error occurs
      */
@@ -110,7 +111,7 @@ public class Assembler
      *
      * @param blocks the list of Configuration objects for blocks
      * @return the BlockMetaData array
-     * @throws Exception if an error occurs
+     * @throws AssemblyException if an error occurs
      */
     private BlockMetaData[] buildBlocks( final Configuration[] blocks,
                                          final ClassLoader classLoader )
@@ -165,9 +166,8 @@ public class Assembler
      *
      * @param name the name of Block
      * @param classname the name of Blocks class
-     * @param cache the place to cache BlockInfo objects
      * @return the BlockInfo for specified block
-     * @throws VerifyException if an error occurs
+     * @throws AssemblyException if an error occurs
      */
     private BlockInfo getBlockInfo( final String name,
                                     final String classname,
