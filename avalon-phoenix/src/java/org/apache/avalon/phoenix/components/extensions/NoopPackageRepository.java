@@ -9,7 +9,7 @@ package org.apache.avalon.phoenix.components.extensions;
 
 import org.apache.avalon.excalibur.extension.Extension;
 import org.apache.avalon.excalibur.extension.OptionalPackage;
-import org.apache.avalon.phoenix.interfaces.PackageRepository;
+import org.apache.avalon.excalibur.extension.PackageRepository;
 
 /**
  * A Noop PackageRepository that can't provide any extensions.
@@ -17,7 +17,7 @@ import org.apache.avalon.phoenix.interfaces.PackageRepository;
  * require apps to be be self-contained.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2002/03/16 00:11:55 $
+ * @version $Revision: 1.5 $ $Date: 2002/05/10 11:07:58 $
  */
 public class NoopPackageRepository
     implements PackageRepository
@@ -28,7 +28,6 @@ public class NoopPackageRepository
      *
      * @param extension Description of the extension that needs to be provided by
      *                  optional packages
-     * @see #getOptionalPackage()
      * @see OptionalPackage
      * @see Extension
      */
