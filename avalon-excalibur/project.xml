@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!--
+    Issue the command 'maven excalibur:info' for more information
+    about this file.
+-->
+
 <project>
     <extend>./project-common.xml</extend>
 
