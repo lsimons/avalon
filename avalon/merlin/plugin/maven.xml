@@ -24,6 +24,10 @@ avalon.artifact.version = ${merlin.implementation.version}
 # EOF
 #
 </ant:echo>
+
+    <ant:copy file="${maven.repo.local}/${pom.groupId}/properties/merlin.properties" 
+       toDir="${maven.build.dir}/classes" verbose="yes"/>
+
   </postGoal>
 
 
