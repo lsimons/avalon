@@ -1,0 +1,14 @@
+# Dependencies
+#
+# artifact-id version groupid repository gumpid gumpopts
+#
+avalon-framework-api 4.1.5 avalon-framework - - runtime,inherit=runtime
+avalon-framework-impl 4.1.5 avalon-framework - - runtime,inherit=runtime
+excalibur-thread-api 2.0 excalibur-thread - - runtime,inherit=runtime
+excalibur-thread-impl 2.0 excalibur-thread - - runtime,inherit=runtime
+excalibur-pool-api 2.0 excalibur-pool - - runtime,inherit=runtime
+excalibur-pool-impl 2.0 excalibur-pool - - runtime,inherit=runtime
+excalibur-pool-instrumented 2.0 excalibur-pool - - runtime,inherit=runtime
+commons-collections 2.1 - - - runtime,inherit=runtime
+concurrent 1.3.1 - - - runtime,inherit=runtime
+excalibur-instrument 1.2 - - - runtime,inherit=runtime

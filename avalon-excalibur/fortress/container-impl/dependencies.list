@@ -1,0 +1,24 @@
+# Dependencies
+#
+# artifact-id version groupid repository gumpid gumpopts
+#
+avalon-framework 4.1.5 - - - runtime,inherit=runtime
+excalibur-fortress-container-api 1.2 excalibur-fortress - - runtime,inherit=runtime
+excalibur-fortress-meta 1.2 excalibur-fortress - - runtime,inherit=runtime
+avalon-logkit 2.0 - - - runtime,inherit=runtime
+commons-collections 2.1 - - - runtime,inherit=runtime
+commons-beanutils 1.6.1 - - - runtime,inherit=runtime
+concurrent 1.3.1 - - - runtime,inherit=runtime
+excalibur-instrument 1.2 - - - runtime,inherit=runtime
+excalibur-instrument-spi 1.2 excalibur-instrument - - runtime,inherit=runtime
+excalibur-instrument-impl 1.2 excalibur-instrument - - runtime,inherit=runtime
+excalibur-event-api 2.0 excalibur-event - - runtime,inherit=runtime
+excalibur-event-impl 2.0 excalibur-event - - runtime,inherit=runtime
+bcel 5.1 - - - runtime,inherit=runtime
+excalibur-logger 1.2 - - - runtime,inherit=runtime
+excalibur-sourceresolve 2.0 - - - runtime,inherit=runtime
+excalibur-lifecycle-api 1.1 excalibur-lifecycle - - runtime,inherit=runtime
+excalibur-lifecycle-impl 1.1 excalibur-lifecycle - - runtime,inherit=runtime
+excalibur-i18n 1.2.0-dev - - - runtime,inherit=runtime
+excalibur-pool-api 2.0 excalibur-pool - - runtime,inherit=runtime
+excalibur-pool-impl 2.0 excalibur-pool - - runtime,inherit=runtime

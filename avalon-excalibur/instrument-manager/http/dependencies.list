@@ -1,0 +1,10 @@
+# Dependencies
+#
+# artifact-id version groupid repository gumpid gumpopts
+#
+avalon-framework-api 4.1.5 avalon-framework - - runtime,inherit=runtime
+avalon-framework-impl 4.1.5 avalon-framework - - runtime,inherit=runtime
+excalibur-instrument 1.2 - - - runtime,inherit=runtime
+excalibur-instrument-spi 1.2 excalibur-instrument - - runtime,inherit=runtime
+excalibur-instrument-impl 1.2 excalibur-instrument - - runtime,inherit=runtime
+xml-apis 2.0.2 - - - runtime,inherit=runtime

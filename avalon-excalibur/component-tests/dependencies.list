@@ -1,0 +1,21 @@
+# Dependencies
+#
+# artifact-id version groupid repository gumpid gumpopts
+#
+avalon-logkit 2.0 - - - runtime,inherit=runtime
+avalon-framework-api 4.1.5 avalon-framework - - runtime,inherit=runtime
+avalon-framework-impl 4.1.5 avalon-framework - - runtime,inherit=runtime
+excalibur-component 1.3 - - - runtime,inherit=runtime
+excalibur-testcase 1.3 excalibur-component - - runtime,inherit=runtime
+excalibur-logger 1.2 - - - runtime,inherit=runtime
+excalibur-instrument 1.2 - - - runtime,inherit=runtime
+excalibur-instrument-spi 1.2 excalibur-instrument - - runtime,inherit=runtime
+excalibur-instrument-impl 1.2 excalibur-instrument - - runtime,inherit=runtime
+excalibur-pool-api 2.0 excalibur-pool - - runtime,inherit=runtime
+excalibur-pool-impl 2.0 excalibur-pool - - runtime,inherit=runtime
+excalibur-pool-instrumented 2.0 excalibur-pool - - runtime,inherit=runtime
+excalibur-i18n 1.2.0-dev - - - runtime,inherit=runtime
+commons-collections 2.1 - - - runtime,inherit=runtime
+concurrent 1.3.1 - - - runtime,inherit=runtime
+servletapi 2.2 - - - runtime,inherit=runtime
+junit 3.8.1 - - - runtime,inherit=runtime
