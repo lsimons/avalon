@@ -274,6 +274,13 @@ public class DefaultDeployer
             throw new DeploymentException( message );
         }
 
+        /*
+         * Clear all the reosurces out of ResourceManager cache
+         * so that reloaded applications will have their i18n bundles
+         * reloaded.
+         */
+        ResourceManager.clearResourceCache();
+
         Installation installation = null;
         boolean success = false;
         try
