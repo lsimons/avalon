@@ -64,6 +64,7 @@ Legal:
   -->
   <property name="src.dir" value="src"/>
   <property name="java.dir" value="${src.dir}/java"/>
+  <property name="test.dir" value="${src.dir}/test"/>
   <property name="proposal.dir" value="proposal/4.0/src/java"/>
   <property name="lib.dir" value="lib"/>
   <property name="tools.dir" value="tools"/>
@@ -181,6 +182,7 @@ Legal:
            optimize="${optimize}"
            deprecation="${deprecation}">
       <classpath refid="project.class.path" />
+      <src path="${test.dir}"/>
       <exclude name="org/apache/avalon/util/datasource/J2eeDataSource.java"
                unless="j2ee.present"/>
     </javac>
