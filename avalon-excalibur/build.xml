@@ -163,6 +163,7 @@
         <ant dir="datasource" target="dist-jar"/>
         <ant dir="util" target="dist-jar"/>
         <ant dir="store" target="dist-jar"/>
+        <ant dir="xmlutil" target="dist-jar"/>
         <ant dir="xmlbundle" target="dist-jar"/>
         <ant dir="cli" target="dist-jar"/>
         <ant dir="naming" target="dist-jar"/>
