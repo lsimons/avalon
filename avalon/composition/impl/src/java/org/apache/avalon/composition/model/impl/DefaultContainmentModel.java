@@ -105,7 +105,7 @@ import org.apache.avalon.meta.info.Type;
  * as a part of a containment deployment model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.9 $ $Date: 2003/12/05 00:40:08 $
+ * @version $Revision: 1.10 $ $Date: 2003/12/05 01:27:12 $
  */
 public class DefaultContainmentModel extends DefaultModel 
   implements ContainmentModel
@@ -1048,7 +1048,7 @@ public class DefaultContainmentModel extends DefaultModel
 
    /**
     * Apply a set of override targets resolvable from a supplied url.
-    * @param url a url resolvable to a TargetDirective[]
+    * @param config a url resolvable to a TargetDirective[]
     * @exception ModelException if an error occurs
     */
     public void applyTargets( URL config )

@@ -65,7 +65,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * context.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.6 $ $Date: 2003/12/05 00:40:08 $
+ * @version $Revision: 1.7 $ $Date: 2003/12/05 01:27:12 $
  */
 public interface ContainmentModel extends Model
 {
@@ -175,7 +175,7 @@ public interface ContainmentModel extends Model
     * @param url a url resolvable to a TargetDirective[]
     * @exception ModelException if an error occurs
     */
-    void applyTargets( URL config )
+    void applyTargets( URL url )
       throws ModelException;
 
    /**

@@ -64,33 +64,32 @@ Welcome to the Avalon Utilities Home Page.
       <p>
 Within Avalon there are a number of emerging container facilities and tools.
 The facilties provide the famework for the delivery of open and adaptive 
-solutions to container construction and component maangement.  In the 
+solutions to container construction and component mangement.  In the 
 development of these facilities, a number of common low-level utilities 
 have evolved and are collected here.  Typically these utilities are either
 a single class, or a very small number of classes dealing with a specific
-concern.  The following table provides a brief overview of the current set 
-of utilities.
+concern.  The following table provides a brief overview of the current set.
       </p>
 
       <subsection name="Overview"> 
         <table>      
           <tr><th>Utility</th><th>Description</th></tr>
           <tr>
-            <td>Defaults</td>
+            <td><a href="defaults/index.html">Defaults</a></td>
             <td>Collection and consilidation of properties.</td>
           </tr>
           <tr>
-            <td>Environment</td>
+            <td><a href="env/index.html">Environment</a></td>
             <td>A static class that provides access to environment
                 variables across different operating systems.</td>
           </tr>
           <tr>
-            <td>Exception</td>
+            <td><a href="exception/index.html">Exception</a></td>
             <td>A static class that provides support for report
                 generation from cascading exceptions.</td>
           </tr>
           <tr>
-            <td>Factory</td>
+            <td><a href="factory/index.html">Factory</a></td>
             <td>A generic factory interface and a default 
                 map implementation.</td>
           </tr>
