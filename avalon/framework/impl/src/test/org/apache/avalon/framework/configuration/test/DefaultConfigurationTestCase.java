@@ -101,6 +101,14 @@ public final class DefaultConfigurationTestCase extends TestCase
         assertEquals( orgValue, m_configuration.getValueAsInteger() );
     }
 
+    public void testGetValueAsBoolen()
+        throws Exception
+    {
+        final boolean b = true;
+        m_configuration.setValue("TrUe");
+        assertEquals( b, m_configuration.getValueAsBoolean() );
+    }
+
     public void testGetAttribute()
         throws Exception
     {
