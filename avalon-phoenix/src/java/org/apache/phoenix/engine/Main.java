@@ -32,8 +32,11 @@ public class Main
     private static final String    DEFAULT_LOG_FILE     = PHOENIX_HOME + "/logs/phoenix.log";
     private static final String    DEFAULT_APPS_PATH    = PHOENIX_HOME + "/apps";
 
-    private static final String    DEFAULT_KERNEL_CLASS =
+    private static final String    DEFAULT_KERNEL       =
         System.getProperty( "phoenix.kernel", "org.apache.phoenix.engine.PhoenixKernel" );
+
+    private static final String    DEFAULT_MANAGER      =
+        System.getProperty( "phoenix.manager", "org.apache.phoenix.engine.PhoenixManager" );
 
     private static final int       DEBUG_LOG_OPT        = 'd';
     private static final int       HELP_OPT             = 'h';
@@ -188,9 +191,13 @@ public class Main
         throws Exception
     {
         final Parameters parameters = new Parameters();
-        parameters.setParameter( "kernel-class", "org.apache.phoenix.engine.PhoenixKernel" );
-        parameters.setParameter( "deployer-class", "org.apache.phoenix.engine.DefaultSarDeployer" );
+        parameters.setParameter( "kernel-class", DEFAULT_KERNEL );
         parameters.setParameter( "kernel-configuration-source", null );
+
+        parameters.setParameter( "manager-class", DEFAULT_MANAGER );
+        parameters.setParameter( "manager-configuration-source", null );
+
+        parameters.setParameter( "deployer-class", "org.apache.phoenix.engine.DefaultSarDeployer" );
         parameters.setParameter( "log-destination", m_logFile );
         parameters.setParameter( "applications-directory", m_appsPath );
 

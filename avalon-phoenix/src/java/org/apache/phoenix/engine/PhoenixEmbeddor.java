@@ -14,6 +14,7 @@ import org.apache.avalon.Disposable;
 import org.apache.avalon.Initializable;
 import org.apache.avalon.atlantis.Embeddor;
 import org.apache.avalon.atlantis.Kernel;
+import org.apache.avalon.atlantis.SystemManager;
 import org.apache.avalon.camelot.CamelotUtil;
 import org.apache.avalon.camelot.Container;
 import org.apache.avalon.camelot.Deployer;
@@ -48,6 +49,7 @@ public class PhoenixEmbeddor
     private Parameters     m_parameters;
     private Kernel         m_kernel;
     private Deployer       m_deployer;
+    private SystemManager  m_systemManager;
 
     private boolean        m_shutdown;
 
@@ -142,12 +144,19 @@ public class PhoenixEmbeddor
     public void dispose()
         throws Exception
     {
+        if( null != m_systemManager )
+        {
+            m_systemManager.stop();
+            m_systemManager.dispose();
+        }
+
         if( null != m_kernel )
         {
             m_kernel.stop();
             m_kernel.dispose();
         }
 
+        m_systemManager = null;
         m_kernel = null;
         m_deployer = null;
         System.gc(); // make sure resources are released
@@ -191,6 +200,17 @@ public class PhoenixEmbeddor
 
         try
         {
+            m_systemManager = createSystemManager();
+        }
+        catch( final Exception e )
+        {
+            final String message = "Unable to create SystemManager!";
+            getLogger().fatalError( message, e );
+            throw new CascadingException( message, e );
+        }
+
+        try
+        {
             m_kernel = createKernel();
         }
         catch( final Exception e )
@@ -215,6 +235,16 @@ public class PhoenixEmbeddor
         catch( final Exception e )
         {
             getLogger().fatalError( "Unable to setup deployer!", e );
+            throw e;
+        }
+
+        try
+        {
+            setupSystemManager();
+        }
+        catch( final Exception e )
+        {
+            getLogger().fatalError( "Unable to setup SystemManager!", e );
             throw e;
         }
 
@@ -265,8 +295,10 @@ public class PhoenixEmbeddor
     }
 
     /**
-     * Creates a new deployer from the Parameters's deployer-class.
-     * TODO: fill the Parameters for Deployer properly.
+     * Creates a new deployer from the Parameters's deployer-class variable.
+     *
+     * @return the new Deployer
+     * @exception ConfigurationException if an error occurs
      */
     private Deployer createDeployer()
         throws ConfigurationException
@@ -290,9 +322,6 @@ public class PhoenixEmbeddor
      * passed a Context. If it is a Composable it is given a
      * ComponentManager which references the Kernel, cast to a
      * Container.
-     * The deployer is now used to load the applications from the
-     * default-facilities-location specified in Context.
-     * TODO: load facilities from .fars as well.
      */
     private void setupDeployer()
         throws Exception
@@ -332,8 +361,65 @@ public class PhoenixEmbeddor
     }
 
     /**
-     * Creates a new deployer from the Parameters's kernel-class.
-     * TODO: fill the Parameters for kernel properly.
+     * Creates a new SystemManager from the Parameters's manager-class parameter.
+     *
+     * @return the created SystemManager
+     * @exception ConfigurationException if an error occurs
+     */
+    private SystemManager createSystemManager()
+        throws ConfigurationException
+    {
+        final String className = m_parameters.getParameter( "manager-class", null );
+        try
+        {
+            Thread.currentThread().setContextClassLoader( getClass().getClassLoader() );
+            return (SystemManager)Class.forName( className ).newInstance();
+        }
+        catch( final Exception e )
+        {
+            throw new ConfigurationException( "Failed to create SystemManager of class " +
+                                              className, e );
+        }
+    }
+
+    /**
+     * Sets up the SystemManager. We determine whether it supports Loggable
+     * and Configurable and supply information based on that.
+     *
+     * @exception Exception if an error occurs
+     */
+    private void setupSystemManager()
+        throws Exception
+    {
+        setupLogger( m_systemManager );
+
+        if( m_systemManager instanceof Configurable )
+        {
+            final DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
+            final String kernelConfigLocation =
+                m_parameters.getParameter( "manager-configuration-source", null );
+            final Configuration configuration = builder.build( kernelConfigLocation );
+
+            ((Configurable)m_systemManager).configure( configuration );
+        }
+
+        try
+        {
+            m_systemManager.init();
+        }
+        catch( final Exception e )
+        {
+            getLogger().fatalError( "There was a fatal error; " + 
+                                    "phoenix's SystemManager could not be started", e );
+            throw e;
+        }
+    }
+
+    /**
+     * Creates a new kernel from the Parameters's kernel-class parameter.
+     *
+     * @return the created Kernel
+     * @exception ConfigurationException if an error occurs
      */
     private Kernel createKernel()
         throws ConfigurationException
@@ -354,6 +440,8 @@ public class PhoenixEmbeddor
     /**
      * Sets up the Kernel. We determine whether it supports Loggable
      * and Configurable and supply information based on that.
+     *
+     * @exception Exception if an error occurs
      */
     private void setupKernel()
         throws Exception

@@ -8,15 +8,36 @@
 package org.apache.phoenix.engine;
 
 import org.apache.avalon.atlantis.SystemManager;
+import org.apache.avalon.logger.AbstractLoggable;
 
 /**
- * This facility is responsible for managing phoenix instance. 
+ * This component is responsible for managing phoenix instance.
  * This includes managing embeddor, deployer and kernel.
  *
  * @author <a href="mail@leosimons.com">Leo Simons</a>
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
-public interface PhoenixManager
-    extends SystemManager
+public class PhoenixManager
+    extends AbstractLoggable
+    implements SystemManager
 {
+    public void init()
+        throws Exception
+    {
+    }
+
+    public void start()
+        throws Exception
+    {
+    }
+
+    public void stop()
+        throws Exception
+    {
+    }
+
+    public void dispose()
+        throws Exception
+    {
+    }
 }
