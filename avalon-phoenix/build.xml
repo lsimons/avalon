@@ -31,6 +31,9 @@ Legal:
 
     <property file="project.properties"/>
 
+    <!-- platform -->
+    <property name="is.${os.name}" value="true"/>
+
     <property name="build.debug" value="on"/>
     <property name="build.optimize" value="off"/>
     <property name="build.deprecation" value="off"/>
@@ -85,13 +88,17 @@ Legal:
     <property name="announce2site" value="${phoenix.tools.dir}/announcement2site.xsl"/>
     <property name="status2changes" value="${phoenix.tools.dir}/status2changes.xsl"/>
 
+    <!-- Invoke 'ant get-wrapper' to get these -->
+    <property name="wrapper.version" value="3.0.0"/>
+    <property name="wrapper.jar" value="${repo.dir}/wrapper/bin/wrapper.jar"/>
+    
     <!-- Invoke 'ant get-mx4j' to get these -->
     <property name="mx4j.jar" value="${repo.dir}/mx4j/mx4j-1.1.1/lib/mx4j-jmx.jar"/>
     <property name="mx4j-tools.jar" value="${repo.dir}/mx4j/mx4j-1.1.1/lib/mx4j-tools.jar"/>
 
     <!-- Invoke 'ant get-beanshell' to get this -->
     <property name="beanshell.jar" value="${repo.dir}/beanshell/bsh-1.2b7.jar"/>
-
+    
     <path id="project.class.path">
         <pathelement location="${xerces.jar}"/>
         <pathelement location="${framework.jar}"/>
@@ -122,6 +129,209 @@ Legal:
         <path refid="project.class.path"/>
     </path>
 
+    <!-- =================================================================== -->
+    <!-- Resolve Platform properties                                         -->
+    <!-- =================================================================== -->
+    <target name="init-windows-nt" if="is.Windows NT">
+        <property name="is.Windows" value="true"/>
+        <property name="is.shell.bat" value="true"/>
+        <property name="wrapper.dist.name" value="wrapper_win32_${wrapper.version}"/>
+        <property name="dist.name.wrapper" value="${name}_win32_${version}"/>
+    </target>
+    <target name="init-windows-2000" if="is.Windows 2000">
+        <property name="is.Windows" value="true"/>
+        <property name="is.shell.bat" value="true"/>
+        <property name="wrapper.dist.name" value="wrapper_win32_${wrapper.version}"/>
+        <property name="dist.name.wrapper" value="${name}_win32_${version}"/>
+    </target>
+    <target name="init-windows-xp" if="is.Windows XP">
+        <property name="is.Windows" value="true"/>
+        <property name="is.shell.bat" value="true"/>
+        <property name="wrapper.dist.name" value="wrapper_win32_${wrapper.version}"/>
+        <property name="dist.name.wrapper" value="${name}_win32_${version}"/>
+    </target>
+    <target name="init-linux" if="is.Linux">
+        <property name="is.Unix" value="true"/>
+        <property name="is.shell.bash" value="true"/>
+        <property name="phoenix-wrapper.sh" value="${script.dir}/phoenix-wrapper.bash"/>
+        <property name="wrapper.dist.name" value="wrapper_linux_${wrapper.version}"/>
+        <property name="dist.name.wrapper" value="${name}_linux_${version}"/>
+    </target>
+    <target name="init-solaris" if="is.SunOS">
+        <property name="is.Unix" value="true"/>
+        <property name="is.shell.sh" value="true"/>
+        <property name="phoenix-wrapper.sh" value="${script.dir}/phoenix-wrapper.sh"/>
+        <property name="wrapper.dist.name" value="wrapper_solaris_${wrapper.version}"/>
+        <property name="dist.name.wrapper" value="${name}_solaris_${version}"/>
+    </target>
+    <target name="init-aix" if="is.AIX">
+        <property name="is.Unix" value="true"/>
+        <property name="is.shell.sh" value="true"/>
+        <property name="phoenix-wrapper.sh" value="${script.dir}/phoenix-wrapper.sh"/>
+        <property name="wrapper.dist.name" value="wrapper_aix_${wrapper.version}"/>
+        <property name="dist.name.wrapper" value="${name}_aix_${version}"/>
+    </target>
+    <target name="init-hpux" if="is.HP-UX">
+        <property name="is.Unix" value="true"/>
+        <property name="is.shell.sh" value="true"/>
+        <property name="phoenix-wrapper.sh" value="${script.dir}/phoenix-wrapper.sh"/>
+        <property name="wrapper.dist.name" value="wrapper_hpux_${wrapper.version}"/>
+        <property name="dist.name.wrapper" value="${name}_hpux_${version}"/>
+    </target>
+    
+    <!-- =================================================================== -->
+    <!-- Initialize build.                                                   -->
+    <!-- =================================================================== -->
+    <target name="init"
+        depends="init-windows-nt, init-windows-2000, init-windows-xp, init-linux, init-solaris, init-aix, init-hpux">
+        <echo message="OS='${os.name}'"/>
+        
+        <!-- Wrapper filters -->
+        <filter token="app.name" value="phoenix"/>
+        <filter token="app.long.name" value="Phoenix Application Server"/>
+
+    </target>
+    
+    <!-- =================================================================== -->
+    <!-- Wrapper Tasks.                                                      -->
+    <!-- =================================================================== -->
+    <target name="check-wrapper-init" depends="init">
+        <available property="wrapper.present" classname="org.tanukisoftware.wrapper.WrapperManager">
+            <classpath refid="project.class.path"/>
+        </available>
+        
+        <condition property="wrapper.present.Windows">
+            <and>
+                <isset property="wrapper.present"/>
+                <isset property="is.Windows"/>
+            </and>
+        </condition>
+        
+        <condition property="wrapper.present.Unix">
+            <and>
+                <isset property="wrapper.present"/>
+                <isset property="is.Unix"/>
+            </and>
+        </condition>
+    </target>
+
+    <target name="check-wrapper" depends="check-wrapper-init" unless="wrapper.present">
+        <echo>*****************************</echo>
+        <echo>* Please execute target     *</echo>
+        <echo>* 'get-wrapper' in the main *</echo>
+        <echo>* build.xml build file      *</echo>
+        <echo>* to download one and       *</echo>
+        <echo>* a half Mb of Wrapper      *</echo>
+        <echo>*****************************</echo>
+    </target>
+    
+    <!-- Get the files from the Wrapper project. -->
+    <target name="get-wrapper-test" depends="init" unless="wrapper.dist.name">
+        <echo>**********************************************************</echo>
+        <echo>* A prebuilt version of the Wrapper does not yet exist</echo>
+        <echo>* for the ${os.name} platform.  You will have to download</echo>
+        <echo>* the source from http://wrapper.tanukisoftware.org and</echo>
+        <echo>* try compiling it for ${os.name} platform.  The resulting</echo>
+        <echo>* distribution should then be placed into the</echo>
+        <echo>* ${repo.dir}/wrapper directory.</echo>
+        <echo>**********************************************************</echo>
+        <fail message="A prebuilt version of the Wrapper does not exist for the ${os.name} platform"/>
+    </target>
+    <target name="get-wrapper-windows" if="is.Windows">
+        <mkdir dir="${repo.dir}/wrapper"/>
+        <get src="http://telia.dl.sourceforge.net/sourceforge/wrapper/${wrapper.dist.name}.zip"
+            dest="${repo.dir}/wrapper/${wrapper.dist.name}.zip"
+            verbose="true"
+            usetimestamp="true"/>
+        <unzip src="${repo.dir}/wrapper/${wrapper.dist.name}.zip" dest="${repo.dir}/wrapper"/>
+        <copy file="${repo.dir}/wrapper/${wrapper.dist.name}/bin/Wrapper.exe" todir="${repo.dir}/wrapper/bin"/>
+        <copy file="${repo.dir}/wrapper/${wrapper.dist.name}/lib/Wrapper.dll" todir="${repo.dir}/wrapper/bin"/>
+        <copy file="${repo.dir}/wrapper/${wrapper.dist.name}/lib/wrapper.jar" todir="${repo.dir}/wrapper/bin"/>
+    </target>
+    <target name="get-wrapper-unix" if="is.Unix">
+        <mkdir dir="${repo.dir}/wrapper"/>
+        <get src="http://telia.dl.sourceforge.net/sourceforge/wrapper/${wrapper.dist.name}.zip"
+            dest="${repo.dir}/wrapper/${wrapper.dist.name}.zip"
+            verbose="true"
+            usetimestamp="true"/>
+        <gunzip src="${repo.dir}/wrapper/${wrapper.dist.name}.tar.gz" dest="${repo.dir}/wrapper"/>
+        <untar src="${repo.dir}/wrapper/${wrapper.dist.name}.tar" dest="${repo.dir}/wrapper"/>
+        <copy file="${repo.dir}/wrapper/${wrapper.dist.name}/bin/wrapper" todir="${repo.dir}/wrapper/bin"/>
+        <copy file="${repo.dir}/wrapper/${wrapper.dist.name}/bin/realpath" todir="${repo.dir}/wrapper/bin"/>
+        <copy file="${repo.dir}/wrapper/${wrapper.dist.name}/lib/libwrapper.so" todir="${repo.dir}/wrapper/bin"/>
+        <copy file="${repo.dir}/wrapper/${wrapper.dist.name}/lib/wrapper.jar" todir="${repo.dir}/wrapper/bin"/>
+    </target>
+    <target name="get-wrapper"
+        depends="get-wrapper-test, get-wrapper-windows, get-wrapper-unix"
+        description="Get the Wrapper distribution from SourceForge.">
+        <mkdir dir="${repo.dir}/wrapper"/>
+    </target>
+    
+    <target name="dist-lite-wrapper-windows" depends="dist-lite" if="wrapper.present.Windows">
+        <copy file="${repo.dir}/wrapper/bin/Wrapper.exe" todir="${bin.dist.bin}"/>
+        <copy file="${repo.dir}/wrapper/bin/Wrapper.dll" todir="${bin.dist.bin}"/>
+        
+        <copy file="${script.dir}/Phoenix.bat" todir="${bin.dist.bin}"/>
+        <copy file="${script.dir}/InstallPhoenix-NT.bat" todir="${bin.dist.bin}"/>
+        <copy file="${script.dir}/UninstallPhoenix-NT.bat" todir="${bin.dist.bin}"/>
+    </target>
+    <target name="dist-lite-wrapper-unix" depends="dist-lite" if="wrapper.present.Unix">
+        <copy file="${repo.dir}/wrapper/bin/wrapper" todir="${bin.dist.bin}"/>
+        <copy file="${repo.dir}/wrapper/bin/realpath" todir="${bin.dist.bin}"/>
+        <copy file="${repo.dir}/wrapper/bin/libwrapper.so" todir="${bin.dist.bin}"/>
+        
+        <copy file="${phoenix-wrapper.sh}" tofile="${bin.dist.bin}/phoenix-wrapper.sh"/>
+    </target>
+    <target name="dist-lite-wrapper" depends="dist-lite-wrapper-windows, dist-lite-wrapper-unix"
+        if="wrapper.present"
+        description="generates the Phoenix binary distribution without the javadocs and with wrapper">
+
+        <copy file="${wrapper.jar}" todir="${bin.dist.bin}"/>
+        <copy file="${conf.dir}/wrapper.conf" todir="${bin.dist.conf}"/>
+        <fixcrlf srcdir="${bin.dist.conf}" includes="wrapper.conf" eol="lf"/>
+        
+        <fixcrlf srcdir="${bin.dist.dir}" includes="**/*.bat" eol="crlf"/>
+        <fixcrlf srcdir="${bin.dist.dir}" includes="**/*.sh" eol="lf"/>
+        <chmod file="${bin.dist.bin}/*.sh" perm="u+x"/>
+        <chmod file="${bin.dist.bin}/*.bat" perm="u-x"/>
+    </target>
+    
+
+    <!-- =================================================================== -->
+    <!-- JMX Tasks.                                                          -->
+    <!-- =================================================================== -->
+    <target name="check-mx4j-init" depends="init">
+        <available property="mx4j.present" classname="mx4j.util.StandardMBeanProxy">
+            <classpath refid="project.class.path"/>
+        </available>
+    </target>
+
+    <target name="check-mx4j" depends="check-mx4j-init" unless="mx4j.present">
+        <echo>**************************</echo>
+        <echo>* Please execute target  *</echo>
+        <echo>* 'get-mx4j' in the main *</echo>
+        <echo>* build.xml build file   *</echo>
+        <echo>* to download one and    *</echo>
+        <echo>* a half Mb of MX4J      *</echo>
+        <echo>**************************</echo>
+        <fail message="MX4J needed. See above."/>
+    </target>
+    
+    <!-- Get the jars from the MX4J project. -->
+    <!-- For licensing reasons, we are unable to put these Jars in our CVS or source distributions. -->
+    <target name="get-mx4j" description="Get the MX4J distribution from SourceForge.">
+        <mkdir dir="${repo.dir}/mx4j"/>
+        <get src="http://telia.dl.sourceforge.net/sourceforge/mx4j/mx4j-1.1.1.tar.gz"
+            dest="${repo.dir}/mx4j/mx4j.tar.gz"
+            verbose="true"
+            usetimestamp="true"/>
+        <gunzip src="${repo.dir}/mx4j/mx4j.tar.gz" dest="${repo.dir}/mx4j"/>
+        <untar src="${repo.dir}/mx4j/mx4j.tar" dest="${repo.dir}/mx4j"/>
+    </target>
+    
+    
+    
+    
     <!-- Main target -->
     <target name="main" depends="dist-lite"
         description="generates the Phoenix distribution without the javadocs"/>
@@ -140,32 +350,11 @@ Legal:
     </target>
     <target name="help" depends="usage"/>
 
-    <!-- Check requirements of environment -->
-    <target name="check-mx4j">
-        <available property="mx4j.present" classname="mx4j.util.StandardMBeanProxy">
-            <classpath refid="project.class.path"/>
-        </available>
-        <antcall target="check-mx4j2"/>
-    </target>
-
-    <target name="check-mx4j2" unless="mx4j.present">
-        <echo>**************************</echo>
-        <echo>* Please execute target  *</echo>
-        <echo>* 'get-mx4j' in the main *</echo>
-        <echo>* target.xml build file   *</echo>
-        <echo>* to download one and    *</echo>
-        <echo>* a half Mb of MX4J      *</echo>
-        <echo>**************************</echo>
-        <fail message="MX4J needed. See above."/>
-    </target>
 
     <!-- Check requirements of environment -->
-    <target name="check-environment" depends="check-mx4j">
+    <target name="check-environment" depends="check-mx4j, check-wrapper">
         <available property="xerces.present" type="file" file="${xerces.jar}"/>
         <available property="servlet.present" classname="javax.servlet.Servlet">
-            <classpath refid="project.class.path"/>
-        </available>
-        <available property="wrapper.present" classname="org.tanukisoftware.wrapper.WrapperManager">
             <classpath refid="project.class.path"/>
         </available>
         <available property="beanshell.present" classname="bsh.util.JConsole">
@@ -173,17 +362,7 @@ Legal:
         </available>
     </target>
 
-    <!-- Get the jars from the MX4J project. -->
-    <!-- For licensing reasons, we are unable to put these Jars in our CVS or source distributions. -->
-    <target name="get-mx4j" description="Get the MX4J distribution from SourceForge.">
-        <mkdir dir="${repo.dir}/mx4j"/>
-        <get src="http://telia.dl.sourceforge.net/sourceforge/mx4j/mx4j-1.1.1.tar.gz"
-            dest="${repo.dir}/mx4j/mx4j.tar.gz"
-            verbose="true"
-            usetimestamp="true"/>
-        <gunzip src="${repo.dir}/mx4j/mx4j.tar.gz" dest="${repo.dir}/mx4j"/>
-        <untar src="${repo.dir}/mx4j/mx4j.tar" dest="${repo.dir}/mx4j"/>
-    </target>
+    
 
     <!-- Get the jars from the Beanshell project. -->
     <!-- For licensing reasons, we are unable to put these Jars in our CVS or source distributions. -->
@@ -553,21 +732,6 @@ Legal:
     </target>
 
     <!-- Create the lite build -->
-    <target name="dist-lite-wrapper" depends="dist-lite" if="wrapper.present"
-        description="generates the Phoenix binary distribution without the javadocs and with wrapper">
-
-        <!-- Wrapper filters -->
-        <filter token="app.name" value="phoenix"/>
-        <filter token="app.long.name" value="Phoenix Application Server"/>
-
-        <copy file="${wrapper.jar}" todir="${bin.dist.bin}"/>
-        <copy file="${wrapper.exe}" todir="${bin.dist.bin}"/>
-        <copy file="${wrapper.dll}" todir="${bin.dist.bin}"/>
-
-        <chmod file="${bin.dist.bin}/wrapper" perm="u+x"/>
-        <copy file="${conf.dir}/wrapper.conf" todir="${bin.dist.conf}"/>
-        <fixcrlf srcdir="${bin.dist.conf}" includes="wrapper.conf" eol="lf"/>
-    </target>
 
     <target name="install"
         depends="dist-lite-wrapper,install-check-phoenix"
@@ -711,9 +875,34 @@ Legal:
     </target>
 
     <!-- Completely build all dists -->
-    <target name="dist" depends="site-all, announcement" description="generates the Phoenix distribution">
-
+    <target name="dist-src" depends="site-all, announcement">
         <mkdir dir="${dist.base}"/>
+        <delete dir="${dist.name}"/>
+
+        <antcall target="src-dist">
+            <param name="src.dist.dir" value="${dist.name}"/>
+        </antcall>
+
+        <zip zipfile="${dist.base}/${dist.name}-src.zip"
+            basedir="${dist.name}/.."
+            includes="${dist.name}/**"/>
+
+        <tar longfile="gnu" tarfile="${dist.base}/${dist.name}-src.tar">
+            <tarfileset dir="${dist.name}/.." username="avalon" group="avalon">
+                <include name="${dist.name}/**"/>
+            </tarfileset>
+        </tar>
+
+        <gzip zipfile="${dist.base}/${dist.name}-src.tar.gz"
+            src="${dist.base}/${dist.name}-src.tar"/>
+
+        <delete file="${dist.base}/${dist.name}-src.tar"/>
+        <delete dir="${dist.name}"/>
+    </target>
+    
+    <target name="dist-bin" depends="dist-src">
+        <mkdir dir="${dist.base}"/>
+        <delete dir="${dist.name}"/>
 
         <antcall target="bin-dist">
             <param name="bin.dist.dir" value="${dist.name}"/>
@@ -753,28 +942,68 @@ Legal:
 
         <delete file="${dist.base}/${dist.name}-bin.tar"/>
 
-        <delete dir="${dist.name}"/>
-
-        <antcall target="src-dist">
-            <param name="src.dist.dir" value="${dist.name}"/>
-        </antcall>
-
-        <zip zipfile="${dist.base}/${dist.name}-src.zip"
-            basedir="${dist.name}/.."
-            includes="${dist.name}/**"/>
-
-        <tar longfile="gnu" tarfile="${dist.base}/${dist.name}-src.tar">
-            <tarfileset dir="${dist.name}/.." username="avalon" group="avalon">
-                <include name="${dist.name}/**"/>
+        <!-- Do not delete the temp dir yet as it is needed by the platform specific builds. -->
+    </target>
+    
+    <target name="dist-wrapper-windows" depends="dist-bin, check-wrapper" if="wrapper.present.Windows">
+        <copy todir="${dist.name.wrapper}">
+            <fileset dir="${dist.name}"/>
+        </copy>
+        
+        <copy file="${repo.dir}/wrapper/bin/Wrapper.exe" todir="${dist.name.wrapper}/bin"/>
+        <copy file="${repo.dir}/wrapper/bin/Wrapper.dll" todir="${dist.name.wrapper}/bin"/>
+        <copy file="${wrapper.jar}" todir="${dist.name.wrapper}/bin"/>
+        <copy file="${conf.dir}/wrapper.conf" todir="${dist.name.wrapper}/conf"/>
+        
+        <copy file="${script.dir}/Phoenix.bat" todir="${dist.name.wrapper}/bin"/>
+        <copy file="${script.dir}/InstallPhoenix-NT.bat" todir="${dist.name.wrapper}/bin"/>
+        <copy file="${script.dir}/UninstallPhoenix-NT.bat" todir="${dist.name.wrapper}/bin"/>
+        
+        <zip zipfile="${dist.base}/${dist.name.wrapper}-bin.zip">
+            <fileset dir="${dist.name.wrapper}/..">
+                <include name="${dist.name.wrapper}/**"/>
+                <exclude name="${dist.name.wrapper}/lib/bsh*.jar"/>
+            </fileset>
+        </zip>
+        
+        <delete dir="${dist.name.wrapper}"/>
+    </target>
+    <target name="dist-wrapper-unix" depends="dist-bin, check-wrapper" if="wrapper.present.Unix">
+        <copy todir="${dist.name.wrapper}">
+            <fileset dir="${dist.name}"/>
+        </copy>
+        
+        <copy file="${repo.dir}/wrapper/bin/wrapper" todir="${dist.name.wrapper}/bin"/>
+        <copy file="${repo.dir}/wrapper/bin/realpath" todir="${dist.name.wrapper}/bin"/>
+        <copy file="${repo.dir}/wrapper/bin/libwrapper.so" todir="${dist.name.wrapper}/bin"/>
+        <copy file="${wrapper.jar}" todir="${dist.name.wrapper}/bin"/>
+        <copy file="${conf.dir}/wrapper.conf" todir="${dist.name.wrapper}/conf"/>
+        
+        <copy file="${phoenix-wrapper.sh}" todir="${dist.name.wrapper}/bin/phoenix-wrapper.sh"/>
+        
+        <tar longfile="gnu" tarfile="${dist.base}/${dist.name.wrapper}-bin.tar">
+            <tarfileset dir="${dist.name.wrapper}/.." mode="755" username="avalon" group="avalon">
+                <include name="${dist.name.wrapper}/bin/*.sh"/>
+                <include name="${dist.name.wrapper}/bin/wrapper"/>
+                <include name="${dist.name.wrapper}/bin/realpath"/>
+            </tarfileset>
+            <tarfileset dir="${dist.name.wrapper}/.." username="avalon" group="avalon">
+                <include name="${dist.name.wrapper}/**"/>
+                <exclude name="${dist.name.wrapper}/bin/*.sh"/>
+                <exclude name="${dist.name.wrapper}/lib/bsh*.jar"/>
             </tarfileset>
         </tar>
 
-        <gzip zipfile="${dist.base}/${dist.name}-src.tar.gz"
-            src="${dist.base}/${dist.name}-src.tar"/>
+        <gzip zipfile="${dist.base}/${dist.name.wrapper}-bin.tar.gz"
+            src="${dist.base}/${dist.name.wrapper}-bin.tar"/>
 
-        <delete file="${dist.base}/${dist.name}-src.tar"/>
+        <delete file="${dist.base}/${dist.name.wrapper}-bin.tar"/>
+        <delete dir="${dist.name.wrapper}"/>
+    </target>
+    <target name="dist" depends="dist-wrapper-windows, dist-wrapper-unix"
+        description="generates the Phoenix distribution">
+        
         <delete dir="${dist.name}"/>
-
     </target>
 
     <!-- Makes the Phoneix Development Kit -->
