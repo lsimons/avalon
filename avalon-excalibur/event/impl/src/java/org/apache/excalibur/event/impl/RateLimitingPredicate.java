@@ -23,7 +23,7 @@ import org.apache.excalibur.event.Sink;
  * This enqueue predicate implements input rate policing.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class RateLimitingPredicate implements EnqueuePredicate
 {
@@ -190,7 +190,7 @@ public class RateLimitingPredicate implements EnqueuePredicate
      */
     public int getBucketSize()
     {
-        return (int) m_tokenCount;
+        return m_tokenCount;
     }
 
     /**

@@ -340,7 +340,7 @@ public final class TPSPThreadManager implements ThreadManager
             Iterator it = m_runners.iterator();
             while(it.hasNext())
             {
-                ((SourceRunner)it.next()).stop();;
+                ((SourceRunner)it.next()).stop();
             }
 
             m_initRunner.stop();

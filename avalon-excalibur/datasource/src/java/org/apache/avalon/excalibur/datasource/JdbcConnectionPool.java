@@ -22,7 +22,6 @@ import java.sql.Connection;
 import org.apache.avalon.excalibur.pool.DefaultPoolController;
 import org.apache.avalon.excalibur.pool.HardResourceLimitingPool;
 import org.apache.avalon.excalibur.pool.Poolable;
-import org.apache.avalon.excalibur.pool.Recyclable;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 
@@ -31,7 +30,7 @@ import org.apache.avalon.framework.activity.Initializable;
  * thread to manage the number of SQL Connections.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.4 $ $Date: 2004/02/28 11:47:14 $
+ * @version CVS $Revision: 1.5 $ $Date: 2004/04/02 11:08:12 $
  * @since 4.0
  */
 public class JdbcConnectionPool
