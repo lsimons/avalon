@@ -30,6 +30,7 @@ import org.apache.avalon.phoenix.BlockEvent;
 import org.apache.avalon.phoenix.BlockListener;
 import org.apache.avalon.phoenix.components.frame.ApplicationFrame;
 import org.apache.avalon.phoenix.metadata.BlockMetaData;
+import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
 import org.apache.avalon.phoenix.metadata.DependencyMetaData;
 
 /**
@@ -69,6 +70,32 @@ class LifecycleHelper
         m_frame = frame;
     }
 
+    /**
+     * Method to run a <code>BlockListener</code> through it's startup phase.
+     * This will involve creation of BlockListener object and configuration of
+     * object if appropriate.
+     *
+     * @param metaData the BlockListenerMetaData
+     * @exception Exception if an error occurs when listener passes 
+     *            through a specific lifecycle stage
+     */
+    public void startupListener( final BlockListenerMetaData metaData )
+        throws Exception
+    {
+        final String name = metaData.getName();
+
+        final ClassLoader classLoader = m_frame.getClassLoader();
+        final Class clazz = classLoader.loadClass( metaData.getClassname() );
+        final BlockListener listener = (BlockListener)clazz.newInstance();
+
+        if( listener instanceof Configurable )
+        {
+            final Configuration configuration = getConfiguration( name, 1 );
+            ((Configurable)listener).configure( configuration );
+        }
+
+        m_frame.addBlockListener( listener );
+    }
 
     /**
      * Method to run a <code>Block</code> through it's startup phase.
@@ -79,8 +106,8 @@ class LifecycleHelper
      * cause exceptions with useful messages to be raised.
      *
      * @param entry the entry containing Block
-     * @exception Exception if an error occurs when blocks passes 
-     *            through a secific lifecycle stage
+     * @exception Exception if an error occurs when block passes 
+     *            through a specific lifecycle stage
      */
     public void startup( final BlockEntry entry )
         throws Exception
@@ -130,7 +157,7 @@ class LifecycleHelper
             if( block instanceof Configurable )
             {
                 notice( name, stage );
-                final Configuration configuration = getConfiguration( name );
+                final Configuration configuration = getConfiguration( name, 0 );
                 ((Configurable)block).configure( configuration );
             }
 
@@ -251,7 +278,7 @@ class LifecycleHelper
      * @return the Configuration object
      * @exception ConfigurationException if an error occurs
      */
-    private Configuration getConfiguration( final String name )
+    private Configuration getConfiguration( final String name, final int type )
         throws ConfigurationException
     {
         try
@@ -260,7 +287,8 @@ class LifecycleHelper
         }
         catch( final ConfigurationException ce )
         {
-            final String message = REZ.getString( "missing-block-configuration", name );
+            final String message = 
+                REZ.getString( "missing-configuration", new Integer( type ), name );
             throw new ConfigurationException( message, ce );
         }
     }
