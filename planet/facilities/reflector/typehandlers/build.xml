@@ -16,12 +16,12 @@
  * limitations under the License.
 -->
 
-<project name="metro-reflector-impl" default="install" basedir="." 
+<project name="metro-reflector-typehandlers" default="install" basedir="." 
     xmlns:x="antlib:org.apache.avalon.tools">
 
   <property file="build.properties"/>
   <import file="${project.system}/build/standard.xml"/>
 
   <target name="build" depends="standard.build" />
-  
+
 </project>

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!-- 
+/* 
  * Copyright 2004 Apache Software Foundation
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -14,14 +13,16 @@
  * 
  * See the License for the specific language governing permissions and
  * limitations under the License.
--->
+ */
 
-<project name="metro-reflector-impl" default="install" basedir="." 
-    xmlns:x="antlib:org.apache.avalon.tools">
+package org.apache.metro.facilities.reflector.spi;
 
-  <property file="build.properties"/>
-  <import file="${project.system}/build/standard.xml"/>
-
-  <target name="build" depends="standard.build" />
-  
-</project>
+/**
+ * @avalon.service name="ReflectorProvider"
+ */
+public interface ReflectorProvider
+{
+    void addTypeHandler( TypeHandler handler, Class clazz );
+    
+    void removeTypeHandler( TypeHandler handler );
+}
