@@ -69,12 +69,12 @@ import org.apache.log.util.LoggerListener;
 public class Hierarchy
 {
     ///Format of default formatter
-    private static final String FORMAT =
-        "%7.7{priority} %23.23{time:yyyy-MM-dd' 'HH:mm:ss.SSS} [%8.8{category}] (%{context}): "
-        + "%{message}\n%{throwable}";
+    public static final String DEFAULT_FORMAT =
+        "%7.7{priority} %23.23{time:yyyy-MM-dd' 'HH:mm:ss.SSS} " +
+        "[%8.8{category}] (%{context}): %{message}\n%{throwable}";
 
     ///The instance of default hierarchy
-    private static final Hierarchy HIERARCHY = new Hierarchy();
+    private static final Hierarchy c_hierarchy = new Hierarchy();
 
     ///Error Handler associated with hierarchy
     private ErrorHandler m_errorHandler;
@@ -98,7 +98,7 @@ public class Hierarchy
      */
     public static Hierarchy getDefaultHierarchy()
     {
-        return HIERARCHY;
+        return c_hierarchy;
     }
 
     /**
@@ -113,7 +113,7 @@ public class Hierarchy
                                    "", null, null );
 
         //Setup default output target to print to console
-        final PatternFormatter formatter = new PatternFormatter( FORMAT );
+        final PatternFormatter formatter = new PatternFormatter( DEFAULT_FORMAT );
         final StreamTarget target = new StreamTarget( System.out, formatter );
 
         setDefaultLogTarget( target );
@@ -205,15 +205,19 @@ public class Hierarchy
      */
     public synchronized void addLoggerListener( final LoggerListener loggerListener )
     {
-        if ( null == loggerListener ) throw new NullPointerException( "loggerListener" );
+        if( null == loggerListener )
+        {
+            throw new NullPointerException( "loggerListener" );
+        }
 
-        if ( null == m_loggerListener )
+        if( null == m_loggerListener )
         {
             m_loggerListener = loggerListener;
         }
         else
         {
-            throw new UnsupportedOperationException( "LoggerListener already set on a unicast event notifier" );
+            final String message = "LoggerListener already set on a unicast event notifier";
+            throw new UnsupportedOperationException( message );
         }
     }
 
@@ -225,9 +229,12 @@ public class Hierarchy
      */
     public synchronized void removeLoggerListener( final LoggerListener loggerListener )
     {
-        if ( null == loggerListener ) throw new NullPointerException( "loggerListener" );
+        if( null == loggerListener )
+        {
+            throw new NullPointerException( "loggerListener" );
+        }
 
-        if ( null != m_loggerListener && m_loggerListener == loggerListener );
+        if( null != m_loggerListener && m_loggerListener == loggerListener ) ;
         {
             m_loggerListener = null;
         }
