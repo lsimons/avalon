@@ -65,7 +65,7 @@ public interface LogEnabled
     /**
      * Provide component with a logger.
      *
-     * @param logger the logger
+     * @param logger the logger. Must not be <code>null</code>.
      */
     void enableLogging( Logger logger );
 }
