@@ -5,7 +5,7 @@
  * version 1.1, a copy of which has been included  with this distribution in
  * the LICENSE.txt file.
  */
-package org.apache.avalon.phoenix.tools.infobuilder;
+package org.apache.avalon.phoenix.components.util;
 
 import java.util.ArrayList;
 import org.apache.avalon.framework.Version;
@@ -19,10 +19,10 @@ import org.apache.avalon.phoenix.metainfo.DependencyDescriptor;
 import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
 
 /**
- * Convert a {@link ComponentInfo} into a {@link BlockInfo}.
+ * Convert a {@link org.apache.avalon.framework.info.ComponentInfo} into a {@link org.apache.avalon.phoenix.metainfo.BlockInfo}.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2002/09/15 02:00:18 $
+ * @version $Revision: 1.1 $ $Date: 2002/09/15 13:39:02 $
  */
 public class ComponentInfoConverter
 {
