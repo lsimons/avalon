@@ -29,8 +29,8 @@ public class FilenameStrategyRevolvingLogFile
     ///the base file name.
     private File           m_baseFileName;
 
-    ///starting revolving value. ie. 1
-    private long           m_rotationMinValue = 1;
+    ///starting revolving value. ie. 0
+    private long           m_rotationMinValue = 0;
 
     ///max revolving value. ie 1000
     private long           m_maxRotations = 1000;
