@@ -64,7 +64,7 @@ package org.apache.avalon.merlin;
  *  
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
  * @author $Author: mcconnell $
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public interface KernelParameters
 {
@@ -92,12 +92,12 @@ public interface KernelParameters
     boolean isInfoEnabled() ;
     
     /**
-     * Url of a potentially remote repository used to pull depenendencies into 
-     * the other repositories on artifact misses.
+     * Urls of a set of potentially remote repository used to pull 
+     * depenendencies into the other repositories on artifact misses.
      * 
-     * @return url to the remote repo from where we download jars
+     * @return urls to the remote repositories from where we download resources
      */
-    String getRemoteRepositoryUrl() ;
+    String[] getRemoteRepositoryUrls() ;
     
     /**
      * Path to the user repository base directory where the repository 
@@ -149,7 +149,7 @@ public interface KernelParameters
      * 
      * @return paths/urls to the block.xml file
      */
-    String [] getTargetUrls() ;
+    String [] getBlockUrls() ;
     
     /**
      * Gets the path/url to the kernel configuration file.
