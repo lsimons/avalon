@@ -49,6 +49,7 @@
 */
 package org.apache.avalon.fortress;
 
+import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.service.ServiceManager;
 
 /**
@@ -57,7 +58,7 @@ import org.apache.avalon.framework.service.ServiceManager;
  * present in the initial context.
  *
  * @author <a href="mailto:leo.sutic@inspireinfrastructure.com">Leo Sutic</a>
- * @version CVS $Revision: 1.5 $ $Date: 2003/04/22 12:37:07 $
+ * @version CVS $Revision: 1.6 $ $Date: 2003/05/28 16:10:56 $
  */
 public interface ContainerManagerConstants extends ContainerConstants
 {
@@ -70,6 +71,11 @@ public interface ContainerManagerConstants extends ContainerConstants
      * ComponentLocator: The component manager to give to the impl.
      */
     String SERVICE_MANAGER = ServiceManager.class.getName();
+
+    /**
+     * Logger where to log our own messages.
+     */
+    String LOGGER = Logger.class.getName();
 
     /**
      * Configuration: The configuration to give to the impl.

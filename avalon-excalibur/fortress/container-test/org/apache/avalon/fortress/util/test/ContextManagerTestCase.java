@@ -50,12 +50,15 @@
 package org.apache.avalon.fortress.util.test;
 
 import junit.framework.TestCase;
+import org.apache.avalon.fortress.ContainerManagerConstants;
 import org.apache.avalon.fortress.util.ContextManager;
 import org.apache.avalon.fortress.util.FortressConfig;
-import org.apache.avalon.framework.logger.NullLogger;
 import org.apache.avalon.framework.container.ContainerUtil;
-import org.apache.excalibur.instrument.manager.DefaultInstrumentManager;
+import org.apache.avalon.framework.context.Context;
+import org.apache.avalon.framework.logger.ConsoleLogger;
+import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.excalibur.instrument.InstrumentManager;
+import org.apache.excalibur.instrument.manager.DefaultInstrumentManager;
 
 /**
  * ContextManagerTestCase does XYZ
@@ -63,7 +66,7 @@ import org.apache.excalibur.instrument.InstrumentManager;
  * @author <a href="bloritsch.at.apache.org">Berin Loritsch</a>
  * @version CVS $ Revision: 1.1 $
  */
-public class ContextManagerTestCase extends TestCase
+public class ContextManagerTestCase extends TestCase implements ContainerManagerConstants
 {
     private ContextManager m_manager;
     private InstrumentManager m_instrManager;
@@ -80,20 +83,26 @@ public class ContextManagerTestCase extends TestCase
         config.setLoggerManagerConfiguration( "resource://org/apache/avalon/fortress/test/data/test1.xlog" );
 
         m_instrManager = new DefaultInstrumentManager();
-        ContainerUtil.enableLogging(m_instrManager, new NullLogger());
+        ContainerUtil.enableLogging(m_instrManager, new ConsoleLogger());
         ContainerUtil.initialize(m_instrManager);
         config.setInstrumentManager(m_instrManager);
 
-        m_manager = new ContextManager( config.getContext(), new NullLogger() );
+        m_manager = new ContextManager( config.getContext(), new ConsoleLogger() );
         m_manager.initialize();
     }
 
     public void testContextManager() throws Exception
     {
-        assertNotNull( m_manager.getChildContext() );
-        assertNotNull( m_manager.getContainerManagerContext() );
-        assertNotNull( m_manager.getContainerManagerContext().get(InstrumentManager.ROLE));
-        assertSame( m_instrManager, m_manager.getContainerManagerContext().get( InstrumentManager.ROLE ) );
+        final Context managerContext = m_manager.getContainerManagerContext();
+        assertNotNull( managerContext );
+
+        final ServiceManager serviceManager = (ServiceManager) managerContext.get( SERVICE_MANAGER );
+        assertNotNull( serviceManager );
+
+        final InstrumentManager instrumentManager =
+                (InstrumentManager) serviceManager.lookup( InstrumentManager.ROLE );
+        assertNotNull( instrumentManager );
+        assertSame( m_instrManager, instrumentManager );
     }
 
     public void tearDown()

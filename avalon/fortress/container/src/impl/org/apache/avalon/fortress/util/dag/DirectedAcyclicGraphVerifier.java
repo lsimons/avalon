@@ -73,7 +73,25 @@ public class DirectedAcyclicGraphVerifier
     {
         List list = new ArrayList(1);
         list.add(vertex);
+
+        addDependencies( list, vertex );
+
         topologicalSort(list);
+    }
+
+    private static void addDependencies( final List list, final Vertex vertex )
+    {
+        Iterator deps = vertex.getDependencies().iterator();
+        while(deps.hasNext())
+        {
+            Vertex v = (Vertex)deps.next();
+
+            if ( ! list.contains(v) )
+            {
+                list.add(v);
+                addDependencies(list, v);
+            }
+        }
     }
 
     /**

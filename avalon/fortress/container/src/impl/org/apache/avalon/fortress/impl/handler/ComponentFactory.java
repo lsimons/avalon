@@ -51,6 +51,7 @@ package org.apache.avalon.fortress.impl.handler;
 
 import org.apache.avalon.excalibur.logger.LoggerManager;
 import org.apache.avalon.fortress.util.LifecycleExtensionManager;
+import org.apache.avalon.framework.CascadingException;
 import org.apache.avalon.framework.component.Composable;
 import org.apache.avalon.framework.component.WrapperComponentManager;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -61,10 +62,9 @@ import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.LogKit2AvalonLoggerAdapter;
 import org.apache.avalon.framework.logger.Loggable;
 import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.parameters.Parameterizable;
+import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.ServiceManager;
-import org.apache.avalon.framework.CascadingException;
 import org.apache.excalibur.instrument.AbstractLogEnabledInstrumentable;
 import org.apache.excalibur.instrument.CounterInstrument;
 import org.apache.excalibur.mpool.ObjectFactory;
@@ -74,7 +74,7 @@ import org.apache.excalibur.mpool.ObjectFactory;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
- * @version CVS $Revision: 1.24 $ $Date: 2003/05/08 21:24:46 $
+ * @version CVS $Revision: 1.25 $ $Date: 2003/05/28 16:11:01 $
  * @since 4.0
  */
 public final class ComponentFactory

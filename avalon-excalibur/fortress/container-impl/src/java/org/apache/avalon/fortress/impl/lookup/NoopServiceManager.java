@@ -49,8 +49,8 @@
 */
 package org.apache.avalon.fortress.impl.lookup;
 
-import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.ServiceException;
+import org.apache.avalon.framework.service.ServiceManager;
 
 /**
  * No-op ServiceManager contains no components, and is used when we don't want to allow a component to access other

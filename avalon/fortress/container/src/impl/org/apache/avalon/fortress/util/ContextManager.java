@@ -51,12 +51,12 @@ package org.apache.avalon.fortress.util;
 
 import org.apache.avalon.excalibur.logger.LogKitLoggerManager;
 import org.apache.avalon.excalibur.logger.LoggerManager;
-import org.apache.avalon.fortress.RoleManager;
 import org.apache.avalon.fortress.MetaInfoManager;
+import org.apache.avalon.fortress.RoleManager;
 import org.apache.avalon.fortress.impl.role.ConfigurableRoleManager;
 import org.apache.avalon.fortress.impl.role.FortressRoleManager;
-import org.apache.avalon.fortress.impl.role.ServiceMetaManager;
 import org.apache.avalon.fortress.impl.role.Role2MetaInfoManager;
+import org.apache.avalon.fortress.impl.role.ServiceMetaManager;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -117,7 +117,7 @@ import java.util.Iterator;
  * and dispose of them properly when it itself is disposed .</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.30 $ $Date: 2003/05/28 13:28:33 $
+ * @version CVS $Revision: 1.31 $ $Date: 2003/05/28 16:11:01 $
  * @since 4.1
  */
 public final class ContextManager
@@ -164,6 +164,35 @@ public final class ContextManager
 
     protected ServiceManager m_manager;
 
+    /**
+     * The logger manager in use.
+     * Either supplied via rootContext, or created locally.
+     */
+    protected LoggerManager m_loggerManager;
+
+    /**
+     * The Sink in use.
+     * Either supplied via rootContext or created locally.
+     */
+    protected Sink m_queue;
+
+    /**
+     * The MetaInfoManager to be used by the container.
+     * Either supplied via rootContext or created locally.
+     */
+    protected MetaInfoManager m_metaInfoManager;
+
+    /**
+     * The PoolManager to be used by the container.
+     * Either supplied via rootContext or created locally.
+     */
+    protected PoolManager m_poolManager;
+
+    /**
+     * The InstrumentManager to be used by the container.
+     * Either supplied via rootContext or created locally.
+     */
+    protected InstrumentManager m_instrumentManager;
     /**
      * The components that are "owned" by this context and should
      * be disposed by it. Any manager that is created as a result
@@ -237,14 +266,14 @@ public final class ContextManager
     public void initialize() throws Exception
     {
         initializeDefaultSourceResolver();
-        initializeServiceManager();
         initializeLoggerManager();
         initializeMetaInfoManager();
-        initializeCommandQueue();
+        initializeCommandSink();
         initializePoolManager();
         initializeContext();
         initializeInstrumentManager();
         initializeConfiguration();
+        initializeServiceManager();
 
         m_childContext.makeReadOnly();
         m_containerManagerContext.makeReadOnly();
@@ -301,12 +330,18 @@ public final class ContextManager
         // hide from the container implementation what it does not need
         m_childContext.put( CONFIGURATION, null );
         m_childContext.put( CONFIGURATION_URI, null );
+        m_childContext.put( RoleManager.ROLE, null );
         m_childContext.put( ROLE_MANAGER_CONFIGURATION, null );
         m_childContext.put( ROLE_MANAGER_CONFIGURATION_URI, null );
+        m_childContext.put( LoggerManager.ROLE, null );
         m_childContext.put( LOGGER_MANAGER_CONFIGURATION, null );
         m_childContext.put( LOGGER_MANAGER_CONFIGURATION_URI, null );
+        m_childContext.put( InstrumentManager.ROLE, null );
         m_childContext.put( INSTRUMENT_MANAGER_CONFIGURATION, null );
         m_childContext.put( INSTRUMENT_MANAGER_CONFIGURATION_URI, null );
+        m_childContext.put( Queue.ROLE, null );
+        m_childContext.put( MetaInfoManager.ROLE, null );
+        m_childContext.put( PoolManager.ROLE, null );
     }
 
     /**
@@ -400,19 +435,17 @@ public final class ContextManager
      * @throws Exception if the <code>CommandQueue</code> could not be
      *         created.
      */
-    protected void initializeCommandQueue() throws Exception
+    protected void initializeCommandSink() throws Exception
     {
         try
         {
-            copyEntry( Queue.ROLE );
-            return;
+            m_queue = (Queue) m_rootContext.get( Queue.ROLE );
         }
         catch ( ContextException ce )
         {
+            // No CommandQueue specified, create a default one
+            m_queue = createCommandSink();
         }
-
-        // No CommandQueue specified, create a default one
-        m_containerManagerContext.put( Queue.ROLE, createCommandSink() );
     }
 
     /**
@@ -430,10 +463,7 @@ public final class ContextManager
         assumeOwnership( tm );
 
         // Get the context Logger Manager
-        final LoggerManager loggerManager = (LoggerManager) m_containerManagerContext.get( LoggerManager.ROLE );
-
-        // Get the logger for the thread manager
-        final Logger tmLogger = loggerManager.getLoggerForCategory( "system.threadmgr" );
+        final Logger tmLogger = m_loggerManager.getLoggerForCategory( "system.threadmgr" );
 
         ContainerUtil.enableLogging( tm, tmLogger );
         ContainerUtil.parameterize( tm, buildCommandQueueConfig() );
@@ -499,16 +529,14 @@ public final class ContextManager
     {
         try
         {
-            copyEntry( PoolManager.ROLE );
-            return;
+            m_poolManager = (PoolManager) m_rootContext.get( PoolManager.ROLE );
         }
         catch ( ContextException ce )
         {
+            final PoolManager pm = new DefaultPoolManager( m_queue );
+            assumeOwnership( pm );
+            m_poolManager = pm;
         }
-
-        final PoolManager pm = new DefaultPoolManager( (Sink) m_containerManagerContext.get( Queue.ROLE ) );
-        assumeOwnership( pm );
-        m_containerManagerContext.put( PoolManager.ROLE, pm );
     }
 
     /**
@@ -546,14 +574,11 @@ public final class ContextManager
             return null;
         }
 
-        // Get the context Logger Manager
-        final LoggerManager loggerManager = (LoggerManager) m_containerManagerContext.get( LoggerManager.ROLE );
-
         // Lookup the context class loader
         final ClassLoader classLoader = (ClassLoader) m_rootContext.get( ClassLoader.class.getName() );
 
         // Create a logger for the role manager
-        final Logger rmLogger = loggerManager.getLoggerForCategory(
+        final Logger rmLogger = m_loggerManager.getLoggerForCategory(
                 roleConfig.getAttribute( "logger", "system.roles" ) );
 
         // Create a parent role manager with all the default roles
@@ -576,7 +601,7 @@ public final class ContextManager
 
         try
         {
-            copyEntry( MetaInfoManager.ROLE );
+            m_metaInfoManager = (MetaInfoManager) m_rootContext.get( MetaInfoManager.ROLE );
             mmSupplied = true;
         }
         catch ( ContextException ce )
@@ -598,13 +623,12 @@ public final class ContextManager
         }
         else
         {
-            final LoggerManager loggerManager = (LoggerManager) m_containerManagerContext.get( LoggerManager.ROLE );
             final ClassLoader classLoader = (ClassLoader) m_rootContext.get( ClassLoader.class.getName() );
 
             if ( !rmSupplied )
             {
                 final FortressRoleManager newRoleManager = new FortressRoleManager( null, classLoader );
-                newRoleManager.enableLogging( loggerManager.getLoggerForCategory( "system.roles" ) );
+                newRoleManager.enableLogging( m_loggerManager.getLoggerForCategory( "system.roles" ) );
                 newRoleManager.initialize();
 
                 roleManager = newRoleManager;
@@ -612,10 +636,10 @@ public final class ContextManager
 
             final ServiceMetaManager metaManager = new ServiceMetaManager( new Role2MetaInfoManager( roleManager ), classLoader );
 
-            metaManager.enableLogging( loggerManager.getLoggerForCategory( "system.meta" ) );
+            metaManager.enableLogging( m_loggerManager.getLoggerForCategory( "system.meta" ) );
             metaManager.initialize();
             assumeOwnership( metaManager );
-            m_containerManagerContext.put( MetaInfoManager.ROLE, metaManager );
+            m_metaInfoManager = metaManager;
         }
     }
 
@@ -655,21 +679,30 @@ public final class ContextManager
      */
     protected void initializeServiceManager() throws Exception
     {
-        try
-        {
-            copyEntry( SERVICE_MANAGER );
-        }
-        catch ( ContextException ce )
-        {
-            final DefaultServiceManager manager = new DefaultServiceManager();
+        final ServiceManager parent = (ServiceManager) get( m_rootContext, SERVICE_MANAGER, null );
+        final DefaultServiceManager manager = new DefaultServiceManager( parent );
 
-            // provide a default source resolver good in many situations
+        /**
+         * We assume that if there is a parent ServiceManager provided,
+         * there is a SourceResolver mounted there. And if there
+         * is none, then it is the true caller's intetion.
+         * However it is hard to imagine how that could be usefull
+         * except for testing purposes.
+         */
+
+        if ( parent == null )
+        {
             manager.put( SourceResolver.ROLE, m_defaultSourceResolver );
-
-            manager.makeReadOnly();
-
-            m_containerManagerContext.put( ContextManagerConstants.SERVICE_MANAGER, manager );
         }
+
+        manager.put( LoggerManager.ROLE, m_loggerManager );
+        manager.put( Queue.ROLE, m_queue );
+        manager.put( MetaInfoManager.ROLE, m_metaInfoManager );
+        manager.put( PoolManager.ROLE, m_poolManager );
+        manager.put( InstrumentManager.ROLE, m_instrumentManager );
+        manager.makeReadOnly();
+
+        m_containerManagerContext.put( SERVICE_MANAGER, manager );
     }
 
     /**
@@ -778,7 +811,7 @@ public final class ContextManager
         try
         {
             // Try copying an already existing logger manager from the override context.
-            copyEntry( LoggerManager.ROLE );
+            m_loggerManager = (LoggerManager) m_rootContext.get( LoggerManager.ROLE );
         }
         catch ( ContextException ce )
         {
@@ -819,7 +852,7 @@ public final class ContextManager
 
             assumeOwnership( logManager );
 
-            m_containerManagerContext.put( LoggerManager.ROLE, logManager );
+            m_loggerManager = logManager;
         }
 
         // Since we now have a LoggerManager, we can update the this.logger field
@@ -829,9 +862,11 @@ public final class ContextManager
         {
             getLogger().debug( "Switching to default Logger provided by LoggerManager." );
 
-            final LoggerManager loggerManager = (LoggerManager) m_containerManagerContext.get( LoggerManager.ROLE );
-            m_logger = loggerManager.getDefaultLogger();
+            m_logger = m_loggerManager.getDefaultLogger();
         }
+
+        // pass our own logger to the ContainerManager
+        m_containerManagerContext.put( LOGGER, m_logger );
     }
 
     /**
@@ -849,7 +884,7 @@ public final class ContextManager
         try
         {
             // Try copying an already existing instrument manager from the override context.
-            copyEntry( InstrumentManager.ROLE );
+            m_instrumentManager = (InstrumentManager) m_rootContext.get( InstrumentManager.ROLE );
         }
         catch ( ContextException ce )
         {
@@ -862,11 +897,8 @@ public final class ContextManager
                 instrumentConfig = EMPTY_CONFIG;
             }
 
-            // Get the context Logger Manager
-            final LoggerManager loggerManager = (LoggerManager) m_containerManagerContext.get( LoggerManager.ROLE );
-
             // Get the logger for the instrument manager
-            final Logger imLogger = loggerManager.getLoggerForCategory(
+            final Logger imLogger = m_loggerManager.getLoggerForCategory(
                     instrumentConfig.getAttribute( "logger", "system.instrument" ) );
 
             // Set up the Instrument Manager
@@ -877,7 +909,7 @@ public final class ContextManager
 
             assumeOwnership( instrumentManager );
 
-            m_containerManagerContext.put( InstrumentManager.ROLE, instrumentManager );
+            m_instrumentManager = instrumentManager;
         }
     }
 

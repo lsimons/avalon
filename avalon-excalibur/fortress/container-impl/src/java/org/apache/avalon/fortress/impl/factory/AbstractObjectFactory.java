@@ -70,7 +70,6 @@ import org.apache.excalibur.instrument.Instrumentable;
 import org.apache.excalibur.mpool.ObjectFactory;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
