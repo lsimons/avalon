@@ -148,7 +148,7 @@ public class Builder
     
     private void loadMagicSystemProperties( PluginProperties props )
     {
-        File file = new File( m_SystemDir, "build.properties" );
+        File file = new File( m_SystemDir, "magic.properties" );
         if( file.exists() )
             load( props, file );
     }
@@ -160,7 +160,7 @@ public class Builder
         File[] plugins = m_SystemDir.listFiles();
         for( int i=0 ; i < plugins.length ; i++ )
         {
-            File file = new File( plugins[i], "build.properties" );
+            File file = new File( plugins[i], "magic.properties" );
             if( file.exists() )
                 load( props, file );
         }
@@ -173,28 +173,28 @@ public class Builder
         if( projSys == null )
             return;
         File dir = new File( projSys );
-        File file = new File( dir, "build.properties" );
+        File file = new File( dir, "magic.properties" );
         if( file.exists() )
             load( props, file );
     }
     
     private void loadProjectLocalProperties( PluginProperties props )
     {
-        File file = new File( m_ProjectDir, "build.properties" );
+        File file = new File( m_ProjectDir, "magic.properties" );
         if( file.exists() )
             load( props, file );
     }
     
     private void loadUserProjectProperties( PluginProperties props )
     {
-        File file = new File( m_ProjectDir, "user.properties" );
+        File file = new File( m_ProjectDir, "user-magic.properties" );
         if( file.exists() )
             load( props, file );
     }
     
     private void loadUserSystemProperties( PluginProperties props )
     {
-        File file = new File( m_SystemDir, "user.properties" );
+        File file = new File( m_SystemDir, "user-magic.properties" );
         if( file.exists() )
             load( props, file );
     }
