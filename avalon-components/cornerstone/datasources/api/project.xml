@@ -7,7 +7,7 @@
   <groupId>cornerstone-datasources</groupId>
   <id>cornerstone-datasources-api</id>
   <name>Cornerstone Datasources API</name>
-  <currentVersion>1.0</currentVersion>
+  <currentVersion>1.0.0</currentVersion>
   <package>org.apache.avalon.cornerstone.services.datasources</package>
   <inceptionYear>2001</inceptionYear>
   <shortDescription>Cornerstone Datasources API</shortDescription>

@@ -8,13 +8,7 @@
   <id>cornerstone-connection-api</id>
   <name>Cornerstone Connection API</name>
 
-  <!-- 
-  bump to SNAPSHOT in prep for a 2.0 relase because the API references 
-  cornerstone threads SNAPSHOT which references excalibur thread SNAPSHOT
-  which is bumped due to removal of deprecated interface references.
-  -->
-
-  <currentVersion>2.0</currentVersion>
+  <currentVersion>2.0.0</currentVersion>
   <package>org.apache.avalon.cornerstone.services.connection</package>
   <inceptionYear>2001</inceptionYear>
   <shortDescription>Cornerstone Connection API</shortDescription>
@@ -45,12 +39,12 @@
     <dependency>
       <groupId>excalibur-pool</groupId>
       <artifactId>excalibur-pool-api</artifactId>
-      <version>2.0</version>
+      <version>2.0.0</version>
     </dependency>
     <dependency>
       <groupId>excalibur-thread</groupId>
       <artifactId>excalibur-thread-api</artifactId>
-      <version>2.0</version>
+      <version>2.0.0</version>
     </dependency>
 
   </dependencies>

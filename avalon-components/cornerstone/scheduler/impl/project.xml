@@ -8,7 +8,7 @@
   <id>cornerstone-scheduler-impl</id>
   <name>Cornerstone Scheduler Implementation</name>
 
-  <currentVersion>2.0</currentVersion> 
+  <currentVersion>2.0.0</currentVersion> 
   <package>org.apache.avalon.cornerstone.blocks.scheduler</package>
 
   <inceptionYear>2001</inceptionYear>
@@ -21,13 +21,13 @@
     <dependency>
       <groupId>cornerstone-scheduler</groupId>
       <artifactId>cornerstone-scheduler-api</artifactId>
-      <version>1.0</version>
+      <version>1.0.0</version>
     </dependency>
 
     <dependency>
       <groupId>cornerstone-threads</groupId>
       <artifactId>cornerstone-threads-api</artifactId>
-      <version>2.0</version>
+      <version>2.0.0</version>
     </dependency>
 
     <!-- excalibur api dependencies -->
@@ -35,7 +35,7 @@
     <dependency>
       <groupId>excalibur-thread</groupId>
       <artifactId>excalibur-thread-api</artifactId>
-      <version>2.0</version>
+      <version>2.0.0</version>
     </dependency>
 
     <!-- avalon dependencies -->

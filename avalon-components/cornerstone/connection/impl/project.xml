@@ -14,7 +14,7 @@
   transfer of factory classes from the api to the implementation.
   -->
 
-  <currentVersion>2.0</currentVersion>
+  <currentVersion>2.0.0</currentVersion>
   <package>org.apache.avalon.cornerstone</package>
 
   <inceptionYear>2001</inceptionYear>
@@ -27,19 +27,19 @@
     <dependency>
       <groupId>cornerstone-connection</groupId>
       <artifactId>cornerstone-connection-api</artifactId>
-      <version>2.0</version>
+      <version>2.0.0</version>
     </dependency>
 
     <dependency>
       <groupId>cornerstone-sockets</groupId>
       <artifactId>cornerstone-sockets-api</artifactId>
-      <version>1.0</version>
+      <version>1.0.0</version>
     </dependency>
 
     <dependency>
       <groupId>cornerstone-threads</groupId>
       <artifactId>cornerstone-threads-api</artifactId>
-      <version>2.0</version>
+      <version>2.0.0</version>
     </dependency>
 
     <!-- excalibur api dependencies -->
@@ -47,7 +47,7 @@
     <dependency>
       <groupId>excalibur-thread</groupId>
       <artifactId>excalibur-thread-api</artifactId>
-      <version>2.0</version>
+      <version>2.0.0</version>
     </dependency>
 
     <!-- avalon dependencies -->

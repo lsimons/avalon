@@ -6,7 +6,7 @@
   ==============================================================================
   -->
 
-  <ant:property name="avalon.snapshot" value="true"/>
+  <ant:property name="avalon.snapshot" value="false"/>
 
   <!--
   ==============================================================================
@@ -21,7 +21,7 @@
   <ant:property name="maven.dist.src.archive.dir"
     value="${maven.dist.assembly.dir}/src"/>
   <ant:property name="maven.dist.bin.assembly.dir"
-    value="${maven.dist.assembly.dir}/bin/avalon-${pom.currentVersion}"/>
+    value="${maven.dist.assembly.dir}/bin/${pom.artifactId}"/>
   <ant:property name="maven.dist.src.assembly.dir"
     value="${maven.dist.assembly.dir}/src/${pom.artifactId}"/>
   <ant:property name="maven.dist.dir"
@@ -33,7 +33,7 @@
   ==============================================================================
   -->
 
-  <ant:property name="pom.specificationVersion" value="1.0"/>
+  <ant:property name="pom.specificationVersion" value="2.0"/>
   <ant:property name="pom.organization.identifier" value="ASF"/>
   <ant:property file="project.properties"/>
 
@@ -251,8 +251,11 @@
     </ant:echo>
     <ant:copy todir="${maven.dist.bin.assembly.dir}">
       <ant:fileset dir=".">
-        <ant:include name="LICENSE*"/>
         <ant:include name="README*"/>
+      </ant:fileset>
+      <ant:fileset dir="${basedir}/site/etc">
+        <ant:include name="LICENSE*"/>
+        <ant:include name="NOTICE*"/>
       </ant:fileset>
     </ant:copy>
 
@@ -286,10 +289,13 @@
 
     <ant:copy todir="${maven.dist.src.assembly.dir}">
       <ant:fileset dir=".">
-        <ant:include name="LICENSE*"/>
         <ant:include name="project.properties"/>
         <ant:include name="maven.xml"/>
         <ant:include name="project.xml"/>
+      </ant:fileset>
+      <ant:fileset dir="${basedir}/site/etc">
+        <ant:include name="LICENSE*"/>
+        <ant:include name="NOTICE*"/>
       </ant:fileset>
     </ant:copy>
 
