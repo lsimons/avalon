@@ -32,7 +32,7 @@ import org.apache.log.Hierarchy;
 import org.apache.log.LogTarget;
 import org.apache.log.Logger;
 import org.apache.log.Priority;
-import org.apache.log.output.FileTarget;
+import org.apache.log.output.io.FileTarget;
 
 /**
  * This is the object that is interacted with to create, manage and
