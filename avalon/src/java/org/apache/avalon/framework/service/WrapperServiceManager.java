@@ -66,7 +66,7 @@ import org.apache.avalon.framework.component.ComponentSelector;
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/11/07 09:06:13 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/11/07 12:43:19 $
  */
 public class WrapperServiceManager
     implements ServiceManager
@@ -138,6 +138,14 @@ public class WrapperServiceManager
      */
     public void release( final Object service )
     {
-        m_componentManager.release( (Component)service );
+        if ( service instanceof WrapperServiceSelector )
+        {
+            m_componentManager.
+                release( ((WrapperServiceSelector)service).getWrappedComponentSelector() );
+        }
+        else
+        {
+            m_componentManager.release( (Component)service );
+        }
     }
 }
