@@ -81,6 +81,7 @@ Legal:
 
   <property name="announce2txt" value="${tools.dir}/announcement2txt.xsl"/>
   <property name="announce2header" value="${tools.dir}/announcement2header.xsl"/>
+  <property name="announce2site" value="${tools.dir}/announcement2site.xsl"/>
 
   <path id="project.class.path">
     <pathelement location="${logkit.jar}"/>
@@ -350,6 +351,8 @@ Legal:
            out="Announcement.txt"/>
     <style style="${announce2header}" in="${build.context}/xdocs/framework/announcement.xml" 
            out="${dist.base}/HEADER.html"/>
+    <style style="${announce2site}" in="${build.context}/xdocs/framework/announcement.xml"
+           out="jakarta-news.xml"/>
 
   </target>
 
