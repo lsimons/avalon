@@ -47,7 +47,7 @@ import org.apache.avalon.http.util.HttpHandler;
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public class TestComponent extends HttpHandler 
-  implements LogEnabled, Serviceable, Configurable
+    implements LogEnabled, Serviceable, Configurable
 {
     //----------------------------------------------------------
     // state

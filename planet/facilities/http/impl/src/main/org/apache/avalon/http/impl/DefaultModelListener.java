@@ -46,8 +46,8 @@ import org.apache.avalon.http.Handler;
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
 public class DefaultModelListener extends AbstractLogEnabled 
-  implements Contextualizable, Serviceable, Initializable, 
-  CompositionListener
+    implements Contextualizable, Serviceable, Initializable, 
+               CompositionListener
 {
    //---------------------------------------------------------
    // state

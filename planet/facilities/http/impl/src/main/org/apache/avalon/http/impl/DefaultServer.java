@@ -19,6 +19,7 @@ package org.apache.avalon.http.impl;
 
 import java.io.File;
 import java.net.UnknownHostException;
+import java.util.HashMap;
 
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.logger.LogEnabled;
@@ -53,19 +54,15 @@ import org.mortbay.util.Log;
  * @avalon.service type="org.apache.avalon.http.HttpService"
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
-public class DefaultServer implements LogEnabled, Contextualizable, Configurable,
-  Initializable, Startable, HttpService
+public class DefaultServer 
+    implements LogEnabled, Contextualizable, Configurable,
+               Initializable, Startable, HttpService
 {
    //---------------------------------------------------------
    // static
    //---------------------------------------------------------
 
    private static final String LISTENER_TYPE_ATTRIBUTE_NAME = "type";
-   private static final String PORT_ATTRIBUTE_NAME = "port";
-   private static final String HOST_ATTRIBUTE_NAME = "host";
-   private static final String TIMEOUT_ATTRIBUTE_NAME = "timeout";
-   private static final String PATH_ATTRIBUTE_NAME = "path";
-   private static final String BASE_ATTRIBUTE_NAME = "dir";
    private static final String KEYSTORE_ELEMENT_NAME = "keystore";
    private static final String FILE_ELEMENT_NAME = "file";
    private static final String PASSWORD_ELEMENT_NAME = "password";
@@ -98,6 +95,12 @@ public class DefaultServer implements LogEnabled, Contextualizable, Configurable
     * The working base directory.
     */
     private File m_basedir;
+    
+   /** 
+    * Mapping table for URL space to Servlet
+    */
+    private HashMap m_ServletMap;
+     
 
    //---------------------------------------------------------
    // LogEnabled
@@ -186,18 +189,6 @@ public class DefaultServer implements LogEnabled, Contextualizable, Configurable
         }
 
         //
-        // if no context entries are declared then create 
-        // a default context for the path "/" using static 
-        // content under the directory "root"
-        //
-
-        //if( null == m_config.getChild( "context", false ))
-        //{
-        //    HttpContext context = createContext( "/", "./root/" );
-        //    m_server.addContext( context );
-        //}
-
-        //
         // handle the children declared in the configuration
         // (includes listeners, etc.)
         //
@@ -207,16 +198,15 @@ public class DefaultServer implements LogEnabled, Contextualizable, Configurable
         {
             Configuration child = children[i];
             String name = child.getName();
-            if( name.equalsIgnoreCase( "listener" ) )
+            
+            if( "listeners".equalsIgnoreCase( name ) )
             {
-                HttpListener listener = createListener( child );
-                m_server.addListener( listener );
+                configureListeners( child );
             }
-            //else if( name.equalsIgnoreCase( "context" ) )
-            //{
-            //    HttpContext context = createContext( child );
-            //    m_server.addContext( context );
-            //}
+            else if( "mappings".equalsIgnoreCase( name ) )
+            {
+                configureMappings( child );
+            }
             else
             {
                 final String error = 
@@ -228,6 +218,30 @@ public class DefaultServer implements LogEnabled, Contextualizable, Configurable
         }
     }
 
+    private void configureListeners( Configuration conf )
+        throws ConfigurationException, UnknownHostException
+    {
+        Configuration[] children = conf.getChildren( "listener" );
+        for( int i=0 ; i < children.length ; i++ )
+        {
+            HttpListener listener = createListener( children[i] );
+            m_server.addListener( listener );
+        }
+    }
+
+    private void configureMappings( Configuration conf )
+    {
+        Configuration[] children = conf.getChildren( "mapping" );
+        for( int i=0 ; i < children.length ; i++ )
+        {
+            Configuration servletConf = children[i];
+            String component = servletConf.getChild( "component" ).getValue( "" );
+            String url = servletConf.getChild( "url" ).getValue( "" );
+            if( ! "".equals( component ) && ! "".equals( url ) )
+                m_ServletMap.put( component.trim(), url.trim() );
+        }
+    }
+        
     //---------------------------------------------------------
     // Startable
     //---------------------------------------------------------
@@ -258,11 +272,13 @@ public class DefaultServer implements LogEnabled, Contextualizable, Configurable
     */
     public void register( ComponentModel model )
     {
+        final String path = model.getPath();
+        final String url = (String) m_ServletMap.get( path );
+        
         getLogger().info( 
           "registering servlet: " 
-          + model );
-
-        final String path = model.getPath();
+          + path + " to url: " + url );
+        
         HttpContext context = m_server.getContext( path + "*" );
         ContainmentModelHandler handler = 
           getContainmentHandler( context, path );
@@ -302,7 +318,7 @@ public class DefaultServer implements LogEnabled, Contextualizable, Configurable
      * @param conf the listener configuration
      */
     private HttpListener createListener( Configuration conf ) 
-      throws Exception 
+        throws UnknownHostException
     {
         HttpListener listener = null;
 
@@ -310,7 +326,7 @@ public class DefaultServer implements LogEnabled, Contextualizable, Configurable
           conf.getAttribute(
             LISTENER_TYPE_ATTRIBUTE_NAME, 
             SOCKET_TYPE );
-
+        
         if( listenerType.equals( AJP_TYPE ) ) 
         {
             listener = createAJP13Listener( conf, 2345 );
@@ -341,10 +357,8 @@ public class DefaultServer implements LogEnabled, Contextualizable, Configurable
       throws UnknownHostException
     {
         AJP13Listener listener = new AJP13Listener();
-        listener.setMaxIdleTimeMs(
-          config.getAttributeAsInteger( 
-            TIMEOUT_ATTRIBUTE_NAME, 
-            60000 ));
+        int timeout = config.getChild( "timeout" ).getValueAsInteger( 60000 );
+        listener.setMaxIdleTimeMs( timeout );
         return setUpListener( listener, config, port );
     }
 
@@ -357,10 +371,8 @@ public class DefaultServer implements LogEnabled, Contextualizable, Configurable
       throws UnknownHostException
     {
         SocketListener listener = new SocketListener();
-        listener.setMaxIdleTimeMs(
-          config.getAttributeAsInteger(
-            TIMEOUT_ATTRIBUTE_NAME, 
-            60000 ));
+        int timeout = config.getChild( "timeout" ).getValueAsInteger( 60000 );
+        listener.setMaxIdleTimeMs( timeout );
         return setUpListener( listener, config, port );
     }
 
@@ -371,33 +383,26 @@ public class DefaultServer implements LogEnabled, Contextualizable, Configurable
      * @return The newly created sun jsse listener
      * @throws Exception
      */
-    private HttpListener createSunJsseListener( Configuration configuration, int port ) 
-      throws Exception 
+    private HttpListener createSunJsseListener( Configuration conf, int port ) 
+      throws UnknownHostException
     {
         SunJsseListener listener = new SunJsseListener();
-        listener.setMaxIdleTimeMs(
-          configuration.getAttributeAsInteger(
-            TIMEOUT_ATTRIBUTE_NAME, 
-            60000 ));
+        int timeout = conf.getChild( "timeout" ).getValueAsInteger( 60000 );
+        listener.setMaxIdleTimeMs( timeout );
 
-        Configuration ksconfig = 
-          configuration.getChild( 
-            KEYSTORE_ELEMENT_NAME );
-
-        String fileName = 
-          ksconfig.getChild( 
-            FILE_ELEMENT_NAME ).getValue( "conf/.keystore" );
+        Configuration ksconfig = conf.getChild( KEYSTORE_ELEMENT_NAME );
+        Configuration fileconfig = ksconfig.getChild( FILE_ELEMENT_NAME );
+        String fileName = fileconfig.getValue( "conf/.keystore" );
 
         File configuredFile = new File( fileName );
-        if( !configuredFile.isAbsolute() )
+        if( ! configuredFile.isAbsolute() )
         {
-            listener.setKeystore(
-              new File( m_basedir, fileName ).getAbsolutePath() );
+            File keystore = new File( m_basedir, fileName );
+            listener.setKeystore( keystore.getAbsolutePath() );
         }
         else 
         {
-            listener.setKeystore(
-              configuredFile.getAbsolutePath() );
+            listener.setKeystore( configuredFile.getAbsolutePath() );
         }
 
         listener.setPassword(
@@ -407,21 +412,18 @@ public class DefaultServer implements LogEnabled, Contextualizable, Configurable
           ksconfig.getChild(
             KEYPASSWORD_ELEMENT_NAME ).getValue( null ) );
 
-        return setUpListener( listener, configuration, port );
+        return setUpListener( listener, conf, port );
     }
 
     private HttpListener setUpListener( 
-      HttpListener listener, Configuration config, int port )
-      throws UnknownHostException
+        HttpListener listener, Configuration config, int port )
+        throws UnknownHostException
     {
-        listener.setPort(
-          config.getAttributeAsInteger(
-            PORT_ATTRIBUTE_NAME, 
-            port ) );
-        listener.setHost(
-          config.getAttribute(
-            HOST_ATTRIBUTE_NAME, 
-            "0.0.0.0" ) );
+        int configPort = config.getChild( "port" ).getValueAsInteger( port );
+        String host = config.getChild( "hostname" ).getValue( "0.0.0.0" );
+        
+        listener.setPort( configPort );
+        listener.setHost( host );
         return listener;
     }
 
