@@ -46,8 +46,8 @@
         </item>
         <item name="Embedding" href="/merlin/embedded/index.html"/>
       </item>
-      <item name="Tools" href="/tools/index.html"/>
-      <item name="Extensions" href="/extensions/index.html" />
+      <item name="Extensions" href="/extensions/index.html"/>
+      <item name="Tools" href="/tools/index.html" />
     </menu>
 
     <menu name="Resources">

@@ -53,12 +53,6 @@
              Jar file option extensions repository.
             </td>
           </tr>
-          <tr>
-            <td><a href="grant/index.html">grant</a></td><td>0..1</td>
-            <td>
-             Granting permissions to code level security.
-            </td>
-          </tr>
         </table>
       </subsection>
 
@@ -70,16 +64,6 @@
       <resource id="tutorial:composition-api" version="1.0"/>
     </repository>
   </classpath>
-  <grant>
-    <permission class="java.lang.RuntimePermission" name="getClassLoader" />
-    <permission class="java.util.PropertyPermission" name="java.*" >
-      <action>read</action>
-    </permission>
-    <permission class="java.util.PropertyPermission" name="com.mycompany.*" >
-      <action>read</action>
-      <action>write</action>
-    </permission>
-  </grant>
 </classloader>
 ]]></source>
       </subsection>

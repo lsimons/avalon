@@ -29,7 +29,7 @@
         <table>
           <tr><th>Topic</th><th>Summary</th></tr>
           <tr>
-            <td><a href="lifecycle/index.html">Lifecycle Extensions</a></td>
+            <td><a href="lifecycle/index.html">Lifecycle Tools</a></td>
             <td>Definition and implementation of custom lifecycle stage handlers.</td>
           </tr>
           <tr>

@@ -41,8 +41,8 @@
             <td>
              A set of target directives scoped relative to the container established 
              by the include. Targets declarations correspond to the specification of 
-             <a href="../../config/index.html">target elements</a> presented under 
-             the config.xml spec.
+             <a href="../../overrides/index.html">override target elements</a> 
+             presented under the config.xml spec.
             </td>
           </tr>
         </table>

@@ -19,14 +19,14 @@
 
 <document>
   <header>
-    <title>Lifecycle Extensions Interfaces</title>
+    <title>Lifecycle Tools Interfaces</title>
     <authors>
       <person name="Avalon Development Team" email="dev@avalon.apache.org"/>
     </authors>
   </header>
   <body>
 
-  <section name="Lifecycle Extensions">
+  <section name="Lifecycle Tools">
 
       <subsection name="Interface Summary">
 

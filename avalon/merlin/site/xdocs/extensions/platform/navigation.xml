@@ -35,13 +35,13 @@
       <item name="Overview" href="/about/index.html"/>
       <item name="Getting Started" href="/starting/index.html"/>
       <item name="Merlin System" href="/merlin/index.html"/>
-      <item name="Tools" href="/tools/index.html"/>
       <item name="Extensions" href="/extensions/index.html">
         <item name="Platform" href="/extensions/platform/index.html">
           <item name="NT Service" href="/extensions/platform/nt.html"/>
         </item>
         <item name="Facilities" href="/extensions/facilities/index.html"/>
       </item>
+      <item name="Tools" href="/tools/index.html"/>
     </menu>
 
     <menu name="Resources">
