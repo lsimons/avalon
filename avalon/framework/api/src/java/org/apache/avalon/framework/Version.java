@@ -87,7 +87,7 @@ import java.util.StringTokenizer;
  * </ul>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.30 $ $Date: 2003/07/12 16:49:55 $
+ * @version CVS $Revision: 1.31 $ $Date: 2004/01/11 22:33:32 $
  */
 public final class Version
     implements Comparable, Serializable
@@ -105,11 +105,15 @@ public final class Version
      * @return the new Version object
      * @throws NumberFormatException if an error occurs
      * @throws IllegalArgumentException if an error occurs
+     * @throws NullPointerException if the provided string is <code>null</code>
      * @since 4.1
      */
     public static Version getVersion( final String version )
         throws NumberFormatException, IllegalArgumentException
     {
+        if( version == null )
+            throw new NullPointerException( "version" );
+
         final StringTokenizer tokenizer = new StringTokenizer( version, "." );
         final String[] levels = new String[ tokenizer.countTokens() ];
         for( int i = 0; i < levels.length; i++ )
@@ -199,6 +203,9 @@ public final class Version
      */
     public boolean equals( final Version other )
     {
+        if( other == null )
+            return false;
+
         boolean isEqual = ( getMajor() == other.getMajor() );
         
         if ( isEqual )
@@ -284,6 +291,9 @@ public final class Version
      */
     public boolean complies( final Version other )
     {
+        if( other == null )
+            return false;
+
         if( other.m_major == -1 )
         {
             return true;
@@ -322,11 +332,15 @@ public final class Version
 
     /**
      * Compare two versions together according to the
-     * Comparable interface.
+     * {@link Comparable} interface.
      * 
      * @return number indicating relative value (-1, 0, 1)
      */
     public int compareTo(Object o) {
+        if( o == null )
+            throw new NullPointerException( "o" );
+
+
         Version other = (Version)o;
         int val = 0;
 
