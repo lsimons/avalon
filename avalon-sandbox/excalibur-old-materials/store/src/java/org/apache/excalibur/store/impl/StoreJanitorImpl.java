@@ -65,11 +65,16 @@ import org.apache.excalibur.store.StoreJanitor;
  * This class is a implentation of a StoreJanitor. Store classes
  * can register to the StoreJanitor. When memory is too low,
  * the StoreJanitor frees the registered caches until memory is normal.
+ * 
+ * @avalon.component
+ * @avalon.service type=StoreJanitor
+ * @x-avalon.info name=store-janitor
+ * @x-avalon.lifestyle type=singleton
  *
  * @author <a href="mailto:cs@ffzj0ia9.bank.dresdner.net">Christian Schmitt</a>
  * @author <a href="mailto:g-froehlich@gmx.de">Gerhard Froehlich</a>
  * @author <a href="mailto:proyal@managingpartners.com">Peter Royal</a>
- * @version CVS $Id: StoreJanitorImpl.java,v 1.6 2003/03/22 12:46:55 leosimons Exp $
+ * @version CVS $Id: StoreJanitorImpl.java,v 1.7 2003/05/20 21:03:39 bloritsch Exp $
  */
 public class StoreJanitorImpl
 extends AbstractLogEnabled

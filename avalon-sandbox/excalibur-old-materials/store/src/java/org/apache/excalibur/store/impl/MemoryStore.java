@@ -57,6 +57,11 @@ import org.apache.avalon.framework.thread.ThreadSafe;
 import org.apache.excalibur.store.Store;
 
 /**
+ * 
+ * @avalon.component
+ * @avalon.service type=Store
+ * @x-avalon.info name=mem-store
+ * @x-avalon.lifestyle type=singleton
  *
  * @author <a href="mailto:scoobie@betaversion.org">Federico Barbieri</a>
  *         (Betaversion Productions)
@@ -64,7 +69,7 @@ import org.apache.excalibur.store.Store;
  *         (Apache Software Foundation)
  * @author <a href="mailto:fumagalli@exoffice.com">Pierpaolo Fumagalli</a>
  *         (Apache Software Foundation, Exoffice Technologies)
- * @version CVS $Id: MemoryStore.java,v 1.6 2003/03/22 12:46:55 leosimons Exp $
+ * @version CVS $Id: MemoryStore.java,v 1.7 2003/05/20 21:03:39 bloritsch Exp $
  */
 public class MemoryStore
     extends AbstractLogEnabled

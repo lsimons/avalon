@@ -71,11 +71,16 @@ import org.apache.excalibur.store.StoreJanitor;
  * This class provides a cache algorithm for the requested documents.
  * It combines a HashMap and a LinkedList to create a so called MRU
  * (Most Recently Used) cache.
+ * 
+ * @avalon.component
+ * @avalon.service type=Store
+ * @x-avalon.info name=mru-store
+ * @x-avalon.lifestyle type=singleton
  *
  * @author <a href="mailto:g-froehlich@gmx.de">Gerhard Froehlich</a>
  * @author <a href="mailto:dims@yahoo.com">Davanum Srinivas</a>
  * @author <a href="mailto:vgritsenko@apache.org">Vadim Gritsenko</a>
- * @version CVS $Id: MRUMemoryStore.java,v 1.11 2003/03/22 12:46:55 leosimons Exp $
+ * @version CVS $Id: MRUMemoryStore.java,v 1.12 2003/05/20 21:03:39 bloritsch Exp $
  */
 public final class MRUMemoryStore
     extends AbstractLogEnabled
@@ -93,8 +98,8 @@ public final class MRUMemoryStore
      * Get components of the ComponentLocator
      *
      * @param manager The ComponentLocator
-     * @avalon.service interface="Store"
-     * @avalon.service interface="StoreJanitor"
+     * @avalon.dependency type=org.apache.excalibur.store.Store
+     * @avalon.dependency type=org.apache.excalibur.store.StoreJanitor
      */
     public void service( ServiceManager manager )
         throws ServiceException
