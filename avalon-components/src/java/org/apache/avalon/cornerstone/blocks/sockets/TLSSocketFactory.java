@@ -7,31 +7,52 @@
  */
 package org.apache.avalon.cornerstone.blocks.sockets;
 
-import com.sun.net.ssl.KeyManagerFactory;
-import com.sun.net.ssl.SSLContext;
-import com.sun.net.ssl.TrustManagerFactory;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.net.UnknownHostException;
-import java.security.KeyStore;
+import javax.net.ssl.SSLSession;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
-import javax.security.cert.X509Certificate;
 import org.apache.avalon.cornerstone.services.sockets.SocketFactory;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.Contextualizable;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.phoenix.BlockContext;
 
 /**
- * Factory implementation for client TLS TCP sockets.
+ * Manufactures TLS client sockets. Configuration element inside a
+ * SocketManager would look like:
+ * <pre>
+ *  &lt;factory name="secure"
+ *            class="org.apache.avalon.cornerstone.blocks.sockets.TLSSocketFactory" &gt;
+ *   &lt;ssl-factory /&gt; &lt;!-- see {@link SSLFactoryBuilder} --&gt;
+ *   &lt;timeout&gt; 0 &lt;/timeout&gt;
+ *   &lt;!-- if the value is greater than zero, a read() call on the
+ *           InputStream associated with this Socket will block for only this
+ *           amount of time in milliseconds. Default value is 0. --&gt;
+ *   &lt;verify-server-identity&gt;true|false&lt;/verify-server-identity&gt;
+ *   &lt;!-- whether or not the server identity should be verified.
+ *           Defaults to false. --&gt;
+ * &lt;/factory&gt;
+ * </pre>
+ * <p>
+ * Server identity verification currently includes only comparing the
+ * certificate Common Name received with the host name in the
+ * passed address. Identity verification requires that SSL
+ * handshake is completed for the socket, so it takes longer
+ * to get a verified socket (and won't play well with non-blocking
+ * application like SEDA).
+ * </p>
+ * <p>
+ * Another thing to keep in mind when using identity verification is
+ * that <tt>InetAddress</tt> objects for the remote hosts should be
+ * built using {@link java.net.InetAddress#getByName} with
+ * the host name (matching the certificate CN) as the
+ * argument. Failure to do so may cause relatively costly DNS lookups
+ * and false rejections caused by inconsistencies between forward and
+ * reverse resolution.
+ * </p>
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  * @author <a href="mailto:fede@apache.org">Federico Barbieri</a>
@@ -40,41 +61,17 @@ import org.apache.avalon.phoenix.BlockContext;
  * @author <a href="mailto:">Costin Manolache</a>
  * @author <a href="mailto:">Craig McClanahan</a>
  * @author <a href="mailto:myfam@surfeu.fi">Andrei Ivanov</a>
+ * @author <a href="mailto:greg-avalon-apps at nest.cx">Greg Steuck</a>
  */
 public class TLSSocketFactory
-    extends AbstractLogEnabled
+    extends AbstractTLSSocketFactory
     implements SocketFactory, Contextualizable, Configurable, Initializable
 {
     private SSLSocketFactory m_factory;
-
-    private File m_baseDirectory;
-
-    private String m_keyStoreFile;
-    private String m_keyStorePassword;
-    private String m_keyPassword;
-    private String m_keyStoreType;
-    private String m_keyStoreProtocol;
-    private String m_keyStoreAlgorithm;
-    private boolean m_keyStoreAuthenticateClients;
-
-    public void contextualize( final Context context )
-    {
-        final BlockContext blockContext = (BlockContext)context;
-        m_baseDirectory = blockContext.getBaseDirectory();
-    }
+    private boolean m_verifyServerIdentity;
 
     /**
-     * Configure factory. Sample config is
-     *
-     * <keystore>
-     *  <file>conf/keystore</file> <!-- location of keystore relative to .sar base directory -->
-     *  <password></password> <!-- Password for the Key Store file -->
-     *  <key-password></key-password> <!-- Optional private Key Password -->
-     *  <type>JKS</type> <!-- Type of the Key Store file -->
-     *  <protocol>TLS</protocol> <!-- SSL protocol to use -->
-     *  <algorithm>SunX509</algorithm> <!-- Certificate encoding algorithm -->
-     *  <authenticate-client>false</authenticate-client> <!-- Require client authentication? -->
-     * <keystore>
+     * Configures the factory.
      *
      * @param configuration the Configuration
      * @exception ConfigurationException if an error occurs
@@ -82,153 +79,110 @@ public class TLSSocketFactory
     public void configure( final Configuration configuration )
         throws ConfigurationException
     {
-        final Configuration keyStore = configuration.getChild( "keystore" );
-        m_keyStoreFile = keyStore.getChild( "file" ).getValue( "conf/keystore" );
-        m_keyStorePassword = keyStore.getChild( "password" ).getValue();
-        m_keyPassword = keyStore.getChild( "key-password" ).getValue( null );
-        m_keyStoreType = keyStore.getChild( "type" ).getValue( "JKS" );
-        m_keyStoreProtocol = keyStore.getChild( "protocol" ).getValue( "TLS" );
-        m_keyStoreAlgorithm = keyStore.getChild( "algorithm" ).getValue( "SunX509" );
-        m_keyStoreAuthenticateClients
-            = keyStore.getChild( "authenticate-client" ).getValueAsBoolean( false );
-
+        super.configure( configuration );
+        m_verifyServerIdentity = configuration.getChild( "verify-server-identity" ).getValueAsBoolean( false );
     }
 
-    public void initialize()
-        throws Exception
+    protected void visitBuilder( SSLFactoryBuilder builder )
     {
-        final KeyStore keyStore = initKeyStore();
-        initSSLFactory( keyStore );
-    }
-
-    private KeyStore initKeyStore()
-        throws Exception
-    {
-        try
-        {
-            final KeyStore keyStore = KeyStore.getInstance( m_keyStoreType );
-            File keyStoreFile = new File( m_baseDirectory, m_keyStoreFile );
-            if( !keyStoreFile.exists() ) keyStoreFile = new File( m_baseDirectory + m_keyStoreFile );
-            final FileInputStream input = new FileInputStream( keyStoreFile );
-
-            keyStore.load( input, m_keyStorePassword.toCharArray() );
-            getLogger().info( "Keystore loaded from: " + keyStoreFile );
-
-            return keyStore;
-        }
-        catch( final Exception e )
-        {
-            getLogger().error( "Exception loading keystore from: " + m_keyStoreFile, e );
-            throw e;
-        }
-    }
-
-    private void initSSLFactory( final KeyStore keyStore )
-        throws Exception
-    {
-
-        java.security.Security.addProvider( new sun.security.provider.Sun() );
-        java.security.Security.addProvider( new com.sun.net.ssl.internal.ssl.Provider() );
-
-        // set up key manager to do server authentication
-        final SSLContext sslContext = SSLContext.getInstance( m_keyStoreProtocol );
-        final KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance( m_keyStoreAlgorithm );
-
-        if( null == m_keyPassword )
-        {
-            keyManagerFactory.init( keyStore, m_keyStorePassword.toCharArray() );
-        }
-        else
-        {
-            keyManagerFactory.init( keyStore, m_keyPassword.toCharArray() );
-        }
-
-        final TrustManagerFactory tmf = TrustManagerFactory.getInstance( m_keyStoreAlgorithm );
-        tmf.init( keyStore );
-
-        sslContext.init( keyManagerFactory.getKeyManagers(),
-                         tmf.getTrustManagers(),
-                         new java.security.SecureRandom() );
-
-        // Create socket factory
-        m_factory = sslContext.getSocketFactory();
-    }
-
-    private void initSocket( final Socket socket )
-    {
-        final SSLSocket sslSocket = (SSLSocket)socket;
-
-        // Enable all available cipher suites when the socket is connected
-        final String[] cipherSuites = sslSocket.getSupportedCipherSuites();
-        sslSocket.setEnabledCipherSuites( cipherSuites );
-
-        // Set client authentication if necessary
-        sslSocket.setNeedClientAuth( m_keyStoreAuthenticateClients );
+        m_factory = builder.buildSocketFactory();
     }
 
     /**
-     * Returns a socket layered over an existing socket connected to the named
-     * host, at the given port. This constructor can be used when tunneling SSL
-     * through a proxy or when negotiating the use of SSL over an existing socket.
-     * The host and port refer to the logical peer destination. This socket is
-     * configured using the socket options established for this factory.
-     *
-     * @param s - the existing socket
-     * @param host - the server host
-     * @param port - the server port
-     * @param autoClose - close the underlying socket when this socket is closed
-     *
-     * @exception IOException - if the connection can't be established
-     * @exception UnknownHostException - if the host is not known
+     * Performs the unconditional part of socket initialization that
+     * applies to all Sockets.
      */
-    public Socket createSocket( Socket s, String host, int port, boolean autoClose ) throws IOException
+    private Socket initSocket( final Socket socket )
+        throws IOException
     {
-        final Socket socket = m_factory.createSocket( s, host, port, autoClose );
-        initSocket( socket );
+        socket.setSoTimeout( m_socketTimeOut );
         return socket;
     }
 
     /**
-     * Returns a socket connected to a ServerSocket at the specified network
-     * address and port. This socket is configured using the socket options
-     * established for this factory.
-     *
-     * @param host - the server host
-     * @param port - the server port
-     *
-     * @exception IOException - if the connection can't be established
-     * @exception UnknownHostException - if the host is not known
+     * Wraps an ssl socket over an existing socket and compares the
+     * host name from the address to the common name in the server
+     * certificate.
+     * @param bareSocket plain socket connected to the server
+     * @param address destination of the <tt>bareSocket</tt>
+     * @param port destination of the <tt>bareSocket</tt>
+     * @return SSL socket wrapped around original socket with server
+     *         identity verified
      */
-    public Socket createSocket( String host, int port ) throws IOException, UnknownHostException
+    private SSLSocket sslWrap( Socket bareSocket, InetAddress address,
+                               int port )
+        throws IOException
     {
-        InetAddress address = InetAddress.getByName( host );
-        return this.createSocket( address, port );
+        final String hostName = address.getHostName();
+        final SSLSocket sslSocket = (SSLSocket)
+            m_factory.createSocket( bareSocket, hostName, port, true );
+        sslSocket.startHandshake();
+        final SSLSession session = sslSocket.getSession();
+        final String DN =
+            session.getPeerCertificateChain()[ 0 ].getSubjectDN().getName();
+        final String CN = getCN( DN );
+        if( !hostName.equals( CN ) )
+        {
+            final String message = "Host name mismatch, expected '" +
+                hostName + "' recevied DN is " + DN;
+            throw new IOException( message );
+        }
+        if( getLogger().isDebugEnabled() )
+        {
+            final String message = "DN of the server " + DN;
+            getLogger().debug( message );
+            final String message2 = "Session id " +
+                bytesToString( session.getId() );
+            getLogger().debug( message2 );
+        }
+        return sslSocket;
+    }
+
+    private StringBuffer bytesToString( byte[] data )
+    {
+        final StringBuffer result = new StringBuffer( data.length * 3 );
+        String sep = "";
+        for( int i = 0; i < data.length; i++ )
+        {
+            final byte signedValue = data[ i ];
+            final int unsignedByteValue =
+                ( signedValue >= 0 ) ? signedValue : 256 + signedValue;
+            result.append( sep )
+                .append( Integer.toHexString( unsignedByteValue ) );
+            sep = ":";
+        }
+        return result;
     }
 
     /**
-     * Returns a socket connected to a ServerSocket on the named host, at the
-     * given port. The client address address is the specified host and port.
-     * This socket is configured using the socket options established for this
-     * factory.
+     * Extracts the Common Name from the given Distinguished
+     * Name. Normally CN is the first part of the DN.
+     * <b>If you know of a more direct way to determine the CN,
+     * please let us know</b>.
      *
-     * @param host - the server host
-     * @param port - the server port
-     * @param localAddress - the client host
-     * @param localPort - the client port
-     *
-     * @exception IOException - if the connection can't be established
-     * @exception UnknownHostException - if the host is not known
+     * @return the common name or null if DN is malformed
      */
-    public Socket createSocket( String host, int port, InetAddress localAddress, int localPort )
-        throws IOException, UnknownHostException
+    private String getCN( String DN )
     {
-        InetAddress address = InetAddress.getByName( host );
-        return this.createSocket( address, port, localAddress, localPort );
-
+        final int startOfCN = DN.indexOf( "CN=" );
+        if( startOfCN < 0 )
+        {
+            return null;
+        }
+        final int startOfHostName = startOfCN + "CN=".length();
+        final int endOfHostName = DN.indexOf( ',', startOfHostName );
+        if( endOfHostName > 0 )
+        {
+            return DN.substring( startOfHostName, endOfHostName );
+        }
+        else
+        {
+            return null;
+        }
     }
 
     /**
-     * Create a socket and connect to remote address specified.
+     * Creates a socket connected to the specified remote address.
      *
      * @param address the remote address
      * @param port the remote port
@@ -237,13 +191,22 @@ public class TLSSocketFactory
      */
     public Socket createSocket( InetAddress address, int port ) throws IOException
     {
-        final Socket socket = m_factory.createSocket( address, port );
-        initSocket( socket );
-        return socket;
+        // Uses 2 different approaches to socket construction, due to
+        // sslWrap dependency on wrapping createSocket which in turn
+        // requires that address be resolved to the host name.
+        if( m_verifyServerIdentity )
+        {
+            return sslWrap( initSocket( new Socket( address, port ) ),
+                            address, port );
+        }
+        else
+        {
+            return initSocket( m_factory.createSocket( address, port ) );
+        }
     }
 
     /**
-     * Create a socket and connect to remote address specified
+     * Creates a socket and connected to the specified remote address
      * originating from specified local address.
      *
      * @param address the remote address
@@ -253,12 +216,26 @@ public class TLSSocketFactory
      * @return the socket
      * @exception IOException if an error occurs
      */
-    public Socket createSocket( InetAddress address, int port, InetAddress localAddress, int localPort ) throws IOException
+    public Socket createSocket( final InetAddress address,
+                                final int port,
+                                final InetAddress localAddress,
+                                final int localPort )
+        throws IOException
     {
-        final Socket socket = m_factory.createSocket( address, port, localAddress, localPort );
-        initSocket( socket );
-        return socket;
+        // Uses 2 different approaches to socket construction, due to
+        // sslWrap dependency on wrapping createSocket which in turn
+        // requires that address be resolved to the host name.
+        if( m_verifyServerIdentity )
+        {
+            return sslWrap( initSocket( new Socket( address, port,
+                                                    localAddress,
+                                                    localPort ) ),
+                            address, port );
+        }
+        else
+        {
+            return initSocket( m_factory.createSocket( address, port ) );
+        }
     }
 
 }
-
