@@ -92,7 +92,7 @@ import org.apache.excalibur.instrument.manager.interfaces.InstrumentSampleUtils;
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.20 $ $Date: 2003/03/29 18:53:25 $
+ * @version CVS $Revision: 1.21 $ $Date: 2003/07/15 07:15:48 $
  * @since 4.1
  */
 class InstrumentManagerConnection
@@ -402,13 +402,11 @@ class InstrumentManagerConnection
             getLogger().debug( "Attempt to open a new connection to " + m_host + ":" + m_port );
         }
 
-        SocketCustomStreamHostContext altrmiHostContext =
-            new SocketCustomStreamHostContext( m_host, m_port );
-        altrmiHostContext.setClientMonitor( new DefaultClientMonitor( 0 ) );
+        SocketCustomStreamHostContext hostContext =
+            new SocketCustomStreamHostContext.WithSimpleDefaults( m_host, m_port );
 
-        m_altrmiHostContext = altrmiHostContext;
-        m_altrmiFactory = new ClientSideClassFactory( false );
-        m_altrmiFactory.setHostContext( altrmiHostContext );
+        m_altrmiHostContext = hostContext;
+        m_altrmiFactory = new ClientSideClassFactory( hostContext );
 
         if ( getLogger().isDebugEnabled() )
         {

@@ -68,7 +68,7 @@ import org.apache.excalibur.instrument.manager.interfaces.InstrumentableDescript
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.8 $ $Date: 2003/06/17 16:11:03 $
+ * @version CVS $Revision: 1.9 $ $Date: 2003/07/15 07:15:49 $
  * @since 4.1
  */
 public class InstrumentManagerAltrmiConnector
@@ -124,7 +124,7 @@ public class InstrumentManagerAltrmiConnector
         InstrumentManagerClientLocalImpl client = new InstrumentManagerClientLocalImpl( m_manager );
 
         // Create the socket server
-        m_server = new CompleteSocketCustomStreamServer( m_port );
+        m_server = new CompleteSocketCustomStreamServer.WithSimpleDefaults( m_port );
 
         Class[] additionalFacadeClasses = new Class[]
         {
