@@ -34,39 +34,6 @@ public final class State
     public final static State CREATED = new State( "CREATED", 0 );
 
     /**
-     * READYING indicates that the component is being prepared for service.
-     * In terms of Avalons Component Lifecycle this would indicate Loggable,
-     * Contextualizable, Composable, Configurable and Initializable stages.
-     */
-    public final static State READYING = new State( "READYING", 0 );
-
-    /**
-     * READY indicates that the component is ready to be started
-     * or destroyed as appropriate.
-     */
-    public final static State READY = new State( "READY", 0 );
-
-    /**
-     * STARTING indicates that the component is being started.
-     */
-    public final static State STARTING = new State( "STARTING", 0 );
-
-    /**
-     * STARTED indicates that the component has been started.
-     */
-    public final static State STARTED = new State( "STARTED", 0 );
-
-    /**
-     * STOPPING indicates that the component is being stopped.
-     */
-    public final static State STOPPING = new State( "STOPPING", 0 );
-
-    /**
-     * STOPPED indicates that the component has been stopped.
-     */
-    public final static State STOPPED = new State( "STOPPED", 0 );
-
-    /**
      * DESTROYING indicates that the component is being destroyed.
      */
     public final static State DESTROYING = new State( "DESTROYING", 0 );

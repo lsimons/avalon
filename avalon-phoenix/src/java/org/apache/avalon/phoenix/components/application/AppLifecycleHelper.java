@@ -138,7 +138,7 @@ class AppLifecycleHelper
         State state = State.FAILED;
         try
         {
-            entry.setState( State.STARTING );
+            entry.setState( State.CREATING );
 
             final Object block =
                 m_lifecycleHelper.startup( entry.getName(),
@@ -149,7 +149,7 @@ class AppLifecycleHelper
                                         entry.getMetaData(),
                                         block );
 
-            state = State.STARTED;
+            state = State.CREATED;
             entry.setObject( block );
 
             m_listenerSupport.fireBlockAddedEvent( entry );
