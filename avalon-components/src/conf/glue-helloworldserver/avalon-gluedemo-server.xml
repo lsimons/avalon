@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<!--
+                                README!
+
+    Basic config file that sets up context for server application.
+
+-->
+<server>
+
+    <logs>
+
+      <category name="" target="default" priority="DEBUG" />
+      <category name="objectstorage" target="objectstorage-target" priority="DEBUG" />
+
+      <log-target name="default" location="/logs/avalon-demo.log" />
+      <log-target name="objectstorage-target" location="/logs/objectstorage.log" />
+
+    </logs>
+
+    <threads>
+      <thread-group>
+        <name>default</name>
+
+        <!-- normal priority == 5, max-priority = 10 -->
+        <priority>5</priority> 
+
+        <!-- are threads deamon threads ? -->
+        <is-daemon>false</is-daemon>
+
+        <max-threads>40</max-threads>
+        <!-- these are ignored at the moment but will be fixed in later revisions -->
+        <min-threads>20</min-threads>
+        <min-spare-threads>20</min-spare-threads>
+
+      </thread-group>
+
+    </threads>
+
+    <policy>
+
+<!--      
+      <keystore name="foo-keystore" 
+                location="file:${app.home}${/}conf${/}keystore" 
+                type="JKS" /> 
+
+      <grant signed-by="Fred" code-base="file:${app.home}/blocks/*" key-store="foo-keystore">
+        <permission class="java.io.FilePermission" target="/tmp/*" action="read,write" />
+      </grant>
+ -->
+      <grant code-base="file:${app.home}${/}blocks${/}*">
+        <permission class="java.security.AllPermission" />
+      </grant>
+
+      <grant code-base="file:${app.home}${/}lib${/}*">
+        <permission class="java.security.AllPermission" />
+      </grant>
+    </policy>
+
+</server>
