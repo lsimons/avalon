@@ -140,16 +140,6 @@
           foundation classes.
         </p>
       </s2>
-      <s2 title="Lightweight Directory Acces Protocol">
-        <p>
-          LDAP - a location of services people, orgs, resources protocol.
-        </p>
-        <p>
-          See <link href="http://sourceforge.net/projects/jradius/">http://sourceforge.net/projects/jradius/</link>
-          for a Java implementation.  Unfortunately, it's license is unsuitable for compilation against Apache
-          foundation classes.
-        </p>
-      </s2>
       <s2 title="Remote Authentication Dial-In User Service">
         <p>
           RADIUS - A server to authenticate dial in users.
