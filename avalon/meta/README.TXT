@@ -22,8 +22,7 @@ Structure:
    /impl ..................... meta info builders, writers, serializers, readers
    /tools .................... ant plugin and javadoc tag related content
    /plugin ................... maven plugin
-   /xdocs .................... project documetation
-   /src ...................... build-related resources
+   /site .................... project documetation
 
 Installation
 ------------
