@@ -110,3 +110,62 @@ To unsubscribe, e-mail:   <mailto:avalon-dev-unsubscribe@jakarta.apache.org>
 For additional commands, e-mail: <mailto:avalon-dev-help@jakarta.apache.org>
 
 
+Re: [phoenix] ClassLoader section in environment.xml
+Date: Sat, 1 Dec 2001 15:36:21 +1100
+From: Peter Donald <peter@apache.org>
+ To: "Avalon Developers List" <avalon-dev@jakarta.apache.org>
+Reply to: "Avalon Developers List" <avalon-dev@jakarta.apache.org>
+
+ Hi,
+
+One thing I forgot to mention was how Blocks aquire the ClassLoaders. I 
+propose that we add another method to BlockContext interface, namely
+
+ClassLoader getClassLoader(String name)
+
+This raises an interesting question though. How should a Block declare that 
+it needs a ClassLoader named "foo" and "foo" must contain classes X, Y and Z? 
+Should it declare that?
+
+My initial though was that you could add another section to the BlockInfo 
+file like
+
+<classloaders>
+  <classloader name="foo">
+     <description>
+        This ClassLoader must contain classes X, Y and Z. It is 
+        part of the foo API and we use it to do "Something".
+     </description>
+      <required classname="com.biz.ClassToCheckFor"/>
+  </classloader>
+</classloaders>
+
+Then I realized - what would happen if 2 Blocks declared that they depended 
+on ClassLoaders named "foo" but which had different contents. So in this case 
+it would be required that you map the application-wide name into a 
+block-local name ... which seems like overkill/flexability syndrome. 
+
+So options that I could think of are;
+1. ignore the issue and make it a requirement that Block writers document it 
+so that assemblers can build it
+2. have basic structures in blockinfo but keep names global
+3. Same as 3 but we map classloader names from global namespace to 
+application local namespace.
+
+Thoughts?
+
+-- 
+Cheers,
+
+Pete
+
+---------------------------------------------
+ We shall not cease from exploration, and the 
+  end of all our exploring will be to arrive 
+ where we started and know the place for the 
+        first time -- T.S. Eliot
+---------------------------------------------
+
+--
+To unsubscribe, e-mail:   <mailto:avalon-dev-unsubscribe@jakarta.apache.org>
+For additional commands, e-mail: <mailto:avalon-dev-help@jakarta.apache.org>
