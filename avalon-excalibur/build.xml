@@ -211,13 +211,8 @@ Legal:
           tofile="${build.src}/org/apache/avalon/excalibur/datasource/JdbcConnection.java" />
   </target>
 
-  <target name="servlet" if="servlet.present">
-    <copy file="${java.dir}/org/apache/avalon/excalibur/logger/factory/ServletTargetFactory.java"
-          tofile="${build.src}/org/apache/avalon/logger/factory/ServletTargetFactory.java" />
-  </target>
-
   <!-- Prepares the build directory -->
-  <target name="prepare" depends="check-datasource,setup-properties,jdbc2,jdbc3,servlet">
+  <target name="prepare" depends="check-datasource,setup-properties,jdbc2,jdbc3">
     <tstamp/>
     <mkdir dir="${build.dir}"/>
   </target>
@@ -263,7 +258,8 @@ Legal:
                unless="informix.present"/>
       <exclude name="org/apache/avalon/excalibur/datasource/Jdbc2Connection.java"/>
       <exclude name="org/apache/avalon/excalibur/datasource/Jdbc3Connection.java"/>
-      <exclude name="org/apache/avalon/excalibur/logger/factory/ServletTargetFactory.java"/>
+      <exclude name="org/apache/avalon/excalibur/logger/factory/ServletTargetFactory.java"
+               unless="servlet.present"/>
     </javac>
 
     <javac srcdir="${scratchpad.dir}"
