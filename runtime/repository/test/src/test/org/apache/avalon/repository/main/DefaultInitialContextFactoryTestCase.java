@@ -90,7 +90,7 @@ public class DefaultInitialContextFactoryTestCase extends TestCase
         // repository.
         //
 
-        File repo = getMavenRepositoryDirectory();
+        File repo = getRepositoryCache();
         factory.setCacheDirectory( repo );
 
         //
@@ -99,7 +99,7 @@ public class DefaultInitialContextFactoryTestCase extends TestCase
         //
 
         Artifact[] artifacts = 
-          getArtifactsToRegister( "src/test/conf/system.xml" );
+          getArtifactsToRegister( "system.xml" );
         factory.setFactoryArtifacts( artifacts );
 
         //
@@ -144,7 +144,7 @@ public class DefaultInitialContextFactoryTestCase extends TestCase
           context.getRepository().getCandidates( Repository.class );
         for( int i=0; i<candidates.length; i++ )
         {
-            System.out.println( "  artifact: " + candidates[i] );
+            System.out.println( "  " + candidates[i] );
         }
 
         //
@@ -165,6 +165,19 @@ public class DefaultInitialContextFactoryTestCase extends TestCase
         }
     }
 
+    private File getRepositoryCache()
+    {
+        String cache = System.getProperty( "project.repository.cache.path" );
+        if( null != cache )
+        {
+            return new File( cache );
+        }
+        else
+        {
+            return getMavenRepositoryDirectory();
+        }
+    }
+
     private Artifact[] getArtifactsToRegister( String path ) throws Exception
     {
         Configuration config = 
@@ -175,11 +188,17 @@ public class DefaultInitialContextFactoryTestCase extends TestCase
         for( int i=0; i<children.length; i++ )
         {
             Configuration child = children[i];
-            String spec = child.getAttribute( "spec" );
-            Artifact artifact = Artifact.createArtifact( "artifact:" + spec );
+            String spec = getSpec( child.getAttribute( "spec" ) );
+            Artifact artifact = Artifact.createArtifact( spec );
             artifacts[i] = artifact;
         }
         return artifacts;
+    }
+
+    private String getSpec( String spec )
+    {
+        if( spec.startsWith( "artifact:" ) ) return spec;
+        return "artifact:" + spec;
     }
 
     private static File getMavenRepositoryDirectory()

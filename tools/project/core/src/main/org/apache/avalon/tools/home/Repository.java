@@ -50,6 +50,7 @@ import org.apache.avalon.tools.project.Definition;
 import org.apache.avalon.tools.project.ResourceRef;
 import org.apache.avalon.tools.project.ProjectRef;
 import org.apache.avalon.tools.project.Resource;
+import org.apache.avalon.tools.project.Policy;
 
 /**
  *
@@ -94,12 +95,17 @@ public class Repository
 
     public ResourceRef[] getResourceRefs( Definition def )
     {
+        return getResourceRefs( def, Policy.ANY );
+    }
+
+    public ResourceRef[] getResourceRefs( Definition def, int mode )
+    {
         ArrayList list = new ArrayList();
-        getResourceRefs( def, list );
+        getResourceRefs( def, list, mode );
         return (ResourceRef[]) list.toArray( new ResourceRef[0] );
     }
 
-    private void getResourceRefs( Definition def, List list )
+    private void getResourceRefs( Definition def, List list, int mode )
     {
         ResourceRef[] refs = def.getResourceRefs();
         for( int i=0; i<refs.length; i++ )
@@ -107,7 +113,11 @@ public class Repository
             ResourceRef ref = refs[i];
             if( !list.contains( ref ) )
             {
-                list.add( ref );
+                Policy policy = ref.getPolicy();
+                if( policy.matches( mode ) )
+                {
+                    list.add( ref );
+                }
             }
         }
 
@@ -117,9 +127,13 @@ public class Repository
             ProjectRef ref = projects[i];
             if( !list.contains( ref ) )
             {
-                Definition defintion = m_home.getDefinition( ref );
-                getResourceRefs( defintion, list );
-                list.add( ref );
+                Policy policy = ref.getPolicy();
+                if( policy.matches( mode ) )
+                {
+                    Definition defintion = m_home.getDefinition( ref );
+                    getResourceRefs( defintion, list, mode );
+                    list.add( ref );
+                }
             }
         }
     }

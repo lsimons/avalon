@@ -171,7 +171,7 @@ public class ElementHelper
         if( value.equals( "true" ) ) return true;
         if( value.equals( "false" ) ) return false;
         final String error = 
-          "Boolean argument [" + value + "] not regiconized.";
+          "Boolean argument [" + value + "] not recognized.";
         throw new BuildException( error );
     }
 }
