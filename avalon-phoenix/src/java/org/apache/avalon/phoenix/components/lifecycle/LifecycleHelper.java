@@ -165,6 +165,10 @@ public class LifecycleHelper
         {
             entry.setState( State.FAILED );
             fail( name, stage, t );
+
+            //fail() throws an exception so next
+            //line will never be executed
+            return null;
         }
     }
 
