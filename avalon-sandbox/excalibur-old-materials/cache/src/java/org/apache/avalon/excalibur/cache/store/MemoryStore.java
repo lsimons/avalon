@@ -20,7 +20,10 @@ public class MemoryStore
 
     public MemoryStore( final int capacity )
     {
-        if( capacity < 1 ) throw new IllegalArgumentException( "Specified capacity must be at least 1" );
+        if( 1 > capacity )
+        {
+            throw new IllegalArgumentException( "Specified capacity must be at least 1" );
+        }
 
         m_capacity = capacity;
         m_entries = new HashMap( m_capacity );

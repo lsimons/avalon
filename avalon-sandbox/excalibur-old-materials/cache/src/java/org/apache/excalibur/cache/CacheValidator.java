@@ -14,5 +14,10 @@ package org.apache.avalon.excalibur.cache;
  */
 public interface CacheValidator
 {
+    /**
+     * Check validity of cached item.
+     *
+     * @return true if cached item is valid
+     */
     boolean validate( Object key, Object value );
 }

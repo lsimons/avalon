@@ -14,11 +14,31 @@ package org.apache.avalon.excalibur.cache;
  */
 public interface ReplacementPolicy
 {
+    /**
+     * Call after add.
+     *
+     * @param key the key of added item
+     */
     void add( Object key );
 
+    /**
+     * Call after hit.
+     *
+     * @param key the key of hitted item
+     */
     void hit( Object key );
 
+    /**
+     * Call after remove.
+     *
+     * @param key the key of removed item
+     */
     void remove( Object key );
 
+    /**
+     * Return the key of item to remove.
+     *
+     * @return the key of item to remove
+     */
     Object selectVictim();
 }

@@ -18,6 +18,10 @@ import org.apache.avalon.excalibur.cache.ReplacementPolicy;
 public abstract class ListBasedPolicy
     implements ReplacementPolicy
 {
+    /**
+     * Ordered list of cache keys.
+     * Victim key at last first.
+     */
     protected LinkedList m_keyList;
 
     public ListBasedPolicy()

@@ -24,8 +24,8 @@ public class FlipSpacesStore
     private Map m_newCache = null;
 
     /**
-     * the data space which stores accessed items which have not been accessed since the last space swap.  At the time
-     * <code>copySpaces</code> is called, objects still stored within this space are removed from the cache.
+     * the data space which stores accessed items which have not been accessed since the last space swap.
+     * At the time <code>copySpaces</code> is called, objects still stored within this space are removed from the cache.
      */
     private Map m_oldCache = null;
 
@@ -41,7 +41,10 @@ public class FlipSpacesStore
      */
     public FlipSpacesStore( final int capacity )
     {
-        if( capacity < 1 ) throw new IllegalArgumentException( "Specified capacity must be at least 1" );
+        if( 1 > capacity )
+        {
+            throw new IllegalArgumentException( "Specified capacity must be at least 1" );
+        }
 
         m_capacity = capacity;
         m_newCache = new HashMap( m_capacity );
@@ -140,6 +143,7 @@ public class FlipSpacesStore
 
     /**
      * Gets the capacity for the cache.  Once the cache size has reached the capacity it is considered full.
+     *
      * @return cache capacity
      */
     public int capacity()
@@ -149,6 +153,7 @@ public class FlipSpacesStore
 
     /**
      * Checks if a given key exists within either of the spaces - old and new Caches.
+     *
      * @return true if the key exists within this cache
      */
     public boolean containsKey( final Object key )
@@ -163,6 +168,7 @@ public class FlipSpacesStore
 
     /**
      * Gets array of keys from both caches or spaces.
+     *
      * @return array of all the keys within this cache
      */
     public Object[] keys()

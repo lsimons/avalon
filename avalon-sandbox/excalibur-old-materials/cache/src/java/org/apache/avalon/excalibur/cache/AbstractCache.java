@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public abstract class AbstractCache
     implements Cache
 {
-    protected ArrayList m_listeners;
+    private ArrayList m_listeners;
 
     public AbstractCache()
     {
