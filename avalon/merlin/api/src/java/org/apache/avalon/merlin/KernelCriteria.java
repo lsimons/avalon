@@ -57,7 +57,7 @@ import java.util.Map;
 /**
  * A service that provides access to versioned resources.
  * @author <a href="mailto:mcconnell@osm.net">Stephen McConnell</a>
- * @version $Revision: 1.3 $ $Date: 2004/01/16 16:39:02 $
+ * @version $Revision: 1.4 $ $Date: 2004/01/19 13:35:11 $
  */
 public interface KernelCriteria extends Map
 {
@@ -198,8 +198,6 @@ public interface KernelCriteria extends Map
 
    /**
     * Return the set of block URLs to be included in the root application
-    * 
-    * @param repository a repository against which artifact url may be resolved
     * @return the block deployment urls
     */
     URL[] getDeploymentURLs();

@@ -2,6 +2,14 @@
 
   <!--
   ==============================================================================
+  switches 
+  ==============================================================================
+  -->
+
+  <ant:property name="merlin.snapshot" value="true"/>
+
+  <!--
+  ==============================================================================
   dependent properties 
   ==============================================================================
   -->
@@ -266,6 +274,19 @@
     </ant:fixcrlf>
   </goal>
 
+
+  <goal name="avalon:test">
+    <j:choose>
+        <echo>PROPERTY: '${merlin.snapshot}'</echo>
+      <j:when test="${merlin.snapshot == 'true'}">
+        <echo>SNAPSHOT BUILD</echo>
+      </j:when>
+      <j:otherwise>
+        <echo>RELEASE BUILD</echo>
+      </j:otherwise>
+    </j:choose>
+  </goal>
+
   <!--
   ==============================================================================
   prepare the merlin installation package
@@ -274,12 +295,24 @@
 
   <goal name="avalon:package">
 
+    <j:choose>
+      <j:when test="${merlin.snapshot == 'true'}">
+        <echo>SNAPSHOT BUILD</echo>
+      </j:when>
+      <j:otherwise>
+        <echo>RELEASE BUILD</echo>
+      </j:otherwise>
+    </j:choose>
+   
     <!--
     <j:set var="package.name" value="${maven.final.name}-dist"/>
     -->
     <maven:snapshot project="${pom}"/>
     <j:set var="timestamp" value="${snapshotSignature.substring(7,15)}"/>
     <j:set var="package.name" value="${maven.final.name}-dist-${timestamp}"/>
+
+    <j:set var="tutorial.name" value="${maven.final.name}-tutorial-${timestamp}"/>
+    <!--<j:set var="tutorial.name" value="${maven.final.name}-tutorial"/>-->
 
     <ant:echo>Building distribution: ${package.name}</ant:echo>
     <ant:zip zipfile="${maven.build.dir}/${package.name}.zip">
@@ -307,9 +340,6 @@
       src="${maven.build.dir}/${package.name}.tar"/>
     <ant:delete file="${maven.build.dir}/${package.name}.tar"/>
     <checksum file="${maven.build.dir}/${package.name}.tar.gz"/>
-
-    <j:set var="tutorial.name" value="${maven.final.name}-tutorial-${timestamp}"/>
-    <!--<j:set var="tutorial.name" value="${maven.final.name}-tutorial"/>-->
 
     <ant:echo>Building tutorial kit: ${tutorial.name}</ant:echo>
     <ant:zip zipfile="${maven.build.dir}/${tutorial.name}.zip">
@@ -402,18 +432,23 @@
       bottom="${copyright}"
       additionalparam="-breakiterator -J-Xmx128m "
       packagenames="*,org.*">
+
         <classpath>
           <path refid="template.classpath"/>
 	  </classpath>
+
         <j:forEach var="child" items="${reactorProjects}">
           <sourcepath path="${child.file.parentFile}/src/java"/>
         </j:forEach>
+
         <j:forEach var="packageGroup" items="${pom.packageGroups}">
           <group title="${packageGroup.title}" packages="${packageGroup.packages}"/>
         </j:forEach>
+
         <classpath>
           <path refid="maven.dependency.classpath"/>
 	  </classpath>
+
 	  <link href="${sun.j2se.link}" />
 	  <link href="${sun.j2ee.link}" />
 	  <link href="${avalon.framework.link}" />
@@ -423,6 +458,21 @@
 	  <link href="${avalon.logkit.link}" />
 	  <!--<link href="${avalon.lifecycle.link}" />-->
 	  <link href="${excalibur.configuration.link}" />
+
+        <util:tokenize var="listOfTags" delim=" ">${maven.javadoc.customtags}</util:tokenize>
+        <j:forEach var="someTag" items="${listOfTags}">
+          <j:set var="nameVar" value="${someTag}.name"/>
+          <j:set var="name" value="${context.findVariable(nameVar)}"/>
+          <j:set var="descriptionVar" value="${someTag}.description"/>
+          <j:set var="description" value="${context.findVariable(descriptionVar)}"/>
+          <j:set var="enabledVar" value="${someTag}.enabled"/>
+          <j:set var="enabled" value="${context.findVariable(enabledVar)}"/>
+          <j:set var="scopeVar" value="${someTag}.scope"/>
+          <j:set var="scope" value="${context.findVariable(scopeVar)}"/>
+          <ant:tag name="${name}" description="${description}"
+               enabled="${enabled}" scope="${scope}"/>
+        </j:forEach>
+
     </ant:javadoc>
   </goal>
 
