@@ -15,10 +15,12 @@ import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.excalibur.lang.ThreadContext;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.phoenix.Block;
+import org.apache.avalon.phoenix.ApplicationEvent;
 import org.apache.avalon.phoenix.interfaces.Application;
 import org.apache.avalon.phoenix.interfaces.ApplicationContext;
 import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
 import org.apache.avalon.phoenix.metadata.BlockMetaData;
+import org.apache.avalon.phoenix.metadata.SarMetaData;
 
 /**
  * This is the basic container of blocks. A server application
@@ -40,6 +42,12 @@ public final class DefaultApplication
     private ApplicationContext m_context;
     private LifecycleHelper m_lifecycle;
     private HashMap m_entrys = new HashMap();
+    private SarMetaData m_sarMetaData;
+
+    public DefaultApplication(SarMetaData sarMetaData)
+    {
+        m_sarMetaData = sarMetaData;
+    }
 
     public void setApplicationContext( final ApplicationContext context )
     {
@@ -159,6 +167,20 @@ public final class DefaultApplication
         //Setup thread context for calling visitors
         ThreadContext.setThreadContext( m_context.getThreadContext() );
 
+        //All blocks about to be processed ...
+        if( PHASE_STARTUP == name )
+        {
+            //... for startup, so indicate to applicable listeners
+            m_lifecycle.applicationStarting(new ApplicationEvent(m_sarMetaData.getName(), m_sarMetaData));
+        }
+        else
+        {
+            //... for shutdown, so indicate to applicable listeners
+            m_lifecycle.applicationStopping();
+        }
+
+        //Process blocks, one by one.
+
         for( int i = 0; i < order.length; i++ )
         {
             final String block = order[ i ];
@@ -181,6 +203,7 @@ public final class DefaultApplication
                 final String message =
                     REZ.getString( "app.error.run-phase", name, block, e.getMessage() );
                 getLogger().error( message, e );
+                m_lifecycle.applicationFailure(e);
                 throw e;
             }
 
@@ -191,5 +214,18 @@ public final class DefaultApplication
                 getLogger().debug( message );
             }
         }
+
+        //All blocks processed ...
+        if( PHASE_STARTUP == name )
+        {
+            //... for startup, so indicate to applicable listeners
+            m_lifecycle.applicationStarted();
+        }
+        else
+        {
+            //... for shutdown, so indicate to applicable listeners
+            m_lifecycle.applicationStopped();
+        }
+
     }
 }
