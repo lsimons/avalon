@@ -8,8 +8,6 @@
 
 package org.apache.excalibur.source;
 
-import java.io.PrintStream;
-import java.io.PrintWriter;
 import org.apache.avalon.framework.CascadingException;
 
 /**
@@ -17,7 +15,7 @@ import org.apache.avalon.framework.CascadingException;
  * the source.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/07/06 03:55:06 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/11/07 07:29:26 $
  */
 public class SourceException
     extends CascadingException
@@ -41,44 +39,5 @@ public class SourceException
     public SourceException( final String message, final Throwable throwable )
     {
         super( message, throwable );
-    }
-
-    public String toString()
-    {
-        final StringBuffer sb = new StringBuffer();
-        sb.append( super.toString() );
-        if( null != getCause() )
-        {
-            sb.append( ": " );
-            sb.append( getCause().toString() );
-        }
-        return sb.toString();
-    }
-
-    public void printStackTrace()
-    {
-        super.printStackTrace();
-        if( getCause() != null )
-        {
-            getCause().printStackTrace();
-        }
-    }
-
-    public void printStackTrace( PrintStream s )
-    {
-        super.printStackTrace( s );
-        if( getCause() != null )
-        {
-            getCause().printStackTrace( s );
-        }
-    }
-
-    public void printStackTrace( PrintWriter s )
-    {
-        super.printStackTrace( s );
-        if( getCause() != null )
-        {
-            getCause().printStackTrace( s );
-        }
     }
 }
