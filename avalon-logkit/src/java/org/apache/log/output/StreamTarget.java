@@ -10,8 +10,6 @@ package org.apache.log.output;
 import java.io.IOException;
 import java.io.OutputStream;
 import org.apache.log.Formatter;
-import org.apache.log.LogEvent;
-import org.apache.log.LogTarget;
 
 /**
  * A basic target that writes to an OutputStream.
@@ -99,7 +97,6 @@ public class StreamTarget
 
     /**
      * Shutdown output stream.
-     *
      */
     protected synchronized void shutdownStream()
     {
