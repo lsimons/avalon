@@ -57,8 +57,8 @@ $ merlin -execute target\classes -info
       <subsection name="Targetted debugging using -config">
 
         <p>
-        We can also override the logging priority for the component using the 
-        a target override directive.  
+        We can also override the logging priority for the component using 
+        a target override directive.
         </p>
         <p><i>${basedir}\conf\config.xml</i></p>
 <source><![CDATA[
@@ -122,8 +122,8 @@ $ merlin -execute target\classes -config conf\config.xml
         <p>
         As the compoent has been declared in the block.xml file, the default
         deployment policy is to deploy it on startup.  In this example the 
-        component is a transient component with.  The logging message details
-        the lifestyle and policy re. activation on startup.
+        component is a transient component.  The logging message details
+        the lifestyle and policy during activation on startup.
         </p>
 
 <source><![CDATA[
@@ -175,14 +175,14 @@ $ merlin -execute target\classes -config conf\config.xml
 
         <p>
         When merlin is launched in execute mode (using the -execute command
-        line parameter, Merlin automatically initiates container decomissioning
+        line parameter), Merlin automatically initiates container decomissioning
         once deployment is complete.  If the -execute parameter is absent, Merlin 
         will continue until a ^C interup is encountered.
         </p>
 
         <p>
         Decommissioning of a component involves stopping the compoent if it 
-        implements the Startable interface, foloowed by component disposal.
+        implements the Startable interface, followed by component disposal.
         </p>
 
 <source><![CDATA[

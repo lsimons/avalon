@@ -26,11 +26,11 @@
   </header>
   <body>
     <section name="Using Merlin">
-      <subsection name="Using configuration overrides">
+      <subsection name="Using Configuration Overrides">
         <p>
         The Merlin command line tool allows the specification of a  
         set of overriding configuration targets. Each target in the 
-        &lt;targets&gt; set contains a a configuration that may be 
+        &lt;targets&gt; set contains a configuration that may be 
         applied to a named component.  This allows modification of a 
         configuration without modification of a packaged block.xml
         file.
@@ -41,6 +41,7 @@
         </p>
       </subsection>
       <subsection name="Target Override Format">
+        <p><i>config.xml</i></p>
 <source><![CDATA[
 <targets>
   <target path="/tutorial/hello">
@@ -58,8 +59,9 @@
         in the tutorials/configuration package).
         </p>
         <source>
+$ maven
 $ merlin -execute target\classes -config conf\config.xml 
-        </source>
+</source>
         <p>
         Executing Merlin demonstrates that the configuration supplied
         to the hello component reflects the configuration element contained
