@@ -21,7 +21,10 @@ public class FileTarget
     extends StreamTarget
 {
     ///File we are writing to
-    private File   m_file;
+    private File     m_file;
+
+    ///Flag indicating whether or not file should be appended to
+    private boolean  m_append;
 
     /**
      * COnstruct file target to write to a file with a formatter. 
@@ -39,13 +42,12 @@ public class FileTarget
         if( null != file )
         {
             setFile( file, append );
+            openFile();
         }
     }
 
     /**
      * Set the file for this target.
-     * This method will attempt to create directories below file and 
-     * append to it if specified.
      *
      * @param file the file to write to
      * @param append true if file is to be appended to, false otherwise
@@ -59,19 +61,37 @@ public class FileTarget
             throw new NullPointerException( "file property must not be null" );
         }
 
-        final File parent = file.getParentFile();
+        if( isOpen() )
+        {
+            throw new IOException( "target must be closed before " + 
+                                   "file property can be set" );
+        }
+
+        m_append = append;
+        m_file = file;
+    }
+
+    /**
+     * Open underlying file and allocate resources.
+     * This method will attempt to create directories below file and 
+     * append to it if specified.
+     */
+    public void openFile()
+        throws IOException
+    {
+        if( isOpen() ) close();
+
+        final File parent = getFile().getParentFile();
         if( !parent.exists() )
         {
             parent.mkdirs();
         }
 
         final FileOutputStream outputStream = 
-            new FileOutputStream( file.getPath(), append );
+            new FileOutputStream( getFile().getPath(), m_append );
 
-        super.close();
         setOutputStream( outputStream );
         open();
-        m_file = file;
     }
 
     /**
