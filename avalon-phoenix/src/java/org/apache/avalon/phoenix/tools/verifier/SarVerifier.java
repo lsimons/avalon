@@ -31,7 +31,7 @@ import org.apache.avalon.phoenix.metainfo.BlockInfo;
 import org.apache.avalon.phoenix.metainfo.DependencyDescriptor;
 import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
 import org.apache.excalibur.containerkit.verifier.VerifyException;
-import org.apache.excalibur.containerkit.verifier.Verifier;
+import org.apache.excalibur.containerkit.verifier.ComponentVerifier;
 
 /**
  * This Class verifies that Sars are valid. It performs a number
@@ -59,7 +59,7 @@ import org.apache.excalibur.containerkit.verifier.Verifier;
  * </ul>
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.21 $ $Date: 2002/06/04 07:51:07 $
+ * @version $Revision: 1.22 $ $Date: 2002/06/06 03:42:56 $
  */
 public class SarVerifier
     extends AbstractLogEnabled
@@ -417,7 +417,7 @@ public class SarVerifier
     {
         try
         {
-            final Verifier verifier = new Verifier();
+            final ComponentVerifier verifier = new ComponentVerifier();
             setupLogger( verifier );
             verifier.
                 verifyComponent( name, clazz, interfaces );
