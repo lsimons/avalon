@@ -63,7 +63,6 @@ Legal:
   -->
   <property name="src.dir" value="src"/>
   <property name="java.dir" value="${src.dir}/java"/>
-  <property name="script.dir" value="${src.dir}/script"/>
   <property name="lib.dir" value="lib"/>
   <property name="tools.dir" value="tools"/>
   <property name="docs.dir" value="docs"/>
@@ -210,6 +209,7 @@ Legal:
   -->
   <target name="jars" depends="compile">
 
+    <mkdir dir="${build.lib}"/>
     <jar jarfile="${build.lib}/avalonapi.jar" basedir="${build.classes}">
       <include name="org/apache/avalon/**"/>
       <zipfileset src="${lib.dir}/log.jar" includes="**/*.class"/>
