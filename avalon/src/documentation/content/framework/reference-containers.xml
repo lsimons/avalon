@@ -71,7 +71,7 @@
           Sun specified servlet context of a web-app.  It is designed for such
           Servlet-context reuse. ECM is the most stable of the containers (it is the
 	  only one with a stable release); it is also arguably the worst design.
-	  See <link href="@AVALON_BASE@/excalibur/component/">ECM</link>.
+	  See <link href="../excalibur/component/">ECM</link>.
         </p>
       </section>
       <section>
@@ -80,7 +80,7 @@
           Fortress is ment as a future replacement of ECM. It fixes several of ECMs flaws
 	  like a mixup of concerns. It is built to be very extensible, and it includes
 	  support for custom lifecycle extensions. Fortress is still pre-alpha.
-	  See <link href="@AVALON_BASE@/excalibur/fortress/">Fortress</link>.
+	  See <link href="../excalibur/fortress/">Fortress</link>.
         </p>
       </section>
       <section>
