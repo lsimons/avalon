@@ -34,6 +34,15 @@
     </j:if>
   </goal>
 
+  <goal name="merlin:test" prereqs="test:test"
+      description="Simulated deployment from ${maven.build.dir}/test-classes">
+    <j:set var="merlin.target" value="${maven.build.dir}/test-classes"/>
+    <util:file var="target" name="${merlin.target}"/>
+    <j:if test="${target.exists()}">
+       <attainGoal name="merlin:execute"/>
+    </j:if>
+  </goal>
+
   <goal name="merlin:execute" prereqs="merlin:prepare-context">
     <merlin:kernel 
       repository="${merlin.repository.local}" 

@@ -61,12 +61,14 @@
 
         <p>
         Binary downloads of the official release of Merlin installation, tutorials, and 
-        related documentation are available at on the following <a         href="http://avalon.apache.org/download.cgi">Avalon Download Mirror</a>.
+        related documentation are available at on the following 
+        <a href="http://avalon.apache.org/download.cgi">Avalon Download Mirror</a>.
         </p>
-  
+
         <p>
-        The <a href="http://www.apache.org/~mcconnell/dist/merlin-3.0">Merlin Binary Distribution</a>
-        site contains interim builds and release candidates.
+        <a href="http://www.dpml.net/merlin/distributions/?M=D">Interim builds</a> of the 
+        Merlin platform are hosted under the DPML.  Please note that snapshot builds are 
+        not subject to a formal release review process.
         </p>
 
       </subsection>
