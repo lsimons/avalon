@@ -25,7 +25,7 @@ import org.apache.avalon.phoenix.metainfo.ServiceDescriptor;
  * is specified in the BlockInfo specification.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.16 $ $Date: 2002/05/15 12:11:13 $
+ * @version $Revision: 1.17 $ $Date: 2002/06/06 02:24:52 $
  */
 public final class BlockInfoBuilder
     extends AbstractLogEnabled
@@ -215,10 +215,8 @@ public final class BlockInfoBuilder
      *
      * @param version the version string
      * @return the created Version object
-     * @throws ConfigurationException if an error occurs
      */
     private Version buildVersion( final String version )
-        throws ConfigurationException
     {
         return Version.getVersion( version );
     }
