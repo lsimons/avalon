@@ -20,7 +20,7 @@ import org.apache.avalon.framework.activity.Initializable;
  * thread to manage the number of SQL Connections.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.16 $ $Date: 2002/04/02 14:29:15 $
+ * @version CVS $Revision: 1.17 $ $Date: 2002/04/07 06:22:10 $
  * @since 4.0
  */
 public class JdbcConnectionPool
@@ -29,17 +29,21 @@ public class JdbcConnectionPool
 {
     private Thread m_initThread;
     private final boolean m_autoCommit;
-    private boolean m_noConnections = false;
+    private boolean m_noConnections;
     private long m_wait = -1;
     private HashSet m_waitingThreads = new HashSet();
 
-    public JdbcConnectionPool( final JdbcConnectionFactory factory, final DefaultPoolController controller, final int min, final int max, final boolean autoCommit )
+    public JdbcConnectionPool( final JdbcConnectionFactory factory, 
+                               final DefaultPoolController controller, 
+                               final int min, 
+                               final int max, 
+                               final boolean autoCommit )
         throws Exception
     {
         super( factory, controller, max );
         m_min = min;
 
-        this.m_autoCommit = autoCommit;
+        m_autoCommit = autoCommit;
     }
 
     /**
@@ -84,13 +88,13 @@ public class JdbcConnectionPool
                 try
                 {
                     curMillis = System.currentTimeMillis();
-                    m_mutex.release();
+                    unlock();
 
                     thread.wait( endTime - curMillis );
                 }
                 finally
                 {
-                    m_mutex.acquire();
+                    lock();
                 }
 
                 try
@@ -143,7 +147,7 @@ public class JdbcConnectionPool
 
             try
             {
-                m_mutex.acquire();
+                lock();
                 if( m_active.contains( obj ) )
                 {
                     m_active.remove( obj );
@@ -165,7 +169,7 @@ public class JdbcConnectionPool
             }
             finally
             {
-                m_mutex.release();
+                unlock();
             }
         }
 
