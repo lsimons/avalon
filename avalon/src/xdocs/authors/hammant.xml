@@ -8,10 +8,17 @@
   </address>
   <authorblurb>
     <para>
-       Paul is most interested in applications that run in/on Phoenix.  As such he constantly trawls the internet look for suitable server applications for Pheonix.  He tries to persuade the authors to rebase to Phoenix.
+       Paul is most interested in applications that run on top of Phoenix.  As such he constantly
+       trawls the internet look for suitable server applications for Pheonix.  He tries to persuade 
+       the authors to rebase to Phoenix or make their apps phoenix compatible.
     </para>
     <para>
-       Paul wrote some of the demos for Cornerstone.  He also started AvalonDB and Jesktop.  He also looks other blocks like "Bay" (the wrapper for Catalina for Phoenix) and Soapification (a wrapper for Glue).
+       Paul wrote some of blocks for Cornerstone and some of the apps in Avalon apps.   
+       He also started <link href="http://jakarta.apache.org/avalon/apps/apps/db/index.html">AvalonDB</link>,
+       <link href="http://www.jesktop.com">Jesktop</link>, 
+       <link href="http://jakarta.apache.org/avalon/excalibur/altrmi.html">Excalibur-AltRMI</link> and 
+       <link href="http://www.enterpriseobjectbroker.org">Enterprise Object Broker</link>.
     </para>
   </authorblurb>
 </author>
+
