@@ -63,10 +63,10 @@ import java.util.Set;
 
 /**
  * <p>
- * 	<code>BCELCodeGenerator</code> creates implementations for the
- * 	{@link org.apache.bcel.classfile.Method Method}s and
+ *  <code>BCELCodeGenerator</code> creates implementations for the
+ *  {@link org.apache.bcel.classfile.Method Method}s and
  *  {@link org.apache.bcel.classfile.Field Field}s needed in creating a
- * 	<code>WrapperClass</code>.
+ *  <code>WrapperClass</code>.
  * </p>
  *
  * @author <a href="mailto:olaf.bergner@gmx.de>Olaf Bergner</a>
@@ -82,9 +82,9 @@ public final class BCELCodeGenerator
      * The name of the field holding the wrapped class in the generated
      * wrapper, e.g.
      * <pre>
-     * 	<code>
-     * 		private final <ClassToWrap> WRAPPED_CLASS_FN;
-     * 	</code>
+     *  <code>
+     *      private final <ClassToWrap> WRAPPED_CLASS_FN;
+     *  </code>
      * </pre>
      */
     private static final String WRAPPED_CLASS_FN = "m_wrappedClass";
@@ -193,9 +193,9 @@ public final class BCELCodeGenerator
     /**
      * Create a field declaration of the form
      * <pre>
-     * 	<code>
-     * 		private <ClassToWrap> WRAPPED_CLASS_FN;
-     * 	</code>
+     *  <code>
+     *      private <ClassToWrap> WRAPPED_CLASS_FN;
+     *  </code>
      * </pre>
      *
      * @return Field
@@ -224,12 +224,12 @@ public final class BCELCodeGenerator
     /**
      * Create the wrapper class' default constructor:
      * <pre>
-     * 	<code>
-     * 		public <wrapperClass>(<classToWrap> classToWrap)
-     * 		{
-     * 			this.<WRAPPED_CLASS_FN> = classToWrap;
-     * 		}
-     * 	</code>
+     *  <code>
+     *      public <wrapperClass>(<classToWrap> classToWrap)
+     *      {
+     *          this.<WRAPPED_CLASS_FN> = classToWrap;
+     *      }
+     *  </code>
      * </pre>
      *
      * @return The created default constructor
@@ -284,12 +284,12 @@ public final class BCELCodeGenerator
     /**
      * Create a field accessor for the wrapped class instance of the form
      * <pre>
-     * 	<code>
-     * 		public Object <ACCESSOR_METHOD_NAME>()
-     * 		{
-     * 			return this.<WRAPPED_CLASS_FN>;
-     * 		}
-     * 	</code>
+     *  <code>
+     *      public Object <ACCESSOR_METHOD_NAME>()
+     *      {
+     *          return this.<WRAPPED_CLASS_FN>;
+     *      }
+     *  </code>
      * </pre>
      * @return Method
      * @throws IllegalStateException
@@ -335,23 +335,23 @@ public final class BCELCodeGenerator
     /**
      * Create a method declaration/definition of the form
      * <pre>
-     * 	<code>
-     * 		public <returnType> <methodName>(<parameterTypes>)
-     * 			throws <exceptionNames>
-     * 		{
-     * 			return this.<WRAPPED_CLASS_FN>.<methodName>(<parameterTypes>);
-     * 		}
-     * 	</code>
+     *  <code>
+     *      public <returnType> <methodName>(<parameterTypes>)
+     *          throws <exceptionNames>
+     *      {
+     *          return this.<WRAPPED_CLASS_FN>.<methodName>(<parameterTypes>);
+     *      }
+     *  </code>
      * </pre>
      *
      * @param methodName     The name of the method to create
      * @param returnType     The return type of the method to create
      * @param parameterTypes The array of parameter types of the method to create
      * @param exceptionNames The array of the names of the exceptions the method
-     * 						  to create might throw
+     *                        to create might throw
      *
-     * @return Method		  The {@link org.apache.bcel.classfile.Method Method}
-     * 						  object representing the created method
+     * @return Method         The {@link org.apache.bcel.classfile.Method Method}
+     *                        object representing the created method
      *
      * @throws IllegalArgumentException If any of the parameters passed in is null.
      * @throws IllegalStateException If this instance is not initialized.
@@ -437,18 +437,18 @@ public final class BCELCodeGenerator
     /**
      * Create a method declaration/definition of the form
      * <pre>
-     * 	<code>
-     * 		public <returnType> <methodName>(<parameterTypes>)
-     * 			throws <exceptionNames>
-     * 		{
-     * 			return this.<WRAPPED_CLASS_FN>.<methodName>(<parameterTypes>);
-     * 		}
-     * 	</code>
+     *  <code>
+     *      public <returnType> <methodName>(<parameterTypes>)
+     *          throws <exceptionNames>
+     *      {
+     *          return this.<WRAPPED_CLASS_FN>.<methodName>(<parameterTypes>);
+     *      }
+     *  </code>
      * </pre>
      *
      * @param methodToWrap The <code>Method</code> to create a wrapper for.
      *
-     * @return Method		The wrapper method.
+     * @return Method       The wrapper method.
      *
      * @throws IllegalArgumentException If <code>methodToWrao</code> is null.
      * @throws IllegalStateException If this instance is not initialized.
@@ -475,9 +475,9 @@ public final class BCELCodeGenerator
      *
      * @param interfaceToImplement The interface we want to create an implementation for
      * @return Method[]            An array of {@link org.apache.bcel.classfile.Method Method}
-     * 								instances representing the interface implementation.
+     *                              instances representing the interface implementation.
      * @throws IllegalArgumentException If <code>interfaceToImplement</code> is <code>null</code>
-     * 									 or does not represent an interface
+     *                                   or does not represent an interface
      * @throws IllegalStateException    If this instance has not been initialized
      */
     public Method[] createImplementation( final JavaClass interfaceToImplement )
@@ -538,8 +538,8 @@ public final class BCELCodeGenerator
      * and returns the extracted <code>Method</code>.
      *
      * @param mg The {@link org.apache.bcel.generic.MethodGen MethodGen} instance
-     * 			  holding the {@link org.apache.bcel.classfile.Method Method} to
-     * 			  extract
+     *            holding the {@link org.apache.bcel.classfile.Method Method} to
+     *            extract
      * @return   The extracted {@link org.apache.bcel.classfile.Method Method}
      */
     private Method extractMethod( final MethodGen mg )
@@ -565,10 +565,10 @@ public final class BCELCodeGenerator
      * instance. This instance is supposed to represent an interface.
      *
      * @param interfaceToImplement The {@link org.apache.bcel.classfile.JavaClass JavaClass}
-     * 								instance representing the interface we are asking for
-     * 								its methods.
-     * @return Method[]			The array of {@link org.apache.bcel.classfile.Method Method}s
-     * 								declared by the interface
+     *                              instance representing the interface we are asking for
+     *                              its methods.
+     * @return Method[]         The array of {@link org.apache.bcel.classfile.Method Method}s
+     *                              declared by the interface
      * @throws IllegalArgumentException If <code>interfaceToImplement</code> does not represent an interface
      * @throws NullPointerException if the <code>interfaceToImplement</code> is <code>null</code>
      */

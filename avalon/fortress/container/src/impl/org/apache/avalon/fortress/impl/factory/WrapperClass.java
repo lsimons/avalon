@@ -51,7 +51,7 @@ package org.apache.avalon.fortress.impl.factory;
 
 /**
  * <p>
- * 	The interface <code>WrapperClass</code> provides a means of asking a dynamically
+ *  The interface <code>WrapperClass</code> provides a means of asking a dynamically
  *  created wrapper for a given object for said wrapped object.
  * </p>
  *

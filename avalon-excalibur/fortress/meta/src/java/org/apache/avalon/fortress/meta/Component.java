@@ -65,7 +65,7 @@ import java.util.Set;
  * Represents a component, and output the meta information.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.3 $ $Date: 2003/04/18 20:02:31 $
+ * @version CVS $Revision: 1.4 $ $Date: 2003/05/14 15:54:47 $
  */
 final class Component
 {
