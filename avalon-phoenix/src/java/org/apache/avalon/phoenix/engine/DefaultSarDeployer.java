@@ -157,7 +157,7 @@ public class DefaultSarDeployer
     private File getDestinationFor( final String location, final File file )
     {
         final String name =
-            FileUtil.removeExtention( FileUtil.removePath( file.getName() ) );
+            FileUtil.removeExtension( FileUtil.removePath( file.getName() ) );
 
         if( null != m_deployDirectory )
         {

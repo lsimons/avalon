@@ -84,13 +84,11 @@ public class PhoenixManager
     }
 
     public void dispose()
-        throws Exception
     {
         //TODO: Unregister everything here or in embeddor???
         m_rmiAdaptor = null;
         m_mBeanServer = null;
     }
-
 
     /**
      * Export the object to the particular management medium using
@@ -178,7 +176,8 @@ public class PhoenixManager
         }
         catch( final Exception e )
         {
-            throw new ParameterException( "Failed to create MBean Server of class " + className, e );
+            throw new ParameterException( "Failed to create MBean Server of class " + 
+                                          className, e );
         }
     }
 }

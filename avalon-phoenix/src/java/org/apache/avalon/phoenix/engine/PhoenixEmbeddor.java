@@ -181,7 +181,6 @@ public class PhoenixEmbeddor
      * Release all the resources associated with kernel.
      */
     public void dispose()
-        throws Exception
     {
         if( null != m_systemManager )
         {
