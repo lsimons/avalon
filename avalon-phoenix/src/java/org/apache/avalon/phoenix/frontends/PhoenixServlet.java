@@ -30,6 +30,7 @@ import org.apache.log.Priority;
 import org.apache.log.output.io.FileTarget;
 
 /**
+ * WARNING: DO NOT USE THIS SERVLET FOR REAL SERVICE. THIS IS EXPERIMENTAL.
  * Servlet frontends for SingleAppEmbeddor.
  *
  * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>
