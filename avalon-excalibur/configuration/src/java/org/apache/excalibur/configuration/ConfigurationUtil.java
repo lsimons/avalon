@@ -10,7 +10,12 @@
 
 package org.apache.excalibur.configuration;
 
+import java.util.Vector;
+
 import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.CascadingRuntimeException;
+import org.apache.avalon.framework.configuration.DefaultConfiguration;
 
 /**
  * General utility supporting static operations for generating string
@@ -19,6 +24,8 @@ import org.apache.avalon.framework.configuration.Configuration;
  */
 public class ConfigurationUtil
 {
+     private static final Configuration[] EMPTY_CONFS = new Configuration[0];
+
     /**
      * Returns a simple string representation of the the supplied configuration.
      * @param config a configuration
@@ -68,6 +75,106 @@ public class ConfigurationUtil
                 buffer.append( "/>" );
             }
         }
+    }
+
+   /**
+    * Return all occurance of a configuration child containing the supplied attribute name.
+    * @param config the configuration
+    * @param element the name of child elements to select from the configuration
+    * @param attribute the attribute name to filter
+    * @param value the attribute value to match (null will match any attribute value)
+    * @return an array of configuration instances matching the query
+    */
+    public static Configuration[] match( Configuration config, String element, String attribute )
+    {
+        return match( config, element, attribute, null );
+    }
+
+   /**
+    * Return occurance of a configuration child containing the supplied attribute name and value.
+    * @param config the configuration
+    * @param element the name of child elements to select from the configuration
+    * @param attribute the attribute name to filter
+    * @param value the attribute value to match (null will match any attribute value)
+    * @return an array of configuration instances matching the query
+    */
+    public static Configuration[] match( 
+      final Configuration config, final String element, final String attribute, final String value )
+    {
+        Vector vector = new Vector();
+
+        Configuration[] children = config.getChildren( element );
+        for( int i=0; i<children.length; i++ )
+        {
+            String v = children[i].getAttribute( attribute, null );
+            if( v != null )
+            {
+                if(( value == null ) || v.equals( value ))
+                {
+                    // it's a match
+                    vector.add( children[i] );
+                }
+            }
+        }
+        return (Configuration[]) vector.toArray( EMPTY_CONFS );
+    }
+
+   /**
+    * Return the first occurance of a configuration child containing the supplied attribute name and value
+    * or create a new empty configuration if no match found.
+    * @param config the configuration
+    * @param element the name of child elements to select from the configuration
+    * @param attribute the attribute name to filter
+    * @param value the attribute value to match (null will match any attribute value)
+    * @return a configuration instances matching the query or empty configuration
+    */
+    public static Configuration matchFirstOccurance( 
+       Configuration config, String element, String attribute, String value )
+    {
+        try
+        {
+            return matchFirstOccurance( config, element, attribute, value, true );
+        }
+        catch( ConfigurationException e )
+        {
+            // will not happen
+            throw new CascadingRuntimeException("Unexpected exception condition.", e );
+        }
+    }
+
+
+   /**
+    * Return the first occurance of a configuration child containing the supplied attribute 
+    * name and value.  If the supplied creation policy if TRUE and no match is found, an 
+    * empty configuration instance is returned, otherwise a null will returned.
+    * @param config the configuration
+    * @param element the name of child elements to select from the configuration
+    * @param attribute the attribute name to filter
+    * @param value the attribute value to match (null will match any attribute value)
+    * @param create the creation policy if no match
+    * @return a configuration instances matching the query
+    */
+    public static Configuration matchFirstOccurance( 
+       Configuration config, String element, String attribute, String value, boolean create )
+       throws ConfigurationException
+    {
+        Configuration[] children = config.getChildren( element );
+        for( int i=0; i<children.length; i++ )
+        {
+            String v = children[i].getAttribute( attribute, null );
+            if( v != null )
+            {
+                if(( value == null ) || v.equals( value ))
+                {
+                    // it's a match
+                    return children[i];
+                }
+            }
+        }
+
+        if( create )
+            return new DefaultConfiguration( element, null );
+        return null;
     }
 }
 
