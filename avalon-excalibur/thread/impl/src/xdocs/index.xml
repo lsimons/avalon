@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+
+<document>
+  <header>
+    <title>Excalibur Thread Pool Utilities - Overview</title>
+    <authors>
+      <person name="Berin Loritsch" email="bloritsch@apache.org"/>
+      <person name="Leo Simons" email="mail@leosimons.com"/>
+    </authors>
+  </header>
+  <body>
+    <section><title>Introduction</title>
+      <warn>
+        This package is under development, and the API is not
+        guaranteed to be the same when it is ready for release.
+        You can find this in the Scratchpad.jar file if you want
+        to play with it.  Do not blame us if the next release of
+        Excalibur breaks your code if you use this package.
+      </warn>
+      <p>
+        Avalon Excalibur's Thread Pool Management code is still under
+        development.  The package is <code>org.apache.avalon.excalibur.thread</code>
+        in the Scratchpad jar.  It is functional, using the no resource
+        limiting pool implementation in Excalibur's Pool package.  Expect
+        the interface to this change before we promote it to Excalibur.
+      </p>
+    </section>
+  </body>
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
+      $Revision: 1.1 $ $Date: 2003/11/09 14:48:32 $
+    </legal>
+  </footer>
+</document>
