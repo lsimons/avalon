@@ -27,7 +27,7 @@
       </stream>
       <file id="file">
         <filename>TEST-org.apache.avalon.excalibur.datasource.test.DataSourceJdbcTestCase.log</filename>
-        <format type="extended">
+        <format type="avalon">
           %7.7{priority} %5.5{time}   [%8.8{category}] (%{context}): %{message}\n%{throwable}
         </format>
       </file>
@@ -53,11 +53,13 @@
   -->
   <components>
     <datasource logger="test">
-      <pool-controller min="5" max="10"/>
-      <driver>@test.jdbc.driver@</driver>
-      <dburl>@test.jdbc.url@</dburl>
-      <user>@test.jdbc.user@</user>
-      <password>@test.jdbc.password@</password>
+      <pool-controller min="5" max="10" timeout="1000">
+         <keep-alive disable="true"/>
+      </pool-controller>
+      <driver>org.hsqldb.jdbcDriver</driver>
+      <dburl>jdbc:hsqldb:test</dburl>
+      <user>SA</user>
+      <password/>
     </datasource>
   </components>
 </testcase>
