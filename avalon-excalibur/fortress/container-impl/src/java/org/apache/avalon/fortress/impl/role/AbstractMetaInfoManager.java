@@ -63,7 +63,7 @@ import java.util.List;
  * Provides the foundation for MetaInfoManagers.
  *
  * @author <a href="bloritsch.at.apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.2 $
+ * @version CVS $Revision: 1.3 $
  */
 public abstract class AbstractMetaInfoManager extends AbstractLogEnabled implements MetaInfoManager
 {
@@ -250,5 +250,17 @@ public abstract class AbstractMetaInfoManager extends AbstractLogEnabled impleme
     protected ClassLoader getLoader()
     {
         return m_loader;
+    }
+    
+    /**
+     * Let us know that the meta and dependency info has already been
+     * loaded for a given class name.
+     * 
+     * @param className  The name of the class to check
+     * @return <code>true</code> if it has been added
+     */
+    protected boolean isAlreadyAdded( String className )
+    {
+    	return m_classnames.containsKey( className );
     }
 }
