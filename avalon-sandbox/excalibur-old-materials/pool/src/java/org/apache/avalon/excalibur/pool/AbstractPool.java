@@ -21,7 +21,7 @@ import org.apache.avalon.framework.thread.ThreadSafe;
  * This is an <code>Pool</code> that caches Poolable objects for reuse.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/04/07 06:04:21 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/04/07 06:23:13 $
  * @since 4.0
  */
 public abstract class AbstractPool
@@ -67,6 +67,16 @@ public abstract class AbstractPool
 
         m_initialized = true;
 
+        m_mutex.release();
+    }
+
+    protected final void lock()
+    {
+        m_mutex.acquire();
+    }
+
+    protected final void unlock()
+    {
         m_mutex.release();
     }
 
