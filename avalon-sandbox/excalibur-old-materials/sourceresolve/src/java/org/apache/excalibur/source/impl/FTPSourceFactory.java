@@ -76,20 +76,20 @@ import org.apache.excalibur.source.SourceFactory;
 public final class FTPSourceFactory extends URLSourceFactory implements SourceFactory, ThreadSafe
 {
 
-	public FTPSourceFactory() 
-	{
-		super();
-	}
+    public FTPSourceFactory() 
+    {
+        super();
+    }
 
-	/**
-	 * Creates an FTPSource.
-	 */
-	protected Source createURLSource( final URL url, final Map parameters ) 
-		throws MalformedURLException, IOException 
-	{
-		URLSource result = new FTPSource();
-		result.init(url, parameters);
-		return result;	
-	}
-	
+    /**
+     * Creates an FTPSource.
+     */
+    protected Source createURLSource( final URL url, final Map parameters ) 
+        throws MalformedURLException, IOException 
+    {
+        URLSource result = new FTPSource();
+        result.init(url, parameters);
+        return result;  
+    }
+    
 }

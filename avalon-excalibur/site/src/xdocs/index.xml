@@ -17,15 +17,15 @@
       </p>
       <p>
         Not all of the code in excalibur CVS nor all the packages
-	listed in the menu have been released; some are in an
-	alpha or planning stage.
-	Individual packages inside Excalibur that have been released
-	can be downloaded from
-	<a href="http://avalon.apache.org/bindownload.cgi">here</a>.
+    listed in the menu have been released; some are in an
+    alpha or planning stage.
+    Individual packages inside Excalibur that have been released
+    can be downloaded from
+    <a href="http://avalon.apache.org/bindownload.cgi">here</a>.
       </p>
       <warn>
         Packages that have not been officially released are of varying
-	quality and/or stability. They are <strong>NOT</strong>
+    quality and/or stability. They are <strong>NOT</strong>
         meant for production use. You have been warned.
       </warn>
     </section>
@@ -33,7 +33,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.10 $ $Date: 2003/03/02 06:58:15 $
+      $Revision: 1.11 $ $Date: 2003/07/07 16:50:41 $
     </legal>
   </footer>
 </document>

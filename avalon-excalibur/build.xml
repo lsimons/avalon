@@ -87,7 +87,7 @@
     </target>
 
     <target name="prj-lifecycle">
-	    <ant dir="lifecycle" target="${subproject-target}"/>
+        <ant dir="lifecycle" target="${subproject-target}"/>
     </target>
 
     <!-- Logger -->
@@ -127,7 +127,7 @@
     <!--  Ant to decide on the correct build order. -->
     <target name="build-all-subprojects"
         depends="prj-compatibility,
-		prj-i18n, prj-extension,
+        prj-i18n, prj-extension,
                 prj-configuration, prj-event,
                 prj-thread, prj-monitor, prj-fortress, prj-datasource,
                 prj-instrument, prj-store, prj-logger,
@@ -165,14 +165,14 @@
             <pathelement location="instrument/src/client"/>
             <pathelement location="instrument/src/manager"/>
             <pathelement location="instrument/src/test"/>
-	    <pathelement location="compatibility/src/java"/>
-	    <pathelement location="compatibility/src/test"/>
+        <pathelement location="compatibility/src/java"/>
+        <pathelement location="compatibility/src/test"/>
             <pathelement location="extension/src/java"/>
             <pathelement location="extension/src/test"/>
             <pathelement location="i18n/src/java"/>
             <pathelement location="i18n/src/test"/>
-	    <pathelement location="lifecycle/src/java"/>
-	    <pathelement location="lifecycle/src/test"/>
+        <pathelement location="lifecycle/src/java"/>
+        <pathelement location="lifecycle/src/test"/>
             <pathelement location="monitor/src/java"/>
             <pathelement location="monitor/src/test"/>
             <pathelement location="naming/src/java"/>

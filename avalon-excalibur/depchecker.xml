@@ -3,7 +3,7 @@
 <!--
 ============================================================
                 Dependency updater
-                   Version $Revision: 1.54 $
+                   Version $Revision: 1.55 $
            Jeff Turner <jefft@apache.org>
 
 This Ant script provides "functions" to check if
@@ -375,8 +375,8 @@ To use it, type 'ant -f depchecker.xml'
     <target name="checkCompatibility">
       <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
         <property name="proj.jar.name" value="excalibur-compatibility-1.0.jar"/>
-	    <property name="path" value="${excalibur-compatibility.jar}"/>
-	    <property name="proj.home" value="${basedir}/../compatibility"/>
+        <property name="path" value="${excalibur-compatibility.jar}"/>
+        <property name="proj.home" value="${basedir}/../compatibility"/>
       </ant>
     </target>
     <target name="checkInstrument">
@@ -420,7 +420,7 @@ To use it, type 'ant -f depchecker.xml'
     <target name="checkLifecycle">
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
             <property name="proj.jar.name" value="excalibur-lifecycle.jar"/>
-	    <property name="path" value="${excalibur-lifecycle.jar}"/>
+        <property name="path" value="${excalibur-lifecycle.jar}"/>
             <property name="proj.home" value="${basedir}/../lifecycle"/>
         </ant>
     </target>

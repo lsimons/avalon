@@ -11,8 +11,8 @@ message if not found.
 -->
 
 <target name="site" depends="forrest.init" description="Generates static HTML documentation">
-	<property name="project.home" value="../"/>
-	<delete dir="${project.home}/build"/>
+    <property name="project.home" value="../"/>
+    <delete dir="${project.home}/build"/>
     <ant antfile="${forrest.home}/forrest.antproxy.xml" target="site"/>
   </target>
 

@@ -62,7 +62,7 @@ import junit.framework.TestCase;
  * Test case for SourceUtil.
  *
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @version $Id: SourceUtilTestCase.java,v 1.4 2003/06/10 14:40:28 bloritsch Exp $
+ * @version $Id: SourceUtilTestCase.java,v 1.5 2003/07/07 16:50:41 bloritsch Exp $
  */
 public class SourceUtilTestCase extends TestCase
 {
@@ -126,7 +126,7 @@ public class SourceUtilTestCase extends TestCase
         assertEquals(-1, SourceUtil.indexOfSchemeColon("h~ttp:foo"));
         assertEquals(-1, SourceUtil.indexOfSchemeColon("~http:foo"));
         assertEquals(-1, SourceUtil.indexOfSchemeColon("http~:foo"));
-	}
+    }
 
     public void testAbsolutize()
     {

@@ -82,9 +82,9 @@
    </p>
 
     <ol>
-	    <li>Define the new component interface
+        <li>Define the new component interface
 
-		    <br/><br/>
+            <br/><br/>
       Create the new interface defining the operations that should be called upon components
       that implement this interface. Using the previously mentioned examples, this would be
       your <code>SecurityManageable</code>, <code>Cacheable</code>, <code>Decryptable</code>,
@@ -92,9 +92,9 @@
       </li>
 
      <li>Define an extension object that calls upon the methods defined in the new interface,
-	     during one or more of the pre-defined phases of component's lifecycle
+         during one or more of the pre-defined phases of component's lifecycle
 
-	     <br/><br/>
+         <br/><br/>
       Create a class that implements the <code>Creator</code> and/or <code>Accessor</code>
       interfaces and implemets the interaction with target components supplied under the
       create, destroy, access and relase operations.
@@ -102,7 +102,7 @@
 
      <li>Register your extension object
 
-	     <br/><br/>
+         <br/><br/>
        This depends on the container you are using.  In
        Merlin you need to include the &lt;extensions&gt; tag in the component .xinfo file and
        Merlin will automatically recognize it.  In Fortress you register the extension object
@@ -110,8 +110,8 @@
        </li>
 
      <li>Implement the new component interface on your component
-	     <br/><br/>
-	    
+         <br/><br/>
+        
       Add the new <code>implements</code> clause to your Component, or Component implementation,
       and write any methods defined in the implemented interface.
       <br/><br/>
@@ -129,28 +129,28 @@
    </p>
 
     <ol>
-	    <li>Creation
+        <li>Creation
 
-		    <br/><br/>
+            <br/><br/>
       When the component is instantiated.
       </li>
 
      <li>Access
 
-	     <br/><br/>
+         <br/><br/>
       When the component is accessed via a ServiceManager/Selector
       (<code>lookup()/select()</code>).
       </li>
 
      <li>Release
 
-	     <br/><br/>
+         <br/><br/>
       When the component is released via a ServiceManager/Selector (<code>release()</code>).
       </li>
 
      <li>Destruction
 
-	     <br/><br/>
+         <br/><br/>
       When the component is decommissioned, ready for garbage collection.
       
      </li>
@@ -277,7 +277,7 @@ and release stages must implement this interface.
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.2 $ $Date: 2003/03/11 15:53:56 $
+      $Revision: 1.3 $ $Date: 2003/07/07 16:50:41 $
     </legal>
   </footer>
 </document>
