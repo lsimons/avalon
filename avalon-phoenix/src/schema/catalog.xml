@@ -39,4 +39,20 @@
         publicId="-//AVALON/Component Info DTD Version 1.0//EN"
         systemId="http://avalon.apache.org/dtds/info/componentinfo_1_0.dtd"
         resource="org/apache/avalon/phoenix/tools/componentinfo.dtd"/>
+    <entity
+        publicId="-//PHOENIX/Block Info DTD Version 1.0//EN"
+        systemId="http://jakarta.apache.org/phoenix/blockinfo_1.0.dtd"
+        resource="org/apache/avalon/phoenix/tools/blockinfo.dtd"/>
+    <entity
+        publicId="-//PHOENIX/Block Info DTD Version 1.0//EN"
+        systemId="http://jakarta.apache.org/phoenix/blockinfo_1_0.dtd"
+        resource="org/apache/avalon/phoenix/tools/blockinfo.dtd"/>
+    <entity
+        publicId="-//PHOENIX/Block Info DTD Version 1.0//EN"
+        systemId="http://jakarta.apache.org/avalon/dtds/phoenix/blockinfo_1_0.dtd"
+        resource="org/apache/avalon/phoenix/tools/blockinfo.dtd"/>
+    <entity
+        publicId="-//PHOENIX/Block Info DTD Version 1.0//EN"
+        systemId="http://jakarta.apache.org/avalon/dtds/phoenix/blockinfo_1.0.dtd"
+        resource="org/apache/avalon/phoenix/tools/blockinfo.dtd"/>
 </catalog>
