@@ -74,7 +74,7 @@ Legal:
 
     <property name="tools.jar" value="${java.home}/../lib/tools.jar"/>
 
-    <property name="logkit.jar" value="${tools.dir}/ext/logkit-1.1.jar"/>
+    <property name="logkit.jar" value="${tools.dir}/ext/logkit-1.2.jar"/>
     <property name="xerces.jar" value="${tools.dir}/lib/xerces-2.0.1.jar"/>
     <property name="xalan.jar" value="${tools.dir}/lib/xalan-2.3.1.jar"/>
     <property name="bsf.jar" value="${tools.dir}/lib/bsf.jar"/>
@@ -633,7 +633,14 @@ Legal:
         <copy file="${logkit.jar}" todir="${src.dist.lib}"/>
 
         <copy todir="${src.dist.src}">
-            <fileset dir="${src.dir}"/>
+	  <fileset dir="${src.dir}">
+	    <exclude name="**/*.zip"/>
+	    <exclude name="src/diagrams/**"/>
+	    <exclude name="src/documentation/**"/>
+	    <exclude name="src/logos/**"/>
+	    <exclude name="src/maven/**"/>
+	    <exclude name="src/proposal/**"/>
+          </fileset>
         </copy>
 
         <copy todir="${src.dist.docs}">
