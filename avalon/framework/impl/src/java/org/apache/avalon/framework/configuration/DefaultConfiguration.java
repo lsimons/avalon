@@ -62,7 +62,7 @@ import java.util.HashMap;
  * This is the default <code>Configuration</code> implementation.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.36 $ $Date: 2003/08/29 18:49:36 $
+ * @version CVS $Revision: 1.37 $ $Date: 2003/12/09 15:59:31 $
  */
 public class DefaultConfiguration
     extends AbstractConfiguration
@@ -82,6 +82,21 @@ public class DefaultConfiguration
     private String m_value;
     private boolean m_readOnly;
 
+    /**
+     * Shallow copy constructor, suitable for craeting a writable clone of
+     * a read-only configuration. To modify children, use <code>getChild()</code>, 
+     * <code>removeChild()</code> and <code>addChild()</code>.
+     * 
+     * @param config the <code>Configuration</code> to copy
+     * @throws ConfigurationException if an error occurs when copying
+     */
+    public DefaultConfiguration( Configuration config ) throws ConfigurationException
+    {
+        this( config.getName(), config.getLocation(), config.getNamespace(), 
+            ( (config instanceof AbstractConfiguration) ? ((AbstractConfiguration)config).getPrefix() : "") );
+        addAll( config );
+    }
+    
     /**
      * Create a new <code>DefaultConfiguration</code> instance.
      * @param name a <code>String</code> value
@@ -111,7 +126,7 @@ public class DefaultConfiguration
      * elements with a longer namespace string. Should not be null; use "" if no
      * namespace.
      * @since 4.1
-    */
+     */
     public DefaultConfiguration( final String name,
                                  final String location,
                                  final String ns,
@@ -379,7 +394,47 @@ public class DefaultConfiguration
 
         m_value = value;
     }
+    
+    /**
+     * Set the value of this <code>Configuration</code> object to the specified int.
+     *
+     * @param value a <code>int</code> value
+     */
+    public void setValue( final int value )
+    {
+        setValue( String.valueOf( value ) );
+    }
+    
+    /**
+     * Set the value of this <code>Configuration</code> object to the specified long.
+     *
+     * @param value a <code>long</code> value
+     */
+    public void setValue( final long value )
+    {
+        setValue( String.valueOf( value ) );
+    }
 
+    /**
+     * Set the value of this <code>Configuration</code> object to the specified boolean.
+     *
+     * @param value a <code>boolean</code> value
+     */
+    public void setValue( final boolean value )
+    {
+        setValue( String.valueOf( value ) );
+    }    
+    
+    /**
+     * Set the value of this <code>Configuration</code> object to the specified float.
+     *
+     * @param value a <code>float</code> value
+     */
+    public void setValue( final float value )
+    {
+        setValue( String.valueOf( value ) );
+    }    
+    
     /**
      * Set the value of the specified attribute to the specified string.
      *
@@ -395,6 +450,50 @@ public class DefaultConfiguration
             m_attributes = new HashMap();
         }
         m_attributes.put( name, value );
+    }
+    
+    /**
+     * Set the value of the specified attribute to the specified int.
+     *
+     * @param name name of the attribute to set
+     * @param value an <code>int</code> value
+     */
+    public void setAttribute( final String name, final int value )
+    {
+        setAttribute( name, String.valueOf( value ) );
+    }
+    
+    /**
+     * Set the value of the specified attribute to the specified long.
+     *
+     * @param name name of the attribute to set
+     * @param value an <code>long</code> value
+     */
+    public void setAttribute( final String name, final long value )
+    {
+        setAttribute( name, String.valueOf( value ) );
+    }
+    
+    /**
+     * Set the value of the specified attribute to the specified boolean.
+     *
+     * @param name name of the attribute to set
+     * @param value an <code>boolean</code> value
+     */
+    public void setAttribute( final String name, final boolean value )
+    {
+        setAttribute( name, String.valueOf( value ) );
+    }
+    
+    /**
+     * Set the value of the specified attribute to the specified float.
+     *
+     * @param name name of the attribute to set
+     * @param value an <code>float</code> value
+     */
+    public void setAttribute( final String name, final float value )
+    {
+        setAttribute( name, String.valueOf( value ) );
     }
 
     /**
