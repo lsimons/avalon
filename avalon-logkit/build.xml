@@ -69,6 +69,7 @@ Legal:
 
   <property name="tools.jar" value="${java.home}/../lib/tools.jar"/>
   <property name="testlet.jar" value="${tools.dir}/lib/testlet.jar"/>
+  <property name="j2ee.jar" value="${cjan.dir}/j2ee.jar"/>
 
   <property name="dist.name" value="${Name}-${version}"/>
   <property name="dist.base" value="distributions"/>
@@ -82,6 +83,7 @@ Legal:
     <pathelement path="${java.class.path}" />
     <pathelement location="${testlet.jar}"/>
     <pathelement path="${servlet.jar}" />
+    <pathelement path="${j2ee.jar}" />
     <fileset dir="${lib.dir}">
       <include name="*.jar" />
       <exclude name="servlet*.jar" />
