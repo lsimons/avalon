@@ -18,7 +18,7 @@ import xjavadoc.XClass;
  *
  * @author <a href="mailto:vinay_chandran@users.sourceforge.net">Vinay Chandrasekharan</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2002/04/18 10:26:04 $
+ * @version $Revision: 1.5 $ $Date: 2002/05/12 07:07:32 $
  */
 public class BlockInfoSubTask
     extends TemplateSubTask
@@ -35,7 +35,8 @@ public class BlockInfoSubTask
 
     public BlockInfoSubTask()
     {
-        setTemplateFile( new File( DEFAULT_TEMPLATE_FILE ) );
+        final URL resource = getClass().getResource( DEFAULT_TEMPLATE_FILE );
+        setTemplateURL( resource );
         setDestinationFile( GENERATED_FILE_NAME );
         setOfType( "org.apache.avalon.phoenix.Block" );
 

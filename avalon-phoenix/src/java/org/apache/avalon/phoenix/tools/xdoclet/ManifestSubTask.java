@@ -9,6 +9,7 @@ package org.apache.avalon.phoenix.tools.xdoclet;
 
 import xjavadoc.XClass;
 import java.io.File;
+import java.net.URL;
 import xdoclet.TemplateSubTask;
 import xdoclet.XDocletException;
 
@@ -17,7 +18,7 @@ import xdoclet.XDocletException;
  *
  * @author <a href="mailto:vinay_chandran@users.sourceforge.net">Vinay Chandrasekharan</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2002/04/18 10:26:04 $
+ * @version $Revision: 1.4 $ $Date: 2002/05/12 07:07:32 $
  */
 public class ManifestSubTask
     extends TemplateSubTask
@@ -35,7 +36,8 @@ public class ManifestSubTask
 
     public ManifestSubTask()
     {
-        setTemplateFile( new File( DEFAULT_TEMPLATE_FILE ) );
+        final URL resource = getClass().getResource( DEFAULT_TEMPLATE_FILE );
+        setTemplateURL( resource );
         setDestinationFile( GENERATED_FILE_NAME );
         setOfType( "org.apache.avalon.phoenix.Block" );
 
