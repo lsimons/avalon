@@ -27,7 +27,7 @@ import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
  * Block or Listener.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2002/05/19 03:58:30 $
+ * @version $Revision: 1.6 $ $Date: 2002/05/20 10:15:34 $
  */
 class ListenerAccessor
     extends AbstractLogEnabled
@@ -39,7 +39,7 @@ class ListenerAccessor
     /**
      * Context in which Blocks/Listeners operate.
      */
-    protected final ApplicationContext m_context;
+    private final ApplicationContext m_context;
 
     public ListenerAccessor( final ApplicationContext context )
     {
