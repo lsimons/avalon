@@ -24,7 +24,7 @@ import org.apache.avalon.framework.context.Context;
  * a fully qualifed context can be established.</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2004/02/22 16:12:58 $
+ * @version $Revision: 1.5 $ $Date: 2004/02/22 17:28:29 $
  */
 public interface ContextModel extends Dependent
 {
@@ -71,5 +71,13 @@ public interface ContextModel extends Dependent
     * @param model the entry model
     */
     void setEntryModel( String key, EntryModel model );
+
+   /**
+    * Set the entry to a suplied value.
+    * 
+    * @param key the entry key
+    * @param value the entry value
+    */
+    void setEntry( String key, Object value );
 
 }

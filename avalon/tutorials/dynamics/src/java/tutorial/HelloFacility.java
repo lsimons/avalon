@@ -1,5 +1,7 @@
 package tutorial;
 
+import java.io.File;
+
 import org.apache.avalon.composition.model.ContainmentModel;
 import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.model.ComponentModel;
@@ -96,15 +98,11 @@ public class HelloFacility
        getLogger().info( "looking for a widget" );
 
        //
-       // create a reference to the widget service
+       // create a reference to the widget service and resolve a reference
+       // to a component model using the service reference
        //
 
        ReferenceDescriptor reference = new ReferenceDescriptor( Widget.class.getName() );
-
-       //
-       // get hold of a model representing a widget deployment scenario
-       //
-
        ComponentModel model = (ComponentModel) m_model.getModel( reference );
        getLogger().info( "got a widget model: " + model );
 
@@ -147,6 +145,29 @@ public class HelloFacility
        model.release( widget );
        model.decommission();
 
+       //
+       // that's enought playing around with configurations - lets 
+       // grab a gizmo model and fiddle with its context
+       //
+
+       getLogger().info( "lets play with the gizmo" );
+       reference = new ReferenceDescriptor( Gizmo.class.getName() );
+       model = (ComponentModel) m_model.getModel( reference );
+       getLogger().info( "got a gizmo model: " + model );
+
+       //
+       // override the standard home context entry with something
+       // we have derived
+       //
+
+       getLogger().info( "building alternative context entry" );
+       model.getContextModel().setEntry( 
+         "urn:avalon:home", 
+          new File( System.getProperty( "user.dir" ) ) );
+       model.commission();
+       Gizmo gizmo = (Gizmo) model.resolve();
+       getLogger().info( "got a gizmo: " + gizmo );
+   
    }
 
    //---------------------------------------------------------
