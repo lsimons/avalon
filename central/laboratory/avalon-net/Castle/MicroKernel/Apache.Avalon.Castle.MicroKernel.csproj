@@ -129,6 +129,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "IKernelEvents.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "IKernelSubsystem.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -309,6 +314,36 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Interceptor\AbstractInterceptor.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Interceptor\IInterceptedComponent.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Interceptor\IInterceptedComponentBuilder.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Interceptor\IInterceptor.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Interceptor\Default\DefaultInterceptedComponentBuilder.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Interceptor\Default\InterceptedComponent.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Lifestyle\ILifestyleManager.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -415,21 +450,6 @@
                 />
                 <File
                     RelPath = "Subsystems\Context\Default\ContextManager.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Subsystems\Events\EventManagerData.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Subsystems\Events\IEventManager.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Subsystems\Events\Default\EventManager.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

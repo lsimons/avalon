@@ -16,11 +16,8 @@ namespace Apache.Avalon.Castle.MicroKernel.Subsystems.Configuration.Default
 {
 	using System;
 	using System.Collections;
-	using System.Collections.Specialized;
-	using System.Configuration;
 
 	using Apache.Avalon.Framework;
-	using Apache.Avalon.Castle.MicroKernel.Model;
 	using Apache.Avalon.Castle.MicroKernel.Subsystems;
 
 	/// <summary>
@@ -45,7 +42,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Subsystems.Configuration.Default
 		/// Implementation should return a configuration for 
 		/// the component.
 		/// </summary>
-		/// <param name="model"></param>
+		/// <param name="componentName"></param>
 		/// <returns></returns>
 		public IConfiguration GetConfiguration(String componentName)
 		{

@@ -1,4 +1,4 @@
- // Copyright 2004 The Apache Software Foundation
+// Copyright 2004 The Apache Software Foundation
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,31 +12,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Apache.Avalon.Castle.MicroKernel
+namespace Apache.Avalon.Castle.MicroKernel.Interceptor
 {
 	using System;
 
 	/// <summary>
-	/// Summary description for IHandler.
+	/// Implementors should define their strategy to create 
+	/// <see cref="IInterceptedComponent"/> instance for the
+	/// specified component instance.
 	/// </summary>
-	public interface IHandler : IResolver
+	public interface IInterceptedComponentBuilder
 	{
 		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="kernel"></param>
-		void Init(IKernel kernel);
-
-		/// <summary>
-		/// 
-		/// </summary>
-		State ActualState { get; }
-
-		/// <summary>
-		/// 
+		/// Should return an implementation of <see cref="IInterceptedComponent"/>
+		/// which should be responsible for exposing a proxied instance 
+		/// capable of dealing with an interception chain.
 		/// </summary>
 		/// <param name="instance"></param>
+		/// <param name="service"></param>
 		/// <returns></returns>
-		bool IsOwner(object instance);
+		IInterceptedComponent CreateInterceptedComponent( object instance, Type service );
 	}
 }

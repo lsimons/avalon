@@ -1,4 +1,4 @@
- // Copyright 2004 The Apache Software Foundation
+// Copyright 2004 The Apache Software Foundation
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,31 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Apache.Avalon.Castle.MicroKernel
+namespace Apache.Avalon.Castle.MicroKernel.Interceptor
 {
 	using System;
 
 	/// <summary>
-	/// Summary description for IHandler.
+	/// Summary description for IInterceptedComponent.
 	/// </summary>
-	public interface IHandler : IResolver
+	public interface IInterceptedComponent
 	{
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="kernel"></param>
-		void Init(IKernel kernel);
+		object ProxiedInstance { get; }
 
-		/// <summary>
-		/// 
-		/// </summary>
-		State ActualState { get; }
+		void Add( IInterceptor interceptor );
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="instance"></param>
-		/// <returns></returns>
-		bool IsOwner(object instance);
+		IInterceptor InterceptorChain { get; }
 	}
 }

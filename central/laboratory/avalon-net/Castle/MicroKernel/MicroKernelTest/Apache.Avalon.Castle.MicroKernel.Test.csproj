@@ -92,7 +92,7 @@
                 <Reference
                     Name = "nunit.framework"
                     AssemblyName = "nunit.framework"
-                    HintPath = "..\..\..\..\..\..\..\..\..\..\dotnet\NUnit2\bin\nunit.framework.dll"
+                    HintPath = "..\..\..\..\..\..\..\dotnet\NUnit2\bin\nunit.framework.dll"
                 />
             </References>
         </Build>
@@ -140,16 +140,6 @@
                 />
                 <File
                     RelPath = "DependencyDisposeTestCase.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "EventManagerTestCase.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "EventSubsystemTestCase.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -305,6 +295,21 @@
                 />
                 <File
                     RelPath = "Concerns\StartConcernTestCase.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Interceptor\AbstractInterceptorTestCase.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Interceptor\DefaultInterceptedComponentBuilderTestCase.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Interceptor\InterceptedComponentTestCase.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

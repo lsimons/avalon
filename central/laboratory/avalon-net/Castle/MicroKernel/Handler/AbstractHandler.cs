@@ -41,8 +41,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Handler
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="service"></param>
-		/// <param name="implementation"></param>
+		/// <param name="model"></param>
 		public AbstractHandler( IComponentModel model )
 		{
 			AssertUtil.ArgumentNotNull( model, "model" );
@@ -59,7 +58,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Handler
 
 		public virtual object Resolve()
 		{
-			if (m_state == State.WaitingDependency)
+			if (ActualState == State.WaitingDependency)
 			{
 				throw new HandlerException("Can't Resolve component. It has dependencies to be satisfied.");
 			}
