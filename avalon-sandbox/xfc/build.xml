@@ -25,6 +25,7 @@
 
     <path id="test.class.path">
         <pathelement location="${build.testclasses}"/>
+        <pathelement location="${excalibur-configuration.jar}"/>
         <pathelement location="${junit.jar}"/>
         <path refid="project.class.path"/>
     </path>
@@ -50,6 +51,7 @@
         <!-- Need the jar to prevent recursive deps. -->
 
         <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkJUnit"/>
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkConfiguration"/>	
     </target>
 
 
