@@ -144,7 +144,7 @@
       <fileset dir="${basedir}">
         <include name="LICENSE.txt"/>
         <include name="README.TXT"/>
-        <include name="INSTALLATION.TXT"/>
+        <include name="INSTALL.TXT"/>
       </fileset>
     </ant:copy>
 
@@ -155,7 +155,7 @@
        <include name="README.TXT"/>
     </ant:fixcrlf>
     <ant:fixcrlf eol="crlf" srcdir="${merlin.build.dir}">
-       <include name="INSTALLATION.TXT"/>
+       <include name="INSTALL.TXT"/>
     </ant:fixcrlf>
     <ant:fixcrlf eol="crlf" srcdir="${merlin.build.inst.dir}/bin">
       <include name="merlin.bat"/>
@@ -200,7 +200,7 @@
       <zipfileset dir="${merlin.build.inst.dir}" prefix="merlin"/>
       <zipfileset dir="${maven.build.dir}/plugins" prefix="plugins"/>
       <fileset dir="${basedir}">
-        <include name="INSTALLATION.TXT"/>
+        <include name="INSTALL.TXT"/>
       </fileset>
     </ant:zip>
     <checksum file="${maven.build.dir}/${package.name}.zip"/>
@@ -209,7 +209,7 @@
       <tarfileset dir="${merlin.build.inst.dir}" prefix="merlin"/>
       <tarfileset dir="${maven.build.dir}/plugins" prefix="plugins"/>
       <fileset dir="${basedir}">
-        <include name="INSTALLATION.TXT"/>
+        <include name="INSTALL.TXT"/>
       </fileset>
     </ant:tar>
     <ant:gzip 
