@@ -13,6 +13,7 @@ STRUCTURE:
   merlin
     |
     +-- activation               activation implementation
+    +-- activation-api           activation API interfaces and classes
     +-- activation-spi           activation SPI interfaces and classes
     +-- composition              composition implementation
     +-- composition-spi          composition SPI interfaces and classes
