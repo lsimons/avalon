@@ -7,9 +7,112 @@
   </properties> 
 
   <body>
+
     <section name="Home Task">
+
       <p>
+      The home task is responsible for the initialization of 
+      the magic environment.  This includes:
       </p>
+
+      <ul>
+        <li>loading of ${basedir}/user.properties</li>
+        <li>loading of ${basedir}/build.properties</li>
+        <li>loading of ${project.system}/index.properties</li>
+        <li>setup of an artifact repository</li>
+        <li>setup of an doc repository</li>
+        <li>initialization of the project model</li>
+      </ul>
+
+      <subsection name="Property Loading">
+
+      <p>
+      The home task will automatically load properties into the 
+      current project.
+      </p>
+
+      <ul>
+        <li>loading of ${basedir}/user.properties</li>
+        <li>loading of ${basedir}/build.properties</li>
+      </ul>
+
+      <p>
+      If a home has not been loaded then home initialization will 
+      occur relative to ${project.system}.  The default value of 
+      ${project.system} is ${project.home}.  The ${project.system}
+      defines the location of system level properties controlling
+      cache and proxy setup. System properties are defined under the 
+      property file ${project.system}/index.properties.  
+      </p>
+
+      </subsection>
+      <subsection name="Repository Initialization">
+
+      <p>
+      Repositories for build deliverables and documentation are 
+      establish. The default location for the build deliverable
+      repository is defined by the property ${project.main.cache}. 
+      If the value of this property is a relative path it will be
+      resolved relative to ${project.system). If undefined, the 
+      initialization procedure will attempt to locate the environment
+      variable AVALON_HOME and if defined, the AVALON_HOME/repository
+      path will be used.  If AVALON_HOME is undefined, 
+      ${project.system}/.cache will be used.
+      </p>
+
+      <p>
+      The documentation repository currently defaults to 
+      ${project.system}/.docs.
+      </p>
+
+      </subsection>
+      <subsection name="Model Loading">
+
+      <p>
+      The home task loads an index file if not already loaded.
+      If not declared explicity, the index file is located using 
+      ${project.home}/index.xml. A static immutable datastructure 
+      will be created and made available to magic aware tasks.
+      </p>
+
+      </subsection>
+      <subsection name="Usage">
+
+      <p>
+      The following example demonstrates the initialization of 
+      a home using an explicit index file.
+      </p>
+
+<source><![CDATA[
+  <x:home index="../../released-packages.xml"/>
+]]></source>
+
+      <p>
+      The following example demonstrates the initialization of 
+      a home using a default ${project.home}/index.xml.
+      </p>
+
+<source><![CDATA[
+  <property name="project.home" value="../.."/>
+
+  <x:home/>
+]]></source>
+
+      <p>
+      If the index attribute is not declared and ${project.home} 
+      is undefined, a build failure will occur.  
+      </p>
+
+      </subsection>
+      <subsection name="Notes">
+
+      <p>
+      IMPORTANT NOTE : once initialized, a home may not be redefined.
+      Subsequent home references within composite build files will not
+      change an existing home definition.
+      </p>
+
+      </subsection>
     </section>
   </body>
 
