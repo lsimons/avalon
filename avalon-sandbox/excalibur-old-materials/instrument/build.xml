@@ -246,6 +246,13 @@
         <jar jarfile="${build.lib}/${manager-interfaces.name}.jar"
             basedir="${build.manager.classes}"
             compress="${build.compress}">
+            <manifest>
+              <attribute name="Extension-Name" value="${name}"/>
+              <attribute name="Specification-Vendor" value="Apache Software Foundation"/>
+              <attribute name="Specification-Version" value="1.0"/>
+              <attribute name="Implementation-Vendor" value="Apache Software Foundation"/>
+              <attribute name="Implementation-Version" value="${package-version}"/>
+            </manifest>
             <include name="**/interfaces/**"/>
             <exclude name="**/test/**"/>
             <zipfileset dir=".." prefix="META-INF/">
