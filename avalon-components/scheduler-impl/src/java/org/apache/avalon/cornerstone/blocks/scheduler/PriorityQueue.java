@@ -57,10 +57,10 @@ import java.util.NoSuchElementException;
  * This interface does not dictate whether it is min or max heap.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.2 $ $Date: 2003/06/19 20:31:29 $
+ * @version CVS $Revision: 1.3 $ $Date: 2003/08/23 09:40:05 $
  * @since 4.0
  */
-interface PriorityQueue
+public interface PriorityQueue
 {
     /**
      * Clear all elements from queue.

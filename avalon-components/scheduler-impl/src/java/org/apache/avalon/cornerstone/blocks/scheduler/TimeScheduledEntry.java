@@ -60,7 +60,7 @@ import org.apache.avalon.cornerstone.services.scheduler.TimeTrigger;
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
-final class TimeScheduledEntry
+public final class TimeScheduledEntry
     implements Comparable
 {
     private static final SimpleDateFormat DATEFORMAT = new SimpleDateFormat();
