@@ -26,6 +26,16 @@ public class PriorityFilter
     }
 
     /**
+     * Set priority used to filter.
+     *
+     * @param priority the priority to filter on
+     */
+    public void setPriority( final Priority priority )
+    {
+        m_priority = priority;
+    }
+
+    /**
      * Filter the log event based on priority.
      *
      * If LogEvent has a Lower or Equal priroity then discard it.
