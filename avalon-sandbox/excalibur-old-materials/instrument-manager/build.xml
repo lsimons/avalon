@@ -241,7 +241,7 @@
 
         <mkdir dir="${dist.dir}"/>
         <copy file="${build.lib}/${dist.name}.jar" todir="${dist.dir}"/>
-        <copy file="${build.lib}/${dist-client.name}.jar" todir="${dist.dir}"/>
+        <copy file="${build.lib}/${dist-interfaces.name}.jar" todir="${dist.dir}"/>
         <copy file="../LICENSE.txt" todir="${dist.dir}"/>
         <copy file="../KEYS" todir="${dist.dir}"/>
 
