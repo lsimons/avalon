@@ -1,0 +1,34 @@
+#!/bin/sh
+#
+
+export MERLIN_VERSION="3.2"
+
+# Checking for JAVA_HOME is required on *nix due
+# to some distributions stupidly including kaffe in /usr/bin
+if [ "$JAVA_HOME" = "" ] ; then
+  echo "ERROR: JAVA_HOME not found in your environment."
+  echo
+  echo "Please, set the JAVA_HOME variable in your environment to match the"
+  echo "location of the Java Virtual Machine you want to use."
+  exit 1
+fi
+
+PLATFORM=`uname`
+CWD=`pwd`
+BIN_DIR=`dirname "$0"`
+cd "$BIN_DIR"
+ABSOLUTE_PATH=`pwd`
+cd "$CWD"
+
+export MERLIN_HOME=`dirname "$ABSOLUTE_PATH"`
+export MERLIN_BOOTSTRAP_JAR=$MERLIN_HOME/bin/lib/merlin-cli-$MERLIN_VERSION.jar
+
+if [ `echo $PLATFORM | grep "CYGWIN"` ] ; then
+    exec "$MERLIN_HOME/bin/internal-cygwin.sh" "$@"
+
+elif [ `echo $PLATFORM | grep "Linux"` ] ; then
+    exec "$MERLIN_HOME/bin/internal-unix.sh" "$@"
+else
+    echo "Starting Default Unix script"
+    exec "$MERLIN_HOME/bin/internal-unix.sh" "$@"
+fi

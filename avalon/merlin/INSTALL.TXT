@@ -90,8 +90,8 @@ Special Note for JRE 1.3 and earlier.
 Some applications assume that XML parsing classes are available withing
 the JRE.  This is not the case with JDK 1.3 and earlier.  To resolve this
 you can copy the following files to the JAVAHOME/lib/ext directory or 
-declare an alternative directory as a JMV argument under the 
-MERLIN_JVM_OPTS environment variable.
+declare an alternative directory as a JVM argument under the 
+MERLIN_JVM_OPTS environment variable, i.e. -Djava.ext.dir=someDirectory
 
   system/xml-apis/jars/xml-apis-2.0.2.jar
   system/xml-apis/jars/xmlParserAPIs-2.0.2.jar
