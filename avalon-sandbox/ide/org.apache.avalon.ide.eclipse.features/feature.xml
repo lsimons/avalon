@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="org.apache.avalon.developer"
+      id="org.apache.avalon.developer3"
       label="MerlinDeveloper Feature"
       version="0.0.1"
       provider-name="Apache Software Foundation"
@@ -47,6 +47,6 @@
          id="org.apache.avalon.MerlinDeveloperUI"
          download-size="0"
          install-size="0"
-         version="0.0.2"/>
+         version="0.0.1"/>
 
 </feature>

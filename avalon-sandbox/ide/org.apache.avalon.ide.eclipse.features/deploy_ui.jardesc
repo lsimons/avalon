@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jardesc>
-    <jar path="C:/develop/eclipse/workspace/MerlinDeveloper UpdateSite/plugins/org.apache.avalon.MerlinDeveloperUI_0.0.1.jar"/>
-    <options overwrite="false" compress="true" exportErrors="true" exportWarnings="true" saveDescription="true" descriptionLocation="/MerlinDeveloper Feature/deploy_ui.jardesc" useSourceFolders="false" buildIfNeeded="true"/>
+    <jar path="C:/develop/eclipse/workspace/org.apache.avalon.ide.eclipse.update/plugins/org.apache.avalon.MerlinDeveloperUI_0.0.1.jar"/>
+    <options overwrite="false" compress="true" exportErrors="true" exportWarnings="true" saveDescription="true" descriptionLocation="/org.apache.avalon.ide.eclipse.features/deploy_ui.jardesc" useSourceFolders="false" buildIfNeeded="true"/>
     <manifest manifestVersion="1.0" usesManifest="true" reuseManifest="false" saveManifest="false" generateManifest="true" manifestLocation="">
         <sealing sealJar="false">
             <packagesToSeal/>
@@ -9,11 +9,11 @@
         </sealing>
     </manifest>
     <selectedElements exportClassFiles="true" exportJavaFiles="false">
-        <folder path="/MerlinDeveloper UI/properties"/>
-        <folder path="/MerlinDeveloper UI/icons"/>
-        <file path="/MerlinDeveloper UI/MerlinDeveloperUI.jar"/>
-        <file path="/MerlinDeveloper UI/plugin.xml"/>
-        <folder path="/MerlinDeveloper UI/templates"/>
-        <file path="/MerlinDeveloper UI/plugin.properties"/>
+        <file path="/org.apache.avalon.ide.eclipse.ui/MerlinDeveloperUI.jar"/>
+        <folder path="/org.apache.avalon.ide.eclipse.ui/templates"/>
+        <folder path="/org.apache.avalon.ide.eclipse.ui/icons"/>
+        <file path="/org.apache.avalon.ide.eclipse.ui/plugin.xml"/>
+        <file path="/org.apache.avalon.ide.eclipse.ui/plugin.properties"/>
+        <folder path="/org.apache.avalon.ide.eclipse.ui/properties"/>
     </selectedElements>
 </jardesc>

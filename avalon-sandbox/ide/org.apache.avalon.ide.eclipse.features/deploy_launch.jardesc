@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jardesc>
-    <jar path="C:/develop/eclipse/workspace/MerlinDeveloper UpdateSite/plugins/org.apache.avalon.MerlinDeveloperLaunch_0.0.1.jar"/>
-    <options overwrite="false" compress="true" exportErrors="true" exportWarnings="true" saveDescription="true" descriptionLocation="/MerlinDeveloper Feature/deploy_launch.jardesc" useSourceFolders="false" buildIfNeeded="true"/>
+    <jar path="C:/develop/eclipse/workspace/org.apache.avalon.ide.eclipse.update/plugins/org.apache.avalon.MerlinDeveloperLaunch_0.0.1.jar"/>
+    <options overwrite="false" compress="true" exportErrors="true" exportWarnings="true" saveDescription="true" descriptionLocation="/org.apache.avalon.ide.eclipse.features/deploy_launch.jardesc" useSourceFolders="false" buildIfNeeded="true"/>
     <manifest manifestVersion="1.0" usesManifest="true" reuseManifest="false" saveManifest="false" generateManifest="true" manifestLocation="">
         <sealing sealJar="false">
             <packagesToSeal/>
@@ -9,9 +9,9 @@
         </sealing>
     </manifest>
     <selectedElements exportClassFiles="true" exportJavaFiles="false">
-        <file path="/MerlinDeveloper Launch/plugin.xml"/>
-        <folder path="/MerlinDeveloper Launch/icons"/>
-        <folder path="/MerlinDeveloper Launch/lib"/>
-        <file path="/MerlinDeveloper Launch/MerlinDeveloperLaunch.jar"/>
+        <folder path="/org.apache.avalon.ide.eclipse.launch/icons"/>
+        <folder path="/org.apache.avalon.ide.eclipse.launch/lib"/>
+        <file path="/org.apache.avalon.ide.eclipse.launch/plugin.xml"/>
+        <file path="/org.apache.avalon.ide.eclipse.launch/MerlinDeveloperLaunch.jar"/>
     </selectedElements>
 </jardesc>
