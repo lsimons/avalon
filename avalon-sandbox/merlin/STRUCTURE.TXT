@@ -12,21 +12,22 @@ STRUCTURE:
 
   merlin
     |
-    +-- activation               activation implementation
-    +-- activation-api           activation API interfaces and classes
-    +-- activation-spi           activation SPI interfaces and classes
+    +-- activation
+        +- api                   activation API interfaces and classes
+        +- spi                   activation SPI interfaces and classes
+        +- impl                  activation implementation
     +-- composition              composition framework
         +- api                   composition API
         +- spi                   composition SPI
         +- impl                  composition framework implementation
     +-- extension                
-        +-- impl                 jar management implementation
         +-- spi                  jar management SPI interfaces and classes
+        +-- impl                 jar management implementation
     +-- kernel                   
         +- bootstrap             kernel bootstrap
         +- spi                   kernel interfaces
         +- impl                  kernel implementation
-    +-- merlin-plugin            plugin for Maven
+        +- plugin                kernel plugin for Maven
     +-- merlin-extensions        
         +- merlin-jndi           merlin JNDI connector (work-in-progress)
         +- merlin-jndi-new       extended JNDI implementation (work-in-progress)
