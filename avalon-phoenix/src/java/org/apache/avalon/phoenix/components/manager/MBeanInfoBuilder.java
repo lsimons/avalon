@@ -37,7 +37,7 @@ import org.xml.sax.InputSource;
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  * @author <a href="mailto:huw@mmlive.com">Huw Roberts</a>
- * @version $Revision: 1.1 $ $Date: 2002/07/30 12:31:16 $
+ * @version $Revision: 1.2 $ $Date: 2002/07/31 16:52:01 $
  */
 public final class MBeanInfoBuilder extends AbstractLogEnabled
 {
@@ -460,7 +460,10 @@ public final class MBeanInfoBuilder extends AbstractLogEnabled
 
         // additional info needed for modelMbean to work
         final Descriptor descriptor = info.getDescriptor();
-        descriptor.setField( "currencyTimeLimit", new Integer( 1 ) );
+        // TODO: might want to make this configurable. It controls the caching behavior
+        // of the invoke results. MX4J appears to cache this per operation regardless
+        // of what the invoke parameters are *SIGH* - PR
+        descriptor.setField( "currencyTimeLimit", new Integer( 0 ) );
         info.setDescriptor( descriptor );
         return info;
     }
