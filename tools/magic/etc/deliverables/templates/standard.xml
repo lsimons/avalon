@@ -65,7 +65,7 @@
     <x:junit/>
   </target>
 
-  <target name="install" depends="test,checkstyle">
+  <target name="install" depends="test">
     <x:install/>
   </target>
 
@@ -79,7 +79,7 @@
 
   <target name="site" depends="javadoc,xdoc"/>
 
-  <target name="dist" depends="install,site"/>
+  <target name="dist" depends="checkstyle,install,site"/>
   
 </project>
 
