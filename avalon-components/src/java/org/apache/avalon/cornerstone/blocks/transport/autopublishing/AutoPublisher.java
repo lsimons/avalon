@@ -26,7 +26,7 @@ import java.util.Vector;
  *
  *
  * @author Paul Hammant <a href="mailto:Paul_Hammant@yahoo.com">Paul_Hammant@yahoo.com</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class AutoPublisher
    implements BlockListener, Configurable
@@ -110,12 +110,12 @@ public class AutoPublisher
 
          // TODO ?
       }
-      catch (AltrmiPublicationException ape)
-      {
-         ape.printStackTrace();
-
-         // TODO ?
-      }
+      //catch (AltrmiPublicationException ape)
+      //{
+      //   ape.printStackTrace();
+      //
+      //   // TODO ?
+      //}
    }
 
    /**
