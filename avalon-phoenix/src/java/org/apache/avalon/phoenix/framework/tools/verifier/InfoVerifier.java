@@ -86,13 +86,14 @@ import org.apache.avalon.framework.parameters.Parameterizable;
  * </ul>
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003/03/22 12:07:14 $
+ * @version $Revision: 1.4 $ $Date: 2003/04/04 10:56:51 $
  */
 public class InfoVerifier
     extends AbstractLogEnabled
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( InfoVerifier.class );
+    
     /**
      * The verifier for components in assembly.
      */
