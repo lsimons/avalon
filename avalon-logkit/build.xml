@@ -30,6 +30,7 @@ Legal:
   <property name="status" value="final"/>
   <property name="release" value="1st"/>
   <property name="short.version" value="1.0"/>
+  <property name="compress.jars" value="true"/>
 
   <!--
     these are here only for those who use jikes compiler. For other
@@ -340,7 +341,7 @@ Legal:
 
     <mkdir dir="${build.lib}"/>
 
-    <jar jarfile="${build.lib}/${name}.jar" basedir="${build.classes}">
+    <jar jarfile="${build.lib}/${name}.jar" basedir="${build.classes}" compress="${compress.jars}">
       <include name="org/apache/log/**" />
       <exclude name="**/test/*" />
     </jar>
