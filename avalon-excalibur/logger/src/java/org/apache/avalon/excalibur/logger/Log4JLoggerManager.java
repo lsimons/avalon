@@ -20,7 +20,7 @@ import org.apache.log4j.Hierarchy;
  * leaves that as an excercise for Log4J's construction.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/04/04 02:34:14 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/08/07 04:05:59 $
  * @since 4.1
  */
 public class Log4JLoggerManager
@@ -32,14 +32,17 @@ public class Log4JLoggerManager
     /** The root logger to configure */
     private String m_prefix;
 
-    /** The hierarchy private to LogKitManager */
+    /** The hierarchy private to Log4JManager */
     private Hierarchy m_hierarchy;
 
     /** The default logger used for this system */
     final private Logger m_defaultLogger;
+    
+    /** The logger used to log output from the logger manager. */
+    final private Logger m_logger;
 
     /**
-     * Creates a new <code>DefaultLogKitManager</code>. It will use a new <code>Hierarchy</code>.
+     * Creates a new <code>DefaultLog4JManager</code>. It will use a new <code>Hierarchy</code>.
      */
     public Log4JLoggerManager()
     {
@@ -47,7 +50,7 @@ public class Log4JLoggerManager
     }
 
     /**
-     * Creates a new <code>DefaultLogKitManager</code> with an existing <code>Hierarchy</code>.
+     * Creates a new <code>DefaultLog4JManager</code> with an existing <code>Hierarchy</code>.
      */
     public Log4JLoggerManager( final Hierarchy hierarchy )
     {
@@ -55,7 +58,7 @@ public class Log4JLoggerManager
     }
 
     /**
-     * Creates a new <code>DefaultLogKitManager</code> using
+     * Creates a new <code>DefaultLog4JManager</code> using
      * specified logger name as root logger.
      */
     public Log4JLoggerManager( final String prefix )
@@ -64,7 +67,7 @@ public class Log4JLoggerManager
     }
 
     /**
-     * Creates a new <code>DefaultLogKitManager</code> with an existing <code>Hierarchy</code> using
+     * Creates a new <code>DefaultLog4JManager</code> with an existing <code>Hierarchy</code> using
      * specified logger name as root logger.
      */
     public Log4JLoggerManager( final String prefix, final Hierarchy hierarchy )
@@ -74,20 +77,32 @@ public class Log4JLoggerManager
     }
 
     /**
-     * Creates a new <code>DefaultLogKitManager</code> with an existing <code>Hierarchy</code> using
+     * Creates a new <code>DefaultLog4JManager</code> with an existing <code>Hierarchy</code> using
      * specified logger name as root logger.
      */
-    public Log4JLoggerManager( final String prefix, final Hierarchy hierarchy, final Logger defaultLogger )
+    public Log4JLoggerManager( final String prefix, final Hierarchy hierarchy,
+        final Logger defaultLogger )
+    {
+        this( prefix, hierarchy, defaultLogger, defaultLogger );
+    }
+
+    /**
+     * Creates a new <code>DefaultLog4JManager</code> with an existing <code>Hierarchy</code> using
+     * specified logger name as root logger.
+     */
+    public Log4JLoggerManager( final String prefix, final Hierarchy hierarchy,
+        final Logger defaultLogger, final Logger logger )
     {
         m_prefix = prefix;
         m_hierarchy = hierarchy;
         m_defaultLogger = defaultLogger;
+        m_logger = logger;
     }
 
     /**
      * Retrieves a Logger from a category name. Usually
      * the category name refers to a configuration attribute name.  If
-     * this LogKitManager does not have the match the default Logger will
+     * this Log4JManager does not have the match the default Logger will
      * be returned and a warning is issued.
      *
      * @param categoryName  The category name of a configured Logger.
@@ -99,16 +114,16 @@ public class Log4JLoggerManager
 
         if( null != logger )
         {
-            if( m_defaultLogger.isDebugEnabled() )
+            if( m_logger.isDebugEnabled() )
             {
-                m_defaultLogger.debug( "Logger for category " + categoryName + " returned" );
+                m_logger.debug( "Logger for category " + categoryName + " returned" );
             }
             return logger;
         }
 
-        if( m_defaultLogger.isDebugEnabled() )
+        if( m_logger.isDebugEnabled() )
         {
-            m_defaultLogger.debug( "Logger for category " + categoryName
+            m_logger.debug( "Logger for category " + categoryName
                                    + " not defined in configuration. New Logger created and returned" );
         }
 
