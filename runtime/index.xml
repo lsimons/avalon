@@ -367,6 +367,7 @@
       <name>avalon-test-testd</name>
     </info>
     <dependencies>
+      <include key="avalon-test-testa"/>
       <include key="avalon-framework-api"/>
     </dependencies>
     <plugins>
@@ -380,6 +381,7 @@
       <name>avalon-test-teste</name>
     </info>
     <dependencies>
+      <include key="avalon-test-testa"/>
       <include key="avalon-framework-api"/>
     </dependencies>
     <plugins>
@@ -627,6 +629,7 @@
     <info>
       <group>avalon/logging</group>
       <name>avalon-logging-test</name>
+      <type>null</type>
     </info>
     <dependencies>
       <include key="avalon-logging-logkit-impl" test="false"/>
