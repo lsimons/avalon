@@ -61,6 +61,10 @@ namespace Apache.Avalon.DynamicProxy
 			{
 				throw new ArgumentNullException("handler");
 			}
+			if (interfaces.Length == 0)
+			{
+				throw new ArgumentException("Can't deal with a empty interface array");
+			}
 
 			AssemblyName assemblyName = new AssemblyName();
 			assemblyName.Name = "DynamicAssemblyProxyGen";

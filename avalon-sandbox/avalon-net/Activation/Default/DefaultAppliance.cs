@@ -58,7 +58,10 @@ namespace Apache.Avalon.Activation.Default
 		{
 			lock( m_commissioned )
 			{
-				if( m_commissioned.Enabled ) return;
+				if( m_commissioned.Enabled ) 
+				{
+					return;
+				}
 
 				try
 				{
@@ -82,7 +85,10 @@ namespace Apache.Avalon.Activation.Default
 		{
 			lock( m_commissioned )
 			{
-				if( !m_commissioned.Enabled ) return;
+				if( !m_commissioned.Enabled ) 
+				{
+					return;
+				}
 				m_lifestyle.Decommission();
 				m_commissioned.Enabled = false;
 			}
@@ -127,31 +133,7 @@ namespace Apache.Avalon.Activation.Default
 					return m_lifestyle.Resolve();
 				}
 			}
-
-			throw new ArgumentException( "proxy" );
-
-			/*
-			else
-			{
-				ComponentModel model = getComponentModel();
-				Logger logger = model.getLogger().getChildLogger( "proxy" );
-				ApplianceInvocationHandler handler = 
-				new ApplianceInvocationHandler( this, logger );
-
-				try
-				{
-					return Proxy.newProxyInstance( 
-					model.getDeploymentClass().getClassLoader(),
-					model.getInterfaces(),
-					handler );
-				}
-				catch( Throwable e )
-				{
-					final String error = 
-					"Proxy establishment failure in block: " + this;
-					throw new ApplianceException( error, e );
-				}
-			}*/
+			throw new ArgumentException("proxy not supported");
 		}
 
 		/// <summary>
@@ -163,16 +145,7 @@ namespace Apache.Avalon.Activation.Default
 			if( null == instance ) return;
 			if( !m_commissioned.Enabled ) return;
 
-			/*if( Proxy.isProxyClass( instance.getClass() ) )
-			{
-				ApplianceInvocationHandler handler = 
-				(ApplianceInvocationHandler) Proxy.getInvocationHandler( instance );
-				handler.release();
-			}
-			else*/
-			{
-				m_lifestyle.Release( instance );
-			}
+			m_lifestyle.Release( instance );
 		}
 
 		//-------------------------------------------------------------------

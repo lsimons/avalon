@@ -261,7 +261,8 @@ namespace Apache.Avalon.Castle.Core
 
 			if ( m_runtime == null )
 			{
-				m_runtime = new RuntimeProxy( Server, Runtime );
+				m_runtime = (IRuntime) ManagedObjectProxyGenerator.CreateProxy( 
+					Runtime, Server, typeof(IRuntime) );
 			}
 		}
 
@@ -271,7 +272,8 @@ namespace Apache.Avalon.Castle.Core
 
 			if ( m_loggingManager == null )
 			{
-				m_loggingManager = new LoggingManagerProxy( Server, LoggerManager );
+				m_loggingManager = (ILoggingManager) ManagedObjectProxyGenerator.CreateProxy( 
+					LoggerManager, Server, typeof(ILoggingManager) );
 			}
 		}
 
@@ -296,11 +298,7 @@ namespace Apache.Avalon.Castle.Core
 			{
 				m_logger.Debug("Invoking RegisterForPhases on {0}", name);
 
-				Server.Invoke( 
-					name, 
-					"RegisterForPhases", 
-					new object[] { m_notificationSystem }, 
-					new Type[] { typeof(OrchestratorNotificationSystem) } );
+				MXUtil.InvokeOn( Server, name, "RegisterForPhases", m_notificationSystem );
 
 				m_logger.Debug("Done");
 			}

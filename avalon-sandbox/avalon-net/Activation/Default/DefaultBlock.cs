@@ -16,10 +16,12 @@ namespace Apache.Avalon.Activation.Default
 {
 	using System;
 	using System.Collections;
+	using System.Reflection;
 
 	using Apache.Avalon.Framework;
 	using Apache.Avalon.Composition.Model;
 	using Apache.Avalon.Composition.Model.Default;
+	using Apache.Avalon.DynamicProxy;
 
 	/// <summary>
 	/// Summary description for DefaultBlock.
@@ -29,6 +31,8 @@ namespace Apache.Avalon.Activation.Default
 		//-------------------------------------------------------------------
 		// immutable state
 		//-------------------------------------------------------------------
+
+		private object m_proxy;
 
 		private IContainmentModel m_model;
 
@@ -61,16 +65,13 @@ namespace Apache.Avalon.Activation.Default
 
 				try
 				{
-					/*
-					ILogger log = m_model.Logger.CreateChildLogger( "proxy" );
-					final BlockInvocationHandler handler = 
-					new BlockInvocationHandler( log, this );
-					final Class[] classes = getInterfaceClasses();
+					if (InterfaceTypes.Length != 0)
+					{
+						BlockInvocationHandler handler = 
+							new BlockInvocationHandler( this );
 	            
-					m_proxy = Proxy.newProxyInstance( 
-					m_model.getClassLoaderModel().getClassLoader(),
-					classes,
-					handler );*/
+						m_proxy = ProxyGenerator.CreateProxy( InterfaceTypes, handler );
+					}
 
 					m_commissioned.Enabled = true;
 				}
@@ -91,10 +92,10 @@ namespace Apache.Avalon.Activation.Default
 			lock( m_commissioned )
 			{
 				if( !m_commissioned.Enabled ) return;
-				/*if( null != m_proxy )
+				if( null != m_proxy )
 				{
 					m_proxy = null;
-				}*/
+				}
 				m_commissioned.Enabled = false;
 			}
 		}
@@ -114,8 +115,7 @@ namespace Apache.Avalon.Activation.Default
 				String error = "block.error.resolve.non-commission-state " + this.ToString();
 				throw new ApplicationException( error );
 			}
-			// return m_proxy;
-			return this;
+			return m_proxy;
 		}
 
 		/// <summary>
@@ -134,7 +134,7 @@ namespace Apache.Avalon.Activation.Default
 		/// <summary>
 		/// Return the model backing the handler.
 		/// </summary>
-		protected IContainmentModel ContainmentModel
+		protected internal IContainmentModel ContainmentModel
 		{
 			get
 			{
@@ -166,5 +166,54 @@ namespace Apache.Avalon.Activation.Default
 		{
 			return "block:" + ContainmentModel.QualifiedName;
 		}
+	}
+
+	/// <summary>
+	/// 
+	/// </summary>
+	public class BlockInvocationHandler : IInvocationHandler
+	{
+		private DefaultBlock m_block;
+
+		public BlockInvocationHandler( DefaultBlock block )
+		{
+			if (block == null)
+			{
+				throw new ArgumentNullException("block");
+			}
+
+			m_block = block;
+		}
+		
+		#region IInvocationHandler Members
+
+		public object Invoke(object proxy, MethodBase method, params object[] arguments)
+		{
+			IContainmentModel model = m_block.ContainmentModel;
+			Type targetType = method.DeclaringType;
+			IServiceModel service = model.GetServiceModel( targetType );
+
+			if (service == null)
+			{
+				throw new ApplianceException("Unable to resolve an provider for the interface " + targetType);
+			}
+
+			IDeploymentModel provider = service.ServiceProvider;
+
+			Object target = provider.Resolve();
+
+			Type[] parameters = new Type[arguments.Length];
+			
+			for(int i=0; i < arguments.Length; i++ )
+			{
+				parameters[i] = arguments[i].GetType();
+			}
+
+			MethodInfo targetMethod = targetType.GetMethod( method.Name, parameters );
+
+			return targetMethod.Invoke( target, arguments );
+		}
+
+		#endregion
 	}
 }

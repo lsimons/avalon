@@ -1,4 +1,4 @@
-// Copyright 2004 Apache Software Foundation
+// Copyright 2004 The Apache Software Foundation
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,45 +12,62 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Apache.Avalon.Castle.Core.Proxies
+namespace Apache.Avalon.Castle.Default.Runtime
 {
 	using System;
 
 	using Apache.Avalon.Castle.ManagementExtensions;
 	using Apache.Avalon.Castle.Util;
 	using Apache.Avalon.Composition.Model;
+	using Apache.Avalon.Activation.Default;
 
 	/// <summary>
-	/// Summary description for RuntimeProxy.
+	/// Summary description for CastleRuntime.
 	/// </summary>
-	public class RuntimeProxy : AbstractManagedObjectProxy, IRuntime
+	[ManagedComponent]
+	public class CastleRuntime : ManagedService, IRuntime
 	{
-		public RuntimeProxy( MServer server, ManagedObjectName name ) : base( server, name )
+		private ISystemContext m_context;
+
+		public CastleRuntime()
 		{
 		}
-	
+
 		#region IRuntime Members
 
+		[ManagedOperation]
 		public void Decommission(IDeploymentModel model)
 		{
-			MXUtil.InvokeOn ( m_server, m_target, "Decommission", model );
+			// m_runtime.Decommission( model );
 		}
 
+		[ManagedOperation]
 		public void Commission(IDeploymentModel model)
 		{
-			MXUtil.InvokeOn ( m_server, m_target, "Commission", model );
+			// m_runtime.Commission( model );
 		}
 
+		[ManagedOperation]
 		public void Release(IDeploymentModel model, object instance)
 		{
-			MXUtil.InvokeOn ( m_server, m_target, "Release", model, instance );
+			// m_runtime.Release( model, instance );
 		}
 
+		[ManagedOperation]
 		public object Resolve(IDeploymentModel model)
 		{
-			return MXUtil.InvokeOn ( m_server, m_target, "Resolve", model );;
+			// return m_runtime.Resolve( model );;
+			return null;
 		}
 
 		#endregion
+	
+		public override void Start()
+		{
+			base.Start();
+
+			m_context = (ISystemContext) MXUtil.GetAttribute( 
+				Server, CastleConstants.ORCHESTRATOR_NAME, "SystemContext" );
+		}
 	}
 }

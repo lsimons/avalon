@@ -52,7 +52,7 @@ namespace Apache.Avalon.Container.Test.Components
 	[AvalonComponent( "Vehicle", Lifestyle.Transient )]
 	[AvalonDependency( typeof(IEngine), "Engine", Optional.False)]
 	[AvalonDependency( typeof(IRadio), "Radio", Optional.False)]
-	public class Vehicle : IVehicle, ILookupEnabled
+	public class Vehicle : IVehicle, ILookupEnabled, IStartable
 	{
 		private IEngine m_engine;
 		private IRadio  m_radio;
@@ -91,6 +91,20 @@ namespace Apache.Avalon.Container.Test.Components
 			Assertion.Equals( typeof(IEngine), manager["Engine"].GetType() );
 			Assertion.Equals( typeof(IRadio), manager["Radio"].GetType() );
 		}
+
+		#region IStartable Members
+
+		public void Start()
+		{
+			
+		}
+
+		public void Stop()
+		{
+			
+		}
+
+		#endregion
 	}
 
 	[AvalonService( typeof(IEngine) )]

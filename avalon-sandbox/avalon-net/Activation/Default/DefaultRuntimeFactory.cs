@@ -54,7 +54,9 @@ namespace Apache.Avalon.Activation.Default
 				IAppliance runtime = GetRegisteredRuntime( model );
 
 				if( null != runtime ) 
+				{
 					return runtime;
+				}
 
 				//
 				// create the runtime

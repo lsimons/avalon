@@ -33,7 +33,7 @@ namespace Apache.Avalon.Composition.Model.Default
 	/// <author>  
 	/// <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
 	/// </author>
-	/// <version>  $Revision: 1.2 $ $Date: 2004/02/29 18:07:17 $
+	/// <version>  $Revision: 1.3 $ $Date: 2004/03/06 15:44:41 $
 	/// </version>
 	public class DefaultContainmentModel : DefaultDeploymentModel, IContainmentModel
 	{
@@ -71,29 +71,18 @@ namespace Apache.Avalon.Composition.Model.Default
 		// immutable state
 		//--------------------------------------------------------------
 		
-		//UPGRADE_NOTE: Final was removed from the declaration of 'm_compositionListeners '. 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="jlca1003"'
-		//UPGRADE_NOTE: The initialization of  'm_compositionListeners' was moved to method 'InitBlock'. 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="jlca1005"'
 		// private System.Collections.IList m_compositionListeners;
 		
-		//UPGRADE_NOTE: Final was removed from the declaration of 'm_assembly '. 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="jlca1003"'
-		//UPGRADE_NOTE: The initialization of  'm_assembly' was moved to method 'InitBlock'. 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="jlca1005"'
 		private DefaultState m_assembly;
 		
-		//UPGRADE_NOTE: Final was removed from the declaration of 'm_models '. 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="jlca1003"'
-		//UPGRADE_NOTE: The initialization of  'm_models' was moved to method 'InitBlock'. 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="jlca1005"'
 		private System.Collections.IDictionary m_models;
 		
-		//UPGRADE_NOTE: Final was removed from the declaration of 'm_context '. 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="jlca1003"'
 		private IContainmentContext m_context;
 		
-		//UPGRADE_NOTE: Final was removed from the declaration of 'm_partition '. 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="jlca1003"'
 		private String m_partition;
 		
-		//UPGRADE_NOTE: Final was removed from the declaration of 'm_services '. 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="jlca1003"'
 		private IServiceModel[] m_services;
 		
-		//UPGRADE_NOTE: Final was removed from the declaration of 'm_commissioned '. 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="jlca1003"'
-		//UPGRADE_NOTE: The initialization of  'm_commissioned' was moved to method 'InitBlock'. 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="jlca1005"'
 		private DefaultState m_commissioned;
 		
 		//--------------------------------------------------------------
