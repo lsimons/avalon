@@ -167,7 +167,7 @@
         <source><![CDATA[
 $ cd application/impl
 $ maven build
-$ merlin target\*.jar -system %MAVEN_HOME% -execute
+$ merlin target\*.jar -repository %MAVEN_HOME% -execute
 ]]></source>
         <p>
          The log output demonstrates the deployment by Merlin of the blocks
