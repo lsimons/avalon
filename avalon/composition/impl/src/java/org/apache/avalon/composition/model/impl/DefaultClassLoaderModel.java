@@ -111,7 +111,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * and the extensions package.
  * </p>
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2003/12/03 19:04:53 $
+ * @version $Revision: 1.4 $ $Date: 2003/12/16 01:34:55 $
  */
 public class DefaultClassLoaderModel extends AbstractLogEnabled 
   implements ClassLoaderModel
@@ -615,7 +615,10 @@ public class DefaultClassLoaderModel extends AbstractLogEnabled
                     final JarURLConnection connection =
                             (JarURLConnection) url.openConnection();
                     final Manifest manifest = connection.getManifest();
-                    manifests.add( manifest );
+                    if( null != manifest )
+                    {
+                        manifests.add( manifest );
+                    }
                 } 
                 catch( final IOException ioe )
                 {
