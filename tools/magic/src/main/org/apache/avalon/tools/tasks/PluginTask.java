@@ -46,8 +46,14 @@ import java.lang.reflect.Constructor;
 public class PluginTask extends SystemTask
 {
     private String m_id;
+    private String m_name;
 
-    public void setArtifact( final String id )
+    public void setName( final String name )
+    {
+        m_name = name;
+    }
+
+    public void setUri( final String id )
     {
         m_id = id;
     }
@@ -89,7 +95,8 @@ public class PluginTask extends SystemTask
 
             final AntClassLoader classloader = project.createClassLoader( data.getPath() );
             final String spec = data.getInfo().getSpec();
-            final String uri = "plugin:" + spec.substring( 0, spec.indexOf( "#" ) );
+            final String uri = getURI( spec );
+
             log( "Install \"" + uri + "\"" );
 
             //
@@ -99,13 +106,23 @@ public class PluginTask extends SystemTask
             final ComponentHelper helper =
               ComponentHelper.getComponentHelper( project );
             final TaskDef[] defs = data.getTaskDefs();
-            for( int i=0; i<defs.length; i++ )
+            if(( defs.length == 1 ) && ( null != m_name ))
             {
-                final TaskDef def = defs[i];
+                final TaskDef def = defs[0];
                 final Class taskClass = classloader.loadClass( def.getClassname() );
-                final String name = uri + ":" + def.getName();
-                helper.addTaskDefinition( name, taskClass );
-                log( "Task \"" + name + "\"" );
+                helper.addTaskDefinition( m_name, taskClass );
+                log( "Task \"" + m_name + "\"" );
+            }
+            else
+            {
+                for( int i=0; i<defs.length; i++ )
+                {
+                    final TaskDef def = defs[i];
+                    final Class taskClass = classloader.loadClass( def.getClassname() );
+                    final String name = uri + ":" + def.getName();
+                    helper.addTaskDefinition( name, taskClass );
+                    log( "Task \"" + name + "\"" );
+                }
             }
 
             //
@@ -124,6 +141,18 @@ public class PluginTask extends SystemTask
         catch( Throwable e )
         {
             throw new BuildException( e );
+        }
+    }
+
+    private String getURI( String spec )
+    { 
+        if( spec.indexOf( "#" ) > -1 )
+        {
+            return "plugin:" + spec.substring( 0, spec.indexOf( "#" ) );
+        }
+        else
+        {
+            return "plugin:" + spec;
         }
     }
 
