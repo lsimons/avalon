@@ -31,7 +31,7 @@
 
       <p>
         Overtime it was discovered that the facade while simple to use, inherited 
-        many of the faults of the underlying loggin toolkit. The logging was slow
+        many of the faults of the underlying logging toolkit. The logging was slow
         and was impossible to dynamically reconfigure. 
       </p>        
         
@@ -127,7 +127,7 @@
 <source><![CDATA[
 if( logger.isDebugEnabled() )
 {
-  //Construct anda message (expensive operation)
+  //Construct a message (expensive operation)
   final String message = "Var1 value: " + var1 + "\tVar2 value: " + var2 +
                          "\tVar3 value: " + var3 + ".";
   logger.debug( message );
@@ -358,7 +358,7 @@ myLogger.setPriority( priority );
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.1 $ $Date: 2001/05/12 05:38:58 $
+      $Revision: 1.2 $ $Date: 2001/06/21 14:16:57 $
     </legal>
   </footer>
 </document>
