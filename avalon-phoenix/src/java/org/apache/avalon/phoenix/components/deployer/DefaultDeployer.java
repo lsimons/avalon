@@ -47,6 +47,8 @@ import org.apache.avalon.phoenix.tools.assembler.AssemblyException;
 import org.apache.avalon.phoenix.tools.configuration.ConfigurationBuilder;
 import org.apache.avalon.phoenix.tools.verifier.SarVerifier;
 import org.apache.excalibur.containerkit.verifier.VerifyException;
+import org.apache.avalon.phoenix.metainfo.BlockInfo;
+import org.apache.avalon.phoenix.metainfo.BlockDescriptor;
 import org.apache.log.Hierarchy;
 
 /**
@@ -208,7 +210,7 @@ public class DefaultDeployer
             {
                 //remove configuration and schema from repository and validator
                 m_repository.storeConfiguration( name, blocks[ i ], null );
-                m_validator.storeSchema( name, blocks[ i ], null );
+                m_validator.removeSchema( name, blocks[ i ] );
             }
 
             m_installer.uninstall( installation );
@@ -288,6 +290,8 @@ public class DefaultDeployer
             final SarMetaData metaData =
                 m_assembler.assembleSar( name, assembly, directory, classLoader );
 
+            storeConfigurationSchemas( metaData, classLoader );
+
             verify( metaData, classLoader );
 
             //Setup configuration for all the applications blocks
@@ -350,8 +354,6 @@ public class DefaultDeployer
         throws VerifyException
     {
         m_verifier.verifySar( metaData, classLoader );
-
-        storeConfigurationSchemas( metaData );
     }
 
     /**
@@ -360,7 +362,8 @@ public class DefaultDeployer
      * @param metaData the application metaData
      * @throws VerifyException upon invalid schema
      */
-    private void storeConfigurationSchemas( final SarMetaData metaData ) throws VerifyException
+    private void storeConfigurationSchemas( final SarMetaData metaData, ClassLoader classLoader )
+      throws DeploymentException
     {
         final BlockMetaData[] blocks = metaData.getBlocks();
         int i = 0;
@@ -369,46 +372,57 @@ public class DefaultDeployer
         {
             for( i = 0; i < blocks.length; i++ )
             {
-                final BlockMetaData block = blocks[ i ];
-                final Configuration schema =
-                    block.getBlockInfo().getConfigurationSchema();
-                m_validator.storeSchema( metaData.getName(),
-                                         block.getName(),
-                                         schema );
+                final String name = blocks[i].getName();
+                final BlockDescriptor descriptor = blocks[i].getBlockInfo().getBlockDescriptor();
+                final String type = descriptor.getSchemaType();
+
+                if( null != type )
+                {
+                    m_validator.addSchema( metaData.getName(),
+                                           name,
+                                           type,
+                                           getConfigurationSchemaURL( name,
+                                                                      descriptor.getClassname(),
+                                                                      classLoader )
+                    );
+                }
             }
         }
-        catch( ConfigurationException e ) //uh-oh, bad schema bad bad!
+        catch( ConfigurationException e )
         {
-            //back out any schemas that we have
-            //already stored for this app
+            //uh-oh, bad schema bad bad!
+            final String message = REZ.getString( "deploy.error.config.schema.invalid",
+                                                  blocks[i].getName() );
+
+            //back out any schemas that we have already stored for this app
             while( --i >= 0 )
             {
-                final BlockMetaData block = blocks[ i ];
-                try
-                {
-                    final Configuration schema =
-                        block.getBlockInfo().getConfigurationSchema();
-                    m_validator.storeSchema( metaData.getName(),
-                                             block.getName(),
-                                             schema );
-                }
-                catch( ConfigurationException e1 )
-                {
-                    // we *really* don't expect any errors here..
-                    //but you never know!
-                    final String message =
-                        REZ.getString( "deploy.error.config.schema.backoutfail",
-                                       block.getName() );
-
-                    getLogger().error( message, e1 );
-                }
+                m_validator.removeSchema( metaData.getName(),
+                                          blocks[i].getName() );
             }
 
-            final String message =
-                REZ.getString( "deploy.error.config.schema.invalid",
-                               blocks[ i ].getName() );
+            throw new DeploymentException( message, e );
+        }
+    }
 
-            throw new VerifyException( message, e );
+    private String getConfigurationSchemaURL( final String name,
+                                              final String classname,
+                                              final ClassLoader classLoader )
+      throws DeploymentException
+    {
+        final String resourceName = classname.replace( '.', '/' ) + "-schema.xml";
+
+        final URL resource = classLoader.getResource( resourceName );
+        if( null == resource )
+        {
+
+            throw new DeploymentException( REZ.getString( "deploy.error.config.schema.missing",
+                                                          name,
+                                                          resourceName ) );
+        }
+        else
+        {
+            return resource.toString();
         }
     }
 
@@ -451,9 +465,9 @@ public class DefaultDeployer
         {
             final Configuration configuration = configurations[ i ];
             final String name = configuration.getName();
+            final boolean listener = hasBlockListener( name, metaData.getListeners() );
 
-            if( !hasBlock( name, metaData.getBlocks() ) &&
-                !hasBlockListener( name, metaData.getListeners() ) )
+            if( !hasBlock( name, metaData.getBlocks() ) && !listener )
             {
                 final String message =
                     REZ.getString( "deploy.error.extra.config",
@@ -463,7 +477,8 @@ public class DefaultDeployer
 
             try
             {
-                if( m_validator.isFeasiblyValid( application, name, configuration ) )
+                //No way to validate listener configuration--yet
+                if( listener || m_validator.isFeasiblyValid( application, name, configuration ) )
                 {
                     m_repository.storeConfiguration( application,
                                                      name,
