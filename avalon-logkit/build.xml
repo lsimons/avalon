@@ -93,7 +93,6 @@ Legal:
     <pathelement path="${jdbc.driver.jar}" />
     <fileset dir="${lib.dir}">
       <include name="*.jar" />
-      <exclude name="servlet*.jar" />
     </fileset>
     <pathelement path="${build.classes}" />
   </path>
@@ -101,9 +100,7 @@ Legal:
   <path id="tools.class.path">
     <pathelement location="${tools.jar}"/>
     <pathelement location="${junit.jar}"/>
-    <fileset dir="${tools.dir}/lib">
-      <exclude name="ant.jar" />
-    </fileset>
+    <fileset dir="${tools.dir}/lib"/>
   </path>
 
   <path id="test.class.path">
