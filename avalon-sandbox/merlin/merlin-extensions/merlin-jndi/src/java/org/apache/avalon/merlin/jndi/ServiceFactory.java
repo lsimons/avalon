@@ -83,11 +83,6 @@ public class ServiceFactory implements ObjectFactory
     public Object getObjectInstance(
      Object object, final Name name, Context context, final Hashtable environment ) throws Exception 
     {
-        System.out.println("object: " + object );
-        System.out.println("name: " + name );
-        System.out.println("context: " + context );
-        System.out.println("environment: " + environment );
-
         if( m_kernel == null )
         {
             m_kernel = bootstrapKernel( object );
@@ -115,11 +110,6 @@ public class ServiceFactory implements ObjectFactory
             File system = getFile( "system", reference );
             File kernel = getFile( "kernel", reference );
             URL block = getURL( "block", reference );
-
-            System.out.println("HOME:   " + home );
-            System.out.println("SYSTEM: " + system );
-            System.out.println("BLOCK:  " + block );
-            System.out.println("KERNEL: " + kernel );
 
             File config = null;
             try
