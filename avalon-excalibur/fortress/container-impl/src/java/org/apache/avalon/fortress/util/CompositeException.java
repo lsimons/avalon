@@ -33,13 +33,13 @@ public final class CompositeException extends Exception
             m_message = message;
     }
 
+    public String getMessage()
+    {
+        return m_message;
+    }
+
     public Exception[] getExceptions()
     {
         return m_ex;
-    }
-
-    public String toString()
-    {
-        return m_message;
     }
 }
