@@ -226,7 +226,7 @@ $ merlin -execute target\classes -config conf\config.xml
 
         <p>
         Internally the appliance instance managing the deployment scenario
-        is taken down during which is is dissassembled and disposed of.
+        is taken down during which it is dissassembled and disposed of.
         </p>
 
 <source><![CDATA[
