@@ -151,6 +151,11 @@
         <ant dir="logger" target="${subproject-target}"/>
     </target>
 
+    <!-- Loader -->
+    <target name="prj-loader">
+        <ant dir="loader" target="${subproject-target}"/>
+    </target>
+
     <!-- Meta -->
     <target name="prj-meta" depends="prj-i18n, prj-configuration">
         <ant dir="meta" target="${subproject-target}"/>
@@ -164,6 +169,11 @@
     <!-- Naming -->
     <target name="prj-naming">
         <ant dir="naming" target="${subproject-target}"/>
+    </target>
+
+    <!-- Policy -->
+    <target name="prj-policy">
+        <ant dir="policy" target="${subproject-target}"/>
     </target>
 
     <!-- Pool -->
@@ -227,13 +237,13 @@
     <!-- This target depends on all of the projects above.  Relies on -->
     <!--  Ant to decide on the correct build order. -->
     <target name="build-all-subprojects"
-        depends="prj-zip, prj-cli, prj-bzip2, prj-baxter, prj-io,
-                prj-naming, prj-jprocess, prj-tar, prj-threadcontext,
+        depends="prj-zip, prj-cli, prj-bzip2, prj-baxter, prj-io, prj-loader,
+                prj-naming, prj-jprocess, prj-tar, prj-threadcontext, 
                 prj-collections, prj-converter, prj-i18n, prj-extension,
-                prj-concurrent, prj-containerkit, prj-altrmi,
+                prj-concurrent, prj-containerkit, prj-altrmi, prj-info,
                 prj-container, prj-cache, prj-configuration, prj-event,
                 prj-thread, prj-monitor, prj-fortress, prj-datasource,
-                prj-instrument, prj-store, prj-logger, prj-meta,
+                prj-instrument, prj-store, prj-logger, prj-meta, prj-policy,
                 prj-pool, prj-tweety, prj-util, prj-xmlutil,
                 prj-sourceresolve, prj-instrument-client,
                 prj-instrument-manager, prj-component, prj-assembly,
