@@ -51,6 +51,7 @@ public class Installer
     private static final String META_INF = "META-INF";
     private static final String SAR_INF = "SAR-INF";
     private static final String LIB = "SAR-INF/lib";
+    private static final String CLASSES = "SAR-INF/classes/";
     private static final String ASSEMBLY_XML = "SAR-INF/assembly.xml";
     private static final String CONFIG_XML = "SAR-INF/config.xml";
     private static final String SERVER_XML = "SAR-INF/server.xml";
@@ -280,6 +281,7 @@ public class Installer
 
             boolean expand = true;
             boolean isJar = false;
+            boolean classesAdded = false;
 
             //Don't expand anything below SAR-INF directory unless they
             //are the config.xml or server.xml files which will be expanded
@@ -290,6 +292,15 @@ public class Installer
                 !name.equals( CONFIG_XML ) )
             {
                 expand = false;
+
+                if( false == classesAdded &&
+                    name.startsWith( CLASSES ) )
+                {
+                    final String classes = 
+                        "jar:" + getURLAsString( file ) + "!/" + CLASSES;
+                    jars.add( classes );
+                    expand = false;
+                }
 
                 //Grab all the jar files in the
                 //directory SAR-INF/lib
