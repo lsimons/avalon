@@ -57,19 +57,29 @@ package org.apache.excalibur.source.impl;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.avalon.framework.CascadingRuntimeException;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.framework.parameters.ParameterException;
+import org.apache.avalon.framework.parameters.Parameterizable;
+import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.commons.httpclient.Header;
+import org.apache.commons.httpclient.HostConfiguration;
 import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.HttpMethod;
 import org.apache.commons.httpclient.HttpStatus;
+import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.URIException;
 import org.apache.commons.httpclient.methods.GetMethod;
+import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceNotFoundException;
+import org.apache.excalibur.source.SourceParameters;
+import org.apache.excalibur.source.SourceResolver;
 import org.apache.excalibur.source.SourceValidity;
 import org.apache.excalibur.source.impl.validity.TimeStampValidity;
 
@@ -79,11 +89,31 @@ import org.apache.excalibur.source.impl.validity.TimeStampValidity;
  * project.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: HTTPClientSource.java,v 1.1 2003/07/02 13:23:58 crafterm Exp $
+ * @version CVS $Id: HTTPClientSource.java,v 1.2 2003/07/03 09:46:32 crafterm Exp $
  */
 public class HTTPClientSource extends AbstractLogEnabled 
-    implements Source, Initializable, Disposable
+    implements Source, Initializable, Parameterizable, Disposable
 {
+    /**
+     * Constant used for identifying POST requests.
+     */
+    public static final String POST           = "POST";
+
+    /**
+     * Constant used for identifying GET requests.
+     */
+    public static final String GET            = "GET";
+
+    /**
+     * Constant used for configuring the proxy hostname.
+     */
+    public static final String PROXY_HOST     = "proxy.host";
+
+    /**
+     * Constant used for configuring the proxy port number.
+     */
+    public static final String PROXY_PORT     = "proxy.port";
+
     /**
      * Constant used when obtaining the Content-Type from HTTP Headers
      */
@@ -117,7 +147,17 @@ public class HTTPClientSource extends AbstractLogEnabled
     /**
      * The {@link HttpMethod} being performed on the {@link HttpClient}.
      */
-    private GetMethod m_method;
+    private HttpMethod m_method;
+
+    /**
+     * Proxy port if set via configuration.
+     */
+    private int m_proxyPort;
+
+    /**
+     * Proxy host if set via configuration.
+     */
+    private String m_proxyHost;
 
     /**
      * HTTP response returned from server after the {@link HttpMethod}
@@ -128,7 +168,7 @@ public class HTTPClientSource extends AbstractLogEnabled
     /**
      * Stored {@link SourceValidity} object.
      */
-    private  SourceValidity m_cachedValidity;
+    private SourceValidity m_cachedValidity;
 
     /**
      * Cached last modification date.
@@ -150,6 +190,30 @@ public class HTTPClientSource extends AbstractLogEnabled
     }
 
     /**
+     * Parameterizes this {@link HTTPClientSource} instance.
+     *
+     * @param params a {@link Parameters} instance.
+     * @exception ParameterException if an error occurs
+     */
+    public void parameterize( final Parameters params )
+        throws ParameterException
+    {
+        m_proxyHost = params.getParameter( PROXY_HOST, null );
+        m_proxyPort = params.getParameterAsInteger( PROXY_PORT, -1 );
+
+        if ( getLogger().isDebugEnabled() )
+        {
+            final String message =
+                m_proxyHost == null || m_proxyPort == -1
+                ? "No proxy configured"
+                : "Configured with proxy host " 
+                  + m_proxyHost + " port " + m_proxyPort;
+
+            getLogger().debug( message );
+        }
+    }
+
+    /**
      * Initializes this {@link HTTPClientSource} instance.
      *
      * @exception Exception if an error occurs
@@ -158,9 +222,70 @@ public class HTTPClientSource extends AbstractLogEnabled
     {
         m_client = new HttpClient();
 
-        // REVISIT(MC): assume HTTP GET for the moment
-        m_method = new GetMethod( m_uri );
+        if ( m_proxyHost != null && m_proxyPort != -1 )
+        {
+            m_client.getHostConfiguration().setProxy( m_proxyHost, m_proxyPort );
+        }
+
+        m_method = getMethod();
         m_response = m_client.executeMethod( m_method );
+    }
+
+    /**
+     * Helper method to create the required {@link HttpMethod} object
+     * based on parameters passed to this {@link HTTPClientSource} object.
+     *
+     * @return a {@link HttpMethod} object.
+     */
+    private HttpMethod getMethod()
+    {
+        final SourceParameters params =
+            (SourceParameters) m_parameters.get( SourceResolver.URI_PARAMETERS );
+        final String method =
+            (String) m_parameters.get( SourceResolver.METHOD );
+
+        // create a POST method if requested
+        if ( POST.equals( method ) )
+        {
+            return createPostMethod( params );
+        }
+
+        // default method is GET
+        return new GetMethod( m_uri );
+    }
+
+    /**
+     * Helper method to create a new {@link PostMethod} with the given
+     * {@link SourceParameters} object.
+     *
+     * @param params {@link SourceParameters}
+     * @return a {@link PostMethod} instance
+     */
+    private PostMethod createPostMethod( final SourceParameters params )
+    {
+        final PostMethod post = new PostMethod( m_uri );
+
+        if ( params == null )
+        {
+            return post;
+        }
+
+        for ( final Iterator names = params.getParameterNames();
+              names.hasNext();
+        )
+        {
+            final String name = (String) names.next();
+
+            for ( final Iterator values = params.getParameterValues( name );
+                  values.hasNext();
+            )
+            {
+                final String value = (String) values.next();
+                post.addParameter( new NameValuePair( name, value ) );
+            }
+        }
+
+        return post;
     }
 
     /**

@@ -62,6 +62,9 @@ import java.util.Map;
 import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.thread.ThreadSafe;
+import org.apache.avalon.framework.parameters.ParameterException;
+import org.apache.avalon.framework.parameters.Parameterizable;
+import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceException;
 import org.apache.excalibur.source.SourceFactory;
@@ -75,22 +78,28 @@ import org.apache.excalibur.source.SourceFactory;
  * @x-avalon.lifestyle type=singleton
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: HTTPClientSourceFactory.java,v 1.1 2003/07/02 13:23:58 crafterm Exp $
+ * @version CVS $Id: HTTPClientSourceFactory.java,v 1.2 2003/07/03 09:46:32 crafterm Exp $
  */
 public final class HTTPClientSourceFactory extends AbstractLogEnabled
-    implements SourceFactory, ThreadSafe
+    implements SourceFactory, Parameterizable, ThreadSafe
 {
+    /**
+     * Configuration information.
+     */
+    private Parameters m_parameters;
+
     /**
      * Creates a {@link HTTPClientSource} instance.
      */
-    public Source getSource( final String uri, final Map parameters )
+    public Source getSource( final String uri, final Map sourceParams )
         throws MalformedURLException, IOException
     {
         try
         {
             final HTTPClientSource source = 
-                new HTTPClientSource( uri, parameters );
+                new HTTPClientSource( uri, sourceParams );
             ContainerUtil.enableLogging( source, getLogger() );
+            ContainerUtil.parameterize( source, m_parameters );
             ContainerUtil.initialize( source );
             return source;
         }
@@ -110,6 +119,18 @@ public final class HTTPClientSourceFactory extends AbstractLogEnabled
 
             throw new SourceException( message.toString(), e );
         }
+    }
+
+    /**
+     * Parameterize this {@link SourceFactory}.
+     *
+     * @param params {@link Parameters} instance
+     * @exception ParameterException if an error occurs
+     */
+    public void parameterize( final Parameters params )
+        throws ParameterException
+    {
+        m_parameters = params;
     }
 
     /**
