@@ -23,10 +23,7 @@ import org.apache.avalon.framework.component.DefaultComponentManager;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.context.Context;
-import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
-import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.AbstractLoggable;
 import org.apache.avalon.framework.logger.Loggable;
 import org.apache.avalon.phoenix.Block;
@@ -36,7 +33,6 @@ import org.apache.avalon.phoenix.BlockListener;
 import org.apache.avalon.phoenix.components.application.Application;
 import org.apache.avalon.phoenix.components.application.BlockEntry;
 import org.apache.avalon.phoenix.components.frame.ApplicationFrame;
-import org.apache.avalon.phoenix.components.listeners.BlockListenerManager;
 import org.apache.avalon.phoenix.metadata.BlockMetaData;
 import org.apache.avalon.phoenix.metadata.DependencyMetaData;
 
@@ -46,19 +42,13 @@ import org.apache.avalon.phoenix.metadata.DependencyMetaData;
  */
 public class StartupPhase
     extends AbstractLoggable
-    implements BlockVisitor, Contextualizable, Composable
+    implements BlockVisitor, Composable
 {
     private static final Resources REZ =
-        ResourceManager.getPackageResources( ShutdownPhase.class );
+        ResourceManager.getPackageResources( StartupPhase.class );
 
     ///Frame in which block executes
     private ApplicationFrame     m_frame;
-
-    ///Listener for when blocks are created
-    private BlockListener        m_listener;
-
-    ///Name of application, phase is running in
-    private String               m_appName;
 
     /**
      * The Application which this phase is associated with.
@@ -66,31 +56,25 @@ public class StartupPhase
      */
     private Application          m_application;
 
-    public void contextualize( final Context context )
-        throws ContextException
-    {
-        m_appName = (String)context.get( "app.name" );
-    }
-
     public void compose( final ComponentManager componentManager )
         throws ComponentException
     {
         m_application = (Application)componentManager.lookup( Application.ROLE );
         m_frame = (ApplicationFrame)componentManager.lookup( ApplicationFrame.ROLE );
-        m_listener = (BlockListenerManager)componentManager.lookup( BlockListenerManager.ROLE );
     }
 
     /**
      * This is called when a block is reached whilst walking the tree.
      *
-     * @param name the name of block
      * @param entry the BlockEntry
      * @exception Exception if walking is to be stopped
      */
-    public void visitBlock( final String name, final BlockEntry entry )
+    public void visitBlock( final BlockEntry entry )
         throws Exception
     {
         if( State.VOID != entry.getState() ) return;
+
+        final String name = entry.getMetaData().getName();
 
         if( getLogger().isInfoEnabled() )
         {
@@ -184,7 +168,7 @@ public class StartupPhase
 
             final BlockEvent event =
                 new BlockEvent( name, entry.getProxy(), metaData.getBlockInfo() );
-            m_listener.blockAdded( event );
+            m_frame.blockAdded( event );
         }
         catch( final Exception e )
         {
