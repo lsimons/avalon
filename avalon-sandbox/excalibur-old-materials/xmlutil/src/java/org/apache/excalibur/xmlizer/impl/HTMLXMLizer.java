@@ -35,21 +35,23 @@ import org.xml.sax.SAXException;
  * This class uses jtidy.
  *
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Revision: 1.7 $ $Date: 2002/07/10 08:53:17 $
+ * @version CVS $Revision: 1.8 $ $Date: 2002/07/10 08:57:10 $
  */
 public final class HTMLXMLizer
     extends AbstractLogEnabled
     implements XMLizer, ThreadSafe, Composable
 {
+    private static final String HTML_MIME_TYPE = "text/html";
+
     /** Used for converting DOM -> SAX */
     private static final Properties c_format = createFormatProperties();
 
-    /** The component manager */
-    private ComponentManager m_manager;
+    /** The parser used by {@link XMLizer} */
+    private Parser m_parser;
 
     public void compose( final ComponentManager manager )
     {
-        m_manager = manager;
+        m_parser = (Parser)manager.lookup( Parser.ROLE );
     }
 
     /**
@@ -73,29 +75,34 @@ public final class HTMLXMLizer
     {
         if( null == stream )
         {
-            throw new ComponentException( "Stream must not be null." );
+            final String message = "Stream must not be null.";
+            throw new ComponentException( message );
         }
 
         if( null == handler )
         {
-            throw new ComponentException( "Handler must not be null." );
+            final String message = "Handler must not be null.";
+            throw new ComponentException( message );
         }
 
         if( null == mimeType )
         {
             if( getLogger().isDebugEnabled() )
             {
-                getLogger().debug( "No mime-type for xmlizing " + systemID +
-                                   ", guessing text/html" );
+                final String message =
+                    "No mime-type for xmlizing " + systemID +
+                    ", guessing text/html";
+                getLogger().debug( message );
             }
         }
-        else if( !mimeType.equalsIgnoreCase( "text/html" ) )
+        else if( !mimeType.equalsIgnoreCase( HTML_MIME_TYPE ) )
         {
             if( getLogger().isDebugEnabled() )
             {
-                getLogger().debug( "Mime-type " + mimeType +
-                                   "not supported for xmlizing " + systemID +
-                                   ", guessing text/html" );
+                final String message = "Mime-type " + mimeType +
+                    "not supported for xmlizing " + systemID +
+                    ", guessing text/html";
+                getLogger().debug( message );
             }
         }
 
@@ -103,6 +110,7 @@ public final class HTMLXMLizer
         xhtmlconvert.setXmlOut( true );
         xhtmlconvert.setXHTML( true );
         xhtmlconvert.setShowWarnings( false );
+
         final StringWriter writer = new StringWriter();
         try
         {
@@ -119,17 +127,10 @@ public final class HTMLXMLizer
 
         final InputSource inputSource =
             new InputSource( new java.io.StringReader( writer.toString() ) );
-        if( null != systemID ) inputSource.setSystemId( systemID );
+        if( null != systemID )
+            inputSource.setSystemId( systemID );
 
-        final Parser parser = (Parser)m_manager.lookup( Parser.ROLE );
-        try
-        {
-            parser.parse( inputSource, handler );
-        }
-        finally
-        {
-            m_manager.release( parser );
-        }
+        m_parser.parse( inputSource, handler );
     }
 
     /**
