@@ -40,9 +40,9 @@ public class PhoenixServlet
         ResourceManager.getPackageResources( PhoenixServlet.class );
 
     private static final String DEFAULT_LOG_FILE = "/logs/phoenix.log";
-
     private final static String DEFAULT_FORMAT =
-        "%{time} [%7.7{priority}] (%{category}): %{message}\\n%{throwable}";
+        "%7.7{priority} %23.23{time:yyyy-MM-dd' 'HH:mm:ss.SSS} [%8.8{category}] (%{context}): " +
+        "%{message}\n%{throwable}";
 
     private Parameters m_parameters;
     private SingleAppEmbeddor m_embeddor;
@@ -68,18 +68,18 @@ public class PhoenixServlet
 
         //TODO: configuring with more parameters.
         final ServletContext context = getServletContext();
-        final String logDestination =
-            context.getRealPath( getInitParameter( "log-destination", "/WEB-INF/logs/phoenix.log" ) );
+        final String phoenixHome = getInitParameter( "phoenix.home", "/WEB-INF" );
+        final String logDestination = getInitParameter( "log-destination", phoenixHome + "/logs/phoenix.log" );
         final String logPriority = getInitParameter( "log-priority", "INFO" );
         final String appName = getInitParameter( "application-name", "default" );
-        final String appLoc =
-            context.getRealPath( getInitParameter( "application-location", "/WEB-INF/" + appName ) );
+        final String appLoc = getInitParameter( "application-location", phoenixHome + "/" + appName );
 
         m_parameters = new Parameters();
-        m_parameters.setParameter( "log-destination", logDestination );
+        m_parameters.setParameter( "phoenix.home", context.getRealPath( phoenixHome  ) );
+        m_parameters.setParameter( "log-destination", context.getRealPath( logDestination ) );
         m_parameters.setParameter( "log-priority", logPriority );
         m_parameters.setParameter( "application-name", appName );
-        m_parameters.setParameter( "application-location", appLoc );
+        m_parameters.setParameter( "application-location", context.getRealPath( appLoc ) );
 
         try
         {

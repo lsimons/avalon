@@ -42,7 +42,8 @@ public class SimpleLogKitManager
         ResourceManager.getPackageResources( SimpleLogKitManager.class );
 
     private final static String DEFAULT_FORMAT =
-        "%{time} [%7.7{priority}] (%{category}): %{message}\\n%{throwable}";
+        "%7.7{priority} %23.23{time:yyyy-MM-dd' 'HH:mm:ss.SSS} [%8.8{category}] (%{context}): " +
+        "%{message}\n%{throwable}";
 
     ///Base directory of applications working directory
     private File m_baseDirectory;
