@@ -35,7 +35,7 @@
       <arg line="${arg}" />
     </exec>
     <exec executable="cmd" os="Windows XP,Windows NT,Windows 2000" dir="${target}" failonerror="true">
-      <arg line="maven.bat ${arg}" />
+      <arg line="maven ${arg}" />
     </exec>
     <exec executable="command" os="Windows 95, Windows 98, Windows ME" dir="${target}" failonerror="true">
       <arg line="maven.bat ${arg}" />

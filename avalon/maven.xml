@@ -15,16 +15,6 @@ Top level solution not in place yet - but it's underway.
     prereqs="xmeta,xutil,xrepo,xlogging,xcomposition,xactivation,xmerlin"/>
   -->
 
-  <goal name="xall">
-    <maven:reactor basedir="${basedir}"
-      includes="**/project.xml"
-      excludes="merlin/project.xml,util/project.xml,meta/project.xml,repository/project.xml,logging/project.xml"
-      banner="Building:"
-      goals=""
-      ignoreFailures="false" 
-      postProcessing="false" />
-  </goal>
-
   <goal name="xutil">
     <maven:reactor basedir="${basedir}"
       includes="util/project.xml"
@@ -34,11 +24,72 @@ Top level solution not in place yet - but it's underway.
       postProcessing="false" />
   </goal>
 
-
-
   <goal name="xmeta">
-    <maven:reactor basedir="meta"
-      includes="project.xml"
+    <maven:reactor basedir="${basedir}"
+      includes="meta/project.xml"
+      banner="Building:"
+      goals="avalon:build"
+      ignoreFailures="false" 
+      postProcessing="false" />
+  </goal>
+
+  <goal name="xrepository">
+    <maven:reactor basedir="${basedir}"
+      includes="repository/project.xml"
+      banner="Building:"
+      goals="avalon:build"
+      ignoreFailures="false" 
+      postProcessing="false" />
+  </goal>
+
+  <goal name="xlogging">
+    <maven:reactor basedir="${basedir}"
+      includes="logging/project.xml"
+      banner="Building:"
+      goals="avalon:build"
+      ignoreFailures="false" 
+      postProcessing="false" />
+  </goal>
+
+  <goal name="xcomposition">
+    <maven:reactor basedir="${basedir}"
+      includes="composition/**/project.xml"
+      banner="Building:"
+      goals="jar:install"
+      ignoreFailures="false" 
+      postProcessing="false" />
+  </goal>
+
+  <goal name="xactivation">
+    <maven:reactor basedir="${basedir}"
+      includes="activation/**/project.xml"
+      banner="Building:"
+      goals="jar:install"
+      ignoreFailures="false" 
+      postProcessing="false" />
+  </goal>
+
+  <goal name="xmerlin">
+    <maven:reactor basedir="${basedir}"
+      includes="merlin/project.xml"
+      banner="Building:"
+      goals="avalon:build"
+      ignoreFailures="false" 
+      postProcessing="false" />
+  </goal>
+
+  <goal name="xplugins">
+    <maven:reactor basedir="${basedir}"
+      includes="maven-plugins/project.xml"
+      banner="Building:"
+      goals="avalon:build"
+      ignoreFailures="false" 
+      postProcessing="false" />
+  </goal>
+
+  <goal name="xtutorials">
+    <maven:reactor basedir="${basedir}"
+      includes="tutorials/project.xml"
       banner="Building:"
       goals="avalon:build"
       ignoreFailures="false" 

@@ -18,67 +18,60 @@
 package tutorial;
 
 import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.activity.Disposable;
-import org.apache.avalon.framework.activity.Executable;
-import org.apache.avalon.framework.activity.Initializable;
 
 /**
- * A sample component.  This component implements a number 
- * of lifecycle interface.  Each lifecycle interface is a stage
- * that is processed by a container during the deployment of 
- * the component.  The lifecycle stages demonstrated here include
- * LogEnabled (association of a logging channel), Initializable
- * (initialization of the component), Executable (component
- * execution), and Disposable (componet disposal).  Please note 
- * that all lifecycle stages are optional.
+ * A sample component.  
  *
- * @avalon.component version="1.0" name="hello" lifestyle="singleton"
+ * @avalon.component 
+ *    version="1.0" 
+ *    name="hello" 
+ *    lifestyle="singleton"
  * @avalon.service type="tutorial.Hello"
  */
 public class HelloComponent 
-  implements LogEnabled, Initializable, Executable, Disposable, Hello
+  implements Hello, Disposable
 {
-
-    public void sayHello()
-    {
-        getLogger().info( "HELLO" );
-    }
+    //-------------------------------------------------------
+    // immutable state
+    //-------------------------------------------------------
 
    /**
     * Internal reference to the logging channel supplied to us 
     * by the container. 
     */
-    private Logger m_logger;
+    private final Logger m_logger;
+
+    //-------------------------------------------------------
+    // constructor
+    //-------------------------------------------------------
 
    /**
-    * Supply of a logging channel by the container.
+    * Creation of a new hello component instance.
     *
-    * @param logger the logging channel for this component
+    * @param logger the logging channel supplied by the container
     */
-    public void enableLogging( final Logger logger )
+    public HelloComponent( Logger logger )
     {
         m_logger = logger;
-        getLogger().info( "logging" );
+        m_logger.info( "instantiated" );
     }
 
-   /**
-    * Initialization of the component by the container.
-    * @exception Exception if an initialization error occurs
-    */
-    public void initialize() throws Exception
-    {
-        getLogger().info( "initialization" );
-    }
+    //-------------------------------------------------------
+    // Hello service implementation
+    //-------------------------------------------------------
 
    /**
-    * Component execution trigger by the container following 
-    * completion of the initialization stage.
+    * The hello service implementation.
     */
-    public void execute()
+    public void sayHello()
     {
-        getLogger().info( "execution" );
-    } 
+        getLogger().info( "HELLO" );
+    }
+
+    //-------------------------------------------------------
+    // Disposable lifecycle interface
+    //-------------------------------------------------------
 
    /**
     * Component disposal trigger by the container during which
@@ -87,8 +80,11 @@ public class HelloComponent
     public void dispose()
     {
         getLogger().info( "disposal" );
-        m_logger = null;
     }
+
+    //-------------------------------------------------------
+    // internal utilities
+    //-------------------------------------------------------
 
    /**
     * Return the logging channel assigned to us by the container.

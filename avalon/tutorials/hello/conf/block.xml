@@ -1,6 +1,6 @@
 
 <container name="tutorial">
 
-   <component name="hello" class="tutorial.HelloComponent" activation="startup"/>
+   <component name="hello" class="tutorial.HelloComponent"/>
 
 </container>
