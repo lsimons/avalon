@@ -84,8 +84,8 @@ public final class DefaultServerApplication
     private ApplicationFrame         m_frame;
     private BlockListenerManager     m_listenerManager;
 
-    private BlockListenerMetaData[]     m_listeners;
-    private BlockMetaData[]             m_blocks;
+    private BlockListenerMetaData[]  m_listeners;
+    private BlockMetaData[]          m_blocks;
 
     //Repository of configuration data to access
     private ConfigurationRepository m_repository;
