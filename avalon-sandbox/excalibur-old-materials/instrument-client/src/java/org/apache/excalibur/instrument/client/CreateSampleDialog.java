@@ -32,7 +32,7 @@ import org.apache.excalibur.instrument.manager.interfaces.InstrumentManagerClien
 /**
  *
  * @author <a href="mailto:leif@silveregg.co.jp">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/08/14 14:58:22 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/08/22 16:50:38 $
  * @since 4.1
  */
 class CreateSampleDialog
@@ -57,7 +57,7 @@ class CreateSampleDialog
     private JRadioButton m_sampleTypeMaximum;
     private JRadioButton m_sampleTypeMinimum;
     private JRadioButton m_sampleTypeMean;
-
+    
     /*---------------------------------------------------------------
      * Constructors
      *-------------------------------------------------------------*/
@@ -70,15 +70,15 @@ class CreateSampleDialog
     {
         super( frame, "Create Instrument Sample",
             AbstractOptionDialog.BUTTON_OK | AbstractOptionDialog.BUTTON_CANCEL );
-
+        
         m_instrumentDescriptor = instrumentDescriptor;
         m_instrumentNameField.setText( m_instrumentDescriptor.getName() );
         m_instrumentDescriptionField.setText( m_instrumentDescriptor.getDescription() );
-
+        
         buildSampleTypeComponent();
         pack();
     }
-
+    
     /*---------------------------------------------------------------
      * AbstractOptionDialog Methods
      *-------------------------------------------------------------*/
@@ -91,7 +91,7 @@ class CreateSampleDialog
     {
         return "Please enter the parameters for the sample to be created.";
     }
-
+    
     /**
      * Goes through and validates the fields in the dialog.
      *
@@ -108,7 +108,7 @@ class CreateSampleDialog
             return false;
         }
         m_sampleDescription = description;
-
+        
         // Check the interval.
         boolean intervalOk = true;
         long interval = 0;
@@ -131,7 +131,7 @@ class CreateSampleDialog
             return false;
         }
         m_interval = interval;
-
+        
         // Check the size.
         boolean sizeOk = true;
         int size = 0;
@@ -154,7 +154,7 @@ class CreateSampleDialog
             return false;
         }
         m_size = size;
-
+        
         // Check the leaseTime.
         boolean leaseTimeOk = true;
         int leaseTime = 0;
@@ -179,7 +179,7 @@ class CreateSampleDialog
             return false;
         }
         m_leaseTime = leaseTime * 1000L;
-
+        
         // Store the sample type
         if ( m_sampleTypeCounter.isSelected() )
         {
@@ -202,10 +202,10 @@ class CreateSampleDialog
             // Should never get here.
             m_sampleType = -1;
         }
-
+        
         return true;
     }
-
+    
     /*---------------------------------------------------------------
      * AbstractTabularOptionDialog Methods
      *-------------------------------------------------------------*/
@@ -229,7 +229,7 @@ class CreateSampleDialog
             "Sample Type:"
         };
     }
-
+    
     /**
      * Returns an array of components to show in the main panel of the dialog.
      *
@@ -240,27 +240,27 @@ class CreateSampleDialog
         m_instrumentNameField = new JTextField();
         m_instrumentNameField.setColumns( 40 );
         m_instrumentNameField.setEditable( false );
-
+        
         m_instrumentDescriptionField = new JTextField();
         m_instrumentDescriptionField.setColumns( 40 );
         m_instrumentDescriptionField.setEditable( false );
-
+        
         m_sampleDescriptionField = new JTextField();
         m_sampleDescriptionField.setColumns( 40 );
-
+        
         m_intervalField = new JTextField();
         m_intervalField.setColumns( 10 );
-
+        
         m_sizeField = new JTextField();
         m_sizeField.setColumns( 4 );
-
+        
         m_leaseTimeField = new JTextField();
         m_leaseTimeField.setColumns( 10 );
-
+        
         m_maintainLeaseCheckBox = new JCheckBox();
-
+        
         m_sampleTypePanel = Box.createVerticalBox();
-
+        
         return new Component[]
         {
             m_instrumentNameField,
@@ -273,7 +273,7 @@ class CreateSampleDialog
             m_sampleTypePanel
         };
     }
-
+    
     /*---------------------------------------------------------------
      * Methods
      *-------------------------------------------------------------*/
@@ -287,26 +287,26 @@ class CreateSampleDialog
         m_sampleTypeMaximum = new JRadioButton( "Maximum value over each sample" );
         m_sampleTypeMinimum = new JRadioButton( "Minumum value over each sample" );
         m_sampleTypeMean    = new JRadioButton( "Mean value over each sample" );
-
+        
         switch ( m_instrumentDescriptor.getType() )
         {
         case InstrumentManagerClient.INSTRUMENT_TYPE_COUNTER:
             m_sampleTypePanel.add( m_sampleTypeCounter );
             m_sampleTypeGroup.add( m_sampleTypeCounter );
-
+            
             m_sampleTypeCounter.setSelected( true );
             m_sampleType = InstrumentManagerClient.INSTRUMENT_SAMPLE_TYPE_COUNTER;
             break;
         case InstrumentManagerClient.INSTRUMENT_TYPE_VALUE:
             m_sampleTypePanel.add( m_sampleTypeMaximum );
             m_sampleTypeGroup.add( m_sampleTypeMaximum );
-
+            
             m_sampleTypePanel.add( m_sampleTypeMinimum );
             m_sampleTypeGroup.add( m_sampleTypeMinimum );
-
+            
             m_sampleTypePanel.add( m_sampleTypeMean );
             m_sampleTypeGroup.add( m_sampleTypeMean );
-
+            
             m_sampleTypeMaximum.setSelected( true );
             m_sampleType = InstrumentManagerClient.INSTRUMENT_SAMPLE_TYPE_MAXIMUM;
             break;
@@ -315,7 +315,7 @@ class CreateSampleDialog
             break;
         }
     }
-
+    
     /**
      * Sets the initial sample description to be shown in the TextField.
      *
@@ -326,7 +326,7 @@ class CreateSampleDialog
         m_sampleDescription = sampleDescription;
         m_sampleDescriptionField.setText( sampleDescription );
     }
-
+    
     /**
      * Returns the sample description set in the dialog.
      *
@@ -336,7 +336,7 @@ class CreateSampleDialog
     {
         return m_sampleDescription;
     }
-
+    
     /**
      * Sets the initial interval to be shown in the interval TextField.
      *
@@ -347,7 +347,7 @@ class CreateSampleDialog
         m_interval = interval;
         m_intervalField.setText( Long.toString( interval ) );
     }
-
+    
     /**
      * Returns the interval set in the dialog.
      *
@@ -357,7 +357,7 @@ class CreateSampleDialog
     {
         return m_interval;
     }
-
+    
     /**
      * Sets the initial size to be shown in the size TextField.
      *
@@ -368,7 +368,7 @@ class CreateSampleDialog
         m_size = size;
         m_sizeField.setText( Integer.toString( size ) );
     }
-
+    
     /**
      * Returns the size set in the dialog.
      *
@@ -378,7 +378,7 @@ class CreateSampleDialog
     {
         return m_size;
     }
-
+    
     /**
      * Sets the initial lease time to be shown in the lease time TextField.
      *
@@ -389,7 +389,7 @@ class CreateSampleDialog
         m_leaseTime = leaseTime;
         m_leaseTimeField.setText( Long.toString( leaseTime ) );
     }
-
+    
     /**
      * Returns the lease time set in the dialog.
      *
@@ -399,7 +399,7 @@ class CreateSampleDialog
     {
         return m_leaseTime;
     }
-
+    
     /**
      * Sets the initial maintain lease flag to be shown in the maintain lease
      *  CheckBox.
@@ -410,7 +410,7 @@ class CreateSampleDialog
     {
         m_maintainLeaseCheckBox.setSelected( maintainLease );
     }
-
+    
     /**
      * Returns the maintain lease flag set in the dialog.
      *
@@ -420,7 +420,7 @@ class CreateSampleDialog
     {
         return m_maintainLeaseCheckBox.isSelected();
     }
-
+    
     /**
      * Sets the initial size to be shown in the size TextField.
      *
@@ -429,7 +429,7 @@ class CreateSampleDialog
     void setSampleType( int type )
     {
         m_sampleType = type;
-
+        
         switch(type)
         {
         case InstrumentManagerClient.INSTRUMENT_SAMPLE_TYPE_COUNTER:
@@ -448,7 +448,7 @@ class CreateSampleDialog
             break;
         }
     }
-
+    
     /**
      * Returns the type set in the dialog.
      *

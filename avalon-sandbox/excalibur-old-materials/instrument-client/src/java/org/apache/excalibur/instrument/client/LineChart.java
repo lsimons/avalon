@@ -25,7 +25,7 @@ import javax.swing.JComponent;
  * Draws a nice pretty chart given a set of data.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/08/14 14:58:22 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/08/22 16:50:38 $
  * @since 4.1
  */
 public class LineChart
@@ -283,7 +283,7 @@ public class LineChart
         }
         return format;
     }
-
+    
     /**
      * Draws the horizontal lines which make up the background of the chart.
      *
@@ -363,7 +363,7 @@ public class LineChart
         if( chartWidth > 0 )
         {
             FontMetrics fontMetrics = g.getFontMetrics();
-
+            
             // Figure out how wide a label is for formatting.
             String format = MessageFormat.format( m_format, new String[]{"00", "00", "00", "00"} );
             int fw = fontMetrics.stringWidth( format ) + 10;
@@ -429,7 +429,7 @@ public class LineChart
             }
         }
     }
-
+    
     /**
      * Draws the frame around the whole chart.
      *
@@ -453,7 +453,7 @@ public class LineChart
                         chartTop + chartHeight );
         }
     }
-
+    
     /**
      * Draws the data values which to be displayed in the chart.
      *
@@ -498,7 +498,7 @@ public class LineChart
             lastX = x;
             lastY = y;
         }
-
+        
         // Draw the averaged values of the chart
         if( ( m_averageWindow > 0 ) && ( m_mousePressed ) )
         {
@@ -526,7 +526,7 @@ public class LineChart
             }
         }
     }
-
+    
     /**
      * Draws the overlay label at the specified location.
      *
@@ -614,7 +614,7 @@ public class LineChart
         g.drawString( mouseDataPointLabel, mouseDataPointLabelLeft,
                       mouseDataPointLabelTop + fontHeight );
     }
-
+    
     /**
      * Draws the overlay label at the mouse location.
      *
@@ -709,7 +709,7 @@ public class LineChart
             }
         }
     }
-
+    
     /**
      * Paints the component.
      *
@@ -750,7 +750,7 @@ public class LineChart
 
         // Draw the frame
         paintFrame( g, chartLeft, chartTop, chartWidth, chartHeight );
-
+        
         if( ( chartWidth > 0 ) && ( chartHeight > 0 ) )
         {
             // Draw the the values that make up the data of the chart.

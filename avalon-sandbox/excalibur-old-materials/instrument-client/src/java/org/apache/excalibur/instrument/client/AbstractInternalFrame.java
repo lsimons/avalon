@@ -20,7 +20,7 @@ import org.apache.avalon.framework.configuration.DefaultConfiguration;
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/08/14 14:58:22 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/08/22 16:50:38 $
  * @since 4.1
  */
 abstract class AbstractInternalFrame
@@ -142,8 +142,12 @@ abstract class AbstractInternalFrame
 
     void hideFrame()
     {
-        setVisible( false );
-        dispose();
+        // calling setVisible in the shutdown hook will cause the thread to deadlock.
+        if ( !Thread.currentThread().getName().equals( InstrumentClientFrame.SHUTDOWN_HOOK_NAME ) )
+        {
+            setVisible( false );
+            dispose();
+        }
     }
 
     public void updateUI()
@@ -184,7 +188,7 @@ abstract class AbstractInternalFrame
 
         return stateConfig;
     }
-
+    
     protected InstrumentClientFrame getFrame()
     {
         return m_frame;

@@ -15,7 +15,7 @@ import javax.swing.JInternalFrame;
  *  features work in 1.2.2. Taken from JDK1.3 source to make it work.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/08/14 14:58:22 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/08/22 16:50:38 $
  * @since 4.1
  */
 class DesktopPane extends JDesktopPane

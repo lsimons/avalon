@@ -31,7 +31,7 @@ import javax.swing.border.EmptyBorder;
  * Creates a dialog which displays a table of labeled components to the user.
  *
  * @author <a href="mailto:leif@silveregg.co.jp">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/08/14 14:58:22 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/08/22 16:50:38 $
  * @since 4.1
  */
 public abstract class AbstractTabularOptionDialog
@@ -51,7 +51,7 @@ public abstract class AbstractTabularOptionDialog
     {
         super( frame, title, buttons );
     }
-
+    
     /*---------------------------------------------------------------
      * AbstractOptionDialog Methods
      *-------------------------------------------------------------*/
@@ -66,21 +66,21 @@ public abstract class AbstractTabularOptionDialog
     {
         String[] labels = getMainPanelLabels();
         Component[] components = getMainPanelComponents();
-
+        
         JPanel panel = new JPanel();
-
+        
         GridBagLayout gbl = new GridBagLayout();
         GridBagConstraints gbc = new GridBagConstraints();
         panel.setLayout( gbl );
-
+        
         for ( int i = 0; i < labels.length; i++ )
         {
             addRow( panel, labels[i], components[i], gbl, gbc );
         }
-
+        
         return panel;
     }
-
+    
     /*---------------------------------------------------------------
      * Methods
      *-------------------------------------------------------------*/
@@ -91,14 +91,14 @@ public abstract class AbstractTabularOptionDialog
      * @returns An array of labels.
      */
     protected abstract String[] getMainPanelLabels();
-
+    
     /**
      * Returns an array of components to show in the main panel of the dialog.
      *
      * @returns An array of components.
      */
     protected abstract Component[] getMainPanelComponents();
-
+    
     /**
      * Adds a row to the panel consisting of a label and component, separated by
      *  a 5 pixel spacer and followed by a 5 pixel high row between this and the
@@ -122,19 +122,19 @@ public abstract class AbstractTabularOptionDialog
         gbc.anchor = GridBagConstraints.EAST;
         gbl.setConstraints( jLabel, gbc );
         panel.add( jLabel );
-
+        
         // Add a 5 pixel high spacer
         Component spacer = Box.createRigidArea( new Dimension( 5, 5 ) );
         gbc.gridwidth = GridBagConstraints.RELATIVE;
         gbc.anchor = GridBagConstraints.WEST;
         gbl.setConstraints( spacer, gbc );
         panel.add( spacer );
-
+        
         gbc.gridwidth = GridBagConstraints.REMAINDER;
         gbc.anchor = GridBagConstraints.WEST;
         gbl.setConstraints( component, gbc );
         panel.add( component );
-
+        
         // Add a 5 pixel high spacer
         spacer = Box.createRigidArea( new Dimension( 5, 5 ) );
         gbc.gridwidth = GridBagConstraints.REMAINDER;

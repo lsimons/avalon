@@ -29,7 +29,7 @@ import javax.swing.border.EtchedBorder;
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/08/14 14:58:22 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/08/22 16:50:38 $
  * @since 4.1
  */
 public abstract class AbstractOptionDialog
@@ -37,9 +37,9 @@ public abstract class AbstractOptionDialog
 {
     public static final int BUTTON_OK = 1;
     public static final int BUTTON_CANCEL = 2;
-
+    
     private int m_action = BUTTON_CANCEL;
-
+    
     /*---------------------------------------------------------------
      * Constructors
      *-------------------------------------------------------------*/
@@ -53,11 +53,11 @@ public abstract class AbstractOptionDialog
     protected AbstractOptionDialog( JFrame frame, String title, int buttons )
     {
         super( frame, title, true );
-
+        
         JPanel contentPane = (JPanel)getContentPane();
         contentPane.setLayout( new BorderLayout() );
         contentPane.setBorder( new EmptyBorder( 5, 5, 5, 5 ) );
-
+        
         JPanel backPane = new JPanel();
         backPane.setLayout( new BorderLayout() );
         backPane.setBorder(
@@ -70,16 +70,16 @@ public abstract class AbstractOptionDialog
             )
         );
         contentPane.add( backPane, BorderLayout.CENTER );
-
+        
         // Build the message
         backPane.add( new JLabel( getMessage(), SwingConstants.LEFT ), BorderLayout.NORTH );
-
+        
         // Build the main panel
         JPanel mainPanel = getMainPanel();
         mainPanel.setBorder( new EmptyBorder( 5, 0, 0, 0 ) );
         backPane.add( mainPanel, BorderLayout.CENTER );
-
-
+        
+        
         // Build the button panel
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout( new FlowLayout( FlowLayout.CENTER ) );
@@ -117,22 +117,22 @@ public abstract class AbstractOptionDialog
         }
         buttonPanel.add( buttonBox );
         contentPane.add( buttonPanel, BorderLayout.SOUTH );
-
+        
         pack();
-
+        
         // Position the dialog.
         Point frameLocation = frame.getLocation();
         Dimension frameSize = frame.getSize();
         Dimension size = getSize();
-
+        
         setLocation(
             (int)( frameLocation.getX() + (frameSize.getWidth() - size.getWidth() ) / 2 ),
             (int)( frameLocation.getY() + (frameSize.getHeight() - size.getHeight() ) / 2 ) );
-
+        
         // Make the dialog a fixed size.
         setResizable( false );
     }
-
+    
     /*---------------------------------------------------------------
      * Methods
      *-------------------------------------------------------------*/
@@ -142,14 +142,14 @@ public abstract class AbstractOptionDialog
      * @return The text of the message.
      */
     protected abstract String getMessage();
-
+    
     /**
      * Returns the main panel which makes up the guts of the dialog.
      *
      * @return The main panel.
      */
     protected abstract JPanel getMainPanel();
-
+    
     /**
      * Goes through and validates the fields in the dialog.
      *
@@ -159,7 +159,7 @@ public abstract class AbstractOptionDialog
     {
         return true;
     }
-
+    
     /**
      * Returns the button which the user selected.
      */

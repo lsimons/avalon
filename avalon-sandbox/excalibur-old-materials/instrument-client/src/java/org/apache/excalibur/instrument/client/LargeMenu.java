@@ -22,7 +22,7 @@ import javax.swing.SwingUtilities;
  *  large numbers of elements.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/08/14 14:58:22 $
+ * @version CVS $Revision: 1.2 $ $Date: 2002/08/22 16:50:38 $
  * @since 4.1
  */
 public class LargeMenu
@@ -38,7 +38,7 @@ public class LargeMenu
     {
         super();
     }
-
+    
     /**
      * Constructs a new <code>JMenu</code> with the supplied string
      * as its text.
@@ -49,9 +49,9 @@ public class LargeMenu
     {
         super( s );
     }
-
+    
     /**
-     * Constructs a menu whose properties are taken from the
+     * Constructs a menu whose properties are taken from the 
      * <code>Action</code> supplied.
      * @param a an <code>Action</code>
      */
@@ -59,7 +59,7 @@ public class LargeMenu
     {
         super( a );
     }
-
+    
     /**
      * Constructs a new <code>JMenu</code> with the supplied string as
      * its text and specified as a tear-off menu or not.
@@ -93,19 +93,19 @@ public class LargeMenu
         Dimension screenSize =Toolkit.getDefaultToolkit().getScreenSize();
         Dimension s = getSize();
         Dimension pmSize = pm.getSize();
-        // For the first time the menu is popped up,
+        // For the first time the menu is popped up, 
         // the size has not yet been initiated
         if (pmSize.width==0)
         {
             pmSize = pm.getPreferredSize();
         }
         Point position = getLocationOnScreen();
-
+        
         Container parent = getParent();
         if (parent instanceof JPopupMenu)
         {
             // We are a submenu (pull-right)
-
+            
             // Can not call SwingUtilities.isLeftToRight(this) from here, so assume true.
             // First determine x:
             if (position.x+s.width + pmSize.width < screenSize.width)
@@ -116,7 +116,7 @@ public class LargeMenu
             {
                 x = 0-pmSize.width;  // Otherwise place to the left
             }
-
+            
             // Then the y:
             if (position.y+pmSize.height < screenSize.height)
             {
@@ -129,7 +129,7 @@ public class LargeMenu
                 // ****************
                 // Old Code:
                 // y = s.height-pmSize.height;  // Otherwise drop 'up'
-
+                
                 // New Code:
                 if ( position.y + s.height - pmSize.height >= 0 )
                 {
@@ -145,15 +145,15 @@ public class LargeMenu
             }
         } else {
             // We are a toplevel menu (pull-down)
-
+            
             // Can not call SwingUtilities.isLeftToRight(this) from here, so assume true.
             // First determine the x:
             if (position.x+pmSize.width < screenSize.width) {
-                x = 0;                     // Prefer extending to right
+                x = 0;                     // Prefer extending to right 
             } else {
                 x = s.width-pmSize.width;  // Otherwise extend to left
             }
-
+            
             // Then the y:
             if (position.y+s.height+pmSize.height < screenSize.height) {
                 y = s.height;          // Prefer dropping down
@@ -163,7 +163,7 @@ public class LargeMenu
                 // ****************
                 // Old Code:
                 //y = 0-pmSize.height;   // Otherwise drop 'up'
-
+                
                 // New Code:
                 if ( position.y - pmSize.height >= 0 )
                 {
