@@ -25,6 +25,7 @@
 
   <body>
     <menu>
+      <item name="Overview" href="index.html"/>
       <item name="Getting Started" href="start/index.html"/>
       <item name="Tools" href="tools/index.html"/>
       <item name="Resources" href="tools/index.html"/>

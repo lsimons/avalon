@@ -25,6 +25,7 @@
 
   <body>
     <menu>
+      <item name="Overview" href="index.html"/>
       <item name="Permission" href="permission.html"/>
     </menu>
   </body>

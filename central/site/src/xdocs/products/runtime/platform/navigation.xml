@@ -23,6 +23,7 @@
 
   <body>
     <menu>
+      <item name="Extensions" href="index.html"/>
       <item name="NT Service" href="nt.html"/>
     </menu>
  </body>

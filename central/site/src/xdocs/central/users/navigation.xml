@@ -2,12 +2,13 @@
 
 <project>
 
- <title>Apache Avalon Central</title>
+  <title>Apache Avalon Central</title>
 
- <body>
+  <body>
     <menu>
+      <item name="Overview" href="index.html"/>
       <item name="Developing With Avalon" href="developing/index.html"/>
     </menu>
- </body>
+  </body>
 
 </project>

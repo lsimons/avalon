@@ -25,6 +25,7 @@
 
   <body>
     <menu>
+      <item name="Overview" href="index.html"/>
       <item name="Name" href="name.html"/>
       <item name="Version" href="version.html"/>
       <item name="Lifestyle" href="lifestyle.html"/>

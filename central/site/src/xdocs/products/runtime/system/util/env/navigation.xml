@@ -21,10 +21,11 @@
 
 <project>
 
- <title>Avalon Utilities</title>
+  <title>Avalon Utilities</title>
 
- <body>
+  <body>
     <menu>
+      <item name="Overview" href="index.html"/>
     </menu>
   </body>
 

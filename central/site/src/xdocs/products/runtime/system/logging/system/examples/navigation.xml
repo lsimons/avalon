@@ -22,8 +22,8 @@
   <title>Merlin</title>
 
   <body>
-
     <menu>
+      <item name="Overview" href="index.html"/>
       <item name="Code Example" href="code.html"/>
       <item name="LogKit Example" href="logkit.html"/>
     </menu>

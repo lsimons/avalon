@@ -23,6 +23,7 @@
 
   <body>
     <menu>
+      <item name="Overview" href="index.html"/>
       <item name="Descriptors" href="descriptors/index.html"/>
       <item name="Artifacts" href="artifacts/index.html"/>
       <item name="Lifecycle" href="lifecycle/index.html"/>

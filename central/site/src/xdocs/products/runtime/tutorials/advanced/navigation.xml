@@ -21,8 +21,8 @@
   <title>Merlin</title>
 
   <body>
-
     <menu>
+      <item name="Overview" href="index.html"/>
       <item name="Lifecycle Tools" href="lifecycle/index.html"/>
       <item name="Contextualization" href="context.html"/>
       <item name="Deployment Templates" href="profiles.html"/>
@@ -30,7 +30,6 @@
       <item name="Composition" href="composite.html"/>
       <item name="Unit Test" href="unit/index.html"/>
     </menu>
-
- </body>
+  </body>
 
 </project>
