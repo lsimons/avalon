@@ -519,7 +519,9 @@
   <target name="ftpserver" depends="compile" description="Delegates to build.xml in apps/ftpserver">
     <ant antfile="build.xml" dir="apps/ftpserver" target="${apps-target}" inheritall="false"/>
   </target>
-  
+  <target name="bay" depends="compile" description="Delegates to build.xml in apps/bay">
+    <ant antfile="build.xml" dir="apps/bay" target="${apps-target}" inheritall="false"/>
+  </target>  
   
   
 </project>
