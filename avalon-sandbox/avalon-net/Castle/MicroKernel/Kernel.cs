@@ -16,6 +16,8 @@ namespace Apache.Avalon.Castle.MicroKernel
 {
 	using System;
 
+	using Apache.Avalon.Castle.MicroKernel.Model;
+
 	public delegate void DependencyListenerDelegate( Type service, IHandler handler );
 
 	/// <summary>
@@ -34,9 +36,18 @@ namespace Apache.Avalon.Castle.MicroKernel
 		/// <summary>
 		/// Adds an aspect to kernel.
 		/// </summary>
-		/// <param name="flags">May be Before, After or both.</param>
+		/// <param name="flags">Can be Before, After or both.</param>
 		/// <param name="aspect">The aspect implementation</param>
 		void AddAspect( AspectPointCutFlags flags, IAspect aspect );
+
+		/// <summary>
+		/// IComponentModel instance builder.
+		/// </summary>
+		IComponentModelBuilder ModelBuilder
+		{
+			get;
+			set;
+		}
 
 		/// <summary>
 		/// Obtains a component handler using the 

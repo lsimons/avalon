@@ -12,15 +12,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Apache.Avalon.Castle.MicroKernel
+namespace Apache.Avalon.Castle.MicroKernel.Concerns
 {
 	using System;
 
+	using Apache.Avalon.Castle.MicroKernel.Model;
+
 	/// <summary>
-	/// Summary description for IHandlerFactory.
+	/// Summary description for IConcern.
 	/// </summary>
-	public interface IHandlerFactory
+	public interface IConcern
 	{
-		IHandler CreateHandler( Type service, Type implementation );
+		void Init( Kernel kernel );
+
+		void Apply( IComponentModel model, object component );
+
+		IConcern Next
+		{
+			get;
+		}
 	}
 }

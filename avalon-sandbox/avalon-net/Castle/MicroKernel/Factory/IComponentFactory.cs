@@ -24,6 +24,6 @@ namespace Apache.Avalon.Castle.MicroKernel
 	{
 		Object Incarnate( );
 
-		void Etherialize( );
+		void Etherialize( object instance );
 	}
 }

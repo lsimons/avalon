@@ -23,6 +23,6 @@ namespace Apache.Avalon.Castle.MicroKernel
 	{
 		object Resolve();
 
-		void Release();
+		void Release( object instance );
 	}
 }

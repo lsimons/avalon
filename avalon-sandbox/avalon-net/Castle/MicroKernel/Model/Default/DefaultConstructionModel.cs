@@ -12,32 +12,42 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Apache.Avalon.Castle.MicroKernel
+namespace Apache.Avalon.Castle.MicroKernel.Model.Default
 {
 	using System;
-	using System.Collections;
 	using System.Reflection;
 
 	/// <summary>
-	/// Summary description for ConstructionInfo.
+	/// Summary description for DefaultConstructionModel.
 	/// </summary>
-	public class ConstructionInfo
+	public class DefaultConstructionModel : IConstructionModel
 	{
+		private Type m_implementation;
 		private ConstructorInfo m_constructor;
+		private PropertyInfo[] m_properties;
 
-		private Hashtable m_service2handler;
-
-		private PropertyInfo[] m_properties = new PropertyInfo[0];
-
-		public ConstructionInfo(ConstructorInfo constructor, Hashtable service2handler)
+		public DefaultConstructionModel( Type implementation, ConstructorInfo constructor, PropertyInfo[] properties )
 		{
+			AssertUtil.ArgumentNotNull( implementation, "implementation" );
 			AssertUtil.ArgumentNotNull( constructor, "constructor" );
+			AssertUtil.ArgumentNotNull( properties, "properties" );
 
+			m_implementation = implementation;
 			m_constructor = constructor;
-			m_service2handler = service2handler;
+			m_properties = properties;
 		}
 
-		public ConstructorInfo Constructor
+		#region IConstructionModel Members
+
+		public Type Implementation
+		{
+			get
+			{
+				return m_implementation;
+			}
+		}
+
+		public ConstructorInfo SelectedConstructor
 		{
 			get
 			{
@@ -45,25 +55,14 @@ namespace Apache.Avalon.Castle.MicroKernel
 			}
 		}
 
-		public PropertyInfo[] Properties
+		public PropertyInfo[] SelectedProperties
 		{
 			get
 			{
 				return m_properties;
 			}
-			set
-			{
-				AssertUtil.ArgumentNotNull( value, "value" );
-				m_properties = value;
-			}
 		}
 
-		public IHandler this [ Type service ]
-		{
-			get
-			{
-				return (IHandler) m_service2handler[ service ];
-			}
-		}
+		#endregion
 	}
 }
