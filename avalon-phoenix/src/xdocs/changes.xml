@@ -110,7 +110,7 @@ any lifecycle interfaces.
         file.
     </action>
      <action dev="PD" type="add">
-        Blocks no longre need to implement Block interface. Block interface
+        Blocks no longer need to implement Block interface. Block interface
         is thus deprecated as is AbstractBlock. This was done to facilitate
         sharing of components between multiple containers.
     </action>
