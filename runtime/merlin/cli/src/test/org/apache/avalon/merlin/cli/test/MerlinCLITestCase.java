@@ -53,8 +53,7 @@ public class MerlinCLITestCase extends TestCase
 
     public void testMain() throws Exception
     {
-        String system = 
-          getMavenRepositoryDirectory().toString();
+        String system = getCacheDirectory().toString();
           
         try
         {
@@ -73,6 +72,19 @@ public class MerlinCLITestCase extends TestCase
             final String error = ExceptionHelper.packException( e, true );
             System.out.println( error );
             throw new Exception( error );
+        }
+    }
+
+    private File getCacheDirectory()
+    {
+        String cache = System.getProperty( "project.repository.cache.path" );
+        if( null != cache )
+        {
+            return new File( cache );
+        }
+        else
+        {
+            return getMavenRepositoryDirectory();
         }
     }
 
