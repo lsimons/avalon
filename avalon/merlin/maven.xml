@@ -183,13 +183,13 @@
   <goal name="merlin:package">
 
     <!--
+    <j:set var="package.name" value="${maven.final.name}-dist"/>
+    -->
     <maven:snapshot project="${pom}"/>
     <j:set var="timestamp" value="${snapshotSignature.substring(7,15)}"/>
     <j:set var="package.name" value="${maven.final.name}-dist-${timestamp}"/>
-    -->
-    <j:set var="package.name" value="${maven.final.name}-dist"/>
 
-    <ant:echo>Building distribution: ${package.name}.zip</ant:echo>
+    <ant:echo>Building distribution: ${package.name}</ant:echo>
     <ant:zip zipfile="${maven.build.dir}/${package.name}.zip">
       <zipfileset dir="${merlin.build.inst.dir}" prefix="merlin"/>
       <zipfileset dir="${maven.build.dir}/plugins" prefix="plugins"/>
@@ -197,6 +197,8 @@
         <include name="INSTALLATION.TXT"/>
       </fileset>
     </ant:zip>
+    <checksum file="${maven.build.dir}/${package.name}.zip"/>
+
     <ant:tar tarfile="${maven.build.dir}/${package.name}.tar">
       <tarfileset dir="${merlin.build.inst.dir}" prefix="merlin"/>
       <tarfileset dir="${maven.build.dir}/plugins" prefix="plugins"/>
@@ -208,14 +210,16 @@
       zipfile="${maven.build.dir}/${package.name}.tar.gz"
       src="${maven.build.dir}/${package.name}.tar"/>
     <ant:delete file="${maven.build.dir}/${package.name}.tar"/>
+    <checksum file="${maven.build.dir}/${package.name}.tar.gz"/>
 
-    <!--<j:set var="docs.name" value="${maven.final.name}-docs-${timestamp}"/>-->
-    <j:set var="docs.name" value="${maven.final.name}-docs"/>
+    <j:set var="docs.name" value="${maven.final.name}-docs-${timestamp}"/>
+    <!-- <j:set var="docs.name" value="${package.name}-docs"/>-->
 
-    <ant:echo>Building doc kit: ${docs.name}.zip</ant:echo>
+    <ant:echo>Building doc kit: ${docs.name}</ant:echo>
     <ant:zip zipfile="${maven.build.dir}/${docs.name}.zip">
       <zipfileset dir="${maven.build.dir}/docs" prefix="docs"/>
     </ant:zip>
+    <checksum file="${maven.build.dir}/${docs.name}.zip"/>
     <ant:tar tarfile="${maven.build.dir}/${docs.name}.tar">
       <tarfileset dir="${maven.build.dir}/docs" prefix="docs"/>
     </ant:tar>
@@ -223,14 +227,16 @@
       zipfile="${maven.build.dir}/${docs.name}.tar.gz"
       src="${maven.build.dir}/${docs.name}.tar"/>
     <ant:delete file="${maven.build.dir}/${docs.name}.tar"/>
+    <checksum file="${maven.build.dir}/${docs.name}.tar.gz"/>
 
-    <!--<j:set var="tutorial.name" value="${maven.final.name}-tutorial-${timestamp}"/>-->
-    <j:set var="tutorial.name" value="${maven.final.name}-tutorial"/>
+    <j:set var="tutorial.name" value="${maven.final.name}-tutorial-${timestamp}"/>
+    <!--<j:set var="tutorial.name" value="${maven.final.name}-tutorial"/>-->
 
-    <ant:echo>Building tutorial kit: ${tutorial.name}.zip</ant:echo>
+    <ant:echo>Building tutorial kit: ${tutorial.name}</ant:echo>
     <ant:zip zipfile="${maven.build.dir}/${tutorial.name}.zip">
       <zipfileset dir="${basedir}/target/tutorials" prefix="tutorial"/>
     </ant:zip>
+    <checksum file="${maven.build.dir}/${tutorial.name}.zip"/>
     <ant:tar tarfile="${maven.build.dir}/${tutorial.name}.tar">
       <tarfileset dir="${basedir}/target/tutorials" prefix="tutorial"/>
     </ant:tar>
@@ -238,6 +244,7 @@
       zipfile="${maven.build.dir}/${tutorial.name}.tar.gz"
       src="${maven.build.dir}/${tutorial.name}.tar"/>
     <ant:delete file="${maven.build.dir}/${tutorial.name}.tar"/>
+    <checksum file="${maven.build.dir}/${tutorial.name}.tar.gz"/>
 
   </goal>
 
@@ -249,10 +256,12 @@
   -->
   <goal name="ximport">
     <j:forEach var="dep" items="${pom.dependencies}">
-      <mkdir dir="${maven.build.dir}/${merlin.build.inst}/system/${dep.artifactDirectory}/${dep.type}s"/>
-      <copy 
-        todir="${maven.build.dir}/${merlin.build.inst}/system/${dep.artifactDirectory}/${dep.type}s/"
-        file="${maven.repo.local}/${dep.artifactDirectory}/${dep.type}s/${dep.artifact}"/>
+      <j:if test="${dep.getId() != 'junit:junit'}">
+        <mkdir dir="${maven.build.dir}/${merlin.build.inst}/system/${dep.artifactDirectory}/${dep.type}s"/>
+        <copy 
+          todir="${maven.build.dir}/${merlin.build.inst}/system/${dep.artifactDirectory}/${dep.type}s/"
+          file="${maven.repo.local}/${dep.artifactDirectory}/${dep.type}s/${dep.artifact}"/>
+      </j:if>
     </j:forEach>
   </goal>
 
@@ -299,6 +308,8 @@
         <include name="dependencies/**"/>
         <include name="lifecycle/**"/>
         <include name="meta/**"/>
+        <include name="profiles/**"/>
+        <include name="selection/**"/>
         <exclude name="**/target/**"/>
         <exclude name="**/*.log"/>
       </fileset>
@@ -332,6 +343,7 @@
         <sourcepath path="${basedir}/activation/impl/src/java"/>
         <sourcepath path="${basedir}/kernel/spi/src/java"/>
         <sourcepath path="${basedir}/kernel/impl/src/java"/>
+        <sourcepath path="${basedir}/kernel/unit/src/java"/>
         <classpath>
           <path refid="maven.dependency.classpath"/>
 	  </classpath>
