@@ -5,6 +5,10 @@
 
 <project default="avalon:build"  xmlns:maven="jelly:maven" xmlns:j="jelly:core" xmlns:util="jelly:util" xmlns:ant="jelly:ant">
 
+  
+  <ant:property name="productname"
+    value="${maven.final.name}-&avalon-framework-suffix;"/>
+
   <ant:property name="maven.dist.assembly.dir"
     value="${maven.build.dir}/temp"/>
   <ant:property name="maven.dist.bin.archive.dir"
@@ -199,33 +203,33 @@
     description="Build the binary distribution.">
 
     <!-- Create a tar.gz file -->
-    <ant:tar longfile="gnu" tarfile="${maven.dist.dir}/${maven.final.name}.tar">
+    <ant:tar longfile="gnu" tarfile="${maven.dist.dir}/${productname}.tar">
       <ant:tarfileset dir="${maven.dist.bin.archive.dir}"/>
     </ant:tar>
 
     <ant:gzip 
-      zipfile="${maven.dist.dir}/${maven.final.name}.tar.gz"
-      src="${maven.dist.dir}/${maven.final.name}.tar"/>
-    <ant:delete file="${maven.dist.dir}/${maven.final.name}.tar"/>
-    <checksum file="${maven.dist.dir}/${maven.final.name}.tar.gz" fileext=".md5" />
+      zipfile="${maven.dist.dir}/${productname}.tar.gz"
+      src="${maven.dist.dir}/${productname}.tar"/>
+    <ant:delete file="${maven.dist.dir}/${productname}.tar"/>
+    <checksum file="${maven.dist.dir}/${productname}.tar.gz" fileext=".md5" />
     <j:if test="${maven_gpg_exe != null}">
       <ant:exec executable="${maven_gpg_exe}">
         <ant:arg value="-a"/>
         <ant:arg value="-b"/>
-        <ant:arg value="${maven.dist.dir}/${maven.final.name}.tar.gz"/>
+        <ant:arg value="${maven.dist.dir}/${productname}.tar.gz"/>
       </ant:exec>
     </j:if>
 
     <!-- Create a zip file -->
-    <ant:zip zipfile="${maven.dist.dir}/${maven.final.name}.zip">
+    <ant:zip zipfile="${maven.dist.dir}/${productname}.zip">
       <ant:zipfileset dir="${maven.dist.bin.archive.dir}"/>
     </ant:zip>
-    <checksum file="${maven.dist.dir}/${maven.final.name}.zip" fileext=".md5" />
+    <checksum file="${maven.dist.dir}/${productname}.zip" fileext=".md5" />
     <j:if test="${maven_gpg_exe != null}">
       <ant:exec executable="${maven_gpg_exe}">
         <ant:arg value="-a"/>
         <ant:arg value="-b"/>
-        <ant:arg value="${maven.dist.dir}/${maven.final.name}.zip"/>
+        <ant:arg value="${maven.dist.dir}/${productname}.zip"/>
       </ant:exec>
     </j:if>
   </goal>
@@ -236,34 +240,34 @@
     description="Build the source distribution.">
  
     <!-- Create a tar.gz file -->
-    <ant:tar longfile="gnu" tarfile="${maven.dist.dir}/${maven.final.name}-src.tar">
+    <ant:tar longfile="gnu" tarfile="${maven.dist.dir}/${productname}-src.tar">
       <ant:tarfileset dir="${maven.dist.src.archive.dir}"/>
     </ant:tar>
 
     <ant:gzip 
-      zipfile="${maven.dist.dir}/${maven.final.name}-src.tar.gz" 
-      src="${maven.dist.dir}/${maven.final.name}-src.tar"
+      zipfile="${maven.dist.dir}/${productname}-src.tar.gz" 
+      src="${maven.dist.dir}/${productname}-src.tar"
     />
-    <ant:delete file="${maven.dist.dir}/${maven.final.name}-src.tar"/>
-    <checksum file="${maven.dist.dir}/${maven.final.name}-src.tar.gz" fileext=".md5" />
+    <ant:delete file="${maven.dist.dir}/${productname}-src.tar"/>
+    <checksum file="${maven.dist.dir}/${productname}-src.tar.gz" fileext=".md5" />
     <j:if test="${maven_gpg_exe != null}">
       <ant:exec executable="${maven_gpg_exe}">
         <ant:arg value="-a"/>
         <ant:arg value="-b"/>
-        <ant:arg value="${maven.dist.dir}/${maven.final.name}-src.tar.gz"/>
+        <ant:arg value="${maven.dist.dir}/${productname}-src.tar.gz"/>
       </ant:exec>
     </j:if>
 
     <!-- Create a zip file -->
-    <ant:zip zipfile="${maven.dist.dir}/${maven.final.name}-src.zip">
+    <ant:zip zipfile="${maven.dist.dir}/${productname}-src.zip">
       <ant:zipfileset dir="${maven.dist.src.archive.dir}"/>
     </ant:zip>
-    <checksum file="${maven.dist.dir}/${maven.final.name}-src.zip" fileext=".md5" />
+    <checksum file="${maven.dist.dir}/${productname}-src.zip" fileext=".md5" />
     <j:if test="${maven_gpg_exe != null}">
       <ant:exec executable="${maven_gpg_exe}">
         <ant:arg value="-a"/>
         <ant:arg value="-b"/>
-        <ant:arg value="${maven.dist.dir}/${maven.final.name}-src.zip"/>
+        <ant:arg value="${maven.dist.dir}/${productname}-src.zip"/>
       </ant:exec>
     </j:if>
 
