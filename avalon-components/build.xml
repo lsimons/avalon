@@ -614,8 +614,8 @@
     <!--</parallel>-->
 
     <copy todir="${dist.base}/phoenix-apps" flatten="true">
-      <fileset dir="${dist.name}">
-        <include name="*.sar"/>
+      <fileset dir="apps">
+        <include name="*/dist/*.sar"/>
       </fileset>
     </copy>        
 
