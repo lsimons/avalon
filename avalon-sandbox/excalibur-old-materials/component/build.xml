@@ -418,7 +418,7 @@
             <zipfileset dir="${docs.dir}" prefix="${dist.name}/docs"/>
         </zip>
 
-	<checksum file="${dist.base}/${dist.name}.zip"/>
+	<checksum file="${dist.base}/${dist.name}.zip" fileext=".md5"/>
 
         <!--
           Not supported by released ant but when it is we should enable this across
