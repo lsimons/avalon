@@ -44,10 +44,10 @@ import com.tagtraum.jo.I_JoServletContextPeer;
  * @phoenix:block
  * @phoenix:service name="org.apache.avalon.apps.sevak.Sevak"
  *
- * Tomcat Wrapper.
+ * Jo Wrapper.
  *
  *
- * @see <a href="http://jakarta.apache.org/tomcat">Tomcat Project Page</a>
+ * @see <a href="http://www.tagtraum.com/jo.html">Jo! Project Page</a>
  *
  * @author  Hendrik Schreiber & Paul Hammant
  * @version 1.0

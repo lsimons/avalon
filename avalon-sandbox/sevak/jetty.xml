@@ -57,10 +57,12 @@
   <property name="java.demo.dir" value="${demo.dir}/java"/>
   <property name="conf.demo.dir" value="${demo.dir}/conf"/>  
   
-  <!-- Jo stuff -->
-  <property name ="jo.rel"    value="1.0"/>
+
   
-  <property name="jo.jars.dir" value="${lib.dir}/jo-jars"/>
+  <!-- Jetty stuff -->
+  <property name ="jetty.rel"    value="4.1.0RC6"/>
+  
+  <property name="jetty.jars.dir" value="${lib.dir}/jetty-jars"/>
 
   <path id="project.class.path">
     <pathelement path="${java.class.path}" />
@@ -71,7 +73,7 @@
     <fileset dir="../common/lib/xdoclet">
       <include name="*.jar" />
     </fileset>    
-    <fileset dir="${jo.jars.dir}">
+    <fileset dir="${jetty.jars.dir}">
       <include name="*.jar" />
     </fileset>       
   </path>
@@ -94,42 +96,43 @@
     <classpath refid="project.class.path" />
   </taskdef>
 
-  <target name="checkJoJars">
-    <condition property="jo.present">
-      <available file="jo-download/jo${jo.rel}.zip"/>
+  <target name="checkJettyJars">
+    <condition property="jetty.present">
+      <available file="jetty-download/jetty-${jetty.rel}.zip"/>
     </condition>
 
   </target>
 
-  <target name="checkNeccesaryJars" depends="checkJoJars" unless="jo.present">
-      <echo>*************************</echo>
-      <echo>* Please execute target *</echo>
-      <echo>* 'get-jo' in the main  *</echo>
-      <echo>* build.xml build file  *</echo>    
-      <echo>* to download three and *</echo>
-      <echo>* a half Mb of Jo!      *</echo>
-      <echo>*************************</echo>   
+  <target name="checkNeccesaryJars" depends="checkJettyJars" unless="jetty.present">
+      <echo>****************************</echo>
+      <echo>* Please execute target    *</echo>
+      <echo>* 'get-jetty' in the main  *</echo>
+      <echo>* build.xml build file     *</echo>    
+      <echo>* to download six mega-    *</echo>
+      <echo>* bytes of Jetty from      *</echo>
+      <echo>* Sourceforge              *</echo>
+      <echo>****************************</echo>   
       
-      <fail message="Jo needed. See above."/>   
+      <fail message="Jetty needed. See above."/>   
 
   </target>
 
     
-  <target name="get-jo">
+  <target name="get-jetty">
     
-    <mkdir  dir="jo-download"/>
+    <mkdir  dir="jetty-download"/>
     
-    <get src="http://unc.dl.sourceforge.net/sourceforge/tagtraum-jo/jo${jo.rel}.zip" 
-  	dest="jo-download/jo${jo.rel}.zip" 
+    <get src="http://unc.dl.sourceforge.net/sourceforge/jetty/Jetty-${jetty.rel}.zip" 
+  	dest="jetty-download/Jetty-${jetty.rel}.zip" 
   	verbose="true"
   	usetimestamp="true"/>
   	
-    <unzip src="jo-download/jo${jo.rel}.zip" dest="jo-download/jo-${jo.rel}" />
+    <unzip src="jetty-download/Jetty-${jetty.rel}.zip" dest="jetty-download/Jetty-${jetty.rel}" />
       
-    <delete file="${jo.jars.dir}/*.jar"/>      
+    <delete file="${jetty.jars.dir}/*.jar"/>      
       
-    <copy todir="${jo.jars.dir}" flatten="true">
-      <fileset dir="jo-download/jo-${jo.rel}">
+    <copy todir="${jetty.jars.dir}" flatten="true">
+      <fileset dir="jetty-download/Jetty-${jetty.rel}">
         <include  name="**/lib/*.jar"/>
       </fileset>
     </copy>
@@ -149,13 +152,13 @@
     <ant antfile="build.xml" target="jars"/>
     <ant antfile="build.xml" target="demo-jar"/>
  
-    <sar sarfile="${build.lib}/sevak-jo-demo.sar"
-         config="${conf.demo.dir}/jo-config.xml"
-         environment="${conf.demo.dir}/jo-environment.xml"
-         assembly="${conf.demo.dir}/jo-assembly.xml" >
+    <sar sarfile="${build.lib}/sevak-jetty-demo.sar"
+         config="${conf.demo.dir}/jetty-config.xml"
+         environment="${conf.demo.dir}/jetty-environment.xml"
+         assembly="${conf.demo.dir}/jetty-assembly.xml" >
 
       <lib dir="${build.lib}/">
-        <include name="sevak-jo.jar"/>
+        <include name="sevak-jetty.jar"/>
         <include name="sevak-demo.jar"/>
         <include name="sevak-api.jar"/>
       </lib>
@@ -164,19 +167,14 @@
         <include name="cornerstone.jar"/>
       </lib>
     
-      <lib dir="${jo.jars.dir}">
+      <zipfileset dir="jetty-download/Jetty-${jetty.rel}/Jetty-${jetty.rel}/webapps" prefix="webapps">
+          <include name="**/*"/>
+      </zipfileset>
+      
+      <lib dir="${jetty.jars.dir}">
         <include name="*.jar"/>
       </lib>      
-      
-      <zipfileset dir="jo-download/jo-${jo.rel}/jo${jo.rel}/etc" prefix="etc">
-          <include name="**/*"/>
-      </zipfileset>
-      <zipfileset dir="jo-download/jo-${jo.rel}/jo${jo.rel}/webapp" prefix="webapp">
-          <include name="**/*"/>
-      </zipfileset>
-      <zipfileset dir="jo-download/jo-${jo.rel}/jo${jo.rel}/log" prefix="log">
-          <include name="dummy.log"/>
-      </zipfileset>      
+           
 
     </sar>
 
@@ -192,8 +190,8 @@
 
  <target name="install" depends="sar" description="Installs Demo SAR into Phoenix" > 
      <echo message="Installing to ${install.dir}" />
-    <delete dir="${install.dir}/sevak-jo-demo-demo" />
-    <copy file="${build.lib}/sevak-jo-demo.sar" todir="${install.dir}" />
+    <delete dir="${install.dir}/sevak-jetty-demo-demo" />
+    <copy file="${build.lib}/sevak-jetty-demo.sar" todir="${install.dir}" />
   </target>
 
 </project>

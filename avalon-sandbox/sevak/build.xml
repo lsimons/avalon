@@ -59,6 +59,7 @@
    
   <property name="tomcat.jars.dir" value="${lib.dir}/tomcat-jars"/>
   <property name="jo.jars.dir" value="${lib.dir}/jo-jars"/>
+  <property name="jetty.jars.dir" value="${lib.dir}/jetty-jars"/>
 
 
   <path id="project.class.path">
@@ -75,7 +76,10 @@
     </fileset>    
     <fileset dir="${jo.jars.dir}">
       <include name="*.jar" />
-    </fileset>        
+    </fileset> 
+    <fileset dir="${jetty.jars.dir}">
+      <include name="*.jar" />
+    </fileset>     
   </path>
 
   <path id="tools.class.path">
@@ -139,6 +143,7 @@
   
     <available classpathref="project.class.path" classname="org.apache.catalina.Engine" property="catalina.present"/>
     <available classpathref="project.class.path" classname="com.tagtraum.jo.JoServletService" property="jo.present"/>
+    <available classpathref="project.class.path" classname="org.mortbay.jetty.Server" property="jetty.present"/>
     
     <available classpathref="project.class.path" classname="xdoclet.DocletTask" property="xdoclet.present"/>
 
@@ -157,6 +162,7 @@
       <classpath refid="project.class.path" />
       <exclude name="org/apache/avalon/apps/sevak/blocks/jo/**" unless="jo.present"/>
       <exclude name="org/apache/avalon/apps/sevak/blocks/catalina/**" unless="catalina.present"/>
+      <exclude name="org/apache/avalon/apps/sevak/blocks/jetty/**" unless="jetty.present"/>
     </javac>
 
     <copy todir="${build.classes}">
@@ -177,6 +183,7 @@
   
     <mkdir dir="${build.xdoclet}/catalina"/>
     <mkdir dir="${build.xdoclet}/jo"/>
+    <mkdir dir="${build.xdoclet}/jetty"/>
   
     <taskdef name="phoenix-blocks"
              classname="org.apache.avalon.phoenix.tools.xdoclet.PhoenixXDoclet"
@@ -197,6 +204,16 @@
         classpathref="project.class.path">
       <fileset dir="${java.dir}">
         <include name="org/apache/avalon/apps/sevak/blocks/jo/**/*.java" />
+      </fileset>
+      <blockinfo/>
+      <manifest manifestFile="manifest.mf" />
+    </phoenix-blocks>
+
+    <phoenix-blocks
+        destdir="${build.xdoclet}/jetty"
+        classpathref="project.class.path">
+      <fileset dir="${java.dir}">
+        <include name="org/apache/avalon/apps/sevak/blocks/jetty/**/*.java" />
       </fileset>
       <blockinfo/>
       <manifest manifestFile="manifest.mf" />
@@ -243,6 +260,16 @@
       </fileset>
       <fileset dir="${build.xdoclet}/jo">
         <include name="org/apache/avalon/apps/sevak/blocks/jo/**/*.xinfo"/>
+      </fileset>
+    </jar>
+
+    <jar jarfile="${build.lib}/sevak-jetty.jar"
+         manifest="${build.xdoclet}/jetty/manifest.mf">
+      <fileset dir="${build.classes}">
+        <include name="org/apache/avalon/apps/sevak/blocks/jetty/**"/>
+      </fileset>
+      <fileset dir="${build.xdoclet}/jetty">
+        <include name="org/apache/avalon/apps/sevak/blocks/jetty/**/*.xinfo"/>
       </fileset>
     </jar>
 

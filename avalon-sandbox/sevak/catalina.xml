@@ -9,7 +9,7 @@
   <!-- set up properties -->
   <property file="${user.home}/build.properties"/>
   <property file="${user.home}/.ant.properties"/>
-  <property file="${basedir}/ant.properties"/>
+  <property file="${basedir}/.ant.properties"/>
   <property file="${basedir}/../ant.properties"/>
   <property file="${basedir}/default.properties"/>
   <property file="${basedir}/../default.properties"/>
@@ -59,6 +59,7 @@
   
   <!-- Tomcat Stuff -->
   <property name="catalina-version" value="4.1.10"/>
+  <property name="catalina-zip-suffix" value=""/>
   <property name="catalina-dir-suffix" value=""/>
   
   <property name="tomcat.jars.dir" value="${lib.dir}/tomcat-jars"/>
@@ -98,7 +99,7 @@
   <!-- Check Presense Of Tomcat 4.0 jars -->
   <target name="checkCatalinaJars">
     <condition property="catalina.present">
-      <available file="catalina-download/catalina-${catalina-version}.zip"/>
+      <available file="catalina-download/catalina-${catalina-version}${catalina-zip-suffix}.zip"/>
     </condition>
 
   </target>
@@ -123,8 +124,8 @@
     <mkdir dir="${lib.dir}"/>
     <mkdir dir="${tomcat.jars.dir}"/>
 
-    <get src="http://jakarta.apache.org/builds/jakarta-tomcat-4.0/release/v${catalina-version}${catalina-dir-suffix}/bin/jakarta-tomcat-${catalina-version}.zip" 
-    dest="catalina-download/catalina-${catalina-version}.zip" 
+    <get src="http://jakarta.apache.org/builds/jakarta-tomcat-4.0/release/v${catalina-version}${catalina-dir-suffix}/bin/jakarta-tomcat-${catalina-version}${catalina-zip-suffix}.zip" 
+    dest="catalina-download/catalina-${catalina-version}${catalina-zip-suffix}.zip" 
     verbose="true"
     usetimestamp="true"/>
     
@@ -155,12 +156,12 @@
     />
 
 
-    <unzip src="catalina-download/catalina-${catalina-version}.zip" dest="catalina-download" />
+    <unzip src="catalina-download/catalina-${catalina-version}${catalina-zip-suffix}.zip" dest="catalina-download" />
     
     <delete file="${tomcat.jars.dir}/*.jar"/>
     
     <copy todir="${tomcat.jars.dir}" flatten="true">
-      <fileset dir="catalina-download/jakarta-tomcat-${catalina-version}">
+      <fileset dir="catalina-download/jakarta-tomcat-${catalina-version}${catalina-zip-suffix}">
         <include  name="**/bin/*.jar"/>
         <include  name="**/lib/*.jar"/>
       </fileset>
@@ -201,9 +202,9 @@
       </lib>
       
 
-      <zipfileset dir="catalina-download/jakarta-tomcat-${catalina-version}/webapps" prefix="webapps"/>
+      <zipfileset dir="catalina-download/jakarta-tomcat-${catalina-version}${catalina-zip-suffix}/webapps" prefix="webapps"/>
       
-      <zipfileset dir="catalina-download/jakarta-tomcat-${catalina-version}/conf" prefix="conf">
+      <zipfileset dir="catalina-download/jakarta-tomcat-${catalina-version}${catalina-zip-suffix}/conf" prefix="conf">
         <include name="tomcat-users.xml"/>
       </zipfileset>
 
