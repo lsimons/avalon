@@ -488,8 +488,8 @@
       </depend>
       <depend property="gump.resource.ant" project="ant" id="ant"/>
       <depend property="gump.resource.junit" project="junit"/>
-      <depend property="gump.resource.ant-junit" project="ant" id="junit"/>
-      <depend property="gump.resource.ant-nodeps" project="ant" id="nodeps"/>
+      <depend property="gump.resource.ant-junit" project="ant" id="ant-junit"/>
+      <depend property="gump.resource.ant-nodeps" project="ant" id="ant-nodeps"/>
       <!-- end for -->
     </ant>
     <depend project="magic" runtime="true" inherit="runtime"/> 
@@ -1468,8 +1468,8 @@
       <!-- external references -->
       <depend property="gump.resource.ant" project="ant" id="ant"/>
       <depend property="gump.resource.junit" project="junit"/>
-      <depend property="gump.resource.ant-junit" project="ant" id="junit"/>
-      <depend property="gump.resource.ant-nodeps" project="ant" id="nodeps"/>
+      <depend property="gump.resource.ant-junit" project="ant" id="ant-junit"/>
+      <depend property="gump.resource.ant-nodeps" project="ant" id="ant-nodeps"/>
       <!-- end for -->
     </ant>
     <depend project="magic" runtime="true" inherit="runtime"/> 
@@ -2915,8 +2915,8 @@
       <!-- external references -->
       <depend property="gump.resource.ant" project="ant" id="ant"/>
       <depend property="gump.resource.junit" project="junit"/>
-      <depend property="gump.resource.ant-junit" project="ant" id="junit"/>
-      <depend property="gump.resource.ant-nodeps" project="ant" id="nodeps"/>
+      <depend property="gump.resource.ant-junit" project="ant" id="ant-junit"/>
+      <depend property="gump.resource.ant-nodeps" project="ant" id="ant-nodeps"/>
       <depend property="gump.resource.saxon" project="saxon">
         <noclasspath/>
       </depend>
@@ -4065,8 +4065,8 @@
       <!-- external references -->
       <depend property="gump.resource.ant" project="ant" id="ant"/>
       <depend property="gump.resource.junit" project="junit"/>
-      <depend property="gump.resource.ant-junit" project="ant" id="junit"/>
-      <depend property="gump.resource.ant-nodeps" project="ant" id="nodeps"/>
+      <depend property="gump.resource.ant-junit" project="ant" id="ant-junit"/>
+      <depend property="gump.resource.ant-nodeps" project="ant" id="ant-nodeps"/>
       <!-- end for -->
     </ant>
     <depend project="magic" runtime="true" inherit="runtime"/> 

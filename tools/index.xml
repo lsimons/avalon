@@ -27,7 +27,7 @@
       <!--<ignore/>-->
       <classpath/>
       <alias>ant</alias>
-      <id>nodeps</id>
+      <id>ant-nodeps</id>
     </gump>
   </resource>
 
@@ -42,7 +42,7 @@
       <!--<ignore/>-->
       <classpath/>
       <alias>ant</alias>
-      <id>junit</id>
+      <id>ant-junit</id>
     </gump>
   </resource>
 
