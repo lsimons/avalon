@@ -226,7 +226,8 @@
     <info>
       <group>avalon/meta</group>
       <name>avalon-meta-api</name>
-      <version>1.4.0</version>
+      <version>1.5.0</version> <!-- bumped to handle parameters -->
+      <status>SNAPSHOT</status>
     </info>
     <dependencies>
       <include key="avalon-framework-api"/>
@@ -249,7 +250,8 @@
     <info>
       <group>avalon/meta</group>
       <name>avalon-meta-impl</name>
-      <version>1.4.0</version>
+      <version>1.5.0</version> <!-- bumped to handle parameters -->
+      <status>SNAPSHOT</status>
     </info>
     <dependencies>
       <include key="avalon-meta-spi"/>
@@ -262,7 +264,7 @@
     <info>
       <group>avalon/meta</group>
       <name>avalon-meta-tools</name>
-      <version>1.4.1</version>
+      <version>1.5.0</version> <!-- bumped to handle parameters -->
       <status>SNAPSHOT</status>
     </info>
     <dependencies>
