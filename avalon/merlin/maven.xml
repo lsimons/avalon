@@ -60,7 +60,6 @@
   <ant:property name="maven.checkstyle.format" value="avalon"/>
   <ant:property name="pom.organization.identifier" value="ASF"/>
   <ant:property name="pom.specificationVersion" value="&merlin-spec;"/>
-  <ant:property name="maven.license.licenseFile" value="${basedir}/LICENSE.txt"/>
   <maven:snapshot project="${pom}"/>
 
   <!--

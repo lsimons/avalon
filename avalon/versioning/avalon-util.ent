@@ -5,10 +5,10 @@
 <!ENTITY avalon-util-criteria-version "1.1.dev-0">
 
 <!ENTITY avalon-util-defaults-id "avalon-util-defaults">
-<!ENTITY avalon-util-defaults-version "1.2.dev-0">
+<!ENTITY avalon-util-defaults-version "1.2.dev-1">
 
 <!ENTITY avalon-util-env-id "avalon-util-env">
-<!ENTITY avalon-util-env-version "1.1.dev-0">
+<!ENTITY avalon-util-env-version "1.1.dev-1">
 
 <!ENTITY avalon-util-exception-id "avalon-util-exception">
 <!ENTITY avalon-util-exception-version "1.0.0">

@@ -4,13 +4,13 @@
 <!ENTITY avalon-repository-api-version "2.0.dev-0">
 
 <!ENTITY avalon-repository-cli-id "avalon-repository-cli">
-<!ENTITY avalon-repository-cli-version "2.0.dev-0">
+<!ENTITY avalon-repository-cli-version "2.0.dev-1">
 
 <!ENTITY avalon-repository-impl-id "avalon-repository-impl">
-<!ENTITY avalon-repository-impl-version "2.0.dev-0">
+<!ENTITY avalon-repository-impl-version "2.0.dev-1">
 
 <!ENTITY avalon-repository-main-id "avalon-repository-main">
-<!ENTITY avalon-repository-main-version "2.0.dev-0">
+<!ENTITY avalon-repository-main-version "2.0.dev-1">
 
 <!ENTITY avalon-repository-spi-id "avalon-repository-spi">
 <!ENTITY avalon-repository-spi-version "2.0.dev-0">

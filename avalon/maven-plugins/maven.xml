@@ -18,6 +18,16 @@
 
 <project default="avalon:build" xmlns:maven="jelly:maven" xmlns:util="jelly:util" xmlns:j="jelly:core" xmlns:ant="jelly:ant">
 
+  <goal name="avalon:clean" prereqs="clean">
+    <maven:reactor basedir="${basedir}"
+      includes="**/project.xml"
+      excludes="project.xml,**/target/**/project.xml"
+      banner="Cleaning:"
+      goals="clean:clean"
+      ignoreFailures="true" 
+      postProcessing="false" />
+  </goal>
+
   <goal name="avalon:build">
     <maven:reactor basedir="${basedir}"
       includes="**/project.xml"
@@ -27,6 +37,8 @@
       ignoreFailures="false" 
       postProcessing="false" />
   </goal>
+
+  <goal name="avalon:dist" prereqs="avalon:build"/>
 
   <postGoal name="multiproject:site-init">
     <ant:mkdir dir="${maven.build.dir}/docs/style"/>

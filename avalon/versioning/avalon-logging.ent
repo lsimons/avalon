@@ -30,7 +30,7 @@ limitations under the License.
 <!ENTITY avalon-logging-test-version "1.0.dev-0">
 
 <!ENTITY avalon-logging-log4j-id "avalon-logging-log4j">
-<!ENTITY avalon-logging-log4j-version "1.0.dev-0">
+<!ENTITY avalon-logging-log4j-version "1.0.dev-1">
 <!ENTITY avalon-logging-log4j-artifact-spec "&avalon-logging-id;/&avalon-logging-log4j-id;#&avalon-logging-log4j-version;">
 
 <!ENTITY avalon-logging-logkit-api-id "avalon-logging-logkit-api">
@@ -38,13 +38,13 @@ limitations under the License.
 <!ENTITY avalon-logging-logkit-spi-id "avalon-logging-logkit-spi">
 <!ENTITY avalon-logging-logkit-spi-version "1.0.dev-0">
 <!ENTITY avalon-logging-logkit-impl-id "avalon-logging-logkit-impl">
-<!ENTITY avalon-logging-logkit-impl-version "1.0.dev-0">
+<!ENTITY avalon-logging-logkit-impl-version "1.0.dev-1">
 <!ENTITY avalon-logging-logkit-datagram-id "avalon-logging-logkit-datagram">
-<!ENTITY avalon-logging-logkit-datagram-version "1.0.dev-0">
+<!ENTITY avalon-logging-logkit-datagram-version "1.0.dev-1">
 <!ENTITY avalon-logging-logkit-socket-id "avalon-logging-logkit-socket">
-<!ENTITY avalon-logging-logkit-socket-version "1.0.dev-0">
+<!ENTITY avalon-logging-logkit-socket-version "1.0.dev-1">
 <!ENTITY avalon-logging-logkit-syslog-id "avalon-logging-logkit-syslog">
-<!ENTITY avalon-logging-logkit-syslog-version "1.0.dev-0">
+<!ENTITY avalon-logging-logkit-syslog-version "1.0.dev-1">
 
 <!ENTITY avalon-logging-logkit-artifact-spec "&avalon-logging-id;/&avalon-logging-logkit-impl-id;#&avalon-logging-logkit-impl-version;">
 <!ENTITY avalon-logging-logkit-artifact "artifact:&avalon-logging-logkit-artifact-spec;">
