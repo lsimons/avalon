@@ -21,7 +21,7 @@ import org.apache.avalon.framework.logger.AbstractLoggable;
  * thread to manage the number of SQL Connections.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.5 $ $Date: 2001/08/14 16:26:09 $
+ * @version CVS $Revision: 1.6 $ $Date: 2001/09/26 17:52:28 $
  * @since 4.0
  */
 public class JdbcConnectionPool
@@ -89,7 +89,12 @@ public class JdbcConnectionPool
                     m_active.remove(obj);
                 }
 
-                m_factory.decommission(obj);
+                if (m_ready.contains(obj))
+                {
+                    m_ready.remove(obj);
+                }
+
+                this.removePoolable(obj);
 
                 obj = (JdbcConnection) this.newPoolable();
 

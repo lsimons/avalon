@@ -35,6 +35,7 @@ public class DataSourceTestCase
 {
     protected boolean isSuccessful;
     protected ThreadBarrier barrier;
+    protected int connectionCount;
 
     public DataSourceTestCase(String name)
     {
@@ -105,6 +106,8 @@ public class DataSourceTestCase
         {
             ds = (DataSourceComponent) manager.lookup( DataSourceComponent.ROLE );
 
+            this.connectionCount = 0;
+
             for (int i = 0; i < 10; i++)
             {
                 (new Thread( new ConnectionThread( this, ds ) ) ).start();
@@ -120,7 +123,7 @@ public class DataSourceTestCase
                 // Ignore
             }
 
-            getLogger().info( "If you saw no failure messages, then the test passed" );
+            getLogger().info( "The normal use test passed with " + this.connectionCount + " requests and 10 concurrent threads running" );
         }
         catch ( ComponentException ce )
         {
@@ -157,25 +160,24 @@ public class DataSourceTestCase
         public void run()
         {
             long end = System.currentTimeMillis() + 5000; // run for 5 seconds
-            Random rnd = new Random();
 
-            while( System.currentTimeMillis() < end )
+            while( System.currentTimeMillis() < end && this.testcase.isSuccessful )
             {
                 try
                 {
                     Connection con = this.datasource.getConnection();
-                    Thread.sleep( (long) rnd.nextInt(100) );
                     con.close();
+                    this.testcase.connectionCount++;
                 }
                 catch( final SQLException se )
                 {
+                    this.testcase.isSuccessful = false;
                     this.testcase.getLogger().info( "Failed to get Connection, test failed", se );
-                    this.testcase.assertTrue( "Normal Use Test", false );
                 }
-                catch( final InterruptedException ie )
+/*                catch( final InterruptedException ie )
                 {
                     // Ignore
-                }
+                }*/
             }
 
             try
