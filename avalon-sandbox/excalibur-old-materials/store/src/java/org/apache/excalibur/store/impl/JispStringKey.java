@@ -19,9 +19,9 @@ import com.coyotegulch.jisp.KeyObject;
  * Jisp KeyObject.
  *
  * @author <a href="mailto:g-froehlich@gmx.de">Gerhard Froehlich</a>
- * @version CVS $Id: JispStringKey.java,v 1.3 2003/02/25 16:28:23 bloritsch Exp $
+ * @version CVS $Id: JispStringKey.java,v 1.4 2003/03/17 09:25:27 cziegeler Exp $
  */
-final class JispStringKey extends KeyObject {
+final public class JispStringKey extends KeyObject {
     final static long serialVersionUID = -6894793231339165076L;
     private String m_Key;
 
