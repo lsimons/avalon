@@ -27,10 +27,12 @@
       <p>
       The <a href="http://avalon.apache.org/meta">Avalon Meta</a> system 
       provides Merlin's foundation for the management of component 
-      type defintions.  It is used extensively withing the 
+      type defintions.  It is used extensively within the 
       <a href="composition.html">Avalon Composition Framework</a> as the
-      underlying meta-info layer within the overall container meta-model.
+      underlying meta-info layer of the containment meta-model.
       </p>
+
+      <subsection name="Aspects">
       <table>
         <tr>
           <th>Feature</th><th>Description</th>
@@ -66,6 +68,7 @@
           </td>
         </tr>
       </table>
+      </subsection>
     </section>
   </body>
 </document>
