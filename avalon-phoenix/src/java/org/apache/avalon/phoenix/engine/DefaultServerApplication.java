@@ -262,8 +262,7 @@ public final class DefaultServerApplication
     {
         setupComponent( m_frame, "<core>.frame", m_configuration );
         setupComponent( m_repository, "<core>.config", null );
-        setupComponent( m_manager, "<core>.application-manager", null );
-
+        setupComponent( m_manager, "<core>.manager", null );
         setupComponent( m_dag, "<core>.dag", null );
     }
 
