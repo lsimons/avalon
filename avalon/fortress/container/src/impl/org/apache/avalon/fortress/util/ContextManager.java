@@ -119,7 +119,7 @@ import java.util.Iterator;
  * and dispose of them properly when it itself is disposed .</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.37 $ $Date: 2003/05/30 19:23:12 $
+ * @version CVS $Revision: 1.38 $ $Date: 2003/06/02 14:44:46 $
  * @since 4.1
  */
 public final class ContextManager
@@ -846,9 +846,9 @@ public final class ContextManager
             }
             else
             {
-                /**
+                /*
                  * We rely on namespace handing being turned off in DefaultConfiguration
-                 * builder here. TODO: add code that test
+                 * builder here. TODO: add code that tests
                  * root element for name "configuration" and for the correct Log4J
                  * configuration namespace (not currently known to me - Anton Tagunov)
                  * to survive if a namespace-enabled configuration has been passed to us.

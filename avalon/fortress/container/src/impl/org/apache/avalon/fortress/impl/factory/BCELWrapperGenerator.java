@@ -224,7 +224,7 @@ final class BCELWrapperGenerator
 
     /**
      */
-    public Class createWrapper( final Class classToWrap ) throws Exception
+    public synchronized Class createWrapper( final Class classToWrap ) throws Exception
     {
         if ( classToWrap == null )
         {
@@ -264,7 +264,7 @@ final class BCELWrapperGenerator
             m_classGenerator );
 
         final byte[] byteCode = buildWrapper( javaInterfacesToImplement );
-        // TODO: Check synchronization
+
         Class generatedClass;
         synchronized ( m_bcelClassLoader )
         {
