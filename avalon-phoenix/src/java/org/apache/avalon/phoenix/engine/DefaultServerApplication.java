@@ -10,6 +10,8 @@ package org.apache.avalon.phoenix.engine;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Iterator;
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.atlantis.Application;
 import org.apache.avalon.framework.atlantis.SystemManager;
@@ -28,13 +30,13 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
+import org.apache.avalon.phoenix.components.configuration.ConfigurationRepository;
+import org.apache.avalon.phoenix.components.frame.ApplicationFrame;
+import org.apache.avalon.phoenix.components.frame.DefaultApplicationFrame;
 import org.apache.avalon.phoenix.engine.blocks.BlockDAG;
 import org.apache.avalon.phoenix.engine.blocks.BlockEntry;
 import org.apache.avalon.phoenix.engine.blocks.BlockVisitor;
 import org.apache.avalon.phoenix.engine.blocks.RoleEntry;
-import org.apache.avalon.phoenix.components.frame.ApplicationFrame;
-import org.apache.avalon.phoenix.components.configuration.ConfigurationRepository;
-import org.apache.avalon.phoenix.components.frame.DefaultApplicationFrame;
 import org.apache.avalon.phoenix.engine.phases.ShutdownPhase;
 import org.apache.avalon.phoenix.engine.phases.StartupPhase;
 import org.apache.avalon.phoenix.metainfo.BlockInfo;
@@ -53,6 +55,9 @@ public final class DefaultServerApplication
     extends AbstractContainer
     implements Application, Contextualizable, Composable, Configurable
 {
+    private static final Resources REZ =
+        ResourceManager.getPackageResources( DefaultServerApplication.class );
+
     private final static class PhaseEntry
     {
         protected BlockDAG.Traversal  m_traversal;
@@ -102,8 +107,8 @@ public final class DefaultServerApplication
         m_componentManager.put( Container.ROLE, this );
         m_componentManager.makeReadOnly();
 
-        setupComponent( m_frame, "<core>.frame", m_configuration );
-        setupComponent( m_dag, "<core>.dag", null );
+        setupComponent( m_frame, "frame" );
+        setupComponent( m_dag, "dag" );
 
         setupPhases();
     }
@@ -120,8 +125,8 @@ public final class DefaultServerApplication
     {
         if( !(entry instanceof BlockEntry) )
         {
-            throw new ContainerException( "Only Entries of type BlockEntry " +
-                                          "may be placed in container." );
+            final String message = REZ.getString( "app.error.bad.entry-type" );
+            throw new ContainerException( message );
         }
     }
 
@@ -132,38 +137,27 @@ public final class DefaultServerApplication
         entry.m_visitor = new StartupPhase();
         entry.m_traversal = BlockDAG.FORWARD;
         m_phases.put( "startup", entry );
-        setupComponent( entry.m_visitor, "<core>.phases." + entry.m_traversal.getName(), null );
+        setupComponent( entry.m_visitor, "StartupPhase" );
 
         entry = new PhaseEntry();
         entry.m_visitor = new ShutdownPhase();
         entry.m_traversal = BlockDAG.REVERSE;
         m_phases.put( "shutdown", entry );
-        setupComponent( entry.m_visitor, "<core>.phases." + entry.m_traversal.getName(), null );
+        setupComponent( entry.m_visitor, "ShutdownPhase" );
     }
 
     public void start()
         throws Exception
     {
         // load block info
-        try { loadBlockInfos(); }
-        catch( final Exception e )
-        {
-            getLogger().warn( "Error loading block infos: " + e.getMessage(), e );
-            throw e;
-        }
+        loadBlockInfos();
 
         // load blocks
-        try
-        {
-            getLogger().info( "Number of blocks to load: " + getEntryCount() );
-            final PhaseEntry entry = (PhaseEntry)m_phases.get( "startup" );
-            runPhase( entry );
-        }
-        catch( final Exception e )
-        {
-            getLogger().warn( "Error loading blocks: " + e.getMessage(), e );
-            throw e;
-        }
+        final String message = REZ.format( "app.notice.block.loading-count",
+                                           new Integer( getEntryCount() ) );
+        getLogger().info( message );
+        final PhaseEntry entry = (PhaseEntry)m_phases.get( "startup" );
+        runPhase( "startup", entry );
     }
 
     public void stop()
@@ -173,16 +167,15 @@ public final class DefaultServerApplication
 
     public void dispose()
     {
-        getLogger().info( "Number of blocks to unload: " + getEntryCount() );
+        final String message = REZ.format( "app.notice.block.unloading-count",
+                                           new Integer( getEntryCount() ) );
+        getLogger().info( message );
 
-        try
-        {
-            final PhaseEntry entry = (PhaseEntry)m_phases.get( "shutdown" );
-            runPhase( entry );
-        }
+        final PhaseEntry entry = (PhaseEntry)m_phases.get( "shutdown" );
+        try { runPhase( "shutdown", entry ); }
         catch( final Exception e )
         {
-            getLogger().error( "Error shutting down application", e );
+            //Already been logged so we can ignore exception
         }
     }
 
@@ -212,16 +205,15 @@ public final class DefaultServerApplication
         final String className = entry.getLocator().getName();
         final String resourceName = className.replace( '.', '/' ) + ".xinfo";
 
-        getLogger().info( "Creating block info from " + resourceName );
+        final String notice = REZ.format( "app.notice.blockinfo.resource", resourceName );
+        getLogger().info( notice );
 
         final ClassLoader classLoader = m_frame.getClassLoader();
         final URL resource = classLoader.getResource( resourceName );
 
         if( null == resource )
         {
-            final String message =
-                "Unable to locate resource for block info " + resourceName;
-
+            final String message = REZ.format( "app.error.blockinfo.missing", name, resourceName );
             getLogger().error( message );
             throw new Exception( message );
         }
@@ -229,14 +221,13 @@ public final class DefaultServerApplication
         try { return m_builder.build( resource.toString() ); }
         catch( final Exception e )
         {
-            getLogger().error( "Failed to create block info for from " + resourceName, e );
+            final String message = REZ.format( "app.error.blockinfo.nocreate", name, resourceName );
+            getLogger().error( message, e );
             throw e;
         }
     }
 
-    protected final void setupComponent( final Component object,
-                                         final String logName,
-                                         final Configuration configuration )
+    protected final void setupComponent( final Component object, final String logName )
         throws Exception
     {
         setupLogger( object, logName );
@@ -253,7 +244,7 @@ public final class DefaultServerApplication
 
         if( object instanceof Configurable )
         {
-            ((Configurable)object).configure( configuration );
+            ((Configurable)object).configure( m_configuration );
         }
 
         if( object instanceof Initializable )
@@ -262,10 +253,19 @@ public final class DefaultServerApplication
         }
     }
 
-    protected final void runPhase( final PhaseEntry phase )
+    protected final void runPhase( final String name, final PhaseEntry phase )
         throws Exception
     {
-        m_dag.walkGraph( phase.m_visitor, phase.m_traversal );
+        try
+        {
+            m_dag.walkGraph( phase.m_visitor, phase.m_traversal );
+        }
+        catch( final Exception e )
+        {
+            final String message = REZ.format( "app.error.phase.run", name );
+            getLogger().error( message, e );
+            throw e;
+        }
     }
 
     /**
@@ -289,9 +289,10 @@ public final class DefaultServerApplication
 
             if( null == descriptor )
             {
-                final String message = "Unknown dependency " + roleEntrys[ i ].getName() +
-                    " with role " + role + " declared for Block " + name;
-
+                final String message = REZ.format( "app.error.depends.unknown",
+                                                   roleEntrys[ i ].getName(),
+                                                   role,
+                                                   name );
                 getLogger().warn( message );
                 throw new Exception( message );
             }
@@ -306,9 +307,9 @@ public final class DefaultServerApplication
 
             if( null == roleEntry )
             {
-                final String message = "Dependency " + dependencies[ i ].getRole() +
-                    " not provided in configuration for Block " + name;
-
+                final String message = REZ.format( "app.error.depends.noprovide",
+                                                   dependencies[ i ].getRole(),
+                                                   name );
                 getLogger().warn( message );
                 throw new Exception( message );
             }
