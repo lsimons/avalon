@@ -419,18 +419,28 @@ Legal:
   <target name="jar" depends="compile">
 
     <mkdir dir="${build.lib}"/>
+
     <jar jarfile="${build.lib}/${excalibur.name}.jar" basedir="${build.classes}">
       <include name="org/apache/avalon/excalibur/**"/>
       <exclude name="**/test/*"/>
     </jar>
+
     <jar jarfile="${build.lib}/${framework.name}.jar" basedir="${build.classes}">
       <include name="org/apache/avalon/framework/**"/>
       <exclude name="**/test/*"/>
     </jar>
+
+    <!-- for backwards compatability ... remove soon -->
+    <jar jarfile="${build.lib}/avalonapi.jar" basedir="${build.classes}">
+      <include name="org/apache/avalon/**"/>
+      <exclude name="**/test/*"/>
+    </jar>
+
     <jar jarfile="${build.lib}/${testlets.name}.jar" basedir="${build.classes}">
       <include name="**/test/*"/>
     </jar>
     <jar jarfile="${build.lib}/${scratchpad.name}.jar" basedir="${build.scratchpad}"/>
+
   </target>
 
   <target name="install" depends="jar,install-check-cjan">
@@ -439,6 +449,7 @@ Legal:
     <copy file="${build.lib}/${framework.name}.jar" todir="${cjan.lib}"/>
     <copy file="${build.lib}/${excalibur.name}.jar" todir="${cjan.lib}"/>
     <copy file="${build.lib}/${testlets.name}.jar" todir="${cjan.lib}"/>
+    <copy file="${build.lib}/avalonapi.jar" todir="${cjan.lib}"/>
 
   </target>
 
