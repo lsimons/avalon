@@ -89,6 +89,14 @@
       <j:set var="signature" value="${scrap.substring(1,scrap.length())}"/>
       <ant:echo file="${filename}">
 #
+# Meta classifier.
+# 
+
+meta.domain = avalon
+meta.domain.classifier = artifact
+meta.domain.classifier.version = 1.0
+
+#
 # Artifact descriptor.
 # 
 
@@ -105,7 +113,7 @@ avalon.artifact.signature = ${signature}
       <j:forEach var="dep" items="${pom.dependencies}">
         <j:set var="key" value="${dep.groupId}:${dep.artifactId};${dep.version}"/>
         <ant:echo file="${filename}" append="true">
-avalon.dependency.${index} = ${key}</ant:echo>
+avalon.artifact.dependency.${index} = ${key}</ant:echo>
         <j:set var="j" value="0"/>
         <j:forEach var="p" items="${dep.properties}">
           <j:set var="v" value="${p.substring(9,p.length())}"/>
