@@ -557,7 +557,11 @@ Legal:
                 <include name="LICENSE.txt"/>
                 <include name="KEYS"/>
                 <include name="ant.properties.sample"/>
-                <include name="target.xml"/>
+                <include name="build.xml"/>
+                <include name="check-targets.ent"/>
+                <include name="check-targets.properties"/>
+                <include name="forrest-targets.ent"/>
+                <include name="forrest.properties"/>
             </fileset>
         </copy>
 
