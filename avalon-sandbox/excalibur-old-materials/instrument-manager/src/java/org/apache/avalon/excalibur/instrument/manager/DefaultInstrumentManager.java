@@ -39,8 +39,8 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
 
 /**
  *
- * @author <a href="mailto:leif@silveregg.co.jp">Leif Mortenson</a>
- * @version CVS $Revision: 1.4 $ $Date: 2002/03/29 16:08:53 $
+ * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
+ * @version CVS $Revision: 1.5 $ $Date: 2002/04/03 13:18:29 $
  * @since 4.1
  */
 public class DefaultInstrumentManager

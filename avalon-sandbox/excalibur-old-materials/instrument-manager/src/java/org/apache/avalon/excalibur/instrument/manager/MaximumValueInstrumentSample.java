@@ -15,8 +15,8 @@ import org.apache.avalon.framework.configuration.DefaultConfiguration;
  * A InstrumentSample which stores the maximum value set during the sample
  *  period.
  *
- * @author <a href="mailto:leif@silveregg.co.jp">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/03/26 11:56:16 $
+ * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
+ * @version CVS $Revision: 1.2 $ $Date: 2002/04/03 13:18:29 $
  * @since 4.1
  */
 class MaximumValueInstrumentSample

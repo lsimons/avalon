@@ -13,8 +13,8 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
  * The InstrumentSample represents a single data sample in a ProfileDataSet.
  * Access to InstrumentSamples are synchronized through the ProfileDataSet.
  *
- * @author <a href="mailto:leif@silveregg.co.jp">Leif Mortenson</a>
- * @version CVS $Revision: 1.1 $ $Date: 2002/03/26 11:56:16 $
+ * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
+ * @version CVS $Revision: 1.2 $ $Date: 2002/04/03 13:18:29 $
  * @since 4.1
  */
 class InstrumentSampleFactory
