@@ -36,26 +36,30 @@ limitations under the License.
     <dependencies>
         <dependency>
             <id>saxon</id>
-            <version>6.5.2</version>
+            <version>6.5.3</version>
         </dependency>
+        
         <dependency>
-            <id>saxon7</id>
+            <artifactId>saxon7</artifactId>
+            <groupId>saxon7</groupId>
             <version>7.7</version>
         </dependency>
         <dependency>
-            <id>saxon7-jdom</id>
+            <artifactId>saxon7-jdom</artifactId>
+            <groupId>saxon7</groupId>
+            <version>7.7</version>
+        </dependency>
+        <dependency>
+            <artifactId>saxon7-sql</artifactId>
             <version>7.7</version>
             <groupId>saxon7</groupId>
         </dependency>
-        <dependency>
-            <id>saxon7-sql</id>
-            <version>7.7</version>
-            <groupId>saxon7</groupId>
-        </dependency>
+
         <dependency>
             <id>xml-commons-resolver</id>
             <version>1.1</version>
         </dependency>
+
         <dependency>
             <id>avalon-framework</id>
             <version>4.1.4</version>
@@ -84,20 +88,22 @@ limitations under the License.
         </dependency>
         <dependency>
             <id>excalibur-sourceresolve</id>
-            <version>SNAPSHOT</version>
+            <version>1.1</version>
         </dependency>
         <dependency>
             <id>excalibur-store</id>
-            <version>SNAPSHOT</version>
+            <version>1.0</version>
         </dependency>
         <dependency>
             <id>xerces</id>
             <version>2.4.0</version>
         </dependency>
+        
         <dependency>
             <id>xml-apis</id>
             <version>1.0.b2</version>
         </dependency>
+
         <dependency>
             <id>xalan</id>
             <version>2.4.1</version>
