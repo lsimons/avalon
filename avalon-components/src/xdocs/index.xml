@@ -30,10 +30,10 @@
       </s2>
       <s2 title="DataSourceSelector">
         <p>
-          The DataSourceSelector service provides a TODO-Eung-ju.
+          The DataSourceSelector service provides a way to select DataSourceComponent.
         </p>
         <p>
-          The DefaultDataSourceSelector block gives TODO-Eung-ju.
+          The DefaultDataSourceSelector block gives a set of ready to use DataSourceComponents.
         </p>   
       </s2>      
       <s2 title="DocumentBuilderFactory">
@@ -134,7 +134,7 @@
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.4 $ $Date: 2002/01/08 11:33:12 $
+      $Revision: 1.5 $ $Date: 2002/01/09 00:42:02 $
     </legal>
   </footer>
 </document>
