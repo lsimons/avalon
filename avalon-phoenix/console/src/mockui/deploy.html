@@ -1,0 +1,64 @@
+<html>
+<head><title>Deploy an Application</title></head>
+<body bgcolor="#ffffff">
+<center>
+
+<h2>Deploy an Application</h2>
+<br />
+
+<form>
+
+<table cellspacing="0" cellpadding="5" width="100%" border="1">
+  <tr>
+    <td align="right">Application Name</td>
+    <td align="left">
+      <input type="text" value="myApp1" size="50"></input>
+    </td>
+  </tr>
+  <tr>
+    <td align="right">Application Home Directory</td>
+    <td align="left">
+      <input type="text" value="${phoenix.home}/apps/myApp1" size="50"></input>
+    </td>
+  </tr>
+  <tr>
+    <td align="right">Autostart Application at Phoenix Startup</td>
+    <td align="left">
+      <input type="checkbox" checked="true"/>
+    </td>
+  </tr>
+  <tr>
+    <td align="right">Start Application after Deploying</td>
+    <td align="left">
+      <input type="text" value="${phoenix.home}/apps" size="50"></input>
+    </td>
+  </tr>
+  <tr>
+    <td align="right">Enable Access to Kernel MBean</td>
+    <td align="left"><input type="checkbox"/></td>
+  </tr>
+  <tr>
+    <td align="right">Enable Access to Kernel Log Events</td>
+    <td align="left"><input type="checkbox"/></td>
+  </tr>
+  <tr>
+    <td align="right">Enable Access to Kernel Configuration Requests</td>
+    <td align="left"><input type="checkbox"/></td>
+  </tr>
+  <tr>
+    <td align="right">Sar file</td>
+    <td align="left">
+      <input type="file" size="50"></input>
+    </td>
+  </tr>
+</table>
+
+<br />
+
+<input type="submit" value="Deploy Application" onClick="location='deploying.html';return false"/>
+
+</form>
+</center>
+
+</body>
+</html>

@@ -1,0 +1,87 @@
+<html>
+<head><title>Phoenix Permissions</title>
+<style _type="type/css">
+<!--
+BODY {background: #ffffff}
+A:link {color: #000000}
+A:visited {color: #000000}
+TD.inner {background: #eeeeee}
+.title {text-decoration: none;font-size: 16pt;font-style: bold}
+.tableEntrys {text-align: center}
+.applicationName {text-align: left}
+.action {width: 100;font-style: bold}
+.other {background: #feffd7}
+-->
+</style>
+<script language="Javascript">
+<!--
+function popupSort()
+{
+ alert("Clicking here would sort the table column")
+}
+-->
+</script>
+</head>
+<body bgcolor="#ffffff">
+
+<center>
+<p class="title">Permissions</p>
+</center>
+
+<table class="tableEntrys" cellspacing="5" cellpadding="2" width="100%">
+  <tr>
+    <td align="left"><font size="+1"><a class="action" href="javascript:alert('Not implemented but follows standard table template')">Add an Permission [bi]</a></font></td>
+    <td align="right"><font size="+1"><a class="action" href="javascript:alert('Not implemented but follows standard table template')">Query Permissions [bi]</a></font></td>
+  </tr>
+</table>
+
+<br />
+
+<center>
+<table class="tableEntrys" cellspacing="5" cellpadding="2" width="100%">
+  <tr>
+    <td bgcolor="#eeeeee" align="center"><a class="action" href="javascript:popupSort()">Codebase</a></td>
+    <td bgcolor="#eeeeee" align="center"><a class="action" href="javascript:popupSort()">Key Store</a></td>
+    <td bgcolor="#eeeeee" align="center"><a class="action" href="javascript:popupSort()">Signed-By</a></td>
+    <td bgcolor="#eeeeee" align="center"><a class="action" href="javascript:popupSort()">Permission</a></td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>${app.classpath}</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>java.security.AllPermission()</td>
+    <td>
+      <a class="action" href="javascript:alert('Not implemented but follows standard table template')">Delete [bi]</a>
+    </td>
+  </tr>
+  <tr>
+    <td>${app.classpath}</td>
+    <td>foo-keystore</td>
+    <td>Fred</td>
+    <td>java.io.FilePermission( "/tmp*", "read,write")</td>
+    <td>
+      <a class="action" href="javascript:alert('Not implemented but follows standard table template')">Delete [bi]</a>
+    </td>
+  </tr>
+</table>
+<!--
+      <keystore name="foo-keystore"
+                location="file:${app.home}${/}conf${/}keystore"
+                type="JKS" />
+
+      <grant signed-by="Fred" code-base="file:${app.home}/blocks/*" key-store="foo-keystore">
+        <permission class="java.io.FilePermission" target="/tmp/*" action="read,write" />
+      </grant>
+      <grant code-base="file:${app.home}${/}blocks${/}*">
+        <permission class="java.security.AllPermission" />
+      </grant>
+
+      <grant code-base="file:${app.home}${/}lib${/}*">
+        <permission class="java.security.AllPermission" />
+      </grant>
+-->
+
+</center>
+</body>
+</html>

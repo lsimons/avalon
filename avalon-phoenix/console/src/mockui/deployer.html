@@ -1,0 +1,56 @@
+<html>
+<head><title>Deployer</title></head>
+<body bgcolor="#ffffff">
+<center>
+
+<h2>Deployer</h2>
+<br />
+<br />
+<form>
+
+<select name="server" size="1">
+<option selected="true">Default Deployer</option>
+<option>Embedded Deployer</option>
+</select>
+
+<br />
+<br />
+
+<table cellspacing="0" cellpadding="5" width="100%" border="1">
+  <tr>
+    <td align="right">Base Directory for Application Home directories</td>
+    <td align="left">
+      <input type="text" value="${phoenix.home}/apps" size="50"></input>
+    </td>
+  </tr>
+  <tr>
+    <td align="right">Expand SAR-INF/ directory</td>
+    <td align="left">
+      <input type="checkbox" checked="true"/>
+    </td>
+  </tr>
+  <tr>
+    <td align="right">Enable Hot Deploy</td>
+    <td align="left">
+      <input type="checkbox" checked="true"/>
+    </td>
+  </tr>
+  <tr>
+    <td align="right">Hot Deploy Directory</td>
+    <td align="left">
+      <input type="text" value="${phoenix.home}/apps" size="50"></input>
+    </td>
+  </tr>
+</table>
+
+<br />
+
+<input type="submit" value="Update ConfigurationRepository"/>
+<input type="submit" value="Reload defaults"/>
+<input type="submit" value="Cancel"/>
+
+</form>
+</center>
+
+</body>
+</html>
