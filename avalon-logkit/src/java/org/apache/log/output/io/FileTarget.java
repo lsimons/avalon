@@ -81,14 +81,16 @@ public class FileTarget
     {
         if( isOpen() ) close();
 
-        final File parent = getFile().getParentFile();
+        final File file = getFile().getCanonicalFile();
+
+        final File parent = file.getParentFile();
         if( null != parent && !parent.exists() )
         {
             parent.mkdirs();
         }
 
         final FileOutputStream outputStream =
-            new FileOutputStream( getFile().getPath(), m_append );
+            new FileOutputStream( file.getPath(), m_append );
 
         setOutputStream( outputStream );
         open();
