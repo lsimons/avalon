@@ -17,12 +17,15 @@
  */
 
 package org.apache.avalon.logging.log4j;
-
+ 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 
 import java.net.URL;
 
 import java.util.Map;
+import java.util.Properties;
 
 import org.apache.avalon.logging.impl.DefaultLoggingCriteria;
 import org.apache.avalon.logging.provider.LoggingCriteria;
@@ -152,7 +155,13 @@ public class Log4JLoggingFactory
     }
 
     private void configure( URL url, long interval )
+        throws IOException
     {
+        if( url == null )
+        {
+            configureDefault();
+            return;
+        }
         String src = url.toExternalForm();
         if( src.startsWith( "file:" ) )
         {
@@ -161,7 +170,10 @@ public class Log4JLoggingFactory
                 src = src.substring( 1 );
             configureFile( src, interval );
         }
-        configureURL( url );
+        else
+        {
+            configureURL( url );
+        }
     }
     
     private void configureFile( String src, long interval )
@@ -204,6 +216,15 @@ public class Log4JLoggingFactory
         }
     }
 
+    private void configureDefault()
+        throws IOException
+    {
+        Properties conf = new Properties();
+        InputStream in = getClass().getClassLoader().getResourceAsStream( "default.log4j.conf" );
+        conf.load( in );
+        PropertyConfigurator.configure( conf );
+    }
+    
     private LoggingCriteria getLoggingCriteria( Map criteriaMap )
     {
         if( criteriaMap instanceof LoggingCriteria )
