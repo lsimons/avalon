@@ -128,15 +128,4 @@ final class DefaultBlockContext
     {
         return new LogKitLogger( m_frame.getLogger( getName() ).getChildLogger( name ) );
     }
-
-    /**
-     * Retrieve logger coresponding to root category of application.
-     *
-     * @return the base logger
-     * @deprecated Use the getLogger(String) version
-     */
-    public Logger getBaseLogger()
-    {
-        return new LogKitLogger( m_frame.getLogger( getName() ) );
-    }
 }
