@@ -22,7 +22,7 @@ import org.xml.sax.helpers.NamespaceSupport;
  * {@link ContentHandler} to receive SAX version 1.0 events.
  *
  * @author <a href="mailto:mirceatoma@apache.org">Mircea Toma</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/10/16 17:26:59 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/10/16 22:50:19 $
  */
 
 public class ContentHandlerAdapter implements DocumentHandler
@@ -96,7 +96,7 @@ public class ContentHandlerAdapter implements DocumentHandler
             final String attributeName = atts.getName(i);
             if ( !attributeName.startsWith( XMLNS_PREFIX ) && !attributeName.equals( XMLNS ) )
             {
-                final String[] parts = m_support.processName( name, new String[3], true );
+                final String[] parts = m_support.processName( attributeName, new String[3], true );
                 attributes.addAttribute(parts[0], parts[1], parts[2], atts.getType( i ), atts.getValue( i ) );
             }
         }
