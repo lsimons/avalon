@@ -8,11 +8,7 @@
 package org.apache.avalon.phoenix.components.application;
 
 import java.io.File;
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.avalon.excalibur.thread.ThreadPool;
 import org.apache.avalon.framework.context.ContextException;
-import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.logger.LogKitLogger;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.phoenix.BlockContext;
@@ -25,25 +21,15 @@ import org.apache.avalon.phoenix.metadata.SarMetaData;
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 final class DefaultBlockContext
-    implements BlockContext, LogEnabled
+    implements BlockContext
 {
-    private static final Resources REZ =
-        ResourceManager.getPackageResources( DefaultBlockContext.class );
-
     private String m_name;
     private ApplicationContext m_frame;
-    private Logger m_logger;
-    private boolean m_warningEmitted;
 
     protected DefaultBlockContext( final String name, final ApplicationContext frame )
     {
         m_name = name;
         m_frame = frame;
-    }
-
-    public void enableLogging( final Logger logger )
-    {
-        m_logger = logger;
     }
 
     public Object get( Object key )
@@ -86,37 +72,6 @@ final class DefaultBlockContext
     public String getName()
     {
         return m_name;
-    }
-
-    /**
-     * Retrieve thread pool by category.
-     * ThreadPools are given names so that you can manage different thread
-     * count to different components.
-     *
-     * @param category the category
-     * @return the ThreadPool
-     */
-    public ThreadPool getThreadPool( final String category )
-    {
-        if( !m_warningEmitted )
-        {
-            final String message = REZ.getString( "context.warn.threadpool", getName() );
-            m_logger.warn( message );
-            System.err.println( message );
-            m_warningEmitted = true;
-        }
-
-        return m_frame.getThreadPool( category );
-    }
-
-    /**
-     * Retrieve the default thread pool.
-     * Equivelent to getThreadPool( "default" );
-     * @return the ThreadPool
-     */
-    public ThreadPool getDefaultThreadPool()
-    {
-        return getThreadPool( "default" );
     }
 
     /**

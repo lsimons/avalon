@@ -7,7 +7,6 @@
  */
 package org.apache.avalon.phoenix.interfaces;
 
-import org.apache.avalon.excalibur.thread.ThreadPool;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
@@ -72,15 +71,4 @@ public interface ApplicationContext
      * @return the Logger
      */
     Logger getLogger( String name );
-
-    /**
-     * Retrieve thread pool by name.
-     *
-     * @param name the name of thread pool
-     * @return the threadpool
-     * @throws IllegalArgumentException if the name of thread pool is
-     *            invalid or named pool does not exist
-     */
-    ThreadPool getThreadPool( String name )
-        throws IllegalArgumentException;
 }
