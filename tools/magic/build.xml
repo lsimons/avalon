@@ -51,4 +51,14 @@ project.name:    ${project.name}
     <ant dir="target/test/temp/demo" target="install"/>
   </target>
 
+  <target name="gump">
+    <x:home/>
+    <x:gump description="Magic Test Module" 
+         public="true" filename="gump.xml">
+      <x:url href="http://avalon.apache.org/"/>
+      <x:svn href="https://svn.apache.org/repos/asf/avalon/trunk/tools/magic"/>
+      <x:license file="../../central/system/license/LICENSE.TXT"/>
+    </x:gump>
+  </target>
+
 </project>
