@@ -187,7 +187,7 @@ public class Context extends Task
     * path is resolved relative to the supplied root directory.
     *
     * @param root the root directory
-    * @param the absolute or relative file path
+    * @param path the absolute or relative file path
     * @return the file instance
     */ 
     public static File getFile( final File root, final String path )
@@ -202,7 +202,7 @@ public class Context extends Task
     * parameter is TRUE then the file will be created if it does not exist.
     *
     * @param root the root directory
-    * @param the absolute or relative file path
+    * @param path the absolute or relative file path
     * @param create flag to indicate creation policy if the file does not exists 
     * @return the file instance
     */ 
@@ -288,7 +288,7 @@ public class Context extends Task
 
    /**
     * Return the UTC YYMMDD.HHMMSSS signature of a date.
-    * @param the date
+    * @param date the date
     * @return the UTC date-stamp signature
     */
     public static String getSignature( final Date date )
