@@ -99,8 +99,8 @@ public class BlockDAG
 
             //roleEntry should NEVER be null as it is checked when
             //entry is added to container
-            final DependencyMetaData roleEntry = entry.getMetaData().getDependency( role );
-            final String dependencyName = roleEntry.getName();
+            final DependencyMetaData dependencyMetaData = entry.getMetaData().getDependency( role );
+            final String dependencyName = dependencyMetaData.getName();
             final BlockEntry dependency = getBlockEntry( dependencyName );
             visitBlock( dependencyName, dependency, visitor, Traversal.FORWARD, completed );
         }
