@@ -5,7 +5,7 @@
   <groupId>avalon-util</groupId>
   <id>avalon-util-extension-impl</id>
   <name>Avalon Extension Framework</name>
-  <currentVersion>1.1</currentVersion>
+  <currentVersion>1.2.0</currentVersion>
 
   <inceptionYear>2002</inceptionYear>
   <shortDescription>Avalon Extension Management Implementation</shortDescription>
@@ -19,7 +19,7 @@ An API supporting the management of jar file extension loading.
     <dependency>
       <groupId>avalon-util</groupId>
       <artifactId>avalon-util-extension-api</artifactId>
-      <version>1.1</version>
+      <version>1.2.0</version>
     </dependency>
   </dependencies>
 
