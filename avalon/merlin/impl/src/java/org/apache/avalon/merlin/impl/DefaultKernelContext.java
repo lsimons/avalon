@@ -62,7 +62,7 @@ import org.apache.avalon.merlin.KernelContext;
 /**
  * The context argument supplied to a new kernel instance.
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.1 $ $Date: 2004/01/13 18:43:15 $
+ * @version $Revision: 1.2 $ $Date: 2004/01/19 13:35:11 $
  */
 public class DefaultKernelContext implements KernelContext
 {
@@ -74,7 +74,7 @@ public class DefaultKernelContext implements KernelContext
     * Creation of a new default kernel context.
     * @param logger the logging channel to be assigned to the kernel
     * @param facilities the internal facilities model
-    * @param appliance the application model
+    * @param application the application model
     */
     public DefaultKernelContext( 
       final Logger logger, final ContainmentModel facilities, 

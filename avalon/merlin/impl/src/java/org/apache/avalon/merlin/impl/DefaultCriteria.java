@@ -85,7 +85,7 @@ import org.apache.avalon.util.criteria.PackedParameter;
  * for application to a factory.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.15 $
+ * @version $Revision: 1.16 $
  */
 public class DefaultCriteria extends Criteria implements KernelCriteria
 {
@@ -227,6 +227,7 @@ public class DefaultCriteria extends Criteria implements KernelCriteria
 
    /**
     * Creation of a new default kernel criteria.
+    * @param context the initial repository context
     */
     public DefaultCriteria( InitialContext context )
     {

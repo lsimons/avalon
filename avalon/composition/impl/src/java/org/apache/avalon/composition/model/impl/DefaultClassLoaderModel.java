@@ -114,7 +114,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * and the extensions package.
  * </p>
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2004/01/19 01:26:19 $
+ * @version $Revision: 1.6 $ $Date: 2004/01/19 13:35:10 $
  */
 public class DefaultClassLoaderModel extends AbstractLogEnabled 
     implements ClassLoaderModel
@@ -218,7 +218,8 @@ public class DefaultClassLoaderModel extends AbstractLogEnabled
             m_permissions = createPermissions( directive.getGrantDirective() );
             if( getLocalLogger().isDebugEnabled() )
             {
-                String str = "classpath: " + StringHelper.toString( m_classpath );
+                String str = "classpath: " 
+                  + StringHelper.toString( m_classpath );
                 getLocalLogger().debug( str );
             }
 
