@@ -62,6 +62,7 @@ import org.apache.excalibur.xfc.model.Model;
 import org.apache.excalibur.xfc.model.Definition;
 import org.apache.excalibur.xfc.model.instance.Instance;
 import org.apache.excalibur.xfc.model.instance.InstanceVisitor;
+import org.apache.excalibur.xfc.model.instance.SelectorHintInstance;
 import org.apache.excalibur.xfc.model.instance.SingleRoleInstance;
 import org.apache.excalibur.xfc.model.instance.SingleNonRoleInstance;
 import org.apache.excalibur.xfc.model.instance.MultiRoleInstance;
@@ -78,7 +79,7 @@ import org.apache.excalibur.xfc.modules.Constants;
  * of the <code>serialize</code> method defined in {@link ECM}.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: ECMSerializer.java,v 1.2 2002/10/17 14:38:18 crafterm Exp $
+ * @version CVS $Id: ECMSerializer.java,v 1.3 2002/10/23 11:32:25 crafterm Exp $
  */
 public class ECMSerializer extends AbstractLogEnabled
     implements RoleRefVisitor, InstanceVisitor, Constants
@@ -199,7 +200,6 @@ public class ECMSerializer extends AbstractLogEnabled
         DefaultConfiguration role = new DefaultConfiguration( ROLE, "" );
         Definition def = ref.getProvider();
 
-        // there is only 1 provider, use index 0 directly
         role.setAttribute( NAME, ref.getRole() );
         role.setAttribute( SHORTHAND, ref.getShorthand() );
         role.setAttribute( DEFAULT, def.getDefaultClass() );
@@ -358,14 +358,13 @@ public class ECMSerializer extends AbstractLogEnabled
     {
         DefaultConfiguration conf = new DefaultConfiguration( i.getShorthand(), "" );
 
-        SingleRoleInstance[] subs = i.getSubInstances();
+        SelectorHintInstance[] subs = i.getSubInstances();
 
         for ( int j = 0; j < subs.length; ++j )
         {
             DefaultConfiguration child =
                 new DefaultConfiguration( subs[j].getShorthand(), "" );
-            // child.setAttribute( CLASS, subs[j].getClassImpl() );
-            child.setAttribute( NAME, subs[j].getShorthand() );
+            child.setAttribute( NAME, subs[j].getHint() );
 
             if ( subs[j].getConfiguration() != null )
             {

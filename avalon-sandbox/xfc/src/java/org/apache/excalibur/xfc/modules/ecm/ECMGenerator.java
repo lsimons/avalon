@@ -63,6 +63,7 @@ import org.apache.excalibur.xfc.model.Definition;
 import org.apache.excalibur.xfc.model.instance.Instance;
 import org.apache.excalibur.xfc.model.instance.MultiNonRoleInstance;
 import org.apache.excalibur.xfc.model.instance.MultiRoleInstance;
+import org.apache.excalibur.xfc.model.instance.SelectorHintInstance;
 import org.apache.excalibur.xfc.model.instance.SingleNonRoleInstance;
 import org.apache.excalibur.xfc.model.instance.SingleRoleInstance;
 import org.apache.excalibur.xfc.model.role.RoleRef;
@@ -76,7 +77,7 @@ import org.apache.excalibur.xfc.modules.Constants;
  * of the <code>generate</code> method defined in {@link ECM}.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: ECMGenerator.java,v 1.2 2002/10/17 14:38:18 crafterm Exp $
+ * @version CVS $Id: ECMGenerator.java,v 1.3 2002/10/23 11:32:25 crafterm Exp $
  */
 public class ECMGenerator extends AbstractLogEnabled
     implements Constants
@@ -448,16 +449,22 @@ public class ECMGenerator extends AbstractLogEnabled
      * @return an {@link Instance} instance
      */
     private Instance buildRoleComponentSelectorInstance( final Configuration i )
+        throws Exception
     {
         // get the subinstances
         Configuration[] kids = i.getChildren();
-        SingleRoleInstance[] subinstances = new SingleRoleInstance[ kids.length ];
+        SelectorHintInstance[] subinstances = new SelectorHintInstance[ kids.length ];
 
         for ( int j = 0; j < kids.length; ++j )
         {
-            // REVISIT; invent a new node type ?
             subinstances[j] =
-                new SingleRoleInstance( kids[j].getName(), null, kids[j].getChildren(), null );
+                new SelectorHintInstance(
+                    kids[j].getName(),
+                    kids[j].getAttribute( NAME ),
+                    kids[j].getAttribute( CLASS, null ),
+                    kids[j].getChildren(),
+                    null                    // REVISIT(MC) ?
+                );
         }
 
         // create the root instance

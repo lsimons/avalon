@@ -58,6 +58,7 @@ import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.excalibur.xfc.model.Definition;
 import org.apache.excalibur.xfc.model.instance.Instance;
 import org.apache.excalibur.xfc.model.instance.InstanceVisitor;
+import org.apache.excalibur.xfc.model.instance.SelectorHintInstance;
 import org.apache.excalibur.xfc.model.instance.SingleRoleInstance;
 import org.apache.excalibur.xfc.model.instance.SingleNonRoleInstance;
 import org.apache.excalibur.xfc.model.instance.MultiRoleInstance;
@@ -73,7 +74,7 @@ import org.apache.excalibur.xfc.modules.ecm.ECMSerializer;
  * module.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: FortressSerializer.java,v 1.2 2002/10/17 14:38:18 crafterm Exp $
+ * @version CVS $Id: FortressSerializer.java,v 1.3 2002/10/23 11:32:25 crafterm Exp $
  */
 public class FortressSerializer extends ECMSerializer
 {
@@ -170,11 +171,25 @@ public class FortressSerializer extends ECMSerializer
     public void visit( final MultiRoleInstance i )
         throws Exception
     {
-        Instance[] subinstances = i.getSubInstances();
+        SelectorHintInstance[] subs = i.getSubInstances();
 
-        for ( int j = 0; j < subinstances.length; ++j )
+        for ( int j = 0; j < subs.length; ++j )
         {
-            subinstances[j].accept( this );
+            DefaultConfiguration child =
+                new DefaultConfiguration( subs[j].getShorthand(), "" );
+            child.setAttribute( ID, subs[j].getHint() );
+
+            if ( subs[j].getConfiguration() != null )
+            {
+                Configuration[] kids = subs[j].getConfiguration();
+
+                for ( int k = 0; k < kids.length; ++k )
+                {
+                    child.addChild( kids[k] );
+                }
+            }
+
+            m_xconf.addChild( child );
         }
     }
 

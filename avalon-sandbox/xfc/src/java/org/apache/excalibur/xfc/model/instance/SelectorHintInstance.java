@@ -49,34 +49,41 @@
 */
 package org.apache.excalibur.xfc.model.instance;
 
+import org.apache.avalon.framework.configuration.Configuration;
+
 /**
  * Class which represents an instance of a particular component in an xconf file,
- * that uses role manager and has more than one provider of the role it defines.
+ * that represents a role managed component with a component selector definition.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: MultiRoleInstance.java,v 1.2 2002/10/23 11:32:25 crafterm Exp $
+ * @version CVS $Id: SelectorHintInstance.java,v 1.1 2002/10/23 11:32:25 crafterm Exp $
  */
-public class MultiRoleInstance extends Instance
+public class SelectorHintInstance extends Instance
 {
     // instance configuration
     private final String m_shorthand;
-    private final SelectorHintInstance[] m_subinstances;
+    private final String m_hint;
 
     /**
      * Constructor
      *
-     * @param shorthand a <code>String</code> value
-     * @param subinstances an <code>Instance[]</code> value
+     * @param shorthand shorthand name
+     * @param hint selector hint
+     * @param clazz override class, if any
+     * @param config instance <code>Configuration</code> as an array, if any
+     * @param handler handler name
      */
-    public MultiRoleInstance(
+    public SelectorHintInstance(
         final String shorthand,
-        final SelectorHintInstance[] subinstances
+        final String hint,
+        final String clazz,
+        final Configuration[] config,
+        final String handler
     )
     {
-        super( null, null, null );
-
+        super( clazz, config, handler );
         m_shorthand = shorthand;
-        m_subinstances = subinstances;
+        m_hint = hint;
     }
 
     /**
@@ -90,24 +97,12 @@ public class MultiRoleInstance extends Instance
     }
 
     /**
-     * Obtain this Instance's list of sub instances.
+     * Obtain hint name
      *
-     * @return an {@link SingleRoleInstance} value
+     * @return hint name
      */
-    public SelectorHintInstance[] getSubInstances()
+    public String getHint()
     {
-        return m_subinstances;
-    }
-
-    /**
-     * Accept an {@link InstanceVisitor} on this class.
-     *
-     * @param visitor an {@link InstanceVisitor} value
-     * @exception Exception if an error occurs
-     */
-    public void accept( final InstanceVisitor visitor )
-        throws Exception
-    {
-        visitor.visit( this );
+        return m_hint;
     }
 }
