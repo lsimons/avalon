@@ -13,9 +13,11 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Hashtable;
 import java.util.Map;
+import java.util.Set;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.activity.Initializable;
+import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
@@ -39,8 +41,8 @@ import org.apache.avalon.phoenix.metadata.SarMetaData;
 import org.apache.avalon.phoenix.tools.assembler.Assembler;
 import org.apache.avalon.phoenix.tools.assembler.AssemblyException;
 import org.apache.avalon.phoenix.tools.configuration.ConfigurationBuilder;
-import org.apache.avalon.phoenix.tools.installer.Installation;
-import org.apache.avalon.phoenix.tools.installer.Installer;
+import org.apache.avalon.phoenix.components.deployer.installer.Installation;
+import org.apache.avalon.phoenix.components.deployer.installer.Installer;
 import org.apache.avalon.phoenix.tools.verifier.SarVerifier;
 import org.apache.log.Hierarchy;
 
@@ -51,7 +53,7 @@ import org.apache.log.Hierarchy;
  */
 public class DefaultDeployer
     extends AbstractLogEnabled
-    implements Deployer, Parameterizable, Serviceable, Initializable, DeployerMBean
+    implements Deployer, Parameterizable, Serviceable, Initializable, Disposable, DeployerMBean
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( DefaultDeployer.class );
@@ -125,6 +127,33 @@ public class DefaultDeployer
     }
 
     /**
+     * Dispose the dpeloyer which effectively means undeploying
+     * all the currently deployed apps.
+     */
+    public void dispose()
+    {
+        final Set set = m_installations.keySet();
+        final String[] applications =
+            (String[])set.toArray( new String[set.size() ] );
+        for( int i = 0; i < applications.length; i++ )
+        {
+            final String name = applications[ i ];
+            try
+            {
+                undeploy( name );
+            }
+            catch( final DeploymentException de )
+            {
+                final String message =
+                    REZ.getString( "deploy.undeploy-indispose.error",
+                    name,
+                    de.getMessage() );
+                getLogger().error( message, de );
+            }
+        }
+    }
+
+    /**
      * Undeploy an application.
      *
      * @param name the name of deployment
@@ -154,7 +183,7 @@ public class DefaultDeployer
                 m_repository.storeConfiguration( name, blocks[ i ], null );
             }
 
-            m_installer.uninstall( installation );
+            m_installer.uninstall( installation, m_baseWorkDirectory );
         }
         catch( final Exception e )
         {
@@ -195,7 +224,8 @@ public class DefaultDeployer
         try
         {
             //m_baseWorkDirectory
-            final Installation installation = m_installer.install( location );
+            final Installation installation =
+                m_installer.install( location, m_baseWorkDirectory );
 
             final Configuration config = getConfigurationFor( installation.getConfig() );
             final Configuration server = getConfigurationFor( installation.getEnvironment() );
@@ -206,7 +236,8 @@ public class DefaultDeployer
             final ClassLoader classLoader =
                 m_classLoaderManager.createClassLoader( server,
                                                         installation.getSource(),
-                                                        directory,
+                                                        installation.getDirectory(),
+                                                        installation.getWorkDirectory(),
                                                         installation.getClassPath() );
             //assemble all the blocks for application
             final SarMetaData metaData =

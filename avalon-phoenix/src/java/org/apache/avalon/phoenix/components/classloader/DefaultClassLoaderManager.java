@@ -108,6 +108,7 @@ public class DefaultClassLoaderManager
     public ClassLoader createClassLoader( final Configuration environment,
                                           final File source,
                                           final File homeDirectory,
+                                          final File workDirectory,
                                           final String[] classPath )
         throws Exception
     {
@@ -120,7 +121,8 @@ public class DefaultClassLoaderManager
 
         //Configure policy
         final Configuration policyConfig = environment.getChild( "policy" );
-        final Policy policy = configurePolicy( policyConfig, homeDirectory );
+        final Policy policy =
+            configurePolicy( policyConfig, homeDirectory, workDirectory );
 
         final File[] extensions = getOptionalPackagesFor( classPath );
         if( getLogger().isDebugEnabled() )
@@ -252,10 +254,12 @@ public class DefaultClassLoaderManager
      * @throws ConfigurationException if an error occurs
      */
     private Policy configurePolicy( final Configuration configuration,
-                                    final File baseDirectory )
+                                    final File baseDirectory,
+                                    final File workDirectory )
         throws ConfigurationException
     {
-        final DefaultPolicy policy = new DefaultPolicy( baseDirectory );
+        final DefaultPolicy policy =
+            new DefaultPolicy( baseDirectory, workDirectory );
         policy.enableLogging( getLogger() );
         policy.configure( configuration );
         return policy;

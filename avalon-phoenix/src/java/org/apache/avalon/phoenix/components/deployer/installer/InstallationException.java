@@ -5,7 +5,7 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE.txt file.
  */
-package org.apache.avalon.phoenix.tools.installer;
+package org.apache.avalon.phoenix.components.deployer.installer;
 
 import org.apache.avalon.framework.CascadingException;
 
@@ -13,7 +13,7 @@ import org.apache.avalon.framework.CascadingException;
  * Exception to indicate error deploying.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2002/02/26 11:13:04 $
+ * @version $Revision: 1.1 $ $Date: 2002/05/11 02:05:13 $
  */
 public final class InstallationException
     extends CascadingException

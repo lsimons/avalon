@@ -42,15 +42,25 @@ class DefaultPolicy
     private static final Resources REZ =
         ResourceManager.getPackageResources( DefaultPolicy.class );
 
+    private static final String SAR_PROTOCOL = "sar:";
+    private static final String SAR_INF = SAR_PROTOCOL + "SAR-INF/";
+    private static final String CLASSES = SAR_INF + "classes";
+    private static final String LIB = SAR_INF + "lib";
+
+    private final File m_baseDirectory;
+    private final File m_workDirectory;
     private DefaultContext m_context;
 
-    protected DefaultPolicy( final File baseDirectory )
+    protected DefaultPolicy( final File baseDirectory,
+                             final File workDirectory )
     {
         final HashMap map = new HashMap();
         map.putAll( System.getProperties() );
         m_context = new DefaultContext( map );
         m_context.put( "/", File.separator );
         m_context.put( "app.home", baseDirectory );
+        m_workDirectory = workDirectory;
+        m_baseDirectory = baseDirectory;
     }
 
     public void configure( final Configuration configuration )
@@ -68,7 +78,8 @@ class DefaultPolicy
         }
         else
         {
-            final String message = REZ.getString( "policy.notice.full-perms" );
+            final String message =
+                REZ.getString( "policy.notice.full-perms" );
             getLogger().info( message );
             final Permissions permissions = createPermissionSetFor( getInclusiveURL(), null );
             permissions.add( new java.security.AllPermission() );
@@ -173,6 +184,7 @@ class DefaultPolicy
         if( null != codeBase )
         {
             codeBase = expand( codeBase );
+            codeBase = expandSarURL( codeBase );
         }
 
         final Certificate[] signers = getSigners( signedBy, keyStoreName, keyStores );
@@ -225,6 +237,48 @@ class DefaultPolicy
         final Permission permission = createPermission( type, target, actions, signers );
 
         permissions.add( permission );
+    }
+
+    /**
+     * Expand any URLs with sar: protocol so that
+     * they accurately match the actual location
+     *
+     * @param codeBase the input url
+     * @return the result url, modified to file url if it
+     *         is protocol "sar:"
+     * @throws ConfigurationException if invalidly specified URL
+     */
+    private String expandSarURL( final String codeBase )
+        throws ConfigurationException
+    {
+        if( codeBase.startsWith( SAR_PROTOCOL ) )
+        {
+            final String filename =
+                codeBase.substring( 4 ).replace( '/', File.separatorChar );
+            File baseDir = null;
+            if( codeBase.startsWith( CLASSES ) ||
+                codeBase.startsWith( LIB ) )
+            {
+                baseDir = m_workDirectory;
+            }
+            else
+            {
+                baseDir = m_baseDirectory;
+            }
+            final File file = new File( baseDir, filename );
+            try
+            {
+                return file.toURL().toString();
+            }
+            catch( MalformedURLException e )
+            {
+                throw new ConfigurationException( e.getMessage(), e );
+            }
+        }
+        else
+        {
+            return codeBase;
+        }
     }
 
     private String expand( final String value )

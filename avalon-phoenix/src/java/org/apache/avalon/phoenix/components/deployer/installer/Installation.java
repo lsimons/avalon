@@ -5,7 +5,7 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE.txt file.
  */
-package org.apache.avalon.phoenix.tools.installer;
+package org.apache.avalon.phoenix.components.deployer.installer;
 
 import java.io.File;
 
@@ -16,7 +16,7 @@ import java.io.File;
  * jars in Classpath, config files and installation directory.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.11 $ $Date: 2002/02/26 11:13:03 $
+ * @version $Revision: 1.1 $ $Date: 2002/05/11 02:05:13 $
  */
 public final class Installation
 {
@@ -25,6 +25,9 @@ public final class Installation
 
     ///Directory in which application is installed
     private final File m_directory;
+
+    ///Directory in which application temporary/work data is stored
+    private final File m_workDirectory;
 
     ///URL to block configuration data
     private final String m_config;
@@ -46,6 +49,7 @@ public final class Installation
 
     public Installation( final File source,
                          final File directory,
+                         final File workDirectory,
                          final String config,
                          final String assembly,
                          final String environment,
@@ -55,6 +59,7 @@ public final class Installation
     {
         m_source = source;
         m_directory = directory;
+        m_workDirectory = workDirectory;
         m_config = config;
         m_assembly = assembly;
         m_environment = environment;
@@ -82,6 +87,17 @@ public final class Installation
     public File getDirectory()
     {
         return m_directory;
+    }
+
+    /**
+     * Get the directory in which temporary data for this application
+     * is stored.
+     *
+     * @return the work directory for application.
+     */
+    public File getWorkDirectory()
+    {
+        return m_workDirectory;
     }
 
     /**

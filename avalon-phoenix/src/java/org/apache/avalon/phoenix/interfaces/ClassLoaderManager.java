@@ -30,6 +30,7 @@ public interface ClassLoaderManager
      * @param source the source of application. (usually the name of the .sar file
      *               or else the same as baseDirectory)
      * @param baseDirectory the base directory of application
+     * @param workDirectory the work directory of application
      * @param classPath the list of URLs in applications deployment
      * @return the ClassLoader created
      * @throws Exception if an error occurs
@@ -37,6 +38,7 @@ public interface ClassLoaderManager
     ClassLoader createClassLoader( Configuration environment,
                                    File source,
                                    File baseDirectory,
+                                   File workDirectory,
                                    String[] classPath )
         throws Exception;
 }

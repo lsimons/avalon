@@ -404,20 +404,20 @@ public class DefaultEmbeddor
      */
     private synchronized void createComponents()
     {
-        Object object;
         try
         {
             for( int i = 0; i < m_entrys.length; i++ )
             {
                 final String className = m_entrys[ i ].getClassName();
                 final Class clazz = Class.forName( className );
-                object = createObject( className, clazz );
+                final Object object = createObject( className, clazz );
                 m_entrys[ i ].setObject( object );
             }
         }
         catch( Exception e )
         {
-            final String message = REZ.getString( "embeddor.error.createComponents.failed" );
+            final String message =
+                REZ.getString( "embeddor.error.createComponents.failed" );
             getLogger().fatalError( message, e );
         }
     }
@@ -516,6 +516,7 @@ public class DefaultEmbeddor
     private void shutdownComponents()
         throws Exception
     {
+        //for( int i = m_entrys.length - 1; i >= 0; i-- )
         for( int i = 0; i < m_entrys.length; i++ )
         {
             final Object object = m_entrys[ i ].getObject();
