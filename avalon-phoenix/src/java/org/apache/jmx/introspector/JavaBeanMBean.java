@@ -18,17 +18,13 @@ import javax.management.IntrospectionException;
 import javax.management.MBeanOperationInfo;
 
 /**
- * TODO: the equals() methods do not work for the MBeanXXXInfo classes; these
- * need to be replaced with correct ones. Is this a bug in javax.management???
- * This class is used by DynamicMBeanFactory to create DynamicMBeans. It can
- * represent any object. Notifications are not supported. You can easily create
- * custom DynamicMBeans by extending this class and replacing the createXXX()
- * methods. TODO: Or, you can replace the getDescriptionFor() methods to add
- * sensible documentation to your DynamicMBean, making it easier to create Open
- * MBeans if you wish to do so.
+ * Class to automatically manage a JavaBean. A BeanInfo is created for the
+ * object to be managed and its propertys are translated into attributes,
+ * and it's Methods translated into operations.
  *
  * @author <a href="mailto:mail@leosimons.com">Leo Simons</a>
- * @version CVS $Revision: 1.2 $ $Date: 2001/09/28 23:57:57 $
+ * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @version CVS $Revision: 1.3 $ $Date: 2001/09/29 00:07:01 $
  */
 public class JavaBeanMBean
     extends AbstractMBean
@@ -41,7 +37,7 @@ public class JavaBeanMBean
     public JavaBeanMBean( final Object object )
         throws IllegalArgumentException
     {
-        super( object, null );
+        super( object );
         final Class clazz = object.getClass();
         try
         {
@@ -53,7 +49,6 @@ public class JavaBeanMBean
         }
 
         initialize();
-        //m_description = m_beanInfo.getBeanDescriptor().getShortDescription();
     }
 
     JavaBeanMBean( final Object object, final Class[] interfaces )
@@ -63,6 +58,16 @@ public class JavaBeanMBean
 
         //restrictOperationsTo( interfaces );
         //restrictAttributesTo( interfaces );
+    }
+
+    /**
+     * Utility method called by initialize to create description.
+     *
+     * @return the Description
+     */
+    protected synchronized String createDescription()
+    {
+        return m_beanInfo.getBeanDescriptor().getShortDescription();
     }
 
     /**
