@@ -42,8 +42,8 @@
        <!-- ... -->
        <component name="test2" class="AnotherComponent">
          <!-- will be passed into configurable() method -->
-         <configuration>
-           <colour>red</color>
+         <configuration attr1="test">
+           <colour match="false">red</color>
          </configuration>
        </component>
      </container>

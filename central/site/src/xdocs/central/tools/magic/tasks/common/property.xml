@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+‹¯¨<?xml version="1.0" encoding="UTF-8"?>
 <document>
 
   <properties>
@@ -17,7 +17,7 @@
       </p>
 
 <source><![CDATA[
-    <x:property name="spec" key="cornerstone-threads-impl" feature="spec"/>
+    <x:property name="spec" key="cornerstone-threads-impl" feature="spec" resolve="true"/>
     <echo message="${spec}"/>
 ]]></source>
 
@@ -51,6 +51,11 @@
           <td>The resource type.</td>
         </tr>
         <tr>
+          <td>key</td>
+          <td>The key the resource is referenced by in the project model (the index.xml). if no key attribute is given, 
+           the current project is assumed.</td>
+        </tr>
+        <tr>
           <td>uri</td>
           <td>The full artifact uri.</td>
         </tr>
@@ -63,6 +68,11 @@
           <td>spec</td>
           <td>Short form of uri.  The spec value is equivalent to the 
             uri with the "artifact:" protocol identifier.</td>
+        </tr>
+        <tr>
+          <td>resolve</td>
+          <td>Should dependencies be resolved or not. Default is true. if you reference the curernt project, a good idea is to set resolve"false"
+            in order to avoid to download the not yet compiled current projects artifact.</td>
         </tr>
         <tr>
           <td>filename</td>

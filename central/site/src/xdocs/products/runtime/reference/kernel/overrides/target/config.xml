@@ -36,8 +36,8 @@ A configuration directive contains arbitary content that is used by the containe
       <subsection name="Sample XML">
 <source><![CDATA[
 
-<configuration>
-  <frequency>100</frequency>
+<configuration time="now">
+  <frequency measurescale="Hertz">100</frequency>
   <!-- or anything else you care to include -->
 </configuration>
 
