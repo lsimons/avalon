@@ -75,16 +75,4 @@ public interface ConfigurationRepository
                                         String block,
                                         Configuration configuration )
         throws ConfigurationException;
-
-    /**
-     * Remove configuration information in the repository
-     *
-     * @param application Application name
-     * @param block Block name to store configuration for
-     *
-     * @throws ConfigurationException if configuration could not be removed
-     */
-    void removeConfiguration( String application,
-                              String block )
-        throws ConfigurationException;
 }
