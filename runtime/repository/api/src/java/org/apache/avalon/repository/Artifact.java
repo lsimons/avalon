@@ -21,6 +21,8 @@ package org.apache.avalon.repository ;
 import java.io.Serializable;
 import java.io.IOException;
 import java.net.URL;
+import java.lang.Comparable;
+
 
 /**
  * Defintion of a artifact that maintains a relative url
@@ -30,7 +32,7 @@ import java.net.URL;
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @version $Id$
  */
-public class Artifact implements Serializable
+public class Artifact implements Serializable, Comparable
 {
     // ------------------------------------------------------------------------
     // static
@@ -392,6 +394,13 @@ public class Artifact implements Serializable
         if( path.startsWith( SEP ) ) return getCleanPath( path.substring( 1, path.length() ) );
         if( path.endsWith( SEP ) ) return getCleanPath( path.substring( 0, path.length() -1 ) );
         return path;
+    }
+
+    public int compareTo( Object object )
+    {
+        String name = this.toString();
+        String other = object.toString();
+        return name.compareTo( other );
     }
 
 }

@@ -27,6 +27,7 @@ import junit.framework.TestCase;
 
 import org.apache.avalon.repository.Artifact;
 
+
 /**
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>

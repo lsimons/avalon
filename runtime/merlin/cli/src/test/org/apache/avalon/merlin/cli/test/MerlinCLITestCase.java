@@ -67,7 +67,8 @@ public class MerlinCLITestCase extends TestCase
                 "-home",
                 basedir,
                 "-system",
-                system
+                system,
+                "-offline"
               };
             Main.main( args );
         }

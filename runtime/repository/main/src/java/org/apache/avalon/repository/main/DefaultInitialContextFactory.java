@@ -181,6 +181,12 @@ public class DefaultInitialContextFactory implements InitialContextFactory
             m_properties, 
             new Properties[]{ m_properties } );
 
+        String value = m_properties.getProperty( InitialContext.ONLINE_KEY );
+        if( null != value )
+        {  
+            m_online = value.equalsIgnoreCase( "true" );
+        }
+        
         //
         // retrieve the property defining the implementation
         // artifact for the initial repository
