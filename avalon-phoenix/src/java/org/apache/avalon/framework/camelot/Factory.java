@@ -8,6 +8,7 @@
 package org.apache.avalon.framework.camelot;
 
 import org.apache.avalon.framework.component.Component;
+import org.apache.avalon.framework.container.Locator;
 
 /**
  * This is the component that creates the components.
