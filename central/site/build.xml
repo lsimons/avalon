@@ -1,9 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<project name="site" default="site" basedir=".">
+<project name="site" default="site" basedir="."
+    xmlns:x="antlib:org.apache.avalon.tools">
 
   <property file="build.properties"/>
   <import file="${project.home}/build/standard.xml"/>
+
+  <target name="init" depends="standard.init">
+    <x:filter key="avalon-merlin-impl" feature="version" 
+       token="RUNTIME-VERSION"/>
+  </target>
+
+  <target name="prepare" depends="standard.prepare">
+    <x:javadoc root="${products.runtime.path}" title="Merlin Runtime"
+       id="avalon-merlin-impl"/>
+  </target>
 
 </project>
 
