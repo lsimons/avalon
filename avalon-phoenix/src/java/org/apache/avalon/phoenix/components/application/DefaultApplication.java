@@ -13,6 +13,9 @@ import java.util.List;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.framework.activity.Initializable;
+import org.apache.avalon.framework.activity.Startable;
+import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.phoenix.ApplicationEvent;
 import org.apache.avalon.phoenix.Block;
 import org.apache.avalon.phoenix.interfaces.Application;
@@ -34,7 +37,7 @@ import org.apache.excalibur.threadcontext.ThreadContext;
  */
 public final class DefaultApplication
     extends AbstractLogEnabled
-    implements Application, ApplicationMBean
+    implements Application, ApplicationMBean, Initializable, Startable, Disposable
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( DefaultApplication.class );

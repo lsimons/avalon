@@ -248,7 +248,7 @@ public class DefaultEmbeddor
 
     private boolean emptyKernel()
     {
-        Kernel kernel = (Kernel)getEmbeddorComponent( Kernel.ROLE );
+        final Kernel kernel = getKernel();
         if( null != kernel )
         {
             final String[] names = kernel.getApplicationNames();

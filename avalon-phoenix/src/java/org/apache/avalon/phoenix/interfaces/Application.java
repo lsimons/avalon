@@ -7,9 +7,6 @@
  */
 package org.apache.avalon.phoenix.interfaces;
 
-import org.apache.avalon.framework.activity.Disposable;
-import org.apache.avalon.framework.activity.Initializable;
-import org.apache.avalon.framework.activity.Startable;
 import org.apache.avalon.phoenix.Block;
 
 /**
@@ -23,7 +20,6 @@ import org.apache.avalon.phoenix.Block;
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  */
 public interface Application
-    extends Initializable, Startable, Disposable
 {
     String ROLE = Application.class.getName();
 
