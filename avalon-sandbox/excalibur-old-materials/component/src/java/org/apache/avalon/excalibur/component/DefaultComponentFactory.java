@@ -83,7 +83,7 @@ import org.apache.excalibur.instrument.Instrumentable;
  * @author <a href="mailto:paul@luminas.co.uk">Paul Russell</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.21 $ $Date: 2003/04/05 19:39:34 $
+ * @version CVS $Revision: 1.22 $ $Date: 2003/05/01 10:21:38 $
  * @since 4.0
  */
 public class DefaultComponentFactory
@@ -344,7 +344,7 @@ public class DefaultComponentFactory
         Component returnableComponent;
         if( !( component instanceof Component ) )
         {
-            returnableComponent = m_proxyGenerator.getProxy( m_role, component );
+            returnableComponent = m_proxyGenerator.getCompatibleProxy( component );
             m_componentProxies.put( returnableComponent, component );
         }
         else
@@ -355,12 +355,12 @@ public class DefaultComponentFactory
         return returnableComponent;
     }
 
-    public final Class getCreatedClass()
+    public Class getCreatedClass()
     {
         return m_componentClass;
     }
 
-    public final void decommission( final Object component )
+    public void decommission( final Object component )
         throws Exception
     {
         if( getLogger().isDebugEnabled() )
@@ -401,7 +401,7 @@ public class DefaultComponentFactory
     /*---------------------------------------------------------------
      * Disposable Methods
      *-------------------------------------------------------------*/
-    public final void dispose()
+    public void dispose()
     {
     }
 
