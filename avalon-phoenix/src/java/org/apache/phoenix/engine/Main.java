@@ -7,27 +7,17 @@
  */
 package org.apache.phoenix.engine;
 
-import java.io.File;
-import java.net.URL;
 import java.security.AccessController;
 import java.security.PrivilegedActionException;
 import java.security.PrivilegedExceptionAction;
 import java.util.List;
-import org.apache.avalon.Composer;
-import org.apache.avalon.DefaultComponentManager;
-import org.apache.avalon.Loggable;
-import org.apache.avalon.camelot.CamelotUtil;
-import org.apache.avalon.camelot.Deployer;
+import org.apache.avalon.configuration.Parameters;
 import org.apache.avalon.util.cli.CLArgsParser;
 import org.apache.avalon.util.cli.CLOption;
 import org.apache.avalon.util.cli.CLOptionDescriptor;
 import org.apache.avalon.util.cli.CLUtil;
-import org.apache.avalon.util.log.AvalonLogFormatter;
 import org.apache.log.LogKit;
-import org.apache.log.LogTarget;
-import org.apache.log.Logger;
 import org.apache.log.Priority;
-import org.apache.log.output.FileOutputLogTarget;
 
 /**
  * The class to load the kernel and start it running.
@@ -43,7 +33,7 @@ public class Main
     private static final String    DEFAULT_APPS_PATH    = PHOENIX_HOME + "/apps";
 
     private static final String    DEFAULT_KERNEL_CLASS =
-        System.getProperty( "phoenix.kernel", "org.apache.phoenix.engine.DefaultServerKernel" );
+        System.getProperty( "phoenix.kernel", "org.apache.phoenix.engine.PhoenixKernel" );
 
     private static final int       DEBUG_LOG_OPT        = 'd';
     private static final int       HELP_OPT             = 'h';
@@ -52,7 +42,6 @@ public class Main
 
     protected String               m_appsPath           = DEFAULT_APPS_PATH;
     protected String               m_logFile            = DEFAULT_LOG_FILE;
-    protected Logger               m_logger;
 
     protected CLOptionDescriptor[] m_options;
 
@@ -68,11 +57,6 @@ public class Main
         try { main.execute( args ); }
         catch( final Throwable throwable )
         {
-            if( null != main.m_logger )
-            {
-                main.m_logger.fatalError( "Unhandled exception", throwable );
-            }
-
             System.out.println( "There was an uncaught exception:" );
             System.out.println( "---------------------------------------------------------" );
             throwable.printStackTrace( System.out );
@@ -83,6 +67,8 @@ public class Main
             System.out.println( "http://jakarta.apache.org/avalon for more information." );
             System.exit( 1 );
         }
+
+        System.exit( 0 );
     }
 
     /**
@@ -201,70 +187,24 @@ public class Main
     protected void execute()
         throws Exception
     {
-        //temporary logging hack ....
+        final Parameters parameters = new Parameters();
+        parameters.setParameter( "kernel-class", "org.apache.phoenix.engine.PhoenixKernel" );
+        parameters.setParameter( "deployer-class", "org.apache.phoenix.engine.DefaultSarDeployer" );
+        parameters.setParameter( "kernel-configuration-source", null );
+        parameters.setParameter( "log-destination", m_logFile );
+        parameters.setParameter( "applications-directory", m_appsPath );
         
-        // create a log channel for the loader.
-        final FileOutputLogTarget logTarget = new FileOutputLogTarget( m_logFile );
-        final AvalonLogFormatter formatter = new AvalonLogFormatter();
-        formatter.setFormat( "%{time} [%7.7{priority}] <<%{category}>> " +
-                             "(%{context}): %{message}\\n%{throwable}" );
-        logTarget.setFormatter( formatter );
-        
-        LogKit.addLogTarget( m_logFile, logTarget );
-        m_logger = LogKit.createLogger( LogKit.createCategory( "Phoenix", Priority.DEBUG ), 
-                                        new LogTarget[] { logTarget } );
-        m_logger.info( "Loader started" );
-        
-        ServerKernel kernel = null;
-        try
-        {
-            Thread.currentThread().setContextClassLoader( getClass().getClassLoader() );
-            kernel = (ServerKernel)Class.forName( DEFAULT_KERNEL_CLASS ).newInstance();
+        final PhoenixEmbeddor embeddor = new PhoenixEmbeddor();
+        embeddor.setParameters( parameters );
+        embeddor.init();
+
+        try 
+        { 
+            embeddor.execute(); 
         }
-        catch( final Exception e )
+        finally
         {
-            m_logger.fatalError( "Failed to create kernel instance", e );
-            throw e;
-        }
-
-        kernel.setLogger( m_logger );
-        kernel.init();//ialize();
-
-        final File directory = new File( m_appsPath );
-        final Deployer deployer = new DefaultSarDeployer();
-        setupDeployer( kernel, deployer );
-
-        CamelotUtil.deployFromDirectory( deployer, directory, ".sar" );
-
-        //run kernel lifecycle
-        kernel.start();
-        kernel.run();  
-        kernel.stop();      
-        kernel.dispose();
-        
-        System.exit(0);
-    }
-
-    /**
-     * Setup deployer including Logging/componentManager.
-     *
-     * @param kernel the kernel deploying to
-     * @param deployer the deployer
-     * @exception Exception if an error occurs
-     */
-    protected void setupDeployer( final ServerKernel kernel, final Deployer deployer )
-        throws Exception
-    {
-        if( deployer instanceof Loggable )
-        {
-            ((Loggable)deployer).setLogger( m_logger );
-        }     
-
-        if( deployer instanceof Composer )
-        {
-            final DefaultComponentManager componentManager = new DefaultComponentManager();
-            componentManager.put( "org.apache.avalon.camelot.Container", kernel );
-            ((Composer)deployer).compose( componentManager );
+            embeddor.dispose();
         }
     }
 }

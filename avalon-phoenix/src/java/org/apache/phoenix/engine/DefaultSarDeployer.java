@@ -22,11 +22,9 @@ import java.util.zip.ZipFile;
 import org.apache.avalon.ComponentManager;
 import org.apache.avalon.ComponentManagerException;
 import org.apache.avalon.Composer;
-import org.apache.avalon.configuration.Configuration;
-import org.apache.avalon.configuration.ConfigurationException;
 import org.apache.avalon.DefaultComponentManager;
-import org.apache.avalon.configuration.DefaultConfigurationBuilder;
 import org.apache.avalon.DefaultContext;
+import org.apache.avalon.atlantis.Kernel;
 import org.apache.avalon.camelot.AbstractCamelotDeployer;
 import org.apache.avalon.camelot.CamelotUtil;
 import org.apache.avalon.camelot.ContainerException;
@@ -37,13 +35,16 @@ import org.apache.avalon.camelot.DeploymentException;
 import org.apache.avalon.camelot.Locator;
 import org.apache.avalon.camelot.Registry;
 import org.apache.avalon.camelot.RegistryException;
+import org.apache.avalon.configuration.Configuration;
+import org.apache.avalon.configuration.ConfigurationException;
+import org.apache.avalon.configuration.DefaultConfigurationBuilder;
 import org.apache.avalon.util.io.FileUtil;
 import org.apache.avalon.util.io.IOUtil;
 import org.apache.phoenix.BlockContext;
-import org.apache.phoenix.metainfo.BlockInfo;
 import org.apache.phoenix.engine.blocks.BlockEntry;
-import org.apache.phoenix.engine.blocks.RoleEntry;
 import org.apache.phoenix.engine.blocks.DefaultBlockDeployer;
+import org.apache.phoenix.engine.blocks.RoleEntry;
+import org.apache.phoenix.metainfo.BlockInfo;
 
 /**
  * This class deploys a .sar file.
@@ -85,7 +86,7 @@ public class DefaultSarDeployer
     {
         final ZipFile zipFile = DeployerUtil.getZipFileFor( file );
 
-        if( !needsExpanding( zipFile, directory ) ) 
+        if( !needsExpanding( zipFile, directory ) )
         {
             return;
         }
@@ -151,21 +152,21 @@ public class DefaultSarDeployer
         }
     }
 
-    protected ServerKernel getKernel()
+    protected Kernel getKernel()
         throws DeploymentException
     {
-        if( !(m_container instanceof ServerKernel) )
+        if( !(m_container instanceof Kernel) )
         {
             throw new DeploymentException( "Can only deploy to a kernel container" );
         }
         else
         {
-            return (ServerKernel)m_container;
+            return (Kernel)m_container;
         }
     }
 
-    protected void buildEntry( final String name, 
-                               final ServerApplicationEntry entry, 
+    protected void buildEntry( final String name,
+                               final ServerApplicationEntry entry,
                                final File archive,
                                final File directory )
         throws DeploymentException
@@ -193,8 +194,8 @@ public class DefaultSarDeployer
         entry.setConfiguration( configuration );
     }
 
-    protected void deployFromDirectory( final File archive, 
-                                        final String name, 
+    protected void deployFromDirectory( final File archive,
+                                        final String name,
                                         final File directory )
         throws DeploymentException
     {
@@ -205,23 +206,23 @@ public class DefaultSarDeployer
         buildEntry( name, entry, archive, directory );
         addEntry( name, entry );
 
-        final ServerKernel kernel = getKernel();
+        final Kernel kernel = getKernel();
         ServerApplication serverApplication = null;
-        try 
-        { 
-            serverApplication = (ServerApplication)kernel.getApplication( name ); 
+        try
+        {
+            serverApplication = (ServerApplication)kernel.getApplication( name );
         }
-        catch( final ContainerException ce ) 
+        catch( final ContainerException ce )
         {
             throw new DeploymentException( "Error preparingserver application", ce );
         }
 
         //rework next bit so it grabs deployments from archive
         final Deployer deployer = getBlockDeployer( entry );
-        final File blocksDirectory = new File( directory, "blocks" );    
+        final File blocksDirectory = new File( directory, "blocks" );
         CamelotUtil.deployFromDirectory( deployer, blocksDirectory, ".bar" );
 
-        final File file = 
+        final File file =
             new File( directory, "conf" + File.separator + "assembly.xml" );
 
         try
@@ -279,7 +280,7 @@ public class DefaultSarDeployer
     {
         final ComponentManager componentManager = saEntry.getComponentManager();
 
-        final Registry infoRegistry = 
+        final Registry infoRegistry =
             (Registry)componentManager.lookup( "org.apache.avalon.camelot.Registry" );
 
         final Registry locatorRegistry = (Registry)componentManager.
@@ -294,20 +295,20 @@ public class DefaultSarDeployer
             BlockInfo info = null;
 
             try { info = (BlockInfo)infoRegistry.getInfo( className, BlockInfo.class ); }
-            catch( final RegistryException re ) 
+            catch( final RegistryException re )
             {
-                throw new DeploymentException( "Failed to aquire BlockInfo for " + className, 
+                throw new DeploymentException( "Failed to aquire BlockInfo for " + className,
                                                re );
             }
 
             Locator locator = null;
             try { locator = (Locator)locatorRegistry.getInfo( className, Locator.class ); }
-            catch( final RegistryException re ) 
+            catch( final RegistryException re )
             {
-                throw new DeploymentException( "Failed to aquire Locator for " + className, 
+                throw new DeploymentException( "Failed to aquire Locator for " + className,
                                                re );
             }
-           
+
             final Configuration[] provides = block.getChildren( "provide" );
             final ArrayList roleList = new ArrayList();
             for( int j = 0; j < provides.length; j++ )
@@ -315,9 +316,9 @@ public class DefaultSarDeployer
                 final Configuration provide = provides[ j ];
                 final String requiredName = provide.getAttribute("name");
                 final String role = provide.getAttribute("role");
-                
+
                 roleList.add( new RoleEntry( requiredName, role ) );
-            } 
+            }
 
             final RoleEntry[] roles = (RoleEntry[]) roleList.toArray( new RoleEntry[ 0 ] );
             final BlockEntry entry = new BlockEntry( locator, roles );
@@ -330,8 +331,8 @@ public class DefaultSarDeployer
             {
                 throw new DeploymentException( "Error adding component to container", ce );
             }
-            
+
             getLogger().debug( "Adding " + m_type + "Entry " + name + " as " + entry );
-        }  
+        }
     }
 }
