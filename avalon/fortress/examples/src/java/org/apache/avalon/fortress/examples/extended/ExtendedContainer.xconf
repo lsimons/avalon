@@ -1,0 +1,7 @@
+<test>
+  <component id="extended-component"
+     class="org.apache.avalon.fortress.examples.extended.components.ExtendedComponentImpl"
+     logger="extended-component">
+  </component>
+</test>
+
