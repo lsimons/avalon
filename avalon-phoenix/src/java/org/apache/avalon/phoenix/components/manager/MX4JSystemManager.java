@@ -44,7 +44,7 @@ import org.apache.excalibur.baxter.JavaBeanMBean;
  */
 public class MX4JSystemManager
     extends AbstractSystemManager
-    implements Parameterizable, Serviceable
+    implements Serviceable
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( MX4JSystemManager.class );
@@ -60,12 +60,6 @@ public class MX4JSystemManager
     private Kernel m_kernel;
     private ConfigurationRepository m_repository;
     private PackageRepository m_extensionManager;
-
-    public void parameterize( final Parameters parameters )
-        throws ParameterException
-    {
-        // m_parameters = parameters;
-    }
 
     /**
      * Retrieve relevant services needed to deploy.
@@ -129,17 +123,6 @@ public class MX4JSystemManager
 
         // starts the server
         m_mBeanServer.invoke( adaptorName, "start", null, null );
-
-        //TODO: SystemManager itself aswell???
-        //FIXME: All this stuff should be done by embeddor and read out of a config file
-        register( "Kernel", m_kernel, new Class[]{KernelMBean.class} );
-        register( "ExtensionManager",
-                  m_extensionManager,
-                  new Class[]{ExtensionManagerMBean.class} );
-        register( "Embeddor", m_embeddor, new Class[]{EmbeddorMBean.class} );
-        register( "Deployer", m_deployer, new Class[]{DeployerMBean.class} );
-        register( "LogManager", m_logManager );
-        register( "ConfigurationRepository", m_repository );
     }
 
     public void start()

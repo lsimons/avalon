@@ -149,17 +149,6 @@ public class DefaultManager
             e.printStackTrace();
             throw e;
         }
-
-        //TODO: SystemManager itself aswell???
-        //FIXME: All this stuff should be done by embeddor and read out of a config file
-        register( "Kernel", m_kernel, new Class[]{KernelMBean.class} );
-        register( "ExtensionManager",
-                  m_extensionManager,
-                  new Class[]{ExtensionManagerMBean.class} );
-        register( "Embeddor", m_embeddor, new Class[]{EmbeddorMBean.class} );
-        register( "Deployer", m_deployer, new Class[]{DeployerMBean.class} );
-        register( "LogManager", m_logManager );
-        register( "ConfigurationRepository", m_repository );
     }
 
     public void start()

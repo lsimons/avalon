@@ -36,6 +36,7 @@ import org.apache.avalon.phoenix.interfaces.Deployer;
 import org.apache.avalon.phoenix.interfaces.Embeddor;
 import org.apache.avalon.phoenix.interfaces.EmbeddorMBean;
 import org.apache.avalon.phoenix.interfaces.Kernel;
+import org.apache.avalon.phoenix.interfaces.SystemManager;
 
 /**
  * This is the object that is interacted with to create, manage and
@@ -196,6 +197,17 @@ public class DefaultEmbeddor
         {
             createComponents();
             setupComponents();
+            final SystemManager systemManager = (SystemManager)getServiceManager().lookup( SystemManager.ROLE );
+            systemManager.register( ManagementInfo.EMBEDDOR.getName(), this, ManagementInfo.EMBEDDOR.getInterfaces() );
+            for( int i = 0; i < m_entrys.length; i++ )
+            {
+                System.out.println( m_entrys[ i ].getRole() );
+                final ManagementInfo mi = ManagementInfo.getManagementInfoForRole( m_entrys[ i ].getRole() );
+                if ( null != mi )
+                {
+                    systemManager.register( mi.getName(), m_entrys[ i ].getObject(), mi.getInterfaces() );
+                }
+            }
         }
         catch( final Exception e )
         {
@@ -291,6 +303,13 @@ public class DefaultEmbeddor
         try
         {
             shutdownComponents();
+            final SystemManager systemManager = (SystemManager)getServiceManager().lookup( SystemManager.ROLE );
+            systemManager.unregister( ManagementInfo.EMBEDDOR.getName() );
+            for( int i = 0; i < m_entrys.length; i++ )
+            {
+                final ManagementInfo mi = ManagementInfo.getManagementInfoForRole( m_entrys[ i ].getRole() );
+                systemManager.unregister( mi.getName() );
+            }
         }
         catch( final Exception e )
         {
