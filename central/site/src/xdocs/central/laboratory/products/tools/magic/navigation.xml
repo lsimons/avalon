@@ -7,7 +7,7 @@
  <body>
     <menu>
       <item name="Engine" href="engine/index.html"/>
-      <item name="Plugins" href="engine/index.html"/>
+      <item name="Plugins" href="plugins/index.html"/>
     </menu>
  </body>
 

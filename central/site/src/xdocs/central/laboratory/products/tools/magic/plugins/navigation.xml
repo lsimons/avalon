@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+
+ <title>Apache Avalon Central</title>
+
+ <body>
+    <menu>
+      <item name="artifact" href="artifact/index.html"/>
+      <item name="clean" href="clean/index.html"/>
+      <item name="jar" href="jar/index.html"/>
+      <item name="java" href="java/index.html"/>
+      <item name="plugin" href="plugin/index.html"/>
+      <item name="prepare" href="prepare/index.html"/>
+      <item name="xdoc" href="xdoc/index.html"/>
+    </menu>
+ </body>
+
+</project>
