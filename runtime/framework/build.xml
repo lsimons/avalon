@@ -3,22 +3,6 @@
 <project name="test" default="build" basedir="." xmlns:x="antlib:org.apache.avalon.tools">
 
   <property file="build.properties"/>
-
-  <path id="targets">
-    <fileset dir="." includes="**/build.xml" excludes="build.xml"/>
-  </path>
-
-  <target name="build" depends="">
-    <x:home/>
-    <x:reactor>
-      <path refid="targets"/>
-    </x:reactor>
-  </target>
-
-  <target name="clean" depends="">
-    <subant inheritAll="false" 
-       genericantfile="${project.home}/build/standard.xml" target="clean"
-       buildpathref="targets"/>
-  </target>
+  <import file="${project.home}/build/reactor.xml"/>
 
 </project>

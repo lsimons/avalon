@@ -319,7 +319,7 @@
     Avalon Test.
     -->
 
-    <project basedir="../../runtime/meta/test/dynamics">
+    <project basedir="../../runtime/test/dynamics">
       <info>
         <group>avalon/test</group>
         <name>avalon-test-dynamics</name>
@@ -334,7 +334,7 @@
       </dependencies>
     </project>
 
-    <project basedir="../../runtime/meta/test/playground">
+    <project basedir="../../runtime/test/playground">
       <info>
         <group>avalon/test</group>
         <name>avalon-test-playground</name>
@@ -350,7 +350,7 @@
       </dependencies>
     </project>
 
-    <project basedir="../../runtime/meta/test/testa">
+    <project basedir="../../runtime/test/testa">
       <info>
         <group>avalon/test</group>
         <name>avalon-test-testa</name>
@@ -366,7 +366,7 @@
       </dependencies>
     </project>
 
-    <project basedir="../../runtime/meta/test/testb">
+    <project basedir="../../runtime/test/testb">
       <info>
         <group>avalon/test</group>
         <name>avalon-test-testb</name>
@@ -381,7 +381,7 @@
       </dependencies>
     </project>
 
-    <project basedir="../../runtime/meta/test/testc">
+    <project basedir="../../runtime/test/testc">
       <info>
         <group>avalon/test</group>ss
         <name>avalon-test-testc</name>
@@ -396,7 +396,7 @@
       </dependencies>
     </project>
 
-    <project basedir="../../runtime/meta/test/testd">
+    <project basedir="../../runtime/test/testd">
       <info>
         <group>avalon/test</group>
         <name>avalon-test-testd</name>
@@ -411,7 +411,7 @@
       </dependencies>
     </project>
 
-    <project basedir="../../runtime/meta/test/teste">
+    <project basedir="../../runtime/test/teste">
       <info>
         <group>avalon/test</group>
         <name>avalon-test-teste</name>
@@ -424,6 +424,13 @@
           <pluginref key="avalon-meta-tools"/>
         </plugins>
       </dependencies>
+    </project>
+
+    <project basedir="../../runtime/test/includes">
+      <info>
+        <group>avalon/test</group>
+        <name>avalon-test-includes</name>
+      </info>
     </project>
 
     <!--
@@ -724,6 +731,7 @@
           <projectref key="avalon-util-extension-impl"/>
           <projectref key="avalon-util-lifecycle"/>
           <projectref key="avalon-logging-impl" build="false" test="true"/>
+          <projectref key="avalon-test-dynamics" build="false" test="true"/>
         </projects>
       </dependencies>
     </project>

@@ -2,21 +2,15 @@
 
 <project name="test" default="build" basedir="." xmlns:x="antlib:org.apache.avalon.tools">
 
-  <path id="targets">
-    <dirset dir="projects" includes="*"/>
-  </path>
-
   <target name="build" depends="">
     <property file="build.properties"/>
     <x:home/>
-    <x:reactor>
-      <path refid="targets"/>
-    </x:reactor>
+    <x:reactor/>
   </target>
 
   <target name="clean" depends="">
-    <subant inheritAll="false" genericantfile="standard.xml" target="clean"
-       buildpathref="targets"/>
+    <x:home/>
+    <x:reactor target="clean"/>
   </target>
 
 </project>

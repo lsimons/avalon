@@ -143,6 +143,27 @@ public class Home extends DataType
         return m_repository;
     }
 
+    public Resource[] getResources()
+    {
+        return (Resource[]) m_resources.values().toArray( new Resource[0] );
+
+    }
+    public Definition[] getDefinitions()
+      throws BuildException
+    {
+        ArrayList list = new ArrayList();
+        Resource[] resources = getResources();
+        for( int i=0; i<resources.length; i++ )
+        {
+            Resource resource = resources[i];
+            if( resource instanceof Definition )
+            {
+                list.add( resource );
+            }
+        }
+        return (Definition[]) list.toArray( new Definition[0] );
+    }
+
     public Plugin getPlugin( PluginRef ref )
       throws BuildException
     {
