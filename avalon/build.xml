@@ -387,6 +387,10 @@ Legal:
             <fileset dir="${xdocs.dir}"/>
         </copy>
         
+
+        <copy file="${context.dir}/resources/schema/CatalogManager.properties" 
+              todir="${build.context}/resources/schema" filtering="off"/>
+                
         <echo message="-------------------------------------------------------------"/>
         <echo message="  Building docs, please stand by ..."/>
         
@@ -395,7 +399,7 @@ Legal:
             <arg value="-d${build.docs}"/>
             <arg value="-w${build.dir}/work"/>
             <arg value="-l${build.dir}/work/cocoon.log"/>
-            <arg value="-uWARN"/>
+            <arg value="-uERROR"/>
             <arg value="index.html"/>
             <classpath>
                 <path refid="tools.class.path"/>
