@@ -17,6 +17,7 @@ import java.util.Set;
 import java.util.Arrays;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
+import org.apache.avalon.excalibur.io.FileUtil;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -146,6 +147,18 @@ public class DefaultDeployer
         throws Exception
     {
         initWorkDirectory();
+        try
+        {
+            FileUtil.cleanDirectory( m_baseWorkDirectory );
+        }
+        catch( final IOException ioe )
+        {
+            final String message =
+                REZ.getString( "nodelete-workdir.error",
+                               m_baseWorkDirectory,
+                               ioe.getMessage() );
+            getLogger().warn( message, ioe );
+        }
 
         setupLogger( m_installer );
         setupLogger( m_assembler );
