@@ -129,10 +129,10 @@ Legal:
     </target>
 
     <!-- defer to check-targets.ent for figuring out dependencies -->
-    <target name="check-dependencies" depends="junit-check,log4j-check,logkit-check,jdk14-check"/>
+    <target name="check-dependencies" depends="junit-check,log4j-check,logkit-check,jdk14-check,bsf-check,rhino-check"/>
 
     <!-- defer to check-targets.ent for downloading dependencies -->
-    <target name="import-dependencies" depends="import-junit,import-log4j,import-logkit"/>
+    <target name="import-dependencies" depends="import-junit,import-log4j,import-logkit,import-bsf,import-rhino"/>
 
     <!-- Prepares the build directory -->
     <target name="prepare" depends="check-dependencies">
@@ -429,7 +429,7 @@ Legal:
     </target>
 
     <!-- Creates all the .jar files -->
-    <target name="all" depends="compile, prepare-conf" description="generates the Avalon jar files">
+    <target name="all" depends="compile, prepare-conf, check-dependencies" description="generates the Avalon jar files">
         <mkdir dir="${target.lib}"/>
         <jar jarfile="${target.lib}/${framework.name}.jar"
             basedir="${target.classes}"
@@ -468,7 +468,7 @@ Legal:
 
         <mkdir dir="${dist.dir}"/>
         <copy file="${target.lib}/${framework.name}.jar" tofile="${dist.dir}/${framework.name}-${version}.jar"/>
-        <copy file="${lib.dir}/${logkit.jar}" todir="${dist.dir}"/>
+	<!-- <copy file="${lib.dir}/${logkit.jar}" todir="${dist.dir}"/> -->
 
         <mkdir dir="${dist.docs}"/>
         <mkdir dir="${dist.javadocs}"/>
@@ -500,7 +500,7 @@ Legal:
             </fileset>
         </copy>
 
-        <copy file="${lib.dir}/${logkit.jar}" todir="${src.dist.lib}"/>
+	<!-- <copy file="${lib.dir}/${logkit.jar}" todir="${src.dist.lib}"/> -->
 
         <copy todir="${src.dist.src}">
       <fileset dir="${src.dir}">

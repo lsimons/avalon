@@ -49,7 +49,7 @@ A minimal build.xml would thus be:
     <property file="check-targets.properties"/>
     <target name="setup-dependencies">
         <available property="bsf.present"
-               classname="com.bsf.BSFEngine"
+               classname="com.ibm.bsf.BSFEngine"
                classpathref="project.class.path" />
         <available property="checkstyle.present"
                classname="com.puppycrawl.tools.checkstyle.Checker"
@@ -81,6 +81,9 @@ A minimal build.xml would thus be:
         <available property="logkit.present"
            classname="org.apache.log.Hierarchy"
            classpathref="project.class.path" />
+	<available property="rhino.present"
+	   classname="org.mozilla.javascript.Parser"
+	   classpathref="project.class.path"/>
 
     </target>
 
@@ -153,7 +156,7 @@ A minimal build.xml would thus be:
     </condition>
     <fail if="do.abort">Download aborted.</fail>
 
-    <get src="${jar.repository}/${id}/jars/${id}-${version}.jar"
+    <get src="${jar.repository}/${id}/jars/${jar.id}-${version}.jar"
         dest="${lib.dir}/${id}-${version}.jar"
         verbose="true"
         usetimestamp="true"/>
@@ -170,6 +173,7 @@ A minimal build.xml would thus be:
   <target name="bsf-check" unless="bsf.present" depends="setup-dependencies">
     <antcall target="missing-dependency">
       <param name="id" value="${bsf.id}"/>
+      <param name="jar.id" value="${bsf.id}"/>
       <param name="version" value="${bsf.version}"/>
       <param name="license" value="${bsf.license}"/>
       <param name="license.url" value="${bsf.license.url}"/>
@@ -179,6 +183,7 @@ A minimal build.xml would thus be:
   <target name="import-bsf" depends="setup-dependencies">
     <antcall target="import-dependency">
       <param name="id" value="${bsf.id}"/>
+      <param name="jar.id" value="${bsf.id}"/>
       <param name="version" value="${bsf.version}"/>
       <param name="license" value="${bsf.license}"/>
       <param name="license.url" value="${bsf.license.url}"/>
@@ -189,6 +194,7 @@ A minimal build.xml would thus be:
   <target name="checkstyle-check" unless="checkstyle.present" depends="setup-dependencies">
     <antcall target="missing-dependency">
       <param name="id" value="${checkstyle.id}"/>
+      <param name="jar.id" value="${checkstyle.id}"/>
       <param name="version" value="${checkstyle.version}"/>
       <param name="license" value="${checkstyle.license}"/>
       <param name="license.url" value="${checkstyle.license.url}"/>
@@ -198,6 +204,7 @@ A minimal build.xml would thus be:
   <target name="import-checkstyle" depends="setup-dependencies">
     <antcall target="import-dependency">
       <param name="id" value="${checkstyle.id}"/>
+      <param name="jar.id" value="${checkstyle.id}"/>
       <param name="version" value="${checkstyle.version}"/>
       <param name="license" value="${checkstyle.license}"/>
       <param name="license.url" value="${checkstyle.license.url}"/>
@@ -208,6 +215,7 @@ A minimal build.xml would thus be:
   <target name="commons-logging-check" unless="commons-logging.present" depends="setup-dependencies">
     <antcall target="missing-dependency">
       <param name="id" value="${commons-logging.id}"/>
+      <param name="jar.id" value="${commons-logging.id}"/>
       <param name="version" value="${commons-logging.version}"/>
       <param name="license" value="${commons-logging.license}"/>
       <param name="license.url" value="${commons-logging.license.url}"/>
@@ -217,6 +225,7 @@ A minimal build.xml would thus be:
   <target name="import-commons-logging" depends="setup-dependencies">
     <antcall target="import-dependency">
       <param name="id" value="${commons-logging.id}"/>
+      <param name="jar.id" value="${commons-logging.id}"/>
       <param name="version" value="${commons-logging.version}"/>
       <param name="license" value="${commons-logging.license}"/>
       <param name="license.url" value="${commons-logging.license.url}"/>
@@ -227,6 +236,7 @@ A minimal build.xml would thus be:
   <target name="javamail-check" unless="javax.mail.present" depends="setup-dependencies">
     <antcall target="missing-dependency-noauto">
       <param name="id" value="${javamail.id}"/>
+      <param name="jar.id" value="${javamail.id}"/>
       <param name="version" value="${javamail.version}"/>
       <param name="license" value="${javamail.license}"/>
       <param name="license.url" value="${javamail.license.url}"/>
@@ -238,6 +248,7 @@ A minimal build.xml would thus be:
   <target name="jdbc-check" unless="javax.sql.present" depends="setup-dependencies">
     <antcall target="missing-dependency-noauto">
       <param name="id" value="${jdbc.id}"/>
+      <param name="jar.id" value="${jdbc.id}"/>
       <param name="version" value="${jl.version}"/>
       <param name="license" value="${jdbc.license}"/>
       <param name="license.url" value="${jdbc.license.url}"/>
@@ -259,6 +270,7 @@ A minimal build.xml would thus be:
   <target name="jms-check" unless="javax.jms.present" depends="setup-dependencies">
     <antcall target="missing-dependency-noauto">
       <param name="id" value="${jms.id}"/>
+      <param name="jar.id" value="${jms.id}"/>
       <param name="version" value="${jms.version}"/>
       <param name="license" value="${jms.license}"/>
       <param name="license.url" value="${jms.license.url}"/>
@@ -270,6 +282,7 @@ A minimal build.xml would thus be:
   <target name="junit-check" unless="junit.present" depends="setup-dependencies">
     <antcall target="missing-dependency">
       <param name="id" value="${junit.id}"/>
+      <param name="jar.id" value="${junit.id}"/>
       <param name="version" value="${junit.version}"/>
       <param name="license" value="${junit.license}"/>
       <param name="license.url" value="${junit.license.url}"/>
@@ -279,6 +292,7 @@ A minimal build.xml would thus be:
   <target name="import-junit" depends="setup-dependencies">
     <antcall target="import-dependency">
       <param name="id" value="${junit.id}"/>
+      <param name="jar.id" value="${junit.id}"/>
       <param name="version" value="${junit.version}"/>
       <param name="license" value="${junit.license}"/>
       <param name="license.url" value="${junit.license.url}"/>
@@ -289,6 +303,7 @@ A minimal build.xml would thus be:
   <target name="log4j-check" unless="log4j.present" depends="setup-dependencies">
     <antcall target="missing-dependency">
       <param name="id" value="${log4j.id}"/>
+      <param name="jar.id" value="${log4j.id}"/>
       <param name="version" value="${log4j.version}"/>
       <param name="license" value="${log4j.license}"/>
       <param name="license.url" value="${log4j.license.url}"/>
@@ -298,6 +313,7 @@ A minimal build.xml would thus be:
   <target name="import-log4j" depends="setup-dependencies">
     <antcall target="import-dependency">
       <param name="id" value="${log4j.id}"/>
+      <param name="jar.id" value="${log4j.id}"/>
       <param name="version" value="${log4j.version}"/>
       <param name="license" value="${log4j.license}"/>
       <param name="license.url" value="${log4j.license.url}"/>
@@ -308,6 +324,7 @@ A minimal build.xml would thus be:
   <target name="logkit-check" unless="logkit.present" depends="setup-dependencies">
     <antcall target="missing-dependency">
       <param name="id" value="${logkit.id}"/>
+      <param name="jar.id" value="${logit.id}"/>
       <param name="version" value="${logkit.version}"/>
       <param name="license" value="${logkit.license}"/>
       <param name="license.url" value="${logkit.license.url}"/>
@@ -317,9 +334,31 @@ A minimal build.xml would thus be:
   <target name="import-logkit" depends="setup-dependencies">
     <antcall target="import-dependency">
       <param name="id" value="${logkit.id}"/>
+      <param name="jar.id" value="${logkit.id}"/>
       <param name="version" value="${logkit.version}"/>
       <param name="license" value="${logkit.license}"/>
       <param name="license.url" value="${logkit.license.url}"/>
+    </antcall>
+  </target>
+
+  <!-- Rhino -->
+  <target name="rhino-check" unless="rhino.present" depends="setup-dependencies">
+    <antcall target="missing-dependency">
+      <param name="id" value="${rhino.id}"/>
+      <param name="jar.id" value="${rhino.jar.id}"/>
+      <param name="version" value="${rhino.version}"/>
+      <param name="license" value="${rhino.license}"/>
+      <param name="license.url" value="${rhino.license.url}"/>
+    </antcall>
+  </target>
+
+  <target name="import-rhino" depends="setup-dependencies">
+    <antcall target="import-dependency">
+      <param name="id" value="${rhino.id}"/>
+      <param name="jar.id" value="${rhino.jar.id}"/>
+      <param name="version" value="${rhino.version}"/>
+      <param name="license" value="${rhino.license}"/>
+      <param name="license.url" value="${rhino.license.url}"/>
     </antcall>
   </target>
 
@@ -327,6 +366,7 @@ A minimal build.xml would thus be:
   <target name="servletapi-check" unless="javax.servlet.present" depends="setup-dependencies">
     <antcall target="missing-dependency-noauto">
       <param name="id" value="${servletapi.id}"/>
+      <param name="jar.id" value="${servletapi.id}"/>
       <param name="version" value="${servletapi.version}"/>
       <param name="license" value="${servletapi.license}"/>
       <param name="license.url" value="${servletapi.license.url}"/>
