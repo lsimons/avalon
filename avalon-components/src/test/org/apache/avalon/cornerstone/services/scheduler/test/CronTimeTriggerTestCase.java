@@ -10,19 +10,25 @@ package org.apache.avalon.cornerstone.services.scheduler.test;
 import java.util.Calendar;
 import java.util.Date;
 import org.apache.avalon.cornerstone.services.scheduler.CronTimeTrigger;
-import org.apache.testlet.AbstractTestlet;
+import junit.framework.TestCase;
 
 /**
+ * TestCase for CronTimeTrigger.
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
-public final class CronTimeTriggerTestlet
-    extends AbstractTestlet
+public final class CronTimeTriggerTestCase
+    extends TestCase
 {
     protected final static long MINUTE = 60000;
     protected final static long HOUR = 60 * MINUTE;
     protected final static long DAY = 24 * HOUR;
     protected final static long WEEK = 7 * DAY;
+
+    public CronTimeTriggerTestCase( final String name )
+    {
+        super( name );
+    }
 
     public void testMinutes()
     {
@@ -37,7 +43,7 @@ public final class CronTimeTriggerTestlet
         for( int i = 0; i < 5; i++ )
         {
             final long delta = next - time;
-            assert("Time increments of 1 minute", MINUTE == delta );
+            assertEquals("Time increments of 1 minute", MINUTE, delta );
             time = next;
             next = trigger.getTimeAfter( time );
         }
@@ -56,7 +62,7 @@ public final class CronTimeTriggerTestlet
         long delta = next - time;
 
         final long expected = (51 - 2) * MINUTE;
-        assert( "Collect time at start", expected == delta );
+        assertEquals( "Collect time at start", expected, delta );
 
         time = next;
         next = trigger.getTimeAfter( time );
@@ -64,7 +70,7 @@ public final class CronTimeTriggerTestlet
         for( int i = 0; i < 5; i++ )
         {
             delta = next - time;
-            assert( "Time increments of 1 hour", HOUR == delta );
+            assertEquals( "Time increments of 1 hour", HOUR, delta );
             time = next;
             next = trigger.getTimeAfter( time );
         }
@@ -85,7 +91,7 @@ public final class CronTimeTriggerTestlet
 
         final long expected = (51 - 2) * MINUTE + HOUR * (5 - 3);
 
-        assert( "Collect time at start", expected == delta );
+        assertEquals( "Collect time at start", expected, delta );
 
         time = next;
         next = trigger.getTimeAfter( time );
@@ -93,7 +99,7 @@ public final class CronTimeTriggerTestlet
         for( int i = 0; i < 5; i++ )
         {
             delta = next - time;
-            assert( "Time increments of 1 day", DAY == delta );
+            assertEquals( "Time increments of 1 day", DAY, delta );
             time = next;
             next = trigger.getTimeAfter( time );
         }
@@ -113,7 +119,7 @@ public final class CronTimeTriggerTestlet
         long delta = next - time;
 
         final long expected = ( -2 ) * MINUTE + HOUR * (5 - 3);
-        assert( "Collect time at start", expected == delta );
+        assertEquals( "Collect time at start", expected, delta );
 
         time = next;
         next = trigger.getTimeAfter( time );
@@ -121,7 +127,7 @@ public final class CronTimeTriggerTestlet
         for( int i = 0; i < 5; i++ )
         {
             delta = next - time;
-            assert( "Time increments of 1 day", DAY == delta );
+            assertEquals( "Time increments of 1 day", DAY, delta );
             time = next;
             next = trigger.getTimeAfter( time );
         }
@@ -143,7 +149,7 @@ public final class CronTimeTriggerTestlet
         long delta = next - time;
 
         final long expected = ( -2 ) * MINUTE + HOUR * (5 - 3) + DAY * 6;
-        assert( "Collect time at start", expected == delta );
+        assertEquals( "Collect time at start", expected, delta );
 
         time = next;
         next = trigger.getTimeAfter( time );
@@ -151,7 +157,7 @@ public final class CronTimeTriggerTestlet
         for( int i = 0; i < 5; i++ )
         {
             delta = next - time;
-            assert( "Time increments of 1 hour", WEEK == delta );
+            assertEquals( "Time increments of 1 hour", WEEK, delta );
             time = next;
             next = trigger.getTimeAfter( time );
         }
@@ -173,7 +179,7 @@ public final class CronTimeTriggerTestlet
         long delta = next - time;
 
         final long expected = ( 1 ) * MINUTE + HOUR * (5 - 3) + DAY * 6;
-        assert( "Collect time at start", expected == delta );
+        assertEquals( "Collect time at start", expected, delta );
 
         time = next;
         next = trigger.getTimeAfter( time );
@@ -181,7 +187,7 @@ public final class CronTimeTriggerTestlet
         for( int i = 0; i < 5; i++ )
         {
             delta = next - time;
-            assert( "Time increments of 1 hour", WEEK == delta );
+            assertEquals( "Time increments of 1 hour", WEEK, delta );
             time = next;
             next = trigger.getTimeAfter( time );
         }
@@ -202,7 +208,7 @@ public final class CronTimeTriggerTestlet
         long delta = next - time;
 
         long expected = ( 1 ) * MINUTE + HOUR * (5 - 3) + DAY * 1;
-        assert( "Collect time at start", expected == delta );
+        assertEquals( "Collect time at start", expected, delta );
 
         int month = now.get( Calendar.MONTH );
 
@@ -215,10 +221,10 @@ public final class CronTimeTriggerTestlet
 
             now.setTime( new Date( next ) );
 
-            assert( "Minute", now.get( Calendar.MINUTE ) == 3 );
-            assert( "Hour of Day", now.get( Calendar.HOUR_OF_DAY ) == 5 );
-            assert( "Day of month", now.get( Calendar.DAY_OF_MONTH ) == 2 );
-            assert( "Month", now.get( Calendar.MONTH ) == month );
+            assertEquals( "Minute", now.get( Calendar.MINUTE ), 3 );
+            assertEquals( "Hour of Day", now.get( Calendar.HOUR_OF_DAY ), 5 );
+            assertEquals( "Day of month", now.get( Calendar.DAY_OF_MONTH ), 2 );
+            assertEquals( "Month", now.get( Calendar.MONTH ), month );
 
             time = next;
             next = trigger.getTimeAfter( time );
@@ -243,10 +249,10 @@ public final class CronTimeTriggerTestlet
 
         now.setTime( new Date( next ) );
 
-        assert( "Minute", now.get( Calendar.MINUTE ) == 0 );
-        assert( "Hour of Day", now.get( Calendar.HOUR_OF_DAY ) == 0 );
-        assert( "Day of month", now.get( Calendar.DAY_OF_MONTH ) == 1 );
-        assert( "Month", now.get( Calendar.MONTH ) == 4 );
+        assertEquals( "Minute", now.get( Calendar.MINUTE ), 0 );
+        assertEquals( "Hour of Day", now.get( Calendar.HOUR_OF_DAY ), 0 );
+        assertEquals( "Day of month", now.get( Calendar.DAY_OF_MONTH ), 1 );
+        assertEquals( "Month", now.get( Calendar.MONTH ), 4 );
 
         time = next;
         next = trigger.getTimeAfter( time );
@@ -259,10 +265,10 @@ public final class CronTimeTriggerTestlet
             //"/" + now.get( Calendar.MONTH ) + " " +
             //now.get( Calendar.HOUR ) + ":" + now.get( Calendar.MINUTE ) );
 
-            assert( "Minute", now.get( Calendar.MINUTE ) == 0 );
-            assert( "Hour of Day", now.get( Calendar.HOUR_OF_DAY ) == 0 );
-            assert( "Day of month", now.get( Calendar.DAY_OF_MONTH ) == 1 );
-            assert( "Month", now.get( Calendar.MONTH ) == 4 );
+            assertEquals( "Minute", now.get( Calendar.MINUTE ), 0 );
+            assertEquals( "Hour of Day", now.get( Calendar.HOUR_OF_DAY ), 0 );
+            assertEquals( "Day of month", now.get( Calendar.DAY_OF_MONTH ), 1 );
+            assertEquals( "Month", now.get( Calendar.MONTH ), 4 );
 
             time = next;
             next = trigger.getTimeAfter( time );
@@ -288,15 +294,15 @@ public final class CronTimeTriggerTestlet
 
         now.setTime( new Date( next ) );
 
-        assert( "Minute", now.get( Calendar.MINUTE ) == 0 );
-        assert( "Hour of Day", now.get( Calendar.HOUR_OF_DAY ) == 0 );
-        assert( "Day of month", now.get( Calendar.DAY_OF_MONTH ) == 1 );
-        assert( "Month", now.get( Calendar.MONTH ) == 0 );
-        assert( "year", now.get( Calendar.YEAR ) == 2020 );
+        assertEquals( "Minute", now.get( Calendar.MINUTE ), 0 );
+        assertEquals( "Hour of Day", now.get( Calendar.HOUR_OF_DAY ), 0 );
+        assertEquals( "Day of month", now.get( Calendar.DAY_OF_MONTH ), 1 );
+        assertEquals( "Month", now.get( Calendar.MONTH ), 0 );
+        assertEquals( "year", now.get( Calendar.YEAR ), 2020 );
 
         time = next;
         next = trigger.getTimeAfter( time );
-        assert( "year", -1 == next );
+        assertEquals( "year", -1, next );
     }
 
     public void testRolledMonthDay()
@@ -316,11 +322,11 @@ public final class CronTimeTriggerTestlet
 
         now.setTime( new Date( next ) );
 
-        assert( "Second", now.get( Calendar.SECOND ) == 0 );
-        assert( "Minute", now.get( Calendar.MINUTE ) == 0 );
-        assert( "Hour of Day", now.get( Calendar.HOUR_OF_DAY ) == 0 );
-        assert( "Day of month", now.get( Calendar.DAY_OF_MONTH ) == 5 );
-        assert( "Month", now.get( Calendar.MONTH ) == 2 );
+        assertEquals( "Second", now.get( Calendar.SECOND ), 0 );
+        assertEquals( "Minute", now.get( Calendar.MINUTE ), 0 );
+        assertEquals( "Hour of Day", now.get( Calendar.HOUR_OF_DAY ), 0 );
+        assertEquals( "Day of month", now.get( Calendar.DAY_OF_MONTH ), 5 );
+        assertEquals( "Month", now.get( Calendar.MONTH ), 2 );
     }
 
     public void testMaxDayBoundaries()
@@ -341,10 +347,10 @@ public final class CronTimeTriggerTestlet
 
         now.setTime( new Date( next ) );
 
-        assert( "Second", now.get( Calendar.SECOND ) == 0 );
-        assert( "Minute", now.get( Calendar.MINUTE ) == 0 );
-        assert( "Hour of Day", now.get( Calendar.HOUR_OF_DAY ) == 0 );
-        assert( "Month", now.get( Calendar.MONTH ) == 1 );
-        assert( "Day of month", now.get( Calendar.DAY_OF_MONTH ) == 28 );
+        assertEquals( "Second", now.get( Calendar.SECOND ), 0 );
+        assertEquals( "Minute", now.get( Calendar.MINUTE ), 0 );
+        assertEquals( "Hour of Day", now.get( Calendar.HOUR_OF_DAY ), 0 );
+        assertEquals( "Month", now.get( Calendar.MONTH ), 1 );
+        assertEquals( "Day of month", now.get( Calendar.DAY_OF_MONTH ), 28 );
     }
 }
