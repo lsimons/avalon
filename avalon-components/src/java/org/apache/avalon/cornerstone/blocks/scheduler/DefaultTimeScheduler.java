@@ -7,9 +7,7 @@
  */
 package org.apache.avalon.cornerstone.blocks.scheduler;
 
-import java.util.Hashtable;
-import java.util.NoSuchElementException;
-import java.util.ArrayList;
+import java.util.*;
 
 import org.apache.avalon.cornerstone.services.scheduler.Target;
 import org.apache.avalon.cornerstone.services.scheduler.TimeScheduler;
@@ -28,6 +26,7 @@ import org.apache.avalon.framework.service.Serviceable;
  *
  * @phoenix:block
  * @phoenix:service name="org.apache.avalon.cornerstone.services.scheduler.TimeScheduler"
+ * @phoenix:mx name="org.apache.avalon.cornerstone.blocks.scheduler.MonitorableTimeSchedulerMBean"
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  * @author <a href="mailto:ram.chidambaram@telus.com">Ram Chidambaram</a>
@@ -390,6 +389,21 @@ public class DefaultTimeScheduler
             triggerFailureListener.triggerFailure(t);
         }
 
+    }
+
+
+    /**
+     * Return a collection of the triggerable names.
+     * @return
+     */
+    public synchronized Collection getEntries() {
+        Collection coll = m_entries.keySet();
+        Vector retval = new Vector();
+        for (Iterator iterator = coll.iterator(); iterator.hasNext();) {
+            TimeScheduledEntry tse = (TimeScheduledEntry) m_entries.get((String) iterator.next());
+            retval.add(tse.toString());
+        }
+        return retval;
     }
 
 
