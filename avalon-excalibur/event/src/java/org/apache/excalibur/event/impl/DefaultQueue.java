@@ -69,7 +69,7 @@ public final class DefaultQueue extends AbstractQueue
 {
     private final Buffer m_elements;
     private final ReentrantLock m_mutex;
-    private int m_reserve;
+    protected int m_reserve;
     private final int m_maxSize;
 
     /**
