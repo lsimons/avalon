@@ -8,8 +8,6 @@
 package org.apache.avalon.phoenix.components.extensions;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.StringTokenizer;
 import org.apache.avalon.excalibur.extension.DefaultPackageRepository;
 import org.apache.avalon.excalibur.extension.PackageRepository;
 import org.apache.avalon.framework.activity.Disposable;
@@ -22,10 +20,8 @@ import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.phoenix.interfaces.ExtensionManagerMBean;
 
 /**
- * PhoenixPackageRepository
- *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2002/05/10 12:02:12 $
+ * @version $Revision: 1.2 $ $Date: 2002/07/14 01:36:29 $
  */
 public class DefaultExtensionManager
     extends DefaultPackageRepository
@@ -33,17 +29,7 @@ public class DefaultExtensionManager
     PackageRepository, ExtensionManagerMBean
 {
     private Logger m_logger;
-
-    /**
-     * An array of path elements. Each element designates a directory
-     * in which the ExtensionManager should scan for Extensions.
-     */
-    private String[] m_path;
-
-    public DefaultExtensionManager()
-    {
-        super( new File[ 0 ] );
-    }
+    private String m_rawPath;
 
     public void enableLogging( final Logger logger )
     {
@@ -55,66 +41,13 @@ public class DefaultExtensionManager
     {
         final String phoenixHome = parameters.getParameter( "phoenix.home" );
         final String defaultExtPath = phoenixHome + File.separator + "ext";
-        final String rawPath =
-            parameters.getParameter( "phoenix.ext.path", defaultExtPath );
-        m_path = split( rawPath, "|" );
-
-        final File[] dirs = new File[ m_path.length ];
-        for( int i = 0; i < dirs.length; i++ )
-        {
-            try
-            {
-                dirs[ i ] = ( new File( m_path[ i ] ) ).getCanonicalFile();
-            }
-            catch( final IOException ioe )
-            {
-                throw new ParameterException( "Malformed entry in path '" + m_path[ i ] +
-                                              ". Unable to determine file for entry", ioe );
-            }
-        }
-
-        for( int i = 0; i < dirs.length; i++ )
-        {
-            m_path[ i ] = dirs[ i ].toString();
-        }
+        m_rawPath = parameters.getParameter( "phoenix.ext.path", defaultExtPath );
     }
 
     public void initialize()
         throws Exception
     {
-        final File[] dirs = new File[ m_path.length ];
-        for( int i = 0; i < dirs.length; i++ )
-        {
-            dirs[ i ] = new File( m_path[ i ] );
-        }
-
-        setPath( dirs );
-
-        scanPath();
-    }
-
-    /**
-     * Retrieve an array of paths where each
-     * element in array represents a directory
-     * in which the ExtensionManager will look
-     * for Extensions.
-     *
-     * @return the list of paths to search in
-     */
-    public String[] getPaths()
-    {
-        return m_path;
-    }
-
-    /**
-     * Force the ExtensionManager to rescan the paths
-     * to discover new Extensions that have been added
-     * or remove old Extensions that have been removed.
-     *
-     */
-    public void rescanPath()
-    {
-        clearCache();
+        setPath( m_rawPath );
         scanPath();
     }
 
@@ -123,30 +56,13 @@ public class DefaultExtensionManager
         clearCache();
     }
 
+    public void rescanPath()
+    {
+        super.scanPath();
+    }
+
     protected void debug( final String message )
     {
         m_logger.debug( message );
     }
-
-
-    /**
-     * Splits the string on every token into an array of strings.
-     *
-     * @param string the string
-     * @param onToken the token
-     * @return the resultant array
-     */
-    private static String[] split( final String string, final String onToken )
-    {
-        final StringTokenizer tokenizer = new StringTokenizer( string, onToken );
-        final String[] result = new String[ tokenizer.countTokens() ];
-
-        for( int i = 0; i < result.length; i++ )
-        {
-            result[ i ] = tokenizer.nextToken();
-        }
-
-        return result;
-    }
-
 }
