@@ -5,10 +5,11 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE file.
  */
-package org.apache.avalon.framework.camelot;
+package org.apache.avalon.phoenix.components.deployer;
 
 import java.net.URL;
 import org.apache.avalon.framework.component.Component;
+import org.apache.avalon.phoenix.components.installer.Installation;
 
 /**
  * A Deployer is responsible for taking a URL (ie a jar/war/ear) and deploying
@@ -22,16 +23,16 @@ import org.apache.avalon.framework.component.Component;
 public interface Deployer
     extends Component
 {
-    String ROLE = "org.apache.avalon.framework.camelot.Deployer";
+    String ROLE = "org.apache.avalon.phoenix.components.deployer.Deployer";
 
     /**
-     * Deploy a resource indicate by url to location.
+     * Deploy an installation.
      *
      * @param name the name of deployment
-     * @param url the url of deployment
+     * @param installation the installation to deploy
      * @exception DeploymentException if an error occurs
      */
-    void deploy( String name, URL url )
+    void deploy( String name, Installation installation )
         throws DeploymentException;
 
     /**
