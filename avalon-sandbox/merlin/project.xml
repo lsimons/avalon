@@ -193,6 +193,7 @@
             <include>**/*.xservice</include>
             <include>**/*.mf</include>
             <include>**/*.jar</include>
+            <include>**/*.properties</include>
           </includes>
         </resource>
         <resource>
