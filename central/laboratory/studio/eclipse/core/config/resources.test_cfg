@@ -46,6 +46,11 @@
             <packageName>tutorial</packageName>
           </Resource>
           <Resource>
+            <rootSegment>src</rootSegment>
+            <sourceFilePathName>/D:/Avalon/studio/eclipse/core/templates/context/standard/HelloComponent.xinfo</sourceFilePathName>
+            <packageName>tutorial</packageName>
+          </Resource>
+          <Resource>
             <rootSegment>src/BLOCK-INF</rootSegment>
             <sourceFilePathName>/D:/Avalon/studio/eclipse/core/templates/context/standard/block.xml</sourceFilePathName>
             <packageName></packageName>
