@@ -19,20 +19,23 @@ import org.apache.avalon.Initializable;
 import org.apache.avalon.Loggable;
 import org.apache.avalon.Startable;
 import org.apache.avalon.atlantis.ApplicationException;
+import org.apache.avalon.camelot.Factory;
+import org.apache.avalon.camelot.SimpleFactory;
 import org.apache.avalon.configuration.Configurable;
 import org.apache.avalon.configuration.Configuration;
 import org.apache.avalon.util.thread.ThreadContext;
 import org.apache.avalon.util.thread.ThreadManager;
+import org.apache.phoenix.Block;
 import org.apache.phoenix.BlockContext;
 import org.apache.phoenix.engine.SarContextResources;
 import org.apache.phoenix.engine.blocks.BlockEntry;
 import org.apache.phoenix.engine.blocks.BlockVisitor;
 import org.apache.phoenix.engine.blocks.DefaultBlockContext;
-import org.apache.phoenix.engine.facilities.ComponentBuilder;
 import org.apache.phoenix.engine.facilities.ComponentManagerBuilder;
 import org.apache.phoenix.engine.facilities.ConfigurationRepository;
-import org.apache.phoenix.engine.facilities.ContextBuilder;
 import org.apache.phoenix.engine.facilities.LoggerBuilder;
+import org.apache.phoenix.metainfo.BlockUtil;
+import org.apache.phoenix.metainfo.ServiceDescriptor;
 
 /**
  *
@@ -43,11 +46,13 @@ public class StartupPhase
     implements BlockVisitor, Contextualizable, Composer
 {
     private ClassLoader                 m_classLoader;
-    private ComponentBuilder            m_componentBuilder;
     private LoggerBuilder               m_loggerBuilder;
     private ComponentManagerBuilder     m_componentManagerBuilder;
     private ConfigurationRepository     m_repository;
     private ThreadManager               m_threadManager;
+
+    ///Factory used to build instance of Block
+    private Factory                  m_factory;
 
     ///base context used to setup hosted blocks
     private DefaultContext           m_baseBlockContext;
@@ -69,11 +74,10 @@ public class StartupPhase
     {
         m_classLoader = (ClassLoader)componentManager.lookup( "java.lang.ClassLoader" );
 
+        m_factory = new SimpleFactory( m_classLoader );
+
         m_threadManager = (ThreadManager)componentManager.
             lookup( "org.apache.avalon.util.thread.ThreadManager" );
-
-        m_componentBuilder = (ComponentBuilder)componentManager.
-            lookup( "org.apache.phoenix.engine.facilities.ComponentBuilder" );
 
         m_loggerBuilder = (LoggerBuilder)componentManager.
             lookup( "org.apache.phoenix.engine.facilities.LoggerBuilder" );
@@ -110,7 +114,7 @@ public class StartupPhase
         {
             //Creation stage
             getLogger().debug( "Pre-Creation Stage" );
-            final Object object = m_componentBuilder.createComponent( name, entry );
+            final Object object = createBlock( name, entry );
             entry.setInstance( object );
             getLogger().debug( "Creation successful." );
 
@@ -175,7 +179,50 @@ public class StartupPhase
         }
     }
 
-    protected Context createContext( final String name )
+    private Object createBlock( final String name, final BlockEntry entry )
+        throws Exception
+    {
+        getLogger().info( "Creating block " + name );
+
+        final Block block = (Block)m_factory.create( entry.getLocator(), Block.class );
+
+        getLogger().debug( "Created block" );
+
+        verifyBlockServices( name, entry, block );
+
+        getLogger().debug( "Verified block services" );
+
+        return block;
+    }
+
+    /**
+     * Verify that all the services that a block
+     * declares it provides are actually provided.
+     *
+     * @param name the name of block
+     * @param blockEntry the blockEntry
+     * @param block the Block
+     * @exception ApplicationException if verification fails
+     */
+    private void verifyBlockServices( final String name,
+                                      final BlockEntry entry,
+                                      final Block block )
+        throws ApplicationException
+    {
+        final ServiceDescriptor[] services = entry.getBlockInfo().getServices();
+        for( int i = 0; i < services.length; i++ )
+        {
+            if( false == BlockUtil.implementsService( block, services[ i ] ) )
+            {
+                final String message = "Block " + name + " fails to implement " +
+                    "advertised service " + services[ i ];
+                getLogger().warn( message );
+                throw new ApplicationException( message );
+            }
+        }
+    }
+
+    private Context createContext( final String name )
     {
         final DefaultBlockContext context =
             new DefaultBlockContext( getLogger(), m_threadManager, m_baseBlockContext );

@@ -74,15 +74,4 @@ public class BlockEntry
     {
         m_configuration = configuration;
     }
-/*
-    public Block getBlock()
-    {
-        return (Block)getInstance();
-    }
-
-    public void setBlock( final Block block )
-    {
-        setInstance( block );
-    }
-*/
 }
