@@ -404,6 +404,19 @@ public class Resources
     }
 
     /**
+     * Retrieve a raw string from bundle.
+     *
+     * @param key the key of resource
+     * @return the resource string
+     */
+    public String getString( final String key )
+        throws MissingResourceException
+    {
+        final ResourceBundle bundle = getBundle();
+        return bundle.getString( key );
+    }
+
+    /**
      * Retrieve a string from resource bundle and format it with specified args.
      *
      * @param key the key for resource
@@ -524,19 +537,6 @@ public class Resources
 
             return sb.toString();
         }
-    }
-
-    /**
-     * Retrieve a raw string from bundle.
-     *
-     * @param key the key of resource
-     * @return the resource string
-     */
-    public String getString( final String key )
-        throws MissingResourceException
-    {
-        final ResourceBundle bundle = getBundle();
-        return bundle.getString( key );
     }
 
     /**
