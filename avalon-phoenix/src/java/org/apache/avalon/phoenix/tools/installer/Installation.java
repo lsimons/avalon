@@ -127,7 +127,7 @@ public final class Installation
      *
      * @return the file digest list.
      */
-    FileDigest[] getFileDigests()
+    public FileDigest[] getFileDigests()
     {
         return m_digests;
     }    
@@ -136,7 +136,7 @@ public final class Installation
      *
      * @return the timestamp when installation occured.
      */
-    long getTimestamp()
+    public long getTimestamp()
     {
         return m_timestamp;
     }
