@@ -91,6 +91,7 @@ import org.apache.avalon.phoenix.interfaces.LogManager;
 import org.apache.avalon.phoenix.tools.configuration.ConfigurationBuilder;
 import org.apache.avalon.phoenix.tools.verifier.SarVerifier;
 import org.apache.avalon.phoenix.tools.verifier.VerifyException;
+import org.xml.sax.InputSource;
 
 /**
  * Deploy .sar files into a kernel using this class.
@@ -487,7 +488,7 @@ public class DefaultDeployer
         final String location = (String)install.get(key );
         try
         {
-            return ConfigurationBuilder.build( location );
+            return ConfigurationBuilder.build( new InputSource( location ), false );
         }
         catch( final Exception e )
         {
