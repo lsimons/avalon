@@ -122,7 +122,8 @@ public class NamespacedSAXConfigurationHandler
                                                         final String namespaceURI,
                                                         final String location )
     {
-        final String prefix = m_namespaceSupport.getPrefix( namespaceURI );
+        String prefix = m_namespaceSupport.getPrefix( namespaceURI );
+        if (prefix == null) prefix = "";
         return new DefaultConfiguration( localName, location, namespaceURI, prefix );
     }
 

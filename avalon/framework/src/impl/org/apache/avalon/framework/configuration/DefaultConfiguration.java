@@ -44,6 +44,13 @@ public class DefaultConfiguration
 
     /**
      * Create a new <code>DefaultConfiguration</code> instance.
+     * @param name config node name
+     * @param location Builder-specific locator string
+     * @param ns Namespace string (typically a URI). Should not be null; use ""
+     * if no namespace.
+     * @param prefix A short string prefixed to element names, associating
+     * elements with a longer namespace string. Should not be null; use "" if no
+     * namespace.
      */
     public DefaultConfiguration( final String name, 
                                  final String location, 
@@ -53,7 +60,7 @@ public class DefaultConfiguration
         m_name = name;
         m_location = location;
         m_namespace = ns;
-        m_prefix = prefix;  // only used as a serialization hint
+        m_prefix = prefix;  // only used as a serialization hint. Cannot be null
     }
 
     /**
@@ -67,17 +74,37 @@ public class DefaultConfiguration
     /**
      * Returns the namespace of this configuration element
      */
-    public String getNamespace()
+    public String getNamespace() throws ConfigurationException
     {
-        return m_namespace;
-    }
+        if( null != m_namespace )
+        {
+            return m_namespace;
+        }
+        else
+        {
+            throw new ConfigurationException( "No namespace (not even default \"\") is associated with the "+
+                                              "configuration element \"" + getName() +
+                                              "\" at " + getLocation() );
+        }
+     }
 
     /**
      * Returns the prefix of the namespace
+     * @throws ConfigurationException if prefix is not present (<code>null</code>).
      */
-    protected String getPrefix()
+    protected String getPrefix() throws ConfigurationException
     {
-        return m_prefix;
+        if( null != m_prefix )
+        {
+            return m_prefix;
+        }
+        else
+        {
+            throw new ConfigurationException( "No prefix (not even default \"\") is associated with the "+
+                                              "configuration element \"" + getName() +
+                                              "\" at " + getLocation() );
+        }
+ 
     }
 
     /**

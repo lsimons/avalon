@@ -15,7 +15,7 @@ package org.apache.avalon.framework.configuration;
  * @author <a href="mailto:stefano@apache.org">Stefano Mazzocchi</a>
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
  * @author <a href="mailto:fumagalli@exoffice.com">Pierpaolo Fumagalli</a>
- * @version CVS $Revision: 1.10 $ $Date: 2001/11/19 16:59:15 $
+ * @version CVS $Revision: 1.11 $ $Date: 2001/12/10 05:05:44 $
  */
 public abstract class AbstractConfiguration
     implements Configuration
@@ -24,8 +24,11 @@ public abstract class AbstractConfiguration
      * Returns the prefix of the namespace.  This is only used as a serialization
      * hint, therefore is not part of the client API.  It should be included in
      * all Configuration implementations though.
+     * @return A non-null String (defaults to "")
+     * @throws ConfigurationException if no prefix was defined (prefix is
+     * <code>null</code>.
      */
-    protected abstract String getPrefix();
+    protected abstract String getPrefix() throws ConfigurationException;
 
     /**
      * Returns the value of the configuration element as an <code>int</code>.

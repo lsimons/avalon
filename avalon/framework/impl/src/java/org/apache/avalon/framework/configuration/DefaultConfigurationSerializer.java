@@ -83,7 +83,7 @@ public class DefaultConfigurationSerializer
      * be set before calling this method.
      */
     protected void serialize( final Configuration source )
-        throws SAXException
+        throws SAXException, ConfigurationException
     {
         m_namespaceSupport.reset();
         m_handler.startDocument();
@@ -95,7 +95,7 @@ public class DefaultConfigurationSerializer
      * Serialize each Configuration element.  This method is called recursively.
      */
     protected void serializeElement( final Configuration element )
-        throws SAXException
+        throws SAXException, ConfigurationException
     {
         m_namespaceSupport.pushContext();
 
@@ -106,8 +106,12 @@ public class DefaultConfigurationSerializer
         {
             for (int i = 0; i < attrNames.length; i++)
             {
-                attr.addAttribute("", attrNames[i], attrNames[i], "CDATA",
-                                  element.getAttribute(attrNames[i], ""));
+                attr.addAttribute("", // namespace URI
+                                  attrNames[i], // local name
+                                  attrNames[i], // qName
+                                  "CDATA",  // type
+                                   element.getAttribute(attrNames[i], "") // value
+                                 );
             }
         }
 
@@ -118,14 +122,31 @@ public class DefaultConfigurationSerializer
         {
             nsPrefix = ((AbstractConfiguration) element).getPrefix();
         }
+        // nsPrefix is guaranteed to be non-null at this point.
 
         boolean nsWasDeclared = false;
 
-        // Is this namespace already declared?
         final String existingURI = m_namespaceSupport.getURI( nsPrefix );
+
+        // ie, there is no existing URI declared for this prefix or we're
+        // remapping the prefix to a different URI
         if ( existingURI == null || !existingURI.equals( nsURI ) )
         {
             nsWasDeclared = true;
+            if (nsPrefix.equals("") && nsURI.equals(""))
+            {
+                // implicit mapping; don't need to declare
+            }
+            else if (nsPrefix.equals(""))
+            {
+                // (re)declare the default namespace
+                attr.addAttribute("", "xmlns", "xmlns", "CDATA", nsURI);
+            }
+            else
+            {
+                // (re)declare a mapping from nsPrefix to nsURI
+                attr.addAttribute("", "xmlns:"+nsPrefix, "xmlns:"+nsPrefix, "CDATA", nsURI);
+            }
             m_handler.startPrefixMapping( nsPrefix, nsURI );
             m_namespaceSupport.declarePrefix( nsPrefix, nsURI );
         }
