@@ -1,13 +1,9 @@
-ant.properties
 build
-lib
 dist
-checkstyle.cache
-kernel.log
-extensions
 distributions
-common
-working
+merlin
+ant.properties
+checkstyle.cache
 velocity.log
 project.xml
 project.properties
