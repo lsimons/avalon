@@ -88,7 +88,7 @@
         <table>
           <tr><th>Property</th><th>Default Value</th><th>Description</th></tr>
           <tr>
-            <td>${avalon.repository.implementation}</td>
+            <td>avalon.repository.implementation</td>
             <td></td>
             <td>The default implementation artifact specification. The bootstrap
             system will atrempt to locate a value for this property when 
@@ -99,7 +99,7 @@
             resource.</td>
           </tr>
           <tr>
-            <td>${avalon.repository.cache}</td>
+            <td>avalon.repository.cache</td>
             <td>${avalon.home}</td>
             <td>The default cache. In undefined in a property file, the value
              defaults to an equivalent system property and if underfined, will 
@@ -108,7 +108,7 @@
              revert to ${user.home}/.avalon.</td>
           </tr>
           <tr>
-            <td>${avalon.repository.hosts}</td>
+            <td>avalon.repository.hosts</td>
             <td>http://dpml.net,http://ibiblio.org/maven</td>
             <td>The default remote hosts expressed as a comma seperated 
             sequence of host urls.  File or http urls may be supplied.</td>

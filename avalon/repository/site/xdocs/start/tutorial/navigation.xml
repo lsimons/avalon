@@ -77,6 +77,11 @@
       <item name="Roadmap" href="/resources/roadmap.html"/>
     </menu>
 
+    <menu name="Related Projects">
+      <item name="Merlin" href="http://avalon.apache.org/merlin"/>
+      <item name="Utilities" href="http://avalon.apache.org/util"/>
+    </menu>
+
  </body>
 
 </project>
