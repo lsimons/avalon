@@ -16,6 +16,38 @@
  limitations under the License.
  -->
 
-<project default="multiproject:install">
+<project default="multiproject:install" xmlns:util="jelly:util" xmlns:j="jelly:core" xmlns:ant="jelly:ant">
+
+  <postGoal name="multiproject:site-init">
+    <ant:mkdir dir="${maven.build.dir}/docs/style"/>
+    <ant:copy toDir="${maven.build.dir}/docs/style">
+      <fileset dir="${basedir}/site/etc">
+        <include name="maven.css"/>
+        <include name="tigris.css"/>
+      </fileset>
+    </ant:copy>
+  </postGoal>
+
+  <preGoal name="xdoc:transform">
+    <ant:mkdir dir="${maven.build.dir}/docs/style"/>
+    <util:file var="etcDir" name="${basedir}/site/etc"/>
+    <j:if test="${etcDir.exists()}">
+      <ant:copy toDir="${maven.build.dir}/docs/style">
+        <fileset dir="${basedir}/site/etc">
+          <include name="maven.css"/>
+          <include name="tigris.css"/>
+        </fileset>
+      </ant:copy>
+    </j:if>
+    <util:file var="etcDir" name="${basedir}/../site/etc"/>
+    <j:if test="${etcDir.exists()}">
+      <ant:copy toDir="${maven.build.dir}/docs/style">
+        <fileset dir="${basedir}/../site/etc">
+          <include name="maven.css"/>
+          <include name="tigris.css"/>
+        </fileset>
+      </ant:copy>
+    </j:if>
+  </preGoal>
 
 </project>
