@@ -67,5 +67,5 @@ public interface AvailabilityAware
      * @param key The key that was used to lookup the component in the 
      *            ServiceManager earlier.
      */
-    void componentUnavailble( String key );
+    void componentUnavailable( String key );
 }
