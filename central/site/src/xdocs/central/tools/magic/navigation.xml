@@ -24,9 +24,9 @@
  <body>
     <menu>
       <item name="System Model" href="model/index.html"/>
+      <item name="Magic Tasks" href="tasks/index.html"/>
       <!--
       <item name="Targets" href="targets/index.html"/>
-      <item name="Tasks" href="tasks/index.html"/>
       -->
     </menu>
  </body>
