@@ -55,7 +55,7 @@ import java.net.URL;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 
-import org.apache.avalon.assembly.locator.DefaultLocator;
+import org.apache.avalon.assembly.locator.impl.DefaultLocator;
 import org.apache.avalon.merlin.block.Block;
 import org.apache.avalon.merlin.kernel.Kernel;
 import org.apache.avalon.merlin.kernel.impl.DefaultKernel;
