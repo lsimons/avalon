@@ -242,7 +242,8 @@ Legal:
            destdir="${build.classes}"
            debug="${build.debug}"
            optimize="${build.optimize}"
-           deprecation="${build.deprecation}">
+           deprecation="${build.deprecation}"
+           target="1.2">
       <classpath refid="project.class.path" />
       <src path="${test.dir}"/>
       <src path="${build.src}"/>

@@ -163,7 +163,8 @@ Legal:
            destdir="${build.classes}"
            debug="${debug}"
            optimize="${optimize}"
-           deprecation="${deprecation}">
+           deprecation="${deprecation}"
+           target="1.2">
       <classpath refid="project.class.path" />
       <src path="${test.dir}"/>
       <exclude name="org/apache/avalon/framework/logger/Log4JLogger.java"
@@ -182,7 +183,8 @@ Legal:
            destdir="${build.classes}"
            debug="${debug}"
            optimize="${optimize}"
-           deprecation="${deprecation}">
+           deprecation="${deprecation}"
+           target="1.2">
       <include name="org/apache/avalon/framework/ExceptionUtil.java" />
       <include name="org/apache/avalon/framework/Cascading*" />
     </javac>
