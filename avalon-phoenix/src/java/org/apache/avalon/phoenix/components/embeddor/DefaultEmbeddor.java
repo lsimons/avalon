@@ -13,7 +13,6 @@ import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.excalibur.io.ExtensionFileFilter;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.atlantis.Application;
-import org.apache.avalon.framework.atlantis.Embeddor;
 import org.apache.avalon.phoenix.components.manager.SystemManager;
 import org.apache.avalon.framework.camelot.Container;
 import org.apache.avalon.framework.camelot.Deployer;
