@@ -14,6 +14,7 @@ import org.apache.avalon.excalibur.container.ContainerException;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.component.ComponentManager;
+import org.apache.avalon.excalibur.container.Container;
 
 /**
  * Embeddor to host only a single application.
@@ -31,7 +32,7 @@ public class SingleAppEmbeddor
     implements ComponentManager
 {
     ///Sole application hosted in kernel
-    private Application    m_application;
+    private Container    m_application;
 
     /**
      * Deploy a single application.
@@ -47,7 +48,7 @@ public class SingleAppEmbeddor
         final File directory = new File( applicationLocation );
         deployFile( applicationName, directory );
 
-        m_application = (Application)getKernel().getEntry( applicationName ).getInstance();
+        m_application = (Container)getKernel().getEntry( applicationName ).getInstance();
     }
 
     /**
