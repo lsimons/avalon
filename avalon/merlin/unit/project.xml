@@ -32,18 +32,17 @@
 
   </dependencies>
 
+  <!--
   <build>
 
     <sourceDirectory>${basedir}/src/java/</sourceDirectory>
     <unitTestSourceDirectory>${basedir}/src/test/</unitTestSourceDirectory>
 
     <unitTest>
-      <!-- -->
       <includes>
         <include>**/*Test.*</include>
         <include>**/*TestCase.*</include>
       </includes>
-      <!-- -->
       <excludes>
         <exclude>**/Abstract*.*</exclude>
       </excludes>
@@ -76,5 +75,6 @@
     <jars></jars>
 
   </build>
+  -->
 
 </project>
