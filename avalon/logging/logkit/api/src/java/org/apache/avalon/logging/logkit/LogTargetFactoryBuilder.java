@@ -29,8 +29,8 @@ import org.apache.avalon.repository.provider.Factory;
 /**
  * A LogTargetFactoryBuilder provides support for the establishment of 
  * new logging targets.
- * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.1 $ $Date: 2004/02/04 20:48:56 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Revision: 1.2 $ $Date: 2004/02/24 21:55:39 $
  */
 public interface LogTargetFactoryBuilder
 {

@@ -137,10 +137,8 @@ import org.apache.avalon.logging.logkit.FormatterFactory;
  *  </dd>
  * </dl>
  *
- * @author <a href="mailto:giacomo@apache.org">Giacomo Pati</a>
- * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version CVS $Revision: 1.1 $ $Date: 2004/02/04 20:49:09 $
- * @since 4.0
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version CVS $Revision: 1.2 $ $Date: 2004/02/24 21:55:39 $
  */
 public class FileTargetFactory implements LogTargetFactory
 {

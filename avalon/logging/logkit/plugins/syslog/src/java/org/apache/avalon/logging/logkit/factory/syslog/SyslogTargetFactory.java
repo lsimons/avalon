@@ -58,9 +58,8 @@ import org.apache.log.output.net.SocketOutputTarget;
  *  wraps the format to output the log.
  * </p>
  *
- * @author <a href="mailto:sshort@postx.com"> Steve Short </a>
- * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.1 $ $Date: 2004/02/20 22:44:11 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Revision: 1.2 $ $Date: 2004/02/24 21:55:40 $
  */
 public class SyslogTargetFactory implements LogTargetFactory
 {

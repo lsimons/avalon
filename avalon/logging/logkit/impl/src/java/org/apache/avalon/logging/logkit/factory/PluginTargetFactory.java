@@ -52,8 +52,8 @@ import org.apache.log.output.net.DatagramOutputTarget;
  * A log target factory that establishes log targets based on a 
  * artifact reference.
  *
- * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.1 $ $Date: 2004/02/04 20:49:10 $
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ * @version $Revision: 1.2 $ $Date: 2004/02/24 21:55:39 $
  */
 public class PluginTargetFactory implements LogTargetFactory
 {
