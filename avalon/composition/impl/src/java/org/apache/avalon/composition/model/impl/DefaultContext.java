@@ -17,8 +17,10 @@
 
 package org.apache.avalon.composition.model.impl;
 
+import java.util.Map;
+
 import org.apache.avalon.composition.model.ModelRuntimeException;
-import org.apache.avalon.composition.provider.ComponentContext;
+import org.apache.avalon.composition.model.EntryModel;
 
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
@@ -33,7 +35,7 @@ import org.apache.avalon.excalibur.i18n.Resources;
  * the request to an assigned model.</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2004/02/10 16:23:33 $
+ * @version $Revision: 1.6 $ $Date: 2004/02/22 16:12:58 $
  */
 public final class DefaultContext implements Context
 {
@@ -48,7 +50,7 @@ public final class DefaultContext implements Context
     // immutable state
     //==============================================================
 
-    private final ComponentContext m_context;
+    private final Map m_map;
 
     //==============================================================
     // constructor
@@ -59,9 +61,9 @@ public final class DefaultContext implements Context
     *
     * @param context the deployment context
     */
-    public DefaultContext( ComponentContext context )
+    public DefaultContext( Map map )
     {
-        m_context = context;
+        m_map = map;
     }
     
     //==============================================================
@@ -73,7 +75,7 @@ public final class DefaultContext implements Context
     * is unknown a {@link ContextException} containing the key as 
     * as the exception message and a null cause will be thrown.  If 
     * the contrext entry is recognized and a error occurs during 
-    * value resolvution a {@link ContextException} will be thrown 
+    * value resolution a {@link ContextException} will be thrown 
     * containing the causal exception.
     * 
     * @param key the context entry key
@@ -82,11 +84,19 @@ public final class DefaultContext implements Context
     */
     public Object get( final Object key ) throws ContextException
     {
+        EntryModel model = (EntryModel) m_map.get( key.toString() );
+        if( null == model ) 
+        {
+            final String error = 
+              REZ.getString( "context.entry.key.error", key );
+            throw new ContextException( error );
+        }
+
         try
         {
-            return m_context.resolve( key.toString() );
+            return model.getValue();
         }
-        catch( ModelRuntimeException e )
+        catch( Throwable e )
         {
             final String error = 
               REZ.getString( "context.entry.model.error", key );

@@ -41,7 +41,7 @@ import org.apache.excalibur.configuration.ConfigurationUtil;
  * Write a {@link ComponentProfile} to a stream as xml documents.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.4 $ $Date: 2004/02/21 13:27:03 $
+ * @version $Revision: 1.5 $ $Date: 2004/02/22 16:12:58 $
  */
 public class XMLComponentProfileWriter
 {
@@ -363,10 +363,6 @@ public class XMLComponentProfileWriter
         if( context.getClassname() != null )
         {
             writer.write( " class=\"" + context.getClassname() + "\"");
-        }
-        if( context.getSource() != null )
-        {
-            writer.write( " source=\"" + context.getSource() + "\"");
         }
 
         EntryDirective[] entries = context.getEntryDirectives();

@@ -32,6 +32,8 @@ public class ContextTestCase extends AbstractTestCase
    private static final String FACADE_CLASSNAME =
      "org.apache.avalon.composition.model.testa.DefaultFacade";
       
+   private Context context;
+
    //-------------------------------------------------------
    // constructor
    //-------------------------------------------------------
@@ -41,42 +43,47 @@ public class ContextTestCase extends AbstractTestCase
         super( "context.xml" );
     }
 
+    public void setUp() throws Exception
+    {
+        super.setUp();
+
+        ComponentModel model = (ComponentModel) m_model.getModel( "test-a" );
+        if( null == model )
+        {
+            throw new IllegalStateException( "null deployment model" );
+        }
+
+        ContextModel contextModel = model.getContextModel();
+        if( null == contextModel )
+        {
+            throw new IllegalStateException( "null context model" );
+        }
+
+        context = contextModel.getContext();
+        if( null == context )
+        {
+            throw new IllegalStateException( "null context" );
+        }
+    }
+
    //-------------------------------------------------------
    // tests
    //-------------------------------------------------------
 
-   /**
-    * Validate the composition model.
-    */
-    public void testStandardContextModel() throws Exception
+    public void testClassLoader() throws Exception
     {
-        ComponentModel model = (ComponentModel) m_model.getModel( "test-a" );
-        if( model == null )
-        {
-            fail( "null deployment model" );
-        }
-
-        ContextModel contextModel = model.getContextModel();
-        if( contextModel == null )
-        {
-            fail( "null context model" );
-        }
-
-        Context context = contextModel.getContext();
-        if( context == null )
-        {
-            fail( "null context" );
-        }
-
         try
         {
             ClassLoader loader = (ClassLoader) context.get( "urn:avalon:classloader" );
         }
         catch( ContextException e )
         {
-            assertTrue( "urn:avalon:classloader", false );
+            fail( "urn:avalon:classloader" );
         }
-        
+    }
+
+    public void testHomeDirectory() throws Exception
+    {   
         try
         {
             File home = (File) context.get( "urn:avalon:home" );
@@ -85,7 +92,10 @@ public class ContextTestCase extends AbstractTestCase
         {
             assertTrue( "urn:avalon:home", false );
         }
+    }
 
+    public void testTempDirectory() throws Exception
+    {
         try
         {
             File temp = (File) context.get( "urn:avalon:temp" );
@@ -94,16 +104,22 @@ public class ContextTestCase extends AbstractTestCase
         {
             assertTrue( "urn:avalon:temp", false );
         }
+    }
 
+    public void testPartition() throws Exception
+    {
         try
         {
             String partition = (String) context.get( "urn:avalon:partition" );
         }
         catch( ContextException e )
         {
-            assertTrue( "urn:avalon:partition", false );
+            fail( "urn:avalon:partition" );
         }
+    }
 
+    public void testAlias() throws Exception
+    {
         //
         // validate context entry lookup using an alias
         //
@@ -114,8 +130,12 @@ public class ContextTestCase extends AbstractTestCase
         }
         catch( ContextException e )
         {
-            assertTrue( "name", false );
+            fail( "alias based lookup of the component name" );
         }
+   }
+
+    public void testVolatile() throws Exception
+    {
 
         //
         // validate volatile entries
@@ -148,7 +168,10 @@ public class ContextTestCase extends AbstractTestCase
         {
             assertTrue( "now", false );
         }
+    }
 
+    public void testImport() throws Exception
+    {
         //
         // validate an imported context entry
         //
@@ -159,9 +182,12 @@ public class ContextTestCase extends AbstractTestCase
         }
         catch( ContextException e )
         {
-            assertTrue( "path", false );
+            fail( "path import" );
         }
+    }
 
+    public void testContextCasting() throws Exception
+    {
         //
         // validate context safe-casting
         // (e.g. ((MyContext)m_context).myMethod() type of thing)

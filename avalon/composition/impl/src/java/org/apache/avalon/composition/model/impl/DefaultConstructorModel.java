@@ -22,6 +22,7 @@ import java.util.Map;
 
 import org.apache.avalon.composition.data.ConstructorDirective;
 import org.apache.avalon.composition.data.Parameter;
+import org.apache.avalon.composition.model.EntryModel;
 import org.apache.avalon.composition.model.ModelException;
 import org.apache.avalon.composition.provider.ComponentContext;
 
@@ -37,7 +38,7 @@ import org.apache.avalon.meta.info.EntryDescriptor;
  * Default implementation of a the context entry constructor model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2004/02/10 16:23:33 $
+ * @version $Revision: 1.6 $ $Date: 2004/02/22 16:12:58 $
  */
 public class DefaultConstructorModel extends DefaultEntryModel
 {
@@ -409,24 +410,23 @@ public class DefaultConstructorModel extends DefaultEntryModel
             if ( argument.endsWith( "}" ) )
             {
                 final String key = argument.substring( 2, argument.length() - 1 );
-                Object value = null;
-                try
+                Object value = m_map.get( key );
+                if ( value != null )
                 {
-                    return m_context.resolve( key );
-                }
-                catch( ContextException e )
-                {
-                    value = m_map.get( key );
-                    if ( value != null )
+                    if( value instanceof EntryModel )
                     {
-                        return value;
+                        return ((EntryModel)value).getValue();
                     }
                     else
                     {
-                        final String error = 
-                          "Unresolvable primative context value: '" + key + "'.";
-                        throw new ModelException( error );
+                        return value;
                     }
+                }
+                else
+                {
+                    final String error = 
+                      "Unresolvable primative context value: '" + key + "'.";
+                    throw new ModelException( error );
                 }
             }
             else

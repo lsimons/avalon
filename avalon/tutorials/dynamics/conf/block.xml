@@ -1,6 +1,14 @@
 
 <container name="tutorial">
 
-   <component name="hello" class="tutorial.HelloFacility" activation="startup"/>
+     <classloader>
+       <classpath>
+         <repository>
+           <resource id="avalon-framework:avalon-framework-impl" version="4.1.5"/>
+         </repository>
+       </classpath>
+     </classloader>
+
+   <component name="facility" class="tutorial.HelloFacility" activation="startup"/>
 
 </container>

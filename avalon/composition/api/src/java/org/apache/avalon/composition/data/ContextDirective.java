@@ -42,7 +42,7 @@ import java.io.Serializable;
  *
  * @see EntryDirective
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/01/24 23:25:24 $
+ * @version $Revision: 1.3 $ $Date: 2004/02/22 16:12:58 $
  */
 public class ContextDirective implements Serializable
 {
@@ -55,11 +55,6 @@ public class ContextDirective implements Serializable
      * The constext casting classname.
      */
     private final String m_classname;
-
-    /**
-     * The optional provider source path.
-     */
-    private final String m_source;
 
     /**
      * Creation of a new file target.
@@ -77,20 +72,6 @@ public class ContextDirective implements Serializable
      */
     public ContextDirective( final String classname, final EntryDirective[] entries )
     {
-        this( classname, entries, null );
-    }
-
-    /**
-     * Creation of a new file target.
-     * @param classname the context implementation class
-     * @param entries the set of entry descriptors
-     * @param source a path to a source component for contextualization
-     *    phase handling
-     */
-    public ContextDirective( 
-      final String classname, final EntryDirective[] entries, String source )
-    {
-        m_source = source;
         m_classname = classname;
         if( entries != null )
         {
@@ -100,16 +81,6 @@ public class ContextDirective implements Serializable
         {
             m_entries = new EntryDirective[0];
         }
-    }
-
-    /**
-     * Return the relative path to a source provider component that
-     * will handle a custom contextualization phase implementation.
-     * @return the source path
-     */
-    public String getSource()
-    {
-        return m_source;
     }
 
     /**
