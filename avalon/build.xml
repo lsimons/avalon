@@ -241,11 +241,7 @@ Legal:
 
   </target>
 
-  <!--
-       ===================================================================
-                          Creates the clutil.jar file
-       ===================================================================
-  -->
+  <!-- Creates the clutil.jar file -->
   <target name="compile-clutil" depends="prepare">
 
     <mkdir dir="${build.classes}"/>
@@ -264,6 +260,29 @@ Legal:
     <jar jarfile="${build.lib}/clutil.jar" basedir="${build.classes}">
       <include name="org/apache/avalon/excalibur/cli/*" />
       <exclude name="org/apache/avalon/excalibur/cli/test/*" />
+    </jar>
+  </target>
+
+  <!-- Creates the exceptionutil.jar file -->
+  <target name="compile-exceptionutil" depends="prepare">
+
+    <mkdir dir="${build.classes}"/>
+
+    <javac srcdir="${java.dir}"
+           destdir="${build.classes}"
+           debug="${debug}"
+           optimize="${optimize}"
+           deprecation="${deprecation}">
+      <include name="org/apache/avalon/framework/ExceptionUtil.java" />
+      <include name="org/apache/avalon/framework/Cascading*" />
+    </javac>
+  </target>
+
+  <target name="jar-exceptionutil" depends="compile-exceptionutil">
+    <mkdir dir="${build.lib}"/>
+    <jar jarfile="${build.lib}/exceptionutil.jar" basedir="${build.classes}">
+      <include name="org/apache/avalon/framework/ExceptionUtil.class" />
+      <include name="org/apache/avalon/framework/Cascading*" />
     </jar>
   </target>
 
