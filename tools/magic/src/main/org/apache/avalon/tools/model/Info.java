@@ -209,9 +209,8 @@ public class Info
     }
 
    /**
-    * Return the full filename of the artifact in the form
-    * [name]-[version].[type] or in the case of a null version 
-    * [name].[type].
+    * Return the full filename of the artifact. The value returned is in the form
+    * [name]-[version].[type] or in the case of a null version [name].[type].
     * @return the artifact filename
     */
     public String getFilename()
