@@ -77,7 +77,7 @@ public class MBeanScripter
     {
         final Configuration[] attributes =
             m_configuration.getChildren( "attribute" );
-        for ( int i = 0; i < attributes.length; i++ )
+        for( int i = 0; i < attributes.length; i++ )
         {
             setAttribute( attributes[ i ] );
         }
@@ -89,7 +89,7 @@ public class MBeanScripter
         final String name = attribute.getAttribute( "name" );
         final String type = attribute.getAttribute( "type" );
         Object value = attribute.getValue( null );
-        if ( null != value )
+        if( null != value )
         {
             final Class valueClass = Class.forName( type );
             value = c_valueConverter.convert( valueClass, value, null );
@@ -102,7 +102,7 @@ public class MBeanScripter
         throws Exception
     {
         final Configuration[] uses = m_configuration.getChildren( "use" );
-        for ( int i = 0; i < uses.length; i++ )
+        for( int i = 0; i < uses.length; i++ )
         {
             setUse( uses[ i ] );
         }
@@ -136,7 +136,7 @@ public class MBeanScripter
     private void invokeOperations( final Configuration[] invokes )
         throws Exception
     {
-        for ( int i = 0; i < invokes.length; i++ )
+        for( int i = 0; i < invokes.length; i++ )
         {
             final Configuration invoke = invokes[ i ];
             invokeOperation( invoke );
@@ -150,11 +150,11 @@ public class MBeanScripter
         final Configuration[] paramConfs = invoke.getChildren( "parameter" );
         final String[] types = new String[ paramConfs.length ];
         final Object[] values = new Object[ paramConfs.length ];
-        for ( int i = 0; i < paramConfs.length; i++ )
+        for( int i = 0; i < paramConfs.length; i++ )
         {
             final String type = paramConfs[ i ].getAttribute( "type" );
             Object value = paramConfs[ i ].getValue( null );
-            if ( null != value )
+            if( null != value )
             {
                 final Class valueClass = Class.forName( type );
                 value = c_valueConverter.convert( valueClass, value, null );

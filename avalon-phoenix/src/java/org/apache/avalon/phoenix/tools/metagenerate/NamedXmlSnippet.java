@@ -21,7 +21,7 @@ public class NamedXmlSnippet implements Comparable
      * @param name The node name
      * @param xml the XML
      */
-    public NamedXmlSnippet(final String name, final String xml)
+    public NamedXmlSnippet( final String name, final String xml )
     {
         this.m_name = name;
         this.m_xml = xml;
@@ -50,9 +50,9 @@ public class NamedXmlSnippet implements Comparable
      * @param object The object to compare to.
      * @return whichever is order precidence
      */
-    public int compareTo(final Object object)
+    public int compareTo( final Object object )
     {
-        final NamedXmlSnippet attr = (NamedXmlSnippet) object;
-        return m_name.compareTo(attr.getName());
+        final NamedXmlSnippet attr = (NamedXmlSnippet)object;
+        return m_name.compareTo( attr.getName() );
     }
 }

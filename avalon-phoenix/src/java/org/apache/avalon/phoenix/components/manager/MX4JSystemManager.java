@@ -233,7 +233,7 @@ public class MX4JSystemManager
             final ObjectName objectName = new ObjectName( name );
             mBeanServer.invoke( objectName, "stop", null, null );
         }
-        catch ( final Exception e )
+        catch( final Exception e )
         {
             final String message =
                 REZ.getString( "jmxmanager.error.jmxmbean.dispose", name );

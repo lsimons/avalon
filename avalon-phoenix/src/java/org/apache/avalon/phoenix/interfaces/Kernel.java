@@ -37,7 +37,6 @@ public interface Kernel
     void removeApplication( String name )
         throws Exception;
 
-
     /**
      * Gets the named application
      *

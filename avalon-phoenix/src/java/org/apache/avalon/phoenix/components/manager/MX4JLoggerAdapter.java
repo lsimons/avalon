@@ -20,7 +20,7 @@ public class MX4JLoggerAdapter extends Logger
      * This is really bad.  A static way of introducing a logger to a tool.
      * @param logger the Avalon logger.
      */
-    public static void setLogger(final org.apache.avalon.framework.logger.Logger logger)
+    public static void setLogger( final org.apache.avalon.framework.logger.Logger logger )
     {
         avalonLogger = logger;
     }
@@ -33,27 +33,27 @@ public class MX4JLoggerAdapter extends Logger
      * @param message the message to log.
      * @param throwable a message that may be sent.
      */
-    protected void log(final int level, final Object message, final Throwable throwable)
+    protected void log( final int level, final Object message, final Throwable throwable )
     {
-        switch (level)
+        switch( level )
         {
             case mx4j.log.Logger.DEBUG:
-                avalonLogger.debug(message.toString(), throwable);
+                avalonLogger.debug( message.toString(), throwable );
                 break;
             case mx4j.log.Logger.ERROR:
-                avalonLogger.error(message.toString(), throwable);
+                avalonLogger.error( message.toString(), throwable );
                 break;
             case mx4j.log.Logger.FATAL:
-                avalonLogger.fatalError(message.toString(), throwable);
+                avalonLogger.fatalError( message.toString(), throwable );
                 break;
             case mx4j.log.Logger.INFO:
-                avalonLogger.info(message.toString(), throwable);
+                avalonLogger.info( message.toString(), throwable );
                 break;
             case mx4j.log.Logger.TRACE:
-                avalonLogger.debug(message.toString(), throwable);
+                avalonLogger.debug( message.toString(), throwable );
                 break;
             case mx4j.log.Logger.WARN:
-                avalonLogger.warn(message.toString(), throwable);
+                avalonLogger.warn( message.toString(), throwable );
                 break;
         }
     }

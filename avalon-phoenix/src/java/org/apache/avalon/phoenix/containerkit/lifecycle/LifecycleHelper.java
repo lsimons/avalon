@@ -62,7 +62,7 @@ public class LifecycleHelper
      * @param name the name of the component
      * @param entry the entry representing object
      * @param provider the resource provider
-     * @return the newly created component 
+     * @return the newly created component
      * @throws LifecycleException if an error occurs when the component passes
      *     through a specific lifecycle stage
      */

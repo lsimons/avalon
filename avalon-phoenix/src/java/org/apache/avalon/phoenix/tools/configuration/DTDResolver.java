@@ -18,7 +18,7 @@ import org.xml.sax.SAXException;
  * Schemas.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.7 $ $Date: 2002/08/06 11:57:42 $
+ * @version $Revision: 1.8 $ $Date: 2003/02/22 05:34:46 $
  */
 public class DTDResolver
     implements EntityResolver
@@ -54,8 +54,8 @@ public class DTDResolver
         {
             final DTDInfo info = m_dtdInfos[ i ];
 
-            if( (publicId != null && publicId.equals( info.getPublicId() )) ||
-                (systemId != null && systemId.equals( info.getSystemId() )) )
+            if( ( publicId != null && publicId.equals( info.getPublicId() ) ) ||
+                ( systemId != null && systemId.equals( info.getSystemId() ) ) )
             {
                 final ClassLoader classLoader = getClassLoader();
                 final InputStream inputStream =

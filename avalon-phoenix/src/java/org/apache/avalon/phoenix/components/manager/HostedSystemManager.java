@@ -31,7 +31,7 @@ public class HostedSystemManager
             return null;
         }
 
-        MBeanServer ms = (MBeanServer) serverList.get( 0 );
+        MBeanServer ms = (MBeanServer)serverList.get( 0 );
         getLogger().debug( "HostedSystemManager createMBeanServer \"" + ms + "\"" );
         return ms;
     }

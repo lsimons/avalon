@@ -33,7 +33,7 @@ import org.apache.avalon.phoenix.containerkit.registry.ComponentProfile;
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.2 $ $Date: 2003/02/22 04:03:28 $
+ * @version $Revision: 1.3 $ $Date: 2003/02/22 05:34:45 $
  */
 public abstract class AbstractServiceKernel
     extends AbstractLogEnabled
@@ -326,7 +326,7 @@ public abstract class AbstractServiceKernel
         {
             final String message =
                 REZ.getString( "app.error.run-phase",
-                               startup ? "0":"1",
+                               startup ? "0" : "1",
                                name,
                                e.getMessage() );
             getLogger().error( message, e );
@@ -361,7 +361,7 @@ public abstract class AbstractServiceKernel
             final String message =
                 REZ.getString( "components-processing",
                                count,
-                               startup ? "0":"1",
+                               startup ? "0" : "1",
                                pathList );
             getLogger().info( message );
         }
@@ -380,10 +380,10 @@ public abstract class AbstractServiceKernel
         if( getLogger().isDebugEnabled() )
         {
             final String key =
-                completed ? "processed-component": "process-component";
+                completed ? "processed-component" : "process-component";
             final String message =
                 REZ.getString( key,
-                               startup ? "0":"1",
+                               startup ? "0" : "1",
                                name );
             getLogger().debug( message );
         }

@@ -35,7 +35,7 @@ import org.apache.avalon.phoenix.interfaces.Installer;
  * and installing it as appropriate.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.11 $ $Date: 2002/11/01 01:15:40 $
+ * @version $Revision: 1.12 $ $Date: 2003/02/22 05:34:44 $
  */
 public class DefaultInstaller
     extends AbstractLogEnabled
@@ -55,7 +55,6 @@ public class DefaultInstaller
     private static final String FS_ENV_XML = "SAR-INF" + File.separator + "environment.xml";
     private static final String FS_CLASSES =
         "SAR-INF" + File.separator + "classes" + File.separator;
-
 
     /**
      * The directory which is used as the base for
@@ -287,7 +286,7 @@ public class DefaultInstaller
         final Enumeration entries = zipFile.entries();
         while( entries.hasMoreElements() )
         {
-            final ZipEntry entry = (ZipEntry) entries.nextElement();
+            final ZipEntry entry = (ZipEntry)entries.nextElement();
             final String name = fixName( entry.getName() );
 
             if( name.startsWith( META_INF ) )
@@ -549,7 +548,6 @@ public class DefaultInstaller
             //should never occur
         }
     }
-
 
     /**
      * Make sure that the work directory is created and not a file.

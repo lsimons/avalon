@@ -49,7 +49,7 @@ class BlockEntry
     {
         invalidate();
 
-        if( null != object && ! isDisableProxy() )
+        if( null != object && !isDisableProxy() )
         {
             final ComponentInfo blockInfo = m_componentProfile.getInfo();
             final Class[] interfaces = getServiceClasses( object, blockInfo.getServices() );
@@ -60,7 +60,7 @@ class BlockEntry
 
     public synchronized Object getProxy()
     {
-        if ( isDisableProxy() )
+        if( isDisableProxy() )
         {
             return m_object;
         }
@@ -83,7 +83,7 @@ class BlockEntry
         for( int i = 0; i < attributes.length; i++ )
         {
             final Attribute attribute = attributes[ i ];
-            if( attribute.getName().equals( ContainerConstants.DISABLE_PROXY_ATTR  ) )
+            if( attribute.getName().equals( ContainerConstants.DISABLE_PROXY_ATTR ) )
             {
                 return true;
             }

@@ -45,7 +45,7 @@ public class LauncherUtils
             }
         }
 
-        return (URL[]) urls.toArray( new URL[ urls.size() ] );
+        return (URL[])urls.toArray( new URL[ urls.size() ] );
     }
 
     /**

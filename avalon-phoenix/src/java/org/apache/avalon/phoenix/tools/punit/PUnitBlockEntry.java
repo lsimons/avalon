@@ -28,8 +28,8 @@ public class PUnitBlockEntry
      * @param resourceProvider The resource provider for the block
      */
     public PUnitBlockEntry( final String blockName,
-                       final Object block,
-                       final ResourceProvider resourceProvider )
+                            final Object block,
+                            final ResourceProvider resourceProvider )
     {
         m_blockName = blockName;
         m_block = block;
