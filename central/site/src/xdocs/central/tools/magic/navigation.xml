@@ -27,6 +27,8 @@
       <item name="System Model" href="model/index.html"/>
       <item name="Templates" href="templates/index.html"/>
       <item name="Tasks" href="tasks/index.html"/>
+      <item name="Javadoc" 
+        href="../../../avalon/tools/avalon-tools-magic/impl/index.html"/>
     </menu>
  </body>
 
