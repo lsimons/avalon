@@ -9,7 +9,6 @@ package org.apache.avalon.phoenix.components.embeddor;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import org.apache.avalon.excalibur.packagemanager.ExtensionManager;
 import org.apache.avalon.phoenix.interfaces.ConfigurationRepository;
 import org.apache.avalon.phoenix.interfaces.ConfigurationRepositoryMBean;
@@ -31,31 +30,24 @@ import org.apache.avalon.phoenix.interfaces.LogManager;
 final class ManagementRegistration
 {
     private static final Map c_map = new HashMap();
-
     public static final ManagementRegistration KERNEL =
         new ManagementRegistration( Kernel.ROLE,
                                     "Kernel",
                                     new Class[]{KernelMBean.class} );
-
     public static final ManagementRegistration EXTENSION_MANAGER =
         new ManagementRegistration( ExtensionManager.ROLE,
                                     "ExtensionManager",
                                     new Class[]{ExtensionManagerMBean.class} );
-
     public static final ManagementRegistration EMBEDDOR =
         new ManagementRegistration( Embeddor.ROLE, "Embeddor", new Class[]{EmbeddorMBean.class} );
-
     public static final ManagementRegistration DEPLOYER =
         new ManagementRegistration( Deployer.ROLE, "Deployer", new Class[]{DeployerMBean.class} );
-
     public static final ManagementRegistration LOG_MANAGER =
         new ManagementRegistration( LogManager.ROLE, "LogManager", new Class[]{} );
-
     public static final ManagementRegistration CONFIGURATION_REPOSITORY =
         new ManagementRegistration( ConfigurationRepository.ROLE,
                                     "ConfigurationManager",
                                     new Class[]{ConfigurationRepositoryMBean.class} );
-
     public static final ManagementRegistration CONFIGURATION_VALIDATOR =
         new ManagementRegistration( ConfigurationValidator.ROLE,
                                     "ConfigurationValidator",
@@ -63,9 +55,7 @@ final class ManagementRegistration
     //TODO: Need information for SystemManager?
 
     private String m_role;
-
     private String m_name;
-
     private Class[] m_interfaces;
 
     private ManagementRegistration( final String role, final String name, final Class[] interfaces )
@@ -94,6 +84,6 @@ final class ManagementRegistration
 
     public static ManagementRegistration getManagementInfoForRole( final String role )
     {
-        return ( ManagementRegistration ) c_map.get( role );
+        return (ManagementRegistration)c_map.get( role );
     }
 }
