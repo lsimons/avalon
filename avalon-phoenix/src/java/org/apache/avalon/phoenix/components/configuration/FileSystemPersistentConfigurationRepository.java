@@ -9,16 +9,14 @@ package org.apache.avalon.phoenix.components.configuration;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.excalibur.io.FileUtil;
 import org.apache.avalon.excalibur.property.PropertyException;
 import org.apache.avalon.excalibur.property.PropertyUtil;
+import org.apache.avalon.framework.CascadingRuntimeException;
 import org.apache.avalon.framework.activity.Initializable;
-import org.apache.avalon.framework.activity.Startable;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
@@ -30,33 +28,46 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.parameters.ParameterException;
 import org.apache.avalon.framework.parameters.Parameterizable;
 import org.apache.avalon.framework.parameters.Parameters;
-import org.apache.avalon.framework.service.ServiceException;
-import org.apache.avalon.framework.service.ServiceManager;
-import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.phoenix.interfaces.ConfigurationRepository;
-import org.apache.avalon.phoenix.interfaces.SystemManager;
+import org.apache.avalon.phoenix.interfaces.ConfigurationRepositoryMBean;
+import org.apache.excalibur.configuration.ConfigurationUtil;
 import org.apache.excalibur.configuration.merged.ConfigurationMerger;
+import org.apache.excalibur.configuration.merged.ConfigurationSplitter;
+
 import org.xml.sax.SAXException;
 
 /**
- * Repository which persistently stores configuration information on disk
- *
- * THIS IS A WORK IN PROGRESS AND WILL CHANGE BEWARE OF USE BEWAAAARE!
+ * <p>
+ * A ConfigurationRepository that will store partial configurations on disk.
+ * </p><p>
+ * When a Configuration is retrieved from the repository, the configuration from disk is
+ * <i>merged</i> with the configuration from the SAR. This merge is accompilished via
+ * <code>ConfigurationMerger.merge</code>.
+ * </p><p>
+ * When a Configuration is stored in the repository, if there is no <i>transient</i>, that is,
+ * configuration from the SAR, Configuration information, the first store is that. Subsequent
+ * calls to storeConfiguration will persist the difference between the <i>transient</i>
+ * Configuration and the passed configuration to disk. The differences are computed via
+ * <code>ConfigurationSplitter.split</code>
+ * </p>
  *
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
+ * @see org.apache.excalibur.configuration.merged.ConfigurationMerger
+ * @see org.apache.excalibur.configuration.merged.ConfigurationSplitter
  */
 public class FileSystemPersistentConfigurationRepository extends AbstractLogEnabled
-    implements ConfigurationRepository, Parameterizable, Configurable, Startable, Serviceable,
-    Initializable, PersistentConfigurationRepositoryMBean
+    implements ConfigurationRepository, Parameterizable, Configurable, Initializable,
+    ConfigurationRepositoryMBean
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( FileSystemPersistentConfigurationRepository.class );
 
-    private final HashMap m_persistedConfigurations = new HashMap();
-
-    private final HashMap m_configurations = new HashMap();
-
-    private ServiceManager m_serviceManager;
+    private final DefaultConfigurationRepository m_persistedConfigurations =
+        new DefaultConfigurationRepository();
+    private final DefaultConfigurationRepository
+        m_transientConfigurations = new DefaultConfigurationRepository();
+    private final DefaultConfigurationRepository
+        m_mergedConfigurations = new DefaultConfigurationRepository();
 
     private String m_phoenixHome;
 
@@ -65,12 +76,6 @@ public class FileSystemPersistentConfigurationRepository extends AbstractLogEnab
     public void parameterize( final Parameters parameters ) throws ParameterException
     {
         this.m_phoenixHome = parameters.getParameter( "phoenix.home", ".." );
-    }
-
-    public void service( ServiceManager manager )
-        throws ServiceException
-    {
-        this.m_serviceManager = manager;
     }
 
     private Context createConfigurationContext()
@@ -86,25 +91,17 @@ public class FileSystemPersistentConfigurationRepository extends AbstractLogEnab
     {
         this.m_storageDirectory = new File( constructStoragePath( configuration ) );
 
-        ensureDirectoryExists( this.m_storageDirectory );
-    }
-
-    private void ensureDirectoryExists( File dir ) throws ConfigurationException
-    {
-        if( !dir.isDirectory() )
+        try
         {
-            if( dir.exists() )
-            {
-                final String message = REZ.getString( "config.error.dir.isfile", dir );
+            FileUtil.forceMkdir( this.m_storageDirectory );
+        }
+        catch( IOException e )
+        {
+            final String message = REZ.getString( "config.error.dir.invalid",
+                                                  this.m_storageDirectory );
 
-                throw new ConfigurationException( message );
-            }
-            else if( !dir.mkdirs() )
-            {
-                final String message = REZ.getString( "config.error.dir.nomake", dir );
+            throw new ConfigurationException( message, e );
 
-                throw new ConfigurationException( message );
-            }
         }
     }
 
@@ -122,7 +119,7 @@ public class FileSystemPersistentConfigurationRepository extends AbstractLogEnab
 
             if( opath instanceof String )
             {
-                return FileUtil.normalize( (String)opath );
+                return FileUtil.normalize( ( String ) opath );
             }
             else
             {
@@ -141,30 +138,10 @@ public class FileSystemPersistentConfigurationRepository extends AbstractLogEnab
         }
     }
 
-    public void initialize() throws Exception
-    {
-        final SystemManager systemManager =
-            (SystemManager)this.m_serviceManager.lookup( SystemManager.ROLE );
-        final SystemManager context =
-            systemManager.getSubContext( null, "component" ).getSubContext( "ConfigurationManager",
-                                                                            "subcomponent" );
-
-        context.register(
-            "PersistentConfigurationRepository",
-            this,
-            new Class[]{PersistentConfigurationRepositoryMBean.class} );
-    }
-
-    public void start()
+    public void initialize()
         throws Exception
     {
         loadConfigurations();
-    }
-
-    public void stop()
-        throws Exception
-    {
-        persistConfigurations();
     }
 
     private void loadConfigurations()
@@ -174,7 +151,7 @@ public class FileSystemPersistentConfigurationRepository extends AbstractLogEnab
 
         for( int i = 0; i < apps.length; i++ )
         {
-            loadConfigurations( apps[ i ] );
+            loadConfigurations( apps[i] );
         }
     }
 
@@ -188,28 +165,15 @@ public class FileSystemPersistentConfigurationRepository extends AbstractLogEnab
         for( int i = 0; i < blocks.length; i++ )
         {
             final String block =
-                blocks[ i ].getName().substring( 0, blocks[ i ].getName().indexOf( ".xml" ) );
+                blocks[i].getName().substring( 0, blocks[i].getName().indexOf( ".xml" ) );
 
-            this.m_persistedConfigurations.put( new ConfigurationKey( app, block ),
-                                                builder.buildFromFile( blocks[ i ] ) );
+            m_persistedConfigurations.storeConfiguration( app,
+                                                          block,
+                                                          builder.buildFromFile( blocks[i] ) );
 
             if( getLogger().isDebugEnabled() )
                 getLogger().debug( "Loaded persistent configuration [app: " + app
                                    + ", block: " + block + "]" );
-        }
-    }
-
-    private void persistConfigurations()
-        throws SAXException, IOException, ConfigurationException
-    {
-        for( Iterator i = this.m_persistedConfigurations.entrySet().iterator(); i.hasNext(); )
-        {
-            final Map.Entry entry = (Map.Entry)i.next();
-            final ConfigurationKey key = (ConfigurationKey)entry.getKey();
-
-            persistConfiguration( key.getApplication(),
-                                  key.getBlock(),
-                                  (Configuration)entry.getValue() );
         }
     }
 
@@ -232,10 +196,10 @@ public class FileSystemPersistentConfigurationRepository extends AbstractLogEnab
     }
 
     public void removeConfiguration( String application, String block )
+        throws ConfigurationException
     {
-        final String name = application + "." + block;
-
-        m_configurations.remove( name );
+        m_transientConfigurations.removeConfiguration( application, block );
+        m_mergedConfigurations.removeConfiguration( application, block );
     }
 
     public synchronized void storeConfiguration( final String application,
@@ -243,15 +207,43 @@ public class FileSystemPersistentConfigurationRepository extends AbstractLogEnab
                                                  final Configuration configuration )
         throws ConfigurationException
     {
-        final String name = application + "." + block;
 
-        if( null == configuration )
+        if( m_transientConfigurations.hasConfiguration( application, block ) )
         {
-            m_configurations.remove( name );
+            if( !ConfigurationUtil.equals( configuration, getConfiguration( application, block ) ) )
+            {
+                final Configuration layer =
+                    ConfigurationSplitter.split( configuration,
+                                                 getConfiguration( application,
+                                                                   block,
+                                                                   m_transientConfigurations ) );
+
+                m_persistedConfigurations.storeConfiguration( application, block, layer );
+                m_mergedConfigurations.removeConfiguration( application, block );
+
+                try
+                {
+                    persistConfiguration( application, block, layer );
+                }
+                catch( SAXException e )
+                {
+                    final String message =
+                        REZ.getString( "config.error.persist", application, block );
+
+                    throw new ConfigurationException( message, e );
+                }
+                catch( IOException e )
+                {
+                    final String message =
+                        REZ.getString( "config.error.persist", application, block );
+
+                    throw new ConfigurationException( message, e );
+                }
+            }
         }
         else
         {
-            m_configurations.put( name, configuration );
+            m_transientConfigurations.storeConfiguration( application, block, configuration );
         }
     }
 
@@ -259,59 +251,74 @@ public class FileSystemPersistentConfigurationRepository extends AbstractLogEnab
                                                         final String block )
         throws ConfigurationException
     {
-        final String name = application + "." + block;
-        final Configuration c = (Configuration)m_configurations.get( name );
-        final Configuration p = (Configuration)m_persistedConfigurations.get(
-            new ConfigurationKey( application, block ) );
+        if( m_mergedConfigurations.hasConfiguration( application, block ) )
+        {
+            return m_mergedConfigurations.getConfiguration( application, block );
+        }
+        else
+        {
+            final Configuration configuration = createMergedConfiguration( application, block );
 
-        if( null == c && p == null )
+            m_mergedConfigurations.storeConfiguration( application, block, configuration );
+
+            return configuration;
+        }
+    }
+
+    private Configuration createMergedConfiguration( final String application,
+                                                     final String block )
+        throws ConfigurationException
+    {
+        final Configuration t = getConfiguration( application, block, m_transientConfigurations );
+        final Configuration p = getConfiguration( application, block, m_persistedConfigurations );
+
+        if( null == t && p == null )
         {
             final String message = REZ.getString( "config.error.noconfig", block, application );
+
             throw new ConfigurationException( message );
         }
-        else if( null == c )
+        else if( null == t )
         {
             return p;
         }
         else if( null == p )
         {
-            return c;
+            return t;
         }
         else
         {
-            return ConfigurationMerger.merge( p, c );
+            return ConfigurationMerger.merge( p, t );
         }
     }
 
-    public Configuration getPersistentConfiguration( String application, String block )
-        throws ConfigurationException
+    private Configuration getConfiguration( final String application,
+                                            final String block,
+                                            final DefaultConfigurationRepository repository )
     {
-        final Configuration configuration = (Configuration)m_persistedConfigurations.get(
-            new ConfigurationKey( application, block ) );
-
-        if( null == configuration )
+        if( repository.hasConfiguration( application, block ) )
         {
-            final String message = REZ.getString( "config.error.noconfig", block, application );
-            throw new ConfigurationException( message );
-        }
+            try
+            {
+                return repository.getConfiguration( application, block );
+            }
+            catch( ConfigurationException e )
+            {
+                final String message = REZ.getString( "config.error.noconfig", block, application );
 
-        return configuration;
-    }
-
-    public void storePersistentConfiguration( String application,
-                                              String block,
-                                              Configuration configuration )
-        throws ConfigurationException
-    {
-        final ConfigurationKey key = new ConfigurationKey( application, block );
-
-        if( null == configuration )
-        {
-            m_persistedConfigurations.remove( key );
+                throw new CascadingRuntimeException( message, e );
+            }
         }
         else
         {
-            m_persistedConfigurations.put( key, configuration );
+            return null;
         }
+    }
+
+    public boolean hasConfiguration( String application, String block )
+    {
+        return m_mergedConfigurations.hasConfiguration( application, block )
+            || m_transientConfigurations.hasConfiguration( application, block )
+            || m_persistedConfigurations.hasConfiguration( application, block );
     }
 }
