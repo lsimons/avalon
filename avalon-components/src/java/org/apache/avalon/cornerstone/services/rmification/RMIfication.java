@@ -22,7 +22,7 @@
     Alternately, this  acknowledgment may  appear in the software itself,  if
     and wherever such third-party acknowledgments normally appear.
 
- 4. The names "Jakarta", "Apache Avalon", "Avalon Cornerstone", "Avalon
+ 4. The names "Jakarta", "Apache Avalon", "Avalon Components", "Avalon
     Framework" and "Apache Software Foundation"  must not be used to endorse
     or promote products derived  from this  software without  prior written
     permission. For written permission, please contact apache@apache.org.
@@ -60,7 +60,7 @@ import java.rmi.RemoteException;
  *
  * @author <a href="mailto:colus@apache.org">Eung-ju Park</a>
  * @author Mauro Talevi
- * @version $Revision: 1.10 $
+ * @version $Revision: 1.11 $
  */
 public interface RMIfication
 {

@@ -21,8 +21,6 @@ Thread Block deployment directive.
 
    <implementation>
 
-     <categories priority="INFO"/>
-
      <engine>
        <classpath>
          <repository>
