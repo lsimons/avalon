@@ -64,13 +64,15 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
+import org.xml.sax.SAXException;
 
 /**
  * This class has a bunch of utility methods to work
  * with configuration objects.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.11 $ $Date: 2003/02/11 15:58:38 $
+ * @version CVS $Revision: 1.12 $ $Date: 2003/03/12 12:06:54 $
+ * @since 4.1.4
  */
 public class ConfigurationUtil
 {
@@ -100,6 +102,31 @@ public class ConfigurationUtil
         catch( final ParserConfigurationException pce )
         {
             throw new IllegalStateException( pce.toString() );
+        }
+    }
+
+    /**
+     * Serialize the configuration object to a String.  If an exception
+     * occurs, the exception message will be returned instead.  This method is
+     * intended to aid debugging; {@link
+     * DefaultConfigurationSerializer#serialize(Configuration)} lets the caller
+     * handle exceptions.
+     *
+     * @param configuration Configuration instance to serialize
+     * @return a non-null String representing the <code>Configuration</code>,
+     * or an error message.
+     * @since 12 March, 2003
+     */
+    public static String toString( final Configuration configuration )
+    {
+        DefaultConfigurationSerializer ser = new DefaultConfigurationSerializer();
+        try
+        {
+            return ser.serialize( configuration );
+        }
+        catch (Exception e ) 
+        {
+            return e.getMessage();
         }
     }
 
