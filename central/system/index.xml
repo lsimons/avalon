@@ -120,7 +120,7 @@
         <version>4.2.0</version>
       </info>
       <dependencies>
-        <!--<include key="avalon-logkit" runtime="true" test="false"/>-->
+        <include key="avalon-logkit" runtime="true" test="false"/>
       </dependencies>
     </project>
 
