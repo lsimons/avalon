@@ -3,6 +3,10 @@
 
   <x:home/>
 
+  <target name="info">
+    <x:reactor target="info"/>
+  </target>
+
   <target name="init">
     <x:reactor target="init"/>
   </target>

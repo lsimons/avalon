@@ -4,7 +4,7 @@
     xmlns:x="antlib:org.apache.avalon.tools">
 
   <property file="build.properties"/>
-  <import file="${project.home}/build/standard.xml"/>
+  <import file="${project.system}/build/standard.xml"/>
   
   <target name="init" depends="standard.init">
     <x:filter key="avalon-logging-logkit-impl" feature="uri" 

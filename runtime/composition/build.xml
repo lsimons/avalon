@@ -3,6 +3,6 @@
 <project name="composition" default="install" basedir=".">
 
   <property file="build.properties"/>
-  <import file="${project.home}/build/reactor.xml"/>
+  <import file="${project.system}/build/reactor.xml"/>
 
 </project>

@@ -2,5 +2,5 @@
 
 <project name="avalon-logging-impl" default="install" basedir=".">
   <property file="build.properties"/>
-  <import file="${project.home}/build/standard.xml"/>
+  <import file="${project.system}/build/standard.xml"/>
 </project>
