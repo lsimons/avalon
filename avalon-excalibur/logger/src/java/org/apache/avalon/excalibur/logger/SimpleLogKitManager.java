@@ -117,7 +117,14 @@ public class SimpleLogKitManager
     public void contextualize( final Context context )
         throws ContextException
     {
-        m_baseDirectory = (File)context.get( "app.home" );
+        try
+        {
+            m_baseDirectory = (File)context.get( "app.home" );
+        }
+        catch( ContextException e )
+        {
+            m_baseDirectory = new File( "." );
+        }
     }
 
     /**
