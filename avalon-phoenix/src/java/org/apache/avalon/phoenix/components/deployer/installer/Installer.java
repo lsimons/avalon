@@ -34,7 +34,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * and installing it as appropriate.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2002/05/15 10:54:49 $
+ * @version $Revision: 1.5 $ $Date: 2002/05/15 12:16:51 $
  */
 public class Installer
     extends AbstractLogEnabled
@@ -320,7 +320,7 @@ public class Installer
         final ArrayList jars = new ArrayList();
 
         final File workDir =
-            getRelativeWorkDir( m_baseWorkDirectory, file );
+            getRelativeWorkDir( m_baseWorkDirectory, name );
 
         expandZipFile( zipFile, directory, workDir, jars, digests, url );
 
@@ -533,17 +533,17 @@ public class Installer
 
     /**
      * Create working directory inside baseWorkDir
-     * for specified file.
+     * for specified application.
      *
      * @param baseWorkDir the base workDir for all apps
-     * @param file the file representing app
+     * @param name the name of the application
      * @return the working directory for app
      */
     private File getRelativeWorkDir( final File baseWorkDir,
-                                     final File file )
+                                     final String name )
     {
         final String filename =
-            file.getName() + "-" + System.currentTimeMillis();
+            name + "-" + System.currentTimeMillis();
         return new File( baseWorkDir, filename );
     }
 
