@@ -159,21 +159,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Aspects\AspectInvocationHandler.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Aspects\AspectPointCutFlags.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Aspects\IAspect.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "Assemble\Assembler.cs"
                     SubType = "Code"
                     BuildAction = "Compile"

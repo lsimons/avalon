@@ -21,6 +21,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Test.Lifestyle
 
 	using Apache.Avalon.Castle.MicroKernel;
 	using Apache.Avalon.Castle.MicroKernel.Test.Lifestyle.Components;
+	using Apache.Avalon.Castle.MicroKernel.Lifestyle;
 
 	/// <summary>
 	/// Summary description for LifestyleManagerTestCase.
@@ -36,6 +37,26 @@ namespace Apache.Avalon.Castle.MicroKernel.Test.Lifestyle
 		public void CreateContainer()
 		{
 			m_kernel = new DefaultAvalonKernel();
+		}
+
+		[TearDown]
+		public void DisposeContainer()
+		{
+			m_kernel.Dispose();
+		}
+
+		[Test]
+		public void TestUnsupported()
+		{
+			try
+			{
+				m_kernel.AddComponent( "a", typeof(IComponent), typeof(CustomComponent) );
+				Fail( "Custom lifestyle is not supported." );
+			}
+			catch(UnsupportedLifestyleException)
+			{
+				// Expected
+			}
 		}
 
 		[Test]

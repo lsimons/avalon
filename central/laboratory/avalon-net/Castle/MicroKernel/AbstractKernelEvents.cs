@@ -51,7 +51,7 @@ namespace Apache.Avalon.Castle.MicroKernel
 			m_service2Key = new Hashtable();
 			m_dependencyToSatisfy = new Hashtable();
 			m_proxy2ComponentWrapper = new Hashtable();
-			m_interceptedComponentBuilder = new DefaultInterceptedComponentBuilder();
+			InterceptedComponentBuilder = new DefaultInterceptedComponentBuilder();
 		}
 
 		#region IKernelEvents

@@ -39,7 +39,7 @@ namespace Apache.Avalon.Castle.MicroKernel.Model.Default
 
 		protected DefaultComponentModel()
 		{
-			m_context = new DefaultContext();
+			Context = new DefaultContext();
 		}
 
 		public DefaultComponentModel(
@@ -57,12 +57,12 @@ namespace Apache.Avalon.Castle.MicroKernel.Model.Default
 
 			m_name = data.Name;
 			m_service = service;
-			m_lifestyle = data.SupportedLifestyle;
-            m_activation = data.ActivationPolicy;
-            m_logger = logger;
-			m_config = configuration;
-			m_dependencies = data.DependencyModel;
 			m_constructionModel = constructionModel;
+			SupportedLifestyle = data.SupportedLifestyle;
+            ActivationPolicy = data.ActivationPolicy;
+            Logger = logger;
+			Configuration = configuration;
+			Dependencies = data.DependencyModel;
 		}
 
 		#region IComponentModel Members
