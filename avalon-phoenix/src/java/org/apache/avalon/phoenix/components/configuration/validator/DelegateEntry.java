@@ -61,42 +61,39 @@ import org.apache.avalon.phoenix.interfaces.ConfigurationValidator;
 class DelegateEntry
 {
     private final String m_schemaType;
-
     private final String m_className;
-
     private final Configuration m_configuration;
-
     private ConfigurationValidator m_validator;
 
     public DelegateEntry( final String schemaType, final String className, final Configuration configuration )
     {
-        this.m_className = className;
-        this.m_configuration = configuration;
-        this.m_schemaType = schemaType;
+        m_className = className;
+        m_configuration = configuration;
+        m_schemaType = schemaType;
     }
 
     public String getSchemaType()
     {
-        return this.m_schemaType;
+        return m_schemaType;
     }
 
     public Configuration getConfiguration()
     {
-        return this.m_configuration;
+        return m_configuration;
     }
 
     public String getClassName()
     {
-        return this.m_className;
+        return m_className;
     }
 
     public ConfigurationValidator getValidator()
     {
-        return this.m_validator;
+        return m_validator;
     }
 
     public void setValidator( final ConfigurationValidator validator )
     {
-        this.m_validator = validator;
+        m_validator = validator;
     }
 }
