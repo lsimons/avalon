@@ -364,12 +364,6 @@ Legal:
 
     </jar>
 
-    <!-- temporary hack until camelot/atlantis stabilizes -->
-    <jar jarfile="${build.lib}/avalon-container.jar"
-         basedir="${build.classes}" >
-      <include name="org/apache/avalon/framework/**"/>
-    </jar>
-
   </target>
 
   <!-- Create the lite build -->
