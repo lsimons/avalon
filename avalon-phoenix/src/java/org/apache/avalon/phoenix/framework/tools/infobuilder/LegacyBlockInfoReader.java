@@ -74,12 +74,15 @@ import org.xml.sax.InputSource;
  * <a href="package-summary.html#external">package summary</a>.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.7 $ $Date: 2003/04/05 11:21:10 $
+ * @version $Revision: 1.8 $ $Date: 2003/04/06 10:35:23 $
  */
 public final class LegacyBlockInfoReader
     extends AbstractLogEnabled
     implements InfoReader
 {
+    /**
+     * I18n resources.
+     */
     private static final Resources REZ =
         ResourceManager.getPackageResources( LegacyBlockInfoReader.class );
 
@@ -156,7 +159,7 @@ public final class LegacyBlockInfoReader
         }
 
         configuration = info.getChild( "block" );
-        final SchemaDescriptor schema = buildConfigurationSchema( configuration );
+        final SchemaDescriptor schema = buildConfigurationSchema( classname, configuration );
 
         return new ComponentInfo( descriptor,
                                   services,
@@ -170,7 +173,8 @@ public final class LegacyBlockInfoReader
      *
      * @return the a descriptor for the SchemaDescriptor,
      */
-    private SchemaDescriptor buildConfigurationSchema( Configuration configuration )
+    private SchemaDescriptor buildConfigurationSchema( final String classname,
+                                                       final Configuration configuration )
     {
         final String schemaType =
             configuration.getChild( "schema-type" ).getValue( "" );
@@ -182,7 +186,14 @@ public final class LegacyBlockInfoReader
         {
             final String schemaUri =
                 LegacyUtil.translateToSchemaUri( schemaType );
-            return new SchemaDescriptor( "", schemaUri, Attribute.EMPTY_SET );
+            final int index = classname.lastIndexOf( "." );
+            String location = classname;
+            if( -1 != index )
+            {
+                location = classname.substring( index + 1 );
+            }
+            location += "-schema.xml";
+            return new SchemaDescriptor( location, schemaUri, Attribute.EMPTY_SET );
         }
 
     }
