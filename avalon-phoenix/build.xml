@@ -411,6 +411,13 @@ Legal:
             </fileset>
         </copy>
 
+        <copy todir="${bin.dist.apps}">
+            <fileset dir="${lib.dir}/deploy/apps"/>
+        </copy>
+        <copy todir="${bin.dist.ext}">
+            <fileset dir="${lib.dir}/deploy/ext"/>
+        </copy>
+
         <antcall target="dist-mx4j"/>
         <antcall target="dist-beanshell"/>
 
