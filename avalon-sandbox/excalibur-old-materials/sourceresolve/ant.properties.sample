@@ -1,0 +1,50 @@
+# -----------------------------------------------------------------------------
+# Component ant.properties.sample
+#
+# This is an example "ant.properties" file, used to customize the building of
+# the component for your local environment.  It defines the location of all
+# external modules that this component depend on.  Copy this file to
+# "ant.properties" in the source directory, and customize it as needed.
+#
+# The ant.properties values in this directory apply only to this component, and
+# override the defaults in ../ant.properties.
+#
+# $Id: ant.properties.sample,v 1.1 2002/04/05 06:54:57 hammant Exp $
+# -----------------------------------------------------------------------------
+
+# --------------------------------------------------
+#      COMPONENT-SPECIFIC REQUIRED LIBRARIES
+# --------------------------------------------------
+
+
+# ----- Compile Control Flags -----
+build.debug=on
+build.optimize=off
+build.deprecation=off
+
+# ----- Base Directory in which all the packages are stored -----
+base.path=/opt
+
+# --------------------------------------------------
+#                REQUIRED LIBRARIES
+# --------------------------------------------------
+
+
+# ----- JUnit Unit Test Suite, version 3.7 or later -----
+junit.home=${base.path}/junit3.7
+junit.lib=${junit.home}
+junit.jar=${junit.lib}/junit.jar
+
+
+
+# --------------------------------------------------
+#                OPTIONAL LIBRARIES
+# --------------------------------------------------
+
+# ----- Checkstyle, version 2.1 or later -----
+
+# Uncomment the 'do.checkstyle' flag property to enable checkstyle
+# do.checkstyle=
+checkstyle.home=${base.path}/checkstyle-2.1
+checkstyle.lib=${checkstyle.home}
+checkstyle.jar=${checkstyle.lib}/checkstyle-all-2.1.jar
