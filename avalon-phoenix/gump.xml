@@ -6,7 +6,7 @@
   </description>
 
   <cvs repository="jakarta"/>
-  
+
   <project name="jakarta-avalon-phoenix">
     <package>org.apache.avalon.phoenix</package>
 
@@ -17,13 +17,14 @@
       <depend property="xerces.jar" project="xml-xerces" id="parser"/>
       <depend property="logkit.jar" project="jakarta-avalon-logkit"/>
       <depend property="framework.jar" project="jakarta-avalon"/>
-      <depend property="excalibur.jar" 
+      <depend property="excalibur.jar"
         project="jakarta-avalon-excalibur" id="excalibur-core"/>
-      <depend property="scratchpad.jar" 
+      <depend property="scratchpad.jar"
         project="jakarta-avalon-excalibur" id="excalibur-scratchpad"/>
     </ant>
 
     <depend project="bsf"/>
+    <depend project="excalibur-configuration" runtime="true"/>
     <depend project="excalibur-containerkit" runtime="true"/>
     <depend project="excalibur-io" runtime="true"/>
     <depend project="excalibur-cli" runtime="true"/>
@@ -43,6 +44,7 @@
     <depend project="rhino"/>
     <!-- depend project="xdoclet" inherit="jars"/ -->
     <depend project="xdoclet-ant14" runtime="true"/>
+    <depend project="jarv" runtime="true"/>
     <depend project="jakarta-site2" inherit="all" />
     <option project="jakarta-servletapi-4"/>
 
@@ -59,5 +61,7 @@
     <jar name="lib/xdoclet/xjavadoc-20021804.jar"/>
   </project>
 
-
+  <project name="jarv">
+    <jar name="lib/jing/isorelax.jar"/>
+  </project>
 </module>
