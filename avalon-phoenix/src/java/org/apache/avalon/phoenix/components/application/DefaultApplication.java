@@ -27,8 +27,8 @@ import org.apache.avalon.phoenix.metadata.BlockListenerMetaData;
 import org.apache.avalon.phoenix.metadata.BlockMetaData;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
 import org.apache.excalibur.threadcontext.ThreadContext;
-import org.apache.excalibur.containerkit.LifecycleException;
-import org.apache.excalibur.containerkit.LifecycleHelper;
+import org.apache.excalibur.containerkit.lifecycle.LifecycleHelper;
+import org.apache.excalibur.containerkit.lifecycle.LifecycleException;
 
 /**
  * This is the basic container of blocks. A server application

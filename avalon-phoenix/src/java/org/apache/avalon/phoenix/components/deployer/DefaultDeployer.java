@@ -46,7 +46,7 @@ import org.apache.avalon.phoenix.tools.assembler.AssemblyException;
 import org.apache.avalon.phoenix.tools.configuration.ConfigurationBuilder;
 import org.apache.avalon.phoenix.tools.verifier.SarVerifier;
 import org.apache.log.Hierarchy;
-import org.apache.excalibur.containerkit.VerifyException;
+import org.apache.excalibur.containerkit.verifier.VerifyException;
 
 /**
  * Deploy .sar files into a kernel using this class.
