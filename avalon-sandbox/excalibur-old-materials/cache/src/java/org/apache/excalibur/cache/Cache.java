@@ -20,13 +20,6 @@ public interface Cache
     extends ThreadSafe, Component
 {
     /**
-     * Set value validator.
-     *
-     * @param validator object validator
-     */
-    void setValidator( CacheValidator validator );
-
-    /**
      * Add listener.
      *
      * @param listener listener instance to add
