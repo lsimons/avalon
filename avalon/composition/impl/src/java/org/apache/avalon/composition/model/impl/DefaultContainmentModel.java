@@ -124,7 +124,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * as a part of a containment deployment model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.17 $ $Date: 2004/01/13 11:41:25 $
+ * @version $Revision: 1.18 $ $Date: 2004/01/16 00:09:12 $
  */
 public class DefaultContainmentModel extends DefaultDeploymentModel 
   implements ContainmentModel
@@ -1279,6 +1279,24 @@ public class DefaultContainmentModel extends DefaultDeploymentModel
     private ContainmentModel createContainmentModel( String name, URL url )
       throws ModelException
     {
+        if( url.getProtocol().equals( "artifact" ) )
+        {
+            try
+            {
+                Artifact artifact = (Artifact) url.getContent();
+                URL target = 
+                  m_context.getSystemContext().getRepository().getResource( 
+                    artifact );
+                return createContainmentModel( name, target );
+            }
+            catch( Throwable e )
+            {
+                final String error = 
+                  "Unresolvable artifact reference [" + url + "].";
+                throw new ModelException( error, e );
+            }
+        }
+
         final String path = url.toString();
 
         try

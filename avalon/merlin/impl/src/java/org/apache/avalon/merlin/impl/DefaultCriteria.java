@@ -85,7 +85,7 @@ import org.apache.avalon.util.criteria.PackedParameter;
  * for application to a factory.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.12 $
+ * @version $Revision: 1.13 $
  */
 public class DefaultCriteria extends Criteria implements KernelCriteria
 {
@@ -708,6 +708,11 @@ public class DefaultCriteria extends Criteria implements KernelCriteria
 
     private URL resolveURL( File base, String value ) throws Exception
     {
+        if( value.startsWith( "artifact:" ) )
+        {
+            return new URL( null, value, new ArtifactHandler() );
+        }
+
         try
         {
             return new URL( value );
@@ -722,13 +727,18 @@ public class DefaultCriteria extends Criteria implements KernelCriteria
             else
             {
                 target = new File( base, value );
-                if( target.exists() ) return toURL( target );
+                if( target.exists() )
+                {
+                    return toURL( target );
+                }
+                else
+                {
+                    final String error = 
+                      "Unable to resolve the block path [" + value + "].";
+                    throw new KernelRuntimeException( error, e );
+                }
             }
         }
-
-        final String error = 
-          "Unable to resolve the block path [" + value + "].";
-        throw new KernelRuntimeException( error );
     }
 
     private URL toURL( File file )
