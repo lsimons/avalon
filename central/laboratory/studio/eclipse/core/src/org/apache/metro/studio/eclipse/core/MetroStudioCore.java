@@ -120,7 +120,7 @@ public class MetroStudioCore extends AbstractUIPlugin
                 e);
 
         log(status);
-        if (isDebugging)
+        if (isDebugging && e != null)
         {
             System.out.println(message + ": " + e.getMessage()); //$NON-NLS-1$
         }
