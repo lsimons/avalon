@@ -116,7 +116,7 @@ import org.apache.log.Priority;
  * and dispose of them properly when it itself is disposed .</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.7 $ $Date: 2003/02/25 16:28:28 $
+ * @version CVS $Revision: 1.8 $ $Date: 2003/03/13 06:04:56 $
  * @since 4.1
  */
 public class ContextManager
@@ -296,7 +296,8 @@ public class ContextManager
         }
         catch( ContextException ce )
         {
-            getLogger().debug("Could not copy the parameters for the Context, ignoring the exception.", ce);
+            getLogger().debug( "Could not copy Context parameters.  This may be Ok depending on "
+                + "other configured context values." );
         }
     }
 
@@ -543,8 +544,8 @@ public class ContextManager
         }
         catch( ContextException ce )
         {
-            getLogger().debug( "Could not copy context entry: " + RoleManager.ROLE +
-                 ".  Ignoring exception.", ce );
+            getLogger().debug( "Could not copy context entry: " + RoleManager.ROLE
+                + ".  This may be Ok depending on other configured context values." );
         }
 
         Configuration roleConfig =
@@ -639,7 +640,8 @@ public class ContextManager
         }
         catch( ContextException ce )
         {
-            getLogger().debug("There is no Configuration already loaded", ce);
+            getLogger().debug( "A preloaded Configuration was not found for key: " + configKey
+                + "  This may be Ok depending on other configured context values." );
         }
 
         String configUri = null;
@@ -649,7 +651,8 @@ public class ContextManager
         }
         catch( ContextException ce )
         {
-            getLogger().debug("There isn't any configuration URI already specified either.", ce);
+            getLogger().debug( "A configuration URI was not specified either: " + uriKey
+                + "  One or the other is required." );
             return null;
         }
 
