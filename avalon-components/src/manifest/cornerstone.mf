@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Created-By: Apache Avalon Project
+Created-By: Jakarta Apache Avalon/Phoenix Project
 
 Name: org/apache/cornerstone/blocks/masterstore/RepositoryManager.class
 Avalon-Block: true
@@ -11,4 +11,7 @@ Name: org/apache/cornerstone/blocks/sockets/DefaultSocketManager.class
 Avalon-Block: true
 
 Name: org/apache/cornerstone/blocks/connection/DefaultConnectionManager.class
+Avalon-Block: true
+
+Name: org/apache/cornerstone/blocks/packet/DefaultPacketManager.class
 Avalon-Block: true

@@ -42,7 +42,11 @@
       </repositories>
     </configuration>
   </block>
-  
+   
+  <!-- The Packet Manager block -->
+  <block class="org.apache.cornerstone.blocks.packet.DefaultPacketManager" 
+         name="packet-manager" />
+ 
   <!-- The Connection Manager block -->
   <block class="org.apache.cornerstone.blocks.connection.DefaultConnectionManager" 
          name="connections" />
