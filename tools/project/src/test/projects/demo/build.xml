@@ -4,4 +4,10 @@
 
   <x:project index="../../index.xml" key="demo"/>
 
+  <x:prepare/>
+  <x:javac/>
+  <x:jar/>
+  <x:test/>
+  <x:install/>
+
 </project>
