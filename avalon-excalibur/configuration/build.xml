@@ -1,0 +1,425 @@
+<?xml version="1.0"?>
+
+<project name="Excalibur template" default="main" basedir=".">
+
+    <property file="${user.home}/build.properties"/>
+    <property file="${basedir}/../ant.properties"/>
+    <property file="${basedir}/ant.properties"/>
+    <property file="${user.home}/.ant.properties"/>
+    <property file="${basedir}/../default.properties"/>
+    <property file="${basedir}/default.properties"/>
+
+    <!-- Classpath for product -->
+    <path id="project.class.path">
+        <pathelement location="${build.classes}"/>
+        <pathelement location="${avalon-framework.jar}"/>
+        <pathelement location="${checkstyle.jar}"/>
+        <pathelement path="${java.class.path}"/>
+    </path>
+
+    <path id="tools.class.path">
+        <pathelement location="${junit.jar}"/>
+        <pathelement location="${tools.jar}"/>
+        <fileset dir="${tools.dir}/lib"/>
+        <fileset dir="${tools.dir}/ext"/>
+    </path>
+
+    <path id="test.class.path">
+        <pathelement location="${build.testclasses}"/>
+        <pathelement location="${junit.jar}"/>
+        <path refid="project.class.path"/>
+    </path>
+    <property name="cp" refid="test.class.path"/>
+
+    <target name="main" depends="jar" description="Build the project"/>
+    <target name="rebuild" depends="clean,main" description="Rebuild the project"/>
+
+    <target name="dependencies" description="Check dependencies" unless="skip.dependencies">
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkCommon"/>
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkFramework"/>
+    </target>
+
+    <target name="dependencies-test" depends="dist-jar, dependencies"
+        description="Check unit test dependencies" unless="skip.dependencies">
+        <!-- Need the jar to prevent recursive deps. -->
+
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkJUnit"/>
+    </target>
+
+
+    <!-- Compiles the source code -->
+    <target name="compile" depends="dependencies" description="Compiles the source code">
+
+        <mkdir dir="${build.classes}"/>
+
+        <!-- Compile all classes excluding the tests. -->
+        <javac srcdir="${java.dir}"
+            destdir="${build.classes}"
+            debug="${build.debug}"
+            optimize="${build.optimize}"
+            deprecation="${build.deprecation}"
+            target="1.2">
+            <classpath refid="project.class.path" />
+            <include name="**/*.java"/>
+        </javac>
+
+        <!-- copy resources to same location as .class files -->
+        <copy todir="${build.classes}">
+            <fileset dir="${java.dir}">
+                <exclude name="**/*.java"/>
+                <exclude name="**/package.html"/>
+            </fileset>
+        </copy>
+
+    </target>
+
+    <!-- Compiles the unit test source code -->
+    <target name="compile-test" depends="compile, dependencies-test" description="Compiles the source code">
+        <mkdir dir="${build.testsrc}"/>
+
+        <!-- Copy over all of the tests applying test filters -->
+        <copy todir="${build.testsrc}">
+            <fileset dir="${test.dir}"/>
+        </copy>
+
+        <mkdir dir="${build.testclasses}"/>
+
+        <!-- Compile all test classes. -->
+        <javac srcdir="${build.testsrc}"
+            destdir="${build.testclasses}"
+            debug="${build.debug}"
+            optimize="${build.optimize}"
+            deprecation="${build.deprecation}"
+            target="1.2">
+            <classpath refid="test.class.path" />
+            <include name="**/*.java"/>
+        </javac>
+
+        <copy todir="${build.testclasses}">
+            <fileset dir="${test.dir}">
+                <exclude name="**/*.java"/>
+                <exclude name="**/package.html"/>
+            </fileset>
+        </copy>
+
+    </target>
+
+    <!-- Copies and filters the manifest and license. Used by jar and dist -->
+    <target name="prepare-conf">
+        <mkdir dir="${build.conf}"/>
+        <copy todir="${build.conf}" flatten="true">
+            <fileset dir="../" includes="LICENSE.txt"/>
+            <fileset dir="${conf.dir}" includes="MANIFEST.MF"/> 
+            <filterset>
+                <filtersfile file="default.properties"/>
+            </filterset>
+        </copy>
+
+    </target>
+
+    <!-- Creates all the .jar file -->
+    <target name="jar" depends="compile, prepare-conf" description="Generates the jar files">
+
+        <mkdir dir="${build.lib}"/>
+
+        <jar jarfile="${build.lib}/${jar.name}"
+            basedir="${build.classes}"
+            compress="${build.compress}"
+            manifest="${build.conf}/MANIFEST.MF">
+            <exclude name="**/test/**"/>
+            <zipfileset dir="${build.conf}" prefix="META-INF/">
+                <include name="LICENSE.txt"/>
+            </zipfileset>
+        </jar>
+    </target>
+
+    <!-- Creates all the Javadocs -->
+    <target name="javadocs" depends="compile" description="Generates the javadocs" unless="skip.javadocs">
+
+        <mkdir dir="${dist.javadocs}"/>
+        <javadoc packagenames="org.apache.*"
+            sourcepath="${java.dir}"
+            destdir="${dist.javadocs}">
+            <classpath refid="project.class.path" />
+            <doclet name="com.sun.tools.doclets.standard.Standard">
+                <param name="-author"/>
+                <param name="-version"/>
+                <param name="-doctitle" value="${Name}"/>
+                <param name="-windowtitle" value="${Name} API"/>
+                <param name="-link" value="http://java.sun.com/j2se/1.4/docs/api/"/>
+                <param name="-link" value="http://java.sun.com/j2ee/sdk_1.3/techdocs/api/"/>
+                <param name="-link" value="http://jakarta.apache.org/avalon/api/"/>
+                <param name="-bottom"
+                    value="&quot;Copyright &#169; ${year} Apache Jakarta Project. All Rights Reserved.&quot;"/>
+            </doclet>
+        </javadoc>
+    </target>
+
+    <target name="test" depends="compile-test" description="Perform the unit tests" unless="skip.tests">
+
+        <echo message="Performing Unit Tests" />
+
+        <mkdir dir="${build.tests}"/>
+
+        <junit fork="true"
+            haltonfailure="${junit.failonerror}"
+            printsummary="yes"
+            dir="${build.tests}">
+            <classpath refid="test.class.path"/>
+
+            <formatter type="xml"/>    <!-- xml reports for junitreport -->
+            <formatter type="plain" usefile="false"/>  <!-- text reports for humans     -->
+
+            <batchtest todir="${build.tests}">
+                <fileset dir="${build.testclasses}">
+                    <include name="**/test/*TestCase.class"/>
+                    <exclude name="**/Abstract*"/>
+                </fileset>
+            </batchtest>
+        </junit>
+
+    </target>
+
+    <target name="test-reports" depends="test" description="Generate Reports for the unit tests">
+
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkBSF"/>
+
+        <mkdir dir="${build.reports}/junit"/>
+
+        <junitreport todir="${build.reports}/junit">
+            <fileset dir="${build.tests}">
+                <include name="TEST-*.xml"/>
+            </fileset>
+            <report format="frames" todir="${build.reports}/junit"/>
+        </junitreport>
+
+        <!-- Clean up the xml reports used by the junitreport task -->
+        <!--
+        <delete>
+            <fileset dir="${build.tests}" includes="TEST-*.xml"/>
+            <fileset dir="${build.tests}" includes="TESTS-*.xml"/>
+        </delete>
+        -->
+
+    </target>
+
+    <target name="checkstyle" if="do.checkstyle" description="Checkstyle">
+
+        <!-- this invocation of checkstyle requires that checkstyle be downloaded and setup -->
+        <!-- thats why you are required to define do.checkstyle property to generate the report -->
+        <taskdef name="checkstyle"
+            classname="com.puppycrawl.tools.checkstyle.CheckStyleTask">
+            <classpath refid="project.class.path"/>
+        </taskdef>
+        <checkstyle
+            lcurlyType="nl"
+            lcurlyMethod="nl"
+            lcurlyOther="nl"
+            rcurly="ignore"
+            allowProtected="false"
+            allowPackage="false"
+            allowNoAuthor="false"
+            maxLineLen="100"
+            maxMethodLen="100"
+            maxConstructorLen="100"
+            memberPattern="^m_[a-z][a-zA-Z0-9]*$"
+            staticPattern="^c_[a-z][a-zA-Z0-9]*$"
+            constPattern="(^c_[a-z][a-zA-Z0-9]*$)|([A-Z_]*$)"
+            ignoreImportLen="true"
+            allowTabs="false"
+            javadocScope="protected"
+            ignoreWhitespace="true"
+            cacheFile="checkstyle.cache"
+            failOnViolation="false"
+            ignoreCastWhitespace="true">
+            <fileset dir="${java.dir}">
+                <include name="**/*.java"/>
+            </fileset>
+            <formatter type="plain"/>
+            <formatter type="xml" toFile="${build.dir}/checkstyle-results.xml"/>
+        </checkstyle>
+    </target>
+
+    <target name="checkstyle-report"
+        depends="checkstyle"
+        if="do.checkstyle"
+        description="Generate Checkstyle Report">
+
+        <mkdir dir="${build.reports}/checkstyle"/>
+        <property name="checkstyle.pathhack" location="."/>
+        <style style="${tools.dir}/etc/checkstyle-frames.xsl" in="${build.dir}/checkstyle-results.xml"
+            out="${build.reports}/checkstyle/delete-me.html">
+            <param name="pathhack" expression="${checkstyle.pathhack}"/>
+        </style>
+
+    </target>
+
+    <!-- Creates the distribution -->
+    <target name="dist"
+        depends="dist-jar, test-reports, checkstyle-report, javadocs"
+        description="Generates a distribution (jar + javadocs + unit tests + checkstyle reports)">
+
+
+        <copy file="${build.conf}/LICENSE.txt" todir="${dist.dir}"/>
+        <copy file="../KEYS" todir="${dist.dir}"/>
+        <copy file="README.txt" todir="${dist.dir}"/>
+
+        <mkdir dir="${dist.base}"/>
+
+        <zip zipfile="${dist.base}/${dist.name}-bin.zip" compress="true">
+            <zipfileset dir="${dist.dir}" prefix="${dist.name}"/>
+        </zip>
+
+        <!--
+          Not supported by released ant but when it is we should enable this across
+          all of the products
+        <tar longfile="gnu" tarfile="${dist.base}/${dist.name}-bin.tar">
+          <tarfileset dir="${dist.dir}"
+                      prefix="${dist.name}"
+                      username="avalon"
+                      group="avalon"/>
+        </tar>
+
+        <gzip zipfile="${dist.base}/${dist.name}-bin.tar.gz"
+              src="${dist.name}-bin.tar"/>
+        <bzip2 zipfile="${dist.base}/${dist.name}-bin.tar.gz"
+               src="${dist.name}-bin.tar"/>
+
+        <delete file="${dist.base}/${dist.name}-bin.tar"/>
+
+        <checksum fileext=".md5">
+          <fileset dir="${dist.base}" />
+        </checksum>
+        -->
+        <delete dir="${dist.dir}" />
+
+    </target>
+
+    <!-- Creates a mini jar-only distribution -->
+    <target name="dist-jar" depends="jar">
+        <mkdir dir="${dist.dir}"/>
+        <copy todir="${dist.dir}">
+            <fileset dir="${build.lib}">
+                <include name="*.jar"/>
+            </fileset>
+        </copy> 
+    </target>   
+
+    <!-- Creates a minimal distribution -->
+    <target name="dist.lite"
+        depends="dist-jar, test, javadocs"
+        description="Generates a minimal distribution (jar + javadocs)">
+
+        <copy file="../LICENSE.txt" todir="${dist.dir}"/>
+        <copy file="../KEYS" todir="${dist.dir}"/>
+        <copy file="README.txt" todir="${dist.dir}"/>
+
+    </target>
+
+    <!-- Setup the filters -->
+    <target name="setup-filters">
+      <filter token="Name" value="Avalon ${Name}"/>
+      <filter token="name" value="${dir-name}"/>
+      <filter token="version" value="${version}"/>
+      <filter token="year" value="${year}"/>
+      <filter token="status" value="${status}"/>
+      <filter token="release" value="${release}"/>
+      <filter token="short-version" value="${short.version}"/>
+
+      <property name="avalon.base" value="http://jakarta.apache.org/avalon"/>
+      <property name="framework.base" value="http://jakarta.apache.org/avalon/framework"/>
+      <property name="phoenix.base" value="http://jakarta.apache.org/avalon/phoenix"/>
+      <property name="cornerstone.base" value="http://jakarta.apache.org/avalon/cornerstone"/>
+      <property name="logkit.base" value="http://jakarta.apache.org/avalon/logkit"/>
+      <property name="testlet.base" value="http://jakarta.apache.org/avalon/testlet"/>
+
+      <filter token="year" value="${year}"/>
+      <filter token="AVALON_BASE" value="${avalon.base}"/>
+      <filter token="FRAMEWORK_BASE" value="${framework.base}"/>
+      <filter token="PHOENIX_BASE" value="${phoenix.base}"/>
+      <filter token="CORNERSTONE_BASE" value="${cornerstone.base}"/>
+      <filter token="LOGKIT_BASE" value="${logkit.base}"/>
+      <filter token="TESTLET_BASE" value="${testlet.base}"/>
+    </target>
+    
+    
+    <!-- Prepares the documentation directory -->
+    <target name="docs" depends="setup-filters"> <!-- depends="javadocs" description="Generates the Docs" -->
+      <mkdir dir="${docs.dir}"/>
+
+      <mkdir dir="${build.context}"/>
+      <mkdir dir="${build.xdocs}"/>
+      <mkdir dir="${build.docs}"/>
+      <mkdir dir="${build.dir}/work"/>
+  
+      <!-- Base pointers for non-xdocs documentation. Override these in .ant.properties to link to local docs -->
+      <copy todir="${build.context}" filtering="on">
+        <fileset dir="${context.dir}">
+          <exclude name="diagrams/**"/>
+          <exclude name="resources/**"/>
+          <exclude name="xdocs"/>
+        </fileset>
+      </copy>
+  
+      <copy todir="${build.context}/xdocs" filtering="on" overwrite="yes">
+        <fileset dir="${xdocs.dir}"/>
+      </copy>
+
+      <copy todir="${build.context}/resources" filtering="off" overwrite="yes">
+        <fileset dir="${context.dir}/resources"/>
+        <fileset dir="${xdocs.dir}">
+          <include name="**/images/**"/>
+        </fileset>
+      </copy>
+
+      <java classname="org.apache.cocoon.Main" fork="true">
+        <arg value="-c${build.context}/"/>
+        <arg value="-d${build.docs}"/>
+        <arg value="-w${build.dir}/work"/>
+        <arg value="-l${build.dir}/work/cocoon.log"/>
+        <arg value="-uINFO"/>
+        <arg value="-f${xdocs.dir}/${dir-name}.uris"/>
+        <classpath>
+          <path refid="tools.class.path"/>
+          <fileset dir="${tools.dir}/ext"/>
+        </classpath>
+      </java>
+
+      <copy todir="${docs.dir}">
+        <fileset dir="${build.docs}">
+          <include name="**"/>
+        </fileset>
+      </copy>    
+
+      <!-- hack for stupid transport on api link -->
+      <replace file="${docs.dir}/index.html" token="index.html.xml" value="index.html"/>
+     
+    </target>
+    
+    <target name="site" depends="javadocs, docs" description=" Places Docs ready for hosting on website">  
+  
+      <mkdir dir="../site/dist/docs/${dir-name}"/>     
+      <copy todir="../site/dist/docs/${dir-name}">
+        <fileset dir="${docs.dir}">
+          <include name="**"/>
+        </fileset>
+      </copy>        
+  
+    </target>
+
+    <!-- Cleans up build and distribution directories -->
+    <target name="clean" description="Cleans up the project">
+        <delete file="checkstyle.cache"/>
+        <delete dir="${build.dir}" />
+        <delete dir="${dist.dir}" />
+        <delete dir="test" /> <!-- unit testing output directory -->
+        <delete>
+            <fileset dir="." includes="**/*~" defaultexcludes="no"/>
+        </delete>
+    </target>
+
+    <target name="real-clean" depends="clean" description="Cleans up the project, including distributions">
+        <delete dir="${dist.base}" />
+    </target>
+
+</project>
