@@ -95,7 +95,7 @@ public class JettySevak extends AbstractLogEnabled
 
     private Server m_server;
 
-    /** Virtual host to bind the context to.  null implies all hosts are in context. */
+    /** Virtual host to bind the Jetty to.  null implies all hosts are in context. */
     private String m_hostName;
 
     private HashMap m_webapps = new HashMap();
@@ -157,6 +157,12 @@ public class JettySevak extends AbstractLogEnabled
     {
         m_server = new Server();
         SocketListener listener = new SocketListener();
+
+        if( null != m_hostName )
+        {
+            listener.setHost( m_hostName );
+        }
+
         listener.setPort( m_port );
         listener.setMinThreads( m_minThreads );
         listener.setMaxThreads( m_maxThreads );
