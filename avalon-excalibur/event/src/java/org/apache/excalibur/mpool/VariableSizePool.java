@@ -50,7 +50,6 @@
 package org.apache.excalibur.mpool;
 
 import org.apache.avalon.excalibur.collections.Buffer;
-import org.apache.avalon.excalibur.collections.BufferUnderflowException;
 import org.apache.avalon.excalibur.collections.VariableSizeBuffer;
 import org.apache.avalon.framework.activity.Disposable;
 
@@ -59,7 +58,7 @@ import org.apache.avalon.framework.activity.Disposable;
  * Please note that this pool offers no resource limiting whatsoever.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.5 $ $Date: 2002/09/30 17:55:09 $
+ * @version CVS $Revision: 1.6 $ $Date: 2002/09/30 17:57:12 $
  * @since 4.1
  */
 public final class VariableSizePool
