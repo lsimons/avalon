@@ -3,7 +3,7 @@
 <project>
 
   <extend>${basedir}/../project.xml</extend>
-  <id>merlin-jmx-management-mx4j</id>
+  <id>avalon-jmx-management-mx4j</id>
   <name>Merlin MX4J Implementation</name>
   <package>org.apache.avalon.merlin.jmx.mx4j</package>
   <shortDescription>MX4J implementation of JMX in Merlin</shortDescription>
@@ -18,13 +18,13 @@
       <version>4.1.5</version>
     </dependency>
     <dependency>
-      <groupId>avalon-merlin-jmx</groupId>
-      <artifactId>merlin-jmx-management-api</artifactId>
+      <groupId>avalon-jmx</groupId>
+      <artifactId>avalon-jmx-management-api</artifactId>
       <version>${pom.currentVersion}</version>
     </dependency>
     <dependency>
-      <groupId>avalon-merlin-jmx</groupId>
-      <artifactId>merlin-jmx-management-spi</artifactId>
+      <groupId>avalon-jmx</groupId>
+      <artifactId>avalon-jmx-management-spi</artifactId>
       <version>${pom.currentVersion}</version>
     </dependency>
     <dependency>

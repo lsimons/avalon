@@ -3,7 +3,7 @@
 <project>
 
   <extend>${basedir}/../project.xml</extend>
-  <id>merlin-jmx-util</id>
+  <id>avalon-jmx-util</id>
   <name>Merlin JMX Utility</name>
   <package>org.apache.avalon.merlin.jmx.util</package>
   <shortDescription>Merlin JMX utilities</shortDescription>
