@@ -12,14 +12,14 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
 
 /**
- * A InstrumentSample which stores the average value set during the sample
+ * A InstrumentSample which stores the mean value set during the sample
  *  period.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/04/03 13:18:29 $
+ * @version CVS $Revision: 1.1 $ $Date: 2002/04/22 07:06:43 $
  * @since 4.1
  */
-class AverageValueInstrumentSample
+class MeanValueInstrumentSample
     extends AbstractValueInstrumentSample
 {
     /** Total of all values seen during the sample period. */
@@ -29,14 +29,14 @@ class AverageValueInstrumentSample
      * Constructors
      *-------------------------------------------------------------*/
     /**
-     * Creates a new AverageValueInstrumentSample
+     * Creates a new MeanValueInstrumentSample
      *
      * @param name The name of the new InstrumentSample.
      * @param interval The sample interval of the new InstrumentSample.
      * @param size The number of samples to store as history.  Assumes that size is at least 1.
      * @param description The description of the new InstrumentSample.
      */
-    AverageValueInstrumentSample( String name, long interval, int size, String description )
+    MeanValueInstrumentSample( String name, long interval, int size, String description )
     {
         super( name, interval, size, description );
     }
@@ -105,7 +105,7 @@ class AverageValueInstrumentSample
      *-------------------------------------------------------------*/
     /**
      * Sets the current value of the sample.  The value will be set as the
-     *  average of the new value and other values seen during the sample period.
+     *  mean of the new value and other values seen during the sample period.
      *
      * @param value New sample value.
      * @param time Time that the new sample arrives.

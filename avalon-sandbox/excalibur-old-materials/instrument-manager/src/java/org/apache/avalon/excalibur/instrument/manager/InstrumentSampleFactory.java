@@ -14,7 +14,7 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
  * Access to InstrumentSamples are synchronized through the ProfileDataSet.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.2 $ $Date: 2002/04/03 13:18:29 $
+ * @version CVS $Revision: 1.3 $ $Date: 2002/04/22 07:06:43 $
  * @since 4.1
  */
 class InstrumentSampleFactory
@@ -23,7 +23,7 @@ class InstrumentSampleFactory
      * A Profile Sample Type loaded in from a Configuration.
      *
      * @param type Type of the InstrumentSample to create.  Accepted values are:
-     *              "max", "maximum", "min", "minimum", "avg", "average", 
+     *              "max", "maximum", "min", "minimum", "mean", 
      *              "ctr", and "counter".
      * @param name The name of the new InstrumentSample.
      * @param interval The sample interval of the new InstrumentSample.
@@ -45,9 +45,9 @@ class InstrumentSampleFactory
         {
             return new MinimumValueInstrumentSample( name, interval, size, description );
         }
-        else if ( type.equalsIgnoreCase( "avg" ) || type.equalsIgnoreCase( "average" ) )
+        else if ( type.equalsIgnoreCase( "mean" ) )
         {
-            return new AverageValueInstrumentSample( name, interval, size, description );
+            return new MeanValueInstrumentSample( name, interval, size, description );
         }
         else if ( type.equalsIgnoreCase( "ctr" ) || type.equalsIgnoreCase( "counter" ) )
         {
