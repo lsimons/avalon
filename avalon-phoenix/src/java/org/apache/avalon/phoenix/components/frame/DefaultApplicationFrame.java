@@ -29,15 +29,14 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
-import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.AbstractLoggable;
 import org.apache.avalon.phoenix.BlockContext;
 import org.apache.avalon.phoenix.BlockEvent;
 import org.apache.avalon.phoenix.components.configuration.ConfigurationRepository;
 import org.apache.avalon.phoenix.components.logger.DefaultLogManager;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
-import org.apache.log.Logger;
 import org.apache.log.Hierarchy;
+import org.apache.log.Logger;
 
 /**
  * Manage the "frame" in which Applications operate.
@@ -60,10 +59,7 @@ public class DefaultApplicationFrame
     ///ClassLoader for application
     private ClassLoader  m_classLoader;
 
-    ///Base context for all blocks in application
-    private Context      m_context;
-
-    ///Context which application threads must execute in
+    ///ThreadContext for application
     private ThreadContext m_threadContext;
 
     //Repository of configuration data to access
@@ -71,29 +67,18 @@ public class DefaultApplicationFrame
 
     private SarMetaData m_metaData;
 
-    public DefaultApplicationFrame( final SarMetaData metaData, 
-                                    final ClassLoader classLoader, 
+    public DefaultApplicationFrame( final SarMetaData metaData,
+                                    final ClassLoader classLoader,
                                     final Hierarchy hierarchy )
     {
         m_metaData = metaData;
         m_classLoader = classLoader;
         m_hierarchy = hierarchy;
 
-        //base context that all block contexts inherit from
-        final DefaultContext context = new DefaultContext();
-        context.put( BlockContext.APP_NAME, m_metaData.getName() );
-        context.put( BlockContext.APP_HOME_DIR, m_metaData.getHomeDirectory() );
-        m_context = context;
-
         final DefaultThreadContextPolicy policy = new DefaultThreadContextPolicy();
         final HashMap map = new HashMap( 1 );
         map.put( ThreadContextPolicy.CLASSLOADER, m_classLoader );
         m_threadContext = new ThreadContext( policy, map );
-    }
-
-    public SarMetaData getMetaData()
-    {
-        return m_metaData;
     }
 
     public void compose( final ComponentManager componentManager )
@@ -112,7 +97,7 @@ public class DefaultApplicationFrame
         throws ConfigurationException
     {
         //Configure thread pools
-        final Configuration[] groups = 
+        final Configuration[] groups =
             configuration.getChild( "threads" ).getChildren( "thread-group" );
 
         if( groups.length > 0 )
@@ -128,11 +113,11 @@ public class DefaultApplicationFrame
         }
     }
 
-    /**
-     * Get ThreadContext for the current application.
-     *
-     * @return the ThreadContext
-     */
+    public SarMetaData getMetaData()
+    {
+        return m_metaData;
+    }
+
     public ThreadContext getThreadContext()
     {
         return m_threadContext;
@@ -174,22 +159,6 @@ public class DefaultApplicationFrame
     }
 
     /**
-     * Create a BlockContext for a particular Block.
-     *
-     * @param name the name of the Block
-     * @return the created BlockContext
-     */
-    public BlockContext createBlockContext( final String name )
-    {
-        final DefaultBlockContext context =
-            new DefaultBlockContext( getLogger( name ), this, m_context );
-        context.setLogger( getLogger() );
-        context.put( BlockContext.NAME, name );
-        context.makeReadOnly();
-        return context;
-    }
-
-    /**
      * Retrieve thread pool by name.
      *
      * @param name the name of thread pool
@@ -208,16 +177,6 @@ public class DefaultApplicationFrame
         }
 
         return threadPool;
-    }
-
-    /**
-     * Retrieve the default thread pool.
-     *
-     * @return the thread pool
-     */
-    public ThreadPool getDefaultThreadPool()
-    {
-        return getThreadPool( "default" );
     }
 
     private void configureThreadPool( final Configuration configuration )

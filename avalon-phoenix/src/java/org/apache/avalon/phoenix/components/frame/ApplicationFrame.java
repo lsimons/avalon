@@ -12,7 +12,6 @@ import org.apache.avalon.excalibur.thread.ThreadPool;
 import org.apache.avalon.framework.component.Component;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.phoenix.BlockContext;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
 import org.apache.log.Logger;
 
@@ -26,14 +25,8 @@ public interface ApplicationFrame
 {
     String ROLE = "org.apache.avalon.phoenix.components.frame.ApplicationFrame";
 
-    /**
-     * Get ThreadContext for the current application.
-     *
-     * @return the ThreadContext
-     */
-    ThreadContext getThreadContext();
-
     SarMetaData getMetaData();
+    ThreadContext getThreadContext();
 
     /**
      * Get ClassLoader for the current application.
@@ -55,18 +48,10 @@ public interface ApplicationFrame
      * Get logger with category for application.
      * Note that this name may not be the absolute category.
      *
-     * @param category the logger category
+     * @param name the name of logger
      * @return the Logger
      */
-    Logger getLogger( String category );
-
-    /**
-     * Create a BlockContext for a particular Block.
-     *
-     * @param name the name of the Block
-     * @return the created BlockContext
-     */
-    BlockContext createBlockContext( String name );
+    Logger getLogger( String name );
 
     /**
      * Retrieve thread pool by name.
@@ -78,11 +63,4 @@ public interface ApplicationFrame
      */
     ThreadPool getThreadPool( String name )
         throws IllegalArgumentException;
-
-    /**
-     * Retrieve the default thread pool.
-     *
-     * @return the thread pool
-     */
-    ThreadPool getDefaultThreadPool();
 }
