@@ -56,7 +56,7 @@ import org.apache.avalon.fortress.impl.handler.ComponentHandler;
  * ComponentHandler.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2003/03/05 15:02:33 $
+ * @version $Revision: 1.4 $ $Date: 2003/03/19 12:55:45 $
  */
 class ComponentHandlerEntry
 {
@@ -81,9 +81,8 @@ class ComponentHandlerEntry
             throw new NullPointerException( "metaData" );
         }
 
-
         m_handler = handler;
-        m_metaData= metaData;
+        m_metaData = metaData;
     }
 
     /**

@@ -67,15 +67,15 @@ import org.apache.excalibur.mpool.ObjectFactory;
  * and destroyed correctly.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.7 $ $Date: 2003/03/06 19:42:08 $
+ * @version CVS $Revision: 1.8 $ $Date: 2003/03/19 12:55:46 $
  * @since 4.0
  */
 public abstract class AbstractComponentHandler
     extends AbstractLogEnabledInstrumentable
     implements Serviceable, Initializable, Disposable, ComponentHandler
 {
-    private CounterInstrument m_request = new CounterInstrument("requests");
-    private CounterInstrument m_release = new CounterInstrument("releases");
+    private CounterInstrument m_request = new CounterInstrument( "requests" );
+    private CounterInstrument m_release = new CounterInstrument( "releases" );
 
     /**
      * The instance of the ComponentFactory that creates and disposes of the
@@ -216,7 +216,7 @@ public abstract class AbstractComponentHandler
             throw new IllegalStateException( message );
         }
 
-        if ( m_request.isActive() )
+        if( m_request.isActive() )
         {
             m_request.increment();
         }
@@ -247,7 +247,7 @@ public abstract class AbstractComponentHandler
             throw new IllegalStateException( message );
         }
 
-        if ( m_release.isActive() )
+        if( m_release.isActive() )
         {
             m_release.increment();
         }
@@ -260,7 +260,9 @@ public abstract class AbstractComponentHandler
      *
      * @param component the component
      */
-    protected void doPut( final Object component ) {}
+    protected void doPut( final Object component )
+    {
+    }
 
     /**
      * Create a new component for handler.

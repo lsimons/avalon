@@ -53,7 +53,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
 import org.apache.avalon.excalibur.logger.LoggerManager;
 import org.apache.avalon.fortress.Container;
 import org.apache.avalon.fortress.RoleEntry;
@@ -96,7 +95,7 @@ import org.apache.excalibur.mpool.PoolManager;
  * Container's Manager can expose that to the instantiating class.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.13 $ $Date: 2003/03/07 20:21:26 $
+ * @version CVS $Revision: 1.14 $ $Date: 2003/03/19 12:55:45 $
  */
 public abstract class AbstractContainer
     extends AbstractLogEnabled
@@ -205,17 +204,17 @@ public abstract class AbstractContainer
          */
         boolean isInstrumentEnabled = false;
         Iterator it = m_extManager.creatorExtensionsIterator();
-        while(it.hasNext())
+        while( it.hasNext() )
         {
-            if (it.next() instanceof InstrumentableCreator)
+            if( it.next() instanceof InstrumentableCreator )
             {
                 isInstrumentEnabled = true;
             }
         }
-        
-        if ( ! isInstrumentEnabled )
+
+        if( !isInstrumentEnabled )
         {
-            m_extManager.addCreatorExtension(new InstrumentableCreator(m_instrumentManager));
+            m_extManager.addCreatorExtension( new InstrumentableCreator( m_instrumentManager ) );
         }
 
         if( serviceManager.hasService( Queue.ROLE ) )
@@ -277,7 +276,7 @@ public abstract class AbstractContainer
      * @throws Exception if unable to create a Handler for the component
      */
     protected void addComponent( final ComponentHandlerMetaData metaData )
-            throws IllegalArgumentException, Exception
+        throws IllegalArgumentException, Exception
     {
         // figure out Role
         final String classname = metaData.getClassname();
@@ -288,10 +287,10 @@ public abstract class AbstractContainer
             throw new IllegalArgumentException( message );
         }
 
-        if( DEFAULT_ENTRY.equals(metaData.getName()) ||
-            SELECTOR_ENTRY.equals(metaData.getName()) )
+        if( DEFAULT_ENTRY.equals( metaData.getName() ) ||
+            SELECTOR_ENTRY.equals( metaData.getName() ) )
         {
-            throw new IllegalArgumentException("Using a reserved id name" + metaData.getName());
+            throw new IllegalArgumentException( "Using a reserved id name" + metaData.getName() );
         }
 
         // create a handler for the combo of Role+MetaData
@@ -317,19 +316,18 @@ public abstract class AbstractContainer
 
             hintMap.put( metaData.getName(), handler );
 
-            if( (! hintMap.containsKey( SELECTOR_ENTRY )) && (hintMap.size() > 1) )
+            if( ( !hintMap.containsKey( SELECTOR_ENTRY ) ) && ( hintMap.size() > 1 ) )
             {
                 hintMap.put( SELECTOR_ENTRY,
                              new FortressServiceSelector( this, role ) );
             }
 
-            if ( metaData.getConfiguration().getAttributeAsBoolean( "default", false ) )
+            if( metaData.getConfiguration().getAttributeAsBoolean( "default", false ) )
             {
                 hintMap.put( DEFAULT_ENTRY, handler );
             }
         }
     }
-
 
     /**
      * Get a ComponentHandler with the default constructor for the component class passed in.
@@ -341,7 +339,7 @@ public abstract class AbstractContainer
      */
     private ComponentHandler getComponentHandler( final RoleEntry roleEntry,
                                                   final ComponentHandlerMetaData metaData )
-            throws Exception
+        throws Exception
     {
         // get info from params
         ComponentHandler handler = null;
@@ -351,16 +349,16 @@ public abstract class AbstractContainer
         try
         {
             final ObjectFactory factory =
-                            createObjectFactory( classname, configuration );
+                createObjectFactory( classname, configuration );
 
             // create the appropriate handler instance
             final ComponentHandler targetHandler =
-                    (ComponentHandler)roleEntry.getHandlerClass().newInstance();
+                (ComponentHandler)roleEntry.getHandlerClass().newInstance();
 
             // do the handler lifecycle
             ContainerUtil.contextualize( targetHandler, m_context );
             final DefaultServiceManager serviceManager =
-                    new DefaultServiceManager( getServiceManager() );
+                new DefaultServiceManager( getServiceManager() );
             serviceManager.put( ObjectFactory.ROLE, factory );
             serviceManager.makeReadOnly();
 
@@ -600,7 +598,7 @@ public abstract class AbstractContainer
 
                 if( getLogger().isWarnEnabled() )
                 {
-                    final String message = "Could not initialize component "+ cName;
+                    final String message = "Could not initialize component " + cName;
                     getLogger().warn( message, e );
                 }
                 buffer.add( e );
@@ -611,8 +609,8 @@ public abstract class AbstractContainer
         // throw an exception
         if( buffer.size() > 0 )
         {
-            throw new CompositeException( (Exception[])buffer.toArray( new Exception[0] ),
-                        "unable to instantiate one or more components" );
+            throw new CompositeException( (Exception[])buffer.toArray( new Exception[ 0 ] ),
+                                          "unable to instantiate one or more components" );
         }
     }
 
@@ -627,9 +625,9 @@ public abstract class AbstractContainer
             final ComponentHandlerEntry entry = (ComponentHandlerEntry)i.next();
             final ComponentHandler handler = entry.getHandler();
 
-            if (getLogger().isDebugEnabled()) getLogger().debug("Shutting down: " + handler);
+            if( getLogger().isDebugEnabled() ) getLogger().debug( "Shutting down: " + handler );
             ContainerUtil.dispose( handler );
-            if (getLogger().isDebugEnabled()) getLogger().debug("Done.");
+            if( getLogger().isDebugEnabled() ) getLogger().debug( "Done." );
         }
     }
 

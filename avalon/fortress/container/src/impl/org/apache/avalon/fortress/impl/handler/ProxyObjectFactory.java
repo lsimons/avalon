@@ -58,7 +58,7 @@ import org.apache.excalibur.mpool.ObjectFactory;
  * and proxies results of that factory.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3 $ $Date: 2003/03/06 19:42:08 $
+ * @version $Revision: 1.4 $ $Date: 2003/03/19 12:55:46 $
  */
 public class ProxyObjectFactory
     implements ObjectFactory, Instrumentable
@@ -124,11 +124,11 @@ public class ProxyObjectFactory
     /* (non-Javadoc)
      * @see org.apache.excalibur.instrument.Instrumentable#setInstrumentableName(java.lang.String)
      */
-    public void setInstrumentableName(String name)
+    public void setInstrumentableName( String name )
     {
-        if ( m_objectFactory instanceof Instrumentable )
+        if( m_objectFactory instanceof Instrumentable )
         {
-            ((Instrumentable)m_objectFactory).setInstrumentableName(name);
+            ( (Instrumentable)m_objectFactory ).setInstrumentableName( name );
         }
     }
 
@@ -137,11 +137,11 @@ public class ProxyObjectFactory
      */
     public String getInstrumentableName()
     {
-        if ( m_objectFactory instanceof Instrumentable )
+        if( m_objectFactory instanceof Instrumentable )
         {
-            return ((Instrumentable)m_objectFactory).getInstrumentableName();
+            return ( (Instrumentable)m_objectFactory ).getInstrumentableName();
         }
-        
+
         return "";
     }
 
@@ -150,12 +150,12 @@ public class ProxyObjectFactory
      */
     public Instrument[] getInstruments()
     {
-        if ( m_objectFactory instanceof Instrumentable )
+        if( m_objectFactory instanceof Instrumentable )
         {
-            return ((Instrumentable)m_objectFactory).getInstruments();
+            return ( (Instrumentable)m_objectFactory ).getInstruments();
         }
-        
-        return new Instrument[] {};
+
+        return new Instrument[]{};
     }
 
     /* (non-Javadoc)
@@ -163,11 +163,11 @@ public class ProxyObjectFactory
      */
     public Instrumentable[] getChildInstrumentables()
     {
-        if ( m_objectFactory instanceof Instrumentable )
+        if( m_objectFactory instanceof Instrumentable )
         {
-            return ((Instrumentable)m_objectFactory).getChildInstrumentables();
+            return ( (Instrumentable)m_objectFactory ).getChildInstrumentables();
         }
-        
-        return new Instrumentable[] {};
+
+        return new Instrumentable[]{};
     }
 }

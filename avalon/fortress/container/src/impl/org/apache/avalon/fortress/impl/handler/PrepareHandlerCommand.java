@@ -57,18 +57,18 @@ import org.apache.excalibur.event.command.Command;
  * This is the command class to initialize a ComponentHandler
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.4 $ $Date: 2003/02/14 20:51:08 $
+ * @version CVS $Revision: 1.5 $ $Date: 2003/03/19 12:55:46 $
  */
 public final class PrepareHandlerCommand implements Command
 {
     private final ComponentHandler m_handler;
     private final Logger m_logger;
 
-   /**
-    * Creation of a new prepare handler command.
-    * @param handler the compoent handler
-    * @param logger the logging channel
-    */
+    /**
+     * Creation of a new prepare handler command.
+     * @param handler the compoent handler
+     * @param logger the logging channel
+     */
     public PrepareHandlerCommand( final ComponentHandler handler,
                                   final Logger logger )
     {
@@ -76,10 +76,10 @@ public final class PrepareHandlerCommand implements Command
         m_logger = ( null == logger ) ? new NullLogger() : logger;
     }
 
-   /**
-    * Invoke execution of the handler
-    * @exception java.lang.Exception if a handler execution exception occurs
-    */
+    /**
+     * Invoke execution of the handler
+     * @exception java.lang.Exception if a handler execution exception occurs
+     */
     public void execute()
         throws Exception
     {
