@@ -248,24 +248,31 @@ public abstract class AbstractThreadManager extends AbstractLogEnabled
 
                     while( i.hasNext() )
                     {
-                        try
-                        {
-                            m_controls.add(m_threadPool.execute( ( PipelineRunner ) i.next() ));
-                        }
-                        catch( IllegalStateException e )
-                        {
-                            // that's the way ResourceLimitingThreadPool reports
-                            // that it has no threads available, will still try
-                            // to go on, hopefully at one point there will be
-                            // a thread to execute our runner
+                        ThreadControl control = null;
 
-                            if( getLogger().isWarnEnabled() )
+                        while (control == null )
+                        {
+                            try
                             {
-                                getLogger().warn( "Unable to execute pipeline (If out of threads, "
-                                                  + "increase block-timeout or number of threads "
-                                                  + "per processor", e );
+                                control = m_threadPool.execute( ( PipelineRunner ) i.next() );
+                            }
+                            catch( IllegalStateException e )
+                            {
+                                // that's the way ResourceLimitingThreadPool reports
+                                // that it has no threads available, will still try
+                                // to go on, hopefully at one point there will be
+                                // a thread to execute our runner
+
+                                if( getLogger().isWarnEnabled() )
+                                {
+                                    getLogger().warn( "Unable to execute pipeline (If out of threads, "
+                                                      + "increase block-timeout or number of threads "
+                                                      + "per processor", e );
+                                }
                             }
                         }
+
+                        m_controls.add(control);
                     }
                 }
                 finally

@@ -117,7 +117,7 @@ public class TPCThreadManagerTestCase extends TestCase
         threadManager.register( new Pipeline( result, errorOut ) );
 
         // sleeps for 1 more scheduling timeout to surely go over limit
-        Thread.sleep( SCHEDULING_TIMEOUT * ( MINIMAL_NUMBER_INVOCATIONS + 1) );
+        Thread.sleep( SCHEDULING_TIMEOUT * ( MINIMAL_NUMBER_INVOCATIONS + 1 ) );
 
         int numberCalls = result.length();
 
@@ -178,6 +178,7 @@ public class TPCThreadManagerTestCase extends TestCase
 
         public void handleEvents( QueueElement[] elements )
         {
+System.out.println("handled event");
             // records the fact that the handler was called
             m_result.append( 'a' );
             try

@@ -55,13 +55,14 @@ import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.excalibur.threadcontext.ThreadContext;
 import org.apache.excalibur.mpool.ObjectFactory;
-import org.apache.excalibur.mpool.FixedSizePool;
+import org.apache.excalibur.mpool.BlockingFixedSizePool;
 import org.apache.excalibur.thread.ThreadControl;
 import org.apache.excalibur.thread.ThreadPool;
 
 /**
  * This class is the public frontend for the thread pool code.
  *
+ * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:stefano@apache.org">Stefano Mazzocchi</a>
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  */
@@ -69,7 +70,7 @@ public class DefaultThreadPool
     extends ThreadGroup
     implements ObjectFactory, LogEnabled, Disposable, ThreadPool
 {
-    private FixedSizePool m_pool;
+    private BlockingFixedSizePool m_pool;
 
     private int m_level;
 
@@ -86,16 +87,29 @@ public class DefaultThreadPool
     public DefaultThreadPool( final String name, final int capacity )
         throws Exception
     {
-        this( name, capacity, null );
+        this( name, capacity, null, 1000 );
+    }
+
+    public DefaultThreadPool( final String name, final int capacity, final int timeout )
+        throws Exception
+    {
+        this( name, capacity, null, timeout );
+    }
+
+    public DefaultThreadPool( final String name, final int capacity, final ThreadContext context )
+        throws Exception
+    {
+        this( name, capacity, context, 1000 );
     }
 
     public DefaultThreadPool( final String name,
                               final int capacity,
-                              final ThreadContext context )
+                              final ThreadContext context,
+                              final int timeout)
         throws Exception
     {
         super( name );
-        m_pool = new FixedSizePool( this, capacity );
+        m_pool = new BlockingFixedSizePool( this, capacity, timeout );
         m_context = context;
     }
 
@@ -172,13 +186,13 @@ public class DefaultThreadPool
      */
     protected WorkerThread getWorker()
     {
-        try
+        final WorkerThread thread = (WorkerThread)m_pool.acquire();
+
+        if ( null == thread )
         {
-            return (WorkerThread)m_pool.acquire();
+            throw new IllegalStateException( "Unable to access thread pool due to timeout exceeded" );
         }
-        catch( final Exception e )
-        {
-            throw new IllegalStateException( "Unable to access thread pool due to " + e );
-        }
+
+        return thread;
     }
 }
