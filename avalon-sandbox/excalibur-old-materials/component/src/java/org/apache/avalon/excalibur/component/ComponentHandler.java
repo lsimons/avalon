@@ -7,6 +7,9 @@
  */
 package org.apache.avalon.excalibur.component;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+
 import org.apache.avalon.excalibur.pool.Poolable;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Initializable;
@@ -27,7 +30,7 @@ import org.apache.excalibur.instrument.ValueInstrument;
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
  * @author <a href="mailto:ryan@silveregg.co.jp">Ryan Shaw</a>
  * @author <a href="mailto:leif@apache.org">Leif Mortenson</a>
- * @version CVS $Revision: 1.9 $ $Date: 2002/11/07 06:37:53 $
+ * @version CVS $Revision: 1.10 $ $Date: 2003/02/08 14:49:16 $
  * @since 4.0
  */
 public abstract class ComponentHandler
@@ -51,8 +54,135 @@ public abstract class ComponentHandler
      *-------------------------------------------------------------*/
     /**
      * Looks up and returns a component handler for a given component class.
+     * The componentClass must either implement Component or have a public
+     * static field named ROLE containing the Fully Qualified Classname as a
+     * String of the interface or class defining the component's role.
      *
-     * @param role           The role name of the component.
+     * @param componentClass Class of the component for which the handle is
+     *                       being requested.
+     * @param configuration The configuration for this component.
+     * @param componentManager The ComponentLocator which will be managing
+     *                         the Component.
+     * @param context The current context object.
+     * @param roleManager The current RoleManager.
+     * @param loggerManager The current LogKitLoggerManager.
+     *
+     * @throws Exception If there were any problems obtaining a ComponentHandler
+     *
+     * @deprecated This method has been deprecated in favor of the version below which
+     *             handles instrumentation.
+     */
+    public static ComponentHandler getComponentHandler( final Class componentClass,
+                                                        final Configuration configuration,
+                                                        final ComponentManager componentManager,
+                                                        final Context context,
+                                                        final RoleManager roleManager,
+                                                        final LogkitLoggerManager loggerManager )
+        throws Exception
+    {
+        return ComponentHandler.getComponentHandler( componentClass,
+                                                     configuration,
+                                                     componentManager,
+                                                     context,
+                                                     roleManager,
+                                                     loggerManager,
+                                                     null,
+                                                     "N/A" );
+    }
+
+    /**
+     * Looks up and returns a component handler for a given component class.
+     * The componentClass must either implement Component or have a public
+     * static field named ROLE containing the Fully Qualified Classname as a
+     * String of the interface or class defining the component's role.
+     *
+     * @param componentClass Class of the component for which the handle is
+     *                       being requested.
+     * @param configuration The configuration for this component.
+     * @param componentManager The ComponentLocator which will be managing
+     *                         the Component.
+     * @param context The current context object.
+     * @param roleManager The current RoleManager.
+     * @param loggerManager The current LogKitLoggerManager.
+     * @param instrumentManager The current InstrumentManager (May be null).
+     * @param instrumentableName The instrumentable name to assign to
+     *                           components created by the handler.
+     *
+     * @throws Exception If there were any problems obtaining a ComponentHandler
+     */
+    public static ComponentHandler getComponentHandler( final Class componentClass,
+                                                        final Configuration configuration,
+                                                        final ComponentManager componentManager,
+                                                        final Context context,
+                                                        final RoleManager roleManager,
+                                                        final LogkitLoggerManager loggerManager,
+                                                        final InstrumentManager instrumentManager,
+                                                        final String instrumentableName )
+        throws Exception
+    {
+	// If componentClass extends Component, everything
+	// is fly, as no proxy needs to be generated, and we can pass
+	// in null for the role. If not, we check for a public ROLE
+	// member and use that. If that fails, we complain loudly...
+	String role = null;
+	final boolean isComponent = Component.class.isAssignableFrom( componentClass );
+
+	if( role == null && !isComponent )
+	{
+		try
+		{
+			final Field field = componentClass.getField( "ROLE" );
+			final boolean isStatic = Modifier.isStatic(field.getModifiers());
+			if( !isStatic )
+				throw new IllegalArgumentException( "the componentClass you provided" +
+					"does not implement Component, and you also did not" +
+					"specify a role." );
+			
+			final Object fieldContents = field.get(null);
+			if( fieldContents instanceof String )
+				role = (String)field.get(null); // found the role
+		}
+		catch( NoSuchFieldException nsfe )
+		{
+			throw new IllegalArgumentException( "the componentClass you provided" +
+					"does not implement Component, and you also did not" +
+					"specify a role." );
+		}
+		catch( SecurityException se )
+		{
+			throw new IllegalArgumentException( "the componentClass you provided" +
+					"does not implement Component, and you also did not" +
+					"specify a role." );
+		}
+		catch( IllegalArgumentException iae )
+		{
+			 // won't happen
+			throw iae;
+		}
+		catch( IllegalAccessException iae )
+		{
+			// won't happen
+			throw new IllegalArgumentException( "the componentClass you provided" +
+					"does not implement Component, and you also did not" +
+					"specify a role." );
+		}
+	}
+        return ComponentHandler.getComponentHandler( role,
+                                                     componentClass,
+                                                     configuration,
+                                                     componentManager,
+                                                     context,
+                                                     roleManager,
+                                                     loggerManager,
+                                                     instrumentManager,
+                                                     instrumentableName );
+    }
+
+    /**
+     * Looks up and returns a component handler for a given component class.
+     *
+     * @param role           The role name of the component. This must be
+     *                       a fully-qualified classname.
      * @param componentClass Class of the component for which the handle is
      *                       being requested.
      * @param configuration The configuration for this component.
@@ -90,7 +220,8 @@ public abstract class ComponentHandler
     /**
      * Looks up and returns a component handler for a given component class.
      *
-     * @param role           The role name of the component.
+     * @param role           The role name of the component. This must be
+     *                       a fully-qualified classname
      * @param componentClass Class of the component for which the handle is
      *                       being requested.
      * @param configuration The configuration for this component.
