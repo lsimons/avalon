@@ -60,7 +60,7 @@ package org.apache.avalon.framework.service;
  * same role.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.13 $ $Date: 2003/02/11 15:58:42 $
+ * @version CVS $Revision: 1.14 $ $Date: 2003/10/16 22:00:46 $
  * @see org.apache.avalon.framework.service.Serviceable
  * @see org.apache.avalon.framework.service.ServiceSelector
  */
@@ -107,7 +107,8 @@ public interface ServiceSelector
      * Exception should be thrown at this point.  This is to allow easy use of the
      * ServiceSelector system without having to trap Exceptions on a release.
      *
-     * @param object The {@link Object} we are releasing.
+     * @param object The {@link Object} we are releasing, may also be a 
+     *               <code>null</code> reference
      */
     void release( Object object );
 }
