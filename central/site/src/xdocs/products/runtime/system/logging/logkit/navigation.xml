@@ -21,11 +21,8 @@
 
   <body>
     <menu>
-      <item name="Overview" href="index.html"/>
-      <item name="Overview" href="index.html"/>
       <item name="Features" href="features.html"/>
       <item name="Whitepaper" href="whitepaper.html"/>
-      <item name="Javadoc" href="api/index.html"/>
     </menu>
   </body>
 

@@ -25,13 +25,10 @@
 
   <body>
     <menu>
-      <item name="Inroduction" href="index.html"/>
-      <item name="Overview" href="meta.html"/>
       <item name="Tag Reference" href="tags/index.html"/>
       <item name="Type Model" href="info/index.html"/>
       <item name="Meta Data" href="data/index.html"/>
       <item name="Tools" href="tools/index.html"/>
-      <item name="Javadoc" href="api/index.html"/>
     </menu>
   </body>
 

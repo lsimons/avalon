@@ -25,7 +25,6 @@
 
   <body>
     <menu>
-      <item name="Overview" href="index.html"/>
       <item name="Programmer API" href="api/index.html"/>
       <item name="Provider SPI" href="spi.html"/>
       <item name="Implementation" href="reference.html"/>

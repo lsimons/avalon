@@ -23,11 +23,9 @@
 
   <body>
     <menu>
-      <item name="Overview" href="index.html"/>
-      <item name="Overview" href="/index.html"/>
-      <item name="Specification" href="/spec/index.html"/>
-      <item name="Implementations" href="/impl/index.html"/>
-      <item name="Examples" href="/examples/index.html"/>
+      <item name="Specification" href="spec/index.html"/>
+      <item name="Implementations" href="impl/index.html"/>
+      <item name="Examples" href="examples/index.html"/>
     </menu>
   </body>
 
