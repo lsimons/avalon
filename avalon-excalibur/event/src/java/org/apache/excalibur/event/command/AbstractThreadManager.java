@@ -249,7 +249,16 @@ public abstract class AbstractThreadManager extends AbstractLogEnabled
 
                 while( it.hasNext() )
                 {
-                    ( ( ThreadControl ) it.next() ).join( 1000 );
+                    ThreadControl tc = (ThreadControl) it.next();
+
+                    try
+                    {
+                        tc.join( 1000 );
+                    }
+                    catch (Exception e)
+                    {
+                        tc.interrupt();
+                    }
                 }
                 m_pipelines.clear();
 
@@ -362,18 +371,23 @@ public abstract class AbstractThreadManager extends AbstractLogEnabled
 
                 m_mutex.acquire();
 
-                Iterator it = m_controls.iterator();
-
-                while( it.hasNext() )
+                try
                 {
-                    ThreadControl control = ( ThreadControl ) it.next();
-                    if( control.isFinished() )
+                    Iterator it = m_controls.iterator();
+
+                    while( it.hasNext() )
                     {
-                        it.remove();
+                        ThreadControl control = ( ThreadControl ) it.next();
+                        if( control.isFinished() )
+                        {
+                            it.remove();
+                        }
                     }
                 }
-
-                m_mutex.release();
+                finally
+                {
+                    m_mutex.release();
+                }
             }
         }
         catch( InterruptedException e )
