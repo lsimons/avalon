@@ -11,112 +11,86 @@ import java.io.File;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.security.AccessControlContext;
-import java.security.AccessController;
 import java.security.CodeSource;
 import java.security.PermissionCollection;
 import java.security.Permissions;
 import java.security.Policy;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
-import java.security.ProtectionDomain;
-import java.security.Security;
-import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.StringTokenizer;
 
 /**
- * PhoenixLoader is the class that bootstraps and installs the security manager.
- * It also a default policy that gives all code all permssions.
+ * PhoenixLoader is the class that bootstraps and sets up engine ClassLoader.
+ * It also a default policy that gives full permissions to engine code.
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public final class PhoenixLoader
 {
-    protected final static boolean         ENABLE_SECURITY_MANAGER =
-        !Boolean.getBoolean("phoenix.insecure");
-
-    protected final static String          RESTRICTED_PACKAGES = 
-        System.getProperty( "phoenix.restricted.packages", 
-                            Security.getProperty("package.access") );
-
-    protected final static String          MAIN_JAR =
-        System.getProperty( "phoenix.mainJar", "phoenix-engine.jar" );
-
-    protected final static String          MAIN_CLASS =
-        System.getProperty( "phoenix.mainClass", "org.apache.avalon.phoenix.engine.Main" );
+    private final static String  MAIN_CLASS  = "org.apache.avalon.phoenix.engine.Main";
+    private final static String  MAIN_JAR    = "phoenix-engine.jar";
+    private final static String  LOADER_JAR  = "phoenix-loader.jar";
 
     public final static void main( final String args[] )
         throws Exception
     {
-        //setup restricted packages
-        Security.setProperty( "phoenix.access", RESTRICTED_PACKAGES );
-
-        //setup new Policy manager
-        Policy.setPolicy( new FreeNEasyPolicy() );
-
-        final File loaderDir = findLoaderDir();
-        final String avalonHome = 
-            loaderDir.getAbsoluteFile().getParentFile() + File.separator;
-        System.setProperty( "phoenix.home", avalonHome );
-
-        final File mainJar = new File( loaderDir, MAIN_JAR );
-
-        //load main jar
-        final URL archive = mainJar.toURL();
-        final URLClassLoader classLoader = new URLClassLoader( new URL[] { archive } );
-
-        runSystem( classLoader, args );
-    }
-
-    /**
-     * load class and retrieve appropriate main method.
-     */
-    protected static void runSystem( final ClassLoader classLoader, final String[] args )
-    {
         try
         {
+            //setup new Policy manager
+            Policy.setPolicy( new FreeNEasyPolicy() );
+
+            //Create engine ClassLoader
+            final File mainJar = findEngineJar();
+            final URL archive = mainJar.toURL();
+            final URLClassLoader classLoader = new URLClassLoader( new URL[] { archive } );
+
+            //Setup context classloader
+            Thread.currentThread().setContextClassLoader( classLoader );
+
+            //Create main launcher
             final Class clazz = classLoader.loadClass( MAIN_CLASS );
             final Method method = clazz.getMethod( "main", new Class[] { args.getClass() } );
-
             final Object instance = clazz.newInstance();
 
-            // Set security manager unless it has been disabled by system property
-            if( ENABLE_SECURITY_MANAGER )
-            {
-                System.setSecurityManager( new SecurityManager() );
-            }
-
             //kick the tires and light the fires....
-            try
-            {
-                final PrivilegedExceptionAction action = new PrivilegedExceptionAction() 
-                {
-                    public Object run() throws Exception
-                    {        
-                        method.invoke( instance, new Object[] { args } );
-                        return null;
-                    }
-                };
-                
-                AccessController.doPrivileged( action );
-            } 
-            catch( final PrivilegedActionException pae )
-            {
-                // only "checked" exceptions will be "wrapped" in a PrivilegedActionException.
-                throw pae.getException();
-            }
-        }
-        catch( final Exception throwable ) 
+            method.invoke( instance, new Object[] { args } );
+        } 
+        catch( final Exception e )
         {
-            throwable.printStackTrace( System.err );
+            e.printStackTrace();
         }
     }
 
     /**
-     *  Finds the avalon-loader.jar file in the classpath.
+     * Find the "engine" jar from which to run main phoenix kernel.
+     *
+     * @return the engine file
+     * @exception Exception if an error occurs
      */
-    protected final static File findLoaderDir() 
+    private final static File findEngineJar()
+        throws Exception
+    {
+        String phoenixHome =  System.getProperty( "phoenix.home", null );
+        File loaderDir = null;
+
+        if( null != phoenixHome )
+        {
+            final String filename = 
+                phoenixHome + File.separator + "bin" + File.separator + MAIN_JAR;
+            return new File( filename );
+        }
+        else
+        {
+            loaderDir = findLoaderDir();
+            phoenixHome = loaderDir.getAbsoluteFile().getParentFile() + File.separator;
+            System.setProperty( "phoenix.home", phoenixHome );
+
+            return new File( loaderDir, MAIN_JAR );
+        }
+    }
+
+    /**
+     *  Finds the LOADER_JAR file in the classpath.
+     */
+    private final static File findLoaderDir() 
         throws Exception
     {
         final String classpath = System.getProperty( "java.class.path" );
@@ -127,7 +101,7 @@ public final class PhoenixLoader
         {
             final String element = tokenizer.nextToken();
             
-            if( element.endsWith( "phoenix-loader.jar" ) )
+            if( element.endsWith( LOADER_JAR ) )
             {
                 File file = (new File( element )).getCanonicalFile();
                 file = file.getParentFile();
@@ -135,7 +109,7 @@ public final class PhoenixLoader
             }
         }
         
-        throw new Exception( "Unable to locate avalon-loader.jar in classpath" );
+        throw new Exception( "Unable to locate " + LOADER_JAR + " in classpath" );
     }
 
     /**
