@@ -9,7 +9,6 @@
   xmlns:j="jelly:core" 
   xmlns:util="jelly:util" 
   xmlns:ant="jelly:ant"
-  xmlns:artifact="avalon:artifact"
   >
   <ant:property file="${avalon.buildsystem}/project.properties" />
 
@@ -26,7 +25,7 @@
   <ant:filter token="REPOSITORY_MAIN" 
       value="&avalon-repository-artifact;"/>
 
-  <postGoal name="test:compile">
+  <preGoal name="test:test">
 
     <mkdir dir="${basedir}/target/test/repository/test/jars"/>
     <mkdir dir="${basedir}/target/test/ext"/>
@@ -87,5 +86,5 @@
     <ant:copy toDir="${basedir}/target/test/conf" filtering="true" >
       <fileset dir="${basedir}/src/test/conf"/>
     </ant:copy> 
-  </postGoal>
+  </preGoal>
 </project>

@@ -3,7 +3,7 @@
   <!ENTITY % index SYSTEM "file:index.ent"> %index;
 ]>
 <project default="test:test" xmlns:ant="jelly:ant">
-  <ant:property file="${avalon.buildsystem}" />
+  <ant:property file="${avalon.buildsystem}/project.properties" />
   
   <ant:filter token="AVALON-LOGGING-LOG4J-SPEC" 
       value="&avalon-logging-log4j-artifact-spec;"/>
