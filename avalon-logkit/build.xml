@@ -120,10 +120,18 @@ Legal:
   &check-targets;
 
   <!-- defer to check-targets.ent for figuring out dependencies -->
- <target name="check-dependencies" depends="junit-check,log4j-check,logkit-check,jdk14-check"/>
+  <target name="check-dependencies" 
+          depends="jdk14-check,
+                   javamail-check,
+                   jdbc-check,
+                   jms-check,
+                   junit-check,
+                   log4j-check,
+                   servletapi-check"/>
 
   <!-- defer to check-targets.ent for downloading dependencies -->
-  <target name="import-dependencies" depends="import-junit,import-log4j,import-logkit"/>
+  <target name="import-dependencies" 
+          depends="import-junit,import-log4j"/>
   
   <!-- Main target -->
   <target name="main" depends="jar" description="Build complete"/>
@@ -144,7 +152,7 @@ Legal:
     <echo message="   javadocs   -> generates the API documentation (java 1.2+ only)"/>
     <echo message="   real-clean -> cleans up all genereated files and directories"/>
     <echo message="   import-dependencies -> "/>
-    <echo message="                 downloads required automatically downloadable jars"/>
+    <echo message="                 downloads automatically downloadable dependencies"/>
     <echo message=""/>
     <echo message="-------------------------------------------------------------"/>
     <echo message=""/>
@@ -199,7 +207,6 @@ Legal:
   </target>
 
   <target name="optional-tests" 
-          depends="check-all-dependencies"
           description="Tests for classes missing to the environment">
     <available property="avalon-site.present"
                file="${avalon-site.dir}/lib/velocity-1.4-dev.jar"
@@ -231,7 +238,7 @@ Legal:
   </target>
 
    <!-- Prepares the build directory -->
-  <target name="prepare" depends="optional-tests, avalon-site-warn">
+  <target name="prepare" depends="check-dependencies,optional-tests,avalon-site-warn">
     <tstamp/>
     <mkdir dir="${build.dir}"/>
     <mkdir dir="${build.classes}"/>
