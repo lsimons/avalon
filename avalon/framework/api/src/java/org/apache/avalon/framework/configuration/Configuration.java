@@ -98,7 +98,7 @@ package org.apache.avalon.framework.configuration;
  *   // Do the processing applicable if the attribute isn't present.
  * }
  * </pre>
- * 
+ *
  * @author <a href="mailto:fede@apache.org">Federico Barbieri</a>
  * @author <a href="mailto:pier@apache.org">Pierpaolo Fumagalli</a>
  * @author <a href="mailto:stefano@apache.org">Stefano Mazzocchi</a>
@@ -193,7 +193,7 @@ public interface Configuration
      * elements containing all node children. The array order will reflect the
      * order in the source config file.
      *
-     * @return All child nodes 
+     * @return All child nodes
      */
     Configuration[] getChildren();
 
@@ -255,7 +255,7 @@ public interface Configuration
      * @pre paramName != null
      * @post getAttributeAsLong() != null
      *
-     * @param paramName The name of the parameter you ask the value of.
+     * @param name The name of the parameter you ask the value of.
      * @return long value of attribute
      * @exception ConfigurationException If no parameter with that name exists.
      *                                   or if conversion to <code>long</code> fails.
