@@ -4,7 +4,7 @@
                    The Apache Software License, Version 1.1
  ============================================================================
 
- Copyright (C) 2002-2003 The Apache Software Foundation. All rights reserved.
+ Copyright (C) 2002-2004 The Apache Software Foundation. All rights reserved.
 
  Redistribution and use in source and binary forms, with or without modifica-
  tion, are permitted provided that the following conditions are met:
@@ -53,6 +53,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
 
 import org.apache.avalon.meta.info.Service;
 import org.apache.avalon.meta.info.Type;
@@ -75,7 +76,7 @@ import com.thoughtworks.qdox.model.JavaClass;
  * Generate a meta info model from javadoc tags.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 08:16:12 $
+ * @version $Revision: 1.2 $ $Date: 2004/01/14 12:47:33 $
  */
 public class MetaTask
     extends AbstractQdoxTask
@@ -201,6 +202,7 @@ public class MetaTask
         log( message );
 
         super.execute();
+        addInnerClasses();
 
         try
         {
@@ -216,6 +218,33 @@ public class MetaTask
             throw new BuildException( e.toString(), e );
         }
     }
+
+    /**
+     * allClasses contains only non-inner classes, so here we (recursively) extract out all inner
+     * classes and explictly add them.
+     */
+    private void addInnerClasses()
+    {
+        ArrayList expList = new ArrayList();
+        for( int i = 0; i < allClasses.size(); i++ )
+        {
+            addWithInnerClasses( expList, (JavaClass)allClasses.get( i ) );
+        }
+        allClasses = expList;
+    }
+
+    private void addWithInnerClasses( ArrayList list, JavaClass javaClass )
+    {
+        list.add( javaClass );
+
+        final JavaClass[] innerClasses = javaClass.getInnerClasses();
+        for( int i = 0; i < innerClasses.length; i++ )
+        {
+            addWithInnerClasses( list, innerClasses[i] );
+        }
+    }
+
+
 
     /**
      * Validate that the parameters are valid.
