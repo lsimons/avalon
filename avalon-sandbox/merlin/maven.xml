@@ -150,8 +150,8 @@
       <zipfileset dir="${basedir}/merlin-platform/target/docs" prefix="docs"/>
     </ant:zip>
 
-    <ant:echo>Building tutorial kit: ${tutorial.name}.zip</ant:echo>
     <j:set var="tutorial.name" value="${maven.final.name}-tutorial-${timestamp}"/>
+    <ant:echo>Building tutorial kit: ${tutorial.name}.zip</ant:echo>
     <ant:zip zipfile="${maven.build.dir}/${tutorial.name}.zip">
       <zipfileset dir="${basedir}/merlin-platform/target/tutorials" prefix="tutorial"/>
     </ant:zip>
