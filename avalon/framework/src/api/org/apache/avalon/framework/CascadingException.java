@@ -17,6 +17,9 @@ public class CascadingException
     extends Exception
     implements CascadingThrowable
 {
+    /**
+     * The Throwable that caused this exception to be thrown.
+     */
     private final Throwable         m_throwable;
 
     /**
