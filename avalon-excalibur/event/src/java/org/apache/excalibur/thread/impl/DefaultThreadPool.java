@@ -113,7 +113,6 @@ public class DefaultThreadPool
     public Object newInstance()
     {
         final String name = getName() + " Worker #" + m_level++;
-
         ThreadContext context = null;
         if( null != m_context )
         {

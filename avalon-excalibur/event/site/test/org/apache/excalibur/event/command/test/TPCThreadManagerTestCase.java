@@ -81,11 +81,10 @@ public class TPCThreadManagerTestCase extends TestCase
     // number of times the handler should be called
     private final static int MINIMAL_NUMBER_INVOCATIONS = 2;
 
-    private Parameters createParameters( int processors, int threadsPerProcessor, long sleep )
+    private Parameters createParameters( int threadsPerProcessor, long sleep )
     {
         final Parameters parameters = new Parameters();
 
-        parameters.setParameter( "processors", String.valueOf( processors ) );
         parameters.setParameter( "threads-per-processor", String.valueOf( threadsPerProcessor ) );
         parameters.setParameter( "sleep-time", String.valueOf( sleep ) );
 
@@ -107,7 +106,7 @@ public class TPCThreadManagerTestCase extends TestCase
         // fail quickly
         final TPCThreadManager threadManager = new TPCThreadManager();
 
-        threadManager.parameterize( createParameters( 1, 1, 0 ) );
+        threadManager.parameterize( createParameters( 1, 0 ) );
         threadManager.initialize();
 
         // an obviously syncronized component
@@ -118,7 +117,7 @@ public class TPCThreadManagerTestCase extends TestCase
         threadManager.register( new Pipeline( result, errorOut ) );
 
         // sleeps for 1 more scheduling timeout to surely go over limit
-        Thread.sleep( SCHEDULING_TIMEOUT * ( MINIMAL_NUMBER_INVOCATIONS + 1 ) );
+        Thread.sleep( SCHEDULING_TIMEOUT * ( MINIMAL_NUMBER_INVOCATIONS + 1) );
 
         int numberCalls = result.length();
 
@@ -189,6 +188,7 @@ public class TPCThreadManagerTestCase extends TestCase
                 m_queue.enqueue( new QueueElement()
                 {
                 } );
+                System.out.println("added element");
             }
             catch( Exception e )
             {

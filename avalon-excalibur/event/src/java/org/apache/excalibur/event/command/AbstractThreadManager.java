@@ -49,6 +49,7 @@
 */
 package org.apache.excalibur.event.command;
 
+import java.util.LinkedList;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -73,11 +74,12 @@ public abstract class AbstractThreadManager extends AbstractLogEnabled
 {
     private final Mutex m_mutex = new Mutex();
     private final HashMap m_pipelines = new HashMap();
+    private final LinkedList m_controls = new LinkedList();
     private ThreadPool m_threadPool;
     private ThreadControl m_threadControl;
-    private boolean m_done = false;
+    private volatile boolean m_done = false;
     private long m_sleepTime = 1000L;
-    private boolean m_initialized = false;
+    private volatile boolean m_initialized = false;
 
     protected boolean isInitialized()
     {
@@ -202,9 +204,17 @@ public abstract class AbstractThreadManager extends AbstractLogEnabled
             try
             {
                 m_done = true;
+                m_threadControl.join( 1000 );
+
+                Iterator it = m_controls.iterator();
+
+                while( it.hasNext() )
+                {
+                    ( (ThreadControl) it.next() ).join( 1000 );
+                }
+
                 m_pipelines.clear();
 
-                m_threadControl.join( 1000 );
             }
             finally
             {
@@ -240,7 +250,7 @@ public abstract class AbstractThreadManager extends AbstractLogEnabled
                     {
                         try
                         {
-                            m_threadPool.execute( ( PipelineRunner ) i.next() );
+                            m_controls.add(m_threadPool.execute( ( PipelineRunner ) i.next() ));
                         }
                         catch( IllegalStateException e )
                         {
@@ -264,6 +274,18 @@ public abstract class AbstractThreadManager extends AbstractLogEnabled
                 }
 
                 Thread.sleep( m_sleepTime );
+
+                m_mutex.acquire();
+
+                Iterator it = m_controls.iterator();
+
+                while ( it.hasNext() )
+                {
+                    ThreadControl control = (ThreadControl) it.next();
+                    if (control.isFinished()) it.remove();
+                }
+
+                m_mutex.release();
             }
         }
         catch( InterruptedException e )
