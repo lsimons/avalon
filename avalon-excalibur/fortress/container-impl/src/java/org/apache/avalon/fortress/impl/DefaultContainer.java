@@ -50,6 +50,7 @@
 package org.apache.avalon.fortress.impl;
 
 import org.apache.avalon.fortress.MetaInfoEntry;
+import org.apache.avalon.fortress.impl.factory.ProxyManager;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
@@ -60,7 +61,7 @@ import org.apache.avalon.framework.service.ServiceManager;
  * adding configuration markup semantics to the {@link AbstractContainer}.
  *
  * @author <a href="mailto:dev@avalon.apache.org">The Avalon Team</a>
- * @version CVS $Revision: 1.14 $ $Date: 2003/05/20 13:05:41 $
+ * @version CVS $Revision: 1.15 $ $Date: 2003/05/29 17:14:45 $
  */
 public class DefaultContainer
     extends AbstractContainer
@@ -121,6 +122,8 @@ public class DefaultContainer
     public void configure( final Configuration config )
         throws ConfigurationException
     {
+        interpretProxy( config.getAttribute("proxy-type", "discover") );
+
         final Configuration[] elements = config.getChildren();
         for ( int i = 0; i < elements.length; i++ )
         {
@@ -148,6 +151,33 @@ public class DefaultContainer
                     throw new ConfigurationException( "Could not add component", e );
                 }
             }
+        }
+    }
+
+    /**
+     * Interpret the ProxyManager type from the configuration element.
+     *
+     * @param proxyType
+     * @throws ConfigurationException
+     */
+    protected void interpretProxy( String proxyType ) throws ConfigurationException
+    {
+        int type = ProxyManager.DISCOVER;
+
+        if ( proxyType.equals("none") ) type = ProxyManager.NONE;
+        if ( proxyType.equals("bcel") ) type = ProxyManager.BCEL;
+        if ( proxyType.equals("java") || proxyType.equals("proxy") ) type = ProxyManager.PROXY;
+
+        if ( type == ProxyManager.DISCOVER && ! proxyType.equals("discover") )
+            throw new ConfigurationException("Proxy type '" + proxyType + "' not supported");
+
+        try
+        {
+            setProxyManager( new ProxyManager( type ) );
+        }
+        catch (Exception e)
+        {
+            throw new ConfigurationException("Could not create ProxyManager", e);
         }
     }
 

@@ -63,11 +63,16 @@ import java.lang.reflect.Constructor;
  */
 public final class ProxyManager
 {
+    public static final int DISCOVER = 0;
+    public static final int NONE = 1;
+    public static final int BCEL = 2;
+    public static final int PROXY = 3;
     private static final String BCEL_CLASS = "org.apache.bcel.classfile.JavaClass";
     private static final String BCEL_WRAPPER = "org.apache.avalon.fortress.impl.factory.WrapperObjectFactory";
     private static final String PROXY_WRAPPER = "org.apache.avalon.fortress.impl.factory.ProxyObjectFactory";
+    private static final String NOOP_WRAPPER = "org.apache.avalon.fortress.impl.factory.NoopObjectFactory";
     private static final boolean m_isBCELPresent;
-    private final boolean m_useBCELPreference;
+    private final String m_wrapperClassName;
     private Class m_factoryClass;
 
     static
@@ -86,14 +91,34 @@ public final class ProxyManager
         m_isBCELPresent = bcelPresent;
     }
 
-    public ProxyManager()
+    public ProxyManager( final int type ) throws Exception
     {
-        this( false );
-    }
+        switch (type)
+        {
+            case NONE:
+                m_wrapperClassName = NOOP_WRAPPER;
+                break;
 
-    public ProxyManager( final boolean useBCEL )
-    {
-        m_useBCELPreference = useBCEL;
+            case BCEL:
+                if ( ! m_isBCELPresent ) throw new IllegalStateException("BCEL is not available");
+                m_wrapperClassName = BCEL_WRAPPER;
+                break;
+
+            case PROXY:
+                m_wrapperClassName = PROXY_WRAPPER;
+                break;
+
+            default: // DISCOVER
+                if ( m_isBCELPresent )
+                {
+                    m_wrapperClassName = BCEL_WRAPPER;
+                }
+                else
+                {
+                    m_wrapperClassName = PROXY_WRAPPER;
+                }
+                break;
+        }
     }
 
     public ObjectFactory getWrappedObjectFactory( final ObjectFactory source ) throws Exception
@@ -102,14 +127,7 @@ public final class ProxyManager
         {
             final ClassLoader loader = source.getClass().getClassLoader();
 
-            if ( m_useBCELPreference && m_isBCELPresent )
-            {
-                m_factoryClass = loader.loadClass( BCEL_WRAPPER );
-            }
-            else
-            {
-                m_factoryClass = loader.loadClass( PROXY_WRAPPER );
-            }
+            m_factoryClass = loader.loadClass( m_wrapperClassName );
         }
 
         final Constructor constr = m_factoryClass.getConstructor( new Class[]{ObjectFactory.class} );
