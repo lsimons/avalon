@@ -18,7 +18,7 @@ import java.sql.Connection;
  * The Factory implementation for JdbcConnections.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.9 $ $Date: 2002/01/14 21:49:34 $
+ * @version CVS $Revision: 1.10 $ $Date: 2002/01/26 16:58:06 $
  * @since 4.0
  */
 public class JdbcConnectionFactory extends AbstractLogEnabled implements ObjectFactory
@@ -34,7 +34,7 @@ public class JdbcConnectionFactory extends AbstractLogEnabled implements ObjectF
     private       Connection m_firstConnection;
 
     /**
-     * @deprecated  Use the new constructor with the connectionClass
+     * @deprecated  Use the new constructor with the keepalive and connectionClass
      *              specified.
      */
     public JdbcConnectionFactory( final String url,
@@ -46,27 +46,40 @@ public class JdbcConnectionFactory extends AbstractLogEnabled implements ObjectF
         this(url, username, password, autoCommit, oradb, null);
     }
 
-   /**
-    * @ deprecated Use the new constructor with the keepalive and connectionClass
-    *              specified.
-    */
-   public JdbcConnectionFactory( final String url,
-                                 final String username,
-                                 final String password,
-                                 final boolean autoCommit,
-                                 final boolean oradb,
-                                 final String connectionClass)
-   {
-       this(url, username, password, autoCommit, (oradb) ? JdbcConnectionFactory.ORACLE_KEEPALIVE : JdbcConnectionFactory.DEFAULT_KEEPALIVE, connectionClass);
-   }
-
-   public JdbcConnectionFactory( final String url,
-                                 final String username,
-                                 final String password,
-                                 final boolean autoCommit,
-                                 final String keepAlive,
-                                 final String connectionClass)
-   {
+    /**
+     * @ deprecated Use the new constructor with the keepalive and connectionClass
+     *              specified.
+     */
+    public JdbcConnectionFactory( final String url,
+                                  final String username,
+                                  final String password,
+                                  final boolean autoCommit,
+                                  final boolean oradb,
+                                  final String connectionClass)
+    {
+        this(url, username, password, autoCommit, (oradb) ? JdbcConnectionFactory.ORACLE_KEEPALIVE : JdbcConnectionFactory.DEFAULT_KEEPALIVE, connectionClass);
+    }
+    
+    /**
+     * Creates and configures a new JdbcConnectionFactory.
+     *
+     * @param url full JDBC database url.
+     * @param username username to use when connecting to the database.
+     * @param password password to use when connecting to the database.
+     * @param autoCommit true if connections to the database should operate with auto commit
+     *                   enabled.
+     * @param keepAlive a query which will be used to check the statis of a connection after it
+     *                  has been idle.  A null value will cause the keep alive feature to
+     *                  be disabled.
+     * @param connectionClass class of connections created by the factory.
+     */
+    public JdbcConnectionFactory( final String url,
+                                  final String username,
+                                  final String password,
+                                  final boolean autoCommit,
+                                  final String keepAlive,
+                                  final String connectionClass)
+    {
         this.m_dburl = url;
         this.m_username = username;
         this.m_password = password;
@@ -145,8 +158,11 @@ public class JdbcConnectionFactory extends AbstractLogEnabled implements ObjectF
             {
                 try
                 {
+                    // Support the deprecated connection constructor as well.
+                    boolean oracleKeepAlive = ( m_keepAlive != null ) && m_keepAlive.equalsIgnoreCase( JdbcConnectionFactory.ORACLE_KEEPALIVE );
+                    
                     Class[] paramTypes = new Class[] { Connection.class, boolean.class };
-                    Object[] params = new Object[] { connection, new Boolean( this.m_keepAlive.equalsIgnoreCase(JdbcConnectionFactory.ORACLE_KEEPALIVE) ) };
+                    Object[] params = new Object[] { connection, new Boolean( oracleKeepAlive ) };
 
                     Constructor constructor = m_class.getConstructor( paramTypes );
                     jdbcConnection = (AbstractJdbcConnection) constructor.newInstance( params );
