@@ -376,9 +376,9 @@
         <anakia basedir="${xdocs.dir}"
             destdir="${docs.dir}"
             style="docs.vsl"
-            projectfile="stylesheets/project.xml"
+            projectfile="menu.xml"
             includes="**/*.xml"
-            excludes="stylesheets/**"
+	    excludes="menu.xml"
             velocitypropertiesfile="../site/src/stylesheets/velocity.properties"
             />
 
