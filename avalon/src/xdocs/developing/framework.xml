@@ -672,6 +672,50 @@ public interface DocumentRepository {
 	  </programlisting>
 	</section>
       </section>
+      <section>
+        <title>Thread</title>
+	<para>
+	  The thread marker interfaces are used to signal to the container
+	  essential semantic information regarding the Component use.  They
+	  mark a component implementation in regards to thread safety.  It is
+	  a best practice to delay implementing these interfaces until the
+	  final Component implementation class.  This avoids complications
+	  when an implementation is marked <classname>ThreadSafe</classname>,
+	  but a component that extends that implementation is not.  The
+	  interfaces defined in this package comprise part of what I call
+	  the <emphasis>LifeStyle</emphasis> interfaces.  There is one more
+	  <emphasis>LifeStyle</emphasis> interface that is part of the
+	  Excalibur package&mdash;so it is an extension to this core
+	  set&mdash;<classname>Poolable</classname> that is defined in
+	  Excalibur's pool implementations.
+	</para>
+	<section>
+	  <title>SingleThreaded</title>
+	  <para>
+	    The contract with <classname>SingleThreaded</classname> Components
+	    is that the interface or the implementation precludes this
+	    Component being accessed by several threads simultaneously.  Each
+	    thread needs its own instance of the Component.  Alternatively, you
+	    may use Component pooling instead of creating a new instance for
+	    every request for the Component.  In order to use pooling, you will
+	    need to implement Avalon Excalibur's <classname>Poolable</classname>
+	    interface instead of this one.
+	  </para>
+	</section>
+	<section>
+	  <title>ThreadSafe</title>
+	  <para>
+	    The contract with <classname>ThreadSafe</classname> Components is
+	    that both their interface and their implementation function
+	    correctly no matter how many threads access the Component
+	    simultaneously.  While this is generally a lofty design goal,
+	    sometimes it is simply not possible due to the technologies you are
+	    using.  A Component that implements this interface will generally
+	    only have one instance available in the system, and other
+	    Components will use that one instance.
+	  </para>
+	</section>
+      </section>
     </section>
   </section>
 </chapter>
