@@ -8,6 +8,7 @@
 package org.apache.avalon.framework.configuration;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import org.xml.sax.Attributes;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.Locator;
@@ -15,6 +16,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
 import org.xml.sax.helpers.NamespaceSupport;
+import org.xml.sax.helpers.AttributesImpl;
 
 /**
  * A SAXConfigurationHandler helps build Configurations out of sax events.
@@ -27,6 +29,7 @@ public class SAXConfigurationHandler
     implements ErrorHandler
 {
     private final ArrayList              m_elements         = new ArrayList();
+    private final ArrayList              m_prefixes         = new ArrayList();
     private Configuration                m_configuration;
     private Locator                      m_locator;
     private NamespaceSupport             m_namespaceSupport = new NamespaceSupport();
@@ -39,6 +42,12 @@ public class SAXConfigurationHandler
     public void clear()
     {
         m_elements.clear();
+        Iterator i = m_prefixes.iterator();
+        while ( i.hasNext() )
+        {
+            ( (ArrayList) i.next() ).clear();
+        }
+        m_prefixes.clear();
         m_locator = null;
     }
 
@@ -92,6 +101,14 @@ public class SAXConfigurationHandler
     {
         final int location = m_elements.size() - 1;
         final Object object = m_elements.remove( location );
+        final ArrayList prefixes = (ArrayList) m_prefixes.remove( location );
+
+        final Iterator i = prefixes.iterator();
+        while ( i.hasNext() )
+        {
+            endPrefixMapping( (String) i.next() );
+        }
+        prefixes.clear();
 
         if( 0 == location )
         {
@@ -117,6 +134,26 @@ public class SAXConfigurationHandler
         throws SAXException
     {
         m_namespaceSupport.pushContext();
+        final ArrayList prefixes = new ArrayList();
+        AttributesImpl componentAttr = new AttributesImpl();
+
+        for (int i = 0; i < attributes.getLength(); i++)
+        {
+            if ( attributes.getQName(i).startsWith("xmlns") )
+            {
+                prefixes.add( attributes.getLocalName(i) );
+                this.startPrefixMapping( attributes.getLocalName(i),
+                                         attributes.getValue(i) );
+            }
+            else
+            {
+                componentAttr.addAttribute( attributes.getURI( i ),
+                                            attributes.getLocalName( i ),
+                                            attributes.getQName( i ),
+                                            attributes.getType( i ),
+                                            attributes.getValue( i ) );
+            }
+        }
 
         final DefaultConfiguration configuration =
             createConfiguration( localName, namespaceURI, getLocationString() );
@@ -138,8 +175,9 @@ public class SAXConfigurationHandler
         }
 
         m_elements.add( configuration );
+        m_prefixes.add( prefixes );
 
-        final int attributesSize = attributes.getLength();
+        final int attributesSize = componentAttr.getLength();
 
         for( int i = 0; i < attributesSize; i++ )
         {

@@ -70,6 +70,7 @@ public final class SAXConfigurationHandlerTestCase extends TestCase
                                 "CDATA",attValue);
 
         final AttributesImpl childAttributes  = new AttributesImpl();
+        childAttributes.addAttribute("", "child", "xmlns:child", "CDATA", childURI);
 
         m_handler.startDocument();
         m_handler.startElement( rootURI, rootlocal, rootraw, attributes );
