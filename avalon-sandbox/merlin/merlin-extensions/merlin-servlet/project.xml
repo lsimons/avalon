@@ -145,7 +145,16 @@ Servlet implementation that initializes an embedded Merlin Kernel.
     </dependency>
     
     <dependency>
-      <id>excalibur-extension</id>
+      <groupId>avalon-extension</groupId>
+      <artifactId>avalon-extension-spi</artifactId>
+      <version>1.0</version>
+      <properties>
+        <war.bundle.jar>true</war.bundle.jar>
+      </properties>
+    </dependency>
+    <dependency>
+      <groupId>avalon-extension</groupId>
+      <artifactId>avalon-extension-impl</artifactId>
       <version>1.0</version>
       <properties>
         <war.bundle.jar>true</war.bundle.jar>
