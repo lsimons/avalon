@@ -57,7 +57,6 @@ import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.log.LogTarget;
 
 /**
  * AbstractTargetFactory class.
@@ -65,7 +64,7 @@ import org.apache.log.LogTarget;
  * This factory implements basic functionality for LogTargetFactories
  *
  * @author <a href="mailto:giacomo@apache.org">Giacomo Pati</a>
- * @version CVS $Revision: 1.5 $ $Date: 2003/03/22 12:46:48 $
+ * @version CVS $Revision: 1.6 $ $Date: 2003/04/07 11:22:53 $
  * @since 4.0
  */
 public abstract class AbstractTargetFactory
@@ -74,9 +73,6 @@ public abstract class AbstractTargetFactory
     Configurable,
     Contextualizable
 {
-    public abstract LogTarget createTarget( Configuration configuration )
-        throws ConfigurationException;
-
     /** The Configuration object */
     protected Configuration m_configuration;
 
@@ -89,7 +85,7 @@ public abstract class AbstractTargetFactory
     public void configure( Configuration configuration )
         throws ConfigurationException
     {
-        this.m_configuration = configuration;
+        m_configuration = configuration;
     }
 
     /**
@@ -98,6 +94,6 @@ public abstract class AbstractTargetFactory
     public void contextualize( Context context )
         throws ContextException
     {
-        this.m_context = context;
+        m_context = context;
     }
 }
