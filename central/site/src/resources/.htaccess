@@ -10,7 +10,10 @@ RedirectMatch ^/sandbox/merlin(.*) http://avalon.apache.org/merlin
 RedirectMatch ^/sandbox/api(.*) http://avalon.apache.org/merlin/api
 RedirectMatch ^/cornerstone(.*) http://avalon.apache.org/components/cornerstone/index.html
 RedirectMatch ^/merlin(.*) http://avalon.apache.org/products/runtime
-RedirectMatch ^/meta{.*} http://avalon.apache.org/products/runtime/system/meta/index.html
+RedirectMatch ^/meta(.*) http://avalon.apache.org/products/runtime/system/meta/index.html
+RedirectMatch ^/product/framework(.*) http://avalon.apache.org/products/runtime/reference/component/index.html
+RedirectMatch ^/product/containers(.*) http://avalon.apache.org/products/runtime/index.html
+RedirectMatch ^/product/planet(.*) http://avalon.apache.org/planet/components/index.html
 
 RedirectMatch ^/bindownload.cgi http://avalon.apache.org/download.cgi
 RedirectMatch ^/code-standards.html http://avalon.apache.org/central/community/process/code-standards.html
