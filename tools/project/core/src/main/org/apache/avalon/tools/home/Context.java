@@ -242,7 +242,7 @@ public class Context
         props.execute();
     }
 
-    private File getFile( File root, String path )
+    public static File getFile( File root, String path )
     {
         File file = new File( path );
         if( file.isAbsolute() ) return file;

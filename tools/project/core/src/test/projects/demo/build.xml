@@ -1,32 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
 
-<project name="my-demo" default="install" basedir="." 
+<project name="demo" default="dist" basedir="." 
     xmlns:x="antlib:org.apache.avalon.tools">
 
-  <x:home index="../../index.xml" key="demo"/>
+  <property file="build.properties"/>
+  <import file="${project.home}/standard.xml"/>
 
-  <target name="clean">
-    <x:clean/>
-  </target>
-
-  <target name="prepare" depends="">
-    <x:prepare/>
-  </target>
-
-  <target name="build" depends="prepare">
+  <target name="build" depends="standard.build">
     <x:declare/>
-    <x:javac/>
-  </target>
-
-  <target name="package" depends="build">
-    <x:jar/>
-  </target>
-
-  <target name="test" depends="package">
-    <x:junit/>
-  </target>
-
-  <target name="install" depends="test">
-    <x:install/>
   </target>
 
 </project>

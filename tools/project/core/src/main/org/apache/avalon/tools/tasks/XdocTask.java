@@ -43,7 +43,7 @@ public class XdocTask extends SystemTask
     public static final String XDOC_RESOURCES_VALUE = "resources";
 
     public static final String XDOC_THEME_KEY = "project.xdoc.theme";
-    public static final String XDOC_THEME_VALUE = "avalon2";
+    public static final String XDOC_THEME_VALUE = "modern";
 
     public static final String XDOC_FORMAT_KEY = "project.xdoc.output.format";
     public static final String XDOC_FORMAT_VALUE = "html";
