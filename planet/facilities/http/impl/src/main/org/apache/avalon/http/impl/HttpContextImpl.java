@@ -244,7 +244,8 @@ public class HttpContextImpl
             m_HttpContext.setMaxCacheSize( m_MaxCacheSize );        
         if( m_MaxCachedFilesize > 0 )
             m_HttpContext.setMaxCachedFileSize( m_MaxCachedFilesize );        
-        m_HttpContext.setMimeMap( m_MimeTypes.getExtensionMap() );
+        if( m_MimeTypes != null )
+            m_HttpContext.setMimeMap( m_MimeTypes.getExtensionMap() );
     }
         
     public void start()
