@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+
+<book software="Excalibur Source Resolving"
+      title="Avalon Excalibur Documentation - Source Resolving"
+      copyright="@year@ The Apache Software Foundation">
+
+  <project label="Back to Avalon" href="@AVALON_BASE@" />
+  <project label="Back to Excalibur" href="../index.html" />
+
+  <menu label="About">
+    <menu-item label="Overview" href="index.html"/>
+    <menu-item type="external" id="ExcaliburHome" label="Excalibur Home" href="http://jakarta.apache.org/avalon/excalibur/index.html"/>    
+    <menu-item type="external" id="downloads" label="Download" href="http://jakarta.apache.org/builds/jakarta-avalon/apps"/>
+    <menu-item type="external" id="api-docs" label="API Docs" href="api/index.html"/>
+
+  </menu>
+
+</book>
+
+
