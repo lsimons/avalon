@@ -62,7 +62,7 @@ import org.xml.sax.XMLFilter;
  *
  * @author <a href="mailto:ovidiu@cup.hp.com">Ovidiu Predescu</a>
  * @author <a href="mailto:proyal@apache.org">Peter Royal</a>
- * @version CVS $Id: XSLTProcessorImpl.java,v 1.13 2002/07/10 09:39:30 donaldp Exp $
+ * @version CVS $Id: XSLTProcessorImpl.java,v 1.14 2002/07/10 09:50:03 donaldp Exp $
  * @version 1.0
  * @since   July 11, 2001
  */
@@ -74,8 +74,6 @@ public final class XSLTProcessorImpl
     Parameterizable,
     URIResolver
 {
-    private ComponentManager m_manager;
-
     /** The store service instance */
     private Store m_store;
 
@@ -105,7 +103,6 @@ public final class XSLTProcessorImpl
     public void compose( final ComponentManager manager )
         throws ComponentException
     {
-        m_manager = manager;
         m_xmlizer = (XMLizer)manager.lookup( XMLizer.ROLE );
         m_errorHandler = new TraxErrorHandler( getLogger() );
         m_resolver = (SourceResolver)manager.lookup( SourceResolver.ROLE );
@@ -116,19 +113,11 @@ public final class XSLTProcessorImpl
         }
     }
 
-    /**
-     * Dispose
-     */
     public void dispose()
     {
-        if( null != m_manager )
-        {
-            m_manager.release( m_store );
-            m_store = null;
-            m_resolver = null;
-        }
+        m_store = null;
+        m_resolver = null;
         m_errorHandler = null;
-        m_manager = null;
     }
 
     /**
