@@ -26,7 +26,7 @@ namespace Apache.Avalon.DynamicProxy.Builder.CodeGenerators
 			// TODO: interfaces of base class
 			
 			CreateTypeBuilder( baseClass, new Type[0] );
-			GenerateTypeImplementation( baseClass );
+			GenerateTypeImplementation( baseClass, true );
 
 			return MainTypeBuilder.CreateType();
 		}

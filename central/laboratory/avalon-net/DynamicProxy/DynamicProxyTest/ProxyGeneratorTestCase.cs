@@ -62,6 +62,21 @@ namespace Apache.Avalon.DynamicProxy.Test
 		}
 
 		[Test]
+		public void ProxyForClassWhichImplementsInterfaces()
+		{
+			object proxy = ProxyGenerator.CreateClassProxy( 
+				typeof(MyInterfaceImpl), new ResultModifiedInvocationHandler( new MyInterfaceImpl() ) );
+			
+			AssertNotNull( proxy );
+			Assert( typeof(MyInterfaceImpl).IsAssignableFrom( proxy.GetType() ) );
+			Assert( typeof(IMyInterface).IsAssignableFrom( proxy.GetType() ) );
+
+			IMyInterface inter = (IMyInterface) proxy;
+
+			AssertEquals( 44, inter.Calc( 20, 25 ) );
+		}
+
+		[Test]
 		public void ProxyingClassWithoutVirtualMethods()
 		{
 			object proxy = ProxyGenerator.CreateClassProxy( 

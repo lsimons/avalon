@@ -20,7 +20,7 @@ NAnt  -> http://nant.sourceforge.net
 
 NUnit is not a requirement as NAnt already includes it. 
 We cannot provide them for you due to licensing issues.
-Nant is a 100% .NET implmented build tool inspired by
+Nant is a 100% .NET implemented build tool inspired by
 ANT (http://ant.apache.org).  It is licensed under the
 GPL, but if you install it separately as a tool (preferred)
 then all is well.  NUnit is a testing framework inspired
