@@ -65,7 +65,7 @@ Legal:
 
   <property name="dist.name" value="${name}-${version}"/>
   <property name="dist.base" value="distributions"/>
-  <property name="dist.dir" value="${dist.name}"/>
+  <property name="dist.dir" value="dist"/>
   <property name="src.dist.dir" value="${dist.name}"/>
 
   <property name="constants.file" value="org/apache/avalon/phoenix/Constants.java"/>
