@@ -13,16 +13,27 @@
 
   <property file="index.properties"/>
 
+  <property environment="ENV"/>
+
   <condition property="project.main.cache.declared" value="false">
     <isset property="project.main.cache"/>
+  </condition>
+
+  <condition property="project.main.cache.avalon.declared" value="false">
+    <isset property="ENV.AVALON_HOME"/>
   </condition>
 
   <condition property="project.proxy.declared" value="false">
     <isset property="project.proxy.host"/>
   </condition>
 
-  <target name="setup" depends="setup-repository,setup-antlib">
+  <target name="setup" depends="check-avalon,setup-repository,setup-antlib">
     <echo message="Setup complete."/>
+  </target>
+
+  <target name="check-avalon" unless="project.main.cache.avalon.declared">
+    <!-- no AVALON_HOME declaration -->
+    <property name="project.main.cache" value=".cache"/>
   </target>
 
   <target name="setup-cache-properties" depends="setup-avalon-cache,test-cache">
@@ -58,14 +69,17 @@
   </target>
 
   <target name="setup-avalon-cache" unless="project.main.cache.declared">
+    <echo>[setup-avalon-cache]</echo>
     <property environment="ENV"/>
     <property name="project.main.cache" value="${ENV.AVALON_HOME}/repository"/>
     <condition property="avalon.home.undeclared" value="true">
       <contains string="${project.main.cache}" substring="{" />
     </condition>
+    <echo>${avalon.home.undeclared}</echo>
   </target>
 
-  <target name="test-cache" if="avalon.home.undeclared">
+  <target name="test-cache" 
+      depends="setup-avalon-cache" if="avalon.home.undeclared">
     <property name="project.main.cache" value=".cache"/>
   </target>
 
