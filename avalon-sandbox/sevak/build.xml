@@ -89,7 +89,7 @@
     <fileset dir="../common/lib">
       <include name="**/*.jar" />
     </fileset>
-    <pathelement path="${build.lib}/sevak-interfaces.jar"/>
+    <pathelement path="${build.lib}/sevak-api.jar"/>
   </path>
   
   <!-- Setup the filters -->
@@ -220,7 +220,7 @@
 
     <mkdir dir="${build.lib}"/>
 
-    <jar jarfile="${build.lib}/sevak-interfaces.jar">
+    <jar jarfile="${build.lib}/sevak-api.jar">
       <fileset dir="${build.classes}">
         <include name="org/apache/avalon/apps/sevak/*"/>
       </fileset>
