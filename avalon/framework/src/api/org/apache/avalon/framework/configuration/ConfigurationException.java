@@ -17,7 +17,7 @@ import org.apache.avalon.framework.CascadingException;
  * @author <a href="mailto:stefano@apache.org">Stefano Mazzocchi</a>
  * @author <a href="mailto:fumagalli@exoffice.com">Pierpaolo Fumagalli</a>
  */
-public final class ConfigurationException
+public class ConfigurationException
     extends CascadingException
 {
     /**
