@@ -80,9 +80,10 @@ Example of block deployment based on a supplied block directive.
 <source><![CDATA[
  $ merlin -help
 usage: merlin [block] [-lang <code>] [-install <url>] [-library
-       <directory>] [-help] [-version] [-home <directory>] [-debug] [-info]
-       [-config <url>] [-jmx] [-execute] [-repository <directory>] [-kernel
-       <url>]]></source>
+       <directory>] [-help] [-version] [-home <directory>] [-impl <artifact>]
+       [-debug] [-info] [-config <url>] [-context <directory>] [-system
+       <directory>] [-execute] [-repository <directory>] [-kernel <url>]       
+]]></source>
       </subsection>
 
       <subsection name="Command Line Qualifiers">
@@ -126,7 +127,7 @@ usage: merlin [block] [-lang <code>] [-install <url>] [-library
           </tr>
           <tr>
             <td>-repository</td><td>file</td>
-            <td>Declaration of a local repository.  If not suppplied Merlin will default to ${merlin.home}/repository/.</td>
+            <td>Declaration of a local repository.  If not suppplied Merlin will default to ${avalon.home}.</td>
           </tr>
         </table>
       </subsection>
@@ -141,13 +142,6 @@ of the Merlin platform is not recommended.
 
         <table>
           <tr><th>Qualifier</th><th>Parameter</th><th>Description</th></tr>
-          <tr>
-            <td>-jmx</td>
-            <td></td>
-            <td>
-Launches a jmx server and registeres the merlin kernal as a managed entity.
-            </td>
-          </tr>
           <tr>
             <td>-install</td>
             <td>url</td>

@@ -15,6 +15,7 @@ resources.
     /system
     README.TXT
     LICENSE.TXT
+    INSTALLATION.TXT
   /plugins
     avalon-meta-plugin-1.2.jar
     merlin-plugin-3.2-dev.jar
