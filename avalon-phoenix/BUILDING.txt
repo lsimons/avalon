@@ -64,7 +64,30 @@ component of Phoenix.
 * Unpack the reference implementation into a convenient location so that
   it resides in its own subdirectory.
 
-(3) Build A Binary Distribution
+(3) Customize Build Properties For This Subproject
+
+Most Jakarta subprojects allow you to customize Ant properties (with default
+values defined in the "build.xml" file.  This is done by creating a text file
+named ".ant.properties" in the source distribution directory (for property
+definitions local to this subproject) and/or your user home directory (for
+property definitions shared across subprojects).  You can use the included
+"ant.properties.sample" file as a starting point for this.
+
+Phoenix has a few external dependencies that are satisfied by configuring
+appropriate values in your <code>.ant.properties</code> file.  The easiest
+way to satisfy these dependencies is to copy the "ant.properties.sample"
+file (in the top-level Phoenix source directory) to ".ant.properties", and
+then edit it to suit your environment.  On Unix, this would be done as:
+
+  cd ${tomcat.source}
+  cp ant.properties.sample .ant.properties
+  emacs .ant.properties
+
+NOTE:  Be *sure* that you do not check "ant.properties" in to the CVS
+repository.  This file is local to your own development environment, and
+each developer will have their own version.
+
+(4) Build A Binary Distribution
 
 Open a command line shell, and issue the following commands:
 
