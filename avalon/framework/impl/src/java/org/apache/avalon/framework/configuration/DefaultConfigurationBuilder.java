@@ -36,7 +36,7 @@ public class DefaultConfigurationBuilder
         try
         {
             final SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
-//            saxParserFactory.setNamespaceAware(true);
+            saxParserFactory.setNamespaceAware(true);
             final SAXParser saxParser = saxParserFactory.newSAXParser();
             this.setParser(saxParser.getXMLReader());
         }
