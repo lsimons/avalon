@@ -34,21 +34,21 @@ if $cygwin; then
 fi
 
 JAVA=$JAVA_HOME/bin/java
-MERLIN_BOOTSTRAP_JAR=$MERLIN_HOME/bin/lib/merlin-cli-3.2.jar
 
 # switch necessary paths to Windows format before running java
 if $cygwin; then
   JAVA_HOME=`cygpath --windows "$JAVA_HOME"`
   MERLIN_HOME=`cygpath --windows "$MERLIN_HOME"`
-  MERLIN_BOOTSTRAP_JAR=$MERLIN_HOME'\'bin'\'lib'\'merlin-cli-3.2.jar 
   [ -n "$CLASSPATH" ] && CLASSPATH=`cygpath --path --windows "$CLASSPATH"`
 fi
+
+MERLIN_BOOTSTRAP_JAR=$MERLIN_HOME/bin/lib/merlin-cli-3.2.jar
 
 echo "Starting Merlin."
 echo "================"
 echo "      Security policy: $MERLIN_HOME/bin/security.policy"
-echo "  Extension directory: $MERLIN_HOME/ext"
+echo "          JVM Options: $MERLIN_JVM_OPTS"
 echo "        Bootstrap JAR: $MERLIN_BOOTSTRAP_JAR"
 echo ""
 
-"$JAVA" $MERLIN_JVM_OPTS "-Djava.security.policy=$MERLIN_HOME/bin/security.policy" "-Djava.ext.dirs=$MERLIN_HOME/ext" -jar "$MERLIN_BOOTSTRAP_JAR" $@
+"$JAVA" $MERLIN_JVM_OPTS "-Djava.security.policy=$MERLIN_HOME/bin/security.policy" "-Djava.ext.dirs=$MERLIN_HOME/ext" -jar "$MERLIN_BOOTSTRAP_JAR" "$@"
