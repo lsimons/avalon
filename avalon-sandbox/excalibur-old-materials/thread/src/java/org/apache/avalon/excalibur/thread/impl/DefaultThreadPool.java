@@ -61,7 +61,6 @@ import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.logger.LogKitLogger;
 import org.apache.avalon.framework.logger.Loggable;
 import org.apache.avalon.framework.logger.Logger;
-import org.apache.excalibur.threadcontext.ThreadContext;
 
 /**
  * This class is the public frontend for the thread pool code.
@@ -82,31 +81,23 @@ public class DefaultThreadPool
         this( "Worker Pool", capacity );
     }
 
-    public DefaultThreadPool( final String name, final int capacity )
-        throws Exception
-    {
-        this( name, capacity, null );
-    }
-
     public DefaultThreadPool( final String name,
-                              final int capacity,
-                              final ThreadContext context )
+                              final int capacity )
         throws Exception
     {
         super( name );
         m_underlyingPool = new SoftResourceLimitingPool( this, capacity );
-        m_pool = new BasicThreadPool( this, name, m_underlyingPool, context );
+        m_pool = new BasicThreadPool( this, name, m_underlyingPool );
     }
 
     public DefaultThreadPool( final String name,
                               final int min,
-                  final int max,
-                              final ThreadContext context )
+                              final int max )
         throws Exception
     {
         super( name );
         m_underlyingPool = new SoftResourceLimitingPool( this, min, max );
-        m_pool = new BasicThreadPool( this, name, m_underlyingPool, context );
+        m_pool = new BasicThreadPool( this, name, m_underlyingPool );
     }
 
     public void setLogger( final org.apache.log.Logger logger )

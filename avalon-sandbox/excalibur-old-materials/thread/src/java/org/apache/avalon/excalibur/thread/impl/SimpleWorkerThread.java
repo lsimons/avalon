@@ -55,7 +55,6 @@ import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.excalibur.thread.impl.AbstractThreadPool;
 import org.apache.excalibur.thread.impl.WorkerThread;
-import org.apache.excalibur.threadcontext.ThreadContext;
 
 /**
  * This class extends the Thread class to add recyclable functionalities.
@@ -69,18 +68,15 @@ class SimpleWorkerThread
     implements Poolable, LogEnabled
 {
     private Logger m_logger;
-    private ThreadContext m_context;
 
     /**
      * Allocates a new <code>Worker</code> object.
      */
     protected SimpleWorkerThread( final AbstractThreadPool pool,
                                   final ThreadGroup group,
-                                  final String name,
-                                  final ThreadContext context )
+                                  final String name )
     {
         super( pool, group, name );
-        m_context = context;
     }
 
     public void enableLogging( final Logger logger )
@@ -88,18 +84,6 @@ class SimpleWorkerThread
         m_logger = logger;
     }
 
-    protected void postExecute()
-    {
-        super.postExecute();
-        ThreadContext.setThreadContext( null );
-    }
-
-    protected void preExecute()
-    {
-        super.preExecute();
-        ThreadContext.setThreadContext( m_context );
-    }
-    
     protected void debug( final String message )
     {
         if ( m_logger.isDebugEnabled() )

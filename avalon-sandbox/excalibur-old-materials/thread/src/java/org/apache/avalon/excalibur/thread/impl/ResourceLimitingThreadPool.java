@@ -61,7 +61,6 @@ import org.apache.avalon.framework.logger.Logger;
 import org.apache.excalibur.instrument.Instrument;
 import org.apache.excalibur.instrument.Instrumentable;
 import org.apache.excalibur.thread.ThreadControl;
-import org.apache.excalibur.threadcontext.ThreadContext;
 
 /**
  * A Thread Pool which can be configured to have a hard limit on the maximum number of threads
@@ -71,7 +70,7 @@ import org.apache.excalibur.threadcontext.ThreadContext;
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.14 $ $Date: 2003/03/23 03:00:44 $
+ * @version CVS $Revision: 1.15 $ $Date: 2003/04/11 06:00:29 $
  * @since 4.1
  */
 public class ResourceLimitingThreadPool
@@ -140,35 +139,6 @@ public class ResourceLimitingThreadPool
                                        final long blockTimeout,
                                        final long trimInterval )
     {
-        this( name, max, maxStrict, blocking, blockTimeout, trimInterval, null );
-    }
-
-    /**
-     * Creates a new <code>ResourceLimitingThreadPool</code>.
-     *
-     * @param name Name which will used as the thread group name as well as the prefix of the
-     *  names of all threads created by the pool.
-     * @param max Maximum number of WorkerThreads which can be stored in the pool,
-     *  0 implies no limit.
-     * @param maxStrict true if the pool should never allow more than max WorkerThreads to
-     *  be created.  Will cause an exception to be thrown if more than max WorkerThreads are
-     *  requested and blocking is false.
-     * @param blocking true if the pool should cause a thread calling get() to block when
-     *  WorkerThreads are not currently available on the pool.
-     * @param blockTimeout The maximum amount of time, in milliseconds, that a call to get() will
-     *  block before an exception is thrown.  A value of 0 implies an indefinate wait.
-     * @param trimInterval The minimum interval with which old unused WorkerThreads will be
-     *  removed from the pool.  A value of 0 will cause the pool to never trim WorkerThreads.
-     * @param context ThreadContext
-     */
-    public ResourceLimitingThreadPool( final String name,
-                                       final int max,
-                                       final boolean maxStrict,
-                                       final boolean blocking,
-                                       final long blockTimeout,
-                                       final long trimInterval,
-                                       final ThreadContext context )
-    {
         super( name );
 
         m_underlyingPool =
@@ -177,7 +147,7 @@ public class ResourceLimitingThreadPool
                                       trimInterval );
         try
         {
-            m_pool = new BasicThreadPool( this, name, m_underlyingPool, context );
+            m_pool = new BasicThreadPool( this, name, m_underlyingPool );
         }
         catch( Exception e )
         {
