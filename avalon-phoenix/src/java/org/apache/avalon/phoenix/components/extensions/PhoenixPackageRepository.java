@@ -1,3 +1,10 @@
+/*
+ * Copyright (C) The Apache Software Foundation. All rights reserved.
+ *
+ * This software is published under the terms of the Apache Software License
+ * version 1.1, a copy of which has been included  with this distribution in
+ * the LICENSE file.
+ */
 package org.apache.avalon.phoenix.components.extensions;
 
 import java.io.File;
@@ -16,7 +23,7 @@ import org.apache.avalon.phoenix.interfaces.PackageRepository;
  * PhoenixPackageRepository
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2001/11/21 11:05:26 $
+ * @version $Revision: 1.2 $ $Date: 2001/11/24 10:33:09 $
  */
 public class PhoenixPackageRepository
     extends DefaultPackageRepository
