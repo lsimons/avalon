@@ -62,7 +62,7 @@ import java.util.HashMap;
  * This is the default <code>Configuration</code> implementation.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.32 $ $Date: 2003/02/11 16:19:27 $
+ * @version CVS $Revision: 1.33 $ $Date: 2003/07/12 08:56:26 $
  */
 public class DefaultConfiguration
     extends AbstractConfiguration
@@ -537,5 +537,12 @@ public class DefaultConfiguration
             throw new IllegalStateException
                 ( "Configuration is read only and can not be modified" );
         }
+    }
+
+    public boolean equals( Object other )
+    {
+        if( other == null ) return false;
+        if( !( other instanceof Configuration ) ) return false;
+        return ConfigurationUtil.equals( this, (Configuration) other );
     }
 }
