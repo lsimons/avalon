@@ -14,7 +14,7 @@
   </target>
 
   <target name="test" depends="standard.test">
-    <ant dir="target/test/temp/demo" target="test"/>
+    <ant dir="target/test/temp/demo" target="install"/>
     <mkdir dir="${basedir}/target/deliverables/demos"/>
     <zip destfile="${basedir}/target/deliverables/demos/demo.zip"
       basedir="etc/test/demo"/>

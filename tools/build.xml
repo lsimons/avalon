@@ -2,7 +2,7 @@
 
 <project name="tools" default="default" basedir="." xmlns:x="antlib:org.apache.avalon.tools">
 
-  <property file="build.properties"/>
-  <import file="${project.home}/build/reactor.xml"/>
+  <x:home index="../central/system"/>
+  <import file="${magic.templates}/reactor.xml"/>
 
 </project>
