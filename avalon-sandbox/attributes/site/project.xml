@@ -2,7 +2,7 @@
 
 <project>
     <extend>${basedir}/../project.xml</extend>
-    <package>org.apache.avalon.meta</package>
+    <package>org.apache.avalon.attributes</package>
     
     <dependencies>
         
