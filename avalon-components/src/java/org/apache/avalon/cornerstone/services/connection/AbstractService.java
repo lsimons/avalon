@@ -9,6 +9,7 @@ package org.apache.avalon.cornerstone.services.connection;
 
 import java.net.InetAddress;
 import java.net.ServerSocket;
+import java.io.IOException;
 import org.apache.avalon.cornerstone.services.sockets.ServerSocketFactory;
 import org.apache.avalon.cornerstone.services.sockets.SocketManager;
 import org.apache.avalon.excalibur.thread.ThreadPool;
@@ -44,6 +45,7 @@ public abstract class AbstractService
     protected String m_serverSocketType;
     protected int m_port;
     protected InetAddress m_bindTo; //network interface to bind to
+    protected ServerSocket m_serverSocket;
     protected String m_connectionName;
 
     public AbstractService()
@@ -130,25 +132,24 @@ public abstract class AbstractService
         final ServerSocketFactory factory =
             m_socketManager.getServerSocketFactory( m_serverSocketType );
 
-        ServerSocket serverSocket = null;
-
         if( null == m_bindTo )
         {
-            serverSocket = factory.createServerSocket( m_port );
+            m_serverSocket = factory.createServerSocket( m_port );
         }
         else
         {
-            serverSocket = factory.createServerSocket( m_port, 5, m_bindTo );
+            m_serverSocket = factory.createServerSocket( m_port, 5, m_bindTo );
         }
 
         if( null == m_threadPool )
         {
-            m_connectionManager.connect( m_connectionName, serverSocket, m_factory );
+            m_connectionManager.connect( m_connectionName, m_serverSocket,
+                                         m_factory );
         }
         else
         {
-            m_connectionManager.
-                connect( m_connectionName, serverSocket, m_factory, m_threadPool );
+            m_connectionManager.connect( m_connectionName, m_serverSocket,
+                                         m_factory, m_threadPool );
         }
     }
 
@@ -161,6 +162,15 @@ public abstract class AbstractService
         catch( final Exception e )
         {
             getLogger().warn( "Error disconnecting", e );
+        }
+
+        try
+        {
+            m_serverSocket.close();
+        }
+        catch( final IOException ioe )
+        {
+            getLogger().warn( "Error closing server socket", ioe );
         }
     }
 }
