@@ -75,7 +75,7 @@ import org.apache.excalibur.store.StoreJanitor;
  * @author <a href="mailto:g-froehlich@gmx.de">Gerhard Froehlich</a>
  * @author <a href="mailto:proyal@managingpartners.com">Peter Royal</a>
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Id: StoreJanitorImpl.java,v 1.12 2003/08/15 12:59:58 cziegeler Exp $
+ * @version CVS $Id: StoreJanitorImpl.java,v 1.13 2003/08/15 14:34:43 cziegeler Exp $
  */
 public class StoreJanitorImpl
 extends AbstractLogEnabled
@@ -116,6 +116,7 @@ implements StoreJanitor,
      *      and the less free memory is left, the shorter is the cleanup time.</LI>
      *  <LI><B>threadpriority</B>: priority of the thread (1-10). (Default: 10)</LI>
      *  <LI><B>percent_to_free</B>: What fraction of the store to free when memory is low (1-100). (Default: 10%)</LI>
+     *  <LI><B>invokegc</B>: Invoke the gc on low memory first (true|false; default: false)</LI>
      * </UL>
      *
      * @param params the Configuration of the application
