@@ -76,9 +76,9 @@ import org.apache.avalon.util.defaults.SystemDefaultsFinder;
  * for application to a factory.
  *
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.1 $
  */
-public class RepositoryCriteria extends Criteria
+public class DefaultRepositoryCriteria extends Criteria
 {
     //--------------------------------------------------------------
     // static
@@ -87,7 +87,7 @@ public class RepositoryCriteria extends Criteria
    /**
     * Repository cache directory parameter descriptor.
     */
-    public static final String REPOSITORY_CACHE_DIR = "avalon.repository.cache.dir";
+    public static final String REPOSITORY_CACHE_DIR = InitialContext.CACHE_KEY;
     private static final Parameter REPOSITORY_CACHE_DIR_PARAM = 
       new Parameter( 
         REPOSITORY_CACHE_DIR,
@@ -137,7 +137,7 @@ public class RepositoryCriteria extends Criteria
    /**
     * Repository proxy password parameter descriptor.
     */
-    public static final String REPOSITORY_REMOTE_HOSTS = "avalon.repository.hosts";
+    public static final String REPOSITORY_REMOTE_HOSTS = InitialContext.HOSTS_KEY;
     public static final Parameter REPOSITORY_REMOTE_HOSTS_PARAM = 
       new PackedParameter( 
         REPOSITORY_REMOTE_HOSTS,
@@ -179,7 +179,8 @@ public class RepositoryCriteria extends Criteria
      * Creation of a new criteria.
      * @param context the initial context
      */
-    public RepositoryCriteria( InitialContext context ) throws RepositoryException
+    public DefaultRepositoryCriteria( InitialContext context ) 
+      throws RepositoryException
     {
         super( PARAMS );
 
@@ -266,24 +267,6 @@ public class RepositoryCriteria extends Criteria
         }
     }
 
-    private String hostList( String message, String[] hosts )
-    {
-        StringBuffer buffer = new StringBuffer( message );
-        if( null == hosts ) 
-        {
-            buffer.append( " (null)" ); 
-            return buffer.toString();
-        }
-        buffer.append( "\n" );
-        for( int i=0; i<hosts.length; i++ )
-        {
-            if( i>0 ) buffer.append( "," );
-            buffer.append( hosts[i] );
-        }
-        return buffer.toString();      
-    }
-
-
     //--------------------------------------------------------------
     // Criteria
     //--------------------------------------------------------------
@@ -301,7 +284,8 @@ public class RepositoryCriteria extends Criteria
     {
         try
         {
-            return Defaults.getStaticProperties( RepositoryCriteria.class, DEFAULTS );
+            return Defaults.getStaticProperties( 
+              DefaultRepositoryCriteria.class, DEFAULTS );
         }
         catch ( IOException e )
         {
