@@ -24,12 +24,6 @@
       <version>4.1.5</version>
     </dependency>
 
-    <dependency>
-      <groupId>merlin</groupId>
-      <artifactId>merlin-unit</artifactId>
-      <version>3.3.0</version>
-    </dependency>
-
   </dependencies>
 
 </project>

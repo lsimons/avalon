@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE project [
+  <!ENTITY % index SYSTEM "file:index.ent"> %index;
+]>
 
 <project>
 
@@ -25,9 +28,9 @@
     </dependency>
 
     <dependency>
-      <groupId>merlin</groupId>
-      <artifactId>merlin-unit</artifactId>
-      <version>3.3.0</version>
+      <groupId>&merlin-id;</groupId>
+      <artifactId>&merlin-unit-id;</artifactId>
+      <version>&merlin-unit-version;</version>
     </dependency>
 
   </dependencies>
