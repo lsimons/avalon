@@ -189,6 +189,28 @@
     </j:forEach>
   </goal>
 
+  <goal name="avalon:build-externals" description="Build Externals.">
+    <maven:reactor basedir="${basedir}"
+      includes="external.xml"
+      banner="Installing:"
+      ignoreFailures="false" 
+      postProcessing="true" />
+
+    <j:forEach var="child" items="${reactorProjects}">
+      <echo>${child}</echo>
+      <j:set var="deps" value="${child.dependencies}"/>
+        <j:forEach var="dep" items="${deps}">
+          <echo>${maven.repo.local}/${dep.getArtifactDirectory()}/${dep.getType()}s/${dep.getArtifact()}</echo>
+          <ant:copy todir="${maven.build.dir}/merlin/system"
+              preserveLastModified="true">
+            <ant:fileset dir="${maven.repo.local}">
+              <ant:include name="${dep.getArtifactDirectory()}/${dep.getType()}s/${dep.getArtifact()}"/>
+              <ant:include name="${dep.getArtifactDirectory()}/${dep.getType()}s/${dep.getArtifact()}.meta"/>
+            </ant:fileset>
+          </ant:copy>
+        </j:forEach>
+    </j:forEach>
+  </goal>
 
   <!--
   ==============================================================================
