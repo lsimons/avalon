@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>Cornerstone Thread Manager</title>
+  </properties>
+
+  <body>
+    <section name="Merlin Examples of Cornerstone Components">
+    <subsection name="Index">
+      <table>
+        <tr><th>Component</th><th>Description</th></tr>
+        <tr><td><a href="threads.html">Threads</a></td>
+          <td>
+            <p>
+            This tutorial demonstrates the creation of a component that 
+            uses the cornerstone thread pool, establishes a work thread
+            and demonstrates some of the features of the underlying 
+            Excalibur Thread Pool.
+            </p>
+          </td>
+        </tr>
+      </table>
+    </subsection>
+    </section>
+  </body>
+
+</document>
