@@ -4,6 +4,8 @@
 
   <menu label="About">
     <menu-item href="index.html" label="Overview"/>
+    <menu-item href="mrustore.html" label="MRU Store"/>
+    <menu-item href="storejanitor.html" label="Janitor"/>
     <menu-item href="http://avalon.apache.org/excalibur/index.html" label="Excalibur Home"/>
     <menu-item href="http://avalon.apache.org/bindownload.cgi" label="Download"/>
     <menu-item label="API Docs" href="http://avalon.apache.org/api/"/>
