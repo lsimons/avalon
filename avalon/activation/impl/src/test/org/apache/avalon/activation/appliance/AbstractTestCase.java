@@ -86,6 +86,8 @@ public abstract class AbstractTestCase extends TestCase
     protected ContainmentModel m_model;
 
     protected SystemContext m_system;
+    
+    protected boolean m_secured;
 
    //-------------------------------------------------------
    // constructor
@@ -93,12 +95,18 @@ public abstract class AbstractTestCase extends TestCase
 
     public AbstractTestCase( )
     {
-        this( "data" );
+        this( "data", false );
     }
 
     public AbstractTestCase( String name )
     {
+        this( name, false );
+    }
+    
+    public AbstractTestCase( String name, boolean secured )
+    {
         super( name );
+        m_secured = secured;
     }
 
    //-------------------------------------------------------
@@ -145,7 +153,7 @@ public abstract class AbstractTestCase extends TestCase
         File local = new File( base, "repository" );
         m_system = 
           DefaultSystemContext.createSystemContext( 
-            base, local, ConsoleLogger.LEVEL_INFO );
+            base, local, ConsoleLogger.LEVEL_INFO, m_secured );
         m_logger = m_system.getLogger();
 
         //
