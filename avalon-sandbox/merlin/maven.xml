@@ -175,6 +175,11 @@
     </copy>
   </goal>
 
+  <!--
+  Utility goal to update the lib directories in the Merlin installation
+  without disrupting current executing NT services.  I.e. just update
+  the jar files in the lib subdirectories.
+  -->
   <goal name="merlin-libs" prereqs="merlin-install-plugin,merlin-dist">
     <property environment="env"/>
     <mkdir dir="${env.MERLIN_HOME}/lib/shared"/>
