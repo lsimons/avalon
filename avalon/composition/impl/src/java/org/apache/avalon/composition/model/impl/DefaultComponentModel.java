@@ -57,8 +57,8 @@ import java.util.Properties;
 import org.apache.avalon.composition.model.AssemblyException;
 import org.apache.avalon.composition.model.ContextModel;
 import org.apache.avalon.composition.model.DependencyModel;
-import org.apache.avalon.composition.model.DeploymentModel;
-import org.apache.avalon.composition.model.DeploymentContext;
+import org.apache.avalon.composition.model.ComponentModel;
+import org.apache.avalon.composition.model.ComponentContext;
 import org.apache.avalon.composition.model.Model;
 import org.apache.avalon.composition.model.ModelRepository;
 import org.apache.avalon.composition.model.ModelException;
@@ -89,29 +89,29 @@ import org.apache.excalibur.configuration.CascadingConfiguration;
  * Deployment model defintion.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.9.2.3 $ $Date: 2004/01/04 01:19:28 $
+ * @version $Revision: 1.1.2.1 $ $Date: 2004/01/04 17:23:16 $
  */
-public class DefaultDeploymentModel extends DefaultModel implements DeploymentModel
+public class DefaultComponentModel extends DefaultModel implements ComponentModel
 {
     //--------------------------------------------------------------
     // static
     //--------------------------------------------------------------
 
     private static final Resources REZ =
-            ResourceManager.getPackageResources( DefaultDeploymentModel.class );
+            ResourceManager.getPackageResources( DefaultComponentModel.class );
 
    private static final String CONTEXTUALIZABLE = 
      "org.apache.avalon.framework.context.Contextualizable";
 
     private static final Configuration EMPTY_CONFIGURATION =
       new DefaultConfiguration( 
-        "configuration", DeploymentModel.class.getName() );
+        "configuration", ComponentModel.class.getName() );
 
     //--------------------------------------------------------------
     // immutable state
     //--------------------------------------------------------------
 
-    private final DeploymentContext m_context;
+    private final ComponentContext m_context;
 
     private final ContextModel m_contextModel;
 
@@ -146,7 +146,7 @@ public class DefaultDeploymentModel extends DefaultModel implements DeploymentMo
     *
     * @param context the deployment context
     */
-    public DefaultDeploymentModel( DeploymentContext context )
+    public DefaultComponentModel( ComponentContext context )
       throws ModelException
     {
         super( 
@@ -530,7 +530,7 @@ public class DefaultDeploymentModel extends DefaultModel implements DeploymentMo
     }
 
     //==============================================================
-    // DeploymentModel
+    // ComponentModel
     //==============================================================
 
    /**

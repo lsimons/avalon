@@ -78,13 +78,12 @@ import org.apache.avalon.composition.data.builder.XMLContainmentProfileCreator;
 import org.apache.avalon.composition.event.CompositionEvent;
 import org.apache.avalon.composition.event.CompositionEventListener;
 import org.apache.avalon.composition.model.AssemblyException;
-import org.apache.avalon.composition.model.Composite;
 import org.apache.avalon.composition.model.ClassLoaderContext;
 import org.apache.avalon.composition.model.ClassLoaderModel;
 import org.apache.avalon.composition.model.ContainmentModel;
 import org.apache.avalon.composition.model.ContainmentContext;
 import org.apache.avalon.composition.model.DependencyGraph;
-import org.apache.avalon.composition.model.DeploymentModel;
+import org.apache.avalon.composition.model.ComponentModel;
 import org.apache.avalon.composition.model.Model;
 import org.apache.avalon.composition.model.ModelException;
 import org.apache.avalon.composition.model.ModelRuntimeException;
@@ -115,7 +114,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * as a part of a containment deployment model.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.13.2.6 $ $Date: 2004/01/04 01:19:28 $
+ * @version $Revision: 1.13.2.7 $ $Date: 2004/01/04 17:23:16 $
  */
 public class DefaultContainmentModel extends DefaultModel 
   implements ContainmentModel
@@ -261,10 +260,6 @@ public class DefaultContainmentModel extends DefaultModel
         return false;
     }
 
-    //--------------------------------------------------------------
-    // Composite
-    //--------------------------------------------------------------
-
     /**
      * Returns the assembled state of the model.
      * @return true if this model is assembled
@@ -292,10 +287,7 @@ public class DefaultContainmentModel extends DefaultModel
             for( int i=0; i<models.length; i++ )
             {
                 Model model = models[i];
-                if( model instanceof Composite )
-                {
-                    ((Composite)model).assemble();
-                }
+                model.assemble();
             }
 
             m_assembly.setEnabled( true );
@@ -319,10 +311,7 @@ public class DefaultContainmentModel extends DefaultModel
             for( int i=0; i<models.length; i++ )
             {
                 Model model = models[i];
-                if( model instanceof Composite )
-                {
-                    ((Composite)model).disassemble();
-                }
+                model.disassemble();
             }
             m_assembly.setEnabled( false );
         }
@@ -347,18 +336,15 @@ public class DefaultContainmentModel extends DefaultModel
         for( int i=0; i<models.length; i++ )
         {
             Model model = models[i];
-            if( model instanceof Composite )
+            Model[] providers = model.getProviders();
+            for( int j=0; j<providers.length; j++ )
             {
-                Model[] providers = ((Composite)model).getProviders();
-                for( int j=0; j<providers.length; j++ )
+                Model provider = providers[j];
+                final String path = provider.getPath();
+                final String root = getPartition();
+                if( !path.startsWith( root ) )
                 {
-                    Model provider = providers[j];
-                    final String path = provider.getPath();
-                    final String root = getPartition();
-                    if( !path.startsWith( root ) )
-                    {
-                        list.add( providers[j] );
-                    }
+                    list.add( providers[j] );
                 }
             }
         }
@@ -464,13 +450,13 @@ public class DefaultContainmentModel extends DefaultModel
         else if( profile instanceof DeploymentProfile ) 
         {
             DeploymentProfile deployment = (DeploymentProfile) profile;
-            model = createDeploymentModel( deployment );
+            model = createComponentModel( deployment );
         }
         else if( profile instanceof NamedDeploymentProfile ) 
         {
             DeploymentProfile deployment = 
               createDeploymentProfile( (NamedDeploymentProfile) profile );
-            model = createDeploymentModel( deployment );
+            model = createComponentModel( deployment );
         }
         else if( profile instanceof BlockIncludeDirective ) 
         {
@@ -594,7 +580,7 @@ public class DefaultContainmentModel extends DefaultModel
     * @param profile a containment profile 
     * @return the composition model
     */
-    private DeploymentModel createDeploymentModel( final DeploymentProfile profile ) 
+    private ComponentModel createComponentModel( final DeploymentProfile profile ) 
       throws ModelException
     {
         if( null == profile ) 
@@ -620,8 +606,8 @@ public class DefaultContainmentModel extends DefaultModel
             final File home = new File( m_context.getHomeDirectory(), name );
             final File temp = new File( m_context.getTempDirectory(), name );
 
-            DefaultDeploymentContext context = 
-              new DefaultDeploymentContext( 
+            DefaultComponentContext context = 
+              new DefaultComponentContext( 
                 logger, name, m_context, profile, type, base, home, temp, partition );
 
             //
@@ -630,7 +616,7 @@ public class DefaultContainmentModel extends DefaultModel
             // the argument.
             //
 
-            return new DefaultDeploymentModel( context );
+            return new DefaultComponentModel( context );
         }
         catch( Throwable e )
         {
@@ -790,9 +776,9 @@ public class DefaultContainmentModel extends DefaultModel
             {
                 if( target.getConfiguration() != null )
                 {
-                    if( child instanceof DeploymentModel )
+                    if( child instanceof ComponentModel )
                     {
-                        ((DeploymentModel)child).setConfiguration( 
+                        ((ComponentModel)child).setConfiguration( 
                           target.getConfiguration() );
                     }
                     else if( child instanceof ContainmentModel )
@@ -805,9 +791,9 @@ public class DefaultContainmentModel extends DefaultModel
                 }
                 if( target.getCategoriesDirective() != null )
                 {
-                    if( child instanceof DeploymentModel )
+                    if( child instanceof ComponentModel )
                     {
-                        ((DeploymentModel)child).setCategories( 
+                        ((ComponentModel)child).setCategories( 
                            target.getCategoriesDirective() );
                     }
                     else if( child instanceof ContainmentModel )
@@ -1336,9 +1322,9 @@ public class DefaultContainmentModel extends DefaultModel
             Object model = getModel( path );
             if( model != null )
             {
-                if( model instanceof DeploymentModel )
+                if( model instanceof ComponentModel )
                 {
-                    DeploymentModel deployment = (DeploymentModel) model;
+                    ComponentModel deployment = (ComponentModel) model;
                     if( target.getConfiguration() != null )
                     {
                         deployment.setConfiguration( target.getConfiguration() );

@@ -50,7 +50,7 @@
 
 package org.apache.avalon.composition.model.impl;
 
-import org.apache.avalon.composition.model.DeploymentContext;
+import org.apache.avalon.composition.model.ComponentContext;
 import org.apache.avalon.composition.model.ModelRuntimeException;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
@@ -64,7 +64,7 @@ import org.apache.avalon.excalibur.i18n.Resources;
  * the request to an assigned model.</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2003/10/28 20:21:00 $
+ * @version $Revision: 1.2.2.1 $ $Date: 2004/01/04 17:23:16 $
  */
 public final class DefaultContext implements Context
 {
@@ -79,7 +79,7 @@ public final class DefaultContext implements Context
     // immutable state
     //==============================================================
 
-    private final DeploymentContext m_context;
+    private final ComponentContext m_context;
 
     //==============================================================
     // constructor
@@ -90,7 +90,7 @@ public final class DefaultContext implements Context
     *
     * @param context the deployment context
     */
-    public DefaultContext( DeploymentContext context )
+    public DefaultContext( ComponentContext context )
     {
         m_context = context;
     }

@@ -59,7 +59,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * Abstract model interface.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/09/24 09:31:18 $
+ * @version $Revision: 1.1.1.1.2.1 $ $Date: 2004/01/04 17:23:16 $
  */
 public interface Model
 {
@@ -114,5 +114,47 @@ public interface Model
     * @return true if this model can fulfill the dependency
     */
     boolean isaCandidate( StageDescriptor stage );
+
+    //-----------------------------------------------------------
+    // composite assembly
+    //-----------------------------------------------------------
+
+    /**
+     * Returns the assembled state of the model.
+     * @return true if this model is assembled
+     */
+    boolean isAssembled();
+
+    /**
+     * Assemble the model.
+     * @exception Exception if an error occurs during model assembly
+     */
+    void assemble() throws AssemblyException;
+
+   /**
+    * Return the set of models consuming this model.
+    * @return the consumers
+    */
+    Model[] getConsumerGraph();
+
+   /**
+    * Return the set of models supplying this model.
+    * @return the providers
+    */
+    Model[] getProviderGraph();
+
+    /**
+     * Disassemble the model.
+     */
+    void disassemble();
+
+    /**
+     * Return the set of models assigned as providers.
+     * @return the providers consumed by the model
+     * @exception IllegalStateException if invoked prior to 
+     *    the completion of the assembly phase 
+     */
+    Model[] getProviders();
+
 
 }

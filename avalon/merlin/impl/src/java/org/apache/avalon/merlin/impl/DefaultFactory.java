@@ -60,6 +60,7 @@ import java.util.Iterator;
 import java.util.Locale;
 
 import org.apache.avalon.activation.appliance.Block;
+import org.apache.avalon.activation.appliance.BlockContext;
 import org.apache.avalon.activation.appliance.Composite;
 import org.apache.avalon.activation.appliance.impl.AbstractBlock;
 import org.apache.avalon.activation.appliance.impl.DefaultServiceContext;
@@ -78,7 +79,7 @@ import org.apache.avalon.composition.logging.TargetProvider;
 import org.apache.avalon.composition.logging.impl.DefaultLoggingManager;
 import org.apache.avalon.composition.logging.impl.FileTargetProvider;
 import org.apache.avalon.composition.model.ContainmentContext;
-import org.apache.avalon.composition.model.DeploymentModel;
+import org.apache.avalon.composition.model.ComponentModel;
 import org.apache.avalon.composition.model.ContainmentModel;
 import org.apache.avalon.composition.model.ModelFactory;
 import org.apache.avalon.composition.model.SystemContext;
@@ -379,7 +380,7 @@ public class DefaultFactory implements Factory
 
         File anchor = criteria.getAnchorDirectory();
 
-        SystemContext systemContext = 
+        DefaultSystemContext applicationContext = 
           new DefaultSystemContext( 
             m_logging,
             anchor,
@@ -390,17 +391,52 @@ public class DefaultFactory implements Factory
             criteria.isDebugEnabled() );
 
         //
-        // create the system model and block
+        // create the application model
         //
 
-        final Logger systemLogger = getLogger();
+        getLogger().info( "building application model" );
+        final Logger applicationLogger = m_logging.getLoggerForCategory("");
+        ClassLoader api = applicationContext.getCommonClassLoader();
+        ContainmentModel application = 
+          new DefaultContainmentModel(
+            createContainmentContext( 
+              applicationContext, applicationLogger, api,
+              getContainmentProfile( 
+                kernelConfig.getChild( "container" ) ) ) );
 
+        //
+        // create the system model and add the application model
+        // as an available system context entry
+        //
+
+        getLogger().info( "facilities deployment" );
+
+        Configuration facilities = 
+          kernelConfig.getChild( "system" );
+
+        DefaultSystemContext systemContext = 
+          new DefaultSystemContext( 
+            m_logging,
+            anchor,
+            criteria.getContextDirectory(),
+            criteria.getTempDirectory(),
+            repository,
+            loggingDescriptor.getName(),
+            criteria.isDebugEnabled() );
+
+        systemContext.put( "urn:merlin:dir", criteria.getWorkingDirectory() );
+        systemContext.put( "urn:merlin:anchor", criteria.getAnchorDirectory() );
+        systemContext.put( "urn:merlin:model", application );
+
+        systemContext.makeReadOnly();
+
+        ClassLoader spi = BlockContext.class.getClassLoader();
+        final Logger systemLogger = getLogger();
         ContainmentModel system = 
           new DefaultContainmentModel(
             createContainmentContext( 
-              systemContext, systemLogger, m_classloader,
-              getContainmentProfile( 
-                kernelConfig.getChild( "system" ) ) ) );
+              systemContext, systemLogger, spi,
+              getContainmentProfile( facilities ) ) );
 
         //
         // TODO: now that the system context is established we 
@@ -453,22 +489,10 @@ public class DefaultFactory implements Factory
         }
 
         //
-        // create the application model
-        //
-
-        final Logger applicationLogger = m_logging.getLoggerForCategory("");
-        ClassLoader api = systemContext.getCommonClassLoader();
-        ContainmentModel application = 
-          new DefaultContainmentModel(
-            createContainmentContext( 
-              systemContext, applicationLogger, api,
-              getContainmentProfile( 
-                kernelConfig.getChild( "container" ) ) ) );
-
-        //
         // install any blocks declared within the kernel context
         //
 
+        getLogger().info( "block installation" );
         getLogger().debug( "install phase" );
         URL[] urls = criteria.getDeploymentURLs();
         for( int i=0; i<urls.length; i++ )
@@ -519,6 +543,7 @@ public class DefaultFactory implements Factory
         //
         // instantiate the runtime root application block
         //
+        getLogger().info( "deployment" );
 
         getLogger().debug( "activation phase" );
         try

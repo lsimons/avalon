@@ -57,7 +57,7 @@ import java.lang.reflect.Constructor;
 import org.apache.avalon.composition.model.ContextModel;
 import org.apache.avalon.composition.model.Model;
 import org.apache.avalon.composition.model.ModelException;
-import org.apache.avalon.composition.model.DeploymentContext;
+import org.apache.avalon.composition.model.ComponentContext;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.avalon.framework.context.Context;
@@ -76,7 +76,7 @@ import org.apache.avalon.composition.data.ConstructorDirective;
  * a fully qualifed context can be established.</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3.2.1 $ $Date: 2004/01/03 18:14:58 $
+ * @version $Revision: 1.3.2.2 $ $Date: 2004/01/04 17:23:16 $
  */
 public class DefaultContextModel extends DefaultDependent implements ContextModel
 {
@@ -101,7 +101,7 @@ public class DefaultContextModel extends DefaultDependent implements ContextMode
 
     private final ContextDirective m_directive;
 
-    private final DeploymentContext m_context;
+    private final ComponentContext m_context;
 
     private final Class m_strategy;
 
@@ -127,7 +127,7 @@ public class DefaultContextModel extends DefaultDependent implements ContextMode
     */
     public DefaultContextModel( 
       Logger logger, ContextDescriptor descriptor, 
-      ContextDirective directive, DeploymentContext context )
+      ContextDirective directive, ComponentContext context )
       throws ModelException
     {
         super( logger );
@@ -167,10 +167,31 @@ public class DefaultContextModel extends DefaultDependent implements ContextMode
                 }
                 catch( ContextException e )
                 {
-                    final String error = 
-                      REZ.getString( 
-                        "context.non-standard-avalon-key.error", key );
-                    throw new ModelException( error );
+                    if( entry.isRequired() )
+                    {
+                        final String error = 
+                          REZ.getString( 
+                            "context.non-standard-avalon-key.error", key );
+                         throw new ModelException( error );
+                    }
+                }
+            }
+            else if( key.startsWith( "urn:merlin:" ) )
+            {
+                try
+                {
+                    Object value = m_context.getSystemContext().get( key );
+                    m_map.put( key, value );
+                }
+                catch( ContextException e )
+                {
+                    if( entry.isRequired() )
+                    {
+                        final String error = 
+                          REZ.getString( 
+                            "context.non-standard-avalon-key.error", key );
+                        throw new ModelException( error );
+                    }
                 }
             }
             else
@@ -361,7 +382,7 @@ public class DefaultContextModel extends DefaultDependent implements ContextMode
     *   construct the context instance
     */
     private Context createComponentContext( 
-      DeploymentContext context, ContextDescriptor descriptor, ContextDirective directive )
+      ComponentContext context, ContextDescriptor descriptor, ContextDirective directive )
       throws ModelException
     {
         ClassLoader classLoader = context.getClassLoader();

@@ -59,8 +59,8 @@ import org.apache.avalon.composition.model.ClassLoaderModel;
 import org.apache.avalon.composition.model.ClassLoaderContext;
 import org.apache.avalon.composition.model.ContainmentModel;
 import org.apache.avalon.composition.model.ContainmentContext;
-import org.apache.avalon.composition.model.DeploymentContext;
-import org.apache.avalon.composition.model.DeploymentModel;
+import org.apache.avalon.composition.model.ComponentContext;
+import org.apache.avalon.composition.model.ComponentModel;
 import org.apache.avalon.composition.model.ModelFactory;
 import org.apache.avalon.composition.model.ModelException;
 import org.apache.avalon.composition.model.SystemContext;
@@ -80,7 +80,7 @@ import org.apache.avalon.composition.data.builder.XMLContainmentProfileCreator;
  * A factory enabling the establishment of new composition model instances.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.3.2.2 $ $Date: 2004/01/03 22:08:21 $
+ * @version $Revision: 1.3.2.3 $ $Date: 2004/01/04 17:23:17 $
  */
 public class DefaultModelFactory extends AbstractLogEnabled 
   implements ModelFactory
@@ -278,9 +278,9 @@ public class DefaultModelFactory extends AbstractLogEnabled
     * @param context a potentially foreign deployment context
     * @return the deployment model
     */
-    public DeploymentModel createDeploymentModel( DeploymentContext context )
+    public ComponentModel createComponentModel( ComponentContext context )
       throws ModelException
     {
-        return new DefaultDeploymentModel( context );
+        return new DefaultComponentModel( context );
     }
 }

@@ -73,7 +73,7 @@ import org.apache.avalon.composition.event.CompositionEvent;
 import org.apache.avalon.composition.event.CompositionEventListener;
 import org.apache.avalon.composition.model.ContainmentModel;
 import org.apache.avalon.composition.model.DependencyModel;
-import org.apache.avalon.composition.model.DeploymentModel;
+import org.apache.avalon.composition.model.ComponentModel;
 import org.apache.avalon.composition.model.Model;
 import org.apache.avalon.composition.model.StageModel;
 import org.apache.avalon.framework.activity.Disposable;
@@ -89,7 +89,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * context.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.10 $ $Date: 2004/01/01 13:05:05 $
+ * @version $Revision: 1.10.2.1 $ $Date: 2004/01/04 17:23:16 $
  */
 public abstract class AbstractBlock extends AbstractAppliance 
   implements Block, Composite, CompositionEventListener
@@ -915,10 +915,10 @@ public abstract class AbstractBlock extends AbstractAppliance
         final LoggingManager logging = services.getLoggingManager();
         final DependencyGraph graph = m_context.getDependencyGraph();
 
-        if( model instanceof DeploymentModel )
+        if( model instanceof ComponentModel )
         {
             getLogger().debug( "creating appliance: " + path );
-            DeploymentModel deployment = (DeploymentModel) model;
+            ComponentModel deployment = (ComponentModel) model;
             CategoriesDirective categories = deployment.getCategories();
             if( categories != null )
             {
