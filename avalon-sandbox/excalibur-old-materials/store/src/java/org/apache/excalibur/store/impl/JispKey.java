@@ -63,15 +63,19 @@ import com.coyotegulch.jisp.KeyObject;
  * IT'S NOT FINISHED YET, PLEASE DON'T USE IT !!!!
  * 
  * @author <a href="mailto:cziegeler@apache.org">Carsten Ziegeler</a>
- * @version CVS $Id: JispKey.java,v 1.2 2003/07/14 17:16:27 cziegeler Exp $
+ * @version CVS $Id: JispKey.java,v 1.3 2003/07/14 18:17:23 cziegeler Exp $
  */
 public final class JispKey extends KeyObject 
 {
-    final static long serialVersionUID = 798806649359364728L;
+    final static long serialVersionUID = -1216913992804571313L;
 
     protected Object m_Key;
 
     static protected JispKey NULL_KEY = new JispKey("");
+    
+    public JispKey() {
+        this("");
+    }
     
     /**
      *  Constructor for the JispStringKey object
@@ -169,6 +173,13 @@ public final class JispKey extends KeyObject
         m_Key = in.readObject();
     }
 
+    /**
+     * Return the real key
+     */
+    public Object getKey() 
+    {
+        return m_Key;
+    }
 }
 
 

@@ -73,29 +73,28 @@ import org.apache.excalibur.store.Store;
  *
  * @author <a href="mailto:g-froehlich@gmx.de">Gerhard Froehlich</a>
  * @author <a href="mailto:vgritsenko@apache.org">Vadim Gritsenko</a>
- * @version CVS $Id: AbstractJispFilesystemStore.java,v 1.8 2003/07/14 13:58:19 cziegeler Exp $
+ * @version CVS $Id: AbstractJispFilesystemStore.java,v 1.9 2003/07/14 18:17:23 cziegeler Exp $
  */
 public abstract class AbstractJispFilesystemStore
 extends AbstractLogEnabled
 implements Store, ThreadSafe, Initializable {
 
-    /**    
-     *  The directory repository
-     */
+    /** The directory repository */
     protected File m_directoryFile;
+    /** The path to the directory */
     protected volatile String m_directoryPath;
 
-    /**
-     * The database
-     */   
+    /** The database  */   
     protected IndexedObjectDatabase m_Database;
+    /** And the index */
     protected BTreeIndex m_Index;
 
     /**
      * Sets the repository's location
      */
     public void setDirectory(final String directory)
-    throws IOException {
+    throws IOException 
+    {
         this.setDirectory(new File(directory));
     }
 
@@ -115,7 +114,7 @@ implements Store, ThreadSafe, Initializable {
         if (!this.m_directoryFile.exists()) 
         {
             /* Create it anew */
-            if (!this.m_directoryFile.mkdir()) 
+            if (!this.m_directoryFile.mkdirs()) 
             {
                 throw new IOException(
                 "Error creating store directory '" + this.m_directoryPath + "': ");
@@ -123,12 +122,14 @@ implements Store, ThreadSafe, Initializable {
         }
 
         /* Is given file actually a directory? */
-        if (!this.m_directoryFile.isDirectory()) {
+        if (!this.m_directoryFile.isDirectory()) 
+        {
             throw new IOException("'" + this.m_directoryPath + "' is not a directory");
         }
 
         /* Is directory readable and writable? */
-        if (!(this.m_directoryFile.canRead() && this.m_directoryFile.canWrite())) {
+        if (!(this.m_directoryFile.canRead() && this.m_directoryFile.canWrite())) 
+        {
             throw new IOException(
                 "Directory '" + this.m_directoryPath + "' is not readable/writable"
             );
@@ -140,7 +141,8 @@ implements Store, ThreadSafe, Initializable {
      *
      * @return the directory as String
      */
-    public String getDirectoryPath() {
+    public String getDirectoryPath() 
+    {
         return this.m_directoryPath;
     }
 
@@ -150,18 +152,26 @@ implements Store, ThreadSafe, Initializable {
      * @param key the Key object
      * @return the Object associated with Key Object
      */
-    public synchronized Object get(Object key) {
+    public synchronized Object get(Object key) 
+    {
         Object value = null;
-        try {
+        try 
+        {
             value = m_Database.read(this.wrapKeyObject(key), m_Index);
-            if (getLogger().isDebugEnabled()) {
-                if (value != null) {
+            if (getLogger().isDebugEnabled()) 
+            {
+                if (value != null) 
+                {
                     getLogger().debug("Found key: " + key);
-                } else {
+                } 
+                else 
+                {
                     getLogger().debug("NOT Found key: " + key);
                 }
             }
-        } catch (Exception e) {
+        } 
+        catch (Exception e) 
+        {
             getLogger().error("get(..): Exception", e);
         }
         return value;
@@ -175,24 +185,32 @@ implements Store, ThreadSafe, Initializable {
      * @exception  IOException
      */
     public synchronized void store(Object key, Object value)
-        throws IOException {
+    throws IOException 
+    {
 
-        if (getLogger().isDebugEnabled()) {
+        if (getLogger().isDebugEnabled()) 
+        {
             this.getLogger().debug("store(): Store file with key: "
                                   + key.toString());
             this.getLogger().debug("store(): Store file with value: "
                                   + value.toString());
         }
 
-        if (value instanceof Serializable) {
-            try {
+        if (value instanceof Serializable) 
+        {
+            try 
+            {
                 KeyObject[] keyArray = new KeyObject[1];
                 keyArray[0] = this.wrapKeyObject(key);
                 m_Database.write(keyArray, (Serializable) value);
-            } catch (Exception e) {
+            } 
+            catch (Exception e) 
+            {
                 this.getLogger().error("store(..): Exception", e);
             }
-        } else {
+        } 
+        else 
+        {
             throw new IOException("Object not Serializable");
         }
     }
@@ -205,7 +223,8 @@ implements Store, ThreadSafe, Initializable {
      * @exception IOException
      */
     public synchronized void hold(Object key, Object value)
-        throws IOException {
+    throws IOException 
+    {
         this.store(key, value);
     }
 
@@ -220,7 +239,8 @@ implements Store, ThreadSafe, Initializable {
     /**
      * Clear the Store of all elements
      */
-    public synchronized void clear() {
+    public synchronized void clear() 
+    {
         
         if (getLogger().isDebugEnabled()) 
         {
@@ -257,17 +277,24 @@ implements Store, ThreadSafe, Initializable {
      *
      * @param key the key object
      */
-    public synchronized void remove(Object key) {
-        if (getLogger().isDebugEnabled()) {
+    public synchronized void remove(Object key)
+    {
+        if (getLogger().isDebugEnabled()) 
+        {
             this.getLogger().debug("remove(..) Remove item");
         }
 
-        try {
+        try 
+        {
             KeyObject[] keyArray = new KeyObject[1];
             keyArray[0] = this.wrapKeyObject(key);
             m_Database.remove(keyArray);
-        } catch (KeyNotFound ignore) {
-        } catch (Exception e) {
+        } 
+        catch (KeyNotFound ignore) 
+        {
+        } 
+        catch (Exception e) 
+        {
             this.getLogger().error("remove(..): Exception", e);
         }
     }
@@ -278,22 +305,32 @@ implements Store, ThreadSafe, Initializable {
      * @param key the key object
      * @return true if Key exists and false if not
      */
-    public synchronized boolean containsKey(Object key) {
+    public synchronized boolean containsKey(Object key) 
+    {
         long res = -1;
 
-        try {
+        try 
+        {
             res = m_Index.findKey(this.wrapKeyObject(key));
-            if (getLogger().isDebugEnabled()) {
+            if (getLogger().isDebugEnabled()) 
+            {
                 this.getLogger().debug("containsKey(..): res=" + res);
             }
-        } catch (KeyNotFound ignore) {
-        } catch (Exception e) {
+        } 
+        catch (KeyNotFound ignore) 
+        {
+        } 
+        catch (Exception e)
+        {
             this.getLogger().error("containsKey(..): Exception", e);
         }
 
-        if (res > 0) {
+        if (res > 0) 
+        {
             return true;
-        } else {
+        } 
+        else 
+        {
             return false;
         }
     }
@@ -303,16 +340,21 @@ implements Store, ThreadSafe, Initializable {
      *
      * @return  Enumeration Object with all existing keys
      */
-    public Enumeration keys() {
-        try {
+    public Enumeration keys() 
+    {
+        try 
+        {
             BTreeObjectEnumeration enum = new BTreeObjectEnumeration(new BTreeIterator(m_Index), this);
             return enum;
-        } catch (Exception ignore) {
+        } 
+        catch (Exception ignore) 
+        {
             return Collections.enumeration(Collections.EMPTY_LIST);
         }
     }
 
-    public int size() {
+    public int size() 
+    {
         return m_Index.count();
     }
 
@@ -324,9 +366,7 @@ implements Store, ThreadSafe, Initializable {
      */
     private KeyObject wrapKeyObject(Object key) 
     {
-        // TODO: Implementation of Integer and Long keys
-        String skey = String.valueOf(key);
-        return new JispStringKey(key.toString());
+        return new JispKey( key );
     }
 
     /**
@@ -356,45 +396,59 @@ implements Store, ThreadSafe, Initializable {
         private BTreeIterator m_Iterator;
         private AbstractJispFilesystemStore m_Store;
 
-        public BTreeObjectEnumeration(BTreeIterator iterator, AbstractJispFilesystemStore store) {
+        public BTreeObjectEnumeration(BTreeIterator iterator, AbstractJispFilesystemStore store) 
+        {
             m_Iterator = iterator;
             m_Store = store;
         }
 
-        public boolean hasMoreElements() {
+        public boolean hasMoreElements() 
+        {
             boolean hasMore = false;
             Object tmp = null;
 
-            try {
+            try 
+            {
                 tmp = m_Iterator.getKey();
 
-                if(m_Iterator.moveNext()) {
+                if(m_Iterator.moveNext()) 
+                {
                     hasMore = true;
                 }
     
                 /* resets iterator to the old state **/
                 m_Iterator.moveTo((KeyObject)tmp);
-            } catch (IOException ioe) {
+            } 
+            catch (IOException ioe) 
+            {
                 m_Store.getLogger().error("store(..): Exception", ioe);
-            } catch (ClassNotFoundException cnfe) {
+            }
+            catch (ClassNotFoundException cnfe) 
+            {
                 m_Store.getLogger().error("store(..): Exception", cnfe);
             }
             return hasMore;
         }
 
-        public Object nextElement() {
+        public Object nextElement() 
+        {
             Object tmp = null;
 
-            try {
+            try 
+            {
                 tmp = m_Iterator.getKey();
                 m_Iterator.moveNext();
-            } catch (IOException ioe) {
+            } 
+            catch (IOException ioe) 
+            {
                 m_Store.getLogger().error("store(..): Exception", ioe);
-            } catch (ClassNotFoundException cnfe) {
+            } 
+            catch (ClassNotFoundException cnfe) 
+            {
                 m_Store.getLogger().error("store(..): Exception", cnfe);
             }
-            // make a string out of it (JispStringKey is not usefull here)
-            return tmp.toString();
+            // return the real key
+            return ((JispKey) tmp).getKey();
         }
     }
 }
