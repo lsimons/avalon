@@ -24,32 +24,26 @@
   </target>
 
   <target name="prepare">
-    <x:home/>
     <x:reactor target="prepare"/>
   </target>
 
   <target name="build">
-    <x:home/>
     <x:reactor target="build"/>
   </target>
 
   <target name="package">
-    <x:home/>
     <x:reactor target="package"/>
   </target>
 
   <target name="test">
-    <x:home/>
     <x:reactor target="test"/>
   </target>
 
   <target name="install">
-    <x:home/>
     <x:reactor target="install"/>
   </target>
 
   <target name="default">
-    <x:home/>
     <x:reactor/>
   </target>
 

@@ -16,7 +16,7 @@
       </p>
       <p>
       The bar file content is created using ${basedir}/target/deliverables
-      as the input data.
+      as the input data.  An md5 file is automatically generated.
       </p>
 <source><![CDATA[
 <x:bar/>
