@@ -20,24 +20,18 @@
     <depend project="excalibur-datasource"/>
     <depend project="excalibur-i18n"/>
     <depend project="excalibur-thread"/>
-    <depend project="excalibur-threadcontext"/>
-    <depend project="avalon-phoenix" inherit="runtime"/>
-    <depend project="xdoclet-ant15" inherit="runtime"/>
     <depend project="jakarta-ant" inherit="runtime"/>
-    <depend project="jakarta-velocity" inherit="runtime"/>
-
     <option project="excalibur-event"/>
     <option project="jakarta-bcel"/>
     <option project="jsse"/>
-    <depend project="avalon-phoenix"/>
 
     <work nested="build/classes"/>
 
     <home nested="build/lib"/>
     <jar name="cornerstone.jar"/>
 
-    <nag from="Peter Donald &lt;peter@apache.org&gt;"
-         to="avalon-apps-dev@jakarta.apache.org"/>
+    <nag from="Avalon Components &lt;dev@avalon.apache.org&gt;"
+         to="dev@avalon.apache.org"/>
   </project>
 
 </module>
