@@ -76,6 +76,7 @@ public class PrepareTask extends SystemTask
         {
             log( "creating target directory" );
             mkDir( target );
+            mkDir( getContext().getTestDirectory() );
         }
 
         final File src = getContext().getSrcDirectory();
