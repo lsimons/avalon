@@ -331,8 +331,8 @@ Legal:
     <filter token="link1.href"        value="http://www.apache.org"/>
     <filter token="link2"             value="jakarta"/>
     <filter token="link2.href"        value="http://jakarta.apache.org"/>
-    <filter token="link3"             value="avalon"/>
-    <filter token="link3.href"        value="http://jakarta.apache.org/avalon/"/>
+    <filter token="link3"             value=""/>
+    <filter token="link3.href"        value=""/>
     <filter token="group-logo.src"    value="images/jakarta-logo.gif"/>
     <filter token="group-logo.href"   value="http://jakarta.apache.org/"/>
     <filter token="project-logo.src"  value="images/header.gif"/>
