@@ -43,7 +43,7 @@
     </path>
     <property name="cp" refid="test.class.path"/>
 
-    <target name="main" depends="jar" description="Build the project"/>
+    <target name="main" depends="test,jar" description="Build the project"/>
     <target name="rebuild" depends="clean,main" description="Rebuild the project"/>
 
     <!-- Checks the environment for existing resources -->
