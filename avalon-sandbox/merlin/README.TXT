@@ -29,25 +29,22 @@ What Is Included:
    /README.txt                This README file
    /bin
      InstallServiceNT.bat     Installs a basic merlin kernel as a
-			      Windows(TM) NT service
+                              Windows(TM) NT service
      UninstallService-NT.bat  Uninstalls the Merlin service
-     Wrapper.exe	      Tool for creating Windows(TM) services
+     Wrapper.exe	            Tool for creating Windows(TM) services
      merlin.bat		      CLI for Merlin Kernel  (Windows)
      merlin.sh		      CLI for Merlin Kernel  (UNIX)
-     run.sh		      CLI for Merlin Kernel  (UNIX)
+     run.sh                   CLI for Merlin Kernel  (UNIX)
    /config
      kernel-service.xml	      Default kernel config for NT service
      kernel.xml		      Default kernel config for CLI
-     wrapper.conf	      Default NT Service configuration file
+     wrapper.conf             Default NT Service configuration file
    /ext
    /lib
      Wrapper.dll              DLL file for NT service
-     wrapper.jar	      java library for NT service
-     /shared
-        *.jar                 libraries for the shared classloader
-     /system		      
-        *.jar		      libraries for the system classloader
-   /repository		      default local resource repository
+     wrapper.jar              java library for NT service
+   /repository                default local resource repository
+   /system                    system resource repository
    
 
 Installation Instructions:
