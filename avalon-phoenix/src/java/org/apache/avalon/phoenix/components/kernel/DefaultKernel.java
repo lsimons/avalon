@@ -199,7 +199,6 @@ public class DefaultKernel
         }
 
         frame.configure( entry.getConfiguration() );
-        frame.initialize();
         return frame;
     }
 
