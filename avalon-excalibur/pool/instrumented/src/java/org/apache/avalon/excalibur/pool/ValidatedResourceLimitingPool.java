@@ -21,11 +21,11 @@ package org.apache.avalon.excalibur.pool;
  *  returned with a call get().
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version CVS $Revision: 1.5 $ $Date: 2004/03/29 16:50:37 $
+ * @version CVS $Revision: 1.6 $ $Date: 2004/03/31 08:07:28 $
  * @since 4.1
  */
 public class ValidatedResourceLimitingPool
-    extends ResourceLimitingPool
+    extends InstrumentedResourceLimitingPool
 {
     /*---------------------------------------------------------------
      * Private Fields
