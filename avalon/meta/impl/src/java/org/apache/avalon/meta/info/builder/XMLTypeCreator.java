@@ -79,7 +79,7 @@ import org.xml.sax.InputSource;
  * is specified in the <a href="package-summary.html#external">package summary</a>.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2003/10/17 02:03:06 $
+ * @version $Revision: 1.3 $ $Date: 2003/10/17 04:22:01 $
  */
 public class XMLTypeCreator
     extends XMLServiceCreator implements TypeFactory
@@ -462,9 +462,9 @@ public class XMLTypeCreator
         final String lifestyle = 
           buildLifestyle( info, attributes );
         final String collection = 
-          info.getAttribute( "collection", "liberal" );
+          info.getAttribute( "collection", null );
         final String destruction = 
-          info.getAttribute( "destruction", "terminal" );
+          info.getAttribute( "destruction", null );
 
         return new InfoDescriptor( 
           name, classname, version, lifestyle, collection, destruction, schema, attributes );

@@ -6,7 +6,7 @@
   <name>Avalon Meta Model SPI</name>
   <package>org.apache.avalon.meta</package>
 
-  <currentVersion>1.2</currentVersion>
+  <currentVersion>1.2-dev</currentVersion>
   <inceptionYear>2002</inceptionYear>
   <shortDescription>Meta Model SPI</shortDescription>
   
@@ -25,7 +25,7 @@ Component meta model classes used by the assembly package.  The meta model inclu
     <dependency>
       <groupId>avalon-meta</groupId>
       <artifactId>avalon-meta-api</artifactId>
-      <version>1.2</version>
+      <version>1.2-dev</version>
     </dependency>
 
   </dependencies>
