@@ -4,7 +4,7 @@
                    The Apache Software License, Version 1.1
  ============================================================================
 
- Copyright (C) @year@ The Apache Software Foundation. All rights reserved.
+ Copyright (C) 1999-2003 The Apache Software Foundation. All rights reserved.
 
  Redistribution and use in source and binary forms, with or without modifica-
  tion, are permitted provided that the following conditions are met:
@@ -82,7 +82,7 @@ import org.apache.log.output.io.StreamTarget;
  * <p>The syntax of "format" is the same as in <code>FileTargetFactory</code>.</p>
  *
  * @author <a href="mailto:sylvain@apache.org">Sylvain Wallez</a>
- * @version CVS $Revision: 1.3 $ $Date: 2003/02/25 16:28:18 $
+ * @version CVS $Revision: 1.4 $ $Date: 2003/03/22 11:29:13 $
  */
 public class StreamTargetFactory
     extends AbstractTargetFactory

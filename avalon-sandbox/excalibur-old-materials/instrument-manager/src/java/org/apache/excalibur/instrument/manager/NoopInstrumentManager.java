@@ -4,7 +4,7 @@
                    The Apache Software License, Version 1.1
  ============================================================================
 
- Copyright (C) @year@ The Apache Software Foundation. All rights reserved.
+ Copyright (C) 1999-2003 The Apache Software Foundation. All rights reserved.
 
  Redistribution and use in source and binary forms, with or without modifica-
  tion, are permitted provided that the following conditions are met:
@@ -56,7 +56,7 @@ import org.apache.excalibur.instrument.Instrumentable;
  * A no-op implementation of an InstrumentManager
  *
  * @author <a href="proyal@apache.org">peter royal</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/03/17 03:33:02 $
+ * @version CVS $Revision: 1.2 $ $Date: 2003/03/22 11:29:12 $
  */
 public class NoopInstrumentManager implements InstrumentManager
 {

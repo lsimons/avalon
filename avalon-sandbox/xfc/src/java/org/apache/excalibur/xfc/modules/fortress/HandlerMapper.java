@@ -4,7 +4,7 @@
                    The Apache Software License, Version 1.1
  ============================================================================
 
- Copyright (C) @year@ The Apache Software Foundation. All rights reserved.
+ Copyright (C) 1999-2003 The Apache Software Foundation. All rights reserved.
 
  Redistribution and use in source and binary forms, with or without modifica-
  tion, are permitted provided that the following conditions are met:
@@ -59,7 +59,7 @@ import org.apache.excalibur.xfc.modules.Constants;
  * handler names.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: HandlerMapper.java,v 1.4 2003/02/25 16:28:41 bloritsch Exp $
+ * @version CVS $Id: HandlerMapper.java,v 1.5 2003/03/22 11:29:17 leosimons Exp $
  */
 public final class HandlerMapper implements Constants
 {

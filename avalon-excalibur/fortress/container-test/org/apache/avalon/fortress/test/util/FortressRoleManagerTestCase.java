@@ -4,7 +4,7 @@
                    The Apache Software License, Version 1.1
  ============================================================================
 
- Copyright (C) @year@ The Apache Software Foundation. All rights reserved.
+ Copyright (C) 1999-2003 The Apache Software Foundation. All rights reserved.
 
  Redistribution and use in source and binary forms, with or without modifica-
  tion, are permitted provided that the following conditions are met:
@@ -58,7 +58,7 @@ import org.apache.avalon.framework.logger.ConsoleLogger;
  * in the org.apache.avalon.component package.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version CVS $Revision: 1.3 $ $Date: 2003/02/25 16:28:23 $
+ * @version CVS $Revision: 1.4 $ $Date: 2003/03/22 11:29:11 $
  * @since 4.1
  */
 public class FortressRoleManagerTestCase

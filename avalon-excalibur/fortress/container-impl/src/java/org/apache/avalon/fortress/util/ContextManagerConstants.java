@@ -4,7 +4,7 @@
                    The Apache Software License, Version 1.1
  ============================================================================
 
- Copyright (C) @year@ The Apache Software Foundation. All rights reserved.
+ Copyright (C) 1999-2003 The Apache Software Foundation. All rights reserved.
 
  Redistribution and use in source and binary forms, with or without modifica-
  tion, are permitted provided that the following conditions are met:
@@ -55,7 +55,7 @@ import org.apache.avalon.fortress.ContainerManagerConstants;
  * Provides constants used to access the Context object for containers.
  *
  * @author <a href="mailto:leo.sutic@inspireinfrastructure.com">Leo Sutic</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003/01/27 16:55:42 $
+ * @version CVS $Revision: 1.2 $ $Date: 2003/03/22 11:29:11 $
  */
 public interface ContextManagerConstants extends ContainerManagerConstants
 {
