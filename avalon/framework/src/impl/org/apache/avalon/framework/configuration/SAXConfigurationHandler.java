@@ -69,7 +69,7 @@ public class SAXConfigurationHandler
     public void characters( final char[] ch, int start, int end )
         throws SAXException
     {
-        String value = (new String( ch, start, end )).trim();
+        String value = new String( ch, start, end );
 
         if( value.equals( "" ) )
         {
@@ -109,6 +109,12 @@ public class SAXConfigurationHandler
         if( 0 == location )
         {
             m_configuration = (Configuration)object;
+            final String value = m_configuration.getValue( null );
+	    if( null != value )
+	    {
+		((DefaultConfiguration)m_configuration).setValue( value.trim() );
+	    }
+
         }
     }
 
