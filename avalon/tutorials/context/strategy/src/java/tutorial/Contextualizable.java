@@ -53,7 +53,7 @@ package tutorial;
 import org.apache.avalon.framework.context.ContextException;
 
 /**
- * Definition of an alternative contexulization interface.
+ * Definition of an alternative contextualization interface.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
@@ -65,7 +65,7 @@ public interface Contextualizable
 
     /**
      * Contextualization of the component.
-     * @param context the containement context
+     * @param context the containment context
      * @exception ContextException if a contextualization error occurs
      */
     void contextualize( StandardContext context ) 
