@@ -69,7 +69,7 @@ import java.util.Enumeration ;
  * 
  * @author <a href="mailto:aok123@bellsouth.net">Alex Karasulu</a>
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class Env extends Properties
 {
@@ -347,9 +347,13 @@ public class Env extends Properties
                 int l_idx = l_line.indexOf( '=') ;
                 
                 if ( -1 == l_idx )
-                {    
-                    System.err.println( "Skipping line - could not find '=' in"
-                            + " line: '" + l_line + "'" ) ;
+                {   
+                    if( l_line.length()!=0) 
+                    {
+                        System.err.println( 
+                          "Skipping line - could not find '=' in"
+                          + " line: '" + l_line + "'" );
+                    }
                     continue ;
                 }
                 
@@ -363,7 +367,6 @@ public class Env extends Properties
         }
         catch( Throwable t )
         {
-            t.printStackTrace() ;
             throw new EnvAccessException( "NA", t ) ;
         }
         finally
@@ -385,8 +388,10 @@ public class Env extends Properties
         // Check that we exited normally before returning an invalid output
         if ( 0 != l_proc.exitValue() )
         {
-            throw new EnvAccessException( "Environment process failed "
-                    + " with non-zero exit code of " + l_proc.exitValue() ) ;
+            throw new EnvAccessException( 
+              "Environment process failed "
+              + " with non-zero exit code of " 
+              + l_proc.exitValue() ) ;
         }
         
         return l_props ;
@@ -572,7 +577,7 @@ public class Env extends Properties
             }
             catch( IOException e )
             {
-                
+                // ignore
             }
         }
         
@@ -587,7 +592,10 @@ public class Env extends Properties
             return l_value ;
         }
         
-        throw new EnvAccessException( a_name, "Environment process failed"
-                + " with non-zero exit code of " + l_proc.exitValue() ) ;
+        throw new EnvAccessException( 
+          a_name, 
+          "Environment process failed"
+            + " with non-zero exit code of " 
+            + l_proc.exitValue() ) ;
     }
 }
