@@ -56,7 +56,7 @@
         <copy file="${xalan.jar}" todir="${lib.dir}" preservelastmodified="yes"/>
         
         <!-- Logkit -->
-        <copy file="${logkit.jar}" todir="${lib.dir}" preservelastmodified="yes"/>
+        <copy file="${avalon-logkit.jar}" todir="${lib.dir}" preservelastmodified="yes"/>
         
         <!-- Avalon Framework -->
         <copy file="${avalon-framework.jar}" todir="${lib.dir}" preservelastmodified="yes"/>
