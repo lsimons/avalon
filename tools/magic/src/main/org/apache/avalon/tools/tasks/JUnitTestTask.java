@@ -103,7 +103,8 @@ public class JUnitTestTask extends SystemTask
 
         final File working = getContext().getTestDirectory();
         copyUnitTestResource( working );
-
+        final String origUserDir = System.getProperty( "user.dir" );
+        System.setProperty( "user.dir", working.getAbsolutePath() );
         if( src.exists() )
         {
             final File classes = getContext().getTestClassesDirectory();
@@ -151,6 +152,7 @@ public class JUnitTestTask extends SystemTask
                 fail( message );
             }
         }
+        System.setProperty( "user.dir", origUserDir );
     }
 
     private void copyUnitTestResource( final File dest )
@@ -297,24 +299,24 @@ public class JUnitTestTask extends SystemTask
     
     private void createIncludes(FileSet set, String pattern)
     {
-    	StringTokenizer tokenizer = new StringTokenizer(pattern, ", ", false);
-    	while( tokenizer.hasMoreTokens())
-    	{
-    	    String item = tokenizer.nextToken();
-    	    set.createInclude().setName( item );
+        StringTokenizer tokenizer = new StringTokenizer(pattern, ", ", false);
+        while( tokenizer.hasMoreTokens())
+        {
+            String item = tokenizer.nextToken();
+            set.createInclude().setName( item );
         }
-	
+    
     }
     
     private void createExcludes(FileSet set, String pattern)
     {
-    	StringTokenizer tokenizer = new StringTokenizer(pattern, ", ", false);
-    	while( tokenizer.hasMoreTokens())
-    	{
+        StringTokenizer tokenizer = new StringTokenizer(pattern, ", ", false);
+        while( tokenizer.hasMoreTokens())
+        {
             String item = tokenizer.nextToken();
-    	    set.createExclude().setName( item );
+            set.createExclude().setName( item );
         }
-	
+    
     }
 
     private String getCachePath()
