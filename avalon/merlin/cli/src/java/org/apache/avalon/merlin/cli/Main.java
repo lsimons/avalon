@@ -92,7 +92,7 @@ import org.apache.commons.cli.Options;
  * Merlin command line handler.
  * 
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.9 $
+ * @version $Revision: 1.10 $
  */
 public class Main 
 {
@@ -405,20 +405,26 @@ public class Main
 
     private void setDebugPolicy( Map criteria, CommandLine line )
     {
-        boolean debug = line.hasOption( "debug" );
-        criteria.put( "merlin.debug", new Boolean( debug ) );
+        if( line.hasOption( "debug" ) )
+        {
+            criteria.put( "merlin.debug", new Boolean( true ) );
+        }
     }
 
     private void setInfoPolicy( Map criteria, CommandLine line )
     {
-        boolean info = line.hasOption( "info" );
-        criteria.put( "merlin.info", new Boolean( info ) );
+        if( line.hasOption( "info" ) )
+        {
+            criteria.put( "merlin.info", new Boolean( true ) );
+        }
     }
 
     private void setServerPolicy( Map criteria, CommandLine line )
     {
-        boolean execute = line.hasOption( "execute" );
-        criteria.put( "merlin.server", new Boolean( !execute ) );
+        if( line.hasOption( "execute" ) )
+        {
+            criteria.put( "merlin.server", new Boolean( false ) );
+        }
     }
 
     private void setDeploymentPath( Map criteria, CommandLine line )
