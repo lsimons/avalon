@@ -4,7 +4,7 @@
 <project default="warning" name="Gump Build Support" basedir=".">
 
     <property file="${basedir}/project.properties"/>
-    <property file="${basedir}/../project.properties"/>
+    <property file="${basedir}/../../../project.properties"/>
 
     <target name="need-for-common-build" unless="avalon.buildsystem.available">
 <fail>
