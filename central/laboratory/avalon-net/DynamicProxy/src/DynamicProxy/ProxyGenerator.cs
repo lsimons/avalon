@@ -30,12 +30,13 @@ namespace Apache.Avalon.DynamicProxy
 	/// </summary>
 	/// <remarks>
 	/// The <see cref="ProxyGenerator"/> should be used to generate a class 
-	/// implementing the specified interfaces. The class implementation will 
-	/// only call the internal <see cref="IInvocationHandler"/> instance.
+	/// implementing the specified interfaces. The dynamic implementation will 
+	/// only calls the internal <see cref="IInvocationHandler"/> instance.
 	/// </remarks>
 	/// <remarks>
-	/// This proxy implementation currently doesn't not supports ref and out arguments 
+	/// Please note that this proxy implementation currently doesn't not supports ref and out arguments 
 	/// in methods.
+	/// Also note that only virtual methods can be proxied in a class.
 	/// </remarks>
 	/// <example>
 	/// <code>
