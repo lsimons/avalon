@@ -11,6 +11,7 @@ JAVA="$JAVA_HOME/bin/java"
 # switch necessary paths to Windows format before running java
 JAVA_HOME=`cygpath --windows "$JAVA_HOME"`
 MERLIN_HOME=`cygpath --windows "$MERLIN_HOME"`
+MERLIN_BOOTSTRAP_JAR=`cygpath --windows "$MERLIN_BOOTSTRAP_JAR"`
 [ -n "$CLASSPATH" ] && CLASSPATH=`cygpath --path --windows "$CLASSPATH"`
 
 
@@ -28,4 +29,4 @@ ARGS="$MERLIN_JVM_OPTS \"-Djava.security.policy=$MERLIN_HOME/bin/security.policy
 echo -n "$JAVA" >$MERLIN_HOME/command-line.log
 echo "$ARGS" >>$MERLIN_HOME/command-line.log
 
-echo ARGS | xargs "$JAVA"
+echo $ARGS | xargs "$JAVA"
