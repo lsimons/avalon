@@ -6,7 +6,7 @@
 # modules that the component depends on.  Copy this file to "ant.properties"
 # in the top-level source directory, and customize it as needed.
 #
-# $Id: ant.properties.sample,v 1.1 2002/03/21 00:19:18 donaldp Exp $
+# $Id: ant.properties.sample,v 1.2 2002/03/21 01:27:30 donaldp Exp $
 # -----------------------------------------------------------------------------
 
 
@@ -27,3 +27,9 @@ base.path=/opt
 junit.home=${base.path}/junit3.7
 junit.lib=${junit.home}
 junit.jar=${junit.lib}/junit.jar
+
+
+# ----- Checkstyle, version 2.1 or later -----
+checkstyle.home=${base.path}/checkstyle-2.1
+checkstyle.lib=${checkstyle.home}
+checkstyle.jar=${checkstyle.lib}/checkstyle-all-2.1.jar
