@@ -66,7 +66,7 @@
     <section name="Example compatible comp">
     <p>
       Below are an interface and implemmentation that are suitably separated, are beanlike and is in accordance
-      with the IoC pattern...
+      with the IoC pattern...</p>
 <source>
 package examplecomp;
 public interface WebServer {
@@ -100,7 +100,7 @@ public class MyWebServer implements WebServer {
     }
 }
 </source>
-      For standalone mode, it might be launched like so:
+      <p>For standalone mode, it might be launched like so:</p>
 <source>
 package examplecomp.main;
 public class WebServerMain {
@@ -113,7 +113,7 @@ public class WebServerMain {
     }
 }
 </source>
-      When we are trying to run this in phoeinix we might have this wrapper:
+      <p>When we are trying to run this in phoeinix we might have this wrapper:</p>
 <source>
 package examplecomp.block;
 public class WebServerBlock
@@ -154,10 +154,10 @@ public class WebServerBlock
     }
 }
 </source>
-      This basically shows the impl wrapped and taking its configuration from the config.xml
+      <p>This basically shows the impl wrapped and taking its configuration from the config.xml
       that phonix prefers from configuration.  The the developer wanted they could ignore
       that place of configuration and use their own config files.  If the WebServer block were
-      being reused by another Phoenix block (say an EJB server), it might be like so:
+      being reused by another Phoenix block (say an EJB server), it might be like so:</p>
 <source>
 package somebeanserver;
 public class EJBBlock
@@ -184,7 +184,6 @@ public class EJBBlock
     }
 }
 </source>
-    </p>
     </section>
     <section name="Misconceptions">
       <p>
