@@ -31,6 +31,12 @@
       <item name="DPML" href="/dpml/index.html"/>
     </menu>
 
+    <menu name="Related">
+      <item name="Meta" href="http://avalon.apache.org/meta"/>
+      <item name="Utilities" href="http://avalon.apache.org/util"/>
+      <item name="Repository" href="http://avalon.apache.org/repository"/>
+    </menu>
+
  </body>
 
 </project>
