@@ -1,36 +1,64 @@
 APACHE AVALON PROJECT STATUS:                          -*-indented-text-*-
-Last modified at [$Date: 2002/12/03 08:21:16 $]
+Last modified at [$Date: 2002/12/04 18:22:58 $]
 
-   
+Background:
+
+    Apache Avalon is a project started at java.apache.org. It later became an
+    Apache Jakarta subproject. It has recently been declared a new top-level
+    project with its own PMC.
+
+    See the bottom of this file for the official resolution/
+    charter-as-it-stands. See the project website for other information.
+       
 Release:
-    none ATM; still defining new container plan and how to best keep
-    development of current code go ahead without impacting negatively on
-    the new work.
+
+    o none scheduled ATM; still defining new container plan and how to best keep
+      development of current code go ahead without impacting negatively on
+      the new work.
+    
+    o past releases available from http://jakarta.apache.org/builds/jakarta-avalon/
+    
+    o nightlies available from http://cvs.apache.org/builds/jakarta-avalon/nightly/    
 
 
 Resolved Issues:
+
+    o previously released software needs to be supported, including but not
+      limited to the avalon framework, avalon excalibur and avalon phoenix
+      
+    o existing avalon users must be supported, including but not limited
+      to the XML Cocoon and Jakarta JAMES communities
+      
+    o we want to strive for as much consensus on future developments as
+      possible taking into account the above points
 
     o There is an Avalon repository called avalon-sandbox to contain 
       all non-released code. It has its own site to make less confusion
       with released products.
       
     o Use a unified avalon-dev mailing list (and avalon-user remains separate) 
-      +1: nicolaken, neeme, leosutic, mcconnell, bloritsch, stefano, giacomo
-      +0: crafterm, cziegeler
-      -0: leosimons 
-      -1: hammant, leif
+
       
 Pending issues:
+
     o Coming up with a set of bylaws for the project
 
     o Define the terms for serving as a Chair
     
-    o Definition of a new contract for the Context interface, which
-      is the pivot issue of our component protability.
+    o deciding on moving or not moving to avalon.apache.org
 
-    o Switch to a avalon.apache.org website and @avalon.apache.org
-      mailing lists.
-      
+    o discussing and writing medium-to-long term roadmap regarding containers
+      and possible avalon framework extension based on consensus development
+
+    o discussing and writing short-to-medium term roadmap regarding unused and/
+      or unmaintained and/or alpha-stage software packages in current CVSes
+
+    o discussing and writing short-to-medium term roadmap regarding possible
+      relocation of software packages that could have a better home at another
+      avalon project
+
+    o wrap up discussion on licensing headers in sourcefiles
+
     o Existing committers can start new projects without a
       detour to the Incubator by using the avalon-sandbox, and
       must meet the (TBD) goals of Apache Avalon.
@@ -40,17 +68,43 @@ Pending issues:
       +1: nicolaken
       
     o Voting will follow the "standard Apache voting guidelines"
-
       [ be nice to refer to an Incubator doc here ]
       
     o All code donations [to the ASF, destined for Apache Avalon]
       arrive via the Incubator, unless the Incubator states they can
       be placed directly into Avalon.      
       
+    o Creation of an "avalon" CVS repository for new Avalon5 
+      codebase     
+      +1: nicolaken, mcconnell
+      +0: cziegeler   
+      -0: proyal
+      -1: leosimons, leif
+      
+    o Mark sandbox code clearly as being sandbox code. 
+      To do this we could require that components in this place are 
+      put in the package org.apache.avalon.sandbox.X
+      This will make it very clear to users what the status of code 
+      is and thus they won't be misled into thinking that it is 
+      anything it is not.
+      +1: proyal, leosimons,    
+      +0:    
+      -0: 
+      -1: mcconnell, leosutic, nicolaken, bloritsch
+      
+    o One of the problems that has plagued Avalon is the result
+      of one-man codebases. I propose we remove almost all of these
+      withing the next month. They can be moved to jakarta-commons, 
+      the incubator or to sourceforge as the developer wishes.
+      
+      [ no votes yet.
+        we need to vote on effective codebases one by one ]
+        
+      
 Project Mission:
 
 What is the project's mission?  Our statement of goals/mission/vision
-should arise from the answers to the following and other questions:
+could arise also from the answers to the following and other questions:
        
       - Should we have a minimum set of requirements before components
         are released?
@@ -94,8 +148,6 @@ Assets:
     Mailing lists:      avalon-user@jakarta.apache.org
                         avalon-dev@jakarta.apache.org
                         avalon-cvs@jakarta.apache.org
-                        avalon-phoenix-dev@jakarta.apache.org
-                        avalon-apps-dev@jakarta.apache.org 
   
     Web site:           http://jakarta.apache.org/avalon/
     
@@ -112,9 +164,18 @@ Assets:
 
 PMC Members:
 
-    (To be put here from the ratified resolution)
+    Berin Loritsch
+    Marcus Crafter
+    Carsten Ziegeler
+    Jeff Turner
+    Leo Sutic
+    Leo Simons
+    Stephen McConnell
+    Nicola Ken Barozzi
+    Paul Hammant
+    Peter Royal
 
-    Note: Nicola Ken Barozzi is the Chair
+    Note: Nicola Ken Barozzi is the Chair.
 
 
 PMC Members, pending Board approval:
@@ -150,12 +211,77 @@ Invited Committers:
 
 Current mission/charter as approved by the board:
 
-    (To be put here from the ratified resolution)
+  RESOLVED, that the initial Avalon PMC be and hereby is tasked
+  with the creation of a set of bylaws intended to encourage open
+  development and increased participation in the Avalon Project;
+  and be it further
+
+  RESOLVED, that the initial Avalon PMC be and hereby is tasked
+  with the migration and rationalization of the Jakarta PMC
+  Avalon subproject; and be it further
 
 
-The complete text of the resolution that was passed is:
+The complete text of the resolution that passed on Monday 18 November 2002 
+which created this project is:
 
-    (To be put here from the ratified resolution)
+  WHEREAS, the Board of Directors deems it to be in
+  the best interests of the Foundation and consistent with
+  the Foundation's purpose to establish a Project Management
+  Committee charged with the creation and maintenance of
+  open-source software related to component and service
+  management, for distribution at no charge to the public.
+
+  NOW, THEREFORE, BE IT RESOLVED, that a Project Management
+  Committee (PMC), to be known as the "Avalon PMC", be and
+  hereby is established pursuant to Bylaws of the Foundation;
+  and be it further
+
+  RESOLVED, that the Avalon PMC be and hereby is responsible
+  for the creation and maintenance of software related to
+  component and service management, based on software licensed
+  to the Foundation; and be it further
+
+  RESOLVED, that the office of "Vice President, Avalon" be and
+  hereby is created, the person holding such office to serve
+  at the direction of the Board of Directors as the chair of the
+  Avalon PMC, and to have primary responsibility for management
+  of the projects within the scope of responsibility of the
+  Avalon PMC; and be it further
+
+  RESOLVED, that the persons listed immediately below be and hereby
+  are appointed to serve as the initial members of the Avalon PMC:
+
+  * Nicola Ken Barozzi
+  * Stephen McConnell
+  * Leo Sutic
+  * Leo Simons
+  * Paul Hammant
+  * Marcus Crafter
+  * Carsten Ziegeler
+  * Pete Royal
+  * Berin Loritsch
+  * Jeff Turner
+
+  NOW, THEREFORE, BE IT FURTHER RESOLVED, that Nicola Ken Barozzi
+  be and hereby is appointed to the office of Vice President, Avalon,
+  to serve in accordance with and subject to the direction of the
+  Board of Directors and the Bylaws of the Foundation until death,
+  resignation, retirement, removal or disqualification, or until a
+  successor is appointed; and be it further
+
+  RESOLVED, that the initial Avalon PMC be and hereby is tasked
+  with the creation of a set of bylaws intended to encourage open
+  development and increased participation in the Avalon Project;
+  and be it further
+
+  RESOLVED, that the initial Avalon PMC be and hereby is tasked
+  with the migration and rationalization of the Jakarta PMC
+  Avalon subproject; and be it further
+
+  RESOLVED, that all responsibility pertaining to the Jakarta
+  Avalon sub-project and encumbered upon the Jakarta PMC are
+  hereafter discharged.
+  
 
 
 #
