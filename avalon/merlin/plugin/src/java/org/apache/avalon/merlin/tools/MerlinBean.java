@@ -78,7 +78,7 @@ import org.apache.avalon.util.exception.ExceptionHelper;
  * Merlin default application factory.
  * 
  * @author <a href="mailto:mcconnell@apache.org">Stephen McConnell</a>
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class MerlinBean
 {
@@ -250,14 +250,17 @@ public class MerlinBean
         // otherwise go with the defaults packaged with the jar file
         //
  
-        Properties properties = loadProperties( IMPLEMENTATION_PATH );
-        final String group = 
-          properties.getProperty( Artifact.GROUP_KEY );
-        final String name = 
-          properties.getProperty( Artifact.NAME_KEY  );
-        final String version = 
-          properties.getProperty( Artifact.VERSION_KEY );
-        return Artifact.createArtifact( group, name, version );
+        Properties properties = loadProperties( MERLIN );
+        String specification = properties.getProperty( IMPLEMENTATION_KEY );
+        return Artifact.createArtifact( specification );
+
+        //final String group = 
+        //  properties.getProperty( Artifact.GROUP_KEY );
+        //final String name = 
+        //  properties.getProperty( Artifact.NAME_KEY  );
+        //final String version = 
+        //  properties.getProperty( Artifact.VERSION_KEY );
+        //return Artifact.createArtifact( group, name, version );
     }
 
    /**
