@@ -54,7 +54,10 @@ public class PluginProperties
     
     public String getProperty( String name )
     {
-        String value = m_Properties.getProperty( name ).trim();
+        String value = m_Properties.getProperty( name );
+        if( value == null )
+            return null;
+        value = value.trim();
         if( value.indexOf( "${" ) >= 0 )
             throw new IllegalArgumentException( "The value of '" + name + "' contains a variable, and not supported to resolve with this method:" + value );
         return value;
@@ -72,7 +75,10 @@ public class PluginProperties
     
     public String resolve( String data, PropertyResolver resolver  )
     {
-        return resolver.resolve( this, data ).trim();
+        String value = resolver.resolve( this, data );
+        if( value != null )
+            value = value.trim();
+        return value;
     }
 
     public void setProperty( String name, String value )
