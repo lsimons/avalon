@@ -15,12 +15,15 @@ package org.apache.avalon.phoenix.metadata;
 public final class DependencyMetaData
 {
     private final String m_name;
-
     private final String m_role;
+    private final String m_alias;
 
-    public DependencyMetaData( final String name, final String role )
+    public DependencyMetaData( final String name,
+                               final String role,
+                               final String alias )
     {
         m_name = name;
+        m_alias = alias;
         m_role = role;
     }
 
@@ -32,5 +35,10 @@ public final class DependencyMetaData
     public String getName()
     {
         return m_name;
+    }
+
+    public String getAlias()
+    {
+        return m_alias;
     }
 }

@@ -30,7 +30,7 @@ import org.apache.avalon.phoenix.tools.infobuilder.BlockInfoBuilder;
  * and is in the format specified for <tt>assembly.xml</tt> files.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.21 $ $Date: 2002/10/01 06:21:37 $
+ * @version $Revision: 1.22 $ $Date: 2002/10/01 07:04:05 $
  */
 public class Assembler
     extends AbstractLogEnabled
@@ -242,9 +242,10 @@ public class Assembler
         {
             final Configuration provide = provides[ j ];
             final String requiredName = provide.getAttribute( "name" );
+            final String alias = provide.getAttribute( "alias", requiredName );
             final String role = provide.getAttribute( "role" );
 
-            dependencies.add( new DependencyMetaData( requiredName, role ) );
+            dependencies.add( new DependencyMetaData( requiredName, role, alias ) );
         }
 
         return (DependencyMetaData[])dependencies.toArray( new DependencyMetaData[ 0 ] );
