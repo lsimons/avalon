@@ -53,7 +53,7 @@ namespace Apache.Avalon.Container.Test.Components
 	using Apache.Avalon.Framework;
 
 	/// <summary>
-	/// Summary description for Vehicle.
+	/// Definitions for IVehicle service.
 	/// </summary>
 	public interface IVehicle
 	{
@@ -114,8 +114,6 @@ namespace Apache.Avalon.Container.Test.Components
 			}
 		}
 
-		#region ILookupEnabled Members
-
 		public void EnableLookups(ILookupManager manager)
 		{
 			Assertion.AssertNotNull(manager);
@@ -126,16 +124,12 @@ namespace Apache.Avalon.Container.Test.Components
 			Assertion.Equals( typeof(IEngine), manager["Engine"].GetType() );
 			Assertion.Equals( typeof(IRadio), manager["Radio"].GetType() );
 		}
-
-		#endregion
 	}
 
 	[AvalonService( typeof(IEngine) )]
 	[AvalonComponent( "Engine", Lifestyle.Transient )]
 	public class Engine : IEngine
 	{
-		#region IEngine Members
-
 		public void TurnOn()
 		{
 		}
@@ -143,8 +137,6 @@ namespace Apache.Avalon.Container.Test.Components
 		public void TurnOff()
 		{
 		}
-
-		#endregion
 	}
 
 	[AvalonService( typeof(IRadio) )]

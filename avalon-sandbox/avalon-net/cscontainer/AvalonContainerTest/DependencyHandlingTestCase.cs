@@ -61,19 +61,50 @@ namespace Apache.Avalon.Container.Test
 		[Test]
 		public void ShutDownOrderCheck()
 		{
-			Assertion.AssertEquals(5, m_container.ShutDownOrder.Length);
+			Assertion.AssertEquals(6, m_container.ShutDownOrder.Length);
 
-			Assertion.AssertEquals(typeof(IVehicle).FullName, m_container.ShutDownOrder[0].Name);
-			Assertion.AssertEquals(typeof(IEngine).FullName, m_container.ShutDownOrder[1].Name);
+			Assertion.AssertEquals(typeof(IBus).FullName, m_container.ShutDownOrder[0].Name);
+			Assertion.AssertEquals(typeof(IVehicle).FullName, m_container.ShutDownOrder[1].Name);
+			Assertion.AssertEquals(typeof(IRadio).FullName, m_container.ShutDownOrder[2].Name);
+			Assertion.AssertEquals(typeof(IEngine).FullName, m_container.ShutDownOrder[3].Name);
 		}
 
 		[Test]
 		public void ComponentWithDependency()
 		{
-			IVehicle vehicle = (IVehicle) 
-				m_container.LookupManager[ typeof(IVehicle).FullName ];
+			IVehicle vehicle = null;
+			
+			try
+			{
+				vehicle = (IVehicle) m_container.LookupManager[ typeof(IVehicle).FullName ];
+			}
+			finally
+			{
+				if (vehicle != null)
+				{
+					m_container.LookupManager.Release(vehicle);
+				}
+			}
+		}
 
-			m_container.LookupManager.Release(vehicle);
+		[Test]
+		public void ComponentWithInheritedDependency()
+		{
+			IBus bus = null;
+
+			try
+			{
+				bus = (IBus) m_container.LookupManager[ typeof(IBus).FullName ];
+
+				bus.Travel();
+			}
+			finally
+			{
+				if (bus != null)
+				{
+					m_container.LookupManager.Release(bus);
+				}
+			}
 		}
 	}
 }
