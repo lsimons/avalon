@@ -14,14 +14,6 @@
         Deprecated materials
     </description>
 
-    <dependencies>
-        <dependency>
-            <id>junit</id>
-            <version>3.8.1</version>
-            <url>http://www.junit.org/</url>
-        </dependency>
-    </dependencies>
-
     <build>
         <!-- Unit test cases; need to rule out abstract classes -->
         <unitTest>
