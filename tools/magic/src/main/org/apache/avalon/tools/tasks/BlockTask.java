@@ -653,6 +653,7 @@ public class BlockTask extends DeclareTask
             String uri, String localName, String qName, String value)
             throws BuildException
         {
+       	     System.out.println("setting DynamicAttribute with: " + localName + ", " + qName + ", " + value );
              m_attributes.put( qName, value );
         }
 
@@ -705,7 +706,7 @@ public class BlockTask extends DeclareTask
         */
         public Configuration[] getChildren()
         {
-            return (Configuration[]) m_children.toArray( new Configuration[0] );
+            return (Configuration[]) m_children.toArray( new Configuration[m_children.size()] );
         }
     }
 
@@ -1053,7 +1054,7 @@ public class BlockTask extends DeclareTask
         if( attributes.size() > 0 )
         {
             Map.Entry[] values = (Map.Entry[]) attributes.entrySet().toArray( new Map.Entry[0] );
-            for( int i=0; i<values.length; i++ )
+            for( int i=0; i < values.length; i++ )
             {
                  Map.Entry entry = values[i];
                  writer.write( " " + entry.getKey() + "=\"" + entry.getValue() + "\"" );
@@ -1064,7 +1065,7 @@ public class BlockTask extends DeclareTask
         if( children.length > 0 )
         {
             writer.write( ">" );
-            for( int i=0; i<children.length; i++ )
+            for( int i=0; i < children.length; i++ )
             {
                  writeConfiguration( pad + "  ", writer, children[i] );
             }
@@ -1072,7 +1073,16 @@ public class BlockTask extends DeclareTask
         }
         else
         {
-            writer.write( "/>" );
+            if( null == config.getValue() )
+            {
+                writer.write( "/>" );
+            }
+            else
+            {
+            	writer.write( ">" );
+                writer.write( config.getValue() );
+                writer.write( "</" + name + ">" );
+            }
         }
     }
 

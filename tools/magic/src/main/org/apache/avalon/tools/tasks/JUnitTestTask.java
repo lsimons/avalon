@@ -35,6 +35,8 @@ import org.apache.tools.ant.types.Path;
 
 import java.io.File;
 
+import java.util.StringTokenizer;
+
 /**
  * Load a goal. 
  *
@@ -214,8 +216,11 @@ public class JUnitTestTask extends SystemTask
 
         final FileSet fileset = new FileSet();
         fileset.setDir( src );
-        fileset.createInclude().setName( "**/*TestCase.java" );
-        fileset.createExclude().setName( "**/Abstract*.java" );
+        final String includes = getContext().getTestIncludes();
+        final String excludes = getContext().getTestExcludes();
+        createIncludes(fileset, includes);
+        createExcludes(fileset, excludes);
+        project.log( "MAGIC TEST FILTERS: includes=" + includes + ", excludes=" + excludes, Project.MSG_VERBOSE );
 
         final JUnitTask junit = (JUnitTask) getProject().createTask( "junit" );
         junit.init();
@@ -288,6 +293,28 @@ public class JUnitTestTask extends SystemTask
         junit.setTaskName( getTaskName() );
 
         junit.execute();
+    }
+    
+    private void createIncludes(FileSet set, String pattern)
+    {
+    	StringTokenizer tokenizer = new StringTokenizer(pattern, ", ", false);
+    	while( tokenizer.hasMoreTokens())
+    	{
+    	    String item = tokenizer.nextToken();
+    	    set.createInclude().setName( item );
+        }
+	
+    }
+    
+    private void createExcludes(FileSet set, String pattern)
+    {
+    	StringTokenizer tokenizer = new StringTokenizer(pattern, ", ", false);
+    	while( tokenizer.hasMoreTokens())
+    	{
+            String item = tokenizer.nextToken();
+    	    set.createExclude().setName( item );
+        }
+	
     }
 
     private String getCachePath()
