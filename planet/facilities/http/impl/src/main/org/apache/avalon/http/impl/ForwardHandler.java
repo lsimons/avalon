@@ -49,9 +49,9 @@ public class ForwardHandler
     implements Startable, Parameterizable, LogEnabled, 
                Serviceable, Contextualizable, Configurable
 {
-    private Logger m_Logger;
+    private Logger              m_Logger;
     private HttpContextService  m_Context;
-    private int m_Index;
+    private int                 m_Index;
     
     public ForwardHandler()
     {

@@ -26,6 +26,7 @@ import org.mortbay.http.HttpHandler;
  */
 public interface HttpContextService
 {
+    HttpContext getHttpContext();
     
     void addHandler( HttpHandler handler );
     
@@ -33,7 +34,7 @@ public interface HttpContextService
     
     void removeHandler( HttpHandler handler );
     
-    HttpContext getHttpContext();
-    
     void setAuthenticator( Authenticator authenticator );
+
+    Authenticator getAuthenticator();
 }

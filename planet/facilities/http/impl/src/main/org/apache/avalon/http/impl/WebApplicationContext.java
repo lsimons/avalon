@@ -24,7 +24,7 @@ import org.apache.avalon.framework.activity.Startable;
 import org.apache.avalon.framework.activity.Initializable;
 
 import org.apache.avalon.framework.configuration.Configurable;
-import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.Configuration; 
 import org.apache.avalon.framework.configuration.ConfigurationException;
 
 import org.apache.avalon.framework.context.Context;
@@ -48,12 +48,12 @@ import org.mortbay.http.HttpHandler;
 import org.mortbay.http.RequestLog;
 import org.mortbay.http.UserRealm;
 
-/** Wrapper for the Jetty HttpContext.
- *
- * @avalon.component name="http-context" lifestyle="singleton"
+/**
+ * @avalon.component name="http-web-context" lifestyle="singleton"
  * @avalon.service type="org.apache.avalon.http.HttpContextService"
  */
-public class HttpContextImpl extends org.mortbay.http.HttpContext
+public class WebApplicationContext 
+    extends org.mortbay.jetty.servlet.WebApplicationContext
     implements LogEnabled, Contextualizable, Serviceable, Startable, 
                Disposable, Configurable, HttpContextService
 {
@@ -61,7 +61,7 @@ public class HttpContextImpl extends org.mortbay.http.HttpContext
     private boolean     m_Graceful;
     private Logger      m_Logger;
     
-
+    
     public HttpContext getHttpContext()
     {
         return this;
@@ -143,26 +143,47 @@ public class HttpContextImpl extends org.mortbay.http.HttpContext
         }
     }
 
-    public void configure( Configuration conf )
+    public void configure( org.apache.avalon.framework.configuration.Configuration conf )
         throws ConfigurationException
     {
-        Configuration virtualHostConf = conf.getChild( "virtual-host" );
+        setIgnoreWebJetty( true );
+        setExtractWAR( false );
+        
+        String displayName = conf.getChild( "display-name" ).getValue( null );
+        if( displayName != null )
+            setDisplayName( displayName );
+        
+        String webApp = conf.getChild( "web-application" ).getValue();
+        setWAR( webApp );
+        
+        String defDescr = conf.getChild( "defaults-descriptor" ).getValue( "etc/webdefaults.xml" );
+        setDefaultsDescriptor( defDescr );
+
+        org.apache.avalon.framework.configuration.Configuration errorPageConf = conf.getChild( "error-page" );
+        String uri = errorPageConf.getValue( null );
+        if( uri != null )
+        {
+            String error = errorPageConf.getAttribute( "error" );
+            setErrorPage( error, uri );
+        }
+        
+        org.apache.avalon.framework.configuration.Configuration virtualHostConf = conf.getChild( "virtual-host" );
         String virtualHost = virtualHostConf.getValue( null );
         addVirtualHost( virtualHost );
-        
-        Configuration contextConf = conf.getChild( "context-path" );
+                
+        org.apache.avalon.framework.configuration.Configuration contextConf = conf.getChild( "context-path" );
         String contextPath = contextConf.getValue( "/" );
         setContextPath( contextPath );
         
         m_Graceful = conf.getChild( "graceful-stop" ).getValueAsBoolean( false );
         
-        Configuration attributes = conf.getChild( "attributes" );
+        org.apache.avalon.framework.configuration.Configuration attributes = conf.getChild( "attributes" );
         configureAttributes( attributes );
     
-        Configuration initParams = conf.getChild( "init-parameters" );
+        org.apache.avalon.framework.configuration.Configuration initParams = conf.getChild( "init-parameters" );
         configureInitParameters( initParams );
         
-        Configuration welcomeFiles = conf.getChild( "welcome-files" );
+        org.apache.avalon.framework.configuration.Configuration welcomeFiles = conf.getChild( "welcome-files" );
         configureWelcomeFiles( welcomeFiles );
         
         String resourceBase = conf.getChild( "resource-base").getValue( "." );
@@ -178,15 +199,15 @@ public class HttpContextImpl extends org.mortbay.http.HttpContext
             setMaxCacheSize( maxCacheSize );        
     }
     
-    private void configureAttributes( Configuration conf )
+    private void configureAttributes( org.apache.avalon.framework.configuration.Configuration conf )
         throws ConfigurationException
     {
-        Configuration[] children = conf.getChildren( "attribute" );
+        org.apache.avalon.framework.configuration.Configuration[] children = conf.getChildren( "attribute" );
         for( int i = 0 ; i < children.length ; i++ )
             configureAttribute( children[i] );
     }
     
-    private void configureAttribute( Configuration conf )
+    private void configureAttribute( org.apache.avalon.framework.configuration.Configuration conf )
         throws ConfigurationException
     {
         String name = conf.getAttribute( "name" );
@@ -198,10 +219,10 @@ public class HttpContextImpl extends org.mortbay.http.HttpContext
         setAttribute( name, value );
     }
     
-    private void configureInitParameters( Configuration conf )
+    private void configureInitParameters( org.apache.avalon.framework.configuration.Configuration conf )
         throws ConfigurationException
     {
-        Configuration[] inits = conf.getChildren( "parameter" );
+        org.apache.avalon.framework.configuration.Configuration[] inits = conf.getChildren( "parameter" );
         for( int i=0 ; i < inits.length ; i++ )
         {
             String name = inits[i].getAttribute( "name" );
@@ -210,18 +231,18 @@ public class HttpContextImpl extends org.mortbay.http.HttpContext
         }
     }
     
-    private void configureVirtualHosts( Configuration conf )
+    private void configureVirtualHosts( org.apache.avalon.framework.configuration.Configuration conf )
         throws ConfigurationException
     {
-        Configuration[] hosts = conf.getChildren( "host" );
+        org.apache.avalon.framework.configuration.Configuration[] hosts = conf.getChildren( "host" );
         for( int i=0 ; i < hosts.length ; i++ )
             addVirtualHost( hosts[i].getValue() );
     }
     
-    private void configureWelcomeFiles( Configuration conf )
+    private void configureWelcomeFiles( org.apache.avalon.framework.configuration.Configuration conf )
         throws ConfigurationException
     {
-        Configuration[] files = conf.getChildren( "file" );
+        org.apache.avalon.framework.configuration.Configuration[] files = conf.getChildren( "file" );
         for( int i=0 ; i < files.length ; i++ )
             addWelcomeFile( files[i].getValue() );
     }
@@ -241,6 +262,7 @@ public class HttpContextImpl extends org.mortbay.http.HttpContext
         if( m_Logger.isDebugEnabled() )
             m_Logger.debug( "Stopping context: " + this );
             
+            
         // The following is need due to strange delegation between the 
         // methods stop() and stop( boolean ) in the superclasses are
         // inaccurately implemented, and an endless loop will result
@@ -258,4 +280,5 @@ public class HttpContextImpl extends org.mortbay.http.HttpContext
         destroy();
         m_HttpServer = null;
     }
-}
+} 
+ 
