@@ -242,7 +242,18 @@ public class ReactorTask extends Sequential
                 final String base = def.getBaseDir().getCanonicalPath();
                 if( base.startsWith( path ) )
                 {
-                    list.add( def );
+                    if( base.length() == path.length() )
+                    {
+                        list.add( def );
+                    }
+                    else
+                    {
+                        String next = base.substring( path.length() );
+                        if( next.startsWith( File.separator ) )
+                        {
+                            list.add( def );
+                        }
+                    }
                 }
             }
             return list;
