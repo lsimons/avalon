@@ -43,8 +43,13 @@ public class PrepareTask extends HomeTask
     public static String TARGET = "target";
     public static String TARGET_SRC = TARGET + "/src";
     public static String TARGET_SRC_MAIN = TARGET_SRC + "/main";
+    public static String TARGET_SRC_TEST = TARGET_SRC + "/test";
 
+    public static final String SRC_KEY = "avalon.src";
     public static final String TARGET_KEY = "avalon.target";
+    public static final String TARGET_SRC_KEY = "avalon.target.src";
+    public static final String TARGET_SRC_MAIN_KEY = "avalon.target.src.main";
+    public static final String TARGET_SRC_TEST_KEY = "avalon.target.src.test";
 
     public static File getTargetDirectory( Project project )
     {
@@ -54,10 +59,11 @@ public class PrepareTask extends HomeTask
 
     public void init() throws BuildException 
     {
-        setProjectProperty( "avalon.src", SRC );
-        setProjectProperty( "avalon.target", TARGET );
-        setProjectProperty( "avalon.target.src", TARGET_SRC );
-        setProjectProperty( "avalon.target.src.main", TARGET_SRC_MAIN );
+        setProjectProperty( SRC_KEY, SRC );
+        setProjectProperty( TARGET_KEY, TARGET );
+        setProjectProperty( TARGET_SRC_KEY, TARGET_SRC );
+        setProjectProperty( TARGET_SRC_MAIN_KEY, TARGET_SRC_MAIN );
+        setProjectProperty( TARGET_SRC_TEST_KEY, TARGET_SRC_TEST );
     }
 
     public void execute() throws BuildException 

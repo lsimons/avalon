@@ -75,19 +75,4 @@ public abstract class HomeTask extends Task
         mkdir.init();
         mkdir.execute();
     }
-
-    protected void delete( File file )
-    {
-        delete( file, true );
-    }
-
-    protected void delete( File file, boolean verbose )
-    {
-        Delete delete = (Delete) getProject().createTask( "delete" );
-        delete.setFile( file );
-        delete.setVerbose( verbose );
-        delete.setQuiet( true );
-        delete.init();
-        delete.execute();
-    }
 }

@@ -1,17 +1,13 @@
 
-<project name="gizmo" default="install" basedir="." 
+<project name="gizmo" default="" basedir="." 
     xmlns:x="antlib:org.apache.avalon.tools"> 
 
   <x:project index="../../index.xml"/>
 
-  <target name="build">
-    <x:prepare/>
-    <x:javac/>
-    <x:jar/>
-  </target>
-
-  <target name="install" depends="build">
-    <x:install/>
-  </target>
+  <x:prepare/>
+  <x:javac/>
+  <x:jar/>
+  <x:test/>
+  <x:install/>
 
 </project>

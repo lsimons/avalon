@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.avalon.composition.data.test;
+package org.apache.avalon.gizmo.test;
 
 import junit.framework.TestCase;
 import org.apache.avalon.gizmo.Gizmo;
