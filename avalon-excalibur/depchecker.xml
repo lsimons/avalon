@@ -18,37 +18,6 @@ To use it, type 'ant -f depchecker.xml'
 ============================================================-->
 
 <!--
-checkRequiredFile parameters:
-
-name:
-    Name of the jar. Eg 'avalon-collections.jar'
-path:
-    Path to named jar. Eg ${avalon-collections.jar}
-proj.home (optional):
-    Path to local project which builds the jar. Only set if
-    the jar could be local, eg another component.
-proj.target (optional):
-    Ant script target to run in local project to build the jar
-url (optional)
-    URL of the jar, to retrieve to ${path} if it doesn't already exist at
-    ${path}
-
-Algorithm is as follows:
-
-IF the directory ${proj.home} exists THEN:
-    // The dependency is local; if the jar doesn't exist, we can build it 
-    IF file ${path} does not exist THEN:
-       call ${proj.home}/build.xml's 'dist.lite' target to build that
-       project's jar, which will then build it's own dependencies if necessary
-    ELSE we're fine
-ELSE
-    // The dependency is remote; we can't build it,
-    IF file ${path} does not exist THEN:
-        IF ${url} is present THEN:
-            do a HTTP GET to retrieve the jar to ${path}
-        ELSE
-            print an error saying "Can't find file ${path}"
-    ELSE we're fine
 -->
 
 <project name="dependencies" default="main" basedir=".">
@@ -68,10 +37,10 @@ ELSE
             For example:
 
             <ant antfile="depchecker.xml" target="checkRequiredFile">
-                <properties name="name" value="excalibur-concurrent.jar"/>
-                <properties name="path" value="$${excalibur-concurrent.jar}"/>
-                <properties name="proj.home" value="../concurrent"/>
-                <properties name="proj.target" value="dist.lite"/>
+                <property name="name" value="excalibur-concurrent.jar"/>
+                <property name="path" value="$${excalibur-concurrent.jar}"/>
+                <property name="proj.home" value="../concurrent"/>
+                <property name="proj.target" value="dist.lite"/>
             </ant>
 
             That will check if $${excalibur-concurrent.jar} points to a jar, and
@@ -89,6 +58,16 @@ ELSE
             That will check if $${lib.repo}/commons-io.jar exists, and if not,
             download it from $${url}
 
+            or:
+
+            <property name="cp" refid="project.class.path"/>
+            <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredClass">
+                <property name="name" value="junit.jar"/>
+                <property name="class" value="junit.framework.Test"/>
+                <property name="classpath" value="${cp}"/>
+            </ant>
+            
+            That will check if $${class} is in the classpath $${cp}.
 
             The properties are as follows:
 
@@ -114,10 +93,168 @@ ELSE
                 Name of class to check for
             classpath:
                 String classpath (; or : separated) to search for $${class} in
-            =======================================================
+            
+
+            Algorithm is as follows:
+            
+            IF the directory ${proj.home} exists THEN:
+                // The dependency is local; if the jar doesn't exist, we can build it 
+                IF file ${path} does not exist THEN:
+                   call ${proj.home}/build.xml's 'dist.lite' target to build that
+                   project's jar, which will then build it's own dependencies if necessary
+                ELSE we're fine
+            ELSE
+                // The dependency is remote; we can't build it,
+                IF file ${path} does not exist THEN:
+                    IF ${url} is present THEN:
+                        do a HTTP GET to retrieve the jar to ${path}
+                    ELSE
+                        print an error saying "Can't find file ${path}"
+                ELSE we're fine
+            
+                        =======================================================
             ]]></echo>
     </target>
 
+    <!-- ====================================================== -->
+    <!-- Dependency checking library                            -->
+    <!-- ====================================================== -->
+
+    <target name="checkCommon" description="Checks applying to all components" depends="checkJUnit"/>
+
+    <target name="checkJUnit">
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredClass">
+            <property name="name" value="junit.jar"/>
+            <property name="class" value="junit.framework.Test"/>
+            <property name="classpath" value="${cp}"/>
+        </ant>
+    </target>
+    <target name="checkFramework">
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
+            <property name="name" value="avalon-framework.jar"/>
+            <property name="path" value="${avalon-framework.jar}"/>
+            <property name="proj.home" value="${basedir}/../../jakarta-avalon"/>
+        </ant>
+    </target>
+    <target name="checkCore">
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
+            <property name="name" value="excalibur-core.jar"/>
+            <property name="path" value="${excalibur-core.jar}"/>
+            <property name="proj.home" value="${basedir}/../all"/>
+            <property name="proj.target" value="all"/>
+        </ant>
+    </target>
+    <target name="checkScratchpad">
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
+            <property name="name" value="excalibur-scratchpad.jar"/>
+            <property name="path" value="${excalibur-scratchpad.jar}"/>
+        </ant>
+    </target>
+    <target name="checkEvent">
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
+            <property name="name" value="excalibur-event.jar"/>
+            <property name="path" value="${excalibur-event.jar}"/>
+            <property name="proj.home" value="${basedir}/../event"/>
+        </ant>
+    </target>
+    <target name="checkThread">
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
+            <property name="name" value="excalibur-thread.jar"/>
+            <property name="path" value="${excalibur-thread.jar}"/>
+            <property name="proj.home" value="${basedir}/../thread"/>
+        </ant>
+    </target>
+    <target name="checkInstrument">
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
+            <property name="name" value="excalibur-instrument.jar"/>
+            <property name="path" value="${excalibur-instrument.jar}"/>
+            <property name="proj.home" value="${basedir}/../instrument"/>
+        </ant>
+    </target>
+    <target name="checkInstrumentManager">
+       <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredClass">
+            <property name="name" value="excalibur-instrument-manager-0.1.jar"/>
+            <property name="class" value="org.apache.avalon.excalibur.instrument.manager.interfaces.InstrumentManagerClient"/>
+            <property name="classpath" value="${cp}"/>
+        </ant>
+    </target>
+    <target name="checkCollections">
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
+            <property name="name" value="excalibur-collections.jar"/>
+            <property name="path" value="${excalibur-collections.jar}"/>
+            <property name="proj.home" value="${basedir}/../collections"/>
+        </ant>
+    </target>
+    <target name="checkUtil">
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
+            <property name="name" value="excalibur-util.jar"/>
+            <property name="path" value="${excalibur-util.jar}"/>
+            <property name="proj.home" value="${basedir}/../util"/>
+            <property name="proj.target" value="jar"/>
+        </ant>
+    </target>
+    <target name="checkComponent">
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
+            <property name="name" value="excalibur-component.jar"/>
+            <property name="path" value="${excalibur-component.jar}"/>
+            <property name="proj.home" value="${basedir}/../component"/>
+            <property name="proj.target" value="jar"/>
+        </ant>
+    </target>
+    <target name="checkConcurrent">
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
+            <property name="name" value="excalibur-concurrent.jar"/>
+            <property name="path" value="${excalibur-concurrent.jar}"/>
+            <property name="proj.home" value="${basedir}/../concurrent"/>
+        </ant>
+    </target>
+    <target name="checkPool">
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
+            <property name="name" value="excalibur-pool.jar"/>
+            <property name="path" value="${excalibur-pool.jar}"/>
+            <property name="proj.home" value="${basedir}/../pool"/>
+        </ant>
+    </target>
+    <target name="checkLogkit">
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
+            <property name="name" value="avalon-logkit.jar"/>
+            <property name="path" value="${avalon-logkit.jar}"/>
+        </ant>
+    </target>
+    <target name="checkLogger">
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
+            <property name="name" value="excalibur-logger.jar"/>
+            <property name="path" value="${excalibur-logger.jar}"/>
+            <property name="proj.home" value="${basedir}/../logger"/>
+        </ant>
+    </target>
+    <target name="checkManagerInterfaces">
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
+            <property name="name" value="excalibur-instrument-manager-interfaces.jar"/>
+            <property name="path" value="${excalibur-instrument-manager-interfaces.jar}"/>
+            <property name="proj.home" value="${basedir}/../instrument-manager"/>
+        </ant>
+    </target>
+    <target name="checkTestcase">
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
+            <property name="name" value="excalibur-testcase.jar"/>
+            <property name="path" value="${excalibur-testcase.jar}"/>
+            <property name="proj.home" value="${basedir}/../testcase"/>
+    </ant>
+    </target><target name="checkLang">
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
+            <property name="name" value="excalibur-lang.jar"/>
+            <property name="path" value="${excalibur-lang.jar}"/>
+            <property name="proj.home" value="${basedir}/../lang"/>
+        </ant>
+    </target>
+    <target name="checkCommand">
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
+            <property name="name" value="excalibur-command.jar"/>
+            <property name="path" value="${excalibur-command.jar}"/>
+            <property name="proj.home" value="${basedir}/../command"/>
+        </ant>
+    </target>
     <!-- ====================================================== -->
     <!-- Call to ensure a class is present in the classpath     -->
     <!-- ====================================================== -->
@@ -134,6 +271,7 @@ ELSE
     <target name="checkRequiredFile" depends="checkIfLocal, checkRequiredFileLocal, checkRequiredFileRemote"/>
 
     <target name="checkIfLocal" if="proj.home">
+        <echo>basedir is ${basedir}</echo>
         <available type="dir" file="${proj.home}" property="local"/>
     </target>
 
@@ -182,11 +320,16 @@ ELSE
     </target>
 
     <target name="checkRequiredFile.fail" unless="get.succeeded">
+        <property name="message" value="Can't find file: ${path}"/>
         <echo>
-            +----------------------------------------------------------------+
-            | FILE NOT FOUND:                                                |
-            | ${path}
-            +----------------------------------------------------------------+
+            .---------------------------------------------------------------.
+            | FILE NOT FOUND                                                 |
+            |                                                                |
+            | ${message}
+            |----------------------------------------------------------------|
+            | Error when building module:                                    |
+            | ${basedir} 
+            |                                                                |
             | You must define the following property in order                |
             | to build:                                                      |
             |                                                                |
@@ -195,33 +338,41 @@ ELSE
             | Usually this is done by copying ant.properties.sample to       |
             | ant.properties and defining the property there. This may also  |
             | be done in ${user.home}/.ant.properties.                       |
-            +----------------------------------------------------------------+
+            '----------------------------------------------------------------'
         </echo>
         <fail message="Failed requirement: file not found"/>
     </target>
 
     <target name="checkRequiredClass.fail" unless="requirement.satisfied">
+        <property name="message" value="Can't find class: ${class}"/>
         <echo>
-            +----------------------------------------------------------------+
-            | CLASS NOT FOUND:                                               |
-            | ${class}
-            +----------------------------------------------------------------+
+            .----------------------------------------------------------------.
+            | CLASS NOT FOUND                                                |
+            |                                                                |
+            | ${message}
+            |----------------------------------------------------------------|
+            | Error when building module:                                    |
+            | ${basedir} 
+            |                                                                |
             | A jar containing class:                                        |
             |   ${class}
             | must be in your classpath or Ant lib directory                 |
             |   ${ant.home}/lib
             | Typically it is in a jar called:                               |
             |   ${name}                                                      
-            +----------------------------------------------------------------+
+            '----------------------------------------------------------------'
         </echo>
         <fail message="Failed requirement: class not found"/>
     </target>
 
     <target name="build.fail" unless="build.succeeded">
         <echo>
-            +-----------------------------------------------------------------+
-            + BUILD FAILURE                                                   |
-            +-----------------------------------------------------------------+
+            .-----------------------------------------------------------------.
+            | BUILD FAILURE                                                   |
+            |-----------------------------------------------------------------+
+            | Error when building module:                                     |
+            | ${basedir} 
+            |                                                                 |
             |                                                                 |
             | The dependency-checking system tried to build the project:      |
             |   ${proj.home}
@@ -232,7 +383,7 @@ ELSE
             | Typically this is because the required project changed the name |
             | of the jar it produces. If so, please correct this in           |
             | default.properties, ant.properties.sample or ant.properties     |
-            +-----------------------------------------------------------------+
+            '-----------------------------------------------------------------'
         </echo>
         <fail message="Failed Requirement"/>
     </target>

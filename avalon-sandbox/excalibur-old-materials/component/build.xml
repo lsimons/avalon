@@ -2,13 +2,10 @@
 
 <project name="Excalibur Component" default="main" basedir=".">
 
-    <!--
-      Give user a chance to override without editing this file
-      (and without typing -D each time he compiles it)
-    -->
-    <property file="${user.home}/.ant.properties"/>
+    <property file="${user.home}/build.properties"/>
     <property file="../ant.properties"/>
     <property file="ant.properties"/>
+    <property file="${user.home}/.ant.properties"/>
     <property file="../default.properties"/>
     <property file="default.properties"/>
 
@@ -30,35 +27,12 @@
     <target name="rebuild" depends="clean,main" description="Rebuild the project"/>
 
     <target name="dependencies" description="Check dependencies">
-        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredClass">
-            <property name="name" value="junit.jar"/>
-            <property name="class" value="junit.framework.Test"/>
-            <property name="classpath" value="${cp}"/>
-        </ant>
-        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
-            <property name="name" value="avalon-logkit.jar"/>
-            <property name="path" value="${avalon-logkit.jar}"/>
-        </ant>
-        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
-            <property name="name" value="avalon-framework.jar"/>
-            <property name="path" value="${avalon-framework.jar}"/>
-            <property name="proj.home" value="${basedir}/../../jakarta-avalon"/>
-        </ant>
-        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
-            <property name="name" value="excalibur-collections.jar"/>
-            <property name="path" value="${excalibur-collections.jar}"/>
-            <property name="proj.home" value="${basedir}/../collections"/>
-        </ant>
-        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
-            <property name="name" value="excalibur-logger.jar"/>
-            <property name="path" value="${excalibur-logger.jar}"/>
-            <property name="proj.home" value="${basedir}/../logger"/>
-       </ant>
-        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredFile">
-            <property name="name" value="excalibur-pool.jar"/>
-            <property name="path" value="${excalibur-pool.jar}"/>
-            <property name="proj.home" value="${basedir}/../pool"/>
-       </ant>
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkCommon"/>
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkLogkit"/>
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkFramework"/>
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkCollections"/>
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkLogger"/>
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkPool"/>
     </target>
 
     <!-- Compiles the source code -->
@@ -103,7 +77,7 @@
             <fileset dir="../" includes="LICENSE.txt"/>
             <fileset dir="${conf.dir}" includes="MANIFEST.MF"/> 
             <filterset>
-                <filtersfile file="project.properties"/>
+                <filtersfile file="default.properties"/>
             </filterset>
         </copy>
 
@@ -147,7 +121,7 @@
         </javadoc>
     </target>
 
-    <target name="test" depends="compile" description="Perform the unit tests">
+    <target name="test" depends="compile" description="Perform the unit tests" unless="skip.tests">
 
         <echo message="Performing Unit Tests" />
 
@@ -292,7 +266,11 @@
         description="Generates a minimal distribution (jar + javadocs)">
 
         <mkdir dir="${dist.dir}"/>
-        <copy file="${build.lib}/${jar.name}" todir="${dist.dir}"/>
+        <copy todir="${dist.dir}">
+            <fileset dir="${build.lib}">
+                <include name="*.jar"/>
+            </fileset>
+        </copy>
         <copy file="../LICENSE.txt" todir="${dist.dir}"/>
         <copy file="../KEYS" todir="${dist.dir}"/>
         <copy file="README.txt" todir="${dist.dir}"/>

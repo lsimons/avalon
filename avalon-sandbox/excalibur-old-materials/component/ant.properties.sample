@@ -6,49 +6,44 @@
 # external modules that this component depend on.  Copy this file to
 # "ant.properties" in the source directory, and customize it as needed.
 #
-# The ant.properties values in this directory apply only to this component, and
-# override the defaults in ../ant.properties.
+# The ant.properties values in this directory apply only to this component.
+# It is overridden by ../ant.properties and ~/build.properties
+# It overrides all default.properties files and ~/.ant.properties
 #
-# $Id: ant.properties.sample,v 1.2 2002/04/04 08:09:17 hammant Exp $
+# $Id: ant.properties.sample,v 1.2.2.1 2002/04/06 13:21:55 jefft Exp $
 # -----------------------------------------------------------------------------
-
-# --------------------------------------------------
-#      COMPONENT-SPECIFIC REQUIRED LIBRARIES
-# --------------------------------------------------
-
 
 # ----- Compile Control Flags -----
 build.debug=on
 build.optimize=off
 build.deprecation=off
+#build.compiler=jikes
 
 # ----- Base Directory in which all the packages are stored -----
-base.path=/opt
+base.path=${basedir}/../..
 
 # --------------------------------------------------
 #                REQUIRED LIBRARIES
 # --------------------------------------------------
+# ----- Avalon Logkit -----
+avalon-logkit.home=${base.path}/jakarta-avalon-logkit
+avalon-logkit.lib=${avalon-logkit.home}/build/lib
+avalon-logkit.jar=${avalon-logkit.lib}/logkit.jar
 
-# ----- Logkit -----
-logkit.home=../../jakarta-avalon-logkit/build/lib
-logkit.jar=${logkit.home}/logkit.jar
-
-# ----- Avalon Framework -----
-avalon-framework.home=../../jakarta-avalon/build/lib
-avalon-framework.jar=${avalon-framework.home}/avalon-framework.jar
+# ----- Avalon Framework, version 4.1 or later -----
+avalon-framework.home=${base.path}/jakarta-avalon
+avalon-framework.lib=${avalon-framework.home}/build/lib
+avalon-framework.jar=${avalon-framework.lib}/avalon-framework.jar
 
 # ----- Excalibur Logger -----
-excalibur-logger.home=../logger/build/lib
+excalibur-logger.home=${avalon-excalibur.home}/logger
+excalibur-logger.lib=${excalibur-logger.home}/build/lib
 excalibur-logger.jar=${excalibur-logger.home}/excalibur-logger-1.0.jar
 
 # ----- Excalibur Pool -----
-excalibur-pool.home=../pool/build/lib
+excalibur-pool.home=${avalon-excalibur.home}/pool
+excalibur-pool.lib=${excalibur-pool.home}/build/lib
 excalibur-pool.jar=${excalibur-pool.home}/excalibur-pool-1.0.jar
-
-# ----- JUnit Unit Test Suite, version 3.7 or later -----
-junit.home=${base.path}/junit3.7
-junit.lib=${junit.home}
-junit.jar=${junit.lib}/junit.jar
 
 
 
@@ -56,8 +51,14 @@ junit.jar=${junit.lib}/junit.jar
 #                OPTIONAL LIBRARIES
 # --------------------------------------------------
 
-# ----- Checkstyle, version 2.1 or later -----
+# ----- JUnit Unit Test Suite, version 3.7 or later. -----
+#  Not needed if junit.jar is in $ANT_HOME/lib 
+junit.home=${base.path}/junit3.7
+junit.lib=${junit.home}
+junit.jar=${junit.lib}/junit.jar
 
+
+# ----- Checkstyle, version 2.1 or later -----
 # Uncomment the 'do.checkstyle' flag property to enable checkstyle
 # do.checkstyle=
 checkstyle.home=${base.path}/checkstyle-2.1

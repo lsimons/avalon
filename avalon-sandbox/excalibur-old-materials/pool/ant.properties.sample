@@ -6,24 +6,21 @@
 # external modules that this component depend on.  Copy this file to
 # "ant.properties" in the source directory, and customize it as needed.
 #
-# The ant.properties values in this directory apply only to this component, and
-# override the defaults in ../ant.properties.
+# The ant.properties values in this directory apply only to this component.
+# It is overridden by ../ant.properties and ~/build.properties
+# It overrides all default.properties files and ~/.ant.properties
 #
-# $Id: ant.properties.sample,v 1.1 2002/04/04 05:09:03 leif Exp $
+# $Id: ant.properties.sample,v 1.1.2.1 2002/04/06 13:21:57 jefft Exp $
 # -----------------------------------------------------------------------------
-
-# --------------------------------------------------
-#      COMPONENT-SPECIFIC REQUIRED LIBRARIES
-# --------------------------------------------------
-
 
 # ----- Compile Control Flags -----
 build.debug=on
 build.optimize=off
 build.deprecation=off
+#build.compiler=jikes
 
 # ----- Base Directory in which all the packages are stored -----
-base.path=/opt
+base.path=${basedir}/../..
 
 # --------------------------------------------------
 #                REQUIRED LIBRARIES
@@ -45,19 +42,19 @@ excalibur-collections.jar=${excalibur-collections.home}/excalibur-collections-1.
 excalibur-concurrent.home=../concurrent/build/lib
 excalibur-concurrent.jar=${excalibur-concurrent.home}/excalibur-concurrent-1.0.jar
 
-# ----- JUnit Unit Test Suite, version 3.7 or later -----
-junit.home=${base.path}/junit3.7
-junit.lib=${junit.home}
-junit.jar=${junit.lib}/junit.jar
-
-
 
 # --------------------------------------------------
 #                OPTIONAL LIBRARIES
 # --------------------------------------------------
 
-# ----- Checkstyle, version 2.1 or later -----
+# ----- JUnit Unit Test Suite, version 3.7 or later. -----
+#  Not needed if junit.jar is in $ANT_HOME/lib 
+junit.home=${base.path}/junit3.7
+junit.lib=${junit.home}
+junit.jar=${junit.lib}/junit.jar
 
+
+# ----- Checkstyle, version 2.1 or later -----
 # Uncomment the 'do.checkstyle' flag property to enable checkstyle
 # do.checkstyle=
 checkstyle.home=${base.path}/checkstyle-2.1

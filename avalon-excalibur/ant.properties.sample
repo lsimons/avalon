@@ -10,86 +10,125 @@
 # components. They override properties in component-specific ant.properties
 # files.
 #
-# $Id: ant.properties.sample,v 1.8.2.4 2002/04/05 14:14:25 bloritsch Exp $
+# $Id: ant.properties.sample,v 1.8.2.5 2002/04/06 13:21:54 jefft Exp $
 # -----------------------------------------------------------------------------
-
 
 # ----- Compile Control Flags -----
 build.debug=on
 build.optimize=off
 build.deprecation=off
+#build.compiler=jikes
 
+# --------------------------------------------------
+#                LIBRARIES
+# --------------------------------------------------
+
+# If you have a jar repository, uncomment these, fix the version numbers, and
+# delete all subsequent jar sections
+#
+#avalon-framework.jar = ${lib.repo}/avalon-framework-${avalon-framework-ver}.jar
+#avalon-logkit.jar = ${lib.repo}/avalon-logkit.jar
+#excalibur-instrument.jar = ${lib.repo}/excalibur-instrument-${excalibur-instrument.ver}.jar
+#excalibur-collections.jar = ${lib.repo}/excalibur-collections-${excalibur-collections.ver}.jar
+#excalibur-concurrent.jar = ${lib.repo}/excalibur-concurrent-${excalibur-concurrent.ver}.jar
+#xml-apis.jar=${lib.repo}/xmlParserAPIs-2.0.0.jar
+#xerces.jar = ${lib.repo}/xercesImpl-2.0.0.jar
+#xalan.jar = ${lib.repo}/xalan-2.1.0.jar
+#bsf.jar = ${lib.rep}/bsf.jar
+#junit.jar = ${lib.repo}/junit-3.7.jar
+#junitperf.jar = ${lib.repo}/junitperf.jar
+#jaxen.jar = ${lib.repo}/jaxen-full.jar
+#saxpath.jar = ${lib.repo}/saxpath.jar
+
+# Otherwise, define these..
 # ----- Base Directory in which all the packages are stored -----
-base.path=../../
-
-# --------------------------------------------------
-#                REQUIRED LIBRARIES
-# --------------------------------------------------
-
-# ----- Xerces -----
-xerces.home=${base.path}/jakarta-avalon/tools/lib/
-xerces.jar=${xerces.home}/xerces-1.4.4.jar
-
-# ----- XML-APIs -----
-xml-apis.home=${base.path}/jakarta-avalon/tools/lib/
-xml-apis.jar=${xml-apis.home}/xml-apis.jar
-
-# ----- Xalan -----
-xalan.home=${base.path}/jakarta-avalon/tools/lib/
-xalan.jar=${xalan.home}/xalan-2.2.0-D13.jar
-
-# ----- Logkit -----
-logkit.home=${base.path}/jakarta-avalon-logkit
-logkit.lib=${logkit.home}/build/lib
-logkit.jar=${logkit.lib}/logkit.jar
-
-# ----- Avalon Framework -----
-avalon-framework.home=${base.path}/jakarta-avalon/build/lib
-avalon-framework.jar=${avalon-framework.home}/avalon-framework.jar
-
-# ----- Avalon Excalibur -----
-excalibur-core.home=${base.path}/jakarta-excalibur-core/all/build/lib
-excalibur-core.jar=${excalibur-core.home}/excalibur-core.jar
-
-# ----- Excalibur Collections -----
-excalibur-collections.home=${base.path}/jakarta-excalibur-core/collections/build/lib
-excalibur-collections.jar=${excalibur-collections.home}/excalibur-collections-1.0.jar
-
-# ----- Excalibur Instrument -----
-excalibur-instrument.home=${base.path}/jakarta-excalibur-core/instrument/build/lib
-excalibur-instrument.jar=${excalibur-instrument.home}/excalibur-instrument-0.1.jar
-
-# ----- Excalibur Instrument Manager -----
-excalibur-instrument-manager.home=${base.path}/jakarta-excalibur-core/instrument-manager/build/lib
-excalibur-instrument-manager-interfaces.jar=${excalibur-instrument-manager.home}/excalibur-instrument-manager-interfaces-0.1.jar
-
-# ----- Altrmi -----
-excalibur-altrmi.home=${base.path}/jakarta-commons-sandbox/altrmi/dist
-excalibur-altrmi-client-impl.jar=${excalibur-altrmi.home}/excalibur-altrmi-client-impl.jar
-excalibur-altrmi-client-interfaces.jar=${excalibur-altrmi.home}/excalibur-altrmi-client-interfaces.jar
-excalibur-altrmi-server-impl.jar=${excalibur-altrmi.home}/excalibur-altrmi-server-impl.jar
-excalibur-altrmi-server-interfaces.jar=${excalibur-altrmi.home}/excalibur-altrmi-server-interfaces.jar
-excalibur-altrmi-common.jar=${excalibur-altrmi.home}/excalibur-altrmi-common.jar
-excalibur-altrmi-generator.jar=${excalibur-altrmi.home}/excalibur-altrmi-generator.jar
+base.path=${basedir}/../..
+avalon-framework.home=${base.path}/jakarta-avalon
+avalon-excalibur.home=${basedir}/..
 
 # ----- Java Management Extensions (JMX) RI, version 1.0.1 or later -----
 jmx.home=${base.path}/jmx-1_0_1-ri_bin/jmx
 jmx.lib=${jmx.home}/lib
 jmx.jar=${jmx.lib}/jmxri.jar
 
-# ----- JUnit Unit Test Suite, version 3.7 or later -----
-junit.home=${base.path}/junit3.7
-junit.lib=${junit.home}
-junit.jar=${junit.lib}/junit.jar
+# ----- Xerces -----
+xerces.home=${avalon-framework.home}/tools/lib/
+xerces.jar=${xerces.home}/xerces-1.4.4.jar
 
+# ----- XML-APIs -----
+xml-apis.home=${avalon-framework.home}/tools/lib/
+xml-apis.jar=${xml-apis.home}/xml-apis.jar
 
+# ----- Xalan -----
+xalan.home=${avalon-framework.home}/tools/lib/
+xalan.jar=${xalan.home}/xalan-2.2.0-D13.jar
+
+# ----- Logkit -----
+avalon-logkit.home=${base.path}/jakarta-avalon-logkit
+avalon-logkit.lib=${avalon-logkit.home}/build/lib
+avalon-logkit.jar=${avalon-logkit.lib}/logkit.jar
+
+# ----- Avalon Framework, version 4.1 or later -----
+avalon-framework.lib=${avalon-framework.home}/build/lib
+avalon-framework.jar=${avalon-framework.lib}/avalon-framework.jar
+
+# ----- Excalibur Logger -----
+excalibur-logger.home=${avalon-excalibur.home}/logger
+excalibur-logger.lib=${excalibur-logger.home}/build/lib
+excalibur-logger.jar=${excalibur-logger.home}/excalibur-logger-1.0.jar
+
+# ----- Excalibur Pool -----
+excalibur-pool.home=${avalon-excalibur.home}/pool
+excalibur-pool.lib=${excalibur-pool.home}/build/lib
+excalibur-pool.jar=${excalibur-pool.home}/excalibur-pool-1.0.jar
+
+# ----- Excalibur Instrument -----
+excalibur-instrument.home=${avalon-excalibur.home}/instrument/dist
+excalibur-instrument.lib=${excalibur-instrument.home}
+excalibur-instrument.jar=${excalibur-instrument.lib}/excalibur-instrument-0.1.jar
+
+# ----- Excalibur Collections -----
+excalibur-collections.home=${avalon-excalibur.home}/collections/dist
+excalibur-collections.lib=${excalibur-collections.home}
+excalibur-collections.jar=${excalibur-collections.lib}/excalibur-collections-1.0.jar
+
+# ----- Excalibur Concurrent -----
+excalibur-concurrent.home=${avalon-excalibur.home}/concurrent/dist
+excalibur-concurrent.lib=${excalibur-concurrent.home}
+excalibur-concurrent.jar=${excalibur-concurrent.lib}/excalibur-concurrent-1.0.jar
+
+# ----- Excalibur Core -----
+excalibur-core.home=${avalon-excalibur.home}/all
+excalibur-core.lib=${excalibur-core.home}/build/lib
+excalibur-core.jar=${excalibur-core.lib}/excalibur-core-1.0.jar
+
+# ----- Excalibur Instrument Manager -----
+excalibur-instrument-manager.home=${avalon-excalibur.home}/instrument-manager/build/lib
+excalibur-instrument-manager.lib=${excalibur-instrument-manager.home}/dist
+excalibur-instrument-manager-interfaces.jar=${excalibur-instrument-manager.home}/excalibur-instrument-manager-interfaces-0.1.jar
+
+# ----- Excalibur Altrmi -----
+excalibur-altrmi.home=${base.path}/jakarta-commons-sandbox/altrmi
+excalibur-altrmi.lib=${excalibur-altrmi.home}/dist
+excalibur-altrmi-client-impl.jar=${excalibur-altrmi.lib}/excalibur-altrmi-client-impl.jar
+excalibur-altrmi-client-interfaces.jar=${excalibur-altrmi.lib}/excalibur-altrmi-client-interfaces.jar
+excalibur-altrmi-server-impl.jar=${excalibur-altrmi.lib}/excalibur-altrmi-server-impl.jar
+excalibur-altrmi-server-interfaces.jar=${excalibur-altrmi.lib}/excalibur-altrmi-server-interfaces.jar
+excalibur-altrmi-common.jar=${excalibur-altrmi.lib}/excalibur-altrmi-common.jar
+excalibur-altrmi-generator.jar=${excalibur-altrmi.lib}/excalibur-altrmi-generator.jar
 
 # --------------------------------------------------
 #                OPTIONAL LIBRARIES
 # --------------------------------------------------
 
-# ----- Checkstyle, version 2.1 or later -----
+# ----- JUnit Unit Test Suite, version 3.7 or later. -----
+#  Not needed if junit.jar is in $ANT_HOME/lib 
+junit.home=${base.path}/junit3.7
+junit.lib=${junit.home}
+junit.jar=${junit.lib}/junit.jar
 
+
+# ----- Checkstyle, version 2.1 or later -----
 # Uncomment the 'do.checkstyle' flag property to enable checkstyle
 # do.checkstyle=
 checkstyle.home=${base.path}/checkstyle-2.1

@@ -1,13 +1,11 @@
 <?xml version="1.0"?>
 
 <project name="Excalibur Instrument" default="main" basedir=".">
-    <!--
-      Give user a chance to override without editing this file
-      (and without typing -D each time he compiles it)
-    -->
-    <property file="${user.home}/.ant.properties"/>
+
+    <property file="${user.home}/build.properties"/>
     <property file="../ant.properties"/>
     <property file="ant.properties"/>
+    <property file="${user.home}/.ant.properties"/>
     <property file="../default.properties"/>
     <property file="default.properties"/>
 
@@ -24,11 +22,7 @@
     <target name="rebuild" depends="clean,main" description="Rebuild the project"/>
 
     <target name="dependencies" description="Check dependencies">
-        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkRequiredClass">
-            <property name="name" value="junit.jar"/>
-            <property name="class" value="junit.framework.Test"/>
-            <property name="classpath" value="${cp}"/>
-        </ant>
+        <ant antfile="${depchecker.prefix}/depchecker.xml" target="checkCommon"/>
     </target>
 
     <!-- Compiles the source code -->
@@ -257,7 +251,11 @@
         description="Generates a minimal distribution (jar + javadocs)">
 
         <mkdir dir="${dist.dir}"/>
-        <copy file="${build.lib}/${jar.name}" todir="${dist.dir}"/>
+        <copy todir="${dist.dir}">
+            <fileset dir="${build.lib}">
+                <include name="*.jar"/>
+            </fileset>
+        </copy>
         <copy file="../LICENSE.txt" todir="${dist.dir}"/>
         <copy file="../KEYS" todir="${dist.dir}"/>
         <copy file="README.txt" todir="${dist.dir}"/>
