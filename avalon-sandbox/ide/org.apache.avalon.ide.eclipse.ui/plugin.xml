@@ -21,6 +21,10 @@
       <import plugin="org.junit"/>
       <import plugin="org.apache.avalon.MerlinDeveloperCore"/>
       <import plugin="org.apache.avalon.MerlinDeveloperLaunch"/>
+      <import plugin="org.eclipse.jface.text"/>
+      <import plugin="org.eclipse.ui.workbench.texteditor"/>
+      <import plugin="org.eclipse.ui.editors"/>
+     
    </requires>
 
 
@@ -46,5 +50,16 @@
             id="org.apache.avalon.ide.eclipse.merlin.wizards.newMerlinNatureWizard2">
       </wizard>
    </extension>
-
+   
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            name="Image Viewer"
+            extensions="jpg, gif"
+            icon="icons/sample.gif"
+            class="org.apache.avalon.ide.eclipse.merlin.ui.tools.ImageViewerEditor"
+            id="Viewer.editors.XMLEditor">
+      </editor>
+   </extension>
+      
 </plugin>
