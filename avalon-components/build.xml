@@ -565,11 +565,14 @@
   <target name="dist" depends="xars,javadocs,xdocs,setup-properties,dist-norm,dist-soap">  
     <chmod dir="${dist.dir}" perm="go-rwx" />
   </target>
-  <target name="dist-norm">
-
+  
+  <target name="dist-dirs" depends="setup-properties">
     <mkdir dir="${dist.dir}"/>
     <mkdir dir="${dist.docs}"/>
-    <mkdir dir="${dist.javadocs}"/>
+    <mkdir dir="${dist.javadocs}"/>  
+  </target>
+  
+  <target name="dist-norm" depends="dist-dirs">
 
     <copy todir="${dist.docs}">
       <fileset dir="${build.docs}"/>
@@ -741,12 +744,26 @@
        ===================================================================
   -->
   <target name="apps-jars" depends="jars, ftpserver"/>
-  <target name="ftpserver">
+  
+  <target name="ftpserver" depends="dist-dirs">
     <ant antfile="build.xml" dir="apps/ftpserver" target="jars"/>
   </target>  
 
   <target name="ftpserver-deploy">
     <ant antfile="build.xml" dir="apps/ftpserver" target="deploy"/>
+  </target>    
+  
+  <target name="jesktop" depends="dist-dirs">
+    <ant antfile="build.xml" dir="apps/jesktop" target="jars"/>
+  </target> 
+  <target name="jesktop-clean">
+    <ant antfile="build.xml" dir="apps/jesktop" target="clean"/>
+  </target>   
+  <target name="jesktop-deploy">
+    <ant antfile="build.xml" dir="apps/jesktop" target="deploy"/>
+  </target>   
+  <target name="jesktop-xdocs">
+    <ant antfile="build.xml" dir="apps/jesktop" target="xdocs"/>
   </target>    
 
 </project>
