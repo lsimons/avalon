@@ -24,8 +24,7 @@ import org.apache.avalon.framework.component.ComponentException;
 import org.apache.avalon.framework.component.ComponentManager;
 import org.apache.avalon.framework.component.Composable;
 import org.apache.avalon.framework.component.DefaultComponentManager;
-import org.apache.avalon.framework.configuration.Configurable;
-import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.*;
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;
 import org.apache.avalon.framework.context.Contextualizable;
@@ -160,10 +159,20 @@ public class StartupPhase
             if( object instanceof Configurable )
             {
                 getLogger().debug( REZ.getString( "startup.notice.config.pre" ) );
-                final Configuration configuration =
-                    m_repository.getConfiguration( m_appName, name );
-                ((Configurable)object).configure( configuration );
-                getLogger().debug( REZ.getString( "startup.notice.config.success" ) );
+                try 
+                {
+                    final Configuration configuration =                
+                        m_repository.getConfiguration( m_appName, name );
+                    ((Configurable)object).configure( configuration );
+                    getLogger().debug( REZ.getString( "startup.notice.config.success" ) );
+                } 
+                catch (ConfigurationException ce) 
+                {
+                    // missing configuration (probably).
+                    final String message = REZ.getString( "startup.error.block.noconfiguration", name);
+                    throw new ConfigurationException(message,ce);
+                }
+                    
             }
 
             //Initialize stage
