@@ -91,7 +91,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * context.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2003/10/22 01:45:37 $
+ * @version $Revision: 1.6 $ $Date: 2003/11/04 01:07:52 $
  */
 public class DefaultBlock extends AbstractAppliance 
   implements Block, Composite
@@ -661,7 +661,7 @@ public class DefaultBlock extends AbstractAppliance
                     {
                         try
                         {
-                            Thread.currentThread().sleep( 300 );
+                            Thread.sleep( 300 );
                         }
                         catch( Throwable e )
                         {

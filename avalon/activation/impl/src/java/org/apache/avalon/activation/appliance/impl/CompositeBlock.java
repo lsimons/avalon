@@ -57,33 +57,14 @@ import java.lang.reflect.Proxy;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.Map;
 
 import org.apache.avalon.activation.appliance.Appliance;
 import org.apache.avalon.activation.appliance.ApplianceException;
-import org.apache.avalon.activation.appliance.ApplianceRepository;
-import org.apache.avalon.activation.appliance.AssemblyException;
-import org.apache.avalon.activation.appliance.Block;
 import org.apache.avalon.activation.appliance.BlockContext;
-import org.apache.avalon.activation.appliance.Composite;
-import org.apache.avalon.activation.appliance.DependencyGraph;
-import org.apache.avalon.activation.appliance.DeploymentException;
-import org.apache.avalon.activation.appliance.Engine;
 import org.apache.avalon.activation.appliance.Home;
-import org.apache.avalon.activation.appliance.NoProviderDefinitionException;
-import org.apache.avalon.activation.appliance.ServiceContext;
-import org.apache.avalon.composition.data.CategoriesDirective;
 import org.apache.avalon.composition.data.ServiceDirective;
 import org.apache.avalon.composition.model.ContainmentModel;
-import org.apache.avalon.composition.model.DependencyModel;
-import org.apache.avalon.composition.model.DeploymentModel;
-import org.apache.avalon.composition.model.Model;
-import org.apache.avalon.composition.model.StageModel;
-import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.meta.info.DependencyDescriptor;
-import org.apache.avalon.meta.info.StageDescriptor;
 
 /**
  * The DefaultBlock is responsible for the management 
@@ -93,7 +74,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * context.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/11/03 06:14:08 $
+ * @version $Revision: 1.2 $ $Date: 2003/11/04 01:07:52 $
  */
 public class CompositeBlock extends AbstractBlock implements Home
 {

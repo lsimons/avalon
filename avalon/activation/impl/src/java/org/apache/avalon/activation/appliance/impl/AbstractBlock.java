@@ -50,15 +50,8 @@
 
 package org.apache.avalon.activation.appliance.impl;
 
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Hashtable;
-import java.util.Map;
 
 import org.apache.avalon.activation.appliance.Appliance;
 import org.apache.avalon.activation.appliance.ApplianceException;
@@ -73,7 +66,6 @@ import org.apache.avalon.activation.appliance.Engine;
 import org.apache.avalon.activation.appliance.NoProviderDefinitionException;
 import org.apache.avalon.activation.appliance.ServiceContext;
 import org.apache.avalon.composition.data.CategoriesDirective;
-import org.apache.avalon.composition.data.ServiceDirective;
 import org.apache.avalon.composition.logging.LoggingManager;
 import org.apache.avalon.composition.model.ContainmentModel;
 import org.apache.avalon.composition.model.DependencyModel;
@@ -93,7 +85,7 @@ import org.apache.avalon.meta.info.StageDescriptor;
  * context.
  * 
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2003/11/03 18:54:18 $
+ * @version $Revision: 1.3 $ $Date: 2003/11/04 01:07:52 $
  */
 public abstract class AbstractBlock extends AbstractAppliance 
   implements Block, Composite
@@ -624,7 +616,7 @@ public abstract class AbstractBlock extends AbstractAppliance
                     {
                         try
                         {
-                            Thread.currentThread().sleep( 300 );
+                            Thread.sleep( 300 );
                         }
                         catch( Throwable e )
                         {

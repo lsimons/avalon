@@ -52,13 +52,12 @@ package org.apache.avalon.activation.appliance;
 
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.composition.model.ContainmentModel;
-import org.apache.avalon.composition.model.DependencyModel;
 
 /**
  * Context object applied to a new block.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.1 $ $Date: 2003/11/02 23:12:50 $
+ * @version $Revision: 1.2 $ $Date: 2003/11/04 01:09:05 $
  */
 public interface BlockContext
 {

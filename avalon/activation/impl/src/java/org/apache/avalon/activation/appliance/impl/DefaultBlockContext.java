@@ -52,7 +52,6 @@ package org.apache.avalon.activation.appliance.impl;
 
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.composition.model.ContainmentModel;
-import org.apache.avalon.composition.model.DependencyModel;
 import org.apache.avalon.activation.appliance.ApplianceRepository;
 import org.apache.avalon.activation.appliance.DependencyGraph;
 import org.apache.avalon.activation.appliance.ServiceContext;
@@ -63,7 +62,7 @@ import org.apache.avalon.activation.appliance.BlockContext;
  * Context object applied to a new block.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2003/11/03 06:11:30 $
+ * @version $Revision: 1.3 $ $Date: 2003/11/04 01:07:52 $
  */
 public class DefaultBlockContext implements BlockContext
 {

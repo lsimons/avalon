@@ -5,7 +5,6 @@ package org.apache.avalon.composition.model.testc;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.ServiceException;
 
