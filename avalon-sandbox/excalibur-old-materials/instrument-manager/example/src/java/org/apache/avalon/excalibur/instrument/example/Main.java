@@ -37,7 +37,7 @@ import org.apache.log.Priority;
  * Note, this code ignores exceptions to keep the code simple.
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.3 $ $Date: 2002/05/09 10:50:59 $
+ * @version CVS $Revision: 1.4 $ $Date: 2002/05/24 18:23:19 $
  * @since 4.1
  */
 public class Main
@@ -81,6 +81,7 @@ public class Main
         lmLogger.setPriority(
             Priority.getPriorityForName( logKitConfig.getAttribute( "log-level", "INFO" ) ) );
         logManager.setLogger( lmLogger );
+        logManager.contextualize( context );
         logManager.configure( logKitConfig );
 
         // Set up the Instrument Manager
