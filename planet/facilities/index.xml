@@ -56,6 +56,10 @@
       <version>5.0.25</version>
       <type>jar</type>
     </info>
+    <gump>
+      <alias>jakarta-tomcat-5</alias>
+      <id>jasper-compiler</id>
+    </gump>
   </resource>
 
   <resource>
@@ -65,6 +69,10 @@
       <version>5.0.25</version>
       <type>jar</type>
     </info>
+    <gump>
+      <alias>jakarta-tomcat-5</alias>
+      <id>jasper-runtime</id>
+    </gump>
   </resource>
 
   <resource>
@@ -74,6 +82,9 @@
       <version>5.0.18</version>
       <type>jar</type>
     </info>
+    <gump>
+      <alias>jakarta-servletapi-5-jsp</alias>
+    </gump>
   </resource>
 
   <resource>
@@ -192,6 +203,9 @@
       <version>1.6.1</version>
       <type>jar</type>
     </info>
+    <gump>
+      <alias>commons-beanutils-core</alias>
+    </gump>
   </resource>
 
   
