@@ -115,6 +115,7 @@
             <property name="skip.dependencies" value="true"/>
         </ant>
 
+        <depend project="jakarta-ant" inherit="runtime"/>
         <depend project="jakarta-avalon" runtime="true"/>
         <depend project="excalibur-i18n" runtime="true"/>
         <depend project="excalibur-configuration" runtime="true"/>
@@ -353,6 +354,7 @@
             <property name="skip.dependencies" value="true"/>
         </ant>
 
+        <depend project="jakarta-ant" inherit="runtime"/>
         <depend project="jakarta-avalon" runtime="true"/>
         <depend project="xml-xerces"/>
         <depend project="xml-xalan2"/>
@@ -375,6 +377,7 @@
             <property name="skip.dependencies" value="true"/>
         </ant>
 
+        <depend project="jakarta-ant" inherit="runtime"/>
         <depend project="jakarta-avalon" runtime="true"/>
         <depend project="excalibur-i18n" runtime="true"/>
         <depend project="excalibur-configuration" runtime="true"/>
