@@ -9,22 +9,24 @@ package org.apache.log.format;
 
 import java.io.StringWriter;
 import java.util.Stack;
-import org.apache.log.*;
+import org.apache.log.ContextMap;
+import org.apache.log.LogEvent;
+import org.apache.log.Logger;
 import org.apache.log.util.StackIntrospector;
 
 /**
  * Formatter especially designed for debugging applications.
  *
- * This formatter extends the standard PatternFormatter to add 
+ * This formatter extends the standard PatternFormatter to add
  * two new possible expansions. These expansions are %{method}
  * and %{thread}. In both cases the context map is first checked
  * for values with specified key. This is to facilitate passing
- * information about caller/thread when threads change (as in 
+ * information about caller/thread when threads change (as in
  * AsyncLogTarget). They then attempt to determine appropriate
  * information dynamically.
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.1 $ $Date: 2001/07/30 11:37:11 $
+ * @version CVS $Revision: 1.2 $ $Date: 2001/08/16 20:04:29 $
  */
 public class ExtendedPatternFormatter
     extends PatternFormatter
@@ -52,7 +54,7 @@ public class ExtendedPatternFormatter
         else if( type.equalsIgnoreCase( TYPE_THREAD_STR ) ) return TYPE_THREAD;
         else
         {
-            return getTypeIdFor( type );
+            return super.getTypeIdFor( type );
         }
     }
 
