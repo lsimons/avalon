@@ -50,28 +50,30 @@
 
      <table>
       <tr>
-        <td>CENTRAL</td>
-        <td>PRODUCTS</td>
-        <td>PLANET</td>
+        <th><a href="central/index.html">CENTRAL</a></th>
+        <th><a href="central/index.html">PRODUCTS</a></th>
+        <th><a href="central/index.html">PLANET</a></th>
       </tr>
       <tr>
         <td>
-          <ul>
-            <li>Tutorials</li>
-            <li>Mailing Lists &amp; Issue Tracking</li>
-            <li>Downloads</li>
-          </ul>
+          <p>
+          <a href="central/tutorials/index.html">Tutorials</a><br/>
+          <a href="central/resources/mailing-lists.html">Mailing Lists</a><br/>
+          <a href="central/resources/issues.html">Issue Tracking</a><br/>
+          <a href="central/download.html">Downloads</a><br/>
+          <a href="central/tools/index.html">Tools</a>
+          </p>
         </td>
         <td>
-          <ul>
-            <li>Merlin Runtime</li>
-          </ul>
+          <p>
+          <a href="products/runtime/index.html">Merlin Runtime</a>
+          </p>
         </td>
         <td>
-          <ul>
-            <li>Component Library</li>
-            <li>Facilities</li>
-          </ul>
+          <p>
+          <a href="planet/components/index.html">Component Library</a><br/>
+          <a href="planet/facilities/index.html">Facilities</a>
+          </p>
         </td>
       </tr>
      </table>
