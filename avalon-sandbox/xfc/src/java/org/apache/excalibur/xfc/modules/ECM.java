@@ -80,7 +80,7 @@ import org.apache.excalibur.xfc.model.RoleRef;
  * </p>
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: ECM.java,v 1.5 2002/10/08 10:40:30 crafterm Exp $
+ * @version CVS $Id: ECM.java,v 1.6 2002/10/08 12:49:22 crafterm Exp $
  */
 public class ECM extends AbstractModule
 {
@@ -90,9 +90,9 @@ public class ECM extends AbstractModule
     private static final String THREADSAFE =
         "org.apache.avalon.framework.thread.ThreadSafe";
     private static final String POOLABLE =
-        "org.apache.avalon.excalibur.mpool.Poolable";
+        "org.apache.avalon.excalibur.pool.Poolable";
     private static final String RECYCLABLE =
-        "org.apache.avalon.excalibur.mpool.Recyclable";
+        "org.apache.avalon.excalibur.pool.Recyclable";
 
     // ExcaliburComponentSelector name
     private static final String ECS =
@@ -334,9 +334,11 @@ public class ECM extends AbstractModule
 
             for ( int i = 0; i < interfaces.length; ++i )
             {
-                if ( m_handlers.containsKey( interfaces[ i ] ) )
+                String interfaze = interfaces[i].getName();
+
+                if ( m_handlers.containsKey( interfaze ) )
                 {
-                    return (String) m_handlers.get( interfaces[ i ] );
+                    return (String) m_handlers.get( interfaze );
                 }
             }
 

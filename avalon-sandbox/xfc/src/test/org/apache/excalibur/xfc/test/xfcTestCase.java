@@ -74,7 +74,7 @@ import junit.textui.TestRunner;
  * XFC TestCase.
  *
  * @author <a href="mailto:crafterm@apache.org">Marcus Crafter</a>
- * @version CVS $Id: xfcTestCase.java,v 1.3 2002/10/08 10:39:38 crafterm Exp $
+ * @version CVS $Id: xfcTestCase.java,v 1.4 2002/10/08 12:49:22 crafterm Exp $
  */
 public final class xfcTestCase extends TestCase
 {
@@ -90,7 +90,7 @@ public final class xfcTestCase extends TestCase
 
     // misc internals
     private DefaultConfigurationBuilder m_builder = new DefaultConfigurationBuilder();
-    private Logger m_logger = new NullLogger();
+    private Logger m_logger = new ConsoleLogger();
 
     public xfcTestCase()
     {
@@ -245,7 +245,7 @@ public final class xfcTestCase extends TestCase
     public void testXFC_Fortress_generate()
         throws Exception
     {
-        // create an ECM module test rig instance
+        // create a Fortress module test rig instance
         FortressTestRig ecm = new FortressTestRig();
         ecm.enableLogging( m_logger );
 
@@ -315,7 +315,7 @@ public final class xfcTestCase extends TestCase
     {
         String FORTRESS_ROLES_GENERATED = "fortress-generated.roles";
 
-        // create an ECM module test rig instance
+        // create a Fortress module test rig instance
         FortressTestRig ecm = new FortressTestRig();
         ecm.enableLogging( m_logger );
 
@@ -336,6 +336,47 @@ public final class xfcTestCase extends TestCase
         );
 
         // all done, good show
+    }
+
+    /**
+     * Method to test class handler analysis on the ECM module. ECM roles
+     * do not specify component handlers like Fortress roles do, so the ECM
+     * module examines the given class to find out what handler it should use.
+     *
+     * @exception Exception if an error occurs
+     */
+    public void testXFC_ECM_ClassHandlerAnalysis()
+        throws Exception
+    {
+        // create an ECM module instance
+        ECMTestRig ecm = new ECMTestRig();
+        ecm.enableLogging( m_logger );
+
+        // input classes to analyse
+        final String[] classes =
+            {
+                "org.apache.avalon.excalibur.xml.JaxpParser",
+                "org.apache.avalon.excalibur.xml.xslt.XSLTProcessorImpl",
+                "org.apache.avalon.excalibur.xml.xpath.XPathProcessorImpl",
+            };
+
+        // actual handlers these classes should use
+        final String[] handlers =
+            {
+                "pooled", // org.apache.excalibur.fortress.handler.PoolableComponentHandler
+                "transient", // org.apache.excalibur.fortress.handler.FactoryComponentHandler
+                "singleton", // org.apache.excalibur.fortress.handler.ThreadSafeComponentHandler
+            };
+
+        for ( int i = 0; i < classes.length; ++i )
+        {
+            String result = ecm.getHandler( classes[i] );
+            assertTrue(
+                "Class handler analysis failed for :" + classes[i] +
+                ", expected was '" + handlers[i] + "', received was '" + result + "'",
+                handlers[i].equals( result )
+            );
+        }
     }
 
     public static final void main( String[] args )
