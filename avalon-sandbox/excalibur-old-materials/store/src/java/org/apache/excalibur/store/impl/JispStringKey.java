@@ -61,14 +61,14 @@ import com.coyotegulch.jisp.KeyObject;
  * Jisp KeyObject.
  *
  * @author <a href="mailto:g-froehlich@gmx.de">Gerhard Froehlich</a>
- * @version CVS $Id: JispStringKey.java,v 1.8 2003/07/14 13:58:19 cziegeler Exp $
+ * @version CVS $Id: JispStringKey.java,v 1.9 2003/08/12 15:55:34 vgritsenko Exp $
  */
 public final class JispStringKey extends KeyObject {
     final static long serialVersionUID = -6894793231339165076L;
 
     private String m_Key;
 
-    static private final String INIT = new String("");
+    static private final String INIT = "";
     
     /**
      *  Constructor for the JispStringKey object
