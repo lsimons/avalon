@@ -128,13 +128,13 @@
         <!-- Do nothing -->
       </xsl:when>
       <xsl:when test="$url = ''" >
-        <img>
+        <img alt="link">
           <xsl:attribute name="src"><xsl:value-of select="$relativepath[position() = last()]" /><xsl:value-of select="$logo" /></xsl:attribute>
         </img>
       </xsl:when>
       <xsl:otherwise>
         <a><xsl:attribute name="href"><xsl:value-of select="$url" /></xsl:attribute>
-          <img>
+          <img alt="link">
             <xsl:attribute name="src"><xsl:value-of select="$relativepath[position() = last()]" /><xsl:value-of select="$logo" /></xsl:attribute>
           </img>
         </a>
