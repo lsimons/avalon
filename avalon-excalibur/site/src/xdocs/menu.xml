@@ -14,7 +14,7 @@
   <menu name="Containers">
     <item name="Component" href="http://a/component/index.html"/>
     <item name="Fortress" href="http://a/fortress/index.html"/>
-    <item name="Merlin" href="http://jakarta.apache.org/avalon/merlin/index.html"/>
+    <item name="Merlin" href="http://a/merlin/index.html"/>
     <item name="Tweety" href="http://a/tweety/index.html"/>
   </menu>
 
