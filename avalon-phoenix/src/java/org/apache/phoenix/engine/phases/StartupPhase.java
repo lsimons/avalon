@@ -115,7 +115,7 @@ public class StartupPhase
     public void visitBlock( final String name, final BlockEntry entry )
         throws ApplicationException
     {
-        if( entry.getState() != Phase.BASE &&
+        if( entry.getState() != Phases.BASE &&
             null != entry.getState() ) return;
 
         getLogger().info( "Processing Block: " + name );
@@ -185,7 +185,7 @@ public class StartupPhase
                 getLogger().debug( "Start successful." );
             }
 
-            entry.setState( Phase.STARTEDUP );
+            entry.setState( Phases.STARTEDUP );
 
             getLogger().info( "Ran Startup Phase for " + name );
         }
