@@ -2,7 +2,13 @@
 <!DOCTYPE project [
   <!ENTITY % index SYSTEM "file:index.ent"> %index;
 ]>
-<project default="avalon:install" xmlns:maven="jelly:maven" xmlns:j="jelly:core" xmlns:util="jelly:util" xmlns:ant="jelly:ant">
+<project default="avalon:help" xmlns:maven="jelly:maven" xmlns:j="jelly:core" xmlns:util="jelly:util" xmlns:ant="jelly:ant">
+
+  <goal name="avalon:help">
+    <echo>
+Top level solution not in place yet - but it's underway.
+    </echo>
+  </goal>
 
   <!--
   ==============================================================================
@@ -21,5 +27,22 @@
         value="&avalon-activation-artifact;"/>
   </preGoal>
 
+  <postGoal name="java:compile">
+
+    <util:file var="merlinProperties" name="merlin.properties"/>
+    <j:if test="${merlinProperties.exists()}">
+      <ant:copy 
+          file="merlin.properties" 
+          toDir="${maven.build.dir}/classes" 
+          verbose="yes"
+          filtering="on">
+        <filterset>
+          <filter token="MERLIN_IMPLEMENTATION" value="&merlin-impl-artifact;"/>
+          <filter token="LOGGING_IMPLEMENTATION" value="&avalon-logging-logkit-artifact;"/>
+          <filter token="STANDARD_RUNTIME" value="&avalon-activation-artifact;"/>
+        </filterset>
+      </ant:copy>
+    </j:if>
+  </postGoal>
 
 </project>
