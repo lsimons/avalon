@@ -2,7 +2,7 @@
 #
 
 
-MERLIN_VERSION="@@VERSION@@"
+MERLIN_VERSION="@VERSION@"
 export MERLIN_VERSION 
 
 # Checking for JAVA_HOME is required on *nix due
