@@ -90,9 +90,13 @@ class DependencyGraph
         for( int i = 0; i < descriptors.length; i++ )
         {
             final String key = descriptors[ i ].getKey();
-            final DependencyMetaData dependency = block.getMetaData().getDependency( key );
-            final ComponentProfile other = getBlock( dependency.getProviderName(), blocks );
-            visitBlock( other, blocks, true, done, order );
+            final DependencyMetaData[] dependencySet = block.getMetaData().getDependencies( key );
+            for( int j = 0; j < dependencySet.length; j++ )
+            {
+                final DependencyMetaData dependency = dependencySet[ j ];
+                final ComponentProfile other = getBlock( dependency.getProviderName(), blocks );
+                visitBlock( other, blocks, true, done, order );
+            }
         }
     }
 
