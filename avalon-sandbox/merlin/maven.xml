@@ -1,4 +1,4 @@
-<project default="jar:jar" xmlns:maven="jelly:maven" xmlns:j="jelly:core" xmlns:util="jelly:util" xmlns:ant="jelly:ant">
+<project default="jar:install-snapshot" xmlns:maven="jelly:maven" xmlns:j="jelly:core" xmlns:util="jelly:util" xmlns:ant="jelly:ant">
 
   <ant:property file="${basedir}/../build.properties"/>
   <ant:property file="${basedir}/../project.properties"/>
@@ -15,6 +15,7 @@
     description="Build the Merlin distribution." >
 
     <ant:mkdir dir="${merlin.build.inst.dir}"/>
+    <ant:mkdir dir="${merlin.build.inst.dir}/ext"/>
     <ant:mkdir dir="${merlin.build.inst.dir}/lib"/>
     <ant:copy toDir="${merlin.build.inst.dir}/lib">
       <fileset dir="${basedir}/merlin-platform/lib"/>
@@ -54,6 +55,14 @@
       goals="merlin-import-external-jars"
       banner="Resolving dependencies:"
       ignoreFailures="false"/>
+
+    <!--
+    Copy the xml api jar file to the merlin/ext directory so that it 
+    will included in the JVM bootstrap process.
+    -->
+    <ant:copy 
+       file="${merlin.build.inst.dir}/repository/xml-apis-1.0b2.jar" 
+       toDir="${merlin.build.inst.dir}/ext"/>
 
     <attainGoal name="merlinx-install-plugin"/>
     <!--<ant:copy 
