@@ -25,7 +25,7 @@ import org.apache.avalon.excalibur.testcase.ExcaliburTestCase;
  * LogKitManagementTest.
  *
  * @author <a href="mailto:giacomo@apache,org">Giacomo Pati</a>
- * @version CVS $Revision: 1.2 $ $Date: 2004/02/24 11:30:20 $
+ * @version CVS $Revision: 1.3 $ $Date: 2004/02/24 11:41:51 $
  */
 public class LogKitManagementTestCase
     extends ExcaliburTestCase
@@ -45,11 +45,11 @@ public class LogKitManagementTestCase
     public void testComponent()
         throws CascadingAssertionFailedError
     {
-        TestComponent tc = null;
+        LogKitTestComponent tc = null;
 
         try
         {
-            tc = (TestComponent)lookup( TestComponent.ROLE + "/A" );
+            tc = (LogKitTestComponent)lookup( LogKitTestComponent.ROLE + "/A" );
             tc.test( getLogEnabledLogger(), "Test log entry A" );
         }
         catch( Exception e )
@@ -64,7 +64,7 @@ public class LogKitManagementTestCase
 
         try
         {
-            tc = (TestComponent)lookup( TestComponent.ROLE + "/B" );
+            tc = (LogKitTestComponent)lookup( LogKitTestComponent.ROLE + "/B" );
             tc.test( getLogEnabledLogger(), "Test log entry B" );
         }
         catch( Exception e )
@@ -79,7 +79,7 @@ public class LogKitManagementTestCase
 
         try
         {
-            tc = (TestComponent)lookup( TestComponent.ROLE + "/C" );
+            tc = (LogKitTestComponent)lookup( LogKitTestComponent.ROLE + "/C" );
             tc.test( getLogEnabledLogger(), "Test log entry C" );
         }
         catch( Exception e )
