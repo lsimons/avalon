@@ -353,4 +353,21 @@ public final class CronTimeTriggerTestCase
         assertEquals( "Month", now.get( Calendar.MONTH ), 1 );
         assertEquals( "Day of month", now.get( Calendar.DAY_OF_MONTH ), 28 );
     }
+    
+    public void testDaysEndOfYear()
+    {
+        final CronTimeTrigger trigger = new CronTimeTrigger( 51, 5, -1, -1, -1, true );
+
+        final Calendar now = Calendar.getInstance();
+        now.set( Calendar.SECOND, 0 );
+        now.set( Calendar.MINUTE, 2 );
+        now.set( Calendar.HOUR_OF_DAY, 11 );
+        now.set( Calendar.DAY_OF_MONTH, 31 );
+        now.set( Calendar.MONTH, Calendar.DECEMBER );
+
+        long time = now.getTime().getTime();
+        long next = trigger.getTimeAfter( time );
+
+        assertTrue(next > time );
+    }
 }
