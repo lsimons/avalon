@@ -251,6 +251,7 @@
         <directory>${basedir}/conf</directory>
         <includes> 
           <include>**/*.properties</include>
+          <include>kernel.xml</include>
         </includes>
       </resource>
     </resources>
