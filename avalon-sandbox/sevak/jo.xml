@@ -67,10 +67,7 @@
     <pathelement path="${build.classes}" />
     <fileset dir="../common/lib">
       <include name="*.jar" />
-    </fileset>
-    <fileset dir="../common/lib/xdoclet">
-      <include name="*.jar" />
-    </fileset>    
+    </fileset> 
     <fileset dir="${jo.jars.dir}">
       <include name="*.jar" />
     </fileset>       
