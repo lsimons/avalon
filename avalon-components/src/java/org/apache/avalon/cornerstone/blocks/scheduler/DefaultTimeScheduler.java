@@ -9,9 +9,12 @@ package org.apache.avalon.cornerstone.blocks.scheduler;
 
 import java.util.Hashtable;
 import java.util.NoSuchElementException;
+import java.util.ArrayList;
+
 import org.apache.avalon.cornerstone.services.scheduler.Target;
 import org.apache.avalon.cornerstone.services.scheduler.TimeScheduler;
 import org.apache.avalon.cornerstone.services.scheduler.TimeTrigger;
+import org.apache.avalon.cornerstone.services.scheduler.TriggerFailureListener;
 import org.apache.avalon.cornerstone.services.threads.ThreadManager;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.activity.Startable;
@@ -28,6 +31,7 @@ import org.apache.avalon.framework.service.Serviceable;
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  * @author <a href="mailto:ram.chidambaram@telus.com">Ram Chidambaram</a>
+ * @author Paul Hammant
  */
 public class DefaultTimeScheduler
     extends AbstractLogEnabled
@@ -38,6 +42,7 @@ public class DefaultTimeScheduler
         new SynchronizedPriorityQueue( new BinaryHeap() );
     private ThreadManager m_threadManager;
     private boolean m_running;
+    private ArrayList m_triggerFailureListeners = new ArrayList();
 
     /**
      * @phoenix:dependency name="org.apache.avalon.cornerstone.services.threads.ThreadManager"
@@ -233,10 +238,18 @@ public class DefaultTimeScheduler
         {
             entry.getTarget().targetTriggered( entry.getName() );
         }
-        catch( final Throwable t )
+        catch( final Error e)
         {
             final String message = "Error occured executing trigger " + entry.getName();
-            getLogger().warn( message, t );
+            getLogger().error( message, e );
+            notifyFailedTriggers(e);
+
+        }
+        catch( final Exception e )
+        {
+            final String message = "Exception occured executing trigger " + entry.getName();
+            getLogger().warn( message, e );
+            notifyFailedTriggers(e);
         }
     }
 
@@ -351,5 +364,34 @@ public class DefaultTimeScheduler
 
         return entry;
     }
+
+    /**
+     * Add a trigger failure listener
+     * @param listener The listener
+     */
+    public void addTriggerFailureListener(TriggerFailureListener listener)
+    {
+        m_triggerFailureListeners.add(listener);
+    }
+
+    /**
+     * Remove a trigger failure listener
+     * @param listener The listener
+     */
+    public void removeTriggerFailureListener(TriggerFailureListener listener)
+    {
+        m_triggerFailureListeners.remove(listener);
+    }
+
+    private void notifyFailedTriggers(Throwable t) {
+        for (int i = 0; i < m_triggerFailureListeners.size(); i++)
+        {
+            TriggerFailureListener triggerFailureListener = (TriggerFailureListener) m_triggerFailureListeners.get(i);
+            triggerFailureListener.triggerFailure(t);
+        }
+
+    }
+
+
 }
 
