@@ -502,8 +502,6 @@
 
         <ant basedir="merlin">
             <depend property="avalon-framework.jar" project="jakarta-avalon" runtime="true"/>
-            <depend property="excalibur-configuration.jar" project="excalibur-configuration" runtime="true"/>
-            <depend property="excalibur-context.jar" project="excalibur-context" runtime="true"/>
             <depend property="logkit.jar" project="jakarta-avalon-logkit" runtime="true"/>
             <depend property="checkstyle.jar" project="checkstyle"/>
             <property name="version" value="@@DATE@@"/>
