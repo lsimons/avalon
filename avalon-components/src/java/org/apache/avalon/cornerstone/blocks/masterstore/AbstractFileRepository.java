@@ -19,9 +19,9 @@ import java.util.Iterator;
 import org.apache.avalon.cornerstone.services.store.Repository;
 import org.apache.avalon.excalibur.io.ExtensionFileFilter;
 import org.apache.avalon.framework.activity.Initializable;
-import org.apache.avalon.framework.component.ComponentException;
-import org.apache.avalon.framework.component.ComponentManager;
-import org.apache.avalon.framework.component.Composable;
+import org.apache.avalon.framework.service.ServiceException;
+import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
@@ -38,16 +38,16 @@ import org.apache.avalon.phoenix.BlockContext;
  */
 public abstract class AbstractFileRepository
     extends AbstractLogEnabled
-    implements Repository, Contextualizable, Composable, Configurable, Initializable
+    implements Repository, Contextualizable, Serviceable, Configurable, Initializable
 {
     protected static final boolean DEBUG = false;
 
     protected static final String HANDLED_URL = "file://";
     protected static final int BYTE_MASK = 0x0f;
-    protected static final char[] HEX_DIGITS =
-        {
-            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
-        };
+    protected static final char[] HEX_DIGITS = new char[]
+    {
+        '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
+    };
 
     protected String m_path;
     protected String m_destination;
@@ -56,21 +56,21 @@ public abstract class AbstractFileRepository
     protected FilenameFilter m_filter;
     protected File m_baseDirectory;
 
-    protected ComponentManager m_componentManager;
+    protected ServiceManager m_serviceManager;
     protected BlockContext m_context;
 
     protected abstract String getExtensionDecorator();
 
     public void contextualize( final Context context )
     {
-        final BlockContext blockContext = (BlockContext)context;
+        final BlockContext blockContext = (BlockContext) context;
         m_baseDirectory = blockContext.getBaseDirectory();
     }
 
-    public void compose( final ComponentManager componentManager )
-        throws ComponentException
+    public void service( final ServiceManager serviceManager )
+        throws ServiceException
     {
-        m_componentManager = componentManager;
+        m_serviceManager = serviceManager;
     }
 
     public void configure( final Configuration configuration )
@@ -113,7 +113,7 @@ public abstract class AbstractFileRepository
         // Check for absolute path
         if( m_path.startsWith( "/" ) )
         {
-            directory = new File ( m_path );
+            directory = new File( m_path );
         }
         else
         {
@@ -138,7 +138,7 @@ public abstract class AbstractFileRepository
     protected AbstractFileRepository createChildRepository()
         throws Exception
     {
-        return (AbstractFileRepository)getClass().newInstance();
+        return (AbstractFileRepository) getClass().newInstance();
     }
 
     public Repository getChildRepository( final String childName )
@@ -157,11 +157,11 @@ public abstract class AbstractFileRepository
 
         try
         {
-            child.compose( m_componentManager );
+            child.service( m_serviceManager );
         }
-        catch( final ComponentException cme )
+        catch( final ServiceException cme )
         {
-            throw new RuntimeException( "Cannot compose child " +
+            throw new RuntimeException( "Cannot service child " +
                                         "repository " + childName +
                                         " : " + cme );
         }

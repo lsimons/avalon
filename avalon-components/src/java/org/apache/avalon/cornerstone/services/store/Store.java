@@ -7,20 +7,19 @@
  */
 package org.apache.avalon.cornerstone.services.store;
 
-import org.apache.avalon.framework.component.Component;
-import org.apache.avalon.framework.component.ComponentException;
-import org.apache.avalon.framework.component.ComponentSelector;
+import org.apache.avalon.framework.service.ServiceException;
+import org.apache.avalon.framework.service.ServiceSelector;
 
 /**
  * @author Federico Barbieri <fede@apache.org>
  */
 public interface Store
-    extends ComponentSelector
+    extends ServiceSelector
 {
     String ROLE = Store.class.getName();
 
     /**
-     * This method accept a Configuration object as hint and return the
+     * This method accept a Configuration object as policy and returns the
      * corresponding Repository.
      * The Configuration must be in the form of:
      * <repository destinationURL="[URL of this repository]"
@@ -29,6 +28,6 @@ public interface Store
      *   [addition configuration]
      * </repository>
      */
-    Component select( Object hint )
-        throws ComponentException;
+    Object select( Object policy )
+        throws ServiceException;
 }
