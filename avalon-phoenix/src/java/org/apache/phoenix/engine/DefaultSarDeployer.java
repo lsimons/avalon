@@ -22,12 +22,15 @@ import java.util.zip.ZipFile;
 import org.apache.avalon.ComponentManager;
 import org.apache.avalon.ComponentManagerException;
 import org.apache.avalon.Composer;
+import org.apache.avalon.Composer;
 import org.apache.avalon.DefaultComponentManager;
 import org.apache.avalon.DefaultContext;
 import org.apache.avalon.atlantis.Application;
 import org.apache.avalon.atlantis.Kernel;
-import org.apache.avalon.camelot.AbstractCamelotDeployer;
+import org.apache.avalon.camelot.AbstractDeployer;
 import org.apache.avalon.camelot.CamelotUtil;
+import org.apache.avalon.camelot.Container;
+import org.apache.avalon.camelot.Info;
 import org.apache.avalon.camelot.ContainerException;
 import org.apache.avalon.camelot.DefaultRegistry;
 import org.apache.avalon.camelot.Deployer;
@@ -53,18 +56,32 @@ import org.apache.phoenix.metainfo.BlockInfo;
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
  */
 public class DefaultSarDeployer
-    extends AbstractCamelotDeployer
+    extends AbstractDeployer
+    implements Composer
 {
     protected File            m_deployDirectory;
+    protected Container       m_container;
 
     /**
      * Default constructor.
      */
     public DefaultSarDeployer()
     {
-        m_deployToContainer = true;
         m_autoUndeploy = true;
         m_type = "Sar";
+    }
+
+    /**
+     * Retrieve relevent services needed to deploy.
+     *
+     * @param componentManager the ComponentManager
+     * @exception ComponentManagerException if an error occurs
+     */
+    public void compose( final ComponentManager componentManager )
+        throws ComponentManagerException
+    {
+        m_container = (Container)componentManager.
+            lookup( "org.apache.avalon.camelot.Container" );
     }
 
     protected void deployFromFile( final String name, final File file )
@@ -181,14 +198,6 @@ public class DefaultSarDeployer
         context.put( SarContextResources.APP_NAME, name );
         entry.setContext( context );
 
-        //setup the ServerApplications component manager
-        final DefaultComponentManager componentManager = new DefaultComponentManager();
-        componentManager.put( "org.apache.avalon.camelot.Registry",
-                              new DefaultRegistry( BlockInfo.class ) );
-        componentManager.put( "org.apache.avalon.camelot.Registry/Locator",
-                              new DefaultRegistry( Locator.class ) );
-        entry.setComponentManager( componentManager );
-
         //setup the ServerApplications configuration manager
         final File file = new File( directory, "conf" + File.separator + "server.xml" );
         final Configuration configuration = getConfigurationFor( file );
@@ -219,7 +228,12 @@ public class DefaultSarDeployer
         }
 
         //rework next bit so it grabs deployments from archive
-        final Deployer deployer = getBlockDeployer( entry );
+
+        //Registry that stores locators and infos for blocks
+        final Registry registry = new DefaultRegistry( Info.class );
+
+        final Deployer deployer = getBlockDeployer( entry, registry );
+
         final File blocksDirectory = new File( directory, "blocks" );
         CamelotUtil.deployFromDirectory( deployer, blocksDirectory, ".bar" );
 
@@ -230,7 +244,7 @@ public class DefaultSarDeployer
         {
             final Configuration configuration = getConfigurationFor( file );
             final Configuration[] blocks = configuration.getChildren( "block" );
-            handleBlocks( application, entry, blocks );
+            handleBlocks( application, entry, blocks, registry );
         }
         catch( final ComponentManagerException cme )
         {
@@ -240,6 +254,21 @@ public class DefaultSarDeployer
         {
             throw new DeploymentException( "Error in assembly.xml", ce );
         }
+    }
+
+    protected void addEntry( final String name, final ServerApplicationEntry entry )
+        throws DeploymentException
+    {
+        try 
+        { 
+            m_container.add( name, entry ); 
+        }
+        catch( final ContainerException ce )
+        {
+            throw new DeploymentException( "Error adding component to container", ce );
+        }
+
+        getLogger().debug( "Adding " + m_type + "Entry " + name + " as " + entry );
     }
 
     protected Configuration getConfigurationFor( final File file )
@@ -256,7 +285,7 @@ public class DefaultSarDeployer
         }
     }
 
-    protected Deployer getBlockDeployer( final ServerApplicationEntry entry )
+    protected Deployer getBlockDeployer( final ServerApplicationEntry entry, final Registry registry )
         throws DeploymentException
     {
         final Deployer deployer = new DefaultBlockDeployer();
@@ -264,7 +293,13 @@ public class DefaultSarDeployer
 
         if( deployer instanceof Composer )
         {
-            try { ((Composer)deployer).compose( entry.getComponentManager() ); }
+            final DefaultComponentManager componentManager = new DefaultComponentManager();
+            componentManager.put( "org.apache.avalon.camelot.Registry", registry );
+
+            try
+            {
+                ((Composer)deployer).compose( componentManager ); 
+            }
             catch( final Exception e )
             {
                 throw new DeploymentException( "Error composing block deployer", e );
@@ -276,17 +311,10 @@ public class DefaultSarDeployer
 
     protected void handleBlocks( final Application application,
                                  final ServerApplicationEntry saEntry,
-                                 final Configuration[] blocks )
+                                 final Configuration[] blocks, 
+                                 final Registry registry )
         throws ComponentManagerException, ConfigurationException, DeploymentException
     {
-        final ComponentManager componentManager = saEntry.getComponentManager();
-
-        final Registry infoRegistry =
-            (Registry)componentManager.lookup( "org.apache.avalon.camelot.Registry" );
-
-        final Registry locatorRegistry = (Registry)componentManager.
-            lookup( "org.apache.avalon.camelot.Registry/Locator" );
-
         for( int i = 0; i < blocks.length; i++ )
         {
             final Configuration block = blocks[ i ];
@@ -295,7 +323,7 @@ public class DefaultSarDeployer
 
             BlockInfo info = null;
 
-            try { info = (BlockInfo)infoRegistry.getInfo( className, BlockInfo.class ); }
+            try { info = (BlockInfo)registry.getInfo( className, BlockInfo.class ); }
             catch( final RegistryException re )
             {
                 throw new DeploymentException( "Failed to aquire BlockInfo for " + className,
@@ -303,7 +331,7 @@ public class DefaultSarDeployer
             }
 
             Locator locator = null;
-            try { locator = (Locator)locatorRegistry.getInfo( className, Locator.class ); }
+            try { locator = (Locator)registry.getInfo( className + "/Locator", Locator.class ); }
             catch( final RegistryException re )
             {
                 throw new DeploymentException( "Failed to aquire Locator for " + className,
