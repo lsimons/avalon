@@ -6,14 +6,14 @@
 
   <!-- section to describe block -->
   <block>
-    <version><XDtClass:classTagValue tagName="phoenix:version" default="1.0"/></version>
+    <XDtClass:ifHasClassTag tagName="phoenix:block" paramName="name"><name><XDtClass:classTagValue tagName="phoenix:block" paramName="name"/></name></XDtClass:ifHasClassTag>
+    <version><XDtClass:classTagValue tagName="phoenix:block" paramName="version" default="1.0"/></version>
   </block>
 
   <!-- services that are offered by this block -->
   <services>
     <XDtClass:forAllClassTags tagName="phoenix:service">
-      <service name="<XDtClass:classTagValue tagName="phoenix:service" paramName="name"/>"
-               version="<XDtClass:classTagValue tagName="phoenix:service" paramName="version" default="1.0"/>" />
+    <service name="<XDtClass:classTagValue tagName="phoenix:service" paramName="name"/>"<XDtClass:ifHasClassTag tagName="phoenix:service" paramName="version"> version="<XDtClass:classTagValue tagName="phoenix:service" paramName="version"/>"</XDtClass:ifHasClassTag>/>
     </XDtClass:forAllClassTags>
   </services>
 
@@ -24,10 +24,9 @@
       <XDtMethod:setCurrentMethod name="compose"
                                   parameters="org.apache.avalon.framework.component.ComponentManager">
         <XDtMethod:forAllMethodTags tagName="phoenix:dependency">
-          <dependency>
-            <service name="<XDtMethod:methodTagValue tagName="phoenix:dependency" paramName="name"/>"
-                      version="<XDtMethod:methodTagValue tagName="phoenix:dependency" paramName="version" default="1.0"/>"/>
-          </dependency>
+    <dependency>
+      <service name="<XDtMethod:methodTagValue tagName="phoenix:dependency" paramName="name"/>"<XDtMethod:ifHasMethodTag tagName="phoenix:dependency" paramName="version"> version="<XDtMethod:methodTagValue tagName="phoenix:dependency" paramName="version"/>"</XDtMethod:ifHasMethodTag>/>
+    </dependency>
         </XDtMethod:forAllMethodTags>
       </XDtMethod:setCurrentMethod>
     </XDtMethod:ifHasMethod>
@@ -36,12 +35,12 @@
       <XDtMethod:setCurrentMethod name="service"
                                   parameters="org.apache.avalon.framework.service.ServiceManager">
         <XDtMethod:forAllMethodTags tagName="phoenix:dependency">
-          <dependency>
-            <service name="<XDtMethod:methodTagValue tagName="phoenix:dependency" paramName="name"/>"
-                      version="<XDtMethod:methodTagValue tagName="phoenix:dependency" paramName="version" default="1.0"/>"/>
-          </dependency>
+    <dependency>
+      <service name="<XDtMethod:methodTagValue tagName="phoenix:dependency" paramName="name"/>"<XDtMethod:ifHasMethodTag tagName="phoenix:dependency" paramName="version"> version="<XDtMethod:methodTagValue tagName="phoenix:dependency" paramName="version"/>"</XDtMethod:ifHasMethodTag>/>
+    </dependency>
         </XDtMethod:forAllMethodTags>
       </XDtMethod:setCurrentMethod>
     </XDtMethod:ifHasMethod>
   </dependencies>
+
 </blockinfo>
