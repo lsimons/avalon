@@ -63,7 +63,8 @@ public class OutputStreamLogger
     public void close()
         throws IOException
     {
-        write( '\n' );
+        flush();
+        super.close();
         m_closed = true;
     }
 
