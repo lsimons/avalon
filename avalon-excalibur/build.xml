@@ -212,10 +212,10 @@ Legal:
     <mkdir dir="${build.classes}"/>
     <mkdir dir="${build.scratchpad}"/>
 
+    <!-- Copy patched versions of JdbcConnection classes -->
     <copy file="${java.dir}/org/apache/avalon/excalibur/datasource/AbstractJdbcConnection.java"
           tofile="${build.src}/org/apache/avalon/excalibur/datasource/AbstractJdbcConnection.java"
           filtering="yes"/>
-
     <copy file="${java.dir}/org/apache/avalon/excalibur/datasource/JdbcConnection.java"
           tofile="${build.src}/org/apache/avalon/excalibur/datasource/JdbcConnection.java"
           filtering="yes"/>
@@ -391,16 +391,30 @@ Legal:
   </target>
 
   <!-- Create the API documentation -->
-  <target name="javadocs" description="generates the API documentation">
+  <target name="javadocs" depends="prepare-jdbc" description="generates the API documentation">
 
     <delete dir="${build.javadocs}"/>
     <mkdir dir="${build.javadocs}"/>
 
+    <mkdir dir="${build.src}"/>
+            
+    <!-- Copy patched versions of JdbcConnection classes -->
+    <copy file="${java.dir}/org/apache/avalon/excalibur/datasource/AbstractJdbcConnection.java"
+        tofile="${build.src}/org/apache/avalon/excalibur/datasource/AbstractJdbcConnection.java"
+        filtering="yes"/>
+    <copy file="${java.dir}/org/apache/avalon/excalibur/datasource/JdbcConnection.java"
+        tofile="${build.src}/org/apache/avalon/excalibur/datasource/JdbcConnection.java"
+        filtering="yes"/>
+            
     <!-- Ugly hack work around to remove duplicates
     of JdbcConnection so javadoc won't be confused -->
-    <mkdir dir="${build.src}"/>
     <copy todir="${build.src}">
       <fileset dir="${java.dir}">
+        <!-- copied above with filters -->
+        <exclude name="org/apache/avalon/excalibur/datasource/AbstractJdbcConnection.java"/>
+        <exclude name="org/apache/avalon/excalibur/datasource/JdbcConnection.java"/>
+        
+        <!-- not wanted for javadocs -->
         <exclude name="org/apache/avalon/excalibur/datasource/Jdbc3Connection.java"/>
         <exclude name="org/apache/avalon/excalibur/datasource/Jdbc2Connection.java"/>
         <exclude name="org/apache/avalon/excalibur/datasource/J2eeDataSource.java"
@@ -451,7 +465,8 @@ Legal:
 
     <!-- delete all old documents but keep CVS directories -->
     <!-- note that by doing an include the defaultexcludes (CVS dirs) will be kept -->
-    <delete>
+    <!-- may not exist, so don't fail -->
+    <delete quiet="yes">
       <fileset dir="${www.dir}">
         <include name="**"/>
       </fileset>
@@ -479,13 +494,25 @@ Legal:
     <mkdir dir="${dist.base}" />
     <mkdir dir="${build.xdocs}" />
 
+    <!-- Copy files from jakarta-avalon src/documentation -->
     <copy todir="${build.context}" filtering="on">
       <fileset dir="${context.dir}">
-        <exclude name="xdocs/**"/>
-        <exclude name="resources/**"/>
+        <exclude name="**/*.gif"/>
+        <exclude name="**/*.jpg"/>
+        <exclude name="**/*.png"/>
+        <exclude name="xdocs/**"/> <!-- use xdocs from excalibur -->
       </fileset>
     </copy>
-
+    <copy todir="${build.context}" filtering="off">
+      <fileset dir="${context.dir}">
+        <include name="**/*.gif"/>
+        <include name="**/*.jpg"/>
+        <include name="**/*.png"/>
+        <exclude name="xdocs/**"/> <!-- use xdocs from excalibur -->
+      </fileset>
+    </copy>
+        
+    <!-- Copy files from jakarta-avalon-excalibur src/xdocs -->
     <copy todir="${build.xdocs}" filtering="on">
       <fileset dir="${xdocs.dir}">
         <include name="announcement.xml" />
@@ -572,7 +599,7 @@ Legal:
     <copy todir="${dist.dir}">
       <fileset dir=".">
         <include name="README.txt"/>
-		<include name="LICENSE.txt"/>
+        <include name="LICENSE.txt"/>
         <include name="KEYS"/>
       </fileset>
     </copy>
@@ -610,21 +637,35 @@ Legal:
     <filter token="LOGKIT_BASE" value="${logkit.base}"/>
     <filter token="TESTLET_BASE" value="${testlet.base}"/>
 
+    <!-- Copy files from jakarta-avalon src/documentation -->
     <copy todir="${build.context}" filtering="on">
       <fileset dir="${context.dir}">
-        <exclude name="resources/**"/>
-        <exclude name="xdocs/**"/>
+        <exclude name="**/*.gif"/>
+        <exclude name="**/*.jpg"/>
+        <exclude name="**/*.png"/>
+        <exclude name="xdocs/**"/> <!-- use xdocs from excalibur -->
       </fileset>
     </copy>
-
-    <copy todir="${build.context}/xdocs" filtering="on" overwrite="yes">
-      <fileset dir="${xdocs.dir}"/>
+    <copy todir="${build.context}" filtering="off">
+      <fileset dir="${context.dir}">
+        <include name="**/*.gif"/>
+        <include name="**/*.jpg"/>
+        <include name="**/*.png"/>
+        <exclude name="xdocs/**"/> <!-- use xdocs from excalibur -->
+      </fileset>
     </copy>
-
-    <copy todir="${build.context}/resources" filtering="off" overwrite="yes">
-      <fileset dir="${context.dir}/resources"/>
+        
+    <!-- Copy files from jakarta-avalon-excalibur src/xdocs -->
+    <copy todir="${build.xdocs}" filtering="on" overwrite="yes">
       <fileset dir="${xdocs.dir}">
-        <include name="**/images/**"/>
+        <exclude name="**/*.dia" />
+        <exclude name="**/*.png" />
+      </fileset>
+    </copy>
+    <copy todir="${build.xdocs}" filtering="off">
+      <fileset dir="${xdocs.dir}">
+        <include name="**/*.dia" />
+        <include name="**/*.png" />
       </fileset>
     </copy>
 
