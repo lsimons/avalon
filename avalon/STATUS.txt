@@ -1,5 +1,5 @@
 APACHE AVALON PROJECT STATUS:                          -*-indented-text-*-
-Last modified at [$Date: 2003/02/08 23:39:06 $]
+Last modified at [$Date: 2003/04/21 09:56:38 $]
 
 Background:
 
@@ -232,7 +232,7 @@ could arise also from the answers to the following and other questions:
         release process: derived from
           http://jakarta.apache.org/commons/releases.html
           http://jakarta.apache.org/turbine/maven/development/release-process.html
-          http://cvs.apache.org/viewcvs.cgi/jakarta-ant/ReleaseInstructions?rev=1.9.2.1&content-type=text/vnd.viewcvs-markup
+          http://cvs.apache.org/viewcvs.cgi/ant/ReleaseInstructions?rev=1.9.2.1&content-type=text/vnd.viewcvs-markup
 
         deprecation process: (java specific?)
           http://jakarta.apache.org/turbine/maven/development/deprecation.html
