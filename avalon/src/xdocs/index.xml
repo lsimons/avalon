@@ -106,21 +106,21 @@
           testing framework used by the other sub-projects.
         </p>
       </s2>
-
       <s2 title="Applications">
         <p>
-          <link href="@APPS_BASE@/index.html">Applications</link> is a repository for some 
-          demo applications that demonstrate the proper use of Phoenix and can be used as 
-          a starting point for your own servers.
+          <link href="@APPS_BASE@/index.html">Applications</link> is a repository of  
+          Phoenix blocks.  Some are simple self-contained demos of Phoenix applications,
+          others are complete standalone products, and a few are ambitious works in progress.
+          If you are looking for a starting point for a Phoenix block or a complete server,
+          then these applications could be good inspiration.
         </p>
       </s2>
-
     </s1>
   </body>
   <footer>
     <legal>
       Copyright (c) @year@ The Jakarta Apache Project All rights reserved.
-      $Revision: 1.9 $ $Date: 2002/04/02 11:12:00 $
+      $Revision: 1.10 $ $Date: 2002/05/12 07:21:34 $
     </legal>
   </footer>
 </document>
