@@ -34,7 +34,7 @@ import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.logger.Logger;
 
 import org.apache.excalibur.altrmi.client.HostContext;
-import org.apache.excalibur.altrmi.client.AltrmiFactory;
+import org.apache.excalibur.altrmi.client.Factory;
 import org.apache.excalibur.altrmi.client.impl.socket.SocketCustomStreamHostContext;
 import org.apache.excalibur.altrmi.client.impl.ClientClassAltrmiFactory;
 import org.apache.excalibur.altrmi.client.impl.DefaultConnectionListener;
@@ -52,7 +52,7 @@ import org.apache.excalibur.instrument.manager.interfaces.InstrumentSampleUtils;
 /**
  *
  * @author <a href="mailto:leif@tanukisoftware.com">Leif Mortenson</a>
- * @version CVS $Revision: 1.11 $ $Date: 2003/01/05 23:28:07 $
+ * @version CVS $Revision: 1.12 $ $Date: 2003/01/06 23:44:24 $
  * @since 4.1
  */
 class InstrumentManagerConnection
@@ -68,7 +68,7 @@ class InstrumentManagerConnection
     private boolean m_closed;
     private boolean m_deleted;
     private HostContext m_altrmiHostContext;
-    private AltrmiFactory m_altrmiFactory;
+    private Factory m_altrmiFactory;
     private InstrumentManagerClient m_manager;
     private InstrumentManagerTreeModel m_treeModel;
     private InstrumentManagerTree m_tree;
