@@ -9,7 +9,7 @@
     <person name="Peter Donald" email="donaldp@apache.org" id="PD"/>
   </devs>
 
-<release version="3.9a1" date="Unreleased">
+<release version="4.0b1" date="May 11, 2001">
   <action dev="BL" type="add">
   </action>
 </release>

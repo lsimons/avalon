@@ -7,7 +7,7 @@
     <person name="Leo Simons" email="mail@leosimons.com" id="LS"/>
   </devs>
 
-<release version="3.9a1" date="Unreleased">
+<release version="4.0b1" date="May 11, 2001">
   <action dev="LS" type="add">
   </action>
 </release>
