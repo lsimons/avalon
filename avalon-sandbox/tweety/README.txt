@@ -80,6 +80,17 @@ to find it under in their ComponentManager and/or ServiceManager.
 
 Type 'ant' again and your components should run. It is that simple!
 
+Note about File IO
+------------------
+Tweety will create a work directory (aplty called "work) and a permanent
+storage directory (even more surprising, called "store") if they do not
+exist yet. Your components can get to these through the Context, in the
+form of java.io.Files, and then read from and write to them. The idea is
+that the work directory contains temporary files your application uses,
+whereas the storage directory is more or less permanent.
+To get access to these directories, make your component implement
+Contextualizable, and get() "component.home" and/or "component.work"
+from the context you get, casting them to java.io.File.
 
 More Documentation
 ------------------
