@@ -23,8 +23,9 @@
 
   <body>
     <menu>
-      <item name="Avalon Logging" href="system/index.html"/>
-      <item name="LogKit Plugin" href="logkit/index.html"/>
+      <item name="API" href="api/index.html"/>
+      <item name="LogKit" href="logkit/index.html"/>
+      <item name="Log4J" href="log4j/index.html"/>
     </menu>
   </body>
 

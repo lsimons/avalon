@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 
 <!--
  * 
@@ -19,28 +19,14 @@
  *
 -->
 
-<document>
+<project>
 
-  <properties>
-    <author email="mcconnell@apache.org">Stephen McConnell</author>
-    <title>Avalon Utility - Download</title>
-  </properties>
+  <title>Merlin</title>
 
   <body>
-    <section name="Download">
-      <subsection name="Binary Downloads">
 
-        <p>
-        Pending formal release, the utilities are available from 
-        <a href="http://dpml.net/avalon-util/">DPML/avalon-uitilities</a>.
-        Please note that interim and snapshot builds are not subject to 
-        a formal release review process.
-        </p>
-
-      </subsection>
-    </section>
+    <menu>
+    </menu>
   </body>
 
-</document>
-
-
+</project>

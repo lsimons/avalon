@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 
 <!-- 
  Copyright 2004 Apache Software Foundation
@@ -17,22 +17,18 @@
  limitations under the License.
 -->
 
-<document>
+<project>
 
-  <properties>
-    <author email="mcconnell@apache.org">Stephen McConnell</author>
-    <title>Avalon Logging</title>
-  </properties>
+  <title>Merlin</title>
 
   <body>
-    <section name="Avalon Logging">
-      <subsection name="Dowload">
-        <p>
-        IN PREP.
-        </p>
-      </subsection>
-    </section>
+    <menu>
+      <item name="Stream Target" href="stream.html"/>
+      <item name="File Target" href="file.html"/>
+      <item name="Multicast Target" href="multicast.html"/>
+      <item name="Plugin Target" href="plugin/index.html"/>
+      <item name="Formatter" href="formatter.html"/>
+    </menu>
   </body>
-</document>
 
-
+</project>

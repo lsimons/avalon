@@ -29,14 +29,11 @@
     <body>
 
         <section name="About Avalon Repository">
-          <p>
-Welcome to the Avalon Repository Home Page. 
-          </p>
 
           <p>
-The Avalon Repository is a Java <a href="about/api/index.html">API</a>, 
-<a href="about/spi.html">SPI</a>, <a href="about/reference.html">reference 
-implementation</a> and <a href="about/bootstrap.html">bootstrap platform</a> 
+The Avalon Repository is a Java <a href="api/index.html">API</a>, 
+<a href="spi.html">SPI</a>, <a href="reference.html">reference 
+implementation</a> and <a href="bootstrap.html">bootstrap platform</a> 
 that provides support for the dynamic artifact loading, classloader chain 
 creation, and generic application bootstrapping.
           </p>

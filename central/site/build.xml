@@ -3,8 +3,14 @@
     xmlns:x="antlib:org.apache.avalon.tools"> 
 
   <x:project index="../system/index.xml"/>
-  <x:prepare/>
-  <!--<x:xdoc theme="modern"/>-->
-  <x:xdoc theme="avalon2"/>
+
+  <target name="site">
+    <x:prepare/>
+    <x:xdoc theme="avalon2"/>
+  </target>
+
+  <target name="clean">
+    <x:clean/>
+  </target>
 
 </project>

@@ -23,9 +23,9 @@
 
   <body>
     <menu>
-      <item name="Specification" href="spec/index.html"/>
-      <item name="Implementations" href="impl/index.html"/>
-      <item name="Examples" href="examples/index.html"/>
+      <item name="Datagram" href="datagram.html"/>
+      <item name="Socket" href="socket.html"/>
+      <item name="SysLog" href="syslog.html"/>
     </menu>
   </body>
 
