@@ -84,7 +84,7 @@ import org.xml.sax.SAXException;
  *
  * @author <a href="mailto:dims@yahoo.com">Davanum Srinivas</a>
  * @author <a href="mailto:crossley@apache.org">David Crossley</a>
- * @version CVS $Id: DefaultEntityResolver.java,v 1.2 2003/03/12 10:03:15 cziegeler Exp $
+ * @version CVS $Id: DefaultEntityResolver.java,v 1.3 2003/03/13 15:31:54 cziegeler Exp $
  */
 public class DefaultEntityResolver extends AbstractLogEnabled
   implements EntityResolver,
@@ -171,11 +171,27 @@ public class DefaultEntityResolver extends AbstractLogEnabled
         try 
         {
             source = this.resolver.resolveURI(file);
-            this.catalogResolver.getCatalog().parseCatalog(source.getURI(), source.getInputStream());
+            String mimeType = source.getMimeType();
+            this.catalogResolver.getCatalog().parseCatalog(source.getURI());
         } 
         catch (Exception e) 
-        {
-            this.getLogger().warn("Could not get Catalog file " + file, e);            
+        {   
+            this.getLogger().warn("Could not get Catalog file. Trying again: " + file, e);
+                        
+            // try it again
+            if ( null != source )
+            {   
+                try 
+                {
+                    String mimeType = source.getMimeType();
+                    if ( null == mimeType ) mimeType =" text/plain";
+                    this.catalogResolver.getCatalog().parseCatalog(mimeType, source.getInputStream());
+                } 
+                catch (Exception ex)
+                {
+                    this.getLogger().warn("Could not get Catalog file: " + file, ex);
+                }
+            }
         }
         finally 
         {
