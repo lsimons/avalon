@@ -30,7 +30,7 @@ import org.apache.avalon.phoenix.metadata.BlockMetaData;
 import org.apache.avalon.phoenix.metadata.SarMetaData;
 import org.apache.avalon.phoenix.tools.assembler.Assembler;
 import org.apache.avalon.phoenix.tools.assembler.AssemblyException;
-import org.apache.avalon.phoenix.tools.verifier.DefaultVerifier;
+import org.apache.avalon.phoenix.tools.verifier.SarVerifier;
 
 /**
  * Deploy .sar files into a kernel using this class.
@@ -46,7 +46,7 @@ public class DefaultSarDeployer
 
     private final DefaultConfigurationBuilder  m_builder  = new DefaultConfigurationBuilder();
     private final Assembler        m_assembler = new Assembler();
-    private final DefaultVerifier  m_verifier = new DefaultVerifier();
+    private final SarVerifier      m_verifier = new SarVerifier();
 
     private Kernel                   m_kernel;
     private ConfigurationRepository  m_repository;
