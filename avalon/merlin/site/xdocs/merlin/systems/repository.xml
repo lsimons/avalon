@@ -41,6 +41,25 @@
           <th>Feature</th><th>Description</th>
         </tr>
         <tr>
+          <td>Resource Cache Management</td>
+          <td>
+          The Avalon Repository provides support for an artifact cache.  Artifacts
+          are addressable using the host independent <strong>artifact:</strong> 
+          protocol.  The repository system maps artifact references to physical 
+          resources and handles resource downloading and local caching.
+          </td>
+        </tr>
+        <tr>
+          <td>Classloader Management</td>
+          <td>
+          Some artifacts declare a <strong>meta</strong> MIME type extension which
+          contains information about an artifact's structural dependecies. The 
+          repository system uses this information to dynamically construct classloaders
+          and factory objects.  These capabilities are central to the bootstrapping
+          facilities provided by the Avalon Repository package.
+          </td>
+        </tr>
+        <tr>
           <td>Resource Management API</td>
           <td>
           The Avalon Repository is a Java <a href="about/api/index.html">API</a>, 

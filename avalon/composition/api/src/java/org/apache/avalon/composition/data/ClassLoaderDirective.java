@@ -23,13 +23,12 @@ import java.io.Serializable;
  * Description of classloader.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.5 $ $Date: 2004/01/24 23:25:23 $
+ * @version $Revision: 1.6 $ $Date: 2004/04/07 16:49:22 $
  */
 public final class ClassLoaderDirective implements Serializable
 {
     private static final LibraryDirective EMPTY_LIBRARY = new LibraryDirective();
     private static final ClasspathDirective EMPTY_CLASSPATH = new ClasspathDirective();
-    private static final GrantDirective EMPTY_GRANT = new GrantDirective();
 
     /**
      * The library directive.
@@ -40,15 +39,13 @@ public final class ClassLoaderDirective implements Serializable
      * The root category hierachy.
      */
     private ClasspathDirective m_classpath;
-
-    private GrantDirective m_grantDirective;
     
     /**
      * Create an empty ClassloaderDirective.
      */
     public ClassLoaderDirective()
     {
-        this( null, null, null );
+        this( null, null );
     }
 
     /**
@@ -56,12 +53,10 @@ public final class ClassLoaderDirective implements Serializable
      *
      * @param library the library descriptor
      * @param classpath the classpath descriptor
-     * @param grant the security policy declared for the classloader
      */
     public ClassLoaderDirective( 
        final LibraryDirective library,
-       final ClasspathDirective classpath,
-       final GrantDirective grant )
+       final ClasspathDirective classpath )
     {
         if( library == null )
         {
@@ -79,15 +74,6 @@ public final class ClassLoaderDirective implements Serializable
         else
         {
             m_classpath = classpath;
-        }
-
-        if( grant == null )
-        {
-            m_grantDirective = EMPTY_GRANT;
-        }
-        else
-        {
-            m_grantDirective = grant;
         }
     }
 
@@ -121,10 +107,5 @@ public final class ClassLoaderDirective implements Serializable
     public ClasspathDirective getClasspathDirective()
     {
         return m_classpath;
-    }
-    
-    public GrantDirective getGrantDirective()
-    {
-        return m_grantDirective;
     }
 }

@@ -54,7 +54,7 @@
                       href="/reference/containment/directives/classloader/classpath/repository/resource.html"/>
                 </item>
                 <item name="fileset" 
-                    href="/reference/containment/directives/classloader/classpath/fileset.html"/>
+                    href="/reference/containment/directives/classloader/classpath/fileset/index.html"/>
               </item>
               <item name="library" href="/reference/containment/directives/classloader/extensions.html"/>
             </item>

@@ -31,7 +31,7 @@ import org.apache.avalon.framework.logger.Logger;
  * a fully qualifed classpath can be established.</p>
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.7 $ $Date: 2004/02/29 22:25:26 $
+ * @version $Revision: 1.8 $ $Date: 2004/04/07 16:49:22 $
  */
 public interface ClassLoaderModel
 {
@@ -106,16 +106,4 @@ public interface ClassLoaderModel
     */
     ClassLoaderModel createClassLoaderModel( 
       Logger logger, ContainmentProfile profile, URL[] implied ) throws ModelException;
-
-   /** 
-    * Return the security ProtectionDomain defined for this ClassLoaderModel.
-    * 
-    * These ProtectionDomains will be enforced if code level security is enabled
-    * globally. If no Permissions are returned, all the components under
-    * this container will run without Permissions.
-    *
-    * @return A ProtectionDomain array which should be enagaged if codelevel
-    *         security is enabled for the Classloader.
-    **/
-    ProtectionDomain[] getProtectionDomains();
 }

@@ -40,8 +40,8 @@
             <td>target</td><td>*</td>
             <td>
              A set of target directives scoped relative to the container established 
-             by the include. Targets declarations correspond to the specification of 
-             <a href="../../overrides/index.html">override target elements</a> 
+             by the include. Each target declaration corresponds to the specification of 
+             <a href="../../overrides/target/index.html">target override target element</a> 
              presented under the config.xml spec.
             </td>
           </tr>

@@ -20,13 +20,17 @@ package org.apache.avalon.activation.impl;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 import java.lang.reflect.UndeclaredThrowableException;
+import java.util.Hashtable;
+import java.util.Map;
 
 import org.apache.avalon.activation.ApplianceException;
 
 import org.apache.avalon.composition.model.DeploymentModel;
 import org.apache.avalon.composition.model.ContainmentModel;
 import org.apache.avalon.composition.model.ServiceModel;
+import org.apache.avalon.composition.model.Reclaimer;
 
 import org.apache.avalon.framework.logger.Logger;
 
@@ -38,6 +42,7 @@ final class BlockInvocationHandler implements InvocationHandler
 {
     private final DefaultBlock m_block;
     private final Logger m_logger;
+    private final Map m_providers = new Hashtable();
 
    /**
     * Create a proxy invocation handler.
@@ -78,6 +83,7 @@ final class BlockInvocationHandler implements InvocationHandler
 
         final ContainmentModel model = m_block.getContainmentModel();
         Class source = method.getDeclaringClass();
+
         ServiceModel service = model.getServiceModel( source );
         if( null == service )
         {
@@ -87,7 +93,7 @@ final class BlockInvocationHandler implements InvocationHandler
              + "].";
             throw new IllegalStateException( error );
         }
-
+        
         DeploymentModel provider = service.getServiceProvider();
 
         //
@@ -97,7 +103,8 @@ final class BlockInvocationHandler implements InvocationHandler
 
         try
         {
-            Object object = provider.resolve();
+            Object object = locateServiceInstance( provider );
+            //Object object = provider.resolve();
             return method.invoke( object, args );
         }
         catch( UndeclaredThrowableException e )
@@ -125,5 +132,48 @@ final class BlockInvocationHandler implements InvocationHandler
               + "' in appliance: " + m_block;
             throw new ApplianceException( error, e );
         }
+    }
+
+   /**
+    * Locate a service reference and cache it locally for the 
+    * lifetime of the invocation handler.
+    * 
+    * @param provider the deployment model 
+    * @return a cached service reference
+    * @exception Exception if something unexpected happens
+    */
+    private Object locateServiceInstance( DeploymentModel provider ) throws Exception
+    {
+        Object source = m_providers.get( provider );
+        if( null != source ) return source;
+        Object object = provider.resolve();
+        m_providers.put( provider, object );
+        return object;
+    }
+
+   /**
+    * Finalization of the invocation handler during which
+    * we release any cached service references.
+    * 
+    * @exception Throwable if an error occurs
+    */
+    protected void finalize() throws Throwable
+    {
+        Object[] objects = m_providers.values().toArray();
+        for( int i=0; i<objects.length; i++ )
+        {
+            Object instance = objects[i];
+            if( Proxy.isProxyClass( instance.getClass() ) )
+            {
+                InvocationHandler handler = 
+                    Proxy.getInvocationHandler( instance );
+                if( handler instanceof Reclaimer )
+                { 
+                    Reclaimer source = (Reclaimer) handler;
+                    source.release();
+                }
+            }
+        }
+        m_providers.clear();
     }
 }

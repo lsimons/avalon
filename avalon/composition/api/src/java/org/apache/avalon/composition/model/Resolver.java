@@ -22,7 +22,7 @@ package org.apache.avalon.composition.model;
  * release.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.2 $ $Date: 2004/04/04 23:33:56 $
+ * @version $Revision: 1.3 $ $Date: 2004/04/07 16:49:22 $
  */
 public interface Resolver
 {
@@ -44,11 +44,11 @@ public interface Resolver
      */
     Object resolve( boolean proxy ) throws Exception;
 
-    /**
-     * Release an object
-     *
-     * @param instance the object to be released
-     */
+   /**
+    * Release an object.
+    * 
+    * @param instance the object to release
+    */
     void release( Object instance );
 
 }

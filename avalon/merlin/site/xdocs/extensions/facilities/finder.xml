@@ -26,13 +26,49 @@
 
   <body>
     <section name="Avalon Finder Facility">
+      <p>
+      The finder is a component that provides support for the 
+      dynamic resolution of a services.  The finder is a facility
+      and as such can access and navigate the containment model 
+      for solutions to service requests.
+      </p>
+      <subsection name="Finder Interface">
+        <p>
+        The finder interface is defainged as:
+        </p>
+<source>
+package org.apache.avalon.finder;
+
+/**
+ * Defintion of the Finder service contract.
+ */
+public interface Finder
+{
+   /**
+    * Find an object fullfilling the supplied service class.
+    * 
+    * @param service the service class that the returned 
+    *    object if gauranteed to fulfill
+    * @exception FinderException if a provider could not be found
+    */
+    Object find( Class service ) throws FinderException;
+
+   /**
+    * Release an object that was resolved using the find operation.
+    * 
+    * @param object the object to release
+    */
+    void release( Object object );
+}
+</source>
+      </subsection>
     </section>
   </body>
 
   <footer>
     <legal>
       Copyright (c) @year@ The Avalon Apache Project All rights reserved.
-      $Revision: 1.2 $ $Date: 2004/04/03 07:52:51 $
+      $Revision: 1.3 $ $Date: 2004/04/07 16:49:22 $
     </legal>
   </footer>
 </document>

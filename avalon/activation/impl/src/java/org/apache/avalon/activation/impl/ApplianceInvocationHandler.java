@@ -30,6 +30,7 @@ import org.apache.avalon.activation.TransientApplianceException;
 
 import org.apache.avalon.composition.model.ComponentModel;
 import org.apache.avalon.composition.model.TransientRuntimeException;
+import org.apache.avalon.composition.model.Reclaimer;
 
 import org.apache.avalon.framework.logger.Logger;
 
@@ -38,9 +39,10 @@ import org.apache.avalon.framework.logger.Logger;
  * by one, some or all of it's interfaces.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.8 $ $Date: 2004/03/17 10:30:07 $
+ * @version $Revision: 1.9 $ $Date: 2004/04/07 16:49:21 $
  */
-public final class ApplianceInvocationHandler implements InvocationHandler
+public final class ApplianceInvocationHandler 
+  implements InvocationHandler, Reclaimer
 {
     //-------------------------------------------------------------------
     // immutable state
@@ -68,7 +70,8 @@ public final class ApplianceInvocationHandler implements InvocationHandler
     * @param appliance the runtime appliance
     * @param logger the assigned logging channel 
     */
-    protected ApplianceInvocationHandler( DefaultAppliance appliance, Logger logger, boolean secure )
+    protected ApplianceInvocationHandler( 
+      DefaultAppliance appliance, Logger logger, boolean secure )
     {
         assertNotNull( appliance, "appliance" ); 
         assertNotNull( logger, "logger" ); 
@@ -132,12 +135,11 @@ public final class ApplianceInvocationHandler implements InvocationHandler
         }
     }
 
-    private Logger getLogger()
-    {
-        return m_logger;
-    }
+    //-------------------------------------------------------------------
+    // Reclaimer
+    //-------------------------------------------------------------------
 
-    protected void release()
+    public void release()
     {
         if( !m_destroyed )
         {
@@ -152,6 +154,10 @@ public final class ApplianceInvocationHandler implements InvocationHandler
         }
     }
 
+    //-------------------------------------------------------------------
+    // implementation
+    //-------------------------------------------------------------------
+
     protected void finalize() throws Throwable
     {
         if( !m_destroyed && ( null != m_instance ) )
@@ -164,6 +170,11 @@ public final class ApplianceInvocationHandler implements InvocationHandler
             getLogger().debug( message );
             release();
         }
+    }
+
+    private Logger getLogger()
+    {
+        return m_logger;
     }
 
     private Object getInstance() throws Exception

@@ -46,7 +46,7 @@ import org.apache.avalon.util.i18n.Resources;
  * storage and retrival of component types.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.9 $ $Date: 2004/03/08 11:28:36 $
+ * @version $Revision: 1.10 $ $Date: 2004/04/07 16:49:22 $
  */
 class DefaultTypeRepository implements TypeRepository
 {
@@ -155,6 +155,13 @@ class DefaultTypeRepository implements TypeRepository
                     new Integer( n ).toString() );
                 getLogger().debug( message );
             }
+        }
+
+        if( getLogger().isDebugEnabled() )
+        {
+            final String message = 
+              REZ.getString( "type.repository.completion" );
+            getLogger().debug( message );
         }
     }
 

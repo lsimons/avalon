@@ -34,23 +34,18 @@ import java.security.ProtectionDomain;
 
 import java.security.cert.Certificate;
 
-import org.apache.avalon.composition.data.CertsDirective;
 import org.apache.avalon.composition.data.ContainmentProfile;
 import org.apache.avalon.composition.data.ClassLoaderDirective;
 import org.apache.avalon.composition.data.FilesetDirective;
-import org.apache.avalon.composition.data.GrantDirective;
 import org.apache.avalon.composition.data.IncludeDirective;
 import org.apache.avalon.composition.data.PermissionDirective;
 import org.apache.avalon.composition.data.RepositoryDirective;
 import org.apache.avalon.composition.data.ResourceDirective;
-
 import org.apache.avalon.composition.model.ClassLoaderModel;
 import org.apache.avalon.composition.model.TypeRepository;
 import org.apache.avalon.composition.model.ServiceRepository;
 import org.apache.avalon.composition.model.ModelException;
-
 import org.apache.avalon.composition.provider.ClassLoaderContext;
-
 import org.apache.avalon.composition.util.StringHelper;
 
 import org.apache.avalon.extension.Extension;
@@ -96,7 +91,7 @@ import org.apache.avalon.util.i18n.Resources;
  * and the extensions package.
  * </p>
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.14 $ $Date: 2004/04/01 04:06:52 $
+ * @version $Revision: 1.15 $ $Date: 2004/04/07 16:49:22 $
  */
 public class DefaultClassLoaderModel extends AbstractLogEnabled 
     implements ClassLoaderModel
@@ -125,8 +120,6 @@ public class DefaultClassLoaderModel extends AbstractLogEnabled
     private final URL[] m_urls;
 
     private final URLClassLoader m_classLoader;
-
-    private ProtectionDomain[] m_protectionDomains;
     
     private final DefaultTypeRepository m_types;
 
@@ -205,16 +198,6 @@ public class DefaultClassLoaderModel extends AbstractLogEnabled
               new URLClassLoader( m_urls, context.getClassLoader() );
 
             //
-            // changes needed here - grants must be under the control of 
-            // system administrator which means that grants can only exist in 
-            // either the kernel configuration or a targets override 
-            // configuration - more specifically, a block's classloader directive
-            // cannot grant permissions
-            //
-
-            m_protectionDomains = createProtectionDomains( directive.getGrantDirective() );
-
-            //
             // scan the classpath for component type and service
             // definitions
             //
@@ -263,6 +246,7 @@ public class DefaultClassLoaderModel extends AbstractLogEnabled
     {
         ClassLoaderContext context = 
           createChildContext( logger, profile, implied );
+        logger.debug( "creating child classloader for: " + profile );
         return new DefaultClassLoaderModel( context );
     }
 
@@ -366,21 +350,6 @@ public class DefaultClassLoaderModel extends AbstractLogEnabled
     public ClassLoader getClassLoader()
     {
         return m_classLoader;
-    }
-
-   /** 
-    * Return the security ProtectionDomains defined for this ClassLoaderModel.
-    * 
-    * These ProtectionDomains will be enforced if code level security is enabled
-    * globally. If no ProtectionDomain are returned, all the components under
-    * this container will run without Permissions.
-    *
-    * @return A ProtectionDomain which should be enagaged if codelevel
-    *         security is enabled for the Classloader.
-    **/
-    public ProtectionDomain[] getProtectionDomains()
-    {
-        return m_protectionDomains;
     }
     
     //==============================================================
@@ -513,27 +482,6 @@ public class DefaultClassLoaderModel extends AbstractLogEnabled
         }
 
         return (String[]) classpath.toArray( new String[0] );
-    }
-
-    private ProtectionDomain[] createProtectionDomains( GrantDirective directive )
-    {
-        Permissions permissions = new Permissions();
-        PermissionDirective[] permDirectives = directive.getPermissionDirectives();
-        for( int i=0 ; i < permDirectives.length ; i++ )
-        {
-            permissions.add( permDirectives[i].getPermission() );
-        }
-        
-        CertsDirective certsDirective = directive.getCertsDirective();
-        Certificate[] allCerts = certsDirective.getCertificates();
-            
-        ProtectionDomain[] pd = new ProtectionDomain[ m_urls.length ];
-        for( int i=0 ; i < m_urls.length ; i++ )
-        {
-            CodeSource cs = new CodeSource( m_urls[i], allCerts );
-            pd[i] = new ProtectionDomain( cs, permissions );
-        }                
-        return pd;
     }
     
     /**

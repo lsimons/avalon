@@ -29,7 +29,7 @@ import org.apache.avalon.logging.data.CategoriesDirective;
  * the a container.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Revision: 1.10 $ $Date: 2004/03/17 10:30:08 $
+ * @version $Revision: 1.11 $ $Date: 2004/04/07 16:49:22 $
  */
 public class ContainmentProfile extends DeploymentProfile
 {
@@ -51,8 +51,7 @@ public class ContainmentProfile extends DeploymentProfile
     private static final ClassLoaderDirective EMPTY_CLASSLOADER =
       new ClassLoaderDirective( 
         new LibraryDirective(), 
-        new ClasspathDirective(), 
-        new GrantDirective() );
+        new ClasspathDirective());
 
     //========================================================================
     // state

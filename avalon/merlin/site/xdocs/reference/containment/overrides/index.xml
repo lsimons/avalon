@@ -29,6 +29,12 @@
   <body>
     <section name="Targets Directive">
 
+      <subsection name="Description">
+<p>
+A targets configuration contains named configuration target declarations that can be used to override configurations for component and container directives.  A targets configuration may contain multiple target declarations, each referencing a named deloyment target (component or container).
+</p>
+      </subsection>
+
       <subsection name="Nested Elements">
         <table>
           <tr><th>Element</th><th>Occurance</th><th>Description</th></tr>
@@ -39,26 +45,6 @@
             </td>
           </tr>
         </table>
-      </subsection>
-
-      <subsection name="Attributes">
-
-        <table>
-          <tr><th>Attribute</th><th>Required</th><th>Description</th></tr>
-          <tr>
-            <td>path</td><td>yes</td>
-            <td>
-            Absolute or relative path of the component that the target is qualifying.
-            </td>
-          </tr>
-        </table>
-
-      </subsection>
-
-      <subsection name="Description">
-<p>
-A targets configuration contains named configuration target declarations that can be used to override configurations for component and container directives.  A targets configuration may contain multiple target declarations, each referencing a named deloyment target (component or container).
-</p>
       </subsection>
 
       <subsection name="Sample XML">
