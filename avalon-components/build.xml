@@ -190,6 +190,10 @@
   
   </target>
 
+  <target name="xdoclet" description="Generates the XML descriptors">
+    <ant antfile="gen-blockinfo.xml"/>
+  </target>
+
   <!-- Performs unit tests -->
   <target name="test" depends="check"/>
   <target name="check" depends="compile" >
