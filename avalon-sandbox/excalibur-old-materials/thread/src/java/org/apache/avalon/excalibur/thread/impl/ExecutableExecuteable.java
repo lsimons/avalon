@@ -19,20 +19,20 @@ final class ExecutableExecuteable
     implements Executable
 {
     ///The runnable instance being wrapped
-    private org.apache.avalon.framework.activity.Executable m_runnable;
+    private org.apache.avalon.framework.activity.Executable m_executable;
 
     /**
-     * Create adapter using specified runnable.
+     * Create adapter using specified executable.
      *
-     * @param runnable the runnable to adapt to
+     * @param executable the executable to adapt to
      */
-    protected ExecutableExecuteable( final org.apache.avalon.framework.activity.Executable runnable )
+    protected ExecutableExecuteable( final org.apache.avalon.framework.activity.Executable executable )
     {
-        if( null == runnable )
+        if( null == executable )
         {
-            throw new NullPointerException( "runnable" );
+            throw new NullPointerException( "executable" );
         }
-        m_runnable = runnable;
+        m_executable = executable;
     }
 
     /**
@@ -44,6 +44,6 @@ final class ExecutableExecuteable
     public void execute()
         throws Exception
     {
-        m_runnable.execute();
+        m_executable.execute();
     }
 }
