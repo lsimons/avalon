@@ -82,7 +82,6 @@ public interface ModifiableSource
     
     /**
      * Delete the source 
-     * @return true if the source could be deleted
      */
     void delete() throws SourceException;
 
