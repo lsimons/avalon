@@ -22,7 +22,7 @@ import java.util.Set;
  * last modified property will be enough.
  *
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Id: Resource.java,v 1.11 2002/09/07 12:28:36 donaldp Exp $
+ * @version $Id: Resource.java,v 1.12 2002/09/08 00:07:32 donaldp Exp $
  */
 public abstract class Resource
     implements Modifiable
@@ -75,14 +75,14 @@ public abstract class Resource
     /**
      * Test whether this has been modified since time X
      */
-    public void testModifiedAfter( long time )
+    public void testModifiedAfter( final long time )
     {
         final long lastModified = lastModified();
         if( lastModified > getPreviousModified() || lastModified > time )
         {
             getEventSupport().firePropertyChange( Resource.MODIFIED,
-                                               new Long( getPreviousModified() ),
-                                               new Long( lastModified ) );
+                                                  new Long( getPreviousModified() ),
+                                                  new Long( lastModified ) );
             setPreviousModified( lastModified );
         }
     }
@@ -91,7 +91,7 @@ public abstract class Resource
      * Abstract method to add the PropertyChangeListeners in another Resource to
      * this one.
      */
-    public void addPropertyChangeListenersFrom( Resource other )
+    public void addPropertyChangeListenersFrom( final Resource other )
     {
         PropertyChangeListener[] listeners = (PropertyChangeListener[])
             other.m_propertyListeners.toArray( new PropertyChangeListener[]{} );
@@ -106,7 +106,7 @@ public abstract class Resource
      * This is the prefered method of registering a <code>PropertyChangeListender</code>.
      * It automatically registers the listener for the last modified event.
      */
-    public final void addPropertyChangeListener( PropertyChangeListener listener )
+    public final void addPropertyChangeListener( final PropertyChangeListener listener )
     {
         getEventSupport().addPropertyChangeListener( listener );
         m_propertyListeners.add( listener );
@@ -116,7 +116,8 @@ public abstract class Resource
      * This is a convenience if you want to expose other properties for the Resource.
      * It is protected now, but you may override it with public access later.
      */
-    protected void addPropertyChangeListener( String property, PropertyChangeListener listener )
+    protected void addPropertyChangeListener( final String property,
+                                              final PropertyChangeListener listener )
     {
         getEventSupport().addPropertyChangeListener( property, listener );
         m_propertyListeners.add( listener );
@@ -126,7 +127,7 @@ public abstract class Resource
      * This is the prefered method of unregistering a <code>PropertyChangeListender</code>.
      * It automatically registers the listener for the last modified event.
      */
-    public final void removePropertyChangeListener( PropertyChangeListener listener )
+    public final void removePropertyChangeListener( final PropertyChangeListener listener )
     {
         getEventSupport().removePropertyChangeListener( listener );
         m_propertyListeners.remove( listener );
@@ -136,7 +137,8 @@ public abstract class Resource
      * This is a convenience if you want to expose other properties for the Resource.
      * It is protected now, but you may override it with public access later.
      */
-    protected void removePropertyChangeListener( String property, PropertyChangeListener listener )
+    protected void removePropertyChangeListener( final String property,
+                                                 final PropertyChangeListener listener )
     {
         getEventSupport().removePropertyChangeListener( property, listener );
         m_propertyListeners.remove( listener );
@@ -168,7 +170,7 @@ public abstract class Resource
      * This is a convenience if you want to expose other properties for the Resource.
      * It is protected now, but you may override it with public access later.
      */
-    protected boolean hasListeners( String property )
+    protected boolean hasListeners( final String property )
     {
         return getEventSupport().hasListeners( property );
     }
