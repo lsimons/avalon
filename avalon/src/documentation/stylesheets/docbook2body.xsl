@@ -409,14 +409,11 @@
   </xsl:template>
 
   <xsl:template match="tgroup">
-    <xsl:apply-templates/>
+    <xsl:apply-templates select="thead|tbody|tfoot"/>
   </xsl:template>
 
   <xsl:template match="thead">
     <xsl:apply-templates select="row" mode="head"/>
-    <xsl:for-each select="row">
-      <th><xsl:apply-templates/></th>
-    </xsl:for-each>
   </xsl:template>
 
   <xsl:template match="row" mode="head">
