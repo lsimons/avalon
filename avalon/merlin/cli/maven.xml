@@ -16,5 +16,5 @@
       value="&avalon-activation-artifact;"/>
   <ant:filter token="REPOSITORY_MAIN" 
       value="&avalon-repository-artifact;"/>
-
+ 
 </project>
