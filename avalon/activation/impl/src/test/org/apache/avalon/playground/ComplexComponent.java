@@ -24,7 +24,6 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
-import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.playground.basic.BasicService;
 
 /**
@@ -34,10 +33,18 @@ import org.apache.avalon.playground.basic.BasicService;
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  */
-
-public class ComplexComponent extends AbstractLogEnabled
+public class ComplexComponent
         implements ComplexService, Serviceable, Initializable, Startable, Disposable
 {
+    //-----------------------------------------------------------------
+    // immutable
+    //-----------------------------------------------------------------
+
+    private final Logger m_logger;
+
+    //-----------------------------------------------------------------
+    // mutable
+    //-----------------------------------------------------------------
 
     private ServiceManager m_manager;
     private SimpleService m_simple;
@@ -45,9 +52,18 @@ public class ComplexComponent extends AbstractLogEnabled
     private Thread m_thread;
     protected boolean m_continue = false;
 
-    //=================================================================
+    //-----------------------------------------------------------------
+    // constructor
+    //-----------------------------------------------------------------
+
+    public ComplexComponent( Logger logger )
+    {
+        m_logger = logger;
+    }
+
+    //-----------------------------------------------------------------
     // Serviceable
-    //=================================================================
+    //-----------------------------------------------------------------
 
     /**
      * Pass the <code>ServiceManager</code> to the <code>Serviceable</code>.
@@ -67,6 +83,10 @@ public class ComplexComponent extends AbstractLogEnabled
         m_manager = manager;
     }
 
+    private Logger getLogger()
+    {
+        return m_logger;
+    }
 
     //=======================================================================
     // Initializable
@@ -104,31 +124,8 @@ public class ComplexComponent extends AbstractLogEnabled
         // lookup the primary service
         //
 
-        try
-        {
-            getLogger().info( "here: " + System.identityHashCode( SimpleService.class ));
-            m_simple = (SimpleService) m_manager.lookup( "simple" );
-            getLogger().info( "there: " + System.identityHashCode( m_simple.getClass() ));
-            getLogger().info( m_simple.getClass().toString() );
-            getLogger().info( "simple: " + m_simple );
-        }
-        catch( ServiceException e )
-        {
-            System.out.println( "### " + e.toString() );
-            throw e;
-        }
-
-        try
-        {
-            m_basic = (BasicService) m_manager.lookup( "basic" );
-            getLogger().info( m_basic.getClass().toString() );
-            getLogger().info( "basic: " + m_basic );
-        }
-        catch( ServiceException e )
-        {
-            System.out.println( "### " + e.toString() );
-            throw e;
-        }
+        m_simple = (SimpleService) m_manager.lookup( "simple" );
+        m_basic = (BasicService) m_manager.lookup( "basic" );
 
         Logger logger = getLogger().getChildLogger( "internal" );
         if( logger.isInfoEnabled() )
