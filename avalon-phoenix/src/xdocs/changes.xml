@@ -10,6 +10,15 @@
     <person name="Paul Hammant" email="Paul_Hammant@yahoo.com" id="PH"/>
     <person name="Mircea Toma" email="mirceatoma@home.com" id="MT"/>
   </devs>
+<release version="4.0a3" date="November 13, 2001">
+  <action dev="PD" type="change">
+    Add documentation describing BlockListener.
+  </action>
+  <action dev="PD" type="change">
+    Fixed bug that allowed binary distributions to be built without
+    copying xerces.jar into correct place.
+  </action>
+</release>
 <release version="4.0a2" date="November 12, 2001">
   <action dev="PD" type="change">
     Update Phoenix to use the new Avalon Framework Logger interface rather than
