@@ -20,7 +20,9 @@ import javax.xml.transform.sax.SAXResult;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.component.Component;
 
-public class DefaultDOMSerializer extends AbstractLogEnabled implements DOMSerializer, Component
+public class DefaultDOMSerializer 
+    extends AbstractLogEnabled 
+    implements DOMSerializer, Component
 {    
     private final TransformerFactory m_factory = TransformerFactory.newInstance();
         
@@ -29,21 +31,21 @@ public class DefaultDOMSerializer extends AbstractLogEnabled implements DOMSeria
         try 
         {
             final Transformer transformer = m_factory.newTransformer();
-            final DOMSource source = new DOMSource(document);
-            final SAXResult result = new SAXResult(contentHandler);
-            result.setLexicalHandler(lexicalHandler);
+            final DOMSource source = new DOMSource( document );
+            final SAXResult result = new SAXResult( contentHandler );
+            result.setLexicalHandler( lexicalHandler );
 
-            transformer.transform(source, result);
+            transformer.transform( source, result );
         }
-        catch (TransformerConfigurationException e) 
+        catch ( TransformerConfigurationException e ) 
         {
-            getLogger().error("Cannot create transformer", e);
-            throw new SAXException(e);
+            getLogger().error( "Cannot create transformer", e );
+            throw new SAXException( e );
         }
-        catch (TransformerException e)
+        catch ( TransformerException e )
         {
-            getLogger().error("Cannot serialize document", e);
-            throw new SAXException(e);
+            getLogger().error( "Cannot serialize document", e );
+            throw new SAXException( e );
         }
     }    
 }
