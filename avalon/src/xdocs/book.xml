@@ -12,7 +12,7 @@
     <page id="install" label="Installation" source="install.xml"/>
     <page id="license" label="License" source="license.xml"/>
     
-      <separator/>
+    <separator/>
 
     <page id="mail" label="Mail Archive" source="mail.xml"/>
     <page id="contributors" label="Contributors" source="contributors.xml"/>
