@@ -51,10 +51,10 @@ public class BlockDAG
         //that are already traversed
         final ArrayList completed = new ArrayList();
 
-        final Iterator entries = m_container.list();
-        while( entries.hasNext() )
+        final String[] entries = m_container.list();
+        for( int i = 0; i < entries.length; i++ )
         {
-            final String name = (String)entries.next();
+            final String name = entries[ i ];
             final BlockEntry entry = getBlockEntry( name );
             visitBlock( name, entry, visitor, traversal, completed );
         }
@@ -124,16 +124,16 @@ public class BlockDAG
             getLogger().debug( message );
         }
 
-        final Iterator entries = m_container.list();
-        while( entries.hasNext() )
+        final String[] names = m_container.list();
+        for( int i = 0; i < names.length; i++ )
         {
-            final String blockName = (String)entries.next();
+            final String blockName = names[ i ];
             final BlockEntry entry = getBlockEntry( blockName );
             final RoleEntry[] roles = entry.getRoleEntrys();
 
-            for( int i = 0; i < roles.length; i++ )
+            for( int j = 0; j < roles.length; j++ )
             {
-                final String depends = roles[ i ].getName();
+                final String depends = roles[ j ].getName();
 
                 if( depends.equals( name ) )
                 {

@@ -55,7 +55,7 @@ public class SingleAppEmbeddor
      *
      * @return the list of all block names
      */
-    public Iterator list()
+    public String[] list()
     {
         return m_application.list();
     }

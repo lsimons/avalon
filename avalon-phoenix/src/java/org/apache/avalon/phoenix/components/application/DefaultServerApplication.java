@@ -215,6 +215,16 @@ public final class DefaultServerApplication
 
     public void dispose()
     {
+        final String[] names = list();
+        for( int i = 0; i < names.length; i++ )
+        {
+            try { remove( names[ i ] ); }
+            catch( final ContainerException ce )
+            {
+                final String message = REZ.getString( "app.error.failremove", names[ i ] );
+                getLogger().warn( message, ce );
+            }
+        }
     }
 
     /**
@@ -226,10 +236,10 @@ public final class DefaultServerApplication
     private void loadBlockInfos()
         throws Exception
     {
-        final Iterator names = list();
-        while( names.hasNext() )
+        final String[] names = list();
+        for( int i = 0; i < names.length; i++ )
         {
-            final String name = (String)names.next();
+            final String name = (String)names[ i ];
             final BlockEntry entry = (BlockEntry)getEntry( name );
 
             final BlockInfo info = getBlockInfo( name, entry );
