@@ -110,9 +110,9 @@ public abstract class AbstractThreadManager extends AbstractLogEnabled
     }
 
     /**
-     * Set the ThreadPool we are using
+     * Set the executor we are using
      *
-     * @param threadPool  The ThreadPool
+     * @param executor to use
      */
     protected void setExecutor( Executor executor )
     {
